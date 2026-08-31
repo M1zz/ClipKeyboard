@@ -57,7 +57,7 @@ struct ListBackgroundSettings: View {
                     thumbnail(name: name, label: nil, deletable: true)
                 }
 
-                ForEach(ClipKeyboardList.backgroundOptions, id: \.self) { name in
+                ForEach(ListBackgroundPickerSheet.options, id: \.self) { name in
                     thumbnail(name: name, label: nil)
                 }
             }

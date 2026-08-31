@@ -950,9 +950,6 @@ struct ClipKeyboardList: View {
 
     // MARK: - 배경 이미지 (선택)
 
-    /// 제공되는 배경 이미지 에셋 이름들. 빈 문자열 = 배경 없음(예전 모습 그대로).
-    static let backgroundOptions: [String] = (1...8).map { String(format: "ListBackground%02d", $0) }
-
     @AppStorage(DefaultsKey.listBackgroundImageV1, store: AppGroup.defaults)
     private var listBackgroundImage: String = ""
     @AppStorage(DefaultsKey.backgroundOfferResolvedV1, store: AppGroup.defaults)
@@ -1079,7 +1076,7 @@ struct ClipKeyboardList: View {
                 ) {
                     Button(NSLocalizedString("써볼게요", comment: "Accept category activation")) {
                         backgroundOfferResolved = true
-                        withAnimation { listBackgroundImage = Self.backgroundOptions[0] }
+                        withAnimation { listBackgroundImage = ListBackgroundPickerSheet.options[0] }
                         showBackgroundPicker = true
                     }
                     Button(NSLocalizedString("괜찮아요", comment: "Decline category activation"), role: .cancel) {
@@ -1090,7 +1087,16 @@ struct ClipKeyboardList: View {
                     Text(NSLocalizedString("리스트 뒤에 사진을 깔면 유리 카드가 살아나요. 언제든 오른쪽 위 ⋯ 메뉴 > 배경 이미지에서 바꾸거나 끌 수 있어요.", comment: "Background offer alert message"))
                 }
                 .sheet(isPresented: $showBackgroundPicker, onDismiss: { pickedBackgroundItem = nil }) {
-                    backgroundPickerSheet
+                    ListBackgroundPickerSheet(
+                        scopeAllTabs: $backgroundScopeAllTabs,
+                        pickedItem: $pickedBackgroundItem,
+                        currentTabName: viewModel.selectedCategoryTab.displayName,
+                        myBackgrounds: myBackgrounds,
+                        isSelected: isBackgroundSelected,
+                        onApply: applyBackground,
+                        onRemoveMine: removeUserBackground,
+                        onDone: { showBackgroundPicker = false }
+                    )
                         .onAppear { myBackgrounds = BackgroundImageStore.saved() }
                         .onChange(of: pickedBackgroundItem) { _, item in
                             adoptPickedBackground(item)
@@ -1102,138 +1108,6 @@ struct ClipKeyboardList: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         showBackgroundOffer = true
                     }
-                }
-        }
-    }
-
-    /// 배경 이미지 선택 시트 - 없음 + 8종 썸네일 그리드, 탭 즉시 적용.
-    /// 적용 범위: 현재 탭만(탭별 덮어쓰기) 또는 모든 탭(기본값 교체 + 덮어쓰기 초기화).
-    private var backgroundPickerSheet: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 14) {
-                    Picker("", selection: $backgroundScopeAllTabs) {
-                        Text(String(format: NSLocalizedString("'%@' 탭만", comment: "Background scope: current tab only, with tab name"),
-                                    viewModel.selectedCategoryTab.displayName))
-                            .tag(false)
-                        Text(NSLocalizedString("모든 탭", comment: "Background scope: all tabs"))
-                            .tag(true)
-                    }
-                    .pickerStyle(.segmented)
-
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 12)], spacing: 12) {
-                        // 없음(배경 끄기)
-                        Button {
-                            applyBackground("")
-                        } label: {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                                    .fill(theme.surfaceAlt)
-                                VStack(spacing: 6) {
-                                    Image(systemName: "slash.circle")
-                                        .font(.title2)
-                                    Text(NSLocalizedString("없음", comment: "Background: none"))
-                                        .font(.footnote.weight(.medium))
-                                }
-                                .foregroundColor(theme.textMuted)
-                            }
-                            .frame(height: 150)
-                            .overlay(backgroundSelectionBadge(selected: isBackgroundSelected("")))
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel(NSLocalizedString("배경 없음", comment: "Background: none a11y"))
-
-                        // ⚠️ **사진 고르기가 맨 앞이다.** 내장 여덟 장을 다 지나야 나오면,
-                        //    내 사진을 쓸 수 있다는 것부터 모른 채 여덟 개 중에서 고르게 된다.
-                        PhotosPicker(selection: $pickedBackgroundItem, matching: .images) {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                                    .fill(theme.accentSoft)
-                                VStack(spacing: 6) {
-                                    Image(systemName: AppSymbol.photoOnRectangleAngled)
-                                        .font(.title2)
-                                    Text(NSLocalizedString("내 사진", comment: "Background: my photo"))
-                                        .font(.footnote.weight(.medium))
-                                }
-                                .foregroundColor(theme.accent)
-                            }
-                            .frame(height: 150)
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel(NSLocalizedString("사진에서 배경 고르기",
-                                                              comment: "Background: pick from photos"))
-
-                        // 내가 넣은 것이 내장보다 먼저 - 방금 넣은 것을 찾으러 스크롤하지 않게.
-                        ForEach(myBackgrounds, id: \.self) { name in
-                            Button {
-                                applyBackground(name)
-                            } label: {
-                                BackgroundImageView(name: name)
-                                    .scaledToFill()
-                                    .frame(height: 150)
-                                    .frame(maxWidth: .infinity)
-                                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
-                                    .overlay(backgroundSelectionBadge(selected: isBackgroundSelected(name)))
-                                    .overlay(alignment: .topLeading) {
-                                        Button {
-                                            removeUserBackground(name)
-                                        } label: {
-                                            Image(systemName: AppSymbol.xmarkCircleFill)
-                                                .font(.title3)
-                                                .foregroundStyle(.white, .black.opacity(0.45))
-                                                .padding(8)
-                                        }
-                                        .buttonStyle(.plain)
-                                        .accessibilityLabel(NSLocalizedString("이 배경 지우기",
-                                                                              comment: "Remove my background"))
-                                    }
-                            }
-                            .buttonStyle(.plain)
-                        }
-
-                        ForEach(Self.backgroundOptions, id: \.self) { name in
-                            Button {
-                                applyBackground(name)
-                            } label: {
-                                BackgroundImageView(name: name)
-                                    .scaledToFill()
-                                    .frame(height: 150)
-                                    .frame(maxWidth: .infinity)
-                                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
-                                    .overlay(backgroundSelectionBadge(selected: isBackgroundSelected(name)))
-                            }
-                            .buttonStyle(.plain)
-                            .accessibilityLabel(NSLocalizedString("배경 이미지", comment: "Menu: list background image"))
-                        }
-                    }
-                }
-                .padding(16)
-            }
-            .background(theme.bg)
-            .navigationTitle(NSLocalizedString("배경 이미지", comment: "Menu: list background image"))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(NSLocalizedString("완료", comment: "Done")) { showBackgroundPicker = false }
-                        .fontWeight(.semibold)
-                }
-            }
-        }
-        .presentationDetents([.medium, .large])
-        .presentationDragIndicator(.visible)
-    }
-
-    /// 선택된 썸네일 표시 - 파란 테두리 + 체크 뱃지.
-    @ViewBuilder
-    private func backgroundSelectionBadge(selected: Bool) -> some View {
-        if selected {
-            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                .strokeBorder(Color.accentColor, lineWidth: 3)
-                .overlay(alignment: .topTrailing) {
-                    Image(systemName: AppSymbol.checkmarkCircleFill)
-                        .font(.title3)
-                        .foregroundStyle(Color.checkOnGreen, Color.checkGreen)
-                        .padding(6)
                 }
         }
     }
@@ -2144,158 +2018,36 @@ struct ClipKeyboardList: View {
         .contentMargins(.top, pageContentTopMargin, for: .scrollContent))
     }
 
-    /// 즐겨찾기 탭 전용(하위 호환). 내부적으로 공통 addCard 사용.
-    private var addFavoriteMemoCard: some View {
-        addCard(for: .favorites)
-    }
-
-    /// 그리드 끝에 붙는 점선 "추가" 카드. 즐겨찾기·커스텀·기본 제공 카테고리가 공유.
-    private func addMemoCard(label: String, accessibility: String, action: @escaping () -> Void) -> some View {
-        Button {
-            HapticManager.shared.light()
-            action()
-        } label: {
-            VStack(spacing: 10) {
-                Image(systemName: AppSymbol.plus)
-                    .font(.title2.weight(.medium))
-                    .foregroundColor(theme.textFaint)
-                Text(label)
-                    .font(.caption.weight(.medium))
-                    .foregroundColor(theme.textFaint)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-            }
-            .frame(maxWidth: .infinity, minHeight: memoCardHeight)  // 메모 셀과 동일 높이
-            // 배경 사진 위에서는 반투명 표면이 씻겨 보여 프로스트 유리로 받친다.
-            .background {
-                if resolvedBackgroundImage.isEmpty {
-                    theme.surface.opacity(0.5)
-                } else {
-                    Rectangle().fill(.ultraThinMaterial)
-                }
-            }
-            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-            .overlay {
-                RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
-                    .strokeBorder(
-                        theme.textFaint.opacity(resolvedBackgroundImage.isEmpty ? 0.3 : 0.5),
-                        style: StrokeStyle(lineWidth: 1.5, dash: [6, 4])
-                    )
-            }
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(accessibility)
-    }
-
-    /// 현재 탭에 맞는 "추가" 카드 - 탭한 카테고리에 곧바로 들어가도록 생성 흐름을 연다.
-    @ViewBuilder
-    private func addCard(for tab: CategoryTab) -> some View {
-        switch tab {
-        case .basic, .all:
-            // 기본/전체 탭에서도 다른 카테고리처럼 추가를 유도하는 카드.
-            addMemoCard(
-                label: NSLocalizedString("단축어 추가", comment: "Add memo card"),
-                accessibility: NSLocalizedString("단축어 추가", comment: "Add memo card")
-            ) { addMemoSheetCategory = ""; showAddMemoSheet = true }
-        case .favorites:
-            addMemoCard(
-                label: NSLocalizedString("즐겨찾기 추가", comment: "Add memo to favorites card"),
-                accessibility: NSLocalizedString("즐겨찾기 단축어 추가", comment: "Add favorite memo card a11y")
-            ) { showAddFavoriteMemoSheet = true }
-        case .builtIn(let b):
-            switch b {
-            case .templates:
-                addMemoCard(
-                    label: NSLocalizedString("템플릿 추가", comment: "Add template card"),
-                    accessibility: NSLocalizedString("템플릿 추가", comment: "Add template card")
-                ) { showAddTemplateSheet = true }
-            case .combos:
-                addMemoCard(
-                    label: NSLocalizedString("콤보 추가", comment: "Add combo card"),
-                    accessibility: NSLocalizedString("콤보 추가", comment: "Add combo card")
-                ) { showAddComboSheet = true }
-            case .images:
-                addMemoCard(
-                    label: NSLocalizedString("이미지 단축어 추가", comment: "Add image memo card"),
-                    accessibility: NSLocalizedString("이미지 단축어 추가", comment: "Add image memo card")
-                ) { addMemoSheetCategory = "이미지"; showAddMemoSheet = true }
-            case .textMemos:
-                addMemoCard(
-                    label: NSLocalizedString("단축어 추가", comment: "Add memo card"),
-                    accessibility: NSLocalizedString("단축어 추가", comment: "Add memo card")
-                ) { addMemoSheetCategory = ""; showAddMemoSheet = true }
-            }
-        case .custom(let name):
-            addMemoCard(
-                label: String(format: NSLocalizedString("'%@' 추가", comment: "Add memo to this category card"), name),
-                accessibility: String(format: NSLocalizedString("'%@' 카테고리에 단축어 추가", comment: "Add memo to category a11y"), name)
-            ) { addMemoSheetCategory = name; showAddMemoSheet = true }
+    /// 빈 칸에 서는 것들은 `MemoListEmptyStates` 가 그린다. 여기서는 **눌렸을 때 무엇을
+    /// 열지**만 답한다 - 어느 시트를 어떻게 여는지는 이 화면의 사정이다.
+    private func openAddFlow(_ intent: AddCardCopy.Intent) {
+        switch intent {
+        case .addMemo(let category):
+            addMemoSheetCategory = category
+            showAddMemoSheet = true
+        case .addFavorite:
+            showAddFavoriteMemoSheet = true
+        case .addTemplate:
+            showAddTemplateSheet = true
+        case .addCombo:
+            showAddComboSheet = true
         }
     }
 
-    /// 빈 상태 안내(아이콘+문구) - 배경 사진이 있으면 프로스트 유리 패널을 받쳐
-    /// 밝은 설경 같은 사진 위에서도 회색 안내가 씻겨 보이지 않게 한다.
-    /// 아무것도 없는 화면. **기호 대신 마스코트가 자고 있다.**
-    ///
-    /// ⚠️ 예전에는 카테고리마다 다른 SF 기호를 세웠는데, 빈 화면에 회색 기호만 있으면
-    ///    "아직 없는 것"이 아니라 "고장난 것"으로 읽힌다. 문구가 이미 어느 칸이 비었는지
-    ///    말하고 있으므로 기호는 자리만 차지했다. (포즈 그림이 준비되기 전에는
-    ///    기본 얼굴로 대신 그려진다 - `MascotPose`)
-    private func emptyStateMessage(message: String) -> some View {
-        VStack(spacing: 14) {
-            Image(systemName: AppSymbol.tray)
-                .font(.system(size: 46, weight: .light))
-                .foregroundColor(theme.textFaint)
-                .accessibilityHidden(true)
-            Text(message)
-                .font(.body)
-                .foregroundColor(theme.textMuted)
-                .multilineTextAlignment(.center)
-        }
-        .padding(24)
-        .background {
-            if !resolvedBackgroundImage.isEmpty {
-                RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
-                    .fill(.ultraThinMaterial)
-            }
-        }
-        .padding(.horizontal, 32)
-    }
-
-    /// 빈 카테고리 안내 + 상단에 "추가" 카드. (즐겨찾기 빈 상태와 동일한 레이아웃을 일반화)
     private func emptyStateWithAddCard(message: String, tab: CategoryTab) -> some View {
-        ZStack(alignment: .center) {
-            emptyStateMessage(message: message)
-            VStack {
-                LazyVGrid(columns: gridColumns, spacing: 12) {
-                    addCard(for: tab)
-                }
-                .padding(.horizontal, 16)
-                .padding(.top, 16)
-                Spacer()
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        EmptyStateWithAddCard(message: message,
+                              tab: tab,
+                              columns: gridColumns,
+                              cardHeight: memoCardHeight,
+                              hasListBackground: !resolvedBackgroundImage.isEmpty,
+                              onAdd: openAddFlow)
     }
 
     private var favoritesEmptyStateView: some View {
-        ZStack(alignment: .center) {
-            // 화면 정 중앙 - 빈 상태 안내
-            emptyStateMessage(
-                message: NSLocalizedString("즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요", comment: "Favorites tab empty state with hint")
-            )
-
-            // 상단 - 즐겨찾기 메모 추가 카드
-            VStack {
-                LazyVGrid(columns: gridColumns, spacing: 12) {
-                    addFavoriteMemoCard
-                }
-                .padding(.horizontal, 16)
-                .padding(.top, 16)
-                Spacer()
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        emptyStateWithAddCard(
+            message: NSLocalizedString("즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요", comment: "Favorites tab empty state with hint"),
+            tab: .favorites
+        )
     }
 
     // MARK: - Selection Mode (여러 개 고르기)
