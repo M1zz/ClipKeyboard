@@ -141,6 +141,7 @@
 		973397FF455AC125E01E0BC5 /* DefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */; };
 		9B4A257EDE83903F48AB5399 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
 		9C994B032EEAA81500FBC8F6 /* MemoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */; };
+		CARDSURFACE00000000AAA2 /* MemoCardSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = CARDSURFACE00000000AAA1 /* MemoCardSurface.swift */; };
 		9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */; };
 		9C994B0A2EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */; };
 		9D0BB0BE6D68341619045BC3 /* StorageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716D2F3FE56C8A81348A2686 /* StorageFile.swift */; };
@@ -464,6 +465,7 @@
 		9A29C214B56C5162247ACD82 /* LaunchGuard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LaunchGuard.swift; sourceTree = "<group>"; };
 		9C69399B0C55B65843F4EF1F /* ClipKeyboardActionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ClipKeyboardActionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRowView.swift; sourceTree = "<group>"; };
+		CARDSURFACE00000000AAA1 /* MemoCardSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoCardSurface.swift; sourceTree = "<group>"; };
 		9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateEditSheet.swift; sourceTree = "<group>"; };
 		9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderSelectorView.swift; sourceTree = "<group>"; };
 		9CA0A4032F19D9B3004ABF40 /* ClipKeyboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClipKeyboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1016,6 +1018,7 @@
 				QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */,
 				CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */,
 				9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */,
+				CARDSURFACE00000000AAA1 /* MemoCardSurface.swift */,
 				BULK00SEL0000000000000001 /* MemoBulkSelection.swift */,
 				E8C970386B61BF7C8C53F03C /* MemoReorderDropDelegates.swift */,
 				D6B8DA5DE589A8AD6F7F0604 /* CardSurfaceEffects.swift */,
@@ -1498,6 +1501,7 @@
 				B2C3D4E5F6A1B2C3D4E5F6A1 /* CategoryIconSettings.swift in Sources */,
 				A11Y00012F0000000000000001 /* AccessibilityGuideView.swift in Sources */,
 				9C994B032EEAA81500FBC8F6 /* MemoRowView.swift in Sources */,
+				CARDSURFACE00000000AAA2 /* MemoCardSurface.swift in Sources */,
 				BULK00SEL0000000000000002 /* MemoBulkSelection.swift in Sources */,
 				C0AE3312846EEEF99DA6724E /* MemoReorderDropDelegates.swift in Sources */,
 				CD638BA0C61FCD61EF838265 /* CardSurfaceEffects.swift in Sources */,

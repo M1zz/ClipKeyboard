@@ -194,18 +194,6 @@ struct ClipKeyboardList: View {
         return String(format: NSLocalizedString("무료 단축어 %d칸 남았어요. Pro로 무제한", comment: "Pro nudge: slots left"), left)
     }
 
-    /// 카드 어항 미리보기 텍스트 - 제목 아래에서 물고기처럼 나타났다 사라질 내용 한 줄.
-    /// 사용자가 메모에 힌트를 직접 적었으면 그것이 우선(보안 메모도 - 직접 쓴 한 줄이라 안전).
-    /// ⚠️ 자동 요약은 보안 메모 내용 노출 금지(자물쇠 카드에서 값이 떠다니면 안 됨) → nil.
-    private func fishbowlText(memo: Memo) -> String? {
-        if let custom = memo.hint?.trimmingCharacters(in: .whitespacesAndNewlines), !custom.isEmpty {
-            return custom
-        }
-        guard !memo.isSecure else { return nil }
-        let text = MemoPreviewFormatter.preview(for: memo, resolvedType: memo.autoDetectedType)
-        return text.isEmpty ? nil : text
-    }
-
     /// 페이지 상단 헤더 - 상단 배너 묶음(스크롤 콘텐츠 첫 요소라 스크롤과 함께 이동).
     /// 제목은 여기 두지 않는다 - 순정 네비게이션 바 인라인 타이틀이 담당(고정, glass).
     /// AnyView 타입 소거 - LazyVStack 자식 추가로 인한 타입 메타데이터 폭발 방지.
@@ -1483,112 +1471,23 @@ struct ClipKeyboardList: View {
                 }
             }
         }
-        .accessibilityLabel(memoGridAccessibilityLabel(memo))
+        .accessibilityLabel(MemoCardSurface.accessibilityLabel(for: memo, categories: viewModel.customCategories))
         .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사, 꾹 누르면 추가 옵션", comment: "Memo card hint"))
     }
 
-    /// 메모 카드의 순수 비주얼(제스처 없음). memoGridCell(탭/롱프레스)과 재정렬 모드 셀이 공유.
-    /// - Parameter lightweight: 재정렬 그리드용 경량 렌더링 - 그림자와 내용 힌트 애니메이션을
-    ///   생략한다. 흔들림(repeatForever 회전)과 매 프레임 경합하는 비용을 줄여 드래그를 매끄럽게.
-    private func memoCardSurface(memo: Memo, lightweight: Bool = false) -> some View {
-        let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
-        let hasImage = !imageFileName.isEmpty
-        let onColor = cardIsColored(memo: memo, hasImage: hasImage)
-
-        return VStack(alignment: .leading, spacing: 0) {
-            // 구분 표시 ON일 때만 상단 행(좌: 타입 아이콘 / 우: 즐겨찾기·카테고리 심볼). 기본은 제목만.
-            if visualCuesVisible {
-                HStack(alignment: .top, spacing: 4) {
-                    // 보안 메모는 제목 왼쪽 자물쇠로 표시하므로 상단 타입 아이콘에서는 생략(중복 방지).
-                    if !memo.isSecure {
-                        memoTypeIcon(memo: memo, onColor: onColor)
-                    }
-                    Spacer()
-                    if memo.isFavorite {
-                        Image(systemName: AppSymbol.heartFill)
-                            .font(.title2)
-                            .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
-                            .accessibilityHidden(true)
-                    } else if CategoryStore.shared.isFeatureEnabled,
-                              viewModel.customCategories.contains(memo.category) {
-                        Image(systemName: customCategoryIcon(memo.category))
-                            .font(.title2)
-                            .foregroundColor(onColor
-                                ? .white.opacity(0.85)
-                                : customCategoryColor(memo.category))
-                            .accessibilityHidden(true)
-                    }
-                }
-                Spacer(minLength: 16)
-            }
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
-                // 보안 단축어 자물쇠 - **구분 표시 설정과 무관하게 언제나 보인다.**
-                //
-                // ⚠️ 예전에는 `visualCuesVisible` 이 켜져 있을 때만 그렸다. 그 설정은
-                //    기본이 꺼짐이라, 대부분의 사람에게 보안 단축어와 보통 단축어가
-                //    **겉으로 구별되지 않았다.** 구분 표시는 "있으면 좋은 꾸밈"을 켜는
-                //    스위치지, 잠겨 있다는 사실을 감출 스위치가 아니다.
-                //    (목록 행 모양은 원래부터 봉랍을 늘 보여 준다, `MemoRowView`)
-                if memo.isSecure {
-                    Image(systemName: AppSymbol.lockFill)
-                        .font(.title3)
-                        .foregroundColor(onColor ? .white.opacity(0.9) : theme.textMuted)
-                        .accessibilityHidden(true)
-                }
-                // 템플릿 변수 {…}는 카드 제목에서도 원문이 아닌 칩(하이라이트)으로.
-                Text(memo.title.templateAwareAttributed(theme: theme, font: .title2.weight(.semibold)))
-                    .font(.title2.weight(.semibold))
-                    .foregroundColor(onColor ? .white : theme.text)
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
-            // 제목 아래 내용 힌트 - 카드가 화면에 2초쯤 머물면 한 번 살며시 맺혔다가
-            // 흩어지듯 사라진다(이번 등장에서는 끝). 설정(메모 표시)에서 켜기/끄기.
-            // 켜져 있으면 카드 높이 균일성을 위해 영역은 항상 확보(보안 메모 등은
-            // 빈 공간), 꺼져 있으면 영역 자체가 없다.
-            if contentHintEnabled {
-                Spacer(minLength: 8)
-                // 방금 쓴 카드는 이 자리에 **내용 대신 동전**을 보여준다.
-                // 겹쳐 얹으면 내용이 안 읽히고, 옆에 두면 카드 높이가 흔들린다.
-                // 같은 자리를 번갈아 쓰면 둘 다 해결된다.
-                if !lightweight, showsCoin(memo) {
-                    VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(for: memo),
-                                   onColor: onColor)
-                        .frame(height: ContentHintPreview.zoneHeight, alignment: .leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .transition(.opacity.combined(with: .scale(scale: 0.7, anchor: .leading)))
-                } else if !lightweight, let hint = fishbowlText(memo: memo) {
-                    ContentHintPreview(text: hint, seed: memo.id.hashValue, onColor: onColor)
-                } else {
-                    Color.clear.frame(height: ContentHintPreview.zoneHeight)
-                }
-            }
-        }
-        // 유리 카드 글자 가독성 - 유리는 뒤 배경(사진·색)에 따라 글자가 묻힐 수 있어,
-        // 글 내용 뒤에 은은한 할로를 깐다. 언제 까는지는 `cardTextHaloColor` 참고.
-        .modifier(CardTextHalo(color: cardTextHaloColor(hasImage: hasImage, onColor: onColor)))
-        .padding(16)
-        // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
-        // 1줄·2줄 제목 모두 같은 높이로 정렬되게 한다. (제목은 2줄로 제한)
-        .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
-        // 배경은 단색이 그대로 얼굴이다(사진 카드는 사진).
-        //
-        // ⚠️ 예전에는 텍스트 카드에 `glassEffect` 를 얹었다. 걷어낸 이유는 그 유리가
-        //    **뒤를 실시간으로 읽어야** 하기 때문이다. 카테고리 페이지를 넘길 때는 옆
-        //    페이지가 지어졌다 헐리기를 반복하는데, 그 사이 유리가 읽을 뒤가 없어
-        //    카드가 번쩍인다. `CardGlass` 주석에 그 증상이 이미 적혀 있었고
-        //    (0.27~0.67초 동안 잿빛), 변형을 `.clear` 에서 `.regular` 로 바꿔 완화했을 뿐
-        //    없애지는 못했다. 유리를 안 쓰면 읽을 뒤가 없어도 될 일이 없다.
-        //
-        //    색 정체성(즐겨찾기 분홍·카테고리 색)은 그대로다. 유리의 tint 로 내던 것을
-        //    `memoCardBackground` 가 단색으로 낸다. 같은 규칙, 같은 색이다.
-        .background {
-            memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage)
-        }
-        .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        // ⚠️ 카드는 **단색 면 하나**다. 유리도, 두께도, 그림자도, 타입 테두리도 없다.
-        //    종류(템플릿·콤보·보안)는 좌상단 아이콘이, 카테고리는 색이 말한다.
+    /// 카드의 얼굴은 `MemoCardSurface` 가 그린다. 이 화면은 그것이 무엇에 기대는지를
+    /// 여기 한 곳에서 건네주기만 한다 - 화면이 쥔 상태가 카드 안으로 새어 들어가지 않게.
+    private func memoCardSurface(memo: Memo, lightweight: Bool = false) -> MemoCardSurface {
+        MemoCardSurface(
+            memo: memo,
+            categories: viewModel.customCategories,
+            cardHeight: memoCardHeight,
+            showsVisualCues: visualCuesVisible,
+            showsContentHint: contentHintEnabled,
+            hasListBackground: !resolvedBackgroundImage.isEmpty,
+            showsCoin: showsCoin(memo),
+            lightweight: lightweight
+        )
     }
 
     // MARK: - 생활 레이어
@@ -1731,80 +1630,6 @@ struct ClipKeyboardList: View {
     /// 이 카드가 지금 내용 대신 동전을 보여줄 차례인가.
     private func showsCoin(_ memo: Memo) -> Bool {
         livingSkin == .vault && coinBadgeMemoID == memo.id
-    }
-
-    /// 글자 뒤 할로 색. nil 이면 할로를 아예 깔지 않는다(`CardTextHalo` 참고).
-    ///
-    /// - 사진 카드: 자체 그라디언트가 가독성을 책임진다 → 없음
-    /// - 색 카드(즐겨찾기·카테고리): 흰 글자라 어두운 할로
-    /// - 무색 카드: **뒤에 사진이 깔렸을 때만.** 민 바탕에서는 테마 배경색과 같은 색이라
-    ///   보이지도 않으면서 카드마다 화면 밖 합성만 한 번씩 더 만든다.
-    private func cardTextHaloColor(hasImage: Bool, onColor: Bool) -> Color? {
-        if hasImage { return nil }
-        if onColor { return Color.black.opacity(0.55) }
-        return resolvedBackgroundImage.isEmpty ? nil : theme.bg
-    }
-
-    /// 카드 배경이 짙은 색(컬러드)인지 여부 - 텍스트/아이콘 색상 결정에 사용.
-    /// 색은 '카테고리'를 의미한다 - 타입(템플릿/콤보)은 색이 아니라 좌상단 아이콘으로 구분.
-    private func cardIsColored(memo: Memo, hasImage: Bool) -> Bool {
-        if hasImage { return true }
-        // 카테고리/즐겨찾기 색은 '카테고리 정체성'이라 항상 표시(구분 표시 토글과 무관).
-        // 보안은 색이 아니라 자물쇠 심볼로만 구분한다(카드 색은 카테고리를 따른다).
-        if memo.isFavorite { return true }
-        if CategoryStore.shared.isFeatureEnabled,
-           viewModel.customCategories.contains(memo.category) { return true }
-        return false
-    }
-
-    /// 그리드 셀 VoiceOver 합성 라벨 - 제목 + 상태(즐겨찾기/이미지/보안/템플릿/콤보/카테고리).
-    private func memoGridAccessibilityLabel(_ memo: Memo) -> String {
-        var parts: [String] = [memo.title]
-        if memo.isFavorite { parts.append(NSLocalizedString("즐겨찾기", comment: "Category: favorites")) }
-        if memo.contentType == .image || memo.contentType == .mixed {
-            parts.append(NSLocalizedString("이미지 단축어", comment: "VoiceOver: image memo badge"))
-        }
-        if memo.isSecure { parts.append(NSLocalizedString("보안 단축어", comment: "VoiceOver: secure memo badge")) }
-        if memo.isTemplate { parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge")) }
-        if memo.isCombo { parts.append(NSLocalizedString("콤보", comment: "VoiceOver: combo badge")) }
-        if CategoryStore.shared.isFeatureEnabled, viewModel.customCategories.contains(memo.category) {
-            parts.append(NSLocalizedString(memo.category, comment: "Category name"))
-        }
-        return parts.joined(separator: ", ")
-    }
-
-    /// 키보드 키와 **같은 그림**을 쓴다 (DesignSystem/MemoTypeStyle.swift).
-    private func memoTypeIconName(memo: Memo) -> String {
-        MemoTypeStyle.symbolName(for: memo)
-    }
-
-    private func memoTypeIcon(memo: Memo, onColor: Bool) -> some View {
-        let color = onColor ? Color.white.opacity(0.9) : theme.textFaint
-        return HStack(spacing: 4) {
-            Image(systemName: memoTypeIconName(memo: memo))
-                .font(.title2)
-                .foregroundStyle(color)
-        }
-        .accessibilityHidden(true)
-    }
-
-    @ViewBuilder
-    private func memoCardBackground(memo: Memo, imageFileName: String, hasImage: Bool) -> some View {
-        if hasImage {
-            // 그늘(가독성 그라디언트)은 `MemoImageBackground` 안으로 들어갔다.
-            // 여기서 얹으면 사진이 오기 전에도 깔려서 카드가 검게 보인다.
-            MemoImageBackground(fileName: imageFileName)
-        } else if memo.isFavorite {
-            // 즐겨찾기 = 분홍 (카테고리 색이므로 항상 표시)
-            Color.clipFavorite
-        } else if CategoryStore.shared.isFeatureEnabled,
-                  viewModel.customCategories.contains(memo.category) {
-            // 색 = 카테고리 (항상 표시)
-            customCategoryColor(memo.category)
-        } else {
-            // 보안 메모도 카테고리 색(없으면 기본 표면색)을 따른다 - 회색으로 칠하지 않는다.
-            theme.surface
-        }
     }
 
     // MARK: - Tab Background Color
