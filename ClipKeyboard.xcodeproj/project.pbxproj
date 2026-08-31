@@ -141,6 +141,7 @@
 		973397FF455AC125E01E0BC5 /* DefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */; };
 		9B4A257EDE83903F48AB5399 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
 		9C994B032EEAA81500FBC8F6 /* MemoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */; };
+		SEARCHNORESULT000000FF2 /* SearchNoResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = SEARCHNORESULT000000FF1 /* SearchNoResultsView.swift */; };
 		EMPTYSTATES00000000EE2 /* MemoListEmptyStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = EMPTYSTATES00000000EE1 /* MemoListEmptyStates.swift */; };
 		BGPICKERSHEET0000000DD2 /* ListBackgroundPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BGPICKERSHEET0000000DD1 /* ListBackgroundPickerSheet.swift */; };
 		SELECTSCREEN00000000CC2 /* MemoSelectionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = SELECTSCREEN00000000CC1 /* MemoSelectionScreen.swift */; };
@@ -469,6 +470,7 @@
 		9A29C214B56C5162247ACD82 /* LaunchGuard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LaunchGuard.swift; sourceTree = "<group>"; };
 		9C69399B0C55B65843F4EF1F /* ClipKeyboardActionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ClipKeyboardActionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRowView.swift; sourceTree = "<group>"; };
+		SEARCHNORESULT000000FF1 /* SearchNoResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNoResultsView.swift; sourceTree = "<group>"; };
 		EMPTYSTATES00000000EE1 /* MemoListEmptyStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListEmptyStates.swift; sourceTree = "<group>"; };
 		BGPICKERSHEET0000000DD1 /* ListBackgroundPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListBackgroundPickerSheet.swift; sourceTree = "<group>"; };
 		SELECTSCREEN00000000CC1 /* MemoSelectionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSelectionScreen.swift; sourceTree = "<group>"; };
@@ -1026,6 +1028,7 @@
 				QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */,
 				CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */,
 				9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */,
+				SEARCHNORESULT000000FF1 /* SearchNoResultsView.swift */,
 				EMPTYSTATES00000000EE1 /* MemoListEmptyStates.swift */,
 				BGPICKERSHEET0000000DD1 /* ListBackgroundPickerSheet.swift */,
 				SELECTSCREEN00000000CC1 /* MemoSelectionScreen.swift */,
@@ -1513,6 +1516,7 @@
 				B2C3D4E5F6A1B2C3D4E5F6A1 /* CategoryIconSettings.swift in Sources */,
 				A11Y00012F0000000000000001 /* AccessibilityGuideView.swift in Sources */,
 				9C994B032EEAA81500FBC8F6 /* MemoRowView.swift in Sources */,
+				SEARCHNORESULT000000FF2 /* SearchNoResultsView.swift in Sources */,
 				EMPTYSTATES00000000EE2 /* MemoListEmptyStates.swift in Sources */,
 				BGPICKERSHEET0000000DD2 /* ListBackgroundPickerSheet.swift in Sources */,
 				SELECTSCREEN00000000CC2 /* MemoSelectionScreen.swift in Sources */,

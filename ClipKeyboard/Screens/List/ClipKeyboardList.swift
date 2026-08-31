@@ -1821,82 +1821,16 @@ struct ClipKeyboardList: View {
 
     // MARK: - Search Empty State
 
-    /// 검색 결과가 없을 때의 화면. 메모가 없을 때 쓰는 EmptyListView(완전히 다른 디자인)
-    /// 대신, 결과가 없음을 분명히 알리고 "이런 메모를 만들어 보는 건 어떠세요?"라고 제안한다.
-    /// 제안 카드는 우리가 실제로 쓰는 메모 카드와 같은 치수·제목 스타일을 그대로 쓴다.
+    /// 검색 결과가 없을 때의 화면 - 그림은 `SearchNoResultsView` 가 그린다.
+    /// 여기서는 그 카드를 눌렀을 때 **어떤 편집기를 여는지**만 답한다.
     private var searchNoResultsView: some View {
-        let query = viewModel.searchQueryString.trimmingCharacters(in: .whitespacesAndNewlines)
-        return ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(String(format: NSLocalizedString("'%@' 검색 결과가 없어요", comment: "Search empty state title with query"), query))
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .foregroundColor(theme.text)
-                        .fixedSize(horizontal: false, vertical: true)
-                    Text(NSLocalizedString("이런 단축어를 만들어 보는 건 어떠세요?", comment: "Search empty state: suggestion subhead"))
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 24)
-
-                // 실제 메모 그리드와 동일한 2열 레이아웃 - 제안 카드도 진짜 메모 카드처럼 보인다.
-                LazyVGrid(columns: gridColumns, spacing: 12) {
-                    searchSuggestionCard(query: query)
-                }
-                .padding(.horizontal, 16)
-            }
-            .padding(.bottom, 120)
-        }
-        .ignoresSafeArea(.container, edges: .bottom)
-    }
-
-    /// 검색어를 제목으로 채운 "추가 제안" 카드. ghostMemoCell과 동일한 비주얼
-    /// (실제 메모 카드 치수·제목 스타일 + 반투명·점선으로 "아직 없는 메모" 표현).
-    /// 탭하면 검색어가 키워드로 채워진 편집기로 진입한다(기존 ghostAddPattern 시트 재사용).
-    private func searchSuggestionCard(query: String) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top, spacing: 4) {
-                // 아이콘을 그냥 띄워 두면 붕 뜬다 - 원형 배지에 담아야 만들다 만 게 아니라
-                // 만들어 둔 것으로 보인다.
-                Image(systemName: AppSymbol.sparkles)
-                    .font(.footnote.weight(.bold))
-                    .foregroundColor(theme.accent)
-                    .frame(width: 26, height: 26)
-                    .background(Circle().fill(theme.accent.opacity(0.14)))
-                    .accessibilityHidden(true)
-                Spacer()
-            }
-            Spacer(minLength: 16)
-            Text(query)
-                .font(.title2.weight(.semibold))
-                .foregroundColor(theme.text)
-                .lineLimit(2)
-                .fixedSize(horizontal: false, vertical: true)
-            Text(NSLocalizedString("눌러서 이 이름으로 추가", comment: "Search suggestion card: tap to add with this name"))
-                .font(.caption)
-                .foregroundColor(theme.textFaint)
-                .padding(.top, 4)
-        }
-        .padding(16)
-        .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
-        .background(theme.surface.opacity(0.5))
-        .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
-                .strokeBorder(theme.divider, style: StrokeStyle(lineWidth: 1.5, dash: [6, 5]))
-        )
-        .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        .opacity(0.9)
-        .onTapGesture {
-            HapticManager.shared.selection()
+        SearchNoResultsView(
+            query: viewModel.searchQueryString.trimmingCharacters(in: .whitespacesAndNewlines),
+            columns: gridColumns,
+            cardHeight: memoCardHeight
+        ) { query in
             ghostAddPattern = QuickPattern(icon: AppSymbol.magnifyingglass, title: query, scaffold: "")
         }
-        .accessibilityElement(children: .ignore)
-        .accessibilityAddTraits(.isButton)
-        .accessibilityLabel(String(format: NSLocalizedString("'%@' 단축어 만들기", comment: "VoiceOver: create memo from search query"), query))
-        .accessibilityHint(NSLocalizedString("눌러서 이 이름으로 단축어를 추가합니다", comment: "VoiceOver: search suggestion hint"))
     }
 
     private func allTabScrollView(memos allMemos: [Memo], tab: CategoryTab) -> some View {
