@@ -262,3 +262,32 @@ struct MemoCardSurface: View {
         return parts.joined(separator: ", ")
     }
 }
+
+// MARK: - 카드가 어떻게 보일지
+
+/// 카드 얼굴을 정하는 설정 묶음.
+///
+/// 화면마다 이 값들을 따로 읽어 오면 한쪽만 고쳐진 채로 남아서, 같은 카드가 목록에서와
+/// 순서 바꾸기에서 달라 보인다. 한 번 만들어 건네주면 그럴 일이 없다.
+struct MemoCardStyle {
+    var categories: [String]
+    var cardHeight: CGFloat
+    var showsVisualCues: Bool
+    var showsContentHint: Bool
+    var hasListBackground: Bool
+
+    func surface(for memo: Memo,
+                 showsCoin: Bool = false,
+                 lightweight: Bool = false) -> MemoCardSurface {
+        MemoCardSurface(
+            memo: memo,
+            categories: categories,
+            cardHeight: cardHeight,
+            showsVisualCues: showsVisualCues,
+            showsContentHint: showsContentHint,
+            hasListBackground: hasListBackground,
+            showsCoin: showsCoin,
+            lightweight: lightweight
+        )
+    }
+}

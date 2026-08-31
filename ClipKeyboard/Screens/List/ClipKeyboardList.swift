@@ -116,18 +116,10 @@ struct ClipKeyboardList: View {
     @State private var memoForActions: Memo?
     @State private var showMemoActions: Bool = false
 
-    // 여러 개 고르기 - 두 손가락 탭이나 꾹 누르기 판에서 들어간다.
-    // 확인 창들은 고르기 화면(fullScreenCover) **안에** 산다. 바깥에 두면 덮개에 가려
-    // 뜨지 않는다.
-    @State private var showBulkDeleteConfirm: Bool = false
-    @State private var showBulkNewCategoryAlert: Bool = false
-    @State private var newCategoryForSelection: String = ""
 
     // 탭 누름 바운스 - 카드별 트리거. 탭하면 해당 카드만 들어갔다(0.92)→1.05배로 튀었다→원래 크기.
 
     // 순서 바꾸기(흔들기/드래그 재정렬)
-    @State private var draggingMemo: Memo?
-    @State private var wiggle: Bool = false
 
     // 즐겨찾기 탭 전용
     @State private var showAddFavoriteMemoSheet: Bool = false
@@ -772,11 +764,15 @@ struct ClipKeyboardList: View {
     private var screenL5: some View {
         screenL4
             .fullScreenCover(isPresented: $viewModel.isReorderMode) {
-                reorderModeView
+                MemoReorderScreen(viewModel: viewModel,
+                                  style: cardStyle,
+                                  columnCount: gridColumnCount)
             }
             // 여러 개 고르기 - 지금 탭의 카드를 체크로 골라 한꺼번에 옮기거나 지운다.
             .fullScreenCover(isPresented: $viewModel.isSelectionMode) {
-                selectionModeView
+                MemoSelectionScreen(viewModel: viewModel,
+                                    style: cardStyle,
+                                    columnCount: gridColumnCount)
             }
             // 즐겨찾기 탭 + 버튼 - 즐겨찾기로 바로 저장
             .sheet(isPresented: $showAddFavoriteMemoSheet, onDismiss: { viewModel.loadMemos() }) {
@@ -1475,19 +1471,20 @@ struct ClipKeyboardList: View {
         .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사, 꾹 누르면 추가 옵션", comment: "Memo card hint"))
     }
 
-    /// 카드의 얼굴은 `MemoCardSurface` 가 그린다. 이 화면은 그것이 무엇에 기대는지를
-    /// 여기 한 곳에서 건네주기만 한다 - 화면이 쥔 상태가 카드 안으로 새어 들어가지 않게.
-    private func memoCardSurface(memo: Memo, lightweight: Bool = false) -> MemoCardSurface {
-        MemoCardSurface(
-            memo: memo,
+    /// 카드가 어떻게 보일지. 이 화면이 쥔 설정을 한 곳에서 모아 건넨다 - 화면의 상태가
+    /// 카드 안으로 새어 들어가는 자리를 여기 하나로 좁힌다.
+    private var cardStyle: MemoCardStyle {
+        MemoCardStyle(
             categories: viewModel.customCategories,
             cardHeight: memoCardHeight,
             showsVisualCues: visualCuesVisible,
             showsContentHint: contentHintEnabled,
-            hasListBackground: !resolvedBackgroundImage.isEmpty,
-            showsCoin: showsCoin(memo),
-            lightweight: lightweight
+            hasListBackground: !resolvedBackgroundImage.isEmpty
         )
+    }
+
+    private func memoCardSurface(memo: Memo, lightweight: Bool = false) -> MemoCardSurface {
+        cardStyle.surface(for: memo, showsCoin: showsCoin(memo), lightweight: lightweight)
     }
 
     // MARK: - 생활 레이어
@@ -2028,168 +2025,6 @@ struct ClipKeyboardList: View {
         .accessibilityHint(NSLocalizedString("눌러서 이 이름으로 단축어를 추가합니다", comment: "VoiceOver: search suggestion hint"))
     }
 
-    // MARK: - Reorder Mode (흔들기 + 드래그 재정렬)
-
-    /// 2열 그리드 한 칸 너비 - onDrag 미리보기 크기에 사용. (좌우 패딩 16+16 + 칸 간격 12)
-    /// iOS 26에서 `UIScreen.main`이 deprecated - 활성 씬의 **윈도우** 너비를 쓴다.
-    /// 화면(screen)이 아니라 윈도우인 이유: 아이패드 분할뷰·스테이지 매니저·Mac Catalyst에서는
-    /// 앱이 화면 전체를 쓰지 않아 screen 기준이면 미리보기가 실제 카드보다 커진다.
-    @MainActor
-    private var reorderPreviewWidth: CGFloat {
-        #if os(iOS)
-        let containerWidth = UIApplication.shared.connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .first { $0.activationState == .foregroundActive }?
-            .windows.first { $0.isKeyWindow }?
-            .bounds.width
-        // 실제 그리드와 같은 열 수로 나눠야 미리보기와 카드 크기가 일치한다.
-        // (좌우 패딩 16+16 + 열 사이 간격 12×(n-1))
-        let columns = CGFloat(gridColumnCount)
-        let spacing = 12 * (columns - 1)
-        let usable = (containerWidth ?? 320) - 32 - spacing
-        return max(100, usable / columns)
-        #else
-        return 160
-        #endif
-    }
-
-    /// 재정렬 안내 문구 - 카테고리 범위 재정렬이면 어느 카테고리인지 함께 보여준다.
-    private var reorderHintText: String {
-        if let scope = viewModel.reorderScopeName {
-            return String(format: NSLocalizedString("'%@'의 카드를 끌어 순서를 바꾸세요", comment: "Reorder mode hint scoped to current category"), scope)
-        }
-        return NSLocalizedString("카드를 끌어 순서를 바꾸세요", comment: "Reorder mode hint")
-    }
-
-    /// 순서 바꾸기 전용 화면 - 현재 카테고리 탭의 메모(기능 꺼짐 시 전체)를
-    /// 흔들리는 그리드로 보여주고 드래그로 재정렬.
-    private var reorderModeView: some View {
-        NavigationStack {
-            ScrollView {
-                Text(reorderHintText)
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.top, 12)
-
-                // 현재 탭에 재정렬할 메모가 없으면 빈 그리드 대신 이유를 설명한다.
-                // (카테고리 범위 재정렬이라 다른 탭의 메모는 여기 나오지 않는 게 정상)
-                if viewModel.reorderList.isEmpty {
-                    VStack(spacing: 8) {
-                        Image(systemName: AppSymbol.trayFull)
-                            .font(.largeTitle)
-                            .foregroundColor(.secondary)
-                        Text(NSLocalizedString("이 카테고리에는 순서를 바꿀 단축어가 없어요", comment: "Reorder empty state title"))
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundColor(.secondary)
-                        Text(NSLocalizedString("다른 카테고리 탭에서 순서 바꾸기를 열어 보세요", comment: "Reorder empty state subtitle"))
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 80)
-                }
-
-                LazyVGrid(columns: gridColumns, spacing: 12) {
-                    ForEach(Array(viewModel.reorderList.enumerated()), id: \.element.id) { index, memo in
-                        reorderCardCell(memo: memo, index: index)
-                    }
-                }
-                .padding(16)
-                .padding(.bottom, 40)
-                // 재배치 애니메이션은 dropEntered의 withAnimation이 담당(이중 적용 방지).
-                // 셀 바깥(여백)에 드롭돼도 드래그 상태를 풀어 카드가 사라진 채 남지 않게 한다.
-                .onDrop(of: [.text], delegate: ReorderResetDropDelegate(dragging: $draggingMemo))
-            }
-            .background(theme.bg.ignoresSafeArea())
-            // 그리드 밖(스크롤 영역 아무 곳)에 드롭돼도 드래그 상태를 정리하는 최후 안전망.
-            .onDrop(of: [.text], delegate: ReorderResetDropDelegate(dragging: $draggingMemo))
-            .navigationTitle(NSLocalizedString("순서 바꾸기", comment: "Reorder mode title"))
-            #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
-            #endif
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(NSLocalizedString("완료", comment: "Done")) {
-                        HapticManager.shared.success()
-                        viewModel.exitReorderMode()
-                    }
-                    .fontWeight(.semibold)
-                }
-            }
-            .solidNavBar(theme.bg)
-        }
-        .onAppear {
-            draggingMemo = nil
-            if !reduceMotion { withAnimation { wiggle = true } }
-        }
-        .onDisappear {
-            wiggle = false
-            draggingMemo = nil
-        }
-        // 드래그 세션이 끝나면(정상 드롭·취소 모두) 흔들림을 다시 켠다.
-        // repeatForever는 value 변경 시에만 붙으므로 wiggle을 토글해 재시작한다.
-        .onChange(of: draggingMemo?.id) { _, newValue in
-            if newValue != nil {
-                wiggle = false
-            } else if !reduceMotion {
-                withAnimation { wiggle = true }
-            }
-        }
-    }
-
-    /// 재정렬 그리드의 한 셀 - 흔들림 + onDrag/onDrop 라이브 재배치.
-    private func reorderCardCell(memo: Memo, index: Int) -> some View {
-        let isDragging = draggingMemo?.id == memo.id
-        // 드래그 세션 동안엔 모든 카드의 흔들림을 멈춘다 - repeatForever 회전이 재배치
-        // 스프링 애니메이션·스크롤과 매 프레임 경합해 버벅임의 주원인이었다.
-        let dragActive = draggingMemo != nil
-        // 흔들림 위상은 index가 아닌 id 기반 고정값 - 재배치로 index가 바뀔 때마다
-        // 애니메이션이 리셋되어 깜빡이던 문제 방지.
-        let phase = Double(abs(memo.id.hashValue) % 6) * 0.045
-        return memoCardSurface(memo: memo, lightweight: true)
-            // 드래그 중인 카드의 원위치는 완전히 숨기지 않고 흐릿하게만 - 드롭이 시스템에서
-            // 취소돼 콜백이 안 와도 카드가 "사라진" 채 남지 않는다.
-            .opacity(isDragging ? 0.3 : 1.0)
-            .scaleEffect(isDragging ? 0.95 : 1.0)
-            .overlay(alignment: .topLeading) {
-                // 흔들기 모드 식별용 작은 그립 배지.
-                Image(systemName: AppSymbol.arrowUpAndDownAndArrowLeftAndRight)
-                    .font(.caption2.weight(.bold))
-                    .foregroundColor(.white)
-                    .padding(6)
-                    .background(Circle().fill(Color.black.opacity(0.35)))
-                    .padding(8)
-                    .opacity(isDragging ? 0 : 1)
-                    .accessibilityHidden(true)
-            }
-            .onDrag {
-                draggingMemo = memo
-                HapticManager.shared.medium()
-                return NSItemProvider(object: memo.id.uuidString as NSString)
-            } preview: {
-                // 손가락을 따라오는 미리보기는 항상 또렷하게(원본 dim과 분리).
-                memoCardSurface(memo: memo, lightweight: true)
-                    .frame(width: reorderPreviewWidth, height: memoCardHeight)
-            }
-            .onDrop(of: [.text], delegate: MemoReorderDropDelegate(
-                item: memo,
-                list: $viewModel.reorderList,
-                dragging: $draggingMemo
-            ))
-            // 흔들림 - 드래그 세션 중엔 전체 정지, reduceMotion이면 항상 정지.
-            .rotationEffect(.degrees((reduceMotion || dragActive) ? 0 : (wiggle ? 1.4 : -1.4)))
-            .animation(
-                (reduceMotion || dragActive)
-                    ? nil
-                    : .easeInOut(duration: 0.22).repeatForever(autoreverses: true).delay(phase),
-                value: wiggle
-            )
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel(memo.title)
-            .accessibilityHint(NSLocalizedString("드래그하여 순서를 바꿉니다", comment: "Reorder cell a11y hint"))
-    }
-
     private func allTabScrollView(memos allMemos: [Memo], tab: CategoryTab) -> some View {
         trackPageScroll(ScrollView {
             LazyVStack(alignment: .leading, spacing: 0) {
@@ -2479,207 +2314,6 @@ struct ClipKeyboardList: View {
         guard !viewModel.isSelectionMode, !viewModel.isReorderMode else { return }
         HapticManager.shared.medium()
         viewModel.enterSelectionMode()
-    }
-
-    /// 어느 범위에서 고르는 중인지. 카테고리 기능이 꺼져 있으면 nil(전체에서 고른다).
-    private var selectionScopeName: String? {
-        CategoryStore.shared.isFeatureEnabled ? viewModel.selectedCategoryTab.displayName : nil
-    }
-
-    /// 화면 제목 아래에 서는 한 줄 - 몇 개 골랐는지, 아직 하나도 안 골랐으면 무엇을 하라는지.
-    private var selectionHintText: String {
-        if viewModel.selectedCount > 0 {
-            return String(format: NSLocalizedString("%d개 선택됨", comment: "Selection mode: selected count"),
-                          viewModel.selectedCount)
-        }
-        if let scope = selectionScopeName {
-            return String(format: NSLocalizedString("'%@'에서 옮기거나 지울 카드를 고르세요", comment: "Selection mode hint scoped to current category"), scope)
-        }
-        return NSLocalizedString("옮기거나 지울 카드를 고르세요", comment: "Selection mode hint")
-    }
-
-    /// 고른 것 중에 이미 카테고리에 들어 있는 것이 있는가 - "카테고리에서 빼기"를 보일지 정한다.
-    private var anySelectedHasCategory: Bool {
-        guard CategoryStore.shared.isFeatureEnabled else { return false }
-        return viewModel.selectedMemos.contains { viewModel.customCategories.contains($0.category) }
-    }
-
-    /// 여러 개 고르기 전용 화면 - 현재 카테고리 탭의 카드를 체크박스와 함께 보여주고,
-    /// 고른 것을 한꺼번에 카테고리로 보내거나 지운다.
-    ///
-    /// 순서 바꾸기와 같은 꼴(전체 화면 + 같은 범위)이다. 목록 위에 그대로 얹지 않는 이유는
-    /// 그 화면이 이미 카테고리 페이저·배너·팁을 이고 있어서, 고르기 크롬까지 얹으면
-    /// 무엇을 누르는 자리인지가 흐려지기 때문이다.
-    private var selectionModeView: some View {
-        NavigationStack {
-            VStack(spacing: 0) {
-                selectionGrid
-                BulkSelectionBar(
-                    selectedCount: viewModel.selectedCount,
-                    categories: viewModel.customCategories,
-                    anySelectedHasCategory: anySelectedHasCategory,
-                    onMove: { category in performBulkMove(to: category) },
-                    onCreateNewCategory: {
-                        newCategoryForSelection = ""
-                        showBulkNewCategoryAlert = true
-                    },
-                    onRemoveFromCategory: { performBulkMove(to: "기본") },
-                    onDelete: {
-                        HapticManager.shared.warning()
-                        showBulkDeleteConfirm = true
-                    }
-                )
-            }
-            .background(theme.bg.ignoresSafeArea())
-            .navigationTitle(NSLocalizedString("여러 개 고르기", comment: "Selection mode title"))
-            #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
-            #endif
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(NSLocalizedString("취소", comment: "Cancel")) {
-                        HapticManager.shared.light()
-                        viewModel.exitSelectionMode()
-                    }
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(viewModel.isAllSelectedInScope
-                           ? NSLocalizedString("전체 해제", comment: "Selection mode: deselect all")
-                           : NSLocalizedString("전체 선택", comment: "Selection mode: select all")) {
-                        HapticManager.shared.selection()
-                        if viewModel.isAllSelectedInScope {
-                            viewModel.deselectAll()
-                        } else {
-                            viewModel.selectAllInScope()
-                        }
-                    }
-                    .disabled(viewModel.selectionList.isEmpty)
-                }
-            }
-            .solidNavBar(theme.bg)
-            .alert(
-                NSLocalizedString("고른 단축어 삭제", comment: "Bulk delete alert title"),
-                isPresented: $showBulkDeleteConfirm
-            ) {
-                Button(NSLocalizedString("삭제", comment: "Confirm delete"), role: .destructive) {
-                    performBulkDelete()
-                }
-                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {}
-            } message: {
-                Text(String(format: NSLocalizedString("%d개를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.", comment: "Bulk delete confirm message"), viewModel.selectedCount))
-            }
-            .alert(
-                NSLocalizedString("새 카테고리 만들기", comment: "Create new category and assign alert title"),
-                isPresented: $showBulkNewCategoryAlert
-            ) {
-                TextField(NSLocalizedString("카테고리 이름", comment: "Category name placeholder"), text: $newCategoryForSelection)
-                Button(NSLocalizedString("추가", comment: "Add")) {
-                    let trimmed = newCategoryForSelection.trimmingCharacters(in: .whitespacesAndNewlines)
-                    if !trimmed.isEmpty {
-                        viewModel.addCustomCategory(trimmed)
-                        performBulkMove(to: trimmed)
-                    }
-                    newCategoryForSelection = ""
-                }
-                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {
-                    newCategoryForSelection = ""
-                }
-            } message: {
-                Text(NSLocalizedString("카테고리가 생성되고 고른 단축어가 모두 이동됩니다.", comment: "Bulk create category and move message"))
-            }
-        }
-    }
-
-    private var selectionGrid: some View {
-        ScrollView {
-            Text(selectionHintText)
-                .font(.footnote)
-                .foregroundColor(.secondary)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.top, 12)
-                // 개수가 바뀔 때 글자가 통째로 갈리지 않고 숫자만 굴러가게.
-                .contentTransition(.numericText())
-                .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: viewModel.selectedCount)
-
-            // 이 탭에 고를 것이 없으면 빈 격자 대신 이유를 말한다
-            // (범위가 현재 탭이라 다른 탭의 카드가 여기 없는 것이 정상이다).
-            if viewModel.selectionList.isEmpty {
-                VStack(spacing: 8) {
-                    Image(systemName: AppSymbol.trayFull)
-                        .font(.largeTitle)
-                        .foregroundColor(.secondary)
-                    Text(NSLocalizedString("이 카테고리에는 고를 단축어가 없어요", comment: "Selection mode empty state title"))
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundColor(.secondary)
-                    Text(NSLocalizedString("다른 카테고리 탭에서 다시 열어 보세요", comment: "Selection mode empty state subtitle"))
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.top, 80)
-            }
-
-            LazyVGrid(columns: gridColumns, spacing: 12) {
-                ForEach(viewModel.selectionList) { memo in
-                    selectionCardCell(memo: memo)
-                }
-            }
-            .padding(16)
-            .padding(.bottom, 24)
-        }
-    }
-
-    /// 고르기 격자의 한 칸 - 목록과 같은 카드에 체크만 얹는다.
-    /// 여기서는 탭이 **복사가 아니라 고르기**다(복사하려고 열지 않았다).
-    private func selectionCardCell(memo: Memo) -> some View {
-        let isSelected = viewModel.selectedMemoIDs.contains(memo.id)
-        return memoCardSurface(memo: memo, lightweight: true)
-            .overlay {
-                RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
-                    .strokeBorder(theme.accent, lineWidth: 3)
-                    .opacity(isSelected ? 1 : 0)
-                    .allowsHitTesting(false)
-            }
-            .overlay(alignment: .topTrailing) {
-                SelectionCheckmark(isSelected: isSelected)
-            }
-            // 고른 카드는 아주 살짝 들어간다 - 체크 하나로는 격자 전체에서 잘 안 읽힌다.
-            .scaleEffect(isSelected ? 0.97 : 1.0)
-            .animation(reduceMotion ? nil : .easeOut(duration: 0.15), value: isSelected)
-            .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-            .onTapGesture {
-                HapticManager.shared.selection()
-                viewModel.toggleSelection(memo.id)
-            }
-            .accessibilityElement(children: .ignore)
-            .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
-            .accessibilityLabel(memo.title)
-            .accessibilityHint(isSelected
-                               ? NSLocalizedString("탭하면 선택을 해제합니다", comment: "VoiceOver: deselect hint")
-                               : NSLocalizedString("탭하면 선택합니다", comment: "VoiceOver: select hint"))
-    }
-
-    /// 고른 것을 한꺼번에 옮기고, 화면을 닫은 뒤 결과를 한 줄로 알린다.
-    /// 옮기면 그 카드는 지금 탭에서 사라질 수 있으므로 화면을 계속 붙잡아 두지 않는다.
-    private func performBulkMove(to category: String) {
-        let moved = viewModel.moveSelectedMemos(toCategory: category)
-        guard moved > 0 else { return }
-        HapticManager.shared.success()
-        viewModel.exitSelectionMode()
-        viewModel.showPlainToast(
-            String(format: NSLocalizedString("%1$d개를 '%2$@'(으)로 옮겼어요", comment: "Bulk move done toast"),
-                   moved, category)
-        )
-    }
-
-    private func performBulkDelete() {
-        let removed = viewModel.deleteSelectedMemos()
-        guard removed > 0 else { return }
-        HapticManager.shared.success()
-        viewModel.exitSelectionMode()
-        viewModel.showPlainToast(
-            String(format: NSLocalizedString("%d개를 삭제했어요", comment: "Bulk delete done toast"), removed)
-        )
     }
 
     // MARK: - Ambient Top Block
