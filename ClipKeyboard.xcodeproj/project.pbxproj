@@ -192,7 +192,6 @@
 		C0AE3312846EEEF99DA6724E /* MemoReorderDropDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C970386B61BF7C8C53F03C /* MemoReorderDropDelegates.swift */; };
 		C0DD5A687D1374950DEF38B4 /* TutorialFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B352BD33E4C1A3A117C0015D /* TutorialFlow.swift */; };
 		CAF1B3E88B0D503417882A0B /* KeyLabelTruncation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7D374184C74DA684E7CC89 /* KeyLabelTruncation.swift */; };
-		CB00002A2F0000000000000002 /* ClipboardSuggestionBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */; };
 		CD638BA0C61FCD61EF838265 /* CardSurfaceEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B8DA5DE589A8AD6F7F0604 /* CardSurfaceEffects.swift */; };
 		CLC00012F0000000000000001 /* ClipKeyboardListComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */; };
 		CO00012F0000000000000001 /* MemoAddCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = CO00022F0000000000000002 /* MemoAddCoach.swift */; };
@@ -495,7 +494,6 @@
 		BGIMGFILE000000000000001 /* BackgroundImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundImageStore.swift; sourceTree = "<group>"; };
 		C46587B73A823222D84C1399 /* CloudKitContainerGate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CloudKitContainerGate.swift; sourceTree = "<group>"; };
 		C7B61FE8EE93BC24351604AD /* MemoSyncEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoSyncEngine.swift; sourceTree = "<group>"; };
-		CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardSuggestionBanner.swift; sourceTree = "<group>"; };
 		CE7340554588DBC6AB85710E /* AppLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
 		CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListComponents.swift; sourceTree = "<group>"; };
 		CO00022F0000000000000002 /* MemoAddCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddCoach.swift; sourceTree = "<group>"; };
@@ -662,7 +660,6 @@
 		5802F4112A2B42D3002825D6 /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				CB00001A2F0000000000000001 /* ClipboardSuggestionBanner.swift */,
 				EP00001A2F0000000000000003 /* EmojiPicker.swift */,
 				5802F4122A2B8E08002825D6 /* ClipboardCaptureCard.swift */,
 				AA00000100000001F3B00001 /* ReviewRequestView.swift */,
@@ -1506,7 +1503,6 @@
 				58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */,
 				US00002C2F0000000000000006 /* UsageTrendChartView.swift in Sources */,
 				CLC00012F0000000000000001 /* ClipKeyboardListComponents.swift in Sources */,
-				CB00002A2F0000000000000002 /* ClipboardSuggestionBanner.swift in Sources */,
 				EP00002A2F0000000000000004 /* EmojiPicker.swift in Sources */,
 				IC00002A2F0000000000000006 /* ImagePickerComponents.swift in Sources */,
 				HT00002A2F0000000000000008 /* HighlightedTextEditor.swift in Sources */,

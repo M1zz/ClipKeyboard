@@ -111,13 +111,6 @@ final class MemoAddViewModel: ObservableObject {
 
     @Published var recentlyUsedCategories: [String] = []
 
-    // MARK: - 클립보드 스마트 제안
-
-    @Published var clipboardContent: String?
-    @Published var clipboardDetectedType: ClipboardItemType?
-    @Published var clipboardHistory: SmartClipboardHistory?
-    @Published var showClipboardSuggestion: Bool = false
-
     // MARK: - UI 상태
 
     @Published var showAlert: Bool = false
@@ -258,11 +251,6 @@ final class MemoAddViewModel: ObservableObject {
             initialUserCategory = insertedCategory
         }
         let insertedTypeCategory = insertedIsUserCategory ? "텍스트" : insertedCategory
-
-        // 새 메모 생성 시 클립보드 내용 확인
-        if editingMemo == nil && insertedValue.isEmpty {
-            checkClipboardAndSuggest()
-        }
 
         // 수정 모드 초기화
         if !insertedKeyword.isEmpty {
@@ -514,24 +502,6 @@ final class MemoAddViewModel: ObservableObject {
         }
     }
 
-    // MARK: - 클립보드 제안 수락
-
-    func acceptClipboardSuggestion() {
-        guard let content = clipboardContent, let detectedType = clipboardDetectedType else { return }
-
-        if let history = clipboardHistory, history.contentType == ClipboardContentType.image {
-            acceptImageClipboardSuggestion(history)
-        } else {
-            acceptTextClipboardSuggestion(content, detectedType)
-        }
-
-        withAnimation(.easeInOut(duration: 0.3)) { showClipboardSuggestion = false }
-    }
-
-    func dismissClipboardSuggestion() {
-        showClipboardSuggestion = false
-    }
-
     // MARK: - OCR
 
     #if os(iOS)
@@ -770,102 +740,6 @@ final class MemoAddViewModel: ObservableObject {
 
     private func extractTemplateVariables(from text: String) -> [String] {
         TemplatePlaceholder.names(in: text)
-    }
-
-    // MARK: - Clipboard Helpers
-
-    /// 화면이 뜰 때 클립보드에 쓸 만한 것이 있으면 제안 배너를 띄운다.
-    ///
-    /// ⚠️ 읽기는 **메인 밖에서** 한다. 그림이 담겨 있으면 읽는 데다 줄이고 인코딩하는 일까지
-    ///    붙는데, 예전에는 그 전부가 메인에서 돌아 화면이 뜨는 것을 막고 있었다.
-    ///    기록: docs/postmortem/HANG_PASTEBOARD_5_0_1.md
-    private func checkClipboardAndSuggest() {
-        #if os(iOS)
-        ClipboardClassificationService.shared.checkClipboardOffMain { [weak self] history in
-            guard let self, let history else { return }
-            // 읽어 오는 사이에 사용자가 이미 무언가를 하고 있을 수 있다.
-            // 수정으로 넘어갔거나 이미 값을 채웠으면 이제 와서 끼어들지 않는다.
-            guard self.editingMemo == nil, !self.showClipboardSuggestion else { return }
-            self.applyClipboardSuggestion(history)
-        }
-        #endif
-    }
-
-    #if os(iOS)
-    private func applyClipboardSuggestion(_ history: SmartClipboardHistory) {
-        if history.contentType == ClipboardContentType.text {
-            guard history.content.count < 500 else { return }
-            guard history.content != value else { return }
-
-            if history.detectedType != ClipboardItemType.text || history.confidence > 0.5 {
-                clipboardHistory = history
-                clipboardContent = history.content
-                clipboardDetectedType = history.detectedType
-
-                withAnimation(.easeInOut(duration: 0.3)) {
-                    showClipboardSuggestion = true
-                }
-
-                print("📋 [MemoAddViewModel] 클립보드 텍스트 감지: \(history.detectedType.rawValue)")
-            }
-        } else if history.contentType == ClipboardContentType.image {
-            clipboardHistory = history
-            clipboardContent = history.content
-            clipboardDetectedType = ClipboardItemType.text
-
-            withAnimation(.easeInOut(duration: 0.3)) {
-                showClipboardSuggestion = true
-            }
-
-            print("📋 [MemoAddViewModel] 클립보드 이미지 감지: \(history.content)")
-        }
-    }
-    #endif
-
-    private func acceptImageClipboardSuggestion(_ history: SmartClipboardHistory) {
-        #if os(iOS)
-        // pasteboard-ok: 제안 배너의 "가져오기" 를 눌렀다
-        if let image = UIPasteboard.general.image {
-            withAnimation { attachedImages = [ImageWrapper(image: image)] }
-            print("✅ [MemoAddViewModel] 클립보드에서 이미지를 가져왔습니다")
-        }
-        #endif
-        // 카테고리에서 진입했거나 사용자가 이미 고른 카테고리는 유지
-        // 기본값("텍스트")일 때만 자동 설정. (determineFinalCategory의 재분류 규칙과 동일)
-        if selectedCategory == "텍스트" {
-            selectedCategory = "이미지"
-        }
-        autoDetectedType = .image
-        autoDetectedConfidence = 1.0
-        persistImageHistory(history)
-    }
-
-    private func persistImageHistory(_ history: SmartClipboardHistory) {
-        var permanentHistory = history
-        permanentHistory.isTemporary = false
-        var existingHistory = (try? MemoStore.shared.loadSmartClipboardHistory()) ?? []
-        existingHistory.insert(permanentHistory, at: 0)
-        if existingHistory.count > 100 { existingHistory = Array(existingHistory.prefix(100)) }
-        do {
-            try MemoStore.shared.saveSmartClipboardHistory(history: existingHistory)
-            print("✅ [MemoAddViewModel] 이미지를 클립보드 히스토리에 저장했습니다")
-        } catch {
-            print("❌ [MemoAddViewModel] 이미지 저장 실패: \(error)")
-        }
-    }
-
-    private func acceptTextClipboardSuggestion(_ content: String, _ detectedType: ClipboardItemType) {
-        value = content
-        // 카테고리에서 진입했거나 사용자가 이미 고른 카테고리는 유지
-        // 기본값("텍스트")일 때만 자동 분류로 대체. (determineFinalCategory의 재분류 규칙과 동일)
-        if selectedCategory == "텍스트" {
-            selectedCategory = Constants.themeForClipboardType(detectedType)
-        }
-        autoDetectedType = detectedType
-        autoDetectedConfidence = ClipboardClassificationService.shared.classify(content: content).confidence
-        let sensitiveTypes: [ClipboardItemType] = [.creditCard, .bankAccount, .passportNumber, .taxID]
-        isSecure = sensitiveTypes.contains(detectedType)
-        print("✅ [MemoAddViewModel] 클립보드 내용 적용: \(detectedType.rawValue)")
     }
 
     // MARK: - OCR Private Helpers

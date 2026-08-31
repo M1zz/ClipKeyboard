@@ -358,10 +358,27 @@ struct ContentInputSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             // 라벨 - 이 값이 단축어를 탭했을 때 붙여넣어지는 내용.
-            Text(NSLocalizedString("붙여넣을 내용", comment: "Content label: what gets pasted when user taps the memo"))
-                .font(.body)
-                .fontWeight(.medium)
-                .foregroundColor(theme.textMuted)
+            HStack(spacing: 8) {
+                Text(NSLocalizedString("붙여넣을 내용", comment: "Content label: what gets pasted when user taps the memo"))
+                    .font(.body)
+                    .fontWeight(.medium)
+                    .foregroundColor(theme.textMuted)
+
+                Spacer()
+
+                // 클립보드에 있는 것을 그대로 담는다. **무엇인지 맞히지 않는다.**
+                //
+                // `PasteButton` 은 시스템이 붙여넣기를 대신 처리하므로 "붙여넣기 허용?"
+                // 프롬프트가 뜨지 않는다. 우리가 `UIPasteboard` 를 직접 읽으면 매번 묻는다.
+                PasteButton(payloadType: String.self) { strings in
+                    guard let first = strings.first, !first.isEmpty else { return }
+                    // 이미 적은 것을 지우지 않는다. 비어 있을 때만 채우고, 아니면 뒤에 잇는다.
+                    value = value.isEmpty ? first : value + "\n" + first
+                }
+                .labelStyle(.titleAndIcon)
+                .buttonBorderShape(.capsule)
+                .controlSize(.small)
+            }
 
             // 값을 채우는 두 길. **글자를 가져오는 것**과 **그림을 붙이는 것**은 다른 일이다.
             //
@@ -369,8 +386,10 @@ struct ContentInputSection: View {
             //    잘리고 남은 "글자 읽기 / 이미지"는 둘 다 사진 이야기로 읽혀 무엇이 다른지
             //    흐렸다. 한 줄에 하나씩 놓고, 이름 옆에 **무엇이 값이 되는지**를 적는다.
             //
-            // ⚠️ 붙여넣기 칩은 뺐다. 클립보드에 쓸 만한 것이 있으면 이 화면 위쪽에
-            //    제안 배너가 뜨고(`ClipboardSuggestionBanner`), 본문을 길게 눌러도 붙는다.
+            // ⚠️ 붙여넣기는 위 라벨 오른쪽의 `PasteButton` 이 맡는다. 예전에는 이 자리에
+            //    칩으로 있다가, 화면 위쪽 제안 배너가 대신하면서 빠졌다. 그 배너를
+            //    없앤 지금(클립보드를 훔쳐보고 갈래를 맞히던 일이다) 다시 눈에 보이는
+            //    자리가 필요하다. 본문을 길게 눌러 붙이는 길도 그대로 있다.
             VStack(spacing: 8) {
                 // 사진 속 글자 → 값. 계좌번호·카드번호처럼 **보고 옮겨 적던 것**이
                 // 이 앱에 들어오는 가장 흔한 경로라 위에 둔다.
