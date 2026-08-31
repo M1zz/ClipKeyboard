@@ -76,7 +76,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
             defaults?.set(language.rawValue, forKey: DefaultsKey.appLanguage)
         }
         apply(language)
-        // 이 파일은 관문(ClipKeyboard/AppNotification.swift)이 없는 작은 타겟들
+        // 이 파일은 관문(ClipKeyboard/App/AppNotification.swift)이 없는 작은 타겟들
         // (공유·액션 익스텐션·위젯)도 함께 쓴다. 그래서 여기서만 손으로 메인을 본다.
         // 규칙은 같다 - 배경에서 쏘면 `onReceive` 가 배경에서 돈다.
         if Thread.isMainThread {

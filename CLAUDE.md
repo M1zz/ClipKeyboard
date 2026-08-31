@@ -55,25 +55,25 @@
 ```
 ClipKeyboard/
 ├── ClipKeyboard/                  # iOS 메인 앱
-│   ├── ClipKeyboardApp.swift     # 앱 진입점
-│   ├── Model/                   # 데이터 모델
-│   │   └── Memo.swift          # 메모, 클립보드, Combo 모델
-│   ├── Screens/                 # 화면 (SwiftUI Views)
-│   │   ├── List/               # 메모 리스트
-│   │   ├── Memo/               # 메모 추가/편집
+│   ├── App/                     # 앱 진입점과 앱 전역의 것
+│   │   ├── ClipKeyboardApp.swift   # 진입점
+│   │   ├── AppGroup.swift          # App Group 컨테이너·UserDefaults
+│   │   ├── AppNotification.swift   # 알림을 쏘는 유일한 문
+│   │   ├── AppSymbol.swift         # SF Symbol 이름 단일 출처
+│   │   ├── DefaultsKey.swift       # UserDefaults 키 단일 출처
+│   │   └── Constants.swift         # 상수 (테마 등)
+│   ├── Model/                   # 데이터 모델 (Memo, 클립보드, Combo)
+│   ├── Screens/                 # 화면. **View 와 ViewModel 이 같은 폴더에 산다**
+│   │   ├── List/               # 메모 리스트 + ClipKeyboardListViewModel
+│   │   ├── Memo/               # 메모 추가/편집 + MemoAddViewModel
 │   │   ├── Template/           # 템플릿 관리
 │   │   └── Component/          # 재사용 컴포넌트
-│   ├── Service/                 # 비즈니스 로직
-│   │   ├── MemoStore.swift     # 메모/클립보드 저장소 (싱글톤)
-│   │   ├── CloudKitBackupService.swift
-│   │   └── ComboExecutionService.swift
-│   ├── Manager/                 # 시스템 관리
-│   │   ├── DataManager.swift   # 전역 데이터 관리
-│   │   ├── BiometricAuthManager.swift
-│   │   ├── GlobalHotkeyManager.swift
-│   │   └── MenuBarManager.swift
+│   ├── Service/                 # 비즈니스 로직 (MemoStore, CloudKit, Combo 등)
+│   ├── Manager/                 # 시스템 관리 (생체인증, 단축키, 메뉴바)
+│   ├── Domain/  Data/           # 메모 저장 한 갈래만 계층으로 나눠 둔 것
+│   ├── DesignSystem/            # 테마·카드 표면·공용 부품
 │   ├── Extensions/              # Swift 확장
-│   └── Constants.swift          # 상수 (테마, 다국어 등)
+│   └── Resources/               # 폰트 등
 ├── ClipKeyboardExtension/               # iOS 키보드 익스텐션
 │   ├── KeyboardViewController.swift
 │   └── KeyboardView.swift
@@ -335,7 +335,7 @@ static var openAppWhenRun: Bool = true
 static var supportedModes: IntentModes { .foreground }
 ```
 - 포그라운드 인텐트는 **메인 앱 프로세스에서 실행**되므로 위젯 타겟에만 두면 탭이 조용히 무시됨
-- 위젯 측 `widget/QuickNoteControl.swift` ↔ 앱 측 `ClipKeyboard/QuickNoteControlIntent.swift` 타입명·동작 일치 유지
+- 위젯 측 `widget/QuickNoteControl.swift` ↔ 앱 측 `ClipKeyboard/App/QuickNoteControlIntent.swift` 타입명·동작 일치 유지
 - 인텐트 시그니처 변경 시 컨트롤 kind 도 새 문자열로 (죽은 컨트롤 캐시 방지)
 - 상세 기록: `docs/engineering/CONTROL_CENTER_APP_LAUNCH.md`
 

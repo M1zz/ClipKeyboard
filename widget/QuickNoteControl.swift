@@ -7,7 +7,7 @@
 //
 //  ⚠️ 동작 원리 (iOS 26 - 자세한 트러블슈팅 기록은 docs/engineering/CONTROL_CENTER_APP_LAUNCH.md):
 //  1. 포그라운드 모드 인텐트는 위젯 프로세스가 아니라 "메인 앱 프로세스"에서 실행된다.
-//     따라서 이 인텐트와 동일한 타입이 앱 타겟(ClipKeyboard/QuickNoteControlIntent.swift)에도
+//     따라서 이 인텐트와 동일한 타입이 앱 타겟(ClipKeyboard/App/QuickNoteControlIntent.swift)에도
 //     반드시 존재해야 한다. 없으면 시스템이 실행 대상을 못 찾아 탭이 조용히 무시된다.
 //  2. iOS 26 SDK 부터 openAppWhenRun 은 deprecated - supportedModes(.foreground)가 대체.
 //  3. 화면 라우팅은 App Group 보류 플래그 + NotificationCenter 로 한다
@@ -24,7 +24,7 @@ import os
 private let controlLog = Logger(subsystem: "com.Ysoup.TokenMemo.widget", category: "control")
 
 /// 제어센터 컨트롤용 인텐트 (위젯 타겟 측 정의).
-/// ⚠️ 앱 타겟의 ClipKeyboard/QuickNoteControlIntent.swift 와 타입명·동작을 항상 일치시킬 것.
+/// ⚠️ 앱 타겟의 ClipKeyboard/App/QuickNoteControlIntent.swift 와 타입명·동작을 항상 일치시킬 것.
 /// 실제 포그라운드 실행은 앱 쪽 정의로 이뤄진다.
 @available(iOS 18.0, *)
 struct AddQuickNoteControlIntent: AppIntent {

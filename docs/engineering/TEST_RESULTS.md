@@ -110,7 +110,7 @@
 5. `/ClipKeyboard/Screens/Memo/MemoAdd.swift` - Toast feedback
 6. `/ClipKeyboard/Manager/ReviewManager.swift` - New review conditions
 7. `/ClipKeyboard/Service/CloudKitBackupService.swift` - Shortened messages
-8. `/ClipKeyboard/ClipKeyboardApp.swift` - Review request integration (commented)
+8. `/ClipKeyboard/App/ClipKeyboardApp.swift` - Review request integration (commented)
 9. `/ClipKeyboard.xcodeproj/project.pbxproj` - Removed UsageStatistics references
 
 ### New Files

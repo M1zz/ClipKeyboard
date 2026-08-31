@@ -63,7 +63,7 @@ NotificationCenter.default.post(name: .memoDataChanged, object: nil)
 **하나.** 알림을 쏘는 문을 하나로 좁혔다.
 
 ```swift
-NotificationCenter.postOnMain(name: .someName)   // ClipKeyboard/AppNotification.swift
+NotificationCenter.postOnMain(name: .someName)   // ClipKeyboard/App/AppNotification.swift
 ```
 
 이미 메인이면 그 자리에서 쏜다(눌러서 시트가 뜨는 흐름의 순서를 지킨다).

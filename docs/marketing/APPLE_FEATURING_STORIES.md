@@ -24,7 +24,7 @@
 |---|---|
 | 온디바이스 Apple Intelligence (분류 · 붙여넣을 앱 예측 · 번역) | `ClipKeyboard/Service/AppleIntelligenceService.swift`, Foundation Models `SystemLanguageModel`, iOS 26+ 게이트 |
 | 제어센터 컨트롤 2종 | `widget/CopyValueControl.swift`, `widget/QuickNoteControl.swift` |
-| App Intents + App Shortcuts (Siri · 단축어 앱) | `ClipKeyboard/QuickNoteAppIntents.swift`, `widget/AppIntent.swift` |
+| App Intents + App Shortcuts (Siri · 단축어 앱) | `ClipKeyboard/App/QuickNoteAppIntents.swift`, `widget/AppIntent.swift` |
 | 위젯 | `widget/widget.swift`, WidgetKit |
 | 기기 간 실시간 동기화 | `ClipKeyboard/Service/MemoSyncEngine.swift`, CKSyncEngine |
 | 사진 속 글자 인식 | `ClipKeyboard/Service/OCRService.swift`, Vision |

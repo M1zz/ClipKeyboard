@@ -653,8 +653,8 @@
 		1B870C9374FF4EF98817D4B5 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				2F7C067346C9412692AFBD46 /* Repository */,
-				CE1F0CE81DA34F918AF4D9E7 /* UseCase */,
+				71169FEF7AFE438A9D148358 /* SaveMemoUseCase.swift */,
+				82DB8CDD2D0F443CAE408630 /* MemoRepositoryProtocol.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -665,14 +665,6 @@
 				8460217AE452162D125D8E0D /* QuickShortcutSave.swift */,
 			);
 			path = Shared;
-			sourceTree = "<group>";
-		};
-		2F7C067346C9412692AFBD46 /* Repository */ = {
-			isa = PBXGroup;
-			children = (
-				82DB8CDD2D0F443CAE408630 /* MemoRepositoryProtocol.swift */,
-			);
-			path = Repository;
 			sourceTree = "<group>";
 		};
 		5802F4112A2B42D3002825D6 /* Component */ = {
@@ -766,37 +758,23 @@
 		58C4733A2A109F0D009D87BC /* ClipKeyboard */ = {
 			isa = PBXGroup;
 			children = (
+				APPGROUPFOLDER00000AA1 /* App */,
 				5802F4142A2B966E002825D6 /* ClipKeyboard-Info.plist */,
 				587BDC5A2A1FCA10001464E4 /* ClipKeyboard.entitlements */,
-				581550622AD5321F00A6115B /* Constants.swift */,
-				TPS0001A2F0000000000000001 /* Tips.swift */,
 				58D9D52C2A3B237D0086BE1A /* Manager */,
 				58F8FBC42A15278100F5446E /* Screens */,
 				58F8FBC32A15277700F5446E /* Service */,
 				58F8FBC22A15276400F5446E /* Model */,
 				58AA11112B4D1A2100000007 /* Extensions */,
 				58DS00112F0000000000000011 /* DesignSystem */,
-				58C473672A10A787009D87BC /* Temp */,
-				58C4733B2A109F0D009D87BC /* ClipKeyboardApp.swift */,
 				58C4733F2A109F0E009D87BC /* Assets.xcassets */,
 				58C473412A109F0E009D87BC /* Preview Content */,
 				5815505F2AD52D6800A6115B /* Localizable.xcstrings */,
 				INFOPLISTVG1 /* InfoPlist.strings */,
 				E35F7AD602EB409DA9ED0332 /* Data */,
 				1B870C9374FF4EF98817D4B5 /* Domain */,
-				CF59570A1231475E964BEFD0 /* Presentation */,
-				C10B7D0BBC9949D585AF359F /* App */,
-				734374AB16A70898D2F69F48 /* AppGroup.swift */,
-				E80B27002654B5731B9DDCAF /* AppSymbol.swift */,
-				A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */,
-				759E1C51E0141D0101328417 /* AppNotification.swift */,
-				716D2F3FE56C8A81348A2686 /* StorageFile.swift */,
-				QKN0FILE0000000000000004 /* QuickNoteAppIntents.swift */,
-				QKNCTL9FILE0000000000001 /* QuickNoteControlIntent.swift */,
 				A7C39DB74D62055606CA7077 /* PrivacyInfo.xcprivacy */,
-				CE7340554588DBC6AB85710E /* AppLog.swift */,
 				03A5B4F86C963882100BF9AF /* Resources */,
-				BA441421EE0E26B58684C63F /* CategoryBucketRule.swift */,
 			);
 			path = ClipKeyboard;
 			sourceTree = "<group>";
@@ -807,13 +785,6 @@
 				58C473422A109F0E009D87BC /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		58C473672A10A787009D87BC /* Temp */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Temp;
 			sourceTree = "<group>";
 		};
 		58D9D52C2A3B237D0086BE1A /* Manager */ = {
@@ -998,17 +969,10 @@
 			path = Repository;
 			sourceTree = "<group>";
 		};
-		8F65B6990A724513820AC784 /* MemoAdd */ = {
-			isa = PBXGroup;
-			children = (
-				DA76D71209A54B77AB57B637 /* MemoAddViewModel.swift */,
-			);
-			path = MemoAdd;
-			sourceTree = "<group>";
-		};
 		9C994AE32EEA97F500FBC8F6 /* Memo */ = {
 			isa = PBXGroup;
 			children = (
+				DA76D71209A54B77AB57B637 /* MemoAddViewModel.swift */,
 				IC00001A2F0000000000000005 /* ImagePickerComponents.swift */,
 				HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */,
 				58F8FBBC2A127B3000F5446E /* MemoAdd.swift */,
@@ -1029,6 +993,7 @@
 		9C994B012EEAA7F500FBC8F6 /* List */ = {
 			isa = PBXGroup;
 			children = (
+				B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */,
 				58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */,
 				QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */,
 				CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */,
@@ -1058,14 +1023,6 @@
 			path = Template;
 			sourceTree = "<group>";
 		};
-		9FD347F3AEB04B6785DA54A8 /* Storage */ = {
-			isa = PBXGroup;
-			children = (
-				1752832F621F4C72961F0FD4 /* AppGroupStorage.swift */,
-			);
-			path = Storage;
-			sourceTree = "<group>";
-		};
 		A49EE569B0022BCC6463292C /* ClipKeyboardShareExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -1076,21 +1033,6 @@
 				7B6F486B7BCD88857EFB5DDC /* PrivacyInfo.xcprivacy */,
 			);
 			path = ClipKeyboardShareExtension;
-			sourceTree = "<group>";
-		};
-		B3C4D5E6F7A8B9C0D1E2F303 /* ClipKeyboardList */ = {
-			isa = PBXGroup;
-			children = (
-				B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */,
-			);
-			path = ClipKeyboardList;
-			sourceTree = "<group>";
-		};
-		C10B7D0BBC9949D585AF359F /* App */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = App;
 			sourceTree = "<group>";
 		};
 		CC4349C192F2E5BF5D401121 /* ClipKeyboardActionExtension */ = {
@@ -1104,23 +1046,6 @@
 			path = ClipKeyboardActionExtension;
 			sourceTree = "<group>";
 		};
-		CE1F0CE81DA34F918AF4D9E7 /* UseCase */ = {
-			isa = PBXGroup;
-			children = (
-				71169FEF7AFE438A9D148358 /* SaveMemoUseCase.swift */,
-			);
-			path = UseCase;
-			sourceTree = "<group>";
-		};
-		CF59570A1231475E964BEFD0 /* Presentation */ = {
-			isa = PBXGroup;
-			children = (
-				8F65B6990A724513820AC784 /* MemoAdd */,
-				B3C4D5E6F7A8B9C0D1E2F303 /* ClipKeyboardList */,
-			);
-			path = Presentation;
-			sourceTree = "<group>";
-		};
 		D32F71B863E077B858D91CE7 /* Combo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1132,7 +1057,8 @@
 		E35F7AD602EB409DA9ED0332 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				9FD347F3AEB04B6785DA54A8 /* Storage */,
+				1752832F621F4C72961F0FD4 /* AppGroupStorage.swift */,
+				11527193B51F40B39A530C1C /* MemoRepository.swift */,
 				87DF6ECF50B643AF9675F588 /* Repository */,
 			);
 			path = Data;
@@ -1147,6 +1073,25 @@
 				3318F59B862C85F419B001EA /* GeodeSkin.swift */,
 			);
 			path = Vault;
+			sourceTree = "<group>";
+		};
+		APPGROUPFOLDER00000AA1 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				734374AB16A70898D2F69F48 /* AppGroup.swift */,
+				CE7340554588DBC6AB85710E /* AppLog.swift */,
+				759E1C51E0141D0101328417 /* AppNotification.swift */,
+				E80B27002654B5731B9DDCAF /* AppSymbol.swift */,
+				BA441421EE0E26B58684C63F /* CategoryBucketRule.swift */,
+				58C4733B2A109F0D009D87BC /* ClipKeyboardApp.swift */,
+				581550622AD5321F00A6115B /* Constants.swift */,
+				A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */,
+				QKN0FILE0000000000000004 /* QuickNoteAppIntents.swift */,
+				QKNCTL9FILE0000000000001 /* QuickNoteControlIntent.swift */,
+				716D2F3FE56C8A81348A2686 /* StorageFile.swift */,
+				TPS0001A2F0000000000000001 /* Tips.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

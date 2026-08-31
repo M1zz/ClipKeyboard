@@ -27,7 +27,7 @@ SDK swiftinterface에 명시돼 있다:
 버튼 인텐트를 앱+익스텐션 양쪽 타겟에 포함시키는 관행과 같은 원리다.
 
 - 위젯 측: `widget/QuickNoteControl.swift`, `AddQuickNoteControlIntent` (컨트롤 UI가 참조)
-- 앱 측: `ClipKeyboard/QuickNoteControlIntent.swift`: **동일 타입명**, 실제로 실행되는 쪽
+- 앱 측: `ClipKeyboard/App/QuickNoteControlIntent.swift`: **동일 타입명**, 실제로 실행되는 쪽
 - 두 정의의 타입명·supportedModes·동작을 항상 일치시킬 것
 
 화면 라우팅은 인텐트가 App Group 보류 플래그(`pendingQuickNoteAdd`)를 켜고
@@ -90,7 +90,7 @@ python3 -c "import json; d=json.load(open('<App>.app/Metadata.appintents/extract
 
 ```
 widget/QuickNoteControl.swift        # 컨트롤 UI + 인텐트(위젯 측 정의)
-ClipKeyboard/QuickNoteControlIntent.swift  # 동일 인텐트(앱 측, 실제 실행됨)
+ClipKeyboard/App/QuickNoteControlIntent.swift  # 동일 인텐트(앱 측, 실제 실행됨)
 widget/QuickNoteControl.swift 내 QuickNoteLockWidget  # 잠금화면/홈 위젯 (widgetURL 경로)
 ClipKeyboardList.consumePendingInboxOpen()  # 플래그 소비 → 시트 표시
 ClipKeyboardApp: ControlCenter.shared.reloadAllControls()  # 런치 시 컨트롤 재등록

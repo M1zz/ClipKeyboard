@@ -14,7 +14,7 @@
 # 실제로 5.0.6 에서 두 번 헛짚었다. 기록: docs/postmortem/OFF_MAIN_PUBLISH_5_0_6.md
 #
 # 규칙: 알림은 `NotificationCenter.postOnMain(name:object:userInfo:)` 로만 쏜다.
-#       (ClipKeyboard/AppNotification.swift. 이미 메인이면 그 자리에서 쏘므로
+#       (ClipKeyboard/App/AppNotification.swift. 이미 메인이면 그 자리에서 쏘므로
 #        눌러서 시트가 뜨는 흐름의 순서는 그대로다)
 #
 # 예외: 시험 코드(ClipKeyboardTests)는 일부러 그 자리에서 쏘고 곧바로 확인한다.
@@ -28,7 +28,7 @@ set -e
 ROOT="$(git rev-parse --show-toplevel)"
 cd "$ROOT"
 
-GATE="ClipKeyboard/AppNotification.swift"
+GATE="ClipKeyboard/App/AppNotification.swift"
 
 RAW="$(grep -rn --include='*.swift' 'NotificationCenter\.default\.post(' \
          ClipKeyboard ClipKeyboardExtension ClipKeyboardActionExtension \
