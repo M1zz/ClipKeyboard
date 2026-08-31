@@ -249,6 +249,9 @@ struct MemoActionSheet: View {
     var onCreateNewCategory: (() -> Void)?
     /// "순서 바꾸기" - 그리드 흔들기/드래그 재정렬 모드 진입. nil이면 행을 숨긴다.
     var onReorder: (() -> Void)?
+    /// "여러 개 고르기" - 이 카드를 미리 고른 채 일괄 선택 모드로 들어간다. nil이면 행을 숨긴다.
+    /// 두 손가락 탭이 같은 문을 열지만, 그 몸짓은 눈에 보이지 않아 여기에도 둔다.
+    var onSelectMultiple: (() -> Void)?
     /// "템플릿으로 만들기" - 편집 화면을 열고 본문에 포커스를 둬 변수 삽입바를 바로 노출.
     /// nil이거나 이미 템플릿/콤보/이미지 메모면 행을 숨긴다.
     var onMakeTemplate: (() -> Void)?
@@ -361,6 +364,16 @@ struct MemoActionSheet: View {
                                 : NSLocalizedString("카테고리에 추가", comment: "Action: add to category"),
                             systemImage: AppSymbol.folder
                         )
+                    }
+                }
+                if let onSelectMultiple {
+                    Divider().padding(.leading, 56)
+                    actionRow(
+                        label: NSLocalizedString("여러 개 고르기", comment: "Action: select multiple memos"),
+                        systemImage: AppSymbol.checkmarkCircle
+                    ) {
+                        dismiss()
+                        onSelectMultiple()
                     }
                 }
                 if let onReorder {

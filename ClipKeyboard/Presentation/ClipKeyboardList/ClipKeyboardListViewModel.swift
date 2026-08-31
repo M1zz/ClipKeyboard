@@ -182,13 +182,21 @@ final class ClipKeyboardListViewModel: ObservableObject {
     /// 재정렬 모드 진입 - 카테고리 기능이 켜져 있으면 현재 탭의 메모만,
     /// 아니면 전체 목록을 작업용 목록으로 복제. (메모가 많아도 지금 보는 카테고리만 재정렬)
     func enterReorderMode() {
-        reorderList = CategoryStore.shared.isFeatureEnabled
-            ? reorderScopeMemos(for: selectedCategoryTab)
-            : loadedData
+        reorderList = scopedMemosForCurrentTab()
         withAnimation(.easeInOut(duration: 0.25)) { isReorderMode = true }
     }
 
-    /// 재정렬 대상 - 탭 기준으로만 모은다(검색·타입 필터는 무시해 탭의 모든 메모를 포함).
+    /// 지금 탭이 품은 메모. 카테고리 기능이 꺼져 있으면 탭 개념 자체가 없으므로 전체.
+    ///
+    /// 순서 바꾸기와 여러 개 고르기가 **같은 범위**를 쓴다. 두 모드가 다른 기준으로 모으면
+    /// "여기서는 보이는데 저기서는 없는" 메모가 생긴다.
+    func scopedMemosForCurrentTab() -> [Memo] {
+        CategoryStore.shared.isFeatureEnabled
+            ? reorderScopeMemos(for: selectedCategoryTab)
+            : loadedData
+    }
+
+    /// 탭 하나가 품은 메모 - 탭 기준으로만 모은다(검색·타입 필터는 무시해 탭의 모든 메모를 포함).
     /// loadedData가 이미 표시 순서(sortMemos)라 부분집합도 화면과 같은 순서로 나온다.
     func reorderScopeMemos(for tab: CategoryTab) -> [Memo] {
         switch tab {
@@ -254,6 +262,138 @@ final class ClipKeyboardListViewModel: ObservableObject {
             print("❌ [commitReorder] 저장 실패: \(error)")
         }
         applyFilters()
+    }
+
+    // MARK: - Bulk Selection (여러 개 고르기)
+
+    /// 여러 개 고르기 모드 여부.
+    ///
+    /// 왜 생겼나: 사용자 피드백.
+    ///
+    ///   a capacity to select multiple snippets (really cool would be to be able to
+    ///   switch to select mode by means of 2 finger tap or something like that),
+    ///   so that we can send multiple to a folder/category or delete them.
+    ///
+    /// 하나씩 꾹 눌러 지우는 길밖에 없었다. 열 개를 지우려면 같은 동작을 열 번 한다.
+    @Published var isSelectionMode: Bool = false
+
+    /// 지금 고른 것들. 화면이 아니라 **id** 를 쥔다 - 옮기거나 지운 뒤 메모 값이 바뀌어도
+    /// 고른 표시가 흐트러지지 않는다.
+    @Published var selectedMemoIDs: Set<UUID> = []
+
+    /// 고를 수 있는 범위(현재 탭). 지우는 동안 목록이 발밑에서 바뀌지 않도록 찍어 둔 판이다.
+    @Published var selectionList: [Memo] = []
+
+    /// 여러 개 고르기 시작. 두 손가락 탭이나 꾹 누르기 판에서 들어온다.
+    /// - Parameter preselect: 꾹 눌러 들어왔을 때 그 카드를 미리 골라 둔다
+    ///   (누른 것이 안 골라진 채로 열리면 왜 눌렀는지가 사라진다).
+    func enterSelectionMode(preselect: UUID? = nil) {
+        selectionList = scopedMemosForCurrentTab()
+        selectedMemoIDs = []
+        if let preselect, selectionList.contains(where: { $0.id == preselect }) {
+            selectedMemoIDs.insert(preselect)
+        }
+        withAnimation(.easeInOut(duration: 0.25)) { isSelectionMode = true }
+    }
+
+    func exitSelectionMode() {
+        withAnimation(.easeInOut(duration: 0.25)) { isSelectionMode = false }
+        selectedMemoIDs = []
+        selectionList = []
+    }
+
+    func toggleSelection(_ id: UUID) {
+        if selectedMemoIDs.contains(id) {
+            selectedMemoIDs.remove(id)
+        } else {
+            selectedMemoIDs.insert(id)
+        }
+    }
+
+    var selectedCount: Int { selectedMemoIDs.count }
+
+    /// 범위에 있는 것을 **모두** 골랐는가. 빈 범위는 "모두 고름"이 아니다
+    /// (빈 화면에서 전체 해제 버튼이 서 있으면 누를 것이 없다).
+    var isAllSelectedInScope: Bool {
+        !selectionList.isEmpty && selectedMemoIDs.count >= selectionList.count
+    }
+
+    func selectAllInScope() {
+        selectedMemoIDs = Set(selectionList.map(\.id))
+    }
+
+    func deselectAll() {
+        selectedMemoIDs = []
+    }
+
+    /// 고른 것들 - 화면에 보이던 순서 그대로.
+    var selectedMemos: [Memo] {
+        selectionList.filter { selectedMemoIDs.contains($0.id) }
+    }
+
+    /// 고른 것을 한꺼번에 지운다.
+    ///
+    /// ⚠️ 저장이 실패하면 **메모리를 되돌린다.** 한 개 지우기(`deleteMemo`)와 같은 약속인데,
+    ///    여기서는 걸린 것이 여러 개라 되돌리지 않으면 화면에서만 사라진 메모가 무더기로 남는다.
+    /// - Returns: 실제로 지운 개수. 실패하면 0.
+    @discardableResult
+    func deleteSelectedMemos() -> Int {
+        let ids = selectedMemoIDs
+        guard !ids.isEmpty else { return 0 }
+        let backup = loadedData
+        loadedData.removeAll { ids.contains($0.id) }
+        let removed = backup.count - loadedData.count
+
+        do {
+            try MemoStore.shared.save(memos: loadedData, type: .memo)
+            applyFilters()
+            selectedMemoIDs = []
+            selectionList.removeAll { ids.contains($0.id) }
+            print("✅ [deleteSelectedMemos] \(removed)개 삭제")
+            return removed
+        } catch {
+            print("❌ [ClipKeyboardListViewModel.deleteSelectedMemos] 삭제 저장 실패: \(error)")
+            loadedData = backup
+            applyFilters()
+            showPlainToast(NSLocalizedString("삭제하지 못했습니다", comment: "Delete failed toast"))
+            return 0
+        }
+    }
+
+    /// 고른 것을 한꺼번에 다른 카테고리로 보낸다.
+    ///
+    /// 이미 그 카테고리에 있는 것은 세지 않는다 - "3개를 옮겼어요"라고 해 놓고 실제로는
+    /// 하나도 안 움직였으면 그 말이 거짓이 된다.
+    /// - Returns: 실제로 옮긴 개수. 실패하면 0.
+    @discardableResult
+    func moveSelectedMemos(toCategory category: String) -> Int {
+        let ids = selectedMemoIDs
+        guard !ids.isEmpty else { return 0 }
+        let backup = loadedData
+        var moved = 0
+        for index in loadedData.indices where ids.contains(loadedData[index].id) {
+            guard loadedData[index].category != category else { continue }
+            loadedData[index].category = category
+            moved += 1
+        }
+        guard moved > 0 else { return 0 }
+
+        do {
+            try MemoStore.shared.save(memos: loadedData, type: .memo)
+            applyFilters()
+            // 찍어 둔 판도 같이 갱신 - 옮긴 뒤에도 이 화면에 남아 이어서 고를 수 있다.
+            for index in selectionList.indices where ids.contains(selectionList[index].id) {
+                selectionList[index].category = category
+            }
+            print("✅ [moveSelectedMemos] \(moved)개를 '\(category)'로 이동")
+            return moved
+        } catch {
+            print("❌ [ClipKeyboardListViewModel.moveSelectedMemos] 이동 저장 실패: \(error)")
+            loadedData = backup
+            applyFilters()
+            showPlainToast(NSLocalizedString("변경 사항을 저장하지 못했습니다", comment: "Save failed toast"))
+            return 0
+        }
     }
 
     // MARK: - Category Tabs
