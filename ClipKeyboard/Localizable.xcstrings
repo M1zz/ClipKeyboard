@@ -5244,29 +5244,6 @@
         }
       }
     },
-    "입력한 내용과 이름을 지웁니다. 카테고리는 그대로 둡니다" : {
-      "comment" : "Reset button hint v2",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clears what you typed and the name. The category stays."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "清除输入的内容和名称，分类保持不变。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "清除輸入的內容和名稱，分類保持不變。"
-          }
-        }
-      }
-    },
     "🌐 길게 눌러 전환" : {
       "comment" : "Long press globe to switch",
       "localizations" : {
@@ -18240,6 +18217,29 @@
         }
       }
     },
+    "값" : {
+      "comment" : "Value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Value"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "值"
+          }
+        }
+      }
+    },
     "가끔 고양이가 카드 사이를 지나가요." : {
       "comment" : "Living skin description: cat",
       "localizations" : {
@@ -18334,29 +18334,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "偶爾會短暫出現"
-          }
-        }
-      }
-    },
-    "값" : {
-      "comment" : "Value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Value"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "值"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "值"
           }
         }
       }
@@ -21571,7 +21548,7 @@
       }
     },
     "기본" : {
-      "comment" : "Category section: built-in\nCategory tab: default/basic\nKeyboard skin name: classic (default)",
+      "comment" : "Category section: built-in\nCategory tab: default/basic\nDefault category (no user category)\nKeyboard skin name: classic (default)",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -22666,6 +22643,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "日期"
+          }
+        }
+      }
+    },
+    "날짜 형식" : {
+      "comment" : "Date format setting row title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date format"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日期格式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日期格式"
           }
         }
       }
@@ -27238,6 +27238,7 @@
     },
     "더 설정하기" : {
       "comment" : "Show advanced options",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -30807,6 +30808,7 @@
     },
     "무시" : {
       "comment" : "Ignore",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -35688,6 +35690,7 @@
     },
     "사용" : {
       "comment" : "Use",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -37308,7 +37311,7 @@
       }
     },
     "새 카테고리" : {
-      "comment" : "Add category alert title",
+      "comment" : "Add category alert title\nCreate a new category from the add screen",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -40594,6 +40597,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "時間"
+          }
+        }
+      }
+    },
+    "시간 형식" : {
+      "comment" : "Time format setting row title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time format"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时间格式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時間格式"
           }
         }
       }
@@ -48793,6 +48819,7 @@
     },
     "이미지 감지" : {
       "comment" : "Image detected",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -50879,6 +50906,7 @@
     },
     "입력한 내용, 이름, 카테고리를 모두 지웁니다" : {
       "comment" : "Reset button hint",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -50896,6 +50924,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "會清空所有內容、標題和分類。"
+          }
+        }
+      }
+    },
+    "입력한 내용과 이름을 지웁니다. 카테고리는 그대로 둡니다" : {
+      "comment" : "Reset button hint v2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clears what you typed and the name. The category stays."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除输入的内容和名称，分类保持不变。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除輸入的內容和名稱，分類保持不變。"
           }
         }
       }
@@ -50967,6 +51018,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自我介紹"
+          }
+        }
+      }
+    },
+    "자동 (%@)" : {
+      "comment" : "Date format: automatic option, %@ is today rendered",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatic (%@)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动（%@）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動（%@）"
           }
         }
       }
@@ -51954,29 +52028,6 @@
         }
       }
     },
-    "저장" : {
-      "comment" : "Save\nSave button\nSave clipboard item as memo",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "儲存"
-          }
-        }
-      }
-    },
     "저장 실패: %@" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -51996,6 +52047,53 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "儲存失敗：%@"
+          }
+        }
+      }
+    },
+    "저장된 단축어 목록 모드로 전환합니다" : {
+      "comment" : "Memo mode tab hint",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Switch to saved snippet list mode."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切换到已保存短语的列表模式。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "切換到已儲存短語的列表模式。"
+          }
+        }
+      }
+    },
+    "저장에 실패했습니다. 다시 시도해주세요." : {
+      "comment" : "Memo save failed toast",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to save. Please try again."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存失败。请重试。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存失敗。請重試。"
           }
         }
       }
@@ -52026,6 +52124,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "前"
+          }
+        }
+      }
+    },
+    "저장" : {
+      "comment" : "Save\nSave button\nSave clipboard item as memo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存"
           }
         }
       }
@@ -52102,30 +52223,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已儲存的短語（會顯示在鍵盤上）"
-          }
-        }
-      }
-    },
-    "저장된 단축어 목록 모드로 전환합니다" : {
-      "comment" : "Memo mode tab hint",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Switch to saved snippet list mode."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "切换到已保存短语的列表模式。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "切換到已儲存短語的列表模式。"
           }
         }
       }
@@ -52247,29 +52344,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "找不到儲存位置。"
-          }
-        }
-      }
-    },
-    "저장에 실패했습니다. 다시 시도해주세요." : {
-      "comment" : "Memo save failed toast",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Failed to save. Please try again."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存失败。请重试。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "儲存失敗。請重試。"
           }
         }
       }
@@ -57898,75 +57972,6 @@
         }
       }
     },
-    "날짜 형식" : {
-      "comment" : "Date format setting row title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Date format"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "日期格式"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "日期格式"
-          }
-        }
-      }
-    },
-    "시간 형식" : {
-      "comment" : "Time format setting row title",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Time format"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "时间格式"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "時間格式"
-          }
-        }
-      }
-    },
-    "자동 (%@)" : {
-      "comment" : "Date format: automatic option, %@ is today rendered",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automatic (%@)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自动（%@）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自動（%@）"
-          }
-        }
-      }
-    },
     "카테고리 관리" : {
       "comment" : "Manage categories settings entry",
       "localizations" : {
@@ -57991,7 +57996,7 @@
       }
     },
     "카테고리 만들기" : {
-      "comment" : "Category suggestion: create action button",
+      "comment" : "Category suggestion: create action button\nCreate category button in the add screen",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -58199,7 +58204,7 @@
       }
     },
     "카테고리 이름" : {
-      "comment" : "Category name placeholder",
+      "comment" : "Category name placeholder\nNew category name field",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -58913,30 +58918,6 @@
         }
       }
     },
-    "켜짐" : {
-      "comment" : "On",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "On"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已打开"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已開啟"
-          }
-        }
-      }
-    },
     "켠 사용자당 평균 입력" : {
       "comment" : "Uses per active install",
       "localizations" : {
@@ -58979,6 +58960,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "開"
+          }
+        }
+      }
+    },
+    "켜짐" : {
+      "comment" : "On",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已打开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已開啟"
           }
         }
       }
@@ -59477,6 +59482,7 @@
     },
     "클립보드 감지" : {
       "comment" : "Clipboard detected",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -65038,6 +65044,30 @@
         }
       }
     },
+    "펼침" : {
+      "comment" : "VoiceOver: expanded",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expanded"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已展开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已展開"
+          }
+        }
+      }
+    },
     "펼치려면 두 번 탭하세요" : {
       "comment" : "Fill-in field drawer: expand hint",
       "localizations" : {
@@ -65063,30 +65093,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "雙擊可展開"
-          }
-        }
-      }
-    },
-    "펼침" : {
-      "comment" : "VoiceOver: expanded",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Expanded"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已展开"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已展開"
           }
         }
       }
@@ -65838,28 +65844,6 @@
         }
       }
     },
-    "한" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ko"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "韩"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "韓"
-          }
-        }
-      }
-    },
     "하나만 계속 쓰는 사람" : {
       "comment" : "User segment: one shortcut, used a lot",
       "localizations" : {
@@ -66140,6 +66124,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "學生"
+          }
+        }
+      }
+    },
+    "한" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "韩"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "韓"
           }
         }
       }
