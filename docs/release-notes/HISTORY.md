@@ -1,5 +1,159 @@
 # ClipKeyboard Release Notes
 
+## v5.0.6 (build 1)
+
+### 한국어
+
+날짜와 시간을 사는 곳의 모양으로 넣습니다.
+
+미국에서 쓰시는 분이 물으셨습니다. 날짜 빈칸을 다른 모양으로 바꿀 수 있느냐고, 미국은 월 일 년 순서로 적는다고. 지금까지 날짜는 어디서나 2026-08-31 이었고 시간은 24시간이었습니다. 손이 덜 가라고 대신 넣어 드리는 것인데 그 나라 모양이 아니면 결국 손으로 고치게 됩니다.
+
+이제 쓰시는 언어와 사시는 지역이 모양을 정합니다. 미국은 08/31/2026 과 9:57 PM, 영국은 31/08/2026, 독일은 31.08.2026 입니다. 한국과 중국과 일본은 일부러 그대로 뒀습니다. 지금까지 넣어 온 모양이라 바꾸면 쓰시던 분의 결과가 어느 날 갑자기 달라집니다.
+
+직접 고르실 수도 있습니다. 설정에서 단축어, 날짜 형식과 시간 형식입니다. 보기마다 오늘 날짜를 그 모양으로 그려서 보여 드립니다. MM/DD/YYYY 는 만든 사람만 읽지만 08/31/2026 은 누구나 읽습니다.
+
+저장할 때 카테고리를 고릅니다.
+
+말씀해 주셨습니다. 저장할 때 카테고리를 정하게 해 달라고, 기본에 저장했다가 다시 옮기는 것이 번거롭다고. 저장 화면에는 카테고리를 고르는 자리가 아예 없었습니다. 이제 본문 바로 아래에 한 줄로 서 있고, 그 자리에서 새 카테고리도 만듭니다. 만드는 길이 없으면 카테고리를 하나도 안 만든 분께는 기본 하나뿐인 고장난 칸으로 보입니다.
+
+저장한 뒤에는 그 단축어가 보이는 자리로 데려갑니다. 예전에는 기본 탭에서 업무를 골라 저장하면 화면은 기본에 남아서, 방금 만든 것이 어디로 갔는지 보이지 않았습니다. 사라진 것처럼 보이는 것이 제일 나쁩니다. 지금 화면에서 이미 보이고 있으면 아무 데도 가지 않습니다. 잘 보이는데 화면을 또 옮기면 그것이야말로 길을 헤매게 합니다.
+
+키보드 높이를 기본 키보드에 맞췄습니다.
+
+높이가 기본 키보드와 달라 위화감이 든다는 이야기와, 올라올 때 높이가 한 번 튄다는 이야기가 있었습니다. 뿌리가 하나였습니다. 우리가 254 라는 숫자를 약하게 걸어 두어서, iOS 가 제 높이로 한 번 세운 뒤 우리 숫자로 끌어내리고 그 과정을 애니메이션하고 있었습니다. 그 254 에는 근거도 없었습니다. 오래전에 없앤 하단 바의 몫이 상수에 남아 있었습니다.
+
+이제 앱이 기기의 시스템 키보드 높이를 재어 두고 키보드가 그 값으로 섭니다. 기기와 방향마다 따로 적으므로 가로로 돌려도 맞습니다. 앱을 아직 안 열어 보셨으면 화면 비율로 어림합니다.
+
+iOS 26 은 지구본과 받아쓰기 줄을 우리 판 바깥에 직접 그립니다. 그것을 모르고 높이를 걸어서 키보드가 시스템 키보드보다 89pt 높았고, 우리 판과 아래 줄의 배경색도 갈려 있었습니다. 이제 그 줄의 몫을 빼고 세우고, 판 뒤에 시스템 재질을 깔아 두 부분이 한 장으로 이어집니다. 색은 하나가 됐습니다.
+
+다만 시스템 키보드와 높이까지 똑같이 세웠더니 이번에는 판이 짜부라졌습니다. 계산은 맞았는데 전제가 틀렸습니다. 시스템 키보드는 그 높이를 통째로 키에 쓰지만, 우리 판은 같은 높이 안에 카테고리 줄을 먼저 얹고 남은 자리에 단축어를 깝니다. 같은 값을 받으면 우리 격자만 한 줄 넘게 굶습니다.
+
+그래서 잰 높이는 격자가 받을 몫으로 보고, 우리에게만 있는 카테고리 줄을 그 위에 얹습니다. 시스템 키보드에 없는 것을 그리는 만큼만 높아집니다. 어떤 기기에서도 단축어 여섯 개는 들어가고, 키를 크게 쓰시는 분은 판도 함께 높아집니다. 가로에서는 화면을 덮지 않도록 위쪽에 울타리를 뒀습니다.
+
+카테고리가 저절로 늘어나던 것을 멈췄습니다.
+
+카테고리가 걷잡을 수 없이 불어난다는 이야기가 있었습니다. 단축어에 적힌 카테고리 이름을 앱이 사용자가 만든 카테고리로 승격시키고 있었고, 동기화가 한 바퀴 돌 때마다 자기가 올린 이름을 자기가 되받아 늘렸습니다. 기기가 하나여도 늘었습니다. 지운 카테고리를 아직 달고 있는 단축어, 다른 언어로 심긴 예시 이름, 가져오기로 들어온 아무 글자도 전부 카테고리가 됐습니다.
+
+이제 카테고리는 직접 만드실 때만 늘어납니다. 이미 쌓인 것은 저절로 줄지 않으므로, 빈 카테고리가 많으면 한 번만 알려 드리고 카테고리 관리 화면으로 모셔다 드립니다. 앱은 아무것도 지우지 않습니다. 어느 것이 만드신 것이고 어느 것이 불어난 것인지 앱은 구분할 수 없습니다.
+
+맥에서 카테고리 탭이 사라지던 것도 같은 뿌리였습니다. 목록을 적게 아는 기기가 자기가 아는 만큼만 올려서 공용 기록을 덮어썼습니다. 아이폰만 쓰시면 끝까지 모르고 맥에서만 사라진 것처럼 보였습니다. 이제 올리기 전에 이미 있는 목록 위에 얹습니다.
+
+백업에서 되살릴 때 카테고리가 통째로 날아가던 것도 고쳤습니다. 카테고리 설정은 메모와 다른 자리에 살아서, 되살리는 길 셋 중 하나만 그것을 챙기고 있었습니다. 파일로 내보내고 가져오는 길에는 아예 실리지 않았고 카테고리 색은 어느 길로도 남지 않았습니다. 이제 셋 다 챙기고, 되살린 직후 화면도 새 목록으로 다시 섭니다.
+
+목록이 번쩍이던 것을 고쳤습니다.
+
+카테고리를 넘길 때마다 번쩍인다는 이야기를 오래 들었습니다. 눈으로 보이는 증상은 눈으로 봐야 했는데 코드만 읽고 짐작했습니다. 화면을 녹화해 프레임으로 재고서야 원인이 하나가 아니라 넷이라는 것을 알았습니다.
+
+카드에 쓰던 유리가 뒤를 실시간으로 읽어야 해서 페이지가 지어졌다 헐리는 자리에서 튀었습니다. 화면 바닥이 카테고리 색을 0.38초에 걸쳐 쓸어 바꾸는데 페이지는 0.25초에 넘어가서, 제목과 카드는 이미 새 카테고리인데 바닥만 뒤늦게 따라오는 구간이 있었습니다. 손으로 넘긴 페이지에 애니메이션이 한 겹 더 걸려 카드가 흐려졌다 돌아왔습니다. 페이지를 미리 짓는 시점을 우리가 정하려다 빈 화면이 스쳤습니다.
+
+전부 걷어냈습니다. 카드는 단색 면 하나가 됐고 페이지 넘기기는 시스템에 맡겼습니다. 갈래가 무엇인지는 카드 색과 좌상단 아이콘이 이미 말하고 있었습니다.
+
+앱이 빨라졌습니다.
+
+단축어가 500개 넘게 쌓인 기기로 재면서 고쳤습니다. 켤 때 화면이 멎던 구간이 0.1초에서 아예 없어졌고, 첫 10초 동안 앱이 쓰는 시간이 절반으로 줄었습니다.
+
+메모 파일을 부르는 자리마다 통째로 다시 읽고 있었습니다. 목록 화면 하나에만 18곳입니다. 이제 파일이 그대로면 다시 풀지 않습니다. 몇 달 전에 끝난 옛 자료 변환을 켤 때마다 확인하느라 파일 전체를 훑던 것, 검색 화면이 화면에 들어올 때마다 전부 다시 읽던 것, 시험용 진단이 배포판에 그대로 실려 돌던 것도 함께 걷어냈습니다.
+
+앱이 갑자기 닫히던 자리 둘을 고쳤습니다.
+
+친구들에게 알리기 영상을 굽는 일이 전부 화면 담당에서 돌고 있었습니다. 1080x1920 짜리 102장이라 그동안 앱이 손가락에 답하지 못합니다. 공유 시트를 여신 분은 전원 그 자리를 지납니다. 이제 화면이 꼭 해야 하는 것만 남기고 나머지는 뒤로 보냈습니다. 시트를 닫으면 굽는 것도 멈춥니다. 예전에는 아무도 안 볼 영상을 끝까지 구웠습니다.
+
+글을 쓰는 칸이 화면을 그리는 도중에 입력 자리를 옮기고 있었습니다. 그러면 화면 전체가 다시 계산되고 그 계산이 다시 같은 자리로 들어옵니다. 이제 한 박자 미뤄 그리기가 끝난 뒤에 옮깁니다.
+
+잠근 단축어에 자물쇠가 늘 보입니다.
+
+생체인증으로 잠근 단축어가 목록에서 보통 단축어와 겉으로 구별되지 않았습니다. 자물쇠를 구분 표시 설정이 켜져 있을 때만 그리고 있었는데 그 설정은 기본이 꺼짐입니다. 대부분의 분께 한 번도 보이지 않았다는 뜻입니다. 구분 표시는 있으면 좋은 꾸밈을 켜는 스위치이지 잠겨 있다는 사실을 감출 스위치가 아닙니다.
+
+새 단축어 화면을 접지 않습니다.
+
+새로 만들 때는 이름과 내용만 보이고 보안과 템플릿과 콤보와 카테고리는 더 설정하기 뒤에 접혀 있었습니다. 접어 두면 있는 줄을 모르고, 쓰려면 한 번 더 눌러야 합니다. 접어서 아끼는 자리보다 못 찾아서 잃는 것이 큽니다. 이제 만들 때도 고칠 때도 같은 화면이고, 처음부터 다 펼쳐져 있습니다.
+
+클립보드를 훔쳐보고 갈래를 맞히던 것을 없앴습니다.
+
+새 단축어 화면이 뜰 때마다 클립보드를 읽어서 이건 이메일 같은데요 하고 물었습니다. 맞혀서 얻는 것이 붙여넣기 한 번뿐이었습니다. 이제 묻지 않습니다. 붙여넣기는 붙여넣을 내용 옆에 단추로 서 있고, 그 단추는 시스템이 대신 처리하므로 붙여넣기를 허용하겠느냐고 묻지도 않습니다.
+
+그 밖에
+
+팁과 안내 줄이 툭 사라지지 않고 닫기 단추 자리로 접힙니다. 누른 것과 사라진 것이 이어집니다.
+
+혹시 이런 분이신가요 판에서 기본으로 권하는 일반과 개인이 맨 위로 올라왔습니다. 처음 여시는 분이 자기와 상관없는 것부터 읽고 내려가야 했습니다.
+
+### English
+
+Dates and times now look the way they look where you live.
+
+Someone in the US asked whether the date placeholder could come out in another shape, since the US writes month, day, year. Until now a date was 2026-08-31 everywhere and a time was 24-hour. The point of filling it in for you is that you do not have to type it, and if it is not the shape your country uses, you end up fixing it by hand anyway.
+
+Now your language and your region decide the shape. The US gets 08/31/2026 and 9:57 PM, the UK gets 31/08/2026, Germany gets 31.08.2026. Korea, China and Japan are deliberately unchanged. That is the shape they have been getting all along, and changing it would mean their results suddenly look different one day.
+
+You can also pick it yourself, in Settings under Snippets, Date format and Time format. Every choice draws today's date in that shape. MM/DD/YYYY is readable to the person who wrote it; 08/31/2026 is readable to everyone.
+
+Pick a category while you save.
+
+You told us: let me set the category as I save, moving it out of Basic afterwards is a chore. The save screen had no way to choose a category at all. It is now one row right under the body, and you can create a new category from there. Without that, someone who has not made any category yet just sees a broken control with Basic in it.
+
+After saving, the list takes you to where that snippet is visible. Before, if you were on the Basic tab and saved into Work, the screen stayed on Basic and you could not see where the thing you just made had gone. Looking like it vanished is the worst outcome. If it is already visible where you are, nothing moves. Moving the screen when you can already see it is what actually makes you lose your place.
+
+The keyboard is the height of the system keyboard now.
+
+Two reports had one root: the height feels off compared to the default keyboard, and the height jumps once as it comes up. We were pinning the number 254 weakly, so iOS stood the keyboard at its own height first, pulled it down to ours, and animated the trip. And 254 had no basis. It still carried the share of a bottom bar we removed long ago.
+
+Now the app measures your device's system keyboard height and the keyboard stands at that value, recorded per device and per orientation, so landscape is right too. If you have not opened the app yet, we estimate from the screen.
+
+iOS 26 draws the globe and dictation row outside our panel. Not knowing that, we stood 89pt taller than the system keyboard and the panel's background color did not match the row below it. Now we stand without that row's share and lay the system material behind the panel, so the two read as one surface. The color is one color.
+
+Matching the system keyboard's height exactly, though, left our panel squashed. The arithmetic was right and the premise was wrong. The system keyboard spends that whole height on keys; ours puts the category row in first and lays snippets in what is left. Given the same number, only our grid goes hungry, by more than a row.
+
+So the measured height is now treated as the grid's share, and the category row we alone draw sits on top of it. We are taller than the system keyboard by exactly what the system keyboard does not draw. Six snippets fit on any device, and if you use large keys the panel grows with them. In landscape there is a ceiling so the keyboard never takes over the screen.
+
+Categories no longer multiply on their own.
+
+Categories were growing out of hand. The app was promoting whatever category name a snippet carried into your list of categories, and sync fed each name back to the device that had just sent it. It grew even with a single device. A snippet still tagged with a category you deleted, a sample name planted in another language, any string that arrived through an import: all of it became a category.
+
+Categories now grow only when you make one. What has already piled up will not shrink by itself, so if you have many empty categories we say so once and take you to category management. The app deletes nothing. It cannot tell which ones you made from which ones multiplied.
+
+Category tabs disappearing on the Mac had the same root. A device that knew fewer categories uploaded only what it knew and overwrote the shared record. If you only use an iPhone you never saw it; it only looked like a loss on the Mac. Uploads are now laid on top of what is already there.
+
+Categories vanishing on restore is fixed too. Category settings live somewhere other than your snippets, and only one of the three restore paths was carrying them. Export and import to a file did not carry them at all, and category colors survived none of the paths. All three carry them now, and the screen redraws with the restored list instead of holding the old one.
+
+The list does not flash anymore.
+
+We heard for a long time that swiping between categories flashed. A symptom you can see has to be looked at, and we kept reading code and guessing instead. Only after recording the screen and measuring it frame by frame did we find that it was not one cause but four.
+
+The glass on the cards had to read what was behind it in real time, so it broke wherever pages were being built and torn down. The background swept to the new category color over 0.38 seconds while the page finished in 0.25, leaving a stretch where the title and cards were already the new category and only the floor was late. A page you moved with your finger got a second animation on top, fading the cards out and back. And deciding ourselves when to build the next page let an empty one slip through.
+
+All of it is gone. A card is a single flat surface, and paging is left to the system. Which kind a snippet is was already being said by the card color and the icon in its corner.
+
+The app is faster.
+
+Measured and fixed on a device with over 500 snippets. The stall at launch went from about a tenth of a second to none, and the work the app does in its first ten seconds is down by half.
+
+The snippet file was being read and parsed in full at every place that asked for it, and the list screen alone asks in 18 places. Now, if the file has not changed, it is not parsed again. We also removed a check for an old data conversion that finished months ago yet scanned the whole file at every launch, a search screen that reloaded everything each time it came back on screen, and a diagnostic meant for testing that was still running in shipped builds.
+
+Two places where the app could close on its own are fixed.
+
+Rendering the share-your-time video was running entirely on the part of the app that draws the screen, 102 frames at 1080x1920, so the app could not answer your finger while it worked, and everyone who opened the share sheet went through it. Only what must happen on screen stays there now. Closing the sheet stops the render; before, it finished a video nobody would see.
+
+The text field was moving the input focus in the middle of drawing the screen, which makes the whole screen recalculate and lands right back in the same place. It now waits a beat and moves after the drawing is done.
+
+Locked snippets always show their lock.
+
+A snippet locked behind Face ID looked exactly like any other in the list. The lock was only drawn when the Distinguish setting was on, and that setting is off by default, which means most people never saw it. Distinguish is a switch for nice-to-have decoration, not a switch that hides the fact that something is locked.
+
+The new-snippet screen is no longer folded up.
+
+Making a new one showed you a name and a body, and hid security, templates, combos and category behind "More options". Folded away, you do not know it is there, and using it costs another tap. What folding saves in space it loses in things nobody finds. Making and editing are now the same screen, open from the start.
+
+We stopped peeking at your clipboard to guess what it was.
+
+Every time the new-snippet screen opened, it read the clipboard and asked "this looks like an email, want it?". All that guessing bought was one paste. It does not ask anymore. Pasting is a button beside the content field, and the system handles it, so it does not ask permission either.
+
+Also
+
+Tips and notices fold into their close button instead of blinking out, so pressing X and the thing leaving are one motion.
+
+In the "does this sound like you?" panel, General and Personal, the one we recommend by default, is at the top. People opening it for the first time had to read past the ones that had nothing to do with them.
+
 ## v5.0.5 (build 1)
 
 ### 한국어
