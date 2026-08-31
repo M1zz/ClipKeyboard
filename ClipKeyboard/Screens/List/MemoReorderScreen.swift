@@ -13,9 +13,10 @@ import SwiftUI
 import UniformTypeIdentifiers
 import LeeoKit
 
-struct MemoReorderScreen: View {
+struct MemoReorderScreen<Model: MemoReorderModel>: View {
 
-    @ObservedObject var viewModel: ClipKeyboardListViewModel
+    /// 저장소는 `MemoReorderModel` 이 약속한 만큼만 보인다(MemoScreenContracts.swift).
+    @ObservedObject var viewModel: Model
 
     /// 카드 얼굴 - 목록과 **같은 값**을 받아야 여기서만 다르게 보이지 않는다.
     let style: MemoCardStyle

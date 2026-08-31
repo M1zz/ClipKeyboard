@@ -273,30 +273,13 @@ struct KeyboardLayoutSettings: View {
     private var skinSection: some View {
         Section {
             ForEach(KeyboardSkin.allCases) { candidate in
-                Button {
-                    HapticManager.shared.light()
+                ChoiceRow(name: candidate.localizedName,
+                          detail: candidate.localizedDescription,
+                          isSelected: keyboardSkinRaw == candidate.rawValue) {
+                    // 실제 키캡과 같은 규칙으로 그린 미리보기 - 설명 대신 물건을 보여준다.
+                    KeycapPreview(skin: candidate, isDark: theme.isDark)
+                } action: {
                     keyboardSkinRaw = candidate.rawValue
-                } label: {
-                    HStack(spacing: 14) {
-                        // 실제 키캡과 같은 규칙으로 그린 미리보기 - 설명 대신 물건을 보여준다.
-                        KeycapPreview(skin: candidate, isDark: theme.isDark)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(candidate.localizedName)
-                                .font(.body.weight(.semibold))
-                                .foregroundColor(theme.text)
-                            Text(candidate.localizedDescription)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                        Spacer(minLength: 0)
-                        if keyboardSkinRaw == candidate.rawValue {
-                            Image(systemName: AppSymbol.checkmark)
-                                .font(.body.weight(.semibold))
-                                .foregroundColor(Color.checkGreen)
-                        }
-                    }
-                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityAddTraits(keyboardSkinRaw == candidate.rawValue ? [.isSelected] : [])

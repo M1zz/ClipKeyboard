@@ -8,17 +8,8 @@
 import Foundation
 
 struct Constants {
-    static var addNewToken: String {
-        NSLocalizedString("새 토큰을 추가할까요?", comment: "Add new token prompt")
-    }
-    static var nothingToPaste: String {
-        NSLocalizedString("생성된 키보드가 없어요", comment: "No keyboard created")
-    }
     static var emptyDescription: String {
         NSLocalizedString("'+' 버튼을 탭하면 iMessage, Mail 또는 기타 앱에서 쉽게 접근할 수 있는 문구나 일반 텍스트를 추가할 수 있습니다.", comment: "Empty state description")
-    }
-    static var insertKeyword: String {
-        NSLocalizedString("키보드 버튼 문구", comment: "Keyboard button text")
     }
     static var removeAll: String {
         NSLocalizedString("전체 삭제", comment: "Remove all")
@@ -26,12 +17,6 @@ struct Constants {
     static var save: String {
         NSLocalizedString("키보드 추가", comment: "Add keyboard")
     }
-    static var insertContents: String {
-        NSLocalizedString("키보드 입력 시 삽입되는 전체 문구를 작성해주세요", comment: "Insert content instruction")
-    }
-    // static let ok = ""
-    // static let completed = ""
-
     // 통합 테마 시스템 - ClipboardItemType 기반 (rawValue 저장용)
     static let themes = [
         "텍스트",
@@ -57,11 +42,6 @@ struct Constants {
         "진료기록번호",
         "사번/학번"
     ]
-
-    // 다국어 지원 테마명 (UI 표시용)
-    static var localizedThemes: [String] {
-        return ClipboardItemType.allCases.map { $0.localizedName }
-    }
 
     // 하위 호환성을 위한 별칭
     static let categories = themes

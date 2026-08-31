@@ -572,27 +572,10 @@ struct RefundReceiptSheet: View {
     ///    안 쓰는 사람에게는 자리만 차지하는 단추가 된다. 어디로 보낼지는 시스템 공유
     ///    시트가 이미 사람이 고른 대로 알고 있다. 우리는 **보낼 것**만 잘 만들면 된다.
     private var shareButton: some View {
-        Button {
+        ShareActionButton {
             HapticManager.shared.light()
             isSharing = true
-        } label: {
-            HStack(spacing: 10) {
-                Image(systemName: AppSymbol.squareAndArrowUp)
-                    .font(.body.weight(.semibold))
-                Text(NSLocalizedString("공유하기", comment: "Button: share"))
-                    .font(.body.weight(.semibold))
-                Spacer(minLength: 0)
-            }
-            .foregroundColor(theme.accentFg)
-            .padding(14)
-            .frame(maxWidth: .infinity)
-            .background(
-                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                    .fill(theme.accent)
-            )
-            .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
         .disabled(baked == nil)
         .opacity(baked == nil ? 0.5 : 1)
     }

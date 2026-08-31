@@ -1389,32 +1389,16 @@ struct FirstScreenSettingsView: View {
         List {
             Section {
                 ForEach(SnippetsTabStyle.allCases) { candidate in
-                    Button {
-                        HapticManager.shared.light()
+                    ChoiceRow(name: candidate.localizedName,
+                              detail: candidate.localizedDescription,
+                              isSelected: snippetsTabStyleRaw == candidate.rawValue,
+                              spacing: 12) {
+                        Image(systemName: candidate.symbolName)
+                            .font(.title3)
+                            .foregroundColor(theme.accent)
+                            .frame(width: 28)
+                    } action: {
                         snippetsTabStyleRaw = candidate.rawValue
-                    } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: candidate.symbolName)
-                                .font(.title3)
-                                .foregroundColor(theme.accent)
-                                .frame(width: 28)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(candidate.localizedName)
-                                    .font(.body.weight(.semibold))
-                                    .foregroundColor(theme.text)
-                                Text(candidate.localizedDescription)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                    .fixedSize(horizontal: false, vertical: true)
-                            }
-                            Spacer(minLength: 0)
-                            if snippetsTabStyleRaw == candidate.rawValue {
-                                Image(systemName: AppSymbol.checkmark)
-                                    .font(.body.weight(.semibold))
-                                    .foregroundColor(Color.checkGreen)
-                            }
-                        }
-                        .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                     .accessibilityAddTraits(snippetsTabStyleRaw == candidate.rawValue ? [.isSelected] : [])

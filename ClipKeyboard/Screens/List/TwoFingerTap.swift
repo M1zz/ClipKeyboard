@@ -1,17 +1,12 @@
 //
-//  MemoBulkSelection.swift
+//  TwoFingerTap.swift
 //  ClipKeyboard
 //
-//  여러 개 고르기의 부품들 - 두 손가락 탭으로 들어가는 문과, 고른 뒤에 서는 아래 막대.
+//  두 손가락으로 톡 치는 몸짓. **목록 화면의 것**이다 - 고르기 화면은 이걸 모른다.
 //
 //  왜 생겼나: 사용자 피드백.
 //
-//    Would you consider adding bulk edit (especially bulk delete)?
-//    ... a capacity to select multiple snippets (really cool would be to be able to
-//    switch to select mode by means of 2 finger tap or something like that),
-//    so that we can send multiple to a folder/category or delete them.
-//
-//  지금까지는 하나씩 꾹 눌러 지우는 길뿐이었다. 열 개를 지우려면 같은 동작을 열 번 한다.
+//    really cool would be to be able to switch to select mode by means of 2 finger tap
 //
 
 import SwiftUI
@@ -180,125 +175,5 @@ extension View {
         #else
         self
         #endif
-    }
-}
-
-// MARK: - 고른 것 위에 얹는 표식
-
-/// 고른 카드에 얹히는 동그란 체크. 안 고른 카드에는 빈 테두리만 둔다
-/// (빈 자리를 비워 두면 고를 수 있다는 것 자체가 안 보인다).
-struct SelectionCheckmark: View {
-    let isSelected: Bool
-    @Environment(\.appTheme) private var theme
-
-    var body: some View {
-        Image(systemName: isSelected ? AppSymbol.checkmarkCircleFill : AppSymbol.circle)
-            .font(.title2)
-            .symbolRenderingMode(isSelected ? .palette : .monochrome)
-            .foregroundStyle(isSelected ? Color.white : Color.white.opacity(0.9),
-                             isSelected ? theme.accent : Color.clear)
-            .background(
-                Circle()
-                    .fill(isSelected ? Color.white : Color.black.opacity(0.28))
-                    .padding(2)
-            )
-            .padding(10)
-            .accessibilityHidden(true)
-    }
-}
-
-// MARK: - 아래 막대
-
-/// 여러 개 고르기 화면 바닥에 서는 막대 - 카테고리로 보내기와 삭제.
-///
-/// 아무것도 안 골랐을 때도 자리를 지킨다. 골랐을 때만 나타나면 막대가 나타나느라
-/// 그리드가 한 번 튀어 오른다.
-struct BulkSelectionBar: View {
-    let selectedCount: Int
-    /// 보낼 수 있는 카테고리 목록.
-    let categories: [String]
-    /// 고른 것들이 이미 어느 카테고리에 들어 있는가 - "카테고리에서 빼기"를 보일지 정한다.
-    let anySelectedHasCategory: Bool
-    let onMove: (String) -> Void
-    let onCreateNewCategory: () -> Void
-    let onRemoveFromCategory: () -> Void
-    let onDelete: () -> Void
-
-    @Environment(\.appTheme) private var theme
-
-    private var isEmpty: Bool { selectedCount == 0 }
-
-    var body: some View {
-        HStack(spacing: 12) {
-            moveMenu
-            deleteButton
-        }
-        .padding(.horizontal, 16)
-        .padding(.top, 10)
-        .padding(.bottom, 8)
-        .background(.bar)
-    }
-
-    private var moveMenu: some View {
-        Menu {
-            ForEach(categories, id: \.self) { category in
-                Button {
-                    onMove(category)
-                } label: {
-                    Label(category, systemImage: categorySymbol(for: category, in: categories))
-                }
-            }
-            Divider()
-            Button {
-                onCreateNewCategory()
-            } label: {
-                Label(NSLocalizedString("새 카테고리에 추가", comment: "Create new category and assign memo"),
-                      systemImage: AppSymbol.folderBadgePlus)
-            }
-            if anySelectedHasCategory {
-                Divider()
-                Button {
-                    onRemoveFromCategory()
-                } label: {
-                    Label(NSLocalizedString("카테고리에서 빼기", comment: "Action: remove memo from its category"),
-                          systemImage: AppSymbol.tray)
-                }
-            }
-        } label: {
-            barLabel(text: NSLocalizedString("카테고리로 옮기기", comment: "Bulk action: move selected to a category"),
-                     systemImage: AppSymbol.folder,
-                     tint: theme.accent)
-        }
-        .disabled(isEmpty)
-    }
-
-    private var deleteButton: some View {
-        Button(role: .destructive) {
-            onDelete()
-        } label: {
-            barLabel(text: NSLocalizedString("삭제", comment: "Action: delete"),
-                     systemImage: AppSymbol.trash,
-                     tint: .red)
-        }
-        .disabled(isEmpty)
-    }
-
-    private func barLabel(text: String, systemImage: String, tint: Color) -> some View {
-        HStack(spacing: 6) {
-            Image(systemName: systemImage)
-                .font(.subheadline.weight(.semibold))
-            Text(text)
-                .font(.subheadline.weight(.semibold))
-                .lineLimit(1)
-                .minimumScaleFactor(0.8)
-        }
-        .foregroundColor(isEmpty ? theme.textFaint : tint)
-        .frame(maxWidth: .infinity)
-        .frame(height: 44)
-        .background(
-            RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
-                .fill((isEmpty ? theme.textFaint : tint).opacity(0.12))
-        )
-        .contentShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
     }
 }

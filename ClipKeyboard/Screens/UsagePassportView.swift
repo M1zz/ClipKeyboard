@@ -171,13 +171,7 @@ struct UsagePassportView: View {
                     }
                     Spacer(minLength: 0)
                 }
-                .padding(14)
-                .frame(maxWidth: .infinity)
-                .background(
-                    RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                        .fill(theme.accent)
-                )
-                .contentShape(Rectangle())
+                .filledAccentSurface()
             }
             .buttonStyle(.plain)
         }

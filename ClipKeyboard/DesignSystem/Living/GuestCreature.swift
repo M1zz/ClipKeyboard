@@ -23,64 +23,6 @@ import SwiftUI
 /// 어느 카드에 손님이 와 있는지 관리한다.
 /// 리스트가 하나만 들고 있고, 카드들은 "내가 호스트인가"만 본다.
 @MainActor
-final class GuestScheduler: ObservableObject {
-
-    /// 지금 손님이 앉아 있는 카드. nil이면 아무도 없다.
-    @Published private(set) var hostId: UUID?
-
-    private var timer: Timer?
-    private var skin: LivingSkin = .none
-
-    /// 스킨이 바뀌거나 화면이 나타날 때 호출. 조건이 안 맞으면 조용히 멈춘다.
-    func start(skin: LivingSkin, candidates: @escaping () -> [UUID], reduceMotion: Bool) {
-        stop()
-        self.skin = skin
-
-        guard skin.isVisitor,
-              Delight.isEnabled,
-              !reduceMotion,
-              !ProcessInfo.processInfo.isLowPowerModeEnabled else { return }
-
-        // 화면을 열자마자 오면 우연이 아니라 연출로 읽힌다 - 첫 방문도 한 박자 뒤에.
-        schedule(after: skin.visitInterval * 0.35, candidates: candidates)
-    }
-
-    func stop() {
-        timer?.invalidate()
-        timer = nil
-        hostId = nil
-    }
-
-    private func schedule(after delay: TimeInterval, candidates: @escaping () -> [UUID]) {
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false) { [weak self] _ in
-            Task { @MainActor in self?.visit(candidates: candidates) }
-        }
-    }
-
-    private func visit(candidates: @escaping () -> [UUID]) {
-        let ids = candidates()
-        guard !ids.isEmpty else {
-            schedule(after: skin.visitInterval, candidates: candidates)
-            return
-        }
-
-        hostId = ids.randomElement()
-
-        // 머물다 떠난 뒤 다음 방문을 예약.
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: skin.visitDuration, repeats: false) { [weak self] _ in
-            Task { @MainActor in
-                guard let self else { return }
-                self.hostId = nil
-                self.schedule(after: self.skin.visitInterval, candidates: candidates)
-            }
-        }
-    }
-
-    deinit { timer?.invalidate() }
-}
-
 // MARK: - 손님 뷰
 
 /// 카드 위에 나타나는 손님. `kind` 에 따라 새/고양이로 그려진다.
