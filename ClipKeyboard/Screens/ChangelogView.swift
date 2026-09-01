@@ -51,6 +51,32 @@ enum ChangelogData {
             ]
         ),
         ChangelogEntry(
+            version: "5.0.6",
+            released: nil,
+            highlights: [
+                // 날짜·시간 모양
+                NSLocalizedString("날짜와 시간이 사시는 곳의 모양으로 들어가요. 미국은 08/31/2026 과 9:57 PM, 영국은 31/08/2026 이에요", comment: "Changelog 5.0.6 date format"),
+                NSLocalizedString("설정의 단축어에서 날짜 형식과 시간 형식을 직접 고를 수 있어요. 보기마다 오늘 날짜를 그 모양으로 그려서 보여드려요", comment: "Changelog 5.0.6 date picker"),
+                // 저장할 때 카테고리
+                NSLocalizedString("저장할 때 카테고리를 고를 수 있어요. 그 자리에서 새 카테고리도 만들어요", comment: "Changelog 5.0.6 save into category"),
+                NSLocalizedString("저장한 뒤에는 그 단축어가 보이는 자리로 데려가요. 이미 보이고 있으면 화면을 옮기지 않아요", comment: "Changelog 5.0.6 reveal after save"),
+                // 키보드 높이
+                NSLocalizedString("키보드 높이를 기기의 기본 키보드에 맞췄어요. 올라올 때 높이가 튀던 것도 함께 없앴어요", comment: "Changelog 5.0.6 keyboard height"),
+                NSLocalizedString("iOS 26 에서 지구본 줄과 배경색이 갈려 보이던 것을 고쳤어요. 두 부분이 한 장으로 이어져요", comment: "Changelog 5.0.6 ios26 chrome"),
+                // 카테고리
+                NSLocalizedString("카테고리가 저절로 늘어나지 않아요. 이제 직접 만드실 때만 생겨요", comment: "Changelog 5.0.6 category growth"),
+                NSLocalizedString("맥에서 카테고리 탭이 사라지던 것과, 복원할 때 카테고리가 빠지던 것을 고쳤어요", comment: "Changelog 5.0.6 category sync"),
+                // 목록·속도
+                NSLocalizedString("카테고리를 넘길 때 목록이 번쩍이던 것을 없앴어요", comment: "Changelog 5.0.6 list flash"),
+                NSLocalizedString("앱이 빨라졌어요. 켤 때 멎던 구간이 없어지고, 첫 10초에 쓰는 시간이 절반으로 줄었어요", comment: "Changelog 5.0.6 performance"),
+                NSLocalizedString("영상을 만들 때와 글을 쓸 때 앱이 갑자기 닫히던 자리 둘을 고쳤어요", comment: "Changelog 5.0.6 crashes"),
+                // 그 밖에
+                NSLocalizedString("잠근 단축어에 자물쇠가 늘 보여요. 구분 표시를 꺼 두셔도 보입니다", comment: "Changelog 5.0.6 secure lock"),
+                NSLocalizedString("새 단축어 화면을 접지 않아요. 만들 때도 고칠 때도 처음부터 다 펼쳐져 있어요", comment: "Changelog 5.0.6 unfolded editor"),
+                NSLocalizedString("새 단축어 화면이 뜰 때 클립보드를 훔쳐보던 것을 없앴어요. 붙여넣기는 단추로 서 있어요", comment: "Changelog 5.0.6 no clipboard peek"),
+            ]
+        ),
+        ChangelogEntry(
             version: "5.0.5",
             released: nil,
             highlights: [

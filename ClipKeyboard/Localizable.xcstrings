@@ -68359,6 +68359,328 @@
           }
         }
       }
+    },
+    "날짜와 시간이 사시는 곳의 모양으로 들어가요. 미국은 08/31/2026 과 9:57 PM, 영국은 31/08/2026 이에요" : {
+      "comment" : "Changelog 5.0.6 date format",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dates and times take the shape used where you live. The US gets 08/31/2026 and 9:57 PM, the UK gets 31/08/2026"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日期和时间按你所在地区的写法填入。美国是 08/31/2026 和 9:57 PM，英国是 31/08/2026"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日期和時間按你所在地區的寫法填入。美國是 08/31/2026 和 9:57 PM，英國是 31/08/2026"
+          }
+        }
+      }
+    },
+    "설정의 단축어에서 날짜 형식과 시간 형식을 직접 고를 수 있어요. 보기마다 오늘 날짜를 그 모양으로 그려서 보여드려요" : {
+      "comment" : "Changelog 5.0.6 date picker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick the date and time format yourself under Snippets in Settings. Every choice draws today's date in that shape"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以在设置的快捷短语里自己选日期格式和时间格式。每个选项都会把今天的日期按那个写法画出来"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以在設定的快捷短語裡自己選日期格式和時間格式。每個選項都會把今天的日期按那個寫法畫出來"
+          }
+        }
+      }
+    },
+    "저장할 때 카테고리를 고를 수 있어요. 그 자리에서 새 카테고리도 만들어요" : {
+      "comment" : "Changelog 5.0.6 save into category",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick a category while you save, and create a new one right there"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存的时候就能选分类，还能在那里直接新建"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存的時候就能選分類，還能在那裡直接新建"
+          }
+        }
+      }
+    },
+    "저장한 뒤에는 그 단축어가 보이는 자리로 데려가요. 이미 보이고 있으면 화면을 옮기지 않아요" : {
+      "comment" : "Changelog 5.0.6 reveal after save",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After saving, the list takes you to where that snippet is visible. If it is already visible, nothing moves"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存之后会带你到那条快捷短语看得见的地方。已经看得见就哪儿也不去"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存之後會帶你到那條快捷短語看得見的地方。已經看得見就哪兒也不去"
+          }
+        }
+      }
+    },
+    "키보드 높이를 기기의 기본 키보드에 맞췄어요. 올라올 때 높이가 튀던 것도 함께 없앴어요" : {
+      "comment" : "Changelog 5.0.6 keyboard height",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The keyboard is the height of your device's default keyboard, and the jump as it comes up is gone"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "键盘高度和这台设备的默认键盘对齐了，弹出时高度跳一下的问题也没有了"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鍵盤高度和這台裝置的預設鍵盤對齊了，彈出時高度跳一下的問題也沒有了"
+          }
+        }
+      }
+    },
+    "iOS 26 에서 지구본 줄과 배경색이 갈려 보이던 것을 고쳤어요. 두 부분이 한 장으로 이어져요" : {
+      "comment" : "Changelog 5.0.6 ios26 chrome",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On iOS 26 the globe row no longer reads as a different colour. The two parts are one surface"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修复了 iOS 26 上地球仪那一行和背景色对不上的问题，两块连成一片"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修復了 iOS 26 上地球儀那一行和背景色對不上的問題，兩塊連成一片"
+          }
+        }
+      }
+    },
+    "카테고리가 저절로 늘어나지 않아요. 이제 직접 만드실 때만 생겨요" : {
+      "comment" : "Changelog 5.0.6 category growth",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categories no longer multiply on their own. They grow only when you make one"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分类不会再自己变多了，只有你自己建的时候才会有"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分類不會再自己變多了，只有你自己建的時候才會有"
+          }
+        }
+      }
+    },
+    "맥에서 카테고리 탭이 사라지던 것과, 복원할 때 카테고리가 빠지던 것을 고쳤어요" : {
+      "comment" : "Changelog 5.0.6 category sync",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fixed category tabs disappearing on the Mac and categories missing after a restore"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修复了在 Mac 上分类标签消失、以及恢复时分类丢失的问题"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修復了在 Mac 上分類標籤消失、以及還原時分類丟失的問題"
+          }
+        }
+      }
+    },
+    "카테고리를 넘길 때 목록이 번쩍이던 것을 없앴어요" : {
+      "comment" : "Changelog 5.0.6 list flash",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The list no longer flashes when you swipe between categories"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在分类之间滑动时列表不会再闪了"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在分類之間滑動時列表不會再閃了"
+          }
+        }
+      }
+    },
+    "앱이 빨라졌어요. 켤 때 멎던 구간이 없어지고, 첫 10초에 쓰는 시간이 절반으로 줄었어요" : {
+      "comment" : "Changelog 5.0.6 performance",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app is faster. The stall at launch is gone and the work in the first ten seconds is down by half"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "应用变快了。启动时的卡顿没有了，头十秒里做的事情少了一半"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "應用變快了。啓動時的卡頓沒有了，頭十秒裡做的事情少了一半"
+          }
+        }
+      }
+    },
+    "영상을 만들 때와 글을 쓸 때 앱이 갑자기 닫히던 자리 둘을 고쳤어요" : {
+      "comment" : "Changelog 5.0.6 crashes",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fixed two places the app could close suddenly: making a video and typing"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修复了两处应用会突然关闭的地方：做视频的时候和输入的时候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修復了兩處應用會突然關閉的地方：做影片的時候和輸入的時候"
+          }
+        }
+      }
+    },
+    "잠근 단축어에 자물쇠가 늘 보여요. 구분 표시를 꺼 두셔도 보입니다" : {
+      "comment" : "Changelog 5.0.6 secure lock",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Locked snippets always show a lock, even with visual cues turned off"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "锁定的快捷短语总会显示锁标，即使关掉了区分显示"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鎖定的快捷短語總會顯示鎖標，即使關掉了區分顯示"
+          }
+        }
+      }
+    },
+    "새 단축어 화면을 접지 않아요. 만들 때도 고칠 때도 처음부터 다 펼쳐져 있어요" : {
+      "comment" : "Changelog 5.0.6 unfolded editor",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The new snippet screen is not folded up. Everything is open from the start, making or editing"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建快捷短语的界面不再折叠。新建和编辑都是一开始就全展开"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建快捷短語的介面不再折疊。新建和編輯都是一開始就全展開"
+          }
+        }
+      }
+    },
+    "새 단축어 화면이 뜰 때 클립보드를 훔쳐보던 것을 없앴어요. 붙여넣기는 단추로 서 있어요" : {
+      "comment" : "Changelog 5.0.6 no clipboard peek",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The new snippet screen no longer peeks at your clipboard. Paste is a button instead"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建快捷短语的界面不再偷看剪贴板。粘贴改成了一个按钮"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建快捷短語的介面不再偷看剪貼簿。貼上改成了一個按鈕"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
