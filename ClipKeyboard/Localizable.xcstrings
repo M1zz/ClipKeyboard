@@ -260,35 +260,6 @@
         }
       }
     },
-    "'%@' 자리에 넣을 값을 여기서 바로 만들 수 있어요." : {
-      "comment" : "Placeholder inline add hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You can create a value for '%@' right here."
-          }
-        },
-        "id" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anda bisa membuat nilai untuk '%@' langsung di sini."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可以在这里直接创建要填入“%@”的值。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可以在這裡直接建立要填入「%@」的值。"
-          }
-        }
-      }
-    },
     "'%@' 추가" : {
       "comment" : "Add memo to this category card",
       "localizations" : {
@@ -1272,36 +1243,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "{姓名}"
-          }
-        }
-      }
-    },
-    "{이름}님 안녕하세요! 같은 문구를 변수로 바꿔 빠르게 입력해요." : {
-      "comment" : "Template hint description",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hi {name}! Replace repeated phrases with variables for faster input."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "{이름}님 안녕하세요! 같은 문구를 변수로 바꿔 빠르게 입력해요."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "{姓名}，你好！把反复要打的话换成变量，输入更快。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "{姓名}，你好！把反復要打的話換成變量，輸入更快。"
           }
         }
       }
@@ -3668,30 +3609,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d 個短語已鎖定，在 iOS 上購買 Pro 後會同步"
-          }
-        }
-      }
-    },
-    "%d개 변수" : {
-      "comment" : "Variable count",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d variables"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 个变量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%d 個變量"
           }
         }
       }
@@ -29469,30 +29386,6 @@
         }
       }
     },
-    "매번 바뀌는 곳을 골라 아래 '변수' 로 감싸 보세요. 다 되면 저장하면 끝이에요." : {
-      "comment" : "Tutorial hint inside the make-template editor",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pick the part that changes and wrap it with 'Variable' below. Save when you're done."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "挑出每次都会变的地方，用下面的“变量”括起来。弄好保存就行了。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "挑出每次都會變的地方，用下面的「變量」括起來。弄好儲存就行了。"
-          }
-        }
-      }
-    },
     "매번 한 군데만 바뀌는 문구, 있죠?" : {
       "comment" : "Template tutorial: headline",
       "extractionState" : "stale",
@@ -30401,30 +30294,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "所有標籤"
-          }
-        }
-      }
-    },
-    "모든 플레이스홀더 값을 입력해주세요" : {
-      "comment" : "Fill all placeholders",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Please fill in all placeholder values"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请填写所有占位值"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "請填寫所有佔位值"
           }
         }
       }
@@ -33043,29 +32912,6 @@
         }
       }
     },
-    "보관함, 카테고리 관리, 플레이스홀더 관리 메뉴를 엽니다" : {
-      "comment" : "More options menu hint v2",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opens the inbox, category management, and placeholder management menu"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "打开收件箱、分类管理和占位管理菜单"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "開啟收件匣、分類管理和佔位管理菜單"
-          }
-        }
-      }
-    },
     "보관함에 담아 둬요. 나중에 앱에서 단축어로 만들지 정하면 돼요." : {
       "comment" : "Share destination explanation: inbox",
       "localizations" : {
@@ -34916,29 +34762,6 @@
         }
       }
     },
-    "붙여넣을 내용을 입력하세요. 나중에 채울 칸은 변수명을 중괄호로 감싸서 만들어요. 예: 이름" : {
-      "comment" : "Content input field hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter the content to paste. To make a fill-in slot, wrap a variable name in curly braces, e.g. name."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请输入要粘贴的内容。想留出以后再填的空位，就把变量名用大括号括起来，例如 姓名。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "請輸入要貼上的內容。想留出以後再填的空位，就把變量名用大括號括起來，例如 姓名。"
-          }
-        }
-      }
-    },
     "붙여넣을 내용을 채우면 저장이 열려요." : {
       "comment" : "New snippet coach: save button still locked",
       "localizations" : {
@@ -35091,29 +34914,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "空分類"
-          }
-        }
-      }
-    },
-    "비워 두면 변수로 남아요" : {
-      "comment" : "Shortcut mart fill: field placeholder",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Leave empty to keep it a fill-in"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "留空就仍然是填空位"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "留空就仍然是填空位"
           }
         }
       }
@@ -46682,29 +46482,6 @@
         }
       }
     },
-    "이 값들은 이 빈칸을 쓰는 모든 단축어에서 함께 보여요." : {
-      "comment" : "Saved values footer",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "These values appear in every snippet that uses this blank."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这些值会出现在所有用到这个空位的短语里。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這些值會出現在所有用到這個空位的短語裡。"
-          }
-        }
-      }
-    },
     "이 값을 수정합니다" : {
       "comment" : "Edit value button hint",
       "localizations" : {
@@ -47590,29 +47367,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "這個標籤裡有兩個頁面"
-          }
-        }
-      }
-    },
-    "이 템플릿에는 플레이스홀더가 없습니다" : {
-      "comment" : "No placeholders in template",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This template has no placeholders"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这个模板没有占位"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "這個範本沒有佔位"
           }
         }
       }
@@ -50871,35 +50625,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "把輸入的值新增到組合列表。"
-          }
-        }
-      }
-    },
-    "입력한 값을 목록에 추가합니다" : {
-      "comment" : "Add typed value to list hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adds the entered value to the list"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "입력한 값을 목록에 추가합니다"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "把输入的值添加到列表"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "把輸入的值新增到列表"
           }
         }
       }
@@ -59760,30 +59485,6 @@
         }
       }
     },
-    "클립보드 히스토리, 플레이스홀더 관리, 설정 메뉴를 엽니다" : {
-      "comment" : "More options menu hint",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opens clipboard history, placeholder management, and settings menu."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "打开剪贴板历史、占位管理和设置菜单。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "開啟剪貼簿歷史、佔位管理和設定菜單。"
-          }
-        }
-      }
-    },
     "클립보드 히스토리가 없습니다" : {
       "comment" : "No clipboard history",
       "extractionState" : "stale",
@@ -62789,29 +62490,6 @@
         }
       }
     },
-    "탭하면 변수 값을 입력 후 붙여넣기합니다" : {
-      "comment" : "Template memo button hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap to enter variable values and paste."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "点一下填写变量值后粘贴。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "點一下填寫變量值後貼上。"
-          }
-        }
-      }
-    },
     "탭하면 복사" : {
       "comment" : "Tap to copy hint",
       "extractionState" : "stale",
@@ -62879,30 +62557,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "點一下會按順序填入多個值"
-          }
-        }
-      }
-    },
-    "탭하면 연결된 템플릿 변수를 채워 붙여넣기합니다" : {
-      "comment" : "Split button: template hint",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap to fill in template variables and paste."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "点一下填好关联模板的变量后粘贴。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "點一下填好關聯範本的變量後貼上。"
           }
         }
       }
@@ -63025,29 +62679,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "點一下就能用這個例子建立短語"
-          }
-        }
-      }
-    },
-    "탭하면 커서 위치에 변수가 삽입됩니다" : {
-      "comment" : "Quick insert token button hint\nTemplate variable button hint",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap to insert variable at cursor position"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "点一下会在光标位置插入变量"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "點一下會在光標位置插入變量"
           }
         }
       }
@@ -63892,30 +63523,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "範本預覽"
-          }
-        }
-      }
-    },
-    "템플릿 변수는 {날짜}, {시간}, {이름} 형식으로 작성하세요" : {
-      "comment" : "Template variable instruction",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Template variables should be formatted as {date}, {time}, {name}"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "模板变量请写成 {日期}、{时间}、{姓名} 这样的形式"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "範本變量請寫成 {日期}、{時間}、{姓名} 這樣的形式"
           }
         }
       }
@@ -65382,29 +64989,6 @@
         }
       }
     },
-    "플레이스홀더 (%d개)" : {
-      "comment" : "Placeholder count",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Placeholders (%d)"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "占位（%d 个）"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "佔位（%d 個）"
-          }
-        }
-      }
-    },
     "플레이스홀더 값 관리" : {
       "comment" : "Menu: placeholder values",
       "extractionState" : "stale",
@@ -65460,77 +65044,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "可以直接從短語列表或編輯頁面開啟佔位值管理"
-          }
-        }
-      }
-    },
-    "플레이스홀더 값 설정" : {
-      "comment" : "Placeholder value settings",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Set Placeholder Values"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "设置占位的值"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "設定佔位的值"
-          }
-        }
-      }
-    },
-    "플레이스홀더 관리" : {
-      "comment" : "Menu: placeholder management\nPlaceholder management title",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Manage Placeholders"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "管理占位"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "管理佔位"
-          }
-        }
-      }
-    },
-    "플레이스홀더 편집" : {
-      "comment" : "Edit template placeholders",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edit placeholder"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "编辑占位"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "編輯佔位"
           }
         }
       }
@@ -68383,6 +67896,305 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "移動到分類"
+          }
+        }
+      }
+    },
+    "보관함, 카테고리 관리, 빈칸 관리 메뉴를 엽니다" : {
+      "comment" : "More options menu hint v2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the inbox, category management, and blank management menu"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开收件箱、分类管理和填空管理菜单"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟收件匣、分類管理和填空管理菜單"
+          }
+        }
+      }
+    },
+    "붙여넣을 내용을 입력하세요. 나중에 채울 자리는 빈칸 이름을 중괄호로 감싸서 만들어요. 예: 이름" : {
+      "comment" : "Content input field hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter the content to paste. To make a spot you fill in later, wrap a blank name in curly braces, e.g. name."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入要粘贴的内容。之后要填写的位置，请把填空名称用大括号括起来，例如：姓名。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入要貼上的內容。之後要填寫的位置，請把填空名稱用大括號括起來，例如：姓名。"
+          }
+        }
+      }
+    },
+    "비워 두면 빈칸으로 남아요" : {
+      "comment" : "Shortcut mart fill: field placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave empty to keep it a blank"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留空则保留为填空"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留空則保留為填空"
+          }
+        }
+      }
+    },
+    "이 템플릿에는 빈칸이 없습니다" : {
+      "comment" : "No blanks in template",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This template has no blanks"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此模板没有填空"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此範本沒有填空"
+          }
+        }
+      }
+    },
+    "빈칸 %d개" : {
+      "comment" : "Blank count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d blanks"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 个填空"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 個填空"
+          }
+        }
+      }
+    },
+    "탭하면 빈칸을 채워 붙여넣습니다" : {
+      "comment" : "Template memo button hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to fill in the blanks and paste"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点按可填写填空并粘贴"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點一下可填寫填空並貼上"
+          }
+        }
+      }
+    },
+    "탭하면 커서 자리에 빈칸이 들어갑니다" : {
+      "comment" : "Template blank button hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to insert a blank at the cursor"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点按可在光标处插入填空"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點一下可在光標處插入填空"
+          }
+        }
+      }
+    },
+    "빈칸 값 설정" : {
+      "comment" : "Blank value settings",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blank Values"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "填空值设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "填空值設定"
+          }
+        }
+      }
+    },
+    "적은 값은 이번에만 써요. 별을 누르면 다음에도 쓰게 저장돼요" : {
+      "comment" : "Fill sheet: one-off value hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What you type is used just this once. Tap the star to keep it for next time"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入的值只用这一次。点按星标可保存，下次继续用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入的值只用這一次。點一下星標可儲存，下次繼續用"
+          }
+        }
+      }
+    },
+    "이 값 저장해 두기" : {
+      "comment" : "Fill sheet: keep this value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep this value"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存此值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "儲存此值"
+          }
+        }
+      }
+    },
+    "이미 저장해 둔 값이에요" : {
+      "comment" : "Fill sheet: value already kept",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Already kept"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已保存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已儲存"
+          }
+        }
+      }
+    },
+    "쓰기" : {
+      "comment" : "Use typed value button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用"
+          }
+        }
+      }
+    },
+    "이 값들은 이 빈칸을 쓰는 모든 단축어에서 함께 보여요. 끌어서 순서를 바꾸면 채울 때도 그 순서로 보여요." : {
+      "comment" : "Saved values footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These values appear in every snippet that uses this blank. Drag to reorder and they show in that order when you fill it in."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这些值会出现在所有使用此填空的短语中。拖动可调整顺序，填写时也按该顺序显示。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這些值會出現在所有使用此填空的短語中。拖移可調整順序，填寫時也按該順序顯示。"
           }
         }
       }

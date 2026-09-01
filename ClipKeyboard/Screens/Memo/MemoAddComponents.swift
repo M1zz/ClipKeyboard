@@ -132,7 +132,7 @@ struct QuickInsertTokenButton: View {
         .accessibilityHint(tone == .mine
             ? NSLocalizedString("탭하면 이 빈칸이 들어가고, 저장해 둔 값도 함께 따라옵니다",
                                 comment: "Insert existing placeholder hint")
-            : NSLocalizedString("탭하면 커서 위치에 변수가 삽입됩니다",
+            : NSLocalizedString("탭하면 커서 자리에 빈칸이 들어갑니다",
                                 comment: "Quick insert token button hint"))
     }
 

@@ -1577,7 +1577,7 @@ struct KeyboardView: View {
 
     private func memoAccessibilityHint(for memo: Memo) -> String {
         if memo.isTemplate {
-            return NSLocalizedString("탭하면 변수 값을 입력 후 붙여넣기합니다", comment: "Template memo button hint")
+            return NSLocalizedString("탭하면 빈칸을 채워 붙여넣습니다", comment: "Template memo button hint")
         } else if memo.isCombo {
             return NSLocalizedString("탭하면 여러 값이 순서대로 입력됩니다", comment: "Combo memo button hint")
         } else if memo.isSecure {

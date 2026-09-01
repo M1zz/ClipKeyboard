@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
+import LeeoKit
 
-// 플레이스홀더 선택 뷰 (수정 가능)
+// 빈칸 선택 뷰 (수정 가능)
 struct PlaceholderSelectorView: View {
     let placeholder: String
     let sourceMemoId: UUID
@@ -199,7 +200,7 @@ struct PlaceholderSelectorView: View {
         .embeddableCard(embedded: embedded, isHighlighted: isHighlighted, theme: theme)
         .animation(.easeInOut(duration: 0.25), value: isHighlighted)
         .onAppear {
-            print("🎬 [PlaceholderSelectorView] onAppear - 플레이스홀더: \(placeholder)")
+            print("🎬 [PlaceholderSelectorView] onAppear - 빈칸: \(placeholder)")
             loadValues()
             print("✅ [PlaceholderSelectorView] onAppear 완료 - 로드된 값: \(values.count)개, 선택된 값: '\(selectedValue)'")
         }
@@ -230,7 +231,7 @@ struct PlaceholderSelectorView: View {
     }
 }
 
-// 플레이스홀더 관리 시트
+// 빈칸 관리 시트
 /// **빈칸 관리** - 빈칸을 이름 기준으로 늘어놓는다.
 ///
 /// ⚠️ 예전에는 **템플릿을 먼저 고르게** 했다. 그 순서가 거짓말을 했다.
@@ -613,6 +614,7 @@ struct PlaceholderDetailView: View {
                     }
                 }
             }
+            .onMove(perform: moveValues)
 
             HStack {
                 TextField(NSLocalizedString("값 추가", comment: "Add placeholder value"), text: $newValue)
@@ -627,9 +629,14 @@ struct PlaceholderDetailView: View {
                 .accessibilityLabel(NSLocalizedString("값 추가", comment: "Add placeholder value"))
             }
         } header: {
-            Text(NSLocalizedString("저장해 둔 값", comment: "Saved values section"))
+            HStack {
+                Text(NSLocalizedString("저장해 둔 값", comment: "Saved values section"))
+                Spacer()
+                // 값이 둘 이상일 때만 - 하나뿐인 목록에 순서 바꾸기가 서 있으면 누를 것이 없다.
+                if values.count > 1 { EditButton().font(.footnote) }
+            }
         } footer: {
-            Text(NSLocalizedString("이 값들은 이 빈칸을 쓰는 모든 단축어에서 함께 보여요.",
+            Text(NSLocalizedString("이 값들은 이 빈칸을 쓰는 모든 단축어에서 함께 보여요. 끌어서 순서를 바꾸면 채울 때도 그 순서로 보여요.",
                                    comment: "Saved values footer"))
         }
     }
@@ -657,6 +664,18 @@ struct PlaceholderDetailView: View {
         } header: {
             Text(NSLocalizedString("이 빈칸을 쓰는 단축어", comment: "Placeholder usage section"))
         }
+    }
+
+    /// 값 순서를 손으로 바꾼다.
+    ///
+    /// ⚠️ 예전에는 **쓸 때마다 맨 앞으로 끌어올려** 순서가 저절로 바뀌었다(`addPlaceholderValue`).
+    ///    자리를 외워 두고 고르던 사람은 누를 때마다 다시 찾아야 했다. 이제 여기서 정한 순서가
+    ///    그대로 남고, 채우는 창의 칩도 같은 순서로 선다.
+    private func moveValues(from source: IndexSet, to destination: Int) {
+        values.move(fromOffsets: source, toOffset: destination)
+        MemoStore.shared.savePlaceholderValues(values, for: summary.token)
+        HapticManager.shared.selection()
+        onChange()
     }
 
     private func addValue() {

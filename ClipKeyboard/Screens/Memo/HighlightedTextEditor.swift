@@ -31,7 +31,7 @@ struct HighlightedTextEditor: UIViewRepresentable {
         tv.textStorage.delegate = context.coordinator
         tv.attributedText = Self.highlight(text)
         tv.accessibilityLabel = NSLocalizedString("내용", comment: "Content section header")
-        tv.accessibilityHint = NSLocalizedString("붙여넣을 내용을 입력하세요. 나중에 채울 칸은 변수명을 중괄호로 감싸서 만들어요. 예: 이름", comment: "Content input field hint")
+        tv.accessibilityHint = NSLocalizedString("붙여넣을 내용을 입력하세요. 나중에 채울 자리는 빈칸 이름을 중괄호로 감싸서 만들어요. 예: 이름", comment: "Content input field hint")
         return tv
     }
 

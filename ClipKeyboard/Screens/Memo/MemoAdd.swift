@@ -54,7 +54,7 @@ struct MemoAdd: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    /// 저장해 둔 플레이스홀더 값을 통째로 손보는 시트 - 빈칸을 다루는 이 자리에서 바로 연다.
+    /// 저장해 둔 빈칸 값을 통째로 손보는 시트 - 빈칸을 다루는 이 자리에서 바로 연다.
     /// 여러 줄을 한꺼번에 붙여넣은 순간, 나눠 담을지 묻는다. 값은 줄 수.
     ///
     /// ⚠️ 한 화면에서 **한 번만** 묻는다. 붙여넣을 때마다 물으면 잔소리가 된다.
@@ -852,14 +852,14 @@ struct MemoAdd: View {
             }
             .padding()
 
-            // 플레이스홀더 값 설정
+            // 빈칸 값 설정
             if !viewModel.detectedPlaceholders.isEmpty {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack(spacing: 8) {
                         Image(systemName: AppSymbol.listBulletRectangle)
                             .font(.body)
                             .foregroundColor(.secondary)
-                        Text(NSLocalizedString("플레이스홀더 값 설정", comment: "Placeholder value settings"))
+                        Text(NSLocalizedString("빈칸 값 설정", comment: "Placeholder value settings"))
                             .font(.body)
                             .fontWeight(.semibold)
                         Spacer(minLength: 8)
@@ -1009,7 +1009,7 @@ struct MemoAdd: View {
                 .cornerRadius(theme.radiusSm)
         }
         .accessibilityLabel(title)
-        .accessibilityHint(NSLocalizedString("탭하면 커서 위치에 변수가 삽입됩니다", comment: "Template variable button hint"))
+        .accessibilityHint(NSLocalizedString("탭하면 커서 자리에 빈칸이 들어갑니다", comment: "Template variable button hint"))
     }
 
     private func quickInsertToken(_ token: String, isNumeric: Bool) -> some View {

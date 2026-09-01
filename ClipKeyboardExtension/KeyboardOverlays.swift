@@ -366,19 +366,37 @@ struct PlaceholderInputView: View {
             .getValuesForTemplate(placeholder: placeholder, templateId: templateId)
     }
 
-    /// 적어 넣고 **곧바로 고른 것으로 둔다.** 적은 뒤에 한 번 더 눌러야 한다면
-    /// 적는 일이 끝나지 않은 것처럼 느껴진다.
+    private var trimmedDraft: String {
+        draftValue.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    /// 적은 값이 이미 저장 목록에 있는가.
+    private var isDraftKept: Bool {
+        !trimmedDraft.isEmpty && predefinedValues.contains(trimmedDraft)
+    }
+
+    /// 적은 값을 **이번에만** 쓴다. 저장 목록에는 넣지 않는다.
+    ///
+    /// ⚠️ 예전에는 적는 즉시 목록에 넣었다. 한 번 쓰고 말 값(오늘 회의 장소, 이번 주문번호)
+    ///    까지 칩으로 남아 목록이 금세 못 쓰게 됐다. 남길 값은 옆의 별이 정한다.
+    ///    (앱 쪽 채우기 창도 같은 규칙이다 - 두 곳이 다르면 어디서 적었는지에 따라 결과가 갈린다)
     private func commitDraft() {
-        let value = draftValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !value.isEmpty else { return }
+        guard !trimmedDraft.isEmpty else { return }
+        selectedValue = trimmedDraft
+        draftFocused = false
+        KeyboardHaptics.tap()
+    }
+
+    /// 적은 값을 다음에도 쓰게 저장한다.
+    private func keepDraft() {
+        let value = trimmedDraft
+        guard !value.isEmpty, !predefinedValues.contains(value) else { return }
         PredefinedValuesStore.shared.addValue(value,
                                               for: placeholder,
                                               sourceMemoId: templateId,
                                               sourceMemoTitle: placeholder.strippingTemplateBraces)
         reloadValues()
         selectedValue = value
-        draftValue = ""
-        draftFocused = false
         KeyboardHaptics.tap()
     }
 
@@ -567,9 +585,8 @@ struct PlaceholderInputView: View {
             }
 
             if hostKind == .inApp {
-                Text(String(format: NSLocalizedString("'%@' 자리에 넣을 값을 여기서 바로 만들 수 있어요.",
-                                                      comment: "Placeholder inline add hint"),
-                            placeholder.strippingTemplateBraces))
+                Text(NSLocalizedString("적은 값은 이번에만 써요. 별을 누르면 다음에도 쓰게 저장돼요",
+                                       comment: "Fill sheet: one-off value hint"))
                     .font(.caption2)
                     .foregroundColor(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -589,17 +606,29 @@ struct PlaceholderInputView: View {
                         .submitLabel(.done)
                         .onSubmit { commitDraft() }
 
+                    // 남길 값만 별로. 누르지 않으면 이번에만 쓰고 사라진다.
+                    Button(action: keepDraft) {
+                        Image(systemName: isDraftKept ? AppSymbol.starFill : AppSymbol.star)
+                            .font(.footnote.weight(.semibold))
+                            .foregroundColor(isDraftKept ? .yellow : .secondary)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 10)
+                    }
+                    .disabled(trimmedDraft.isEmpty || isDraftKept)
+                    .accessibilityLabel(isDraftKept
+                        ? NSLocalizedString("이미 저장해 둔 값이에요", comment: "Fill sheet: value already kept")
+                        : NSLocalizedString("이 값 저장해 두기", comment: "Fill sheet: keep this value"))
+
                     Button(action: commitDraft) {
-                        Text(NSLocalizedString("추가", comment: "Add placeholder value button"))
+                        Text(NSLocalizedString("쓰기", comment: "Use typed value button"))
                             .font(.footnote.weight(.semibold))
                             .foregroundColor(theme.accentFg)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 10)
-                            .background(draftValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                                        ? Color.gray.opacity(0.4) : theme.accent)
+                            .background(trimmedDraft.isEmpty ? Color.gray.opacity(0.4) : theme.accent)
                             .cornerRadius(theme.radiusSm)
                     }
-                    .disabled(draftValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .disabled(trimmedDraft.isEmpty)
                 }
             } else {
                 Text(String(format: NSLocalizedString("Open the app to add values for '%@' in placeholder settings", comment: "Placeholder values empty hint"), placeholder.strippingTemplateBraces))

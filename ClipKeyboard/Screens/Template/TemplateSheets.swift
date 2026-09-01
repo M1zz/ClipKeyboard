@@ -171,14 +171,14 @@ struct TemplateDetailPlaceholderView: View {
                         Image(systemName: AppSymbol.checkmarkCircleFill)
                             .font(.system(size: 40))
                             .foregroundColor(Color.checkGreen)
-                        Text(NSLocalizedString("이 템플릿에는 플레이스홀더가 없습니다", comment: "No placeholders in template"))
+                        Text(NSLocalizedString("이 템플릿에는 빈칸이 없습니다", comment: "No placeholders in template"))
                             .font(.body)
                             .foregroundColor(theme.textMuted)
                     }
                     .padding(.top, 50)
                 } else {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(String(format: NSLocalizedString("플레이스홀더 (%d개)", comment: "Placeholder count"), placeholders.count))
+                        Text(String(format: NSLocalizedString("빈칸 %d개", comment: "Blank count"), placeholders.count))
                             .font(.body)
                             .fontWeight(.semibold)
                             .foregroundColor(theme.textMuted)
@@ -633,7 +633,8 @@ struct TemplateFillSheet: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
-                        saveEnteredValues()
+                        // ⚠️ 여기서 값을 저장하지 않는다. 적은 값은 **이번에만** 쓰는 것이고,
+                        //    남길지는 각 칸의 별이 정한다(`TemplateFillRow`).
                         HapticManager.shared.success()
                         onCopy(resolvedValue)
                     } label: {
@@ -654,15 +655,6 @@ struct TemplateFillSheet: View {
         }
     }
 
-    // MARK: - Save entered values to history
-
-    private func saveEnteredValues() {
-        for ph in placeholders {
-            let v = (inputs[ph] ?? "").trimmingCharacters(in: .whitespaces)
-            guard !v.isEmpty else { continue }
-            MemoStore.shared.addPlaceholderValue(v, for: ph, sourceMemoId: memo.id, sourceMemoTitle: memo.title)
-        }
-    }
 }
 
 // MARK: - Per-Placeholder Fill Row (키보드 PlaceholderInputView 이식 + 인앱 TextField)
@@ -675,8 +667,6 @@ private struct TemplateFillRow: View {
 
     @Environment(\.appTheme) private var theme
     @State private var savedValues: [String] = []
-    /// "추가"용 입력칸 - 채울 값(value)과 분리해, 추가하면 비워진다.
-    @State private var newValue: String = ""
 
     private var isNumeric: Bool { TemplateVariableProcessor.isNumericToken(placeholder) }
 
@@ -751,47 +741,62 @@ private struct TemplateFillRow: View {
         }
     }
 
-    // MARK: 텍스트 입력 - TextField(직접 입력) + 저장값 빠른 선택 칩
+    // MARK: 텍스트 입력 - 곧장 채우는 TextField + 저장값 칩
 
+    /// ⚠️ **적은 값은 저장되지 않는다.** 예전에는 "추가"를 눌러 목록에 넣어야만 쓸 수 있었고,
+    ///    복사할 때 채운 값이 전부 목록에 쌓였다. 그래서 한 번 쓰고 말 값(오늘 회의 장소,
+    ///    이번 주문번호)까지 칩으로 남아 목록이 금세 못 쓰게 됐다.
+    ///
+    ///    이제 입력칸은 **채울 값에 곧장 이어져** 있다. 치면 그대로 쓰인다.
+    ///    남길 값만 별을 눌러 저장한다.
     @ViewBuilder
     private var textSection: some View {
-        // 값을 치고 "추가"를 누르면 저장 칩으로 남고, 방금 값이 채울 값으로 선택되며 입력칸은 비워진다.
         HStack(spacing: 8) {
-            TextField(NSLocalizedString("값 입력", comment: "Template value text field placeholder"), text: $newValue)
+            TextField(NSLocalizedString("값 입력", comment: "Template value text field placeholder"), text: $value)
                 .textFieldStyle(.roundedBorder)
-                .onSubmit { addNewValue() }
-            Button {
-                addNewValue()
-            } label: {
-                Text(NSLocalizedString("추가", comment: "Add button"))
-                    .font(.body.weight(.semibold))
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 8)
-                    .background(canAddNew ? theme.accent : Color.gray.opacity(0.5))
-                    .foregroundColor(canAddNew ? theme.accentFg : .white)
-                    .clipShape(Capsule())
-            }
-            .disabled(!canAddNew)
-            .accessibilityHint(NSLocalizedString("입력한 값을 목록에 추가합니다", comment: "Add typed value to list hint"))
+            keepButton
         }
+        Text(NSLocalizedString("적은 값은 이번에만 써요. 별을 누르면 다음에도 쓰게 저장돼요",
+                               comment: "Fill sheet: one-off value hint"))
+            .font(.caption)
+            .foregroundColor(theme.textFaint)
+            .fixedSize(horizontal: false, vertical: true)
         savedChips
     }
 
-    /// 입력칸이 비어있지 않으면 추가 가능.
-    private var canAddNew: Bool {
-        !newValue.trimmingCharacters(in: .whitespaces).isEmpty
+    private var trimmedValue: String {
+        value.trimmingCharacters(in: .whitespaces)
     }
 
-    /// 입력한 값을 저장 목록에 추가하고, 채울 값으로 선택한 뒤 입력칸을 비운다.
-    private func addNewValue() {
-        let v = newValue.trimmingCharacters(in: .whitespaces)
-        guard !v.isEmpty else { return }
-        if !savedValues.contains(v) {
-            MemoStore.shared.addPlaceholderValue(v, for: placeholder, sourceMemoId: templateId, sourceMemoTitle: templateTitle)
+    /// 지금 값이 이미 저장 목록에 있는가.
+    private var isKept: Bool {
+        !trimmedValue.isEmpty && savedValues.contains(trimmedValue)
+    }
+
+    /// 이 값을 남길지 정하는 별. 이미 저장된 값이면 채워진 채로 서 있기만 한다.
+    private var keepButton: some View {
+        Button {
+            keepCurrentValue()
+        } label: {
+            Image(systemName: isKept ? AppSymbol.starFill : AppSymbol.star)
+                .font(.title3)
+                .foregroundColor(isKept ? .yellow : theme.textFaint)
+                .frame(width: 44, height: 44)
         }
-        value = v          // 방금 추가한 값을 채울 값으로 선택
-        newValue = ""      // 입력칸 비우기 (기본 동작)
-        HapticManager.shared.selection()
+        .buttonStyle(.plain)
+        .disabled(trimmedValue.isEmpty || isKept)
+        .accessibilityLabel(isKept
+            ? NSLocalizedString("이미 저장해 둔 값이에요", comment: "Fill sheet: value already kept")
+            : NSLocalizedString("이 값 저장해 두기", comment: "Fill sheet: keep this value"))
+    }
+
+    /// 지금 값을 저장 목록에 남긴다. 누른 그 자리에서 칩으로 나타난다.
+    private func keepCurrentValue() {
+        let v = trimmedValue
+        guard !v.isEmpty, !savedValues.contains(v) else { return }
+        MemoStore.shared.addPlaceholderValue(v, for: placeholder,
+                                             sourceMemoId: templateId, sourceMemoTitle: templateTitle)
+        HapticManager.shared.success()
         loadSaved()
     }
 

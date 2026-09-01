@@ -2230,7 +2230,7 @@ struct ClipKeyboardList: View {
         //    바에는 **자주 쓰는 둘**만 남긴다 - 금고와 추가.
         vaultEntrance
 
-        .accessibilityHint(NSLocalizedString("보관함, 카테고리 관리, 플레이스홀더 관리 메뉴를 엽니다", comment: "More options menu hint v2"))
+        .accessibilityHint(NSLocalizedString("보관함, 카테고리 관리, 빈칸 관리 메뉴를 엽니다", comment: "More options menu hint v2"))
 
         // 화면 전환 - **+ 바로 왼쪽**. 누르면 키보드 미리보기로 건너가고,
         // 그쪽 머리말의 같은 자리에서 격자 모양으로 바뀌어 되돌아올 수 있다.

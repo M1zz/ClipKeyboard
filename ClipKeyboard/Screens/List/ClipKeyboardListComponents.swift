@@ -720,7 +720,7 @@ struct SheetModifiers: ViewModifier {
                     .presentationDragIndicator(.visible)
                 }
             }
-            // 플레이스홀더 관리 시트
+            // 빈칸 관리 시트
             .sheet(isPresented: $showPlaceholderManagementSheet) {
                 PlaceholderManagementSheet(allMemos: memos)
                     .presentationDetents([.medium, .large])

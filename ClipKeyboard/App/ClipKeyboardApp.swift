@@ -964,7 +964,7 @@ struct ClipKeyboardApp: App {
         }
     }
 
-    // MARK: - 심어 두는 플레이스홀더 값
+    // MARK: - 심어 두는 빈칸 값
 
     /// 일반 샘플 템플릿의 빈칸에 미리 넣어 두는 값.
     ///
@@ -1004,7 +1004,7 @@ struct ClipKeyboardApp: App {
         for memo in memos {
             for (token, values) in memo.placeholderValues {
                 // 시스템이 채우는 자리에는 값을 심지 않는다 - 심어 봐야 쓰이지 않고,
-                // 플레이스홀더 관리 화면에 "고를 수 없는 값"으로 남는다.
+                // 빈칸 관리 화면에 "고를 수 없는 값"으로 남는다.
                 guard !TemplateVariableProcessor.autoVariableTokens.contains(token) else { continue }
                 // 뒤에서부터 넣는다 - addPlaceholderValue 가 맨 앞에 꽂으므로 순서가 뒤집힌다.
                 for value in values.reversed() {
