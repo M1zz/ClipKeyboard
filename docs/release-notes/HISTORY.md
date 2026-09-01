@@ -1,5 +1,121 @@
 # ClipKeyboard Release Notes
 
+## v5.0.7 (build 1)
+
+### 한국어
+
+여러 개를 한 번에 고릅니다.
+
+물어보셨습니다. 여러 단축어를 골라서 한꺼번에 카테고리로 보내거나 지울 수 있느냐고. 지금까지는 하나씩 꾹 눌러 지우는 길뿐이었습니다. 열 개를 지우려면 같은 동작을 열 번 합니다.
+
+이제 목록에서 두 손가락으로 톡 치면 고르는 화면이 열립니다. 카드를 눌러 여러 개 고른 뒤 아래에서 카테고리로 옮기거나 지웁니다. 전체 선택도 있습니다. 두 손가락 탭은 눈에 보이지 않는 몸짓이라, 카드를 꾹 누른 판에도 여러 개 고르기를 두었습니다. 그 길로 들어오면 누른 카드가 미리 골라져 있습니다.
+
+보이스오버를 쓰시는 분께는 두 손가락 탭이 열리지 않습니다. 그 몸짓은 보이스오버에서 읽기를 멈추고 다시 잇는 데 이미 쓰입니다. 그 위에 우리 것을 얹으면 말을 멈추려 할 때마다 엉뚱한 화면이 열립니다. 우리 지름길 하나 때문에 그분이 앱을 쓰는 방식 전체가 어긋나므로 우리가 물러납니다. 꾹 누르기 판의 길은 그대로 열려 있습니다.
+
+빈칸에 적은 값은 이번에만 씁니다.
+
+말씀해 주셨습니다. 빈칸에 없는 문구를 그 자리에서 넣어 쓰고 싶은데, 한 번 쓰고 말 값이라 목록에는 남지 않았으면 좋겠다고.
+
+원래 구조가 그럴 수 없게 되어 있었습니다. 값을 쓰려면 먼저 추가를 눌러 목록에 넣어야 했고, 복사할 때는 채운 값이 예외 없이 저장됐습니다. 저장을 피할 길이 아예 없었습니다. 그래서 오늘 회의 장소, 이번 주문번호처럼 한 번 쓰고 말 값까지 칩으로 남아 목록이 금세 못 쓰게 됐습니다.
+
+이제 반대입니다. 입력칸이 채울 값에 곧장 이어져 있어서 치면 그대로 쓰입니다. 남길 값만 옆의 별을 누릅니다. 복사는 아무것도 저장하지 않습니다. 키보드 안에서 채울 때도 같습니다. 한쪽만 바꾸면 어디서 적었는지에 따라 결과가 달라지니까요.
+
+빈칸 값의 순서를 정할 수 있습니다.
+
+함께 말씀해 주신 것입니다. 지금까지 값은 쓸 때마다 맨 앞으로 올라갔습니다. 자리를 외워 두고 고르던 분은 누를 때마다 다시 찾아야 했습니다.
+
+이제 설정의 빈칸 관리에서 빈칸 하나를 열고 값을 끌어 순서를 정합니다. 그 순서가 채우는 창의 칩에도 그대로 갑니다. 쓴다고 자리가 움직이지 않습니다. 값이 움직일 때는 직접 옮기셨을 때뿐입니다.
+
+같은 것을 한 이름으로 부릅니다.
+
+빈칸을 어떤 화면에서는 플레이스홀더, 어떤 화면에서는 변수라고 불렀습니다. 설정에는 플레이스홀더 관리와 빈칸 관리가 같은 화면을 가리키는 두 이름으로 나란히 있었습니다. 전부 빈칸으로 맞췄습니다.
+
+### English
+
+Pick several at once.
+
+You asked whether you could select several snippets and move or delete them together. Until now the only way was to press and hold one, then delete it, one at a time. Deleting ten meant doing the same thing ten times.
+
+Now a two finger tap on the list opens select mode. Tap cards to pick them, then move them to a category or delete them from the bar below. Select all is there too. A two finger tap is an invisible gesture, so Select Multiple also sits in the panel you get by pressing and holding a card. Coming in that way, the card you held is already picked.
+
+If you use VoiceOver, the two finger tap does not open it. VoiceOver already uses that gesture to pause and resume speech. Putting ours on top means a wrong screen opens every time you try to stop the speech. One shortcut of ours is not worth breaking the way you use the whole app, so we step back. The path in the press and hold panel stays open.
+
+What you type into a blank is used just this once.
+
+You told us: let me put in a phrase that is not in the blank and use it right there, and since it is a one time value, do not add it to the list.
+
+The old structure made that impossible. To use a value you first had to press Add to put it in the list, and on copy every filled value was saved, no exceptions. There was no way to avoid saving. So one time values, today's meeting room, this order number, piled up as chips until the list was unusable.
+
+It is the other way round now. The text field is wired straight to the value being filled, so what you type is what gets used. Only press the star beside it for the ones worth keeping. Copy saves nothing. Filling from inside the keyboard works the same way. Changing only one side would mean the result depends on where you typed it.
+
+You can set the order of a blank's values.
+
+The same message asked for this. Until now a value jumped to the front every time you used it. If you had memorised where one sits, you had to find it again every time you pressed it.
+
+Now open a blank in Manage Blanks in Settings and drag its values into the order you want. That order carries into the chips in the fill sheet. Using a value does not move it. The only thing that moves a value is you moving it.
+
+One name for one thing.
+
+A blank was called a placeholder on one screen and a variable on another. Settings had Manage Placeholders and Manage Blanks sitting side by side as two names for the same screen. It is a blank everywhere now.
+
+### 简体中文
+
+一次选中多个。
+
+有人问，能不能选中多条快捷短语，一起移到分类里或者一起删掉。在此之前只能一条条长按再删。要删十条，同样的动作就得做十遍。
+
+现在在列表上用两根手指轻点一下，就会打开选择界面。点按卡片选中若干条，再从下面的栏里移到分类或者删除。也有全选。两根手指轻点是看不见的手势，所以长按卡片弹出的面板里也放了多选。从那里进来的话，你长按的那张卡片已经选好了。
+
+如果你在用旁白，两根手指轻点不会打开它。旁白已经用这个手势来暂停和继续朗读。我们再叠上一层，你每次想停下朗读都会打开一个不相干的界面。为了我们的一个快捷方式，把你使用整个应用的方式弄乱，不值得，所以我们退让。长按面板里的那条路照常开着。
+
+在填空里输入的值只用这一次。
+
+你告诉我们：想把填空里没有的说法当场填进去用，可这是一次性的值，希望别加进列表里。
+
+原来的结构做不到这一点。要用一个值，得先按添加把它放进列表；而复制的时候，填好的值无一例外都会被保存。根本没有不保存的办法。于是今天的会议室、这次的订单号这类一次性的值也变成了标签，列表很快就没法用了。
+
+现在反过来了。输入框直接连到要填的值上，输入什么就用什么。只有想留下的才按旁边的星标。复制不保存任何东西。在键盘里填写时也一样。只改一边的话，结果会因为你在哪里输入而不同。
+
+可以自己排填空值的顺序。
+
+同一条留言里也提到了。在此之前，一个值每用一次就会跳到最前面。记住位置去点的人，每次都得重新找。
+
+现在在设置的填空管理里打开一个填空，拖动它的值排出你要的顺序。这个顺序也会带到填写窗口的标签上。用了并不会让它挪位置。会挪动值的只有你自己。
+
+同一样东西，只用一个名字。
+
+同一个填空，在这个界面叫占位符，在那个界面叫变量。设置里“占位符管理”和“填空管理”作为同一个界面的两个名字并排放着。现在统一叫填空。
+
+### 繁體中文
+
+一次選取多個。
+
+有人問，能不能選取多條快捷短語，一起移到分類裡或者一起刪掉。在此之前只能一條條長按再刪。要刪十條，同樣的動作就得做十遍。
+
+現在在列表上用兩根手指輕點一下，就會打開選取畫面。點按卡片選取若干條，再從下面的列裡移到分類或者刪除。也有全選。兩根手指輕點是看不見的手勢，所以長按卡片跳出的面板裡也放了多選。從那裡進來的話，你長按的那張卡片已經選好了。
+
+如果你在用旁白，兩根手指輕點不會打開它。旁白已經用這個手勢來暫停和繼續朗讀。我們再疊上一層，你每次想停下朗讀都會打開一個不相干的畫面。為了我們的一個捷徑，把你使用整個 App 的方式弄亂，不值得，所以我們退讓。長按面板裡的那條路照常開著。
+
+在填空裡輸入的值只用這一次。
+
+你告訴我們：想把填空裡沒有的說法當場填進去用，可這是一次性的值，希望別加進列表裡。
+
+原來的結構做不到這一點。要用一個值，得先按新增把它放進列表；而拷貝的時候，填好的值無一例外都會被儲存。根本沒有不儲存的辦法。於是今天的會議室、這次的訂單號這類一次性的值也變成了標籤，列表很快就沒法用了。
+
+現在反過來了。輸入欄直接連到要填的值上，輸入什麼就用什麼。只有想留下的才按旁邊的星號。拷貝不儲存任何東西。在鍵盤裡填寫時也一樣。只改一邊的話，結果會因為你在哪裡輸入而不同。
+
+可以自己排填空值的順序。
+
+同一則訊息裡也提到了。在此之前，一個值每用一次就會跳到最前面。記住位置去點的人，每次都得重新找。
+
+現在在設定的填空管理裡打開一個填空，拖動它的值排出你要的順序。這個順序也會帶到填寫視窗的標籤上。用了並不會讓它挪位置。會挪動值的只有你自己。
+
+同一樣東西，只用一個名字。
+
+同一個填空，在這個畫面叫佔位符，在那個畫面叫變數。設定裡「佔位符管理」和「填空管理」作為同一個畫面的兩個名字並排放著。現在統一叫填空。
+
+---
+
 ## v5.0.6 (build 1)
 
 ### 한국어

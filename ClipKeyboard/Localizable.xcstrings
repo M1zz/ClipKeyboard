@@ -68198,6 +68198,167 @@
           }
         }
       }
+    },
+    "여러 단축어를 한 번에 골라 카테고리로 옮기거나 지울 수 있어요" : {
+      "comment" : "Changelog 5.0.7 bulk select",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick several snippets at once and move them to a category or delete them"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次選多條快捷短語，移到分類或刪除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次選多條快捷短語，移到分類或刪除"
+          }
+        }
+      }
+    },
+    "목록에서 두 손가락으로 톡 치면 고르는 화면이 열려요. 카드를 꾹 누른 판에도 같은 길이 있어요" : {
+      "comment" : "Changelog 5.0.7 two finger tap",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A two finger tap on the list opens select mode. The same path sits in the press and hold panel"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在列表上用两根手指轻点即可打开选择界面。长按面板里也有同样的入口"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在列表上用兩根手指輕點即可開啟選擇介面。長按面板裡也有同樣的入口"
+          }
+        }
+      }
+    },
+    "보이스오버를 쓰실 때는 두 손가락 탭이 열리지 않아요. 그 몸짓은 읽기를 멈추는 데 이미 쓰이니까요" : {
+      "comment" : "Changelog 5.0.7 voiceover",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With VoiceOver the two finger tap does not open it, since that gesture already pauses speech"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用旁白时两根手指轻点不会打开它，因为该手势已用于暂停朗读"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用旁白時兩根手指輕點不會開啟它，因為該手勢已用於暫停朗讀"
+          }
+        }
+      }
+    },
+    "빈칸에 적은 값은 이번에만 써요. 남길 값만 옆의 별을 누르면 돼요" : {
+      "comment" : "Changelog 5.0.7 one off value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What you type into a blank is used just this once. Press the star for the ones worth keeping"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在填空里输入的值只用这一次。想留下的按旁边的星标"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在填空裡輸入的值只用這一次。想留下的按旁邊的星標"
+          }
+        }
+      }
+    },
+    "복사할 때 값이 저절로 저장되지 않아요. 한 번 쓰고 말 값으로 목록이 차던 것을 고쳤어요" : {
+      "comment" : "Changelog 5.0.7 no auto save",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copying no longer saves values on its own, so one time values stop filling the list"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制不再自动保存值，一次性的值不会再把列表填满"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製不再自動儲存值，一次性的值不會再把列表填滿"
+          }
+        }
+      }
+    },
+    "빈칸 관리에서 값을 끌어 순서를 정할 수 있어요. 쓴다고 자리가 움직이지 않아요" : {
+      "comment" : "Changelog 5.0.7 value order",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag a blank's values into the order you want in Manage Blanks. Using one does not move it"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在填空管理里拖动值排出顺序。用了不会让它挪位置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在填空管理裡拖移值排出順序。用了不會讓它挪位置"
+          }
+        }
+      }
+    },
+    "플레이스홀더와 변수로 갈려 있던 말을 빈칸 하나로 맞췄어요" : {
+      "comment" : "Changelog 5.0.7 terminology",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Placeholder and variable are one word now: blank"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "占位符和变量现在统一叫填空"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "佔位符和變量現在統一叫填空"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

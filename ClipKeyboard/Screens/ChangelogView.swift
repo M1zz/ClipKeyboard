@@ -35,6 +35,22 @@ enum ChangelogData {
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
     static let entries: [ChangelogEntry] = [
         ChangelogEntry(
+            version: "5.0.7",
+            released: nil,
+            highlights: [
+                // 여러 개 고르기
+                NSLocalizedString("여러 단축어를 한 번에 골라 카테고리로 옮기거나 지울 수 있어요", comment: "Changelog 5.0.7 bulk select"),
+                NSLocalizedString("목록에서 두 손가락으로 톡 치면 고르는 화면이 열려요. 카드를 꾹 누른 판에도 같은 길이 있어요", comment: "Changelog 5.0.7 two finger tap"),
+                NSLocalizedString("보이스오버를 쓰실 때는 두 손가락 탭이 열리지 않아요. 그 몸짓은 읽기를 멈추는 데 이미 쓰이니까요", comment: "Changelog 5.0.7 voiceover"),
+                // 빈칸
+                NSLocalizedString("빈칸에 적은 값은 이번에만 써요. 남길 값만 옆의 별을 누르면 돼요", comment: "Changelog 5.0.7 one off value"),
+                NSLocalizedString("복사할 때 값이 저절로 저장되지 않아요. 한 번 쓰고 말 값으로 목록이 차던 것을 고쳤어요", comment: "Changelog 5.0.7 no auto save"),
+                NSLocalizedString("빈칸 관리에서 값을 끌어 순서를 정할 수 있어요. 쓴다고 자리가 움직이지 않아요", comment: "Changelog 5.0.7 value order"),
+                // 말
+                NSLocalizedString("플레이스홀더와 변수로 갈려 있던 말을 빈칸 하나로 맞췄어요", comment: "Changelog 5.0.7 terminology"),
+            ]
+        ),
+        ChangelogEntry(
             version: "5.0.5",
             released: nil,
             highlights: [
