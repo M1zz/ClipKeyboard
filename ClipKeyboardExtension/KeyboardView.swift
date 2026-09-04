@@ -803,6 +803,9 @@ struct KeyboardView: View {
                         LazyVGrid(columns: gridItemLayout, spacing: 10) {
                             ForEach(displayItems) { item in
                                 memoButton(for: item.memo, useTemplate: item.useTemplate)
+                                    // 방금 만든 키는 자라며 들어온다. 키캡째 움직여야 해서
+                                    // 라벨이 아니라 버튼 바깥에 건다.
+                                    .newMemoEntry(item.memo.id)
                                     // 앱 안에서는 키 하나가 두 가지 일을 한다
                                     // **짧게 누르면 입력창에, 길게 누르면 클립보드에.**
                                     //
@@ -1516,7 +1519,7 @@ struct KeyboardView: View {
                     buttonFontSize: buttonFontSize
                 )
                 // 방금 만든 키는 빈 키캡으로 먼저 선다(`NewMemoIntro`).
-                .newMemoIntro(memo.id)
+                .newMemoIntro(memo.id, shape: .key)
             }
             .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
             .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
@@ -1525,7 +1528,7 @@ struct KeyboardView: View {
         } else if memo.isCombo && !memo.isSecure {
             // 여러 값(콤보) - 2/3 분할: 왼쪽 현재 값 삽입, 오른쪽 → 다음 값.
             comboSplitButton(for: memo, catColor: catColor)
-                .newMemoIntro(memo.id)
+                .newMemoIntro(memo.id, shape: .key)
                 .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
                 .accessibilityLabel(memoAccessibilityLabel(for: memo))
                 .accessibilityHint(NSLocalizedString("왼쪽을 누르면 현재 값을, 오른쪽 화살표로 다음 값을 넣어요", comment: "Combo split button hint"))
@@ -1534,7 +1537,7 @@ struct KeyboardView: View {
                 memoButtonAction(for: memo, bypassTemplate: bypass)
             } label: {
                 memoButtonLabel(for: memo, catColor: catColor, useTemplate: useTemplate)
-                    .newMemoIntro(memo.id)
+                    .newMemoIntro(memo.id, shape: .key)
             }
             .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
             .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))

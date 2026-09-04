@@ -106,6 +106,9 @@ struct MemoCardSurface: View {
             cardBackground(imageFileName: imageFileName, hasImage: hasImage)
         }
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
+        // 방금 만든 카드는 자리 자체가 자라며 들어온다(`NewMemoIntroEntry`).
+        // 나머지 카드는 그대로 선다 - 탭을 옮길 때마다 격자가 피어나면 안 된다.
+        .newMemoEntry(memo.id)
         // ⚠️ 카드는 **단색 면 하나**다. 유리도, 두께도, 그림자도, 타입 테두리도 없다.
         //    종류(템플릿·콤보·보안)는 좌상단 아이콘이, 카테고리는 색이 말한다.
     }
