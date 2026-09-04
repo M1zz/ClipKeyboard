@@ -447,45 +447,48 @@ struct SettingView: View {
         }
     }
 
-    /// `{날짜}` · `{시간}` 을 어떤 모양으로 넣을지 고르는 행.
+    /// `{날짜}` · `{시간}` 을 어떤 모양으로 넣을지 고르러 가는 행.
     ///
-    /// ⚠️ 보기마다 **지금 값을 그 모양으로 직접 그려서** 보여준다. "MM/DD/YYYY" 같은
+    /// ⚠️ 행에는 **지금 값을 그 모양으로 직접 그려서** 보여준다. "MM/DD/YYYY" 같은
     ///    패턴 글자는 개발자만 읽는다. 08/31/2026 은 누구나 읽는다.
     ///
-    /// ⚠️ 설명 줄을 따로 두지 않는다. 고른 보기가 행에 그대로 다시 그려지는 자리라
-    ///    두 줄이 되면 목록이 무거워진다. "자동 (2026-08-31)" 한 줄이면 이미 다 말한다.
+    /// 예전에는 여기가 `Picker` 였다. 사용자가 자기 모양을 만들 수 있게 되면서
+    /// (더하고 지우는 자리가 필요해) 화면으로 옮겼다.
     private func tokenFormatRow<Format: TokenFormat>(
         _ type: Format.Type,
-        raw: Binding<String>,
+        raw: String,
         title: String,
-        systemImage: String
+        systemImage: String,
+        chips: [TokenFormatField.Chip]
     ) -> some View {
-        Picker(selection: Binding(
-            get: { Format(rawValue: raw.wrappedValue) ?? Format.automaticCase },
-            set: { raw.wrappedValue = $0.rawValue }
-        )) {
-            ForEach(Array(Format.allCases)) { format in
-                Text(format.sampleText).tag(format)
-            }
+        NavigationLink {
+            TokenFormatSettingsView(title: title, chips: chips, of: Format.self)
         } label: {
-            Label(title, systemImage: systemImage)
+            HStack {
+                Label(title, systemImage: systemImage)
+                Spacer()
+                Text(TokenFormatOption<Format>(raw: raw).sampleText())
+                    .foregroundColor(theme.textMuted)
+                    .lineLimit(1)
+            }
         }
-        .pickerStyle(.navigationLink)
     }
 
     private var dateFormatRow: some View {
         tokenFormatRow(DateTokenFormat.self,
-                       raw: $dateTokenFormatRaw,
+                       raw: dateTokenFormatRaw,
                        title: NSLocalizedString("날짜 형식", comment: "Date format setting row title"),
-                       systemImage: AppSymbol.calendar)
+                       systemImage: AppSymbol.calendar,
+                       chips: TokenFormatField.dateChips)
     }
 
     /// 날짜 바로 아래에 둔다 - 같은 종류의 선택이다.
     private var timeFormatRow: some View {
         tokenFormatRow(TimeTokenFormat.self,
-                       raw: $timeTokenFormatRaw,
+                       raw: timeTokenFormatRaw,
                        title: NSLocalizedString("시간 형식", comment: "Time format setting row title"),
-                       systemImage: AppSymbol.clock)
+                       systemImage: AppSymbol.clock,
+                       chips: TokenFormatField.timeChips)
     }
 
     /// 내 데이터 - 내 것이 어디에 있고 어떻게 지켜지는가.

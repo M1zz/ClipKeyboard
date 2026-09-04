@@ -189,6 +189,7 @@
 		AIC0BUILD000000000000004 /* AIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = AIC0FILE0000000000000004 /* AIComponents.swift */; };
 		AIS0BUILD000000000000001 /* AppleIntelligenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AIS0FILE0000000000000001 /* AppleIntelligenceService.swift */; };
 		AIV0BUILD000000000000003 /* AISettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AIV0FILE0000000000000003 /* AISettingsView.swift */; };
+		TOKENFMT0BUILD0000000001 /* TokenFormatSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TOKENFMT0FILE00000000001 /* TokenFormatSettingsView.swift */; };
 		B2C3D4E5F6A1B2C3D4E5F6A1 /* CategoryIconSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A1B2C3D4E5F6 /* CategoryIconSettings.swift */; };
 		B3C4D5E6F7A8B9C0D1E2F302 /* ClipKeyboardListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */; };
 		B3D4BFBC2978C6B78156E1B6 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9F42D0C02B6FA782BA3DD1 /* AppLanguage.swift */; };
@@ -503,6 +504,7 @@
 		AIC0FILE0000000000000004 /* AIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIComponents.swift; sourceTree = "<group>"; };
 		AIS0FILE0000000000000001 /* AppleIntelligenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceService.swift; sourceTree = "<group>"; };
 		AIV0FILE0000000000000003 /* AISettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISettingsView.swift; sourceTree = "<group>"; };
+		TOKENFMT0FILE00000000001 /* TokenFormatSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenFormatSettingsView.swift; sourceTree = "<group>"; };
 		B22C185C179501DDC5DF2F2C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		B352BD33E4C1A3A117C0015D /* TutorialFlow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TutorialFlow.swift; sourceTree = "<group>"; };
 		B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListViewModel.swift; sourceTree = "<group>"; };
@@ -933,6 +935,7 @@
 				FB00001A2F0000000000000001 /* FeedbackView.swift */,
 				US00001A2F0000000000000001 /* UsageStatsView.swift */,
 				AIV0FILE0000000000000003 /* AISettingsView.swift */,
+				TOKENFMT0FILE00000000001 /* TokenFormatSettingsView.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
 				AA00000600000001F3B00002 /* UsageGuideView.swift */,
 				AA00000800000001F3B00002 /* PersonaGuideData.swift */,
@@ -1536,6 +1539,7 @@
 				AIS0BUILD000000000000001 /* AppleIntelligenceService.swift in Sources */,
 				FBS0BUILD000000000000002 /* ClipKeyboardSpec.swift in Sources */,
 				AIV0BUILD000000000000003 /* AISettingsView.swift in Sources */,
+				TOKENFMT0BUILD0000000001 /* TokenFormatSettingsView.swift in Sources */,
 				AIC0BUILD000000000000004 /* AIComponents.swift in Sources */,
 				27535210011E26B3E5844B92 /* SavedDraft.swift in Sources */,
 				F31844F53A9D5BB7B30ADF4A /* DraftStore.swift in Sources */,

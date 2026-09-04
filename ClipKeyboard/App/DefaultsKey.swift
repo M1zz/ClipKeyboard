@@ -210,6 +210,11 @@ enum DefaultsKey {
     static let templateDateFormat = "clipkeyboard_template_date_format"
     /// `{시간}` 을 어떤 모양으로 넣을지. 값은 `TimeTokenFormat.rawValue`.
     static let templateTimeFormat = "clipkeyboard_template_time_format"
+    /// 사용자가 직접 적어 넣은 `{날짜}` 서식들 (JSON `[String]`, ICU 패턴).
+    /// 준비된 보기로 모자란 사람이 자기 모양을 만들어 쓴다.
+    static let templateDateCustomFormats = "clipkeyboard_template_date_custom_formats"
+    /// 사용자가 직접 적어 넣은 `{시간}` 서식들 (JSON `[String]`).
+    static let templateTimeCustomFormats = "clipkeyboard_template_time_custom_formats"
 
     /// 마스터(개발자) 모드 - 설정 > 앱 정보의 버전 행 7번 탭으로 토글 (standard UD)
     static let masterModeEnabled = "masterModeEnabled"
@@ -231,7 +236,7 @@ enum DefaultsKey {
     static let aiClassificationEnabled = "aiClassificationEnabled"
     /// 붙여넣을 앱 예측 → 단축 액션 제안 토글 (App Group, 기본 ON)
     static let aiActionSuggestionsEnabled = "aiActionSuggestionsEnabled"
-    /// 기본 번역 대상 언어 (AITranslationLanguage rawValue, App Group)
+    /// 기본 번역 대상 언어 (BCP-47, `Locale.Language.minimalIdentifier`. App Group)
     static let aiTranslationTargetLang = "aiTranslationTargetLang"
 
     // MARK: - 메모 실시간 동기화 (CKSyncEngine)

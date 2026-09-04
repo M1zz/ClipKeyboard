@@ -5,13 +5,18 @@
 //  Apple Foundation Models(온디바이스 AI) 래퍼 - iOS 26+ Apple Intelligence 기기 전용.
 //  1) 클립보드 자동 분류 보강: 정규식 신뢰도가 낮은 항목을 온디바이스 LLM으로 재분류
 //  2) 붙여넣을 앱 예측: "이 텍스트는 어디에 붙여넣을 가능성이 높은가" → 단축 액션 제안
-//  3) 온디바이스 번역: Apple Intelligence 지원 언어 간 무료 번역
+//
+//  번역은 여기 없다. `AppTranslation`(이 파일 아래)이 `Translation` 프레임워크로 한다.
+//  Apple Intelligence 는 러시아어를 못 하고, 애초에 켤 수 없는 기기가 많다. 그 머리말 참고.
 //
 //  ⚠️ 모든 처리는 온디바이스 - 텍스트가 기기를 떠나지 않는다.
 //  ⚠️ 메인 앱 타겟 전용. 키보드 익스텐션은 메모리 제한 때문에 사용하지 않는다.
 //
 
 import Foundation
+#if canImport(Translation)
+import Translation
+#endif
 #if canImport(FoundationModels)
 import FoundationModels
 #endif
@@ -76,77 +81,77 @@ enum PasteTargetPrediction: String {
     }
 }
 
-// MARK: - Translation Languages (Apple Intelligence 지원 언어)
+// MARK: - 번역 (Translation.framework)
 
-/// 온디바이스 번역 대상 언어. Apple Intelligence가 지원하는 언어 목록.
-enum AITranslationLanguage: String, CaseIterable, Identifiable {
-    case korean = "ko"
-    case english = "en"
-    case japanese = "ja"
-    case chineseSimplified = "zh-Hans"
-    case chineseTraditional = "zh-Hant"
-    case french = "fr"
-    case german = "de"
-    case italian = "it"
-    case spanish = "es"
-    case portuguese = "pt"
-    case dutch = "nl"
-    case swedish = "sv"
-    case danish = "da"
-    case norwegian = "no"
-    case turkish = "tr"
-    case vietnamese = "vi"
+/// 번역이 되는 언어와, 지금 고른 대상 언어.
+///
+/// ⚠️ **Foundation Models 로 번역하지 않는다.** 이유가 둘이다.
+///
+///   하나. Apple Intelligence 가 아는 언어는 열몇 개뿐이고 거기에 러시아어는 없다.
+///   앱은 러시아어로 도는데 번역만 못 하면, 그 사용자에게는 앱이 반쯤만 자기 말을 하는 셈이다.
+///
+///   둘. `Translation` 은 **Apple Intelligence 를 못 켜는 기기에서도 돈다.**
+///   예전에는 최신 기기를 가진 사람만 번역을 볼 수 있었다. 이제 다 볼 수 있다.
+///
+/// ⚠️ 지원 언어 목록을 손으로 들고 있지 않다. 기기에 묻는다(`LanguageAvailability`).
+///    적어 두면 iOS 가 언어를 더한 날 우리만 모르고, 기기가 못 하는 언어를 목록에 세우게 된다.
+///    (`TokenFormat.automaticPattern` 이 나라 목록을 시스템에 묻는 것과 같은 이유다)
+enum AppTranslation {
 
-    var id: String { rawValue }
+    /// 이 기기가 번역할 수 있는 언어. 그 언어의 이름 순으로 준다.
+    static func supportedLanguages() async -> [Locale.Language] {
+        #if canImport(Translation)
+        let languages = await LanguageAvailability().supportedLanguages
+        // 같은 언어가 지역만 달리 여러 번 오는 경우가 있다(en, en-GB...). 언어로 한 번만 센다.
+        var seen = Set<String>()
+        let unique = languages.filter { seen.insert(key(for: $0)).inserted }
+        return unique.sorted {
+            displayName(of: $0).localizedStandardCompare(displayName(of: $1)) == .orderedAscending
+        }
+        #else
+        return []
+        #endif
+    }
 
-    /// 원어 표기 - 언어 선택 UI에서 번역 없이 그대로 노출한다.
-    var displayName: String {
-        switch self {
-        case .korean:             return "한국어"
-        case .english:            return "English"
-        case .japanese:           return "日本語"
-        case .chineseSimplified:  return "中文(简体)"
-        case .chineseTraditional: return "中文(繁體)"
-        case .french:             return "Français"
-        case .german:             return "Deutsch"
-        case .italian:            return "Italiano"
-        case .spanish:            return "Español"
-        case .portuguese:         return "Português"
-        case .dutch:              return "Nederlands"
-        case .swedish:            return "Svenska"
-        case .danish:             return "Dansk"
-        case .norwegian:          return "Norsk"
-        case .turkish:            return "Türkçe"
-        case .vietnamese:         return "Tiếng Việt"
+    /// 사람이 고른 대상 언어. 고른 적이 없으면 **앱에서 고른 언어**.
+    ///
+    /// 왜 앱 언어인가: 번역은 남의 말을 내 말로 옮기려고 쓴다. 기기 지역이 아니라
+    /// 사람이 읽겠다고 고른 말이 목적지다.
+    static var targetLanguage: Locale.Language {
+        get {
+            if let raw = AppGroup.defaults?.string(forKey: DefaultsKey.aiTranslationTargetLang),
+               !raw.isEmpty {
+                return Locale.Language(identifier: raw)
+            }
+            return defaultTarget
+        }
+        set {
+            AppGroup.defaults?.set(key(for: newValue), forKey: DefaultsKey.aiTranslationTargetLang)
         }
     }
 
-    /// 프롬프트에 넣을 영어 언어명 (모델이 가장 안정적으로 인식)
-    var englishName: String {
-        switch self {
-        case .korean:             return "Korean"
-        case .english:            return "English"
-        case .japanese:           return "Japanese"
-        case .chineseSimplified:  return "Simplified Chinese"
-        case .chineseTraditional: return "Traditional Chinese"
-        case .french:             return "French"
-        case .german:             return "German"
-        case .italian:            return "Italian"
-        case .spanish:            return "Spanish"
-        case .portuguese:         return "Portuguese"
-        case .dutch:              return "Dutch"
-        case .swedish:            return "Swedish"
-        case .danish:             return "Danish"
-        case .norwegian:          return "Norwegian"
-        case .turkish:            return "Turkish"
-        case .vietnamese:         return "Vietnamese"
+    /// 앱에서 고른 언어. 고른 적이 없으면 기기 언어.
+    static var defaultTarget: Locale.Language {
+        if let code = AppLanguage.current.bundleCode {
+            return Locale.Language(identifier: code)
         }
+        return Locale.current.language
     }
 
-    /// 시스템 언어와 일치하는 기본 번역 대상 (기본값: 영어)
-    static var systemDefault: AITranslationLanguage {
-        let code = Locale.current.language.languageCode?.identifier ?? "en"
-        return AITranslationLanguage.allCases.first { $0.rawValue.hasPrefix(code) } ?? .english
+    /// 저장·비교에 쓰는 이름 (`ko` · `zh-Hans`).
+    static func key(for language: Locale.Language) -> String {
+        language.minimalIdentifier
+    }
+
+    /// 목록에 적을 이름. **그 언어로** 적는다.
+    /// 영어만 읽는 사람에게 "한국어"를 "Korean"으로 보여주면 정작 그 말을 찾는 사람이 못 알아본다.
+    static func displayName(of language: Locale.Language) -> String {
+        let id = key(for: language)
+        let locale = Locale(identifier: id)
+        if let name = locale.localizedString(forIdentifier: id), !name.isEmpty { return name }
+        if let code = language.languageCode?.identifier,
+           let name = locale.localizedString(forLanguageCode: code), !name.isEmpty { return name }
+        return id
     }
 }
 
@@ -225,12 +230,6 @@ final class AppleIntelligenceService {
     static var actionSuggestionsEnabled: Bool {
         AppGroup.defaults?
             .object(forKey: DefaultsKey.aiActionSuggestionsEnabled) as? Bool ?? true
-    }
-
-    static var translationTargetLanguage: AITranslationLanguage {
-        let raw = AppGroup.defaults?
-            .string(forKey: DefaultsKey.aiTranslationTargetLang)
-        return raw.flatMap(AITranslationLanguage.init(rawValue:)) ?? .systemDefault
     }
 
     // MARK: - Availability
@@ -365,48 +364,4 @@ final class AppleIntelligenceService {
         #endif
     }
 
-    // MARK: - 3) 온디바이스 번역
-
-    enum TranslationError: LocalizedError {
-        case unavailable
-        case failed
-
-        var errorDescription: String? {
-            switch self {
-            case .unavailable:
-                return AppleIntelligenceService.shared.availability.localizedDescription
-            case .failed:
-                return NSLocalizedString("번역하지 못했어요. 잠시 후 다시 시도해 주세요.", comment: "Translation failed error")
-            }
-        }
-    }
-
-    /// 텍스트를 대상 언어로 번역한다 (온디바이스, 무료).
-    func translate(_ text: String, to language: AITranslationLanguage) async throws -> String {
-        #if canImport(FoundationModels)
-        guard #available(iOS 26.0, macCatalyst 26.0, *), isAvailable else {
-            throw TranslationError.unavailable
-        }
-
-        let input = String(text.prefix(2000))
-        let session = LanguageModelSession(instructions: """
-            You are a professional translator. Translate the user's text into \(language.englishName). \
-            Preserve the tone, formatting, and line breaks. \
-            Output ONLY the translation with no explanations or quotes.
-            """)
-        do {
-            let response = try await session.respond(to: input)
-            let result = response.content.trimmingCharacters(in: .whitespacesAndNewlines)
-            guard !result.isEmpty else { throw TranslationError.failed }
-            return result
-        } catch let error as TranslationError {
-            throw error
-        } catch {
-            print("❌ [AppleIntelligenceService.translate] 번역 실패: \(error)")
-            throw TranslationError.failed
-        }
-        #else
-        throw TranslationError.unavailable
-        #endif
-    }
 }

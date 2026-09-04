@@ -32,27 +32,27 @@ struct TemplateVariableProcessorSwiftTests {
     @Test("{날짜}/{date}는 고른 모양으로 치환된다")
     func dateTokenSubstitution() {
         let out = TemplateVariableProcessor.process("오늘은 {날짜} ({date})",
-                                                    at: fixedDate(), dateFormat: .isoDash)
+                                                    at: fixedDate(), dateFormat: .builtin(.isoDash))
         #expect(out == "오늘은 2026-03-07 (2026-03-07)")
     }
 
     /// 미국 사용자 피드백: "We use Month-Day-Year in the US."
     @Test("날짜 모양을 미국식으로 고르면 그대로 들어간다")
     func dateTokenFollowsChosenFormat() {
-        let out = TemplateVariableProcessor.process("{날짜}", at: fixedDate(), dateFormat: .monthDayYear)
+        let out = TemplateVariableProcessor.process("{날짜}", at: fixedDate(), dateFormat: .builtin(.monthDayYear))
         #expect(out == "03/07/2026")
     }
 
     @Test("{시간}/{time}는 고른 모양으로 치환된다")
     func timeTokenSubstitution() {
         let out = TemplateVariableProcessor.process("{시간} / {time}", at: fixedDate(),
-                                                    timeFormat: .twentyFourWithSeconds)
+                                                    timeFormat: .builtin(.twentyFourWithSeconds))
         #expect(out == "09:05:03 / 09:05:03")
     }
 
     @Test("시간 모양을 열두시간제로 고르면 그대로 들어간다")
     func timeTokenFollowsChosenFormat() {
-        let out = TemplateVariableProcessor.process("{시간}", at: fixedDate(), timeFormat: .twelveHour)
+        let out = TemplateVariableProcessor.process("{시간}", at: fixedDate(), timeFormat: .builtin(.twelveHour))
         #expect(out.hasPrefix("9:05"))
     }
 

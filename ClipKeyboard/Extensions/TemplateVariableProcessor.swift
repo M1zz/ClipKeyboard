@@ -37,6 +37,9 @@ protocol TokenFormat: RawRepresentable, CaseIterable, Identifiable, Hashable whe
     /// App Group 에 적을 자리.
     static var storageKey: String { get }
 
+    /// 사용자가 적어 넣은 서식들을 적을 자리 (App Group, JSON `[String]`).
+    static var customStorageKey: String { get }
+
     /// 고른 적이 없을 때 쓰는 보기. 언제나 `.automatic` 에 해당하는 것.
     static var automaticCase: Self { get }
 
@@ -60,14 +63,77 @@ extension TokenFormat {
 
     // MARK: - 저장
 
-    /// 지금 고른 모양. 고른 적이 없거나 알 수 없는 값이면 자동.
-    static var current: Self {
+    /// 지금 고른 모양. 준비된 보기일 수도, 사용자가 적어 넣은 패턴일 수도 있다.
+    /// 고른 적이 없거나 알 수 없는 값이면 자동.
+    static var selection: TokenFormatOption<Self> {
+        get { TokenFormatOption<Self>(raw: AppGroup.defaults?.string(forKey: storageKey)) }
+        set { AppGroup.defaults?.set(newValue.raw, forKey: storageKey) }
+    }
+
+    // MARK: - 사용자가 적어 넣은 서식
+
+    /// 한 사람이 가질 수 있는 서식의 수. 목록이 스크롤 없이 읽히는 선.
+    static var maxCustomPatterns: Int { 10 }
+
+    /// 사용자가 적어 넣은 패턴들.
+    ///
+    /// ⚠️ App Group 에 적는다. 표준 UserDefaults 에 적으면 **키보드는 영영 못 본다** -
+    ///    `{날짜}` 를 실제로 넣는 자리가 거기다.
+    static var customPatterns: [String] {
         get {
-            AppGroup.defaults?.string(forKey: storageKey).flatMap(Self.init(rawValue:)) ?? automaticCase
+            guard let data = AppGroup.defaults?.data(forKey: customStorageKey),
+                  let list = try? JSONDecoder().decode([String].self, from: data) else { return [] }
+            return list
         }
         set {
-            AppGroup.defaults?.set(newValue.rawValue, forKey: storageKey)
+            let capped = Array(newValue.prefix(maxCustomPatterns))
+            AppGroup.defaults?.set(try? JSONEncoder().encode(capped), forKey: customStorageKey)
         }
+    }
+
+    /// 고를 수 있는 것 전부. 준비된 보기 다음에 사용자가 만든 것.
+    static var options: [TokenFormatOption<Self>] {
+        allCases.map { TokenFormatOption<Self>(builtin: $0) }
+            + customPatterns.map { TokenFormatOption<Self>(customPattern: $0) }
+    }
+
+    /// 새 서식을 더한다. 못 쓸 것이면 아무 일도 안 하고 false.
+    @discardableResult
+    static func addCustomPattern(_ pattern: String) -> Bool {
+        let clean = pattern.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard isValidPattern(clean),
+              !customPatterns.contains(clean),
+              customPatterns.count < maxCustomPatterns else { return false }
+        customPatterns.append(clean)
+        return true
+    }
+
+    /// 서식을 지운다. **지우는 것이 지금 고른 것이면 자동으로 되돌린다** -
+    /// 안 그러면 없는 서식을 가리킨 채로 남아 날짜가 빈칸이 된다.
+    static func removeCustomPattern(_ pattern: String) {
+        customPatterns.removeAll { $0 == pattern }
+        if selection.customPattern == pattern {
+            selection = TokenFormatOption<Self>(builtin: automaticCase)
+        }
+    }
+
+    /// 이 패턴을 받아도 되는가.
+    ///
+    /// 막는 것은 셋뿐이다. 비었거나, 너무 길거나, 날짜·시각 글자가 하나도 없어 언제 넣어도
+    /// 같은 글자만 나오는 것. 그 밖에는 막지 않는다. 이상하게 적을 자유까지 막으면
+    /// 자유로운 서식이라고 할 수 없고, 어차피 만드는 화면에서 결과를 눈으로 보고 넣는다.
+    static func isValidPattern(_ pattern: String) -> Bool {
+        let clean = pattern.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !clean.isEmpty, clean.count <= 60 else { return false }
+        // 작은따옴표로 감싼 것은 그대로 찍히는 글자(리터럴)라 필드가 아니다. 걷어내고 본다.
+        let outsideQuotes = clean
+            .split(separator: "'", omittingEmptySubsequences: false)
+            .enumerated()
+            .filter { $0.offset % 2 == 0 }
+            .map(\.element)
+            .joined()
+        guard outsideQuotes.contains(where: { TokenFormatField.letters.contains($0) }) else { return false }
+        return !TokenFormatOption<Self>(customPattern: clean).string(from: Date()).isEmpty
     }
 
     // MARK: - 서식
@@ -82,9 +148,9 @@ extension TokenFormat {
     /// ⚠️ **모든 모양을 다 시도한다.** 사람이 날짜를 고른 뒤에 형식을 바꿀 수 있고, 그때
     ///    예전 모양으로 저장된 글자를 못 읽으면 고른 값이 조용히 오늘로 되돌아간다.
     static func date(from text: String, locale: Locale = TokenFormatLocale.current) -> Date? {
-        let ordered = [current] + allCases.filter { $0 != current }
-        for format in ordered {
-            if let date = formatter(for: format.recipe, locale: locale).date(from: text) { return date }
+        let chosen = selection
+        for option in [chosen] + options.filter({ $0 != chosen }) {
+            if let date = formatter(for: option.recipe, locale: locale).date(from: text) { return date }
         }
         return nil
     }
@@ -102,7 +168,9 @@ extension TokenFormat {
             ?? cjkPattern
     }
 
-    private static func formatter(for recipe: TokenFormatRecipe, locale: Locale) -> DateFormatter {
+    /// ⚠️ `TokenFormatOption` 이 같은 길로 글자를 만들어야 한다. 두 벌로 만들면
+    ///    사용자 서식만 다른 로케일을 타는 날이 온다. 그래서 열어 둔다.
+    static func formatter(for recipe: TokenFormatRecipe, locale: Locale) -> DateFormatter {
         let formatter = DateFormatter()
         formatter.locale = locale
         switch recipe {
@@ -129,6 +197,130 @@ extension TokenFormat {
     }
 
     var sampleText: String { sampleText() }
+}
+
+// MARK: - 고른 서식 하나
+
+/// 고를 수 있는 서식 하나. **준비된 보기이거나, 사용자가 적어 넣은 패턴이다.**
+///
+/// 왜 열거형만으로 모자란가: 미리 담아 둔 대여섯 가지로 세상이 날짜를 적는 법을 다 덮을 수
+/// 없다. "8월 31일 (월)" 이나 "31.08.26" 처럼 쓰고 싶은 사람은 늘 있고, 그 사람은 지금까지
+/// 넣어 준 날짜를 손으로 고쳐 써 왔다. 날짜를 넣어 주는 기능인데 그러면 넣어 주나 마나다.
+///
+/// 저장은 글자 하나로 한다. 준비된 보기는 `automatic` · `isoDash` 처럼 그대로,
+/// 사용자가 적은 것은 `custom:` 을 앞에 붙인 패턴이다. 그래서 예전 값이 그대로 읽힌다.
+struct TokenFormatOption<Format: TokenFormat>: Identifiable, Hashable {
+
+    /// 사용자가 적은 것임을 알리는 표시.
+    static var customPrefix: String { "custom:" }
+
+    /// App Group 에 적히는 값.
+    let raw: String
+
+    var id: String { raw }
+
+    init(builtin: Format) {
+        raw = builtin.rawValue
+    }
+
+    /// 준비된 보기 하나를 가리킨다. 부르는 자리에서 `.builtin(.isoDash)` 로 짧게 쓴다.
+    static func builtin(_ format: Format) -> Self { Self(builtin: format) }
+
+    init(customPattern: String) {
+        raw = Self.customPrefix + customPattern
+    }
+
+    /// 저장된 글자에서 되살린다. 못 알아보는 값이면 자동으로 (지운 서식을 가리키던 값 포함).
+    init(raw: String?) {
+        guard let raw, !raw.isEmpty else {
+            self.raw = Format.automaticCase.rawValue
+            return
+        }
+        if raw.hasPrefix(Self.customPrefix) {
+            let pattern = String(raw.dropFirst(Self.customPrefix.count))
+            self.raw = Format.customPatterns.contains(pattern) ? raw : Format.automaticCase.rawValue
+            return
+        }
+        self.raw = Format(rawValue: raw)?.rawValue ?? Format.automaticCase.rawValue
+    }
+
+    /// 사용자가 적어 넣은 패턴. 준비된 보기면 nil.
+    var customPattern: String? {
+        raw.hasPrefix(Self.customPrefix) ? String(raw.dropFirst(Self.customPrefix.count)) : nil
+    }
+
+    var isCustom: Bool { customPattern != nil }
+
+    /// 준비된 보기. 사용자가 적은 것이면 nil.
+    var builtin: Format? { isCustom ? nil : Format(rawValue: raw) }
+
+    var recipe: TokenFormatRecipe {
+        if let customPattern { return .pattern(customPattern) }
+        return (builtin ?? Format.automaticCase).recipe
+    }
+
+    // MARK: - 서식
+
+    func string(from date: Date, locale: Locale = TokenFormatLocale.current) -> String {
+        Format.formatter(for: recipe, locale: locale).string(from: date)
+    }
+
+    func date(from text: String, locale: Locale = TokenFormatLocale.current) -> Date? {
+        Format.formatter(for: recipe, locale: locale).date(from: text)
+    }
+
+    /// 목록에 세울 이름. **지금 값을 그 모양으로 그려서** 보여준다.
+    /// 패턴 글자("MM/dd/yyyy")는 개발자만 읽는다. `08/31/2026` 은 누구나 읽는다.
+    func sampleText(at reference: Date = Date()) -> String {
+        let rendered = string(from: reference)
+        guard recipe == .automatic else { return rendered }
+        return String(format: NSLocalizedString("자동 (%@)", comment: "Date format: automatic option, %@ is today rendered"),
+                      rendered)
+    }
+}
+
+// MARK: - 패턴에 넣는 조각
+
+/// 서식 패턴을 이루는 글자.
+///
+/// 사용자에게 "ICU 패턴을 적으세요" 라고 하면 아무도 못 적는다. 눌러 넣는 조각으로 준다.
+enum TokenFormatField {
+
+    /// 패턴에서 뜻이 있는 글자. 나머지는 적은 그대로 찍힌다.
+    /// (하나도 없으면 언제 넣어도 같은 글자만 나오므로 서식이 아니다)
+    static let letters = Set("GyYuUrQqMLlwWdDFgEecabBhHKkjJCmsSAzZOvVXx")
+
+    /// 눌러 넣는 조각 하나. 무엇이 나오는지는 화면이 직접 그려서 보여준다.
+    struct Chip: Identifiable {
+        let pattern: String
+        let label: String
+        var id: String { pattern }
+    }
+
+    static var dateChips: [Chip] {
+        [
+            Chip(pattern: "yyyy", label: NSLocalizedString("연도", comment: "Date pattern chip: year")),
+            Chip(pattern: "yy", label: NSLocalizedString("연도 두 자리", comment: "Date pattern chip: 2-digit year")),
+            Chip(pattern: "MM", label: NSLocalizedString("월", comment: "Date pattern chip: month")),
+            Chip(pattern: "MMM", label: NSLocalizedString("월 이름", comment: "Date pattern chip: month name")),
+            Chip(pattern: "dd", label: NSLocalizedString("일", comment: "Date pattern chip: day")),
+            Chip(pattern: "E", label: NSLocalizedString("요일", comment: "Date pattern chip: weekday")),
+            Chip(pattern: "EEEE", label: NSLocalizedString("요일 전체", comment: "Date pattern chip: full weekday")),
+        ]
+    }
+
+    static var timeChips: [Chip] {
+        [
+            Chip(pattern: "HH", label: NSLocalizedString("24시간", comment: "Time pattern chip: 24-hour")),
+            Chip(pattern: "h", label: NSLocalizedString("12시간", comment: "Time pattern chip: 12-hour")),
+            Chip(pattern: "mm", label: NSLocalizedString("분", comment: "Time pattern chip: minute")),
+            Chip(pattern: "ss", label: NSLocalizedString("초", comment: "Time pattern chip: second")),
+            Chip(pattern: "a", label: NSLocalizedString("오전 · 오후", comment: "Time pattern chip: AM/PM")),
+        ]
+    }
+
+    /// 사이에 끼우는 글자. 눌러서 넣는다.
+    static let separators = ["-", "/", ".", ":", " ", ","]
 }
 
 /// 서식을 고를 때 쓰는 로케일과, 예전 모양을 지켜야 하는 언어.
@@ -180,6 +372,7 @@ enum DateTokenFormat: String, TokenFormat {
     case long
 
     static let storageKey = DefaultsKey.templateDateFormat
+    static let customStorageKey = DefaultsKey.templateDateCustomFormats
     static let automaticCase = DateTokenFormat.automatic
     static let cjkPattern = "yyyy-MM-dd"
     /// 네 자리 연도를 달라고 명시한다. 그냥 short 로 받으면 나라에 따라 두 자리가 온다.
@@ -216,6 +409,7 @@ enum TimeTokenFormat: String, TokenFormat {
     case twelveHourWithSeconds
 
     static let storageKey = DefaultsKey.templateTimeFormat
+    static let customStorageKey = DefaultsKey.templateTimeCustomFormats
     static let automaticCase = TimeTokenFormat.automatic
     static let cjkPattern = "HH:mm:ss"
     /// 초는 넣지 않는다 - 문장에 붙여넣는 시각에 초까지 적는 사람은 드물다.
@@ -303,8 +497,8 @@ enum TemplateVariableProcessor {
                         at reference: Date = Date(),
                         clipboard: String? = nil,
                         keepCursorToken: Bool = false,
-                        dateFormat: DateTokenFormat? = nil,
-                        timeFormat: TimeTokenFormat? = nil) -> String {
+                        dateFormat: TokenFormatOption<DateTokenFormat>? = nil,
+                        timeFormat: TokenFormatOption<TimeTokenFormat>? = nil) -> String {
         var result = text
 
         // 클립보드 - 값이 없으면 지운다(빈칸이 남는 게 토큰이 노출되는 것보다 낫다).
@@ -326,10 +520,10 @@ enum TemplateVariableProcessor {
 
         // 날짜 모양은 사람이 고른다. 고른 적이 없으면 언어·지역에 맞춰 알아서
         // (`DateTokenFormat` 머리말 참고 - 미국은 08/31/2026, 한국은 2026-08-31).
-        let dateText = (dateFormat ?? DateTokenFormat.current).string(from: reference)
+        let dateText = (dateFormat ?? DateTokenFormat.selection).string(from: reference)
 
         // 시각도 사람이 고른다. 고른 적이 없으면 언어·지역에 맞춰.
-        let timeText = (timeFormat ?? TimeTokenFormat.current).string(from: reference)
+        let timeText = (timeFormat ?? TimeTokenFormat.selection).string(from: reference)
 
         // Date/time (ko + en aliases)
         let dateTokens: [String] = ["{날짜}", "{date}"]

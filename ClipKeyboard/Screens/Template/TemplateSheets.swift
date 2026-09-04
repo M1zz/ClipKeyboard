@@ -441,7 +441,7 @@ struct DatePlaceholderSelector: View {
     ///    **같은 모양이어야 한다** - 고른 날짜만 08/31/2026 이고 오늘 날짜는 2026-08-31 이면
     ///    같은 문서 안에서 날짜 모양이 둘로 갈린다.
     private static func formatted(_ date: Date) -> String {
-        DateTokenFormat.current.string(from: date)
+        DateTokenFormat.selection.string(from: date)
     }
 
     private struct Opt: Identifiable { let id = UUID(); let label: String; let days: Int }

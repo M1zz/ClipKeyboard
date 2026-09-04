@@ -16,7 +16,9 @@ struct AISettingsView: View {
     @AppStorage(DefaultsKey.aiActionSuggestionsEnabled, store: AppGroup.defaults)
     private var actionSuggestionsEnabled: Bool = true
     @AppStorage(DefaultsKey.aiTranslationTargetLang, store: AppGroup.defaults)
-    private var translationTargetLang: String = AITranslationLanguage.systemDefault.rawValue
+    private var translationTargetLang: String = AppTranslation.key(for: AppTranslation.defaultTarget)
+    /// 이 기기가 실제로 번역할 수 있는 언어. 손으로 든 목록이 아니라 시스템이 답한 것.
+    @State private var translationLanguages: [Locale.Language] = []
 
     private var availability: AIAvailability {
         AppleIntelligenceService.shared.availability
@@ -72,23 +74,28 @@ struct AISettingsView: View {
             }
 
             // 번역 기본 언어
+            //
+            // ⚠️ 이 칸만 `availability` 를 안 본다. 번역은 Apple Intelligence 가 아니라
+            //    `Translation` 이 하므로, 그것을 못 켜는 기기에서도 된다.
             Section {
                 Picker(selection: $translationTargetLang) {
-                    ForEach(AITranslationLanguage.allCases) { lang in
-                        Text(lang.displayName).tag(lang.rawValue)
+                    ForEach(translationLanguages, id: \.self) { lang in
+                        Text(AppTranslation.displayName(of: lang))
+                            .tag(AppTranslation.key(for: lang))
                     }
                 } label: {
                     Label(NSLocalizedString("기본 번역 언어", comment: "Default translation language picker"),
                           systemImage: "translate")
                 }
-                .disabled(availability != .available)
+                .disabled(translationLanguages.isEmpty)
             } header: {
                 Text(NSLocalizedString("번역", comment: "Suggested action: translate"))
             } footer: {
-                Text(NSLocalizedString("클립보드 히스토리의 텍스트 항목에서 '번역' 버튼을 누르면 이 언어로 번역해요. 번역은 무료이며 오프라인에서도 동작해요.", comment: "AI translation footer"))
+                Text(NSLocalizedString("클립보드 히스토리의 텍스트 항목에서 '번역' 버튼을 누르면 이 언어로 번역해요. 무료이고, 언어 자료를 한 번 받아 두면 오프라인에서도 됩니다. Apple Intelligence 를 못 켜는 기기에서도 동작해요.", comment: "AI translation footer"))
                     .font(.body)
             }
         }
+        .task { translationLanguages = await AppTranslation.supportedLanguages() }
         .navigationTitle(NSLocalizedString("Apple Intelligence", comment: "AI settings status row title"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)

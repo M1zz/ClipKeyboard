@@ -32,10 +32,12 @@ final class DateTokenFormatTests: XCTestCase {
     }
 
     private var saved: String?
+    private var savedCustoms: Data?
 
     override func setUp() {
         super.setUp()
         saved = AppGroup.defaults?.string(forKey: DefaultsKey.templateDateFormat)
+        savedCustoms = AppGroup.defaults?.data(forKey: DefaultsKey.templateDateCustomFormats)
     }
 
     /// ⚠️ 이 값은 App Group 에 진짜로 적힌다. 시험이 쓴 값을 남기면 안 된다.
@@ -44,6 +46,11 @@ final class DateTokenFormatTests: XCTestCase {
             AppGroup.defaults?.set(saved, forKey: DefaultsKey.templateDateFormat)
         } else {
             AppGroup.defaults?.removeObject(forKey: DefaultsKey.templateDateFormat)
+        }
+        if let savedCustoms {
+            AppGroup.defaults?.set(savedCustoms, forKey: DefaultsKey.templateDateCustomFormats)
+        } else {
+            AppGroup.defaults?.removeObject(forKey: DefaultsKey.templateDateCustomFormats)
         }
         super.tearDown()
     }
@@ -106,22 +113,22 @@ final class DateTokenFormatTests: XCTestCase {
     ///    시험끼리 부딪힌다. 다른 곳은 `process(dateFormat:)` 로 넘겨서 시험한다.
     func test_고른_적이_없으면_자동이다() {
         AppGroup.defaults?.removeObject(forKey: DefaultsKey.templateDateFormat)
-        XCTAssertEqual(DateTokenFormat.current, .automatic)
+        XCTAssertEqual(DateTokenFormat.selection, TokenFormatOption(builtin: .automatic))
     }
 
     /// 키보드 익스텐션은 **다른 프로세스**다. App Group 이 아니면 이 값을 영영 못 본다.
     func test_고른_모양은_App_Group_에_적힌다() {
-        DateTokenFormat.current = .monthDayYear
+        DateTokenFormat.selection = TokenFormatOption(builtin: .monthDayYear)
 
         XCTAssertEqual(AppGroup.defaults?.string(forKey: DefaultsKey.templateDateFormat),
                        DateTokenFormat.monthDayYear.rawValue,
                        "표준 UserDefaults 에 적으면 키보드는 이 값을 못 본다")
-        XCTAssertEqual(DateTokenFormat.current, .monthDayYear)
+        XCTAssertEqual(DateTokenFormat.selection, TokenFormatOption(builtin: .monthDayYear))
     }
 
     func test_알_수_없는_값이_적혀_있어도_자동으로_돈다() {
         AppGroup.defaults?.set("이건 없는 값", forKey: DefaultsKey.templateDateFormat)
-        XCTAssertEqual(DateTokenFormat.current, .automatic)
+        XCTAssertEqual(DateTokenFormat.selection, TokenFormatOption(builtin: .automatic))
     }
 
     // MARK: - ④ 다시 날짜로 읽을 수 있다
@@ -136,7 +143,7 @@ final class DateTokenFormatTests: XCTestCase {
 
     /// 모양을 바꾼 **뒤에도** 예전 모양으로 적힌 값을 읽어야 한다.
     func test_모양을_바꿔도_예전_글자를_읽는다() {
-        DateTokenFormat.current = .monthDayYear
+        DateTokenFormat.selection = TokenFormatOption(builtin: .monthDayYear)
         let old = DateTokenFormat.isoDash.string(from: sample, locale: Locale(identifier: "en_US"))
 
         let back = DateTokenFormat.date(from: old, locale: Locale(identifier: "en_US"))
@@ -184,7 +191,7 @@ final class DateTokenFormatTests: XCTestCase {
             if let saved { AppGroup.defaults?.set(saved, forKey: DefaultsKey.templateTimeFormat) }
             else { AppGroup.defaults?.removeObject(forKey: DefaultsKey.templateTimeFormat) }
         }
-        TimeTokenFormat.current = .twelveHour
+        TimeTokenFormat.selection = TokenFormatOption(builtin: .twelveHour)
         XCTAssertEqual(AppGroup.defaults?.string(forKey: DefaultsKey.templateTimeFormat),
                        TimeTokenFormat.twelveHour.rawValue)
     }
@@ -195,5 +202,88 @@ final class DateTokenFormatTests: XCTestCase {
         // 패턴 글자("MM/DD/YYYY")는 개발자만 읽는다. 실제 날짜는 누구나 읽는다.
         XCTAssertFalse(DateTokenFormat.isoDash.sampleText.contains("yyyy"))
         XCTAssertTrue(DateTokenFormat.isoDash.sampleText.contains("-"))
+    }
+    // MARK: - ⑤ 사람이 자기 모양을 만든다
+
+    /// 준비한 대여섯 가지로 세상이 날짜 적는 법을 다 덮을 수 없다. 못 만들면 손으로 고쳐 쓰게 된다.
+    func test_만든_모양이_그대로_들어간다() {
+        DateTokenFormat.customPatterns = []
+        XCTAssertTrue(DateTokenFormat.addCustomPattern("dd.MM.yy"))
+
+        let option = TokenFormatOption<DateTokenFormat>(customPattern: "dd.MM.yy")
+        XCTAssertEqual(option.string(from: sample, locale: Locale(identifier: "en_US")), "31.08.26")
+    }
+
+    /// 키보드 익스텐션은 **다른 프로세스**다. App Group 이 아니면 만든 서식을 영영 못 본다.
+    func test_만든_모양은_App_Group_에_적힌다() {
+        DateTokenFormat.customPatterns = []
+        DateTokenFormat.addCustomPattern("yyyy'년' M'월'")
+
+        XCTAssertNotNil(AppGroup.defaults?.data(forKey: DefaultsKey.templateDateCustomFormats),
+                        "표준 UserDefaults 에 적으면 키보드는 이 서식을 못 본다")
+        XCTAssertEqual(DateTokenFormat.customPatterns, ["yyyy'년' M'월'"])
+    }
+
+    func test_쓸_수_없는_모양은_안_받는다() {
+        DateTokenFormat.customPatterns = []
+        XCTAssertFalse(DateTokenFormat.addCustomPattern(""), "빈 것")
+        XCTAssertFalse(DateTokenFormat.addCustomPattern("   "), "공백뿐")
+        XCTAssertFalse(DateTokenFormat.addCustomPattern("오늘의 날짜"),
+                       "날짜 글자가 없으면 언제 넣어도 같은 글자만 나온다")
+        XCTAssertFalse(DateTokenFormat.addCustomPattern("'yyyy'"),
+                       "따옴표 안은 그대로 찍히는 글자라 서식이 아니다")
+        XCTAssertTrue(DateTokenFormat.customPatterns.isEmpty)
+    }
+
+    func test_같은_모양을_두_번_넣지_않는다() {
+        DateTokenFormat.customPatterns = []
+        XCTAssertTrue(DateTokenFormat.addCustomPattern("dd.MM.yy"))
+        XCTAssertFalse(DateTokenFormat.addCustomPattern("dd.MM.yy"))
+        XCTAssertEqual(DateTokenFormat.customPatterns.count, 1)
+    }
+
+    /// 지운 서식을 가리킨 채로 남으면 날짜 자리가 빈칸이 된다.
+    func test_고른_모양을_지우면_자동으로_돌아온다() {
+        DateTokenFormat.customPatterns = []
+        DateTokenFormat.addCustomPattern("dd.MM.yy")
+        DateTokenFormat.selection = TokenFormatOption(customPattern: "dd.MM.yy")
+
+        DateTokenFormat.removeCustomPattern("dd.MM.yy")
+
+        XCTAssertEqual(DateTokenFormat.selection, TokenFormatOption(builtin: .automatic))
+    }
+
+    /// 다른 기기에서 지운 서식을 이 기기가 가리키고 있을 수 있다.
+    func test_없는_모양을_가리키면_자동으로_읽는다() {
+        DateTokenFormat.customPatterns = []
+        AppGroup.defaults?.set("custom:dd.MM.yy", forKey: DefaultsKey.templateDateFormat)
+
+        XCTAssertEqual(DateTokenFormat.selection, TokenFormatOption(builtin: .automatic))
+    }
+
+    /// 만든 모양으로 적힌 글자도 다시 날짜로 읽어야 한다. 못 읽으면 고른 날짜가 오늘로 되돌아간다.
+    func test_만든_모양으로_적힌_글자도_다시_읽는다() {
+        DateTokenFormat.customPatterns = []
+        DateTokenFormat.addCustomPattern("dd.MM.yyyy")
+        let us = Locale(identifier: "en_US")
+        let text = TokenFormatOption<DateTokenFormat>(customPattern: "dd.MM.yyyy").string(from: sample, locale: us)
+
+        XCTAssertNotNil(DateTokenFormat.date(from: text, locale: us),
+                        "'\(text)' 는 사용자가 만든 모양이지만 여전히 그 사람이 고른 날짜다")
+    }
+
+    /// `{날짜}` 를 실제로 바꿔 넣는 자리까지 이어지는지.
+    func test_만든_모양이_토큰에_들어간다() {
+        let option = TokenFormatOption<DateTokenFormat>(customPattern: "dd.MM.yy")
+        let out = TemplateVariableProcessor.process("오늘은 {날짜} 입니다", at: sample, dateFormat: option)
+        XCTAssertEqual(out, "오늘은 31.08.26 입니다")
+    }
+
+    func test_모양은_열_개까지만_쌓인다() {
+        DateTokenFormat.customPatterns = []
+        for i in 1...12 {
+            DateTokenFormat.addCustomPattern("yyyy-MM-dd'\(i)'")
+        }
+        XCTAssertEqual(DateTokenFormat.customPatterns.count, DateTokenFormat.maxCustomPatterns)
     }
 }
