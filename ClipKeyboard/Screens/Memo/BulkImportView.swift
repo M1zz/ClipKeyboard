@@ -69,7 +69,16 @@ struct BulkImportView: View {
         }
     }
 
-    @State private var pasteText: String = ""
+    @State private var pasteText: String
+    /// 붙여넣던 글을 그대로 들고 열렸는가. 그러면 임시저장 복원으로 덮지 않는다.
+    private let seeded: Bool
+
+    /// - Parameter initialText: 새 단축어 화면에서 붙여넣던 글. 그대로 들고 열린다.
+    ///   사용자가 같은 것을 두 번 붙여넣게 하지 않으려는 것이다.
+    init(initialText: String = "") {
+        _pasteText = State(initialValue: initialText)
+        self.seeded = !initialText.isEmpty
+    }
     @State private var previewMode: PreviewMode = .keyboard
     /// 묶기 모드 - 키에 체크가 나오고, 고른 것들을 콤보 하나로 합친다.
     @State private var isBundling = false
@@ -103,7 +112,8 @@ struct BulkImportView: View {
                     successSection
                 }
             }
-            .onAppear { restoreSnapshotIfAvailable() }
+            // 글을 들고 열렸으면 임시저장으로 덮지 않는다. 방금 붙여넣던 것이 이긴다.
+            .onAppear { if !seeded { restoreSnapshotIfAvailable() } }
             .onDisappear { persistSnapshotIfNeeded() }
             .navigationTitle(NSLocalizedString("Bulk import", comment: "Bulk import screen title"))
             #if os(iOS)
@@ -478,10 +488,16 @@ struct BulkImportView: View {
                 draft.wrappedValue.include.toggle()
             } label: {
                 Image(systemName: d.include ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(d.include ? .accentColor : .secondary)
+                    .foregroundColor(d.include ? Color.checkGreen : .secondary)
                     .font(.system(.title3))
             }
             .buttonStyle(.plain)
+            // ⚠️ 색만으로 켬/끔을 말하지 않는다. 읽어 줄 때도 상태가 들려야 한다.
+            .accessibilityLabel(NSLocalizedString("가져오기", comment: "Include this item"))
+            .accessibilityValue(d.include
+                                ? NSLocalizedString("선택됨", comment: "Selected")
+                                : NSLocalizedString("선택 안 됨", comment: "Not selected"))
+            .accessibilityAddTraits(d.include ? [.isSelected] : [])
 
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
@@ -558,7 +574,7 @@ struct BulkImportView: View {
             VStack(spacing: 12) {
                 Image(systemName: AppSymbol.checkmarkCircleFill)
                     .font(.system(size: 44))
-                    .foregroundColor(.green)
+                    .foregroundColor(Color.checkGreen)
                 Text(String(format: NSLocalizedString("Imported %d memos", comment: "Bulk import success"), savedCount ?? 0))
                     .font(.headline)
             }

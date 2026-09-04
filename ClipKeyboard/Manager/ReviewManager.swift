@@ -66,6 +66,23 @@ class ReviewManager {
         }
     }
 
+    // MARK: - 별점을 물어도 되는 사람인가
+
+    /// 키보드에서 **한 번이라도 실제로 붙여넣었는가.**
+    ///
+    /// ⚠️ 모든 리뷰 요청의 전제 조건이다. 앱을 몇 번 열었는지, 단축어를 몇 개 만들었는지는
+    ///    아직 값을 받은 게 아니다. 만들어만 두고 키보드를 못 켠 사람에게 별점을 물으면
+    ///    1점이 돌아오고, 별점 개수는 지워지지 않는 자산이라 그 손해는 영구적이다.
+    ///    붙여넣기가 한 번 성공한 순간이 이 앱이 약속한 것을 처음 지킨 순간이고,
+    ///    별점을 물어도 되는 가장 이른 때다.
+    ///
+    /// 앱 안 키보드 미리보기에서 눌러 본 것은 여기 세지 않는다
+    /// (`keyboardPasteCount` 는 익스텐션만 올린다. `InAppKeyboardHost` 머리말 참고).
+    var hasPastedFromKeyboard: Bool {
+        if UserDefaults.standard.integer(forKey: keyKeyboardUseCount) > 0 { return true }
+        return (AppGroup.defaults?.integer(forKey: DefaultsKey.keyboardPasteCount) ?? 0) > 0
+    }
+
     // MARK: - Public Methods (기존)
 
     /// 앱 실행 시 호출 - 실행 횟수 증가
@@ -88,6 +105,12 @@ class ReviewManager {
     /// 리뷰 요청 시트를 표시할지 확인 (앱 실행 시 체크용)
     /// - Returns: 리뷰 요청 시트 표시 여부
     func shouldShowReview() -> Bool {
+        // 붙여넣기를 한 번도 못 해 본 사람에게는 묻지 않는다 (hasPastedFromKeyboard 주석 참고)
+        guard hasPastedFromKeyboard else {
+            print("⏭️ [ReviewManager] 아직 붙여넣기 경험 없음, 리뷰 시트 보류")
+            return false
+        }
+
         // 사용자가 이미 응답했으면 다시 표시하지 않음
         let hasResponded = UserDefaults.standard.bool(forKey: hasRespondedToReviewKey)
         guard !hasResponded else {
@@ -217,6 +240,12 @@ class ReviewManager {
 
     /// 특정 트리거에 대해 1회만 리뷰 요청
     private func requestReviewOnce(key: String, delay: TimeInterval) {
+        // ⚠️ 플래그를 태우기 **전에** 자격을 본다. 붙여넣기 전에 콤보를 끝낸 사람에게
+        //    여기서 플래그만 세워 두면, 정작 물어봐도 될 때가 왔을 때 그 기회가 이미 없다.
+        guard hasPastedFromKeyboard else {
+            print("⏭️ [ReviewManager] 아직 붙여넣기 경험 없음, 트리거 보류: \(key)")
+            return
+        }
         guard !UserDefaults.standard.bool(forKey: key) else {
             print("⏭️ [ReviewManager] 이미 요청됨: \(key)")
             return
@@ -232,6 +261,12 @@ class ReviewManager {
     /// StoreKit 시스템 리뷰 요청
     @MainActor
     private func requestSystemReview() {
+        // 어느 트리거를 거쳐 왔든 이 문은 반드시 지난다. 붙여넣기 한 번이 없으면
+        // 시스템 별점 다이얼로그는 뜨지 않는다 (hasPastedFromKeyboard 주석 참고).
+        guard hasPastedFromKeyboard else {
+            print("⏭️ [ReviewManager] 아직 붙여넣기 경험 없음, 시스템 리뷰 다이얼로그 취소")
+            return
+        }
         #if os(iOS)
         if let scene = UIApplication.shared.connectedScenes
             .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
@@ -260,6 +295,13 @@ class ReviewManager {
 
     /// 리뷰 요청 조건을 확인합니다. (기존 조건 기반)
     private func shouldRequestReview() -> Bool {
+        // 0. 붙여넣기 경험 확인 - 여기서 막아야 쿨다운(90일)과 요청 플래그를
+        //    "묻지도 않은 요청"으로 태워 버리지 않는다.
+        guard hasPastedFromKeyboard else {
+            print("⏭️ [ReviewManager] 아직 붙여넣기 경험 없음, 리뷰 요청 보류")
+            return false
+        }
+
         // 1. 메모 생성 횟수 확인
         let memoCount = UserDefaults.standard.integer(forKey: memoCreatedCountKey)
         guard memoCount >= minimumMemoCount else {
@@ -303,6 +345,7 @@ class ReviewManager {
         - 키보드 사용 횟수: \(keyboardUseCount)
         - 클립 저장 횟수: \(clipSaveCount)
         - 리뷰 요청 여부: \(hasRequested ? "예" : "아니오")
+        - 붙여넣기 경험: \(hasPastedFromKeyboard ? "있음(요청 가능)" : "없음(모든 요청 보류)")
         """
 
         if let lastDate = lastRequestDate {

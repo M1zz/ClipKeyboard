@@ -54,56 +54,6 @@ struct DocumentCameraView: UIViewControllerRepresentable {
     }
 }
 
-struct ImageAttachmentView: View {
-    let image: UIImage
-    let onRemove: () -> Void
-    let onCopy: () -> Void
-
-    @Environment(\.appTheme) private var theme
-    @State private var isPressed = false
-
-    var body: some View {
-        ZStack(alignment: .topTrailing) {
-            Image(uiImage: image)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 100, height: 100)
-                .clipped()
-                .cornerRadius(theme.radiusSm)
-                .overlay(
-                    RoundedRectangle(cornerRadius: theme.radiusSm)
-                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                )
-
-            VStack(spacing: 4) {
-                Button {
-                    onRemove()
-                } label: {
-                    Image(systemName: AppSymbol.xmarkCircleFill)
-                        .font(.title3)
-                        .foregroundStyle(.white)
-                        .background(Circle().fill(Color.red).frame(width: 20, height: 20))
-                }
-
-                Button {
-                    onCopy()
-                } label: {
-                    Image(systemName: AppSymbol.docOnDocFill)
-                        .font(.body)
-                        .foregroundStyle(Color.accentForeground)
-                        .background(Circle().fill(Color.accentColor).frame(width: 20, height: 20))
-                }
-            }
-            .padding(4)
-        }
-        .scaleEffect(isPressed ? 0.95 : 1.0)
-        .animation(.easeInOut(duration: 0.1), value: isPressed)
-        .onLongPressGesture(minimumDuration: 0.1, pressing: { pressing in
-            isPressed = pressing
-        }, perform: {})
-    }
-}
-
 struct ImagePickerView: UIViewControllerRepresentable {
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
     let completion: (UIImage?) -> Void

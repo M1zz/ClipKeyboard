@@ -64,16 +64,64 @@ class PredefinedValuesStore {
         return []
     }
 
-    // 특정 템플릿에서 사용하는 값만 필터링
+    /// 값을 하나 **적어 넣는다.** 앱 쪽 `MemoStore.addPlaceholderValue` 와 같은 자리·같은 형식.
+    ///
+    /// ⚠️ 두 타깃이 같은 파일을 보므로 여기 하나만 있으면 된다. 형식이 갈리면 한쪽이 쓴 값을
+    ///    다른 쪽이 못 읽는다 - `KeyboardPlaceholderValue` 는 앱의 `PlaceholderValue` 와
+    ///    필드 이름까지 같아야 한다(그래서 같은 JSON 을 주고받는다).
+    ///
+    /// ⚠️ 같은 값이 이미 있으면 **맨 앞으로 끌어올린다.** 두 번 적히면 고를 때 같은 칩이
+    ///    두 개 보인다.
+    @discardableResult
+    func addValue(_ value: String,
+                  for placeholder: String,
+                  sourceMemoId: UUID?,
+                  sourceMemoTitle: String) -> Bool {
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, let defaults = AppGroup.defaults else { return false }
+
+        let key = "placeholder_values_\(placeholder)"
+        var values: [KeyboardPlaceholderValue] = []
+        if let data = defaults.data(forKey: key),
+           let decoded = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) {
+            values = decoded
+        }
+        values.removeAll { $0.value == trimmed }
+        values.insert(KeyboardPlaceholderValue(id: UUID(),
+                                               value: trimmed,
+                                               sourceMemoId: sourceMemoId ?? UUID(),
+                                               sourceMemoTitle: sourceMemoTitle,
+                                               addedAt: Date()),
+                      at: 0)
+        guard let data = try? JSONEncoder().encode(values) else { return false }
+        defaults.set(data, forKey: key)
+        print("✅ [PredefinedValuesStore] '\(placeholder)' 에 값 추가: \(trimmed)")
+        return true
+    }
+
+    // 특정 템플릿에서 쓸 값
+    //
+    // ⚠️ **공용 저장소(`placeholder_values_{이름}`)를 먼저 본다.** 값은 이름으로 묶이고,
+    //    앱의 빈칸 관리·입력 화면이 손대는 곳도 거기다. 예전에는 단축어에 붙은 사본
+    //    (`Memo.placeholderValues`)을 먼저 봤는데, 그래서 **앱에서 지운 값이 키보드에는
+    //    그대로 남았다.** 지운 것이 다시 나오는 것만큼 못 미더운 일이 없다.
+    //
+    //    단축어에 붙은 사본은 **옛 데이터를 위한 폴백**으로만 남긴다. 공용 저장소가 비어 있을
+    //    때만 쓴다(4.4 이전에 만든 템플릿, 그리고 맥이 쓴 데이터가 여기 해당한다).
     func getValuesForTemplate(placeholder: String, templateId: UUID?) -> [String] {
         print("\n🔍 [PredefinedValuesStore] getValuesForTemplate 호출")
         print("   플레이스홀더: \(placeholder), 템플릿 ID: \(templateId?.uuidString ?? "nil")")
         logClipMemosState()
 
-        if let values = getValuesFromMemos(placeholder: placeholder, templateId: templateId) {
-            return values
+        let shared = getValuesFromUserDefaults(placeholder: placeholder, templateId: templateId)
+        if !shared.isEmpty {
+            return shared
         }
-        return getValuesFromUserDefaults(placeholder: placeholder, templateId: templateId)
+        if let legacy = getValuesFromMemos(placeholder: placeholder, templateId: templateId) {
+            print("   ↩️ 공용 저장소가 비어 단축어에 붙은 옛 값을 쓴다")
+            return legacy
+        }
+        return []
     }
 
     /// clipMemos 배열 상태 디버그 출력
@@ -149,6 +197,27 @@ class TemplateInputState: ObservableObject {
         allPlaceholdersFilled = !inputs.values.contains(where: { $0.isEmpty })
     }
 
+    /// **다음에 채울 칸.** 한 칸만 펼쳐 보여줄 때 어디를 펼칠지 정한다.
+    ///
+    /// 규칙은 하나다: 아직 안 채운 칸 중 `after` 다음 것. 뒤에 없으면 앞으로 돌아가 찾고,
+    /// 다 채웠으면 nil (그때는 아무것도 펼치지 않고 입력하기만 남는다).
+    ///
+    /// ⚠️ 순서대로만 가지 않는다. 사람이 셋째 칸을 먼저 눌러 채울 수 있고, 그 다음은
+    ///    넷째가 아니라 **아직 빈 첫째** 여야 한다. 순서대로만 가면 건너뛴 칸이
+    ///    영영 안 펼쳐지고, 사용자는 왜 입력하기가 안 눌리는지 모른 채 남는다.
+    static func nextUnfilled(in placeholders: [String],
+                             inputs: [String: String],
+                             after current: String?) -> String? {
+        guard !placeholders.isEmpty else { return nil }
+        let isEmpty: (String) -> Bool = { (inputs[$0] ?? "").isEmpty }
+        guard let start = current.flatMap({ placeholders.firstIndex(of: $0) }) else {
+            return placeholders.first(where: isEmpty)
+        }
+        let after = placeholders[(start + 1)...]
+        let before = placeholders[..<start]
+        return after.first(where: isEmpty) ?? before.first(where: isEmpty)
+    }
+
     /// 현재 입력값 기준 결합 미리보기. baseMemoValue가 있으면 결합 형태, 없으면 치환 결과.
     var previewText: String {
         let resolvedTemplate = TemplateVariableProcessor.substitute(originalText, with: inputs)
@@ -173,8 +242,6 @@ struct KeyboardView: View {
     @AppStorage(DefaultsKey.keyboardSkin, store: AppGroup.defaults)
     private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
     /// 단축어 줄을 악어 입속처럼 - 켜면 키가 송곳니가 되고 그 위에 잇몸이 얹힌다.
-    @AppStorage(DefaultsKey.keyboardToothStyle, store: AppGroup.defaults)
-    private var toothStyleOn: Bool = false
     /// 콤보 키캡의 눌림 표현에 쓴다(개별 키는 KeycapButtonStyle이 각자 읽는다).
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -211,20 +278,42 @@ struct KeyboardView: View {
     /// nil이면 아무것도 가리키지 않는다(평소).
     let highlightedMemoId: UUID?
 
+    /// 가리키는 키가 콤보라면 **그 키의 어느 쪽**을 가리키는가.
+    ///
+    /// ⚠️ nil 이면 키캡 전체가 인다(콤보가 아닌 보통 키의 평소 모습). 콤보 키는 좌·우가
+    ///    하는 일이 달라서, 통째로 빛나면 "어디를 누르라는 거지"가 된다 - 실제로 콤보
+    ///    튜토리얼에서 사람들이 오른쪽 → 를 못 찾았다.
+    let highlightedComboPart: ComboKeyPart?
+
+    /// 콤보 키의 두 쪽. 왼쪽은 값을 넣고, 오른쪽은 다음 값으로 넘긴다.
+    enum ComboKeyPart: String, Equatable {
+        /// 왼쪽 2/3 - 지금 값을 입력창에 넣는다.
+        case value
+        /// 오른쪽 1/3 - 다음 값으로 넘긴다(글은 안 들어간다).
+        case next
+    }
+
     init(typingProxy: TypingInputProxy? = nil,
          documentState: KeyboardDocumentState = KeyboardDocumentState(),
          hostKind: KeyboardHostKind = .keyboardExtension,
-         highlightedMemoId: UUID? = nil) {
+         highlightedMemoId: UUID? = nil,
+         highlightedComboPart: ComboKeyPart? = nil) {
         self.typingProxy = typingProxy
         self.documentState = documentState
         self.hostKind = hostKind
         self.highlightedMemoId = highlightedMemoId
+        self.highlightedComboPart = highlightedComboPart
     }
 
     // 동적 그리드 레이아웃 (열 개수에 따라 변경)
     private var gridItemLayout: [GridItem] {
         Array(repeating: GridItem(.flexible(), spacing: 10), count: max(1, min(5, keyboardColumnCount)))
     }
+
+    /// 튜토리얼 물결이 키 밖으로 번져 나가는 거리이자, 그리드가 위아래로 비워 두는 여백.
+    /// **한 값을 둘이 같이 본다** - 어긋나면 그 차이만큼 물결이 잘린다.
+    /// 가로 여백(12pt)보다 크지 않게 둔다. 가로는 늘릴 수 없다(키가 좁아진다).
+    private static let gridRippleReach: CGFloat = 12
 
     // 데이터 상태
     @State private var allMemos: [Memo] = []
@@ -233,8 +322,24 @@ struct KeyboardView: View {
     @State private var showPinNotSetToast = false
     /// 전체 접근이 꺼진 상태에서 클립보드 동작을 시도했을 때의 안내.
     @State private var showFullAccessToast = false
+    /// 배운 캐럿 자리를 처음 적용했을 때 한 번만 뜨는 줄. 단축어당 한 번뿐이다.
+    @State private var showCursorMemoryToast = false
+    /// 매번 같은 자리를 고치는 것을 알아챘을 때 뜨는 제안. 단축어당 한 번뿐이다.
+    @State private var editSuggestion: (memoId: UUID, kind: EditPattern.Suggestion)?
+    /// 제안을 받아들여 단축어를 바꾼 직후 잠깐 뜨는 줄.
+    @State private var showEditAppliedToast = false
     /// 앱 안에서 길게 눌러 복사했다는 확인. (익스텐션에서는 뜰 일이 없다)
     @State private var showCopiedToast = false
+    /// 길게 눌러 판을 연 시각. 바로 뒤에 따라오는 탭 한 번을 삼키는 데 쓴다.
+    ///
+    /// ⚠️ 참·거짓 깃발로 두지 않는다. 길게 누른 뒤 탭이 **안 올 수도 있어서**(SwiftUI 가
+    ///    이미 삼킨 경우) 깃발이 켜진 채로 남고, 그러면 다음에 제대로 누른 한 번이 사라진다.
+    ///    시각으로 두면 스스로 풀린다.
+    @State private var clipboardLongPressAt: Date?
+    @State private var showEmptyClipboardToast = false
+    /// 복사한 것에서 조각을 고르는 판. nil 이면 안 떠 있다.
+    /// (사용자 요청: "웹페이지에서 내용을 복사한 후 일부만 붙여넣고 싶을 때")
+    @State private var clipboardPickerText: String?
     /// 길게 눌러 복사한 직후의 키 - 이어서 들어오는 탭을 한 번 무시한다.
     /// (길게 눌렀는데 글까지 입력되면 "복사만 하려 했는데"가 된다)
     @State private var suppressTapAfterLongPress: UUID?
@@ -260,11 +365,16 @@ struct KeyboardView: View {
 
     @Environment(\.colorScheme) var colorScheme
 
+    /// 설정 > 손쉬운 사용 > 디스플레이 > 대비 증가.
+    @Environment(\.colorSchemeContrast) private var contrast
+
     enum SearchLang { case english, korean }
 
-    /// iOS 앱과 동일한 Paper 테마 - light/dark는 시스템 모드 따름
+    /// iOS 앱과 동일한 Paper 테마 - light/dark는 시스템 모드 따름.
+    /// ⚠️ 익스텐션은 앱의 `AppThemedContainer` 를 거치지 않으므로 대비 증가를 **직접 본다.**
     private var theme: AppTheme {
-        AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark)
+        AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark,
+                         increasedContrast: contrast == .increased)
     }
 
     // MARK: - Computed Properties
@@ -272,9 +382,27 @@ struct KeyboardView: View {
     /// v4.1.0: 카테고리 기능 활성 시 선택된 카테고리 + 검색 적용, 비활성 시 검색만.
     /// 별 토글은 v4.1.0에서 제거됨 - 즐겨찾기는 카테고리 swipe(★favorites 페이지)로 접근.
     private var filteredMemos: [Memo] {
+        var result = memos(onPage: selectedCategoryFilter)
+
+        if !searchQuery.isEmpty {
+            let q = searchQuery
+            result = result.filter {
+                $0.title.localizedStandardContains(q) ||
+                $0.value.localizedStandardContains(q) ||
+                $0.category.localizedStandardContains(q)
+            }
+        }
+        return result
+    }
+
+    /// **한 페이지**에 서는 단축어들. 검색은 얹지 않는다.
+    ///
+    /// ⚠️ 페이지를 인자로 받는다. `filteredMemos` 가 지금 페이지만 알던 동안에는
+    ///    "가리키는 키가 어느 페이지에 있는가"를 물을 방법이 없었다(`pageIndex(containing:)`).
+    private func memos(onPage page: String?) -> [Memo] {
         var result = allMemos
 
-        if isCategoryFeatureEnabled, let category = selectedCategoryFilter {
+        if isCategoryFeatureEnabled, let category = page {
             switch category {
             case "★basic":
                 // 기본 = **갈 수 있는** 어떤 카테고리 페이지에도 속하지 않은 비즐겨찾기 메모.
@@ -301,16 +429,27 @@ struct KeyboardView: View {
                 result = result.filter { $0.category == category }
             }
         }
-
-        if !searchQuery.isEmpty {
-            let q = searchQuery
-            result = result.filter {
-                $0.title.localizedStandardContains(q) ||
-                $0.value.localizedStandardContains(q) ||
-                $0.category.localizedStandardContains(q)
-            }
-        }
         return result
+    }
+
+    /// 그 단축어가 서 있는 페이지의 번호. 어느 페이지에도 없으면 nil.
+    private func pageIndex(containing id: UUID) -> Int? {
+        categoryPages.firstIndex { page in
+            memos(onPage: page).contains { $0.id == id }
+        }
+    }
+
+    /// 튜토리얼이 가리키는 키가 **다른 페이지에 있으면** 그 페이지로 옮긴다.
+    ///
+    /// ⚠️ 이게 없으면 처음 온 사람의 첫 걸음이 그대로 끊긴다. 심어 둔 샘플은 즐겨찾기와
+    ///    사용자 카테고리로 들어가는데, 키보드는 늘 첫 페이지(★basic)에서 열린다.
+    ///    그 페이지는 **비어 있다** - "이걸 눌러보세요 ↓" 아래에 아무것도 없는 화면이 된다.
+    private func revealHighlightedPageIfNeeded() {
+        guard let id = highlightedMemoId, isCategoryFeatureEnabled else { return }
+        // 이미 보이면 건드리지 않는다 - 사용자가 넘긴 페이지를 도로 끌고 오지 않기 위해서다.
+        guard !filteredMemos.contains(where: { $0.id == id }) else { return }
+        guard let index = pageIndex(containing: id), index != currentCategoryPage else { return }
+        currentCategoryPage = index
     }
 
     /// 키보드 익스텐션은 메인 앱 타겟의 CategoryStore에 직접 접근할 수 없으므로
@@ -462,6 +601,20 @@ struct KeyboardView: View {
 
             // 길게 눌러 값을 크게 보는 판 - 시스템 컨텍스트 메뉴는 키보드 창에 갇혀
             // 150pt 남짓으로 잘린다. 이 자리는 우리 것이라 꽉 채워 쓸 수 있다.
+            // 복사한 것에서 필요한 데까지만 고르는 판.
+            if let text = clipboardPickerText {
+                KeyboardClipboardPicker(
+                    text: text,
+                    theme: theme,
+                    onInsert: { picked in
+                        typingProxy?.insertText(picked)
+                        clipboardPickerText = nil
+                    },
+                    onClose: { clipboardPickerText = nil }
+                )
+                .transition(.opacity)
+            }
+
             if let memo = peekMemo {
                 KeyboardMemoPeek(
                     memo: memo,
@@ -470,11 +623,95 @@ struct KeyboardView: View {
                         copyTextToClipboard(memo.comboValues.first ?? memo.value)
                         peekMemo = nil
                     },
+                    // 하나뿐이면 바꿀 순서가 없다 - 버튼도 두지 않는다.
+                    onReorder: allMemos.count > 1 ? { enterReorderMode() } : nil,
                     onClose: { peekMemo = nil }
                 )
                 .transition(.opacity)
             }
         }
+    }
+
+    /// 한 글자 지우기. 붙잡고 있으면 이어서 지운다.
+    ///
+    /// 왜 X(전체 삭제) 만으로는 모자란가: 오타는 한 글자다. 전체를 지우면 다시 다 써야 하고,
+    /// 그래서 사람들은 지구본을 눌러 다른 키보드로 건너갔다가 돌아왔다.
+    /// 넣어 주는 키보드인데 고치러는 나가야 했다.
+    private func backspaceDocumentKey(proxy: TypingInputProxy) -> some View {
+        RepeatingKey {
+            KeyboardHaptics.tap()
+            proxy.deleteBackward()
+        } label: {
+            Image(systemName: AppSymbol.deleteLeftFill)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundColor(theme.text)
+                .frame(width: 36, height: 28)
+                .background(theme.divider)
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+        }
+        .frame(minWidth: 44, minHeight: 44)
+        .padding(.trailing, 2)
+        .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace key"))
+        .accessibilityHint(NSLocalizedString("한 글자씩 지웁니다. 누르고 있으면 이어서 지웁니다", comment: "Backspace key hint"))
+    }
+
+    /// 복사한 것을 넣는 키.
+    ///
+    /// **짧게 누르면 통째로, 길게 누르면 조각을 골라서.**
+    /// 이 저장소가 이미 쓰는 손짓이다(키 하나가 두 가지 일을 한다 - `InAppLongPressCopy`).
+    private func clipboardKey(proxy: TypingInputProxy) -> some View {
+        Button {
+            if let at = clipboardLongPressAt, Date().timeIntervalSince(at) < 0.8 { return }
+            guard let text = clipboardTextForInsert() else { return }
+            KeyboardHaptics.tap()
+            proxy.insertText(text)
+        } label: {
+            Image(systemName: AppSymbol.docOnClipboard)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundColor(theme.textMuted)
+                .frame(width: 32, height: 28)
+                .background(theme.surface)
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+        }
+        .buttonStyle(PlainButtonStyle())
+        .frame(minWidth: 44, minHeight: 44)
+        .padding(.trailing, 2)
+        .onLongPressGesture(minimumDuration: 0.4) {
+            clipboardLongPressAt = Date()
+            openClipboardPicker()
+        }
+        .accessibilityLabel(NSLocalizedString("붙여넣기", comment: "Paste clipboard key"))
+        .accessibilityHint(NSLocalizedString("복사한 것을 넣습니다. 길게 누르면 필요한 부분만 고를 수 있습니다", comment: "Paste key hint"))
+        // 길게 누르기를 모르는 사람도, 손이 불편한 사람도 쓸 수 있게.
+        .accessibilityAction(named: Text(NSLocalizedString("부분만 고르기", comment: "Accessibility action: pick part of clipboard"))) {
+            openClipboardPicker()
+        }
+    }
+
+    private func openClipboardPicker() {
+        guard let text = clipboardTextForInsert() else { return }
+        KeyboardHaptics.mediumTap()
+        withAnimation { clipboardPickerText = text }
+    }
+
+    /// 클립보드의 글. 없거나 못 읽으면 안내를 띄우고 nil.
+    ///
+    /// ⚠️ 읽는 때는 **사용자가 키를 누른 순간뿐이다.** 저절로 읽지 않는다
+    ///    (`docs/postmortem/HANG_PASTEBOARD_5_0_1.md` - 유니버설 클립보드가 켜져 있으면
+    ///     읽기가 옆 기기를 기다린다). 누른 사람에게는 그 기다림이 곧 대답이다.
+    private func clipboardTextForInsert() -> String? {
+        if hostKind == .keyboardExtension, !requireFullAccess() { return nil }
+        // pasteboard-ok: 사용자가 붙여넣기 키를 직접 눌렀다
+        let text = UIPasteboard.general.string ?? ""
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            KeyboardHaptics.softTap()
+            withAnimation { showEmptyClipboardToast = true }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                withAnimation { showEmptyClipboardToast = false }
+            }
+            return nil
+        }
+        return text
     }
 
     private func clearAllButton(proxy: TypingInputProxy) -> some View {
@@ -500,39 +737,56 @@ struct KeyboardView: View {
     private var memoModeContent: some View {
         VStack(spacing: 0) {
             // 무료 유저: 숨겨진 메모 있을 때 또는 한도 임박(2개 이내) 시 업그레이드 배너
-            if isFreeUser && (hiddenMemoCount > 0 || isMemoLimitNear) {
+            if isFreeUser && !isReorderMode && (hiddenMemoCount > 0 || isMemoLimitNear) {
                 freeUpgradeBanner
             }
 
-            // 상단 헤더 - 카테고리 탭 + clear 버튼
-            HStack(spacing: 0) {
-                // 앱 안에서는 탭이 하나뿐이어도 보여준다 - 카테고리가 **처음부터** 있어야
-                // "여기서 갈라 볼 수 있다"가 읽힌다. 익스텐션은 자리가 귀해 예전대로 둘 이상일 때만.
-                if hostKind == .inApp ? !categoryPages.isEmpty : categoryPages.count > 1 {
-                    categoryTabRow
-                } else {
-                    Spacer()
-                }
-                // X(전체 삭제)도 앱 안에서는 **처음부터** 서 있다. 글이 생길 때 나타나면
-                // 그 순간 줄이 흔들리고, 무엇보다 "지울 수 있다"를 미리 알 수 없다.
-                if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
-                    clearAllButton(proxy: proxy)
-                        .padding(.trailing, 4)
-                        .transition(.opacity.combined(with: .scale(scale: 0.85)))
-                        // 빈 칸에서는 눌러도 지울 게 없다 - 있지만 흐리게.
-                        .opacity(documentState.hasText ? 1 : 0.4)
-                        .disabled(!documentState.hasText)
-                }
+            // 순서를 바꾸는 동안에는 위 줄을 이 안내가 대신 쓴다.
+            // 카테고리 탭은 이때 뜻이 없다 - 페이지와 무관하게 전체를 한 줄로 늘어놓고 옮긴다.
+            if isReorderMode {
+                reorderBanner
             }
-            .animation(.easeOut(duration: 0.18), value: documentState.hasText)
+
+            // 상단 헤더 - 카테고리 탭 + clear 버튼
+            if !isReorderMode {
+                HStack(spacing: 0) {
+                    // 앱 안에서는 탭이 하나뿐이어도 보여준다 - 카테고리가 **처음부터** 있어야
+                    // "여기서 갈라 볼 수 있다"가 읽힌다. 익스텐션은 자리가 귀해 예전대로 둘 이상일 때만.
+                    if hostKind == .inApp ? !categoryPages.isEmpty : categoryPages.count > 1 {
+                        categoryTabRow
+                    } else {
+                        Spacer()
+                    }
+                    // X(전체 삭제)도 앱 안에서는 **처음부터** 서 있다. 글이 생길 때 나타나면
+                    // 그 순간 줄이 흔들리고, 무엇보다 "지울 수 있다"를 미리 알 수 없다.
+                    // 복사한 것을 넣는 키. 지울 수 있게 된 김에 붙여넣을 수도 있어야 한다.
+                    if let proxy = typingProxy {
+                        clipboardKey(proxy: proxy)
+                    }
+                    // 한 글자 지우기. 이게 없어서 오타 하나를 고치려고 **다른 키보드로
+                    // 건너갔다가 돌아와야 했다**(사용자 요청).
+                    if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
+                        backspaceDocumentKey(proxy: proxy)
+                    }
+                    if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
+                        clearAllButton(proxy: proxy)
+                            .padding(.trailing, 4)
+                            .transition(.opacity.combined(with: .scale(scale: 0.85)))
+                            // 빈 칸에서는 눌러도 지울 게 없다 - 있지만 흐리게.
+                            .opacity(documentState.hasText ? 1 : 0.4)
+                            .disabled(!documentState.hasText)
+                    }
+                }
+                .animation(.easeOut(duration: 0.18), value: documentState.hasText)
+            }
 
             // 검색 바 - 사용자 토글 ON일 때만
-            if showSearchBar {
+            if showSearchBar && !isReorderMode {
                 searchBar
             }
 
             // 최근 사용 섹션 - 사용자 토글 ON + 검색 비활성일 때만
-            if showRecentSection && !isSearching && shouldShowRecentSection {
+            if showRecentSection && !isReorderMode && !isSearching && shouldShowRecentSection {
                 recentSection
             }
 
@@ -540,14 +794,18 @@ struct KeyboardView: View {
             ZStack {
                 backgroundColor
 
-                if filteredMemos.isEmpty {
+                if isReorderMode {
+                    reorderGrid
+                } else if filteredMemos.isEmpty {
                     emptyStateView
                 } else {
-                    gumBar
                     ScrollView {
                         LazyVGrid(columns: gridItemLayout, spacing: 10) {
                             ForEach(displayItems) { item in
                                 memoButton(for: item.memo, useTemplate: item.useTemplate)
+                                    // 방금 만든 키는 자라며 들어온다. 키캡째 움직여야 해서
+                                    // 라벨이 아니라 버튼 바깥에 건다.
+                                    .newMemoEntry(item.memo.id)
                                     // 앱 안에서는 키 하나가 두 가지 일을 한다
                                     // **짧게 누르면 입력창에, 길게 누르면 클립보드에.**
                                     //
@@ -562,29 +820,29 @@ struct KeyboardView: View {
                                         suppressed: $suppressTapAfterLongPress,
                                         memoId: item.memo.id
                                     ))
-                                    // 껍데기를 깨서 값을 꺼내는 장면. 처음 몇 번만,
-                                    // 미리보기에서만 (`ShellCrackOverlay` 주석 참고).
-                                    .modifier(ShellCrackOverlay(
-                                        active: crackingMemoId == item.memo.id,
-                                        onEnd: { crackingMemoId = nil }
-                                    ))
-                                    // 튜토리얼이 가리키는 키 - **여기를 누르면 된다**를
-                                    // 말이 아니라 빛으로 알린다. 글로 설명하면 아무도 안 읽는다.
+                                    // 튜토리얼이 가리키는 키 - **말이 아니라 파형으로** 알린다.
+                                    // 글로 설명하면 아무도 안 읽는다.
+                                    //
+                                    // ⚠️ 콤보 키의 **한쪽만** 가리키는 중이면 여기서는 안 그린다.
+                                    //    좌·우가 각자 자기 물결을 그린다(`comboSplitButton`).
+                                    //    둘 다 그리면 키 전체가 빛나는 위에 반쪽이 또 빛나서
+                                    //    가리키는 곳이 오히려 흐려진다.
                                     .overlay {
-                                        if item.memo.id == highlightedMemoId {
-                                            keycapShape
-                                                .strokeBorder(theme.accent, lineWidth: 3)
-                                                .shadow(color: theme.accent.opacity(0.7), radius: 8)
-                                                .allowsHitTesting(false)
+                                        if item.memo.id == highlightedMemoId,
+                                           highlightedComboPart == nil {
+                                            KeyRipple(shape: keycapShape, color: theme.accent,
+                                                      reach: Self.gridRippleReach)
                                         }
                                     }
                             }
                         }
                         .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
+                        // ⚠️ 세로 여백은 물결이 번져 나갈 자리이기도 하다. `ScrollView` 는
+                        //    넘치는 것을 잘라내므로, 여기가 물결보다 좁으면 첫 줄·끝 줄 키의
+                        //    물결이 위아래로 싹둑 잘린다(예전 6pt, 물결 14pt).
+                        //    가로 12pt 는 그대로 둔다 - 늘리면 키가 그만큼 좁아진다.
+                        .padding(.vertical, Self.gridRippleReach)
                     }
-                    // 입 안쪽 - 이빨(키)이 어두운 곳에 박혀 있어야 입속으로 읽힌다.
-                    .background(mouthInterior)
                     // v4.1.0: 좌우 swipe로 카테고리 페이지 전환
                     .simultaneousGesture(
                         DragGesture(minimumDistance: 40)
@@ -602,14 +860,12 @@ struct KeyboardView: View {
                                 }
                             }
                     )
-                    // 아래턱 잇몸 - 위아래로 감싸야 "줄지어 선 이빨"이 아니라 "입속"이 된다.
-                    gumBarBottom
                 }
             }
             // 인디케이터 점 제거 - 상단 categoryTabRow에서 심볼 버튼으로 이동
 
             // 미니 검색 키보드 - 검색 중일 때만
-            if isSearching {
+            if isSearching && !isReorderMode {
                 miniSearchKeyboard
                     .transition(.move(edge: .bottom).combined(with: .opacity))
             }
@@ -618,13 +874,28 @@ struct KeyboardView: View {
         .overlay(
             Group {
                 if templateInputState.isShowing {
-                    TemplateInputOverlay(state: templateInputState)
+                    // 가리키는 키가 있다는 것은 지금 튜토리얼이 돌고 있다는 뜻이다.
+                    // 그 키를 눌러 여기까지 왔으므로, 다음에 누를 곳도 이어서 알려 준다.
+                    TemplateInputOverlay(state: templateInputState,
+                                         hostKind: hostKind,
+                                         guidesUser: highlightedMemoId != nil)
                 }
             }
         )
         .overlay(alignment: .bottom) {
             if showImageCopiedToast {
                 Text(NSLocalizedString("이미지 복사됨 · 붙여넣기 하세요", comment: "Image copied toast"))
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.black.opacity(0.75))
+                    .clipShape(Capsule())
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+            if showEmptyClipboardToast {
+                Text(NSLocalizedString("복사해 둔 것이 없어요", comment: "Toast: clipboard is empty"))
                     .font(.footnote.weight(.medium))
                     .foregroundColor(.white)
                     .padding(.horizontal, 16)
@@ -670,6 +941,41 @@ struct KeyboardView: View {
                     .padding(.bottom, 8)
                     .transition(.opacity.combined(with: .move(edge: .bottom)))
             }
+            if let suggestion = editSuggestion {
+                // ⚠️ 말만 하지 않는다. 누르면 그 자리에서 바꿔 준다.
+                //    "이런 기능이 있어요"는 알림이고, "바꿔 드릴까요"는 도움이다.
+                editSuggestionBar(suggestion)
+            }
+            if showEditAppliedToast {
+                Text(NSLocalizedString("바꿨어요. 앱에서 다시 손볼 수 있어요.",
+                                       comment: "Toast after applying an edit-pattern suggestion"))
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.black.opacity(0.75))
+                    .clipShape(Capsule())
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+            if showCursorMemoryToast {
+                // 조용히 해 주는 게 목적이라 매번 말하지 않는다. 다만 한 번도 안 알리면
+                // 사용자는 자기 키보드가 왜 이러는지 모른다. 그래서 단축어당 딱 한 번.
+                Text(NSLocalizedString("여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.",
+                                       comment: "Toast shown once when a learned caret position is first applied"))
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.black.opacity(0.75))
+                    .clipShape(Capsule())
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
             if showFullAccessToast {
                 // 무엇을 켜야 하는지·어디서 켜는지를 한 줄에 담는다.
                 // 이 토스트가 없으면 클립보드 동작이 조용히 실패해 앱이 고장 난 것처럼 보인다.
@@ -690,8 +996,25 @@ struct KeyboardView: View {
         .onReceive(NotificationCenter.default.publisher(for: .needsFullAccess)) { _ in
             showFullAccessNotice()
         }
+        // 매번 같은 자리를 고치는 것을 알아챘다 - KeyboardViewController 가 알려 준다.
+        .onReceive(NotificationCenter.default.publisher(for: .editPatternSuggestion)) { note in
+            guard let memoId = note.userInfo?["memoId"] as? UUID,
+                  let raw = note.userInfo?["suggestion"] as? String,
+                  let kind = EditPattern.Suggestion(rawValue: raw) else { return }
+            withAnimation { editSuggestion = (memoId, kind) }
+        }
+        // 배운 캐럿 자리를 처음 써먹었다 - KeyboardViewController 가 알려 준다.
+        .onReceive(NotificationCenter.default.publisher(for: .cursorMemoryApplied)) { _ in
+            withAnimation { showCursorMemoryToast = true }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.6) {
+                withAnimation { showCursorMemoryToast = false }
+            }
+        }
+        // 장이 넘어가면 가리키는 키가 바뀐다 - 뷰는 그대로라 onAppear 가 다시 돌지 않는다.
+        .onChange(of: highlightedMemoId) { _, _ in revealHighlightedPageIfNeeded() }
         .onAppear {
             loadAllMemos()
+            revealHighlightedPageIfNeeded()
 
             guard templateObserverToken == nil else { return }
             // 템플릿 입력 알림 구독
@@ -759,7 +1082,7 @@ struct KeyboardView: View {
     private var freeUpgradeBanner: some View {
         Button {
             // KeyboardViewController가 이 알림을 받아 URL scheme으로 메인 앱 열기
-            NotificationCenter.default.post(name: Notification.Name.openMainAppPaywall, object: nil)
+            NotificationCenter.postOnMain(name: Notification.Name.openMainAppPaywall, object: nil)
         } label: {
             HStack(spacing: 6) {
                 Image(systemName: AppSymbol.lockFill)
@@ -783,14 +1106,14 @@ struct KeyboardView: View {
         if hiddenMemoCount > 0 {
             return String(format: NSLocalizedString("%d개 단축어 더 보기 → Pro 업그레이드", comment: "Hidden memos upgrade banner"), hiddenMemoCount)
         }
-        let remaining = max(0, ProFeatureManager.memoLimit - totalMemoCount)
+        let remaining = max(0, ProFeatureManager.memoLimit - ownMemoCount)
         return String(format: NSLocalizedString("단축어 한도까지 %d개 남음 → Pro 업그레이드", comment: "Memo limit near banner"), remaining)
     }
 
     /// 한도 도달 임박 (남은 슬롯 2개 이하)
     private var isMemoLimitNear: Bool {
         guard isFreeUser else { return false }
-        let remaining = ProFeatureManager.memoLimit - totalMemoCount
+        let remaining = ProFeatureManager.memoLimit - ownMemoCount
         return remaining > 0 && remaining <= 2
     }
 
@@ -822,6 +1145,7 @@ struct KeyboardView: View {
                         .font(.callout)
                         .foregroundColor(.secondary)
                 }
+                .accessibilityLabel(NSLocalizedString("검색어 지우기", comment: "Clear search"))
             } else {
                 Text(NSLocalizedString("Search snippets", comment: "Search bar idle"))
                     .font(.footnote)
@@ -929,7 +1253,7 @@ struct KeyboardView: View {
         if selectedCategoryFilter == "★favorites" {
             return NSLocalizedString("No favorites yet", comment: "Empty: no favorites")
         }
-        return NSLocalizedString("Save your IBAN once. Paste forever.", comment: "Empty: zero memos")
+        return NSLocalizedString("Save it once. Paste it forever.", comment: "Empty: zero memos")
     }
 
     private var emptyStateSubtitle: String {
@@ -1148,8 +1472,9 @@ struct KeyboardView: View {
                 Image(systemName: categoryIconFor(memo))
                     .font(.caption2)
                     .foregroundColor(categoryColorFor(memo) ?? theme.textMuted)
-                Text(memo.title.kbTemplateAwareAttributed(font: .caption.weight(.medium),
-                                                          accent: theme.accent, accentSoft: theme.accentSoft))
+                Text(memo.title.templateAwareAttributed(accent: theme.accent,
+                                                        accentSoft: theme.accentSoft,
+                                                        font: .caption.weight(.medium)))
                     .font(.caption.weight(.medium))
                     .foregroundColor(theme.text)
                     .lineLimit(1)
@@ -1193,6 +1518,8 @@ struct KeyboardView: View {
                     buttonHeight: buttonHeight,
                     buttonFontSize: buttonFontSize
                 )
+                // 방금 만든 키는 빈 키캡으로 먼저 선다(`NewMemoIntro`).
+                .newMemoIntro(memo.id, shape: .key)
             }
             .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
             .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
@@ -1201,6 +1528,7 @@ struct KeyboardView: View {
         } else if memo.isCombo && !memo.isSecure {
             // 여러 값(콤보) - 2/3 분할: 왼쪽 현재 값 삽입, 오른쪽 → 다음 값.
             comboSplitButton(for: memo, catColor: catColor)
+                .newMemoIntro(memo.id, shape: .key)
                 .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
                 .accessibilityLabel(memoAccessibilityLabel(for: memo))
                 .accessibilityHint(NSLocalizedString("왼쪽을 누르면 현재 값을, 오른쪽 화살표로 다음 값을 넣어요", comment: "Combo split button hint"))
@@ -1209,6 +1537,7 @@ struct KeyboardView: View {
                 memoButtonAction(for: memo, bypassTemplate: bypass)
             } label: {
                 memoButtonLabel(for: memo, catColor: catColor, useTemplate: useTemplate)
+                    .newMemoIntro(memo.id, shape: .key)
             }
             .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
             .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
@@ -1223,7 +1552,6 @@ struct KeyboardView: View {
     ///
     /// ⚠️ 미리보기(`hostKind == .inApp`)에서만 값이 들어간다. 익스텐션에서는 이 값이
     ///    영원히 nil 이라 연출이 그려지지 않는다.
-    @State private var crackingMemoId: UUID?
 
     /// 지금 크게 들여다보고 있는 단축어(길게 누르기). nil 이면 판이 닫혀 있다.
     @State private var peekMemo: Memo?
@@ -1257,6 +1585,8 @@ struct KeyboardView: View {
             get: { pressedComboId == memo.id },
             set: { pressedComboId = $0 ? memo.id : nil }
         )
+        // 튜토리얼이 이 키의 어느 쪽을 가리키고 있는가(가리키는 키일 때만).
+        let guided: ComboKeyPart? = memo.id == highlightedMemoId ? highlightedComboPart : nil
 
         return HStack(spacing: 0) {
             // 왼쪽 2/3 - 평소엔 키(제목), → 누르면 현재 값이 디졸브로 잠깐 보였다 사라진다(iOS와 동일).
@@ -1295,8 +1625,10 @@ struct KeyboardView: View {
                     Text("\(idx + 1)/\(values.count)")
                         .font(.system(size: buttonFontSize * 0.6, weight: .medium))
                 }
-                .foregroundColor(theme.textMuted)
-                .frame(width: max(46, buttonHeight))
+                // 가리키는 중에는 흐린 회색이 아니라 **강조색**으로 선다.
+                // 물결만으로는 자리가 좁아 눈에 안 걸린다(실측).
+                .foregroundColor(guided == .next ? theme.accent : theme.textMuted)
+                .frame(width: comboNextWidth)
                 .frame(height: buttonHeight)
                 .contentShape(Rectangle())
             }
@@ -1323,12 +1655,36 @@ struct KeyboardView: View {
                               style: StrokeStyle(lineWidth: 1.5, dash: [5, 3]))
         )
         .clipShape(keycapShape)
+        // ⚠️ 물결은 **`clipShape` 뒤에** 얹는다. 좌·우 버튼에 직접 달았더니 키캡 윤곽에
+        //    통째로 잘려 나가, 번져 나가야 할 물결이 잘린 조각으로 보였다. 물결은
+        //    키 밖으로 나가는 것이 전부라 안쪽으로 가두면 뜻이 사라진다.
+        //    (자리는 좌·우 버튼과 똑같이 잡는다 - 오른쪽 폭 + 홈 1pt)
+        .overlay {
+            if guided == .value {
+                KeyRipple(shape: RoundedRectangle(cornerRadius: 8, style: .continuous),
+                          color: theme.accent, reach: 7)
+                    .padding(.trailing, comboNextWidth + 1)
+            }
+        }
+        .overlay(alignment: .trailing) {
+            if guided == .next {
+                KeyRipple(shape: RoundedRectangle(cornerRadius: 8, style: .continuous),
+                          color: theme.accent, reach: 7)
+                    .frame(width: comboNextWidth)
+            }
+        }
         // 통짜 키캡 - 좌·우 어디를 눌러도 한 덩어리로 내려앉는다.
         .modifier(KeycapSurface(skin: skin,
                                 cornerRadius: keycapRadius,
                                 skirtColor: keycapSkirtColor,
                                 pressed: pressedComboId == memo.id,
                                 enabled: keycapPressEnabled))
+    }
+
+    /// 콤보 키 오른쪽(다음 값) 칸의 폭. 버튼과 그 위의 물결이 **같은 값**을 봐야
+    /// 가리키는 자리가 어긋나지 않는다.
+    private var comboNextWidth: CGFloat {
+        max(46, buttonHeight)
     }
 
     private func insertComboValue(memo: Memo, value: String) {
@@ -1339,7 +1695,7 @@ struct KeyboardView: View {
                 isSearching = false
             }
         }
-        NotificationCenter.default.post(
+        NotificationCenter.postOnMain(
             name: NSNotification.Name(rawValue: "addTextEntry"),
             object: value,
             userInfo: ["memoId": memo.id, "skipCombo": true]
@@ -1353,6 +1709,10 @@ struct KeyboardView: View {
         comboValueIndex[memo.id] = (cur + 1) % count
         // 값을 잠깐 보여줬다 사라지게(디졸브) 트리거.
         comboFlash[memo.id] = (comboFlash[memo.id] ?? 0) + 1
+        // ⚠️ 여기서는 **글이 하나도 안 들어간다** - 값만 바뀐다. 그래서 `.memoUsed` 가
+        //    나가지 않고, 튜토리얼은 이 걸음을 지났는지 알 길이 없었다. 따로 알린다.
+        NotificationCenter.postOnMain(name: .comboValueAdvanced, object: nil,
+                                        userInfo: ["memoId": memo.id])
     }
 
     private func memoAccessibilityLabel(for memo: Memo) -> String {
@@ -1363,7 +1723,7 @@ struct KeyboardView: View {
         if memo.contentType == .image || memo.contentType == .mixed {
             parts.append(NSLocalizedString("이미지 단축어", comment: "VoiceOver: image memo"))
         } else if !memo.value.isEmpty {
-            let preview = String(memo.value.prefix(40))
+            let preview = String(memo.value.strippingTemplateBraces.prefix(40))
             parts.append(preview)
         }
         return parts.joined(separator: ", ")
@@ -1371,7 +1731,7 @@ struct KeyboardView: View {
 
     private func memoAccessibilityHint(for memo: Memo) -> String {
         if memo.isTemplate {
-            return NSLocalizedString("탭하면 변수 값을 입력 후 붙여넣기합니다", comment: "Template memo button hint")
+            return NSLocalizedString("탭하면 빈칸을 채워 붙여넣습니다", comment: "Template memo button hint")
         } else if memo.isCombo {
             return NSLocalizedString("탭하면 여러 값이 순서대로 입력됩니다", comment: "Combo memo button hint")
         } else if memo.isSecure {
@@ -1395,13 +1755,6 @@ struct KeyboardView: View {
         //    여기서도 울리면 한 번 눌렀는데 "또깍-또깍" 두 번 난다.
         //    (일반 삽입 → stamp / 이미지 → 복사 완료 / 보안 → 인증 UI)
 
-        // 껍데기를 깨서 값을 꺼내는 장면. **미리보기에서, 처음 몇 번만.**
-        // 익스텐션은 메모리가 빠듯하고 하루에 수십 번 누르는 자리라 아예 들어가지 않는다.
-        // ⚠️ 삽입을 막거나 늦추지 않는다. 연출은 위에 얹힐 뿐이고, 값은 평소처럼 바로 들어간다.
-        if hostKind == .inApp, crackingMemoId == nil, ShellCrack.consumeBudget() {
-            crackingMemoId = memo.id
-        }
-
         if isSearching {
             withAnimation(.easeOut(duration: 0.18)) {
                 hangul.reset()
@@ -1410,17 +1763,19 @@ struct KeyboardView: View {
             }
         }
 
-        if memo.contentType == .image || memo.contentType == .mixed {
-            copyImageToClipboard(memo: memo)
-            return
+        let proceed = {
+            if memo.contentType == .image || memo.contentType == .mixed {
+                copyImageToClipboard(memo: memo)
+                return
+            }
+            if memo.isSecure {
+                authenticateAndInsert(memo: memo, bypassTemplate: bypassTemplate)
+                return
+            }
+            insertMemo(memo, bypassTemplate: bypassTemplate)
         }
 
-        if memo.isSecure {
-            authenticateAndInsert(memo: memo, bypassTemplate: bypassTemplate)
-            return
-        }
-
-        insertMemo(memo, bypassTemplate: bypassTemplate)
+        proceed()
     }
 
     private func insertMemo(_ memo: Memo, bypassTemplate: Bool = false) {
@@ -1436,7 +1791,7 @@ struct KeyboardView: View {
             valueToInsert = memo.value
         }
         let userInfo: [String: Any] = ["memoId": memo.id]
-        NotificationCenter.default.post(
+        NotificationCenter.postOnMain(
             name: NSNotification.Name(rawValue: "addTextEntry"),
             object: valueToInsert,
             userInfo: userInfo
@@ -1493,7 +1848,7 @@ struct KeyboardView: View {
         // 앱 무대에서는 복사에서 끝내지 않는다 - 입력창이 우리 것이라 붙여넣은 모습까지
         // 보여줄 수 있다. 익스텐션에서는 남의 텍스트 필드라 넣을 길이 없어 복사가 끝이다.
         if hostKind == .inApp {
-            NotificationCenter.default.post(
+            NotificationCenter.postOnMain(
                 name: .addImageEntry,
                 object: fileName,
                 userInfo: ["memoId": memo.id]
@@ -1548,6 +1903,62 @@ struct KeyboardView: View {
                 content
             }
         }
+    }
+
+    // MARK: - 고친 자리 제안
+
+    /// "매번 여기만 바꾸시네요" 한 줄. 누르면 그 자리에서 바꿔 준다.
+    ///
+    /// ⚠️ 단축어당 한 번만 뜬다(`EditPattern.markAsked` 는 띄우는 쪽에서 이미 찍었다).
+    ///    되풀이하면 그때부터 광고로 읽힌다.
+    /// ⚠️ 거절은 **거절로 남긴다.** 닫기만 하고 잊으면 다음에 또 물어보게 된다.
+    @ViewBuilder
+    private func editSuggestionBar(_ suggestion: (memoId: UUID, kind: EditPattern.Suggestion)) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: AppSymbol.textCursor)
+                .font(.footnote.weight(.semibold))
+                .foregroundColor(.white.opacity(0.85))
+
+            Text(suggestion.kind == .makeTemplate
+                 ? NSLocalizedString("넣고 나서 매번 같은 자리만 바꾸시네요. 그 자리를 빈칸으로 만들까요?",
+                                     comment: "Suggestion bar: turn the repeatedly edited spot into a template placeholder")
+                 : NSLocalizedString("넣고 나서 매번 같은 곳을 같게 고치시네요. 단축어를 그 값으로 바꿀까요?",
+                                     comment: "Suggestion bar: update the snippet itself with the repeated correction"))
+                .font(.caption)
+                .foregroundColor(.white)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Spacer(minLength: 4)
+
+            Button(NSLocalizedString("아니요", comment: "Decline the edit-pattern suggestion")) {
+                EditPattern.markDeclined(for: suggestion.memoId)
+                withAnimation { editSuggestion = nil }
+            }
+            .font(.caption)
+            .foregroundColor(.white.opacity(0.7))
+
+            Button(NSLocalizedString("바꾸기", comment: "Accept the edit-pattern suggestion")) {
+                let changed = EditPattern.apply(suggestion.kind, memoId: suggestion.memoId)
+                withAnimation { editSuggestion = nil }
+                if changed {
+                    loadAllMemos()
+                    KeyboardHaptics.tap()
+                    withAnimation { showEditAppliedToast = true }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) {
+                        withAnimation { showEditAppliedToast = false }
+                    }
+                }
+            }
+            .font(.caption.weight(.semibold))
+            .foregroundColor(.white)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 9)
+        .background(Color.black.opacity(0.82))
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .padding(.horizontal, 10)
+        .padding(.bottom, 8)
+        .transition(.opacity.combined(with: .move(edge: .bottom)))
     }
 
     /// 복사 버튼의 동작 - 이미지 문구는 이미지를, 그 밖에는 값을 클립보드에 넣는다.
@@ -1675,62 +2086,11 @@ struct KeyboardView: View {
         skin.cornerRadius(base: theme.radiusMd)
     }
 
-    /// 아래턱 잇몸. 위 잇몸을 뒤집어 쓴다 - 같은 입의 반대쪽이라 모양이 같아야 한다.
-    @ViewBuilder
-    private var gumBarBottom: some View {
-        if toothStyleOn {
-            GumShape()
-                .fill(gumColor)
-                .frame(height: 14)
-                .rotationEffect(.degrees(180))
-                .allowsHitTesting(false)
-                .accessibilityHidden(true)
-        }
-    }
-
-    /// 입 안쪽 바탕.
-    ///
-    /// ⚠️ 키보드 전체가 아니라 **격자 뒤에만** 깐다. 머리말·검색줄까지 어두워지면
-    ///    키보드가 아니라 다른 앱처럼 보인다. 어두운 곳은 이빨이 박힌 자리뿐이다.
-    ///
-    /// ⚠️ 키 색은 그대로 둔다(스킨과 같은 규칙). 기본 키색이 흰색이라 어두운 입 안에서
-    ///    저절로 상아색 이빨이 된다 - 색을 덮을 이유가 없다.
-    @ViewBuilder
-    private var mouthInterior: some View {
-        if toothStyleOn {
-            Color.clipMouthInterior
-        }
-    }
-
-    /// 잇몸 - 이 한 줄이 아래 키들을 이빨로 읽히게 한다.
-    ///
-    /// ⚠️ 키의 윤곽만으로는 "조금 다른 사각형"에 그친다. 위에 잇몸이 얹혀야 비로소
-    ///    **입속**이 된다. 이빨 장치가 꺼져 있으면 아무것도 그리지 않는다.
-    ///
-    /// ⚠️ 본문(`body`)에 직접 쓰지 않고 여기로 뺐다. 이 화면의 본문은 이미 커서
-    ///    한 겹만 더 얹어도 타입 검사가 시간 초과로 터진다.
-    @ViewBuilder
-    private var gumBar: some View {
-        if toothStyleOn {
-            GumShape()
-                .fill(gumColor)
-                .frame(height: 14)
-                .allowsHitTesting(false)
-                .accessibilityHidden(true)
-        }
-    }
-
-    /// 잇몸 색 - 마스코트의 턱과 같은 주황. 키 색은 사용자 것이라 건드리지 않고,
-    /// **잇몸만** 브랜드 색을 쓴다. 어두운 화면에서는 한 톤 죽여 눈을 찌르지 않게.
-    private var gumColor: Color {
-        Color.clipBrandYellow.opacity(theme.isDark ? 0.55 : 0.85)
-    }
-
-    /// 키캡 윤곽. 이빨 장치가 켜지면 아래로 살짝 좁아지는 송곳니가 된다.
+    /// 키캡 윤곽.
     /// ⚠️ 키를 그리는 곳이 여럿이라(배경·틴트·표면광·테두리·클립·가리키는 빛) 모양을
     ///    한 곳에서 꺼내 쓴다. 한 군데만 사각형으로 남으면 그 겹만 튀어나온다.
     private var keycapShape: KeycapShape {
-        KeycapShape(radius: keycapRadius, tooth: toothStyleOn)
+        KeycapShape(radius: keycapRadius)
     }
 
     /// 눌림을 그릴 수 있는 상태인가. `KeycapButtonStyle`과 같은 조건
@@ -1770,11 +2130,243 @@ struct KeyboardView: View {
                              forceTemplate: useTemplate)
     }
 
+    // MARK: - 순서 바꾸기
+
+    // 왜 여기에 있는가: 자주 쓰는 문구가 저장한 순서에 묻힌다는 이야기가 들어왔다.
+    // 앱에는 이미 '순서 바꾸기'가 있지만, 문구를 실제로 고르는 자리는 키보드다.
+    // 앱까지 다녀와야 순서를 고칠 수 있으면 대개 안 고친다.
+    //
+    // ⚠️ 들어오는 길은 **값 판 안의 버튼** 하나다. 길게 누르기는 그 판이 이미 쓰고 있어서
+    //    (`MemoPeekOnLongPress`) 같은 손짓에 둘을 얹으면 한 번 눌렀는데 판도 열리고
+    //    키도 들린다. 한 손짓에 주인은 하나여야 한다.
+
+    /// 순서를 바꾸는 중인가.
+    @State private var isReorderMode = false
+    /// 끌어서 실시간으로 바뀌는 작업용 목록.
+    ///
+    /// ⚠️ 지금 보는 페이지가 아니라 **보이는 전체**다. 페이지 안에서만 바꾸게 하면
+    ///    "1번 페이지의 3번을 2번 페이지 맨 위로" 같은 걸 아예 할 수 없다.
+    @State private var reorderList: [Memo] = []
+    /// 지금 손에 들려 있는 키. nil 이면 아무것도 안 들고 있다.
+    @State private var draggingMemoId: UUID?
+    /// 들고 있는 키가 지금 있는 자리(그리드 좌표계).
+    @State private var dragLocation: CGPoint?
+    /// 키마다의 자리. 손가락 밑에 어느 키가 있는지는 이 표로만 안다.
+    @State private var reorderCellFrames: [UUID: CGRect] = [:]
+    /// 방금 자리를 내준 키. 같은 키를 연달아 다시 밀지 않도록 기억해 둔다.
+    @State private var lastReorderHitId: UUID?
+
+    /// 자리를 재는 좌표계 이름. 재는 쪽(셀)과 그리는 쪽(떠 있는 키)이 같은 자를 써야 한다.
+    private static let reorderSpace = "reorderSpace"
+
+    /// 순서 바꾸기 안내 줄. 헤더 자리를 대신 쓴다.
+    private var reorderBanner: some View {
+        HStack(spacing: 8) {
+            Image(systemName: AppSymbol.arrowUpArrowDown)
+                .font(.footnote.weight(.semibold))
+                .foregroundColor(theme.accent)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(NSLocalizedString("잠깐 눌렀다 끌면 자리가 바뀌어요",
+                                       comment: "Keyboard reorder mode: how to move a key"))
+                    .font(.footnote.weight(.semibold))
+                    .foregroundColor(theme.text)
+                // 바꾼 순서가 앱에도 간다는 걸 **미리** 적는다. 끝난 뒤 알려 주면
+                // 그때는 이미 "여기서만 바뀌나" 하고 앱을 열어 본 뒤다.
+                Text(NSLocalizedString("바꾼 순서는 앱에도 그대로 반영돼요",
+                                       comment: "Keyboard reorder mode: the order syncs to the app"))
+                    .font(.caption2)
+                    .foregroundColor(theme.textMuted)
+            }
+            Spacer(minLength: 0)
+            Button(action: exitReorderMode) {
+                Text(NSLocalizedString("완료", comment: "Keyboard reorder mode: done"))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.accentFg)
+                    .padding(.horizontal, 14)
+                    .frame(height: 30)
+                    .background(theme.accent)
+                    .clipShape(Capsule())
+            }
+            .buttonStyle(.plain)
+            .frame(minHeight: 44)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 4)
+        .background(theme.surface)
+    }
+
+    /// 순서를 바꾸는 격자.
+    private var reorderGrid: some View {
+        ScrollView {
+            LazyVGrid(columns: gridItemLayout, spacing: 10) {
+                ForEach(reorderList) { memo in
+                    reorderCell(for: memo)
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+        }
+        .coordinateSpace(name: Self.reorderSpace)
+        .onPreferenceChange(ReorderCellFrameKey.self) { reorderCellFrames = $0 }
+        // 들고 있는 키는 격자 **안이 아니라 위에** 그린다. 격자 안에서 옮기면
+        // 자리를 재는 자와 자리를 옮기는 손이 서로를 물어 좌표가 떨린다
+        // (잰 값에 오프셋이 섞이고, 그 값으로 다시 오프셋을 정하게 된다).
+        .overlay { carriedKey }
+    }
+
+    /// 격자 안의 키 하나. 순서 바꾸기 중에는 **눌러도 글이 안 들어간다** -
+    /// 버튼이 아니라 겉모습(`memoButtonLabel`)만 쓴다.
+    ///
+    /// 이미지 단축어도 여기서는 같은 이름표 모양으로 선다. 옮길 때 보는 것은 제목이고,
+    /// 크기가 제각각이면 어디로 들어가는지가 오히려 안 읽힌다.
+    private func reorderCell(for memo: Memo) -> some View {
+        let isCarried = draggingMemoId == memo.id
+        return memoButtonLabel(for: memo, catColor: categoryColorFor(memo))
+            // 들려 나간 자리는 빈 자리로 남는다 - 어디서 떠났는지가 보여야 한다.
+            .opacity(isCarried ? 0.22 : 1)
+            .background(
+                GeometryReader { geo in
+                    Color.clear.preference(
+                        key: ReorderCellFrameKey.self,
+                        value: [memo.id: geo.frame(in: .named(Self.reorderSpace))]
+                    )
+                }
+            )
+            .contentShape(Rectangle())
+            .gesture(reorderDrag(for: memo))
+            // 끌기는 손이 불편한 사람에게는 없는 길이다. 한 칸씩 옮기는 길을 따로 둔다.
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(memo.title)
+            .accessibilityValue(reorderPositionLabel(for: memo))
+            .accessibilityAction(named: Text(NSLocalizedString("앞으로 옮기기",
+                                                              comment: "Reorder accessibility action: move earlier"))) {
+                shiftCarried(memo, by: -1)
+            }
+            .accessibilityAction(named: Text(NSLocalizedString("뒤로 옮기기",
+                                                              comment: "Reorder accessibility action: move later"))) {
+                shiftCarried(memo, by: 1)
+            }
+    }
+
+    /// 지금 손에 들려 격자 위에 떠 있는 키.
+    @ViewBuilder
+    private var carriedKey: some View {
+        if let id = draggingMemoId,
+           let memo = reorderList.first(where: { $0.id == id }),
+           let point = dragLocation,
+           let width = reorderCellFrames[id]?.width {
+            memoButtonLabel(for: memo, catColor: categoryColorFor(memo))
+                .frame(width: width)
+                .scaleEffect(1.06)
+                .shadow(color: Color.black.opacity(0.28), radius: 8, y: 4)
+                .position(x: point.x, y: point.y)
+                .allowsHitTesting(false)
+        }
+    }
+
+    /// "3번째, 전체 12개" - 화면을 못 보는 사람에게 지금 자리를 알려 준다.
+    private func reorderPositionLabel(for memo: Memo) -> String {
+        guard let index = reorderList.firstIndex(where: { $0.id == memo.id }) else { return "" }
+        return String(format: NSLocalizedString("%1$d번째, 전체 %2$d개",
+                                                comment: "Reorder position: current index of total"),
+                      index + 1, reorderList.count)
+    }
+
+    /// 키를 드는 손짓.
+    ///
+    /// ⚠️ 잠깐 누른 **뒤에** 끌어야 든다(`sequenced`). 바로 끌리게 하면 목록을 훑어보려는
+    ///    쓸어내림까지 키를 들어 올려, 순서 바꾸기 중에는 스크롤을 아예 못 하게 된다.
+    private func reorderDrag(for memo: Memo) -> some Gesture {
+        LongPressGesture(minimumDuration: 0.2)
+            .sequenced(before: DragGesture(minimumDistance: 0,
+                                           coordinateSpace: .named(Self.reorderSpace)))
+            .onChanged { value in
+                guard case .second(true, let drag?) = value else { return }
+                if draggingMemoId != memo.id {
+                    draggingMemoId = memo.id
+                    lastReorderHitId = nil
+                    KeyboardHaptics.mediumTap()
+                }
+                dragLocation = drag.location
+                moveCarriedKey(to: drag.location)
+            }
+            .onEnded { _ in dropCarriedKey() }
+    }
+
+    /// 손가락 밑에 다른 키가 오면 그 자리를 넘겨받는다.
+    private func moveCarriedKey(to point: CGPoint) {
+        guard let carried = draggingMemoId,
+              let from = reorderList.firstIndex(where: { $0.id == carried }) else { return }
+        guard let hit = reorderCellFrames.first(where: { $0.key != carried && $0.value.contains(point) })?.key,
+              hit != lastReorderHitId,
+              let to = reorderList.firstIndex(where: { $0.id == hit }) else { return }
+        lastReorderHitId = hit
+        withAnimation(.easeInOut(duration: 0.18)) {
+            let item = reorderList.remove(at: from)
+            reorderList.insert(item, at: to)
+        }
+        KeyboardHaptics.softTap()
+    }
+
+    /// 손을 뗐다.
+    ///
+    /// ⚠️ **뗄 때마다 적는다.** 키보드는 우리가 내리는 게 아니라 호스트 앱이 내린다 -
+    ///    '완료'를 눌러야만 적으면, 옮겨 놓고 그대로 다른 앱으로 넘어간 사람은
+    ///    다음에 열었을 때 아무것도 안 바뀐 화면을 본다.
+    private func dropCarriedKey() {
+        guard draggingMemoId != nil else { return }
+        draggingMemoId = nil
+        dragLocation = nil
+        lastReorderHitId = nil
+        KeyboardHaptics.tap()
+        saveReorder()
+    }
+
+    /// 접근성 동작으로 한 칸 옮긴다(끌기 없이).
+    private func shiftCarried(_ memo: Memo, by delta: Int) {
+        guard let from = reorderList.firstIndex(where: { $0.id == memo.id }) else { return }
+        let to = from + delta
+        guard reorderList.indices.contains(to) else { return }
+        withAnimation(.easeInOut(duration: 0.18)) {
+            let item = reorderList.remove(at: from)
+            reorderList.insert(item, at: to)
+        }
+        KeyboardHaptics.softTap()
+        saveReorder()
+    }
+
+    /// 지금 순서를 앱과 같은 자리에 적고, 이 화면의 목록도 그 순서로 맞춘다.
+    private func saveReorder() {
+        KeyboardMemoFeed.commitManualOrder(reorderList, within: clipMemos)
+        loadAllMemos()
+    }
+
+    private func enterReorderMode() {
+        peekMemo = nil
+        reorderList = allMemos
+        draggingMemoId = nil
+        dragLocation = nil
+        lastReorderHitId = nil
+        KeyboardHaptics.mediumTap()
+        withAnimation(.easeInOut(duration: 0.22)) { isReorderMode = true }
+    }
+
+    private func exitReorderMode() {
+        saveReorder()
+        draggingMemoId = nil
+        dragLocation = nil
+        lastReorderHitId = nil
+        reorderCellFrames = [:]
+        KeyboardHaptics.tap()
+        withAnimation(.easeInOut(duration: 0.22)) { isReorderMode = false }
+    }
+
     // MARK: - Data Loading
 
     private func loadAllMemos() {
-        let limit = ProFeatureManager.keyboardMemoDisplayLimit
-        allMemos = limit == Int.max ? clipMemos : Array(clipMemos.prefix(limit))
+        // 앞에서 그냥 자르지 않는다. 심어 준 샘플이 앞자리를 차지한 만큼 자기 단축어가
+        // 뒤로 밀려 안 보이게 되는데, 그러면 한도에서 빼 준 것을 화면에서 도로 세는 셈이다.
+        allMemos = ProFeatureManager.memosWithinLimit(clipMemos)
     }
 
     // MARK: - Free tier
@@ -1784,9 +2376,14 @@ struct KeyboardView: View {
     }
 
     private var totalMemoCount: Int { clipMemos.count }
+
+    /// 한도가 세는 개수 - **자기 것만.** 온보딩이 심어 준 샘플은 칸을 차지하지 않는다.
+    /// 앱의 설정 화면·저장 관문과 같은 값을 봐야 한 화면이 두 말을 하지 않는다.
+    private var ownMemoCount: Int { ProFeatureManager.ownMemoCount(clipMemos) }
+
     private var hiddenMemoCount: Int {
         guard isFreeUser else { return 0 }
-        return max(0, totalMemoCount - ProFeatureManager.memoLimit)
+        return max(0, ownMemoCount - ProFeatureManager.memoLimit)
     }
 
     // MARK: - PIN Entry Overlay
@@ -1901,6 +2498,7 @@ struct KeyboardView: View {
                 .frame(height: 40)
                 .background(Color(UIColor.systemGray5))
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+                .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace button"))
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -1973,11 +2571,18 @@ struct KeyboardView: View {
     // MARK: - Theme-derived Colors (Paper 테마 + 사용자 커스텀 오버라이드)
 
     /// 기본은 iOS 앱 Paper 테마. `useCustomColors=true`이면 사용자 hex로 오버라이드.
+    ///
+    /// ⚠️ **익스텐션에서는 기본이 투명이다.** 뒤에 시스템 키보드 재질을 깔아 두었으므로
+    ///    (`KeyboardViewController.setupSystemBackdrop`) 여기서 색을 칠하면 그 재질을 가린다.
+    ///    가리면 iOS 26 이 우리 뷰 **밖에** 그리는 지구본 줄과 바탕이 갈려 이음매가 보인다.
+    ///    앱 안(무대)에는 그 재질이 없으니 예전대로 테마 색을 칠한다.
+    ///
+    ///    색을 직접 고른 사람은 그 색이 이긴다. 고른 것을 안 보여 주면 그건 고장이다.
     private var backgroundColor: Color {
         if useCustomColors, !customBgHex.isEmpty, let custom = Color(hex: customBgHex) {
             return custom
         }
-        return theme.bg
+        return hostKind == .inApp ? theme.bg : .clear
     }
 
     private var keyColor: Color {
@@ -2015,13 +2620,16 @@ struct ComboKeyValueLabel: View {
 
     var body: some View {
         ZStack {
-            Text(title.kbTemplateAwareAttributed(font: .system(size: fontSize, weight: .semibold),
-                                                 accent: accent, accentSoft: accentSoft))
+            Text(title.templateAwareAttributed(accent: accent, accentSoft: accentSoft,
+                                               font: .system(size: fontSize, weight: .semibold)))
                 .font(.system(size: fontSize, weight: .semibold))
                 .foregroundColor(titleColor)
                 .opacity(showingValue ? 0 : 1)
                 .blur(radius: !reduceMotion && showingValue ? 3 : 0)
-            Text(value.isEmpty ? "-" : value)
+            Text(value.isEmpty
+                 ? AttributedString("-")
+                 : value.templateAwareAttributed(accent: accent, accentSoft: accentSoft,
+                                                 font: .system(size: fontSize * 0.92)))
                 .font(.system(size: fontSize * 0.92))
                 .foregroundColor(valueColor)
                 .opacity(showingValue ? 1 : 0)
@@ -2081,14 +2689,15 @@ struct MemoTitleHintSwap: View {
 
     var body: some View {
         ZStack {
-            Text(title.kbTemplateAwareAttributed(font: .system(size: fontSize, weight: .semibold),
-                                                 accent: accent, accentSoft: accentSoft))
+            Text(title.templateAwareAttributed(accent: accent, accentSoft: accentSoft,
+                                               font: .system(size: fontSize, weight: .semibold)))
                 .font(.system(size: fontSize, weight: .semibold))
                 .foregroundColor(titleColor)
                 .opacity(showingHint ? 0 : 1)
                 .blur(radius: !reduceMotion && showingHint ? 3 : 0)
             if let hint {
-                Text(hint)
+                Text(hint.templateAwareAttributed(accent: accent, accentSoft: accentSoft,
+                                                  font: .system(size: fontSize * 0.92)))
                     .font(.system(size: fontSize * 0.92))
                     .foregroundColor(hintColor)
                     .opacity(showingHint ? 1 : 0)
@@ -2197,44 +2806,9 @@ struct KeycapPressReporter: ButtonStyle {
     }
 }
 
-// MARK: - Template Chip Rendering (키보드 전용)
-
-extension String {
-    /// `{변수}`가 있으면 중괄호 없는 하이라이트 칩으로, 없으면 그대로 반환.
-    /// 앱 타겟 String.templateChipAttributed와 동일 규칙 - 타깃 분리로 확장을 공유하지 못해
-    /// 키보드 전용으로 복제(색은 시스템 블루 고정). "플레이스홀더는 어디서든 하이라이트" 규칙.
-    /// - Parameters:
-    ///   - accent / accentSoft: 앱의 `templateChipAttributed` 와 **같은 테마 토큰**을 받는다.
-    ///     예전에는 여기서만 시스템 블루로 고정돼 있어서, 테마를 바꾸면 앱 카드의 변수 칩과
-    ///     키보드 키의 변수 칩 색이 서로 달라졌다.
-    func kbTemplateAwareAttributed(font: Font,
-                                   accent: Color,
-                                   accentSoft: Color) -> AttributedString {
-        guard contains("{"), let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else {
-            return AttributedString(self)
-        }
-        let ns = self as NSString
-        var out = AttributedString()
-        var cursor = 0
-        for match in regex.matches(in: self, range: NSRange(location: 0, length: ns.length)) {
-            let full = match.range
-            if full.location > cursor {
-                out += AttributedString(ns.substring(with: NSRange(location: cursor, length: full.location - cursor)))
-            }
-            // 중괄호는 숨기고 변수명만, 양옆 얇은 공백(U+2009)으로 칩 패딩을 흉내낸다.
-            var chip = AttributedString("\u{2009}\(ns.substring(with: match.range(at: 1)))\u{2009}")
-            chip.foregroundColor = accent
-            chip.backgroundColor = accentSoft
-            chip.font = font
-            out += chip
-            cursor = full.location + full.length
-        }
-        if cursor < ns.length {
-            out += AttributedString(ns.substring(from: cursor))
-        }
-        return out
-    }
-}
+// MARK: - Template Chip Rendering
+// `{변수}` 칩은 앱과 키보드가 **같은 코드**를 쓴다.
+// DesignSystem/TemplatePlaceholder.swift (`templateAwareAttributed`) - 양쪽 타겟에 들어간다.
 
 // MARK: - Search Hangul Composition
 
@@ -2267,4 +2841,16 @@ final class HangulSearchController: HangulInputProxy {
     // MARK: HangulInputProxy
     func insertText(_ text: String) { buffer.append(text) }
     func deleteBackward() { if !buffer.isEmpty { buffer.removeLast() } }
+}
+
+// MARK: - 순서 바꾸기: 키마다의 자리
+
+/// 격자 안 키들의 자리를 한 표로 모은다.
+/// 손가락 밑에 어느 키가 있는지는 좌표 계산이 아니라 이 표를 두드려 안다 -
+/// 열 개수·키 높이·여백이 설정마다 달라서, 계산으로는 어느 하나만 바뀌어도 어긋난다.
+private struct ReorderCellFrameKey: PreferenceKey {
+    static let defaultValue: [UUID: CGRect] = [:]
+    static func reduce(value: inout [UUID: CGRect], nextValue: () -> [UUID: CGRect]) {
+        value.merge(nextValue()) { _, new in new }
+    }
 }

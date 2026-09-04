@@ -90,7 +90,8 @@ struct InAppKeyboardHostTests {
 
     @Test("문구를 누르면 입력창에 들어간다")
     func addTextEntryInserts() async {
-        let host = InAppKeyboardHost()
+        // 흐르는 연출은 여기서 볼 것이 아니다 - 결과만 본다(아래 "치는 것처럼" 묶음이 따로 본다).
+        let host = InAppKeyboardHost(typesOut: false)
         NotificationCenter.default.post(name: .addTextEntry,
                                         object: "leeo@kakao.com",
                                         userInfo: ["memoId": UUID()])
@@ -100,7 +101,8 @@ struct InAppKeyboardHostTests {
 
     @Test("`{커서}` 가 있으면 캐럿이 그 자리로 되돌아온다")
     func cursorTokenPlacesCaret() async {
-        let host = InAppKeyboardHost()
+        // 흐르는 연출은 여기서 볼 것이 아니다 - 결과만 본다(아래 "치는 것처럼" 묶음이 따로 본다).
+        let host = InAppKeyboardHost(typesOut: false)
         NotificationCenter.default.post(name: .addTextEntry,
                                         object: "안녕하세요 {커서} 드림",
                                         userInfo: ["memoId": UUID()])
@@ -124,7 +126,8 @@ struct InAppKeyboardHostTests {
 
     @Test("값을 다 채우면 그때 들어간다")
     func templateCompletionInserts() async {
-        let host = InAppKeyboardHost()
+        // 흐르는 연출은 여기서 볼 것이 아니다 - 결과만 본다(아래 "치는 것처럼" 묶음이 따로 본다).
+        let host = InAppKeyboardHost(typesOut: false)
         NotificationCenter.default.post(
             name: .templateInputComplete,
             object: nil,
@@ -224,6 +227,61 @@ struct InAppKeyboardHostTests {
     }
 
     /// 알림은 메인 큐로 전달되므로 한 바퀴 양보한다.
+    // MARK: - 치는 것처럼 넣기
+    //
+    // ⚠️ 여기서 지키는 것은 **연출의 속도가 아니라 결과**다. 몇 밀리초에 몇 글자인지는
+    //    언제든 조정될 값이고, 시험이 그걸 붙잡으면 손댈 때마다 깨진다.
+    //    지켜야 하는 것은 셋이다: 끝내 다 들어온다 · 중간에 잘리지 않는다 · 겹치지 않는다.
+
+    @Test("흘려 넣어도 끝내 글이 다 들어온다")
+    func typedTextArrivesInFull() async {
+        let host = InAppKeyboardHost()
+        let value = "leeo@kakao.com"
+        host.insertText(value)          // 흐르기 시작한다
+        try? await Task.sleep(for: .seconds(1))
+        #expect(host.text == value)
+        #expect(host.caret == value.count)
+    }
+
+    @Test("보내면 **다 들어온 글**이 올라간다, 반쯤 흐른 글이 아니라")
+    func sendFlushesPendingTyping() async {
+        let host = InAppKeyboardHost()
+        let value = "여기까지 다 들어와야 한다"
+        host.insertText(value)
+        // 흐르는 도중에 보낸다 - 여기서 자르면 사용자가 누른 적 없는 문장이 올라간다.
+        host.send()
+        #expect(host.messages.last?.text == value)
+        #expect(host.text.isEmpty)
+    }
+
+    @Test("흐르는 도중에 다음 것을 눌러도 글자가 섞이지 않는다")
+    func secondInsertDoesNotInterleave() async {
+        let host = InAppKeyboardHost()
+        host.insertText("첫번째")
+        host.insertText("두번째")     // 앞의 것을 먼저 끝내고 이어 붙여야 한다
+        try? await Task.sleep(for: .seconds(1))
+        #expect(host.text == "첫번째두번째")
+    }
+
+    @Test("지우기는 흐르던 것을 먼저 끝내고 지운다")
+    func deleteFlushesThenDeletes() async {
+        let host = InAppKeyboardHost()
+        host.insertText("abcd")
+        host.deleteBackward()
+        try? await Task.sleep(for: .seconds(1))
+        // 다 들어온 뒤 한 글자가 빠진 상태여야 한다 - 뒤에서 글자가 더 밀려 들어오면 안 된다.
+        #expect(host.text == "abc")
+    }
+
+    @Test("지우면 지운 채로 남는다, 뒤늦게 되살아나지 않는다")
+    func clearAllStopsTyping() async {
+        let host = InAppKeyboardHost()
+        host.insertText("긴 문장을 넣는 중입니다")
+        host.clearAll()
+        try? await Task.sleep(for: .seconds(1))
+        #expect(host.text.isEmpty)
+    }
+
     private func settle() async {
         await Task.yield()
         try? await Task.sleep(for: .milliseconds(50))

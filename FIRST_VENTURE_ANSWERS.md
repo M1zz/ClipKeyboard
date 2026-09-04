@@ -7,7 +7,7 @@
 > - ✅ : 프로젝트 문서/코드에서 근거를 찾아 답한 항목 (출처 명시)
 > - ⚠️ : 실제 데이터(App Store Connect 실측치 등)가 필요해 **당신이 채워야 하는** 항목, 현재는 목표·계획만 존재
 >
-> 출처 약어: `MON` = docs/MONETIZATION_PLAN.md · `KILL` = docs/KILL_CRITERIA.md · `SEED` = docs/SEEDING-GUIDE.md · `REDDIT` = docs/REDDIT_LAUNCH_POST.md · `README` = README.md
+> 출처 약어: `MON` = docs/product/MONETIZATION_PLAN.md · `KILL` = docs/product/KILL_CRITERIA.md · `SEED` = docs/engineering/SEEDING-GUIDE.md · `REDDIT` = docs/marketing/REDDIT_LAUNCH_POST.md · `README` = README.md
 
 ---
 
@@ -116,10 +116,10 @@ KILL 문서가 직접 경고: 사용자가 "편하긴 한데…"에 그치고 �
 
 | 문서 | 쓸모 |
 |---|---|
-| `docs/MONETIZATION_PLAN.md` | 8주 실행 플랜·가격·수익 시뮬레이션·ASO |
-| `docs/KILL_CRITERIA.md` | 포기 기준·선행 지표·피벗 레버 |
-| `docs/SEEDING-GUIDE.md` | 타겟 커뮤니티·모니터링 키워드·댓글 템플릿 |
-| `docs/REDDIT_LAUNCH_POST.md` | 고객/페인/포지셔닝 1인칭 카피 |
-| `docs/LAUNCH_TODO.md` | 런치 체크리스트 |
+| `docs/product/MONETIZATION_PLAN.md` | 8주 실행 플랜·가격·수익 시뮬레이션·ASO |
+| `docs/product/KILL_CRITERIA.md` | 포기 기준·선행 지표·피벗 레버 |
+| `docs/engineering/SEEDING-GUIDE.md` | 타겟 커뮤니티·모니터링 키워드·댓글 템플릿 |
+| `docs/marketing/REDDIT_LAUNCH_POST.md` | 고객/페인/포지셔닝 1인칭 카피 |
+| `docs/product/LAUNCH_TODO.md` | 런치 체크리스트 |
 
 > 이 답안지는 ClipKeyboard 저장소의 실제 문서·코드를 근거로 작성됨. ⚠️ 표시 항목만 당신의 실측 데이터로 채우면 FirstVenture 5단계가 완성된다.

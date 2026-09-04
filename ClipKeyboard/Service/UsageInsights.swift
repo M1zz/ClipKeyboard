@@ -103,9 +103,27 @@ enum UsageInsights {
     /// ⚠️ **9개는 따로 센다.** 한 칸 남은 사람이 몇 명인지가 이 화면에서 가장 값진 숫자다
     /// (할인 제안이 겨냥하는 바로 그 무리이고, 그 수가 곧 제안이 닿을 수 있는 사람의 수다).
     /// 7~9로 뭉뚱그리면 7개인 사람과 섞여서 그 크기를 알 수 없다.
+    ///
+    /// ⚠️ **`ownShortcuts` 를 본다. `shortcuts` 가 아니다.** 후자는 온보딩이 심어 준
+    ///    샘플 4개까지 세므로, 아무것도 만들지 않은 신규 설치가 `4~6` 칸에 선다.
+    ///    이 차트가 답해야 하는 질문은 "결제 문턱까지 얼마나 왔나" 인데 그 값으로 읽으면
+    ///    거리를 4만큼 잘못 본다. 봉우리가 `4~6` 에 서 있던 것이 그 자국이다.
+    ///
+    /// ⚠️ 그 키가 없는 **구버전 스냅샷은 세지 않는다.** 폴백으로 `shortcuts` 를 쓰면
+    ///    뜻이 다른 두 숫자가 한 막대에 섞여, 지우려던 그 봉우리가 그대로 남는다.
+    ///    몇 개를 뺐는지는 `legacyShortcutSnapshotCount` 로 화면에 밝힌다.
     /// 화면용 편의 오버로드.
     static func shortcutDistribution(snapshots: [UsageReportingService.Snapshot]) -> [DistributionBucket] {
         shortcutDistribution(metrics: snapshots.map(\.metrics))
+    }
+
+    /// 아직 `ownShortcuts` 를 보내지 않은(구버전) 스냅샷 수 - 분포에서 빠진 개수.
+    static func legacyShortcutSnapshotCount(snapshots: [UsageReportingService.Snapshot]) -> Int {
+        legacyShortcutSnapshotCount(metrics: snapshots.map(\.metrics))
+    }
+
+    static func legacyShortcutSnapshotCount(metrics snapshots: [[String: Double]]) -> Int {
+        snapshots.filter { $0["ownShortcuts"] == nil }.count
     }
 
     /// ⚠️ 지표 딕셔너리만 받는다 - `UsageSnapshot` 은 CKRecord 전용 생성자뿐이라
@@ -125,7 +143,8 @@ enum UsageInsights {
         ]
         return bounds.map { label, lower, upper in
             let count = snapshots.filter { metrics in
-                let n = Int(metrics["shortcuts"] ?? 0)
+                guard let own = metrics["ownShortcuts"] else { return false }
+                let n = Int(own)
                 return n >= lower && n <= upper
             }.count
             return DistributionBucket(label: label, installs: count, lowerBound: lower)
@@ -443,5 +462,45 @@ enum UsageInsights {
                                 day30: retained(after: 30))
         }
         .sorted { $0.cohortStart > $1.cohortStart }
+    }
+}
+
+// MARK: - 정말 시간을 아끼고 있나
+
+extension UsageInsights {
+
+    /// 아낀 시간의 이정표까지 간 설치 수 - **깔때기로 읽는다.**
+    ///
+    /// ⚠️ 이 앱을 만들며 가장 알고 싶던 것이 이것이다. 설치는 늘어도 사람들이 실제로
+    ///    시간을 아끼고 있지 않다면 그건 팔린 것이지 쓰이는 것이 아니다.
+    ///    1분에서 5분으로 못 넘어가는 비율이 크다면, 그건 "한 번 써 보고 말았다"는 뜻이다.
+    ///
+    /// ⚠️ 절대 수치가 아니라 **칸 사이 비율**을 보는 용도다. 이정표 이벤트는 지날 때
+    ///    한 번만 나가므로, 큰 칸에 있는 사람은 작은 칸에도 반드시 들어가 있다
+    ///    (`markReached(upTo:)` 가 지나온 칸을 전부 적는다).
+    struct SavedTimeStage: Identifiable {
+        let milestone: SavedTimeMilestone
+        /// 이 칸에 닿은 서로 다른 설치 수.
+        let installs: Int
+        /// 첫 칸 대비 비율(0.0 ~ 1.0).
+        let rateFromFirst: Double
+        var id: String { milestone.rawValue }
+    }
+
+    static func savedTimeStages(from samples: [UsageReportingService.EventSample]) -> [SavedTimeStage] {
+        let prefix = AnalyticsEvent.timeSavedMilestone.rawValue
+        var byMilestone: [String: Set<String>] = [:]
+        for sample in samples where sample.name.hasPrefix(prefix + ":") {
+            let slice = String(sample.name.dropFirst(prefix.count + 1))
+            guard let id = sample.installID else { continue }
+            byMilestone[slice, default: []].insert(id)
+        }
+        let first = byMilestone[SavedTimeMilestone.oneMinute.rawValue]?.count ?? 0
+        return SavedTimeMilestone.allCases.map { m in
+            let count = byMilestone[m.rawValue]?.count ?? 0
+            return SavedTimeStage(milestone: m,
+                                  installs: count,
+                                  rateFromFirst: first > 0 ? Double(count) / Double(first) : 0)
+        }
     }
 }

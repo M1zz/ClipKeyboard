@@ -76,7 +76,7 @@ struct ShortcutMartFillView: View {
     /// 빈칸 채우기는 그냥 서식 작성이 된다.
     private var previewSection: some View {
         Section {
-            Text(filledValue.templateChipAttributed(theme: theme, font: .callout))
+            Text(filledValue.templateAwareAttributed(theme: theme, font: .callout))
                 .font(.callout)
                 .foregroundColor(theme.text)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -98,7 +98,7 @@ struct ShortcutMartFillView: View {
         let remembered = MemoStore.shared.loadPlaceholderValues(for: blank)
 
         return Section {
-            TextField(NSLocalizedString("비워 두면 변수로 남아요", comment: "Shortcut mart fill: field placeholder"),
+            TextField(NSLocalizedString("비워 두면 빈칸으로 남아요", comment: "Shortcut mart fill: field placeholder"),
                       text: Binding(get: { inputs[blank] ?? "" },
                                     set: { inputs[blank] = $0 }))
                 .focused($focused, equals: blank)
@@ -166,7 +166,7 @@ struct ShortcutMartFillView: View {
                                                      sourceMemoTitle: memo.title)
             }
 
-            NotificationCenter.default.post(name: .demoSamplesInserted, object: nil)
+            NotificationCenter.postOnMain(name: .demoSamplesInserted, object: nil)
             #if os(iOS)
             HapticManager.shared.success()
             #endif

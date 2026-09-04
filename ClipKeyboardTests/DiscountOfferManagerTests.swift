@@ -123,8 +123,17 @@ struct DiscountOfferManagerTests {
 
     @Test("두 번째 기회가 겨냥하는 개수는 무료 한도 바로 한 칸 앞이다")
     func targetsTheSlotBeforeTheLimit() {
-        #expect(DiscountOfferManager.limitEdgeCount == ProFeatureManager.freeMemoLimit - 1)
-        #expect(DiscountOfferManager.limitEdgeCount == 9)
+        // ⚠️ `limitEdgeCount` 를 그대로 보지 않는다. 그 값은 App Group 에 남아 있는
+        //    Pro 권한·산 칸수를 읽어서, 주변에 무엇이 남았느냐에 따라 통과했다 실패했다 한다.
+        //    (실제로 그랬다. `ProFeatureManagerTests` 가 먼저 돌아 키를 치워 줄 때만 초록이었다)
+        //    전역을 잠깐 비우는 방법도 써 봤지만, 나란히 도는 `SlotPackTests` 가 그 틈에
+        //    엉뚱한 값을 읽었다. 규칙은 상태 없이 본다.
+        #expect(ProFeatureManager.freeMemoLimit == 10)
+        #expect(DiscountOfferManager.limitEdge(forMemoLimit: ProFeatureManager.freeMemoLimit) == 9)
+        // 칸을 산 사람은 그만큼 뒤에서 겨냥한다 - 9개에서 "한 칸 남았다"고 하면 거짓말이다.
+        #expect(DiscountOfferManager.limitEdge(forMemoLimit: 15) == 14)
+        // 한도가 아무리 작아도 0개를 겨냥하지는 않는다.
+        #expect(DiscountOfferManager.limitEdge(forMemoLimit: 1) == 1)
     }
 
     // MARK: - 기록
@@ -134,16 +143,20 @@ struct DiscountOfferManagerTests {
         DiscountOfferManager.resetForTesting()
         defer { DiscountOfferManager.resetForTesting() }
 
-        DiscountOfferManager.noteShortcutCount(3)
+        // 겨냥 개수를 직접 넘긴다. 기본값은 App Group 의 Pro 권한을 읽어서,
+        // 주변에 남은 상태에 따라 9가 아닐 수 있다(위 시험의 주석 참고).
+        let edge = 9
+
+        DiscountOfferManager.noteShortcutCount(3, edge: edge)
         #expect(DiscountOfferManager.reachedLimitEdgeAt == nil, "한도 앞에 닿기 전에는 기록하지 않는다")
 
-        DiscountOfferManager.noteShortcutCount(9)
+        DiscountOfferManager.noteShortcutCount(9, edge: edge)
         let first = DiscountOfferManager.reachedLimitEdgeAt
         #expect(first != nil)
 
         // 하나 지웠다 다시 만들어도 시계가 되감기면 안 된다 - 오래 쓴 사람이 손해를 본다.
-        DiscountOfferManager.noteShortcutCount(8)
-        DiscountOfferManager.noteShortcutCount(12)
+        DiscountOfferManager.noteShortcutCount(8, edge: edge)
+        DiscountOfferManager.noteShortcutCount(12, edge: edge)
         #expect(DiscountOfferManager.reachedLimitEdgeAt == first)
     }
 

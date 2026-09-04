@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
+import LeeoKit
 
-// 플레이스홀더 선택 뷰 (수정 가능)
+// 빈칸 선택 뷰 (수정 가능)
 struct PlaceholderSelectorView: View {
     let placeholder: String
     let sourceMemoId: UUID
@@ -32,7 +33,7 @@ struct PlaceholderSelectorView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
-                Text(placeholder.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: ""))
+                Text(placeholder.strippingTemplateBraces)
                     .font(.body)
                     .fontWeight(.semibold)
                     .foregroundColor(theme.textMuted)
@@ -199,7 +200,7 @@ struct PlaceholderSelectorView: View {
         .embeddableCard(embedded: embedded, isHighlighted: isHighlighted, theme: theme)
         .animation(.easeInOut(duration: 0.25), value: isHighlighted)
         .onAppear {
-            print("🎬 [PlaceholderSelectorView] onAppear - 플레이스홀더: \(placeholder)")
+            print("🎬 [PlaceholderSelectorView] onAppear - 빈칸: \(placeholder)")
             loadValues()
             print("✅ [PlaceholderSelectorView] onAppear 완료 - 로드된 값: \(values.count)개, 선택된 값: '\(selectedValue)'")
         }
@@ -230,102 +231,467 @@ struct PlaceholderSelectorView: View {
     }
 }
 
-// 플레이스홀더 관리 시트
+// 빈칸 관리 시트
+/// **빈칸 관리** - 빈칸을 이름 기준으로 늘어놓는다.
+///
+/// ⚠️ 예전에는 **템플릿을 먼저 고르게** 했다. 그 순서가 거짓말을 했다.
+///    값은 `placeholder_values_{이름}` 에 저장되므로 처음부터 이름 기준이고, 새해인사의
+///    `{이름}` 과 안부의 `{이름}` 은 같은 빈칸이다. 그런데 화면이 템플릿부터 물으니
+///    사용자는 템플릿마다 빈칸을 새로 만드는 줄 알고 이름을 조금씩 다르게 적었다.
+///    이름이 갈라지면 값도 갈라진다. 그래서 화면을 뒤집었다.
+///
+/// ⚠️ 쓰는 곳이 없어진 빈칸도 값이 남아 있으면 보여 준다. 안 보이면 지울 수도 없다.
 struct PlaceholderManagementSheet: View {
     let allMemos: [Memo]
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
 
-    var templateMemos: [Memo] {
-        allMemos.filter { $0.isTemplate }
-    }
+    @State private var summaries: [PlaceholderSummary] = []
+    /// 지울지 물어보는 중인 빈칸. 값이 있으면 곧 확인 창이 떠 있다는 뜻이다.
+    @State private var pendingDelete: PlaceholderSummary?
+    /// 이름을 바꾸는 중인 빈칸.
+    @State private var renaming: PlaceholderSummary?
+    /// 쓰지 않는 빈칸을 한 번에 지울지 물어보는 중.
+    @State private var confirmingSweep = false
+
+    /// 지금 어느 단축어도 쓰지 않는 빈칸들. 지워도 되는 것은 이것뿐이다
+    /// (쓰는 곳이 있는 빈칸은 본문에서 다시 읽어 들이므로 지워도 되살아난다).
+    private var orphans: [PlaceholderSummary] { summaries.filter(\.isOrphan) }
 
     var body: some View {
         NavigationStack {
-            if templateMemos.isEmpty {
-                VStack(spacing: 12) {
-                    Image(systemName: AppSymbol.docTextMagnifyingglass)
-                        .font(.system(size: 50))
-                        .foregroundColor(theme.textFaint)
-                    Text(NSLocalizedString("템플릿이 없습니다", comment: "No templates"))
-                        .font(.headline)
-                        .foregroundColor(theme.textMuted)
-                    Text(NSLocalizedString("채울 칸이 있는 템플릿을 만들면\n그 값들을 여기서 관리할 수 있어요", comment: "No templates description"))
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                        .multilineTextAlignment(.center)
+            Group {
+                if summaries.isEmpty {
+                    emptyState
+                } else {
+                    list
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .navigationTitle(NSLocalizedString("플레이스홀더 관리", comment: "Placeholder management title"))
-                #if os(iOS)
-                .navigationBarTitleDisplayMode(.inline)
-                #endif
-                .solidNavBar(theme.bg)
-                .toolbar {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button(NSLocalizedString("완료", comment: "Done")) {
-                            dismiss()
-                        }
+            }
+            .navigationTitle(NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)"))
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .solidNavBar(theme.bg)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(NSLocalizedString("완료", comment: "Done")) { dismiss() }
                         .fontWeight(.semibold)
-                    }
                 }
-            } else {
-                List {
-                    ForEach(templateMemos) { template in
-                        NavigationLink {
-                            TemplateDetailPlaceholderView(template: template)
-                        } label: {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(template.title)
-                                    .font(.headline)
+            }
+        }
+        .onAppear(perform: reload)
+        .sheet(item: $renaming) { summary in
+            PlaceholderRenameSheet(summary: summary, onDone: reload)
+        }
+        .alert(item: $pendingDelete) { summary in
+            Alert(
+                title: Text(String(format: NSLocalizedString("'%@' 빈칸을 지울까요?",
+                                                             comment: "Delete placeholder confirmation title"),
+                                   summary.displayName)),
+                message: Text(String(format: NSLocalizedString("저장해 둔 값 %d개가 함께 사라져요. 이 빈칸을 쓰는 단축어는 없습니다.",
+                                                               comment: "Delete placeholder confirmation message"),
+                                     summary.valueCount)),
+                primaryButton: .destructive(Text(NSLocalizedString("삭제", comment: "Delete"))) {
+                    delete(summary)
+                },
+                secondaryButton: .cancel(Text(NSLocalizedString("취소", comment: "Cancel")))
+            )
+        }
+        .alert(NSLocalizedString("쓰지 않는 빈칸을 모두 지울까요?", comment: "Sweep orphan placeholders title"),
+               isPresented: $confirmingSweep) {
+            Button(NSLocalizedString("모두 지우기", comment: "Delete all unused placeholders"), role: .destructive) {
+                orphans.forEach(delete)
+            }
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {}
+        } message: {
+            Text(String(format: NSLocalizedString("빈칸 %1$d개와 거기 저장해 둔 값 %2$d개가 사라져요. 쓰는 단축어는 하나도 없습니다.",
+                                                  comment: "Sweep orphan placeholders message"),
+                        orphans.count, orphans.reduce(0) { $0 + $1.valueCount }))
+        }
+    }
 
-                                Text(extractPlaceholderPreview(from: template.value))
-                                    .font(.body)
-                                    .foregroundColor(.secondary)
-                                    .lineLimit(2)
-                            }
-                            .padding(.vertical, 4)
-                        }
-                    }
-                }
-                .navigationTitle(NSLocalizedString("플레이스홀더 관리", comment: "Placeholder management title"))
-                #if os(iOS)
-                .navigationBarTitleDisplayMode(.inline)
-                #endif
-                .solidNavBar(theme.bg)
-                .toolbar {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button(NSLocalizedString("완료", comment: "Done")) {
-                            dismiss()
-                        }
-                        .fontWeight(.semibold)
-                    }
+    /// 쓰지 않는 빈칸이 여러 개일 때만 나오는 줄. 하나씩 미는 것보다 이쪽이 빠르다.
+    private var sweepSection: some View {
+        Section {
+            Button(role: .destructive) {
+                confirmingSweep = true
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: AppSymbol.trash)
+                    Text(String(format: NSLocalizedString("쓰지 않는 빈칸 %d개 지우기",
+                                                          comment: "Sweep orphan placeholders button"),
+                                orphans.count))
                 }
             }
         }
     }
 
-    private func extractPlaceholderPreview(from text: String) -> String {
-        let emptyLabel = NSLocalizedString("No placeholders", comment: "Fallback when template has no placeholders")
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return emptyLabel }
+    private func delete(_ summary: PlaceholderSummary) {
+        MemoStore.shared.deletePlaceholder(summary.token)
+        reload()
+    }
 
-        let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
-        var placeholders: [String] = []
+    private var emptyState: some View {
+        VStack(spacing: 12) {
+            Image(systemName: AppSymbol.curlybraces)
+                .font(.system(size: 50))
+                .foregroundColor(theme.textFaint)
+            Text(NSLocalizedString("아직 빈칸이 없어요", comment: "No placeholders yet"))
+                .font(.headline)
+                .foregroundColor(theme.textMuted)
+            Text(NSLocalizedString("내용에 { }로 감싼 자리를 넣으면 여기 모여요. 이름이 같으면 여러 단축어가 값을 함께 씁니다.",
+                                   comment: "No placeholders description"))
+                .font(.body)
+                .foregroundColor(theme.textMuted)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 32)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
 
-        for match in matches {
-            if let range = Range(match.range, in: text) {
-                let placeholder = String(text[range])
-                if !TemplateVariableProcessor.autoVariableTokens.contains(placeholder) && !placeholders.contains(placeholder) {
-                    placeholders.append(placeholder)
+    private var list: some View {
+        List {
+            if orphans.count >= 2 { sweepSection }
+            Section {
+                ForEach(summaries) { summary in
+                    NavigationLink {
+                        PlaceholderDetailView(summary: summary, allMemos: allMemos, onChange: reload)
+                    } label: {
+                        row(summary)
+                    }
+                    // ⚠️ **쓰는 단축어가 없는 것만** 지울 수 있다. 쓰는 곳이 있는 빈칸을 지우면
+                    //    다음에 본문을 읽을 때 그 자리에서 다시 살아난다. 지워지지 않는 삭제
+                    //    버튼을 보여 주느니 아예 내놓지 않는다.
+                    .swipeActions(edge: .trailing) {
+                        if summary.isOrphan {
+                            Button(role: .destructive) {
+                                pendingDelete = summary
+                            } label: {
+                                Label(NSLocalizedString("삭제", comment: "Delete"), systemImage: AppSymbol.trash)
+                            }
+                        }
+                        // 이름 바꾸기는 쓰는 곳이 있어도 된다. 본문의 이름까지 함께 바꾸기 때문이다.
+                        Button {
+                            renaming = summary
+                        } label: {
+                            Label(NSLocalizedString("이름 바꾸기", comment: "Rename placeholder"),
+                                  systemImage: AppSymbol.pencil)
+                        }
+                        .tint(.indigo)
+                    }
+                }
+            } footer: {
+                Text(NSLocalizedString("빈칸은 이름으로 묶여요. 여러 단축어에서 같은 이름을 쓰면 값도 함께 씁니다.",
+                                       comment: "Placeholder management footer"))
+            }
+        }
+    }
+
+    private func row(_ summary: PlaceholderSummary) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 8) {
+                Text(summary.displayName)
+                    .font(.headline)
+                    .foregroundColor(theme.text)
+
+                // ⚠️ 두 갈래를 **색으로** 가른다. 숫자 칸은 값을 저장하지 않아서
+                //    아래에 보이는 것이 아예 다르다.
+                Text(summary.isNumeric
+                     ? NSLocalizedString("숫자 입력", comment: "Numeric placeholder badge")
+                     : NSLocalizedString("선택지", comment: "Selection placeholder badge"))
+                    .font(.caption2.weight(.semibold))
+                    .foregroundColor(summary.isNumeric ? .accentColor : .indigo)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background((summary.isNumeric ? Color.accentColor : Color.indigo).opacity(0.12))
+                    .cornerRadius(theme.radiusXs)
+            }
+
+            Text(subtitle(summary))
+                .font(.caption)
+                .foregroundColor(summary.isOrphan ? .orange : theme.textMuted)
+        }
+        .padding(.vertical, 4)
+        .accessibilityElement(children: .combine)
+    }
+
+    private func subtitle(_ summary: PlaceholderSummary) -> String {
+        if summary.isOrphan {
+            return String(format: NSLocalizedString("쓰는 단축어 없음, 값 %d개",
+                                                    comment: "Orphan placeholder subtitle"),
+                          summary.valueCount)
+        }
+        if summary.isNumeric {
+            return String(format: NSLocalizedString("단축어 %d곳에서 씀",
+                                                    comment: "Placeholder usage subtitle (numeric)"),
+                          summary.memos.count)
+        }
+        return String(format: NSLocalizedString("단축어 %1$d곳에서 씀, 값 %2$d개",
+                                                comment: "Placeholder usage subtitle"),
+                      summary.memos.count, summary.valueCount)
+    }
+
+    private func reload() {
+        summaries = PlaceholderCatalog.summaries(from: allMemos)
+    }
+}
+
+// MARK: - 이름 바꾸기
+
+/// 빈칸 이름을 바꾸는 작은 시트.
+///
+/// ⚠️ 이름 바꾸기는 **남의 본문을 고치는 일**이다(`{옛이름}` → `{새이름}`).
+///    그래서 몇 개가 바뀌는지 먼저 보여 주고, 누르기 전에 알 수 있게 한다.
+struct PlaceholderRenameSheet: View {
+    let summary: PlaceholderSummary
+    var onDone: () -> Void = {}
+
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
+    @State private var name: String = ""
+    @State private var failure: String?
+    @FocusState private var focused: Bool
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    TextField(NSLocalizedString("빈칸 이름", comment: "Placeholder name field"), text: $name)
+                        .focused($focused)
+                        .autocorrectionDisabled()
+                        #if os(iOS)
+                        .textInputAutocapitalization(.never)
+                        #endif
+                        .onSubmit(rename)
+                } footer: {
+                    if let failure {
+                        Text(failure).foregroundColor(theme.danger)
+                    } else if summary.memos.isEmpty {
+                        Text(NSLocalizedString("이 빈칸을 쓰는 단축어는 없어요. 저장해 둔 값만 새 이름으로 따라갑니다.",
+                                               comment: "Rename footer for orphan placeholder"))
+                    } else {
+                        Text(String(format: NSLocalizedString("단축어 %d개의 내용에서 이 이름이 함께 바뀝니다.",
+                                                              comment: "Rename footer with affected snippet count"),
+                                    summary.memos.count))
+                    }
+                }
+            }
+            .navigationTitle(NSLocalizedString("이름 바꾸기", comment: "Rename placeholder title"))
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .solidNavBar(theme.bg)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(NSLocalizedString("취소", comment: "Cancel")) { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(NSLocalizedString("저장", comment: "Save"), action: rename)
+                        .fontWeight(.semibold)
+                        .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+            }
+            .onAppear {
+                name = summary.displayName
+                focused = true
+            }
+        }
+    }
+
+    private func rename() {
+        switch MemoStore.shared.renamePlaceholder(summary.token, to: name) {
+        case .renamed, .unchanged:
+            onDone()
+            dismiss()
+        case .invalidName:
+            failure = NSLocalizedString("쓸 수 있는 이름이 아니에요. 중괄호 없이 적어 주세요.",
+                                        comment: "Rename error: invalid name")
+        case .reservedName:
+            failure = NSLocalizedString("앱이 알아서 채우는 이름이라 쓸 수 없어요. 다른 이름으로 적어 주세요.",
+                                        comment: "Rename error: reserved auto variable name")
+        case .nameTaken:
+            failure = NSLocalizedString("이미 있는 빈칸 이름이에요. 둘을 합치지는 않아요.",
+                                        comment: "Rename error: name already exists")
+        }
+    }
+}
+
+// MARK: - 빈칸 하나
+
+/// 빈칸 하나에 딸린 것 전부 - 저장해 둔 값과, 이 빈칸을 쓰는 단축어들.
+struct PlaceholderDetailView: View {
+    let summary: PlaceholderSummary
+    let allMemos: [Memo]
+    /// 값을 고치면 앞 화면의 개수도 다시 세게 한다.
+    var onChange: () -> Void = {}
+
+    @Environment(\.appTheme) private var theme
+    @Environment(\.dismiss) private var dismiss
+    @State private var values: [PlaceholderValue] = []
+    @State private var newValue: String = ""
+    @State private var pendingDelete: PlaceholderValue?
+    @State private var showDeleteAlert = false
+    /// 이 빈칸의 이름을 바꾸는 중.
+    @State private var renaming = false
+
+    var body: some View {
+        List {
+            if summary.isNumeric {
+                Section {
+                    Text(NSLocalizedString("금액이나 수량처럼 매번 달라지는 값은 저장하지 않아요. 쓸 때 숫자판이 열립니다.",
+                                           comment: "Numeric placeholder explanation"))
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                }
+            } else {
+                valuesSection
+            }
+
+            usageSection
+        }
+        .navigationTitle(summary.displayName)
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .solidNavBar(theme.bg)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    renaming = true
+                } label: {
+                    Label(NSLocalizedString("이름 바꾸기", comment: "Rename placeholder"),
+                          systemImage: AppSymbol.pencil)
                 }
             }
         }
-
-        if placeholders.isEmpty {
-            return emptyLabel
+        .sheet(isPresented: $renaming) {
+            PlaceholderRenameSheet(summary: summary) {
+                // ⚠️ 이름이 바뀌면 이 화면이 들고 있는 summary 는 **옛 이름**이다.
+                //    그대로 두면 값이 안 보이고, 여기서 더 고치면 옛 이름 아래에 쓰인다.
+                //    목록으로 돌아가 새 이름으로 다시 들어가게 한다.
+                onChange()
+                dismiss()
+            }
         }
+        .onAppear { values = MemoStore.shared.loadPlaceholderValues(for: summary.token) }
+        .alert(NSLocalizedString("삭제 확인", comment: "Delete confirmation"), isPresented: $showDeleteAlert) {
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { pendingDelete = nil }
+            Button(NSLocalizedString("삭제", comment: "Delete"), role: .destructive) {
+                if let v = pendingDelete {
+                    MemoStore.shared.deletePlaceholderValue(valueId: v.id, for: summary.token)
+                    values = MemoStore.shared.loadPlaceholderValues(for: summary.token)
+                    onChange()
+                }
+                pendingDelete = nil
+            }
+        } message: {
+            if let v = pendingDelete {
+                Text(String(format: NSLocalizedString("'%@'을(를) 삭제하시겠습니까?", comment: "Delete value confirmation"), v.value))
+            }
+        }
+    }
 
-        return placeholders.map { $0.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "") }.joined(separator: ", ")
+    private var valuesSection: some View {
+        Section {
+            ForEach(values) { value in
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(value.value)
+                        .font(.body)
+                        .foregroundColor(theme.text)
+                    if !value.sourceMemoTitle.isEmpty {
+                        Text(String(format: NSLocalizedString("%@에서 넣음", comment: "Value source memo"),
+                                    value.sourceMemoTitle))
+                            .font(.caption)
+                            .foregroundColor(theme.textFaint)
+                    }
+                }
+                .swipeActions {
+                    Button(role: .destructive) {
+                        pendingDelete = value
+                        showDeleteAlert = true
+                    } label: {
+                        Label(NSLocalizedString("삭제", comment: "Delete"), systemImage: AppSymbol.trash)
+                    }
+                }
+            }
+            .onMove(perform: moveValues)
+
+            HStack {
+                TextField(NSLocalizedString("값 추가", comment: "Add placeholder value"), text: $newValue)
+                    .onSubmit(addValue)
+                Button(action: addValue) {
+                    Image(systemName: AppSymbol.plusCircleFill)
+                        .foregroundColor(newValue.trimmingCharacters(in: .whitespaces).isEmpty
+                                         ? theme.textFaint : .accentColor)
+                }
+                .buttonStyle(.plain)
+                .disabled(newValue.trimmingCharacters(in: .whitespaces).isEmpty)
+                .accessibilityLabel(NSLocalizedString("값 추가", comment: "Add placeholder value"))
+            }
+        } header: {
+            HStack {
+                Text(NSLocalizedString("저장해 둔 값", comment: "Saved values section"))
+                Spacer()
+                // 값이 둘 이상일 때만 - 하나뿐인 목록에 순서 바꾸기가 서 있으면 누를 것이 없다.
+                if values.count > 1 { EditButton().font(.footnote) }
+            }
+        } footer: {
+            Text(NSLocalizedString("이 값들은 이 빈칸을 쓰는 모든 단축어에서 함께 보여요. 끌어서 순서를 바꾸면 채울 때도 그 순서로 보여요.",
+                                   comment: "Saved values footer"))
+        }
+    }
+
+    private var usageSection: some View {
+        Section {
+            if summary.memos.isEmpty {
+                Text(NSLocalizedString("이 빈칸을 쓰는 단축어가 없어요. 값만 남아 있습니다.",
+                                       comment: "Orphan placeholder detail"))
+                    .font(.body)
+                    .foregroundColor(.orange)
+            } else {
+                ForEach(summary.memos) { reference in
+                    if let memo = allMemos.first(where: { $0.id == reference.id }) {
+                        NavigationLink {
+                            TemplateDetailPlaceholderView(template: memo)
+                        } label: {
+                            Text(memo.title.templateAwareAttributed(theme: theme, font: .body))
+                        }
+                    } else {
+                        Text(reference.title)
+                    }
+                }
+            }
+        } header: {
+            Text(NSLocalizedString("이 빈칸을 쓰는 단축어", comment: "Placeholder usage section"))
+        }
+    }
+
+    /// 값 순서를 손으로 바꾼다.
+    ///
+    /// ⚠️ 예전에는 **쓸 때마다 맨 앞으로 끌어올려** 순서가 저절로 바뀌었다(`addPlaceholderValue`).
+    ///    자리를 외워 두고 고르던 사람은 누를 때마다 다시 찾아야 했다. 이제 여기서 정한 순서가
+    ///    그대로 남고, 채우는 창의 칩도 같은 순서로 선다.
+    private func moveValues(from source: IndexSet, to destination: Int) {
+        values.move(fromOffsets: source, toOffset: destination)
+        MemoStore.shared.savePlaceholderValues(values, for: summary.token)
+        HapticManager.shared.selection()
+        onChange()
+    }
+
+    private func addValue() {
+        let trimmed = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        // 관리 화면에서 직접 넣은 값이라 출처가 될 단축어가 없다. 쓰는 곳이 있으면 그중 첫째를
+        // 출처로 적고, 없으면 이 화면에서 넣었다고 남긴다.
+        let source = summary.memos.first
+        MemoStore.shared.addPlaceholderValue(
+            trimmed,
+            for: summary.token,
+            sourceMemoId: source?.id ?? UUID(),
+            sourceMemoTitle: source?.title ?? NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)")
+        )
+        values = MemoStore.shared.loadPlaceholderValues(for: summary.token)
+        newValue = ""
+        onChange()
     }
 }

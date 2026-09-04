@@ -40,13 +40,38 @@ enum KeyboardInstallState {
     }
 
     /// 익스텐션이 한 번이라도 떠 본 적 있는가(App Group 표식).
+    ///
+    /// ⚠️ **한 번 켜지면 영영 안 꺼지는 걸쇠다.** 익스텐션이 뜰 때 `true` 로 적고,
+    ///    지우는 코드는 어디에도 없다. 지울 수도 없다 - 키보드를 설정에서 뺐다는 것을
+    ///    익스텐션이 알 길이 없기 때문이다(빠진 익스텐션은 뜨지 않는다).
     static var didLoadOnce: Bool {
         AppGroup.defaults?
             .bool(forKey: DefaultsKey.keyboardExtensionDidLoad) ?? false
     }
 
-    /// 둘 중 하나라도 참이면 "쓸 수 있다"로 본다.
-    static var isUsable: Bool { isEnabledInSettings || didLoadOnce }
+    /// 지금 이 키보드를 다른 앱에서 쓸 수 있는가.
+    ///
+    /// ⚠️ 예전에는 `isEnabledInSettings || didLoadOnce` 였다. **한 번이라도 키보드를
+    ///    띄워 본 사람에게는 이 값이 영영 참**이라, 나중에 설정에서 키보드를 빼도 앱은
+    ///    계속 "켜져 있다"고 믿었다. 그 사람은 무대에서 켜라는 안내를 다시는 못 받는다.
+    ///    (실제로 그렇게 신고가 들어왔다 - "설정 안 했는데 왜 안내가 안 뜨지")
+    ///
+    /// ⚠️ 그래서 **읽을 수 있으면 `AppleKeyboards` 가 진실이다.** 걸쇠는 그 값을 못 읽는
+    ///    상황에서만 대신 쓴다. 못 읽는데 걸쇠도 없으면 "아직" 으로 보고 안내를 띄운다
+    ///    - 켜 둔 사람을 한 번 귀찮게 하는 것보다, 못 켠 사람을 영영 놓치는 쪽이 나쁘다.
+    static var isUsable: Bool {
+        usable(enabledKeyboards: UserDefaults.standard.array(forKey: "AppleKeyboards") as? [String],
+               didLoadOnce: didLoadOnce)
+    }
+
+    /// 위 규칙만 떼어 낸 것 - 시험에서 값을 넣어 볼 수 있게 한다.
+    /// - Parameter enabledKeyboards: `AppleKeyboards` 값. 못 읽었으면 nil.
+    static func usable(enabledKeyboards: [String]?, didLoadOnce: Bool) -> Bool {
+        if let enabledKeyboards {
+            return enabledKeyboards.contains(extensionBundleID)
+        }
+        return didLoadOnce
+    }
 }
 
 struct KeyboardSetupOnboardingView: View {
@@ -128,15 +153,27 @@ struct KeyboardSetupOnboardingView: View {
                         }
 
                         // Next / Done
-                        if currentPage < steps.count - 1 {
+                        if currentPage == 2 {
+                            // ⚠️ 여기서 **말로 넘어가지 않는다.** 예전에는 "설정 완료"를 누르면
+                            //    그대로 다음 장으로 갔다. 설정에 다녀오지 않은 사람도 눌렀고,
+                            //    그러면 켜지지도 않은 채로 "다 됐다"가 되었다.
+                            //    이제 누르면 **실제로 켜졌는지 본다.**
+                            Button(action: verifySetup) {
+                                Text(NSLocalizedString("네, 켰어요", comment: "Setup confirm button"))
+                                    .font(.headline.weight(.semibold))
+                                    .foregroundColor(theme.accentFg)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 52)
+                                    .background(theme.accent)
+                                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+                            }
+                        } else if currentPage < steps.count - 1 {
                             Button {
                                 withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) {
                                     currentPage += 1
                                 }
                             } label: {
-                                Text(currentPage == 2
-                                     ? NSLocalizedString("설정 완료", comment: "Setup done button")
-                                     : NSLocalizedString("다음", comment: "Next button"))
+                                Text(NSLocalizedString("다음", comment: "Next button"))
                                     .font(.headline.weight(.semibold))
                                     .foregroundColor(theme.accentFg)
                                     .frame(maxWidth: .infinity)
@@ -179,6 +216,23 @@ struct KeyboardSetupOnboardingView: View {
         }
     }
 
+    /// "네, 켰어요" - **말이 아니라 사실을 본다.**
+    ///
+    /// ⚠️ 못 찾았다고 나무라지 않는다. 켜는 자리가 헷갈리는 것은 흔한 일이고,
+    ///    여기서 "안 하셨네요"로 읽히면 사람은 화면을 닫는다. 어디가 막혔는지
+    ///    한 줄로 다시 알려 주고 그 자리에 세워 둔다.
+    private func verifySetup() {
+        withAnimation(.easeInOut(duration: 0.2)) { setupStatus = .checking }
+        // 시스템이 `AppleKeyboards` 를 비추는 데 한 박자 걸린다 - 곧바로 물으면 방금 켠 것도 못 본다.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+            let on = KeyboardInstallState.isUsable
+            withAnimation(.easeInOut(duration: 0.3)) {
+                setupStatus = on ? .confirmed : .notFound
+                if on { currentPage = steps.count - 1 }
+            }
+        }
+    }
+
     private func openSettings() {
         #if canImport(UIKit)
         if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -207,7 +261,7 @@ struct SetupStep {
     static let all: [SetupStep] = [
         SetupStep(
             title: NSLocalizedString("키보드를 추가해요", comment: "Setup step 1 title"),
-            description: NSLocalizedString("iPhone 설정에서 클립키보드 키보드를 추가하세요. 딱 한 번만 하면 됩니다.", comment: "Setup step 1 description"),
+            description: NSLocalizedString("iPhone 설정에서 ClipKeyboard 키보드를 추가하세요. 딱 한 번만 하면 됩니다.", comment: "Setup step 1 description"),
             path: [
                 NSLocalizedString("설정", comment: "iOS Settings"),
                 NSLocalizedString("일반", comment: "iOS Settings: General"),
@@ -346,7 +400,7 @@ private struct StepPageView: View {
                     } else {
                         Image(systemName: i == step.path.count - 1 ? "checkmark.circle.fill" : "arrow.right")
                             .font(.caption.weight(.semibold))
-                            .foregroundColor(i == step.path.count - 1 ? theme.success : theme.accent)
+                            .foregroundColor(i == step.path.count - 1 ? Color.checkGreen : theme.accent)
                             .accessibilityHidden(true)
                     }
 
@@ -376,7 +430,7 @@ private struct StepPageView: View {
         case .confirmed:
             HStack(spacing: 8) {
                 Image(systemName: AppSymbol.checkmarkCircleFill)
-                    .foregroundColor(theme.success)
+                    .foregroundColor(Color.checkGreen)
                     .accessibilityHidden(true)
                 Text(NSLocalizedString("키보드가 확인됐어요! 다음으로 넘어갈게요.", comment: "Setup confirmed"))
                     .font(.body)
@@ -601,7 +655,7 @@ private struct DoneIllustration: View {
 
                 Image(systemName: AppSymbol.checkmark)
                     .font(.system(size: 44, weight: .bold))
-                    .foregroundColor(theme.accent)
+                    .foregroundColor(Color.checkGreen)
                     .scaleEffect(appeared ? 1 : 0.3)
                     .opacity(appeared ? 1 : 0)
             }
@@ -641,12 +695,25 @@ struct KeyboardSetupOnboardingView_Previews: PreviewProvider {
 import Foundation
 
 enum Persona: String, CaseIterable, Codable {
+    // ⚠️ **선언 순서가 곧 화면 순서다.** 고르는 판이 `ForEach(Persona.allCases)` 로 그린다.
+    //    그래서 기본으로 고를 것(`default`)이 맨 위에 있어야 한다. 기본값이 맨 아래 있으면
+    //    "권하는 것"과 "먼저 보이는 것"이 어긋나서, 처음 여는 사람이 자기와 상관없는
+    //    노마드부터 읽고 내려가야 한다.
+    //
+    // ⚠️ `rawValue` 는 저장에 쓰이므로 **문자열은 건드리지 않는다.** 순서만 바꾼다.
+    case general = "general"
     case nomad = "nomad"
     case business = "business"
     case student = "student"
-    case general = "general"
 
-    static let `default`: Persona = .nomad
+    /// 아직 아무것도 안 고른 사람이 처음 보게 되는 갈래.
+    ///
+    /// ⚠️ 예전에는 노마드였다. 이 앱이 국제 송금·비자에서 출발했다는 **만든 사람의 사정**이지
+    ///    쓰는 사람의 사정이 아니다. 처음 여는 사람 대부분은 전화번호와 주소를 넣으려고
+    ///    왔고, 그 사람에게 IBAN 과 여권번호를 들이밀면 이 앱이 자기 것이 아닌 줄 안다.
+    ///    모르면 가장 넓은 것을 고른다. 좁히는 일은 **써 보고 나서** 물어본다
+    ///    (`PersonaPrompt`).
+    static let `default`: Persona = .general
 
     var icon: String {
         switch self {
@@ -765,7 +832,13 @@ enum Persona: String, CaseIterable, Codable {
 }
 
 struct PersonaSelectionView: View {
-    enum Mode { case onboarding, settings }
+    /// 어디서 열렸는가. **묻는 말과 나가는 길이 갈린다.**
+    enum Mode {
+        case onboarding
+        case settings
+        /// 써 보고 나서 한 번 묻는 자리(`PersonaPrompt`). 여기서만 **안 고르고 나갈 수 있다.**
+        case prompt
+    }
 
     @Environment(\.appTheme) private var theme
     let onContinue: () -> Void
@@ -829,8 +902,28 @@ struct PersonaSelectionView: View {
                         .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                 }
                 .padding(.horizontal, 16)
-                .padding(.bottom, 20)
+
+                // ⚠️ **안 고르고 나갈 길**은 물어보는 자리에만 둔다. 부른 적 없는 질문이라
+                //    답을 강요할 수 없다. 설정에서 일부러 들어온 사람에게는 필요 없는 문이고,
+                //    처음 안내에서는 이 화면이 걸음의 일부라 나가는 길이 따로 있다.
+                if mode == .prompt {
+                    Button {
+                        // 안 골랐어도 물어본 것은 물어본 것이다. 다시 묻지 않는다.
+                        PersonaPrompt.markAsked()
+                        onContinue()
+                    } label: {
+                        Text(NSLocalizedString("나중에 할게요", comment: "Persona prompt: skip"))
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                            .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.horizontal, 16)
+                }
             }
+            .padding(.bottom, 20)
             .padding(.top, 12)
         }
         .onAppear {
@@ -844,6 +937,7 @@ struct PersonaSelectionView: View {
         switch mode {
         case .onboarding: return NSLocalizedString("어떻게 사용하실 예정인가요?", comment: "Persona onboarding title")
         case .settings: return NSLocalizedString("페르소나 변경", comment: "Persona settings title")
+        case .prompt: return NSLocalizedString("혹시 이런 분이신가요?", comment: "Persona prompt title")
         }
     }
 
@@ -851,6 +945,9 @@ struct PersonaSelectionView: View {
         switch mode {
         case .onboarding: return NSLocalizedString("자주 쓰는 카테고리를 미리 만들어 드릴게요. 나중에 자유롭게 바꿀 수 있어요.", comment: "Persona onboarding subtitle")
         case .settings: return NSLocalizedString("추천 카테고리가 추가돼요. 처음엔 꺼져 있으니 카테고리 관리에서 원하는 것만 켜세요.", comment: "Persona settings subtitle")
+        // ⚠️ 여기서만 "지금까지 만드신 걸 보니" 로 시작한다. 이 질문이 **왜 지금 떴는지**를
+        //    말해 주지 않으면 뜬금없이 끼어든 판이 된다.
+        case .prompt: return NSLocalizedString("지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요.", comment: "Persona prompt subtitle")
         }
     }
 
@@ -858,12 +955,15 @@ struct PersonaSelectionView: View {
         switch mode {
         case .onboarding: return NSLocalizedString("시작하기", comment: "Onboarding continue button")
         case .settings: return NSLocalizedString("변경 적용", comment: "Apply persona change button")
+        case .prompt: return NSLocalizedString("이걸로 할게요", comment: "Persona prompt apply button")
         }
     }
 
     private func apply() {
         let lang = Locale.current.language.languageCode?.identifier
         CategoryStore.shared.applyPersona(selected, language: lang)
+        // 물어봐서 답을 받았다. 다시 묻지 않는다.
+        if mode == .prompt { PersonaPrompt.markAsked() }
         // 설정에서 페르소나를 바꾸면 추천 카테고리를 추가하되 표시 토글은 OFF로 둔다.
         // 사용자가 카테고리 관리에서 직접 켜기 전까지 탭에 나타나지 않는다.
         if mode == .settings {
@@ -910,7 +1010,7 @@ private struct PersonaCard: View {
 
                     Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                         .font(.title3)
-                        .foregroundStyle(isSelected ? Color.accentColor : Color.gray.opacity(0.5))
+                        .foregroundStyle(isSelected ? Color.checkGreen : Color.gray.opacity(0.5))
                 }
 
                 ScrollView(.horizontal, showsIndicators: false) {

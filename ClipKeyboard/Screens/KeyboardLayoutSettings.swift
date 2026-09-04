@@ -18,7 +18,7 @@ struct KeyboardLayoutSettings: View {
 
     // MARK: AppStorage - App Group 공유 (익스텐션과 동일 키)
     @AppStorage("keyboardColumnCount", store: AppGroup.defaults) private var columnCount: Int    = 2
-    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 56.0
+    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 44.0
     @AppStorage("keyboardButtonFontSize", store: AppGroup.defaults) private var buttonFontSize: Double = 17.0
     @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults) private var useCustomColors: Bool   = false
     @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults) private var customBgHex: String = ""
@@ -273,30 +273,13 @@ struct KeyboardLayoutSettings: View {
     private var skinSection: some View {
         Section {
             ForEach(KeyboardSkin.allCases) { candidate in
-                Button {
-                    HapticManager.shared.light()
+                ChoiceRow(name: candidate.localizedName,
+                          detail: candidate.localizedDescription,
+                          isSelected: keyboardSkinRaw == candidate.rawValue) {
+                    // 실제 키캡과 같은 규칙으로 그린 미리보기 - 설명 대신 물건을 보여준다.
+                    KeycapPreview(skin: candidate, isDark: theme.isDark)
+                } action: {
                     keyboardSkinRaw = candidate.rawValue
-                } label: {
-                    HStack(spacing: 14) {
-                        // 실제 키캡과 같은 규칙으로 그린 미리보기 - 설명 대신 물건을 보여준다.
-                        KeycapPreview(skin: candidate, isDark: theme.isDark)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(candidate.localizedName)
-                                .font(.body.weight(.semibold))
-                                .foregroundColor(theme.text)
-                            Text(candidate.localizedDescription)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                        Spacer(minLength: 0)
-                        if keyboardSkinRaw == candidate.rawValue {
-                            Image(systemName: AppSymbol.checkmark)
-                                .font(.body.weight(.semibold))
-                                .foregroundColor(theme.accent)
-                        }
-                    }
-                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityAddTraits(keyboardSkinRaw == candidate.rawValue ? [.isSelected] : [])
@@ -387,7 +370,7 @@ struct KeyboardPreviewView: View {
     private let ud = AppGroup.defaults
 
     @AppStorage("keyboardColumnCount", store: AppGroup.defaults) private var columnCount: Int    = 2
-    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 56.0
+    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 44.0
     @AppStorage("keyboardButtonFontSize", store: AppGroup.defaults) private var buttonFontSize: Double = 17.0
     @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults) private var useCustomColors: Bool   = false
     @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults) private var customBgHex: String = ""
@@ -402,7 +385,11 @@ struct KeyboardPreviewView: View {
     /// 실제 키보드(KeyboardView)와 동일 - 오직 "메모 구분 표시" 토글만 따른다.
     private var visualCuesVisible: Bool { showVisualCues }
 
-    private var theme: AppTheme { AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark) }
+    @Environment(\.colorSchemeContrast) private var contrast
+    private var theme: AppTheme {
+        AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark,
+                         increasedContrast: contrast == .increased)
+    }
 
     private var bgColor: Color {
         if useCustomColors, !customBgHex.isEmpty, let c = Color(hex: customBgHex) { return c }
@@ -497,7 +484,8 @@ struct KeyboardPreviewView: View {
                 )
                 .shadow(color: .black.opacity(skin.shadowOpacity), radius: 2, y: 1)
 
-            Text(memo.title)
+            Text(memo.title.templateAwareAttributed(
+                theme: theme, font: .system(size: buttonFontSize, weight: .semibold)))
                 .foregroundColor(theme.text)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
@@ -638,6 +626,7 @@ struct SecurePINSetupView: View {
                                 .font(.system(size: 22)).foregroundColor(.primary)
                                 .frame(width: 80, height: 60)
                         }
+                        .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace button"))
                     }
                 }
                 Spacer()

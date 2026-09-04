@@ -72,7 +72,7 @@ final class QuickNoteStore: ObservableObject {
         DispatchQueue.main.async { [weak self] in
             self?.quickNotes = sorted
         }
-        NotificationCenter.default.post(name: .quickNotesChanged, object: nil)
+        NotificationCenter.postOnMain(name: .quickNotesChanged, object: nil)
     }
 
     // MARK: - Mutations

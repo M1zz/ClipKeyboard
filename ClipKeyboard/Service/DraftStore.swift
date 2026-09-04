@@ -64,7 +64,7 @@ final class DraftStore: ObservableObject {
         DispatchQueue.main.async { [weak self] in
             self?.drafts = sorted
         }
-        NotificationCenter.default.post(name: .draftsChanged, object: nil)
+        NotificationCenter.postOnMain(name: .draftsChanged, object: nil)
     }
 
     // MARK: - Mutations

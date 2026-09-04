@@ -444,7 +444,7 @@ private struct CategoryBulkMoveSheet: View {
                                 Spacer()
                                 if selected == destination {
                                     Image(systemName: AppSymbol.checkmark)
-                                        .foregroundColor(.accentColor)
+                                        .foregroundColor(Color.checkGreen)
                                 }
                             }
                         }

@@ -18,7 +18,6 @@ struct SettingView: View {
     /// ⚠️ 그릴 때마다 세면 설정을 스크롤하는 내내 저장 파일을 읽는다.
     @State private var memoCountState = 0
     /// 예전 목록 화면 ⋯ 메뉴에 있던 것들. 바가 넘쳐서 여기로 옮겼다.
-    @State private var showStarterPack = false
     @State private var showPlaceholderManagement = false
     @State private var showKeyboardGuide = false
     @State private var securePINSet = false
@@ -27,6 +26,15 @@ struct SettingView: View {
     private var memoSyncEnabled: Bool = false
     /// 마스터(개발자) 모드 - 앱 정보의 버전 행을 7번 탭하면 토글. 피드백 인박스 진입점 노출.
     @AppStorage(DefaultsKey.masterModeEnabled) private var masterModeEnabled: Bool = false
+    /// `{날짜}` 모양. App Group 이라 키보드도 같은 값을 본다.
+    @AppStorage(DefaultsKey.templateDateFormat, store: AppGroup.defaults)
+    private var dateTokenFormatRaw: String = DateTokenFormat.automatic.rawValue
+    /// `{시간}` 모양.
+    @AppStorage(DefaultsKey.templateTimeFormat, store: AppGroup.defaults)
+    private var timeTokenFormatRaw: String = TimeTokenFormat.automatic.rawValue
+    /// 키보드에서 빈칸을 채울 때 한 칸만 펼칠지. App Group - 키보드도 같은 값을 읽는다.
+    @AppStorage(DefaultsKey.keyboardCompactPlaceholders, store: AppGroup.defaults)
+    private var compactPlaceholders: Bool = true
     @State private var versionTapCount = 0
     @State private var showMasterModeAlert = false
     /// 모든 데이터 삭제 - 되돌릴 수 없어 2단계로 확인받는다.
@@ -42,9 +50,6 @@ struct SettingView: View {
     /// 날인·봉인 등 입력 반응 마스터 스위치. App Group - 키보드 익스텐션도 같은 값을 읽는다.
     @AppStorage(DefaultsKey.delightEffectsEnabled, store: AppGroup.defaults)
     private var delightEffectsEnabled: Bool = true
-    /// 단축어 줄을 악어 입속처럼 - App Group 이라 키보드 익스텐션도 바로 따라온다.
-    @AppStorage(DefaultsKey.keyboardToothStyle, store: AppGroup.defaults)
-    private var toothStyleOn: Bool = false
     /// 단축어 탭의 첫 화면(목록 / 키보드 무대). 앱 안에서만 쓰므로 표준 UserDefaults.
     /// ⚠️ 기본값은 목록 - 쓰던 사람의 첫 화면이 업데이트로 바뀌면 안 된다.
     @AppStorage(DefaultsKey.snippetsTabStyle)
@@ -86,7 +91,8 @@ struct SettingView: View {
     }
 
     private func refreshMemoCount() {
-        memoCountState = ((try? MemoStore.shared.load(type: .memo)) ?? []).count
+        // 한도와 같은 개수를 센다 - 심어 준 샘플은 칸을 차지하지 않는다.
+        memoCountState = ProFeatureManager.ownMemoCount(((try? MemoStore.shared.load(type: .memo)) ?? []))
     }
 
     private func refreshSecurePINState() {
@@ -126,6 +132,19 @@ struct SettingView: View {
     private var appearanceSection: some View {
         Section {
             firstScreenRow
+            // 키 컬러가 이 섹션의 맨 위쪽에 있는 이유: 이 하나가 앱 전체의 인상을 바꾼다.
+            // 아래 항목들(높이·배경·반응)은 그다음에 손보는 것들이다.
+            NavigationLink(destination: KeyColorSettingsView()) {
+                Label {
+                    Text(NSLocalizedString("키 컬러", comment: "Settings: key color"))
+                } icon: {
+                    // 심볼 대신 **지금 그 색**을 보여준다. 무슨 색인지 들어가 보지 않아도 안다.
+                    Circle()
+                        .fill(theme.accent)
+                        .frame(width: 20, height: 20)
+                        .overlay(Circle().strokeBorder(theme.divider, lineWidth: 0.5))
+                }
+            }
             NavigationLink(destination: DisplaySettingsView()) {
                 Label(NSLocalizedString("단축어 표시", comment: "Memo display settings entry"),
                       systemImage: AppSymbol.rectangleGrid1x2)
@@ -147,12 +166,11 @@ struct SettingView: View {
                 Label(NSLocalizedString("입력 반응", comment: "Delight effects toggle title"),
                       systemImage: AppSymbol.handTap)
             }
-            // 악어 입속 - 단축어 줄을 이빨처럼 보이게 한다.
-            // ⚠️ 켜고 끄는 자리를 반드시 둔다. 키보드 생김새는 취향이 갈리는 것이라
-            //    "멋대로 바뀌었는데 되돌릴 수가 없다"가 가장 나쁘다.
-            Toggle(isOn: $toothStyleOn) {
-                Label(NSLocalizedString("악어 입속", comment: "Croc mouth keyboard toggle title"),
-                      systemImage: "mouth")
+            // 기기 언어와 읽고 싶은 언어가 다른 사람이 있다. iOS 설정까지 가지 않아도
+            // 여기서 바로 고르게 한다(자세한 건 AppLanguage 머리말).
+            NavigationLink(destination: LanguageSettingsView()) {
+                Label(NSLocalizedString("언어", comment: "Settings: app language"),
+                      systemImage: "globe")
             }
             // ⚠️ 데모는 **맨 아래**다. 예전에는 위에서 두 번째 섹션이라, 매일 쓰는 설정보다
             //    "둘러보기용 가짜 데이터"가 먼저 보였다. 켜 둔 사람이 끌 수 있게 남기되,
@@ -161,7 +179,7 @@ struct SettingView: View {
         } header: {
             Text(NSLocalizedString("화면과 표시", comment: "Settings section: appearance"))
         } footer: {
-            Text(NSLocalizedString("입력 반응은 문구를 넣을 때의 진동과 짧은 연출이에요. 악어 입속을 켜면 키보드의 단축어 줄이 잇몸 사이에 늘어선 이빨처럼 보여요.",
+            Text(NSLocalizedString("입력 반응은 문구를 넣을 때의 진동과 짧은 연출이에요.",
                                    comment: "Appearance section footer"))
                 .font(.body)
         }
@@ -249,6 +267,8 @@ struct SettingView: View {
     /// 남았는지 먼저 보이고, 바로 아래에 그 칸을 늘리는 길이 있다.
     ///
     /// ⚠️ 숫자는 `ProFeatureManager.memoLimit` 을 본다 - 칸을 산 사람은 15가 기준이다.
+    /// ⚠️ 쓰고 있는 개수는 **자기 것만** 센다. 저장을 막는 관문과 다른 숫자를 보이면,
+    ///    "3칸 남았어요" 를 보고 만들러 갔다가 막히는 일이 생긴다.
     /// ⚠️ 겁을 주지 않는다. 남은 칸이 0이어도 "다 썼어요"가 아니라 몇 개 중 몇 개인지만 말한다.
     @ViewBuilder
     private var remainingSlotsRow: some View {
@@ -337,17 +357,28 @@ struct SettingView: View {
             }
             .accessibilityHint(NSLocalizedString("단계별 키보드 설정 가이드를 엽니다", comment: "Open keyboard setup guide hint"))
 
-            NavigationLink(destination: KeyboardPracticeView()) {
-                Label(NSLocalizedString("키보드 연습하기", comment: "Keyboard practice settings entry"),
-                      systemImage: AppSymbol.handTap)
-            }
             NavigationLink(destination: KeyboardLayoutSettings()) {
                 Label(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"),
                       systemImage: AppSymbol.rectangle3Group)
             }
             NavigationLink(destination: CopyPasteView()) {
-                Label(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"),
+                Label(NSLocalizedString("붙여넣기 알림 허용 끄기", comment: "Paste notification settings title"),
                       systemImage: AppSymbol.docOnClipboard)
+            }
+            // 빈칸이 여럿인 단축어를 키보드에서 채울 때의 모양.
+            // 사용자 요청에서 왔다: "빈칸이 여러 개일 때 스크롤이 번거로워서요."
+            Toggle(isOn: $compactPlaceholders) {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("빈칸 한 칸씩 채우기", comment: "Compact placeholder filling toggle"))
+                        Text(NSLocalizedString("채우는 칸만 펼치고 나머지는 한 줄로 접어요. 빈칸이 여럿이어도 굴리지 않고 다 보입니다. 끄면 전부 펼쳐요.", comment: "Compact placeholder filling footer"))
+                            .font(.caption)
+                            .foregroundColor(theme.textMuted)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                } icon: {
+                    Image(systemName: AppSymbol.rectangleCompressVertical)
+                }
             }
             // 온디바이스 AI(iOS 26+). 설명은 행 안에 둔다 - 예전에는 이 행 하나만을 위한
             // 섹션이 따로 있었고, 섹션 머리말이 내용보다 길었다.
@@ -390,7 +421,7 @@ struct SettingView: View {
             // ⚠️ 예전에는 이 행이 "단축어 관리"와 "도움말" 양쪽에 있었다(같은 UsageGuideView).
             //    같은 곳으로 가는 문이 둘이면 다른 화면인 줄 안다. 여기 하나만 남긴다.
             NavigationLink(destination: UsageGuideView()) {
-                Label(NSLocalizedString("활용 사례", comment: "Use cases / usage scenarios"),
+                Label(NSLocalizedString("이렇게들 써요", comment: "Use cases / usage scenarios"),
                       systemImage: AppSymbol.lightbulb)
             }
             NavigationLink(destination: PersonaSettingsContainer()) {
@@ -407,34 +438,75 @@ struct SettingView: View {
                     Image(systemName: AppSymbol.personCropCircleBadgeCheckmark)
                 }
             }
-            Button {
-                HapticManager.shared.light()
-                showStarterPack = true
-            } label: {
-                Label(NSLocalizedString("추천 스타터팩 추가", comment: "Empty state: add starter pack title"),
-                      systemImage: AppSymbol.squareStack3dUpFill)
-                    .foregroundColor(theme.text)
-            }
-            NavigationLink(destination: QuickNoteInboxView()) {
-                Label(NSLocalizedString("보관함", comment: "Quick note inbox entry"),
-                      systemImage: AppSymbol.trayFull)
-            }
+            // ⚠️ 아래 세 행(빈칸 관리 · 카테고리 관리 · 보관함)은 **붙어 있어야 한다.**
+            //    셋 다 "만들어 둔 것을 들여다보는" 자리다. 보관함이 위쪽 페르소나 옆에
+            //    있었더니 고르는 것들 사이에 담아 두는 것이 하나 끼어 있는 꼴이었다.
             Button {
                 HapticManager.shared.light()
                 showPlaceholderManagement = true
             } label: {
-                Label(NSLocalizedString("플레이스홀더 관리", comment: "Menu: placeholder management"),
+                Label(NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)"),
                       systemImage: AppSymbol.listBullet)
                     .foregroundColor(theme.text)
             }
+            dateFormatRow
+            timeFormatRow
             // 카테고리 아이콘은 이 화면 안에서 이어서 고른다(예전에는 형제 행이었다).
             NavigationLink(destination: CategorySettings()) {
                 Label(NSLocalizedString("카테고리 관리", comment: "Manage categories settings entry"),
                       systemImage: AppSymbol.folderBadgeGearshape)
             }
+            NavigationLink(destination: QuickNoteInboxView()) {
+                Label(NSLocalizedString("보관함", comment: "Quick note inbox entry"),
+                      systemImage: AppSymbol.trayFull)
+            }
         } header: {
             Text(NSLocalizedString("단축어", comment: "Settings section: shortcuts"))
         }
+    }
+
+    /// `{날짜}` · `{시간}` 을 어떤 모양으로 넣을지 고르러 가는 행.
+    ///
+    /// ⚠️ 행에는 **지금 값을 그 모양으로 직접 그려서** 보여준다. "MM/DD/YYYY" 같은
+    ///    패턴 글자는 개발자만 읽는다. 08/31/2026 은 누구나 읽는다.
+    ///
+    /// 예전에는 여기가 `Picker` 였다. 사용자가 자기 모양을 만들 수 있게 되면서
+    /// (더하고 지우는 자리가 필요해) 화면으로 옮겼다.
+    private func tokenFormatRow<Format: TokenFormat>(
+        _ type: Format.Type,
+        raw: String,
+        title: String,
+        systemImage: String,
+        chips: [TokenFormatField.Chip]
+    ) -> some View {
+        NavigationLink {
+            TokenFormatSettingsView(title: title, chips: chips, of: Format.self)
+        } label: {
+            HStack {
+                Label(title, systemImage: systemImage)
+                Spacer()
+                Text(TokenFormatOption<Format>(raw: raw).sampleText())
+                    .foregroundColor(theme.textMuted)
+                    .lineLimit(1)
+            }
+        }
+    }
+
+    private var dateFormatRow: some View {
+        tokenFormatRow(DateTokenFormat.self,
+                       raw: dateTokenFormatRaw,
+                       title: NSLocalizedString("날짜 형식", comment: "Date format setting row title"),
+                       systemImage: AppSymbol.calendar,
+                       chips: TokenFormatField.dateChips)
+    }
+
+    /// 날짜 바로 아래에 둔다 - 같은 종류의 선택이다.
+    private var timeFormatRow: some View {
+        tokenFormatRow(TimeTokenFormat.self,
+                       raw: timeTokenFormatRaw,
+                       title: NSLocalizedString("시간 형식", comment: "Time format setting row title"),
+                       systemImage: AppSymbol.clock,
+                       chips: TokenFormatField.timeChips)
     }
 
     /// 내 데이터 - 내 것이 어디에 있고 어떻게 지켜지는가.
@@ -526,6 +598,12 @@ struct SettingView: View {
                       systemImage: "graduationcap")
                     .foregroundColor(theme.text)
             }
+            // 띄엄띄엄 오는 안내에는 반드시 다시 볼 자리가 있어야 한다 - 정작 필요해진 날
+            // ("그때 잠글 수 있다고 하지 않았나?") 찾을 길이 없으면 안 알려 준 것과 같다.
+            NavigationLink(destination: DidYouKnowListView()) {
+                Label(NSLocalizedString("그거 아세요?", comment: "Did you know header"),
+                      systemImage: "lightbulb")
+            }
             NavigationLink(destination: AccessibilityGuideView()) {
                 Label(NSLocalizedString("손쉬운 사용", comment: "Accessibility guide settings entry"),
                       systemImage: AppSymbol.figureWalkCircle)
@@ -564,11 +642,15 @@ struct SettingView: View {
                 HStack(spacing: 12) {
                     ZStack {
                         RoundedRectangle(cornerRadius: theme.radiusSm)
-                            .fill(LinearGradient(colors: [Color.clipBrand, Color.clipBrandDeep], startPoint: .topLeading, endPoint: .bottomTrailing))
+                            // 고른 키컬러를 따라간다 - 흑백을 고른 사람의 설정에서
+                            // 이 타일만 혼자 주황으로 남으면 그것만 다른 앱에서 온 것처럼 보인다.
+                            .fill(LinearGradient(colors: [theme.accent,
+                                                          theme.accent.mixed(with: .black, amount: 0.7)],
+                                                 startPoint: .topLeading, endPoint: .bottomTrailing))
                             .frame(width: 32, height: 32)
                         Image(systemName: AppSymbol.macbook)
                             .font(.body.weight(.semibold))
-                            .foregroundColor(.white)
+                            .foregroundColor(theme.accentFg)
                             .accessibilityHidden(true)
                     }
                     .accessibilityHidden(true)
@@ -648,7 +730,9 @@ struct SettingView: View {
         } message: {
             Text(NSLocalizedString("준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.", comment: "Restart tutorial alert message"))
         }
-        .navigationTitle(NSLocalizedString("설정", comment: "Settings nav title"))
+        // ⚠️ 제목을 안 단다. 탭의 뿌리 화면이고 아래 탭바가 이미 "설정"이라고 적고 있다.
+        //    안쪽 화면들(단축어 표시·키 컬러 …)은 그대로 제목을 단다 - 거기서는
+        //    어디까지 들어왔는지를 제목이 말해 준다.
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             refreshSecurePINState()
@@ -669,7 +753,6 @@ struct SettingView: View {
         .contentMargins(.bottom, 24, for: .scrollContent)
         .solidNavBar(theme.bg)
         .sheet(isPresented: $showPaywall) { PaywallView() }
-        .sheet(isPresented: $showStarterPack) { StarterPackView { _ in } }
         .sheet(isPresented: $showPlaceholderManagement) {
             PlaceholderManagementSheet(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])
                 .presentationDetents([.medium, .large])
@@ -1044,7 +1127,7 @@ struct CopyPasteView: View {
                         Image(systemName: AppSymbol.appFill)
                             .foregroundColor(.accentColor)
                             .accessibilityHidden(true)
-                        Text(NSLocalizedString("클립키보드", comment: "ClipKeyboard app name"))
+                        Text(NSLocalizedString("ClipKeyboard", comment: "ClipKeyboard app name"))
                             .fontWeight(.medium)
                     }
 
@@ -1102,7 +1185,7 @@ struct CopyPasteView: View {
                     // 허용 (권장)
                     HStack(alignment: .top, spacing: 12) {
                         Image(systemName: AppSymbol.checkmarkCircleFill)
-                            .foregroundColor(.green)
+                            .foregroundColor(Color.checkGreen)
                             .font(.title3)
                         VStack(alignment: .leading, spacing: 4) {
                             HStack {
@@ -1140,7 +1223,7 @@ struct CopyPasteView: View {
                 }
             }
         }
-        .navigationTitle(NSLocalizedString("붙여넣기 알림 설정", comment: "Paste notification settings title"))
+        .navigationTitle(NSLocalizedString("붙여넣기 알림 허용 끄기", comment: "Paste notification settings title"))
         .navigationBarTitleDisplayMode(.inline)
         .solidNavBar(theme.bg)
     }
@@ -1161,7 +1244,7 @@ struct ReviewWriteView: View {
                         .font(.headline)
                         .padding(.bottom, 4)
 
-                    Text(NSLocalizedString("클립키보드가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다.", comment: "Review description"))
+                    Text(NSLocalizedString("ClipKeyboard가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다.", comment: "Review description"))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
@@ -1327,32 +1410,16 @@ struct FirstScreenSettingsView: View {
         List {
             Section {
                 ForEach(SnippetsTabStyle.allCases) { candidate in
-                    Button {
-                        HapticManager.shared.light()
+                    ChoiceRow(name: candidate.localizedName,
+                              detail: candidate.localizedDescription,
+                              isSelected: snippetsTabStyleRaw == candidate.rawValue,
+                              spacing: 12) {
+                        Image(systemName: candidate.symbolName)
+                            .font(.title3)
+                            .foregroundColor(theme.accent)
+                            .frame(width: 28)
+                    } action: {
                         snippetsTabStyleRaw = candidate.rawValue
-                    } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: candidate.symbolName)
-                                .font(.title3)
-                                .foregroundColor(theme.accent)
-                                .frame(width: 28)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(candidate.localizedName)
-                                    .font(.body.weight(.semibold))
-                                    .foregroundColor(theme.text)
-                                Text(candidate.localizedDescription)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                    .fixedSize(horizontal: false, vertical: true)
-                            }
-                            Spacer(minLength: 0)
-                            if snippetsTabStyleRaw == candidate.rawValue {
-                                Image(systemName: AppSymbol.checkmark)
-                                    .font(.body.weight(.semibold))
-                                    .foregroundColor(theme.accent)
-                            }
-                        }
-                        .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                     .accessibilityAddTraits(snippetsTabStyleRaw == candidate.rawValue ? [.isSelected] : [])
@@ -1367,5 +1434,146 @@ struct FirstScreenSettingsView: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .solidNavBar(theme.bg)
+    }
+}
+
+// MARK: - 키 컬러 고르기
+
+/// **누를 곳을 가리키는 색**을 고르는 자리.
+///
+/// ⚠️ 견본만 늘어놓지 않는다. 색 동그라미 여섯 개는 예쁘지만, 그걸 고르면 **내 화면이
+///    어떻게 되는지**는 안 알려 준다. 그래서 아래에 진짜 카드와 진짜 버튼을 그대로
+///    올려 둔다 - 고르는 순간 그 자리에서 바뀐다.
+///
+/// ⚠️ 고른 값은 App Group 에 저장돼 **키보드 익스텐션·위젯도 같은 색**을 쓴다
+///    (`AppAccent.select`). 앱만 바뀌면 같은 앱이 두 색으로 갈린다.
+struct KeyColorSettingsView: View {
+    @EnvironmentObject private var prefs: AppThemePreference
+    @Environment(\.appTheme) private var theme
+
+    /// 동그라미 하나의 지름. 손가락으로 고르는 것이라 44pt 아래로 내리지 않는다.
+    private let swatch: CGFloat = 46
+
+    var body: some View {
+        List {
+            Section {
+                swatchRow
+                    .listRowInsets(EdgeInsets(top: 14, leading: 16, bottom: 14, trailing: 16))
+            } header: {
+                Text(NSLocalizedString("키 컬러", comment: "Settings: key color"))
+            } footer: {
+                Text(prefs.accent.localizedNote)
+                    .font(.body)
+            }
+
+            Section {
+                previewCard
+                    .listRowInsets(EdgeInsets(top: 14, leading: 16, bottom: 14, trailing: 16))
+            } header: {
+                Text(NSLocalizedString("미리보기", comment: "Preview"))
+            } footer: {
+                Text(NSLocalizedString("고른 색은 키보드에서도 같이 써요. 갈래(카테고리) 색은 따로예요, 그건 \"무슨 종류인지\"를 말하는 색이라 그대로 둡니다.",
+                                       comment: "Key color section footer"))
+                    .font(.body)
+            }
+        }
+        .navigationTitle(NSLocalizedString("키 컬러", comment: "Settings: key color"))
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .solidNavBar(theme.bg)
+    }
+
+    // MARK: 고르는 자리
+
+    private var swatchRow: some View {
+        HStack(spacing: 12) {
+            ForEach(AppAccent.allCases) { candidate in
+                swatchButton(candidate)
+                if candidate != AppAccent.allCases.last { Spacer(minLength: 0) }
+            }
+        }
+    }
+
+    private func swatchButton(_ candidate: AppAccent) -> some View {
+        let selected = prefs.accent == candidate
+        let fill = candidate.accent(isDark: theme.isDark)
+        return Button {
+            guard !selected else { return }
+            HapticManager.shared.light()
+            withAnimation(.easeInOut(duration: 0.2)) { prefs.accent = candidate }
+        } label: {
+            VStack(spacing: 6) {
+                Circle()
+                    .fill(fill)
+                    .frame(width: swatch, height: swatch)
+                    // 먹은 라이트에서 바탕과 붙지 않지만, 다크의 백지는 카드와 붙는다.
+                    // 얇은 테두리 하나로 어느 쪽에서든 동그라미가 동그라미로 보인다.
+                    .overlay(Circle().strokeBorder(theme.divider, lineWidth: 0.5))
+                    .overlay {
+                        if selected {
+                            Image(systemName: AppSymbol.checkmark)
+                                .font(.footnote.weight(.bold))
+                                .foregroundColor(candidate.accentFg(isDark: theme.isDark))
+                        }
+                    }
+                    // 고른 것에는 고리를 두른다. 체크만으로는 밝은 색 위에서 잘 안 보인다.
+                    .overlay {
+                        if selected {
+                            Circle()
+                                .strokeBorder(fill, lineWidth: 2)
+                                .padding(-4)
+                        }
+                    }
+                Text(candidate.localizedName)
+                    .font(.caption2)
+                    .foregroundColor(selected ? theme.text : theme.textFaint)
+                    .lineLimit(1)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(candidate.localizedName)
+        .accessibilityValue(candidate.localizedNote)
+        .accessibilityAddTraits(selected ? [.isSelected] : [])
+    }
+
+    // MARK: 진짜 화면으로 보여준다
+
+    private var previewCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            // 단축어 카드 한 장 - 갈래 칩이 키컬러를 쓴다.
+            VStack(alignment: .leading, spacing: 5) {
+                Text(NSLocalizedString("계좌", comment: "Bank account category name"))
+                    .font(.caption2.weight(.semibold))
+                    .foregroundColor(theme.accent)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 2)
+                    .background(Capsule().fill(theme.accentSoft))
+                Text(NSLocalizedString("국민 123456-78-901234", comment: "Key color preview: sample snippet"))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.text)
+                Text(NSLocalizedString("어제 · 12번 씀", comment: "Key color preview: sample usage line"))
+                    .font(.caption)
+                    .foregroundColor(theme.textMuted)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .background(theme.surface)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+
+            // 주요 버튼 하나 - 키컬러 위에 글자가 읽히는지가 여기서 보인다.
+            Text(NSLocalizedString("단축어 만들기", comment: "Key color preview: sample primary button"))
+                .font(.subheadline.weight(.semibold))
+                .foregroundColor(theme.accentFg)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 11)
+                .background(RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
+                    .fill(theme.accent))
+        }
+        .padding(12)
+        .background(theme.surfaceAlt)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+        .animation(.easeInOut(duration: 0.2), value: prefs.accent)
     }
 }

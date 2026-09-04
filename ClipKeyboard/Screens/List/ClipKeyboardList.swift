@@ -9,6 +9,7 @@ import SwiftUI
 import LocalAuthentication
 import TipKit
 import UniformTypeIdentifiers
+import PhotosUI
 import LeeoKit
 
 var fontSize: CGFloat = 20
@@ -82,15 +83,6 @@ struct ClipKeyboardList: View {
     private var tutorialTargetRaw: String = ""
     /// 그 카드가 화면 어디에 있는지(global). 안내를 카드 바로 아래에 붙이려고 본다.
     @State private var coachRect: CGRect = .zero
-    /// 복사까지 해 본 직후 이어지는 붙여넣기 연습. 복사만 시키고 끝내면
-    /// "복사됐다"로 끝나고, 값어치는 **그 다음에 안 친 것**에 있다.
-    @State private var pastePractice: PastePracticeRequest?
-
-    private struct PastePracticeRequest: Identifiable {
-        let id = UUID()
-        let value: String
-    }
-
     /// 마지막으로 손가락이 닿은 자리(global). 동전이 여기서 튀어 오른다.
     @State private var lastTapPoint: CGPoint = .zero
     /// 지금 동전을 보여주고 있는 카드. 이 카드는 내용 대신 동전을 보여준다.
@@ -104,11 +96,6 @@ struct ClipKeyboardList: View {
     /// 모달이 닫히기를 기다리는 입금. 콤보·템플릿은 시트가 떠 있는 동안 사용이 확정되는데,
     /// 그때 바로 날리면 동전이 시트 뒤에 가려 보이지도 않는다.
     @State private var pendingDeposit: (memoID: UUID, seconds: Double, point: CGPoint)?
-    /// 키캡 물성 - 설정에서 바꾸면 이 화면도 바로 따라야 한다.
-    @AppStorage(DefaultsKey.keyboardSkin, store: AppGroup.defaults)
-    private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
-    /// 손님(새·고양이)이 지금 어느 카드에 와 있는지. 손님 스킨이 아니면 놀고 있는다.
-    @StateObject private var guestScheduler = GuestScheduler()
     /// 카드 내용 힌트 - 설정(메모 표시)에서 켜기/끄기. 키보드도 함께 따르도록 App Group에 저장.
     @AppStorage(DefaultsKey.contentHintEnabled, store: AppGroup.defaults)
     private var contentHintEnabled: Bool = false
@@ -129,19 +116,16 @@ struct ClipKeyboardList: View {
     @State private var memoForActions: Memo?
     @State private var showMemoActions: Bool = false
 
+
     // 탭 누름 바운스 - 카드별 트리거. 탭하면 해당 카드만 들어갔다(0.92)→1.05배로 튀었다→원래 크기.
-    @State private var bounceTriggers: [UUID: Int] = [:]
 
     // 순서 바꾸기(흔들기/드래그 재정렬)
-    @State private var draggingMemo: Memo?
-    @State private var wiggle: Bool = false
 
     // 즐겨찾기 탭 전용
     @State private var showAddFavoriteMemoSheet: Bool = false
     @State private var showSwipeCategoryDialog: Bool = false
 
     // 스타터팩 - 추천 묶음 일괄 추가 시트
-    @State private var showStarterPack: Bool = false
 
     // 고스트 메모 제안 - 메인 화면에 흐릿하게 "이런 메모는 어때요?" 제안
     @State private var ghostSuggestion: QuickPattern?
@@ -181,7 +165,8 @@ struct ClipKeyboardList: View {
               !ProFeatureManager.hasFullAccess,
               !shouldShowGraceBanner else { return false }
         let savedEnough = KeyboardUsageTracker.totalTimeSavedSeconds() >= 600
-        let nearLimit = viewModel.memos.count >= max(1, ProFeatureManager.memoLimit - 3)
+        // 한도와 같은 개수를 센다 - 심어 준 샘플로 넛지가 앞당겨 뜨면 안 된다.
+        let nearLimit = ProFeatureManager.ownMemoCount(viewModel.memos) >= max(1, ProFeatureManager.memoLimit - 3)
         return savedEnough || nearLimit
     }
 
@@ -197,20 +182,8 @@ struct ClipKeyboardList: View {
             let minutes = Int(saved / 60)
             return String(format: NSLocalizedString("이미 %d분을 아꼈어요. Pro로 무제한으로 계속", comment: "Pro nudge: time saved"), minutes)
         }
-        let left = max(0, ProFeatureManager.memoLimit - viewModel.memos.count)
+        let left = max(0, ProFeatureManager.memoLimit - ProFeatureManager.ownMemoCount(viewModel.memos))
         return String(format: NSLocalizedString("무료 단축어 %d칸 남았어요. Pro로 무제한", comment: "Pro nudge: slots left"), left)
-    }
-
-    /// 카드 어항 미리보기 텍스트 - 제목 아래에서 물고기처럼 나타났다 사라질 내용 한 줄.
-    /// 사용자가 메모에 힌트를 직접 적었으면 그것이 우선(보안 메모도 - 직접 쓴 한 줄이라 안전).
-    /// ⚠️ 자동 요약은 보안 메모 내용 노출 금지(자물쇠 카드에서 값이 떠다니면 안 됨) → nil.
-    private func fishbowlText(memo: Memo) -> String? {
-        if let custom = memo.hint?.trimmingCharacters(in: .whitespacesAndNewlines), !custom.isEmpty {
-            return custom
-        }
-        guard !memo.isSecure else { return nil }
-        let text = MemoPreviewFormatter.preview(for: memo, resolvedType: memo.autoDetectedType)
-        return text.isEmpty ? nil : text
     }
 
     /// 페이지 상단 헤더 - 상단 배너 묶음(스크롤 콘텐츠 첫 요소라 스크롤과 함께 이동).
@@ -282,8 +255,33 @@ struct ClipKeyboardList: View {
             // 상단에 고정 크롬이 없어 콘텐츠가 화면을 온전히 쓴다.
             categoryContent
         }
+        // ⚠️ **목록이 자리를 잡는 동안에는 아무것도 움직이지 않는다.**
+        //
+        //    화면이 뜨고 1초 사이에 늦게 도착하는 것들이 있다: TipKit 팁(보여줄지를 스스로
+        //    늦게 판단한다), 상단 배너들, 읽어 들인 메모. 저마다 자기 애니메이션으로
+        //    들어오면서 아래 카드를 통째로 밀어 내려서, 목록에 들어갈 때마다 화면이
+        //    한 번 출렁이는 것으로 보였다("하늘에서 뚝 떨어진다").
+        //
+        //    끄는 것은 **그 창 동안의 암묵 애니메이션뿐**이다. 손을 대서 생기는 것들
+        //    (카드 누름·동전·글로우·내용 힌트)은 그 뒤에 일어나므로 그대로 산다.
+        .transaction { if settling { $0.animation = nil } }
         // 순정 Liquid Glass: 상·하단 스크롤 엣지 효과는 시스템 기본에 맡긴다
         // (네비바·플로팅 탭바가 콘텐츠와 만날 때 soft glass 처리).
+    }
+
+    /// 목록이 자리를 잡는 중인가. 위 `mainColumn` 의 주석이 이 값의 전부다.
+    ///
+    /// ⚠️ 화면에 나타날 때마다 다시 켠다. 탭을 오가면 이 화면이 새로 만들어질 때도,
+    ///    그대로 살아 있을 때도 있어서 `@State` 초기값만 믿으면 한쪽이 빠진다.
+    private static let settleWindow: TimeInterval = 1.0
+
+    @State private var settling: Bool = true
+
+    private func beginSettling() {
+        settling = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.settleWindow) {
+            settling = false
+        }
     }
 
     /// 상단 배너 모음(빠른 메모 Inbox · Pro 넛지 · 카테고리 활성/제안).
@@ -293,20 +291,17 @@ struct ClipKeyboardList: View {
             VStack(spacing: 0) {
                 // 붙여넣기 허용 안내 - 앱 진입 시 클립보드를 읽어 팝업이 뜨는 바로 그 지점.
                 // 한 번 설정을 바꾸면 팝업이 사라지므로, 최상단에서 설정으로 바로 안내한다.
-                if showPasteTip {
+                DismissibleRow(isShowing: showPasteTip) {
                     PastePermissionTipBanner(
                         onOpenSettings: { openAppSettings() },
                         onDismiss: {
                             UserDefaults.standard.set(true, forKey: DefaultsKey.pasteTipDismissed)
-                            withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.25)) {
-                                showPasteTip = false
-                            }
+                            showPasteTip = false
                         }
                     )
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                     .padding(.bottom, 4)
-                    .transition(.move(edge: .top).combined(with: .opacity))
                 }
 
                 // 빠른 메모(Inbox) 배너 - 분류 대기 항목이 있으면 상단에 즉시 노출.
@@ -318,7 +313,7 @@ struct ClipKeyboardList: View {
                 }
 
                 // 가치 순간 Pro 넛지 - 무료 유저가 가치를 느낀 시점에 1회 노출.
-                if shouldShowProValueNudge {
+                DismissibleRow(isShowing: shouldShowProValueNudge) {
                     ProValueNudgeBanner(
                         message: proValueNudgeMessage,
                         onTap: {
@@ -328,14 +323,21 @@ struct ClipKeyboardList: View {
                         },
                         onDismiss: {
                             UserDefaults.standard.set(true, forKey: DefaultsKey.proValueNudgeDismissedV1)
-                            withAnimation { proNudgeDismissed = true }
+                            proNudgeDismissed = true
                         }
                     )
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                     .padding(.bottom, 4)
-                    .transition(.move(edge: .top).combined(with: .opacity))
                     .onAppear { AnalyticsService.logProNudge(.proNudgeShown, source: proNudgeSource) }
+                }
+
+                // 한 번에 정리하기 권유 - 보여줄지는 컨테이너가 스스로 정한다.
+                // (mainColumn 타입 복잡도에 영향이 없도록 자식 하나로 유지)
+                BulkImportNudgeBannerContainer(memoCount: viewModel.memos.count,
+                                               hasLoaded: viewModel.hasLoadedMemos) {
+                    HapticManager.shared.light()
+                    showBulkImport = true
                 }
 
                 if CategoryStore.shared.shouldShowActivationBanner(currentMemoCount: viewModel.memos.count) {
@@ -465,16 +467,52 @@ struct ClipKeyboardList: View {
 
     private var screenBody: some View {
             ZStack {
-                // 현재 탭에 따라 배경색이 부드럽게 전환
-                tabBackgroundColor
+                // ⚠️ **바닥은 언제나 있어야 한다.**
+                //
+                //    투명하게 두고 `ignoresSafeArea` 를 걸면 뒤에 아무것도 없어서
+                //    **창의 검정이 그대로 비친다.** 탭을 옮길 때마다 화면이 한 번 까매지는
+                //    것으로 보였고, 그건 연출이 아니라 고장으로 읽힌다.
+                theme.bg
                     .ignoresSafeArea()
-                    .animation(.easeInOut(duration: 0.38), value: viewModel.selectedCategoryTab)
+
+                // 배경 사진(선택) - 유리 카드 뒤로 비치는 사진. 기본은 없음.
+                // 탭별 덮어쓰기 지원: 탭을 넘기면 그 탭의 배경으로 부드럽게 교차.
+                //
+                // ⚠️ **바닥색 위**에 있어야 한다. 예전에는 이 화면 전체의 `.background` 로
+                //    달아 뒀는데, 그 자리는 위 `theme.bg` 보다 **뒤**다. 불투명한 바닥이
+                //    사진을 통째로 덮어서, 골라도 아무 일도 일어나지 않았다(실측).
+                //
+                // ⚠️ 그렇다고 바닥을 걷어내면 안 된다. 사진이 아직 안 그려진 첫 프레임에
+                //    창의 검정이 그대로 비친다 - 위 주석의 그 사고다. 바닥은 두고 덮는다.
+                if !resolvedBackgroundImage.isEmpty {
+                    BackgroundImageView(name: resolvedBackgroundImage)
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                        .transition(.opacity)
+                        .id(resolvedBackgroundImage)
+                }
+
+                // ⚠️ **화면 전체를 갈래 색으로 물들이지 않는다.**
+                //
+                //    예전에는 여기에 카테고리 색을 옅게(0.11) 깔고 0.38초에 걸쳐 바꿨다.
+                //    그런데 페이지는 0.25초쯤에 다 넘어간다. 그래서 카드는 이미 새 카테고리
+                //    것인데 화면 색만 뒤늦게 따라오는 구간이 생겼고, 카테고리를 오갈 때마다
+                //    **화면 전체가 색을 쓸어 바꾸는 것**이 번쩍임으로 보였다.
+                //
+                //    녹화 프레임으로 잰 값: 초록(217,233,221) -> 파랑(210,226,243) 이
+                //    프레임 77~97 사이, 0.33초에 걸쳐 진행. 그 사이 제목과 카드는 이미
+                //    새 카테고리였다.
+                //
+                //    갈래가 무엇인지는 **카드 색**이 이미 말한다. 바닥까지 같이 물들일
+                //    이유가 없다. 바닥은 테마색 하나로 가만히 있는다.
 
                 // v4.1.0: 활성화 배너를 메모 위에 overlay하지 않고 VStack flow 안에
                 // 두어 콘텐츠가 자연스럽게 아래로 밀려남. 다른 배너들(ReviewBanner,
                 // GraceQuotaBanner 등)과 통일된 패턴.
                 mainColumn
             }
+            // 탭을 넘길 때 배경 사진이 부드럽게 교차한다(위 transition 과 짝).
+            .animation(.easeInOut(duration: 0.25), value: resolvedBackgroundImage)
             // 검색 키보드 내리기: 메모 영역 아무 데나 탭(simultaneous라 카드 탭 동작은 그대로 실행)
             // 하거나 스크롤하면 닫힌다. 검색바 자신은 safeAreaInset의 분리 영역이라
             // 탭해도 포커스가 풀리지 않음(깜빡임 없음).
@@ -535,13 +573,6 @@ struct ClipKeyboardList: View {
 
     private var screenBody2: some View {
         screenBody
-            .sheet(isPresented: $showStarterPack, onDismiss: { viewModel.loadMemos() }) {
-                StarterPackView { count in
-                    viewModel.showPlainToast(
-                        String(format: NSLocalizedString("스타터팩 %d개를 추가했어요", comment: "Starter pack added toast"), count)
-                    )
-                }
-            }
             .sheet(item: $ghostAddPattern, onDismiss: {
                 viewModel.loadMemos()
                 refreshGhostSuggestion()
@@ -599,12 +630,6 @@ struct ClipKeyboardList: View {
             }
             .navigationDestination(isPresented: $showVault) {
                 VaultScreen()
-            }
-            // 온보딩의 마지막 걸음 - 전체 화면이라야 딴 데 안 보고 한 번 해 본다.
-            .fullScreenCover(item: $pastePractice) { request in
-                PastePracticeView(expected: request.value) {
-                    pastePractice = nil
-                }
             }
             // Toast 메시지 오버레이
             .overlay(alignment: .bottom) {
@@ -714,6 +739,13 @@ struct ClipKeyboardList: View {
                                 viewModel.enterReorderMode()
                             }
                         },
+                        // 꾹 눌러 들어온 카드는 미리 골라 둔다 - 누른 것이 안 골라진 채
+                        // 열리면 왜 눌렀는지가 사라진다.
+                        onSelectMultiple: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                                viewModel.enterSelectionMode(preselect: memo.id)
+                            }
+                        },
                         onMakeTemplate: {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                                 makeTemplateSource = memo
@@ -732,7 +764,15 @@ struct ClipKeyboardList: View {
     private var screenL5: some View {
         screenL4
             .fullScreenCover(isPresented: $viewModel.isReorderMode) {
-                reorderModeView
+                MemoReorderScreen(viewModel: viewModel,
+                                  style: cardStyle,
+                                  columnCount: gridColumnCount)
+            }
+            // 여러 개 고르기 - 지금 탭의 카드를 체크로 골라 한꺼번에 옮기거나 지운다.
+            .fullScreenCover(isPresented: $viewModel.isSelectionMode) {
+                MemoSelectionScreen(viewModel: viewModel,
+                                    style: cardStyle,
+                                    columnCount: gridColumnCount)
             }
             // 즐겨찾기 탭 + 버튼 - 즐겨찾기로 바로 저장
             .sheet(isPresented: $showAddFavoriteMemoSheet, onDismiss: { viewModel.loadMemos() }) {
@@ -825,21 +865,18 @@ struct ClipKeyboardList: View {
                     viewModel.loadMemos()
                 }
             ))
-            .onChange(of: livingSkinRaw) { _, _ in startGuestsIfNeeded() }
             .onAppear {
-                startGuestsIfNeeded()
+                beginSettling()
                 viewModel.onAppear()
                 fontSize = UserDefaults.standard.object(forKey: DefaultsKey.fontSize) as? CGFloat ?? 20.0
                 // v4.1.0: 카테고리 기능 마이그레이션 - 기존 사용자 자동 활성
                 CategoryStore.shared.migrateFeatureEnabledIfNeeded(
                     existingMemoCategories: viewModel.memos.map { $0.category }
                 )
-                // 첫 로드 시 stagger enter 트리거 (한 번만)
+                // 이 화면을 연 것을 한 번만 센다 - 목록은 탭을 오갈 때마다 다시 나타난다.
                 if !hasAppeared {
+                    hasAppeared = true
                     SuggestionManager.shared.recordAppOpen()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                        hasAppeared = true
-                    }
                 }
                 // 앱을 두 번 이상 연 사용자에게만 빠른 메모 캡처 팁을 노출(첫날 도배 방지).
                 if UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) >= 2 {
@@ -867,12 +904,38 @@ struct ClipKeyboardList: View {
         screenL7
             .onAppear { syncCoachTarget() }
             .onChange(of: tutorialTargetRaw) { _, _ in syncCoachTarget() }
+            // ⚠️ 목록은 무대 뒤에 **깔린 채로 살아 있다**(`SnippetsTab.content`).
+            //    무대에서 단축어를 만들어도 이 화면은 다시 만들어지지 않으므로,
+            //    바뀌었다는 소식을 직접 듣고 다시 읽어야 한다.
+            .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
+                viewModel.loadMemos()
+            }
             .onReceive(NotificationCenter.default.publisher(for: .demoSamplesInserted)) { _ in
                 viewModel.loadCustomCategories()   // 시드된 카테고리 탭 반영
                 viewModel.loadMemos()
             }
+            // 방금 만든 단축어가 지금 탭에서 안 보이면 보이는 탭으로 옮겨 간다.
+            // (저장은 됐는데 화면은 그대로라 "어디 갔지?" 가 되던 자리)
+            .onReceive(NotificationCenter.default.publisher(for: .memoSaved)) { note in
+                guard let id = note.object as? UUID else { return }
+                viewModel.loadCustomCategories()   // 저장 화면에서 새로 만든 카테고리 반영
+                viewModel.loadMemos()
+                viewModel.revealSavedMemo(id: id)
+            }
+            // 복원·가져오기는 카테고리 목록을 App Group 에 직접 갈아끼운다.
+            // `.memoDataChanged` 는 단축어만 다시 읽으므로 탭은 그대로 비어 있었다.
+            .onReceive(NotificationCenter.default.publisher(for: .dataRestored)) { _ in
+                viewModel.loadCustomCategories()
+                viewModel.loadMemos()
+            }
             .navigationDestination(isPresented: $showInboxFromIntent) {
                 QuickNoteInboxView()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .openShortcutMart)) { _ in
+                showShortcutMart = true
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .openBulkImport)) { _ in
+                showBulkImport = true
             }
             .onReceive(NotificationCenter.default.publisher(for: .openQuickNoteInbox)) { _ in
                 // 알림 경로로 처리했으면 보류 플래그도 함께 소비(다음 활성화 때 중복 열림 방지).
@@ -887,9 +950,6 @@ struct ClipKeyboardList: View {
 
     // MARK: - 배경 이미지 (선택)
 
-    /// 제공되는 배경 이미지 에셋 이름들. 빈 문자열 = 배경 없음(예전 모습 그대로).
-    static let backgroundOptions: [String] = (1...8).map { String(format: "ListBackground%02d", $0) }
-
     @AppStorage(DefaultsKey.listBackgroundImageV1, store: AppGroup.defaults)
     private var listBackgroundImage: String = ""
     @AppStorage(DefaultsKey.backgroundOfferResolvedV1, store: AppGroup.defaults)
@@ -902,6 +962,42 @@ struct ClipKeyboardList: View {
     @State private var perTabBackgrounds: [String: String] = [:]
     /// 배경 선택 시트의 적용 범위 - 현재 탭만 / 모든 탭.
     @State private var backgroundScopeAllTabs = false
+    /// 사진첩에서 고른 것. 고르는 즉시 저장하고 배경으로 적용한다.
+    @State private var pickedBackgroundItem: PhotosPickerItem?
+    /// 내가 넣어 둔 배경들.
+    @State private var myBackgrounds: [String] = []
+
+    /// 내 사진 하나를 들인다. **고르자마자 적용한다** - 넣고 또 골라야 하면 두 걸음이다.
+    private func adoptPickedBackground(_ item: PhotosPickerItem?) {
+        guard let item else { return }
+        Task { @MainActor in
+            guard let data = try? await item.loadTransferable(type: Data.self),
+                  let image = UIImage(data: data),
+                  let stored = BackgroundImageStore.add(image) else {
+                viewModel.showPlainToast(NSLocalizedString("사진을 가져오지 못했어요",
+                                                           comment: "Background import failed"))
+                return
+            }
+            myBackgrounds = BackgroundImageStore.saved()
+            applyBackground(stored)
+            pickedBackgroundItem = nil
+        }
+    }
+
+    /// 내가 넣은 배경 하나를 지운다.
+    ///
+    /// ⚠️ 지금 쓰고 있는 것을 지우면 **배경 없음으로 되돌린다.** 그러지 않으면 파일이
+    ///    사라진 이름만 남아, 배경이 조용히 안 보이는 채로 설정만 켜져 있게 된다.
+    private func removeUserBackground(_ name: String) {
+        BackgroundImageStore.remove(name)
+        myBackgrounds = BackgroundImageStore.saved()
+        if listBackgroundImage == name { listBackgroundImage = "" }
+        for (tab, value) in perTabBackgrounds where value == name {
+            perTabBackgrounds[tab] = ""
+        }
+        persistPerTabBackgrounds()
+        HapticManager.shared.selection()
+    }
 
     /// 현재 탭에 실제로 보여줄 배경 - 탭 덮어쓰기 우선, 없으면 전체 기본값.
     private var resolvedBackgroundImage: String {
@@ -911,11 +1007,22 @@ struct ClipKeyboardList: View {
     private func loadPerTabBackgrounds() {
         perTabBackgrounds = (AppGroup.defaults?
             .dictionary(forKey: DefaultsKey.listBackgroundPerTabV1) as? [String: String]) ?? [:]
+        preloadBackgrounds()
+    }
+
+    /// 이 화면이 쓸 배경들을 미리 풀어 둔다.
+    ///
+    /// ⚠️ **탭을 넘긴 뒤에 읽으면 늦다.** 그때 읽으면 디코드가 그 프레임에서 일어나
+    ///    배경이 한 박자 늦게 들어오고, 그 사이가 바닥색으로 비친다.
+    ///    옆 탭 것까지 미리 읽어 두면 넘기는 순간에는 그릴 일만 남는다.
+    private func preloadBackgrounds() {
+        BackgroundImageStore.preload(Array(perTabBackgrounds.values) + [listBackgroundImage])
     }
 
     private func persistPerTabBackgrounds() {
         AppGroup.defaults?
             .set(perTabBackgrounds, forKey: DefaultsKey.listBackgroundPerTabV1)
+        preloadBackgrounds()
     }
 
     /// 배경 선택 적용 - 범위에 따라 현재 탭 덮어쓰기 또는 전체 기본값(+탭 덮어쓰기 초기화).
@@ -962,19 +1069,6 @@ struct ClipKeyboardList: View {
     var body: some View {
         NavigationStack {
             screenL8
-                // 배경 이미지(선택) - 유리 카드 뒤로 비치는 사진. 기본은 없음.
-                // 탭별 덮어쓰기 지원: 탭을 넘기면 그 탭의 배경으로 부드럽게 교차.
-                .background {
-                    if !resolvedBackgroundImage.isEmpty {
-                        Image(resolvedBackgroundImage)
-                            .resizable()
-                            .scaledToFill()
-                            .ignoresSafeArea()
-                            .transition(.opacity)
-                            .id(resolvedBackgroundImage)
-                    }
-                }
-                .animation(.easeInOut(duration: 0.25), value: resolvedBackgroundImage)
                 // 새 배경 기능 1회 제안 - 아니요면 예전 모습 그대로, 써보면 기본 배경 적용.
                 .alert(
                     NSLocalizedString("새로운 배경을 써보시겠어요?", comment: "Background offer alert title"),
@@ -982,7 +1076,7 @@ struct ClipKeyboardList: View {
                 ) {
                     Button(NSLocalizedString("써볼게요", comment: "Accept category activation")) {
                         backgroundOfferResolved = true
-                        withAnimation { listBackgroundImage = Self.backgroundOptions[0] }
+                        withAnimation { listBackgroundImage = ListBackgroundPickerSheet.options[0] }
                         showBackgroundPicker = true
                     }
                     Button(NSLocalizedString("괜찮아요", comment: "Decline category activation"), role: .cancel) {
@@ -992,8 +1086,21 @@ struct ClipKeyboardList: View {
                 } message: {
                     Text(NSLocalizedString("리스트 뒤에 사진을 깔면 유리 카드가 살아나요. 언제든 오른쪽 위 ⋯ 메뉴 > 배경 이미지에서 바꾸거나 끌 수 있어요.", comment: "Background offer alert message"))
                 }
-                .sheet(isPresented: $showBackgroundPicker) {
-                    backgroundPickerSheet
+                .sheet(isPresented: $showBackgroundPicker, onDismiss: { pickedBackgroundItem = nil }) {
+                    ListBackgroundPickerSheet(
+                        scopeAllTabs: $backgroundScopeAllTabs,
+                        pickedItem: $pickedBackgroundItem,
+                        currentTabName: viewModel.selectedCategoryTab.displayName,
+                        myBackgrounds: myBackgrounds,
+                        isSelected: isBackgroundSelected,
+                        onApply: applyBackground,
+                        onRemoveMine: removeUserBackground,
+                        onDone: { showBackgroundPicker = false }
+                    )
+                        .onAppear { myBackgrounds = BackgroundImageStore.saved() }
+                        .onChange(of: pickedBackgroundItem) { _, item in
+                            adoptPickedBackground(item)
+                        }
                 }
                 .onAppear {
                     loadPerTabBackgrounds()
@@ -1001,91 +1108,6 @@ struct ClipKeyboardList: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         showBackgroundOffer = true
                     }
-                }
-        }
-    }
-
-    /// 배경 이미지 선택 시트 - 없음 + 8종 썸네일 그리드, 탭 즉시 적용.
-    /// 적용 범위: 현재 탭만(탭별 덮어쓰기) 또는 모든 탭(기본값 교체 + 덮어쓰기 초기화).
-    private var backgroundPickerSheet: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 14) {
-                    Picker("", selection: $backgroundScopeAllTabs) {
-                        Text(String(format: NSLocalizedString("'%@' 탭만", comment: "Background scope: current tab only, with tab name"),
-                                    viewModel.selectedCategoryTab.displayName))
-                            .tag(false)
-                        Text(NSLocalizedString("모든 탭", comment: "Background scope: all tabs"))
-                            .tag(true)
-                    }
-                    .pickerStyle(.segmented)
-
-                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 12)], spacing: 12) {
-                        // 없음(배경 끄기)
-                        Button {
-                            applyBackground("")
-                        } label: {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                                    .fill(theme.surfaceAlt)
-                                VStack(spacing: 6) {
-                                    Image(systemName: "slash.circle")
-                                        .font(.title2)
-                                    Text(NSLocalizedString("없음", comment: "Background: none"))
-                                        .font(.footnote.weight(.medium))
-                                }
-                                .foregroundColor(theme.textMuted)
-                            }
-                            .frame(height: 150)
-                            .overlay(backgroundSelectionBadge(selected: isBackgroundSelected("")))
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel(NSLocalizedString("배경 없음", comment: "Background: none a11y"))
-
-                        ForEach(Self.backgroundOptions, id: \.self) { name in
-                            Button {
-                                applyBackground(name)
-                            } label: {
-                                Image(name)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(height: 150)
-                                    .frame(maxWidth: .infinity)
-                                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
-                                    .overlay(backgroundSelectionBadge(selected: isBackgroundSelected(name)))
-                            }
-                            .buttonStyle(.plain)
-                            .accessibilityLabel(NSLocalizedString("배경 이미지", comment: "Menu: list background image"))
-                        }
-                    }
-                }
-                .padding(16)
-            }
-            .background(theme.bg)
-            .navigationTitle(NSLocalizedString("배경 이미지", comment: "Menu: list background image"))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(NSLocalizedString("완료", comment: "Done")) { showBackgroundPicker = false }
-                        .fontWeight(.semibold)
-                }
-            }
-        }
-        .presentationDetents([.medium, .large])
-        .presentationDragIndicator(.visible)
-    }
-
-    /// 선택된 썸네일 표시 - 파란 테두리 + 체크 뱃지.
-    @ViewBuilder
-    private func backgroundSelectionBadge(selected: Bool) -> some View {
-        if selected {
-            RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                .strokeBorder(Color.accentColor, lineWidth: 3)
-                .overlay(alignment: .topTrailing) {
-                    Image(systemName: AppSymbol.checkmarkCircleFill)
-                        .font(.title3)
-                        .foregroundStyle(.white, Color.accentColor)
-                        .padding(6)
                 }
         }
     }
@@ -1228,20 +1250,7 @@ struct ClipKeyboardList: View {
         // Button + onLongPressGesture 조합이 iOS 17+에서 long press를 가로채는 경우가 있어
         // 일반 View + onTapGesture + onLongPressGesture 패턴으로 분리. 시각 affordance는
         // 그대로 유지 (button trait 명시 + tap 햅틱).
-        let skirtDepth = cardSkirtDepth(lightweight: false)
-
         return memoCardSurface(memo: memo)
-        // 손님(새·고양이)은 카드 밖으로 넘쳐야 해서 clip 바깥에 얹는다.
-        // 카드 한 장 위에서만 벌어진다 - 격자는 스크롤·재정렬되므로 전역 경로를 못 쓴다.
-        .overlay(alignment: .topLeading) {
-            if livingSkin.isVisitor, guestScheduler.hostId == memo.id {
-                GeometryReader { geo in
-                    GuestCreature(kind: livingSkin, cardWidth: geo.size.width)
-                        .position(x: geo.size.width * 0.32, y: 0)
-                }
-                .allowsHitTesting(false)
-            }
-        }
         // 방금 쓴 카드에 잠깐 켜지는 테두리.
         // ⚠️ 조건부로 뷰를 끼웠다 빼지 않고 **불투명도만** 바꾼다
         //    끼웠다 빼면 나타날 때 끊겨 보이고, 사라질 때 애니메이션이 안 걸린다.
@@ -1262,23 +1271,6 @@ struct ClipKeyboardList: View {
             }
         )
         .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        // 누름 - 스킨에 따라 두 방식으로 갈린다.
-        //
-        // 두께가 있으면 **키캡처럼** 바닥까지 내려앉았다 돌아온다.
-        // 두께가 없으면(납작·예전 방식) 내려앉을 바닥이 없으므로 **예전의 푹신한 바운스**로
-        // 되돌린다 - 그러지 않으면 눌러도 아무 반응이 없는 죽은 카드가 된다.
-        .modifier(CardPressEffect(
-            trigger: bounceTriggers[memo.id] ?? 0,
-            legacyBounce: keycapSkin.usesLegacyCardBounce,
-            depth: skirtDepth,
-            pressDuration: keycapSkin.pressDuration,
-            // 스커트가 그려지는 곳은 `@Sendable` 클로저 안이라 테마·스킨을 거기서 읽을 수 없다.
-            // 지금 여기서 값으로 뽑아 넘긴다.
-            skirt: { [radius = theme.radiusXl,
-                      opacity = keycapSkin.skirtOpacity(isDark: theme.isDark)] dy in
-                CardSkirt(depth: skirtDepth, offsetY: dy, radius: radius, opacity: opacity)
-            }
-        ))
         // 좌표를 받는 탭 - 동전이 **손가락이 닿은 자리**에서 튀어야 인과가 보인다.
         // 카드 중심에서 튀면 어느 카드를 눌렀는지는 알아도 내가 눌렀다는 느낌이 약하다.
         //
@@ -1286,7 +1278,6 @@ struct ClipKeyboardList: View {
         //    닿지 않았고, 그 바람에 어느 카드를 눌러도 동전이 화면 왼쪽 위에서 날아갔다.
         .onTapGesture(coordinateSpace: .global) { location in
             HapticManager.shared.selection() // 탭: 선택 햅틱
-            if !reduceMotion { bounceTriggers[memo.id, default: 0] += 1 } // 푹신 바운스 재생
             // 동전은 여기서 날리지 않는다. 콤보·템플릿은 아직 **쓴 게 아니라** 시트가 뜰 뿐이라,
             // 실제 사용이 확정될 때(.memoUsed) 날린다. 자리만 기억해 둔다.
             lastTapPoint = location
@@ -1350,142 +1341,27 @@ struct ClipKeyboardList: View {
                 }
             }
         }
-        .accessibilityLabel(memoGridAccessibilityLabel(memo))
+        .accessibilityLabel(MemoCardSurface.accessibilityLabel(for: memo, categories: viewModel.customCategories))
         .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사, 꾹 누르면 추가 옵션", comment: "Memo card hint"))
     }
 
-    /// 메모 카드의 순수 비주얼(제스처 없음). memoGridCell(탭/롱프레스)과 재정렬 모드 셀이 공유.
-    /// - Parameter lightweight: 재정렬 그리드용 경량 렌더링 - 그림자와 내용 힌트 애니메이션을
-    ///   생략한다. 흔들림(repeatForever 회전)과 매 프레임 경합하는 비용을 줄여 드래그를 매끄럽게.
-    private func memoCardSurface(memo: Memo, lightweight: Bool = false) -> some View {
-        let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
-        let hasImage = !imageFileName.isEmpty
-        let onColor = cardIsColored(memo: memo, hasImage: hasImage)
-
-        return VStack(alignment: .leading, spacing: 0) {
-            // 구분 표시 ON일 때만 상단 행(좌: 타입 아이콘 / 우: 즐겨찾기·카테고리 심볼). 기본은 제목만.
-            if visualCuesVisible {
-                HStack(alignment: .top, spacing: 4) {
-                    // 보안 메모는 제목 왼쪽 자물쇠로 표시하므로 상단 타입 아이콘에서는 생략(중복 방지).
-                    if !memo.isSecure {
-                        memoTypeIcon(memo: memo, onColor: onColor)
-                    }
-                    Spacer()
-                    if memo.isFavorite {
-                        Image(systemName: AppSymbol.heartFill)
-                            .font(.title2)
-                            .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
-                            .accessibilityHidden(true)
-                    } else if CategoryStore.shared.isFeatureEnabled,
-                              viewModel.customCategories.contains(memo.category) {
-                        Image(systemName: customCategoryIcon(memo.category))
-                            .font(.title2)
-                            .foregroundColor(onColor
-                                ? .white.opacity(0.85)
-                                : customCategoryColor(memo.category))
-                            .accessibilityHidden(true)
-                    }
-                }
-                Spacer(minLength: 16)
-            }
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
-                // 보안 메모 자물쇠 - 구분 표시 ON일 때만 (기본은 심볼 없이 제목만).
-                if visualCuesVisible, memo.isSecure {
-                    Image(systemName: AppSymbol.lockFill)
-                        .font(.title3)
-                        .foregroundColor(onColor ? .white.opacity(0.9) : theme.textMuted)
-                        .accessibilityHidden(true)
-                }
-                // 템플릿 변수 {…}는 카드 제목에서도 원문이 아닌 칩(하이라이트)으로.
-                Text(memo.title.templateAwareAttributed(theme: theme, font: .title2.weight(.semibold)))
-                    .font(.title2.weight(.semibold))
-                    .foregroundColor(onColor ? .white : theme.text)
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
-            // 제목 아래 내용 힌트 - 카드가 화면에 2초쯤 머물면 한 번 살며시 맺혔다가
-            // 흩어지듯 사라진다(이번 등장에서는 끝). 설정(메모 표시)에서 켜기/끄기.
-            // 켜져 있으면 카드 높이 균일성을 위해 영역은 항상 확보(보안 메모 등은
-            // 빈 공간), 꺼져 있으면 영역 자체가 없다.
-            if contentHintEnabled {
-                Spacer(minLength: 8)
-                // 방금 쓴 카드는 이 자리에 **내용 대신 동전**을 보여준다.
-                // 겹쳐 얹으면 내용이 안 읽히고, 옆에 두면 카드 높이가 흔들린다.
-                // 같은 자리를 번갈아 쓰면 둘 다 해결된다.
-                if !lightweight, showsCoin(memo) {
-                    VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(
-                        characterCount: memo.value.count, useCount: memo.clipCount),
-                                   onColor: onColor)
-                        .frame(height: ContentHintPreview.zoneHeight, alignment: .leading)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .transition(.opacity.combined(with: .scale(scale: 0.7, anchor: .leading)))
-                } else if !lightweight, let hint = fishbowlText(memo: memo) {
-                    ContentHintPreview(text: hint, seed: memo.id.hashValue, onColor: onColor)
-                } else {
-                    Color.clear.frame(height: ContentHintPreview.zoneHeight)
-                }
-            }
-        }
-        // 유리 카드 글자 가독성 - 맑은 유리는 뒤 배경(사진·색)에 따라 글자가 묻힐 수 있어,
-        // 글 내용 뒤에 은은한 할로를 깐다. 흰 글자(색 유리)는 어두운 할로,
-        // 테마색 글자(무색 유리)는 테마 배경색 할로 - 배경이 무엇이든 최소 대비 확보.
-        // 이미지 카드는 자체 그라디언트가 가독성을 책임지므로 제외.
-        .compositingGroup()
-        .shadow(color: hasImage ? .clear : (onColor ? Color.black.opacity(0.55) : theme.bg),
-                radius: 4, x: 0, y: 0)
-        .padding(16)
-        // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
-        // 1줄·2줄 제목 모두 같은 높이로 정렬되게 한다. (제목은 2줄로 제한)
-        .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
-        // 배경: 이미지 카드는 사진 그대로. 텍스트 카드는 리퀴드 글래스(아래 CardGlass)가
-        // 배경을 대신하되, 경량(재정렬) 모드에선 글래스가 프레임마다 비싸 단색으로 폴백.
-        .background {
-            if hasImage || lightweight {
-                memoCardBackground(memo: memo, imageFileName: imageFileName, hasImage: hasImage)
-            } else {
-                // 맑은 유리 뒤에 깔리는 옅은 판 - 유리가 배경에 묻히지 않게 잡아 준다.
-                // 투명도는 여기 한 곳(CardGlass.backingOpacity)에서만 조절한다.
-                theme.surface.opacity(CardGlass.backingOpacity)
-            }
-        }
-        // 생활 레이어(마을·눈+발자국) - **글자 뒤, 카드 표면 위.**
-        // overlay로 얹으면 눈 베일과 발자국이 제목을 덮어 글이 묻힌다.
-        .background {
-            livingLayer(memo: memo, lightweight: lightweight)
-        }
-        .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        // 텍스트 카드 리퀴드 글래스(iOS 26 순정 glassEffect) - 카테고리 색은 tint로 유지.
-        .modifier(CardGlass(
-            active: !hasImage && !lightweight,
-            tint: cardGlassTint(memo: memo),
-            cornerRadius: theme.radiusXl
-        ))
-        // 타입 테두리 - 키보드 익스텐션과 동일(템플릿 보라/콤보 주황 dash/보안 회색 dot).
-        .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
-                .strokeBorder(memoTypeBorder(memo).color,
-                              style: StrokeStyle(lineWidth: memoTypeBorder(memo).lineWidth,
-                                                 dash: memoTypeBorder(memo).dash))
+    /// 카드가 어떻게 보일지. 이 화면이 쥔 설정을 한 곳에서 모아 건넨다 - 화면의 상태가
+    /// 카드 안으로 새어 들어가는 자리를 여기 하나로 좁힌다.
+    private var cardStyle: MemoCardStyle {
+        MemoCardStyle(
+            categories: viewModel.customCategories,
+            cardHeight: memoCardHeight,
+            showsVisualCues: visualCuesVisible,
+            showsContentHint: contentHintEnabled,
+            hasListBackground: !resolvedBackgroundImage.isEmpty
         )
-        // 경량 모드(재정렬)에선 그림자 생략 - 회전하는 카드의 그림자는 매 프레임 오프스크린
-        // 렌더링을 유발해 흔들림+드래그 시 버벅임의 주요 원인이 된다.
-        .shadow(color: lightweight ? .clear : .black.opacity(0.10),
-                radius: lightweight ? 0 : 8, x: 0, y: lightweight ? 0 : 4)
+    }
+
+    private func memoCardSurface(memo: Memo, lightweight: Bool = false) -> MemoCardSurface {
+        cardStyle.surface(for: memo, showsCoin: showsCoin(memo), lightweight: lightweight)
     }
 
     // MARK: - 생활 레이어
-
-    /// 손님 스케줄러를 현재 스킨에 맞춰 켜거나 끈다.
-    /// 스케줄러가 저전력 모드·동작 줄이기를 스스로 확인하므로 여기서는 재료만 넘긴다.
-    private func startGuestsIfNeeded() {
-        guestScheduler.start(
-            skin: livingSkin,
-            // 화면 위쪽 카드들만 후보 - 스크롤 밖에서 손님이 오가면 아무도 못 본다.
-            candidates: { viewModel.memos.prefix(12).map(\.id) },
-            reduceMotion: reduceMotion
-        )
-    }
 
     /// 카드 위에 사는 것 - 물성 스킨과 다른 층이라 겹쳐 쓸 수 있다.
     private var livingSkin: LivingSkin {
@@ -1535,20 +1411,13 @@ struct ClipKeyboardList: View {
         if livingSkin == .geode { handleGeodeUse(memoID: memoID) }
         lightUpCard(memoID)
 
-        // 가리키던 카드를 실제로 눌렀다 → 복사한 것을 붙여넣기까지 이어서 데려간다.
+        // 가리키던 카드를 실제로 눌렀다 → 안내를 거둔다. 배운 것은 여기서 끝난다.
         //
-        // ⚠️ 클립보드를 읽어 값을 알아내지 않는다. iOS 16+ 는 읽을 때마다
-        //    "붙여넣기 허용" 프롬프트를 띄워서, 가르치려던 동작을 시스템 팝업으로 가로챈다.
-        //    알림이 실어 온 복사값(copiedText)을 그대로 쓴다.
+        // ⚠️ 예전에는 여기서 **붙여넣기 연습 화면**(`PastePracticeView`)을 전체 화면으로
+        //    띄웠다. 뺐다. 카드를 누른 순간 값은 이미 들어간 뒤라, 같은 값을 한 번 더
+        //    "붙여넣어 보라"고 하는 것은 방금 한 일을 다시 시키는 일이었다.
         if coachMemoID == memoID {
             withAnimation(.easeOut(duration: 0.25)) { coachMemoID = nil }
-
-            let copied = (note.userInfo?[MemoUsedKey.copiedText] as? String) ?? ""
-            if !copied.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
-                    pastePractice = PastePracticeRequest(value: copied)
-                }
-            }
         }
 
         guard livingSkin == .vault else { return }
@@ -1634,175 +1503,6 @@ struct ClipKeyboardList: View {
         livingSkin == .vault && coinBadgeMemoID == memo.id
     }
 
-    /// 카드에 얹히는 생활 레이어. 재정렬(경량) 모드에선 전부 생략한다
-    /// 회전하는 카드마다 Canvas가 하나씩 더 붙으면 드래그가 눈에 띄게 무거워진다.
-    @ViewBuilder
-    private func livingLayer(memo: Memo, lightweight: Bool) -> some View {
-        if !lightweight, Delight.isEnabled {
-            switch livingSkin {
-            case .vault:
-                // 내용 힌트 자리를 번갈아 쓰는 게 기본이라(위 memoCardSurface 참고) 여기서는
-                // **그 자리가 아예 없을 때만** 구석에 잠깐 띄운다.
-                //
-                // ⚠️ 동전을 상시로 늘어놓지 않는다. 처음엔 마을처럼 아래쪽에 쭉 깔았는데,
-                //    마을은 새싹처럼 성긴 그림이라 글이 비쳐 보였지만 동전은 꽉 찬 원이라
-                //    제목과 내용을 통째로 덮어버렸다.
-                ZStack {
-                    // 카드를 금고 문으로 - 경첩·다이얼·이음새는 전부 가장자리에 있어
-                    // 글과 자리를 다투지 않는다.
-                    VaultCardFrame(savedSeconds: VaultLedger.earnedSeconds(
-                        characterCount: memo.value.count, useCount: memo.clipCount))
-
-                    if !contentHintEnabled, showsCoin(memo) {
-                        VaultCardBadge(savedSeconds: VaultLedger.earnedSeconds(
-                            characterCount: memo.value.count, useCount: memo.clipCount))
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                            .padding(.trailing, 12)
-                            .padding(.bottom, 10)
-                            .transition(.opacity)
-                    }
-                }
-            case .geode:
-                // 세 번 쓸 때마다 깨진다. 금고 동전과 같은 이유로 **구석**에만 둔다
-                // 가운데에 크게 놓으면 제목과 내용을 덮는다.
-                // ⚠️ 금고 다이얼과 **같은 자리**(오른쪽 가운데)에 둔다.
-                //    카드에서 눈이 가는 자리는 여기다. 아래 구석에 뒀더니 있는 줄도 몰랐다.
-                //    제목은 왼쪽 정렬이라 이 자리는 비어 있다.
-                GeodeBadge(useCount: memo.clipCount,
-                           bursting: burstingMemoID == memo.id,
-                           size: 38)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
-                    .padding(.trailing, 6)
-            case .village:
-                // 사용 기록이 그대로 마을이 된다 - 움직이지 않으므로 스크린샷에 남는다.
-                // 카드 **아래쪽**에 세운다. 위는 제목 자리라 겹치면 둘 다 안 읽힌다.
-                VillageStrip(useCount: memo.clipCount)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
-                    .padding(.leading, 18)
-                    .padding(.bottom, 12)
-            case .snow:
-                ZStack {
-                    SnowTexture(seed: memo.id.hashValue)
-                    FootprintLayer(useCount: memo.clipCount)
-                }
-            case .none, .bird, .cat:
-                EmptyView()
-            }
-        }
-    }
-
-    // MARK: - 카드 키캡
-
-    /// 사용자가 고른 키캡 물성. 앱 카드와 키보드 키가 **같은 스킨**을 따른다
-    /// 따로 고르게 하면 설정만 늘고 두 화면이 안 맞는다.
-    ///
-    /// ⚠️ `KeyboardSkin.current`(UserDefaults 직접 읽기)가 아니라 @AppStorage를 쓴다.
-    ///    직접 읽으면 설정에서 바꿔도 이 화면이 다시 그려지지 않아 "골라도 반응이 없다".
-    private var keycapSkin: KeyboardSkin {
-        KeyboardSkin.resolved(keyboardSkinRaw)
-    }
-
-    /// 카드가 얹혀 있는 두께. 0이면 스커트를 아예 그리지 않는다.
-    /// 재정렬(경량) 모드에선 회전하는 카드마다 레이어가 하나 더 늘어 버벅임을 만들므로 뺀다.
-    private func cardSkirtDepth(lightweight: Bool) -> CGFloat {
-        guard !lightweight, Delight.isEnabled else { return 0 }
-        return keycapSkin.cardSkirtDepth
-    }
-
-    /// 카드 아래 깔리는 옆면. 유리를 **버리지 않고** 그 밑에 두께만 더한다
-    /// 유리는 표면이고 스커트는 두께라 서로 싸우지 않는다.
-    ///
-    /// ⚠️ 키보드의 `KeycapSurface`와 규칙은 같지만 구동 방식이 다르다.
-    ///    키는 누르고 있는 동안(`isPressed`) 내려가 있고, 카드는 탭 한 번에
-    ///    키프레임으로 내려갔다 올라온다(리스트는 롱프레스가 따로 있어 press 상태를 못 쓴다).
-    private func cardSkirt(depth: CGFloat, offsetY: CGFloat) -> CardSkirt {
-        CardSkirt(depth: depth,
-                  offsetY: offsetY,
-                  radius: theme.radiusXl,
-                  opacity: keycapSkin.skirtOpacity(isDark: theme.isDark))
-    }
-
-    /// 텍스트 카드의 글래스 tint - 카테고리 색 정체성 유지(즐겨찾기 분홍/커스텀 팔레트색).
-    /// 색이 없는 일반 카드는 nil(무색 프로스트 글래스).
-    private func cardGlassTint(memo: Memo) -> Color? {
-        if memo.isFavorite { return .clipFavorite }
-        if CategoryStore.shared.isFeatureEnabled,
-           viewModel.customCategories.contains(memo.category) {
-            return customCategoryColor(memo.category)
-        }
-        return nil
-    }
-
-    /// 카드 배경이 짙은 색(컬러드)인지 여부 - 텍스트/아이콘 색상 결정에 사용.
-    /// 색은 '카테고리'를 의미한다 - 타입(템플릿/콤보)은 색이 아니라 좌상단 아이콘으로 구분.
-    private func cardIsColored(memo: Memo, hasImage: Bool) -> Bool {
-        if hasImage { return true }
-        // 카테고리/즐겨찾기 색은 '카테고리 정체성'이라 항상 표시(구분 표시 토글과 무관).
-        // 보안은 색이 아니라 자물쇠 심볼로만 구분한다(카드 색은 카테고리를 따른다).
-        if memo.isFavorite { return true }
-        if CategoryStore.shared.isFeatureEnabled,
-           viewModel.customCategories.contains(memo.category) { return true }
-        return false
-    }
-
-    /// 그리드 셀 VoiceOver 합성 라벨 - 제목 + 상태(즐겨찾기/이미지/보안/템플릿/콤보/카테고리).
-    private func memoGridAccessibilityLabel(_ memo: Memo) -> String {
-        var parts: [String] = [memo.title]
-        if memo.isFavorite { parts.append(NSLocalizedString("즐겨찾기", comment: "Category: favorites")) }
-        if memo.contentType == .image || memo.contentType == .mixed {
-            parts.append(NSLocalizedString("이미지 단축어", comment: "VoiceOver: image memo badge"))
-        }
-        if memo.isSecure { parts.append(NSLocalizedString("보안 단축어", comment: "VoiceOver: secure memo badge")) }
-        if memo.isTemplate { parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge")) }
-        if memo.isCombo { parts.append(NSLocalizedString("콤보", comment: "VoiceOver: combo badge")) }
-        if CategoryStore.shared.isFeatureEnabled, viewModel.customCategories.contains(memo.category) {
-            parts.append(NSLocalizedString(memo.category, comment: "Category name"))
-        }
-        return parts.joined(separator: ", ")
-    }
-
-    /// 키보드 키와 **같은 그림**을 쓴다 (DesignSystem/MemoTypeStyle.swift).
-    private func memoTypeIconName(memo: Memo) -> String {
-        MemoTypeStyle.symbolName(for: memo)
-    }
-
-    /// 메모 타입별 테두리 - 키보드 익스텐션과 같은 규칙을 공유한다.
-    /// 템플릿: 보라 실선 / 콤보: 주황 dash[5,3] / 보안: 회색 dot[1,3] / 그 외: 없음.
-    /// "메모 구분 표시" 토글이 켜진 경우에만 노출(기본은 깔끔한 카드).
-    private func memoTypeBorder(_ memo: Memo) -> (color: Color, lineWidth: CGFloat, dash: [CGFloat]) {
-        let style = MemoTypeStyle.border(for: memo, visualCuesVisible: visualCuesVisible)
-        return (style.color, style.lineWidth, style.dash)
-    }
-
-    private func memoTypeIcon(memo: Memo, onColor: Bool) -> some View {
-        let color = onColor ? Color.white.opacity(0.9) : theme.textFaint
-        return HStack(spacing: 4) {
-            Image(systemName: memoTypeIconName(memo: memo))
-                .font(.title2)
-                .foregroundStyle(color)
-        }
-        .accessibilityHidden(true)
-    }
-
-    @ViewBuilder
-    private func memoCardBackground(memo: Memo, imageFileName: String, hasImage: Bool) -> some View {
-        if hasImage {
-            // 그늘(가독성 그라디언트)은 `MemoImageBackground` 안으로 들어갔다.
-            // 여기서 얹으면 사진이 오기 전에도 깔려서 카드가 검게 보인다.
-            MemoImageBackground(fileName: imageFileName)
-        } else if memo.isFavorite {
-            // 즐겨찾기 = 분홍 (카테고리 색이므로 항상 표시)
-            Color.clipFavorite
-        } else if CategoryStore.shared.isFeatureEnabled,
-                  viewModel.customCategories.contains(memo.category) {
-            // 색 = 카테고리 (항상 표시)
-            customCategoryColor(memo.category)
-        } else {
-            // 보안 메모도 카테고리 색(없으면 기본 표면색)을 따른다 - 회색으로 칠하지 않는다.
-            theme.surface
-        }
-    }
-
     // MARK: - Tab Background Color
 
     /// 하단 인디케이터 선택 dot 색상 - 탭 배경색과 시각적으로 매칭.
@@ -1817,18 +1517,17 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 현재 탭에 맞는 배경색 - 기본/전체=투명(회색 없이 시스템 배경), favorites=핑크, custom=팔레트색
-    private var tabBackgroundColor: Color {
-        switch viewModel.selectedCategoryTab {
-        case .basic:     return .clear
-        case .all:       return .clear
-        // ⚠️ 예전(0.08~0.10)은 **흰 바탕** 위에 얹히던 값이다. 지금은 테마색 바닥 위라
-        //    같은 값으로는 눈에 안 보인다 - 색이 사라진 게 아니라 묻혔던 것이다.
-        case .favorites: return Color.clipFavorite.opacity(0.13)
-        case .builtIn(let b): return b.tint.opacity(0.11)
-        case .custom(let name): return customCategoryColor(name).opacity(0.11)
-        }
-    }
+
+    /// 하단 베일이 **가라앉는 색.** 언제나 바닥색이다.
+    ///
+    /// ⚠️ `.clear` 로 사라지면 탭바 뒤가 투명해져 창의 검정이 비친다.
+    ///    베일의 일은 "카드가 탭바에 어중간하게 걸치지 않게 지우는 것"이라,
+    ///    지운 자리에 **무엇이 남는지**까지가 이 색의 몫이다.
+    ///
+    /// ⚠️ 예전에는 갈래마다 다른 색으로 가라앉았다. 화면 전체 틴트를 걷어낸 지금
+    ///    (`screenBody` 주석 참고) 여기만 갈래 색을 따라가면, 카테고리를 바꿀 때마다
+    ///    바닥 띠만 색이 바뀌어 오히려 더 눈에 띈다. 바닥은 한 색으로 가만히 둔다.
+    private var tabVeilColor: Color { theme.bg }
 
     /// 커스텀 카테고리 색상. 사용자가 지정한 색(userCategoryColors_v1)이 있으면 우선,
     /// 없으면 카테고리 순서에 따라 결정적으로 팔레트 색 반환.
@@ -1866,14 +1565,16 @@ struct ClipKeyboardList: View {
     /// id에 카테고리명을 포함해 카테고리별로 1회만 노출(무효화 추적)된다.
     private func personaCategorySuggestionTip() -> some View {
         let tip = PersonaCategoryTip(suggestions: Array(personaCategorySuggestions.prefix(3)))
-        return TipView(tip) { action in
-            // action.id == 카테고리 이름. 탭하면 그 카테고리를 만들고 기능을 켠다.
-            viewModel.addCustomCategory(action.id)
-            CategoryStore.shared.enableFeature()
-            HapticManager.shared.success()
-            viewModel.loadCustomCategories()
-            viewModel.loadMemos()
-            tip.invalidate(reason: .actionPerformed)
+        return AnimatedTip(tip: tip) {
+            TipView(tip) { action in
+                // action.id == 카테고리 이름. 탭하면 그 카테고리를 만들고 기능을 켠다.
+                viewModel.addCustomCategory(action.id)
+                CategoryStore.shared.enableFeature()
+                HapticManager.shared.success()
+                viewModel.loadCustomCategories()
+                viewModel.loadMemos()
+                tip.invalidate(reason: .actionPerformed)
+            }
         }
     }
 
@@ -1883,11 +1584,13 @@ struct ClipKeyboardList: View {
             displayName: Constants.localizedThemeName(name),
             count: count
         )
-        return TipView(tip) { action in
-            if action.id == "create" {
-                withAnimation { viewModel.acceptSuggestedCategory(name) }
-                HapticManager.shared.success()
-                tip.invalidate(reason: .actionPerformed)
+        return AnimatedTip(tip: tip) {
+            TipView(tip) { action in
+                if action.id == "create" {
+                    withAnimation { viewModel.acceptSuggestedCategory(name) }
+                    HapticManager.shared.success()
+                    tip.invalidate(reason: .actionPerformed)
+                }
             }
         }
     }
@@ -1939,17 +1642,40 @@ struct ClipKeyboardList: View {
 
     // MARK: - Category Tab View (Page Swipe)
 
+
     /// TabView.page 방식 - ScrollView 내부 제스처 충돌 없이 수평 스와이프 완벽 처리.
     /// 마지막 탭에서 왼쪽으로 더 스와이프(없는 페이지 방향) → 새 카테고리 생성 제안.
     private var categoryTabView: some View {
         let binding = Binding<CategoryTab>(
             get: { viewModel.selectedCategoryTab },
             set: { newTab in
-                viewModel.selectCategoryTab(newTab)
+                // 손가락이 이미 페이지를 옮겨 놓았다. 여기서 또 애니메이션하면
+                // SwiftUI 가 전이를 한 번 더 걸어 카드가 흐려졌다 돌아온다.
+                // (자세한 이유와 실측: `selectCategoryTab(_:animated:)`)
+                viewModel.selectCategoryTab(newTab, animated: false)
             }
         )
+        let tabs = viewModel.allCategoryTabs
         return TabView(selection: binding) {
-            ForEach(viewModel.allCategoryTabs, id: \.self) { tab in
+            // ⚠️ **페이지를 골라 짓지 않는다.** 그냥 다 짓는다.
+            //
+            //    한때 "지금 페이지와 좌우 몇 장" 만 짓는 창을 손으로 만들었다. 그때는
+            //    카드 한 장이 비쌌기 때문이다(유리 + 두께 + 그림자 + 테두리 + 생활 레이어).
+            //    메모 505개에서 722ms 행이 잡혔고, 유리만 2,799개였다(커밋 1f8aea8).
+            //
+            //    그 뒤 카드에서 그것들을 전부 걷어냈다. 지금 카드는 단색 둥근 사각형
+            //    하나다. 창이 필요했던 이유가 사라졌다.
+            //
+            //    그리고 창은 그 자체가 세 가지 사고를 냈다. 창이 늦게 따라와 빈 화면이
+            //    스쳤고(10689b3), 도착한 뒤에 페이지를 지어 "두근" 했고(e333a3e),
+            //    화면 밖 페이지만 줄여 지었더니 페이지가 1.5장씩 어긋났다(되돌림).
+            //    셋 다 "언제 지을지" 를 손으로 정하려다 생긴 것이다. 정하지 않으면 없다.
+            //
+            //    ⚠️ 카테고리가 아주 많고 메모도 아주 많은 사람에게는 다시 무거워질 수
+            //       있다. 그때는 창을 되살리지 말고 `ScrollView` + `LazyHStack` +
+            //       `.scrollTargetBehavior(.paging)` 으로 옮길 것. 게으름이 기본으로
+            //       제공되니 "언제 지을지" 를 우리가 정하지 않아도 된다.
+            ForEach(tabs, id: \.self) { tab in
                 tabPageView(for: tab)
                     .tag(tab)
             }
@@ -1984,9 +1710,9 @@ struct ClipKeyboardList: View {
         .overlay(alignment: .bottom) {
             LinearGradient(
                 stops: [
-                    .init(color: tabBackgroundColor.opacity(0), location: 0),
-                    .init(color: tabBackgroundColor.opacity(0.9), location: 0.45),
-                    .init(color: tabBackgroundColor, location: 1)
+                    .init(color: tabVeilColor.opacity(0), location: 0),
+                    .init(color: tabVeilColor.opacity(0.9), location: 0.45),
+                    .init(color: tabVeilColor, location: 1)
                 ],
                 startPoint: .top, endPoint: .bottom
             )
@@ -2095,244 +1821,16 @@ struct ClipKeyboardList: View {
 
     // MARK: - Search Empty State
 
-    /// 검색 결과가 없을 때의 화면. 메모가 없을 때 쓰는 EmptyListView(완전히 다른 디자인)
-    /// 대신, 결과가 없음을 분명히 알리고 "이런 메모를 만들어 보는 건 어떠세요?"라고 제안한다.
-    /// 제안 카드는 우리가 실제로 쓰는 메모 카드와 같은 치수·제목 스타일을 그대로 쓴다.
+    /// 검색 결과가 없을 때의 화면 - 그림은 `SearchNoResultsView` 가 그린다.
+    /// 여기서는 그 카드를 눌렀을 때 **어떤 편집기를 여는지**만 답한다.
     private var searchNoResultsView: some View {
-        let query = viewModel.searchQueryString.trimmingCharacters(in: .whitespacesAndNewlines)
-        return ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(String(format: NSLocalizedString("'%@' 검색 결과가 없어요", comment: "Search empty state title with query"), query))
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .foregroundColor(theme.text)
-                        .fixedSize(horizontal: false, vertical: true)
-                    Text(NSLocalizedString("이런 단축어를 만들어 보는 건 어떠세요?", comment: "Search empty state: suggestion subhead"))
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 24)
-
-                // 실제 메모 그리드와 동일한 2열 레이아웃 - 제안 카드도 진짜 메모 카드처럼 보인다.
-                LazyVGrid(columns: gridColumns, spacing: 12) {
-                    searchSuggestionCard(query: query)
-                }
-                .padding(.horizontal, 16)
-            }
-            .padding(.bottom, 120)
-        }
-        .ignoresSafeArea(.container, edges: .bottom)
-    }
-
-    /// 검색어를 제목으로 채운 "추가 제안" 카드. ghostMemoCell과 동일한 비주얼
-    /// (실제 메모 카드 치수·제목 스타일 + 반투명·점선으로 "아직 없는 메모" 표현).
-    /// 탭하면 검색어가 키워드로 채워진 편집기로 진입한다(기존 ghostAddPattern 시트 재사용).
-    private func searchSuggestionCard(query: String) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top, spacing: 4) {
-                // 아이콘을 그냥 띄워 두면 붕 뜬다 - 원형 배지에 담아야 만들다 만 게 아니라
-                // 만들어 둔 것으로 보인다.
-                Image(systemName: AppSymbol.sparkles)
-                    .font(.footnote.weight(.bold))
-                    .foregroundColor(theme.accent)
-                    .frame(width: 26, height: 26)
-                    .background(Circle().fill(theme.accent.opacity(0.14)))
-                    .accessibilityHidden(true)
-                Spacer()
-            }
-            Spacer(minLength: 16)
-            Text(query)
-                .font(.title2.weight(.semibold))
-                .foregroundColor(theme.text)
-                .lineLimit(2)
-                .fixedSize(horizontal: false, vertical: true)
-            Text(NSLocalizedString("눌러서 이 이름으로 추가", comment: "Search suggestion card: tap to add with this name"))
-                .font(.caption)
-                .foregroundColor(theme.textFaint)
-                .padding(.top, 4)
-        }
-        .padding(16)
-        .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
-        .background(theme.surface.opacity(0.5))
-        .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
-                .strokeBorder(theme.divider, style: StrokeStyle(lineWidth: 1.5, dash: [6, 5]))
-        )
-        .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        .opacity(0.9)
-        .onTapGesture {
-            HapticManager.shared.selection()
+        SearchNoResultsView(
+            query: viewModel.searchQueryString.trimmingCharacters(in: .whitespacesAndNewlines),
+            columns: gridColumns,
+            cardHeight: memoCardHeight
+        ) { query in
             ghostAddPattern = QuickPattern(icon: AppSymbol.magnifyingglass, title: query, scaffold: "")
         }
-        .accessibilityElement(children: .ignore)
-        .accessibilityAddTraits(.isButton)
-        .accessibilityLabel(String(format: NSLocalizedString("'%@' 단축어 만들기", comment: "VoiceOver: create memo from search query"), query))
-        .accessibilityHint(NSLocalizedString("눌러서 이 이름으로 단축어를 추가합니다", comment: "VoiceOver: search suggestion hint"))
-    }
-
-    // MARK: - Reorder Mode (흔들기 + 드래그 재정렬)
-
-    /// 2열 그리드 한 칸 너비 - onDrag 미리보기 크기에 사용. (좌우 패딩 16+16 + 칸 간격 12)
-    /// iOS 26에서 `UIScreen.main`이 deprecated - 활성 씬의 **윈도우** 너비를 쓴다.
-    /// 화면(screen)이 아니라 윈도우인 이유: 아이패드 분할뷰·스테이지 매니저·Mac Catalyst에서는
-    /// 앱이 화면 전체를 쓰지 않아 screen 기준이면 미리보기가 실제 카드보다 커진다.
-    @MainActor
-    private var reorderPreviewWidth: CGFloat {
-        #if os(iOS)
-        let containerWidth = UIApplication.shared.connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .first { $0.activationState == .foregroundActive }?
-            .windows.first { $0.isKeyWindow }?
-            .bounds.width
-        // 실제 그리드와 같은 열 수로 나눠야 미리보기와 카드 크기가 일치한다.
-        // (좌우 패딩 16+16 + 열 사이 간격 12×(n-1))
-        let columns = CGFloat(gridColumnCount)
-        let spacing = 12 * (columns - 1)
-        let usable = (containerWidth ?? 320) - 32 - spacing
-        return max(100, usable / columns)
-        #else
-        return 160
-        #endif
-    }
-
-    /// 재정렬 안내 문구 - 카테고리 범위 재정렬이면 어느 카테고리인지 함께 보여준다.
-    private var reorderHintText: String {
-        if let scope = viewModel.reorderScopeName {
-            return String(format: NSLocalizedString("'%@'의 카드를 끌어 순서를 바꾸세요", comment: "Reorder mode hint scoped to current category"), scope)
-        }
-        return NSLocalizedString("카드를 끌어 순서를 바꾸세요", comment: "Reorder mode hint")
-    }
-
-    /// 순서 바꾸기 전용 화면 - 현재 카테고리 탭의 메모(기능 꺼짐 시 전체)를
-    /// 흔들리는 그리드로 보여주고 드래그로 재정렬.
-    private var reorderModeView: some View {
-        NavigationStack {
-            ScrollView {
-                Text(reorderHintText)
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.top, 12)
-
-                // 현재 탭에 재정렬할 메모가 없으면 빈 그리드 대신 이유를 설명한다.
-                // (카테고리 범위 재정렬이라 다른 탭의 메모는 여기 나오지 않는 게 정상)
-                if viewModel.reorderList.isEmpty {
-                    VStack(spacing: 8) {
-                        Image(systemName: AppSymbol.trayFull)
-                            .font(.largeTitle)
-                            .foregroundColor(.secondary)
-                        Text(NSLocalizedString("이 카테고리에는 순서를 바꿀 단축어가 없어요", comment: "Reorder empty state title"))
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundColor(.secondary)
-                        Text(NSLocalizedString("다른 카테고리 탭에서 순서 바꾸기를 열어 보세요", comment: "Reorder empty state subtitle"))
-                            .font(.footnote)
-                            .foregroundColor(.secondary)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 80)
-                }
-
-                LazyVGrid(columns: gridColumns, spacing: 12) {
-                    ForEach(Array(viewModel.reorderList.enumerated()), id: \.element.id) { index, memo in
-                        reorderCardCell(memo: memo, index: index)
-                    }
-                }
-                .padding(16)
-                .padding(.bottom, 40)
-                // 재배치 애니메이션은 dropEntered의 withAnimation이 담당(이중 적용 방지).
-                // 셀 바깥(여백)에 드롭돼도 드래그 상태를 풀어 카드가 사라진 채 남지 않게 한다.
-                .onDrop(of: [.text], delegate: ReorderResetDropDelegate(dragging: $draggingMemo))
-            }
-            .background(theme.bg.ignoresSafeArea())
-            // 그리드 밖(스크롤 영역 아무 곳)에 드롭돼도 드래그 상태를 정리하는 최후 안전망.
-            .onDrop(of: [.text], delegate: ReorderResetDropDelegate(dragging: $draggingMemo))
-            .navigationTitle(NSLocalizedString("순서 바꾸기", comment: "Reorder mode title"))
-            #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
-            #endif
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(NSLocalizedString("완료", comment: "Done")) {
-                        HapticManager.shared.success()
-                        viewModel.exitReorderMode()
-                    }
-                    .fontWeight(.semibold)
-                }
-            }
-            .solidNavBar(theme.bg)
-        }
-        .onAppear {
-            draggingMemo = nil
-            if !reduceMotion { withAnimation { wiggle = true } }
-        }
-        .onDisappear {
-            wiggle = false
-            draggingMemo = nil
-        }
-        // 드래그 세션이 끝나면(정상 드롭·취소 모두) 흔들림을 다시 켠다.
-        // repeatForever는 value 변경 시에만 붙으므로 wiggle을 토글해 재시작한다.
-        .onChange(of: draggingMemo?.id) { _, newValue in
-            if newValue != nil {
-                wiggle = false
-            } else if !reduceMotion {
-                withAnimation { wiggle = true }
-            }
-        }
-    }
-
-    /// 재정렬 그리드의 한 셀 - 흔들림 + onDrag/onDrop 라이브 재배치.
-    private func reorderCardCell(memo: Memo, index: Int) -> some View {
-        let isDragging = draggingMemo?.id == memo.id
-        // 드래그 세션 동안엔 모든 카드의 흔들림을 멈춘다 - repeatForever 회전이 재배치
-        // 스프링 애니메이션·스크롤과 매 프레임 경합해 버벅임의 주원인이었다.
-        let dragActive = draggingMemo != nil
-        // 흔들림 위상은 index가 아닌 id 기반 고정값 - 재배치로 index가 바뀔 때마다
-        // 애니메이션이 리셋되어 깜빡이던 문제 방지.
-        let phase = Double(abs(memo.id.hashValue) % 6) * 0.045
-        return memoCardSurface(memo: memo, lightweight: true)
-            // 드래그 중인 카드의 원위치는 완전히 숨기지 않고 흐릿하게만 - 드롭이 시스템에서
-            // 취소돼 콜백이 안 와도 카드가 "사라진" 채 남지 않는다.
-            .opacity(isDragging ? 0.3 : 1.0)
-            .scaleEffect(isDragging ? 0.95 : 1.0)
-            .overlay(alignment: .topLeading) {
-                // 흔들기 모드 식별용 작은 그립 배지.
-                Image(systemName: AppSymbol.arrowUpAndDownAndArrowLeftAndRight)
-                    .font(.caption2.weight(.bold))
-                    .foregroundColor(.white)
-                    .padding(6)
-                    .background(Circle().fill(Color.black.opacity(0.35)))
-                    .padding(8)
-                    .opacity(isDragging ? 0 : 1)
-                    .accessibilityHidden(true)
-            }
-            .onDrag {
-                draggingMemo = memo
-                HapticManager.shared.medium()
-                return NSItemProvider(object: memo.id.uuidString as NSString)
-            } preview: {
-                // 손가락을 따라오는 미리보기는 항상 또렷하게(원본 dim과 분리).
-                memoCardSurface(memo: memo, lightweight: true)
-                    .frame(width: reorderPreviewWidth, height: memoCardHeight)
-            }
-            .onDrop(of: [.text], delegate: MemoReorderDropDelegate(
-                item: memo,
-                list: $viewModel.reorderList,
-                dragging: $draggingMemo
-            ))
-            // 흔들림 - 드래그 세션 중엔 전체 정지, reduceMotion이면 항상 정지.
-            .rotationEffect(.degrees((reduceMotion || dragActive) ? 0 : (wiggle ? 1.4 : -1.4)))
-            .animation(
-                (reduceMotion || dragActive)
-                    ? nil
-                    : .easeInOut(duration: 0.22).repeatForever(autoreverses: true).delay(phase),
-                value: wiggle
-            )
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel(memo.title)
-            .accessibilityHint(NSLocalizedString("드래그하여 순서를 바꿉니다", comment: "Reorder cell a11y hint"))
     }
 
     private func allTabScrollView(memos allMemos: [Memo], tab: CategoryTab) -> some View {
@@ -2356,8 +1854,10 @@ struct ClipKeyboardList: View {
                 VStack(spacing: 12) {
                     // ⚠️ tipBackground 를 걸지 않는다. 마스코트 스타일이 말풍선을
                     //    직접 그리므로, 바깥에 판을 하나 더 깔면 풍선 뒤에 빈 카드가 겹친다.
-                    TipView(welcomeTip)
-                        .onDisappear { AddMemoTip.welcomeTipInvalidated = true }
+                    AnimatedTip(tip: welcomeTip) {
+                        TipView(welcomeTip)
+                            .onDisappear { AddMemoTip.welcomeTipInvalidated = true }
+                    }
                 }
                 .padding(.horizontal, 16)
 
@@ -2390,11 +1890,14 @@ struct ClipKeyboardList: View {
                         if let ghost = ghostSuggestion {
                             ghostMemoCell(pattern: ghost)
                         }
-                        ForEach(Array(allMemos.enumerated()), id: \.element.id) { index, memo in
+                        ForEach(allMemos) { memo in
+                            // ⚠️ 카드가 목록에 **끼워질 때 아무 연출도 하지 않는다.**
+                            //    기본값은 페이드인데, 투명도가 걸린 뷰는 화면 밖에서 한 장으로
+                            //    합쳐 그려지고 그 안의 유리(`glassEffect`)는 뒤를 못 봐서
+                            //    잿빛으로 뜬다. 메모는 화면이 뜬 뒤에 읽혀 들어오므로
+                            //    (`viewModel.loadMemos`) 목록을 열 때마다 그 순간을 지난다.
                             memoGridCell(memo: memo)
-                                .opacity(hasAppeared ? 1.0 : (reduceMotion ? 1.0 : 0.0))
-                                .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
-                                .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
+                                .transition(.identity)
                         }
                         // 그리드 끝 "추가" 카드는 두지 않는다 - 우상단 툴바 + 버튼이 있으므로
                         // 추가 카드는 빈 상태 화면(emptyStateWithAddCard 등)에서만 노출.
@@ -2410,6 +1913,7 @@ struct ClipKeyboardList: View {
             // 붙여넣기 안내 배너 닫힘 애니메이션 - 배너의 transition만으로는
             // LazyVStack 행 높이 변화가 스냅되므로 컨테이너에 값 기반 애니메이션 필요(실측).
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: showPasteTip)
+            .onTwoFingerTap { enterSelectionFromTwoFingerTap() }
         }
         // [디자인 불변식] 스크롤 엣지 이펙트는 전부 숨김 - ScrollView 자체에 직접.
         // (.top만 숨기면 스크롤 시 상단에 흰 배경 밴드가 생기는 회귀를 실측으로 확인)
@@ -2426,11 +1930,10 @@ struct ClipKeyboardList: View {
                 pageHeader(for: tab)
                 Color.clear.frame(height: 8)
                 LazyVGrid(columns: gridColumns, spacing: 12) {
-                    ForEach(Array(memos.enumerated()), id: \.element.id) { index, memo in
+                    ForEach(memos) { memo in
+                        // 끼워질 때 연출 없음 - 이유는 위 `allTabScrollView` 의 주석 참고.
                         memoGridCell(memo: memo)
-                            .opacity(hasAppeared ? 1.0 : (reduceMotion ? 1.0 : 0.0))
-                            .offset(y: (hasAppeared || reduceMotion) ? 0 : 12)
-                            .animation(reduceMotion ? nil : .easeOut(duration: 0.3).delay(Double(min(index, 12)) * 0.03), value: hasAppeared)
+                            .transition(.identity)
                     }
                     // 그리드 끝 "추가" 카드 없음 - 우상단 툴바 + 버튼으로 충분.
                     // 추가 카드는 빈 상태(favoritesEmptyStateView·emptyStateWithAddCard)에서만.
@@ -2442,161 +1945,61 @@ struct ClipKeyboardList: View {
             .padding(.bottom, 110)
             // 붙여넣기 안내 배너 닫힘 애니메이션(위 allTabScrollView 참고).
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: showPasteTip)
+            .onTwoFingerTap { enterSelectionFromTwoFingerTap() }
         }
         // [디자인 불변식] 엣지 이펙트 전부 숨김(위 allTabScrollView 참고).
         .scrollEdgeEffectHidden(true, for: .all)
         .contentMargins(.top, pageContentTopMargin, for: .scrollContent))
     }
 
-    /// 즐겨찾기 탭 전용(하위 호환). 내부적으로 공통 addCard 사용.
-    private var addFavoriteMemoCard: some View {
-        addCard(for: .favorites)
-    }
-
-    /// 그리드 끝에 붙는 점선 "추가" 카드. 즐겨찾기·커스텀·기본 제공 카테고리가 공유.
-    private func addMemoCard(label: String, accessibility: String, action: @escaping () -> Void) -> some View {
-        Button {
-            HapticManager.shared.light()
-            action()
-        } label: {
-            VStack(spacing: 10) {
-                Image(systemName: AppSymbol.plus)
-                    .font(.title2.weight(.medium))
-                    .foregroundColor(theme.textFaint)
-                Text(label)
-                    .font(.caption.weight(.medium))
-                    .foregroundColor(theme.textFaint)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-            }
-            .frame(maxWidth: .infinity, minHeight: memoCardHeight)  // 메모 셀과 동일 높이
-            // 배경 사진 위에서는 반투명 표면이 씻겨 보여 프로스트 유리로 받친다.
-            .background {
-                if resolvedBackgroundImage.isEmpty {
-                    theme.surface.opacity(0.5)
-                } else {
-                    Rectangle().fill(.ultraThinMaterial)
-                }
-            }
-            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-            .overlay {
-                RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
-                    .strokeBorder(
-                        theme.textFaint.opacity(resolvedBackgroundImage.isEmpty ? 0.3 : 0.5),
-                        style: StrokeStyle(lineWidth: 1.5, dash: [6, 4])
-                    )
-            }
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(accessibility)
-    }
-
-    /// 현재 탭에 맞는 "추가" 카드 - 탭한 카테고리에 곧바로 들어가도록 생성 흐름을 연다.
-    @ViewBuilder
-    private func addCard(for tab: CategoryTab) -> some View {
-        switch tab {
-        case .basic, .all:
-            // 기본/전체 탭에서도 다른 카테고리처럼 추가를 유도하는 카드.
-            addMemoCard(
-                label: NSLocalizedString("단축어 추가", comment: "Add memo card"),
-                accessibility: NSLocalizedString("단축어 추가", comment: "Add memo card")
-            ) { addMemoSheetCategory = ""; showAddMemoSheet = true }
-        case .favorites:
-            addMemoCard(
-                label: NSLocalizedString("즐겨찾기 추가", comment: "Add memo to favorites card"),
-                accessibility: NSLocalizedString("즐겨찾기 단축어 추가", comment: "Add favorite memo card a11y")
-            ) { showAddFavoriteMemoSheet = true }
-        case .builtIn(let b):
-            switch b {
-            case .templates:
-                addMemoCard(
-                    label: NSLocalizedString("템플릿 추가", comment: "Add template card"),
-                    accessibility: NSLocalizedString("템플릿 추가", comment: "Add template card")
-                ) { showAddTemplateSheet = true }
-            case .combos:
-                addMemoCard(
-                    label: NSLocalizedString("콤보 추가", comment: "Add combo card"),
-                    accessibility: NSLocalizedString("콤보 추가", comment: "Add combo card")
-                ) { showAddComboSheet = true }
-            case .images:
-                addMemoCard(
-                    label: NSLocalizedString("이미지 단축어 추가", comment: "Add image memo card"),
-                    accessibility: NSLocalizedString("이미지 단축어 추가", comment: "Add image memo card")
-                ) { addMemoSheetCategory = "이미지"; showAddMemoSheet = true }
-            case .textMemos:
-                addMemoCard(
-                    label: NSLocalizedString("단축어 추가", comment: "Add memo card"),
-                    accessibility: NSLocalizedString("단축어 추가", comment: "Add memo card")
-                ) { addMemoSheetCategory = ""; showAddMemoSheet = true }
-            }
-        case .custom(let name):
-            addMemoCard(
-                label: String(format: NSLocalizedString("'%@' 추가", comment: "Add memo to this category card"), name),
-                accessibility: String(format: NSLocalizedString("'%@' 카테고리에 단축어 추가", comment: "Add memo to category a11y"), name)
-            ) { addMemoSheetCategory = name; showAddMemoSheet = true }
+    /// 빈 칸에 서는 것들은 `MemoListEmptyStates` 가 그린다. 여기서는 **눌렸을 때 무엇을
+    /// 열지**만 답한다 - 어느 시트를 어떻게 여는지는 이 화면의 사정이다.
+    private func openAddFlow(_ intent: AddCardCopy.Intent) {
+        switch intent {
+        case .addMemo(let category):
+            addMemoSheetCategory = category
+            showAddMemoSheet = true
+        case .addFavorite:
+            showAddFavoriteMemoSheet = true
+        case .addTemplate:
+            showAddTemplateSheet = true
+        case .addCombo:
+            showAddComboSheet = true
         }
     }
 
-    /// 빈 상태 안내(아이콘+문구) - 배경 사진이 있으면 프로스트 유리 패널을 받쳐
-    /// 밝은 설경 같은 사진 위에서도 회색 안내가 씻겨 보이지 않게 한다.
-    /// 아무것도 없는 화면. **기호 대신 마스코트가 자고 있다.**
-    ///
-    /// ⚠️ 예전에는 카테고리마다 다른 SF 기호를 세웠는데, 빈 화면에 회색 기호만 있으면
-    ///    "아직 없는 것"이 아니라 "고장난 것"으로 읽힌다. 문구가 이미 어느 칸이 비었는지
-    ///    말하고 있으므로 기호는 자리만 차지했다. (포즈 그림이 준비되기 전에는
-    ///    기본 얼굴로 대신 그려진다 - `MascotPose`)
-    private func emptyStateMessage(message: String) -> some View {
-        VStack(spacing: 14) {
-            MascotView(pose: .sleeping, size: 76)
-            Text(message)
-                .font(.body)
-                .foregroundColor(theme.textMuted)
-                .multilineTextAlignment(.center)
-        }
-        .padding(24)
-        .background {
-            if !resolvedBackgroundImage.isEmpty {
-                RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
-                    .fill(.ultraThinMaterial)
-            }
-        }
-        .padding(.horizontal, 32)
-    }
-
-    /// 빈 카테고리 안내 + 상단에 "추가" 카드. (즐겨찾기 빈 상태와 동일한 레이아웃을 일반화)
     private func emptyStateWithAddCard(message: String, tab: CategoryTab) -> some View {
-        ZStack(alignment: .center) {
-            emptyStateMessage(message: message)
-            VStack {
-                LazyVGrid(columns: gridColumns, spacing: 12) {
-                    addCard(for: tab)
-                }
-                .padding(.horizontal, 16)
-                .padding(.top, 16)
-                Spacer()
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        EmptyStateWithAddCard(message: message,
+                              tab: tab,
+                              columns: gridColumns,
+                              cardHeight: memoCardHeight,
+                              hasListBackground: !resolvedBackgroundImage.isEmpty,
+                              onAdd: openAddFlow)
     }
 
     private var favoritesEmptyStateView: some View {
-        ZStack(alignment: .center) {
-            // 화면 정 중앙 - 빈 상태 안내
-            emptyStateMessage(
-                message: NSLocalizedString("즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요", comment: "Favorites tab empty state with hint")
-            )
+        emptyStateWithAddCard(
+            message: NSLocalizedString("즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요", comment: "Favorites tab empty state with hint"),
+            tab: .favorites
+        )
+    }
 
-            // 상단 - 즐겨찾기 메모 추가 카드
-            VStack {
-                LazyVGrid(columns: gridColumns, spacing: 12) {
-                    addFavoriteMemoCard
-                }
-                .padding(.horizontal, 16)
-                .padding(.top, 16)
-                Spacer()
-            }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    // MARK: - Selection Mode (여러 개 고르기)
+
+    /// 두 손가락으로 톡 치면 여기로 온다.
+    ///
+    /// ⚠️ 이 몸짓은 **눈에 보이지 않는다.** 아는 사람만 쓰는 지름길이고, 같은 문이
+    ///    꾹 누르기 판에도 있다(`onSelectMultiple`).
+    ///
+    /// ⛔️ 보이스오버가 켜져 있으면 오지 않는다. 인식기가 아예 꺼져 있고
+    ///    (`TwoFingerTapAvailability`), 여기서 한 번 더 확인한다.
+    private func enterSelectionFromTwoFingerTap() {
+        #if os(iOS)
+        guard TwoFingerTapAvailability.isAllowedNow else { return }
+        #endif
+        guard !viewModel.isSelectionMode, !viewModel.isReorderMode else { return }
+        HapticManager.shared.medium()
+        viewModel.enterSelectionMode()
     }
 
     // MARK: - Ambient Top Block
@@ -2827,7 +2230,7 @@ struct ClipKeyboardList: View {
         //    바에는 **자주 쓰는 둘**만 남긴다 - 금고와 추가.
         vaultEntrance
 
-        .accessibilityHint(NSLocalizedString("보관함, 카테고리 관리, 플레이스홀더 관리 메뉴를 엽니다", comment: "More options menu hint v2"))
+        .accessibilityHint(NSLocalizedString("보관함, 카테고리 관리, 빈칸 관리 메뉴를 엽니다", comment: "More options menu hint v2"))
 
         // 화면 전환 - **+ 바로 왼쪽**. 누르면 키보드 미리보기로 건너가고,
         // 그쪽 머리말의 같은 자리에서 격자 모양으로 바뀌어 되돌아올 수 있다.
@@ -2862,6 +2265,16 @@ struct ClipKeyboardList: View {
                 showBulkImport = true
             } label: {
                 Label(NSLocalizedString("한번에 많은 단축어 정리하기", comment: "Menu: bulk import"), systemImage: AppSymbol.docOnClipboard)
+            }
+            // ⚠️ 이 시트는 배선만 돼 있고 **여는 길이 어디에도 없었다.**
+            //    ⋯ 메뉴를 설정으로 옮길 때 항목만 빠지고 바인딩은 남아, 목록에서는
+            //    죽은 화면이 되어 있었다. 설정 깊숙이 들어가야만 닿았다.
+            Button {
+                HapticManager.shared.light()
+                viewModel.showPlaceholderManagementSheet = true
+            } label: {
+                Label(NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)"),
+                      systemImage: AppSymbol.listBulletRectangle)
             }
         } label: {
             // 클리어 글래스 서클 - 하단 탭바와 같은 유리 언어(맑은 유리에 아이콘).
@@ -3041,6 +2454,13 @@ struct ClipKeyboardList: View {
     /// 다 지워서 비었을 때. 첫 온보딩을 이미 지난 사람에게 안내를 다시 깔지 않는다.
     private var minimalEmptyState: some View {
         VStack(spacing: 16) {
+            // 빈 화면은 **아무 말도 안 하는 화면**이다. 글 한 줄만 있으면 "고장인가"로도
+            // 읽힌다. 빈 서랍 그림이 그 자체로 "아직 없다"를 말한다.
+            Image(systemName: AppSymbol.tray)
+                .font(.system(size: 64, weight: .ultraLight))
+                .foregroundColor(theme.textFaint)
+                .accessibilityHidden(true)
+
             Text(NSLocalizedString("아직 단축어가 없어요. 위 + 를 눌러 하나 만들어요.", comment: "Empty list: no shortcuts yet"))
                 .font(.body)
                 .foregroundColor(theme.textMuted)
@@ -3162,22 +2582,6 @@ struct ClipKeyboardList: View {
 
 }
 
-/// 텍스트 메모 카드의 리퀴드 글래스 배경(iOS 26 순정 glassEffect).
-/// active=false(이미지 카드·경량 재정렬 모드)면 아무것도 하지 않는다.
-/// tint가 있으면 카테고리 색을 글래스에 입힌다 - 색=카테고리 정체성 유지.
-/// tint가 없는 기본(무색) 카드는 프로스트 대신 **맑은 유리(.clear)** - 뒤 배경이
-/// 그대로 비쳐 보여 상단 투명 배경·유리 탭바와 같은 유리 언어를 쓴다.
-/// 메모 카드의 리퀴드 글래스(iOS 26 `glassEffect`).
-///
-/// ⚠️ **투명도를 바꾸려면 `backingOpacity` 하나만 만지면 된다.**
-///
-/// `Glass` 에는 `.regular` / `.clear` / `.identity` 세 변형뿐이고 그 사이를 나타낼
-/// 불투명도 인자가 없다. 그래서 두 가지를 조합해 원하는 지점을 만든다:
-///   - 유리는 `.clear` (가장 맑은 변형)
-///   - 그 **뒤에** 카드 표면색을 아주 옅게 깐다 → 이 판의 불투명도가 곧 다이얼
-///
-/// `backingOpacity` 0.0 이면 순정 `.clear`(배경에 묻힐 만큼 투명),
-/// 0.5 를 넘어가면 체감상 `.regular` 와 비슷해진다. 그 사이를 취한다.
 struct ClipKeyboardList_Previews: PreviewProvider {
     static var previews: some View {
         ClipKeyboardList()

@@ -9,14 +9,6 @@
 import SwiftUI
 import LeeoKit   // HapticManager
 
-/// List 스크롤 오프셋을 상위 View로 전달하는 PreferenceKey.
-struct ScrollOffsetPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
 /// 순서 바꾸기 그리드의 드롭 델리게이트 - 드래그가 다른 카드 위로 들어오면 그 자리로 즉시 이동.
 /// `.onDrag`가 손가락을 따라오는 네이티브 미리보기를 제공하고, dropEntered에서 라이브 재배치한다.
 struct MemoReorderDropDelegate: DropDelegate {

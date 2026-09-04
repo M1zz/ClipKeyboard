@@ -8,6 +8,9 @@
 //
 
 import SwiftUI
+#if canImport(Translation)
+import Translation
+#endif
 
 // MARK: - Suggested Action (단축 액션 모델)
 
@@ -120,8 +123,10 @@ struct SuggestedActionChips: View {
             }
         }
 
-        // 3) 번역 칩 - AI 사용 가능하면 모든 텍스트 항목에 제공
-        if AppleIntelligenceService.shared.isAvailable, !content.isEmpty {
+        // 3) 번역 칩 - 모든 텍스트 항목에 제공.
+        //    예전에는 Apple Intelligence 가 켜진 기기에서만 보였다. 이제 `Translation` 이
+        //    맡으므로 그 조건이 필요 없다(`AppTranslation` 머리말 참고).
+        if !content.isEmpty {
             actions.append(SuggestedAction(
                 label: NSLocalizedString("번역", comment: "Suggested action: translate"),
                 icon: "translate"
@@ -161,6 +166,8 @@ struct SuggestedActionChips: View {
         }
     }
 
+    /// ⚠️ `@MainActor` - `await` 뒤에서 `@State`(`aiPrediction`)를 고친다.
+    @MainActor
     private func loadAIPredictionIfNeeded() async {
         guard aiEnabled, aiPrediction == nil,
               item.contentType == .text,
@@ -194,7 +201,11 @@ struct TranslationSheet: View {
     @Environment(\.appTheme) private var theme
     @Environment(\.dismiss) private var dismiss
 
-    @State private var targetLanguage: AITranslationLanguage = AppleIntelligenceService.translationTargetLanguage
+    @State private var targetLanguage: Locale.Language = AppTranslation.targetLanguage
+    /// 이 기기가 실제로 번역할 수 있는 언어. 시스템에 물어서 채운다.
+    @State private var languages: [Locale.Language] = []
+    /// `.translationTask` 를 다시 돌리는 방아쇠. **새 값을 넣어야 다시 돈다.**
+    @State private var configuration: TranslationSession.Configuration?
     @State private var translatedText: String = ""
     @State private var isTranslating = false
     @State private var errorMessage: String?
@@ -217,11 +228,12 @@ struct TranslationSheet: View {
                             .accessibilityHidden(true)
                         Picker(NSLocalizedString("번역 언어", comment: "Translation target language picker"),
                                selection: $targetLanguage) {
-                            ForEach(AITranslationLanguage.allCases) { lang in
-                                Text(lang.displayName).tag(lang)
+                            ForEach(languages, id: \.self) { lang in
+                                Text(AppTranslation.displayName(of: lang)).tag(lang)
                             }
                         }
                         .pickerStyle(.menu)
+                        .disabled(languages.isEmpty)
                         Spacer()
                     }
 
@@ -262,7 +274,37 @@ struct TranslationSheet: View {
                     Button(NSLocalizedString("닫기", comment: "Close")) { dismiss() }
                 }
             }
-            .task(id: targetLanguage) { await translate() }
+            .task {
+                languages = await AppTranslation.supportedLanguages()
+                // 저장된 언어가 이 기기에서 안 되면(언어를 지웠거나 기기가 바뀌었거나)
+                // 목록에 있는 것으로 되돌린다. 아니면 아무리 눌러도 아무 일이 안 일어난다.
+                if !languages.isEmpty, !languages.contains(targetLanguage) {
+                    targetLanguage = languages.first(where: {
+                        AppTranslation.key(for: $0) == AppTranslation.key(for: AppTranslation.defaultTarget)
+                    }) ?? languages[0]
+                }
+                start()
+            }
+            .onChange(of: targetLanguage) { _, language in
+                AppTranslation.targetLanguage = language
+                start()
+            }
+            .translationTask(configuration) { session in
+                do {
+                    let response = try await session.translate(sourceText)
+                    await MainActor.run {
+                        translatedText = response.targetText
+                        errorMessage = nil
+                        isTranslating = false
+                    }
+                } catch {
+                    await MainActor.run {
+                        translatedText = ""
+                        errorMessage = error.localizedDescription
+                        isTranslating = false
+                    }
+                }
+            }
         }
     }
 
@@ -324,15 +366,17 @@ struct TranslationSheet: View {
         }
     }
 
-    private func translate() async {
+    /// 번역을 건다.
+    ///
+    /// ⚠️ `.translationTask` 는 **설정값이 바뀔 때** 돈다. 같은 값을 다시 넣으면 안 돈다.
+    ///    그래서 매번 새 `Configuration` 을 만든다.
+    ///
+    /// 원문 언어는 넘기지 않는다. 시스템이 알아서 알아낸다. 그리고 그 언어 자료가 기기에
+    /// 없으면 시스템이 받겠냐고 물어본다 - 우리가 따로 안내할 필요가 없다.
+    private func start() {
         isTranslating = true
         errorMessage = nil
-        defer { isTranslating = false }
-        do {
-            translatedText = try await AppleIntelligenceService.shared.translate(sourceText, to: targetLanguage)
-        } catch {
-            translatedText = ""
-            errorMessage = error.localizedDescription
-        }
+        translatedText = ""
+        configuration = TranslationSession.Configuration(source: nil, target: targetLanguage)
     }
 }

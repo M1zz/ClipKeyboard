@@ -13,7 +13,9 @@ struct FeedbackView: View {
     @Environment(\.appTheme) private var theme
 
     var body: some View {
-        LeeoFeedbackView<ClipKeyboardSpec>(emailFallback: { subject, body in
+        // 회신 정보(이름·이메일)는 선택 입력이다. 남기면 CloudKit 레코드와 메일 본문에 함께 실려
+        // 답장할 곳이 생기고, 비워두면 예전처럼 익명 제출 그대로다.
+        LeeoFeedbackView<ClipKeyboardSpec>(showsContactFields: true, emailFallback: { subject, body in
             #if os(iOS)
             if EmailController.canSendMail {
                 EmailController.shared.sendEmail(subject: subject, body: body, to: Constants.developerEmail)

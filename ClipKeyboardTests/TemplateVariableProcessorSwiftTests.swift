@@ -5,7 +5,7 @@
 //  Swift Testing 스위트 - 자동 변수 치환, 커스텀 토큰 추출, 입력값 치환,
 //  메모+템플릿 합성, 숫자 토큰 판정.
 //
-//  명세: docs/FEATURE_SPEC.md §3
+//  명세: docs/product/FEATURE_SPEC.md §3
 //
 
 import Testing
@@ -25,16 +25,35 @@ struct TemplateVariableProcessorSwiftTests {
 
     // MARK: - 자동 변수 치환 (날짜/시간)
 
-    @Test("{날짜}/{date}는 yyyy-MM-dd로 치환된다")
+    // ⚠️ 날짜 모양은 **넘겨서** 시험한다. App Group 의 공용 값을 바꿔 가며 돌면
+    //    나란히 도는 다른 시험과 부딪힌다(실제로 부딪혔다). 저장되는지는
+    //    `DateTokenFormatTests` 한 곳에서만 본다.
+
+    @Test("{날짜}/{date}는 고른 모양으로 치환된다")
     func dateTokenSubstitution() {
-        let out = TemplateVariableProcessor.process("오늘은 {날짜} ({date})", at: fixedDate())
+        let out = TemplateVariableProcessor.process("오늘은 {날짜} ({date})",
+                                                    at: fixedDate(), dateFormat: .builtin(.isoDash))
         #expect(out == "오늘은 2026-03-07 (2026-03-07)")
     }
 
-    @Test("{시간}/{time}는 HH:mm:ss로 치환된다")
+    /// 미국 사용자 피드백: "We use Month-Day-Year in the US."
+    @Test("날짜 모양을 미국식으로 고르면 그대로 들어간다")
+    func dateTokenFollowsChosenFormat() {
+        let out = TemplateVariableProcessor.process("{날짜}", at: fixedDate(), dateFormat: .builtin(.monthDayYear))
+        #expect(out == "03/07/2026")
+    }
+
+    @Test("{시간}/{time}는 고른 모양으로 치환된다")
     func timeTokenSubstitution() {
-        let out = TemplateVariableProcessor.process("{시간} / {time}", at: fixedDate())
+        let out = TemplateVariableProcessor.process("{시간} / {time}", at: fixedDate(),
+                                                    timeFormat: .builtin(.twentyFourWithSeconds))
         #expect(out == "09:05:03 / 09:05:03")
+    }
+
+    @Test("시간 모양을 열두시간제로 고르면 그대로 들어간다")
+    func timeTokenFollowsChosenFormat() {
+        let out = TemplateVariableProcessor.process("{시간}", at: fixedDate(), timeFormat: .builtin(.twelveHour))
+        #expect(out.hasPrefix("9:05"))
     }
 
     @Test("{연도}/{월}/{일}이 각각 치환된다")

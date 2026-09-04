@@ -1,0 +1,7 @@
+/*
+  InfoPlist.strings
+  ClipKeyboardExtension (繁體中文)
+*/
+
+/* Keyboard extension display name */
+"CFBundleDisplayName" = "剪貼鍵盤";

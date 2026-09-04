@@ -44,10 +44,27 @@ final class CategoryStore: ObservableObject {
     /// 사용자가 켠 기본 제공 카테고리 rawValue 집합 (BuiltInCategory.rawValue).
     @Published private(set) var enabledBuiltIns: Set<String> = []
 
+    /// 복원·가져오기가 App Group 값을 갈아끼웠을 때 다시 읽기 위한 구독.
+    private var restoreObserver: NSObjectProtocol?
+
     private init() {
         load()
         loadFeatureEnabledState()
         loadBuiltInState()
+
+        // ⚠️ 복원·가져오기·동기화는 이 값들을 **파일이 아니라 App Group UserDefaults 에**
+        //    직접 써 넣는다. 그때 이 저장소가 들고 있는 목록은 복원 이전 것 그대로다.
+        //    그러면 두 가지가 한꺼번에 벌어진다.
+        //      · 화면에는 되살아난 카테고리가 안 보인다("복원했는데 다 날아갔다")
+        //      · 그 뒤 아무 편집이나 하면 `persist()` 가 **낡은 목록을 되살린 값 위에 덮는다**
+        //    그래서 알림을 듣고 곧바로 다시 읽는다.
+        restoreObserver = NotificationCenter.default.addObserver(
+            forName: .dataRestored, object: nil, queue: .main
+        ) { [weak self] _ in
+            self?.reload()
+            self?.loadFeatureEnabledState()
+            self?.loadBuiltInState()
+        }
     }
 
     // MARK: - 기본 제공 카테고리 (타입별 모아보기)

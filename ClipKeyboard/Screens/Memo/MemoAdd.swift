@@ -48,41 +48,57 @@ struct MemoAdd: View {
     // MARK: - View-only State
 
     @State private var isFocused: Bool = false
-    @FocusState private var isQuickTextFocused: Bool  // quickModeBody TextEditor 전용
+    /// "쓸 때 채우는 칸" 서랍이 펴져 있는가. **기본은 닫힘**(`DefaultsKey.contentTokenBarExpanded`).
+    @AppStorage(DefaultsKey.contentTokenBarExpanded) private var tokenBarExpanded: Bool = false
     @FocusState private var isTitleFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    /// 저장해 둔 빈칸 값을 통째로 손보는 시트 - 빈칸을 다루는 이 자리에서 바로 연다.
+    /// 여러 줄을 한꺼번에 붙여넣은 순간, 나눠 담을지 묻는다. 값은 줄 수.
+    ///
+    /// ⚠️ 한 화면에서 **한 번만** 묻는다. 붙여넣을 때마다 물으면 잔소리가 된다.
+    @State private var splitOfferLineCount: Int?
+    @State private var didOfferSplit = false
+    @State private var showBulkImportFromPaste = false
+    @State private var showPlaceholderManagement = false
     @State private var showNewTemplateSheet = false
     @State private var showResetConfirm = false
-    /// 처음엔 심플 모드. 수정·템플릿·콤보이거나 "더 설정하기"를 탭하면 전체 모드 전환.
-    @State private var showAdvancedOptions: Bool = false
+    /// 저장 화면에서 카테고리를 새로 만들 때 쓰는 이름 입력.
+    @State private var showNewCategoryPrompt = false
+    @State private var newCategoryName = ""
+
+    // MARK: - 처음 만드는 사람 짚어 주기 (MemoAddCoach.swift)
+
+    /// 지금 짚고 있는 칸. nil 이면 안내가 돌고 있지 않다.
+    @State private var coachStep: MemoAddCoachStep?
+    @AppStorage(DefaultsKey.startedFreshV444) private var startedFresh: Bool = false
+    @AppStorage(DefaultsKey.tutorialMakeOwnDone) private var makeOwnDone: Bool = false
+    @AppStorage(DefaultsKey.tutorialMakeOwnCoachSkipped) private var coachSkipped: Bool = false
     /// 기존 단축어를 골라 값으로 가져오는 시트.
     @State private var showComboImport: Bool = false
 
-    private var isQuickMode: Bool {
-        // "템플릿으로 만들기"로 들어온 새 메모는 변수 삽입바가 있는 전체 모드로 시작한다.
-        memoId == nil && !insertedIsTemplate && !insertedIsCombo && !showAdvancedOptions && !startInTemplateMode
-    }
-
     var body: some View {
-        Group {
-            if isQuickMode {
-                quickModeBody
-            } else {
-                fullModeBody
-            }
-        }
+        addBody
         .alert(viewModel.alertMessage, isPresented: $viewModel.showAlert) {}
         .alert(NSLocalizedString("입력 내용 초기화", comment: "Reset form confirm title"),
                isPresented: $showResetConfirm) {
             Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
             Button(NSLocalizedString("초기화", comment: "Confirm reset"), role: .destructive) {
                 viewModel.reset()
-                showAdvancedOptions = false
             }
         } message: {
             Text(NSLocalizedString("입력한 내용이 모두 지워집니다. 계속하시겠습니까?", comment: "Reset form confirm message"))
+        }
+        // 저장 화면에서 곧바로 카테고리를 만든다. 만드는 길이 없으면 카테고리를 하나도
+        // 안 만든 사람에게는 위 줄이 "기본" 하나뿐인 고장난 칸으로 보인다.
+        .alert(NSLocalizedString("새 카테고리", comment: "Create a new category from the add screen"),
+               isPresented: $showNewCategoryPrompt) {
+            TextField(NSLocalizedString("카테고리 이름", comment: "New category name field"), text: $newCategoryName)
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
+            Button(NSLocalizedString("카테고리 만들기", comment: "Create category button in the add screen")) {
+                viewModel.createAndSelectUserCategory(newCategoryName)
+            }
         }
         .overlay {
             if viewModel.showToast {
@@ -170,11 +186,47 @@ struct MemoAdd: View {
                 }
             }
         }
-        .onChange(of: viewModel.value) { _, _ in viewModel.onValueChanged() }
+        .onChange(of: viewModel.value) { oldValue, newValue in
+            viewModel.onValueChanged()
+            offerSplitIfPastedList(from: oldValue, to: newValue)
+        }
+        // 붙여넣은 것이 목록처럼 생겼다. **이미 그 일을 하고 있는 중**이라 지금이 묻기 좋은 때다.
+        .alert(splitOfferTitle,
+               isPresented: Binding(get: { splitOfferLineCount != nil },
+                                    set: { if !$0 { splitOfferLineCount = nil } })) {
+            Button(NSLocalizedString("나눠 담기", comment: "Accept splitting a pasted list into separate snippets")) {
+                splitOfferLineCount = nil
+                showBulkImportFromPaste = true
+            }
+            Button(NSLocalizedString("그대로 두기", comment: "Keep the pasted text as one snippet"),
+                   role: .cancel) { splitOfferLineCount = nil }
+        } message: {
+            Text(NSLocalizedString("한 줄씩 나눠서 담으면 키보드에서 따로따로 꺼내 쓸 수 있어요.",
+                                   comment: "Explanation for splitting a pasted list"))
+        }
+        .sheet(isPresented: $showBulkImportFromPaste) {
+            // 붙여넣던 글을 그대로 들고 간다. 같은 것을 두 번 붙여넣게 하지 않는다.
+            BulkImportView(initialText: viewModel.value)
+        }
         .onDisappear {
             // 저장 없이 화면을 떠나면 사용자가 직접 입력한 내용을 자동 임시저장(드래프트)한다.
             // (정식 저장·기존 메모 편집·샘플 그대로 등은 VM 내부에서 걸러진다.)
             viewModel.saveDraftIfNeeded()
+        }
+        // ── 처음 만드는 사람 짚어 주기 (MemoAddCoach.swift) ──
+        .onAppear { startCoachIfNeeded() }
+        // 이름 칸에서 손을 뗐다 - 다 적었으면 다음 칸으로.
+        .onChange(of: isTitleFocused) { _, focused in
+            if !focused { advanceCoachIfFilled() }
+        }
+        // 내용 칸에서 손을 뗐다 - 같은 규칙.
+        .onChange(of: isFocused) { _, focused in
+            if !focused { advanceCoachIfFilled() }
+        }
+        // 사진을 붙이는 길로 값을 채운 사람은 칸을 떠나는 일이 없다 - 여기서 따로 본다.
+        .onChange(of: viewModel.attachedImages.count) { _, _ in advanceCoachIfFilled() }
+        .sheet(isPresented: $showPlaceholderManagement) {
+            PlaceholderManagementSheet(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])
         }
         .sheet(isPresented: $showNewTemplateSheet) {
             NavigationView {
@@ -202,142 +254,90 @@ struct MemoAdd: View {
         }())
         .navigationBarTitleDisplayMode(.inline)
         .solidNavBar(theme.bg)
-        .toolbar {
-            // 새 메모(퀵 모드): 저장 버튼을 헤더 오른쪽(취소 맞은편)에 둬서 본문이 답답하지 않게.
-            if isQuickMode {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        if viewModel.keyword.isEmpty {
-                            viewModel.keyword = viewModel.autoGeneratedTitle()
-                        }
-                        viewModel.saveMemo { dismiss() }
-                    } label: {
-                        Text(NSLocalizedString("저장", comment: "Save"))
-                            .fontWeight(.semibold)
-                    }
-                    // 텍스트 또는 이미지 중 하나라도 있으면 저장 가능 - validateMemoInput과 동일 기준.
-                    // (기존엔 텍스트만 봐서 "이미지+이름"만 넣은 단축어가 저장 불가였음)
-                    .disabled(viewModel.value.isEmpty && viewModel.attachedImages.isEmpty)
-                }
-            }
+    }
+
+    // MARK: - 처음 만드는 사람 짚어 주기
+
+    /// 저장 버튼이 지금 눌리는가. **잠금 조건과 안내가 같은 값을 봐야** 한다
+    /// (`validateMemoInput` 과 같은 기준: 글이든 그림이든 하나는 있어야).
+    private var canSave: Bool {
+        !(viewModel.value.isEmpty && viewModel.attachedImages.isEmpty)
+    }
+
+    /// 지금 이 화면에서 안내를 켤 자리인가.
+    ///
+    /// ⚠️ **튜토리얼의 마지막 걸음일 때만** 켠다(`SnippetsOnboardingStep.makeOwn`).
+    ///    쓰던 사람이 단축어를 만들 때마다 띠가 뜨면 그건 안내가 아니라 방해다.
+    ///
+    /// ⚠️ 새로 만드는 화면에서만. 고치러 들어온 사람은 이미 만들어 본 사람이고,
+    ///    무엇보다 이름·내용이 채워져 있어 첫 두 걸음이 그 자리에서 지나가 버린다.
+    private var coachShouldRun: Bool {
+        startedFresh && !makeOwnDone && !coachSkipped
+            && memoId == nil
+            && viewModel.keyword.isEmpty && viewModel.value.isEmpty
+    }
+
+    /// 화면이 자리를 잡은 뒤에 띠를 올린다. 열리자마자 같이 뜨면 무엇에 대한
+    /// 안내인지 보기 전에 띠부터 보게 된다.
+    private func startCoachIfNeeded() {
+        guard coachShouldRun, coachStep == nil else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+            guard coachShouldRun, coachStep == nil else { return }
+            withAnimation(.easeOut(duration: 0.28)) { coachStep = .name }
+            print("🎓 [MemoAdd] 새 단축어 안내 시작")
         }
     }
 
-    // MARK: - Quick Mode Body
+    /// 한 걸음 나아간다. 마지막(저장)에서 부르면 안내가 끝난다.
+    ///
+    /// ⚠️ 저장 걸음은 **여기서 끝내지 않는다.** 저장은 사용자가 눌러야 일어나는 일이라
+    ///    띠를 눌러 지나갈 수 있게 두되, 지나가도 `makeOwnDone` 은 건드리지 않는다.
+    ///    자기 것이 생겼는지는 목록이 스스로 센다(`completeMakeOwnIfMadeSomething`).
+    private func advanceCoach(from step: MemoAddCoachStep) {
+        withAnimation(.easeOut(duration: 0.24)) { coachStep = step.next }
+    }
 
-    private var quickModeBody: some View {
+    /// 안내가 필요 없다고 한 사람. 다시 걸리적거리지 않는다.
+    private func skipCoach() {
+        HapticManager.shared.light()
+        coachSkipped = true
+        withAnimation(.easeOut(duration: 0.24)) { coachStep = nil }
+        print("🎓 [MemoAdd] 새 단축어 안내 끔")
+    }
+
+    /// 채워야 할 것을 채웠으면 **누르지 않아도** 다음으로 넘어간다.
+    /// 다 한 칸을 계속 짚고 있으면 안내가 아니라 잔소리가 된다.
+    ///
+    /// ⚠️ 부르는 자리가 중요하다. 글자가 바뀔 때마다 부르면 **이름을 치는 도중에**
+    ///    다음 걸음으로 달아난다. 칸에서 손을 뗐을 때(포커스가 빠질 때)와
+    ///    사진을 붙였을 때만 묻는다.
+    private func advanceCoachIfFilled() {
+        guard let step = coachStep else { return }
+        guard step.isFilled(title: viewModel.keyword,
+                            value: viewModel.value,
+                            hasImage: !viewModel.attachedImages.isEmpty) else { return }
+        advanceCoach(from: step)
+    }
+
+    // MARK: - Body
+
+    /// 새로 만들 때든 고칠 때든 **같은 화면**이다.
+    ///
+    /// 예전에는 새 단축어만 심플 모드로 열고 보안·템플릿·콤보·카테고리를
+    /// "더 설정하기" 뒤에 접어 두었다. 접어 두면 있는 줄을 모르고, 쓰려면
+    /// 한 번 더 눌러야 한다. 접는 것으로 아끼는 자리보다 못 찾는 값이 크다.
+    private var addBody: some View {
         VStack(spacing: 0) {
-            if viewModel.showClipboardSuggestion,
-               let content = viewModel.clipboardContent,
-               let detectedType = viewModel.clipboardDetectedType {
-                ClipboardSuggestionBanner(
-                    content: content,
-                    detectedType: detectedType,
-                    clipboardHistory: viewModel.clipboardHistory,
-                    onAccept: { viewModel.acceptClipboardSuggestion() },
-                    onDismiss: { viewModel.showClipboardSuggestion = false }
-                )
-                // 슬라이드로 들어오고, 사용/무시를 누를 때까지 유지된다(자동 사라짐 제거).
-                .transition(.asymmetric(
-                    insertion: .move(edge: .top).combined(with: .opacity),
-                    removal: .opacity))
-            }
-
-            ScrollView {
-                VStack(alignment: .leading, spacing: 22) {
-                    // 1) 키보드에 표시할 이름(KEY) - 단축어의 정체성이므로 맨 위. 핵심.
-                    titleInputSection
-
-                    // 2) 붙여넣을 내용(VALUE) + 이미지 - 풀모드와 동일 컴포넌트(탭하면 복사되는 값)
-                    ContentInputSection(
-                        value: $viewModel.value,
-                        selectedCategory: viewModel.selectedCategory,
-                        isFocused: $isFocused,
-                        autoDetectedType: $viewModel.autoDetectedType,
-                        autoDetectedConfidence: $viewModel.autoDetectedConfidence,
-                        attachedImages: $viewModel.attachedImages,
-                        onNext: { isFocused = false },   // 이름이 위로 가서 "다음" 필드 없음 - 입력 종료
-                        onAddContent: {
-                            HapticManager.shared.light()
-                            viewModel.addContinuation()
-                        },
-                        forceTextKeyboard: startInTemplateMode
-                    )
-
-                    // 붙여넣을 내용이 여러 개면 바로 아래에서 추가 - 더하면 콤보.
-                    // 심플 모드에서도 "내용 더 넣기"가 보이도록(더 설정하기 누르기 전부터).
-                    continuationsSection
-
-                    // 3) 더 설정하기 (보안·템플릿·콤보)
-                    quickAdvancedButton
-                }
-                .padding(.horizontal, 20)
-                .padding(.top, 20)
-                .padding(.bottom, 20)
-            }
-            .background(theme.bg)
-            // 저장 버튼은 헤더 오른쪽(toolbar)에 위치.
-        }
-        // 붙여넣을 내용 입력 중에만 키보드 위에 변수 옵션 바 노출 (이름·기타 필드에선 숨김).
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-            if isFocused {
-                VStack(spacing: 0) {
-                    Divider()
-                    variableTokenBar
-                }
-                .background(theme.surface)
-            }
-        }
-    }
-
-    /// 퀵 모드 "더 설정하기" - 보안/템플릿/콤보 등 고급 옵션으로 전환.
-    private var quickAdvancedButton: some View {
-        Button {
-            withAnimation(.easeInOut(duration: 0.2)) { showAdvancedOptions = true }
-        } label: {
-            HStack {
-                Image(systemName: AppSymbol.sliderHorizontal3)
-                Text(NSLocalizedString("더 설정하기", comment: "Show advanced options"))
-                Spacer()
-                Image(systemName: AppSymbol.chevronRight)
-            }
-            .font(.body)
-            .foregroundColor(theme.textMuted)
-            .padding(.vertical, 12)
-            .padding(.horizontal, 16)
-            .background(theme.surfaceAlt)
-            .cornerRadius(theme.radiusMd)
-        }
-    }
-
-    // MARK: - Full Mode Body (기존 UI)
-
-    private var fullModeBody: some View {
-        VStack(spacing: 0) {
-            // 📋 클립보드 스마트 제안
-            if viewModel.showClipboardSuggestion, let content = viewModel.clipboardContent, let detectedType = viewModel.clipboardDetectedType {
-                ClipboardSuggestionBanner(
-                    content: content,
-                    detectedType: detectedType,
-                    clipboardHistory: viewModel.clipboardHistory,
-                    onAccept: {
-                        viewModel.acceptClipboardSuggestion()
-                    },
-                    onDismiss: {
-                        viewModel.showClipboardSuggestion = false
-                    }
-                )
-                .transition(.move(edge: .top).combined(with: .opacity))
-            }
+            // ⚠️ 클립보드를 훔쳐보고 "이건 이메일 같은데요" 하던 제안 배너는 없앴다.
+            //    화면이 뜰 때마다 클립보드를 읽어 갈래를 맞히는 일인데, 맞혀서 얻는 것이
+            //    붙여넣기 한 번뿐이었다. 붙여넣기는 아래 값 채우는 줄에 그대로 있다.
 
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(spacing: 28) {
-                        // 카테고리는 저장 시 자동 분류로 결정된다 (수동 선택 UI 제거).
-                        // 카테고리 목록 관리는 설정 > 카테고리 관리에서만 수행.
-
                         // 📌 키보드에 표시할 이름 - 단축어의 정체성이므로 맨 위
                         titleInputSection
+                            .memoAddCoachRipple(coachStep == .name, radius: theme.radiusMd)
 
                         // 📌 붙여넣을 내용
                         ContentInputSection(
@@ -352,7 +352,9 @@ struct MemoAdd: View {
                                 HapticManager.shared.light()
                                 viewModel.addContinuation()
                             },
-                            forceTextKeyboard: startInTemplateMode
+                            forceTextKeyboard: startInTemplateMode,
+                            // 이 칸은 둘로 나뉜다(값 가져오는 줄 · 실제 내용). 안내도 따로 짚는다.
+                            coachStep: coachStep
                         )
                         .id("contentField")
 
@@ -367,6 +369,10 @@ struct MemoAdd: View {
 
                         // 📌 내용 힌트 (카드·키보드에서 살며시 보일 한 줄, 선택)
                         hintInputSection
+
+                        // 📌 어느 칸에 넣을지 - **저장하기 전에** 고른다.
+                        //    (예전에는 기본으로 저장된 뒤 손으로 옮겨야 했다)
+                        categoryPickerSection
 
                         // 📌 추가 옵션 (보안)
                         additionalOptionsSection
@@ -410,7 +416,7 @@ struct MemoAdd: View {
                             .background(theme.surfaceAlt)
                             .cornerRadius(theme.radiusMd)
                         }
-                        .accessibilityHint(NSLocalizedString("입력한 내용, 이름, 카테고리를 모두 지웁니다", comment: "Reset button hint"))
+                        .accessibilityHint(NSLocalizedString("입력한 내용과 이름을 지웁니다. 카테고리는 그대로 둡니다", comment: "Reset button hint v2"))
 
                         if isFocused {
                             // 내용 입력 중: 입력을 마치고 키보드를 내린다 (이름은 위에 있어 "다음"이 없음)
@@ -432,6 +438,11 @@ struct MemoAdd: View {
                             }
                         } else {
                             Button {
+                                // 이름을 안 적었으면 내용 첫 줄로 짓는다. 이름 때문에
+                                // 저장이 막히면 방금 적은 것을 못 넣고 되돌아간다.
+                                if viewModel.keyword.isEmpty {
+                                    viewModel.keyword = viewModel.autoGeneratedTitle()
+                                }
                                 viewModel.saveMemo { dismiss() }
                             } label: {
                                 HStack {
@@ -447,11 +458,27 @@ struct MemoAdd: View {
                                 .background(Color.accentColor)
                                 .cornerRadius(theme.radiusMd)
                             }
+                            // 글이든 그림이든 하나는 있어야 저장이 된다 - `validateMemoInput` 과 같은 기준.
+                            .disabled(!canSave)
+                            // ⚠️ **잠긴 버튼은 가리키지 않는다.** 누를 수 없는 것이 물결치면
+                            //    그건 안내가 아니라 고장이다. 아직 못 누르는 사람에게는
+                            //    아래 띠가 대신 무엇이 남았는지 말한다.
+                            .memoAddCoachRipple(coachStep == .save && canSave,
+                                                radius: theme.radiusMd, reach: 6)
                         }
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 12)
                     .padding(.bottom, 12)
+
+                    // 짚어 주는 띠는 도구 줄 **아래**에 눕는다 - 위로 오면 도구를 가린다.
+                    if let step = coachStep {
+                        MemoAddCoachBar(step: step,
+                                        canSave: canSave,
+                                        onNext: { advanceCoach(from: step) },
+                                        onSkip: { skipCoach() })
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                    }
                 }
                 .background(theme.surface)
                 .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: -2)
@@ -529,6 +556,75 @@ struct MemoAdd: View {
         .animation(.easeInOut(duration: 0.2), value: viewModel.hint.isEmpty)
     }
 
+    /// 어느 카테고리에 넣을지 고르는 줄.
+    ///
+    /// ⚠️ "추가 옵션" 안이 아니라 **본문 바로 아래**에 둔다. 여기에 온 피드백이
+    ///    "기본 가서 다시 카테고리로 보내는 게 불편하다"였다. 접혀 있으면 못 찾고,
+    ///    못 찾으면 예전처럼 저장한 뒤에 옮기게 된다.
+    ///
+    /// ⚠️ 카테고리 탭에서 + 로 들어왔으면 그 칸이 이미 골라져 있다. 그때는 이 줄이
+    ///    "어디로 가는지 확인해 주는 자리"가 된다 - 손댈 일이 없어야 정상이다.
+    private var categoryPickerSection: some View {
+        HStack(spacing: 12) {
+            Image(systemName: AppSymbol.folderBadgeGearshape)
+                .font(.body)
+                .foregroundColor(theme.textMuted)
+                .accessibilityHidden(true)
+
+            Text(NSLocalizedString("카테고리", comment: "Category picker label in add screen"))
+                .font(.body)
+                .foregroundColor(theme.text)
+
+            Spacer()
+
+            Menu {
+                Button {
+                    HapticManager.shared.light()
+                    viewModel.selectUserCategory("")
+                } label: {
+                    Label(NSLocalizedString("기본", comment: "Default category (no user category)"),
+                          systemImage: viewModel.userCategory.isEmpty ? AppSymbol.checkmark : "")
+                }
+                ForEach(viewModel.availableUserCategories, id: \.self) { name in
+                    Button {
+                        HapticManager.shared.light()
+                        viewModel.selectUserCategory(name)
+                    } label: {
+                        Label(name, systemImage: viewModel.userCategory == name ? AppSymbol.checkmark : "")
+                    }
+                }
+                Divider()
+                Button {
+                    HapticManager.shared.light()
+                    newCategoryName = ""
+                    showNewCategoryPrompt = true
+                } label: {
+                    Label(NSLocalizedString("새 카테고리", comment: "Create a new category from the add screen"),
+                          systemImage: AppSymbol.plus)
+                }
+            } label: {
+                HStack(spacing: 4) {
+                    Text(viewModel.userCategory.isEmpty
+                         ? NSLocalizedString("기본", comment: "Default category (no user category)")
+                         : viewModel.userCategory)
+                        .font(.body)
+                        .fontWeight(.medium)
+                    Image(systemName: AppSymbol.chevronUpChevronDown)
+                        .font(.caption2)
+                }
+                .foregroundColor(theme.accent)
+            }
+            .accessibilityLabel(NSLocalizedString("카테고리", comment: "Category picker label in add screen"))
+            .accessibilityValue(viewModel.userCategory.isEmpty
+                                ? NSLocalizedString("기본", comment: "Default category (no user category)")
+                                : viewModel.userCategory)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .background(theme.surfaceAlt)
+        .cornerRadius(theme.radiusMd)
+    }
+
     private var additionalOptionsSection: some View {
         VStack(spacing: 12) {
             ToggleOptionRow(
@@ -550,6 +646,11 @@ struct MemoAdd: View {
                 )
             )
 
+            // 키보드가 스스로 배운 캐럿 자리. **배운 게 있을 때만** 나타난다.
+            // 아무것도 안 배웠을 때도 자리를 차지하면, 조용히 해 주려던 것이
+            // 설정 항목 하나로 바뀐다.
+            cursorMemoryRow
+
             // "템플릿으로 만들기"로 들어온 경우 - 원본 단축어를 남길지 선택.
             // 끄면 저장할 때 원본이 함께 삭제된다(비슷한 단축어 중복 방지).
             if templateSourceMemoId != nil {
@@ -565,23 +666,55 @@ struct MemoAdd: View {
         }
     }
 
+    /// 알림 제목 - 줄 수를 그대로 말한다. "여러 개"보다 "12개"가 훨씬 잘 와닿는다.
+    private var splitOfferTitle: String {
+        String(format: NSLocalizedString("줄이 %d개네요. 하나씩 나눠 담을까요?",
+                                         comment: "Ask whether to split a pasted multi-line text into separate snippets"),
+               splitOfferLineCount ?? 0)
+    }
+
+    /// 한꺼번에 크게 늘어난 글이 목록처럼 생겼으면 묻는다.
+    ///
+    /// ⚠️ 손으로 친 것과 붙여넣은 것을 글자 수가 뛴 폭으로 가른다. 타이핑은 한 글자씩 는다.
+    /// ⚠️ 이미 물었으면 다시 묻지 않고, 편집 중인 단축어에서는 아예 묻지 않는다
+    ///    (있던 글을 나누자고 하는 건 다른 이야기다).
+    private func offerSplitIfPastedList(from oldValue: String, to newValue: String) {
+        guard !didOfferSplit, viewModel.editingMemo == nil else { return }
+        guard newValue.count - oldValue.count >= 20 else { return }
+        guard let lines = BulkImportNudge.splittableLineCount(in: newValue) else { return }
+        didOfferSplit = true
+        splitOfferLineCount = lines
+    }
+
+    /// 배운 캐럿 자리를 보여주고 끄는 자리. 배운 게 있을 때만 나타난다.
+    @ViewBuilder
+    private var cursorMemoryRow: some View {
+        if let memo = viewModel.editingMemo, CursorMemory.hasSwitch(for: memo.id) {
+            CursorMemoryToggleRow(memoId: memo.id)
+        }
+    }
+
     /// "내용 더 넣기" - 붙여넣을 내용을 이어 더하면 자동으로 콤보가 된다(본문=1단계, 아래 칸=2단계~).
     /// 내용 입력칸 바로 아래에 배치. 이미지가 첨부돼 있어도 값을 더 넣을 수 있다(이미지+여러 값 허용).
     private var continuationsSection: some View {
             VStack(alignment: .leading, spacing: 10) {
-                ForEach(viewModel.continuations.indices, id: \.self) { idx in
+                // ⚠️ 인덱스가 아니라 **단계 자체**를 돌린다. 인덱스로 돌면서 배열에 바인딩을 걸면
+                //    한 칸을 지우는 순간 옛 인덱스로 바인딩을 한 번 더 읽어 앱이 죽는다
+                //    (`ContinuationStep` 머리말 참고). 번호만 지금 자리에서 세어 보여 준다.
+                ForEach($viewModel.continuations) { $step in
+                    let number = (viewModel.continuations.firstIndex(of: step) ?? 0) + 2
                     HStack(spacing: 8) {
-                        Text("\(idx + 2).")
+                        Text("\(number).")
                             .font(.system(.callout, design: .monospaced))
                             .foregroundColor(theme.textFaint)
                         TextField(NSLocalizedString("이어서 입력할 내용", comment: "Continuation field placeholder"),
-                                  text: $viewModel.continuations[idx], axis: .vertical)
+                                  text: $step.text, axis: .vertical)
                             .textFieldStyle(.roundedBorder)
                             // 본문 편집기와 동일 - 붙여넣을 원문이라 자동 대문자/수정 금지.
                             .textInputAutocapitalization(.never)
                             .autocorrectionDisabled()
                         Button {
-                            viewModel.removeContinuation(at: idx)
+                            viewModel.removeContinuation(id: step.id)
                         } label: {
                             Image(systemName: AppSymbol.minusCircleFill)
                                 .foregroundColor(theme.textFaint)
@@ -644,7 +777,7 @@ struct MemoAdd: View {
             }
             .sheet(isPresented: $showComboImport) {
                 ComboImportSheet { values in
-                    viewModel.continuations.append(contentsOf: values)
+                    viewModel.continuations.append(contentsOf: values.map(ContinuationStep.init(text:)))
                 }
             }
     }
@@ -669,9 +802,16 @@ struct MemoAdd: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
 
-                // 빠른 삽입 - 자주 쓰는 토큰을 탭 한 번으로 내용에 추가
+                // 이미 쓰는 빈칸 - 다른 단축어에서 쓰던 것을 그대로 가져다 쓴다.
+                // ⚠️ 권하는 것보다 **먼저** 놓는다. 값이 따라오는 쪽이 먼저 눈에 들어와야
+                //    같은 빈칸을 이름만 다르게 새로 만드는 일이 줄어든다.
+                UsedPlaceholderBar { token in
+                    viewModel.value += token
+                }
+
+                // 자주 쓰는 빈칸 - 아직 아무것도 안 만든 사람에게도 시작할 자리를 준다.
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(NSLocalizedString("빠른 삽입", comment: "Quick insert label"))
+                    Text(NSLocalizedString("자주 쓰는 빈칸", comment: "Suggested placeholders label"))
                         .font(.body)
                         .fontWeight(.semibold)
                         .foregroundColor(theme.textMuted)
@@ -712,16 +852,29 @@ struct MemoAdd: View {
             }
             .padding()
 
-            // 플레이스홀더 값 설정
+            // 빈칸 값 설정
             if !viewModel.detectedPlaceholders.isEmpty {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack(spacing: 8) {
                         Image(systemName: AppSymbol.listBulletRectangle)
                             .font(.body)
                             .foregroundColor(.secondary)
-                        Text(NSLocalizedString("플레이스홀더 값 설정", comment: "Placeholder value settings"))
+                        Text(NSLocalizedString("빈칸 값 설정", comment: "Placeholder value settings"))
                             .font(.body)
                             .fontWeight(.semibold)
+                        Spacer(minLength: 8)
+                        // ⚠️ 여기가 **빈칸을 다루는 그 자리**다. 예전에는 저장해 둔 값을
+                        //    손보려면 이 화면을 저장하고 나가서 설정까지 들어가야 했다.
+                        //    쓰는 자리와 고치는 자리가 멀면 고치지 않고 그냥 쓴다.
+                        Button {
+                            HapticManager.shared.light()
+                            showPlaceholderManagement = true
+                        } label: {
+                            Text(NSLocalizedString("전체 관리", comment: "Manage all placeholder values"))
+                                .font(.footnote.weight(.semibold))
+                                .foregroundColor(.accentColor)
+                        }
+                        .buttonStyle(.plain)
                     }
 
                     ForEach(viewModel.detectedPlaceholders, id: \.self) { placeholder in
@@ -749,19 +902,75 @@ struct MemoAdd: View {
         return memos.filter { $0.isTemplate }
     }
 
-    // 템플릿 변수 버튼
-    @ViewBuilder
+    // MARK: - 쓸 때 채우는 칸 (서랍)
+
     /// 키보드 위에 뜨는 템플릿 변수 옵션 바 - 본문(붙여넣을 내용) 입력 중에만 노출.
     /// 탭하면 커서 위치에 {변수}가 삽입되어 자동으로 템플릿이 된다.
+    ///
+    /// ⚠️ **닫힌 채로 시작한다.** 예전에는 내용 칸에 커서가 닿는 순간 파란 버튼 아홉 개가
+    ///    통째로 올라왔다. 이 화면에 온 사람의 대부분은 그냥 글 한 줄을 적으러 온 것이라,
+    ///    그 줄은 도움이 아니라 **"이걸 다 골라야 하나"** 라는 물음이 됐다.
+    ///
+    /// ⚠️ 그래도 **줄 자체는 남긴다.** 통째로 감추면 빈칸이라는 기능이 있다는 것을
+    ///    아무도 모르게 된다(그 줄을 처음 넣은 이유가 그것이다). 접힌 손잡이 한 줄이
+    ///    "여기 뭔가 더 있다"를 말하고, 펴는 것은 그 사람이 정한다.
     private var variableTokenBar: some View {
+        VStack(spacing: 0) {
+            tokenBarHandle
+            if tokenBarExpanded {
+                tokenBarRow
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+        }
+        .clipped()   // 접힐 때 아래로 미끄러지는 줄이 손잡이 위로 삐져나오지 않게
+    }
+
+    /// 접었다 펴는 손잡이 한 줄.
+    ///
+    /// ⚠️ 여는 방법을 **글로 적는다.** 화살표만 두면 그게 무엇을 펴는 것인지 모른다.
+    ///    닫혀 있을 때는 무엇이 들어 있는지도 한 줄로 일러 준다.
+    private var tokenBarHandle: some View {
+        Button {
+            HapticManager.shared.light()
+            withAnimation(.easeInOut(duration: 0.22)) { tokenBarExpanded.toggle() }
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: AppSymbol.curlybraces)
+                    .font(.footnote.weight(.semibold))
+                    .foregroundColor(.accentColor)
+                Text(NSLocalizedString("쓸 때 채우는 칸", comment: "Fill-in field label prefix for token bar"))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(theme.text)
+                if !tokenBarExpanded {
+                    Text(NSLocalizedString("이름·날짜처럼 쓸 때마다 달라지는 자리",
+                                           comment: "Fill-in field drawer: collapsed subtitle"))
+                        .font(.caption)
+                        .foregroundColor(theme.textFaint)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                }
+                Spacer(minLength: 8)
+                Image(systemName: tokenBarExpanded ? AppSymbol.chevronDown : AppSymbol.chevronUp)
+                    .font(.footnote.weight(.semibold))
+                    .foregroundColor(theme.textMuted)
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(NSLocalizedString("쓸 때 채우는 칸", comment: "Fill-in field label prefix for token bar"))
+        .accessibilityHint(tokenBarExpanded
+            ? NSLocalizedString("접으려면 두 번 탭하세요", comment: "Fill-in field drawer: collapse hint")
+            : NSLocalizedString("펼치려면 두 번 탭하세요", comment: "Fill-in field drawer: expand hint"))
+        .accessibilityAddTraits(.isButton)
+    }
+
+    // 템플릿 변수 버튼
+    @ViewBuilder
+    private var tokenBarRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                // 이 버튼들은 "고정 텍스트"가 아니라 "쓸 때마다 채우는 칸"을 넣는다는 걸 명시.
-                Text(NSLocalizedString("쓸 때 채우는 칸", comment: "Fill-in field label prefix for token bar"))
-                    .font(.caption)
-                    .foregroundColor(theme.textFaint)
-                    .fixedSize()
-                Divider().frame(height: 16)
                 // 삽입되는 토큰도 로케일에 맞춘다 (영어는 {amount} 등). 프로세서가 양쪽 인식.
                 templateButton(title: NSLocalizedString("금액", comment: "Amount token button"), variable: NSLocalizedString("{금액}", comment: "Amount token variable"))
                 templateButton(title: NSLocalizedString("수량", comment: "Quantity token button"), variable: NSLocalizedString("{수량}", comment: "Quantity token variable"))
@@ -781,7 +990,7 @@ struct MemoAdd: View {
             }
             .padding(.horizontal, 20)
         }
-        .padding(.vertical, 8)
+        .padding(.bottom, 8)
     }
 
     private func templateButton(title: String, variable: String) -> some View {
@@ -800,7 +1009,7 @@ struct MemoAdd: View {
                 .cornerRadius(theme.radiusSm)
         }
         .accessibilityLabel(title)
-        .accessibilityHint(NSLocalizedString("탭하면 커서 위치에 변수가 삽입됩니다", comment: "Template variable button hint"))
+        .accessibilityHint(NSLocalizedString("탭하면 커서 자리에 빈칸이 들어갑니다", comment: "Template variable button hint"))
     }
 
     private func quickInsertToken(_ token: String, isNumeric: Bool) -> some View {

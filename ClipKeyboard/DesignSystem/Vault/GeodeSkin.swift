@@ -52,13 +52,6 @@ enum GeodeStage: Int, CaseIterable {
     }
 }
 
-/// 지금까지 캔 보석 수. 문구별 사용 횟수에서 그대로 나온다 - 따로 저장하지 않는다.
-enum GeodeLedger {
-    static func gems(from memos: [Memo]) -> Int {
-        memos.reduce(0) { $0 + $1.clipCount / 3 }
-    }
-}
-
 // MARK: - 보석
 
 /// 캐낸 보석 하나. 일러스트와 같은 납작한 결정 모양.

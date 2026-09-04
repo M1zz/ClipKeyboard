@@ -55,7 +55,7 @@ struct TemplateEditSheet: View {
             ScrollView {
                 VStack(spacing: 20) {
                     // 템플릿을 탭해 처음 열었을 때 채우는 방법 안내
-                    TipView(templateInfoTip)
+                    AnimatedTip(tip: templateInfoTip) { TipView(templateInfoTip) }
 
                     templateOriginalSection
                     if !customPlaceholders.isEmpty || !autoVarsInTemplate.isEmpty {
@@ -138,7 +138,7 @@ struct TemplateEditSheet: View {
                     .accessibilityLabel(NSLocalizedString("템플릿 내용 편집", comment: "Template content editor label"))
                     .accessibilityHint(NSLocalizedString("내용을 수정 후 완료를 눌러 저장합니다", comment: "Template editor hint"))
             } else {
-                Text(memo.value.templateChipAttributed(theme: theme))
+                Text(memo.value.templateAwareAttributed(theme: theme))
                     .font(.body)
                     .padding(12)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -154,7 +154,7 @@ struct TemplateEditSheet: View {
             VStack(spacing: 8) {
                 Image(systemName: AppSymbol.checkmarkCircleFill)
                     .font(.system(size: 30))
-                    .foregroundColor(.green)
+                    .foregroundColor(Color.checkGreen)
                 Text(NSLocalizedString("설정할 값이 없습니다", comment: "No values to set"))
                     .font(.body)
                     .fontWeight(.semibold)
@@ -284,7 +284,7 @@ struct TemplateEditSheet: View {
                 .font(.body)
                 .fontWeight(.semibold)
                 .foregroundColor(theme.textMuted)
-            Text(previewText.templateChipAttributed(theme: theme))
+            Text(previewText.templateAwareAttributed(theme: theme))
                 .font(.body)
                 .padding(12)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -307,17 +307,37 @@ struct TemplateEditSheet: View {
         }
     }
 
+    /// 방금 채운 값을 다음에도 쓸 수 있게 남긴다.
+    ///
+    /// ⚠️ **공용 저장소(`placeholder_values_{이름}`)가 본진이다.** 앱의 빈칸 관리와 입력 화면,
+    ///    그리고 키보드가 모두 그곳을 본다. 예전에는 여기서 단축어에 붙은 사본만 적어서,
+    ///    이 화면에서 채운 값이 다른 어느 화면에도 나타나지 않았다.
+    ///
+    /// ⚠️ 사본을 **통째로 덮어쓰지 않는다.** 예전에는 `= placeholderInputs` 로 갈아치워서
+    ///    그 단축어에 붙어 있던 다른 빈칸의 값이 조용히 사라졌다.
     private func savePlaceholderInputsToMemo() {
+        let filled = placeholderInputs.filter { !$0.value.trimmingCharacters(in: .whitespaces).isEmpty }
+        guard !filled.isEmpty else { return }
+
+        // 본진에 먼저
+        for (placeholder, value) in filled {
+            MemoStore.shared.addPlaceholderValue(value,
+                                                 for: placeholder,
+                                                 sourceMemoId: memo.id,
+                                                 sourceMemoTitle: memo.title)
+        }
+
+        // 사본은 덧쓰기만 (옛 키보드 데이터 호환)
         do {
             var memos = try MemoStore.shared.load(type: .memo)
             guard let index = memos.firstIndex(where: { $0.id == memo.id }) else { return }
-            memos[index].placeholderValues = placeholderInputs
-                .filter { !$0.value.isEmpty }
-                .mapValues { [$0] }
+            for (placeholder, value) in filled {
+                memos[index].placeholderValues[placeholder] = [value]
+            }
             try MemoStore.shared.save(memos: memos, type: .memo)
         } catch {
-            // 플레이스홀더 값 저장 실패는 치명적이지 않음(복사 기능 자체는 계속 동작) - 로그만 남김
-            print("⚠️ [TemplateEditSheet.savePlaceholderInputsToMemo] 플레이스홀더 값 저장 실패: \(error)")
+            // 공용 저장소에는 이미 들어갔다. 사본 저장 실패로 되돌리지 않는다.
+            print("⚠️ [TemplateEditSheet.savePlaceholderInputsToMemo] 사본 저장 실패: \(error)")
         }
     }
 }

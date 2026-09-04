@@ -296,7 +296,8 @@ struct UsageTrendChartView_Previews: PreviewProvider {
             return (0..<(dayOffset % 5 + 1)).map { index in
                 UsageReportingService.EventSample(name: "memo_created",
                                                   installID: "install-\((dayOffset + index) % 7)",
-                                                  date: date)
+                                                  date: date,
+                                                  createdAt: date)
             }
         }
     }

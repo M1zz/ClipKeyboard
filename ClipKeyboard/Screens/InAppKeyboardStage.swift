@@ -22,8 +22,32 @@ import LeeoKit
 struct InAppKeyboardStage: View {
     /// 튜토리얼이 가리키는 키 - 방금 만든 문구. 누르면 첫 걸음이 끝난다.
     var highlightedMemoId: UUID? = nil
+    /// 가리키는 키가 콤보라면 **그 키의 어느 쪽**인가(왼쪽=값 넣기 · 오른쪽=다음 값).
+    /// nil 이면 키캡이 통째로 인다(보통 키).
+    var highlightedComboPart: KeyboardView.ComboKeyPart? = nil
     /// 가리키는 동안 대화 위에 얹을 안내 한 줄. 장마다 다르다(`TutorialChapter.coachLine`).
     var tutorialLine: String? = nil
+    /// 마지막 걸음 - **직접 하나 만들어 보라고** 권하는 중인가. 머리말의 + 를 가리킨다.
+    var asksToMakeOwn: Bool = false
+    /// "나중에 할게요" - 이 걸음을 미룬다.
+    var onMakeOwnSkipped: () -> Void = {}
+    /// 넣기까지 했고 이제 **보내기만 남았는가.** 그러면 보내기 동그라미에 파형이 인다.
+    ///
+    /// ⚠️ 이 걸음이 없던 동안, 키를 누르면 글이 들어가는 것까지만 보고 끝났다.
+    ///    그런데 이 무대의 이야기는 "눌러서 넣고 → 보낸다" 한 바퀴이고, 보내야
+    ///    말풍선이 올라가 **넣은 것이 어디로 가는지**가 보인다.
+    var highlightsSend: Bool = false
+    /// 콤보 장의 마지막 걸음 - **무엇을 본 것인지 한 번 짚는** 카드를 띄운다.
+    ///
+    /// ⚠️ 두 번 보내 놓고 그냥 지나가면 "두 번 눌렀다"만 남는다. 콤보가 값을 여러 개
+    ///    갖고 있다는 것은 두 말풍선을 **나란히 놓고 짚어 줘야** 뜻이 된다.
+    var awaitsComboConfirm: Bool = false
+    /// 그 카드의 "확인했어요".
+    var onComboConfirmed: () -> Void = {}
+    /// 목록 ↔ 키보드를 오가는 법을 지금 짚어 주는가(다 배운 뒤 한 번).
+    var showsSwitchHint: Bool = false
+    /// 그 안내를 봤다 - 다시는 안 나온다.
+    var onSwitchHintSeen: () -> Void = {}
 
     /// 지금 어느 화면을 보고 있는가 - 머리말의 전환 버튼이 이 값을 뒤집는다.
     /// 목록 쪽에도 **같은 버튼**이 얹혀 있어 어느 쪽에서든 왔다갔다 할 수 있다.
@@ -36,10 +60,28 @@ struct InAppKeyboardStage: View {
     ///    키보드를 다시 만들었는데, 그게 화면이 들어오는 도중에 일어나 **전환이 한 번 튀었다**
     ///    (목록 → 미리보기 방향만 이상했던 이유 - 반대 방향엔 다시 만들 일이 없다).
     ///    뷰가 만들어지는 시점에 미리 읽어 두면 등장할 때는 그릴 것이 이미 준비돼 있다.
-    init(styleRaw: Binding<String>, highlightedMemoId: UUID? = nil, tutorialLine: String? = nil) {
+    init(styleRaw: Binding<String>,
+         highlightedMemoId: UUID? = nil,
+         highlightedComboPart: KeyboardView.ComboKeyPart? = nil,
+         tutorialLine: String? = nil,
+         asksToMakeOwn: Bool = false,
+         onMakeOwnSkipped: @escaping () -> Void = {},
+         highlightsSend: Bool = false,
+         awaitsComboConfirm: Bool = false,
+         onComboConfirmed: @escaping () -> Void = {},
+         showsSwitchHint: Bool = false,
+         onSwitchHintSeen: @escaping () -> Void = {}) {
         self._styleRaw = styleRaw
         self.highlightedMemoId = highlightedMemoId
+        self.highlightedComboPart = highlightedComboPart
         self.tutorialLine = tutorialLine
+        self.asksToMakeOwn = asksToMakeOwn
+        self.onMakeOwnSkipped = onMakeOwnSkipped
+        self.highlightsSend = highlightsSend
+        self.awaitsComboConfirm = awaitsComboConfirm
+        self.onComboConfirmed = onComboConfirmed
+        self.showsSwitchHint = showsSwitchHint
+        self.onSwitchHintSeen = onSwitchHintSeen
         // ⚠️ **비어 있을 때만** 읽는다. init 은 부모가 다시 그릴 때마다 도는데,
         //    매번 파일을 읽으면 글자 하나 칠 때마다 디스크를 두드리게 된다.
         //    그 뒤의 갱신은 onAppear·문구 변경 알림이 맡는다.
@@ -49,6 +91,7 @@ struct InAppKeyboardStage: View {
 
     @StateObject private var host = InAppKeyboardHost()
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     /// 문구 목록이 바뀔 때마다 올린다 - `KeyboardView`는 등장할 때 한 번만 목록을 읽으므로
     /// (익스텐션에서는 키보드가 뜰 때마다 새 프로세스라 그걸로 충분했다),
@@ -59,14 +102,52 @@ struct InAppKeyboardStage: View {
     @State private var showsKeyboardSetup = false
     /// 새 단축어 만들기 시트.
     @State private var showsAddMemo = false
-    /// 악어 얼굴을 눌러 연 도움말. 무엇을 도와줄지 묻고 갈 곳을 알려 준다.
-    @State private var showsMascotHelp = false
-    /// 얼굴에 붙는 물음표 - **한 번 열어 보면 사라진다.** 누를 수 있다는 걸 모르면
-    /// 도움이 있어도 없는 것과 같지만, 알고 난 뒤에도 계속 붙어 있으면 잔소리다.
-    @AppStorage(DefaultsKey.mascotHelpSeen, store: AppGroup.defaults)
-    private var mascotHelpSeen: Bool = false
+    /// 잠금 번호 만들기 화면.
+    @State private var showsSecurePINSetup = false
     /// 이 무대를 볼 때마다 다시 확인한다 - 설정에서 켜고 돌아오면 띠가 사라져야 한다.
-    @State private var keyboardReady = true
+    /// 키보드가 켜져 있는가.
+    ///
+    /// ⚠️ **처음부터 맞는 값으로 시작한다.** 예전에는 `true` 로 두고 `onAppear` 에서
+    ///    고쳤는데, 무대가 올라오는 도중에 값이 뒤집히면서 안내 띠가 그제야 생겼다.
+    ///    띠가 자리를 차지하는 만큼 머리말과 말풍선이 밀려, 올라오는 무대 안에서
+    ///    요소들이 서로 겹친 채 도착했다(실측). 실려 오는 것은 이미 다 그려져 있어야 한다.
+    @State private var keyboardReady = KeyboardInstallState.isUsable
+
+    /// 켜기 띠를 **언제부터** 띄울지 가르는 값들(`KeyboardSetupBannerGate`).
+    /// 튜토리얼을 막 끝낸 자리에서 곧바로 "아직 못 쓴다"가 뜨지 않게 한 호흡 쉰다.
+    @AppStorage(DefaultsKey.startedFreshV444) private var startedFresh: Bool = false
+    @AppStorage(DefaultsKey.tutorialFinishedAt) private var tutorialFinishedAt: Double = 0
+    @AppStorage(DefaultsKey.tutorialFinishedAtLaunch) private var tutorialFinishedAtLaunch: Int = 0
+    @AppStorage(DefaultsKey.tutorialSwitchHintSeen) private var switchHintSeen: Bool = false
+
+    /// 머리말 아래 **띠 한 자리**를 이미 다른 안내가 쓰고 있는가.
+    ///
+    /// ⚠️ 여기 오는 것들은 저마다 지금 아니면 안 되는 말이라, 쌓아 올리면 무대가
+    ///    통째로 밀려 내려가고 무엇부터 읽어야 하는지도 알 수 없다. 한 자리에 하나만.
+    private var otherBannerShowing: Bool {
+        showsSwitchHint || asksToMakeOwn || needsSecurePIN
+    }
+
+    /// 안내가 들고 나는 곡선. 무대와 탭바가 **같은 값을 쓴다.**
+    var guidanceAnimation: Animation? {
+        reduceMotion ? nil : Self.guidanceCurve
+    }
+
+    /// 곡선 자체 - 탭바 쪽(`MainTabView`)에서도 이 값을 본다.
+    static let guidanceCurve: Animation = .easeOut(duration: 0.22)
+
+    /// 지금 켜기 띠를 보여줄 자리인가.
+    private var showsKeyboardSetupBanner: Bool {
+        KeyboardSetupBannerGate.shows(
+            keyboardUsable: keyboardReady,
+            startedFresh: startedFresh,
+            finishedAt: tutorialFinishedAt > 0
+                ? Date(timeIntervalSince1970: tutorialFinishedAt) : nil,
+            finishedAtLaunch: tutorialFinishedAtLaunch,
+            launchCount: UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount),
+            otherBannerShowing: otherBannerShowing,
+            switchHintSeen: switchHintSeen)
+    }
 
     /// 아래 키보드가 쓰는 것과 **같은** 배경 설정 - 무대 배경을 거기에 맞춘다.
     ///
@@ -96,10 +177,21 @@ struct InAppKeyboardStage: View {
         GeometryReader { geo in
             VStack(spacing: 0) {
                 stageHeader
+                // 다 배운 사람에게 **여기 화면이 둘이라는 것**을 한 번 짚는다.
+                // 머리말 바로 아래여야 화살표가 가리키는 전환 버튼과 이어져 읽힌다.
+                switchHintCue
+                // 마지막 걸음 - 위의 + 를 가리킨다. 머리말 **바로 아래**여야
+                // 화살표가 가리키는 것이 무엇인지 눈이 바로 안다.
+                makeOwnCue
                 // 여기까지 배웠으면 마지막 한 걸음은 **진짜 키보드를 켜는 것**이다.
                 // 무대에서 아무리 눌러 봐도 다른 앱에서 못 쓰면 아무 일도 일어나지 않는다.
-                if !keyboardReady { keyboardSetupBanner }
+                if showsKeyboardSetupBanner { keyboardSetupBanner }
+                // 잠긴 단축어가 있는데 잠금을 안 만들어 뒀으면, 누르기 **전에** 알린다.
+                if needsSecurePIN { securePINBanner }
                 conversation
+                // 콤보 장의 마지막 - 두 말풍선을 **눈앞에 둔 채로** 무엇을 본 것인지 짚는다.
+                // 대화 바로 아래여야 "저 둘"이 무엇을 가리키는지 눈이 안다.
+                comboConfirmCard
                 composer
                 // ⚠️ 안내는 **가리키는 것 바로 옆**에 둔다. 화면 맨 위에 두었더니 빛나는 키와
                 //    멀어서 둘이 같은 이야기인 줄 몰랐다 - 눈이 글에서 키로 바로 건너가야 한다.
@@ -108,14 +200,29 @@ struct InAppKeyboardStage: View {
                 KeyboardView(typingProxy: host,
                              documentState: host.documentState,
                              hostKind: .inApp,
-                             highlightedMemoId: highlightedMemoId)
+                             highlightedMemoId: highlightedMemoId,
+                             highlightedComboPart: highlightedComboPart)
                     .frame(height: min(max(geo.size.height * 0.5, 260), 430))
                     .id(feedToken)
             }
         }
         .background(stageBackground.ignoresSafeArea())
+        // ⚠️ 안내 하나가 **여러 곳에 동시에** 뜬다 - 띠 하나에 물결 두셋이 딸린다.
+        //    각자 제 시간에 나타나면 같은 이야기가 따로 도착해서, 무엇이 무엇을 가리키는지
+        //    눈이 다시 짝을 지어야 한다. 같은 값에 같은 곡선을 걸어 **한 번에** 들고 난다.
+        //    (탭바 물결은 `MainTabView` 가 그리지만 같은 곡선을 쓴다)
+        .animation(guidanceAnimation, value: showsSwitchHint)
+        .animation(guidanceAnimation, value: asksToMakeOwn)
+        .animation(guidanceAnimation, value: showsKeyboardSetupBanner)
+        .animation(guidanceAnimation, value: needsSecurePIN)
         .onAppear {
-            reloadFeed()
+            // ⚠️ **여기서 키보드를 다시 만들지 않는다.** 무대는 목록 위로 미끄러져 올라오는데
+            //    (`SnippetsTab.stageTransition`), 그 도중에 `feedToken` 이 올라가면
+            //    `KeyboardView` 만 새 뷰로 갈려 **제자리에 툭 나타난다.** 나머지는 아직
+            //    올라오는 중이라, 키만 먼저 도착해 머리말·말풍선과 겹친 그림이 된다(실측).
+            //    올릴 것은 init 에서 이미 읽어 두었으므로(위 init 주석), 여기서는
+            //    다음 판단의 기준만 맞춰 두면 된다.
+            syncFeedIds()
             refreshKeyboardReady()
             refreshClipboardImage()
         }
@@ -131,6 +238,14 @@ struct InAppKeyboardStage: View {
         .onReceive(NotificationCenter.default.publisher(for: .addImageEntry)) { _ in
             refreshClipboardImage()
         }
+        // 무대에서 "한 번에 옮기기"를 누르면 목록으로 건너가 그 화면이 열린다
+        // (대량 가져오기는 목록이 들고 있는 시트다).
+        .onReceive(NotificationCenter.default.publisher(for: .openBulkImport)) { _ in
+            styleRaw = SnippetsTabStyle.list.rawValue
+        }
+        .sheet(isPresented: $showsSecurePINSetup, onDismiss: reloadFeed) {
+            NavigationStack { SecurePINSettings() }
+        }
         .fullScreenCover(isPresented: $showsKeyboardSetup, onDismiss: refreshKeyboardReady) {
             KeyboardSetupOnboardingView { showsKeyboardSetup = false }
         }
@@ -139,9 +254,6 @@ struct InAppKeyboardStage: View {
             reloadFeed()
         }
         // 만들고 나면 무대의 키보드에 바로 그 키가 있어야 한다 - 닫힐 때 다시 읽는다.
-        .sheet(isPresented: $showsMascotHelp) {
-            MascotHelpSheet()
-        }
         .sheet(isPresented: $showsAddMemo, onDismiss: reloadFeed) {
             NavigationStack {
                 MemoAdd(insertedCategory: "텍스트")
@@ -158,12 +270,27 @@ struct InAppKeyboardStage: View {
     ///
     /// ⚠️ **바뀐 게 없으면 키보드를 다시 만들지 않는다.** 다시 만들면 그 순간 화면이 튀고,
     ///    검색어·콤보 위치 같은 그때그때의 상태도 함께 날아간다.
+    ///
+    /// ⚠️ 순서만 달라진 것은 **바뀐 것으로 치지 않는다.** 문구를 한 번 쓰면 `lastEdited` 가
+    ///    갱신되어 목록 순서가 바뀌는데, 그걸 변화로 보면 **누를 때마다 키보드가 통째로
+    ///    다시 만들어졌다.** 그 순간 방금 시작한 연출(껍데기 깨기)이 함께 사라졌고,
+    ///    무엇보다 방금 누른 키가 손가락 밑에서 다른 자리로 튀었다.
+    ///    있고 없고가 달라졌을 때만 다시 만든다.
     private func reloadFeed() {
         KeyboardMemoFeed.reload()
         let ids = clipMemos.map(\.id)
-        guard ids != loadedIds else { return }
+        guard Set(ids) != Set(loadedIds) else {
+            loadedIds = ids     // 순서는 조용히 따라간다(다음 판단의 기준이 되게)
+            return
+        }
         loadedIds = ids
         feedToken += 1
+    }
+
+    /// 키보드를 **다시 만들지 않고** 기준만 맞춘다 - 무대가 올라오는 동안 쓰는 길.
+    private func syncFeedIds() {
+        KeyboardMemoFeed.reload()
+        loadedIds = clipMemos.map(\.id)
     }
 
     /// 진짜 키보드를 쓸 수 있는 상태인가 - 판단은 `KeyboardInstallState` 한 곳에서만 한다.
@@ -214,6 +341,55 @@ struct InAppKeyboardStage: View {
         .background(Color.accentColor.opacity(0.10))
     }
 
+    /// 잠긴 단축어가 있는데 **PIN 이 없다.**
+    ///
+    /// ⚠️ 예전에는 그 키를 누른 **뒤에야** 토스트로 알렸다. 잠긴 단축어는 계좌번호나
+    ///    주민등록번호처럼 급할 때 꺼내는 것이라, 정작 필요한 순간에 "설정이 안 됐다"를
+    ///    처음 듣게 된다. 그때는 이미 늦었다.
+    ///
+    /// ⚠️ 잠긴 단축어가 **하나도 없으면 띄우지 않는다.** 쓰지도 않는 기능을 설정하라고
+    ///    조르는 것은 안내가 아니다.
+    private var needsSecurePIN: Bool {
+        guard clipMemos.contains(where: { $0.isSecure }) else { return false }
+        let hash = AppGroup.defaults?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
+        return hash.isEmpty
+    }
+
+    private var securePINBanner: some View {
+        Button {
+            HapticManager.shared.light()
+            showsSecurePINSetup = true
+        } label: {
+            HStack(spacing: 10) {
+                Image(systemName: AppSymbol.lockShield)
+                    .font(.title3)
+                    .foregroundColor(theme.warn)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(NSLocalizedString("잠긴 단축어를 열 수 없어요", comment: "Secure PIN missing banner title"))
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(theme.text)
+                    Text(NSLocalizedString("잠금 번호를 아직 안 만드셨어요. 만들어야 키보드에서 꺼낼 수 있어요.",
+                                           comment: "Secure PIN missing banner body"))
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 0)
+                Text(NSLocalizedString("만들기", comment: "Create the secure PIN"))
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(Color.accentForeground)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 7)
+                    .background(Capsule().fill(Color.accentColor))
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .background(theme.warn.opacity(0.12))
+    }
+
     // MARK: - 머리말
 
     /// 제목 하나에 갈 곳 둘 - **목록**(있는 걸 고치러)과 **+**(새로 만들러).
@@ -236,7 +412,9 @@ struct InAppKeyboardStage: View {
                 .minimumScaleFactor(0.8)
                 .accessibilityAddTraits(.isHeader)
             Spacer(minLength: 0)
-            SnippetsStyleSwitchButton(styleRaw: $styleRaw)
+            // 화면이 둘이라는 안내가 떠 있는 동안 **이 버튼이 빛난다.** 안내가 가리키는
+            // "위의 버튼"이 셋 중 어느 것인지 글만으로는 못 짚는다.
+            SnippetsStyleSwitchButton(styleRaw: $styleRaw, highlighted: showsSwitchHint)
             Button {
                 HapticManager.shared.light()
                 showsAddMemo = true
@@ -251,6 +429,13 @@ struct InAppKeyboardStage: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel(NSLocalizedString("단축어 추가", comment: "Add a snippet"))
+            // 마지막 걸음 - 화살표와 글이 "위의 +" 라고 말하는데, 정작 그 + 는
+            // 가만히 있었다. 가리키는 말과 가리켜지는 것이 같은 언어를 써야 한다.
+            .overlay {
+                if asksToMakeOwn {
+                    KeyRipple(shape: Circle(), color: theme.accent, reach: 9)
+                }
+            }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
@@ -260,13 +445,187 @@ struct InAppKeyboardStage: View {
         }
     }
 
+    /// 직접 만들어 보라는 마지막 안내 - **위의 + 를 가리킨다.**
+    ///
+    /// ⚠️ 이 걸음이 없던 동안, 콤보를 눌러 본 사람은 거기서 튜토리얼이 끝났다. 셋을
+    ///    눌러 본 것으로 끝나고 **자기 것은 하나도 없는 채로** 남았다. 눌러 보는 것과
+    ///    갖는 것은 다르고, 이 앱은 자기 것이 하나라도 있어야 다시 열린다.
+    ///
+    /// ⚠️ 미루는 길을 연다. 지금 넣을 것이 떠오르지 않는 사람도 있고, 그 사람을
+    ///    빈 칸 앞에 붙잡아 두면 앱을 닫는 것으로 끝난다.
+    @ViewBuilder
+    private var makeOwnCue: some View {
+        if asksToMakeOwn {
+            VStack(spacing: 6) {
+                HStack(spacing: 8) {
+                    // 위를 가리킨다 - 누를 곳이 머리말에 있다.
+                    Image(systemName: "arrow.up")
+                        .font(.caption.weight(.bold))
+                    Text(NSLocalizedString("이제 직접 하나 만들어 보세요. 위의 + 를 누르면 돼요.",
+                                           comment: "Make-own cue on the stage"))
+                        .font(.subheadline.weight(.bold))
+                        .fixedSize(horizontal: false, vertical: true)
+                        .multilineTextAlignment(.leading)
+                    Spacer(minLength: 0)
+                }
+                HStack(spacing: 14) {
+                    // ⚠️ **여기서 한 번에 옮기는 길을 같이 연다.** 이 앱을 쓰기 시작할지
+                    //    말지는 대개 "여태 딴 데 적어 둔 걸 어떻게 옮기지"에서 갈린다.
+                    //    하나씩 만들라고만 하면 그 사람은 하나도 안 옮기고 앱을 닫는다.
+                    //
+                    // ⚠️ 이 길로 담아도 이 걸음은 끝난다. 자기 단축어가 생겼는지만 보므로
+                    //    (`completeMakeOwnIfMadeSomething`) 어느 길로 왔는지는 묻지 않는다.
+                    Button {
+                        HapticManager.shared.light()
+                        NotificationCenter.postOnMain(name: .openBulkImport, object: nil)
+                    } label: {
+                        Text(NSLocalizedString("여러 개를 한 번에 옮기기", comment: "Make-own cue: bulk import"))
+                            .font(.footnote.weight(.semibold))
+                            .underline()
+                    }
+                    .buttonStyle(.plain)
+                    Spacer(minLength: 0)
+                    Button(action: onMakeOwnSkipped) {
+                        Text(NSLocalizedString("나중에 할게요", comment: "Make-own cue: skip"))
+                            .font(.footnote.weight(.semibold))
+                            .underline()
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .foregroundColor(Color.accentForeground)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 11)
+            .frame(maxWidth: .infinity)
+            .background(Color.accentColor)
+            .transition(.opacity)
+        }
+    }
+
+    // MARK: - 이 탭에는 화면이 둘이다
+
+    /// 목록 ↔ 키보드를 오가는 법 - **다 배운 뒤에 한 번만.**
+    ///
+    /// ⚠️ 이 앱의 단축어 탭은 화면이 둘인데(카드 목록 · 키보드 무대) 그걸 아무도 안 알려
+    ///    줬다. 무대에서 시작한 사람은 자기 목록이 어디 있는지 모르고, 목록에서 시작한
+    ///    사람은 무대를 아예 못 본다. 만들 곳과 쓸 곳이 갈려 있는 앱에서 이건 반쪽을 잃는 일이다.
+    ///
+    /// ⚠️ **두 길을 같이 적는다.** 머리말의 버튼과 아래 탭을 한 번 더 누르는 것 - 둘 다
+    ///    같은 일을 한다(`SnippetsTabStyle.toggled`). 하나만 알려 주면 나머지 하나는
+    ///    누를 때마다 "왜 화면이 바뀌지"가 된다.
+    @ViewBuilder
+    private var switchHintCue: some View {
+        if showsSwitchHint {
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 8) {
+                    // 위를 가리킨다 - 누를 버튼이 머리말에 있다.
+                    Image(systemName: "arrow.up")
+                        .font(.caption.weight(.bold))
+                    Text(NSLocalizedString("이 탭에는 화면이 둘이에요",
+                                           comment: "Switch hint: headline"))
+                        .font(.subheadline.weight(.bold))
+                    Spacer(minLength: 0)
+                    Button(action: onSwitchHintSeen) {
+                        Text(NSLocalizedString("알겠어요", comment: "Switch hint: dismiss"))
+                            .font(.footnote.weight(.bold))
+                            .underline()
+                    }
+                    .buttonStyle(.plain)
+                }
+                Text(NSLocalizedString("위의 버튼을 누르면 카드 목록으로 갑니다. 만들고 고치는 건 거기서 해요. 아래 키보드 탭을 한 번 더 눌러도 같은 곳을 오갑니다.",
+                                       comment: "Switch hint: body"))
+                    .font(.footnote)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.leading)
+            }
+            .foregroundColor(Color.accentForeground)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 11)
+            .frame(maxWidth: .infinity)
+            .background(Color.accentColor)
+            .transition(.opacity)
+        }
+    }
+
+    // MARK: - 콤보를 다 본 뒤
+
+    /// "서로 다른 값 두 개가 들어갔어요" - 콤보 장의 마지막 걸음.
+    ///
+    /// ⚠️ 시트가 아니라 **무대 위의 카드**다. 시트로 띄우면 방금 올라온 두 말풍선이 가려져,
+    ///    무엇이 서로 다르다는 건지 확인할 길이 사라진다. 짚어 주는 글은 짚어지는 것과
+    ///    같은 화면에 있어야 한다.
+    @ViewBuilder
+    private var comboConfirmCard: some View {
+        if awaitsComboConfirm {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 8) {
+                    Image(systemName: AppSymbol.checkmarkSealFill)
+                        .font(.subheadline.weight(.semibold))
+                    Text(NSLocalizedString("서로 다른 값 두 개가 들어갔어요",
+                                           comment: "Combo step: confirmation headline"))
+                        .font(.subheadline.weight(.bold))
+                    Spacer(minLength: 0)
+                }
+                Text(NSLocalizedString("콤보 하나에 값을 여러 개 담아 두고, 오른쪽 → 로 골라 쓰는 거예요. 계좌를 여러 개 쓰거나, 같은 안내를 이름만 바꿔 보낼 때 편합니다.",
+                                       comment: "Combo step: confirmation body"))
+                    .font(.footnote)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.leading)
+                Button(action: onComboConfirmed) {
+                    Text(NSLocalizedString("확인했어요", comment: "Combo step: confirm button"))
+                        .font(.subheadline.weight(.bold))
+                        .foregroundColor(Color.accentColor)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 9)
+                        .background(Capsule().fill(Color.accentForeground))
+                }
+                .buttonStyle(.plain)
+            }
+            .foregroundColor(Color.accentForeground)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .frame(maxWidth: .infinity)
+            .background(Color.accentColor)
+            .transition(.opacity)
+        }
+    }
+
     // MARK: - 대화
 
     /// 튜토리얼이 가리키는 중이면 대화 위에 한 줄 더 얹는다 - 무엇을 하라는 건지
     /// 빛만으로는 모를 수 있다. 빛은 **어디**를, 이 줄은 **무엇을** 알려 준다.
+    ///
+    /// ⚠️ 안내 문구는 **가진 것이 있으면 그것을 쓴다**(`tutorialLine`). 콤보 장은 걸음이
+    ///    다섯이라 보내는 자리에서도 할 말이 걸음마다 다르다("보내기를 눌러 올려보세요" /
+    ///    "한 번 더 보내볼까요?"). 여기에 문구를 못박아 두면 그 다섯이 전부 같은 말이 된다.
+    ///
+    /// ⚠️ 짚어 주는 카드가 떠 있으면 이 줄은 물러난다 - 한 화면에서 두 곳이 동시에
+    ///    말을 걸면 어느 쪽을 따라야 하는지 알 수 없다.
     @ViewBuilder
     private var tutorialCue: some View {
-        if highlightedMemoId != nil {
+        if awaitsComboConfirm {
+            EmptyView()
+        } else if highlightsSend {
+            HStack(spacing: 8) {
+                Spacer(minLength: 0)
+                Image(systemName: "arrow.up.circle.fill")
+                    .font(.subheadline.weight(.semibold))
+                Text(tutorialLine
+                     ?? NSLocalizedString("들어갔어요. 이제 보내기를 눌러 보세요.",
+                                          comment: "Tutorial cue: press send"))
+                    .font(.subheadline.weight(.bold))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .multilineTextAlignment(.center)
+                Image(systemName: "arrow.up")
+                    .font(.caption.weight(.bold))
+                Spacer(minLength: 0)
+            }
+            .foregroundColor(Color.accentForeground)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 11)
+            .frame(maxWidth: .infinity)
+            .background(Color.accentColor)
+        } else if highlightedMemoId != nil {
             HStack(spacing: 8) {
                 Spacer(minLength: 0)
                 Image(systemName: "hand.tap.fill")
@@ -314,12 +673,7 @@ struct InAppKeyboardStage: View {
     private func bubble(_ message: StageMessage) -> some View {
         let mine = message.side == .outgoing
         return HStack(alignment: .top, spacing: 8) {
-            if mine {
-                Spacer(minLength: 40)
-            } else {
-                // 말을 건네는 쪽의 얼굴. 누가 말하는지가 보이면 무대가 대화로 읽힌다.
-                mascotAvatar
-            }
+            if mine { Spacer(minLength: 40) }
             VStack(alignment: mine ? .trailing : .leading, spacing: 6) {
                 if let image = message.image {
                     Image(uiImage: image)
@@ -356,37 +710,6 @@ struct InAppKeyboardStage: View {
         .transition(.opacity.combined(with: .move(edge: .bottom)))
     }
 
-    /// 말을 건네는 쪽의 프로필 - 마스코트 얼굴.
-    ///
-    /// ⚠️ 원 안에 얹는다. 캐릭터 그림은 배경이 비어 있어서 그냥 두면 허공에 뜬 것처럼
-    ///    보이는데, 브랜드색 옅은 원이 프로필 사진의 테두리 노릇을 한다.
-    ///
-    /// ⚠️ 이 얼굴은 **누를 수 있다.** 무대는 말풍선으로 된 대화라 얼굴 옆에서 이미
-    ///    말을 걸고 있고, 그 얼굴을 누르면 대화가 이어지는 것이 자연스럽다.
-    ///    도움말을 설정 깊은 곳에만 두면 막힌 사람은 막힌 자리에서 길을 못 찾는다.
-    private var mascotAvatar: some View {
-        Button {
-            HapticManager.shared.light()
-            mascotHelpSeen = true
-            showsMascotHelp = true
-        } label: {
-            MascotView(pose: .avatar, size: 34, framing: .badge)
-                .overlay(alignment: .bottomTrailing) {
-                    if !mascotHelpSeen {
-                        Image(systemName: AppSymbol.questionmarkCircleFill)
-                            .font(.system(size: 13, weight: .bold))
-                            .foregroundStyle(theme.accentFg, theme.accent)
-                            .offset(x: 3, y: 3)
-                    }
-                }
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(NSLocalizedString("도움말", comment: "Help"))
-        .accessibilityHint(NSLocalizedString("사용 가이드와 튜토리얼로 갈 수 있어요", comment: "Mascot help button hint"))
-        // 말풍선 꼭지와 눈높이를 맞춘다.
-        .padding(.top, 2)
-    }
-
     // MARK: - 입력창
 
     /// 시스템 키보드는 뜨지 않는다 - 이 칸은 **아래 우리 키보드만** 채운다.
@@ -411,6 +734,13 @@ struct InAppKeyboardStage: View {
                 .buttonStyle(.plain)
                 .disabled(!host.canSend)
                 .accessibilityLabel(NSLocalizedString("보내기", comment: "Send composed message"))
+                // 넣었으면 다음은 보내기다. 보낼 것이 있을 때만 인다 -
+                // 누를 수 없는 버튼이 물결치면 그건 안내가 아니라 고장이다.
+                .overlay {
+                    if highlightsSend && host.canSend {
+                        KeyRipple(shape: Circle(), color: theme.accent, reach: 10)
+                    }
+                }
             }
         }
         .padding(.horizontal, 12)
@@ -574,6 +904,22 @@ struct StageBubble: Shape {
     /// 꼬리가 차지하는 가로 폭. 글자 여백도 이만큼 밀어 준다.
     static let tailWidth: CGFloat = 11
 
+    /// 꼬리 밑동이 몸통을 **파고드는 깊이.**
+    ///
+    /// ⚠️ 0 이면 꼬리가 몸통에서 떨어져 따로 뜬 물방울로 보인다. 몸통의 옆면은
+    ///    직선이 아니라 둥근 모서리라, 꼬리가 붙는 자리에서 실제 가장자리가 안으로
+    ///    물러나 있기 때문이다(한 줄 말풍선에서 실측 최대 3pt).
+    static let tailOverlap: CGFloat = 8
+
+    /// 부리 밑동의 **절반** 높이. 밑동이 넉넉해야 몸통에서 자라난 것으로 읽힌다.
+    ///
+    /// ⚠️ 좁게 잡으면 뿔이 하나 돋은 것처럼 보이고, 넓게 잡으면 몸통이 부은 것처럼 보인다.
+    static let tailHalfHeight: CGFloat = 10
+
+    /// 부리 끝이 밑동 한가운데보다 얼마나 위로 들리는가.
+    /// 살짝 들려야 "말이 나오는 쪽"으로 읽힌다. 0 이면 그냥 삼각형이다.
+    static let tailTipRise: CGFloat = 3
+
     func path(in rect: CGRect) -> Path {
         let t = Self.tailWidth
         // 몸통은 꼬리만큼 안쪽으로 물러난다.
@@ -585,20 +931,34 @@ struct StageBubble: Shape {
 
         var path = Path(roundedRect: body, cornerRadius: r, style: .continuous)
 
-        // 꼬리 - 위쪽에 붙는 부드러운 부리. 풍선이 짧아도 밖으로 나가지 않게 높이로 묶는다.
-        let top = min(rect.minY + 8, rect.maxY - 4)
-        let bottom = min(rect.minY + 26, rect.maxY - 2)
-        let tipY = (top + bottom) / 2 - 3
-        let edgeX = pointsLeft ? body.minX : body.maxX
-        let tipX = pointsLeft ? rect.minX : rect.maxX
-        let ctrl = pointsLeft ? edgeX - t * 0.35 : edgeX + t * 0.35
+        // 꼬리가 뻗는 방향. 왼쪽이면 -1, 오른쪽이면 +1.
+        let s: CGFloat = pointsLeft ? -1 : 1
+        let edge = pointsLeft ? body.minX : body.maxX
+        // 밑동은 옆면이 아니라 몸통 **안쪽**에서 시작한다(위 tailOverlap 참고).
+        let inner = edge - s * Self.tailOverlap
+        let tipX = edge + s * t
+
+        // ⚠️ 부리는 **둥근 모서리가 끝나는 자리 바로 아래**에 붙인다. 모서리 한복판에
+        //    걸치면 밑동이 곡선을 타고 앉아 한쪽이 들뜬다.
+        let cy = min(rect.minY + max(radius, 14) + 1, rect.midY)
+        let half = min(Self.tailHalfHeight, max(4, (rect.height - 4) / 2))
+        let lo = min(cy + half, rect.maxY - 2)
+        let hi = max(cy - half, rect.minY + 2)
+
+        // ⚠️ 꼬리는 몸통과 **같은 방향으로 감아야** 한다. 반대로 감으면 non-zero 규칙에서
+        //    겹친 자리가 서로 지워져 말풍선 한복판에 구멍이 뚫린다(실측). 둥근 사각형의
+        //    감는 방향은 하나뿐이라, 왼쪽 부리와 오른쪽 부리는 그리는 순서가 서로 뒤집힌다.
+        let first = pointsLeft ? lo : hi
+        let last = pointsLeft ? hi : lo
+        let ctrlFirst = pointsLeft ? lo - 1 : hi + 1
+        let ctrlLast = pointsLeft ? hi + 1 : lo - 1
 
         var tail = Path()
-        tail.move(to: CGPoint(x: edgeX, y: top))
-        tail.addQuadCurve(to: CGPoint(x: tipX, y: tipY),
-                          control: CGPoint(x: ctrl, y: top - 1))
-        tail.addQuadCurve(to: CGPoint(x: edgeX, y: bottom),
-                          control: CGPoint(x: ctrl, y: tipY + 7))
+        tail.move(to: CGPoint(x: inner, y: first))
+        tail.addQuadCurve(to: CGPoint(x: tipX, y: cy - Self.tailTipRise),
+                          control: CGPoint(x: edge + s * 3, y: ctrlFirst))
+        tail.addQuadCurve(to: CGPoint(x: inner, y: last),
+                          control: CGPoint(x: edge + s * 2, y: ctrlLast))
         tail.closeSubpath()
 
         path.addPath(tail)

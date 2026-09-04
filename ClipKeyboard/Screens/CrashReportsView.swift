@@ -18,7 +18,7 @@ import CloudKit
 import LeeoKit   // HapticManager
 
 /// 크래시 리포트 한 건 (읽기 전용 표현).
-struct CrashReportRecord: Identifiable {
+struct CrashReportRecord: Identifiable, Sendable {
     let id: String
     let kind: String          // crash / hang / disk_write
     let detail: String
@@ -212,6 +212,10 @@ struct CrashReportsView: View {
         }
     }
 
+    /// ⚠️ `@MainActor` 가 꼭 있어야 한다. `View` 는 몸(`body`)만 메인이고 이런 도우미 함수는
+    ///    격리가 없다. `await` 뒤에 이어지는 줄은 아무 스레드에서나 깨어나므로, 그 자리에서
+    ///    `@State` 를 고치면 배경에서 발행이 일어난다.
+    @MainActor
     private func load() async {
         isLoading = true
         errorMessage = nil
@@ -255,20 +259,19 @@ enum CrashReportReader {
         let query = CKQuery(recordType: "CrashReport", predicate: NSPredicate(value: true))
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
 
-        let page = try await database.records(matching: query, resultsLimit: limit)
-        return page.matchResults.compactMap { try? $0.1.get() }
-            .filter { config.appIdentifier == nil || ($0["appId"] as? String) == config.appIdentifier }
-            .map { record in
-                CrashReportRecord(
-                    id: record.recordID.recordName,
-                    kind: record["kind"] as? String ?? "-",
-                    detail: record["detail"] as? String ?? "-",
-                    appVersion: record["appVersion"] as? String ?? "-",
-                    osVersion: record["osVersion"] as? String ?? "-",
-                    deviceType: record["deviceType"] as? String ?? "-",
-                    stack: record["stack"] as? String ?? "",
-                    createdAt: record.creationDate
-                )
-            }
+        // 통계와 같은 이유로 페이지를 나눠 받는다 - 한 요청에 400개를 넘기면 서버가 거부한다.
+        return try await LeeoCloudPage.collect(query, in: database, limit: limit, transform: { record -> CrashReportRecord? in
+            guard config.appIdentifier == nil || (record["appId"] as? String) == config.appIdentifier else { return nil }
+            return CrashReportRecord(
+                id: record.recordID.recordName,
+                kind: record["kind"] as? String ?? "-",
+                detail: record["detail"] as? String ?? "-",
+                appVersion: record["appVersion"] as? String ?? "-",
+                osVersion: record["osVersion"] as? String ?? "-",
+                deviceType: record["deviceType"] as? String ?? "-",
+                stack: record["stack"] as? String ?? "",
+                createdAt: record.creationDate
+            )
+        })
     }
 }

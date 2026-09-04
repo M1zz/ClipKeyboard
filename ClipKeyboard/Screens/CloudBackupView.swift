@@ -120,7 +120,7 @@ struct CloudBackupView: View {
                             Spacer()
 
                             Image(systemName: AppSymbol.checkmarkCircleFill)
-                                .foregroundColor(.green)
+                                .foregroundColor(Color.checkGreen)
                                 .font(.title2)
                         }
                         .padding(.vertical, 4)
@@ -535,8 +535,8 @@ struct CloudBackupView: View {
                 let scoped = url.startAccessingSecurityScopedResource()
                 defer { if scoped { url.stopAccessingSecurityScopedResource() } }
                 let data = try Data(contentsOf: url)
+                // (`.dataRestored` 는 importBundle 이 스스로 쏜다)
                 let summary = try DataPortability.importBundle(data)
-                NotificationCenter.default.post(name: .dataRestored, object: nil)
                 alertTitle = NSLocalizedString("가져오기 완료", comment: "Import completed")
                 alertMessage = summary.localizedDescription
                 showAlert = true
@@ -633,8 +633,8 @@ struct BackupVersionsView: View {
         Task {
             do {
                 try await backupService.restoreData(forceOverwrite: true, snapshotName: snap.recordName)
+                // (`.dataRestored` 는 restoreData 가 스스로 쏜다)
                 await MainActor.run {
-                    NotificationCenter.default.post(name: .dataRestored, object: nil)
                     alertTitle = NSLocalizedString("복구 완료", comment: "Restore completed")
                     alertMessage = NSLocalizedString("데이터가 성공적으로 복구되었습니다. 앱을 재시작하여 변경사항을 확인하세요.", comment: "Data successfully restored")
                     showAlert = true
@@ -671,6 +671,12 @@ struct ExportBundle: Codable {
     var smartClipboard: [SmartClipboardHistory]
     var combos: [Combo]
     var images: [String: Data]
+    /// 카테고리 설정(목록·아이콘·색·순서·숨김).
+    ///
+    /// ⚠️ 옵셔널이다. 이 필드가 생기기 전에 내보낸 파일에는 없다.
+    ///    단축어의 `category` 값은 파일에 늘 들어 있었지만 **목록 자체는 없어서**,
+    ///    가져오면 단축어는 다 돌아오는데 탭이 하나도 없었다.
+    var categories: CategorySnapshot?
 }
 
 /// 가져오기 결과 요약.
@@ -681,10 +687,12 @@ struct ImportSummary {
     var addedCombos: Int
     var addedClips: Int
     var images: Int
+    /// 함께 살아난 카테고리 수.
+    var categories: Int = 0
 
     var localizedDescription: String {
-        String(format: NSLocalizedString("단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개를 가져왔습니다.", comment: "Import summary message"),
-               addedMemos, updatedMemos, totalMemos, addedCombos, images)
+        String(format: NSLocalizedString("단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.", comment: "Import summary message"),
+               addedMemos, updatedMemos, totalMemos, addedCombos, images, categories)
     }
 }
 
@@ -753,7 +761,8 @@ enum DataPortability {
             formatVersion: currentFormatVersion,
             exportedAt: Date(),
             appVersion: appVersionString,
-            memos: memos, smartClipboard: smart, combos: combos, images: images
+            memos: memos, smartClipboard: smart, combos: combos, images: images,
+            categories: CategorySnapshotStore.current()
         )
         return try JSONEncoder().encode(bundle)
     }
@@ -820,10 +829,25 @@ enum DataPortability {
         }
         try write(clips, to: StorageFile.smartClipboardHistory)
 
-        NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
+        // 5) 카테고리 설정
+        //    ⚠️ `.merge` 다. 가져오기는 "합친다"는 뜻이라(단축어도 지우지 않고 합친다)
+        //       이 기기에만 있던 카테고리를 파일이 지우면 안 된다.
+        //    파일에 카테고리가 없으면(옛 파일) 단축어의 `category` 값에서 이름만 역산해 구제한다.
+        var restoredCategories = 0
+        if let snapshot = bundle.categories, !snapshot.isEmpty {
+            CategorySnapshotStore.apply(snapshot, strategy: .merge)
+            restoredCategories = snapshot.categories.count
+        } else {
+            restoredCategories = CategorySnapshotStore.rebuildFromMemos(memos).count
+        }
+
+        MemoStore.postDataChanged()
+        // 카테고리는 `.memoDataChanged` 로 안 딸려 온다. 저장소·화면이 다시 읽게 따로 알린다.
+        NotificationCenter.postOnMain(name: .dataRestored)
 
         return ImportSummary(addedMemos: added, updatedMemos: updated, totalMemos: memos.count,
-                             addedCombos: addedCombos, addedClips: addedClips, images: restoredImages)
+                             addedCombos: addedCombos, addedClips: addedClips, images: restoredImages,
+                             categories: restoredCategories)
     }
 }
 

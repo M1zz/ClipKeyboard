@@ -78,6 +78,6 @@ final class RemoteFlagsServiceTests: XCTestCase {
         XCTAssertEqual(RemoteFlagsService.Flag.usageReportingEnabled.rawValue, "usageReportingEnabled")
         XCTAssertEqual(RemoteFlagsService.Flag.paywallEnabled.rawValue, "paywallEnabled")
         XCTAssertEqual(RemoteFlagsService.Flag.allCases.count, 3,
-                       "플래그를 추가했다면 docs/MATURITY_TODO.md 와 대시보드 필드도 함께 갱신할 것")
+                       "플래그를 추가했다면 docs/product/MATURITY_TODO.md 와 대시보드 필드도 함께 갱신할 것")
     }
 }

@@ -1,0 +1,73 @@
+{
+  "_": "언어 설정 하나의 출처. 새 언어를 켜는 일은 enabled 를 true 로 바꾸는 것뿐이다.",
+  "source": "ko",
+  "pivot": "en",
+  "catalog": "ClipKeyboard/Localizable.xcstrings",
+  "infoPlistTargets": [
+    "ClipKeyboard",
+    "ClipKeyboardExtension",
+    "ClipKeyboardActionExtension"
+  ],
+  "app": {
+    "name": "CrocoClip",
+    "oneLine": "키보드 위에서 바로 꺼내 쓰는 단축어·클립보드 앱",
+    "tone": "짧고 담백한 존댓말. 광고 문구처럼 들뜨지 않게. 사용자를 가르치려 들지 않는다."
+  },
+  "languages": {
+    "ko":      { "native": "한국어",            "tier": 0, "enabled": true,  "mode": "source",  "expansion": 1.0, "plural": "none",   "rtl": false },
+    "en":      { "native": "English",           "tier": 0, "enabled": true,  "mode": "human",   "expansion": 1.0, "plural": "simple", "rtl": false },
+    "zh-Hans": { "native": "简体中文",           "tier": 0, "enabled": true,  "mode": "human",   "expansion": 0.9, "plural": "none",   "rtl": false },
+    "zh-Hant": { "native": "繁體中文",           "tier": 0, "enabled": true,  "mode": "derived", "expansion": 0.9, "plural": "none",   "rtl": false, "derivedBy": "scripts/make_zh_hant.py" },
+
+    "ru":      { "native": "Русский",           "tier": 1, "enabled": true,  "mode": "machine", "expansion": 1.6, "plural": "slavic", "rtl": false },
+    "ja":      { "native": "日本語",             "tier": 1, "enabled": false, "mode": "machine", "expansion": 1.1, "plural": "none",   "rtl": false },
+    "es":      { "native": "Español",           "tier": 1, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
+    "pt-BR":   { "native": "Português (Brasil)","tier": 1, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
+    "de":      { "native": "Deutsch",           "tier": 1, "enabled": false, "mode": "machine", "expansion": 1.7, "plural": "simple", "rtl": false },
+    "fr":      { "native": "Français",          "tier": 1, "enabled": false, "mode": "machine", "expansion": 1.6, "plural": "simple", "rtl": false },
+    "it":      { "native": "Italiano",          "tier": 1, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
+    "id":      { "native": "Bahasa Indonesia",  "tier": 1, "enabled": false, "mode": "machine", "expansion": 1.3, "plural": "none",   "rtl": false },
+
+    "tr":      { "native": "Türkçe",            "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.4, "plural": "simple", "rtl": false },
+    "vi":      { "native": "Tiếng Việt",        "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.4, "plural": "none",   "rtl": false },
+    "th":      { "native": "ไทย",                "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.3, "plural": "none",   "rtl": false },
+    "hi":      { "native": "हिन्दी",               "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.4, "plural": "simple", "rtl": false },
+    "pl":      { "native": "Polski",            "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.6, "plural": "slavic", "rtl": false },
+    "nl":      { "native": "Nederlands",        "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.6, "plural": "simple", "rtl": false },
+    "uk":      { "native": "Українська",        "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.6, "plural": "slavic", "rtl": false },
+    "sv":      { "native": "Svenska",           "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.4, "plural": "simple", "rtl": false },
+    "da":      { "native": "Dansk",             "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.4, "plural": "simple", "rtl": false },
+    "nb":      { "native": "Norsk bokmål",      "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.4, "plural": "simple", "rtl": false },
+    "fi":      { "native": "Suomi",             "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.6, "plural": "simple", "rtl": false },
+    "cs":      { "native": "Čeština",           "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "slavic", "rtl": false },
+    "el":      { "native": "Ελληνικά",          "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.6, "plural": "simple", "rtl": false },
+    "pt-PT":   { "native": "Português",         "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
+    "es-MX":   { "native": "Español (México)",  "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
+    "en-GB":   { "native": "English (UK)",      "tier": 2, "enabled": false, "mode": "machine", "expansion": 1.0, "plural": "simple", "rtl": false },
+    "zh-HK":   { "native": "繁體中文 (香港)",     "tier": 2, "enabled": false, "mode": "machine", "expansion": 0.9, "plural": "none",   "rtl": false },
+
+    "hu":      { "native": "Magyar",            "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
+    "ro":      { "native": "Română",            "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
+    "sk":      { "native": "Slovenčina",        "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "slavic", "rtl": false },
+    "hr":      { "native": "Hrvatski",          "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "slavic", "rtl": false },
+    "ca":      { "native": "Català",            "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
+    "ms":      { "native": "Bahasa Melayu",     "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.3, "plural": "none",   "rtl": false },
+    "fr-CA":   { "native": "Français (Canada)", "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.6, "plural": "simple", "rtl": false },
+    "bg":      { "native": "Български",         "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.6, "plural": "simple", "rtl": false },
+    "sr":      { "native": "Српски",            "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "slavic", "rtl": false },
+    "sl":      { "native": "Slovenščina",       "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "slavic", "rtl": false },
+    "et":      { "native": "Eesti",             "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
+    "lv":      { "native": "Latviešu",          "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
+    "lt":      { "native": "Lietuvių",          "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "slavic", "rtl": false },
+
+    "ar":      { "native": "العربية",             "tier": 9, "enabled": false, "mode": "machine", "expansion": 1.3, "plural": "arabic", "rtl": true },
+    "he":      { "native": "עברית",              "tier": 9, "enabled": false, "mode": "machine", "expansion": 1.2, "plural": "simple", "rtl": true }
+  },
+  "_tier": {
+    "0": "이미 있는 것. 사람이 쓰거나(ko/en/zh-Hans) 간체에서 뽑는다(zh-Hant)",
+    "1": "1차. 파이프라인을 실제로 검증하는 묶음",
+    "2": "2차. 1차가 탈 없이 돌면 켠다",
+    "3": "3차. 시장이 작아 뒤로 미룬 것",
+    "9": "RTL. 글이 아니라 레이아웃 작업이 먼저다. 그 전에는 켜지 않는다"
+  }
+}

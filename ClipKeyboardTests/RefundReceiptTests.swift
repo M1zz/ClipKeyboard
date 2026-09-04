@@ -13,6 +13,10 @@
 
 import Testing
 import Foundation
+import CoreGraphics
+#if canImport(UIKit)
+import UIKit
+#endif
 @testable import ClipKeyboard
 
 @Suite("RefundReceipt: 환급 영수증")
@@ -39,11 +43,18 @@ struct RefundReceiptTests {
     @Test("줄은 사용 횟수가 아니라 돌려준 시간 순으로 놓인다")
     func linesSortByRefundNotUseCount() {
         // 짧은 문구를 많이 쓴 쪽 vs 긴 문구를 적게 쓴 쪽.
-        let short = memo("짧게 많이", uses: 50, characters: 12)   // (12/4-1)=2초 × 50 = 100초
-        let long  = memo("길게 적게", uses: 10, characters: 400)  // (400/4-1)=99초 × 10 = 990초
+        //
+        // ⚠️ 밑값(회당 2분)이 생긴 뒤로 **길이는 거의 힘을 못 쓴다.** 400자짜리 글도
+        //    치는 시간이 99초라 밑값에 못 미쳐서, 12자짜리와 똑같이 회당 2분이 된다.
+        //    그러면 금액 차이가 순전히 횟수에서만 나와 이 테스트가 아무것도 안 지킨다.
+        //    회당 금액을 실제로 가르는 것은 이제 **갈래**라서, 갈래로 벌린다.
+        let cheap = memo("짧게 많이", uses: 10, characters: 12)        // 밑값 120초 × 10 = 1,200초
+        var dear = Memo(title: "적게 써도 비싼 것", value: "110-234-567890")  // 잠긴 앱에서 꺼내 오던 값
+        dear.clipCount = 8                                             // 166초 × 8 = 1,328초
 
-        let lines = receipt([short, long]).lines
-        #expect(lines.map(\.label) == ["길게 적게", "짧게 많이"])
+        let lines = receipt([cheap, dear]).lines
+        #expect(lines.map(\.label) == ["적게 써도 비싼 것", "짧게 많이"],
+                "덜 썼어도 회당 금액이 크면 위로 와야 한다. 줄은 횟수 순이 아니라 금액 순이다")
     }
 
     @Test("한 번도 안 쓴 문구는 줄에 안 오른다. 0원짜리 영수증 줄은 거짓말이다")
@@ -52,8 +63,9 @@ struct RefundReceiptTests {
         #expect(lines.map(\.label) == ["쓴것"])
     }
 
-    @Test("탭 오버헤드보다 짧아 벌이가 0인 문구도 줄에 안 오른다")
+    @Test("글자 수 문턱 아래라 벌이가 0인 문구도 줄에 안 오른다")
     func zeroEarningNeverGetsALine() {
+        // ⚠️ 밑값은 문턱을 넘긴 것에만 붙는다. 2자짜리는 여전히 0원이고, 0원짜리 줄은 안 찍는다.
         let lines = receipt([memo("너무짧음", uses: 100, characters: 2)]).lines
         #expect(lines.isEmpty)
     }
@@ -119,7 +131,7 @@ struct RefundReceiptTests {
     private func monthReceipt(earned: [UUID: Double],
                               uses: [UUID: Int],
                               memos: [Memo],
-                              totalUses: Int = 0,
+                              fallbackUses: Int = 0,
                               coverage: Date? = nil,
                               limit: Int = RefundReceipt.lineLimit) -> RefundReceipt {
         RefundReceipt.make(period: .thisMonth,
@@ -127,7 +139,7 @@ struct RefundReceiptTests {
                            earned: earned,
                            uses: uses,
                            memos: memos,
-                           totalUses: totalUses,
+                           fallbackUses: fallbackUses,
                            issuedAt: Self.issued,
                            coverageStartedAt: coverage,
                            limit: limit)
@@ -164,11 +176,29 @@ struct RefundReceiptTests {
         #expect(deleted.first?.useCount == 12)
     }
 
-    @Test("총 사용 횟수는 따로 받는다. 원장 이전부터 쌓이던 값이라 줄 합보다 완전하다")
-    func totalUsesIsIndependentOfLines() {
-        let a = memo("가", uses: 0)
-        let made = monthReceipt(earned: [a.id: 10], uses: [a.id: 1], memos: [a], totalUses: 42)
+    @Test("머리의 총 횟수는 줄의 합이다. 영수증은 줄을 더하면 총계가 나와야 한다")
+    func totalUsesIsSumOfLines() {
+        let a = memo("가", uses: 0), b = memo("나", uses: 0)
+        let made = monthReceipt(earned: [a.id: 10, b.id: 20],
+                                uses: [a.id: 3, b.id: 4],
+                                memos: [a, b],
+                                fallbackUses: 42)   // 원장에 횟수가 있으니 이 값은 안 쓴다
+        #expect(made.totalUses == 7)
+    }
+
+    @Test("원장에 횟수가 하나도 없는 달만 일별 횟수로 메운다")
+    func fallbackUsesOnlyWhenLedgerIsEmpty() {
+        let made = monthReceipt(earned: [:], uses: [:], memos: [], fallbackUses: 42)
         #expect(made.totalUses == 42)
+    }
+
+    @Test("0초를 번 문구도 한 줄로 남는다. 빼면 줄 합과 총 횟수가 어긋난다")
+    func zeroEarningUsesStillCount() {
+        let a = memo("짧은거", uses: 0)
+        let made = monthReceipt(earned: [:], uses: [a.id: 5], memos: [a])
+        #expect(made.lines.count == 1)
+        #expect(made.lines.first?.useCount == 5)
+        #expect(made.totalUses == 5)
     }
 
     @Test("덮지 못한 기간은 종이에 밝힌다. 안 밝히면 0원이 사실처럼 읽힌다")
@@ -215,5 +245,123 @@ struct RefundReceiptTests {
         let labels = receipt([secure]).lines.map(\.label)
         #expect(!labels.contains("계좌 비밀번호"))
         #expect(labels == [localizedForTest("잠긴 문구")])
+    }
+}
+
+// MARK: - 이미지로 굽기
+
+/// 공유로 내보낼 그림의 계약을 고정한다.
+///
+/// ⚠️ 종이 폭이 고정이라는 것이 핵심이다. 화면 폭을 따라가면 기기마다 다른 크기의
+///    영수증이 나가서, 공유된 그림들이 서로 다른 물건처럼 보인다.
+@Suite("영수증 이미지")
+@MainActor
+struct RefundReceiptImageTests {
+
+    private func sampleReceipt() -> RefundReceipt {
+        var memo = Memo(title: "계좌번호", value: "110-234-567890")
+        memo.clipCount = 12
+        return RefundReceipt.make(period: .thisMonth,
+                                  periodLabel: "2026년 8월",
+                                  earned: [memo.id: 960],
+                                  uses: [memo.id: 12],
+                                  memos: [memo],
+                                  fallbackUses: 0,
+                                  issuedAt: Date(timeIntervalSince1970: 1_770_000_000),
+                                  coverageStartedAt: nil)
+    }
+
+    @Test("영수증 그림은 종이 폭 그대로 굽는다. 기기마다 다른 종이가 나오면 안 된다")
+    func receiptImageKeepsPaperWidth() throws {
+        let image = try #require(RefundReceiptView.render(sampleReceipt(), scale: 3))
+        #expect(image.size.width * image.scale == RefundReceiptView.paperWidth * 3)
+    }
+
+    /// ⚠️ 높이까지 똑같기를 바라면 안 된다. 배율이 다르면 줄 높이가 픽셀에 맞춰 반올림되어
+    ///    포인트 높이가 한두 점 달라진다. 여기서 지킬 것은 **폭이 고정**이라는 것뿐이다.
+    @Test("배율은 해상도만 바꾼다. 종이 폭은 배율과 무관하게 고정이다")
+    func scaleOnlyChangesResolution() throws {
+        let small = try #require(RefundReceiptView.render(sampleReceipt(), scale: 1))
+        let large = try #require(RefundReceiptView.render(sampleReceipt(), scale: 3))
+
+        #expect(small.size.width == RefundReceiptView.paperWidth)
+        #expect(large.size.width == RefundReceiptView.paperWidth)
+        #expect(large.size.width * large.scale == small.size.width * small.scale * 3,
+                "배율을 세 배로 올리면 픽셀도 세 배여야 한다")
+    }
+}
+
+// MARK: - 셈을 고친 뒤의 옛 기록
+
+/// ⚠️ 원장에 적힌 초는 **적을 때의 셈**이다. 셈을 고치면 그 뒤에 쓴 것만 새 값으로 적히고
+///    옛 기록은 옛 값으로 남는다. 그대로 두면 같은 한 번이 이번 주 영수증에서는 10초,
+///    전체 영수증에서는 30초가 된다(전체는 원장이 없어 늘 지금 셈으로 계산해 왔다).
+///    한 화면 안에서 같은 일이 두 값을 가지면 둘 중 하나는 반드시 거짓말이다.
+@Suite("옛 원장 다시 매기기")
+struct RepricedLedgerTests {
+
+    /// 40자짜리 깃 토큰 - 이 앱이 갈래를 못 알아보는 값이라 예전 셈으로는 9초였다.
+    private func gitTokenMemo() -> Memo {
+        var memo = Memo(title: "깃 토큰", value: "ghp_" + String(repeating: "a1B2", count: 9))
+        memo.clipCount = 1
+        return memo
+    }
+
+    private func book(memo: Memo, storedSeconds: Double, uses: Int) -> RefundLedger.Book {
+        RefundLedger.Book(interval: DateInterval(start: Date(timeIntervalSince1970: 1_770_000_000),
+                                                 duration: 86_400 * 7),
+                          seconds: [memo.id: storedSeconds],
+                          uses: [memo.id: uses],
+                          coverageStartedAt: nil)
+    }
+
+    @Test("예전 셈으로 적힌 옛 기록도 지금 셈으로 다시 매긴다")
+    func oldEntriesArePricedWithTodaysModel() {
+        let memo = gitTokenMemo()
+        // 5.0.0 이 적어 둔 값(치는 시간만 셌다)
+        let priced = book(memo: memo, storedSeconds: 9, uses: 1).repriced(with: [memo])
+
+        #expect(priced[memo.id] == TimeSavedModel.minimumSavedSeconds,
+                "셈을 고쳤는데 옛 기록만 옛 값으로 남으면, 고친 것이 사용자에게 안 보인다")
+    }
+
+    @Test("기간 영수증과 전체 영수증이 같은 한 번을 같은 금액으로 적는다")
+    func periodAndAllTimeAgree() {
+        let memo = gitTokenMemo()
+        let priced = book(memo: memo, storedSeconds: 9, uses: 1).repriced(with: [memo])
+
+        // 전체 기간이 늘 쓰던 길 - 지금 셈으로 회당 금액 × 횟수.
+        let allTime = KeyboardUsageTracker.earnedSeconds(value: memo.value,
+                                                        type: memo.autoDetectedType,
+                                                        useCount: memo.clipCount)
+
+        #expect(priced[memo.id] == allTime,
+                "같은 한 번이 기간마다 다른 금액이면 둘 중 하나는 거짓말이다")
+    }
+
+    @Test("지운 문구는 다시 매길 수 없다. 적힌 초를 그대로 쓴다")
+    func deletedShortcutsKeepStoredSeconds() {
+        let gone = UUID()
+        let priced = RefundLedger.Book(interval: DateInterval(start: Date(timeIntervalSince1970: 1_770_000_000),
+                                                              duration: 86_400 * 7),
+                                       seconds: [gone: 42],
+                                       uses: [gone: 3],
+                                       coverageStartedAt: nil)
+            .repriced(with: [])
+
+        #expect(priced[gone] == 42, "값을 모르는 문구를 억지로 매기면 없는 숫자를 지어내는 것이다")
+    }
+
+    @Test("쓴 적 없는 문구에는 금액이 붙지 않는다")
+    func unusedShortcutsGetNothing() {
+        let memo = gitTokenMemo()
+        let priced = RefundLedger.Book(interval: DateInterval(start: Date(timeIntervalSince1970: 1_770_000_000),
+                                                              duration: 86_400 * 7),
+                                       seconds: [:],
+                                       uses: [memo.id: 0],
+                                       coverageStartedAt: nil)
+            .repriced(with: [memo])
+
+        #expect(priced[memo.id] == nil)
     }
 }

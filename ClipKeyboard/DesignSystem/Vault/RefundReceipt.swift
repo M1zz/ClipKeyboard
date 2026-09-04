@@ -8,9 +8,8 @@
 //  근거가 없는데, 줄 단위로 쪼개 놓으면 사용자가 자기 손으로 검산할 수 있다.
 //  그래서 이 화면의 값어치는 합계가 아니라 **줄 항목**에 있다.
 //
-//  ⚠️ 기간을 나누지 않는다. 기기에 쌓인 값이 평생 누적(`clipCount`,
-//     `totalTimeSavedSeconds`)뿐이라 "이번 달"을 만들려면 없는 데이터를 지어내야 한다.
-//     그래서 발행일만 찍고 합계는 **누적**이라고 정직하게 쓴다.
+//  ⚠️ 기간은 **원장 한 칸에 맞는 것만** 끊는다(`RefundPeriod`). 달은 월 원장에서,
+//     주는 일 원장에서 온다. 없는 칸을 오려 내면 숫자를 지어내는 것과 같다.
 //
 //  ⚠️ 이 종이는 **공유 대상**이다. 문구의 내용(value)은 한 글자도 들어가지 않는다.
 //     제목만 들어가고, 보안 문구는 제목조차 `UsagePassport.displayLabel` 이 가린다.
@@ -19,6 +18,9 @@
 //
 
 import SwiftUI
+#if canImport(UIKit)
+import LeeoKit
+#endif
 
 // MARK: - 내용 (순수 값 - 테스트 가능)
 
@@ -98,14 +100,15 @@ struct RefundReceipt: Equatable, Identifiable {
     ///   - earned: 문구별 돌려준 초.
     ///   - uses: 문구별 쓴 횟수. 초에서 역산하지 않는다 - 문구를 고친 순간부터 어긋난다.
     ///   - memos: 이름을 붙이기 위한 현재 문구들. 그 사이 지운 문구는 이름 없이 합쳐진다.
-    ///   - totalUses: 그 달의 총 사용 횟수(일별 횟수 합). 줄 합과 다를 수 있다
-    ///     원장 이전부터 쌓이던 값이라 더 완전하다.
+    ///   - fallbackUses: 원장에 횟수가 하나도 없을 때만 쓰는 값(일별 횟수 합).
+    ///     원장 이전부터 쌓이던 달을 위한 것이다. 원장에 횟수가 있으면
+    ///     머리의 총 횟수는 **줄의 합**으로 낸다 - 영수증은 줄을 더하면 총계가 나와야 한다.
     static func make(period: RefundPeriod,
                      periodLabel: String,
                      earned: [UUID: Double],
                      uses: [UUID: Int],
                      memos: [Memo],
-                     totalUses: Int,
+                     fallbackUses: Int,
                      issuedAt: Date,
                      coverageStartedAt: Date? = nil,
                      limit: Int = lineLimit) -> RefundReceipt {
@@ -117,8 +120,12 @@ struct RefundReceipt: Equatable, Identifiable {
         var deletedSeconds: Double = 0
         var deletedUses = 0
 
-        for (id, seconds) in earned where seconds > 0 {
+        // 벌이가 0초여도 쓴 적이 있으면 줄로 남긴다. 그래야 줄의 합이 총 횟수가 된다.
+        let allIDs = Set(earned.keys).union(uses.keys)
+        for id in allIDs {
+            let seconds = earned[id] ?? 0
             let count = uses[id] ?? 0
+            guard seconds > 0 || count > 0 else { continue }
             if let memo = byID[id] {
                 named.append(Line(id: id,
                                   label: UsagePassport.displayLabel(for: memo),
@@ -130,7 +137,7 @@ struct RefundReceipt: Equatable, Identifiable {
             }
         }
 
-        if deletedSeconds > 0 {
+        if deletedSeconds > 0 || deletedUses > 0 {
             named.append(Line(id: UUID(uuidString: "00000000-0000-0000-0000-0000DE1E7ED0") ?? UUID(),
                               label: NSLocalizedString("지운 문구", comment: "Receipt line for deleted shortcuts"),
                               useCount: deletedUses,
@@ -142,12 +149,13 @@ struct RefundReceipt: Equatable, Identifiable {
             return lhs.useCount > rhs.useCount
         }
         let kept = Array(sorted.prefix(max(0, limit)))
+        let ledgerUses = sorted.reduce(0) { $0 + $1.useCount }
 
         return RefundReceipt(
             issuedAt: issuedAt,
             period: period,
             periodLabel: periodLabel,
-            totalUses: totalUses,
+            totalUses: ledgerUses > 0 ? ledgerUses : fallbackUses,
             // 기간 합계는 **줄의 합**이다. 평생 누적을 쓰면 그 달 것이 아니게 된다.
             totalSeconds: earned.values.reduce(0, +),
             lines: kept,
@@ -162,29 +170,23 @@ struct RefundReceipt: Equatable, Identifiable {
                       now: Date = Date(),
                       calendar: Calendar = .current) -> RefundReceipt {
 
-        guard let month = period.month(from: now, calendar: calendar) else {
+        guard let book = RefundLedger.book(for: period, now: now, calendar: calendar) else {
             let summary = UsagePassport.summary(memos: memos,
                                                 timeSavedSeconds: KeyboardUsageTracker.totalTimeSavedSeconds(),
                                                 limit: lineLimit * 3)
             return make(from: summary, issuedAt: now, periodLabel: period.label(from: now, calendar: calendar))
         }
 
-        // 원장이 이 달 중간에 시작했다면 합계가 달 전체를 못 덮는다 - 종이에 밝힌다.
-        var coverage: Date?
-        if let started = RefundLedger.startedAt,
-           let interval = calendar.dateInterval(of: .month, for: month),
-           started > interval.start {
-            coverage = started
-        }
-
         return make(period: period,
                     periodLabel: period.label(from: now, calendar: calendar),
-                    earned: RefundLedger.entries(forMonthOf: month),
-                    uses: RefundLedger.uses(forMonthOf: month),
+                    // 적힌 초가 아니라 지금 셈으로 다시 매긴 값 - 화면과 종이가 같아야 한다.
+                    earned: book.repriced(with: memos),
+                    uses: book.uses,
                     memos: memos,
-                    totalUses: RefundLedger.useCount(forMonthOf: month, calendar: calendar),
+                    fallbackUses: RefundLedger.useCount(in: book.interval, calendar: calendar),
                     issuedAt: now,
-                    coverageStartedAt: coverage)
+                    // 원장이 기간 중간에 시작했다면 합계가 기간 전체를 못 덮는다 - 종이에 밝힌다.
+                    coverageStartedAt: book.coverageStartedAt)
     }
 
     // MARK: 표시 문구
@@ -247,10 +249,32 @@ struct RefundReceiptView: View {
     /// 공유된 이미지들이 서로 다른 물건처럼 보인다.
     static let paperWidth: CGFloat = 320
 
-    private let ink = Color(red: 0.16, green: 0.15, blue: 0.14)
-    private let inkFaint = Color(red: 0.45, green: 0.43, blue: 0.40)
-    private let paper = Color(red: 0.96, green: 0.94, blue: 0.90)
-    private let brand = Color(red: 0.13, green: 0.36, blue: 0.27)
+    /// 어두운 종이로 뽑을 것인가.
+    ///
+    /// ⚠️ **밖에서 넣어 준다.** 이 뷰는 화면에도 서고 `ImageRenderer` 로 굽기도 하는데,
+    ///    `ImageRenderer` 는 화면 밝기와 무관하게 **라이트 트레이트로** 그린다.
+    ///    동적 색(`Color(UIColor { trait in ... })`)을 쓰면 어두운 화면에서 뽑은 종이만
+    ///    혼자 밝게 나온다 - 구워 놓고 보기 전에는 안 보이는 어긋남이다
+    ///    (같은 이유로 공유 영상도 이 방식이다, `ShareVideoFrame`).
+    var isDark: Bool = false
+
+    /// ⚠️ 종이는 **흰색**이다(다크에서는 앱의 카드와 같은 검정). 예전에는 누런 종이빛
+    ///    (#F5F0E6)에 짙은 청록 글자였다. 그 색들은 앱 어디에도 없어서, 공유된 그림이
+    ///    이 앱에서 나온 것으로 안 읽혔다. 공유 영상과 같은 바탕을 쓴다.
+    private var ink: Color {
+        isDark ? Color(red: 0xF2/255, green: 0xF2/255, blue: 0xF4/255)
+               : Color(red: 0x13/255, green: 0x13/255, blue: 0x15/255)
+    }
+    private var inkFaint: Color {
+        isDark ? Color(red: 0x9C/255, green: 0x9C/255, blue: 0xA3/255)
+               : Color(red: 0x6B/255, green: 0x6B/255, blue: 0x72/255)
+    }
+    private var paper: Color {
+        isDark ? Color(red: 0x1A/255, green: 0x1A/255, blue: 0x1C/255) : .white
+    }
+    /// 기간과 큰 숫자에 쓰는 색 - **사용자가 고른 키컬러**다. 앱에서 보던 그 색이
+    /// 그대로 나가야 자기 앱에서 뽑은 종이로 읽힌다.
+    private var brand: Color { AppAccent.current.accent(isDark: isDark) }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -274,12 +298,18 @@ struct RefundReceiptView: View {
 
     private var header: some View {
         VStack(spacing: 8) {
-            VaultHero(isOpen: true, pixel: 2)
+            // ⚠️ 픽셀 금고를 걷어냈다. 종이 영수증 위에 도트 그림이 앉아 있으면
+            //    그건 영수증이 아니라 게임 화면이다. 영수증의 머리에 오는 것은
+            //    **가게 이름**이다 - 실제 영수증이 그렇게 생겼다.
+            Text(verbatim: "CLIPKEYBOARD")
+                .font(.system(.title3, design: .monospaced).weight(.black))
+                .kerning(4)
+                .foregroundColor(ink)
 
             Text(NSLocalizedString("환급 영수증", comment: "Refund receipt title"))
-                .font(.system(.headline, design: .monospaced).weight(.bold))
+                .font(.system(.caption, design: .monospaced).weight(.bold))
                 .kerning(2)
-                .foregroundColor(ink)
+                .foregroundColor(inkFaint)
 
             // 기간은 제목만큼 크게 - 나중에 이 종이를 다시 봤을 때 언제 것인지가 먼저 읽혀야 한다.
             Text(receipt.periodLabel)
@@ -334,30 +364,41 @@ struct RefundReceiptView: View {
 
     // MARK: 합계
 
+    /// ⚠️ **센 것이 위, 어림한 것이 아래다.** 예전에는 시간이 큰 숫자였는데, 이 종이에서
+    ///    시간은 **일어나지 않은 일의 소요 시간**이다. 손으로 했을 세상은 존재한 적이
+    ///    없으니 우리는 그걸 잰 적이 없다. 반면 "32번"은 실제로 일어났고 우리가 셌다.
+    ///    영수증의 총계 자리에 어림값을 두고 사실을 각주로 내리면, 종이가 가장 확실한
+    ///    것을 가장 작게 적는 셈이 된다.
+    ///
+    /// ⚠️ 그래도 시간을 빼지는 않는다. 사람에게 뜻이 닿는 것은 "32번"이 아니라
+    ///    "27분"이라서다. 대신 **어림이라고 적고**, 크기로 서열을 밝힌다.
     private var total: some View {
         VStack(spacing: 6) {
             HStack {
-                Text(receipt.period == .allTime
-                     ? NSLocalizedString("누적 환급 합계", comment: "Receipt: total label")
-                     : NSLocalizedString("이 기간 환급 합계", comment: "Receipt: period total label"))
+                Text(NSLocalizedString("다시 치지 않은 횟수", comment: "Receipt: total uses label"))
                     .font(.system(.caption, design: .monospaced))
                     .foregroundColor(inkFaint)
                 Spacer(minLength: 0)
             }
             HStack(alignment: .firstTextBaseline) {
                 Spacer(minLength: 0)
-                Text(RefundReceipt.durationText(seconds: receipt.totalSeconds))
+                Text(String(format: NSLocalizedString("%d번", comment: "Usage passport: times count"),
+                            receipt.totalUses))
                     .font(.system(size: 27, weight: .heavy, design: .monospaced))
                     .foregroundColor(brand)
                     .monospacedDigit()
             }
-            HStack {
-                Text(String(format: NSLocalizedString("다시 치지 않은 횟수 %d번", comment: "Receipt: total uses line"),
-                            receipt.totalUses))
+            HStack(alignment: .firstTextBaseline) {
+                Text(receipt.period == .allTime
+                     ? NSLocalizedString("손으로 했다면 (어림)", comment: "Receipt: estimated total label, all time")
+                     : NSLocalizedString("이 기간에 손으로 했다면 (어림)", comment: "Receipt: estimated total label, period"))
                     .font(.system(.caption2, design: .monospaced))
                     .foregroundColor(inkFaint)
+                Spacer(minLength: 4)
+                Text(RefundReceipt.durationText(seconds: receipt.totalSeconds))
+                    .font(.system(.subheadline, design: .monospaced).weight(.bold))
+                    .foregroundColor(ink)
                     .monospacedDigit()
-                Spacer(minLength: 0)
             }
         }
         .padding(.top, 12)
@@ -374,12 +415,37 @@ struct RefundReceiptView: View {
                     .font(.system(size: 9, design: .monospaced))
                     .foregroundColor(inkFaint)
             }
+            // ⚠️ 횟수는 센 것이고 시간은 어림한 것이다. 한 종이에 나란히 찍히므로
+            //    어느 쪽이 어느 쪽인지 종이가 스스로 밝혀야 한다.
+            Text(NSLocalizedString("횟수는 실제로 센 값이고, 시간은 어림한 값이에요.", comment: "Receipt: estimate footnote"))
+                .font(.system(size: 9, design: .monospaced))
+                .foregroundColor(inkFaint)
             Text(NSLocalizedString("기기 안에서만 계산했어요. 어디에도 보내지 않았어요.", comment: "Receipt: privacy footnote"))
                 .font(.system(size: 9, design: .monospaced))
                 .foregroundColor(inkFaint)
+
+            // 영수증의 끝은 바코드다. 없으면 종이 모양의 카드일 뿐이다.
+            ReceiptBarcode(seed: receipt.issuedAt)
+                .fill(ink)
+                .frame(height: 34)
+                .padding(.top, 10)
+                .accessibilityHidden(true)
+
+            Text(barcodeNumber)
+                .font(.system(size: 9, design: .monospaced))
+                .kerning(2)
+                .foregroundColor(inkFaint)
+                .accessibilityHidden(true)
         }
         .multilineTextAlignment(.center)
         .padding(.top, 16)
+    }
+
+    /// 바코드 아래 숫자 - 발행 시각에서 뽑는다. 뜻은 없지만 **같은 종이는 같은 숫자**여야
+    /// 다시 봤을 때 그 종이가 맞다는 느낌이 든다.
+    private var barcodeNumber: String {
+        let stamp = Int(receipt.issuedAt.timeIntervalSince1970)
+        return String(format: "%010d", stamp % 10_000_000_000)
     }
 
     private func coverageText(_ date: Date) -> String {
@@ -416,10 +482,10 @@ struct RefundReceiptView: View {
     }
 
     private var accessibilityText: String {
-        String(format: NSLocalizedString("환급 영수증. 누적 환급 합계 %1$@, 다시 치지 않은 횟수 %2$d번.",
+        String(format: NSLocalizedString("환급 영수증. 다시 치지 않은 횟수 %1$d번, 손으로 했다면 어림잡아 %2$@.",
                                          comment: "Receipt accessibility summary"),
-               RefundReceipt.durationText(seconds: receipt.totalSeconds),
-               receipt.totalUses)
+               receipt.totalUses,
+               RefundReceipt.durationText(seconds: receipt.totalSeconds))
     }
 }
 
@@ -427,27 +493,31 @@ struct RefundReceiptView: View {
 
 #if canImport(UIKit)
 
-/// 뽑은 영수증을 보여주는 시트. 여기서 **가져갈 수 있어야** 뽑은 보람이 있다
-/// 공유 시트 하나로 사진 저장·파일 저장·인쇄·전송이 전부 갈린다.
+/// 뽑은 영수증을 보여주는 시트. 여기서 **가져갈 수 있어야** 뽑은 보람이 있다.
+///
+/// ⚠️ 기간 고르개가 **없다.** 예전에는 여기서 기간을 다시 고를 수 있었는데, 그러면
+///    사용 기록 화면에서 "이번 주"를 보다가 영수증을 뽑았는데 종이에는 이번 달이 찍혀
+///    있는 일이 생긴다. 뽑기 버튼을 누른 그 화면이 무엇을 보고 있었는지가 곧 이 종이다.
+///    고를 자리는 뒤 화면 하나로 충분하고, 여기는 **뽑힌 종이 한 장만** 있는 자리다.
 struct RefundReceiptSheet: View {
     let memos: [Memo]
-    /// 발행 시각. 시트를 여는 동안 고정한다 - 기간을 바꿀 때마다 시각이 흔들리면
+    /// 발행 시각. 시트를 여는 동안 고정한다 - 다시 그릴 때마다 시각이 흔들리면
     /// 같은 자리에서 뽑은 종이들이 서로 다른 물건이 된다.
     let issuedAt: Date
-    var initialPeriod: RefundPeriod = .thisMonth
+    /// 뽑기 버튼을 누른 화면이 보고 있던 기간. 이 시트에서는 바꾸지 않는다.
+    let period: RefundPeriod
 
     @Environment(\.appTheme) private var theme
     @Environment(\.dismiss) private var dismiss
 
-    @State private var period: RefundPeriod
-    /// 미리 구워 둔다. ShareLink 를 누른 뒤에 굽면 시트가 한 박자 늦게 뜬다.
+    /// 미리 구워 둔다. 공유를 누른 뒤에 굽면 시트가 한 박자 늦게 뜬다.
     @State private var baked: UIImage?
+    @State private var isSharing = false
 
-    init(memos: [Memo], issuedAt: Date, initialPeriod: RefundPeriod = .thisMonth) {
+    init(memos: [Memo], issuedAt: Date, period: RefundPeriod = .thisMonth) {
         self.memos = memos
         self.issuedAt = issuedAt
-        self.initialPeriod = initialPeriod
-        _period = State(initialValue: initialPeriod)
+        self.period = period
     }
 
     private var receipt: RefundReceipt {
@@ -457,19 +527,20 @@ struct RefundReceiptSheet: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 20) {
-                    Picker(NSLocalizedString("기간", comment: "Refund period picker label"), selection: $period) {
-                        ForEach(RefundPeriod.allCases) { candidate in
-                            Text(candidate.localizedName).tag(candidate)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(.horizontal, 20)
+                VStack(spacing: 22) {
+                    RefundReceiptView(receipt: receipt, isDark: theme.isDark)
+                        // 다크에서는 검은 종이가 검은 바탕 위에 놓인다. 검은 그림자로는
+                        // 종이가 바탕에서 안 떨어지므로, 그때는 옅은 테두리가 대신한다.
+                        .shadow(color: .black.opacity(theme.isDark ? 0.5 : 0.18), radius: 12, x: 0, y: 6)
+                        .overlay(
+                            ReceiptPaperShape()
+                                .stroke(theme.divider, lineWidth: theme.isDark ? 1 : 0)
+                        )
 
-                    RefundReceiptView(receipt: receipt)
-                        .shadow(color: .black.opacity(0.18), radius: 12, x: 0, y: 6)
+                    shareButton
                 }
                 .padding(.vertical, 24)
+                .padding(.horizontal, 20)
                 .frame(maxWidth: .infinity)
             }
             .background(theme.bg.ignoresSafeArea())
@@ -481,26 +552,32 @@ struct RefundReceiptSheet: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(NSLocalizedString("닫기", comment: "Close button")) { dismiss() }
                 }
-                ToolbarItem(placement: .primaryAction) {
-                    if let baked {
-                        let image = Image(uiImage: baked)
-                        ShareLink(item: image,
-                                  preview: SharePreview(NSLocalizedString("환급 영수증", comment: "Refund receipt title"),
-                                                        image: image)) {
-                            Label(NSLocalizedString("가져가기", comment: "Share/save the receipt"),
-                                  systemImage: AppSymbol.squareAndArrowUp)
-                        }
-                    } else {
-                        ProgressView()
-                    }
+            }
+            .sheet(isPresented: $isSharing) {
+                if let baked {
+                    ActivityShareSheet(items: [baked])
                 }
             }
         }
-        // 기간을 바꾸면 굽은 이미지도 다시 굽는다 - 안 그러면 화면과 다른 종이를 내보낸다.
-        .task(id: period) {
-            baked = nil                                  // 굽는 동안 옛 종이를 내보내지 않도록
-            baked = RefundReceiptView.render(receipt)
+        .task {
+            baked = RefundReceiptView.render(receipt, isDark: theme.isDark)
         }
+    }
+
+    // MARK: 가져가기
+
+    /// ⚠️ 예전에는 여기 "인스타 스토리에 올리기"가 따로 있었다. 뺐다.
+    ///    특정 서비스로 가는 길을 앱이 직접 들고 있으면, 그 서비스가 규칙을 바꿀 때마다
+    ///    우리 코드가 따라가야 하고(스토리 공유는 페이스북 앱 ID를 요구한다), 그 서비스를
+    ///    안 쓰는 사람에게는 자리만 차지하는 단추가 된다. 어디로 보낼지는 시스템 공유
+    ///    시트가 이미 사람이 고른 대로 알고 있다. 우리는 **보낼 것**만 잘 만들면 된다.
+    private var shareButton: some View {
+        ShareActionButton {
+            HapticManager.shared.light()
+            isSharing = true
+        }
+        .disabled(baked == nil)
+        .opacity(baked == nil ? 0.5 : 1)
     }
 }
 
@@ -509,11 +586,43 @@ extension RefundReceiptView {
     ///
     /// ⚠️ `@MainActor` - ImageRenderer 는 뷰를 실제로 그린다.
     @MainActor
-    static func render(_ receipt: RefundReceipt, scale: CGFloat = 3) -> UIImage? {
-        let renderer = ImageRenderer(content: RefundReceiptView(receipt: receipt))
+    static func render(_ receipt: RefundReceipt, isDark: Bool = false, scale: CGFloat = 3) -> UIImage? {
+        let renderer = ImageRenderer(content: RefundReceiptView(receipt: receipt, isDark: isDark))
         renderer.scale = scale
         renderer.isOpaque = false
         return renderer.uiImage
     }
 }
 #endif
+
+// MARK: - 바코드
+
+/// 영수증 아래에 찍히는 바코드.
+///
+/// ⚠️ 진짜 바코드가 아니다. 읽히는 코드를 넣으면 스캔했을 때 아무 뜻도 없는 값이 나와
+///    오히려 가짜라는 게 드러난다. **모양만** 영수증의 그것이다.
+///
+/// ⚠️ 굵기는 발행 시각에서 정해진다 - 같은 종이는 언제 다시 그려도 같은 무늬여야 한다.
+///    난수를 쓰면 스크롤할 때마다 무늬가 바뀌어 종이가 살아 움직인다.
+struct ReceiptBarcode: Shape {
+    let seed: Date
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        // 발행 시각을 씨앗으로 한 결정적 수열(선형 합동법) - 기기·시점이 같으면 같은 무늬.
+        var state = UInt64(bitPattern: Int64(seed.timeIntervalSince1970)) &* 6364136223846793005 &+ 1
+        var x = rect.minX
+        while x < rect.maxX {
+            state = state &* 6364136223846793005 &+ 1442695040888963407
+            let pick = Int((state >> 33) % 4)
+            let barWidth = [1.0, 1.0, 2.0, 3.0][pick]
+            let gap = pick == 3 ? 2.0 : 1.0
+            let w = min(barWidth, rect.maxX - x)
+            if w > 0 {
+                path.addRect(CGRect(x: x, y: rect.minY, width: w, height: rect.height))
+            }
+            x += w + gap
+        }
+        return path
+    }
+}

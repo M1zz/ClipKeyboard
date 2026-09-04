@@ -20,6 +20,7 @@ final class CategorySnapshotTests: XCTestCase {
 
     private var allKeys: [String] {
         [CategorySnapshotStore.categoriesKey, CategorySnapshotStore.iconsKey,
+         CategorySnapshotStore.colorsKey,
          CategorySnapshotStore.hiddenTabsKey, CategorySnapshotStore.enabledBuiltInsKey,
          CategorySnapshotStore.featureEnabledKey]
     }
@@ -130,6 +131,93 @@ final class CategorySnapshotTests: XCTestCase {
         XCTAssertTrue(defaults.bool(forKey: CategorySnapshotStore.featureEnabledKey))
     }
 
+    // MARK: - 색 (5.0.6 에 뒤늦게 합류)
+
+    /// 색은 `userCategoryColors_v1` 에만 살아서 백업 어디에도 안 실렸다.
+    /// 복원하면 이름은 돌아오는데 색이 전부 팔레트 기본값으로 리셋됐다.
+    func test_색도_스냅샷에_담기고_왕복한다() throws {
+        let original = CategorySnapshot(categories: ["업무"], colors: ["업무": "FF0000"])
+
+        let data = try JSONEncoder().encode(original)
+        let restored = try JSONDecoder().decode(CategorySnapshot.self, from: data)
+
+        XCTAssertEqual(restored.colors["업무"], "FF0000")
+    }
+
+    func test_색이_없던_옛_스냅샷도_읽힌다() throws {
+        let json = #"{"categories":["업무"],"icons":{"업무":"briefcase"}}"#
+        let data = try XCTUnwrap(json.data(using: .utf8))
+
+        let snapshot = try JSONDecoder().decode(CategorySnapshot.self, from: data)
+
+        XCTAssertEqual(snapshot.categories, ["업무"])
+        XCTAssertTrue(snapshot.colors.isEmpty)
+    }
+
+    func test_현재_설정을_읽을_때_색도_담는다() {
+        defaults.set(["업무"], forKey: CategorySnapshotStore.categoriesKey)
+        defaults.set(["업무": "00FF00"], forKey: CategorySnapshotStore.colorsKey)
+
+        XCTAssertEqual(CategorySnapshotStore.current().colors["업무"], "00FF00")
+    }
+
+    func test_복원은_색까지_되돌린다() {
+        CategorySnapshotStore.apply(
+            CategorySnapshot(categories: ["업무"], colors: ["업무": "0000FF"]), strategy: .replace)
+
+        let stored = defaults.dictionary(forKey: CategorySnapshotStore.colorsKey) as? [String: String]
+        XCTAssertEqual(stored?["업무"], "0000FF")
+    }
+
+    // MARK: - .replace 는 그 시점 상태로 되돌린다
+
+    /// 복원인데 아이콘·숨김이 합집합으로 남으면 "되돌렸는데 지운 게 살아 있다"가 된다.
+    func test_복원은_이_기기에만_있던_설정을_남기지_않는다() {
+        defaults.set(["옛것"], forKey: CategorySnapshotStore.categoriesKey)
+        defaults.set(["옛것": "trash"], forKey: CategorySnapshotStore.iconsKey)
+        defaults.set(["옛것"], forKey: CategorySnapshotStore.hiddenTabsKey)
+
+        CategorySnapshotStore.apply(
+            CategorySnapshot(categories: ["업무"], icons: ["업무": "briefcase"], featureEnabled: true),
+            strategy: .replace)
+
+        XCTAssertEqual(defaults.stringArray(forKey: CategorySnapshotStore.categoriesKey), ["업무"])
+        let icons = defaults.dictionary(forKey: CategorySnapshotStore.iconsKey) as? [String: String]
+        XCTAssertNil(icons?["옛것"], "복원은 그 시점 상태다. 지웠던 카테고리의 아이콘이 남으면 안 된다")
+        XCTAssertEqual(defaults.stringArray(forKey: CategorySnapshotStore.hiddenTabsKey), [],
+                       "백업 시점에 숨긴 탭이 없었으면 복원 뒤에도 없어야 한다")
+    }
+
+    /// 반대로 동기화(.merge)는 이 기기 설정을 지우지 않는다.
+    func test_동기화는_이_기기_색과_아이콘을_지우지_않는다() {
+        defaults.set(["로컬": "star"], forKey: CategorySnapshotStore.iconsKey)
+        defaults.set(["로컬": "ABCDEF"], forKey: CategorySnapshotStore.colorsKey)
+
+        CategorySnapshotStore.apply(
+            CategorySnapshot(categories: ["업무"], icons: ["업무": "briefcase"],
+                             colors: ["업무": "123456"]),
+            strategy: .merge)
+
+        let icons = defaults.dictionary(forKey: CategorySnapshotStore.iconsKey) as? [String: String]
+        let colors = defaults.dictionary(forKey: CategorySnapshotStore.colorsKey) as? [String: String]
+        XCTAssertEqual(icons?["로컬"], "star")
+        XCTAssertEqual(icons?["업무"], "briefcase")
+        XCTAssertEqual(colors?["로컬"], "ABCDEF")
+        XCTAssertEqual(colors?["업무"], "123456")
+    }
+
+    /// 동기화용 스냅샷은 안 쓰는 카테고리를 거르는데, 색도 같이 걸러야 짝이 맞는다.
+    func test_동기화_스냅샷은_안_쓰는_카테고리의_색을_싣지_않는다() {
+        defaults.set(["쓰는것", "안쓰는것"], forKey: CategorySnapshotStore.categoriesKey)
+        defaults.set(["쓰는것": "AAAAAA", "안쓰는것": "BBBBBB"], forKey: CategorySnapshotStore.colorsKey)
+
+        let snapshot = CategorySnapshotStore.syncable(memos: [memo("a", category: "쓰는것")],
+                                                     sampleIDs: [])
+
+        XCTAssertEqual(snapshot.colors["쓰는것"], "AAAAAA")
+        XCTAssertNil(snapshot.colors["안쓰는것"])
+    }
+
     // MARK: - 옛 백업 구제 (메모에서 역산)
 
     private func memo(_ title: String, category: String) -> Memo {
@@ -205,5 +293,82 @@ final class CategorySnapshotTests: XCTestCase {
         defaults.set(["업무", "아직안씀"], forKey: CategorySnapshotStore.categoriesKey)
 
         XCTAssertEqual(CategorySnapshotStore.current().categories, ["업무", "아직안씀"])
+    }
+
+    // MARK: - 카테고리는 사용자가 만들 때만 늘어난다
+
+    /// ⛔️ 한때 `syncable` 이 `memo.category` 문자열을 목록에 주워 담았다.
+    ///    "목록에는 없는데 단축어는 이미 그 카테고리에 들어 있는" 경우를 받아 주려던
+    ///    것이었는데, 카테고리가 걷잡을 수 없이 불어났다.
+    ///
+    ///    고리: 올릴 때는 payload 를 **교체**하고 받을 때는 `.merge` 로 **더하기만** 한다.
+    ///    한 번 들어간 이름은 다시 빠지지 않으니 오갈수록 쌓이는 래칫이 된다.
+    ///    게다가 주워 온 이름이 사용자가 만든 카테고리라는 보장이 없다. 지운 카테고리를
+    ///    아직 달고 있는 단축어, 다른 언어로 심긴 페르소나 이름, 가져오기로 들어온 임의의
+    ///    문자열이 전부 "사용자가 만든 카테고리"로 승격됐다.
+    ///
+    ///    **앱은 카테고리를 스스로 늘리지 않는다.** 늘리는 것은 사용자뿐이다.
+    func test_단축어에_붙은_이름을_목록으로_승격시키지_않는다() {
+        defaults.set(["내앱"], forKey: CategorySnapshotStore.categoriesKey)
+
+        let snapshot = CategorySnapshotStore.syncable(
+            memos: [memo("a", category: "내앱"),
+                    memo("b", category: "계좌번호"),
+                    memo("c", category: "여행")],
+            sampleIDs: [])
+
+        XCTAssertEqual(snapshot.categories, ["내앱"],
+                       "목록에 있던 것만 실린다. 단축어가 달고 있는 이름은 카테고리가 아니다")
+    }
+
+    /// 목록에 있고 실제로 쓰이는 것만 싣는다는 원래 기준은 그대로다.
+    func test_목록에_있어도_안_쓰이면_싣지_않는다() {
+        defaults.set(["업무", "아직안씀"], forKey: CategorySnapshotStore.categoriesKey)
+
+        let snapshot = CategorySnapshotStore.syncable(
+            memos: [memo("a", category: "업무")], sampleIDs: [])
+
+        XCTAssertEqual(snapshot.categories, ["업무"])
+    }
+
+    /// 샘플 단축어만 붙은 카테고리는 싣지 않는다.
+    /// 페르소나 시드가 기기 언어별로 중복돼 올라가던 원래 문제를 막는 기준이다.
+    func test_샘플만_붙은_카테고리는_싣지_않는다() {
+        defaults.set(["샘플전용", "진짜"], forKey: CategorySnapshotStore.categoriesKey)
+        let sample = memo("s", category: "샘플전용")
+        let real = memo("r", category: "진짜")
+
+        let snapshot = CategorySnapshotStore.syncable(memos: [sample, real], sampleIDs: [sample.id])
+
+        XCTAssertEqual(snapshot.categories, ["진짜"])
+    }
+
+    /// `"기본"` 은 저장 센티널이지 사용자 카테고리가 아니다.
+    /// 목록에 들어가면 기본 탭과 같은 이름의 탭이 하나 더 서서 단축어가 두 곳에 보인다.
+    func test_기본_센티널은_목록에_들어가지_않는다() {
+        defaults.set(["업무"], forKey: CategorySnapshotStore.categoriesKey)
+
+        let snapshot = CategorySnapshotStore.syncable(
+            memos: [memo("a", category: "기본"), memo("b", category: "업무")],
+            sampleIDs: [])
+
+        XCTAssertEqual(snapshot.categories, ["업무"])
+        XCTAssertFalse(snapshot.categories.contains(CategorySnapshotStore.basicCategoryName))
+    }
+
+    /// 즐겨찾기 숨김은 카테고리 이름이 아니라 센티널(`__favorites__`)이라
+    /// "쓰이는 카테고리만" 필터에 걸려 매번 탈락했다 - 즐겨찾기 탭을 숨겨도
+    /// 그 설정이 다른 기기로 영영 넘어가지 않았다.
+    func testSyncableKeepsHiddenFavoritesSentinel() {
+        defaults.set(["업무"], forKey: CategorySnapshotStore.categoriesKey)
+        defaults.set([CategoryBucketRule.favoritesTabKey, "안쓰는카테고리"],
+                     forKey: CategorySnapshotStore.hiddenTabsKey)
+
+        let snapshot = CategorySnapshotStore.syncable(memos: [memo("a", category: "업무")], sampleIDs: [])
+
+        XCTAssertTrue(snapshot.hiddenTabs.contains(CategoryBucketRule.favoritesTabKey),
+                      "즐겨찾기 숨김은 카테고리가 아니라 센티널이라 걸러지면 안 된다")
+        XCTAssertFalse(snapshot.hiddenTabs.contains("안쓰는카테고리"),
+                       "안 쓰는 카테고리의 숨김은 그대로 빠진다")
     }
 }

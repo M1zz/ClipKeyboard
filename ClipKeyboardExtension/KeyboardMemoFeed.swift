@@ -59,3 +59,54 @@ enum KeyboardMemoFeed {
         }
     }
 }
+
+// MARK: - 키보드에서 바꾼 순서를 적는다
+
+extension KeyboardMemoFeed {
+
+    /// 키보드에서 끌어 바꾼 순서를 **앱과 같은 자리에** 적는다.
+    ///
+    /// 읽는 규칙(`sorted`)이 이 파일에 있으니 쓰는 규칙도 여기 둔다. 두 곳에 나눠 두면
+    /// 한쪽만 고쳐져 "키보드에서 바꿨는데 앱에서는 그대로"가 된다.
+    ///
+    /// - Parameters:
+    ///   - reordered: 사용자가 끌어 만든 새 순서(화면에 보이던 것들).
+    ///   - full: 그 화면이 잘라 온 원본 전체(무료 한도로 잘린 뒤쪽까지 포함).
+    /// - Returns: 뒤쪽까지 이어 붙인 전체 순서.
+    ///
+    /// ⚠️ `memos.data` 는 **건드리지 않는다.** 순서를 읽는 쪽(앱 `sortMemos`·키보드 `sorted`)이
+    ///    둘 다 이 UserDefaults 키만 보므로 파일을 다시 쓸 이유가 없고, 익스텐션이 목록
+    ///    파일을 통째로 덮으면 그 사이 앱이 한 편집이 지워질 수 있다.
+    @discardableResult
+    static func commitManualOrder(_ reordered: [Memo], within full: [Memo]) -> [Memo] {
+        guard !reordered.isEmpty else { return full }
+
+        // 화면에 없던 뒤쪽(무료 한도로 잘린 것들)은 제자리에 두고, 보이던 것들의 자리에만
+        // 새 순서를 끼워 넣는다. (앱 `commitReorder` 와 같은 방식)
+        let movedIds = Set(reordered.map(\.id))
+        var next = reordered.makeIterator()
+        var merged: [Memo] = []
+        merged.reserveCapacity(full.count)
+        for memo in full {
+            if movedIds.contains(memo.id) {
+                if let item = next.next() { merged.append(item) }
+            } else {
+                merged.append(memo)
+            }
+        }
+        // 방어: full 에 없던 항목이 남으면 뒤에 붙인다(유실 방지).
+        while let leftover = next.next() { merged.append(leftover) }
+
+        let ud = AppGroup.defaults
+        ud?.set(merged.map { $0.id.uuidString }, forKey: DefaultsKey.memoManualOrderV1)
+        ud?.set(true, forKey: DefaultsKey.memoManualOrderActiveV1)
+        // 앱은 이 표식을 보고 포그라운드 복귀 때 목록을 다시 읽는다
+        // (`ClipKeyboardListViewModel.reloadIfChangedOutsideApp`). 파일은 안 바뀌었지만
+        // 다시 읽어야 새 순서로 다시 정렬된다 - 앱을 깨우는 통로가 이것 하나다.
+        ud?.set(Date().timeIntervalSince1970, forKey: DefaultsKey.memosExternalChangeAt)
+
+        clipMemos = merged
+        print("✅ [KeyboardMemoFeed.commitManualOrder] 순서 저장 \(reordered.count)개 / 전체 \(merged.count)개")
+        return merged
+    }
+}

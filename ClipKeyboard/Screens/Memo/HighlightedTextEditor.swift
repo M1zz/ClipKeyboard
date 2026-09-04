@@ -5,8 +5,8 @@
 
 import SwiftUI
 
-// String.strippingTemplateBraces는 MemoPreviewFormatter.swift로 이동
-// (키보드 익스텐션 타겟과 공유하기 위해).
+// `{변수}` 규칙(패턴·칩 색·중괄호 감추기)은 DesignSystem/TemplatePlaceholder.swift 한 곳에 있다.
+// 이 입력칸도 거기서 그린다 - 편집 중인 글과 카드·키보드에 보이는 글이 같아 보여야 한다.
 
 #if os(iOS)
 /// `[Your Name]` 같은 더미 placeholder를 빨간색으로 syntax highlight하는 입력칸.
@@ -31,7 +31,7 @@ struct HighlightedTextEditor: UIViewRepresentable {
         tv.textStorage.delegate = context.coordinator
         tv.attributedText = Self.highlight(text)
         tv.accessibilityLabel = NSLocalizedString("내용", comment: "Content section header")
-        tv.accessibilityHint = NSLocalizedString("붙여넣을 내용을 입력하세요. 나중에 채울 칸은 변수명을 중괄호로 감싸서 만들어요. 예: 이름", comment: "Content input field hint")
+        tv.accessibilityHint = NSLocalizedString("붙여넣을 내용을 입력하세요. 나중에 채울 자리는 빈칸 이름을 중괄호로 감싸서 만들어요. 예: 이름", comment: "Content input field hint")
         return tv
     }
 
@@ -58,11 +58,7 @@ struct HighlightedTextEditor: UIViewRepresentable {
             uiView.keyboardType = keyboardType
             uiView.reloadInputViews()
         }
-        if isFocused && !uiView.isFirstResponder {
-            uiView.becomeFirstResponder()
-        } else if !isFocused && uiView.isFirstResponder {
-            uiView.resignFirstResponder()
-        }
+        context.coordinator.syncFocus(uiView, desired: isFocused)
         context.coordinator.refreshPlaceholderIfNeeded(uiView, placeholder: placeholder)
     }
 
@@ -81,27 +77,19 @@ struct HighlightedTextEditor: UIViewRepresentable {
         return result
     }
 
-    /// `{이름}` 같은 템플릿 변수를 코드가 아니라 칩처럼 보이게 - 강조색 + 은은한 배경.
-    /// 편집 가능한 입력칸이므로 중괄호는 텍스트에 남기되, `{`·`}` 글자만 투명색으로 처리해
-    /// 화면에는 칩 배경 안에 변수명만 보이게 한다(4.3.0 스타일 - 중괄호 노출 X).
+    /// `{이름}` 을 칩으로. 그리는 규칙은 `NSMutableAttributedString.applyTemplateChipHighlight`
+    /// 한 곳에 있고, 여기서는 **어떤 색으로** 칠할지만 정한다.
+    ///
+    /// ⚠️ 색은 테마 토큰을 따르지 않고 시스템 강조색이다. 이 입력칸은 UIKit 뷰라
+    ///    SwiftUI 환경(@Environment(\.appTheme))이 닿지 않는다. 앱 테마를 바꿔도
+    ///    편집칸 칩만 파랗게 남는 것이 걸리면 테마를 프로퍼티로 받아 내려주면 된다.
     static func applyTemplateVariableHighlight(to storage: NSMutableAttributedString) {
-        let pattern = "\\{[^}]+\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return }
-        let fullRange = NSRange(location: 0, length: storage.length)
-        regex.enumerateMatches(in: storage.string, range: fullRange) { match, _, _ in
-            guard let range = match?.range, range.length >= 2 else { return }
-            // 토큰 전체에 칩 배경 + 강조색.
-            storage.addAttributes([
-                .foregroundColor: UIColor.systemBlue,
-                .backgroundColor: UIColor.systemBlue.withAlphaComponent(0.12),
-                .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .semibold)
-            ], range: range)
-            // 여는/닫는 중괄호 글자만 투명 처리 - 배경(칩)은 유지되어 좌우 여백처럼 보인다.
-            storage.addAttribute(.foregroundColor, value: UIColor.clear,
-                                 range: NSRange(location: range.location, length: 1))
-            storage.addAttribute(.foregroundColor, value: UIColor.clear,
-                                 range: NSRange(location: range.location + range.length - 1, length: 1))
-        }
+        let body = UIFont.preferredFont(forTextStyle: .body)
+        storage.applyTemplateChipHighlight(
+            accent: .systemBlue,
+            accentSoft: UIColor.systemBlue.withAlphaComponent(0.12),
+            font: .systemFont(ofSize: body.pointSize, weight: .semibold)
+        )
     }
 
     static func applyDummyPlaceholderHighlight(to storage: NSMutableAttributedString) {
@@ -121,6 +109,10 @@ struct HighlightedTextEditor: UIViewRepresentable {
         var parent: HighlightedTextEditor
         var isShowingPlaceholder = false
 
+        /// 우리가 스스로 first responder 를 바꾸는 중인가.
+        /// 그때 오는 델리게이트 호출은 사용자가 낸 것이 아니므로 바인딩에 되쓰지 않는다.
+        private var isSyncingFocus = false
+
         init(_ parent: HighlightedTextEditor) {
             self.parent = parent
         }
@@ -137,12 +129,43 @@ struct HighlightedTextEditor: UIViewRepresentable {
                 textView.attributedText = HighlightedTextEditor.highlight("")
                 isShowingPlaceholder = false
             }
-            parent.isFocused = true
+            // 우리가 옮긴 것이면 바인딩은 이미 그 값이다. 다시 쓰면 갱신만 한 번 더 돈다.
+            if !isSyncingFocus, parent.isFocused != true { parent.isFocused = true }
         }
 
         func textViewDidEndEditing(_ textView: UITextView) {
-            parent.isFocused = false
+            if !isSyncingFocus, parent.isFocused != false { parent.isFocused = false }
             refreshPlaceholderIfNeeded(textView, placeholder: parent.placeholder)
+        }
+
+        // MARK: - 포커스 맞추기
+
+        /// 바인딩이 말하는 상태로 first responder 를 맞춘다.
+        ///
+        /// ⚠️ **`updateUIView` 안에서 곧바로 부르지 않는다.** `becomeFirstResponder()` 는
+        ///    그 자리에서 `textViewDidBeginEditing` 을 부르고, 거기서 `@Binding` 을 쓰면
+        ///    **뷰를 갱신하는 도중에 상태를 바꾸는 일**이 된다. 게다가 UIKit 이 호스팅 뷰에
+        ///    first responder 가 바뀌었다고 알리면 SwiftUI 는 뷰 그래프를 통째로 다시
+        ///    계산하는데(`_UIHostingView._didChange(toFirstResponder:)` →
+        ///    `ViewGraphRootValueUpdater.updateGraph()`), 그 갱신이 다시 `updateUIView` 로
+        ///    들어오면 고리가 닫힌다. 5.0.4 워치독 종료 리포트에서 심볼로 확인된 스택이
+        ///    정확히 그 모양이다. → `docs/postmortem/WATCHDOG_SHARE_VIDEO_5_0_4.md`
+        ///
+        /// 그래서 한 박자 미뤄 **갱신 밖에서** 바꾸고, 그때 오는 델리게이트가 바인딩에
+        /// 되쓰지 않도록 표시를 세워 둔다.
+        func syncFocus(_ textView: UITextView, desired: Bool) {
+            guard !isSyncingFocus, desired != textView.isFirstResponder else { return }
+            isSyncingFocus = true
+            DispatchQueue.main.async { [weak self, weak textView] in
+                guard let self else { return }
+                defer { self.isSyncingFocus = false }
+                guard let textView, desired != textView.isFirstResponder else { return }
+                if desired {
+                    textView.becomeFirstResponder()
+                } else {
+                    textView.resignFirstResponder()
+                }
+            }
         }
 
         // MARK: - NSTextStorageDelegate

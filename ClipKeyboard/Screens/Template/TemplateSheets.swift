@@ -50,9 +50,9 @@ struct TemplateInputSheet: View {
                 Section {
                     Group {
                         if baseMemoValue.isEmpty {
-                            TipView(templateInfoTip)
+                            AnimatedTip(tip: templateInfoTip) { TipView(templateInfoTip) }
                         } else {
-                            TipView(attachedTemplateTip)
+                            AnimatedTip(tip: attachedTemplateTip) { TipView(attachedTemplateTip) }
                         }
                     }
                     .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 4, trailing: 16))
@@ -73,7 +73,7 @@ struct TemplateInputSheet: View {
                                     .fontWeight(.semibold)
                                     .foregroundColor(theme.textMuted)
                             }
-                            Text(previewText.templateChipAttributed(theme: theme))
+                            Text(previewText.templateAwareAttributed(theme: theme))
                                 .font(.body)
                                 .foregroundColor(.primary)
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -156,7 +156,7 @@ struct TemplateDetailPlaceholderView: View {
                         .fontWeight(.semibold)
                         .foregroundColor(theme.textMuted)
 
-                    Text(template.value.templateChipAttributed(theme: theme))
+                    Text(template.value.templateAwareAttributed(theme: theme))
                         .font(.body)
                         .padding(12)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -170,15 +170,15 @@ struct TemplateDetailPlaceholderView: View {
                     VStack(spacing: 12) {
                         Image(systemName: AppSymbol.checkmarkCircleFill)
                             .font(.system(size: 40))
-                            .foregroundColor(.green)
-                        Text(NSLocalizedString("이 템플릿에는 플레이스홀더가 없습니다", comment: "No placeholders in template"))
+                            .foregroundColor(Color.checkGreen)
+                        Text(NSLocalizedString("이 템플릿에는 빈칸이 없습니다", comment: "No placeholders in template"))
                             .font(.body)
                             .foregroundColor(theme.textMuted)
                     }
                     .padding(.top, 50)
                 } else {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(String(format: NSLocalizedString("플레이스홀더 (%d개)", comment: "Placeholder count"), placeholders.count))
+                        Text(String(format: NSLocalizedString("빈칸 %d개", comment: "Blank count"), placeholders.count))
                             .font(.body)
                             .fontWeight(.semibold)
                             .foregroundColor(theme.textMuted)
@@ -437,12 +437,12 @@ struct DatePlaceholderSelector: View {
     @Environment(\.appTheme) private var theme
     @State private var customDate: Date = Date()
 
-    private static let fmt: DateFormatter = {
-        let f = DateFormatter()
-        f.dateFormat = "yyyy-MM-dd"
-        f.locale = Locale(identifier: "en_US_POSIX")
-        return f
-    }()
+    /// ⚠️ 여기서 만든 글자가 그대로 문장에 들어간다. `{날짜}` 를 자동으로 넣을 때와
+    ///    **같은 모양이어야 한다** - 고른 날짜만 08/31/2026 이고 오늘 날짜는 2026-08-31 이면
+    ///    같은 문서 안에서 날짜 모양이 둘로 갈린다.
+    private static func formatted(_ date: Date) -> String {
+        DateTokenFormat.selection.string(from: date)
+    }
 
     private struct Opt: Identifiable { let id = UUID(); let label: String; let days: Int }
     private var opts: [Opt] {
@@ -452,7 +452,7 @@ struct DatePlaceholderSelector: View {
          Opt(label: NSLocalizedString("2주 뒤", comment: "Date option: in two weeks"), days: 14)]
     }
     private func str(_ days: Int) -> String {
-        Self.fmt.string(from: Calendar.current.date(byAdding: .day, value: days, to: Date()) ?? Date())
+        Self.formatted(Calendar.current.date(byAdding: .day, value: days, to: Date()) ?? Date())
     }
     private var effectiveValue: String { value.isEmpty ? str(0) : value }
 
@@ -491,54 +491,19 @@ struct DatePlaceholderSelector: View {
             DatePicker(NSLocalizedString("직접 선택", comment: "Pick a specific date"),
                        selection: $customDate, displayedComponents: .date)
                 .font(.body)
-                .onChange(of: customDate) { _, d in value = Self.fmt.string(from: d) }
+                .onChange(of: customDate) { _, d in value = Self.formatted(d) }
         }
         .embeddableCard(embedded: embedded, isHighlighted: isHighlighted, theme: theme)
         .animation(.easeInOut(duration: 0.25), value: isHighlighted)
-        .onAppear { if !value.isEmpty, let d = Self.fmt.date(from: value) { customDate = d } }
+        .onAppear { if !value.isEmpty, let d = DateTokenFormat.date(from: value) { customDate = d } }
     }
 }
 
 // MARK: - String Helper
 
 extension String {
-    /// 템플릿 본문의 `{플레이스홀더}`를 중괄호 없는 칩(부드러운 배경 + 강조색)으로 렌더링한 AttributedString.
-    /// 아직 채워지지 않은 변수 자리를 코드가 아니라 '채울 칸'처럼 보이게 한다.
-    /// - Parameter font: 칩 텍스트에 적용할 폰트 - 주변 텍스트와 크기를 맞추기 위해 호출부가 지정.
-    func templateChipAttributed(theme: AppTheme, font: Font = .body.weight(.semibold)) -> AttributedString {
-        guard let regex = try? NSRegularExpression(pattern: "\\{([^}]+)\\}") else {
-            return AttributedString(self)
-        }
-        let ns = self as NSString
-        var out = AttributedString()
-        var cursor = 0
-        for match in regex.matches(in: self, range: NSRange(location: 0, length: ns.length)) {
-            let full = match.range
-            if full.location > cursor {
-                let plain = ns.substring(with: NSRange(location: cursor, length: full.location - cursor))
-                out += AttributedString(plain)
-            }
-            // 중괄호는 숨기고 변수명만, 양옆 얇은 공백(U+2009)으로 칩 패딩을 흉내낸다.
-            let name = ns.substring(with: match.range(at: 1))
-            var chip = AttributedString("\u{2009}\(name)\u{2009}")
-            chip.foregroundColor = theme.accent
-            chip.backgroundColor = theme.accentSoft
-            chip.font = font
-            out += chip
-            cursor = full.location + full.length
-        }
-        if cursor < ns.length {
-            out += AttributedString(ns.substring(from: cursor))
-        }
-        return out
-    }
-
-    /// `{변수}`가 있으면 칩으로, 없으면 그대로 반환 - 제목·본문 등 모든 노출면에서 부담 없이
-    /// 쓰는 진입점(중괄호가 없는 대다수 문자열은 정규식 비용 없이 즉시 반환).
-    /// "플레이스홀더는 어디서든 원문 {중괄호}가 아닌 하이라이트로 보인다" 규칙의 구현.
-    func templateAwareAttributed(theme: AppTheme, font: Font) -> AttributedString {
-        contains("{") ? templateChipAttributed(theme: theme, font: font) : AttributedString(self)
-    }
+    // `{변수}` 를 다루는 것은 전부 DesignSystem/TemplatePlaceholder.swift 한 곳에 있다.
+    // (`templateAwareAttributed` · `strippingTemplateBraces` · `extractTemplatePlaceholders`)
 
     /// 형식 문자열을 마커에서 갈라 **가운데 한 조각만** 다른 색으로 칠한다.
     /// "무엇이 고정이고 무엇이 바뀌는지"를 색으로 보여주는 안내 문장이 여러 화면에 흩어져
@@ -568,21 +533,6 @@ extension String {
         return painted(parts[0], base) + middle + painted(parts[1], base)
     }
 
-    func extractTemplatePlaceholders() -> [String] {
-        let pattern = "\\{([^}]+)\\}"
-        guard let regex = try? NSRegularExpression(pattern: pattern) else { return [] }
-        let matches = regex.matches(in: self, range: NSRange(startIndex..., in: self))
-        var result: [String] = []
-        for match in matches {
-            if let range = Range(match.range, in: self) {
-                let token = String(self[range])
-                if !TemplateVariableProcessor.autoVariableTokens.contains(token), !result.contains(token) {
-                    result.append(token)
-                }
-            }
-        }
-        return result
-    }
 }
 
 // MARK: - Template Fill Sheet (탭 시 하프모달, 키보드 스타일 값 입력)
@@ -633,7 +583,7 @@ struct TemplateFillSheet: View {
             VStack(spacing: 0) {
                 // MARK: 미리보기 - 복사될 결과. 입력값은 치환된 평문으로, 아직 안 채운 변수는
                 // 다른 화면(TemplateInputSheet/TemplateEditSheet)과 동일하게 중괄호 없는 강조색
-                // 칩으로 표시한다(templateChipAttributed).
+                // 칩으로 표시한다(templateAwareAttributed).
                 VStack(alignment: .leading, spacing: 6) {
                     HStack(spacing: 6) {
                         Image(systemName: AppSymbol.eyeFill)
@@ -643,7 +593,7 @@ struct TemplateFillSheet: View {
                             .font(.footnote.weight(.semibold))
                             .foregroundColor(theme.textMuted)
                     }
-                    Text(previewValue.templateChipAttributed(theme: theme))
+                    Text(previewValue.templateAwareAttributed(theme: theme))
                         .font(.body)
                         .foregroundColor(.primary)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -683,7 +633,8 @@ struct TemplateFillSheet: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
-                        saveEnteredValues()
+                        // ⚠️ 여기서 값을 저장하지 않는다. 적은 값은 **이번에만** 쓰는 것이고,
+                        //    남길지는 각 칸의 별이 정한다(`TemplateFillRow`).
                         HapticManager.shared.success()
                         onCopy(resolvedValue)
                     } label: {
@@ -704,15 +655,6 @@ struct TemplateFillSheet: View {
         }
     }
 
-    // MARK: - Save entered values to history
-
-    private func saveEnteredValues() {
-        for ph in placeholders {
-            let v = (inputs[ph] ?? "").trimmingCharacters(in: .whitespaces)
-            guard !v.isEmpty else { continue }
-            MemoStore.shared.addPlaceholderValue(v, for: ph, sourceMemoId: memo.id, sourceMemoTitle: memo.title)
-        }
-    }
 }
 
 // MARK: - Per-Placeholder Fill Row (키보드 PlaceholderInputView 이식 + 인앱 TextField)
@@ -725,8 +667,6 @@ private struct TemplateFillRow: View {
 
     @Environment(\.appTheme) private var theme
     @State private var savedValues: [String] = []
-    /// "추가"용 입력칸 - 채울 값(value)과 분리해, 추가하면 비워진다.
-    @State private var newValue: String = ""
 
     private var isNumeric: Bool { TemplateVariableProcessor.isNumericToken(placeholder) }
 
@@ -769,6 +709,7 @@ private struct TemplateFillRow: View {
                         .foregroundColor(.primary)
                         .cornerRadius(theme.radiusXs)
                 }
+                .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace button"))
             }
             HStack(spacing: 6) {
                 numericKey("0")
@@ -800,47 +741,62 @@ private struct TemplateFillRow: View {
         }
     }
 
-    // MARK: 텍스트 입력 - TextField(직접 입력) + 저장값 빠른 선택 칩
+    // MARK: 텍스트 입력 - 곧장 채우는 TextField + 저장값 칩
 
+    /// ⚠️ **적은 값은 저장되지 않는다.** 예전에는 "추가"를 눌러 목록에 넣어야만 쓸 수 있었고,
+    ///    복사할 때 채운 값이 전부 목록에 쌓였다. 그래서 한 번 쓰고 말 값(오늘 회의 장소,
+    ///    이번 주문번호)까지 칩으로 남아 목록이 금세 못 쓰게 됐다.
+    ///
+    ///    이제 입력칸은 **채울 값에 곧장 이어져** 있다. 치면 그대로 쓰인다.
+    ///    남길 값만 별을 눌러 저장한다.
     @ViewBuilder
     private var textSection: some View {
-        // 값을 치고 "추가"를 누르면 저장 칩으로 남고, 방금 값이 채울 값으로 선택되며 입력칸은 비워진다.
         HStack(spacing: 8) {
-            TextField(NSLocalizedString("값 입력", comment: "Template value text field placeholder"), text: $newValue)
+            TextField(NSLocalizedString("값 입력", comment: "Template value text field placeholder"), text: $value)
                 .textFieldStyle(.roundedBorder)
-                .onSubmit { addNewValue() }
-            Button {
-                addNewValue()
-            } label: {
-                Text(NSLocalizedString("추가", comment: "Add button"))
-                    .font(.body.weight(.semibold))
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 8)
-                    .background(canAddNew ? theme.accent : Color.gray.opacity(0.5))
-                    .foregroundColor(canAddNew ? theme.accentFg : .white)
-                    .clipShape(Capsule())
-            }
-            .disabled(!canAddNew)
-            .accessibilityHint(NSLocalizedString("입력한 값을 목록에 추가합니다", comment: "Add typed value to list hint"))
+            keepButton
         }
+        Text(NSLocalizedString("적은 값은 이번에만 써요. 별을 누르면 다음에도 쓰게 저장돼요",
+                               comment: "Fill sheet: one-off value hint"))
+            .font(.caption)
+            .foregroundColor(theme.textFaint)
+            .fixedSize(horizontal: false, vertical: true)
         savedChips
     }
 
-    /// 입력칸이 비어있지 않으면 추가 가능.
-    private var canAddNew: Bool {
-        !newValue.trimmingCharacters(in: .whitespaces).isEmpty
+    private var trimmedValue: String {
+        value.trimmingCharacters(in: .whitespaces)
     }
 
-    /// 입력한 값을 저장 목록에 추가하고, 채울 값으로 선택한 뒤 입력칸을 비운다.
-    private func addNewValue() {
-        let v = newValue.trimmingCharacters(in: .whitespaces)
-        guard !v.isEmpty else { return }
-        if !savedValues.contains(v) {
-            MemoStore.shared.addPlaceholderValue(v, for: placeholder, sourceMemoId: templateId, sourceMemoTitle: templateTitle)
+    /// 지금 값이 이미 저장 목록에 있는가.
+    private var isKept: Bool {
+        !trimmedValue.isEmpty && savedValues.contains(trimmedValue)
+    }
+
+    /// 이 값을 남길지 정하는 별. 이미 저장된 값이면 채워진 채로 서 있기만 한다.
+    private var keepButton: some View {
+        Button {
+            keepCurrentValue()
+        } label: {
+            Image(systemName: isKept ? AppSymbol.starFill : AppSymbol.star)
+                .font(.title3)
+                .foregroundColor(isKept ? .yellow : theme.textFaint)
+                .frame(width: 44, height: 44)
         }
-        value = v          // 방금 추가한 값을 채울 값으로 선택
-        newValue = ""      // 입력칸 비우기 (기본 동작)
-        HapticManager.shared.selection()
+        .buttonStyle(.plain)
+        .disabled(trimmedValue.isEmpty || isKept)
+        .accessibilityLabel(isKept
+            ? NSLocalizedString("이미 저장해 둔 값이에요", comment: "Fill sheet: value already kept")
+            : NSLocalizedString("이 값 저장해 두기", comment: "Fill sheet: keep this value"))
+    }
+
+    /// 지금 값을 저장 목록에 남긴다. 누른 그 자리에서 칩으로 나타난다.
+    private func keepCurrentValue() {
+        let v = trimmedValue
+        guard !v.isEmpty, !savedValues.contains(v) else { return }
+        MemoStore.shared.addPlaceholderValue(v, for: placeholder,
+                                             sourceMemoId: templateId, sourceMemoTitle: templateTitle)
+        HapticManager.shared.success()
         loadSaved()
     }
 

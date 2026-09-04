@@ -1,0 +1,13 @@
+/*
+  InfoPlist.strings
+  ClipKeyboard (繁體中文)
+*/
+
+/* App display name */
+"CFBundleDisplayName" = "剪貼鍵盤";
+
+/* Camera permission (bulk import OCR) */
+"NSCameraUsageDescription" = "需要使用相機拍攝卡片或文件，以辨識上面的文字。";
+
+/* Face ID permission (secure memos) */
+"NSFaceIDUsageDescription" = "存取加密短語需要 Face ID。";

@@ -41,37 +41,14 @@ struct LivingSkinSettings: View {
     }
 
     private func row(for candidate: LivingSkin) -> some View {
-        Button {
-            HapticManager.shared.light()
+        ChoiceRow(name: candidate.localizedName,
+                  detail: candidate.localizedDescription,
+                  trait: candidate.localizedTrait,
+                  isSelected: livingSkinRaw == candidate.rawValue) {
+            LivingSkinPreview(skin: candidate)
+        } action: {
             livingSkinRaw = candidate.rawValue
-        } label: {
-            HStack(spacing: 14) {
-                LivingSkinPreview(skin: candidate)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(candidate.localizedName)
-                        .font(.body.weight(.semibold))
-                        .foregroundColor(theme.text)
-                    Text(candidate.localizedDescription)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                    if let trait = candidate.localizedTrait {
-                        Text(trait)
-                            .font(.caption2)
-                            .foregroundColor(theme.accent)
-                    }
-                }
-                Spacer(minLength: 0)
-                if livingSkinRaw == candidate.rawValue {
-                    Image(systemName: AppSymbol.checkmark)
-                        .font(.body.weight(.semibold))
-                        .foregroundColor(theme.accent)
-                }
-            }
-            .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
-        .accessibilityAddTraits(livingSkinRaw == candidate.rawValue ? [.isSelected] : [])
     }
 }
 

@@ -359,6 +359,17 @@ enum VaultLedger {
     static func earnedSeconds(characterCount: Int, useCount: Int) -> Double {
         KeyboardUsageTracker.earnedSeconds(characterCount: characterCount, useCount: useCount)
     }
+
+    /// 메모를 들고 있는 자리에서 쓰는 창구.
+    ///
+    /// ⚠️ 위의 글자수 창구는 **찾아오는 시간을 셀 수 없다**(값의 종류를 모르니까).
+    ///    메모가 있으면 반드시 이쪽을 쓸 것 - 안 그러면 계좌번호 카드에 쌓인 동전이
+    ///    사용 기록의 숫자보다 한참 적게 나온다.
+    static func earnedSeconds(for memo: Memo) -> Double {
+        KeyboardUsageTracker.earnedSeconds(value: memo.value,
+                                           type: memo.autoDetectedType,
+                                           useCount: memo.clipCount)
+    }
 }
 
 // MARK: - 렌더러
@@ -405,66 +416,6 @@ struct VaultSpriteStrip: View {
     }
 }
 
-/// 카드 위에 얹히는 잔고. 아직 못 번 문구에는 빈 자리만 놓인다.
-struct VaultBalanceStrip: View {
-    let savedSeconds: Double
-    var pixel: CGFloat = 3
-
-    var body: some View {
-        VaultSpriteStrip(sprites: VaultLedger.plan(savedSeconds: savedSeconds), pixel: pixel)
-    }
-}
-
-/// 단축어 카드를 **금고 문**으로 읽히게 하는 철물 - 왼쪽 경첩 둘, 오른쪽 다이얼,
-/// 아래 가장자리에 다음 동전까지의 이음새.
-///
-/// ⚠️ 전부 **가장자리에만** 둔다. 카드 한가운데는 제목과 내용의 자리다.
-///    동전을 가운데 늘어놨다가 글이 안 읽혔던 일을 반복하지 않는다.
-///
-/// ⚠️ Canvas **하나**로 전부 그린다. 부품마다 뷰를 만들면 카드 한 장에 일곱 개가 붙어
-///    스크롤이 무거워진다(카드가 수십 장이다).
-struct VaultCardFrame: View {
-    let savedSeconds: Double
-    /// 철물 픽셀 크기. 2.5면 다이얼이 20pt.
-    ///
-    /// ⚠️ 작게 만들지 마라. 10pt 로 줄였더니 흰 카드 위에서 형태가 뭉개져 얼룩이 됐다.
-    ///    픽셀 아트는 작아지면 정보가 아니라 노이즈가 된다.
-    var pixel: CGFloat = 2.5
-
-    private var unit: CGFloat { CGFloat(VaultSprite.dial.size) * pixel }
-
-    var body: some View {
-        Canvas { context, size in
-            // 다이얼 하나 - 오른쪽 가장자리, 세로 가운데. 제목은 왼쪽 정렬이라 여기가 비어 있다.
-            draw(.dial,
-                 at: CGPoint(x: size.width - 4 - unit, y: size.height / 2 - unit / 2),
-                 in: &context)
-
-            // 아래 이음새 - 다음 동전까지 차오른다.
-            let track = CGRect(x: 20, y: size.height - 5, width: size.width - 40, height: 2.5)
-            context.fill(Path(track), with: .color(Color(red: 0.69, green: 0.54, blue: 0.19).opacity(0.16)))
-            let filled = CGRect(x: track.minX, y: track.minY,
-                                width: track.width * VaultLedger.nextCoinProgress(savedSeconds: savedSeconds),
-                                height: track.height)
-            context.fill(Path(filled), with: .color(Color(red: 0.84, green: 0.66, blue: 0.16)))
-        }
-        .allowsHitTesting(false)
-        .accessibilityHidden(true)
-    }
-
-    private func draw(_ sprite: VaultSprite, at origin: CGPoint, in context: inout GraphicsContext) {
-        for (y, row) in sprite.rows.enumerated() {
-            for (x, symbol) in row.enumerated() {
-                guard let color = VaultPalette.color(for: symbol) else { continue }
-                context.fill(Path(CGRect(x: origin.x + CGFloat(x) * pixel,
-                                         y: origin.y + CGFloat(y) * pixel,
-                                         width: pixel, height: pixel)),
-                             with: .color(color))
-            }
-        }
-    }
-}
-
 /// 단축어 카드 구석에 붙는 잔고 표시 - **액면 하나 + 개수**.
 ///
 /// 동전을 늘어놓지 않는 이유는 `VaultLedger.headline` 에 적어 두었다.
@@ -493,15 +444,5 @@ struct VaultCardBadge: View {
             )
             .accessibilityHidden(true)
         }
-    }
-}
-
-/// 화면 머리에 세우는 금고 한 채.
-struct VaultHero: View {
-    var isOpen: Bool = false
-    var pixel: CGFloat = 6
-
-    var body: some View {
-        VaultSpriteStrip(sprites: [isOpen ? .open : .closed], pixel: pixel, gap: 0)
     }
 }

@@ -91,7 +91,7 @@ struct ClipboardList: View {
                                             toggleSelection(item.id)
                                         } label: {
                                             Image(systemName: isChecked ? "checkmark.circle.fill" : "circle")
-                                                .foregroundColor(isChecked ? .accentColor : .gray)
+                                                .foregroundColor(isChecked ? Color.checkGreen : .gray)
                                                 .font(.title3)
                                         }
                                         .buttonStyle(.plain)
@@ -200,6 +200,7 @@ struct ClipboardList: View {
                         } label: {
                             Image(systemName: AppSymbol.ellipsisCircle)
                         }
+                        .accessibilityLabel(NSLocalizedString("더보기", comment: "More options"))
                     }
                 }
             }
@@ -218,7 +219,7 @@ struct ClipboardList: View {
                 }
                 Button(NSLocalizedString("나중에", comment: "Later button"), role: .cancel) {}
             } message: {
-                Text(NSLocalizedString("설정 → 클립키보드 → '다른 앱에서 붙여넣기'를 '허용'으로 바꾸면 복사한 내용이 팝업 없이 바로 정리돼요.", comment: "Paste permission alert message"))
+                Text(NSLocalizedString("설정 → ClipKeyboard → '다른 앱에서 붙여넣기'를 '허용'으로 바꾸면 복사한 내용이 팝업 없이 바로 정리돼요.", comment: "Paste permission alert message"))
             }
 
             // Toast 메시지
@@ -357,25 +358,31 @@ struct ClipboardList: View {
         }
         guard !isCheckingClipboard else { return }
         isCheckingClipboard = true
-        defer { isCheckingClipboard = false }
 
-        guard let currentClipboard = UIPasteboard.general.string,
-              !currentClipboard.isEmpty else { return }
+        // ⚠️ 읽기는 **메인 밖에서** 한다. 유니버설 클립보드가 켜져 있으면 이 한 줄이
+        //    옆 기기를 기다리느라 초 단위로 걸리고, 메인에서 하면 화면이 그동안 굳는다.
+        //    ⚠️ `defer` 로 깃발을 내리지 않는다 - 그러면 읽어 오기도 전에 내려간다.
+        //    기록: docs/postmortem/HANG_PASTEBOARD_5_0_1.md
+        PasteboardReader.string { currentClipboard in
+            isCheckingClipboard = false
 
-        do {
-            let history = try MemoStore.shared.loadSmartClipboardHistory()
-            guard !isAlreadyLatestItem(currentClipboard, in: history) else { return }
+            guard let currentClipboard, !currentClipboard.isEmpty else { return }
 
-            try MemoStore.shared.addToSmartClipboardHistory(content: currentClipboard)
-            print("✅ [ClipboardList] 클립보드 자동 추가: \(currentClipboard.prefix(30))...")
-            loadHistory()
+            do {
+                let history = try MemoStore.shared.loadSmartClipboardHistory()
+                guard !isAlreadyLatestItem(currentClipboard, in: history) else { return }
 
-            let updatedHistory = try MemoStore.shared.loadSmartClipboardHistory()
-            if let newItem = updatedHistory.first {
-                highlightNewlyAdded(newItem)
+                try MemoStore.shared.addToSmartClipboardHistory(content: currentClipboard)
+                print("✅ [ClipboardList] 클립보드 자동 추가: \(currentClipboard.prefix(30))...")
+                loadHistory()
+
+                let updatedHistory = try MemoStore.shared.loadSmartClipboardHistory()
+                if let newItem = updatedHistory.first {
+                    highlightNewlyAdded(newItem)
+                }
+            } catch {
+                print("❌ [ClipboardList] 클립보드 체크 실패: \(error)")
             }
-        } catch {
-            print("❌ [ClipboardList] 클립보드 체크 실패: \(error)")
         }
     }
 
@@ -680,7 +687,7 @@ struct ClipboardItemRow: View {
 
                     VStack(alignment: .leading, spacing: 4) {
                         // 내용
-                        Text(item.content)
+                        Text(item.content.templateAwareAttributed(theme: theme, font: .body))
                             .font(.body)
                             .lineLimit(3)
                             .foregroundColor(.primary)
@@ -830,7 +837,7 @@ struct SaveToMemoSheet: View {
                 }
 
                 Section(NSLocalizedString("내용", comment: "Content section header")) {
-                    Text(item.content)
+                    Text(item.content.templateAwareAttributed(theme: theme, font: .body))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
@@ -960,7 +967,7 @@ private struct PasteTipBanner: View {
                         .fontWeight(.semibold)
                         .foregroundColor(theme.text)
 
-                    Text(NSLocalizedString("설정 → 클립키보드 → 다른 앱에서 붙여넣기 → 허용으로 설정하면 팝업이 더 이상 뜨지 않습니다.", comment: "Paste tip banner body"))
+                    Text(NSLocalizedString("설정 → ClipKeyboard → 다른 앱에서 붙여넣기 → 허용으로 설정하면 팝업이 더 이상 뜨지 않습니다.", comment: "Paste tip banner body"))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                         .fixedSize(horizontal: false, vertical: true)

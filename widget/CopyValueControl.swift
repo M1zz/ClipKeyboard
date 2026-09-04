@@ -11,7 +11,7 @@
 //  ⚠️ **포그라운드 모드로 만들지 말 것.** `supportedModes` 를 선언하지 않으면 백그라운드
 //     전용으로 취급되는데, 이 인텐트에는 그게 맞다. `.foreground` 를 붙이는 순간 앱이 떠서
 //     이 기능의 존재 이유가 사라진다. (제어센터 인텐트 일반론은
-//     docs/CONTROL_CENTER_APP_LAUNCH.md - 저건 **앱을 여는** 인텐트 이야기다)
+//     docs/engineering/CONTROL_CENTER_APP_LAUNCH.md - 저건 **앱을 여는** 인텐트 이야기다)
 //
 //  ⚠️ 앱 타겟에 같은 타입을 두지 않는다. 앱 프로세스에서 실행될 일이 없기 때문이다.
 //     (`AddQuickNoteControlIntent` 는 포그라운드라 앱 타겟에도 있어야 했다 - 사정이 다르다)
