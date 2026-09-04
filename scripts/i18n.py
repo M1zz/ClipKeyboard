@@ -76,9 +76,15 @@ def read_catalog(cfg):
 
 
 def write_catalog(cfg, d):
-    """Xcode 가 쓰는 것과 바이트까지 같은 형식으로 쓴다(구분자 " : " 가 그 표시다)."""
+    """Xcode 가 쓰는 것과 바이트까지 같은 형식으로 쓴다.
+
+    표시가 둘이다. 구분자 `" : "` 와 **마지막 줄바꿈이 없다는 것.**
+
+    ⚠️ 끝에 줄바꿈을 붙이지 않는다. Xcode 는 안 붙인다. 우리가 붙이면 빌드할 때마다
+       그 한 글자가 오갔다 하며 2.5 MB 짜리 파일에 diff 가 선다.
+    """
     io.open(os.path.join(ROOT, cfg["catalog"]), "w", encoding="utf-8").write(
-        json.dumps(d, ensure_ascii=False, indent=2, separators=(",", " : "), sort_keys=False) + "\n")
+        json.dumps(d, ensure_ascii=False, indent=2, separators=(",", " : "), sort_keys=False))
 
 
 def load_cfg():
@@ -290,9 +296,14 @@ def _add_from_source(catalog):
                 strings[key] = entry
                 added += 1
     if added:
-        d["strings"] = collections.OrderedDict(sorted(strings.items()))
+        # ⚠️ **다시 정렬하지 않는다.** 새 키는 뒤에 붙이고 자리는 Xcode 가 정하게 둔다.
+        #
+        #    Xcode 의 키 순서는 파이썬의 `sorted` 와 다르다(문장부호를 다르게 친다).
+        #    여기서 파이썬 순서로 다시 쓰면 다음 빌드에서 Xcode 가 자기 순서로 되돌리고,
+        #    그때마다 2.5 MB 파일이 통째로 diff 에 선다. 실제로 한 번 그랬다
+        #    (4만 8천 줄). 순서의 주인은 하나여야 하고, 그 주인은 Xcode 다.
         io.open(catalog, "w", encoding="utf-8").write(
-            json.dumps(d, ensure_ascii=False, indent=2, separators=(",", " : "), sort_keys=False) + "\n")
+            json.dumps(d, ensure_ascii=False, indent=2, separators=(",", " : "), sort_keys=False))
     return added
 
 

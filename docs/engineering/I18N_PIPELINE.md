@@ -79,6 +79,27 @@ they are code, not words" 를 적었더니 러시아어에서도 `MMM d, yyyy` �
 4. `python3 scripts/i18n.py build && python3 scripts/i18n.py wire`
 5. `python3 scripts/i18n.py check` 가 통과해야 커밋된다
 
+## 카탈로그를 쓸 때의 두 가지 (안 지키면 4만 줄이 튄다)
+
+`Localizable.xcstrings` 는 **Xcode 도 쓰고 우리도 쓴다.** 두 손이 같은 파일에 글씨를 쓰는
+셈이라, 형식이 한 글자라도 다르면 빌드할 때마다 2.5 MB 파일이 통째로 diff 에 선다.
+실제로 한 번 겪었다(48,529줄).
+
+1. **키 순서를 다시 매기지 않는다.** Xcode 의 정렬은 파이썬 `sorted` 와 다르다
+   (문장부호를 다르게 친다). 우리가 파이썬 순서로 쓰면 다음 빌드에서 Xcode 가 되돌린다.
+   순서의 주인은 하나여야 하고, 그 주인은 Xcode 다. 새 키는 뒤에 붙이고 자리는 맡긴다.
+2. **끝에 줄바꿈을 붙이지 않는다.** Xcode 는 안 붙인다.
+
+두 규칙은 `scripts/i18n.py` 의 `write_catalog` 와 `scripts/make_zh_hant.py` 양쪽에 있다.
+확인하는 법 (아무것도 안 나와야 한다):
+
+```bash
+shasum ClipKeyboard/Localizable.xcstrings > /tmp/before.sha
+xcodebuild -project ClipKeyboard.xcodeproj -scheme ClipKeyboard \
+  -destination 'generic/platform=iOS Simulator' build >/dev/null
+shasum -c /tmp/before.sha
+```
+
 ## 검사가 절반이다
 
 40개 언어를 사람이 눈으로 볼 수 없다. 그래서 `check` 가 유일한 품질 보증이다.

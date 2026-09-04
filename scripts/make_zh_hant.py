@@ -75,8 +75,10 @@ def main():
         print(f"간체 {len(keys)}건 중 번체가 다른 항목 {changed}건")
         return 1 if changed else 0
 
+    # ⚠️ 끝에 줄바꿈을 붙이지 않는다. Xcode 는 안 붙인다 - 붙이면 빌드할 때마다
+    #    그 한 글자가 오갔다 하며 diff 가 선다 (scripts/i18n.py 의 `write_catalog` 와 같은 규칙).
     io.open(CATALOG, "w", encoding="utf-8").write(
-        json.dumps(d, ensure_ascii=False, indent=2, separators=(",", " : "), sort_keys=False) + "\n"
+        json.dumps(d, ensure_ascii=False, indent=2, separators=(",", " : "), sort_keys=False)
     )
     print(f"번체 {len(keys)}건 재생성 (바뀐 항목 {changed}건)")
     return 0

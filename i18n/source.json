@@ -4628,8 +4628,8 @@
   "단축어": {
     "ko": "단축어",
     "en": "Snippet",
-    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter",
-    "h": "8c10487a02"
+    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSnippet (saved key-value item) display name",
+    "h": "e5f8dadd0c"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "ko": "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.",
@@ -6734,8 +6734,8 @@
   "붙여넣기": {
     "ko": "붙여넣기",
     "en": "Paste",
-    "comment": "Paste clipboard value chip",
-    "h": "08be8d76ea"
+    "comment": "Paste clipboard key",
+    "h": "e2803c8693"
   },
   "붙여넣기 알림 설정": {
     "ko": "붙여넣기 알림 설정",
@@ -6902,8 +6902,8 @@
   "빈칸 값 설정": {
     "ko": "빈칸 값 설정",
     "en": "Blank Values",
-    "comment": "Blank value settings",
-    "h": "fd19407153"
+    "comment": "Placeholder value settings",
+    "h": "a442b0c010"
   },
   "빈칸 관리": {
     "ko": "빈칸 관리",
@@ -9554,8 +9554,8 @@
   "이 템플릿에는 빈칸이 없습니다": {
     "ko": "이 템플릿에는 빈칸이 없습니다",
     "en": "This template has no blanks",
-    "comment": "No blanks in template",
-    "h": "83a3af747b"
+    "comment": "No placeholders in template",
+    "h": "38ddcf4133"
   },
   "이 템플릿은 바로 사용 가능합니다": {
     "ko": "이 템플릿은 바로 사용 가능합니다",
@@ -10964,8 +10964,8 @@
   "즐겨찾기": {
     "ko": "즐겨찾기",
     "en": "Favorites",
-    "comment": "Category tab: favorites\nCategory: favorites\nFavorites\nFavorites filter chip\nVoiceOver: favorite badge",
-    "h": "6bff8a6761"
+    "comment": "Category tab: favorites\nCategory: favorites\nFavorites\nVoiceOver: favorite badge",
+    "h": "e7fbb3c3a7"
   },
   "즐겨찾기 단축어": {
     "ko": "즐겨찾기 단축어",
@@ -11552,8 +11552,8 @@
   "추가": {
     "ko": "추가",
     "en": "Add",
-    "comment": "Add\nAdd button\nAdd placeholder value button",
-    "h": "11a3e1b586"
+    "comment": "Add\nAdd button",
+    "h": "381c17c0df"
   },
   "추가 실패": {
     "ko": "추가 실패",
@@ -12716,8 +12716,8 @@
   "탭하면 커서 자리에 빈칸이 들어갑니다": {
     "ko": "탭하면 커서 자리에 빈칸이 들어갑니다",
     "en": "Tap to insert a blank at the cursor",
-    "comment": "Template blank button hint",
-    "h": "13fb74331f"
+    "comment": "Quick insert token button hint\nTemplate variable button hint",
+    "h": "9bcfa7f792"
   },
   "탭하면 클립보드에 복사, 꾹 누르면 추가 옵션": {
     "ko": "탭하면 클립보드에 복사, 꾹 누르면 추가 옵션",
