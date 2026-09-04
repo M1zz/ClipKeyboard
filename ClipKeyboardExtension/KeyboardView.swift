@@ -309,6 +309,16 @@ struct KeyboardView: View {
     @State private var showEditAppliedToast = false
     /// 앱 안에서 길게 눌러 복사했다는 확인. (익스텐션에서는 뜰 일이 없다)
     @State private var showCopiedToast = false
+    /// 길게 눌러 판을 연 시각. 바로 뒤에 따라오는 탭 한 번을 삼키는 데 쓴다.
+    ///
+    /// ⚠️ 참·거짓 깃발로 두지 않는다. 길게 누른 뒤 탭이 **안 올 수도 있어서**(SwiftUI 가
+    ///    이미 삼킨 경우) 깃발이 켜진 채로 남고, 그러면 다음에 제대로 누른 한 번이 사라진다.
+    ///    시각으로 두면 스스로 풀린다.
+    @State private var clipboardLongPressAt: Date?
+    @State private var showEmptyClipboardToast = false
+    /// 복사한 것에서 조각을 고르는 판. nil 이면 안 떠 있다.
+    /// (사용자 요청: "웹페이지에서 내용을 복사한 후 일부만 붙여넣고 싶을 때")
+    @State private var clipboardPickerText: String?
     /// 길게 눌러 복사한 직후의 키 - 이어서 들어오는 탭을 한 번 무시한다.
     /// (길게 눌렀는데 글까지 입력되면 "복사만 하려 했는데"가 된다)
     @State private var suppressTapAfterLongPress: UUID?
@@ -570,6 +580,20 @@ struct KeyboardView: View {
 
             // 길게 눌러 값을 크게 보는 판 - 시스템 컨텍스트 메뉴는 키보드 창에 갇혀
             // 150pt 남짓으로 잘린다. 이 자리는 우리 것이라 꽉 채워 쓸 수 있다.
+            // 복사한 것에서 필요한 데까지만 고르는 판.
+            if let text = clipboardPickerText {
+                KeyboardClipboardPicker(
+                    text: text,
+                    theme: theme,
+                    onInsert: { picked in
+                        typingProxy?.insertText(picked)
+                        clipboardPickerText = nil
+                    },
+                    onClose: { clipboardPickerText = nil }
+                )
+                .transition(.opacity)
+            }
+
             if let memo = peekMemo {
                 KeyboardMemoPeek(
                     memo: memo,
@@ -585,6 +609,88 @@ struct KeyboardView: View {
                 .transition(.opacity)
             }
         }
+    }
+
+    /// 한 글자 지우기. 붙잡고 있으면 이어서 지운다.
+    ///
+    /// 왜 X(전체 삭제) 만으로는 모자란가: 오타는 한 글자다. 전체를 지우면 다시 다 써야 하고,
+    /// 그래서 사람들은 지구본을 눌러 다른 키보드로 건너갔다가 돌아왔다.
+    /// 넣어 주는 키보드인데 고치러는 나가야 했다.
+    private func backspaceDocumentKey(proxy: TypingInputProxy) -> some View {
+        RepeatingKey {
+            KeyboardHaptics.tap()
+            proxy.deleteBackward()
+        } label: {
+            Image(systemName: AppSymbol.deleteLeftFill)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundColor(theme.text)
+                .frame(width: 36, height: 28)
+                .background(theme.divider)
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+        }
+        .frame(minWidth: 44, minHeight: 44)
+        .padding(.trailing, 2)
+        .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace key"))
+        .accessibilityHint(NSLocalizedString("한 글자씩 지웁니다. 누르고 있으면 이어서 지웁니다", comment: "Backspace key hint"))
+    }
+
+    /// 복사한 것을 넣는 키.
+    ///
+    /// **짧게 누르면 통째로, 길게 누르면 조각을 골라서.**
+    /// 이 저장소가 이미 쓰는 손짓이다(키 하나가 두 가지 일을 한다 - `InAppLongPressCopy`).
+    private func clipboardKey(proxy: TypingInputProxy) -> some View {
+        Button {
+            if let at = clipboardLongPressAt, Date().timeIntervalSince(at) < 0.8 { return }
+            guard let text = clipboardTextForInsert() else { return }
+            KeyboardHaptics.tap()
+            proxy.insertText(text)
+        } label: {
+            Image(systemName: AppSymbol.docOnClipboard)
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundColor(theme.textMuted)
+                .frame(width: 32, height: 28)
+                .background(theme.surface)
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+        }
+        .buttonStyle(PlainButtonStyle())
+        .frame(minWidth: 44, minHeight: 44)
+        .padding(.trailing, 2)
+        .onLongPressGesture(minimumDuration: 0.4) {
+            clipboardLongPressAt = Date()
+            openClipboardPicker()
+        }
+        .accessibilityLabel(NSLocalizedString("붙여넣기", comment: "Paste clipboard key"))
+        .accessibilityHint(NSLocalizedString("복사한 것을 넣습니다. 길게 누르면 필요한 부분만 고를 수 있습니다", comment: "Paste key hint"))
+        // 길게 누르기를 모르는 사람도, 손이 불편한 사람도 쓸 수 있게.
+        .accessibilityAction(named: Text(NSLocalizedString("부분만 고르기", comment: "Accessibility action: pick part of clipboard"))) {
+            openClipboardPicker()
+        }
+    }
+
+    private func openClipboardPicker() {
+        guard let text = clipboardTextForInsert() else { return }
+        KeyboardHaptics.mediumTap()
+        withAnimation { clipboardPickerText = text }
+    }
+
+    /// 클립보드의 글. 없거나 못 읽으면 안내를 띄우고 nil.
+    ///
+    /// ⚠️ 읽는 때는 **사용자가 키를 누른 순간뿐이다.** 저절로 읽지 않는다
+    ///    (`docs/postmortem/HANG_PASTEBOARD_5_0_1.md` - 유니버설 클립보드가 켜져 있으면
+    ///     읽기가 옆 기기를 기다린다). 누른 사람에게는 그 기다림이 곧 대답이다.
+    private func clipboardTextForInsert() -> String? {
+        if hostKind == .keyboardExtension, !requireFullAccess() { return nil }
+        // pasteboard-ok: 사용자가 붙여넣기 키를 직접 눌렀다
+        let text = UIPasteboard.general.string ?? ""
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            KeyboardHaptics.softTap()
+            withAnimation { showEmptyClipboardToast = true }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                withAnimation { showEmptyClipboardToast = false }
+            }
+            return nil
+        }
+        return text
     }
 
     private func clearAllButton(proxy: TypingInputProxy) -> some View {
@@ -632,6 +738,15 @@ struct KeyboardView: View {
                     }
                     // X(전체 삭제)도 앱 안에서는 **처음부터** 서 있다. 글이 생길 때 나타나면
                     // 그 순간 줄이 흔들리고, 무엇보다 "지울 수 있다"를 미리 알 수 없다.
+                    // 복사한 것을 넣는 키. 지울 수 있게 된 김에 붙여넣을 수도 있어야 한다.
+                    if let proxy = typingProxy {
+                        clipboardKey(proxy: proxy)
+                    }
+                    // 한 글자 지우기. 이게 없어서 오타 하나를 고치려고 **다른 키보드로
+                    // 건너갔다가 돌아와야 했다**(사용자 요청).
+                    if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
+                        backspaceDocumentKey(proxy: proxy)
+                    }
                     if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
                         clearAllButton(proxy: proxy)
                             .padding(.trailing, 4)
@@ -746,6 +861,17 @@ struct KeyboardView: View {
         .overlay(alignment: .bottom) {
             if showImageCopiedToast {
                 Text(NSLocalizedString("이미지 복사됨 · 붙여넣기 하세요", comment: "Image copied toast"))
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.black.opacity(0.75))
+                    .clipShape(Capsule())
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+            if showEmptyClipboardToast {
+                Text(NSLocalizedString("복사해 둔 것이 없어요", comment: "Toast: clipboard is empty"))
                     .font(.footnote.weight(.medium))
                     .foregroundColor(.white)
                     .padding(.horizontal, 16)
