@@ -4133,6 +4133,12 @@
     "comment": "Restore from dated snapshots description",
     "h": "467163b605"
   },
+  "날짜와 시간 서식을 직접 만들 수 있어요. 조각을 눌러 넣으면 오늘 날짜가 그 모양으로 바로 보여요": {
+    "ko": "날짜와 시간 서식을 직접 만들 수 있어요. 조각을 눌러 넣으면 오늘 날짜가 그 모양으로 바로 보여요",
+    "en": "Build your own date and time formats. Tap the pieces and today's date shows up in that shape right away.",
+    "comment": "Changelog 5.0.8 custom date format",
+    "h": "b0e4d08267"
+  },
   "날짜와 시간이 사시는 곳의 모양으로 들어가요. 미국은 08/31/2026 과 9:57 PM, 영국은 31/08/2026 이에요": {
     "ko": "날짜와 시간이 사시는 곳의 모양으로 들어가요. 미국은 08/31/2026 과 9:57 PM, 영국은 31/08/2026 이에요",
     "en": "Dates and times take the shape used where you live. The US gets 08/31/2026 and 9:57 PM, the UK gets 31/08/2026",
@@ -5417,11 +5423,23 @@
     "comment": "Changelog 4.3.1 item 3",
     "h": "7fc5e5675b"
   },
+  "띄어쓰기가 없는 중국어와 일본어도 단어로 잘라서 보여드려요": {
+    "ko": "띄어쓰기가 없는 중국어와 일본어도 단어로 잘라서 보여드려요",
+    "en": "Chinese and Japanese are split into words too, even without spaces.",
+    "comment": "Changelog 5.0.8 word split cjk",
+    "h": "04b0217c56"
+  },
   "라이트": {
     "ko": "라이트",
     "en": "Light",
     "comment": "Keyboard theme: light mode",
     "h": "d127e07140"
+  },
+  "러시아어를 지원해요": {
+    "ko": "러시아어를 지원해요",
+    "en": "Russian is now supported.",
+    "comment": "Changelog 5.0.8 russian",
+    "h": "6015bd85cb"
   },
   "레이아웃 미리보기": {
     "ko": "레이아웃 미리보기",
@@ -6215,6 +6233,12 @@
     "comment": "Translating progress label",
     "h": "82e6fb4e56"
   },
+  "번역이 Apple Intelligence 없이도 동작해요. 쓸 수 있는 언어도 늘었어요": {
+    "ko": "번역이 Apple Intelligence 없이도 동작해요. 쓸 수 있는 언어도 늘었어요",
+    "en": "Translation now works without Apple Intelligence, and covers more languages.",
+    "comment": "Changelog 5.0.8 translation",
+    "h": "e4a041fd98"
+  },
   "번역하지 못했어요. 잠시 후 다시 시도해 주세요.": {
     "ko": "번역하지 못했어요. 잠시 후 다시 시도해 주세요.",
     "en": "Couldn't translate. Please try again soon.",
@@ -6736,6 +6760,12 @@
     "en": "The paste practice screen is gone. The value was already in place the moment you tapped a card",
     "comment": "Changelog 5.0.3 paste practice removed",
     "h": "5d0bbd5f51"
+  },
+  "붙여넣기 키를 길게 누르면 복사한 것 중 필요한 데까지만 골라 넣을 수 있어요": {
+    "ko": "붙여넣기 키를 길게 누르면 복사한 것 중 필요한 데까지만 골라 넣을 수 있어요",
+    "en": "Press and hold the paste key to insert only the part you need from what you copied.",
+    "comment": "Changelog 5.0.8 partial paste",
+    "h": "040f8c82f6"
   },
   "붙여넣기 팝업 없애는 방법": {
     "ko": "붙여넣기 팝업 없애는 방법",
@@ -10889,6 +10919,12 @@
     "comment": "Changelog 5.0.5 chinese",
     "h": "d089e954e3"
   },
+  "중국어에서 여러 줄 안내가 첫 줄만 보이던 것을 고쳤어요": {
+    "ko": "중국어에서 여러 줄 안내가 첫 줄만 보이던 것을 고쳤어요",
+    "en": "Fixed multi-line messages in Chinese that only showed their first line.",
+    "comment": "Changelog 5.0.8 chinese truncation",
+    "h": "84f1fd4099"
+  },
   "즐겨찾기": {
     "ko": "즐겨찾기",
     "en": "Favorites",
@@ -12370,6 +12406,12 @@
     "en": "Set up your keyboard in one go",
     "comment": "Merged setup page title",
     "h": "741d40232a"
+  },
+  "키보드에 지우기 키가 생겼어요. 오타 하나를 고치려고 다른 키보드로 건너갈 일이 없어요": {
+    "ko": "키보드에 지우기 키가 생겼어요. 오타 하나를 고치려고 다른 키보드로 건너갈 일이 없어요",
+    "en": "The keyboard now has a delete key. No more switching keyboards to fix one typo.",
+    "comment": "Changelog 5.0.8 backspace key",
+    "h": "8eda686b5d"
   },
   "키보드에 표시할 이름": {
     "ko": "키보드에 표시할 이름",

@@ -27677,6 +27677,35 @@
         }
       }
     },
+    "날짜와 시간 서식을 직접 만들 수 있어요. 조각을 눌러 넣으면 오늘 날짜가 그 모양으로 바로 보여요" : {
+      "comment" : "Changelog 5.0.8 custom date format",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Build your own date and time formats. Tap the pieces and today's date shows up in that shape right away."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте свой формат даты и времени. Нажимайте на фрагменты, и сегодняшняя дата сразу покажется в этом виде."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以自己做日期和时间的样式。点一下部件，今天的日期马上就按那个样子显示出来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以自己做日期和時間的樣式。點一下部件，今天的日期馬上就按那個樣子顯示出來。"
+          }
+        }
+      }
+    },
     "날짜와 시간이 사시는 곳의 모양으로 들어가요. 미국은 08/31/2026 과 9:57 PM, 영국은 31/08/2026 이에요" : {
       "comment" : "Changelog 5.0.6 date format",
       "localizations" : {
@@ -35281,6 +35310,35 @@
         }
       }
     },
+    "띄어쓰기가 없는 중국어와 일본어도 단어로 잘라서 보여드려요" : {
+      "comment" : "Changelog 5.0.8 word split cjk",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chinese and Japanese are split into words too, even without spaces."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Китайский и японский тоже делятся на слова, даже без пробелов."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中文和日文没有空格，也一样能按词切开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中文和日文沒有空格，也一樣能按詞切開。"
+          }
+        }
+      }
+    },
     "라이트" : {
       "comment" : "Keyboard theme: light mode",
       "extractionState" : "stale",
@@ -35307,6 +35365,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "淺色"
+          }
+        }
+      }
+    },
+    "러시아어를 지원해요" : {
+      "comment" : "Changelog 5.0.8 russian",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Russian is now supported."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Теперь доступен русский язык."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增俄语支持。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增俄語支援。"
           }
         }
       }
@@ -40211,6 +40298,35 @@
         }
       }
     },
+    "번역이 Apple Intelligence 없이도 동작해요. 쓸 수 있는 언어도 늘었어요" : {
+      "comment" : "Changelog 5.0.8 translation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Translation now works without Apple Intelligence, and covers more languages."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перевод теперь работает и без Apple Intelligence. Языков стало больше."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "翻译不用 Apple Intelligence 也能用了，支持的语言也更多。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "翻譯不用 Apple Intelligence 也能用了，支援的語言也更多。"
+          }
+        }
+      }
+    },
     "번역하지 못했어요. 잠시 후 다시 시도해 주세요." : {
       "comment" : "Translation failed error",
       "localizations" : {
@@ -43000,6 +43116,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "去掉了貼上練習頁面。其實你點下卡片的那一刻，值就已經進去了"
+          }
+        }
+      }
+    },
+    "붙여넣기 키를 길게 누르면 복사한 것 중 필요한 데까지만 골라 넣을 수 있어요" : {
+      "comment" : "Changelog 5.0.8 partial paste",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Press and hold the paste key to insert only the part you need from what you copied."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удерживайте клавишу вставки, чтобы вставить только нужную часть скопированного."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长按粘贴键，就能只挑复制内容里需要的那部分插入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長按貼上鍵，就能只挑複製內容裡需要的那部分插入。"
           }
         }
       }
@@ -68040,6 +68185,35 @@
         }
       }
     },
+    "중국어에서 여러 줄 안내가 첫 줄만 보이던 것을 고쳤어요" : {
+      "comment" : "Changelog 5.0.8 chinese truncation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fixed multi-line messages in Chinese that only showed their first line."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Исправлено: многострочные сообщения на китайском показывали только первую строку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修复了中文里多行提示只显示第一行的问题。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "修復了中文裡多行提示只顯示第一行的問題。"
+          }
+        }
+      }
+    },
     "즐겨찾기" : {
       "comment" : "Category tab: favorites\nCategory: favorites\nFavorites\nFavorites filter chip\nVoiceOver: favorite badge",
       "localizations" : {
@@ -76872,6 +77046,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一次把鍵盤設定好"
+          }
+        }
+      }
+    },
+    "키보드에 지우기 키가 생겼어요. 오타 하나를 고치려고 다른 키보드로 건너갈 일이 없어요" : {
+      "comment" : "Changelog 5.0.8 backspace key",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The keyboard now has a delete key. No more switching keyboards to fix one typo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На клавиатуре появилась клавиша удаления. Больше не нужно переключаться на другую клавиатуру ради одной опечатки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "键盘上有删除键了。改一个错字不用再切到别的键盘。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鍵盤上有刪除鍵了。改一個錯字不用再切到別的鍵盤。"
           }
         }
       }

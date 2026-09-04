@@ -35,6 +35,23 @@ enum ChangelogData {
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
     static let entries: [ChangelogEntry] = [
         ChangelogEntry(
+            version: "5.0.8",
+            released: nil,
+            highlights: [
+                // 키보드
+                NSLocalizedString("키보드에 지우기 키가 생겼어요. 오타 하나를 고치려고 다른 키보드로 건너갈 일이 없어요", comment: "Changelog 5.0.8 backspace key"),
+                NSLocalizedString("붙여넣기 키를 길게 누르면 복사한 것 중 필요한 데까지만 골라 넣을 수 있어요", comment: "Changelog 5.0.8 partial paste"),
+                NSLocalizedString("띄어쓰기가 없는 중국어와 일본어도 단어로 잘라서 보여드려요", comment: "Changelog 5.0.8 word split cjk"),
+                // 날짜 서식
+                NSLocalizedString("날짜와 시간 서식을 직접 만들 수 있어요. 조각을 눌러 넣으면 오늘 날짜가 그 모양으로 바로 보여요", comment: "Changelog 5.0.8 custom date format"),
+                // 번역
+                NSLocalizedString("번역이 Apple Intelligence 없이도 동작해요. 쓸 수 있는 언어도 늘었어요", comment: "Changelog 5.0.8 translation"),
+                // 언어
+                NSLocalizedString("러시아어를 지원해요", comment: "Changelog 5.0.8 russian"),
+                NSLocalizedString("중국어에서 여러 줄 안내가 첫 줄만 보이던 것을 고쳤어요", comment: "Changelog 5.0.8 chinese truncation"),
+            ]
+        ),
+        ChangelogEntry(
             version: "5.0.7",
             released: nil,
             highlights: [
