@@ -42,6 +42,7 @@ enum ChangelogData {
                 NSLocalizedString("키보드에 지우기 키가 생겼어요. 오타 하나를 고치려고 다른 키보드로 건너갈 일이 없어요", comment: "Changelog 5.0.8 backspace key"),
                 NSLocalizedString("붙여넣기 키를 길게 누르면 복사한 것 중 필요한 데까지만 골라 넣을 수 있어요", comment: "Changelog 5.0.8 partial paste"),
                 NSLocalizedString("띄어쓰기가 없는 중국어와 일본어도 단어로 잘라서 보여드려요", comment: "Changelog 5.0.8 word split cjk"),
+                NSLocalizedString("빈칸이 여러 개인 단축어를 채울 때, 지금 채우는 칸만 펼쳐요. 하나를 고르면 다음 칸이 저절로 펼쳐집니다", comment: "Changelog 5.0.8 compact placeholders"),
                 // 날짜 서식
                 NSLocalizedString("날짜와 시간 서식을 직접 만들 수 있어요. 조각을 눌러 넣으면 오늘 날짜가 그 모양으로 바로 보여요", comment: "Changelog 5.0.8 custom date format"),
                 // 번역

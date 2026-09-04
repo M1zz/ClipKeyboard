@@ -29341,6 +29341,35 @@
         }
       }
     },
+    "눌러서 이 빈칸을 펼칩니다" : {
+      "comment" : "Collapsed placeholder row hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to open this blank"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите, чтобы открыть это поле"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点一下展开这个填空位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點一下展開這個填空位"
+          }
+        }
+      }
+    },
     "눌러서 이 이름으로 단축어를 추가합니다" : {
       "comment" : "VoiceOver: search suggestion hint",
       "localizations" : {
@@ -44002,6 +44031,35 @@
         }
       }
     },
+    "빈칸 한 칸씩 채우기" : {
+      "comment" : "Compact placeholder filling toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill blanks one at a time"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заполнять поля по одному"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次填一个空位"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一次填一個空位"
+          }
+        }
+      }
+    },
     "빈칸마다 무슨 값인지 이름이 보이고, 칸이 따로 구분돼요" : {
       "comment" : "Changelog 5.0.0 blank names",
       "localizations" : {
@@ -44185,6 +44243,93 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "點一下空位來填寫"
+          }
+        }
+      }
+    },
+    "빈칸이 여러 개인 단축어를 채울 때, 지금 채우는 칸만 펼쳐요. 하나를 고르면 다음 칸이 저절로 펼쳐집니다" : {
+      "comment" : "Changelog 5.0.8 compact placeholders",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When a snippet has several blanks, only the one you are filling opens. Pick a value and the next one opens by itself."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если во фразе несколько полей для заполнения, открыто только то, которое вы заполняете сейчас. Выберите значение, и следующее поле откроется само."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短语里有好几个空位时，只展开你正在填的那个。选好一个，下一个会自己展开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短語裡有好幾個空位時，只展開你正在填的那個。選好一個，下一個會自己展開。"
+          }
+        }
+      }
+    },
+    "빈칸이 여러 개인 단축어를 키보드에서 채울 때, 지금 채우는 칸만 펼치고 나머지는 한 줄로 접어 둬요. 하나를 고르면 다음 칸이 저절로 펼쳐집니다. 전부 펼쳐 보고 싶으면 설정에서 끌 수 있어요." : {
+      "comment" : "DYK body: compact placeholders",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you fill a snippet with several blanks on the keyboard, only the one you are working on opens and the rest fold into a single line. Pick a value and the next one opens by itself. You can turn this off in Settings if you would rather see them all."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда вы заполняете на клавиатуре фразу с несколькими полями, открыто только то, которое вы заполняете сейчас, а остальные свёрнуты в одну строку. Выберите значение, и следующее поле откроется само. Если хотите видеть все поля сразу, это можно отключить в настройках."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在键盘上填有好几个空位的短语时，只展开正在填的那个，其余的收成一行。选好一个，下一个会自己展开。想全部展开的话可以在设置里关掉。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在鍵盤上填有好幾個空位的短語時，只展開正在填的那個，其餘的收成一行。選好一個，下一個會自己展開。想全部展開的話可以在設定裡關掉。"
+          }
+        }
+      }
+    },
+    "빈칸이 여럿이어도 굴리지 않아요" : {
+      "comment" : "DYK title: compact placeholders",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No more scrolling when there are several blanks"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без прокрутки, даже если полей много"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空位再多也不用来回滚动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空位再多也不用來回滾動"
           }
         }
       }
@@ -69980,6 +70125,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "填的過程中就能看到最終結果"
+          }
+        }
+      }
+    },
+    "채우는 칸만 펼치고 나머지는 한 줄로 접어요. 빈칸이 여럿이어도 굴리지 않고 다 보입니다. 끄면 전부 펼쳐요." : {
+      "comment" : "Compact placeholder filling footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only the blank you are filling opens, the rest fold into one line. Several blanks fit without scrolling. Turn it off to open them all."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыто только то поле, которое вы заполняете, остальные свёрнуты в одну строку. Даже если полей много, всё видно без прокрутки. Отключите, чтобы открыть все."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只展开正在填的空位，其余收成一行。空位再多也不用滚动就能看全。关掉就全部展开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只展開正在填的空位，其餘收成一行。空位再多也不用滾動就能看全。關掉就全部展開。"
           }
         }
       }

@@ -287,3 +287,62 @@ final class DateTokenFormatTests: XCTestCase {
         XCTAssertEqual(DateTokenFormat.customPatterns.count, DateTokenFormat.maxCustomPatterns)
     }
 }
+
+// MARK: - 빈칸 한 칸씩 채우기
+
+/// 키보드에서 빈칸이 여럿일 때 **다음에 펼칠 칸**을 고르는 규칙.
+///
+/// 왜 생겼나: 사용자 요청. "빈칸이 여러 개일 때 스크롤이 번거로워서요."
+/// 키보드는 약 290pt 인데 빈칸 한 칸이 102pt 라 두 개도 다 안 보인다.
+/// 한 칸만 펼치기로 했고, 그러면 **다음 칸으로 저절로 넘어가야** 손해가 아니다.
+final class NextUnfilledPlaceholderTests: XCTestCase {
+
+    private let all = ["{금액}", "{수신인}", "{IBAN}", "{SWIFT}"]
+
+    func test_아무것도_안_채웠으면_첫_칸이다() {
+        let next = TemplateInputState.nextUnfilled(in: all, inputs: [:], after: nil)
+        XCTAssertEqual(next, "{금액}")
+    }
+
+    func test_채우면_바로_다음_칸으로_간다() {
+        let next = TemplateInputState.nextUnfilled(in: all, inputs: ["{금액}": "10000"], after: "{금액}")
+        XCTAssertEqual(next, "{수신인}")
+    }
+
+    /// 사람은 셋째 칸을 먼저 누를 수 있다. 그 다음은 넷째가 아니라 **아직 빈 첫째**다.
+    /// 순서대로만 가면 건너뛴 칸이 영영 안 펼쳐지고, 왜 입력하기가 안 눌리는지 모르게 된다.
+    func test_건너뛴_칸으로_되돌아온다() {
+        let inputs = ["{IBAN}": "DE89", "{SWIFT}": "COBADEFF"]
+        let next = TemplateInputState.nextUnfilled(in: all, inputs: inputs, after: "{SWIFT}")
+        XCTAssertEqual(next, "{금액}", "뒤에 빈 칸이 없으면 앞으로 돌아가 찾아야 한다")
+    }
+
+    func test_이미_채운_칸은_건너뛴다() {
+        let inputs = ["{금액}": "10000", "{수신인}": "홍길동"]
+        let next = TemplateInputState.nextUnfilled(in: all, inputs: inputs, after: "{금액}")
+        XCTAssertEqual(next, "{IBAN}")
+    }
+
+    /// 다 채웠으면 아무것도 펼치지 않는다. 그때는 채운 값이 한눈에 보이고 입력하기만 남는다.
+    func test_다_채웠으면_펼칠_칸이_없다() {
+        let inputs = ["{금액}": "1", "{수신인}": "2", "{IBAN}": "3", "{SWIFT}": "4"]
+        XCTAssertNil(TemplateInputState.nextUnfilled(in: all, inputs: inputs, after: "{SWIFT}"))
+        XCTAssertNil(TemplateInputState.nextUnfilled(in: all, inputs: inputs, after: nil))
+    }
+
+    /// 빈 값으로 적힌 것은 안 채운 것이다.
+    func test_빈_문자열은_안_채운_것으로_본다() {
+        let next = TemplateInputState.nextUnfilled(in: all, inputs: ["{금액}": ""], after: nil)
+        XCTAssertEqual(next, "{금액}")
+    }
+
+    func test_빈칸이_없으면_nil() {
+        XCTAssertNil(TemplateInputState.nextUnfilled(in: [], inputs: [:], after: nil))
+    }
+
+    /// 다른 템플릿을 열어 목록이 바뀌면, 앞 템플릿의 칸을 가리킨 채로 남을 수 있다.
+    func test_목록에_없는_칸을_가리켜도_처음부터_찾는다() {
+        let next = TemplateInputState.nextUnfilled(in: all, inputs: [:], after: "{옛날칸}")
+        XCTAssertEqual(next, "{금액}")
+    }
+}

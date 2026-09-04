@@ -112,6 +112,102 @@ struct TemplateInputOverlay: View {
                          increasedContrast: contrast == .increased)
     }
 
+    /// 한 칸만 펼칠지. App Group 이라 앱 무대와 키보드 익스텐션이 같은 값을 본다.
+    @AppStorage(DefaultsKey.keyboardCompactPlaceholders, store: AppGroup.defaults)
+    private var compactPlaceholders: Bool = true
+
+    /// 지금 펼쳐 둘 칸.
+    ///
+    /// ⚠️ 아무것도 안 골라 둔 상태(화면을 막 열었을 때)를 따로 초기화하지 않는다.
+    ///    **아직 안 채운 첫 칸**을 그때그때 계산해 쓴다. `onAppear` 로 값을 심어 두면
+    ///    다른 템플릿을 열었을 때 앞 템플릿의 칸을 가리킨 채로 남는 순간이 생긴다.
+    ///
+    /// 다 채웠으면 nil 이다. 그때는 전부 접혀서 채운 값들이 한눈에 보이고,
+    /// 남은 일은 입력하기를 누르는 것뿐이다.
+    private var focusedPlaceholder: String? {
+        if let focused = state.currentFocusedPlaceholder,
+           state.placeholders.contains(focused) {
+            return focused
+        }
+        return TemplateInputState.nextUnfilled(in: state.placeholders,
+                                               inputs: state.inputs,
+                                               after: nil)
+    }
+
+    /// 접어 둘 칸인가.
+    ///
+    /// ⚠️ 빈칸이 하나뿐이면 접지 않는다. 접을 것이 없는데 접는 시늉만 하면
+    ///    한 번 더 눌러야 하는 일만 늘어난다.
+    private func isCollapsed(_ placeholder: String) -> Bool {
+        guard compactPlaceholders, state.placeholders.count > 1 else { return false }
+        return focusedPlaceholder != placeholder
+    }
+
+    /// 값이 정해지면 **다음 빈칸으로 저절로 넘어간다.**
+    ///
+    /// 이것이 없으면 접기는 손해다. 한 칸 채울 때마다 다음 칸을 손으로 눌러 펼쳐야 하니
+    /// 스크롤 대신 탭이 늘어날 뿐이다. 넘어가 주면 누르는 횟수는 예전과 같고 자리만 번다.
+    private func advanceFocus(from placeholder: String, filled value: String) {
+        guard compactPlaceholders, !value.isEmpty else { return }
+        var inputs = state.inputs
+        inputs[placeholder] = value
+        let next = TemplateInputState.nextUnfilled(in: state.placeholders,
+                                                   inputs: inputs,
+                                                   after: placeholder)
+        withAnimation(.easeOut(duration: 0.18)) {
+            state.currentFocusedPlaceholder = next
+        }
+    }
+
+    /// 접힌 한 줄. 이름과 고른 값만 보여주고, 누르면 펼쳐진다.
+    private func collapsedRow(_ placeholder: String) -> some View {
+        let value = state.inputs[placeholder] ?? ""
+        return Button {
+            KeyboardHaptics.tap()
+            withAnimation(.easeOut(duration: 0.18)) {
+                state.currentFocusedPlaceholder = placeholder
+            }
+        } label: {
+            HStack(spacing: 8) {
+                Text(placeholder.strippingTemplateBraces)
+                    .font(.footnote.weight(.semibold))
+                    .foregroundColor(theme.accent)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background(
+                        RoundedRectangle(cornerRadius: theme.radiusXs, style: .continuous)
+                            .fill(theme.accentSoft)
+                    )
+                    .lineLimit(1)
+
+                if value.isEmpty {
+                    Text(NSLocalizedString("아직 안 골랐어요", comment: "Placeholder not chosen yet"))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                } else {
+                    Text(value)
+                        .font(.footnote.weight(.semibold))
+                        .foregroundColor(Color(UIColor.systemGreen))
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                }
+
+                Spacer(minLength: 0)
+
+                Image(systemName: AppSymbol.chevronForward)
+                    .font(.caption2.weight(.semibold))
+                    .foregroundColor(.secondary)
+                    .accessibilityHidden(true)
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityHint(NSLocalizedString("눌러서 이 빈칸을 펼칩니다", comment: "Collapsed placeholder row hint"))
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             // MARK: 헤더 - 항상 보임: [00][000][0000] + 입력 + 닫기
@@ -219,6 +315,11 @@ struct TemplateInputOverlay: View {
                             .padding(40)
                         } else {
                             ForEach(state.placeholders, id: \.self) { placeholder in
+                                // 한 칸만 펼친다. 나머지는 이름과 고른 값만 한 줄로 접어 둔다.
+                                // (설정 > 키보드 > 빈칸 한 칸씩 채우기. 끄면 예전처럼 전부 펼친다)
+                                if isCollapsed(placeholder) {
+                                    collapsedRow(placeholder)
+                                } else {
                                 PlaceholderInputView(
                                     hostKind: hostKind,
                                     guidesUser: guidesUser,
@@ -242,10 +343,12 @@ struct TemplateInputOverlay: View {
                                         set: { newValue in
                                             state.inputs[placeholder] = newValue
                                             state.updateAllPlaceholdersFilled()
+                                            advanceFocus(from: placeholder, filled: newValue)
                                         }
                                     ),
                                     templateId: state.templateId
                                 )
+                                }
                             }
                         }
                     }

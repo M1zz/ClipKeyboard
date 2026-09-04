@@ -206,6 +206,13 @@ extension DidYouKnow {
             symbol: "app.connected.to.app.below.fill"
         ),
         DidYouKnow(
+            id: "compact-placeholders",
+            title: NSLocalizedString("빈칸이 여럿이어도 굴리지 않아요", comment: "DYK title: compact placeholders"),
+            body: NSLocalizedString("빈칸이 여러 개인 단축어를 키보드에서 채울 때, 지금 채우는 칸만 펼치고 나머지는 한 줄로 접어 둬요. 하나를 고르면 다음 칸이 저절로 펼쳐집니다. 전부 펼쳐 보고 싶으면 설정에서 끌 수 있어요.", comment: "DYK body: compact placeholders"),
+            symbol: AppSymbol.rectangleCompressVertical,
+            action: .openSettings
+        ),
+        DidYouKnow(
             id: "share-sheet",
             title: NSLocalizedString("다른 앱에서 바로 저장할 수 있어요", comment: "DYK title: share sheet"),
             body: NSLocalizedString("어떤 앱에서든 글을 고르고 공유에서 ClipKeyboard 를 누르면 단축어가 됩니다. 앱을 열지 않아도 돼요.", comment: "DYK body: share sheet"),

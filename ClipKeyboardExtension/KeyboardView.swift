@@ -197,6 +197,27 @@ class TemplateInputState: ObservableObject {
         allPlaceholdersFilled = !inputs.values.contains(where: { $0.isEmpty })
     }
 
+    /// **다음에 채울 칸.** 한 칸만 펼쳐 보여줄 때 어디를 펼칠지 정한다.
+    ///
+    /// 규칙은 하나다: 아직 안 채운 칸 중 `after` 다음 것. 뒤에 없으면 앞으로 돌아가 찾고,
+    /// 다 채웠으면 nil (그때는 아무것도 펼치지 않고 입력하기만 남는다).
+    ///
+    /// ⚠️ 순서대로만 가지 않는다. 사람이 셋째 칸을 먼저 눌러 채울 수 있고, 그 다음은
+    ///    넷째가 아니라 **아직 빈 첫째** 여야 한다. 순서대로만 가면 건너뛴 칸이
+    ///    영영 안 펼쳐지고, 사용자는 왜 입력하기가 안 눌리는지 모른 채 남는다.
+    static func nextUnfilled(in placeholders: [String],
+                             inputs: [String: String],
+                             after current: String?) -> String? {
+        guard !placeholders.isEmpty else { return nil }
+        let isEmpty: (String) -> Bool = { (inputs[$0] ?? "").isEmpty }
+        guard let start = current.flatMap({ placeholders.firstIndex(of: $0) }) else {
+            return placeholders.first(where: isEmpty)
+        }
+        let after = placeholders[(start + 1)...]
+        let before = placeholders[..<start]
+        return after.first(where: isEmpty) ?? before.first(where: isEmpty)
+    }
+
     /// 현재 입력값 기준 결합 미리보기. baseMemoValue가 있으면 결합 형태, 없으면 치환 결과.
     var previewText: String {
         let resolvedTemplate = TemplateVariableProcessor.substitute(originalText, with: inputs)

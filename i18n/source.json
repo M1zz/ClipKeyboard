@@ -4421,6 +4421,12 @@
     "comment": "Countdown: tap to skip the wait",
     "h": "96266d8ee9"
   },
+  "눌러서 이 빈칸을 펼칩니다": {
+    "ko": "눌러서 이 빈칸을 펼칩니다",
+    "en": "Tap to open this blank",
+    "comment": "Collapsed placeholder row hint",
+    "h": "5dc5ac4c3b"
+  },
   "눌러서 이 이름으로 단축어를 추가합니다": {
     "ko": "눌러서 이 이름으로 단축어를 추가합니다",
     "en": "Tap to add a snippet with this name",
@@ -6923,6 +6929,12 @@
     "comment": "Changelog 5.0.5 rename blank",
     "h": "47c0ae9211"
   },
+  "빈칸 한 칸씩 채우기": {
+    "ko": "빈칸 한 칸씩 채우기",
+    "en": "Fill blanks one at a time",
+    "comment": "Compact placeholder filling toggle",
+    "h": "3ecae2d040"
+  },
   "빈칸마다 무슨 값인지 이름이 보이고, 칸이 따로 구분돼요": {
     "ko": "빈칸마다 무슨 값인지 이름이 보이고, 칸이 따로 구분돼요",
     "en": "Every blank shows its name, and each sits in its own area",
@@ -6952,6 +6964,24 @@
     "en": "Tap a blank to fill it in",
     "comment": "Tap a blank to fill it",
     "h": "c42e73f315"
+  },
+  "빈칸이 여러 개인 단축어를 채울 때, 지금 채우는 칸만 펼쳐요. 하나를 고르면 다음 칸이 저절로 펼쳐집니다": {
+    "ko": "빈칸이 여러 개인 단축어를 채울 때, 지금 채우는 칸만 펼쳐요. 하나를 고르면 다음 칸이 저절로 펼쳐집니다",
+    "en": "When a snippet has several blanks, only the one you are filling opens. Pick a value and the next one opens by itself.",
+    "comment": "Changelog 5.0.8 compact placeholders",
+    "h": "86687ce695"
+  },
+  "빈칸이 여러 개인 단축어를 키보드에서 채울 때, 지금 채우는 칸만 펼치고 나머지는 한 줄로 접어 둬요. 하나를 고르면 다음 칸이 저절로 펼쳐집니다. 전부 펼쳐 보고 싶으면 설정에서 끌 수 있어요.": {
+    "ko": "빈칸이 여러 개인 단축어를 키보드에서 채울 때, 지금 채우는 칸만 펼치고 나머지는 한 줄로 접어 둬요. 하나를 고르면 다음 칸이 저절로 펼쳐집니다. 전부 펼쳐 보고 싶으면 설정에서 끌 수 있어요.",
+    "en": "When you fill a snippet with several blanks on the keyboard, only the one you are working on opens and the rest fold into a single line. Pick a value and the next one opens by itself. You can turn this off in Settings if you would rather see them all.",
+    "comment": "DYK body: compact placeholders",
+    "h": "421e479211"
+  },
+  "빈칸이 여럿이어도 굴리지 않아요": {
+    "ko": "빈칸이 여럿이어도 굴리지 않아요",
+    "en": "No more scrolling when there are several blanks",
+    "comment": "DYK title: compact placeholders",
+    "h": "52d81595f3"
   },
   "빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요": {
     "ko": "빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요",
@@ -11212,6 +11242,12 @@
     "en": "You see the finished result while you fill it in",
     "comment": "Changelog 4.0.8 item 3",
     "h": "4c8572d2e5"
+  },
+  "채우는 칸만 펼치고 나머지는 한 줄로 접어요. 빈칸이 여럿이어도 굴리지 않고 다 보입니다. 끄면 전부 펼쳐요.": {
+    "ko": "채우는 칸만 펼치고 나머지는 한 줄로 접어요. 빈칸이 여럿이어도 굴리지 않고 다 보입니다. 끄면 전부 펼쳐요.",
+    "en": "Only the blank you are filling opens, the rest fold into one line. Several blanks fit without scrolling. Turn it off to open them all.",
+    "comment": "Compact placeholder filling footer",
+    "h": "2b64b3b33b"
   },
   "채우는 칸이 뭔지 같은 문장을 값만 바꿔 두 줄로 보여줘요. { } 기호는 어디서도 안 보여요": {
     "ko": "채우는 칸이 뭔지 같은 문장을 값만 바꿔 두 줄로 보여줘요. { } 기호는 어디서도 안 보여요",

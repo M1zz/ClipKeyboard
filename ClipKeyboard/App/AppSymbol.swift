@@ -128,6 +128,7 @@ enum AppSymbol {
     static let questionmarkCircleFill = "questionmark.circle.fill"
     static let quoteOpening = "quote.opening"
     static let rectangle3Group = "rectangle.3.group"
+    static let rectangleCompressVertical = "rectangle.compress.vertical"
     static let rectangleGrid1x2 = "rectangle.grid.1x2"
     static let `repeat` = "repeat"
     static let space = "space"

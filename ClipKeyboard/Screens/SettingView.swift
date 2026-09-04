@@ -32,6 +32,9 @@ struct SettingView: View {
     /// `{시간}` 모양.
     @AppStorage(DefaultsKey.templateTimeFormat, store: AppGroup.defaults)
     private var timeTokenFormatRaw: String = TimeTokenFormat.automatic.rawValue
+    /// 키보드에서 빈칸을 채울 때 한 칸만 펼칠지. App Group - 키보드도 같은 값을 읽는다.
+    @AppStorage(DefaultsKey.keyboardCompactPlaceholders, store: AppGroup.defaults)
+    private var compactPlaceholders: Bool = true
     @State private var versionTapCount = 0
     @State private var showMasterModeAlert = false
     /// 모든 데이터 삭제 - 되돌릴 수 없어 2단계로 확인받는다.
@@ -361,6 +364,21 @@ struct SettingView: View {
             NavigationLink(destination: CopyPasteView()) {
                 Label(NSLocalizedString("붙여넣기 알림 허용 끄기", comment: "Paste notification settings title"),
                       systemImage: AppSymbol.docOnClipboard)
+            }
+            // 빈칸이 여럿인 단축어를 키보드에서 채울 때의 모양.
+            // 사용자 요청에서 왔다: "빈칸이 여러 개일 때 스크롤이 번거로워서요."
+            Toggle(isOn: $compactPlaceholders) {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("빈칸 한 칸씩 채우기", comment: "Compact placeholder filling toggle"))
+                        Text(NSLocalizedString("채우는 칸만 펼치고 나머지는 한 줄로 접어요. 빈칸이 여럿이어도 굴리지 않고 다 보입니다. 끄면 전부 펼쳐요.", comment: "Compact placeholder filling footer"))
+                            .font(.caption)
+                            .foregroundColor(theme.textMuted)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                } icon: {
+                    Image(systemName: AppSymbol.rectangleCompressVertical)
+                }
             }
             // 온디바이스 AI(iOS 26+). 설명은 행 안에 둔다 - 예전에는 이 행 하나만을 위한
             // 섹션이 따로 있었고, 섹션 머리말이 내용보다 길었다.
