@@ -63,7 +63,7 @@ iCloud 백업: 기기를 바꿔도 남습니다. 이미지 단축어까지 함�
 
 무료로 단축어 10개, 템플릿 3개, 콤보 3개, 클립보드 기록 50개, 이미지 단축어 5개를 쓸 수 있습니다. Pro는 구독이 아니라 한 번 결제입니다. 모든 개수 제한이 풀리고 iCloud 백업과 생체인증 잠금이 더해지며, 7일 무료 체험이 있습니다.
 
-iPhone, iPad, Mac, Vision Pro에서 쓸 수 있습니다. 한국어, 영어, 중국어 간체, 중국어 번체를 지원합니다.
+iPhone, iPad, Mac, Vision Pro에서 쓸 수 있습니다. 한국어, 영어, 중국어 간체, 중국어 번체, 러시아어를 지원합니다.
 
 문의: leeo@kakao.com
 사용 가이드: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=ko
@@ -98,7 +98,7 @@ Free and Pro
 
 Free covers 10 snippets, 3 templates, 3 combos, 50 clipboard entries and 5 image snippets. Pro is a one-time purchase, not a subscription: every limit is removed, and it adds iCloud backup and biometric lock, with a 7-day free trial.
 
-Works on iPhone, iPad, Mac and Vision Pro. Available in Korean, English, Simplified Chinese and Traditional Chinese.
+Works on iPhone, iPad, Mac and Vision Pro. Available in Korean, English, Simplified Chinese, Traditional Chinese and Russian.
 
 Contact: leeo@kakao.com
 User guide: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
