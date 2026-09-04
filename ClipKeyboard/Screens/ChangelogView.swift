@@ -43,7 +43,7 @@ enum ChangelogData {
                 NSLocalizedString("붙여넣기 키를 길게 누르면 복사한 것 중 필요한 데까지만 골라 넣을 수 있어요", comment: "Changelog 5.0.8 partial paste"),
                 NSLocalizedString("띄어쓰기가 없는 중국어와 일본어도 단어로 잘라서 보여드려요", comment: "Changelog 5.0.8 word split cjk"),
                 NSLocalizedString("빈칸이 여러 개인 단축어를 채울 때, 지금 채우는 칸만 펼쳐요. 하나를 고르면 다음 칸이 저절로 펼쳐집니다", comment: "Changelog 5.0.8 compact placeholders"),
-                NSLocalizedString("새로 만든 단축어가 빈 자리로 먼저 서고, 잠시 뒤 내용이 들어와요. 어디에 생겼는지 눈으로 따라갈 수 있어요", comment: "Changelog 5.0.8 new memo intro"),
+                NSLocalizedString("단축어를 추가할 때 빈 자리가 먼저 서고 그 위로 만들기 화면이 열려요. 어디에 생기는지 보여요", comment: "Changelog 5.0.8 new memo slot"),
                 // 날짜 서식
                 NSLocalizedString("날짜와 시간 서식을 직접 만들 수 있어요. 조각을 눌러 넣으면 오늘 날짜가 그 모양으로 바로 보여요", comment: "Changelog 5.0.8 custom date format"),
                 // 번역

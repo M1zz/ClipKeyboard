@@ -84,9 +84,6 @@ struct MemoCardSurface: View {
         // 유리 카드 글자 가독성 - 유리는 뒤 배경(사진·색)에 따라 글자가 묻힐 수 있어,
         // 글 내용 뒤에 은은한 할로를 깐다. 언제 까는지는 `textHaloColor` 참고.
         .modifier(CardTextHalo(color: textHaloColor(hasImage: hasImage, onColor: onColor)))
-        // 방금 만든 것이면 **빈 카드로 먼저 선다.** 바탕과 색은 그대로 두고 글자만
-        // 잠깐 비운다 - 카드까지 사라지면 어디에 생겼는지가 안 보인다.
-        .newMemoIntro(memo.id)
         .padding(16)
         // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
         // 1줄·2줄 제목 모두 같은 높이로 정렬되게 한다. (제목은 2줄로 제한)
@@ -106,9 +103,6 @@ struct MemoCardSurface: View {
             cardBackground(imageFileName: imageFileName, hasImage: hasImage)
         }
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        // 방금 만든 카드는 자리 자체가 자라며 들어온다(`NewMemoIntroEntry`).
-        // 나머지 카드는 그대로 선다 - 탭을 옮길 때마다 격자가 피어나면 안 된다.
-        .newMemoEntry(memo.id)
         // ⚠️ 카드는 **단색 면 하나**다. 유리도, 두께도, 그림자도, 타입 테두리도 없다.
         //    종류(템플릿·콤보·보안)는 좌상단 아이콘이, 카테고리는 색이 말한다.
     }

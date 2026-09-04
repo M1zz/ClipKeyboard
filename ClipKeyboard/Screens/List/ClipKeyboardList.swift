@@ -136,6 +136,18 @@ struct ClipKeyboardList: View {
     // X로 닫으면 이번 앱 실행(세션) 동안은 다음 제안을 띄우지 않는다.
     private static var ghostSuppressedThisSession = false
 
+    /// 만들기 시트를 여는 동안 격자에 먼저 서는 빈 자리.
+    ///
+    /// 왜 있나: + 를 누르면 시트만 덮여서, 이 단축어가 **어디에 생기는지** 알 수 없었다.
+    /// 자리가 먼저 서고 그 위로 시트가 뜨면 "여기에 생기는구나" 가 남는다.
+    ///
+    /// ⚠️ 저장한 뒤가 아니라 **누른 그 순간** 선다. 예전에는 저장하고 1초 뒤에 내용을
+    ///    채우는 연출이었는데, 기다리는 1초가 그냥 굼떠 보였다. 기다림이 아니라
+    ///    자리를 보여 주는 것이 하려던 일이다.
+    @State private var pendingSlot: Bool = false
+    /// 자리가 서고 시트가 뜨기까지의 사이. 이만큼은 있어야 자리가 서는 것이 보인다.
+    private static let pendingSlotBeat: TimeInterval = 0.3
+
     // Sheet modals for MemoAdd
     @State private var showAddMemoSheet: Bool = false
     @State private var addMemoSheetCategory: String = ""
@@ -1885,6 +1897,9 @@ struct ClipKeyboardList: View {
                 // 외워서 찾기 때문에 사용할 때마다 카드가 점프하면 안 됨.
                 if !allMemos.isEmpty {
                     LazyVGrid(columns: gridColumns, spacing: 12) {
+                        // 만들기 시트가 열려 있는 동안 서는 빈 자리. 맨 앞에 둔다 -
+                        // 눈이 가야 할 곳이고, 시트가 아래에서 올라오는 동안에도 안 가린다.
+                        if pendingSlot { pendingSlotCell }
                         // 고스트(가상) 메모 - 실제 메모 셀과 같은 모양, 흐릿하게.
                         // 한 번 눌러보고 채워서 추가할지 판단하게 한다.
                         if let ghost = ghostSuggestion {
@@ -1930,6 +1945,7 @@ struct ClipKeyboardList: View {
                 pageHeader(for: tab)
                 Color.clear.frame(height: 8)
                 LazyVGrid(columns: gridColumns, spacing: 12) {
+                    if pendingSlot { pendingSlotCell }
                     ForEach(memos) { memo in
                         // 끼워질 때 연출 없음 - 이유는 위 `allTabScrollView` 의 주석 참고.
                         memoGridCell(memo: memo)
@@ -1950,6 +1966,50 @@ struct ClipKeyboardList: View {
         // [디자인 불변식] 엣지 이펙트 전부 숨김(위 allTabScrollView 참고).
         .scrollEdgeEffectHidden(true, for: .all)
         .contentMargins(.top, pageContentTopMargin, for: .scrollContent))
+    }
+
+    /// 빈 자리를 먼저 세우고, 한 박자 뒤에 만들기 시트를 연다.
+    ///
+    /// ⚠️ 자리와 시트를 같은 프레임에 내면 자리가 서는 것을 못 본다. 시트가 곧바로
+    ///    올라와 격자를 덮기 때문이다. 그러면 + 를 누른 사람에게 남는 것은 예전과 같이
+    ///    시트뿐이고, 이 자리는 시트를 닫은 뒤에야 처음 보인다.
+    ///
+    /// ⚠️ 움직임 줄이기를 켠 사람에게는 기다리게 하지 않는다. 그쪽에는 자리가 자라는
+    ///    것을 안 보여 주므로 기다릴 이유도 없다.
+    private func openAddMemoWithSlot() {
+        withAnimation(reduceMotion ? nil : .spring(response: 0.32, dampingFraction: 0.72)) {
+            pendingSlot = true
+        }
+        guard !reduceMotion else { showAddMemoSheet = true; return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.pendingSlotBeat) {
+            showAddMemoSheet = true
+        }
+    }
+
+    /// 시트가 닫히면 자리를 거둔다. 저장했으면 그 자리에 진짜 카드가 이미 들어와 있다
+    /// (`loadMemos`), 취소했으면 자리만 사라진다.
+    private func clearPendingSlot() {
+        withAnimation(reduceMotion ? nil : .easeOut(duration: 0.2)) { pendingSlot = false }
+    }
+
+    /// 만들기 시트가 열려 있는 동안 격자 맨 앞에 서는 빈 자리.
+    /// 카드와 같은 크기·같은 모서리라, 시트를 닫으면 그 자리에 그대로 카드가 앉는다.
+    private var pendingSlotCell: some View {
+        RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
+            .fill(theme.accent.opacity(0.07))
+            .frame(maxWidth: .infinity, minHeight: memoCardHeight)
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
+                    .strokeBorder(theme.accent.opacity(0.28), lineWidth: 1.5)
+            )
+            .overlay(
+                Image(systemName: AppSymbol.squareAndPencil)
+                    .font(.title3)
+                    .foregroundColor(theme.accent.opacity(0.5))
+            )
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
+            .transition(.scale(scale: 0.86).combined(with: .opacity))
     }
 
     /// 빈 칸에 서는 것들은 `MemoListEmptyStates` 가 그린다. 여기서는 **눌렸을 때 무엇을
@@ -2241,7 +2301,7 @@ struct ClipKeyboardList: View {
             Button {
                 HapticManager.shared.light()
                 if case .custom(let name) = viewModel.selectedCategoryTab { addMemoSheetCategory = name } else { addMemoSheetCategory = "" }
-                showAddMemoSheet = true
+                openAddMemoWithSlot()
             } label: {
                 Label(NSLocalizedString("새 단축어 만들기", comment: "Menu: new memo"), systemImage: AppSymbol.squareAndPencil)
             }
@@ -2336,7 +2396,7 @@ struct ClipKeyboardList: View {
             }
             .presentationDetents([.large])
         }
-        .sheet(isPresented: $showAddMemoSheet, onDismiss: { viewModel.loadMemos() }) {
+        .sheet(isPresented: $showAddMemoSheet, onDismiss: { viewModel.loadMemos(); clearPendingSlot() }) {
             NavigationStack {
                 MemoAdd(insertedCategory: addMemoSheetCategory.isEmpty ? "텍스트" : addMemoSheetCategory)
                     .toolbar {
