@@ -47097,6 +47097,35 @@
         }
       }
     },
+    "새로 만든 단축어가 빈 자리로 먼저 서고, 잠시 뒤 내용이 들어와요. 어디에 생겼는지 눈으로 따라갈 수 있어요" : {
+      "comment" : "Changelog 5.0.8 new memo intro",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new snippet leaves an empty space first, then the content moves in. Your eyes can follow where it landed."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая фраза сначала занимает пустое место, а затем в него добавляется содержимое. Вы увидите, где она появилась."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建的短语会先空出一个位置，过一会儿内容才填进去。这样就能看清它出现在哪里。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建的短語會先空出一個位置，過一會兒內容才填進去。這樣就能看清它出現在哪裡。"
+          }
+        }
+      }
+    },
     "새로 시작" : {
       "comment" : "Bulk import: start fresh (discard restored draft)",
       "localizations" : {

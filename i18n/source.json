@@ -7469,6 +7469,12 @@
     "comment": "Persona settings subtitle",
     "h": "8e74949d38"
   },
+  "새로 만든 단축어가 빈 자리로 먼저 서고, 잠시 뒤 내용이 들어와요. 어디에 생겼는지 눈으로 따라갈 수 있어요": {
+    "ko": "새로 만든 단축어가 빈 자리로 먼저 서고, 잠시 뒤 내용이 들어와요. 어디에 생겼는지 눈으로 따라갈 수 있어요",
+    "en": "A new snippet leaves an empty space first, then the content moves in. Your eyes can follow where it landed.",
+    "comment": "Changelog 5.0.8 new memo intro",
+    "h": "df6db6009d"
+  },
   "새로 시작": {
     "ko": "새로 시작",
     "en": "Start Fresh",

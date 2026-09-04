@@ -207,6 +207,7 @@
 		CO00012F0000000000000001 /* MemoAddCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = CO00022F0000000000000002 /* MemoAddCoach.swift */; };
 		D353F4A236699D9A0F78E9DE /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759E1C51E0141D0101328417 /* AppNotification.swift */; };
 		D406271DEC47B75BC2C898CF /* KeyboardMemoPeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B23DD9375263CB858911DF /* KeyboardMemoPeek.swift */; };
+		NEWMEMOINTRO0BUILDEXT001 /* NewMemoIntro.swift in Sources */ = {isa = PBXBuildFile; fileRef = NEWMEMOINTRO0FILE0000001 /* NewMemoIntro.swift */; };
 		CLIPPICK0BUILDEXT0000001 /* KeyboardClipboardPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */; };
 		D645CD0945A9075B9C4613F6 /* DataWipeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4499B9EF970CED3D7A1C04AA /* DataWipeService.swift */; };
 		D8192B676A21E7537C0D61FA /* UUIDExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1918BE258EB10A3CD937D48F /* UUIDExtension.swift */; };
@@ -221,6 +222,7 @@
 		E1CE2D342D3BE0BAB7A65B27 /* VaultSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2BAD64480FDDD9FD723377 /* VaultSprite.swift */; };
 		E246C2401B0C9BB8D44F4FE1 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1396EB22C5749F763307098D /* ShareViewController.swift */; };
 		E69B18A37AAA2B4412892FFE /* KeyboardMemoPeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B23DD9375263CB858911DF /* KeyboardMemoPeek.swift */; };
+		NEWMEMOINTRO0BUILDAPP001 /* NewMemoIntro.swift in Sources */ = {isa = PBXBuildFile; fileRef = NEWMEMOINTRO0FILE0000001 /* NewMemoIntro.swift */; };
 		CLIPPICK0BUILDAPP0000001 /* KeyboardClipboardPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */; };
 		E8D756E2F761C3B669024203 /* BeaconBackgroundScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FA37B3782B1E1BF0CCBDCFD /* BeaconBackgroundScheduler.swift */; };
 		E93A9A4F98E99C1C0644B05E /* MemoSyncCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050AEED88220E19330F5B15C /* MemoSyncCore.swift */; };
@@ -461,6 +463,7 @@
 		7427CED7AE75EED7C96E8587 /* ExperimentService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ExperimentService.swift; sourceTree = "<group>"; };
 		759E1C51E0141D0101328417 /* AppNotification.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		75B23DD9375263CB858911DF /* KeyboardMemoPeek.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeyboardMemoPeek.swift; sourceTree = "<group>"; };
+		NEWMEMOINTRO0FILE0000001 /* NewMemoIntro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMemoIntro.swift; sourceTree = "<group>"; };
 		CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardClipboardPicker.swift; sourceTree = "<group>"; };
 		7650FEB679BD5AE8B3A7DD30 /* SlotPack.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SlotPack.swift; sourceTree = "<group>"; };
 		79D6A773619BB7884CEA27B8 /* RefundLedger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RefundLedger.swift; sourceTree = "<group>"; };
@@ -888,6 +891,7 @@
 				050AEED88220E19330F5B15C /* MemoSyncCore.swift */,
 				C7B61FE8EE93BC24351604AD /* MemoSyncEngine.swift */,
 				AIS0FILE0000000000000001 /* AppleIntelligenceService.swift */,
+				NEWMEMOINTRO0FILE0000001 /* NewMemoIntro.swift */,
 				FBS0FILE0000000000000002 /* ClipKeyboardSpec.swift */,
 				6A875E559BF8538E7E299AB9 /* DraftStore.swift */,
 				4499B9EF970CED3D7A1C04AA /* DataWipeService.swift */,
@@ -1404,6 +1408,7 @@
 				2B647294E78814DF398CF307 /* CategoryBucketRule.swift in Sources */,
 				6458A8E49F277CF662FA4424 /* SlotPack.swift in Sources */,
 				D406271DEC47B75BC2C898CF /* KeyboardMemoPeek.swift in Sources */,
+				NEWMEMOINTRO0BUILDEXT001 /* NewMemoIntro.swift in Sources */,
 				CLIPPICK0BUILDEXT0000001 /* KeyboardClipboardPicker.swift in Sources */,
 				2EF77556F0984981010A4760 /* TypingSpeedMeter.swift in Sources */,
 				29BE5E003315D45F00DE3974 /* CursorMemory.swift in Sources */,
@@ -1591,6 +1596,7 @@
 				7C7DDB7363009522CB12EFAA /* CategoryBucketRule.swift in Sources */,
 				356482ED6EB077DAF5974F21 /* SlotPack.swift in Sources */,
 				E69B18A37AAA2B4412892FFE /* KeyboardMemoPeek.swift in Sources */,
+				NEWMEMOINTRO0BUILDAPP001 /* NewMemoIntro.swift in Sources */,
 				CLIPPICK0BUILDAPP0000001 /* KeyboardClipboardPicker.swift in Sources */,
 				9DD045D0A56912D65DCD3D88 /* LaunchGuard.swift in Sources */,
 				9D5AF22140BC574C2215FD13 /* CloudKitContainerGate.swift in Sources */,

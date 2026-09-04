@@ -1515,6 +1515,8 @@ struct KeyboardView: View {
                     buttonHeight: buttonHeight,
                     buttonFontSize: buttonFontSize
                 )
+                // 방금 만든 키는 빈 키캡으로 먼저 선다(`NewMemoIntro`).
+                .newMemoIntro(memo.id)
             }
             .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
             .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
@@ -1523,6 +1525,7 @@ struct KeyboardView: View {
         } else if memo.isCombo && !memo.isSecure {
             // 여러 값(콤보) - 2/3 분할: 왼쪽 현재 값 삽입, 오른쪽 → 다음 값.
             comboSplitButton(for: memo, catColor: catColor)
+                .newMemoIntro(memo.id)
                 .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
                 .accessibilityLabel(memoAccessibilityLabel(for: memo))
                 .accessibilityHint(NSLocalizedString("왼쪽을 누르면 현재 값을, 오른쪽 화살표로 다음 값을 넣어요", comment: "Combo split button hint"))
@@ -1531,6 +1534,7 @@ struct KeyboardView: View {
                 memoButtonAction(for: memo, bypassTemplate: bypass)
             } label: {
                 memoButtonLabel(for: memo, catColor: catColor, useTemplate: useTemplate)
+                    .newMemoIntro(memo.id)
             }
             .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
             .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
