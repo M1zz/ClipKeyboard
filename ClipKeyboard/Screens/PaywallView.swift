@@ -72,6 +72,14 @@ struct PaywallView: View {
         .onAppear {
             AnalyticsService.logPaywallView(triggeredBy: triggeredBy?.analyticsKey)
         }
+        .task {
+            // 상품은 이 화면이 열릴 때 읽는다 - 런치에서 미리 읽지 않기 때문이다.
+            // 안 읽으면 칸 추가 버튼이 아예 안 보이고(상품이 nil), Pro 버튼도 가격 없이
+            // 뜬다. 구매 버튼을 누른 뒤에야 상품이 와서 그제야 나타나는 것이 그 증상이다.
+            if store.products.isEmpty {
+                await store.loadProducts()
+            }
+        }
         .onDisappear {
             // 구매/체험 시작이 아니면 "닫기"로 기록 → 닫기율(view 대비) 산출.
             if !didConvert {
