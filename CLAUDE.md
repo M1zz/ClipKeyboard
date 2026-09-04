@@ -146,12 +146,27 @@ class MemoStore: ObservableObject {
 - **방식**: `NSLocalizedString("키", comment: "설명")`
 - **위치**: `Constants.swift` 또는 사용 위치에서 직접 호출
 - **String Catalog**: Xcode String Catalog 사용 (자동 다국어 변환)
-- **지원 언어**: 한국어(ko), 영어(en)
+- **지원 언어**: `i18n/config.json` 의 `enabled` 가 단일 출처다 (ko · en · zh-Hans · zh-Hant · ru)
 
 **코드 작성 전 체크리스트**:
 - [ ] 이 문자열이 사용자에게 보이는가? → YES면 NSLocalizedString 사용
 - [ ] String Catalog에 추가했는가?
 - [ ] 한국어와 영어 번역이 모두 제공되는가?
+
+**언어를 더할 때는 카탈로그를 직접 만지지 않는다.**
+`ClipKeyboard/Localizable.xcstrings` 는 산출물이고, 원본은 `i18n/` 에 있다.
+
+```bash
+python3 scripts/i18n.py extract     # Xcode 가 넣은 새 키를 걷어온다
+python3 scripts/i18n.py translate ru
+python3 scripts/i18n.py build       # 카탈로그로 합친다
+python3 scripts/i18n.py wire        # knownRegions · InfoPlist · AppLanguage.swift
+python3 scripts/i18n.py check       # 커밋 훅·predeploy 에 물려 있다
+```
+
+언어를 켜는 곳은 `i18n/config.json` 의 `enabled` 하나다.
+켠 언어가 100% 가 아니면 커밋이 막힌다(반쯤 하다 만 `id` 를 다시 만들지 않기 위한 것).
+자세한 것은 `docs/engineering/I18N_PIPELINE.md`.
 
 ### 6. 파일 크기
 - SwiftUI View는 300줄 이하 권장

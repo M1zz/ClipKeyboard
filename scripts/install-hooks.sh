@@ -43,6 +43,16 @@ sh "$ROOT/scripts/check_notification_main.sh" || {
   exit 1
 }
 
+# 켜 놓은 언어 중 하나라도 덜 채워졌거나 자리표시자가 깨졌으면 커밋 차단.
+# 40개 언어를 사람이 눈으로 못 보므로 이 검사가 유일한 품질 보증이다 (i18n 파이프라인).
+python3 "$ROOT/scripts/i18n.py" check || {
+  echo ""
+  echo "❌ 커밋 차단: 다국어 검사에 걸렸습니다."
+  echo "   (번역 채우기: python3 scripts/i18n.py translate <lang> && python3 scripts/i18n.py build)"
+  echo "   (긴급 우회: git commit --no-verify)"
+  exit 1
+}
+
 # 긴 줄표(U+2014 / U+2013)가 들어오면 커밋 차단 - 저장소 전 범위 규칙(CLAUDE.md).
 sh "$ROOT/scripts/check_dashes.sh" --staged || {
   echo ""

@@ -1,0 +1,42 @@
+{
+  "_": "Info.plist 에 들어가는 문구의 원본. 언어가 40개면 .lproj 폴더를 손으로 만들 수 없다. scripts/i18n.py wire 가 이 파일을 보고 <lang>.lproj/InfoPlist.strings 와 pbxproj 배선을 만든다.",
+  "_translate": "false 면 번역하지 않고 영어 값을 그대로 쓴다(앱 이름 같은 고유명사). 이미 손으로 옮겨 둔 언어의 파일은 덮어쓰지 않는다.",
+  "targets": {
+    "ClipKeyboard": {
+      "CFBundleDisplayName": {
+        "ko": "클립키보드",
+        "en": "ClipKeyboard",
+        "comment": "App display name",
+        "translate": false
+      },
+      "NSCameraUsageDescription": {
+        "ko": "카드나 문서를 촬영해 텍스트를 인식하기 위해 카메라 접근이 필요합니다.",
+        "en": "Camera access is needed to capture cards or documents and recognize their text.",
+        "comment": "Camera permission (bulk import OCR)",
+        "translate": true
+      },
+      "NSFaceIDUsageDescription": {
+        "ko": "보안 메모에 접근하기 위해 Face ID가 필요합니다.",
+        "en": "Face ID is required to access secure memos.",
+        "comment": "Face ID permission (secure memos)",
+        "translate": true
+      }
+    },
+    "ClipKeyboardExtension": {
+      "CFBundleDisplayName": {
+        "ko": "클립키보드",
+        "en": "ClipKeyboard",
+        "comment": "Keyboard extension display name",
+        "translate": false
+      }
+    },
+    "ClipKeyboardActionExtension": {
+      "CFBundleDisplayName": {
+        "ko": "단축어로 저장",
+        "en": "Save as Shortcut",
+        "comment": "Action extension display name",
+        "translate": false
+      }
+    }
+  }
+}

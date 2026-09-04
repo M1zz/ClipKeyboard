@@ -19,6 +19,9 @@ PROJECT="ClipKeyboard.xcodeproj"
 echo "🌐 [1/4] 다국어 검사 (check_localization.py)"
 python3 scripts/check_localization.py
 
+echo "🌐 켜 놓은 언어가 다 채워졌는지 검사 (scripts/i18n.py check)"
+python3 scripts/i18n.py check
+
 echo "☁️  [2/4] CloudKit 컨테이너 생성 위치 검사 (런치 워치독 재발 방지)"
 sh scripts/check_main_thread_cloudkit.sh
 

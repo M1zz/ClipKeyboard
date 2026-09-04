@@ -1,0 +1,10 @@
+/*
+  InfoPlist.strings
+  ClipKeyboardActionExtension (Русский)
+
+  ⚠️ scripts/i18n.py wire 가 만든 파일이다. 고칠 곳은 i18n/infoplist.json 과
+     i18n/translations/ru.json 이다.
+*/
+
+/* Action extension display name */
+"CFBundleDisplayName" = "Save as Shortcut";

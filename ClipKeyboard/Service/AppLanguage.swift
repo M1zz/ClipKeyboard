@@ -25,10 +25,15 @@ import ObjectiveC
 enum AppLanguage: String, CaseIterable, Identifiable {
     /// 기기 설정을 따른다(기본값). 고른 적이 없으면 언제나 이것이다.
     case system
-    case korean = "ko"
-    case english = "en"
-    case chineseSimplified = "zh-Hans"
-    case chineseTraditional = "zh-Hant"
+    // 아래는 생성 구간이다. `python3 scripts/i18n.py wire` 가 i18n/config.json 을 보고 다시 쓴다.
+    // 손으로 고치지 말 것. 언어를 켜고 끄는 곳은 config.json 의 enabled 다.
+    // i18n:cases:begin
+    case ko = "ko"
+    case en = "en"
+    case zhHans = "zh-Hans"
+    case zhHant = "zh-Hant"
+    case ru = "ru"
+    // i18n:cases:end
 
     var id: String { rawValue }
 
@@ -38,15 +43,21 @@ enum AppLanguage: String, CaseIterable, Identifiable {
     /// 목록에 적을 이름은 **그 언어로** 적는다. 영어만 읽는 사람에게 "한국어"를
     /// "Korean"으로 보여주면 정작 그 언어를 찾는 사람이 못 알아본다.
     var displayName: String {
-        switch self {
-        case .system:
+        if self == .system {
             return NSLocalizedString("기기 설정 따르기", comment: "Language option: follow system setting")
-        case .korean: return "한국어"
-        case .english: return "English"
-        case .chineseSimplified: return "简体中文"
-        case .chineseTraditional: return "繁體中文"
         }
+        return Self.nativeNames[rawValue] ?? rawValue
     }
+
+    // i18n:names:begin
+    private static let nativeNames: [String: String] = [
+        "ko": "한국어",
+        "en": "English",
+        "zh-Hans": "简体中文",
+        "zh-Hant": "繁體中文",
+        "ru": "Русский",
+    ]
+    // i18n:names:end
 
     /// 지금 이 빌드에 실제로 들어 있는 언어만 보여준다.
     /// 번역이 아직 안 붙은 언어를 목록에 세워두면 골랐을 때 아무것도 안 바뀐다.

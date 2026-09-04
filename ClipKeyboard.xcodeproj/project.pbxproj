@@ -564,6 +564,9 @@
 		US00001A2F0000000000000001 /* UsageStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageStatsView.swift; sourceTree = "<group>"; };
 		US00001B2F0000000000000003 /* UsageReportingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageReportingService.swift; sourceTree = "<group>"; };
 		US00001C2F0000000000000005 /* UsageTrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTrendChartView.swift; sourceTree = "<group>"; };
+		87C7E82D595E178AECF1B15F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = "ru.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		9CDBA9A8D73EEE4EC1461E57 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = "ru.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		5823DCC838AAB484E7497F81 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = "ru.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -1245,6 +1248,7 @@
 				ko,
 				"zh-Hans",
 				"zh-Hant",
+				ru,
 			);
 			mainGroup = 58C4732F2A109F0C009D87BC;
 			packageReferences = (
@@ -1648,6 +1652,7 @@
 		FFEC102DB0D405F113AF6DC7 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				9CDBA9A8D73EEE4EC1461E57 /* ru */,
 				42B5F7583D8813C742F7F07B /* zh-Hant */,
 				61122E802E390645AAB06B0A /* zh-Hans */,
 				4818E17ACCBD2DA8D12EC079 /* ko */,
@@ -1659,6 +1664,7 @@
 		INFOPLISTVG1 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				5823DCC838AAB484E7497F81 /* ru */,
 				3EC90E725CACE57B682C1D9B /* zh-Hant */,
 				191E561FED630A1830E67EE2 /* zh-Hans */,
 				INFOPLIST001 /* ko */,
@@ -1670,6 +1676,7 @@
 		INFOPLISTVG2 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				87C7E82D595E178AECF1B15F /* ru */,
 				B22C185C179501DDC5DF2F2C /* zh-Hant */,
 				321859E6D51EF831D6CABAB1 /* zh-Hans */,
 				INFOPLIST003 /* ko */,
