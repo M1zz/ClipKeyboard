@@ -104,9 +104,9 @@ App Store Connect 의 `ru` 로케일에 넣을 값입니다.
 
 레포의 [`RELEASE_NOTES.md`](../../RELEASE_NOTES.md) 와 같은 다섯 줄입니다.
 
-⚠️ **DeployBar 는 이 글을 읽어 가지 못합니다.** `RepoNotes.language(of:)` 가 글자로
-   언어를 정하는데 한국어·일본어·영어만 알아봅니다. 키릴 문자는 `nil` 로 버려집니다.
-   중국어와 같은 사정이라, 배포 전에 [노트] 창에 손으로 붙여 넣습니다.
+DeployBar 가 `RELEASE_NOTES.md` 의 `### 앱스토어 (러시아어)` 절에서 그대로 읽어 갑니다.
+절 제목의 언어 이름을 `deploy.env` 의 `LOCALES` 에 대고 맞추는 방식이라, `LOCALES` 에
+`ru` 가 있어야 합니다. 넣어 두었습니다. `DeployBar --reponotes 클립키보드 5.0.8` 로 확인.
 
 ```
 На клавиатуре появилась клавиша удаления.
