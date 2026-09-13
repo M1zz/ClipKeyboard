@@ -235,6 +235,30 @@ struct ClipKeyboardList: View {
     /// 세이프에어리어 무시 전 페이저의 상단 y(=네비바 하단). categoryContent에서 실측.
     @State private var pageTopInset: CGFloat = 113
 
+    /// 잰 값을 받아들이는 유일한 문.
+    ///
+    /// 예전에는 `minY` 가 바뀔 때마다 그대로 `min()` 으로 끌어내렸다. 굴리는 동안에도,
+    /// 1pt 차이에도 움직였다. 값이 내려갈 때마다 여백이 줄고 카드가 통째로 한 칸씩
+    /// 올라간다. 그게 사용자가 본 덜그럭거림이다
+    /// (신고: "목록뷰에서 단축어와 타이틀 사이에 여백이 덜그럭거린다").
+    ///
+    /// 두 가지만 더 본다.
+    ///  ① **손이 굴리는 동안에는 안 잰다.** 굴리는 중의 값은 고무줄처럼 튄다.
+    ///     예전 빗장이 오염되던 주된 경로이기도 하다.
+    ///  ② **1~2pt 차이로는 안 움직인다.** 눈에 보이는 개선은 없고 움직임만 남는다.
+    ///
+    /// ⚠️ 내려가기만 하는 규칙(`min`)은 **그대로 둔다.** 이 버그의 실패 방식은 언제나
+    ///    "너무 큼"이었고, 맨 위로 돌아올 때 다시 재어 스스로 고치는 길이 여기 있다.
+    ///    한 번만 재고 잠그면 그 고치는 길이 사라진다.
+    private static let topInsetDeadband: CGFloat = 2
+
+    private func considerTopInset(_ v: CGFloat) {
+        guard titleBarSettled, !showsInlineNavTitle, !isPageScrolling else { return }
+        guard v > 60, v < 160 else { return }
+        guard v < pageTopInset - Self.topInsetDeadband else { return }
+        pageTopInset = v
+    }
+
     /// 페이지 스크롤 오프셋으로 타이틀 모드 전환 - 페이저(UIKit 셀) 안 스크롤은
     /// 네비바가 자동 추적하지 못하고, preference도 셀 경계에서 업데이트가 끊겨(실측)
     /// onScrollGeometryChange(iOS 18+)를 쓴다. iOS 17은 전환 없이 inlineLarge 유지.
@@ -445,23 +469,17 @@ struct ClipKeyboardList: View {
                 //    (바 하단에는 타이틀 쿠션이 넉넉해 몇 pt 붙어도 겹치지 않는다, 실측).
                 //    범위 가드만으로는 못 막는다 - 유효 범위 안의 값 중에서도 **가장 작은 것**이
                 //    우리가 원하는 상태(inlineLarge)의 바 하단이다.
-                .onChange(of: minY, initial: true) { _, v in
-                    if titleBarSettled, !showsInlineNavTitle, v > 60, v < 160 {
-                        pageTopInset = min(pageTopInset, v)
-                    }
-                }
-                // 정착 시점에 minY가 이미 최종값이면 위 onChange가 다시 안 불리므로 한 번 더 측정.
-                .onChange(of: titleBarSettled) { _, settled in
-                    if settled, !showsInlineNavTitle, minY > 60, minY < 160 {
-                        pageTopInset = min(pageTopInset, minY)
-                    }
-                }
-                // 타이틀이 다시 펼쳐질 때(스크롤 복귀) 재측정 - 어떤 경로로든 오염된 값을
-                // 사용자가 맨 위로 돌아오는 순간 자가 치유한다.
+                // 재는 문은 넷이다. 어느 순간에 자리가 잡히는지가 기기와 설정에 따라 달라서,
+                // 먼저 닿는 문이 값을 정하고 나머지는 `considerTopInset` 안에서 걸러진다.
+                .onChange(of: minY, initial: true) { _, v in considerTopInset(v) }
+                .onChange(of: titleBarSettled) { _, _ in considerTopInset(minY) }
+                // 타이틀이 다시 펼쳐질 때(맨 위로 복귀) 재측정 - 오염된 값을 스스로 고치는 길.
                 .onChange(of: showsInlineNavTitle) { _, inline in
-                    if !inline, titleBarSettled, minY > 60, minY < 160 {
-                        pageTopInset = min(pageTopInset, minY)
-                    }
+                    if !inline { considerTopInset(minY) }
+                }
+                // 손을 뗀 **뒤에만** 잰다. 굴리는 동안의 값은 튄다.
+                .onChange(of: isPageScrolling) { _, scrolling in
+                    if !scrolling { considerTopInset(minY) }
                 }
             }
         )
