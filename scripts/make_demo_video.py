@@ -55,9 +55,26 @@ parts = "".join(f"[0:v]trim={a:.3f}:{b:.3f},setpts=PTS-STARTPTS[v{i}];"
 chain = "".join(f"[v{i}]" for i in range(len(keep)))
 # ⚠️ 1320x2868 원본의 위아래 4px 은 잘라 낸다. 886x1920 과 종횡비가 딱 맞지 않는다.
 fc = (parts + f"{chain}concat=n={len(keep)}:v=1:a=0,"
-      "crop=1320:2860:0:4,scale=886:1920,fps=30[out]")
-subprocess.run(["ffmpeg", "-y", "-i", str(src), "-filter_complex", fc, "-map", "[out]",
-                "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20",
+      "crop=1320:2860:0:4,scale=886:1920:out_color_matrix=bt709,format=yuv420p,fps=30,"
+      "setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709[out]")
+
+# ⚠️ App Store Connect 가 "파일이 손상되었습니다" 로 되돌려 보내는 두 가지.
+#    둘 다 그림은 멀쩡한데 상자가 규격이 아닌 경우라, 영상을 눈으로 봐서는 못 찾는다.
+#
+#    하나. **소리 트랙이 없으면 받아 주지 않는다.** 앱 미리보기는 무음이어도 트랙은
+#          있어야 한다. simctl 녹화에는 소리가 아예 없으므로 무음 트랙을 붙인다.
+#    둘.  **색 공간은 SD(601) 아니면 HD(709) 여야 한다.** 태그가 없는 녹화본을 그대로
+#          인코딩하면 전달 특성이 `iec61966-2-1`(sRGB)로 붙는데, 그건 둘 중 어느 것도
+#          아니어서 심사 전에 튕긴다. 여기서 bt709 로 못 박는다.
+#          ⚠️ `-color_trc bt709` 만으로는 안 붙는다. 요즘 ffmpeg 은 프레임에 실려 온 색
+#             정보를 그대로 내보내므로, 필터 끝에서 `setparams` 로 프레임 자체를 고쳐야 한다.
+subprocess.run(["ffmpeg", "-y", "-i", str(src),
+                "-f", "lavfi", "-i", "anullsrc=channel_layout=stereo:sample_rate=48000",
+                "-filter_complex", fc, "-map", "[out]", "-map", "1:a", "-shortest",
+                "-c:v", "libx264", "-profile:v", "high", "-level", "4.0",
+                "-pix_fmt", "yuv420p", "-crf", "20",
+                "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709",
+                "-c:a", "aac", "-b:a", "256k", "-ar", "48000", "-ac", "2",
                 "-movflags", "+faststart", str(out)], check=True, capture_output=True)
 got = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
                             "-of", "csv=p=0", str(out)], capture_output=True, text=True).stdout)
