@@ -1337,12 +1337,6 @@
     "comment": "Context menu: copy",
     "h": "cd5bc8395c"
   },
-  "CrocoClip Pro": {
-    "ko": "CrocoClip Pro",
-    "en": "CrocoClip Pro",
-    "comment": "",
-    "h": "f17f16f537"
-  },
   "Cross-border invoicing notice": {
     "ko": "국제 인보이스 안내",
     "en": "Cross-border invoicing notice",
@@ -2027,12 +2021,6 @@
     "comment": "OpenQuickNoteInboxIntent description",
     "h": "92725b3a14"
   },
-  "Open the CrocoClip inbox of quick notes.": {
-    "ko": "Open the CrocoClip inbox of quick notes.",
-    "en": "Open the CrocoClip inbox of quick notes.",
-    "comment": "",
-    "h": "f234814136"
-  },
   "Open the app to add values for '%@' in placeholder settings": {
     "ko": "앱에서 플레이스홀더 관리에 들어가 '%@' 값을 추가해주세요",
     "en": "Open the app to add values for '%@' in placeholder settings",
@@ -2231,12 +2219,6 @@
     "comment": "Pro nudge CTA",
     "h": "b779703548"
   },
-  "Pro 사용자": {
-    "ko": "Pro 사용자",
-    "en": "Pro users",
-    "comment": "Usage metric: pro users",
-    "h": "977134cbdc"
-  },
   "Pro 업그레이드": {
     "ko": "Pro 업그레이드",
     "en": "Upgrade to Pro",
@@ -2344,12 +2326,6 @@
     "en": "Quickly capture text into your ClipKeyboard inbox to decide later whether to keep it as a keyboard snippet.",
     "comment": "AddQuickNoteIntent description",
     "h": "9bb96f2d9a"
-  },
-  "Quickly capture text into your CrocoClip inbox to decide later whether to keep it as a keyboard memo.": {
-    "ko": "Quickly capture text into your CrocoClip inbox to decide later whether to keep it as a keyboard memo.",
-    "en": "Quickly capture text into your CrocoClip inbox to decide later whether to keep it as a keyboard memo.",
-    "comment": "",
-    "h": "c46c8e908a"
   },
   "Quit ClipKeyboard": {
     "ko": "ClipKeyboard 종료",
@@ -2470,12 +2446,6 @@
     "en": "Saved to your ClipKeyboard inbox.",
     "comment": "Quick note intent success dialog",
     "h": "87eeb27c67"
-  },
-  "Saved to your CrocoClip inbox.": {
-    "ko": "Saved to your CrocoClip inbox.",
-    "en": "Saved to your CrocoClip inbox.",
-    "comment": "",
-    "h": "d35298192a"
   },
   "Scope pushback (politely)": {
     "ko": "스코프 정중히 거절",
@@ -3095,12 +3065,6 @@
     "comment": "Template token explanation title",
     "h": "f10de6931b"
   },
-  "{이름}님 안녕하세요! 같은 문구를 변수로 바꿔 빠르게 입력해요.": {
-    "ko": "{이름}님 안녕하세요! 같은 문구를 변수로 바꿔 빠르게 입력해요.",
-    "en": "Hi {name}! Turn lines you write often into variables and fill them in a tap.",
-    "comment": "",
-    "h": "9e4fe33906"
-  },
   "{클립보드} 를 적어 두면 그 자리에 방금 복사한 것이 들어가요. \"운송장 번호는 {클립보드} 입니다\" 처럼요.": {
     "ko": "{클립보드} 를 적어 두면 그 자리에 방금 복사한 것이 들어가요. \"운송장 번호는 {클립보드} 입니다\" 처럼요.",
     "en": "Write {clipboard} and whatever you just copied goes there. Like \"Your tracking number is {clipboard}\".",
@@ -3592,12 +3556,6 @@
     "en": "Purchase failed",
     "comment": "Event label: purchase failed",
     "h": "8d0f2f043b"
-  },
-  "결제까지 간 비율이에요.": {
-    "ko": "결제까지 간 비율이에요.",
-    "en": "Share that reached purchase.",
-    "comment": "Marketing hint: pro",
-    "h": "52b468a553"
   },
   "결제를 취소함": {
     "ko": "결제를 취소함",
@@ -6071,6 +6029,12 @@
     "comment": "Changelog 4.0.1 item 2",
     "h": "13e35b9625"
   },
+  "목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요": {
+    "ko": "목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요",
+    "en": "",
+    "comment": "Changelog 5.1.2 list jitter",
+    "h": "91301382f6"
+  },
   "목록의 단축어 높이를 원하는 만큼 조절해요. 세 칸 중 고르는 대신 자유롭게요": {
     "ko": "목록의 단축어 높이를 원하는 만큼 조절해요. 세 칸 중 고르는 대신 자유롭게요",
     "en": "Adjust snippet height in the list as much as you like, instead of picking one of three.",
@@ -6538,12 +6502,6 @@
     "en": "Translation now works without Apple Intelligence, and covers more languages.",
     "comment": "Changelog 5.0.8 translation",
     "h": "e4a041fd98"
-  },
-  "번역하지 못했어요. 잠시 후 다시 시도해 주세요.": {
-    "ko": "번역하지 못했어요. 잠시 후 다시 시도해 주세요.",
-    "en": "Couldn't translate. Please try again soon.",
-    "comment": "Translation failed error",
-    "h": "8d914d5169"
   },
   "번체는 글자만 바꾼 게 아니에요. 대만에서 쓰는 말과 인용부호로 적고, 예시의 은행·주소도 그 지역 것으로 바꿨어요": {
     "ko": "번체는 글자만 바꾼 게 아니에요. 대만에서 쓰는 말과 인용부호로 적고, 예시의 은행·주소도 그 지역 것으로 바꿨어요",
@@ -7252,6 +7210,12 @@
     "en": "A template where you only fill the blanks",
     "comment": "Welcome: what a template is",
     "h": "ad55595267"
+  },
+  "빈칸에 넣어 둔 값의 순서가 저장할 때마다 뒤집히던 것을 고쳤어요": {
+    "ko": "빈칸에 넣어 둔 값의 순서가 저장할 때마다 뒤집히던 것을 고쳤어요",
+    "en": "",
+    "comment": "Changelog 5.1.2 placeholder order",
+    "h": "6c78f69510"
   },
   "빈칸에 적은 값은 이번에만 써요. 남길 값만 옆의 별을 누르면 돼요": {
     "ko": "빈칸에 적은 값은 이번에만 써요. 남길 값만 옆의 별을 누르면 돼요",
@@ -10301,12 +10265,6 @@
     "comment": "Attach image row title",
     "h": "56b22ac483"
   },
-  "이미지 삭제": {
-    "ko": "이미지 삭제",
-    "en": "Remove image",
-    "comment": "Remove image",
-    "h": "5e1a8586f9"
-  },
   "이미지 제거": {
     "ko": "이미지 제거",
     "en": "Remove Image",
@@ -12677,12 +12635,6 @@
     "comment": "AI translation footer",
     "h": "573f1175e9"
   },
-  "클립보드 히스토리의 텍스트 항목에서 '번역' 버튼을 누르면 이 언어로 번역해요. 번역은 무료이며 오프라인에서도 동작해요.": {
-    "ko": "클립보드 히스토리의 텍스트 항목에서 '번역' 버튼을 누르면 이 언어로 번역해요. 번역은 무료이며 오프라인에서도 동작해요.",
-    "en": "Tapping 'Translate' on a clipboard text item translates it into this language. Translation is free and works offline.",
-    "comment": "AI translation footer",
-    "h": "3c7840e5ab"
-  },
   "클립보드는 설정 > 내 데이터로, 사용 기록은 탭으로 자리를 바꿨어요": {
     "ko": "클립보드는 설정 > 내 데이터로, 사용 기록은 탭으로 자리를 바꿨어요",
     "en": "The clipboard moved to Settings › My data, and Usage became a tab.",
@@ -12736,12 +12688,6 @@
     "en": "Key Size and Count",
     "comment": "Section: key size and count",
     "h": "6c6975fd5f"
-  },
-  "키 하나의 크기예요. 키보드 전체 높이는 맨 위에서 정합니다.": {
-    "ko": "키 하나의 크기예요. 키보드 전체 높이는 맨 위에서 정합니다.",
-    "en": "This sets the size of a single key. The overall keyboard height is set at the top.",
-    "comment": "Grid section footer: button height is not keyboard height",
-    "h": "7dd4ba5e1f"
   },
   "키가 도톰해지고 누르면 내려앉아요.": {
     "ko": "키가 도톰해지고 누르면 내려앉아요.",
@@ -12833,12 +12779,6 @@
     "comment": "Changelog 5.1.1 keyboard preview",
     "h": "463c2763a0"
   },
-  "키보드 버튼 문구": {
-    "ko": "키보드 버튼 문구",
-    "en": "Insert keyword",
-    "comment": "Keyboard button text",
-    "h": "8877366aa8"
-  },
   "키보드 사용 횟수": {
     "ko": "키보드 사용 횟수",
     "en": "Keyboard uses",
@@ -12910,12 +12850,6 @@
     "en": "There's a send key in the keyboard's top row now. Insert a snippet and send it without switching keyboards. Each app names the key, so it reads Send in messaging apps.",
     "comment": "DYK body: return key",
     "h": "49705f7fce"
-  },
-  "키보드 입력 시 삽입되는 전체 문구를 작성해주세요": {
-    "ko": "키보드 입력 시 삽입되는 전체 문구를 작성해주세요",
-    "en": "Insert contents",
-    "comment": "Insert content instruction",
-    "h": "a9f20fa044"
   },
   "키보드 입력 횟수": {
     "ko": "키보드 입력 횟수",
@@ -14350,12 +14284,6 @@
     "en": "🎉 First paste done! You're a real ClipKeyboard user now",
     "comment": "First paste celebration toast",
     "h": "b9faca6358"
-  },
-  "🎉 첫 붙여넣기 완료! 이제 진짜 CrocoClip 사용자예요": {
-    "ko": "🎉 첫 붙여넣기 완료! 이제 진짜 CrocoClip 사용자예요",
-    "en": "🎉 First paste done. You're a real CrocoClip user now",
-    "comment": "",
-    "h": "ec269f31c7"
   },
   "🎓 학번": {
     "ko": "🎓 학번",
