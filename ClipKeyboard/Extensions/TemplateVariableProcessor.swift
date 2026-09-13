@@ -434,34 +434,44 @@ enum TemplateVariableProcessor {
     static let userTimezoneKey = DefaultsKey.userTimezone
     static let userCurrencyKey = DefaultsKey.userCurrency
 
+    // MARK: - 자동 변수 토큰
+    //
+    // ⚠️ **화면에 넣어 주는 토큰은 번역된다.** 넣기 버튼이 `NSLocalizedString("{날짜}")`
+    //    를 꽂으므로, 중국어에서는 `{日期}` 가 글에 들어간다. 그런데 여기 목록이 오래도록
+    //    한국어와 영어뿐이어서, 중국어 사용자가 그 버튼으로 넣은 토큰은 **아무것도 바뀌지
+    //    않은 채** 남았다. 더 나쁜 것은 그다음이다. 이 집합에 없는 토큰은 "사용자가 채울
+    //    빈칸" 으로 읽히므로, 날짜를 넣으려던 사람에게 "값을 입력하세요" 창이 떴다.
+    //
+    //    그래서 목록은 **카탈로그에 있는 모든 언어의 철자**를 들고 있어야 한다.
+    //    토큰 문구를 카탈로그에서 바꾸거나 언어를 늘리면 여기도 같이 늘린다.
+
+    /// `{날짜}` 의 모든 언어 철자.
+    static let dateTokens: [String] = ["{날짜}", "{date}", "{日期}", "{дата}"]
+    /// `{시간}` 의 모든 언어 철자.
+    static let timeTokens: [String] = ["{시간}", "{time}", "{时间}", "{時間}", "{время}"]
+
+    /// 클립보드 토큰.
+    static let clipboardTokens: [String] = ["{clipboard}", "{클립보드}", "{剪贴板}", "{剪貼簿}", "{буфер}"]
+
+    /// 커서 위치 토큰.
+    static let cursorTokens: [String] = ["{cursor}", "{커서}", "{光标}", "{光標}", "{курсор}"]
+
     /// All auto-variable tokens the processor substitutes. Callers that extract
     /// custom placeholders should skip anything in this set.
-    static let autoVariableTokens: Set<String> = [
-        // date/time (ko + en alias)
-        "{날짜}", "{date}",
-        "{시간}", "{time}",
-        "{연도}", "{year}",
-        "{월}", "{month}",
-        "{일}", "{day}",
-        // v4.0 global
-        "{timezone}", "{타임존}",
-        "{timezone_offset}",
-        "{currency}", "{통화}",
-        "{greeting_time}", "{인사}",
-        // v4.0.3 city
-        "{city}", "{도시}",
-        // v4.4.4 클립보드 - 복사해 둔 것을 문장 안에 그대로 꽂는다
-        "{clipboard}", "{클립보드}",
-        // v4.4.4 커서 - 값이 아니라 **위치**를 가리키는 제어 토큰.
-        // 여기 들어 있어야 "값을 입력하세요" 오버레이가 뜨지 않는다(모든 추출부가 이 집합을 제외한다).
-        "{cursor}", "{커서}"
-    ]
-
-    /// 클립보드 토큰 (ko/en).
-    static let clipboardTokens: [String] = ["{clipboard}", "{클립보드}"]
-
-    /// 커서 위치 토큰 (ko/en).
-    static let cursorTokens: [String] = ["{cursor}", "{커서}"]
+    static let autoVariableTokens: Set<String> = Set(
+        dateTokens + timeTokens + clipboardTokens + cursorTokens + [
+            // 아래는 넣기 버튼이 없어 사람이 직접 적는 것들이라 ko/en 철자만 있다.
+            "{연도}", "{year}",
+            "{월}", "{month}",
+            "{일}", "{day}",
+            // v4.0 global
+            "{timezone}", "{타임존}",
+            "{timezone_offset}",
+            "{currency}", "{통화}",
+            "{greeting_time}", "{인사}",
+            // v4.0.3 city
+            "{city}", "{도시}",
+        ])
 
     /// 이 텍스트가 클립보드 값을 필요로 하는가.
     ///
@@ -525,9 +535,8 @@ enum TemplateVariableProcessor {
         // 시각도 사람이 고른다. 고른 적이 없으면 언어·지역에 맞춰.
         let timeText = (timeFormat ?? TimeTokenFormat.selection).string(from: reference)
 
-        // Date/time (ko + en aliases)
-        let dateTokens: [String] = ["{날짜}", "{date}"]
-        let timeTokens: [String] = ["{시간}", "{time}"]
+        // 날짜·시각은 위의 타입 상수를 그대로 쓴다. 여기에 또 적어 두었더니
+        // 언어를 늘릴 때 한쪽만 늘어나 중국어 토큰이 안 바뀌었다.
         let yearTokens: [String] = ["{연도}", "{year}"]
         let monthTokens: [String] = ["{월}", "{month}"]
         let dayTokens: [String] = ["{일}", "{day}"]
