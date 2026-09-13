@@ -21,18 +21,61 @@ CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 #    6.9" 시뮬레이터 원본(1320x2868)은 raw 캡처용이고, 여기서 바로 제출 규격으로 그린다.
 W, H = 1242, 2688
 
-SHOTS = [
-    ("01-keyboard-in-messages.png", "hero-bleed",  "Works in every app",
-     "Tap once,<br>it types itself",      "Your snippets sit right on the keyboard"),
-    ("02-template-fill.png",        "left-text",   "Templates",
-     "Fill the blank,<br>send it",        "One line, a different name every time"),
-    ("03-snippet-stack.png",        "text-bottom", "Snippet stacks",
-     "Several values,<br>one key",        "Every slot has a name, so you know what is next"),
-    ("04-keyboard-size.png",        "flat-rotate", "Made to fit",
-     "The height<br>you want",            "Match your system keyboard, or give it more room"),
-    ("05-all-snippets.png",         "dark",        "All in one place",
-     "Everything you<br>type again",      "Grouped, searchable, and never leaves your phone"),
+# 슬라이드 배치는 언어와 무관하게 같고, 글만 언어별로 고른다.
+# ⚠️ 기계번역하지 않는다. 각 언어권에서 자연스럽게 읽히는 말로 따로 쓴다.
+LAYOUT_ORDER = [
+    ("01-keyboard-in-messages.png", "hero-bleed"),
+    ("02-template-fill.png",        "left-text"),
+    ("03-snippet-stack.png",        "text-bottom"),
+    ("04-keyboard-size.png",        "flat-rotate"),
+    ("05-all-snippets.png",         "dark"),
 ]
+
+COPY = {
+    "ko": [
+        ("어디서나 그대로",   "한 번 누르면<br>알아서 입력돼요",   "자주 쓰는 말이 키보드 위에 있어요"),
+        ("템플릿",           "빈칸만 채우고<br>보내세요",        "한 줄로 써 두고, 이름만 매번 바꿔요"),
+        ("단축어 스택",       "값 여러 개를<br>키 하나에",        "칸마다 이름이 있어 다음이 무엇인지 알아요"),
+        ("내 손에 맞게",      "원하는<br>높이로",                "기본 키보드와 같게, 아니면 더 넉넉하게"),
+        ("한곳에 모아서",     "또 쓸 말은<br>전부 여기에",        "갈래로 묶고 찾아 써요. 폰 밖으로 나가지 않아요"),
+    ],
+    "en": [
+        ("Works in every app", "Tap once,<br>it types itself",  "Your snippets sit right on the keyboard"),
+        ("Templates",          "Fill the blank,<br>send it",    "One line, a different name every time"),
+        ("Snippet stacks",     "Several values,<br>one key",    "Every slot has a name, so you know what is next"),
+        ("Made to fit",        "The height<br>you want",        "Match your system keyboard, or give it more room"),
+        ("All in one place",   "Everything you<br>type again",  "Grouped, searchable, and never leaves your phone"),
+    ],
+    "zh-Hans": [
+        ("在哪个应用都能用", "点一下，<br>它自己输入",   "常用的短语就在键盘上"),
+        ("模板",           "填好空格，<br>直接发送",   "写一次，每次只换名字"),
+        ("短语堆",         "多个值，<br>一个键",       "每一格都有名字，知道下一个是什么"),
+        ("合你的手",        "高度<br>由你定",          "和系统键盘一样高，或者更宽松"),
+        ("全都放在一处",    "要反复打的，<br>都在这里", "分组、可搜索，也不会离开你的手机"),
+    ],
+    "zh-Hant": [
+        ("在哪個 App 都能用", "點一下，<br>它自己輸入",   "常用的短語就在鍵盤上"),
+        ("範本",             "填好空格，<br>直接送出",   "寫一次，每次只換名字"),
+        ("短語堆",           "多個值，<br>一個鍵",       "每一格都有名字，知道下一個是什麼"),
+        ("合你的手",          "高度<br>由你決定",        "和系統鍵盤一樣高，或者更寬鬆"),
+        ("全都放在一處",      "要反覆打的，<br>都在這裡", "分組、可搜尋，也不會離開你的手機"),
+    ],
+    "ru": [
+        ("Работает везде",    "Одно нажатие,<br>и текст готов", "Ваши фразы прямо на клавиатуре"),
+        ("Шаблоны",           "Заполните<br>и отправьте",       "Одна строка, каждый раз новое имя"),
+        ("Стопки фраз",       "Много значений,<br>одна клавиша","У каждой ячейки есть имя, и вы знаете, что дальше"),
+        ("Под вашу руку",     "Высота,<br>какая нужна",         "Как системная клавиатура или просторнее"),
+        ("Всё в одном месте", "Всё, что вы<br>печатаете снова", "По группам, с поиском. Телефон не покидает"),
+    ],
+}
+
+# 키릴·한글은 같은 글자 수라도 더 넓게 퍼진다. 언어마다 글자 크기를 조금 줄인다.
+TYPE_SCALE = {"ru": (84, 40), "ko": (92, 44), "zh-Hans": (96, 46), "zh-Hant": (96, 46), "en": (96, 46)}
+
+if LANG not in COPY:
+    raise SystemExit(f"모르는 언어: {LANG} (아는 것: {', '.join(COPY)})")
+SHOTS = [(f, l, e, h, s) for (f, l), (e, h, s) in zip(LAYOUT_ORDER, COPY[LANG])]
+HEAD_PX, SUB_PX = TYPE_SCALE[LANG]
 
 BASE_CSS = f"""
 * {{ margin:0; padding:0; box-sizing:border-box; }}
@@ -41,8 +84,8 @@ html,body {{ width:{W}px; height:{H}px; overflow:hidden; }}
    이 판만 남의 앱처럼 보인다. 바탕·글자색은 여기서만 정한다. */
 body {{ background:#0d0d0e; font-family:-apple-system, "Apple SD Gothic Neo", sans-serif; position:relative; }}
 .eyebrow {{ font-size:44px; font-weight:700; color:#0A84FF; letter-spacing:-0.5px; }}
-.headline {{ font-size:96px; font-weight:800; color:#f2f2f4; letter-spacing:-2px; line-height:1.22; }}
-.sub {{ font-size:46px; font-weight:500; color:#8e8e95; letter-spacing:-1px; line-height:1.4; }}
+.headline {{ font-size:{HEAD_PX}px; font-weight:800; color:#f2f2f4; letter-spacing:-2px; line-height:1.22; }}
+.sub {{ font-size:{SUB_PX}px; font-weight:500; color:#8e8e95; letter-spacing:-1px; line-height:1.4; }}
 .phone {{ background:#17171a; border-radius:104px; border:3px solid #3a3a3e; padding:22px;
   box-shadow: 50px 80px 110px rgba(0,0,0,.5), 16px 26px 44px rgba(0,0,0,.35); }}
 .phone img {{ width:100%; display:block; border-radius:84px; }}
