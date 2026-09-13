@@ -27,7 +27,7 @@ case "roundtrip":
     }
     guard memos[0].lastUsedAt != nil else { fail("맥 디코드에서 lastUsedAt 손실") }
     guard memos[1].isTemplate else { fail("맥 디코드에서 isTemplate(레거시 키) 손실") }
-    guard memos[2].isCombo, memos[2].comboInterval == 3.5 else { fail("맥 디코드에서 콤보 필드 손실") }
+    guard memos[2].isCombo, memos[2].comboInterval == 3.5 else { fail("맥 디코드에서 스택 필드 손실") }
     try enc.encode(memos).write(to: memosURL)
 
     let combosURL = URL(fileURLWithPath: dir + "/combos.json")

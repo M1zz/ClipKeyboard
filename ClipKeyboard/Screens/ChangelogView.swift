@@ -45,6 +45,9 @@ enum ChangelogData {
                 NSLocalizedString("처음 시작할 때 키보드 크기를 한 번 정하고 넘어가요", comment: "Changelog 5.1.2 onboarding size step"),
                 // 스택
                 NSLocalizedString("여러 값을 담은 단축어가 단축어 스택이 됐어요. 칸마다 이름을 붙여 지금 무엇이 들어갈지 보여요", comment: "Changelog 5.1.2 snippet stack"),
+                // 고친 것
+                NSLocalizedString("빈칸에 넣어 둔 값의 순서가 저장할 때마다 뒤집히던 것을 고쳤어요", comment: "Changelog 5.1.2 placeholder order"),
+                NSLocalizedString("목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요", comment: "Changelog 5.1.2 list jitter"),
             ]
         ),
         ChangelogEntry(

@@ -412,7 +412,7 @@ struct ProFeatureManager {
             case .memo:
                 return NSLocalizedString("단축어 개수 제한", comment: "Memo limit")
             case .stack:
-                return NSLocalizedString("콤보 개수 제한", comment: "Combo limit")
+                return NSLocalizedString("스택 개수 제한", comment: "Combo limit")
             case .template:
                 return NSLocalizedString("템플릿 개수 제한", comment: "Template limit")
             case .clipboardHistory:
@@ -434,7 +434,7 @@ struct ProFeatureManager {
                 // 산 칸까지 더한 **지금 이 사람의** 한도를 말한다.
                 return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 단축어를 저장할 수 있습니다.", comment: "Memo limit desc"), memoLimit)
             case .stack:
-                return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 콤보를 만들 수 있습니다.", comment: "Combo limit desc"), freeStackLimit)
+                return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 스택을 만들 수 있습니다.", comment: "Combo limit desc"), freeStackLimit)
             case .template:
                 return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 템플릿을 사용할 수 있습니다.", comment: "Template limit desc"), freeTemplateLimit)
             case .clipboardHistory:

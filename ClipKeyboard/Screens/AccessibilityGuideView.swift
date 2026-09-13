@@ -105,7 +105,7 @@ struct AccessibilityGuideView: View {
             iconColor: .green,
             title: NSLocalizedString("색상 없이 구별", comment: "Feature: Differentiate Without Color"),
             body: NSLocalizedString(
-                "색에만 의존하지 않고 단축어를 구분하고 싶다면, 앱 설정 → 디스플레이 → 단축어 표시에서 '단축어 구분 표시'를 켜세요. 단축어 타입(템플릿·콤보·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 함께 표시됩니다.",
+                "색에만 의존하지 않고 단축어를 구분하고 싶다면, 앱 설정 → 디스플레이 → 단축어 표시에서 '단축어 구분 표시'를 켜세요. 단축어 타입(템플릿·스택·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 함께 표시됩니다.",
                 comment: "Differentiate Without Color feature description v2"
             ),
             tip: NSLocalizedString("설정 → 손쉬운 사용 → 디스플레이 및 텍스트 크기 → 색상 없이 구별", comment: "Differentiate Without Color settings path")

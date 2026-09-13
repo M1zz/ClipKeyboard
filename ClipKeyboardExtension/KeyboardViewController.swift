@@ -430,7 +430,7 @@ class KeyboardViewController: UIInputViewController {
         let values = SecureMemoCrypto.decryptSteps(memo.stackValues)
         guard !values.isEmpty else { return false }
         if values.contains(where: { SecureMemoCrypto.isEncrypted($0) }) {
-            print("🔒 [handleComboMemoIfNeeded] 보안 키 미동기화 - 콤보 복호화 불가, 입력 중단")
+            print("🔒 [handleComboMemoIfNeeded] 보안 키 미동기화 - 스택 복호화 불가, 입력 중단")
             return true
         }
 

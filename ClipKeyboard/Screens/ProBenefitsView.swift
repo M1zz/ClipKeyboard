@@ -84,7 +84,7 @@ struct ProBenefitsView: View {
                      symbol: AppSymbol.wandAndSparkles,
                      freeLimit: ProFeatureManager.freeTemplateLimit, used: usage.templates),
             LimitRow(id: "combo",
-                     title: NSLocalizedString("콤보", comment: "Combo"),
+                     title: NSLocalizedString("스택", comment: "Combo"),
                      symbol: AppSymbol.squareStack3dUpFill,
                      freeLimit: ProFeatureManager.freeStackLimit, used: usage.combos),
             LimitRow(id: "image",

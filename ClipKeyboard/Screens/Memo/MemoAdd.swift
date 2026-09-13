@@ -245,11 +245,11 @@ struct MemoAdd: View {
         .navigationTitle({
             if memoId != nil {
                 if insertedIsTemplate { return NSLocalizedString("단축어 수정 타이틀_템플릿", comment: "Edit template navigation title") }
-                if insertedIsStack { return NSLocalizedString("단축어 수정 타이틀_콤보", comment: "Edit combo navigation title") }
+                if insertedIsStack { return NSLocalizedString("단축어 수정 타이틀_스택", comment: "Edit combo navigation title") }
                 return NSLocalizedString("단축어 수정", comment: "Edit memo navigation title")
             }
             if insertedIsTemplate { return NSLocalizedString("새 템플릿", comment: "New template navigation title") }
-            if insertedIsStack { return NSLocalizedString("새 콤보", comment: "New combo navigation title") }
+            if insertedIsStack { return NSLocalizedString("새 스택", comment: "New combo navigation title") }
             return NSLocalizedString("새 단축어", comment: "New memo navigation title")
         }())
         .navigationBarTitleDisplayMode(.inline)
@@ -747,7 +747,7 @@ struct MemoAdd: View {
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(NSLocalizedString("내용 더 넣기", comment: "Add another content value button"))
-                .accessibilityHint(NSLocalizedString("내용을 더 추가하면 콤보 단축어가 됩니다", comment: "Add content button hint"))
+                .accessibilityHint(NSLocalizedString("내용을 더 추가하면 스택 단축어가 됩니다", comment: "Add content button hint"))
 
                 // 기존 단축어 값 가져오기 - 이미 만든 단축어들을 골라 그 값을 이 콤보에 복사한다.
                 Button {
@@ -770,7 +770,7 @@ struct MemoAdd: View {
                 .buttonStyle(.plain)
 
                 if !viewModel.continuations.isEmpty {
-                    Text(NSLocalizedString("내용을 이어 더하면 콤보가 돼요. 키보드에서 순서대로 입력됩니다.", comment: "Continuation/combo explanation"))
+                    Text(NSLocalizedString("내용을 이어 더하면 스택이 돼요. 키보드에서 순서대로 입력됩니다.", comment: "Continuation/combo explanation"))
                         .font(.caption)
                         .foregroundColor(theme.textFaint)
                 }

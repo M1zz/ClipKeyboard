@@ -139,7 +139,7 @@ final class CategorySnapshotTests: XCTestCase {
         CategorySnapshotStore.apply(snapshot, strategy: .sync)
 
         XCTAssertEqual(defaults.stringArray(forKey: CategorySnapshotStore.enabledBuiltInsKey), ["templates"],
-                       "콤보 탭을 껐으면 여기서도 꺼져야 한다")
+                       "스택 탭을 껐으면 여기서도 꺼져야 한다")
     }
 
     /// 거울은 **숨김·기본 제공에만** 적용된다 - 카테고리 목록은 여전히 더하기만 한다.

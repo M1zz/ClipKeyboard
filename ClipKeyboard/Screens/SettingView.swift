@@ -373,7 +373,7 @@ struct DisplaySettingsView: View {
             } header: {
                 Text(NSLocalizedString("단축어 구분 표시", comment: "Visual cues section"))
             } footer: {
-                Text(NSLocalizedString("기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·콤보·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.", comment: "Visual cues explanation v3"))
+                Text(NSLocalizedString("기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·스택·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.", comment: "Visual cues explanation v3"))
                     .font(.body)
             }
 

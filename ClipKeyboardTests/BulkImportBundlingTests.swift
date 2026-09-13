@@ -73,7 +73,7 @@ final class BulkImportBundlingTests: XCTestCase {
 
         let result = BulkImportView.merging(drafts, selection: selection).drafts
 
-        XCTAssertTrue(result[0].isSecure, "하나라도 보안이면 합친 콤보도 보안이어야 한다")
+        XCTAssertTrue(result[0].isSecure, "하나라도 보안이면 합친 스택도 보안이어야 한다")
     }
 
     func testMergedStaysExcludedOnlyWhenEveryPartWasExcluded() {
@@ -124,6 +124,6 @@ final class BulkImportBundlingTests: XCTestCase {
         let result = BulkImportView.merging(drafts, selection: [stack.id, extra.id]).drafts
 
         XCTAssertEqual(result.count, 1)
-        XCTAssertEqual(result[0].values, ["id", "pw", "123456"], "콤보의 단계가 중첩되지 않고 이어져야 한다")
+        XCTAssertEqual(result[0].values, ["id", "pw", "123456"], "스택의 단계가 중첩되지 않고 이어져야 한다")
     }
 }

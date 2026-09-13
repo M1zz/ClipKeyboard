@@ -504,7 +504,7 @@ struct SnippetsTab: View {
             }
             Button(NSLocalizedString("그대로 둘게요", comment: "Sample cleanup: keep"), role: .cancel) { }
         } message: {
-            Text(NSLocalizedString("튜토리얼에서 눌러 본 단축어·템플릿·콤보예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.",
+            Text(NSLocalizedString("튜토리얼에서 눌러 본 단축어·템플릿·스택이에요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.",
                                    comment: "Sample cleanup message"))
         }
         // ⚠️ 시트로 띄운다. 전체 화면으로 세우면 하던 일을 **끊는다** - 부른 적 없는
@@ -661,7 +661,7 @@ struct SnippetsTab: View {
             // 물결은 걸음을 따라 옮겨 붙는다 - 어디를 누를지는 `comboPart` 가 정한다.
             stackStepRaw = following?.rawValue ?? ""
         }
-        print("🎓 [SnippetsTab] 콤보 걸음 \(step.rawValue) → \(following?.rawValue ?? "끝")")
+        print("🎓 [SnippetsTab] 스택 걸음 \(step.rawValue) → \(following?.rawValue ?? "끝")")
         if following == nil { finishStackChapter() }
     }
 

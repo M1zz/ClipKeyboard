@@ -18,7 +18,7 @@ struct MemoModelSwiftTests {
 
     // MARK: - 기본값 / 계산형 판정
 
-    @Test("기본 메모는 템플릿도 콤보도 아니다")
+    @Test("기본 메모는 템플릿도 스택도 아니다")
     func plainMemoIsNeitherTemplateNorStack() {
         let memo = Memo(title: "제목", value: "그냥 텍스트")
         #expect(memo.isTemplate == false)
@@ -35,15 +35,15 @@ struct MemoModelSwiftTests {
         #expect(memo.isStack == false)
     }
 
-    @Test("comboValues가 있으면 콤보로 판정된다")
+    @Test("comboValues가 있으면 스택으로 판정된다")
     func memoWithStackValuesIsStack() {
-        let memo = Memo(title: "콤보", value: "1단계",
+        let memo = Memo(title: "스택", value: "1단계",
                         stackValues: ["1단계", "2단계", "3단계"])
         #expect(memo.isStack == true)
         #expect(memo.stackValues.count == 3)
     }
 
-    @Test("변수와 단계를 모두 가지면 템플릿이면서 콤보다")
+    @Test("변수와 단계를 모두 가지면 템플릿이면서 스택다")
     func memoCanBeBothTemplateAndStack() {
         let memo = Memo(title: "둘다", value: "{이름}님 안녕",
                         templateVariables: ["{이름}"],
@@ -94,9 +94,9 @@ struct MemoModelSwiftTests {
         #expect(legacy.hintShownOnKeyboard == true)
     }
 
-    @Test("콤보 메모 Codable 라운드트립: stackValues 보존")
+    @Test("스택 메모 Codable 라운드트립: stackValues 보존")
     func stackCodableRoundTrip() throws {
-        let original = Memo(title: "콤보", value: "A",
+        let original = Memo(title: "스택", value: "A",
                             stackValues: ["A", "B", "C"], stackInterval: 0.5)
         let data = try JSONEncoder().encode(original)
         let decoded = try JSONDecoder().decode(Memo.self, from: data)
@@ -130,7 +130,7 @@ struct MemoModelSwiftTests {
         #expect(decoded.value == "변수 없음")
     }
 
-    @Test("childMemoIds가 있어도 comboValues가 없으면 콤보가 아니다")
+    @Test("childMemoIds가 있어도 comboValues가 없으면 스택이 아니다")
     func childMemoIdsAloneDoesNotMakeStack() throws {
         let base = Memo(title: "legacy child", value: "x")
         let data = try JSONEncoder().encode(base)

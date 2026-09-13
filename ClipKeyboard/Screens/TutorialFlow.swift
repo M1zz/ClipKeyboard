@@ -62,7 +62,7 @@ enum TutorialChapter: String, Identifiable, CaseIterable {
             return NSLocalizedString("이번엔 템플릿이에요. 눌러서 빈칸만 채워보세요.",
                                      comment: "Coach line: try the prepared template")
         case .stack:
-            return NSLocalizedString("마지막은 콤보예요. 여러 개가 순서대로 들어가요.",
+            return NSLocalizedString("마지막은 스택이에요. 여러 개가 순서대로 들어가요.",
                                      comment: "Coach line: try the prepared combo")
         case .layout:
             return NSLocalizedString("마지막으로 키보드 크기만 정하면 끝이에요.",
@@ -80,7 +80,7 @@ enum TutorialChapter: String, Identifiable, CaseIterable {
             return NSLocalizedString("빈칸만 채워 쓰는 템플릿",
                                      comment: "Welcome: what a template is")
         case .stack:
-            return NSLocalizedString("여러 값을 순서대로 넣는 콤보",
+            return NSLocalizedString("여러 값을 순서대로 넣는 스택",
                                      comment: "Welcome: what a combo is")
         case .layout:
             // 환영 화면 목록에는 안 들어가지만(가리킬 것이 없어 걸러진다) 스위치는 다 채운다.
@@ -135,7 +135,7 @@ enum StackTutorialStep: String, CaseIterable, Identifiable {
     var coachLine: String {
         switch self {
         case .insertFirst:
-            return NSLocalizedString("마지막은 콤보예요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.",
+            return NSLocalizedString("마지막은 스택이에요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.",
                                      comment: "Combo step: insert the first value")
         case .sendFirst:
             return NSLocalizedString("들어갔어요. 보내기를 눌러 올려보세요.",

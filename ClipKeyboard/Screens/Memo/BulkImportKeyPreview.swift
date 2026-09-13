@@ -122,7 +122,7 @@ struct BulkImportKeyPreview: View {
 
                     // 콤보는 **몇 단계인지**를 늘 보여준다.
                     // ⚠️ 구분 표시(showVisualCues) 설정에 맡기지 않는다. 그건 기본이 꺼져 있어서,
-                    //    정작 "어떤 게 단축어이고 어떤 게 콤보인지" 판단해야 하는 이 자리에서
+                    //    정작 "어떤 게 단축어이고 어떤 게 스택인지" 판단해야 하는 이 자리에서
                     //    아무 표시도 안 나온다. 여기서는 그 판단이 화면의 존재 이유다.
                     if d.isStack {
                         Text("\(d.values.count)")
@@ -172,7 +172,7 @@ struct BulkImportKeyPreview: View {
     private func accessibilityLabel(for draft: BulkImportView.Draft) -> String {
         let name = draft.title.isEmpty ? draft.value : draft.title
         guard draft.isStack else { return name }
-        return String(format: NSLocalizedString("%@, 콤보 %d단계", comment: "Bulk import key preview: combo a11y label"),
+        return String(format: NSLocalizedString("%@, 스택 %d단계", comment: "Bulk import key preview: combo a11y label"),
                       name, draft.values.count)
     }
 

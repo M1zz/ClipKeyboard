@@ -910,9 +910,9 @@ struct ClipKeyboardApp: App {
                 try? FileManager.default.removeItem(at: url)
             }
             g?.set(true, forKey: DefaultsKey.comboModelUnifyMigratedV1)
-            print("🔄 [APP MIGRATION] 콤보 모델 통합 완료 (변경=\(converted))")
+            print("🔄 [APP MIGRATION] 스택 모델 통합 완료 (변경=\(converted))")
         } catch {
-            print("❌ [APP MIGRATION] 콤보 모델 마이그레이션 실패: \(error)")
+            print("❌ [APP MIGRATION] 스택 모델 마이그레이션 실패: \(error)")
         }
     }
 
@@ -1061,7 +1061,7 @@ struct ClipKeyboardApp: App {
             value: "",
             category: personal,
             stackValues: isKorean ? ["홍길동", "010-0000-0000"] : ["John Doe", "555-0000"],
-            hint: isKorean ? "값 여러 개를 순서대로 입력하는 콤보" : "A combo: types multiple values in order"
+            hint: isKorean ? "값 여러 개를 순서대로 입력하는 스택" : "A combo: types multiple values in order"
         )
         // 4) 인사말 + 회신 양식을 한 메모로 합침 - 본문에 {변수}가 있으므로 템플릿이어야 한다.
         //    templateVariables를 넘기지 않으면 isTemplate=false가 되어 탭 시 {변수}가
@@ -1101,7 +1101,7 @@ struct ClipKeyboardApp: App {
             value: "",
             category: travel,
             stackValues: isKorean ? ["이름", "이메일", "전화번호"] : ["Full Name", "Email", "Phone"],
-            hint: isKorean ? "값 여러 개를 순서대로 입력하는 콤보" : "A combo: types multiple values in order"
+            hint: isKorean ? "값 여러 개를 순서대로 입력하는 스택" : "A combo: types multiple values in order"
         )
         // 즐겨찾기 - 기본 제공되는 즐겨찾기 탭에 바로 들어가 분홍으로 표시
         let checklist = Memo(
@@ -1207,7 +1207,7 @@ struct ClipKeyboardApp: App {
                         UserDefaults.standard.set(true, forKey: demoOfferResolvedKey)
                     }
                 } message: {
-                    Text(NSLocalizedString("템플릿·콤보·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.", comment: "Demo samples offer message"))
+                    Text(NSLocalizedString("템플릿·스택·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.", comment: "Demo samples offer message"))
                 }
                 .alert(
                     NSLocalizedString("기존 단축어를 불러올 수 있어요", comment: "Restore hint title"),

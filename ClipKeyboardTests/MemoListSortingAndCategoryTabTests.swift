@@ -171,7 +171,7 @@ final class BuiltInCategoryTests: XCTestCase {
 
     private let template = Memo(title: "템플릿", value: "{이름}님", templateVariables: ["이름"])
     private let plain = Memo(title: "일반", value: "텍스트")
-    private let stack = Memo(title: "콤보", value: "1단계", stackValues: ["1단계", "2단계"])
+    private let stack = Memo(title: "스택", value: "1단계", stackValues: ["1단계", "2단계"])
     private let image = Memo(title: "이미지", value: "", imageFileNames: ["a.jpg"], contentType: .image)
 
     func testTemplatesCategory_MatchesOnlyTemplates() {

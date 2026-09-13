@@ -166,7 +166,7 @@ struct MemoRowView: View {
             parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge"))
         }
         if memo.isStack {
-            parts.append(NSLocalizedString("콤보", comment: "VoiceOver: combo badge"))
+            parts.append(NSLocalizedString("스택", comment: "VoiceOver: combo badge"))
         }
         if memo.isFavorite {
             parts.append(NSLocalizedString("즐겨찾기", comment: "VoiceOver: favorite badge"))

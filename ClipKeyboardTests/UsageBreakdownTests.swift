@@ -159,7 +159,7 @@ final class UsageBreakdownTests: XCTestCase {
         let shares = UsageInsights.typeBreakdown(metrics: metrics)
 
         XCTAssertEqual(shares.first(where: { $0.name == localizedForTest("텍스트") })?.count, 5)
-        XCTAssertEqual(shares.first(where: { $0.name == localizedForTest("콤보") })?.count, 4)
+        XCTAssertEqual(shares.first(where: { $0.name == localizedForTest("스택") })?.count, 4)
     }
 
     /// 데이터가 없으면 빈 배열 - 0으로 나누지 않는다.

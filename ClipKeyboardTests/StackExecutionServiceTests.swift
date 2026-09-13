@@ -106,7 +106,7 @@ final class StackExecutionServiceTests: XCTestCase {
     }
 
     func testEmptyStack_DoesNotStart() {
-        sut.startStack(Memo(title: "빈 콤보", value: ""))  // stackValues 없음
+        sut.startStack(Memo(title: "빈 스택", value: ""))  // stackValues 없음
         XCTAssertEqual(sut.state, .idle)
     }
 

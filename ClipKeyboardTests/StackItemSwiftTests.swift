@@ -22,7 +22,7 @@ struct StackItemSwiftTests {
 
     // MARK: - ① 옛 콤보에서 옮겨 오기
 
-    @Test("값만 있던 옛 콤보는 읽는 순간 칸이 된다")
+    @Test("값만 있던 옛 스택은 읽는 순간 칸이 된다")
     func legacyStackBecomesStackItems() throws {
         let json = """
         [{"id":"\(UUID().uuidString)","title":"인사","value":"안녕",

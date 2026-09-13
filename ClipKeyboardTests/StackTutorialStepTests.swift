@@ -20,7 +20,7 @@ import Testing
 import Foundation
 @testable import ClipKeyboard
 
-@Suite("ComboTutorialStep: 콤보는 한 번 눌러서는 안 배워진다")
+@Suite("ComboTutorialStep: 스택은 한 번 눌러서는 안 배워진다")
 struct StackTutorialStepTests {
 
     @Test("순서가 못박혀 있다 - 가운데의 '값 바꾸기'가 이 장의 전부다")
@@ -42,7 +42,7 @@ struct StackTutorialStepTests {
         }
         #expect(walked == StackTutorialStep.allCases)
         #expect(StackTutorialStep.confirm.next == nil,
-                "확인이 마지막이라야 콤보 장이 끝나고 + 걸음으로 넘어간다")
+                "확인이 마지막이라야 스택 장이 끝나고 + 걸음으로 넘어간다")
     }
 
     @Test("넣는 걸음은 키의 **왼쪽**, 바꾸는 걸음은 **오른쪽**을 가리킨다")
@@ -91,6 +91,6 @@ struct StackTutorialStepTests {
             #expect(StackTutorialStep(rawValue: step.rawValue) == step)
         }
         #expect(StackTutorialStep(rawValue: "") == nil,
-                "빈 값은 '콤보 장이 아니다'라는 뜻이라 nil 이라야 한다")
+                "빈 값은 '스택 장이 아니다'라는 뜻이라 nil 이라야 한다")
     }
 }

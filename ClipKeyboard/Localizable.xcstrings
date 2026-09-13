@@ -2305,6 +2305,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d категория"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -2315,12 +2321,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d категорий"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d категория"
                 }
               },
               "other" : {
@@ -2364,6 +2364,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d изображение"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -2374,12 +2380,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d изображений"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d изображение"
                 }
               },
               "other" : {
@@ -2423,6 +2423,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d изображение"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -2433,12 +2439,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d изображений"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d изображение"
                 }
               },
               "other" : {
@@ -2482,6 +2482,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d элемент"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -2492,12 +2498,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d элементов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d элемент"
                 }
               },
               "other" : {
@@ -2541,6 +2541,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Найдено %d фраза"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -2551,12 +2557,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Найдено %d фраз"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Найдено %d фраза"
                 }
               },
               "other" : {
@@ -2635,6 +2635,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Сохранено: %d · найдите нужное"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -2642,12 +2648,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Сохранено: %d · найдите нужное"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Сохранено: %d · найдите нужное"
@@ -2724,6 +2724,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d переменная"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -2734,12 +2740,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d переменных"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d переменная"
                 }
               },
               "other" : {
@@ -2783,6 +2783,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не разобрано: %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -2790,12 +2796,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Не разобрано: %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Не разобрано: %d"
@@ -2836,6 +2836,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d%% уверенности"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -2843,12 +2849,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d%% уверенности"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d%% уверенности"
@@ -2889,6 +2889,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d способ использования"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -2899,12 +2905,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d способов использования"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d способ использования"
                 }
               },
               "other" : {
@@ -2942,6 +2942,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -2949,12 +2955,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d"
@@ -2995,6 +2995,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ещё %d фраза → Обновление до Pro"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3005,12 +3011,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Ещё %d фраз → Обновление до Pro"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ещё %d фраза → Обновление до Pro"
                 }
               },
               "other" : {
@@ -3055,6 +3055,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Заблокировано %d фраза: разблокируется при покупке Pro на iOS"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3065,12 +3071,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Заблокировано %d фраз: разблокируется при покупке Pro на iOS"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Заблокировано %d фраза: разблокируется при покупке Pro на iOS"
                 }
               },
               "other" : {
@@ -3108,6 +3108,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Выбрано %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3115,12 +3121,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Выбрано %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Выбрано %d"
@@ -3161,6 +3161,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Выбрано: %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3168,12 +3174,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Выбрано: %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Выбрано: %d"
@@ -3214,6 +3214,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ещё %d категория"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3224,12 +3230,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Ещё %d категорий"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ещё %d категория"
                 }
               },
               "other" : {
@@ -3267,6 +3267,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d элемент"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3277,12 +3283,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d элементов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d элемент"
                 }
               },
               "other" : {
@@ -3319,6 +3319,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d элемент будет выполнен по порядку"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3329,12 +3335,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d элементов будет выполнено по порядку"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d элемент будет выполнен по порядку"
                 }
               },
               "other" : {
@@ -3372,6 +3372,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Удалить %d элемент? Это действие нельзя отменить."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3382,12 +3388,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Удалить %d элементов? Это действие нельзя отменить."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Удалить %d элемент? Это действие нельзя отменить."
                 }
               },
               "other" : {
@@ -3425,6 +3425,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Удалено: %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3432,12 +3438,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Удалено: %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Удалено: %d"
@@ -3485,6 +3485,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d элемент"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3495,12 +3501,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d элементов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d элемент"
                 }
               },
               "other" : {
@@ -3538,6 +3538,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d отчёт"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3548,12 +3554,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d отчётов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d отчёт"
                 }
               },
               "other" : {
@@ -3597,6 +3597,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d песня"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3607,12 +3613,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d песен"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d песня"
                 }
               },
               "other" : {
@@ -3767,6 +3767,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3774,12 +3780,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d"
@@ -3886,6 +3886,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d пачка"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3896,12 +3902,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d пачек"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d пачка"
                 }
               },
               "other" : {
@@ -3939,6 +3939,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d мин"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -3946,12 +3952,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d мин"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d мин"
@@ -4021,6 +4021,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d столбец"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4031,12 +4037,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d столбцов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d столбец"
                 }
               },
               "other" : {
@@ -4074,6 +4074,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d день бесплатно + неограниченные фразы, резервные копии iCloud"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4084,12 +4090,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d дней бесплатно + неограниченные фразы, резервные копии iCloud"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d день бесплатно + неограниченные фразы, резервные копии iCloud"
                 }
               },
               "other" : {
@@ -4127,6 +4127,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d день бесплатно · Купите один раз, пользуйтесь всегда"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4137,12 +4143,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d дней бесплатно · Купите один раз, пользуйтесь всегда"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d день бесплатно · Купите один раз, пользуйтесь всегда"
                 }
               },
               "other" : {
@@ -4180,6 +4180,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Начать %d-дневный бесплатный период"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4187,12 +4193,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Начать %d-дневный бесплатный период"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Начать %d-дневный бесплатный период"
@@ -4239,6 +4239,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d чашка"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4249,12 +4255,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d чашек"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d чашка"
                 }
               },
               "other" : {
@@ -4298,6 +4298,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d остановка"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4308,12 +4314,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d остановок"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d остановка"
                 }
               },
               "other" : {
@@ -4357,6 +4357,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d страница"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4367,12 +4373,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d страниц"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d страница"
                 }
               },
               "other" : {
@@ -4410,6 +4410,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d с"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4417,12 +4423,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d с"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d с"
@@ -4492,6 +4492,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d серия"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4502,12 +4508,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d серий"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d серия"
                 }
               },
               "other" : {
@@ -4569,6 +4569,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d×"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4576,12 +4582,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d×"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d×"
@@ -4622,6 +4622,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Использовано %d раз"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4629,12 +4635,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Использовано %d раз"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Использовано %d раз"
@@ -4818,6 +4818,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lldpt"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4825,12 +4831,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lldpt"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lldpt"
@@ -5837,6 +5837,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "+%d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5844,12 +5850,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "+%d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "+%d"
@@ -11884,6 +11884,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Импортирована %d фраза"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -11894,12 +11900,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Импортировано %d фраз"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Импортирована %d фраза"
                 }
               },
               "other" : {
@@ -16779,6 +16779,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Сохранить %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -16786,12 +16792,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Сохранить %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Сохранить %d"
@@ -16978,6 +16978,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Уже сэкономили %d мин"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -16985,12 +16991,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Уже сэкономили %d мин"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Уже сэкономили %d мин"
@@ -22689,6 +22689,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Значение %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -22696,12 +22702,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Значение %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Значение %d"
@@ -22742,6 +22742,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d значение"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -22752,12 +22758,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d значений"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d значение"
                 }
               },
               "other" : {
@@ -25209,6 +25209,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d старая запись не учтена: в ней не передаётся это число."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -25219,12 +25225,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d старых записей не учтены: в них не передаётся это число."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d старая запись не учтена: в ней не передаётся это число."
                 }
               },
               "other" : {
@@ -25399,6 +25399,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ещё %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -25406,12 +25412,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ещё %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Ещё %d"
@@ -25452,6 +25452,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "И ещё %d фраза"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -25462,12 +25468,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "И ещё %d фраз"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "И ещё %d фраза"
                 }
               },
               "other" : {
@@ -31100,6 +31100,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Остался %1$d слот"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -31110,12 +31116,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Осталось %1$d слотов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Остался %1$d слот"
                 }
               },
               "other" : {
@@ -31153,6 +31153,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d фраза"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -31163,12 +31169,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d фраз"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d фраза"
                 }
               },
               "other" : {
@@ -31212,6 +31212,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d фраза сохранена"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -31222,12 +31228,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d фраз сохранено"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d фраза сохранена"
                 }
               },
               "other" : {
@@ -31265,6 +31265,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d фраза сохранена в iCloud."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -31275,12 +31281,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d фраз сохранено в iCloud."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d фраза сохранена в iCloud."
                 }
               },
               "other" : {
@@ -31318,6 +31318,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вы пользуетесь %d фразой уже больше недели. Половина цены только на этом экране."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -31328,12 +31334,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Вы пользуетесь %d фразами уже больше недели. Половина цены только на этом экране."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Вы пользуетесь %d фразой уже больше недели. Половина цены только на этом экране."
                 }
               },
               "other" : {
@@ -31371,6 +31371,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Это имя изменится и внутри %d фразы."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -31381,12 +31387,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Это имя изменится и внутри %d фраз."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Это имя изменится и внутри %d фразы."
                 }
               },
               "other" : {
@@ -31424,6 +31424,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Используется в %d фразе"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -31434,12 +31440,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Используется в %d фразах"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Используется в %d фразе"
                 }
               },
               "other" : {
@@ -32879,6 +32879,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Осталось %d фраза до лимита → Перейти на Pro"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -32889,12 +32895,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Осталось %d фраз до лимита → Перейти на Pro"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Осталось %d фраза до лимита → Перейти на Pro"
                 }
               },
               "other" : {
@@ -36112,6 +36112,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d марафон"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -36122,12 +36128,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d марафонов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d марафон"
                 }
               },
               "other" : {
@@ -38190,6 +38190,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Остался %d бесплатный слот для фраз. В Pro лимита нет"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -38200,12 +38206,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Осталось %d бесплатных слотов для фраз. В Pro лимита нет"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Остался %d бесплатный слот для фраз. В Pro лимита нет"
                 }
               },
               "other" : {
@@ -38243,6 +38243,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии сохраняется только последняя %d запись буфера обмена."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -38253,12 +38259,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "В бесплатной версии сохраняются только последние %d записей буфера обмена."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "В бесплатной версии сохраняется только последняя %d запись буфера обмена."
                 }
               },
               "other" : {
@@ -38296,6 +38296,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно сохранить до %d фразы."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -38306,12 +38312,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "В бесплатной версии можно сохранить до %d фраз."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "В бесплатной версии можно сохранить до %d фразы."
                 }
               },
               "other" : {
@@ -38349,6 +38349,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно сохранить до %d фразы с изображением."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -38359,12 +38365,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "В бесплатной версии можно сохранить до %d фраз с изображением."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "В бесплатной версии можно сохранить до %d фразы с изображением."
                 }
               },
               "other" : {
@@ -38402,6 +38402,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно создать до %d комбо."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -38409,12 +38415,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "В бесплатной версии можно создать до %d комбо."
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "В бесплатной версии можно создать до %d комбо."
@@ -38455,6 +38455,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно использовать до %d шаблона."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -38465,12 +38471,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "В бесплатной версии можно использовать до %d шаблонов."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "В бесплатной версии можно использовать до %d шаблона."
                 }
               },
               "other" : {
@@ -38544,6 +38544,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вы используете на %d больше, чем позволяет бесплатный план"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -38551,12 +38557,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Вы используете на %d больше, чем позволяет бесплатный план"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Вы используете на %d больше, чем позволяет бесплатный план"
@@ -44345,6 +44345,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d поле"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -44355,12 +44361,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d полей"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d поле"
                 }
               },
               "other" : {
@@ -44398,6 +44398,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d поле"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -44408,12 +44414,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d полей"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d поле"
                 }
               },
               "other" : {
@@ -48202,6 +48202,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Создать (%d)"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -48209,12 +48215,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Создать (%d)"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Создать (%d)"
@@ -48743,6 +48743,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Добавить %d выбранную строку"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -48753,12 +48759,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Добавить %d выбранных строк"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Добавить %d выбранную строку"
                 }
               },
               "other" : {
@@ -50095,6 +50095,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d установка"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -50105,12 +50111,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d установок"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d установка"
                 }
               },
               "other" : {
@@ -51724,6 +51724,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "На самом деле: %d раз"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -51731,12 +51737,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "На самом деле: %d раз"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "На самом деле: %d раз"
@@ -51930,6 +51930,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не используется ни в одной фразе, %d значение"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -51940,12 +51946,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Не используется ни в одной фразе, %d значений"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Не используется ни в одной фразе, %d значение"
                 }
               },
               "other" : {
@@ -52012,6 +52012,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Удалить %d неиспользуемое поле"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -52022,12 +52028,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Удалить %d неиспользуемых полей"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Удалить %d неиспользуемое поле"
                 }
               },
               "other" : {
@@ -53647,6 +53647,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d фраза ещё не использовалась."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -53657,12 +53663,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d фраз ещё не использовались."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d фраза ещё не использовалась."
                 }
               },
               "other" : {
@@ -55879,7 +55879,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Фразы с несколькими значениями теперь стали стеком фраз. У каждого поля есть имя, чтобы было видно, что в него попадёт."
+            "value" : "Фразы с несколькими значениями теперь стали стопками фраз. У каждого поля есть имя, чтобы было видно, что в него попадёт."
           }
         },
         "zh-Hans" : {
@@ -59196,6 +59196,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Использовать текст (%d символ)"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -59206,12 +59212,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Использовать текст (%d символов)"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Использовать текст (%d символ)"
                 }
               },
               "other" : {
@@ -61405,6 +61405,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вы уже сэкономили %d минуту. Оформите Pro для безлимита"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -61415,12 +61421,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Вы уже сэкономили %d минут. Оформите Pro для безлимита"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Вы уже сэкономили %d минуту. Оформите Pro для безлимита"
                 }
               },
               "other" : {
@@ -61458,6 +61458,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вы уже сэкономили %d минуту с ClipKeyboard. Оформите Pro и экономьте без ограничений."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -61468,12 +61474,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Вы уже сэкономили %d минут с ClipKeyboard. Оформите Pro и экономьте без ограничений."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Вы уже сэкономили %d минуту с ClipKeyboard. Оформите Pro и экономьте без ограничений."
                 }
               },
               "other" : {
@@ -63627,6 +63627,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Черновики (%d)"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -63634,12 +63640,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Черновики (%d)"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Черновики (%d)"
@@ -66204,6 +66204,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вместе с ним исчезнет %d сохранённое значение. Это поле не использует ни одна Фраза."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -66214,12 +66220,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Вместе с ним исчезнет %d сохранённых значений. Это поле не использует ни одна Фраза."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Вместе с ним исчезнет %d сохранённое значение. Это поле не использует ни одна Фраза."
                 }
               },
               "other" : {
@@ -68631,6 +68631,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Здесь %d строка. Разбить её на отдельные фразы?"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -68641,12 +68647,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Здесь %d строк. Разбить их на отдельные фразы?"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Здесь %d строка. Разбить её на отдельные фразы?"
                 }
               },
               "other" : {
@@ -70772,6 +70772,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d книга"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -70782,12 +70788,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d книг"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d книга"
                 }
               },
               "other" : {
@@ -71657,6 +71657,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Пробный период активен: остался %d день"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -71667,12 +71673,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Пробный период активен: осталось %d дней"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Пробный период активен: остался %d день"
                 }
               },
               "other" : {
@@ -86264,6 +86264,1241 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@: %2$@"
+          }
+        }
+      }
+    },
+    "템플릿·스택·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요." : {
+      "comment" : "Demo samples offer message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add 4 examples (template, stack, and snippet + template) to try them out. Your existing snippets stay untouched."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте 4 примера (шаблон, стопка и фраза с шаблоном), чтобы попробовать самим. Ваши текущие фразы останутся без изменений."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加 4 个示例（模板、短语堆，以及短语+模板），可以直接上手试。已有的短语不受影响。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增 4 個示例（範本、短語堆，以及短語+範本），可以直接上手試。已有的短語不受影響。"
+          }
+        }
+      }
+    },
+    "튜토리얼에서 눌러 본 단축어·템플릿·스택예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요." : {
+      "comment" : "Sample cleanup message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These are the snippet, template, and stack you tried in the tutorial. You've made your own now, so you can clear them out or keep them and edit them to suit you."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это фраза, шаблон и стопка, которые вы опробовали в обучении. Теперь у вас есть свои, так что их можно удалить или оставить и изменить под себя."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是你在教程里点过的短语、模板和短语堆。你已经做出自己的了，所以可以清掉，也可以留着改成自己顺手的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是你在教學裡點過的短語、範本和短語堆。你已經做出自己的了，所以可以清掉，也可以留著改成自己順手的。"
+          }
+        }
+      }
+    },
+    "준비된 단축어·템플릿·스택를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요." : {
+      "comment" : "Restart tutorial alert message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll walk you through tapping the prepared snippet, template, and stack again. Nothing in your list is removed."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мы снова покажем, как нажимать на готовую фразу, шаблон и стопку. Всё в вашем списке останется на месте."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我们会再带你把准备好的短语、模板、短语堆一个个点一遍。列表里的短语不会被删掉。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我們會再帶你把準備好的短語、範本、短語堆一個個點一遍。列表裡的短語不會被刪掉。"
+          }
+        }
+      }
+    },
+    "스택 하나에 값을 여러 개 담아 두고, 오른쪽 → 로 골라 쓰는 거예요. 계좌를 여러 개 쓰거나, 같은 안내를 이름만 바꿔 보낼 때 편합니다." : {
+      "comment" : "Combo step: confirmation body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One stack holds several values, and the → on the right picks between them. Handy when you use several bank accounts, or send the same message with a different name."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Одна стопка хранит сразу несколько значений, а стрелка → справа выбирает нужное. Удобно, если вы используете несколько банковских счетов или отправляете одно и то же сообщение с разными именами."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一个短语堆里放好几个值，用右边的 → 来挑。有多个银行账号，或者同一段通知只换名字发的时候很方便。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一個短語堆裡放好幾個值，用右邊的 → 來挑。有多個銀行帳號，或者同一段通知只換名字發的時候很方便。"
+          }
+        }
+      }
+    },
+    "한 단축어는 한 종류로만 세요(스택 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요." : {
+      "comment" : "Type breakdown footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each snippet counts as exactly one type (stack > template > image > text). Text counts start with 4.4.3, so older records mixed in can make text look lower than it is."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Каждая фраза учитывается только в одном типе (стопка > шаблон > изображение > текст). Подсчёт текста ведётся с версии 4.4.3, поэтому старые записи могут занижать реальное число."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每条短语只算一种类型（短语堆 > 模板 > 图片 > 文本）。文本的数字从 4.4.3 才开始收集，混进更早的记录会让文本看起来偏低。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每條短語只算一種類型（短語堆 > 範本 > 圖片 > 文字）。文字的數字從 4.4.3 才開始收集，混進更早的記錄會讓文字看起來偏低。"
+          }
+        }
+      }
+    },
+    "스택 수" : {
+      "comment" : "Usage metric: combos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stacks"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Стопки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短语堆数"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短語堆數"
+          }
+        }
+      }
+    },
+    "iCloud 백업·스택·보안 단축어·macOS 앱까지 전부" : {
+      "comment" : "Paywall value: pro extras",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud backup, Stacks, secure snippets & the macOS app: all included"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Резервное копирование в iCloud, стопки, защищённые фразы и приложение macOS: всё включено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 备份、短语堆、加密短语，还有 macOS App，全都包含在内"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 備份、短語堆、加密短語，還有 macOS App，全都包含在內"
+          }
+        }
+      }
+    },
+    "스택" : {
+      "comment" : "Combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stack"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Стопка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短语堆"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短語堆"
+          }
+        }
+      }
+    },
+    "단축어·클립보드 기록·스택·이미지·임시 저장본이 이 기기에서 모두 지워집니다. 되돌릴 수 없어요.\n\nPro 구매 권한과 iCloud 백업은 그대로 남습니다." : {
+      "comment" : "Wipe all data confirm message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your snippets, clipboard history, stacks, images, and drafts will all be erased from this device. This can't be undone.\n\nYour Pro purchase and iCloud backup are kept."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фразы, история буфера обмена, стопки, изображения и черновики будут удалены с этого устройства. Это нельзя отменить.\n\nПокупка Pro и резервная копия iCloud сохранятся."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此设备上的短语、剪贴板历史记录、短语堆、图片和草稿都将被清除。此操作无法撤销。\n\n您的 Pro 购买记录和 iCloud 备份将会保留。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此裝置上的短語、剪貼簿歷史記錄、短語堆、圖片和草稿都將被清除。此操作無法復原。\n\n您的 Pro 購買記錄和 iCloud 備份將會保留。"
+          }
+        }
+      }
+    },
+    "색에만 의존하지 않고 단축어를 구분하고 싶다면, 앱 설정 → 디스플레이 → 단축어 표시에서 '단축어 구분 표시'를 켜세요. 단축어 타입(템플릿·스택·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 함께 표시됩니다." : {
+      "comment" : "Differentiate Without Color feature description v2",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To tell snippets apart without relying on color alone, turn on 'Show visual cues' in app Settings → Display → Snippet display. Snippet type (Template/Stack/Secure) icons and borders plus favorite and category symbols will appear."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы отличать фразы не только по цвету, включите «Показывать визуальные подсказки» в Настройках → Отображение → Показ фраз. Появятся значки и рамки типа фразы (шаблон, стопка, защищённая), а также символы избранного и категории."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你希望不只靠颜色来区分短语，请在 App 的“设置 → 显示 → 短语显示”中打开“显示区分标记”。短语类型（模板·短语堆·加密）的图标和边框，以及收藏和分类符号都会一起显示。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果你希望不只靠顏色來區分短語，請在 App 的「設定 → 顯示 → 短語顯示」中開啟「顯示區分標記」。短語類型（範本·短語堆·加密）的圖標和邊框，以及收藏和分類符號都會一起顯示。"
+          }
+        }
+      }
+    },
+    "• 자동 백업이 활성화되면 단축어, 클립보드, 스택 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다" : {
+      "comment" : "Auto backup info",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• When auto-backup is on, snippets, clipboard, and stacks are backed up whenever they change\n• A backup also runs every 5 minutes"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• Если включено автоматическое резервное копирование, фразы, буфер обмена и стопки сохраняются при каждом изменении\n• Резервная копия также создаётся каждые 5 минут"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 开启自动备份后，短语、剪贴板、短语堆有改动时都会自动备份\n• 每 5 分钟也会定期备份一次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 開啓自動備份後，短語、剪貼簿、短語堆有改動時都會自動備份\n• 每 5 分鐘也會定期備份一次"
+          }
+        }
+      }
+    },
+    "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?" : {
+      "comment" : "Restore with data warning message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ This device already has data.\n\nRestoring deletes all current snippets, clipboard items, and stacks and replaces them with the backup.\n\nThis cannot be undone. Continue?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ На этом устройстве уже есть данные.\n\nПри восстановлении все текущие фразы, буфер обмена и стопки будут удалены и заменены данными из резервной копии.\n\nЭто действие нельзя отменить. Продолжить?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ 当前设备上已经有数据。\n\n恢复后，现在所有的短语、剪贴板、短语堆都会被删除，并替换成备份数据。\n\n此操作无法撤销。要继续吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ 當前裝置上已經有資料。\n\n還原後，現在所有的短語、剪貼簿、短語堆都會被刪除，並替換成備份資料。\n\n此操作無法復原。要繼續嗎？"
+          }
+        }
+      }
+    },
+    "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다." : {
+      "comment" : "Import summary message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added %1$d snippets, updated %2$d (%3$d total).\nImported %4$d stacks, %5$d images and %6$d categories."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавлено фраз: %1$d, обновлено: %2$d (всего %3$d).\nИмпортировано: стопок %4$d, изображений %5$d, категорий %6$d."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增 %1$d 个短语，更新 %2$d 个（共 %3$d 个）。\n已导入 %4$d 个短语堆、%5$d 张图片和 %6$d 个分类。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增 %1$d 個短語，更新 %2$d 個（共 %3$d 個）。\n已匯入 %4$d 個短語堆、%5$d 張圖片和 %6$d 個分類。"
+          }
+        }
+      }
+    },
+    "마지막은 스택예요. 여러 개가 순서대로 들어가요." : {
+      "comment" : "Coach line: try the prepared combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last one is a stack. Several values go in, one after another."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Последнее, стопка. В неё по порядку входит сразу несколько значений."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最后是短语堆。多个值会一个接一个填进去。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最後是短語堆。多個值會一個接一個填進去。"
+          }
+        }
+      }
+    },
+    "여러 값을 순서대로 넣는 스택" : {
+      "comment" : "Welcome: what a combo is",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A stack that types several values in order"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Стопка вводит несколько значений по порядку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按顺序填入多个值的短语堆"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按順序填入多個值的短語堆"
+          }
+        }
+      }
+    },
+    "마지막은 스택예요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요." : {
+      "comment" : "Combo step: insert the first value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last up: stacks. Tap the left side of the key to insert the first value."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дальше, стопки. Нажмите на левую часть клавиши, чтобы вставить первое значение."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最后是短语堆。点按键的左边，把第一个值填进去。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最後是短語堆。點一下鍵的左邊，把第一個值填進去。"
+          }
+        }
+      }
+    },
+    "기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·스택·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요." : {
+      "comment" : "Visual cues explanation v3",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "By default, cards show just the title: no symbols or borders. Turn this on to show snippet type icons (template, stack, secure), symbols, and the separating borders on cards and keyboard cells."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По умолчанию карточки показывают только заголовок: без символов и рамок. Включите, чтобы видеть значки типа фразы (шаблон, стопка, защищённая), символы и разделительные рамки на карточках и клавишах клавиатуры."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "默认只清爽地显示标题，没有符号和边框。打开这项后，会一并显示短语类型（模板·短语堆·加密）的图标和符号，以及卡片、键盘格子的分隔边框。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預設只清爽地顯示標題，沒有符號和邊框。開啟這項後，會一並顯示短語類型（範本·短語堆·加密）的圖標和符號，以及卡片、鍵盤格子的分隔邊框。"
+          }
+        }
+      }
+    },
+    "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택로 묶거나 풀 수 있어요." : {
+      "comment" : "Bulk import: secure + combo merge footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Items with the lock on are encrypted and saved as secure snippets. Long-press an item to merge it into a stack with the item above, or split a stack apart."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Элементы с включённым замком шифруются и сохраняются как защищённые фразы. Удерживайте элемент, чтобы объединить его в стопку с элементом выше или разбить стопку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开锁的项目会加密保存为加密短语。长按项目可以和上一条合并成短语堆，或者把短语堆拆开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟鎖的項目會加密儲存為加密短語。長按項目可以和上一條合併成短語堆，或者把短語堆拆開。"
+          }
+        }
+      }
+    },
+    "스택 풀기" : {
+      "comment" : "Bulk import: split combo back into items",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Split Stack"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разбить стопку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拆开短语堆"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "拆開短語堆"
+          }
+        }
+      }
+    },
+    "스택로 묶기" : {
+      "comment" : "Bulk import: bundle selected into one combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bundle into a stack"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объединить в стопку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打包成短语堆"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打包成短語堆"
+          }
+        }
+      }
+    },
+    "위 항목과 스택로 묶기" : {
+      "comment" : "Bulk import: merge with previous item into combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Merge into Stack with Item Above"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объединить в стопку с элементом выше"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与上一条合并成短语堆"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與上一條合併成短語堆"
+          }
+        }
+      }
+    },
+    "단축어 수정 타이틀_스택" : {
+      "comment" : "Edit combo navigation title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Stack"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить стопку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑短语堆"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編輯短語堆"
+          }
+        }
+      }
+    },
+    "새 스택" : {
+      "comment" : "New combo navigation title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Stack"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая стопка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新短语堆"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新短語堆"
+          }
+        }
+      }
+    },
+    "내용을 더 추가하면 스택 단축어가 됩니다" : {
+      "comment" : "Add content button hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add more content to turn this into a stack snippet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте ещё содержимое, чтобы получилась фраза-стопка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再添加内容就会变成短语堆短语"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再新增內容就會變成短語堆短語"
+          }
+        }
+      }
+    },
+    "내용을 이어 더하면 스택가 돼요. 키보드에서 순서대로 입력됩니다." : {
+      "comment" : "Continuation/combo explanation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add more steps to make it a stack, they're entered in order from the keyboard."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавляйте шаги дальше, и получится стопка. Они вводятся по порядку с клавиатуры."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "继续往下加内容就会变成短语堆，在键盘上会按顺序依次输入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "繼續往下加內容就會變成短語堆，在鍵盤上會按順序依次輸入。"
+          }
+        }
+      }
+    },
+    "%@, 스택 %d단계" : {
+      "comment" : "Bulk import key preview: combo a11y label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, stack with %d steps"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, стопка из %d шагов"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，短语堆 %d 步"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@，短語堆 %d 步"
+          }
+        }
+      }
+    },
+    "스택 추가" : {
+      "comment" : "Add combo card",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add stack"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить стопку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加短语堆"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增短語堆"
+          }
+        }
+      }
+    },
+    "스택 개수 제한" : {
+      "comment" : "Combo limit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stack Limit"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Лимит стопок"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短语堆数量上限"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短語堆數量上限"
+          }
+        }
+      }
+    },
+    "무료 버전에서는 최대 %d개의 스택를 만들 수 있습니다." : {
+      "comment" : "Combo limit desc",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Free version allows up to %d stacks."
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно создать до %d стопки."
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно создать до %d стопок."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно создать до %d стопок."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно создать до %d стопок."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "免费版最多可以创建 %d 个短语堆。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "免費版最多可以建立 %d 個短語堆。"
+          }
+        }
+      }
+    },
+    "튜토리얼에서 눌러 본 단축어·템플릿·스택이에요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요." : {
+      "comment" : "Sample cleanup message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These are the snippet, template, and stack you tried in the tutorial. You've made your own now, so you can clear them out or keep them and edit them to suit you."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это фраза, шаблон и стопка, которые вы опробовали в обучении. Теперь у вас есть свои, так что их можно удалить или оставить и изменить под себя."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是你在教程里点过的短语、模板和短语堆。你已经做出自己的了，所以可以清掉，也可以留着改成自己顺手的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是你在教學裡點過的短語、範本和短語堆。你已經做出自己的了，所以可以清掉，也可以留著改成自己順手的。"
+          }
+        }
+      }
+    },
+    "준비된 단축어·템플릿·스택을 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요." : {
+      "comment" : "Restart tutorial alert message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll walk you through tapping the prepared snippet, template, and stack again. Nothing in your list is removed."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мы снова покажем, как нажимать на готовую фразу, шаблон и стопку. Всё в вашем списке останется на месте."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我们会再带你把准备好的短语、模板、短语堆一个个点一遍。列表里的短语不会被删掉。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我們會再帶你把準備好的短語、範本、短語堆一個個點一遍。列表裡的短語不會被刪掉。"
+          }
+        }
+      }
+    },
+    "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택이 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?" : {
+      "comment" : "Restore with data warning message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ This device already has data.\n\nRestoring deletes all current snippets, clipboard items, and stacks and replaces them with the backup.\n\nThis cannot be undone. Continue?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ На этом устройстве уже есть данные.\n\nПри восстановлении все текущие фразы, буфер обмена и стопки будут удалены и заменены данными из резервной копии.\n\nЭто действие нельзя отменить. Продолжить?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ 当前设备上已经有数据。\n\n恢复后，现在所有的短语、剪贴板、短语堆都会被删除，并替换成备份数据。\n\n此操作无法撤销。要继续吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚠️ 當前裝置上已經有資料。\n\n還原後，現在所有的短語、剪貼簿、短語堆都會被刪除，並替換成備份資料。\n\n此操作無法復原。要繼續嗎？"
+          }
+        }
+      }
+    },
+    "마지막은 스택이에요. 여러 개가 순서대로 들어가요." : {
+      "comment" : "Coach line: try the prepared combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last one is a stack. Several values go in, one after another."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Последнее, стопка. В неё по порядку входит сразу несколько значений."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最后是短语堆。多个值会一个接一个填进去。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最後是短語堆。多個值會一個接一個填進去。"
+          }
+        }
+      }
+    },
+    "마지막은 스택이에요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요." : {
+      "comment" : "Combo step: insert the first value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last up: stacks. Tap the left side of the key to insert the first value."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дальше, стопки. Нажмите на левую часть клавиши, чтобы вставить первое значение."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最后是短语堆。点按键的左边，把第一个值填进去。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最後是短語堆。點一下鍵的左邊，把第一個值填進去。"
+          }
+        }
+      }
+    },
+    "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택으로 묶거나 풀 수 있어요." : {
+      "comment" : "Bulk import: secure + combo merge footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Items with the lock on are encrypted and saved as secure snippets. Long-press an item to merge it into a stack with the item above, or split a stack apart."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Элементы с включённым замком шифруются и сохраняются как защищённые фразы. Удерживайте элемент, чтобы объединить его в стопку с элементом выше или разбить стопку."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开锁的项目会加密保存为加密短语。长按项目可以和上一条合并成短语堆，或者把短语堆拆开。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟鎖的項目會加密儲存為加密短語。長按項目可以和上一條合併成短語堆，或者把短語堆拆開。"
+          }
+        }
+      }
+    },
+    "스택으로 묶기" : {
+      "comment" : "Bulk import: bundle selected into one combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bundle into a stack"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объединить в стопку"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打包成短语堆"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打包成短語堆"
+          }
+        }
+      }
+    },
+    "위 항목과 스택으로 묶기" : {
+      "comment" : "Bulk import: merge with previous item into combo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Merge into Stack with Item Above"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объединить в стопку с элементом выше"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与上一条合并成短语堆"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與上一條合併成短語堆"
+          }
+        }
+      }
+    },
+    "내용을 이어 더하면 스택이 돼요. 키보드에서 순서대로 입력됩니다." : {
+      "comment" : "Continuation/combo explanation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add more steps to make it a stack, they're entered in order from the keyboard."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавляйте шаги дальше, и получится стопка. Они вводятся по порядку с клавиатуры."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "继续往下加内容就会变成短语堆，在键盘上会按顺序依次输入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "繼續往下加內容就會變成短語堆，在鍵盤上會按順序依次輸入。"
+          }
+        }
+      }
+    },
+    "무료 버전에서는 최대 %d개의 스택을 만들 수 있습니다." : {
+      "comment" : "Combo limit desc",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Free version allows up to %d stacks."
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно создать до %d стопки."
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно создать до %d стопок."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно создать до %d стопок."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно создать до %d стопок."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "免费版最多可以创建 %d 个短语堆。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "免費版最多可以建立 %d 個短語堆。"
+          }
+        }
+      }
+    },
+    "빈칸에 넣어 둔 값의 순서가 저장할 때마다 뒤집히던 것을 고쳤어요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved blank values keep their order instead of flipping on every save"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Исправили порядок значений в полях для заполнения, который сбивался при каждом сохранении"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "填空里保存的值不再每次保存都颠倒顺序"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "填空裡儲存的值不再每次儲存都顛倒順序"
+          }
+        }
+      }
+    },
+    "목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The space between the title and your snippets stays still while you open and edit the list"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список открывается и редактируется без дёрганого отступа между заголовком и фразой"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开和编辑列表时，标题和短语之间的间距不再抖动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟和編輯列表時，標題和短語之間的間距不再抖動"
           }
         }
       }
