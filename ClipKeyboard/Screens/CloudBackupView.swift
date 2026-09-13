@@ -170,7 +170,7 @@ struct CloudBackupView: View {
                 } header: {
                     Text(NSLocalizedString("자동 백업 설정", comment: "Auto backup settings section header"))
                 } footer: {
-                    Text(NSLocalizedString("• 자동 백업이 활성화되면 단축어, 클립보드, 콤보 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다", comment: "Auto backup info"))
+                    Text(NSLocalizedString("• 자동 백업이 활성화되면 단축어, 클립보드, 스택 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다", comment: "Auto backup info"))
                         .font(.body)
                         .foregroundColor(.secondary)
                 }
@@ -385,7 +385,7 @@ struct CloudBackupView: View {
             Button(NSLocalizedString("취소", comment: "Cancel button"), role: .cancel) { }
         } message: {
             if backupService.hasLocalData() {
-                Text(NSLocalizedString("⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?", comment: "Restore with data warning message"))
+                Text(NSLocalizedString("⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택이 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?", comment: "Restore with data warning message"))
             } else {
                 Text(NSLocalizedString("백업 데이터를 복구합니다.", comment: "Restore empty device message"))
             }
@@ -691,7 +691,7 @@ struct ImportSummary {
     var categories: Int = 0
 
     var localizedDescription: String {
-        String(format: NSLocalizedString("단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.", comment: "Import summary message"),
+        String(format: NSLocalizedString("단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.", comment: "Import summary message"),
                addedMemos, updatedMemos, totalMemos, addedStacks, images, categories)
     }
 }

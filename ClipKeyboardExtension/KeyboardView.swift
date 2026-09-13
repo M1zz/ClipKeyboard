@@ -595,7 +595,7 @@ struct KeyboardView: View {
         case "templates": return NSLocalizedString("템플릿", comment: "Built-in category: templates only")
         case "textMemos": return NSLocalizedString("단축어+템플릿", comment: "Built-in category: text memos and templates")
         case "images":    return NSLocalizedString("이미지 단축어", comment: "Built-in category: image memos only")
-        case "combos":    return NSLocalizedString("콤보", comment: "Built-in category: combos only")
+        case "combos":    return NSLocalizedString("스택", comment: "Built-in category: combos only")
         default:          return raw
         }
     }
@@ -1940,7 +1940,7 @@ struct KeyboardView: View {
         var parts: [String] = [memo.title]
         if memo.isSecure { parts.append(NSLocalizedString("보안 단축어", comment: "VoiceOver: secure memo badge")) }
         if memo.isTemplate { parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge")) }
-        if memo.isStack { parts.append(NSLocalizedString("콤보", comment: "VoiceOver: combo badge")) }
+        if memo.isStack { parts.append(NSLocalizedString("스택", comment: "VoiceOver: combo badge")) }
         if memo.contentType == .image || memo.contentType == .mixed {
             parts.append(NSLocalizedString("이미지 단축어", comment: "VoiceOver: image memo"))
         } else if !memo.isSecure, !memo.value.isEmpty {

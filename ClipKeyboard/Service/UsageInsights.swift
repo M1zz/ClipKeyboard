@@ -175,7 +175,7 @@ enum UsageInsights {
         let raw: [(String, Int)] = [
             (NSLocalizedString("텍스트", comment: "Shortcut type: plain text"), total("texts")),
             (NSLocalizedString("템플릿", comment: "Shortcut type: template"), total("templates")),
-            (NSLocalizedString("콤보", comment: "Shortcut type: combo"), total("combos")),
+            (NSLocalizedString("스택", comment: "Shortcut type: combo"), total("combos")),
             (NSLocalizedString("이미지", comment: "Shortcut type: image"), total("images"))
         ]
         let sum = raw.reduce(0) { $0 + $1.1 }

@@ -18,9 +18,9 @@ struct MemoPreviewFormatterSwiftTests {
 
     // MARK: - 콤보 / 템플릿 / 이미지
 
-    @Test("콤보는 단계 개수를 미리보기에 포함한다")
+    @Test("스택은 단계 개수를 미리보기에 포함한다")
     func stackPreviewShowsCount() {
-        let memo = Memo(title: "콤보", value: "A", stackValues: ["A", "B", "C"])
+        let memo = Memo(title: "스택", value: "A", stackValues: ["A", "B", "C"])
         let preview = MemoPreviewFormatter.preview(for: memo, resolvedType: nil)
         #expect(!preview.isEmpty)
         #expect(preview.contains("3"))   // "%d items" - 로케일 무관하게 숫자는 포함

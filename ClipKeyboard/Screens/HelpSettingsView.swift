@@ -30,7 +30,7 @@ struct HelpSettingsView: View {
             }
             Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
         } message: {
-            Text(NSLocalizedString("준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.", comment: "Restart tutorial alert message"))
+            Text(NSLocalizedString("준비된 단축어·템플릿·스택을 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.", comment: "Restart tutorial alert message"))
         }
     }
 

@@ -379,7 +379,7 @@ struct BulkImportView: View {
                 Text(NSLocalizedString("저장하면 키보드가 이 모습이 돼요. 키를 눌러 뺄 것을 빼고, 제목·자물쇠는 목록에서 손보세요.",
                                        comment: "Bulk import: keyboard preview footer"))
             } else {
-                Text(NSLocalizedString("자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 콤보로 묶거나 풀 수 있어요.",
+                Text(NSLocalizedString("자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택으로 묶거나 풀 수 있어요.",
                                        comment: "Bulk import: secure + combo merge footer"))
             }
         }
@@ -407,7 +407,7 @@ struct BulkImportView: View {
 
             // 콤보 하나만 골랐으면 푸는 것이 자연스러운 다음 행동이다.
             if picked.count == 1, picked[0].isStack {
-                Button(NSLocalizedString("콤보 풀기", comment: "Bulk import: split combo back into items")) {
+                Button(NSLocalizedString("스택 풀기", comment: "Bulk import: split combo back into items")) {
                     withAnimation(.easeInOut(duration: 0.2)) {
                         splitStack(picked[0].id)
                         bundleSelection = []
@@ -418,7 +418,7 @@ struct BulkImportView: View {
             }
 
             if picked.count >= 2 {
-                Button(NSLocalizedString("콤보로 묶기", comment: "Bulk import: bundle selected into one combo")) {
+                Button(NSLocalizedString("스택으로 묶기", comment: "Bulk import: bundle selected into one combo")) {
                     withAnimation(.easeInOut(duration: 0.2)) { mergeSelected() }
                 }
                 .buttonStyle(.borderedProminent)
@@ -554,7 +554,7 @@ struct BulkImportView: View {
                 Button {
                     mergeWithPrevious(d.id)
                 } label: {
-                    Label(NSLocalizedString("위 항목과 콤보로 묶기", comment: "Bulk import: merge with previous item into combo"),
+                    Label(NSLocalizedString("위 항목과 스택으로 묶기", comment: "Bulk import: merge with previous item into combo"),
                           systemImage: "link")
                 }
             }
@@ -562,7 +562,7 @@ struct BulkImportView: View {
                 Button {
                     splitStack(d.id)
                 } label: {
-                    Label(NSLocalizedString("콤보 풀기", comment: "Bulk import: split combo back into items"),
+                    Label(NSLocalizedString("스택 풀기", comment: "Bulk import: split combo back into items"),
                           systemImage: "link.badge.plus")
                 }
             }

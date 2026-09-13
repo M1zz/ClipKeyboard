@@ -579,7 +579,7 @@ struct InAppKeyboardStage: View {
                         .font(.subheadline.weight(.bold))
                     Spacer(minLength: 0)
                 }
-                Text(NSLocalizedString("콤보 하나에 값을 여러 개 담아 두고, 오른쪽 → 로 골라 쓰는 거예요. 계좌를 여러 개 쓰거나, 같은 안내를 이름만 바꿔 보낼 때 편합니다.",
+                Text(NSLocalizedString("스택 하나에 값을 여러 개 담아 두고, 오른쪽 → 로 골라 쓰는 거예요. 계좌를 여러 개 쓰거나, 같은 안내를 이름만 바꿔 보낼 때 편합니다.",
                                        comment: "Combo step: confirmation body"))
                     .font(.footnote)
                     .fixedSize(horizontal: false, vertical: true)

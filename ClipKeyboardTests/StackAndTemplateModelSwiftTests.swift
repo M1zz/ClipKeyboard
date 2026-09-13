@@ -12,7 +12,7 @@ import Testing
 import Foundation
 @testable import ClipKeyboard
 
-@Suite("콤보 상태 머신 & 레거시 콤보 구조")
+@Suite("스택 상태 머신 & 레거시 스택 구조")
 struct StackAndTemplateModelSwiftTests {
 
     // MARK: - ComboExecutionState (Equatable)
@@ -53,14 +53,14 @@ struct StackAndTemplateModelSwiftTests {
 
     @Test("Combo Codable 라운드트립")
     func stackCodableRoundTrip() throws {
-        let original = Combo(title: "콤보", items: [
+        let original = Combo(title: "스택", items: [
             ComboItem(type: .memo, referenceId: UUID(), order: 0, displayValue: "값1"),
             ComboItem(type: .clipboardHistory, referenceId: UUID(), order: 1)
         ], interval: 1.0, useCount: 5)
         let data = try JSONEncoder().encode(original)
         let decoded = try JSONDecoder().decode(Combo.self, from: data)
         #expect(decoded.id == original.id)
-        #expect(decoded.title == "콤보")
+        #expect(decoded.title == "스택")
         #expect(decoded.items.count == 2)
         #expect(decoded.interval == 1.0)
         #expect(decoded.useCount == 5)
@@ -77,9 +77,9 @@ struct StackAndTemplateModelSwiftTests {
 
     // MARK: - 콤보 메모(통합 모델) - stackValues 기반
 
-    @Test("통합 모델에서 콤보 단계는 stackValues 순서를 유지한다")
+    @Test("통합 모델에서 스택 단계는 stackValues 순서를 유지한다")
     func unifiedStackPreservesOrder() {
-        let memo = Memo(title: "3단계 콤보", value: "안녕",
+        let memo = Memo(title: "3단계 스택", value: "안녕",
                         stackValues: ["안녕", "반가워", "또 봐"])
         #expect(memo.isStack)
         #expect(memo.stackValues.first == "안녕")

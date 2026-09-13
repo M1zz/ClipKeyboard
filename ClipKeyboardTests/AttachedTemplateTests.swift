@@ -136,7 +136,7 @@ final class AttachedTemplateTests: XCTestCase {
 
     func testMemo_Stack_PersistsViaCodable() throws {
         // 통합 모델: 콤보 판정은 stackValues 기반(childMemoIds 아님).
-        var memo = Memo(title: "콤보", value: "1단계", stackValues: ["1단계", "2단계"])
+        var memo = Memo(title: "스택", value: "1단계", stackValues: ["1단계", "2단계"])
         memo.stackInterval = 3.0
 
         let decoded = try JSONDecoder().decode(Memo.self, from: JSONEncoder().encode(memo))

@@ -89,7 +89,7 @@ enum AddCardCopy {
         case .builtIn(let b):
             switch b {
             case .templates: return NSLocalizedString("템플릿 추가", comment: "Add template card")
-            case .combos: return NSLocalizedString("콤보 추가", comment: "Add combo card")
+            case .combos: return NSLocalizedString("스택 추가", comment: "Add combo card")
             case .images: return NSLocalizedString("이미지 단축어 추가", comment: "Add image memo card")
             case .textMemos: return NSLocalizedString("단축어 추가", comment: "Add memo card")
             }

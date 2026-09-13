@@ -42,7 +42,7 @@ struct MyDataSettingsView: View {
                 showWipeFinalConfirm = true
             }
         } message: {
-            Text(NSLocalizedString("단축어·클립보드 기록·콤보·이미지·임시 저장본이 이 기기에서 모두 지워집니다. 되돌릴 수 없어요.\n\nPro 구매 권한과 iCloud 백업은 그대로 남습니다.", comment: "Wipe all data confirm message"))
+            Text(NSLocalizedString("단축어·클립보드 기록·스택·이미지·임시 저장본이 이 기기에서 모두 지워집니다. 되돌릴 수 없어요.\n\nPro 구매 권한과 iCloud 백업은 그대로 남습니다.", comment: "Wipe all data confirm message"))
         }
         // 2단계: 실수 방지를 위한 마지막 확인.
         .alert(NSLocalizedString("정말 삭제할까요?", comment: "Wipe all data final confirm title"),

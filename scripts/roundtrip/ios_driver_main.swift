@@ -27,7 +27,7 @@ func makeFixtureMemos() -> [Memo] {
                   templateVariables: ["이름"],
                   placeholderValues: ["이름": ["유미", "주디", "리이오"]],
                   hint: "신규 고객 응대 메일")
-    var m3 = Memo(id: id3, title: "로그인 콤보", value: "",
+    var m3 = Memo(id: id3, title: "로그인 스택", value: "",
                   lastEdited: fixedDate,
                   stackValues: ["myid@example.com", "password123"],
                   stackInterval: 3.5)
@@ -38,7 +38,7 @@ func makeFixtureMemos() -> [Memo] {
 func makeFixtureStacks() -> [Combo] {
     let item = ComboItem(id: childA, type: .memo, referenceId: id1, order: 0,
                          displayTitle: "집 주소", displayValue: "서울시 어딘가 123")
-    return [Combo(id: childB, title: "주문 콤보", items: [item], interval: 1.5,
+    return [Combo(id: childB, title: "주문 스택", items: [item], interval: 1.5,
                   createdAt: fixedDate, lastUsed: usedDate, category: "텍스트",
                   useCount: 4, isFavorite: true)]
 }
@@ -100,7 +100,7 @@ case "verify":
     check(m3.hint == nil, "m3.hint nil이어야 함")
 
     let combos = try dec.decode([Combo].self, from: Data(contentsOf: URL(fileURLWithPath: dir + "/combos.json")))
-    check(combos.count == 1 && combos[0].title == "주문 콤보" && combos[0].interval == 1.5
+    check(combos.count == 1 && combos[0].title == "주문 스택" && combos[0].interval == 1.5
           && combos[0].useCount == 4 && combos[0].isFavorite
           && combos[0].items.first?.referenceId == id1, "Combo round-trip 손실")
 

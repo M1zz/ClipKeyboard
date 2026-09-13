@@ -142,7 +142,7 @@ struct PaywallView: View {
             valueRow("text.bubble.fill",
                      NSLocalizedString("프로페셔널 영어 템플릿을 마음껏: 비원어민도 유창하게", comment: "Paywall value: english templates"))
             valueRow("icloud.fill",
-                     NSLocalizedString("iCloud 백업·콤보·보안 단축어·macOS 앱까지 전부", comment: "Paywall value: pro extras"))
+                     NSLocalizedString("iCloud 백업·스택·보안 단축어·macOS 앱까지 전부", comment: "Paywall value: pro extras"))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -221,7 +221,7 @@ struct PaywallView: View {
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeMemoLimit),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))
 
-            featureRow(NSLocalizedString("콤보", comment: "Combo"),
+            featureRow(NSLocalizedString("스택", comment: "Combo"),
                        free: String(format: NSLocalizedString("%d개", comment: "count unit"), ProFeatureManager.freeStackLimit),
                        pro: NSLocalizedString("무제한", comment: "Unlimited"))
 

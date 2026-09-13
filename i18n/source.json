@@ -257,6 +257,12 @@
     "comment": "Feature row: name, free plan value, pro plan value",
     "h": "79bd720f23"
   },
+  "%@, 스택 %d단계": {
+    "ko": "%@, 스택 %d단계",
+    "en": "%@, stack with %d steps",
+    "comment": "Bulk import key preview: combo a11y label",
+    "h": "70ef11d44b"
+  },
   "%@, 아이콘 변경": {
     "ko": "%@, 아이콘 변경",
     "en": "%@, change icon",
@@ -2915,6 +2921,12 @@
     "comment": "Auto-registered",
     "h": "47a32d8169"
   },
+  "iCloud 백업·스택·보안 단축어·macOS 앱까지 전부": {
+    "ko": "iCloud 백업·스택·보안 단축어·macOS 앱까지 전부",
+    "en": "iCloud backup, Stacks, secure snippets & the macOS app: all included",
+    "comment": "Paywall value: pro extras",
+    "h": "8072dbdb6f"
+  },
   "iCloud 백업·콤보·보안 단축어·macOS 앱까지 전부": {
     "ko": "iCloud 백업·콤보·보안 단축어·macOS 앱까지 전부",
     "en": "iCloud backup, Combos, secure snippets & the macOS app: all included",
@@ -3119,6 +3131,12 @@
     "comment": "Backup info 2",
     "h": "ed55823cd8"
   },
+  "• 자동 백업이 활성화되면 단축어, 클립보드, 스택 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다": {
+    "ko": "• 자동 백업이 활성화되면 단축어, 클립보드, 스택 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다",
+    "en": "• When auto-backup is on, snippets, clipboard, and stacks are backed up whenever they change\n• A backup also runs every 5 minutes",
+    "comment": "Auto backup info",
+    "h": "20a2b813eb"
+  },
   "• 자동 백업이 활성화되면 단축어, 클립보드, 콤보 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다": {
     "ko": "• 자동 백업이 활성화되면 단축어, 클립보드, 콤보 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다",
     "en": "• When auto-backup is on, snippets, clipboard, and combos are backed up whenever they change\n• A backup also runs every 5 minutes",
@@ -3148,6 +3166,18 @@
     "en": "⚠️ Restoring replaces your current data with the backup",
     "comment": "Auto-registered",
     "h": "d6639bb385"
+  },
+  "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?": {
+    "ko": "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?",
+    "en": "⚠️ This device already has data.\n\nRestoring deletes all current snippets, clipboard items, and stacks and replaces them with the backup.\n\nThis cannot be undone. Continue?",
+    "comment": "Restore with data warning message",
+    "h": "80775225d0"
+  },
+  "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택이 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?": {
+    "ko": "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택이 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?",
+    "en": "⚠️ This device already has data.\n\nRestoring deletes all current snippets, clipboard items, and stacks and replaces them with the backup.\n\nThis cannot be undone. Continue?",
+    "comment": "Restore with data warning message",
+    "h": "3eb9c184e4"
   },
   "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?": {
     "ko": "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?",
@@ -4037,6 +4067,12 @@
     "comment": "Key color: iOS system blue",
     "h": "4cf8d2489c"
   },
+  "기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·스택·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.": {
+    "ko": "기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·스택·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.",
+    "en": "By default, cards show just the title: no symbols or borders. Turn this on to show snippet type icons (template, stack, secure), symbols, and the separating borders on cards and keyboard cells.",
+    "comment": "Visual cues explanation v3",
+    "h": "65b0f782ba"
+  },
   "기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·콤보·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.": {
     "ko": "기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·콤보·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.",
     "en": "By default, cards show just the title: no symbols or borders. Turn this on to show snippet type icons (template, combo, secure), symbols, and the separating borders on cards and keyboard cells.",
@@ -4361,6 +4397,12 @@
     "comment": "No placeholders description",
     "h": "946330f15e"
   },
+  "내용을 더 추가하면 스택 단축어가 됩니다": {
+    "ko": "내용을 더 추가하면 스택 단축어가 됩니다",
+    "en": "Add more content to turn this into a stack snippet",
+    "comment": "Add content button hint",
+    "h": "a8a6ae3908"
+  },
   "내용을 더 추가하면 콤보 단축어가 됩니다": {
     "ko": "내용을 더 추가하면 콤보 단축어가 됩니다",
     "en": "Add more content to turn this into a combo snippet",
@@ -4372,6 +4414,18 @@
     "en": "Edit content and tap Done to save.",
     "comment": "Template editor hint",
     "h": "b2bcf3c9a9"
+  },
+  "내용을 이어 더하면 스택가 돼요. 키보드에서 순서대로 입력됩니다.": {
+    "ko": "내용을 이어 더하면 스택가 돼요. 키보드에서 순서대로 입력됩니다.",
+    "en": "Add more steps to make it a stack, they're entered in order from the keyboard.",
+    "comment": "Continuation/combo explanation",
+    "h": "7f5f16ef2a"
+  },
+  "내용을 이어 더하면 스택이 돼요. 키보드에서 순서대로 입력됩니다.": {
+    "ko": "내용을 이어 더하면 스택이 돼요. 키보드에서 순서대로 입력됩니다.",
+    "en": "Add more steps to make it a stack, they're entered in order from the keyboard.",
+    "comment": "Continuation/combo explanation",
+    "h": "cbede5816d"
   },
   "내용을 이어 더하면 콤보가 돼요. 키보드에서 순서대로 입력됩니다.": {
     "ko": "내용을 이어 더하면 콤보가 돼요. 키보드에서 순서대로 입력됩니다.",
@@ -4751,6 +4805,12 @@
     "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter",
     "h": "8c10487a02"
   },
+  "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
+    "ko": "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.",
+    "en": "Added %1$d snippets, updated %2$d (%3$d total).\nImported %4$d stacks, %5$d images and %6$d categories.",
+    "comment": "Import summary message",
+    "h": "b57c527f8f"
+  },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "ko": "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.",
     "en": "Added %1$d snippets, updated %2$d (%3$d total).\nImported %4$d combos, %5$d images and %6$d categories.",
@@ -4961,6 +5021,12 @@
     "comment": "Edit memo navigation title",
     "h": "71841abe03"
   },
+  "단축어 수정 타이틀_스택": {
+    "ko": "단축어 수정 타이틀_스택",
+    "en": "Edit Stack",
+    "comment": "Edit combo navigation title",
+    "h": "ae9b474fe6"
+  },
   "단축어 수정 타이틀_콤보": {
     "ko": "단축어 수정 타이틀_콤보",
     "en": "Edit Combo",
@@ -5068,6 +5134,12 @@
     "en": "Snippets + Templates",
     "comment": "Built-in category: text memos and templates",
     "h": "dbb0de95b6"
+  },
+  "단축어·클립보드 기록·스택·이미지·임시 저장본이 이 기기에서 모두 지워집니다. 되돌릴 수 없어요.\n\nPro 구매 권한과 iCloud 백업은 그대로 남습니다.": {
+    "ko": "단축어·클립보드 기록·스택·이미지·임시 저장본이 이 기기에서 모두 지워집니다. 되돌릴 수 없어요.\n\nPro 구매 권한과 iCloud 백업은 그대로 남습니다.",
+    "en": "Your snippets, clipboard history, stacks, images, and drafts will all be erased from this device. This can't be undone.\n\nYour Pro purchase and iCloud backup are kept.",
+    "comment": "Wipe all data confirm message",
+    "h": "1cf03b5d6c"
   },
   "단축어·클립보드 기록·콤보·이미지·임시 저장본이 이 기기에서 모두 지워집니다. 되돌릴 수 없어요.\n\nPro 구매 권한과 iCloud 백업은 그대로 남습니다.": {
     "ko": "단축어·클립보드 기록·콤보·이미지·임시 저장본이 이 기기에서 모두 지워집니다. 되돌릴 수 없어요.\n\nPro 구매 권한과 iCloud 백업은 그대로 남습니다.",
@@ -5669,6 +5741,30 @@
     "comment": "Coach line: choose the keyboard size",
     "h": "6d05f875c9"
   },
+  "마지막은 스택예요. 여러 개가 순서대로 들어가요.": {
+    "ko": "마지막은 스택예요. 여러 개가 순서대로 들어가요.",
+    "en": "Last one is a stack. Several values go in, one after another.",
+    "comment": "Coach line: try the prepared combo",
+    "h": "c9b55f4fe7"
+  },
+  "마지막은 스택예요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.": {
+    "ko": "마지막은 스택예요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.",
+    "en": "Last up: stacks. Tap the left side of the key to insert the first value.",
+    "comment": "Combo step: insert the first value",
+    "h": "4fd0078ac5"
+  },
+  "마지막은 스택이에요. 여러 개가 순서대로 들어가요.": {
+    "ko": "마지막은 스택이에요. 여러 개가 순서대로 들어가요.",
+    "en": "Last one is a stack. Several values go in, one after another.",
+    "comment": "Coach line: try the prepared combo",
+    "h": "b5d4e6b183"
+  },
+  "마지막은 스택이에요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.": {
+    "ko": "마지막은 스택이에요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.",
+    "en": "Last up: stacks. Tap the left side of the key to insert the first value.",
+    "comment": "Combo step: insert the first value",
+    "h": "91dc8bcd4f"
+  },
   "마지막은 콤보예요. 여러 개가 순서대로 들어가요.": {
     "ko": "마지막은 콤보예요. 여러 개가 순서대로 들어가요.",
     "en": "Last one is a combo. Several values go in, one after another.",
@@ -6010,6 +6106,18 @@
     "en": "Free version allows up to %d snippets.",
     "comment": "Memo limit desc",
     "h": "0a910c350f"
+  },
+  "무료 버전에서는 최대 %d개의 스택를 만들 수 있습니다.": {
+    "ko": "무료 버전에서는 최대 %d개의 스택를 만들 수 있습니다.",
+    "en": "Free version allows up to %d stacks.",
+    "comment": "Combo limit desc",
+    "h": "a4ea9b3ade"
+  },
+  "무료 버전에서는 최대 %d개의 스택을 만들 수 있습니다.": {
+    "ko": "무료 버전에서는 최대 %d개의 스택을 만들 수 있습니다.",
+    "en": "Free version allows up to %d stacks.",
+    "comment": "Combo limit desc",
+    "h": "a35af64b83"
   },
   "무료 버전에서는 최대 %d개의 이미지 단축어를 저장할 수 있습니다.": {
     "ko": "무료 버전에서는 최대 %d개의 이미지 단축어를 저장할 수 있습니다.",
@@ -7607,6 +7715,12 @@
     "comment": "Add memo menu hint",
     "h": "8c374ebb1d"
   },
+  "새 스택": {
+    "ko": "새 스택",
+    "en": "New Stack",
+    "comment": "New combo navigation title",
+    "h": "2a65a39b62"
+  },
   "새 카테고리": {
     "ko": "새 카테고리",
     "en": "New category",
@@ -7732,6 +7846,12 @@
     "en": "Color Filters: Settings → Accessibility → Color Filters (red-green) and confirm badge distinction.",
     "comment": "Test step: Color filters",
     "h": "d8320c11e8"
+  },
+  "색에만 의존하지 않고 단축어를 구분하고 싶다면, 앱 설정 → 디스플레이 → 단축어 표시에서 '단축어 구분 표시'를 켜세요. 단축어 타입(템플릿·스택·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 함께 표시됩니다.": {
+    "ko": "색에만 의존하지 않고 단축어를 구분하고 싶다면, 앱 설정 → 디스플레이 → 단축어 표시에서 '단축어 구분 표시'를 켜세요. 단축어 타입(템플릿·스택·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 함께 표시됩니다.",
+    "en": "To tell snippets apart without relying on color alone, turn on 'Show visual cues' in app Settings → Display → Snippet display. Snippet type (Template/Stack/Secure) icons and borders plus favorite and category symbols will appear.",
+    "comment": "Differentiate Without Color feature description v2",
+    "h": "807fe45653"
   },
   "색에만 의존하지 않고 단축어를 구분하고 싶다면, 앱 설정 → 디스플레이 → 단축어 표시에서 '단축어 구분 표시'를 켜세요. 단축어 타입(템플릿·콤보·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 함께 표시됩니다.": {
     "ko": "색에만 의존하지 않고 단축어를 구분하고 싶다면, 앱 설정 → 디스플레이 → 단축어 표시에서 '단축어 구분 표시'를 켜세요. 단축어 타입(템플릿·콤보·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 함께 표시됩니다.",
@@ -8278,6 +8398,54 @@
     "en": "Starter Pack",
     "comment": "Starter pack screen title",
     "h": "a6021bf010"
+  },
+  "스택": {
+    "ko": "스택",
+    "en": "Stack",
+    "comment": "Combo",
+    "h": "a5f9a95530"
+  },
+  "스택 개수 제한": {
+    "ko": "스택 개수 제한",
+    "en": "Stack Limit",
+    "comment": "Combo limit",
+    "h": "d1356ec836"
+  },
+  "스택 수": {
+    "ko": "스택 수",
+    "en": "Stacks",
+    "comment": "Usage metric: combos",
+    "h": "86b306422f"
+  },
+  "스택 추가": {
+    "ko": "스택 추가",
+    "en": "Add stack",
+    "comment": "Add combo card",
+    "h": "fbf217f3e1"
+  },
+  "스택 풀기": {
+    "ko": "스택 풀기",
+    "en": "Split Stack",
+    "comment": "Bulk import: split combo back into items",
+    "h": "7f8a01819d"
+  },
+  "스택 하나에 값을 여러 개 담아 두고, 오른쪽 → 로 골라 쓰는 거예요. 계좌를 여러 개 쓰거나, 같은 안내를 이름만 바꿔 보낼 때 편합니다.": {
+    "ko": "스택 하나에 값을 여러 개 담아 두고, 오른쪽 → 로 골라 쓰는 거예요. 계좌를 여러 개 쓰거나, 같은 안내를 이름만 바꿔 보낼 때 편합니다.",
+    "en": "One stack holds several values, and the → on the right picks between them. Handy when you use several bank accounts, or send the same message with a different name.",
+    "comment": "Combo step: confirmation body",
+    "h": "f5bdeb15ff"
+  },
+  "스택로 묶기": {
+    "ko": "스택로 묶기",
+    "en": "Bundle into a stack",
+    "comment": "Bulk import: bundle selected into one combo",
+    "h": "e72e11e4d8"
+  },
+  "스택으로 묶기": {
+    "ko": "스택으로 묶기",
+    "en": "Bundle into a stack",
+    "comment": "Bulk import: bundle selected into one combo",
+    "h": "9edb9e9bc2"
   },
   "스페이스": {
     "ko": "스페이스",
@@ -9065,6 +9233,12 @@
     "comment": "Changelog 5.1.2 snippet stack",
     "h": "e54c92d1e1"
   },
+  "여러 값을 순서대로 넣는 스택": {
+    "ko": "여러 값을 순서대로 넣는 스택",
+    "en": "A stack that types several values in order",
+    "comment": "Welcome: what a combo is",
+    "h": "c2f72cf682"
+  },
   "여러 값을 순서대로 넣는 콤보": {
     "ko": "여러 값을 순서대로 넣는 콤보",
     "en": "A combo that types several values in order",
@@ -9544,6 +9718,18 @@
     "en": "Search the Web",
     "comment": "Paste target action: web search",
     "h": "5f6a17e8ee"
+  },
+  "위 항목과 스택로 묶기": {
+    "ko": "위 항목과 스택로 묶기",
+    "en": "Merge into Stack with Item Above",
+    "comment": "Bulk import: merge with previous item into combo",
+    "h": "856a14c068"
+  },
+  "위 항목과 스택으로 묶기": {
+    "ko": "위 항목과 스택으로 묶기",
+    "en": "Merge into Stack with Item Above",
+    "comment": "Bulk import: merge with previous item into combo",
+    "h": "fc20620c03"
   },
   "위 항목과 콤보로 묶기": {
     "ko": "위 항목과 콤보로 묶기",
@@ -10571,6 +10757,18 @@
     "comment": "Bulk import: secure footer",
     "h": "79ce831bf6"
   },
+  "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택로 묶거나 풀 수 있어요.": {
+    "ko": "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택로 묶거나 풀 수 있어요.",
+    "en": "Items with the lock on are encrypted and saved as secure snippets. Long-press an item to merge it into a stack with the item above, or split a stack apart.",
+    "comment": "Bulk import: secure + combo merge footer",
+    "h": "8043acda82"
+  },
+  "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택으로 묶거나 풀 수 있어요.": {
+    "ko": "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택으로 묶거나 풀 수 있어요.",
+    "en": "Items with the lock on are encrypted and saved as secure snippets. Long-press an item to merge it into a stack with the item above, or split a stack apart.",
+    "comment": "Bulk import: secure + combo merge footer",
+    "h": "32c8576a89"
+  },
   "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 콤보로 묶거나 풀 수 있어요.": {
     "ko": "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 콤보로 묶거나 풀 수 있어요.",
     "en": "Items with the lock on are encrypted and saved as secure snippets. Long-press an item to merge it into a combo with the item above, or split a combo apart.",
@@ -11194,6 +11392,18 @@
     "en": "I'm ready",
     "comment": "Tutorial welcome: start",
     "h": "05e79cb930"
+  },
+  "준비된 단축어·템플릿·스택를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.": {
+    "ko": "준비된 단축어·템플릿·스택를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.",
+    "en": "We'll walk you through tapping the prepared snippet, template, and stack again. Nothing in your list is removed.",
+    "comment": "Restart tutorial alert message",
+    "h": "b104d88a19"
+  },
+  "준비된 단축어·템플릿·스택을 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.": {
+    "ko": "준비된 단축어·템플릿·스택을 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.",
+    "en": "We'll walk you through tapping the prepared snippet, template, and stack again. Nothing in your list is removed.",
+    "comment": "Restart tutorial alert message",
+    "h": "d6f3ea52cf"
   },
   "준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.": {
     "ko": "준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.",
@@ -13313,6 +13523,12 @@
     "comment": "Dismiss template hint banner",
     "h": "c5559db1b1"
   },
+  "템플릿·스택·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.": {
+    "ko": "템플릿·스택·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.",
+    "en": "Add 4 examples (template, stack, and snippet + template) to try them out. Your existing snippets stay untouched.",
+    "comment": "Demo samples offer message",
+    "h": "cec2a2c7d7"
+  },
   "템플릿·콤보·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.": {
     "ko": "템플릿·콤보·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.",
     "en": "Add 4 examples (template, combo, and snippet + template) to try them out. Your existing snippets stay untouched.",
@@ -13366,6 +13582,18 @@
     "en": "Restart the tutorial",
     "comment": "Restart the tutorial",
     "h": "917e71cf6b"
+  },
+  "튜토리얼에서 눌러 본 단축어·템플릿·스택예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.": {
+    "ko": "튜토리얼에서 눌러 본 단축어·템플릿·스택예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.",
+    "en": "These are the snippet, template, and stack you tried in the tutorial. You've made your own now, so you can clear them out or keep them and edit them to suit you.",
+    "comment": "Sample cleanup message",
+    "h": "5d1342f259"
+  },
+  "튜토리얼에서 눌러 본 단축어·템플릿·스택이에요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.": {
+    "ko": "튜토리얼에서 눌러 본 단축어·템플릿·스택이에요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.",
+    "en": "These are the snippet, template, and stack you tried in the tutorial. You've made your own now, so you can clear them out or keep them and edit them to suit you.",
+    "comment": "Sample cleanup message",
+    "h": "78cebde2c2"
   },
   "튜토리얼에서 눌러 본 단축어·템플릿·콤보예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.": {
     "ko": "튜토리얼에서 눌러 본 단축어·템플릿·콤보예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.",
@@ -13702,6 +13930,12 @@
     "en": "Deletes one character. Hold to keep deleting.",
     "comment": "Backspace key hint",
     "h": "7812c8bf1d"
+  },
+  "한 단축어는 한 종류로만 세요(스택 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요.": {
+    "ko": "한 단축어는 한 종류로만 세요(스택 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요.",
+    "en": "Each snippet counts as exactly one type (stack > template > image > text). Text counts start with 4.4.3, so older records mixed in can make text look lower than it is.",
+    "comment": "Type breakdown footer",
+    "h": "94e2032acf"
   },
   "한 단축어는 한 종류로만 세요(콤보 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요.": {
     "ko": "한 단축어는 한 종류로만 세요(콤보 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요.",

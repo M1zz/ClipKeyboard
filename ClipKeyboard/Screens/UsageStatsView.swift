@@ -268,7 +268,7 @@ struct UsageStatsView: View {
             } header: {
                 Text(NSLocalizedString("단축어 종류", comment: "Usage stats section: shortcut types"))
             } footer: {
-                Text(NSLocalizedString("한 단축어는 한 종류로만 세요(콤보 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요.", comment: "Type breakdown footer"))
+                Text(NSLocalizedString("한 단축어는 한 종류로만 세요(스택 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요.", comment: "Type breakdown footer"))
                     .font(.body)
             }
         }
@@ -739,7 +739,7 @@ struct UsageStatsView: View {
     private static func metricLabel(_ key: String) -> String {
         switch key {
         case "shortcuts":          return NSLocalizedString("단축어 수", comment: "Usage metric: shortcuts")
-        case "combos":             return NSLocalizedString("콤보 수", comment: "Usage metric: combos")
+        case "combos":             return NSLocalizedString("스택 수", comment: "Usage metric: combos")
         case "templates":          return NSLocalizedString("템플릿 수", comment: "Usage metric: templates")
         case "images":             return NSLocalizedString("이미지 단축어 수", comment: "Usage metric: image shortcuts")
         case "favorites":          return NSLocalizedString("즐겨찾기 수", comment: "Usage metric: favorites")

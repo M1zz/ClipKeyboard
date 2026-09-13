@@ -288,7 +288,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         // Given - 모든 필드가 채워진 메모 + 클립보드 + 콤보
         let original = makeRichMemo()
         let clipboard = SmartClipboardHistory(content: "010-1234-5678", detectedType: .phone, confidence: 0.9)
-        let stack = Combo(title: "출근 콤보", items: [
+        let stack = Combo(title: "출근 스택", items: [
             ComboItem(type: .memo, referenceId: original.id, order: 0)
         ], interval: 3.0)
 
@@ -324,7 +324,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         XCTAssertEqual(memo.contentType, original.contentType)
         XCTAssertEqual(memo.hint, original.hint)
         XCTAssertTrue(memo.isTemplate, "템플릿 판정(계산형)이 복원 후에도 유지")
-        XCTAssertTrue(memo.isStack, "콤보 판정(계산형)이 복원 후에도 유지")
+        XCTAssertTrue(memo.isStack, "스택 판정(계산형)이 복원 후에도 유지")
         // 날짜는 JSON 인코딩 정밀도 내에서 일치
         XCTAssertEqual(memo.lastEdited.timeIntervalSince1970,
                        original.lastEdited.timeIntervalSince1970, accuracy: 0.001)
