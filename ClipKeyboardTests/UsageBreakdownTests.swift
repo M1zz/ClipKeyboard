@@ -214,13 +214,34 @@ final class UsageBreakdownTests: XCTestCase {
         let signals = UsageInsights.marketingSignals(metrics: metrics)
         func value(_ key: String) -> String? { signals.first(where: { $0.name == localizedForTest(key) })?.value }
 
-        XCTAssertEqual(value("Pro 전환율"), "50%")
+        // `flag.isPro` 는 결제가 아니라 "Pro 기능이 열려 있다"는 뜻이다. 결제·그랜드파더·
+        // 체험이 다 여기 걸리므로 결제 전환율로 읽으면 안 된다.
+        XCTAssertEqual(value("기능 열린 비율"), "50%")
+        // 아무도 `flag.isPaid` 를 안 보냈으면 결제 전환율은 0%가 아니라 아예 없다.
+        // 모르는 것을 0으로 적으면 전환율이 사실과 정반대로 보인다.
+        XCTAssertNil(value("결제 전환율"))
         XCTAssertEqual(value("카테고리 사용"), "50%")
         XCTAssertEqual(value("클립보드 사용"), "50%")
         XCTAssertEqual(value("동기화 사용"), "50%")
         // 안 쓰는 단축어는 **설치 평균이 아니라 전체 단축어 대비** 비율이다 - (2+8)/20
         XCTAssertEqual(value("안 쓰는 단축어"), "50%")
         XCTAssertEqual(value("설치당 단축어"), "10.0")
+    }
+
+    /// 결제 플래그를 보낸 기기만 분모다. 안 보낸 기기를 "결제 안 함"으로 세면
+    /// 새 플래그가 퍼지는 동안 전환율이 실제보다 낮게 보인다.
+    func testPaidConversionCountsOnlyReportingDevices() {
+        let metrics: [[String: Double]] = [
+            ["flag.isPro": 1, "flag.isPaid": 1],
+            ["flag.isPro": 1, "flag.isPaid": 0],
+            ["flag.isPro": 1]  // 아직 새 플래그를 안 보낸 기기
+        ]
+
+        let signals = UsageInsights.marketingSignals(metrics: metrics)
+        func value(_ key: String) -> String? { signals.first(where: { $0.name == localizedForTest(key) })?.value }
+
+        XCTAssertEqual(value("결제 전환율"), "50%")   // 보낸 2대 중 1대
+        XCTAssertEqual(value("기능 열린 비율"), "100%") // 3대 모두 열려 있다
     }
 
     /// 표본이 없으면 빈 배열 - 0으로 나누지 않는다.
