@@ -1806,6 +1806,12 @@
             "value" : "%1$@, %2$@"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@, %@"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21224,6 +21230,12 @@
             "value" : "{가격}"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{цена}"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21251,6 +21263,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "{금액}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{сумма}"
           }
         },
         "zh-Hans" : {
@@ -21282,6 +21300,12 @@
             "value" : "{날짜}"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{дата}"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21309,6 +21333,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "{메모}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{заметка}"
           }
         },
         "zh-Hans" : {
@@ -21340,6 +21370,12 @@
             "value" : "{수량}"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{количество}"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21369,6 +21405,12 @@
             "value" : "{시간}"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{время}"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21396,6 +21438,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "{이름}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{имя}"
           }
         },
         "zh-Hans" : {
@@ -21480,6 +21528,12 @@
             "value" : "{전화}"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{телефон}"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21509,6 +21563,12 @@
             "value" : "{주소}"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{адрес}"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21532,6 +21592,12 @@
             "value" : "{cursor}"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{курсор}"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -21553,6 +21619,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "{clipboard}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{буфер}"
           }
         },
         "zh-Hans" : {
