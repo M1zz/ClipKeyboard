@@ -6971,6 +6971,12 @@
     "comment": "Changelog 4.3.6 item 2",
     "h": "674cba0866"
   },
+  "복사한 것을 넣는 키를 위줄에 세웁니다. 길게 누르면 필요한 부분만 고를 수 있어요": {
+    "ko": "복사한 것을 넣는 키를 위줄에 세웁니다. 길게 누르면 필요한 부분만 고를 수 있어요",
+    "en": "Puts the paste key in the top row. Press and hold to pick just the part you need.",
+    "comment": "Clipboard key description",
+    "h": "9d21e1a941"
+  },
   "복사한 것을 넣습니다. 길게 누르면 필요한 부분만 고를 수 있습니다": {
     "ko": "복사한 것을 넣습니다. 길게 누르면 필요한 부분만 고를 수 있습니다",
     "en": "Inserts what you copied. Press and hold to pick only the part you need.",
@@ -7150,6 +7156,12 @@
     "en": "Switches to a number pad, right next to paste. No more swapping keyboards just to type a card number or an amount.",
     "comment": "Number pad key description",
     "h": "e3389bc711"
+  },
+  "붙여넣기 키": {
+    "ko": "붙여넣기 키",
+    "en": "Paste key",
+    "comment": "Show clipboard paste key toggle",
+    "h": "4bd6262301"
   },
   "붙여넣기 키를 길게 누르면 복사한 것 중 필요한 데까지만 골라 넣을 수 있어요": {
     "ko": "붙여넣기 키를 길게 누르면 복사한 것 중 필요한 데까지만 골라 넣을 수 있어요",

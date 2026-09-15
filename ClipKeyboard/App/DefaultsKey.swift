@@ -163,6 +163,12 @@ enum DefaultsKey {
     static let keyboardPasteCount = "keyboard_paste_count"
     static let keyboardSecurePinHash = "keyboard_secure_pin_hash"
     /// 키보드 위줄에 리턴(보내기) 키를 세울지. App Group - 익스텐션이 읽는다. 기본 켬.
+    /// 위줄에 **붙여넣기 키**를 세울지 (App Group). 값이 없으면 **꺼짐**.
+    ///
+    /// ⚠️ 기본이 꺼짐인 것은 이 키가 쓸모없어서가 아니라, 위줄이 이미 붐비기 때문이다.
+    ///    붙여넣기는 시스템 키보드에도 있고 길게 눌러도 나온다. 이 앱에서만 할 수 있는
+    ///    일(단축어·숫자 판)에 자리를 먼저 준다. 쓰던 사람은 설정에서 도로 켠다.
+    static let keyboardShowClipboardKey = "keyboardShowClipboardKey"
     /// 위줄에 **숫자 판으로 건너가는 키**를 세울지 (App Group). 값이 없으면 켜짐.
     ///
     /// 숫자만 몇 자 넣으려고 다른 키보드로 건너갔다 오는 일을 없애려고 둔 키다.

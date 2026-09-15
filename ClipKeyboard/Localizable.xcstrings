@@ -33984,6 +33984,35 @@
         }
       }
     },
+    "단축어로 돌아가기" : {
+      "comment" : "Number pad key: back to snippets",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back to snippets"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Назад к фразам"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "返回短语"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "返回短語"
+          }
+        }
+      }
+    },
     "단축어로 저장" : {
       "comment" : "Inline capture card: save as memo (one tap)\nPaste target action: save as memo\nSave to memo sheet title",
       "localizations" : {
@@ -44955,6 +44984,35 @@
         }
       }
     },
+    "붙여넣기 옆에서 숫자 판으로 건너갑니다. 카드번호나 금액 몇 자를 넣으려고 키보드를 바꾸지 않아도 됩니다" : {
+      "comment" : "Number pad key description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Switches to a number pad, right next to paste. No more swapping keyboards just to type a card number or an amount."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переключает на цифровую панель прямо рядом с кнопкой вставки. Не придётся менять клавиатуру, чтобы ввести номер карты или сумму."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在粘贴键旁边切换到数字键盘。输入卡号或金额时不用再换键盘。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在貼上鍵旁邊切換到數字鍵盤。輸入卡號或金額時不用再換鍵盤。"
+          }
+        }
+      }
+    },
     "붙여넣기 키를 길게 누르면 복사한 것 중 필요한 데까지만 골라 넣을 수 있어요" : {
       "comment" : "Changelog 5.0.8 partial paste",
       "localizations" : {
@@ -52533,6 +52591,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "數字輸入（在鍵盤上顯示數字鍵盤）"
+          }
+        }
+      }
+    },
+    "숫자 판" : {
+      "comment" : "Number pad key",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number pad"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цифровая панель"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数字键盘"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "數字鍵盤"
+          }
+        }
+      }
+    },
+    "숫자 판 키" : {
+      "comment" : "Show number pad key toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number pad key"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Клавиша цифровой панели"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数字键盘按键"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "數字鍵盤按鍵"
           }
         }
       }
@@ -69225,6 +69341,35 @@
         }
       }
     },
+    "점" : {
+      "comment" : "Number pad key: period",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Period"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Точка"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點"
+          }
+        }
+      }
+    },
     "점심 한 끼를 통째로 벌었어요." : {
       "comment" : "Milestone note: one hour",
       "localizations" : {
@@ -85625,6 +85770,35 @@
         }
       }
     },
+    "하이픈" : {
+      "comment" : "Number pad key: hyphen",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hyphen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дефис"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "连字符"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "連字符"
+          }
+        }
+      }
+    },
     "학교 이메일" : {
       "comment" : "Student memo category: school email",
       "extractionState" : "manual",
@@ -88922,176 +89096,60 @@
         }
       }
     },
-    "숫자 판 키" : {
-      "comment" : "Show number pad key toggle",
+    "붙여넣기 키" : {
+      "comment" : "Show clipboard paste key toggle",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Number pad key"
+            "value" : "Paste key"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Клавиша цифровой панели"
+            "value" : "Кнопка вставки"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "数字键盘按键"
+            "value" : "粘贴按键"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "數字鍵盤按鍵"
+            "value" : "貼上按鍵"
           }
         }
       }
     },
-    "붙여넣기 옆에서 숫자 판으로 건너갑니다. 카드번호나 금액 몇 자를 넣으려고 키보드를 바꾸지 않아도 됩니다" : {
-      "comment" : "Number pad key description",
+    "복사한 것을 넣는 키를 위줄에 세웁니다. 길게 누르면 필요한 부분만 고를 수 있어요" : {
+      "comment" : "Clipboard key description",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Switches to a number pad, right next to paste. No more swapping keyboards just to type a card number or an amount."
+            "value" : "Puts the paste key in the top row. Press and hold to pick just the part you need."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Переключает на цифровую панель прямо рядом с кнопкой вставки. Не придётся менять клавиатуру, чтобы ввести номер карты или сумму."
+            "value" : "Кнопка вставки появляется в верхнем ряду клавиатуры. Нажмите и удерживайте, чтобы выбрать только нужную часть"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在粘贴键旁边切换到数字键盘。输入卡号或金额时不用再换键盘。"
+            "value" : "在顶行放置粘贴按键。长按可只挑选需要的部分。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在貼上鍵旁邊切換到數字鍵盤。輸入卡號或金額時不用再換鍵盤。"
-          }
-        }
-      }
-    },
-    "단축어로 돌아가기" : {
-      "comment" : "Number pad key: back to snippets",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Back to snippets"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Назад к фразам"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "返回短语"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "返回短語"
-          }
-        }
-      }
-    },
-    "숫자 판" : {
-      "comment" : "Number pad key",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Number pad"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Цифровая панель"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "数字键盘"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "數字鍵盤"
-          }
-        }
-      }
-    },
-    "하이픈" : {
-      "comment" : "Number pad key: hyphen",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hyphen"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Дефис"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "连字符"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "連字符"
-          }
-        }
-      }
-    },
-    "점" : {
-      "comment" : "Number pad key: period",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Period"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Точка"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "点"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "點"
+            "value" : "在頂行放置貼上按鍵。長按可只挑選需要的部分。"
           }
         }
       }

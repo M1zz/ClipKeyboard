@@ -43,6 +43,8 @@ struct KeyboardLayoutSettings: View {
     /// 위줄의 숫자 판 키. 기본 켬 - 숫자 몇 자 넣으려고 다른 키보드로 건너가던 것을 없애려고 둔 키라,
     /// 있는 줄 몰라서 못 쓰면 둔 뜻이 없다.
     @AppStorage(DefaultsKey.keyboardShowNumberPad, store: AppGroup.defaults) private var showNumberPad: Bool = true
+    /// 위줄의 붙여넣기 키. **기본 끔** - 위줄이 붐비고, 붙여넣기는 시스템 키보드에도 있다.
+    @AppStorage(DefaultsKey.keyboardShowClipboardKey, store: AppGroup.defaults) private var showClipboardKey: Bool = false
     @AppStorage("keyboardKoreanLayout", store: AppGroup.defaults) private var koreanLayout: String = "dubeolsik"
     @AppStorage("keyboardTypingLang", store: AppGroup.defaults) private var defaultLang: String = "english"
     // 한국어 입력 사용(기본 OFF). 영어 전용 사용자가 한/EN 토글을 보지 않도록 명시적으로 켜야 함.
@@ -330,6 +332,13 @@ struct KeyboardLayoutSettings: View {
                             .font(.caption).foregroundColor(.secondary)
                     }
                 }
+                Toggle(isOn: $showClipboardKey) {
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(NSLocalizedString("붙여넣기 키", comment: "Show clipboard paste key toggle"))
+                        Text(NSLocalizedString("복사한 것을 넣는 키를 위줄에 세웁니다. 길게 누르면 필요한 부분만 고를 수 있어요", comment: "Clipboard key description"))
+                            .font(.caption).foregroundColor(.secondary)
+                    }
+                }
                 Toggle(isOn: $showNumberPad) {
                     VStack(alignment: .leading, spacing: 1) {
                         Text(NSLocalizedString("숫자 판 키", comment: "Show number pad key toggle"))
@@ -516,7 +525,7 @@ struct KeyboardLayoutSettings: View {
         controlKeySizeRaw = Double(KeyboardHeightBook.defaultControlKeySize)
         useCustomColors = false; customBgHex = ""; customKeyHex = ""
         customBgColor = .clear; customKeyColor = .clear
-        showSearch = false; showReturnKey = true; showNumberPad = true
+        showSearch = false; showReturnKey = true; showNumberPad = true; showClipboardKey = false
         // 최근 단축어는 false 로 박지 않는다. 그러면 "꺼 달라고 했다"가 되어
         // 개수로 정해 주는 길이 영영 막힌다. 값을 지워 "안 정했다"로 되돌린다.
         AppGroup.defaults?.removeObject(forKey: DefaultsKey.keyboardShowRecent)
@@ -531,202 +540,83 @@ struct KeyboardLayoutSettings: View {
 /// AppStorage를 직접 읽어 슬라이더/토글 변경이 즉시 반영된다.
 struct KeyboardPreviewView: View {
 
-    private let ud = AppGroup.defaults
+    /// 미리보기가 쓰는 입력창. 실제로 글이 들어가지는 않지만, 키보드가 기대는 상태다.
+    @StateObject private var host = InAppKeyboardHost()
+    @Environment(\.appTheme) private var theme
 
-    @AppStorage("keyboardColumnCount", store: AppGroup.defaults) private var columnCount: Int    = 2
+    // 아래 값들이 바뀌면 미리보기 높이도 따라 움직인다.
+    @AppStorage("keyboardColumnCount", store: AppGroup.defaults) private var columnCount: Int = 2
     @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 44.0
-    @AppStorage("keyboardButtonFontSize", store: AppGroup.defaults) private var buttonFontSize: Double = 17.0
-    @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults) private var useCustomColors: Bool   = false
-    @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults) private var customBgHex: String = ""
-    @AppStorage("keyboardCustomKeyHex", store: AppGroup.defaults) private var customKeyHex: String = ""
-    @AppStorage(DefaultsKey.keyboardSkin, store: AppGroup.defaults)
-    private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
-
-    @State private var previewMemos: [Memo] = []
-    @Environment(\.colorScheme) private var colorScheme
-    @AppStorage("showVisualCues", store: AppGroup.defaults)
-    private var showVisualCues: Bool = false
-    /// 실제 키보드(KeyboardView)와 동일 - 오직 "메모 구분 표시" 토글만 따른다.
-    private var visualCuesVisible: Bool { showVisualCues }
-
-    @Environment(\.colorSchemeContrast) private var contrast
-    private var theme: AppTheme {
-        AppTheme.resolve(kind: .paper, isDark: colorScheme == .dark,
-                         increasedContrast: contrast == .increased)
-    }
-
-    private var bgColor: Color {
-        if useCustomColors, !customBgHex.isEmpty, let c = Color(hex: customBgHex) { return c }
-        return theme.bg
-    }
-    private var keyColor: Color {
-        if useCustomColors, !customKeyHex.isEmpty, let c = Color(hex: customKeyHex) { return c }
-        return theme.surface
-    }
-
-    // 카테고리 탭 (익스텐션과 동일 로직)
-    private var categoryFeatureEnabled: Bool { ud?.bool(forKey: DefaultsKey.categoryFeatureEnabledV1) ?? false }
-    private var allUserCats: [String] { ud?.stringArray(forKey: DefaultsKey.userDefinedCategoriesV1) ?? [] }
-    private var hiddenCats: Set<String> { Set(ud?.stringArray(forKey: DefaultsKey.hiddenCategoryTabsV1) ?? []) }
-    private var categoryPages: [String] {
-        guard categoryFeatureEnabled else { return [] }
-        var pages = ["★all"]
-        if !hiddenCats.contains("__favorites__"), previewMemos.contains(where: { $0.isFavorite }) {
-            pages.append("★favorites")
-        }
-        pages.append(contentsOf: allUserCats.filter { cat in
-            !hiddenCats.contains(cat) && previewMemos.contains { $0.category == cat }
-        })
-        return pages
-    }
-
-    private func catIcon(_ key: String) -> String {
-        if key == "★all" { return "square.grid.2x2.fill" }
-        if key == "★favorites" { return "heart.fill" }
-        return categorySymbol(for: key, in: allUserCats)
-    }
-    private func catColor(_ key: String) -> Color {
-        if key == "★all" { return .blue }
-        if key == "★favorites" { return .clipFavorite }
-        return categoryTint(for: key, in: allUserCats)
-    }
-
-    /// 메모가 속한 사용자 카테고리 색(익스텐션 categoryColorFor와 동일). 미해당이면 nil.
-    private func memoCatColor(_ memo: Memo) -> Color? {
-        guard allUserCats.contains(memo.category) else { return nil }
-        return catColor(memo.category)
-    }
-
-    /// 실제 키보드·앱 카드와 **같은 규칙**을 본다 (DesignSystem/MemoTypeStyle.swift).
-    /// 미리보기가 실물과 다르면 설정을 고르고 나서 "이게 아닌데"가 된다.
-    private func typeBorder(_ memo: Memo) -> TypeVisualStyle {
-        MemoTypeStyle.border(for: memo, visualCuesVisible: visualCuesVisible)
-    }
-
-    /// 사용자가 고른 키캡 물성 - 실제 키보드와 같은 값을 읽는다.
-    private var skin: KeyboardSkin {
-        KeyboardSkin.resolved(keyboardSkinRaw)
-    }
-
-    private var keycapRadius: CGFloat { skin.cornerRadius(base: theme.radiusMd) }
-
-    private var gridColumns: [GridItem] {
-        // 익스텐션 LazyVGrid spacing 10과 동일
-        Array(repeating: GridItem(.flexible(), spacing: 10), count: max(1, min(5, columnCount)))
-    }
-
-    /// 익스텐션 memoButtonLabel과 동일한 셀 - radiusMd, 카테고리 틴트, 타입 테두리,
-    /// 중앙 2줄 제목. 프리뷰가 실제 키보드와 같은 모습이 되도록 한다.
-    @ViewBuilder
-    private func previewCell(_ memo: Memo) -> some View {
-        let cat = memoCatColor(memo)
-        let border = typeBorder(memo)
-        ZStack {
-            // 스커트(키캡 옆면) - 실제 키와 같은 두께를 미리 보여준다.
-            RoundedRectangle(cornerRadius: keycapRadius)
-                .fill(Color.black.opacity(skin.skirtOpacity(isDark: theme.isDark)))
-                .offset(y: skin.skirtDepth)
-
-            RoundedRectangle(cornerRadius: keycapRadius)
-                .foregroundColor(keyColor)
-                .overlay(
-                    Group {
-                        if let cat {
-                            RoundedRectangle(cornerRadius: keycapRadius)
-                                .fill(cat.opacity(theme.isDark ? 0.22 : 0.14))
-                        }
-                    }
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: keycapRadius)
-                        .fill(
-                            LinearGradient(
-                                colors: [Color.white.opacity(skin.sheenOpacity(isDark: theme.isDark)), .clear],
-                                startPoint: .top, endPoint: .center
-                            )
-                        )
-                )
-                .shadow(color: .black.opacity(skin.shadowOpacity), radius: 2, y: 1)
-
-            Text(memo.title.templateAwareAttributed(
-                theme: theme, font: .system(size: buttonFontSize, weight: .semibold)))
-                .foregroundColor(theme.text)
-                .lineLimit(2)
-                .multilineTextAlignment(.center)
-                .font(.system(size: buttonFontSize, weight: .semibold))
-                .frame(maxWidth: .infinity, alignment: .center)
-                .padding(10)
-        }
-        .frame(height: buttonHeight)
-        .overlay(
-            RoundedRectangle(cornerRadius: keycapRadius)
-                .strokeBorder(border.color,
-                              style: StrokeStyle(lineWidth: border.lineWidth, dash: border.dash))
-        )
-    }
+    @AppStorage(DefaultsKey.keyboardControlKeySize, store: AppGroup.defaults) private var controlKeySizeRaw: Double = 0
+    @AppStorage(DefaultsKey.keyboardHeightPreset, store: AppGroup.defaults)
+    private var heightPresetRaw: String = KeyboardHeightPreset.fallback.rawValue
 
     var body: some View {
-        VStack(spacing: 0) {
-            // ── 상단 헤더: 카테고리 탭 ──
-            if !categoryPages.isEmpty {
-                HStack(spacing: 0) {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 6) {
-                            ForEach(Array(categoryPages.enumerated()), id: \.offset) { idx, key in
-                                let sel = idx == 0
-                                // 익스텐션 categoryTabRow와 동일: 13pt, 32×28, 비선택 배경 surface
-                                Image(systemName: catIcon(key))
-                                    .font(.system(size: 13, weight: .semibold))
-                                    .foregroundColor(sel ? .white : theme.textMuted)
-                                    .frame(width: 32, height: 28)
-                                    .background(sel ? catColor(key) : theme.surface)
-                                    .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
-                            }
-                        }
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 5)
-                    }
-                }
-            }
+        // ⚠️ **진짜 키보드를 그대로 세운다.** 손으로 베껴 그리지 않는다.
+        //
+        //    예전에는 이 자리에 키보드를 한 벌 더 그려 두었다(200줄). "익스텐션과 동일"
+        //    이라고 적힌 계산이 열 군데쯤 있었고, 그게 사실인 동안에만 사실이었다.
+        //    키보드에 키를 하나 더하거나 카테고리 칸의 모양을 바꿀 때마다 이쪽은 그대로
+        //    남아서, 설정에서 본 것과 실제로 올라오는 키보드가 갈라졌다.
+        //    미리보기가 실물과 다르면 설정을 고르고 나서 "이게 아닌데" 가 된다.
+        //
+        //    같은 뷰를 쓰면 갈라질 수가 없다. 무대(`InAppKeyboardStage`)가 이미 같은
+        //    방법으로 진짜 키보드를 세우고 있다.
+        // ⚠️ `.inApp` 으로 세운다. 익스텐션 모드는 입력창에 글이 있어야 지우기·전체삭제가
+        //    나타나는데, 미리보기의 입력창은 늘 비어 있어서 **정작 지금 만지는 키들이
+        //    하나도 안 보인다.** 여기서 보여 줄 것은 "글이 없을 때의 모습" 이 아니라
+        //    "내가 켜고 끈 키들이 어디에 어떻게 서는가" 다.
+        KeyboardView(typingProxy: host,
+                     documentState: host.documentState,
+                     hostKind: .inApp)
+            // ⚠️ 누를 수 없게 막는다. 여기는 **보는 자리**다. 설정을 만지러 온 사람이
+            //    미리보기를 눌러 글이 들어가면, 그 글이 어디로 갔는지 알 길이 없다.
+            .allowsHitTesting(false)
+            // ⚠️ **잘라 내지 않고 줄여서 담는다.** 진짜 키보드가 차지할 높이를 그대로 주고,
+            //    설정 화면에 들어갈 만큼 통째로 축소한다. 높이만 깎으면 위줄(조작 키)부터
+            //    잘려 나가는데, 여기서 만지는 것이 바로 그 줄이다.
+            // ⚠️ 줄이는 기준점과 담는 기준점이 **같아야 한다**(둘 다 왼쪽 위).
+            //    가운데로 두면 줄이기 전 크기가 위아래로 갈려 삐져나가고, 그 삐져나간
+            //    위쪽이 바로 조작 줄이다.
+            .frame(width: screenWidth, height: naturalHeight, alignment: .topLeading)
+            .scaleEffect(previewScale, anchor: .topLeading)
+            .frame(width: screenWidth * previewScale,
+                   height: naturalHeight * previewScale,
+                   alignment: .topLeading)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.radiusMd)
+                    .stroke(theme.divider, lineWidth: 1)
+            )
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(NSLocalizedString("키보드 미리보기", comment: "Keyboard preview accessibility label"))
+    }
 
-            // ── 메모 그리드 ──
-            ZStack {
-                bgColor
+    private var screenWidth: CGFloat { UIScreen.main.bounds.width }
 
-                if previewMemos.isEmpty {
-                    // 메모 없을 때 플레이스홀더 (셀과 동일한 radiusMd)
-                    LazyVGrid(columns: gridColumns, spacing: 10) {
-                        ForEach(0..<(columnCount * 2), id: \.self) { _ in
-                            RoundedRectangle(cornerRadius: theme.radiusMd)
-                                .fill(keyColor.opacity(0.6))
-                                .frame(height: min(buttonHeight, 50))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: theme.radiusMd)
-                                        .strokeBorder(theme.divider, lineWidth: 0.5)
-                                )
-                        }
-                    }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                } else {
-                    let displayMemos = Array(previewMemos.prefix(columnCount * 3))
-                    ScrollView(showsIndicators: false) {
-                        LazyVGrid(columns: gridColumns, spacing: 10) {
-                            ForEach(displayMemos) { memo in
-                                previewCell(memo)
-                            }
-                        }
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 6)
-                    }
-                    .disabled(true)
-                }
-            }
-        }
-        .background(bgColor)
-        .onAppear {
-            previewMemos = (try? MemoStore.shared.load(type: .memo)) ?? []
-        }
+    /// 설정 화면에서 미리보기가 쓸 수 있는 높이. 이보다 크면 줄여 담는다.
+    ///
+    /// 화면의 3분의 1쯤이다. 더 키우면 정작 만질 설정이 밀려 내려가고, 더 줄이면
+    /// 키가 뭉개져 "이게 그거구나" 가 안 읽힌다.
+    private var previewBudget: CGFloat { min(260, UIScreen.main.bounds.height * 0.32) }
+
+    private var previewScale: CGFloat {
+        min(1, previewBudget / max(naturalHeight, 1))
+    }
+
+    /// 지금 고른 설정으로 실제 키보드가 차지할 높이. **익스텐션과 같은 함수로 잰다** -
+    /// 여기서 따로 셈하면 미리보기가 다시 거짓말을 하기 시작한다.
+    ///
+    /// ⚠️ 설정을 만지면 그때그때 다시 재야 하므로 `@AppStorage` 로 읽는다. 한 번 읽어
+    ///    두면 슬라이더를 움직이는 동안 미리보기만 그 자리에 굳는다.
+    private var naturalHeight: CGFloat {
+        var metrics = KeyboardHeightBook.ContentMetrics()
+        metrics.buttonHeight = CGFloat(buttonHeight)
+        metrics.columns = columnCount
+        metrics.controlKeySize = KeyboardHeightBook.resolvedControlKeySize(controlKeySizeRaw)
+        return KeyboardHeightBook.height(for: UIScreen.main.bounds.size,
+                                         content: metrics,
+                                         preset: KeyboardHeightPreset(rawValue: heightPresetRaw) ?? .fallback)
     }
 }
 

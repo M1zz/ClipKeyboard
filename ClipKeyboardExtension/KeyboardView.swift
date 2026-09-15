@@ -760,7 +760,6 @@ struct KeyboardView: View {
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
         .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
-        .padding(.trailing, 2)
         .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace key"))
         .accessibilityHint(NSLocalizedString("한 글자씩 지웁니다. 누르고 있으면 이어서 지웁니다", comment: "Backspace key hint"))
     }
@@ -805,7 +804,6 @@ struct KeyboardView: View {
         }
         .buttonStyle(PlainButtonStyle())
         .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
-        .padding(.trailing, 2)
         .contentShape(Rectangle())
         // 마찬가지로 "줄바꿈" 도 이미 다른 뜻(글의 줄바꿈 설정)으로 쓰여 "Line breaks" 다.
         .accessibilityLabel(name ?? NSLocalizedString("리턴 키", comment: "Return key accessibility label"))
@@ -848,7 +846,6 @@ struct KeyboardView: View {
         }
         .buttonStyle(PlainButtonStyle())
         .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
-        .padding(.trailing, 2)
         .onLongPressGesture(minimumDuration: 0.4) {
             clipboardLongPressAt = Date()
             openClipboardPicker()
@@ -879,7 +876,6 @@ struct KeyboardView: View {
         }
         .buttonStyle(PlainButtonStyle())
         .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
-        .padding(.trailing, 2)
         .accessibilityLabel(showsNumberPad
                             ? NSLocalizedString("단축어로 돌아가기", comment: "Number pad key: back to snippets")
                             : NSLocalizedString("숫자 판", comment: "Number pad key"))
@@ -889,6 +885,11 @@ struct KeyboardView: View {
     /// 그 키를 세울지. 값이 없으면 켜진 것으로 본다 - 있는 줄 몰라서 못 쓰는 일을 막는다.
     private var showsNumberPadKey: Bool {
         AppGroup.defaults?.object(forKey: DefaultsKey.keyboardShowNumberPad) as? Bool ?? true
+    }
+
+    /// 붙여넣기 키를 세울지. 값이 없으면 **꺼진 것**으로 본다(위 `keyboardShowClipboardKey`).
+    private var showsClipboardKey: Bool {
+        AppGroup.defaults?.object(forKey: DefaultsKey.keyboardShowClipboardKey) as? Bool ?? false
     }
 
     private func openClipboardPicker() {
@@ -936,6 +937,50 @@ struct KeyboardView: View {
         .accessibilityHint(NSLocalizedString("현재 입력된 텍스트를 모두 지웁니다", comment: "Clear all button hint"))
     }
 
+    /// 위줄 오른쪽의 조작 키 묶음 - 숫자 판 · 붙여넣기 · 보내기 · 지우기 · 전체삭제.
+    ///
+    /// 간격은 여기 한 곳에서 정한다(`controlKeySpacing`). 키들은 저마다 44pt 손가락 자리를
+    /// 갖고 있어서, 사이는 그 자리들이 맞닿는 만큼으로 고르게 벌어진다.
+    @ViewBuilder
+    private var controlKeyCluster: some View {
+        HStack(spacing: controlKeySpacing) {
+            // 숫자 판으로 건너가는 키. **붙여넣기 바로 옆**에 둔다 - 둘 다
+            // "지금 넣을 것을 가져오는" 키라, 손이 같은 자리를 찾는다.
+            if let proxy = typingProxy, showsNumberPadKey {
+                numberPadKey(proxy: proxy)
+            }
+            // 복사한 것을 넣는 키. **기본으로는 세우지 않는다** - 위줄이 붐비고,
+            // 붙여넣기는 시스템 키보드에도 있다. 쓰던 사람은 설정에서 도로 켠다.
+            if let proxy = typingProxy, showsClipboardKey {
+                clipboardKey(proxy: proxy)
+            }
+            // 넣고 나서 보내는 키. **X 옆에 두지 않는다** - 하나는 보내 버리고 하나는
+            // 다 지우는 키라, 붙여 놓으면 잘못 누른 값이 양쪽 다 크다. 사이에 지우기를 끼운다.
+            if let proxy = typingProxy, showReturnKey,
+               documentState.hasText || hostKind == .inApp {
+                returnDocumentKey(proxy: proxy)
+            }
+            // 한 글자 지우기. 이게 없어서 오타 하나를 고치려고 **다른 키보드로
+            // 건너갔다가 돌아와야 했다**(사용자 요청).
+            if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
+                backspaceDocumentKey(proxy: proxy)
+            }
+            // X(전체 삭제)도 앱 안에서는 **처음부터** 서 있다. 글이 생길 때 나타나면
+            // 그 순간 줄이 흔들리고, 무엇보다 "지울 수 있다"를 미리 알 수 없다.
+            if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
+                clearAllButton(proxy: proxy)
+                    .transition(.opacity.combined(with: .scale(scale: 0.85)))
+                    // 빈 칸에서는 눌러도 지울 게 없다 - 있지만 흐리게.
+                    .opacity(documentState.hasText ? 1 : 0.4)
+                    .disabled(!documentState.hasText)
+            }
+        }
+        .padding(.trailing, 6)
+    }
+
+    /// 조작 키 사이. 키마다 44pt 손가락 자리가 있어 눈에 보이는 사이는 이보다 넓다.
+    private var controlKeySpacing: CGFloat { 0 }
+
     @ViewBuilder
     private var memoModeContent: some View {
         VStack(spacing: 0) {
@@ -967,36 +1012,16 @@ struct KeyboardView: View {
                     } else {
                         Spacer()
                     }
-                    // X(전체 삭제)도 앱 안에서는 **처음부터** 서 있다. 글이 생길 때 나타나면
-                    // 그 순간 줄이 흔들리고, 무엇보다 "지울 수 있다"를 미리 알 수 없다.
-                    // 숫자 판으로 건너가는 키. **붙여넣기 바로 옆**에 둔다 - 둘 다
-                    // "지금 넣을 것을 가져오는" 키라, 손이 같은 자리를 찾는다.
-                    if let proxy = typingProxy, showsNumberPadKey {
-                        numberPadKey(proxy: proxy)
-                    }
-                    // 복사한 것을 넣는 키. 지울 수 있게 된 김에 붙여넣을 수도 있어야 한다.
-                    if let proxy = typingProxy {
-                        clipboardKey(proxy: proxy)
-                    }
-                    // 넣고 나서 보내는 키. **X 옆에 두지 않는다** - 하나는 보내 버리고 하나는
-                    // 다 지우는 키라, 붙여 놓으면 잘못 누른 값이 양쪽 다 크다. 사이에 지우기를 끼운다.
-                    if let proxy = typingProxy, showReturnKey,
-                       documentState.hasText || hostKind == .inApp {
-                        returnDocumentKey(proxy: proxy)
-                    }
-                    // 한 글자 지우기. 이게 없어서 오타 하나를 고치려고 **다른 키보드로
-                    // 건너갔다가 돌아와야 했다**(사용자 요청).
-                    if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
-                        backspaceDocumentKey(proxy: proxy)
-                    }
-                    if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
-                        clearAllButton(proxy: proxy)
-                            .padding(.trailing, 4)
-                            .transition(.opacity.combined(with: .scale(scale: 0.85)))
-                            // 빈 칸에서는 눌러도 지울 게 없다 - 있지만 흐리게.
-                            .opacity(documentState.hasText ? 1 : 0.4)
-                            .disabled(!documentState.hasText)
-                    }
+                    // 조작 키들은 **한 묶음**으로 오른쪽 끝에 붙인다.
+                    //
+                    // ⚠️ 예전에는 키마다 제 꼬리에 여백을 달고 있었다(2 · 2 · 2 · 4).
+                    //    어느 키가 서고 어느 키가 빠지느냐에 따라 사이가 들쭉날쭉했고,
+                    //    무엇보다 키 하나를 더할 때마다 그 여백을 또 정해야 했다.
+                    //    간격은 이 줄 하나가 정한다. 키는 자기 크기만 안다.
+                    //
+                    // ⚠️ 카테고리 칸은 이 묶음에 넣지 않는다. 저쪽은 글자 수에 따라 늘었다
+                    //    줄었다 하며 남는 자리를 다 쓰는 줄이고, 이쪽은 크기가 정해진 키들이다.
+                    controlKeyCluster
                 }
                 .animation(.easeOut(duration: 0.18), value: documentState.hasText)
             }
