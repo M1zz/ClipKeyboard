@@ -283,15 +283,27 @@ default:                   EmptyView()
   | 예시에서 골라 담기 | `ClipKeyboardList.minimalEmptyState` | 아직 하나도 안 만든 사람에게만 뜬다 |
   | 키보드 켜기 띠 | `KeyboardSetupBannerGate.shows(stateAllows:)` | 첫 단축어 전에는 켜라고 하지 않는다 |
   | 무대 튜토리얼 | `SnippetsOnboardingStep.current(stateAllows:)` | 돌아온 사람에게 다시 틀지 않는다 |
+  | 반값 제안 | `DiscountOfferManager.Context` | 쌓아 두는 사람에게 한도 기회를 꺼내지 않는다 |
+  | 한도 넛지 | `ClipKeyboardList.shouldShowProValueNudge` | 같은 사람에게 "칸이 얼마 안 남았다" 를 말하지 않는다 |
 
   **판단을 옮기지 않고 얹었다.** 띠와 계단은 저마다 "지금이 말할 때인가" 를 알고 있고,
   그 판단은 오래 벼려진 것이라 그대로 둔다. 상태 모델이 답하는 것은 "이 사람에게 낼
   자리인가" 뿐이다. 한 곳에 섞으면 타이밍을 고치려다 대상이 바뀌고 그 반대도 일어난다.
   시험도 둘로 나눠 둔다 - 때만 맞아도, 자리만 맞아도 열리지 않는다.
 
+  **돈 이야기에는 숙련도 표를 그대로 씌우지 않았다.** 표에서 한도 이야기는 익음 아래로
+  감춰지는데, 반값 제안의 ① 기회는 애초에 **설치 첫 주**를 겨냥한다. 표를 그대로 씌우면
+  그 기회가 통째로 사라진다. 두 화면이 가져다 쓰는 것은 두 겹뿐이다.
+
+   · **휴면·복귀**: 돌아온 것 자체가 좋은 신호다. 그 첫 화면이 결제 창이면 다시 나간다.
+   · **결(`.hoarder`)**: 만들어 둔 것의 대부분을 안 쓰는 사람에게 "칸이 한 칸 남았다" 는
+     틀린 말이다. 모자란 것은 칸이 아니라 찾는 길이고, 칸을 사면 못 찾는 것이 하나 더 는다.
+
+  ⚠️ **막히는 한도 자체는 건드리지 않았다.** 열한 번째를 저장하려다 막히는 것은 안내가
+     아니라 기능이라, 상태로 감추면 저장이 조용히 실패한다.
+
   나머지 화면들은 여전히 저마다 조건을 들고 있다
-  (`DiscountOfferManager` · `ReviewManager` · `BulkImportNudge` · `FavoriteNudgeManager`).
-  옮기는 순서는 막힌 칸부터다. 다음은 한도 안내와 반값 제안.
+  (`ReviewManager` · `BulkImportNudge` · `FavoriteNudgeManager`).
 
 - **다국어.** `localizedName` 과 단계 시뮬레이터 문구가 아직 카탈로그에 없다.
   릴리즈 전에 `python3 scripts/i18n.py extract` 부터 파이프라인을 한 번 돌려야 한다

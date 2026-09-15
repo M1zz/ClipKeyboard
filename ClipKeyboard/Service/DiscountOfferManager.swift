@@ -90,6 +90,13 @@ enum DiscountOfferManager {
         /// 첫 단축어를 아직 만들지도 건너뛰지도 않았는가.
         /// ⚠️ 이때는 튜토리얼 시트가 화면을 잡고 있다. 그 위에 결제 창을 얹지 않는다.
         var isMidFirstShortcut: Bool
+        /// 오래 손을 안 댔다가 지금 막 돌아왔는가(`UserActivity.dormant` · `.returning`).
+        /// ⚠️ **돌아온 것 자체가 좋은 신호다.** 그 첫 화면이 결제 창이면 다시 나간다.
+        var isAwayOrJustBack: Bool = false
+        /// 만들어만 두고 대부분 안 쓰는 사람인가(`UserGrain.hoarder`).
+        /// ⚠️ 이 사람에게 "칸이 한 칸 남았다"는 **틀린 말**이다. 칸이 모자란 것이 아니라
+        ///    만들어 둔 것을 못 찾는 것이라, 한도를 사면 못 찾는 것이 하나 더 늘 뿐이다.
+        var hoardsUnusedShortcuts: Bool = false
     }
 
     /// 지금 띄울 기회가 있으면 그것을 돌려준다 - **순수 함수.**
@@ -100,8 +107,12 @@ enum DiscountOfferManager {
         guard !context.hasPro else { return nil }
         // 팔 수 없는 반값을 광고하지 않는다.
         guard context.discountAvailable else { return nil }
+        // 오랜만에 돌아온 사람에게 먼저 꺼낼 말이 돈일 수는 없다.
+        guard !context.isAwayOrJustBack else { return nil }
 
         if !context.shownOccasions.contains(.limitEdge),
+           // 쌓아만 두는 사람에게 한도 이야기는 틀린 말이다(위 `hoardsUnusedShortcuts`).
+           !context.hoardsUnusedShortcuts,
            let reachedAt = context.reachedLimitEdgeAt,
            now.timeIntervalSince(reachedAt) >= waitInterval {
             return .limitEdge
@@ -118,15 +129,22 @@ enum DiscountOfferManager {
     }
 
     /// 지금 이 기기의 실제 상태로 위 판정을 돌린다.
+    /// ⚠️ **숙련도 표(`UserSurface.slotLimit`)를 그대로 씌우지 않는다.** 그 표에서 한도
+    ///    이야기는 익음 아래로 감춰지는데, 여기 ① 기회는 애초에 **설치 첫 주**를 겨냥한다.
+    ///    표를 그대로 씌우면 그 기회가 통째로 사라진다. 이 화면이 상태 모델에서 가져오는
+    ///    것은 두 겹뿐이다 - 휴면·복귀(먼저 말 걸지 않기)와 결(한도 이야기가 틀린 사람).
     @MainActor
     static func dueOccasionNow(discountAvailable: Bool, isMidFirstShortcut: Bool) -> Occasion? {
-        dueOccasion(context: Context(
+        let state = UserStateStore.shared.state
+        return dueOccasion(context: Context(
             installedAt: installedAt,
             reachedLimitEdgeAt: reachedLimitEdgeAt,
             shownOccasions: shownOccasions,
             hasPro: ProFeatureManager.hasFullAccess,
             discountAvailable: discountAvailable,
-            isMidFirstShortcut: isMidFirstShortcut
+            isMidFirstShortcut: isMidFirstShortcut,
+            isAwayOrJustBack: state.activity != .active,
+            hoardsUnusedShortcuts: state.grain == .hoarder
         ))
     }
 

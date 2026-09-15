@@ -34,15 +34,43 @@ struct DiscountOfferManagerTests {
                      shown: Set<DiscountOfferManager.Occasion> = [],
                      hasPro: Bool = false,
                      discountAvailable: Bool = true,
-                     isMidFirstShortcut: Bool = false) -> DiscountOfferManager.Occasion? {
+                     isMidFirstShortcut: Bool = false,
+                     awayOrJustBack: Bool = false,
+                     hoards: Bool = false) -> DiscountOfferManager.Occasion? {
         DiscountOfferManager.dueOccasion(now: now, context: .init(
             installedAt: installedDaysAgo.map { daysAgo($0) },
             reachedLimitEdgeAt: reachedDaysAgo.map { daysAgo($0) },
             shownOccasions: shown,
             hasPro: hasPro,
             discountAvailable: discountAvailable,
-            isMidFirstShortcut: isMidFirstShortcut
+            isMidFirstShortcut: isMidFirstShortcut,
+            isAwayOrJustBack: awayOrJustBack,
+            hoardsUnusedShortcuts: hoards
         ))
+    }
+
+    // MARK: - 상태가 막는 자리
+
+    /// 돌아온 것 자체가 좋은 신호다. 그 첫 화면이 결제 창이면 다시 나간다.
+    @Test("오랜만에 돌아온 사람에게는 두 기회 모두 꺼내지 않는다")
+    func silentForSomeoneComingBack() {
+        #expect(due(awayOrJustBack: true) == nil)
+        #expect(due(reachedDaysAgo: 8, awayOrJustBack: true) == nil)
+    }
+
+    /// 만들어만 두고 대부분 안 쓰는 사람에게 "칸이 한 칸 남았다" 는 틀린 말이다.
+    /// 모자란 것은 칸이 아니라 찾는 길이라, 칸을 사면 못 찾는 것이 하나 더 늘 뿐이다.
+    @Test("쌓아만 두는 사람에게는 한도 기회를 꺼내지 않는다")
+    func silentAboutRoomForHoarders() {
+        #expect(due(installedDaysAgo: 30, reachedDaysAgo: 8) == .limitEdge)
+        #expect(due(installedDaysAgo: 30, reachedDaysAgo: 8, hoards: true) == nil)
+    }
+
+    /// ⚠️ 결은 **한도 기회만** 막는다. 설치 직후 기회는 개수 이야기가 아니라
+    ///    "시작하는 김에" 하는 이야기라 그대로 열려 있다.
+    @Test("쌓아 두는 사람이어도 설치 직후 기회는 그대로다")
+    func hoardingDoesNotCloseTheFirstRunOffer() {
+        #expect(due(installedDaysAgo: 1, hoards: true) == .firstRun)
     }
 
     // MARK: - ① 설치 직후

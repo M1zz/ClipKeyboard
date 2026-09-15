@@ -180,10 +180,18 @@ struct ClipKeyboardList: View {
         guard !proNudgeDismissed,
               !ProFeatureManager.hasFullAccess,
               !shouldShowGraceBanner else { return false }
+        // 오랜만에 돌아온 사람에게 먼저 꺼낼 말이 돈일 수는 없다.
+        guard userState.state.activity == .active else { return false }
+
         let savedEnough = KeyboardUsageTracker.totalTimeSavedSeconds() >= 600
         // 한도와 같은 개수를 센다 - 심어 준 샘플로 넛지가 앞당겨 뜨면 안 된다.
         let nearLimit = ProFeatureManager.ownMemoCount(viewModel.memos) >= max(1, ProFeatureManager.memoLimit - 3)
-        return savedEnough || nearLimit
+        // ⚠️ **쌓아만 두는 사람에게 "칸이 얼마 안 남았다"는 틀린 말이다.** 만들어 둔 것의
+        //    대부분을 안 쓰고 있으니 모자란 것은 칸이 아니라 찾는 길이고, 칸을 사면
+        //    못 찾는 것이 하나 더 늘 뿐이다. 아낀 시간이라는 증거 쪽은 그대로 둔다.
+        //    그건 개수 이야기가 아니라 이 앱이 해 준 일에 대한 이야기라 누구에게나 참이다.
+        let mayTalkAboutRoom = userState.state.grain != .hoarder
+        return savedEnough || (nearLimit && mayTalkAboutRoom)
     }
 
     /// 넛지 메시지 종류 - Analytics source 슬라이싱용.
