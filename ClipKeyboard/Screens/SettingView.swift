@@ -238,6 +238,10 @@ struct SettingView: View {
                 Label(NSLocalizedString("안정성 (개발자)", comment: "Stability settings entry (developer)"),
                       systemImage: AppSymbol.exclamationmarkTriangleFill)
             }
+            NavigationLink(destination: UserStageSimulatorView()) {
+                Label(NSLocalizedString("사용 단계 흉내 (개발자)", comment: "Stage simulator settings entry (developer)"),
+                      systemImage: AppSymbol.personCropCircleBadgeCheckmark)
+            }
         }
     }
 

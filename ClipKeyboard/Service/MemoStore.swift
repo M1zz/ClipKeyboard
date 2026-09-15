@@ -326,6 +326,10 @@ class MemoStore: ObservableObject {
                                                type: memos[index].autoDetectedType,
                                                memoID: memoId)
 
+            // "오늘 썼다"는 표식. 사용자 상태(UserState)의 활동일이 여기서 쌓인다.
+            // ⚠️ 이 함수가 앱·키보드 양쪽 사용의 **유일한 길목**이라 여기 한 곳이면 된다.
+            ActiveDayLedger.record()
+
             // "문구를 한 번 썼다"는 신호. 일반 탭·템플릿 확정·콤보 값 복사·보안 인증 후
             // **어느 경로로 들어와도 여기 한 곳을 지난다.** 화면이 탭 시점에 직접 판단하면
             // 시트가 뜨는 경로에서 아직 쓰지도 않았는데 동전이 날아간다.

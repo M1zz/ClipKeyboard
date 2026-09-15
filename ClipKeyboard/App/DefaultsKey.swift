@@ -364,6 +364,38 @@ enum DefaultsKey {
     /// 격리 목록을 기록한 앱 버전. 버전이 바뀌면 목록을 비우고 다시 시도한다 (App Group).
     static let launchQuarantineVersion = "launch.quarantineVersion"
 
+    // MARK: - 사용자 상태 (UserState)
+    /// 단축어를 실제로 **쓴 날**들 (App Group, `"yyyy-MM-dd"` 문자열 배열).
+    ///
+    /// ⚠️ `kbBeaconDayCounts` 와 역할이 다르다. 저쪽은 허브로 보내고 나면 **지워진다**
+    ///    (`KeyboardDayLedger.removeDays`). 보낸 뒤 비워지는 원장으로 활동일을 재면
+    ///    앱을 오래 쓴 사람일수록 활동일이 0에 가까워진다. 이쪽은 아무도 비우지 않는다.
+    /// ⚠️ 기기 밖으로 나가지 않는다. 판정(`UserState`)에만 쓴다.
+    static let userStateActiveDays = "userstate.activeDays.v1"
+    /// 지금까지 **가장 높이 올라갔던** 숙련도 (App Group, `UserLevel.rawValue`).
+    ///
+    /// ⚠️ 이 값이 있어서 레벨이 내려가지 않는다. 한 달 쉬었다고 능숙이 꺼냄으로
+    ///    떨어지면 돌아온 사람이 자기가 다 아는 안내를 처음부터 다시 본다.
+    static let userStateLevelFloor = "userstate.levelFloor.v1"
+    /// 바닥(`userStateLevelFloor`)을 예전 기록으로 한 번 잡아 줬는가 (App Group, Bool).
+    ///
+    /// ⚠️ 활동일 원장은 이 기능과 함께 생겼다. 이미 몇 달 쓰던 사람은 원장이 비어 있어
+    ///    활동일 0으로 읽히고, 그대로 두면 능숙하던 사람이 초심자 안내를 다시 본다.
+    ///    그래서 첫 판정 때 활동일을 빼고 한 번 계산해 바닥으로 깔아 준다.
+    static let userStateFloorSeeded = "userstate.floorSeeded.v1"
+    /// 직전 판정에서 휴면이었는가 (App Group, Bool). 깨어난 순간을 잡기 위한 표식이다.
+    static let userStateWasDormant = "userstate.wasDormant.v1"
+    /// 휴면에서 깬 시각 (App Group, epoch 초). 이때부터 7일이 "돌아온 사람"이다.
+    static let userStateReturnedAt = "userstate.returnedAt.v1"
+
+    /// 지금 흉내 내는 사용 단계 (App Group, `UserStage.rawValue`). 비어 있으면 진짜 상태를 쓴다.
+    ///
+    /// ⚠️ **개발자 전용이다.** 값이 들어 있는 동안 `UserStateStore` 는 기기의 진짜 값을 보지 않고,
+    ///    바닥(`userStateLevelFloor`)도 휴면 기록도 건드리지 않는다. 끄면 원래대로 돌아온다.
+    static let userStateSimulatedStage = "userstate.simulatedStage.v1"
+    /// 단계 시뮬레이터가 카테고리를 갈아끼우기 전에 적어 둔 원래 목록 (App Group, [String]).
+    static let userStageCategoryBackup = "userstate.stage.categoryBackup.v1"
+
     // MARK: - 데모 데이터
     /// 데모(샘플 페르소나) 데이터가 켜져 있는지 (App Group - 키보드도 같은 데이터를 본다).
     /// 켤 때 원본을 demo.backup.data로 백업하고, 끄면 복원한다. DemoDataService 참고.

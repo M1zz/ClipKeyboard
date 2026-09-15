@@ -35,18 +35,30 @@ final class DemoDataService {
     @discardableResult
     func enable() -> Bool {
         guard !isActive else { return true }
+        return apply(memos: Self.demoMemos(), clipboard: Self.demoClipboard())
+    }
+
+    /// 데모 성격의 데이터 **한 벌**을 통째로 깐다. 원본은 (아직 백업이 없으면) 먼저 백업한다.
+    ///
+    /// `enable()` 과 단계 시뮬레이터(`UserStageSimulator`)가 같이 쓴다. 백업 파일도 켜짐
+    /// 표시도 하나뿐이라, 어느 쪽으로 켰든 `disable()` 하나로 내 데이터가 돌아온다.
+    ///
+    /// ⚠️ **이미 데모가 켜져 있어도 갈아끼울 수 있다.** 단계를 옮겨 다닐 때 필요하다.
+    ///    백업은 덮어쓰지 않으므로(`backupCurrentData`) 원본은 첫 백업 그대로 남는다.
+    @discardableResult
+    func apply(memos: [Memo], clipboard: [SmartClipboardHistory]) -> Bool {
         guard backupCurrentData() else {
-            print("❌ [DemoDataService.enable] 백업 실패, 데모 적용을 중단합니다")
+            print("❌ [DemoDataService.apply] 백업 실패, 데모 적용을 중단합니다")
             return false
         }
         do {
-            try MemoStore.shared.save(memos: Self.demoMemos(), type: .memo, recordHistory: false)
-            try MemoStore.shared.saveSmartClipboardHistory(history: Self.demoClipboard())
+            try MemoStore.shared.save(memos: memos, type: .memo, recordHistory: false)
+            try MemoStore.shared.saveSmartClipboardHistory(history: clipboard)
             setActive(true)
-            print("✅ [DemoDataService.enable] 데모 데이터 적용 완료")
+            print("✅ [DemoDataService.apply] 데모 데이터 \(memos.count)개 적용 완료")
             return true
         } catch {
-            print("❌ [DemoDataService.enable] 데모 데이터 저장 실패: \(error)")
+            print("❌ [DemoDataService.apply] 데모 데이터 저장 실패: \(error)")
             // 저장이 반쯤 진행됐을 수 있으니 백업을 즉시 되돌린다.
             _ = restoreBackup()
             return false

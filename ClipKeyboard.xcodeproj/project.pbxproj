@@ -91,6 +91,10 @@
 		58DL00042F0000000000000104 /* WaxSealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00042F0000000000000004 /* WaxSealView.swift */; };
 		58DL00052F0000000000000105 /* ChecksumVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00052F0000000000000005 /* ChecksumVerifier.swift */; };
 		58DL00062F0000000000000106 /* UsagePassport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00062F0000000000000006 /* UsagePassport.swift */; };
+		58US00042F0000000000000106 /* UserStageSimulatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58US00042F0000000000000006 /* UserStageSimulatorView.swift */; };
+		58US00032F0000000000000106 /* UserStageSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58US00032F0000000000000006 /* UserStageSimulator.swift */; };
+		58US00022F0000000000000106 /* UserStateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58US00022F0000000000000006 /* UserStateStore.swift */; };
+		58US00012F0000000000000106 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58US00012F0000000000000006 /* UserState.swift */; };
 		58DL00072F0000000000000107 /* UsagePassportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00072F0000000000000007 /* UsagePassportView.swift */; };
 		58DL00912F0000000000000091 /* MemoTypeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00902F0000000000000090 /* MemoTypeStyle.swift */; };
 		58DL00922F0000000000000092 /* MemoTypeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DL00902F0000000000000090 /* MemoTypeStyle.swift */; };
@@ -426,6 +430,10 @@
 		58DL00042F0000000000000004 /* WaxSealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaxSealView.swift; sourceTree = "<group>"; };
 		58DL00052F0000000000000005 /* ChecksumVerifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecksumVerifier.swift; sourceTree = "<group>"; };
 		58DL00062F0000000000000006 /* UsagePassport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsagePassport.swift; sourceTree = "<group>"; };
+		58US00042F0000000000000006 /* UserStageSimulatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStageSimulatorView.swift; sourceTree = "<group>"; };
+		58US00032F0000000000000006 /* UserStageSimulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStageSimulator.swift; sourceTree = "<group>"; };
+		58US00022F0000000000000006 /* UserStateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStateStore.swift; sourceTree = "<group>"; };
+		58US00012F0000000000000006 /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
 		58DL00072F0000000000000007 /* UsagePassportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsagePassportView.swift; sourceTree = "<group>"; };
 		58DL00902F0000000000000090 /* MemoTypeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTypeStyle.swift; sourceTree = "<group>"; };
 		58DL00932F0000000000000093 /* KeyboardSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSkin.swift; sourceTree = "<group>"; };
@@ -914,6 +922,9 @@
 				DYK0FILE0000000000000001 /* DidYouKnow.swift */,
 				BGIMGFILE000000000000001 /* BackgroundImageStore.swift */,
 				58DL00062F0000000000000006 /* UsagePassport.swift */,
+				58US00032F0000000000000006 /* UserStageSimulator.swift */,
+				58US00022F0000000000000006 /* UserStateStore.swift */,
+				58US00012F0000000000000006 /* UserState.swift */,
 				79D6A773619BB7884CEA27B8 /* RefundLedger.swift */,
 				ABBC5FEBE64BF6B998A4F173 /* DiscountOfferManager.swift */,
 				7650FEB679BD5AE8B3A7DD30 /* SlotPack.swift */,
@@ -952,6 +963,7 @@
 				5802F40F2A2B3C91002825D6 /* ClipboardList.swift */,
 				FB00001A2F0000000000000001 /* FeedbackView.swift */,
 				US00001A2F0000000000000001 /* UsageStatsView.swift */,
+				58US00042F0000000000000006 /* UserStageSimulatorView.swift */,
 				AIV0FILE0000000000000003 /* AISettingsView.swift */,
 				TOKENFMT0FILE00000000001 /* TokenFormatSettingsView.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
@@ -1595,6 +1607,10 @@
 				DYK0BUILD000000000000001 /* DidYouKnow.swift in Sources */,
 				BGIMGBUILD00000000000001 /* BackgroundImageStore.swift in Sources */,
 				58DL00062F0000000000000106 /* UsagePassport.swift in Sources */,
+				58US00042F0000000000000106 /* UserStageSimulatorView.swift in Sources */,
+				58US00032F0000000000000106 /* UserStageSimulator.swift in Sources */,
+				58US00022F0000000000000106 /* UserStateStore.swift in Sources */,
+				58US00012F0000000000000106 /* UserState.swift in Sources */,
 				58DL00072F0000000000000107 /* UsagePassportView.swift in Sources */,
 				58DL00912F0000000000000091 /* MemoTypeStyle.swift in Sources */,
 				58DL00942F0000000000000094 /* KeyboardSkin.swift in Sources */,

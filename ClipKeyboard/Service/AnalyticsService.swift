@@ -75,6 +75,50 @@ enum KeyboardDayLedger {
     }
 }
 
+/// 단축어를 실제로 **쓴 날**의 원장 - 사용자 상태 판정(`UserState`)이 활동일을 읽는 곳.
+///
+/// ⚠️ `KeyboardDayLedger` 와 헷갈리지 말 것. 저쪽은 허브로 보내고 나면 그 날을 **지운다**
+///    (`removeDays`). 보낸 뒤 비워지는 원장으로 활동일을 재면, 꼬박꼬박 쓰는 사람일수록
+///    활동일이 0에 가까워지는 거꾸로 된 값이 나온다.
+///
+/// ⚠️ 여기 쌓인 것은 **기기 밖으로 나가지 않는다.** 날짜 문자열뿐이고 내용은 없다.
+///
+/// ⚠️ 앱과 키보드 익스텐션 양쪽에서 컴파일된다. UserDefaults 읽기·쓰기 말고는 아무것도 하지 않는다.
+///    쓰는 곳은 `MemoStore.incrementClipCount` 한 곳이다 - 앱에서 쓰든 키보드에서 쓰든
+///    모든 사용이 그 함수를 지나므로, 거기 한 번만 걸어 두면 양쪽이 같이 기록된다.
+enum ActiveDayLedger {
+
+    /// 보관 한도. 활동일 문턱은 3일이라 이만큼이면 넘치게 넉넉하다.
+    static let maxDays = 180
+
+    /// 오늘을 활동일로 남긴다. 같은 날 여러 번 써도 하루는 하루다.
+    static func record(at date: Date = Date()) {
+        guard let defaults = AppGroup.defaults else { return }
+        let key = KeyboardDayLedger.dayKey(for: date)
+        var days = (defaults.stringArray(forKey: DefaultsKey.userStateActiveDays)) ?? []
+        guard !days.contains(key) else { return }
+        days.append(key)
+        // 사전순 = 시간순이라 오래된 날이 앞이다.
+        days.sort()
+        if days.count > maxDays { days.removeFirst(days.count - maxDays) }
+        defaults.set(days, forKey: DefaultsKey.userStateActiveDays)
+    }
+
+    /// 단축어를 쓴 날이 며칠인가.
+    static func dayCount() -> Int {
+        (AppGroup.defaults?.stringArray(forKey: DefaultsKey.userStateActiveDays))?.count ?? 0
+    }
+
+    /// 최근 `days` 일 안에 쓴 날이 며칠인가. 추이를 보는 화면이 쓴다.
+    static func dayCount(within days: Int, now: Date = Date()) -> Int {
+        guard let stored = AppGroup.defaults?.stringArray(forKey: DefaultsKey.userStateActiveDays) else { return 0 }
+        let cutoff = now.addingTimeInterval(-Double(days) * 86_400)
+        return stored.compactMap { KeyboardDayLedger.date(fromDayKey: $0) }
+            .filter { $0 >= cutoff }
+            .count
+    }
+}
+
 /// 추적할 이벤트 이름 - 표준 이름 (snake_case, 40자 이내)
 enum AnalyticsEvent: String {
     /// Paywall 화면 노출
