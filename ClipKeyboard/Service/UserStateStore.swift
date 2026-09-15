@@ -169,10 +169,12 @@ extension View {
     ///
     /// ⚠️ 설정 화면처럼 **사람이 찾아간 자리** 에는 쓰지 말 것. 감춘다는 것은 없앤다는
     ///    뜻이 아니라 앞에 안 낸다는 뜻이고, 찾아간 사람에게까지 없으면 그건 고장이다.
+    ///
+    /// ⚠️ 기본 인자로 `.shared` 를 받지 않는다. 기본 인자는 메인 액터 밖에서 값이 매겨져서
+    ///    Swift 6 에서는 오류가 된다. 몸통 안에서 집어 오면 그 자리는 이미 메인 액터다.
     @MainActor
-    func userSurface(_ surface: UserSurface,
-                     in store: UserStateStore = .shared) -> some View {
-        modifier(UserSurfaceGate(surface: surface, store: store))
+    func userSurface(_ surface: UserSurface) -> some View {
+        modifier(UserSurfaceGate(surface: surface, store: .shared))
     }
 }
 

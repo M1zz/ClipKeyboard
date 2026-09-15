@@ -1933,7 +1933,10 @@ struct ClipKeyboardList: View {
                 //    그 둘을 6pt 씩 건드려 봐도 이 사이는 1pt 도 안 움직였다(실측).
                 // ⚠️ 아래 `filteredTabScrollView` 의 같은 빈 칸과 **같은 값**이어야 한다.
                 //    다르면 기본 탭과 카테고리 탭의 제목 아래가 달라 보인다.
-                Color.clear.frame(height: 2)
+                // ⚠️ 8 → 2 로 줄이고도 기기에서 보면 여전히 떠 있었다. 아래 그리드가 자기
+                //    위에 8pt 를 더 두고 있어서, 둘을 합치면 10pt 가 늘 깔려 있었다.
+                //    빈 칸은 0 으로 두고 남은 간격은 그리드 쪽 하나로만 잰다.
+                Color.clear.frame(height: 0)
 
                 // TipKit 팁들
                 // ⚠️ 세로 패딩(top/bottom)을 이 블록에 붙이지 않는다.
@@ -1999,7 +2002,9 @@ struct ClipKeyboardList: View {
                         // 추가 카드는 빈 상태 화면(emptyStateWithAddCard 등)에서만 노출.
                     }
                     .padding(.horizontal, 16)
-                    .padding(.top, 8)
+                    // ⚠️ 제목과 첫 카드 사이를 잡는 **마지막 값**이다. 위의 빈 칸은 0 이라,
+                    //    여기만 보면 된다(팁이 떠 있을 때는 팁과 그리드 사이이기도 하다).
+                    .padding(.top, 2)
                 }
             }
             // 하단 여백 - 페이저가 화면 바닥까지 확장되므로(ignoresSafeArea)
@@ -2025,7 +2030,7 @@ struct ClipKeyboardList: View {
                 // 배너 - 스크롤 콘텐츠라 스크롤하면 함께 올라간다(타이틀은 바에 고정, inlineLarge).
                 pageHeader(for: tab)
                 // 위 여백 - `allTabScrollView` 의 같은 빈 칸과 같은 값을 쓴다.
-                Color.clear.frame(height: 2)
+                Color.clear.frame(height: 0)
                 LazyVGrid(columns: gridColumns, spacing: 12) {
                     if pendingSlot { pendingSlotCell }
                     ForEach(memos) { memo in
@@ -2037,7 +2042,8 @@ struct ClipKeyboardList: View {
                     // 추가 카드는 빈 상태(favoritesEmptyStateView·emptyStateWithAddCard)에서만.
                 }
                 .padding(.horizontal, 16)
-                .padding(.top, 8)
+                // 위 `allTabScrollView` 의 그리드와 같은 값을 쓴다.
+                .padding(.top, 2)
             }
             // 페이저 바닥 확장(ignoresSafeArea)에 맞춘 탭바 가림 방지 여백.
             .padding(.bottom, 110)

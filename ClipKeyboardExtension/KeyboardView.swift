@@ -1627,25 +1627,22 @@ struct KeyboardView: View {
                         KeyboardHaptics.tap()
                         currentCategoryPage = index
                     } label: {
-                        // ⚠️ **이름을 적는다.** 예전에는 그림만 세웠는데, 사용자가 만든
+                        // ⚠️ **이름만 적는다.** 처음에는 그림만 세웠는데, 사용자가 만든
                         //    카테고리는 따로 고른 그림이 없으면 전부 같은 폴더 모양이라
-                        //    '업무' 와 '개인' 이 눈으로 구별되지 않았다. 그림은 곁들이는
-                        //    표시일 뿐이고, 어느 칸인지 말하는 것은 이름이다.
+                        //    '업무' 와 '개인' 이 눈으로 구별되지 않았다. 그래서 이름을 붙였고,
+                        //    붙여 놓고 보니 **그림은 하는 일이 없었다.** 좁은 판에서 한 칸이
+                        //    넓어지는 편이 낫다. 어느 칸인지 말하는 것은 이름 하나로 족하다.
                         // ⚠️ 긴 이름은 한 줄로 자른다. 줄이 바뀌면 키보드 판 높이가 들썩인다.
-                        HStack(spacing: 4 * controlKeyScale) {
-                            Image(systemName: iconForCategoryKey(key))
-                                .font(.system(size: controlKeyIconSize, weight: .semibold))
-                            Text(labelForCategoryKey(key))
-                                .font(.system(size: controlKeyIconSize, weight: isSelected ? .semibold : .medium))
-                                .lineLimit(1)
-                                .truncationMode(.tail)
-                        }
-                        .foregroundColor(isSelected ? .white : theme.textMuted)
-                        .padding(.horizontal, 9 * controlKeyScale)
-                        .frame(height: controlKeyHeight)
-                        .frame(maxWidth: controlKeyWidth(120))
-                        .background(isSelected ? accent : theme.surface)
-                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+                        Text(labelForCategoryKey(key))
+                            .font(.system(size: controlKeyIconSize, weight: isSelected ? .semibold : .medium))
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                            .foregroundColor(isSelected ? .white : theme.textMuted)
+                            .padding(.horizontal, 10 * controlKeyScale)
+                            .frame(height: controlKeyHeight)
+                            .frame(maxWidth: controlKeyWidth(120))
+                            .background(isSelected ? accent : theme.surface)
+                            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
                     }
                     .buttonStyle(PlainButtonStyle())
                     .accessibilityLabel(labelForCategoryKey(key))
