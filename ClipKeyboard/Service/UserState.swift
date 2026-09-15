@@ -333,6 +333,7 @@ enum UserSurface: String, CaseIterable {
     case slotLimit              // 한도 안내·칸 추가
     case reviewRequest          // 리뷰 요청
     case bulkImport             // 한 번에 정리하기
+    case exampleMart            // 예시에서 골라 담기
 
     /// 사람에게 **말을 거는** 자리인가. 휴면인 사람에게는 이것들이 전부 꺼진다.
     ///
@@ -406,6 +407,9 @@ extension UserState {
         case .slotLimit:           row = [.hidden, .hidden, .hidden, .quiet,  .lead]
         case .reviewRequest:       row = [.hidden, .hidden, .hidden, .quiet,  .quiet]
         case .bulkImport:          row = [.quiet,  .hidden, .quiet,  .lead,   .lead]
+        // 아직 자기 것이 없는 사람에게 빈 서랍 대신 **고를 것**을 준다.
+        // 한 번이라도 만든 사람에게는 조용히 두고, 쓰기 시작한 사람에게는 치운다.
+        case .exampleMart:         row = [.lead,   .quiet,  .hidden, .hidden, .hidden]
         }
         return row[level.rawValue]
     }

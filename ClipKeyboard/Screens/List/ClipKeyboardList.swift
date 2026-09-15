@@ -18,6 +18,8 @@ struct ClipKeyboardList: View {
 
     @StateObject private var viewModel = ClipKeyboardListViewModel()
     @ObservedObject private var suggestionManager = SuggestionManager.shared
+    /// 지금 이 사람이 어디쯤인가(`docs/product/USER_STATE_MODEL.md`). 빈 화면이 이걸 보고 갈린다.
+    @ObservedObject private var userState = UserStateStore.shared
 
     // MARK: - View-only State
 
@@ -918,6 +920,8 @@ struct ClipKeyboardList: View {
             .onAppear {
                 beginSettling()
                 viewModel.onAppear()
+                // 빈 화면이 사람에 따라 갈리므로 들어올 때마다 다시 잰다.
+                userState.refresh()
                 // ⚠️ 제안 카드("눌러서 추가해보기")의 자리를 **첫 프레임 전에** 정한다. `.task` 에서만
                 //    정하면 격자가 한 번 그려진 뒤 맨 앞에 카드가 끼어들어, 모든 카드가 한 칸씩
                 //    밀리며 앱을 켤 때마다 덜컹했다(실측). 단축어는 뷰모델이 이미 읽어 두었다.
@@ -2595,6 +2599,24 @@ struct ClipKeyboardList: View {
                 .font(.body)
                 .foregroundColor(theme.textMuted)
                 .multilineTextAlignment(.center)
+
+            // ⚠️ 아직 **자기 것을 하나도 안 만든 사람**에게만 준다.
+            //    빈 칸에서 무엇부터 적을지 떠올리는 것이 첫 단축어를 막는 가장 큰 벽이라,
+            //    그 사람에게는 빈 종이가 아니라 **고를 것**이 있어야 한다.
+            //    한 번이라도 만든 사람에게는 이 말이 참견이 된다(`UserSurface.exampleMart`).
+            if userState.isVisible(.exampleMart) {
+                Button {
+                    showShortcutMart = true
+                } label: {
+                    Text(NSLocalizedString("예시에서 골라 담기", comment: "Empty list: pick from examples"))
+                        .font(.body.weight(.semibold))
+                        .foregroundColor(Color.accentForeground)
+                        .padding(.horizontal, 18)
+                        .padding(.vertical, 11)
+                        .background(Color.accentColor, in: Capsule())
+                }
+                .padding(.top, 4)
+            }
         }
         .padding(24)
     }

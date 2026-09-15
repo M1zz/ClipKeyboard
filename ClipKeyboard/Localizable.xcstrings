@@ -88892,6 +88892,35 @@
           }
         }
       }
+    },
+    "예시에서 골라 담기" : {
+      "comment" : "Empty list: pick from examples",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick from examples"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать из примеров"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从示例中挑选"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從示例中挑選"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

@@ -9629,6 +9629,12 @@
     "comment": "Example",
     "h": "84c93ac9f2"
   },
+  "예시에서 골라 담기": {
+    "ko": "예시에서 골라 담기",
+    "en": "Pick from examples",
+    "comment": "Empty list: pick from examples",
+    "h": "3e6b7cf9f5"
+  },
   "예시예요. 누르면 내 값으로 저장돼요.": {
     "ko": "예시예요. 누르면 내 값으로 저장돼요.",
     "en": "Just examples: tap one to save it as yours.",
