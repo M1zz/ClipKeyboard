@@ -156,8 +156,11 @@ struct AppearanceSettingsView: View {
                 Toggle(isOn: Binding(
                     get: { demoDataActive },
                     set: { newValue in
+                        // ⚠️ 끌 때는 **단계 시뮬레이터를 거쳐** 끈다. 개발자가 단계를 켜 두었으면
+                        //    단축어뿐 아니라 카테고리도 갈아끼워져 있는데, `disable()` 만 부르면
+                        //    카테고리가 되돌아오지 않는다. 사용자에게는 카테고리가 사라진 것으로 보인다.
                         let ok = newValue ? DemoDataService.shared.enable()
-                                          : DemoDataService.shared.disable()
+                                          : UserStageSimulator.clear()
                         // 서비스가 App Group 플래그를 갱신하므로 @AppStorage가 자동 반영된다.
                         // 실패했을 때만 알린다(성공은 화면 변화로 충분).
                         if !ok && newValue {

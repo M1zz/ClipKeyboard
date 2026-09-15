@@ -131,6 +131,14 @@ final class CategoryStore: ObservableObject {
     ///
     /// ⚠️ 다만 **직접 끈 사람의 선택은 존중한다.** 저장된 값이 있으면 그대로 따르고,
     ///    값이 아예 없을 때(= 아직 고른 적 없음)만 켜진 것으로 본다.
+    /// 스위치를 App Group 에서 다시 읽는다.
+    ///
+    /// 밖에서 값을 갈아끼운 뒤(단계 시뮬레이터가 그렇게 한다) 화면을 맞추는 길이다.
+    /// 목록 쪽 `reload()` 와 짝이다 - 둘 중 하나만 부르면 목록과 스위치가 어긋난다.
+    func reloadFeatureState() {
+        loadFeatureEnabledState()
+    }
+
     private func loadFeatureEnabledState() {
         let defaults = AppGroup.defaults
         if let stored = defaults?.object(forKey: featureEnabledKey) as? Bool {

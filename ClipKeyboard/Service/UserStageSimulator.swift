@@ -355,10 +355,24 @@ enum UserStageSimulator {
 
     /// ⚠️ 한 번만 적어 둔다. 단계를 옮겨 다니는 동안 덮어쓰면 시뮬레이터가 깔아 준
     ///    카테고리가 "원래 것"으로 굳는다.
+    ///
+    /// ⚠️ **목록과 함께 스위치도 적어 둔다.** 목록만 되돌리면 카테고리 기능이 꺼진 채로
+    ///    남아서, 되돌렸는데도 화면에서는 카테고리가 사라진 것으로 보인다.
     private static func backupCategoriesIfNeeded() {
         guard defaults?.object(forKey: DefaultsKey.userStageCategoryBackup) == nil else { return }
         let current = defaults?.stringArray(forKey: DefaultsKey.userDefinedCategoriesV1) ?? []
         defaults?.set(current, forKey: DefaultsKey.userStageCategoryBackup)
+        // ⚠️ **켜짐·꺼짐만으로는 모자란다.** 이 스위치는 값이 아예 없으면 **켜진 것**으로
+        //    친다(`CategoryStore.loadFeatureEnabledState`). 없던 것을 false 로 적어 두면
+        //    되돌릴 때 "사용자가 직접 껐다" 로 굳어, 원래 보이던 카테고리가 사라진다.
+        //    그래서 없었다는 사실까지 남긴다.
+        let switchState: String
+        switch defaults?.object(forKey: DefaultsKey.categoryFeatureEnabledV1) as? Bool {
+        case .some(true):  switchState = "on"
+        case .some(false): switchState = "off"
+        case .none:        switchState = "unset"
+        }
+        defaults?.set(switchState, forKey: DefaultsKey.userStageCategoryFeatureBackup)
     }
 
     private static func applyCategories(_ categories: [String]) {
@@ -368,11 +382,30 @@ enum UserStageSimulator {
         NotificationCenter.postOnMain(name: .memoDataChanged, object: nil)
     }
 
+    /// 적어 둔 것이 있으면 목록과 스위치를 **함께** 되돌린다.
     private static func restoreCategories() {
         guard let saved = defaults?.stringArray(forKey: DefaultsKey.userStageCategoryBackup) else { return }
         defaults?.set(saved, forKey: DefaultsKey.userDefinedCategoriesV1)
+        switch defaults?.string(forKey: DefaultsKey.userStageCategoryFeatureBackup) {
+        case "on":    defaults?.set(true, forKey: DefaultsKey.categoryFeatureEnabledV1)
+        case "off":   defaults?.set(false, forKey: DefaultsKey.categoryFeatureEnabledV1)
+        case "unset": defaults?.removeObject(forKey: DefaultsKey.categoryFeatureEnabledV1)
+        default:      break
+        }
         defaults?.removeObject(forKey: DefaultsKey.userStageCategoryBackup)
+        defaults?.removeObject(forKey: DefaultsKey.userStageCategoryFeatureBackup)
         CategoryStore.shared.reload()
+        CategoryStore.shared.reloadFeatureState()
         NotificationCenter.postOnMain(name: .memoDataChanged, object: nil)
     }
+}
+
+// MARK: - 시험용 창구
+
+/// ⚠️ 되돌리기가 제대로 되는지는 **화면 없이** 확인할 수 있어야 한다.
+///    한 번 빠뜨려서 사람의 카테고리가 사라져 보였던 자리라, 문을 따로 낸다.
+extension UserStageSimulator {
+    static func backupCategoriesForTesting() { backupCategoriesIfNeeded() }
+    static func applyCategoriesForTesting(_ categories: [String]) { applyCategories(categories) }
+    static func restoreCategoriesForTesting() { restoreCategories() }
 }

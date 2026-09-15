@@ -395,6 +395,11 @@ enum DefaultsKey {
     static let userStateSimulatedStage = "userstate.simulatedStage.v1"
     /// 단계 시뮬레이터가 카테고리를 갈아끼우기 전에 적어 둔 원래 목록 (App Group, [String]).
     static let userStageCategoryBackup = "userstate.stage.categoryBackup.v1"
+    /// 같은 순간의 **카테고리 기능 스위치** (App Group, "on" · "off" · "unset").
+    ///
+    /// ⚠️ 목록만 되돌리면 스위치가 꺼진 채로 남는다. 되돌렸는데도 화면에서는 카테고리가
+    ///    사라진 것으로 보이고, 사용자는 자기 카테고리가 지워진 줄 안다.
+    static let userStageCategoryFeatureBackup = "userstate.stage.categoryFeatureBackup.v1"
 
     // MARK: - 데모 데이터
     /// 데모(샘플 페르소나) 데이터가 켜져 있는지 (App Group - 키보드도 같은 데이터를 본다).
