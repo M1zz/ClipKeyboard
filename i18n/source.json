@@ -4826,8 +4826,8 @@
   "단축어": {
     "ko": "단축어",
     "en": "Snippet",
-    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSnippet (saved key-value item) display name",
-    "h": "e5f8dadd0c"
+    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter",
+    "h": "8c10487a02"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "ko": "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.",
@@ -12958,6 +12958,12 @@
     "en": "Fixed Korean breaking apart in the keyboard search field",
     "comment": "Changelog 4.4.1 item 3",
     "h": "99c7398b9c"
+  },
+  "키보드 내리기": {
+    "ko": "키보드 내리기",
+    "en": "Dismiss keyboard",
+    "comment": "Dismiss keyboard button",
+    "h": "ffec780a86"
   },
   "키보드 높이": {
     "ko": "키보드 높이",
