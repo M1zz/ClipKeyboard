@@ -5201,6 +5201,12 @@
     "comment": "No memos",
     "h": "52888d8185"
   },
+  "단축어로 돌아가기": {
+    "ko": "단축어로 돌아가기",
+    "en": "Back to snippets",
+    "comment": "Number pad key: back to snippets",
+    "h": "98c5a8b9ae"
+  },
   "단축어로 저장": {
     "ko": "단축어로 저장",
     "en": "Save as Snippet",
@@ -7139,6 +7145,12 @@
     "comment": "Changelog 5.0.3 paste practice removed",
     "h": "5d0bbd5f51"
   },
+  "붙여넣기 옆에서 숫자 판으로 건너갑니다. 카드번호나 금액 몇 자를 넣으려고 키보드를 바꾸지 않아도 됩니다": {
+    "ko": "붙여넣기 옆에서 숫자 판으로 건너갑니다. 카드번호나 금액 몇 자를 넣으려고 키보드를 바꾸지 않아도 됩니다",
+    "en": "Switches to a number pad, right next to paste. No more swapping keyboards just to type a card number or an amount.",
+    "comment": "Number pad key description",
+    "h": "e3389bc711"
+  },
   "붙여넣기 키를 길게 누르면 복사한 것 중 필요한 데까지만 골라 넣을 수 있어요": {
     "ko": "붙여넣기 키를 길게 누르면 복사한 것 중 필요한 데까지만 골라 넣을 수 있어요",
     "en": "Press and hold the paste key to insert only the part you need from what you copied.",
@@ -8482,6 +8494,18 @@
     "en": "Number input (shows numpad in keyboard)",
     "comment": "Numeric token legend",
     "h": "eed39cf0ac"
+  },
+  "숫자 판": {
+    "ko": "숫자 판",
+    "en": "Number pad",
+    "comment": "Number pad key",
+    "h": "3c6e50c1d7"
+  },
+  "숫자 판 키": {
+    "ko": "숫자 판 키",
+    "en": "Number pad key",
+    "comment": "Show number pad key toggle",
+    "h": "e3c5a426b4"
   },
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "ko": "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.",
@@ -11309,6 +11333,12 @@
     "comment": "Total time saved",
     "h": "e500dc3f6f"
   },
+  "점": {
+    "ko": "점",
+    "en": "Period",
+    "comment": "Number pad key: period",
+    "h": "5358e6b938"
+  },
   "점심 한 끼를 통째로 벌었어요.": {
     "ko": "점심 한 끼를 통째로 벌었어요.",
     "en": "That's a whole lunch break.",
@@ -14074,6 +14104,12 @@
     "en": "Hello",
     "comment": "Preview key 2",
     "h": "c0d355e0f0"
+  },
+  "하이픈": {
+    "ko": "하이픈",
+    "en": "Hyphen",
+    "comment": "Number pad key: hyphen",
+    "h": "39f09faffd"
   },
   "학교 이메일": {
     "ko": "학교 이메일",

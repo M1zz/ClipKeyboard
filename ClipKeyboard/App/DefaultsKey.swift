@@ -163,6 +163,11 @@ enum DefaultsKey {
     static let keyboardPasteCount = "keyboard_paste_count"
     static let keyboardSecurePinHash = "keyboard_secure_pin_hash"
     /// 키보드 위줄에 리턴(보내기) 키를 세울지. App Group - 익스텐션이 읽는다. 기본 켬.
+    /// 위줄에 **숫자 판으로 건너가는 키**를 세울지 (App Group). 값이 없으면 켜짐.
+    ///
+    /// 숫자만 몇 자 넣으려고 다른 키보드로 건너갔다 오는 일을 없애려고 둔 키다.
+    /// 자리가 아까운 사람은 끌 수 있게 한다(설정 ▸ 키보드 ▸ 키보드 레이아웃).
+    static let keyboardShowNumberPad = "keyboardShowNumberPad"
     static let keyboardShowReturnKey = "keyboardShowReturnKey"
     /// 키보드에 검색줄을 세울지. App Group. 기본 끔(자리를 한 줄 먹는다).
     static let keyboardShowSearch = "keyboardShowSearch"

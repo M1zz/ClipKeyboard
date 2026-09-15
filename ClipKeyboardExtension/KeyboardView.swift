@@ -313,6 +313,9 @@ struct KeyboardView: View {
     }
     /// 위줄에 리턴(보내기) 키를 세울지. 잘못 눌러 보내는 것이 무서운 사람은 끌 수 있다.
     /// 기본은 켬 - 없어서 못 보내던 것이 신고로 들어온 쪽이라, 꺼 둔 채로 두면 고친 것이 아니다.
+    /// 위줄에 숫자 판으로 건너가는 키를 세울지. 값이 없으면 켜짐(아래 `showsNumberPadKey`).
+    @AppStorage(DefaultsKey.keyboardShowNumberPad, store: AppGroup.defaults)
+    private var showNumberPadKeyRaw: Bool = true
     @AppStorage(DefaultsKey.keyboardShowReturnKey, store: AppGroup.defaults) private var showReturnKey: Bool = true
     // 한국어 입력 사용 여부(기본 OFF). 꺼져 있으면 한/EN 토글과 한글 자판이 아예 노출되지 않아
     // 영어 전용 사용자는 한글을 볼 일이 없다. 한국어 사용자가 설정에서 직접 켠다.
@@ -417,6 +420,9 @@ struct KeyboardView: View {
     @State private var showEmptyClipboardToast = false
     /// 복사한 것에서 조각을 고르는 판. nil 이면 안 떠 있다.
     /// (사용자 요청: "웹페이지에서 내용을 복사한 후 일부만 붙여넣고 싶을 때")
+    /// 숫자 판을 펼쳐 두었는가. **기억하지 않는다** - 키보드가 뜰 때마다 단축어 판부터다.
+    /// 숫자는 잠깐 쓰고 마는 것이라, 다음에 열었을 때도 숫자 판이면 단축어를 찾다 당황한다.
+    @State private var showsNumberPad = false
     @State private var clipboardPickerText: String?
     /// 길게 눌러 복사한 직후의 키 - 이어서 들어오는 탭을 한 번 무시한다.
     /// (길게 눌렀는데 글까지 입력되면 "복사만 하려 했는데"가 된다)
@@ -855,6 +861,36 @@ struct KeyboardView: View {
         }
     }
 
+    /// 숫자 판을 펼치고 접는 키.
+    ///
+    /// ⚠️ 펼친 동안에는 **켜져 있다는 것이 보여야 한다.** 판이 바뀐 것은 아래를 보면
+    ///    알지만, 되돌릴 키가 어느 것인지는 그 키가 스스로 말해야 한다.
+    private func numberPadKey(proxy: TypingInputProxy) -> some View {
+        Button {
+            KeyboardHaptics.tap()
+            withAnimation(.easeOut(duration: 0.18)) { showsNumberPad.toggle() }
+        } label: {
+            Image(systemName: showsNumberPad ? AppSymbol.keyboard : AppSymbol.number)
+                .font(.system(size: controlKeyIconSize, weight: .semibold))
+                .foregroundColor(showsNumberPad ? Color.accentForeground : theme.textMuted)
+                .frame(width: controlKeyWidth(32), height: controlKeyHeight)
+                .background(showsNumberPad ? theme.accent : theme.surface)
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+        }
+        .buttonStyle(PlainButtonStyle())
+        .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
+        .padding(.trailing, 2)
+        .accessibilityLabel(showsNumberPad
+                            ? NSLocalizedString("단축어로 돌아가기", comment: "Number pad key: back to snippets")
+                            : NSLocalizedString("숫자 판", comment: "Number pad key"))
+        .accessibilityAddTraits(showsNumberPad ? [.isSelected] : [])
+    }
+
+    /// 그 키를 세울지. 값이 없으면 켜진 것으로 본다 - 있는 줄 몰라서 못 쓰는 일을 막는다.
+    private var showsNumberPadKey: Bool {
+        AppGroup.defaults?.object(forKey: DefaultsKey.keyboardShowNumberPad) as? Bool ?? true
+    }
+
     private func openClipboardPicker() {
         guard let text = clipboardTextForInsert() else { return }
         KeyboardHaptics.mediumTap()
@@ -933,6 +969,11 @@ struct KeyboardView: View {
                     }
                     // X(전체 삭제)도 앱 안에서는 **처음부터** 서 있다. 글이 생길 때 나타나면
                     // 그 순간 줄이 흔들리고, 무엇보다 "지울 수 있다"를 미리 알 수 없다.
+                    // 숫자 판으로 건너가는 키. **붙여넣기 바로 옆**에 둔다 - 둘 다
+                    // "지금 넣을 것을 가져오는" 키라, 손이 같은 자리를 찾는다.
+                    if let proxy = typingProxy, showsNumberPadKey {
+                        numberPadKey(proxy: proxy)
+                    }
                     // 복사한 것을 넣는 키. 지울 수 있게 된 김에 붙여넣을 수도 있어야 한다.
                     if let proxy = typingProxy {
                         clipboardKey(proxy: proxy)
@@ -976,6 +1017,15 @@ struct KeyboardView: View {
 
                 if isReorderMode {
                     reorderGrid
+                } else if showsNumberPad {
+                    // ⚠️ 위줄은 그대로 둔 채 **격자 자리만** 바꾼다. 숫자를 넣다가 고치는
+                    //    일은 여기서도 똑같이 일어나고, 지우기·보내기는 저 위에 있다.
+                    NumberPadPanel(insert: { text in
+                                       typingProxy?.insertText(text)
+                                   },
+                                   keyHeight: buttonHeight,
+                                   theme: theme,
+                                   keycapShape: keycapShape)
                 } else if filteredMemos.isEmpty {
                     emptyStateView
                 } else {

@@ -40,6 +40,9 @@ struct KeyboardLayoutSettings: View {
     @AppStorage(DefaultsKey.keyboardShowRecent, store: AppGroup.defaults) private var showRecentRaw: Bool = false
     /// 위줄의 리턴(보내기) 키. 기본 켬 - 없어서 못 보내던 것이 신고로 들어온 쪽이다.
     @AppStorage(DefaultsKey.keyboardShowReturnKey, store: AppGroup.defaults) private var showReturnKey: Bool = true
+    /// 위줄의 숫자 판 키. 기본 켬 - 숫자 몇 자 넣으려고 다른 키보드로 건너가던 것을 없애려고 둔 키라,
+    /// 있는 줄 몰라서 못 쓰면 둔 뜻이 없다.
+    @AppStorage(DefaultsKey.keyboardShowNumberPad, store: AppGroup.defaults) private var showNumberPad: Bool = true
     @AppStorage("keyboardKoreanLayout", store: AppGroup.defaults) private var koreanLayout: String = "dubeolsik"
     @AppStorage("keyboardTypingLang", store: AppGroup.defaults) private var defaultLang: String = "english"
     // 한국어 입력 사용(기본 OFF). 영어 전용 사용자가 한/EN 토글을 보지 않도록 명시적으로 켜야 함.
@@ -327,6 +330,13 @@ struct KeyboardLayoutSettings: View {
                             .font(.caption).foregroundColor(.secondary)
                     }
                 }
+                Toggle(isOn: $showNumberPad) {
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(NSLocalizedString("숫자 판 키", comment: "Show number pad key toggle"))
+                        Text(NSLocalizedString("붙여넣기 옆에서 숫자 판으로 건너갑니다. 카드번호나 금액 몇 자를 넣으려고 키보드를 바꾸지 않아도 됩니다", comment: "Number pad key description"))
+                            .font(.caption).foregroundColor(.secondary)
+                    }
+                }
             } header: {
                 Text(NSLocalizedString("표시 옵션", comment: "Section: display options"))
             } footer: {
@@ -506,7 +516,7 @@ struct KeyboardLayoutSettings: View {
         controlKeySizeRaw = Double(KeyboardHeightBook.defaultControlKeySize)
         useCustomColors = false; customBgHex = ""; customKeyHex = ""
         customBgColor = .clear; customKeyColor = .clear
-        showSearch = false; showReturnKey = true
+        showSearch = false; showReturnKey = true; showNumberPad = true
         // 최근 단축어는 false 로 박지 않는다. 그러면 "꺼 달라고 했다"가 되어
         // 개수로 정해 주는 길이 영영 막힌다. 값을 지워 "안 정했다"로 되돌린다.
         AppGroup.defaults?.removeObject(forKey: DefaultsKey.keyboardShowRecent)
