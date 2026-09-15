@@ -3993,6 +3993,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d категория"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4003,12 +4009,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d категорий"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d категория"
                 }
               },
               "other" : {
@@ -4052,6 +4052,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d изображение"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4062,12 +4068,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d изображений"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d изображение"
                 }
               },
               "other" : {
@@ -4111,6 +4111,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d изображение"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4121,12 +4127,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d изображений"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d изображение"
                 }
               },
               "other" : {
@@ -4170,6 +4170,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d элемент"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4180,12 +4186,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d элементов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d элемент"
                 }
               },
               "other" : {
@@ -4229,6 +4229,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Найдено %d фраза"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4239,12 +4245,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Найдено %d фраз"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Найдено %d фраза"
                 }
               },
               "other" : {
@@ -4323,6 +4323,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Сохранено: %d · найдите нужное"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4330,12 +4336,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Сохранено: %d · найдите нужное"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Сохранено: %d · найдите нужное"
@@ -4412,6 +4412,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d переменная"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4422,12 +4428,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d переменных"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d переменная"
                 }
               },
               "other" : {
@@ -4471,6 +4471,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не разобрано: %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4478,12 +4484,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Не разобрано: %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Не разобрано: %d"
@@ -4524,6 +4524,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d%% уверенности"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4531,12 +4537,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d%% уверенности"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d%% уверенности"
@@ -4577,6 +4577,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d способ использования"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4587,12 +4593,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d способов использования"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d способ использования"
                 }
               },
               "other" : {
@@ -4630,6 +4630,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4637,12 +4643,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d"
@@ -4683,6 +4683,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ещё %d фраза → Обновление до Pro"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4693,12 +4699,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Ещё %d фраз → Обновление до Pro"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ещё %d фраза → Обновление до Pro"
                 }
               },
               "other" : {
@@ -4743,6 +4743,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Заблокировано %d фраза: разблокируется при покупке Pro на iOS"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4753,12 +4759,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Заблокировано %d фраз: разблокируется при покупке Pro на iOS"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Заблокировано %d фраза: разблокируется при покупке Pro на iOS"
                 }
               },
               "other" : {
@@ -4796,6 +4796,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Выбрано %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4803,12 +4809,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Выбрано %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Выбрано %d"
@@ -4849,6 +4849,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Выбрано: %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4856,12 +4862,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Выбрано: %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Выбрано: %d"
@@ -4902,6 +4902,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ещё %d категория"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4912,12 +4918,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Ещё %d категорий"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ещё %d категория"
                 }
               },
               "other" : {
@@ -4955,6 +4955,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d элемент"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -4965,12 +4971,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d элементов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d элемент"
                 }
               },
               "other" : {
@@ -5007,6 +5007,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d элемент будет выполнен по порядку"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5017,12 +5023,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d элементов будет выполнено по порядку"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d элемент будет выполнен по порядку"
                 }
               },
               "other" : {
@@ -5060,6 +5060,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Удалить %d элемент? Это действие нельзя отменить."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5070,12 +5076,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Удалить %d элементов? Это действие нельзя отменить."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Удалить %d элемент? Это действие нельзя отменить."
                 }
               },
               "other" : {
@@ -5113,6 +5113,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Удалено: %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5120,12 +5126,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Удалено: %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Удалено: %d"
@@ -5173,6 +5173,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d элемент"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5183,12 +5189,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d элементов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d элемент"
                 }
               },
               "other" : {
@@ -5226,6 +5226,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d отчёт"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5236,12 +5242,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d отчётов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d отчёт"
                 }
               },
               "other" : {
@@ -5285,6 +5285,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d песня"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5295,12 +5301,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d песен"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d песня"
                 }
               },
               "other" : {
@@ -5456,6 +5456,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5463,12 +5469,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d"
@@ -5575,6 +5575,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d пачка"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5585,12 +5591,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d пачек"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d пачка"
                 }
               },
               "other" : {
@@ -5628,6 +5628,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d мин"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5635,12 +5641,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d мин"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d мин"
@@ -5710,6 +5710,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d столбец"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5720,12 +5726,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d столбцов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d столбец"
                 }
               },
               "other" : {
@@ -5763,6 +5763,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d день бесплатно · Купите один раз, пользуйтесь всегда"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5773,12 +5779,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d дней бесплатно · Купите один раз, пользуйтесь всегда"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d день бесплатно · Купите один раз, пользуйтесь всегда"
                 }
               },
               "other" : {
@@ -5816,6 +5816,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d день бесплатно + неограниченные фразы, резервные копии iCloud"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5826,12 +5832,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d дней бесплатно + неограниченные фразы, резервные копии iCloud"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d день бесплатно + неограниченные фразы, резервные копии iCloud"
                 }
               },
               "other" : {
@@ -5869,6 +5869,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Начать %d-дневный бесплатный период"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5876,12 +5882,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Начать %d-дневный бесплатный период"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Начать %d-дневный бесплатный период"
@@ -5928,6 +5928,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d чашка"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5938,12 +5944,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d чашек"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d чашка"
                 }
               },
               "other" : {
@@ -5987,6 +5987,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d остановка"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -5997,12 +6003,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d остановок"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d остановка"
                 }
               },
               "other" : {
@@ -6046,6 +6046,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d страница"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -6056,12 +6062,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d страниц"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d страница"
                 }
               },
               "other" : {
@@ -6099,6 +6099,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d с"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -6106,12 +6112,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d с"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d с"
@@ -6181,6 +6181,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d серия"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -6191,12 +6197,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d серий"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d серия"
                 }
               },
               "other" : {
@@ -6258,6 +6258,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d×"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -6265,12 +6271,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d×"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d×"
@@ -6311,6 +6311,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Использовано %d раз"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -6318,12 +6324,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Использовано %d раз"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Использовано %d раз"
@@ -6507,6 +6507,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lldpt"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -6514,12 +6520,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lldpt"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lldpt"
@@ -6876,6 +6876,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "+%d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -6883,12 +6889,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "+%d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "+%d"
@@ -9107,13 +9107,13 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "메인 앱에서 스니펫 추가하면 여기에 즉시 표시됩니다."
+            "value" : "앱에서 단축어를 만들면 여기에 바로 나타납니다."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Добавьте фразы в основном приложении, они появятся здесь за пару секунд."
+            "value" : "Добавьте фразы в приложении, они сразу появятся здесь."
           }
         },
         "zh-Hans" : {
@@ -10030,7 +10030,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "기본은 둘 다 OFF, 스니펫 그리드 공간 우선. 필요 시 켜세요."
+            "value" : "기본은 둘 다 OFF, 단축어 그리드 공간 우선. 필요 시 켜세요."
           }
         },
         "zh-Hans" : {
@@ -14605,6 +14605,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Импортирована %d фраза"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -14615,12 +14621,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Импортировано %d фраз"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Импортирована %d фраза"
                 }
               },
               "other" : {
@@ -18068,7 +18068,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "최근 사용한 5개 스니펫을 키보드 상단에 고정합니다."
+            "value" : "최근 쓴 단축어 5개를 키보드 위에 붙여 둡니다."
           }
         },
         "zh-Hans" : {
@@ -18444,13 +18444,13 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "어디서든 ⌃⌥K로 스니펫 목록을 즉시 열기."
+            "value" : "어디서든 ⌃⌥K로 단축어 목록을 즉시 열기."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Нажмите ⌃⌥K в любом приложении, чтобы мгновенно открыть список фраз."
+            "value" : "Нажмите ⌃⌥K в любом приложении, чтобы сразу открыть список фраз."
           }
         },
         "zh-Hans" : {
@@ -19452,7 +19452,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "최근 스니펫"
+            "value" : "최근 단축어"
           }
         },
         "ru" : {
@@ -19901,6 +19901,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Сохранить %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -19908,12 +19914,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Сохранить %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Сохранить %d"
@@ -20100,6 +20100,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Уже сэкономили %d мин"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -20107,12 +20113,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Уже сэкономили %d мин"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Уже сэкономили %d мин"
@@ -20420,7 +20420,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "스니펫 검색"
+            "value" : "단축어 검색"
           }
         },
         "ru" : {
@@ -21869,7 +21869,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "스니펫 필터 검색 입력을 그리드 위에 추가합니다."
+            "value" : "단축어 필터 검색 입력을 그리드 위에 추가합니다."
           }
         },
         "zh-Hans" : {
@@ -23659,6 +23659,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Значение %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -23666,12 +23672,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Значение %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Значение %d"
@@ -23712,6 +23712,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d значение"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -23722,12 +23728,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d значений"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d значение"
                 }
               },
               "other" : {
@@ -25121,7 +25121,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Стиль"
+            "value" : "Узор"
           }
         },
         "zh-Hans" : {
@@ -25710,7 +25710,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Появятся фразы и история буфера обмена выбранного этапа, а подсказки и скрытые элементы подстроятся под него. Ваши данные сохранятся, и всё вернётся, если выключить."
+            "value" : "Загружаются фразы и история буфера обмена выбранного этапа, а подсказки и скрытые элементы становятся такими, как в этом профиле. Ваши данные сохраняются и возвращаются, когда вы выключаете режим."
           }
         },
         "zh-Hans" : {
@@ -25803,7 +25803,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Равномерный"
+            "value" : "Ровный"
           }
         },
         "zh-Hans" : {
@@ -26125,7 +26125,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Только смотрит"
+            "value" : "Просто смотрит"
           }
         },
         "zh-Hans" : {
@@ -26324,6 +26324,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d старая запись не учтена: в ней не передаётся это число."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -26334,12 +26340,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d старых записей не учтены: в них не передаётся это число."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d старая запись не учтена: в ней не передаётся это число."
                 }
               },
               "other" : {
@@ -26514,6 +26514,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ещё %d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -26521,12 +26527,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Ещё %d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Ещё %d"
@@ -26567,6 +26567,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "И ещё %d фраза"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -26577,12 +26583,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "И ещё %d фраз"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "И ещё %d фраза"
                 }
               },
               "other" : {
@@ -28779,7 +28779,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Проба"
+            "value" : "Использование"
           }
         },
         "zh-Hans" : {
@@ -28895,7 +28895,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выключить и вернуться к своим данным"
+            "value" : "Выключить и вернуть мои данные"
           }
         },
         "zh-Hans" : {
@@ -31253,7 +31253,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Мастерство"
+            "value" : "Эксперт"
           }
         },
         "zh-Hans" : {
@@ -31282,7 +31282,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Уверенный пользователь"
+            "value" : "Опытный пользователь"
           }
         },
         "zh-Hans" : {
@@ -32335,7 +32335,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не удалось изменить этап"
+            "value" : "Не удалось сменить этап"
           }
         },
         "zh-Hans" : {
@@ -32539,6 +32539,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Остался %1$d слот"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -32549,12 +32555,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Осталось %1$d слотов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Остался %1$d слот"
                 }
               },
               "other" : {
@@ -32592,6 +32592,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d фраза"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -32602,12 +32608,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d фраз"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d фраза"
                 }
               },
               "other" : {
@@ -32651,6 +32651,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d фраза сохранена"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -32661,12 +32667,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d фраз сохранено"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d фраза сохранена"
                 }
               },
               "other" : {
@@ -32704,6 +32704,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d фраза сохранена в iCloud."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -32714,12 +32720,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d фраз сохранено в iCloud."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d фраза сохранена в iCloud."
                 }
               },
               "other" : {
@@ -32757,6 +32757,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вы пользуетесь %d фразой уже больше недели. Половина цены только на этом экране."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -32767,12 +32773,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Вы пользуетесь %d фразами уже больше недели. Половина цены только на этом экране."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Вы пользуетесь %d фразой уже больше недели. Половина цены только на этом экране."
                 }
               },
               "other" : {
@@ -32810,6 +32810,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Это имя изменится и внутри %d фразы."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -32820,12 +32826,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Это имя изменится и внутри %d фраз."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Это имя изменится и внутри %d фразы."
                 }
               },
               "other" : {
@@ -32863,6 +32863,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Используется в %d фразе"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -32873,12 +32879,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Используется в %d фразах"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Используется в %d фразе"
                 }
               },
               "other" : {
@@ -33301,7 +33301,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Использовал две фразы шестьдесят раз. Функции упорядочивания не показываются."
+            "value" : "Две фразы, шестьдесят использований. Функции организации скрыты."
           }
         },
         "zh-Hans" : {
@@ -34377,6 +34377,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Осталось %d фраза до лимита → Перейти на Pro"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -34387,12 +34393,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Осталось %d фраз до лимита → Перейти на Pro"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Осталось %d фраза до лимита → Перейти на Pro"
                 }
               },
               "other" : {
@@ -36066,7 +36066,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Не удалось сохранить данные, поэтому этап не включён. Ваши фразы остались без изменений."
+            "value" : "Не удалось сохранить данные, поэтому этап не включён. Ваши фразы не изменились."
           }
         },
         "zh-Hans" : {
@@ -36306,7 +36306,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вернулся снова"
+            "value" : "Вернувшийся пользователь"
           }
         },
         "zh-Hans" : {
@@ -37698,6 +37698,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d марафон"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -37708,12 +37714,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d марафонов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d марафон"
                 }
               },
               "other" : {
@@ -38211,7 +38211,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Создал и забросил"
+            "value" : "Создал одну и остановился."
           }
         },
         "zh-Hans" : {
@@ -38356,7 +38356,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Создал фразу и ни разу не воспользовался. Главное место занимает баннер о включении клавиатуры."
+            "value" : "Создал несколько фраз, ни одной не использовал. На первом плане баннер настройки клавиатуры."
           }
         },
         "zh-Hans" : {
@@ -39288,7 +39288,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Использовал пару раз. Предлагается только один следующий способ применения."
+            "value" : "Использовал пару раз. Предлагается только одно новое применение."
           }
         },
         "zh-Hans" : {
@@ -39925,7 +39925,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Отступ между заголовком и фразами больше не дёргается при открытии и редактировании списка."
+            "value" : "Отступ между заголовком и фразами больше не дёргается при открытии и редактировании списка"
           }
         },
         "zh-Hans" : {
@@ -40041,6 +40041,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Остался %d бесплатный слот для фраз. В Pro лимита нет"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -40051,12 +40057,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Осталось %d бесплатных слотов для фраз. В Pro лимита нет"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Остался %d бесплатный слот для фраз. В Pro лимита нет"
                 }
               },
               "other" : {
@@ -40094,6 +40094,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии сохраняется только последняя %d запись буфера обмена."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -40104,12 +40110,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "В бесплатной версии сохраняются только последние %d записей буфера обмена."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "В бесплатной версии сохраняется только последняя %d запись буфера обмена."
                 }
               },
               "other" : {
@@ -40147,6 +40147,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно сохранить до %d фразы."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -40157,12 +40163,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "В бесплатной версии можно сохранить до %d фраз."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "В бесплатной версии можно сохранить до %d фразы."
                 }
               },
               "other" : {
@@ -40201,6 +40201,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно создать до %d стопки."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -40211,12 +40217,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "В бесплатной версии можно создать до %d стопок."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "В бесплатной версии можно создать до %d стопки."
                 }
               },
               "other" : {
@@ -40254,6 +40254,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно создать до %d стопки."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -40264,12 +40270,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "В бесплатной версии можно создать до %d стопок."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "В бесплатной версии можно создать до %d стопки."
                 }
               },
               "other" : {
@@ -40307,6 +40307,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно сохранить до %d фразы с изображением."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -40317,12 +40323,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "В бесплатной версии можно сохранить до %d фраз с изображением."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "В бесплатной версии можно сохранить до %d фразы с изображением."
                 }
               },
               "other" : {
@@ -40361,6 +40361,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно создать до %d комбо."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -40368,12 +40374,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "В бесплатной версии можно создать до %d комбо."
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "В бесплатной версии можно создать до %d комбо."
@@ -40414,6 +40414,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "В бесплатной версии можно использовать до %d шаблона."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -40424,12 +40430,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "В бесплатной версии можно использовать до %d шаблонов."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "В бесплатной версии можно использовать до %d шаблона."
                 }
               },
               "other" : {
@@ -40503,6 +40503,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вы используете на %d больше, чем позволяет бесплатный план"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -40510,12 +40516,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Вы используете на %d больше, чем позволяет бесплатный план"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Вы используете на %d больше, чем позволяет бесплатный план"
@@ -46304,6 +46304,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d поле"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -46314,12 +46320,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d полей"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d поле"
                 }
               },
               "other" : {
@@ -46357,6 +46357,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d поле"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -46367,12 +46373,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d полей"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d поле"
                 }
               },
               "other" : {
@@ -46584,7 +46584,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Использует даже поля для заполнения и комбо. Все подсказки для новичков исчезают."
+            "value" : "Использует поля для заполнения и Комбо. Все подсказки для новичков исчезают."
           }
         },
         "zh-Hans" : {
@@ -46695,7 +46695,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Исправили: значения в полях для заполнения больше не меняются местами при каждом сохранении."
+            "value" : "Значения в полях для заполнения больше не меняются местами при каждом сохранении"
           }
         },
         "zh-Hans" : {
@@ -47382,7 +47382,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Имитация этапа использования (разработчик)"
+            "value" : "Имитация этапа использования (для разработчиков)"
           }
         },
         "zh-Hans" : {
@@ -50308,6 +50308,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Создать (%d)"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -50315,12 +50321,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Создать (%d)"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Создать (%d)"
@@ -50849,6 +50849,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Добавить %d выбранную строку"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -50859,12 +50865,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Добавить %d выбранных строк"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Добавить %d выбранную строку"
                 }
               },
               "other" : {
@@ -52201,6 +52201,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d установка"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -52211,12 +52217,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d установок"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d установка"
                 }
               },
               "other" : {
@@ -52289,7 +52289,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Первый день после установки, своих фраз ещё нет. Виден только обучающий экран."
+            "value" : "Первый день, своих фраз ещё нет. Виден только обучающий этап."
           }
         },
         "zh-Hans" : {
@@ -52691,7 +52691,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Втянулся"
+            "value" : "Постоянный пользователь"
           }
         },
         "zh-Hans" : {
@@ -54150,6 +54150,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "На самом деле: %d раз"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -54157,12 +54163,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "На самом деле: %d раз"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "На самом деле: %d раз"
@@ -54262,7 +54262,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Копящий"
+            "value" : "Накопительный"
           }
         },
         "zh-Hans" : {
@@ -54291,7 +54291,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Копители (почти не используют)"
+            "value" : "Накопители (почти не используются)"
           }
         },
         "zh-Hans" : {
@@ -54385,6 +54385,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Не используется ни в одной фразе, %d значение"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -54395,12 +54401,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Не используется ни в одной фразе, %d значений"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Не используется ни в одной фразе, %d значение"
                 }
               },
               "other" : {
@@ -54467,6 +54467,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Удалить %d неиспользуемое поле"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -54477,12 +54483,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Удалить %d неиспользуемых полей"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Удалить %d неиспользуемое поле"
                 }
               },
               "other" : {
@@ -56102,6 +56102,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d фраза ещё не использовалась."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -56112,12 +56118,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d фраз ещё не использовались."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d фраза ещё не использовалась."
                 }
               },
               "other" : {
@@ -56577,7 +56577,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Главная подсказка"
+            "value" : "Ведущая подсказка"
           }
         },
         "zh-Hans" : {
@@ -59295,7 +59295,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Создал одиннадцать фраз, но пользуется только двумя. Уведомление о лимите не показывается, поиск выходит на первый план."
+            "value" : "Создано одиннадцать, используется только два. Уведомление о лимите скрыто, на первом плане поиск."
           }
         },
         "zh-Hans" : {
@@ -60314,7 +60314,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открыл приложение впервые за долгое время. Обучение и запрос отзыва больше не появляются."
+            "value" : "Открыл приложение после долгого перерыва. Не показываются ни обучение, ни запрос на отзыв."
           }
         },
         "zh-Hans" : {
@@ -61886,6 +61886,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Использовать текст (%d символ)"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -61896,12 +61902,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Использовать текст (%d символов)"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Использовать текст (%d символ)"
                 }
               },
               "other" : {
@@ -64124,6 +64124,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вы уже сэкономили %d минуту. Оформите Pro для безлимита"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -64134,12 +64140,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Вы уже сэкономили %d минут. Оформите Pro для безлимита"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Вы уже сэкономили %d минуту. Оформите Pro для безлимита"
                 }
               },
               "other" : {
@@ -64177,6 +64177,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вы уже сэкономили %d минуту с ClipKeyboard. Оформите Pro и экономьте без ограничений."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -64187,12 +64193,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Вы уже сэкономили %d минут с ClipKeyboard. Оформите Pro и экономьте без ограничений."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Вы уже сэкономили %d минуту с ClipKeyboard. Оформите Pro и экономьте без ограничений."
                 }
               },
               "other" : {
@@ -65819,7 +65819,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Привычка"
+            "value" : "Завсегдатай"
           }
         },
         "zh-Hans" : {
@@ -66177,7 +66177,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Прошла неделя, а фраз так и не создано. Появляется экран выбора из примеров."
+            "value" : "Прошла неделя, а вы так и не создали ни одной Фразы. Появляется экран с выбором из примеров."
           }
         },
         "zh-Hans" : {
@@ -66375,6 +66375,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Черновики (%d)"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -66382,12 +66388,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Черновики (%d)"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Черновики (%d)"
@@ -69048,6 +69048,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вместе с ним исчезнет %d сохранённое значение. Это поле не использует ни одна Фраза."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -69058,12 +69064,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Вместе с ним исчезнет %d сохранённых значений. Это поле не использует ни одна Фраза."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Вместе с ним исчезнет %d сохранённое значение. Это поле не использует ни одна Фраза."
                 }
               },
               "other" : {
@@ -70536,7 +70536,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Постоянный"
+            "value" : "Старожил"
           }
         },
         "zh-Hans" : {
@@ -71528,6 +71528,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Здесь %d строка. Разбить её на отдельные фразы?"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -71538,12 +71544,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Здесь %d строк. Разбить их на отдельные фразы?"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Здесь %d строка. Разбить её на отдельные фразы?"
                 }
               },
               "other" : {
@@ -72312,7 +72312,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Как приложение видит меня сейчас"
+            "value" : "Как приложение видит вас сейчас"
           }
         },
         "zh-Hans" : {
@@ -73039,7 +73039,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Это значение определено по вашим реальным данным."
+            "value" : "Основано на вашей реальной истории использования."
           }
         },
         "zh-Hans" : {
@@ -73727,6 +73727,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d книга"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -73737,12 +73743,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d книг"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d книга"
                 }
               },
               "other" : {
@@ -73926,7 +73926,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Попробовал впервые"
+            "value" : "Только попробовал"
           }
         },
         "zh-Hans" : {
@@ -74324,7 +74324,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Первый посетитель"
+            "value" : "Первый визит"
           }
         },
         "zh-Hans" : {
@@ -74757,6 +74757,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Пробный период активен: остался %d день"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -74767,12 +74773,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Пробный период активен: осталось %d дней"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Пробный период активен: остался %d день"
                 }
               },
               "other" : {
@@ -86116,7 +86116,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Использует только одно"
+            "value" : "Минималист"
           }
         },
         "zh-Hans" : {
@@ -86145,7 +86145,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Тот, кто использует только одно"
+            "value" : "Минималист"
           }
         },
         "zh-Hans" : {
@@ -86651,7 +86651,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Месяц не открывали. Отключаются все места, где мы обращаемся первыми."
+            "value" : "Целый месяц без активности. Всё, что напоминает о себе первым, отключается."
           }
         },
         "zh-Hans" : {
@@ -88820,7 +88820,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Неактивен"
+            "value" : "Спящий"
           }
         },
         "zh-Hans" : {

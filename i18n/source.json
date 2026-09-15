@@ -936,10 +936,10 @@
     "h": "0fdf083245"
   },
   "Add snippets in the main app, they'll appear here in seconds.": {
-    "ko": "메인 앱에서 스니펫 추가하면 여기에 즉시 표시됩니다.",
+    "ko": "앱에서 단축어를 만들면 여기에 바로 나타납니다.",
     "en": "Add snippets in the main app, they'll appear here in seconds.",
     "comment": "Empty hint: zero memos",
-    "h": "fc2566a735"
+    "h": "d28760a38f"
   },
   "Add your own categories or remove ones you don't use. Defaults vary by region.": {
     "ko": "내 카테고리를 추가하거나 사용하지 않는 항목을 삭제할 수 있어요. 기본값은 지역에 따라 달라집니다.",
@@ -2160,10 +2160,10 @@
     "h": "7c93a42c6c"
   },
   "Press ⌃⌥K from any app to open your snippet list instantly.": {
-    "ko": "어디서든 ⌃⌥K로 스니펫 목록을 즉시 열기.",
+    "ko": "어디서든 ⌃⌥K로 단축어 목록을 즉시 열기.",
     "en": "Press ⌃⌥K from any app to open your snippet list instantly.",
     "comment": "Mac feature: hotkey description",
-    "h": "d1f4e4f74a"
+    "h": "acdefdd8c9"
   },
   "Pro": {
     "ko": "Pro",
@@ -2334,10 +2334,10 @@
     "h": "a22a24b4f1"
   },
   "Recent snippets": {
-    "ko": "최근 스니펫",
+    "ko": "최근 단축어",
     "en": "Recent snippets",
     "comment": "Toggle: show recent section",
-    "h": "155af26c4b"
+    "h": "f2b425be5b"
   },
   "Remove all": {
     "ko": "모두 삭제",
@@ -2466,10 +2466,10 @@
     "h": "6af75084e3"
   },
   "Search snippets": {
-    "ko": "스니펫 검색",
+    "ko": "단축어 검색",
     "en": "Search snippets",
     "comment": "Search bar idle",
-    "h": "b85b30f529"
+    "h": "6de4c90004"
   },
   "Select all": {
     "ko": "모두 선택",
@@ -3523,9 +3523,9 @@
   },
   "결": {
     "ko": "결",
-    "en": "",
+    "en": "Pattern",
     "comment": "Stage simulator: grain",
-    "h": "59d5178650"
+    "h": "eb3e6a1ba8"
   },
   "결제 실패": {
     "ko": "결제 실패",
@@ -3631,9 +3631,9 @@
   },
   "고른 단계의 단축어와 클립보드 기록이 깔리고, 안내와 감춤도 그 사람 것으로 바뀝니다. 내 데이터는 보관되고 끄면 그대로 돌아옵니다.": {
     "ko": "고른 단계의 단축어와 클립보드 기록이 깔리고, 안내와 감춤도 그 사람 것으로 바뀝니다. 내 데이터는 보관되고 끄면 그대로 돌아옵니다.",
-    "en": "",
+    "en": "The chosen stage's snippets and clipboard history are loaded, and hints and hidden items switch to that person's. Your data is kept and comes back when you turn it off.",
     "comment": "Stage simulator: stage list footer",
-    "h": "6260cbf154"
+    "h": "1ecd896775"
   },
   "고른 단축어 삭제": {
     "ko": "고른 단축어 삭제",
@@ -3649,9 +3649,9 @@
   },
   "고름": {
     "ko": "고름",
-    "en": "",
+    "en": "Even",
     "comment": "User grain: even",
-    "h": "904c627c0d"
+    "h": "eea0320522"
   },
   "고양이": {
     "ko": "고양이",
@@ -3697,15 +3697,15 @@
   },
   "구경": {
     "ko": "구경",
-    "en": "",
+    "en": "Browsing",
     "comment": "User level: browsing",
-    "h": "b7da154fba"
+    "h": "68c62cd8c3"
   },
   "구경만 하는 사람": {
     "ko": "구경만 하는 사람",
-    "en": "",
+    "en": "Just looking",
     "comment": "Stage simulator: browsing",
-    "h": "7f26de1e19"
+    "h": "5e3933d860"
   },
   "구매 버튼 탭": {
     "ko": "구매 버튼 탭",
@@ -3884,8 +3884,8 @@
   "기간": {
     "ko": "기간",
     "en": "Period",
-    "comment": "Chart axis: period\nUsage passport: period",
-    "h": "9a5e0e3e26"
+    "comment": "Chart axis: period\nStage simulator: tenure\nUsage passport: period",
+    "h": "1c40429cb3"
   },
   "기간 단위": {
     "ko": "기간 단위",
@@ -4177,9 +4177,9 @@
   },
   "꺼냄": {
     "ko": "꺼냄",
-    "en": "",
+    "en": "Used",
     "comment": "User level: first real use",
-    "h": "a95d0ebd6e"
+    "h": "949812949e"
   },
   "꺼짐": {
     "ko": "꺼짐",
@@ -4195,9 +4195,9 @@
   },
   "끄고 내 데이터로 돌아가기": {
     "ko": "끄고 내 데이터로 돌아가기",
-    "en": "",
+    "en": "Turn off and restore my data",
     "comment": "Stage simulator: turn off",
-    "h": "8189b3282f"
+    "h": "a744e244fe"
   },
   "끄기": {
     "ko": "끄기",
@@ -4627,15 +4627,15 @@
   },
   "능숙": {
     "ko": "능숙",
-    "en": "",
+    "en": "Expert",
     "comment": "User level: expert",
-    "h": "87de3da644"
+    "h": "6f7b080954"
   },
   "능숙한 사람": {
     "ko": "능숙한 사람",
-    "en": "",
+    "en": "Expert user",
     "comment": "Stage simulator: expert",
-    "h": "a451b59fcb"
+    "h": "eb70f5144b"
   },
   "다 됐어요. 저장하면 키보드에 바로 올라가요.": {
     "ko": "다 됐어요. 저장하면 키보드에 바로 올라가요.",
@@ -4801,15 +4801,15 @@
   },
   "단계": {
     "ko": "단계",
-    "en": "",
+    "en": "Stage",
     "comment": "Stage simulator: stage list header",
-    "h": "7f41b2506d"
+    "h": "87c5c4d463"
   },
   "단계를 바꾸지 못했어요": {
     "ko": "단계를 바꾸지 못했어요",
-    "en": "",
+    "en": "Could not switch stage",
     "comment": "Stage simulator failure alert title",
-    "h": "c5f64113fe"
+    "h": "2627901c51"
   },
   "단계별 키보드 설정 가이드를 엽니다": {
     "ko": "단계별 키보드 설정 가이드를 엽니다",
@@ -4826,8 +4826,8 @@
   "단축어": {
     "ko": "단축어",
     "en": "Snippet",
-    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter",
-    "h": "8c10487a02"
+    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSnippet (saved key-value item) display name",
+    "h": "e5f8dadd0c"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "ko": "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.",
@@ -4969,9 +4969,9 @@
   },
   "단축어 둘로 예순 번 썼다. 정리 기능이 빠진다.": {
     "ko": "단축어 둘로 예순 번 썼다. 정리 기능이 빠진다.",
-    "en": "",
+    "en": "Sixty uses from two snippets. Organizing features are dropped.",
     "comment": "Stage summary: one trick",
-    "h": "8b1e5aa86f"
+    "h": "6b09455231"
   },
   "단축어 마트": {
     "ko": "단축어 마트",
@@ -5455,9 +5455,9 @@
   },
   "데이터를 보관하지 못해 단계를 켜지 않았습니다. 내 단축어는 그대로입니다.": {
     "ko": "데이터를 보관하지 못해 단계를 켜지 않았습니다. 내 단축어는 그대로입니다.",
-    "en": "",
+    "en": "Your data could not be kept, so the stage was not turned on. Your snippets are untouched.",
     "comment": "Stage simulator: apply failed message",
-    "h": "9b72676c33"
+    "h": "2b8a741ff6"
   },
   "데이터를 준비하는 중 문제가 발생했습니다. 앱을 재시작하고 다시 시도해주세요.": {
     "ko": "데이터를 준비하는 중 문제가 발생했습니다. 앱을 재시작하고 다시 시도해주세요.",
@@ -5503,9 +5503,9 @@
   },
   "돌아온 사람": {
     "ko": "돌아온 사람",
-    "en": "",
+    "en": "Returning user",
     "comment": "Stage simulator: returning",
-    "h": "023b88b65b"
+    "h": "006b56d8ee"
   },
   "동기화 사용": {
     "ko": "동기화 사용",
@@ -5839,9 +5839,9 @@
   },
   "만들고 멈춘 사람": {
     "ko": "만들고 멈춘 사람",
-    "en": "",
+    "en": "Made one, stopped",
     "comment": "Stage simulator: created but never used",
-    "h": "13d09190dc"
+    "h": "502d0d3228"
   },
   "만들고 안 쓴 사람": {
     "ko": "만들고 안 쓴 사람",
@@ -5869,9 +5869,9 @@
   },
   "만들어만 두고 한 번도 안 썼다. 키보드 켜기 띠가 주인공이다.": {
     "ko": "만들어만 두고 한 번도 안 썼다. 키보드 켜기 띠가 주인공이다.",
-    "en": "",
+    "en": "Created some, never used one. The keyboard setup banner leads.",
     "comment": "Stage summary: created but never used",
-    "h": "bbe04ed0c3"
+    "h": "ec7acabdf9"
   },
   "만들었는데 쓸 자리를 못 찾았어요. 키보드를 켜는 데까지 데려가야 해요.": {
     "ko": "만들었는데 쓸 자리를 못 찾았어요. 키보드를 켜는 데까지 데려가야 해요.",
@@ -5881,9 +5881,9 @@
   },
   "만듦": {
     "ko": "만듦",
-    "en": "",
+    "en": "Created",
     "comment": "User level: created but unused",
-    "h": "73d9ee2c88"
+    "h": "759e04c013"
   },
   "많이 쓰는 사람": {
     "ko": "많이 쓰는 사람",
@@ -6019,9 +6019,9 @@
   },
   "몇 번 꺼내 썼다. 두 번째 쓸모 하나만 권한다.": {
     "ko": "몇 번 꺼내 썼다. 두 번째 쓸모 하나만 권한다.",
-    "en": "",
+    "en": "Used a few times. Only one second use is suggested.",
     "comment": "Stage summary: first use",
-    "h": "3a52fee39c"
+    "h": "105f478e84"
   },
   "모두": {
     "ko": "모두",
@@ -6140,8 +6140,8 @@
   "목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요": {
     "ko": "목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요",
     "en": "The space between the title and your snippets stays still while you open and edit the list",
-    "comment": "",
-    "h": "f759f29ea4"
+    "comment": "Changelog 5.1.2 list jitter",
+    "h": "73ce3cdd5f"
   },
   "목록의 단축어 높이를 원하는 만큼 조절해요. 세 칸 중 고르는 대신 자유롭게요": {
     "ko": "목록의 단축어 높이를 원하는 만큼 조절해요. 세 칸 중 고르는 대신 자유롭게요",
@@ -7309,9 +7309,9 @@
   },
   "빈칸과 콤보까지 쓴다. 초심자 안내가 모두 사라진다.": {
     "ko": "빈칸과 콤보까지 쓴다. 초심자 안내가 모두 사라진다.",
-    "en": "",
+    "en": "Uses fill-in blanks and Combos. Every beginner hint disappears.",
     "comment": "Stage summary: expert",
-    "h": "eee0e90413"
+    "h": "4da3df78e2"
   },
   "빈칸마다 무슨 값인지 이름이 보이고, 칸이 따로 구분돼요": {
     "ko": "빈칸마다 무슨 값인지 이름이 보이고, 칸이 따로 구분돼요",
@@ -7328,8 +7328,8 @@
   "빈칸에 넣어 둔 값의 순서가 저장할 때마다 뒤집히던 것을 고쳤어요": {
     "ko": "빈칸에 넣어 둔 값의 순서가 저장할 때마다 뒤집히던 것을 고쳤어요",
     "en": "Saved blank values keep their order instead of flipping on every save",
-    "comment": "",
-    "h": "32773de8cd"
+    "comment": "Changelog 5.1.2 placeholder order",
+    "h": "33a8843825"
   },
   "빈칸에 적은 값은 이번에만 써요. 남길 값만 옆의 별을 누르면 돼요": {
     "ko": "빈칸에 적은 값은 이번에만 써요. 남길 값만 옆의 별을 누르면 돼요",
@@ -7465,9 +7465,9 @@
   },
   "사용 단계 흉내 (개발자)": {
     "ko": "사용 단계 흉내 (개발자)",
-    "en": "",
-    "comment": "Stage simulator screen title",
-    "h": "2835e769b9"
+    "en": "Simulate Usage Stage (Developer)",
+    "comment": "Stage simulator screen title\nStage simulator settings entry (developer)",
+    "h": "832a00cb09"
   },
   "사용 시 {토큰} 부분에 입력값이 채워집니다": {
     "ko": "사용 시 {토큰} 부분에 입력값이 채워집니다",
@@ -8305,9 +8305,9 @@
   },
   "설치 첫날, 자기 단축어가 없다. 무대 튜토리얼만 보인다.": {
     "ko": "설치 첫날, 자기 단축어가 없다. 무대 튜토리얼만 보인다.",
-    "en": "",
+    "en": "First day, no snippets of their own. Only the tutorial stage shows.",
     "comment": "Stage summary: first day",
-    "h": "a9f0caaba6"
+    "h": "36fe57784a"
   },
   "설치당 단축어": {
     "ko": "설치당 단축어",
@@ -8383,9 +8383,9 @@
   },
   "손에 익은 사람": {
     "ko": "손에 익은 사람",
-    "en": "",
+    "en": "Habitual user",
     "comment": "Stage simulator: habitual",
-    "h": "a2bd291f8f"
+    "h": "330d45b8cc"
   },
   "손으로 옮겨 적었다면 걸렸을 시간이에요. 문구를 만드실 때 재 둔 속도(초당 %.1f자)로 셌어요.": {
     "ko": "손으로 옮겨 적었다면 걸렸을 시간이에요. 문구를 만드실 때 재 둔 속도(초당 %.1f자)로 셌어요.",
@@ -8449,9 +8449,9 @@
   },
   "숙련도": {
     "ko": "숙련도",
-    "en": "",
+    "en": "Proficiency",
     "comment": "Stage simulator: level",
-    "h": "92ffa58e1e"
+    "h": "c62fb6ad0f"
   },
   "순서 바꾸기": {
     "ko": "순서 바꾸기",
@@ -8504,8 +8504,8 @@
   "스택": {
     "ko": "스택",
     "en": "Stack",
-    "comment": "Combo",
-    "h": "a5f9a95530"
+    "comment": "Built-in category: combos only\nCombo\nShortcut type: combo\nVoiceOver: combo badge",
+    "h": "b37cd50e8c"
   },
   "스택 개수 제한": {
     "ko": "스택 개수 제한",
@@ -8671,15 +8671,15 @@
   },
   "쌓아 두는": {
     "ko": "쌓아 두는",
-    "en": "",
+    "en": "Hoarding",
     "comment": "User grain: hoarder",
-    "h": "8b2b762028"
+    "h": "6a85112544"
   },
   "쌓아만 두는 사람": {
     "ko": "쌓아만 두는 사람",
     "en": "Collectors (mostly unused)",
-    "comment": "User segment: many shortcuts, mostly unused",
-    "h": "365558bcb1"
+    "comment": "Stage simulator: hoarder\nUser segment: many shortcuts, mostly unused",
+    "h": "1245f1ea57"
   },
   "써볼게요": {
     "ko": "써볼게요",
@@ -9067,9 +9067,9 @@
   },
   "앞에 세운 안내": {
     "ko": "앞에 세운 안내",
-    "en": "",
+    "en": "Leading prompt",
     "comment": "Stage simulator: leading prompt",
-    "h": "fde784917f"
+    "h": "eaa1cb4d8e"
   },
   "앞으로 옮기기": {
     "ko": "앞으로 옮기기",
@@ -9272,8 +9272,8 @@
   "없음": {
     "ko": "없음",
     "en": "None",
-    "comment": "Background: none\nLiving skin name: none\nPIN not set / none",
-    "h": "edb8ec0883"
+    "comment": "Background: none\nLiving skin name: none\nPIN not set / none\nStage simulator: nothing leading",
+    "h": "492e0779db"
   },
   "여권번호": {
     "ko": "여권번호",
@@ -9373,9 +9373,9 @@
   },
   "여러 날에 걸쳐 쓴다. 카테고리와 백업이 열린다.": {
     "ko": "여러 날에 걸쳐 쓴다. 카테고리와 백업이 열린다.",
-    "en": "",
+    "en": "Uses it across several days. Categories and backup open up.",
     "comment": "Stage summary: habitual",
-    "h": "775d42bc49"
+    "h": "ba4290da6f"
   },
   "여러 단축어를 한 번에 골라 카테고리로 옮기거나 지울 수 있어요": {
     "ko": "여러 단축어를 한 번에 골라 카테고리로 옮기거나 지울 수 있어요",
@@ -9499,9 +9499,9 @@
   },
   "열한 개를 만들고 둘만 쓴다. 한도 안내가 빠지고 찾기가 앞에 선다.": {
     "ko": "열한 개를 만들고 둘만 쓴다. 한도 안내가 빠지고 찾기가 앞에 선다.",
-    "en": "",
+    "en": "Eleven created, two used. The limit notice is dropped and search leads.",
     "comment": "Stage summary: hoarder",
-    "h": "90fefec8f2"
+    "h": "d1813fd360"
   },
   "영상을 만드는 중이에요": {
     "ko": "영상을 만드는 중이에요",
@@ -9673,15 +9673,15 @@
   },
   "오랜": {
     "ko": "오랜",
-    "en": "",
+    "en": "Long-time",
     "comment": "User tenure: long time user",
-    "h": "a1088d70cd"
+    "h": "ec35d17ca6"
   },
   "오랜만에 다시 열었다. 튜토리얼도 리뷰도 다시 묻지 않는다.": {
     "ko": "오랜만에 다시 열었다. 튜토리얼도 리뷰도 다시 묻지 않는다.",
-    "en": "",
+    "en": "Opened again after a long break. No tutorial, no review prompt.",
     "comment": "Stage summary: returning",
-    "h": "795f4568b1"
+    "h": "7058e1663f"
   },
   "오른쪽 화살표로 값을 고르고, 왼쪽을 누르면 PIN 인증 후 넣어요": {
     "ko": "오른쪽 화살표로 값을 고르고, 왼쪽을 누르면 PIN 인증 후 넣어요",
@@ -10603,9 +10603,9 @@
   },
   "익음": {
     "ko": "익음",
-    "en": "",
+    "en": "Habitual",
     "comment": "User level: habitual",
-    "h": "6965e0f379"
+    "h": "0c61f7b14c"
   },
   "인사": {
     "ko": "인사",
@@ -10675,9 +10675,9 @@
   },
   "일주일이 지나도 하나도 안 만들었다. 예시에서 고르는 화면이 나온다.": {
     "ko": "일주일이 지나도 하나도 안 만들었다. 예시에서 고르는 화면이 나온다.",
-    "en": "",
+    "en": "A week in, still nothing created. The pick-from-examples screen shows.",
     "comment": "Stage summary: browsing",
-    "h": "5539df0617"
+    "h": "25bfa27073"
   },
   "일회성 결제 · 구독 없음 · 환불 가능": {
     "ko": "일회성 결제 · 구독 없음 · 환불 가능",
@@ -11401,9 +11401,9 @@
   },
   "정착": {
     "ko": "정착",
-    "en": "",
+    "en": "Settled",
     "comment": "User tenure: settled",
-    "h": "73911cc945"
+    "h": "83b8773bdd"
   },
   "정해 둔 단축어의 값을 앱을 열지 않고 복사합니다.": {
     "ko": "정해 둔 단축어의 값을 앱을 열지 않고 복사합니다.",
@@ -11731,9 +11731,9 @@
   },
   "지금 앱이 보는 나": {
     "ko": "지금 앱이 보는 나",
-    "en": "",
+    "en": "How the app sees you now",
     "comment": "Stage simulator: current state header",
-    "h": "94064a7823"
+    "h": "594b21b972"
   },
   "지금 이 기기의 기본 키보드와 높이가 같아요.": {
     "ko": "지금 이 기기의 기본 키보드와 높이가 같아요.",
@@ -11845,9 +11845,9 @@
   },
   "진짜 내 기록으로 판정한 값입니다.": {
     "ko": "진짜 내 기록으로 판정한 값입니다.",
-    "en": "",
+    "en": "Based on your real usage history.",
     "comment": "Stage simulator: real state footer",
-    "h": "ce343eb8c1"
+    "h": "06b2db15ef"
   },
   "짧게 누르면 입력, 길게 누르면 복사예요": {
     "ko": "짧게 누르면 입력, 길게 누르면 복사예요",
@@ -12001,9 +12001,9 @@
   },
   "처음 써 본 사람": {
     "ko": "처음 써 본 사람",
-    "en": "",
+    "en": "Just tried it",
     "comment": "Stage simulator: first use",
-    "h": "d28ce7596b"
+    "h": "fe87a414df"
   },
   "처음 쓰는 분께는 만들라고 하지 않고, 준비된 단축어를 하나씩 눌러보게 안내해요": {
     "ko": "처음 쓰는 분께는 만들라고 하지 않고, 준비된 단축어를 하나씩 눌러보게 안내해요",
@@ -12061,15 +12061,15 @@
   },
   "첫 달": {
     "ko": "첫 달",
-    "en": "",
+    "en": "First month",
     "comment": "User tenure: first month",
-    "h": "304ab03821"
+    "h": "1813b5e84b"
   },
   "첫 방문자": {
     "ko": "첫 방문자",
-    "en": "",
+    "en": "First-day user",
     "comment": "Stage simulator: first day",
-    "h": "1a63dc62b6"
+    "h": "bc3e946ecf"
   },
   "첫 번째 단축어를 추가해볼까요?": {
     "ko": "첫 번째 단축어를 추가해볼까요?",
@@ -12085,9 +12085,9 @@
   },
   "첫 주": {
     "ko": "첫 주",
-    "en": "",
+    "en": "First week",
     "comment": "User tenure: first week",
-    "h": "fb8ca0d8a7"
+    "h": "72f36c87fc"
   },
   "첫 템플릿 만들기": {
     "ko": "첫 템플릿 만들기",
@@ -12103,9 +12103,9 @@
   },
   "첫날": {
     "ko": "첫날",
-    "en": "",
+    "en": "First day",
     "comment": "User tenure: first day",
-    "h": "2296b9c3cc"
+    "h": "5c6acbd13a"
   },
   "체크 도장은 언제나 연두예요. 축하 카드의 도장만 혼자 키 컬러를 따라가고 있었어요": {
     "ko": "체크 도장은 언제나 연두예요. 축하 카드의 도장만 혼자 키 컬러를 따라가고 있었어요",
@@ -14029,15 +14029,15 @@
   },
   "하나만 쓰는": {
     "ko": "하나만 쓰는",
-    "en": "",
+    "en": "One-trick",
     "comment": "User grain: one trick",
-    "h": "950312a557"
+    "h": "f140c3560b"
   },
   "하나만 쓰는 사람": {
     "ko": "하나만 쓰는 사람",
-    "en": "",
+    "en": "One-trick user",
     "comment": "Stage simulator: one trick",
-    "h": "110eed76a4"
+    "h": "ac06fdfb28"
   },
   "하나씩 만들고 계시네요. 통째로 붙여넣으면 한 번에 담겨요": {
     "ko": "하나씩 만들고 계시네요. 통째로 붙여넣으면 한 번에 담겨요",
@@ -14131,9 +14131,9 @@
   },
   "한 달 동안 안 썼다. 먼저 말을 거는 자리가 전부 꺼진다.": {
     "ko": "한 달 동안 안 썼다. 먼저 말을 거는 자리가 전부 꺼진다.",
-    "en": "",
+    "en": "Untouched for a month. Everything that speaks first is turned off.",
     "comment": "Stage summary: dormant",
-    "h": "e81e9ad1a1"
+    "h": "0502dd1f78"
   },
   "한 번 꺼내 쓸 때마다 적어도 2분은 아낀 것으로 세요. 깃 토큰처럼 갈래를 못 알아보는 값이 10초로 적히던 걸 고쳤어요": {
     "ko": "한 번 꺼내 쓸 때마다 적어도 2분은 아낀 것으로 세요. 깃 토큰처럼 갈래를 못 알아보는 값이 10초로 적히던 걸 고쳤어요",
@@ -14521,9 +14521,9 @@
   },
   "휴면": {
     "ko": "휴면",
-    "en": "",
+    "en": "Dormant",
     "comment": "Stage simulator: dormant",
-    "h": "7176e7cc8e"
+    "h": "1f2314554b"
   },
   "힌트 (선택)": {
     "ko": "힌트 (선택)",
