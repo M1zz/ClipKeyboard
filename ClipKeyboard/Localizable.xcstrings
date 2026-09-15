@@ -1,34 +1,6 @@
 {
   "sourceLanguage" : "ko",
   "strings" : {
-    "" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : ""
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : ""
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : ""
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : ""
-          }
-        }
-      }
-    },
     "\"%@\"" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -135,7 +107,8 @@
             "value" : "#+="
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "#123" : {
       "extractionState" : "stale",
@@ -170,7 +143,8 @@
             "value" : "#123"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%1$@ %2$d" : {
       "comment" : "Chart readout: metric name and exact value",
@@ -850,7 +824,8 @@
             "value" : "%@\n%@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%@ %@" : {
       "comment" : "A heading that shows the category of a shortcut.",
@@ -946,7 +921,8 @@
             "value" : "%@ +範本"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%@ · %@" : {
       "comment" : "A device info line that shows the device name and model, if available, and the OS version.",
@@ -1485,7 +1461,8 @@
             "value" : "新增 %@ 示例短語"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%@ 완료" : {
       "comment" : "Copied notice",
@@ -1724,7 +1701,8 @@
             "value" : "把 %@ 複製到剪貼簿"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%@ 타입 없음" : {
       "comment" : "No items of type",
@@ -1819,7 +1797,8 @@
             "value" : "%@%@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%@, %@" : {
       "localizations" : {
@@ -1982,7 +1961,8 @@
             "value" : "%@，已選擇"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%@, 스택 %d단계" : {
       "comment" : "Bulk import key preview: combo a11y label",
@@ -2170,7 +2150,8 @@
             "value" : "%@: %@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%@km" : {
       "comment" : "Equivalent unit: kilometers",
@@ -2769,7 +2750,8 @@
             "value" : "%d 個值"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%d variables" : {
       "comment" : "Template placeholder count suffix",
@@ -3754,7 +3736,8 @@
             "value" : "複製第 %d 步"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%d단계 중 %d단계" : {
       "comment" : "Step X of Y",
@@ -3902,7 +3885,8 @@
             "value" : "第 %d 個，%@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%d번, %@, 다음 예정" : {
       "comment" : "Combo row: next",
@@ -3932,7 +3916,8 @@
             "value" : "接下來：第 %d 個，%@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%d봉지" : {
       "comment" : "Equivalent unit: packs",
@@ -4538,7 +4523,8 @@
             "value" : "間隔 %d 秒"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%d편" : {
       "comment" : "Equivalent unit: episodes",
@@ -4621,7 +4607,8 @@
             "value" : "%d 分"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%d회" : {
       "comment" : "Usage count suffix",
@@ -4946,7 +4933,8 @@
             "value" : "%lld 個值"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "'%@' 값을 수정하세요." : {
       "comment" : "Edit value prompt",
@@ -5411,7 +5399,8 @@
             "value" : "沒有與「%@」匹配的項目"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "'%@'은 자동으로 채워져요" : {
       "comment" : "Auto variable tip title",
@@ -5493,7 +5482,8 @@
             "value" : "確定要刪除「%@」嗎？此操作無法復原。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "'%@'을(를) 삭제하시겠습니까? 이 작업은 취소할 수 없습니다." : {
       "comment" : "Delete memo confirm message with title",
@@ -5604,7 +5594,8 @@
             "value" : "開啟「允許完全取用」開關"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "'전체 접근 허용' 토글 켜기 ✓" : {
       "comment" : "Full access: toggle on",
@@ -5694,7 +5685,8 @@
             "value" : "選擇「剪貼鍵盤」"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "'클립키보드'를 탭" : {
       "comment" : "Full access: tap ClipKeyboard",
@@ -5718,7 +5710,8 @@
             "value" : "點一下「剪貼鍵盤」"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "'탭 단축어 검색'처럼 화면에 보이는 이름을 그대로 말해 조작합니다. 모든 버튼과 입력 필드에 읽기 가능한 이름이 지정되어 있습니다." : {
       "comment" : "Voice Control feature description",
@@ -5836,7 +5829,8 @@
             "value" : "（已刪除的短語）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "+ 버튼으로 자주 쓰는 텍스트를 저장할 수 있어요." : {
       "comment" : "Add memo tip message",
@@ -5889,7 +5883,8 @@
             "value" : "+ 關聯範本"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "+%d개" : {
       "comment" : "More filter count",
@@ -5977,7 +5972,8 @@
             "value" : "+%lld"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "+Template" : {
       "comment" : "Tag: optional attached template",
@@ -6112,7 +6108,8 @@
             "value" : ".,?!"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "0개" : {
       "comment" : "Distribution bucket: none",
@@ -6323,7 +6320,8 @@
             "value" : "剪貼鍵盤為你省下幾分鐘、或替你輓回一次失誤的 18 個瞬間。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "1분·5분·한 시간처럼 눈에 잡히는 만큼 아끼면 알려드려요" : {
       "comment" : "Changelog 5.0.0 item 5",
@@ -7194,7 +7192,8 @@
             "value" : "新增到收件匣"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Add your own categories or remove ones you don't use. Defaults vary by region." : {
       "comment" : "Category settings description",
@@ -7430,7 +7429,8 @@
             "value" : "前往 App Store 評價頁面"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "App Store 페이지로 이동합니다" : {
       "comment" : "Open App Store hint",
@@ -7541,7 +7541,8 @@
             "value" : "在 App Store 評分"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "App will split the text and let you review each memo before saving." : {
       "comment" : "Bulk import: paste footer",
@@ -7642,7 +7643,8 @@
             "value" : "外觀模式"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Apple Intelligence" : {
       "comment" : "AI settings status row title",
@@ -8023,7 +8025,8 @@
             "value" : "兩個選項預設都是關著的，短語網格因此更寬敞。需要時再開啟。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Bulk import" : {
       "comment" : "Bulk import screen title",
@@ -8088,7 +8091,8 @@
             "value" : "從文字批量匯入"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Business / Office" : {
       "comment" : "Persona category",
@@ -8261,7 +8265,8 @@
             "value" : "一點就存下來，之後再決定要不要留作鍵盤短語。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Capture from anywhere" : {
       "comment" : "What's new feature 1 title",
@@ -8291,7 +8296,8 @@
             "value" : "隨時隨地記下來"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Captured items are kept in the inbox with no rush, nothing is auto-deleted." : {
       "comment" : "What's new feature 2 detail",
@@ -8321,7 +8327,8 @@
             "value" : "存下的內容會一直放在收件匣裡，不著急，也不會自動刪除。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Card" : {
       "comment" : "Category: card",
@@ -8835,7 +8842,8 @@
             "value" : "剪貼鍵盤已經裝好了！\n現在就可以練習：在鍵盤上輕點一下，\n儲存好的短語就打出來了。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "ClipKeyboard 키보드를 활성화하면 어디서든 바로 입력돼요." : {
       "comment" : "Keyboard tip message",
@@ -9111,7 +9119,8 @@
             "value" : "把這個 ID 加到 CloudKit Dashboard 的 admin 角色裡，就能在 App 內讀取所有意見回饋。點一下即可複製。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Combo" : {
       "comment" : "Feature tag: combo\nTag: combo",
@@ -9169,7 +9178,8 @@
             "value" : "已刪除組合「%@」"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Combo '%@' 생성됨" : {
       "localizations" : {
@@ -9220,7 +9230,8 @@
             "value" : "已修改組合「%@」"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Combo '%@' 실행 중... (%d개 항목, %d초 간격)" : {
       "extractionState" : "stale",
@@ -9243,7 +9254,8 @@
             "value" : "正在執行組合「%@」…（%d 個項目，間隔 %d 秒）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Combo 값 %d개" : {
       "comment" : "Combo value count",
@@ -9267,7 +9279,8 @@
             "value" : "組合值 %d 個"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Combo 값 설정 (%d개)" : {
       "comment" : "Combo value count",
@@ -9291,7 +9304,8 @@
             "value" : "組合值設定（%d 個）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Combo 값을 최소 1개 이상 추가하세요" : {
       "comment" : "Alert: combo value required",
@@ -9315,7 +9329,8 @@
             "value" : "請至少新增一個組合值"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Combo 삭제" : {
       "comment" : "Delete combo confirm title",
@@ -9339,7 +9354,8 @@
             "value" : "刪除組合"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Combo 생성" : {
       "comment" : "Clipboard list: combo creation mode title\nCreate combo from clipboard items\nCreate combo sheet title",
@@ -9420,7 +9436,8 @@
             "value" : "組合執行時，每項之間的等待時間"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Combo 이름" : {
       "comment" : "Combo name field placeholder",
@@ -9502,7 +9519,8 @@
             "value" : "新增組合"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Combo 편집" : {
       "comment" : "Edit combo title",
@@ -9526,7 +9544,8 @@
             "value" : "編輯組合"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Combo가 없습니다" : {
       "comment" : "Empty combo list title",
@@ -9550,7 +9569,8 @@
             "value" : "沒有組合"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Combo는 이렇게 동작해요" : {
       "comment" : "Combo info tip title",
@@ -9603,7 +9623,8 @@
             "value" : "請輸入組合的名稱"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Content" : {
       "comment" : "Content section",
@@ -10025,7 +10046,8 @@
             "value" : "CrocoClip Pro"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Cross-border invoicing notice" : {
       "comment" : "Seed title",
@@ -10198,7 +10220,8 @@
             "value" : "自定義鍵盤配色"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Daily life" : {
       "comment" : "Persona category",
@@ -10299,7 +10322,8 @@
             "value" : "預設使用你的 iOS App 主題。開啟後可以用自己的配色覆蓋。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Delete" : {
       "comment" : "Delete",
@@ -12054,7 +12078,8 @@
             "value" : "收件匣（%d）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Instagram DM (@lee25_ios)" : {
       "comment" : "About: instagram DM",
@@ -12084,7 +12109,8 @@
             "value" : "Instagram 私訊（@lee25_ios）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Internship inquiry" : {
       "comment" : "Seed title",
@@ -12258,7 +12284,8 @@
             "value" : "它會在收件匣裡等你"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "It's kept in your inbox so you can decide later whether to save it as a keyboard memo." : {
       "comment" : "Share sheet inbox explanation",
@@ -12288,7 +12315,8 @@
             "value" : "它會留在收件匣裡，你之後再決定要不要存成鍵盤短語。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Just copied" : {
       "comment" : "Inline capture card: just copied hint",
@@ -12459,7 +12487,8 @@
             "value" : "鍵盤配色"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Keyboard extension" : {
       "comment" : "Keyboard extension feature",
@@ -12489,7 +12518,8 @@
             "value" : "鍵盤擴展"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Keyboard sections" : {
       "comment" : "Section: keyboard sections",
@@ -12519,7 +12549,8 @@
             "value" : "鍵盤分區"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Korean keyboard" : {
       "comment" : "Section: Korean keyboard",
@@ -12857,7 +12888,8 @@
             "value" : "沒有設定「郵件」App。要透過 mailto: 連結開啟其他郵件 App 嗎？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Manage categories" : {
       "comment" : "Category settings header",
@@ -13547,7 +13579,8 @@
             "value" : "新增：速記"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Next Keyboard" : {
       "comment" : "Title for 'Next Keyboard' button",
@@ -13606,7 +13639,8 @@
             "value" : "把標著「Next」的值加進預覽，並跳到下一個值"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "No favorites yet" : {
       "comment" : "Empty: no favorites",
@@ -14412,7 +14446,8 @@
             "value" : "開啟 CrocoClip 的速記收件匣。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Open the app to add values for '%@' in placeholder settings" : {
       "comment" : "Placeholder values empty hint",
@@ -14548,7 +14583,8 @@
             "value" : "用你自己的配色覆蓋預設的 Paper 主題。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "PIN 변경" : {
       "comment" : "Change PIN accessibility label",
@@ -14859,7 +14895,8 @@
             "value" : "從剪貼簿貼上"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Paste your notes" : {
       "comment" : "Bulk import: paste header",
@@ -15101,7 +15138,8 @@
             "value" : "為 App 挑一個視覺風格。Dusk 是活潑的漸變配色，Paper 溫暖，以襯線字體為主。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Pin ClipKeyboard to the macOS menu bar and paste from anywhere." : {
       "comment" : "Mac feature: menu bar description",
@@ -15166,7 +15204,8 @@
             "value" : "把最近用過的 5 個短語固定在鍵盤最上面。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Playful gradients · Indigo-violet accent" : {
       "comment" : "Dusk description",
@@ -15196,7 +15235,8 @@
             "value" : "活潑的漸變 · 靛紫色點綴"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Please send your banking details for wire transfer." : {
       "comment" : "Scenario context: banking",
@@ -15670,7 +15710,8 @@
             "value" : "Pro 使用者"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Pro 업그레이드" : {
       "comment" : "Pro upgrade\nUpgrade",
@@ -15940,7 +15981,8 @@
             "value" : "想好了再轉正"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Proposal follow-up (3 days silent)" : {
       "comment" : "Scenario title: proposal follow-up",
@@ -16311,7 +16353,8 @@
             "value" : "把文字快速存進 CrocoClip 收件匣，之後再決定要不要留成鍵盤短語。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Quit ClipKeyboard" : {
       "comment" : "Menu: quit",
@@ -16553,7 +16596,8 @@
             "value" : "要重置分類嗎？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Reset to regional defaults" : {
       "comment" : "Reset categories button",
@@ -16583,7 +16627,8 @@
             "value" : "還原為所在地區的預設值"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Reset to theme defaults" : {
       "comment" : "Button: reset custom colors",
@@ -16613,7 +16658,8 @@
             "value" : "還原為主題預設值"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Restaurant recommendation" : {
       "comment" : "Seed title",
@@ -17148,7 +17194,8 @@
             "value" : "已存到收件匣"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Saved to your ClipKeyboard inbox." : {
       "comment" : "Quick note intent success dialog",
@@ -17212,7 +17259,8 @@
             "value" : "已存進 CrocoClip 收件匣。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Scope pushback (politely)" : {
       "comment" : "Scenario title: scope pushback",
@@ -17314,7 +17362,8 @@
             "value" : "搜尋剪貼內容"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Search memos" : {
       "comment" : "Auto-registered",
@@ -17449,7 +17498,8 @@
             "value" : "發送郵件"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Send Feedback" : {
       "comment" : "Auto-registered",
@@ -17515,7 +17565,8 @@
             "value" : "從分享表單、捷徑、Siri 或控制中心按鈕發送文字或圖片，不用開啟 App。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Sending payment confirmation link" : {
       "comment" : "Scenario context: payment link",
@@ -17724,7 +17775,8 @@
             "value" : "只顯示收藏"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Signing off for the night" : {
       "comment" : "Scenario title: sign off",
@@ -18003,7 +18055,8 @@
             "value" : "左右滑動可以把項目存成鍵盤短語，或者刪掉。什麼時候決定都行。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Syncs via iCloud" : {
       "comment" : "Mac feature: iCloud sync",
@@ -18167,7 +18220,8 @@
             "value" : "範本、+範本、組合、新增這些標記除了顏色，還有文字標籤加以區分。色盲使用者也能讀出標記的類型。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Text" : {
       "comment" : "Category: text",
@@ -18444,7 +18498,8 @@
             "value" : "這個範本沒有需要填的值。\\n請重試。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "This week" : {
       "comment" : "Divider label: earlier this week",
@@ -18757,7 +18812,8 @@
             "value" : "輸入即可篩選短語。會在網格上方加一個搜尋框。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Type to filter…" : {
       "comment" : "Search bar placeholder when active",
@@ -19035,7 +19091,8 @@
             "value" : "使用場景"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Use on other devices" : {
       "comment" : "Cross-device section",
@@ -19065,7 +19122,8 @@
             "value" : "在其他裝置上使用"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Used %d×" : {
       "comment" : "Preview: total use count",
@@ -19095,7 +19153,8 @@
             "value" : "用過 %d 次"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Used when typing in Korean (한 toggle)." : {
       "comment" : "Picker desc: Korean layout",
@@ -19125,7 +19184,8 @@
             "value" : "輸入韓語時使用（한 切換）。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "VAT / Tax ID detection" : {
       "comment" : "Scenario title: vat detect",
@@ -19398,7 +19458,8 @@
             "value" : "溫暖的紙感 · 襯線標題 · 陶土色點綴"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!" : {
       "comment" : "Example: gmail onboarding",
@@ -19858,7 +19919,8 @@
             "value" : "你自定義的分類會被移除，列表會按你所在的地區重新生成。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Your day as a remote freelancer" : {
       "comment" : "Usage guide hero title",
@@ -19888,7 +19950,8 @@
             "value" : "遠程自由職業者的一天"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Your existing items are safe" : {
       "comment" : "v4 grace banner title",
@@ -20074,7 +20137,8 @@
             "value" : "[%@] 已複製到剪貼簿"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "[%d/%d]" : {
       "comment" : "Combo position e.g. [1/4]",
@@ -20110,7 +20174,8 @@
             "value" : "[%d/%d]"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "iCloud Backup" : {
       "comment" : "Auto-registered",
@@ -20656,7 +20721,8 @@
             "value" : "還沒有登入 iCloud"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "iCloud에 로그인하세요" : {
       "comment" : "iCloud login prompt",
@@ -20954,7 +21020,8 @@
             "value" : "前往 iOS 設定 App"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "iOS 설정에서 Apple Intelligence를 켜주세요" : {
       "comment" : "AI availability: Apple Intelligence off",
@@ -21179,7 +21246,8 @@
             "value" : "macOS 上最快、最順手的\\n短語與剪貼簿管理 App"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "space" : {
       "comment" : "Spacebar (en)",
@@ -21268,7 +21336,8 @@
             "value" : "用 { } 括起來，就會變成輸入時填寫的空位"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "{ }로 감싼 부분은 쓸 때마다 새로 채우는 칸이에요" : {
       "comment" : "Template token explanation title",
@@ -21577,7 +21646,8 @@
             "value" : "{姓名} 你好！把常寫的句子變成變量，一下就能填好。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "{이름}님, 확인했습니다" : {
       "comment" : "Mascot help: template example",
@@ -21601,7 +21671,8 @@
             "value" : "{姓名}，已確認"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "{전화}" : {
       "comment" : "Phone token variable",
@@ -22027,7 +22098,8 @@
             "value" : "• 開啓自動備份後，短語、剪貼簿和組合發生變化時都會自動備份\n• 此外每 5 分鐘也會自動備份一次"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "⌃⌥K로 어디서나 빠르게 접근" : {
       "comment" : "Auto-registered",
@@ -22122,7 +22194,8 @@
             "value" : "某某銀行 123-456-789"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "○○주식회사" : {
       "comment" : "Placeholder example: company",
@@ -22175,7 +22248,8 @@
             "value" : "⚙️ 鍵盤佈局設定"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "⚠️ 복구 시 현재 데이터가 백업 데이터로 교체됩니다" : {
       "comment" : "Auto-registered",
@@ -22330,7 +22404,8 @@
             "value" : "⚠️ 此裝置上已有資料。\n\n還原操作會刪除當前所有短語、剪貼簿內容和組合，並用備份資料替換。\n\n此操作無法復原。是否繼續？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "✈️ 비자" : {
       "comment" : "Nomad example tag: visa",
@@ -22606,7 +22681,8 @@
             "value" : "註冊時填 %@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "가입할 때마다 오타 나던 그거요." : {
       "comment" : "Onboarding seed hint: email",
@@ -22630,7 +22706,8 @@
             "value" : "就是那個每次註冊都會打錯的。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "가져오기" : {
       "comment" : "Include this item",
@@ -23623,7 +23700,8 @@
             "value" : "還沒有值。\n使用範本時可以新增值。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "값이 여러 개인 단축어를 잠가 두었어도, 오른쪽 화살표로 원하는 값을 고른 다음 왼쪽을 눌러 인증하면 그 값만 들어갑니다." : {
       "comment" : "DYK body: secure combo pick",
@@ -23821,7 +23899,8 @@
             "value" : "把常一起用的東西放到一塊兒"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "개발자 모드가 꺼졌어요" : {
       "comment" : "Master mode disabled alert",
@@ -24019,7 +24098,8 @@
             "value" : "我們不會收集任何個人資料。\n請放心使用。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "개인정보를 수집하지 않습니다. 안심하고 사용하세요." : {
       "comment" : "Privacy assurance message single-line",
@@ -24085,7 +24165,8 @@
             "value" : "我們不會收集任何個人資料。\n請放心使用。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "개인화" : {
       "comment" : "Settings section: personalization",
@@ -24442,7 +24523,8 @@
             "value" : "預覽結果"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "결제 실패" : {
       "comment" : "Dropoff: purchase failed",
@@ -24646,7 +24728,8 @@
             "value" : "走到付款這一步的比例。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "결제를 취소함" : {
       "comment" : "Event label: purchase cancelled",
@@ -25153,7 +25236,8 @@
             "value" : "已固定"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "골라 담으러 가기" : {
       "comment" : "Did-you-know action: mart",
@@ -25206,7 +25290,8 @@
             "value" : "挑幾個一次加進來。在鍵盤上就能直接取用。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "공유 시트 아래 목록의 '단축어로 저장'을 누르면 화면 없이 한 번에 담겨요" : {
       "comment" : "Changelog 4.4.5 item 7",
@@ -25446,7 +25531,8 @@
             "value" : "購買驗證失敗"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "구매 버튼 탭" : {
       "comment" : "Funnel stage: purchase button tapped",
@@ -25528,7 +25614,8 @@
             "value" : "購買正在等待批准"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "구매 완료" : {
       "comment" : "Funnel stage: purchase completed",
@@ -25776,7 +25863,8 @@
             "value" : "如果是權限錯誤，請確認 CloudKit Dashboard 裡 admin 角色有 read 權限，並且包含下面這個使用者 ID。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "그 밖에 %d개" : {
       "extractionState" : "manual",
@@ -26948,7 +27036,8 @@
             "value" : "功能建議"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "기본" : {
       "comment" : "Category section: built-in\nCategory tab: default/basic\nDefault category (no user category)\nKeyboard skin name: classic (default)",
@@ -27030,7 +27119,8 @@
             "value" : "預設深色"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "기본 라이트" : {
       "comment" : "Default light preset",
@@ -27054,7 +27144,8 @@
             "value" : "預設淺色"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "기본 번역 언어" : {
       "comment" : "Default translation language picker",
@@ -27469,7 +27560,8 @@
             "value" : "預設只清爽地顯示標題，沒有符號和邊框。開啟這項後，會一並顯示短語類型（範本·組合·加密）的圖標和符號，以及卡片、鍵盤格子的分隔邊框。開啓 iOS 的「不用顏色區分」輔助使用時會自動顯示。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "기본은 제목만 보여 가장 깔끔해요. 켜면 단축어 타입(템플릿·콤보·보안) 아이콘과 테두리, 즐겨찾기·카테고리 색·심볼을 함께 표시해 한눈에 구분돼요. iOS '색상 없이 구별' 접근성 설정을 켜면 자동으로 표시됩니다." : {
       "comment" : "Visual cues explanation",
@@ -27493,7 +27585,8 @@
             "value" : "預設只顯示標題，最清爽。開啟後會一並顯示短語類型（範本·組合·加密）的圖標和邊框，以及收藏、分類的顏色和符號，一眼就能分清。開啓 iOS 的「不用顏色區分」輔助使用時也會自動顯示。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "기존 단축어 가져오기" : {
       "comment" : "Import from existing snippets title",
@@ -28309,7 +28402,8 @@
             "value" : "其餘的句子保持不變，只有「%@」這個位置每次會變。給它起個名字，用的時候就知道該填什麼。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "나중에" : {
       "comment" : "Later button\nRestore hint: dismiss",
@@ -28362,7 +28456,8 @@
             "value" : "之後只挑需要的值來用就行。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "나중에 할게요" : {
       "comment" : "Make-own cue: skip\nPersona prompt: skip",
@@ -28769,7 +28864,8 @@
             "value" : "我的帳號 · 家庭住址"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "내 데이터" : {
       "comment" : "Settings section: my data",
@@ -28851,7 +28947,8 @@
             "value" : "我的使用者 ID"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "내 사진" : {
       "comment" : "Background: my photo",
@@ -28904,7 +29001,8 @@
             "value" : "自我介紹"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "내 손에 맞는 키보드 크기" : {
       "comment" : "Welcome: choosing the keyboard size",
@@ -29461,7 +29559,8 @@
             "value" : "輸入內容後即可使用"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "내용을 입력하세요" : {
       "comment" : "Alert: content required\nDefault placeholder",
@@ -29869,7 +29968,8 @@
             "value" : "好，試試看"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "네트워크 연결을 확인하고 다시 시도해주세요." : {
       "comment" : "Network error message",
@@ -30294,7 +30394,8 @@
             "value" : "點一點就學會了"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "눌러서 그대로 입력하는 단축어" : {
       "comment" : "Welcome: what a snippet is",
@@ -30463,7 +30564,8 @@
             "value" : "點一下，它就一字不差地打出來。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "눌러서 채워서 추가해보기" : {
       "comment" : "VoiceOver: ghost memo hint",
@@ -30702,7 +30804,8 @@
             "value" : "在其他裝置上使用"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "다른 메모 앱의 글을 통째로 붙여넣으면 알아서 나눠 담아요" : {
       "comment" : "Changelog 4.0.5 item 1",
@@ -30755,7 +30858,8 @@
             "value" : "用其他郵件 App 開啟"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "다른 앱에서 고른 글을 공유로 바로 단축어로 저장해요" : {
       "comment" : "Changelog 4.4.5 item 2",
@@ -30937,7 +31041,8 @@
             "value" : "在其他 App 裡彈出鍵盤的那個畫面，現在 App 裡也有了。點一下就能看到會輸入什麼。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "다른 앱에서 키보드가 올라온 모습 그대로 보여줘요. 언제든 설정 > 첫 화면에서 목록으로 되돌릴 수 있어요." : {
       "comment" : "Keyboard stage offer message",
@@ -31298,7 +31403,8 @@
             "value" : "輸入下一個值"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "다음 주" : {
       "comment" : "Date option: next week",
@@ -31409,7 +31515,8 @@
             "value" : "把這個項目重置回第一位。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "다음: %d번째" : {
       "comment" : "Next index",
@@ -31433,7 +31540,8 @@
             "value" : "下一個：第 %d 個"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "다음: %lld" : {
       "comment" : "Combo next index",
@@ -31457,7 +31565,8 @@
             "value" : "下一個：%lld"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "다음에" : {
       "comment" : "Feedback nudge: later",
@@ -32779,7 +32888,8 @@
             "value" : "從建立短語到開啟鍵盤，我們再從頭帶你走一遍。已經做好的短語都會保留。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "단축어 모드" : {
       "comment" : "Memo list mode tab",
@@ -32803,7 +32913,8 @@
             "value" : "短語模式"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "단축어 목록" : {
       "comment" : "Snippets tab style: list",
@@ -33364,7 +33475,8 @@
             "value" : "按短語標題或內容搜尋"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "단축어 제목을 입력하세요" : {
       "comment" : "Memo title placeholder",
@@ -33388,7 +33500,8 @@
             "value" : "請輸入短語標題"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "단축어 종류" : {
       "comment" : "Usage stats section: shortcut types",
@@ -33499,7 +33612,8 @@
             "value" : "在每張卡片右上角用顏色和符號標出這個短語所屬的分類。有了符號，色盲使用者也能分辨。想讓卡片更清爽就關掉。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "단축어 카드 오른쪽 위에 즐겨찾기 하트와 카테고리 심볼을 표시해요. 색에만 의존하지 않도록 도와줘요. iOS '색상 없이 구별' 접근성 설정을 켜도 자동으로 표시되며, 기본은 깔끔하게 꺼져 있어요." : {
       "comment" : "Category badge explanation",
@@ -33523,7 +33637,8 @@
             "value" : "在每張卡片右上角顯示收藏愛心和分類符號。它們幫你不只靠顏色來區分。開啓 iOS「不用顏色區分」輔助使用時也會自動顯示，預設為了清爽是關著的。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "단축어 카드가 화면에 2초쯤 머물면 제목 아래에 내용이 한 번 살며시 나타났다 사라져요. 키보드에서는 제목이 잠시 내용으로 바뀌었다가 돌아와요. 보안 단축어의 내용은 표시되지 않아요." : {
       "comment" : "Content hint explanation",
@@ -33751,7 +33866,8 @@
             "value" : "把短語、剪貼簿項目和範本新增到組合裡"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "단축어·클립보드 기록·스택·이미지·임시 저장본이 이 기기에서 모두 지워집니다. 되돌릴 수 없어요.\n\nPro 구매 권한과 iCloud 백업은 그대로 남습니다." : {
       "comment" : "Wipe all data confirm message",
@@ -33834,7 +33950,8 @@
             "value" : "看看什麼是短語、範本和組合，以及怎麼開啟鍵盤。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "단축어가 늘어나면 최근 쓴 것을 위에 모아 보여드려요" : {
       "comment" : "Changelog 5.1.0 recent section auto",
@@ -33982,7 +34099,8 @@
             "value" : "短語已儲存"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "단축어로 돌아가기" : {
       "comment" : "Number pad key: back to snippets",
@@ -34512,7 +34630,8 @@
             "value" : "新增短語，然後在鍵盤上使用"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "단축어를 추가하지 못했습니다. 잠시 후 다시 시도해주세요." : {
       "comment" : "Starter pack add failed alert message",
@@ -34594,7 +34713,8 @@
             "value" : "點一下短語，就直接貼到輸入框裡"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "단축어를 탭하면 즉시 붙여넣으려면 손쉬운 사용 권한이 필요합니다.\n\n시스템 설정 > 개인 정보 보호 및 보안 > 손쉬운 사용에서 ClipKeyboard를 켜 주세요." : {
       "comment" : "macOS alert body: accessibility permission needed for tap-to-paste",
@@ -34618,7 +34738,8 @@
             "value" : "要在點一下短語時立即貼上，ClipKeyboard 需要輔助使用權限。\n\n請前往\"系統設定\" > \"隱私權與安全性\" > \"輔助使用\"，並啓用 ClipKeyboard。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "단축어를 탭해보세요. 클립보드에 바로 복사돼요." : {
       "comment" : "Welcome tip message",
@@ -35269,7 +35390,8 @@
             "value" : "資料已成功備份。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "데이터가 성공적으로 복구되었습니다. 앱을 재시작하여 변경사항을 확인하세요." : {
       "comment" : "Data successfully restored",
@@ -36214,7 +36336,8 @@
             "value" : "Dubeolsik（標準）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "두벌식 = full QWERTY-style. 천지인 = 9-key layout common on older Korean phones." : {
       "comment" : "Footer: Korean layouts",
@@ -36244,7 +36367,8 @@
             "value" : "Dubeolsik = 完整的 QWERTY 式佈局。Cheonjiin = 老式韓國手機常見的 9 鍵佈局。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "둥글고 부드럽게, 느리게 돌아와요." : {
       "comment" : "Keyboard skin description: soft",
@@ -36431,7 +36555,8 @@
             "value" : "可以拖移來調整順序"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "드래그하여 순서를 변경할 수 있습니다. Combo 실행 시 이 순서대로 각 항목이 입력됩니다." : {
       "comment" : "Drag to reorder instruction with execution order explanation",
@@ -36455,7 +36580,8 @@
             "value" : "可以拖移調整順序。組合執行時會按這個順序依次輸入。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "들어갔어요. 보내기를 눌러 올려보세요." : {
       "comment" : "Combo step: send the first value",
@@ -36785,7 +36911,8 @@
             "value" : "佈局設定"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "리뷰 남기기" : {
       "comment" : "Leave review",
@@ -37460,7 +37587,8 @@
             "value" : "點一下你做的那個，會立刻複製。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "만든 콤보를 눌러보세요. 값을 골라 쓸 수 있어요." : {
       "comment" : "Coach line: combo",
@@ -37484,7 +37612,8 @@
             "value" : "點一下你做的組合，可以挑值來用。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "만든 템플릿을 눌러보세요. 빈칸만 채우면 돼요." : {
       "comment" : "Coach line: template",
@@ -37508,7 +37637,8 @@
             "value" : "點一下你做的範本，把空位填上就行。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "만들고 멈춘 사람" : {
       "comment" : "Stage simulator: created but never used",
@@ -37880,7 +38010,8 @@
             "value" : "是不是總在打同樣的東西？我來幫你。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "매번 한 군데만 바뀌는 문구, 있죠?" : {
       "comment" : "Template tutorial: headline",
@@ -37910,7 +38041,8 @@
             "value" : "有沒有那種每次只改一處的句子？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "매번 한 군데만 바뀌는 문구는 빈칸으로 남겨 둘 수 있어요." : {
       "comment" : "Tutorial invite body: template",
@@ -37934,7 +38066,8 @@
             "value" : "每次只有一處會變的話，可以把那裡留成空位。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "맥에서 단축어 순서를 끌어다 바꾸고, 그 순서를 아이폰·키보드까지 동기화" : {
       "comment" : "Changelog 4.4.0 item 1",
@@ -38268,7 +38401,8 @@
             "value" : "速記收件匣（%d）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "메모 스크린샷이나 카드 사진의 텍스트를 인식해 위 입력창에 추가합니다. 카드 사진은 카드번호와 유효기간을 자동으로 찾아냅니다." : {
       "comment" : "Bulk import: OCR section footer",
@@ -38437,7 +38571,8 @@
             "value" : "無法開啟郵件 App"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "며칠 써 보신 뒤부터 복사한 내용을 자동으로 모아요.\n그때 iOS가 붙여넣기를 허용할지 한 번 물어봐요." : {
       "comment" : "Clipboard history empty description during warm-up",
@@ -38561,7 +38696,8 @@
             "value" : "有多少人用多少個短語。在免費限額（10 個）前後分得更細：集中在 7~9 個說明是限額在推動購買；集中在 1~3 個說明是做了一半就停下了。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "몇 개를 쓰는 사람이 몇 명인지예요. 무료 한도(10개) 앞뒤를 촘촘히 끊었어요. 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요." : {
       "comment" : "Distribution footer",
@@ -38585,7 +38721,8 @@
             "value" : "有多少人用多少個短語。在免費限額（10 個）前後分得更細，9 個單獨統計：這些人只剩一個位置，優惠正好能夠到他們。集中在 1~3 個則說明是做著做著就放棄了。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "몇 번 꺼내 썼다. 두 번째 쓸모 하나만 권한다." : {
       "comment" : "Stage summary: first use",
@@ -39164,7 +39301,8 @@
             "value" : "列表也還在"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "목록에서 두 손가락으로 톡 치면 고르는 화면이 열려요. 카드를 꾹 누른 판에도 같은 길이 있어요" : {
       "comment" : "Changelog 5.0.7 two finger tap",
@@ -40030,7 +40168,8 @@
             "value" : "有什麼可以幫你的？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "무엇을 저장할지부터 묻고, 제목은 그 다음에 물어요" : {
       "comment" : "Changelog 4.0.9 item 1",
@@ -40089,7 +40228,8 @@
             "value" : "有什麼變化？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "무제한" : {
       "comment" : "Unlimited",
@@ -40200,7 +40340,8 @@
             "value" : "填入短語時的振動和短暫的動效。關掉就只安靜地輸入。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "문구를 만드실 때 실제로 치는 속도를 재 두었다가 그 속도로 셈해요. 어림하던 것을 하나 줄였어요" : {
       "comment" : "Changelog 5.0.1 measured typing",
@@ -40253,7 +40394,8 @@
             "value" : "咨詢類型"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "문의하기" : {
       "comment" : "Contact",
@@ -40277,7 +40419,8 @@
             "value" : "聯繫我們"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "문장" : {
       "comment" : "Clipboard split unit: sentence",
@@ -40475,7 +40618,8 @@
             "value" : "想先從哪兒開始？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "미리 정해 둔 단축어의 값을 클립보드에 복사합니다." : {
       "comment" : "Copy value intent description",
@@ -40644,7 +40788,8 @@
             "value" : "薄荷色"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "바꾸기" : {
       "comment" : "Accept the edit-pattern suggestion",
@@ -40832,7 +40977,8 @@
             "value" : "拿來就能用的短語，一次全給你"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "바로 키보드에 올라와요. 다른 앱에서 곧장 꺼내 쓸 수 있어요." : {
       "comment" : "Share destination explanation: shortcut",
@@ -40979,7 +41125,8 @@
             "value" : "點一下你剛做好的短語"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "방금 정한 건 바뀌는 자리의 이름이고, 이번엔 이 문구 자체의 이름이에요. 목록과 키보드에 이 이름으로 보여요." : {
       "comment" : "Template tutorial: title step subline",
@@ -41003,7 +41150,8 @@
             "value" : "剛才起的是會變的那個位置的名字，這次是這條句子本身的名字。列表和鍵盤上顯示的就是它。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "배경 색상" : {
       "comment" : "Background color",
@@ -41027,7 +41175,8 @@
             "value" : "背景顏色"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "배경 없음" : {
       "comment" : "Background: none a11y",
@@ -41174,7 +41323,8 @@
             "value" : "暫時隱藏橫幅"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "백업 건너뜀" : {
       "comment" : "Backup skipped title",
@@ -41792,7 +41942,8 @@
             "value" : "報告問題"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "버전" : {
       "comment" : "Version label",
@@ -41968,7 +42119,8 @@
             "value" : "按鈕預覽"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "버튼 크기" : {
       "comment" : "Button size section",
@@ -41992,7 +42144,8 @@
             "value" : "按鈕大小"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "번역" : {
       "comment" : "Suggested action: translate",
@@ -42196,7 +42349,8 @@
             "value" : "翻譯失敗。請稍後再試。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "번체는 글자만 바꾼 게 아니에요. 대만에서 쓰는 말과 인용부호로 적고, 예시의 은행·주소도 그 지역 것으로 바꿨어요" : {
       "comment" : "Changelog 5.0.5 traditional",
@@ -42552,7 +42706,8 @@
             "value" : "一個評分\n對獨立開發者來說意義重大。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "별점은 키보드에서 한 번이라도 붙여넣어 보신 뒤에 여쭤봐요" : {
       "comment" : "Changelog 5.0.5 review gate",
@@ -42837,7 +42992,8 @@
             "value" : "發送中…"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "보낸 이미지" : {
       "comment" : "Stage bubble: sent image",
@@ -43210,7 +43366,8 @@
             "value" : "短語已鎖定"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "보안 단축어를 키보드에서 입력할 때 사용하는 4자리 PIN입니다. 메인 앱에서 설정하면 키보드 익스텐션에서 인증에 사용됩니다." : {
       "comment" : "Secure PIN section footer",
@@ -43408,7 +43565,8 @@
             "value" : "已解除鎖定"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "보여줄 한 줄을 직접 정할 수 있어요" : {
       "comment" : "Changelog 4.3.2 item 2",
@@ -43846,7 +44004,8 @@
             "value" : "複製並貼上"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "복사/붙여넣기 시 매번 팝업이 표시됩니다." : {
       "comment" : "Ask option description",
@@ -44208,7 +44367,8 @@
             "value" : "複製的內容會自動儲存在這裡\n（最多 100 條，保留 7 天）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "복사한 이미지 붙여넣기" : {
       "comment" : "Paste copied image into the composer",
@@ -44789,7 +44949,8 @@
             "value" : "有什麼不便或建議，都可以寫下來"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "붙여넣기" : {
       "comment" : "Paste clipboard key",
@@ -45992,7 +46153,8 @@
             "value" : "只要填上空位，剩下的自動補齊。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "빈칸만 채워 쓰는 템플릿" : {
       "comment" : "Welcome: what a template is",
@@ -46761,7 +46923,8 @@
             "value" : "使用方法咨詢"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "사용 시 {토큰} 부분에 입력값이 채워집니다" : {
       "comment" : "Token substitution hint",
@@ -46821,7 +46984,8 @@
             "value" : "使用時會先要範本的輸入值，再一起輸出"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "사용 유형" : {
       "comment" : "Usage stats section: user segments",
@@ -47178,7 +47342,8 @@
             "value" : "有使用者留言了。到收件匣看看吧。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "사용자가 직접 저장한 개수예요(온보딩 샘플 4개는 빼고 세요). 무료 한도(10개) 앞뒤를 촘촘히 끊었고, 9개는 따로 세요. 한 칸 남은 사람이라 할인 제안이 닿는 무리이고, 1~3개에 몰려 있으면 만들다 마는 거예요." : {
       "extractionState" : "manual",
@@ -47558,7 +47723,8 @@
             "value" : "用照片裡的文字來填值"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "사진에서 배경 고르기" : {
       "comment" : "Background: pick from photos",
@@ -47958,7 +48124,8 @@
             "value" : "刪除失敗：%@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "삭제 완료" : {
       "comment" : "Deletion completed\nWipe result alert title",
@@ -48199,7 +48366,8 @@
             "value" : "新增新組合"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "새 PIN을 설정합니다" : {
       "comment" : "Change PIN hint",
@@ -48548,7 +48716,8 @@
             "value" : "寫一條新短語。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "새 스택" : {
       "comment" : "New combo navigation title",
@@ -48777,7 +48946,8 @@
             "value" : "新建組合"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "새 키보드 화면을 써보시겠어요?" : {
       "comment" : "Keyboard stage offer title",
@@ -48973,7 +49143,8 @@
             "value" : "新意見回饋提醒"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "새 피드백이 도착했어요 📬" : {
       "comment" : "New feedback push title",
@@ -48997,7 +49168,8 @@
             "value" : "有新意見回饋了 📬"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "새 피드백이 접수되면 이 기기로 푸시 알림이 와요. CloudKit admin 역할의 read 권한 설정 후에 동작해요." : {
       "comment" : "Feedback inbox: push notification footer",
@@ -49021,7 +49193,8 @@
             "value" : "有新意見回饋時會給這台裝置發推送通知。需要先設定好 CloudKit admin 角色的 read 權限。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "새로 시작" : {
       "comment" : "Bulk import: start fresh (discard restored draft)",
@@ -49103,7 +49276,8 @@
             "value" : "建立一個新的組合"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "새로운 값을 추가해주세요" : {
       "comment" : "New value input placeholder",
@@ -49214,7 +49388,8 @@
             "value" : "新增新鍵盤…"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "새로운 키보드 추가…" : {
       "comment" : "Add New Keyboard\niOS Settings: Add New Keyboard",
@@ -49273,7 +49448,8 @@
             "value" : "煥新的首屏"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "색상" : {
       "comment" : "Section: colors",
@@ -49769,7 +49945,8 @@
             "value" : "用生物識別安全保護"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "생활 레이어" : {
       "comment" : "Section: living skin",
@@ -49881,7 +50058,8 @@
             "value" : "會從服務器上徹底刪除，無法復原。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "서식" : {
       "comment" : "Token format editor: pattern section",
@@ -49934,7 +50112,8 @@
             "value" : "臺北市 …"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "서울시 강남구 …" : {
       "comment" : "Placeholder example: address",
@@ -50175,7 +50354,8 @@
             "value" : "新增選中的 %d 個"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "선택한 %d줄 담기" : {
       "comment" : "OCR picker apply button (count)",
@@ -50316,7 +50496,8 @@
             "value" : "說明（可選）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "설정" : {
       "comment" : "Menu: settings\nSettings\niOS Settings",
@@ -50369,7 +50550,8 @@
             "value" : "設定 1/2"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "설정 2/2" : {
       "comment" : "Setup step 2 of 2",
@@ -50393,7 +50575,8 @@
             "value" : "設定 2/2"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "설정 > [사용자 이름] > iCloud에서 로그인할 수 있습니다." : {
       "comment" : "iCloud login instruction",
@@ -50742,7 +50925,8 @@
             "value" : "設定 → 輔助使用 → 顯示與文字大小 → 顏色濾鏡"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "설정 → 손쉬운 사용 → 음성 명령" : {
       "comment" : "Voice Control settings path",
@@ -50831,7 +51015,8 @@
             "value" : "設定 → 一般 → 鍵盤 → 鍵盤列表"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "설정 경로" : {
       "comment" : "Settings path section header",
@@ -51229,7 +51414,8 @@
             "value" : "在設定裡新增鍵盤後，\n回到這個頁面繼續下一步"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "설정에서 키보드를 추가한 후\\n이 화면으로 돌아와 다음 단계를 진행하세요" : {
       "comment" : "Auto-registered",
@@ -51259,7 +51445,8 @@
             "value" : "在設定裡新增鍵盤後，\n回到這個頁面繼續下一步"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "설정으로 이동" : {
       "comment" : "Go to Settings button",
@@ -51929,7 +52116,8 @@
             "value" : "這三個有什麼不一樣？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "소개하는 이름" : {
       "comment" : "Template tutorial: suggested blank name",
@@ -52432,7 +52620,8 @@
             "value" : "重置順序"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "순서를 변경하려면 드래그하세요" : {
       "comment" : "Drag to reorder",
@@ -52456,7 +52645,8 @@
             "value" : "拖移即可調整順序"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "숨기면 이 단축어들이 탭에서 사라져서 찾기 어려워져요. 먼저 다른 카테고리로 옮기면 숨길 수 있어요." : {
       "comment" : "Category hide blocked message",
@@ -53148,7 +53338,8 @@
             "value" : "開啟系統設定"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "시스템 텍스트 크기를 키우면 단축어 제목·내용 미리보기·배지가 함께 커집니다. 앱 내 글꼴 크기 슬라이더로 키보드만 별도 조정도 가능합니다." : {
       "comment" : "Larger Text feature description",
@@ -53469,7 +53660,8 @@
             "value" : "按鍵盤上實際使用的大小顯示。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "실제로 돈을 낸 비율이에요. 새 플래그를 보낸 기기만 셉니다." : {
       "comment" : "Marketing hint: paid",
@@ -54021,7 +54213,8 @@
             "value" : "每次只換這裡"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "쓸 수 있는 이름이 아니에요. 중괄호 없이 적어 주세요." : {
       "comment" : "Rename error: invalid name",
@@ -54533,7 +54726,8 @@
             "value" : "點下面的按鈕，就能看到組合是怎麼按順序輸入的"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "아래 입력창을 탭해서 키보드를 열어요" : {
       "comment" : "Practice step 1",
@@ -54557,7 +54751,8 @@
             "value" : "點一下下面的輸入框，把鍵盤調出來"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "아래 키보드가 바로 따라 바뀝니다. 나중에 설정에서 언제든 다시 바꿀 수 있어요." : {
       "comment" : "Layout step: body",
@@ -54681,7 +54876,8 @@
             "value" : "下移"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "아래에서 값을 추가하세요" : {
       "comment" : "Add value hint",
@@ -55072,7 +55268,8 @@
             "value" : "還不能在別的 App 裡用。我們帶你去開啟它。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "아직 단축어가 없어요. 위 + 를 눌러 하나 만들어요." : {
       "comment" : "Empty list: no shortcuts yet",
@@ -55393,7 +55590,8 @@
             "value" : "還沒有收到意見回饋"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "아직 집계할 기록이 없어요. 새 지표(직접 저장한 개수)는 앱이 다시 켜질 때부터 쌓여요." : {
       "extractionState" : "manual",
@@ -55680,7 +55878,8 @@
             "value" : "你好，我是剪貼鍵盤的使用者。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "안녕하세요, %@님. 확인 부탁드립니다." : {
       "comment" : "Template tutorial: example body (plain)",
@@ -55704,7 +55903,8 @@
             "value" : "你好 %@，麻煩確認一下。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "안녕하세요, {%@}님. 확인 부탁드립니다." : {
       "comment" : "Template tutorial: example body",
@@ -55728,7 +55928,8 @@
             "value" : "你好，{%@}，麻煩確認一下。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "안정성" : {
       "comment" : "Stability screen title",
@@ -55857,8 +56058,8 @@
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "%@"
+            "state" : "translated",
+            "value" : "알림 권한이 꺼져 있어요. iOS 설정 > %@ > 알림에서 허용해 주세요."
           }
         },
         "ru" : {
@@ -55903,7 +56104,8 @@
             "value" : "通知權限沒開啟。請在「iOS 設定 > 剪貼鍵盤 > 通知」裡允許。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다." : {
       "comment" : "Repair hint when IBAN checksum fails",
@@ -56049,7 +56251,8 @@
             "value" : "重置為 App 預設的分類列表"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "앱 내 폰트 크기" : {
       "comment" : "App font size\nFont size slider label",
@@ -56073,7 +56276,8 @@
             "value" : "App 內字體大小"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "앱 내에서 리뷰 작성" : {
       "comment" : "In-app review button",
@@ -56337,7 +56541,8 @@
             "value" : "在 App 裡建立組合試試"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "앱에서 보안 PIN을 먼저 설정하세요" : {
       "comment" : "Set PIN in app first",
@@ -56570,7 +56775,8 @@
             "value" : "開啟 App，鍵盤就在那裡，點一下馬上就能試。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "앱을 열면 키보드가 올라온 모습 그대로, 눌러서 바로 써 볼 수 있어요" : {
       "comment" : "Changelog 4.4.4 item 1",
@@ -56774,7 +56980,8 @@
             "value" : "條款與隱私"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "어느 걸 넣을까요?" : {
       "comment" : "Photo value picker title",
@@ -56862,7 +57069,8 @@
             "value" : "在哪裡用？（可選）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "어디서든 빠르게 담으세요" : {
       "comment" : "Quick note inbox tip title",
@@ -56950,7 +57158,8 @@
             "value" : "你希望有什麼功能？\n例）希望能把短語按資料夾歸類。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "어떤 기능이 있으면 좋겠나요?\\n예) 단축어를 폴더로 묶는 기능이 필요해요." : {
       "comment" : "Auto-registered",
@@ -56980,7 +57189,8 @@
             "value" : "你希望有什麼功能？\n例）希望能把短語按資料夾歸類。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "어떤 부분이 궁금하신가요?\n예) 클립보드 히스토리는 어떻게 보나요?" : {
       "comment" : "Usage question placeholder",
@@ -57004,7 +57214,8 @@
             "value" : "你想瞭解哪方面？\n例）剪貼簿歷史在哪裡看？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "어떤 부분이 궁금하신가요?\\n예) 클립보드 히스토리는 어떻게 보나요?" : {
       "comment" : "Auto-registered",
@@ -57034,7 +57245,8 @@
             "value" : "你想瞭解哪方面？\n例）剪貼簿歷史在哪裡看？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "어떤 상황에서 문제가 발생했는지 알려주세요.\n예) 단축어를 저장할 때 앱이 종료됩니다." : {
       "comment" : "Bug report placeholder",
@@ -57058,7 +57270,8 @@
             "value" : "請告訴我們問題是在什麼情況下發生的。\n例）儲存短語時 App 會閃退。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "어떤 상황에서 문제가 발생했는지 알려주세요.\\n예) 단축어를 저장할 때 앱이 종료됩니다." : {
       "comment" : "Auto-registered",
@@ -57088,7 +57301,8 @@
             "value" : "請告訴我們問題是在什麼情況下發生的。\n例）儲存短語時 App 會閃退。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "어떤 상황인가요?" : {
       "comment" : "Shortcut mart search prompt",
@@ -57589,7 +57803,8 @@
             "value" : "點一下這裡，然後從剪貼鍵盤裡貼一條短語試試…"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요." : {
       "comment" : "Toast shown once when a learned caret position is first applied",
@@ -57683,7 +57898,8 @@
             "value" : "這裡要填的話"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "여기에 입력돼요" : {
       "comment" : "In-app keyboard composer placeholder",
@@ -57859,7 +58075,8 @@
             "value" : "多個值會一個接一個地填進去。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "여러 개 고르기" : {
       "comment" : "Action: select multiple memos\nSelection mode title",
@@ -57912,7 +58129,8 @@
             "value" : "一次匯入多條時，儲存前會先按鍵盤的樣子給你看。點一下按鍵就能把不要的去掉。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "여러 개를 한 번에 옮기기" : {
       "comment" : "Make-own cue: bulk import",
@@ -57994,7 +58212,8 @@
             "value" : "建立一個組合，\n按順序自動輸入多個短語"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "여러 단축어를 순서대로 자동 입력하는\\nCombo를 만들어보세요" : {
       "comment" : "Auto-registered",
@@ -58024,7 +58243,8 @@
             "value" : "建立一個組合，\n按順序自動輸入多個短語"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "여러 단축어를 한 번에 골라 카테고리로 옮기거나 지울 수 있어요" : {
       "comment" : "Changelog 5.0.7 bulk select",
@@ -58562,7 +58782,8 @@
             "value" : "要刪掉引導過程中做的短語嗎？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "연습을 처음부터 다시 시작합니다" : {
       "comment" : "Reset practice hint",
@@ -58586,7 +58807,8 @@
             "value" : "從頭重新開始練習"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "열 가지 중에서 열 때마다 다른 것이 뽑혀요. 마음에 안 들면 다른 걸로 버튼으로 굴려 볼 수 있어요" : {
       "comment" : "Changelog 5.0.4 reroll",
@@ -59345,7 +59567,8 @@
             "value" : "例：林志明"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "예: 카드번호를 입력합니다" : {
       "comment" : "Description example",
@@ -59369,7 +59592,8 @@
             "value" : "例：輸入卡號"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "예: 회사 이메일, 송금 계좌" : {
       "comment" : "Memo title field placeholder",
@@ -59459,7 +59683,8 @@
             "value" : "示例按鈕"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "예시에서 골라 담기" : {
       "comment" : "Empty list: pick from examples",
@@ -59896,7 +60121,8 @@
             "value" : "跳過新手引導，直接開始使用"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "옮겼어요" : {
       "comment" : "Bulk move done title",
@@ -60094,7 +60320,8 @@
             "value" : "已關聯可選範本"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "완료" : {
       "comment" : "Done\nDone bundling\nDone button\nKeyboard reorder mode: done\nReturn key label: done",
@@ -60177,7 +60404,8 @@
             "value" : "取消已處理"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "완주할 수 있는 시간이에요" : {
       "comment" : "Share video: marathon equivalent",
@@ -60236,7 +60464,8 @@
             "value" : "左滑刪除，右滑標為已處理。已處理/刪除需要 CloudKit admin 角色有寫入權限才會生效。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "왼쪽으로 밀면 지울 수 있어요." : {
       "comment" : "Custom token format footer, swipe to delete",
@@ -60731,7 +60960,8 @@
             "value" : "會在網頁上開啟。那裡有更多例子和每個頁面的說明。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "위 항목과 스택로 묶기" : {
       "comment" : "Bulk import: merge with previous item into combo",
@@ -60844,7 +61074,8 @@
             "value" : "上移"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "위의 버튼을 누르면 카드 목록으로 갑니다. 만들고 고치는 건 거기서 해요. 아래 키보드 탭을 한 번 더 눌러도 같은 곳을 오갑니다." : {
       "comment" : "Switch hint: body",
@@ -60926,7 +61157,8 @@
             "value" : "在上面的輸入框裡新增值"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "위젯에 표시할 즐겨찾기 단축어를 선택합니다" : {
       "comment" : "Select memo intent description",
@@ -61008,7 +61240,8 @@
             "value" : "保留"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "유효기간" : {
       "comment" : "Bulk import: card expiry label",
@@ -61678,7 +61911,8 @@
             "value" : "內容會按這個大小顯示。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이 설정을 켜면 '단축어 구분 표시'가 자동으로 켜져, 색에만 의존하지 않도록 단축어 타입(템플릿·콤보·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 표시됩니다. 앱 설정 → 디스플레이 → 단축어 표시에서 직접 켤 수도 있어요." : {
       "comment" : "Differentiate Without Color feature description",
@@ -61702,7 +61936,8 @@
             "value" : "開啟這項後會自動啓用「顯示區分標記」，這樣就不用只靠顏色：短語類型（範本·組合·加密）的圖標和邊框，以及收藏、分類符號都會顯示。也可以在 App 的「設定 → 顯示 → 短語顯示」裡直接開啟。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이 설정을 켜면 색에 의존하지 않도록 단축어 카드와 키보드의 타입(템플릿·콤보·보안)에 색+패턴 테두리가 표시됩니다. 끄면 카드가 더 깔끔하게 보입니다." : {
       "comment" : "Differentiate Without Color feature description",
@@ -61726,7 +61961,8 @@
             "value" : "開啟這項後，短語卡片和鍵盤按鍵會按類型（範本·組合·加密）顯示顏色 + 圖案邊框，就不用只靠顏色分辨。關掉的話卡片更清爽。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이 설정을 켜면 키보드에 한/EN 전환 버튼이 추가됩니다." : {
       "comment" : "Language section footer when Korean off",
@@ -61953,7 +62189,8 @@
             "value" : "這個位置叫什麼好？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이 자리의 이름" : {
       "comment" : "Template tutorial: blank name label",
@@ -61977,7 +62214,8 @@
             "value" : "這個位置的名字"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이 작업은 되돌릴 수 없습니다." : {
       "comment" : "Wipe all data final confirm message",
@@ -62088,7 +62326,8 @@
             "value" : "這個優惠只出現一次。以後仍可以在設定裡按原價購買。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이 진단 복사" : {
       "comment" : "Copy this diagnostic",
@@ -62141,7 +62380,8 @@
             "value" : "長按這張卡片試試"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이 카테고리에는 고를 단축어가 없어요" : {
       "comment" : "Selection mode empty state title",
@@ -62403,7 +62643,8 @@
             "value" : "那這個範本叫什麼呢？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이 파일은 ClipKeyboard 백업 파일이 아니거나 손상되었습니다." : {
       "comment" : "Unrecognized backup file",
@@ -62456,7 +62697,8 @@
             "value" : "要刪除這條意見回饋嗎？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이 화면과 저 화면을 오갑니다" : {
       "comment" : "Switch between list and keyboard preview",
@@ -62631,7 +62873,8 @@
             "value" : "就用它建立"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이걸로 할 수 있는 것 모두 보기" : {
       "comment" : "Empty state: browse all use cases",
@@ -62655,7 +62898,8 @@
             "value" : "看看用它能做的所有事"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이걸로 할게요" : {
       "comment" : "Persona prompt apply button",
@@ -62830,7 +63074,8 @@
             "value" : "要不要也試試這個？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이런 기능도 있어요" : {
       "comment" : "Demo samples offer title",
@@ -62912,7 +63157,8 @@
             "value" : "可以這樣用"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이런 분들이 매일 아낍니다" : {
       "comment" : "Persona guide hero title",
@@ -63052,7 +63298,8 @@
             "value" : "這樣練習"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이렇게 저장돼요" : {
       "comment" : "Shortcut mart fill: preview header",
@@ -63192,7 +63439,8 @@
             "value" : "姓名 → 電話 → 地址"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이름 바꾸기" : {
       "comment" : "Rename placeholder\nRename placeholder title",
@@ -63338,7 +63586,8 @@
             "value" : "姓名、電話這些總是一起用的東西，可以放在一處。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이름만 바꿔 보내는 안내문처럼요. 그 자리를 비워 두면 쓸 때마다 거기만 채우면 돼요. 아래에서 색칠된 곳이 그 자리예요." : {
       "comment" : "Template tutorial: subline",
@@ -63368,7 +63617,8 @@
             "value" : "就像那種只換名字的通知。把那個位置留空，每次只填那裡就行，下面上了色的地方就是它。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이름만 바꿔 보내는 안내문처럼요. 오늘은 그 자리에 뭐라고 넣으시겠어요?" : {
       "comment" : "Template tutorial: value step subline",
@@ -63392,7 +63642,8 @@
             "value" : "就像那種只換名字的通知。今天那裡要填什麼呢？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이름만 없던 버튼들에 이름을 붙여 보이스오버와 음성 제어로 부를 수 있어요" : {
       "comment" : "Changelog 5.0.0 a11y labels",
@@ -63818,7 +64069,8 @@
             "value" : "這個值已經新增過了"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이미지" : {
       "comment" : "Image\nShortcut type: image",
@@ -63871,7 +64123,8 @@
             "value" : "圖片識別"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이미지 단축어" : {
       "comment" : "Built-in category: image memos only\nImage\nImage memo\nVoiceOver: image memo\nVoiceOver: image memo badge",
@@ -64262,7 +64515,8 @@
             "value" : "刪除圖片"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이미지 제거" : {
       "comment" : "Remove image",
@@ -64380,7 +64634,8 @@
             "value" : "不支援這種圖片格式"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이미지가 복사되었습니다" : {
       "comment" : "Image copied toast",
@@ -64590,7 +64845,8 @@
             "value" : "圖片已新增"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이미지에서 인식한 텍스트예요. 단축어 값으로 담을 줄을 골라주세요." : {
       "comment" : "OCR picker subtitle",
@@ -64881,7 +65137,8 @@
             "value" : "後續短語"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이어지는 단축어 추가" : {
       "comment" : "Add continuation memo",
@@ -64905,7 +65162,8 @@
             "value" : "新增後續內容"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이용약관" : {
       "comment" : "Terms of use settings entry",
@@ -65174,7 +65432,8 @@
             "value" : "現在可以在鍵盤上直接輸入短語了"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "이제 키의 오른쪽 → 를 눌러보세요. 다음 값으로 바뀝니다." : {
       "comment" : "Combo step: advance to the next value",
@@ -65431,7 +65690,8 @@
             "value" : "按日、周、月、年分組顯示。左右滑動圖表可以按這個單位往前翻。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "일간" : {
       "comment" : "Chart bucket: daily",
@@ -65672,7 +65932,8 @@
             "value" : "與其讀說明，不如直接點著學。我會一個一個指給你看。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "읽은 글자" : {
       "comment" : "Photo value picker: recognized lines section",
@@ -65958,7 +66219,8 @@
             "value" : "為了收款告訴對方 %@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "입력" : {
       "comment" : "Tap-to-insert hint",
@@ -66134,7 +66396,8 @@
             "value" : "練習區"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "입력 중..." : {
       "comment" : "Combo executing",
@@ -66158,7 +66421,8 @@
             "value" : "正在輸入…"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "입력 취소" : {
       "comment" : "Cancel value input",
@@ -66413,7 +66677,8 @@
             "value" : "把輸入的值新增到組合列表。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "입력한 내용, 이름, 카테고리를 모두 지웁니다" : {
       "comment" : "Reset button hint",
@@ -66437,7 +66702,8 @@
             "value" : "會清空所有內容、標題和分類。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "입력한 내용과 이름을 지웁니다. 카테고리는 그대로 둡니다" : {
       "comment" : "Reset button hint v2",
@@ -66519,7 +66785,8 @@
             "value" : "要把已有的短語變成範本嗎？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "자기소개" : {
       "comment" : "Template tutorial: suggested template name",
@@ -66747,7 +67014,8 @@
             "value" : "自動附帶的資訊"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "자동 추가될 카테고리" : {
       "comment" : "Preview categories header",
@@ -66807,7 +67075,8 @@
             "value" : "自動：%@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "자동으로 채워지는 값" : {
       "comment" : "Auto-fill variables hint",
@@ -67102,7 +67371,8 @@
             "value" : "詳細使用指南"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "자유롭게 의견을 남겨주세요." : {
       "comment" : "Other feedback placeholder",
@@ -67126,7 +67396,8 @@
             "value" : "有什麼想說的都可以寫下來。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기" : {
       "comment" : "Auto-registered",
@@ -67358,7 +67629,8 @@
             "value" : "你經常打的句子是什麼？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "작게" : {
       "comment" : "Small",
@@ -67858,7 +68130,8 @@
             "value" : "可重複使用的格式"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "저장" : {
       "comment" : "Save\nSave button\nSave clipboard item as memo",
@@ -67910,7 +68183,8 @@
             "value" : "儲存失敗：%@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "저장된 값이 없으면 그 자리에서 바로 만들 수 있어요" : {
       "comment" : "Changelog 5.0.0 inline add",
@@ -67992,7 +68266,8 @@
             "value" : "已儲存的短語（會顯示在鍵盤上）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "저장된 단축어 목록 모드로 전환합니다" : {
       "comment" : "Memo mode tab hint",
@@ -68016,7 +68291,8 @@
             "value" : "切換到已儲存短語的列表模式。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "저장된 버전이 없습니다" : {
       "comment" : "No backup versions available",
@@ -68249,7 +68525,8 @@
             "value" : "儲存後鍵盤就是這個樣子。點一下按鍵可以把不要的去掉；要改標題、鎖和組合，請切到列表。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "저장하면 키보드가 이 모습이 돼요. 키를 눌러 뺄 것을 빼고, 제목·자물쇠는 목록에서 손보세요." : {
       "comment" : "Bulk import: keyboard preview footer",
@@ -68396,7 +68673,8 @@
             "value" : "請輸入要儲存的文字"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "저장해 둔 값" : {
       "comment" : "Saved values section",
@@ -68632,7 +68910,8 @@
             "value" : "發送失敗"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "전역 단축키" : {
       "comment" : "Auto-registered",
@@ -68728,7 +69007,8 @@
             "value" : "使用全域快速鍵需要輔助使用權限。\n\n請前往系統設定 > 隱私權與安全性 > 輔助使用，並啓用剪貼鍵盤。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "전체" : {
       "comment" : "All\nCategory tab: all\nCategory: all\nDonut center: total\nRefund period: all time\nShortcut mart: show every scenario\nSmear picker tool: select all",
@@ -69078,7 +69358,8 @@
             "value" : "允許完全取用，第 2 步（共 2 步）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "전체 접근을 허용해요" : {
       "comment" : "Setup step 3 title",
@@ -69421,7 +69702,8 @@
             "value" : "需要輔助使用權限"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "접기" : {
       "comment" : "Collapse filter bar",
@@ -69474,7 +69756,8 @@
             "value" : "收到 %d 條"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "접수 %d건 · 완료 %d건" : {
       "comment" : "Feedback inbox count header (total, done)",
@@ -69498,7 +69781,8 @@
             "value" : "收到 %d 條 · 已處理 %d 條"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "접수된 피드백" : {
       "comment" : "Usage stats: feedback count",
@@ -69954,7 +70238,8 @@
             "value" : "每次算帳都不用再翻備忘錄找了。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "정산할 때마다 메모장을 열지 않아도 돼요." : {
       "comment" : "Onboarding seed hint: account",
@@ -69978,7 +70263,8 @@
             "value" : "每次分攤帳單都不用再開啟備忘錄了。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "정착" : {
       "comment" : "User tenure: settled",
@@ -70206,7 +70492,8 @@
             "value" : "關閉建議"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "제안된 제목 %@" : {
       "comment" : "VoiceOver: suggested title",
@@ -70555,7 +70842,8 @@
             "value" : "好，開始"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "좌우로 넘겨서 다른 기간을 보세요." : {
       "comment" : "Chart: scroll hint",
@@ -71293,7 +71581,8 @@
             "value" : "只顯示收藏的短語，或顯示全部。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "즐겨찾기 수" : {
       "comment" : "Usage metric: favorites",
@@ -71498,7 +71787,8 @@
             "value" : "只看收藏"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요" : {
       "comment" : "Favorites tab empty state with hint",
@@ -71551,7 +71841,8 @@
             "value" : "用地球（🌐）按鈕切換到剪貼鍵盤"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "지구본을 길게 누르면 이모지 키보드로 바로 갈 수 있어요. 다른 키보드를 함께 써도 됩니다" : {
       "comment" : "Changelog 5.1.0 emoji keyboard",
@@ -71807,7 +72098,8 @@
             "value" : "現在就練習"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "지금 이 기기의 기본 키보드와 높이가 같아요." : {
       "comment" : "Keyboard height comparison: same as system",
@@ -71860,7 +72152,8 @@
             "value" : "現在新增"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요." : {
       "comment" : "Persona prompt subtitle",
@@ -71948,7 +72241,8 @@
             "value" : "一直以來的預設樣子。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "지금은 괜찮아요" : {
       "comment" : "Category cleanup dismiss\nDiscount offer decline",
@@ -72247,7 +72541,8 @@
             "value" : "告訴朋友 %@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "지하철 %@ 갈 수 있는 시간이에요" : {
       "comment" : "Inline equivalent: transit",
@@ -72399,7 +72694,8 @@
             "value" : "自己新增"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "직접 타이핑 모드로 전환합니다" : {
       "comment" : "Typing mode tab hint",
@@ -72423,7 +72719,8 @@
             "value" : "切換到手動輸入模式。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "진단 스키마가 아직 허브에 배포되지 않았어요. CloudKit Console 에서 CrashReport 레코드 타입과 인덱스를 배포하면 여기에 쌓입니다." : {
       "comment" : "Crash reports schema not deployed",
@@ -72650,7 +72947,8 @@
             "value" : "一條簡短的評價，就能幫別人發現這個 App！"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "쪽" : {
       "comment" : "Key color: indigo",
@@ -73099,7 +73397,8 @@
             "value" : "做一個帶填空位的範本"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "채워야 할 자리를 빨갛게 보여드려요" : {
       "comment" : "Changelog 4.0.9 item 2",
@@ -73310,7 +73609,8 @@
             "value" : "沒能完成操作：%@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "처음 시작할 때 키보드 크기를 한 번 정하고 넘어가요" : {
       "comment" : "Changelog 5.1.2 onboarding size step",
@@ -73537,7 +73837,8 @@
             "value" : "不用重新寫：一開始做的那條可以原樣變成範本。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "처음으로" : {
       "comment" : "Reset practice",
@@ -73591,7 +73892,8 @@
             "value" : "第一次用？我們牽著手一起走一遍。已經熟了的話，只查你需要的就行。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "천지인" : {
       "comment" : "Cheonjiin Korean keyboard layout name\nKorean layout: cheonjiin",
@@ -73650,7 +73952,8 @@
             "value" : "Cheonjiin（3×3）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "천지인 키보드의 한글 조합을 바로잡았어요" : {
       "comment" : "Changelog 4.0.4 item 1",
@@ -73913,7 +74216,8 @@
             "value" : "新增第一條短語"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "첫 템플릿 만들기" : {
       "comment" : "Template hint CTA button",
@@ -75106,7 +75410,8 @@
             "value" : "挑選推薦的短語，一次性新增"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "추천 카테고리가 추가돼요. 처음엔 꺼져 있으니 카테고리 관리에서 원하는 것만 켜세요." : {
       "comment" : "Persona settings subtitle",
@@ -75584,7 +75889,8 @@
             "value" : "輸入卡號：1234 → 5678 → 9012 → 3456"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "카드번호·IBAN·사업자등록번호는 검사식이 있어요. 한 자리를 잘못 적었으면 저장하기 전에 짚어 드립니다." : {
       "comment" : "DYK body: checksum",
@@ -76250,7 +76556,8 @@
             "value" : "移出分類"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "카테고리가 많아졌어요" : {
       "extractionState" : "manual",
@@ -77225,7 +77532,8 @@
             "value" : "編輯組合"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "콤보 수" : {
       "comment" : "Usage metric: combos",
@@ -77369,7 +77677,8 @@
             "value" : "練習一下組合按順序輸入的流程"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "콤보가 쉬워졌어요. 값을 이어 붙이고 보안 콤보로 암호화 저장까지" : {
       "comment" : "Changelog 4.3.9 item 5",
@@ -77451,7 +77760,8 @@
             "value" : "也來做一個組合吧？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "콤보로 묶기" : {
       "comment" : "Bulk import: bundle selected into one combo",
@@ -77773,7 +78083,8 @@
             "value" : "從剪貼簿貼上"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "클립보드 값을 가져왔습니다" : {
       "comment" : "Pasted clipboard text into value toast",
@@ -77797,7 +78108,8 @@
             "value" : "已從剪貼簿貼上"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "클립보드 글을 16개 언어로 기기 안에서 번역해요" : {
       "comment" : "Changelog 4.3.6 item 3",
@@ -77937,7 +78249,8 @@
             "value" : "自動儲存和管理剪貼簿"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "클립보드 히스토리" : {
       "comment" : "Clipboard list navigation title",
@@ -78077,7 +78390,8 @@
             "value" : "沒有剪貼簿歷史"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "클립보드 히스토리의 텍스트 항목에서 '번역' 버튼을 누르면 이 언어로 번역해요. 무료이고, 언어 자료를 한 번 받아 두면 오프라인에서도 됩니다. Apple Intelligence 를 못 켜는 기기에서도 동작해요." : {
       "comment" : "AI translation footer",
@@ -78136,7 +78450,8 @@
             "value" : "在剪貼簿歷史的文字項目上點「翻譯」，就會翻譯成這個語言。翻譯免費，離線也能用。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "클립보드가 비어 있습니다" : {
       "comment" : "Clipboard empty toast",
@@ -78160,7 +78475,8 @@
             "value" : "剪貼簿是空的"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "클립보드는 설정 > 내 데이터로, 사용 기록은 탭으로 자리를 바꿨어요" : {
       "comment" : "Changelog 4.4.7 item 7",
@@ -78242,7 +78558,8 @@
             "value" : "已複製到剪貼簿"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "클립보드에 이미지가 없습니다" : {
       "extractionState" : "stale",
@@ -78265,7 +78582,8 @@
             "value" : "剪貼簿裡沒有圖片"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "클립보드에서 붙여넣기" : {
       "comment" : "Paste from clipboard",
@@ -78355,7 +78673,8 @@
             "value" : "已從剪貼簿新增圖片"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "클립키보드 추가" : {
       "comment" : "Setup step 1 label",
@@ -78415,7 +78734,8 @@
             "value" : "用剪貼鍵盤還順手嗎？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "클립키보드에\n오신 것을 환영합니다!" : {
       "comment" : "Onboarding welcome title",
@@ -78439,7 +78759,8 @@
             "value" : "歡迎來到\n剪貼鍵盤！"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "클립키보드에 관해 문의드릴 것이 있습니다" : {
       "comment" : "Email subject",
@@ -78463,7 +78784,8 @@
             "value" : "我有一個關於剪貼鍵盤的問題"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "클립키보드에\\n오신 것을 환영합니다!" : {
       "comment" : "Auto-registered",
@@ -78493,7 +78815,8 @@
             "value" : "歡迎來到\n剪貼鍵盤！"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다." : {
       "comment" : "DYK body: keyboard look",
@@ -78645,7 +78968,8 @@
             "value" : "這裡設定的是單個按鍵的大小。鍵盤的整體高度在頂部設定。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키가 도톰해지고 누르면 내려앉아요." : {
       "comment" : "Keyboard skin description: keycap",
@@ -78733,7 +79057,8 @@
             "value" : "點一下鍵就打出來，點複製按鈕就進剪貼簿：你一直以來的用法照舊。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키마다 복사 버튼" : {
       "comment" : "What's new 4.4.4 feature 2 title",
@@ -78828,7 +79153,8 @@
             "value" : "鍵盤（可選功能）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드 검색에서 한글이 흩어지던 문제 수정, 이제 정확히 조합돼 찾아져요" : {
       "comment" : "Changelog 4.4.0 item 3",
@@ -79220,7 +79546,8 @@
             "value" : "插入的關鍵詞"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드 사용 횟수" : {
       "comment" : "Usage metric: keyboard uses",
@@ -79608,7 +79935,8 @@
             "value" : "請寫下從鍵盤輸入時要插入的完整內容"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드 입력 횟수" : {
       "comment" : "Keyboard total uses",
@@ -79661,7 +79989,8 @@
             "value" : "切換鍵盤：長按 🌐"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드 추가" : {
       "comment" : "Add keyboard",
@@ -79714,7 +80043,8 @@
             "value" : "新增鍵盤，第 1 步（共 2 步）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드 카드에서 작은 뱃지를 걷어내고 제목만 남겼어요" : {
       "comment" : "Changelog 4.2.0 item 2",
@@ -79826,7 +80156,8 @@
             "value" : "鍵盤主題"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드 화면" : {
       "comment" : "Snippets tab style: keyboard stage",
@@ -79891,7 +80222,8 @@
             "value" : "給我看看鍵盤頁面"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드 화면이 아래로 사라질 때 끝에서 끌리던 것과 말풍선 꼬리 모양을 손봤어요" : {
       "comment" : "Changelog 5.0.3 stage polish",
@@ -80009,7 +80341,8 @@
             "value" : "現在就在鍵盤上試試？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드로 입력함" : {
       "comment" : "Event label: keyboard used",
@@ -80207,7 +80540,8 @@
             "value" : "請新增鍵盤"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드를 켜라는 안내가 더는 앞을 막지 않아요. 키보드 화면 위쪽에 띠로 남고, 다른 안내가 그 자리를 쓰고 있으면 비켜 있다가 자리가 비면 올라와요" : {
       "comment" : "Changelog 5.0.3 setup banner",
@@ -80570,7 +80904,8 @@
             "value" : "在鍵盤上長按時會一起顯示在預覽裡"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드에서 단축어를 길게 누르면 입력 대신 클립보드로 들어가요. 붙여넣을 곳이 따로 있을 때 쓰세요." : {
       "comment" : "DYK body: long press",
@@ -80652,7 +80987,8 @@
             "value" : "在鍵盤上直接輸入短語"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드에서 바로 단축어를 불러와\n빠르게 입력할 수 있어요" : {
       "comment" : "Onboarding welcome subtitle",
@@ -80676,7 +81012,8 @@
             "value" : "直接從鍵盤調出短語，\n快速輸入"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드에서 바로 단축어를 불러와\\n빠르게 입력할 수 있어요" : {
       "comment" : "Auto-registered",
@@ -80706,7 +81043,8 @@
             "value" : "直接從鍵盤調出短語，\n快速輸入"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드에서 보여질 설명 문구" : {
       "comment" : "Keyboard description hint",
@@ -80730,7 +81068,8 @@
             "value" : "在鍵盤上顯示的說明文字"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드에서 보이는 단축어" : {
       "comment" : "Keyboard visible memos feature row",
@@ -80877,7 +81216,8 @@
             "value" : "要從鍵盤調出儲存的短語，\n需要「允許完全取用」權限"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드에서 저장된 단축어를 불러오려면\\n전체 접근 권한이 필요합니다" : {
       "comment" : "Auto-registered",
@@ -80907,7 +81247,8 @@
             "value" : "要從鍵盤調出儲存的短語，\n需要「允許完全取用」權限"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드에서 카테고리 색이 엉뚱하게 나오던 것을 고쳤어요" : {
       "comment" : "Changelog 4.2.2 item 2",
@@ -81105,7 +81446,8 @@
             "value" : "可以調整鍵盤的列數和按鈕大小。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다." : {
       "comment" : "Language section footer",
@@ -81245,7 +81587,8 @@
             "value" : "這是有鍵帽之前的樣子。卡片會軟軟地回彈。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "키컬러를 주황으로 바꿔 눌러야 할 곳이 분명해졌어요" : {
       "comment" : "Changelog 5.0.0 accent",
@@ -81298,7 +81641,8 @@
             "value" : "打字模式"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "타임존" : {
       "comment" : "Auto template variable",
@@ -81444,7 +81788,8 @@
             "value" : "就是每次寄快遞、點外送都要重打的那個地址。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "택배·배달 주문할 때마다 치는 그 주소예요." : {
       "comment" : "Onboarding seed hint: address",
@@ -81468,7 +81813,8 @@
             "value" : "每次寄快遞、點外送都要重打的那個地址。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "탭마다 다음 값 입력" : {
       "comment" : "Combo description",
@@ -81492,7 +81838,8 @@
             "value" : "每點一次填入下一個值"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "탭을 숨긴 카테고리의 단축어가 어디에도 보이지 않던 문제를 고쳤어요. 갈 수 있는 탭이 없으면 기본 탭에 모여요" : {
       "comment" : "Changelog 4.4.7 item 3",
@@ -81748,7 +82095,8 @@
             "value" : "點一下就直接發給開發者"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "탭하면 그 시점의 단축어 상태로 되돌려요. 되돌리기 직전 상태도 기록에 남아 다시 되돌릴 수 있어요." : {
       "comment" : "Memo history footer",
@@ -81865,7 +82213,8 @@
             "value" : "點一下只貼上短語內容。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "탭하면 단축어를 검색합니다" : {
       "comment" : "Search bar hint",
@@ -81918,7 +82267,8 @@
             "value" : "點一下透過郵件 App 發送"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "탭하면 바로 복사돼요" : {
       "comment" : "Welcome tip title",
@@ -81971,7 +82321,8 @@
             "value" : "點一下複製"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "탭하면 빈칸을 채워 붙여넣습니다" : {
       "comment" : "Template memo button hint",
@@ -82082,7 +82433,8 @@
             "value" : "點一下加入或移出入門包"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "탭하면 여러 값이 순서대로 입력됩니다" : {
       "comment" : "Combo memo button hint",
@@ -82257,7 +82609,8 @@
             "value" : "點一下就能用這個例子建立短語"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "탭하면 커서 자리에 빈칸이 들어갑니다" : {
       "comment" : "Quick insert token button hint\nTemplate variable button hint",
@@ -82310,7 +82663,8 @@
             "value" : "點一下加入組合"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "탭하면 클립보드에 복사, 꾹 누르면 추가 옵션" : {
       "comment" : "Memo card hint",
@@ -82392,7 +82746,8 @@
             "value" : "點一下開啟編輯頁面"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "탭하면 한 번에 정리하기 열기" : {
       "comment" : "VoiceOver: open bulk import",
@@ -82574,7 +82929,8 @@
             "value" : "點一下選擇這個分類"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "탭할 때마다 다음 값이 순서대로 입력됩니다" : {
       "comment" : "Combo description\nCombo memo button hint",
@@ -82598,7 +82954,8 @@
             "value" : "每點一次就按順序填入下一個值"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "탭할 때마다 저장된 값이 순서대로 하나씩 입력돼요. 키보드에서 이어서 다음 값을 넣을 수 있어요." : {
       "comment" : "Combo info tip message",
@@ -82651,7 +83008,8 @@
             "value" : "點一下就能把它加成你自己的短語"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "테라코타" : {
       "comment" : "Key color: terracotta",
@@ -82770,7 +83128,8 @@
             "value" : "主題選擇，自動檢測：%@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "테마 설정" : {
       "comment" : "Theme customization",
@@ -82853,7 +83212,8 @@
             "value" : "新增測試資料"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "테스트 방법" : {
       "comment" : "Accessibility testing section header",
@@ -82935,7 +83295,8 @@
             "value" : "匯入文字"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "텍스트 인식 중..." : {
       "comment" : "Recognizing text",
@@ -83104,7 +83465,8 @@
             "value" : "設定範本的值"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "템플릿 개수 제한" : {
       "comment" : "Template limit",
@@ -83250,7 +83612,8 @@
             "value" : "建立帶 {} 的範本短語後，\\n就可以在這裡管理"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "템플릿 미리보기" : {
       "comment" : "Template Preview",
@@ -83369,7 +83732,8 @@
             "value" : "選擇範本"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "템플릿 수" : {
       "comment" : "Usage metric: templates",
@@ -83422,7 +83786,8 @@
             "value" : "範本名稱"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "템플릿 입력" : {
       "comment" : "Template input title",
@@ -83657,7 +84022,8 @@
             "value" : "也來做一個範本吧？"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "템플릿으로 만들기" : {
       "comment" : "Action: turn memo into a template",
@@ -83803,7 +84169,8 @@
             "value" : "把範本補充完整"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "템플릿이 없습니다" : {
       "comment" : "No templates",
@@ -83827,7 +84194,8 @@
             "value" : "沒有範本"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "통관번호" : {
       "comment" : "Declaration Number",
@@ -83916,7 +84284,8 @@
             "value" : "用工具欄按鈕可以在列表和鍵盤頁面之間切換，也可以在「設定 › 首屏」裡選擇啓動時的頁面。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "튜토리얼 다시 하기" : {
       "comment" : "Restart the tutorial",
@@ -84105,7 +84474,8 @@
             "value" : "這些是你跟著引導做出來的。如果還會用，就留著吧。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "튜토리얼이 가리키는 단축어가 다른 페이지에 있어 안 보이던 것을 고쳤어요" : {
       "comment" : "Changelog 5.0.0 tutorial page",
@@ -84158,7 +84528,8 @@
             "value" : "還有一個引導"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "틀린 카드번호는 저장할 때 알려드려요" : {
       "comment" : "DYK title: checksum",
@@ -84211,7 +84582,8 @@
             "value" : "淡藍色"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "파일 백업" : {
       "comment" : "File backup section header",
@@ -84885,7 +85257,8 @@
             "value" : "字體大小"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "표시 옵션" : {
       "comment" : "Section: display options",
@@ -85260,7 +85633,8 @@
             "value" : "意見回饋內容"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "피드백 보내기" : {
       "comment" : "Send feedback settings entry",
@@ -85312,7 +85686,8 @@
             "value" : "「發送意見回饋」設定項"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "피드백 유형" : {
       "extractionState" : "stale",
@@ -85335,7 +85710,8 @@
             "value" : "意見回饋類型"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "피드백 전부 보기" : {
       "comment" : "Usage stats: open feedback inbox",
@@ -85388,7 +85764,8 @@
             "value" : "意見回饋已發送！\n謝謝你寶貴的意見 🙏"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "피드백을 보냈습니다!\\n소중한 의견 감사합니다 🙏" : {
       "comment" : "Auto-registered",
@@ -85418,7 +85795,8 @@
             "value" : "意見回饋已發送！\n謝謝你寶貴的意見 🙏"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "피드백을 불러오지 못했어요: %@" : {
       "comment" : "Feedback inbox load error",
@@ -85442,7 +85820,8 @@
             "value" : "沒能載入意見回饋：%@"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "픽셀 마을" : {
       "comment" : "Living skin name: pixel village",
@@ -86622,7 +87001,8 @@
             "value" : "批量匯入也能先預覽"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "한꺼번에 가져올 때 저장하기 전에 키보드 모습으로 보여줘요. 키를 눌러 뺄 것만 빼면 돼요" : {
       "comment" : "Changelog 4.4.5 item 1",
@@ -86965,7 +87345,8 @@
             "value" : "項目（%d 個）"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "항목 (\\(selectedItems.count)개)" : {
       "comment" : "Auto-registered",
@@ -87025,7 +87406,8 @@
             "value" : "項目間距"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "항목 추가" : {
       "comment" : "Add Item\nAdd item button",
@@ -87049,7 +87431,8 @@
             "value" : "新增項目"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "항목을 골라주세요" : {
       "comment" : "Starter pack add button (none selected)",
@@ -87073,7 +87456,8 @@
             "value" : "請選擇項目"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "항목을 추가해주세요" : {
       "comment" : "Add items prompt",
@@ -87097,7 +87481,8 @@
             "value" : "請新增項目"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "항상 표시" : {
       "comment" : "Category always visible",
@@ -87476,7 +87861,8 @@
             "value" : "顯示模式"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "화면 색조에서 옅게 섞여 있던 노란 기를 걷어냈어요. 삭제·저장·주의를 알리는 빨강·초록·노랑과 갈래 색은 그대로예요" : {
       "comment" : "Changelog 5.0.3 neutral tone",
@@ -87593,7 +87979,8 @@
             "value" : "選擇螢幕上顯示的按鈕列數。列數越多，一眼能看到的按鈕就越多。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "화면이 둘이라고 알려 드릴 때 위의 버튼과 아래 탭이 함께 빛나요. 콤보 키에서 잘려 나가던 물결도 고쳤어요" : {
       "comment" : "Changelog 5.0.3 highlight fix",
@@ -88473,7 +88860,8 @@
             "value" : "🎉 第一次貼上完成！現在你是真正的 CrocoClip 使用者了"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "🎓 학번" : {
       "comment" : "Student example tag: student ID",
@@ -88713,7 +89101,8 @@
             "value" : "📁 檔案備份是獨立於 iCloud、把資料以檔案形式儲存下來最穩妥的方式。匯入會合併到當前資料裡，不會清空。"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "📋 미팅 단축어" : {
       "comment" : "Business example tag: meeting notes",

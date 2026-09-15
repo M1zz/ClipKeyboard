@@ -108,8 +108,11 @@ struct KeyboardLayoutSettings: View {
     var body: some View {
         VStack(spacing: 0) {
             // ── 상단 고정 실시간 미리보기 - 아래 설정을 바꾸면 즉시 반영된다 ──
+            // ⚠️ **위를 기준으로 담는다.** 가운데로 두면 줄여 담은 키보드가 위아래로
+            //    똑같이 삐져나가고, 그 위쪽이 바로 조작 키 줄이다. 잘릴 데가 있다면 아래여야 한다.
+            //    (여기서 200 을 주고 미리보기가 그 안에 맞춰 줄어든다 - `KeyboardPreviewView.budget`)
             KeyboardPreviewView()
-                .frame(height: 200)
+                .frame(height: KeyboardPreviewView.budget, alignment: .top)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
                 .overlay(
                     RoundedRectangle(cornerRadius: theme.radiusMd)
@@ -596,12 +599,15 @@ struct KeyboardPreviewView: View {
 
     /// 설정 화면에서 미리보기가 쓸 수 있는 높이. 이보다 크면 줄여 담는다.
     ///
-    /// 화면의 3분의 1쯤이다. 더 키우면 정작 만질 설정이 밀려 내려가고, 더 줄이면
-    /// 키가 뭉개져 "이게 그거구나" 가 안 읽힌다.
-    private var previewBudget: CGFloat { min(260, UIScreen.main.bounds.height * 0.32) }
+    /// ⚠️ **바깥에서 주는 높이와 같은 값이어야 한다.** 달랐을 때 무슨 일이 났는지가
+    ///    이 값을 static 으로 꺼내 둔 이유다. 바깥은 200 으로 자르고 안쪽은 260 에
+    ///    맞춰 줄이고 있었더니, 60 이 위아래로 갈려 삐져나가며 **조작 키 줄이 통째로
+    ///    잘렸다.** 정작 이 화면에서 켜고 끄는 것이 그 줄이라, 사용자는 토글을 눌러도
+    ///    아무 일도 안 일어나는 것으로 봤다.
+    static let budget: CGFloat = 200
 
     private var previewScale: CGFloat {
-        min(1, previewBudget / max(naturalHeight, 1))
+        min(1, Self.budget / max(naturalHeight, 1))
     }
 
     /// 지금 고른 설정으로 실제 키보드가 차지할 높이. **익스텐션과 같은 함수로 잰다** -
