@@ -124,6 +124,9 @@ struct InAppKeyboardStage: View {
     ///    요소들이 서로 겹친 채 도착했다(실측). 실려 오는 것은 이미 다 그려져 있어야 한다.
     @State private var keyboardReady = KeyboardInstallState.isUsable
 
+    /// 이 사람이 어디쯤인가 - 켜기 띠를 **누구에게** 낼지는 여기서 갈린다.
+    @ObservedObject private var userState = UserStateStore.shared
+
     /// 켜기 띠를 **언제부터** 띄울지 가르는 값들(`KeyboardSetupBannerGate`).
     /// 튜토리얼을 막 끝낸 자리에서 곧바로 "아직 못 쓴다"가 뜨지 않게 한 호흡 쉰다.
     @AppStorage(DefaultsKey.startedFreshV444) private var startedFresh: Bool = false
@@ -157,7 +160,8 @@ struct InAppKeyboardStage: View {
             finishedAtLaunch: tutorialFinishedAtLaunch,
             launchCount: UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount),
             otherBannerShowing: otherBannerShowing,
-            switchHintSeen: switchHintSeen)
+            switchHintSeen: switchHintSeen,
+            stateAllows: userState.isVisible(.keyboardSetupBanner))
     }
 
     /// 아래 키보드가 쓰는 것과 **같은** 배경 설정 - 무대 배경을 거기에 맞춘다.

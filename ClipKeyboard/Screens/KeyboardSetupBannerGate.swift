@@ -15,6 +15,11 @@
 //     튜토리얼이 끝나는 그 자리에는 늘 "이 탭에는 화면이 둘이에요"가 먼저 서 있어서,
 //     그걸 닫는 순간이 곧 한 호흡이 끝나는 순간이다.
 //
+//  ⚠️ **누구에게 말할지는 여기서 정하지 않는다.** 이 파일이 답하는 것은 "지금이 말할
+//     때인가" 하나다. "이 사람에게 낼 자리인가" 는 상태 모델이 답한다
+//     (`UserSurface.keyboardSetupBanner` · docs/product/USER_STATE_MODEL.md).
+//     둘을 한 곳에 섞으면, 타이밍을 고치려다 대상이 바뀌고 그 반대도 일어난다.
+//
 //  ⚠️ **띠는 한 자리에 하나만.** 다른 안내가 그 자리를 쓰고 있으면 비켜 준다.
 //     쌓아 올리면 무대가 밀려 내려가고, 무엇부터 읽어야 하는지도 알 수 없다.
 //     대신 그 자리가 비면 **켤 때까지 여기가 채운다** - 이 띠는 다른 안내와 달리
@@ -38,6 +43,9 @@ enum KeyboardSetupBannerGate {
     ///   - launchCount: 지금 실행의 앱 실행 횟수. 이게 더 크면 **앱을 다시 연 것**이다.
     ///   - otherBannerShowing: 그 자리에 이미 다른 안내가 서 있는가. 있으면 비켜 준다.
     ///   - switchHintSeen: 전환 안내를 읽고 넘겼는가. 그것도 한 호흡으로 친다.
+    ///   - stateAllows: 이 사람에게 낼 자리인가(`UserSurface.keyboardSetupBanner`).
+    ///     아직 자기 단축어가 하나도 없는 사람에게는 켜라는 말을 하지 않는다 - 켤 이유가
+    ///     아직 없고, 그 사람이 넘어야 할 벽은 첫 단축어다. 휴면인 사람에게도 말하지 않는다.
     static func shows(keyboardUsable: Bool,
                       startedFresh: Bool,
                       finishedAt: Date?,
@@ -45,9 +53,12 @@ enum KeyboardSetupBannerGate {
                       launchCount: Int,
                       otherBannerShowing: Bool = false,
                       switchHintSeen: Bool = false,
+                      stateAllows: Bool = true,
                       now: Date = Date()) -> Bool {
         // 하나뿐인 종료 조건 - 켜져 있으면 켜는 법을 말하지 않는다.
         guard !keyboardUsable else { return false }
+        // 이 사람에게 낼 자리가 아니면 때를 따질 것도 없다.
+        guard stateAllows else { return false }
         // 한 자리에 하나만. 다른 안내가 쓰고 있으면 비켜 준다.
         guard !otherBannerShowing else { return false }
         // 쓰던 사람은 튜토리얼을 걷지 않는다. 미룰 이유도 없다.

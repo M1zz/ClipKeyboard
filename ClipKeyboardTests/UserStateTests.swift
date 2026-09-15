@@ -174,9 +174,21 @@ final class UserStateTests: XCTestCase {
     func testExpertKeepsBeginnerGuidanceOff() {
         let expert = state(.expert)
         XCTAssertEqual(expert.visibility(of: .tutorialStage), .hidden)
-        XCTAssertEqual(expert.visibility(of: .keyboardSetupBanner), .hidden)
+        XCTAssertEqual(expert.visibility(of: .exampleMart), .hidden)
         XCTAssertEqual(expert.visibility(of: .statsPassport), .lead)
         XCTAssertEqual(expert.visibility(of: .combo), .lead)
+    }
+
+    /// 키보드 켜기는 초심자 안내가 아니다.
+    ///
+    /// 앱 안에서만 쓰며 200번을 넘긴 사람이 있다. 켤 줄 몰라서가 아니라 켠 적이 없을
+    /// 뿐이고, 그에게 "다른 앱에서도 쓸 수 있어요" 는 가장 값진 한마디다.
+    /// 앞에 세우지만 않는다.
+    func testKeyboardSetupStaysReachableForExperts() {
+        XCTAssertEqual(state(.expert).visibility(of: .keyboardSetupBanner), .quiet)
+        XCTAssertEqual(state(.made).visibility(of: .keyboardSetupBanner), .lead)
+        XCTAssertEqual(state(.browsing).visibility(of: .keyboardSetupBanner), .hidden,
+                       "아직 하나도 안 만든 사람이 넘어야 할 벽은 첫 단축어다")
     }
 
     /// 칸이 모자란 게 아니라 못 찾는 것이다.

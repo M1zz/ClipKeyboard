@@ -247,7 +247,8 @@ struct KeyboardSetupBannerGateTests {
                        finishedAtLaunch: Int = 10,
                        launchCount: Int = 10,
                        otherBanner: Bool = false,
-                       hintSeen: Bool = false) -> Bool {
+                       hintSeen: Bool = false,
+                       stateAllows: Bool = true) -> Bool {
         KeyboardSetupBannerGate.shows(
             keyboardUsable: usable,
             startedFresh: fresh,
@@ -256,6 +257,7 @@ struct KeyboardSetupBannerGateTests {
             launchCount: launchCount,
             otherBannerShowing: otherBanner,
             switchHintSeen: hintSeen,
+            stateAllows: stateAllows,
             now: now)
     }
 
@@ -265,6 +267,26 @@ struct KeyboardSetupBannerGateTests {
         #expect(shows(usable: true, finishedMinutesAgo: 60 * 24) == false)
         #expect(shows(usable: true, fresh: false) == false)
         #expect(shows(usable: true, launchCount: 99) == false)
+    }
+
+    /// 때가 맞아도 **이 사람에게 낼 자리가 아니면** 말하지 않는다.
+    ///
+    /// 아직 자기 단축어가 하나도 없는 사람이 그렇다. 켤 이유가 아직 없고, 그 사람이
+    /// 넘어야 할 벽은 첫 단축어다. 휴면인 사람도 마찬가지다
+    /// (판정은 `UserSurface.keyboardSetupBanner`, 여기서는 그 답을 받아만 쓴다).
+    @Test("낼 자리가 아니면 때를 따질 것도 없다")
+    func silentWhenStateSaysNo() {
+        #expect(shows(fresh: false, finishedMinutesAgo: nil, stateAllows: false) == false)
+        #expect(shows(finishedMinutesAgo: 60 * 24, stateAllows: false) == false)
+        #expect(shows(hintSeen: true, stateAllows: false) == false)
+    }
+
+    /// 자리가 맞아도 **때가 아니면** 말하지 않는다. 두 판단은 서로를 대신하지 못한다.
+    @Test("자리가 맞아도 배우는 도중에는 끼어들지 않는다")
+    func stateAloneDoesNotOpenTheGate() {
+        #expect(shows(finishedMinutesAgo: nil, stateAllows: true) == false)
+        #expect(shows(otherBanner: true, stateAllows: true) == false)
+        #expect(shows(usable: true, stateAllows: true) == false)
     }
 
     @Test("쓰던 사람에게는 미룰 이유가 없다. 튜토리얼을 걷지 않으니 끝날 일도 없다")

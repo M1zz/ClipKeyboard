@@ -391,7 +391,11 @@ extension UserState {
         switch surface {
         case .tutorialStage:       row = [.lead,   .quiet,  .hidden, .hidden, .hidden]
         case .createShortcut:      row = [.lead,   .quiet,  .lead,   .lead,   .lead]
-        case .keyboardSetupBanner: row = [.hidden, .lead,   .quiet,  .hidden, .hidden]
+        // ⚠️ 능숙한 칸이 `.hidden` 이 아니다. 앱 안에서만 쓰며 200번을 넘긴 사람도 있고,
+        //    그 사람은 키보드를 **켤 줄 몰라서** 가 아니라 켠 적이 없을 뿐이다. 그에게
+        //    "다른 앱에서도 쓸 수 있어요" 는 초심자 안내가 아니라 가장 값진 한마디다.
+        //    앞에 세우지만 않는다. 이미 켠 사람에게는 어차피 문(`keyboardUsable`)이 막는다.
+        case .keyboardSetupBanner: row = [.hidden, .lead,   .quiet,  .hidden, .quiet]
         case .clipboardCapture:    row = [.hidden, .quiet,  .lead,   .lead,   .lead]
         case .favorites:           row = [.hidden, .hidden, .lead,   .lead,   .lead]
         case .template:            row = [.hidden, .hidden, .quiet,  .lead,   .lead]
