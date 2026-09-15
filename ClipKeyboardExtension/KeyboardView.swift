@@ -495,18 +495,16 @@ struct KeyboardView: View {
         if isCategoryFeatureEnabled, let category = page {
             switch category {
             case "★basic":
-                // 기본 = **갈 수 있는** 어떤 카테고리 페이지에도 속하지 않은 비즐겨찾기 메모.
+                // 기본 = **갈 수 있는** 어떤 카테고리 페이지에도 속하지 않은 메모.
                 // ⚠️ 판정은 앱과 **같은 함수**(`CategoryBucketRule`)로 한다. 두 벌로 적어 두었던
                 //    동안 양쪽 다 숨긴 카테고리를 빠뜨려, 그 안의 단축어가 어느 페이지에도
                 //    나타나지 않았다(검색은 고른 페이지 위에서 도므로 검색으로도 못 찾는다).
+                // ⚠️ 즐겨찾기는 빼지 않는다 - 별표는 자리를 옮기는 것이 아니라 겹쳐 보는 것이다.
                 let visible = CategoryBucketRule.visibleCategories(all: sharedUserCategories,
                                                                    hidden: sharedHiddenCategoryTabs)
-                let favoritesVisible = !sharedHiddenCategoryTabs.contains(CategoryBucketRule.favoritesTabKey)
                 result = result.filter {
                     CategoryBucketRule.belongsToBasicBucket(category: $0.category,
-                                                            isFavorite: $0.isFavorite,
-                                                            visibleCustomCategories: visible,
-                                                            favoritesTabVisible: favoritesVisible)
+                                                            visibleCustomCategories: visible)
                 }
             case "★favorites":
                 result = result.filter { $0.isFavorite }
@@ -630,15 +628,21 @@ struct KeyboardView: View {
         return categoryPages[index]
     }
 
-    /// 카테고리 페이지 목록 - iOS 앱 ClipKeyboardListViewModel.allCategoryTabs와 완전 동일.
-    /// 순서: 기본(★basic) → 즐겨찾기(숨김 아니면 항상) → 기본 제공(켠 것) → 사용자 카테고리(메모 있는 것).
+    /// 카테고리 페이지 목록 - iOS 앱 ClipKeyboardListViewModel.allCategoryTabs와 같은 규칙.
+    /// 순서: 기본(★basic) → 즐겨찾기 → 기본 제공(켠 것) → 사용자 카테고리(메모 있는 것).
     /// "전체(★all)" 탭은 앱에서 제거됐으므로 키보드에서도 노출하지 않는다.
+    ///
+    /// ⚠️ **빈 페이지는 만들지 않는다.** 키보드는 옆으로 넘겨서 옮겨 다니는 판이라,
+    ///    아무것도 없는 페이지가 한 장 끼면 넘기다 말고 되돌아와야 한다.
+    ///    판정은 앱과 같은 함수(`CategoryBucketRule`)로 한다.
     private var categoryPages: [String] {
         guard isCategoryFeatureEnabled else { return [] }
         let hidden = sharedHiddenCategoryTabs
-        var pages: [String] = ["★basic"]
-        // 즐겨찾기: 숨기지 않은 한 메모 유무와 무관하게 항상 노출 (앱과 동일).
-        if !hidden.contains("__favorites__") {
+        var pages: [String] = []
+
+        // 즐겨찾기: 별이 하나라도 달렸을 때만.
+        let favoriteCount = allMemos.reduce(0) { $0 + ($1.isFavorite ? 1 : 0) }
+        if CategoryBucketRule.showsFavoritesTab(favoriteCount: favoriteCount, hidden: hidden) {
             pages.append("★favorites")
         }
         // 기본 제공 카테고리 - 사용자가 켠 것만(타입 기준이라 메모 유무 무관).
@@ -652,6 +656,16 @@ struct KeyboardView: View {
                 allMemos.contains { $0.category == name }
             }
         pages.append(contentsOf: usedCategories)
+
+        // 기본은 맨 앞이되, 받은 것이 없으면 쉰다. 다른 페이지가 없으면 비어도 선다.
+        let visible = CategoryBucketRule.visibleCategories(all: sharedUserCategories, hidden: hidden)
+        let basicCount = allMemos.reduce(0) {
+            $0 + (CategoryBucketRule.belongsToBasicBucket(category: $1.category,
+                                                          visibleCustomCategories: visible) ? 1 : 0)
+        }
+        if CategoryBucketRule.showsBasicTab(basicCount: basicCount, otherTabCount: pages.count) {
+            pages.insert("★basic", at: 0)
+        }
         return pages
     }
 

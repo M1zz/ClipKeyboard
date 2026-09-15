@@ -223,9 +223,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
             let visible = visibleCustomCategories
             return loadedData.filter {
                 CategoryBucketRule.belongsToBasicBucket(category: $0.category,
-                                                        isFavorite: $0.isFavorite,
-                                                        visibleCustomCategories: visible,
-                                                        favoritesTabVisible: favoritesTabVisible)
+                                                        visibleCustomCategories: visible)
             }
         case .favorites:
             return loadedData.filter { $0.isFavorite }
@@ -421,21 +419,59 @@ final class ClipKeyboardListViewModel: ObservableObject {
     @Published var enabledBuiltInCategories: [BuiltInCategory] = []
 
     var allCategoryTabs: [CategoryTab] {
-        var tabs: [CategoryTab] = [.basic]
-        // 즐겨찾기는 기본 제공 카테고리 - 메모 유무와 무관하게 항상 노출 (사용자가 숨기지 않는 한)
-        if !hiddenCategoryTabs.contains("__favorites__") {
+        var tabs: [CategoryTab] = []
+
+        // 즐겨찾기: 별이 하나라도 달렸을 때만. 아무것도 없는 페이지를 한 장 끼워 두지 않는다.
+        if CategoryBucketRule.showsFavoritesTab(favoriteCount: unfilteredFavoriteCount,
+                                                hidden: hiddenCategoryTabs) {
             tabs.append(.favorites)
         }
-        // 기본 제공 카테고리(켠 것만). 타입 기준이므로 사용자가 켜면 메모 유무와 무관하게 노출.
+        // 기본 제공 카테고리(켠 것만). 타입 기준이라 사용자가 켠 것은 비어 있어도 세운다.
         for b in enabledBuiltInCategories {
             tabs.append(.builtIn(b))
         }
         // 사용자 카테고리는 카테고리 관리에서 토글을 켠(= 숨기지 않은) 것이면 노출.
         // 메모가 없어(빈 화면) 도 탭으로 보여 스와이프로 이동할 수 있게 한다.
+        // ⚠️ 이쪽은 비어도 세운다. 방금 만든 카테고리가 그 모습이고, 거기로 옮기려면 갈 자리가 있어야 한다.
         for cat in customCategories where !hiddenCategoryTabs.contains(cat) {
             tabs.append(.custom(cat))
         }
+
+        // 기본은 **맨 앞**이지만, 받은 것이 없으면 쉰다. 다른 탭이 하나도 없으면 비어도 선다.
+        if CategoryBucketRule.showsBasicTab(basicCount: unfilteredBasicBucketCount,
+                                            otherTabCount: tabs.count) {
+            tabs.insert(.basic, at: 0)
+        }
         return tabs
+    }
+
+    /// 탭을 세울지 정할 때 쓰는 **거르지 않은** 즐겨찾기 수.
+    ///
+    /// ⚠️ `memos` 가 아니라 `loadedData` 다. 검색어를 치는 동안 탭이 사라졌다 나타나면
+    ///    손가락 아래에서 페이지가 미끄러진다.
+    private var unfilteredFavoriteCount: Int {
+        loadedData.reduce(0) { $0 + ($1.isFavorite ? 1 : 0) }
+    }
+
+    /// 탭을 세울지 정할 때 쓰는 **거르지 않은** 기본 칸 수. 위와 같은 이유로 `loadedData` 기준이다.
+    private var unfilteredBasicBucketCount: Int {
+        let visible = visibleCustomCategories
+        return loadedData.reduce(0) {
+            $0 + (CategoryBucketRule.belongsToBasicBucket(category: $1.category,
+                                                          visibleCustomCategories: visible) ? 1 : 0)
+        }
+    }
+
+    /// 서 있던 탭이 접혔으면 옆 자리로 옮긴다.
+    ///
+    /// 마지막 즐겨찾기를 지우거나 마지막 단축어를 카테고리로 옮기면 그 탭이 접힌다.
+    /// 그때 고른 탭을 그대로 두면 **어느 탭도 아닌 자리**에 서서 빈 화면만 보인다.
+    func normalizeSelectedCategoryTabIfNeeded() {
+        let tabs = allCategoryTabs
+        guard !tabs.isEmpty, !tabs.contains(selectedCategoryTab) else { return }
+        selectedCategoryTab = tabs[0]
+        UserDefaults.standard.set(tabs[0].storageKey, forKey: Self.selectedCategoryTabKey)
+        print("↔️ [CategoryTab] 서 있던 탭이 접혀 '\(tabs[0].displayName)' 으로 옮김")
     }
 
     var selectedCategoryIndex: Int {
@@ -559,9 +595,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         let visible = visibleCustomCategories
         return memos.filter {
             CategoryBucketRule.belongsToBasicBucket(category: $0.category,
-                                                    isFavorite: $0.isFavorite,
-                                                    visibleCustomCategories: visible,
-                                                    favoritesTabVisible: favoritesTabVisible)
+                                                    visibleCustomCategories: visible)
         }
     }
 
@@ -1015,6 +1049,9 @@ final class ClipKeyboardListViewModel: ObservableObject {
         }
 
         memos = filtered
+        // 마지막 즐겨찾기를 지웠거나 마지막 단축어를 카테고리로 옮겼으면 그 탭이 접힌다.
+        // 서 있던 자리가 사라졌는데 그대로 두면 빈 화면만 남는다.
+        normalizeSelectedCategoryTabIfNeeded()
         print("✅ [applyFilters] 완료 - memos: \(memos.count)개")
     }
 

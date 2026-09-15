@@ -151,7 +151,12 @@ final class MemoListSortingTests: XCTestCase {
         XCTAssertEqual(scoped.map(\.title), ["C", "A"])
     }
 
-    func testReorderScope_BasicTab_ExcludesCustomCategoryAndFavorites() {
+    /// 기본 탭의 재정렬 대상은 **갈 카테고리가 없는 것 전부**다.
+    ///
+    /// ⚠️ 즐겨찾기는 빠지지 않는다. 별표는 자리를 옮기는 것이 아니라 겹쳐 보는 것이라
+    ///    기본 칸에 그대로 있고, 화면에 보이는 것은 순서를 바꿀 수 있어야 한다
+    ///    (`CategoryBucketRule` 참고).
+    func testReorderScope_BasicTab_ExcludesCustomCategoryButKeepsFavorites() {
         // Given - 여행 카테고리 메모 + 즐겨찾기 + 일반
         var trip = memo("여행메모", editedDaysAgo: 0); trip.category = "여행"
         let fav = memo("즐겨찾기", favorite: true, editedDaysAgo: 1)
@@ -159,9 +164,9 @@ final class MemoListSortingTests: XCTestCase {
         viewModel.loadedData = [trip, fav, plain]
         viewModel.customCategories = ["여행"]
 
-        // Then - 기본 탭 재정렬 대상은 일반 메모뿐 (여행·즐겨찾기는 각자 탭에서)
+        // Then - 여행은 제 탭에서, 나머지는 기본에서 순서를 바꾼다.
         let scoped = viewModel.reorderScopeMemos(for: .basic)
-        XCTAssertEqual(scoped.map(\.title), ["일반"])
+        XCTAssertEqual(scoped.map(\.title), ["즐겨찾기", "일반"])
     }
 }
 

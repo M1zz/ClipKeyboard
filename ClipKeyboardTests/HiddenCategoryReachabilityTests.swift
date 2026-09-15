@@ -115,23 +115,73 @@ final class HiddenCategoryReachabilityTests: XCTestCase {
 
         // 숨긴 카테고리 → 갈 페이지가 없으니 기본이 받는다.
         XCTAssertTrue(CategoryBucketRule.belongsToBasicBucket(
-            category: "여행", isFavorite: false, visibleCustomCategories: visible))
+            category: "여행", visibleCustomCategories: visible))
         // 지워진 카테고리의 고아 → 기본이 받는다.
         XCTAssertTrue(CategoryBucketRule.belongsToBasicBucket(
-            category: "사라진카테고리", isFavorite: false, visibleCustomCategories: visible))
+            category: "사라진카테고리", visibleCustomCategories: visible))
         // 카테고리 없음 → 기본이 받는다.
         XCTAssertTrue(CategoryBucketRule.belongsToBasicBucket(
-            category: "", isFavorite: false, visibleCustomCategories: visible))
+            category: "", visibleCustomCategories: visible))
         // 보이는 카테고리 → 자기 탭에만. 기본이 받으면 두 번 보인다.
         XCTAssertFalse(CategoryBucketRule.belongsToBasicBucket(
-            category: "업무", isFavorite: false, visibleCustomCategories: visible))
-        // 즐겨찾기는 즐겨찾기 탭이 받는다.
-        XCTAssertFalse(CategoryBucketRule.belongsToBasicBucket(
-            category: "여행", isFavorite: true, visibleCustomCategories: visible))
-        // 즐겨찾기 탭을 숨겼으면 즐겨찾기도 기본이 받는다 - 갈 탭이 없으니까.
+            category: "업무", visibleCustomCategories: visible))
+    }
+
+    /// 별표는 자리를 옮기지 않는다.
+    ///
+    /// 예전에는 즐겨찾기를 기본 칸에서 빼냈다. 그래서 기본 탭에서 별을 누르면 그 단축어가
+    /// 눈앞에서 사라졌고, 카테고리를 안 쓰는 사람은 별을 누를수록 첫 화면이 비어 갔다.
+    /// 정작 '업무' 안의 즐겨찾기는 업무에도 즐겨찾기에도 그대로 있었다. 같은 별표가 두 가지
+    /// 뜻을 가졌던 것이다.
+    func testFavoriteDoesNotMoveTheShortcutOutOfItsBucket() {
+        let visible = CategoryBucketRule.visibleCategories(all: ["업무"], hidden: [])
+
         XCTAssertTrue(CategoryBucketRule.belongsToBasicBucket(
-            category: "여행", isFavorite: true, visibleCustomCategories: visible,
-            favoritesTabVisible: false))
+            category: "", visibleCustomCategories: visible),
+            "카테고리 없는 즐겨찾기는 기본 칸에 그대로 있어야 한다")
+        XCTAssertFalse(CategoryBucketRule.belongsToBasicBucket(
+            category: "업무", visibleCustomCategories: visible),
+            "'업무' 안의 즐겨찾기는 예나 지금이나 업무 탭에 있다")
+    }
+
+    // MARK: - 빈 탭은 세우지 않는다
+
+    /// 별을 하나도 안 단 사람에게 즐겨찾기 탭은 영영 빈 페이지다.
+    func testFavoritesTabStandsOnlyWhenSomethingIsStarred() {
+        seed(categories: [], hidden: [], memos: [Memo(title: "그냥 단축어", value: "값")])
+        XCTAssertFalse(viewModel.allCategoryTabs.contains(.favorites))
+
+        seed(categories: [], hidden: [],
+             memos: [Memo(title: "별 단축어", value: "값", isFavorite: true)])
+        XCTAssertTrue(viewModel.allCategoryTabs.contains(.favorites))
+    }
+
+    /// 단축어를 전부 카테고리로 옮기면 기본 칸은 빈다. 그때 첫 자리를 지키고 서 있을 이유가 없다.
+    func testBasicTabRestsWhenEverythingMovedIntoCategories() {
+        seed(categories: ["업무"], hidden: [],
+             memos: [Memo(title: "옮긴 단축어", value: "값", category: "업무")])
+
+        XCTAssertFalse(viewModel.allCategoryTabs.contains(.basic))
+        XCTAssertTrue(viewModel.allCategoryTabs.contains(.custom("업무")))
+    }
+
+    /// 기본은 마지막 안전망이다. 다른 탭이 하나도 없으면 비어도 선다.
+    func testBasicTabAlwaysStandsWhenItIsTheOnlyOne() {
+        seed(categories: [], hidden: [], memos: [])
+
+        XCTAssertEqual(viewModel.allCategoryTabs, [.basic],
+                       "탭이 0개가 되면 화면이 통째로 사라진다")
+    }
+
+    /// 접힌 탭에 서 있지 않게 한다.
+    func testSelectedTabMovesWhenItsTabRests() {
+        seed(categories: ["업무"], hidden: [],
+             memos: [Memo(title: "옮긴 단축어", value: "값", category: "업무")])
+
+        viewModel.selectedCategoryTab = .basic
+        viewModel.normalizeSelectedCategoryTabIfNeeded()
+
+        XCTAssertEqual(viewModel.selectedCategoryTab, .custom("업무"))
     }
 
     /// 즐겨찾기 탭도 숨길 수 있다. 숨긴 사람의 즐겨찾기 단축어가 갈 곳이 없으면 같은 사고다.
@@ -143,12 +193,17 @@ final class HiddenCategoryReachabilityTests: XCTestCase {
                       "즐겨찾기 탭을 숨겼는데 기본 탭도 안 받으면 그 단축어는 어디에도 없다")
     }
 
-    /// 즐겨찾기 탭이 서 있으면 즐겨찾기는 거기에만 - 기본 탭까지 나오면 두 번 보인다.
-    func testFavoriteStaysInFavoritesTabWhenVisible() {
+    /// 별을 달아도 제자리에 있고, 즐겨찾기 탭에서 한 번 더 보인다.
+    ///
+    /// ⚠️ 예전에는 기본 탭에서 빠지는 것이 규칙이었다("두 번 보이면 안 된다").
+    ///    그 규칙 때문에 기본 탭에서 별을 누르면 단축어가 눈앞에서 사라졌다.
+    func testFavoriteIsShownInBothItsBucketAndFavorites() {
         seed(categories: [], hidden: [],
              memos: [Memo(title: "보이는 즐겨찾기", value: "값", isFavorite: true)])
 
-        XCTAssertFalse(viewModel.memos(for: .basic).contains { $0.title == "보이는 즐겨찾기" })
+        XCTAssertTrue(viewModel.memos(for: .basic).contains { $0.title == "보이는 즐겨찾기" },
+                      "별을 눌렀다고 기본 칸에서 사라지면 안 된다")
+        XCTAssertTrue(viewModel.memos(for: .favorites).contains { $0.title == "보이는 즐겨찾기" })
         XCTAssertTrue(isReachable("보이는 즐겨찾기"))
     }
 
