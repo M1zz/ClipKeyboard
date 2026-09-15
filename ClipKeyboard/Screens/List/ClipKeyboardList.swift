@@ -1912,7 +1912,16 @@ struct ClipKeyboardList: View {
                 pageHeader(for: tab)
 
                 // 상단 여백 - 제목과 팁/그리드 사이 숨 쉬는 공간
-                Color.clear.frame(height: 8)
+                //
+                // ⚠️ 8 이었다. 제목 글자 아래끝에서 첫 카드 윗변까지 22pt 가 떠서 제목과
+                //    목록이 한 덩어리로 안 읽혔다. 제목 글꼴의 디센더가 이미 쿠션 노릇을
+                //    하므로 여기서 당겨도 붙지 않는다(iPhone 17 Pro Max 실측 22pt → 16pt).
+                // ⚠️ **위 여백을 여기 말고 다른 데서 찾지 말 것.** `pageContentTopMargin` 과
+                //    `measuredBarBottomMargin` 은 페이저가 네비바를 덮지 않게 하는 값이라,
+                //    그 둘을 6pt 씩 건드려 봐도 이 사이는 1pt 도 안 움직였다(실측).
+                // ⚠️ 아래 `filteredTabScrollView` 의 같은 빈 칸과 **같은 값**이어야 한다.
+                //    다르면 기본 탭과 카테고리 탭의 제목 아래가 달라 보인다.
+                Color.clear.frame(height: 2)
 
                 // TipKit 팁들
                 // ⚠️ 세로 패딩(top/bottom)을 이 블록에 붙이지 않는다.
@@ -2003,7 +2012,8 @@ struct ClipKeyboardList: View {
             LazyVStack(alignment: .leading, spacing: 0) {
                 // 배너 - 스크롤 콘텐츠라 스크롤하면 함께 올라간다(타이틀은 바에 고정, inlineLarge).
                 pageHeader(for: tab)
-                Color.clear.frame(height: 8)
+                // 위 여백 - `allTabScrollView` 의 같은 빈 칸과 같은 값을 쓴다.
+                Color.clear.frame(height: 2)
                 LazyVGrid(columns: gridColumns, spacing: 12) {
                     if pendingSlot { pendingSlotCell }
                     ForEach(memos) { memo in
