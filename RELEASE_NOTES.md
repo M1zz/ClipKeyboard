@@ -19,6 +19,8 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 ### 앱스토어 (한국어)
 
 ```
+새 단축어 화면을 열면 바로 적을 수 있어요.
+키보드에서 카테고리 이름이 다시 보여요.
 즐겨찾기에 넣어도 단축어가 제자리에 남아요.
 비어 있는 목록은 더 이상 보이지 않아요.
 보던 목록이 비면 다음 목록으로 넘어가요.
@@ -27,6 +29,8 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 ### App Store (English)
 
 ```
+The new snippet screen is ready to type in.
+Category names are back on the keyboard.
 Favoriting a snippet no longer moves it away.
 Empty lists no longer take up room.
 If the list you are on empties, the next one opens.
@@ -35,6 +39,8 @@ If the list you are on empties, the next one opens.
 ### 앱스토어 (중국어 간체)
 
 ```
+新建短语时可以直接开始输入。
+键盘上重新显示分类名称。
 收藏短语后，它仍然留在原来的位置。
 空的列表不再占位置。
 正在看的列表空了，会自动跳到下一个。
@@ -43,6 +49,8 @@ If the list you are on empties, the next one opens.
 ### 앱스토어 (중국어 번체)
 
 ```
+新建短語時可以直接開始輸入。
+鍵盤上重新顯示分類名稱。
 收藏短語後，它仍然留在原來的位置。
 空的清單不再佔位置。
 正在看的清單空了，會自動跳到下一個。
@@ -52,6 +60,8 @@ If the list you are on empties, the next one opens.
 <!-- App Store Connect ▸ 앱 정보 ▸ 현지화에 러시아어를 추가해야 이 글이 올라갑니다 (사람이 웹에서) -->
 
 ```
+Экран новой фразы сразу готов к вводу.
+Названия категорий снова видны на клавиатуре.
 Добавление в избранное больше не убирает фразу с места.
 Пустые списки больше не занимают место.
 Если открытый список опустел, откроется следующий.
