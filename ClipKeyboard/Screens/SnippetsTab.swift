@@ -122,11 +122,22 @@ enum SnippetsOnboardingStep: Equatable {
     ///    그래서 **켜졌는지를 여기서 묻지 않는다.** 예전에는 `keyboardUsable` 을 받아
     ///    걸음을 갈랐는데, 지금 그 값은 걸음과 아무 상관이 없다. 안 쓰는 값을 받아 두면
     ///    다음 사람이 "여기서 뭔가 하겠거니" 하고 다시 문을 세운다.
+    ///
+    /// ⚠️ **누구에게 보일지는 여기서 정하지 않는다.** 이 함수가 답하는 것은 "그 길의
+    ///    어디쯤인가" 하나다. "이 사람에게 낼 자리인가" 는 상태 모델이 답한다
+    ///    (`UserSurface.tutorialStage` · docs/product/USER_STATE_MODEL.md).
+    ///
+    ///    표식만으로는 못 가리는 사람이 둘 있다.
+    ///     · **한참 쓰다가 돌아온 사람.** 표식은 안 끝난 채 남아 있는데 그 사이 수백 번을
+    ///       썼다. 그 사람에게 "무엇을 넣어 뒀는지" 부터 다시 알리면 앱이 자기를 잊은 것이다.
+    ///     · **튜토리얼을 지나쳐 놓고 이미 쓰고 있는 사람.** 배울 것이 남았다고 말할 자리가
+    ///       아니다. 쓰고 있다는 것이 다 배웠다는 뜻이다.
     static func current(startedFresh: Bool,
                         welcomeDone: Bool,
                         chaptersDone: Bool,
-                        makeOwnDone: Bool) -> SnippetsOnboardingStep {
-        guard startedFresh else { return .done }
+                        makeOwnDone: Bool,
+                        stateAllows: Bool = true) -> SnippetsOnboardingStep {
+        guard startedFresh, stateAllows else { return .done }
         if !welcomeDone { return .welcome }
         if !chaptersDone { return .tryScenarios }
         if !makeOwnDone { return .makeOwn }
@@ -221,6 +232,8 @@ struct SnippetsStyleSwitchButton: View {
 // MARK: - 탭 껍데기
 
 struct SnippetsTab: View {
+    /// 이 사람이 어디쯤인가 - 첫 흐름을 **누구에게** 보일지가 여기서 갈린다.
+    @ObservedObject private var userState = UserStateStore.shared
     @AppStorage(DefaultsKey.snippetsTabStyle) private var styleRaw: String = SnippetsTabStyle.list.rawValue
     @AppStorage(DefaultsKey.keyboardStageOffered) private var offered: Bool = false
     /// 환영 화면을 지났는가(시작했든 나중에 보기로 했든).
@@ -311,7 +324,8 @@ struct SnippetsTab: View {
                  chaptersDone: chaptersFinished
                      || (tutorialSnippetDone && tutorialTemplateDone
                          && tutorialStackDone && tutorialLayoutDone),
-                 makeOwnDone: makeOwnDone)
+                 makeOwnDone: makeOwnDone,
+                 stateAllows: userState.isVisible(.tutorialStage))
     }
 
     /// 장과 장 사이 쉼(초). 이 동안 카운트다운 원이 돈다.
@@ -472,6 +486,9 @@ struct SnippetsTab: View {
             askPersonaIfEarned()
         }
         .onAppear {
+            // 첫 흐름을 걸을 사람인지부터 다시 잰다. 목록을 거치지 않고 무대로 바로
+            // 들어오는 길이 있어서, 목록의 갱신에 기대면 낡은 판정으로 걸음이 정해진다.
+            userState.refresh()
             offerKeyboardStageIfNeeded()
             resumeTutorialIfStalled()
             completeMakeOwnIfMadeSomething()

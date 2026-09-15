@@ -276,14 +276,23 @@ default:                   EmptyView()
 
 ## 9. 아직 안 한 것
 
-- **붙여 넣기.** 첫 자리 하나는 붙였다. 빈 목록에 뜨는 "예시에서 골라 담기" 버튼이
-  `UserSurface.exampleMart` 를 읽는다(`ClipKeyboardList.minimalEmptyState`). 아직 자기 것을
-  하나도 안 만든 사람에게만 뜨고, 한 번이라도 만든 사람에게는 참견이 되므로 사라진다.
+- **붙여 넣기.** 세 자리를 붙였다.
+
+  | 자리 | 어디서 읽나 | 무엇이 달라졌나 |
+  | --- | --- | --- |
+  | 예시에서 골라 담기 | `ClipKeyboardList.minimalEmptyState` | 아직 하나도 안 만든 사람에게만 뜬다 |
+  | 키보드 켜기 띠 | `KeyboardSetupBannerGate.shows(stateAllows:)` | 첫 단축어 전에는 켜라고 하지 않는다 |
+  | 무대 튜토리얼 | `SnippetsOnboardingStep.current(stateAllows:)` | 돌아온 사람에게 다시 틀지 않는다 |
+
+  **판단을 옮기지 않고 얹었다.** 띠와 계단은 저마다 "지금이 말할 때인가" 를 알고 있고,
+  그 판단은 오래 벼려진 것이라 그대로 둔다. 상태 모델이 답하는 것은 "이 사람에게 낼
+  자리인가" 뿐이다. 한 곳에 섞으면 타이밍을 고치려다 대상이 바뀌고 그 반대도 일어난다.
+  시험도 둘로 나눠 둔다 - 때만 맞아도, 자리만 맞아도 열리지 않는다.
 
   나머지 화면들은 여전히 저마다 조건을 들고 있다
-  (`SnippetsOnboardingStep` · `KeyboardSetupBannerGate` · `DiscountOfferManager` · `ReviewManager`).
-  그 판단을 이 모델로 옮기는 것은 자리마다 따로 해야 한다. 한꺼번에 바꾸면 무엇이 깨졌는지 알 수 없다.
-  옮기는 순서는 막힌 칸부터다. 키보드 켜기 띠 → 무대 튜토리얼 → 한도 안내.
+  (`DiscountOfferManager` · `ReviewManager` · `BulkImportNudge` · `FavoriteNudgeManager`).
+  옮기는 순서는 막힌 칸부터다. 다음은 한도 안내와 반값 제안.
+
 - **다국어.** `localizedName` 과 단계 시뮬레이터 문구가 아직 카탈로그에 없다.
   릴리즈 전에 `python3 scripts/i18n.py extract` 부터 파이프라인을 한 번 돌려야 한다
   (`docs/engineering/I18N_PIPELINE.md`). 지금은 한국어 원문이 그대로 보인다.

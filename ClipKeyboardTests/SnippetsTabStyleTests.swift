@@ -106,11 +106,31 @@ struct SnippetsOnboardingStepTests {
     private func step(fresh: Bool = true,
                       welcome: Bool = false,
                       chapters: Bool = false,
-                      makeOwn: Bool = false) -> SnippetsOnboardingStep {
+                      makeOwn: Bool = false,
+                      stateAllows: Bool = true) -> SnippetsOnboardingStep {
         .current(startedFresh: fresh,
                  welcomeDone: welcome,
                  chaptersDone: chapters,
-                 makeOwnDone: makeOwn)
+                 makeOwnDone: makeOwn,
+                 stateAllows: stateAllows)
+    }
+
+    /// 표식이 안 끝난 채 남아 있어도, **이 사람에게 낼 자리가 아니면** 걷지 않는다.
+    ///
+    /// 한참 쓰다가 돌아온 사람이 그렇다. 표식은 그대로인데 그 사이 수백 번을 썼다.
+    /// 그 사람에게 "무엇을 넣어 뒀는지" 부터 다시 알리면 앱이 자기를 잊은 것이다.
+    /// (판정은 `UserSurface.tutorialStage`, 여기서는 그 답을 받아만 쓴다)
+    @Test("낼 자리가 아니면 표식이 남아 있어도 걷지 않는다")
+    func stateCanCloseTheWalk() {
+        #expect(step(stateAllows: false) == .done)
+        #expect(step(welcome: true, stateAllows: false) == .done)
+        #expect(step(welcome: true, chapters: true, stateAllows: false) == .done)
+    }
+
+    /// 자리가 맞아도 **쓰던 사람**은 걷지 않는다. 두 판단은 서로를 대신하지 못한다.
+    @Test("자리가 맞아도 쓰던 사람은 그대로 지나간다")
+    func stateAloneDoesNotStartTheWalk() {
+        #expect(step(fresh: false, stateAllows: true) == .done)
     }
 
     @Test("쓰던 사람은 이 길을 걷지 않는다. 업데이트했다고 튜토리얼이 뜨면 안 된다")
