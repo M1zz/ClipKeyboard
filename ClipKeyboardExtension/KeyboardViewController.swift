@@ -659,11 +659,14 @@ class KeyboardViewController: UIInputViewController {
         // 필드가 바뀔 때(viewDidAppear)와 글이 바뀔 때 모두 불리는 유일한 곳이라서다.
         // `UITextInputTraits` 의 선택 요구사항이라 옵셔널로 온다. 안 주면 기본 리턴이다.
         let wantedReturn = proxy.returnKeyType ?? .default
+        // 빈 칸에서 리턴을 잠글지도 호스트가 정한다. 검색창·보내기창이 이것을 켠다.
+        let needsText = proxy.enablesReturnKeyAutomatically ?? false
         // @Published 갱신은 메인 스레드에서
         let apply = { [weak self] in
             guard let self else { return }
             if self.documentState.hasText != hasAny { self.documentState.hasText = hasAny }
             if self.documentState.returnKeyType != wantedReturn { self.documentState.returnKeyType = wantedReturn }
+            if self.documentState.returnNeedsText != needsText { self.documentState.returnNeedsText = needsText }
         }
         if Thread.isMainThread {
             apply()

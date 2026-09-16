@@ -972,8 +972,17 @@ struct KeyboardView: View {
 
             // 넣고 나서 보내는 키. **X 옆에 두지 않는다** - 하나는 보내 버리고 하나는
             // 다 지우는 키라, 붙여 놓으면 잘못 누른 값이 양쪽 다 크다. 사이에 지우기를 끼운다.
+            //
+            // ⚠️ 호스트가 시키면 빈 칸에서 **잠근다**(`returnNeedsText`). 검색창·보내기창이
+            //    그것을 켜고, 시스템 키보드도 같은 값을 보고 같이 잠근다. 잠그지 않으면
+            //    빈 검색창에 강조색 `검색` 이 눌리게 서 있는데, 눌러 봐야 줄바꿈 하나가
+            //    들어갈 뿐이라 아무 일도 안 일어난다. 이름이 있는 키는 그 이름의 일을
+            //    할 것처럼 보이므로, 못 할 때는 못 한다고 보여야 한다.
+            //    숨기지는 않는다. 자리가 비면 줄이 흔들리고, 무엇을 누르면 되는지도 감춰진다.
             if let proxy = typingProxy, showReturnKey {
                 returnDocumentKey(proxy: proxy)
+                    .opacity(documentState.returnKeyIsLocked ? 0.4 : 1)
+                    .disabled(documentState.returnKeyIsLocked)
             }
             // 한 글자 지우기. 이게 없어서 오타 하나를 고치려고 **다른 키보드로
             // 건너갔다가 돌아와야 했다**(사용자 요청).
