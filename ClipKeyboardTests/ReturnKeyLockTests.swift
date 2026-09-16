@@ -17,6 +17,9 @@
 //
 
 import Testing
+#if canImport(UIKit)
+import UIKit   // UIReturnKeyType.send
+#endif
 @testable import ClipKeyboard
 
 @Suite("리턴 키 잠금")
@@ -49,5 +52,53 @@ struct ReturnKeyLockTests {
     @Test("기본 상태는 잠기지 않는다. 무대가 이 상태다")
     func defaultStateIsUnlocked() {
         #expect(!KeyboardDocumentState().returnKeyIsLocked)
+    }
+}
+
+@Suite("무대의 리턴 키도 호스트답게 군다", .serialized)
+@MainActor
+struct StageReturnKeyTests {
+
+    /// 진짜 키보드는 남의 앱이 시킨 대로 리턴 키를 그린다. 무대도 시켜야 같아 보인다.
+    @Test("무대는 리턴 키를 **보내기**라고 선언한다")
+    func stageDeclaresSend() {
+        let host = InAppKeyboardHost()
+        #expect(host.documentState.returnKeyType == .send)
+    }
+
+    @Test("빈 칸에서는 잠긴다. 진짜 보내기창과 같다")
+    func locksWhenNothingToSend() {
+        let host = InAppKeyboardHost()
+        #expect(host.documentState.returnKeyIsLocked)
+    }
+
+    /// ⚠️ 이름과 하는 일은 함께 간다. `보내기` 라고 적어 놓고 줄바꿈만 넣으면,
+    ///    진짜 키보드가 남의 앱에서 지키는 규칙을 우리 화면에서 우리가 깨는 것이다.
+    @Test("리턴을 누르면 줄바꿈이 아니라 보낸다")
+    func returnSendsInsteadOfNewline() {
+        let host = InAppKeyboardHost(typesOut: false)
+        host.insertText("안녕하세요")
+        #expect(host.text == "안녕하세요")
+
+        host.insertNewline()
+
+        #expect(host.text.isEmpty, "보냈으면 입력창은 비어야 한다")
+        #expect(!host.text.contains("\n"), "줄바꿈이 들어가면 안 된다")
+        #expect(host.messages.contains { $0.text == "안녕하세요" }, "말풍선으로 올라가야 한다")
+    }
+
+    @Test("보낼 것이 없으면 리턴을 눌러도 아무 일이 없다")
+    func returnDoesNothingWhenEmpty() {
+        let host = InAppKeyboardHost(typesOut: false)
+        let before = host.messages.count
+        host.insertNewline()
+        #expect(host.messages.count == before)
+    }
+
+    @Test("글이 생기면 잠금이 풀린다")
+    func unlocksOnceThereIsText() {
+        let host = InAppKeyboardHost(typesOut: false)
+        host.insertText("가")
+        #expect(!host.documentState.returnKeyIsLocked)
     }
 }
