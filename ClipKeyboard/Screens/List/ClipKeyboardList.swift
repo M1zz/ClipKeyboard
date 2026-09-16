@@ -37,6 +37,15 @@ struct ClipKeyboardList: View {
     // 가치 순간 Pro 넛지 - 1회·닫기 가능 (페이월 노출률 향상)
     @State private var proNudgeDismissed: Bool = UserDefaults.standard.bool(forKey: DefaultsKey.proValueNudgeDismissedV1)
     @State private var showPaywallFromKeyboard: Bool = false
+    /// 페이월을 무엇 때문에 띄웠는가. 파는 물건과 첫 문장이 여기서 갈린다.
+    /// (`nil` 이면 일반 업그레이드)
+    @State private var paywallTrigger: ProFeatureManager.LimitType?
+    /// 지금 화면에 서 있는 결제 순간.
+    ///
+    /// ⚠️ **왜 상태로 붙잡아 두나:** 띄우는 그 자리에서 "봤다"고 못박는데(평생 한 번),
+    ///    그러면 `dueMoment` 는 곧바로 nil 이 된다. 화면이 그 값을 그대로 보고 있으면
+    ///    배너가 나타나자마자 사라진다. 기록은 기록대로 남기고, 지금 보여 줄 것은 여기에 둔다.
+    @State private var activeMoment: PurchaseMoment?
     @State private var showBulkImport: Bool = false
     /// + 메뉴에서 "단축어 마트" → 차려 둔 것에서 골라 빈칸만 채워 담는 시트
     @State private var showShortcutMart: Bool = false
@@ -174,15 +183,30 @@ struct ClipKeyboardList: View {
         graceBannerVisible && !ProFeatureManager.isPro
     }
 
+    /// 지금 꺼낼 만한 **결제 순간**이 있는가 (`PurchaseMomentManager`).
+    ///
+    /// 개수 이야기(칸이 몇 칸 남았다)와는 다른 줄기다. 이쪽은 "잃을 게 생겼다" 와
+    /// "쌓아 둔 것이 있다" 를 본다. 각각 평생 한 번만 온다.
+    private var dueMoment: PurchaseMoment? {
+        PurchaseMomentManager.dueMomentNow(ownMemoCount: ProFeatureManager.ownMemoCount(viewModel.memos))
+    }
+
+    /// 지금 배너가 말할 순간 - 이미 붙잡아 둔 것이 있으면 그것, 없으면 새로 판정한 것.
+    private var momentToShow: PurchaseMoment? { activeMoment ?? dueMoment }
+
     /// 가치 순간 Pro 넛지 표시 조건: 무료 유저 + 미닫힘 + 가치 입증
     /// (10분 이상 절약했거나 무료 한도에 근접). grace 배너와는 동시 노출 안 함.
+    ///
+    /// ⚠️ **결제 순간은 닫기 기록을 넘어선다.** 개수 넛지를 한 번 물렸다고 해서
+    ///    "백업이 없다" 는 말까지 영영 못 하게 되면, 정작 알려야 할 때 말을 못 한다.
+    ///    대신 순간은 각각 평생 한 번뿐이라 되풀이되지 않는다.
     private var shouldShowProValueNudge: Bool {
-        guard !proNudgeDismissed,
-              !ProFeatureManager.hasFullAccess,
+        guard !ProFeatureManager.hasFullAccess,
               !shouldShowGraceBanner else { return false }
-        // 오랜만에 돌아온 사람에게 먼저 꺼낼 말이 돈일 수는 없다.
+        // 오랜만에 돌아온 사람에게 먼저 꺼낼 말이 돈일 수는 없다(순간도 마찬가지다).
         guard userState.state.activity == .active else { return false }
-
+        if momentToShow != nil { return true }
+        guard !proNudgeDismissed else { return false }
         let savedEnough = KeyboardUsageTracker.totalTimeSavedSeconds() >= 600
         // 한도와 같은 개수를 센다 - 심어 준 샘플로 넛지가 앞당겨 뜨면 안 된다.
         let nearLimit = ProFeatureManager.ownMemoCount(viewModel.memos) >= max(1, ProFeatureManager.memoLimit - 3)
@@ -196,11 +220,26 @@ struct ClipKeyboardList: View {
 
     /// 넛지 메시지 종류 - Analytics source 슬라이싱용.
     private var proNudgeSource: String {
-        KeyboardUsageTracker.totalTimeSavedSeconds() >= 600 ? "time_saved" : "slots_left"
+        if let moment = momentToShow { return "moment_" + moment.rawValue }
+        return KeyboardUsageTracker.totalTimeSavedSeconds() >= 600 ? "time_saved" : "slots_left"
     }
 
-    /// 절약 시간이 충분하면 그 증거를, 아니면 남은 무료 칸(손실 회피)을 메시지로.
+    /// 꺼낼 순간이 있으면 그 말을, 아니면 절약 시간이나 남은 칸을 메시지로.
+    ///
+    /// ⚠️ 순간의 말은 **사실만** 적는다. 겁을 주지 않는다. "지금 이 폰에만 있습니다" 는
+    ///    사실이고, "잃어버리면 끝입니다" 는 겁주기다. 둘의 차이가 이 앱이 신뢰받는 이유다.
     private var proValueNudgeMessage: String {
+        if let moment = momentToShow {
+            switch moment {
+            case .sensitiveSaved:
+                return NSLocalizedString("방금 가려야 할 것을 저장하셨어요. Face ID로 잠글 수 있어요", comment: "Purchase moment: sensitive saved")
+            case .secondDevice:
+                return NSLocalizedString("기기가 둘이 되셨네요. 같은 단축어를 두 기기에서 쓸 수 있어요", comment: "Purchase moment: second device")
+            case .noBackup:
+                let count = ProFeatureManager.ownMemoCount(viewModel.memos)
+                return String(format: NSLocalizedString("단축어 %d개를 만드셨어요. 지금 이 기기에만 있어요", comment: "Purchase moment: no backup"), count)
+            }
+        }
         let saved = KeyboardUsageTracker.totalTimeSavedSeconds()
         if saved >= 600 {
             let minutes = Int(saved / 60)
@@ -385,17 +424,33 @@ struct ClipKeyboardList: View {
                         onTap: {
                             HapticManager.shared.light()
                             AnalyticsService.logProNudge(.proNudgeTapped, source: proNudgeSource)
+                            // 무엇 때문에 띄운 페이월인지 넘긴다. 순간마다 파는 물건이 다르다.
+                            paywallTrigger = momentToShow?.limitType
                             showPaywallFromKeyboard = true
                         },
                         onDismiss: {
-                            UserDefaults.standard.set(true, forKey: DefaultsKey.proValueNudgeDismissedV1)
-                            proNudgeDismissed = true
+                            // 순간을 물린 것이라면 개수 넛지까지 영영 덮지 않는다.
+                            // (순간은 이미 노출 기록이 남아 다시 오지 않는다)
+                            if activeMoment != nil {
+                                activeMoment = nil
+                            } else {
+                                UserDefaults.standard.set(true, forKey: DefaultsKey.proValueNudgeDismissedV1)
+                                proNudgeDismissed = true
+                            }
                         }
                     )
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                     .padding(.bottom, 4)
-                    .onAppear { AnalyticsService.logProNudge(.proNudgeShown, source: proNudgeSource) }
+                    .onAppear {
+                        AnalyticsService.logProNudge(.proNudgeShown, source: proNudgeSource)
+                        // 띄운 그 자리에서 못박는다 - 닫는 방법과 무관하게 평생 한 번.
+                        // 보여 줄 것은 `activeMoment` 가 계속 들고 있다(위 주석 참고).
+                        if activeMoment == nil, let moment = dueMoment {
+                            activeMoment = moment
+                            PurchaseMomentManager.markShown(moment)
+                        }
+                    }
                 }
 
                 // 한 번에 정리하기 권유 - 보여줄지는 컨테이너가 스스로 정한다.
@@ -953,7 +1008,7 @@ struct ClipKeyboardList: View {
 
     private var screenL7: some View {
         screenL6
-            .paywall(isPresented: $showPaywallFromKeyboard, triggeredBy: nil)
+            .paywall(isPresented: $showPaywallFromKeyboard, triggeredBy: paywallTrigger)
             .onReceive(NotificationCenter.default.publisher(for: .showPaywall)) { _ in
                 showPaywallFromKeyboard = true
             }

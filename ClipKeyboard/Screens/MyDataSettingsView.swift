@@ -32,7 +32,9 @@ struct MyDataSettingsView: View {
         .settingsCategoryChrome(title: NSLocalizedString("내 데이터", comment: "Settings section: my data"))
         // PIN 화면에서 돌아올 때도 다시 읽는다 - 방금 정한 PIN 이 "없음"으로 남아 보이지 않게.
         .onAppear { refreshSecurePINState() }
-        .sheet(isPresented: $showPaywall) { PaywallView() }
+        // ⚠️ 무엇 때문에 띄운 페이월인지 넘긴다. 이 자리는 기기 문제라 파는 물건도 다르다
+        //    (두 대째). 안 넘기면 동기화를 켜려던 사람에게 단축어 개수 이야기를 하게 된다.
+        .sheet(isPresented: $showPaywall) { PaywallView(triggeredBy: .deviceSync) }
         // MARK: 모든 데이터 삭제 - 2단계 확인
         // 1단계: 무엇이 지워지고 무엇이 남는지 알린다(구매는 유지된다는 점이 중요).
         .alert(NSLocalizedString("모든 데이터를 삭제할까요?", comment: "Wipe all data confirm title"),
@@ -85,7 +87,9 @@ struct MyDataSettingsView: View {
             Toggle(isOn: Binding(
                 get: { memoSyncEnabled },
                 set: { newValue in
-                    if newValue && !ProFeatureManager.hasFullAccess {
+                    // ⚠️ `hasFullAccess` 가 아니라 `isSyncAvailable` 이다.
+                    //    두 대째만 산 사람도 돈을 냈으니 켤 수 있어야 한다.
+                    if newValue && !ProFeatureManager.isSyncAvailable {
                         // 비Pro는 결제 유도하고 토글은 켜지 않는다.
                         showPaywall = true
                     } else {
@@ -99,7 +103,7 @@ struct MyDataSettingsView: View {
                 Label {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(NSLocalizedString("기기 간 동기화 (베타)", comment: "Cross-device sync section header"))
-                        Text(NSLocalizedString("같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 전용이며 실험적 기능이라, 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.", comment: "Cross-device sync explanation"))
+                        Text(NSLocalizedString("같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 또는 두 대째 상품으로 열리며, 실험적 기능이라 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.", comment: "Cross-device sync explanation"))
                             .font(.caption)
                             .foregroundColor(theme.textMuted)
                             .fixedSize(horizontal: false, vertical: true)

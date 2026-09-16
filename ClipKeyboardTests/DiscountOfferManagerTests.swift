@@ -66,39 +66,43 @@ struct DiscountOfferManagerTests {
         #expect(due(installedDaysAgo: 30, reachedDaysAgo: 8, hoards: true) == nil)
     }
 
-    /// ⚠️ 결은 **한도 기회만** 막는다. 설치 직후 기회는 개수 이야기가 아니라
-    ///    "시작하는 김에" 하는 이야기라 그대로 열려 있다.
-    @Test("쌓아 두는 사람이어도 설치 직후 기회는 그대로다")
-    func hoardingDoesNotCloseTheFirstRunOffer() {
-        #expect(due(installedDaysAgo: 1, hoards: true) == .firstRun)
-    }
+    // MARK: - 설치 직후는 더 이상 기회가 아니다 (5.2)
 
-    // MARK: - ① 설치 직후
-
-    @Test("설치하고 얼마 안 된 사람에게는 첫 기회가 온다")
-    func offersRightAfterInstall() {
-        #expect(due(installedDaysAgo: 0) == .firstRun)
-        #expect(due(installedDaysAgo: 6.9) == .firstRun)
-    }
-
-    @Test("첫 주가 지나면 그 기회는 닫힌다. 설치 제안이 한 달째 따라다니면 안 된다")
-    func firstRunWindowCloses() {
+    /// 가치를 보기 전의 할인은 **정가에 대한 정보만** 남긴다.
+    /// 사는 사람은 반값에 사고, 안 사는 사람은 정가가 제값이 아니라는 것만 배우고 간다.
+    /// 일시불 앱에서 기다리기 시작한 사람은 대개 영영 안 산다.
+    @Test("설치 직후에는 아무 제안도 하지 않는다")
+    func neverOffersRightAfterInstall() {
+        #expect(due(installedDaysAgo: 0) == nil)
+        #expect(due(installedDaysAgo: 1) == nil)
+        #expect(due(installedDaysAgo: 6.9) == nil)
         #expect(due(installedDaysAgo: 8) == nil)
+    }
+
+    /// ⚠️ 기록이 남아 있는 기기가 있어서 케이스 자체는 지우지 않았다.
+    ///    그래도 **판정은 다시는 그것을 돌려주지 않는다.** 여기가 그 계약이다.
+    @Test("설치 직후 기회는 어떤 조합으로도 돌아오지 않는다")
+    func firstRunNeverComesBack() {
+        for days in [0.0, 0.5, 3, 6.9, 7, 30] {
+            #expect(due(installedDaysAgo: days) != .firstRun)
+            #expect(due(installedDaysAgo: days, hoards: true) != .firstRun)
+            #expect(due(installedDaysAgo: days, reachedDaysAgo: 8) != .firstRun)
+        }
     }
 
     @Test("첫 단축어를 만들기 전에는 뜨지 않는다. 튜토리얼 위에 결제 창을 얹지 않는다")
     func yieldsToTheFirstShortcutTutorial() {
-        #expect(due(isMidFirstShortcut: true) == nil)
+        #expect(due(installedDaysAgo: 60, reachedDaysAgo: 8, isMidFirstShortcut: true) == nil)
         // 만들거나 건너뛰고 나면 그때 온다.
-        #expect(due(isMidFirstShortcut: false) == .firstRun)
+        #expect(due(installedDaysAgo: 60, reachedDaysAgo: 8, isMidFirstShortcut: false) == .limitEdge)
     }
 
-    @Test("설치 시각을 모르면 첫 기회는 건너뛴다")
-    func skipsFirstRunWithoutInstallDate() {
-        #expect(due(installedDaysAgo: nil) == nil)
+    @Test("설치 시각을 몰라도 한도 기회는 그대로 온다. 그 판정은 설치일을 보지 않는다")
+    func limitEdgeDoesNotNeedInstallDate() {
+        #expect(due(installedDaysAgo: nil, reachedDaysAgo: 8) == .limitEdge)
     }
 
-    // MARK: - ② 한도 한 칸 앞
+    // MARK: - 한도 한 칸 앞
 
     @Test("한 칸 앞에 닿고 일주일이 지나면 두 번째 기회가 온다")
     func offersAfterAWeekAtTheEdge() {
@@ -117,20 +121,19 @@ struct DiscountOfferManagerTests {
         #expect(due(installedDaysAgo: 60, reachedDaysAgo: nil) == nil)
     }
 
-    // MARK: - 두 기회의 관계
+    // MARK: - 한 번뿐이라는 것
 
-    @Test("기회는 각각 한 번씩. 첫 기회를 봤어도 두 번째는 그대로 온다")
-    func eachOccasionFiresOnce() {
-        // 설치 제안을 이미 봤지만, 한도 제안은 아직이다.
+    @Test("기회는 평생 한 번. 예전에 설치 제안을 봤던 기기에서도 한도 제안은 그대로 온다")
+    func theOfferFiresOnce() {
+        // 예전 버전에서 설치 제안을 본 기록이 남아 있어도 한도 제안은 막히지 않는다.
         #expect(due(installedDaysAgo: 60, reachedDaysAgo: 7, shown: [.firstRun]) == .limitEdge)
-        // 둘 다 봤으면 끝이다.
+        // 한도 제안까지 봤으면 끝이다.
         #expect(due(installedDaysAgo: 60, reachedDaysAgo: 7, shown: [.firstRun, .limitEdge]) == nil)
-        // 설치 제안만 안 봤으면 그것만 온다.
-        #expect(due(installedDaysAgo: 1, shown: [.limitEdge]) == .firstRun)
+        #expect(due(installedDaysAgo: 60, reachedDaysAgo: 7, shown: [.limitEdge]) == nil)
     }
 
-    @Test("둘 다 자격이 되면 한도 쪽이 이긴다. 써 보고 닿은 사람이 더 뚜렷한 신호다")
-    func limitEdgeWinsWhenBothAreDue() {
+    @Test("설치한 지 얼마 안 됐어도, 한도에 닿고 일주일이 지났으면 그쪽으로 온다")
+    func limitEdgeIsTheOnlyDoor() {
         #expect(due(installedDaysAgo: 2, reachedDaysAgo: 7) == .limitEdge)
     }
 

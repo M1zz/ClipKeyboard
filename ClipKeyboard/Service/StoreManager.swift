@@ -65,6 +65,17 @@ class StoreManager: ObservableObject {
         store.products.first { $0.id == DiscountOfferManager.discountedProProductID }
     }
 
+    /// 업그레이드 상품 - **칸을 산 사람에게만** 보여 준다(`ProUpgrade.isEligible`).
+    /// 정가·반값과 같은 권한을 주는 세 번째 물건이다.
+    var upgradeProProduct: Product? {
+        store.products.first { $0.id == ProUpgrade.productID }
+    }
+
+    /// 두 대째 상품 - 동기화만 여는 별도의 문. **Pro 가 아니다.**
+    var twoDeviceProduct: Product? {
+        store.products.first { $0.id == TwoDevicePack.productID }
+    }
+
     /// 결제 entitlement 기반 Pro 여부.
     /// (그랜드파더 / TestFlight / 체험은 ProFeatureManager 가 별도로 판단한다.)
     var isPro: Bool { store.hasPro }
@@ -91,6 +102,10 @@ class StoreManager: ObservableObject {
 
         // 칸 추가 상품도 같은 방식으로 미러링한다 - 익스텐션은 StoreKit 을 못 보므로
         // 이 값이 없으면 앱에서는 15칸, 키보드에서는 10칸으로 갈린다.
+        //
+        // ⚠️ 여기서 보는 것은 **예전 비소모성 상품**뿐이다. 새로 파는 팩은 소모성이라
+        //    권한 목록에 아예 나타나지 않는다. 그쪽은 결제 직후 `recordPackPurchase()` 가
+        //    직접 센다(`purchaseSlotPack`).
         store.$purchasedProductIDs
             .map { $0.contains(SlotPack.productID) }
             .removeDuplicates()
@@ -99,9 +114,24 @@ class StoreManager: ObservableObject {
             }
             .store(in: &cancellables)
 
+        // 두 대째도 같은 이유로 미러링한다. 동기화 엔진은 공유 타입이라 StoreKit 을 못 본다.
+        store.$purchasedProductIDs
+            .map { $0.contains(TwoDevicePack.productID) }
+            .removeDuplicates()
+            .sink { boughtTwoDevice in
+                Task { @MainActor in
+                    TwoDevicePack.mirror(purchased: boughtTwoDevice)
+                    ProFeatureManager.mirrorSyncEntitlement()
+                }
+            }
+            .store(in: &cancellables)
+
         // 초기(캐시) 상태 즉시 미러링.
         mirrorProStatus(isPro: store.purchasedProductIDs.contains(Self.proProductID))
         SlotPack.mirror(purchased: store.purchasedProductIDs.contains(SlotPack.productID))
+        TwoDevicePack.mirror(purchased: store.purchasedProductIDs.contains(TwoDevicePack.productID))
+        // 소모성이라 애플이 돌려주지 않는 칸수를 iCloud 에서 회수한다(둘 중 큰 값).
+        SlotPack.syncFromCloud()
     }
 
     // MARK: - Public Methods
@@ -136,16 +166,54 @@ class StoreManager: ObservableObject {
         return await purchase(product, triggeredBy: triggeredBy)
     }
 
-    /// 칸 추가 상품.
+    /// 칸 추가 상품 - **지금 파는 쪽**(소모성).
+    ///
+    /// ⚠️ 예전 비소모성 `slots5` 는 여기서 안 판다. 이미 산 사람의 권한으로만 남는다.
+    ///    한 번밖에 못 사는 물건을 계속 진열하면 두 번째로 필요한 사람 앞에서 사다리가 끊긴다.
+    ///    (App Store Connect 에 올린 상품의 종류는 바꿀 수 없어서 상품이 둘이다.
+    ///     자세한 이유: Service/SlotPack.swift)
     var slotPackProduct: Product? {
-        store.products.first { $0.id == SlotPack.productID }
+        store.products.first { $0.id == SlotPack.consumableProductID }
     }
 
-    /// 칸 추가 구매 - 페이월의 작은 계단.
+    /// 칸 추가 구매 - 페이월의 작은 계단. 최대 세 번까지.
+    ///
+    /// ⚠️ 소모성이라 애플이 기억해 주지 않는다. 성공한 자리에서 **먼저** 세고,
+    ///    그 다음에 다른 일을 한다. 여기서 못 세면 돈만 받은 것이 된다.
     func purchaseSlotPack(triggeredBy: String? = nil) async -> Bool {
+        guard SlotPack.canBuyMore else {
+            print("ℹ️ [StoreManager] 칸이 이미 최대라 사지 않는다")
+            return false
+        }
         if store.products.isEmpty { await store.loadProducts() }
         guard let product = slotPackProduct else {
-            print("❌ [StoreManager] 칸 추가 상품을 찾을 수 없음: \(SlotPack.productID)")
+            print("❌ [StoreManager] 칸 추가 상품을 찾을 수 없음: \(SlotPack.consumableProductID)")
+            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
+            return false
+        }
+        let bought = await purchase(product, triggeredBy: triggeredBy)
+        if bought { SlotPack.recordPackPurchase() }
+        return bought
+    }
+
+    /// 업그레이드 구매 - 칸에 낸 돈이 빠진 평생 값.
+    /// ⚠️ 상품이 없으면 **정가로 대신 결제하지 않는다.** 깎아 준다고 말한 화면에서
+    ///    정가가 빠져나가는 것은 사고다(반값과 같은 규칙).
+    func purchaseUpgradePro(triggeredBy: String? = nil) async -> Bool {
+        if store.products.isEmpty { await store.loadProducts() }
+        guard let product = upgradeProProduct else {
+            print("❌ [StoreManager] 업그레이드 상품을 찾을 수 없음: \(ProUpgrade.productID)")
+            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
+            return false
+        }
+        return await purchase(product, triggeredBy: triggeredBy)
+    }
+
+    /// 두 대째 구매 - 동기화만 여는 문.
+    func purchaseTwoDevice(triggeredBy: String? = nil) async -> Bool {
+        if store.products.isEmpty { await store.loadProducts() }
+        guard let product = twoDeviceProduct else {
+            print("❌ [StoreManager] 두 대째 상품을 찾을 수 없음: \(TwoDevicePack.productID)")
             errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
             return false
         }
@@ -155,6 +223,10 @@ class StoreManager: ObservableObject {
     /// 상품 구매 (StoreKit 실행은 LeeoStore 에 위임하고, 애널리틱스만 여기서 유지)
     func purchase(_ product: Product, triggeredBy: String? = nil) async -> Bool {
         errorMessage = nil
+
+        // ⚠️ **결제 전에** 찍는다. 이 결제가 끝나면 상태가 바뀌어서, 나중에 물으면
+        //    전부 "이미 뭔가 산 사람" 이 된다. 업그레이드 가설을 검증할 유일한 값이다.
+        let prior = PriorPurchase.current
 
         let success = await store.purchase(product)
 
@@ -179,7 +251,8 @@ class StoreManager: ObservableObject {
                 offerCode: offerCodeName,
                 currency: product.priceFormatStyle.currencyCode,
                 revenue: priceDouble,
-                triggeredBy: triggeredBy
+                triggeredBy: triggeredBy,
+                priorPurchase: prior
             )
             return true
         } else {

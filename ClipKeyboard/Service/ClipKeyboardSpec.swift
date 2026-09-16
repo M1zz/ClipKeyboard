@@ -52,6 +52,11 @@ enum ClipKeyboardSpec: LeeoAppSpec {
     ///    주는 권한은 하나라, 어느 쪽을 샀든 Pro 로 인정돼야 한다(entitlementIDs 기본값이
     ///    productIDs 전체라 따로 적지 않아도 둘 다 권한으로 잡힌다).
     ///    반값 상품이 App Store Connect 에 아직 없으면 그 ID만 로드되지 않고 정가 상품은 그대로 뜬다.
+    /// ⚠️ **업그레이드 상품(`ProUpgrade`)도 Pro 다.** 정가·반값과 같은 권한을 주는 세 번째 물건이라
+    ///    `entitlementIDs` 에 반드시 들어간다. 빠지면 돈을 받고 아무것도 안 열어 주는 상품이 된다.
+    /// ⚠️ 거꾸로 **칸 추가 둘과 두 대째는 절대 넣지 않는다.** 칸 추가는 개수만, 두 대째는
+    ///    동기화만 연다(`SlotPack` · `TwoDevicePack`). 여기 한 줄 잘못 들어가면 작은 결제가
+    ///    평생 Pro 를 열어 버리고, 한 번 준 권한은 도로 뺏을 방법이 없다.
     /// ⚠️ cacheSuiteName 을 앱 그룹으로 둬야 권한 캐시(leeo.paywall.owned/grandfathered)가
     ///    공유 그룹에 저장된다. (키보드 익스텐션이 읽는 Pro 키 `clipkeyboard_is_pro` 는
     ///    이와 별개로 StoreManager 가 store.hasPro 를 계속 미러링한다.)
@@ -59,12 +64,17 @@ enum ClipKeyboardSpec: LeeoAppSpec {
         LeeoPurchaseConfig(
             productIDs: [StoreManager.proProductID,
                          DiscountOfferManager.discountedProProductID,
-                         SlotPack.productID],
+                         ProUpgrade.productID,
+                         SlotPack.productID,
+                         SlotPack.consumableProductID,
+                         TwoDevicePack.productID],
             // ⚠️ **Pro 로 인정할 상품을 손으로 못박는다.** 기본값이 "파는 상품 전체"라,
             //    나중에 칸 추가 상품(`SlotPack.productID`)을 productIDs 에 한 줄 넣는 순간
             //    $3 결제가 평생 Pro 를 열어 버린다. 그 사고는 되돌릴 수도 없다
             //    (이미 권한을 받은 사람에게서 도로 뺏을 방법이 없다).
-            entitlementIDs: [StoreManager.proProductID, DiscountOfferManager.discountedProProductID],
+            entitlementIDs: [StoreManager.proProductID,
+                             DiscountOfferManager.discountedProProductID,
+                             ProUpgrade.productID],
             gate: LeeoGatePolicy(
                 freeLimits: ["shortcut": ProFeatureManager.freeMemoLimit],
                 warnWhenRemaining: 3

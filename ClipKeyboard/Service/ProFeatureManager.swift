@@ -88,6 +88,13 @@ struct ProFeatureManager {
     /// 생체인증 잠금 사용 가능 여부
     static var isBiometricLockAvailable: Bool { hasFullAccess }
 
+    /// 기기 사이 동기화 사용 가능 여부.
+    ///
+    /// Pro 면 당연히 되고, **두 대째 상품(`TwoDevicePack`)만 산 사람도 된다.**
+    /// ⚠️ 동기화를 묻는 곳은 전부 이 값을 봐야 한다. `hasFullAccess` 를 직접 보면
+    ///    두 대째를 산 사람이 돈을 내고도 토글을 못 켠다.
+    static var isSyncAvailable: Bool { hasFullAccess || TwoDevicePack.isPurchased }
+
     /// 테마 커스터마이징 사용 가능 여부 (v4.1부터 무료 개방)
     static var isThemeCustomizationAvailable: Bool { true }
 
@@ -200,7 +207,8 @@ struct ProFeatureManager {
     /// 앱 시작·구매 상태 변화 시 호출 - 안 부르면 그랜드파더/TestFlight/체험 사용자는
     /// 토글을 켜도 엔진이 시작되지 않는다.
     static func mirrorSyncEntitlement() {
-        let entitled = hasFullAccess
+        // ⚠️ `hasFullAccess` 가 아니라 `isSyncAvailable` 이다. 두 대째만 산 사람도 엔진이 돌아야 한다.
+        let entitled = isSyncAvailable
         groupDefaults?.set(entitled, forKey: DefaultsKey.syncEntitled)
         NSUbiquitousKeyValueStore.default.set(entitled, forKey: DefaultsKey.syncEntitled)
         print("🔑 [ProFeatureManager] 동기화 권한 미러링: \(entitled)")
@@ -392,6 +400,8 @@ struct ProFeatureManager {
         case biometricLock
         case themeCustomization
         case imageMemo
+        /// 두 번째 기기가 나타났다 - 파는 것은 Pro 가 아니라 **두 대째**다.
+        case deviceSync
 
         /// Analytics 슬라이싱용 안정된 영문 키 (locale 무관)
         var analyticsKey: String {
@@ -404,6 +414,7 @@ struct ProFeatureManager {
             case .biometricLock: return "biometric_lock"
             case .themeCustomization: return "theme"
             case .imageMemo: return "image_memo"
+            case .deviceSync: return "device_sync"
             }
         }
 
@@ -425,6 +436,8 @@ struct ProFeatureManager {
                 return NSLocalizedString("테마 설정", comment: "Theme customization")
             case .imageMemo:
                 return NSLocalizedString("이미지 단축어", comment: "Image memo")
+            case .deviceSync:
+                return NSLocalizedString("기기 사이 동기화", comment: "Device sync")
             }
         }
 
@@ -447,6 +460,8 @@ struct ProFeatureManager {
                 return NSLocalizedString("Pro 버전에서 테마를 변경할 수 있습니다.", comment: "Theme desc")
             case .imageMemo:
                 return String(format: NSLocalizedString("무료 버전에서는 최대 %d개의 이미지 단축어를 저장할 수 있습니다.", comment: "Image memo limit desc"), freeImageMemoLimit)
+            case .deviceSync:
+                return NSLocalizedString("같은 iCloud 계정의 다른 기기에서도 같은 단축어를 쓸 수 있습니다.", comment: "Device sync desc")
             }
         }
     }

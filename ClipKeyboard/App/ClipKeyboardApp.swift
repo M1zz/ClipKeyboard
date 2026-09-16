@@ -331,6 +331,9 @@ struct ClipKeyboardApp: App {
         LaunchGuard.optional(.sync) {
             ProFeatureManager.mirrorSyncEntitlement()
             MemoSyncEngine.shared.startIfEnabled()
+            // 이 기기를 명단에 올린다. 두 번째 기기가 생긴 날을 알아채는 유일한 통로다
+            // (한 기기 안에서는 알 수 없고, iCloud 에 남은 다른 기기의 자국을 봐야만 안다).
+            PurchaseMomentManager.registerThisDevice()
         }
 
         // ⑧ 제어센터 컨트롤 재등록 - 업데이트로 인텐트 타입이 바뀌어도

@@ -177,6 +177,24 @@ enum AnalyticsParam: String {
     case triggeredBy = "triggered_by"      // paywall 노출/구매를 유도한 한도 (memo, combo, image_memo 등)
     case reason = "reason"                 // 실패/취소 사유
     case source = "source"                 // 넛지 종류 등 (time_saved | slots_left)
+    /// 이 결제 **전에** 이 사람이 이미 산 것 (none | slots | two_device | pro).
+    /// 사다리가 실제로 작동하는지(칸을 산 사람이 Pro 로 올라오는지)를 묻는 유일한 값이다.
+    case priorPurchase = "prior_purchase"
+}
+
+/// 결제 직전에 이 사람이 이미 가지고 있던 것.
+///
+/// ⚠️ 반드시 **결제 전에** 읽는다. 결제가 끝난 뒤에 물으면 모두가 "뭔가 산 사람" 이 되어
+///    값이 전부 같아진다. 그러면 업그레이드 가설은 영영 검증되지 않는다.
+enum PriorPurchase {
+    /// 지금 이 사람의 상태를 애널리틱스용 문자열 하나로.
+    /// 순서가 곧 우선순위다 - 큰 것부터 본다.
+    static var current: String {
+        if ProFeatureManager.hasPermanentPro { return "pro" }
+        if SlotPack.isPurchased { return "slots" }
+        if TwoDevicePack.isPurchased { return "two_device" }
+        return "none"
+    }
 }
 
 /// Analytics 호출 wrapper. 모든 호출은 main thread/안전.
@@ -207,7 +225,7 @@ enum AnalyticsService {
     // MARK: - Convenience
 
     /// Pro 구매 성공 - 일반가 또는 Offer Code 모두
-    static func logPaywallPurchase(productId: String, isOfferCode: Bool, offerCode: String? = nil, currency: String = "USD", revenue: Double? = nil, triggeredBy: String? = nil) {
+    static func logPaywallPurchase(productId: String, isOfferCode: Bool, offerCode: String? = nil, currency: String = "USD", revenue: Double? = nil, triggeredBy: String? = nil, priorPurchase: String? = nil) {
         var params: [AnalyticsParam: Any] = [
             .productId: productId,
             .priceTier: isOfferCode ? "offer" : "regular",
@@ -216,6 +234,7 @@ enum AnalyticsService {
         if let revenue { params[.revenue] = revenue }
         if let offerCode { params[.offerCode] = offerCode }
         if let triggeredBy { params[.triggeredBy] = triggeredBy }
+        if let priorPurchase { params[.priorPurchase] = priorPurchase }
 
         log(.paywallPurchase, parameters: params)
 
@@ -228,9 +247,13 @@ enum AnalyticsService {
         }
     }
 
-    /// Paywall 화면 노출 - 어떤 한도/진입점이 트리거했는지 기록
+    /// Paywall 화면 노출 - 어떤 한도/진입점이 트리거했는지 기록.
+    ///
+    /// 닫기율(`paywall_dismissed` / `paywall_view`)은 이 둘을 `triggered_by` 로 나눠 본다.
+    /// 노출은 많은데 닫기율이 높은 벽은 파는 자리가 아니라 **짜증나는 자리**이고, 그런 벽은
+    /// 고치는 게 아니라 없애야 한다.
     static func logPaywallView(triggeredBy: String?) {
-        var params: [AnalyticsParam: Any] = [:]
+        var params: [AnalyticsParam: Any] = [.priorPurchase: PriorPurchase.current]
         if let triggeredBy { params[.triggeredBy] = triggeredBy }
         log(.paywallView, parameters: params)
     }

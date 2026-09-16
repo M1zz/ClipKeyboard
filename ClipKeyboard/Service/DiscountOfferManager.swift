@@ -2,17 +2,25 @@
 //  DiscountOfferManager.swift
 //  ClipKeyboard
 //
-//  **반값 제안** - 평생 잠금해제를 반값에 살 수 있는 기회. 딱 두 번 온다.
+//  **반값 제안** - 평생 잠금해제를 반값에 살 수 있는 기회. 평생 **딱 한 번** 온다.
 //
-//   ① 설치 직후(`firstRun`)   : 시작하는 김에 열어 둘 사람에게. 첫 주 안에 한 번.
-//   ② 한도 한 칸 앞(`limitEdge`): 9개를 만들고 **일주일을 그 개수로 지낸** 사람에게 한 번.
+//   · 한도 한 칸 앞(`limitEdge`): 9개를 만들고 **일주일을 그 개수로 지낸** 사람에게 한 번.
 //
-//  왜 둘인가: 둘은 다른 사람이다. ①은 "이 앱이 마음에 들면 그냥 사 두는" 쪽이고,
-//  ②는 써 보고 한도에 닿아 **비용이 실제로 느껴진** 쪽이다. 한쪽만 두면 나머지 한쪽은
-//  평생 정가만 본다. 그렇다고 아무 때나 띄우면 결제 창이 따라다니는 앱이 되므로,
-//  기회는 각각 **한 번씩**이고 한 번 지나가면 다시 오지 않는다.
+//  MARK: 왜 설치 직후(`firstRun`) 를 없앴나 (5.2)
 //
-//  왜 ②가 9개이고 일주일인가:
+//  예전에는 설치 첫 주에도 반값을 보여 줬다. 그런데 그 사람은 이 앱이 자기에게 쓸모
+//  있는지 **아직 모르는 사람**이다. 가치를 보기 전에 값부터 깎아 주면, 사는 사람은 반값에
+//  사고 안 사는 사람은 "정가가 제값이 아니다" 는 사실만 배우고 간다. 그 뒤로 정가는
+//  영영 진짜 값으로 안 보인다. 일시불 앱에서 기다리기 시작한 사람은 대개 영영 안 산다.
+//
+//  `limitEdge` 는 반대다. 한도에 닿아 본 사람은 이 앱이 자기에게 무엇인지 이미 알고,
+//  그때의 반값은 광고가 아니라 거래다. 그래서 그 하나만 남긴다.
+//
+//  ⚠️ `.firstRun` 케이스 자체는 지우지 않는다. 이미 그 기록이 남아 있는 기기가 있고,
+//     `DiscountOfferView` 도 그 문안을 들고 있다. 다만 `dueOccasion` 이 **다시는
+//     돌려주지 않는다.** 판정은 한 곳에서만 한다.
+//
+//  왜 9개이고 일주일인가:
 //   · 9개는 한 칸 남았다는 뜻이다. 열 번째에서 막히기 **전**이라, 벽에 부딪힌 사람을
 //     붙잡는 것이 아니라 벽이 보이기 시작한 사람에게 미리 길을 내주는 자리다.
 //   · 닿자마자 들이밀지 않는다. 하루 만에 9개를 채운 사람은 아직 이 앱이 자기에게
@@ -29,9 +37,10 @@ enum DiscountOfferManager {
 
     // MARK: - 기회
 
-    /// 반값을 살 수 있는 자리. 각각 한 번씩만 온다.
+    /// 반값을 살 수 있는 자리.
     enum Occasion: String, CaseIterable, Sendable {
-        /// 설치하고 얼마 안 된 사람에게 - 첫 주 안에 한 번.
+        /// 설치하고 얼마 안 된 사람에게 - **5.2에서 그만뒀다.** 판정이 다시는 돌려주지 않는다.
+        /// (남겨 둔 이유는 파일 머리말에 적었다)
         case firstRun
         /// 무료 한도 한 칸 앞에서 일주일을 지낸 사람에게 - 한 번.
         case limitEdge
@@ -45,7 +54,7 @@ enum DiscountOfferManager {
     ///    두 상품 모두 `ClipKeyboardSpec.monetization` 의 productIDs 에 있어 어느 쪽을 사도 Pro 다.
     static let discountedProProductID = "com.Ysoup.TokenMemo.pro.halfoff"
 
-    /// ② 기회가 겨냥하는 개수 - **지금 이 사람의** 한도 한 칸 앞.
+    /// 기회가 겨냥하는 개수 - **지금 이 사람의** 한도 한 칸 앞.
     /// ⚠️ 기본 한도가 아니라 `memoLimit` 을 본다. 칸을 산 사람(15개)에게 9개에서
     ///    "한 칸 남았다"고 말하면 거짓말이고, 정작 14개일 때는 아무 말도 안 하게 된다.
     static var limitEdgeCount: Int { limitEdge(forMemoLimit: ProFeatureManager.memoLimit) }
@@ -58,17 +67,10 @@ enum DiscountOfferManager {
     /// 상태 없이 확인하고, 상태가 필요한 곳은 인자로 받는다.
     static func limitEdge(forMemoLimit limit: Int) -> Int { max(1, limit - 1) }
 
-    /// ② 그 개수에 닿은 뒤 기다리는 날 수.
+    /// 그 개수에 닿은 뒤 기다리는 날 수.
     static let waitDays = 7
 
-    /// ① 기회가 열려 있는 기간(설치 후 며칠까지).
-    ///
-    /// ⚠️ 첫 실행 그 자리에서만 노리지 않는다. 설치 직후에는 안내와 튜토리얼이 줄을 서 있어
-    ///    양보하다 보면 못 뜨는 날이 흔하다. 첫 주를 창으로 두면 다음 실행에서 조용히 만난다.
-    static let firstRunWindowDays = 7
-
     private static var waitInterval: TimeInterval { TimeInterval(waitDays) * 86_400 }
-    private static var firstRunWindow: TimeInterval { TimeInterval(firstRunWindowDays) * 86_400 }
 
     /// ⚠️ 공유 저장소로 가는 문은 `AppGroup.defaults` 하나다(매번 새로 만들지 않는다).
     private static var defaults: UserDefaults? { AppGroup.defaults }
@@ -101,14 +103,19 @@ enum DiscountOfferManager {
 
     /// 지금 띄울 기회가 있으면 그것을 돌려준다 - **순수 함수.**
     ///
-    /// 둘 다 자격이 되면 `limitEdge` 가 이긴다. 그쪽이 더 뚜렷한 신호이기 때문이다
-    /// (한도에 닿아 본 사람은 이 앱이 자기에게 무엇인지 이미 안다).
+    /// 남은 기회는 `limitEdge` 하나다. 한도에 닿아 본 사람은 이 앱이 자기에게 무엇인지
+    /// 이미 안다. 그 앞에서만 값을 깎는다.
+    ///
+    /// ⚠️ `.firstRun` 은 **절대 돌려주지 않는다.** 가치를 보기 전의 할인은 정가에 대한
+    ///    정보만 남긴다(자세한 이유는 파일 머리말).
     static func dueOccasion(now: Date = Date(), context: Context) -> Occasion? {
         guard !context.hasPro else { return nil }
         // 팔 수 없는 반값을 광고하지 않는다.
         guard context.discountAvailable else { return nil }
         // 오랜만에 돌아온 사람에게 먼저 꺼낼 말이 돈일 수는 없다.
         guard !context.isAwayOrJustBack else { return nil }
+        // 튜토리얼이 화면을 잡고 있는 동안에는 그 위에 결제 창을 얹지 않는다.
+        guard !context.isMidFirstShortcut else { return nil }
 
         if !context.shownOccasions.contains(.limitEdge),
            // 쌓아만 두는 사람에게 한도 이야기는 틀린 말이다(위 `hoardsUnusedShortcuts`).
@@ -116,13 +123,6 @@ enum DiscountOfferManager {
            let reachedAt = context.reachedLimitEdgeAt,
            now.timeIntervalSince(reachedAt) >= waitInterval {
             return .limitEdge
-        }
-
-        if !context.shownOccasions.contains(.firstRun),
-           !context.isMidFirstShortcut,
-           let installedAt = context.installedAt,
-           now.timeIntervalSince(installedAt) <= firstRunWindow {
-            return .firstRun
         }
 
         return nil

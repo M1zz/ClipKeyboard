@@ -95,6 +95,8 @@ struct BulkImportView: View {
     @State private var showCameraPicker = false
     @State private var isRecognizing = false
     @State private var showOCREmptyAlert = false
+    /// 칸이 모자란 것을 보고 값을 물으러 가는 자리.
+    @State private var showPaywall = false
 
     var body: some View {
         NavigationStack {
@@ -107,6 +109,12 @@ struct BulkImportView: View {
                     ocrSection
                     if !drafts.isEmpty {
                         previewSection
+                        // 이사를 오려던 사람이다. 몇 개가 안 보이게 되는지 **숫자로** 말한다.
+                        // 여기서 아무 말도 안 하면, 저장한 뒤에 키보드에서 비어 있는 것을
+                        // 발견하고 이사 자체를 그만둔다.
+                        if overflowCount > 0 {
+                            overflowSection
+                        }
                     }
                 } else {
                     successSection
@@ -136,6 +144,7 @@ struct BulkImportView: View {
             } message: {
                 Text(NSLocalizedString("사진에서 인식된 텍스트가 없습니다. 글자가 선명한 사진으로 다시 시도해주세요.", comment: "OCR empty alert message"))
             }
+            .paywall(isPresented: $showPaywall, triggeredBy: .memo)
             .sheet(isPresented: $showPhotoPicker) {
                 ImagePickerView { image in runOCR(on: image) }
             }
@@ -586,6 +595,41 @@ struct BulkImportView: View {
     // MARK: - Split Logic
 
     private var selectedCount: Int { drafts.filter(\.include).count }
+
+    /// 고른 것 중 **키보드에서 안 보이게 될** 개수.
+    ///
+    /// ⚠️ 저장 자체는 막지 않는다. 가져온 것은 전부 앱에 들어오고, 무료 한도는
+    ///    키보드에 몇 개가 보이느냐의 문제다(`ProFeatureManager.memosWithinLimit`).
+    ///    그러니 "저장이 안 된다"고 말하면 거짓말이 된다. 안 보이게 된다고 말한다.
+    private var overflowCount: Int {
+        guard !ProFeatureManager.hasFullAccess else { return 0 }
+        let already = ProFeatureManager.ownMemoCount((try? MemoStore.shared.load(type: .memo)) ?? [])
+        let room = max(0, ProFeatureManager.memoLimit - already)
+        return max(0, selectedCount - room)
+    }
+
+    /// 칸이 모자랄 때의 한 줄 - 숫자로 말하고, 여는 길을 같이 둔다.
+    private var overflowSection: some View {
+        Section {
+            Button {
+                showPaywall = true
+            } label: {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(String(format: NSLocalizedString("%1$d개 중 %2$d개는 키보드에 안 보여요",
+                                                          comment: "Bulk import: over free limit"),
+                                selectedCount, overflowCount))
+                        .font(.body.weight(.semibold))
+                    Text(NSLocalizedString("저장은 다 돼요. 지금 여시면 전부 키보드에 나와요",
+                                           comment: "Bulk import: over free limit caption"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(.orange)
+        }
+    }
 
     private var saveButtonLabel: String {
         if selectedCount == 0 { return NSLocalizedString("Save", comment: "Save") }

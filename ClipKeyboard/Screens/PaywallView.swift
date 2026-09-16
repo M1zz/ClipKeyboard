@@ -104,8 +104,34 @@ struct PaywallView: View {
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
+
+            // 지금 이 사람의 자리. 값을 말하기 전에 **지금 어디에 서 있는지**부터 말한다.
+            // 이 줄이 없으면 "무제한" 이 무엇에서 풀려나는 말인지 알 수 없다.
+            if !ProFeatureManager.hasPermanentPro {
+                limitStatusRow
+            }
         }
         .padding(.top, 20)
+    }
+
+    /// "내 단축어 7 / 10칸" - 산 칸까지 더한 **지금 이 사람의** 한도를 말한다.
+    ///
+    /// ⚠️ 세는 것은 자기 것뿐이다(`ownMemoCount`). 온보딩이 심어 준 샘플까지 세면
+    ///    아무것도 안 만든 사람이 4/10 에서 시작한다.
+    private var limitStatusRow: some View {
+        let own = ProFeatureManager.ownMemoCount(MemoStore.shared.memos)
+        let limit = ProFeatureManager.memoLimit
+        let text = limit == Int.max
+            ? NSLocalizedString("단축어 무제한", comment: "Paywall: unlimited slots")
+            : String(format: NSLocalizedString("지금 내 단축어 %1$d / %2$d칸", comment: "Paywall: current slot usage"), own, limit)
+        return Text(text)
+            .font(.subheadline.weight(.medium))
+            .foregroundStyle(.orange)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .background(.orange.opacity(0.12))
+            .clipShape(Capsule())
+            .accessibilityLabel(text)
     }
 
     private var headerSubtitle: String {
@@ -309,7 +335,11 @@ struct PaywallView: View {
                 Button {
                     AnalyticsService.logPaywallCtaTapped(triggeredBy: triggeredBy?.analyticsKey, isTrial: false)
                     Task {
-                        let success = await store.purchasePro(triggeredBy: triggeredBy?.analyticsKey)
+                        // ⚠️ 업그레이드 값을 보여 준 화면에서 정가가 빠져나가면 사고다.
+                        //    보여 준 상품과 결제하는 상품은 반드시 같아야 한다.
+                        let success = isUpgradeOffer
+                            ? await store.purchaseUpgradePro(triggeredBy: triggeredBy?.analyticsKey)
+                            : await store.purchasePro(triggeredBy: triggeredBy?.analyticsKey)
                         if success {
                             didConvert = true
                             withAnimation(reduceMotion ? nil : .spring(response: 0.4)) {
@@ -347,11 +377,26 @@ struct PaywallView: View {
                 )
                 .accessibilityHint(store.isLoading ? "" : NSLocalizedString("탭하면 Pro를 구매합니다", comment: "Purchase button hint"))
 
+                // 칸에 낸 돈이 빠졌다는 말 - 업그레이드 값으로 샀을 때만.
+                if isUpgradeOffer {
+                    upgradeCaption
+                }
+
                 // 작은 계단 - 평생이 부담스러운 사람에게 다섯 칸만 파는 길.
                 // ⚠️ Pro 버튼 **아래**에 둔다. 위에 두면 싼 것부터 눈에 들어와 평생 구매가
                 //    비교당하기만 한다. 이건 대안이지 추천이 아니다.
-                if !SlotPack.isPurchased, let slots = store.slotPackProduct {
+                // ⚠️ 조건은 "아직 안 샀나" 가 아니라 "**더 살 수 있나**" 다. 예전에는
+                //    한 번 산 사람에게 버튼이 사라져서, 다섯 칸을 더 원하는 사람 앞에서
+                //    사다리가 끊겼다.
+                if SlotPack.canBuyMore, let slots = store.slotPackProduct {
                     slotPackButton(slots)
+                }
+
+                // 두 대째 - 기기가 둘이 된 사람에게만 보이는 다른 문.
+                // ⚠️ 이건 Pro 의 대안이 아니라 **다른 물건**이다. 그래서 평생을 살 수 없는
+                //    사람에게 내미는 것이 아니라, 기기 문제로 온 사람에게만 내민다.
+                if shouldOfferTwoDevice, let twoDevice = store.twoDeviceProduct {
+                    twoDeviceButton(twoDevice)
                 }
 
                 // 복원 버튼
@@ -390,8 +435,10 @@ struct PaywallView: View {
                             product.displayPrice, SlotPack.slotsPerPack))
                     .font(.headline)
                 // 무엇이 아닌지도 말한다 - 사고 나서 "이게 다야?" 가 되면 안 된다.
-                Text(NSLocalizedString("개수만 늘어요. 다른 Pro 기능은 열리지 않아요",
-                                       comment: "Slot pack button caption"))
+                // 어디까지 살 수 있는지도 같이 말한다. 끝이 없는 것처럼 보이면 안 된다.
+                Text(String(format: NSLocalizedString("개수만 늘어요. 다른 Pro 기능은 열리지 않아요 (최대 %d칸)",
+                                                      comment: "Slot pack button caption"),
+                            ProFeatureManager.freeMemoLimit + SlotPack.maxExtraSlots))
                     .font(.caption2)
             }
             .foregroundStyle(.orange)
@@ -457,7 +504,62 @@ struct PaywallView: View {
         .accessibilityElement(children: .combine)
     }
 
+    /// 지금 이 사람에게 **업그레이드 값**을 팔고 있는가.
+    ///
+    /// 칸을 산 사람에게만, 그리고 그 상품이 실제로 로드됐을 때만 참이다.
+    /// ⚠️ 상품이 없으면 거짓이어야 한다. 깎아 준다고 말해 놓고 정가를 결제시키는 것은
+    ///    거짓말이다(반값과 같은 규칙).
+    private var isUpgradeOffer: Bool {
+        ProUpgrade.isEligible && store.upgradeProProduct != nil
+    }
+
+    /// 두 대째를 내밀 자리인가 - 기기 문제로 온 사람에게만.
+    private var shouldOfferTwoDevice: Bool {
+        triggeredBy == .deviceSync && !ProFeatureManager.isSyncAvailable
+    }
+
+    /// 업그레이드 값 아래 한 줄 - 왜 싼지를 말한다.
+    /// 이유 없이 싼 값은 정가가 거짓이었다는 뜻으로 읽힌다.
+    private var upgradeCaption: some View {
+        Text(NSLocalizedString("칸 추가에 내신 값이 빠진 값이에요", comment: "Upgrade price caption"))
+            .font(.caption)
+            .foregroundStyle(.secondary)
+    }
+
+    /// 두 대째 버튼 - 동기화만 연다.
+    private func twoDeviceButton(_ product: Product) -> some View {
+        Button {
+            AnalyticsService.logPaywallCtaTapped(triggeredBy: "two_device", isTrial: false)
+            Task {
+                if await store.purchaseTwoDevice(triggeredBy: "two_device") {
+                    didConvert = true
+                    dismiss()
+                }
+            }
+        } label: {
+            VStack(spacing: 2) {
+                Text(String(format: NSLocalizedString("%@ 로 두 기기에서 같이 쓰기", comment: "Two device button"),
+                            product.displayPrice))
+                    .font(.headline)
+                // 무엇이 아닌지도 말한다.
+                Text(NSLocalizedString("동기화만 열려요. 단축어 개수는 그대로예요",
+                                       comment: "Two device button caption"))
+                    .font(.caption2)
+            }
+            .foregroundStyle(.orange)
+            .frame(height: 54)
+            .frame(maxWidth: .infinity)
+            .background(.orange.opacity(0.10))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+        }
+        .disabled(store.isLoading)
+    }
+
     private var priceText: String {
+        // 업그레이드 값을 보여 줄 때는 **그 상품의 값**을 적는다.
+        if isUpgradeOffer, let upgrade = store.upgradeProProduct {
+            return String(format: NSLocalizedString("Pro 업그레이드: %@", comment: "Price"), upgrade.displayPrice)
+        }
         if let product = store.proProduct {
             return String(format: NSLocalizedString("Pro 업그레이드: %@", comment: "Price"), product.displayPrice)
         }

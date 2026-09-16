@@ -1,6 +1,7 @@
 {
   "sourceLanguage" : "ko",
   "strings" : {
+    "" : {},
     "\"%@\"" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1799,6 +1800,16 @@
         }
       },
       "shouldTranslate" : false
+    },
+    "%@%@%@" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$@%3$@"
+          }
+        }
+      }
     },
     "%@, %@" : {
       "localizations" : {
@@ -10020,7 +10031,6 @@
       }
     },
     "CrocoClip Pro" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -14420,7 +14430,6 @@
       }
     },
     "Open the CrocoClip inbox of quick notes." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -16327,7 +16336,6 @@
       }
     },
     "Quickly capture text into your CrocoClip inbox to decide later whether to keep it as a keyboard memo." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -17233,7 +17241,6 @@
       }
     },
     "Saved to your CrocoClip inbox." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -21620,7 +21627,6 @@
       }
     },
     "{이름}님 안녕하세요! 같은 문구를 변수로 바꿔 빠르게 입력해요." : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -44216,6 +44222,35 @@
         }
       }
     },
+    "복사한 것을 넣는 키를 위줄에 세웁니다. 길게 누르면 필요한 부분만 고를 수 있어요" : {
+      "comment" : "Clipboard key description",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puts the paste key in the top row. Press and hold to pick just the part you need."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кнопка вставки появляется в верхнем ряду клавиатуры. Нажмите и удерживайте, чтобы выбрать только нужную часть"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在顶行放置粘贴按键。长按可只挑选需要的部分。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在頂行放置貼上按鍵。長按可只挑選需要的部分。"
+          }
+        }
+      }
+    },
     "복사한 것을 넣습니다. 길게 누르면 필요한 부분만 고를 수 있습니다" : {
       "comment" : "Paste key hint",
       "localizations" : {
@@ -45170,6 +45205,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在貼上鍵旁邊切換到數字鍵盤。輸入卡號或金額時不用再換鍵盤。"
+          }
+        }
+      }
+    },
+    "붙여넣기 키" : {
+      "comment" : "Show clipboard paste key toggle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste key"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кнопка вставки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "粘贴按键"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "貼上按鍵"
           }
         }
       }
@@ -56048,7 +56112,6 @@
       }
     },
     "알림 권한이 꺼져 있어요. iOS 설정 > %@ > 알림에서 허용해 주세요." : {
-      "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -88834,7 +88897,6 @@
       }
     },
     "🎉 첫 붙여넣기 완료! 이제 진짜 CrocoClip 사용자예요" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -89485,60 +89547,408 @@
         }
       }
     },
-    "붙여넣기 키" : {
-      "comment" : "Show clipboard paste key toggle",
+    "단축어 무제한" : {
+      "comment" : "Paywall: unlimited slots",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Paste key"
+            "value" : "Unlimited snippets"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Кнопка вставки"
+            "value" : "Фразы без ограничений"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "粘贴按键"
+            "value" : "短语无限"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "貼上按鍵"
+            "value" : "短語無限"
           }
         }
       }
     },
-    "복사한 것을 넣는 키를 위줄에 세웁니다. 길게 누르면 필요한 부분만 고를 수 있어요" : {
-      "comment" : "Clipboard key description",
+    "지금 내 단축어 %1$d / %2$d칸" : {
+      "comment" : "Paywall: current slot usage",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Puts the paste key in the top row. Press and hold to pick just the part you need."
+            "value" : "%1$d of %2$d slots used"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Кнопка вставки появляется в верхнем ряду клавиатуры. Нажмите и удерживайте, чтобы выбрать только нужную часть"
+            "value" : "Сейчас %1$d из %2$d слотов"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在顶行放置粘贴按键。长按可只挑选需要的部分。"
+            "value" : "当前 %1$d / %2$d 个位置"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在頂行放置貼上按鍵。長按可只挑選需要的部分。"
+            "value" : "當前 %1$d / %2$d 個位置"
+          }
+        }
+      }
+    },
+    "개수만 늘어요. 다른 Pro 기능은 열리지 않아요 (최대 %d칸)" : {
+      "comment" : "Slot pack button caption",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slots only. Other Pro features stay locked (up to %d slots)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавляются только слоты. Остальные функции Pro остаются закрытыми (максимум слотов: %d)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只增加数量。其他 Pro 功能不会解锁（最多 %d 个位置）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只增加數量。其他 Pro 功能不會解鎖（最多 %d 個位置）"
+          }
+        }
+      }
+    },
+    "칸 추가에 내신 값이 빠진 값이에요" : {
+      "comment" : "Upgrade price caption",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This price already subtracts what you paid for slots"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Из этой цены уже вычтено то, что вы заплатили за слоты"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这个价格已经减去了你买位置时付的钱"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這個價格已經減去了你買位置時付的錢"
+          }
+        }
+      }
+    },
+    "%@ 로 두 기기에서 같이 쓰기" : {
+      "comment" : "Two device button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use on two devices for %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовать на двух устройствах за %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用 %@ 在两台设备上一起用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用 %@ 在兩台裝置上一起用"
+          }
+        }
+      }
+    },
+    "동기화만 열려요. 단축어 개수는 그대로예요" : {
+      "comment" : "Two device button caption",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sync only. Your snippet count stays the same"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открывается только синхронизация. Количество фраз не меняется"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只解锁同步。短语数量保持不变"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只解鎖同步。短語數量保持不變"
+          }
+        }
+      }
+    },
+    "같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 또는 두 대째 상품으로 열리며, 실험적 기능이라 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다." : {
+      "comment" : "Cross-device sync explanation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatically syncs snippets between an iPhone and Mac signed in to the same iCloud account. Unlocked by Pro or by Two devices, and experimental: please verify it works across both devices first. Secure snippets stay encrypted while syncing."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически синхронизирует фразы между iPhone и Mac, вошедшими в один аккаунт iCloud. Открывается через Pro или «Два устройства», и это экспериментальная функция: сначала проверьте, как это работает на обоих устройствах. Защищённые фразы синхронизируются в зашифрованном виде."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在登录同一 iCloud 账户的 iPhone 和 Mac 之间自动同步短语。由 Pro 或「两台设备」解锁，而且是实验功能：请先确认两台设备上都正常。加密短语在同步时保持加密状态。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在登入同一 iCloud 帳戶的 iPhone 和 Mac 之間自動同步短語。由 Pro 或「兩台裝置」解鎖，而且是實驗功能：請先確認兩台裝置上都正常。加密短語在同步時保持加密狀態。"
+          }
+        }
+      }
+    },
+    "%1$d개 중 %2$d개는 키보드에 안 보여요" : {
+      "comment" : "Bulk import: over free limit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$d of %1$d won't show on the keyboard"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$d из %1$d не появятся на клавиатуре"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d 个中有 %2$d 个不会显示在键盘上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d 個中有 %2$d 個不會顯示在鍵盤上"
+          }
+        }
+      }
+    },
+    "저장은 다 돼요. 지금 여시면 전부 키보드에 나와요" : {
+      "comment" : "Bulk import: over free limit caption",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All of them are saved. Unlock now and they all show on the keyboard"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранится всё. Откройте сейчас, и все они появятся на клавиатуре"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部都会保存。现在解锁，它们就都会出现在键盘上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部都會儲存。現在解鎖，它們就都會出現在鍵盤上"
+          }
+        }
+      }
+    },
+    "방금 가려야 할 것을 저장하셨어요. Face ID로 잠글 수 있어요" : {
+      "comment" : "Purchase moment: sensitive saved",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You just saved something private. You can lock it with Face ID"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы только что сохранили то, что стоит скрыть. Это можно закрыть через Face ID"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你刚刚保存了需要遮住的内容。可以用 Face ID 锁起来"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你剛剛儲存了需要遮住的內容。可以用 Face ID 鎖起來"
+          }
+        }
+      }
+    },
+    "기기가 둘이 되셨네요. 같은 단축어를 두 기기에서 쓸 수 있어요" : {
+      "comment" : "Purchase moment: second device",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're on two devices now. Use the same snippets on both"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Теперь у вас два устройства. Одни и те же фразы можно использовать на обоих"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你现在有两台设备了。同样的短语可以在两台上一起用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你現在有兩台裝置了。同樣的短語可以在兩台上一起用"
+          }
+        }
+      }
+    },
+    "단축어 %d개를 만드셨어요. 지금 이 기기에만 있어요" : {
+      "comment" : "Purchase moment: no backup",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You've made %d snippets. They live only on this device"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создано фраз: %d. Они есть только на этом устройстве"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你已经创建了 %d 个短语。它们只存在于这台设备上"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你已經建立了 %d 個短語。它們只存在於這台裝置上"
+          }
+        }
+      }
+    },
+    "기기 사이 동기화" : {
+      "comment" : "Device sync",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cross-Device Sync"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Синхронизация между устройствами"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跨设备同步"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跨裝置同步"
+          }
+        }
+      }
+    },
+    "같은 iCloud 계정의 다른 기기에서도 같은 단축어를 쓸 수 있습니다." : {
+      "comment" : "Device sync desc",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the same snippets on your other devices signed in to the same iCloud account."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Используйте те же фразы на других устройствах с тем же аккаунтом iCloud."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在登录同一 iCloud 账户的其他设备上使用相同的短语。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在登入同一 iCloud 帳戶的其他裝置上使用相同的短語。"
           }
         }
       }

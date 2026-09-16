@@ -44,6 +44,22 @@ enum ClipboardItemType: String, Codable, CaseIterable {
     case cryptoWallet = "Crypto Wallet"
     case paypalLink = "PayPal Link"
 
+    /// 남이 보면 곤란한 것인가.
+    ///
+    /// 생체잠금을 권하는 자리(`PurchaseMoment.sensitiveSaved`)가 이 값 하나를 본다.
+    /// ⚠️ 이메일·전화번호·주소는 **일부러 뺐다.** 그건 이 앱이 가장 많이 다루는 것이라
+    ///    여기에 넣으면 거의 모든 저장이 "민감" 이 되고, 그러면 이 구분은 아무 뜻이 없어진다.
+    ///    남는 것은 새어 나갔을 때 **돈이나 신원이 걸리는** 것들이다.
+    var isSensitive: Bool {
+        switch self {
+        case .creditCard, .bankAccount, .passportNumber, .taxID,
+             .insuranceNumber, .medicalRecord, .iban, .swift, .cryptoWallet:
+            return true
+        default:
+            return false
+        }
+    }
+
     var icon: String {
         switch self {
         case .email: return "envelope.fill"

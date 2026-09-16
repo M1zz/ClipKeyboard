@@ -59,6 +59,12 @@
     "comment": "Usage stats: cancelled",
     "h": "6eb0050152"
   },
+  "%1$d개 중 %2$d개는 키보드에 안 보여요": {
+    "ko": "%1$d개 중 %2$d개는 키보드에 안 보여요",
+    "en": "",
+    "comment": "Bulk import: over free limit",
+    "h": "59ded9848a"
+  },
   "%1$d개 중 %2$d개를 쓰고 있어요": {
     "ko": "%1$d개 중 %2$d개를 쓰고 있어요",
     "en": "Using %2$d of %1$d",
@@ -148,6 +154,12 @@
     "en": "enough time to run %@",
     "comment": "Inline equivalent: running",
     "h": "67d6283fac"
+  },
+  "%@ 로 두 기기에서 같이 쓰기": {
+    "ko": "%@ 로 두 기기에서 같이 쓰기",
+    "en": "",
+    "comment": "Two device button",
+    "h": "e7cb23d870"
   },
   "%@ 로 평생 사용": {
     "ko": "%@ 로 평생 사용",
@@ -3395,11 +3407,23 @@
     "comment": "Template info tip message",
     "h": "3e6e29e035"
   },
+  "같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 또는 두 대째 상품으로 열리며, 실험적 기능이라 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.": {
+    "ko": "같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 또는 두 대째 상품으로 열리며, 실험적 기능이라 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.",
+    "en": "",
+    "comment": "Cross-device sync explanation",
+    "h": "1d04f4c532"
+  },
   "같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 전용이며 실험적 기능이라, 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.": {
     "ko": "같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 전용이며 실험적 기능이라, 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.",
     "en": "Automatically syncs snippets between an iPhone and Mac signed in to the same iCloud account. Pro only, and experimental: please verify it works across both devices first. Secure snippets stay encrypted while syncing.",
     "comment": "Cross-device sync explanation",
     "h": "8cb02ded1f"
+  },
+  "같은 iCloud 계정의 다른 기기에서도 같은 단축어를 쓸 수 있습니다.": {
+    "ko": "같은 iCloud 계정의 다른 기기에서도 같은 단축어를 쓸 수 있습니다.",
+    "en": "",
+    "comment": "Device sync desc",
+    "h": "e49fd45be6"
   },
   "같은 문구를 잇달아 쓰면 찾아오는 시간을 한 번만 세요. 한 번 꺼내 온 값은 이미 손에 있으니까요": {
     "ko": "같은 문구를 잇달아 쓰면 찾아오는 시간을 한 번만 세요. 한 번 꺼내 온 값은 이미 손에 있으니까요",
@@ -3442,6 +3466,12 @@
     "en": "Slots only. Other Pro features stay locked.",
     "comment": "Slot pack button caption",
     "h": "db36742cb1"
+  },
+  "개수만 늘어요. 다른 Pro 기능은 열리지 않아요 (최대 %d칸)": {
+    "ko": "개수만 늘어요. 다른 Pro 기능은 열리지 않아요 (최대 %d칸)",
+    "en": "",
+    "comment": "Slot pack button caption",
+    "h": "c00ac1a66e"
   },
   "개인정보 처리방침": {
     "ko": "개인정보 처리방침",
@@ -3929,6 +3959,12 @@
     "comment": "Changelog 4.4.8 item 3",
     "h": "f81c9cc9f9"
   },
+  "기기 사이 동기화": {
+    "ko": "기기 사이 동기화",
+    "en": "",
+    "comment": "Device sync",
+    "h": "eed3ea61f4"
+  },
   "기기 사이 동기화에서 수정과 삭제가 반영되지 않던 것을 고쳤어요": {
     "ko": "기기 사이 동기화에서 수정과 삭제가 반영되지 않던 것을 고쳤어요",
     "en": "Edits and deletions now travel between devices",
@@ -3952,6 +3988,12 @@
     "en": "Calculated on this device only. Nothing was sent anywhere.",
     "comment": "Receipt: privacy footnote",
     "h": "cbb719a2e7"
+  },
+  "기기가 둘이 되셨네요. 같은 단축어를 두 기기에서 쓸 수 있어요": {
+    "ko": "기기가 둘이 되셨네요. 같은 단축어를 두 기기에서 쓸 수 있어요",
+    "en": "",
+    "comment": "Purchase moment: second device",
+    "h": "25bb972a8f"
   },
   "기기를 2대 이상 쓰는 신호예요.": {
     "ko": "기기를 2대 이상 쓰는 신호예요.",
@@ -4871,6 +4913,12 @@
     "comment": "Backup success with count",
     "h": "e817bb7e9c"
   },
+  "단축어 %d개를 만드셨어요. 지금 이 기기에만 있어요": {
+    "ko": "단축어 %d개를 만드셨어요. 지금 이 기기에만 있어요",
+    "en": "",
+    "comment": "Purchase moment: no backup",
+    "h": "8176821c1c"
+  },
   "단축어 %d개를 일주일 넘게 쓰고 계세요. 이 창에서만 반값이에요.": {
     "ko": "단축어 %d개를 일주일 넘게 쓰고 계세요. 이 창에서만 반값이에요.",
     "en": "You've been using %d snippets for over a week. Half price, from this screen only.",
@@ -5032,6 +5080,12 @@
     "en": "Single tap on a snippet in the list to hear the category, title, and content. Double tap to copy to clipboard.\n\nSwipe up or down to select additional actions like 'Add to favorites' or 'Delete'.",
     "comment": "VoiceOver feature description",
     "h": "e8e86546d9"
+  },
+  "단축어 무제한": {
+    "ko": "단축어 무제한",
+    "en": "",
+    "comment": "Paywall: unlimited slots",
+    "h": "4b697cb852"
   },
   "단축어 삭제": {
     "ko": "단축어 삭제",
@@ -5524,6 +5578,12 @@
     "en": "Users with sync on",
     "comment": "Usage metric: sync enabled users",
     "h": "71fcbb166f"
+  },
+  "동기화만 열려요. 단축어 개수는 그대로예요": {
+    "ko": "동기화만 열려요. 단축어 개수는 그대로예요",
+    "en": "",
+    "comment": "Two device button caption",
+    "h": "24d614027a"
   },
   "동물": {
     "ko": "동물",
@@ -6406,6 +6466,12 @@
     "en": "Want it for life, at half price?",
     "comment": "Discount offer title",
     "h": "6395bf8804"
+  },
+  "방금 가려야 할 것을 저장하셨어요. Face ID로 잠글 수 있어요": {
+    "ko": "방금 가려야 할 것을 저장하셨어요. Face ID로 잠글 수 있어요",
+    "en": "",
+    "comment": "Purchase moment: sensitive saved",
+    "h": "7afcf83b48"
   },
   "배경 없음": {
     "ko": "배경 없음",
@@ -9084,10 +9150,10 @@
     "h": "0e7cf8eef5"
   },
   "알림 권한이 꺼져 있어요. iOS 설정 > %@ > 알림에서 허용해 주세요.": {
-    "ko": "%@",
+    "ko": "알림 권한이 꺼져 있어요. iOS 설정 > %@ > 알림에서 허용해 주세요.",
     "en": "Notifications are off. Turn them on in iOS Settings > %@ > Notifications.",
     "comment": "",
-    "h": "2b6a46b59d"
+    "h": "ee0ec98e32"
   },
   "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.": {
     "ko": "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.",
@@ -11147,6 +11213,12 @@
     "comment": "Memo save failed toast",
     "h": "541fd894b1"
   },
+  "저장은 다 돼요. 지금 여시면 전부 키보드에 나와요": {
+    "ko": "저장은 다 돼요. 지금 여시면 전부 키보드에 나와요",
+    "en": "",
+    "comment": "Bulk import: over free limit caption",
+    "h": "5698bf6706"
+  },
   "저장하는 도중 앱이 닫혀도 원본이 깨지지 않아요": {
     "ko": "저장하는 도중 앱이 닫혀도 원본이 깨지지 않아요",
     "en": "Your data stays whole even if the app closes mid save",
@@ -11758,6 +11830,12 @@
     "en": "Right now it is %dpt taller than the standard keyboard.",
     "comment": "Keyboard height comparison: taller",
     "h": "732fa02323"
+  },
+  "지금 내 단축어 %1$d / %2$d칸": {
+    "ko": "지금 내 단축어 %1$d / %2$d칸",
+    "en": "",
+    "comment": "Paywall: current slot usage",
+    "h": "03d304f1d0"
   },
   "지금 말고 다음에 할래요": {
     "ko": "지금 말고 다음에 할래요",
@@ -12670,6 +12748,12 @@
     "en": "Adding from a category now saves into that category",
     "comment": "Changelog 4.3.5 item 3",
     "h": "77c25f7781"
+  },
+  "칸 추가에 내신 값이 빠진 값이에요": {
+    "ko": "칸 추가에 내신 값이 빠진 값이에요",
+    "en": "",
+    "comment": "Upgrade price caption",
+    "h": "6e2936a29b"
   },
   "캘린더 열기": {
     "ko": "캘린더 열기",

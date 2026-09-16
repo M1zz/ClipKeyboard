@@ -41,6 +41,22 @@ enum DefaultsKey {
     /// 칸 추가 상품으로 얻은 추가 단축어 칸수 (App Group, Int).
     /// ⚠️ 키보드 익스텐션은 StoreKit 을 못 보므로 앱이 결제 권한을 여기에 미러링한다.
     static let purchasedExtraSlots = "purchased.extraSlots"
+    /// 소모성 칸 추가 상품으로 산 **팩 수** (App Group, Int. 한 팩 = 5칸).
+    /// ⚠️ 소모성은 애플이 복원해 주지 않는다. 같은 값을 iCloud 키·값 저장소에도 새겨
+    ///    다시 깔거나 기기를 바꿔도 따라오게 한다. 자세한 이유: Service/SlotPack.swift
+    static let purchasedSlotPacks = "purchased.slotPacks"
+    /// 두 대째 상품(기기 동기화만 여는 것)을 샀는가 (App Group, Bool).
+    /// ⚠️ 이 값이 참이어도 **Pro 는 아니다.** 여는 것은 동기화 하나뿐이다.
+    static let twoDevicePurchased = "purchased.twoDevice"
+    /// 결제 순간을 이미 띄운 것들 (App Group, `PurchaseMoment.rawValue` 배열).
+    /// 순간은 각각 **평생 한 번**이다. 두 번 보여 준 순간부터 광고가 된다.
+    static let purchaseMomentsShown = "purchase.moments.shown"
+    /// 카드번호·주민번호처럼 가려야 할 것을 마지막으로 저장한 시각 (App Group, epoch 초).
+    /// 불안은 저장하는 그 순간 가장 크고 하루가 지나면 사라진다. 그래서 이 값은 24시간만 쓴다.
+    static let sensitiveSavedAt = "purchase.moment.sensitiveSavedAt"
+    /// 이 계정에서 본 기기들 (iCloud 키·값 저장소, identifierForVendor 문자열 배열).
+    /// 두 번째 기기가 나타난 날을 알아채려고 둔다. 기기 이름·모델은 담지 않는다.
+    static let knownDeviceIDs = "purchase.knownDeviceIDs"
     /// 단축어가 무료 한도 한 칸 앞(9개)에 **처음** 닿은 시각 (App Group, epoch 초).
     /// 반값 제안은 이 시각에서 일주일이 지난 뒤에 뜬다 - 닿자마자 들이밀면 한도를
     /// 미끼로 쓴 것처럼 보이고, 아직 이 앱이 자기에게 필요한지도 모르는 때다.

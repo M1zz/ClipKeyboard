@@ -48,20 +48,34 @@ final class ClipKeyboardSpecTests: XCTestCase {
         XCTAssertTrue(ClipKeyboardSpec.monetization.requiresRestore, "비소모성 판매 - 복원 경로는 심사 필수")
     }
 
-    /// 파는 물건은 셋(정가·반값·칸 추가), **Pro 권한은 평생 상품 둘뿐**이다.
+    /// 파는 물건은 여섯(정가·반값·업그레이드·칸 추가 둘·두 대째),
+    /// **Pro 권한은 평생을 여는 셋뿐**이다.
     ///
     /// ⚠️ 이 테스트가 이 저장소에서 가장 비싼 사고를 막는다. LeeoKit 은 `entitlementIDs` 를
-    ///    안 주면 파는 상품 전체를 권한으로 보므로, 칸 추가가 권한에 섞이면 $3 결제로
-    ///    평생 Pro 가 열린다. 그리고 한 번 준 권한은 되돌릴 방법이 없다.
-    func testSlotPackNeverGrantsPro() {
+    ///    안 주면 파는 상품 전체를 권한으로 보므로, 칸 추가나 두 대째가 권한에 섞이면
+    ///    작은 결제로 평생 Pro 가 열린다. 그리고 한 번 준 권한은 되돌릴 방법이 없다.
+    func testSmallProductsNeverGrantPro() {
         let paywall = ClipKeyboardSpec.paywall
         XCTAssertEqual(paywall?.productIDs, [StoreManager.proProductID,
                                              DiscountOfferManager.discountedProProductID,
-                                             SlotPack.productID])
+                                             ProUpgrade.productID,
+                                             SlotPack.productID,
+                                             SlotPack.consumableProductID,
+                                             TwoDevicePack.productID])
         XCTAssertEqual(paywall?.entitlementIDs, [StoreManager.proProductID,
-                                                 DiscountOfferManager.discountedProProductID])
-        XCTAssertFalse(paywall?.entitlementIDs.contains(SlotPack.productID) ?? true,
-                       "칸 추가가 Pro 권한이 되면 안 된다")
+                                                 DiscountOfferManager.discountedProProductID,
+                                                 ProUpgrade.productID])
+        for small in [SlotPack.productID, SlotPack.consumableProductID, TwoDevicePack.productID] {
+            XCTAssertFalse(paywall?.entitlementIDs.contains(small) ?? true,
+                           "\(small) 가 Pro 권한이 되면 안 된다")
+        }
+    }
+
+    /// 업그레이드는 **반드시** 권한이어야 한다.
+    /// 빠지면 돈을 받고 아무것도 안 열어 주는 상품이 된다(반대 방향의 같은 크기 사고다).
+    func testUpgradeGrantsPro() {
+        XCTAssertTrue(ClipKeyboardSpec.paywall?.entitlementIDs.contains(ProUpgrade.productID) ?? false,
+                      "업그레이드를 사고도 Pro 가 안 되면 안 된다")
     }
 
     /// 권한 캐시는 앱 그룹에 있어야 한다 - 아니면 키보드 익스텐션이 오프라인에서 Pro 를 잊는다.

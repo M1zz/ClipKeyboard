@@ -61,6 +61,66 @@
       "productID": "com.Ysoup.TokenMemo.slots5",
       "referenceName": "ClipKeyboard +5 shortcut slots",
       "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "7.99",
+      "familyShareable": true,
+      "internalID": "pro_upgrade",
+      "localizations": [
+        {
+          "description": "Unlock everything forever, minus what you paid for slots.",
+          "displayName": "ClipKeyboard Pro (upgrade)",
+          "locale": "en_US"
+        },
+        {
+          "description": "\uce78 \ucd94\uac00\uc5d0 \ub0b4\uc2e0 \uac12\uc744 \ube80 \ud3c9\uc0dd \uc7a0\uae08 \ud574\uc81c",
+          "displayName": "ClipKeyboard Pro (\uc5c5\uadf8\ub808\uc774\ub4dc)",
+          "locale": "ko"
+        }
+      ],
+      "productID": "com.Ysoup.TokenMemo.pro.upgrade",
+      "referenceName": "ClipKeyboard Pro (Lifetime, upgrade from slots)",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "slots5_pack",
+      "localizations": [
+        {
+          "description": "Add 5 more shortcut slots. Buy up to 3 times. Other Pro features stay locked.",
+          "displayName": "5 more slots",
+          "locale": "en_US"
+        },
+        {
+          "description": "\ub2e8\ucd95\uc5b4 \uce78\uc744 5\uac1c \ub354 \ub298\ub9bd\ub2c8\ub2e4. \ucd5c\ub300 \uc138 \ubc88\uae4c\uc9c0. \ub2e4\ub978 Pro \uae30\ub2a5\uc740 \uc5f4\ub9ac\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.",
+          "displayName": "\ub2e8\ucd95\uc5b4 5\uce78 \ucd94\uac00",
+          "locale": "ko"
+        }
+      ],
+      "productID": "com.Ysoup.TokenMemo.slots5.pack",
+      "referenceName": "ClipKeyboard +5 shortcut slots (repeatable)",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "6.99",
+      "familyShareable": true,
+      "internalID": "two_device",
+      "localizations": [
+        {
+          "description": "Sync shortcuts across your devices. Slot count stays the same.",
+          "displayName": "Two devices",
+          "locale": "en_US"
+        },
+        {
+          "description": "\uae30\uae30 \uc0ac\uc774\uc5d0\uc11c \ub2e8\ucd95\uc5b4\ub97c \ub3d9\uae30\ud654\ud569\ub2c8\ub2e4. \ub2e8\ucd95\uc5b4 \uac1c\uc218\ub294 \uadf8\ub300\ub85c\uc785\ub2c8\ub2e4.",
+          "displayName": "\ub450 \ub300\uc9f8",
+          "locale": "ko"
+        }
+      ],
+      "productID": "com.Ysoup.TokenMemo.twodevice",
+      "referenceName": "ClipKeyboard Two devices (sync)",
+      "type": "NonConsumable"
     }
   ],
   "settings": {
