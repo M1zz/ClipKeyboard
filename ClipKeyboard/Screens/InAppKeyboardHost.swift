@@ -65,19 +65,8 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
     @Published private(set) var attachedImage: UIImage?
     #endif
 
-    /// `KeyboardView`가 구독하는 상태 - X(전체 삭제) 버튼과 리턴 키가 여기를 본다.
-    ///
-    /// ⚠️ **무대도 호스트다.** 진짜 키보드는 남의 앱이 시킨 대로 리턴 키를 그리는데
-    ///    (사파리 검색창이면 `검색`, 위챗이면 `보내기`), 무대는 아무것도 안 시켜서
-    ///    이름 없는 화살표가 섰다. 같은 뷰인데 한쪽만 화살표라 두 키보드가 달라 보였다.
-    ///    무대에서 리턴이 하는 일은 **보내기**이므로 그렇게 말해 둔다.
-    ///    빈 칸에서 잠그는 것까지 진짜 보내기창과 같다(`returnNeedsText`).
-    let documentState: KeyboardDocumentState = {
-        let state = KeyboardDocumentState()
-        state.returnKeyType = .send
-        state.returnNeedsText = true
-        return state
-    }()
+    /// `KeyboardView`가 구독하는 상태 - X(전체 삭제) 버튼 노출 여부를 여기서 본다.
+    let documentState = KeyboardDocumentState()
 
     private var tokens: [NSObjectProtocol] = []
     /// 콤보 순차 입력이 도는 중인지 - 무대를 떠나면 멈춘다.
@@ -153,14 +142,10 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
         }
     }
 
-    /// 무대의 리턴은 **보낸다.** 줄바꿈이 아니다.
-    ///
-    /// ⚠️ 이름과 하는 일은 함께 간다. 키에 `보내기` 라고 적어 놓고 줄바꿈만 넣으면,
-    ///    진짜 키보드가 남의 앱에서 지키는 규칙("없는 이름을 지어내지 않는다")을
-    ///    정작 우리 화면에서 우리가 깬다.
-    ///    `send()` 는 `canSend` 로 막혀 있어 보낼 것이 없으면 아무 일도 하지 않는다.
+    /// 위줄에 리턴 키를 세우지 않으므로 화면에서는 불리지 않는다.
+    /// `TypingInputProxy` 의 요구사항이라 자리만 지킨다.
     nonisolated func insertNewline() {
-        MainActor.assumeIsolated { send() }
+        MainActor.assumeIsolated { insert("\n") }
     }
 
     /// 앱 안에는 넘어갈 다음 키보드가 없다. (지구본 키 자체를 숨기므로 불릴 일이 없다)
@@ -351,11 +336,6 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
 
     private func syncDocumentState() {
         documentState.hasText = !text.isEmpty
-        // ⚠️ 리턴이 잠길지는 **글이 있나**가 아니라 **보낼 것이 있나**로 정한다.
-        //    이미지만 붙여 놓고도 보낼 수 있어서(`canSend`), 글만 보면 보내기 동그라미는
-        //    켜져 있는데 같은 일을 하는 리턴 키만 잠기는 어긋남이 생긴다.
-        //    글이 없어도 보낼 것이 있으면 "글을 요구하지 않는 칸" 인 셈이다.
-        documentState.returnNeedsText = !canSend
     }
 
     // MARK: - 알림 처리 (KeyboardViewController와 같은 순서)
