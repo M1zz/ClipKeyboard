@@ -16,45 +16,55 @@ import Testing
 import Foundation
 @testable import ClipKeyboard
 
-@Suite("SnippetsTabStyle: 첫 화면", .serialized)
+@Suite("SnippetsTabStyle: 첫 화면")
 struct SnippetsTabStyleTests {
+
+    // ⚠️ 여기서는 `current` 를 부르지 않는다. 그쪽은 `UserDefaults.standard` 를 보는데,
+    //    앱이 첫 실행에 그 값을 쓴다(`ClipKeyboardApp`, `appLaunchCount == 0` 일 때
+    //    무대로 시작시키려고). 시뮬레이터가 새것이면 그 쓰기가 시험과 겹쳐서,
+    //    값을 지우고 기본값을 물어보는 시험이 "keyboard" 를 받아 무너졌다.
+    //    실제로 그랬다. 클론이 이미 쓰인 상태면 통과하고 새것이면 실패하니,
+    //    깨끗한 머신과 CI 에서만 배포 게이트가 막히는 고약한 꼴이었다.
+    //
+    //    판정은 값에만 달린 일이므로 순수 함수(`resolved`)에 대고 묻는다.
+    //    읽어 오는 통로가 맞는지는 아래 `currentReadsTheStoredValue` 하나가 본다.
 
     @Test("저장된 값이 없으면 **목록**, 쓰던 사람 쪽에 맞춘다")
     func defaultsToList() {
-        let d = UserDefaults.standard
-        let saved = d.string(forKey: DefaultsKey.snippetsTabStyle)
-        defer { saved.map { d.set($0, forKey: DefaultsKey.snippetsTabStyle) } }
-
-        d.removeObject(forKey: DefaultsKey.snippetsTabStyle)
-        #expect(SnippetsTabStyle.current == .list)
+        #expect(SnippetsTabStyle.resolved(nil) == .list)
+        #expect(SnippetsTabStyle.resolved("") == .list)
     }
 
     @Test("모르는 값이어도 목록으로 떨어진다. 첫 화면이 비면 안 된다")
     func unknownFallsBackToList() {
-        let d = UserDefaults.standard
-        let saved = d.string(forKey: DefaultsKey.snippetsTabStyle)
-        defer {
-            if let saved { d.set(saved, forKey: DefaultsKey.snippetsTabStyle) }
-            else { d.removeObject(forKey: DefaultsKey.snippetsTabStyle) }
-        }
-
-        d.set("gundam", forKey: DefaultsKey.snippetsTabStyle)
-        #expect(SnippetsTabStyle.current == .list)
+        #expect(SnippetsTabStyle.resolved("gundam") == .list)
     }
 
     @Test("고른 값은 그대로 살아난다")
     func roundTrips() {
+        for style in SnippetsTabStyle.allCases {
+            #expect(SnippetsTabStyle.resolved(style.rawValue) == style)
+        }
+    }
+
+    /// 순수 함수가 맞더라도 **읽어 오는 통로**가 어긋나면 소용없다. 그 한 가지만 본다.
+    ///
+    /// ⚠️ 값을 **지우는** 시험은 하지 않는다. 지워 둔 사이에 앱의 첫 실행 쓰기가 끼어들
+    ///    수 있다. 여기서는 또렷한 값을 적고 그것이 돌아오는지만 묻는다.
+    @Test("current 는 저장된 값을 읽어 온다")
+    func currentReadsTheStoredValue() {
         let d = UserDefaults.standard
-        let saved = d.string(forKey: DefaultsKey.snippetsTabStyle)
+        let key = DefaultsKey.snippetsTabStyle
+        let saved = d.string(forKey: key)
         defer {
-            if let saved { d.set(saved, forKey: DefaultsKey.snippetsTabStyle) }
-            else { d.removeObject(forKey: DefaultsKey.snippetsTabStyle) }
+            if let saved { d.set(saved, forKey: key) }
+            else { d.removeObject(forKey: key) }
         }
 
-        for style in SnippetsTabStyle.allCases {
-            d.set(style.rawValue, forKey: DefaultsKey.snippetsTabStyle)
-            #expect(SnippetsTabStyle.current == style)
-        }
+        d.set(SnippetsTabStyle.keyboard.rawValue, forKey: key)
+        #expect(SnippetsTabStyle.current == .keyboard)
+        d.set(SnippetsTabStyle.list.rawValue, forKey: key)
+        #expect(SnippetsTabStyle.current == .list)
     }
 
     @Test("두 화면 다 이름과 설명이 있다. 이름만으로는 뭐가 다른지 모른다")

@@ -4,17 +4,14 @@ App Store Connect 의 `ru` 로케일에 넣을 값입니다.
 한국어·영어는 [`APP_STORE_KO_EN.md`](APP_STORE_KO_EN.md), 중국어는
 [`APP_STORE_ZH.md`](APP_STORE_ZH.md) 에 있습니다.
 
-⚠️ **스토어에 아직 러시아어 칸이 없습니다.** 앱은 5.0.8 부터 러시아어로 말하는데
-   (`AppLanguage.swift` · `knownRegions` · `i18n/config.json` 셋 다 켜져 있음),
-   App Store 페이지에는 ko · en-US · zh-Hans · zh-Hant 네 개뿐입니다.
-   `DeployBar --notes 클립키보드` 로 확인할 수 있습니다.
+✅ **스토어에 러시아어 칸이 있습니다.** (2026-09-16 확인)
+   `DeployBar --notes 클립키보드` 가 대상 언어로 ko · en-US · ru · zh-Hans · zh-Hant
+   다섯을 셉니다. 앱도 5.0.8 부터 러시아어로 말합니다
+   (`AppLanguage.swift` · `knownRegions` · `i18n/config.json` 셋 다 켜져 있음).
 
-   칸을 만드는 것은 **사람이 웹에서** 합니다. ASC API 는 로케일을 새로 만들지 못하고
-   (DeployBar 의 ASCClient 에는 `patchWhatsNew` 뿐), 만들 때 설명과 키워드가 필수라
-   이 문서가 그 원고입니다.
-
-   App Store Connect ▸ 앱 정보 ▸ 현지화 가능한 정보 ▸ 언어 추가 ▸ Russian
-   그다음 버전별 현지화(설명·키워드·새로운 기능)를 채웁니다.
+   한동안은 앱에만 있고 스토어 페이지에는 없어서 러시아어 문구가 조용히 버려졌습니다.
+   칸을 만드는 것은 사람이 웹에서 해야 하는 일이라(ASC API 는 로케일을 새로 만들지
+   못합니다), 그동안 이 문서가 그 원고 노릇을 했습니다. 지금은 채워 넣는 원고입니다.
 
 ⚠️ **공개 문서 페이지에 러시아어가 없습니다.** `docs/` 의 다섯 페이지는 ko · en ·
    zh-Hans · zh-Hant 네 언어입니다. 아래 링크 표의 러시아어 줄이 영어 페이지를 가리키는

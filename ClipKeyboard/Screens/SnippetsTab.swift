@@ -26,10 +26,20 @@ enum SnippetsTabStyle: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    /// 저장된 글자를 화면으로 옮긴다. 값이 없거나 모르는 값이면 **목록**이다.
+    ///
+    /// 왜 따로 떼어 두는가: `current` 는 `UserDefaults.standard` 를 본다. 그런데 앱이
+    /// 첫 실행(`appLaunchCount == 0`)에 이 값을 쓰기 때문에(`ClipKeyboardApp`), 시험에서
+    /// `current` 를 부르면 그 쓰기와 경합한다. 실제로 새 시뮬레이터에서만 무너지는
+    /// 시험이 여기 있었다. 판정 자체는 값에만 달린 일이므로 순수 함수로 떼어 둔다.
+    /// (`KeyboardSkin.resolved` · `LivingSkin.resolved` 와 같은 꼴)
+    static func resolved(_ raw: String?) -> SnippetsTabStyle {
+        SnippetsTabStyle(rawValue: raw ?? "") ?? .list
+    }
+
     /// 저장된 값이 없으면 **목록** - 쓰던 사람 쪽에 맞춘 기본값이다.
     static var current: SnippetsTabStyle {
-        let raw = UserDefaults.standard.string(forKey: DefaultsKey.snippetsTabStyle) ?? ""
-        return SnippetsTabStyle(rawValue: raw) ?? .list
+        resolved(UserDefaults.standard.string(forKey: DefaultsKey.snippetsTabStyle))
     }
 
     var localizedName: String {

@@ -57,7 +57,6 @@ If the list you are on empties, the next one opens.
 ```
 
 ### 앱스토어 (러시아어)
-<!-- App Store Connect ▸ 앱 정보 ▸ 현지화에 러시아어를 추가해야 이 글이 올라갑니다 (사람이 웹에서) -->
 
 ```
 Экран новой фразы сразу готов к вводу.
@@ -110,7 +109,6 @@ The list stays still while you open and edit it.
 ```
 
 ### 앱스토어 (러시아어)
-<!-- App Store Connect ▸ 앱 정보 ▸ 현지화에 러시아어를 추가해야 이 글이 올라갑니다 (사람이 웹에서) -->
 
 ```
 Высота клавиатуры совпадает с системной.
@@ -163,7 +161,6 @@ See the Pro benefits you're using.
 ```
 
 ### 앱스토어 (러시아어)
-<!-- App Store Connect ▸ 앱 정보 ▸ 현지화에 러시아어를 추가해야 이 글이 올라갑니다 (사람이 웹에서) -->
 
 ```
 Настройки удобно разложены по разделам.
@@ -216,7 +213,6 @@ Recent snippets show up as you add more.
 ```
 
 ### 앱스토어 (러시아어)
-<!-- App Store Connect ▸ 앱 정보 ▸ 현지화에 러시아어를 추가해야 이 글이 올라갑니다 (사람이 웹에서) -->
 
 ```
 Нажмите глобус, чтобы сменить клавиатуру.
@@ -269,7 +265,6 @@ Settings introduces apps worth pairing with this one.
 ```
 
 ### 앱스토어 (러시아어)
-<!-- App Store Connect ▸ 앱 정보 ▸ 현지화에 러시아어를 추가해야 이 글이 올라갑니다 (사람이 웹에서) -->
 
 ```
 На клавиатуре появилась клавиша отправки.
@@ -323,7 +318,6 @@ Translation on any device, plus Russian.
 ```
 
 ### 앱스토어 (러시아어)
-<!-- App Store Connect ▸ 앱 정보 ▸ 현지화에 러시아어를 추가해야 이 글이 올라갑니다 (사람이 웹에서) -->
 
 ```
 На клавиатуре появилась клавиша удаления.
