@@ -190,6 +190,7 @@
 		AB62FAF03467AD35F25D346F /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9F42D0C02B6FA782BA3DD1 /* AppLanguage.swift */; };
 		AB64057C0B952E134F0ECE06 /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734374AB16A70898D2F69F48 /* AppGroup.swift */; };
 		ABA18C3528AAC06FB1C2551E /* ClipKeyboardActionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 9C69399B0C55B65843F4EF1F /* ClipKeyboardActionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AC0110000000000000000002 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = AC0110000000000000000001 /* AppIcon.icon */; };
 		AD2CEE49959DF47ABA7CFE44 /* DiagnosticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1DCC1218CC62A54395A925 /* DiagnosticsService.swift */; };
 		AE5842069AF6EFC0CDB0199E /* LeeoKit in Frameworks */ = {isa = PBXBuildFile; productRef = 200BEA660FD1597D062B0754 /* LeeoKit */; };
 		AEF584932A96901A4C73D258 /* RemoteFlagsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555EC1F2E8D8CBD56CFD77FF /* RemoteFlagsService.swift */; };
@@ -527,6 +528,7 @@
 		AA0000B100000001F3B00030 /* CategoryCleanupNotice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCleanupNotice.swift; sourceTree = "<group>"; };
 		AAAF45D7591497565C76C707 /* ShareVideoSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShareVideoSheet.swift; sourceTree = "<group>"; };
 		ABBC5FEBE64BF6B998A4F173 /* DiscountOfferManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DiscountOfferManager.swift; sourceTree = "<group>"; };
+		AC0110000000000000000001 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		AIC0FILE0000000000000004 /* AIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIComponents.swift; sourceTree = "<group>"; };
 		AIS0FILE0000000000000001 /* AppleIntelligenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceService.swift; sourceTree = "<group>"; };
 		AIV0FILE0000000000000003 /* AISettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISettingsView.swift; sourceTree = "<group>"; };
@@ -608,7 +610,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5873849B2F2E7AD50042ECA4 /* Exceptions for "widget" folder in "widgetExtension" target */ = {
+		5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -618,29 +620,8 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		587384882F2E7AD40042ECA4 /* widget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				5873849B2F2E7AD50042ECA4 /* Exceptions for "widget" folder in "widgetExtension" target */,
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = widget;
-			sourceTree = "<group>";
-		};
-		9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = ClipKeyboardTests;
-			sourceTree = "<group>";
-		};
+		587384882F2E7AD40042ECA4 /* widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = widget; sourceTree = "<group>"; };
+		9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ClipKeyboardTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -824,6 +805,7 @@
 				58F8FBC22A15276400F5446E /* Model */,
 				58AA11112B4D1A2100000007 /* Extensions */,
 				58DS00112F0000000000000011 /* DesignSystem */,
+				AC0110000000000000000001 /* AppIcon.icon */,
 				58C4733F2A109F0E009D87BC /* Assets.xcassets */,
 				58C473412A109F0E009D87BC /* Preview Content */,
 				5815505F2AD52D6800A6115B /* Localizable.xcstrings */,
@@ -1369,6 +1351,7 @@
 			files = (
 				58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */,
 				58C473402A109F0E009D87BC /* Assets.xcassets in Resources */,
+				AC0110000000000000000002 /* AppIcon.icon in Resources */,
 				581550602AD52D6800A6115B /* Localizable.xcstrings in Resources */,
 				INFOPLISTBF1 /* InfoPlist.strings in Resources */,
 				8DC34C94DFB6A0B59259AEE6 /* PrivacyInfo.xcprivacy in Resources */,
