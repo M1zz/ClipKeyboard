@@ -280,21 +280,11 @@ class KeyboardViewController: UIInputViewController {
 
     /// 우리 판이 지금 무엇을 그리는지. 키 높이와 칸 수는 사용자가 설정에서 바꾼다.
     ///
-    /// ⚠️ `UserDefaults` 는 키가 없으면 0 을 돌려준다. 그대로 쓰면 격자가 필요로 하는
-    ///    높이가 0 이 되어 바닥 계산이 통째로 무너진다. 없을 때는 기본값을 쓴다.
+    /// ⚠️ **여기서 defaults 를 직접 읽지 않는다.** 예전에는 읽었고, 앱의 무대는 제 나름의
+    ///    셈을 따로 갖고 있었다. 그래서 키를 크게 잡으면 진짜 키보드만 커지고 무대는
+    ///    그대로였다. 읽는 곳을 `KeyboardHeightBook` 한 군데로 모아 둔다.
     private var contentMetrics: KeyboardHeightBook.ContentMetrics {
-        var metrics = KeyboardHeightBook.ContentMetrics()
-        let defaults = AppGroup.defaults
-        if let height = defaults?.object(forKey: "keyboardButtonHeight") as? Double, height > 0 {
-            metrics.buttonHeight = CGFloat(height)
-        }
-        if let columns = defaults?.object(forKey: "keyboardColumnCount") as? Int, columns > 0 {
-            metrics.columns = columns
-        }
-        // 머리 줄 높이가 여기서 나온다. 안 읽으면 조작 키를 키운 만큼 첫 줄이 잘린다.
-        let rawControl = defaults?.object(forKey: DefaultsKey.keyboardControlKeySize) as? Double ?? 0
-        metrics.controlKeySize = KeyboardHeightBook.resolvedControlKeySize(rawControl)
-        return metrics
+        KeyboardHeightBook.currentContentMetrics()
     }
 
     /// 화면 크기. 익스텐션에는 씬이 늦게 붙어 `view.window` 가 비어 있는 순간이 있으므로

@@ -169,6 +169,18 @@ struct InAppKeyboardStage: View {
     /// ⚠️ 무대와 키보드는 한 화면이다. 무대만 `theme.bg` 로 칠하면, 키보드 색을 직접 고른
     ///    사람의 화면에서 대화 영역과 키보드 사이에 **경계선이 생긴다.** 같은 값을 읽어
     ///    같은 색을 칠한다(키 색은 키보드 몫이라 여기서 보지 않는다).
+    // 아래 넷은 **보려고** 두는 것이다. 값을 쓰지는 않지만, 바뀌면 무대의 키보드 높이가
+    // 다시 계산되어야 한다(`keyboardHeight`). @AppStorage 로 잡아 두지 않으면 설정에서
+    // 키 높이를 바꾸고 돌아와도 무대만 아까 그 높이로 굳어 있다.
+    @AppStorage(DefaultsKey.keyboardButtonHeight, store: AppGroup.defaults)
+    private var watchedButtonHeight: Double = 44.0
+    @AppStorage(DefaultsKey.keyboardColumnCount, store: AppGroup.defaults)
+    private var watchedColumnCount: Int = 2
+    @AppStorage(DefaultsKey.keyboardControlKeySize, store: AppGroup.defaults)
+    private var watchedControlKeySize: Double = 0
+    @AppStorage(DefaultsKey.keyboardHeightPreset, store: AppGroup.defaults)
+    private var watchedHeightPreset: String = KeyboardHeightPreset.fallback.rawValue
+
     @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults)
     private var keyboardUseCustomColors: Bool = false
     @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults)
@@ -219,7 +231,7 @@ struct InAppKeyboardStage: View {
                              hostKind: .inApp,
                              highlightedMemoId: highlightedMemoId,
                              highlightedStackPart: highlightedStackPart)
-                    .frame(height: min(max(geo.size.height * 0.5, 260), 430))
+                    .frame(height: keyboardHeight(in: geo.size))
                     .id(feedToken)
             }
         }
@@ -674,6 +686,23 @@ struct InAppKeyboardStage: View {
 
     /// 대화 영역은 **무대와 같은 바탕**이다. 여기만 다른 색을 깔면 말풍선이 뜬 자리가
     /// 판때기처럼 보이고, 아래 키보드와도 배경이 어긋난다.
+    /// 무대의 키보드가 가질 높이. **익스텐션과 같은 함수로 잰다.**
+    ///
+    /// ⚠️ 예전에는 여기가 `geo.size.height * 0.5` 였다. 화면의 절반이라는 그 숫자에는
+    ///    근거가 없었고, 무엇보다 **사용자가 고른 것을 하나도 안 봤다.** 키를 크게 잡아도,
+    ///    칸 수를 줄여도, 높이를 `넉넉히` 로 바꿔도 무대의 키보드는 그대로였다.
+    ///    설정에서 본 미리보기(`KeyboardLayoutSettings`)는 제대로 재고 있었으므로,
+    ///    설정 미리보기 · 무대 · 진짜 키보드 셋이 서로 다른 크기였다.
+    ///
+    /// ⚠️ 무대가 가진 자리보다 크면 거기서 멈춘다. 위에 대화와 입력창이 함께 서는 화면이라,
+    ///    키보드가 제 높이를 다 가져가면 정작 "넣은 것이 어디로 가는지" 가 안 보인다.
+    ///    대화는 `ScrollView` 라 줄어드는 쪽을 맡는다.
+    private func keyboardHeight(in size: CGSize) -> CGFloat {
+        let natural = KeyboardHeightBook.currentHeight(for: UIScreen.main.bounds.size)
+        let ceiling = max(size.height * 0.62, KeyboardHeightBook.minimumContentHeight)
+        return min(natural, ceiling)
+    }
+
     private var conversation: some View {
         ScrollViewReader { proxy in
             ScrollView {

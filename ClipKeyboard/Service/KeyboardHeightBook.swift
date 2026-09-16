@@ -189,6 +189,39 @@ enum KeyboardHeightBook {
         }
     }
 
+    // MARK: - 지금 설정으로 읽기
+
+    /// App Group 에 적힌 설정으로 지금 판이 그리는 것들의 치수를 만든다.
+    ///
+    /// **키보드를 세우는 곳은 전부 이걸 거친다.** 익스텐션·앱의 무대·설정 미리보기가
+    /// 각자 defaults 를 읽으면 셋이 조금씩 다른 키보드를 세운다. 실제로 그랬다.
+    /// 무대만 화면 높이의 절반이라는 제 나름의 셈을 쓰고 있어서, 키를 크게 잡아도
+    /// 무대의 키보드는 그대로였다. 설정을 만져 보고 "이게 아닌데" 가 되는 자리다.
+    ///
+    /// ⚠️ `UserDefaults` 는 키가 없으면 0 을 돌려준다. 그대로 쓰면 격자가 필요로 하는
+    ///    높이가 0 이 되어 바닥 계산이 통째로 무너진다. 없을 때는 기본값을 쓴다.
+    static func currentContentMetrics() -> ContentMetrics {
+        var metrics = ContentMetrics()
+        let defaults = AppGroup.defaults
+        if let height = defaults?.object(forKey: DefaultsKey.keyboardButtonHeight) as? Double, height > 0 {
+            metrics.buttonHeight = CGFloat(height)
+        }
+        if let columns = defaults?.object(forKey: DefaultsKey.keyboardColumnCount) as? Int, columns > 0 {
+            metrics.columns = columns
+        }
+        // 머리 줄 높이가 여기서 나온다. 안 읽으면 조작 키를 키운 만큼 첫 줄이 잘린다.
+        let rawControl = defaults?.object(forKey: DefaultsKey.keyboardControlKeySize) as? Double ?? 0
+        metrics.controlKeySize = resolvedControlKeySize(rawControl)
+        return metrics
+    }
+
+    /// 지금 설정으로 이 화면에서 우리 키보드가 차지할 높이.
+    static func currentHeight(for size: CGSize) -> CGFloat {
+        height(for: size,
+               content: currentContentMetrics(),
+               preset: KeyboardHeightPreset.current)
+    }
+
     // MARK: - 시스템이 우리 뷰 밖에 그리는 몫
 
     /// iOS 26 부터 시스템이 **우리 뷰 바깥에** 그리는 높이.
