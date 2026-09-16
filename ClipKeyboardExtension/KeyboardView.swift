@@ -954,20 +954,34 @@ struct KeyboardView: View {
             if let proxy = typingProxy, showsClipboardKey {
                 clipboardKey(proxy: proxy)
             }
+            // ⚠️ 아래 셋(보내기 · 지우기 · X)은 **글이 있든 없든 늘 서 있다.**
+            //
+            //    예전에는 익스텐션에서만 `documentState.hasText` 를 따져 숨겼고, 앱 안에서는
+            //    늘 세웠다. 그래서 같은 뷰인데 두 곳의 위줄이 서로 달라 보였다. 설정에서
+            //    본 키보드와 실제로 올라온 키보드가 다르면, 고른 사람은 무엇을 고른 것인지
+            //    알 수 없다.
+            //
+            //    맞추는 방향은 **늘 세우는 쪽**이다. 글이 생길 때 키가 나타나면 그 순간 줄이
+            //    흔들리고, 무엇보다 "지울 수 있다 · 보낼 수 있다"를 미리 알 수 없다.
+            //    시스템 키보드도 빈 칸에서 지우기와 리턴을 감추지 않는다.
+            //    (숨기는 쪽으로 맞추면 설정 미리보기에서 정작 지금 만지는 키가 하나도
+            //     안 보인다. `KeyboardLayoutSettings` 가 `.inApp` 을 쓰는 이유가 그것이다)
+            //
+            //    빈 칸에서 눌러도 해로운 것은 없다. 지우기는 지울 것이 없고, X 는 아래에서
+            //    흐리게 잠근다.
+
             // 넣고 나서 보내는 키. **X 옆에 두지 않는다** - 하나는 보내 버리고 하나는
             // 다 지우는 키라, 붙여 놓으면 잘못 누른 값이 양쪽 다 크다. 사이에 지우기를 끼운다.
-            if let proxy = typingProxy, showReturnKey,
-               documentState.hasText || hostKind == .inApp {
+            if let proxy = typingProxy, showReturnKey {
                 returnDocumentKey(proxy: proxy)
             }
             // 한 글자 지우기. 이게 없어서 오타 하나를 고치려고 **다른 키보드로
             // 건너갔다가 돌아와야 했다**(사용자 요청).
-            if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
+            if let proxy = typingProxy {
                 backspaceDocumentKey(proxy: proxy)
             }
-            // X(전체 삭제)도 앱 안에서는 **처음부터** 서 있다. 글이 생길 때 나타나면
-            // 그 순간 줄이 흔들리고, 무엇보다 "지울 수 있다"를 미리 알 수 없다.
-            if let proxy = typingProxy, documentState.hasText || hostKind == .inApp {
+            // X(전체 삭제).
+            if let proxy = typingProxy {
                 clearAllButton(proxy: proxy)
                     .transition(.opacity.combined(with: .scale(scale: 0.85)))
                     // 빈 칸에서는 눌러도 지울 게 없다 - 있지만 흐리게.
