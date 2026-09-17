@@ -286,6 +286,8 @@ enum DefaultsKey {
     ///
     /// 왜 있나: 키보드는 약 290pt 다. 머리 줄과 미리보기를 빼면 182pt 가 남는데
     /// 빈칸 한 칸이 102pt 라 1.8개밖에 안 보인다. 빈칸이 넷인 템플릿(송금 양식)은
+    /// Pro 권한이 가족 공유로만 들어왔는가 (App Group). 기능 판정에는 안 쓴다 - 통계에서 결제와 가르는 데만.
+    static let proViaFamilySharing = "clipkeyboard_pro_via_family_sharing"
     /// 절반도 안 보여서 계속 굴려야 한다. 접으면 세 개가 한눈에 들어온다.
     /// 끄면 예전처럼 전부 펼친다.
     static let keyboardCompactPlaceholders = "clipkeyboard_keyboard_compact_placeholders"

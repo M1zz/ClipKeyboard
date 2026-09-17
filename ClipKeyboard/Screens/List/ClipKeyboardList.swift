@@ -40,6 +40,8 @@ struct ClipKeyboardList: View {
     /// 페이월을 무엇 때문에 띄웠는가. 파는 물건과 첫 문장이 여기서 갈린다.
     /// (`nil` 이면 일반 업그레이드)
     @State private var paywallTrigger: ProFeatureManager.LimitType?
+    /// 잘못 열려 있던 기능이 닫힌다는 안내 - 떠 있는 동안 붙잡아 둔다(`ProFeatureManager.accessEndingNoticeNow`).
+    @State private var accessNotice: ProFeatureManager.AccessEndingNotice? = ProFeatureManager.accessEndingNoticeNow
     /// 지금 화면에 서 있는 결제 순간.
     ///
     /// ⚠️ **왜 상태로 붙잡아 두나:** 띄우는 그 자리에서 "봤다"고 못박는데(평생 한 번),
@@ -415,6 +417,29 @@ struct ClipKeyboardList: View {
                 QuickNoteInboxBannerContainer(dismissCount: $inboxBannerDismissCount) {
                     HapticManager.shared.light()
                     showInboxFromIntent = true
+                }
+
+                // 열려 있던 기능이 닫힌다는 안내 - 파는 넛지보다 먼저 온다(알리는 말이 먼저다).
+                DismissibleRow(isShowing: accessNotice != nil) {
+                    if let notice = accessNotice {
+                        AccessEndingBanner(
+                            notice: notice,
+                            onUpgrade: {
+                                HapticManager.shared.light()
+                                ProFeatureManager.markAccessEndingNoticeSeen(notice)
+                                accessNotice = nil
+                                paywallTrigger = .memo
+                                showPaywallFromKeyboard = true
+                            },
+                            onDismiss: {
+                                ProFeatureManager.markAccessEndingNoticeSeen(notice)
+                                accessNotice = nil
+                            }
+                        )
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                        .padding(.bottom, 4)
+                    }
                 }
 
                 // 가치 순간 Pro 넛지 - 무료 유저가 가치를 느낀 시점에 1회 노출.
@@ -1012,7 +1037,12 @@ struct ClipKeyboardList: View {
             .onReceive(NotificationCenter.default.publisher(for: .showPaywall)) { _ in
                 showPaywallFromKeyboard = true
             }
+            .onReceive(NotificationCenter.default.publisher(for: .accessRevoked)) { _ in
+                accessNotice = ProFeatureManager.accessEndingNoticeNow
+            }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                // 체험 마지막 날은 앱을 켜 둔 채로도 온다.
+                accessNotice = ProFeatureManager.accessEndingNoticeNow
                 viewModel.onSceneResume()
                 consumePendingInboxOpen()
             }

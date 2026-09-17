@@ -404,29 +404,23 @@ struct ClipKeyboardApp: App {
     }
 
     /// v3.x → v4.0 업그레이드 유저에게 그랜드파더 상태를 부여한다.
-    /// - Pro 구매 이력 있으면 영구 unlock
-    /// - 메모를 하나라도 보유했다면 기존 무료 유저로 기록 (키보드 익스텐션 접근 유지)
+    /// - 자기가 만든 메모를 하나라도 보유했다면 기존 무료 유저로 기록 (키보드 익스텐션 접근 유지)
     /// - 메모가 새 freeMemoLimit 초과면 grace 플래그
+    /// - v4.0 이전 구매자는 여기가 아니라 `ProFeatureManager.grandfatherPaidUserIfNeeded` 가 판정한다
+    ///
+    /// ⚠️ 이 함수는 샘플을 심은 **뒤에** 돈다(`insertDefaultSamplesIfNeeded`). 그래서 세는 일을
+    ///    `ProStatusManager` 에 맡긴다 - 거기서 샘플을 뺀다.
     private func bootstrapV4GrandfatherFlags() {
         // 이미 한 번 초기화됐으면 skip
         let defaults = AppGroup.defaults
         let initKey = DefaultsKey.v4GrandfatherBootstrapDone
         if defaults?.bool(forKey: initKey) == true { return }
 
-        let currentMemoCount: Int
-        if let memos = try? MemoStore.shared.load(type: .memo) {
-            currentMemoCount = memos.count
-        } else {
-            currentMemoCount = 0
-        }
-
-        ProStatusManager.shared.bootstrapV4GrandfatherFlags(
-            existingMemoCount: currentMemoCount,
-            isProNow: ProFeatureManager.isPro
-        )
+        let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
+        ProStatusManager.shared.bootstrapV4GrandfatherFlags(memos: memos)
 
         defaults?.set(true, forKey: initKey)
-        print("✅ [APP INIT] v4.0 그랜드파더 부트스트랩 완료 (memos=\(currentMemoCount), isPro=\(ProFeatureManager.isPro))")
+        print("✅ [APP INIT] v4.0 그랜드파더 부트스트랩 완료 (memos=\(memos.count), own=\(ProFeatureManager.ownMemoCount(memos)))")
     }
 
     // MARK: - What's New (업데이트 1회 안내)

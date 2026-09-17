@@ -78,6 +78,31 @@ final class ClipKeyboardSpecTests: XCTestCase {
                       "업그레이드를 사고도 Pro 가 안 되면 안 된다")
     }
 
+    /// 앱 그룹 Pro 키에 새기는 판정도 권한 상품 **셋 모두**를 봐야 한다.
+    ///
+    /// 한때 이 판정은 정가 ID 하나만 봤다. 스펙의 권한 목록은 맞았는데 새기는 쪽이
+    /// 달라서, 반값·업그레이드로 산 사람은 `clipkeyboard_is_pro` 가 false 로 남았다.
+    func testEveryEntitlementProductIsMirroredAsPro() {
+        for id in [StoreManager.proProductID, DiscountOfferManager.discountedProProductID, ProUpgrade.productID] {
+            XCTAssertTrue(StoreManager.grantsPro([id]), "\(id) 를 사면 Pro 키가 켜져야 한다")
+        }
+        for small in [SlotPack.productID, SlotPack.consumableProductID, TwoDevicePack.productID] {
+            XCTAssertFalse(StoreManager.grantsPro([small]), "\(small) 로 Pro 키가 켜지면 안 된다")
+        }
+        XCTAssertFalse(StoreManager.grantsPro([]))
+    }
+
+    /// 가족 공유로만 받은 Pro 는 통계에서 결제가 아니다. 한 번이라도 직접 샀으면 결제다.
+    func testFamilySharedOnlyProIsNotPayment() {
+        let pro = StoreManager.proProductID
+        XCTAssertTrue(StoreManager.proIsFamilySharedOnly([(pro, true)]))
+        XCTAssertFalse(StoreManager.proIsFamilySharedOnly([(pro, false)]))
+        XCTAssertFalse(StoreManager.proIsFamilySharedOnly([(pro, true), (ProUpgrade.productID, false)]))
+        XCTAssertFalse(StoreManager.proIsFamilySharedOnly([]), "권한이 없으면 가족 공유도 아니다")
+        XCTAssertFalse(StoreManager.proIsFamilySharedOnly([(TwoDevicePack.productID, true)]),
+                       "Pro 가 아닌 상품의 가족 공유는 따지지 않는다")
+    }
+
     /// 권한 캐시는 앱 그룹에 있어야 한다 - 아니면 키보드 익스텐션이 오프라인에서 Pro 를 잊는다.
     func testEntitlementCacheIsSharedWithExtensions() {
         XCTAssertEqual(ClipKeyboardSpec.paywall?.cacheSuiteName, AppGroup.identifier)

@@ -202,7 +202,8 @@ enum UsageReportingService {
         // 있다"가 한 비트에 뭉갰고, 허브에서는 되돌릴 수 없었다. 실제로 첫 실행
         // 설치 3,619대 중 3,595대(99.3%)가 유료로 기록됐다. 샘플을 심어 두는
         // 바람에 `wasExistingFreeUser`가 켜져 신규 설치까지 그랜드파더가 된
-        // 탓이다(그 버그 자체는 권한을 건드리는 일이라 여기서 고치지 않는다).
+        // 탓이다(그 버그는 `ProStatusManager.bootstrapV4GrandfatherFlags` 에서 고쳤다 -
+        // 샘플을 안 센다. 이미 켜진 설치는 그대로 남는다).
         //
         // 허브 규약: flag.isPaid(실제 결제) · flag.isTrial(체험) · flag.isComped
         // (돈 안 내고 열린 접근). 셋 다 0이면 무료다.
@@ -211,10 +212,21 @@ enum UsageReportingService {
         // 산 사람이라 진짜 결제다 → isPaid. 반면 `wasExistingFreeUser`는 돈을
         // 낸 적이 없다 → isComped. 둘을 `isGrandfathered` 하나로 묶어 보내면
         // 옛 실수를 이름만 바꿔 되풀이하게 된다.
+        //
+        // 가족 공유로 받은 Pro 는 기능은 같지만 이 설치에서 돈이 나가지 않았다 → isComped.
         let purchasedIAP = group?.bool(forKey: DefaultsKey.proStatus) ?? false
-        metrics["flag.isPaid"] = (purchasedIAP || ProFeatureManager.hasGrandfatheredPurchase) ? 1 : 0
+        let viaFamily = purchasedIAP && (group?.bool(forKey: DefaultsKey.proViaFamilySharing) ?? false)
+        let boughtInApp = purchasedIAP && !viaFamily
+        // v4.0 이전 유료 다운로드로만 Pro 인 사람. 돈을 냈으니 isPaid 에 들지만, 지금의 인앱 결제와는
+        // 무관하다 - 허브가 매출과 대조할 때 따로 뺄 수 있게 한 비트 더 보낸다. 인앱으로도 샀으면 인앱이 이긴다.
+        let legacyPaid = ProFeatureManager.hasGrandfatheredPurchase && !boughtInApp
+        metrics["flag.isPaid"] = (boughtInApp || legacyPaid) ? 1 : 0
+        metrics["flag.isLegacyPaid"] = legacyPaid ? 1 : 0
         metrics["flag.isTrial"] = ProFeatureManager.isInTrial ? 1 : 0
-        metrics["flag.isComped"] = (ProFeatureManager.wasExistingFreeUser || ProFeatureManager.isTestFlight) ? 1 : 0
+        metrics["flag.isComped"] = (ProFeatureManager.wasExistingFreeUser || ProFeatureManager.isTestFlight || viaFamily) ? 1 : 0
+        // Pro 가 아닌 **작은 결제**(칸 추가 · 두 대째). 권한을 열지 않으니 isPaid 는 아니지만
+        // 돈을 낸 사람이다 - 허브가 "결제한 사람의 종류" 로 가를 때 무료와 섞이지 않게 따로 보낸다.
+        metrics["flag.boughtAddOn"] = (SlotPack.isPurchased || TwoDevicePack.isPurchased) ? 1 : 0
         // 옛 키는 계속 보낸다. 앱 자체 통계 화면의 과거 기록과 이어 보려면 필요하다.
         // 다만 이 값은 "접근 권한"이지 결제가 아니다. 유료를 세는 데 쓰지 말 것.
         metrics["flag.isPro"] = ProFeatureManager.hasFullAccess ? 1 : 0

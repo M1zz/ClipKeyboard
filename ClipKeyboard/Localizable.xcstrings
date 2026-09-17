@@ -89952,6 +89952,258 @@
           }
         }
       }
+    },
+    "무료로 열려 있던 기능이 곧 닫혀요" : {
+      "comment" : "Access ending banner: title, trial running",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Features that were open for free are closing soon"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此前免费开放的功能即将关闭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先前免費開放的功能即將關閉"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бесплатный доступ ко всем функциям скоро закончится"
+          }
+        }
+      }
+    },
+    "무료로 열려 있던 기능이 닫혔어요" : {
+      "comment" : "Access ending banner: title, closed now",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Features that were open for free are now closed"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此前免费开放的功能已关闭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先前免費開放的功能已關閉"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бесплатный доступ ко всем функциям закончился"
+          }
+        }
+      }
+    },
+    "내일부터 무료 플랜이에요" : {
+      "comment" : "Access ending banner: title, last trial day",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The free plan starts tomorrow"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "明天起将切换为免费方案"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "明天起將切換為免費方案"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С завтрашнего дня действует бесплатный тариф"
+          }
+        }
+      }
+    },
+    "그동안 모든 기능이 무료로 열려 있었어요. %d일 뒤부터 무료 플랜이 적용돼요. 저장한 단축어는 지워지지 않아요." : {
+      "comment" : "Access ending banner: body, trial running (days left)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "All features have been open to you for free. The free plan applies in %d day. Your saved snippets won't be deleted."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "All features have been open to you for free. The free plan applies in %d days. Your saved snippets won't be deleted."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此前所有功能都免费向你开放。%d天后将适用免费方案。已保存的短语不会被删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先前所有功能都免費向你開放。%d天後將適用免費方案。已儲存的短語不會被刪除。"
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Все функции были открыты для вас бесплатно. Через %d день начнёт действовать бесплатный тариф. Сохранённые фразы не удалятся."
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Все функции были открыты для вас бесплатно. Через %d дня начнёт действовать бесплатный тариф. Сохранённые фразы не удалятся."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Все функции были открыты для вас бесплатно. Через %d дней начнёт действовать бесплатный тариф. Сохранённые фразы не удалятся."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Все функции были открыты для вас бесплатно. Через %d дней начнёт действовать бесплатный тариф. Сохранённые фразы не удалятся."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "그동안 모든 기능이 무료로 열려 있었어요. 이제 무료 플랜이 적용돼요. 저장한 단축어는 지워지지 않아요." : {
+      "comment" : "Access ending banner: body, closed now",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All features had been open to you for free. The free plan now applies. Your saved snippets won't be deleted."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此前所有功能都免费向你开放。现在起适用免费方案。已保存的短语不会被删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先前所有功能都免費向你開放。現在起適用免費方案。已儲存的短語不會被刪除。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все функции были открыты для вас бесплатно. Теперь действует бесплатный тариф. Сохранённые фразы не удалятся."
+          }
+        }
+      }
+    },
+    "키보드에는 단축어가 %d개까지만 보여요. 나머지는 지워지지 않고 가려져요. 모두 계속 쓰려면 Pro로 바꿔 주세요." : {
+      "comment" : "Access ending banner: body, last trial day (shortcut limit)",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "The keyboard will show up to %d snippet. The rest are hidden, not deleted. Upgrade to Pro to keep using them all."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "The keyboard will show up to %d snippets. The rest are hidden, not deleted. Upgrade to Pro to keep using them all."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "键盘上最多只显示%d个短语，其余的会被隐藏而不会删除。想继续全部使用，请升级到 Pro。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鍵盤上最多只顯示%d個短語，其餘的會被隱藏而不會刪除。想繼續全部使用，請升級到 Pro。"
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "На клавиатуре будет видна только %d фраза. Остальные скроются, но не удалятся. Чтобы пользоваться всеми, перейдите на Pro."
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "На клавиатуре будут видны только %d фразы. Остальные скроются, но не удалятся. Чтобы пользоваться всеми, перейдите на Pro."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "На клавиатуре будут видны только %d фраз. Остальные скроются, но не удалятся. Чтобы пользоваться всеми, перейдите на Pro."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "На клавиатуре будут видны только %d фразы. Остальные скроются, но не удалятся. Чтобы пользоваться всеми, перейдите на Pro."
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

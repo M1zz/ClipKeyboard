@@ -90,10 +90,13 @@ class StoreManager: ObservableObject {
             .sink { [weak self] in self?.objectWillChange.send() }
             .store(in: &cancellables)
 
-        // 결제 권한(hasPro)을 익스텐션이 읽는 App Group Pro 키에 미러링한다.
-        // (그랜드파더 클로저를 쓰지 않으므로 store.hasPro == 결제 entitlement 보유 여부.)
+        // 결제 권한을 익스텐션이 읽는 App Group Pro 키에 미러링한다.
+        //
+        // ⚠️ 정가 ID 하나가 아니라 **권한 상품 전체**(`grantsPro`)로 본다. 예전에는
+        //    `contains(proProductID)` 였고, 그래서 반값·업그레이드로 산 사람은 돈을 내고도
+        //    `clipkeyboard_is_pro` 가 false 였다 - 기능도 안 열리고, 통계에는 무료로 올라갔다.
         store.$purchasedProductIDs
-            .map { $0.contains(Self.proProductID) }
+            .map(Self.grantsPro)
             .removeDuplicates()
             .sink { [weak self] isProNow in
                 Task { @MainActor in self?.mirrorProStatus(isPro: isProNow) }
@@ -127,11 +130,19 @@ class StoreManager: ObservableObject {
             .store(in: &cancellables)
 
         // 초기(캐시) 상태 즉시 미러링.
-        mirrorProStatus(isPro: store.purchasedProductIDs.contains(Self.proProductID))
+        mirrorProStatus(isPro: Self.grantsPro(store.purchasedProductIDs))
         SlotPack.mirror(purchased: store.purchasedProductIDs.contains(SlotPack.productID))
         TwoDevicePack.mirror(purchased: store.purchasedProductIDs.contains(TwoDevicePack.productID))
         // 소모성이라 애플이 돌려주지 않는 칸수를 iCloud 에서 회수한다(둘 중 큰 값).
         SlotPack.syncFromCloud()
+    }
+
+    /// 이 상품들 중 Pro 를 여는 것이 있는가 - 정가·반값·업그레이드 중 하나라도.
+    ///
+    /// 권한 목록은 `ClipKeyboardSpec` 한 곳에만 적는다. 여기서 ID 를 다시 나열하면
+    /// 상품이 늘 때 한쪽만 고쳐져, 돈을 받고 아무것도 안 열어 주는 상품이 또 생긴다.
+    nonisolated static func grantsPro(_ owned: Set<String>) -> Bool {
+        !owned.isDisjoint(with: ClipKeyboardSpec.paywall?.entitlementIDs ?? [])
     }
 
     // MARK: - Public Methods
@@ -280,18 +291,37 @@ class StoreManager: ObservableObject {
 
     // MARK: - Private
 
-    /// store.hasPro(결제 권한)를 익스텐션이 읽는 App Group Pro 키에 미러링한다.
-    /// 기존 updatePurchasedProducts() 의 부작용(ProStatusManager.setProStatus +
-    /// v4.0 그랜드파더 구매 이력 기록)을 그대로 유지한다.
+    /// 결제 권한을 익스텐션이 읽는 App Group Pro 키에 미러링한다.
+    ///
+    /// ⚠️ 여기서 `wasProAtV3` 를 켜지 않는다. 예전에는 "Pro 가 한 번이라도 켜지면 영구
+    ///    기록" 이었고, 그래서 환불·취소가 `clipkeyboard_is_pro` 는 껐지만 권한은 그 키로
+    ///    평생 남았다. 지금 결제는 이 키 하나가 StoreKit 을 따라 켜지고 꺼진다.
     private func mirrorProStatus(isPro: Bool) {
         // ProStatusManager 가 App Group(clipkeyboard_is_pro) + iCloud KVS 에 저장한다.
         ProStatusManager.shared.setProStatus(isPro)
+        Task { await mirrorProOwnership() }
+    }
 
-        // Pro 이력이 생기면 v4.0 그랜드파더 플래그를 영구 기록.
-        if isPro {
-            AppGroup.defaults?
-                .set(true, forKey: ProFeatureManager.grandfatheredPurchaseKey)
+    /// Pro 권한이 **가족 공유로만** 들어왔는지 App Group 에 새긴다.
+    ///
+    /// 기능은 똑같이 열린다. 다르게 보는 곳은 사용 통계뿐이다 - 가족 공유는 이 설치에서
+    /// 돈이 나가지 않았으므로 `flag.isPaid` 가 아니라 `flag.isComped` 다
+    /// (`UsageReportingService.currentMetrics`). 권한 목록(`purchasedProductIDs`)은 누가
+    /// 샀는지를 들고 있지 않아서 트랜잭션을 한 번 더 훑는다.
+    private func mirrorProOwnership() async {
+        var owned: [(productID: String, isFamilyShared: Bool)] = []
+        for await result in Transaction.currentEntitlements {
+            guard case .verified(let transaction) = result, transaction.revocationDate == nil else { continue }
+            owned.append((transaction.productID, transaction.ownershipType == .familyShared))
         }
+        AppGroup.defaults?.set(Self.proIsFamilySharedOnly(owned), forKey: DefaultsKey.proViaFamilySharing)
+    }
+
+    /// Pro 를 여는 권한이 있고, 그게 **전부** 가족 공유인가.
+    /// 한 번이라도 직접 샀으면(정가든 반값이든) 가족 공유가 같이 있어도 결제다.
+    nonisolated static func proIsFamilySharedOnly(_ owned: [(productID: String, isFamilyShared: Bool)]) -> Bool {
+        let pro = owned.filter { grantsPro([$0.productID]) }
+        return !pro.isEmpty && pro.allSatisfy(\.isFamilyShared)
     }
 
     // MARK: - Diagnostics

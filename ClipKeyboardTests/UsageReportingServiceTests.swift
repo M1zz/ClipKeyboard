@@ -74,7 +74,8 @@ final class UsageReportingServiceTests: XCTestCase {
 
         for key in ["shortcuts", "combos", "templates", "images", "favorites",
                     "uses", "timeSavedMin", "keyboardUses",
-                    "flag.isPro", "flag.keyboardActive", "flag.syncOn"] {
+                    "flag.isPro", "flag.keyboardActive", "flag.syncOn",
+                    "flag.isPaid", "flag.isTrial", "flag.isComped", "flag.boughtAddOn", "flag.isLegacyPaid"] {
             XCTAssertNotNil(metrics[key], "약속된 지표 키 \(key)가 빠졌다")
         }
 
@@ -85,7 +86,8 @@ final class UsageReportingServiceTests: XCTestCase {
         }
 
         // 0/1 플래그는 정확히 0 또는 1
-        for key in ["flag.isPro", "flag.keyboardActive", "flag.syncOn"] {
+        for key in ["flag.isPro", "flag.keyboardActive", "flag.syncOn",
+                    "flag.isPaid", "flag.isTrial", "flag.isComped", "flag.boughtAddOn", "flag.isLegacyPaid"] {
             let value = metrics[key] ?? -1
             XCTAssertTrue(value == 0 || value == 1, "\(key)는 0/1 플래그여야 한다 (실제 \(value))")
         }

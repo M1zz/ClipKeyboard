@@ -1,3 +1,29 @@
+## 🔑 권한 판정 점검 - 2026-09-17
+
+- [x] **반값·업그레이드 구매가 Pro 키에 안 새겨지던 것** - `StoreManager` 가 `contains(proProductID)`
+      만 봤다. 이제 `StoreManager.grantsPro` 가 스펙의 `entitlementIDs` 전체를 본다
+- [x] **환불해도 Pro 가 영구히 남던 것** - Pro 가 켜질 때마다 `wasProAtV3` 를 영구히 켰다
+      (`mirrorProStatus` · 부트스트랩 1단계). 둘 다 없앴고, 이 키는 v4.0 이전 다운로드
+      (`originalPurchaseDate`) 또는 v3 옛 Pro 키가 있을 때만 켠다
+      (`ProFeatureManager.isGrandfatheredPurchase`). 이미 결제 이력으로 켜진 값은 실행 시
+      영수증으로 **한 번** 다시 확인해 걷어 낸다 - 지금 결제한 사람은 `is_pro` 로 그대로 Pro
+- [x] **신규 설치가 `existingFreeUser` 로 찍히던 것** - 부트스트랩이 샘플을 뺀 자기 메모만 센다
+      (`bootstrapV4GrandfatherFlags(memos:)`). 새 설치부터 무료 한도·체험 버튼이 살아난다
+- [x] **가족 공유 Pro 가 `isPaid` 로 올라가던 것** - `ownershipType` 을 App Group
+      (`proViaFamilySharing`)에 새기고, 통계에서 `isComped` 로 보낸다. 기능 판정은 그대로
+- [x] **이미 샘플 때문에 `existingFreeUser` 가 켜진 설치 되돌리기** - 실행 시 영수증의 최초
+      다운로드일이 v4.0 이후면 걷는다(`shouldRevokeExistingFreeUser`). 한 번에 막지 않고 **7일 체험**을
+      붙인다(이미 체험을 쓴 사람·결제한 사람은 제외). 걷은 시각은 `existing_free_user_revoked_at`
+- [x] 통계에 `flag.boughtAddOn`(칸 추가·두 대째) - 허브가 "부가 결제" 를 "안 냄" 과 가른다
+- [x] **되돌린 사람에게 두 번 알린다** (`AccessEndingBanner` · `ProFeatureManager.accessEndingNotice`) -
+      걷은 직후 한 번("곧 닫혀요, n일 뒤 무료 플랜, 저장한 건 안 지워져요"), 체험 마지막 날 한 번
+      ("내일부터 무료 플랜, 키보드엔 n개까지만 보여요"). 결제한 사람에겐 안 뜬다. 첫 안내는 8일 뒤 만료.
+      en · zh-Hans · zh-Hant · ru 번역(복수형 포함)
+- [x] 통계에 `flag.isLegacyPaid` - v4.0 이전 유료 다운로드로만 Pro 인 사람. `isPaid` 는 그대로 켜지고,
+      인앱으로도 샀으면 인앱이 이긴다. 스펙에 `paidFlag`~`legacyPaidFlag` 다섯 키를 명시
+- [ ] 배너를 실기기·시뮬레이터에서 눈으로 확인하지 못했다(상태를 만들려면 App Group 값 주입 필요)
+- [ ] `GraceQuotaBannerView` 문구 "5 items" 가 낡았다(지금 한도 10) - 지금은 v4.0 업그레이드 당시 사람에게만 뜸
+
 ## 💳 결제 구조를 사다리로 (5.2) - 2026-09-16
 
 제안서 `칸을 파는 법` 을 코드로 옮긴 것. 사다리가 한 칸에서 끊기던 것을 잇고,

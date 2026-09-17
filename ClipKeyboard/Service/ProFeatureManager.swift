@@ -147,16 +147,78 @@ struct ProFeatureManager {
     /// 값: 2026-02-22 00:00:00 KST = 2026-02-21 15:00:00 UTC = epoch 1_771_686_000.
     static let freemiumReleaseDate = Date(timeIntervalSince1970: 1_771_686_000)
 
+    /// v3.x 가 Pro 상태를 적던 옛 자리. v4.0 첫 실행에 통합 키로 옮겨졌고, 지우지 않고 남아 있다.
+    /// v4.0 이전 사용자라는 **기기 쪽 증거**로도 쓴다(`isGrandfatheredPurchase`).
+    static let legacyV3ProKey = "com.ysoup.tokenmemo.isPro"
+
+    /// `wasProAtV3` 를 영수증으로 한 번 다시 확인했는가. 결제 이력으로 잘못 새겨진 값을 걷어 낸 뒤 켠다.
+    static let grandfatheredPurchaseRevalidatedKey = "clipkeyboard_was_pro_at_v3_revalidated"
+
+    /// `existingFreeUser` 를 영수증으로 한 번 다시 확인했는가.
+    static let existingFreeUserRevalidatedKey = "clipkeyboard_existing_free_user_revalidated"
+
+    /// 잘못 켜졌던 `existingFreeUser` 를 걷어 낸 시각. 한 번 걷힌 설치를 통계와 진단에서 가르는 표시다.
+    static let existingFreeUserRevokedAtKey = "clipkeyboard_existing_free_user_revoked_at"
+
+    /// 켜져 있는 `existingFreeUser` 가 **잘못 켜진 것**인가.
+    ///
+    /// 이 표시는 v3.x 에서 넘어온 사람의 것인데, 온보딩 샘플을 "기존 메모" 로 세던 시절에
+    /// v4.0 이후 새로 받은 사람까지 전부 켜졌다. 영수증의 최초 다운로드일이 v4.0 이후면
+    /// 넘어온 사람일 수가 없다.
+    static func shouldRevokeExistingFreeUser(wasExistingFreeUser: Bool,
+                                             originalPurchaseDate: Date,
+                                             hadV3ProKey: Bool) -> Bool {
+        wasExistingFreeUser && !isGrandfatheredPurchase(originalPurchaseDate: originalPurchaseDate,
+                                                         hadV3ProKey: hadV3ProKey)
+    }
+
+    /// 잘못 켜졌던 `existingFreeUser` 를 걷는다. **한 번에 막지 않는다** - 7일 체험을 붙인다.
+    ///
+    /// 이 사람들은 몇 달을 한도 없이 써 왔다. 표시만 지우면 다음 실행에 키보드에서
+    /// 단축어가 사라진 것처럼 보인다(한도 밖은 `memosWithinLimit` 이 가린다 - 지우지는 않는다).
+    /// 체험 7일은 그 사이에 결제하든 정리하든 고를 시간이다. 이미 체험을 쓴 사람이나
+    /// 지금 결제한 사람에게는 붙지 않는다(`canStartTrial`).
+    ///
+    /// - Returns: 체험이 새로 시작됐는가.
+    @discardableResult
+    static func revokeExistingFreeUser() -> Bool {
+        groupDefaults?.removeObject(forKey: existingFreeUserKey)
+        groupDefaults?.set(Date().timeIntervalSince1970, forKey: existingFreeUserRevokedAtKey)
+        let trial = startTrial()
+        print("🧹 [ProFeatureManager] 샘플로 잘못 켜졌던 기존 무료 유저 회수 (체험 시작=\(trial))")
+        return trial
+    }
+
+    /// v4.0 이전에 앱을 산 사람인가 - `wasProAtV3` 의 **유일한** 판정.
+    ///
+    /// ⚠️ 여기에 "지금 결제 권한이 있다" 를 섞지 않는다. 예전에는 Pro 가 한 번이라도
+    ///    켜지면 이 키를 영구히 켰고, 그래서 **환불·취소한 사람이 평생 Pro** 로 남았다
+    ///    (허브 통계에도 계속 결제로 올라갔다). 지금 결제는 `clipkeyboard_is_pro` 가
+    ///    StoreKit 을 따라 켜지고 꺼지며 맡는다.
+    static func isGrandfatheredPurchase(originalPurchaseDate: Date, hadV3ProKey: Bool) -> Bool {
+        hadV3ProKey || originalPurchaseDate < freemiumReleaseDate
+    }
+
     /// v4.0 이전 유료 구매자를 AppTransaction(Apple ID에 묶인 최초 구매 영수증)으로 식별해
     /// 영구 그랜드파더 Pro를 부여한다.
     /// - iOS의 `originalAppVersion`은 마케팅 버전이 아니라 빌드 번호라 신뢰 불가 →
     ///   `originalPurchaseDate`를 v4.0 출시일과 비교해 판별한다.
     /// - Apple ID 영수증 기반이라 재설치 / 기기 변경 / 데이터 초기화 후에도 유지된다.
-    /// - 이미 그랜드파더 상태면 즉시 종료 (idempotent - 매 실행 호출해도 안전).
+    /// - 이미 그랜드파더로 **확인된** 상태면 즉시 종료 (idempotent - 매 실행 호출해도 안전).
+    ///
+    /// 한 번은 **켜져 있는 값도 다시 확인한다.** 결제 이력으로 새겨졌던 값(환불해도 안 꺼지던
+    /// 것)을 걷어 내기 위해서다. 지금 결제한 사람은 `clipkeyboard_is_pro` 로 그대로 Pro 라
+    /// 잃는 것이 없고, 잃는 사람은 v4.0 이후에 받아 결제했다가 환불·취소한 사람뿐이다.
+    /// 영수증을 못 읽으면 아무것도 바꾸지 않고 다음 실행에 다시 본다.
     /// 호출 시점: ClipKeyboardApp.init() / 구매 복원 직후.
+    ///
+    /// 같은 영수증으로 `existingFreeUser` 도 한 번 다시 확인한다(`shouldRevokeExistingFreeUser`).
     static func grandfatherPaidUserIfNeeded() async {
-        // 이미 그랜드파더면 재검증 불필요 (이전 실행에서 이미 부여됨)
-        if hasGrandfatheredPurchase { return }
+        let purchaseSettled = hasGrandfatheredPurchase
+            && (groupDefaults?.bool(forKey: grandfatheredPurchaseRevalidatedKey) ?? false)
+        let freeUserSettled = !wasExistingFreeUser
+            || (groupDefaults?.bool(forKey: existingFreeUserRevalidatedKey) ?? false)
+        if purchaseSettled && freeUserSettled { return }
 
         do {
             let result = try await AppTransaction.shared
@@ -165,18 +227,105 @@ struct ProFeatureManager {
                 return
             }
 
-            if appTransaction.originalPurchaseDate < freemiumReleaseDate {
+            let hadV3ProKey = groupDefaults?.bool(forKey: legacyV3ProKey) ?? false
+            let entitled = isGrandfatheredPurchase(originalPurchaseDate: appTransaction.originalPurchaseDate,
+                                                   hadV3ProKey: hadV3ProKey)
+            let before = hasGrandfatheredPurchase
+            if entitled {
                 groupDefaults?.set(true, forKey: grandfatheredPurchaseKey)
-                print("🛡 [ProFeatureManager] v4.0 이전 유료 앱 구매자 → 그랜드파더 Pro 부여 (originalPurchase=\(appTransaction.originalPurchaseDate))")
+                if !before {
+                    print("🛡 [ProFeatureManager] v4.0 이전 유료 앱 구매자 → 그랜드파더 Pro 부여 (originalPurchase=\(appTransaction.originalPurchaseDate))")
+                }
+            } else {
+                groupDefaults?.removeObject(forKey: grandfatheredPurchaseKey)
+                print(before
+                      ? "🧹 [ProFeatureManager] 결제 이력으로 새겨졌던 그랜드파더 회수 (originalPurchase=\(appTransaction.originalPurchaseDate))"
+                      : "ℹ️ [ProFeatureManager] v4.0 이후 최초 다운로드, 그랜드파더 비대상 (originalPurchase=\(appTransaction.originalPurchaseDate))")
+            }
+            groupDefaults?.set(true, forKey: grandfatheredPurchaseRevalidatedKey)
+
+            var revoked = false
+            if shouldRevokeExistingFreeUser(wasExistingFreeUser: wasExistingFreeUser,
+                                            originalPurchaseDate: appTransaction.originalPurchaseDate,
+                                            hadV3ProKey: hadV3ProKey) {
+                revokeExistingFreeUser()
+                revoked = true
+            }
+            groupDefaults?.set(true, forKey: existingFreeUserRevalidatedKey)
+
+            if before != entitled || revoked {
                 // hasFullAccess를 보는 화면들이 재렌더되도록 ProStatusManager에 변경 알림
                 await MainActor.run {
                     ProStatusManager.shared.objectWillChange.send()
+                    mirrorSyncEntitlement()
                 }
-            } else {
-                print("ℹ️ [ProFeatureManager] v4.0 이후 최초 다운로드, 그랜드파더 비대상 (originalPurchase=\(appTransaction.originalPurchaseDate))")
+            }
+            if revoked {
+                // 목록 화면은 이 판정보다 먼저 뜬다 - 안내 배너가 다음 실행까지 기다리지 않게.
+                NotificationCenter.postOnMain(name: .accessRevoked, object: nil)
             }
         } catch {
             print("⚠️ [ProFeatureManager] AppTransaction 조회 실패, 다음 실행에 재시도: \(error)")
+        }
+    }
+
+    // MARK: - 열려 있던 기능이 닫힌다는 안내
+
+    /// 잘못 열려 있던 기능을 걷은 사람에게 **무엇을 말할 차례인가.**
+    ///
+    /// 몇 달을 한도 없이 쓴 사람이다. 말없이 닫으면 "업데이트했더니 단축어가 사라졌다" 가
+    /// 된다(한도 밖은 키보드에서 가려진다). 그래서 두 번 말한다 - 걷은 직후 한 번,
+    /// 체험이 하루 남았을 때 한 번. 결제한 사람에게는 둘 다 안 한다.
+    enum AccessEndingNotice: Equatable {
+        /// 걷은 직후. `daysLeft` 가 0 이면 체험 없이 바로 닫힌 것이다(이미 체험을 쓴 사람).
+        case revoked(daysLeft: Int)
+        /// 체험이 하루 안으로 남았다.
+        case endingSoon
+    }
+
+    static let accessRevokedNoticeSeenKey = "clipkeyboard_access_revoked_notice_seen"
+    static let accessEndingSoonNoticeSeenKey = "clipkeyboard_access_ending_soon_notice_seen"
+
+    /// 걷은 직후 안내를 띄우는 기간. 체험(7일)이 끝나고 하루를 더 둔다 - 체험 없이 바로
+    /// 닫힌 사람도 그 사이에 한 번은 앱을 열 것이고, 그 뒤로는 새 소식이 아니다.
+    static let accessRevokedNoticeWindowDays = trialDurationDays + 1
+
+    /// 상태만 받아 판정한다(테스트용으로 순수하게 둔다). `accessEndingNoticeNow` 가 실제 값을 넣는다.
+    static func accessEndingNotice(revokedAt: TimeInterval?,
+                                   now: TimeInterval,
+                                   hasPermanentPro: Bool,
+                                   isInTrial: Bool,
+                                   trialDaysRemaining: Int,
+                                   revokedSeen: Bool,
+                                   endingSoonSeen: Bool) -> AccessEndingNotice? {
+        guard let revokedAt, !hasPermanentPro else { return nil }
+        if !revokedSeen,
+           now < revokedAt + TimeInterval(accessRevokedNoticeWindowDays) * 86_400 {
+            return .revoked(daysLeft: isInTrial ? trialDaysRemaining : 0)
+        }
+        if isInTrial, trialDaysRemaining <= 1, !endingSoonSeen {
+            return .endingSoon
+        }
+        return nil
+    }
+
+    /// 지금 이 기기에서 띄울 안내.
+    static var accessEndingNoticeNow: AccessEndingNotice? {
+        let revokedAt = groupDefaults?.double(forKey: existingFreeUserRevokedAtKey) ?? 0
+        return accessEndingNotice(revokedAt: revokedAt > 0 ? revokedAt : nil,
+                                  now: Date().timeIntervalSince1970,
+                                  hasPermanentPro: hasPermanentPro,
+                                  isInTrial: isInTrial,
+                                  trialDaysRemaining: trialDaysRemaining,
+                                  revokedSeen: groupDefaults?.bool(forKey: accessRevokedNoticeSeenKey) ?? false,
+                                  endingSoonSeen: groupDefaults?.bool(forKey: accessEndingSoonNoticeSeenKey) ?? false)
+    }
+
+    /// 닫았거나 눌렀으면 그 안내는 다시 안 띄운다.
+    static func markAccessEndingNoticeSeen(_ notice: AccessEndingNotice) {
+        switch notice {
+        case .revoked:    groupDefaults?.set(true, forKey: accessRevokedNoticeSeenKey)
+        case .endingSoon: groupDefaults?.set(true, forKey: accessEndingSoonNoticeSeenKey)
         }
     }
 

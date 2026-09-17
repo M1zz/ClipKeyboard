@@ -62,6 +62,93 @@ struct ProValueNudgeBanner: View {
     }
 }
 
+// MARK: - Access Ending Banner
+
+/// 샘플 때문에 잘못 열려 있던 기능을 걷은 사람에게 **닫힌다는 사실**을 알리는 배너.
+///
+/// 파는 말이 아니라 알리는 말이 먼저다. 이 사람들은 잘못한 게 없고, 몇 달을 한도 없이
+/// 써 왔다. 그래서 첫 줄은 무엇이 바뀌는지, 둘째 줄은 **무엇이 안 바뀌는지**(저장한 것은
+/// 안 지워진다)이고, Pro 는 그 다음이다. 언제 띄울지는 `ProFeatureManager.accessEndingNoticeNow`.
+struct AccessEndingBanner: View {
+    let notice: ProFeatureManager.AccessEndingNotice
+    let onUpgrade: () -> Void
+    let onDismiss: () -> Void
+    @Environment(\.appTheme) private var theme
+
+    private var title: String {
+        switch notice {
+        case .revoked(let daysLeft) where daysLeft > 0:
+            return NSLocalizedString("무료로 열려 있던 기능이 곧 닫혀요", comment: "Access ending banner: title, trial running")
+        case .revoked:
+            return NSLocalizedString("무료로 열려 있던 기능이 닫혔어요", comment: "Access ending banner: title, closed now")
+        case .endingSoon:
+            return NSLocalizedString("내일부터 무료 플랜이에요", comment: "Access ending banner: title, last trial day")
+        }
+    }
+
+    private var message: String {
+        switch notice {
+        case .revoked(let daysLeft) where daysLeft > 0:
+            return String(format: NSLocalizedString("그동안 모든 기능이 무료로 열려 있었어요. %d일 뒤부터 무료 플랜이 적용돼요. 저장한 단축어는 지워지지 않아요.",
+                                                    comment: "Access ending banner: body, trial running (days left)"),
+                          daysLeft)
+        case .revoked:
+            return NSLocalizedString("그동안 모든 기능이 무료로 열려 있었어요. 이제 무료 플랜이 적용돼요. 저장한 단축어는 지워지지 않아요.",
+                                     comment: "Access ending banner: body, closed now")
+        case .endingSoon:
+            return String(format: NSLocalizedString("키보드에는 단축어가 %d개까지만 보여요. 나머지는 지워지지 않고 가려져요. 모두 계속 쓰려면 Pro로 바꿔 주세요.",
+                                                    comment: "Access ending banner: body, last trial day (shortcut limit)"),
+                          ProFeatureManager.memoLimit)
+        }
+    }
+
+    var body: some View {
+        Button(action: onUpgrade) {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: AppSymbol.checkmarkShieldFill)
+                    .font(.title3)
+                    .foregroundColor(.accentColor)
+                    .accessibilityHidden(true)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title)
+                        .font(.body.weight(.semibold))
+                        .foregroundColor(theme.text)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Text(message)
+                        .font(.callout)
+                        .foregroundColor(theme.textMuted)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Text(NSLocalizedString("Pro 보기", comment: "Pro nudge CTA"))
+                        .font(.caption.weight(.semibold))
+                        .foregroundColor(.orange)
+                        .padding(.top, 2)
+                }
+                Spacer(minLength: 8)
+                Button(action: onDismiss) {
+                    Image(systemName: AppSymbol.xmark)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(theme.textFaint)
+                        .padding(6)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .accessibilityLabel(NSLocalizedString("닫기", comment: "Close / dismiss"))
+            }
+            .padding(14)
+            .background(theme.surface)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
+                    .stroke(Color.accentColor.opacity(0.3), lineWidth: 1)
+            )
+            .shadow(color: .black.opacity(0.06), radius: 8, y: 2)
+        }
+        .buttonStyle(PlainButtonStyle())
+        .accessibilityHint(NSLocalizedString("탭하면 Pro 업그레이드 보기", comment: "VoiceOver: open paywall"))
+    }
+}
+
 // MARK: - Paste Permission Tip Banner (메인 화면)
 
 /// '다른 앱에서 붙여넣기' 안내를 띄워도 되는 시점인지 판단한다.
