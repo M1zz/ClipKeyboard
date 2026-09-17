@@ -9,11 +9,11 @@
 //     (`ClipKeyboardApp.presentWhatsNewIfNeeded`), 그 사람은 온보딩이 맞이한다.
 //     새로 온 사람에게 "새로워졌어요"는 무슨 말인지 알 수 없는 말이다.
 //
-//  ⚠️ 5.0 은 기능 소개가 아니라 **이름이 바뀐 것을 알리는 자리**다. 이름과 아이콘이
-//     하룻밤 새 바뀌면 사람들은 새 기능이 궁금한 게 아니라 **"내가 뭘 지웠나"**를 먼저
-//     의심한다. 그래서 첫 줄이 기능이 아니라 "같은 앱이에요"다.
+//  ⚠️ 5.1.3 은 **키보드를 내 손에 맞게 고치는 자리**를 알린다. 보내기 키를 한 번 없앴다가
+//     "전송 버튼이 또 없어졌다"는 신고가 들어왔다. 누구에게는 필요 없고 누구에게는 꼭 있어야
+//     하는 키라, 없애는 대신 설정에서 켜고 끄게 했다. 그 스위치가 있는 줄 알려야 같은 신고가
+//     다시 안 온다. 그래서 큰 버튼이 곧장 키보드 레이아웃 화면을 연다.
 //
-
 import SwiftUI
 
 /// What's-New 콘텐츠 + 버전. 새 안내가 필요할 때 `version`을 올리면 그 버전 사용자에게 1회 노출된다.
@@ -22,12 +22,12 @@ enum WhatsNewContent {
     ///
     /// ⚠️ **내용을 바꿀 때 이 값도 같이 올릴 것.** 안 올리면 업데이트한 사람은 이미 본 것으로
     ///    기록돼 있어 새 안내를 **한 번도 못 본다** - 새 기능이 있어도 있는 줄 모른다.
-    static let version = "5.0.0"
+    static let version = "5.1.3"
 }
 
 struct WhatsNewView: View {
     let onClose: () -> Void
-    /// 큰 버튼을 누르면 닫은 뒤 그 기능으로 데려간다(이번 버전은 키보드 화면).
+    /// 큰 버튼을 누르면 닫은 뒤 그 기능으로 데려간다(이번 버전은 키보드 레이아웃 설정).
     /// ⚠️ 안내는 **보여주는 데서 끝나면 안 된다** - 읽고 닫으면 아무것도 안 달라진다.
     let onPrimaryAction: () -> Void
 
@@ -36,18 +36,18 @@ struct WhatsNewView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     VStack(spacing: 10) {
-                        Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
+                        Image(systemName: AppSymbol.keyboard)
                             .font(.system(size: 64, weight: .light))
                             .foregroundColor(.accentColor)
                             .padding(.top, 24)
                             .accessibilityHidden(true)
 
-                        Text(NSLocalizedString("이번엔 셈을 고쳤어요", comment: "What's new title 5.0"))
+                        Text(NSLocalizedString("키보드를 내 손에 맞게 고쳐요", comment: "What's new title 5.1.3"))
                             .font(.title.bold())
                             .multilineTextAlignment(.center)
 
-                        Text(NSLocalizedString("아낀 시간을 다시 셌고, 그 시간을 자랑할 영상도 만들 수 있어요.",
-                                               comment: "What's new subtitle 5.0"))
+                        Text(NSLocalizedString("위줄에 둘 키와 크기를 설정에서 직접 골라요.",
+                                               comment: "What's new subtitle 5.1.3"))
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -56,14 +56,19 @@ struct WhatsNewView: View {
 
                     VStack(spacing: 18) {
                         featureRow(
-                            symbol: AppSymbol.checkmarkSealFill,
-                            title: NSLocalizedString("아낀 시간을 제대로 세기 시작했어요", comment: "What's new 5.0 feature 2 title"),
-                            detail: NSLocalizedString("치는 시간만 세던 걸 고쳤어요. 계좌번호처럼 다른 앱에서 찾아와야 했던 값은 찾는 시간까지 셉니다. 어떻게 셌는지도 적어 뒀어요.", comment: "What's new 5.0 feature 2 detail")
+                            symbol: AppSymbol.returnLeft,
+                            title: NSLocalizedString("보내기 키를 켜고 끌 수 있어요", comment: "What's new 5.1.3 return key title"),
+                            detail: NSLocalizedString("단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.", comment: "What's new 5.1.3 return key detail")
                         )
                         featureRow(
-                            symbol: "square.and.arrow.up",
-                            title: NSLocalizedString("자랑할 영상을 만들 수 있어요", comment: "What's new 5.0 feature 3 title"),
-                            detail: NSLocalizedString("아낀 시간을 3초짜리 세로 영상으로 뽑아요. 스토리에 그대로 올릴 수 있어요.", comment: "What's new 5.0 feature 3 detail")
+                            symbol: "textformat.123",
+                            title: NSLocalizedString("숫자 판 키와 붙여넣기 키도 골라요", comment: "What's new 5.1.3 number pad paste title"),
+                            detail: NSLocalizedString("카드번호나 금액처럼 숫자 몇 자만 넣을 때는 숫자 판을 여세요. 붙여넣기 키는 쓰는 분만 켜면 돼요.", comment: "What's new 5.1.3 number pad paste detail")
+                        )
+                        featureRow(
+                            symbol: AppSymbol.rectangle3Group,
+                            title: NSLocalizedString("바꾸는 대로 진짜 키보드에서 보여요", comment: "What's new 5.1.3 live preview title"),
+                            detail: NSLocalizedString("설정 위쪽 미리보기가 실제 키보드 그대로예요. 키 크기와 높이를 바꾸면 바로 달라져요.", comment: "What's new 5.1.3 live preview detail")
                         )
                     }
                     .padding(.horizontal, 24)
@@ -75,7 +80,7 @@ struct WhatsNewView: View {
                 Button {
                     onPrimaryAction()
                 } label: {
-                    Text(NSLocalizedString("내가 아낀 시간 보기", comment: "What's new 5.0 primary button"))
+                    Text(NSLocalizedString("키보드 꾸미러 가기", comment: "What's new 5.1.3 primary button"))
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)

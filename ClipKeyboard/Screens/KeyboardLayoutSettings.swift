@@ -121,6 +121,9 @@ struct KeyboardLayoutSettings: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 10)
                 .padding(.bottom, 6)
+                // 바탕은 화면 폭 끝까지 깐다. 미리보기 폭에만 깔면 시트로 띄웠을 때
+                // (새 기능 안내 → 키보드 꾸미러 가기) 양옆에 흰 띠가 남는다.
+                .frame(maxWidth: .infinity)
                 .background(theme.bg)
 
             List {
@@ -435,7 +438,7 @@ struct KeyboardLayoutSettings: View {
                 } action: {
                     keyboardSkinRaw = candidate.rawValue
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
                 .accessibilityAddTraits(keyboardSkinRaw == candidate.rawValue ? [.isSelected] : [])
             }
         } header: {

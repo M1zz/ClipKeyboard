@@ -262,7 +262,7 @@ struct LaunchAudienceTests {
     func whatsNewVersionIsCurrent() {
         // ⚠️ 내용을 바꾸고 이 값을 안 올리면, 업데이트한 사람은 이미 본 것으로 기록돼 있어
         //    **새 안내를 한 번도 못 본다.**
-        #expect(WhatsNewContent.version == "5.0.0")
+        #expect(WhatsNewContent.version == "5.1.3")
     }
 }
 

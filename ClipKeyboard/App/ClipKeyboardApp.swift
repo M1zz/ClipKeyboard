@@ -30,8 +30,10 @@ struct ClipKeyboardApp: App {
     /// 안내에서 "불러오기"를 누르면 백업/복원 화면을 시트로 띄운다
     @State private var showCloudBackupSheet = false
     private let restoreHintShownKey = "restoreHintShown_v1"
-    /// 업데이트 후 "새로운 기능"(빠른 메모) 시트를 1회 노출
+    /// 업데이트 후 "새로운 기능" 시트를 1회 노출
     @State private var showWhatsNew = false
+    /// 새 기능 안내에서 "키보드 꾸미러 가기"를 누르면 키보드 레이아웃 설정을 시트로 띄운다
+    @State private var showKeyboardLayoutSheet = false
     /// 가끔 "불편한 점 남겨주세요" 피드백 넛지 (10회째 실행 첫 노출, 이후 40회 간격)
     @State private var showFeedbackNudge = false
     /// "카테고리가 많아졌어요" 안내. 값이 있을 때만 뜬다(빈 시트 방지, `didYouKnowItem`과 같은 이유).
@@ -656,7 +658,7 @@ struct ClipKeyboardApp: App {
     /// 첫 화면에서 일관되게 동작하도록 한다.
     @discardableResult
     private func performSampleInsertion() -> Bool {
-        let isKorean = (Locale.current.language.languageCode?.identifier ?? "en") == "ko"
+        let isKorean = AppLanguage.contentLanguageCode == "ko"
         let persona = CategoryStore.shared.selectedPersona ?? .general
         let result = persona == .nomad ? nomadSamples(isKorean: isKorean) : generalSamples(isKorean: isKorean)
         do {
@@ -1264,13 +1266,27 @@ struct ClipKeyboardApp: App {
                             showWhatsNew = false
                             // 읽고 닫으면 아무것도 안 달라진다 - 소개한 그 화면으로 직접 데려간다.
                             //
-                            // ⚠️ 5.0 의 목적지는 **사용 기록**이다. 이번 안내에서 가장 크게
-                            //    달라진 것이 거기 있고, 무엇보다 그 화면은 "당신이 이만큼
-                            //    아꼈다"고 말해 준다. 새 단장을 알리는 자리의 끝으로 맞다.
-                            NotificationCenter.postOnMain(name: .openUsageTab, object: nil)
+                            // ⚠️ 5.1.3 의 목적지는 **키보드 레이아웃 설정**이다. 보내기 키 스위치가
+                            //    거기 있고, 있는 줄 몰라서 "또 없어졌다"는 신고가 왔다.
+                            //    시트가 내려간 뒤에 연다 - 겹치면 둘 다 제대로 안 뜬다.
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                                showKeyboardLayoutSheet = true
+                            }
                         }
                     )
                     .presentationDetents([.large])
+                }
+                .sheet(isPresented: $showKeyboardLayoutSheet) {
+                    NavigationStack {
+                        KeyboardLayoutSettings()
+                            .toolbar {
+                                ToolbarItem(placement: .confirmationAction) {
+                                    Button(NSLocalizedString("Done", comment: "Done")) {
+                                        showKeyboardLayoutSheet = false
+                                    }
+                                }
+                            }
+                    }
                 }
         } // AppThemedContainer
             } // else (비테스트 실행)
@@ -1627,7 +1643,7 @@ struct MemoSearchView: View {
                     } label: {
                         searchRow(memo)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                     .disabled(memo.isSecure)
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
