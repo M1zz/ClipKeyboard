@@ -47,6 +47,9 @@ final class MemoAddViewModel: ObservableObject {
     @Published var keepOriginalSource: Bool = true
     /// 정식 저장을 커밋했는지 - 저장 후 화면이 닫힐 때 임시저장이 다시 생기지 않게 하는 가드.
     private var didCommitSave = false
+    /// 새로 적는 중에 임시저장한 드래프트의 id. 한 화면에서 여러 번 남겨도(뒤로 갈 때·닫을 때)
+    /// 같은 장을 고쳐 쓴다. 없으면 부를 때마다 드래프트가 한 장씩 늘어난다.
+    private var autosaveDraftId: UUID?
     /// 진입 직후(onAppear 완료 시점)의 입력 스냅샷 - 제안 카드/템플릿 프리필을 "사용자 입력"으로
     /// 오인해 드래프트를 만들지 않도록, 여기서 달라졌을 때만 새 드래프트를 생성한다.
     private var initialKeyword = ""
@@ -402,10 +405,23 @@ final class MemoAddViewModel: ObservableObject {
             return
         }
 
+        // 이미 한 번 남긴 새 작성: 이어쓰기와 같은 규칙으로 그 장을 고쳐 쓴다.
+        if let draftId = autosaveDraftId {
+            if trimmedValue.isEmpty {
+                DraftStore.shared.remove(draftId)
+                autosaveDraftId = nil
+            } else {
+                persistDraft(id: draftId)
+            }
+            return
+        }
+
         // 새 작성: 사용자가 진입 후 실제로 입력/수정한 경우에만. (임시저장은 텍스트 기반)
         let edited = value != initialValue || keyword != initialKeyword || hint != initialHint
         guard edited, !trimmedValue.isEmpty, !isSampleValue else { return }
-        persistDraft(id: UUID())
+        let draftId = UUID()
+        autosaveDraftId = draftId
+        persistDraft(id: draftId)
     }
 
     /// 내용의 첫 줄을 최대 20자로 잘라 제목을 자동 생성한다.
@@ -450,6 +466,7 @@ final class MemoAddViewModel: ObservableObject {
             // 정식 저장 성공 - 이어쓰던 임시저장이 있으면 정리하고, 종료 시 재-임시저장 방지.
             didCommitSave = true
             if let draftId = resumedDraftId { DraftStore.shared.remove(draftId) }
+            if let draftId = autosaveDraftId { DraftStore.shared.remove(draftId) }
 
             // 손으로 잇달아 만드는 중인지 센다 - 줄줄이 만들고 있으면 목록이 한 번에
             // 정리하는 길을 내놓는다(`BulkImportNudge`). 대량 가져오기로 만든 것은
