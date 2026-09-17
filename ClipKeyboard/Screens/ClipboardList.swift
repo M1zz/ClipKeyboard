@@ -94,7 +94,7 @@ struct ClipboardList: View {
                                                 .foregroundColor(isChecked ? Color.checkGreen : .gray)
                                                 .font(.title3)
                                         }
-                                        .buttonStyle(.plain)
+                                        .buttonStyle(.squish)
                                         .accessibilityLabel(isChecked
                                             ? NSLocalizedString("선택됨", comment: "Combo checkbox: selected")
                                             : NSLocalizedString("선택 안 됨", comment: "Combo checkbox: not selected")
@@ -743,7 +743,7 @@ struct ClipboardItemRow: View {
             }
             .padding(12)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .background(
             RoundedRectangle(cornerRadius: theme.radiusMd)
                 .fill(theme.surface)
@@ -997,14 +997,14 @@ private struct PasteTipBanner: View {
                     }
                     .foregroundColor(theme.accent)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
 
                 Button(action: onDismiss) {
                     Text(NSLocalizedString("더 이상 보지 않기", comment: "Don't show paste tip again"))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
             }
         }
         .padding(14)

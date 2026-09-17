@@ -101,7 +101,7 @@ struct ListBackgroundPickerSheet: View {
             .frame(height: 150)
             .overlay(selectionBadge(selected: isSelected("")))
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityLabel(NSLocalizedString("배경 없음", comment: "Background: none a11y"))
     }
 
@@ -120,7 +120,7 @@ struct ListBackgroundPickerSheet: View {
             }
             .frame(height: 150)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityLabel(NSLocalizedString("사진에서 배경 고르기",
                                               comment: "Background: pick from photos"))
     }
@@ -139,12 +139,12 @@ struct ListBackgroundPickerSheet: View {
                             .foregroundStyle(.white, .black.opacity(0.45))
                             .padding(8)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                     .accessibilityLabel(NSLocalizedString("이 배경 지우기",
                                                           comment: "Remove my background"))
                 }
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
     }
 
     private func builtInTile(name: String) -> some View {
@@ -153,7 +153,7 @@ struct ListBackgroundPickerSheet: View {
         } label: {
             thumbnail(name: name)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityLabel(NSLocalizedString("배경 이미지", comment: "Menu: list background image"))
     }
 

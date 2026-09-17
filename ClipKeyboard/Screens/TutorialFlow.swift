@@ -461,7 +461,7 @@ struct TutorialWelcomeView: View {
                             .fill(theme.accent)
                     )
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .padding(.top, 26)
 
             // 빠져나갈 길은 열어 두되, **눈에 덜 띄게** 둔다. 이 튜토리얼은 한 번은
@@ -473,7 +473,7 @@ struct TutorialWelcomeView: View {
                     .foregroundColor(theme.textMuted)
                     .padding(.vertical, 12)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .padding(.top, 2)
 
             Spacer(minLength: 0)
@@ -625,7 +625,7 @@ struct NextChapterCountdown: View {
                 .overlay(Capsule().strokeBorder(theme.divider, lineWidth: 0.5))
             }
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityLabel(NSLocalizedString("다음 튜토리얼까지", comment: "Countdown to the next tutorial chapter"))
         .accessibilityHint(NSLocalizedString("눌러서 바로 넘어가기", comment: "Countdown: tap to skip the wait"))
     }
@@ -740,7 +740,7 @@ struct TutorialLayoutCard: View {
                     .padding(.vertical, 9)
                     .background(Capsule().fill(Color.accentForeground))
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
         }
         .foregroundColor(Color.accentForeground)
         .tint(Color.accentForeground)

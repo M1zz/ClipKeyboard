@@ -175,7 +175,7 @@ struct NumberPadPanel: View {
                 .background(theme.surface)
                 .clipShape(keycapShape)
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
         .accessibilityLabel(accessibilityName(for: key))
     }
 

@@ -163,7 +163,7 @@ struct KeyboardClipboardPicker: View {
                     .font(.title3)
                     .foregroundColor(theme.textMuted)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .accessibilityLabel(NSLocalizedString("닫기", comment: "Close paywall"))
         }
     }
@@ -197,7 +197,7 @@ struct KeyboardClipboardPicker: View {
                 .background(isSelected ? theme.accent : theme.surfaceAlt)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityLabel(piece.text)
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
@@ -253,7 +253,7 @@ struct KeyboardClipboardPicker: View {
                     .background(theme.accentSoft)
                     .clipShape(Capsule())
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .disabled(pieces.isEmpty)
 
             Button {
@@ -268,7 +268,7 @@ struct KeyboardClipboardPicker: View {
                     .background(selectedText.isEmpty ? theme.textMuted.opacity(0.4) : theme.accent)
                     .clipShape(Capsule())
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .disabled(selectedText.isEmpty)
         }
     }

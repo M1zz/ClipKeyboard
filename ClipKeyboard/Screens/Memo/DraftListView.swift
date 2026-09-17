@@ -27,7 +27,7 @@ struct DraftListView: View {
                         } label: {
                             row(draft)
                         }
-                        .buttonStyle(.plain)
+                        .buttonStyle(.squish)
                     }
                     .onDelete { offsets in
                         for i in offsets { store.remove(store.drafts[i].id) }

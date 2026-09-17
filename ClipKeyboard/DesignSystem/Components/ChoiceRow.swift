@@ -62,7 +62,7 @@ struct ChoiceRow<Leading: View>: View {
             }
             .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
     }
 }
@@ -114,6 +114,6 @@ struct ShareActionButton: View {
             .foregroundColor(theme.accentFg)
             .filledAccentSurface()
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
     }
 }

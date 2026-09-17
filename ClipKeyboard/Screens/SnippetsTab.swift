@@ -226,7 +226,7 @@ struct SnippetsStyleSwitchButton: View {
                 .frame(width: Self.diameter, height: Self.diameter)
                 .glassEffect(.clear.interactive(), in: Circle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         // 머리말의 + 를 가리킬 때와 **같은 물결**이다(`InAppKeyboardStage.stageHeader`).
         // 튜토리얼이 가리키는 것은 늘 같은 모양으로 빛나야 한 가지 뜻으로 읽힌다.
         .overlay {

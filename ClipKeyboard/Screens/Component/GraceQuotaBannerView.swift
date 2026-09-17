@@ -47,7 +47,7 @@ struct GraceQuotaBannerView: View {
                         .background(theme.surfaceAlt)
                         .clipShape(Circle())
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.squish)
                 .accessibilityLabel(Text(NSLocalizedString("Dismiss", comment: "Dismiss banner")))
             }
         }

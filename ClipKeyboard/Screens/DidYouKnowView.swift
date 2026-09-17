@@ -65,7 +65,7 @@ struct DidYouKnowView: View {
                         .background(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
                             .fill(theme.accent))
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
                 .padding(.bottom, 8)
             }
 
@@ -80,7 +80,7 @@ struct DidYouKnowView: View {
                             .fill(item.action == nil ? theme.accent : theme.surfaceAlt)
                     )
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
 
             // 끄는 길 - 눈에 덜 띄게 두되 **반드시 있어야 한다.**
             Button {
@@ -93,7 +93,7 @@ struct DidYouKnowView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
         }
         .padding(.horizontal, 26)
         .padding(.bottom, 12)
@@ -155,7 +155,7 @@ struct DidYouKnowListView: View {
                         .padding(.vertical, 4)
                         .contentShape(Rectangle())
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                 }
             } header: {
                 Text(NSLocalizedString("그거 아세요?", comment: "Did you know header"))

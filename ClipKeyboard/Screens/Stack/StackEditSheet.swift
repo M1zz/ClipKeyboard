@@ -146,7 +146,7 @@ struct StackPreviewSheet: View {
             }
             .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .disabled(step.isEmpty)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(String(
@@ -232,7 +232,7 @@ struct StackImportSheet: View {
                                 }
                                 .contentShape(Rectangle())
                             }
-                            .buttonStyle(.plain)
+                            .buttonStyle(.squish)
                         }
                     }
                 }

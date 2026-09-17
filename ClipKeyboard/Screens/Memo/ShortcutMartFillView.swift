@@ -119,7 +119,7 @@ struct ShortcutMartFillView: View {
                                     .background(theme.surfaceAlt, in: Capsule())
                                     .foregroundColor(theme.text)
                             }
-                            .buttonStyle(.plain)
+                            .buttonStyle(.squish)
                         }
                     }
                     .padding(.vertical, 2)

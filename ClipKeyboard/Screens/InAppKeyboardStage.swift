@@ -366,7 +366,7 @@ struct InAppKeyboardStage: View {
             .padding(.vertical, 10)
             .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .background(Color.accentColor.opacity(0.10))
     }
 
@@ -415,7 +415,7 @@ struct InAppKeyboardStage: View {
             .padding(.vertical, 10)
             .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .background(theme.warn.opacity(0.12))
     }
 
@@ -456,7 +456,7 @@ struct InAppKeyboardStage: View {
                            height: SnippetsStyleSwitchButton.diameter)
                     .glassEffect(.clear.interactive(), in: Circle())
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .accessibilityLabel(NSLocalizedString("단축어 추가", comment: "Add a snippet"))
             // 마지막 걸음 - 화살표와 글이 "위의 +" 라고 말하는데, 정작 그 + 는
             // 가만히 있었다. 가리키는 말과 가리켜지는 것이 같은 언어를 써야 한다.
@@ -512,14 +512,14 @@ struct InAppKeyboardStage: View {
                             .font(.footnote.weight(.semibold))
                             .underline()
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                     Spacer(minLength: 0)
                     Button(action: onMakeOwnSkipped) {
                         Text(NSLocalizedString("나중에 할게요", comment: "Make-own cue: skip"))
                             .font(.footnote.weight(.semibold))
                             .underline()
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                 }
             }
             .foregroundColor(Color.accentForeground)
@@ -559,7 +559,7 @@ struct InAppKeyboardStage: View {
                             .font(.footnote.weight(.bold))
                             .underline()
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                 }
                 Text(NSLocalizedString("위의 버튼을 누르면 카드 목록으로 갑니다. 만들고 고치는 건 거기서 해요. 아래 키보드 탭을 한 번 더 눌러도 같은 곳을 오갑니다.",
                                        comment: "Switch hint: body"))
@@ -608,7 +608,7 @@ struct InAppKeyboardStage: View {
                         .padding(.vertical, 9)
                         .background(Capsule().fill(Color.accentForeground))
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
             }
             .foregroundColor(Color.accentForeground)
             .padding(.horizontal, 16)
@@ -786,7 +786,7 @@ struct InAppKeyboardStage: View {
                         .font(.system(size: 30))
                         .foregroundColor(host.canSend ? .accentColor : theme.textMuted.opacity(0.5))
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
                 .disabled(!host.canSend)
                 .accessibilityLabel(NSLocalizedString("보내기", comment: "Send composed message"))
                 // 넣었으면 다음은 보내기다. 보낼 것이 있을 때만 인다 -
@@ -825,7 +825,7 @@ struct InAppKeyboardStage: View {
                     .foregroundColor(.accentColor)
                     .frame(width: 30, height: 34)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .accessibilityLabel(NSLocalizedString("복사한 이미지 붙여넣기", comment: "Paste copied image into the composer"))
         }
     }
@@ -850,7 +850,7 @@ struct InAppKeyboardStage: View {
                     .font(.body)
                     .foregroundColor(theme.textMuted)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .accessibilityLabel(NSLocalizedString("이미지 떼기", comment: "Remove the attached image"))
         }
         .padding(.horizontal, 8)

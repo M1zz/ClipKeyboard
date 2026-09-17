@@ -45,7 +45,7 @@ struct ProValueNudgeBanner: View {
                         .foregroundColor(theme.textFaint)
                         .padding(6)
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.squish)
                 .accessibilityLabel(NSLocalizedString("닫기", comment: "Close / dismiss"))
             }
             .padding(14)
@@ -57,7 +57,7 @@ struct ProValueNudgeBanner: View {
             )
             .shadow(color: .black.opacity(0.06), radius: 8, y: 2)
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
         .accessibilityHint(NSLocalizedString("탭하면 Pro 업그레이드 보기", comment: "VoiceOver: open paywall"))
     }
 }
@@ -132,7 +132,7 @@ struct AccessEndingBanner: View {
                         .foregroundColor(theme.textFaint)
                         .padding(6)
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.squish)
                 .accessibilityLabel(NSLocalizedString("닫기", comment: "Close / dismiss"))
             }
             .padding(14)
@@ -144,7 +144,7 @@ struct AccessEndingBanner: View {
             )
             .shadow(color: .black.opacity(0.06), radius: 8, y: 2)
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
         .accessibilityHint(NSLocalizedString("탭하면 Pro 업그레이드 보기", comment: "VoiceOver: open paywall"))
     }
 }
@@ -230,7 +230,7 @@ struct PastePermissionTipBanner: View {
                         .background(theme.divider)
                         .clipShape(Circle())
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
                 .accessibilityLabel(NSLocalizedString("닫기", comment: "Close / dismiss"))
             }
 
@@ -245,14 +245,14 @@ struct PastePermissionTipBanner: View {
                     }
                     .foregroundColor(theme.accent)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
 
                 Button(action: onDismiss) {
                     Text(NSLocalizedString("더 이상 보지 않기", comment: "Don't show paste tip again"))
                         .font(.body)
                         .foregroundColor(theme.textMuted)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
             }
         }
         .padding(14)
@@ -561,7 +561,7 @@ struct MemoActionSheet: View {
         Button(action: action) {
             actionRowLabel(label: label, systemImage: systemImage, isDestructive: isDestructive)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
     }
 
     /// 행 라벨 비주얼 - Button과 Menu(카테고리 이동)가 공유.
@@ -687,7 +687,7 @@ struct FilterExpandChip: View {
             .cornerRadius(theme.radiusLg)
             .foregroundColor(theme.textMuted)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityLabel(isExpanded
             ? NSLocalizedString("접기", comment: "Collapse filter bar")
             : String(format: NSLocalizedString("%d개 카테고리 더 보기", comment: "More categories a11y"), hiddenCount))
@@ -750,7 +750,7 @@ struct MemoFilterChip: View {
             .scaleEffect(isSelected ? 1.0 : 0.96)
             .animation(.easeOut(duration: 0.15), value: isSelected)
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
         .accessibilityLabel(
             String(format: NSLocalizedString("%@, %d개", comment: "Filter chip: name and count"), title, count)
         )

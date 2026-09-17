@@ -29,7 +29,7 @@ struct WaxSealView: View {
         Group {
             if onTap != nil {
                 Button(action: tapped) { seal }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                     .accessibilityLabel(accessibilityLabel)
                     .accessibilityHint(accessibilityHint)
                     .accessibilityAddTraits(.isButton)

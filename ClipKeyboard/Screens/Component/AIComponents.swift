@@ -77,7 +77,7 @@ struct SuggestedActionChips: View {
             .foregroundColor(theme.accent)
             .clipShape(Capsule())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityLabel(action.label)
     }
 
@@ -345,7 +345,7 @@ struct TranslationSheet: View {
                     .foregroundColor(.white)
                     .cornerRadius(theme.radiusSm)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
 
             if let onSaveAsMemo {
                 Button {
@@ -361,7 +361,7 @@ struct TranslationSheet: View {
                         .foregroundColor(theme.text)
                         .cornerRadius(theme.radiusSm)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
             }
         }
     }

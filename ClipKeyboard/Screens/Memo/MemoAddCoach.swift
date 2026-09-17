@@ -153,7 +153,7 @@ struct MemoAddCoachBar: View {
                         .font(.footnote.weight(.semibold))
                         .opacity(0.85)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
 
                 // ⚠️ 띠 바탕이 강조색이라 단추는 **색을 뒤집어야** 선다. 같은 강조색 위에
                 //    강조색 단추를 얹으면 글자만 떠 있는 꼴이라 누를 곳으로 안 읽힌다.
@@ -172,7 +172,7 @@ struct MemoAddCoachBar: View {
                     .padding(.vertical, 7)
                     .background(Capsule().fill(Color.accentForeground))
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
                 .accessibilityHint(NSLocalizedString("두 번 누르면 다음 칸으로 갑니다",
                                                      comment: "Coach bar accessibility hint"))
             }

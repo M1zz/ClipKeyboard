@@ -246,7 +246,7 @@ struct VaultButton: View {
             .frame(width: 44, height: 44)     // 손가락이 닿을 만큼
             .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         // 금고가 자기 중심을 알려준다 - 동전은 이 좌표로 날아온다.
         //
         // ⚠️ PreferenceKey 로 올려보내지 않는다. 이 버튼은 네비게이션 바(툴바) 안에 사는데,

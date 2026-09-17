@@ -783,7 +783,7 @@ private struct TemplateFillRow: View {
                 .foregroundColor(isKept ? .yellow : theme.textFaint)
                 .frame(width: 44, height: 44)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .disabled(trimmedValue.isEmpty || isKept)
         .accessibilityLabel(isKept
             ? NSLocalizedString("이미 저장해 둔 값이에요", comment: "Fill sheet: value already kept")

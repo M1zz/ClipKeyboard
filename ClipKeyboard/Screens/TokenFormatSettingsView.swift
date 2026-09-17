@@ -118,7 +118,7 @@ struct TokenFormatSettingsView<Format: TokenFormat>: View {
             }
             .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityAddTraits(option.raw == raw ? [.isSelected] : [])
     }
 
@@ -233,7 +233,7 @@ private struct TokenFormatEditor<Format: TokenFormat>: View {
                             .foregroundColor(theme.accent)
                             .clipShape(Capsule())
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                 }
             }
             .padding(.vertical, 2)

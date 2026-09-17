@@ -103,7 +103,7 @@ struct PhotoValuePicker: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .contentShape(Rectangle())
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
 
             Button {
                 onAppend(text)
@@ -114,7 +114,7 @@ struct PhotoValuePicker: View {
                     .font(.title3)
                     .foregroundColor(appended.contains(text) ? Color.checkGreen : .accentColor)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .accessibilityLabel(NSLocalizedString("값 끝에 이어 붙이기", comment: "Photo value picker: append line to value"))
         }
         .padding(.vertical, 2)

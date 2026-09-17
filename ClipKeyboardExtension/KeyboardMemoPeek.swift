@@ -71,7 +71,7 @@ struct KeyboardMemoPeek: View {
                     .font(.title3)
                     .foregroundColor(theme.textMuted)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .accessibilityLabel(NSLocalizedString("닫기", comment: "Close paywall"))
         }
     }
@@ -148,7 +148,7 @@ struct KeyboardMemoPeek: View {
                     .background(theme.accent)
                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
             }
 
             if let onReorder {
@@ -168,7 +168,7 @@ struct KeyboardMemoPeek: View {
                             .stroke(theme.divider, lineWidth: 1)
                     )
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
                 .accessibilityHint(NSLocalizedString("자주 쓰는 단축어를 위로 옮길 수 있어요",
                                                     comment: "Reorder button hint"))
             }

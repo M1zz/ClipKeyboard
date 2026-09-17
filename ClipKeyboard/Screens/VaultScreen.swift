@@ -148,7 +148,7 @@ struct VaultScreen: View {
             )
             .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
     }
 
     private var footnote: some View {

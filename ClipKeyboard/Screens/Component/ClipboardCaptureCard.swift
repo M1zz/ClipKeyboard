@@ -154,7 +154,7 @@ struct ClipboardCaptureCard: View {
                 .background(Color.accentColor)
                 .clipShape(Capsule())
             }
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(.squish)
             .accessibilityHint(
                 String(format: NSLocalizedString("%@ 제목으로 바로 저장", comment: "VoiceOver hint: save with suggested title"), suggestedTitle)
             )
@@ -169,7 +169,7 @@ struct ClipboardCaptureCard: View {
                     .padding(.horizontal, 10)
                     .padding(.vertical, 7)
             }
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(.squish)
             .simultaneousGesture(TapGesture().onEnded { onEditTap() })
 
             Button(action: onDismiss) {
@@ -179,7 +179,7 @@ struct ClipboardCaptureCard: View {
                     .padding(.horizontal, 8)
                     .padding(.vertical, 7)
             }
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(.squish)
 
             Spacer(minLength: 0)
         }

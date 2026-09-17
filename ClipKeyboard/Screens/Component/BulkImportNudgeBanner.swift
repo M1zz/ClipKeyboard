@@ -93,7 +93,7 @@ struct BulkImportNudgeBanner: View {
                         .foregroundColor(theme.textFaint)
                         .padding(6)
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.squish)
                 .accessibilityLabel(NSLocalizedString("닫기", comment: "Close / dismiss"))
             }
             .padding(14)
@@ -105,7 +105,7 @@ struct BulkImportNudgeBanner: View {
             )
             .shadow(color: .black.opacity(0.06), radius: 8, y: 2)
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
         .accessibilityHint(NSLocalizedString("탭하면 한 번에 정리하기 열기", comment: "VoiceOver: open bulk import"))
     }
 }

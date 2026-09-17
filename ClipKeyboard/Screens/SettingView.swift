@@ -910,7 +910,7 @@ struct FirstScreenSettingsView: View {
                     } action: {
                         snippetsTabStyleRaw = candidate.rawValue
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                     .accessibilityAddTraits(snippetsTabStyleRaw == candidate.rawValue ? [.isSelected] : [])
                 }
             } footer: {
@@ -1021,7 +1021,7 @@ struct KeyColorSettingsView: View {
             }
             .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityLabel(candidate.localizedName)
         .accessibilityValue(candidate.localizedNote)
         .accessibilityAddTraits(selected ? [.isSelected] : [])

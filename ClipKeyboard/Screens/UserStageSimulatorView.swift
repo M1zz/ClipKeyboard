@@ -67,7 +67,7 @@ struct UserStageSimulatorView: View {
                 Button { select(stage) } label: {
                     StageRow(stage: stage, isActive: activeStage == stage)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
                 .accessibilityAddTraits(activeStage == stage ? [.isSelected] : [])
             }
         } header: {

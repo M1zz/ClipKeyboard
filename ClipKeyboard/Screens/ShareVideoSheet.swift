@@ -145,7 +145,7 @@ struct ShareVideoSheet: View {
                     .frame(maxWidth: .infinity)
                     .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
                 .disabled(isRendering)
                 .opacity(isRendering ? 0.5 : 1)
                 .accessibilityHint(NSLocalizedString("아낀 시간을 다른 것에 빗대어 보여줍니다",

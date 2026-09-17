@@ -624,7 +624,7 @@ struct PlaceholderDetailView: View {
                         .foregroundColor(newValue.trimmingCharacters(in: .whitespaces).isEmpty
                                          ? theme.textFaint : .accentColor)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
                 .disabled(newValue.trimmingCharacters(in: .whitespaces).isEmpty)
                 .accessibilityLabel(NSLocalizedString("값 추가", comment: "Add placeholder value"))
             }

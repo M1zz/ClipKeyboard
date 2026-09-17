@@ -500,7 +500,7 @@ struct BulkImportView: View {
                     .foregroundColor(d.include ? Color.checkGreen : .secondary)
                     .font(.system(.title3))
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             // ⚠️ 색만으로 켬/끔을 말하지 않는다. 읽어 줄 때도 상태가 들려야 한다.
             .accessibilityLabel(NSLocalizedString("가져오기", comment: "Include this item"))
             .accessibilityValue(d.include
@@ -551,7 +551,7 @@ struct BulkImportView: View {
                     .font(.body)
                     .foregroundColor(d.isSecure ? .accentColor : .secondary)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .accessibilityLabel(d.isSecure
                                 ? NSLocalizedString("보안 단축어 해제", comment: "Bulk import: turn off secure")
                                 : NSLocalizedString("보안 단축어로 설정", comment: "Action: make memo secure"))
@@ -626,7 +626,7 @@ struct BulkImportView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .foregroundStyle(.orange)
         }
     }

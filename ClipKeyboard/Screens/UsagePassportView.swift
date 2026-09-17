@@ -132,7 +132,7 @@ struct UsagePassportView: View {
             )
             .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
     }
 
     // MARK: - 친구들에게 알리기
@@ -173,7 +173,7 @@ struct UsagePassportView: View {
                 }
                 .filledAccentSurface()
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
         }
     }
 
@@ -274,7 +274,7 @@ struct UsagePassportView: View {
                 .frame(minHeight: 32)
                 .contentShape(Rectangle())
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .disabled(list.count <= 1)
             .accessibilityLabel(text)
             .accessibilityHint(list.count > 1
@@ -411,7 +411,7 @@ struct UsagePassportView: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundColor(theme.accent)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 48)

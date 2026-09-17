@@ -436,7 +436,7 @@ struct ContentInputSection: View {
                                                    comment: "Attach image row caption")
                     )
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
             }
             // 두 줄을 **한 덩어리로** 짚는다. 줄마다 따로 빛나면 둘 중 하나를 꼭
             // 골라야 하는 것처럼 보이는데, 여기는 안 골라도 되는 자리다.
@@ -528,7 +528,7 @@ struct ContentInputSection: View {
                                 .strokeBorder(Color.accentColor.opacity(0.3), style: StrokeStyle(lineWidth: 1.5, dash: [6]))
                         )
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                 }
             } else {
                 // 일반 카테고리: 텍스트 + 선택적 이미지 첨부
@@ -938,7 +938,7 @@ struct OCRTextPickerSheet: View {
                     .stroke(isOn ? Color.accentColor.opacity(0.5) : theme.divider, lineWidth: isOn ? 1.5 : 0.5)
             )
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
         .accessibilityElement(children: .ignore)
         .accessibilityAddTraits(isOn ? [.isButton, .isSelected] : .isButton)
         .accessibilityLabel(line)
@@ -964,7 +964,7 @@ struct OCRTextPickerSheet: View {
                 .background(count > 0 ? Color.accentColor : Color.gray)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
         .disabled(count == 0)
         .padding(.horizontal, 16)
         .padding(.vertical, 8)

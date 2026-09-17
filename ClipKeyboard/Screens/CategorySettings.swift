@@ -291,7 +291,7 @@ struct CategorySettings: View {
                             .font(.body)
                             .foregroundColor(.accentColor)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                     .accessibilityLabel(NSLocalizedString("이름 변경", comment: "Rename category button"))
                     .accessibilityHint(String(format: NSLocalizedString("%@ 카테고리 이름을 변경합니다", comment: "Rename category hint"), category))
                     // 표시 토글 - 탭에 노출할지(켜짐=표시).

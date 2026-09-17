@@ -213,7 +213,7 @@ struct UsageTrendChartView: View {
                             .font(.caption)
                             .foregroundColor(theme.accent)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                 }
             } else {
                 Text(visibleRangeText)

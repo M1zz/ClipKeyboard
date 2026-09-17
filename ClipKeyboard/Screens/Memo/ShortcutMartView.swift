@@ -144,7 +144,7 @@ struct ShortcutMartView: View {
             .padding(.vertical, 4)
             .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(item.blanks.isEmpty
                             ? item.title

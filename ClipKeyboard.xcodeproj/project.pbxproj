@@ -31,6 +31,7 @@
 		29187FD9B8AD5C0639E7FEDE /* DiscountOfferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBC5FEBE64BF6B998A4F173 /* DiscountOfferManager.swift */; };
 		29286DCE58A54049B2D11C5B /* AppInfoSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3649F2CC2F3B4033A66504C0 /* AppInfoSettingsView.swift */; };
 		29BE4575384D68C69FCFB9A1 /* KeyboardBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */; };
+		5C0A15B00000000000000002 /* SquishPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0A15B00000000000000001 /* SquishPress.swift */; };
 		29BE5E003315D45F00DE3974 /* CursorMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308AA33ECDA9323BA548C0CD /* CursorMemory.swift */; };
 		2B647294E78814DF398CF307 /* CategoryBucketRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA441421EE0E26B58684C63F /* CategoryBucketRule.swift */; };
 		2BFAE403E90D4B4EAE9DC1DF /* MyDataSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8789BB34EE8F45ECB57252A8 /* MyDataSettingsView.swift */; };
@@ -259,6 +260,7 @@
 		INAPPKBD0000000000000004 /* HangulComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001100000001F3B00004 /* HangulComposer.swift */; };
 		INAPPKBD0000000000000005 /* CheonjiinInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00001500000001F3B00005 /* CheonjiinInput.swift */; };
 		INAPPKBD0000000000000006 /* KeyboardBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */; };
+		5C0A15B00000000000000003 /* SquishPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0A15B00000000000000001 /* SquishPress.swift */; };
 		INAPPKBD0000000000000007 /* KeyboardDocumentState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C19F2833D49C436124BAC /* KeyboardDocumentState.swift */; };
 		INAPPKBD0000000000000008 /* InAppKeyboardHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */; };
 		INAPPKBD0000000000000009 /* InAppKeyboardStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */; };
@@ -564,6 +566,7 @@
 		EP00001A2F0000000000000003 /* EmojiPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiPicker.swift; sourceTree = "<group>"; };
 		F027CAC56EBC7FE2DD9F9D78 /* CategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStore.swift; sourceTree = "<group>"; };
 		F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardBeacon.swift; sourceTree = "<group>"; };
+		5C0A15B00000000000000001 /* SquishPress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquishPress.swift; sourceTree = "<group>"; };
 		F53C7333B96F49495FC908C3 /* TwoDevicePack.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TwoDevicePack.swift; sourceTree = "<group>"; };
 		F8F936D777AFE620DCC080C1 /* PurchaseMomentManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PurchaseMomentManager.swift; sourceTree = "<group>"; };
 		FA000002000000000000AAA1 /* NavigationThemeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationThemeModifier.swift; sourceTree = "<group>"; };
@@ -739,6 +742,7 @@
 				KBO00022F0000000000000002 /* KeyboardOverlays.swift */,
 				AA00001100000001F3B00004 /* HangulComposer.swift */,
 				F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */,
+				5C0A15B00000000000000001 /* SquishPress.swift */,
 				845C19F2833D49C436124BAC /* KeyboardDocumentState.swift */,
 				KBFEED0R0000000000000001 /* KeyboardMemoFeed.swift */,
 				AA00001500000001F3B00005 /* CheonjiinInput.swift */,
@@ -1426,6 +1430,7 @@
 				KBO00012F0000000000000001 /* KeyboardOverlays.swift in Sources */,
 				AA00001000000001F3B00004 /* HangulComposer.swift in Sources */,
 				29BE4575384D68C69FCFB9A1 /* KeyboardBeacon.swift in Sources */,
+				5C0A15B00000000000000002 /* SquishPress.swift in Sources */,
 				0A839CB4770AA10B52CBAA72 /* KeyboardDocumentState.swift in Sources */,
 				AA00001400000001F3B00005 /* CheonjiinInput.swift in Sources */,
 				AA00001200000001F3B00004 /* TypingKeyboardView.swift in Sources */,
@@ -1484,6 +1489,7 @@
 				INAPPKBD0000000000000004 /* HangulComposer.swift in Sources */,
 				INAPPKBD0000000000000005 /* CheonjiinInput.swift in Sources */,
 				INAPPKBD0000000000000006 /* KeyboardBeacon.swift in Sources */,
+				5C0A15B00000000000000003 /* SquishPress.swift in Sources */,
 				INAPPKBD0000000000000007 /* KeyboardDocumentState.swift in Sources */,
 				INAPPKBD0000000000000008 /* InAppKeyboardHost.swift in Sources */,
 				INAPPKBD0000000000000009 /* InAppKeyboardStage.swift in Sources */,

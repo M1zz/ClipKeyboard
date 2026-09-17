@@ -291,7 +291,7 @@ struct SmearTextPickerView: View {
             .background(isOn ? theme.accentSoft : Color.clear)
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous))
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .foregroundColor(isOn ? theme.accent : theme.textMuted)
         .accessibilityLabel(title)
         .accessibilityAddTraits(isOn ? [.isButton, .isSelected] : .isButton)
@@ -316,7 +316,7 @@ struct SmearTextPickerView: View {
                 .background(pickedText.isEmpty ? theme.surfaceAlt : Color.accentColor)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .disabled(pickedText.isEmpty)
     }
 

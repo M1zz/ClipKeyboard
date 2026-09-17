@@ -166,7 +166,7 @@ struct CategoryCleanupNotice: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 10)
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .foregroundColor(.secondary)
         }
     }

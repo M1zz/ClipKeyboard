@@ -160,7 +160,7 @@ struct CategoryTabButton: View {
                     .fill(isSelected ? Color.accentColor.opacity(0.1) : Color.clear)
             )
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         // 카테고리 이름만 읽고, 선택 상태를 VoiceOver에 노출(아이콘은 장식이라 숨김).
         .accessibilityElement(children: .combine)
         .accessibilityLabel(category.localizedName)

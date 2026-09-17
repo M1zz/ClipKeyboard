@@ -185,7 +185,7 @@ struct CrashReportsView: View {
                                 .font(.caption)
                                 .foregroundColor(theme.accent)
                         }
-                        .buttonStyle(.plain)
+                        .buttonStyle(.squish)
                         .accessibilityLabel(NSLocalizedString("이 진단 복사", comment: "Copy this diagnostic"))
                     }
                     Text("\(report.deviceType) · iOS \(report.osVersion)")

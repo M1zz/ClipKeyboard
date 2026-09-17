@@ -129,7 +129,7 @@ struct MacAppIntroView: View {
             .background(Color.accentColor)
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
     }
 
     @ViewBuilder

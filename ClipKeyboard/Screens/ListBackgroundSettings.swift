@@ -107,7 +107,7 @@ struct ListBackgroundSettings: View {
             }
             .frame(height: 120)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityLabel(NSLocalizedString("사진에서 배경 고르기", comment: "Background: pick from photos"))
     }
 
@@ -157,12 +157,12 @@ struct ListBackgroundSettings: View {
                             .foregroundStyle(.white, .black.opacity(0.45))
                             .padding(6)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                     .accessibilityLabel(NSLocalizedString("이 배경 지우기", comment: "Remove my background"))
                 }
             }
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityLabel(label ?? NSLocalizedString("배경 이미지", comment: "Menu: list background image"))
         .accessibilityAddTraits(listBackgroundImage == name ? [.isButton, .isSelected] : .isButton)
     }

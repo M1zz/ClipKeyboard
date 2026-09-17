@@ -222,7 +222,7 @@ struct SymbolPickerSheet: View {
                         .foregroundColor(current == symbol ? .white : .primary)
                         .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.squish)
                 .accessibilityLabel(symbol)
             }
         }

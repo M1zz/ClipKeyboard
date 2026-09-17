@@ -32,7 +32,7 @@ struct LanguageSettingsView: View {
                         }
                         .contentShape(Rectangle())
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                     .accessibilityAddTraits(language == selection ? [.isButton, .isSelected] : .isButton)
                 }
             } footer: {
