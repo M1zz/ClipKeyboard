@@ -802,7 +802,7 @@ struct KeyboardView: View {
             .background(name == nil ? theme.divider : theme.accent)
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
         .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
         .contentShape(Rectangle())
         // 마찬가지로 "줄바꿈" 도 이미 다른 뜻(글의 줄바꿈 설정)으로 쓰여 "Line breaks" 다.
@@ -844,7 +844,7 @@ struct KeyboardView: View {
                 .background(theme.surface)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
         .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
         .onLongPressGesture(minimumDuration: 0.4) {
             clipboardLongPressAt = Date()
@@ -874,7 +874,7 @@ struct KeyboardView: View {
                 .background(showsNumberPad ? theme.accent : theme.surface)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
         .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
         .accessibilityLabel(showsNumberPad
                             ? NSLocalizedString("단축어로 돌아가기", comment: "Number pad key: back to snippets")
@@ -930,7 +930,7 @@ struct KeyboardView: View {
                 .background(theme.surface)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
         .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
         .contentShape(Rectangle())
         .accessibilityLabel(NSLocalizedString("전체 삭제", comment: "Clear all text"))
@@ -1328,7 +1328,12 @@ struct KeyboardView: View {
                         let values = PredefinedValuesStore.shared.getValuesForTemplate(placeholder: placeholder, templateId: memoId)
                         print("   📊 [KeyboardView] \(placeholder): \(values.count)개 - \(values)")
 
-                        if let firstValue = values.first, !firstValue.isEmpty {
+                        // ⚠️ 금액·수량처럼 숫자를 치는 칸은 **비워 둔다.** 저장된 첫 값을 미리 넣으면
+                        //    매번 다른 금액을 치는 사람은 그 값을 먼저 지워야 했다(5000 이 늘 들어가 있었다).
+                        //    고르는 칸은 저장된 값 중에서 고르는 일이 대부분이라 그대로 둔다.
+                        if TemplateVariableProcessor.isNumericToken(placeholder) {
+                            initialInputs[placeholder] = ""
+                        } else if let firstValue = values.first, !firstValue.isEmpty {
                             initialInputs[placeholder] = firstValue
                             print("   ✅ [KeyboardView] \(placeholder) 기본값 설정: \(firstValue)")
                         } else {
@@ -1378,7 +1383,7 @@ struct KeyboardView: View {
             .padding(.vertical, 5)
             .background(Color.orange.opacity(0.85))
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
     }
 
     /// 배너 문구: hidden 메모가 있으면 그 개수, 없으면 한도까지 남은 개수
@@ -1497,7 +1502,7 @@ struct KeyboardView: View {
                     .background(theme.accent)
                     .clipShape(Capsule())
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.squish)
                 .padding(.top, 4)
             }
         }
@@ -1742,7 +1747,7 @@ struct KeyboardView: View {
                             .background(isSelected ? accent : theme.surface)
                             .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .buttonStyle(.squish)
                     .accessibilityLabel(labelForCategoryKey(key))
                     .accessibilityAddTraits(isSelected ? [.isSelected] : [])
                 }
@@ -1806,7 +1811,7 @@ struct KeyboardView: View {
                     .stroke(((visualCuesVisible ? categoryColorFor(memo) : nil) ?? .clear).opacity(0.3), lineWidth: 1)
             )
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
         .frame(minHeight: 44)
         .contentShape(Rectangle())
         .accessibilityLabel(String(format: NSLocalizedString("최근: %@", comment: "Recent memo chip label"), memo.title))
@@ -2022,6 +2027,8 @@ struct KeyboardView: View {
                                 skirtColor: keycapSkirtColor,
                                 pressed: pressedStackId == memo.id,
                                 enabled: keycapPressEnabled))
+        // 내려앉는 것과 따로, 말랑하게 줄었다 튕긴다. 두께가 없는 스킨도 이건 받는다.
+        .squishPress(pressedStackId == memo.id)
     }
 
     /// 콤보 키 오른쪽(다음 값) 칸의 폭. 버튼과 그 위의 물결이 **같은 값**을 봐야
@@ -2578,7 +2585,7 @@ struct KeyboardView: View {
                     .background(theme.accent)
                     .clipShape(Capsule())
             }
-            .buttonStyle(.plain)
+            .buttonStyle(.squish)
             .frame(minHeight: 44)
         }
         .padding(.horizontal, 12)
@@ -2868,7 +2875,7 @@ struct KeyboardView: View {
                 .background(Color(UIColor.systemGray5))
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
     }
 
     private var pinOverlayCancelKey: some View {
@@ -2888,7 +2895,7 @@ struct KeyboardView: View {
                 .background(Color(UIColor.systemGray5))
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
     }
 
     private var pinOverlayBackspaceKey: some View {
@@ -2905,7 +2912,7 @@ struct KeyboardView: View {
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
                 .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace button"))
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
     }
 
     // MARK: - Color Helpers
@@ -3196,6 +3203,9 @@ struct KeycapButtonStyle: ButtonStyle {
                                     skirtColor: skirtColor,
                                     pressed: configuration.isPressed,
                                     enabled: enabled))
+            // 내려앉는 것과 따로, 말랑하게 줄었다 튕긴다(`SquishPress`).
+            // 두께가 없는 납작 스킨도 이건 받는다 - 눌렸다는 손맛이 아예 없던 자리다.
+            .squishPress(configuration.isPressed)
     }
 }
 

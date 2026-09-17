@@ -235,7 +235,7 @@ struct TemplateInputOverlay: View {
             .padding(.vertical, 6)
             .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityElement(children: .combine)
         .accessibilityHint(NSLocalizedString("눌러서 이 빈칸을 펼칩니다", comment: "Collapsed placeholder row hint"))
     }
@@ -535,6 +535,26 @@ struct PlaceholderInputView: View {
         KeyboardHaptics.tap()
     }
 
+    /// 지금 친 숫자를 다음에도 고를 수 있게 이 빈칸의 값으로 저장한다.
+    ///
+    /// ⚠️ 치는 즉시 저장하지 않는다. 금액은 대개 매번 달라서, 친 것을 다 남기면 칩 줄이
+    ///    금세 한 번 쓰고 말 숫자로 찬다. 자주 쓰는 금액만 사람이 골라 남긴다.
+    private func keepSelectedValue() {
+        let value = selectedValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !value.isEmpty, !predefinedValues.contains(value) else { return }
+        _ = PredefinedValuesStore.shared.addValue(value,
+                                                  for: placeholder,
+                                                  sourceMemoId: templateId,
+                                                  sourceMemoTitle: placeholder.strippingTemplateBraces)
+        reloadValues()
+        KeyboardHaptics.tap()
+    }
+
+    /// 지금 친 숫자가 이미 저장 목록에 있는가.
+    private var isSelectedKept: Bool {
+        !selectedValue.isEmpty && predefinedValues.contains(selectedValue)
+    }
+
     /// v4.0.8: 토큰명에 금액/amount/qty 등 키워드가 있으면 numeric 직접 입력 모드.
     private var isNumericToken: Bool {
         TemplateVariableProcessor.isNumericToken(placeholder)
@@ -634,8 +654,8 @@ struct PlaceholderInputView: View {
                 numericScrollBackspace
             }
 
-            // 사전 저장 값 빠른 선택
-            if !predefinedValues.isEmpty {
+            // 사전 저장 값 빠른 선택 + 지금 친 값 저장
+            HStack(spacing: 8) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 6) {
                         ForEach(predefinedValues, id: \.self) { value in
@@ -654,6 +674,31 @@ struct PlaceholderInputView: View {
                         }
                     }
                 }
+
+                // 친 값을 이 빈칸의 값으로 남긴다. 누르지 않으면 이번에만 쓰고 사라진다.
+                Button(action: keepSelectedValue) {
+                    HStack(spacing: 4) {
+                        Image(systemName: isSelectedKept ? AppSymbol.starFill : AppSymbol.star)
+                            .foregroundColor(isSelectedKept ? .yellow : theme.accent)
+                        Text(isSelectedKept
+                             ? NSLocalizedString("저장됨", comment: "Numeric placeholder: value already kept")
+                             : NSLocalizedString("값으로 저장", comment: "Numeric placeholder: keep typed value"))
+                            .foregroundColor(isSelectedKept ? .secondary : theme.accent)
+                    }
+                    .font(.caption.weight(.semibold))
+                    .lineLimit(1)
+                    .fixedSize()
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                    .background(theme.accent.opacity(0.1))
+                    .cornerRadius(theme.radiusSm)
+                }
+                .buttonStyle(.squish)
+                .disabled(selectedValue.isEmpty || isSelectedKept)
+                .opacity(selectedValue.isEmpty ? 0.4 : 1)
+                .accessibilityLabel(isSelectedKept
+                    ? NSLocalizedString("이미 저장해 둔 값이에요", comment: "Fill sheet: value already kept")
+                    : NSLocalizedString("이 값 저장해 두기", comment: "Fill sheet: keep this value"))
             }
         }
     }
