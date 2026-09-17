@@ -316,6 +316,7 @@ struct KeyboardView: View {
     /// 위줄에 숫자 판으로 건너가는 키를 세울지. 값이 없으면 켜짐(아래 `showsNumberPadKey`).
     @AppStorage(DefaultsKey.keyboardShowNumberPad, store: AppGroup.defaults)
     private var showNumberPadKeyRaw: Bool = true
+    @AppStorage(DefaultsKey.keyboardShowReturnKey, store: AppGroup.defaults) private var showReturnKey: Bool = true
     // 한국어 입력 사용 여부(기본 OFF). 꺼져 있으면 한/EN 토글과 한글 자판이 아예 노출되지 않아
     // 영어 전용 사용자는 한글을 볼 일이 없다. 한국어 사용자가 설정에서 직접 켠다.
     @AppStorage("keyboardKoreanEnabled", store: AppGroup.defaults) private var koreanInputEnabled: Bool = false
@@ -763,6 +764,68 @@ struct KeyboardView: View {
         .accessibilityHint(NSLocalizedString("한 글자씩 지웁니다. 누르고 있으면 이어서 지웁니다", comment: "Backspace key hint"))
     }
 
+    /// 호스트가 시키는 대로 이름이 바뀌는 리턴 키.
+    ///
+    /// 왜 필요한가: 문구는 키보드에서 넣는데 **보내기가 시스템 키보드에만 있었다.** 넣자마자
+    /// 지구본을 눌러 건너가야 했으니, 넣어 준 시간을 나가는 데 다 썼다(사용자 요청:
+    /// "빨리 문구는 넣었는데 보내기 버튼을 못 찾겠다"). 지우기 키가 생긴 이유와 같은 뿌리다.
+    ///
+    /// ⚠️ **우리가 할 수 있는 것은 `"\n"` 을 넣는 것뿐이다.** 리턴 키를 눌렀다고 호스트에게
+    ///    알리는 API 는 없다. 대부분의 채팅 앱은 이 줄바꿈을 받아 보내기로 처리하지만,
+    ///    그렇게 안 만든 앱에서는 줄만 바뀐다.
+    /// ⚠️ 그래서 **이름을 우리가 짓지 않는다.** 호스트가 말한 `returnKeyType` 을 그대로 적는다.
+    ///    우리가 "보내기" 라고 지어 부르면, 안 보내지는 앱에서 그 글자가 거짓말이 된다.
+    private func returnDocumentKey(proxy: TypingInputProxy) -> some View {
+        let name = returnKeyName
+        return Button {
+            KeyboardHaptics.tap()
+            proxy.insertNewline()
+        } label: {
+            Group {
+                if let name {
+                    Text(name)
+                        .font(.system(size: 12, weight: .semibold))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                        .padding(.horizontal, 9)
+                        .foregroundColor(theme.accentFg)
+                } else {
+                    // 호스트가 이름을 안 줬다(메모장 같은 곳). 그럴 때 줄바꿈은 '행동'이 아니라
+                    // 그냥 줄바꿈이라, 강조색으로 세우지 않는다.
+                    Image(systemName: AppSymbol.returnLeft)
+                        .font(.system(size: controlKeyIconSize, weight: .semibold))
+                        .frame(width: controlKeyWidth(36))
+                        .foregroundColor(theme.text)
+                }
+            }
+            .frame(height: controlKeyHeight)
+            .background(name == nil ? theme.divider : theme.accent)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+        }
+        .buttonStyle(PlainButtonStyle())
+        .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
+        .contentShape(Rectangle())
+        // 마찬가지로 "줄바꿈" 도 이미 다른 뜻(글의 줄바꿈 설정)으로 쓰여 "Line breaks" 다.
+        .accessibilityLabel(name ?? NSLocalizedString("리턴 키", comment: "Return key accessibility label"))
+        .accessibilityHint(NSLocalizedString("입력창에 줄바꿈을 넣습니다. 앱에 따라 보내기로 동작합니다", comment: "Return key hint"))
+    }
+
+    /// 호스트가 말한 리턴 키의 이름. 모르는 종류면 nil 이고, 그때는 줄바꿈 화살표로 그린다.
+    /// **없는 이름을 지어내지 않는다** - 틀린 이름은 없는 것보다 나쁘다.
+    private var returnKeyName: String? {
+        switch documentState.returnKeyType {
+        case .send:   return NSLocalizedString("보내기", comment: "Return key label: send")
+        case .search: return NSLocalizedString("검색", comment: "Return key label: search")
+        // ⚠️ "이동" 은 못 쓴다. 이미 목록에서 **자리를 옮긴다**는 뜻으로 쓰고 있어서
+        //    영어가 "Move" 로 번역돼 있다. 사파리 주소창 키에 "Move" 가 서면 거짓말이다.
+        //    String Catalog 는 한 낱말에 뜻을 둘 담지 못하므로 문구를 달리한다.
+        case .go:     return NSLocalizedString("이동하기", comment: "Return key label: go")
+        case .done:   return NSLocalizedString("완료", comment: "Return key label: done")
+        case .next:   return NSLocalizedString("다음", comment: "Return key label: next")
+        default:      return nil
+        }
+    }
+
     /// 복사한 것을 넣는 키.
     ///
     /// **짧게 누르면 통째로, 길게 누르면 조각을 골라서.**
@@ -907,6 +970,20 @@ struct KeyboardView: View {
             //    빈 칸에서 눌러도 해로운 것은 없다. 지우기는 지울 것이 없고, X 는 아래에서
             //    흐리게 잠근다.
 
+            // 넣고 나서 보내는 키. **X 옆에 두지 않는다** - 하나는 보내 버리고 하나는
+            // 다 지우는 키라, 붙여 놓으면 잘못 누른 값이 양쪽 다 크다. 사이에 지우기를 끼운다.
+            //
+            // ⚠️ 호스트가 시키면 빈 칸에서 **잠근다**(`returnNeedsText`). 검색창·보내기창이
+            //    그것을 켜고, 시스템 키보드도 같은 값을 보고 같이 잠근다. 잠그지 않으면
+            //    빈 검색창에 강조색 `검색` 이 눌리게 서 있는데, 눌러 봐야 줄바꿈 하나가
+            //    들어갈 뿐이라 아무 일도 안 일어난다. 이름이 있는 키는 그 이름의 일을
+            //    할 것처럼 보이므로, 못 할 때는 못 한다고 보여야 한다.
+            //    숨기지는 않는다. 자리가 비면 줄이 흔들리고, 무엇을 누르면 되는지도 감춰진다.
+            if let proxy = typingProxy, showReturnKey {
+                returnDocumentKey(proxy: proxy)
+                    .opacity(documentState.returnKeyIsLocked ? 0.4 : 1)
+                    .disabled(documentState.returnKeyIsLocked)
+            }
             // 한 글자 지우기. 이게 없어서 오타 하나를 고치려고 **다른 키보드로
             // 건너갔다가 돌아와야 했다**(사용자 요청).
             if let proxy = typingProxy {

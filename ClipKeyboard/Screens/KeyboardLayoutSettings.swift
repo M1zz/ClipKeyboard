@@ -39,6 +39,7 @@ struct KeyboardLayoutSettings: View {
     /// (값이 없을 때와 false 를 `@AppStorage` 가 구분하지 못하는 탓 - DefaultsKey 참고)
     @AppStorage(DefaultsKey.keyboardShowRecent, store: AppGroup.defaults) private var showRecentRaw: Bool = false
     /// 위줄의 리턴(보내기) 키. 기본 켬 - 없어서 못 보내던 것이 신고로 들어온 쪽이다.
+    @AppStorage(DefaultsKey.keyboardShowReturnKey, store: AppGroup.defaults) private var showReturnKey: Bool = true
     /// 위줄의 숫자 판 키. 기본 켬 - 숫자 몇 자 넣으려고 다른 키보드로 건너가던 것을 없애려고 둔 키라,
     /// 있는 줄 몰라서 못 쓰면 둔 뜻이 없다.
     @AppStorage(DefaultsKey.keyboardShowNumberPad, store: AppGroup.defaults) private var showNumberPad: Bool = true
@@ -327,6 +328,13 @@ struct KeyboardLayoutSettings: View {
                             .font(.caption).foregroundColor(.secondary)
                     }
                 }
+                Toggle(isOn: $showReturnKey) {
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(NSLocalizedString("보내기 키", comment: "Show return key toggle"))
+                        Text(NSLocalizedString("단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다", comment: "Return key description"))
+                            .font(.caption).foregroundColor(.secondary)
+                    }
+                }
                 Toggle(isOn: $showClipboardKey) {
                     VStack(alignment: .leading, spacing: 1) {
                         Text(NSLocalizedString("붙여넣기 키", comment: "Show clipboard paste key toggle"))
@@ -348,6 +356,11 @@ struct KeyboardLayoutSettings: View {
                 // 말 없이 켜 두면 "내가 켠 적 없는데" 가 문의로 돌아온다.
                 if !KeyboardDisplayDefaults.hasChosenRecentSection {
                     Text(NSLocalizedString("최근 단축어는 단축어가 늘어나면 저절로 켜집니다. 한 번 직접 켜거나 끄시면 그대로 둡니다.", comment: "Recent snippets auto default footer"))
+                }
+                if showReturnKey {
+                    // 되는 앱과 안 되는 앱이 갈리는 자리라, 켠 사람에게는 미리 말해 둔다.
+                    // 안 그러면 "왜 어떤 앱에서는 줄만 바뀌지" 가 다시 문의로 돌아온다.
+                    Text(NSLocalizedString("보내기 키의 이름은 앱이 정합니다. 메시지 앱에서는 보내기, 검색창에서는 검색으로 보여요. 줄바꿈만 되는 앱도 있습니다.", comment: "Return key footer"))
                 }
             }
 
@@ -515,7 +528,7 @@ struct KeyboardLayoutSettings: View {
         controlKeySizeRaw = Double(KeyboardHeightBook.defaultControlKeySize)
         useCustomColors = false; customBgHex = ""; customKeyHex = ""
         customBgColor = .clear; customKeyColor = .clear
-        showSearch = false; showNumberPad = true; showClipboardKey = false
+        showSearch = false; showReturnKey = true; showNumberPad = true; showClipboardKey = false
         // 최근 단축어는 false 로 박지 않는다. 그러면 "꺼 달라고 했다"가 되어
         // 개수로 정해 주는 길이 영영 막힌다. 값을 지워 "안 정했다"로 되돌린다.
         AppGroup.defaults?.removeObject(forKey: DefaultsKey.keyboardShowRecent)

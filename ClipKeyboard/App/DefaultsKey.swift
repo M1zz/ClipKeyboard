@@ -199,6 +199,7 @@ enum DefaultsKey {
     /// 숫자만 몇 자 넣으려고 다른 키보드로 건너갔다 오는 일을 없애려고 둔 키다.
     /// 자리가 아까운 사람은 끌 수 있게 한다(설정 ▸ 키보드 ▸ 키보드 레이아웃).
     static let keyboardShowNumberPad = "keyboardShowNumberPad"
+    static let keyboardShowReturnKey = "keyboardShowReturnKey"
     /// 키보드에 검색줄을 세울지. App Group. 기본 끔(자리를 한 줄 먹는다).
     static let keyboardShowSearch = "keyboardShowSearch"
     /// 키보드에 '최근 사용' 줄을 세울지. App Group.
