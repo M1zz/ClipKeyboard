@@ -112,6 +112,19 @@ enum AppLanguage: String, CaseIterable, Identifiable {
         return Locale(identifier: code)
     }
 
+    /// 예시·샘플·안내 사례처럼 **언어별로 따로 쓴 내용**을 고를 때 보는 언어 코드("ko", "zh", "ru" ...).
+    ///
+    /// ⚠️ `Locale.current` 를 보면 안 된다. 앱 안에서 언어를 고르면 바뀌는 것은 번들뿐이고
+    ///    `Locale.current` 는 기기 언어 그대로다. 한국어 기기에서 러시아어를 고른 사람에게
+    ///    글자는 러시아어인데 예시만 한국어로 나왔다. 글자와 같은 곳을 봐야 한다.
+    static var contentLanguageCode: String {
+        if let code = current.bundleCode,
+           let language = Locale(identifier: code).language.languageCode?.identifier {
+            return language
+        }
+        return Locale.current.language.languageCode?.identifier ?? "en"
+    }
+
     private static func apply(_ language: AppLanguage) {
         LocalizedBundle.install()
         LocalizedBundle.override = language.bundleCode.flatMap { code in

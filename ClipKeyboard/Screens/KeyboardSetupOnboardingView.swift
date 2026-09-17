@@ -919,7 +919,7 @@ struct PersonaSelectionView: View {
                             .padding(.vertical, 10)
                             .contentShape(Rectangle())
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                     .padding(.horizontal, 16)
                 }
             }
@@ -960,7 +960,7 @@ struct PersonaSelectionView: View {
     }
 
     private func apply() {
-        let lang = Locale.current.language.languageCode?.identifier
+        let lang: String? = AppLanguage.contentLanguageCode
         CategoryStore.shared.applyPersona(selected, language: lang)
         // 물어봐서 답을 받았다. 다시 묻지 않는다.
         if mode == .prompt { PersonaPrompt.markAsked() }
@@ -1037,7 +1037,7 @@ private struct PersonaCard: View {
                     .strokeBorder(isSelected ? Color.accentColor : Color.clear, lineWidth: 1.5)
             )
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
     }
 }
 
@@ -1045,7 +1045,7 @@ private struct PreviewChips: View {
     let persona: Persona
 
     private var seeds: [String] {
-        let lang = Locale.current.language.languageCode?.identifier ?? "en"
+        let lang = AppLanguage.contentLanguageCode
         return persona.seedCategories(language: lang)
     }
 

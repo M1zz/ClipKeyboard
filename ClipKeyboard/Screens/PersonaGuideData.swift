@@ -35,7 +35,7 @@ struct PersonaGuide: Identifiable {
 
 /// 현재 로케일에 맞는 페르소나 가이드. UsageGuideView가 참조.
 var personaGuides: [PersonaGuide] {
-    let lang = Locale.current.language.languageCode?.identifier ?? "en"
+    let lang = AppLanguage.contentLanguageCode
     switch lang {
     case "ko": return PersonaGuideCatalog.korean
     case "id": return PersonaGuideCatalog.indonesian

@@ -143,7 +143,7 @@ extension DemoDataService {
 
     /// 현재 앱 언어가 한국어인지. 데이터셋 선택에만 쓴다(UI 라벨과 무관).
     private static var usesKorean: Bool {
-        (Locale.preferredLanguages.first ?? "en").hasPrefix("ko")
+        AppLanguage.contentLanguageCode == "ko"
     }
 
     /// 시연용 단축어 6개 - 무료 한도(10) 안쪽이라 업셀 배너 없이 깔끔하게 보인다.

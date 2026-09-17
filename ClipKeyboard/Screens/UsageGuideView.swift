@@ -85,7 +85,7 @@ struct UsageCategory: Identifiable {
 /// 현재 로케일에 맞는 활용사례 배열.
 /// UsageGuideView 와 SuggestionManager 양쪽에서 참조.
 var usageCategories: [UsageCategory] {
-    let lang = Locale.current.language.languageCode?.identifier ?? "en"
+    let lang = AppLanguage.contentLanguageCode
     switch lang {
     case "ko": return UsageScenarioData.korean
     case "id": return UsageScenarioData.indonesian
@@ -690,7 +690,7 @@ struct UsageGuideView: View {
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
             .contentShape(Rectangle())
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
         .accessibilityLabel(guide.persona.localizedTitle)
         .accessibilityHint(guide.intro)
     }
@@ -844,7 +844,7 @@ struct PersonaScenarioCard: View {
                     .background(Color.accentColor)
                     .clipShape(Capsule())
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.squish)
                 .accessibilityLabel(
                     String(format: NSLocalizedString("%@ 단축어로 저장", comment: "VoiceOver: save scenario as snippet"), scenario.title)
                 )
@@ -864,7 +864,7 @@ struct PersonaScenarioCard: View {
                         .padding(.horizontal, 10)
                         .padding(.vertical, 7)
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.squish)
                 .accessibilityLabel(NSLocalizedString("템플릿 텍스트 복사", comment: "VoiceOver: copy template text"))
 
                 Spacer()

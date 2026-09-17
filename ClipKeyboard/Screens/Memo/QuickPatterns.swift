@@ -20,7 +20,7 @@ struct QuickPattern: Identifiable {
     let scaffold: String
 
     static var defaults: [QuickPattern] {
-        let lang = Locale.current.language.languageCode?.identifier ?? "en"
+        let lang = AppLanguage.contentLanguageCode
         switch lang {
         case "ko": return korean
         case "id": return indonesian
