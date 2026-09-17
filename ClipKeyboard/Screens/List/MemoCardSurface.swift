@@ -65,9 +65,25 @@ struct MemoCardSurface: View {
 
     // MARK: - Body
 
+    @ViewBuilder
     var body: some View {
         let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
         let hasImage = !imageFileName.isEmpty
+
+        // ⚠️ 카드는 **단색 면 하나**다. 유리도, 두께도, 그림자도, 타입 테두리도 없다.
+        //    종류(템플릿·콤보·보안)는 좌상단 아이콘이, 카테고리는 색이 말한다.
+        //
+        //    예외는 스택 하나다. 여러 값을 차례로 넣는 단축어라 **여러 장이 쌓인 묶음**으로
+        //    보여야 한 장짜리와 손이 다르게 간다(`stackedCard`).
+        if memo.isStack {
+            stackedCard(imageFileName: imageFileName, hasImage: hasImage)
+        } else {
+            face(imageFileName: imageFileName, hasImage: hasImage, minHeight: cardHeight)
+        }
+    }
+
+    /// 카드 한 장의 얼굴.
+    private func face(imageFileName: String, hasImage: Bool, minHeight: CGFloat) -> some View {
         let onColor = isColored(hasImage: hasImage)
 
         return VStack(alignment: .leading, spacing: 0) {
@@ -87,7 +103,7 @@ struct MemoCardSurface: View {
         .padding(16)
         // 모든 메모 셀 동일 높이: 제목 2줄(최대 콘텐츠)보다 큰 값으로 floor를 잡아
         // 1줄·2줄 제목 모두 같은 높이로 정렬되게 한다. (제목은 2줄로 제한)
-        .frame(maxWidth: .infinity, minHeight: cardHeight, alignment: .topLeading)
+        .frame(maxWidth: .infinity, minHeight: minHeight, alignment: .topLeading)
         // 배경은 단색이 그대로 얼굴이다(사진 카드는 사진).
         //
         // ⚠️ 예전에는 텍스트 카드에 `glassEffect` 를 얹었다. 걷어낸 이유는 그 유리가
@@ -103,8 +119,60 @@ struct MemoCardSurface: View {
             cardBackground(imageFileName: imageFileName, hasImage: hasImage)
         }
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
-        // ⚠️ 카드는 **단색 면 하나**다. 유리도, 두께도, 그림자도, 타입 테두리도 없다.
-        //    종류(템플릿·콤보·보안)는 좌상단 아이콘이, 카테고리는 색이 말한다.
+    }
+
+    // MARK: - 스택
+
+    /// 스택 한 칸에서 뒷장이 앞장보다 오른쪽 아래로 밀려나는 거리.
+    /// 3 이다. 5 로 두니 두께가 도드라져 입체 카드로 읽혔다. 스택인 줄만 알면 된다.
+    static let stackStep: CGFloat = 3
+
+    /// 여러 장이 쌓인 스택 카드.
+    ///
+    /// **바깥 크기는 한 장짜리 카드와 똑같다.** 그 안에서 앞장이 두 칸만큼 작아져 왼쪽 위에
+    /// 붙고, 뒤로 두 장이 한 칸씩 오른쪽 아래로 밀려 쌓인다. 맨 뒷장의 오른쪽 아래 모서리가
+    /// 한 장짜리 카드의 오른쪽 아래 모서리와 같은 자리에 온다.
+    ///
+    /// ⚠️ 뒷장을 카드 **밖으로** 빼지 않는다. 밖으로 비치게 하면 격자에서 스택만 한 뼘 크고,
+    ///    줄 간격(12pt)을 먹어 아랫줄 카드에 닿는다. 같은 칸 안에서 쌓아야 격자가 흔들리지 않는다.
+    /// ⚠️ 뒷장은 앞장보다 옅게 칠한다. 같은 색이면 한 덩어리로 붙어 보여 장 구분이 사라진다.
+    private func stackedCard(imageFileName: String, hasImage: Bool) -> some View {
+        let step = Self.stackStep
+        let depth = step * 2
+        let tint = stackSheetTint(hasImage: hasImage)
+        let shape = RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
+
+        return face(imageFileName: imageFileName, hasImage: hasImage, minHeight: cardHeight - depth)
+            // 앞장은 두 칸만큼 작게, 왼쪽 위에.
+            .padding(.trailing, depth)
+            .padding(.bottom, depth)
+            // 뒷장 둘. 앞장과 같은 크기로, 한 칸씩 오른쪽 아래로 민다.
+            .background(alignment: .topLeading) {
+                ZStack(alignment: .topLeading) {
+                    shape
+                        .fill(tint.opacity(0.12))
+                        .padding(.leading, depth)
+                        .padding(.top, depth)
+                    shape
+                        .fill(tint.opacity(0.22))
+                        .padding(.leading, step)
+                        .padding(.top, step)
+                        .padding(.trailing, step)
+                        .padding(.bottom, step)
+                }
+                .allowsHitTesting(false)
+                .accessibilityHidden(true)
+            }
+    }
+
+    /// 뒷장의 색. 앞장이 색을 가지면 그 색을, 무색·사진 카드는 테마의 옅은 글자색을 쓴다
+    /// (무색 카드 뒤에 같은 흰 면을 깔면 밝은 배경에서 안 보인다).
+    private func stackSheetTint(hasImage: Bool) -> Color {
+        if !hasImage {
+            if memo.isFavorite { return .clipFavorite }
+            if hasCustomCategory { return categoryTint(for: memo.category, in: categories) }
+        }
+        return theme.textFaint
     }
 
     // MARK: - 줄 셋

@@ -59,7 +59,7 @@ struct AddMemoCard: View {
                     )
             }
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .accessibilityLabel(accessibilityText)
     }
 }
@@ -183,7 +183,9 @@ struct EmptyStateWithAddCard: View {
                     }
                 }
                 .padding(.horizontal, 16)
-                .padding(.top, 16)
+                // 단축어가 있는 페이지의 첫 카드와 **같은 높이**에 선다(`ClipKeyboardList` 격자의 위 2pt).
+                // 16 이었을 때는 카테고리를 넘길 때마다 첫 줄이 한 칸 내려앉았다.
+                .padding(.top, 2)
                 Spacer()
             }
         }

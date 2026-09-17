@@ -125,6 +125,14 @@ struct ClipKeyboardList: View {
 
     // 롱프레스 테두리 애니메이션 + 액션 메뉴
     @State private var longPressActiveMemo: Memo?
+    /// 손가락이 올라가 있는 카드. 말랑한 눌림에만 쓴다.
+    /// ⚠️ `longPressActiveMemo` 를 쓰지 않는다. 저쪽은 테두리를 되감느라 뗀 뒤 0.2초 늦게 비워져서,
+    ///    그걸 보면 떼는 순간이 아니라 한 박자 뒤에 튕긴다.
+    @State private var pressedMemoID: UUID?
+    /// 방금 탭한 카드와 탭 횟수. 짧게 톡 치면 `onPressingChanged` 가 오지 않아서
+    /// (탭 제스처가 먼저 잡아간다) 눌림만 보고는 카드가 꿈쩍도 안 했다. 탭이 잡힌 자리에서 직접 튕긴다.
+    @State private var tapBounceMemoID: UUID?
+    @State private var tapBounceCount = 0
     @State private var longPressProgress: CGFloat = 0
     @State private var memoForActions: Memo?
     @State private var showMemoActions: Bool = false
@@ -253,7 +261,7 @@ struct ClipKeyboardList: View {
 
     /// 페이지 상단 헤더 - 상단 배너 묶음(스크롤 콘텐츠 첫 요소라 스크롤과 함께 이동).
     /// 제목은 여기 두지 않는다 - 순정 네비게이션 바 인라인 타이틀이 담당(고정, glass).
-    /// AnyView 타입 소거 - LazyVStack 자식 추가로 인한 타입 메타데이터 폭발 방지.
+    /// AnyView 타입 소거 - 스택 자식 추가로 인한 타입 메타데이터 폭발 방지.
     /// 스크롤이 내려간 상태인지 - 타이틀 표시 모드 전환·상단 여백 측정 가드용.
     @State private var showsInlineNavTitle = false
 
@@ -598,12 +606,6 @@ struct ClipKeyboardList: View {
     /// 잰 네비바 하단에서 10pt 끌어올린 값. 페이저·빈 화면처럼 **시스템이 안 밀어 주는**
     /// 경로에서만 쓴다. 상한 130: 측정이 오염돼도 최악(화면 중앙 시작)은 막는다.
     private var measuredBarBottomMargin: CGFloat { min(max(pageTopInset - 10, 60), 130) }
-
-    /// **스크롤이 없는 페이지(빈 화면)의 위 여백.**
-    ///
-    /// 이쪽도 시스템이 안 밀어 준다 - ScrollView 가 아니라 그냥 VStack 이다.
-    /// 직접 재서 바 아래로 내려야 네비바에 글이 가려지지 않는다.
-    private var emptyPageTopMargin: CGFloat { measuredBarBottomMargin }
 
     private var screenBody: some View {
             ZStack {
@@ -1345,7 +1347,7 @@ struct ClipKeyboardList: View {
                         .foregroundColor(theme.textFaint)
                         .padding(4)
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.squish)
                 .accessibilityLabel(NSLocalizedString("닫기", comment: "Close / dismiss"))
             }
             Spacer(minLength: 16)
@@ -1435,6 +1437,8 @@ struct ClipKeyboardList: View {
         //    닿지 않았고, 그 바람에 어느 카드를 눌러도 동전이 화면 왼쪽 위에서 날아갔다.
         .onTapGesture(coordinateSpace: .global) { location in
             HapticManager.shared.selection() // 탭: 선택 햅틱
+            tapBounceMemoID = memo.id
+            tapBounceCount += 1
             // 동전은 여기서 날리지 않는다. 콤보·템플릿은 아직 **쓴 게 아니라** 시트가 뜰 뿐이라,
             // 실제 사용이 확정될 때(.memoUsed) 날린다. 자리만 기억해 둔다.
             lastTapPoint = location
@@ -1470,6 +1474,7 @@ struct ClipKeyboardList: View {
             memoForActions = memo
             showMemoActions = true
         } onPressingChanged: { isPressing in
+            pressedMemoID = isPressing ? memo.id : nil
             if isPressing {
                 longPressActiveMemo = memo
                 longPressProgress = 0
@@ -1498,6 +1503,9 @@ struct ClipKeyboardList: View {
                 }
             }
         }
+        // 누르면 말랑하게 줄었다가 떼면 튕긴다. 카드는 커서 조금만 줄인다.
+        .squishPress(pressedMemoID == memo.id, scale: 0.95,
+                     bounce: tapBounceMemoID == memo.id ? tapBounceCount : 0)
         .accessibilityLabel(MemoCardSurface.accessibilityLabel(for: memo, categories: viewModel.customCategories))
         .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사, 꾹 누르면 추가 옵션", comment: "Memo card hint"))
     }
@@ -1706,7 +1714,7 @@ struct ClipKeyboardList: View {
     /// 선택한 페르소나에 맞는, 아직 안 만든 카테고리 이름 후보.
     private var personaCategorySuggestions: [String] {
         guard let persona = CategoryStore.shared.selectedPersona else { return [] }
-        let lang = Locale.current.language.languageCode?.identifier ?? "en"
+        let lang = AppLanguage.contentLanguageCode
         let existing = Set(viewModel.customCategories)
         return persona.seedCategories(language: lang).filter { !existing.contains($0) }
     }
@@ -1772,7 +1780,7 @@ struct ClipKeyboardList: View {
                             .font(.caption2.weight(.bold))
                             .foregroundColor(isSelected ? .white.opacity(0.7) : theme.textFaint)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.squish)
                     .accessibilityLabel(String(format: NSLocalizedString("'%@' 카테고리 삭제", comment: "Delete category chip"), tab.displayName))
                 }
             }
@@ -1792,7 +1800,7 @@ struct ClipKeyboardList: View {
                 }
             }
         }
-        .buttonStyle(.plain)
+        .buttonStyle(.squish)
         .id(tab)
         .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
@@ -1834,6 +1842,16 @@ struct ClipKeyboardList: View {
             //       제공되니 "언제 지을지" 를 우리가 정하지 않아도 된다.
             ForEach(tabs, id: \.self) { tab in
                 tabPageView(for: tab)
+                    // ⚠️ **페이지는 시스템 여백을 받지 않는다.** 위 여백은 우리가 잰 값
+                    //    (`pageContentTopMargin`) 하나로만 잡는다.
+                    //
+                    //    페이저 전체에 `ignoresSafeArea` 를 걸어도 페이지 칸(UIKit 셀)은 자리를
+                    //    잡는 순간마다 바 높이만큼의 여백을 다시 받았다 놓았다 했다. 그때 스크롤의
+                    //    위 여백이 103 → 219(103 + 바 116) → 103 으로 출렁였고(실측), 카테고리를
+                    //    넘길 때마다 첫 줄이 한 번 내려앉았다. 빈 페이지는 110pt 가까이 튀었다.
+                    //    받을 여백을 아예 없애면 출렁일 값이 없다.
+                    //    빈 페이지도 스크롤 안에 그리므로(`emptyPage`) 모든 페이지에 똑같이 건다.
+                    .ignoresSafeArea(.container, edges: .vertical)
                     .tag(tab)
             }
         }
@@ -1925,16 +1943,34 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 빈 상태 화면 위에 페이지 헤더(제목+배너)를 얹는다 - 스크롤 콘텐츠가 없으니 고정이어도 무방.
+    /// 빈 상태 화면 위에 페이지 헤더(배너)를 얹는다.
+    ///
+    /// ⚠️ **빈 페이지도 스크롤 안에 그린다.** 격자 페이지와 같은 틀이어야 같은 규칙을 따른다.
+    ///
+    ///    예전에는 스크롤 없이 `VStack` 에 위 여백만 줬다. 그러자 이 페이지만 페이저 칸이
+    ///    주는 시스템 여백(바 높이 116)을 받았다 놓았다 해서, 넘길 때마다 "추가" 카드가
+    ///    110pt 가까이 튀었다(실측: minY 116 → 0). 시스템 여백을 끊으면 이번에는 시스템 바가
+    ///    따라갈 스크롤이 없어 도착 0.5초 뒤 큰 제목을 스스로 접었다(실측).
+    ///    스크롤 안에 두면 두 가지가 한 번에 풀린다. 여백은 격자 페이지와 같은 값 하나로만 잡는다.
+    ///
+    /// ⚠️ 안내 문구를 화면 가운데에 두려면 내용이 보이는 높이를 채워야 한다
+    ///    (`EmptyStateWithAddCard` 가 `maxHeight: .infinity` 로 가운데를 잡는다).
+    ///    스크롤 안에서는 그 무한이 0 으로 접히므로 보이는 높이를 직접 준다.
     private func emptyPage<Content: View>(for tab: CategoryTab, @ViewBuilder content: () -> Content) -> some View {
-        VStack(spacing: 0) {
-            pageHeader(for: tab)
-            content()
+        let topMargin = pageContentTopMargin
+        return ScrollView {
+            VStack(spacing: 0) {
+                pageHeader(for: tab)
+                content()
+            }
+            .containerRelativeFrame(.vertical, alignment: .top) { height, _ in
+                max(height - topMargin, 0)
+            }
         }
-        // 페이저가 화면 끝까지 확장되고, 이 경로엔 ScrollView 가 없어 시스템이 밀어 주지도
-        // 않는다 - 시작점을 직접 잡는다(pageContentTopMargin 과 다른 이유, 그쪽 주석 참고).
-        .padding(.top, emptyPageTopMargin)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        // 내용이 한 화면을 안 넘으면 튕기지 않는다 - 빈 화면이 손에 끌려 다니면 고장으로 읽힌다.
+        .scrollBounceBehavior(.basedOnSize)
+        .scrollEdgeEffectHidden(true, for: .all)
+        .contentMargins(.top, topMargin, for: .scrollContent)
         // ⚠️ 여기서 배경을 칠하지 않는다. 바닥은 탭 껍데기(SnippetsTab)가 깔고, 그 위에
         //    카테고리 틴트가 얹힌다 - 여기서 한 겹 더 칠하면 **그 틴트를 덮어** 버린다
         //    (카테고리 색이 사라졌던 원인).
@@ -2004,7 +2040,12 @@ struct ClipKeyboardList: View {
 
     private func allTabScrollView(memos allMemos: [Memo], tab: CategoryTab) -> some View {
         trackPageScroll(ScrollView {
-            LazyVStack(alignment: .leading, spacing: 0) {
+            // ⚠️ **바깥은 `LazyVStack` 이 아니다.** 게으름은 아래 `LazyVGrid` 가 맡는다.
+            //    이 줄에 서는 것은 배너·팁·격자 몇 개뿐이라 게으를 이유가 없고, 게으르면 사고가 났다.
+            //    배너와 팁이 모두 닫혀 **앞줄이 전부 높이 0** 이면, `LazyVStack` 이 그릴 것이 없다고
+            //    보고 격자를 한 번도 배치하지 않았다. 단축어가 8개인데 페이지가 통째로 비었다
+            //    (실측: 내용 높이 110 = 아래 여백뿐, 격자 배치 로그 0회). 배너가 떠 있을 때만 카드가 보였다.
+            VStack(alignment: .leading, spacing: 0) {
                 // 배너 - 스크롤 콘텐츠라 스크롤하면 함께 올라간다(타이틀은 바에 고정, inlineLarge).
                 pageHeader(for: tab)
 
@@ -2111,7 +2152,8 @@ struct ClipKeyboardList: View {
 
     private func filteredTabScrollView(memos: [Memo], tab: CategoryTab) -> some View {
         trackPageScroll(ScrollView {
-            LazyVStack(alignment: .leading, spacing: 0) {
+            // 바깥은 `VStack` - 이유는 위 `allTabScrollView` 의 주석 참고.
+            VStack(alignment: .leading, spacing: 0) {
                 // 배너 - 스크롤 콘텐츠라 스크롤하면 함께 올라간다(타이틀은 바에 고정, inlineLarge).
                 pageHeader(for: tab)
                 // 위 여백 - `allTabScrollView` 의 같은 빈 칸과 같은 값을 쓴다.
@@ -2386,7 +2428,7 @@ struct ClipKeyboardList: View {
             )
             .contentShape(Rectangle())
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.squish)
     }
 
     // MARK: - Recency Fade
