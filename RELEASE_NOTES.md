@@ -21,9 +21,9 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 ```
 쓰임새를 고르지 않아도 저장한 단축어를 보고 알아서 맞춰요.
 매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요.
-번호가 오르는 빈칸은 다음 번호를 먼저 보여 드려요.
 같은 글을 자주 복사하면 단축어로 저장하자고 알려 드려요.
-사진에서 읽은 여권·카드 번호는 Face ID로 잠가 둬요.
+금액처럼 새로 친 값도 그 자리에서 저장해 둘 수 있어요.
+카드가 살짝 떠 보이고, 누르면 쫀득하게 반응해요.
 ```
 
 ### App Store (English)
@@ -31,9 +31,9 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 ```
 No need to pick a profile. The app adapts to the snippets you save.
 Snippets you use weekly or monthly move to the front of the keyboard when their time comes.
-Numbered blanks now suggest the next number.
 Copy the same text often and we will offer to save it as a snippet.
-Passport and card numbers read from a photo are locked with Face ID.
+Amounts you type can be saved right where you type them.
+Cards lift off the background and squish softly when tapped.
 ```
 
 ### 앱스토어 (중국어 간체)
@@ -41,9 +41,9 @@ Passport and card numbers read from a photo are locked with Face ID.
 ```
 无需选择使用类型，应用会根据你保存的短语自动调整。
 每周或每月固定使用的短语，到时间会排在键盘最前面。
-编号类的空格会先显示下一个编号。
 经常复制同一段文字时，会提醒你保存为短语。
-从照片识别的护照号和卡号会用 Face ID 锁住。
+新输入的金额可以就地保存下来。
+卡片微微浮起，按下时会有柔软的回弹。
 ```
 
 ### 앱스토어 (중국어 번체)
@@ -51,9 +51,9 @@ Passport and card numbers read from a photo are locked with Face ID.
 ```
 無需選擇使用類型，App 會根據你儲存的短語自動調整。
 每週或每月固定使用的短語，到時間會排在鍵盤最前面。
-編號類的空格會先顯示下一個編號。
 經常複製同一段文字時，會提醒你儲存為短語。
-從照片辨識的護照號碼和卡號會用 Face ID 鎖住。
+新輸入的金額可以就地儲存下來。
+卡片微微浮起，按下時會有柔軟的回彈。
 ```
 
 ### 앱스토어 (러시아어)
@@ -61,9 +61,9 @@ Passport and card numbers read from a photo are locked with Face ID.
 ```
 Больше не нужно выбирать профиль: приложение подстраивается под ваши фразы.
 Фразы, которые вы используете раз в неделю или месяц, в нужный день встают первыми на клавиатуре.
-Нумерованные поля сразу предлагают следующий номер.
 Если вы часто копируете один и тот же текст, приложение предложит сохранить его как фразу.
-Номера паспорта и карты, распознанные с фото, защищаются Face ID.
+Введённую сумму можно сохранить прямо там, где вы её набрали.
+Карточки слегка приподняты и мягко пружинят при нажатии.
 ```
 
 ## 5.1.3
