@@ -764,6 +764,47 @@ class MemoStore: ObservableObject {
         return .renamed(memosTouched: touched)
     }
 
+    /// 빈칸을 **손으로 만든다.** 본문에 `{ }` 를 적기 전에 값을 먼저 모아 두고 싶을 때.
+    ///
+    /// 어디에 쓰나: 빈칸 관리에는 이름을 바꾸고 지우는 길만 있고 **만드는 길이 없었다**.
+    /// 그래서 새 빈칸 하나를 만들려면 단축어 본문에 `{이름}` 을 적었다가 지우는 우회가
+    /// 필요했다(사용자 제보).
+    ///
+    /// ⚠️ 값이 없어도 목록에 남아야 하므로 **빈 배열을 적어 둔다.** 목록은 저장소의
+    ///    `placeholder_values_*` 열쇠를 훑어 모으므로(`storedPlaceholderTokens`),
+    ///    열쇠 자체가 "이 빈칸이 있다"는 표시가 된다.
+    /// ⚠️ 이름 규칙은 이름 바꾸기와 **같다**. 한쪽만 느슨하면 만들 수는 있는데 못 바꾸는
+    ///    이름이 생긴다.
+    ///
+    /// - Parameter name: 사용자가 적은 이름. 중괄호는 있어도 없어도 된다.
+    @discardableResult
+    func createPlaceholder(_ name: String) -> PlaceholderCreateResult {
+        let bare = name.strippingTemplateBraces.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !bare.isEmpty, !bare.contains("{"), !bare.contains("}") else { return .invalidName }
+        let token = "{\(bare)}"
+        guard !TemplateVariableProcessor.autoVariableTokens.contains(token) else { return .reservedName }
+
+        let memos = (try? load(type: .memo)) ?? []
+        let taken = Set(storedPlaceholderTokens())
+            .union(memos.flatMap { TemplatePlaceholder.customTokens(in: $0.value) })
+        guard !taken.contains(token) else { return .nameTaken }
+
+        savePlaceholderValues([], for: token)
+        print("➕ [MemoStore.createPlaceholder] 빈칸을 만들었다: \(token)")
+        return .created(token: token)
+    }
+
+    /// 빈칸 만들기의 결과. 막힌 이유를 화면이 그대로 말해 준다.
+    enum PlaceholderCreateResult: Equatable {
+        case created(token: String)
+        /// 이름이 비었거나 중괄호가 섞여 쓸 수 없는 이름.
+        case invalidName
+        /// `{날짜}` 처럼 앱이 알아서 채우는 이름.
+        case reservedName
+        /// 이미 있는 빈칸 이름.
+        case nameTaken
+    }
+
     /// 단축어 하나에서 빈칸 이름을 갈아 끼운다. 바꾼 것이 있으면 true.
     ///
     /// 옛 이름이 숨어 있는 자리가 셋이라 따로 뺐다 - 본문, 변수 목록(`templateVariables`),

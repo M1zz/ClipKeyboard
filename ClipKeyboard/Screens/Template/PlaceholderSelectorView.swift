@@ -251,6 +251,10 @@ struct PlaceholderManagementSheet: View {
     @State private var pendingDelete: PlaceholderSummary?
     /// 이름을 바꾸는 중인 빈칸.
     @State private var renaming: PlaceholderSummary?
+    /// 새 빈칸을 만드는 중.
+    @State private var creating = false
+    /// 방금 만든 빈칸. 목록에서 잠깐 짚어 준다 - 만들었는데 어디 갔는지 모르면 또 만든다.
+    @State private var justCreated: String?
     /// 쓰지 않는 빈칸을 한 번에 지울지 물어보는 중.
     @State private var confirmingSweep = false
 
@@ -273,6 +277,16 @@ struct PlaceholderManagementSheet: View {
             #endif
             .solidNavBar(theme.bg)
             .toolbar {
+                // 만들기는 바깥 끝이 아니라 안쪽에 둔다. 바깥 끝은 이 화면을 닫는 완료의 자리다.
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        creating = true
+                    } label: {
+                        Label(NSLocalizedString("빈칸 추가", comment: "Add placeholder"),
+                              systemImage: AppSymbol.plus)
+                    }
+                    .accessibilityLabel(NSLocalizedString("빈칸 추가", comment: "Add placeholder"))
+                }
                 ToolbarItem(placement: .confirmationAction) {
                     Button(NSLocalizedString("완료", comment: "Done")) { dismiss() }
                         .fontWeight(.semibold)
@@ -282,6 +296,12 @@ struct PlaceholderManagementSheet: View {
         .onAppear(perform: reload)
         .sheet(item: $renaming) { summary in
             PlaceholderRenameSheet(summary: summary, onDone: reload)
+        }
+        .sheet(isPresented: $creating) {
+            PlaceholderCreateSheet { token in
+                justCreated = token
+                reload()
+            }
         }
         .alert(item: $pendingDelete) { summary in
             Alert(
@@ -345,6 +365,22 @@ struct PlaceholderManagementSheet: View {
                 .foregroundColor(theme.textMuted)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
+
+            // 빈 화면은 **막다른 길이 아니어야 한다.** 여기서 바로 하나 만들 수 있다.
+            Button {
+                creating = true
+            } label: {
+                Label(NSLocalizedString("빈칸 추가", comment: "Add placeholder"),
+                      systemImage: AppSymbol.plus)
+                    .font(.body.weight(.semibold))
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 12)
+                    .background(theme.accent)
+                    .foregroundColor(Color.accentForeground)
+                    .cornerRadius(theme.radiusMd)
+            }
+            .buttonStyle(.squish)
+            .padding(.top, 4)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -359,6 +395,10 @@ struct PlaceholderManagementSheet: View {
                     } label: {
                         row(summary)
                     }
+                    // 방금 만든 줄을 잠깐 짚어 준다. 목록이 길면 새로 생긴 것이 어디 있는지 안 보인다.
+                    .listRowBackground(summary.token == justCreated
+                                       ? theme.accent.opacity(0.12)
+                                       : Color.clear)
                     // ⚠️ **쓰는 단축어가 없는 것만** 지울 수 있다. 쓰는 곳이 있는 빈칸을 지우면
                     //    다음에 본문을 읽을 때 그 자리에서 다시 살아난다. 지워지지 않는 삭제
                     //    버튼을 보여 주느니 아예 내놓지 않는다.
@@ -416,6 +456,11 @@ struct PlaceholderManagementSheet: View {
     }
 
     private func subtitle(_ summary: PlaceholderSummary) -> String {
+        // 방금 만든 빈칸은 "쓰는 곳 없음" 이 아니라 **다음에 할 일**을 말해 준다.
+        if summary.memos.isEmpty, summary.valueCount == 0 {
+            return NSLocalizedString("값을 넣고 단축어에서 { }로 불러 쓰세요",
+                                     comment: "Freshly created placeholder subtitle")
+        }
         if summary.isOrphan {
             return String(format: NSLocalizedString("쓰는 단축어 없음, 값 %d개",
                                                     comment: "Orphan placeholder subtitle"),
@@ -502,6 +547,80 @@ struct PlaceholderRenameSheet: View {
         switch MemoStore.shared.renamePlaceholder(summary.token, to: name) {
         case .renamed, .unchanged:
             onDone()
+            dismiss()
+        case .invalidName:
+            failure = NSLocalizedString("쓸 수 있는 이름이 아니에요. 중괄호 없이 적어 주세요.",
+                                        comment: "Rename error: invalid name")
+        case .reservedName:
+            failure = NSLocalizedString("앱이 알아서 채우는 이름이라 쓸 수 없어요. 다른 이름으로 적어 주세요.",
+                                        comment: "Rename error: reserved auto variable name")
+        case .nameTaken:
+            failure = NSLocalizedString("이미 있는 빈칸 이름이에요. 둘을 합치지는 않아요.",
+                                        comment: "Rename error: name already exists")
+        }
+    }
+}
+
+// MARK: - 빈칸 만들기
+
+/// 새 빈칸을 손으로 만드는 작은 시트.
+///
+/// ⚠️ 이름 규칙은 이름 바꾸기와 **같은 곳**을 본다(`MemoStore.createPlaceholder`).
+///    한쪽만 느슨하면 만들 수는 있는데 못 바꾸는 이름이 생긴다.
+struct PlaceholderCreateSheet: View {
+    /// 만든 빈칸의 토큰(`{이름}`)을 돌려준다.
+    var onCreated: (String) -> Void = { _ in }
+
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
+    @State private var name: String = ""
+    @State private var failure: String?
+    @FocusState private var focused: Bool
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    TextField(NSLocalizedString("빈칸 이름", comment: "Placeholder name field"), text: $name)
+                        .focused($focused)
+                        .autocorrectionDisabled()
+                        #if os(iOS)
+                        .textInputAutocapitalization(.never)
+                        #endif
+                        .onSubmit(create)
+                } footer: {
+                    if let failure {
+                        Text(failure).foregroundColor(theme.danger)
+                    } else {
+                        Text(NSLocalizedString("중괄호 없이 이름만 적어 주세요. 단축어 내용에 {이름}처럼 적으면 이 빈칸을 불러 씁니다.",
+                                               comment: "Create placeholder footer"))
+                    }
+                }
+            }
+            .navigationTitle(NSLocalizedString("빈칸 추가", comment: "Add placeholder"))
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .solidNavBar(theme.bg)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(NSLocalizedString("취소", comment: "Cancel")) { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(NSLocalizedString("만들기", comment: "Create"), action: create)
+                        .fontWeight(.semibold)
+                        .disabled(name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+            }
+            .onAppear { focused = true }
+        }
+    }
+
+    private func create() {
+        switch MemoStore.shared.createPlaceholder(name) {
+        case .created(let token):
+            HapticManager.shared.success()
+            onCreated(token)
             dismiss()
         case .invalidName:
             failure = NSLocalizedString("쓸 수 있는 이름이 아니에요. 중괄호 없이 적어 주세요.",
