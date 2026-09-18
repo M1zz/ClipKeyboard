@@ -719,7 +719,39 @@ private struct TemplateFillRow: View {
                 numericKey("0")
                 ForEach(["00", "000", "0000"], id: \.self) { z in numericKey(z) }
             }
+            addTypedValueButton
             savedChips
+        }
+    }
+
+    /// 방금 친 숫자를 이 빈칸의 값으로 남기는 단추.
+    ///
+    /// 숫자 칸에는 남기는 길이 아예 없었다. 글자 칸에는 별이 있는데(`keepButton`) 여기는
+    /// 칩에서 고르거나 매번 새로 치는 것뿐이라, 자주 쓰는 금액을 모아 둘 수가 없었다.
+    ///
+    /// ⚠️ 단추에 **그 값을 적는다**("8000 추가"). 무엇이 저장되는지 단추만 보고 알아야 한다.
+    /// ⚠️ 이미 저장된 값이거나 아직 아무것도 안 쳤으면 단추가 서지 않는다. 눌러도 아무 일이
+    ///    없는 단추는 고장으로 읽힌다.
+    @ViewBuilder
+    private var addTypedValueButton: some View {
+        if !trimmedValue.isEmpty, !isKept {
+            Button(action: keepCurrentValue) {
+                Label(String(format: NSLocalizedString("%@ 추가",
+                                                       comment: "Numeric placeholder: add typed value to saved list"),
+                             trimmedValue),
+                      systemImage: AppSymbol.plusCircle)
+                    .font(.footnote.weight(.semibold))
+                    .foregroundColor(theme.accent)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 8)
+                    .frame(maxWidth: .infinity)
+                    .background(theme.accentSoft)
+                    .clipShape(Capsule())
+            }
+            .buttonStyle(.squish)
+            .accessibilityLabel(String(format: NSLocalizedString("%@ 을(를) 저장해 두기",
+                                                                  comment: "Accessibility: keep this value"),
+                                       trimmedValue))
         }
     }
 

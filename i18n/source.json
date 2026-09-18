@@ -227,6 +227,12 @@
     "comment": "Inline equivalent: marathons",
     "h": "b299d05eba"
   },
+  "%@ 을(를) 저장해 두기": {
+    "ko": "%@ 을(를) 저장해 두기",
+    "en": "Keep %@",
+    "comment": "Accessibility: keep this value",
+    "h": "dcd8afb60e"
+  },
   "%@ 입력": {
     "ko": "%@ 입력",
     "en": "Enter %@",
@@ -250,6 +256,12 @@
     "en": "Looks like you use it as %@",
     "comment": "Usage profile: app inferred the persona. %@ = persona title",
     "h": "9860d34e25"
+  },
+  "%@ 추가": {
+    "ko": "%@ 추가",
+    "en": "Add %@",
+    "comment": "Numeric placeholder: add typed value to saved list",
+    "h": "51354bac6b"
   },
   "%@ 카테고리 이름을 변경합니다": {
     "ko": "%@ 카테고리 이름을 변경합니다",
@@ -6038,8 +6050,8 @@
   "만들기": {
     "ko": "만들기",
     "en": "Set one up",
-    "comment": "Create the secure PIN",
-    "h": "10a1fd85b8"
+    "comment": "Create\nCreate the secure PIN",
+    "h": "b977bf9e98"
   },
   "만들다 만 단축어만 임시저장, 열어만 봐도 쌓이던 문제 정리": {
     "ko": "만들다 만 단축어만 임시저장, 열어만 봐도 쌓이던 문제 정리",

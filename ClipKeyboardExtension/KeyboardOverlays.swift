@@ -679,29 +679,31 @@ struct PlaceholderInputView: View {
                 }
 
                 // 친 값을 이 빈칸의 값으로 남긴다. 누르지 않으면 이번에만 쓰고 사라진다.
-                Button(action: keepSelectedValue) {
-                    HStack(spacing: 4) {
-                        Image(systemName: isSelectedKept ? AppSymbol.starFill : AppSymbol.star)
-                            .foregroundColor(isSelectedKept ? .yellow : theme.accent)
-                        Text(isSelectedKept
-                             ? NSLocalizedString("저장됨", comment: "Numeric placeholder: value already kept")
-                             : NSLocalizedString("값으로 저장", comment: "Numeric placeholder: keep typed value"))
-                            .foregroundColor(isSelectedKept ? .secondary : theme.accent)
+                //
+                // ⚠️ 단추에 **그 값을 적는다**("8000 추가"). "값으로 저장" 이라고만 적었을 때는
+                //    무엇이 저장되는지가 단추만 보고는 안 보였다. 아직 안 친 값이면 단추도 없다.
+                if !selectedValue.isEmpty, !isSelectedKept {
+                    Button(action: keepSelectedValue) {
+                        HStack(spacing: 4) {
+                            Image(systemName: AppSymbol.plusCircle)
+                            Text(String(format: NSLocalizedString("%@ 추가",
+                                                                  comment: "Numeric placeholder: add typed value to saved list"),
+                                        selectedValue))
+                        }
+                        .font(.caption.weight(.semibold))
+                        .foregroundColor(theme.accent)
+                        .lineLimit(1)
+                        .fixedSize()
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(theme.accent.opacity(0.12))
+                        .cornerRadius(theme.radiusSm)
                     }
-                    .font(.caption.weight(.semibold))
-                    .lineLimit(1)
-                    .fixedSize()
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(theme.accent.opacity(0.1))
-                    .cornerRadius(theme.radiusSm)
+                    .buttonStyle(.squish)
+                    .accessibilityLabel(String(format: NSLocalizedString("%@ 을(를) 저장해 두기",
+                                                                          comment: "Accessibility: keep this value"),
+                                               selectedValue))
                 }
-                .buttonStyle(.squish)
-                .disabled(selectedValue.isEmpty || isSelectedKept)
-                .opacity(selectedValue.isEmpty ? 0.4 : 1)
-                .accessibilityLabel(isSelectedKept
-                    ? NSLocalizedString("이미 저장해 둔 값이에요", comment: "Fill sheet: value already kept")
-                    : NSLocalizedString("이 값 저장해 두기", comment: "Fill sheet: keep this value"))
             }
         }
     }
