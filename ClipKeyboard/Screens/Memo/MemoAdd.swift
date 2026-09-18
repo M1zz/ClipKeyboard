@@ -241,8 +241,8 @@ struct MemoAdd: View {
         }
         // 사진을 붙이는 길로 값을 채운 사람은 칸을 떠나는 일이 없다 - 여기서 따로 본다.
         .onChange(of: viewModel.attachedImages.count) { _, _ in advanceCoachIfFilled() }
-        .sheet(isPresented: $showPlaceholderManagement) {
-            PlaceholderManagementSheet(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])
+        .navigationDestination(isPresented: $showPlaceholderManagement) {
+            PlaceholderManagementView(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])
         }
         .sheet(isPresented: $showNewTemplateSheet) {
             NavigationView {

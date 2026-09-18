@@ -119,6 +119,17 @@ struct MemoCardSurface: View {
             cardBackground(imageFileName: imageFileName, hasImage: hasImage)
         }
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
+        // 카드를 바탕에서 살짝 띄운다. 색이 없는 카드는 바탕과 같은 흰 면이라, 그림자가
+        // 없으면 어디까지가 한 장인지 경계로만 읽어야 했다.
+        //
+        // ⚠️ 옅고 낮게. 진한 그림자는 카드를 단추가 아니라 **떠 있는 판**으로 만들고,
+        //    격자에서 여덟 장이 한꺼번에 떠 있으면 그것대로 시끄럽다.
+        .shadow(color: Self.shadowColor(isDark: theme.isDark), radius: 4, x: 0, y: 2)
+    }
+
+    /// 카드 그림자 색. 어두운 테마에서는 더 진하게 - 어두운 바탕에서 옅은 그림자는 안 보인다.
+    static func shadowColor(isDark: Bool) -> Color {
+        Color.black.opacity(isDark ? 0.34 : 0.10)
     }
 
     // MARK: - 스택
@@ -149,16 +160,20 @@ struct MemoCardSurface: View {
             // 뒷장 둘. 앞장과 같은 크기로, 한 칸씩 오른쪽 아래로 민다.
             .background(alignment: .topLeading) {
                 ZStack(alignment: .topLeading) {
+                    // 뒷장에도 그림자를 준다. 같은 평면에 색만 옅은 면을 깔면 겹쳐 보이지 않고
+                    // 그냥 옅은 테두리로 읽힌다. 층마다 그림자가 있어야 쌓인 것이 된다.
                     shape
                         .fill(tint.opacity(0.12))
                         .padding(.leading, depth)
                         .padding(.top, depth)
+                        .shadow(color: Self.shadowColor(isDark: theme.isDark), radius: 3, x: 0, y: 1)
                     shape
                         .fill(tint.opacity(0.22))
                         .padding(.leading, step)
                         .padding(.top, step)
                         .padding(.trailing, step)
                         .padding(.bottom, step)
+                        .shadow(color: Self.shadowColor(isDark: theme.isDark), radius: 3, x: 0, y: 1)
                 }
                 .allowsHitTesting(false)
                 .accessibilityHidden(true)

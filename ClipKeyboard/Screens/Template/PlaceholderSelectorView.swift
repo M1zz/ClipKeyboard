@@ -231,8 +231,12 @@ struct PlaceholderSelectorView: View {
     }
 }
 
-// 빈칸 관리 시트
+// 빈칸 관리
 /// **빈칸 관리** - 빈칸을 이름 기준으로 늘어놓는다.
+///
+/// ⚠️ **밀어 넣는 화면이다(push).** 예전에는 시트로 띄웠는데, 안에서 다시 빈칸 하나를
+///    열고 이름을 바꾸느라 시트 위에 시트가 쌓였다. 설정에서 들어오는 길과도 모양이 달랐다.
+///    스스로 `NavigationStack` 을 만들지 않는다 - 부르는 쪽의 스택에 그대로 얹힌다.
 ///
 /// ⚠️ 예전에는 **템플릿을 먼저 고르게** 했다. 그 순서가 거짓말을 했다.
 ///    값은 `placeholder_values_{이름}` 에 저장되므로 처음부터 이름 기준이고, 새해인사의
@@ -241,9 +245,8 @@ struct PlaceholderSelectorView: View {
 ///    이름이 갈라지면 값도 갈라진다. 그래서 화면을 뒤집었다.
 ///
 /// ⚠️ 쓰는 곳이 없어진 빈칸도 값이 남아 있으면 보여 준다. 안 보이면 지울 수도 없다.
-struct PlaceholderManagementSheet: View {
+struct PlaceholderManagementView: View {
     let allMemos: [Memo]
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
 
     @State private var summaries: [PlaceholderSummary] = []
@@ -263,34 +266,28 @@ struct PlaceholderManagementSheet: View {
     private var orphans: [PlaceholderSummary] { summaries.filter(\.isOrphan) }
 
     var body: some View {
-        NavigationStack {
-            Group {
-                if summaries.isEmpty {
-                    emptyState
-                } else {
-                    list
-                }
+        Group {
+            if summaries.isEmpty {
+                emptyState
+            } else {
+                list
             }
-            .navigationTitle(NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)"))
-            #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
-            #endif
-            .solidNavBar(theme.bg)
-            .toolbar {
-                // 만들기는 바깥 끝이 아니라 안쪽에 둔다. 바깥 끝은 이 화면을 닫는 완료의 자리다.
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        creating = true
-                    } label: {
-                        Label(NSLocalizedString("빈칸 추가", comment: "Add placeholder"),
-                              systemImage: AppSymbol.plus)
-                    }
-                    .accessibilityLabel(NSLocalizedString("빈칸 추가", comment: "Add placeholder"))
+        }
+        .navigationTitle(NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)"))
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .solidNavBar(theme.bg)
+        .toolbar {
+            // 왼쪽은 돌아가는 자리다. 만들기는 오른쪽 끝에 둔다.
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    creating = true
+                } label: {
+                    Label(NSLocalizedString("빈칸 추가", comment: "Add placeholder"),
+                          systemImage: AppSymbol.plus)
                 }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(NSLocalizedString("완료", comment: "Done")) { dismiss() }
-                        .fontWeight(.semibold)
-                }
+                .accessibilityLabel(NSLocalizedString("빈칸 추가", comment: "Add placeholder"))
             }
         }
         .onAppear(perform: reload)

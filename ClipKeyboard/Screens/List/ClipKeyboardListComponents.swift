@@ -807,11 +807,9 @@ struct SheetModifiers: ViewModifier {
                     .presentationDragIndicator(.visible)
                 }
             }
-            // 빈칸 관리 시트
-            .sheet(isPresented: $showPlaceholderManagementSheet) {
-                PlaceholderManagementSheet(allMemos: memos)
-                    .presentationDetents([.medium, .large])
-                    .presentationDragIndicator(.visible)
+            // 빈칸 관리 - 시트가 아니라 밀어 넣는 화면이다(안에서 빈칸 하나를 또 열기 때문).
+            .navigationDestination(isPresented: $showPlaceholderManagementSheet) {
+                PlaceholderManagementView(allMemos: memos)
             }
             // 템플릿 값 입력 하프모달 - 탭하면 키보드 익스텐션과 동일한 UX로
             // 변수를 채우고 우상단 "복사"로 결과를 클립보드에 복사.

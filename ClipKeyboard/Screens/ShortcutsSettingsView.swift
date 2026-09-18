@@ -31,10 +31,9 @@ struct ShortcutsSettingsView: View {
             organizeSection
         }
         .settingsCategoryChrome(title: NSLocalizedString("단축어", comment: "Settings section: shortcuts"))
-        .sheet(isPresented: $showPlaceholderManagement) {
-            PlaceholderManagementSheet(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])
-                .presentationDetents([.medium, .large])
-                .presentationDragIndicator(.visible)
+        // 설정 안의 다른 줄들과 같은 걸음으로 들어간다 - 시트가 아니라 밀어 넣는 화면.
+        .navigationDestination(isPresented: $showPlaceholderManagement) {
+            PlaceholderManagementView(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])
         }
     }
 
