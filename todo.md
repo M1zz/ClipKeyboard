@@ -1,3 +1,34 @@
+## 🗺️ 필요의 순간 지도 (페르소나 저니맵) - 2026-09-17
+
+`docs/product/PERSONA_JOURNEY_MAP.html` · https://claude.ai/artifact/2TnpL3NPtvs5GbvEUnNSBu
+
+- [x] 페르소나 4명(일반·노마드·직장인·학생)의 하루 필요 순간 6개씩: 트리거·필요한 글·지금 방법(단계·초)·틀리면·예측 신호·개입
+- [x] 페르소나마다 가장 비싼 한 순간을 초 단위로 해부 (지금 vs 클립키보드, 감정 곡선)
+- [x] 관계 여정 15단계를 USER_STATE_MODEL 칸·관측 이벤트·실측(활성화 7.2%)에 맞춤
+- [x] 예측 신호 16개를 구현됨·일부·제안으로 표시
+- [x] 제안 신호 검토 → 5.1.4 에서 구현 (아래)
+
+## 🧭 알아서 맞추기 (5.1.4) - 2026-09-17
+
+페르소나를 묻지 않고 앱이 알아본다. 판정·저장·맞춤을 층으로 뗐다. 설계: `docs/product/ADAPTIVE_FIT.md`
+
+- [x] `PersonaInference`(순수) · `PersonaResolver`(저장·자동/직접) · `FeatureFit`(무엇을 먼저 보이나)
+- [x] `PersonaPrompt` · `PersonaSelectionView` · `PersonaSettingsContainer` 삭제. 예전 선택은 한 표로만
+- [x] 설정 > 단축어 > 나에게 맞추기 (`UsageProfileSettingsView`): 판단·근거·직접 정하기
+- [x] 마트 거르기 · 카테고리 제안 · 분석 속성 · 샘플이 `PersonaResolver` 를 읽는다
+- [x] `UsageRhythm`: 매달·월말·매주·매일 박자 → 키보드 빠른 줄 맨 앞 (`QuickRowPlanner`)
+- [x] `KeyboardSessionLedger`: 열었다가 못 넣고 닫는 판이 잦으면 빠른 줄에 많이 쓴 것
+- [x] `PlaceholderSequence`: 다음 번호 칩 (키보드·앱 채우기 창). 고르면 새 값으로 적음
+- [x] `RepeatCopyLedger`: 같은 글 두 번 복사 → 캡처 카드에 표시, 닫았던 글 한 번 더
+- [x] 사진에서 읽은 민감한 값 → 보안 단축어 (잠금 쓸 수 있을 때만)
+- [x] 학생으로 확신 → 반값 제안 거둠, 충분히 쓰면 친구에게 알리기 한 번
+- [x] 전체 접근 안내에 "치시는 글자는 기기 밖으로 보내지 않아요"
+- [x] 시험 6벌 (PersonaInference · FeatureFit · UsageRhythm · KeyboardSessionLedger · PlaceholderSequence · RepeatCopyLedger)
+- [x] 버전 5.1.4 (17) · RELEASE_NOTES.md · docs/release-notes/5.1.4.md · 앱 안 변경 이력
+- [ ] ⚠️ 넣지 않은 것: "고른 빈칸 값을 앞으로" - 5.0.7 에서 사용자 요청으로 "쓴다고 자리가 움직이지 않는다" 로 정한 것과 충돌
+- [ ] 기기에서 확인: 빠른 줄 칩 아이콘(달력·별)이 좁은 기기(SE)에서 잘리지 않는지
+- [ ] 러시아어는 기계 번역. 설정 > 나에게 맞추기 문구 길이를 러시아어로 눈으로 볼 것
+
 ## 🔑 권한 판정 점검 - 2026-09-17
 
 - [x] **반값·업그레이드 구매가 Pro 키에 안 새겨지던 것** - `StoreManager` 가 `contains(proProductID)`

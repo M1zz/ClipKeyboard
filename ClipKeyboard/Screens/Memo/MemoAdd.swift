@@ -432,7 +432,8 @@ struct MemoAdd: View {
                             },
                             forceTextKeyboard: startInTemplateMode,
                             // 이 칸은 둘로 나뉜다(값 가져오는 줄 · 실제 내용). 안내도 따로 짚는다.
-                            coachStep: coachStep
+                            coachStep: coachStep,
+                            onValueFromPhoto: { viewModel.noteValueFromPhoto($0) }
                         )
                         .id("contentField")
 

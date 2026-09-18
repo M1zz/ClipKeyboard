@@ -802,6 +802,24 @@ final class MemoAddViewModel: ObservableObject {
         return result
     }
 
+    /// 사진에서 값을 담았다. 여권·카드처럼 가려야 할 것이면 보안 단축어로 돌린다.
+    ///
+    /// ⚠️ 손으로 붙여넣은 값은 진입할 때 분류가 이미 잠금을 켜 준다. 사진에서 담는 길은
+    ///    그걸 지나지 않아, 가장 잠가야 할 여권·카드가 잠기지 않은 채 저장됐다.
+    ///    규칙: `FeatureFit.shouldLockValueFromPhoto`
+    func noteValueFromPhoto(_ text: String) {
+        let guess = ClipboardClassificationService.shared.classify(content: text)
+        guard FeatureFit.shouldLockValueFromPhoto(type: guess.type,
+                                                  confidence: guess.confidence,
+                                                  lockAvailable: ProFeatureManager.isBiometricLockAvailable,
+                                                  alreadySecure: isSecure) else { return }
+        isSecure = true
+        showToastMessage(String(format: NSLocalizedString("%@ 같아서 Face ID로 잠가 둘게요",
+                                                          comment: "Toast: value read from a photo looks sensitive (e.g. passport number), so the snippet was set to secure"),
+                                guess.type.localizedName))
+        print("🔒 [MemoAddViewModel.noteValueFromPhoto] 사진에서 읽은 \(guess.type.rawValue) → 보안 단축어")
+    }
+
     /// 사용자가 고른 줄(들)을 값에 담는다. 기존 값이 있으면 줄바꿈으로 이어 붙인다.
     func applyOCRSelection(_ lines: [String]) {
         let chosen = lines
@@ -816,6 +834,7 @@ final class MemoAddViewModel: ObservableObject {
             value += "\n" + joined
         }
         showToastMessage(NSLocalizedString("값에 담았어요", comment: "OCR: applied selection toast"))
+        noteValueFromPhoto(joined)
     }
     #endif
 }

@@ -636,6 +636,10 @@ struct TemplateFillSheet: View {
                         // ⚠️ 여기서 값을 저장하지 않는다. 적은 값은 **이번에만** 쓰는 것이고,
                         //    남길지는 각 칸의 별이 정한다(`TemplateFillRow`).
                         HapticManager.shared.success()
+                        // 다음 번호를 골랐으면 새로 적는다(직접 친 값은 그대로 이번에만).
+                        MemoStore.shared.rememberNextSequenceValues(inputs,
+                                                                    sourceMemoId: memo.id,
+                                                                    sourceMemoTitle: memo.title)
                         onCopy(resolvedValue)
                     } label: {
                         Label(NSLocalizedString("복사", comment: "Copy"), systemImage: AppSymbol.docOnDoc)
@@ -802,11 +806,34 @@ private struct TemplateFillRow: View {
 
     // MARK: 저장값 칩 (공통)
 
+    /// 지난 값의 다음 차례(`INV-1042` → `INV-1043`). 키보드와 같은 규칙(`PlaceholderSequence`).
+    private var nextValue: String? {
+        guard let next = PlaceholderSequence.nextValue(after: savedValues, token: placeholder),
+              !savedValues.contains(next) else { return nil }
+        return next
+    }
+
     @ViewBuilder
     private var savedChips: some View {
         if !savedValues.isEmpty {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
+                    if let next = nextValue {
+                        Button {
+                            value = next
+                            HapticManager.shared.selection()
+                        } label: {
+                            Label(String(format: NSLocalizedString("다음 %@", comment: "Placeholder chip: next value in a sequence, e.g. next invoice number"), next),
+                                  systemImage: AppSymbol.plusCircle)
+                                .font(.footnote.weight(value == next ? .semibold : .regular))
+                                .padding(.horizontal, 14)
+                                .padding(.vertical, 8)
+                                .background(value == next ? theme.accent : theme.accentSoft)
+                                .foregroundColor(value == next ? theme.accentFg : theme.accent)
+                                .clipShape(Capsule())
+                        }
+                        .accessibilityLabel(String(format: NSLocalizedString("다음 차례 값 %@", comment: "Accessibility: next value in a sequence"), next))
+                    }
                     ForEach(savedValues, id: \.self) { v in
                         Button {
                             value = v

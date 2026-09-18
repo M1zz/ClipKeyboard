@@ -46,7 +46,12 @@ enum DataWipeService {
         "hiddenCategoryTabs_v1",
         "userCategoryIcons_v1",
         "category.feature.enabled.v1",
-        "memoCategoryAssignments_v1"   // 카테고리 사이드카 - 남으면 삭제 후 되살아난다
+        "memoCategoryAssignments_v1",  // 카테고리 사이드카 - 남으면 삭제 후 되살아난다
+        DefaultsKey.usageRhythmLog,          // 단축어를 쓴 시각
+        DefaultsKey.keyboardSessionLedger,
+        DefaultsKey.personaOverride,
+        DefaultsKey.personaInferred,
+        DefaultsKey.personaInferredConfident
     ]
 
     // MARK: - 실행
@@ -96,6 +101,8 @@ enum DataWipeService {
         if let group = AppGroup.defaults {
             for key in groupKeys { group.removeObject(forKey: key) }
         }
+        // 복사한 글의 지문 - 글은 없지만 "무엇을 여러 번 복사했나" 의 흔적이다.
+        UserDefaults.standard.removeObject(forKey: DefaultsKey.repeatCopyLedger)
 
         // ④ 플레이스홀더 값 - 키가 `placeholder_values_{이름}` 이라 접두사로 훑는다
         //

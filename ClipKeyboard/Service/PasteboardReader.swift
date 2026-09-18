@@ -51,6 +51,20 @@ enum PasteboardReader {
         }, completion: completion)
     }
 
+    /// 글자와 **복사 번호**(`changeCount`)를 함께 읽는다. 글자가 없으면 nil.
+    ///
+    /// 복사 번호는 복사할 때마다 하나씩 오른다. 같은 글을 두 번 복사했는지, 한 번 복사한 걸
+    /// 앱에서 두 번 봤는지는 이 번호로만 가른다(`RepeatCopyLedger`).
+    /// - Parameter completion: **메인에서** 부른다.
+    static func stringWithChangeCount(completion: @escaping (String?, Int) -> Void) {
+        queue.async {
+            let changeCount = UIPasteboard.general.changeCount
+            var text: String?
+            if case .text(let value) = read() { text = value }
+            DispatchQueue.main.async { completion(text, changeCount) }
+        }
+    }
+
     /// 글자와 그림을 함께 본다. 둘 다 있으면 그림이 이긴다.
     /// - Parameter completion: **메인에서** 부른다.
     static func content(completion: @escaping (PasteboardContent) -> Void) {

@@ -279,7 +279,7 @@ struct ClipKeyboardApp: App {
                 .double(forKey: DefaultsKey.kbBeaconLastUse) ?? 0) > 0
             AnalyticsService.applyLaunchUserProperties(
                 isPro: ProFeatureManager.hasFullAccess,
-                persona: CategoryStore.shared.selectedPersona?.rawValue,
+                persona: PersonaResolver.confident?.rawValue,
                 keyboardActive: keyboardActive
             )
 
@@ -659,7 +659,7 @@ struct ClipKeyboardApp: App {
     @discardableResult
     private func performSampleInsertion() -> Bool {
         let isKorean = AppLanguage.contentLanguageCode == "ko"
-        let persona = CategoryStore.shared.selectedPersona ?? .general
+        let persona = PersonaResolver.current
         let result = persona == .nomad ? nomadSamples(isKorean: isKorean) : generalSamples(isKorean: isKorean)
         do {
             var memos = (try? MemoStore.shared.load(type: .memo)) ?? []

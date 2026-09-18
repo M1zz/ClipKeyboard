@@ -21,6 +21,10 @@ final class UserStateStore: ObservableObject {
     /// 지금 이 사람의 상태. 화면은 이 값만 보면 된다.
     @Published private(set) var state: UserState = UserState.resolve(facts: UserStateFacts())
 
+    /// 마지막으로 잰 값. 판정 결과(`state`)만으로는 모자란 화면이 쓴다(친구에게 알리기의 사용 횟수 같은).
+    /// ⚠️ 화면을 다시 그릴 이유가 아니라서 `@Published` 가 아니다.
+    private(set) var lastFacts = UserStateFacts()
+
     private var defaults: UserDefaults? { AppGroup.defaults }
 
     private init() {
@@ -45,8 +49,21 @@ final class UserStateStore: ObservableObject {
             return
         }
 
-        let facts = Self.currentFacts(now: now)
+        let loaded = try? MemoStore.shared.load(type: .memo)
+        let memos = loaded ?? []
+        let sampleIds = SampleMemoStorage.load()
+        let facts = Self.currentFacts(now: now, memos: memos, sampleIds: sampleIds)
+        lastFacts = facts
         seedFloorIfNeeded(facts: facts)
+
+        // ⚠️ 목록을 **못 읽었을 때는** 아래 둘을 하지 않는다. 빈 목록으로 알아보면 쓰임새가
+        //    일반으로 내려앉고, 빈 목록으로 걷어 내면 사용 시각이 통째로 지워진다.
+        if let loaded {
+            // 같은 목록을 읽은 김에 쓰임새도 다시 본다. 묻지 않고 저장한 것으로 알아본다.
+            PersonaResolver.refresh(memos: loaded, sampleIDs: sampleIds)
+            // 지워진 단축어의 사용 시각은 걷어 낸다.
+            UsageRhythmLog.prune(keeping: Set(loaded.map(\.id)))
+        }
 
         let resolved = UserState.resolve(facts: facts, floor: storedFloor, now: now)
         raiseFloor(to: resolved.level)
@@ -62,8 +79,13 @@ final class UserStateStore: ObservableObject {
 
     /// 지금 이 기기의 값들. 전부 이미 쌓여 있던 것이라 새로 수집하는 것은 없다.
     static func currentFacts(now: Date = Date()) -> UserStateFacts {
-        let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
-        let sampleIds = SampleMemoStorage.load()
+        currentFacts(now: now,
+                     memos: (try? MemoStore.shared.load(type: .memo)) ?? [],
+                     sampleIds: SampleMemoStorage.load())
+    }
+
+    /// 이미 읽어 둔 목록으로 값을 모은다. `refresh` 가 목록을 한 번만 읽으려고 쓴다.
+    static func currentFacts(now: Date, memos: [Memo], sampleIds: Set<UUID>) -> UserStateFacts {
         // 앱이 심어 준 샘플은 자기 것이 아니다. 이걸 세면 아무것도 안 만든 사람이
         // 만든 사람으로 올라가고, 첫 단축어에서 막힌 사람이 지도에서 사라진다.
         let own = memos.filter { !sampleIds.contains($0.id) }

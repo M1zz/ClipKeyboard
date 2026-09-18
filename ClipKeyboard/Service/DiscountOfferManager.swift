@@ -99,6 +99,9 @@ enum DiscountOfferManager {
         /// ⚠️ 이 사람에게 "칸이 한 칸 남았다"는 **틀린 말**이다. 칸이 모자란 것이 아니라
         ///    만들어 둔 것을 못 찾는 것이라, 한도를 사면 못 찾는 것이 하나 더 늘 뿐이다.
         var hoardsUnusedShortcuts: Bool = false
+        /// 쓰임새로 보아 값을 깎아 권해도 되는가(`FeatureFit.allowsDiscountOffer`).
+        /// ⚠️ 학생으로 확신하는 사람에게는 꺼내지 않는다. 그 사람에게는 친구에게 알리기가 따로 있다.
+        var fitsDiscountOffer: Bool = true
     }
 
     /// 지금 띄울 기회가 있으면 그것을 돌려준다 - **순수 함수.**
@@ -116,6 +119,8 @@ enum DiscountOfferManager {
         guard !context.isAwayOrJustBack else { return nil }
         // 튜토리얼이 화면을 잡고 있는 동안에는 그 위에 결제 창을 얹지 않는다.
         guard !context.isMidFirstShortcut else { return nil }
+        // 쓰임새로 보아 값을 깎아 권할 사람이 아니다.
+        guard context.fitsDiscountOffer else { return nil }
 
         if !context.shownOccasions.contains(.limitEdge),
            // 쌓아만 두는 사람에게 한도 이야기는 틀린 말이다(위 `hoardsUnusedShortcuts`).
@@ -144,7 +149,8 @@ enum DiscountOfferManager {
             discountAvailable: discountAvailable,
             isMidFirstShortcut: isMidFirstShortcut,
             isAwayOrJustBack: state.activity != .active,
-            hoardsUnusedShortcuts: state.grain == .hoarder
+            hoardsUnusedShortcuts: state.grain == .hoarder,
+            fitsDiscountOffer: FeatureFit.allowsDiscountOffer(PersonaResolver.profile)
         ))
     }
 

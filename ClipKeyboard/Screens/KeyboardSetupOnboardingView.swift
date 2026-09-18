@@ -280,7 +280,9 @@ struct SetupStep {
         ),
         SetupStep(
             title: NSLocalizedString("전체 접근을 허용해요", comment: "Setup step 3 title"),
-            description: NSLocalizedString("키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 단축어에 접근하기 위해 꼭 필요합니다.", comment: "Setup step 3 description"),
+            // ⚠️ 이 걸음에서 가장 많이 멈춘다("키보드가 내 카톡을 읽나?"). 왜 필요한지와 함께
+            //    **무엇을 안 하는지**를 같이 말한다(docs/product/PERSONA_JOURNEY_MAP.html 7단계).
+            description: NSLocalizedString("키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n앱에 저장한 단축어를 키보드가 꺼내 오려면 필요해요. 치시는 글자는 기기 밖으로 보내지 않아요.", comment: "Setup step 3 description: why Full Access is needed and reassurance that typed text never leaves the device"),
             path: [
                 NSLocalizedString("ClipKeyboard", comment: "Keyboard name"),
                 NSLocalizedString("전체 접근 허용", comment: "Allow Full Access toggle")
@@ -695,10 +697,9 @@ struct KeyboardSetupOnboardingView_Previews: PreviewProvider {
 import Foundation
 
 enum Persona: String, CaseIterable, Codable {
-    // ⚠️ **선언 순서가 곧 화면 순서다.** 고르는 판이 `ForEach(Persona.allCases)` 로 그린다.
-    //    그래서 기본으로 고를 것(`default`)이 맨 위에 있어야 한다. 기본값이 맨 아래 있으면
-    //    "권하는 것"과 "먼저 보이는 것"이 어긋나서, 처음 여는 사람이 자기와 상관없는
-    //    노마드부터 읽고 내려가야 한다.
+    // ⚠️ **선언 순서가 곧 화면 순서이자 판정의 동점 순서다.** 설정 > 나에게 맞추기의 목록이
+    //    `ForEach(Persona.allCases)` 로 그리고, `PersonaInference` 는 점수가 같으면 앞의 것을 고른다.
+    //    그래서 기본(`default`)인 일반이 맨 위에 있어야 한다 - 모르면 넓게 잡는다.
     //
     // ⚠️ `rawValue` 는 저장에 쓰이므로 **문자열은 건드리지 않는다.** 순서만 바꾼다.
     case general = "general"
@@ -711,8 +712,8 @@ enum Persona: String, CaseIterable, Codable {
     /// ⚠️ 예전에는 노마드였다. 이 앱이 국제 송금·비자에서 출발했다는 **만든 사람의 사정**이지
     ///    쓰는 사람의 사정이 아니다. 처음 여는 사람 대부분은 전화번호와 주소를 넣으려고
     ///    왔고, 그 사람에게 IBAN 과 여권번호를 들이밀면 이 앱이 자기 것이 아닌 줄 안다.
-    ///    모르면 가장 넓은 것을 고른다. 좁히는 일은 **써 보고 나서** 물어본다
-    ///    (`PersonaPrompt`).
+    ///    모르면 가장 넓은 것을 고른다. 좁히는 일은 **묻지 않고** 저장한 것을 보고 앱이 한다
+    ///    (`PersonaInference` · `PersonaResolver`).
     static let `default`: Persona = .general
 
     var icon: String {
@@ -730,52 +731,6 @@ enum Persona: String, CaseIterable, Codable {
         case .business: return NSLocalizedString("비즈니스 / 직장인", comment: "Persona: Business title")
         case .student: return NSLocalizedString("학생", comment: "Persona: Student title")
         case .general: return NSLocalizedString("일반 / 개인", comment: "Persona: General title")
-        }
-    }
-
-    var localizedDescription: String {
-        switch self {
-        case .nomad:
-            return NSLocalizedString("국제 송금, 비자, 여행 정보를 자주 입력하는 분께 추천", comment: "Persona: Nomad description")
-        case .business:
-            return NSLocalizedString("회사 이메일, 명함 정보, 미팅 관련 입력이 잦은 분께 추천", comment: "Persona: Business description")
-        case .student:
-            return NSLocalizedString("학번, 학교 이메일, 과제 템플릿이 필요한 분께 추천", comment: "Persona: Student description")
-        case .general:
-            return NSLocalizedString("일상에서 자주 쓰는 기본 정보만 빠르게 입력", comment: "Persona: General description")
-        }
-    }
-
-    var exampleTags: [String] {
-        switch self {
-        case .nomad:
-            return [
-                NSLocalizedString("🏦 IBAN", comment: "Nomad example tag: IBAN"),
-                NSLocalizedString("🛂 여권번호", comment: "Nomad example tag: passport"),
-                NSLocalizedString("✈️ 비자", comment: "Nomad example tag: visa"),
-                NSLocalizedString("💱 환전 단축어", comment: "Nomad example tag: FX notes")
-            ]
-        case .business:
-            return [
-                NSLocalizedString("📧 회사 이메일", comment: "Business example tag: work email"),
-                NSLocalizedString("🪪 명함", comment: "Business example tag: business card"),
-                NSLocalizedString("💼 사업자번호", comment: "Business example tag: business number"),
-                NSLocalizedString("📋 미팅 단축어", comment: "Business example tag: meeting notes")
-            ]
-        case .student:
-            return [
-                NSLocalizedString("🎓 학번", comment: "Student example tag: student ID"),
-                NSLocalizedString("📚 학교 이메일", comment: "Student example tag: school email"),
-                NSLocalizedString("📝 과제 템플릿", comment: "Student example tag: assignment"),
-                NSLocalizedString("🏠 기숙사 주소", comment: "Student example tag: dorm address")
-            ]
-        case .general:
-            return [
-                NSLocalizedString("📞 전화번호", comment: "General example tag: phone"),
-                NSLocalizedString("📍 주소", comment: "General example tag: address"),
-                NSLocalizedString("🔑 긴급 연락처", comment: "General example tag: emergency contact"),
-                NSLocalizedString("✉️ 이메일", comment: "General example tag: email")
-            ]
         }
     }
 
@@ -830,252 +785,3 @@ enum Persona: String, CaseIterable, Codable {
         }
     }
 }
-
-struct PersonaSelectionView: View {
-    /// 어디서 열렸는가. **묻는 말과 나가는 길이 갈린다.**
-    enum Mode {
-        case onboarding
-        case settings
-        /// 써 보고 나서 한 번 묻는 자리(`PersonaPrompt`). 여기서만 **안 고르고 나갈 수 있다.**
-        case prompt
-    }
-
-    @Environment(\.appTheme) private var theme
-    let onContinue: () -> Void
-    var mode: Mode = .onboarding
-
-    @State private var selected: Persona = .default
-
-    var body: some View {
-        VStack(spacing: 0) {
-            VStack(spacing: 8) {
-                Text(headerTitle)
-                    .font(.title2)
-                    .bold()
-                    .multilineTextAlignment(.center)
-
-                Text(headerSubtitle)
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 24)
-            }
-            .padding(.top, mode == .onboarding ? 40 : 16)
-            .padding(.bottom, 24)
-
-            ScrollView {
-                VStack(spacing: 12) {
-                    ForEach(Persona.allCases, id: \.self) { persona in
-                        PersonaCard(persona: persona, isSelected: selected == persona) {
-                            selected = persona
-                        }
-                    }
-                }
-                .padding(.horizontal, 16)
-            }
-
-            Divider()
-
-            VStack(spacing: 12) {
-                PreviewChips(persona: selected)
-
-                // 안내: 페르소나를 골라도 메모/값이 추가되는 게 아니라, 그에 맞는 추천만 바뀐다.
-                HStack(spacing: 6) {
-                    Image(systemName: AppSymbol.infoCircle)
-                        .accessibilityHidden(true)
-                    Text(NSLocalizedString("페르소나를 골라도 단축어가 추가되지 않아요. 여러분에게 맞는 추천(이런 단축어 어때요? · 카테고리 이름)만 바뀝니다.", comment: "Persona is recommendation-only note"))
-                }
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 24)
-
-                Button {
-                    apply()
-                } label: {
-                    Text(applyButtonTitle)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 14)
-                        .background(Color.accentColor)
-                        .foregroundStyle(Color.accentForeground)
-                        .font(.headline)
-                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
-                }
-                .padding(.horizontal, 16)
-
-                // ⚠️ **안 고르고 나갈 길**은 물어보는 자리에만 둔다. 부른 적 없는 질문이라
-                //    답을 강요할 수 없다. 설정에서 일부러 들어온 사람에게는 필요 없는 문이고,
-                //    처음 안내에서는 이 화면이 걸음의 일부라 나가는 길이 따로 있다.
-                if mode == .prompt {
-                    Button {
-                        // 안 골랐어도 물어본 것은 물어본 것이다. 다시 묻지 않는다.
-                        PersonaPrompt.markAsked()
-                        onContinue()
-                    } label: {
-                        Text(NSLocalizedString("나중에 할게요", comment: "Persona prompt: skip"))
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 10)
-                            .contentShape(Rectangle())
-                    }
-                    .buttonStyle(.squish)
-                    .padding(.horizontal, 16)
-                }
-            }
-            .padding(.bottom, 20)
-            .padding(.top, 12)
-        }
-        .onAppear {
-            if let existing = CategoryStore.shared.selectedPersona {
-                selected = existing
-            }
-        }
-    }
-
-    private var headerTitle: String {
-        switch mode {
-        case .onboarding: return NSLocalizedString("어떻게 사용하실 예정인가요?", comment: "Persona onboarding title")
-        case .settings: return NSLocalizedString("페르소나 변경", comment: "Persona settings title")
-        case .prompt: return NSLocalizedString("혹시 이런 분이신가요?", comment: "Persona prompt title")
-        }
-    }
-
-    private var headerSubtitle: String {
-        switch mode {
-        case .onboarding: return NSLocalizedString("자주 쓰는 카테고리를 미리 만들어 드릴게요. 나중에 자유롭게 바꿀 수 있어요.", comment: "Persona onboarding subtitle")
-        case .settings: return NSLocalizedString("추천 카테고리가 추가돼요. 처음엔 꺼져 있으니 카테고리 관리에서 원하는 것만 켜세요.", comment: "Persona settings subtitle")
-        // ⚠️ 여기서만 "지금까지 만드신 걸 보니" 로 시작한다. 이 질문이 **왜 지금 떴는지**를
-        //    말해 주지 않으면 뜬금없이 끼어든 판이 된다.
-        case .prompt: return NSLocalizedString("지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요.", comment: "Persona prompt subtitle")
-        }
-    }
-
-    private var applyButtonTitle: String {
-        switch mode {
-        case .onboarding: return NSLocalizedString("시작하기", comment: "Onboarding continue button")
-        case .settings: return NSLocalizedString("변경 적용", comment: "Apply persona change button")
-        case .prompt: return NSLocalizedString("이걸로 할게요", comment: "Persona prompt apply button")
-        }
-    }
-
-    private func apply() {
-        let lang: String? = AppLanguage.contentLanguageCode
-        CategoryStore.shared.applyPersona(selected, language: lang)
-        // 물어봐서 답을 받았다. 다시 묻지 않는다.
-        if mode == .prompt { PersonaPrompt.markAsked() }
-        // 설정에서 페르소나를 바꾸면 추천 카테고리를 추가하되 표시 토글은 OFF로 둔다.
-        // 사용자가 카테고리 관리에서 직접 켜기 전까지 탭에 나타나지 않는다.
-        if mode == .settings {
-            selected.seedCategories(language: lang ?? "en").forEach {
-                CategoryStore.shared.addHidden($0)
-            }
-        }
-        onContinue()
-    }
-}
-
-private struct PersonaCard: View {
-    @Environment(\.appTheme) private var theme
-    let persona: Persona
-    let isSelected: Bool
-    let onTap: () -> Void
-
-    var body: some View {
-        Button(action: onTap) {
-            VStack(alignment: .leading, spacing: 10) {
-                HStack(spacing: 16) {
-                    ZStack {
-                        Circle()
-                            .fill(isSelected ? Color.accentColor.opacity(0.15) : Color.gray.opacity(0.12))
-                            .frame(width: 48, height: 48)
-                        Image(systemName: persona.icon)
-                            .font(.title3)
-                            .foregroundStyle(isSelected ? Color.accentColor : .secondary)
-                    }
-
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(persona.localizedTitle)
-                            .font(.headline)
-                            .foregroundStyle(.primary)
-                            .multilineTextAlignment(.leading)
-                        Text(persona.localizedDescription)
-                            .font(.body)
-                            .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.leading)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-
-                    Spacer()
-
-                    Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                        .font(.title3)
-                        .foregroundStyle(isSelected ? Color.checkGreen : Color.gray.opacity(0.5))
-                }
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 6) {
-                        ForEach(persona.exampleTags, id: \.self) { tag in
-                            Text(tag)
-                                .font(.caption2)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 3)
-                                .background(isSelected ? Color.accentColor.opacity(0.12) : Color.gray.opacity(0.08))
-                                .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
-                                .clipShape(Capsule())
-                        }
-                    }
-                }
-            }
-            .padding(16)
-            .background(
-                RoundedRectangle(cornerRadius: theme.radiusMd)
-                    .fill(isSelected ? Color.accentColor.opacity(0.06) : Color.gray.opacity(0.06))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: theme.radiusMd)
-                    .strokeBorder(isSelected ? Color.accentColor : Color.clear, lineWidth: 1.5)
-            )
-        }
-        .buttonStyle(.squish)
-    }
-}
-
-private struct PreviewChips: View {
-    let persona: Persona
-
-    private var seeds: [String] {
-        let lang = AppLanguage.contentLanguageCode
-        return persona.seedCategories(language: lang)
-    }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(NSLocalizedString("자동 추가될 카테고리", comment: "Preview categories header"))
-                .font(.body)
-                .foregroundStyle(.secondary)
-                .padding(.horizontal, 16)
-
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 8) {
-                    ForEach(seeds, id: \.self) { seed in
-                        Text(seed)
-                            .font(.body)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 6)
-                            .background(Color.accentColor.opacity(0.10))
-                            .foregroundStyle(Color.accentColor)
-                            .clipShape(Capsule())
-                    }
-                }
-                .padding(.horizontal, 16)
-            }
-        }
-    }
-}
-
-#if DEBUG
-#Preview {
-    PersonaSelectionView(onContinue: {})
-}
-#endif

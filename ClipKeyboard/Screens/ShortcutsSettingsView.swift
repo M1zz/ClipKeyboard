@@ -50,15 +50,15 @@ struct ShortcutsSettingsView: View {
                 Label(NSLocalizedString("이렇게들 써요", comment: "Use cases / usage scenarios"),
                       systemImage: AppSymbol.lightbulb)
             }
-            NavigationLink(destination: PersonaSettingsContainer()) {
+            // 예전에는 페르소나를 고르는 자리였다. 이제 앱이 알아보고, 여기서는 근거를 보고 바로잡는다.
+            NavigationLink(destination: UsageProfileSettingsView()) {
                 Label {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(NSLocalizedString("페르소나", comment: "Persona setting row title"))
-                        if let p = CategoryStore.shared.selectedPersona {
-                            Text(p.localizedTitle)
-                                .font(.body)
-                                .foregroundColor(theme.textMuted)
-                        }
+                        Text(NSLocalizedString("나에게 맞추기", comment: "Usage profile settings title: the app adapts to how you use it"))
+                        Text(PersonaResolver.confident?.localizedTitle
+                             ?? NSLocalizedString("자동", comment: "Usage profile row subtitle: automatic, nothing inferred yet"))
+                            .font(.body)
+                            .foregroundColor(theme.textMuted)
                     }
                 } icon: {
                     Image(systemName: AppSymbol.personCropCircleBadgeCheckmark)

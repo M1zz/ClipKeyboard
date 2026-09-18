@@ -658,6 +658,9 @@ struct PlaceholderInputView: View {
             HStack(spacing: 8) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 6) {
+                        if let next = nextSequenceValue {
+                            nextValueChip(next, compact: true)
+                        }
                         ForEach(predefinedValues, id: \.self) { value in
                             Button {
                                 selectedValue = value
@@ -739,6 +742,42 @@ struct PlaceholderInputView: View {
                 .cornerRadius(theme.radiusXs)
         }
         .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace button"))
+    }
+
+    // MARK: - 다음 번호
+
+    /// 지난 값의 다음 차례(`INV-1042` → `INV-1043`). 없으면 nil.
+    /// 저장된 값에서 바로 계산하므로 그릴 때 불러도 저장소를 읽지 않는다.
+    private var nextSequenceValue: String? {
+        guard let next = PlaceholderSequence.nextValue(after: predefinedValues, token: placeholder),
+              !predefinedValues.contains(next) else { return nil }
+        return next
+    }
+
+    /// 다음 번호 칩. 맨 앞에 서고, 지난 값들과 달리 **"다음"** 이라고 적혀 있다.
+    ///
+    /// ⚠️ 기본값으로 채우지 않는다. 번호를 건너뛰는 사람도 있고, 틀린 번호가 저절로 들어가면
+    ///    지난 번호가 그대로 나가는 것만큼 나쁘다. 고르는 것은 사람이다.
+    ///    고르면 넣기를 마칠 때 새 값으로 적힌다(`PlaceholderSequence.action`).
+    private func nextValueChip(_ next: String, compact: Bool) -> some View {
+        let isSelected = selectedValue == next
+        return Button {
+            selectedValue = next
+            KeyboardHaptics.tap()
+        } label: {
+            HStack(spacing: 4) {
+                Image(systemName: AppSymbol.plusCircle)
+                    .font(compact ? .caption2 : .caption)
+                Text(String(format: NSLocalizedString("다음 %@", comment: "Placeholder chip: next value in a sequence, e.g. next invoice number"), next))
+                    .font(compact ? .caption : .footnote.weight(isSelected ? .semibold : .regular))
+            }
+            .padding(.horizontal, compact ? 10 : 16)
+            .padding(.vertical, compact ? 4 : 10)
+            .background(isSelected ? theme.accent : theme.accentSoft)
+            .foregroundColor(isSelected ? theme.accentFg : theme.accent)
+            .cornerRadius(compact ? theme.radiusSm : theme.radiusLg)
+        }
+        .accessibilityLabel(String(format: NSLocalizedString("다음 차례 값 %@", comment: "Accessibility: next value in a sequence"), next))
     }
 
     // MARK: - 값이 아직 없을 때
@@ -832,6 +871,9 @@ struct PlaceholderInputView: View {
         } else {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
+                    if let next = nextSequenceValue {
+                        nextValueChip(next, compact: false)
+                    }
                     ForEach(predefinedValues, id: \.self) { value in
                         Button {
                             selectedValue = value

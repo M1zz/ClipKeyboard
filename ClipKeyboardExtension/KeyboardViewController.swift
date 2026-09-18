@@ -22,6 +22,8 @@ class KeyboardViewController: UIInputViewController {
     private var deleteTimer: Timer?
     private var deleteStartTime: Date?
     private var notificationTokens: [NSObjectProtocol] = []
+    /// 이번 판에서 글자를 직접 쳤다고 이미 적었는가. 키마다 저장소를 다시 쓰지 않으려고 든다.
+    private var sessionTypedNoted = false
 
     /// 넣은 직후 "사용자가 캐럿을 앞으로 옮겨 거기서 쓰는지" 지켜보는 동안의 메모지.
     /// 여기 담긴 것을 `CursorMemory` 가 배운다. 자세한 이유는 그 파일 머리말.
@@ -468,6 +470,9 @@ class KeyboardViewController: UIInputViewController {
 
         processedText = processTemplateVariables(in: processedText)
 
+        // 다음 번호를 골랐으면 새로 적어 둔다(안 적으면 다음번에도 같은 번호를 내놓는다).
+        rememberNextSequenceValues(inputs, templateId: memoId)
+
         // v4.0.8: attached 흐름이면 base 메모 본문과 결합 (옵션 X - \n 이어붙이기)
         if let baseId = baseMemoId,
            let baseMemo = (try? MemoStore.shared.load(type: .memo))?.first(where: { $0.id == baseId }) {
@@ -482,6 +487,20 @@ class KeyboardViewController: UIInputViewController {
             trackKeyboardPaste(memoId: memoId)
         }
         print("✅ 입력 완료!")
+    }
+
+    /// 넣기를 마친 빈칸 값 가운데 **다음 번호**만 새로 적는다(`PlaceholderSequence.shouldRemember`).
+    /// ⚠️ 고른 값의 자리는 옮기지 않는다 - 순서는 사람이 정한다(5.0.7).
+    private func rememberNextSequenceValues(_ inputs: [String: String], templateId: UUID?) {
+        let store = PredefinedValuesStore.shared
+        for (placeholder, value) in inputs {
+            let stored = store.getValues(for: placeholder)
+            guard PlaceholderSequence.shouldRemember(chosen: value, stored: stored, token: placeholder) else { continue }
+            store.addValue(value,
+                           for: placeholder,
+                           sourceMemoId: templateId,
+                           sourceMemoTitle: placeholder.strippingTemplateBraces)
+        }
     }
 
     @objc func spacePressed(button: UIButton) {
@@ -555,6 +574,7 @@ class KeyboardViewController: UIInputViewController {
     /// 메인 앱의 ReviewManager가 이 값을 동기화하여 리뷰 요청 트리거로 사용
     /// memoId가 주어지면 해당 메모의 clipCount + lastUsedAt도 업데이트한다.
     private func trackKeyboardPaste(memoId: UUID? = nil) {
+        KeyboardSessionLedger.noteInserted()
         if let groupDefaults = AppGroup.defaults {
             let count = groupDefaults.integer(forKey: DefaultsKey.keyboardPasteCount) + 1
             groupDefaults.set(count, forKey: DefaultsKey.keyboardPasteCount)
@@ -616,10 +636,18 @@ class KeyboardViewController: UIInputViewController {
         updateHasTextState()
         // App Group 비콘 - 키보드 사용 timestamp 기록 (메인 앱 launch 시 Analytics로 전송)
         KeyboardBeacon.recordUse()
+        // 이 판에서 무엇을 넣는지 본다 - 넣지 않고 닫는 판이 잦으면 찾다가 포기하는 것이다.
+        KeyboardSessionLedger.begin()
+        sessionTypedNoted = false
         // 햅틱 엔진 사전 깨우기 - 첫 키 입력 지연 제거 (빠른 타이핑 시 버벅임 방지)
         KeyboardHaptics.prepare()
     }
 
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        KeyboardSessionLedger.end()
+    }
 
     override func textWillChange(_ textInput: UITextInput?) {
 
@@ -1040,6 +1068,11 @@ extension KeyboardViewController: TypingInputProxy {
         print("⌨️ [TypingProxy.insertText] '\(text)': hasInput=\(textDocumentProxy.hasText)")
         textDocumentProxy.insertText(text)
         updateHasTextState()
+        // 글자를 직접 친 판은 "찾다가 포기한 판" 이 아니다. 한 판에 한 번만 적는다.
+        if !sessionTypedNoted {
+            sessionTypedNoted = true
+            KeyboardSessionLedger.noteTyped()
+        }
     }
     /// 한 글자 삭제
     func deleteBackward() {

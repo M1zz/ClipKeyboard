@@ -5,6 +5,12 @@
     "comment": "Scenario title: based location answer",
     "h": "78e9bf2648"
   },
+  "%1$@ 값이 든 단축어 %2$d개": {
+    "ko": "%1$@ 값이 든 단축어 %2$d개",
+    "en": "%2$d snippets with a %1$@",
+    "comment": "Usage profile evidence: N snippets contain a detected value type, e.g. IBAN",
+    "h": "217119b545"
+  },
   "%1$@ 같은 갈래로 나눠 두었고, %2$@ 처럼 바로 쓸 수 있는 문구가 들어 있어요. 마음에 드는 것만 골라 담으면 됩니다.": {
     "ko": "%1$@ 같은 갈래로 나눠 두었고, %2$@ 처럼 바로 쓸 수 있는 문구가 들어 있어요. 마음에 드는 것만 골라 담으면 됩니다.",
     "en": "They're sorted into groups like %1$@, with ready-to-use lines such as %2$@. Take only the ones you like.",
@@ -131,6 +137,12 @@
     "comment": "Placeholder value field prompt",
     "h": "dda834446c"
   },
+  "%@ 같아서 Face ID로 잠가 둘게요": {
+    "ko": "%@ 같아서 Face ID로 잠가 둘게요",
+    "en": "This looks like a %@, so it's locked with Face ID",
+    "comment": "Toast: value read from a photo looks sensitive (e.g. passport number), so the snippet was set to secure",
+    "h": "02c22fff59"
+  },
   "%@ 걸을 수 있는 시간이에요": {
     "ko": "%@ 걸을 수 있는 시간이에요",
     "en": "enough time to walk %@",
@@ -197,6 +209,12 @@
     "comment": "Restore confirm message",
     "h": "47759c966b"
   },
+  "%@ 쓰임새로 직접 정해 두셨어요": {
+    "ko": "%@ 쓰임새로 직접 정해 두셨어요",
+    "en": "You set this to %@",
+    "comment": "Usage profile: user fixed the persona manually. %@ = persona title",
+    "h": "5de292ff8a"
+  },
   "%@ 완료": {
     "ko": "%@ 완료",
     "en": "%@ done",
@@ -226,6 +244,12 @@
     "en": "Week of %@",
     "comment": "Chart readout: week starting on this date",
     "h": "f7b349f7d9"
+  },
+  "%@ 쪽으로 쓰고 계신 것 같아요": {
+    "ko": "%@ 쪽으로 쓰고 계신 것 같아요",
+    "en": "Looks like you use it as %@",
+    "comment": "Usage profile: app inferred the persona. %@ = persona title",
+    "h": "9860d34e25"
   },
   "%@ 카테고리 이름을 변경합니다": {
     "ko": "%@ 카테고리 이름을 변경합니다",
@@ -586,6 +610,12 @@
     "en": "%lldpt",
     "comment": "",
     "h": "3393f2e2c8"
+  },
+  "'%1$@' 낱말이 든 단축어 %2$d개": {
+    "ko": "'%1$@' 낱말이 든 단축어 %2$d개",
+    "en": "%2$d snippets with the word '%1$@'",
+    "comment": "Usage profile evidence: N snippets contain a word",
+    "h": "f6dbc64bba"
   },
   "'%@' 값을 수정하세요.": {
     "ko": "'%@' 값을 수정하세요.",
@@ -3341,12 +3371,6 @@
     "comment": "OCR: applied selection toast",
     "h": "76959c01ea"
   },
-  "값으로 저장": {
-    "ko": "값으로 저장",
-    "en": "Save value",
-    "comment": "Numeric placeholder: keep typed value",
-    "h": "33bd0cfe3d"
-  },
   "값을 고르면 미리보기가 먼저 바뀌고, 입력하기를 눌러야 들어가요": {
     "ko": "값을 고르면 미리보기가 먼저 바뀌고, 입력하기를 눌러야 들어가요",
     "en": "Picking a value updates the preview first; nothing is typed until you tap insert",
@@ -3431,6 +3455,12 @@
     "comment": "Device sync desc",
     "h": "cf6e218e91"
   },
+  "같은 글을 이번 주에 두 번 복사하면 단축어로 저장하자고 한 번 더 알려 드려요": {
+    "ko": "같은 글을 이번 주에 두 번 복사하면 단축어로 저장하자고 한 번 더 알려 드려요",
+    "en": "Copy the same text twice in a week and we'll remind you once more to save it as a snippet",
+    "comment": "Changelog 5.1.4 repeat copy",
+    "h": "2286f21bf6"
+  },
   "같은 문구를 잇달아 쓰면 찾아오는 시간을 한 번만 세요. 한 번 꺼내 온 값은 이미 손에 있으니까요": {
     "ko": "같은 문구를 잇달아 쓰면 찾아오는 시간을 한 번만 세요. 한 번 꺼내 온 값은 이미 손에 있으니까요",
     "en": "Use the same snippet twice in a row and we count the lookup once. Once you've fetched a value, it's already in hand.",
@@ -3448,6 +3478,12 @@
     "en": "When one kind piles up, the app offers to gather it into a category",
     "comment": "Changelog 4.2.1 item 3",
     "h": "e7d5c33cae"
+  },
+  "같이 과제하는 친구에게도 알려 줄까요?": {
+    "ko": "같이 과제하는 친구에게도 알려 줄까요?",
+    "en": "Want to tell a classmate about it?",
+    "comment": "Share moment alert title (student persona)",
+    "h": "99a7f40c84"
   },
   "개발자 모드가 꺼졌어요": {
     "ko": "개발자 모드가 꺼졌어요",
@@ -4283,6 +4319,12 @@
     "comment": "Accept splitting a pasted list into separate snippets",
     "h": "d8d771b857"
   },
+  "나에게 맞추기": {
+    "ko": "나에게 맞추기",
+    "en": "Fit to Me",
+    "comment": "Usage profile settings title: the app adapts to how you use it",
+    "h": "51ddf66355"
+  },
   "나중에": {
     "ko": "나중에",
     "en": "Later",
@@ -4823,11 +4865,23 @@
     "comment": "Next button\nReturn key label: next",
     "h": "ffa2132e34"
   },
+  "다음 %@": {
+    "ko": "다음 %@",
+    "en": "Next %@",
+    "comment": "Placeholder chip: next value in a sequence, e.g. next invoice number",
+    "h": "c1f6f40ce6"
+  },
   "다음 주": {
     "ko": "다음 주",
     "en": "Next week",
     "comment": "Date option: next week",
     "h": "34e1929d1b"
+  },
+  "다음 차례 값 %@": {
+    "ko": "다음 차례 값 %@",
+    "en": "Next value %@",
+    "comment": "Accessibility: next value in a sequence",
+    "h": "ddd7d78cd5"
   },
   "다음 키보드": {
     "ko": "다음 키보드",
@@ -5068,6 +5122,12 @@
     "en": "Pick ready made snippets from the shortcut mart",
     "comment": "Changelog 4.4.4 item 3",
     "h": "c3f16946f5"
+  },
+  "단축어 마트와 카테고리 제안이 쓰임새에 맞는 것부터 나와요": {
+    "ko": "단축어 마트와 카테고리 제안이 쓰임새에 맞는 것부터 나와요",
+    "en": "Shortcut Mart and category suggestions show what fits you first",
+    "comment": "Usage profile effect: shortcut mart and category suggestions",
+    "h": "17281b3ffc"
   },
   "단축어 만들기": {
     "ko": "단축어 만들기",
@@ -5321,12 +5381,6 @@
     "comment": "Changelog 4.3.0 item 1",
     "h": "0c5a7d535d"
   },
-  "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.": {
-    "ko": "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.",
-    "en": "Keep it on to send right after inserting a snippet. Turn it off if you want more room.",
-    "comment": "What's new 5.1.3 return key detail",
-    "h": "8607b208c0"
-  },
   "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다": {
     "ko": "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다",
     "en": "Send right after inserting a snippet, without switching keyboards",
@@ -5362,6 +5416,18 @@
     "en": "Shortcut created",
     "comment": "Event label: shortcut created",
     "h": "0a6bbc0851"
+  },
+  "단축어를 몇 개 더 만드시면 그에 맞는 예시와 기능을 먼저 보여 드려요. 그때까지는 모두에게 맞는 것부터 보여 드려요.": {
+    "ko": "단축어를 몇 개 더 만드시면 그에 맞는 예시와 기능을 먼저 보여 드려요. 그때까지는 모두에게 맞는 것부터 보여 드려요.",
+    "en": "Make a few more snippets and we'll show examples and features that fit you first. Until then, you'll see what suits everyone.",
+    "comment": "Usage profile: not inferred yet, explains what happens later",
+    "h": "f1ea7de386"
+  },
+  "단축어를 몇 개 더 만드시면 쓰임새에 맞는 것부터 보여드려요": {
+    "ko": "단축어를 몇 개 더 만드시면 쓰임새에 맞는 것부터 보여드려요",
+    "en": "Make a few more snippets and we'll show what fits you first",
+    "comment": "Shortcut mart: persona not inferred yet hint",
+    "h": "7ec27bbf12"
   },
   "단축어를 보안으로 두면 Face ID 를 통과해야 열려요. 폰을 잠깐 빌려줘도 그것만은 안 보입니다.": {
     "ko": "단축어를 보안으로 두면 Face ID 를 통과해야 열려요. 폰을 잠깐 빌려줘도 그것만은 안 보입니다.",
@@ -5777,6 +5843,12 @@
     "comment": "Persona: Digital Nomad title",
     "h": "0206c0603f"
   },
+  "따로 고르지 않으셔도 돼요. 단축어가 늘면 판단도 함께 바뀌어요.": {
+    "ko": "따로 고르지 않으셔도 돼요. 단축어가 늘면 판단도 함께 바뀌어요.",
+    "en": "No need to choose. As your snippets grow, this updates with them.",
+    "comment": "Usage profile: inferred, no need to choose",
+    "h": "7dcdb29b4f"
+  },
   "따로 있던 콤보를 단축어 목록 안으로 들여왔어요": {
     "ko": "따로 있던 콤보를 단축어 목록 안으로 들여왔어요",
     "en": "Combos moved out of their own screen and into the list",
@@ -6004,6 +6076,12 @@
     "en": "Clear glass cards + photo backgrounds: 8 scenic photos, different per tab",
     "comment": "Changelog 4.3.9 item 1",
     "h": "1055037776"
+  },
+  "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
+    "ko": "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요",
+    "en": "Snippets you use at the same time each week or month move to the front of the keyboard when that time comes",
+    "comment": "Usage profile effect: rhythm-based quick row",
+    "h": "098713e91d"
   },
   "맥에서 단축어 순서를 끌어다 바꾸고, 그 순서를 아이폰·키보드까지 동기화": {
     "ko": "맥에서 단축어 순서를 끌어다 바꾸고, 그 순서를 아이폰·키보드까지 동기화",
@@ -6461,12 +6539,6 @@
     "comment": "Accept the edit-pattern suggestion",
     "h": "476e98573d"
   },
-  "바꾸는 대로 진짜 키보드에서 보여요": {
-    "ko": "바꾸는 대로 진짜 키보드에서 보여요",
-    "en": "See every change on the real keyboard",
-    "comment": "What's new 5.1.3 live preview title",
-    "h": "01f3e27444"
-  },
   "바꾼 순서는 앱에도 그대로 반영돼요": {
     "ko": "바꾼 순서는 앱에도 그대로 반영돼요",
     "en": "The new order shows up in the app too",
@@ -6737,6 +6809,12 @@
     "comment": "Changelog 5.0.5 traditional",
     "h": "8dc3644956"
   },
+  "번호가 오르는 빈칸은 다음 번호를 먼저 보여 드려요. 지난 번호가 그대로 나가지 않게요": {
+    "ko": "번호가 오르는 빈칸은 다음 번호를 먼저 보여 드려요. 지난 번호가 그대로 나가지 않게요",
+    "en": "Numbered blanks now suggest the next number, so last time's number doesn't slip through",
+    "comment": "Changelog 5.1.4 next number",
+    "h": "30fafa6081"
+  },
   "변경": {
     "ko": "변경",
     "en": "Change",
@@ -6844,12 +6922,6 @@
     "en": "Send key",
     "comment": "Show return key toggle",
     "h": "5165bd1e95"
-  },
-  "보내기 키를 켜고 끌 수 있어요": {
-    "ko": "보내기 키를 켜고 끌 수 있어요",
-    "en": "Turn the send key on or off",
-    "comment": "What's new 5.1.3 return key title",
-    "h": "917918a5e6"
   },
   "보내기 키의 이름은 앱이 정합니다. 메시지 앱에서는 보내기, 검색창에서는 검색으로 보여요. 줄바꿈만 되는 앱도 있습니다.": {
     "ko": "보내기 키의 이름은 앱이 정합니다. 메시지 앱에서는 보내기, 검색창에서는 검색으로 보여요. 줄바꿈만 되는 앱도 있습니다.",
@@ -7415,6 +7487,12 @@
     "comment": "Blank count",
     "h": "931d7644c6"
   },
+  "빈칸 '%@'": {
+    "ko": "빈칸 '%@'",
+    "en": "Blank '%@'",
+    "comment": "Usage profile evidence: a template blank with this name",
+    "h": "e4d3e6e717"
+  },
   "빈칸 값 설정": {
     "ko": "빈칸 값 설정",
     "en": "Blank Values",
@@ -7774,6 +7852,12 @@
     "en": "No text was recognized in the photo. Try again with a clearer photo.",
     "comment": "OCR empty alert message",
     "h": "f8a901febc"
+  },
+  "사진에서 읽은 여권·카드 번호는 Face ID로 잠가 둬요": {
+    "ko": "사진에서 읽은 여권·카드 번호는 Face ID로 잠가 둬요",
+    "en": "Passport and card numbers read from a photo are locked with Face ID",
+    "comment": "Usage profile effect: lock sensitive values read from photos",
+    "h": "4ba6aeaf92"
   },
   "사진에서 읽을 수 있는 글자가 없었어요. 글자가 크고 또렷하게 나온 사진으로 다시 해보세요.": {
     "ko": "사진에서 읽을 수 있는 글자가 없었어요. 글자가 크고 또렷하게 나온 사진으로 다시 해보세요.",
@@ -8327,12 +8411,6 @@
     "comment": "Setup done button",
     "h": "c7592b5a0c"
   },
-  "설정 위쪽 미리보기가 실제 키보드 그대로예요. 키 크기와 높이를 바꾸면 바로 달라져요.": {
-    "ko": "설정 위쪽 미리보기가 실제 키보드 그대로예요. 키 크기와 높이를 바꾸면 바로 달라져요.",
-    "en": "The preview at the top of Settings is the actual keyboard. Change the key size or height and it updates right away.",
-    "comment": "What's new 5.1.3 live preview detail",
-    "h": "d150ac30e6"
-  },
   "설정 화면": {
     "ko": "설정 화면",
     "en": "Settings screen",
@@ -8645,12 +8723,6 @@
     "comment": "Show number pad key toggle",
     "h": "e3c5a426b4"
   },
-  "숫자 판 키와 붙여넣기 키도 골라요": {
-    "ko": "숫자 판 키와 붙여넣기 키도 골라요",
-    "en": "Choose the number pad and paste keys too",
-    "comment": "What's new 5.1.3 number pad paste title",
-    "h": "1d99e052db"
-  },
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "ko": "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.",
     "en": "One digit is off. Compare it with the number on your card.",
@@ -8873,6 +8945,12 @@
     "comment": "Changelog 5.0.5 delete blank",
     "h": "a94dd6a191"
   },
+  "쓰임새를 묻지 않아요. 저장하신 단축어를 보고 앱이 알아서 맞춰요": {
+    "ko": "쓰임새를 묻지 않아요. 저장하신 단축어를 보고 앱이 알아서 맞춰요",
+    "en": "No more picking a profile. The app adapts to the snippets you save",
+    "comment": "Changelog 5.1.4 inferred persona",
+    "h": "92b35ef9b7"
+  },
   "쓰지 않는 빈칸 %d개 지우기": {
     "ko": "쓰지 않는 빈칸 %d개 지우기",
     "en": "Delete %d unused blanks",
@@ -8896,6 +8974,12 @@
     "en": "Each use cracks the stone; the third one breaks it open and a gem comes out.",
     "comment": "Living skin description: geode",
     "h": "4d00fd5c40"
+  },
+  "쓸 수 있는 기능과 한도는 쓰임새와 상관없이 같아요. 먼저 보여 드리는 순서만 바뀌어요.": {
+    "ko": "쓸 수 있는 기능과 한도는 쓰임새와 상관없이 같아요. 먼저 보여 드리는 순서만 바뀌어요.",
+    "en": "Features and limits are the same for everyone. Only what we show first changes.",
+    "comment": "Usage profile: effects never change limits or access",
+    "h": "7e0806d20c"
   },
   "쓸 수 있는 이름이 아니에요. 중괄호 없이 적어 주세요.": {
     "ko": "쓸 수 있는 이름이 아니에요. 중괄호 없이 적어 주세요.",
@@ -9011,6 +9095,12 @@
     "comment": "In-app keyboard stage: sample incoming hint",
     "h": "c6945f2575"
   },
+  "아래에서 '자동'을 고르시면 앱이 다시 알아서 맞춰요.": {
+    "ko": "아래에서 '자동'을 고르시면 앱이 다시 알아서 맞춰요.",
+    "en": "Choose Automatic below to let the app adjust on its own again.",
+    "comment": "Usage profile: how to return to automatic",
+    "h": "d80b17b9d5"
+  },
   "아래에서 값을 추가하세요": {
     "ko": "아래에서 값을 추가하세요",
     "en": "Add values below",
@@ -9088,6 +9178,12 @@
     "en": "No shortcuts yet. Tap + above to make one.",
     "comment": "Empty list: no shortcuts yet",
     "h": "aae712a392"
+  },
+  "아직 뚜렷한 쓰임새가 보이지 않아요": {
+    "ko": "아직 뚜렷한 쓰임새가 보이지 않아요",
+    "en": "No clear pattern yet",
+    "comment": "Usage profile: not enough signal to infer a persona",
+    "h": "0e6a40d759"
   },
   "아직 백지예요": {
     "ko": "아직 백지예요",
@@ -9214,6 +9310,12 @@
     "en": "Got it",
     "comment": "Did you know: dismiss\nNew snippet coach: last step, dismiss\nSwitch hint: dismiss",
     "h": "0e7cf8eef5"
+  },
+  "알려 주기": {
+    "ko": "알려 주기",
+    "en": "Tell Them",
+    "comment": "Share moment: open share sheet",
+    "h": "4d885eaa68"
   },
   "알림 권한이 꺼져 있어요. iOS 설정 > %@ > 알림에서 허용해 주세요.": {
     "ko": "알림 권한이 꺼져 있어요. iOS 설정 > %@ > 알림에서 허용해 주세요.",
@@ -9352,6 +9454,12 @@
     "en": "Snippets no longer drop in or jolt when the app opens",
     "comment": "Changelog 5.1.1 smooth launch",
     "h": "3e208a2bde"
+  },
+  "앱의 판단이 틀렸을 때만 고르세요.": {
+    "ko": "앱의 판단이 틀렸을 때만 고르세요.",
+    "en": "Only choose one if the app got it wrong.",
+    "comment": "Usage profile: manual override footer",
+    "h": "e2a5f4f4c5"
   },
   "앱이 미리 만들어 둔 카테고리예요. 켜면 목록 상단 탭에 나타나 해당 종류의 단축어만 모아 볼 수 있어요.": {
     "ko": "앱이 미리 만들어 둔 카테고리예요. 켜면 목록 상단 탭에 나타나 해당 종류의 단축어만 모아 볼 수 있어요.",
@@ -10067,12 +10175,6 @@
     "comment": "Select memo intent description",
     "h": "13d40b4407"
   },
-  "위줄에 둘 키와 크기를 설정에서 직접 골라요.": {
-    "ko": "위줄에 둘 키와 크기를 설정에서 직접 골라요.",
-    "en": "Pick the keys on the top row and their size in Settings.",
-    "comment": "What's new subtitle 5.1.3",
-    "h": "6e22eb19a9"
-  },
   "유지": {
     "ko": "유지",
     "en": "Keep",
@@ -10421,6 +10523,18 @@
     "comment": "VoiceOver: the difference it makes",
     "h": "78945fdfa2"
   },
+  "이렇게 맞춰 드려요": {
+    "ko": "이렇게 맞춰 드려요",
+    "en": "What Changes",
+    "comment": "Usage profile: effects section header",
+    "h": "05da249a1a"
+  },
+  "이렇게 알아봤어요": {
+    "ko": "이렇게 알아봤어요",
+    "en": "What We Noticed",
+    "comment": "Usage profile: evidence section header",
+    "h": "077e8d962f"
+  },
   "이렇게 저장돼요": {
     "ko": "이렇게 저장돼요",
     "en": "This is what gets saved",
@@ -10702,6 +10816,12 @@
     "en": "This week",
     "comment": "Refund period: this week",
     "h": "687bb049c7"
+  },
+  "이번 주에 %d번째 복사한 글이에요": {
+    "ko": "이번 주에 %d번째 복사한 글이에요",
+    "en": "Copied %d times this week",
+    "comment": "Clipboard capture card: the same text was copied N times within 7 days",
+    "h": "2258e4149d"
   },
   "이번엔 셈을 고쳤어요": {
     "ko": "이번엔 셈을 고쳤어요",
@@ -11003,11 +11123,23 @@
     "comment": "Template tutorial: suggested template name",
     "h": "6fdaaf024a"
   },
+  "자동": {
+    "ko": "자동",
+    "en": "Automatic",
+    "comment": "Usage profile row subtitle: automatic, nothing inferred yet",
+    "h": "009461f38a"
+  },
   "자동 (%@)": {
     "ko": "자동 (%@)",
     "en": "Automatic (%@)",
     "comment": "Date format: automatic option, %@ is today rendered",
     "h": "9e3bb4ec68"
+  },
+  "자동 (추천)": {
+    "ko": "자동 (추천)",
+    "en": "Automatic (Recommended)",
+    "comment": "Usage profile: automatic option",
+    "h": "60647babbc"
   },
   "자동 백업": {
     "ko": "자동 백업",
@@ -11134,6 +11266,12 @@
     "en": "We will preset commonly-used categories for you. You can change them anytime.",
     "comment": "Persona onboarding subtitle",
     "h": "558a5fc53e"
+  },
+  "자주 씀: %@": {
+    "ko": "자주 씀: %@",
+    "en": "Often used: %@",
+    "comment": "Keyboard quick row chip label: frequently used shortcut",
+    "h": "4e3c6b9c43"
   },
   "작게": {
     "ko": "작게",
@@ -11303,6 +11441,12 @@
     "comment": "Bulk import: keyboard preview footer",
     "h": "db67f11890"
   },
+  "저장하신 단축어의 제목·종류·빈칸 이름만 봐요. 기기 밖으로 보내지 않아요.": {
+    "ko": "저장하신 단축어의 제목·종류·빈칸 이름만 봐요. 기기 밖으로 보내지 않아요.",
+    "en": "Only the titles, types and blank names of your snippets are used. Nothing leaves your device.",
+    "comment": "Usage profile settings: privacy note about what is inspected",
+    "h": "492eaa4797"
+  },
   "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요": {
     "ko": "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요",
     "en": "Tap your saved IBAN or passport to fill in forms instantly",
@@ -11356,6 +11500,12 @@
     "en": "All Types",
     "comment": "Nomad focus: all types",
     "h": "397495d433"
+  },
+  "전에 직접 고르신 유형": {
+    "ko": "전에 직접 고르신 유형",
+    "en": "The type you picked before",
+    "comment": "Usage profile evidence: the persona the user picked in an older version",
+    "h": "9fb056bb28"
   },
   "전역 단축키": {
     "ko": "전역 단축키",
@@ -11921,6 +12071,12 @@
     "comment": "Button subtitle: refund receipt",
     "h": "8b6f0a40d8"
   },
+  "지금 쓸 차례: %@": {
+    "ko": "지금 쓸 차례: %@",
+    "en": "Due now: %@",
+    "comment": "Keyboard quick row chip label: shortcut usually used around this time",
+    "h": "4b08bcd053"
+  },
   "지금 안 하셔도 괜찮아요. 나중에 설정에서 구매할 수 있어요.": {
     "ko": "지금 안 하셔도 괜찮아요. 나중에 설정에서 구매할 수 있어요.",
     "en": "No rush. You can buy from Settings later.",
@@ -12028,6 +12184,12 @@
     "en": "Pick a date",
     "comment": "Pick a specific date",
     "h": "255501feec"
+  },
+  "직접 정하기": {
+    "ko": "직접 정하기",
+    "en": "Set It Myself",
+    "comment": "Usage profile: manual override section header",
+    "h": "be5f1f11d0"
   },
   "진단 스키마가 아직 허브에 배포되지 않았어요. CloudKit Console 에서 CrashReport 레코드 타입과 인덱스를 배포하면 여기에 쌓입니다.": {
     "ko": "진단 스키마가 아직 허브에 배포되지 않았어요. CloudKit Console 에서 CrashReport 레코드 타입과 인덱스를 배포하면 여기에 쌓입니다.",
@@ -12605,12 +12767,6 @@
     "comment": "DYK body: checksum",
     "h": "f295fae985"
   },
-  "카드번호나 금액처럼 숫자 몇 자만 넣을 때는 숫자 판을 여세요. 붙여넣기 키는 쓰는 분만 켜면 돼요.": {
-    "ko": "카드번호나 금액처럼 숫자 몇 자만 넣을 때는 숫자 판을 여세요. 붙여넣기 키는 쓰는 분만 켜면 돼요.",
-    "en": "Open the number pad when you only need a few digits, like a card number or an amount. Turn on the paste key only if you use it.",
-    "comment": "What's new 5.1.3 number pad paste detail",
-    "h": "035f627d2e"
-  },
   "카드에 살며시 보여줄 한 줄, 비우면 자동 요약": {
     "ko": "카드에 살며시 보여줄 한 줄, 비우면 자동 요약",
     "en": "A line to gently show on the card, auto summary if empty",
@@ -12640,6 +12796,12 @@
     "en": "%2$d of your %1$d categories have no shortcuts at all. Tidying up the ones you don't use makes swiping through the list much lighter.",
     "comment": "",
     "h": "5ef80cb556"
+  },
+  "카테고리 '%@'": {
+    "ko": "카테고리 '%@'",
+    "en": "Category '%@'",
+    "comment": "Usage profile evidence: a user category with this name",
+    "h": "1bf4ebf5c3"
   },
   "카테고리 관리": {
     "ko": "카테고리 관리",
@@ -13169,12 +13331,6 @@
     "comment": "Changelog 4.4.1 item 3",
     "h": "99c7398b9c"
   },
-  "키보드 꾸미러 가기": {
-    "ko": "키보드 꾸미러 가기",
-    "en": "Customize keyboard",
-    "comment": "What's new 5.1.3 primary button",
-    "h": "6aeb4ea34d"
-  },
   "키보드 내리기": {
     "ko": "키보드 내리기",
     "en": "Dismiss keyboard",
@@ -13217,6 +13373,12 @@
     "comment": "Full access: tap ClipKeyboard",
     "h": "a814060f7e"
   },
+  "키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n앱에 저장한 단축어를 키보드가 꺼내 오려면 필요해요. 치시는 글자는 기기 밖으로 보내지 않아요.": {
+    "ko": "키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n앱에 저장한 단축어를 키보드가 꺼내 오려면 필요해요. 치시는 글자는 기기 밖으로 보내지 않아요.",
+    "en": "Tap ClipKeyboard in the keyboard list, then turn on 'Allow Full Access'.\nThe keyboard needs it to reach the snippets saved in the app. What you type never leaves your device.",
+    "comment": "Setup step 3 description: why Full Access is needed and reassurance that typed text never leaves the device",
+    "h": "c58bbb62f3"
+  },
   "키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 단축어에 접근하기 위해 꼭 필요합니다.": {
     "ko": "키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 단축어에 접근하기 위해 꼭 필요합니다.",
     "en": "Tap ClipKeyboard in the keyboard list, then turn on 'Allow Full Access'.\nThis is required to access your saved snippets.",
@@ -13226,8 +13388,8 @@
   "키보드 미리보기": {
     "ko": "키보드 미리보기",
     "en": "Keyboard preview",
-    "comment": "In-app keyboard stage title\nKeyboard preview accessibility label",
-    "h": "8b52ec4dbd"
+    "comment": "In-app keyboard stage title",
+    "h": "ee7baeb07f"
   },
   "키보드 미리보기가 한 번에 부드럽게 오르내리고, 입력창 캐럿이 깜빡여요": {
     "ko": "키보드 미리보기가 한 번에 부드럽게 오르내리고, 입력창 캐럿이 깜빡여요",
@@ -13366,12 +13528,6 @@
     "en": "Typed with the keyboard",
     "comment": "Event label: keyboard used",
     "h": "27b76de9dc"
-  },
-  "키보드를 내 손에 맞게 고쳐요": {
-    "ko": "키보드를 내 손에 맞게 고쳐요",
-    "en": "Make the keyboard fit your hands",
-    "comment": "What's new title 5.1.3",
-    "h": "7ac51aaefe"
   },
   "키보드를 다시 열면 보던 갈래가 그대로 열려요. 매번 처음으로 돌아가지 않아요": {
     "ko": "키보드를 다시 열면 보던 갈래가 그대로 열려요. 매번 처음으로 돌아가지 않아요",
@@ -14326,6 +14482,18 @@
     "en": "For students needing IDs, school email, and assignment templates",
     "comment": "Persona: Student description",
     "h": "bb26920adb"
+  },
+  "학번·교수님 메일·조별과제 공지를 한 번에 넣고 계시잖아요. 조별과제 방에 링크 하나면 돼요.": {
+    "ko": "학번·교수님 메일·조별과제 공지를 한 번에 넣고 계시잖아요. 조별과제 방에 링크 하나면 돼요.",
+    "en": "You're already filling in your student ID, professor emails and group project notices in one tap. One link in your group chat is all it takes.",
+    "comment": "Share moment alert message (student persona)",
+    "h": "598c832785"
+  },
+  "학번이나 과제 메일처럼 매번 치는 글을 키보드에서 한 번에 넣어요. %@": {
+    "ko": "학번이나 과제 메일처럼 매번 치는 글을 키보드에서 한 번에 넣어요. %@",
+    "en": "Type things like your student ID or assignment emails in one tap from the keyboard. %@",
+    "comment": "Share moment: message shared to friends, %@ = App Store URL",
+    "h": "67e9769643"
   },
   "학생": {
     "ko": "학생",

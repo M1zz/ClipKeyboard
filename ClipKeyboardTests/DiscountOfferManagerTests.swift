@@ -36,7 +36,8 @@ struct DiscountOfferManagerTests {
                      discountAvailable: Bool = true,
                      isMidFirstShortcut: Bool = false,
                      awayOrJustBack: Bool = false,
-                     hoards: Bool = false) -> DiscountOfferManager.Occasion? {
+                     hoards: Bool = false,
+                     fits: Bool = true) -> DiscountOfferManager.Occasion? {
         DiscountOfferManager.dueOccasion(now: now, context: .init(
             installedAt: installedDaysAgo.map { daysAgo($0) },
             reachedLimitEdgeAt: reachedDaysAgo.map { daysAgo($0) },
@@ -45,7 +46,8 @@ struct DiscountOfferManagerTests {
             discountAvailable: discountAvailable,
             isMidFirstShortcut: isMidFirstShortcut,
             isAwayOrJustBack: awayOrJustBack,
-            hoardsUnusedShortcuts: hoards
+            hoardsUnusedShortcuts: hoards,
+            fitsDiscountOffer: fits
         ))
     }
 
@@ -71,6 +73,12 @@ struct DiscountOfferManagerTests {
     /// 가치를 보기 전의 할인은 **정가에 대한 정보만** 남긴다.
     /// 사는 사람은 반값에 사고, 안 사는 사람은 정가가 제값이 아니라는 것만 배우고 간다.
     /// 일시불 앱에서 기다리기 시작한 사람은 대개 영영 안 산다.
+    @Test("쓰임새로 보아 값을 깎아 권할 사람이 아니면 꺼내지 않는다 (학생으로 확신)")
+    func silentWhenTheFitSaysNo() {
+        #expect(due(reachedDaysAgo: 8) == .limitEdge)
+        #expect(due(reachedDaysAgo: 8, fits: false) == nil)
+    }
+
     @Test("설치 직후에는 아무 제안도 하지 않는다")
     func neverOffersRightAfterInstall() {
         #expect(due(installedDaysAgo: 0) == nil)
