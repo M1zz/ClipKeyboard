@@ -329,6 +329,8 @@ struct ContentInputSection: View {
     /// 처음 만드는 사람을 짚어 주는 중이면 지금 걸음(`MemoAddCoach.swift`).
     /// 이 칸은 **값을 가져오는 줄**과 **실제 내용**으로 나뉘어서 걸음도 둘이다.
     var coachStep: MemoAddCoachStep?
+    /// 사진에서 값을 담았다. 그 값이 여권·카드처럼 가려야 할 것이면 부르는 쪽이 잠금을 켠다.
+    var onValueFromPhoto: ((String) -> Void)?
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -675,6 +677,7 @@ struct ContentInputSection: View {
                 onPick: { picked in
                     value = picked
                     showToastMessage(NSLocalizedString("사진에서 값을 넣었습니다", comment: "Filled value from photo toast"))
+                    onValueFromPhoto?(picked)
                 },
                 onSwitchToLineList: {
                     // 문지르기 어려운 사람(VoiceOver·손 떨림)을 위한 다른 길.
@@ -696,10 +699,12 @@ struct ContentInputSection: View {
                     onPick: { picked in
                         value = picked
                         showToastMessage(NSLocalizedString("사진에서 값을 넣었습니다", comment: "Filled value from photo toast"))
+                        onValueFromPhoto?(picked)
                     },
                     onAppend: { line in
                         // 두 줄짜리 주소처럼 여러 줄이 한 값일 때 - 줄바꿈으로 잇는다.
                         value = value.isEmpty ? line : value + "\n" + line
+                        onValueFromPhoto?(value)
                     }
                 )
             }

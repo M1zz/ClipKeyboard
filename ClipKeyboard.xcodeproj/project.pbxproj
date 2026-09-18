@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		33AC12F4C3BF742487AF1AF3 /* UsageProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DF20ED1A4C7E6BF4875D4B /* UsageProfileSettingsView.swift */; };
+		DCEA5C087399F61BEC1AC4AD /* RepeatCopyLedger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF353965FBB3FB43B9D3E5B0 /* RepeatCopyLedger.swift */; };
+		779162296164CEB587E98D86 /* FeatureFit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A457A64DDC3D02C15E2D2C7B /* FeatureFit.swift */; };
+		A5E8C8FB800717382C9A5C0C /* PersonaResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56306F8B546CA1258ECD8CD0 /* PersonaResolver.swift */; };
+		F0F079FE7F11A67777478C58 /* PersonaInference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED0D52F6181F31C27433F4E /* PersonaInference.swift */; };
+		5122552BB078CED5A59A3AEB /* PlaceholderSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877F54D058455927CBAA013 /* PlaceholderSequence.swift */; };
+		D70976F231DF49E88A74FC97 /* PlaceholderSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3877F54D058455927CBAA013 /* PlaceholderSequence.swift */; };
+		E0334BEF3A7CD6F30CB4BEFF /* KeyboardSessionLedger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFC356ABA611E8224523881 /* KeyboardSessionLedger.swift */; };
+		E8E893AB668C9275404C6DF1 /* KeyboardSessionLedger.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFC356ABA611E8224523881 /* KeyboardSessionLedger.swift */; };
+		CE5D1C53006473157051D0F0 /* UsageRhythm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A48A315EBCE9B2823C1C19 /* UsageRhythm.swift */; };
+		8FE0CD72D8835120A0F375CE /* UsageRhythm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A48A315EBCE9B2823C1C19 /* UsageRhythm.swift */; };
 		0400F328680C4EA8C66511B2 /* UsageBreakdownCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A5192FEC743DF68940A67D /* UsageBreakdownCharts.swift */; };
 		06B3FF70D58722B3CBDDA128 /* DefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */; };
 		077DAE30BB547E3CBF3CDCAA /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759E1C51E0141D0101328417 /* AppNotification.swift */; };
@@ -269,7 +280,6 @@
 		KBO00012F0000000000000001 /* KeyboardOverlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = KBO00022F0000000000000002 /* KeyboardOverlays.swift */; };
 		KG00012F0000000000000001 /* KeyboardSetupBannerGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = KG00022F0000000000000002 /* KeyboardSetupBannerGate.swift */; };
 		MAC00012F0000000000000001 /* MemoAddComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = MAC00022F0000000000000002 /* MemoAddComponents.swift */; };
-		PERSONAPROMPTBUILD000001 /* PersonaPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = PERSONAPROMPTFILE0000001 /* PersonaPrompt.swift */; };
 		QKN0BUILD000000000000001 /* QuickNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000001 /* QuickNote.swift */; };
 		QKN0BUILD000000000000002 /* QuickNoteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000002 /* QuickNoteStore.swift */; };
 		QKN0BUILD000000000000003 /* QuickNoteInboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */; };
@@ -358,6 +368,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C8DF20ED1A4C7E6BF4875D4B /* UsageProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageProfileSettingsView.swift; sourceTree = "<group>"; };
+		FF353965FBB3FB43B9D3E5B0 /* RepeatCopyLedger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatCopyLedger.swift; sourceTree = "<group>"; };
+		A457A64DDC3D02C15E2D2C7B /* FeatureFit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFit.swift; sourceTree = "<group>"; };
+		56306F8B546CA1258ECD8CD0 /* PersonaResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaResolver.swift; sourceTree = "<group>"; };
+		8ED0D52F6181F31C27433F4E /* PersonaInference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaInference.swift; sourceTree = "<group>"; };
+		3877F54D058455927CBAA013 /* PlaceholderSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderSequence.swift; sourceTree = "<group>"; };
+		BEFC356ABA611E8224523881 /* KeyboardSessionLedger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSessionLedger.swift; sourceTree = "<group>"; };
+		33A48A315EBCE9B2823C1C19 /* UsageRhythm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageRhythm.swift; sourceTree = "<group>"; };
 		033ABFB89F872AE078A1FC22 /* TypingSpeedMeter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TypingSpeedMeter.swift; sourceTree = "<group>"; };
 		050AEED88220E19330F5B15C /* MemoSyncCore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoSyncCore.swift; sourceTree = "<group>"; };
 		0622D45C06C97BE4FC38AC5B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -582,7 +600,6 @@
 		KBO00022F0000000000000002 /* KeyboardOverlays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardOverlays.swift; sourceTree = "<group>"; };
 		KG00022F0000000000000002 /* KeyboardSetupBannerGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSetupBannerGate.swift; sourceTree = "<group>"; };
 		MAC00022F0000000000000002 /* MemoAddComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddComponents.swift; sourceTree = "<group>"; };
-		PERSONAPROMPTFILE0000001 /* PersonaPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaPrompt.swift; sourceTree = "<group>"; };
 		QKN0FILE0000000000000001 /* QuickNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNote.swift; sourceTree = "<group>"; };
 		QKN0FILE0000000000000002 /* QuickNoteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNoteStore.swift; sourceTree = "<group>"; };
 		QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNoteInboxView.swift; sourceTree = "<group>"; };
@@ -901,6 +918,13 @@
 		58F8FBC32A15277700F5446E /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				FF353965FBB3FB43B9D3E5B0 /* RepeatCopyLedger.swift */,
+				A457A64DDC3D02C15E2D2C7B /* FeatureFit.swift */,
+				56306F8B546CA1258ECD8CD0 /* PersonaResolver.swift */,
+				8ED0D52F6181F31C27433F4E /* PersonaInference.swift */,
+				3877F54D058455927CBAA013 /* PlaceholderSequence.swift */,
+				BEFC356ABA611E8224523881 /* KeyboardSessionLedger.swift */,
+				33A48A315EBCE9B2823C1C19 /* UsageRhythm.swift */,
 				926575C98D0A0BDDB6B6BA4D /* UsageStatsCache.swift */,
 				2C9F42D0C02B6FA782BA3DD1 /* AppLanguage.swift */,
 				581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */,
@@ -908,7 +932,6 @@
 				58F8FBC02A13C9A400F5446E /* MemoStore.swift */,
 				TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */,
 				TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */,
-				PERSONAPROMPTFILE0000001 /* PersonaPrompt.swift */,
 				SHAREVIDEOFILE000000001 /* ShareVideoRenderer.swift */,
 				QKN0FILE0000000000000002 /* QuickNoteStore.swift */,
 				AA00001700000001F3B00006 /* AnalyticsService.swift */,
@@ -961,6 +984,7 @@
 		58F8FBC42A15278100F5446E /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				C8DF20ED1A4C7E6BF4875D4B /* UsageProfileSettingsView.swift */,
 				5407569C00E3E8AE6EDCDB20 /* LanguageSettingsView.swift */,
 				INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */,
 				INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */,
@@ -1413,6 +1437,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5122552BB078CED5A59A3AEB /* PlaceholderSequence.swift in Sources */,
+				E0334BEF3A7CD6F30CB4BEFF /* KeyboardSessionLedger.swift in Sources */,
+				CE5D1C53006473157051D0F0 /* UsageRhythm.swift in Sources */,
 				D9F81F4005E5FDAAAEA43A3A /* AppLanguage.swift in Sources */,
 				KBFEED0B0000000000000002 /* KeyboardMemoFeed.swift in Sources */,
 				587BDC592A1FC8BB001464E4 /* Memo.swift in Sources */,
@@ -1469,6 +1496,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33AC12F4C3BF742487AF1AF3 /* UsageProfileSettingsView.swift in Sources */,
+				DCEA5C087399F61BEC1AC4AD /* RepeatCopyLedger.swift in Sources */,
+				779162296164CEB587E98D86 /* FeatureFit.swift in Sources */,
+				A5E8C8FB800717382C9A5C0C /* PersonaResolver.swift in Sources */,
+				F0F079FE7F11A67777478C58 /* PersonaInference.swift in Sources */,
+				D70976F231DF49E88A74FC97 /* PlaceholderSequence.swift in Sources */,
+				E8E893AB668C9275404C6DF1 /* KeyboardSessionLedger.swift in Sources */,
+				8FE0CD72D8835120A0F375CE /* UsageRhythm.swift in Sources */,
 				2DECE05C81C009F6FE7B1D49 /* UsageStatsCache.swift in Sources */,
 				FCD2BA0589515519BB3C32B7 /* LanguageSettingsView.swift in Sources */,
 				B3D4BFBC2978C6B78156E1B6 /* AppLanguage.swift in Sources */,
@@ -1521,7 +1556,6 @@
 				58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */,
 				TIMESAVEDBUILDAPP0000001 /* TimeSavedModel.swift in Sources */,
 				TIMEEQUIVBUILDAPP0000001 /* TimeEquivalent.swift in Sources */,
-				PERSONAPROMPTBUILD000001 /* PersonaPrompt.swift in Sources */,
 				SHAREVIDEOBUILDAPP000001 /* ShareVideoRenderer.swift in Sources */,
 				58SV00042F9A1B0100000004 /* ClipboardClassificationService.swift in Sources */,
 				58DM00042FAA1B0100000004 /* DemoDataService.swift in Sources */,

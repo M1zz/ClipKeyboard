@@ -48,7 +48,8 @@ struct ShortcutMartView: View {
     @State private var picked: ShortcutMartItem?
     @State private var addedCount = 0
 
-    private var persona: Persona? { CategoryStore.shared.selectedPersona }
+    /// 확신할 때만 쓰임새로 거른다. 모르는 채로 거르면 엉뚱한 진열대만 보인다(`FeatureFit`).
+    private var persona: Persona? { FeatureFit.martFilterPersona(PersonaResolver.profile) }
 
     var body: some View {
         NavigationStack {
@@ -103,9 +104,9 @@ struct ShortcutMartView: View {
                 }
                 .pickerStyle(.segmented)
             } else {
-                // 페르소나를 안 고른 사람에겐 거를 기준이 없다 - 띠 대신 안내 한 줄.
-                Text(NSLocalizedString("설정에서 나에게 맞는 유형을 고르면 더 잘 맞는 것부터 보여드려요",
-                                       comment: "Shortcut mart: no persona hint"))
+                // 아직 쓰임새가 뚜렷하지 않은 사람에겐 거를 기준이 없다 - 띠 대신 안내 한 줄.
+                Text(NSLocalizedString("단축어를 몇 개 더 만드시면 쓰임새에 맞는 것부터 보여드려요",
+                                       comment: "Shortcut mart: persona not inferred yet hint"))
                     .font(.caption)
                     .foregroundColor(theme.textMuted)
             }

@@ -1705,7 +1705,7 @@ struct ClipKeyboardList: View {
 
     /// 선택한 페르소나에 맞는, 아직 안 만든 카테고리 이름 후보.
     private var personaCategorySuggestions: [String] {
-        guard let persona = CategoryStore.shared.selectedPersona else { return [] }
+        guard let persona = PersonaResolver.confident else { return [] }
         let lang = Locale.current.language.languageCode?.identifier ?? "en"
         let existing = Set(viewModel.customCategories)
         return persona.seedCategories(language: lang).filter { !existing.contains($0) }
@@ -1713,7 +1713,7 @@ struct ClipKeyboardList: View {
 
     /// 페르소나 카테고리 제안 팁 표시 조건: 페르소나 있음 + 콘텐츠 기반 제안과 겹치지 않음 + 후보 있음.
     private var shouldShowPersonaCategoryTip: Bool {
-        CategoryStore.shared.selectedPersona != nil
+        PersonaResolver.confident != nil
             && viewModel.suggestedCategory == nil
             && !personaCategorySuggestions.isEmpty
     }
@@ -2283,6 +2283,7 @@ struct ClipKeyboardList: View {
                 detectedType: viewModel.clipboardDetectedType,
                 confidence: viewModel.clipboardConfidence,
                 suggestedTitle: viewModel.suggestedClipboardTitle,
+                repeatCopies: viewModel.clipboardRepeatCopies,
                 onDismiss: {
                     withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
                         viewModel.dismissClipboardCapture()

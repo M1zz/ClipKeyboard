@@ -533,50 +533,6 @@ struct MemoHistoryView: View {
     }
 }
 
-// MARK: - Persona Settings (v4.0.8)
-/// 설정 → 사용 패턴 진입점. PersonaSelectionView를 settings 모드로 감싸 dismiss 처리.
-struct PersonaSettingsContainer: View {
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @Environment(\.appTheme) private var theme
-    @State private var showAppliedToast = false
-
-    var body: some View {
-        PersonaSelectionView(onContinue: {
-            showAppliedToast = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                dismiss()
-            }
-        }, mode: .settings)
-        .navigationTitle(NSLocalizedString("페르소나", comment: "Persona setting nav title"))
-        #if os(iOS)
-        .navigationBarTitleDisplayMode(.inline)
-        #endif
-        .solidNavBar(theme.bg)
-        .overlay(alignment: .bottom) {
-            if showAppliedToast {
-                Text(NSLocalizedString("페르소나 변경됨", comment: "Persona changed toast"))
-                    .font(.body)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 10)
-                    .background(Color.black.opacity(0.8))
-                    .clipShape(Capsule())
-                    .padding(.bottom, 60)
-                    .transition(.opacity)
-                    .accessibilityHidden(true)
-            }
-        }
-        .onChange(of: showAppliedToast) { _, visible in
-            if visible {
-                UIAccessibility.post(notification: .announcement,
-                    argument: NSLocalizedString("페르소나 변경됨", comment: "Persona changed toast"))
-            }
-        }
-        .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: showAppliedToast)
-    }
-}
-
 struct CopyPasteView: View {
 
     @Environment(\.appTheme) private var theme

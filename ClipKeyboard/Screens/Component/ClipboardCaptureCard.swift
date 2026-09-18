@@ -34,6 +34,8 @@ struct ClipboardCaptureCard: View {
     let confidence: Double
     /// 자동 제안된 제목(키) - 원탭 저장 시 그대로 사용.
     let suggestedTitle: String
+    /// 최근 7일 안에 이 글을 복사한 횟수(`RepeatCopyLedger`). 2 이상이면 한 줄로 짚어 준다.
+    var repeatCopies: Int = 0
     let onDismiss: () -> Void
     /// 한 탭 즉시 저장 (제안된 제목으로).
     let onSaveDirect: () -> Void
@@ -46,6 +48,9 @@ struct ClipboardCaptureCard: View {
 
             VStack(alignment: .leading, spacing: 6) {
                 headerRow
+                if repeatCopies >= RepeatCopyLedger.Threshold.repeatCopies {
+                    repeatRow
+                }
                 preview
                 suggestedTitleRow
                 actionRow
@@ -98,6 +103,16 @@ struct ClipboardCaptureCard: View {
 
             Spacer(minLength: 0)
         }
+    }
+
+    /// "이번 주에 n번째 복사한 글이에요" - 한 번 보고 말 글과 저장할 글을 가른다.
+    private var repeatRow: some View {
+        Label(String(format: NSLocalizedString("이번 주에 %d번째 복사한 글이에요",
+                                               comment: "Clipboard capture card: the same text was copied N times within 7 days"),
+                     repeatCopies),
+              systemImage: AppSymbol.clockArrowCirclepath)
+            .font(.footnote.weight(.semibold))
+            .foregroundColor(theme.accent)
     }
 
     private var preview: some View {

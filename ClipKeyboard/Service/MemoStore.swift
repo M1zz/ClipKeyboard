@@ -330,6 +330,10 @@ class MemoStore: ObservableObject {
             // ⚠️ 이 함수가 앱·키보드 양쪽 사용의 **유일한 길목**이라 여기 한 곳이면 된다.
             ActiveDayLedger.record()
 
+            // 언제 썼는가. 매주·매달·매일 같은 때 쓰는 단축어를 그때가 오면 앞에 세운다.
+            // 남기는 것은 id 와 시각뿐이다(ClipKeyboard/Service/UsageRhythm.swift).
+            UsageRhythmLog.record(memoID: memoId)
+
             // "문구를 한 번 썼다"는 신호. 일반 탭·템플릿 확정·콤보 값 복사·보안 인증 후
             // **어느 경로로 들어와도 여기 한 곳을 지난다.** 화면이 탭 시점에 직접 판단하면
             // 시트가 뜨는 경로에서 아직 쓰지도 않았는데 동전이 날아간다.
@@ -603,6 +607,20 @@ class MemoStore: ObservableObject {
         values.removeAll { $0.value == value }
         values.insert(PlaceholderValue(value: value, sourceMemoId: sourceMemoId, sourceMemoTitle: sourceMemoTitle), at: 0)
         savePlaceholderValues(values, for: placeholder)
+    }
+
+    /// 넣기를 마친 빈칸 값 가운데 **다음 번호**만 새로 적는다. 안 적으면 다음번에도 같은 번호가 나온다.
+    ///
+    /// ⚠️ 고른 값의 자리는 옮기지 않는다 - 순서는 사람이 빈칸 관리에서 정한다(5.0.7).
+    /// ⚠️ 직접 친 값은 **적지 않는다.** 이번에만 쓰는 값이다.
+    ///    규칙: `PlaceholderSequence.shouldRemember` · 키보드 쪽 같은 일: `KeyboardViewController.rememberNextSequenceValues`
+    func rememberNextSequenceValues(_ inputs: [String: String], sourceMemoId: UUID, sourceMemoTitle: String) {
+        for (placeholder, chosen) in inputs {
+            let value = chosen.trimmingCharacters(in: .whitespacesAndNewlines)
+            let stored = loadPlaceholderValues(for: placeholder).map(\.value)
+            guard PlaceholderSequence.shouldRemember(chosen: value, stored: stored, token: placeholder) else { continue }
+            addPlaceholderValue(value, for: placeholder, sourceMemoId: sourceMemoId, sourceMemoTitle: sourceMemoTitle)
+        }
     }
 
     /// 단축어가 들고 있는 빈칸 값 목록을 **적어 둔 순서 그대로** 공용 저장소에 합친다.

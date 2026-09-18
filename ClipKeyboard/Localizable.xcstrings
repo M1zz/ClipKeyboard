@@ -56128,7 +56128,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Уведомления отключены. Включите их в Настройках iOS > %@ > Уведомления."
+            "value" : "Уведомления отключены. Включите их в iOS Настройки > %@ > Уведомления."
           }
         },
         "zh-Hans" : {
@@ -89559,7 +89559,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Фразы без ограничений"
+            "value" : "Фразы без лимита"
           }
         },
         "zh-Hans" : {
@@ -89588,7 +89588,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сейчас %1$d из %2$d слотов"
+            "value" : "Использовано %1$d из %2$d слотов"
           }
         },
         "zh-Hans" : {
@@ -89615,9 +89615,33 @@
           }
         },
         "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавляются только слоты. Остальные функции Pro остаются закрытыми (максимум слотов: %d)"
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Только слоты. Остальные функции Pro остаются закрытыми (до %d слота)"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Только слоты. Остальные функции Pro остаются закрытыми (до %d слотов)"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Только слоты. Остальные функции Pro остаются закрытыми (до %d слотов)"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Только слоты. Остальные функции Pro остаются закрытыми (до %d слота)"
+                }
+              }
+            }
           }
         },
         "zh-Hans" : {
@@ -89646,7 +89670,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Из этой цены уже вычтено то, что вы заплатили за слоты"
+            "value" : "Из этой цены уже вычтено то, что вы заплатили за слоты."
           }
         },
         "zh-Hans" : {
@@ -89704,7 +89728,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Открывается только синхронизация. Количество фраз не меняется"
+            "value" : "Открывается только синхронизация. Количество фраз останется прежним"
           }
         },
         "zh-Hans" : {
@@ -89733,7 +89757,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Автоматически синхронизирует фразы между iPhone и Mac, вошедшими в один аккаунт iCloud. Открывается через Pro или «Два устройства», и это экспериментальная функция: сначала проверьте, как это работает на обоих устройствах. Защищённые фразы синхронизируются в зашифрованном виде."
+            "value" : "Автоматически синхронизирует фразы между iPhone и Mac, вошедшими в один и тот же аккаунт iCloud. Открывается через Pro или покупку «Два устройства», и пока экспериментально: сначала проверьте, что всё работает на обоих устройствах. Защищённые фразы синхронизируются в зашифрованном виде."
           }
         },
         "zh-Hans" : {
@@ -89762,7 +89786,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%2$d из %1$d не появятся на клавиатуре"
+            "value" : "%2$d из %1$d не будут показаны на клавиатуре"
           }
         },
         "zh-Hans" : {
@@ -89791,7 +89815,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сохранится всё. Откройте сейчас, и все они появятся на клавиатуре"
+            "value" : "Все сохранены. Откройте сейчас, и они появятся на клавиатуре."
           }
         },
         "zh-Hans" : {
@@ -89820,7 +89844,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вы только что сохранили то, что стоит скрыть. Это можно закрыть через Face ID"
+            "value" : "Вы только что сохранили что-то личное. Это можно заблокировать через Face ID"
           }
         },
         "zh-Hans" : {
@@ -89849,7 +89873,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Теперь у вас два устройства. Одни и те же фразы можно использовать на обоих"
+            "value" : "Теперь у вас два устройства. Используйте одни и те же фразы на обоих"
           }
         },
         "zh-Hans" : {
@@ -89876,9 +89900,33 @@
           }
         },
         "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Создано фраз: %d. Они есть только на этом устройстве"
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вы создали %d фразу. Сейчас они есть только на этом устройстве"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вы создали %d фразы. Сейчас они есть только на этом устройстве"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вы создали %d фраз. Сейчас они есть только на этом устройстве"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Вы создали %d фразы. Сейчас они есть только на этом устройстве"
+                }
+              }
+            }
           }
         },
         "zh-Hans" : {
@@ -89936,7 +89984,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Используйте те же фразы на других устройствах с тем же аккаунтом iCloud."
+            "value" : "Используйте те же фразы на других устройствах, вошедших в тот же аккаунт iCloud."
           }
         },
         "zh-Hans" : {
@@ -89963,6 +90011,12 @@
             "value" : "Features that were open for free are closing soon"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Функции, открытые бесплатно, скоро закроются"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -89972,13 +90026,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "先前免費開放的功能即將關閉"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Бесплатный доступ ко всем функциям скоро закончится"
+            "value" : "此前免費開放的功能即將關閉"
           }
         }
       }
@@ -89993,6 +90041,12 @@
             "value" : "Features that were open for free are now closed"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Функции, открытые бесплатно, теперь закрыты"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -90002,13 +90056,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "先前免費開放的功能已關閉"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Бесплатный доступ ко всем функциям закончился"
+            "value" : "此前免費開放的功能已關閉"
           }
         }
       }
@@ -90023,6 +90071,12 @@
             "value" : "The free plan starts tomorrow"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С завтрашнего дня действует бесплатный план"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -90033,12 +90087,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "明天起將切換為免費方案"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "С завтрашнего дня действует бесплатный тариф"
           }
         }
       }
@@ -90065,6 +90113,36 @@
             }
           }
         },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Все функции были бесплатно открыты для вас. Через %d день начнёт действовать бесплатный план. Сохранённые фразы не удалятся."
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Все функции были бесплатно открыты для вас. Через %d дня начнёт действовать бесплатный план. Сохранённые фразы не удалятся."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Все функции были бесплатно открыты для вас. Через %d дней начнёт действовать бесплатный план. Сохранённые фразы не удалятся."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Все функции были бесплатно открыты для вас. Через %d дня начнёт действовать бесплатный план. Сохранённые фразы не удалятся."
+                }
+              }
+            }
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -90074,37 +90152,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "先前所有功能都免費向你開放。%d天後將適用免費方案。已儲存的短語不會被刪除。"
-          }
-        },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Все функции были открыты для вас бесплатно. Через %d день начнёт действовать бесплатный тариф. Сохранённые фразы не удалятся."
-                }
-              },
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Все функции были открыты для вас бесплатно. Через %d дня начнёт действовать бесплатный тариф. Сохранённые фразы не удалятся."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Все функции были открыты для вас бесплатно. Через %d дней начнёт действовать бесплатный тариф. Сохранённые фразы не удалятся."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Все функции были открыты для вас бесплатно. Через %d дней начнёт действовать бесплатный тариф. Сохранённые фразы не удалятся."
-                }
-              }
-            }
+            "value" : "此前所有功能都免費向你開放。%d天後將適用免費方案。已儲存的短語不會被刪除。"
           }
         }
       }
@@ -90119,6 +90167,12 @@
             "value" : "All features had been open to you for free. The free plan now applies. Your saved snippets won't be deleted."
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все функции были бесплатно открыты для вас. Теперь действует бесплатный план. Сохранённые фразы не удалятся."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -90128,13 +90182,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "先前所有功能都免費向你開放。現在起適用免費方案。已儲存的短語不會被刪除。"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Все функции были открыты для вас бесплатно. Теперь действует бесплатный тариф. Сохранённые фразы не удалятся."
+            "value" : "此前所有功能都免費向你開放。現在起適用免費方案。已儲存的短語不會被刪除。"
           }
         }
       }
@@ -90161,6 +90209,36 @@
             }
           }
         },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Клавиатура покажет до %d фразы. Остальные скрыты, а не удалены. Оформите Pro, чтобы пользоваться всеми."
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Клавиатура покажет до %d фраз. Остальные скрыты, а не удалены. Оформите Pro, чтобы пользоваться всеми."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Клавиатура покажет до %d фраз. Остальные скрыты, а не удалены. Оформите Pro, чтобы пользоваться всеми."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Клавиатура покажет до %d фразы. Остальные скрыты, а не удалены. Оформите Pro, чтобы пользоваться всеми."
+                }
+              }
+            }
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -90172,6 +90250,1178 @@
             "state" : "translated",
             "value" : "鍵盤上最多只顯示%d個短語，其餘的會被隱藏而不會刪除。想繼續全部使用，請升級到 Pro。"
           }
+        }
+      }
+    },
+    "같이 과제하는 친구에게도 알려 줄까요?" : {
+      "comment" : "Share moment alert title (student persona)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Want to tell a classmate about it?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "같이 과제하는 친구에게도 알려 줄까요?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рассказать об этом одногруппнику?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要告诉一起做作业的同学吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要告訴一起做作業的同學嗎？"
+          }
+        }
+      }
+    },
+    "알려 주기" : {
+      "comment" : "Share moment: open share sheet",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tell Them"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알려 주기"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рассказать"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "告诉同学"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "告訴同學"
+          }
+        }
+      }
+    },
+    "학번·교수님 메일·조별과제 공지를 한 번에 넣고 계시잖아요. 조별과제 방에 링크 하나면 돼요." : {
+      "comment" : "Share moment alert message (student persona)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're already filling in your student ID, professor emails and group project notices in one tap. One link in your group chat is all it takes."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "학번·교수님 메일·조별과제 공지를 한 번에 넣고 계시잖아요. 조별과제 방에 링크 하나면 돼요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы уже вводите студенческий номер, email преподавателя и объявления по групповым проектам в один тап. Достаточно одной ссылки в чате группы."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你已经一键输入学号、给教授的邮件和小组作业通知了。在小组群里发个链接就行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你已經一鍵輸入學號、給教授的郵件和小組作業通知了。在小組群裡發個連結就行。"
+          }
+        }
+      }
+    },
+    "학번이나 과제 메일처럼 매번 치는 글을 키보드에서 한 번에 넣어요. %@" : {
+      "comment" : "Share moment: message shared to friends, %@ = App Store URL",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type things like your student ID or assignment emails in one tap from the keyboard. %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "학번이나 과제 메일처럼 매번 치는 글을 키보드에서 한 번에 넣어요. %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Такие вещи, как студенческий номер или email для заданий, вводите одним тапом с клавиатуры. %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "学号、作业邮件这类每次都要打的内容，在键盘上一键输入。%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "學號、作業郵件這類每次都要打的內容，在鍵盤上一鍵輸入。%@"
+          }
+        }
+      }
+    },
+    "나에게 맞추기" : {
+      "comment" : "Usage profile settings title: the app adapts to how you use it",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fit to Me"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "나에게 맞추기"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Под меня"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为我调整"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "為我調整"
+          }
+        }
+      }
+    },
+    "저장하신 단축어의 제목·종류·빈칸 이름만 봐요. 기기 밖으로 보내지 않아요." : {
+      "comment" : "Usage profile settings: privacy note about what is inspected",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only the titles, types and blank names of your snippets are used. Nothing leaves your device."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장하신 단축어의 제목·종류·빈칸 이름만 봐요. 기기 밖으로 보내지 않아요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Используются только заголовки, типы и имена полей ваших фраз. Ничего не покидает устройство."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只查看你保存的短语的标题、类型和空位名称，不会传出设备。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只查看你儲存的短語的標題、類型和空位名稱，不會傳出裝置。"
+          }
+        }
+      }
+    },
+    "%@ 쓰임새로 직접 정해 두셨어요" : {
+      "comment" : "Usage profile: user fixed the persona manually. %@ = persona title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You set this to %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 쓰임새로 직접 정해 두셨어요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы вручную выбрали %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你已手动设为 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你已手動設為 %@"
+          }
+        }
+      }
+    },
+    "%@ 쪽으로 쓰고 계신 것 같아요" : {
+      "comment" : "Usage profile: app inferred the persona. %@ = persona title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Looks like you use it as %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 쪽으로 쓰고 계신 것 같아요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Похоже, вы используете это как %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "看起来你的使用方式是 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "看起來你的使用方式是 %@"
+          }
+        }
+      }
+    },
+    "아직 뚜렷한 쓰임새가 보이지 않아요" : {
+      "comment" : "Usage profile: not enough signal to infer a persona",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No clear pattern yet"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아직 뚜렷한 쓰임새가 보이지 않아요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока нет чёткой закономерности"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂时还看不出明确的使用方式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫時還看不出明確的使用方式"
+          }
+        }
+      }
+    },
+    "아래에서 '자동'을 고르시면 앱이 다시 알아서 맞춰요." : {
+      "comment" : "Usage profile: how to return to automatic",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose Automatic below to let the app adjust on its own again."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아래에서 '자동'을 고르시면 앱이 다시 알아서 맞춰요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите «Автоматически» ниже, чтобы приложение снова подстраивалось само."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在下方选择“自动”，应用会重新自动调整。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在下方選擇「自動」，應用會重新自動調整。"
+          }
+        }
+      }
+    },
+    "따로 고르지 않으셔도 돼요. 단축어가 늘면 판단도 함께 바뀌어요." : {
+      "comment" : "Usage profile: inferred, no need to choose",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No need to choose. As your snippets grow, this updates with them."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "따로 고르지 않으셔도 돼요. 단축어가 늘면 판단도 함께 바뀌어요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбирать ничего не нужно. Это меняется само по мере того, как растёт число ваших фраз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无需选择。短语越来越多时，判断也会随之更新。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無需選擇。短語越來越多時，判斷也會隨之更新。"
+          }
+        }
+      }
+    },
+    "단축어를 몇 개 더 만드시면 그에 맞는 예시와 기능을 먼저 보여 드려요. 그때까지는 모두에게 맞는 것부터 보여 드려요." : {
+      "comment" : "Usage profile: not inferred yet, explains what happens later",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make a few more snippets and we'll show examples and features that fit you first. Until then, you'll see what suits everyone."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어를 몇 개 더 만드시면 그에 맞는 예시와 기능을 먼저 보여 드려요. 그때까지는 모두에게 맞는 것부터 보여 드려요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создайте ещё немного фраз, и мы будем в первую очередь показывать подходящие примеры и функции. А пока вы увидите то, что подходит всем."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再多创建几个短语，就会优先显示适合你的示例和功能。在那之前，先显示适合所有人的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再多建立幾個短語，就會優先顯示適合你的示例和功能。在那之前，先顯示適合所有人的內容。"
+          }
+        }
+      }
+    },
+    "이렇게 알아봤어요" : {
+      "comment" : "Usage profile: evidence section header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What We Noticed"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이렇게 알아봤어요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что мы заметили"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "判断依据"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "判斷依據"
+          }
+        }
+      }
+    },
+    "%1$@ 값이 든 단축어 %2$d개" : {
+      "comment" : "Usage profile evidence: N snippets contain a detected value type, e.g. IBAN",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$d snippets with a %1$@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ 값이 든 단축어 %2$d개"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$d фраз со значением %1$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$d 个短语含有%1$@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$d 個短語含有%1$@"
+          }
+        }
+      }
+    },
+    "'%1$@' 낱말이 든 단축어 %2$d개" : {
+      "comment" : "Usage profile evidence: N snippets contain a word",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$d snippets with the word '%1$@'"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "'%1$@' 낱말이 든 단축어 %2$d개"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$d фраз со словом «%1$@»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$d 个短语含有“%1$@”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$d 個短語含有「%1$@」"
+          }
+        }
+      }
+    },
+    "빈칸 '%@'" : {
+      "comment" : "Usage profile evidence: a template blank with this name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blank '%@'"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빈칸 '%@'"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поле «%@»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空位“%@”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空位「%@」"
+          }
+        }
+      }
+    },
+    "카테고리 '%@'" : {
+      "comment" : "Usage profile evidence: a user category with this name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category '%@'"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리 '%@'"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категория «%@»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分类“%@”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分類「%@」"
+          }
+        }
+      }
+    },
+    "전에 직접 고르신 유형" : {
+      "comment" : "Usage profile evidence: the persona the user picked in an older version",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The type you picked before"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전에 직접 고르신 유형"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тип, который вы выбрали раньше"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你之前手动选择的类型"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你之前手動選擇的類型"
+          }
+        }
+      }
+    },
+    "단축어 마트와 카테고리 제안이 쓰임새에 맞는 것부터 나와요" : {
+      "comment" : "Usage profile effect: shortcut mart and category suggestions",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shortcut Mart and category suggestions show what fits you first"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어 마트와 카테고리 제안이 쓰임새에 맞는 것부터 나와요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Магазин фраз и подборка категорий показывают в первую очередь то, что подходит вам"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短语超市和分类建议会优先显示适合你的内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短語超市和分類建議會優先顯示適合你的內容"
+          }
+        }
+      }
+    },
+    "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요" : {
+      "comment" : "Usage profile effect: rhythm-based quick row",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snippets you use at the same time each week or month move to the front of the keyboard when that time comes"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фразы, которые вы используете в одно и то же время каждую неделю или месяц, выходят на первое место в клавиатуре, когда наступает это время"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周或每月固定时间使用的短语，到时间会排在键盘最前面"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周或每月固定時間使用的短語，到時間會排在鍵盤最前面"
+          }
+        }
+      }
+    },
+    "사진에서 읽은 여권·카드 번호는 Face ID로 잠가 둬요" : {
+      "comment" : "Usage profile effect: lock sensitive values read from photos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passport and card numbers read from a photo are locked with Face ID"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사진에서 읽은 여권·카드 번호는 Face ID로 잠가 둬요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Номера паспорта и карты, распознанные на фото, блокируются через Face ID"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从照片识别的护照号和卡号会用 Face ID 锁住"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從照片識別的護照號和卡號會用 Face ID 鎖住"
+          }
+        }
+      }
+    },
+    "이렇게 맞춰 드려요" : {
+      "comment" : "Usage profile: effects section header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What Changes"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이렇게 맞춰 드려요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что изменится"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会这样调整"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "會這樣調整"
+          }
+        }
+      }
+    },
+    "쓸 수 있는 기능과 한도는 쓰임새와 상관없이 같아요. 먼저 보여 드리는 순서만 바뀌어요." : {
+      "comment" : "Usage profile: effects never change limits or access",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Features and limits are the same for everyone. Only what we show first changes."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "쓸 수 있는 기능과 한도는 쓰임새와 상관없이 같아요. 먼저 보여 드리는 순서만 바뀌어요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступные функции и лимиты одинаковы для всех. Меняется только порядок показа."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可用功能和上限对所有人都一样，只改变优先显示的顺序。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可用功能和上限對所有人都一樣，只改變優先顯示的順序。"
+          }
+        }
+      }
+    },
+    "자동 (추천)" : {
+      "comment" : "Usage profile: automatic option",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatic (Recommended)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동 (추천)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически (рекомендуется)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动（推荐）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動（推薦）"
+          }
+        }
+      }
+    },
+    "직접 정하기" : {
+      "comment" : "Usage profile: manual override section header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set It Myself"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "직접 정하기"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настроить вручную"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手动设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手動設定"
+          }
+        }
+      }
+    },
+    "앱의 판단이 틀렸을 때만 고르세요." : {
+      "comment" : "Usage profile: manual override footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only choose one if the app got it wrong."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱의 판단이 틀렸을 때만 고르세요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите вариант, только если приложение ошиблось."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅在应用判断有误时选择。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅在應用判斷有誤時選擇。"
+          }
+        }
+      }
+    },
+    "키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n앱에 저장한 단축어를 키보드가 꺼내 오려면 필요해요. 치시는 글자는 기기 밖으로 보내지 않아요." : {
+      "comment" : "Setup step 3 description: why Full Access is needed and reassurance that typed text never leaves the device",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap ClipKeyboard in the keyboard list, then turn on 'Allow Full Access'.\nThe keyboard needs it to reach the snippets saved in the app. What you type never leaves your device."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n앱에 저장한 단축어를 키보드가 꺼내 오려면 필요해요. 치시는 글자는 기기 밖으로 보내지 않아요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите ClipKeyboard в списке клавиатур, затем включите «Полный доступ».\nЭто нужно клавиатуре, чтобы получать доступ к фразам, сохранённым в приложении. То, что вы печатаете, никогда не покидает устройство."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在键盘列表中轻点 ClipKeyboard，然后打开“允许完全访问”。\n键盘需要它才能读取你在应用中保存的短语。你输入的文字不会传出设备。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在鍵盤列表中輕點 ClipKeyboard，然後開啟「允許完全取用」。\n鍵盤需要它才能讀取你在應用中儲存的短語。你輸入的文字不會傳出裝置。"
+          }
+        }
+      }
+    },
+    "자동" : {
+      "comment" : "Usage profile row subtitle: automatic, nothing inferred yet",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatic"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動"
+          }
+        }
+      }
+    },
+    "쓰임새를 묻지 않아요. 저장하신 단축어를 보고 앱이 알아서 맞춰요" : {
+      "comment" : "Changelog 5.1.4 inferred persona",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No more picking a profile. The app adapts to the snippets you save"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "쓰임새를 묻지 않아요. 저장하신 단축어를 보고 앱이 알아서 맞춰요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Больше не нужно выбирать профиль. Приложение само подстраивается под сохранённые фразы"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再询问使用类型，应用会根据你保存的短语自动调整"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再詢問使用類型，應用會根據你儲存的短語自動調整"
+          }
+        }
+      }
+    },
+    "번호가 오르는 빈칸은 다음 번호를 먼저 보여 드려요. 지난 번호가 그대로 나가지 않게요" : {
+      "comment" : "Changelog 5.1.4 next number",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numbered blanks now suggest the next number, so last time's number doesn't slip through"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "번호가 오르는 빈칸은 다음 번호를 먼저 보여 드려요. 지난 번호가 그대로 나가지 않게요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поля с растущим номером теперь сразу предлагают следующий номер, чтобы прошлый не проскочил случайно"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编号类空位会先显示下一个编号，避免把上次的编号原样发出"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "編號類空位會先顯示下一個編號，避免把上次的編號原樣發出"
+          }
+        }
+      }
+    },
+    "같은 글을 이번 주에 두 번 복사하면 단축어로 저장하자고 한 번 더 알려 드려요" : {
+      "comment" : "Changelog 5.1.4 repeat copy",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy the same text twice in a week and we'll remind you once more to save it as a snippet"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "같은 글을 이번 주에 두 번 복사하면 단축어로 저장하자고 한 번 더 알려 드려요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если скопируете один и тот же текст дважды за неделю, мы ещё раз напомним сохранить его как фразу"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一周内复制同一段文字两次时，会再提醒你一次保存为短语"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一周內複製同一段文字兩次時，會再提醒你一次儲存為短語"
+          }
+        }
+      }
+    },
+    "다음 %@" : {
+      "comment" : "Placeholder chip: next value in a sequence, e.g. next invoice number",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음 %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Следующее: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一个 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一個 %@"
+          }
+        }
+      }
+    },
+    "다음 차례 값 %@" : {
+      "comment" : "Accessibility: next value in a sequence",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next value %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음 차례 값 %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Следующее значение: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一个值 %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一個值 %@"
+          }
+        }
+      }
+    },
+    "이번 주에 %d번째 복사한 글이에요" : {
+      "comment" : "Clipboard capture card: the same text was copied N times within 7 days",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copied %d times this week"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이번 주에 %d번째 복사한 글이에요"
+          }
         },
         "ru" : {
           "variations" : {
@@ -90179,28 +91429,180 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "На клавиатуре будет видна только %d фраза. Остальные скроются, но не удалятся. Чтобы пользоваться всеми, перейдите на Pro."
+                  "value" : "Скопировано %d раз на этой неделе"
                 }
               },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "На клавиатуре будут видны только %d фразы. Остальные скроются, но не удалятся. Чтобы пользоваться всеми, перейдите на Pro."
+                  "value" : "Скопировано %d раза на этой неделе"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "На клавиатуре будут видны только %d фраз. Остальные скроются, но не удалятся. Чтобы пользоваться всеми, перейдите на Pro."
+                  "value" : "Скопировано %d раз на этой неделе"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "На клавиатуре будут видны только %d фразы. Остальные скроются, но не удалятся. Чтобы пользоваться всеми, перейдите на Pro."
+                  "value" : "Скопировано %d раза на этой неделе"
                 }
               }
             }
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本周第 %d 次复制这段文字"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本週第 %d 次複製這段文字"
+          }
+        }
+      }
+    },
+    "단축어를 몇 개 더 만드시면 쓰임새에 맞는 것부터 보여드려요" : {
+      "comment" : "Shortcut mart: persona not inferred yet hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make a few more snippets and we'll show what fits you first"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어를 몇 개 더 만드시면 쓰임새에 맞는 것부터 보여드려요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создайте ещё немного фраз, и мы покажем сначала то, что вам подходит"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再多创建几个短语，就会优先显示适合你的内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再多建立幾個短語，就會優先顯示適合你的內容"
+          }
+        }
+      }
+    },
+    "%@ 같아서 Face ID로 잠가 둘게요" : {
+      "comment" : "Toast: value read from a photo looks sensitive (e.g. passport number), so the snippet was set to secure",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This looks like a %@, so it's locked with Face ID"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 같아서 Face ID로 잠가 둘게요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Похоже на %@, поэтому заблокировали через Face ID"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这看起来是%@，已用 Face ID 锁住"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這看起來是%@，已用 Face ID 鎖住"
+          }
+        }
+      }
+    },
+    "지금 쓸 차례: %@" : {
+      "comment" : "Keyboard quick row chip label: shortcut usually used around this time",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due now: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금 쓸 차례: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пора: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "现在该用：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "現在該用：%@"
+          }
+        }
+      }
+    },
+    "자주 씀: %@" : {
+      "comment" : "Keyboard quick row chip label: frequently used shortcut",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Often used: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자주 씀: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Часто: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常用：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "常用：%@"
           }
         }
       }

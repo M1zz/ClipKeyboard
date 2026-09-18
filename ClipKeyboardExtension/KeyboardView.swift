@@ -397,6 +397,11 @@ struct KeyboardView: View {
 
     // 데이터 상태
     @State private var allMemos: [Memo] = []
+    /// 지금 쓸 차례인 단축어(`UsageRhythm`). 목록을 읽을 때 한 번만 잰다.
+    /// ⚠️ 그리는 자리에서 기록을 읽지 않는다 - 몇 번 그릴지는 SwiftUI 가 정한다.
+    @State private var rhythmDueIDs: [UUID] = []
+    /// 요즘 키보드를 열었다가 아무것도 못 넣고 닫는가(`KeyboardSessionLedger`).
+    @State private var searchStruggling = false
     @State private var templateObserverToken: NSObjectProtocol?
     @State private var showImageCopiedToast = false
     @State private var showPinNotSetToast = false
@@ -679,19 +684,31 @@ struct KeyboardView: View {
         filteredMemos.map { DisplayItem(memo: $0, useTemplate: false) }
     }
 
-    /// 최근 사용 메모 5개 - lastUsedAt 기준 1주 이내, 최신순
-    private var recentMemos: [Memo] {
-        let weekAgo = Date().addingTimeInterval(-60 * 60 * 24 * 7)
-        return allMemos
-            .filter { ($0.lastUsedAt ?? .distantPast) >= weekAgo }
-            .sorted { ($0.lastUsedAt ?? .distantPast) > ($1.lastUsedAt ?? .distantPast) }
-            .prefix(5)
-            .map { $0 }
+    /// 빠른 줄에 설 단축어들 - 지금 쓸 차례 → (찾다 포기하면) 많이 쓴 것 → 최근 1주.
+    /// 순서 규칙은 `QuickRowPlanner` 한 곳에 있다.
+    private var quickRowItems: [(memo: Memo, reason: QuickRowPlanner.Reason)] {
+        let plan = QuickRowPlanner.plan(memos: allMemos,
+                                        dueIDs: rhythmDueIDs,
+                                        struggling: searchStruggling,
+                                        now: Date())
+        return plan.compactMap { item in
+            allMemos.first(where: { $0.id == item.memoID }).map { ($0, item.reason) }
+        }
     }
 
-    /// 최근 사용 섹션 노출 조건 - 검색 비활성일 때만
+    /// 빠른 줄 노출 조건 - 검색 비활성일 때만
     private var shouldShowRecentSection: Bool {
-        searchQuery.isEmpty && !recentMemos.isEmpty
+        searchQuery.isEmpty && !quickRowItems.isEmpty
+    }
+
+    /// 빠른 줄을 세울지. 사람이 정한 값이 우선이다.
+    ///
+    /// ⚠️ 아직 안 정한 사람에게는 단축어가 적어도(`recentSectionThreshold` 미만) **지금 쓸 차례**가
+    ///    있으면 세운다. 한 달에 한 번 오는 순간을 단축어 수가 적다는 이유로 놓치지 않게.
+    ///    꺼 달라고 한 사람에게는 세우지 않는다.
+    private var showsQuickRow: Bool {
+        if showRecentSection { return true }
+        return !KeyboardDisplayDefaults.hasChosenRecentSection && !rhythmDueIDs.isEmpty
     }
 
     // MARK: - Body
@@ -978,7 +995,7 @@ struct KeyboardView: View {
             }
 
             // 최근 사용 섹션 - 사용자 토글 ON + 검색 비활성일 때만
-            if showRecentSection && !isReorderMode && !isSearching && shouldShowRecentSection {
+            if showsQuickRow && !isReorderMode && !isSearching && shouldShowRecentSection {
                 recentSection
             }
 
@@ -1695,8 +1712,8 @@ struct KeyboardView: View {
                     .font(.caption2.weight(.semibold))
                     .foregroundColor(theme.textFaint)
                     .accessibilityHidden(true)
-                ForEach(recentMemos) { memo in
-                    recentChip(memo)
+                ForEach(quickRowItems, id: \.memo.id) { item in
+                    recentChip(item.memo, reason: item.reason)
                 }
             }
             .padding(.horizontal, 12)
@@ -1704,14 +1721,27 @@ struct KeyboardView: View {
         .padding(.vertical, 2)
     }
 
-    private func recentChip(_ memo: Memo) -> some View {
+    private func recentChip(_ memo: Memo, reason: QuickRowPlanner.Reason = .recent) -> some View {
         Button {
             memoButtonAction(for: memo)
         } label: {
             HStack(spacing: 5) {
-                Image(systemName: categoryIconFor(memo))
-                    .font(.caption2)
-                    .foregroundColor(categoryColorFor(memo) ?? theme.textMuted)
+                // 지금 쓸 차례·많이 쓴 것은 **왜 여기 섰는지**를 아이콘이 말한다.
+                // 최근 것은 예전처럼 카테고리 아이콘 그대로.
+                switch reason {
+                case .due:
+                    Image(systemName: AppSymbol.calendarBadgeClock)
+                        .font(.caption2)
+                        .foregroundColor(theme.accent)
+                case .frequent:
+                    Image(systemName: AppSymbol.starCircleFill)
+                        .font(.caption2)
+                        .foregroundColor(theme.accent)
+                case .recent:
+                    Image(systemName: categoryIconFor(memo))
+                        .font(.caption2)
+                        .foregroundColor(categoryColorFor(memo) ?? theme.textMuted)
+                }
                 Text(memo.title.templateAwareAttributed(accent: theme.accent,
                                                         accentSoft: theme.accentSoft,
                                                         font: .caption.weight(.medium)))
@@ -1732,8 +1762,19 @@ struct KeyboardView: View {
         .buttonStyle(PlainButtonStyle())
         .frame(minHeight: 44)
         .contentShape(Rectangle())
-        .accessibilityLabel(String(format: NSLocalizedString("최근: %@", comment: "Recent memo chip label"), memo.title))
+        .accessibilityLabel(quickRowAccessibilityLabel(memo, reason: reason))
         .accessibilityHint(memoAccessibilityHint(for: memo))
+    }
+
+    private func quickRowAccessibilityLabel(_ memo: Memo, reason: QuickRowPlanner.Reason) -> String {
+        switch reason {
+        case .due:
+            return String(format: NSLocalizedString("지금 쓸 차례: %@", comment: "Keyboard quick row chip label: shortcut usually used around this time"), memo.title)
+        case .frequent:
+            return String(format: NSLocalizedString("자주 씀: %@", comment: "Keyboard quick row chip label: frequently used shortcut"), memo.title)
+        case .recent:
+            return String(format: NSLocalizedString("최근: %@", comment: "Recent memo chip label"), memo.title)
+        }
     }
 
     // MARK: - Memo Button
@@ -2681,6 +2722,17 @@ struct KeyboardView: View {
         // 앞에서 그냥 자르지 않는다. 심어 준 샘플이 앞자리를 차지한 만큼 자기 단축어가
         // 뒤로 밀려 안 보이게 되는데, 그러면 한도에서 빼 준 것을 화면에서 도로 세는 셈이다.
         allMemos = ProFeatureManager.memosWithinLimit(clipMemos)
+        refreshQuickRowSignals()
+    }
+
+    /// 빠른 줄의 두 신호를 잰다. 목록을 다시 읽는 자리에서만 부른다.
+    ///
+    /// ⚠️ 앱 안 무대에서는 찾다 포기했는지를 보지 않는다. 그 판은 키보드가 아니라 연습장이고,
+    ///    기록도 익스텐션만 남긴다.
+    private func refreshQuickRowSignals(now: Date = Date()) {
+        rhythmDueIDs = UsageRhythm.dueMemoIDs(log: UsageRhythmLog.load(), now: now)
+        searchStruggling = hostKind == .keyboardExtension
+            && KeyboardSessionLedger.isStruggling(KeyboardSessionLedger.load(), now: now)
     }
 
     // MARK: - Free tier

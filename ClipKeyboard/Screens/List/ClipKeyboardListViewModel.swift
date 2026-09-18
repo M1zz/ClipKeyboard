@@ -732,6 +732,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
     @Published var value: String = ""
     @Published var clipboardDetectedType: ClipboardItemType = .text
     @Published var clipboardConfidence: Double = 0.0
+    /// 방금 복사한 글을 최근 7일 안에 몇 번 복사했나(`RepeatCopyLedger`). 2 이상이면 카드가 짚어 준다.
+    @Published var clipboardRepeatCopies: Int = 0
 
     /// 상단 인라인 캡처 카드 노출 여부. onAppear에서 새 클립보드 감지 시 true.
     @Published var hasFreshClipboard: Bool = false
@@ -1330,17 +1332,28 @@ final class ClipKeyboardListViewModel: ObservableObject {
     ///    기록: docs/postmortem/HANG_PASTEBOARD_5_0_1.md
     func checkFreshClipboard() {
         #if os(iOS)
-        PasteboardReader.string { [weak self] clipboardString in
+        PasteboardReader.stringWithChangeCount { [weak self] clipboardString, changeCount in
             guard let self else { return }
             guard let clipboardString, !clipboardString.isEmpty else {
                 self.hasFreshClipboard = false
                 return
             }
 
+            // 이미 단축어로 저장한 글이면 몇 번을 복사했든 권할 것이 없다.
+            let alreadySaved = self.loadedData.contains { $0.value == clipboardString }
+            let repeatInfo = RepeatCopyLedger.note(text: clipboardString, changeCount: changeCount)
+            self.clipboardRepeatCopies = alreadySaved ? 0 : repeatInfo.copies
+
             let lastDismissed = UserDefaults.standard.string(forKey: self.lastDismissedClipboardKey) ?? ""
             if clipboardString == lastDismissed {
-                self.hasFreshClipboard = false
-                return
+                // 닫았던 글이라도 **다시 복사했으면 한 번 더** 보여 준다. 저장할 글일수록 자주 복사한다.
+                // 그다음에는 정말 끝이다(`RepeatCopyLedger` 머리말).
+                guard !alreadySaved, repeatInfo.mayResurface else {
+                    self.hasFreshClipboard = false
+                    return
+                }
+                RepeatCopyLedger.markResurfaced(text: clipboardString)
+                print("🔁 [checkFreshClipboard] 닫았던 글을 다시 복사함 - 카드를 한 번 더 보여 준다")
             }
 
             self.value = clipboardString

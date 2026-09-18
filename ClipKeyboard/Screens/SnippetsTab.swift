@@ -274,8 +274,10 @@ struct SnippetsTab: View {
     @State private var showOffer = false
     /// 연습용 단축어를 치울지 묻는 알림.
     @State private var showSampleCleanup = false
-    /// "혹시 이런 분이신가요?" - 써 보고 나서 한 번 묻는 판(`PersonaPrompt`).
-    @State private var showPersonaPrompt = false
+    /// 친구에게 알리기를 한 번 권하는 알림(`FeatureFit.isShareMomentDue`). 평생 한 번.
+    @State private var showShareMoment = false
+    /// 권한 뒤 실제로 여는 공유 시트.
+    @State private var showShareSheet = false
     /// 넣기까지 끝났고 **보내기만 남았다.** 이 동안 보내기 동그라미에 파형이 인다.
     ///
     /// ⚠️ 일부러 저장하지 않는다. 앱을 껐다 켜면 입력창이 비어 있어 보낼 것이 없으므로,
@@ -493,7 +495,6 @@ struct SnippetsTab: View {
         // 자기 것을 하나라도 만들면 그 걸음은 끝난다 - 어디서 만들었든(무대의 +, 목록, 공유 시트).
         .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
             completeMakeOwnIfMadeSomething()
-            askPersonaIfEarned()
         }
         .onAppear {
             // 첫 흐름을 걸을 사람인지부터 다시 잰다. 목록을 거치지 않고 무대로 바로
@@ -503,7 +504,7 @@ struct SnippetsTab: View {
             resumeTutorialIfStalled()
             completeMakeOwnIfMadeSomething()
             askToCleanUpSamplesIfNeeded()
-            askPersonaIfEarned()
+            offerShareIfEarned()
         }
         // 걸음이 바뀌어 무대로 들어왔는데 가리키는 것이 없으면 여기서 이어 붙인다.
         .onChange(of: onboardingStep) { _, _ in
@@ -534,10 +535,19 @@ struct SnippetsTab: View {
             Text(NSLocalizedString("튜토리얼에서 눌러 본 단축어·템플릿·스택이에요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.",
                                    comment: "Sample cleanup message"))
         }
-        // ⚠️ 시트로 띄운다. 전체 화면으로 세우면 하던 일을 **끊는다** - 부른 적 없는
-        //    질문이라 그럴 자격이 없다. 아래로 쓸어내려 닫는 것도 "나중에" 와 같게 둔다.
-        .sheet(isPresented: $showPersonaPrompt, onDismiss: { PersonaPrompt.markAsked() }) {
-            PersonaSelectionView(onContinue: { showPersonaPrompt = false }, mode: .prompt)
+        .alert(NSLocalizedString("같이 과제하는 친구에게도 알려 줄까요?", comment: "Share moment alert title (student persona)"),
+               isPresented: $showShareMoment) {
+            Button(NSLocalizedString("알려 주기", comment: "Share moment: open share sheet")) {
+                // 알림이 닫히는 중에 시트를 띄우면 삼켜진다 - 닫힘을 기다렸다 연다.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { showShareSheet = true }
+            }
+            Button(NSLocalizedString("괜찮아요", comment: "Decline category activation"), role: .cancel) { }
+        } message: {
+            Text(NSLocalizedString("학번·교수님 메일·조별과제 공지를 한 번에 넣고 계시잖아요. 조별과제 방에 링크 하나면 돼요.",
+                                   comment: "Share moment alert message (student persona)"))
+        }
+        .sheet(isPresented: $showShareSheet) {
+            ActivityShareSheet(items: [shareMessage])
         }
         .alert(NSLocalizedString("새 키보드 화면을 써보시겠어요?", comment: "Keyboard stage offer title"),
                isPresented: $showOffer) {
@@ -815,23 +825,40 @@ struct SnippetsTab: View {
         print("🎓 [SnippetsTab] 직접 만들기 걸음 종료")
     }
 
-    // MARK: - "혹시 이런 분이신가요?"
+    // MARK: - 친구에게 알리기
 
-    /// 써 볼 만큼 써 봤으면 그때 한 번 묻는다.
+    /// 학생으로 확신하고, 손에 붙을 만큼 썼으면 **한 번** 권한다(`FeatureFit.isShareMomentDue`).
     ///
-    /// ⚠️ 다른 판이 이미 떠 있으면 **비켜 있는다.** 판이 둘 겹치면 하나는 아예 안 보이거나
-    ///    (iOS 가 나중 것을 무시한다) 답한 것이 엉뚱한 판으로 간다. 다음 기회에 다시 본다
-    ///    - 이 함수는 화면에 들어올 때마다, 단축어가 바뀔 때마다 불린다.
+    /// ⚠️ 이 사람에게는 결제 대신 이것이다. 돈을 가장 적게 쓰는 사람에게 맞는 보답은
+    ///    조별과제 방에 올리는 링크 한 줄이다(docs/product/PERSONA_JOURNEY_MAP.html).
     ///
-    /// ⚠️ 카테고리는 **사용자가 직접 만든 것만** 센다. 기본 제공(타입별 모아보기)은
-    ///    켜기만 하면 생기는 것이라 "이 사람이 무엇을 모으려 하는가" 를 말해 주지 않는다.
-    private func askPersonaIfEarned() {
-        guard !showPersonaPrompt, !showOffer, !showSampleCleanup else { return }
-        let snippets = (try? MemoStore.shared.load(type: .memo))?.count ?? 0
-        guard PersonaPrompt.shouldAsk(snippetCount: snippets,
-                                      customCategoryCount: CategoryStore.shared.allCategories.count,
-                                      tutorialDone: onboardingStep == .done) else { return }
-        showPersonaPrompt = true
+    /// ⚠️ 다른 판이 떠 있으면 비켜 있는다. 판이 둘 겹치면 하나는 아예 안 보인다.
+    ///    권했다는 기록은 **띄우는 그 자리에서** 남긴다(닫는 방법과 무관하게 평생 한 번).
+    private func offerShareIfEarned() {
+        guard onboardingStep == .done, !showOffer, !showSampleCleanup, !showShareMoment else { return }
+        let store = UserStateStore.shared
+        let facts = store.lastFacts
+        let context = FeatureFit.ShareContext(
+            profile: PersonaResolver.profile,
+            uses: facts.uses,
+            activeDays: facts.activeDays,
+            alreadyShown: AppGroup.defaults?.bool(forKey: DefaultsKey.shareMomentShown) ?? false,
+            isAwayOrJustBack: store.state.activity != .active
+        )
+        guard FeatureFit.isShareMomentDue(context) else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+            // 그 사이 다른 판(연습용 단축어 치우기 등)이 떴으면 이번에는 비킨다. 다음에 다시 본다.
+            guard !showOffer, !showSampleCleanup, !showShareMoment else { return }
+            AppGroup.defaults?.set(true, forKey: DefaultsKey.shareMomentShown)
+            showShareMoment = true
+        }
+    }
+
+    /// 공유 시트에 넘기는 한 줄 + 스토어 주소.
+    private var shareMessage: String {
+        String(format: NSLocalizedString("학번이나 과제 메일처럼 매번 치는 글을 키보드에서 한 번에 넣어요. %@",
+                                         comment: "Share moment: message shared to friends, %@ = App Store URL"),
+               Constants.appStoreURL)
     }
 
     // MARK: - 연습용 단축어 치우기

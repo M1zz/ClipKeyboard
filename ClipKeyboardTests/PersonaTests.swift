@@ -15,7 +15,7 @@ final class PersonaTests: XCTestCase {
     /// 아무것도 안 고른 사람이 처음 보게 되는 갈래는 가장 넓은 것이어야 한다.
     ///
     /// 노마드였던 것은 이 앱이 국제 송금·비자에서 출발했다는 만든 사람의 사정이지
-    /// 쓰는 사람의 사정이 아니었다. 좁히는 일은 써 보고 나서 물어본다(`PersonaPrompt`).
+    /// 쓰는 사람의 사정이 아니었다. 좁히는 일은 묻지 않고 저장한 것을 보고 앱이 한다(`PersonaInference`).
     func testPersona_DefaultIsGeneral() {
         XCTAssertEqual(Persona.default, .general)
     }
@@ -28,7 +28,6 @@ final class PersonaTests: XCTestCase {
     func testPersona_AllCases_HaveNonEmptyTitles() {
         for p in Persona.allCases {
             XCTAssertFalse(p.localizedTitle.isEmpty, "\(p.rawValue) localizedTitle 누락")
-            XCTAssertFalse(p.localizedDescription.isEmpty, "\(p.rawValue) localizedDescription 누락")
         }
     }
 
