@@ -18,15 +18,18 @@ import SwiftUI
 // MARK: - 곡선
 
 enum SquishPress {
-    /// 누르고 있는 동안. 손끝을 바로 따라와야 하므로 짧고 거의 튕기지 않는다.
-    static let pressIn: Animation = .spring(response: 0.16, dampingFraction: 0.82)
+    /// 누르고 있는 동안. 손끝은 따라가되 **딱 멈추지는 않는다** - 끝에서 살짝 무르게 눌린다.
+    /// (0.16 · 0.82 였다. 그때는 눌림이 단단한 스위치처럼 딱 떨어져 쫀득함이 없었다)
+    static let pressIn: Animation = .spring(response: 0.22, dampingFraction: 0.7)
 
-    /// 기본 눌림 비율. 작은 기호 단추에서도 보이고, 큰 카드에서도 과하지 않은 값.
-    static let defaultScale: CGFloat = 0.92
+    /// 기본 눌림 비율. 깊이가 얕으면 무엇이 움직였는지 눈이 못 따라와 단단하게 느껴진다.
+    /// (0.92 였다. 0.90 이면 손가락 아래에서 한 번 더 들어가는 것이 보인다)
+    static let defaultScale: CGFloat = 0.90
 
-    /// 떼는 순간 원래 크기를 넘어 커지는 비율. 줄어든 만큼의 대략 절반만 넘친다.
+    /// 떼는 순간 원래 크기를 넘어 커지는 비율. 줄어든 만큼의 4분의 3쯤 넘친다.
+    /// 절반(0.6)만 넘겼을 때는 그냥 제자리로 돌아오는 것으로 보였다.
     static func overshoot(for scale: CGFloat) -> CGFloat {
-        1 + (1 - scale) * 0.6
+        1 + (1 - scale) * 0.75
     }
 
     /// 연출 마스터 스위치(`DefaultsKey.delightEffectsEnabled`). 값이 없으면 켜짐.
@@ -71,10 +74,11 @@ struct SquishPressEffect: ViewModifier {
                     // 눌린 크기에서 시작한다. 이미 줄어 있었다면 그 자리 그대로다.
                     LinearKeyframe(scale, duration: 0.01)
                     CubicKeyframe(scale, duration: 0.05)
-                    // 원래보다 커졌다가
-                    CubicKeyframe(overshoot, duration: 0.14)
-                    // 제자리로 내려앉는다.
-                    SpringKeyframe(1, duration: 0.3, spring: .init(response: 0.28, dampingRatio: 0.62))
+                    // 원래보다 커졌다가 - 천천히 부풀어야 고무처럼 읽힌다(0.14 였다).
+                    CubicKeyframe(overshoot, duration: 0.19)
+                    // 제자리로 내려앉는다. 덜 잡아 두어 한 번 더 흔들리게 한다
+                    // (0.28 · 0.62 는 한 번에 딱 멈춰서 딱딱했다).
+                    SpringKeyframe(1, duration: 0.45, spring: .init(response: 0.36, dampingRatio: 0.42))
                 }
             }
             .opacity(!moves && pressed ? 0.7 : 1)

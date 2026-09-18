@@ -1504,7 +1504,7 @@ struct ClipKeyboardList: View {
             }
         }
         // 누르면 말랑하게 줄었다가 떼면 튕긴다. 카드는 커서 조금만 줄인다.
-        .squishPress(pressedMemoID == memo.id, scale: 0.95,
+        .squishPress(pressedMemoID == memo.id, scale: 0.94,
                      bounce: tapBounceMemoID == memo.id ? tapBounceCount : 0)
         .accessibilityLabel(MemoCardSurface.accessibilityLabel(for: memo, categories: viewModel.customCategories))
         .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사, 꾹 누르면 추가 옵션", comment: "Memo card hint"))
