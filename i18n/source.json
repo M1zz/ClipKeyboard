@@ -3371,6 +3371,12 @@
     "comment": "OCR: applied selection toast",
     "h": "76959c01ea"
   },
+  "값으로 저장": {
+    "ko": "값으로 저장",
+    "en": "Save value",
+    "comment": "Numeric placeholder: keep typed value",
+    "h": "33bd0cfe3d"
+  },
   "값을 고르면 미리보기가 먼저 바뀌고, 입력하기를 눌러야 들어가요": {
     "ko": "값을 고르면 미리보기가 먼저 바뀌고, 입력하기를 눌러야 들어가요",
     "en": "Picking a value updates the preview first; nothing is typed until you tap insert",
@@ -5381,6 +5387,12 @@
     "comment": "Changelog 4.3.0 item 1",
     "h": "0c5a7d535d"
   },
+  "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.": {
+    "ko": "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.",
+    "en": "Keep it on to send right after inserting a snippet. Turn it off if you want more room.",
+    "comment": "What's new 5.1.3 return key detail",
+    "h": "8607b208c0"
+  },
   "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다": {
     "ko": "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다",
     "en": "Send right after inserting a snippet, without switching keyboards",
@@ -6539,6 +6551,12 @@
     "comment": "Accept the edit-pattern suggestion",
     "h": "476e98573d"
   },
+  "바꾸는 대로 진짜 키보드에서 보여요": {
+    "ko": "바꾸는 대로 진짜 키보드에서 보여요",
+    "en": "See every change on the real keyboard",
+    "comment": "What's new 5.1.3 live preview title",
+    "h": "01f3e27444"
+  },
   "바꾼 순서는 앱에도 그대로 반영돼요": {
     "ko": "바꾼 순서는 앱에도 그대로 반영돼요",
     "en": "The new order shows up in the app too",
@@ -6922,6 +6940,12 @@
     "en": "Send key",
     "comment": "Show return key toggle",
     "h": "5165bd1e95"
+  },
+  "보내기 키를 켜고 끌 수 있어요": {
+    "ko": "보내기 키를 켜고 끌 수 있어요",
+    "en": "Turn the send key on or off",
+    "comment": "What's new 5.1.3 return key title",
+    "h": "917918a5e6"
   },
   "보내기 키의 이름은 앱이 정합니다. 메시지 앱에서는 보내기, 검색창에서는 검색으로 보여요. 줄바꿈만 되는 앱도 있습니다.": {
     "ko": "보내기 키의 이름은 앱이 정합니다. 메시지 앱에서는 보내기, 검색창에서는 검색으로 보여요. 줄바꿈만 되는 앱도 있습니다.",
@@ -8411,6 +8435,12 @@
     "comment": "Setup done button",
     "h": "c7592b5a0c"
   },
+  "설정 위쪽 미리보기가 실제 키보드 그대로예요. 키 크기와 높이를 바꾸면 바로 달라져요.": {
+    "ko": "설정 위쪽 미리보기가 실제 키보드 그대로예요. 키 크기와 높이를 바꾸면 바로 달라져요.",
+    "en": "The preview at the top of Settings is the actual keyboard. Change the key size or height and it updates right away.",
+    "comment": "What's new 5.1.3 live preview detail",
+    "h": "d150ac30e6"
+  },
   "설정 화면": {
     "ko": "설정 화면",
     "en": "Settings screen",
@@ -8722,6 +8752,12 @@
     "en": "Number pad key",
     "comment": "Show number pad key toggle",
     "h": "e3c5a426b4"
+  },
+  "숫자 판 키와 붙여넣기 키도 골라요": {
+    "ko": "숫자 판 키와 붙여넣기 키도 골라요",
+    "en": "Choose the number pad and paste keys too",
+    "comment": "What's new 5.1.3 number pad paste title",
+    "h": "1d99e052db"
   },
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "ko": "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.",
@@ -10174,6 +10210,12 @@
     "en": "Choose a favorite snippet to show in the widget",
     "comment": "Select memo intent description",
     "h": "13d40b4407"
+  },
+  "위줄에 둘 키와 크기를 설정에서 직접 골라요.": {
+    "ko": "위줄에 둘 키와 크기를 설정에서 직접 골라요.",
+    "en": "Pick the keys on the top row and their size in Settings.",
+    "comment": "What's new subtitle 5.1.3",
+    "h": "6e22eb19a9"
   },
   "유지": {
     "ko": "유지",
@@ -12767,6 +12809,12 @@
     "comment": "DYK body: checksum",
     "h": "f295fae985"
   },
+  "카드번호나 금액처럼 숫자 몇 자만 넣을 때는 숫자 판을 여세요. 붙여넣기 키는 쓰는 분만 켜면 돼요.": {
+    "ko": "카드번호나 금액처럼 숫자 몇 자만 넣을 때는 숫자 판을 여세요. 붙여넣기 키는 쓰는 분만 켜면 돼요.",
+    "en": "Open the number pad when you only need a few digits, like a card number or an amount. Turn on the paste key only if you use it.",
+    "comment": "What's new 5.1.3 number pad paste detail",
+    "h": "035f627d2e"
+  },
   "카드에 살며시 보여줄 한 줄, 비우면 자동 요약": {
     "ko": "카드에 살며시 보여줄 한 줄, 비우면 자동 요약",
     "en": "A line to gently show on the card, auto summary if empty",
@@ -13331,6 +13379,12 @@
     "comment": "Changelog 4.4.1 item 3",
     "h": "99c7398b9c"
   },
+  "키보드 꾸미러 가기": {
+    "ko": "키보드 꾸미러 가기",
+    "en": "Customize keyboard",
+    "comment": "What's new 5.1.3 primary button",
+    "h": "6aeb4ea34d"
+  },
   "키보드 내리기": {
     "ko": "키보드 내리기",
     "en": "Dismiss keyboard",
@@ -13528,6 +13582,12 @@
     "en": "Typed with the keyboard",
     "comment": "Event label: keyboard used",
     "h": "27b76de9dc"
+  },
+  "키보드를 내 손에 맞게 고쳐요": {
+    "ko": "키보드를 내 손에 맞게 고쳐요",
+    "en": "Make the keyboard fit your hands",
+    "comment": "What's new title 5.1.3",
+    "h": "7ac51aaefe"
   },
   "키보드를 다시 열면 보던 갈래가 그대로 열려요. 매번 처음으로 돌아가지 않아요": {
     "ko": "키보드를 다시 열면 보던 갈래가 그대로 열려요. 매번 처음으로 돌아가지 않아요",

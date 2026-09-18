@@ -91606,6 +91606,296 @@
           }
         }
       }
+    },
+    "키보드를 내 손에 맞게 고쳐요" : {
+      "comment" : "What's new title 5.1.3",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make the keyboard fit your hands"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройте клавиатуру под себя"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把键盘调成顺手的样子"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把鍵盤調成順手的樣子"
+          }
+        }
+      }
+    },
+    "위줄에 둘 키와 크기를 설정에서 직접 골라요." : {
+      "comment" : "What's new subtitle 5.1.3",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick the keys on the top row and their size in Settings."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В настройках можно выбрать клавиши верхнего ряда и их размер."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在设置里自己选择顶行放哪些键、键有多大。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在設定裡自己選擇頂行放哪些鍵、鍵有多大。"
+          }
+        }
+      }
+    },
+    "보내기 키를 켜고 끌 수 있어요" : {
+      "comment" : "What's new 5.1.3 return key title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn the send key on or off"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Клавишу отправки можно включить или выключить"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "发送键可以打开或关闭"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "傳送鍵可以開啟或關閉"
+          }
+        }
+      }
+    },
+    "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요." : {
+      "comment" : "What's new 5.1.3 return key detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep it on to send right after inserting a snippet. Turn it off if you want more room."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Включите, чтобы отправлять сразу после вставки фразы. Если не нужна, выключите и освободите место."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "想插入短语后直接发送，就打开它。用不上的话关掉，腾出更多空间。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "想插入短語後直接傳送，就開啟它。用不上的話關掉，騰出更多空間。"
+          }
+        }
+      }
+    },
+    "숫자 판 키와 붙여넣기 키도 골라요" : {
+      "comment" : "What's new 5.1.3 number pad paste title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the number pad and paste keys too"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Клавиши цифровой панели и вставки тоже на ваш выбор"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数字键盘键和粘贴键也能自己选"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "數字鍵盤鍵和貼上鍵也能自己選"
+          }
+        }
+      }
+    },
+    "카드번호나 금액처럼 숫자 몇 자만 넣을 때는 숫자 판을 여세요. 붙여넣기 키는 쓰는 분만 켜면 돼요." : {
+      "comment" : "What's new 5.1.3 number pad paste detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open the number pad when you only need a few digits, like a card number or an amount. Turn on the paste key only if you use it."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда нужно ввести пару цифр, например номер карты или сумму, откройте цифровую панель. Клавишу вставки включайте, только если пользуетесь ей."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只需输入几位数字时，比如卡号或金额，就打开数字键盘。粘贴键需要的人再打开就行。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只需輸入幾位數字時，比如卡號或金額，就開啟數字鍵盤。貼上鍵需要的人再開啟就行。"
+          }
+        }
+      }
+    },
+    "바꾸는 대로 진짜 키보드에서 보여요" : {
+      "comment" : "What's new 5.1.3 live preview title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See every change on the real keyboard"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все изменения видны на настоящей клавиатуре"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "改了什么，真实键盘上马上就能看到"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "改了什麼，真實鍵盤上馬上就能看到"
+          }
+        }
+      }
+    },
+    "설정 위쪽 미리보기가 실제 키보드 그대로예요. 키 크기와 높이를 바꾸면 바로 달라져요." : {
+      "comment" : "What's new 5.1.3 live preview detail",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The preview at the top of Settings is the actual keyboard. Change the key size or height and it updates right away."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Превью вверху настроек и есть настоящая клавиатура. Размер клавиш и высота меняются сразу."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "设置顶部的预览就是真实的键盘。调整键的大小和高度会立刻生效。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定頂部的預覽就是真實的鍵盤。調整鍵的大小和高度會立刻生效。"
+          }
+        }
+      }
+    },
+    "키보드 꾸미러 가기" : {
+      "comment" : "What's new 5.1.3 primary button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Customize keyboard"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настроить клавиатуру"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去设置键盘"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "去設定鍵盤"
+          }
+        }
+      }
+    },
+    "값으로 저장" : {
+      "comment" : "Numeric placeholder: keep typed value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save value"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存为常用值"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存為常用值"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
