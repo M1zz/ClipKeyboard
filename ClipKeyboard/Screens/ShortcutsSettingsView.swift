@@ -17,7 +17,6 @@ import LeeoKit
 struct ShortcutsSettingsView: View {
 
     @Environment(\.appTheme) private var theme
-    @State private var showPlaceholderManagement = false
     /// `{날짜}` 모양. App Group 이라 키보드도 같은 값을 본다.
     @AppStorage(DefaultsKey.templateDateFormat, store: AppGroup.defaults)
     private var dateTokenFormatRaw: String = DateTokenFormat.automatic.rawValue
@@ -31,10 +30,6 @@ struct ShortcutsSettingsView: View {
             organizeSection
         }
         .settingsCategoryChrome(title: NSLocalizedString("단축어", comment: "Settings section: shortcuts"))
-        // 설정 안의 다른 줄들과 같은 걸음으로 들어간다 - 시트가 아니라 밀어 넣는 화면.
-        .navigationDestination(isPresented: $showPlaceholderManagement) {
-            PlaceholderManagementView(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])
-        }
     }
 
     // MARK: - 섹션
@@ -72,13 +67,12 @@ struct ShortcutsSettingsView: View {
     ///    있었더니 고르는 것들 사이에 담아 두는 것이 하나 끼어 있는 꼴이었다.
     private var organizeSection: some View {
         Section {
-            Button {
-                HapticManager.shared.light()
-                showPlaceholderManagement = true
-            } label: {
+            // ⚠️ **단추가 아니라 `NavigationLink` 다.** 단추로 두면 옆줄들과 달리 오른쪽
+            //    화살표가 없어서, 들어가는 줄인지 그 자리에서 무엇이 일어나는 줄인지
+            //    모양만으로는 알 수 없었다.
+            NavigationLink(destination: PlaceholderManagementView(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])) {
                 Label(NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)"),
                       systemImage: AppSymbol.listBullet)
-                    .foregroundColor(theme.text)
             }
             dateFormatRow
             timeFormatRow
