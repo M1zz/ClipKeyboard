@@ -83,6 +83,17 @@ enum DefaultsKey {
     /// 반값 제안을 이미 띄운 **기회들**(App Group, `DiscountOfferManager.Occasion.rawValue` 배열).
     /// 기회는 둘뿐이고(설치 직후·한도 한 칸 앞), 각각 한 번씩만 뜬다.
     static let discountOfferShownOccasions = "discount.offer.shownOccasions"
+
+    // MARK: - 네 가지 판 (5.1.5)
+
+    /// 필수 단축어 칸을 판 안에서 만든 단축어 (App Group, `[Essential.id: UUID문자열]`).
+    /// 제목을 고쳐도, 언어를 바꿔도 그 칸이 찬 것으로 본다. 자세한 이유: ClipKeyboard/Service/PersonaEdition.swift
+    static let editionEssentialLinks = "persona.edition.essentialLinks.v1"
+    /// 필수 단축어 카드를 닫은 판 (App Group, `PersonaEdition.Kind.rawValue` 배열).
+    /// 판이 바뀌면 새 판의 카드는 한 번 다시 보인다.
+    static let editionShelfDismissed = "persona.edition.shelfDismissed.v1"
+    /// 키보드 빠른 줄에 붙박아 세울 단축어 (App Group, `[UUID문자열]`). 앱이 적고 키보드가 읽는다.
+    static let quickRowAnchors = "quick.row.anchors.v1"
     static let enabledBuiltInCategoriesV1 = "enabledBuiltInCategories_v1"
     /// 앱을 처음 연 날 (standard UD, Date). 리뷰 요청·붙여넣기 안내·반값 제안이 모두 이 값을 본다.
     /// ⚠️ 읽기만 하는 자리에서 값을 쓰지 말 것 - 남의 초기화를 조용히 되돌린다.

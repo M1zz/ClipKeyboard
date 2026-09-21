@@ -29,6 +29,7 @@ struct UsageProfileSettingsView: View {
                 evidenceSection
             }
             effectsSection
+            editionSection
             overrideSection
         }
         .listStyle(.insetGrouped)
@@ -156,6 +157,9 @@ struct UsageProfileSettingsView: View {
             effectRow(AppSymbol.bagFill,
                       NSLocalizedString("단축어 마트와 카테고리 제안이 쓰임새에 맞는 것부터 나와요",
                                         comment: "Usage profile effect: shortcut mart and category suggestions"))
+            effectRow(AppSymbol.pinFill,
+                      NSLocalizedString("계좌·학번처럼 불쑥 묻는 것은 키보드 빠른 줄 같은 자리에 늘 세워 둬요",
+                                        comment: "Usage profile effect: request-type snippets pinned to the keyboard quick row"))
             effectRow(AppSymbol.calendarBadgeClock,
                       NSLocalizedString("매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요",
                                         comment: "Usage profile effect: rhythm-based quick row"))
@@ -167,6 +171,39 @@ struct UsageProfileSettingsView: View {
         } footer: {
             Text(NSLocalizedString("쓸 수 있는 기능과 한도는 쓰임새와 상관없이 같아요. 먼저 보여 드리는 순서만 바뀌어요.",
                                    comment: "Usage profile: effects never change limits or access"))
+        }
+    }
+
+    // MARK: - 지금 판의 필수 단축어
+
+    /// 지금 판(`PersonaEdition`). 직접 정했으면 그것, 아니면 앱이 알아본 것(확신할 때만).
+    private var edition: PersonaEdition.Kind {
+        if let override {
+            return PersonaEdition.kind(for: FeatureFit.Profile(persona: override, isConfident: true))
+        }
+        return PersonaEdition.kind(for: FeatureFit.Profile(persona: result.persona, isConfident: result.isConfident))
+    }
+
+    private var editionSection: some View {
+        Section {
+            ForEach(PersonaEdition.essentials(for: edition)) { essential in
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(essential.emoji + " " + essential.title)
+                        .font(.body.weight(.semibold))
+                        .foregroundColor(theme.text)
+                    Text(essential.moment)
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(.vertical, 2)
+                .accessibilityElement(children: .combine)
+            }
+        } header: {
+            Text(NSLocalizedString("먼저 챙겨 드리는 세 가지", comment: "Usage profile: section listing the three essential snippets for the current usage profile"))
+        } footer: {
+            Text(NSLocalizedString("목록 맨 위 카드에서 빈칸만 채우면 저장돼요. 쓰임새가 바뀌면 세 가지도 바뀌어요.",
+                                   comment: "Usage profile: essentials section footer"))
         }
     }
 
@@ -199,6 +236,8 @@ struct UsageProfileSettingsView: View {
             HapticManager.shared.selection()
             override = persona
             PersonaResolver.override = persona
+            // 판이 바뀌면 키보드 붙박이도 새 판의 것으로 곧바로.
+            UserStateStore.shared.refresh()
         } label: {
             HStack {
                 Label(title, systemImage: icon)

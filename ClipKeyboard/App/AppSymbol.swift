@@ -43,6 +43,7 @@ enum AppSymbol {
     /// 단축어 마트 - 차려 둔 것에서 골라 담는 자리.
     static let bagFill = "bag.fill"
     static let circle = "circle"
+    static let pinFill = "pin.fill"
     static let circleFill = "circle.fill"
     static let clock = "clock"
     static let clockArrowCirclepath = "clock.arrow.circlepath"

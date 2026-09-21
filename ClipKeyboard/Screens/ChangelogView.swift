@@ -35,6 +35,14 @@ enum ChangelogData {
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
     static let entries: [ChangelogEntry] = [
         ChangelogEntry(
+            version: "5.1.5",
+            released: nil,
+            highlights: [
+                NSLocalizedString("쓰임새에 맞는 필수 단축어 세 가지를 목록 맨 위에서 빈칸만 채워 만들어요", comment: "Changelog 5.1.5 essentials card"),
+                NSLocalizedString("계좌·학번처럼 불쑥 묻는 것은 키보드 빠른 줄 같은 자리에 늘 세워 둬요", comment: "Usage profile effect: request-type snippets pinned to the keyboard quick row"),
+            ]
+        ),
+        ChangelogEntry(
             version: "5.1.4",
             released: nil,
             highlights: [

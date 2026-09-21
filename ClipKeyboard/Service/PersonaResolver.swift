@@ -109,7 +109,7 @@ enum PersonaResolver {
 
     /// 저장할 때 분류해 둔 종류. 없으면(예전 단축어) 짧은 글만 그 자리에서 분류한다.
     /// 긴 글은 계좌·IBAN 같은 한 줄짜리 값이 아니라 분류해도 `.text` 이고, 정규식만 오래 돈다.
-    private static func detectedType(of memo: Memo) -> ClipboardItemType? {
+    static func detectedType(of memo: Memo) -> ClipboardItemType? {
         if let type = memo.autoDetectedType { return type }
         guard !memo.isSecure, memo.value.count <= 120 else { return nil }
         let guess = ClipboardClassificationService.shared.classify(content: memo.value)

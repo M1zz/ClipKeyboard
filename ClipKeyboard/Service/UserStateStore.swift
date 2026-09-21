@@ -61,6 +61,8 @@ final class UserStateStore: ObservableObject {
         if let loaded {
             // 같은 목록을 읽은 김에 쓰임새도 다시 본다. 묻지 않고 저장한 것으로 알아본다.
             PersonaResolver.refresh(memos: loaded, sampleIDs: sampleIds)
+            // 판이 바뀌었으면 키보드 붙박이도 그 판의 것으로.
+            PersonaEditionStore.refresh(memos: loaded, sampleIDs: sampleIds)
             // 지워진 단축어의 사용 시각은 걷어 낸다.
             UsageRhythmLog.prune(keeping: Set(loaded.map(\.id)))
         }

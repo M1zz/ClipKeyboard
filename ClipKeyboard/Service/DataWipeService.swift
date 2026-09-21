@@ -51,7 +51,10 @@ enum DataWipeService {
         DefaultsKey.keyboardSessionLedger,
         DefaultsKey.personaOverride,
         DefaultsKey.personaInferred,
-        DefaultsKey.personaInferredConfident
+        DefaultsKey.personaInferredConfident,
+        DefaultsKey.editionEssentialLinks,
+        DefaultsKey.editionShelfDismissed,
+        DefaultsKey.quickRowAnchors
     ]
 
     // MARK: - 실행

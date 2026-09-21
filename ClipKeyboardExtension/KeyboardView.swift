@@ -400,6 +400,8 @@ struct KeyboardView: View {
     /// 지금 쓸 차례인 단축어(`UsageRhythm`). 목록을 읽을 때 한 번만 잰다.
     /// ⚠️ 그리는 자리에서 기록을 읽지 않는다 - 몇 번 그릴지는 SwiftUI 가 정한다.
     @State private var rhythmDueIDs: [UUID] = []
+    /// 판이 붙박아 둔 단축어(`QuickRowAnchors`). 앱이 적어 둔 것을 목록을 읽을 때 한 번 읽는다.
+    @State private var anchorIDs: [UUID] = []
     /// 요즘 키보드를 열었다가 아무것도 못 넣고 닫는가(`KeyboardSessionLedger`).
     @State private var searchStruggling = false
     @State private var templateObserverToken: NSObjectProtocol?
@@ -689,6 +691,7 @@ struct KeyboardView: View {
     private var quickRowItems: [(memo: Memo, reason: QuickRowPlanner.Reason)] {
         let plan = QuickRowPlanner.plan(memos: allMemos,
                                         dueIDs: rhythmDueIDs,
+                                        anchorIDs: anchorIDs,
                                         struggling: searchStruggling,
                                         now: Date())
         return plan.compactMap { item in
@@ -1733,6 +1736,10 @@ struct KeyboardView: View {
                     Image(systemName: AppSymbol.calendarBadgeClock)
                         .font(.caption2)
                         .foregroundColor(theme.accent)
+                case .anchor:
+                    Image(systemName: AppSymbol.pinFill)
+                        .font(.caption2)
+                        .foregroundColor(theme.accent)
                 case .frequent:
                     Image(systemName: AppSymbol.starCircleFill)
                         .font(.caption2)
@@ -1770,6 +1777,8 @@ struct KeyboardView: View {
         switch reason {
         case .due:
             return String(format: NSLocalizedString("지금 쓸 차례: %@", comment: "Keyboard quick row chip label: shortcut usually used around this time"), memo.title)
+        case .anchor:
+            return String(format: NSLocalizedString("늘 이 자리: %@", comment: "Keyboard quick row chip label: shortcut pinned to the quick row because it is asked for without warning (bank account, student ID)"), memo.title)
         case .frequent:
             return String(format: NSLocalizedString("자주 씀: %@", comment: "Keyboard quick row chip label: frequently used shortcut"), memo.title)
         case .recent:
@@ -2731,6 +2740,7 @@ struct KeyboardView: View {
     ///    기록도 익스텐션만 남긴다.
     private func refreshQuickRowSignals(now: Date = Date()) {
         rhythmDueIDs = UsageRhythm.dueMemoIDs(log: UsageRhythmLog.load(), now: now)
+        anchorIDs = QuickRowAnchors.load()
         searchStruggling = hostKind == .keyboardExtension
             && KeyboardSessionLedger.isStruggling(KeyboardSessionLedger.load(), now: now)
     }

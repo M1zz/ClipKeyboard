@@ -1,3 +1,19 @@
+## 🧩 네 가지 판 (5.1.5) - 2026-09-21
+
+쓰임새마다 다른 앱처럼. 설계: `docs/product/ADAPTIVE_FIT.md` 10절 · `docs/release-notes/5.1.5.md`
+
+- [x] 버전 5.1.5 (18)
+- [x] `PersonaEdition`(순수): 판 고르기 · 필수 단축어 세 칸 · 찬 칸 판정 · 붙박이 · 카드 세울지
+- [x] 목록 맨 위 필수 단축어 카드 (`PersonaEssentialsCard`). 빈칸만 채워 저장, 무료 칸 없으면 페이월
+- [x] 키보드 빠른 줄 붙박이 (`QuickRowAnchors` · `.anchor` 핀 칩). 앱이 적고 키보드는 읽기만
+- [x] 결제 순간의 차례를 판마다 (`FeatureFit.purchaseMomentOrder`). 학생은 먼저 말 걸지 않음
+- [x] 설정 > 나에게 맞추기에 "먼저 챙겨 드리는 세 가지"
+- [x] 시험 `PersonaEditionTests` · 다국어 5개 (러시아어 기계 번역, {city}·{timezone} 손봄)
+- [x] RELEASE_NOTES.md · docs/release-notes/5.1.5.md · 앱 안 변경 이력
+- [ ] 기기에서 확인: 카드 세 줄이 SE 화면에서 목록을 너무 밀어내지 않는지
+- [ ] 기기에서 확인: 붙박이 핀 칩이 박자 칩 바로 뒤에 서는지 (키보드 익스텐션)
+- [ ] 러시아어 필수 단축어 본문의 빈칸 이름을 눈으로 볼 것 (기계 번역)
+
 ## 🗺️ 필요의 순간 지도 (페르소나 저니맵) - 2026-09-17
 
 `docs/product/PERSONA_JOURNEY_MAP.html` · https://claude.ai/artifact/2TnpL3NPtvs5GbvEUnNSBu

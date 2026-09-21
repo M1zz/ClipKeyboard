@@ -113,14 +113,17 @@ enum KeyboardSessionLedger {
 /// | 순서 | 갈래 | 왜 |
 /// | --- | --- | --- |
 /// | 1 | 지금 쓸 차례 (`UsageRhythm`) | 달력이 정한 순간은 미리 알 수 있다 |
-/// | 2 | 많이 쓴 것 (찾다 포기하는 사람에게만) | 못 찾는 사람에게 필요한 건 최근이 아니라 늘 쓰던 것이다 |
-/// | 3 | 최근 1주 | 예전 그대로 |
+/// | 2 | 붙박이 (`PersonaEdition.anchors`, 5.1.5) | 요청이 와야 생기는 순간은 언제 올지 몰라, 늘 같은 자리에 둔다 |
+/// | 3 | 많이 쓴 것 (찾다 포기하는 사람에게만) | 못 찾는 사람에게 필요한 건 최근이 아니라 늘 쓰던 것이다 |
+/// | 4 | 최근 1주 | 예전 그대로 |
 ///
 /// ⚠️ 정렬 규칙은 여기 한 곳에만 둔다(`KeyboardMemoFeed` 와 같은 이유).
 enum QuickRowPlanner {
 
     enum Reason: Equatable {
         case due
+        /// 판이 붙박아 둔 것(계좌·송금 정보·명함·학번). `PersonaEdition.anchors`
+        case anchor
         case frequent
         case recent
     }
@@ -139,8 +142,10 @@ enum QuickRowPlanner {
     /// - Parameters:
     ///   - memos: 키보드에 실제로 보이는 단축어(무료 한도로 자른 뒤).
     ///   - dueIDs: 지금 쓸 차례인 단축어(`UsageRhythm.dueMemoIDs`).
+    ///   - anchorIDs: 판이 붙박아 둔 단축어(`QuickRowAnchors.load`).
     ///   - struggling: 요즘 찾다가 포기하는가(`KeyboardSessionLedger.isStruggling`).
-    static func plan(memos: [Memo], dueIDs: [UUID], struggling: Bool, now: Date) -> [Item] {
+    static func plan(memos: [Memo], dueIDs: [UUID], anchorIDs: [UUID] = [],
+                     struggling: Bool, now: Date) -> [Item] {
         let ids: Set<UUID> = Set(memos.map(\.id))
         var seen = Set<UUID>()
         var items: [Item] = []
@@ -151,6 +156,7 @@ enum QuickRowPlanner {
         }
 
         dueIDs.forEach { push($0, .due) }
+        anchorIDs.forEach { push($0, .anchor) }
 
         if struggling {
             let used = memos.filter { $0.clipCount >= frequentMinUses }
@@ -174,5 +180,24 @@ enum QuickRowPlanner {
         let left: Date = a.lastUsedAt ?? .distantPast
         let right: Date = b.lastUsedAt ?? .distantPast
         return left > right
+    }
+}
+
+// MARK: - 붙박이
+
+/// 판이 키보드 빠른 줄에 붙박아 둔 단축어(App Group). **앱이 적고 키보드가 읽는다.**
+///
+/// 쓰임새 판정(`PersonaResolver`)과 판(`PersonaEdition`)은 앱에만 있다. 키보드까지 끌고 가면
+/// 익스텐션이 목록 전체를 분류하느라 뜨는 시간이 늘어난다. 그래서 결과인 id 만 건넨다.
+enum QuickRowAnchors {
+
+    private static var defaults: UserDefaults? { AppGroup.defaults }
+
+    static func load() -> [UUID] {
+        (defaults?.stringArray(forKey: DefaultsKey.quickRowAnchors) ?? []).compactMap(UUID.init(uuidString:))
+    }
+
+    static func save(_ ids: [UUID]) {
+        defaults?.set(ids.map(\.uuidString), forKey: DefaultsKey.quickRowAnchors)
     }
 }

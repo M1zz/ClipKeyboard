@@ -91606,6 +91606,1843 @@
           }
         }
       }
+    },
+    "계좌·학번처럼 불쑥 묻는 것은 키보드 빠른 줄 같은 자리에 늘 세워 둬요" : {
+      "comment" : "Usage profile effect: request-type snippets pinned to the keyboard quick row",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Things people ask for out of the blue, like your bank account or student ID, stay in the same spot on the keyboard quick row"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "계좌·학번처럼 불쑥 묻는 것은 키보드 빠른 줄 같은 자리에 늘 세워 둬요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "То, что просят внезапно, например номер счёта или студенческого, всегда стоит на одном месте в быстрой строке клавиатуры"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "像银行账户、学号这种随时会被问到的内容，会一直固定在键盘快捷栏的同一位置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "像銀行帳戶、學號這種隨時會被問到的內容，會一直固定在鍵盤快捷欄的同一位置"
+          }
+        }
+      }
+    },
+    "먼저 챙겨 드리는 세 가지" : {
+      "comment" : "Usage profile: section listing the three essential snippets for the current usage profile",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Three things we set up first"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "먼저 챙겨 드리는 세 가지"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Три фразы, с которых начнём"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "优先为你准备的三项"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "優先為你準備的三項"
+          }
+        }
+      }
+    },
+    "목록 맨 위 카드에서 빈칸만 채우면 저장돼요. 쓰임새가 바뀌면 세 가지도 바뀌어요." : {
+      "comment" : "Usage profile: essentials section footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill in the blanks on the card at the top of your list to save them. If the way you use the app changes, these three change too."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "목록 맨 위 카드에서 빈칸만 채우면 저장돼요. 쓰임새가 바뀌면 세 가지도 바뀌어요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заполните поля в верхней карточке списка, и фразы сохранятся. Если ваши привычки изменятся, изменятся и эти три."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在列表顶部的卡片里填好空格即可保存。使用方式变化时，这三项也会随之变化。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在列表頂部的卡片裡填好空格即可儲存。使用方式變化時，這三項也會隨之變化。"
+          }
+        }
+      }
+    },
+    "%1$d / %2$d 채움" : {
+      "comment" : "Essentials card progress: N of M essential snippets saved",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d of %2$d saved"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d / %2$d 채움"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d из %2$d сохранено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已保存 %1$d / %2$d"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已儲存 %1$d / %2$d"
+          }
+        }
+      }
+    },
+    "저장해 두셨어요" : {
+      "comment" : "VoiceOver: essential snippet already saved",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장해 두셨어요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已保存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已儲存"
+          }
+        }
+      }
+    },
+    "아직 없어요" : {
+      "comment" : "VoiceOver: essential snippet not saved yet",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not saved yet"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아직 없어요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока нет"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未保存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未儲存"
+          }
+        }
+      }
+    },
+    "탭하면 빈칸만 채워서 저장해요" : {
+      "comment" : "VoiceOver: tap to fill the blanks and save this essential snippet",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to fill in the blanks and save"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "탭하면 빈칸만 채워서 저장해요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите, заполните поля и сохраните"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点填好空格即可保存"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輕點填好空格即可儲存"
+          }
+        }
+      }
+    },
+    "입금 계좌" : {
+      "comment" : "Essential snippet title: my bank account for receiving money",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bank account"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "입금 계좌"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Банковский счёт"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收款账户"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收款帳戶"
+          }
+        }
+      }
+    },
+    "{은행} {계좌번호} {예금주}" : {
+      "comment" : "Essential snippet body: bank account. Keep every {…} blank with its braces; translate only the words inside",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{Bank} {Account number} {Account holder}"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{은행} {계좌번호} {예금주}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{银行} {账号} {户名}"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{銀行} {帳號} {戶名}"
+          }
+        }
+      }
+    },
+    "누가 \"계좌 알려주세요\" 할 때" : {
+      "comment" : "Essential snippet moment: someone asks for your bank account",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When someone asks \"What's your account number?\""
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "누가 \"계좌 알려주세요\" 할 때"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда просят: «Скажите номер счёта»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有人问“账号发我一下”的时候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有人問「帳號發我一下」的時候"
+          }
+        }
+      }
+    },
+    "집 주소" : {
+      "comment" : "Essential snippet title: home address",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home address"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "집 주소"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Домашний адрес"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "家庭住址"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "家庭住址"
+          }
+        }
+      }
+    },
+    "{주소}\n공동현관 {현관 비밀번호}" : {
+      "comment" : "Essential snippet body: home address plus building door code. Keep every {…} blank with its braces; translate only the words inside",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{Address}\nDoor code {Door code}"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{주소}\n공동현관 {현관 비밀번호}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{адрес}\nКод домофона {код домофона}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{地址}\n单元门密码 {门禁密码}"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{地址}\n單元門密碼 {門禁密碼}"
+          }
+        }
+      }
+    },
+    "배달앱 주소칸이 비어 있을 때" : {
+      "comment" : "Essential snippet moment: a delivery app asks for your address",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When a delivery app asks for your address"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배달앱 주소칸이 비어 있을 때"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда приложение доставки просит адрес"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外卖App的地址栏空着的时候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "外送App的地址欄空著的時候"
+          }
+        }
+      }
+    },
+    "내 연락처" : {
+      "comment" : "Essential snippet title: my contact details",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My contact info"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "내 연락처"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мои контакты"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的联系方式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的聯繫方式"
+          }
+        }
+      }
+    },
+    "{이름}\n{전화번호}\n{이메일}" : {
+      "comment" : "Essential snippet body: name, phone, email. Keep every {…} blank with its braces; translate only the words inside",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{Name}\n{Phone}\n{Email}"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{이름}\n{전화번호}\n{이메일}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{姓名}\n{电话}\n{邮箱}"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{姓名}\n{電話}\n{信箱}"
+          }
+        }
+      }
+    },
+    "처음 만난 사람이 연락처를 물을 때" : {
+      "comment" : "Essential snippet moment: someone new asks for your contact",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When someone new asks how to reach you"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "처음 만난 사람이 연락처를 물을 때"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда новый знакомый спрашивает, как с вами связаться"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刚认识的人问你联系方式的时候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剛認識的人問你聯繫方式的時候"
+          }
+        }
+      }
+    },
+    "직거래 약속" : {
+      "comment" : "Essential snippet title: meeting place for a second-hand trade",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meetup for a sale"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "직거래 약속"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Встреча для сделки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当面交易约定"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當面交易約定"
+          }
+        }
+      }
+    },
+    "{요일} {약속 시간}, {장소} 앞에서 뵐게요. 도착하면 채팅 주세요!" : {
+      "comment" : "Essential snippet body: in-person trade meetup. Keep every {…} blank with its braces; translate only the words inside",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See you {Day} at {Time}, in front of {Place}. Message me when you arrive!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{요일} {약속 시간}, {장소} 앞에서 뵐게요. 도착하면 채팅 주세요!"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "До встречи в {день недели} в {время встречи}, у места: {место}. Напишите, когда придёте!"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{星期} {约定时间}，在{地点}门口见。到了请发消息给我！"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{星期} {約定時間}，在{地點}門口見。到了請發訊息給我！"
+          }
+        }
+      }
+    },
+    "중고거래 시간과 장소를 정할 때" : {
+      "comment" : "Essential snippet moment: arranging a second-hand trade meetup",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you set a time and place for a second-hand sale"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "중고거래 시간과 장소를 정할 때"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда назначаете время и место для сделки с рук"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "约二手交易的时间和地点的时候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "約二手交易的時間和地點的時候"
+          }
+        }
+      }
+    },
+    "송금 정보" : {
+      "comment" : "Essential snippet title: international payment details (IBAN, SWIFT)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payment details"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "송금 정보"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Реквизиты для оплаты"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收款信息"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收款資訊"
+          }
+        }
+      }
+    },
+    "Name: {영문 이름}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}" : {
+      "comment" : "Essential snippet body: payment details for clients. Keep every {…} blank with its braces; translate only the words inside",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name: {Full name}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name: {영문 이름}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя: {полное имя}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name: {英文姓名}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name: {英文姓名}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}"
+          }
+        }
+      }
+    },
+    "클라이언트가 banking details 를 물을 때" : {
+      "comment" : "Essential snippet moment: a client asks for your banking details",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When a client asks for your banking details"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클라이언트가 banking details 를 물을 때"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда клиент спрашивает ваши банковские реквизиты"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "客户问你要收款账户信息的时候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "客戶問你要收款帳戶資訊的時候"
+          }
+        }
+      }
+    },
+    "시차 안내" : {
+      "comment" : "Essential snippet title: time zone note for booking a call",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time zone note"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시차 안내"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Часовой пояс"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "时差说明"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時差說明"
+          }
+        }
+      }
+    },
+    "Hi {상대 이름}, I'm in {도시} ({타임존}). I can do {가능한 시간}. Book here: {예약 링크}" : {
+      "comment" : "Essential snippet body: time zone note. {도시} and {타임존} are automatic tokens: in English write {city} and {timezone} exactly. Keep every other {…} blank with its braces",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hi {Their name}, I'm in {city} ({timezone}). I can do {Available times}. Book here: {Booking link}"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hi {상대 이름}, I'm in {도시} ({타임존}). I can do {가능한 시간}. Book here: {예약 링크}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здравствуйте, {имя собеседника}, я в {city} ({timezone}). Мне подойдёт {удобное время}. Запись здесь: {ссылка для записи}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hi {对方姓名}, I'm in {city} ({timezone}). I can do {可约时间}. Book here: {预约链接}"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hi {對方姓名}, I'm in {city} ({timezone}). I can do {可約時間}. Book here: {預約連結}"
+          }
+        }
+      }
+    },
+    "다른 시간대의 클라이언트와 통화를 잡을 때" : {
+      "comment" : "Essential snippet moment: booking a call across time zones",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you book a call with a client in another time zone"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 시간대의 클라이언트와 통화를 잡을 때"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда договариваетесь о звонке с клиентом из другого часового пояса"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "和其他时区的客户约通话的时候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "和其他時區的客戶約通話的時候"
+          }
+        }
+      }
+    },
+    "인보이스" : {
+      "comment" : "Essential snippet title: invoice email",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invoice"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "인보이스"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Счёт"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "发票"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "發票"
+          }
+        }
+      }
+    },
+    "Invoice #{번호} · {금액}\nDue: {기한}\nPayment: {결제 수단}" : {
+      "comment" : "Essential snippet body: invoice. Keep every {…} blank with its braces; translate only the words inside",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invoice #{Number} · {Amount}\nDue: {Due date}\nPayment: {Payment method}"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invoice #{번호} · {금액}\nDue: {기한}\nPayment: {결제 수단}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Счёт №{номер} · {сумма}\nСрок: {срок оплаты}\nОплата: {способ оплаты}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invoice #{编号} · {金额}\nDue: {截止日期}\nPayment: {付款方式}"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invoice #{編號} · {金額}\nDue: {截止日期}\nPayment: {付款方式}"
+          }
+        }
+      }
+    },
+    "월말에 인보이스를 보낼 때" : {
+      "comment" : "Essential snippet moment: sending the monthly invoice",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you send your end-of-month invoice"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "월말에 인보이스를 보낼 때"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда отправляете счёт в конце месяца"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "月底发送发票的时候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "月底發送發票的時候"
+          }
+        }
+      }
+    },
+    "명함 인사" : {
+      "comment" : "Essential snippet title: business card greeting",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intro with contact"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "명함 인사"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Знакомство с контактами"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名片式问候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名片式問候"
+          }
+        }
+      }
+    },
+    "안녕하세요, {회사} {이름}입니다.\n{이메일} / {전화번호}" : {
+      "comment" : "Essential snippet body: business intro with contact. Keep every {…} blank with its braces; translate only the words inside",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hello, this is {Name} from {Company}.\n{Email} / {Phone}"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "안녕하세요, {회사} {이름}입니다.\n{이메일} / {전화번호}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здравствуйте, это {имя} из {компания}.\n{почта} / {телефон}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您好，我是{公司}的{姓名}。\n{邮箱} / {电话}"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您好，我是{公司}的{姓名}。\n{信箱} / {電話}"
+          }
+        }
+      }
+    },
+    "명함을 주고받은 뒤 \"자료 보내 주세요\" 가 왔을 때" : {
+      "comment" : "Essential snippet moment: a new lead asks for materials",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When a new contact asks you to send over materials"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "명함을 주고받은 뒤 \"자료 보내 주세요\" 가 왔을 때"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда после обмена визитками просят прислать материалы"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "交换名片后对方说“把资料发我一下”的时候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "交換名片後對方說「把資料發我一下」的時候"
+          }
+        }
+      }
+    },
+    "미팅 팔로업" : {
+      "comment" : "Essential snippet title: follow-up email after a meeting",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meeting follow-up"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "미팅 팔로업"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Письмо после встречи"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会后跟进"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "會後跟進"
+          }
+        }
+      }
+    },
+    "{담당자}님, 오늘 {고객사} 미팅 감사합니다.\n논의: {요약}\n다음 단계: {다음 단계} ({다음 일정})" : {
+      "comment" : "Essential snippet body: meeting follow-up. Keep every {…} blank with its braces; translate only the words inside",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hi {Contact}, thanks for today's meeting with {Client}.\nDiscussed: {Summary}\nNext step: {Next step} ({Next date})"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{담당자}님, 오늘 {고객사} 미팅 감사합니다.\n논의: {요약}\n다음 단계: {다음 단계} ({다음 일정})"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здравствуйте, {имя контакта}, спасибо за сегодняшнюю встречу с {клиент}.\nОбсудили: {итоги}\nСледующий шаг: {следующий шаг} ({дата шага})"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{对接人}您好，感谢今天与{客户公司}的会议。\n讨论内容：{摘要}\n下一步：{下一步} （{下次日程}）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{對接人}您好，感謝今天與{客戶公司}的會議。\n討論內容：{摘要}\n下一步：{下一步} （{下次日程}）"
+          }
+        }
+      }
+    },
+    "미팅이 끝나고 오늘 안에 팔로업을 보낼 때" : {
+      "comment" : "Essential snippet moment: sending a same-day follow-up",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you send a same-day follow-up after a meeting"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "미팅이 끝나고 오늘 안에 팔로업을 보낼 때"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда отправляете письмо после встречи в тот же день"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会议结束后当天发送跟进的时候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "會議結束後當天發送跟進的時候"
+          }
+        }
+      }
+    },
+    "주간 보고" : {
+      "comment" : "Essential snippet title: weekly status report",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weekly report"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주간 보고"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Недельный отчёт"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "周报"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "周報"
+          }
+        }
+      }
+    },
+    "완료: {완료한 일}\n진행: {진행 중인 일}\n다음 주: {다음 주 계획}" : {
+      "comment" : "Essential snippet body: weekly report. Keep every {…} blank with its braces; translate only the words inside",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done: {Done}\nIn progress: {In progress}\nNext week: {Next week}"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "완료: {완료한 일}\n진행: {진행 중인 일}\n다음 주: {다음 주 계획}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово: {готово}\nВ работе: {в работе}\nНа следующей неделе: {план на неделю}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已完成：{已完成事项}\n进行中：{进行中事项}\n下周：{下周计划}"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已完成：{已完成事項}\n進行中：{進行中事項}\n下周：{下周計劃}"
+          }
+        }
+      }
+    },
+    "금요일 오후 보고 마감 전에" : {
+      "comment" : "Essential snippet moment: before the Friday report deadline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Before the Friday afternoon report deadline"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "금요일 오후 보고 마감 전에"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перед сдачей отчёта в пятницу"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "周五下午报告截止前"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "週五下午報告截止前"
+          }
+        }
+      }
+    },
+    "학과 학번 이름" : {
+      "comment" : "Essential snippet title: department, student number, name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Major, student ID, name"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "학과 학번 이름"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Факультет, студенческий, имя"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "专业 学号 姓名"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "專業 學號 姓名"
+          }
+        }
+      }
+    },
+    "{학과} {학번} {이름}" : {
+      "comment" : "Essential snippet body: student identity line. Keep every {…} blank with its braces; translate only the words inside",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{Major} {Student ID} {Name}"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{학과} {학번} {이름}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{专业} {学号} {姓名}"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{專業} {學號} {姓名}"
+          }
+        }
+      }
+    },
+    "출석 구글폼·과제 제출에 학번을 적을 때" : {
+      "comment" : "Essential snippet moment: typing your student number into forms",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you type your student ID into an attendance form or submission"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "출석 구글폼·과제 제출에 학번을 적을 때"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда вписываете номер студенческого в форму или работу"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在签到表单或作业提交里填学号的时候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在簽到表單或作業提交裡填學號的時候"
+          }
+        }
+      }
+    },
+    "교수님 메일" : {
+      "comment" : "Essential snippet title: email to a professor",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email to a professor"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "교수님 메일"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Письмо профессору"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "给教授的邮件"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "給教授的郵件"
+          }
+        }
+      }
+    },
+    "안녕하세요 교수님, {학과} {학번} {이름}입니다.\n{과목} {과제} 제출드립니다." : {
+      "comment" : "Essential snippet body: polite email to a professor. Keep every {…} blank with its braces; translate only the words inside",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dear Professor, this is {Name} ({Major}, {Student ID}).\nPlease find my {Assignment} for {Course} attached."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "안녕하세요 교수님, {학과} {학번} {이름}입니다.\n{과목} {과제} 제출드립니다."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здравствуйте, уважаемый профессор, это {имя} ({факультет}, {номер студенческого}).\nПрикрепляю {задание} по предмету {предмет}."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "教授您好，我是{专业} {学号} {姓名}。\n现提交{课程}的{作业}。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "教授您好，我是{專業} {學號} {姓名}。\n現提交{課程}的{作業}。"
+          }
+        }
+      }
+    },
+    "마감 직전 과제를 메일로 낼 때" : {
+      "comment" : "Essential snippet moment: emailing an assignment near the deadline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you email an assignment right before the deadline"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "마감 직전 과제를 메일로 낼 때"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда отправляете работу по почте перед самым сроком"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截止前用邮件交作业的时候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截止前用郵件交作業的時候"
+          }
+        }
+      }
+    },
+    "조별과제 공지" : {
+      "comment" : "Essential snippet title: team project meeting notice",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group project notice"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "조별과제 공지"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Объявление по групповому проекту"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小组作业通知"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小組作業通知"
+          }
+        }
+      }
+    },
+    "[{과제}] 회의\n{회의 날짜} {회의 시간} @ {장소}\n준비: {준비물}\n확인하면 👍" : {
+      "comment" : "Essential snippet body: team meeting notice. Keep every {…} blank with its braces; translate only the words inside",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[{Project}] Meeting\n{Meeting date} {Meeting time} @ {Place}\nBring: {What to bring}\nReact 👍 when you've seen this"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[{과제}] 회의\n{회의 날짜} {회의 시간} @ {장소}\n준비: {준비물}\n확인하면 👍"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[{проект}] Встреча\n{дата встречи} {время встречи} @ {место}\nВзять: {что взять}\nПоставьте 👍, если прочли"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[{作业}] 会议\n{会议日期} {会议时间} @ {地点}\n准备：{准备事项}\n看到请回 👍"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[{作業}] 會議\n{會議日期} {會議時間} @ {地點}\n準備：{準備事項}\n看到請回 👍"
+          }
+        }
+      }
+    },
+    "조장이 되어 회의 공지를 올릴 때" : {
+      "comment" : "Essential snippet moment: posting a team meeting notice",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you're the team lead posting a meeting notice"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "조장이 되어 회의 공지를 올릴 때"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда вы староста и объявляете встречу"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当上组长发会议通知的时候"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "當上組長髮會議通知的時候"
+          }
+        }
+      }
+    },
+    "가장 자주 다시 치는 세 가지부터" : {
+      "comment" : "Essentials card headline for users whose usage is not known yet",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start with the three things you retype most"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "가장 자주 다시 치는 세 가지부터"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начните с трёх фраз, которые набираете чаще всего"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先从最常重复输入的三项开始"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先從最常重複輸入的三項開始"
+          }
+        }
+      }
+    },
+    "계좌·주소는 한 번만 맞춰 두세요" : {
+      "comment" : "Essentials card headline: everyday personal use",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get your account and address right once"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "계좌·주소는 한 번만 맞춰 두세요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Счёт и адрес достаточно ввести один раз"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "账号和地址只需核对一次"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "帳號和地址只需核對一次"
+          }
+        }
+      }
+    },
+    "돈 받는 순간을 3초로" : {
+      "comment" : "Essentials card headline: freelancer / nomad",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get paid in 3 seconds"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "돈 받는 순간을 3초로"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Получайте оплату за 3 секунды"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收款信息，3秒发出"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收款資訊，3秒發出"
+          }
+        }
+      }
+    },
+    "고칠 곳을 빈칸으로, 실수 없이" : {
+      "comment" : "Essentials card headline: office worker",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn what you edit into blanks. No slip-ups"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "고칠 곳을 빈칸으로, 실수 없이"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Всё, что меняется, в поля для заполнения. Без ошибок"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把要改的地方变成空格，不再出错"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把要改的地方變成空格，不再出錯"
+          }
+        }
+      }
+    },
+    "학번은 이제 한 탭으로" : {
+      "comment" : "Essentials card headline: student",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your student ID, one tap away"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "학번은 이제 한 탭으로"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Номер студенческого в одно касание"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "学号，一点即出"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "學號，一點即出"
+          }
+        }
+      }
+    },
+    "늘 이 자리: %@" : {
+      "comment" : "Keyboard quick row chip label: shortcut pinned to the quick row because it is asked for without warning (bank account, student ID)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always here: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "늘 이 자리: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Всегда здесь: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "固定在此：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "固定在此：%@"
+          }
+        }
+      }
+    },
+    "쓰임새에 맞는 필수 단축어 세 가지를 목록 맨 위에서 빈칸만 채워 만들어요" : {
+      "comment" : "Changelog 5.1.5 essentials card",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create the three snippets that fit how you use the app, right from the top of your list. Just fill in the blanks"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "쓰임새에 맞는 필수 단축어 세 가지를 목록 맨 위에서 빈칸만 채워 만들어요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создайте три нужные вам фразы прямо в начале списка. Достаточно заполнить пустые поля"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在列表顶部填好空格，就能创建最适合你的三条必备短语"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在列表頂部填好空格，就能建立最適合你的三條必備短語"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
