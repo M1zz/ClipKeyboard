@@ -53171,6 +53171,35 @@
         }
       }
     },
+    "숫자 판, 보내기, 지우기, 전체 삭제 키를 펼칩니다" : {
+      "comment" : "Keyboard: expand control keys hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows the number pad, return, delete, and clear all keys"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывает цифровую панель и клавиши ввода, удаления и полной очистки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展开数字键盘、发送、删除和全部清除键"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展開數字鍵盤、傳送、刪除和全部清除鍵"
+          }
+        }
+      }
+    },
     "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요." : {
       "comment" : "Repair hint when card checksum fails",
       "localizations" : {
@@ -71061,6 +71090,35 @@
         }
       }
     },
+    "조작 키 접기" : {
+      "comment" : "Keyboard: collapse control keys",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide control keys"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрыть служебные клавиши"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起控制键"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收起控制鍵"
+          }
+        }
+      }
+    },
     "조작 키 크기" : {
       "comment" : "Control key size label",
       "localizations" : {
@@ -71086,6 +71144,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "操作鍵大小"
+          }
+        }
+      }
+    },
+    "조작 키 펼치기" : {
+      "comment" : "Keyboard: expand control keys",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show control keys"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать служебные клавиши"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展开控制键"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "展開控制鍵"
           }
         }
       }

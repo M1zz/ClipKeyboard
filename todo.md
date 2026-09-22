@@ -3104,3 +3104,10 @@ BookmarkShot 의 `HighlightSelectionView` 를 기준으로 삼아, 단축어를 
 - [x] 순서 바꾸기 빈 상태 안내 추가 (현재 탭에 메모 없을 때 이유 표시, ko/en/id)
 - [x] 앱 + 키보드 익스텐션 빌드 성공
 - [ ] "메모 다 안 보임" 증상, 화면 특정 필요 (재정렬 화면 범위 축소 vs 기본 탭 제외 규칙)
+
+
+## 가로 모드 (2026-09-22)
+
+- [x] iPhone 17 가로 캡처로 현재 문제 확인: 미리보기는 제목줄과 안내 띠가 높이를 먹고, 환영 화면은 기호가 잘리고 버튼이 탭바에 가려진다
+- [x] HTML 시안 게시 (iPhone 가로 목록·미리보기·환영, iPad 사이드바)
+- [ ] 시안 승인 후 구현: verticalSizeClass == .compact 분기, 목록 열 수를 폭으로, iPad 는 TabView .sidebarAdaptable

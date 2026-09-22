@@ -430,6 +430,9 @@ struct KeyboardView: View {
     /// 숫자 판을 펼쳐 두었는가. **기억하지 않는다** - 키보드가 뜰 때마다 단축어 판부터다.
     /// 숫자는 잠깐 쓰고 마는 것이라, 다음에 열었을 때도 숫자 판이면 단축어를 찾다 당황한다.
     @State private var showsNumberPad = false
+    /// 위줄 오른쪽 조작 키를 펼쳐 두었는가. **기억하지 않는다** - 키보드가 뜰 때마다 X 하나로 접혀 있다.
+    /// (사용자 요청: "카테고리 오른쪽 버튼들은 기본적으로 X 만 보여주고 눌렀을 때 늘어나게")
+    @State private var controlKeysExpanded = false
     @State private var clipboardPickerText: String?
     /// 길게 눌러 복사한 직후의 키 - 이어서 들어오는 탭을 한 번 무시한다.
     /// (길게 눌렀는데 글까지 입력되면 "복사만 하려 했는데"가 된다)
@@ -961,9 +964,76 @@ struct KeyboardView: View {
     ///
     /// 간격은 여기 한 곳에서 정한다(`controlKeySpacing`). 키들은 저마다 44pt 손가락 자리를
     /// 갖고 있어서, 사이는 그 자리들이 맞닿는 만큼으로 고르게 벌어진다.
+    ///
+    /// 실제 키보드에서는 **X 하나로 접혀 뜬다.** 누르면 펼쳐지고, 맨 앞의 화살표로 다시 접는다.
+    /// 접혀 있는 동안 카테고리 탭이 그만큼 넓게 쓴다.
     @ViewBuilder
     private var controlKeyCluster: some View {
+        if collapsesControlKeys && !controlKeysExpanded {
+            expandControlKeysButton
+                .padding(.trailing, 6)
+                .transition(.opacity)
+        } else {
+            expandedControlKeyCluster
+                .transition(.opacity.combined(with: .move(edge: .trailing)))
+        }
+    }
+
+    /// 조작 키를 접어 둘지. **실제 키보드에서만** 접는다.
+    ///
+    /// ⚠️ 앱 안(무대 · 키보드 레이아웃 설정)에서는 늘 펼쳐 둔다. 설정 미리보기는 지금 고르는
+    ///    키가 보여야 하고, 무대의 튜토리얼은 보내기 키를 짚는다(`highlightsSend`).
+    ///    접혀 있으면 짚을 키가 없다.
+    private var collapsesControlKeys: Bool { hostKind == .keyboardExtension }
+
+    /// 접혀 있을 때 홀로 서는 X. 누르면 **지우지 않고** 조작 키를 펼친다.
+    ///
+    /// ⚠️ 펼친 뒤의 X 는 예전처럼 전체 삭제다. 첫 탭은 펼치기뿐이라 글이 한 번에 날아가지 않는다.
+    private var expandControlKeysButton: some View {
+        Button {
+            KeyboardHaptics.tap()
+            withAnimation(.easeOut(duration: 0.18)) { controlKeysExpanded = true }
+        } label: {
+            Image(systemName: AppSymbol.xmarkCircle)
+                .font(.system(size: controlKeyIconSize, weight: .semibold))
+                .foregroundColor(theme.textMuted)
+                .frame(width: controlKeyWidth(36), height: controlKeyHeight)
+                .background(theme.surface)
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+        }
+        .buttonStyle(.squish)
+        .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
+        .contentShape(Rectangle())
+        .accessibilityLabel(NSLocalizedString("조작 키 펼치기", comment: "Keyboard: expand control keys"))
+        .accessibilityHint(NSLocalizedString("숫자 판, 보내기, 지우기, 전체 삭제 키를 펼칩니다", comment: "Keyboard: expand control keys hint"))
+    }
+
+    /// 펼친 묶음의 맨 앞에서 다시 접는 키.
+    private var collapseControlKeysButton: some View {
+        Button {
+            KeyboardHaptics.tap()
+            withAnimation(.easeOut(duration: 0.18)) {
+                controlKeysExpanded = false
+                // 숫자 판을 펼친 채 접으면 되돌아올 키가 사라진다 - 같이 닫는다.
+                showsNumberPad = false
+            }
+        } label: {
+            Image(systemName: AppSymbol.chevronRight)
+                .font(.system(size: controlKeyIconSize, weight: .semibold))
+                .foregroundColor(theme.textMuted)
+                .frame(width: controlKeyWidth(28), height: controlKeyHeight)
+        }
+        .buttonStyle(.squish)
+        .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
+        .contentShape(Rectangle())
+        .accessibilityLabel(NSLocalizedString("조작 키 접기", comment: "Keyboard: collapse control keys"))
+    }
+
+    private var expandedControlKeyCluster: some View {
         HStack(spacing: controlKeySpacing) {
+            if collapsesControlKeys {
+                collapseControlKeysButton
+            }
             // 숫자 판으로 건너가는 키. **붙여넣기 바로 옆**에 둔다 - 둘 다
             // "지금 넣을 것을 가져오는" 키라, 손이 같은 자리를 찾는다.
             if let proxy = typingProxy, showsNumberPadKey {

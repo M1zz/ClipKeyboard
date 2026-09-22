@@ -5078,8 +5078,8 @@
   "단축어": {
     "ko": "단축어",
     "en": "Snippet",
-    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter",
-    "h": "8c10487a02"
+    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSnippet (saved key-value item) display name",
+    "h": "e5f8dadd0c"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "ko": "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.",
@@ -8951,6 +8951,12 @@
     "comment": "What's new 5.1.3 number pad paste title",
     "h": "1d99e052db"
   },
+  "숫자 판, 보내기, 지우기, 전체 삭제 키를 펼칩니다": {
+    "ko": "숫자 판, 보내기, 지우기, 전체 삭제 키를 펼칩니다",
+    "en": "Shows the number pad, return, delete, and clear all keys",
+    "comment": "Keyboard: expand control keys hint",
+    "h": "da15387b89"
+  },
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "ko": "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.",
     "en": "One digit is off. Compare it with the number on your card.",
@@ -11696,8 +11702,8 @@
   "저장됨": {
     "ko": "저장됨",
     "en": "Saved",
-    "comment": "Numeric placeholder: value already kept\nSaved toast",
-    "h": "fcd15525a4"
+    "comment": "Saved toast",
+    "h": "770117c006"
   },
   "저장소를 찾을 수 없습니다.": {
     "ko": "저장소를 찾을 수 없습니다.",
@@ -12125,11 +12131,23 @@
     "comment": "Essential snippet title: team project meeting notice",
     "h": "1a7a24c3af"
   },
+  "조작 키 접기": {
+    "ko": "조작 키 접기",
+    "en": "Hide control keys",
+    "comment": "Keyboard: collapse control keys",
+    "h": "613e7eeaa5"
+  },
   "조작 키 크기": {
     "ko": "조작 키 크기",
     "en": "Control Key Size",
     "comment": "Control key size label",
     "h": "867f1acd4e"
+  },
+  "조작 키 펼치기": {
+    "ko": "조작 키 펼치기",
+    "en": "Show control keys",
+    "comment": "Keyboard: expand control keys",
+    "h": "552adc2dee"
   },
   "조장이 되어 회의 공지를 올릴 때": {
     "ko": "조장이 되어 회의 공지를 올릴 때",
@@ -12251,17 +12269,17 @@
     "comment": "Ask whether to split a pasted multi-line text into separate snippets",
     "h": "31e6835aaa"
   },
-  "중괄호 없이 이름만 적어 주세요. 단축어 내용에 {이름}처럼 적으면 이 빈칸을 불러 씁니다.": {
-    "ko": "중괄호 없이 이름만 적어 주세요. 단축어 내용에 {이름}처럼 적으면 이 빈칸을 불러 씁니다.",
-    "en": "Type the name only, without braces. Writing {name} in a snippet calls this blank.",
-    "comment": "Create placeholder footer",
-    "h": "edeab59b65"
-  },
   "중고거래 시간과 장소를 정할 때": {
     "ko": "중고거래 시간과 장소를 정할 때",
     "en": "When you set a time and place for a second-hand sale",
     "comment": "Essential snippet moment: arranging a second-hand trade meetup",
     "h": "22513304fe"
+  },
+  "중괄호 없이 이름만 적어 주세요. 단축어 내용에 {이름}처럼 적으면 이 빈칸을 불러 씁니다.": {
+    "ko": "중괄호 없이 이름만 적어 주세요. 단축어 내용에 {이름}처럼 적으면 이 빈칸을 불러 씁니다.",
+    "en": "Type the name only, without braces. Writing {name} in a snippet calls this blank.",
+    "comment": "Create placeholder footer",
+    "h": "edeab59b65"
   },
   "중국어를 넣었어요. 간체와 번체 두 벌이고, 앱 이름도 함께 바뀌어요": {
     "ko": "중국어를 넣었어요. 간체와 번체 두 벌이고, 앱 이름도 함께 바뀌어요",
