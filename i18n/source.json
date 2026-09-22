@@ -65,6 +65,12 @@
     "comment": "Usage stats: cancelled",
     "h": "6eb0050152"
   },
+  "%1$d / %2$d 채움": {
+    "ko": "%1$d / %2$d 채움",
+    "en": "%1$d of %2$d saved",
+    "comment": "Essentials card progress: N of M essential snippets saved",
+    "h": "6a9a3de9d3"
+  },
   "%1$d개 중 %2$d개는 키보드에 안 보여요": {
     "ko": "%1$d개 중 %2$d개는 키보드에 안 보여요",
     "en": "%2$d of %1$d won't show on the keyboard",
@@ -1655,6 +1661,12 @@
     "comment": "Example: linkedin cold dm",
     "h": "88f6800dda"
   },
+  "Hi {상대 이름}, I'm in {도시} ({타임존}). I can do {가능한 시간}. Book here: {예약 링크}": {
+    "ko": "Hi {상대 이름}, I'm in {도시} ({타임존}). I can do {가능한 시간}. Book here: {예약 링크}",
+    "en": "Hi {Their name}, I'm in {city} ({timezone}). I can do {Available times}. Book here: {Booking link}",
+    "comment": "Essential snippet body: time zone note. {도시} and {타임존} are automatic tokens: in English write {city} and {timezone} exactly. Keep every other {…} blank with its braces",
+    "h": "621734a61f"
+  },
   "Hi! Signing off for the night ({time} in {city}, GMT+{offset}). Will reply first thing tomorrow.": {
     "ko": "안녕하세요! 오늘 일과 마치겠습니다 ({city} 기준 {time}, GMT+{offset}). 내일 오전 첫 일과로 답장 드리겠습니다.",
     "en": "Hi! Signing off for the night ({time} in {city}, GMT+{offset}). Will reply first thing tomorrow.",
@@ -1732,6 +1744,12 @@
     "en": "Invoice #{invoice_no} · {currency} {amount}\nDue: {due_date}\nPayment: Wise ([email])",
     "comment": "Example: invoice summary",
     "h": "8a721a72bc"
+  },
+  "Invoice #{번호} · {금액}\nDue: {기한}\nPayment: {결제 수단}": {
+    "ko": "Invoice #{번호} · {금액}\nDue: {기한}\nPayment: {결제 수단}",
+    "en": "Invoice #{Number} · {Amount}\nDue: {Due date}\nPayment: {Payment method}",
+    "comment": "Essential snippet body: invoice. Keep every {…} blank with its braces; translate only the words inside",
+    "h": "57069d6738"
   },
   "Invoice is past due": {
     "ko": "인보이스가 연체된 상황",
@@ -1894,6 +1912,12 @@
     "en": "Name: [Your Name]\nIBAN: [Your IBAN]\nSWIFT: [Your SWIFT/BIC]\nAddress: [Your Registered Address]\nVAT ID: [Your VAT Number]",
     "comment": "Example: wire transfer info",
     "h": "8807f0e7e9"
+  },
+  "Name: {영문 이름}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}": {
+    "ko": "Name: {영문 이름}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}",
+    "en": "Name: {Full name}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}",
+    "comment": "Essential snippet body: payment details for clients. Keep every {…} blank with its braces; translate only the words inside",
+    "h": "5a7feea065"
   },
   "Native keyboard shortcuts": {
     "ko": "네이티브 키보드 단축키",
@@ -2909,6 +2933,12 @@
     "comment": "Copied toast message",
     "h": "5a4000542f"
   },
+  "[{과제}] 회의\n{회의 날짜} {회의 시간} @ {장소}\n준비: {준비물}\n확인하면 👍": {
+    "ko": "[{과제}] 회의\n{회의 날짜} {회의 시간} @ {장소}\n준비: {준비물}\n확인하면 👍",
+    "en": "[{Project}] Meeting\n{Meeting date} {Meeting time} @ {Place}\nBring: {What to bring}\nReact 👍 when you've seen this",
+    "comment": "Essential snippet body: team meeting notice. Keep every {…} blank with its braces; translate only the words inside",
+    "h": "a2bc031f03"
+  },
   "iCloud Backup": {
     "ko": "iCloud Backup",
     "en": "iCloud Backup",
@@ -3119,6 +3149,24 @@
     "comment": "Template token explanation title",
     "h": "f10de6931b"
   },
+  "{담당자}님, 오늘 {고객사} 미팅 감사합니다.\n논의: {요약}\n다음 단계: {다음 단계} ({다음 일정})": {
+    "ko": "{담당자}님, 오늘 {고객사} 미팅 감사합니다.\n논의: {요약}\n다음 단계: {다음 단계} ({다음 일정})",
+    "en": "Hi {Contact}, thanks for today's meeting with {Client}.\nDiscussed: {Summary}\nNext step: {Next step} ({Next date})",
+    "comment": "Essential snippet body: meeting follow-up. Keep every {…} blank with its braces; translate only the words inside",
+    "h": "af1f72aa52"
+  },
+  "{요일} {약속 시간}, {장소} 앞에서 뵐게요. 도착하면 채팅 주세요!": {
+    "ko": "{요일} {약속 시간}, {장소} 앞에서 뵐게요. 도착하면 채팅 주세요!",
+    "en": "See you {Day} at {Time}, in front of {Place}. Message me when you arrive!",
+    "comment": "Essential snippet body: in-person trade meetup. Keep every {…} blank with its braces; translate only the words inside",
+    "h": "fc57a99d60"
+  },
+  "{주소}\n공동현관 {현관 비밀번호}": {
+    "ko": "{주소}\n공동현관 {현관 비밀번호}",
+    "en": "{Address}\nDoor code {Door code}",
+    "comment": "Essential snippet body: home address plus building door code. Keep every {…} blank with its braces; translate only the words inside",
+    "h": "6777046439"
+  },
   "{클립보드} 를 적어 두면 그 자리에 방금 복사한 것이 들어가요. \"운송장 번호는 {클립보드} 입니다\" 처럼요.": {
     "ko": "{클립보드} 를 적어 두면 그 자리에 방금 복사한 것이 들어가요. \"운송장 번호는 {클립보드} 입니다\" 처럼요.",
     "en": "Write {clipboard} and whatever you just copied goes there. Like \"Your tracking number is {clipboard}\".",
@@ -3250,6 +3298,12 @@
     "en": "Shorten the middle",
     "comment": "Key label truncation: middle",
     "h": "3d21906a36"
+  },
+  "가장 자주 다시 치는 세 가지부터": {
+    "ko": "가장 자주 다시 치는 세 가지부터",
+    "en": "Start with the three things you retype most",
+    "comment": "Essentials card headline for users whose usage is not known yet",
+    "h": "a8643e6d8d"
   },
   "가져오기": {
     "ko": "가져오기",
@@ -3683,11 +3737,23 @@
     "comment": "Bank account category name",
     "h": "a10e3fdccb"
   },
+  "계좌·주소는 한 번만 맞춰 두세요": {
+    "ko": "계좌·주소는 한 번만 맞춰 두세요",
+    "en": "Get your account and address right once",
+    "comment": "Essentials card headline: everyday personal use",
+    "h": "e77b80bdf9"
+  },
   "계좌·주소처럼 다른 앱을 열어 가져와야 했던 값이에요.": {
     "ko": "계좌·주소처럼 다른 앱을 열어 가져와야 했던 값이에요.",
     "en": "Values like account numbers and addresses that you had to open another app to get.",
     "comment": "Grounds note: retrieval",
     "h": "9d7b3cf2c1"
+  },
+  "계좌·학번처럼 불쑥 묻는 것은 키보드 빠른 줄 같은 자리에 늘 세워 둬요": {
+    "ko": "계좌·학번처럼 불쑥 묻는 것은 키보드 빠른 줄 같은 자리에 늘 세워 둬요",
+    "en": "Things people ask for out of the blue, like your bank account or student ID, stay in the same spot on the keyboard quick row",
+    "comment": "Usage profile effect: request-type snippets pinned to the keyboard quick row",
+    "h": "aaba3d0200"
   },
   "계좌번호": {
     "ko": "계좌번호",
@@ -3755,6 +3821,12 @@
     "comment": "Living skin name: cat",
     "h": "6ac12247c8"
   },
+  "고칠 곳을 빈칸으로, 실수 없이": {
+    "ko": "고칠 곳을 빈칸으로, 실수 없이",
+    "en": "Turn what you edit into blanks. No slip-ups",
+    "comment": "Essentials card headline: office worker",
+    "h": "e0ad3c5e43"
+  },
   "골라 담으러 가기": {
     "ko": "골라 담으러 가기",
     "en": "Go pick some",
@@ -3790,6 +3862,12 @@
     "en": "Maybe later",
     "comment": "Decline category activation",
     "h": "ffc7449fee"
+  },
+  "교수님 메일": {
+    "ko": "교수님 메일",
+    "en": "Email to a professor",
+    "comment": "Essential snippet title: email to a professor",
+    "h": "16d0ff3f47"
   },
   "구경": {
     "ko": "구경",
@@ -3988,6 +4066,12 @@
     "en": "Friday",
     "comment": "Placeholder example: weekday 2",
     "h": "fc5d92616c"
+  },
+  "금요일 오후 보고 마감 전에": {
+    "ko": "금요일 오후 보고 마감 전에",
+    "en": "Before the Friday afternoon report deadline",
+    "comment": "Essential snippet moment: before the Friday report deadline",
+    "h": "23b5bde554"
   },
   "기간": {
     "ko": "기간",
@@ -4457,6 +4541,12 @@
     "comment": "Welcome: choosing the keyboard size",
     "h": "2937dab534"
   },
+  "내 연락처": {
+    "ko": "내 연락처",
+    "en": "My contact info",
+    "comment": "Essential snippet title: my contact details",
+    "h": "3bdbda8981"
+  },
   "내 주소": {
     "ko": "내 주소",
     "en": "My address",
@@ -4673,6 +4763,12 @@
     "comment": "Key color: amber",
     "h": "c8a6079a2f"
   },
+  "누가 \"계좌 알려주세요\" 할 때": {
+    "ko": "누가 \"계좌 알려주세요\" 할 때",
+    "en": "When someone asks \"What's your account number?\"",
+    "comment": "Essential snippet moment: someone asks for your bank account",
+    "h": "b391c1214c"
+  },
   "누르면 그 빈칸이 들어가고, 예전에 넣어 둔 값도 함께 따라와요": {
     "ko": "누르면 그 빈칸이 들어가고, 예전에 넣어 둔 값도 함께 따라와요",
     "en": "Tap one to insert it, and the values you saved for it come along",
@@ -4757,6 +4853,12 @@
     "comment": "Ghost memo: tap to try",
     "h": "41585900fd"
   },
+  "늘 이 자리: %@": {
+    "ko": "늘 이 자리: %@",
+    "en": "Always here: %@",
+    "comment": "Keyboard quick row chip label: shortcut pinned to the quick row because it is asked for without warning (bank account, student ID)",
+    "h": "e64d260244"
+  },
   "능숙": {
     "ko": "능숙",
     "en": "Expert",
@@ -4792,6 +4894,12 @@
     "en": "Paste a whole note from another app and it is split into snippets",
     "comment": "Changelog 4.0.5 item 1",
     "h": "87f02b5a9a"
+  },
+  "다른 시간대의 클라이언트와 통화를 잡을 때": {
+    "ko": "다른 시간대의 클라이언트와 통화를 잡을 때",
+    "en": "When you book a call with a client in another time zone",
+    "comment": "Essential snippet moment: booking a call across time zones",
+    "h": "49b15767fc"
   },
   "다른 앱에서 고른 글을 공유로 바로 단축어로 저장해요": {
     "ko": "다른 앱에서 고른 글을 공유로 바로 단축어로 저장해요",
@@ -5681,6 +5789,12 @@
     "comment": "Settings section: help and contact",
     "h": "945c1acc3a"
   },
+  "돈 받는 순간을 3초로": {
+    "ko": "돈 받는 순간을 3초로",
+    "en": "Get paid in 3 seconds",
+    "comment": "Essentials card headline: freelancer / nomad",
+    "h": "d16dc01f20"
+  },
   "돈으로 셈하는 것은 사는 나라의 최저임금과 물건값을 봐요. 사는 곳의 값을 모르면 그 갈래는 아예 안 나와요": {
     "ko": "돈으로 셈하는 것은 사는 나라의 최저임금과 물건값을 봐요. 사는 곳의 값을 모르면 그 갈래는 아예 안 나와요",
     "en": "The ones counted in money use the minimum wage and prices where you live. If we have no prices for your region, those simply do not appear",
@@ -5951,6 +6065,12 @@
     "comment": "Usage stats section: weekly retention",
     "h": "d5bf041e1c"
   },
+  "마감 직전 과제를 메일로 낼 때": {
+    "ko": "마감 직전 과제를 메일로 낼 때",
+    "en": "When you email an assignment right before the deadline",
+    "comment": "Essential snippet moment: emailing an assignment near the deadline",
+    "h": "ffd19337bd"
+  },
   "마라톤 %d번": {
     "ko": "마라톤 %d번",
     "en": "%d marathons",
@@ -6137,6 +6257,12 @@
     "comment": "New snippet coach: name field",
     "h": "894ada40eb"
   },
+  "먼저 챙겨 드리는 세 가지": {
+    "ko": "먼저 챙겨 드리는 세 가지",
+    "en": "Three things we set up first",
+    "comment": "Usage profile: section listing the three essential snippets for the current usage profile",
+    "h": "674b4e32dc"
+  },
   "멈춤": {
     "ko": "멈춤",
     "en": "Hang",
@@ -6215,11 +6341,23 @@
     "comment": "Changelog 5.0.0 dyk",
     "h": "36a974e8f4"
   },
+  "명함 인사": {
+    "ko": "명함 인사",
+    "en": "Intro with contact",
+    "comment": "Essential snippet title: business card greeting",
+    "h": "acab5ba212"
+  },
   "명함 정보": {
     "ko": "명함 정보",
     "en": "Business Card",
     "comment": "Business memo category: business card",
     "h": "768b524180"
+  },
+  "명함을 주고받은 뒤 \"자료 보내 주세요\" 가 왔을 때": {
+    "ko": "명함을 주고받은 뒤 \"자료 보내 주세요\" 가 왔을 때",
+    "en": "When a new contact asks you to send over materials",
+    "comment": "Essential snippet moment: a new lead asks for materials",
+    "h": "e728123627"
   },
   "몇 번 꺼내 썼다. 두 번째 쓸모 하나만 권한다.": {
     "ko": "몇 번 꺼내 썼다. 두 번째 쓸모 하나만 권한다.",
@@ -6316,6 +6454,12 @@
     "en": "List",
     "comment": "Bulk import preview mode: list\nTab: snippets showing the list",
     "h": "d9723a518c"
+  },
+  "목록 맨 위 카드에서 빈칸만 채우면 저장돼요. 쓰임새가 바뀌면 세 가지도 바뀌어요.": {
+    "ko": "목록 맨 위 카드에서 빈칸만 채우면 저장돼요. 쓰임새가 바뀌면 세 가지도 바뀌어요.",
+    "en": "Fill in the blanks on the card at the top of your list to save them. If the way you use the app changes, these three change too.",
+    "comment": "Usage profile: essentials section footer",
+    "h": "aad67e29f3"
   },
   "목록 배경으로 내 사진을 쓸 수 있어요": {
     "ko": "목록 배경으로 내 사진을 쓸 수 있어요",
@@ -6557,6 +6701,18 @@
     "comment": "Copy template button hint",
     "h": "c0a69cb5e3"
   },
+  "미팅 팔로업": {
+    "ko": "미팅 팔로업",
+    "en": "Meeting follow-up",
+    "comment": "Essential snippet title: follow-up email after a meeting",
+    "h": "f49e8fe874"
+  },
+  "미팅이 끝나고 오늘 안에 팔로업을 보낼 때": {
+    "ko": "미팅이 끝나고 오늘 안에 팔로업을 보낼 때",
+    "en": "When you send a same-day follow-up after a meeting",
+    "comment": "Essential snippet moment: sending a same-day follow-up",
+    "h": "5e6e71aaee"
+  },
   "미포함": {
     "ko": "미포함",
     "en": "Excluded",
@@ -6652,6 +6808,12 @@
     "en": "Background color",
     "comment": "Background color picker",
     "h": "7ecbf29f70"
+  },
+  "배달앱 주소칸이 비어 있을 때": {
+    "ko": "배달앱 주소칸이 비어 있을 때",
+    "en": "When a delivery app asks for your address",
+    "comment": "Essential snippet moment: a delivery app asks for your address",
+    "h": "5111a2020a"
   },
   "백업 건너뜀": {
     "ko": "백업 건너뜀",
@@ -8705,6 +8867,12 @@
     "comment": "Key color: pine green",
     "h": "31cfed8df5"
   },
+  "송금 정보": {
+    "ko": "송금 정보",
+    "en": "Payment details",
+    "comment": "Essential snippet title: international payment details (IBAN, SWIFT)",
+    "h": "3b54bbc284"
+  },
   "송금·여행·신원 모두": {
     "ko": "송금·여행·신원 모두",
     "en": "Transfer, Travel & Identity",
@@ -8921,6 +9089,12 @@
     "comment": "Changelog 4.4.8 item 2",
     "h": "ea1551fce7"
   },
+  "시차 안내": {
+    "ko": "시차 안내",
+    "en": "Time zone note",
+    "comment": "Essential snippet title: time zone note for booking a call",
+    "h": "2e566d5370"
+  },
   "신규 사용자": {
     "ko": "신규 사용자",
     "en": "New users",
@@ -9010,6 +9184,12 @@
     "en": "No more picking a profile. The app adapts to the snippets you save",
     "comment": "Changelog 5.1.4 inferred persona",
     "h": "92b35ef9b7"
+  },
+  "쓰임새에 맞는 필수 단축어 세 가지를 목록 맨 위에서 빈칸만 채워 만들어요": {
+    "ko": "쓰임새에 맞는 필수 단축어 세 가지를 목록 맨 위에서 빈칸만 채워 만들어요",
+    "en": "Create the three snippets that fit how you use the app, right from the top of your list. Just fill in the blanks",
+    "comment": "Changelog 5.1.5 essentials card",
+    "h": "ad31b18020"
   },
   "쓰지 않는 빈칸 %d개 지우기": {
     "ko": "쓰지 않는 빈칸 %d개 지우기",
@@ -9281,6 +9461,12 @@
     "comment": "User segment: created nothing yet",
     "h": "7ce4b55985"
   },
+  "아직 없어요": {
+    "ko": "아직 없어요",
+    "en": "Not saved yet",
+    "comment": "VoiceOver: essential snippet not saved yet",
+    "h": "265208ca21"
+  },
   "아직 올라온 진단이 없어요. 크래시 정보는 iOS가 하루 한 번꼴로 묶어서 보내기 때문에, 방금 난 크래시는 바로 보이지 않습니다.": {
     "ko": "아직 올라온 진단이 없어요. 크래시 정보는 iOS가 하루 한 번꼴로 묶어서 보내기 때문에, 방금 난 크래시는 바로 보이지 않습니다.",
     "en": "No reports yet. iOS batches crash data roughly once a day, so a crash that just happened won't show up immediately.",
@@ -9346,6 +9532,18 @@
     "en": "Hi",
     "comment": "Preview key 1",
     "h": "4daa886ff1"
+  },
+  "안녕하세요 교수님, {학과} {학번} {이름}입니다.\n{과목} {과제} 제출드립니다.": {
+    "ko": "안녕하세요 교수님, {학과} {학번} {이름}입니다.\n{과목} {과제} 제출드립니다.",
+    "en": "Dear Professor, this is {Name} ({Major}, {Student ID}).\nPlease find my {Assignment} for {Course} attached.",
+    "comment": "Essential snippet body: polite email to a professor. Keep every {…} blank with its braces; translate only the words inside",
+    "h": "82575412e5"
+  },
+  "안녕하세요, {회사} {이름}입니다.\n{이메일} / {전화번호}": {
+    "ko": "안녕하세요, {회사} {이름}입니다.\n{이메일} / {전화번호}",
+    "en": "Hello, this is {Name} from {Company}.\n{Email} / {Phone}",
+    "comment": "Essential snippet body: business intro with contact. Keep every {…} blank with its braces; translate only the words inside",
+    "h": "248872bcec"
   },
   "안정성": {
     "ko": "안정성",
@@ -10097,6 +10295,12 @@
     "comment": "Feedback inbox: mark done",
     "h": "92d8b35b90"
   },
+  "완료: {완료한 일}\n진행: {진행 중인 일}\n다음 주: {다음 주 계획}": {
+    "ko": "완료: {완료한 일}\n진행: {진행 중인 일}\n다음 주: {다음 주 계획}",
+    "en": "Done: {Done}\nIn progress: {In progress}\nNext week: {Next week}",
+    "comment": "Essential snippet body: weekly report. Keep every {…} blank with its braces; translate only the words inside",
+    "h": "0ec7d08845"
+  },
   "완주할 수 있는 시간이에요": {
     "ko": "완주할 수 있는 시간이에요",
     "en": "enough time to finish them all",
@@ -10186,6 +10390,12 @@
     "en": "Monthly",
     "comment": "Chart bucket: monthly",
     "h": "cbf17e33c6"
+  },
+  "월말에 인보이스를 보낼 때": {
+    "ko": "월말에 인보이스를 보낼 때",
+    "en": "When you send your end-of-month invoice",
+    "comment": "Essential snippet moment: sending the monthly invoice",
+    "h": "345c77f2c2"
   },
   "월요일": {
     "ko": "월요일",
@@ -10973,6 +11183,12 @@
     "comment": "User level: habitual",
     "h": "0c61f7b14c"
   },
+  "인보이스": {
+    "ko": "인보이스",
+    "en": "Invoice",
+    "comment": "Essential snippet title: invoice email",
+    "h": "55e79298fc"
+  },
   "인사": {
     "ko": "인사",
     "en": "Greeting",
@@ -11098,6 +11314,12 @@
     "en": "Temporary item",
     "comment": "VoiceOver: temporary item",
     "h": "39d285e134"
+  },
+  "입금 계좌": {
+    "ko": "입금 계좌",
+    "en": "Bank account",
+    "comment": "Essential snippet title: my bank account for receiving money",
+    "h": "cf8af22a18"
   },
   "입력": {
     "ko": "입력",
@@ -11531,6 +11753,12 @@
     "comment": "Changelog 5.0.6 save into category",
     "h": "6df2bb85a4"
   },
+  "저장해 두셨어요": {
+    "ko": "저장해 두셨어요",
+    "en": "Saved",
+    "comment": "VoiceOver: essential snippet already saved",
+    "h": "1c2bf8e04a"
+  },
   "저장해 둔 값": {
     "ko": "저장해 둔 값",
     "en": "Saved values",
@@ -11891,11 +12119,23 @@
     "comment": "Token format editor: field chips section",
     "h": "239600ff40"
   },
+  "조별과제 공지": {
+    "ko": "조별과제 공지",
+    "en": "Group project notice",
+    "comment": "Essential snippet title: team project meeting notice",
+    "h": "1a7a24c3af"
+  },
   "조작 키 크기": {
     "ko": "조작 키 크기",
     "en": "Control Key Size",
     "comment": "Control key size label",
     "h": "867f1acd4e"
+  },
+  "조장이 되어 회의 공지를 올릴 때": {
+    "ko": "조장이 되어 회의 공지를 올릴 때",
+    "en": "When you're the team lead posting a meeting notice",
+    "comment": "Essential snippet moment: posting a team meeting notice",
+    "h": "d242bc67c8"
   },
   "종류별로 모아 보는 카테고리를 준비해 뒀어요": {
     "ko": "종류별로 모아 보는 카테고리를 준비해 뒀어요",
@@ -11926,6 +12166,12 @@
     "en": "Weekly",
     "comment": "Chart bucket: weekly",
     "h": "fc4d1e6842"
+  },
+  "주간 보고": {
+    "ko": "주간 보고",
+    "en": "Weekly report",
+    "comment": "Essential snippet title: weekly status report",
+    "h": "911c30d9d3"
   },
   "주소": {
     "ko": "주소",
@@ -12010,6 +12256,12 @@
     "en": "Type the name only, without braces. Writing {name} in a snippet calls this blank.",
     "comment": "Create placeholder footer",
     "h": "edeab59b65"
+  },
+  "중고거래 시간과 장소를 정할 때": {
+    "ko": "중고거래 시간과 장소를 정할 때",
+    "en": "When you set a time and place for a second-hand sale",
+    "comment": "Essential snippet moment: arranging a second-hand trade meetup",
+    "h": "22513304fe"
   },
   "중국어를 넣었어요. 간체와 번체 두 벌이고, 앱 이름도 함께 바뀌어요": {
     "ko": "중국어를 넣었어요. 간체와 번체 두 벌이고, 앱 이름도 함께 바뀌어요",
@@ -12245,6 +12497,12 @@
     "comment": "Share video: transit equivalent",
     "h": "b1a02ca710"
   },
+  "직거래 약속": {
+    "ko": "직거래 약속",
+    "en": "Meetup for a sale",
+    "comment": "Essential snippet title: meeting place for a second-hand trade",
+    "h": "ce4dfb916f"
+  },
   "직장인": {
     "ko": "직장인",
     "en": "Work",
@@ -12280,6 +12538,12 @@
     "en": "Based on your real usage history.",
     "comment": "Stage simulator: real state footer",
     "h": "06b2db15ef"
+  },
+  "집 주소": {
+    "ko": "집 주소",
+    "en": "Home address",
+    "comment": "Essential snippet title: home address",
+    "h": "9b017e391e"
   },
   "짧게 누르면 입력, 길게 누르면 복사예요": {
     "ko": "짧게 누르면 입력, 길게 누르면 복사예요",
@@ -12418,6 +12682,12 @@
     "en": "Processing",
     "comment": "Purchase loading state",
     "h": "fdcb099d60"
+  },
+  "처음 만난 사람이 연락처를 물을 때": {
+    "ko": "처음 만난 사람이 연락처를 물을 때",
+    "en": "When someone new asks how to reach you",
+    "comment": "Essential snippet moment: someone new asks for your contact",
+    "h": "c93545a1f7"
   },
   "처음 시작할 때 키보드 크기를 한 번 정하고 넘어가요": {
     "ko": "처음 시작할 때 키보드 크기를 한 번 정하고 넘어가요",
@@ -12754,6 +13024,12 @@
     "en": "Output preview",
     "comment": "Combined output preview header",
     "h": "ffda3e23f9"
+  },
+  "출석 구글폼·과제 제출에 학번을 적을 때": {
+    "ko": "출석 구글폼·과제 제출에 학번을 적을 때",
+    "en": "When you type your student ID into an attendance form or submission",
+    "comment": "Essential snippet moment: typing your student number into forms",
+    "h": "9d9c722000"
   },
   "취소": {
     "ko": "취소",
@@ -13246,6 +13522,12 @@
     "en": "The large title now shrinks and grows naturally as you scroll",
     "comment": "Changelog 4.3.8 item 2",
     "h": "f69dfa1bde"
+  },
+  "클라이언트가 banking details 를 물을 때": {
+    "ko": "클라이언트가 banking details 를 물을 때",
+    "en": "When a client asks for your banking details",
+    "comment": "Essential snippet moment: a client asks for your banking details",
+    "h": "f9a43c307a"
   },
   "클립보드": {
     "ko": "클립보드",
@@ -13925,6 +14207,12 @@
     "comment": "Welcome tip title",
     "h": "157651cb13"
   },
+  "탭하면 빈칸만 채워서 저장해요": {
+    "ko": "탭하면 빈칸만 채워서 저장해요",
+    "en": "Tap to fill in the blanks and save",
+    "comment": "VoiceOver: tap to fill the blanks and save this essential snippet",
+    "h": "315c2a6e52"
+  },
   "탭하면 빈칸을 채워 붙여넣습니다": {
     "ko": "탭하면 빈칸을 채워 붙여넣습니다",
     "en": "Tap to fill in the blanks and paste",
@@ -14549,6 +14837,12 @@
     "comment": "Number pad key: hyphen",
     "h": "39f09faffd"
   },
+  "학과 학번 이름": {
+    "ko": "학과 학번 이름",
+    "en": "Major, student ID, name",
+    "comment": "Essential snippet title: department, student number, name",
+    "h": "c47043b097"
+  },
   "학교 이메일": {
     "ko": "학교 이메일",
     "en": "School Email",
@@ -14578,6 +14872,12 @@
     "en": "You're already filling in your student ID, professor emails and group project notices in one tap. One link in your group chat is all it takes.",
     "comment": "Share moment alert message (student persona)",
     "h": "598c832785"
+  },
+  "학번은 이제 한 탭으로": {
+    "ko": "학번은 이제 한 탭으로",
+    "en": "Your student ID, one tap away",
+    "comment": "Essentials card headline: student",
+    "h": "7b37b36ebc"
   },
   "학번이나 과제 메일처럼 매번 치는 글을 키보드에서 한 번에 넣어요. %@": {
     "ko": "학번이나 과제 메일처럼 매번 치는 글을 키보드에서 한 번에 넣어요. %@",

@@ -19,6 +19,8 @@ struct ShortcutMartFillView: View {
     let item: ShortcutMartItem
     /// 담기 완료 - 마트가 개수를 센다.
     var onUse: () -> Void
+    /// 만든 단축어의 id. 필수 단축어 카드가 그 칸을 채웠다고 적는다(`PersonaEditionStore.link`).
+    var onSaved: (UUID) -> Void = { _ in }
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
@@ -171,6 +173,7 @@ struct ShortcutMartFillView: View {
             HapticManager.shared.success()
             #endif
             print("✅ [ShortcutMart] '\(item.title)' 담기 완료 (남은 변수 \(remaining.count)개)")
+            onSaved(memo.id)
             onUse()
             dismiss()
         } catch {

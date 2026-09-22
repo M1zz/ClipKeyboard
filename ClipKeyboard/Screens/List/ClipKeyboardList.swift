@@ -494,6 +494,14 @@ struct ClipKeyboardList: View {
                     showBulkImport = true
                 }
 
+                // 판마다 다른 필수 단축어 세 칸 (`PersonaEdition`). 보여 줄지는 컨테이너가 정한다.
+                PersonaEssentialsCardContainer(memos: viewModel.memos,
+                                               hasLoaded: viewModel.hasLoadedMemos,
+                                               isAwayOrJustBack: userState.state.activity != .active) {
+                    paywallTrigger = .memo
+                    showPaywallFromKeyboard = true
+                }
+
                 if CategoryStore.shared.shouldShowActivationBanner(currentMemoCount: viewModel.memos.count) {
                     CategoryActivationBanner(
                         onEnable: {

@@ -68,6 +68,8 @@
 | 분석 속성 `persona` | `PersonaResolver.confident` (모르면 nil) |
 | 반값 제안 | `FeatureFit.allowsDiscountOffer` → `DiscountOfferManager.Context.fitsDiscountOffer` |
 | 친구에게 알리기 | `FeatureFit.isShareMomentDue` → `SnippetsTab.offerShareIfEarned` |
+| 필수 단축어 카드 · 키보드 붙박이 (5.1.5) | `PersonaEditionStore.currentKind` (10절) |
+| 결제 순간의 차례 (5.1.5) | `FeatureFit.purchaseMomentOrder` |
 
 ---
 
@@ -140,3 +142,22 @@
 | 포기한 판 · 빠른 줄 | `KeyboardSessionLedgerTests` |
 | 다음 번호 | `PlaceholderSequenceTests` |
 | 복사 반복 | `RepeatCopyLedgerTests` |
+
+---
+
+## 10. 네 가지 판 (5.1.5)
+
+`ClipKeyboard/Service/PersonaEdition.swift` · `Screens/Component/PersonaEssentialsCard.swift`
+
+알아본 쓰임새를 **판**으로 바꿔 세 자리를 판마다 다르게 한다. 확신이 없으면 모두의 판(`everyone`)이다.
+
+| 자리 | 무엇을 읽나 | 판마다 다른 것 |
+| --- | --- | --- |
+| 목록 맨 위 필수 단축어 카드 | `PersonaEdition.essentials` · `coverage` · `showsShelf` | 그 판의 가장 비싼 순간 세 칸 |
+| 키보드 빠른 줄 붙박이 | `PersonaEdition.anchors` → `QuickRowAnchors` (App Group) | 요청형 칸 최대 두 개, 차례 다음 자리 |
+| 결제 순간의 차례 | `FeatureFit.purchaseMomentOrder` → `PurchaseMomentManager.Context.order` | 보안·두 대째·백업의 차례. 학생은 비움 |
+
+- 칸이 찼는지: ① 카드에서 만든 것(`DefaultsKey.editionEssentialLinks`) ② 분류된 종류 ③ 제목·본문 낱말. 단축어 하나는 한 칸만 채운다
+- 붙박이는 `UserStateStore.refresh` 에서 쓰임새를 다시 본 **바로 뒤**에 적는다. 키보드는 판정하지 않는다
+- 카드 닫기는 판마다 따로 적는다(`DefaultsKey.editionShelfDismissed`). 판이 바뀌면 새 판의 카드가 한 번 선다
+- 시험: `PersonaEditionTests`

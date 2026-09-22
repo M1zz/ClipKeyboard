@@ -229,6 +229,7 @@
 		CLIPPICK0BUILDEXT0000001 /* KeyboardClipboardPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */; };
 		CO00012F0000000000000001 /* MemoAddCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = CO00022F0000000000000002 /* MemoAddCoach.swift */; };
 		CONTRACTS0000000000HH2 /* MemoScreenContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CONTRACTS0000000000HH1 /* MemoScreenContracts.swift */; };
+		D0A99C6969D59B1EC56530E3 /* PersonaEssentialsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A5A96E7B79BA628A2624067 /* PersonaEssentialsCard.swift */; };
 		D353F4A236699D9A0F78E9DE /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759E1C51E0141D0101328417 /* AppNotification.swift */; };
 		D406271DEC47B75BC2C898CF /* KeyboardMemoPeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75B23DD9375263CB858911DF /* KeyboardMemoPeek.swift */; };
 		D645CD0945A9075B9C4613F6 /* DataWipeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4499B9EF970CED3D7A1C04AA /* DataWipeService.swift */; };
@@ -261,6 +262,7 @@
 		FB00002A2F0000000000000002 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB00001A2F0000000000000001 /* FeedbackView.swift */; };
 		FBS0BUILD000000000000002 /* ClipKeyboardSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBS0FILE0000000000000002 /* ClipKeyboardSpec.swift */; };
 		FCD2BA0589515519BB3C32B7 /* LanguageSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5407569C00E3E8AE6EDCDB20 /* LanguageSettingsView.swift */; };
+		FD6F5DCD2186DB284543C323 /* PersonaEdition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF2BBA875E5DD8B5DB1456D /* PersonaEdition.swift */; };
 		FDCD2C3B73296667EB269CE4 /* DiscountOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331E4A08FC0262575AAFF22A /* DiscountOfferView.swift */; };
 		FE88BF9076D96D3BA4383172 /* BulkImportNudgeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D263F93D9CCA08817D2C32 /* BulkImportNudgeBanner.swift */; };
 		FE99DDC8F7FA1B08EBECAEC3 /* CrashReportsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B7F28AC88AE2E44D301FA7 /* CrashReportsView.swift */; };
@@ -400,6 +402,7 @@
 		33A48A315EBCE9B2823C1C19 /* UsageRhythm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageRhythm.swift; sourceTree = "<group>"; };
 		3649F2CC2F3B4033A66504C0 /* AppInfoSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoSettingsView.swift; sourceTree = "<group>"; };
 		3877F54D058455927CBAA013 /* PlaceholderSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderSequence.swift; sourceTree = "<group>"; };
+		3A5A96E7B79BA628A2624067 /* PersonaEssentialsCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PersonaEssentialsCard.swift; sourceTree = "<group>"; };
 		3A6331C8F171965DCD1F4345 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3EC90E725CACE57B682C1D9B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		42B5F7583D8813C742F7F07B /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -590,6 +593,7 @@
 		FB00001A2F0000000000000001 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
 		FBS0FILE0000000000000002 /* ClipKeyboardSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardSpec.swift; sourceTree = "<group>"; };
 		FDC201306E1F4FE094DC76F4 /* ShortcutsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutsSettingsView.swift; sourceTree = "<group>"; };
+		FEF2BBA875E5DD8B5DB1456D /* PersonaEdition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PersonaEdition.swift; sourceTree = "<group>"; };
 		FF353965FBB3FB43B9D3E5B0 /* RepeatCopyLedger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatCopyLedger.swift; sourceTree = "<group>"; };
 		HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedTextEditor.swift; sourceTree = "<group>"; };
 		IC00001A2F0000000000000005 /* ImagePickerComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerComponents.swift; sourceTree = "<group>"; };
@@ -630,7 +634,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		5873849B2F2E7AD50042ECA4 /* Exceptions for "widget" folder in "widgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -640,8 +644,29 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		587384882F2E7AD40042ECA4 /* widget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5873849B2F2E7AD50042ECA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = widget; sourceTree = "<group>"; };
-		9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ClipKeyboardTests; sourceTree = "<group>"; };
+		587384882F2E7AD40042ECA4 /* widget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5873849B2F2E7AD50042ECA4 /* Exceptions for "widget" folder in "widgetExtension" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = widget;
+			sourceTree = "<group>";
+		};
+		9CA0A4042F19D9B3004ABF40 /* ClipKeyboardTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = ClipKeyboardTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -734,6 +759,7 @@
 				US00001C2F0000000000000005 /* UsageTrendChartView.swift */,
 				91A5192FEC743DF68940A67D /* UsageBreakdownCharts.swift */,
 				84D263F93D9CCA08817D2C32 /* BulkImportNudgeBanner.swift */,
+				3A5A96E7B79BA628A2624067 /* PersonaEssentialsCard.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -981,6 +1007,7 @@
 				F53C7333B96F49495FC908C3 /* TwoDevicePack.swift */,
 				7DCFDFE29BDC68D1BD2437DF /* ProUpgrade.swift */,
 				F8F936D777AFE620DCC080C1 /* PurchaseMomentManager.swift */,
+				FEF2BBA875E5DD8B5DB1456D /* PersonaEdition.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1711,6 +1738,8 @@
 				3A32DD099834816440075E83 /* TwoDevicePack.swift in Sources */,
 				4B40C14F060FCB80F9E6164E /* ProUpgrade.swift in Sources */,
 				4BD38C1ADDBFFC84D997DF86 /* PurchaseMomentManager.swift in Sources */,
+				FD6F5DCD2186DB284543C323 /* PersonaEdition.swift in Sources */,
+				D0A99C6969D59B1EC56530E3 /* PersonaEssentialsCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

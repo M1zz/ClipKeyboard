@@ -33,6 +33,10 @@ enum PurchaseMoment: String, CaseIterable, Sendable {
     /// 쌓아 둔 것은 많은데 백업이 한 번도 없다. → 평생(백업)
     case noBackup
 
+    /// 따로 정한 차례가 없을 때의 차례. `sensitiveSaved` 가 먼저인 이유는 그것만 **유효기간이 있어서**다.
+    /// 쓰임새마다 다른 차례는 `FeatureFit.purchaseMomentOrder` 가 정한다.
+    static let defaultOrder: [PurchaseMoment] = [.sensitiveSaved, .secondDevice, .noBackup]
+
     /// 이 순간이 페이월에 건네는 한도 종류. 페이월의 머리말과 애널리틱스가 이걸 본다.
     var limitType: ProFeatureManager.LimitType {
         switch self {
@@ -82,37 +86,36 @@ enum PurchaseMomentManager {
         var lastBackupAt: Date?
         /// 앱을 처음 연 날.
         var installedAt: Date?
+        /// 어떤 차례로 볼지. 빠진 순간은 보지 않는다(`FeatureFit.purchaseMomentOrder`).
+        var order: [PurchaseMoment] = PurchaseMoment.defaultOrder
     }
 
     /// 지금 꺼낼 순간이 있으면 그것을 돌려준다 - **순수 함수.**
     ///
-    /// 순서가 곧 우선순위다. `sensitiveSaved` 가 먼저인 이유는 그것만 **유효기간이 있어서**다.
-    /// 나머지 둘은 내일 꺼내도 조건이 그대로지만, 이건 내일이면 사라진다.
+    /// 차례(`context.order`)가 곧 우선순위다. 기본 차례에서 `sensitiveSaved` 가 먼저인 이유는
+    /// 그것만 **유효기간이 있어서**다. 나머지 둘은 내일 꺼내도 조건이 그대로지만, 이건 내일이면 사라진다.
     static func dueMoment(now: Date = Date(), context: Context) -> PurchaseMoment? {
-        if !context.shownMoments.contains(.sensitiveSaved),
-           !context.hasPro,
-           let savedAt = context.sensitiveSavedAt,
-           now.timeIntervalSince(savedAt) <= TimeInterval(sensitiveWindowHours) * 3600,
-           now.timeIntervalSince(savedAt) >= 0 {
-            return .sensitiveSaved
+        context.order.first { moment in
+            !context.shownMoments.contains(moment) && isDue(moment, now: now, context: context)
         }
+    }
 
-        if !context.shownMoments.contains(.secondDevice),
-           !context.hasSync,
-           context.knownDeviceCount >= 2 {
-            return .secondDevice
+    /// 순간 하나의 조건.
+    private static func isDue(_ moment: PurchaseMoment, now: Date, context: Context) -> Bool {
+        switch moment {
+        case .sensitiveSaved:
+            guard !context.hasPro, let savedAt = context.sensitiveSavedAt else { return false }
+            let elapsed = now.timeIntervalSince(savedAt)
+            return elapsed >= 0 && elapsed <= TimeInterval(sensitiveWindowHours) * 3600
+        case .secondDevice:
+            return !context.hasSync && context.knownDeviceCount >= 2
+        case .noBackup:
+            guard !context.hasPro,
+                  context.lastBackupAt == nil,
+                  context.ownMemoCount >= noBackupMemoThreshold,
+                  let installedAt = context.installedAt else { return false }
+            return now.timeIntervalSince(installedAt) >= TimeInterval(noBackupInstallDays) * 86_400
         }
-
-        if !context.shownMoments.contains(.noBackup),
-           !context.hasPro,
-           context.lastBackupAt == nil,
-           context.ownMemoCount >= noBackupMemoThreshold,
-           let installedAt = context.installedAt,
-           now.timeIntervalSince(installedAt) >= TimeInterval(noBackupInstallDays) * 86_400 {
-            return .noBackup
-        }
-
-        return nil
     }
 
     /// 지금 이 기기의 실제 상태로 위 판정을 돌린다.
@@ -127,7 +130,8 @@ enum PurchaseMomentManager {
             knownDeviceCount: knownDeviceCount,
             ownMemoCount: ownMemoCount,
             lastBackupAt: UserDefaults.standard.object(forKey: DefaultsKey.lastBackupDate) as? Date,
-            installedAt: UserDefaults.standard.object(forKey: DefaultsKey.appInstallDate) as? Date
+            installedAt: UserDefaults.standard.object(forKey: DefaultsKey.appInstallDate) as? Date,
+            order: FeatureFit.purchaseMomentOrder(PersonaResolver.profile)
         ))
     }
 
