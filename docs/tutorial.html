@@ -46,6 +46,9 @@
             --paper-1: #F5F5F6;
             --paper-2: #E2E2E5;
             --veil: rgba(255, 255, 255, 0.85);
+            --tip-bg: #FFF9E6;
+            --note-bg: #E8F1FF;
+            --warning-bg: #FFEEF0;
             color-scheme: light;
         }
 
@@ -65,6 +68,9 @@
                 --paper-1: #191A1C;
                 --paper-2: #26272A;
                 --veil: rgba(26, 26, 28, 0.85);
+                --tip-bg: rgba(255, 159, 10, 0.14);
+                --note-bg: rgba(10, 132, 255, 0.16);
+                --warning-bg: rgba(255, 69, 58, 0.16);
                 color-scheme: dark;
             }
         }
@@ -335,7 +341,7 @@
         }
 
         .tip {
-            background: #FFF9E6;
+            background: var(--tip-bg);
             border-left: 4px solid var(--accent-orange);
             padding: 1rem 1.25rem;
             border-radius: 8px;
@@ -349,7 +355,7 @@
         }
 
         .note {
-            background: #E8F1FF;
+            background: var(--note-bg);
             border-left: 4px solid var(--primary);
             padding: 1rem 1.25rem;
             border-radius: 8px;
@@ -363,7 +369,7 @@
         }
 
         .warning {
-            background: #FFEEF0;
+            background: var(--warning-bg);
             border-left: 4px solid #FF3B30;
             padding: 1rem 1.25rem;
             border-radius: 8px;
