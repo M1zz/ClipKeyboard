@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.Ysoup.TokenMemo.beacon-flush</string>
+	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -15,8 +19,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>카드나 문서를 촬영해 텍스트를 인식하기 위해 카메라 접근이 필요합니다.</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>clipkeyboard://open</string>
@@ -26,10 +28,6 @@
 		<string>fetch</string>
 		<string>processing</string>
 		<string>remote-notification</string>
-	</array>
-	<key>BGTaskSchedulerPermittedIdentifiers</key>
-	<array>
-		<string>com.Ysoup.TokenMemo.beacon-flush</string>
 	</array>
 	<key>UILaunchScreen</key>
 	<dict>

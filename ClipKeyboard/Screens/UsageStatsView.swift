@@ -728,7 +728,7 @@ struct UsageStatsView: View {
     }
 
     private static func isFlag(_ key: String) -> Bool {
-        key.hasPrefix("flag.") || key.hasPrefix("persona.")
+        key.hasPrefix("flag.") || key.hasPrefix("own.") || key.hasPrefix("persona.")
     }
 
     private static func format(_ value: Double) -> String {

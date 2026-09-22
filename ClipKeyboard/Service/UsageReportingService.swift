@@ -227,6 +227,19 @@ enum UsageReportingService {
         // Pro 가 아닌 **작은 결제**(칸 추가 · 두 대째). 권한을 열지 않으니 isPaid 는 아니지만
         // 돈을 낸 사람이다 - 허브가 "결제한 사람의 종류" 로 가를 때 무료와 섞이지 않게 따로 보낸다.
         metrics["flag.boughtAddOn"] = (SlotPack.isPurchased || TwoDevicePack.isPurchased) ? 1 : 0
+        // **산 것마다 한 칸씩**(허브 규약 2). 위 isPaid · boughtAddOn 은 여러 상품을 한 비트에
+        // 접어서, 허브가 "Pro 만 산 사람"과 "칸도 사고 Pro 도 산 사람"을 가를 수 없었다.
+        // 팔고 있는 것은 셋이다 - Pro(pro · pro.halfoff · pro.upgrade 는 값만 다른 같은 것) ·
+        // 칸 추가 · 두 대째. 칸 추가는 소모성이라 산 **팩 수**를 보낸다(0/1 로 접으면 되살릴 수 없다).
+        // 돈 없이 열린 것(체험 · 무상 · 옛 유료 다운로드)은 여기 넣지 않는다 - 위 세 플래그가 따로 말한다.
+        // TestFlight 의 샌드박스 결제는 돈이 아니라서 0 으로 보낸다.
+        let paysReal = !ProFeatureManager.isTestFlight
+        metrics["own.pro"] = (boughtInApp && paysReal) ? 1 : 0
+        metrics["own.slots"] = paysReal ? Double(SlotPack.ownedPacks) : 0
+        metrics["own.twodevice"] = (TwoDevicePack.isPurchased && paysReal) ? 1 : 0
+        // 이 설치가 위 규약을 아는 버전이라는 표시. 허브는 이 값이 있는 설치만 산 것으로 가른다 -
+        // 옛 버전의 섞인 값을 지우지 않고 기준선 밖으로 빼는 방법이다.
+        metrics["flag.schema"] = 2
         // 옛 키는 계속 보낸다. 앱 자체 통계 화면의 과거 기록과 이어 보려면 필요하다.
         // 다만 이 값은 "접근 권한"이지 결제가 아니다. 유료를 세는 데 쓰지 말 것.
         metrics["flag.isPro"] = ProFeatureManager.hasFullAccess ? 1 : 0
