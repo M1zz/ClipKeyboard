@@ -15,6 +15,7 @@
 | `tutorial.html` | 사용 가이드 (앱 안에서 연다) |
 | `privacy.html` · `terms.html` | 개인정보 처리방침 · 이용약관 (App Store 에 등록된 주소) |
 | `accessibility.html` | 접근성 안내 |
+| `screens.html` · `media/screens/` | 화면 지도 (기능별 위계와 캡처, 만드는 사람용) |
 | `favicon.png` · `app-icon.png` · `media/` | 위 페이지가 쓰는 자산 |
 
 새 글은 아래 폴더 중 하나에 넣습니다. 웹으로 나갈 페이지가 아니라면 루트에 두지 않습니다.

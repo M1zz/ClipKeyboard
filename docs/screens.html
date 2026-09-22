@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="favicon.png">
+<title>클립키보드 화면 지도</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#F3F4F7;--surface:#FFFFFF;--ink:#171A20;--muted:#5A6070;--line:#D9DCE4;--rail:#C9CEDA;
+  --accent:#1D6AE5;--accent-soft:#E3ECFC;--frame:#E8EAEF;
+  --auto-ink:#8A4B00;--auto-bg:#FCEFD9;--ext-ink:#6B3FC4;--ext-bg:#EEE7FC;--sheet-ink:#3F4656;--sheet-bg:#E9EBF0;
+  --shadow:0 1px 2px rgba(20,24,33,.06),0 6px 18px rgba(20,24,33,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F1115;--surface:#181B21;--ink:#E9EBF0;--muted:#9BA2B2;--line:#2A2F39;--rail:#353B47;
+    --accent:#6AA2FF;--accent-soft:#1B2A45;--frame:#22262E;
+    --auto-ink:#F3C27A;--auto-bg:#3A2A12;--ext-ink:#C7ADFF;--ext-bg:#2C2145;--sheet-ink:#C9CEDA;--sheet-bg:#262A33;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0F1115;--surface:#181B21;--ink:#E9EBF0;--muted:#9BA2B2;--line:#2A2F39;--rail:#353B47;
+  --accent:#6AA2FF;--accent-soft:#1B2A45;--frame:#22262E;
+  --auto-ink:#F3C27A;--auto-bg:#3A2A12;--ext-ink:#C7ADFF;--ext-bg:#2C2145;--sheet-ink:#C9CEDA;--sheet-bg:#262A33;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{margin:0}
+[hidden]{display:none!important}
+img{max-width:100%}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--ground);color:var(--ink);font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;font-size:15px;line-height:1.55;padding-inline:clamp(16px,4vw,48px);padding-block:0 72px}
+.wrap{max-width:1180px;margin:0 auto}
+.top{padding-block:40px 8px;display:grid;gap:10px}
+.top h1{margin:0;font-size:clamp(26px,3.4vw,36px);font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.top p{margin:0;color:var(--muted);max-width:70ch}
+.facts{display:flex;flex-wrap:wrap;gap:6px 20px;color:var(--muted);font-size:14px}
+.facts b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:13.5px;color:var(--muted);margin-top:4px}
+.overview{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-block:22px 8px}
+.ov{display:grid;gap:4px;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.ov:hover{border-color:var(--accent)}
+.ov-name{font-weight:600;font-size:16px}
+.ov-intent{color:var(--muted);font-size:14px}
+.ov-num{font-size:13px;color:var(--accent);font-variant-numeric:tabular-nums}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--ground) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-block:10px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;margin-top:18px}
+.chips{display:flex;gap:6px;overflow-x:auto;flex:1 1 auto;min-width:0;scrollbar-width:thin;padding-bottom:2px}
+.chip{flex:0 0 auto;font-size:14px;font-weight:500;color:var(--ink);text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 12px;white-space:nowrap}
+.chip:hover{border-color:var(--accent)}
+.search{flex:0 0 240px}
+.search label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.search input{width:100%;font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:7px 12px}
+a:focus-visible,.thumb:focus-visible,.search input:focus-visible,.close:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.feature{padding-top:40px}
+.f-head{display:grid;gap:2px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.f-head h2{margin:0;font-size:23px;font-weight:700}
+.f-head p{margin:0;color:var(--muted)}
+.count{font-size:13.5px;color:var(--accent);font-variant-numeric:tabular-nums}
+.tree,.kids{list-style:none;margin:0;padding:0}
+.tree{display:grid;gap:14px}
+.kids{display:grid;gap:12px;margin-top:12px;margin-left:44px;padding-left:22px;border-left:2px solid var(--rail)}
+.kids>.node{position:relative}
+.kids>.node::before{content:"";position:absolute;left:-22px;top:42px;width:16px;border-top:2px solid var(--rail)}
+.row{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:var(--shadow)}
+.thumb{flex:0 0 auto;width:92px;aspect-ratio:402/874;max-width:100%;padding:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--frame);cursor:zoom-in}
+.thumb img{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+.thumb.none{cursor:default;display:flex;align-items:center;justify-content:center;border-style:dashed;background:transparent;color:var(--muted);font-size:12.5px;text-align:center;line-height:1.35}
+.info{display:grid;gap:3px;min-width:0;padding-top:2px}
+.info h3{margin:0;font-size:16.5px;font-weight:600;display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.kind{font-size:12px;font-weight:600;border-radius:6px;padding:1px 7px;letter-spacing:.02em}
+.k-tab{color:var(--accent);background:var(--accent-soft)}
+.k-screen{color:var(--muted);border:1px solid var(--line)}
+.k-sheet{color:var(--sheet-ink);background:var(--sheet-bg)}
+.k-auto{color:var(--auto-ink);background:var(--auto-bg)}
+.k-ext{color:var(--ext-ink);background:var(--ext-bg)}
+.k-link{color:var(--muted);border:1px dashed var(--rail)}
+.intent{margin:0}
+.reach{margin:0;color:var(--muted);font-size:13.5px}
+.sep{opacity:.6}
+.why{margin:2px 0 0;font-size:13.5px;color:var(--muted);font-style:italic}
+.links{margin:4px 0 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.links-label{font-size:12.5px;color:var(--muted);margin-right:2px}
+.links a{font-size:13px;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:2px 8px;display:inline-flex;gap:6px;align-items:baseline}
+.links a small{color:var(--muted);font-size:11.5px}
+.links a:hover{border-color:var(--accent)}
+.code{margin:4px 0 0}
+.code span{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 7px;word-break:break-all}
+.node:target>.row{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.nomatch{padding:48px 0;color:var(--muted);text-align:center}
+dialog{border:0;padding:0;background:transparent;max-width:min(430px,92vw);width:100%}
+dialog::backdrop{background:rgba(10,12,16,.72)}
+dialog img{display:block;width:100%;height:auto;max-height:86vh;object-fit:contain;border-radius:26px;background:var(--frame)}
+.dlg-cap{color:#fff;margin:10px 4px 0;font-size:15px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.close{font:inherit;color:#fff;background:rgba(255,255,255,.14);border:0;border-radius:999px;padding:6px 14px;cursor:pointer}
+@media (max-width:640px){
+  .search{flex-basis:140px}
+  .kids{margin-left:10px;padding-left:12px}
+  .kids>.node::before{left:-12px;width:8px}
+  .thumb{width:68px}
+  .row{gap:12px;padding:10px}
+  .info h3{font-size:15.5px}
+}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>클립키보드 화면 지도</h1>
+    <p>화면을 기능별로 묶고, 기능 안에서는 부모 화면 아래에 거기서 열리는 화면과 시트를 들여 썼습니다. 회색 줄은 사용자가 그 화면에 닿는 길, 이어지는 곳은 다른 기능에 사는 하위 화면입니다.</p>
+    <div class="facts">
+      <span>기능 <b>11</b>개</span>
+      <span>화면 <b>86</b>개</span>
+      <span>캡처 <b>71</b>장</span>
+      <span>iPhone 17 세로 · 라이트 · 한국어 · 데모 데이터</span>
+    </div>
+    <div class="legend" aria-label="표시 뜻">
+      <span class="kind k-tab">탭</span>탭바에서 바로
+      <span class="kind k-screen">화면</span>밀어 들어가는 화면
+      <span class="kind k-sheet">시트</span>아래에서 올라오는 판
+      <span class="kind k-auto">자동</span>조건이 되면 저절로
+      <span class="kind k-ext">익스텐션</span>다른 앱 안의 키보드
+      <span class="kind k-link">연결</span>다른 곳으로 넘겨주는 자리
+    </div>
+  </header>
+
+  <nav class="overview" aria-label="기능 한눈에"><a class="ov" href="#f-use"><span class="ov-name">단축어 쓰기</span><span class="ov-intent">저장한 단축어를 찾아서 바로 복사하거나 채워 넣는 곳입니다.</span><span class="ov-num">화면 15 · 5단계</span></a><a class="ov" href="#f-make"><span class="ov-name">단축어 만들기</span><span class="ov-intent">새 단축어, 템플릿, 스택을 만들거나 다른 곳의 글을 옮겨 오는 곳입니다.</span><span class="ov-num">화면 10 · 2단계</span></a><a class="ov" href="#f-blank"><span class="ov-name">템플릿 빈칸</span><span class="ov-intent">템플릿의 {빈칸}과 거기에 넣을 값, 날짜 모양을 관리합니다.</span><span class="ov-num">화면 6 · 3단계</span></a><a class="ov" href="#f-keyboard"><span class="ov-name">키보드</span><span class="ov-intent">다른 앱에서 단축어를 넣는 키보드와, 그 키보드를 켜고 맞추는 화면입니다.</span><span class="ov-num">화면 6 · 2단계</span></a><a class="ov" href="#f-clip"><span class="ov-name">클립보드와 빠른 메모</span><span class="ov-intent">복사했던 것과 급히 담아 둔 메모를 단축어로 올리는 곳입니다.</span><span class="ov-num">화면 6 · 2단계</span></a><a class="ov" href="#f-usage"><span class="ov-name">사용 기록</span><span class="ov-intent">단축어로 아낀 시간과 횟수를 보고 자랑하는 곳입니다.</span><span class="ov-num">화면 2 · 2단계</span></a><a class="ov" href="#f-settings"><span class="ov-name">설정과 맞춤</span><span class="ov-intent">앱을 내 쓰임새와 취향에 맞게 고치는 곳입니다.</span><span class="ov-num">화면 23 · 4단계</span></a><a class="ov" href="#f-data"><span class="ov-name">데이터와 백업</span><span class="ov-intent">내 단축어를 지키고 되살리는 곳입니다.</span><span class="ov-num">화면 7 · 3단계</span></a><a class="ov" href="#f-pro"><span class="ov-name">Pro 결제</span><span class="ov-intent">무료 한도와 Pro를 설명하고 결제하는 곳입니다.</span><span class="ov-num">화면 3 · 1단계</span></a><a class="ov" href="#f-guide"><span class="ov-name">처음 쓰기와 알림</span><span class="ov-intent">처음 온 사람과 업데이트한 사람에게 저절로 뜨는 안내입니다.</span><span class="ov-num">화면 4 · 1단계</span></a><a class="ov" href="#f-dev"><span class="ov-name">개발자 도구</span><span class="ov-intent">마스터 모드에서만 보이는, 만드는 사람을 위한 화면입니다.</span><span class="ov-num">화면 4 · 1단계</span></a></nav>
+
+  <div class="bar">
+    <nav class="chips" aria-label="기능으로 건너뛰기"><a class="chip" href="#f-use">단축어 쓰기</a><a class="chip" href="#f-make">단축어 만들기</a><a class="chip" href="#f-blank">템플릿 빈칸</a><a class="chip" href="#f-keyboard">키보드</a><a class="chip" href="#f-clip">클립보드와 빠른 메모</a><a class="chip" href="#f-usage">사용 기록</a><a class="chip" href="#f-settings">설정과 맞춤</a><a class="chip" href="#f-data">데이터와 백업</a><a class="chip" href="#f-pro">Pro 결제</a><a class="chip" href="#f-guide">처음 쓰기와 알림</a><a class="chip" href="#f-dev">개발자 도구</a></nav>
+    <div class="search">
+      <label for="q">화면 찾기</label>
+      <input id="q" type="search" placeholder="화면 찾기" autocomplete="off">
+    </div>
+  </div>
+
+  <main id="list">
+    <section class="feature" id="f-use" data-feature="use"><header class="f-head"><h2>단축어 쓰기</h2><p>저장한 단축어를 찾아서 바로 복사하거나 채워 넣는 곳입니다.</p><span class="count">화면 15개 · 깊이 5단계</span></header><ul class="tree"><li class="node" id="s-MainTabView" data-search="앱 기본 탭 단축어, 사용 기록, 설정, 검색을 오가는 앱의 기본 틀입니다. maintabview 앱 실행 시 첫 화면">
+<div class="row"><button type="button" class="thumb" aria-label="앱 기본 탭 크게 보기"><img src="media/screens/MainTabView.jpg" alt="앱 기본 탭 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>앱 기본 탭<span class="kind k-tab">탭</span></h3>
+<p class="intent">단축어, 사용 기록, 설정, 검색을 오가는 앱의 기본 틀입니다.</p>
+<p class="reach">앱 실행 시 첫 화면</p>
+<p class="links"><span class="links-label">이어지는 곳</span><a href="#s-UsagePassportView">사용 기록<small>사용 기록</small></a><a href="#s-SettingView">설정<small>설정과 맞춤</small></a></p>
+<p class="code"><span>MainTabView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-SnippetsTab" data-search="목록 / 키보드 탭 단축어 탭을 목록으로 볼지 키보드 무대로 볼지 정해 보여줍니다. snippetstab 첫 번째 탭">
+<div class="row"><div class="thumb none" title="앱 기본 탭 캡처가 이 화면입니다. 목록 모드는 단축어 목록, 키보드 모드는 키보드 미리보기를 보세요."><span>캡처<br>없음</span></div><div class="info">
+<h3>목록 / 키보드 탭<span class="kind k-tab">탭</span></h3>
+<p class="intent">단축어 탭을 목록으로 볼지 키보드 무대로 볼지 정해 보여줍니다.</p>
+<p class="reach">첫 번째 탭</p>
+<p class="why">앱 기본 탭 캡처가 이 화면입니다. 목록 모드는 단축어 목록, 키보드 모드는 키보드 미리보기를 보세요.</p>
+<p class="code"><span>SnippetsTab</span></p>
+</div></div><ul class="kids"><li class="node" id="s-ClipKeyboardList" data-search="단축어 목록 저장한 단축어를 카테고리별로 모아 보고 바로 복사합니다. clipkeyboardlist 단축어 탭 (목록 모드)">
+<div class="row"><button type="button" class="thumb" aria-label="단축어 목록 크게 보기"><img src="media/screens/ClipKeyboardList.jpg" alt="단축어 목록 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>단축어 목록<span class="kind k-screen">화면</span></h3>
+<p class="intent">저장한 단축어를 카테고리별로 모아 보고 바로 복사합니다.</p>
+<p class="reach">단축어 탭 (목록 모드)</p>
+<p class="links"><span class="links-label">이어지는 곳</span><a href="#s-MemoAdd">새 단축어<small>단축어 만들기</small></a><a href="#s-ShortcutMartView">단축어 마트<small>단축어 만들기</small></a><a href="#s-BulkImportView">한번에 가져오기<small>단축어 만들기</small></a><a href="#s-DraftListView">임시 저장<small>단축어 만들기</small></a></p>
+<p class="code"><span>ClipKeyboardList</span></p>
+</div></div><ul class="kids"><li class="node" id="s-MemoActionSheet" data-search="단축어 메뉴 단축어 하나에 대해 복사, 수정, 이동, 삭제를 고릅니다. memoactionsheet 카드 길게 누르기">
+<div class="row"><button type="button" class="thumb" aria-label="단축어 메뉴 크게 보기"><img src="media/screens/MemoActionSheet.jpg" alt="단축어 메뉴 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>단축어 메뉴<span class="kind k-sheet">시트</span></h3>
+<p class="intent">단축어 하나에 대해 복사, 수정, 이동, 삭제를 고릅니다.</p>
+<p class="reach">카드 길게 누르기</p>
+
+<p class="code"><span>MemoActionSheet</span></p>
+</div></div><ul class="kids"><li class="node" id="s-MemoReorderScreen" data-search="순서 바꾸기 현재 카테고리의 카드를 끌어서 원하는 순서로 바꿉니다. memoreorderscreen 카드 길게 누르기 &gt; 순서 바꾸기">
+<div class="row"><div class="thumb none" title="목록이 넘겨주는 순서 모델이 있어야 뜨는 화면이라 따로 띄우지 못했습니다."><span>캡처<br>없음</span></div><div class="info">
+<h3>순서 바꾸기<span class="kind k-screen">화면</span></h3>
+<p class="intent">현재 카테고리의 카드를 끌어서 원하는 순서로 바꿉니다.</p>
+<p class="reach">카드 길게 누르기 <span class="sep" aria-hidden="true">›</span> 순서 바꾸기</p>
+<p class="why">목록이 넘겨주는 순서 모델이 있어야 뜨는 화면이라 따로 띄우지 못했습니다.</p>
+<p class="code"><span>MemoReorderScreen</span></p>
+</div></div></li><li class="node" id="s-MemoSelectionScreen" data-search="여러 개 고르기 단축어 여러 개를 골라 한꺼번에 옮기거나 지웁니다. memoselectionscreen 카드 길게 누르기 &gt; 여러 개 고르기">
+<div class="row"><div class="thumb none" title="목록이 넘겨주는 선택 모델이 있어야 뜨는 화면이라 따로 띄우지 못했습니다."><span>캡처<br>없음</span></div><div class="info">
+<h3>여러 개 고르기<span class="kind k-screen">화면</span></h3>
+<p class="intent">단축어 여러 개를 골라 한꺼번에 옮기거나 지웁니다.</p>
+<p class="reach">카드 길게 누르기 <span class="sep" aria-hidden="true">›</span> 여러 개 고르기</p>
+<p class="why">목록이 넘겨주는 선택 모델이 있어야 뜨는 화면이라 따로 띄우지 못했습니다.</p>
+<p class="code"><span>MemoSelectionScreen</span></p>
+</div></div></li></ul></li><li class="node" id="s-TemplateSheetResolver" data-search="템플릿 연결 고른 템플릿을 찾아 알맞은 편집 시트로 연결합니다. templatesheetresolver 목록 &gt; 템플릿 탭">
+<div class="row"><div class="thumb none" title="보이는 화면이 아니라 알맞은 시트로 넘겨주는 연결 역할입니다. 템플릿 채우기를 보세요."><span>캡처<br>없음</span></div><div class="info">
+<h3>템플릿 연결<span class="kind k-link">연결</span></h3>
+<p class="intent">고른 템플릿을 찾아 알맞은 편집 시트로 연결합니다.</p>
+<p class="reach">목록 <span class="sep" aria-hidden="true">›</span> 템플릿 탭</p>
+<p class="why">보이는 화면이 아니라 알맞은 시트로 넘겨주는 연결 역할입니다. 템플릿 채우기를 보세요.</p>
+<p class="code"><span>TemplateSheetResolver</span></p>
+</div></div><ul class="kids"><li class="node" id="s-TemplateFillSheet" data-search="템플릿 채우기 템플릿의 빈칸을 채워 완성된 문장을 복사합니다. templatefillsheet 목록 &gt; 템플릿 카드 탭">
+<div class="row"><button type="button" class="thumb" aria-label="템플릿 채우기 크게 보기"><img src="media/screens/TemplateFillSheet.jpg" alt="템플릿 채우기 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>템플릿 채우기<span class="kind k-sheet">시트</span></h3>
+<p class="intent">템플릿의 빈칸을 채워 완성된 문장을 복사합니다.</p>
+<p class="reach">목록 <span class="sep" aria-hidden="true">›</span> 템플릿 카드 탭</p>
+
+<p class="code"><span>TemplateFillSheet</span></p>
+</div></div></li><li class="node" id="s-TemplateEditSheet" data-search="템플릿 다듬기 템플릿 문장을 다듬고 빈칸을 채워 바로 복사합니다. templateeditsheet 템플릿 탭">
+<div class="row"><button type="button" class="thumb" aria-label="템플릿 다듬기 크게 보기"><img src="media/screens/TemplateEditSheet.jpg" alt="템플릿 다듬기 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>템플릿 다듬기<span class="kind k-sheet">시트</span></h3>
+<p class="intent">템플릿 문장을 다듬고 빈칸을 채워 바로 복사합니다.</p>
+<p class="reach">템플릿 탭</p>
+
+<p class="code"><span>TemplateEditSheet</span></p>
+</div></div></li><li class="node" id="s-TemplateInputSheet" data-search="템플릿 입력 템플릿의 빈칸 값을 하나씩 골라 채웁니다. templateinputsheet 목록 &gt; 템플릿 사용">
+<div class="row"><button type="button" class="thumb" aria-label="템플릿 입력 크게 보기"><img src="media/screens/TemplateInputSheet.jpg" alt="템플릿 입력 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>템플릿 입력<span class="kind k-sheet">시트</span></h3>
+<p class="intent">템플릿의 빈칸 값을 하나씩 골라 채웁니다.</p>
+<p class="reach">목록 <span class="sep" aria-hidden="true">›</span> 템플릿 사용</p>
+
+<p class="code"><span>TemplateInputSheet</span></p>
+</div></div></li></ul></li><li class="node" id="s-StackPreviewSheet" data-search="스택 미리보기 스택을 복사하고 키보드에 들어갈 순서를 미리 봅니다. stackpreviewsheet 목록 &gt; 스택 카드 탭">
+<div class="row"><div class="thumb none" title="캡처용 데모 데이터에서 스택을 찾지 못했습니다."><span>캡처<br>없음</span></div><div class="info">
+<h3>스택 미리보기<span class="kind k-sheet">시트</span></h3>
+<p class="intent">스택을 복사하고 키보드에 들어갈 순서를 미리 봅니다.</p>
+<p class="reach">목록 <span class="sep" aria-hidden="true">›</span> 스택 카드 탭</p>
+<p class="why">캡처용 데모 데이터에서 스택을 찾지 못했습니다.</p>
+<p class="code"><span>StackPreviewSheet</span></p>
+</div></div></li><li class="node" id="s-VaultScreen" data-search="금고 단축어로 지금까지 아낀 시간을 금고를 열어 확인합니다. vaultscreen 단축어 목록 &gt; 금고 버튼">
+<div class="row"><button type="button" class="thumb" aria-label="금고 크게 보기"><img src="media/screens/VaultScreen.jpg" alt="금고 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>금고<span class="kind k-screen">화면</span></h3>
+<p class="intent">단축어로 지금까지 아낀 시간을 금고를 열어 확인합니다.</p>
+<p class="reach">단축어 목록 <span class="sep" aria-hidden="true">›</span> 금고 버튼</p>
+
+<p class="code"><span>VaultScreen</span></p>
+</div></div></li><li class="node" id="s-ListBackgroundPickerSheet" data-search="배경 고르기 시트 목록 화면에서 현재 탭이나 모든 탭의 배경을 고릅니다. listbackgroundpickersheet 단축어 목록 &gt; 배경 바꾸기">
+<div class="row"><div class="thumb none" title="목록 화면의 현재 탭 상태를 넘겨받아야 뜹니다."><span>캡처<br>없음</span></div><div class="info">
+<h3>배경 고르기 시트<span class="kind k-sheet">시트</span></h3>
+<p class="intent">목록 화면에서 현재 탭이나 모든 탭의 배경을 고릅니다.</p>
+<p class="reach">단축어 목록 <span class="sep" aria-hidden="true">›</span> 배경 바꾸기</p>
+<p class="why">목록 화면의 현재 탭 상태를 넘겨받아야 뜹니다.</p>
+<p class="code"><span>ListBackgroundPickerSheet</span></p>
+</div></div></li></ul></li><li class="node" id="s-InAppKeyboardStage" data-search="키보드 미리보기 키보드를 다른 앱에서 쓰는 모습 그대로 앱 안에서 써 봅니다. inappkeyboardstage 단축어 탭 (키보드 모드)">
+<div class="row"><button type="button" class="thumb" aria-label="키보드 미리보기 크게 보기"><img src="media/screens/InAppKeyboardStage.jpg" alt="키보드 미리보기 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>키보드 미리보기<span class="kind k-screen">화면</span></h3>
+<p class="intent">키보드를 다른 앱에서 쓰는 모습 그대로 앱 안에서 써 봅니다.</p>
+<p class="reach">단축어 탭 (키보드 모드)</p>
+<p class="links"><span class="links-label">이어지는 곳</span><a href="#s-KeyboardSetupOnboardingView">키보드 설정 가이드<small>키보드</small></a></p>
+<p class="code"><span>InAppKeyboardStage</span></p>
+</div></div></li></ul></li><li class="node" id="s-MemoSearchView" data-search="검색 제목이나 내용으로 저장한 단축어를 찾아 바로 복사합니다. memosearchview 검색 탭">
+<div class="row"><button type="button" class="thumb" aria-label="검색 크게 보기"><img src="media/screens/MemoSearchView.jpg" alt="검색 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>검색<span class="kind k-tab">탭</span></h3>
+<p class="intent">제목이나 내용으로 저장한 단축어를 찾아 바로 복사합니다.</p>
+<p class="reach">검색 탭</p>
+
+<p class="code"><span>MemoSearchView</span></p>
+</div></div></li></ul></li></ul></section><section class="feature" id="f-make" data-feature="make"><header class="f-head"><h2>단축어 만들기</h2><p>새 단축어, 템플릿, 스택을 만들거나 다른 곳의 글을 옮겨 오는 곳입니다.</p><span class="count">화면 10개 · 깊이 2단계</span></header><ul class="tree"><li class="node" id="s-MemoAdd" data-search="새 단축어 단축어, 템플릿, 스택을 새로 만들거나 고칩니다. memoadd 목록 + 메뉴 &gt; 새 단축어 만들기">
+<div class="row"><button type="button" class="thumb" aria-label="새 단축어 크게 보기"><img src="media/screens/MemoAdd.jpg" alt="새 단축어 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>새 단축어<span class="kind k-screen">화면</span></h3>
+<p class="intent">단축어, 템플릿, 스택을 새로 만들거나 고칩니다.</p>
+<p class="reach">목록 + 메뉴 <span class="sep" aria-hidden="true">›</span> 새 단축어 만들기</p>
+
+<p class="code"><span>MemoAdd</span></p>
+</div></div><ul class="kids"><li class="node" id="s-EmojiPicker" data-search="이모지 선택 단축어 제목에 붙일 이모지를 고릅니다. emojipicker 단축어 만들기 &gt; 이모지 버튼">
+<div class="row"><button type="button" class="thumb" aria-label="이모지 선택 크게 보기"><img src="media/screens/EmojiPicker.jpg" alt="이모지 선택 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>이모지 선택<span class="kind k-sheet">시트</span></h3>
+<p class="intent">단축어 제목에 붙일 이모지를 고릅니다.</p>
+<p class="reach">단축어 만들기 <span class="sep" aria-hidden="true">›</span> 이모지 버튼</p>
+
+<p class="code"><span>EmojiPicker</span></p>
+</div></div></li><li class="node" id="s-OCRTextPickerSheet" data-search="값 선택 (ocr) 사진에서 인식한 글자 가운데 쓸 줄을 골라 넣습니다. ocrtextpickersheet 단축어 만들기 &gt; 사진 인식">
+<div class="row"><button type="button" class="thumb" aria-label="값 선택 (OCR) 크게 보기"><img src="media/screens/OCRTextPickerSheet.jpg" alt="값 선택 (OCR) 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>값 선택 (OCR)<span class="kind k-sheet">시트</span></h3>
+<p class="intent">사진에서 인식한 글자 가운데 쓸 줄을 골라 넣습니다.</p>
+<p class="reach">단축어 만들기 <span class="sep" aria-hidden="true">›</span> 사진 인식</p>
+
+<p class="code"><span>OCRTextPickerSheet</span></p>
+</div></div></li><li class="node" id="s-PhotoValuePicker" data-search="어느 걸 넣을까요? 사진에서 읽은 줄 가운데 값으로 넣을 것을 고릅니다. photovaluepicker 단축어 만들기 &gt; 사진 &gt; 줄 목록">
+<div class="row"><button type="button" class="thumb" aria-label="어느 걸 넣을까요? 크게 보기"><img src="media/screens/PhotoValuePicker.jpg" alt="어느 걸 넣을까요? 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>어느 걸 넣을까요?<span class="kind k-sheet">시트</span></h3>
+<p class="intent">사진에서 읽은 줄 가운데 값으로 넣을 것을 고릅니다.</p>
+<p class="reach">단축어 만들기 <span class="sep" aria-hidden="true">›</span> 사진 <span class="sep" aria-hidden="true">›</span> 줄 목록</p>
+
+<p class="code"><span>PhotoValuePicker</span></p>
+</div></div></li><li class="node" id="s-SmearTextPickerView" data-search="문질러 담기 사진에서 필요한 글자만 문질러 값으로 가져옵니다. smeartextpickerview 단축어 만들기 &gt; 사진에서 글자 가져오기">
+<div class="row"><div class="thumb none" title="사진과 글자 인식 결과가 있어야 뜹니다."><span>캡처<br>없음</span></div><div class="info">
+<h3>문질러 담기<span class="kind k-sheet">시트</span></h3>
+<p class="intent">사진에서 필요한 글자만 문질러 값으로 가져옵니다.</p>
+<p class="reach">단축어 만들기 <span class="sep" aria-hidden="true">›</span> 사진에서 글자 가져오기</p>
+<p class="why">사진과 글자 인식 결과가 있어야 뜹니다.</p>
+<p class="code"><span>SmearTextPickerView</span></p>
+</div></div></li><li class="node" id="s-StackImportSheet" data-search="기존 단축어 가져오기 기존 단축어를 골라 스택의 단계로 넣습니다. stackimportsheet 새 스택 &gt; 기존 단축어 가져오기">
+<div class="row"><button type="button" class="thumb" aria-label="기존 단축어 가져오기 크게 보기"><img src="media/screens/StackImportSheet.jpg" alt="기존 단축어 가져오기 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>기존 단축어 가져오기<span class="kind k-sheet">시트</span></h3>
+<p class="intent">기존 단축어를 골라 스택의 단계로 넣습니다.</p>
+<p class="reach">새 스택 <span class="sep" aria-hidden="true">›</span> 기존 단축어 가져오기</p>
+
+<p class="code"><span>StackImportSheet</span></p>
+</div></div></li></ul></li><li class="node" id="s-ShortcutMartView" data-search="단축어 마트 미리 준비된 단축어를 둘러보고 골라서 가져옵니다. shortcutmartview + 메뉴 &gt; 단축어 마트">
+<div class="row"><button type="button" class="thumb" aria-label="단축어 마트 크게 보기"><img src="media/screens/ShortcutMartView.jpg" alt="단축어 마트 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>단축어 마트<span class="kind k-screen">화면</span></h3>
+<p class="intent">미리 준비된 단축어를 둘러보고 골라서 가져옵니다.</p>
+<p class="reach">+ 메뉴 <span class="sep" aria-hidden="true">›</span> 단축어 마트</p>
+
+<p class="code"><span>ShortcutMartView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-ShortcutMartFillView" data-search="마트 항목 채우기 마트에서 고른 단축어의 빈칸을 내 정보로 채웁니다. shortcutmartfillview 단축어 마트 &gt; 항목 선택">
+<div class="row"><div class="thumb none" title="단축어 마트에서 고른 항목이 있어야 뜹니다."><span>캡처<br>없음</span></div><div class="info">
+<h3>마트 항목 채우기<span class="kind k-screen">화면</span></h3>
+<p class="intent">마트에서 고른 단축어의 빈칸을 내 정보로 채웁니다.</p>
+<p class="reach">단축어 마트 <span class="sep" aria-hidden="true">›</span> 항목 선택</p>
+<p class="why">단축어 마트에서 고른 항목이 있어야 뜹니다.</p>
+<p class="code"><span>ShortcutMartFillView</span></p>
+</div></div></li></ul></li><li class="node" id="s-BulkImportView" data-search="한번에 가져오기 다른 메모장의 글이나 사진을 한 번에 단축어로 옮깁니다. bulkimportview + 메뉴 &gt; 한번에 많은 단축어 정리하기">
+<div class="row"><button type="button" class="thumb" aria-label="한번에 가져오기 크게 보기"><img src="media/screens/BulkImportView.jpg" alt="한번에 가져오기 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>한번에 가져오기<span class="kind k-screen">화면</span></h3>
+<p class="intent">다른 메모장의 글이나 사진을 한 번에 단축어로 옮깁니다.</p>
+<p class="reach">+ 메뉴 <span class="sep" aria-hidden="true">›</span> 한번에 많은 단축어 정리하기</p>
+
+<p class="code"><span>BulkImportView</span></p>
+</div></div></li><li class="node" id="s-DraftListView" data-search="임시 저장 만들다 저장하지 않은 단축어를 이어서 작성합니다. draftlistview + 메뉴 &gt; 임시 저장 보기">
+<div class="row"><button type="button" class="thumb" aria-label="임시 저장 크게 보기"><img src="media/screens/DraftListView.jpg" alt="임시 저장 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>임시 저장<span class="kind k-screen">화면</span></h3>
+<p class="intent">만들다 저장하지 않은 단축어를 이어서 작성합니다.</p>
+<p class="reach">+ 메뉴 <span class="sep" aria-hidden="true">›</span> 임시 저장 보기</p>
+
+<p class="code"><span>DraftListView</span></p>
+</div></div></li></ul></section><section class="feature" id="f-blank" data-feature="blank"><header class="f-head"><h2>템플릿 빈칸</h2><p>템플릿의 {빈칸}과 거기에 넣을 값, 날짜 모양을 관리합니다.</p><span class="count">화면 6개 · 깊이 3단계</span></header><ul class="tree"><li class="node" id="s-PlaceholderManagementView" data-search="빈칸 관리 템플릿에서 쓰는 빈칸과 저장된 값을 한곳에서 관리합니다. placeholdermanagementview 설정 &gt; 단축어 &gt; 빈칸 관리">
+<div class="row"><button type="button" class="thumb" aria-label="빈칸 관리 크게 보기"><img src="media/screens/PlaceholderManagementView.jpg" alt="빈칸 관리 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>빈칸 관리<span class="kind k-screen">화면</span></h3>
+<p class="intent">템플릿에서 쓰는 빈칸과 저장된 값을 한곳에서 관리합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 단축어 <span class="sep" aria-hidden="true">›</span> 빈칸 관리</p>
+
+<p class="code"><span>PlaceholderManagementView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-PlaceholderDetailView" data-search="빈칸 상세 빈칸 하나의 값과 쓰이는 템플릿을 확인하고 고칩니다. placeholderdetailview 빈칸 관리 &gt; 빈칸 선택">
+<div class="row"><button type="button" class="thumb" aria-label="빈칸 상세 크게 보기"><img src="media/screens/PlaceholderDetailView.jpg" alt="빈칸 상세 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>빈칸 상세<span class="kind k-screen">화면</span></h3>
+<p class="intent">빈칸 하나의 값과 쓰이는 템플릿을 확인하고 고칩니다.</p>
+<p class="reach">빈칸 관리 <span class="sep" aria-hidden="true">›</span> 빈칸 선택</p>
+
+<p class="code"><span>PlaceholderDetailView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-TemplateDetailPlaceholderView" data-search="템플릿의 빈칸 템플릿 하나에 들어 있는 빈칸들을 살펴봅니다. templatedetailplaceholderview 빈칸 상세 &gt; 템플릿 선택">
+<div class="row"><button type="button" class="thumb" aria-label="템플릿의 빈칸 크게 보기"><img src="media/screens/TemplateDetailPlaceholderView.jpg" alt="템플릿의 빈칸 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>템플릿의 빈칸<span class="kind k-screen">화면</span></h3>
+<p class="intent">템플릿 하나에 들어 있는 빈칸들을 살펴봅니다.</p>
+<p class="reach">빈칸 상세 <span class="sep" aria-hidden="true">›</span> 템플릿 선택</p>
+
+<p class="code"><span>TemplateDetailPlaceholderView</span></p>
+</div></div></li><li class="node" id="s-PlaceholderRenameSheet" data-search="빈칸 이름 바꾸기 빈칸 이름을 바꾸고 쓰이는 곳에 함께 반영합니다. placeholderrenamesheet 빈칸 관리 &gt; 이름 바꾸기">
+<div class="row"><button type="button" class="thumb" aria-label="빈칸 이름 바꾸기 크게 보기"><img src="media/screens/PlaceholderRenameSheet.jpg" alt="빈칸 이름 바꾸기 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>빈칸 이름 바꾸기<span class="kind k-sheet">시트</span></h3>
+<p class="intent">빈칸 이름을 바꾸고 쓰이는 곳에 함께 반영합니다.</p>
+<p class="reach">빈칸 관리 <span class="sep" aria-hidden="true">›</span> 이름 바꾸기</p>
+
+<p class="code"><span>PlaceholderRenameSheet</span></p>
+</div></div></li></ul></li><li class="node" id="s-PlaceholderCreateSheet" data-search="빈칸 추가 템플릿에 쓸 새 빈칸을 만듭니다. placeholdercreatesheet 빈칸 관리 &gt; 추가">
+<div class="row"><button type="button" class="thumb" aria-label="빈칸 추가 크게 보기"><img src="media/screens/PlaceholderCreateSheet.jpg" alt="빈칸 추가 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>빈칸 추가<span class="kind k-sheet">시트</span></h3>
+<p class="intent">템플릿에 쓸 새 빈칸을 만듭니다.</p>
+<p class="reach">빈칸 관리 <span class="sep" aria-hidden="true">›</span> 추가</p>
+
+<p class="code"><span>PlaceholderCreateSheet</span></p>
+</div></div></li></ul></li><li class="node" id="s-TokenFormatSettingsView" data-search="날짜/시간 모양 {날짜}, {시간}이 들어갈 모양을 고르거나 직접 만듭니다. tokenformatsettingsview 설정 &gt; 단축어 &gt; 날짜/시간 모양">
+<div class="row"><div class="thumb none" title="날짜와 시간 중 무엇을 고치는지 넘겨받아야 뜹니다."><span>캡처<br>없음</span></div><div class="info">
+<h3>날짜/시간 모양<span class="kind k-screen">화면</span></h3>
+<p class="intent">{날짜}, {시간}이 들어갈 모양을 고르거나 직접 만듭니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 단축어 <span class="sep" aria-hidden="true">›</span> 날짜/시간 모양</p>
+<p class="why">날짜와 시간 중 무엇을 고치는지 넘겨받아야 뜹니다.</p>
+<p class="code"><span>TokenFormatSettingsView</span></p>
+</div></div></li></ul></section><section class="feature" id="f-keyboard" data-feature="keyboard"><header class="f-head"><h2>키보드</h2><p>다른 앱에서 단축어를 넣는 키보드와, 그 키보드를 켜고 맞추는 화면입니다.</p><span class="count">화면 6개 · 깊이 2단계</span></header><ul class="tree"><li class="node" id="s-KeyboardView" data-search="clipkeyboard 키보드 다른 앱에서 저장한 단축어를 탭 한 번으로 입력합니다. keyboardview 아무 앱 &gt; 지구본 키 &gt; clipkeyboard">
+<div class="row"><div class="thumb none" title="키보드 익스텐션이라 앱 안 캡처로는 띄우지 못합니다. 같은 뷰가 앱 안에서 그려진 모습은 키보드 미리보기에 있습니다."><span>캡처<br>없음</span></div><div class="info">
+<h3>ClipKeyboard 키보드<span class="kind k-ext">익스텐션</span></h3>
+<p class="intent">다른 앱에서 저장한 단축어를 탭 한 번으로 입력합니다.</p>
+<p class="reach">아무 앱 <span class="sep" aria-hidden="true">›</span> 지구본 키 <span class="sep" aria-hidden="true">›</span> ClipKeyboard</p>
+<p class="why">키보드 익스텐션이라 앱 안 캡처로는 띄우지 못합니다. 같은 뷰가 앱 안에서 그려진 모습은 키보드 미리보기에 있습니다.</p>
+<p class="code"><span>KeyboardView</span></p>
+</div></div></li><li class="node" id="s-KeyboardSettingsView" data-search="키보드 키보드로 입력할 때의 동작 설정을 한곳에 모았습니다. keyboardsettingsview 설정 &gt; 키보드">
+<div class="row"><button type="button" class="thumb" aria-label="키보드 크게 보기"><img src="media/screens/KeyboardSettingsView.jpg" alt="키보드 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>키보드<span class="kind k-screen">화면</span></h3>
+<p class="intent">키보드로 입력할 때의 동작 설정을 한곳에 모았습니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 키보드</p>
+
+<p class="code"><span>KeyboardSettingsView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-KeyboardSetupOnboardingView" data-search="키보드 설정 가이드 키보드를 추가하고 켜는 과정을 단계별로 안내합니다. keyboardsetuponboardingview 설정 &gt; 키보드 &gt; 키보드 설정 가이드">
+<div class="row"><button type="button" class="thumb" aria-label="키보드 설정 가이드 크게 보기"><img src="media/screens/KeyboardSetupOnboardingView.jpg" alt="키보드 설정 가이드 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>키보드 설정 가이드<span class="kind k-screen">화면</span></h3>
+<p class="intent">키보드를 추가하고 켜는 과정을 단계별로 안내합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 키보드 <span class="sep" aria-hidden="true">›</span> 키보드 설정 가이드</p>
+
+<p class="code"><span>KeyboardSetupOnboardingView</span></p>
+</div></div></li><li class="node" id="s-KeyboardLayoutSettings" data-search="키보드 레이아웃 키보드의 키 크기, 줄, 언어를 미리 보며 맞춥니다. keyboardlayoutsettings 설정 &gt; 키보드 &gt; 키보드 레이아웃">
+<div class="row"><button type="button" class="thumb" aria-label="키보드 레이아웃 크게 보기"><img src="media/screens/KeyboardLayoutSettings.jpg" alt="키보드 레이아웃 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>키보드 레이아웃<span class="kind k-screen">화면</span></h3>
+<p class="intent">키보드의 키 크기, 줄, 언어를 미리 보며 맞춥니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 키보드 <span class="sep" aria-hidden="true">›</span> 키보드 레이아웃</p>
+
+<p class="code"><span>KeyboardLayoutSettings</span></p>
+</div></div></li><li class="node" id="s-AISettingsView" data-search="apple intelligence 온디바이스 ai의 분류, 앱 제안, 번역 언어를 설정합니다. aisettingsview 설정 &gt; 키보드 &gt; apple intelligence">
+<div class="row"><button type="button" class="thumb" aria-label="Apple Intelligence 크게 보기"><img src="media/screens/AISettingsView.jpg" alt="Apple Intelligence 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>Apple Intelligence<span class="kind k-screen">화면</span></h3>
+<p class="intent">온디바이스 AI의 분류, 앱 제안, 번역 언어를 설정합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 키보드 <span class="sep" aria-hidden="true">›</span> Apple Intelligence</p>
+
+<p class="code"><span>AISettingsView</span></p>
+</div></div></li><li class="node" id="s-CopyPasteView" data-search="붙여넣기 알림 끄기 붙여넣기 허용 알림이 매번 뜨지 않도록 끄는 법을 안내합니다. copypasteview 설정 &gt; 키보드 &gt; 붙여넣기 알림 허용 끄기">
+<div class="row"><button type="button" class="thumb" aria-label="붙여넣기 알림 끄기 크게 보기"><img src="media/screens/CopyPasteView.jpg" alt="붙여넣기 알림 끄기 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>붙여넣기 알림 끄기<span class="kind k-screen">화면</span></h3>
+<p class="intent">붙여넣기 허용 알림이 매번 뜨지 않도록 끄는 법을 안내합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 키보드 <span class="sep" aria-hidden="true">›</span> 붙여넣기 알림 허용 끄기</p>
+
+<p class="code"><span>CopyPasteView</span></p>
+</div></div></li></ul></li></ul></section><section class="feature" id="f-clip" data-feature="clip"><header class="f-head"><h2>클립보드와 빠른 메모</h2><p>복사했던 것과 급히 담아 둔 메모를 단축어로 올리는 곳입니다.</p><span class="count">화면 6개 · 깊이 2단계</span></header><ul class="tree"><li class="node" id="s-ClipboardList" data-search="클립보드 히스토리 복사했던 내용을 다시 보고 단축어나 스택으로 저장합니다. clipboardlist 설정 &gt; 내 데이터 &gt; 클립보드 기록">
+<div class="row"><button type="button" class="thumb" aria-label="클립보드 히스토리 크게 보기"><img src="media/screens/ClipboardList.jpg" alt="클립보드 히스토리 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>클립보드 히스토리<span class="kind k-screen">화면</span></h3>
+<p class="intent">복사했던 내용을 다시 보고 단축어나 스택으로 저장합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 내 데이터 <span class="sep" aria-hidden="true">›</span> 클립보드 기록</p>
+
+<p class="code"><span>ClipboardList</span></p>
+</div></div><ul class="kids"><li class="node" id="s-SaveToMemoSheet" data-search="단축어로 저장 클립보드 항목 하나를 단축어로 저장합니다. savetomemosheet 클립보드 히스토리 &gt; 항목 저장">
+<div class="row"><button type="button" class="thumb" aria-label="단축어로 저장 크게 보기"><img src="media/screens/SaveToMemoSheet.jpg" alt="단축어로 저장 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>단축어로 저장<span class="kind k-sheet">시트</span></h3>
+<p class="intent">클립보드 항목 하나를 단축어로 저장합니다.</p>
+<p class="reach">클립보드 히스토리 <span class="sep" aria-hidden="true">›</span> 항목 저장</p>
+
+<p class="code"><span>SaveToMemoSheet</span></p>
+</div></div></li><li class="node" id="s-CreateStackSheet" data-search="스택 만들기 고른 클립보드 항목들을 묶어 스택으로 만듭니다. createstacksheet 클립보드 히스토리 &gt; 여러 개 선택">
+<div class="row"><button type="button" class="thumb" aria-label="스택 만들기 크게 보기"><img src="media/screens/CreateStackSheet.jpg" alt="스택 만들기 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>스택 만들기<span class="kind k-sheet">시트</span></h3>
+<p class="intent">고른 클립보드 항목들을 묶어 스택으로 만듭니다.</p>
+<p class="reach">클립보드 히스토리 <span class="sep" aria-hidden="true">›</span> 여러 개 선택</p>
+
+<p class="code"><span>CreateStackSheet</span></p>
+</div></div></li><li class="node" id="s-TranslationSheet" data-search="번역 클립보드 내용을 기기 안에서 번역하고 저장합니다. translationsheet 클립보드 히스토리 &gt; 번역 제안">
+<div class="row"><button type="button" class="thumb" aria-label="번역 크게 보기"><img src="media/screens/TranslationSheet.jpg" alt="번역 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>번역<span class="kind k-sheet">시트</span></h3>
+<p class="intent">클립보드 내용을 기기 안에서 번역하고 저장합니다.</p>
+<p class="reach">클립보드 히스토리 <span class="sep" aria-hidden="true">›</span> 번역 제안</p>
+
+<p class="code"><span>TranslationSheet</span></p>
+</div></div></li></ul></li><li class="node" id="s-QuickNoteInboxView" data-search="보관함 빠르게 담아 둔 메모를 단축어로 올리거나 지웁니다. quicknoteinboxview 설정 &gt; 단축어 &gt; 보관함">
+<div class="row"><button type="button" class="thumb" aria-label="보관함 크게 보기"><img src="media/screens/QuickNoteInboxView.jpg" alt="보관함 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>보관함<span class="kind k-screen">화면</span></h3>
+<p class="intent">빠르게 담아 둔 메모를 단축어로 올리거나 지웁니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 단축어 <span class="sep" aria-hidden="true">›</span> 보관함</p>
+
+<p class="code"><span>QuickNoteInboxView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-QuickNoteEditSheet" data-search="빠른 메모 빠른 메모를 적거나 고치고 단축어로 저장합니다. quicknoteeditsheet 보관함 &gt; 메모 선택 또는 추가">
+<div class="row"><button type="button" class="thumb" aria-label="빠른 메모 크게 보기"><img src="media/screens/QuickNoteEditSheet.jpg" alt="빠른 메모 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>빠른 메모<span class="kind k-sheet">시트</span></h3>
+<p class="intent">빠른 메모를 적거나 고치고 단축어로 저장합니다.</p>
+<p class="reach">보관함 <span class="sep" aria-hidden="true">›</span> 메모 선택 또는 추가</p>
+
+<p class="code"><span>QuickNoteEditSheet</span></p>
+</div></div></li></ul></li></ul></section><section class="feature" id="f-usage" data-feature="usage"><header class="f-head"><h2>사용 기록</h2><p>단축어로 아낀 시간과 횟수를 보고 자랑하는 곳입니다.</p><span class="count">화면 2개 · 깊이 2단계</span></header><ul class="tree"><li class="node" id="s-UsagePassportView" data-search="사용 기록 다시 치지 않은 횟수와 아낀 시간을 여권처럼 봅니다. usagepassportview 사용 기록 탭">
+<div class="row"><button type="button" class="thumb" aria-label="사용 기록 크게 보기"><img src="media/screens/UsagePassportView.jpg" alt="사용 기록 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>사용 기록<span class="kind k-tab">탭</span></h3>
+<p class="intent">다시 치지 않은 횟수와 아낀 시간을 여권처럼 봅니다.</p>
+<p class="reach">사용 기록 탭</p>
+
+<p class="code"><span>UsagePassportView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-ShareVideoSheet" data-search="친구들에게 알리기 아낀 시간을 담은 짧은 영상을 먼저 보고 공유합니다. sharevideosheet 사용 기록 &gt; 친구들에게 알리기">
+<div class="row"><button type="button" class="thumb" aria-label="친구들에게 알리기 크게 보기"><img src="media/screens/ShareVideoSheet.jpg" alt="친구들에게 알리기 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>친구들에게 알리기<span class="kind k-sheet">시트</span></h3>
+<p class="intent">아낀 시간을 담은 짧은 영상을 먼저 보고 공유합니다.</p>
+<p class="reach">사용 기록 <span class="sep" aria-hidden="true">›</span> 친구들에게 알리기</p>
+
+<p class="code"><span>ShareVideoSheet</span></p>
+</div></div></li></ul></li></ul></section><section class="feature" id="f-settings" data-feature="settings"><header class="f-head"><h2>설정과 맞춤</h2><p>앱을 내 쓰임새와 취향에 맞게 고치는 곳입니다.</p><span class="count">화면 23개 · 깊이 4단계</span></header><ul class="tree"><li class="node" id="s-SettingView" data-search="설정 키보드, 단축어, 화면, 데이터 등 모든 설정의 입구입니다. settingview 설정 탭">
+<div class="row"><button type="button" class="thumb" aria-label="설정 크게 보기"><img src="media/screens/SettingView.jpg" alt="설정 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>설정<span class="kind k-tab">탭</span></h3>
+<p class="intent">키보드, 단축어, 화면, 데이터 등 모든 설정의 입구입니다.</p>
+<p class="reach">설정 탭</p>
+<p class="links"><span class="links-label">이어지는 곳</span><a href="#s-KeyboardSettingsView">키보드<small>키보드</small></a><a href="#s-MyDataSettingsView">내 데이터<small>데이터와 백업</small></a><a href="#s-PaywallView">Pro 업그레이드<small>Pro 결제</small></a></p>
+<p class="code"><span>SettingView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-ShortcutsSettingsView" data-search="단축어 단축어를 어떻게 저장하고 정리할지 정합니다. shortcutssettingsview 설정 &gt; 단축어">
+<div class="row"><button type="button" class="thumb" aria-label="단축어 크게 보기"><img src="media/screens/ShortcutsSettingsView.jpg" alt="단축어 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>단축어<span class="kind k-screen">화면</span></h3>
+<p class="intent">단축어를 어떻게 저장하고 정리할지 정합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 단축어</p>
+<p class="links"><span class="links-label">이어지는 곳</span><a href="#s-PlaceholderManagementView">빈칸 관리<small>템플릿 빈칸</small></a><a href="#s-TokenFormatSettingsView">날짜/시간 모양<small>템플릿 빈칸</small></a><a href="#s-QuickNoteInboxView">보관함<small>클립보드와 빠른 메모</small></a></p>
+<p class="code"><span>ShortcutsSettingsView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-UsageGuideView" data-search="이렇게들 써요 나라와 직업별 실제 활용 사례를 보고 아이디어를 얻습니다. usageguideview 설정 &gt; 단축어 &gt; 이렇게들 써요">
+<div class="row"><button type="button" class="thumb" aria-label="이렇게들 써요 크게 보기"><img src="media/screens/UsageGuideView.jpg" alt="이렇게들 써요 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>이렇게들 써요<span class="kind k-screen">화면</span></h3>
+<p class="intent">나라와 직업별 실제 활용 사례를 보고 아이디어를 얻습니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 단축어 <span class="sep" aria-hidden="true">›</span> 이렇게들 써요</p>
+
+<p class="code"><span>UsageGuideView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-PersonaDetailView" data-search="쓰임새 상세 한 가지 쓰임새의 활용 장면을 보고 단축어로 만듭니다. personadetailview 이렇게들 써요 &gt; 쓰임새 선택">
+<div class="row"><button type="button" class="thumb" aria-label="쓰임새 상세 크게 보기"><img src="media/screens/PersonaDetailView.jpg" alt="쓰임새 상세 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>쓰임새 상세<span class="kind k-screen">화면</span></h3>
+<p class="intent">한 가지 쓰임새의 활용 장면을 보고 단축어로 만듭니다.</p>
+<p class="reach">이렇게들 써요 <span class="sep" aria-hidden="true">›</span> 쓰임새 선택</p>
+
+<p class="code"><span>PersonaDetailView</span></p>
+</div></div></li></ul></li><li class="node" id="s-UsageProfileSettingsView" data-search="나에게 맞추기 앱이 본 내 쓰임새와 근거를 확인하고 바로잡습니다. usageprofilesettingsview 설정 &gt; 단축어 &gt; 나에게 맞추기">
+<div class="row"><button type="button" class="thumb" aria-label="나에게 맞추기 크게 보기"><img src="media/screens/UsageProfileSettingsView.jpg" alt="나에게 맞추기 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>나에게 맞추기<span class="kind k-screen">화면</span></h3>
+<p class="intent">앱이 본 내 쓰임새와 근거를 확인하고 바로잡습니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 단축어 <span class="sep" aria-hidden="true">›</span> 나에게 맞추기</p>
+
+<p class="code"><span>UsageProfileSettingsView</span></p>
+</div></div></li><li class="node" id="s-CategorySettings" data-search="카테고리 관리 카테고리를 추가하고 이름, 순서를 바꾸거나 지웁니다. categorysettings 설정 &gt; 단축어 &gt; 카테고리 관리">
+<div class="row"><button type="button" class="thumb" aria-label="카테고리 관리 크게 보기"><img src="media/screens/CategorySettings.jpg" alt="카테고리 관리 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>카테고리 관리<span class="kind k-screen">화면</span></h3>
+<p class="intent">카테고리를 추가하고 이름, 순서를 바꾸거나 지웁니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 단축어 <span class="sep" aria-hidden="true">›</span> 카테고리 관리</p>
+
+<p class="code"><span>CategorySettings</span></p>
+</div></div><ul class="kids"><li class="node" id="s-CategoryIconSettings" data-search="카테고리 아이콘 키보드 카테고리 탭에 보일 아이콘을 고릅니다. categoryiconsettings 카테고리 관리 &gt; 카테고리 아이콘">
+<div class="row"><button type="button" class="thumb" aria-label="카테고리 아이콘 크게 보기"><img src="media/screens/CategoryIconSettings.jpg" alt="카테고리 아이콘 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>카테고리 아이콘<span class="kind k-screen">화면</span></h3>
+<p class="intent">키보드 카테고리 탭에 보일 아이콘을 고릅니다.</p>
+<p class="reach">카테고리 관리 <span class="sep" aria-hidden="true">›</span> 카테고리 아이콘</p>
+
+<p class="code"><span>CategoryIconSettings</span></p>
+</div></div></li></ul></li></ul></li><li class="node" id="s-AppearanceSettingsView" data-search="화면과 표시 색, 배경, 스킨, 언어 등 보이는 것을 바꿉니다. appearancesettingsview 설정 &gt; 화면과 표시">
+<div class="row"><button type="button" class="thumb" aria-label="화면과 표시 크게 보기"><img src="media/screens/AppearanceSettingsView.jpg" alt="화면과 표시 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>화면과 표시<span class="kind k-screen">화면</span></h3>
+<p class="intent">색, 배경, 스킨, 언어 등 보이는 것을 바꿉니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 화면과 표시</p>
+
+<p class="code"><span>AppearanceSettingsView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-FirstScreenSettingsView" data-search="첫 화면 단축어 탭을 열면 목록과 키보드 중 무엇을 볼지 고릅니다. firstscreensettingsview 화면과 표시 &gt; 첫 화면">
+<div class="row"><button type="button" class="thumb" aria-label="첫 화면 크게 보기"><img src="media/screens/FirstScreenSettingsView.jpg" alt="첫 화면 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>첫 화면<span class="kind k-screen">화면</span></h3>
+<p class="intent">단축어 탭을 열면 목록과 키보드 중 무엇을 볼지 고릅니다.</p>
+<p class="reach">화면과 표시 <span class="sep" aria-hidden="true">›</span> 첫 화면</p>
+
+<p class="code"><span>FirstScreenSettingsView</span></p>
+</div></div></li><li class="node" id="s-DisplaySettingsView" data-search="단축어 표시 단축어 카드의 높이와 카테고리 표시 방식을 정합니다. displaysettingsview 화면과 표시 &gt; 단축어 표시">
+<div class="row"><button type="button" class="thumb" aria-label="단축어 표시 크게 보기"><img src="media/screens/DisplaySettingsView.jpg" alt="단축어 표시 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>단축어 표시<span class="kind k-screen">화면</span></h3>
+<p class="intent">단축어 카드의 높이와 카테고리 표시 방식을 정합니다.</p>
+<p class="reach">화면과 표시 <span class="sep" aria-hidden="true">›</span> 단축어 표시</p>
+
+<p class="code"><span>DisplaySettingsView</span></p>
+</div></div></li><li class="node" id="s-KeyColorSettingsView" data-search="키 컬러 앱과 키보드에서 누를 곳을 가리키는 색을 고릅니다. keycolorsettingsview 화면과 표시 &gt; 키 컬러">
+<div class="row"><button type="button" class="thumb" aria-label="키 컬러 크게 보기"><img src="media/screens/KeyColorSettingsView.jpg" alt="키 컬러 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>키 컬러<span class="kind k-screen">화면</span></h3>
+<p class="intent">앱과 키보드에서 누를 곳을 가리키는 색을 고릅니다.</p>
+<p class="reach">화면과 표시 <span class="sep" aria-hidden="true">›</span> 키 컬러</p>
+
+<p class="code"><span>KeyColorSettingsView</span></p>
+</div></div></li><li class="node" id="s-LivingSkinSettings" data-search="단축어 스킨 단축어 목록 카드 위에 얹을 움직이는 스킨을 고릅니다. livingskinsettings 화면과 표시 &gt; 단축어 스킨">
+<div class="row"><button type="button" class="thumb" aria-label="단축어 스킨 크게 보기"><img src="media/screens/LivingSkinSettings.jpg" alt="단축어 스킨 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>단축어 스킨<span class="kind k-screen">화면</span></h3>
+<p class="intent">단축어 목록 카드 위에 얹을 움직이는 스킨을 고릅니다.</p>
+<p class="reach">화면과 표시 <span class="sep" aria-hidden="true">›</span> 단축어 스킨</p>
+
+<p class="code"><span>LivingSkinSettings</span></p>
+</div></div></li><li class="node" id="s-ListBackgroundSettings" data-search="배경 이미지 단축어 목록 뒤에 깔 사진을 고르거나 내 사진을 넣습니다. listbackgroundsettings 화면과 표시 &gt; 배경 이미지">
+<div class="row"><button type="button" class="thumb" aria-label="배경 이미지 크게 보기"><img src="media/screens/ListBackgroundSettings.jpg" alt="배경 이미지 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>배경 이미지<span class="kind k-screen">화면</span></h3>
+<p class="intent">단축어 목록 뒤에 깔 사진을 고르거나 내 사진을 넣습니다.</p>
+<p class="reach">화면과 표시 <span class="sep" aria-hidden="true">›</span> 배경 이미지</p>
+
+<p class="code"><span>ListBackgroundSettings</span></p>
+</div></div></li><li class="node" id="s-LanguageSettingsView" data-search="언어 앱 언어를 고르면 다시 켜지 않아도 바로 바뀝니다. languagesettingsview 화면과 표시 &gt; 언어">
+<div class="row"><button type="button" class="thumb" aria-label="언어 크게 보기"><img src="media/screens/LanguageSettingsView.jpg" alt="언어 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>언어<span class="kind k-screen">화면</span></h3>
+<p class="intent">앱 언어를 고르면 다시 켜지 않아도 바로 바뀝니다.</p>
+<p class="reach">화면과 표시 <span class="sep" aria-hidden="true">›</span> 언어</p>
+
+<p class="code"><span>LanguageSettingsView</span></p>
+</div></div></li></ul></li><li class="node" id="s-HelpSettingsView" data-search="도움말과 문의 막혔을 때 가이드, 튜토리얼, 문의로 연결합니다. helpsettingsview 설정 &gt; 도움말과 문의">
+<div class="row"><button type="button" class="thumb" aria-label="도움말과 문의 크게 보기"><img src="media/screens/HelpSettingsView.jpg" alt="도움말과 문의 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>도움말과 문의<span class="kind k-screen">화면</span></h3>
+<p class="intent">막혔을 때 가이드, 튜토리얼, 문의로 연결합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 도움말과 문의</p>
+
+<p class="code"><span>HelpSettingsView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-TutorialView" data-search="사용 가이드 사용 가이드 웹페이지를 열고 바로 닫힙니다. tutorialview 설정 &gt; 도움말과 문의 &gt; 사용 가이드">
+<div class="row"><div class="thumb none" title="열리자마자 웹페이지로 넘어가고 닫히는 화면이라 남는 모습이 없습니다."><span>캡처<br>없음</span></div><div class="info">
+<h3>사용 가이드<span class="kind k-link">연결</span></h3>
+<p class="intent">사용 가이드 웹페이지를 열고 바로 닫힙니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 도움말과 문의 <span class="sep" aria-hidden="true">›</span> 사용 가이드</p>
+<p class="why">열리자마자 웹페이지로 넘어가고 닫히는 화면이라 남는 모습이 없습니다.</p>
+<p class="code"><span>TutorialView</span></p>
+</div></div></li><li class="node" id="s-DidYouKnowListView" data-search="그거 아세요? 모음 그동안의 기능 팁을 모아서 다시 봅니다. didyouknowlistview 설정 &gt; 도움말과 문의 &gt; 그거 아세요?">
+<div class="row"><button type="button" class="thumb" aria-label="그거 아세요? 모음 크게 보기"><img src="media/screens/DidYouKnowListView.jpg" alt="그거 아세요? 모음 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>그거 아세요? 모음<span class="kind k-screen">화면</span></h3>
+<p class="intent">그동안의 기능 팁을 모아서 다시 봅니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 도움말과 문의 <span class="sep" aria-hidden="true">›</span> 그거 아세요?</p>
+
+<p class="code"><span>DidYouKnowListView</span></p>
+</div></div></li><li class="node" id="s-AccessibilityGuideView" data-search="손쉬운 사용 앱이 지원하는 손쉬운 사용 기능을 안내합니다. accessibilityguideview 설정 &gt; 도움말과 문의 &gt; 손쉬운 사용">
+<div class="row"><button type="button" class="thumb" aria-label="손쉬운 사용 크게 보기"><img src="media/screens/AccessibilityGuideView.jpg" alt="손쉬운 사용 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>손쉬운 사용<span class="kind k-screen">화면</span></h3>
+<p class="intent">앱이 지원하는 손쉬운 사용 기능을 안내합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 도움말과 문의 <span class="sep" aria-hidden="true">›</span> 손쉬운 사용</p>
+
+<p class="code"><span>AccessibilityGuideView</span></p>
+</div></div></li><li class="node" id="s-ChangelogView" data-search="변경사항 버전별 업데이트 기록을 언제든 다시 봅니다. changelogview 설정 &gt; 도움말과 문의 &gt; 변경사항">
+<div class="row"><button type="button" class="thumb" aria-label="변경사항 크게 보기"><img src="media/screens/ChangelogView.jpg" alt="변경사항 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>변경사항<span class="kind k-screen">화면</span></h3>
+<p class="intent">버전별 업데이트 기록을 언제든 다시 봅니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 도움말과 문의 <span class="sep" aria-hidden="true">›</span> 변경사항</p>
+
+<p class="code"><span>ChangelogView</span></p>
+</div></div></li></ul></li><li class="node" id="s-AppInfoSettingsView" data-search="앱 정보 버전, 약관, 개인정보 처리방침 등 앱 정보를 봅니다. appinfosettingsview 설정 &gt; 앱 정보">
+<div class="row"><button type="button" class="thumb" aria-label="앱 정보 크게 보기"><img src="media/screens/AppInfoSettingsView.jpg" alt="앱 정보 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>앱 정보<span class="kind k-screen">화면</span></h3>
+<p class="intent">버전, 약관, 개인정보 처리방침 등 앱 정보를 봅니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 앱 정보</p>
+
+<p class="code"><span>AppInfoSettingsView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-MacAppIntroView" data-search="mac 버전 소개 같은 구매로 쓸 수 있는 mac 버전을 소개합니다. macappintroview 설정 &gt; 앱 정보 &gt; clipkeyboard for mac">
+<div class="row"><button type="button" class="thumb" aria-label="Mac 버전 소개 크게 보기"><img src="media/screens/MacAppIntroView.jpg" alt="Mac 버전 소개 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>Mac 버전 소개<span class="kind k-screen">화면</span></h3>
+<p class="intent">같은 구매로 쓸 수 있는 Mac 버전을 소개합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 앱 정보 <span class="sep" aria-hidden="true">›</span> ClipKeyboard for Mac</p>
+
+<p class="code"><span>MacAppIntroView</span></p>
+</div></div></li></ul></li><li class="node" id="s-FeedbackView" data-search="피드백 보내기 불편한 점이나 바라는 점을 개발자에게 보냅니다. feedbackview 설정 &gt; 피드백 보내기">
+<div class="row"><button type="button" class="thumb" aria-label="피드백 보내기 크게 보기"><img src="media/screens/FeedbackView.jpg" alt="피드백 보내기 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>피드백 보내기<span class="kind k-screen">화면</span></h3>
+<p class="intent">불편한 점이나 바라는 점을 개발자에게 보냅니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 피드백 보내기</p>
+
+<p class="code"><span>FeedbackView</span></p>
+</div></div></li><li class="node" id="s-ReviewWriteView" data-search="리뷰 남기기 앱이 마음에 들면 app store에 평점과 리뷰를 남깁니다. reviewwriteview 설정 &gt; 리뷰 남기기">
+<div class="row"><button type="button" class="thumb" aria-label="리뷰 남기기 크게 보기"><img src="media/screens/ReviewWriteView.jpg" alt="리뷰 남기기 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>리뷰 남기기<span class="kind k-screen">화면</span></h3>
+<p class="intent">앱이 마음에 들면 App Store에 평점과 리뷰를 남깁니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 리뷰 남기기</p>
+
+<p class="code"><span>ReviewWriteView</span></p>
+</div></div></li></ul></li></ul></section><section class="feature" id="f-data" data-feature="data"><header class="f-head"><h2>데이터와 백업</h2><p>내 단축어를 지키고 되살리는 곳입니다.</p><span class="count">화면 7개 · 깊이 3단계</span></header><ul class="tree"><li class="node" id="s-MyDataSettingsView" data-search="내 데이터 내 데이터의 백업, 동기화, 보안, 삭제를 관리합니다. mydatasettingsview 설정 &gt; 내 데이터">
+<div class="row"><button type="button" class="thumb" aria-label="내 데이터 크게 보기"><img src="media/screens/MyDataSettingsView.jpg" alt="내 데이터 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>내 데이터<span class="kind k-screen">화면</span></h3>
+<p class="intent">내 데이터의 백업, 동기화, 보안, 삭제를 관리합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 내 데이터</p>
+<p class="links"><span class="links-label">이어지는 곳</span><a href="#s-ClipboardList">클립보드 히스토리<small>클립보드와 빠른 메모</small></a></p>
+<p class="code"><span>MyDataSettingsView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-CloudBackupView" data-search="백업 및 복원 icloud나 파일로 단축어를 백업하고 되살립니다. cloudbackupview 설정 &gt; 내 데이터 &gt; 백업 및 복원">
+<div class="row"><button type="button" class="thumb" aria-label="백업 및 복원 크게 보기"><img src="media/screens/CloudBackupView.jpg" alt="백업 및 복원 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>백업 및 복원<span class="kind k-screen">화면</span></h3>
+<p class="intent">iCloud나 파일로 단축어를 백업하고 되살립니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 내 데이터 <span class="sep" aria-hidden="true">›</span> 백업 및 복원</p>
+
+<p class="code"><span>CloudBackupView</span></p>
+</div></div><ul class="kids"><li class="node" id="s-BackupVersionsView" data-search="버전에서 복원 지난 icloud 백업 가운데 한 시점을 골라 복원합니다. backupversionsview 백업 및 복원 &gt; 버전에서 복원">
+<div class="row"><button type="button" class="thumb" aria-label="버전에서 복원 크게 보기"><img src="media/screens/BackupVersionsView.jpg" alt="버전에서 복원 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>버전에서 복원<span class="kind k-screen">화면</span></h3>
+<p class="intent">지난 iCloud 백업 가운데 한 시점을 골라 복원합니다.</p>
+<p class="reach">백업 및 복원 <span class="sep" aria-hidden="true">›</span> 버전에서 복원</p>
+
+<p class="code"><span>BackupVersionsView</span></p>
+</div></div></li></ul></li><li class="node" id="s-MemoHistoryView" data-search="변경 기록 단축어의 최근 변경을 보고 원하는 시점으로 되돌립니다. memohistoryview 설정 &gt; 내 데이터 &gt; 변경 기록">
+<div class="row"><button type="button" class="thumb" aria-label="변경 기록 크게 보기"><img src="media/screens/MemoHistoryView.jpg" alt="변경 기록 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>변경 기록<span class="kind k-screen">화면</span></h3>
+<p class="intent">단축어의 최근 변경을 보고 원하는 시점으로 되돌립니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 내 데이터 <span class="sep" aria-hidden="true">›</span> 변경 기록</p>
+
+<p class="code"><span>MemoHistoryView</span></p>
+</div></div></li><li class="node" id="s-SecurePINSettings" data-search="보안 단축어 pin 키보드에서 보안 단축어를 열 때 쓸 pin을 정합니다. securepinsettings 설정 &gt; 내 데이터 &gt; 보안 단축어 pin">
+<div class="row"><button type="button" class="thumb" aria-label="보안 단축어 PIN 크게 보기"><img src="media/screens/SecurePINSettings.jpg" alt="보안 단축어 PIN 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>보안 단축어 PIN<span class="kind k-screen">화면</span></h3>
+<p class="intent">키보드에서 보안 단축어를 열 때 쓸 PIN을 정합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 내 데이터 <span class="sep" aria-hidden="true">›</span> 보안 단축어 PIN</p>
+
+<p class="code"><span>SecurePINSettings</span></p>
+</div></div><ul class="kids"><li class="node" id="s-SecurePINSetupView" data-search="보안 pin 설정 4자리 pin을 입력하고 확인해서 저장합니다. securepinsetupview 보안 단축어 pin &gt; 설정">
+<div class="row"><button type="button" class="thumb" aria-label="보안 PIN 설정 크게 보기"><img src="media/screens/SecurePINSetupView.jpg" alt="보안 PIN 설정 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>보안 PIN 설정<span class="kind k-sheet">시트</span></h3>
+<p class="intent">4자리 PIN을 입력하고 확인해서 저장합니다.</p>
+<p class="reach">보안 단축어 PIN <span class="sep" aria-hidden="true">›</span> 설정</p>
+
+<p class="code"><span>SecurePINSetupView</span></p>
+</div></div></li></ul></li></ul></li><li class="node" id="s-DataRecoveryView" data-search="복구 안내 저장 파일을 못 읽었을 때 안심시키고 복원 방법을 안내합니다. datarecoveryview 데이터 파일 손상 시 자동">
+<div class="row"><button type="button" class="thumb" aria-label="복구 안내 크게 보기"><img src="media/screens/DataRecoveryView.jpg" alt="복구 안내 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>복구 안내<span class="kind k-auto">자동</span></h3>
+<p class="intent">저장 파일을 못 읽었을 때 안심시키고 복원 방법을 안내합니다.</p>
+<p class="reach">데이터 파일 손상 시 자동</p>
+
+<p class="code"><span>DataRecoveryView</span></p>
+</div></div></li></ul></section><section class="feature" id="f-pro" data-feature="pro"><header class="f-head"><h2>Pro 결제</h2><p>무료 한도와 Pro를 설명하고 결제하는 곳입니다.</p><span class="count">화면 3개 · 깊이 1단계</span></header><ul class="tree"><li class="node" id="s-PaywallView" data-search="pro 업그레이드 무료 한도에 닿았을 때 pro 기능을 비교하고 구매합니다. paywallview 설정 &gt; pro 업그레이드, 한도 도달 시">
+<div class="row"><button type="button" class="thumb" aria-label="Pro 업그레이드 크게 보기"><img src="media/screens/PaywallView.jpg" alt="Pro 업그레이드 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>Pro 업그레이드<span class="kind k-sheet">시트</span></h3>
+<p class="intent">무료 한도에 닿았을 때 Pro 기능을 비교하고 구매합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> Pro 업그레이드, 한도 도달 시</p>
+
+<p class="code"><span>PaywallView</span></p>
+</div></div></li><li class="node" id="s-DiscountOfferView" data-search="반값 제안 한도에 막히기 전에 평생 이용권을 반값에 제안합니다. discountofferview 설치 직후 또는 한도 직전에 자동">
+<div class="row"><button type="button" class="thumb" aria-label="반값 제안 크게 보기"><img src="media/screens/DiscountOfferView.jpg" alt="반값 제안 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>반값 제안<span class="kind k-auto">자동</span></h3>
+<p class="intent">한도에 막히기 전에 평생 이용권을 반값에 제안합니다.</p>
+<p class="reach">설치 직후 또는 한도 직전에 자동</p>
+
+<p class="code"><span>DiscountOfferView</span></p>
+</div></div></li><li class="node" id="s-ProBenefitsView" data-search="내 pro 혜택 pro로 열린 기능을 실제로 얼마나 쓰는지 봅니다. probenefitsview 설정 &gt; pro 활성화됨">
+<div class="row"><button type="button" class="thumb" aria-label="내 Pro 혜택 크게 보기"><img src="media/screens/ProBenefitsView.jpg" alt="내 Pro 혜택 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>내 Pro 혜택<span class="kind k-screen">화면</span></h3>
+<p class="intent">Pro로 열린 기능을 실제로 얼마나 쓰는지 봅니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> Pro 활성화됨</p>
+
+<p class="code"><span>ProBenefitsView</span></p>
+</div></div></li></ul></section><section class="feature" id="f-guide" data-feature="guide"><header class="f-head"><h2>처음 쓰기와 알림</h2><p>처음 온 사람과 업데이트한 사람에게 저절로 뜨는 안내입니다.</p><span class="count">화면 4개 · 깊이 1단계</span></header><ul class="tree"><li class="node" id="s-TutorialWelcomeView" data-search="튜토리얼 환영 처음 온 사용자에게 써 보는 튜토리얼을 시작하게 합니다. tutorialwelcomeview 첫 실행 시 단축어 탭">
+<div class="row"><button type="button" class="thumb" aria-label="튜토리얼 환영 크게 보기"><img src="media/screens/TutorialWelcomeView.jpg" alt="튜토리얼 환영 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>튜토리얼 환영<span class="kind k-auto">자동</span></h3>
+<p class="intent">처음 온 사용자에게 써 보는 튜토리얼을 시작하게 합니다.</p>
+<p class="reach">첫 실행 시 단축어 탭</p>
+
+<p class="code"><span>TutorialWelcomeView</span></p>
+</div></div></li><li class="node" id="s-WhatsNewView" data-search="새로운 기능 업데이트 직후 한 번, 새로 생긴 기능을 알려줍니다. whatsnewview 업데이트 후 첫 실행 시 자동">
+<div class="row"><button type="button" class="thumb" aria-label="새로운 기능 크게 보기"><img src="media/screens/WhatsNewView.jpg" alt="새로운 기능 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>새로운 기능<span class="kind k-auto">자동</span></h3>
+<p class="intent">업데이트 직후 한 번, 새로 생긴 기능을 알려줍니다.</p>
+<p class="reach">업데이트 후 첫 실행 시 자동</p>
+
+<p class="code"><span>WhatsNewView</span></p>
+</div></div></li><li class="node" id="s-DidYouKnowView" data-search="그거 아세요? 잘 모르는 기능 하나를 짧게 알려줍니다. didyouknowview 앱 사용 중 자동으로 작게 뜸">
+<div class="row"><button type="button" class="thumb" aria-label="그거 아세요? 크게 보기"><img src="media/screens/DidYouKnowView.jpg" alt="그거 아세요? 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>그거 아세요?<span class="kind k-auto">자동</span></h3>
+<p class="intent">잘 모르는 기능 하나를 짧게 알려줍니다.</p>
+<p class="reach">앱 사용 중 자동으로 작게 뜸</p>
+
+<p class="code"><span>DidYouKnowView</span></p>
+</div></div></li><li class="node" id="s-CategoryCleanupNotice" data-search="카테고리 정리 불어난 카테고리를 알려주고 정리할 곳으로 안내합니다. categorycleanupnotice 카테고리가 많아졌을 때 자동">
+<div class="row"><button type="button" class="thumb" aria-label="카테고리 정리 크게 보기"><img src="media/screens/CategoryCleanupNotice.jpg" alt="카테고리 정리 화면" loading="lazy" width="360" height="783"></button><div class="info">
+<h3>카테고리 정리<span class="kind k-auto">자동</span></h3>
+<p class="intent">불어난 카테고리를 알려주고 정리할 곳으로 안내합니다.</p>
+<p class="reach">카테고리가 많아졌을 때 자동</p>
+
+<p class="code"><span>CategoryCleanupNotice</span></p>
+</div></div></li></ul></section><section class="feature" id="f-dev" data-feature="dev"><header class="f-head"><h2>개발자 도구</h2><p>마스터 모드에서만 보이는, 만드는 사람을 위한 화면입니다.</p><span class="count">화면 4개 · 깊이 1단계</span></header><ul class="tree"><li class="node" id="s-FeedbackInboxView" data-search="접수된 피드백 사용자가 보낸 피드백을 모아 봅니다. feedbackinboxview 설정 &gt; 접수된 피드백 (마스터 모드)">
+<div class="row"><div class="thumb none" title="내부 숫자가 찍혀 있어 공개판에서는 캡처를 뺐습니다."><span>캡처<br>없음</span></div><div class="info">
+<h3>접수된 피드백<span class="kind k-screen">화면</span></h3>
+<p class="intent">사용자가 보낸 피드백을 모아 봅니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 접수된 피드백 (마스터 모드)</p>
+<p class="why">내부 숫자가 찍혀 있어 공개판에서는 캡처를 뺐습니다.</p>
+<p class="code"><span>FeedbackInboxView</span></p>
+</div></div></li><li class="node" id="s-UsageStatsView" data-search="사용 통계 사용자 수와 이벤트 통계를 확인합니다. usagestatsview 설정 &gt; 사용 통계 (마스터 모드)">
+<div class="row"><div class="thumb none" title="내부 숫자가 찍혀 있어 공개판에서는 캡처를 뺐습니다."><span>캡처<br>없음</span></div><div class="info">
+<h3>사용 통계<span class="kind k-screen">화면</span></h3>
+<p class="intent">사용자 수와 이벤트 통계를 확인합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 사용 통계 (마스터 모드)</p>
+<p class="why">내부 숫자가 찍혀 있어 공개판에서는 캡처를 뺐습니다.</p>
+<p class="code"><span>UsageStatsView</span></p>
+</div></div></li><li class="node" id="s-CrashReportsView" data-search="안정성 버전별 크래시 진단을 확인합니다. crashreportsview 설정 &gt; 안정성 (마스터 모드)">
+<div class="row"><div class="thumb none" title="내부 숫자가 찍혀 있어 공개판에서는 캡처를 뺐습니다."><span>캡처<br>없음</span></div><div class="info">
+<h3>안정성<span class="kind k-screen">화면</span></h3>
+<p class="intent">버전별 크래시 진단을 확인합니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 안정성 (마스터 모드)</p>
+<p class="why">내부 숫자가 찍혀 있어 공개판에서는 캡처를 뺐습니다.</p>
+<p class="code"><span>CrashReportsView</span></p>
+</div></div></li><li class="node" id="s-UserStageSimulatorView" data-search="사용 단계 흉내 앱을 특정 사용 단계의 모습으로 바꿔 봅니다. userstagesimulatorview 설정 &gt; 사용 단계 흉내 (마스터 모드)">
+<div class="row"><div class="thumb none" title="내부 숫자가 찍혀 있어 공개판에서는 캡처를 뺐습니다."><span>캡처<br>없음</span></div><div class="info">
+<h3>사용 단계 흉내<span class="kind k-screen">화면</span></h3>
+<p class="intent">앱을 특정 사용 단계의 모습으로 바꿔 봅니다.</p>
+<p class="reach">설정 <span class="sep" aria-hidden="true">›</span> 사용 단계 흉내 (마스터 모드)</p>
+<p class="why">내부 숫자가 찍혀 있어 공개판에서는 캡처를 뺐습니다.</p>
+<p class="code"><span>UserStageSimulatorView</span></p>
+</div></div></li></ul></section>
+    <p class="nomatch" id="nomatch" hidden>맞는 화면이 없습니다. 다른 말로 찾아 보세요.</p>
+  </main>
+</div>
+
+<dialog id="dlg" aria-label="크게 보기">
+  <img id="dlg-img" alt="">
+  <div class="dlg-cap"><span id="dlg-cap"></span><button type="button" class="close" id="dlg-close">닫기</button></div>
+</dialog>
+
+<script>
+(function(){
+  var q=document.getElementById('q'), none=document.getElementById('nomatch');
+  var features=[].slice.call(document.querySelectorAll('.feature'));
+  function filterNode(li,term){
+    var self=!term||li.dataset.search.indexOf(term)>-1;
+    var kids=li.querySelector(':scope > .kids');
+    var any=false;
+    if(kids){ [].forEach.call(kids.children,function(c){ if(filterNode(c,term)) any=true; }); }
+    var show=self||any;
+    li.hidden=!show;
+    return show;
+  }
+  function apply(){
+    var term=(q.value||'').trim().toLowerCase(), total=0;
+    features.forEach(function(f){
+      var n=0;
+      [].forEach.call(f.querySelector('.tree').children,function(li){ if(filterNode(li,term)) n++; });
+      f.hidden=n===0; total+=n;
+    });
+    none.hidden=total>0;
+  }
+  q.addEventListener('input',apply);
+
+  var dlg=document.getElementById('dlg'), dimg=document.getElementById('dlg-img'), dcap=document.getElementById('dlg-cap');
+  document.getElementById('list').addEventListener('click',function(ev){
+    var b=ev.target.closest('.thumb'); if(!b||b.classList.contains('none')) return;
+    var img=b.querySelector('img'), row=b.closest('.row');
+    dimg.src=img.src; dimg.alt=img.alt; dcap.textContent=row.querySelector('h3').firstChild.textContent;
+    if(dlg.showModal) dlg.showModal();
+  });
+  document.getElementById('dlg-close').addEventListener('click',function(){dlg.close();});
+  dlg.addEventListener('click',function(ev){ if(ev.target===dlg) dlg.close(); });
+})();
+</script>
+
+</body>
+</html>
