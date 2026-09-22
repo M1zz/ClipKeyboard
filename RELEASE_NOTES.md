@@ -22,6 +22,7 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 목록 맨 위에서 나에게 꼭 필요한 단축어 세 가지를 빈칸만 채워 만들 수 있어요.
 계좌, 송금 정보, 명함, 학번처럼 불쑥 묻는 것은 키보드 빠른 줄 같은 자리에 늘 있어요.
 설정의 나에게 맞추기에서 먼저 챙겨 드리는 세 가지를 볼 수 있어요.
+시, 분, 초를 따로 넣어 {시}:{분}:{초} 처럼 원하는 모양으로 적을 수 있어요.
 ```
 
 ### App Store (English)
@@ -30,6 +31,7 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 Create the three snippets you need most right from the top of your list, just fill in the blanks.
 Things people ask for out of the blue, like your bank account, payment details or student ID, always sit in the same spot on the keyboard quick row.
 See the three things we set up first for you in Settings under Fit to Me.
+Insert the hour, minute, and second separately, like {hour}:{minute}:{second}.
 ```
 
 ### 앱스토어 (중국어 간체)
@@ -38,6 +40,7 @@ See the three things we set up first for you in Settings under Fit to Me.
 在列表顶部填好空格，就能创建你最需要的三条短语。
 银行账户、收款信息、名片、学号这类随时会被问到的内容，会一直固定在键盘快捷栏的同一位置。
 在设置的为我调整中，可以看到优先为你准备的三项。
+时、分、秒可以分别插入，按 {hour}:{minute}:{second} 这样随意排列。
 ```
 
 ### 앱스토어 (중국어 번체)
@@ -46,6 +49,7 @@ See the three things we set up first for you in Settings under Fit to Me.
 在列表頂部填好空格，就能建立你最需要的三條短語。
 銀行帳戶、收款資訊、名片、學號這類隨時會被問到的內容，會一直固定在鍵盤快捷列的同一位置。
 在設定的為我調整中，可以看到優先為你準備的三項。
+時、分、秒可以分別插入，依 {hour}:{minute}:{second} 這樣隨意排列。
 ```
 
 ### 앱스토어 (러시아어)
@@ -54,6 +58,7 @@ See the three things we set up first for you in Settings under Fit to Me.
 Создавайте три самые нужные фразы прямо в начале списка, просто заполнив поля.
 То, что спрашивают внезапно, например номер счёта, платёжные данные или номер студенческого, всегда стоит на одном месте в быстрой строке клавиатуры.
 В настройках, в разделе Под меня, видно три вещи, которые мы готовим для вас первыми.
+Часы, минуты и секунды можно вставлять по отдельности, например {hour}:{minute}:{second}.
 ```
 
 ## 5.1.4
