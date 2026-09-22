@@ -464,6 +464,10 @@ enum TemplateVariableProcessor {
             "{연도}", "{year}",
             "{월}", "{month}",
             "{일}", "{day}",
+            // 시·분·초를 따로. `{시간}` 모양을 바꾸지 않고 원하는 대로 짜 맞추게 한다.
+            "{시}", "{hour}",
+            "{분}", "{minute}",
+            "{초}", "{second}",
             // v4.0 global
             "{timezone}", "{타임존}",
             "{timezone_offset}",
@@ -527,6 +531,10 @@ enum TemplateVariableProcessor {
         let year = String(calendar.component(.year, from: reference))
         let month = String(format: "%02d", calendar.component(.month, from: reference))
         let day = String(format: "%02d", calendar.component(.day, from: reference))
+        // 24시간제, 두 자리. `{hour}:{minute}:{second}` 가 언제나 같은 폭으로 찍힌다.
+        let hour = String(format: "%02d", calendar.component(.hour, from: reference))
+        let minute = String(format: "%02d", calendar.component(.minute, from: reference))
+        let second = String(format: "%02d", calendar.component(.second, from: reference))
 
         // 날짜 모양은 사람이 고른다. 고른 적이 없으면 언어·지역에 맞춰 알아서
         // (`DateTokenFormat` 머리말 참고 - 미국은 08/31/2026, 한국은 2026-08-31).
@@ -540,12 +548,18 @@ enum TemplateVariableProcessor {
         let yearTokens: [String] = ["{연도}", "{year}"]
         let monthTokens: [String] = ["{월}", "{month}"]
         let dayTokens: [String] = ["{일}", "{day}"]
+        let hourTokens: [String] = ["{시}", "{hour}"]
+        let minuteTokens: [String] = ["{분}", "{minute}"]
+        let secondTokens: [String] = ["{초}", "{second}"]
 
         for token in dateTokens { result = result.replacingOccurrences(of: token, with: dateText) }
         for token in timeTokens { result = result.replacingOccurrences(of: token, with: timeText) }
         for token in yearTokens { result = result.replacingOccurrences(of: token, with: year) }
         for token in monthTokens { result = result.replacingOccurrences(of: token, with: month) }
         for token in dayTokens { result = result.replacingOccurrences(of: token, with: day) }
+        for token in hourTokens { result = result.replacingOccurrences(of: token, with: hour) }
+        for token in minuteTokens { result = result.replacingOccurrences(of: token, with: minute) }
+        for token in secondTokens { result = result.replacingOccurrences(of: token, with: second) }
 
         // Timezone identifier (e.g. "Asia/Seoul")
         let groupDefaults = AppGroup.defaults

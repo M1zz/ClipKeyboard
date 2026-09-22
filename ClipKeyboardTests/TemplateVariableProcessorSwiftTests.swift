@@ -62,6 +62,18 @@ struct TemplateVariableProcessorSwiftTests {
         #expect(out == "2026.03.07")
     }
 
+    @Test("{시}/{분}/{초}와 영어 철자가 각각 두 자리로 치환된다")
+    func hmsTokens() {
+        let out = TemplateVariableProcessor.process("{hour}:{minute}:{second} {시}시 {분}분 {초}초", at: fixedDate())
+        #expect(out == "09:05:03 09시 05분 03초")
+    }
+
+    @Test("{시}/{분}/{초}는 채워야 할 빈칸으로 잡히지 않는다")
+    func hmsTokensAreNotCustom() {
+        let tokens = TemplateVariableProcessor.extractCustomTokens(in: "{hour}:{minute}:{second} {시}{분}{초} {이름}")
+        #expect(tokens == ["{이름}"])
+    }
+
     @Test("사용자 정의 토큰은 자동 치환에서 그대로 남는다")
     func customTokensUntouchedByProcess() {
         let out = TemplateVariableProcessor.process("{이름}님 {금액}원", at: fixedDate())
