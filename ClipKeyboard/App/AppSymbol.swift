@@ -62,6 +62,7 @@ enum AppSymbol {
     static let docOnDoc = "doc.on.doc"
     static let docPlaintext = "doc.plaintext"
     static let docText = "doc.text"
+    static let ellipsis = "ellipsis"
     static let ellipsisCircle = "ellipsis.circle"
     static let envelopeBadge = "envelope.badge"
     /// 문질러 담기 - 잘못 담은 글자를 빼는 지우개.

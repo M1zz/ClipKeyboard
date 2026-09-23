@@ -430,7 +430,7 @@ struct KeyboardView: View {
     /// 숫자 판을 펼쳐 두었는가. **기억하지 않는다** - 키보드가 뜰 때마다 단축어 판부터다.
     /// 숫자는 잠깐 쓰고 마는 것이라, 다음에 열었을 때도 숫자 판이면 단축어를 찾다 당황한다.
     @State private var showsNumberPad = false
-    /// 위줄 오른쪽 조작 키를 펼쳐 두었는가. **기억하지 않는다** - 키보드가 뜰 때마다 X 하나로 접혀 있다.
+    /// 위줄 오른쪽 조작 키를 펼쳐 두었는가. **기억하지 않는다** - 키보드가 뜰 때마다 … 하나로 접혀 있다.
     /// (사용자 요청: "카테고리 오른쪽 버튼들은 기본적으로 X 만 보여주고 눌렀을 때 늘어나게")
     @State private var controlKeysExpanded = false
     @State private var clipboardPickerText: String?
@@ -965,7 +965,7 @@ struct KeyboardView: View {
     /// 간격은 여기 한 곳에서 정한다(`controlKeySpacing`). 키들은 저마다 44pt 손가락 자리를
     /// 갖고 있어서, 사이는 그 자리들이 맞닿는 만큼으로 고르게 벌어진다.
     ///
-    /// 실제 키보드에서는 **X 하나로 접혀 뜬다.** 누르면 펼쳐지고, 맨 앞의 화살표로 다시 접는다.
+    /// 실제 키보드에서는 **… 하나로 접혀 뜬다.** 누르면 펼쳐지고, 맨 앞의 화살표로 다시 접는다.
     /// 접혀 있는 동안 카테고리 탭이 그만큼 넓게 쓴다.
     @ViewBuilder
     private var controlKeyCluster: some View {
@@ -986,15 +986,17 @@ struct KeyboardView: View {
     ///    접혀 있으면 짚을 키가 없다.
     private var collapsesControlKeys: Bool { hostKind == .keyboardExtension }
 
-    /// 접혀 있을 때 홀로 서는 X. 누르면 **지우지 않고** 조작 키를 펼친다.
+    /// 접혀 있을 때 홀로 서는 '더 보기'(…). 누르면 조작 키를 펼친다.
     ///
-    /// ⚠️ 펼친 뒤의 X 는 예전처럼 전체 삭제다. 첫 탭은 펼치기뿐이라 글이 한 번에 날아가지 않는다.
+    /// ⚠️ 예전에는 여기에 X 를 세웠다. X 는 누구에게나 '닫기·지우기' 로 읽히는데
+    ///    눌러 보면 키가 **더 나왔다.** 말과 하는 일이 반대였다. 숨은 것이 더 있다는
+    ///    뜻은 … 이 가장 흔하게 통한다. 펼친 뒤의 X 는 예전처럼 전체 삭제다.
     private var expandControlKeysButton: some View {
         Button {
             KeyboardHaptics.tap()
             withAnimation(.easeOut(duration: 0.18)) { controlKeysExpanded = true }
         } label: {
-            Image(systemName: AppSymbol.xmarkCircle)
+            Image(systemName: AppSymbol.ellipsis)
                 .font(.system(size: controlKeyIconSize, weight: .semibold))
                 .foregroundColor(theme.textMuted)
                 .frame(width: controlKeyWidth(36), height: controlKeyHeight)
@@ -1844,6 +1846,9 @@ struct KeyboardView: View {
             }
             .padding(.horizontal, 8)
         }
+        // ⚠️ iOS 26 은 가로 스크롤 가장자리에 흐림(scroll edge effect)을 깐다. 이 줄은
+        //    높이가 28pt 남짓이라 그 흐림이 **줄 전체를 덮어** 탭 글자가 뭉개져 보였다.
+        .scrollEdgeEffectHidden(true, for: .all)
     }
 
     /// 카테고리 페이지 키에 표시할 짧은 라벨.
@@ -1873,6 +1878,8 @@ struct KeyboardView: View {
             }
             .padding(.horizontal, 12)
         }
+        // 카테고리 탭 줄과 같은 이유(가장자리 흐림이 낮은 줄을 통째로 덮는다).
+        .scrollEdgeEffectHidden(true, for: .all)
         .padding(.vertical, 2)
     }
 
