@@ -1822,6 +1822,14 @@ struct ClipKeyboardList: View {
         let binding = Binding<CategoryTab>(
             get: { viewModel.selectedCategoryTab },
             set: { newTab in
+                // 같은 페이지로 다시 들어오는 호출은 넘긴 것이 아니다 - 톡 하지 않는다.
+                guard newTab != viewModel.selectedCategoryTab else { return }
+                // ⚠️ **손으로 페이지를 옮기면 언제나 같은 톡 하나.** 칩을 눌러도, 옆으로
+                //    넘겨도, 끝에서 반대쪽 끝으로 돌아가도 `selection` 이다. 예전에는 칩만
+                //    톡 했고 넘기기는 조용해서, 페이지에 따라 햅틱이 있다 없다 했다.
+                //    앱이 스스로 옮기는 것(저장한 단축어 보여 주기 · 마지막 탭 복원)은
+                //    이 길을 안 지나므로 조용하다.
+                HapticManager.shared.selection()
                 // 손가락이 이미 페이지를 옮겨 놓았다. 여기서 또 애니메이션하면
                 // SwiftUI 가 전이를 한 번 더 걸어 카드가 흐려졌다 돌아온다.
                 // (자세한 이유와 실측: `selectCategoryTab(_:animated:)`)
@@ -1890,7 +1898,8 @@ struct ClipKeyboardList: View {
                     let idx = started ?? viewModel.selectedCategoryIndex
                     if h > 0, idx == 0 {
                         // 첫 탭에서 오른쪽 스와이프 → 마지막 탭으로
-                        HapticManager.shared.light()
+                        // 페이지를 옮기는 톡은 어느 길로 가든 `selection` 하나다(위 binding 참고).
+                        HapticManager.shared.selection()
                         viewModel.selectCategoryTab(tabs[tabs.count - 1])
                     } else if h < 0, idx == tabs.count - 1 {
                         // 마지막 탭에서 더 왼쪽(없는 페이지 방향) → 카테고리 생성 제안
