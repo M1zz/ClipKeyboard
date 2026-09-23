@@ -1228,7 +1228,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         showTemplateInputSheet = false
     }
 
-    func finalizeCopy(memo: Memo, processedValue: String, showToastAfter: Bool = true) {
+    func finalizeCopy(memo: Memo, processedValue: String) {
         #if os(iOS)
         let imageFileName: String? = (memo.contentType == .image || memo.contentType == .mixed)
             ? (memo.imageFileNames.first ?? memo.imageFileName)
@@ -1247,8 +1247,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 }
                 UIPasteboard.general.items = [item]
                 print("✅ [finalizeCopy] 이미지를 클립보드에 복사: \(imageFileName) (\(data.count) bytes)")
-                // 이미지 메모 탭 시 복사됨 안내 토스트.
-                showPlainToast(NSLocalizedString("이미지가 복사되었습니다", comment: "Image copied toast"))
             } else {
                 // 파일이 사라졌거나 아직 안 내려왔다. 예전에는 여기서 **아무 말도 없이**
                 // 아무 일도 안 했다 - 눌렀는데 조용하면 앱이 고장 난 것으로 읽힌다.
@@ -1280,24 +1278,20 @@ final class ClipKeyboardListViewModel: ObservableObject {
         // 첫 복사 시 KeyboardTip 표시 조건 충족
         KeyboardTip.hasCopiedMemo = true
 
-        // 청각 장애 접근성: 시각적 토스트를 놓쳐도 복사 완료를 인지할 수 있도록 success 햅틱
+        // 복사됐다는 대답은 셋이 나눠 맡는다. 토스트는 쓰지 않는다.
+        //  - 눈: 누른 카드 위의 "복사됨" 도장 (`ClipKeyboardList.stampCopied`, `.memoUsed` 로 온다)
+        //  - 손: success 햅틱 (도장을 못 본 사람도 안다)
+        //  - 귀: VoiceOver 안내 (도장은 보이지 않는다)
         #if os(iOS)
         HapticManager.shared.success()
+        if UIAccessibility.isVoiceOverRunning {
+            let msg = String(format: NSLocalizedString("%@ 복사됨", comment: "VoiceOver: copied announcement"), memo.title)
+            UIAccessibility.post(notification: .announcement, argument: msg)
+        }
         #endif
-
-        // 콤보처럼 자체 미리보기 시트를 띄우는 경우엔 중복 토스트를 생략한다.
-        guard showToastAfter else { return }
-        let message = memo.contentType == .image
-            ? NSLocalizedString("이미지", comment: "Image")
-            : processedValue
-        showToastMessage(message)
     }
 
     // MARK: - Toast
-
-    func showToastMessage(_ message: String) {
-        showPlainToast(String(format: NSLocalizedString("[%@] 이 복사되었습니다.", comment: "Copied toast message"), message))
-    }
 
     /// 포맷 없이 메시지를 그대로 토스트로 표시(예: 이미지 복사 안내).
     func showPlainToast(_ message: String) {

@@ -663,6 +663,34 @@ struct SwipePageIndicator: View {
 }
 
 
+// MARK: - Copied Stamp
+
+/// 목록 카드 위에 잠깐 얹는 "복사됨". 토스트를 대신한다(`ClipKeyboardList.stampCopied`).
+///
+/// ⚠️ 카드 **전체를 덮는다.** 제목 옆에 작게 붙이면 카드마다 색이 달라 어떤 카드에서는
+///    묻혔고, 내용과 겹치면 둘 다 안 읽힌다. 같은 자리를 잠깐 빌렸다 돌려준다(동전과 같은 원칙).
+struct CopiedStamp: View {
+    let cornerRadius: CGFloat
+
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+            .fill(theme.accent)
+            .overlay {
+                VStack(spacing: 6) {
+                    Image(systemName: AppSymbol.checkmarkCircleFill)
+                        .font(.title.weight(.semibold))
+                    Text(NSLocalizedString("복사됨", comment: "Widget: copied confirmation"))
+                        .font(.headline)
+                }
+                .foregroundStyle(Color.accentForeground)
+            }
+            // 소리 내 읽는 것은 `finalizeCopy` 의 안내가 한다. 여기까지 읽으면 두 번 말한다.
+            .accessibilityHidden(true)
+    }
+}
+
 // MARK: - Memo Type Filter Bar
 
 struct FilterExpandChip: View {

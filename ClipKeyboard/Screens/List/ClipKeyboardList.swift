@@ -103,6 +103,10 @@ struct ClipKeyboardList: View {
     /// 방금 일한 카드 - 테두리가 잠깐 켜진다. 동전·보석이 날아간 **뒤에**
     /// "이 카드가 방금 일했다"를 뒤따라 말해 준다.
     @State private var glowMemoID: UUID?
+    /// 지금 "복사됨" 도장을 얹고 있는 카드. 토스트 대신 **누른 그 자리**에서 알린다.
+    @State private var copiedStampMemoID: UUID?
+    /// 시트가 떠 있는 동안 쓴 카드. 시트가 닫힌 뒤 도장을 찍는다(동전과 같은 이유).
+    @State private var pendingCopiedStamp: UUID?
     /// 지금 막 깨지고 있는 지오드. 부서진 모습을 잠깐 붙잡아 둔다
     /// 곧장 새 돌로 넘어가면 무엇이 나왔는지 못 보고 지나간다.
     @State private var burstingMemoID: UUID?
@@ -770,7 +774,12 @@ struct ClipKeyboardList: View {
             // 시트가 다 닫히면 기다리던 동전을 날린다. 닫히는 애니메이션이 끝나야
             // 동전이 시트 뒤에서 튀어나오는 것처럼 보이지 않는다.
             .onChange(of: anyModalUp) { _, isUp in
-                guard !isUp, let pending = pendingDeposit else { return }
+                guard !isUp else { return }
+                if let stamp = pendingCopiedStamp {
+                    pendingCopiedStamp = nil
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { stampCopied(stamp) }
+                }
+                guard let pending = pendingDeposit else { return }
                 pendingDeposit = nil
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                     showCoinThenFly(memoID: pending.memoID,
@@ -1427,6 +1436,13 @@ struct ClipKeyboardList: View {
                 .opacity(glowMemoID == memo.id ? 1 : 0)
                 .allowsHitTesting(false)
         }
+        // 복사됨 도장. 테두리와 같은 이유로 끼웠다 빼지 않고 불투명도만 바꾼다.
+        .overlay {
+            CopiedStamp(cornerRadius: theme.radiusXl)
+                .opacity(copiedStampMemoID == memo.id ? 1 : 0)
+                .scaleEffect(copiedStampMemoID == memo.id || reduceMotion ? 1 : 0.92)
+                .allowsHitTesting(false)
+        }
         // 코치가 가리킬 카드의 자리를 알려준다 - 안내를 화면 아래에 고정해 두면
         // 무엇을 누르라는 건지 이어지지 않는다.
         .background(
@@ -1452,12 +1468,8 @@ struct ClipKeyboardList: View {
             lastTapPoint = location
             viewModel.copyMemo(memo: memo)
             checkCategoryBadgeNudge()
-            #if os(iOS)
-            if UIAccessibility.isVoiceOverRunning {
-                let msg = String(format: NSLocalizedString("%@ 복사됨", comment: "VoiceOver: copied announcement"), memo.title)
-                UIAccessibility.post(notification: .announcement, argument: msg)
-            }
-            #endif
+            // VoiceOver 안내는 복사가 **확정될 때** 한다(`finalizeCopy`). 여기서 하면
+            // 템플릿·스택처럼 시트만 뜨는 경로에서도 "복사됨" 이라고 말해 버린다.
         }
         .accessibilityElement(children: .ignore)
         .accessibilityAddTraits(.isButton)
@@ -1582,6 +1594,11 @@ struct ClipKeyboardList: View {
         guard let memoID = note.userInfo?[MemoUsedKey.memoID] as? UUID else { return }
 
         if livingSkin == .geode { handleGeodeUse(memoID: memoID) }
+        // 금고 스킨은 카드가 내용 대신 **동전**을 보여 주는 것이 곧 "썼다" 는 대답이다.
+        // 같은 자리에 도장까지 찍으면 둘 다 안 읽힌다.
+        if livingSkin != .vault {
+            if anyModalUp { pendingCopiedStamp = memoID } else { stampCopied(memoID) }
+        }
         lightUpCard(memoID)
 
         // 가리키던 카드를 실제로 눌렀다 → 안내를 거둔다. 배운 것은 여기서 끝난다.
@@ -1605,6 +1622,27 @@ struct ClipKeyboardList: View {
         }
         showCoinThenFly(memoID: memoID, seconds: seconds, from: lastTapPoint)
     }
+
+    /// 카드 위에 "복사됨" 을 잠깐 얹는다. 목록에서 복사를 알리는 **유일한 시각 신호**다.
+    ///
+    /// ⚠️ 예전에는 화면 아래에 토스트("[값] 이 복사되었습니다")를 띄웠다. 눈은 누른 카드에
+    ///    있는데 대답은 화면 바닥에서 왔고, 3초 동안 탭바를 가렸다. 대답은 누른 자리에서 한다.
+    /// ⚠️ 동작 줄이기·연출 끄기에서도 **찍는다.** 이건 연출이 아니라 대답이다.
+    ///    움직임(커지며 나타나기)만 뺀다.
+    private func stampCopied(_ memoID: UUID) {
+        withAnimation(reduceMotion ? nil : .spring(response: 0.28, dampingFraction: 0.7)) {
+            copiedStampMemoID = memoID
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.copiedStampDwell) {
+            // 그 사이 다른 카드를 눌렀으면 그쪽이 주인이다 - 뺏지 않는다.
+            if copiedStampMemoID == memoID {
+                withAnimation(reduceMotion ? nil : .easeIn(duration: 0.2)) { copiedStampMemoID = nil }
+            }
+        }
+    }
+
+    /// 도장이 머무는 시간(초). 읽을 만큼만 - 길면 다음 카드를 누르는 손을 붙잡는다.
+    private static let copiedStampDwell: Double = 0.9
 
     /// 방금 쓴 카드의 테두리를 1초 뒤에 켰다가 서서히 끈다.
     ///
