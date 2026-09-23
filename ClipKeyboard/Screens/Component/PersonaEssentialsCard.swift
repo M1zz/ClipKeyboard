@@ -29,11 +29,18 @@ struct PersonaEssentialsCardContainer: View {
     @State private var coverage: [String: UUID] = [:]
     @State private var dismissedKinds: Set<PersonaEdition.Kind> = PersonaEditionStore.dismissed
     @State private var picked: PersonaEdition.Essential?
+    /// 칸을 한 번이라도 세어 보았는가. 세기 전에는 카드를 세우지 않는다.
+    ///
+    /// ⚠️ 이 카드는 **페이지마다 하나씩** 새로 지어진다. 지어진 첫 순간에는 `coverage` 가
+    ///    빈 사전이라 무조건 0/3 으로 읽혀 카드가 섰고, 곧바로 세어 보니 3/3 이라 도로
+    ///    물러났다. 그 사이 아래 격자가 카드 높이만큼 내려갔다 올라왔고, 물러나는 카드가
+    ///    격자 위에 겹쳐 보였다(신고: 다 채운 뒤 카테고리를 넘기면 화면이 어긋난다).
+    @State private var didCompute = false
 
     private var essentials: [PersonaEdition.Essential] { PersonaEdition.essentials(for: kind) }
 
     private var isShowing: Bool {
-        PersonaEdition.showsShelf(PersonaEdition.ShelfContext(
+        didCompute && PersonaEdition.showsShelf(PersonaEdition.ShelfContext(
             kind: kind,
             covered: essentials.filter { coverage[$0.id] != nil }.count,
             total: essentials.count,
@@ -81,10 +88,20 @@ struct PersonaEssentialsCardContainer: View {
     }
 
     private func recompute() {
-        kind = PersonaEditionStore.currentKind
-        coverage = PersonaEditionStore.coverage(memos: memos,
-                                                sampleIDs: ProFeatureManager.sampleMemoIds,
-                                                kind: kind)
+        let newKind = PersonaEditionStore.currentKind
+        let newCoverage = PersonaEditionStore.coverage(memos: memos,
+                                                       sampleIDs: ProFeatureManager.sampleMemoIds,
+                                                       kind: newKind)
+        // 처음 세는 것은 **움직임 없이** 받는다. 카드가 있어야 할 사람에게는 처음부터
+        // 서 있던 것으로, 없어야 할 사람에게는 처음부터 없던 것으로 보여야 한다.
+        // 그 뒤의 변화(칸이 참 · 다 차서 물러남)만 애니메이션한다.
+        var transaction = Transaction()
+        transaction.disablesAnimations = !didCompute
+        withTransaction(transaction) {
+            kind = newKind
+            coverage = newCoverage
+            didCompute = true
+        }
     }
 
     private func pick(_ essential: PersonaEdition.Essential) {
