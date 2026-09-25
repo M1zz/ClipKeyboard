@@ -93983,6 +93983,325 @@
           }
         }
       }
+    },
+    "최근 30일 설치" : {
+      "comment" : "Activation funnel: last 30 days",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last 30 days"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установки за 30 дней"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近 30 天安装"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近 30 天安裝"
+          }
+        }
+      }
+    },
+    "전체 설치" : {
+      "comment" : "Activation funnel: all installs",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All installs"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все установки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部安装"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部安裝"
+          }
+        }
+      }
+    },
+    "아직 새 지표를 보낸 설치가 없어요. 이 버전을 연 기기부터 쌓여요." : {
+      "comment" : "Activation funnel empty state",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No install has sent the new metrics yet. They build up from devices that open this version."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новые показатели ещё не пришли ни с одной установки. Они появятся с устройств, открывших эту версию."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有安装发送新指标。从打开此版本的设备开始累积。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還沒有安裝傳送新指標。從開啟此版本的裝置開始累積。"
+          }
+        }
+      }
+    },
+    "꺼내 쓴 설치" : {
+      "comment" : "Activation: reached value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used a snippet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Использовали фразу"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "实际用过短语的安装"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實際用過短語的安裝"
+          }
+        }
+      }
+    },
+    "그중 키보드 없이 앱에서만" : {
+      "comment" : "Activation: reached value without keyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Of those, in the app only"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Из них только в приложении"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中只在应用内使用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其中只在 App 內使用"
+          }
+        }
+      }
+    },
+    "키보드에 닿기까지" : {
+      "comment" : "Usage stats section: activation funnel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getting to the keyboard"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Путь до клавиатуры"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "走到键盘这一步"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "走到鍵盤這一步"
+          }
+        }
+      }
+    },
+    "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요." : {
+      "comment" : "Activation funnel footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each step is counted on its own. Enabled but never appeared means it hasn't been brought up yet, or it was used without Full Access so no trace was left. Used a snippet counts anyone who actually used one, by keyboard or by copying in the app. %d older records without the new metrics are left out."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Каждый шаг считается отдельно. Если клавиатуру включили, но она не появлялась, её ещё не вызывали или пользовались без полного доступа, и следа не осталось. «Использовали фразу» включает всех, кто реально пользовался фразами: с клавиатуры или копированием в приложении. Старые записи без новых показателей (%d) исключены."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每一步单独统计。启用了却没出现过，说明还没调出过键盘，或是在没有完全访问的情况下使用而没有留下记录。实际用过短语的安装包括用键盘输入和在应用内复制的人。未发送新指标的 %d 条旧记录已排除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每一步單獨統計。啓用了卻沒出現過，說明還沒調出過鍵盤，或是在沒有完全存取的情況下使用而沒有留下記錄。實際用過短語的安裝包括用鍵盤輸入和在應用內複製的人。未發送新指標的 %d 條舊記錄已排除。"
+          }
+        }
+      }
+    },
+    "앱을 연 설치" : {
+      "comment" : "Activation funnel: opened app",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opened the app"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыли приложение"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开过应用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟過 App"
+          }
+        }
+      }
+    },
+    "설정에서 키보드를 켬" : {
+      "comment" : "Activation funnel: enabled in Settings",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enabled in Settings"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Включили клавиатуру в Настройках"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在设置中启用了键盘"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在設定中啓用了鍵盤"
+          }
+        }
+      }
+    },
+    "키보드가 떠 봄" : {
+      "comment" : "Activation funnel: keyboard appeared",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyboard appeared"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Клавиатура появлялась"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "键盘出现过"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鍵盤出現過"
+          }
+        }
+      }
+    },
+    "키보드로 넣어 봄" : {
+      "comment" : "Activation funnel: inserted with keyboard",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inserted with keyboard"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вставляли с клавиатуры"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用键盘输入过"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用鍵盤輸入過"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

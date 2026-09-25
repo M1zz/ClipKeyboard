@@ -194,6 +194,21 @@ enum UsageReportingService {
         let group = AppGroup.defaults
         metrics["keyboardUses"] = Double(group?.integer(forKey: DefaultsKey.kbBeaconTotalCount) ?? 0)
         metrics["flag.keyboardActive"] = (group?.double(forKey: DefaultsKey.kbBeaconLastUse) ?? 0) > 0 ? 1 : 0
+        // 키보드에 닿기까지를 **한 칸씩** 보낸다. 위 flag.keyboardActive 하나로는
+        // "설정에서 켰다"와 "떠서 흔적을 남겼다"가 뭉친다. 흔적(비콘)은 익스텐션이
+        // App Group 에 쓰는 값이라 전체 접근 없이 켠 사람은 남지 않을 수 있고, 그러면
+        // 켠 사람이 안 켠 사람으로 잡힌다(docs/acquisition.html "앱 문제인가, 홍보 문제인가").
+        //
+        // 설정에서 켰는지는 앱이 직접 읽는다. 못 읽으면 키를 보내지 않는다 - 모르는 것을 0 으로 적지 않는다.
+        if let enabled = KeyboardInstallState.enabledInSettingsIfKnown {
+            metrics["flag.keyboardEnabled"] = enabled ? 1 : 0
+        }
+        // 키보드로 실제로 넣은 횟수. 떴다가 아무것도 안 넣고 닫은 사람과 가른다.
+        metrics["keyboardPastes"] = Double(group?.integer(forKey: DefaultsKey.keyboardPasteCount) ?? 0)
+        // 가장 높이 올라간 숙련 칸(0 구경 · 1 만듦 · 2 꺼냄 · 3 익음 · 4 능숙). 내려가지 않는 바닥 값이다.
+        // 키보드 없이 앱 안에서 눌러 복사하며 쓰는 사람도 "꺼냄" 이상으로 잡힌다 -
+        // 키보드 활성화율이 세지 못하는 "가치에 닿은 사람"을 세는 자.
+        metrics["state.level"] = Double(group?.integer(forKey: DefaultsKey.userStateLevelFloor) ?? 0)
         metrics["flag.syncOn"] = (group?.bool(forKey: DefaultsKey.memoSyncEnabled) ?? false) ? 1 : 0
         // 권한은 **세 갈래로 나눠** 보낸다. 하나로 합치면 안 된다.
         //

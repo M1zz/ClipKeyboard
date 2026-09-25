@@ -530,3 +530,77 @@ extension UsageInsights {
         }
     }
 }
+
+// MARK: - 키보드에 닿기까지 (활성화 퍼널)
+
+extension UsageInsights {
+
+    /// 키보드 활성화를 한 칸씩 쪼갠 보고.
+    ///
+    /// ⚠️ `keyboardUsage` 의 활성화율 하나는 "켰다"와 "떠서 흔적을 남겼다"를 한 비트로 봤다.
+    ///    흔적은 익스텐션이 App Group 에 쓰는 값이라 전체 접근 없이 켠 사람은 남지 않을 수 있고,
+    ///    앱을 다시 열어야 스냅샷이 갱신된다. 그래서 칸을 나누고, 흔적 대신 키보드 활동일
+    ///    이벤트를 보낸 설치도 "떠 봄" 으로 합쳐 센다.
+    struct ActivationReport {
+        /// 앱 엶 → 설정에서 켬 → 떠 봄 → 넣어 봄. 칸마다 **따로** 센다(앞 칸을 조건으로 걸지 않는다).
+        /// 샘플 단축어가 있어서 자기 것을 만들기 전에 키보드부터 쓰는 사람이 있다.
+        let stages: [FunnelStage]
+        /// 숙련 칸이 "꺼냄" 이상 - 키보드든 앱 안 복사든 실제로 꺼내 쓴 설치.
+        let reachedValue: Int
+        /// 그중 키보드로 넣은 적도, 키보드가 뜬 흔적도 없는 설치. 앱 안에서만 쓰는 사람.
+        let reachedValueAppOnly: Int
+        /// 새 지표를 보낸 설치 수(분모).
+        let counted: Int
+        /// 새 지표를 아직 안 보낸 옛 스냅샷 수. 분모에서 뺐다.
+        let legacy: Int
+    }
+
+    /// - Parameters:
+    ///   - keyboardDayInstalls: `keyboard_active_day` 를 한 번이라도 보낸 설치 ID.
+    ///   - installedSince: 이 날 이후 설치만. nil 이면 전부.
+    static func activationReport(snapshots: [UsageReportingService.Snapshot],
+                                 keyboardDayInstalls: Set<String>,
+                                 installedSince: Date? = nil) -> ActivationReport {
+        let inWindow = snapshots.filter { s in
+            guard let since = installedSince else { return true }
+            return (s.installDate ?? .distantPast) >= since
+        }
+        // `state.level` 은 이번에 함께 생긴 키라서 새 버전 스냅샷의 표식으로 쓴다.
+        // 옛 스냅샷을 섞으면 "안 켰다"와 "안 보냈다"가 한 칸에 섞인다.
+        let fresh = inWindow.filter { $0.metrics["state.level"] != nil }
+        func v(_ s: UsageReportingService.Snapshot, _ key: String) -> Double { s.metrics[key] ?? 0 }
+        func seen(_ s: UsageReportingService.Snapshot) -> Bool {
+            v(s, "flag.keyboardActive") > 0 || keyboardDayInstalls.contains(s.id)
+        }
+
+        let counts: [(String, Int)] = [
+            (NSLocalizedString("앱을 연 설치", comment: "Activation funnel: opened app"), fresh.count),
+            (NSLocalizedString("설정에서 키보드를 켬", comment: "Activation funnel: enabled in Settings"),
+             fresh.filter { v($0, "flag.keyboardEnabled") > 0 }.count),
+            (NSLocalizedString("키보드가 떠 봄", comment: "Activation funnel: keyboard appeared"),
+             fresh.filter(seen).count),
+            (NSLocalizedString("키보드로 넣어 봄", comment: "Activation funnel: inserted with keyboard"),
+             fresh.filter { v($0, "keyboardPastes") > 0 }.count)
+        ]
+        let top = counts.first?.1 ?? 0
+        var stages: [FunnelStage] = []
+        var previous = 0
+        for (index, step) in counts.enumerated() {
+            stages.append(FunnelStage(
+                name: step.0,
+                installs: step.1,
+                rateFromTop: top > 0 ? Double(step.1) / Double(top) : 0,
+                rateFromPrevious: index == 0 ? 1.0 : (previous > 0 ? Double(step.1) / Double(previous) : 0)
+            ))
+            previous = step.1
+        }
+
+        let reached = fresh.filter { v($0, "state.level") >= Double(UserLevel.used.rawValue) }
+        let appOnly = reached.filter { !seen($0) && v($0, "keyboardPastes") == 0 }
+        return ActivationReport(stages: stages,
+                                reachedValue: reached.count,
+                                reachedValueAppOnly: appOnly.count,
+                                counted: fresh.count,
+                                legacy: inWindow.count - fresh.count)
+    }
+}

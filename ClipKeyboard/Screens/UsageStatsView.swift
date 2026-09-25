@@ -37,6 +37,8 @@ struct UsageStatsView: View {
     @State private var cache = UsageStatsSnapshotCache()
     /// 이번에 전부 다시 받았는가(증분이 아니라). 캐시가 없거나 증분 조회가 거부됐을 때.
     @State private var didFullReload = false
+    /// 키보드에 닿기까지 퍼널을 최근 30일 설치만 볼지.
+    @State private var activationRecentOnly = true
 
     /// 이벤트 표본을 이름별로 묶은 것 - 차트와 같은 원본을 쓴다.
     private var events: [UsageReportingService.EventStat] {
@@ -70,6 +72,7 @@ struct UsageStatsView: View {
                 usersSection
                 trendSection
                 keyboardSection
+                activationSection
                 distributionChartSection
                 segmentSection
                 typeChartSection
@@ -215,6 +218,80 @@ struct UsageStatsView: View {
                 Text(NSLocalizedString("키보드 사용량", comment: "Usage stats section: keyboard"))
             } footer: {
                 Text(NSLocalizedString("키보드를 켠 비율이 이 앱에서 가장 중요한 숫자예요. 앱만 깔고 키보드를 안 켰다면 핵심 가치를 아직 못 받은 거예요.", comment: "Keyboard section footer"))
+                    .font(.body)
+            }
+        }
+    }
+
+    // MARK: - 키보드에 닿기까지
+
+    /// 키보드 활성화를 칸으로 쪼갠다. 위 "키보드를 켠 사용자" 한 숫자로는 어디서 멈췄는지가 안 보인다.
+    ///
+    /// ⚠️ 칸마다 **따로** 센다. 설정에서 켰는지는 앱이 읽고, 떠 봤는지·넣어 봤는지는
+    ///    익스텐션이 App Group 에 남긴 값이다. 켰는데 안 떴다면 아직 안 불러냈거나,
+    ///    전체 접근 없이 써서 흔적이 안 남은 것이다.
+    @ViewBuilder
+    private var activationSection: some View {
+        let since = activationRecentOnly ? Calendar.current.date(byAdding: .day, value: -30, to: Date()) : nil
+        let dayInstalls = Set(eventSamples
+            .filter { $0.name == UsageReportingService.keyboardActiveDayEvent }
+            .compactMap(\.installID))
+        let report = UsageInsights.activationReport(snapshots: snapshots,
+                                                    keyboardDayInstalls: dayInstalls,
+                                                    installedSince: since)
+        if !snapshots.isEmpty {
+            Section {
+                Picker(NSLocalizedString("기간", comment: "Activation funnel: window picker"),
+                       selection: $activationRecentOnly) {
+                    Text(NSLocalizedString("최근 30일 설치", comment: "Activation funnel: last 30 days")).tag(true)
+                    Text(NSLocalizedString("전체 설치", comment: "Activation funnel: all installs")).tag(false)
+                }
+                .pickerStyle(.segmented)
+
+                if report.counted == 0 {
+                    Text(NSLocalizedString("아직 새 지표를 보낸 설치가 없어요. 이 버전을 연 기기부터 쌓여요.", comment: "Activation funnel empty state"))
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                } else {
+                    ForEach(report.stages) { stage in
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack {
+                                Text(stage.name)
+                                    .font(.body.weight(.medium))
+                                    .foregroundColor(theme.text)
+                                Spacer()
+                                Text(String(format: NSLocalizedString("설치 %d곳", comment: "Funnel: install count"), stage.installs))
+                                    .font(.body)
+                                    .foregroundColor(theme.textMuted)
+                            }
+                            GeometryReader { geo in
+                                ZStack(alignment: .leading) {
+                                    Capsule().fill(theme.textFaint.opacity(0.2))
+                                    Capsule().fill(Color.accentColor)
+                                        .frame(width: max(2, geo.size.width * stage.rateFromTop))
+                                }
+                            }
+                            .frame(height: 6)
+                            Text(String(format: NSLocalizedString("전체 대비 %1$@ · 직전 단계 대비 %2$@",
+                                                                  comment: "Funnel: conversion rates"),
+                                        percent(stage.rateFromTop), percent(stage.rateFromPrevious)))
+                                .font(.body)
+                                .foregroundColor(theme.textMuted)
+                        }
+                        .padding(.vertical, 2)
+                        .accessibilityElement(children: .combine)
+                    }
+                    statRow(NSLocalizedString("꺼내 쓴 설치", comment: "Activation: reached value"),
+                            String(format: NSLocalizedString("%1$d명 (%2$@)", comment: "Count with ratio"),
+                                   report.reachedValue,
+                                   percent(Double(report.reachedValue) / Double(report.counted))))
+                    statRow(NSLocalizedString("그중 키보드 없이 앱에서만", comment: "Activation: reached value without keyboard"),
+                            "\(report.reachedValueAppOnly)")
+                }
+            } header: {
+                Text(NSLocalizedString("키보드에 닿기까지", comment: "Usage stats section: activation funnel"))
+            } footer: {
+                Text(String(format: NSLocalizedString("칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.", comment: "Activation funnel footer"), report.legacy))
                     .font(.body)
             }
         }

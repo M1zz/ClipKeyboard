@@ -15472,5 +15472,71 @@
     "en": "Face ID is required to access secure memos.",
     "comment": "Face ID permission (secure memos)",
     "h": "848590a8e9"
+  },
+  "그중 키보드 없이 앱에서만": {
+    "ko": "그중 키보드 없이 앱에서만",
+    "en": "Of those, in the app only",
+    "comment": "Activation: reached value without keyboard",
+    "h": "fd7b80286a"
+  },
+  "꺼내 쓴 설치": {
+    "ko": "꺼내 쓴 설치",
+    "en": "Used a snippet",
+    "comment": "Activation: reached value",
+    "h": "2ea3e787dc"
+  },
+  "설정에서 키보드를 켬": {
+    "ko": "설정에서 키보드를 켬",
+    "en": "Enabled in Settings",
+    "comment": "Activation funnel: enabled in Settings",
+    "h": "fac8ee9d9f"
+  },
+  "아직 새 지표를 보낸 설치가 없어요. 이 버전을 연 기기부터 쌓여요.": {
+    "ko": "아직 새 지표를 보낸 설치가 없어요. 이 버전을 연 기기부터 쌓여요.",
+    "en": "No install has sent the new metrics yet. They build up from devices that open this version.",
+    "comment": "Activation funnel empty state",
+    "h": "e7e9da2bb7"
+  },
+  "앱을 연 설치": {
+    "ko": "앱을 연 설치",
+    "en": "Opened the app",
+    "comment": "Activation funnel: opened app",
+    "h": "b69ef57777"
+  },
+  "전체 설치": {
+    "ko": "전체 설치",
+    "en": "All installs",
+    "comment": "Activation funnel: all installs",
+    "h": "8123d8b27f"
+  },
+  "최근 30일 설치": {
+    "ko": "최근 30일 설치",
+    "en": "Last 30 days",
+    "comment": "Activation funnel: last 30 days",
+    "h": "7bd5313e69"
+  },
+  "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.": {
+    "ko": "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.",
+    "en": "Each step is counted on its own. Enabled but never appeared means it hasn't been brought up yet, or it was used without Full Access so no trace was left. Used a snippet counts anyone who actually used one, by keyboard or by copying in the app. %d older records without the new metrics are left out.",
+    "comment": "Activation funnel footer",
+    "h": "b626346872"
+  },
+  "키보드가 떠 봄": {
+    "ko": "키보드가 떠 봄",
+    "en": "Keyboard appeared",
+    "comment": "Activation funnel: keyboard appeared",
+    "h": "c28b3a4f50"
+  },
+  "키보드로 넣어 봄": {
+    "ko": "키보드로 넣어 봄",
+    "en": "Inserted with keyboard",
+    "comment": "Activation funnel: inserted with keyboard",
+    "h": "ba6ca8d097"
+  },
+  "키보드에 닿기까지": {
+    "ko": "키보드에 닿기까지",
+    "en": "Getting to the keyboard",
+    "comment": "Usage stats section: activation funnel",
+    "h": "c10bf5f418"
   }
 }

@@ -33,8 +33,16 @@ enum KeyboardInstallState {
     /// `AppleKeyboards` 는 시스템이 각 앱의 표준 UserDefaults 에 비춰 주는 값이라
     /// 별도 권한 없이 읽을 수 있다. 못 읽는 상황이면 판단을 미루고 `false`.
     static var isEnabledInSettings: Bool {
+        enabledInSettingsIfKnown ?? false
+    }
+
+    /// 설정에서 켰는가를 **알 수 있으면** 그 값, 목록을 못 읽으면 nil.
+    ///
+    /// 사용 통계가 쓴다. `isEnabledInSettings` 는 못 읽을 때 `false` 로 떨어져서,
+    /// 그대로 보내면 "안 켰다"와 "모른다"가 한 칸에 섞인다.
+    static var enabledInSettingsIfKnown: Bool? {
         guard let keyboards = UserDefaults.standard.array(forKey: "AppleKeyboards") as? [String] else {
-            return false
+            return nil
         }
         return keyboards.contains(extensionBundleID)
     }
