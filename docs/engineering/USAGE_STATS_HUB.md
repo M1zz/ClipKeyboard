@@ -8,8 +8,8 @@
 - 활동일 원장: `ClipKeyboard/Service/AnalyticsService.swift`의 `KeyboardDayLedger`
 - 조회 화면: `ClipKeyboard/Screens/UsageStatsView.swift` (마스터 모드 전용)
 
-> ⚠️ LeeoKit은 **2.x 라인(`release/2.x` 브랜치)** 에 핀 고정돼 있다. 3.0은 `LeeoAppSpec`에
-> `legal`·`monetization`을 강제하는 breaking 변경이라, 그 마이그레이션을 할 때 따로 올린다.
+> LeeoKit 은 3.x (3.11.0 이상, upToNextMajor) 를 쓴다. 3.0 에서 `LeeoAppSpec`에
+> `legal`·`monetization`을 강제하는 변경이 있었고, `ClipKeyboardSpec` 은 이미 그 계약을 따른다.
 
 ## 무엇을 보내나
 

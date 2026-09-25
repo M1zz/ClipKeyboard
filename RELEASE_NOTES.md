@@ -24,6 +24,7 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 키보드에서 접어 둔 조작 키를 펼치는 버튼이 닫기 버튼처럼 보이지 않게 바꿨어요.
 카테고리를 손으로 넘길 때 늘 같은 진동으로 알려 드려요.
 목록 맨 위 필수 단축어 카드가 잠깐 나타났다 사라지던 것을 고쳤어요.
+피드백 보내기에서 버그인지 제안인지에 맞춰 무엇을 하다가 그랬는지 나눠 여쭤봐요.
 ```
 
 ### App Store (English)
@@ -34,6 +35,7 @@ Category tabs on the keyboard no longer look blurry.
 The button that reveals the folded control keys on the keyboard no longer looks like a close button.
 Swiping between categories now gives the same gentle haptic every time.
 The essential snippets card at the top of your list no longer flashes and disappears.
+Send Feedback now asks a few short questions for each kind of report, like what you were doing when a bug happened.
 ```
 
 ### 앱스토어 (중국어 간체)
@@ -44,6 +46,7 @@ The essential snippets card at the top of your list no longer flashes and disapp
 键盘上展开收起的控制键的按钮不再像关闭按钮。
 手动切换分类时，每次都会有相同的轻微震动。
 修复了列表顶部必备短语卡片短暂闪现后消失的问题。
+发送反馈时会按问题类型分项询问，例如出错时你正在做什么。
 ```
 
 ### 앱스토어 (중국어 번체)
@@ -54,6 +57,7 @@ The essential snippets card at the top of your list no longer flashes and disapp
 鍵盤上展開收起的控制鍵的按鈕不再像關閉按鈕。
 手動切換分類時，每次都會有相同的輕微震動。
 修正了列表頂部必備短語卡片短暫閃現後消失的問題。
+發送意見回饋時會依問題類型分項詢問，例如出錯時你正在做什麼。
 ```
 
 ### 앱스토어 (러시아어)
@@ -64,6 +68,7 @@ The essential snippets card at the top of your list no longer flashes and disapp
 Кнопка, раскрывающая свёрнутые служебные клавиши, больше не похожа на кнопку закрытия.
 При перелистывании категорий теперь каждый раз одинаковая лёгкая вибрация.
 Карточка важных фраз в начале списка больше не мелькает и не исчезает.
+В разделе Отправить отзыв теперь есть короткие вопросы для каждого типа обращения, например что вы делали, когда возникла ошибка.
 ```
 
 ## 5.1.5
