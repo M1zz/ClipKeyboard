@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="favicon.png">
+<title>클립키보드 유입 경로 지도</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#F3F4F7;--surface:#FFFFFF;--ink:#171A20;--muted:#5A6070;--line:#D9DCE4;--rail:#B9BFCC;
+  --accent:#1D6AE5;--accent-soft:#E3ECFC;
+  --ok:#1E8A50;--ok-bg:#DDF3E6;--part:#C27A12;--part-bg:#FCEFD9;--no:#C8323A;--no-bg:#FBE3E4;
+  --store:#EEF3FD;--funnel:#1D6AE5;
+  --shadow:0 1px 2px rgba(20,24,33,.06),0 6px 18px rgba(20,24,33,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F1115;--surface:#181B21;--ink:#E9EBF0;--muted:#9BA2B2;--line:#2A2F39;--rail:#4A5160;
+    --accent:#6AA2FF;--accent-soft:#1B2A45;
+    --ok:#5FCB8E;--ok-bg:#15301F;--part:#E9AE55;--part-bg:#3A2A12;--no:#FF7B82;--no-bg:#3B1719;
+    --store:#172033;--funnel:#3F7FE8;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0F1115;--surface:#181B21;--ink:#E9EBF0;--muted:#9BA2B2;--line:#2A2F39;--rail:#4A5160;
+  --accent:#6AA2FF;--accent-soft:#1B2A45;
+  --ok:#5FCB8E;--ok-bg:#15301F;--part:#E9AE55;--part-bg:#3A2A12;--no:#FF7B82;--no-bg:#3B1719;
+  --store:#172033;--funnel:#3F7FE8;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;font-size:15px;line-height:1.55;padding-inline:clamp(16px,3vw,40px);padding-bottom:80px}
+.wrap{max-width:1320px;margin:0 auto}
+code,.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:13px}
+code{background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:1px 6px;word-break:break-all}
+button:focus-visible,.node:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.top{padding-block:36px 6px;display:grid;gap:10px}
+.top h1{margin:0;font-size:clamp(26px,3.4vw,36px);font-weight:700;letter-spacing:-.01em}
+.top p{margin:0;color:var(--muted);max-width:78ch}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font-size:14px;color:var(--muted);margin-top:4px}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.sw{display:inline-block;width:30px;height:0;border-top:3px solid}
+.sw.sep{border-color:var(--ok)}.sw.lump{border-color:var(--part)}.sw.none{border-color:var(--no)}
+.sw.plan{border-top:2px dashed var(--rail)}.sw.loop{border-top:3px dotted var(--accent)}
+.toggles{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.tg{font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer}
+.tg[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:600}
+
+/* ============ ecosystem ============ */
+.scroller{overflow-x:auto;margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.eco{position:relative;min-width:1180px;display:grid;grid-template-columns:230px 170px 190px 170px 1fr;column-gap:56px;padding:20px 24px 90px}
+.eco svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible}
+.col{position:relative;z-index:1;display:grid;grid-template-rows:auto 1fr;align-content:stretch}
+.stack{display:flex;flex-direction:column;gap:8px}
+.col.center .stack{justify-content:center}
+.col-h{min-height:64px}
+.col-h{align-self:start;font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.04em;padding-bottom:6px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.col-h b{display:block;color:var(--ink);font-size:15px;letter-spacing:0}
+.grp{font-size:13px;color:var(--muted);font-weight:600;margin:10px 0 0}
+.grp:first-of-type{margin-top:0}
+.node{position:relative;background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:7px 11px;cursor:pointer;display:grid;gap:1px;transition:opacity .15s,border-color .15s}
+.node b{font-size:14.5px;font-weight:600;line-height:1.3}
+.node small{font-size:13px;color:var(--muted);line-height:1.35}
+.node:hover,.node.on{border-color:var(--accent)}
+.node[data-s="draft"]{border-style:dashed}
+.node[data-s="off"]{border-style:dashed;opacity:.62}
+.node .st{position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:50%}
+.node[data-s="live"] .st,.node[data-s="done"] .st{background:var(--accent)}
+.node[data-s="draft"] .st{border:1.5px solid var(--muted)}
+.node[data-s="off"] .st{background:var(--rail)}
+.node.store{background:var(--store)}
+.node.bucket{border-width:2px}
+.node.bucket .cnt{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.node.page{padding:14px 12px;text-align:center}
+.node.page b{font-size:16px}
+.eco.dim .node{opacity:.28}
+.eco.dim .node.hl{opacity:1}
+.hide-off .node[data-s="off"]{display:none}
+
+/* funnel */
+.funnel{display:flex;flex-direction:column;align-items:center;gap:0}
+.fstep{width:var(--w);clip-path:polygon(0 0,100% 0,calc(100% - 14px) 100%,14px 100%);background:var(--funnel);color:#fff;text-align:center;padding:12px 18px 13px;border:0;border-radius:0;cursor:pointer;margin-bottom:6px}
+.fstep b{font-size:15.5px}
+.fstep small{color:rgba(255,255,255,.85);font-size:13px}
+.fstep.untag{background:color-mix(in srgb,var(--funnel) 55%,var(--muted))}
+.fstep:hover,.fstep.on{filter:brightness(1.12)}
+.break{width:100%;display:flex;align-items:center;gap:8px;color:var(--no);font-size:13px;font-weight:600;margin:4px 0 10px}
+.break::before,.break::after{content:"";flex:1;border-top:2px dashed var(--no)}
+.fnote{font-size:13px;color:var(--muted);text-align:center;margin-top:8px;max-width:34ch;align-self:center}
+.loop-label{position:absolute;left:24px;bottom:16px;z-index:1;font-size:13.5px;color:var(--accent);font-weight:600}
+
+path.e{fill:none;stroke-width:1.8;stroke-linecap:round;transition:opacity .15s,stroke-width .15s}
+path.e.sep{stroke:var(--ok)}path.e.lump{stroke:var(--part)}path.e.none{stroke:var(--no);stroke-dasharray:1 5;stroke-width:2.4}
+path.e.plan{stroke:var(--rail);stroke-dasharray:5 5;stroke-width:1.5}
+path.e.loop{stroke:var(--accent);stroke-dasharray:2 6;stroke-width:2.2}
+.eco.dim path.e{opacity:.08}
+.eco.dim path.e.hl{opacity:1;stroke-width:3}
+.hide-off path.e.off{display:none}
+
+/* detail panel */
+.panel{position:fixed;right:16px;bottom:16px;width:min(390px,calc(100vw - 32px));max-height:min(70vh,560px);overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.2);padding:16px 18px;z-index:20;display:grid;gap:8px}
+.panel h3{margin:0;font-size:17px;padding-right:48px}
+.panel .x{position:absolute;top:10px;right:10px;font:inherit;font-size:14px;background:var(--ground);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:3px 10px;cursor:pointer}
+.panel dl{margin:0;display:grid;gap:7px}
+.panel dt{font-size:13px;font-weight:600;color:var(--muted)}
+.panel dd{margin:0;font-size:14.5px}
+.panel .flows{display:grid;gap:4px;font-size:14px}
+.pill{display:inline-block;font-size:12.5px;font-weight:600;border-radius:6px;padding:1px 8px;margin-right:6px}
+.pill.sep{color:var(--ok);background:var(--ok-bg)}.pill.lump{color:var(--part);background:var(--part-bg)}.pill.none{color:var(--no);background:var(--no-bg)}.pill.plan,.pill.loop{color:var(--muted);background:var(--ground)}
+
+/* diagnosis */
+.zones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}
+@media (max-width:820px){.zones{grid-template-columns:1fr}}
+.zone{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;border-top:4px solid var(--z)}
+.zone h4{margin:0 0 4px;font-size:16px}
+.zone p{margin:0;color:var(--muted);font-size:14.5px}
+.zone .q{margin-top:6px;font-size:14px;color:var(--ink)}
+.z-promo{--z:var(--part)}.z-store{--z:var(--accent)}.z-app{--z:var(--no)}
+.verdict{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--no);border-radius:14px;padding:16px 18px;display:grid;gap:10px;margin-bottom:14px}
+.verdict h3{margin:0;font-size:18px}
+.verdict p{margin:0;font-size:15px}
+.verdict .nums{display:flex;flex-wrap:wrap;gap:10px}
+.verdict .num{background:var(--ground);border-radius:10px;padding:8px 14px;display:grid}
+.verdict .num b{font-size:22px;font-variant-numeric:tabular-nums}
+.verdict .num span{font-size:13px;color:var(--muted)}
+.verdict .caveat{font-size:14px;color:var(--muted)}
+.ck{display:inline-block;font-size:12.5px;font-weight:600;border-radius:6px;padding:1px 8px;white-space:nowrap}
+.ck.ok{color:var(--ok);background:var(--ok-bg)}.ck.cond{color:var(--part);background:var(--part-bg)}.ck.no{color:var(--no);background:var(--no-bg)}
+td .val{font-variant-numeric:tabular-nums;font-weight:600}
+tr.zrow td{background:color-mix(in srgb,var(--ground) 60%,var(--surface));font-size:13.5px;font-weight:700;color:var(--muted);padding-block:6px}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px 12px 50px;position:relative}
+.steps li::before{content:counter(st);position:absolute;left:18px;top:12px;font-weight:700;color:var(--accent)}
+.steps b{font-weight:600}
+.steps span{display:block;color:var(--muted);font-size:14.5px}
+
+/* below */
+section{padding-top:44px}
+.s-head{display:grid;gap:4px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.s-head h2{margin:0;font-size:22px;font-weight:700}
+.s-head p{margin:0;color:var(--muted);max-width:78ch}
+.read{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.read div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.read h4{margin:0 0 4px;font-size:16px}
+.read p{margin:0;color:var(--muted);font-size:14.5px}
+.tbl-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--line)}
+th{font-size:13px;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;white-space:nowrap}
+.gaps{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:g}
+.gaps li{counter-increment:g;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--no);border-radius:12px;padding:12px 16px 12px 50px;position:relative}
+.gaps li::before{content:counter(g);position:absolute;left:18px;top:12px;font-weight:700;color:var(--no)}
+.gaps b{display:block;font-weight:600;margin-bottom:2px}
+.gaps span{color:var(--muted);font-size:14.5px}
+footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>클립키보드 유입 경로 지도</h1>
+    <p>사람이 클립키보드를 만나는 자리부터 돈을 내기까지, 길이 어디서 합쳐지고 어디서 이름표를 잃는지 그렸습니다. 선 굵기는 양이 아닙니다(양은 모름). 선 색은 그 길을 따로 셀 수 있는지입니다. 상자를 누르면 어디서 보고 무엇으로 평가하는지 나옵니다.</p>
+    <div class="legend" aria-label="선 색 뜻">
+      <span><i class="sw sep"></i>따로 셈</span>
+      <span><i class="sw lump"></i>섞여 셈</span>
+      <span><i class="sw none"></i>못 셈</span>
+      <span><i class="sw plan"></i>아직 없는 길 (초안·안 씀)</span>
+      <span><i class="sw loop"></i>쓰는 사람이 다시 데려오는 고리</span>
+    </div>
+    <div class="toggles">
+      <button class="tg" id="tg-off" aria-pressed="false">안 쓰는 길 숨기기</button>
+    </div>
+  </header>
+
+  <div class="scroller">
+    <div class="eco" id="eco">
+      <svg id="wires" aria-hidden="true"></svg>
+
+      <!-- 1. 만나는 곳 -->
+      <div class="col" id="c1">
+        <div class="col-h">1<b>만나는 곳</b></div>
+        <div class="stack">
+        <div class="grp">App Store 안</div>
+        <div class="node store" data-id="storeSearch"><b>App Store 검색창</b><small>이름·키워드로 찾음</small></div>
+        <div class="node store" data-id="browse"><b>둘러보기</b><small>Today · 차트 · 카테고리 · 비슷한 앱</small></div>
+        <div class="node store" data-id="featuring"><b>Apple 피처링</b><small>추천 신청</small></div>
+        <div class="node store" data-id="iae"><b>인앱 이벤트</b><small>이벤트 카드</small></div>
+        <div class="node store" data-id="asa"><b>Search Ads</b><small>검색 광고</small></div>
+        <div class="grp">커뮤니티·소셜</div>
+        <div class="node" data-id="reddit"><b>Reddit</b><small>빌드 스토리 · 메가스레드 · 선물 글</small></div>
+        <div class="node" data-id="ph"><b>Product Hunt · Show HN</b><small>한 번뿐인 런칭</small></div>
+        <div class="node" data-id="threads"><b>Threads · X</b><small>짧은 글</small></div>
+        <div class="node" data-id="kr"><b>한국 커뮤니티</b><small>디스콰이엇 · 루리웹 · 클리앙 · 뽐뿌</small></div>
+        <div class="node" data-id="video"><b>짧은 영상</b><small>Shorts · TikTok · Reels</small></div>
+        <div class="grp">웹 검색·남의 글</div>
+        <div class="node" data-id="google"><b>구글 · 네이버 검색</b><small>소개 페이지가 걸림</small></div>
+        <div class="node" data-id="blog"><b>내 블로그 글</b><small>시간 아끼는 설정</small></div>
+        <div class="node" data-id="articles"><b>남이 쓴 기사·추천 목록</b><small>best clipboard apps 류</small></div>
+        <div class="node" data-id="ads"><b>광고 · 협업 · 스폰서</b><small>Meta · Google · 유튜버 · 뉴스레터</small></div>
+        <div class="grp">사람</div>
+        <div class="node" data-id="share"><b>앱 안 공유</b><small>친구에게 알리기 · 여권 영상</small></div>
+        <div class="node" data-id="word"><b>말로 하는 추천</b><small>옆자리 · 가족 · 팀</small></div>
+        </div>
+      </div>
+
+      <!-- 2. 거쳐 가는 곳 -->
+      <div class="col center" id="c2">
+        <div class="col-h">2<b>거쳐 가는 곳</b></div>
+        <div class="stack">
+        <div class="node" data-id="landing"><b>소개 · 가이드 페이지</b><small>m1zz.github.io</small></div>
+        <div class="node" data-id="gift"><b>선물 페이지</b><small>개인 도메인</small></div>
+        <div class="node" data-id="redeem"><b>오퍼 코드 리딤 링크</b><small>LEEO · 2026JUNE</small></div>
+        <div class="node" data-id="messenger"><b>메신저 속 링크</b><small>카카오톡 · 메시지</small></div>
+        </div>
+      </div>
+
+      <!-- 3. 이름표 -->
+      <div class="col center" id="c3">
+        <div class="col-h">3<b>App Store 가 붙이는 이름표</b>앱 분석 소스 유형</div>
+        <div class="stack">
+        <div class="node bucket store" data-id="src-search"><b>App Store 검색</b><span class="cnt"></span></div>
+        <div class="node bucket store" data-id="src-browse"><b>App Store 둘러보기</b><span class="cnt"></span></div>
+        <div class="node bucket store" data-id="src-app"><b>앱 추천</b><span class="cnt"></span></div>
+        <div class="node bucket store" data-id="src-web"><b>웹 추천</b><span class="cnt"></span></div>
+        <div class="node bucket store" data-id="src-campaign"><b>캠페인 (ct)</b><span class="cnt"></span></div>
+        <div class="node bucket store" data-id="src-other"><b>기타 · 알 수 없음</b><span class="cnt"></span></div>
+        </div>
+      </div>
+
+      <!-- 4. 제품 페이지 -->
+      <div class="col center" id="c4">
+        <div class="col-h">4<b>제품 페이지</b>여기서 받을지 정한다</div>
+        <div class="stack">
+        <div class="node" data-id="reviews" style="margin-bottom:26px"><b>평점 · 리뷰</b><small>모든 길의 전환을 받친다</small></div>
+        <div class="node page store" data-id="page"><b>기본 제품 페이지</b><small>스크린샷 · 부제 · 평점</small></div>
+        <div class="node store" data-id="cpp"><b>맞춤형 제품 페이지</b><small>길마다 다른 첫 화면</small></div>
+        </div>
+      </div>
+
+      <!-- 5. 설치 뒤 -->
+      <div class="col center" id="c5">
+        <div class="col-h">5<b>받은 뒤</b>좁아지는 퍼널</div>
+        <div class="stack">
+        <div class="funnel">
+          <div class="node fstep" data-id="f-download" data-s="live" style="--w:100%"><b>받음</b><small>첫 다운로드</small></div>
+          <div class="break">여기서 이름표가 떨어진다</div>
+          <div class="node fstep untag" data-id="f-open" data-s="live" style="--w:88%"><b>처음 엶</b><small>온보딩</small></div>
+          <div class="node fstep untag" data-id="f-keyboard" data-s="live" style="--w:74%"><b>키보드 켬</b><small>설정에서 추가</small></div>
+          <div class="node fstep untag" data-id="f-active" data-s="live" style="--w:60%"><b>계속 씀</b><small>여러 날 입력</small></div>
+          <div class="node fstep untag" data-id="f-pro" data-s="live" style="--w:46%"><b>Pro</b><small>일시불 결제</small></div>
+        </div>
+        <div class="fnote">받음까지는 App Store Connect 가 길 이름을 달고 셉니다. 그 아래는 우리 사용 통계라 누가 어느 길로 왔는지 모릅니다.</div>
+        </div>
+      </div>
+
+      <div class="loop-label">↺ 계속 쓰는 사람이 공유·추천·리뷰로 다시 1번과 4번을 채운다</div>
+    </div>
+  </div>
+
+  <aside class="panel" id="panel" hidden aria-live="polite">
+    <button class="x" id="px">닫기</button>
+    <h3 id="pt"></h3>
+    <dl id="pd"></dl>
+  </aside>
+
+  <section id="diagnose" aria-labelledby="dx-h">
+    <div class="s-head">
+      <h2 id="dx-h">앱 문제인가, 홍보 문제인가</h2>
+      <p>퍼널을 세 구역으로 자르면 어디가 새는지 가릴 수 있습니다. 각 구역의 숫자를 지금 볼 수 있는지, 없다면 무엇을 해야 보이는지 정리했습니다.</p>
+    </div>
+
+    <div class="zones">
+      <div class="zone z-promo"><h4>홍보 구역</h4><p>사람들이 앱을 보기는 하나.</p><div class="q">노출 수, 게시글 반응, 제품 페이지 조회까지</div></div>
+      <div class="zone z-store"><h4>가게 앞 구역</h4><p>페이지를 본 사람이 받나.</p><div class="q">조회 대비 다운로드 전환율 (스크린샷·리뷰·가격)</div></div>
+      <div class="zone z-app"><h4>앱 구역</h4><p>받은 사람이 쓰고, 남고, 사나.</p><div class="q">처음 엶, 키보드 켬, 7일 남음, 페이월, 결제</div></div>
+    </div>
+
+    <div class="verdict">
+      <h3>지금 있는 숫자로 보면: 앱 구역이 의심스럽지만, 자가 좁다</h3>
+      <div class="nums">
+        <div class="num"><b>5,756</b><span>앱을 연 설치 (사용 통계)</span></div>
+        <div class="num"><b>7.2%</b><span>키보드 흔적을 남긴 설치 (413)</span></div>
+        <div class="num"><b>50%</b><span>철수 기준의 하한</span></div>
+        <div class="num"><b>5</b><span>페이월을 본 설치</span></div>
+      </div>
+      <p>7.2% 는 "키보드를 켠 사람"이 아니라 "키보드가 떠서 App Group 에 흔적을 남겼고, 그 뒤 앱을 다시 연 사람"입니다. 전체 접근 없이 켠 사람은 흔적이 안 남을 수 있고, 앱에서만 눌러 복사하며 쓰는 사람은 아예 세지 않습니다. 그래서 이 숫자만으로 앱이 문제라고 말할 수는 없습니다. 반면 <b>페이월을 본 설치 5곳</b>은 측정 탓으로 설명하기 어렵습니다. 쓰는 사람조차 결제 문 앞에 거의 서지 않는다는 뜻이라, 이쪽은 분명한 빈칸입니다.</p>
+      <p>다음 출시 버전부터 스냅샷이 칸을 나눠 보냅니다: 설정에서 켬(<code>flag.keyboardEnabled</code>), 키보드로 넣음(<code>keyboardPastes</code>), 가장 높이 간 숙련 칸(<code>state.level</code>). 앱 안 사용 통계의 "키보드에 닿기까지"에서 최근 30일 설치로 잘라 봅니다.</p>
+      <p class="caveat">또 5,756 은 사용 통계가 들어간 버전부터 누적한 값이고, 재설치(새 UUID)와 테스트 기기가 섞여 있습니다. 최근 설치만 잘라 봐야 지금 버전의 성적입니다. 홍보·가게 앞 구역은 App Store Connect 숫자를 아직 여기 옮기지 않아 판단을 미룹니다. 실측 2026-09-17, 근거 <code>docs/product/PERSONA_JOURNEY_MAP.html</code> · <code>docs/product/KILL_CRITERIA.md</code>.</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>숫자</th><th>지금</th><th>어디서</th><th>아는 값</th><th>보려면 / 주의</th></tr></thead>
+        <tbody>
+          <tr class="zrow"><td colspan="5">홍보 구역</td></tr>
+          <tr><td>App Store 노출 수</td><td><span class="ck ok">가능</span></td><td>ASC 앱 분석 > 노출 (소스·지역별)</td><td>옮기지 않음</td><td>주 단위로 적어 두면 홍보를 한 주와 안 한 주가 비교된다</td></tr>
+          <tr><td>검색어별 노출</td><td><span class="ck no">불가</span></td><td></td><td></td><td>Search Ads 계정만 열면 키워드 인기도는 무료로 보인다. 우리 순위는 외부 ASO 도구로</td></tr>
+          <tr><td>게시글 반응</td><td><span class="ck ok">가능</span></td><td>Reddit · Threads · PH 각 글</td><td>글마다</td><td>반응이 좋은데 다운로드가 안 늘면 글이 아니라 링크 뒤(가게 앞)가 문제</td></tr>
+          <tr><td>글·페이지별 다운로드</td><td><span class="ck no">불가</span></td><td></td><td></td><td>ASC 에서 캠페인 제공자 토큰(pt) 발급 → 링크마다 <code>ct</code>. 이후 앱 분석 > 캠페인에 뜬다</td></tr>
+          <tr><td>소개 페이지 방문</td><td><span class="ck no">불가</span></td><td></td><td></td><td>쿠키 없는 방문 분석(Cloudflare Web Analytics, GoatCounter 등) 스크립트 한 줄. 개인정보 처리방침에 한 줄 추가</td></tr>
+          <tr><td>구글·네이버 검색 노출</td><td><span class="ck cond">모름</span></td><td>Search Console · 서치어드바이저</td><td></td><td>등록돼 있는지부터 확인. 없으면 소유 확인 파일을 docs/ 에 올리고 등록</td></tr>
+
+          <tr class="zrow"><td colspan="5">가게 앞 구역</td></tr>
+          <tr><td>제품 페이지 조회</td><td><span class="ck ok">가능</span></td><td>ASC 앱 분석 > 제품 페이지 조회</td><td>옮기지 않음</td><td></td></tr>
+          <tr><td>조회 → 다운로드 전환율</td><td><span class="ck ok">가능</span></td><td>ASC 앱 분석 > 전환율</td><td>옮기지 않음</td><td><b>동종 앱 벤치마크</b>(ASC 앱 분석 > 벤치마크)와 나란히 보면 우리 페이지가 평균보다 낮은지 바로 나온다. 가게 앞 문제를 가리는 가장 좋은 자</td></tr>
+          <tr><td>소스별 전환율</td><td><span class="ck ok">가능</span></td><td>앱 분석에서 소스 유형으로 거르기</td><td></td><td>검색은 높은데 웹 추천이 낮으면 글과 페이지의 말이 어긋난 것</td></tr>
+          <tr><td>페이지 바꾼 효과</td><td><span class="ck cond">조건부</span></td><td>전후 비교 또는 제품 페이지 최적화(A/B)</td><td></td><td>A/B 는 App Store Connect 에서 처리군을 만들면 된다. 지금은 안 씀</td></tr>
+          <tr><td>평점 · 리뷰 수</td><td><span class="ck ok">가능</span></td><td>App Store</td><td>KR 13 · US 2 (2026-07)</td><td>전환율과 같은 축에 두고 본다</td></tr>
+
+          <tr class="zrow"><td colspan="5">앱 구역</td></tr>
+          <tr><td>첫 다운로드</td><td><span class="ck ok">가능</span></td><td>ASC 앱 분석 > 첫 다운로드</td><td>옮기지 않음</td><td>여기가 두 구역의 경계</td></tr>
+          <tr><td>받음 → 처음 엶</td><td><span class="ck cond">조건부</span></td><td>같은 기간의 ASC 첫 다운로드 ÷ 사용 통계 신규 설치</td><td></td><td>손으로 나눈다. 재설치는 새 설치로 잡히고, 다운로드는 기기 단위라 오차가 있다. 50% 아래면 받고도 안 연 사람이 많다</td></tr>
+          <tr><td>온보딩 끝냄</td><td><span class="ck ok">가능</span></td><td>사용 통계 이벤트 <code>onboarding_completed</code></td><td>읽지 않음</td><td>처음 엶 대비. 여기서 크게 빠지면 온보딩이 길거나 막힌다</td></tr>
+          <tr><td>직접 만든 첫 단축어</td><td><span class="ck ok">가능</span></td><td>스냅샷 <code>ownShortcuts</code> &gt; 0</td><td>읽지 않음</td><td><code>shortcuts</code> 는 샘플 4개가 섞여 98.5% 로 부풀려져 있다. 반드시 <code>ownShortcuts</code> 로</td></tr>
+          <tr><td>설정에서 키보드 켬</td><td><span class="ck cond">다음 버전~</span></td><td>스냅샷 <code>flag.keyboardEnabled</code> (앱이 켜 둔 키보드 목록을 읽음)</td><td>쌓이는 중</td><td>못 읽는 기기는 키를 안 보낸다. 모름을 0 으로 적지 않는다</td></tr>
+          <tr><td>키보드가 떠 봄</td><td><span class="ck ok">가능</span></td><td>스냅샷 <code>flag.keyboardActive</code> + <code>keyboard_active_day</code> 보낸 설치</td><td class="val">7.2% (413 / 5,756, 스냅샷만)</td><td>익스텐션이 App Group 에 쓰는 흔적이라 전체 접근 없이 쓰면 안 남을 수 있다(기기에서 확인할 것). "켬"과의 차이가 곧 이 틈이다</td></tr>
+          <tr><td>키보드로 넣어 봄</td><td><span class="ck cond">다음 버전~</span></td><td>스냅샷 <code>keyboardPastes</code></td><td>쌓이는 중</td><td>떴다가 아무것도 안 넣고 닫은 사람과 가른다</td></tr>
+          <tr><td>꺼내 쓴 설치</td><td><span class="ck cond">다음 버전~</span></td><td>스냅샷 <code>state.level</code> ≥ 2 (꺼냄)</td><td>쌓이는 중</td><td>키보드든 앱 안 복사든 실제로 쓴 사람. 키보드 활성화율이 못 세는 "효용을 느낀 사람"</td></tr>
+          <tr><td>7일 · 28일 남음</td><td><span class="ck cond">조건부</span></td><td><code>keyboard_active_day</code> · <code>app_open</code>, ASC 리텐션</td><td>읽지 않음</td><td>사용 통계는 설치일 기준으로 코호트를 잘라야 하고(조회 3,000건 한도), ASC 리텐션은 공유 동의자만. ASC 벤치마크에 1·7·28일 리텐션 비교가 있다</td></tr>
+          <tr><td>페이월 본 설치</td><td><span class="ck ok">가능</span></td><td>이벤트 <code>paywall_view</code></td><td class="val">5 / 5,756</td><td>결제 문이 거의 열리지 않는다는 뜻. 권한 판정을 고친 버전 이후로 다시 셀 것</td></tr>
+          <tr><td>결제</td><td><span class="ck ok">가능</span></td><td>ASC 판매 및 동향, 이벤트 <code>paywall_purchase</code></td><td>옮기지 않음</td><td>일시불이라 결제 수 ÷ 키보드 켠 설치로 본다</td></tr>
+
+          <tr class="zrow"><td colspan="5">구역을 가로지르는 것</td></tr>
+          <tr><td>길별 리텐션 · 매출</td><td><span class="ck no">불가</span></td><td></td><td></td><td>ct 를 달면 ASC 가 캠페인별 리텐션·매출을 보여 준다. "어느 길이 쓰는 사람을 데려오나"는 이것뿐</td></tr>
+          <tr><td>입소문 몫</td><td><span class="ck no">불가</span></td><td></td><td></td><td>설치 뒤 한 번 "어디서 알게 되셨어요?" 고르기 질문. 답을 사용 통계 스냅샷에 한 칸으로</td></tr>
+          <tr><td>설치 뒤 행동을 길별로</td><td><span class="ck no">불가</span></td><td></td><td></td><td>사용 통계는 길을 모른다. 위 질문의 답이 그 이름표 노릇을 한다</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin:26px 0 10px;font-size:18px">가리는 순서</h3>
+    <ol class="steps">
+      <li><b>어느 칸에서 가장 많이 빠지나</b><span>앱 엶 → 설정에서 켬 → 떠 봄 → 넣어 봄을 최근 30일 설치로 본다. 켜기 전에 빠지면 안내, 켰는데 안 뜨면 지구본 전환 습관, 떴는데 흔적이 없으면 전체 접근 신뢰, 떴는데 안 넣으면 첫 칸의 내용 문제. 50% 는 스스로 정한 선이라 절대값보다 온보딩을 바꿨을 때 움직이는지로 본다.</span></li>
+      <li><b>켠 사람이 7일을 넘기나</b><span>못 넘기면 키보드에 들어 있는 것이 쓸 만하지 않은 것. 앱의 가치 문제.</span></li>
+      <li><b>남는 사람이 페이월을 보고, 사나</b><span>보지도 못하면(지금 5건) 결제 설계 문제. 보고도 안 사면 가격·문안 문제.</span></li>
+      <li><b>조회 대비 전환율이 동종 앱보다 낮은가</b><span>낮으면 가게 앞 문제. 스크린샷 첫 3장, 부제, 리뷰 수.</span></li>
+      <li><b>노출 자체가 적은가</b><span>위가 다 괜찮은데 노출이 적으면 그때가 진짜 홍보 문제. 이때부터 ct 로 길마다 재며 늘린다.</span></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="read-h">
+    <div class="s-head">
+      <h2 id="read-h">그림에서 읽히는 것</h2>
+    </div>
+    <div class="read">
+      <div><h4>대부분의 길이 두 칸으로 모인다</h4><p>Reddit, Threads, 한국 커뮤니티, 소개 페이지, 남의 기사, 메신저가 전부 "앱 추천"이나 "웹 추천" 한 칸에 들어갑니다. 이 두 칸의 숫자는 여러 길의 합이라, 어느 글이 효과가 있었는지는 날짜로 짐작하는 수밖에 없습니다.</p></div>
+      <div><h4>캠페인 칸이 비어 있다</h4><p>길마다 따로 셀 수 있는 유일한 칸이 캠페인(ct)인데, 들어오는 선이 전부 점선입니다. 제공자 토큰을 발급하지 않아 아직 아무 길도 이 칸을 쓰지 않습니다.</p></div>
+      <div><h4>코드 길만 끝까지 초록</h4><p>선물 페이지와 리딤 링크는 코드 사용 수가 남아서 유일하게 따로 셉니다. 다만 코드를 쓴 사람이 새로 온 사람인지는 모릅니다.</p></div>
+      <div><h4>입소문은 검색으로 위장한다</h4><p>말로 들은 사람은 이름을 검색해서 들어오므로 "App Store 검색"에 섞입니다. 키보드 앱은 남이 쓰는 걸 보고 묻는 일이 많아 이 몫이 작지 않을 수 있습니다.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="tools-h">
+    <div class="s-head">
+      <h2 id="tools-h">재는 도구</h2>
+      <p>그림의 선을 숫자로 바꾸는 곳들입니다.</p>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>도구</th><th>볼 수 있는 것</th><th>못 보는 것</th><th>지금</th></tr></thead>
+        <tbody>
+          <tr><td>App Store Connect 앱 분석</td><td>노출 · 제품 페이지 조회 · 전환율 · 첫 다운로드를 소스 유형별로. 상위 추천 앱·웹 도메인, 지역. 소스·캠페인별 리텐션과 매출</td><td>검색어별 숫자. 설치 뒤 행동은 공유 동의자만</td><td>쓸 수 있음</td></tr>
+          <tr><td>ASC 동종 앱 벤치마크</td><td>전환율 · 1·7·28일 리텐션 · 다운로드당 수익을 같은 카테고리 앱의 분위와 비교</td><td>개별 경쟁 앱 숫자</td><td>쓸 수 있음</td></tr>
+          <tr><td>캠페인 링크 (pt · ct)</td><td>링크마다 이름을 달아 다운로드·리텐션·매출을 따로</td><td>링크를 거치지 않은 방문</td><td>미발급</td></tr>
+          <tr><td>맞춤형 제품 페이지</td><td>페이지별 노출 · 전환 · 다운로드</td><td>페이지를 안 거친 방문</td><td>문안만</td></tr>
+          <tr><td>오퍼 코드 사용 수</td><td>코드별 사용 횟수</td><td>새 사용자인지 기존 사용자인지</td><td>쓸 수 있음</td></tr>
+          <tr><td>Search Ads 계정</td><td>키워드 인기도 (광고 없이도), 광고를 돌리면 키워드별 설치·비용</td><td>자연 유입의 검색어</td><td>안 씀</td></tr>
+          <tr><td>사용 통계 (FeedbackHub)</td><td>키보드 켬, 키보드 쓴 날, 단축어 수, Pro 여부</td><td>어느 길로 왔는지</td><td>운영 중</td></tr>
+          <tr><td>게시글 자체 숫자</td><td>추천 · 댓글 · 조회</td><td>그 뒤 다운로드</td><td>글마다</td></tr>
+          <tr><td>Google Search Console</td><td>소개 페이지의 검색 노출·클릭</td><td>그 뒤 다운로드</td><td>확인 필요</td></tr>
+          <tr><td>웹 페이지 방문 분석</td><td>소개·가이드 방문, 버튼 누름</td><td></td><td>없음</td></tr>
+          <tr><td>앱 안에서 한 번 묻기</td><td>입소문처럼 선이 안 남는 길</td><td>안 답한 사람</td><td>없음</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="gaps-h">
+    <div class="s-head">
+      <h2 id="gaps-h">주황 선을 초록으로 바꾸는 순서</h2>
+    </div>
+    <ol class="gaps">
+      <li><b>캠페인 제공자 토큰(pt) 발급</b><span>App Store Connect 에서 한 번. 그래야 캠페인 칸이 열립니다. 근거: <code>docs/product/LAUNCH_TODO.md</code> 1절.</span></li>
+      <li><b>소개·가이드 페이지 링크 6곳에 ct</b><span><code>index.html</code> 4곳, <code>tutorial.html</code> 2곳. 지금은 웹 추천의 m1zz.github.io 한 줄입니다.</span></li>
+      <li><b>앱 안 공유 링크에 ct</b><span>친구에게 알리기와 여권 영상이 <code>Constants.appStoreURL</code> 을 그대로 씁니다. 고리가 얼마나 도는지 보이게 됩니다.</span></li>
+      <li><b>커뮤니티 글마다 ct</b><span>Reddit · Threads · 한국 커뮤니티 글에 글마다 다른 이름. 글끼리 리텐션까지 비교할 수 있습니다.</span></li>
+      <li><b>앱 안에서 "어디서 알게 되셨어요?" 한 번</b><span>빨간 선(입소문·검색엔진)을 셀 수 있는 유일한 창입니다.</span></li>
+    </ol>
+  </section>
+
+  <footer>
+    소개 페이지에서 이 페이지로 가는 링크는 없습니다. 맥 앱은 Mac App Store 의 별도 앱이라 같은 구조의 지도가 따로 하나 더 있는 셈입니다. 근거: <code>docs/marketing/</code> · <code>docs/product/LAUNCH_TODO.md</code> · <code>docs/engineering/SEEDING-GUIDE.md</code> · <code>docs/engineering/USAGE_STATS_HUB.md</code>. 2026-09-24 기준.
+  </footer>
+</div>
+
+<script>
+// 상자 설명 - s: live(운영 중) | done(해 봤음) | draft(초안·계획) | off(안 씀)
+const N = {
+  storeSearch:{s:"live",where:"앱 분석 > 소스 유형 > App Store 검색 (지역별)",eval:"검색 노출 대비 제품 페이지 조회율, 조회 대비 다운로드",lever:"앱 이름·부제·키워드 필드, 지역별 문안",note:"검색어별 숫자는 없음. 입소문으로 이름을 듣고 찾은 사람도 섞임",doc:"docs/marketing/ASO_2026-07.md"},
+  browse:{s:"live",where:"앱 분석 > 소스 유형 > App Store 둘러보기",eval:"둘러보기 다운로드가 튀는 날짜 (차트 진입·추천 노출 신호)"},
+  featuring:{s:"draft",where:"선정되면 둘러보기에 섞임, 날짜로 구분",eval:"선정 전후 2주 비교",note:"문안 준비됨, 제출 기록 없음",doc:"docs/marketing/APPLE_FEATURING_PITCH.md"},
+  iae:{s:"off",where:"앱 분석 > 인앱 이벤트",eval:"이벤트 카드로 받은 수, 기존 사용자 재방문"},
+  asa:{s:"off",where:"Search Ads 대시보드",eval:"키워드별 설치당 비용과 Pro 전환",note:"리뷰 50개 전에는 안 쓰기로 함 (2026-07)",doc:"docs/marketing/MARKETING_PLAN_2026-07.md"},
+  reddit:{s:"done",where:"게시글 추천·댓글. Reddit 앱에서 누르면 앱 추천, 브라우저면 웹 추천(reddit.com)",eval:"게시 후 3일 다운로드 증가분, 선물 글은 코드 소진",note:"r/SideProject · r/iOSApps 2026-07-07 게시. 런칭 글은 초안",doc:"docs/marketing/REDDIT_*.md"},
+  ph:{s:"draft",where:"PH 추천 수, 웹 추천(producthunt.com · news.ycombinator.com)",eval:"런칭일 순위, 3일 다운로드, 리뷰 증가",note:"한 번뿐",doc:"docs/marketing/PRODUCT_HUNT_LAUNCH.md"},
+  threads:{s:"live",where:"게시글 조회, 앱 추천(Threads · X)",eval:"글별 조회, 다음 날 다운로드",doc:"docs/marketing/THREADS_*.md"},
+  kr:{s:"draft",where:"웹 추천(disquiet.io · ruliweb.com · clien.net · ppomppu.co.kr), 뽐뿌는 코드 사용 수",eval:"게시 주 한국 다운로드",doc:"docs/marketing/KR_COMMUNITY_POSTS.md"},
+  video:{s:"draft",where:"영상 조회, 앱 추천(YouTube · TikTok)",eval:"조회 대비 링크 클릭",note:"23초 데모 영상은 있음"},
+  google:{s:"live",where:"Google Search Console · 네이버 서치어드바이저 (등록 여부 확인 필요)",eval:"소개 페이지가 걸리는 검색어, 노출·클릭",note:"등록 안 했으면 숫자 없음"},
+  blog:{s:"draft",where:"웹 추천에 게시처 도메인",eval:"조회 대비 다운로드, 검색으로 오래 흐르는지",doc:"docs/marketing/BLOG_TIME_SAVING_SETUP.md"},
+  articles:{s:"off",where:"웹 추천 상위 도메인에 새 이름이 뜨면 알게 됨",eval:"도메인별 다운로드",note:"우리가 안 올려도 생기는 길. 한 달에 한 번 도메인 목록 훑기"},
+  ads:{s:"off",where:"광고 대시보드 + AdAttributionKit, 협업은 전용 ct·코드",eval:"설치당 비용, 7일 리텐션",note:"CAC 회수 불가로 보류"},
+  share:{s:"live",where:"메신저를 거쳐 앱 추천에 섞임",eval:"권함 노출 대비 공유 누름, ct 달면 공유로 온 설치",note:"친구에게 알리기는 학생 판에 평생 한 번 (5.1.4~)",doc:"Service/FeatureFit.swift · Screens/UsagePassportView.swift"},
+  word:{s:"live",where:"없음. 검색으로 들어와 App Store 검색에 섞임",eval:"앱 안에서 한 번 묻기를 둬야 셀 수 있음"},
+  landing:{s:"live",where:"웹 추천 > m1zz.github.io (소개·가이드 합쳐짐)",eval:"ct 로 나눈 뒤 버튼별 다운로드와 7일 리텐션",note:"App Store 링크 6곳에 ct 없음. 방문 수 도구 없음",doc:"docs/index.html · docs/tutorial.html"},
+  gift:{s:"done",where:"오퍼 코드 사용 수 (LEEO)",eval:"코드 사용 수, 30일 뒤에도 쓰는 비율",note:"딜 게시판은 중간 페이지를 걸러서 리딤 직링크만",doc:"docs/marketing/REDDIT_GIFT_POST.md"},
+  redeem:{s:"done",where:"App Store Connect > 오퍼 코드 사용 수",eval:"코드별 사용 수, 코드 쓴 사람의 정가 소개",note:"APRIL 만료. 새 설치인지 기존 사용자인지 구분 안 됨"},
+  messenger:{s:"live",where:"앱 추천(카카오톡 · 메시지). 앱이 정보를 안 넘기면 기타로",eval:"앱 추천 상위 앱 목록에서 메신저 몫"},
+  "src-search":{s:"live",where:"앱 분석 > 소스 유형",eval:"노출 → 조회 → 다운로드 전환율"},
+  "src-browse":{s:"live",where:"앱 분석 > 소스 유형",eval:"날짜별 튐"},
+  "src-app":{s:"live",where:"앱 분석 > 소스 유형 > 상위 추천 앱",eval:"앱별(Reddit · Threads · 카카오톡) 다운로드"},
+  "src-web":{s:"live",where:"앱 분석 > 소스 유형 > 상위 웹 추천",eval:"도메인별 다운로드"},
+  "src-campaign":{s:"draft",where:"앱 분석 > 캠페인",eval:"캠페인별 다운로드 · 리텐션 · 매출. 길끼리 비교는 여기서만 된다",note:"제공자 토큰(pt) 미발급이라 비어 있음",doc:"docs/product/LAUNCH_TODO.md"},
+  "src-other":{s:"live",where:"앱 분석 > 소스 유형 > 기타",eval:"커지면 이름표 없는 길이 커진 것"},
+  page:{s:"live",where:"앱 분석 > 제품 페이지 조회 · 전환율",eval:"조회 대비 다운로드. 스크린샷·부제를 바꾼 전후 비교",lever:"첫 3장 스크린샷, 부제, 프로모션 텍스트(심사 없이 수시 변경)",doc:"docs/marketing/ASO_2026-07.md"},
+  cpp:{s:"draft",where:"앱 분석 > 제품 페이지별",eval:"길마다 다른 페이지의 전환율을 기본 페이지와 비교",note:"디지털 노마드용 문안만 있음. A/B 시험(제품 페이지 최적화)도 안 씀",doc:"docs/product/LAUNCH_TODO.md"},
+  reviews:{s:"live",where:"App Store 리뷰 수, 앱 분석 전환율",eval:"리뷰 수 추이와 전환율을 같은 축에",lever:"앱 안 리뷰 요청 (ReviewManager)"},
+  "f-download":{s:"live",where:"앱 분석 > 첫 다운로드 (소스·캠페인별)",eval:"길별 다운로드"},
+  "f-open":{s:"live",where:"사용 통계 UsageSnapshot",eval:"다운로드 대비 첫 실행",note:"여기부터 어느 길로 왔는지 모름"},
+  "f-keyboard":{s:"live",where:"사용 통계 flag.keyboardActive",eval:"첫 실행 대비 키보드 켬. 이 앱의 진짜 활성화"},
+  "f-active":{s:"live",where:"keyboard_active_day, 앱 분석 리텐션(소스·캠페인별, 동의자만)",eval:"7일·28일 남는 비율. 길 비교는 앱 분석 쪽으로"},
+  "f-pro":{s:"live",where:"앱 분석 매출(소스·캠페인별), 사용 통계 flag.isPro",eval:"길별 결제자 비율"}
+};
+
+// 선 - m: sep | lump | none | plan
+const E = [
+  ["storeSearch","src-search","lump"],["asa","src-search","sep"],
+  ["browse","src-browse","lump"],["featuring","src-browse","lump"],["iae","src-browse","sep"],
+  ["reddit","src-app","lump"],["reddit","src-web","lump"],["reddit","redeem","sep"],["reddit","src-campaign","plan"],
+  ["ph","src-web","lump"],
+  ["threads","src-app","lump"],["threads","src-campaign","plan"],
+  ["kr","src-web","lump"],["kr","redeem","sep"],
+  ["video","src-app","lump"],
+  ["google","landing","none"],["blog","landing","lump"],["blog","src-web","lump"],
+  ["articles","src-web","lump"],["ads","src-campaign","sep"],
+  ["share","messenger","lump"],["share","src-campaign","plan"],["word","src-search","none"],
+  ["landing","src-web","lump"],["landing","src-campaign","plan"],
+  ["gift","redeem","sep"],
+  ["messenger","src-app","lump"],["messenger","src-other","lump"],
+  ["src-search","page","lump"],["src-browse","page","lump"],["src-app","page","lump"],["src-web","page","lump"],["src-campaign","page","sep"],["src-other","page","lump"],
+  ["src-search","cpp","plan"],["src-campaign","cpp","plan"],
+  ["reviews","page","lump"],
+  ["page","f-download","lump"],["cpp","f-download","sep"],["redeem","f-download","sep"]
+];
+const LOOPS = [["f-active","share"],["f-active","word"],["f-active","reviews"]];
+const LABEL = {sep:"따로 셈",lump:"섞여 셈",none:"못 셈",plan:"아직 없는 길",loop:"돌아오는 고리"};
+
+const eco = document.getElementById("eco"), svg = document.getElementById("wires");
+const el = id => eco.querySelector(`[data-id="${id}"]`);
+const title = id => el(id).querySelector("b").textContent;
+
+// 상자에 상태 표시
+eco.querySelectorAll(".node").forEach(n=>{
+  const d = N[n.dataset.id]; if(!d) return;
+  n.dataset.s = d.s; n.tabIndex = 0; n.setAttribute("role","button");
+  if(!n.classList.contains("fstep")){const i=document.createElement("i");i.className="st";n.appendChild(i)}
+});
+const isOff = id => N[id] && N[id].s==="off";
+// 초안·안 씀 상자에 닿는 선은 아직 없는 길로 그린다
+const cls = ([a,b,m]) => (m!=="plan" && (N[a].s==="draft"||N[b].s==="draft"||isOff(a)||isOff(b))) ? "plan" : m;
+
+// 이름표 칸에 들어오는 길 수
+eco.querySelectorAll(".bucket").forEach(b=>{
+  const inn = E.filter(e=>e[1]===b.dataset.id);
+  const k = inn.filter(e=>cls(e)!=="plan").length, p = inn.length - k;
+  b.querySelector(".cnt").textContent = k ? `섞이는 길 ${k}` + (p?` · 예정 ${p}`:"") : `지금 들어오는 길 없음 · 예정 ${p}`;
+});
+
+function box(id){
+  const r = el(id).getBoundingClientRect(), o = eco.getBoundingClientRect();
+  return {l:r.left-o.left, r:r.right-o.left, t:r.top-o.top, b:r.bottom-o.top, h:r.height, cy:(r.top+r.bottom)/2-o.top, cx:(r.left+r.right)/2-o.left};
+}
+// 한 상자에 여러 선이 닿으면 높이를 나눠 꽂는다 (상대 쪽 높이 순서대로)
+function spread(list, side){
+  const by = {};
+  list.forEach(e=>{const k=e[side];(by[k]=by[k]||[]).push(e)});
+  const at = new Map();
+  Object.entries(by).forEach(([k,es])=>{
+    const B=box(k), other=side===0?1:0;
+    es.sort((x,y)=>box(x[other]).cy-box(y[other]).cy);
+    const pad=Math.min(10,B.h*.2), span=B.h-pad*2;
+    es.forEach((e,i)=>at.set(e,B.t+pad+span*(i+1)/(es.length+1)));
+  });
+  return at;
+}
+function draw(){
+  const hideOff = document.body.classList.contains("hide-off");
+  const live = E.filter(([a,b])=>!(hideOff&&(isOff(a)||isOff(b))) && el(a).offsetParent && el(b).offsetParent);
+  const cross = live.filter(([a,b])=>Math.abs(box(a).l-box(b).l)>=20);
+  const outY = spread(cross,0), inY = spread(cross,1);
+  let h = "";
+  live.forEach(e=>{
+    const [a,b]=e, A=box(a), B=box(b);
+    if(Math.abs(A.l-B.l)<20){ // 같은 열: 위 상자 아래에서 아래 상자 위로
+      h += `<path class="e ${cls(e)}" data-a="${a}" data-b="${b}" d="M${A.cx},${A.b} V${B.t}"/>`;
+      return;
+    }
+    const x1=A.r, y1=outY.get(e), x2=B.l, y2=inY.get(e), dx=Math.max(40,(x2-x1)*.5);
+    h += `<path class="e ${cls(e)}${isOff(a)||isOff(b)?" off":""}" data-a="${a}" data-b="${b}" d="M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}"/>`;
+  });
+  // 돌아오는 고리: 퍼널 오른쪽으로 나가 맨 아래 길을 타고 돌아온다
+  const lane = eco.scrollHeight - 50, rx = eco.scrollWidth - 14, r = 14;
+  LOOPS.forEach(([a,b],i)=>{
+    const A=box(a), B=box(b), sy=A.cy, L=lane-i*6;
+    let d = `M${A.r},${sy} H${rx-r} Q${rx},${sy} ${rx},${sy+r} V${L-r} Q${rx},${L} ${rx-r},${L}`;
+    if(B.l < 60){ // 1열 상자는 왼쪽 옆구리로
+      const lx = B.l - 12;
+      d += ` H${lx+r} Q${lx},${L} ${lx},${L-r} V${B.cy+r} Q${lx},${B.cy} ${lx+r},${B.cy} H${B.l}`;
+    } else { // 가운데 열 상자는 오른쪽 옆구리로
+      const gx = B.r + 14;
+      d += ` H${gx+r} Q${gx},${L} ${gx},${L-r} V${B.cy+r} Q${gx},${B.cy} ${gx-r},${B.cy} H${B.r}`;
+    }
+    h += `<path class="e loop" data-a="${a}" data-b="${b}" d="${d}"/>`;
+  });
+  svg.innerHTML = h;
+}
+
+// 누르면 설명
+const panel=document.getElementById("panel"), pt=document.getElementById("pt"), pd=document.getElementById("pd");
+function esc(t){return String(t).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
+function show(id){
+  const d=N[id];
+  eco.querySelectorAll(".node.on").forEach(n=>n.classList.remove("on"));
+  el(id).classList.add("on");
+  pt.textContent=title(id);
+  const st={live:"운영 중",done:"해 봤음",draft:"초안·계획",off:"안 씀"}[d.s];
+  const out=E.filter(e=>e[0]===id).map(e=>[e[1],e[2]]).concat(LOOPS.filter(l=>l[0]===id).map(l=>[l[1],"loop"]));
+  const inn=E.filter(e=>e[1]===id).map(e=>[e[0],e[2]]).concat(LOOPS.filter(l=>l[1]===id).map(l=>[l[0],"loop"]));
+  const fl=(arr,dir)=>arr.map(([o,m])=>`<div><span class="pill ${m}">${LABEL[m]}</span>${dir} ${esc(title(o))}</div>`).join("");
+  let rows=[["상태",st],["어디서 보나",d.where],["무엇으로 평가하나",d.eval]];
+  if(d.lever) rows.push(["손잡이",d.lever]);
+  if(d.note) rows.push(["메모",d.note]);
+  let html=rows.map(([k,v])=>`<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("");
+  if(inn.length) html+=`<div><dt>들어오는 길</dt><dd class="flows">${fl(inn,"←")}</dd></div>`;
+  if(out.length) html+=`<div><dt>나가는 길</dt><dd class="flows">${fl(out,"→")}</dd></div>`;
+  if(d.doc) html+=`<div><dt>근거</dt><dd class="mono">${esc(d.doc)}</dd></div>`;
+  pd.innerHTML=html; panel.hidden=false;
+}
+function hl(id){
+  if(!id){eco.classList.remove("dim");eco.querySelectorAll(".hl").forEach(x=>x.classList.remove("hl"));return}
+  eco.classList.add("dim");
+  eco.querySelectorAll(".hl").forEach(x=>x.classList.remove("hl"));
+  // 위아래로 이어진 길 전부
+  const seen=new Set([id]);
+  const walk=(k,dir)=>{E.forEach(([a,b])=>{const [f,t]=dir>0?[a,b]:[b,a]; if(f===k&&!seen.has(t)){seen.add(t);walk(t,dir)}})};
+  walk(id,1);walk(id,-1);
+  if(el(id).classList.contains("fstep")) eco.querySelectorAll(".fstep").forEach(f=>seen.add(f.dataset.id));
+  if(seen.has("f-download")) eco.querySelectorAll(".fstep").forEach(f=>seen.add(f.dataset.id));
+  seen.forEach(k=>el(k)&&el(k).classList.add("hl"));
+  svg.querySelectorAll("path").forEach(p=>{if(seen.has(p.dataset.a)&&seen.has(p.dataset.b)&&(p.dataset.a===id||p.dataset.b===id||!p.classList.contains("loop")))p.classList.add("hl")});
+}
+let pinned=null;
+eco.querySelectorAll(".node").forEach(n=>{
+  const id=n.dataset.id;
+  n.addEventListener("mouseenter",()=>{if(!pinned)hl(id)});
+  n.addEventListener("mouseleave",()=>{if(!pinned)hl(null)});
+  const pick=()=>{pinned=id;hl(id);show(id)};
+  n.addEventListener("click",pick);
+  n.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pick()}});
+});
+document.getElementById("px").addEventListener("click",()=>{panel.hidden=true;pinned=null;hl(null);eco.querySelectorAll(".node.on").forEach(n=>n.classList.remove("on"))});
+document.getElementById("tg-off").addEventListener("click",e=>{
+  const on=document.body.classList.toggle("hide-off");
+  e.currentTarget.setAttribute("aria-pressed",String(on));
+  draw(); if(pinned) hl(pinned);
+});
+
+new ResizeObserver(draw).observe(eco);
+if(document.fonts) document.fonts.ready.then(draw);
+draw();
+</script>
+</body>
+</html>
