@@ -1,3 +1,12 @@
+## 🔄 동기화가 켜져 있는데 아무것도 주고받지 않던 문제 - 2026-09-26
+
+개발 빌드 위에 TestFlight 판을 덮어 깔아 동기화 기록(엔진 상태·섀도·레코드 메타)이 Development 기준으로 남았다.
+기기 로그: 받기 4회 모두 서버 조회 0건, 단축어 전송 0건.
+
+- [x] `MemoSyncEngine.verifyBaseline` - 존 안 표식(`sync-epoch`)이 기억과 다르면 기록을 비우고 처음부터 다시 맞춤 (툼스톤 유지). 맥 엔진에도 같은 코드.
+- [x] 빌드 성공
+- [ ] TestFlight 빌드 올려 POS-M7NGWGKHC4 에서 확인 - 맥 목록과 합쳐지는지
+
 ## 🧭 유입 경로 지도 - 2026-09-24
 
 `docs/acquisition.html` (GitHub Pages, 소개 페이지에서 링크 없음, noindex)
