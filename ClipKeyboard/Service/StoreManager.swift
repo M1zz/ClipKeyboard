@@ -280,13 +280,46 @@ class StoreManager: ObservableObject {
         }
     }
 
+    /// 복원을 누른 사람에게 돌려줄 결과.
+    ///
+    /// ⚠️ 복원은 **반드시 결과를 말한다.** 예전에는 찾은 것이 없어도 아무 말이 없어서
+    ///    "복원을 눌러도 아무 일도 안 일어난다" 는 문의가 왔다(2026-09-26, 재설치 뒤 Pro 소실).
+    enum RestoreOutcome: Identifiable, Equatable {
+        /// Pro(결제·그랜드파더)가 열려 있다.
+        case restored
+        /// 이 Apple ID 에 복원할 Pro 구매가 없다.
+        case nothingFound
+        /// App Store 에 닿지 못했다.
+        case failed(String)
+
+        var id: String {
+            switch self {
+            case .restored: return "restored"
+            case .nothingFound: return "nothingFound"
+            case .failed(let message): return "failed:\(message)"
+            }
+        }
+    }
+
     /// 구매 복원
-    func restorePurchases() async {
+    @discardableResult
+    func restorePurchases() async -> RestoreOutcome {
         await store.restore()
         // v4.0 이전 유료 앱 구매자도 "이전 구매 복원"으로 즉시 Pro 해제되도록
         // AppTransaction(최초 구매일) 재검증. (신규 Pro IAP 영수증이 없어도 부여됨)
         await ProFeatureManager.grandfatherPaidUserIfNeeded()
-        print("✅ [StoreManager] 구매 복원 완료")
+        ProStatusManager.shared.objectWillChange.send()
+
+        let outcome: RestoreOutcome
+        if Self.grantsPro(store.purchasedProductIDs) || ProFeatureManager.hasPermanentPro {
+            outcome = .restored
+        } else if let error = store.lastError {
+            outcome = .failed(error)
+        } else {
+            outcome = .nothingFound
+        }
+        print("✅ [StoreManager] 구매 복원 완료: \(outcome.id) (owned=\(store.purchasedProductIDs.sorted()))")
+        return outcome
     }
 
     // MARK: - Private

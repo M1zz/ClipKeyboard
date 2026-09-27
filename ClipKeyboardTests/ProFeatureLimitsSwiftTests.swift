@@ -74,10 +74,12 @@ struct ProFeatureLimitsSwiftTests {
         #expect(ProFeatureManager.hasFullAccess == expected)
     }
 
-    @Test("grandfathered는 v3 구매 또는 기존 무료 사용자면 참")
+    @Test("grandfathered는 v4.0 이전 구매, 또는 아직 영수증으로 확인 못 한 옛 기존 사용자 표시면 참")
     func grandfatheredConsistency() {
+        let verified = UserDefaults(suiteName: "group.com.Ysoup.TokenMemo")?
+            .bool(forKey: ProFeatureManager.existingFreeUserRevalidatedKey) ?? false
         let expected = ProFeatureManager.hasGrandfatheredPurchase
-            || ProFeatureManager.wasExistingFreeUser
+            || (ProFeatureManager.wasExistingFreeUser && !verified)
         #expect(ProFeatureManager.isGrandfathered == expected)
     }
 }

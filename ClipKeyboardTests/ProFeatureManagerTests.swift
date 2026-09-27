@@ -129,9 +129,28 @@ final class ProFeatureManagerTests: XCTestCase {
         XCTAssertTrue(ProFeatureManager.isGrandfathered)
     }
 
-    func testIsGrandfathered_TrueIfExistingFreeUser() {
+    /// 영수증으로 아직 확인 못 한 옛 표시만 잠시 인정한다.
+    func testIsGrandfathered_UnverifiedExistingFreeUser_KeptUntilChecked() {
         groupDefaults?.set(true, forKey: ProFeatureManager.existingFreeUserKey)
         XCTAssertTrue(ProFeatureManager.isGrandfathered)
+    }
+
+    /// 영수증으로 확인한 뒤에는 `existingFreeUser` 가 남아 있어도 권한이 아니다.
+    /// 평생 Pro 는 Apple 기록(결제·v4.0 이전 다운로드)으로만 준다.
+    func testIsGrandfathered_VerifiedExistingFreeUser_IsNotPro() {
+        groupDefaults?.set(true, forKey: ProFeatureManager.existingFreeUserKey)
+        groupDefaults?.set(true, forKey: ProFeatureManager.existingFreeUserRevalidatedKey)
+        XCTAssertFalse(ProFeatureManager.isGrandfathered)
+    }
+
+    /// 판정 표: Apple 기록이 없으면 기기 쪽 표시는 확인 전까지만 통한다.
+    func testIsGrandfathered_Table() {
+        typealias PFM = ProFeatureManager
+        XCTAssertTrue(PFM.isGrandfathered(hasPurchase: true, wasExistingFreeUser: false, existingFreeUserVerified: true))
+        XCTAssertTrue(PFM.isGrandfathered(hasPurchase: true, wasExistingFreeUser: true, existingFreeUserVerified: true))
+        XCTAssertFalse(PFM.isGrandfathered(hasPurchase: false, wasExistingFreeUser: false, existingFreeUserVerified: false))
+        XCTAssertTrue(PFM.isGrandfathered(hasPurchase: false, wasExistingFreeUser: true, existingFreeUserVerified: false))
+        XCTAssertFalse(PFM.isGrandfathered(hasPurchase: false, wasExistingFreeUser: true, existingFreeUserVerified: true))
     }
 
     func testIsGrandfathered_FalseIfNoFlag() throws {
@@ -146,13 +165,10 @@ final class ProFeatureManagerTests: XCTestCase {
     func testGrandfatheredPurchase_OnlyBeforeFreemiumRelease() {
         let before = ProFeatureManager.freemiumReleaseDate.addingTimeInterval(-1)
         let after = ProFeatureManager.freemiumReleaseDate.addingTimeInterval(86_400)
-        XCTAssertTrue(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: before, hadV3ProKey: false))
-        XCTAssertFalse(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: after, hadV3ProKey: false),
+        XCTAssertTrue(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: before))
+        XCTAssertFalse(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: after),
                        "v4.0 이후 설치는 결제했다 환불해도 그랜드파더로 남으면 안 된다")
-        XCTAssertFalse(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: ProFeatureManager.freemiumReleaseDate,
-                                                                hadV3ProKey: false))
-        XCTAssertTrue(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: after, hadV3ProKey: true),
-                      "v3 가 Pro 를 적어 둔 기기는 영수증 날짜와 무관하게 인정")
+        XCTAssertFalse(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: ProFeatureManager.freemiumReleaseDate))
     }
 
     /// 첫 실행에 심어 준 샘플만 있는 설치는 기존 사용자가 아니다.
@@ -167,11 +183,14 @@ final class ProFeatureManagerTests: XCTestCase {
         XCTAssertFalse(ProFeatureManager.isGrandfathered)
     }
 
-    func testBootstrap_OwnMemo_IsExistingFreeUser() {
+    /// 자기 단축어가 있어도 부트스트랩은 기존 사용자 표시를 켜지 않는다.
+    /// 재설치 뒤 iCloud 에서 단축어를 되살린 새 사용자가 Pro 가 되면 안 된다.
+    func testBootstrap_OwnMemo_DoesNotGrantExistingFreeUser() {
         let sample = Memo(title: "샘플", value: "a")
         SampleMemoStorage.save(ids: [sample.id])
         ProStatusManager.shared.bootstrapV4GrandfatherFlags(memos: [sample, Memo(title: "내 것", value: "b")])
-        XCTAssertTrue(ProFeatureManager.wasExistingFreeUser)
+        XCTAssertFalse(ProFeatureManager.wasExistingFreeUser)
+        XCTAssertFalse(ProFeatureManager.isGrandfathered)
     }
 
     /// 부트스트랩은 결제 이력을 새기지 않는다 - 지금 Pro 여도 `wasProAtV3` 는 그대로.
@@ -186,13 +205,11 @@ final class ProFeatureManagerTests: XCTestCase {
         let before = ProFeatureManager.freemiumReleaseDate.addingTimeInterval(-86_400)
         let after = ProFeatureManager.freemiumReleaseDate.addingTimeInterval(86_400)
         XCTAssertTrue(ProFeatureManager.shouldRevokeExistingFreeUser(wasExistingFreeUser: true,
-                                                                      originalPurchaseDate: after, hadV3ProKey: false))
+                                                                      originalPurchaseDate: after))
         XCTAssertFalse(ProFeatureManager.shouldRevokeExistingFreeUser(wasExistingFreeUser: true,
-                                                                       originalPurchaseDate: before, hadV3ProKey: false))
-        XCTAssertFalse(ProFeatureManager.shouldRevokeExistingFreeUser(wasExistingFreeUser: true,
-                                                                       originalPurchaseDate: after, hadV3ProKey: true))
+                                                                       originalPurchaseDate: before))
         XCTAssertFalse(ProFeatureManager.shouldRevokeExistingFreeUser(wasExistingFreeUser: false,
-                                                                       originalPurchaseDate: after, hadV3ProKey: false))
+                                                                       originalPurchaseDate: after))
     }
 
     /// 걷을 때 한 번에 막지 않는다 - 체험 7일이 붙는다.

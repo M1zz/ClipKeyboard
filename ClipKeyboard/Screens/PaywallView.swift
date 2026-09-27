@@ -24,6 +24,8 @@ struct PaywallView: View {
     @State private var trialTick: Int = 0
     /// 전환 완료 여부 - 닫기율(paywall_dismissed) 분리용 (구매/체험 시작이면 닫기로 안 침)
     @State private var didConvert = false
+    /// 복원을 누른 결과. 값이 들어오면 알림이 뜬다.
+    @State private var restoreOutcome: StoreManager.RestoreOutcome?
 
     var body: some View {
         NavigationView {
@@ -69,6 +71,7 @@ struct PaywallView: View {
                 successOverlay
             }
         }
+        .restoreOutcomeAlert($restoreOutcome)
         .onAppear {
             AnalyticsService.logPaywallView(triggeredBy: triggeredBy?.analyticsKey)
         }
@@ -401,7 +404,11 @@ struct PaywallView: View {
 
                 // 복원 버튼
                 Button {
-                    Task { await store.restorePurchases() }
+                    Task {
+                        let outcome = await store.restorePurchases()
+                        if outcome == .restored { didConvert = true }
+                        restoreOutcome = outcome
+                    }
                 } label: {
                     Text(NSLocalizedString("이전 구매 복원", comment: "Restore"))
                         .font(.body)
@@ -635,4 +642,44 @@ extension View {
 
 #Preview {
     PaywallView(triggeredBy: .memo)
+}
+
+// MARK: - 복원 결과 알림
+
+/// "이전 구매 복원" 을 누른 뒤 결과를 알린다. 페이월과 설정이 같은 문구를 쓴다.
+///
+/// ⚠️ 찾은 것이 없을 때가 가장 중요하다. 말이 없으면 버튼이 고장 난 것처럼 보인다.
+struct RestoreOutcomeAlert: ViewModifier {
+    @Binding var outcome: StoreManager.RestoreOutcome?
+
+    func body(content: Content) -> some View {
+        content.alert(item: $outcome) { outcome in
+            switch outcome {
+            case .restored:
+                return Alert(
+                    title: Text(NSLocalizedString("구매를 복원했어요", comment: "Restore result title: Pro restored")),
+                    message: Text(NSLocalizedString("Pro 기능을 다시 쓸 수 있어요.", comment: "Restore result message: Pro restored")),
+                    dismissButton: .default(Text(NSLocalizedString("확인", comment: "OK")))
+                )
+            case .nothingFound:
+                return Alert(
+                    title: Text(NSLocalizedString("복원할 구매가 없어요", comment: "Restore result title: nothing to restore")),
+                    message: Text(NSLocalizedString("지금 로그인한 Apple ID 로 Pro 를 구매한 기록을 찾지 못했어요. 구매할 때 쓴 Apple ID 로 로그인했는지 확인해 주세요.", comment: "Restore result message: no Pro purchase found for this Apple ID")),
+                    dismissButton: .default(Text(NSLocalizedString("확인", comment: "OK")))
+                )
+            case .failed(let message):
+                return Alert(
+                    title: Text(NSLocalizedString("복원하지 못했어요", comment: "Restore result title: failed")),
+                    message: Text(String(format: NSLocalizedString("App Store 에 연결하지 못했어요. 잠시 뒤 다시 시도해 주세요.\n(%@)", comment: "Restore result message: App Store error, %@ is the system error"), message)),
+                    dismissButton: .default(Text(NSLocalizedString("확인", comment: "OK")))
+                )
+            }
+        }
+    }
+}
+
+extension View {
+    func restoreOutcomeAlert(_ outcome: Binding<StoreManager.RestoreOutcome?>) -> some View {
+        modifier(RestoreOutcomeAlert(outcome: outcome))
+    }
 }

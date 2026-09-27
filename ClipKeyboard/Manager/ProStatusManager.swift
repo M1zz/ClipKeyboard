@@ -69,12 +69,11 @@ class ProStatusManager: ObservableObject {
         guard let defaults = userDefaults else { return }
         let existingMemoCount = ProFeatureManager.ownMemoCount(memos)
 
-        // 기존 무료 유저 표시 (자기가 만든 메모가 하나라도 있으면, 키보드 익스텐션 등 기존 접근 유지)
-        let hasAnyMemo = existingMemoCount > 0
-        if hasAnyMemo, !defaults.bool(forKey: ProFeatureManager.existingFreeUserKey) {
-            defaults.set(true, forKey: ProFeatureManager.existingFreeUserKey)
-            print("🛡 [ProStatusManager] 기존 무료 유저 표시됨 (memos=\(existingMemoCount))")
-        }
+        // ⚠️ 기존 무료 유저 표시(`existingFreeUser`)는 **더 이상 켜지 않는다.** 단축어 개수로
+        //    v3 사용자를 짐작하던 자리였는데, v3 사용자는 모두 v4.0 이전 다운로드라 영수증
+        //    날짜(`grandfatherPaidUserIfNeeded`)가 이미 가려낸다. 짐작은 틀리면 없는 Pro 를
+        //    만들었고, 재설치 뒤 iCloud 에서 단축어를 되살린 새 사용자에게 "열려 있던 기능이
+        //    닫힌다" 안내를 띄울 수도 있었다(켜자마자 영수증이 걷으므로).
 
         // 3) 메모 보유량이 새 한도 초과면 grace 플래그
         let overNewLimit = existingMemoCount > ProFeatureManager.freeMemoLimit

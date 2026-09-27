@@ -148,7 +148,9 @@ struct ProFeatureManager {
     static let freemiumReleaseDate = Date(timeIntervalSince1970: 1_771_686_000)
 
     /// v3.x 가 Pro 상태를 적던 옛 자리. v4.0 첫 실행에 통합 키로 옮겨졌고, 지우지 않고 남아 있다.
-    /// v4.0 이전 사용자라는 **기기 쪽 증거**로도 쓴다(`isGrandfatheredPurchase`).
+    ///
+    /// ⚠️ 권한 판정에는 쓰지 않는다. 기기에만 있는 값이라 재설치하면 사라지고, 복원으로
+    ///    돌아오지 않는다. v3 사용자는 모두 v4.0 이전 다운로드라 영수증 날짜로 이미 가려진다.
     static let legacyV3ProKey = "com.ysoup.tokenmemo.isPro"
 
     /// `wasProAtV3` 를 영수증으로 한 번 다시 확인했는가. 결제 이력으로 잘못 새겨진 값을 걷어 낸 뒤 켠다.
@@ -166,10 +168,8 @@ struct ProFeatureManager {
     /// v4.0 이후 새로 받은 사람까지 전부 켜졌다. 영수증의 최초 다운로드일이 v4.0 이후면
     /// 넘어온 사람일 수가 없다.
     static func shouldRevokeExistingFreeUser(wasExistingFreeUser: Bool,
-                                             originalPurchaseDate: Date,
-                                             hadV3ProKey: Bool) -> Bool {
-        wasExistingFreeUser && !isGrandfatheredPurchase(originalPurchaseDate: originalPurchaseDate,
-                                                         hadV3ProKey: hadV3ProKey)
+                                             originalPurchaseDate: Date) -> Bool {
+        wasExistingFreeUser && !isGrandfatheredPurchase(originalPurchaseDate: originalPurchaseDate)
     }
 
     /// 잘못 켜졌던 `existingFreeUser` 를 걷는다. **한 번에 막지 않는다** - 7일 체험을 붙인다.
@@ -195,8 +195,12 @@ struct ProFeatureManager {
     ///    켜지면 이 키를 영구히 켰고, 그래서 **환불·취소한 사람이 평생 Pro** 로 남았다
     ///    (허브 통계에도 계속 결제로 올라갔다). 지금 결제는 `clipkeyboard_is_pro` 가
     ///    StoreKit 을 따라 켜지고 꺼지며 맡는다.
-    static func isGrandfatheredPurchase(originalPurchaseDate: Date, hadV3ProKey: Bool) -> Bool {
-        hadV3ProKey || originalPurchaseDate < freemiumReleaseDate
+    ///
+    /// ⚠️ **Apple 영수증의 날짜 하나만 본다.** 예전에는 기기에 남은 v3 Pro 키(`legacyV3ProKey`)도
+    ///    인정했는데, 기기에만 있는 값은 재설치하면 사라져 복원으로 돌아오지 않는다.
+    ///    평생 Pro 는 복원이 늘 같은 답을 내는 근거로만 준다(2026-09-26).
+    static func isGrandfatheredPurchase(originalPurchaseDate: Date) -> Bool {
+        originalPurchaseDate < freemiumReleaseDate
     }
 
     /// v4.0 이전 유료 구매자를 AppTransaction(Apple ID에 묶인 최초 구매 영수증)으로 식별해
@@ -227,9 +231,7 @@ struct ProFeatureManager {
                 return
             }
 
-            let hadV3ProKey = groupDefaults?.bool(forKey: legacyV3ProKey) ?? false
-            let entitled = isGrandfatheredPurchase(originalPurchaseDate: appTransaction.originalPurchaseDate,
-                                                   hadV3ProKey: hadV3ProKey)
+            let entitled = isGrandfatheredPurchase(originalPurchaseDate: appTransaction.originalPurchaseDate)
             let before = hasGrandfatheredPurchase
             if entitled {
                 groupDefaults?.set(true, forKey: grandfatheredPurchaseKey)
@@ -246,8 +248,7 @@ struct ProFeatureManager {
 
             var revoked = false
             if shouldRevokeExistingFreeUser(wasExistingFreeUser: wasExistingFreeUser,
-                                            originalPurchaseDate: appTransaction.originalPurchaseDate,
-                                            hadV3ProKey: hadV3ProKey) {
+                                            originalPurchaseDate: appTransaction.originalPurchaseDate) {
                 revokeExistingFreeUser()
                 revoked = true
             }
@@ -345,10 +346,28 @@ struct ProFeatureManager {
         groupDefaults?.bool(forKey: existingFreeUserKey) ?? false
     }
 
-    /// 업그레이드 그랜드파더 상태 (Pro 구매자 or 기존 유저)를 통합적으로 판단.
+    /// 업그레이드 그랜드파더 상태 - v4.0 이전에 앱을 산 사람(Apple 영수증 날짜).
     /// 신규 제한을 적용하지 않아야 하는 경우 true.
     static var isGrandfathered: Bool {
-        hasGrandfatheredPurchase || wasExistingFreeUser
+        isGrandfathered(hasPurchase: hasGrandfatheredPurchase,
+                        wasExistingFreeUser: wasExistingFreeUser,
+                        existingFreeUserVerified: groupDefaults?.bool(forKey: existingFreeUserRevalidatedKey) ?? false)
+    }
+
+    /// 그랜드파더 판정 - **순수 함수.**
+    ///
+    /// ⚠️ 평생 권한은 **Apple 기록으로만** 준다. 기기에서 짐작한 `existingFreeUser`(자기 단축어
+    ///    개수로 켜던 표시)는 권한이 아니다. 짐작이 틀리면 없는 Pro 가 생겼고(5.1.2 까지 새 설치
+    ///    전부), 맞아도 재설치하면 사라져 복원으로 돌아오지 않았다(2026-09-26 문의).
+    ///
+    /// 예외 하나: 그 표시가 켜져 있는데 **영수증으로 아직 한 번도 확인하지 못한** 설치는
+    /// 확인될 때까지 그대로 둔다. 영수증을 읽는 순간 v4.0 이전이면 `hasPurchase` 로 옮겨 가고,
+    /// 이후면 걷힌다(`grandfatherPaidUserIfNeeded`). 오프라인 첫 실행에서 멀쩡한 v3 사용자가
+    /// 잠깐 잠기는 일을 막으려는 것이지, 새로 켜 주려는 것이 아니다(새로 켜는 곳은 없다).
+    static func isGrandfathered(hasPurchase: Bool,
+                                wasExistingFreeUser: Bool,
+                                existingFreeUserVerified: Bool) -> Bool {
+        hasPurchase || (wasExistingFreeUser && !existingFreeUserVerified)
     }
 
     /// 실제 접근 권한(`hasFullAccess`)을 App Group + iCloud KV 에 미러링한다.
