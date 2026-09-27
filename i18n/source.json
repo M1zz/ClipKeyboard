@@ -5084,8 +5084,8 @@
   "다음 키보드": {
     "ko": "다음 키보드",
     "en": "Next keyboard",
-    "comment": "Next keyboard button",
-    "h": "7c80d1c262"
+    "comment": "Keyboard safe mode: switch to the next keyboard\nNext keyboard button",
+    "h": "53b0f0082e"
   },
   "다음 튜토리얼까지": {
     "ko": "다음 튜토리얼까지",
@@ -5144,8 +5144,8 @@
   "단축어": {
     "ko": "단축어",
     "en": "Snippet",
-    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter",
-    "h": "8c10487a02"
+    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSnippet (saved key-value item) display name",
+    "h": "e5f8dadd0c"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "ko": "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.",
@@ -14281,9 +14281,9 @@
   },
   "키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.": {
     "ko": "키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.",
-    "en": "Use the 한/EN button on the keyboard to switch languages. The default language applies when the keyboard first opens.",
+    "en": "Use the Korean/English toggle on the keyboard to switch languages. The default language applies when the keyboard first opens.",
     "comment": "Language section footer",
-    "h": "490b4a626e"
+    "h": "0cfe769018"
   },
   "키의 두께와 눌리는 느낌만 바뀌어요. 색은 아래에서 따로 고를 수 있어요.": {
     "ko": "키의 두께와 눌리는 느낌만 바뀌어요. 색은 아래에서 따로 고를 수 있어요.",

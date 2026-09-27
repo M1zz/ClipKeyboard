@@ -1614,6 +1614,12 @@
             "value" : "{은행} {계좌번호} {예금주}"
           }
         },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{Банк} {Номер счёта} {Владелец счёта}"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1676,6 +1682,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "{이름}\n{전화번호}\n{이메일}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{Имя}\n{Телефон}\n{Почта}"
           }
         },
         "zh-Hans" : {
@@ -1952,6 +1964,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "{학과} {학번} {이름}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{Факультет} {Номер студенческого} {Имя}"
           }
         },
         "zh-Hans" : {
@@ -87077,25 +87095,25 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Use the 한/EN button on the keyboard to switch languages. The default language applies when the keyboard first opens."
+            "value" : "Use the Korean/English toggle on the keyboard to switch languages. The default language applies when the keyboard first opens."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Переключайте язык с помощью кнопки 한/EN на клавиатуре. Язык по умолчанию применяется при первом открытии клавиатуры."
+            "value" : "Переключайте язык кнопкой корейский/английский на клавиатуре. Язык по умолчанию применяется при первом открытии клавиатуры."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用键盘上的 한/EN 按钮切换语言。默认语言在第一次打开键盘时生效。"
+            "value" : "用键盘上的韩语/英文切换按钮切换语言。默认语言在第一次打开键盘时生效。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "用鍵盤上的 한/EN 按鈕切換語言。預設語言在第一次開啟鍵盤時生效。"
+            "value" : "用鍵盤上的韓語/英文切換按鈕切換語言。預設語言在第一次開啟鍵盤時生效。"
           }
         }
       }
