@@ -10,6 +10,7 @@
 
 import Foundation
 import Combine
+import LeeoKit
 #if canImport(UIKit)
 import UIKit
 #endif
@@ -107,4 +108,21 @@ final class KeyboardDocumentState: ObservableObject {
     /// TypingKeyboardView가 이 값이 바뀌면 hangulComposer/cheonjiinInput 상태를 초기화해
     /// 이전 필드의 조합 중 음절이 새 필드로 '딸려오는' 버그를 방지한다.
     @Published var composerResetToken: Int = 0
+}
+
+// MARK: - 키보드 크래시 루프 가드
+
+/// 키보드가 뜰 때마다 같은 자리에서 죽으면, 다음부터 단축어 판 없이 **최소 화면**으로 뜬다.
+///
+/// 왜: 5.1.5 에서 키보드가 켤 때마다 죽는 사고가 있었다(2026-09-26 문의). 앱에는
+/// `LaunchGuard` 가 있었지만 키보드에는 아무것도 없어서, 사용자는 앱을 지우고 다시 깔 때까지
+/// 키보드를 한 번도 못 썼다. 두 번 연달아 끝까지 못 뜨면 세이프 모드로 연다.
+///
+/// ⚠️ 키보드(쓰는 쪽)와 앱(허브로 보내는 쪽)이 **같은 이름 · 같은 App Group** 을 봐야 한다.
+///    그래서 만드는 곳을 여기 하나로 둔다. 앱은 끝나지 못한 횟수를 `launch_incomplete:keyboard`
+///    로 보낸다(`ClipKeyboardApp` 의 분석 단계). 릴리즈 건강 카드가 그 이벤트를 불안정 신호로 읽는다.
+enum KeyboardCrashGuard {
+    static func make() -> LeeoCrashLoopGuard {
+        LeeoCrashLoopGuard(name: "keyboard", defaults: AppGroup.defaults ?? .standard)
+    }
 }

@@ -133,6 +133,8 @@ class KeyboardViewController: UIInputViewController {
     private let documentState = KeyboardDocumentState()
     private lazy var keyboardView: KeyboardView = KeyboardView(typingProxy: self, documentState: documentState)
     private var hostingController: UIHostingController<KeyboardView>?
+    /// 연달아 끝까지 못 뜨면 다음부터 최소 화면으로 연다(`KeyboardCrashGuard`).
+    private let crashGuard = KeyboardCrashGuard.make()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -143,6 +145,16 @@ class KeyboardViewController: UIInputViewController {
 
         setupHeightConstraint()
         configureNextKeyboardButton()
+
+        // ⚠️ 무거운 준비(단축어 읽기 · SwiftUI 판)보다 **먼저** 묻는다. 죽는 자리가 그 안이다.
+        if crashGuard.beginLaunch() {
+            print("🛟 [KeyboardViewController] 직전 실행들이 끝까지 못 떠서 최소 화면으로 연다")
+            setupSystemBackdrop()
+            presentSafeModeKeyboard()
+            AppGroup.defaults?.set(true, forKey: DefaultsKey.keyboardExtensionDidLoad)
+            return
+        }
+
         loadMemos()
         setupNotificationObservers()
         setupHostingController()  // 화면 전체에 SwiftUI 키보드만 표시
@@ -244,6 +256,70 @@ class KeyboardViewController: UIInputViewController {
             responder = current.next
         }
         print("⚠️ [Keyboard] Paywall URL scheme 실행 실패")
+    }
+
+    // MARK: - 세이프 모드
+
+    /// 단축어 판 없이 뜨는 최소 화면. 다음 키보드로 넘기기 · 앱 열기만 둔다.
+    ///
+    /// ⚠️ SwiftUI 판(`KeyboardView`)을 쓰지 않는다. 죽던 자리가 거기일 수 있다. UIKit 만으로 세운다.
+    ///    다음에 뜰 때는 평소대로 다시 시도한다(`LeeoCrashLoopGuard` - 무사히 뜨면 횟수가 0 으로).
+    private func presentSafeModeKeyboard() {
+        let title = UILabel()
+        title.text = NSLocalizedString("키보드를 잠시 가볍게 띄웠어요", comment: "Keyboard safe mode title: shown after the keyboard failed to open twice")
+        title.font = .preferredFont(forTextStyle: .headline)
+        title.textAlignment = .center
+        title.numberOfLines = 0
+
+        let message = UILabel()
+        message.text = NSLocalizedString("단축어를 불러오다 문제가 있었어요. 다음에 열 때 다시 불러와요. 계속되면 앱을 열어 주세요.", comment: "Keyboard safe mode message")
+        message.font = .preferredFont(forTextStyle: .body)
+        message.textColor = .secondaryLabel
+        message.textAlignment = .center
+        message.numberOfLines = 0
+
+        var nextConfig = UIButton.Configuration.gray()
+        nextConfig.title = NSLocalizedString("다음 키보드", comment: "Keyboard safe mode: switch to the next keyboard")
+        nextConfig.image = UIImage(systemName: AppSymbol.globe)
+        nextConfig.imagePadding = 6
+        let nextButton = UIButton(configuration: nextConfig)
+        nextButton.addTarget(self, action: #selector(handleInputModeList(from:with:)), for: .allTouchEvents)
+
+        var openConfig = UIButton.Configuration.filled()
+        openConfig.title = NSLocalizedString("Open App", comment: "Open main app button")
+        let openButton = UIButton(configuration: openConfig)
+        openButton.addTarget(self, action: #selector(openMainApp), for: .touchUpInside)
+
+        let buttons = UIStackView(arrangedSubviews: [nextButton, openButton])
+        buttons.axis = .horizontal
+        buttons.spacing = 12
+        buttons.distribution = .fillEqually
+
+        let stack = UIStackView(arrangedSubviews: [title, message, buttons])
+        stack.axis = .vertical
+        stack.spacing = 10
+        stack.alignment = .fill
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stack)
+        NSLayoutConstraint.activate([
+            stack.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            stack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+    }
+
+    /// 앱을 연다(세이프 모드). 결제 화면이 아니라 앱 첫 화면으로 간다.
+    @objc private func openMainApp() {
+        guard let url = URL(string: "clipkeyboard://") else { return }
+        var responder: UIResponder? = self
+        let selector = sel_registerName("openURL:")
+        while let current = responder {
+            if current.responds(to: selector) {
+                _ = current.perform(selector, with: url)
+                return
+            }
+            responder = current.next
+        }
     }
 
     // MARK: - viewDidLoad Helpers
@@ -641,6 +717,14 @@ class KeyboardViewController: UIInputViewController {
         sessionTypedNoted = false
         // 햅틱 엔진 사전 깨우기 - 첫 키 입력 지연 제거 (빠른 타이핑 시 버벅임 방지)
         KeyboardHaptics.prepare()
+        // 뜨고 몇 초 버티면 "끝까지 떴다" 로 적는다. 그리는 도중에 죽으면 표식이 남는다.
+        crashGuard.markLaunchSucceededAfterSurvivalDelay()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // 몇 초 안에 내린 사람을 죽은 것으로 세지 않는다.
+        crashGuard.markLaunchSucceeded()
     }
 
 

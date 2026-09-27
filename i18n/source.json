@@ -5609,6 +5609,12 @@
     "comment": "Add category alert message",
     "h": "217ed98fca"
   },
+  "단축어를 불러오다 문제가 있었어요. 다음에 열 때 다시 불러와요. 계속되면 앱을 열어 주세요.": {
+    "ko": "단축어를 불러오다 문제가 있었어요. 다음에 열 때 다시 불러와요. 계속되면 앱을 열어 주세요.",
+    "en": "Something went wrong while loading your snippets. They'll load again next time. If this keeps happening, please open the app.",
+    "comment": "Keyboard safe mode message",
+    "h": "bfa4d3be57"
+  },
   "단축어를 이름으로 빠르게 찾습니다": {
     "ko": "단축어를 이름으로 빠르게 찾습니다",
     "en": "Quickly find snippets by name",
@@ -14044,6 +14050,12 @@
     "en": "Bringing up the keyboard and finding the key. We count 1 second per use.",
     "comment": "Grounds note: tap cost",
     "h": "da01ed537e"
+  },
+  "키보드를 잠시 가볍게 띄웠어요": {
+    "ko": "키보드를 잠시 가볍게 띄웠어요",
+    "en": "Opened a lighter keyboard for now",
+    "comment": "Keyboard safe mode title: shown after the keyboard failed to open twice",
+    "h": "dd47802e94"
   },
   "키보드를 추가해요": {
     "ko": "키보드를 추가해요",

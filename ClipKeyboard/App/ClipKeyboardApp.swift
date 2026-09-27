@@ -270,6 +270,15 @@ struct ClipKeyboardApp: App {
             // 직전 런치가 멈췄다면 그 단계 이름을 여기서 한 번 보낸다.
             // 재현 안 되는 런치 크래시를 남의 기기에서 알아내는 유일한 통로다.
             LaunchGuard.reportStallIfNeeded()
+            // 키보드가 끝까지 못 뜬 횟수도 같은 이름으로 보낸다(`launch_incomplete:keyboard`).
+            // 키보드는 허브로 직접 못 보내서(전체 접근 · iCloud) App Group 에 적어 두고 앱이 나른다.
+            // 릴리즈 건강 카드가 이것을 불안정 설치로 센다. 통로가 없으면 꺼내지 않는다(다음에 보낸다).
+            if AnalyticsService.eventSink != nil {
+                let missed = KeyboardCrashGuard.make().takeUnreportedIncompleteLaunches()
+                for _ in 0..<min(missed, 3) {
+                    AnalyticsService.log(.launchIncomplete, parameters: [.source: "keyboard"])
+                }
+            }
 
             // 키보드 익스텐션이 App Group에 기록한 사용 비콘을 flush (콘솔 + 허브 이벤트)
             AnalyticsService.flushKeyboardBeacon()
