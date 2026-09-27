@@ -39,22 +39,22 @@ struct BulkImportKeyPreview: View {
 
     // MARK: - 키보드와 같은 설정 (App Group)
 
-    @AppStorage("keyboardColumnCount", store: AppGroup.defaults)
-    private var keyboardColumnCount: Int = 2
-    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults)
-    private var buttonHeight: Double = 44.0
-    @AppStorage("keyboardButtonFontSize", store: AppGroup.defaults)
-    private var buttonFontSize: Double = 17.0
-    @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults)
-    private var useCustomColors: Bool = false
-    @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults)
-    private var customBgHex: String = ""
-    @AppStorage("keyboardCustomKeyHex", store: AppGroup.defaults)
-    private var customKeyHex: String = ""
+    @AppStorage(KeyboardPrefs.columnCount.key, store: AppGroup.defaults)
+    private var keyboardColumnCount: Int = KeyboardPrefs.columnCount.fallback
+    @AppStorage(KeyboardPrefs.buttonHeight.key, store: AppGroup.defaults)
+    private var buttonHeight: Double = KeyboardPrefs.buttonHeight.fallback
+    @AppStorage(KeyboardPrefs.buttonFontSize.key, store: AppGroup.defaults)
+    private var buttonFontSize: Double = KeyboardPrefs.buttonFontSize.fallback
+    @AppStorage(KeyboardPrefs.useCustomColors.key, store: AppGroup.defaults)
+    private var useCustomColors: Bool = KeyboardPrefs.useCustomColors.fallback
+    @AppStorage(KeyboardPrefs.customBgHex.key, store: AppGroup.defaults)
+    private var customBgHex: String = KeyboardPrefs.customBgHex.fallback
+    @AppStorage(KeyboardPrefs.customKeyHex.key, store: AppGroup.defaults)
+    private var customKeyHex: String = KeyboardPrefs.customKeyHex.fallback
     @AppStorage(DefaultsKey.keyboardSkin, store: AppGroup.defaults)
     private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
-    @AppStorage("showVisualCues", store: AppGroup.defaults)
-    private var showVisualCues: Bool = false
+    @AppStorage(KeyboardPrefs.showVisualCues.key, store: AppGroup.defaults)
+    private var showVisualCues: Bool = KeyboardPrefs.showVisualCues.fallback
 
     @Environment(\.appTheme) private var theme
 

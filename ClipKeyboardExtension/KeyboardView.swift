@@ -275,19 +275,19 @@ class TemplateInputState: ObservableObject {
 
 struct KeyboardView: View {
 
-    @AppStorage("keyboardColumnCount", store: AppGroup.defaults) private var keyboardColumnCount: Int = 2
+    @AppStorage(KeyboardPrefs.columnCount.key, store: AppGroup.defaults) private var keyboardColumnCount: Int = KeyboardPrefs.columnCount.fallback
     /// 조작 키 한 칸의 높이. **단축어 키와 다른 값이다** - 저쪽은 문구가 적힌 키,
     /// 이쪽은 맨 윗줄의 기능 키(지우기 · 보내기 · 클립보드 · 지구본 · 갈래 · 전체삭제).
-    @AppStorage(DefaultsKey.keyboardControlKeySize, store: AppGroup.defaults)
-    private var controlKeySizeRaw: Double = 0
+    @AppStorage(KeyboardPrefs.controlKeySize.key, store: AppGroup.defaults)
+    private var controlKeySizeRaw: Double = KeyboardPrefs.controlKeySize.fallback
 
-    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 44.0
-    @AppStorage("keyboardButtonFontSize", store: AppGroup.defaults) private var buttonFontSize: Double = 17.0
+    @AppStorage(KeyboardPrefs.buttonHeight.key, store: AppGroup.defaults) private var buttonHeight: Double = KeyboardPrefs.buttonHeight.fallback
+    @AppStorage(KeyboardPrefs.buttonFontSize.key, store: AppGroup.defaults) private var buttonFontSize: Double = KeyboardPrefs.buttonFontSize.fallback
 
     // 색상 커스터마이즈 - 기본은 false (Paper 테마 사용), true면 hex 오버라이드
-    @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults) private var useCustomColors: Bool = false
-    @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults) private var customBgHex: String = ""
-    @AppStorage("keyboardCustomKeyHex", store: AppGroup.defaults) private var customKeyHex: String = ""
+    @AppStorage(KeyboardPrefs.useCustomColors.key, store: AppGroup.defaults) private var useCustomColors: Bool = KeyboardPrefs.useCustomColors.fallback
+    @AppStorage(KeyboardPrefs.customBgHex.key, store: AppGroup.defaults) private var customBgHex: String = KeyboardPrefs.customBgHex.fallback
+    @AppStorage(KeyboardPrefs.customKeyHex.key, store: AppGroup.defaults) private var customKeyHex: String = KeyboardPrefs.customKeyHex.fallback
     /// 키캡 물성 프리셋 - 색이 아니라 두께·빛·모서리·눌림만 정한다.
     @AppStorage(DefaultsKey.keyboardSkin, store: AppGroup.defaults)
     private var keyboardSkinRaw: String = KeyboardSkin.classic.rawValue
@@ -296,7 +296,7 @@ struct KeyboardView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     // 옵션 토글 - 기본 OFF로 화면 공간 확보
-    @AppStorage(DefaultsKey.keyboardShowSearch, store: AppGroup.defaults) private var showSearchBar: Bool = false
+    @AppStorage(KeyboardPrefs.showSearch.key, store: AppGroup.defaults) private var showSearchBar: Bool = KeyboardPrefs.showSearch.fallback
 
     /// '최근 사용' 줄 토글의 **날값**. 이걸 직접 보고 판단하지 않는다.
     ///
@@ -314,20 +314,20 @@ struct KeyboardView: View {
     /// 위줄에 리턴(보내기) 키를 세울지. 잘못 눌러 보내는 것이 무서운 사람은 끌 수 있다.
     /// 기본은 켬 - 없어서 못 보내던 것이 신고로 들어온 쪽이라, 꺼 둔 채로 두면 고친 것이 아니다.
     /// 위줄에 숫자 판으로 건너가는 키를 세울지. 값이 없으면 켜짐(아래 `showsNumberPadKey`).
-    @AppStorage(DefaultsKey.keyboardShowNumberPad, store: AppGroup.defaults)
-    private var showNumberPadKeyRaw: Bool = true
-    @AppStorage(DefaultsKey.keyboardShowReturnKey, store: AppGroup.defaults) private var showReturnKey: Bool = true
+    @AppStorage(KeyboardPrefs.showNumberPad.key, store: AppGroup.defaults)
+    private var showNumberPadKeyRaw: Bool = KeyboardPrefs.showNumberPad.fallback
+    @AppStorage(KeyboardPrefs.showReturnKey.key, store: AppGroup.defaults) private var showReturnKey: Bool = KeyboardPrefs.showReturnKey.fallback
     // 한국어 입력 사용 여부(기본 OFF). 꺼져 있으면 한/EN 토글과 한글 자판이 아예 노출되지 않아
     // 영어 전용 사용자는 한글을 볼 일이 없다. 한국어 사용자가 설정에서 직접 켠다.
-    @AppStorage("keyboardKoreanEnabled", store: AppGroup.defaults) private var koreanInputEnabled: Bool = false
-    @AppStorage("keyboardTypingLang", store: AppGroup.defaults) private var defaultTypingLang: String = "english"
+    @AppStorage(KeyboardPrefs.koreanEnabled.key, store: AppGroup.defaults) private var koreanInputEnabled: Bool = KeyboardPrefs.koreanEnabled.fallback
+    @AppStorage(KeyboardPrefs.typingLang.key, store: AppGroup.defaults) private var defaultTypingLang: String = KeyboardPrefs.typingLang.fallback
     /// 메모 구분 표시 마스터 토글(메인 앱과 공유). 기본 OFF = 키도 심플(타입 테두리·카테고리 틴트 숨김).
-    @AppStorage("showVisualCues", store: AppGroup.defaults) private var showVisualCues: Bool = false
+    @AppStorage(KeyboardPrefs.showVisualCues.key, store: AppGroup.defaults) private var showVisualCues: Bool = KeyboardPrefs.showVisualCues.fallback
     /// 메모 내용 힌트(메인 앱과 공유, 기본 ON) - 키보드에서는 셀이 2초 머물면
     /// 제목이 잠시 내용으로 바뀌었다가 돌아온다(공간이 좁아 제목 자리를 빌리는 방식).
     /// ⚠️ 기본값은 앱과 **같아야** 한다(꺼짐). 같은 App Group 키인데 기본값이 다르면
     ///    토글을 만진 적 없는 사람에게 앱에서는 안 보이고 키보드에서만 보인다.
-    @AppStorage(DefaultsKey.contentHintEnabled, store: AppGroup.defaults) private var contentHintEnabled: Bool = false
+    @AppStorage(KeyboardPrefs.contentHintEnabled.key, store: AppGroup.defaults) private var contentHintEnabled: Bool = KeyboardPrefs.contentHintEnabled.fallback
 
     /// 메모 구분 장치 노출 여부 - 오직 설정 "메모 구분 표시" 토글만 따른다
     /// (iOS "색상 없이 구별"과 무관, 앱과 동일 정책).
@@ -370,6 +370,8 @@ struct KeyboardView: View {
         self.typingProxy = typingProxy
         self.documentState = documentState
         self.hostKind = hostKind
+        // 설정 미리보기는 서랍을 열어 둔 채 시작한다(`startsWithControlKeysExpanded`).
+        _controlKeysExpanded = State(initialValue: hostKind.startsWithControlKeysExpanded)
         self.highlightedMemoId = highlightedMemoId
         self.highlightedStackPart = highlightedStackPart
         // ⚠️ 키는 **만들어질 때부터** 채워 둔다. 예전에는 빈 채로 시작해 onAppear 에서 채웠는데,
@@ -559,10 +561,9 @@ struct KeyboardView: View {
     /// 키보드 익스텐션은 메인 앱 타겟의 CategoryStore에 직접 접근할 수 없으므로
     /// App Group UserDefaults에서 같은 flag/배열을 읽어 동일 동작 보장.
     private var isCategoryFeatureEnabled: Bool {
-        // 앱 안 무대에서는 카테고리를 항상 켠 것으로 본다 - 처음부터 탭이 보여야 하고,
-        // 페이지만 보여주고 거르지 않으면 **골라도 반응이 없는** 죽은 탭이 된다.
-        // (탭 노출과 필터가 같은 값을 봐야 하는 이유)
-        if hostKind == .inApp { return true }
+        // ⚠️ 세 자리 모두 이 값 하나를 본다. 예전에는 앱 안 무대만 늘 켠 것으로 봐서
+        //    키보드 탭과 진짜 키보드의 카테고리 줄이 달랐다. 탭 노출과 거르기도 같은 값을
+        //    봐야 한다 - 페이지만 보이고 거르지 않으면 골라도 반응이 없는 죽은 탭이 된다.
         return AppGroup.defaults?
             .bool(forKey: DefaultsKey.categoryFeatureEnabledV1) ?? false
     }
@@ -722,6 +723,12 @@ struct KeyboardView: View {
 
     var body: some View {
         ZStack {
+            // 판 바탕은 **시스템 키보드 바탕** 하나다. 진짜 키보드는 컨트롤러가 이미 깔아 두었고
+            // (`KeyboardViewController.setupSystemBackdrop`), 앱 안(키보드 탭 · 설정 미리보기)에서는
+            // 같은 뷰를 여기서 깐다. 색을 흉내 내면 라이트·다크·iOS 버전마다 어긋난다.
+            if hostKind.runsInsideApp {
+                SystemKeyboardBackdrop().ignoresSafeArea()
+            }
             backgroundColor.ignoresSafeArea()
 
             VStack(spacing: 0) {
@@ -907,12 +914,12 @@ struct KeyboardView: View {
 
     /// 그 키를 세울지. 값이 없으면 켜진 것으로 본다 - 있는 줄 몰라서 못 쓰는 일을 막는다.
     private var showsNumberPadKey: Bool {
-        AppGroup.defaults?.object(forKey: DefaultsKey.keyboardShowNumberPad) as? Bool ?? true
+        KeyboardPrefs.showNumberPad.value()
     }
 
     /// 붙여넣기 키를 세울지. 값이 없으면 **꺼진 것**으로 본다(위 `keyboardShowClipboardKey`).
     private var showsClipboardKey: Bool {
-        AppGroup.defaults?.object(forKey: DefaultsKey.keyboardShowClipboardKey) as? Bool ?? false
+        KeyboardPrefs.showClipboardKey.value()
     }
 
     private func openClipboardPicker() {
@@ -927,7 +934,7 @@ struct KeyboardView: View {
     ///    (`docs/postmortem/HANG_PASTEBOARD_5_0_1.md` - 유니버설 클립보드가 켜져 있으면
     ///     읽기가 옆 기기를 기다린다). 누른 사람에게는 그 기다림이 곧 대답이다.
     private func clipboardTextForInsert() -> String? {
-        if hostKind == .keyboardExtension, !requireFullAccess() { return nil }
+        if hostKind.requiresFullAccessForPaste, !requireFullAccess() { return nil }
         // pasteboard-ok: 사용자가 붙여넣기 키를 직접 눌렀다
         let text = UIPasteboard.general.string ?? ""
         guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
@@ -960,31 +967,82 @@ struct KeyboardView: View {
         .accessibilityHint(NSLocalizedString("현재 입력된 텍스트를 모두 지웁니다", comment: "Clear all button hint"))
     }
 
-    /// 위줄 오른쪽의 조작 키 묶음 - 숫자 판 · 붙여넣기 · 보내기 · 지우기 · 전체삭제.
+    /// 위줄 - 카테고리 탭 위에 조작 키 서랍이 **겹쳐** 나온다.
     ///
-    /// 간격은 여기 한 곳에서 정한다(`controlKeySpacing`). 키들은 저마다 44pt 손가락 자리를
+    /// 조작 키(숫자 판 · 붙여넣기 · X · 지우기)는 **… 하나로 접혀 뜬다.** 누르면 서랍이 열리고,
+    /// 맨 앞의 > 로 다시 접는다. 보내기만 서랍 밖에 늘 서 있다.
+    /// 간격은 서랍 안 한 곳에서 정한다(`controlKeySpacing`). 키들은 저마다 44pt 손가락 자리를
     /// 갖고 있어서, 사이는 그 자리들이 맞닿는 만큼으로 고르게 벌어진다.
     ///
-    /// 실제 키보드에서는 **… 하나로 접혀 뜬다.** 누르면 펼쳐지고, 맨 앞의 화살표로 다시 접는다.
-    /// 접혀 있는 동안 카테고리 탭이 그만큼 넓게 쓴다.
-    @ViewBuilder
-    private var controlKeyCluster: some View {
-        if collapsesControlKeys && !controlKeysExpanded {
-            expandControlKeysButton
+    /// ⚠️ 펼친 조작 키는 카테고리 줄 **위의 층**이다. 같은 `HStack` 에 나란히 두면 펼칠 때
+    ///    카테고리 칸이 좁아지며 밀려나, 한 줄이 제자리에서 다시 짜이는 것으로 보였다.
+    ///    서랍은 카테고리 줄을 그대로 둔 채 오른쪽에서 미끄러져 덮고, 맨 앞의 > 가
+    ///    그 서랍의 손잡이다. 겹친 것이 읽히도록 서랍에만 바탕·그림자를 준다.
+    ///    접혀 있을 때의 … 는 층이 아니라 줄의 한 칸이다(탭이 그 앞까지만 쓴다).
+    private var controlKeyDrawerRow: some View {
+        HStack(spacing: 0) {
+            ZStack(alignment: .trailing) {
+                HStack(spacing: 0) {
+                    if categoryPages.count > 1 {
+                        categoryTabRow
+                    } else {
+                        Spacer()
+                    }
+                    expandControlKeysButton
+                        .padding(.trailing, 6)
+                        .opacity(controlKeysExpanded ? 0 : 1)
+                        .allowsHitTesting(!controlKeysExpanded)
+                        .accessibilityHidden(controlKeysExpanded)
+                }
+
+                if controlKeysExpanded {
+                    expandedControlKeyCluster
+                        .background(
+                            // 보내기 키 앞에서 끝나는 떠 있는 판이라 네 귀를 다 둥글린다.
+                            RoundedRectangle(cornerRadius: theme.radiusSm)
+                                .fill(.regularMaterial)
+                                .shadow(color: .black.opacity(0.18), radius: 6, x: -3, y: 0)
+                        )
+                        .transition(.move(edge: .trailing).combined(with: .opacity))
+                        .zIndex(1)
+                }
+            }
+            // 보내기는 **서랍 밖**에 늘 서 있다. 가장 자주 누르는 조작 키라 … 를 한 번 더
+            // 누르게 하지 않는다(사용자 요청, 2026-09-27). 서랍은 이 키 왼쪽까지만 덮는다.
+            sendKey
                 .padding(.trailing, 6)
-                .transition(.opacity)
-        } else {
-            expandedControlKeyCluster
-                .transition(.opacity.combined(with: .move(edge: .trailing)))
         }
     }
 
-    /// 조작 키를 접어 둘지. **실제 키보드에서만** 접는다.
-    ///
-    /// ⚠️ 앱 안(무대 · 키보드 레이아웃 설정)에서는 늘 펼쳐 둔다. 설정 미리보기는 지금 고르는
-    ///    키가 보여야 하고, 무대의 튜토리얼은 보내기 키를 짚는다(`highlightsSend`).
-    ///    접혀 있으면 짚을 키가 없다.
-    private var collapsesControlKeys: Bool { hostKind == .keyboardExtension }
+    /// 넣고 나서 보내는 키. 설정에서 끌 수 있다(`KeyboardPrefs.showReturnKey`).
+    @ViewBuilder
+    private var sendKey: some View {
+        if let proxy = typingProxy, showReturnKey {
+            returnDocumentKey(proxy: proxy)
+                .opacity(documentState.returnKeyIsLocked ? 0.4 : 1)
+                .disabled(documentState.returnKeyIsLocked)
+        }
+    }
+
+    /// 한 글자 지우기. 이게 없어서 오타 하나를 고치려고 **다른 키보드로
+    /// 건너갔다가 돌아와야 했다**(사용자 요청).
+    @ViewBuilder
+    private var controlBackspaceKey: some View {
+        if let proxy = typingProxy {
+            backspaceDocumentKey(proxy: proxy)
+        }
+    }
+
+    /// X(전체 삭제). 빈 칸에서는 눌러도 지울 게 없다 - 있지만 흐리게.
+    @ViewBuilder
+    private var clearAllKey: some View {
+        if let proxy = typingProxy {
+            clearAllButton(proxy: proxy)
+                .transition(.opacity.combined(with: .scale(scale: 0.85)))
+                .opacity(documentState.hasText ? 1 : 0.4)
+                .disabled(!documentState.hasText)
+        }
+    }
 
     /// 접혀 있을 때 홀로 서는 '더 보기'(…). 누르면 조작 키를 펼친다.
     ///
@@ -1007,7 +1065,7 @@ struct KeyboardView: View {
         .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
         .contentShape(Rectangle())
         .accessibilityLabel(NSLocalizedString("조작 키 펼치기", comment: "Keyboard: expand control keys"))
-        .accessibilityHint(NSLocalizedString("숫자 판, 보내기, 지우기, 전체 삭제 키를 펼칩니다", comment: "Keyboard: expand control keys hint"))
+        .accessibilityHint(NSLocalizedString("숫자 판, 지우기, 전체 삭제 키를 펼칩니다", comment: "Keyboard: expand control keys hint (the send key stays outside, always visible)"))
     }
 
     /// 펼친 묶음의 맨 앞에서 다시 접는 키.
@@ -1033,9 +1091,7 @@ struct KeyboardView: View {
 
     private var expandedControlKeyCluster: some View {
         HStack(spacing: controlKeySpacing) {
-            if collapsesControlKeys {
-                collapseControlKeysButton
-            }
+            collapseControlKeysButton
             // 숫자 판으로 건너가는 키. **붙여넣기 바로 옆**에 둔다 - 둘 다
             // "지금 넣을 것을 가져오는" 키라, 손이 같은 자리를 찾는다.
             if let proxy = typingProxy, showsNumberPadKey {
@@ -1071,24 +1127,12 @@ struct KeyboardView: View {
             //    들어갈 뿐이라 아무 일도 안 일어난다. 이름이 있는 키는 그 이름의 일을
             //    할 것처럼 보이므로, 못 할 때는 못 한다고 보여야 한다.
             //    숨기지는 않는다. 자리가 비면 줄이 흔들리고, 무엇을 누르면 되는지도 감춰진다.
-            if let proxy = typingProxy, showReturnKey {
-                returnDocumentKey(proxy: proxy)
-                    .opacity(documentState.returnKeyIsLocked ? 0.4 : 1)
-                    .disabled(documentState.returnKeyIsLocked)
-            }
-            // 한 글자 지우기. 이게 없어서 오타 하나를 고치려고 **다른 키보드로
-            // 건너갔다가 돌아와야 했다**(사용자 요청).
-            if let proxy = typingProxy {
-                backspaceDocumentKey(proxy: proxy)
-            }
-            // X(전체 삭제).
-            if let proxy = typingProxy {
-                clearAllButton(proxy: proxy)
-                    .transition(.opacity.combined(with: .scale(scale: 0.85)))
-                    // 빈 칸에서는 눌러도 지울 게 없다 - 있지만 흐리게.
-                    .opacity(documentState.hasText ? 1 : 0.4)
-                    .disabled(!documentState.hasText)
-            }
+            //
+            // ⚠️ 보내기는 이 서랍에 **없다.** 서랍 밖 맨 오른쪽에 늘 서 있다(`controlKeyDrawerRow`).
+            //    그래서 여기서는 X · 지우기 순으로 세워, 서랍을 열었을 때 X 와 보내기 사이에
+            //    지우기가 온다.
+            clearAllKey
+            controlBackspaceKey
         }
         .padding(.trailing, 6)
     }
@@ -1120,23 +1164,10 @@ struct KeyboardView: View {
                         globeKey(proxy: proxy)
                             .padding(.leading, 8)
                     }
-                    // 앱 안에서는 탭이 하나뿐이어도 보여준다 - 카테고리가 **처음부터** 있어야
-                    // "여기서 갈라 볼 수 있다"가 읽힌다. 익스텐션은 자리가 귀해 예전대로 둘 이상일 때만.
-                    if hostKind == .inApp ? !categoryPages.isEmpty : categoryPages.count > 1 {
-                        categoryTabRow
-                    } else {
-                        Spacer()
-                    }
-                    // 조작 키들은 **한 묶음**으로 오른쪽 끝에 붙인다.
-                    //
-                    // ⚠️ 예전에는 키마다 제 꼬리에 여백을 달고 있었다(2 · 2 · 2 · 4).
-                    //    어느 키가 서고 어느 키가 빠지느냐에 따라 사이가 들쭉날쭉했고,
-                    //    무엇보다 키 하나를 더할 때마다 그 여백을 또 정해야 했다.
-                    //    간격은 이 줄 하나가 정한다. 키는 자기 크기만 안다.
-                    //
-                    // ⚠️ 카테고리 칸은 이 묶음에 넣지 않는다. 저쪽은 글자 수에 따라 늘었다
-                    //    줄었다 하며 남는 자리를 다 쓰는 줄이고, 이쪽은 크기가 정해진 키들이다.
-                    controlKeyCluster
+                    // 카테고리 탭 + 조작 키. **세 자리(진짜 키보드 · 키보드 탭 · 설정 미리보기) 모두
+                    // 같은 줄**이다. 펼친 조작 키는 카테고리 줄 위에 겹쳐 나온다(서랍).
+                    // 자세한 이유: `controlKeyDrawerRow`
+                    controlKeyDrawerRow
                 }
                 .animation(.easeOut(duration: 0.18), value: documentState.hasText)
             }
@@ -1182,7 +1213,7 @@ struct KeyboardView: View {
                                     //    (익스텐션에서는 같은 길게 누르기가 값을 크게 펼친다
                                     //     `MemoPeekOnLongPress` - 한 손짓에 주인은 하나여야 한다)
                                     .modifier(InAppLongPressCopy(
-                                        enabled: hostKind == .inApp,
+                                        enabled: hostKind.longPressCopies,
                                         onCopy: { copyMemoInApp(item.memo) },
                                         suppressed: $suppressTapAfterLongPress,
                                         memoId: item.memo.id
@@ -1969,7 +2000,7 @@ struct KeyboardView: View {
                 )
             }
             .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
-            .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
+            .modifier(MemoPeekOnLongPress(memo: memo, enabled: !hostKind.longPressCopies, onPeek: showPeek))
             .accessibilityLabel(memoAccessibilityLabel(for: memo))
             .accessibilityHint(memoAccessibilityHint(for: memo))
         } else if memo.isStack {
@@ -1980,7 +2011,7 @@ struct KeyboardView: View {
             //    키보드에서 꺼낼 길이 아예 없었다(사용자 요청: "잠금 푼 뒤에 고를 수가 없다").
             //    고르는 일에는 값이 필요 없다 - 값이 나가는 왼쪽만 인증을 받으면 된다.
             stackSplitButton(for: memo, catColor: catColor)
-                .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
+                .modifier(MemoPeekOnLongPress(memo: memo, enabled: !hostKind.longPressCopies, onPeek: showPeek))
                 .accessibilityLabel(memoAccessibilityLabel(for: memo))
                 .accessibilityHint(memo.isSecure
                     ? NSLocalizedString("오른쪽 화살표로 값을 고르고, 왼쪽을 누르면 PIN 인증 후 넣어요", comment: "Secure combo split button hint")
@@ -1992,7 +2023,7 @@ struct KeyboardView: View {
                 memoButtonLabel(for: memo, catColor: catColor, useTemplate: useTemplate)
             }
             .buttonStyle(KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius, skirtColor: keycapSkirtColor))
-            .modifier(MemoPeekOnLongPress(memo: memo, enabled: hostKind != .inApp, onPeek: showPeek))
+            .modifier(MemoPeekOnLongPress(memo: memo, enabled: !hostKind.longPressCopies, onPeek: showPeek))
             .accessibilityLabel(memoAccessibilityLabel(for: memo))
             .accessibilityHint(memoAccessibilityHint(for: memo))
         }
@@ -2002,7 +2033,7 @@ struct KeyboardView: View {
 
     /// 지금 껍데기가 깨지고 있는 키. nil 이면 아무 데서도 안 벌어진다.
     ///
-    /// ⚠️ 미리보기(`hostKind == .inApp`)에서만 값이 들어간다. 익스텐션에서는 이 값이
+    /// ⚠️ 앱 안(`hostKind.runsInsideApp`)에서만 값이 들어간다. 익스텐션에서는 이 값이
     ///    영원히 nil 이라 연출이 그려지지 않는다.
 
     /// 지금 크게 들여다보고 있는 단축어(길게 누르기). nil 이면 판이 닫혀 있다.
@@ -2365,7 +2396,7 @@ struct KeyboardView: View {
 
         // 앱 무대에서는 복사에서 끝내지 않는다 - 입력창이 우리 것이라 붙여넣은 모습까지
         // 보여줄 수 있다. 익스텐션에서는 남의 텍스트 필드라 넣을 길이 없어 복사가 끝이다.
-        if hostKind == .inApp {
+        if hostKind.insertsImageIntoOwnField {
             NotificationCenter.postOnMain(
                 name: .addImageEntry,
                 object: fileName,
@@ -2902,7 +2933,7 @@ struct KeyboardView: View {
     private func refreshQuickRowSignals(now: Date = Date()) {
         rhythmDueIDs = UsageRhythm.dueMemoIDs(log: UsageRhythmLog.load(), now: now)
         anchorIDs = QuickRowAnchors.load()
-        searchStruggling = hostKind == .keyboardExtension
+        searchStruggling = hostKind.tracksSearchStruggle
             && KeyboardSessionLedger.isStruggling(KeyboardSessionLedger.load(), now: now)
     }
 
@@ -3133,7 +3164,7 @@ struct KeyboardView: View {
         if useCustomColors, !customBgHex.isEmpty, let custom = Color(hex: customBgHex) {
             return custom
         }
-        return hostKind == .inApp ? theme.bg : .clear
+        return .clear
     }
 
     private var keyColor: Color {
@@ -3423,5 +3454,23 @@ struct TopBleedClip: Shape {
     func path(in rect: CGRect) -> Path {
         Path(CGRect(x: rect.minX, y: rect.minY - bleed,
                     width: rect.width, height: rect.height + bleed))
+    }
+}
+
+// MARK: - 시스템 키보드 바탕
+
+/// 앱 안에서 키보드를 세우는 자리(키보드 탭 · 설정 미리보기)가 까는 **시스템 키보드 바탕색.**
+///
+/// 진짜 키보드는 컨트롤러가 `UIInputView(.keyboard)` 를 깔아 시스템이 바탕을 그린다
+/// (`KeyboardViewController.setupSystemBackdrop`). 같은 뷰를 앱 안에 깔아 봤지만 키보드 창
+/// 밖에서는 바탕을 그리지 않고 파랗게 비었다(2026-09-27 시뮬레이터). 그래서 앱 안에서는
+/// 시스템 키보드의 바탕색을 직접 칠한다. 라이트·다크 두 값만 맞추면 된다.
+struct SystemKeyboardBackdrop: View {
+    var body: some View {
+        Color(uiColor: UIColor { traits in
+            traits.userInterfaceStyle == .dark
+                ? UIColor(red: 0.17, green: 0.17, blue: 0.18, alpha: 1)
+                : UIColor(red: 0.82, green: 0.84, blue: 0.86, alpha: 1)
+        })
     }
 }

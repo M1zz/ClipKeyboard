@@ -17,12 +17,12 @@ import LeeoKit
 struct KeyboardLayoutSettings: View {
 
     // MARK: AppStorage - App Group 공유 (익스텐션과 동일 키)
-    @AppStorage("keyboardColumnCount", store: AppGroup.defaults) private var columnCount: Int    = 2
-    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 44.0
-    @AppStorage("keyboardButtonFontSize", store: AppGroup.defaults) private var buttonFontSize: Double = 17.0
-    @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults) private var useCustomColors: Bool   = false
-    @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults) private var customBgHex: String = ""
-    @AppStorage("keyboardCustomKeyHex", store: AppGroup.defaults) private var customKeyHex: String = ""
+    @AppStorage(KeyboardPrefs.columnCount.key, store: AppGroup.defaults) private var columnCount: Int = KeyboardPrefs.columnCount.fallback
+    @AppStorage(KeyboardPrefs.buttonHeight.key, store: AppGroup.defaults) private var buttonHeight: Double = KeyboardPrefs.buttonHeight.fallback
+    @AppStorage(KeyboardPrefs.buttonFontSize.key, store: AppGroup.defaults) private var buttonFontSize: Double = KeyboardPrefs.buttonFontSize.fallback
+    @AppStorage(KeyboardPrefs.useCustomColors.key, store: AppGroup.defaults) private var useCustomColors: Bool = KeyboardPrefs.useCustomColors.fallback
+    @AppStorage(KeyboardPrefs.customBgHex.key, store: AppGroup.defaults) private var customBgHex: String = KeyboardPrefs.customBgHex.fallback
+    @AppStorage(KeyboardPrefs.customKeyHex.key, store: AppGroup.defaults) private var customKeyHex: String = KeyboardPrefs.customKeyHex.fallback
     /// 키캡 물성 프리셋 - 익스텐션이 같은 키를 읽는다.
     @AppStorage(DefaultsKey.keyLabelTruncation, store: AppGroup.defaults)
     private var truncationRaw: String = KeyLabelTruncation.middle.rawValue
@@ -32,23 +32,23 @@ struct KeyboardLayoutSettings: View {
     @AppStorage(DefaultsKey.keyboardHeightPreset, store: AppGroup.defaults)
     private var heightPresetRaw: String = KeyboardHeightPreset.fallback.rawValue
     /// 조작 키 한 칸의 높이. 0 이면 아직 안 고른 것이라 기본값으로 읽는다.
-    @AppStorage(DefaultsKey.keyboardControlKeySize, store: AppGroup.defaults)
-    private var controlKeySizeRaw: Double = 0
-    @AppStorage(DefaultsKey.keyboardShowSearch, store: AppGroup.defaults) private var showSearch: Bool   = false
+    @AppStorage(KeyboardPrefs.controlKeySize.key, store: AppGroup.defaults)
+    private var controlKeySizeRaw: Double = KeyboardPrefs.controlKeySize.fallback
+    @AppStorage(KeyboardPrefs.showSearch.key, store: AppGroup.defaults) private var showSearch: Bool = KeyboardPrefs.showSearch.fallback
     /// '최근 단축어' 토글의 **날값**. 화면이 보여 주는 값은 아래 `showRecentBinding` 이다.
     /// (값이 없을 때와 false 를 `@AppStorage` 가 구분하지 못하는 탓 - DefaultsKey 참고)
     @AppStorage(DefaultsKey.keyboardShowRecent, store: AppGroup.defaults) private var showRecentRaw: Bool = false
     /// 위줄의 리턴(보내기) 키. 기본 켬 - 없어서 못 보내던 것이 신고로 들어온 쪽이다.
-    @AppStorage(DefaultsKey.keyboardShowReturnKey, store: AppGroup.defaults) private var showReturnKey: Bool = true
+    @AppStorage(KeyboardPrefs.showReturnKey.key, store: AppGroup.defaults) private var showReturnKey: Bool = KeyboardPrefs.showReturnKey.fallback
     /// 위줄의 숫자 판 키. 기본 켬 - 숫자 몇 자 넣으려고 다른 키보드로 건너가던 것을 없애려고 둔 키라,
     /// 있는 줄 몰라서 못 쓰면 둔 뜻이 없다.
-    @AppStorage(DefaultsKey.keyboardShowNumberPad, store: AppGroup.defaults) private var showNumberPad: Bool = true
+    @AppStorage(KeyboardPrefs.showNumberPad.key, store: AppGroup.defaults) private var showNumberPad: Bool = KeyboardPrefs.showNumberPad.fallback
     /// 위줄의 붙여넣기 키. **기본 끔** - 위줄이 붐비고, 붙여넣기는 시스템 키보드에도 있다.
-    @AppStorage(DefaultsKey.keyboardShowClipboardKey, store: AppGroup.defaults) private var showClipboardKey: Bool = false
-    @AppStorage("keyboardKoreanLayout", store: AppGroup.defaults) private var koreanLayout: String = "dubeolsik"
-    @AppStorage("keyboardTypingLang", store: AppGroup.defaults) private var defaultLang: String = "english"
+    @AppStorage(KeyboardPrefs.showClipboardKey.key, store: AppGroup.defaults) private var showClipboardKey: Bool = KeyboardPrefs.showClipboardKey.fallback
+    @AppStorage(KeyboardPrefs.koreanLayout.key, store: AppGroup.defaults) private var koreanLayout: String = KeyboardPrefs.koreanLayout.fallback
+    @AppStorage(KeyboardPrefs.typingLang.key, store: AppGroup.defaults) private var defaultLang: String = KeyboardPrefs.typingLang.fallback
     // 한국어 입력 사용(기본 OFF). 영어 전용 사용자가 한/EN 토글을 보지 않도록 명시적으로 켜야 함.
-    @AppStorage("keyboardKoreanEnabled", store: AppGroup.defaults) private var koreanEnabled: Bool   = false
+    @AppStorage(KeyboardPrefs.koreanEnabled.key, store: AppGroup.defaults) private var koreanEnabled: Bool = KeyboardPrefs.koreanEnabled.fallback
 
     @State private var customBgColor: Color = .clear
     @State private var customKeyColor: Color = .clear
@@ -78,7 +78,7 @@ struct KeyboardLayoutSettings: View {
     /// ⚠️ 익스텐션과 **같은 함수**로 잰다. 여기서 따로 셈하면 설정이 말하는 숫자와
     ///    실제로 올라오는 키보드가 갈라지고, 그때는 설정 쪽이 거짓말이 된다.
     private var heightComparison: (ours: CGFloat, system: CGFloat) {
-        let size = UIScreen.main.bounds.size
+        let size = ScreenSize.current
         var metrics = KeyboardHeightBook.ContentMetrics()
         metrics.buttonHeight = CGFloat(buttonHeight)
         metrics.columns = columnCount
@@ -551,9 +551,9 @@ struct KeyboardPreviewView: View {
     @Environment(\.appTheme) private var theme
 
     // 아래 값들이 바뀌면 미리보기 높이도 따라 움직인다.
-    @AppStorage("keyboardColumnCount", store: AppGroup.defaults) private var columnCount: Int = 2
-    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults) private var buttonHeight: Double = 44.0
-    @AppStorage(DefaultsKey.keyboardControlKeySize, store: AppGroup.defaults) private var controlKeySizeRaw: Double = 0
+    @AppStorage(KeyboardPrefs.columnCount.key, store: AppGroup.defaults) private var columnCount: Int = KeyboardPrefs.columnCount.fallback
+    @AppStorage(KeyboardPrefs.buttonHeight.key, store: AppGroup.defaults) private var buttonHeight: Double = KeyboardPrefs.buttonHeight.fallback
+    @AppStorage(KeyboardPrefs.controlKeySize.key, store: AppGroup.defaults) private var controlKeySizeRaw: Double = KeyboardPrefs.controlKeySize.fallback
     @AppStorage(DefaultsKey.keyboardHeightPreset, store: AppGroup.defaults)
     private var heightPresetRaw: String = KeyboardHeightPreset.fallback.rawValue
 
@@ -568,13 +568,14 @@ struct KeyboardPreviewView: View {
         //
         //    같은 뷰를 쓰면 갈라질 수가 없다. 무대(`InAppKeyboardStage`)가 이미 같은
         //    방법으로 진짜 키보드를 세우고 있다.
-        // ⚠️ `.inApp` 으로 세운다. 익스텐션 모드는 입력창에 글이 있어야 지우기·전체삭제가
-        //    나타나는데, 미리보기의 입력창은 늘 비어 있어서 **정작 지금 만지는 키들이
-        //    하나도 안 보인다.** 여기서 보여 줄 것은 "글이 없을 때의 모습" 이 아니라
-        //    "내가 켜고 끈 키들이 어디에 어떻게 서는가" 다.
+        // ⚠️ `.settingsPreview` 로 세운다. 모양은 **진짜 키보드 그대로**(조작 키 서랍 ·
+        //    카테고리 탭 조건)이고, 서랍만 열어 둔 채 시작해 지금 켜고 끈 키가 어디에 서는지
+        //    보인다. 예전에는 무대와 같은 `.inApp` 이라 조작 키가 늘 펼쳐져 있었고, 실제
+        //    키보드에서는 … 뒤에 접혀 있어서 "설정에서 켰는데 안 보인다" 가 됐다.
+        //    무엇이 어느 자리에서 다른지는 `KeyboardHostKind` 확장 한 곳에 있다.
         KeyboardView(typingProxy: host,
                      documentState: host.documentState,
-                     hostKind: .inApp)
+                     hostKind: .settingsPreview)
             // ⚠️ 누를 수 없게 막는다. 여기는 **보는 자리**다. 설정을 만지러 온 사람이
             //    미리보기를 눌러 글이 들어가면, 그 글이 어디로 갔는지 알 길이 없다.
             .allowsHitTesting(false)
@@ -598,7 +599,7 @@ struct KeyboardPreviewView: View {
             .accessibilityLabel(NSLocalizedString("키보드 미리보기", comment: "Keyboard preview accessibility label"))
     }
 
-    private var screenWidth: CGFloat { UIScreen.main.bounds.width }
+    private var screenWidth: CGFloat { ScreenSize.current.width }
 
     /// 설정 화면에서 미리보기가 쓸 수 있는 높이. 이보다 크면 줄여 담는다.
     ///
@@ -623,7 +624,7 @@ struct KeyboardPreviewView: View {
         metrics.buttonHeight = CGFloat(buttonHeight)
         metrics.columns = columnCount
         metrics.controlKeySize = KeyboardHeightBook.resolvedControlKeySize(controlKeySizeRaw)
-        return KeyboardHeightBook.height(for: UIScreen.main.bounds.size,
+        return KeyboardHeightBook.height(for: ScreenSize.current,
                                          content: metrics,
                                          preset: KeyboardHeightPreset(rawValue: heightPresetRaw) ?? .fallback)
     }

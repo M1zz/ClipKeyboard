@@ -170,9 +170,9 @@ enum KeyboardHeightBook {
         /// 격자 줄 사이.
         var rowSpacing: CGFloat = 10
         /// 키 하나의 높이. 설정 > 키보드 모양에서 바꾼다.
-        var buttonHeight: CGFloat = 44
+        var buttonHeight: CGFloat = CGFloat(KeyboardPrefs.buttonHeight.fallback)
         /// 한 줄에 서는 키 개수. 설정에서 1~5.
-        var columns: Int = 2
+        var columns: Int = KeyboardPrefs.columnCount.fallback
         /// 적어도 이만큼은 보인다. 셋만 보이면 목록이 아니라 조각으로 읽힌다.
         var minimumVisibleButtons: Int = 6
 
@@ -203,14 +203,14 @@ enum KeyboardHeightBook {
     static func currentContentMetrics() -> ContentMetrics {
         var metrics = ContentMetrics()
         let defaults = AppGroup.defaults
-        if let height = defaults?.object(forKey: DefaultsKey.keyboardButtonHeight) as? Double, height > 0 {
+        if let height = defaults?.object(forKey: KeyboardPrefs.buttonHeight.key) as? Double, height > 0 {
             metrics.buttonHeight = CGFloat(height)
         }
-        if let columns = defaults?.object(forKey: DefaultsKey.keyboardColumnCount) as? Int, columns > 0 {
+        if let columns = defaults?.object(forKey: KeyboardPrefs.columnCount.key) as? Int, columns > 0 {
             metrics.columns = columns
         }
         // 머리 줄 높이가 여기서 나온다. 안 읽으면 조작 키를 키운 만큼 첫 줄이 잘린다.
-        let rawControl = defaults?.object(forKey: DefaultsKey.keyboardControlKeySize) as? Double ?? 0
+        let rawControl = KeyboardPrefs.controlKeySize.value(in: defaults)
         metrics.controlKeySize = resolvedControlKeySize(rawControl)
         return metrics
     }
@@ -340,7 +340,7 @@ enum KeyboardHeightBook {
     /// 잰 값을 믿을지 가린다. **믿을 수 없는 값을 적는 것이 안 적는 것보다 나쁘다.**
     /// 어긋난 값이 장부에 한 번 들어가면 어림값으로도 못 돌아가고 그대로 굳는다.
     static func consider(frame: CGRect, screen: CGSize? = nil) {
-        let screenSize = screen ?? UIScreen.main.bounds.size
+        let screenSize = screen ?? ScreenSize.current
         guard screenSize.height > 0 else { return }
 
         // ① 하드웨어 키보드가 붙어 있으면 화면에는 단축 바만 뜬다. 그 높이를 적으면
@@ -453,4 +453,44 @@ enum KeyboardHeightPreset: String, CaseIterable, Identifiable {
             return NSLocalizedString("한 줄을 더 얹어요. 단축어를 굴리지 않고 보고 싶을 때.", comment: "Keyboard height preset description: roomy")
         }
     }
+}
+
+// MARK: - 화면 크기
+
+/// 지금 화면의 크기 - `UIScreen.main` 을 부르는 곳은 이 파일 하나뿐이다.
+///
+/// iOS 26 에서 `UIScreen.main` 이 사라질 예정(deprecated)이 됐다. 대신 **창이 붙은 씬의 화면**을
+/// 본다. 한 기기에 화면이 여럿일 수 있게 되면서(외부 디스플레이 · 창 여러 개) "주 화면" 이라는
+/// 말 자체가 틀려진 탓이다.
+///
+/// ⚠️ 키보드 익스텐션에는 씬이 **늦게** 붙는다. 높이를 처음 세우는 `viewDidLoad` 에는
+///    `view.window` 가 비어 있다. 그 순간을 창으로 대신할 길이 없어서, 그때만 옛 길로 화면을
+///    읽는다(`LegacyMainScreen`). 여기서 짐작으로 바꾸면 키보드가 뜰 때 높이가 튄다
+///    (`docs/postmortem/KEYBOARD_HEIGHT_JUMP.md`).
+enum ScreenSize {
+
+    /// 이 뷰가 붙은 화면. 아직 창이 없으면 `current`.
+    static func of(_ view: UIView?) -> CGSize {
+        view?.window?.windowScene?.screen.bounds.size ?? current
+    }
+
+    /// 앱: 앞에 나와 있는 씬의 화면. 익스텐션: 옛 길(위 머리말).
+    static var current: CGSize {
+        #if !KEYBOARD_EXTENSION
+        let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+        if let scene = scenes.first(where: { $0.activationState == .foregroundActive }) ?? scenes.first {
+            return scene.screen.bounds.size
+        }
+        #endif
+        return (LegacyMainScreen.self as LegacyScreenSource.Type).boundsSize
+    }
+}
+
+/// 옛 `UIScreen.main` 을 한 곳에 가둔다. 프로토콜을 거쳐 읽어 경고가 부르는 곳마다 번지지 않게 한다.
+/// ⚠️ 새로 쓰지 말 것. 창이 없는 순간(익스텐션 첫 레이아웃)의 마지막 수단이다.
+private protocol LegacyScreenSource { static var boundsSize: CGSize { get } }
+
+private enum LegacyMainScreen: LegacyScreenSource {
+    @available(iOS, deprecated: 26.0, message: "창이 없는 순간에만 ScreenSize.current 가 부른다")
+    static var boundsSize: CGSize { UIScreen.main.bounds.size }
 }

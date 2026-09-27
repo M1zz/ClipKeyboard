@@ -14,6 +14,8 @@ struct SettingView: View {
     @Environment(\.appTheme) private var theme
     @ObservedObject private var proManager = StoreManager.shared
     @State private var showPaywall = false
+    /// 복원을 누른 결과. 값이 들어오면 알림이 뜬다.
+    @State private var restoreOutcome: StoreManager.RestoreOutcome?
     /// 지금 가진 단축어 개수 - 화면에 들어올 때와 데이터가 바뀔 때만 다시 센다.
     /// ⚠️ 그릴 때마다 세면 설정을 스크롤하는 내내 저장 파일을 읽는다.
     @State private var memoCountState = 0
@@ -153,7 +155,7 @@ struct SettingView: View {
     /// 체험 중일 때와 아닐 때 같은 버튼이 필요하다 - 한 곳에서만 고치도록 빼 둔다.
     private var restorePurchasesButton: some View {
         Button {
-            Task { await proManager.restorePurchases() }
+            Task { restoreOutcome = await proManager.restorePurchases() }
         } label: {
             Label(NSLocalizedString("이전 구매 복원", comment: "Restore"), systemImage: AppSymbol.arrowClockwise)
                 .foregroundStyle(Color.secondary)
@@ -276,6 +278,7 @@ struct SettingView: View {
         .contentMargins(.bottom, 24, for: .scrollContent)
         .solidNavBar(theme.bg)
         .sheet(isPresented: $showPaywall) { PaywallView() }
+        .restoreOutcomeAlert($restoreOutcome)
     }
 }
 
@@ -313,14 +316,14 @@ struct DisplaySettingsView: View {
     @Environment(\.appTheme) private var theme
     /// 메모 구분 표시 마스터 토글 - 기본 OFF(제목만). 켜면 타입 아이콘·배지·테두리·심볼·색을 모두 표시.
     /// App Group에 저장해 키보드 익스텐션도 동일 설정을 읽는다.
-    @AppStorage("showVisualCues", store: AppGroup.defaults)
-    private var visible: Bool = false
+    @AppStorage(KeyboardPrefs.showVisualCues.key, store: AppGroup.defaults)
+    private var visible: Bool = KeyboardPrefs.showVisualCues.fallback
     /// 메모 셀 높이 - 작게 110 / 보통 140 / 크게 180.
-    @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
+    @AppStorage(AppPrefs.memoCardHeight.key) private var memoCardHeight: Double = AppPrefs.memoCardHeight.fallback
     /// 카드 내용 힌트 - 카드가 화면에 2초쯤 머물면 한 번 살며시 나타났다 사라지는 미리보기.
     /// App Group에 저장해 키보드 익스텐션(제목↔내용 스왑)도 동일 설정을 따른다.
-    @AppStorage(DefaultsKey.contentHintEnabled, store: AppGroup.defaults)
-    private var contentHintEnabled: Bool = false
+    @AppStorage(KeyboardPrefs.contentHintEnabled.key, store: AppGroup.defaults)
+    private var contentHintEnabled: Bool = KeyboardPrefs.contentHintEnabled.fallback
 
     var body: some View {
         List {

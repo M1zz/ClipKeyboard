@@ -172,19 +172,19 @@ struct InAppKeyboardStage: View {
     // 아래 넷은 **보려고** 두는 것이다. 값을 쓰지는 않지만, 바뀌면 무대의 키보드 높이가
     // 다시 계산되어야 한다(`keyboardHeight`). @AppStorage 로 잡아 두지 않으면 설정에서
     // 키 높이를 바꾸고 돌아와도 무대만 아까 그 높이로 굳어 있다.
-    @AppStorage(DefaultsKey.keyboardButtonHeight, store: AppGroup.defaults)
-    private var watchedButtonHeight: Double = 44.0
-    @AppStorage(DefaultsKey.keyboardColumnCount, store: AppGroup.defaults)
-    private var watchedColumnCount: Int = 2
-    @AppStorage(DefaultsKey.keyboardControlKeySize, store: AppGroup.defaults)
-    private var watchedControlKeySize: Double = 0
+    @AppStorage(KeyboardPrefs.buttonHeight.key, store: AppGroup.defaults)
+    private var watchedButtonHeight: Double = KeyboardPrefs.buttonHeight.fallback
+    @AppStorage(KeyboardPrefs.columnCount.key, store: AppGroup.defaults)
+    private var watchedColumnCount: Int = KeyboardPrefs.columnCount.fallback
+    @AppStorage(KeyboardPrefs.controlKeySize.key, store: AppGroup.defaults)
+    private var watchedControlKeySize: Double = KeyboardPrefs.controlKeySize.fallback
     @AppStorage(DefaultsKey.keyboardHeightPreset, store: AppGroup.defaults)
     private var watchedHeightPreset: String = KeyboardHeightPreset.fallback.rawValue
 
-    @AppStorage("keyboardUseCustomColors", store: AppGroup.defaults)
-    private var keyboardUseCustomColors: Bool = false
-    @AppStorage("keyboardCustomBgHex", store: AppGroup.defaults)
-    private var keyboardCustomBgHex: String = ""
+    @AppStorage(KeyboardPrefs.useCustomColors.key, store: AppGroup.defaults)
+    private var keyboardUseCustomColors: Bool = KeyboardPrefs.useCustomColors.fallback
+    @AppStorage(KeyboardPrefs.customBgHex.key, store: AppGroup.defaults)
+    private var keyboardCustomBgHex: String = KeyboardPrefs.customBgHex.fallback
 
     /// 무대 전체가 깔고 앉는 색 - 아래 키보드의 배경색과 언제나 같다.
     private var stageBackground: Color {
@@ -698,7 +698,7 @@ struct InAppKeyboardStage: View {
     ///    키보드가 제 높이를 다 가져가면 정작 "넣은 것이 어디로 가는지" 가 안 보인다.
     ///    대화는 `ScrollView` 라 줄어드는 쪽을 맡는다.
     private func keyboardHeight(in size: CGSize) -> CGFloat {
-        let natural = KeyboardHeightBook.currentHeight(for: UIScreen.main.bounds.size)
+        let natural = KeyboardHeightBook.currentHeight(for: ScreenSize.current)
         let ceiling = max(size.height * 0.62, KeyboardHeightBook.minimumContentHeight)
         return min(natural, ceiling)
     }

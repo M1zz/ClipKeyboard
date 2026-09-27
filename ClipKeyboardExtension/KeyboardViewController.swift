@@ -292,7 +292,7 @@ class KeyboardViewController: UIInputViewController {
     /// 화면 크기. 익스텐션에는 씬이 늦게 붙어 `view.window` 가 비어 있는 순간이 있으므로
     /// 그때는 화면을 직접 본다.
     private var screenSize: CGSize {
-        view.window?.windowScene?.screen.bounds.size ?? UIScreen.main.bounds.size
+        ScreenSize.of(view)
     }
 
     /// 회전 등으로 화면이 바뀐 뒤 높이를 다시 맞춘다.
@@ -749,29 +749,10 @@ class KeyboardViewController: UIInputViewController {
         clipMemoId = []
         clipMemos = []
 
-        print("\n📋 [KeyboardViewController] 불러온 메모 상세 정보:")
-        for (index, item) in memos.enumerated() {
-            print("   [\(index)] =====================================")
-            print("       ID: \(item.id)")
-            print("       제목: \(item.title)")
-            print("       값: \(item.value)")
-            print("       카테고리: \(item.category)")
-            print("       즐겨찾기: \(item.isFavorite)")
-            print("       템플릿: \(item.isTemplate)")
-            print("       보안: \(item.isSecure)")
-            print("       수정일: \(item.lastEdited)")
-            print("       사용횟수: \(item.clipCount)")
-            print("       템플릿 변수: \(item.templateVariables)")
-            print("       📦 플레이스홀더 값:")
-            if item.placeholderValues.isEmpty {
-                print("           (비어있음)")
-            } else {
-                for (placeholder, values) in item.placeholderValues {
-                    print("           \(placeholder): \(values)")
-                }
-            }
-            print("   ========================================\n")
-
+        // ⚠️ 단축어 하나하나를 로그로 풀어 쓰지 않는다. 키보드는 메모리 한도(약 60MB)가
+        //    빠듯한데 불러올 때마다 모든 본문·빈칸 값을 문자열로 만들고 있었다.
+        //    본문을 기기 로그에 남기는 것도 옳지 않다(보안 단축어 포함).
+        for item in memos {
             clipKey.append(item.title)
             clipValue.append(item.value)
             clipMemoId.append(item.id)

@@ -65,8 +65,8 @@ struct ClipKeyboardList: View {
     // 메모 구분 표시 마스터 토글 - 기본 OFF(제목만, 가장 심플).
     // 켜면 타입 아이콘·배지·테두리·우상단 심볼·카테고리/즐겨찾기 색을 모두 표시.
     // App Group에 저장해 키보드 익스텐션도 같은 설정을 읽는다.
-    @AppStorage("showVisualCues", store: AppGroup.defaults)
-    private var showVisualCues: Bool = false
+    @AppStorage(KeyboardPrefs.showVisualCues.key, store: AppGroup.defaults)
+    private var showVisualCues: Bool = KeyboardPrefs.showVisualCues.fallback
     @State private var showCategoryBadgeNudge: Bool = false
 
     /// 메모 구분 장치(아이콘/배지/테두리/심볼/색) 노출 여부.
@@ -76,7 +76,7 @@ struct ClipKeyboardList: View {
         showVisualCues
     }
     /// 디스플레이 설정 - 메모 셀 높이(작게 110 / 보통 140 / 크게 180).
-    @AppStorage("memoCardHeight") private var memoCardHeight: Double = 140
+    @AppStorage(AppPrefs.memoCardHeight.key) private var memoCardHeight: Double = AppPrefs.memoCardHeight.fallback
     /// 단축어 스킨 프리셋 - 카드 위에 얹히는 것(없음/금고/마을/눈/새/고양이).
     @AppStorage(DefaultsKey.livingSkin, store: AppGroup.defaults)
     private var livingSkinRaw: String = LivingSkin.none.rawValue
@@ -114,8 +114,8 @@ struct ClipKeyboardList: View {
     /// 그때 바로 날리면 동전이 시트 뒤에 가려 보이지도 않는다.
     @State private var pendingDeposit: (memoID: UUID, seconds: Double, point: CGPoint)?
     /// 카드 내용 힌트 - 설정(메모 표시)에서 켜기/끄기. 키보드도 함께 따르도록 App Group에 저장.
-    @AppStorage(DefaultsKey.contentHintEnabled, store: AppGroup.defaults)
-    private var contentHintEnabled: Bool = false
+    @AppStorage(KeyboardPrefs.contentHintEnabled.key, store: AppGroup.defaults)
+    private var contentHintEnabled: Bool = KeyboardPrefs.contentHintEnabled.fallback
 
     // Category
     @State private var showCategoryManagement: Bool = false
@@ -1857,8 +1857,16 @@ struct ClipKeyboardList: View {
     /// TabView.page 방식 - ScrollView 내부 제스처 충돌 없이 수평 스와이프 완벽 처리.
     /// 마지막 탭에서 왼쪽으로 더 스와이프(없는 페이지 방향) → 새 카테고리 생성 제안.
     private var categoryTabView: some View {
+        let tabs = viewModel.allCategoryTabs
         let binding = Binding<CategoryTab>(
-            get: { viewModel.selectedCategoryTab },
+            // ⚠️ **페이저에는 지금 있는 페이지만 건넨다.** 마지막 즐겨찾기를 지우면 즐겨찾기
+            //    페이지가 접히는데, 고른 탭을 바로잡는 일(`normalizeSelectedCategoryTabIfNeeded`)은
+            //    목록을 다시 거른 **뒤**에 돈다. 그 사이 페이저가 없는 페이지를 고른 채로 한 번
+            //    그려진다. 그 틈을 여기서 닫는다(2026-09-26, 샘플 즐겨찾기를 지운 뒤 크래시 문의).
+            get: {
+                let selected = viewModel.selectedCategoryTab
+                return tabs.contains(selected) ? selected : (tabs.first ?? selected)
+            },
             set: { newTab in
                 // 같은 페이지로 다시 들어오는 호출은 넘긴 것이 아니다 - 톡 하지 않는다.
                 guard newTab != viewModel.selectedCategoryTab else { return }
@@ -1874,7 +1882,6 @@ struct ClipKeyboardList: View {
                 viewModel.selectCategoryTab(newTab, animated: false)
             }
         )
-        let tabs = viewModel.allCategoryTabs
         return TabView(selection: binding) {
             // ⚠️ **페이지를 골라 짓지 않는다.** 그냥 다 짓는다.
             //

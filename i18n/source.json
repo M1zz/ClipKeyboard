@@ -1037,6 +1037,12 @@
     "comment": "Seed title",
     "h": "b462204e47"
   },
+  "App Store 에 연결하지 못했어요. 잠시 뒤 다시 시도해 주세요.\n(%@)": {
+    "ko": "App Store 에 연결하지 못했어요. 잠시 뒤 다시 시도해 주세요.\n(%@)",
+    "en": "Couldn't connect to the App Store. Please try again in a moment.\n(%@)",
+    "comment": "Restore result message: App Store error, %@ is the system error",
+    "h": "5d9a58bd25"
+  },
   "App Store 페이지로 이동합니다": {
     "ko": "App Store 페이지로 이동합니다",
     "en": "Go to App Store page",
@@ -2260,6 +2266,12 @@
     "en": "Saw a Pro nudge",
     "comment": "Event label: pro nudge shown",
     "h": "27bf3dd44a"
+  },
+  "Pro 기능을 다시 쓸 수 있어요.": {
+    "ko": "Pro 기능을 다시 쓸 수 있어요.",
+    "en": "Pro features are available again.",
+    "comment": "Restore result message: Pro restored",
+    "h": "6e98c5388e"
   },
   "Pro 기능이 모두 열려 있어요": {
     "ko": "Pro 기능이 모두 열려 있어요",
@@ -3899,6 +3911,12 @@
     "comment": "Funnel stage: purchase completed",
     "h": "61ca9e838e"
   },
+  "구매를 복원했어요": {
+    "ko": "구매를 복원했어요",
+    "en": "Purchase restored",
+    "comment": "Restore result title: Pro restored",
+    "h": "d465ad1730"
+  },
   "구매함": {
     "ko": "구매함",
     "en": "Purchased",
@@ -4001,6 +4019,12 @@
     "comment": "Changelog 5.0.4 persona general",
     "h": "aa7579c8f3"
   },
+  "그중 키보드 없이 앱에서만": {
+    "ko": "그중 키보드 없이 앱에서만",
+    "en": "Of those, in the app only",
+    "comment": "Activation: reached value without keyboard",
+    "h": "fd7b80286a"
+  },
   "글과 사진을 함께 담은 단축어를 복사하면 사진이 빠지던 것을 고쳤어요": {
     "ko": "글과 사진을 함께 담은 단축어를 복사하면 사진이 빠지던 것을 고쳤어요",
     "en": "Fixed the image being dropped when copying a snippet that holds both text and a photo",
@@ -4076,8 +4100,8 @@
   "기간": {
     "ko": "기간",
     "en": "Period",
-    "comment": "Chart axis: period\nStage simulator: tenure\nUsage passport: period",
-    "h": "1c40429cb3"
+    "comment": "Activation funnel: window picker\nChart axis: period\nStage simulator: tenure\nUsage passport: period",
+    "h": "06974ac0b0"
   },
   "기간 단위": {
     "ko": "기간 단위",
@@ -4378,6 +4402,12 @@
     "en": "A deep green. Easy on the eyes in dark mode.",
     "comment": "Key color note: pine",
     "h": "ae85079e1c"
+  },
+  "꺼내 쓴 설치": {
+    "ko": "꺼내 쓴 설치",
+    "en": "Used a snippet",
+    "comment": "Activation: reached value",
+    "h": "2ea3e787dc"
   },
   "꺼냄": {
     "ko": "꺼냄",
@@ -5078,8 +5108,8 @@
   "단축어": {
     "ko": "단축어",
     "en": "Snippet",
-    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSnippet (saved key-value item) display name",
-    "h": "e5f8dadd0c"
+    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter",
+    "h": "8c10487a02"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "ko": "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.",
@@ -7445,6 +7475,18 @@
     "comment": "Data recovery options header",
     "h": "094cf84a68"
   },
+  "복원하지 못했어요": {
+    "ko": "복원하지 못했어요",
+    "en": "Couldn't restore",
+    "comment": "Restore result title: failed",
+    "h": "7569aaebea"
+  },
+  "복원할 구매가 없어요": {
+    "ko": "복원할 구매가 없어요",
+    "en": "No purchases to restore",
+    "comment": "Restore result title: nothing to restore",
+    "h": "64b6d39340"
+  },
   "봉인됨": {
     "ko": "봉인됨",
     "en": "Sealed",
@@ -8681,6 +8723,12 @@
     "comment": "Changelog 5.0.4 practice removed",
     "h": "fbc4432156"
   },
+  "설정에서 키보드를 켬": {
+    "ko": "설정에서 키보드를 켬",
+    "en": "Enabled in Settings",
+    "comment": "Activation funnel: enabled in Settings",
+    "h": "fac8ee9d9f"
+  },
   "설정으로 이동": {
     "ko": "설정으로 이동",
     "en": "Go to Settings",
@@ -8956,6 +9004,12 @@
     "en": "Shows the number pad, return, delete, and clear all keys",
     "comment": "Keyboard: expand control keys hint",
     "h": "da15387b89"
+  },
+  "숫자 판, 지우기, 전체 삭제 키를 펼칩니다": {
+    "ko": "숫자 판, 지우기, 전체 삭제 키를 펼칩니다",
+    "en": "Shows the number pad, delete, and clear all keys",
+    "comment": "Keyboard: expand control keys hint (the send key stays outside, always visible)",
+    "h": "d735dcc2cd"
   },
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "ko": "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.",
@@ -9449,6 +9503,12 @@
     "comment": "No placeholders yet",
     "h": "d50e403dba"
   },
+  "아직 새 지표를 보낸 설치가 없어요. 이 버전을 연 기기부터 쌓여요.": {
+    "ko": "아직 새 지표를 보낸 설치가 없어요. 이 버전을 연 기기부터 쌓여요.",
+    "en": "No install has sent the new metrics yet. They build up from devices that open this version.",
+    "comment": "Activation funnel empty state",
+    "h": "e7e9da2bb7"
+  },
   "아직 설정이 완료되지 않은 것 같아요. 다시 확인해볼까요?": {
     "ko": "아직 설정이 완료되지 않은 것 같아요. 다시 확인해볼까요?",
     "en": "Setup doesn't seem complete yet. Want to try again?",
@@ -9682,6 +9742,12 @@
     "en": "Fixed a brief freeze when reopening the app. Waiting for clipboard content copied on your Mac now happens off the screen's path",
     "comment": "Changelog 5.0.2 pasteboard hang",
     "h": "c32d803c2a"
+  },
+  "앱을 연 설치": {
+    "ko": "앱을 연 설치",
+    "en": "Opened the app",
+    "comment": "Activation funnel: opened app",
+    "h": "b69ef57777"
   },
   "앱을 연 횟수": {
     "ko": "앱을 연 횟수",
@@ -11873,6 +11939,12 @@
     "comment": "Selection mode: select all",
     "h": "d810138ca1"
   },
+  "전체 설치": {
+    "ko": "전체 설치",
+    "en": "All installs",
+    "comment": "Activation funnel: all installs",
+    "h": "8123d8b27f"
+  },
   "전체 접근 허용": {
     "ko": "전체 접근 허용",
     "en": "Allow Full Access",
@@ -12401,6 +12473,12 @@
     "comment": "Paywall: current slot usage",
     "h": "d35800976d"
   },
+  "지금 로그인한 Apple ID 로 Pro 를 구매한 기록을 찾지 못했어요. 구매할 때 쓴 Apple ID 로 로그인했는지 확인해 주세요.": {
+    "ko": "지금 로그인한 Apple ID 로 Pro 를 구매한 기록을 찾지 못했어요. 구매할 때 쓴 Apple ID 로 로그인했는지 확인해 주세요.",
+    "en": "We couldn't find a Pro purchase for the Apple ID you're signed in with. Please make sure you're signed in with the Apple ID you used to buy it.",
+    "comment": "Restore result message: no Pro purchase found for this Apple ID",
+    "h": "f2873bb475"
+  },
   "지금 말고 다음에 할래요": {
     "ko": "지금 말고 다음에 할래요",
     "en": "Not now, later",
@@ -12905,6 +12983,12 @@
     "comment": "Usage stats feedback footer",
     "h": "c60c7c28b9"
   },
+  "최근 30일 설치": {
+    "ko": "최근 30일 설치",
+    "en": "Last 30 days",
+    "comment": "Activation funnel: last 30 days",
+    "h": "7bd5313e69"
+  },
   "최근 30일 활성": {
     "ko": "최근 30일 활성",
     "en": "Active in last 30 days",
@@ -13366,6 +13450,12 @@
     "en": "This price already subtracts what you paid for slots",
     "comment": "Upgrade price caption",
     "h": "336ab872ee"
+  },
+  "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.": {
+    "ko": "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.",
+    "en": "Each step is counted on its own. Enabled but never appeared means it hasn't been brought up yet, or it was used without Full Access so no trace was left. Used a snippet counts anyone who actually used one, by keyboard or by copying in the app. %d older records without the new metrics are left out.",
+    "comment": "Activation funnel footer",
+    "h": "b626346872"
   },
   "캘린더 열기": {
     "ko": "캘린더 열기",
@@ -13895,6 +13985,12 @@
     "comment": "Changelog 5.0.3 stage polish",
     "h": "91e2d322d2"
   },
+  "키보드가 떠 봄": {
+    "ko": "키보드가 떠 봄",
+    "en": "Keyboard appeared",
+    "comment": "Activation funnel: keyboard appeared",
+    "h": "c28b3a4f50"
+  },
   "키보드가 화면을 넓게 쓰고, 키보드 안에서 바로 칠 수 있어요": {
     "ko": "키보드가 화면을 넓게 쓰고, 키보드 안에서 바로 칠 수 있어요",
     "en": "The keyboard uses the full screen, and you can type inside it",
@@ -13906,6 +14002,12 @@
     "en": "Keyboard detected! Moving to the next step.",
     "comment": "Setup confirmed feedback",
     "h": "897bc6a69e"
+  },
+  "키보드로 넣어 봄": {
+    "ko": "키보드로 넣어 봄",
+    "en": "Inserted with keyboard",
+    "comment": "Activation funnel: inserted with keyboard",
+    "h": "ba6ca8d097"
   },
   "키보드로 입력함": {
     "ko": "키보드로 입력함",
@@ -13984,6 +14086,12 @@
     "en": "Set up your keyboard in one go",
     "comment": "Merged setup page title",
     "h": "741d40232a"
+  },
+  "키보드에 닿기까지": {
+    "ko": "키보드에 닿기까지",
+    "en": "Getting to the keyboard",
+    "comment": "Usage stats section: activation funnel",
+    "h": "c10bf5f418"
   },
   "키보드에 보내기 키가 생겼어요. 단축어를 넣고 키보드를 바꾸지 않고 그 자리에서 보냅니다": {
     "ko": "키보드에 보내기 키가 생겼어요. 단축어를 넣고 키보드를 바꾸지 않고 그 자리에서 보냅니다",
@@ -15472,71 +15580,5 @@
     "en": "Face ID is required to access secure memos.",
     "comment": "Face ID permission (secure memos)",
     "h": "848590a8e9"
-  },
-  "그중 키보드 없이 앱에서만": {
-    "ko": "그중 키보드 없이 앱에서만",
-    "en": "Of those, in the app only",
-    "comment": "Activation: reached value without keyboard",
-    "h": "fd7b80286a"
-  },
-  "꺼내 쓴 설치": {
-    "ko": "꺼내 쓴 설치",
-    "en": "Used a snippet",
-    "comment": "Activation: reached value",
-    "h": "2ea3e787dc"
-  },
-  "설정에서 키보드를 켬": {
-    "ko": "설정에서 키보드를 켬",
-    "en": "Enabled in Settings",
-    "comment": "Activation funnel: enabled in Settings",
-    "h": "fac8ee9d9f"
-  },
-  "아직 새 지표를 보낸 설치가 없어요. 이 버전을 연 기기부터 쌓여요.": {
-    "ko": "아직 새 지표를 보낸 설치가 없어요. 이 버전을 연 기기부터 쌓여요.",
-    "en": "No install has sent the new metrics yet. They build up from devices that open this version.",
-    "comment": "Activation funnel empty state",
-    "h": "e7e9da2bb7"
-  },
-  "앱을 연 설치": {
-    "ko": "앱을 연 설치",
-    "en": "Opened the app",
-    "comment": "Activation funnel: opened app",
-    "h": "b69ef57777"
-  },
-  "전체 설치": {
-    "ko": "전체 설치",
-    "en": "All installs",
-    "comment": "Activation funnel: all installs",
-    "h": "8123d8b27f"
-  },
-  "최근 30일 설치": {
-    "ko": "최근 30일 설치",
-    "en": "Last 30 days",
-    "comment": "Activation funnel: last 30 days",
-    "h": "7bd5313e69"
-  },
-  "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.": {
-    "ko": "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.",
-    "en": "Each step is counted on its own. Enabled but never appeared means it hasn't been brought up yet, or it was used without Full Access so no trace was left. Used a snippet counts anyone who actually used one, by keyboard or by copying in the app. %d older records without the new metrics are left out.",
-    "comment": "Activation funnel footer",
-    "h": "b626346872"
-  },
-  "키보드가 떠 봄": {
-    "ko": "키보드가 떠 봄",
-    "en": "Keyboard appeared",
-    "comment": "Activation funnel: keyboard appeared",
-    "h": "c28b3a4f50"
-  },
-  "키보드로 넣어 봄": {
-    "ko": "키보드로 넣어 봄",
-    "en": "Inserted with keyboard",
-    "comment": "Activation funnel: inserted with keyboard",
-    "h": "ba6ca8d097"
-  },
-  "키보드에 닿기까지": {
-    "ko": "키보드에 닿기까지",
-    "en": "Getting to the keyboard",
-    "comment": "Usage stats section: activation funnel",
-    "h": "c10bf5f418"
   }
 }

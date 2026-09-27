@@ -28,16 +28,16 @@ final class FocusUpdateLoopTests: XCTestCase {
     private var window: UIWindow!
     private var textView: UITextView!
 
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
         // 창에 붙어 있지 않으면 becomeFirstResponder 가 애초에 실패해서
         // 미룬 것과 구분이 안 된다. 진짜 창을 하나 세운다.
-        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            window = UIWindow(windowScene: scene)
-            window.frame = CGRect(x: 0, y: 0, width: 390, height: 844)
-        } else {
-            window = UIWindow(frame: CGRect(x: 0, y: 0, width: 390, height: 844))
+        // (시험은 앱 안에서 돌아 씬이 늘 있다. 씬 없는 창은 iOS 26 에서 사라질 예정이다)
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            throw XCTSkip("창을 붙일 씬이 없다")
         }
+        window = UIWindow(windowScene: scene)
+        window.frame = CGRect(x: 0, y: 0, width: 390, height: 844)
         textView = UITextView(frame: window.bounds)
         window.addSubview(textView)
         window.makeKeyAndVisible()

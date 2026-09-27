@@ -555,8 +555,8 @@ struct TutorialLayoutCard: View {
 
     @AppStorage(DefaultsKey.keyboardHeightPreset, store: AppGroup.defaults)
     private var heightPresetRaw: String = KeyboardHeightPreset.fallback.rawValue
-    @AppStorage("keyboardButtonHeight", store: AppGroup.defaults)
-    private var buttonHeight: Double = 44.0
+    @AppStorage(KeyboardPrefs.buttonHeight.key, store: AppGroup.defaults)
+    private var buttonHeight: Double = KeyboardPrefs.buttonHeight.fallback
 
     private var preset: KeyboardHeightPreset {
         KeyboardHeightPreset(rawValue: heightPresetRaw) ?? .fallback

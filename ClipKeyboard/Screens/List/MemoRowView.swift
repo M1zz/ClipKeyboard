@@ -25,8 +25,8 @@ struct MemoRowView: View {
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     /// 메모 구분 표시 마스터 토글(카드와 동일). 기본 OFF = 제목 위주로 심플.
-    @AppStorage("showVisualCues", store: AppGroup.defaults)
-    private var showVisualCues: Bool = false
+    @AppStorage(KeyboardPrefs.showVisualCues.key, store: AppGroup.defaults)
+    private var showVisualCues: Bool = KeyboardPrefs.showVisualCues.fallback
     // 오직 앱 토글만 따른다(iOS "색상 없이 구별"과 무관).
     private var visualCuesVisible: Bool { showVisualCues }
 

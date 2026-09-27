@@ -390,7 +390,7 @@ struct TemplateInputOverlay: View {
                     //    빈칸이 넷다섯인 템플릿을 열면 마지막 칸이 탭바 뒤에 깔린다.
                     //    보이지도 않고 눌리지도 않는 칸이 생기는 것이라, 빈칸이 많을수록
                     //    (= 이 화면이 가장 필요할 때) 못 쓰게 된다.
-                    .padding(.bottom, hostKind == .inApp ? 96 : 16)
+                    .padding(.bottom, hostKind.reservesTabBarSpace ? 96 : 16)
                 }
                 .background(Color(UIColor.systemBackground))
         }
@@ -805,7 +805,7 @@ struct PlaceholderInputView: View {
                     .foregroundColor(.orange)
             }
 
-            if hostKind == .inApp {
+            if hostKind.showsOneOffValueHint {
                 Text(NSLocalizedString("적은 값은 이번에만 써요. 별을 누르면 다음에도 쓰게 저장돼요",
                                        comment: "Fill sheet: one-off value hint"))
                     .font(.caption2)

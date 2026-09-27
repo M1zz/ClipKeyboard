@@ -28,6 +28,52 @@ enum KeyboardHostKind {
     case keyboardExtension
     /// 메인 앱 안의 미리보기 무대. 앱이 소유한 입력창에 넣는다.
     case inApp
+    /// 설정 > 키보드 레이아웃의 미리보기. **진짜 키보드와 똑같이 보여야 하는** 자리다.
+    /// 앱 안에서 돌지만 누를 수 없고, 모양은 익스텐션을 따른다.
+    case settingsPreview
+}
+
+// MARK: - 자리마다 다른 것 (한 곳에서만 정한다)
+
+/// 세 자리가 **무엇이 다른가**를 여기 한 곳에 모은다.
+///
+/// ⚠️ **모양은 세 자리 모두 같다.** 진짜 키보드 · 키보드 탭(무대) · 설정 미리보기가 같은
+///    위줄(조작 키 서랍 · 밖에 선 보내기), 같은 카테고리 탭 조건, 같은 시스템 키보드 바탕으로 선다.
+///    예전에는 모양도 자리마다 갈라 두었고(`hostKind == .inApp` 열 군데), 그래서 설정에서 켠
+///    보내기가 실제 키보드에서는 … 뒤에 숨고, 키보드 탭은 실물과 다르게 생겼다.
+///    모양을 가르고 싶어지면 먼저 그게 정말 실물과 달라야 하는 일인지 묻는다.
+///
+/// ⚠️ `KeyboardView` 안에서 `hostKind == .inApp` 을 직접 비교하지 않는다. 다른 것은
+///    **하는 일**뿐이고, 그것도 아래 속성으로만 가른다. 새로 갈라야 할 것이 생기면 여기
+///    속성을 하나 더하고, 세 자리의 값을 모두 적는다.
+extension KeyboardHostKind {
+
+    /// 메인 앱 프로세스 안에서 도는가. 클립보드가 늘 열려 있고, 입력창이 우리 것이다.
+    var runsInsideApp: Bool { self != .keyboardExtension }
+
+    /// 접은 조작 키를 **펼친 채로** 시작하는가. 설정 미리보기는 서랍을 열어 둔다 -
+    /// 모양은 진짜 키보드 그대로이면서, 지금 켜고 끄는 키가 어디에 서는지 보여야 한다.
+    var startsWithControlKeysExpanded: Bool { self == .settingsPreview }
+
+    // MARK: 하는 일
+
+    /// 붙여넣기 전에 전체 접근 권한을 확인해야 하는가(익스텐션만).
+    var requiresFullAccessForPaste: Bool { !runsInsideApp }
+
+    /// 길게 누르면 복사하는가(앱 안). 아니면 값을 크게 펼친다(익스텐션).
+    var longPressCopies: Bool { runsInsideApp }
+
+    /// 이미지 단축어를 누르면 입력창에 그림까지 넣어 보이는가(앱 안 - 입력창이 우리 것이다).
+    var insertsImageIntoOwnField: Bool { runsInsideApp }
+
+    /// 빈칸 채우기 창 아래를 앱의 탭바만큼 비우는가.
+    var reservesTabBarSpace: Bool { runsInsideApp }
+
+    /// 빈칸 채우기 창에 "이번에만 / 별로 저장" 안내와 버튼을 보이는가.
+    var showsOneOffValueHint: Bool { runsInsideApp }
+
+    /// 검색으로 헤매는지 재는가(진짜 키보드의 세션 기록이 있을 때만 뜻이 있다).
+    var tracksSearchStruggle: Bool { !runsInsideApp }
 }
 
 final class KeyboardDocumentState: ObservableObject {

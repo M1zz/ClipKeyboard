@@ -1,3 +1,29 @@
+## 🎛 설정 미리보기와 실제 키보드 일원화 - 2026-09-26
+
+보내기를 켰는데 실제 키보드에 안 보임: 익스텐션은 조작 키를 … 뒤에 접고, 미리보기(`.inApp`)는 늘 펼쳐 둬서 둘이 달랐다.
+
+- [x] `KeyboardHostKind.settingsPreview` 추가, 자리마다 다른 것은 `KeyboardHostKind` 확장 한 곳(모양/하는 일)
+- [x] 미리보기는 진짜 키보드 모양 + 조작 키 서랍을 연 채 시작 + 시스템 키보드 바탕(`SystemKeyboardBackdrop`)
+- [x] 키보드 설정 키·기본값을 `KeyboardPrefs`/`AppPrefs` 하나로 (8개 파일의 중복 선언 제거)
+- [x] 조작 키 서랍을 카테고리 줄 위 층으로 (ZStack)
+- [x] 보내기는 서랍 밖 맨 오른쪽에 늘 세움 (서랍 안은 > · 숫자 판 · 붙여넣기 · X · 지우기)
+- [x] 빌드 경고 0 (UIScreen.main → ScreenSize), 시험 1,350 통과
+- [ ] 기기에서 확인: 서랍 바탕·그림자, 미리보기 바탕이 실제 키보드와 같은지
+
+## 🧯 앱·키보드 둘 다 죽음 + 재설치 뒤 Pro 소실 문의 - 2026-09-26
+
+iOS 26.1 · iPhone 16 Pro. 샘플 "My Email"(example@email.com)을 지우려다 앱과 키보드가 실행마다 죽음. 재설치로 풀림.
+재설치 뒤 Pro 가 없고 복원이 반응 없음. 결제 기록이 없으면 5.1.3 이전 `existingFreeUser` 오판으로 열려 있던 Pro 로 보임(446b224).
+
+- [x] 복원 결과를 알린다: 복원됨 · 복원할 구매 없음 · 연결 실패 (`StoreManager.RestoreOutcome`, `restoreOutcomeAlert`), 5개 언어
+- [x] 동기화 `byId` 가 같은 id 두 개에 죽지 않게 `uniquingKeysWith` (맥 `Shared/MemoSyncEngine.swift` 도)
+- [x] 페이저 selection 이 접힌 탭을 가리키지 않게 (`ClipKeyboardList.categoryTabView`)
+- [x] 키보드가 단축어 본문을 전부 로그로 찍던 것 제거 (메모리·개인정보)
+- [x] 빌드 성공
+- [ ] 사용자에게 결제 여부(Apple 영수증)와 분석 데이터의 크래시 로그 요청
+- [ ] Organizer / 안정성 화면에서 5.1.5 (18) 크래시 스택 확인 → 원인 확정 뒤 postmortem 과 가드
+- [ ] 키보드 익스텐션에도 크래시 반복을 막는 안전 장치가 필요한지 검토 (LaunchGuard 는 앱 시작 단계만 감쌈)
+
 ## 🔄 동기화가 켜져 있는데 아무것도 주고받지 않던 문제 - 2026-09-26
 
 개발 빌드 위에 TestFlight 판을 덮어 깔아 동기화 기록(엔진 상태·섀도·레코드 메타)이 Development 기준으로 남았다.
