@@ -317,6 +317,13 @@ struct KeyboardView: View {
     @AppStorage(KeyboardPrefs.showNumberPad.key, store: AppGroup.defaults)
     private var showNumberPadKeyRaw: Bool = KeyboardPrefs.showNumberPad.fallback
     @AppStorage(KeyboardPrefs.showReturnKey.key, store: AppGroup.defaults) private var showReturnKey: Bool = KeyboardPrefs.showReturnKey.fallback
+    /// 위줄에 붙여넣기 키를 세울지. 값이 없으면 꺼짐.
+    ///
+    /// ⚠️ 위줄의 키 설정은 **전부 `@AppStorage` 로** 읽는다. 이것만 그릴 때 한 번 읽는
+    ///    계산 속성이었는데, 진짜 키보드는 뜰 때마다 새로 읽어 괜찮았지만 키보드 탭은
+    ///    떠 있는 채라 설정에서 켜도 다시 만들어질 때까지 옛 모양이었다. 둘이 어긋났다.
+    @AppStorage(KeyboardPrefs.showClipboardKey.key, store: AppGroup.defaults)
+    private var showClipboardKeyRaw: Bool = KeyboardPrefs.showClipboardKey.fallback
     // 한국어 입력 사용 여부(기본 OFF). 꺼져 있으면 한/EN 토글과 한글 자판이 아예 노출되지 않아
     // 영어 전용 사용자는 한글을 볼 일이 없다. 한국어 사용자가 설정에서 직접 켠다.
     @AppStorage(KeyboardPrefs.koreanEnabled.key, store: AppGroup.defaults) private var koreanInputEnabled: Bool = KeyboardPrefs.koreanEnabled.fallback
@@ -913,14 +920,10 @@ struct KeyboardView: View {
     }
 
     /// 그 키를 세울지. 값이 없으면 켜진 것으로 본다 - 있는 줄 몰라서 못 쓰는 일을 막는다.
-    private var showsNumberPadKey: Bool {
-        KeyboardPrefs.showNumberPad.value()
-    }
+    private var showsNumberPadKey: Bool { showNumberPadKeyRaw }
 
     /// 붙여넣기 키를 세울지. 값이 없으면 **꺼진 것**으로 본다(위 `keyboardShowClipboardKey`).
-    private var showsClipboardKey: Bool {
-        KeyboardPrefs.showClipboardKey.value()
-    }
+    private var showsClipboardKey: Bool { showClipboardKeyRaw }
 
     private func openClipboardPicker() {
         guard let text = clipboardTextForInsert() else { return }
@@ -969,8 +972,8 @@ struct KeyboardView: View {
 
     /// 위줄 - 카테고리 탭 위에 조작 키 서랍이 **겹쳐** 나온다.
     ///
-    /// 조작 키(숫자 판 · 붙여넣기 · X · 지우기)는 **… 하나로 접혀 뜬다.** 누르면 서랍이 열리고,
-    /// 맨 앞의 > 로 다시 접는다. 보내기만 서랍 밖에 늘 서 있다.
+    /// 조작 키(숫자 판 · 붙여넣기 · 보내기 · 지우기 · X)는 **… 하나로 접혀 뜬다.** 누르면 서랍이
+    /// 열리고, 맨 앞의 > 로 다시 접는다. 보내기도 서랍 안에 있다(아래 주석).
     /// 간격은 서랍 안 한 곳에서 정한다(`controlKeySpacing`). 키들은 저마다 44pt 손가락 자리를
     /// 갖고 있어서, 사이는 그 자리들이 맞닿는 만큼으로 고르게 벌어진다.
     ///
@@ -998,7 +1001,7 @@ struct KeyboardView: View {
                 if controlKeysExpanded {
                     expandedControlKeyCluster
                         .background(
-                            // 보내기 키 앞에서 끝나는 떠 있는 판이라 네 귀를 다 둥글린다.
+                            // 줄 위에 떠 있는 판이라 네 귀를 다 둥글린다.
                             RoundedRectangle(cornerRadius: theme.radiusSm)
                                 .fill(.regularMaterial)
                                 .shadow(color: .black.opacity(0.18), radius: 6, x: -3, y: 0)
@@ -1007,10 +1010,10 @@ struct KeyboardView: View {
                         .zIndex(1)
                 }
             }
-            // 보내기는 **서랍 밖**에 늘 서 있다. 가장 자주 누르는 조작 키라 … 를 한 번 더
-            // 누르게 하지 않는다(사용자 요청, 2026-09-27). 서랍은 이 키 왼쪽까지만 덮는다.
-            sendKey
-                .padding(.trailing, 6)
+            // ⚠️ 보내기를 서랍 밖 맨 오른쪽에 따로 세운 적이 있다(2026-09-27, `12bfce3`).
+            //    … 를 한 번 더 누르지 않게 하려던 것인데, 접힌 줄에 키 하나만 홀로 튀어나와
+            //    "왜 이것만 밖에 있지" 로 읽혔다. 서랍 안으로 되돌렸다(사용자 요청, 같은 날).
+            //    보내기를 안 쓰는 사람은 설정에서 끈다(`KeyboardPrefs.showReturnKey`).
         }
     }
 
@@ -1065,7 +1068,7 @@ struct KeyboardView: View {
         .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
         .contentShape(Rectangle())
         .accessibilityLabel(NSLocalizedString("조작 키 펼치기", comment: "Keyboard: expand control keys"))
-        .accessibilityHint(NSLocalizedString("숫자 판, 지우기, 전체 삭제 키를 펼칩니다", comment: "Keyboard: expand control keys hint (the send key stays outside, always visible)"))
+        .accessibilityHint(NSLocalizedString("숫자 판, 보내기, 지우기, 전체 삭제 키를 펼칩니다", comment: "Keyboard: expand control keys hint"))
     }
 
     /// 펼친 묶음의 맨 앞에서 다시 접는 키.
@@ -1128,11 +1131,9 @@ struct KeyboardView: View {
             //    할 것처럼 보이므로, 못 할 때는 못 한다고 보여야 한다.
             //    숨기지는 않는다. 자리가 비면 줄이 흔들리고, 무엇을 누르면 되는지도 감춰진다.
             //
-            // ⚠️ 보내기는 이 서랍에 **없다.** 서랍 밖 맨 오른쪽에 늘 서 있다(`controlKeyDrawerRow`).
-            //    그래서 여기서는 X · 지우기 순으로 세워, 서랍을 열었을 때 X 와 보내기 사이에
-            //    지우기가 온다.
-            clearAllKey
+            sendKey
             controlBackspaceKey
+            clearAllKey
         }
         .padding(.trailing, 6)
     }
