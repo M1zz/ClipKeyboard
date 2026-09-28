@@ -95,12 +95,20 @@ final class HiddenCategoryReachabilityTests: XCTestCase {
                        "보이는 탭이 있는데 기본 탭에도 나오면 중복 노출이다")
     }
 
-    /// 빈 카테고리는 사고가 아니다 - 막 만든 카테고리가 그 모습이고, 탭은 그대로 서 있어야 한다.
-    func testEmptyCategoryKeepsItsTab() {
+    /// 단축어가 없는 카테고리는 탭으로 세우지 않는다 - 키보드와 같은 규칙.
+    /// 옆으로 넘기다 빈 화면을 만나지 않게 한다. 카테고리 자체는 목록에 그대로 남는다.
+    func testEmptyCategoryHasNoTab() {
         seed(categories: ["막만든카테고리"], hidden: [], memos: [])
 
+        XCTAssertFalse(viewModel.allCategoryTabs.contains(.custom("막만든카테고리")))
+    }
+
+    /// 단축어가 하나 들어오면 탭이 선다.
+    func testCategoryTabAppearsWithFirstMemo() {
+        seed(categories: ["막만든카테고리"], hidden: [],
+             memos: [Memo(title: "첫 단축어", value: "값", category: "막만든카테고리")])
+
         XCTAssertTrue(viewModel.allCategoryTabs.contains(.custom("막만든카테고리")))
-        XCTAssertTrue(viewModel.memos(for: .custom("막만든카테고리")).isEmpty)
     }
 
     // MARK: - 재정렬 화면도 같은 규칙을 따른다

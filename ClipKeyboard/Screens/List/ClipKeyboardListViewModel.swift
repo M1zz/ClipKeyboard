@@ -430,10 +430,12 @@ final class ClipKeyboardListViewModel: ObservableObject {
         for b in enabledBuiltInCategories {
             tabs.append(.builtIn(b))
         }
-        // 사용자 카테고리는 카테고리 관리에서 토글을 켠(= 숨기지 않은) 것이면 노출.
-        // 메모가 없어(빈 화면) 도 탭으로 보여 스와이프로 이동할 수 있게 한다.
-        // ⚠️ 이쪽은 비어도 세운다. 방금 만든 카테고리가 그 모습이고, 거기로 옮기려면 갈 자리가 있어야 한다.
-        for cat in customCategories where !hiddenCategoryTabs.contains(cat) {
+        // 사용자 카테고리는 숨기지 않았고 **단축어가 하나라도 있는** 것만 세운다(키보드와 같은 규칙).
+        // 예전엔 비어도 세웠다. 그러자 단축어를 다른 곳으로 옮긴 카테고리, 다른 기기에서 넘어온
+        // 카테고리가 빈 페이지로 줄줄이 서서, 옆으로 넘기다 빈 화면을 계속 만났다.
+        // 빈 카테고리는 카테고리 관리에 그대로 있고, 새 단축어를 만들 때 고를 수 있다.
+        let usedCategories = Set(loadedData.map(\.category))
+        for cat in customCategories where !hiddenCategoryTabs.contains(cat) && usedCategories.contains(cat) {
             tabs.append(.custom(cat))
         }
 
