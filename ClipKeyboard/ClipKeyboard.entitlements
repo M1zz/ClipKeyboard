@@ -15,6 +15,8 @@
 		<string>iCloud.com.Ysoup.TokenMemo</string>
 		<string>iCloud.com.Ysoup.FeedbackHub</string>
 	</array>
+	<key>com.apple.developer.icloud-container-environment</key>
+	<string>Production</string>
 	<key>com.apple.developer.icloud-services</key>
 	<array>
 		<string>CloudKit</string>
