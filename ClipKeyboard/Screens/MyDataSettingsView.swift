@@ -22,6 +22,10 @@ struct MyDataSettingsView: View {
     @State private var showWipeConfirm = false      // 1단계: 무엇이 지워지는지 안내
     @State private var showWipeFinalConfirm = false // 2단계: 마지막 확인
     @State private var wipeResultMessage: String?
+    /// 다른 기기를 이 기기에 맞추기 - 서버를 먼저 살펴 숫자를 보여 주고, 확인받은 뒤에만 올린다.
+    @State private var isCheckingAuthority = false
+    @State private var authorityPlan: MemoSyncEngine.AuthorityPlan?
+    @State private var authorityResult: (title: String, message: String)?
 
     var body: some View {
         List {
@@ -35,6 +39,25 @@ struct MyDataSettingsView: View {
         // ⚠️ 무엇 때문에 띄운 페이월인지 넘긴다. 이 자리는 기기 문제라 파는 물건도 다르다
         //    (두 대째). 안 넘기면 동기화를 켜려던 사람에게 단축어 개수 이야기를 하게 된다.
         .sheet(isPresented: $showPaywall) { PaywallView(triggeredBy: .deviceSync) }
+        // MARK: 다른 기기를 이 기기에 맞추기 - 무엇이 바뀌고 지워지는지 숫자로 확인받는다
+        .alert(NSLocalizedString("다른 기기를 이 기기에 맞출까요?", comment: "Make-authoritative confirm title"),
+               isPresented: Binding(get: { authorityPlan != nil },
+                                    set: { if !$0 { authorityPlan = nil } }),
+               presenting: authorityPlan) { plan in
+            Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
+            Button(NSLocalizedString("맞추기", comment: "Make-authoritative confirm button"), role: .destructive) {
+                Task { await applyAuthority(plan) }
+            }
+        } message: { plan in
+            Text(authorityMessage(plan))
+        }
+        .alert(authorityResult?.title ?? "",
+               isPresented: Binding(get: { authorityResult != nil },
+                                    set: { if !$0 { authorityResult = nil } })) {
+            Button(NSLocalizedString("확인", comment: "OK"), role: .cancel) { authorityResult = nil }
+        } message: {
+            Text(authorityResult?.message ?? "")
+        }
         // MARK: 모든 데이터 삭제 - 2단계 확인
         // 1단계: 무엇이 지워지고 무엇이 남는지 알린다(구매는 유지된다는 점이 중요).
         .alert(NSLocalizedString("모든 데이터를 삭제할까요?", comment: "Wipe all data confirm title"),
@@ -65,6 +88,48 @@ struct MyDataSettingsView: View {
             Button(NSLocalizedString("확인", comment: "OK"), role: .cancel) { wipeResultMessage = nil }
         } message: {
             Text(wipeResultMessage ?? "")
+        }
+    }
+
+    // MARK: - 다른 기기를 이 기기에 맞추기
+
+    private func checkAuthority() async {
+        isCheckingAuthority = true
+        defer { isCheckingAuthority = false }
+        do {
+            let plan = try await MemoSyncEngine.shared.planMakeThisDeviceAuthoritative()
+            if plan.isEmpty {
+                authorityResult = (NSLocalizedString("이미 똑같아요", comment: "Make-authoritative: nothing to change title"),
+                                   NSLocalizedString("다른 기기와 이 기기의 단축어가 이미 같아요.", comment: "Make-authoritative: nothing to change message"))
+            } else {
+                authorityPlan = plan
+            }
+        } catch {
+            authorityResult = (NSLocalizedString("맞추지 못했어요", comment: "Make-authoritative failed title"),
+                               error.localizedDescription)
+        }
+    }
+
+    private func authorityMessage(_ plan: MemoSyncEngine.AuthorityPlan) -> String {
+        var message = String(format: NSLocalizedString("다른 기기에서 단축어 %1$d개가 이 기기 내용으로 바뀌고 %2$d개가 지워져요. 이 기기에 없는 단축어는 모든 기기에서 사라지고 되돌릴 수 없어요.",
+                                                       comment: "Make-authoritative confirm message: replaced count, deleted count"),
+                             plan.updates.count, plan.deletions.count)
+        if !plan.categoryUpdates.isEmpty || !plan.categoryDeletions.isEmpty {
+            message += "\n\n" + String(format: NSLocalizedString("카테고리도 %1$d개가 이 기기 내용으로 바뀌고 %2$d개가 지워져요.",
+                                                                 comment: "Make-authoritative confirm message: category replaced count, category deleted count"),
+                                       plan.categoryUpdates.count, plan.categoryDeletions.count)
+        }
+        return message
+    }
+
+    private func applyAuthority(_ plan: MemoSyncEngine.AuthorityPlan) async {
+        do {
+            try await MemoSyncEngine.shared.applyMakeThisDeviceAuthoritative(plan)
+            authorityResult = (NSLocalizedString("맞췄어요", comment: "Make-authoritative done title"),
+                               NSLocalizedString("다른 기기가 다음에 동기화할 때 이 기기와 같아져요.", comment: "Make-authoritative done message"))
+        } catch {
+            authorityResult = (NSLocalizedString("맞추지 못했어요", comment: "Make-authoritative failed title"),
+                               error.localizedDescription)
         }
     }
 
@@ -111,6 +176,20 @@ struct MyDataSettingsView: View {
                 } icon: {
                     Image(systemName: AppSymbol.icloudAndArrowDown)
                 }
+            }
+            // 시각이 꼬여 기기마다 다른 내용을 들고 있을 때 사람이 정답을 정하는 길.
+            if memoSyncEnabled {
+                Button {
+                    Task { await checkAuthority() }
+                } label: {
+                    HStack {
+                        Label(NSLocalizedString("다른 기기를 이 기기에 맞추기", comment: "Make other devices match this one (sync)"),
+                              systemImage: AppSymbol.arrowTriangle2CirclepathCircle)
+                        Spacer()
+                        if isCheckingAuthority { ProgressView() }
+                    }
+                }
+                .disabled(isCheckingAuthority)
             }
             NavigationLink(destination: MemoHistoryView()) {
                 Label(NSLocalizedString("변경 기록 (되돌리기)", comment: "Memo change history / undo"),

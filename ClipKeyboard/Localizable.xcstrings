@@ -94561,6 +94561,391 @@
           }
         }
       }
+    },
+    "다른 기기를 이 기기에 맞추기" : {
+      "comment" : "Make other devices match this one (sync)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make Other Devices Match This One"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 기기를 이 기기에 맞추기"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привести другие устройства к этому"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "让其他设备与本设备一致"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "讓其他裝置與本裝置一致"
+          }
+        }
+      }
+    },
+    "다른 기기를 이 기기에 맞출까요?" : {
+      "comment" : "Make-authoritative confirm title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make other devices match this one?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 기기를 이 기기에 맞출까요?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привести другие устройства к этому?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要让其他设备与本设备一致吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要讓其他裝置與本裝置一致嗎？"
+          }
+        }
+      }
+    },
+    "맞추기" : {
+      "comment" : "Make-authoritative confirm button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Match"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "맞추기"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Привести"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确定一致"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確定一致"
+          }
+        }
+      }
+    },
+    "다른 기기에서 단축어 %1$d개가 이 기기 내용으로 바뀌고 %2$d개가 지워져요. 이 기기에 없는 단축어는 모든 기기에서 사라지고 되돌릴 수 없어요." : {
+      "comment" : "Make-authoritative confirm message: replaced count, deleted count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On your other devices, %1$d snippets will be replaced with this device's version and %2$d will be deleted. Snippets that aren't on this device will be removed from every device. This can't be undone."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 기기에서 단축어 %1$d개가 이 기기 내용으로 바뀌고 %2$d개가 지워져요. 이 기기에 없는 단축어는 모든 기기에서 사라지고 되돌릴 수 없어요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На других устройствах фраз будет заменено версией с этого устройства: %1$d, удалено: %2$d. Фразы, которых нет на этом устройстве, исчезнут со всех устройств. Отменить это нельзя."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他设备上将有 %1$d 条短语替换为本设备的内容，%2$d 条被删除。本设备上没有的短语将从所有设备中移除，且无法撤销。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他裝置上將有 %1$d 則短語替換為本裝置的內容，%2$d 則被刪除。本裝置上沒有的短語將從所有裝置中移除，且無法復原。"
+          }
+        }
+      }
+    },
+    "이미 똑같아요" : {
+      "comment" : "Make-authoritative: nothing to change title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Already the Same"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미 똑같아요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уже совпадает"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已经一致"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已經一致"
+          }
+        }
+      }
+    },
+    "다른 기기와 이 기기의 단축어가 이미 같아요." : {
+      "comment" : "Make-authoritative: nothing to change message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your other devices already have the same snippets as this one."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 기기와 이 기기의 단축어가 이미 같아요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На других устройствах уже те же фразы, что и на этом."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他设备上的短语已与本设备相同。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他裝置上的短語已與本裝置相同。"
+          }
+        }
+      }
+    },
+    "맞추지 못했어요" : {
+      "comment" : "Make-authoritative failed title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't Match Devices"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "맞추지 못했어요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось привести устройства к одному виду"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能使设备一致"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未能使裝置一致"
+          }
+        }
+      }
+    },
+    "맞췄어요" : {
+      "comment" : "Make-authoritative done title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devices Matched"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "맞췄어요"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已完成"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已完成"
+          }
+        }
+      }
+    },
+    "다른 기기가 다음에 동기화할 때 이 기기와 같아져요." : {
+      "comment" : "Make-authoritative done message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your other devices will match this one the next time they sync."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 기기가 다음에 동기화할 때 이 기기와 같아져요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Другие устройства станут такими же, как это, при следующей синхронизации."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他设备下次同步时将与本设备一致。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "其他裝置下次同步時將與本裝置一致。"
+          }
+        }
+      }
+    },
+    "기기 간 동기화가 꺼져 있거나 아직 시작되지 않았어요." : {
+      "comment" : "Make-authoritative error: sync engine is not running",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cross-device sync is off or hasn't started yet."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기기 간 동기화가 꺼져 있거나 아직 시작되지 않았어요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Синхронизация между устройствами выключена или ещё не запущена."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跨设备同步已关闭或尚未启动。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跨裝置同步已關閉或尚未啟動。"
+          }
+        }
+      }
+    },
+    "카테고리도 %1$d개가 이 기기 내용으로 바뀌고 %2$d개가 지워져요." : {
+      "comment" : "Make-authoritative confirm message: category replaced count, category deleted count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d categories will also be replaced with this device's version and %2$d will be deleted."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리도 %1$d개가 이 기기 내용으로 바뀌고 %2$d개가 지워져요."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категорий будет заменено версией с этого устройства: %1$d, удалено: %2$d."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %1$d 个分类将替换为本设备的内容，%2$d 个被删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "另有 %1$d 個分類將替換為本裝置的內容，%2$d 個被刪除。"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

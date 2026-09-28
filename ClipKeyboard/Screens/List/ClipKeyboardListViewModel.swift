@@ -702,6 +702,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func saveCustomCategories() {
         AppGroup.defaults?
             .set(customCategories, forKey: DefaultsKey.userDefinedCategoriesV1)
+        CategorySnapshotStore.notifyChanged()
     }
 
     func setCategoryVisible(_ key: String, visible: Bool) {
@@ -717,6 +718,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         }
         AppGroup.defaults?
             .set(Array(hiddenCategoryTabs), forKey: DefaultsKey.hiddenCategoryTabsV1)
+        CategorySnapshotStore.notifyChanged()
     }
 
     func isCategoryVisible(_ key: String) -> Bool {

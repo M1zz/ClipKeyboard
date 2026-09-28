@@ -143,4 +143,45 @@ struct MemoSyncConvergenceTests {
         #expect(second.newTombstones.isEmpty)
         #expect(second.isEmpty)
     }
+
+    // MARK: - 이긴 쪽은 반드시 상대에게 간다
+
+    /// 로컬이 더 최신이면 유지만 하고 끝나면 안 된다. 병합 직후 섀도가 이 결과로 다시 쓰여
+    /// "보냈음"이 되므로, 여기서 재업로드를 걸지 않으면 두 기기가 다른 내용을 영영 든다.
+    @Test("로컬 편집이 더 최신이면 유지하고 다시 올린다")
+    func newerLocalEditIsReuploaded() {
+        let id = UUID()
+        let remote = [RemoteMemo(id: id, memo: memo(id, title: "remote", edited: t100), lastEdited: t100)]
+        let local = [memo(id, title: "local", edited: t200)]
+
+        let result = MemoSyncCore.merge(local: local, localTombstones: [:], remote: remote)
+
+        #expect(result.memos.first?.title == "local")
+        #expect(result.toReupload.map(\.id) == [id])
+    }
+
+    /// 제가 올린 사본을 되받으면(같은 시각·같은 id) 아무것도 하지 않는다 - 핑퐁 방지.
+    @Test("같은 사본을 되받으면 다시 올리지 않는다")
+    func echoIsNotReuploaded() {
+        let id = UUID()
+        let same = memo(id, edited: t200)
+        let remote = [RemoteMemo(id: id, memo: same, lastEdited: t200)]
+
+        let result = MemoSyncCore.merge(local: [same], localTombstones: [:], remote: remote)
+
+        #expect(result.toReupload.isEmpty)
+        #expect(result.tombstonesToReupload.isEmpty)
+    }
+
+    /// 로컬 삭제가 더 최신인데 원격이 아직 살아 있는 사본을 주면, 삭제를 다시 알린다.
+    @Test("로컬 삭제가 더 최신이면 원격 사본을 무시하고 삭제를 다시 알린다")
+    func newerLocalDeletionIsReannounced() {
+        let id = UUID()
+        let remote = [RemoteMemo(id: id, memo: memo(id, edited: t100), lastEdited: t100)]
+
+        let result = MemoSyncCore.merge(local: [], localTombstones: [id: t200], remote: remote)
+
+        #expect(result.memos.isEmpty)
+        #expect(result.tombstonesToReupload == [id: t200])
+    }
 }

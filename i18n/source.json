@@ -4139,6 +4139,12 @@
     "comment": "Changelog 4.4.3 item 5",
     "h": "f6f982321d"
   },
+  "기기 간 동기화가 꺼져 있거나 아직 시작되지 않았어요.": {
+    "ko": "기기 간 동기화가 꺼져 있거나 아직 시작되지 않았어요.",
+    "en": "Cross-device sync is off or hasn't started yet.",
+    "comment": "Make-authoritative error: sync engine is not running",
+    "h": "3201764ab6"
+  },
   "기기 간 동기화에서 처음 올린 뒤의 수정과 삭제가 반영되지 않던 문제를 고쳤어요": {
     "ko": "기기 간 동기화에서 처음 올린 뒤의 수정과 삭제가 반영되지 않던 문제를 고쳤어요",
     "en": "Fixed sync between devices dropping every edit and deletion after the first upload.",
@@ -4918,6 +4924,36 @@
     "en": "Try another",
     "comment": "Button: pick another equivalent",
     "h": "24fb297dfa"
+  },
+  "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.": {
+    "ko": "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.",
+    "en": "Your other devices will match this one the next time they sync.",
+    "comment": "Make-authoritative done message",
+    "h": "0fcdae3b29"
+  },
+  "다른 기기를 이 기기에 맞추기": {
+    "ko": "다른 기기를 이 기기에 맞추기",
+    "en": "Make Other Devices Match This One",
+    "comment": "Make other devices match this one (sync)",
+    "h": "6d38aee736"
+  },
+  "다른 기기를 이 기기에 맞출까요?": {
+    "ko": "다른 기기를 이 기기에 맞출까요?",
+    "en": "Make other devices match this one?",
+    "comment": "Make-authoritative confirm title",
+    "h": "817fe6f320"
+  },
+  "다른 기기에서 단축어 %1$d개가 이 기기 내용으로 바뀌고 %2$d개가 지워져요. 이 기기에 없는 단축어는 모든 기기에서 사라지고 되돌릴 수 없어요.": {
+    "ko": "다른 기기에서 단축어 %1$d개가 이 기기 내용으로 바뀌고 %2$d개가 지워져요. 이 기기에 없는 단축어는 모든 기기에서 사라지고 되돌릴 수 없어요.",
+    "en": "On your other devices, %1$d snippets will be replaced with this device's version and %2$d will be deleted. Snippets that aren't on this device will be removed from every device. This can't be undone.",
+    "comment": "Make-authoritative confirm message: replaced count, deleted count",
+    "h": "996b80e45b"
+  },
+  "다른 기기와 이 기기의 단축어가 이미 같아요.": {
+    "ko": "다른 기기와 이 기기의 단축어가 이미 같아요.",
+    "en": "Your other devices already have the same snippets as this one.",
+    "comment": "Make-authoritative: nothing to change message",
+    "h": "5be291f82a"
   },
   "다른 메모 앱의 글을 통째로 붙여넣으면 알아서 나눠 담아요": {
     "ko": "다른 메모 앱의 글을 통째로 붙여넣으면 알아서 나눠 담아요",
@@ -6262,6 +6298,24 @@
     "en": "Clear glass cards + photo backgrounds: 8 scenic photos, different per tab",
     "comment": "Changelog 4.3.9 item 1",
     "h": "1055037776"
+  },
+  "맞추기": {
+    "ko": "맞추기",
+    "en": "Match",
+    "comment": "Make-authoritative confirm button",
+    "h": "e71a7963ec"
+  },
+  "맞추지 못했어요": {
+    "ko": "맞추지 못했어요",
+    "en": "Couldn't Match Devices",
+    "comment": "Make-authoritative failed title",
+    "h": "eb00bd6810"
+  },
+  "맞췄어요": {
+    "ko": "맞췄어요",
+    "en": "Devices Matched",
+    "comment": "Make-authoritative done title",
+    "h": "0f58b7a209"
   },
   "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
     "ko": "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요",
@@ -10973,6 +11027,12 @@
     "comment": "Paywall personalized time-saved proof",
     "h": "8433e22ca2"
   },
+  "이미 똑같아요": {
+    "ko": "이미 똑같아요",
+    "en": "Already the Same",
+    "comment": "Make-authoritative: nothing to change title",
+    "h": "a67c067d8d"
+  },
   "이미 만든 단축어는 그대로 있어요": {
     "ko": "이미 만든 단축어는 그대로 있어요",
     "en": "Everything you've already made stays as it is",
@@ -13378,6 +13438,12 @@
     "en": "Categories no longer multiply on their own. They grow only when you make one",
     "comment": "Changelog 5.0.6 category growth",
     "h": "2ff8241be1"
+  },
+  "카테고리도 %1$d개가 이 기기 내용으로 바뀌고 %2$d개가 지워져요.": {
+    "ko": "카테고리도 %1$d개가 이 기기 내용으로 바뀌고 %2$d개가 지워져요.",
+    "en": "%1$d categories will also be replaced with this device's version and %2$d will be deleted.",
+    "comment": "Make-authoritative confirm message: category replaced count, category deleted count",
+    "h": "6263ccafbe"
   },
   "카테고리로 분류해서 빠르게 찾아볼까요?": {
     "ko": "카테고리로 분류해서 빠르게 찾아볼까요?",

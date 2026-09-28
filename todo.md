@@ -32,6 +32,34 @@ iOS 26.1 · iPhone 16 Pro. 샘플 "My Email"(example@email.com)을 지우려다 
 - [x] `MemoSyncEngine.verifyBaseline` - 존 안 표식(`sync-epoch`)이 기억과 다르면 기록을 비우고 처음부터 다시 맞춤 (툼스톤 유지). 맥 엔진에도 같은 코드.
 - [x] 빌드 성공
 - [ ] TestFlight 빌드 올려 POS-M7NGWGKHC4 에서 확인 - 맥 목록과 합쳐지는지
+- 2026-09-28: 표식 확인은 폰에서 돌았다(epoch 기록, 41건 올림). 그런데 Xcode 빌드라 **Development** 로 갔다.
+  맥 entitlements 는 `icloud-container-environment = Production` 을 명시해 개발 빌드도 Production 인데,
+  iOS 는 이 키가 없어 개발 빌드가 Development 였다. 둘 다 Xcode 로 시험하면 늘 갈라진다.
+- [x] iOS `ClipKeyboard.entitlements` 에 `icloud-container-environment = Production` 추가. 서명 빌드 성공, 서명된 앱에 Production 확인.
+- [x] 폰에서 재기준 확인: 11:51 받기 66 · 올리기 41, 맥이 곧바로 받음
+- [x] 끊겨 있던 동안의 삭제가 안 가던 것 → 표식마다 한 번 툼스톤 전부 다시 알림(`announceTombstonesIfNeeded`). 14:11 43개 올림
+- [x] 병합 버그: 로컬이 더 최신이면 유지만 하고 안 올렸다(섀도가 병합 결과로 덮여 영영 안 감).
+      → `toReupload` 에 넣고, 로컬 삭제가 이기면 `tombstonesToReupload` 로 다시 알림. 시험 3개 추가, 20개 통과
+- [x] 설정 ▸ 내 데이터 ▸ "다른 기기를 이 기기에 맞추기": 서버 전부 받아 비교 → 개수 확인 → 다른 것은 지금 시각으로 올리고 없는 것은 삭제로
+- [ ] 폰에서 버튼 눌러 통관부호(카테고리 옮긴 것)가 맥에 반영되는지 확인
+- [ ] 카테고리 **삭제**는 여전히 기기 간에 안 간다(올릴 때 union, 받을 때 더하기만). 필요하면 따로
+
+## 🗂 카테고리를 단축어와 같은 방식으로 - 2026-09-28
+
+설계: `docs/engineering/CATEGORY_SYNC_UNIFICATION.md`
+
+- [x] 0단계: 이름 바꾸기 버그. `CategoryStore.rename` 이 목록 이름만 바꿔 단축어는 기본 탭으로 밀려나고 아이콘·색·숨김이 사라진다
+- [x] 1단계: `CategoryItem` 항목. 설계와 달리 **열쇠가 계속 원본**이고 항목은 열쇠에서 갱신·열쇠로 되쓰기(쓰는 곳이 여럿이라)
+- [x] 2단계: 카테고리 전용 병합(`CategorySyncCore`), 카테고리 레코드(`categoryitem.<UUID>`, `CategorySettings` 종류), 마이그레이션(이름 기반 id), 이름 겹침 정리. iOS·맥 같은 날
+- [x] 3단계: 백업 `items`, "이 기기에 맞추기"에 카테고리
+- [x] 하위 호환: 새 레코드(`categoryitem.<id>`, `sync-epoch.v2`)는 `CategorySettings` 종류·`payload`/`updatedAt` 만.
+      맥 5.1.4 "다시 받기"가 `Memo` 종류를 이름 안 보고 단축어로 세기 때문. 충돌 처리가 `updatedAt` 도 봄.
+      개발 빌드가 `Memo` 종류로 올린 `category.*` 11개·`sync-epoch` 는 지움(폰에서 확인: 올림 106 = 83+11+1+지움 11).
+      시험 `SyncBackwardCompatibilityTests`, 전체 1354개 통과. 맥 현재 코드의 진단·다시 받기도 UUID 이름만 셈
+- [x] 단축어가 없는 카테고리는 탭으로 세우지 않는다 - 앱 목록·맥을 키보드 규칙에 맞춤(설정의 카테고리 목록엔 남음). 시험 1355 통과
+- [ ] 4단계: `category-settings` 목록 쓰기 중단
+- [ ] 실기기: 폰에서 카테고리 이름 바꾸기·지우기가 맥에 가는지 (맥도 새 빌드 필요)
+- [ ] 모든 데이터 삭제가 **단축어** 삭제를 다른 기기로 퍼뜨리는지 확인 (동기화 섀도를 안 지움)
 
 ## 🧭 유입 경로 지도 - 2026-09-24
 

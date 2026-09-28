@@ -20,6 +20,7 @@ private func loadCustomIcons() -> [String: String] {
 
 private func saveCustomIcons(_ dict: [String: String]) {
     AppGroup.defaults?.set(dict, forKey: kIconsKey)
+    CategorySnapshotStore.notifyChanged()
 }
 
 // MARK: - Symbol Catalog

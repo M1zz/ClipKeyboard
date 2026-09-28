@@ -187,15 +187,61 @@ final class CategoryStore: ObservableObject {
     }
 
     /// 카테고리 이름 변경. 중복 시 무시.
+    ///
+    /// ⚠️ 목록의 이름만 바꾸면 안 된다. 단축어의 `category`, 아이콘, 색, 숨김이 모두 **이름으로**
+    ///    카테고리를 가리킨다. 예전엔 목록만 바꿔서, 이름을 바꾸는 순간 그 카테고리의 단축어가
+    ///    전부 기본 탭으로 밀려나고 아이콘과 색이 사라졌다.
     @discardableResult
     func rename(from oldName: String, to newName: String) -> Bool {
         let trimmed = newName.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty, oldName != trimmed,
               let idx = categories.firstIndex(of: oldName),
               !categories.contains(trimmed) else { return false }
+
+        // 동기화 항목의 id 를 지키려고 목록보다 **먼저** 옮긴다. 목록이 먼저 바뀌면
+        // 다음 동기화가 "옛 이름 삭제 + 새 이름 추가"로 읽는다.
+        CategoryItemStore.rename(from: oldName, to: trimmed)
+        moveNameKeyedSettings(from: oldName, to: trimmed)
+        moveMemos(from: oldName, to: trimmed)
+
         categories[idx] = trimmed
         persist()
         return true
+    }
+
+    /// 이름으로 저장된 아이콘·색·숨김을 새 이름으로 옮긴다.
+    private func moveNameKeyedSettings(from oldName: String, to newName: String) {
+        guard let defaults = AppGroup.defaults else { return }
+        for key in [DefaultsKey.userCategoryIconsV1, categoryColorsKey] {
+            var map = (defaults.dictionary(forKey: key) as? [String: String]) ?? [:]
+            if let value = map.removeValue(forKey: oldName) {
+                map[newName] = value
+                defaults.set(map, forKey: key)
+            }
+        }
+        var hidden = defaults.stringArray(forKey: hiddenTabsKey) ?? []
+        if let i = hidden.firstIndex(of: oldName) {
+            hidden[i] = newName
+            defaults.set(hidden, forKey: hiddenTabsKey)
+        }
+    }
+
+    /// 그 이름을 쓰던 단축어를 새 이름으로 옮긴다. 수정 시각을 올려 다른 기기에도 간다.
+    private func moveMemos(from oldName: String, to newName: String) {
+        guard var memos = try? MemoStore.shared.load(type: .memo) else { return }
+        let now = Date()
+        var moved = 0
+        for index in memos.indices where memos[index].category == oldName {
+            memos[index].category = newName
+            memos[index].lastEdited = now
+            moved += 1
+        }
+        guard moved > 0 else { return }
+        do {
+            try MemoStore.shared.save(memos: memos, type: .memo)
+        } catch {
+            print("❌ [CategoryStore.rename] 단축어 \(moved)개를 옮기지 못함: \(error)")
+        }
     }
 
     /// 카테고리 삭제. 보호 카테고리 (기본/텍스트/이미지) 제외.
@@ -240,6 +286,7 @@ final class CategoryStore: ObservableObject {
         var hidden = Set(defaults.stringArray(forKey: hiddenTabsKey) ?? [])
         if visible { hidden.remove(name) } else { hidden.insert(name) }
         defaults.set(Array(hidden), forKey: hiddenTabsKey)
+        CategorySnapshotStore.notifyChanged()
     }
 
     /// 카테고리 추가 후 표시 토글을 OFF(숨김)로 둔다 - 페르소나 변경 등으로 자동 추가될 때
@@ -267,6 +314,7 @@ final class CategoryStore: ObservableObject {
         var map = (defaults.dictionary(forKey: categoryColorsKey) as? [String: String]) ?? [:]
         if let hex { map[name] = hex } else { map.removeValue(forKey: name) }
         defaults.set(map, forKey: categoryColorsKey)
+        CategorySnapshotStore.notifyChanged()
     }
 
     // MARK: - Storage
@@ -327,5 +375,6 @@ final class CategoryStore: ObservableObject {
     private func persist() {
         guard let defaults = AppGroup.defaults else { return }
         defaults.set(categories, forKey: storageKey)
+        CategorySnapshotStore.notifyChanged()
     }
 }

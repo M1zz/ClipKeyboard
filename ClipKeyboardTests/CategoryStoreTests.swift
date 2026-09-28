@@ -127,4 +127,35 @@ final class CategoryStoreTests: XCTestCase {
         _ = sut.add(testCategory)
         XCTAssertEqual(sut.allCategories, sut.categories)
     }
+
+    // MARK: - Rename carries name-keyed settings
+
+    /// 이름을 바꾸면 아이콘·색·숨김도 새 이름으로 따라가야 한다.
+    /// 예전엔 목록 이름만 바뀌어 아이콘과 색이 사라지고 숨김이 풀렸다.
+    func testRename_MovesIconColorAndHidden() {
+        let defaults = AppGroup.defaults!
+        _ = sut.add(testCategory)
+        var icons = (defaults.dictionary(forKey: DefaultsKey.userCategoryIconsV1) as? [String: String]) ?? [:]
+        icons[testCategory] = "star"
+        defaults.set(icons, forKey: DefaultsKey.userCategoryIconsV1)
+        sut.setColorHex("#FF0000", for: testCategory)
+        sut.setVisible(testCategory, false)
+
+        XCTAssertTrue(sut.rename(from: testCategory, to: testCategory2))
+
+        let movedIcons = (defaults.dictionary(forKey: DefaultsKey.userCategoryIconsV1) as? [String: String]) ?? [:]
+        XCTAssertEqual(movedIcons[testCategory2], "star")
+        XCTAssertNil(movedIcons[testCategory])
+        XCTAssertEqual(sut.colorHex(for: testCategory2), "#FF0000")
+        XCTAssertNil(sut.colorHex(for: testCategory))
+        XCTAssertFalse(sut.isVisible(testCategory2))
+        XCTAssertTrue(sut.isVisible(testCategory))
+
+        // 정리
+        var cleaned = movedIcons
+        cleaned.removeValue(forKey: testCategory2)
+        defaults.set(cleaned, forKey: DefaultsKey.userCategoryIconsV1)
+        sut.setColorHex(nil, for: testCategory2)
+        sut.setVisible(testCategory2, true)
+    }
 }

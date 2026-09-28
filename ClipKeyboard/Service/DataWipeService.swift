@@ -45,7 +45,14 @@ enum DataWipeService {
         "userDefinedCategories_v1",
         "hiddenCategoryTabs_v1",
         "userCategoryIcons_v1",
+        "userCategoryColors_v1",
+        "enabledBuiltInCategories_v1",
         "category.feature.enabled.v1",
+        // 카테고리 동기화 항목·섀도. 남기면 다음 동기화가 "목록에서 사라졌다 = 지웠다"로 읽어
+        // 이 기기만 지운 카테고리를 **모든 기기에서** 지운다.
+        CategoryItemStore.itemsKey,
+        CategoryItemStore.shadowKey,
+        CategoryItemStore.migratedKey,
         "memoCategoryAssignments_v1",  // 카테고리 사이드카 - 남으면 삭제 후 되살아난다
         DefaultsKey.usageRhythmLog,          // 단축어를 쓴 시각
         DefaultsKey.keyboardSessionLedger,
