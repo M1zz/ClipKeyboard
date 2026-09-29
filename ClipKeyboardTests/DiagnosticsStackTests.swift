@@ -30,7 +30,13 @@ final class DiagnosticsStackTests: XCTestCase {
     /// ⚠️ `JSONSerialization` 에 Dictionary 를 넘겨 만들지 말 것. 그러면 키 순서가
     ///    뒤섞여서, 실제 페이로드에서 `binaryName` 이 `subFrames` **뒤에** 온다는
     ///    사실이 시험에서 사라진다. 옛 버그의 원인이 바로 그 순서였다.
-    private func tree(frames: [(name: String, offset: Int)], attributed: Bool = true) -> Data {
+    ///
+    /// `frames` 는 **뿌리에서 잎 순**으로 받는다(읽기 쉬우라고). 글자로는 실제 페이로드처럼
+    /// **잎이 바깥**, `subFrames` 가 뿌리 쪽으로 들어가게 찍는다. 예전 시험은 뿌리를 바깥에
+    /// 두어서, 거꾸로 보내는 버그를 시험이 함께 믿었다(docs/postmortem/CRASH_STACK_UPSIDE_DOWN.md).
+    private func tree(frames rootToLeaf: [(name: String, offset: Int)], attributed: Bool = true,
+                      leafOutermost: Bool = true) -> Data {
+        let frames = leafOutermost ? Array(rootToLeaf.reversed()) : rootToLeaf
         func frame(_ index: Int, indent: Int) -> String {
             let pad = String(repeating: " ", count: indent)
             let inner = String(repeating: " ", count: indent + 2)
@@ -86,6 +92,42 @@ final class DiagnosticsStackTests: XCTestCase {
                       "0번은 죽은 자리여야 한다. 실제: \(lines[0])")
         XCTAssertTrue(lines[3].contains("dyld +20368"),
                       "마지막은 뿌리여야 한다. 실제: \(lines[3])")
+    }
+
+    /// 허브에 실제로 올라온 모양이다. 0번이 dyld, 1번이 `main` 이면 범인을 늘 `main` 으로
+    /// 잡아 서로 다른 멈춤이 한 이슈로 묶인다.
+    func test_실제_페이로드_모양에서_dyld_는_맨_끝에_온다() {
+        let data = tree(frames: [
+            ("dyld", 19484),
+            ("ClipKeyboard", 991504),   // main
+            ("SwiftUI", 183368),
+            ("libsystem_kernel.dylib", 45520)
+        ])
+        let lines = DiagnosticsService.stackText(fromJSON: data)
+            .components(separatedBy: "\n--\n")[0]
+            .split(separator: "\n").map(String.init)
+
+        XCTAssertTrue(lines[0].contains("libsystem_kernel.dylib +45520"), "실제: \(lines[0])")
+        XCTAssertTrue(lines[3].contains("dyld +19484"), "실제: \(lines[3])")
+    }
+
+    /// 트리 모양이 반대로 와도(뿌리가 바깥) 0번은 잎이다. 내용으로 세우기 때문이다.
+    func test_뿌리가_바깥인_트리도_잎부터_세운다() {
+        let data = tree(frames: [
+            ("dyld", 19484),
+            ("ClipKeyboard", 991504),
+            ("ClipKeyboard", 3152156)
+        ], leafOutermost: false)
+        let text = DiagnosticsService.stackText(fromJSON: data)
+
+        XCTAssertTrue(text.hasPrefix(" 0 ClipKeyboard +3152156"), "실제: \(text.prefix(40))")
+    }
+
+    func test_보조_스레드의_뿌리도_알아본다() {
+        let ordered = DiagnosticsService.leafFirst([
+            "libsystem_pthread.dylib +3804", "SwiftUICore +40432", "libsystem_kernel.dylib +28892"
+        ])
+        XCTAssertEqual(ordered.first, "libsystem_kernel.dylib +28892")
     }
 
     // MARK: - ② 바이너리 이름이 붙는다
