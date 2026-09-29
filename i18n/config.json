@@ -20,7 +20,7 @@
     "zh-Hant": { "native": "繁體中文",           "tier": 0, "enabled": true,  "mode": "derived", "expansion": 0.9, "plural": "none",   "rtl": false, "derivedBy": "scripts/make_zh_hant.py" },
 
     "ru":      { "native": "Русский",           "tier": 1, "enabled": true,  "mode": "machine", "expansion": 1.6, "plural": "slavic", "rtl": false },
-    "ja":      { "native": "日本語",             "tier": 1, "enabled": false, "mode": "machine", "expansion": 1.1, "plural": "none",   "rtl": false },
+    "ja":      { "native": "日本語",             "tier": 1, "enabled": true, "mode": "machine", "expansion": 1.1, "plural": "none",   "rtl": false },
     "es":      { "native": "Español",           "tier": 1, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
     "pt-BR":   { "native": "Português (Brasil)","tier": 1, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
     "de":      { "native": "Deutsch",           "tier": 1, "enabled": false, "mode": "machine", "expansion": 1.7, "plural": "simple", "rtl": false },
