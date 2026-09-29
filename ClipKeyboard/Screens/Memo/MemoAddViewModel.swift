@@ -133,10 +133,25 @@ final class MemoAddViewModel: ObservableObject {
 
     @Published var attachedImages: [ImageWrapper] = []
 
+    // MARK: - 저장할 수 있는가
+
+    /// 넣을 것이 있는가. 글이든 그림이든 하나는 있어야 한다. **저장 버튼과 저장 검사가 같이 본다.**
+    ///
+    /// ⚠️ 공백·줄바꿈만 있는 글은 없는 것으로 본다. 키보드에 빈 키가 생기고, 눌러도
+    ///    아무것도 안 들어간 것처럼 보인다(`BasicScenarioTests` 가 찾았다).
+    var hasContent: Bool {
+        !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !attachedImages.isEmpty
+    }
+
+    /// 제목이 있는가. 공백만 있으면 목록과 키보드에 이름 없는 키가 선다.
+    var hasTitle: Bool {
+        !keyword.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
     // MARK: - Alert 메시지 (계산 프로퍼티)
 
     var alertMessage: String {
-        if keyword.isEmpty {
+        if !hasTitle {
             return NSLocalizedString("제목을 입력하세요", comment: "Alert: title required")
         }
         return NSLocalizedString("내용을 입력하세요", comment: "Alert: content required")
@@ -587,11 +602,10 @@ final class MemoAddViewModel: ObservableObject {
     // MARK: - Private Helpers
 
     private func validateMemoInput() -> Bool {
-        if keyword.isEmpty {
+        if !hasTitle {
             showAlert = true
             return false
         }
-        let hasContent = !value.isEmpty || !attachedImages.isEmpty
         if !hasContent {
             showAlert = true
             return false

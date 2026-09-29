@@ -186,7 +186,8 @@ private struct ShareSaveView: View {
     @State private var destination: ShareDestination = .shortcut
 
     private var isImageShare: Bool { !images.isEmpty }
-    private var canSave: Bool { isImageShare || !text.isEmpty }
+    /// 공백·줄바꿈만 있는 글은 없는 것으로 본다(앱의 `MemoAddViewModel.hasContent` 와 같은 기준).
+    private var canSave: Bool { isImageShare || !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
 
     init(text: String, images: [UIImage], initialTitle: String, category: String,
          onSave: @escaping (String, String, ShareDestination) -> Void,
