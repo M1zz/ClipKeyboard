@@ -192,6 +192,11 @@ enum DefaultsKey {
     /// 한 줄에 서는 단축어 키 개수(1~5). 값이 없거나 0 이면 2. App Group.
     /// 위와 같은 이유로 문자열은 맨몸 그대로 둔다.
     static let keyboardColumnCount = "keyboardColumnCount"
+    /// 이 기기에서 지구본 키를 우리가 그려야 했는가(`needsInputModeSwitchKey` 의 마지막 값). 익스텐션 전용.
+    ///
+    /// ⚠️ 그 값은 키보드가 **뜬 뒤에야** 읽는다. 뜨기 전에 읽으면 UIKit 안에서 예외로 죽는다
+    ///    (docs/postmortem/KEYBOARD_INPUT_MODE_SWITCH_CRASH.md). 그래서 첫 그림은 지난번 값으로 그린다.
+    static let keyboardNeedsGlobeKey = "keyboardNeedsGlobeKey.v1"
     /// 조작 키(지우기 · 보내기 · 클립보드 · 지구본 · 갈래 · 전체삭제) 한 칸의 높이(pt).
     /// 값이 없거나 0 이면 28. App Group - 익스텐션이 그릴 때 읽는다.
     ///
