@@ -1,3 +1,31 @@
+## 🧭 여정 시험과 그것을 지키는 문 - 2026-09-29
+
+- [x] 여정 시험 8개(`BasicScenarioTests`): 기본 흐름 · 즐겨찾기 · 템플릿 · 빈 입력 · 스택 · 보안 · 복사한 것 저장 · 복사한 카드 보안
+- [x] 버그: 클립보드에서 보안으로 저장하면 값이 평문으로 적힘(카드·계좌는 자동 보안이라 가장 민감한 값이) → `SaveToMemoSheet.makeSnippet` 이 암호화
+- [x] 여정 표 `docs/engineering/USER_JOURNEYS.md` (15개) + `scripts/check_journeys.sh`: 커밋 · 배포에서 표의 시험이 있는지
+- [x] pre-push 훅: 여정 시험을 실제로 돌림 (`SKIP_JOURNEYS=1` 로 건너뜀)
+- [x] `install-hooks.sh` 의 commit-msg 절이 `SH2'` 로 안 닫혀, 다시 설치하면 모든 커밋이 막히던 것 고침
+- [ ] 단축어가 들어가는 문이 8곳이고 무료 한도를 보는 곳은 저장 화면뿐(원탭 저장 · 공유 · 번역 · 마트 · 보관함 승격은 안 봄). 넘친 것은 키보드에서 잠김으로 보임. 의도인지 정하기
+- [ ] 기기 QA 로만 볼 수 있는 것: 진짜 익스텐션 · 화면 모양 · 실기기 경로 (USER_JOURNEYS.md 의 사각지대 표)
+
+## 🇯🇵 일본어 추가 · 기본 시나리오 시험 - 2026-09-29
+
+- [x] `ja` 켬: 용어 고정(단축어=定型文 · 스택=スタック) → 번역 2,610개 → build · wire · check 통과, 빌드 성공
+- [x] 스토어 문안 `docs/marketing/APP_STORE_JA.md` (이름 · 부제 · 설명 · 키워드 · 프로모션)
+- [ ] ASC 웹에서 일본어 로케일 만들고 문안 넣기 → 그 뒤 `deploy.env` LOCALES 에 ja, RELEASE_NOTES 에 일본어 절
+- [ ] 다른 로케일 설명의 "지원 언어" 줄에 일본어 더하기 (ko · en · zh · ru 문안)
+- [x] `BasicScenarioTests`: 만들기 → 키보드에 실림 → 누르면 입력 → 쓴 횟수 → 고치기 → 지우기, 즐겨찾기 순서, 템플릿 빈칸, 빈 입력 거절 (4개 통과)
+- [x] 공백·줄바꿈만 있는 단축어를 막음: 저장 화면(`MemoAddViewModel.hasContent`/`hasTitle`, 버튼과 검사가 같은 값), 공유 시트, 클립보드 저장 시트. 시험에 공백 경우 3개 추가
+
+## 🩺 허브 진단 네 건 (워치독 3 · 키보드 신호 1) - 2026-09-29
+
+- [x] 원인: 스택을 거꾸로 보냄(0번 dyld, 1번 main). 멈춤 168건이 `ClipKeyboard +991504`(main) 한 제목으로 묶임 → `DiagnosticsService.leafFirst`, 시험 페이로드 실제 모양으로
+- [x] FeedbackHubViewer 가 옛 기록을 바로 세워 읽음(`CrashReport.leafFirst`), 이슈가 다시 갈라짐
+- [x] 키보드 신호 25건: `viewWillAppear` 의 `needsInputModeSwitchKey` → `viewDidAppear` 로, 첫 그림은 지난 값
+- [x] postmortem 두 개, 빌드 성공, DiagnosticsStackTests 통과
+- [ ] 허브에서 다시 갈라진 멈춤 이슈를 보고, 많은 것부터 dSYM(App Store Connect)으로 되돌려 원인 찾기
+- [ ] 키보드 신호가 다음 버전에서 사라졌는지 확인
+
 ## 🧪 Claude 자동 QA (5.1.6, iOS 27 시뮬레이터) - 2026-09-29
 
 단위 테스트 1,355개 모두 통과. 결과는 QARotation 앱에 기록해 둠(오늘 탭 "Claude가 먼저 봤어요").

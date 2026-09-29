@@ -124,7 +124,10 @@ struct CursorAndClipboardTokenTests {
         c.year = 2026; c.month = 3; c.day = 7
         let fixed = Calendar.current.date(from: c)!
 
-        let out = TemplateVariableProcessor.process("{clipboard}", at: fixed, clipboard: "메모 {날짜}")
+        // 날짜 모양을 못 박는다. 기기 설정(App Group)을 읽게 두면, 그 값을 바꾸는
+        // `DateTokenFormatTests` 와 병렬로 돌 때 가끔 다른 모양이 나와 실패한다.
+        let out = TemplateVariableProcessor.process("{clipboard}", at: fixed, clipboard: "메모 {날짜}",
+                                                    dateFormat: .builtin(.isoDash))
         #expect(out == "메모 2026-03-07")
     }
 
