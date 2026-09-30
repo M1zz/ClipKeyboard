@@ -21,7 +21,8 @@
 
     "ru":      { "native": "Русский",           "tier": 1, "enabled": true,  "mode": "machine", "expansion": 1.6, "plural": "slavic", "rtl": false },
     "ja":      { "native": "日本語",             "tier": 1, "enabled": true, "mode": "machine", "expansion": 1.1, "plural": "none",   "rtl": false },
-    "es":      { "native": "Español",           "tier": 1, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
+    "es":      { "native": "Español",           "tier": 1, "enabled": true,  "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false,
+                 "note": "Neutral Latin American Spanish, Mexico first. Address the user as tú, never usted or vosotros. Prefer words used in Mexico (celular, llenar, monto) over Spain-only words (móvil, rellenar, importe, ordenador)." },
     "pt-BR":   { "native": "Português (Brasil)","tier": 1, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
     "de":      { "native": "Deutsch",           "tier": 1, "enabled": false, "mode": "machine", "expansion": 1.7, "plural": "simple", "rtl": false },
     "fr":      { "native": "Français",          "tier": 1, "enabled": false, "mode": "machine", "expansion": 1.6, "plural": "simple", "rtl": false },

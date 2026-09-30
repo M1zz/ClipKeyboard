@@ -643,6 +643,9 @@
 		US00001A2F0000000000000001 /* UsageStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageStatsView.swift; sourceTree = "<group>"; };
 		US00001B2F0000000000000003 /* UsageReportingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageReportingService.swift; sourceTree = "<group>"; };
 		US00001C2F0000000000000005 /* UsageTrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTrendChartView.swift; sourceTree = "<group>"; };
+		F580D4C52B39E6CD8461330C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = "es.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		B0E46DF1EF10901BFD918815 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = "es.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		602E0E0CA1F85538D5475AA2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = "es.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -1378,6 +1381,7 @@
 				"zh-Hant",
 				ru,
 				ja,
+				es,
 			);
 			mainGroup = 58C4732F2A109F0C009D87BC;
 			packageReferences = (
@@ -1822,6 +1826,7 @@
 		FFEC102DB0D405F113AF6DC7 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				602E0E0CA1F85538D5475AA2 /* es */,
 				6E3BFDD7AA1F25AD447868BE /* ja */,
 				9CDBA9A8D73EEE4EC1461E57 /* ru */,
 				42B5F7583D8813C742F7F07B /* zh-Hant */,
@@ -1835,6 +1840,7 @@
 		INFOPLISTVG1 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				B0E46DF1EF10901BFD918815 /* es */,
 				C9C914F1F19D6D8E01B2B8E8 /* ja */,
 				5823DCC838AAB484E7497F81 /* ru */,
 				3EC90E725CACE57B682C1D9B /* zh-Hant */,
@@ -1848,6 +1854,7 @@
 		INFOPLISTVG2 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				F580D4C52B39E6CD8461330C /* es */,
 				8A4FF7CC69DF636D5D5041F3 /* ja */,
 				87C7E82D595E178AECF1B15F /* ru */,
 				B22C185C179501DDC5DF2F2C /* zh-Hant */,

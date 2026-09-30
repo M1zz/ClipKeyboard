@@ -463,7 +463,7 @@ PROMPT = """You are localizing an iOS/macOS app called {app_name} into {lang_nam
 
 TONE: {tone}
 Match that register in {lang_name}: plain, warm, concise. Address the user with the standard polite form used by well-made consumer apps in this language. Never sound like an ad.
-
+{lang_note}
 HARD RULES (a violation makes the string unusable):
 1. Format specifiers (%@, %d, %lld, %1$@, %.1f) must appear in the translation with the SAME set of types.
    If the natural word order differs, use positional forms (%1$@, %2$d) rather than dropping or reordering bare ones.
@@ -535,6 +535,7 @@ def build_prompt(cfg, code, items):
         app_line=cfg["app"]["oneLine"],
         tone=cfg["app"]["tone"],
         lang_name=meta["native"], lang_code=code,
+        lang_note=(f"LANGUAGE NOTE: {meta['note']}\n" if meta.get("note") else ""),
         token_map=(", ".join(tokens) if tokens else "(none fixed yet: choose one word per placeholder and use it consistently)"),
         never=", ".join(g["neverTranslate"]),
         terms=terms,
