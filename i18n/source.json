@@ -452,8 +452,8 @@
   "%d개": {
     "ko": "%d개",
     "en": "%d",
-    "comment": "count unit",
-    "h": "ee109f06f2"
+    "comment": "Free use receipt: N items\ncount unit",
+    "h": "54bd2e5b76"
   },
   "%d개 단축어 더 보기 → Pro 업그레이드": {
     "ko": "%d개 단축어 더 보기 → Pro 업그레이드",
@@ -3209,11 +3209,47 @@
     "comment": "Template token explanation title",
     "h": "f10de6931b"
   },
+  "{가격}": {
+    "ko": "{가격}",
+    "en": "{price}",
+    "comment": "Price token variable",
+    "h": "46728dca4f"
+  },
+  "{금액}": {
+    "ko": "{금액}",
+    "en": "{amount}",
+    "comment": "Amount token variable",
+    "h": "0073facf0f"
+  },
+  "{날짜}": {
+    "ko": "{날짜}",
+    "en": "{date}",
+    "comment": "Date token variable",
+    "h": "1d21ef569c"
+  },
   "{담당자}님, 오늘 {고객사} 미팅 감사합니다.\n논의: {요약}\n다음 단계: {다음 단계} ({다음 일정})": {
     "ko": "{담당자}님, 오늘 {고객사} 미팅 감사합니다.\n논의: {요약}\n다음 단계: {다음 단계} ({다음 일정})",
     "en": "Hi {Contact}, thanks for today's meeting with {Client}.\nDiscussed: {Summary}\nNext step: {Next step} ({Next date})",
     "comment": "Essential snippet body: meeting follow-up. Keep every {…} blank with its braces; translate only the words inside",
     "h": "af1f72aa52"
+  },
+  "{메모}": {
+    "ko": "{메모}",
+    "en": "{memo}",
+    "comment": "Memo token variable",
+    "h": "33f81f7dc0"
+  },
+  "{수량}": {
+    "ko": "{수량}",
+    "en": "{quantity}",
+    "comment": "Quantity token variable",
+    "h": "cbcc97e708"
+  },
+  "{시간}": {
+    "ko": "{시간}",
+    "en": "{time}",
+    "comment": "Time token variable",
+    "h": "3e8d8986fb"
   },
   "{요일} {약속 시간}, {장소} 앞에서 뵐게요. 도착하면 채팅 주세요!": {
     "ko": "{요일} {약속 시간}, {장소} 앞에서 뵐게요. 도착하면 채팅 주세요!",
@@ -3221,17 +3257,65 @@
     "comment": "Essential snippet body: in-person trade meetup. Keep every {…} blank with its braces; translate only the words inside",
     "h": "fc57a99d60"
   },
+  "{은행} {계좌번호} {예금주}": {
+    "ko": "{은행} {계좌번호} {예금주}",
+    "en": "{Bank} {Account number} {Account holder}",
+    "comment": "Essential snippet body: bank account. Keep every {…} blank with its braces; translate only the words inside",
+    "h": "501ae2b828"
+  },
+  "{이름}": {
+    "ko": "{이름}",
+    "en": "{name}",
+    "comment": "Name token variable",
+    "h": "121a618781"
+  },
+  "{이름}\n{전화번호}\n{이메일}": {
+    "ko": "{이름}\n{전화번호}\n{이메일}",
+    "en": "{Name}\n{Phone}\n{Email}",
+    "comment": "Essential snippet body: name, phone, email. Keep every {…} blank with its braces; translate only the words inside",
+    "h": "1269919d98"
+  },
+  "{전화}": {
+    "ko": "{전화}",
+    "en": "{phone}",
+    "comment": "Phone token variable",
+    "h": "dbe7f80be1"
+  },
+  "{주소}": {
+    "ko": "{주소}",
+    "en": "{address}",
+    "comment": "Address token variable",
+    "h": "12c09c2c56"
+  },
   "{주소}\n공동현관 {현관 비밀번호}": {
     "ko": "{주소}\n공동현관 {현관 비밀번호}",
     "en": "{Address}\nDoor code {Door code}",
     "comment": "Essential snippet body: home address plus building door code. Keep every {…} blank with its braces; translate only the words inside",
     "h": "6777046439"
   },
+  "{커서}": {
+    "ko": "{커서}",
+    "en": "{cursor}",
+    "comment": "Cursor token variable",
+    "h": "60a8545ddc"
+  },
+  "{클립보드}": {
+    "ko": "{클립보드}",
+    "en": "{clipboard}",
+    "comment": "Clipboard token variable",
+    "h": "5090c5a115"
+  },
   "{클립보드} 를 적어 두면 그 자리에 방금 복사한 것이 들어가요. \"운송장 번호는 {클립보드} 입니다\" 처럼요.": {
     "ko": "{클립보드} 를 적어 두면 그 자리에 방금 복사한 것이 들어가요. \"운송장 번호는 {클립보드} 입니다\" 처럼요.",
     "en": "Write {clipboard} and whatever you just copied goes there. Like \"Your tracking number is {clipboard}\".",
     "comment": "DYK body: clipboard token",
     "h": "a9018a584a"
+  },
+  "{학과} {학번} {이름}": {
+    "ko": "{학과} {학번} {이름}",
+    "en": "{Major} {Student ID} {Name}",
+    "comment": "Essential snippet body: student identity line. Keep every {…} blank with its braces; translate only the words inside",
+    "h": "ebbb001e47"
   },
   "• iCloud와 별개로, 데이터를 파일로 직접 보관하는 가장 확실한 방법입니다\n• 가져오기는 현재 데이터를 지우지 않고 합칩니다(같은 항목은 최신본 유지)": {
     "ko": "• iCloud와 별개로, 데이터를 파일로 직접 보관하는 가장 확실한 방법입니다\n• 가져오기는 현재 데이터를 지우지 않고 합칩니다(같은 항목은 최신본 유지)",
@@ -3662,8 +3746,8 @@
   "개인정보 처리방침": {
     "ko": "개인정보 처리방침",
     "en": "Privacy Policy",
-    "comment": "Privacy policy settings entry",
-    "h": "fbfaf1b503"
+    "comment": "Privacy policy link\nPrivacy policy settings entry",
+    "h": "ea66992367"
   },
   "개인정보를 수집하지 않습니다.": {
     "ko": "개인정보를 수집하지 않습니다.",
@@ -4538,8 +4622,8 @@
   "나중에": {
     "ko": "나중에",
     "en": "Later",
-    "comment": "Later button\nRestore hint: dismiss",
-    "h": "079a3c3bf4"
+    "comment": "Free use card: later\nLater button\nRestore hint: dismiss",
+    "h": "a87f3586ca"
   },
   "나중에 할게요": {
     "ko": "나중에 할게요",
@@ -9494,8 +9578,8 @@
   "아낀 시간": {
     "ko": "아낀 시간",
     "en": "Time saved",
-    "comment": "Usage stats section: time saved",
-    "h": "a00105cce9"
+    "comment": "Free use receipt: time saved\nUsage stats section: time saved",
+    "h": "d949d8e608"
   },
   "아낀 시간과 실제 횟수는 아래에 작게 남아요. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라서요": {
     "ko": "아낀 시간과 실제 횟수는 아래에 작게 남아요. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라서요",
@@ -9824,8 +9908,8 @@
   "알겠어요": {
     "ko": "알겠어요",
     "en": "Got it",
-    "comment": "Did you know: dismiss\nNew snippet coach: last step, dismiss\nSwitch hint: dismiss",
-    "h": "0e7cf8eef5"
+    "comment": "Did you know: dismiss\nFree use card: got it\nNew snippet coach: last step, dismiss\nSwitch hint: dismiss",
+    "h": "f6ae636405"
   },
   "알려 주기": {
     "ko": "알려 주기",
@@ -11426,8 +11510,8 @@
   "이용약관": {
     "ko": "이용약관",
     "en": "Terms of Use",
-    "comment": "Terms of use settings entry",
-    "h": "7693e5d426"
+    "comment": "Terms of use link\nTerms of use settings entry",
+    "h": "f8b3e0c29a"
   },
   "이전 구매 복원": {
     "ko": "이전 구매 복원",
