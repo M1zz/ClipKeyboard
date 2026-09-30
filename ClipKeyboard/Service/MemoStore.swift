@@ -326,6 +326,9 @@ class MemoStore: ObservableObject {
                                                type: memos[index].autoDetectedType,
                                                memoID: memoId)
 
+            // 무료로 쓰는 기간을 센다. 줄지 않는 값이라 단축어를 지워도 남는다(FreeUse).
+            FreeUse.recordUse()
+
             // "오늘 썼다"는 표식. 사용자 상태(UserState)의 활동일이 여기서 쌓인다.
             // ⚠️ 이 함수가 앱·키보드 양쪽 사용의 **유일한 길목**이라 여기 한 곳이면 된다.
             ActiveDayLedger.record()

@@ -5,6 +5,12 @@
     "comment": "Scenario title: based location answer",
     "h": "78e9bf2648"
   },
+  "%1$@ · %2$d번": {
+    "ko": "%1$@ · %2$d번",
+    "en": "%1$@ · %2$d times",
+    "comment": "Free use receipt: title and count",
+    "h": "2e74b6dcc1"
+  },
   "%1$@ 값이 든 단축어 %2$d개": {
     "ko": "%1$@ 값이 든 단축어 %2$d개",
     "en": "%2$d snippets with a %1$@",
@@ -112,6 +118,12 @@
     "en": "%1$d (%2$@)",
     "comment": "Count with ratio",
     "h": "3a43a0155f"
+  },
+  "%1$d번 중 %2$d번 썼어요": {
+    "ko": "%1$d번 중 %2$d번 썼어요",
+    "en": "%2$d of %1$d uses",
+    "comment": "Free use progress, VoiceOver",
+    "h": "caf20dba6a"
   },
   "%1$d번째, 전체 %2$d개": {
     "ko": "%1$d번째, 전체 %2$d개",
@@ -539,6 +551,24 @@
     "comment": "Usage passport: times count\nUse count suffix",
     "h": "a0d2e57d01"
   },
+  "%d번 남았어요": {
+    "ko": "%d번 남았어요",
+    "en": "%d uses left",
+    "comment": "Free use card: uses remaining",
+    "h": "bfb033df11"
+  },
+  "%d번까지는 지금처럼 모두 무료예요.": {
+    "ko": "%d번까지는 지금처럼 모두 무료예요.",
+    "en": "Everything stays free until %d uses.",
+    "comment": "Free use card: everything stays free until threshold",
+    "h": "eb8861434f"
+  },
+  "%d번부터는 새로 만들 때 Pro가 필요해요.": {
+    "ko": "%d번부터는 새로 만들 때 Pro가 필요해요.",
+    "en": "From %d uses on, making new ones needs Pro.",
+    "comment": "Free use card: after threshold creating needs Pro",
+    "h": "a59e72208f"
+  },
   "%d봉지": {
     "ko": "%d봉지",
     "en": "%d packs",
@@ -838,6 +868,12 @@
     "en": "You earned fifteen minutes",
     "comment": "Milestone title: fifteen minutes",
     "h": "de99815961"
+  },
+  "1년마다 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.": {
+    "ko": "1년마다 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.",
+    "en": "Renews automatically at %@ per year. Cancel at least 24 hours before renewal in Settings > Apple Account > Subscriptions.",
+    "comment": "Yearly subscription terms",
+    "h": "d720d2bf58"
   },
   "1분·5분·한 시간처럼 눈에 잡히는 만큼 아끼면 알려드려요": {
     "ko": "1분·5분·한 시간처럼 눈에 잡히는 만큼 아끼면 알려드려요",
@@ -2363,11 +2399,23 @@
     "comment": "Scenario title: proposal follow-up",
     "h": "6ebffa6321"
   },
+  "Pro는 개수 제한 없이 만들고, iCloud 백업과 기기 사이 동기화, 생체인증 잠금을 열어요.": {
+    "ko": "Pro는 개수 제한 없이 만들고, iCloud 백업과 기기 사이 동기화, 생체인증 잠금을 열어요.",
+    "en": "Pro lets you make as many as you like and unlocks iCloud Backup, Cross-Device Sync and Biometric Lock.",
+    "comment": "Free use guide: what Pro opens",
+    "h": "36fe7a5bd2"
+  },
   "Pro로 열린 기능": {
     "ko": "Pro로 열린 기능",
     "en": "Unlocked with Pro",
     "comment": "Pro benefits section: features unlocked by Pro",
     "h": "5d21f24ddd"
+  },
+  "Pro를 쓰고 있어요": {
+    "ko": "Pro를 쓰고 있어요",
+    "en": "You're using Pro",
+    "comment": "Free use guide: already Pro",
+    "h": "a5b97d7277"
   },
   "QWERTY 스타일 (표준)": {
     "ko": "QWERTY 스타일 (표준)",
@@ -3311,6 +3359,12 @@
     "comment": "Key label truncation: middle",
     "h": "3d21906a36"
   },
+  "가장 많이 쓴 것": {
+    "ko": "가장 많이 쓴 것",
+    "en": "Most used",
+    "comment": "Free use receipt: most used",
+    "h": "b95c9ac6a5"
+  },
   "가장 자주 다시 치는 세 가지부터": {
     "ko": "가장 자주 다시 치는 세 가지부터",
     "en": "Start with the three things you retype most",
@@ -3731,6 +3785,12 @@
     "comment": "Event label: purchase cancelled",
     "h": "6637e4fbd2"
   },
+  "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Pro는 새로 만들고, 백업과 동기화를 여는 것이에요.": {
+    "ko": "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Pro는 새로 만들고, 백업과 동기화를 여는 것이에요.",
+    "en": "Even without paying, the %d snippets you made keep working. Pro is for making more, plus backup and sync.",
+    "comment": "Free use paywall: what stays free",
+    "h": "1b65bca054"
+  },
   "결제한 사용자": {
     "ko": "결제한 사용자",
     "en": "Paying users",
@@ -3946,6 +4006,12 @@
     "en": "For users dealing with international transfers, visas, and travel info",
     "comment": "Persona: Nomad description",
     "h": "dceb7d146e"
+  },
+  "그 뒤에도 만든 단축어는 전부 계속 쓸 수 있어요.": {
+    "ko": "그 뒤에도 만든 단축어는 전부 계속 쓸 수 있어요.",
+    "en": "After that, every snippet you made keeps working.",
+    "comment": "Free use guide: made snippets keep working",
+    "h": "b49a80060e"
   },
   "그 밖에 %d개": {
     "ko": "그 밖에 %d개",
@@ -5084,8 +5150,8 @@
   "다음 키보드": {
     "ko": "다음 키보드",
     "en": "Next keyboard",
-    "comment": "Next keyboard button",
-    "h": "7c80d1c262"
+    "comment": "Keyboard safe mode: switch to the next keyboard\nNext keyboard button",
+    "h": "53b0f0082e"
   },
   "다음 튜토리얼까지": {
     "ko": "다음 튜토리얼까지",
@@ -5560,6 +5626,24 @@
     "en": "Saved as a snippet",
     "comment": "Toast after quick note promoted to memo",
     "h": "0c9e23e693"
+  },
+  "단축어를 %d번 넣었어요": {
+    "ko": "단축어를 %d번 넣었어요",
+    "en": "You inserted snippets %d times",
+    "comment": "Free use paywall: inserted N times",
+    "h": "a27e706fd2"
+  },
+  "단축어를 %d번 넣을 때까지는 모든 기능이 무료예요.": {
+    "ko": "단축어를 %d번 넣을 때까지는 모든 기능이 무료예요.",
+    "en": "Every feature is free until you have inserted snippets %d times.",
+    "comment": "Free use guide: all free until threshold",
+    "h": "2fe098e264"
+  },
+  "단축어를 %d번 썼어요": {
+    "ko": "단축어를 %d번 썼어요",
+    "en": "You have used snippets %d times",
+    "comment": "Free use card: uses so far",
+    "h": "d8289d814c"
   },
   "단축어를 가져오지 못했습니다. 잠시 후 다시 시도해주세요.": {
     "ko": "단축어를 가져오지 못했습니다. 잠시 후 다시 시도해주세요.",
@@ -6227,6 +6311,12 @@
     "comment": "Tutorial welcome: body",
     "h": "235cae7e81"
   },
+  "만든 단축어는 계속 무료로 넣을 수 있어요": {
+    "ko": "만든 단축어는 계속 무료로 넣을 수 있어요",
+    "en": "Snippets you made keep working for free",
+    "comment": "Free use: made snippets stay usable",
+    "h": "18c37bba20"
+  },
   "만들고 멈춘 사람": {
     "ko": "만들고 멈춘 사람",
     "en": "Made one, stopped",
@@ -6316,6 +6406,12 @@
     "en": "Devices Matched",
     "comment": "Make-authoritative done title",
     "h": "0f58b7a209"
+  },
+  "매년 갱신, 언제든 해지": {
+    "ko": "매년 갱신, 언제든 해지",
+    "en": "Renews yearly, cancel anytime",
+    "comment": "Plan: yearly caption",
+    "h": "f4f8177bfb"
   },
   "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
     "ko": "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요",
@@ -6665,6 +6761,30 @@
     "comment": "Pro benefits section: usage compared with the free limits",
     "h": "1cc6d10caa"
   },
+  "무료로 모두 쓰는 기간이 끝났어요": {
+    "ko": "무료로 모두 쓰는 기간이 끝났어요",
+    "en": "Your free full-access period has ended",
+    "comment": "Free use guide: period ended",
+    "h": "acd3670988"
+  },
+  "무료로 쓰는 방법": {
+    "ko": "무료로 쓰는 방법",
+    "en": "Using It for Free",
+    "comment": "Free use guide title",
+    "h": "fde72570e0"
+  },
+  "무료로 쓰는 방법을 봅니다": {
+    "ko": "무료로 쓰는 방법을 봅니다",
+    "en": "Shows how free use works",
+    "comment": "Settings: open free use guide hint",
+    "h": "471a89bfa5"
+  },
+  "무료로 쓰는 중": {
+    "ko": "무료로 쓰는 중",
+    "en": "Using for free",
+    "comment": "Settings: free use period row title",
+    "h": "cca4e95836"
+  },
   "무료로 쓸 수 있는 단축어를 5개에서 10개로 늘렸어요": {
     "ko": "무료로 쓸 수 있는 단축어를 5개에서 10개로 늘렸어요",
     "en": "The free tier goes from 5 snippets to 10",
@@ -6706,6 +6826,12 @@
     "en": "It asks what to save first and for a title second",
     "comment": "Changelog 4.0.9 item 1",
     "h": "4f222ae127"
+  },
+  "무엇이 달라지는지 보기": {
+    "ko": "무엇이 달라지는지 보기",
+    "en": "See what changes",
+    "comment": "Free use card: see what changes",
+    "h": "4c27c1bb42"
   },
   "무제한": {
     "ko": "무제한",
@@ -8411,6 +8537,12 @@
     "comment": "Persona settings subtitle",
     "h": "8e74949d38"
   },
+  "새로 만들기는 무료로 단축어 %1$d개, 템플릿 %2$d개, 스택 %3$d개, 이미지 단축어 %4$d개까지예요.": {
+    "ko": "새로 만들기는 무료로 단축어 %1$d개, 템플릿 %2$d개, 스택 %3$d개, 이미지 단축어 %4$d개까지예요.",
+    "en": "New ones are free up to %1$d snippets, %2$d templates, %3$d stacks and %4$d image snippets.",
+    "comment": "Free use guide: free creation quotas after threshold",
+    "h": "e05364be86"
+  },
   "새로 시작": {
     "ko": "새로 시작",
     "en": "Start Fresh",
@@ -9869,6 +10001,12 @@
     "comment": "Rename error: reserved auto variable name",
     "h": "6a76be78a0"
   },
+  "약 %d분": {
+    "ko": "약 %d분",
+    "en": "About %d min",
+    "comment": "Free use receipt: about N minutes",
+    "h": "77bc369908"
+  },
   "어느 걸 넣을까요?": {
     "ko": "어느 걸 넣을까요?",
     "en": "Which one?",
@@ -10072,6 +10210,18 @@
     "en": "Bring over everything you've kept elsewhere",
     "comment": "DYK title: bulk import",
     "h": "41784ce31a"
+  },
+  "연 구독": {
+    "ko": "연 구독",
+    "en": "Yearly",
+    "comment": "Plan: yearly",
+    "h": "51f6ac9317"
+  },
+  "연 구독 시작하기": {
+    "ko": "연 구독 시작하기",
+    "en": "Start yearly plan",
+    "comment": "Buy yearly CTA",
+    "h": "dfe2938054"
   },
   "연간": {
     "ko": "연간",
@@ -10450,6 +10600,12 @@
     "en": "Tap the left to insert the current value; the arrow switches to the next value",
     "comment": "Combo split button hint",
     "h": "6108e99eba"
+  },
+  "요금제": {
+    "ko": "요금제",
+    "en": "Plans",
+    "comment": "Plans group",
+    "h": "4cdbb06e2c"
   },
   "요일": {
     "ko": "요일",
@@ -10942,6 +11098,12 @@
     "en": "What We Noticed",
     "comment": "Usage profile: evidence section header",
     "h": "077e8d962f"
+  },
+  "이렇게 운영해요": {
+    "ko": "이렇게 운영해요",
+    "en": "How it works",
+    "comment": "Free use guide: how it works",
+    "h": "a24a05d289"
   },
   "이렇게 저장돼요": {
     "ko": "이렇게 저장돼요",
@@ -11656,6 +11818,12 @@
     "en": "Items with the lock on are encrypted and saved as secure snippets. Long-press an item to merge it into a combo with the item above, or split a combo apart.",
     "comment": "Bulk import: secure + combo merge footer",
     "h": "f2f0c10bca"
+  },
+  "자세히": {
+    "ko": "자세히",
+    "en": "Learn more",
+    "comment": "Free use card: more",
+    "h": "1b151032ee"
   },
   "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기": {
     "ko": "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기",
@@ -12599,6 +12767,18 @@
     "comment": "Category cleanup dismiss\nDiscount offer decline",
     "h": "544d163fe7"
   },
+  "지금은 모든 기능이 무료예요. %d번 남았어요": {
+    "ko": "지금은 모든 기능이 무료예요. %d번 남았어요",
+    "en": "Everything is free right now. %d uses left",
+    "comment": "Free use guide: active status",
+    "h": "1262cac757"
+  },
+  "지난 %d일 동안": {
+    "ko": "지난 %d일 동안",
+    "en": "Over the last %d days",
+    "comment": "Free use paywall: over the last N days",
+    "h": "f0812e8cfe"
+  },
   "지난달": {
     "ko": "지난달",
     "en": "Last month",
@@ -12671,6 +12851,12 @@
     "comment": "Persona short: business",
     "h": "201e0fae1e"
   },
+  "직접 만든 단축어": {
+    "ko": "직접 만든 단축어",
+    "en": "Snippets you made",
+    "comment": "Free use receipt: own snippets",
+    "h": "99f82ca66c"
+  },
   "직접 선택": {
     "ko": "직접 선택",
     "en": "Pick a date",
@@ -12682,6 +12868,12 @@
     "en": "Set It Myself",
     "comment": "Usage profile: manual override section header",
     "h": "be5f1f11d0"
+  },
+  "직접 쳤다면 약 %d분이 걸렸을 거예요.": {
+    "ko": "직접 쳤다면 약 %d분이 걸렸을 거예요.",
+    "en": "Typing it by hand would have taken about %d min.",
+    "comment": "Free use card: minutes saved",
+    "h": "b890c8c4d5"
   },
   "진단 스키마가 아직 허브에 배포되지 않았어요. CloudKit Console 에서 CrashReport 레코드 타입과 인덱스를 배포하면 여기에 쌓입니다.": {
     "ko": "진단 스키마가 아직 허브에 배포되지 않았어요. CloudKit Console 에서 CrashReport 레코드 타입과 인덱스를 배포하면 여기에 쌓입니다.",
@@ -13174,6 +13366,12 @@
     "en": "Included",
     "comment": "Bulk import key preview: included",
     "h": "9391b722f8"
+  },
+  "추천": {
+    "ko": "추천",
+    "en": "Best value",
+    "comment": "Plan: recommended badge",
+    "h": "13de63ae05"
   },
   "추천 단축어 %@": {
     "ko": "추천 단축어 %@",
@@ -13739,6 +13937,12 @@
     "comment": "Clipboard\nClipboard history settings entry",
     "h": "d6e1a35fbb"
   },
+  "클립보드 기록도 그대로예요": {
+    "ko": "클립보드 기록도 그대로예요",
+    "en": "Your clipboard history stays too",
+    "comment": "Free use: clipboard history stays",
+    "h": "8163606147"
+  },
   "클립보드 기록을 쓰는 비율이에요.": {
     "ko": "클립보드 기록을 쓰는 비율이에요.",
     "en": "Share using clipboard history.",
@@ -14129,6 +14333,12 @@
     "comment": "Setup step 1 title",
     "h": "e6edb1de30"
   },
+  "키보드를 켜는 방법을 봅니다": {
+    "ko": "키보드를 켜는 방법을 봅니다",
+    "en": "Shows how to turn on the keyboard",
+    "comment": "Keyboard setup banner hint",
+    "h": "dae5d14728"
+  },
   "키보드를 켜라는 안내가 더는 앞을 막지 않아요. 키보드 화면 위쪽에 띠로 남고, 다른 안내가 그 자리를 쓰고 있으면 비켜 있다가 자리가 비면 올라와요": {
     "ko": "키보드를 켜라는 안내가 더는 앞을 막지 않아요. 키보드 화면 위쪽에 띠로 남고, 다른 안내가 그 자리를 쓰고 있으면 비켜 있다가 자리가 비면 올라와요",
     "en": "Turning on the keyboard no longer blocks the way. It is a banner at the top of the keyboard screen, stepping aside while another message uses that spot and taking it once free.",
@@ -14140,6 +14350,12 @@
     "en": "Turn the keyboard on and this screen comes up anywhere",
     "comment": "Keyboard not set up banner body",
     "h": "2578359f7c"
+  },
+  "키보드를 켜야 어느 앱에서든 단축어를 넣을 수 있어요": {
+    "ko": "키보드를 켜야 어느 앱에서든 단축어를 넣을 수 있어요",
+    "en": "Turn on the keyboard to insert snippets in any app",
+    "comment": "Keyboard not set up banner body (list)",
+    "h": "80b12dbbdf"
   },
   "키보드를 켠 것이 확인될 때까지 안내가 다시 떠요. 닫기만 해서는 끝나지 않아요": {
     "ko": "키보드를 켠 것이 확인될 때까지 안내가 다시 떠요. 닫기만 해서는 끝나지 않아요",
@@ -14867,6 +15083,24 @@
     "comment": "Marketing hint: avg shortcuts",
     "h": "f73075a05f"
   },
+  "평생 Pro": {
+    "ko": "평생 Pro",
+    "en": "Lifetime Pro",
+    "comment": "Plan: lifetime",
+    "h": "82b76e83ce"
+  },
+  "평생 Pro로 계속하기": {
+    "ko": "평생 Pro로 계속하기",
+    "en": "Continue with Lifetime Pro",
+    "comment": "Buy lifetime CTA",
+    "h": "79ff21c044"
+  },
+  "평생 한 번 결제와 연 구독 중에 고를 수 있어요.": {
+    "ko": "평생 한 번 결제와 연 구독 중에 고를 수 있어요.",
+    "en": "Choose a one-time lifetime purchase or a yearly plan.",
+    "comment": "Free use guide: lifetime or yearly",
+    "h": "e21a8783de"
+  },
   "평평한 기본 모습이에요. 카드가 푹신하게 반응해요.": {
     "ko": "평평한 기본 모습이에요. 카드가 푹신하게 반응해요.",
     "en": "Flat and plain. Cards respond with a soft bounce.",
@@ -15136,6 +15370,12 @@
     "en": "Untouched for a month. Everything that speaks first is turned off.",
     "comment": "Stage summary: dormant",
     "h": "0502dd1f78"
+  },
+  "한 번 결제하고 계속": {
+    "ko": "한 번 결제하고 계속",
+    "en": "Pay once, keep it",
+    "comment": "Plan: lifetime caption",
+    "h": "9f6c860083"
   },
   "한 번 꺼내 쓸 때마다 적어도 2분은 아낀 것으로 세요. 깃 토큰처럼 갈래를 못 알아보는 값이 10초로 적히던 걸 고쳤어요": {
     "ko": "한 번 꺼내 쓸 때마다 적어도 2분은 아낀 것으로 세요. 깃 토큰처럼 갈래를 못 알아보는 값이 10초로 적히던 걸 고쳤어요",

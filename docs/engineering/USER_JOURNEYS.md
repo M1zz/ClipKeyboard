@@ -31,6 +31,9 @@
 | 보안 단축어 | 파일에 평문 · `smenc1:...` 이 붙여넣어진다 | `BasicScenarioTests/test_보안_단축어는_파일에_평문이_없고_키보드는_원래_값을_넣는다` |
 | 복사한 것을 단축어로 | 저장했는데 키보드에 없다 · 분류가 틀린다 | `BasicScenarioTests/test_복사한_것을_단축어로_저장하면_키보드에_실린다` |
 | 복사한 카드번호를 보안으로 | 보안이라 했는데 평문 (2026-09-29 실제로 있던 버그) | `BasicScenarioTests/test_복사한_카드번호를_보안으로_저장하면_암호화된다` |
+| 무료로 다 쓰다가 문턱을 넘는다 | 무료 기간에 결제 화면이 뜬다 · 문턱 뒤에 만든 것이 사라진다 · 새로 만들어도 안 막힌다 | `BasicScenarioTests/test_문턱을_넘어도_만든_것은_그대로고_새로_만들기에서만_결제를_묻는다` |
+| 무료 기간을 세는 값 | 단축어를 지웠다 만들면 문턱을 피한다 | `FreeUseTests/test_쓸_때마다_세고_지워도_줄지_않는다` |
+| 이정표 안내 | 같은 안내가 계속 뜬다 · 돈 낸 사람에게 뜬다 | `FreeUseTests/test_본_이정표는_다시_뜨지_않고_돈을_낸_사람에게는_없다` |
 | 클립보드 기록 | 복사한 것이 분류되지 않는다 | `SmartClipboardLifecycleTests/testAdd_ClassifiesContentAutomatically` |
 | 키보드 한글 입력 | 검색창에서 자모가 흩어진다 | `HangulComposerTests/testMultipleSyllables_CommitOnNewInitial` |
 | 업데이트 뒤에도 데이터가 남는다 | 업데이트했더니 단축어가 사라졌다 | `MigrationCompatibilityTests/testOneLegacyItemDoesNotBreakWholeArray` |

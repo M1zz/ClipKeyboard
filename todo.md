@@ -1,3 +1,19 @@
+## 💳 무료로 쓰는 기간 (5.2 수익 모델) · 키보드 켜기 띠 - 2026-09-30
+
+설계: docs/product/FREE_USE_MODEL.md · 시안: https://claude.ai/artifact/FnFDBa1seGkR9zRBMoYQPT
+
+- [x] `FreeUse`: 100번(원격으로 20~1000 조정) 전에는 전부 무료, 뒤에는 만든 것 그대로 · 새로 만들기만 예전 한도
+- [x] 이정표 카드(50 · 80%), 문턱 영수증 결제 화면(평생 · 연 구독), 설정 "무료로 쓰는 중" → 안내 화면
+- [x] 연 구독 상품 ID 를 권한에 추가, 스냅샷에 freeUses · flag.freePeriod
+- [x] 무료 기간이라 건너뛰어지던 한도 시험 16개를 무료 기간을 끝낸 채로 돌게 함, 시험 1,404개 통과 · 건너뜀 0
+- [x] 6개 언어, 맥 Shared 사본 3개 맞춤(DefaultsKey · RemoteFlagsService · AppSymbol)
+- [x] 목록 맨 위 키보드 켜기 띠: 닫는 단추 없음, 켜면 걷힘
+- [ ] App Store Connect 에 자동 갱신 구독 `com.Ysoup.TokenMemo.pro.yearly` 만들기, 가격 정하기(평생 = 연의 2.5~3배에서 시작)
+- [ ] 스토어 설명 "무료와 Pro" 문단 여섯 언어 새 모델로
+- [ ] cktool 토큰 저장 후 `scripts/analyze_use_threshold.py` 로 100 이 맞는지 확인
+- [ ] 키보드 무대(새 설치의 첫 화면)의 켜기 띠는 튜토리얼 뒤 한 호흡 쉬고 뜬다. 첫날부터 띄울지 정하기
+- [ ] 기존 `PaywallView`(문턱 뒤 한도에서 뜨는 것)에도 연 구독을 보일지 정하기
+
 ## 🧭 여정 시험과 그것을 지키는 문 - 2026-09-29
 
 - [x] 여정 시험 8개(`BasicScenarioTests`): 기본 흐름 · 즐겨찾기 · 템플릿 · 빈 입력 · 스택 · 보안 · 복사한 것 저장 · 복사한 카드 보안

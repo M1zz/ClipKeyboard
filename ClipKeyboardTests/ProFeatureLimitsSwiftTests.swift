@@ -66,11 +66,12 @@ struct ProFeatureLimitsSwiftTests {
 
     // MARK: - 접근 권한 일관성
 
-    @Test("hasFullAccess는 isPro/grandfathered/trial 중 하나라도 참이면 참")
+    @Test("hasFullAccess는 isPro/grandfathered/trial/무료로 쓰는 기간 중 하나라도 참이면 참")
     func fullAccessConsistency() {
         let expected = ProFeatureManager.isPro
             || ProFeatureManager.isGrandfathered
             || ProFeatureManager.isInTrial
+            || FreeUse.isActive
         #expect(ProFeatureManager.hasFullAccess == expected)
     }
 

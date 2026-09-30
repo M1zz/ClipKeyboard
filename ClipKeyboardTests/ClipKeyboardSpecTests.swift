@@ -57,12 +57,15 @@ final class ClipKeyboardSpecTests: XCTestCase {
     func testSmallProductsNeverGrantPro() {
         let paywall = ClipKeyboardSpec.paywall
         XCTAssertEqual(paywall?.productIDs, [StoreManager.proProductID,
+                                             StoreManager.yearlyProductID,
                                              DiscountOfferManager.discountedProProductID,
                                              ProUpgrade.productID,
                                              SlotPack.productID,
                                              SlotPack.consumableProductID,
                                              TwoDevicePack.productID])
+        // 연 구독은 평생 Pro 와 같은 권한을 기간으로 판다(5.2).
         XCTAssertEqual(paywall?.entitlementIDs, [StoreManager.proProductID,
+                                                 StoreManager.yearlyProductID,
                                                  DiscountOfferManager.discountedProProductID,
                                                  ProUpgrade.productID])
         for small in [SlotPack.productID, SlotPack.consumableProductID, TwoDevicePack.productID] {

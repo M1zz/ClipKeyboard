@@ -284,6 +284,53 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertEqual(SecureMemoCrypto.decrypt(memo.value), "4111 1111 1111 1111")
     }
 
+    // MARK: - 시나리오 9: 무료로 다 쓰다가, 문턱을 넘으면 만든 것은 그대로 · 새로 만들기만 한도
+
+    func test_문턱을_넘어도_만든_것은_그대로고_새로_만들기에서만_결제를_묻는다() async throws {
+        try XCTSkipIf(ProFeatureManager.isPro || ProFeatureManager.isGrandfathered || ProFeatureManager.isInTrial,
+                      "이 기기가 이미 Pro 라 문턱 뒤를 볼 수 없다")
+        let group = AppGroup.defaults
+        let savedCount = group?.object(forKey: DefaultsKey.freeUseCount)
+        defer {
+            if let savedCount { group?.set(savedCount, forKey: DefaultsKey.freeUseCount) }
+            else { group?.removeObject(forKey: DefaultsKey.freeUseCount) }
+        }
+        group?.set(0, forKey: DefaultsKey.freeUseCount)
+
+        // 1. 무료 기간: 무료 한도(10개)를 훌쩍 넘겨 만들 수 있다
+        for index in 0..<(ProFeatureManager.freeMemoLimit + 2) {
+            let add = makeAddViewModel()
+            add.keyword = "문구 \(index)"
+            add.value = "값 \(index)"
+            add.saveMemo {}
+            XCTAssertFalse(add.showPaywall, "무료 기간에 결제 화면이 뜨면 안 된다(\(index + 1)번째)")
+        }
+        let made = ProFeatureManager.freeMemoLimit + 2
+        XCTAssertEqual(try MemoStore.shared.load(type: .memo).count, made)
+
+        // 2. 문턱을 넘는다 (키보드에서 넣은 횟수가 쌓인 것과 같다)
+        group?.set(FreeUse.threshold, forKey: DefaultsKey.freeUseCount)
+        XCTAssertFalse(FreeUse.isActive)
+
+        // 3. 만든 것은 키보드에 전부 실리고, 누르면 들어간다
+        KeyboardMemoFeed.reload()
+        XCTAssertEqual(ProFeatureManager.memosWithinLimit(clipMemos).count, made,
+                       "무료 기간에 만든 것을 문턱 뒤에 가리면 고장처럼 보인다")
+        let host = InAppKeyboardHost(typesOut: false)
+        tapOnKeyboard(clipMemos[0])
+        await settle()
+        XCTAssertFalse(host.text.isEmpty, "문턱 뒤에도 넣기는 된다")
+        host.stop()
+
+        // 4. 새로 만들기에서만 결제를 묻는다
+        let add = makeAddViewModel()
+        add.keyword = "새 문구"
+        add.value = "새 값"
+        add.saveMemo {}
+        XCTAssertTrue(add.showPaywall, "한도를 넘은 새로 만들기에서 결제 화면이 떠야 한다")
+        XCTAssertNil(stored(titled: "새 문구"), "결제 전에는 저장되지 않는다")
+    }
+
     // MARK: - Helpers
 
     private func makeAddViewModel(editing memo: Memo? = nil) -> MemoAddViewModel {

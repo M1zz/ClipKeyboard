@@ -408,6 +408,9 @@ struct ClipKeyboardList: View {
     private var topBanners: some View {
         AnyView(
             VStack(spacing: 0) {
+                // 키보드를 켜지 않았으면 맨 위에 늘 선다. 닫는 단추가 없다 - 켜면 걷힌다.
+                KeyboardSetupRequiredBanner()
+
                 // 붙여넣기 허용 안내 - 앱 진입 시 클립보드를 읽어 팝업이 뜨는 바로 그 지점.
                 // 한 번 설정을 바꾸면 팝업이 사라지므로, 최상단에서 설정으로 바로 안내한다.
                 DismissibleRow(isShowing: showPasteTip) {
@@ -430,6 +433,9 @@ struct ClipKeyboardList: View {
                     HapticManager.shared.light()
                     showInboxFromIntent = true
                 }
+
+                // 무료로 쓰는 기간의 이정표(50% · 80%). 자기 상태를 스스로 보고, 없으면 아무것도 안 그린다.
+                FreeUseMilestoneBanner()
 
                 // 열려 있던 기능이 닫힌다는 안내 - 파는 넛지보다 먼저 온다(알리는 말이 먼저다).
                 DismissibleRow(isShowing: accessNotice != nil) {
@@ -1053,6 +1059,8 @@ struct ClipKeyboardList: View {
     private var screenL7: some View {
         screenL6
             .paywall(isPresented: $showPaywallFromKeyboard, triggeredBy: paywallTrigger)
+            // 문턱에 닿았으면 앱을 열 때 영수증 화면을 한 번 띄운다(FreeUseScreens.swift).
+            .freeUseMoments()
             .onReceive(NotificationCenter.default.publisher(for: .showPaywall)) { _ in
                 showPaywallFromKeyboard = true
             }

@@ -38,13 +38,17 @@ final class ProFeatureManagerTests: XCTestCase {
         }
     }
 
+    private var freePeriod: FreeUsePeriodEnded?
     override func setUp() {
         super.setUp()
         clearAllProState()
+        // 무료 한도를 보는 시험이다. 무료 기간(문턱 전)에는 한도가 없어 건너뛰어지므로 끝내 둔다.
+        freePeriod = FreeUsePeriodEnded()
     }
 
     override func tearDown() {
         clearAllProState()
+        freePeriod?.restore()
         super.tearDown()
     }
 
