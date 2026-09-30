@@ -130,7 +130,10 @@ if [ -z "$DEST_ID" ]; then
 fi
 echo "🧭 사용자 여정 시험 (BasicScenarioTests)..."
 LOG="$(mktemp -t journeys)"
+# ⚠️ 빌드 폴더를 따로 쓴다. Xcode 와 같은 DerivedData 를 쓰면 Xcode 에서 빌드하는 중에 푸시할 때
+#    "database is locked" 로 둘 중 하나가 깨진다(2026-09-30 실제로 겪음). build/ 는 git 이 무시한다.
 if xcodebuild test -project ClipKeyboard.xcodeproj -scheme ClipKeyboard \
+     -derivedDataPath "$ROOT/build/prepush-derived" \
      -destination "platform=iOS Simulator,id=$DEST_ID" \
      -only-testing:ClipKeyboardTests/BasicScenarioTests >"$LOG" 2>&1; then
   echo "✅ 사용자 여정 시험 통과"
