@@ -18,6 +18,9 @@ App Store Connect 의 `es-MX` 로케일에 넣을 값입니다.
 
 ## 남은 일 (사람이 해야 함)
 
+> 2026-09-30: 1~3번은 끝났다. ASC API 로 로케일을 만들어 이 문안(이름·부제·설명·키워드·프로모션·릴리즈노트)을 채웠고, `LOCALES` 에 넣었다.
+> Pro(평생) 인앱 구매 표시 이름도 이 언어로 더했다. 연 구독은 지금 상태에서 API 가 언어 추가를 막아 영어 이름으로 나간다.
+
 1. **App Store Connect 웹에서 스페인어(멕시코) 로케일을 만든다.** ASC API 는 로케일을 새로 만들지 못합니다.
 2. 아래 값을 채운다. 인앱 구매 표시 이름도 `es-MX` 로 더한다.
 3. 로케일이 생긴 뒤 `deploy.env` 의 `LOCALES` 에 `es-MX` 를 더하고, `RELEASE_NOTES.md` 에
@@ -92,6 +95,8 @@ Funciona en iPhone, iPad, Mac y Vision Pro. Disponible en español, inglés, cor
 
 Contacto: leeo@kakao.com
 Guía de uso: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+
+Términos de uso: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
 ```
 
 ---

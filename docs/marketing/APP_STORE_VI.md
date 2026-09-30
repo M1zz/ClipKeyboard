@@ -9,6 +9,9 @@ App Store Connect 의 `vi` 로케일에 넣을 값입니다.
 
 ## 남은 일 (사람이 해야 함)
 
+> 2026-09-30: 1~3번은 끝났다. ASC API 로 로케일을 만들어 이 문안(이름·부제·설명·키워드·프로모션·릴리즈노트)을 채웠고, `LOCALES` 에 넣었다.
+> Pro(평생) 인앱 구매 표시 이름도 이 언어로 더했다. 연 구독은 지금 상태에서 API 가 언어 추가를 막아 영어 이름으로 나간다.
+
 1. App Store Connect 웹에서 `vi` 로케일을 만들고 아래 값을 채운다. 인앱 구매 표시 이름도 더한다.
 2. 로케일이 생긴 뒤 `deploy.env` 의 `LOCALES` 에 `vi` 를 더한다. `RELEASE_NOTES.md` 의 5.1.7 에는 절이 이미 있다.
    `RELEASE_NOTES.md` 5.1.7 의 이 언어 절 제목에서 `노출 안 함: ` 을 지운다. 로케일이 없을 때 제목을 못 알아본 DeployBar 가
@@ -74,6 +77,8 @@ Dùng trên iPhone, iPad, Mac và Vision Pro. Hỗ trợ tiếng Việt, Anh, H�
 
 Liên hệ: leeo@kakao.com
 Hướng dẫn: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+
+Điều khoản sử dụng: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
 ```
 
 ---

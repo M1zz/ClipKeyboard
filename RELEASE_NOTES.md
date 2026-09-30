@@ -76,7 +76,7 @@ Values saved as secure are now stored more safely.
 セキュアに保存した値がより安全に保管されます。
 ```
 
-### 노출 안 함: App Store (Spanish, es-MX)
+### App Store (Spanish, es-MX)
 
 ```
 Todo es gratis durante tus primeras 100 inserciones.
@@ -86,7 +86,7 @@ El teclado ya no se cierra a veces al abrirse.
 Los valores seguros ahora se guardan con más cuidado.
 ```
 
-### 노출 안 함: App Store (German, de-DE)
+### App Store (German, de-DE)
 
 ```
 Die ersten 100 Eingaben sind alle Funktionen gratis.
@@ -96,7 +96,7 @@ Die Tastatur schließt sich beim Öffnen nicht mehr.
 Sicher gespeicherte Werte sind jetzt besser geschützt.
 ```
 
-### 노출 안 함: App Store (Thai, th)
+### App Store (Thai, th)
 
 ```
 ใช้ได้ทุกฟีเจอร์ฟรีใน 100 ครั้งแรก
@@ -106,7 +106,7 @@ Sicher gespeicherte Werte sind jetzt besser geschützt.
 ค่าที่บันทึกแบบปลอดภัยถูกเก็บอย่างปลอดภัยยิ่งขึ้น
 ```
 
-### 노출 안 함: App Store (Vietnamese, vi)
+### App Store (Vietnamese, vi)
 
 ```
 Mọi tính năng miễn phí trong 100 lần chèn đầu tiên.

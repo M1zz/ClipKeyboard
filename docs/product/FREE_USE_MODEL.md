@@ -41,6 +41,11 @@
 
 ## 출시 전에 사람이 할 일
 
+> 2026-09-30 상태: 1번 연 구독은 ASC 에 있다(`READY_TO_SUBMIT`, 첫 구독이라 5.1.7 제출 때 버전 페이지에서 함께 골라야 심사에 들어간다).
+> 2번은 스토어에 새 모델이 있는 문단만 고쳤다: zh-Hans · zh-Hant 는 요금 문단을 바꿨고, ja · es-MX · de-DE · th · vi 는 새 모델로 새로 썼다.
+> ko · en-US · ru 스토어 설명은 요금을 말하지 않는 세 줄짜리라 그대로 두었다. 10개 언어 모두 설명 끝에 이용약관 링크를 달았다(3.1.2).
+> 3번 `docs/terms.html` 3조를 평생 · 연 구독과 자동 갱신 고지로 고쳤다(ko · en · zh-Hans · zh-Hant).
+
 1. App Store Connect 에 자동 갱신 구독 `com.Ysoup.TokenMemo.pro.yearly` 를 만든다(구독 그룹 하나, 1년).
    없으면 결제 화면에서 연 구독 칸만 숨고 평생은 그대로 팔린다.
 2. 스토어 설명의 "무료와 Pro" 문단을 여섯 언어 모두 새 모델로 바꾼다(`docs/marketing/APP_STORE_*.md`).
