@@ -146,7 +146,7 @@ class MemoStore: ObservableObject {
 - **방식**: `NSLocalizedString("키", comment: "설명")`
 - **위치**: `Constants.swift` 또는 사용 위치에서 직접 호출
 - **String Catalog**: Xcode String Catalog 사용 (자동 다국어 변환)
-- **지원 언어**: `i18n/config.json` 의 `enabled` 가 단일 출처다 (ko · en · zh-Hans · zh-Hant · ru)
+- **지원 언어**: `i18n/config.json` 의 `enabled` 가 단일 출처다 (ko · en · zh-Hans · zh-Hant · ru · ja)
 
 **코드 작성 전 체크리스트**:
 - [ ] 이 문자열이 사용자에게 보이는가? → YES면 NSLocalizedString 사용
@@ -373,6 +373,10 @@ Text(theme.localizedName) // NSLocalizedString으로 처리된 값
 ```
 
 ## 테스트 시 확인사항
+
+**사용자 여정은 `docs/engineering/USER_JOURNEYS.md` 의 표가 단일 출처다.** 새 기능을 내면 표에 한 줄과
+그 줄을 지키는 시험(`ClipKeyboardTests/BasicScenarioTests.swift`)을 같이 더한다.
+커밋 훅이 표의 시험이 있는지, 푸시 훅이 여정 시험이 통과하는지 본다(`sh scripts/install-hooks.sh`).
 
 ### 1. App Group 데이터 공유
 - [ ] 메인 앱에서 메모 추가 → 키보드에서 확인

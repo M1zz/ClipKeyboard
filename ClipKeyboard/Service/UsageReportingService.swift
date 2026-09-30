@@ -179,6 +179,10 @@ enum UsageReportingService {
 
         metrics["favorites"] = Double(memos.filter(\.isFavorite).count)
         metrics["uses"] = Double(memos.reduce(0) { $0 + $1.clipCount })
+        // 무료로 쓰는 기간(FreeUse). `uses` 와 달리 줄지 않는 값이라 문턱 분석은 이쪽을 본다.
+        metrics["freeUses"] = Double(FreeUse.uses)
+        metrics["freeUseThreshold"] = Double(FreeUse.threshold)
+        metrics["flag.freePeriod"] = FreeUse.isActive ? 1 : 0
         metrics["timeSavedMin"] = (KeyboardUsageTracker.totalTimeSavedSeconds() / 60).rounded()
 
         // 마케팅 판단용 - 전부 개수/0·1 플래그다. 내용은 들어가지 않는다.

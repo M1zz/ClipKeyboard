@@ -67,9 +67,13 @@ struct ProFeatureManager {
 
     // MARK: - Pro 전용 기능 플래그
 
-    /// 모든 Pro 기능에 무제한 접근 가능 - 구매(Pro) / v3.x 그랜드파더 / 활성 7일 체험
+    /// 모든 Pro 기능에 무제한 접근 가능 - 구매(Pro · 구독) / v3.x 그랜드파더 / 활성 7일 체험 /
+    /// **무료로 쓰는 기간**(단축어를 문턱만큼 넣기 전, `FreeUse`).
+    ///
+    /// ⚠️ 무료 기간은 Pro 와 **똑같다.** 반쯤 열어 두면 무엇이 되고 안 되는지를 사용자가
+    ///    배워야 하고, 그 배움이 곧 "완성도가 떨어진다"로 읽힌다. 문턱 전에는 아무 벽도 없다.
     static var hasFullAccess: Bool {
-        isPro || isGrandfathered || isInTrial
+        isPro || isGrandfathered || isInTrial || FreeUse.isActive
     }
 
     /// 영구적인 Pro 권한 보유 여부 - 구매(Pro) / v3.x 그랜드파더 / TestFlight.
@@ -513,25 +517,16 @@ struct ProFeatureManager {
         return memos.reduce(0) { $0 + (samples.contains($1.id) ? 0 : 1) }
     }
 
-    /// 무료 한도 안에서 실제로 보여 줄 것들.
+    /// 키보드에 실어 쓸 수 있는 것들. **만든 것은 전부다.**
     ///
-    /// 샘플은 칸을 차지하지 않으므로 **가려지지 않는다.** 자기 것만 앞에서부터
-    /// `memoLimit` 개까지 남긴다. 순서는 들어온 그대로 둔다.
+    /// 예전에는 무료 한도를 넘은 단축어를 키보드에서 가렸다. 5.2 부터는 가리지 않는다.
+    /// 무료로 쓰는 기간(`FreeUse`)에 만든 것을 문턱 뒤에 잠그면, 어제까지 되던 키가
+    /// 남의 앱에서 글을 쓰다가 사라진다. 사용자에게 그건 결제 안내가 아니라 고장이다.
+    /// 문턱 뒤에 서는 벽은 **새로 만들기**뿐이다(`canAddMemo` 등).
     ///
-    /// ⚠️ 단순히 앞에서 `memoLimit` 개를 자르면 안 된다. 그러면 샘플이 앞자리를
-    ///    차지한 만큼 자기 단축어가 뒤로 밀려 안 보이게 된다. 한도에서 뺀 것을
-    ///    화면에서 도로 세는 셈이다.
+    /// 부르는 곳(키보드)이 바뀌지 않게 이름과 모양은 남겨 둔다.
     static func memosWithinLimit(_ memos: [Memo]) -> [Memo] {
-        let limit = memoLimit
-        if limit == Int.max { return memos }
-        let samples = sampleMemoIds
-        var ownKept = 0
-        return memos.filter { memo in
-            if samples.contains(memo.id) { return true }
-            guard ownKept < limit else { return false }
-            ownKept += 1
-            return true
-        }
+        memos
     }
 
     /// 콤보 추가 가능 여부

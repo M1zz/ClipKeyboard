@@ -2950,9 +2950,12 @@ struct KeyboardView: View {
     /// 앱의 설정 화면·저장 관문과 같은 값을 봐야 한 화면이 두 말을 하지 않는다.
     private var ownMemoCount: Int { ProFeatureManager.ownMemoCount(clipMemos) }
 
+    /// 키보드에서 **실제로 가려진** 개수. 5.2 부터는 만든 것을 가리지 않아 늘 0 이다
+    /// (`ProFeatureManager.memosWithinLimit`). 한도에서 빼 계산하면 가리지도 않은 것을
+    /// "더 보기" 라고 팔게 된다.
     private var hiddenMemoCount: Int {
         guard isFreeUser else { return 0 }
-        return max(0, ownMemoCount - ProFeatureManager.memoLimit)
+        return clipMemos.count - ProFeatureManager.memosWithinLimit(clipMemos).count
     }
 
     // MARK: - PIN Entry Overlay

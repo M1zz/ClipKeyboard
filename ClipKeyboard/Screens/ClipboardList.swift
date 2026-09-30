@@ -868,7 +868,7 @@ struct SaveToMemoSheet: View {
                     Button(NSLocalizedString("저장", comment: "Save button")) {
                         saveToMemo()
                     }
-                    .disabled(title.isEmpty)
+                    .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                 }
             }
         }
@@ -877,14 +877,7 @@ struct SaveToMemoSheet: View {
     private func saveToMemo() {
         do {
             var memos = try MemoStore.shared.load(type: .memo)
-            let newMemo = Memo(
-                title: title,
-                value: item.content,
-                lastEdited: Date(),
-                category: category,
-                isSecure: isSecure,
-                autoDetectedType: item.detectedType
-            )
+            let newMemo = Self.makeSnippet(from: item, title: title, category: category, isSecure: isSecure)
             memos.append(newMemo)
             try MemoStore.shared.save(memos: memos, type: .memo)
             onComplete(true)
@@ -892,6 +885,25 @@ struct SaveToMemoSheet: View {
             print("❌ [ClipboardList.saveAsMemo] \(error)")
             onComplete(false)
         }
+    }
+
+    /// 복사한 것으로 단축어를 만든다. 보안이면 **값을 암호화해서** 담는다.
+    ///
+    /// ⚠️ 예전에는 보안 표시만 달고 값은 평문 그대로 파일에 적었다. 카드번호·계좌번호는
+    ///    이 창이 자동으로 보안을 켜 주므로, 가장 민감한 값일수록 평문으로 남았다.
+    ///    저장 화면(`MemoAddViewModel.applyMemoToList`)과 같은 규칙이다: 암호화에 실패하면
+    ///    (키가 아직 없음) 평문으로 두되 보안 표시는 유지해 키보드가 인증을 거치게 한다.
+    static func makeSnippet(from item: SmartClipboardHistory, title: String,
+                            category: String, isSecure: Bool) -> Memo {
+        let value = isSecure ? (SecureMemoCrypto.encrypt(item.content) ?? item.content) : item.content
+        return Memo(
+            title: title.trimmingCharacters(in: .whitespacesAndNewlines),
+            value: value,
+            lastEdited: Date(),
+            category: category,
+            isSecure: isSecure,
+            autoDetectedType: item.detectedType
+        )
     }
 }
 

@@ -1,3 +1,56 @@
+## 💳 무료로 쓰는 기간 (5.2 수익 모델) · 키보드 켜기 띠 - 2026-09-30
+
+설계: docs/product/FREE_USE_MODEL.md · 시안: https://claude.ai/artifact/FnFDBa1seGkR9zRBMoYQPT
+
+- [x] `FreeUse`: 100번(원격으로 20~1000 조정) 전에는 전부 무료, 뒤에는 만든 것 그대로 · 새로 만들기만 예전 한도
+- [x] 이정표 카드(50 · 80%), 문턱 영수증 결제 화면(평생 · 연 구독), 설정 "무료로 쓰는 중" → 안내 화면
+- [x] 연 구독 상품 ID 를 권한에 추가, 스냅샷에 freeUses · flag.freePeriod
+- [x] 무료 기간이라 건너뛰어지던 한도 시험 16개를 무료 기간을 끝낸 채로 돌게 함, 시험 1,404개 통과 · 건너뜀 0
+- [x] 6개 언어, 맥 Shared 사본 3개 맞춤(DefaultsKey · RemoteFlagsService · AppSymbol)
+- [x] 목록 맨 위 키보드 켜기 띠: 닫는 단추 없음, 켜면 걷힘
+- [ ] App Store Connect 에 자동 갱신 구독 `com.Ysoup.TokenMemo.pro.yearly` 만들기, 가격 정하기(평생 = 연의 2.5~3배에서 시작)
+- [ ] 스토어 설명 "무료와 Pro" 문단 여섯 언어 새 모델로
+- [ ] cktool 토큰 저장 후 `scripts/analyze_use_threshold.py` 로 100 이 맞는지 확인
+- [ ] 키보드 무대(새 설치의 첫 화면)의 켜기 띠는 튜토리얼 뒤 한 호흡 쉬고 뜬다. 첫날부터 띄울지 정하기
+- [ ] 기존 `PaywallView`(문턱 뒤 한도에서 뜨는 것)에도 연 구독을 보일지 정하기
+
+## 🧭 여정 시험과 그것을 지키는 문 - 2026-09-29
+
+- [x] 여정 시험 8개(`BasicScenarioTests`): 기본 흐름 · 즐겨찾기 · 템플릿 · 빈 입력 · 스택 · 보안 · 복사한 것 저장 · 복사한 카드 보안
+- [x] 버그: 클립보드에서 보안으로 저장하면 값이 평문으로 적힘(카드·계좌는 자동 보안이라 가장 민감한 값이) → `SaveToMemoSheet.makeSnippet` 이 암호화
+- [x] 여정 표 `docs/engineering/USER_JOURNEYS.md` (15개) + `scripts/check_journeys.sh`: 커밋 · 배포에서 표의 시험이 있는지
+- [x] pre-push 훅: 여정 시험을 실제로 돌림 (`SKIP_JOURNEYS=1` 로 건너뜀)
+- [x] `install-hooks.sh` 의 commit-msg 절이 `SH2'` 로 안 닫혀, 다시 설치하면 모든 커밋이 막히던 것 고침
+- [ ] 단축어가 들어가는 문이 8곳이고 무료 한도를 보는 곳은 저장 화면뿐(원탭 저장 · 공유 · 번역 · 마트 · 보관함 승격은 안 봄). 넘친 것은 키보드에서 잠김으로 보임. 의도인지 정하기
+- [ ] 기기 QA 로만 볼 수 있는 것: 진짜 익스텐션 · 화면 모양 · 실기기 경로 (USER_JOURNEYS.md 의 사각지대 표)
+
+## 🇯🇵 일본어 추가 · 기본 시나리오 시험 - 2026-09-29
+
+- [x] `ja` 켬: 용어 고정(단축어=定型文 · 스택=スタック) → 번역 2,610개 → build · wire · check 통과, 빌드 성공
+- [x] 스토어 문안 `docs/marketing/APP_STORE_JA.md` (이름 · 부제 · 설명 · 키워드 · 프로모션)
+- [ ] ASC 웹에서 일본어 로케일 만들고 문안 넣기 → 그 뒤 `deploy.env` LOCALES 에 ja, RELEASE_NOTES 에 일본어 절
+- [ ] 다른 로케일 설명의 "지원 언어" 줄에 일본어 더하기 (ko · en · zh · ru 문안)
+- [x] `BasicScenarioTests`: 만들기 → 키보드에 실림 → 누르면 입력 → 쓴 횟수 → 고치기 → 지우기, 즐겨찾기 순서, 템플릿 빈칸, 빈 입력 거절 (4개 통과)
+- [x] 공백·줄바꿈만 있는 단축어를 막음: 저장 화면(`MemoAddViewModel.hasContent`/`hasTitle`, 버튼과 검사가 같은 값), 공유 시트, 클립보드 저장 시트. 시험에 공백 경우 3개 추가
+
+## 🩺 허브 진단 네 건 (워치독 3 · 키보드 신호 1) - 2026-09-29
+
+- [x] 원인: 스택을 거꾸로 보냄(0번 dyld, 1번 main). 멈춤 168건이 `ClipKeyboard +991504`(main) 한 제목으로 묶임 → `DiagnosticsService.leafFirst`, 시험 페이로드 실제 모양으로
+- [x] FeedbackHubViewer 가 옛 기록을 바로 세워 읽음(`CrashReport.leafFirst`), 이슈가 다시 갈라짐
+- [x] 키보드 신호 25건: `viewWillAppear` 의 `needsInputModeSwitchKey` → `viewDidAppear` 로, 첫 그림은 지난 값
+- [x] postmortem 두 개, 빌드 성공, DiagnosticsStackTests 통과
+- [ ] 허브에서 다시 갈라진 멈춤 이슈를 보고, 많은 것부터 dSYM(App Store Connect)으로 되돌려 원인 찾기
+- [ ] 키보드 신호가 다음 버전에서 사라졌는지 확인
+
+## 🧪 Claude 자동 QA (5.1.6, iOS 27 시뮬레이터) - 2026-09-29
+
+단위 테스트 1,355개 모두 통과. 결과는 QARotation 앱에 기록해 둠(오늘 탭 "Claude가 먼저 봤어요").
+
+- [ ] 가장 큰 글자(AX5)에서 첫 실행 환영 화면이 넘침: 제목이 상태 막대 밑으로, 준비되었어요 버튼이 탭바 뒤로 (`TutorialWelcomeView` 에 ScrollView 없음)
+- [ ] 첫 설치 때만 환영 목록에 "키보드 크기" 줄이 섞임 (`chapters` 기본값 allCases, 샘플 단축어가 아직 없어 폴백)
+- [ ] 주민번호 감지가 없음(v4.0 ebdc1ba 에서 빠짐): 카드번호·전화번호로 분류됨. 의도인지 정하기
+- [ ] 남은 80개 항목은 기기에서 QARotation 으로 이어서 확인
+
 ## 🎛 설정 미리보기와 실제 키보드 일원화 - 2026-09-26
 
 보내기를 켰는데 실제 키보드에 안 보임: 익스텐션은 조작 키를 … 뒤에 접고, 미리보기(`.inApp`)는 늘 펼쳐 둬서 둘이 달랐다.

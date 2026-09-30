@@ -63,6 +63,7 @@ enum ClipKeyboardSpec: LeeoAppSpec {
     static let monetization = LeeoMonetization.freemium(
         LeeoPurchaseConfig(
             productIDs: [StoreManager.proProductID,
+                         StoreManager.yearlyProductID,
                          DiscountOfferManager.discountedProProductID,
                          ProUpgrade.productID,
                          SlotPack.productID,
@@ -72,7 +73,9 @@ enum ClipKeyboardSpec: LeeoAppSpec {
             //    나중에 칸 추가 상품(`SlotPack.productID`)을 productIDs 에 한 줄 넣는 순간
             //    $3 결제가 평생 Pro 를 열어 버린다. 그 사고는 되돌릴 수도 없다
             //    (이미 권한을 받은 사람에게서 도로 뺏을 방법이 없다).
+            //    연 구독도 Pro 다. 구독이 끝나면 StoreKit 의 권한 목록에서 빠져 저절로 닫힌다.
             entitlementIDs: [StoreManager.proProductID,
+                             StoreManager.yearlyProductID,
                              DiscountOfferManager.discountedProProductID,
                              ProUpgrade.productID],
             gate: LeeoGatePolicy(

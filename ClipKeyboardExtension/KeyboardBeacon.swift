@@ -55,11 +55,34 @@ enum KeyboardCapability {
     ///
     /// iOS가 시스템 차원에서 전환 UI를 제공하는 상황(예: 기기에 키보드가 하나뿐)에서는 false다.
     /// 커스텀 키보드는 이 값이 true일 때 **반드시** 전환 수단을 제공해야 한다(심사 요건).
-    private(set) static var needsInputModeSwitchKey = false
+    ///
+    /// 첫 값은 **지난번에 읽은 값**이다. 진짜 값은 키보드가 뜬 뒤에야 읽을 수 있어서다
+    /// (`KeyboardViewController.viewDidAppear`). 한 번도 못 읽었으면 true: 전환 수단이
+    /// 하나 더 보이는 쪽이 하나도 없는 쪽보다 낫다.
+    private(set) static var needsInputModeSwitchKey: Bool =
+        AppGroup.defaults?.object(forKey: DefaultsKey.keyboardNeedsGlobeKey) as? Bool ?? true
 
+    /// 앱 안의 키보드(무대 · 미리보기)가 쓴다. 기억에만 두고 **적지 않는다.** 적으면
+    /// 같은 App Group 을 보는 진짜 키보드가 앱의 값(false)을 제 값인 줄 알고 첫 그림을 그린다.
     static func update(hasFullAccess granted: Bool, needsInputModeSwitchKey needsSwitch: Bool) {
         hasFullAccess = granted
         needsInputModeSwitchKey = needsSwitch
+    }
+
+    static func update(hasFullAccess granted: Bool) {
+        hasFullAccess = granted
+    }
+
+    /// 진짜 키보드가 뜬 뒤 읽은 값을 담고, 다음 첫 그림을 위해 적어 둔다.
+    /// 값이 바뀌었으면 true. 부른 쪽이 화면을 다시 그리게 한다.
+    @discardableResult
+    static func updateInputModeSwitchKey(_ needsSwitch: Bool) -> Bool {
+        if AppGroup.defaults?.object(forKey: DefaultsKey.keyboardNeedsGlobeKey) as? Bool != needsSwitch {
+            AppGroup.defaults?.set(needsSwitch, forKey: DefaultsKey.keyboardNeedsGlobeKey)
+        }
+        guard needsInputModeSwitchKey != needsSwitch else { return false }
+        needsInputModeSwitchKey = needsSwitch
+        return true
     }
 }
 

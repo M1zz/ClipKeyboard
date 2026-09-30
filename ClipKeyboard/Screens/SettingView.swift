@@ -19,6 +19,8 @@ struct SettingView: View {
     /// 지금 가진 단축어 개수 - 화면에 들어올 때와 데이터가 바뀔 때만 다시 센다.
     /// ⚠️ 그릴 때마다 세면 설정을 스크롤하는 내내 저장 파일을 읽는다.
     @State private var memoCountState = 0
+    /// 무료로 쓰는 방법 안내(FreeUseGuideView).
+    @State private var showFreeUseGuide = false
     /// 마스터(개발자) 모드 - 앱 정보의 버전 행을 7번 탭하면 토글. 피드백 인박스 진입점 노출.
     @AppStorage(DefaultsKey.masterModeEnabled) private var masterModeEnabled: Bool = false
 
@@ -53,6 +55,31 @@ struct SettingView: View {
                     .accessibilityElement(children: .combine)
                     .accessibilityLabel(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
                 }
+            }
+        } else if FreeUse.isActive {
+            // 무료로 쓰는 기간 - 칸 수 대신 **몇 번 남았는지**를 말한다. 이 동안은 칸이 무제한이라
+            // 아래 `remainingSlotsRow` 를 그리면 한도 숫자 대신 Int.max 가 찍힌다.
+            Section {
+                Button { showFreeUseGuide = true } label: {
+                    HStack(spacing: 12) {
+                        Image(systemName: AppSymbol.sparkles)
+                            .font(.title2)
+                            .foregroundColor(theme.accent)
+                            .accessibilityHidden(true)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(NSLocalizedString("무료로 쓰는 중", comment: "Settings: free use period row title"))
+                                .font(.headline).foregroundColor(theme.text)
+                            Text(String(format: NSLocalizedString("%1$d번 중 %2$d번 썼어요", comment: "Free use progress, VoiceOver"), FreeUse.threshold, FreeUse.uses))
+                                .font(.body).foregroundColor(theme.textMuted)
+                        }
+                        Spacer()
+                        Image(systemName: AppSymbol.chevronRight).font(.body)
+                            .foregroundColor(theme.textMuted).accessibilityHidden(true)
+                    }
+                }
+                .accessibilityHint(NSLocalizedString("무료로 쓰는 방법을 봅니다", comment: "Settings: open free use guide hint"))
+
+                restorePurchasesButton
             }
         } else if ProFeatureManager.isInTrial {
             Section {
@@ -278,6 +305,7 @@ struct SettingView: View {
         .contentMargins(.bottom, 24, for: .scrollContent)
         .solidNavBar(theme.bg)
         .sheet(isPresented: $showPaywall) { PaywallView() }
+        .sheet(isPresented: $showFreeUseGuide) { FreeUseGuideView() }
         .restoreOutcomeAlert($restoreOutcome)
     }
 }

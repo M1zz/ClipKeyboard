@@ -63,6 +63,14 @@ python3 "$ROOT/scripts/i18n.py" check || {
   exit 1
 }
 
+# 사용자 여정을 지키던 시험이 사라지면 커밋 차단 (docs/engineering/USER_JOURNEYS.md).
+sh "$ROOT/scripts/check_journeys.sh" || {
+  echo ""
+  echo "❌ 커밋 차단: 여정 표의 시험이 사라졌습니다."
+  echo "   (긴급 우회: git commit --no-verify)"
+  exit 1
+}
+
 # 긴 줄표(U+2014 / U+2013)가 들어오면 커밋 차단 - 저장소 전 범위 규칙(CLAUDE.md).
 sh "$ROOT/scripts/check_dashes.sh" --staged || {
   echo ""
@@ -97,18 +105,46 @@ if LC_ALL=C grep -q -e "$EM" -e "$EN" "$1"; then
   echo "   (긴급 우회: git commit --no-verify)"
   exit 1
 fi
-SH2'
-#!/bin/sh
-# 커밋 메시지에 긴 줄표(U+2014 / U+2013)가 있으면 차단.
-EM="$(printf '\342\200\224')"
-EN="$(printf '\342\200\223')"
-if grep -q "[$EM$EN]" "$1"; then
-  echo "❌ 커밋 차단: 커밋 메시지에 긴 줄표가 있습니다."
-  grep -n "[$EM$EN]" "$1"
-  echo "   쉼표(,) 마침표(.) 가운뎃점(·) 콜론(:) 또는 괄호로 바꿉니다."
-  echo "   (긴급 우회: git commit --no-verify)"
-  exit 1
-fi
 SH2
 chmod +x "$MSGHOOK"
 echo "✅ commit-msg 훅 설치: $MSGHOOK"
+
+# ── pre-push: 사용자 여정 시험을 실제로 돌린다 ──
+# 커밋 훅은 "시험이 있는가"만 본다(몇 초). 여기서는 "통과하는가"를 본다(1~2분).
+# 기본 여정이 깨진 채로 main 에 올라가면, 그 위에 쌓인 것 전부가 깨진 바닥 위에 선다.
+PUSHHOOK="$ROOT/.git/hooks/pre-push"
+cat > "$PUSHHOOK" <<'SH3'
+#!/bin/sh
+# 사용자 여정 시험(BasicScenarioTests)이 통과해야 푸시한다. docs/engineering/USER_JOURNEYS.md
+# 급할 때: SKIP_JOURNEYS=1 git push   (또는 git push --no-verify)
+if [ "$SKIP_JOURNEYS" = "1" ]; then
+  echo "⚠️  여정 시험을 건너뜀 (SKIP_JOURNEYS=1)"
+  exit 0
+fi
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT" || exit 1
+DEST_ID="$(xcrun simctl list devices available | grep "iPhone" | head -1 | grep -oE '[0-9A-F-]{36}')"
+if [ -z "$DEST_ID" ]; then
+  echo "❌ 푸시 차단: 여정 시험을 돌릴 iPhone 시뮬레이터가 없습니다 (SKIP_JOURNEYS=1 로 건너뛸 수 있음)"
+  exit 1
+fi
+echo "🧭 사용자 여정 시험 (BasicScenarioTests)..."
+LOG="$(mktemp -t journeys)"
+# ⚠️ 빌드 폴더를 따로 쓴다. Xcode 와 같은 DerivedData 를 쓰면 Xcode 에서 빌드하는 중에 푸시할 때
+#    "database is locked" 로 둘 중 하나가 깨진다(2026-09-30 실제로 겪음). build/ 는 git 이 무시한다.
+if xcodebuild test -project ClipKeyboard.xcodeproj -scheme ClipKeyboard \
+     -derivedDataPath "$ROOT/build/prepush-derived" \
+     -destination "platform=iOS Simulator,id=$DEST_ID" \
+     -only-testing:ClipKeyboardTests/BasicScenarioTests >"$LOG" 2>&1; then
+  echo "✅ 사용자 여정 시험 통과"
+  rm -f "$LOG"
+else
+  echo "❌ 푸시 차단: 사용자 여정 시험이 깨졌습니다."
+  grep -E "error:|failed|XCTAssert" "$LOG" | head -20
+  echo "   전체 기록: $LOG"
+  echo "   (긴급 우회: SKIP_JOURNEYS=1 git push)"
+  exit 1
+fi
+SH3
+chmod +x "$PUSHHOOK"
+echo "✅ pre-push 훅 설치: $PUSHHOOK"

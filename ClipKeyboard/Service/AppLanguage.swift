@@ -33,6 +33,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
     case zhHans = "zh-Hans"
     case zhHant = "zh-Hant"
     case ru = "ru"
+    case ja = "ja"
     // i18n:cases:end
 
     var id: String { rawValue }
@@ -56,6 +57,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
         "zh-Hans": "简体中文",
         "zh-Hant": "繁體中文",
         "ru": "Русский",
+        "ja": "日本語",
     ]
     // i18n:names:end
 

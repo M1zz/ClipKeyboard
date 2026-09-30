@@ -31,6 +31,11 @@ class StoreManager: ObservableObject {
     /// 이 값을 참조한다. 격리된 채로 두면 Swift 6 언어 모드에서 에러가 된다.
     nonisolated static let proProductID = "com.Ysoup.TokenMemo.pro"
 
+    /// 연 구독 - 평생 Pro 와 **같은 권한**을 기간으로 판다(5.2). 첫 부담을 낮춘 입구다.
+    /// ⚠️ App Store Connect 에 자동 갱신 구독으로 만들어야 뜬다. 없으면 이 상품만 안 보이고
+    ///    평생 Pro 는 그대로 팔린다(`FreeUsePaywallView` 가 없는 칸을 숨긴다).
+    nonisolated static let yearlyProductID = "com.Ysoup.TokenMemo.pro.yearly"
+
     // MARK: - 내부 공용 스토어
 
     private let store: LeeoStore
@@ -61,6 +66,10 @@ class StoreManager: ObservableObject {
 
     /// 반값 상품 - App Store Connect 에 등록·승인되기 전에는 nil 이다.
     /// 반값 제안 화면은 이 값이 있을 때만 뜬다(없는 할인을 광고하지 않는다).
+    var yearlyProduct: Product? {
+        store.products.first { $0.id == Self.yearlyProductID }
+    }
+
     var discountedProProduct: Product? {
         store.products.first { $0.id == DiscountOfferManager.discountedProProductID }
     }
@@ -158,6 +167,17 @@ class StoreManager: ObservableObject {
         if store.products.isEmpty { await store.loadProducts() }
         guard let product = proProduct else {
             print("❌ [StoreManager] Pro 상품을 찾을 수 없음")
+            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
+            return false
+        }
+        return await purchase(product, triggeredBy: triggeredBy)
+    }
+
+    /// 연 구독 시작. 상품이 없으면 **평생으로 대신 결제하지 않는다**(고른 것과 다른 값이 빠져나간다).
+    func purchaseYearly(triggeredBy: String? = nil) async -> Bool {
+        if store.products.isEmpty { await store.loadProducts() }
+        guard let product = yearlyProduct else {
+            print("❌ [StoreManager] 연 구독 상품을 찾을 수 없음: \(Self.yearlyProductID)")
             errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
             return false
         }

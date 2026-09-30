@@ -687,8 +687,10 @@ class KeyboardViewController: UIInputViewController {
         // iOS "전체 접근 허용" 상태를 익스텐션 전역에 반영.
         // 여기서 갱신하는 이유: 사용자가 설정에서 토글하면 익스텐션이 재시작되므로
         // 키보드가 뜰 때마다 읽으면 항상 최신이다.
-        KeyboardCapability.update(hasFullAccess: hasFullAccess,
-                                  needsInputModeSwitchKey: needsInputModeSwitchKey)
+        // ⚠️ `needsInputModeSwitchKey` 는 여기서 읽지 않는다. 호스트의 문서 상태가 아직 안 와서
+        //    UIKit 안에서 doesNotRecognizeSelector 예외로 죽는다(5.0.7~5.1.5, 25건).
+        //    `viewDidAppear` 에서 읽는다. (docs/postmortem/KEYBOARD_INPUT_MODE_SWITCH_CRASH.md)
+        KeyboardCapability.update(hasFullAccess: hasFullAccess)
         // 사용자가 앱에서 높이를 바꿨을 수 있다. 익스텐션 프로세스는 키보드를 내려도
         // 살아 있어서, 여기서 다시 읽지 않으면 다음에 뜰 때도 예전 높이 그대로다
         // (프로세스가 죽었다 살아날 때까지, 즉 언제 반영될지 모르는 상태가 된다).
@@ -708,6 +710,11 @@ class KeyboardViewController: UIInputViewController {
         //    이 시점의 레이아웃 변화는 사용자 눈에 한 번 더 움찔하는 것으로 보인다.
         //    높이는 `viewDidLoad` 에서 이미 옳게 세워지고(999 우선순위), 회전은
         //    `viewWillTransition` 이 회전 애니메이션 안에서 처리한다.
+        // 지구본 키가 필요한지는 여기서 읽는다(`viewWillAppear` 의 경고 참고).
+        // 첫 그림은 지난번 값으로 그렸으니, 달라졌을 때만 다시 그린다.
+        if KeyboardCapability.updateInputModeSwitchKey(needsInputModeSwitchKey) {
+            documentState.objectWillChange.send()
+        }
         // 호스트 필드가 이미 텍스트를 가진 채로 키보드가 떴을 때도 X 버튼이 즉시 보이도록 초기 상태 반영
         updateHasTextState()
         // App Group 비콘 - 키보드 사용 timestamp 기록 (메인 앱 launch 시 Analytics로 전송)

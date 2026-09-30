@@ -339,7 +339,7 @@ struct MemoAdd: View {
     /// 저장 버튼이 지금 눌리는가. **잠금 조건과 안내가 같은 값을 봐야** 한다
     /// (`validateMemoInput` 과 같은 기준: 글이든 그림이든 하나는 있어야).
     private var canSave: Bool {
-        !(viewModel.value.isEmpty && viewModel.attachedImages.isEmpty)
+        viewModel.hasContent
     }
 
     /// 지금 이 화면에서 안내를 켤 자리인가.

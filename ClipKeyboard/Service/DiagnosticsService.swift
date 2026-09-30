@@ -151,7 +151,7 @@ final class DiagnosticsService: NSObject, MXMetricManagerSubscriber {
         var binaries = parsed.binaries
         // 못 읽었으면 글자로라도 건져 본다. 아래 함수 머리말 참고.
         if frames.isEmpty {
-            frames = framesBySalvaging(raw)
+            frames = leafFirst(Array(framesBySalvaging(raw).reversed()))
             binaries = []
         }
         guard !frames.isEmpty else { return String(raw.prefix(maxStackLength)) }
@@ -197,9 +197,15 @@ final class DiagnosticsService: NSObject, MXMetricManagerSubscriber {
                 flatten(frame, into: &frames, uuids: &uuids)
             }
         }
-        // 뿌리에서 잎 순으로 모였다. 뒤집어 **0번이 죽은 자리**가 되게 한다.
-        // 크래시 리포트를 읽는 사람은 언제나 거기부터 본다.
-        let ordered = Array(frames.reversed())
+        // MetricKit 트리는 **잎이 바깥**이고 `subFrames` 가 뿌리(dyld `start`) 쪽으로 들어간다.
+        // 그래서 편 순서가 곧 잎에서 뿌리 순이다. 크래시 리포트를 읽는 사람은 언제나 0번부터 본다.
+        //
+        // ⚠️ 여기서 뒤집으면 안 된다. 5.0.6 ~ 5.1.6 은 "뿌리가 바깥"이라 믿고 뒤집어 보내서,
+        //    모든 스택의 0번이 dyld, 1번이 앱의 `main` 이 됐다. 허브는 그 `main` 을 범인으로 잡아
+        //    서로 다른 멈춤 160여 건을 한 이슈로 묶었다.
+        //    (docs/postmortem/CRASH_STACK_UPSIDE_DOWN.md)
+        // 순서를 내용으로 한 번 더 확인한다. 트리 모양이 iOS 판마다 달라도 0번은 잎이다.
+        let ordered = leafFirst(frames)
         // 잎에 가까운 바이너리부터. 범례가 잘려도 내 코드 쪽이 남게 한다.
         var seen = Set<String>()
         var binaries: [(name: String, uuid: String)] = []
@@ -211,14 +217,28 @@ final class DiagnosticsService: NSObject, MXMetricManagerSubscriber {
         return (ordered, binaries)
     }
 
+    /// 0번이 **잎**(죽은 자리)이 되게 세운다.
+    ///
+    /// 뿌리는 어느 스레드든 알아볼 수 있다. 메인 스레드는 dyld 의 `start`, 나머지는
+    /// libsystem_pthread 의 `thread_start` · `start_wqthread` 다. 그 뿌리가 앞에 있고 뒤에는
+    /// 없으면 거꾸로 온 것이니 뒤집는다. 어느 쪽도 아니면 받은 순서를 믿는다.
+    static func leafFirst(_ frames: [String]) -> [String] {
+        func isRoot(_ frame: String) -> Bool {
+            frame.hasPrefix("dyld ") || frame.hasPrefix("libsystem_pthread.dylib ")
+        }
+        guard let first = frames.first, let last = frames.last,
+              isRoot(first), !isRoot(last) else { return frames }
+        return frames.reversed()
+    }
+
     /// `JSONSerialization` 이 못 읽을 만큼 깊은 스택을 위한 대비책.
     ///
     /// ⚠️ 이게 없으면 **스택 넘침 크래시를 통째로 놓친다.** 프레임 하나가 사전+배열
     ///    두 겹이라 250프레임 언저리에서 파서의 중첩 한도에 걸리는데, 무한 재귀로 죽은
     ///    스택이 정확히 그 모양으로 온다. 거기서 원문을 덤프하면 예전 버그로 되돌아간다.
     ///
-    /// 중괄호만 세어 프레임 경계를 잡는다. **안쪽 프레임이 먼저 닫히므로 닫히는 순서가
-    /// 곧 잎에서 뿌리 순서**라 따로 뒤집을 필요가 없다.
+    /// 중괄호만 세어 프레임 경계를 잡는다. 안쪽 프레임이 먼저 닫히고, MetricKit 트리는
+    /// 안쪽이 뿌리라 **닫히는 순서가 곧 뿌리에서 잎 순서**다. 부르는 쪽이 뒤집는다.
     ///
     /// 필드가 나오는 **순서에 기대지 않는다**. 한 프레임 안에서 `binaryName` 이
     /// `subFrames` 앞에 오든 뒤에 오든 같은 결과가 나온다. (JSON 객체의 키 순서는
@@ -303,7 +323,7 @@ final class DiagnosticsService: NSObject, MXMetricManagerSubscriber {
             .map { "\($0.name ?? "?") +\($0.offset ?? "0")" }
     }
 
-    /// 프레임 트리를 뿌리에서 잎 순으로 편다.
+    /// 프레임 트리를 바깥에서 안쪽 순으로(= 잎에서 뿌리 순으로) 편다.
     ///
     /// 표본 스택은 갈라질 수 있어(`subFrames` 가 여럿) 재귀로 훑는다. 크래시 트리는
     /// 대개 일직선이라 실제로는 한 갈래다. 한도를 두는 건 갈라진 트리에서 줄 수가

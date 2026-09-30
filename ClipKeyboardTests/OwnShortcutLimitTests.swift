@@ -22,12 +22,15 @@ import XCTest
 @MainActor
 final class OwnShortcutLimitTests: XCTestCase {
 
+    private var freePeriod: FreeUsePeriodEnded?
     private var savedSampleIds: [String]?
     private var groupDefaults: UserDefaults? { AppGroup.defaults }
 
     override func setUp() {
         super.setUp()
         savedSampleIds = groupDefaults?.stringArray(forKey: DefaultsKey.sampleMemoIdsV1)
+        // 무료 한도를 보는 시험이다. 무료 기간(문턱 전)에는 한도가 없어 건너뛰어지므로 끝내 둔다.
+        freePeriod = FreeUsePeriodEnded()
     }
 
     override func tearDown() {
@@ -37,6 +40,7 @@ final class OwnShortcutLimitTests: XCTestCase {
             groupDefaults?.removeObject(forKey: DefaultsKey.sampleMemoIdsV1)
         }
         UserDefaults.standard.removeObject(forKey: "sampleMemoUUIDs_v1")
+        freePeriod?.restore()
         super.tearDown()
     }
 
@@ -138,8 +142,10 @@ final class OwnShortcutLimitTests: XCTestCase {
         }
     }
 
-    /// 한도를 넘긴 자기 것은 여전히 가려진다(그랜드파더·칸 반납 등으로 넘칠 수 있다).
-    func testKeyboardStillHidesOwnShortcutsBeyondTheLimit() throws {
+    /// 한도를 넘긴 자기 것도 **가리지 않는다**(5.2). 무료 기간에 만든 것을 문턱 뒤에 가리면
+    /// 어제까지 되던 키가 사라진다. 벽은 새로 만들기에만 선다(`canAddMemo`).
+    /// (5.1 까지는 앞에서부터 한도만큼 남기고 가렸다)
+    func testKeyboardKeepsOwnShortcutsBeyondTheLimit() throws {
         try requireFreeUser()
         let limit = ProFeatureManager.memoLimit
         let samples = seedSamples()
@@ -148,8 +154,8 @@ final class OwnShortcutLimitTests: XCTestCase {
         let visible = ProFeatureManager.memosWithinLimit(samples + mine)
         let visibleOwn = visible.filter { m in mine.contains(where: { $0.id == m.id }) }
 
-        XCTAssertEqual(visibleOwn.count, limit)
-        XCTAssertEqual(visibleOwn.map(\.title), mine.prefix(limit).map(\.title), "앞에서부터 남긴다")
+        XCTAssertEqual(visibleOwn.count, limit + 3, "만든 것은 전부 키보드에 있어야 한다")
+        XCTAssertFalse(ProFeatureManager.canAddMemo(currentCount: limit + 3), "새로 만들기는 한도에서 막힌다")
     }
 
     // MARK: - 표를 옮겨 오기
