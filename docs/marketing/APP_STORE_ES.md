@@ -21,8 +21,10 @@ App Store Connect 의 `es-MX` 로케일에 넣을 값입니다.
 1. **App Store Connect 웹에서 스페인어(멕시코) 로케일을 만든다.** ASC API 는 로케일을 새로 만들지 못합니다.
 2. 아래 값을 채운다. 인앱 구매 표시 이름도 `es-MX` 로 더한다.
 3. 로케일이 생긴 뒤 `deploy.env` 의 `LOCALES` 에 `es-MX` 를 더하고, `RELEASE_NOTES.md` 에
-   `### App Store (español, es-MX)` 절을 쓴다. **순서를 지킬 것.** 로케일이 없는데 `LOCALES` 에 먼저 넣으면
+   절을 쓴다(5.1.7 에는 이미 있다). **순서를 지킬 것.** 로케일이 없는데 `LOCALES` 에 먼저 넣으면
    릴리즈노트 게이트가 없는 칸을 찾다가 배포를 멈춥니다.
+   `RELEASE_NOTES.md` 5.1.7 의 이 언어 절 제목에서 `노출 안 함: ` 을 지운다. 로케일이 없을 때 제목을 못 알아본 DeployBar 가
+   본문 글자로 판별해 라틴 문자를 `en` 으로 읽기 때문에 막아 둔 것이다.
 4. 스페인어 화면을 한 번 본다. 한국어보다 1.5배 길어서 키보드 익스텐션의 좁은 버튼이 먼저 깨진다.
 
 앱은 다음 빌드부터 스페인어로 말합니다(`i18n/config.json` · `knownRegions` · `AppLanguage.swift`).
@@ -86,7 +88,7 @@ Gratis y Pro
 
 Todo es gratis durante tus primeras 100 inserciones. Después, lo que ya creaste sigue funcionando igual; el límite gratuito solo aplica a lo nuevo que crees. Pro se compra una vez, o como suscripción anual, y quita todos los límites.
 
-Funciona en iPhone, iPad, Mac y Vision Pro. Disponible en español, inglés, coreano, japonés, chino (simplificado y tradicional) y ruso.
+Funciona en iPhone, iPad, Mac y Vision Pro. Disponible en español, inglés, coreano, japonés, alemán, chino (simplificado y tradicional), ruso, tailandés y vietnamita.
 
 Contacto: leeo@kakao.com
 Guía de uso: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en

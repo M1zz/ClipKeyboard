@@ -30,70 +30,100 @@
    "role": "저장해 두고 키보드에서 꺼내 쓰는 항목. 이 앱의 중심 명사",
    "ru": "Фраза",
    "ja": "定型文",
-   "es": "Frase"
+   "es": "Frase",
+   "de": "Textbaustein",
+   "th": "ข้อความด่วน",
+   "vi": "Cụm từ"
   },
   "메모": {
    "en": "Note",
    "role": "아무 데서나 급히 적어 두는 것. 단축어와 다른 개념이므로 절대 같은 말로 옮기지 않는다",
    "ru": "Заметка",
    "ja": "メモ",
-   "es": "Nota"
+   "es": "Nota",
+   "de": "Notiz",
+   "th": "โน้ต",
+   "vi": "Ghi chú"
   },
   "보관함": {
    "en": "Inbox",
    "role": "적어 둔 메모가 모이는 곳",
    "ru": "Входящие",
    "ja": "インボックス",
-   "es": "Recibidos"
+   "es": "Recibidos",
+   "de": "Eingang",
+   "th": "กล่องขาเข้า",
+   "vi": "Hộp thư đến"
   },
   "클립보드": {
    "en": "Clipboard",
    "role": "시스템 클립보드",
    "ru": "Буфер обмена",
    "ja": "クリップボード",
-   "es": "Portapapeles"
+   "es": "Portapapeles",
+   "de": "Zwischenablage",
+   "th": "คลิปบอร์ด",
+   "vi": "Bảng tạm"
   },
   "콤보": {
    "en": "Combo",
    "role": "여러 단축어를 순서대로 입력하는 묶음",
    "ru": "Комбо",
    "ja": "コンボ",
-   "es": "Combo"
+   "es": "Combo",
+   "de": "Kombo",
+   "th": "คอมโบ",
+   "vi": "Combo"
   },
   "템플릿": {
    "en": "Template",
    "role": "채우는 칸이 있는 단축어",
    "ru": "Шаблон",
    "ja": "テンプレート",
-   "es": "Plantilla"
+   "es": "Plantilla",
+   "de": "Vorlage",
+   "th": "เทมเพลต",
+   "vi": "Mẫu"
   },
   "테마": {
    "en": "Theme",
    "role": "단축어 분류",
    "ru": "Тема",
    "ja": "テーマ",
-   "es": "Tema"
+   "es": "Tema",
+   "de": "Thema",
+   "th": "ธีม",
+   "vi": "Chủ đề"
   },
   "즐겨찾기": {
    "en": "Favorites",
    "role": "",
    "ru": "Избранное",
    "ja": "お気に入り",
-   "es": "Favoritos"
+   "es": "Favoritos",
+   "de": "Favoriten",
+   "th": "รายการโปรด",
+   "vi": "Mục ưa thích"
   },
   "채우는 칸": {
    "en": "fill-in blank",
    "role": "{ } 로 감싼 자리. 쓸 때마다 값을 새로 넣는다",
    "ru": "поле для заполнения",
    "ja": "入力欄",
-   "es": "campo para llenar"
+   "es": "campo para llenar",
+   "de": "Ausfüllfeld",
+   "th": "ช่องกรอก",
+   "vi": "ô cần điền"
   },
   "스택": {
    "en": "Stack",
    "role": "값 여러 개를 이름과 함께 순서대로 담아 둔 단축어. 예전 이름은 콤보",
    "ru": "Стопка",
    "ja": "スタック",
-   "es": "Pila"
+   "es": "Pila",
+   "de": "Stapel",
+   "th": "สแตก",
+   "vi": "Ngăn xếp"
   }
  },
  "_tokens": "본문 안의 {토큰} 은 사용자에게 보이는 예시 글이라 번역한다. 다만 한 언어 안에서는 반드시 같은 말로. 여기 적힌 것이 그 언어의 고정값이다.",
@@ -102,73 +132,109 @@
    "en": "{price}",
    "ru": "{цена}",
    "ja": "{価格}",
-   "es": "{precio}"
+   "es": "{precio}",
+   "de": "{Preis}",
+   "th": "{ราคา}",
+   "vi": "{giá}"
   },
   "{금액}": {
    "en": "{amount}",
    "ru": "{сумма}",
    "ja": "{金額}",
-   "es": "{monto}"
+   "es": "{monto}",
+   "de": "{Betrag}",
+   "th": "{จำนวนเงิน}",
+   "vi": "{số tiền}"
   },
   "{날짜}": {
    "en": "{date}",
    "ru": "{дата}",
    "ja": "{日付}",
-   "es": "{fecha}"
+   "es": "{fecha}",
+   "de": "{Datum}",
+   "th": "{วันที่}",
+   "vi": "{ngày}"
   },
   "{메모}": {
    "en": "{memo}",
    "ru": "{заметка}",
    "ja": "{メモ}",
-   "es": "{nota}"
+   "es": "{nota}",
+   "de": "{Notiz}",
+   "th": "{โน้ต}",
+   "vi": "{ghi chú}"
   },
   "{수량}": {
    "en": "{quantity}",
    "ru": "{количество}",
    "ja": "{数量}",
-   "es": "{cantidad}"
+   "es": "{cantidad}",
+   "de": "{Menge}",
+   "th": "{จำนวน}",
+   "vi": "{số lượng}"
   },
   "{시간}": {
    "en": "{time}",
    "ru": "{время}",
    "ja": "{時刻}",
-   "es": "{hora}"
+   "es": "{hora}",
+   "de": "{Uhrzeit}",
+   "th": "{เวลา}",
+   "vi": "{giờ}"
   },
   "{이름}": {
    "en": "{name}",
    "ru": "{имя}",
    "ja": "{名前}",
-   "es": "{nombre}"
+   "es": "{nombre}",
+   "de": "{Name}",
+   "th": "{ชื่อ}",
+   "vi": "{tên}"
   },
   "{전화}": {
    "en": "{phone}",
    "ru": "{телефон}",
    "ja": "{電話}",
-   "es": "{teléfono}"
+   "es": "{teléfono}",
+   "de": "{Telefon}",
+   "th": "{โทรศัพท์}",
+   "vi": "{điện thoại}"
   },
   "{주소}": {
    "en": "{address}",
    "ru": "{адрес}",
    "ja": "{住所}",
-   "es": "{dirección}"
+   "es": "{dirección}",
+   "de": "{Adresse}",
+   "th": "{ที่อยู่}",
+   "vi": "{địa chỉ}"
   },
   "{커서}": {
    "en": "{cursor}",
    "ru": "{курсор}",
    "ja": "{カーソル}",
-   "es": "{cursor}"
+   "es": "{cursor}",
+   "de": "{Cursor}",
+   "th": "{เคอร์เซอร์}",
+   "vi": "{con trỏ}"
   },
   "{클립보드}": {
    "en": "{clipboard}",
    "ru": "{буфер}",
    "ja": "{クリップボード}",
-   "es": "{portapapeles}"
+   "es": "{portapapeles}",
+   "de": "{Zwischenablage}",
+   "th": "{คลิปบอร์ด}",
+   "vi": "{bảng tạm}"
   },
   "{토큰}": {
    "en": "{token}",
    "ru": "{переменная}",
    "ja": "{変数}",
-   "es": "{variable}"
+   "es": "{variable}",
+   "de": "{Variable}",
+   "th": "{ตัวแปร}",
+   "vi": "{biến}"
   }
  },
  "_allowSourceScript": "번역문에 한글이 남아도 되는 예외(부분 문자열). scripts/check_localization.py 의 것과 같은 뜻이다.",
