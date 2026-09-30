@@ -14,6 +14,108 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.7
+
+### 앱스토어 (한국어)
+
+```
+단축어를 100번 넣을 때까지 모든 기능이 무료예요.
+일본어, 스페인어, 독일어, 태국어, 베트남어로도 쓸 수 있어요.
+기기마다 목록이 달라도 한 번에 맞출 수 있어요.
+키보드가 뜰 때 가끔 닫히던 문제를 고쳤어요.
+보안으로 저장한 값이 더 안전하게 보관돼요.
+```
+
+### App Store (English)
+
+```
+Every feature is free for your first 100 inserts.
+Now in Japanese, Spanish, German, Thai and Vietnamese.
+Devices that drifted apart can be matched in one step.
+Fixed the keyboard sometimes closing as it opened.
+Values saved as secure are now stored more safely.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+前 100 次输入，所有功能全部免费。
+新增日语、西班牙语、德语、泰语和越南语。
+设备之间列表不一致时，可以一键同步。
+修复了键盘打开时偶尔关闭的问题。
+设为安全的内容现在保存得更安全。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+前 100 次輸入，所有功能全部免費。
+新增日文、西班牙文、德文、泰文和越南文。
+裝置之間列表不一致時，可以一鍵同步。
+修正了鍵盤開啟時偶爾關閉的問題。
+設為安全的內容現在儲存得更安全。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Первые 100 вставок все функции бесплатны.
+Теперь на японском, испанском, немецком, тайском и вьетнамском.
+Разные списки на устройствах можно выровнять в одно касание.
+Клавиатура больше не закрывается сама при открытии.
+Защищённые значения теперь хранятся надёжнее.
+```
+
+### App Store (Japanese, ja)
+
+```
+最初の100回の入力まで、すべての機能が無料です。
+日本語、スペイン語、ドイツ語、タイ語、ベトナム語に対応しました。
+デバイス間で一覧がずれても、まとめてそろえられます。
+キーボードを開くと閉じてしまうことがある問題を修正しました。
+セキュアに保存した値がより安全に保管されます。
+```
+
+### 노출 안 함: App Store (Spanish, es-MX)
+
+```
+Todo es gratis durante tus primeras 100 inserciones.
+Ahora en español, japonés, alemán, tailandés y vietnamita.
+Si tus dispositivos no coinciden, igualarlos es un paso.
+El teclado ya no se cierra a veces al abrirse.
+Los valores seguros ahora se guardan con más cuidado.
+```
+
+### 노출 안 함: App Store (German, de-DE)
+
+```
+Die ersten 100 Eingaben sind alle Funktionen gratis.
+Jetzt auch auf Deutsch, Japanisch, Spanisch, Thai und Vietnamesisch.
+Abweichende Geräte lassen sich in einem Schritt angleichen.
+Die Tastatur schließt sich beim Öffnen nicht mehr.
+Sicher gespeicherte Werte sind jetzt besser geschützt.
+```
+
+### 노출 안 함: App Store (Thai, th)
+
+```
+ใช้ได้ทุกฟีเจอร์ฟรีใน 100 ครั้งแรก
+รองรับภาษาไทย ญี่ปุ่น สเปน เยอรมัน และเวียดนามแล้ว
+อุปกรณ์ที่รายการไม่ตรงกันจัดให้ตรงได้ในขั้นเดียว
+แก้ปัญหาคีย์บอร์ดปิดเองตอนเปิด
+ค่าที่บันทึกแบบปลอดภัยถูกเก็บอย่างปลอดภัยยิ่งขึ้น
+```
+
+### 노출 안 함: App Store (Vietnamese, vi)
+
+```
+Mọi tính năng miễn phí trong 100 lần chèn đầu tiên.
+Đã có tiếng Việt, Nhật, Tây Ban Nha, Đức và Thái.
+Các thiết bị lệch nhau có thể đồng bộ trong một bước.
+Đã sửa lỗi bàn phím đôi khi tự đóng khi mở.
+Giá trị lưu bảo mật giờ được cất giữ an toàn hơn.
+```
+
 ## 5.1.6
 
 ### 앱스토어 (한국어)
