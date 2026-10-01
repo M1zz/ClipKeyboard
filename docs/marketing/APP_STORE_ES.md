@@ -91,7 +91,7 @@ Gratis y Pro
 
 Todo es gratis durante tus primeras 100 inserciones. Después, lo que ya creaste sigue funcionando igual; el límite gratuito solo aplica a lo nuevo que crees. Pro se compra una vez, o como suscripción anual, y quita todos los límites.
 
-Funciona en iPhone, iPad, Mac y Vision Pro. Disponible en español, inglés, coreano, japonés, alemán, chino (simplificado y tradicional), ruso, tailandés y vietnamita.
+Funciona en iPhone y iPad. Disponible en español, inglés, coreano, japonés, alemán, chino (simplificado y tradicional), ruso, tailandés y vietnamita.
 
 Contacto: leeo@kakao.com
 Guía de uso: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en

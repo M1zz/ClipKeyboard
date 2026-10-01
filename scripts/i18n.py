@@ -772,6 +772,29 @@ def cmd_build(args):
         changed_total += changed
         print(f"📥 {code}: {changed}개 갱신 ({len(tr)}개 중)")
 
+    # 기호뿐인 문구('%lld/%lld', '%@ · %@')는 옮길 글이 없어 extract 가 뺀다. 그래도 칸이 비어 있으면
+    # DeployBar 가 번역 구멍으로 센다(그쪽 정규식은 %lld 의 ld 를 글자로 본다). 원문 그대로 채운다.
+    retired = set((jload(RETIRED, {}) or {}).get("keys", []))
+    filled = 0
+    for key, entry in strings.items():
+        if not key.strip() or key in retired or entry.get("shouldTranslate") is False:
+            continue
+        ko = unit_value(entry, cfg["source"]) or key
+        en = unit_value(entry, cfg["pivot"])
+        if translatable(ko) or translatable(en or ""):
+            continue
+        for code in known:
+            locs = entry.setdefault("localizations", collections.OrderedDict())
+            if code in locs:
+                continue
+            locs[code] = collections.OrderedDict([
+                ("stringUnit", collections.OrderedDict([("state", "translated"), ("value", en or ko)]))])
+            entry["localizations"] = collections.OrderedDict(sorted(locs.items()))
+            filled += 1
+    if filled:
+        print(f"📥 기호뿐인 문구 {filled}칸을 원문 그대로 채움")
+    changed_total += filled
+
     if changed_total:
         write_catalog(cfg, cat)
     size = os.path.getsize(os.path.join(ROOT, cfg["catalog"])) / 1e6

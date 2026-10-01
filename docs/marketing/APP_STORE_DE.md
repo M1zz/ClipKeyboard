@@ -73,7 +73,7 @@ Gratis und Pro
 
 Für deine ersten 100 Eingaben ist alles gratis. Danach funktioniert alles, was du schon erstellt hast, weiter wie bisher; das Gratis-Limit gilt nur für Neues. Pro gibt es als Einmalkauf oder als Jahresabo und hebt alle Limits auf.
 
-Für iPhone, iPad, Mac und Vision Pro. Auf Deutsch, Englisch, Koreanisch, Japanisch, Spanisch, Chinesisch (vereinfacht und traditionell), Russisch, Thai und Vietnamesisch.
+Für iPhone und iPad. Auf Deutsch, Englisch, Koreanisch, Japanisch, Spanisch, Chinesisch (vereinfacht und traditionell), Russisch, Thai und Vietnamesisch.
 
 Kontakt: leeo@kakao.com
 Anleitung: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
