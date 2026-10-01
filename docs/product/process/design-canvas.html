@@ -1,0 +1,670 @@
+<!doctype html><html><head><meta charset=utf-8><title>클립키보드 설계 캔버스</title><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&family=Nanum+Pen+Script&display=swap">
+<style>
+/* Layout: one oversized drawing board (4840×1580) laid out left→right as the design process; pan/zoom viewport with stage chips that fly the camera to each phase. */
+:root{
+  --paper:#f6f7f4; --dot:#d4d8d0; --ink:#1d2622; --ink-soft:#56615b; --line:#b9c1ba;
+  --card:#ffffff; --card-edge:#dde2dc;
+  --accent:#1f8a5b; --accent-ink:#ffffff;
+  --p1:#d0453a; --p2:#2f6fcf; --p3:#7a4fc4; --p4:#c98a12; --p5:#1f8a5b;
+  --note-y:#fff2a8; --note-g:#d6f2dd; --note-b:#d8e6fb; --note-p:#eadffb; --note-r:#fbdcd6;
+  --note-ink:#26231a;
+  --chrome:rgba(255,255,255,.88);
+  --f-display:"IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --f-body:"IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --f-hand:"Nanum Pen Script", "Apple SD Gothic Neo", cursive;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#161b19; --dot:#2c3531; --ink:#e7ece8; --ink-soft:#a3aea7; --line:#46514b;
+  --card:#1f2623; --card-edge:#323c37;
+  --accent:#4cc38a; --accent-ink:#0d1a13;
+  --p1:#f07a6f; --p2:#6ea2ef; --p3:#ad8bef; --p4:#e7b24a; --p5:#4cc38a;
+  --note-y:#4a4322; --note-g:#1f3f2e; --note-b:#1f3350; --note-p:#352a4d; --note-r:#4d2a26;
+  --note-ink:#f1ecd9; --chrome:rgba(31,38,35,.9); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#161b19; --dot:#2c3531; --ink:#e7ece8; --ink-soft:#a3aea7; --line:#46514b;
+  --card:#1f2623; --card-edge:#323c37;
+  --accent:#4cc38a; --accent-ink:#0d1a13;
+  --p1:#f07a6f; --p2:#6ea2ef; --p3:#ad8bef; --p4:#e7b24a; --p5:#4cc38a;
+  --note-y:#4a4322; --note-g:#1f3f2e; --note-b:#1f3350; --note-p:#352a4d; --note-r:#4d2a26;
+  --note-ink:#f1ecd9; --chrome:rgba(31,38,35,.9); color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);overflow:hidden;font-size:14px}
+*{box-sizing:border-box}
+
+/* ---------- chrome ---------- */
+.app{height:100%;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 16px;background:var(--chrome);border-bottom:1px solid var(--card-edge);backdrop-filter:blur(8px);z-index:5}
+.brand{display:flex;align-items:baseline;gap:10px;min-width:0}
+.brand h1{margin:0;font:700 17px/1.2 var(--f-display);letter-spacing:-.01em;white-space:nowrap}
+.brand span{font:400 12px var(--f-mono);color:var(--ink-soft);white-space:nowrap}
+.stages{display:flex;gap:6px;overflow-x:auto;flex:1 1 320px;min-width:0;scrollbar-width:none;padding:2px}
+.stages::-webkit-scrollbar{display:none}
+.chip{flex:none;display:flex;align-items:center;gap:6px;border:1px solid var(--card-edge);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px 6px 8px;font:500 13px var(--f-body);cursor:pointer}
+.chip i{width:18px;height:18px;border-radius:50%;background:var(--c);color:var(--paper);font:500 11px/18px var(--f-mono);text-align:center;font-style:normal}
+.chip[aria-current="true"]{border-color:var(--c);box-shadow:0 0 0 1px var(--c) inset}
+.tools{display:flex;gap:6px}
+.btn{border:1px solid var(--card-edge);background:var(--card);color:var(--ink);border-radius:8px;height:32px;min-width:32px;padding:0 10px;font:500 13px var(--f-body);cursor:pointer}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn:focus-visible,.chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.viewport{position:relative;flex:1;overflow:hidden;cursor:grab;touch-action:none;
+  background-image:radial-gradient(var(--dot) 1.2px, transparent 1.3px);background-size:22px 22px}
+.viewport.dragging{cursor:grabbing}
+.hint{position:absolute;left:16px;bottom:calc(14px + env(safe-area-inset-bottom,0px));font:400 12px var(--f-mono);color:var(--ink-soft);background:var(--chrome);padding:6px 10px;border-radius:6px;border:1px solid var(--card-edge);pointer-events:none}
+.zoomlabel{position:absolute;right:16px;bottom:calc(14px + env(safe-area-inset-bottom,0px));font:500 12px var(--f-mono);color:var(--ink-soft);background:var(--chrome);padding:6px 10px;border-radius:6px;border:1px solid var(--card-edge);font-variant-numeric:tabular-nums}
+
+/* ---------- board ---------- */
+.board{position:absolute;left:0;top:0;width:6180px;height:1580px;transform-origin:0 0;will-change:transform}
+.board.fly{transition:transform .75s cubic-bezier(.3,.7,.2,1)}
+.links{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.links path{fill:none;stroke:var(--ink-soft);stroke-width:2.5;stroke-dasharray:2 7;stroke-linecap:round}
+.links .head{fill:var(--ink-soft);stroke:none}
+.links text{font:28px var(--f-hand);fill:var(--ink-soft)}
+
+.sec{position:absolute;top:60px;display:flex;flex-direction:column;gap:22px}
+.sec-head{display:flex;flex-direction:column;gap:6px;padding-bottom:6px}
+.eyebrow{display:flex;align-items:center;gap:10px;font:500 15px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.eyebrow b{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--c);color:var(--paper);font:500 16px var(--f-mono);letter-spacing:0}
+.sec-head h2{margin:0;font:700 44px/1.15 var(--f-display);letter-spacing:-.02em;text-wrap:balance}
+.sec-head p{margin:0;font:400 19px/1.55 var(--f-body);color:var(--ink-soft);max-width:60ch}
+
+.card{background:var(--card);border:1px solid var(--card-edge);border-radius:10px;padding:22px 24px;display:flex;flex-direction:column;gap:12px}
+.card h3{margin:0;font:700 22px/1.3 var(--f-display)}
+.card p,.card li{margin:0;font:400 17px/1.6 var(--f-body)}
+.card ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px}
+.label{font:500 13px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+.hand{font:30px/1.2 var(--f-hand);color:var(--ink-soft)}
+
+.notes{display:grid;gap:14px}
+.note{background:var(--bg,var(--note-y));color:var(--note-ink);padding:16px 18px 18px;border-radius:3px;font:400 17px/1.5 var(--f-body);box-shadow:0 1px 0 rgba(0,0,0,.06),0 8px 14px -10px rgba(0,0,0,.35);transform:rotate(var(--r,0deg))}
+.note small{display:block;font:500 12px var(--f-mono);letter-spacing:.06em;opacity:.7;margin-bottom:6px;text-transform:uppercase}
+.note.big{font:500 20px/1.45 var(--f-body)}
+
+/* problem */
+.hmw{border:2.5px solid var(--ink);border-radius:14px;padding:26px 28px;background:var(--card)}
+.hmw .label{color:var(--p1)}
+.hmw p{margin:8px 0 0;font:700 30px/1.35 var(--f-display);letter-spacing:-.015em;text-wrap:balance}
+.hmw mark{background:linear-gradient(transparent 58%, var(--note-r) 58%);color:inherit}
+.stat{display:flex;align-items:baseline;gap:12px}
+.stat strong{font:500 46px/1 var(--f-mono);font-variant-numeric:tabular-nums;color:var(--p1)}
+.stat span{font:400 16px/1.4 var(--f-body);color:var(--ink-soft)}
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font:500 15px var(--f-mono)}
+.flow span{border:1px solid var(--card-edge);border-radius:6px;padding:6px 10px;background:var(--paper)}
+.flow em{font-style:normal;color:var(--p1)}
+
+/* research */
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+table.cmp{width:100%;border-collapse:collapse;font:400 16px/1.4 var(--f-body)}
+.cmp th,.cmp td{border-bottom:1px solid var(--card-edge);padding:9px 8px;text-align:left;vertical-align:top}
+.cmp th{font:500 13px var(--f-mono);letter-spacing:.05em;color:var(--ink-soft);text-transform:uppercase}
+.cmp td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:center}
+.cmp tr.me td{background:var(--note-g);font-weight:500}
+.lim{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;align-items:baseline}
+.lim code{font:500 14px var(--f-mono);background:var(--paper);border:1px solid var(--card-edge);border-radius:5px;padding:2px 7px;white-space:nowrap}
+.lim p{font-size:16px !important}
+.insight{display:flex;gap:14px;align-items:flex-start}
+.insight b{font:500 15px var(--f-mono);color:var(--p2);padding-top:3px}
+
+/* persona */
+.persona{display:grid;grid-template-columns:120px 1fr;gap:20px}
+.avatar{width:120px;height:120px;border-radius:50%;display:grid;place-items:center;background:var(--bg);font:700 44px var(--f-display);color:var(--note-ink)}
+.meta{display:flex;flex-wrap:wrap;gap:6px}
+.meta span{font:500 13px var(--f-mono);border:1px solid var(--card-edge);border-radius:999px;padding:3px 10px;color:var(--ink-soft)}
+.quote{font:34px/1.2 var(--f-hand);color:var(--ink);margin:4px 0}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.split h4{margin:0 0 6px;font:500 13px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+.bars{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;align-items:center;font:400 15px var(--f-body)}
+.bars div{height:8px;border-radius:4px;background:var(--card-edge);position:relative}
+.bars div::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--v);background:var(--p3);border-radius:4px}
+
+/* journey */
+.jm{display:grid;grid-template-columns:130px repeat(5,1fr);border:1px solid var(--card-edge);border-radius:10px;background:var(--card);overflow:hidden}
+.jm > div{padding:14px 14px;border-top:1px solid var(--card-edge);border-left:1px solid var(--card-edge);font:400 16px/1.5 var(--f-body)}
+.jm .rh{border-left:0;font:500 13px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);background:var(--paper)}
+.jm .stage{border-top:0;font:700 18px var(--f-display);background:var(--paper)}
+.jm .stage small{display:block;font:500 12px var(--f-mono);color:var(--p4);margin-bottom:2px}
+.jm .corner{border-top:0}
+.jm .emo{grid-column:2 / span 5;padding:0;height:170px;position:relative}
+.jm .emo svg{width:100%;height:100%;display:block}
+.jm .pain{background:var(--note-r);color:var(--note-ink)}
+.jm .opp{background:var(--note-g);color:var(--note-ink)}
+.emo-line{fill:none;stroke:var(--p4);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round}
+.emo-dot{fill:var(--card);stroke:var(--p4);stroke-width:3}
+.emo-base{stroke:var(--card-edge);stroke-width:1.5;stroke-dasharray:4 6}
+.emo-lbl{font:26px var(--f-hand);fill:var(--ink-soft)}
+.moment{font:500 14px var(--f-mono);color:var(--p1)}
+
+/* solution */
+.map3{display:grid;grid-template-columns:1fr 28px 1fr 28px 1fr;align-items:stretch;gap:0}
+.map3 .arrow{display:grid;place-items:center;color:var(--ink-soft);font:22px var(--f-mono)}
+.map3 .col{display:flex;flex-direction:column;gap:10px}
+.map3 .col .label{margin-bottom:2px}
+.pill{border:1px solid var(--card-edge);background:var(--card);border-radius:8px;padding:10px 12px;font:400 15px/1.45 var(--f-body);min-height:66px;display:flex;align-items:center}
+.pill.hmw2{background:var(--note-b);color:var(--note-ink);border-color:transparent}
+.pill.feat{border:2px solid var(--p5);font-weight:500}
+.dropped{display:flex;flex-direction:column;gap:8px}
+.dropped div{display:flex;gap:10px;align-items:baseline;font:400 16px/1.45 var(--f-body)}
+.dropped s{color:var(--ink-soft);text-decoration-thickness:2px;text-decoration-color:var(--p1);white-space:nowrap}
+.dropped span{color:var(--ink-soft);font-size:15px}
+.matrix{position:relative;height:360px;border-left:2px solid var(--ink);border-bottom:2px solid var(--ink);margin:6px 0 30px 34px}
+.matrix::before{content:"";position:absolute;left:0;right:50%;top:0;bottom:50%;background:var(--note-g);opacity:.7}
+.matrix .ax{position:absolute;font:500 12px var(--f-mono);letter-spacing:.06em;color:var(--ink-soft);text-transform:uppercase}
+.matrix .ax.x{bottom:-26px;right:0}
+.matrix .ax.y{left:-30px;top:0;writing-mode:vertical-rl;transform:rotate(180deg)}
+.matrix .ax.q{left:10px;top:8px;color:var(--p5)}
+.dot{position:absolute;transform:translate(-50%,50%);display:flex;align-items:center;gap:6px;font:500 14px var(--f-body);white-space:nowrap}
+.dot::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--c,var(--p5));border:2px solid var(--card);flex:none}
+.dot.v2{--c:var(--ink-soft)}
+.result{border:2.5px solid var(--p5);border-radius:14px;padding:24px 26px;background:var(--card);display:flex;flex-direction:column;gap:14px}
+.result .row{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end}
+.result .num{font:500 54px/1 var(--f-mono);font-variant-numeric:tabular-nums;color:var(--p5)}
+.result .num small{font:400 16px var(--f-body);color:var(--ink-soft);display:block;margin-top:6px}
+.result .from{font:500 30px/1 var(--f-mono);color:var(--ink-soft);font-variant-numeric:tabular-nums}
+
+.draftnote{font:400 14px/1.5 var(--f-body);color:var(--ink-soft);border-top:1px dashed var(--line);padding-top:10px}
+
+/* status: solved / new / unsolved */
+.st{display:inline-flex;align-items:center;gap:6px;font:500 12px var(--f-mono);letter-spacing:.04em;padding:3px 9px 3px 7px;border-radius:999px;border:1.5px solid var(--sc);color:var(--sc);background:var(--card);white-space:nowrap}
+.st::before{content:attr(data-g);font:700 12px var(--f-mono)}
+.st.ok{--sc:var(--p5)} .st.part{--sc:var(--p4)} .st.new{--sc:var(--p4)} .st.no{--sc:var(--p1)}
+.jm .pain .st{margin-top:8px}
+.legend{display:flex;gap:10px;flex-wrap:wrap}
+.ledger{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
+.lcol{display:flex;flex-direction:column;gap:12px;min-width:0}
+.lhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-bottom:3px solid var(--sc);padding-bottom:10px}
+.lhead h3{margin:0;font:700 26px/1.2 var(--f-display);color:var(--sc)}
+.lhead span{font:500 30px/1 var(--f-mono);color:var(--sc);font-variant-numeric:tabular-nums}
+.lhead + p{margin:0;font:400 15px/1.5 var(--f-body);color:var(--ink-soft)}
+.item{background:var(--card);border:1px solid var(--card-edge);border-left:4px solid var(--sc);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.item h4{margin:0;font:700 17px/1.4 var(--f-body)}
+.item p{margin:0;font:400 15px/1.5 var(--f-body);color:var(--ink-soft)}
+.item .src{display:flex;gap:6px;flex-wrap:wrap}
+.item .src span{font:500 12px var(--f-mono);color:var(--ink-soft);border:1px solid var(--card-edge);border-radius:4px;padding:1px 6px}
+.item .src span.real{border-color:var(--ink-soft);color:var(--ink)}
+.tally{display:flex;gap:20px;flex-wrap:wrap;align-items:center;font:400 16px/1.5 var(--f-body)}
+
+@media (max-width:560px){
+  .brand span{display:none}
+  .hint{display:none}
+}
+@media (prefers-reduced-motion:reduce){ .board.fly{transition:none} }
+</style>
+
+<div class="app">
+  <header class="bar">
+    <div class="brand"><h1>클립키보드 설계 캔버스</h1><span>ClipKeyboard · problem → solution</span></div>
+    <nav class="stages" id="stages" aria-label="단계로 이동"></nav>
+    <div class="tools">
+      <button class="btn" id="zoomOut" aria-label="축소">−</button>
+      <button class="btn" id="zoomIn" aria-label="확대">+</button>
+      <button class="btn" id="fit">전체</button>
+      <button class="btn primary" id="play">▶ 과정 따라가기</button>
+    </div>
+  </header>
+
+  <main class="viewport" id="vp" tabindex="0" aria-label="설계 과정 캔버스. 드래그로 이동, 핀치나 Ctrl+스크롤로 확대">
+    <div class="board" id="board">
+
+      <!-- connectors between phases -->
+      <svg class="links" viewBox="0 0 6180 1580" aria-hidden="true">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="head" d="M0 0L10 5L0 10z"/></marker></defs>
+        <path d="M780 260 C 820 200, 850 200, 890 250" marker-end="url(#ah)"/>
+        <text x="772" y="184">왜 그럴까?</text>
+        <path d="M1740 260 C 1780 200, 1810 200, 1850 250" marker-end="url(#ah)"/>
+        <text x="1728" y="184">누구의 문제?</text>
+        <path d="M2600 260 C 2640 200, 2670 200, 2710 250" marker-end="url(#ah)"/>
+        <text x="2600" y="184">언제 아픈가?</text>
+        <path d="M3800 260 C 3840 200, 3870 200, 3910 250" marker-end="url(#ah)"/>
+        <text x="3796" y="184">그래서 무엇을?</text>
+        <path d="M4800 260 C 4840 200, 4870 200, 4910 250" marker-end="url(#ah)"/>
+        <text x="4790" y="184">무엇이 남았나?</text>
+      </svg>
+
+      <!-- 1 PROBLEM -->
+      <section class="sec" id="s1" style="left:60px;width:700px;--c:var(--p1)">
+        <div class="sec-head">
+          <div class="eyebrow"><b>1</b>문제 정의</div>
+          <h2>같은 걸 매일 다시 친다</h2>
+          <p>이메일, 주소, 계좌번호, 자주 쓰는 안내 문구. 이미 어딘가 적어 뒀는데도 입력할 때마다 꺼내 오는 과정이 번거롭다.</p>
+        </div>
+        <div class="notes" style="grid-template-columns:1fr 1fr">
+          <div class="note" style="--r:-1.5deg"><small>관찰</small>“계좌번호 불러 주세요” 카톡이 오면 메모앱 → 스크롤 → 복사 → 카톡으로 돌아감</div>
+          <div class="note" style="--r:1.2deg;--bg:var(--note-r)"><small>관찰</small>메모앱에 갔다가 다른 알림을 보고, 뭘 하려던 건지 잊어버린다</div>
+          <div class="note" style="--r:.8deg;--bg:var(--note-b)"><small>관찰</small>견적 답장은 매번 같은 문장. 고객 이름과 금액만 다르다</div>
+          <div class="note" style="--r:-1deg"><small>관찰</small>쇼핑몰 가입 폼: 이름 → 전화 → 주소 → 이메일을 한 칸씩 반복 입력</div>
+        </div>
+        <div class="card">
+          <span class="label">입력 1회에 드는 동작</span>
+          <div class="flow"><span>대화앱</span><em>→</em><span>메모앱 열기</span><em>→</em><span>찾기</span><em>→</em><span>복사</span><em>→</em><span>대화앱 복귀</span><em>→</em><span>붙여넣기</span></div>
+          <div class="stat"><strong>2회</strong><span>앱 전환. 이 사이에 주의가 끊기고, 작업 기억이 날아간다.</span></div>
+        </div>
+        <div class="hmw">
+          <span class="label">How might we</span>
+          <p>자주 쓰는 텍스트를 <mark>지금 쓰고 있는 앱을 떠나지 않고</mark>, <mark>외우지 않고</mark> 한 번에 입력하게 할 수 있을까?</p>
+        </div>
+      </section>
+
+      <!-- 2 RESEARCH -->
+      <section class="sec" id="s2" style="left:920px;width:800px;--c:var(--p2)">
+        <div class="sec-head">
+          <div class="eyebrow"><b>2</b>리서치</div>
+          <h2>이미 있는 해결책은 왜 안 쓰일까</h2>
+          <p>iOS 기본 기능과 기존 클립보드 앱을 같은 기준으로 비교하고, 키보드 익스텐션의 기술 제약을 먼저 확인했다.</p>
+        </div>
+        <div class="card">
+          <span class="label">대안 비교 · 입력 1회 기준</span>
+          <table class="cmp">
+            <thead><tr><th>방법</th><th>앱 전환</th><th>외울 것</th><th>한계</th></tr></thead>
+            <tbody>
+              <tr><td>메모앱 복붙</td><td class="n">2</td><td class="n">없음</td><td>찾는 시간, 흐름 끊김</td></tr>
+              <tr><td>iOS 텍스트 대치</td><td class="n">0</td><td class="n">단축어</td><td>단축어를 잊으면 끝, 긴 문구·변수 불가</td></tr>
+              <tr><td>클립보드 기록 앱</td><td class="n">1~2</td><td class="n">없음</td><td>기록은 쌓이는데 다시 찾기 어려움</td></tr>
+              <tr class="me"><td>키보드 안에서 바로</td><td class="n">0</td><td class="n">없음</td><td>전체 접근 허용 설득 필요</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <span class="label">기술 제약 (키보드 익스텐션)</span>
+          <div class="lim">
+            <code>30~60MB</code><p>익스텐션 메모리 한도. 무거운 UI·모델 불가, 목록은 가볍게</p>
+            <code>Full Access</code><p>앱과 데이터 공유·붙여넣기에 필요. 사용자가 가장 망설이는 단계</p>
+            <code>App Group</code><p>본앱과 키보드가 같은 저장소를 봐야 함. 가장 먼저 풀어야 할 구조</p>
+            <code>No bg monitor</code><p>백그라운드 클립보드 감시 불가. 자동 수집은 앱이 열려 있을 때만</p>
+          </div>
+        </div>
+        <div class="card" style="gap:14px">
+          <span class="label">핵심 인사이트</span>
+          <div class="insight"><b>I-1</b><p>문제는 <strong>저장</strong>이 아니라 <strong>꺼내 오기</strong>다. 다들 이미 어딘가에 적어 두었다.</p></div>
+          <div class="insight"><b>I-2</b><p>단축어를 외우는 비용이 저장해서 얻는 이득보다 크다. 보이면 누르고, 안 보이면 안 쓴다.</p></div>
+          <div class="insight"><b>I-3</b><p>반복 문구는 대부분 <strong>거의 같다</strong>. 이름·금액 같은 한두 칸만 바뀐다.</p></div>
+          <div class="insight"><b>I-4</b><p>입력은 한 칸으로 끝나지 않는다. 폼은 여러 값을 <strong>순서대로</strong> 넣는 일이다.</p></div>
+        </div>
+      </section>
+
+      <!-- 3 PERSONA -->
+      <section class="sec" id="s3" style="left:1880px;width:720px;--c:var(--p3)">
+        <div class="sec-head">
+          <div class="eyebrow"><b>3</b>페르소나</div>
+          <h2>반복 입력이 가장 아픈 두 사람</h2>
+          <p>인사이트에서 가장 극단적인 사용 패턴을 가진 사람을 골랐다.</p>
+        </div>
+        <div class="card">
+          <div class="persona">
+            <div class="avatar" style="--bg:var(--note-p)">지</div>
+            <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+              <h3>한지은 · 1인 스튜디오 디자이너</h3>
+              <div class="meta"><span>31세</span><span>iPhone 주사용</span><span>카톡·인스타 DM 문의</span></div>
+              <p class="quote">“계좌번호 보내는 데 왜 30초나 걸리지?”</p>
+            </div>
+          </div>
+          <div class="split">
+            <div><h4>하루 반복 입력</h4>
+              <div class="bars">
+                <span>계좌번호</span><div style="--v:85%"></div>
+                <span>견적 안내문</span><div style="--v:70%"></div>
+                <span>포트폴리오 링크</span><div style="--v:60%"></div>
+                <span>작업실 주소</span><div style="--v:30%"></div>
+              </div>
+            </div>
+            <div><h4>원하는 것</h4>
+              <ul><li>대화창을 떠나지 않고 보내기</li><li>안내문에서 이름만 바꾸기</li><li>계좌번호는 남이 못 보게</li></ul>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="persona">
+            <div class="avatar" style="--bg:var(--note-b)">민</div>
+            <div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+              <h3>박민수 · 부동산 중개 실장</h3>
+              <div class="meta"><span>44세</span><span>iPhone + Mac</span><span>문자·메일·폼 입력</span></div>
+              <p class="quote">“단축어요? 만들어 놓고 까먹었어요.”</p>
+            </div>
+          </div>
+          <div class="split">
+            <div><h4>하루 반복 입력</h4>
+              <div class="bars">
+                <span>매물 안내 문자</span><div style="--v:90%"></div>
+                <span>사무실 주소</span><div style="--v:55%"></div>
+                <span>계약 서류 폼</span><div style="--v:50%"></div>
+                <span>메일 서명</span><div style="--v:40%"></div>
+              </div>
+            </div>
+            <div><h4>원하는 것</h4>
+              <ul><li>외우지 않고 눈으로 고르기</li><li>폼을 한 번에 채우기</li><li>Mac에서도 같은 문구</li></ul>
+            </div>
+          </div>
+        </div>
+        <p class="hand">→ 지은이는 “속도와 보안”, 민수는 “기억 부담과 연속 입력”</p>
+      </section>
+
+      <!-- 4 JOURNEY -->
+      <section class="sec" id="s4" style="left:2740px;width:1060px;--c:var(--p4)">
+        <div class="sec-head">
+          <div class="eyebrow"><b>4</b>유저 저니맵</div>
+          <h2>지은이가 계좌번호를 보내기까지</h2>
+          <p>클립키보드 이전, 입금 요청 한 건을 처리하는 흐름. 감정이 가장 떨어지는 지점이 기회다.</p>
+        </div>
+        <div class="jm">
+          <div class="corner rh"></div>
+          <div class="stage"><small>01</small>요청 도착</div>
+          <div class="stage"><small>02</small>정보 찾기</div>
+          <div class="stage"><small>03</small>복사</div>
+          <div class="stage"><small>04</small>돌아와 붙이기</div>
+          <div class="stage"><small>05</small>다듬어 전송</div>
+
+          <div class="rh">행동</div>
+          <div>카톡 알림 “입금 계좌 알려 주세요”</div>
+          <div>메모앱 열고 스크롤, 검색어 고민</div>
+          <div>길게 눌러 범위 선택, 복사</div>
+          <div>앱 전환 중 인스타 알림 확인</div>
+          <div>“안녕하세요 ○○님” 인사 붙이고 전송</div>
+
+          <div class="rh">생각</div>
+          <div>“아 그거 어디 적어놨더라”</div>
+          <div>“계좌 메모가 두 개네, 어느 게 최신이지?”</div>
+          <div>“범위가 자꾸 한 글자씩 빠지네”</div>
+          <div>“…근데 내가 뭐 하던 중이었지?”</div>
+          <div>“매번 같은 인사를 또 치고 있네”</div>
+
+          <div class="rh">감정</div>
+          <div class="emo">
+            <svg viewBox="0 0 930 170" preserveAspectRatio="none" aria-label="감정 곡선: 요청 도착에서 보통, 앱 전환 구간에서 가장 낮고 전송 후 회복">
+              <line class="emo-base" x1="0" y1="85" x2="930" y2="85"/>
+              <path class="emo-line" d="M93 62 C 160 70, 220 110, 279 118 C 340 124, 400 108, 465 120 C 540 132, 600 158, 651 150 C 720 140, 780 90, 837 78"/>
+              <circle class="emo-dot" cx="93" cy="62" r="8"/>
+              <circle class="emo-dot" cx="279" cy="118" r="8"/>
+              <circle class="emo-dot" cx="465" cy="120" r="8"/>
+              <circle class="emo-dot" cx="651" cy="150" r="9" style="stroke:var(--p1)"/>
+              <circle class="emo-dot" cx="837" cy="78" r="8"/>
+              <text class="emo-lbl" x="560" y="40">최저점: 흐름이 끊김</text>
+            </svg>
+          </div>
+
+          <div class="rh">페인</div>
+          <div class="pain">답장이 늦으면 불친절해 보일까 조급<br><span class="st no" data-g="✕">미해결</span></div>
+          <div class="pain">어디 저장했는지 기억해야 함, 옛 정보 혼재<br><span class="st part" data-g="△">일부 해결</span></div>
+          <div class="pain">작은 화면에서 텍스트 선택이 부정확<br><span class="st ok" data-g="✓">해결</span></div>
+          <div class="pain"><span class="moment">KEY MOMENT</span><br>앱 전환 중 주의가 새고 작업을 잊음<br><span class="st ok" data-g="✓">해결</span></div>
+          <div class="pain">같은 문장을 매번 새로 타이핑<br><span class="st ok" data-g="✓">해결</span></div>
+
+          <div class="rh">기회</div>
+          <div class="opp">받은 즉시 그 자리에서 답할 수 있게</div>
+          <div class="opp">검색 + 최근 쓴 순서로 자동 정렬</div>
+          <div class="opp">선택 없이 항목 단위로 한 번에</div>
+          <div class="opp">앱 전환 자체를 없앤다: 키보드 안에서</div>
+          <div class="opp">인사말 + 이름 칸이 있는 템플릿</div>
+        </div>
+      </section>
+
+      <!-- 5 SOLUTION -->
+      <section class="sec" id="s5" style="left:3900px;width:880px;--c:var(--p5)">
+        <div class="sec-head">
+          <div class="eyebrow"><b>5</b>솔루션 도출</div>
+          <h2>기회를 기능으로, 기능을 순서로</h2>
+          <p>저니맵의 기회를 질문으로 바꾸고, 각 질문에 답하는 가장 작은 기능을 골랐다.</p>
+        </div>
+        <div class="card">
+          <div class="map3">
+            <div class="col"><span class="label">인사이트</span>
+              <div class="pill">I-1 꺼내 오기가 문제</div>
+              <div class="pill">I-2 외우지 않는다</div>
+              <div class="pill">I-3 거의 같은 문구</div>
+              <div class="pill">I-4 순서대로 입력</div>
+              <div class="pill">지은: 보안</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="col"><span class="label">HMW</span>
+              <div class="pill hmw2">앱을 안 떠나고 꺼낼 수 있을까?</div>
+              <div class="pill hmw2">기억 대신 눈으로 고르게?</div>
+              <div class="pill hmw2">바뀌는 칸만 채우게?</div>
+              <div class="pill hmw2">여러 칸을 한 번에?</div>
+              <div class="pill hmw2">민감한 값은 안전하게?</div>
+            </div>
+            <div class="arrow">→</div>
+            <div class="col"><span class="label">기능</span>
+              <div class="pill feat">커스텀 키보드 원탭 입력</div>
+              <div class="pill feat">검색 + 최근순 정렬, 자동 분류 15종</div>
+              <div class="pill feat">템플릿 <code style="font-family:var(--f-mono)">{이름}</code> + 커서 위치</div>
+              <div class="pill feat">콤보 모드 연속 입력</div>
+              <div class="pill feat">Face ID 잠금 메모</div>
+            </div>
+          </div>
+        </div>
+        <div class="cols2">
+          <div class="card">
+            <span class="label">우선순위 · 효용 × 난이도</span>
+            <div class="matrix">
+              <span class="ax q">먼저 할 것</span>
+              <span class="ax y">효용 →</span>
+              <span class="ax x">구현 난이도 →</span>
+              <div class="dot" style="left:30%;bottom:88%">키보드 입력</div>
+              <div class="dot" style="left:12%;bottom:78%">검색·최근순</div>
+              <div class="dot" style="left:14%;bottom:58%">커서 토큰</div>
+              <div class="dot" style="left:44%;bottom:70%">템플릿</div>
+              <div class="dot" style="left:18%;bottom:40%">Face ID</div>
+              <div class="dot" style="left:56%;bottom:48%">자동 분류</div>
+              <div class="dot v2" style="left:70%;bottom:56%">콤보</div>
+              <div class="dot v2" style="left:66%;bottom:32%">iCloud</div>
+              <div class="dot v2" style="left:62%;bottom:14%">Mac 메뉴바</div>
+            </div>
+          </div>
+          <div class="card">
+            <span class="label">버린 아이디어</span>
+            <div class="dropped">
+              <div><s>단축어 추천 앱</s><span>I-2: 외우게 하는 구조 그대로</span></div>
+              <div><s>백그라운드 자동 수집</s><span>iOS에서 불가</span></div>
+              <div><s>홈 화면 위젯</s><span>여전히 앱 전환 1회</span></div>
+              <div><s>AI 문장 생성</s><span>익스텐션 메모리 한도, 핵심 문제 아님</span></div>
+            </div>
+            <span class="label" style="margin-top:8px">남은 리스크</span>
+            <p>전체 접근 허용 온보딩. 설치 후 첫 입력까지 가는 길에서 가장 많이 이탈한다.</p>
+          </div>
+        </div>
+        <div class="result">
+          <span class="label" style="color:var(--p5)">출시와 검증</span>
+          <div class="row">
+            <div><div class="from">10<span style="font-size:16px"> /주</span></div><small style="font:400 15px var(--f-body);color:var(--ink-soft)">평소 다운로드</small></div>
+            <div class="hand" style="padding-bottom:6px">→ 인앱결제 한시 무료 →</div>
+            <div class="num">3,500<small>프로모션 기간 다운로드</small></div>
+          </div>
+          <p style="margin:0;font:400 17px/1.55 var(--f-body)">문제는 있었고, 가격이 첫 사용의 문턱이었다. 다음 질문은 “첫 입력까지 도달한 비율”이다.</p>
+          <p class="draftnote">페르소나와 저니맵의 인물·수치는 앱 스펙과 관찰을 바탕으로 재구성한 초안입니다. 실제 인터뷰 기록이 있다면 해당 칸을 교체하세요.</p>
+        </div>
+      </section>
+
+      <!-- 6 LEDGER -->
+      <section class="sec" id="s6" style="left:4940px;width:1200px;--c:var(--ink)">
+        <div class="sec-head">
+          <div class="eyebrow"><b>6</b>문제 결산</div>
+          <h2>풀린 것, 새로 생긴 것, 아직 남은 것</h2>
+          <p>솔루션은 문제를 없애기도 하지만 새 문제를 만들기도 한다. 출시 이후 기준으로 다시 정리했다.</p>
+          <div class="legend">
+            <span class="st ok" data-g="✓">해결</span>
+            <span class="st part" data-g="△">일부 해결</span>
+            <span class="st new" data-g="+">새로 생김</span>
+            <span class="st no" data-g="✕">미해결</span>
+          </div>
+        </div>
+
+        <div class="ledger">
+          <!-- solved -->
+          <div class="lcol" style="--sc:var(--p5)">
+            <div class="lhead"><h3>✓ 해결한 문제</h3><span>6</span></div>
+            <p>처음 정의한 문제의 핵심, 앱 전환과 반복 타이핑은 사라졌다.</p>
+            <div class="item"><h4>앱 전환 중 흐름이 끊긴다</h4><p>키보드 안에서 바로 입력. 앱 전환 2회 → 0회.</p><div class="src"><span>저니 04</span><span>I-1</span></div></div>
+            <div class="item"><h4>단축어를 외워야 한다</h4><p>저장한 문구가 키보드에 버튼으로 보인다. 기억 대신 눈으로 고른다.</p><div class="src"><span>I-2</span><span>민수</span></div></div>
+            <div class="item"><h4>텍스트 범위 선택이 부정확하다</h4><p>항목 단위 원탭 입력. 드래그 선택 자체가 없다.</p><div class="src"><span>저니 03</span></div></div>
+            <div class="item"><h4>같은 문장을 매번 새로 친다</h4><p><code style="font-family:var(--f-mono)">{이름}</code> 템플릿과 커서 위치 토큰으로 바뀌는 칸만 채운다.</p><div class="src"><span>저니 05</span><span>I-3</span></div></div>
+            <div class="item"><h4>폼을 한 칸씩 채운다</h4><p>콤보 모드로 여러 값을 간격을 두고 순서대로 입력.</p><div class="src"><span>I-4</span><span>민수</span></div></div>
+            <div class="item"><h4>계좌번호가 노출될까 불안하다</h4><p>민감한 메모는 Face ID로 잠근다.</p><div class="src"><span>지은</span></div></div>
+          </div>
+
+          <!-- new -->
+          <div class="lcol" style="--sc:var(--p4)">
+            <div class="lhead"><h3>+ 새로 생긴 문제</h3><span>6</span></div>
+            <p>“키보드”라는 해법을 고른 순간 따라온 비용들.</p>
+            <div class="item"><h4>전체 접근 허용이 무섭다</h4><p>“키보드가 내 입력을 다 본다”는 인상. 설치 후 첫 입력까지 가장 큰 이탈 구간.</p><div class="src"><span>솔루션 선택</span><span class="st part" data-g="△" style="padding:1px 7px">온보딩 개선 중</span></div></div>
+            <div class="item"><h4>키보드를 바꿔 끼워야 한다</h4><p>지구본 버튼으로 전환하고, 쓰고 나면 다시 원래 키보드로. 앱 전환이 키보드 전환으로 옮겨 갔다.</p><div class="src"><span>저니 04</span></div></div>
+            <div class="item"><h4>메모가 쌓이면 키보드 안에서 찾기 어렵다</h4><p>작은 키보드 영역과 익스텐션 메모리 한도 안에서 검색·정렬을 해결해야 한다.</p><div class="src"><span>저니 02</span><span>기술 제약</span></div></div>
+            <div class="item"><h4>기능이 늘어 배워야 할 게 생겼다</h4><p>템플릿, 콤보, 자동 분류. 개념을 설명하지 않으면 원탭 키보드로만 쓰인다.</p><div class="src"><span>I-2 역설</span></div></div>
+            <div class="item"><h4>유료화가 심사와 부딪혔다</h4><p>페이월 도입 후 App Store 리젝: 3.1.2(c) EULA 링크, 3.1.1 구매 복원. 둘 다 수정 후 통과.</p><div class="src"><span class="real">실제 기록</span><span class="st ok" data-g="✓" style="padding:1px 7px">해결됨</span></div></div>
+            <div class="item"><h4>가격이 첫 사용의 문턱이 됐다</h4><p>평소 주 10건. 인앱결제를 한시 무료로 열자 3,500건. 필요는 있는데 결제 앞에서 멈춘다.</p><div class="src"><span class="real">실제 기록</span></div></div>
+          </div>
+
+          <!-- unsolved -->
+          <div class="lcol" style="--sc:var(--p1)">
+            <div class="lhead"><h3>✕ 해결 못 한 문제</h3><span>5</span></div>
+            <p>플랫폼 한계이거나, 아직 데이터가 없어서 답을 못 낸 것들.</p>
+            <div class="item"><h4>클립보드 자동 수집</h4><p>iOS는 백그라운드 클립보드 감시를 허용하지 않는다. 앱을 열어야만 기록된다.</p><div class="src"><span>플랫폼 한계</span></div></div>
+            <div class="item"><h4>옛 정보가 남는다</h4><p>계좌·주소가 바뀌어도 사용자가 직접 고쳐야 한다. 오래된 값을 알려 주는 장치가 없다.</p><div class="src"><span>저니 02</span><span class="st part" data-g="△" style="padding:1px 7px">일부</span></div></div>
+            <div class="item"><h4>답장이 늦을까 조급한 마음</h4><p>입력은 빨라졌지만 요청을 알아차리는 순간은 앱 밖의 일이다.</p><div class="src"><span>저니 01</span><span>범위 밖</span></div></div>
+            <div class="item"><h4>프로모션 이후에도 쓰는가</h4><p>3,500명 중 첫 입력까지 간 비율, 한 달 뒤에도 쓰는 비율을 아직 모른다.</p><div class="src"><span>검증 필요</span></div></div>
+            <div class="item"><h4>평소에 발견되지 않는다</h4><p>무료일 때만 유입이 튄다. 가격 외에 검색·추천 노출 자체가 약하다.</p><div class="src"><span>유입</span></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <span class="label">다음 루프의 문제 정의</span>
+          <p style="font:700 22px/1.45 var(--f-display)">설치한 사람이 전체 접근 허용을 넘어 <span style="background:linear-gradient(transparent 58%, var(--note-y) 58%)">첫 입력을 성공하기까지</span>를 어떻게 줄일 수 있을까?</p>
+          <p class="draftnote" style="margin:0">리젝 이력과 다운로드 수치는 실제 기록, 나머지 항목은 앱 구조에서 추론한 초안입니다.</p>
+        </div>
+      </section>
+
+    </div>
+    <div class="hint" id="hint">드래그로 이동 · Ctrl/⌘+스크롤 또는 핀치로 확대 · ←/→ 단계 이동</div>
+    <div class="zoomlabel" id="zl">100%</div>
+  </main>
+</div>
+
+<script>
+(() => {
+  const W = 6180, H = 1580;
+  const vp = document.getElementById('vp');
+  const board = document.getElementById('board');
+  const zl = document.getElementById('zl');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const stages = [
+    { id: 's1', name: '문제 정의', c: 'var(--p1)' },
+    { id: 's2', name: '리서치', c: 'var(--p2)' },
+    { id: 's3', name: '페르소나', c: 'var(--p3)' },
+    { id: 's4', name: '유저 저니맵', c: 'var(--p4)' },
+    { id: 's5', name: '솔루션', c: 'var(--p5)' },
+    { id: 's6', name: '문제 결산', c: 'var(--ink)' },
+  ];
+  let s = 1, tx = 0, ty = 0, current = -1, playTimer = null;
+
+  const nav = document.getElementById('stages');
+  stages.forEach((st, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip'; b.style.setProperty('--c', st.c);
+    b.innerHTML = `<i>${i + 1}</i>${st.name}`;
+    b.addEventListener('click', () => { stopPlay(); goTo(i); });
+    nav.appendChild(b);
+  });
+
+  function apply(animate) {
+    board.classList.toggle('fly', !!animate && !reduce);
+    board.style.transform = `translate(${tx}px, ${ty}px) scale(${s})`;
+    zl.textContent = Math.round(s * 100) + '%';
+  }
+  function markCurrent(i) {
+    current = i;
+    [...nav.children].forEach((c, j) => c.setAttribute('aria-current', j === i ? 'true' : 'false'));
+    if (i >= 0) nav.children[i].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }
+  function fit(animate = true) {
+    const r = vp.getBoundingClientRect();
+    s = Math.min(r.width / W, r.height / H) * 0.94;
+    tx = (r.width - W * s) / 2; ty = (r.height - H * s) / 2;
+    markCurrent(-1); apply(animate);
+  }
+  function goTo(i) {
+    const el = document.getElementById(stages[i].id);
+    const r = vp.getBoundingClientRect();
+    const x = el.offsetLeft, y = el.offsetTop, w = el.offsetWidth, h = el.offsetHeight;
+    const pad = r.width < 600 ? 16 : 48;
+    // fit width first; on tall sections allow vertical panning instead of shrinking text to nothing
+    s = Math.min((r.width - pad * 2) / w, 1.1);
+    const hFit = (r.height - pad * 2) / h;
+    if (hFit > s * 0.8) s = Math.min(s, hFit);
+    tx = (r.width - w * s) / 2 - x * s;
+    ty = pad - y * s;
+    if (h * s < r.height - pad * 2) ty = (r.height - h * s) / 2 - y * s;
+    markCurrent(i); apply(true);
+  }
+  function zoomAt(f, cx, cy) {
+    const ns = Math.max(0.08, Math.min(2.5, s * f));
+    tx = cx - (cx - tx) * (ns / s); ty = cy - (cy - ty) * (ns / s); s = ns; apply(false);
+  }
+
+  // pointer pan + pinch
+  const pts = new Map(); let last = null, pinch = null;
+  vp.addEventListener('pointerdown', e => {
+    if (e.target.closest('button')) return;
+    vp.setPointerCapture(e.pointerId); pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    vp.classList.add('dragging'); stopPlay();
+    if (pts.size === 2) { const [a, b] = [...pts.values()]; pinch = { d: Math.hypot(a.x - b.x, a.y - b.y) }; }
+    last = { x: e.clientX, y: e.clientY };
+  });
+  vp.addEventListener('pointermove', e => {
+    if (!pts.has(e.pointerId)) return;
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    const r = vp.getBoundingClientRect();
+    if (pts.size === 2 && pinch) {
+      const [a, b] = [...pts.values()];
+      const d = Math.hypot(a.x - b.x, a.y - b.y);
+      zoomAt(d / pinch.d, (a.x + b.x) / 2 - r.left, (a.y + b.y) / 2 - r.top); pinch.d = d; return;
+    }
+    tx += e.clientX - last.x; ty += e.clientY - last.y; last = { x: e.clientX, y: e.clientY }; apply(false);
+  });
+  const end = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch = null; if (!pts.size) vp.classList.remove('dragging');
+    const p = [...pts.values()][0]; if (p) last = { ...p }; };
+  vp.addEventListener('pointerup', end); vp.addEventListener('pointercancel', end);
+
+  vp.addEventListener('wheel', e => {
+    e.preventDefault(); stopPlay();
+    const r = vp.getBoundingClientRect();
+    if (e.ctrlKey || e.metaKey) zoomAt(Math.exp(-e.deltaY * 0.01), e.clientX - r.left, e.clientY - r.top);
+    else { tx -= e.deltaX; ty -= e.deltaY; apply(false); }
+  }, { passive: false });
+
+  const center = () => { const r = vp.getBoundingClientRect(); return [r.width / 2, r.height / 2]; };
+  document.getElementById('zoomIn').onclick = () => { stopPlay(); zoomAt(1.25, ...center()); };
+  document.getElementById('zoomOut').onclick = () => { stopPlay(); zoomAt(0.8, ...center()); };
+  document.getElementById('fit').onclick = () => { stopPlay(); fit(); };
+
+  const playBtn = document.getElementById('play');
+  function stopPlay() { if (playTimer) { clearTimeout(playTimer); playTimer = null; playBtn.textContent = '▶ 과정 따라가기'; } }
+  playBtn.onclick = () => {
+    if (playTimer) { stopPlay(); return; }
+    playBtn.textContent = '■ 멈추기';
+    let i = 0;
+    const step = () => {
+      if (i < stages.length) { goTo(i++); playTimer = setTimeout(step, 5200); }
+      else { fit(); stopPlay(); }
+    };
+    step();
+  };
+
+  document.addEventListener('keydown', e => {
+    if (e.target.closest && e.target.closest('input,textarea')) return;
+    if (e.key === 'ArrowRight') { stopPlay(); goTo(Math.min(stages.length - 1, current + 1)); }
+    else if (e.key === 'ArrowLeft') { stopPlay(); current <= 0 ? fit() : goTo(current - 1); }
+    else if (e.key === '0' || e.key === 'Escape') { stopPlay(); fit(); }
+  });
+
+  let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => current >= 0 ? goTo(current) : fit(false), 120); });
+  const start = () => { fit(false); };
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(start); start();
+  const h = location.hash.replace('#', ''); const hi = stages.findIndex(x => x.id === h);
+  if (hi >= 0) setTimeout(() => goTo(hi), 60);
+})();
+</script>
+
+</body></html>

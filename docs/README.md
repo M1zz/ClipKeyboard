@@ -62,6 +62,9 @@
 기획과 점검. 명세(`FEATURE_SPEC.md` · `FUNCTIONAL_SPEC.md`), 접기 기준(`KILL_CRITERIA.md`),
 심사 답변(`APP_PRIVACY_ANSWERS.md`), 체크리스트들. `qa-4.4.5.html` 도 여기 있습니다.
 
+`process/` 는 문제 정의부터 솔루션까지 설계 과정을 남기는 자리입니다(`design-canvas.html`).
+FeedbackHubViewer 가 이 폴더를 지켜보다가 "설계" 칸에서 엽니다.
+
 ### [marketing/](marketing/)
 
 알리는 글. ASO, Apple 피처링 제출 문안, 블로그와 커뮤니티 글, 스크린샷(`screenshots/`).
