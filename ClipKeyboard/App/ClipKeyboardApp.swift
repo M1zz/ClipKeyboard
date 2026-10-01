@@ -182,6 +182,10 @@ struct ClipKeyboardApp: App {
         //    빠르게 하려면 `.hourly` 한 단어만 바꾸면 된다. 다만 이 앱의 팁들은
         //    서로 순서가 있어(탭 → 저장 → 키보드) 하루 간격이 흐름과 맞는다.
         LaunchGuard.optional(.tips) {
+            #if DEBUG
+            // 스토어 스크린샷에는 팁 띠가 찍히면 안 된다(scripts/take_screenshots.sh).
+            if UserDefaults.standard.string(forKey: "ScreenshotScene") != nil { Tips.hideAllTipsForTesting() }
+            #endif
             try? Tips.configure([
                 .displayFrequency(.daily),
                 .datastoreLocation(.applicationDefault)
@@ -1162,6 +1166,16 @@ struct ClipKeyboardApp: App {
                 .task {
                     await runLaunchSequence()
                 }
+                #if DEBUG
+                // 스토어 스크린샷: `-ScreenshotScene layout` 이면 키보드 레이아웃 화면을 연다.
+                .onAppear {
+                    if UserDefaults.standard.string(forKey: "ScreenshotScene") == "layout" {
+                        // 미리보기 키보드는 `KeyboardMemoFeed` 를 읽는데, 그건 키보드 탭을 열어야 채워진다.
+                        KeyboardMemoFeed.reload()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { showKeyboardLayoutSheet = true }
+                    }
+                }
+                #endif
                 // 단축어를 만들거나 지울 때마다 개수를 다시 센다 - 9개에 닿는 순간이 시계의 시작이다.
                 .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
                     noteShortcutCountForDiscountOffer()

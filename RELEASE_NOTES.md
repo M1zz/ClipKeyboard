@@ -29,11 +29,11 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 ### App Store (English)
 
 ```
-Every feature is free for your first 100 inserts.
-Now in Japanese, Spanish, German, Thai and Vietnamese.
-Devices that drifted apart can be matched in one step.
-Fixed the keyboard sometimes closing as it opened.
-Values saved as secure are now stored more safely.
+Every feature is free for 100 inserts.
+Five new languages, Japanese included.
+Match drifted devices in one step.
+The keyboard no longer closes on open.
+Secure values are stored more safely.
 ```
 
 ### 앱스토어 (중국어 간체)
@@ -59,11 +59,11 @@ Values saved as secure are now stored more safely.
 ### 앱스토어 (러시아어)
 
 ```
-Первые 100 вставок все функции бесплатны.
-Теперь на японском, испанском, немецком, тайском и вьетнамском.
-Разные списки на устройствах можно выровнять в одно касание.
-Клавиатура больше не закрывается сама при открытии.
-Защищённые значения теперь хранятся надёжнее.
+Все функции бесплатны первые 100 раз.
+Пять новых языков, включая японский.
+Списки на устройствах можно выровнять.
+Клавиатура больше не закрывается сама.
+Защищённые значения хранятся надёжнее.
 ```
 
 ### App Store (Japanese, ja)
@@ -79,41 +79,41 @@ Values saved as secure are now stored more safely.
 ### App Store (Spanish, es-MX)
 
 ```
-Todo es gratis durante tus primeras 100 inserciones.
-Ahora en español, japonés, alemán, tailandés y vietnamita.
-Si tus dispositivos no coinciden, igualarlos es un paso.
-El teclado ya no se cierra a veces al abrirse.
-Los valores seguros ahora se guardan con más cuidado.
+Todo gratis en tus primeras 100 veces.
+Cinco idiomas nuevos, incluido español.
+Iguala tus dispositivos en un paso.
+El teclado ya no se cierra al abrirse.
+Los valores seguros, mejor protegidos.
 ```
 
 ### App Store (German, de-DE)
 
 ```
-Die ersten 100 Eingaben sind alle Funktionen gratis.
-Jetzt auch auf Deutsch, Japanisch, Spanisch, Thai und Vietnamesisch.
-Abweichende Geräte lassen sich in einem Schritt angleichen.
-Die Tastatur schließt sich beim Öffnen nicht mehr.
-Sicher gespeicherte Werte sind jetzt besser geschützt.
+Die ersten 100 Eingaben: alles gratis.
+Fünf neue Sprachen, auch Deutsch.
+Geräte in einem Schritt angleichen.
+Die Tastatur schließt sich nicht mehr.
+Sichere Werte sind besser geschützt.
 ```
 
 ### App Store (Thai, th)
 
 ```
-ใช้ได้ทุกฟีเจอร์ฟรีใน 100 ครั้งแรก
-รองรับภาษาไทย ญี่ปุ่น สเปน เยอรมัน และเวียดนามแล้ว
-อุปกรณ์ที่รายการไม่ตรงกันจัดให้ตรงได้ในขั้นเดียว
+ใช้ทุกฟีเจอร์ฟรีใน 100 ครั้งแรก
+เพิ่ม 5 ภาษาใหม่ รวมถึงภาษาไทย
+ปรับอุปกรณ์ให้ตรงกันได้ในขั้นเดียว
 แก้ปัญหาคีย์บอร์ดปิดเองตอนเปิด
-ค่าที่บันทึกแบบปลอดภัยถูกเก็บอย่างปลอดภัยยิ่งขึ้น
+ค่าที่ปลอดภัยถูกเก็บอย่างรัดกุมขึ้น
 ```
 
 ### App Store (Vietnamese, vi)
 
 ```
-Mọi tính năng miễn phí trong 100 lần chèn đầu tiên.
-Đã có tiếng Việt, Nhật, Tây Ban Nha, Đức và Thái.
-Các thiết bị lệch nhau có thể đồng bộ trong một bước.
-Đã sửa lỗi bàn phím đôi khi tự đóng khi mở.
-Giá trị lưu bảo mật giờ được cất giữ an toàn hơn.
+Miễn phí mọi tính năng 100 lần đầu.
+Thêm 5 ngôn ngữ, có cả tiếng Việt.
+Đồng bộ các thiết bị chỉ một bước.
+Bàn phím không còn tự đóng khi mở.
+Giá trị bảo mật được cất giữ kỹ hơn.
 ```
 
 ## 5.1.6

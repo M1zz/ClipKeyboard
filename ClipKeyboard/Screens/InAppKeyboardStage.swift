@@ -254,6 +254,17 @@ struct InAppKeyboardStage: View {
             syncFeedIds()
             refreshKeyboardReady()
             refreshClipboardImage()
+            #if DEBUG
+            // 스토어 스크린샷: `-ScreenshotScene template` 이면 템플릿 키를 누른 것과 같은 길로
+            // 빈칸 채우기 판을 연다(scripts/take_screenshots.sh).
+            if UserDefaults.standard.string(forKey: "ScreenshotScene") == "template" {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    guard let memo = (try? MemoStore.shared.load(type: .memo))?.first(where: { $0.isTemplate }) else { return }
+                    NotificationCenter.postOnMain(name: .addTextEntry, object: memo.value,
+                                                    userInfo: ["memoId": memo.id])
+                }
+            }
+            #endif
         }
         .onDisappear { host.stop() }
         // 설정에서 키보드를 켜고 돌아오면 띠가 스스로 사라져야 한다.

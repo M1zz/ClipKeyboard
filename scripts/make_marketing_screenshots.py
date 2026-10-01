@@ -10,16 +10,24 @@
 """
 import subprocess, sys, pathlib, tempfile
 
-# 사용법: 이 파일을 프로젝트 scripts/ 로 복사한 뒤 SRC, W/H, SHOTS 를 수정하고 실행
-# 원본(raw) 캡처 폴더. 언어별로 나뉜다.
+# 사용법: python3 scripts/make_marketing_screenshots.py <언어> [iphone|ipad] [파일 하나만]
+#
+# 자리는 DeployBar 와의 계약이다(docs/screenshots/README.md):
+#   docs/screenshots/raw/<기기>/<언어>/01-....png   원본 캡처 (올라가지 않는다)
+#   docs/screenshots/marketing/<스토어 로케일>/      제출본. 아이폰 · 아이패드가 한 폴더에 있고 픽셀로 기기를 가른다
 LANG = (sys.argv[1] if len(sys.argv) > 1 else "en")
-SRC = pathlib.Path.cwd() / "docs" / "marketing" / "screenshots" / LANG
-OUT = SRC / "marketing"
+DEVICE = (sys.argv[2] if len(sys.argv) > 2 else "iphone")
+# 앱 언어 코드 → App Store Connect 로케일
+STORE = {"en": "en-US", "es": "es-MX", "de": "de-DE"}.get(LANG, LANG)
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+SRC = ROOT / "docs" / "screenshots" / "raw" / DEVICE / LANG
+OUT = ROOT / "docs" / "screenshots" / "marketing" / STORE
 WORK = pathlib.Path(__file__).parent
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-# ⚠️ 이 앱의 App Store Connect 제출 규격은 **1242x2688** 이다.
-#    6.9" 시뮬레이터 원본(1320x2868)은 raw 캡처용이고, 여기서 바로 제출 규격으로 그린다.
-W, H = 1242, 2688
+# ⚠️ 이 앱의 App Store Connect 제출 규격은 아이폰 **1242x2688**, 아이패드 **2064x2752** 다.
+#    시뮬레이터 원본(1320x2868 · 2064x2752)은 raw 이고, 여기서 바로 제출 규격으로 그린다.
+W, H = (2064, 2752) if DEVICE == "ipad" else (1242, 2688)
+PREFIX = "ipad-" if DEVICE == "ipad" else ""
 
 # 슬라이드 배치는 언어와 무관하게 같고, 글만 언어별로 고른다.
 # ⚠️ 기계번역하지 않는다. 각 언어권에서 자연스럽게 읽히는 말로 따로 쓴다.
@@ -67,15 +75,54 @@ COPY = {
         ("Под вашу руку",     "Высота,<br>какая нужна",         "Как системная клавиатура или просторнее"),
         ("Всё в одном месте", "Всё, что вы<br>печатаете снова", "По группам, с поиском. Телефон не покидает"),
     ],
+    "ja": [
+        ("どのアプリでも",   "ワンタップで<br>そのまま入力",     "よく使う言葉がキーボードの上に"),
+        ("テンプレート",     "空欄を埋めて<br>送るだけ",         "一度書いておけば、名前だけ毎回変えられます"),
+        ("スタック",         "いくつもの値を<br>ひとつのキーに", "欄ごとに名前があるので、次が何かわかります"),
+        ("手になじむ",       "好きな<br>高さに",                "標準キーボードと同じ高さにも、もっと広くも"),
+        ("ひとつの場所に",   "また使う言葉は<br>すべてここに",   "グループ分けして検索。端末の外には出ません"),
+    ],
+    "es": [
+        ("En cualquier app", "Un toque<br>y se escribe solo",   "Tus frases, justo en el teclado"),
+        ("Plantillas",       "Llena el campo<br>y envía",        "Una línea, un nombre distinto cada vez"),
+        ("Pilas",            "Varios valores,<br>una tecla",     "Cada campo tiene nombre: sabes qué sigue"),
+        ("A tu medida",      "La altura<br>que quieras",         "Igual que el teclado del sistema, o más amplio"),
+        ("Todo en un lugar", "Lo que vuelves<br>a escribir",     "Por grupos y con búsqueda. No sale de tu dispositivo"),
+    ],
+    "de": [
+        ("In jeder App",       "Einmal tippen,<br>fertig",          "Deine Textbausteine direkt auf der Tastatur"),
+        ("Vorlagen",           "Lücke füllen,<br>abschicken",       "Einmal schreiben, jedes Mal ein anderer Name"),
+        ("Stapel",             "Viele Werte,<br>eine Taste",        "Jedes Feld hat einen Namen. Du weißt, was kommt"),
+        ("Passt zu dir",       "Die Höhe,<br>die du willst",        "Wie die Systemtastatur oder mit mehr Platz"),
+        ("Alles an einem Ort", "Was du öfter<br>tippst",            "Sortiert, durchsuchbar, bleibt auf deinem Gerät"),
+    ],
+    "th": [
+        ("ใช้ได้ทุกแอป",     "แตะครั้งเดียว<br>พิมพ์ให้เลย",      "ข้อความที่ใช้บ่อยอยู่บนคีย์บอร์ด"),
+        ("เทมเพลต",          "กรอกช่องว่าง<br>แล้วส่ง",            "เขียนครั้งเดียว เปลี่ยนแค่ชื่อทุกครั้ง"),
+        ("สแตก",             "หลายค่า<br>ในปุ่มเดียว",             "ทุกช่องมีชื่อ รู้ว่าถัดไปคืออะไร"),
+        ("พอดีมือคุณ",        "ความสูง<br>ตามที่ชอบ",              "เท่าคีย์บอร์ดระบบ หรือกว้างกว่านั้น"),
+        ("รวมไว้ที่เดียว",     "ข้อความที่ใช้ซ้ำ<br>อยู่ที่นี่",       "จัดกลุ่ม ค้นหาได้ และไม่ออกไปจากเครื่อง"),
+    ],
+    "vi": [
+        ("Mọi ứng dụng",     "Chạm một lần,<br>tự gõ xong",      "Cụm từ hay dùng nằm ngay trên bàn phím"),
+        ("Mẫu",              "Điền ô trống<br>rồi gửi",          "Viết một lần, mỗi lần chỉ đổi tên"),
+        ("Ngăn xếp",         "Nhiều giá trị,<br>một phím",       "Mỗi ô đều có tên, biết ngay tiếp theo là gì"),
+        ("Vừa tay bạn",      "Chiều cao<br>tùy ý",               "Bằng bàn phím hệ thống, hoặc rộng hơn"),
+        ("Tất cả một chỗ",   "Những gì bạn<br>gõ lại",           "Chia nhóm, tìm nhanh, không rời khỏi máy"),
+    ],
 }
 
 # 키릴·한글은 같은 글자 수라도 더 넓게 퍼진다. 언어마다 글자 크기를 조금 줄인다.
-TYPE_SCALE = {"ru": (84, 40), "ko": (92, 44), "zh-Hans": (96, 46), "zh-Hant": (96, 46), "en": (96, 46)}
+TYPE_SCALE = {"ru": (84, 40), "ko": (92, 44), "zh-Hans": (96, 46), "zh-Hant": (96, 46), "en": (96, 46),
+              "ja": (88, 42), "es": (88, 42), "de": (84, 40), "th": (88, 42), "vi": (88, 42)}
 
 if LANG not in COPY:
     raise SystemExit(f"모르는 언어: {LANG} (아는 것: {', '.join(COPY)})")
 SHOTS = [(f, l, e, h, s) for (f, l), (e, h, s) in zip(LAYOUT_ORDER, COPY[LANG])]
 HEAD_PX, SUB_PX = TYPE_SCALE[LANG]
+if DEVICE == "ipad":
+    # 캔버스가 아이폰보다 1.66배 넓다. 글은 1.3배만 키운다(더 키우면 헤드라인이 판을 가린다).
+    HEAD_PX, SUB_PX = int(HEAD_PX * 1.3), int(SUB_PX * 1.3)
 
 BASE_CSS = f"""
 * {{ margin:0; padding:0; box-sizing:border-box; }}
@@ -136,6 +183,21 @@ body { background:#131316; }
 """,
 }
 
+# 아이패드: 글은 위, 기기는 아래로 크게 걸친다. 정면과 살짝 기운 것을 번갈아 쓴다.
+IPAD_CSS = """
+.eyebrow { font-size:58px; text-align:center; margin-top:200px; }
+.headline { text-align:center; margin-top:34px; padding:0 120px; }
+.sub { text-align:center; margin-top:48px; padding:0 160px; }
+.phone { border-radius:72px; padding:26px; }
+.phone img { border-radius:48px; }
+"""
+IPAD_LAYOUTS = {
+    "front": ".wrap { display:flex; justify-content:center; margin-top:130px; } .phone { width:1640px; }",
+    "tilt":  ".wrap { perspective:3600px; display:flex; justify-content:center; margin-top:130px; } "
+             ".phone { width:1580px; transform:rotateY(-9deg) rotateX(2deg); }",
+}
+IPAD_ORDER = ["front", "tilt", "front", "tilt", "front"]
+
 # text-bottom 은 폰이 먼저 오는 DOM 순서
 # 눈썹글(파란 한 줄)이 헤드라인 위에 선다. 기존 마케팅 이미지가 그 모양이다.
 BODY_TEXT_FIRST = ('<div class="eyebrow">{eyebrow}</div><div class="headline">{headline}</div>'
@@ -149,16 +211,25 @@ HTML = """<!doctype html><html><head><meta charset="utf-8"><style>
 
 def main(only=None):
     OUT.mkdir(parents=True, exist_ok=True)
-    for fname, layout, eyebrow, headline, sub in SHOTS:
+    for i, (fname, layout, eyebrow, headline, sub) in enumerate(SHOTS):
         if only and fname != only:
             continue
-        body_tpl = BODY_PHONE_FIRST if layout == "text-bottom" else BODY_TEXT_FIRST
-        body = body_tpl.format(eyebrow=eyebrow, headline=headline, sub=sub, img=(SRC / fname).as_uri())
+        if DEVICE == "ipad":
+            body_tpl, layout_css = BODY_TEXT_FIRST, IPAD_CSS + IPAD_LAYOUTS[IPAD_ORDER[i]]
+            if layout == "dark":
+                layout_css += LAYOUTS["dark"].split(".eyebrow")[0]
+        else:
+            body_tpl = BODY_PHONE_FIRST if layout == "text-bottom" else BODY_TEXT_FIRST
+            layout_css = LAYOUTS[layout]
+        src = SRC / fname
+        if not src.exists():
+            raise SystemExit(f"원본이 없다: {src}")
+        body = body_tpl.format(eyebrow=eyebrow, headline=headline, sub=sub, img=src.as_uri())
         # ⚠️ 중간 HTML 은 scripts/ 가 아니라 임시 폴더에 쓴다. 예전에는 여기 남아서
         #    산출물이 저장소에 같이 올라갔다.
-        html_path = pathlib.Path(tempfile.gettempdir()) / ("clipkb-shot-" + fname.replace(".png", ".html"))
-        html_path.write_text(HTML.format(base=BASE_CSS, layout=LAYOUTS[layout], body=body), encoding="utf-8")
-        out_png = OUT / fname
+        html_path = pathlib.Path(tempfile.gettempdir()) / ("clipkb-shot-" + PREFIX + fname.replace(".png", ".html"))
+        html_path.write_text(HTML.format(base=BASE_CSS, layout=layout_css, body=body), encoding="utf-8")
+        out_png = OUT / (PREFIX + fname)
         subprocess.run([CHROME, "--headless=new", f"--screenshot={out_png}",
                         f"--window-size={W},{H}", "--force-device-scale-factor=1",
                         "--hide-scrollbars", "--disable-gpu", html_path.as_uri()],
@@ -166,5 +237,5 @@ def main(only=None):
         print(f"rendered {out_png}")
 
 if __name__ == "__main__":
-    # python3 scripts/make_marketing_screenshots.py [언어] [파일 하나만]
-    main(sys.argv[2] if len(sys.argv) > 2 else None)
+    # python3 scripts/make_marketing_screenshots.py [언어] [iphone|ipad] [파일 하나만]
+    main(sys.argv[3] if len(sys.argv) > 3 else None)

@@ -1064,6 +1064,17 @@ struct ClipKeyboardList: View {
             .onReceive(NotificationCenter.default.publisher(for: .showPaywall)) { _ in
                 showPaywallFromKeyboard = true
             }
+            #if DEBUG
+            // 스토어 스크린샷: `-ScreenshotScene stack` 이면 스택을 누른 것과 같은 길로 시트를 연다.
+            .onAppear {
+                guard UserDefaults.standard.string(forKey: "ScreenshotScene") == "stack" else { return }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    if let memo = viewModel.memos.first(where: { $0.isStack }) {
+                        viewModel.selectedStackIdForSheet = memo.id
+                    }
+                }
+            }
+            #endif
             .onReceive(NotificationCenter.default.publisher(for: .accessRevoked)) { _ in
                 accessNotice = ProFeatureManager.accessEndingNoticeNow
             }
