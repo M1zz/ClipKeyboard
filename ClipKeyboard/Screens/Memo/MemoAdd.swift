@@ -183,16 +183,23 @@ struct MemoAdd: View {
             // "템플릿으로 만들기" 진입 - 시트가 안착한 뒤 본문에 포커스를 줘
             // 변수 삽입바({이름}/{날짜}…)를 바로 띄운다.
             //
-            // 새로 만들러 들어온 사람도 마찬가지다. 여기 온 이유가 글을 적으려는 것인데
-            // 커서가 아무 데도 없으면, 열자마자 어디를 눌러야 하는지부터 찾아야 한다.
+            // 새로 만들러 들어온 사람은 **이름 칸**에 커서를 둔다. 화면이 위에서부터 이름 →
+            // 내용 순서로 서 있고, 이름에서 리턴을 치면 내용으로 넘어간다(`onSubmit`).
+            // 예전에는 내용 칸에 바로 커서를 뒀는데, 그러면 맨 위 이름을 건너뛴 채 시작해
+            // "왜 이름부터가 아니냐"가 됐다(신고). 내용 칸이 눈 밖으로 굴러가지 않게 하는 것은
+            // 커서를 어디 두느냐가 아니라, 내용 칸에 들어갈 때 끌어올리는 일이다
+            // (아래 `addBody` 의 `scrollTo("contentField")`).
             //
             // ⚠️ **두 경우에는 커서를 두지 않는다.**
             //  · 고치러 들어온 것(`memoId != nil`) - 보러 왔을 수도 있는데 키보드가 판을 덮는다.
-            //  · 처음 만드는 사람을 짚어 주는 중(`coachShouldRun`) - 안내는 이름 칸부터
-            //    가리키는데 커서가 내용에 가 있으면 둘이 서로 다른 데를 가리킨다.
-            if startInTemplateMode || (memoId == nil && !coachShouldRun) {
+            //  · 처음 만드는 사람을 짚어 주는 중(`coachShouldRun`) - 안내가 자기 박자로 데려간다.
+            if startInTemplateMode {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                     isFocused = true
+                }
+            } else if memoId == nil && !coachShouldRun {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    isTitleFocused = true
                 }
             }
         }
