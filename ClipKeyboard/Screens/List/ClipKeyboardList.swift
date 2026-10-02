@@ -318,6 +318,8 @@ struct ClipKeyboardList: View {
     private func considerTopInset(_ v: CGFloat) {
         guard titleBarSettled, !showsInlineNavTitle, !isPageScrolling else { return }
         guard v > 60, v < 160 else { return }
+        // 바는 아무리 접혀도 이보다 짧지 않다. 이 아래 값은 전환 도중의 쓰레기다.
+        guard v >= Self.barBottomFloor else { return }
         guard v < pageTopInset - Self.topInsetDeadband else { return }
         pageTopInset = v
     }
@@ -623,7 +625,23 @@ struct ClipKeyboardList: View {
 
     /// 잰 네비바 하단에서 10pt 끌어올린 값. 페이저·빈 화면처럼 **시스템이 안 밀어 주는**
     /// 경로에서만 쓴다. 상한 130: 측정이 오염돼도 최악(화면 중앙 시작)은 막는다.
-    private var measuredBarBottomMargin: CGFloat { min(max(pageTopInset - 10, 60), 130) }
+    ///
+    /// ⚠️ **바닥은 접힌 바의 아랫단이다.** 예전 바닥은 60 이었다. 기기에서 그보다 조금 큰
+    ///    값(접히는 도중의 바)이 한 번 잡히자 여백이 접힌 바보다도 낮게 굳어서, 맨 위의
+    ///    키보드 켜기 띠가 제목줄 밑에 깔렸고 시스템은 내용이 바 밑에 있으니 제목을 접어
+    ///    버렸다(신고 화면: 작은 "General" 뒤로 흐릿한 띠). 바가 그보다 짧을 수는 없으므로
+    ///    이 바닥은 어떤 상태에서도 안전하다.
+    private var measuredBarBottomMargin: CGFloat {
+        min(max(pageTopInset, Self.barBottomFloor) - 10, 130)
+    }
+
+    /// 상태 막대 + 접힌(inline) 네비게이션 바(44pt). 바의 아랫단은 이보다 위에 올 수 없다.
+    private static var barBottomFloor: CGFloat {
+        let statusTop = UIApplication.shared.connectedScenes
+            .compactMap { ($0 as? UIWindowScene)?.keyWindow?.safeAreaInsets.top }
+            .first ?? 0
+        return max(statusTop + 44, 70)
+    }
 
     private var screenBody: some View {
             ZStack {
