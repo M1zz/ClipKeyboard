@@ -632,6 +632,12 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func addCustomCategory(_ name: String) {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty, !customCategories.contains(trimmed) else { return }
+        // 기본·즐겨찾기 탭과 같은 이름이면 새로 만들지 않고 그 탭으로 데려간다.
+        // 만들면 탭 바에 같은 이름이 둘 선다(`CategoryBucketRule.isReservedName`).
+        guard !CategoryBucketRule.isReservedName(trimmed) else {
+            selectedCategoryTab = .basic
+            return
+        }
         customCategories.append(trimmed)
         saveCustomCategories()
     }
@@ -687,7 +693,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func loadCustomCategories() {
         let ud = AppGroup.defaults
         // 카테고리는 기본 제공하지 않음 - 사용자가 직접 만든 목록만 로드.
-        customCategories = ud?.stringArray(forKey: DefaultsKey.userDefinedCategoriesV1) ?? []
+        customCategories = CategoryBucketRule.usableCategories(
+            ud?.stringArray(forKey: DefaultsKey.userDefinedCategoriesV1) ?? [])
         let hidden = ud?.stringArray(forKey: DefaultsKey.hiddenCategoryTabsV1) ?? []
         hiddenCategoryTabs = Set(hidden)
         // 기본 제공 카테고리 - allCases 순서를 유지해 탭 순서가 항상 일정하게.

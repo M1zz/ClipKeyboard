@@ -189,6 +189,11 @@ final class MemoAddViewModel: ObservableObject {
     func createAndSelectUserCategory(_ rawName: String) -> Bool {
         let name = rawName.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !name.isEmpty else { return false }
+        // "General" 처럼 기본 탭과 같은 이름을 친 사람은 기본을 고른 것이다.
+        guard !CategoryBucketRule.isReservedName(name) else {
+            selectUserCategory("")
+            return false
+        }
         let added = CategoryStore.shared.add(name)
         // 카테고리를 처음 만드는 사람은 기능이 꺼져 있을 수 있다. 만들었는데 탭이
         // 안 서면 "저장했는데 사라졌다"가 된다.

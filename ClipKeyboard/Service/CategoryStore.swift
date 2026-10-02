@@ -180,6 +180,8 @@ final class CategoryStore: ObservableObject {
     func add(_ name: String) -> Bool {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return false }
+        // 기본·즐겨찾기 탭과 같은 이름은 만들지 않는다(`CategoryBucketRule.isReservedName`).
+        guard !CategoryBucketRule.isReservedName(trimmed) else { return false }
         guard !categories.contains(trimmed) else { return false }
         categories.append(trimmed)
         persist()
@@ -195,6 +197,7 @@ final class CategoryStore: ObservableObject {
     func rename(from oldName: String, to newName: String) -> Bool {
         let trimmed = newName.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty, oldName != trimmed,
+              !CategoryBucketRule.isReservedName(trimmed),
               let idx = categories.firstIndex(of: oldName),
               !categories.contains(trimmed) else { return false }
 
@@ -267,7 +270,7 @@ final class CategoryStore: ObservableObject {
     }
 
     /// 보호 카테고리 - 삭제 불가.
-    static let protectedCategories: Set<String> = ["기본", "텍스트", "이미지"]
+    static let protectedCategories: Set<String> = CategoryBucketRule.protectedNames
 
     // MARK: - Visibility (표시/숨김 토글)
     // 메인 리스트·키보드 탭에 노출할지 여부. ClipKeyboardListViewModel과 동일한 키 사용.
@@ -337,10 +340,13 @@ final class CategoryStore: ObservableObject {
             // 레거시 시드가 남긴 보호 버킷 이름("기본"/"텍스트"/"이미지")은 사용자 카테고리가 아니다
             // 전용 탭이 따로 있어 중복 노출되고, 영어 UI에도 한글 raw 문자열("기본" 칩)이 그대로
             // 보이므로 목록에서 걸러내고 저장본도 정리한다. (메모의 category 값은 건드리지 않음)
-            let sanitized = stored.filter { !Self.protectedCategories.contains($0) }
+            //
+            // 지금 화면의 기본·즐겨찾기 탭 이름과 겹치는 것("General" 등)도 같은 이유로 뺀다.
+            // 그 단축어는 그대로이고 기본 칸이 받는다(`CategoryBucketRule.collidesWithBuiltInTab`).
+            let sanitized = CategoryBucketRule.usableCategories(stored)
             if sanitized.count != stored.count {
                 defaults.set(sanitized, forKey: storageKey)
-                print("🔄 [CategoryStore] 레거시 보호 카테고리 이름 정리: \(stored.count - sanitized.count)개 제거")
+                print("🔄 [CategoryStore] 탭 이름과 겹치는 카테고리 정리: \(stored.count - sanitized.count)개 제거")
             }
             categories = sanitized
         } else {

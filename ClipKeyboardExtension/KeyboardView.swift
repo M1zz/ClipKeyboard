@@ -577,8 +577,10 @@ struct KeyboardView: View {
 
     /// iOS 앱 ClipKeyboardListViewModel과 같은 키 - 완전 동기화
     private var sharedUserCategories: [String] {
-        AppGroup.defaults?
-            .stringArray(forKey: DefaultsKey.userDefinedCategoriesV1) ?? []
+        // 앱과 같은 기준으로 탭 이름과 겹치는 것을 거른다 - 앱이 아직 목록을 정리하기 전이어도
+        // 키보드 탭 바에 같은 이름이 둘 서지 않게.
+        CategoryBucketRule.usableCategories(
+            AppGroup.defaults?.stringArray(forKey: DefaultsKey.userDefinedCategoriesV1) ?? [])
     }
 
     /// iOS 앱에서 숨긴 탭 목록 - "__favorites__" 또는 카테고리 이름
