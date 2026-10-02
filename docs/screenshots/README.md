@@ -61,6 +61,7 @@ done
 | TipKit 팁 띠 | DEBUG 에서 `-ScreenshotScene` 이 있으면 `Tips.hideAllTipsForTesting()` |
 | 런치 안내(의견 요청 · 리뷰 · 새 기능 · 반값 제안 등) | DEBUG 에서 `-ScreenshotScene` 이 있으면 `ClipKeyboardApp` 의 런치 안내 묶음을 건너뛴다. 촬영은 앱을 수십 번 켜서 실행 횟수로 뜨는 안내가 반드시 걸린다 |
 | 필수 세 칸 카드("가장 자주 다시 치는 세 가지부터") | DEBUG 에서 `-ScreenshotScene` 이 있으면 `PersonaEssentialsCardContainer` 가 숨는다. 칸 판정 낱말이 ko · en 뿐이라 다른 언어 시연 데이터에서는 덜 찬 것으로 읽힌다 |
+| iOS 붙여넣기 허용 창 | DEBUG 에서 `-ScreenshotScene` 이 있으면 목록의 "방금 복사한 것" 읽기와 기록 화면의 자동 읽기를 건너뛴다. 시뮬레이터는 Mac 클립보드를 따라가서 촬영 중 Mac 에서 복사하면 그 순간부터 창이 뜬다 |
 
 ⚠️ 아이패드는 'Booted' 로 보여도 한동안 준비가 덜 돼 있어, 그 틈에 `simctl launch` 를 받으면 굳는다. 스크립트가 `simctl bootstatus -b` 로 기다린다.
 

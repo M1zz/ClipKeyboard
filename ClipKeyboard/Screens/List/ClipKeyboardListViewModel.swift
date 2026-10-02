@@ -1329,6 +1329,11 @@ final class ClipKeyboardListViewModel: ObservableObject {
     ///    옆 기기를 기다리느라 초 단위로 걸린다. 그걸 메인에서 하면 앱이 그 자리에서 굳는다.
     ///    기록: docs/postmortem/HANG_PASTEBOARD_5_0_1.md
     func checkFreshClipboard() {
+        #if DEBUG
+        // 스토어 스크린샷에는 iOS 붙여넣기 허용 창이 찍히면 안 된다(scripts/take_screenshots.sh).
+        // 시뮬레이터는 Mac 클립보드를 따라가서, 촬영 중 Mac 에서 복사하면 그 순간부터 창이 뜬다.
+        if UserDefaults.standard.string(forKey: "ScreenshotScene") != nil { return }
+        #endif
         #if os(iOS)
         PasteboardReader.stringWithChangeCount { [weak self] clipboardString, changeCount in
             guard let self else { return }

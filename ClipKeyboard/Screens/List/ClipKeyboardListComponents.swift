@@ -184,7 +184,13 @@ enum PastePermissionGuidance {
     ///
     /// ⚠️ 사용자가 직접 누른 붙여넣기는 이 관문을 거치지 않는다. 자기가 누른 팝업은
     ///    이유가 분명하고, 막으면 기능이 죽는다. 막는 건 **묻지도 않았는데 읽는 것**뿐이다.
-    static var mayAutoReadClipboard: Bool { isWarmedUp }
+    static var mayAutoReadClipboard: Bool {
+        #if DEBUG
+        // 스토어 스크린샷 촬영 중에는 묻지도 않고 읽지 않는다(scripts/take_screenshots.sh).
+        if UserDefaults.standard.string(forKey: "ScreenshotScene") != nil { return false }
+        #endif
+        return isWarmedUp
+    }
 
     /// 우리 안내(배너·알림)를 띄워도 되는가.
     ///
