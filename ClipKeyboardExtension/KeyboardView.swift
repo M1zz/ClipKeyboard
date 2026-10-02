@@ -1249,6 +1249,10 @@ struct KeyboardView: View {
                     // 그만큼 위로 올린다. 넘치는 자리는 버튼 줄 아래의 빈 곳이라 버튼을 덮지 않는다.
                     .scrollClipDisabled()
                     .clipShape(TopBleedClip(bleed: Self.gridRippleReach - Self.gridTopInset))
+                    // ⚠️ 시스템이 스크롤 위아래 가장자리에 까는 흐림을 끈다. 키보드는 높이가 낮아
+                    //    그 흐림이 카테고리 줄 바로 아래 첫 줄 키를 뿌옇게 덮었다
+                    //    (신고: 키보드 상단이 이상하게 흐릿해졌어). 카테고리 줄과 같은 처리다.
+                    .scrollEdgeEffectHidden(true, for: .all)
                     // v4.1.0: 좌우 swipe로 카테고리 페이지 전환
                     .simultaneousGesture(
                         DragGesture(minimumDistance: 40)
@@ -2765,6 +2769,8 @@ struct KeyboardView: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 10)
         }
+        // 단축어 격자와 같은 이유로 가장자리 흐림을 끈다.
+        .scrollEdgeEffectHidden(true, for: .all)
         .coordinateSpace(name: Self.reorderSpace)
         .onPreferenceChange(ReorderCellFrameKey.self) { reorderCellFrames = $0 }
         // 들고 있는 키는 격자 **안이 아니라 위에** 그린다. 격자 안에서 옮기면
