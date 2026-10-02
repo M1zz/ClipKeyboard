@@ -1536,6 +1536,17 @@ struct MainTabView: View {
         }
     }
 
+    /// 검색 탭의 역할.
+    ///
+    /// ⚠️ iOS 26 은 `.search` 탭을 막대 밖 동그라미로 떼어 그렸다. iOS 27 은 같은 코드를
+    ///    막대 안 네 번째 칸으로 합친다(실측: iPhone 18 Pro · iOS 27.0 시뮬레이터). 목록·사용 기록·
+    ///    설정과 따로 서 있어야 "찾기"가 화면 이동이 아닌 별개의 동작으로 읽힌다.
+    ///    iOS 27 에서 막대 밖에 세우는 역할은 `.prominent` 다.
+    private static var searchTabRole: TabRole {
+        if #available(iOS 27.0, *) { return .prominent }
+        return .search
+    }
+
     var body: some View {
         TabView(selection: selectionBinding) {
             // 목록이냐 키보드 무대냐는 **사용자가 고른다**(설정 > 첫 화면).
@@ -1565,7 +1576,7 @@ struct MainTabView: View {
             }
             Tab(NSLocalizedString("검색", comment: "Search"),
                 systemImage: AppSymbol.magnifyingglass,
-                value: MainTab.search, role: .search) {
+                value: MainTab.search, role: Self.searchTabRole) {
                 NavigationStack { MemoSearchView().alwaysTransparentBars() }
             }
         }
