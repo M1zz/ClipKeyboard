@@ -207,7 +207,23 @@ struct SettingView: View {
                 Label(NSLocalizedString("리뷰 남기기", comment: "Leave review"),
                       systemImage: AppSymbol.star)
             }
+        } footer: {
+            // 버전은 첫 화면 맨 끝에 늘 보인다. 예전에는 앱 정보 안쪽에만 있어서
+            // "설정에서 앱 버전이 왜 안 보이지"가 됐다. 문의할 때 빌드 번호까지 말할 수 있게 같이 적는다.
+            Text("\(NSLocalizedString("버전", comment: "Version label")) \(Self.versionText)")
+                .font(.footnote)
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity)
+                .padding(.top, 12)
         }
+    }
+
+    /// "5.1.7 (22)" - Info.plist 에서 읽는다.
+    private static var versionText: String {
+        let info = Bundle.main.infoDictionary
+        let version = info?["CFBundleShortVersionString"] as? String ?? "?"
+        guard let build = info?["CFBundleVersion"] as? String else { return version }
+        return "\(version) (\(build))"
     }
 
     // MARK: - 갈래
