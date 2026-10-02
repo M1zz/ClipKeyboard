@@ -882,9 +882,9 @@ struct KeyboardView: View {
         } label: {
             Image(systemName: AppSymbol.docOnClipboard)
                 .font(.system(size: controlKeyIconSize, weight: .semibold))
-                .foregroundColor(theme.textMuted)
+                .foregroundColor(theme.keycapLabel)
                 .frame(width: controlKeyWidth(32), height: controlKeyHeight)
-                .background(theme.surface)
+                .background(theme.keycap)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
         .buttonStyle(.squish)
@@ -912,9 +912,9 @@ struct KeyboardView: View {
         } label: {
             Image(systemName: showsNumberPad ? AppSymbol.keyboard : AppSymbol.number)
                 .font(.system(size: controlKeyIconSize, weight: .semibold))
-                .foregroundColor(showsNumberPad ? Color.accentForeground : theme.textMuted)
+                .foregroundColor(showsNumberPad ? Color.accentForeground : theme.keycapLabel)
                 .frame(width: controlKeyWidth(32), height: controlKeyHeight)
-                .background(showsNumberPad ? theme.accent : theme.surface)
+                .background(showsNumberPad ? theme.accent : theme.keycap)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
         .buttonStyle(.squish)
@@ -964,9 +964,9 @@ struct KeyboardView: View {
         } label: {
             Image(systemName: AppSymbol.xmarkCircle)
                 .font(.system(size: controlKeyIconSize, weight: .semibold))
-                .foregroundColor(theme.textMuted)
+                .foregroundColor(theme.keycapLabel)
                 .frame(width: controlKeyWidth(36), height: controlKeyHeight)
-                .background(theme.surface)
+                .background(theme.keycap)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
         .buttonStyle(.squish)
@@ -1065,9 +1065,9 @@ struct KeyboardView: View {
         } label: {
             Image(systemName: AppSymbol.ellipsis)
                 .font(.system(size: controlKeyIconSize, weight: .semibold))
-                .foregroundColor(theme.textMuted)
+                .foregroundColor(theme.keycapLabel)
                 .frame(width: controlKeyWidth(36), height: controlKeyHeight)
-                .background(theme.surface)
+                .background(theme.keycap)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
         }
         .buttonStyle(.squish)
@@ -1723,7 +1723,7 @@ struct KeyboardView: View {
                 .font(.subheadline.weight(.medium))
                 .foregroundColor(theme.text)
                 .frame(maxWidth: .infinity, minHeight: 28)
-                .background(theme.surface)
+                .background(theme.keycap)
                 .cornerRadius(theme.radiusXs)
         }
     }
@@ -1738,11 +1738,11 @@ struct KeyboardView: View {
                 Spacer()
                 Image(systemName: AppSymbol.space)
                     .font(.caption2)
-                    .foregroundColor(theme.textMuted)
+                    .foregroundColor(theme.keycapLabel)
                 Spacer()
             }
             .frame(height: 28)
-            .background(theme.surface)
+            .background(theme.keycap)
             .cornerRadius(theme.radiusXs)
         }
         .accessibilityLabel(NSLocalizedString("스페이스", comment: "Space key"))
@@ -1846,9 +1846,9 @@ struct KeyboardView: View {
     private func globeKey(proxy: TypingInputProxy) -> some View {
         Image(systemName: AppSymbol.globe)
             .font(.system(size: controlKeyIconSize, weight: .semibold))
-            .foregroundColor(theme.textMuted)
+            .foregroundColor(theme.keycapLabel)
             .frame(width: controlKeyWidth(32), height: controlKeyHeight)
-            .background(theme.surface)
+            .background(theme.keycap)
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
             .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
             .overlay(InputModeSwitchOverlay(proxy: proxy))
@@ -1874,11 +1874,11 @@ struct KeyboardView: View {
                             .font(.system(size: controlKeyIconSize, weight: isSelected ? .semibold : .medium))
                             .lineLimit(1)
                             .truncationMode(.tail)
-                            .foregroundColor(isSelected ? .white : theme.textMuted)
+                            .foregroundColor(isSelected ? .white : theme.keycapLabel)
                             .padding(.horizontal, 10 * controlKeyScale)
                             .frame(height: controlKeyHeight)
                             .frame(maxWidth: controlKeyWidth(120))
-                            .background(isSelected ? accent : theme.surface)
+                            .background(isSelected ? accent : theme.keycap)
                             .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
                     }
                     .buttonStyle(.squish)
@@ -1959,7 +1959,7 @@ struct KeyboardView: View {
             }
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
-            .background(theme.surface)
+            .background(theme.keycap)
             .clipShape(Capsule())
             .overlay(
                 // 카테고리색 테두리 - 구분 표시 ON일 때만 (기본은 테두리 없이).
@@ -3187,7 +3187,26 @@ struct KeyboardView: View {
         if useCustomColors, !customKeyHex.isEmpty, let custom = Color(hex: customKeyHex) {
             return custom
         }
-        return theme.surface
+        return theme.keycap
+    }
+}
+
+// MARK: - 키 색
+
+extension AppTheme {
+    /// 키보드의 키 · 칩 · 작은 버튼 색.
+    ///
+    /// ⚠️ 다크에서는 **판보다 밝아야** 한다. 예전에는 카드와 같은 `surface`(거의 검정)를 써서
+    ///    짙은 회색 판 위의 키가 판보다 어두워 묻혔다(신고: 다크모드에서 버튼이 검정색이라
+    ///    잘 안 보여). iOS 기본 키보드도 다크에서는 판보다 밝은 회색 키를 쓴다.
+    ///    라이트는 그대로 흰 키다.
+    var keycap: Color {
+        isDark ? Color(white: 0.33) : surface
+    }
+
+    /// 키 위의 흐린 글자 · 아이콘. 다크의 `textMuted` 는 밝아진 키 위에서 대비가 모자라다.
+    var keycapLabel: Color {
+        isDark ? text.opacity(0.85) : textMuted
     }
 }
 

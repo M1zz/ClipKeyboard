@@ -172,7 +172,7 @@ struct NumberPadPanel: View {
                 .foregroundColor(theme.text)
                 .frame(maxWidth: .infinity)
                 .frame(height: height)
-                .background(theme.surface)
+                .background(theme.keycap)
                 .clipShape(keycapShape)
         }
         .buttonStyle(.squish)
