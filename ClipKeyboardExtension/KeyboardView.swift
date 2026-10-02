@@ -1804,7 +1804,9 @@ struct KeyboardView: View {
         HStack(spacing: 6) {
             categoryTabScroller
         }
-        .padding(.vertical, 5)
+        // 칩의 손가락 자리(44pt)가 위아래 여백을 이미 품고 있다. 여백을 또 더하면 줄이
+        // 그만큼 두꺼워져 키보드 판 전체가 아래로 밀린다 - 넓어진 만큼 여백을 덜어 낸다.
+        .padding(.vertical, max(0, 5 - (controlKeyTapTarget - controlKeyHeight) / 2))
     }
 
     // MARK: - 조작 키 치수
@@ -1880,6 +1882,10 @@ struct KeyboardView: View {
                             .frame(maxWidth: controlKeyWidth(120))
                             .background(isSelected ? accent : theme.keycap)
                             .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+                            // 보이는 칩은 28pt 지만 손가락 자리는 44pt 이상(HIG). 같은 줄의 지구본 ·
+                            // "…" 키와 같은 규칙이다. 예전에는 칩만 빠져서 눌리는 곳이 28pt 였다.
+                            .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
+                            .contentShape(Rectangle())
                     }
                     .buttonStyle(.squish)
                     .accessibilityLabel(labelForCategoryKey(key))
