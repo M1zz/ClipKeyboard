@@ -179581,6 +179581,242 @@
           }
         }
       }
+    },
+    "'%@' 이름을 바꿀까요?" : {
+      "comment" : "Prompt on a category the app created: ask whether to rename it. %@ is the category name",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„%@“ umbenennen?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename '%@'?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Cambiar el nombre de '%@'?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「%@」の名前を変えますか？"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать «%@»?"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เปลี่ยนชื่อ '%@' ไหม"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đổi tên '%@'?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要重命名“%@”吗？"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要重命名「%@」嗎？"
+          }
+        }
+      }
+    },
+    "앱이 처음에 만들어 둔 카테고리예요. 쓰시는 대로 이름을 정해 주세요." : {
+      "comment" : "Prompt on a category the app created: explanation",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese Kategorie hat die App angelegt. Gib ihr einen Namen, der zu dir passt."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The app created this category for you. Name it the way you use it."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La app creó esta categoría por ti. Ponle el nombre que te sirva."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリが最初に用意したカテゴリです。使い方に合わせて名前を決めてください。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Эту категорию создало приложение. Назовите её так, как вам удобно."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แอปสร้างหมวดหมู่นี้ไว้ให้ ตั้งชื่อตามที่คุณใช้ได้เลย"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ứng dụng đã tạo sẵn danh mục này. Hãy đặt tên theo cách bạn dùng."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这是应用预先建好的类别。按你的用法给它起个名字吧。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是應用預先建好的類別。按你的用法給它起個名字吧。"
+          }
+        }
+      }
+    },
+    "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요." : {
+      "comment" : "Rename rejected: name already exists or is reserved",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diesen Namen kannst du nicht verwenden. Er existiert schon oder entspricht einem festen Tab."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can't use that name. It already exists or matches a built-in tab."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No puedes usar ese nombre. Ya existe o coincide con una pestaña integrada."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "その名前は使えません。すでにあるか、標準のタブと同じ名前です。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это имя нельзя использовать: оно уже есть или совпадает со встроенной вкладкой."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ใช้ชื่อนี้ไม่ได้ เพราะมีอยู่แล้วหรือซ้ำกับแท็บที่มีในตัว"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không dùng được tên này. Tên đã có hoặc trùng với một thẻ mặc định."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不能使用这个名称。它已存在，或与默认标签同名。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不能使用這個名稱。它已存在，或與預設標籤同名。"
+          }
+        }
+      }
+    },
+    "그대로 쓰기" : {
+      "comment" : "Keep the category name the app created",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dejar así"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このまま使う"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оставить"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ใช้ชื่อเดิม"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giữ nguyên"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持不变"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持不變"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

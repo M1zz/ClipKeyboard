@@ -701,6 +701,12 @@
     "comment": "Delete placeholder confirmation title",
     "h": "3c6f711025"
   },
+  "'%@' 이름을 바꿀까요?": {
+    "ko": "'%@' 이름을 바꿀까요?",
+    "en": "Rename '%@'?",
+    "comment": "Prompt on a category the app created: ask whether to rename it. %@ is the category name",
+    "h": "45b5da2213"
+  },
   "'%@' 추가": {
     "ko": "'%@' 추가",
     "en": "Add to '%@'",
@@ -4115,6 +4121,12 @@
     "comment": "Receipt: remaining shortcuts line",
     "h": "4f976d759d"
   },
+  "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
+    "ko": "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.",
+    "en": "You can't use that name. It already exists or matches a built-in tab.",
+    "comment": "Rename rejected: name already exists or is reserved",
+    "h": "bb24d4c594"
+  },
   "그거 아세요?": {
     "ko": "그거 아세요?",
     "en": "Did you know?",
@@ -4144,6 +4156,12 @@
     "en": "Keep them",
     "comment": "Sample cleanup: keep",
     "h": "45d6f793e5"
+  },
+  "그대로 쓰기": {
+    "ko": "그대로 쓰기",
+    "en": "Keep",
+    "comment": "Keep the category name the app created",
+    "h": "905a5c069e"
   },
   "그동안 모든 기능이 무료로 열려 있었어요. %d일 뒤부터 무료 플랜이 적용돼요. 저장한 단축어는 지워지지 않아요.": {
     "ko": "그동안 모든 기능이 무료로 열려 있었어요. %d일 뒤부터 무료 플랜이 적용돼요. 저장한 단축어는 지워지지 않아요.",
@@ -10096,6 +10114,12 @@
     "en": "The app fills that name in by itself, so it can't be used. Pick another name.",
     "comment": "Rename error: reserved auto variable name",
     "h": "6a76be78a0"
+  },
+  "앱이 처음에 만들어 둔 카테고리예요. 쓰시는 대로 이름을 정해 주세요.": {
+    "ko": "앱이 처음에 만들어 둔 카테고리예요. 쓰시는 대로 이름을 정해 주세요.",
+    "en": "The app created this category for you. Name it the way you use it.",
+    "comment": "Prompt on a category the app created: explanation",
+    "h": "00f79a61d8"
   },
   "약 %d분": {
     "ko": "약 %d분",

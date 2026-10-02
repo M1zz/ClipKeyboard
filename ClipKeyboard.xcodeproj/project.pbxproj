@@ -230,6 +230,7 @@
 		CF493815B00448E38477E06A /* ShortcutsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC201306E1F4FE094DC76F4 /* ShortcutsSettingsView.swift */; };
 		CHOICEROW0000000000GG2 /* ChoiceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CHOICEROW0000000000GG1 /* ChoiceRow.swift */; };
 		CLC00012F0000000000000001 /* ClipKeyboardListComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */; };
+		DCN00012F0000000000000001 /* DefaultCategoryNamePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCN00022F0000000000000002 /* DefaultCategoryNamePrompt.swift */; };
 		CLIPPICK0BUILDAPP0000001 /* KeyboardClipboardPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */; };
 		CLIPPICK0BUILDEXT0000001 /* KeyboardClipboardPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */; };
 		CO00012F0000000000000001 /* MemoAddCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = CO00022F0000000000000002 /* MemoAddCoach.swift */; };
@@ -582,6 +583,7 @@
 		CE7340554588DBC6AB85710E /* AppLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
 		CHOICEROW0000000000GG1 /* ChoiceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceRow.swift; sourceTree = "<group>"; };
 		CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListComponents.swift; sourceTree = "<group>"; };
+		DCN00022F0000000000000002 /* DefaultCategoryNamePrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCategoryNamePrompt.swift; sourceTree = "<group>"; };
 		CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardClipboardPicker.swift; sourceTree = "<group>"; };
 		CO00022F0000000000000002 /* MemoAddCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddCoach.swift; sourceTree = "<group>"; };
 		CONTRACTS0000000000HH1 /* MemoScreenContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoScreenContracts.swift; sourceTree = "<group>"; };
@@ -1132,6 +1134,7 @@
 				58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */,
 				QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */,
 				CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */,
+				DCN00022F0000000000000002 /* DefaultCategoryNamePrompt.swift */,
 				9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */,
 				CONTRACTS0000000000HH1 /* MemoScreenContracts.swift */,
 				SEARCHNORESULT000000FF1 /* SearchNoResultsView.swift */,
@@ -1650,6 +1653,7 @@
 				58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */,
 				US00002C2F0000000000000006 /* UsageTrendChartView.swift in Sources */,
 				CLC00012F0000000000000001 /* ClipKeyboardListComponents.swift in Sources */,
+				DCN00012F0000000000000001 /* DefaultCategoryNamePrompt.swift in Sources */,
 				EP00002A2F0000000000000004 /* EmojiPicker.swift in Sources */,
 				IC00002A2F0000000000000006 /* ImagePickerComponents.swift in Sources */,
 				HT00002A2F0000000000000008 /* HighlightedTextEditor.swift in Sources */,

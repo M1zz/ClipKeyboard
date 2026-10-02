@@ -355,8 +355,35 @@ struct ClipKeyboardList: View {
     }
 
     private func pageHeader(for tab: CategoryTab) -> AnyView {
-        AnyView(topBanners)
+        // 앱이 깔아 준 카테고리에 처음 오면 이름을 정하게 한다. 고르기 전에는 늘 선다.
+        // (`defaultNameDecisions` 를 읽어 두어야 고른 순간 카드가 걷힌다)
+        _ = defaultNameDecisions
+        if case .custom(let name) = tab, CategoryStore.needsNameDecision(name) {
+            return AnyView(VStack(spacing: 0) {
+                DefaultCategoryNamePrompt(
+                    name: name,
+                    onKept: {
+                        CategoryStore.markNameDecided(name)
+                        defaultNameDecisions += 1
+                    },
+                    onRenamed: { newName in
+                        defaultNameDecisions += 1
+                        viewModel.loadCustomCategories()
+                        viewModel.loadMemos()
+                        viewModel.selectCategoryTab(.custom(newName), animated: false)
+                    }
+                )
+                .padding(.horizontal, 16)
+                .padding(.top, 8)
+                .padding(.bottom, 4)
+                topBanners
+            })
+        }
+        return AnyView(topBanners)
     }
+
+    /// 기본 카테고리 이름을 정할 때마다 오른다 - 카드를 다시 그리게 하는 값.
+    @State private var defaultNameDecisions = 0
 
     /// 네비게이션 바 인라인 타이틀 - 현재 카테고리 이름(스와이프 시 갱신).
     private var currentCategoryTitle: String {

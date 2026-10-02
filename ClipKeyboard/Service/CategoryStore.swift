@@ -214,6 +214,8 @@ final class CategoryStore: ObservableObject {
             var pinned = Self.defaultCategories
             pinned.insert(trimmed)
             AppGroup.defaults?.set(Array(pinned), forKey: Self.defaultCategoriesKey)
+            // 이름을 손수 바꿨다 - 그게 곧 "정했다"이다. 다시 묻지 않는다.
+            Self.markNameDecided(trimmed)
         }
         persist()
         return true
@@ -321,6 +323,24 @@ final class CategoryStore: ObservableObject {
         var pinned = defaultCategories
         guard pinned.remove(name) != nil else { return }
         AppGroup.defaults?.set(Array(pinned), forKey: defaultCategoriesKey)
+    }
+
+    /// 기본 카테고리의 이름을 사용자가 **정했는가**(그대로 쓰기로 했거나 바꿨거나).
+    ///
+    /// 앱이 지은 이름이라 사용자의 말이 아니다. 그 페이지에 처음 가면 바꿀지 묻고,
+    /// 둘 중 하나를 고를 때까지 묻는 카드가 선다(`DefaultCategoryNamePrompt`).
+    private static let nameDecidedKey = "defaultCategories.nameDecided.v1"
+
+    static func needsNameDecision(_ name: String) -> Bool {
+        defaultCategories.contains(name)
+            && !(AppGroup.defaults?.stringArray(forKey: nameDecidedKey) ?? []).contains(name)
+    }
+
+    static func markNameDecided(_ name: String) {
+        var decided = AppGroup.defaults?.stringArray(forKey: nameDecidedKey) ?? []
+        guard !decided.contains(name) else { return }
+        decided.append(name)
+        AppGroup.defaults?.set(decided, forKey: nameDecidedKey)
     }
 
     /// 카테고리가 하나도 없는 사람에게 **한 번** 기본 두 개를 깐다.
