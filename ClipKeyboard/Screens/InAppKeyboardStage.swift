@@ -124,23 +124,9 @@ struct InAppKeyboardStage: View {
     ///    요소들이 서로 겹친 채 도착했다(실측). 실려 오는 것은 이미 다 그려져 있어야 한다.
     @State private var keyboardReady = KeyboardInstallState.isUsable
 
-    /// 이 사람이 어디쯤인가 - 켜기 띠를 **누구에게** 낼지는 여기서 갈린다.
-    @ObservedObject private var userState = UserStateStore.shared
-
-    /// 켜기 띠를 **언제부터** 띄울지 가르는 값들(`KeyboardSetupBannerGate`).
-    /// 튜토리얼을 막 끝낸 자리에서 곧바로 "아직 못 쓴다"가 뜨지 않게 한 호흡 쉰다.
+    /// 켜기 띠를 튜토리얼 동안만 쉬게 하는 값들(`KeyboardSetupBannerGate`).
     @AppStorage(DefaultsKey.startedFreshV444) private var startedFresh: Bool = false
     @AppStorage(DefaultsKey.tutorialFinishedAt) private var tutorialFinishedAt: Double = 0
-    @AppStorage(DefaultsKey.tutorialFinishedAtLaunch) private var tutorialFinishedAtLaunch: Int = 0
-    @AppStorage(DefaultsKey.tutorialSwitchHintSeen) private var switchHintSeen: Bool = false
-
-    /// 머리말 아래 **띠 한 자리**를 이미 다른 안내가 쓰고 있는가.
-    ///
-    /// ⚠️ 여기 오는 것들은 저마다 지금 아니면 안 되는 말이라, 쌓아 올리면 무대가
-    ///    통째로 밀려 내려가고 무엇부터 읽어야 하는지도 알 수 없다. 한 자리에 하나만.
-    private var otherBannerShowing: Bool {
-        showsSwitchHint || asksToMakeOwn || needsSecurePIN
-    }
 
     /// 안내가 들고 나는 곡선. 무대와 탭바가 **같은 값을 쓴다.**
     var guidanceAnimation: Animation? {
@@ -155,13 +141,7 @@ struct InAppKeyboardStage: View {
         KeyboardSetupBannerGate.shows(
             keyboardUsable: keyboardReady,
             startedFresh: startedFresh,
-            finishedAt: tutorialFinishedAt > 0
-                ? Date(timeIntervalSince1970: tutorialFinishedAt) : nil,
-            finishedAtLaunch: tutorialFinishedAtLaunch,
-            launchCount: UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount),
-            otherBannerShowing: otherBannerShowing,
-            switchHintSeen: switchHintSeen,
-            stateAllows: userState.isVisible(.keyboardSetupBanner))
+            tutorialFinished: tutorialFinishedAt > 0)
     }
 
     /// 아래 키보드가 쓰는 것과 **같은** 배경 설정 - 무대 배경을 거기에 맞춘다.

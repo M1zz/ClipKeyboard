@@ -269,110 +269,55 @@ struct LaunchAudienceTests {
 @Suite("KeyboardSetupBannerGate, 켜라는 말을 언제 꺼내는가")
 struct KeyboardSetupBannerGateTests {
 
-    private let now = Date(timeIntervalSince1970: 1_800_000_000)
-
-    private func shows(usable: Bool = false,
-                       fresh: Bool = true,
-                       finishedMinutesAgo: Double? = 0,
-                       finishedAtLaunch: Int = 10,
-                       launchCount: Int = 10,
-                       otherBanner: Bool = false,
-                       hintSeen: Bool = false,
-                       stateAllows: Bool = true) -> Bool {
-        KeyboardSetupBannerGate.shows(
-            keyboardUsable: usable,
-            startedFresh: fresh,
-            finishedAt: finishedMinutesAgo.map { now.addingTimeInterval(-$0 * 60) },
-            finishedAtLaunch: finishedAtLaunch,
-            launchCount: launchCount,
-            otherBannerShowing: otherBanner,
-            switchHintSeen: hintSeen,
-            stateAllows: stateAllows,
-            now: now)
+    private func shows(usable: Bool = false, fresh: Bool = false, finished: Bool = false) -> Bool {
+        KeyboardSetupBannerGate.shows(keyboardUsable: usable, startedFresh: fresh, tutorialFinished: finished)
     }
 
     @Test("켜져 있으면 무슨 일이 있어도 말하지 않는다. 켜진 사람에게 켜라는 말은 잡음이다")
     func silentWhenAlreadyUsable() {
         #expect(shows(usable: true) == false)
-        #expect(shows(usable: true, finishedMinutesAgo: 60 * 24) == false)
-        #expect(shows(usable: true, fresh: false) == false)
-        #expect(shows(usable: true, launchCount: 99) == false)
+        #expect(shows(usable: true, fresh: true, finished: true) == false)
+        #expect(shows(usable: true, fresh: true, finished: false) == false)
     }
 
-    /// 때가 맞아도 **이 사람에게 낼 자리가 아니면** 말하지 않는다.
-    ///
-    /// 아직 자기 단축어가 하나도 없는 사람이 그렇다. 켤 이유가 아직 없고, 그 사람이
-    /// 넘어야 할 벽은 첫 단축어다. 휴면인 사람도 마찬가지다
-    /// (판정은 `UserSurface.keyboardSetupBanner`, 여기서는 그 답을 받아만 쓴다).
-    @Test("낼 자리가 아니면 때를 따질 것도 없다")
-    func silentWhenStateSaysNo() {
-        #expect(shows(fresh: false, finishedMinutesAgo: nil, stateAllows: false) == false)
-        #expect(shows(finishedMinutesAgo: 60 * 24, stateAllows: false) == false)
-        #expect(shows(hintSeen: true, stateAllows: false) == false)
+    /// 신고: "키보드가 설정되지 않았을 때 키보드 탭에도 목록 탭에도 안내를 계속 보여줘".
+    /// 예전에는 튜토리얼 뒤 한 시간 쉬기 · 단축어 없는 사람 · 다른 안내에 비켜 주기로 미뤄서,
+    /// 켜지 않은 사람이 키보드 탭에서 켜라는 말을 못 듣는 때가 있었다.
+    @Test("켜지 않았으면 **늘** 말한다. 쓰던 사람도, 튜토리얼을 막 끝낸 사람도")
+    func alwaysSpeaksUntilOn() {
+        #expect(shows(fresh: false) == true)
+        #expect(shows(fresh: true, finished: true) == true)
     }
 
-    /// 자리가 맞아도 **때가 아니면** 말하지 않는다. 두 판단은 서로를 대신하지 못한다.
-    @Test("자리가 맞아도 배우는 도중에는 끼어들지 않는다")
-    func stateAloneDoesNotOpenTheGate() {
-        #expect(shows(finishedMinutesAgo: nil, stateAllows: true) == false)
-        #expect(shows(otherBanner: true, stateAllows: true) == false)
-        #expect(shows(usable: true, stateAllows: true) == false)
+    @Test("**튜토리얼을 걷는 동안만** 쉰다. 화살표와 띠가 겹치면 둘 다 안 읽힌다")
+    func silentOnlyWhileWalkingTheTutorial() {
+        #expect(shows(fresh: true, finished: false) == false)
     }
+}
 
-    @Test("쓰던 사람에게는 미룰 이유가 없다. 튜토리얼을 걷지 않으니 끝날 일도 없다")
-    func existingUserSeesItRightAway() {
-        #expect(shows(fresh: false, finishedMinutesAgo: nil) == true)
-    }
+@Suite("CategoryBucketRule, 기본 탭과 같은 이름의 카테고리")
+struct ReservedCategoryNameTests {
 
-    @Test("**배우는 도중에는 끼어들지 않는다.** 둘 다 안 읽힌다")
-    func silentWhileStillLearning() {
-        #expect(shows(finishedMinutesAgo: nil) == false)
-    }
-
-    @Test("튜토리얼을 **막 끝낸 자리**에서는 말하지 않는다. 방금 한 일이 헛일로 읽힌다")
-    func silentRightAfterFinishing() {
-        #expect(shows(finishedMinutesAgo: 0) == false)
-        #expect(shows(finishedMinutesAgo: 30) == false)
-        #expect(shows(finishedMinutesAgo: 59) == false)
-    }
-
-    @Test("한 시간이 지나면 말한다. 미룰수록 한 번도 못 써 본 채로 떠나는 사람이 는다")
-    func speaksAfterAnHour() {
-        #expect(shows(finishedMinutesAgo: 60) == true)
-        #expect(shows(finishedMinutesAgo: 60 * 24 * 30) == true)
-    }
-
-    @Test("앱을 **다시 열었으면** 시간과 상관없이 말한다")
-    func speaksOnTheNextLaunch() {
-        // 끝낸 그 실행에서는 아직.
-        #expect(shows(finishedMinutesAgo: 1, finishedAtLaunch: 10, launchCount: 10) == false)
-        // 다시 열었다.
-        #expect(shows(finishedMinutesAgo: 1, finishedAtLaunch: 10, launchCount: 11) == true)
-    }
-
-    @Test("**띠 한 자리에 하나만.** 다른 안내가 쓰고 있으면 비켜 준다")
-    func yieldsTheSlotToOtherBanners() {
-        // 뜰 조건을 다 갖췄어도, 그 자리를 쓰는 것이 있으면 안 뜬다.
-        #expect(shows(finishedMinutesAgo: 120) == true)
-        #expect(shows(finishedMinutesAgo: 120, otherBanner: true) == false)
-        // 쓰던 사람에게도 마찬가지 - 쌓지 않는다.
-        #expect(shows(fresh: false, finishedMinutesAgo: nil, otherBanner: true) == false)
-    }
-
-    @Test("자리가 비면 **바로 채운다.** 먼저 뜬 안내를 읽고 넘긴 것도 한 호흡이다")
-    func fillsTheSlotOnceTheHintIsDismissed() {
-        // 튜토리얼이 끝나는 자리에는 전환 안내가 먼저 선다 - 그동안은 비켜 있다가,
-        #expect(shows(finishedMinutesAgo: 1, otherBanner: true) == false)
-        // 그걸 읽고 넘기면 시간이 안 지났어도 그 자리를 이어받는다.
-        #expect(shows(finishedMinutesAgo: 1, otherBanner: false, hintSeen: true) == true)
-    }
-
-    @Test("한 번 뜨기 시작하면 **켤 때까지 계속** 떠 있다. 닫는 표식을 두지 않는다")
-    func neverGoesAwayUntilActuallyOn() {
-        for minutes in [60.0, 300.0, 129_600.0] {
-            #expect(shows(finishedMinutesAgo: minutes) == true)
+    /// 신고: "General 의 카테고리로 만들었을 때 키보드 탭에서 카테고리가 안 보여".
+    /// 영어 화면의 기본 탭이 "General" 이라, 같은 이름의 카테고리를 만들면 탭 바에 둘이 선다.
+    @Test("어느 언어로든 기본 · 즐겨찾기 탭 이름이면 새로 만들 수 없다")
+    func builtInTabTitlesAreReserved() {
+        for name in ["General", "general", " General ", "Allgemein", "Основные", "標準", "Favorites", "기본", "텍스트", "이미지", ""] {
+            #expect(CategoryBucketRule.isReservedName(name), "\(name)")
         }
-        // 끝내는 길은 하나뿐 - 실제로 켜는 것.
-        #expect(shows(usable: true, finishedMinutesAgo: 60 * 24 * 90) == false)
+    }
+
+    @Test("평범한 이름은 그대로 만든다")
+    func ordinaryNamesAreAllowed() {
+        for name in ["Work", "업무", "Generalist", "여행"] {
+            #expect(!CategoryBucketRule.isReservedName(name), "\(name)")
+        }
+    }
+
+    @Test("이미 만든 목록에서는 지금 언어의 탭 이름과 겹치는 것만 뺀다")
+    func usableCategoriesDropsOnlyCurrentCollisions() {
+        let basicTitle = NSLocalizedString("기본", comment: "")
+        let result = CategoryBucketRule.usableCategories([basicTitle, "Work", "기본", "업무"])
+        #expect(result == ["Work", "업무"])
     }
 }
