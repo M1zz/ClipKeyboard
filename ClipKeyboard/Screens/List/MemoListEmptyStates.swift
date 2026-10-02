@@ -170,10 +170,11 @@ struct EmptyStateWithAddCard: View {
     let hasListBackground: Bool
     let onAdd: (AddCardCopy.Intent) -> Void
 
+    // ⚠️ 문구는 **추가 카드 아래 남은 자리의 가운데**에 선다. 예전에는 둘을 겹쳐 놓고
+    //    문구를 영역 전체의 가운데에 뒀는데, 위에 띠·카드가 쌓여 영역이 줄자 문구가
+    //    추가 카드 위로 올라와 포개졌다(기본 카테고리 이름 카드가 서는 빈 페이지에서 실측).
     var body: some View {
-        ZStack(alignment: .center) {
-            EmptyStateMessage(message: message, hasListBackground: hasListBackground)
-            VStack {
+        VStack(spacing: 0) {
                 LazyVGrid(columns: columns, spacing: 12) {
                     AddMemoCard(label: AddCardCopy.label(for: tab),
                                 accessibilityText: AddCardCopy.accessibilityText(for: tab),
@@ -186,8 +187,8 @@ struct EmptyStateWithAddCard: View {
                 // 단축어가 있는 페이지의 첫 카드와 **같은 높이**에 선다(`ClipKeyboardList` 격자의 위 2pt).
                 // 16 이었을 때는 카테고리를 넘길 때마다 첫 줄이 한 칸 내려앉았다.
                 .padding(.top, 2)
-                Spacer()
-            }
+                EmptyStateMessage(message: message, hasListBackground: hasListBackground)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
