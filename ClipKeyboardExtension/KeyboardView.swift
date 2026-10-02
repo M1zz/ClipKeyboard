@@ -676,10 +676,14 @@ struct KeyboardView: View {
             pages.append(Self.builtInPrefix + b)
         }
         // 사용자 카테고리: 숨김 아니고 해당 카테고리 메모 1개 이상일 때만.
+        // ⚠️ 예외: 앱이 깔아 준 카테고리는 비어도 선다 - 앱 목록과 같은 규칙이다
+        //    (`ClipKeyboardListViewModel.allCategoryTabs`). 한쪽만 세우면 앱에는 업무 · 개인이
+        //    있는데 키보드에는 탭 줄째로 없어진다(신고: 키보드에 카테고리가 제대로 안 나와).
+        let defaults = Set(AppGroup.defaults?.stringArray(forKey: DefaultsKey.defaultCategoriesV1) ?? [])
         let usedCategories = sharedUserCategories
             .filter { name in
                 !hidden.contains(name) &&
-                allMemos.contains { $0.category == name }
+                (defaults.contains(name) || allMemos.contains { $0.category == name })
             }
         pages.append(contentsOf: usedCategories)
 

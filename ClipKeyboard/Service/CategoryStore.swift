@@ -292,7 +292,7 @@ final class CategoryStore: ObservableObject {
     ///    사라져서, 카테고리라는 것이 있는지조차 알 길이 없어졌다(신고: 다른 카테고리를 만들
     ///    방법이 넛지가 안 돼). 깔아 준 두 개는 비어도 서서 "여기에 추가" 카드로 입구가 된다.
     ///    지우거나 이름을 바꾸면 사용자의 뜻이 이긴다(`forgetDefault` · `rename`).
-    static let defaultCategoriesKey = "defaultCategories_v1"
+    static let defaultCategoriesKey = DefaultsKey.defaultCategoriesV1
     private static let defaultSeedDoneKey = "defaultCategories.seeded.v1"
 
     /// 기본 카테고리 이름 - 쓰는 사람의 언어로 만든다(이름은 만든 뒤로는 사용자의 글이다).

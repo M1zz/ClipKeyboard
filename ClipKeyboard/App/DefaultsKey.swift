@@ -111,6 +111,8 @@ enum DefaultsKey {
     /// What's-New(새 기능) 시트를 마지막으로 보여준 기능 버전. 다르면 업데이트 유저에게 1회 노출.
     static let lastSeenWhatsNewVersion = "lastSeenWhatsNewVersion"
     static let hiddenCategoryTabsV1 = "hiddenCategoryTabs_v1"
+    /// 앱이 깔아 준 카테고리 - 비어도 페이지로 선다. 앱 목록과 키보드가 같이 본다(`CategoryStore`).
+    static let defaultCategoriesV1 = "defaultCategories_v1"
     static let kbBeaconLastUse = "kb.beacon.lastUse"
     static let kbBeaconPendingCount = "kb.beacon.pendingCount"
     /// 키보드 비콘 누적 사용 횟수 (App Group) - flush 때마다 pendingCount를 더한다. 사용 통계 지표용.
