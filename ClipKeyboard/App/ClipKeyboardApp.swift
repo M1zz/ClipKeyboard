@@ -363,6 +363,11 @@ struct ClipKeyboardApp: App {
 
         // ⑨ 런치 직후 안내·제안.
         LaunchGuard.optional(.prompts) {
+            #if DEBUG
+            // 스토어 스크린샷에는 런치 안내가 찍히면 안 된다(scripts/take_screenshots.sh).
+            // 촬영은 한 기기에서 앱을 수십 번 켜므로 실행 횟수로 뜨는 안내가 반드시 걸린다.
+            if UserDefaults.standard.string(forKey: "ScreenshotScene") != nil { return }
+            #endif
             offerDemoSamplesToExistingUserIfNeeded()
             offerRestoreHintIfNeeded(localWasEmpty: localWasEmpty)
 

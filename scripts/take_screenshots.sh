@@ -16,6 +16,12 @@ BID=com.Ysoup.TokenMemo
 boot() {
   xcrun simctl boot "$D" 2>/dev/null || true
   until xcrun simctl list devices | grep -q "$D) (Booted)"; do sleep 1; done
+  # 'Booted' 는 부팅이 끝났다는 뜻이 아니다. 아이패드는 이 틈에 launch 를 받으면 그대로 굳는다
+  # bootstatus 도 가끔 끝나지 않으므로 90초까지만 기다린다
+  xcrun simctl bootstatus "$D" -b >/dev/null 2>&1 &
+  W=$!; N=0
+  while kill -0 $W 2>/dev/null && [ $N -lt 90 ]; do sleep 1; N=$((N+1)); done
+  kill $W 2>/dev/null || true
 }
 
 for L in "$@"; do

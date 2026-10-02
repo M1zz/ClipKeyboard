@@ -40,7 +40,11 @@ struct PersonaEssentialsCardContainer: View {
     private var essentials: [PersonaEdition.Essential] { PersonaEdition.essentials(for: kind) }
 
     private var isShowing: Bool {
-        didCompute && PersonaEdition.showsShelf(PersonaEdition.ShelfContext(
+        #if DEBUG
+        // 스토어 스크린샷에는 첫 실행 안내 카드가 찍히면 안 된다(scripts/take_screenshots.sh).
+        if UserDefaults.standard.string(forKey: "ScreenshotScene") != nil { return false }
+        #endif
+        return didCompute && PersonaEdition.showsShelf(PersonaEdition.ShelfContext(
             kind: kind,
             covered: essentials.filter { coverage[$0.id] != nil }.count,
             total: essentials.count,

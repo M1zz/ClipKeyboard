@@ -59,6 +59,10 @@ done
 | 추천 카드(카드 정보 등) | `-ghostSuggestionsOff_v1 YES` |
 | "아직 다른 앱에서는 못 써요" 띠 | `-AppleKeyboards '("com.Ysoup.TokenMemo.ClipKeyboardExtension")'` |
 | TipKit 팁 띠 | DEBUG 에서 `-ScreenshotScene` 이 있으면 `Tips.hideAllTipsForTesting()` |
+| 런치 안내(의견 요청 · 리뷰 · 새 기능 · 반값 제안 등) | DEBUG 에서 `-ScreenshotScene` 이 있으면 `ClipKeyboardApp` 의 런치 안내 묶음을 건너뛴다. 촬영은 앱을 수십 번 켜서 실행 횟수로 뜨는 안내가 반드시 걸린다 |
+| 필수 세 칸 카드("가장 자주 다시 치는 세 가지부터") | DEBUG 에서 `-ScreenshotScene` 이 있으면 `PersonaEssentialsCardContainer` 가 숨는다. 칸 판정 낱말이 ko · en 뿐이라 다른 언어 시연 데이터에서는 덜 찬 것으로 읽힌다 |
+
+⚠️ 아이패드는 'Booted' 로 보여도 한동안 준비가 덜 돼 있어, 그 틈에 `simctl launch` 를 받으면 굳는다. 스크립트가 `simctl bootstatus -b` 로 기다린다.
 
 ⚠️ 레이아웃 시트는 가끔 늦게 떠서 목록만 찍힐 때가 있다. 찍은 뒤 언어마다 다섯 장을 눈으로 본다.
 
