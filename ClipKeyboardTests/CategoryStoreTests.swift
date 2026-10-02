@@ -159,3 +159,52 @@ final class CategoryStoreTests: XCTestCase {
         sut.setVisible(testCategory2, true)
     }
 }
+
+// MARK: - 기본으로 깔아 둔 카테고리
+
+/// 신고: "다른 카테고리를 만들 방법이 넛지가 안 돼". 목록은 빈 카테고리를 페이지로 세우지
+/// 않아서, 깔아 준 카테고리의 단축어를 지우면 카테고리가 있는 줄도 모르게 됐다.
+/// 깔아 준 것은 비어도 서고, 사용자가 지우거나 이름을 바꾸면 그 뜻을 따른다.
+final class DefaultCategoryTests: XCTestCase {
+
+    private let store = CategoryStore.shared
+    private let a = "_xctest_default_a_"
+    private let b = "_xctest_default_b_"
+    private let renamed = "_xctest_default_renamed_"
+
+    override func setUp() {
+        super.setUp()
+        [a, b, renamed].forEach { _ = store.remove($0); CategoryStore.forgetDefault($0) }
+    }
+
+    override func tearDown() {
+        [a, b, renamed].forEach { _ = store.remove($0); CategoryStore.forgetDefault($0) }
+        super.tearDown()
+    }
+
+    func testAdoptAsDefaults_CreatesAndRemembers() {
+        store.adoptAsDefaults([a, b])
+        XCTAssertTrue(store.allCategories.contains(a))
+        XCTAssertTrue(CategoryStore.defaultCategories.isSuperset(of: [a, b]))
+    }
+
+    func testRemove_ForgetsDefault() {
+        store.adoptAsDefaults([a])
+        _ = store.remove(a)
+        XCTAssertFalse(CategoryStore.defaultCategories.contains(a),
+                       "지운 카테고리를 빈 페이지로 되살리면 안 된다")
+    }
+
+    func testRename_CarriesDefault() {
+        store.adoptAsDefaults([a])
+        XCTAssertTrue(store.rename(from: a, to: renamed))
+        XCTAssertFalse(CategoryStore.defaultCategories.contains(a))
+        XCTAssertTrue(CategoryStore.defaultCategories.contains(renamed))
+    }
+
+    func testDefaultNames_AreNotReserved() {
+        for name in CategoryStore.defaultCategoryNames() + CategoryStore.defaultCategoryNames(nomad: true) {
+            XCTAssertFalse(CategoryBucketRule.isReservedName(name), name)
+        }
+    }
+}

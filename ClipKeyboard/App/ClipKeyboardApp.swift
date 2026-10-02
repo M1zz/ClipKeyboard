@@ -362,6 +362,21 @@ struct ClipKeyboardApp: App {
         }
 
         // ⑨ 런치 직후 안내·제안.
+        // ⑧-b 카테고리가 하나도 없는 사람에게 기본 두 개를 한 번 깐다(카테고리를 쓰는 입구).
+        LaunchGuard.optional(.prompts) {
+            #if DEBUG
+            // 스토어 스크린샷은 시연 데이터 그대로 찍는다(scripts/take_screenshots.sh).
+            if UserDefaults.standard.string(forKey: "ScreenshotScene") != nil { return }
+            #endif
+            let before = CategoryStore.shared.allCategories
+            CategoryStore.shared.seedDefaultCategoriesIfNeeded(
+                launchCount: UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount))
+            if CategoryStore.shared.allCategories != before {
+                // 목록이 이미 떠 있을 수 있다 - 시작 단축어를 깔 때와 같은 길로 다시 읽게 한다.
+                NotificationCenter.postOnMain(name: .demoSamplesInserted, object: nil)
+            }
+        }
+
         LaunchGuard.optional(.prompts) {
             #if DEBUG
             // 스토어 스크린샷에는 런치 안내가 찍히면 안 된다(scripts/take_screenshots.sh).
@@ -686,7 +701,8 @@ struct ClipKeyboardApp: App {
             SampleMemoStorage.save(ids: result.memos.map { $0.id })
             seedPlaceholderValues(from: result.memos)
             // 샘플이 속한 카테고리를 실제로 만들고 기능을 켜 → 스와이프 페이지(탭)가 생긴다.
-            result.categories.forEach { CategoryStore.shared.add($0) }
+            // 기본으로 적어 둔다 - 시작 단축어를 지워도 그 페이지는 비어 있는 채로 남아 입구가 된다.
+            CategoryStore.shared.adoptAsDefaults(result.categories)
             CategoryStore.shared.enableFeature()
             print("✅ [APP INIT] 샘플 \(result.memos.count)개 + 카테고리 \(result.categories.count)개 시드 (persona=\(persona.rawValue))")
             // 시딩 후 리스트가 카테고리/메모를 다시 읽도록 알림 (신규 설치·체험 수락 공통)
@@ -1042,8 +1058,10 @@ struct ClipKeyboardApp: App {
     }
 
     private func generalSamples(isKorean: Bool) -> (memos: [Memo], categories: [String]) {
-        let work = isKorean ? "업무" : "Work"
-        let personal = isKorean ? "개인" : "Personal"
+        // 이름은 쓰는 사람의 언어로 - 예전에는 한국어 아니면 모두 영어였다.
+        let defaults = CategoryStore.defaultCategoryNames()
+        let work = defaults[0]
+        let personal = defaults[1]
         // 1) 일반 메모 (즐겨찾기) - 기본 제공되는 즐겨찾기 탭에 바로 들어가 분홍으로 표시
         //    hint: 각 샘플이 "어떤 타입의 단축어인지"를 카드에서 살며시 알려주는 학습 장치.
         let memo = Memo(
@@ -1095,8 +1113,9 @@ struct ClipKeyboardApp: App {
     }
 
     private func nomadSamples(isKorean: Bool) -> (memos: [Memo], categories: [String]) {
-        let finance = isKorean ? "금융" : "Finance"
-        let travel = isKorean ? "여행" : "Travel"
+        let defaults = CategoryStore.defaultCategoryNames(nomad: true)
+        let finance = defaults[0]
+        let travel = defaults[1]
         let template = Memo(
             title: isKorean ? "국제 송금 양식" : "Bank Transfer",
             value: isKorean

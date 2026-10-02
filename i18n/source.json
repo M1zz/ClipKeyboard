@@ -3743,6 +3743,12 @@
     "comment": "Slot pack button caption",
     "h": "ae39e115e3"
   },
+  "개인": {
+    "ko": "개인",
+    "en": "Personal",
+    "comment": "Default category created for new users: personal snippets. One short word",
+    "h": "aae44f95ed"
+  },
   "개인정보 처리방침": {
     "ko": "개인정보 처리방침",
     "en": "Privacy Policy",
@@ -4246,6 +4252,12 @@
     "en": "Before the Friday afternoon report deadline",
     "comment": "Essential snippet moment: before the Friday report deadline",
     "h": "23b5bde554"
+  },
+  "금융": {
+    "ko": "금융",
+    "en": "Finance",
+    "comment": "Default category created for new users: money, bank and payment snippets. One short word",
+    "h": "c887f518e4"
   },
   "기간": {
     "ko": "기간",
@@ -10157,6 +10169,12 @@
     "comment": "Always accessible label",
     "h": "c1f88829b5"
   },
+  "업무": {
+    "ko": "업무",
+    "en": "Work",
+    "comment": "Default category created for new users: work snippets. One short word",
+    "h": "2dd4ba1fdc"
+  },
   "없음": {
     "ko": "없음",
     "en": "None",
@@ -10294,6 +10312,12 @@
     "en": "Bring over everything you've kept elsewhere",
     "comment": "DYK title: bulk import",
     "h": "41784ce31a"
+  },
+  "여행": {
+    "ko": "여행",
+    "en": "Travel",
+    "comment": "Default category created for new users: travel snippets. One short word",
+    "h": "9685ff0913"
   },
   "연 구독": {
     "ko": "연 구독",

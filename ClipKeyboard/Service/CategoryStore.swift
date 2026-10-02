@@ -208,6 +208,13 @@ final class CategoryStore: ObservableObject {
         moveMemos(from: oldName, to: trimmed)
 
         categories[idx] = trimmed
+        // 기본으로 깔아 둔 것이었으면 새 이름도 기본이다 - 비어도 계속 선다.
+        if Self.defaultCategories.contains(oldName) {
+            Self.forgetDefault(oldName)
+            var pinned = Self.defaultCategories
+            pinned.insert(trimmed)
+            AppGroup.defaults?.set(Array(pinned), forKey: Self.defaultCategoriesKey)
+        }
         persist()
         return true
     }
@@ -253,6 +260,7 @@ final class CategoryStore: ObservableObject {
         guard !Self.protectedCategories.contains(name) else { return false }
         guard let idx = categories.firstIndex(of: name) else { return false }
         categories.remove(at: idx)
+        Self.forgetDefault(name)
         persist()
         return true
     }
@@ -266,11 +274,79 @@ final class CategoryStore: ObservableObject {
     /// 모든 카테고리 삭제 (메모는 유지되며 카테고리 탭만 사라짐).
     func removeAll() {
         categories = []
+        AppGroup.defaults?.removeObject(forKey: Self.defaultCategoriesKey)
         persist()
     }
 
     /// 보호 카테고리 - 삭제 불가.
     static let protectedCategories: Set<String> = CategoryBucketRule.protectedNames
+
+    // MARK: - 기본으로 깔아 둔 카테고리
+
+    /// 앱이 깔아 준 카테고리 이름들. 목록은 **이것만은 비어도 페이지로 세운다.**
+    ///
+    /// ⚠️ 목록은 단축어가 없는 카테고리를 페이지로 세우지 않는다(빈 페이지가 줄줄이 서던 신고).
+    ///    그런데 그 규칙 때문에 처음 받은 단축어를 지우거나 옮기면 카테고리 페이지가 통째로
+    ///    사라져서, 카테고리라는 것이 있는지조차 알 길이 없어졌다(신고: 다른 카테고리를 만들
+    ///    방법이 넛지가 안 돼). 깔아 준 두 개는 비어도 서서 "여기에 추가" 카드로 입구가 된다.
+    ///    지우거나 이름을 바꾸면 사용자의 뜻이 이긴다(`forgetDefault` · `rename`).
+    static let defaultCategoriesKey = "defaultCategories_v1"
+    private static let defaultSeedDoneKey = "defaultCategories.seeded.v1"
+
+    /// 기본 카테고리 이름 - 쓰는 사람의 언어로 만든다(이름은 만든 뒤로는 사용자의 글이다).
+    static func defaultCategoryNames(nomad: Bool = false) -> [String] {
+        nomad
+            ? [NSLocalizedString("금융", comment: "Default category created for new users: money, bank and payment snippets. One short word"),
+               NSLocalizedString("여행", comment: "Default category created for new users: travel snippets. One short word")]
+            : [NSLocalizedString("업무", comment: "Default category created for new users: work snippets. One short word"),
+               NSLocalizedString("개인", comment: "Default category created for new users: personal snippets. One short word")]
+    }
+
+    /// 지금 기본으로 깔려 있는 카테고리.
+    static var defaultCategories: Set<String> {
+        Set(AppGroup.defaults?.stringArray(forKey: defaultCategoriesKey) ?? [])
+    }
+
+    /// 이 이름들을 기본 카테고리로 적어 둔다(없는 것은 만든다).
+    func adoptAsDefaults(_ names: [String]) {
+        let created = names.filter { add($0) || categories.contains($0) }
+        guard !created.isEmpty else { return }
+        var pinned = Self.defaultCategories
+        pinned.formUnion(created)
+        AppGroup.defaults?.set(Array(pinned), forKey: Self.defaultCategoriesKey)
+    }
+
+    /// 사용자가 지웠다 - 다시는 비어 있는 채로 세우지 않는다.
+    static func forgetDefault(_ name: String) {
+        var pinned = defaultCategories
+        guard pinned.remove(name) != nil else { return }
+        AppGroup.defaults?.set(Array(pinned), forKey: defaultCategoriesKey)
+    }
+
+    /// 카테고리가 하나도 없는 사람에게 **한 번** 기본 두 개를 깐다.
+    ///
+    /// ⚠️ 첫 실행에는 하지 않는다. 새로 설치한 사람은 시작 단축어와 함께 카테고리를 받는다
+    ///    (`ClipKeyboardApp.performSampleInsertion`). 여기서 먼저 깔면 노마드인 사람이 넷을 받는다.
+    ///    그다음 실행에 와서, 이미 있는 기본 이름은 기본으로 적어 두기만 한다.
+    /// ⚠️ 카테고리 기능을 직접 끈 사람에게는 깔지 않는다.
+    func seedDefaultCategoriesIfNeeded(launchCount: Int) {
+        guard let defaults = AppGroup.defaults else { return }
+        guard launchCount >= 2, !defaults.bool(forKey: Self.defaultSeedDoneKey) else { return }
+        defaults.set(true, forKey: Self.defaultSeedDoneKey)
+        guard isFeatureEnabled else { return }
+
+        // 시작 단축어로 받았던 이름이 남아 있으면 그것을 기본으로 적는다(5.1.7 이전 설치).
+        let known = Set(Self.defaultCategoryNames() + Self.defaultCategoryNames(nomad: true)
+                        + ["업무", "개인", "금융", "여행", "Work", "Personal", "Finance", "Travel"])
+        let existing = categories.filter { known.contains($0) }
+        if !existing.isEmpty {
+            adoptAsDefaults(existing)
+            print("🗂️ [CategoryStore] 받았던 기본 카테고리를 기본으로 적음: \(existing)")
+        } else if categories.isEmpty {
+            adoptAsDefaults(Self.defaultCategoryNames())
+            print("🗂️ [CategoryStore] 카테고리가 없어 기본 두 개를 깖")
+        }
+    }
 
     // MARK: - Visibility (표시/숨김 토글)
     // 메인 리스트·키보드 탭에 노출할지 여부. ClipKeyboardListViewModel과 동일한 키 사용.

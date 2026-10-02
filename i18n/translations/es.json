@@ -10963,5 +10963,21 @@
   "🪪 명함": {
     "v": "🪪 Tarjeta de presentación",
     "src": "9becff2df0"
+  },
+  "업무": {
+    "src": "2dd4ba1fdc",
+    "v": "Trabajo"
+  },
+  "개인": {
+    "src": "aae44f95ed",
+    "v": "Personal"
+  },
+  "금융": {
+    "src": "c887f518e4",
+    "v": "Finanzas"
+  },
+  "여행": {
+    "src": "9685ff0913",
+    "v": "Viajes"
   }
 }

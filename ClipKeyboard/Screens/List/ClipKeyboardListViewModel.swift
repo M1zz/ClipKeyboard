@@ -434,7 +434,10 @@ final class ClipKeyboardListViewModel: ObservableObject {
         // 예전엔 비어도 세웠다. 그러자 단축어를 다른 곳으로 옮긴 카테고리, 다른 기기에서 넘어온
         // 카테고리가 빈 페이지로 줄줄이 서서, 옆으로 넘기다 빈 화면을 계속 만났다.
         // 빈 카테고리는 카테고리 관리에 그대로 있고, 새 단축어를 만들 때 고를 수 있다.
-        let usedCategories = Set(loadedData.map(\.category))
+        //
+        // ⚠️ 예외: 앱이 기본으로 깔아 준 카테고리는 비어도 선다. 그 빈 페이지의 "여기에 추가"
+        //    카드가 카테고리를 쓰는 입구다(`CategoryStore.defaultCategoriesKey`).
+        let usedCategories = Set(loadedData.map(\.category)).union(CategoryStore.defaultCategories)
         for cat in customCategories where !hiddenCategoryTabs.contains(cat) && usedCategories.contains(cat) {
             tabs.append(.custom(cat))
         }
@@ -644,6 +647,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     func deleteCustomCategory(_ name: String) {
         customCategories.removeAll { $0 == name }
+        CategoryStore.forgetDefault(name)
         if case .custom(let cur) = selectedCategoryTab, cur == name {
             selectedCategoryTab = .basic
         }
