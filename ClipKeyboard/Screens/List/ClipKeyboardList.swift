@@ -1816,6 +1816,30 @@ struct ClipKeyboardList: View {
         return customCategoryColor(name).opacity(theme.isDark ? 0.14 : 0.09)
     }
 
+    /// 페이지 아래 베일 - 카드가 탭바 뒤로 지나갈 때 **그 페이지의 바닥색**(바탕 + 카테고리 물)으로
+    /// 서서히 지운다. 페이지에 붙어 있어 넘기면 같이 움직인다.
+    ///
+    /// ⚠️ 칸이 화면 아래 끝까지 닿지 않으므로 바탕 물처럼 아래로 넉넉히 내려 그린다.
+    private func pageVeil(for tab: CategoryTab) -> some View {
+        ZStack {
+            tabVeilColor
+            pageTint(for: tab)
+        }
+        .mask(
+            LinearGradient(
+                stops: [
+                    .init(color: .clear, location: 0),
+                    .init(color: .black.opacity(0.9), location: 0.45 * 130 / 250),
+                    .init(color: .black, location: 130.0 / 250)
+                ],
+                startPoint: .top, endPoint: .bottom
+            )
+        )
+        .frame(height: 250)
+        .padding(.bottom, -120)
+        .allowsHitTesting(false)
+    }
+
     /// 커스텀 카테고리 색상. 사용자가 지정한 색(userCategoryColors_v1)이 있으면 우선,
     /// 없으면 카테고리 순서에 따라 결정적으로 팔레트 색 반환.
     private func customCategoryColor(_ name: String) -> Color {
@@ -1991,7 +2015,13 @@ struct ClipKeyboardList: View {
                     .ignoresSafeArea(.container, edges: .vertical)
                     // 사용자 카테고리 페이지는 그 색으로 옅게 물든다. **페이지에 붙어 있어서**
                     // 옆으로 넘기면 카드와 같이 미끄러져 들어온다(`pageTint` 주석).
-                    .background { pageTint(for: tab).ignoresSafeArea() }
+                    //
+                    // ⚠️ 페이지 칸(시스템 페이저의 셀)은 화면 끝까지 닿지 않는다. 칸 크기로만 칠하면
+                    //    맨 위 상태 막대 쪽 17pt 와 탭바 아래 띠에 바닥색이 드러나 위아래가 잘려
+                    //    보였다(신고 화면). 칸은 그리기를 잘라 내지 않으므로 **위아래로만** 넉넉히
+                    //    키워 칠한다. 좌우를 키우면 옆 페이지 위로 번진다.
+                    .background { pageTint(for: tab).padding(.vertical, -120).ignoresSafeArea() }
+                    .overlay(alignment: .bottom) { pageVeil(for: tab) }
                     .tag(tab)
             }
         }
@@ -2035,17 +2065,22 @@ struct ClipKeyboardList: View {
         // 하단 그라데이션 베일 - 콘텐츠가 탭바 뒤로 지나가되, 카드 흰 배경이
         // 탭바 주변에 어중간하게 걸쳐 보이지 않게 배경색으로 서서히 사라지게 한다.
         // ignoresSafeArea보다 먼저 걸어 확장된 바닥(홈 인디케이터)까지 덮는다.
+        //
+        // ⚠️ 카테고리 페이지가 있으면 베일은 **페이지마다** 단다(`pageVeil`). 여기 하나로 깔면
+        //    늘 무채색 바닥으로 바래서, 카테고리 색이 든 페이지의 아래쪽만 잘려 보였다.
         .overlay(alignment: .bottom) {
-            LinearGradient(
-                stops: [
-                    .init(color: tabVeilColor.opacity(0), location: 0),
-                    .init(color: tabVeilColor.opacity(0.9), location: 0.45),
-                    .init(color: tabVeilColor, location: 1)
-                ],
-                startPoint: .top, endPoint: .bottom
-            )
-            .frame(height: 130)
-            .allowsHitTesting(false)
+            if !CategoryStore.shared.isFeatureEnabled {
+                LinearGradient(
+                    stops: [
+                        .init(color: tabVeilColor.opacity(0), location: 0),
+                        .init(color: tabVeilColor.opacity(0.9), location: 0.45),
+                        .init(color: tabVeilColor, location: 1)
+                    ],
+                    startPoint: .top, endPoint: .bottom
+                )
+                .frame(height: 130)
+                .allowsHitTesting(false)
+            }
         }
         // 콘텐츠가 상단 툴바·하단 탭바 뒤로 지나다니게 - 페이저를 화면 위아래 끝까지 확장.
         // (기본값은 바 사이에 갇혀 콘텐츠가 바 밑으로 못 들어감)
