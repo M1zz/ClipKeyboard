@@ -697,7 +697,7 @@ struct ClipKeyboardList: View {
                         .id(resolvedBackgroundImage)
                 }
 
-                // ⚠️ **화면 전체를 갈래 색으로 물들이지 않는다.**
+                // ⚠️ **화면 전체를 갈래 색으로 물들이지 않는다.** (갈래 색은 페이지마다 붙인다: `pageTint`)
                 //
                 //    예전에는 여기에 카테고리 색을 옅게(0.11) 깔고 0.38초에 걸쳐 바꿨다.
                 //    그런데 페이지는 0.25초쯤에 다 넘어간다. 그래서 카드는 이미 새 카테고리
@@ -1804,6 +1804,18 @@ struct ClipKeyboardList: View {
     ///    바닥 띠만 색이 바뀌어 오히려 더 눈에 띈다. 바닥은 한 색으로 가만히 둔다.
     private var tabVeilColor: Color { theme.bg }
 
+    /// 사용자 카테고리 페이지의 바탕 물. 기본 · 즐겨찾기 · 기본 제공 갈래는 물들이지 않는다.
+    ///
+    /// ⚠️ **화면 바닥이 아니라 페이지에 칠한다.** 예전에는 화면 전체 바닥 하나를 카테고리 색으로
+    ///    물들이고 0.38초에 걸쳐 바꿨는데, 페이지는 0.25초면 넘어가서 카드는 이미 새 카테고리인데
+    ///    바닥색만 뒤늦게 쓸려 오는 번쩍임이 됐다(`screenBody` 주석, 8b04a4b). 페이지에 붙이면
+    ///    색은 따로 바뀌는 순간이 없다. 넘기는 손가락을 따라 카드와 함께 들어오고 나간다.
+    /// ⚠️ 배경 사진을 고른 사람에게는 칠하지 않는다 - 사진을 덮는다.
+    private func pageTint(for tab: CategoryTab) -> Color {
+        guard case .custom(let name) = tab, resolvedBackgroundImage.isEmpty else { return .clear }
+        return customCategoryColor(name).opacity(theme.isDark ? 0.14 : 0.09)
+    }
+
     /// 커스텀 카테고리 색상. 사용자가 지정한 색(userCategoryColors_v1)이 있으면 우선,
     /// 없으면 카테고리 순서에 따라 결정적으로 팔레트 색 반환.
     private func customCategoryColor(_ name: String) -> Color {
@@ -1977,6 +1989,9 @@ struct ClipKeyboardList: View {
                     //    받을 여백을 아예 없애면 출렁일 값이 없다.
                     //    빈 페이지도 스크롤 안에 그리므로(`emptyPage`) 모든 페이지에 똑같이 건다.
                     .ignoresSafeArea(.container, edges: .vertical)
+                    // 사용자 카테고리 페이지는 그 색으로 옅게 물든다. **페이지에 붙어 있어서**
+                    // 옆으로 넘기면 카드와 같이 미끄러져 들어온다(`pageTint` 주석).
+                    .background { pageTint(for: tab).ignoresSafeArea() }
                     .tag(tab)
             }
         }
