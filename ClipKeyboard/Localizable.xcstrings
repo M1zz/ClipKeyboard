@@ -116221,13 +116221,13 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "这是应用预先建好的类别。按你的用法给它起个名字吧。"
+            "value" : "这是应用预先建好的分类。按你的用法给它起个名字吧。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這是應用預先建好的類別。按你的用法給它起個名字吧。"
+            "value" : "這是應用預先建好的分類。按你的用法給它起個名字吧。"
           }
         }
       }
