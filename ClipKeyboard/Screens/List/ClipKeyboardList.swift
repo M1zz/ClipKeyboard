@@ -2099,7 +2099,11 @@ struct ClipKeyboardList: View {
     ///    스크롤 안에서는 그 무한이 0 으로 접히므로 보이는 높이를 직접 준다.
     private func emptyPage<Content: View>(for tab: CategoryTab, @ViewBuilder content: () -> Content) -> some View {
         let topMargin = pageContentTopMargin
-        return ScrollView {
+        // ⚠️ 격자 페이지처럼 **스크롤을 제목에 알린다**(`trackPageScroll`). 예전에는 빈 페이지만
+        //    빠져 있었다. 빈 페이지는 대개 한 화면 안이라 드러나지 않았는데, 위에 이름 바꾸기 카드 ·
+        //    세 가지 카드가 서면 화면을 넘어 스크롤되고, 그때 큰 제목이 접히지 않아 카드가
+        //    "Work" 제목 밑으로 깔려 씹혀 보였다(신고 화면).
+        return trackPageScroll(ScrollView {
             VStack(spacing: 0) {
                 pageHeader(for: tab)
                 content()
@@ -2107,7 +2111,7 @@ struct ClipKeyboardList: View {
             .containerRelativeFrame(.vertical, alignment: .top) { height, _ in
                 max(height - topMargin, 0)
             }
-        }
+        })
         // 내용이 한 화면을 안 넘으면 튕기지 않는다 - 빈 화면이 손에 끌려 다니면 고장으로 읽힌다.
         .scrollBounceBehavior(.basedOnSize)
         .scrollEdgeEffectHidden(true, for: .all)
