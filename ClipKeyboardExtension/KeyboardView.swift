@@ -747,6 +747,11 @@ struct KeyboardView: View {
             VStack(spacing: 0) {
                 memoModeContent
             }
+            // 지금 보는 페이지가 어느 카테고리인지 남긴다 - 앱의 키보드 탭이 + 를 누르면
+            // 이 카테고리에 만든다(예전에는 늘 기본에 들어갔다).
+            .onChange(of: selectedCategoryFilter, initial: true) { _, key in
+                AppGroup.defaults?.set(key ?? "", forKey: DefaultsKey.keyboardCurrentCategoryKey)
+            }
 
             if showPINEntry {
                 pinEntryOverlay

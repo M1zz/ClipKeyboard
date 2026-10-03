@@ -263,6 +263,9 @@ enum DefaultsKey {
     /// 수십 번 같은 갈래를 다시 찾아 들어가야 한다.
     /// 갈래가 지워져 번호가 넘치는 경우는 읽는 쪽에서 잘라 낸다.
     static let keyboardLastCategoryPage = "keyboardLastCategoryPage.v1"
+    /// 키보드가 지금 보고 있는 페이지의 **열쇠**(사용자 카테고리면 그 이름, 아니면 ★ 로 시작).
+    /// 번호만으로는 앱이 어느 카테고리인지 모른다. 키보드 탭의 + 가 이걸 읽어 그 카테고리에 만든다.
+    static let keyboardCurrentCategoryKey = "keyboardCurrentCategoryKey.v1"
     static let keyboardTypingLang = "keyboardTypingLang"
     // 아래 다섯은 예전부터 문자열로만 적던 키다. 값은 그대로 두고 이름만 꺼낸다.
     static let keyboardButtonFontSize = "keyboardButtonFontSize"

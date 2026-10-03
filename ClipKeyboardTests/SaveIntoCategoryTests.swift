@@ -105,6 +105,27 @@ final class SaveIntoCategoryTests: XCTestCase {
                        "갈 칸 이야기가 내용의 갈래를 덮으면 안 된다(이미지 모드가 튕긴다)")
     }
 
+    /// 신고: "카테고리에서 만들었는데 기본으로 들어간다".
+    /// 목록 화면 · 키보드 · 동기화는 카테고리를 App Group 에 바로 쓴다. 저장소가 들고 있던
+    /// 낡은 목록으로 물으면 방금 만든 카테고리를 몰라서 칸이 "기본"으로 섰다.
+    /// ⚠️ 그래서 여기서는 `reload()` 를 **부르지 않고** 심는다 - 위의 `seedCategories` 와 다르다.
+    func test_다른_곳에서_방금_만든_카테고리도_그_칸이_골라져_있다() {
+        seedCategories([])
+        groupDefaults?.set(["방금 만든 칸"], forKey: DefaultsKey.userDefinedCategoriesV1)
+
+        let vm = makeAddViewModel(insertedCategory: "방금 만든 칸")
+
+        XCTAssertEqual(vm.userCategory, "방금 만든 칸")
+    }
+
+    func test_목록_화면에서_만든_카테고리는_저장소도_안다() {
+        seedCategories([])
+        viewModel.addCustomCategory("목록에서 만든 칸")
+
+        XCTAssertTrue(CategoryStore.shared.allCategories.contains("목록에서 만든 칸"))
+        XCTAssertTrue(viewModel.customCategories.contains("목록에서 만든 칸"))
+    }
+
     func test_카테고리를_안_고르면_예전처럼_자동_분류한다() {
         let vm = makeAddViewModel()
         vm.keyword = "메일주소"

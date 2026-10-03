@@ -641,8 +641,11 @@ final class ClipKeyboardListViewModel: ObservableObject {
             selectedCategoryTab = .basic
             return
         }
-        customCategories.append(trimmed)
-        saveCustomCategories()
+        // 카테고리 목록의 주인은 `CategoryStore` 하나다. 여기서 App Group 에 바로 쓰면 그 저장소가
+        // 들고 있는 목록이 낡아, 다음 화면(새 단축어)이 이 카테고리를 모른다.
+        CategoryStore.shared.reload()
+        guard CategoryStore.shared.add(trimmed) else { return }
+        loadCustomCategories()
     }
 
     func deleteCustomCategory(_ name: String) {
@@ -713,6 +716,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func saveCustomCategories() {
         AppGroup.defaults?
             .set(customCategories, forKey: DefaultsKey.userDefinedCategoriesV1)
+        // 같은 목록을 들고 있는 `CategoryStore` 도 맞춘다 - 안 하면 새 단축어 화면이 낡은 목록을 본다.
+        CategoryStore.shared.reload()
         CategorySnapshotStore.notifyChanged()
     }
 

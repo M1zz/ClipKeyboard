@@ -268,6 +268,10 @@ final class MemoAddViewModel: ObservableObject {
         // 들어온 카테고리가 **사용자 카테고리**면 그건 갈 칸 이야기다.
         // `selectedCategory`(내용의 갈래)에 섞지 않고 따로 받는다.
         // 카테고리 탭에서 + 를 눌러 들어온 경우가 여기다 - 누른 그 칸에 그대로 저장된다.
+        // ⚠️ 목록을 **새로 읽고** 묻는다. 카테고리는 여러 곳(목록 화면 · 키보드 · 동기화)이
+        //    App Group 에 바로 쓰는데, 이 저장소가 들고 있는 목록은 앱을 켤 때 읽은 그대로다.
+        //    방금 만든 카테고리에서 + 를 누르면 "없는 카테고리"로 읽혀 칸이 기본으로 보였다.
+        CategoryStore.shared.reload()
         let insertedIsUserCategory = CategoryStore.shared.allCategories.contains(insertedCategory)
         if insertedIsUserCategory {
             userCategory = insertedCategory

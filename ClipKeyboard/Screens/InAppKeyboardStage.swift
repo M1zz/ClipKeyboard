@@ -122,6 +122,19 @@ struct InAppKeyboardStage: View {
     ///    고쳤는데, 무대가 올라오는 도중에 값이 뒤집히면서 안내 띠가 그제야 생겼다.
     ///    띠가 자리를 차지하는 만큼 머리말과 말풍선이 밀려, 올라오는 무대 안에서
     ///    요소들이 서로 겹친 채 도착했다(실측). 실려 오는 것은 이미 다 그려져 있어야 한다.
+    /// + 로 만드는 단축어가 들어갈 자리. 누르는 순간의 키보드 페이지를 따른다.
+    @State private var categoryForNewSnippet = "텍스트"
+
+    /// 아래 키보드가 지금 보는 페이지가 사용자 카테고리면 그 이름, 아니면 "텍스트"(= 기본).
+    ///
+    /// ⚠️ 예전에는 늘 "텍스트" 였다. 키보드에서 업무 페이지를 보며 + 를 눌러도 기본에
+    ///    들어갔다(신고: 카테고리에서 만들었는데 기본으로 들어간다).
+    private var currentKeyboardCategory: String {
+        let key = AppGroup.defaults?.string(forKey: DefaultsKey.keyboardCurrentCategoryKey) ?? ""
+        CategoryStore.shared.reload()
+        return CategoryStore.shared.allCategories.contains(key) ? key : "텍스트"
+    }
+
     @State private var keyboardReady = KeyboardInstallState.isUsable
 
     /// 켜기 띠를 튜토리얼 동안만 쉬게 하는 값들(`KeyboardSetupBannerGate`).
@@ -276,7 +289,7 @@ struct InAppKeyboardStage: View {
         // 만들고 나면 무대의 키보드에 바로 그 키가 있어야 한다 - 닫힐 때 다시 읽는다.
         .sheet(isPresented: $showsAddMemo, onDismiss: reloadFeed) {
             NavigationStack {
-                MemoAdd(insertedCategory: "텍스트")
+                MemoAdd(insertedCategory: categoryForNewSnippet)
                     .toolbar {
                         ToolbarItem(placement: .topBarLeading) {
                             Button(NSLocalizedString("취소", comment: "Cancel")) { showsAddMemo = false }
@@ -437,6 +450,7 @@ struct InAppKeyboardStage: View {
             SnippetsStyleSwitchButton(styleRaw: $styleRaw, highlighted: showsSwitchHint)
             Button {
                 HapticManager.shared.light()
+                categoryForNewSnippet = currentKeyboardCategory
                 showsAddMemo = true
             } label: {
                 // 목록 툴바의 + 와 같은 규격·같은 유리 서클.
