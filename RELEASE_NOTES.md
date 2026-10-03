@@ -21,9 +21,9 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 ```
 단축어를 100번 넣을 때까지 모든 기능이 무료예요.
 일본어, 스페인어, 독일어, 태국어, 베트남어로도 쓸 수 있어요.
-기기마다 목록이 달라도 한 번에 맞출 수 있어요.
+업무와 개인 카테고리를 미리 만들어 뒀어요.
+다크 모드에서 키보드 키가 또렷하게 보여요.
 키보드가 뜰 때 가끔 닫히던 문제를 고쳤어요.
-보안으로 저장한 값이 더 안전하게 보관돼요.
 ```
 
 ### App Store (English)
@@ -31,9 +31,9 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 ```
 Every feature is free for 100 inserts.
 Five new languages, Japanese included.
-Match drifted devices in one step.
+Work and Personal categories are ready.
+Keys are easier to see in Dark Mode.
 The keyboard no longer closes on open.
-Secure values are stored more safely.
 ```
 
 ### 앱스토어 (중국어 간체)
@@ -41,9 +41,9 @@ Secure values are stored more safely.
 ```
 前 100 次输入，所有功能全部免费。
 新增日语、西班牙语、德语、泰语和越南语。
-设备之间列表不一致时，可以一键同步。
+已预先建好“工作”和“个人”分类。
+深色模式下，键盘按键更清晰。
 修复了键盘打开时偶尔关闭的问题。
-设为安全的内容现在保存得更安全。
 ```
 
 ### 앱스토어 (중국어 번체)
@@ -51,9 +51,9 @@ Secure values are stored more safely.
 ```
 前 100 次輸入，所有功能全部免費。
 新增日文、西班牙文、德文、泰文和越南文。
-裝置之間列表不一致時，可以一鍵同步。
+已預先建好「工作」和「個人」分類。
+深色模式下，鍵盤按鍵更清晰。
 修正了鍵盤開啟時偶爾關閉的問題。
-設為安全的內容現在儲存得更安全。
 ```
 
 ### 앱스토어 (러시아어)
@@ -61,9 +61,9 @@ Secure values are stored more safely.
 ```
 Все функции бесплатны первые 100 раз.
 Пять новых языков, включая японский.
-Списки на устройствах можно выровнять.
+Категории «Работа» и «Личное» готовы.
+Клавиши лучше видны в тёмном режиме.
 Клавиатура больше не закрывается сама.
-Защищённые значения хранятся надёжнее.
 ```
 
 ### App Store (Japanese, ja)
@@ -71,9 +71,9 @@ Secure values are stored more safely.
 ```
 最初の100回の入力まで、すべての機能が無料です。
 日本語、スペイン語、ドイツ語、タイ語、ベトナム語に対応しました。
-デバイス間で一覧がずれても、まとめてそろえられます。
+「仕事」と「プライベート」のカテゴリを用意しました。
+ダークモードでキーが見やすくなりました。
 キーボードを開くと閉じてしまうことがある問題を修正しました。
-セキュアに保存した値がより安全に保管されます。
 ```
 
 ### App Store (Spanish, es-MX)
@@ -81,9 +81,9 @@ Secure values are stored more safely.
 ```
 Todo gratis en tus primeras 100 veces.
 Cinco idiomas nuevos, incluido español.
-Iguala tus dispositivos en un paso.
+Nuevas categorías: Trabajo y Personal.
+Las teclas se ven mejor en modo oscuro.
 El teclado ya no se cierra al abrirse.
-Los valores seguros, mejor protegidos.
 ```
 
 ### App Store (German, de-DE)
@@ -91,9 +91,9 @@ Los valores seguros, mejor protegidos.
 ```
 Die ersten 100 Eingaben: alles gratis.
 Fünf neue Sprachen, auch Deutsch.
-Geräte in einem Schritt angleichen.
+Neue Kategorien: Arbeit und Privat.
+Tasten im Dunkelmodus besser sichtbar.
 Die Tastatur schließt sich nicht mehr.
-Sichere Werte sind besser geschützt.
 ```
 
 ### App Store (Thai, th)
@@ -101,9 +101,9 @@ Sichere Werte sind besser geschützt.
 ```
 ใช้ทุกฟีเจอร์ฟรีใน 100 ครั้งแรก
 เพิ่ม 5 ภาษาใหม่ รวมถึงภาษาไทย
-ปรับอุปกรณ์ให้ตรงกันได้ในขั้นเดียว
+มีหมวดหมู่งานและส่วนตัวให้พร้อมใช้
+ปุ่มคีย์บอร์ดเห็นชัดขึ้นในโหมดมืด
 แก้ปัญหาคีย์บอร์ดปิดเองตอนเปิด
-ค่าที่ปลอดภัยถูกเก็บอย่างรัดกุมขึ้น
 ```
 
 ### App Store (Vietnamese, vi)
@@ -111,9 +111,9 @@ Sichere Werte sind besser geschützt.
 ```
 Miễn phí mọi tính năng 100 lần đầu.
 Thêm 5 ngôn ngữ, có cả tiếng Việt.
-Đồng bộ các thiết bị chỉ một bước.
+Có sẵn danh mục Công việc và Cá nhân.
+Phím dễ nhìn hơn ở chế độ tối.
 Bàn phím không còn tự đóng khi mở.
-Giá trị bảo mật được cất giữ kỹ hơn.
 ```
 
 ## 5.1.6
