@@ -349,6 +349,12 @@ struct ClipKeyboardList: View {
                     titleDisplayMode = scrolled ? .inline : .inlineLarge
                 }
             }
+                .modifier(StaleScrollOffsetReset(isScrolling: isPageScrolling) {
+                    withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.2)) {
+                        showsInlineNavTitle = false
+                        titleDisplayMode = .inlineLarge
+                    }
+                })
         } else {
             view
         }
@@ -3059,5 +3065,37 @@ struct ClipKeyboardList: View {
 struct ClipKeyboardList_Previews: PreviewProvider {
     static var previews: some View {
         ClipKeyboardList()
+    }
+}
+
+// MARK: - 내용이 줄었는데 넘어간 자리에 멈춘 스크롤
+
+/// 페이지 내용이 줄어 **이미 끝을 넘어선 자리에 멈춘** 스크롤을 맨 위로 되돌린다.
+///
+/// 왜 필요한가: 기본 페이지 위에는 이름 정하기 카드 · 세 가지 카드가 붙는다. 그 카드로 길어진
+/// 페이지를 내려 보다가 카드가 걷히면 내용이 짧아지는데, UIKit 스크롤뷰는 그때 자리를 끌어오지
+/// 않는다. 남은 카드가 제목줄 밑에 반쯤 깔리고 아래는 텅 빈 채 멈췄다. 제목도 접힌 채로 남는다
+/// (신고 화면: 작은 "General" 아래 잘린 카드 두 장, 그 밑은 빈 화면. 손으로 끌면 그제야 튕겨 돌아온다).
+///
+/// ⚠️ 손이 굴리는 동안에는 안 건드린다. 끝에서 고무줄처럼 늘어나는 것도 '넘어선 자리' 로 읽힌다.
+@available(iOS 18.0, *)
+private struct StaleScrollOffsetReset: ViewModifier {
+    let isScrolling: Bool
+    let onReset: () -> Void
+
+    @State private var position = ScrollPosition(edge: .top)
+
+    func body(content: Content) -> some View {
+        content
+            .scrollPosition($position)
+            .onScrollGeometryChange(for: Bool.self) { geo in
+                let maxOffset = max(-geo.contentInsets.top,
+                                    geo.contentSize.height + geo.contentInsets.bottom - geo.containerSize.height)
+                return geo.contentOffset.y > maxOffset + 1
+            } action: { _, stale in
+                guard stale, !isScrolling else { return }
+                position.scrollTo(edge: .top)
+                onReset()
+            }
     }
 }
