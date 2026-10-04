@@ -331,6 +331,32 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertNil(stored(titled: "새 문구"), "결제 전에는 저장되지 않는다")
     }
 
+    // MARK: - 시나리오 10: 복사한 것을 담아 두면 키보드 '최근' 탭에 한 달 남는다
+
+    /// 사용자 요청: 잠깐 쓸 것을 한 주에서 한 달 담아 두고, 키보드 첫 탭에서 바로 꺼내 쓴다.
+    /// 키보드의 담기 버튼과 앱의 자동 수집은 같은 파일에 쓰고, '최근' 탭은 그 파일을 읽는다.
+    func test_담아_둔_것은_키보드_최근_탭에_30일_남는다() throws {
+        try MemoStore.shared.saveSmartClipboardHistory(history: [])
+        defer { try? MemoStore.shared.saveSmartClipboardHistory(history: []) }
+
+        let now = Date()
+        let day: TimeInterval = 24 * 60 * 60
+        let threeWeeks = SmartClipboardHistory(content: "3주 전에 담은 주소",
+                                               copiedAt: now.addingTimeInterval(-21 * day))
+        let tooOld = SmartClipboardHistory(content: "한 달 넘은 것",
+                                           copiedAt: now.addingTimeInterval(-31 * day))
+        try MemoStore.shared.saveSmartClipboardHistory(history: [threeWeeks, tooOld])
+
+        // 키보드에서 담기를 누른 것과 같은 길
+        try MemoStore.shared.addToSmartClipboardHistory(content: "방금 담은 송장번호")
+
+        let recents = SmartClipboardHistory.keyboardRecents(try MemoStore.shared.loadSmartClipboardHistory(),
+                                                            now: now)
+        XCTAssertEqual(recents.first?.content, "방금 담은 송장번호", "방금 담은 것이 맨 위에 서야 한다")
+        XCTAssertTrue(recents.contains { $0.content == "3주 전에 담은 주소" }, "한 달 안의 것은 남아야 한다")
+        XCTAssertFalse(recents.contains { $0.content == "한 달 넘은 것" }, "보관 기간이 지난 것은 사라져야 한다")
+    }
+
     // MARK: - Helpers
 
     private func makeAddViewModel(editing memo: Memo? = nil) -> MemoAddViewModel {

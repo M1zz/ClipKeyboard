@@ -242,6 +242,10 @@ enum DefaultsKey {
     ///    붙여넣기는 시스템 키보드에도 있고 길게 눌러도 나온다. 이 앱에서만 할 수 있는
     ///    일(단축어·숫자 판)에 자리를 먼저 준다. 쓰던 사람은 설정에서 도로 켠다.
     static let keyboardShowClipboardKey = "keyboardShowClipboardKey"
+    /// 키보드 맨 앞의 '최근'(복사해 담아 둔 것) 탭을 세울지. App Group. **기본 켬.**
+    /// 잠깐 쓸 글을 담아 두는 사람에게는 이 탭이 가장 자주 열리는 자리라, 있는 줄 알아야 쓴다.
+    /// 단축어만 쓰는 사람은 설정 > 키보드 > 키보드 레이아웃 > 표시 옵션에서 끈다.
+    static let keyboardShowRecentClipsTab = "keyboardShowRecentClipsTab.v1"
     /// 위줄에 **숫자 판으로 건너가는 키**를 세울지 (App Group). 값이 없으면 켜짐.
     ///
     /// 숫자만 몇 자 넣으려고 다른 키보드로 건너갔다 오는 일을 없애려고 둔 키다.
@@ -263,6 +267,11 @@ enum DefaultsKey {
     /// 수십 번 같은 갈래를 다시 찾아 들어가야 한다.
     /// 갈래가 지워져 번호가 넘치는 경우는 읽는 쪽에서 잘라 낸다.
     static let keyboardLastCategoryPage = "keyboardLastCategoryPage.v1"
+    /// 키보드를 마지막으로 닫을 때 맨 앞의 '최근'(복사한 것) 탭을 보고 있었는가. App Group.
+    ///
+    /// 갈래 번호(`keyboardLastCategoryPage`)와 **따로 둔다.** '최근' 을 0번에 끼워 넣으면
+    /// 이미 저장된 번호가 모두 한 칸씩 밀려, 업데이트한 날 모두가 엉뚱한 갈래에서 열린다.
+    static let keyboardShowsRecentClips = "keyboardShowsRecentClips.v1"
     /// 키보드가 지금 보고 있는 페이지의 **열쇠**(사용자 카테고리면 그 이름, 아니면 ★ 로 시작).
     /// 번호만으로는 앱이 어느 카테고리인지 모른다. 키보드 탭의 + 가 이걸 읽어 그 카테고리에 만든다.
     static let keyboardCurrentCategoryKey = "keyboardCurrentCategoryKey.v1"
@@ -354,7 +363,7 @@ enum DefaultsKey {
     /// 사용자가 직접 적어 넣은 `{시간}` 서식들 (JSON `[String]`).
     static let templateTimeCustomFormats = "clipkeyboard_template_time_custom_formats"
 
-    /// 마스터(개발자) 모드 - 설정 > 앱 정보의 버전 행 7번 탭으로 토글 (standard UD)
+    /// 마스터(개발자) 모드 - 설정 > 사용법과 문의 맨 아래 버전 행 7번 탭으로 토글 (standard UD)
     static let masterModeEnabled = "masterModeEnabled"
 
     // MARK: - 익명 사용 통계 (FeedbackHub 전송, 항상 켜짐)
@@ -584,6 +593,7 @@ enum KeyboardPrefs {
     static let showReturnKey = Pref(key: DefaultsKey.keyboardShowReturnKey, fallback: true)
     static let showNumberPad = Pref(key: DefaultsKey.keyboardShowNumberPad, fallback: true)
     static let showClipboardKey = Pref(key: DefaultsKey.keyboardShowClipboardKey, fallback: false)
+    static let showRecentClipsTab = Pref(key: DefaultsKey.keyboardShowRecentClipsTab, fallback: true)
 
     // 입력
     static let koreanEnabled = Pref(key: DefaultsKey.keyboardKoreanEnabled, fallback: false)

@@ -488,6 +488,13 @@
     },
     "src": "7c5988a701"
   },
+  "%d일 동안 여기서 바로 꺼내 쓸 수 있어요": {
+    "v": {
+      "one": "Hier %d Tag lang direkt abrufbar",
+      "other": "Hier %d Tage lang direkt abrufbar"
+    },
+    "src": "6bdcea31f7"
+  },
   "%d일 무료 체험 + 무제한 단축어, iCloud 백업": {
     "v": {
       "one": "%d Tag kostenlos testen + unbegrenzte Textbausteine, iCloud-Backup",
@@ -592,6 +599,10 @@
   "'%@' 빈칸을 지울까요?": {
     "v": "Ausfüllfeld '%@' löschen?",
     "src": "3c6f711025"
+  },
+  "'%@' 이름을 바꿀까요?": {
+    "src": "45b5da2213",
+    "v": "„%@“ umbenennen?"
   },
   "'%@' 추가": {
     "v": "Zu '%@' hinzufügen",
@@ -2650,6 +2661,10 @@
     },
     "src": "ae39e115e3"
   },
+  "개인": {
+    "src": "aae44f95ed",
+    "v": "Privat"
+  },
   "개인정보 처리방침": {
     "v": "Datenschutz",
     "src": "ea66992367"
@@ -2906,6 +2921,10 @@
     },
     "src": "4f976d759d"
   },
+  "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
+    "src": "bb24d4c594",
+    "v": "Diesen Namen kannst du nicht verwenden. Er existiert schon oder entspricht einem festen Tab."
+  },
   "그거 아세요?": {
     "v": "Schon gewusst?",
     "src": "eba6344976"
@@ -2925,6 +2944,10 @@
   "그대로 둘게요": {
     "v": "Behalten",
     "src": "45d6f793e5"
+  },
+  "그대로 쓰기": {
+    "src": "905a5c069e",
+    "v": "Behalten"
   },
   "그동안 모든 기능이 무료로 열려 있었어요. %d일 뒤부터 무료 플랜이 적용돼요. 저장한 단축어는 지워지지 않아요.": {
     "v": {
@@ -3000,6 +3023,10 @@
   "금요일 오후 보고 마감 전에": {
     "v": "Vor dem Abgabetermin für den Bericht am Freitagnachmittag",
     "src": "23b5bde554"
+  },
+  "금융": {
+    "src": "c887f518e4",
+    "v": "Finanzen"
   },
   "기간": {
     "v": "Zeitraum",
@@ -3504,6 +3531,10 @@
   "눌러서 그대로 입력하는 단축어": {
     "v": "Ein Textbaustein, den du antippst und der unverändert eingegeben wird",
     "src": "62c8adf23a"
+  },
+  "눌러서 넣습니다. 길게 누르면 클립보드에 복사합니다": {
+    "v": "Tippen zum Einfügen. Gedrückt halten, um in die Zwischenablage zu kopieren.",
+    "src": "ed0e984b1e"
   },
   "눌러서 바로 넘어가기": {
     "v": "Tippen zum Überspringen",
@@ -4847,6 +4878,10 @@
     "v": "Änderungen ansehen",
     "src": "4c27c1bb42"
   },
+  "무엇이 저장될지 누르기 전에 보여요": {
+    "v": "Du siehst vor dem Tippen, was gespeichert wird",
+    "src": "5f3b9f1f59"
+  },
   "무제한": {
     "v": "Unbegrenzt",
     "src": "b491b12a64"
@@ -5359,13 +5394,46 @@
     "v": "Kopiertes sortiert sich von selbst ein",
     "src": "5100523357"
   },
+  "복사한 글을 이 목록에 저장": {
+    "v": "Kopierten Text in dieser Liste sichern",
+    "src": "8639d8b966"
+  },
+  "복사한 글을 키보드에서 바로 꺼내 써요": {
+    "v": "Kopierten Text direkt auf der Tastatur nutzen",
+    "src": "52b1dd52c0"
+  },
+  "복사한 글이 %d일 동안 남아요": {
+    "v": {
+      "one": "Kopierter Text bleibt %d Tag erhalten",
+      "other": "Kopierter Text bleibt %d Tage erhalten"
+    },
+    "src": "37f7490481"
+  },
+  "복사한 글이 7일이 아니라 30일 동안 남아요": {
+    "v": "Kopierter Text bleibt jetzt 30 statt 7 Tage erhalten",
+    "src": "3a3d50e79e"
+  },
   "복사한 내용을 자동으로 저장하고 관리": {
     "v": "Kopiertes automatisch speichern und verwalten",
     "src": "2b375c7698"
   },
+  "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, %d일간 유지)": {
+    "v": {
+      "one": "Was du kopierst, wird hier automatisch gespeichert\n(bis zu 100 Einträge, %d Tag lang behalten)",
+      "other": "Was du kopierst, wird hier automatisch gespeichert\n(bis zu 100 Einträge, %d Tage lang behalten)"
+    },
+    "src": "7534e7952e"
+  },
   "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)": {
     "v": "Was du kopierst, wird hier automatisch gespeichert\n(bis zu 100 Einträge, 7 Tage lang)",
     "src": "06ccbd6d20"
+  },
+  "복사한 뒤 위의 버튼을 누르면 여기에 %d일 동안 남아요": {
+    "v": {
+      "one": "Kopiere etwas und tippe dann oben auf den Button. Es bleibt %d Tag hier.",
+      "other": "Kopiere etwas und tippe dann oben auf den Button. Es bleibt %d Tage hier."
+    },
+    "src": "6eb7c42d8e"
   },
   "복사한 이미지 붙여넣기": {
     "v": "Kopiertes Bild einsetzen",
@@ -5390,6 +5458,13 @@
   "복사해 둔 것이 없어요": {
     "v": "Noch nichts kopiert",
     "src": "c67ff8145c"
+  },
+  "복사해 둔 글을 키보드 맨 앞 탭에 모아 둡니다. %d일 동안 남아요": {
+    "v": {
+      "one": "Sammelt kopierten Text im ersten Tastatur-Tab. Er bleibt %d Tag erhalten",
+      "other": "Sammelt kopierten Text im ersten Tastatur-Tab. Er bleibt %d Tage erhalten"
+    },
+    "src": "2c57cfc2e7"
   },
   "복원": {
     "v": "Wiederherstellen",
@@ -5748,6 +5823,10 @@
   "사용 패턴 변경": {
     "v": "Nutzungsart ändern",
     "src": "ba70f6b98d"
+  },
+  "사용법과 문의": {
+    "v": "Anleitung & Kontakt",
+    "src": "ea0ad2b914"
   },
   "사용자": {
     "v": "Nutzer",
@@ -6150,6 +6229,10 @@
   "설정 > 첫 화면에서 단축어 목록과 키보드 화면 중 고를 수 있어요(툴바 버튼으로 바로 전환)": {
     "v": "Unter Einstellungen > Startbildschirm kannst du zwischen Snippet-Liste und Tastaturansicht wählen (per Symbolleiste direkt umschaltbar)",
     "src": "97bb0d9bbe"
+  },
+  "설정 > 키보드 > 키보드 레이아웃에서 '최근' 탭을 끌 수 있어요.": {
+    "v": "Den Tab „Zuletzt“ kannst du unter Einstellungen > Tastatur > Tastaturlayout ausschalten.",
+    "src": "8a319a45fb"
   },
   "설정 > 키보드에서 '전체 접근 허용'을 켜주세요": {
     "v": "Aktiviere in Einstellungen > Tastatur „Vollzugriff erlauben“",
@@ -6763,6 +6846,10 @@
     "v": "Noch keine Textbausteine. Tippe oben auf +, um einen anzulegen.",
     "src": "aae712a392"
   },
+  "아직 담아 둔 것이 없어요": {
+    "v": "Noch nichts gesichert",
+    "src": "a278815dad"
+  },
   "아직 뚜렷한 쓰임새가 보이지 않아요": {
     "v": "Noch kein klares Muster",
     "src": "0e6a40d759"
@@ -6974,6 +7061,10 @@
     "v": "Wähle nur aus, wenn die App falsch liegt.",
     "src": "e2a5f4f4c5"
   },
+  "앱이 모은 복사 기록과 키보드에서 저장한 글이 한곳에 모여요. 누르면 바로 입력되고, 길게 누르면 복사돼요.": {
+    "v": "Dein Kopierverlauf und Text, den du auf der Tastatur sicherst, sind an einem Ort. Tippen fügt ihn ein, langes Drücken kopiert ihn.",
+    "src": "6e047e46b7"
+  },
   "앱이 미리 만들어 둔 카테고리예요. 켜면 목록 상단 탭에 나타나 해당 종류의 단축어만 모아 볼 수 있어요.": {
     "v": "Kategorien, die die App vorbereitet hat. Schalte eine ein, dann erscheint oben ein Tab, der nur Textbausteine dieser Art zeigt.",
     "src": "2d5af79ef1"
@@ -6985,6 +7076,10 @@
   "앱이 알아서 채우는 이름이라 쓸 수 없어요. 다른 이름으로 적어 주세요.": {
     "v": "Diesen Namen füllt die App selbst aus, deshalb geht er nicht. Wähle einen anderen Namen.",
     "src": "6a76be78a0"
+  },
+  "앱이 처음에 만들어 둔 카테고리예요. 쓰시는 대로 이름을 정해 주세요.": {
+    "src": "00f79a61d8",
+    "v": "Diese Kategorie hat die App angelegt. Gib ihr einen Namen, der zu dir passt."
   },
   "약 %d분": {
     "v": {
@@ -7036,6 +7131,10 @@
   "언제든지 접근 가능": {
     "v": "Immer verfügbar",
     "src": "c1f88829b5"
+  },
+  "업무": {
+    "src": "2dd4ba1fdc",
+    "v": "Arbeit"
   },
   "없음": {
     "v": "Keine",
@@ -7128,6 +7227,10 @@
   "여태 딴 데 적어 두신 것, 한 번에 옮겨요": {
     "v": "Alles, was du woanders notiert hast, auf einmal übertragen",
     "src": "41784ce31a"
+  },
+  "여행": {
+    "src": "9685ff0913",
+    "v": "Reisen"
   },
   "연 구독": {
     "v": "Jährlich",
@@ -7308,6 +7411,10 @@
   "예전에 쓰던 주황이에요. 그대로 두고 싶으면 이걸 고르세요.": {
     "v": "Das frühere Orange. Wähle es, wenn alles so bleiben soll.",
     "src": "fb31b86261"
+  },
+  "예전에는 7일이 지나면 사라졌어요. 이제 한 달 가까이 두고 쓸 수 있어요.": {
+    "v": "Früher war er nach 7 Tagen weg. Jetzt kannst du ihn fast einen Monat behalten.",
+    "src": "0e347ea463"
   },
   "오늘": {
     "v": "Heute",
@@ -7801,6 +7908,10 @@
   "이미 만들어 둔 단축어를 골라 콤보로 묶을 수 있어요": {
     "v": "Bündle vorhandene Textbausteine zu einer Kombo",
     "src": "4fc5d1a307"
+  },
+  "이미 목록 맨 위에 있어요": {
+    "v": "Steht schon ganz oben in der Liste",
+    "src": "fd23639e6a"
   },
   "이미 쓰는 빈칸": {
     "v": "Bereits genutzte Ausfüllfelder",
@@ -8308,6 +8419,10 @@
     "v": "Gedrückt halten und ziehen, um zu verschieben",
     "src": "51fb3c90fd"
   },
+  "잠깐 쓸 글은 키보드 맨 앞 '최근' 탭에 모아 두세요.": {
+    "v": "Text, den du kurz brauchst, sammelt sich im ersten Tastatur-Tab „Zuletzt“.",
+    "src": "603fa305b6"
+  },
   "장과 장 사이 기다리는 시간을 3초로 줄였고, 그 동그라미를 누르면 곧바로 넘어가요": {
     "v": "Die Pause zwischen den Kapiteln beträgt nur noch drei Sekunden. Tippst du auf den Countdown, geht es sofort weiter",
     "src": "cd09b09662"
@@ -8315,6 +8430,14 @@
   "저장": {
     "v": "Sichern",
     "src": "72af799af5"
+  },
+  "저장 버튼에 지금 복사해 둔 글이 미리 보여요. 카드번호는 끝 네 자리만 보여요.": {
+    "v": "Die Sichern-Taste zeigt den kopierten Text. Bei Kartennummern siehst du nur die letzten vier Ziffern.",
+    "src": "617beb422c"
+  },
+  "저장 버튼이 무엇이 저장될지 누르기 전에 보여 줘요": {
+    "v": "Die Sichern-Taste zeigt vor dem Tippen, was gespeichert wird",
+    "src": "48b32f65fa"
   },
   "저장된 값이 없으면 그 자리에서 바로 만들 수 있어요": {
     "v": "Keine gespeicherten Werte? Lege gleich hier einen an",
@@ -8832,6 +8955,13 @@
     "v": "Druckt den angezeigten Zeitraum als einen Beleg.",
     "src": "8b6f0a40d8"
   },
+  "지금 복사돼 있는 것을 이 목록에 넣습니다. %d일 동안 남습니다": {
+    "v": {
+      "one": "Fügt Kopiertes zu dieser Liste hinzu. Es bleibt %d Tag.",
+      "other": "Fügt Kopiertes zu dieser Liste hinzu. Es bleibt %d Tage."
+    },
+    "src": "1be979b366"
+  },
   "지금 쓸 차례: %@": {
     "v": "Jetzt dran: %@",
     "src": "4b08bcd053"
@@ -9230,6 +9360,14 @@
   "최근 진단": {
     "v": "Letzte Berichte",
     "src": "d052576632"
+  },
+  "최근 탭": {
+    "v": "Tab „Zuletzt“",
+    "src": "737a6ca70e"
+  },
+  "최근 탭에 담았어요": {
+    "v": "Unter „Zuletzt“ gesichert",
+    "src": "0bd1286402"
   },
   "최근: %@": {
     "v": "Zuletzt: %@",
@@ -9774,6 +9912,14 @@
     "v": "Tastaturlayout",
     "src": "7eba8a2b93"
   },
+  "키보드 맨 앞에 '최근' 탭이 생겼어요": {
+    "v": "Neuer Tab „Zuletzt“ ganz vorn auf der Tastatur",
+    "src": "433bf59af8"
+  },
+  "키보드 맨 앞에 '최근' 탭이 생겼어요. 복사해 둔 글을 키보드에서 바로 꺼내 써요": {
+    "v": "Neuer Tab „Zuletzt“ ganz vorn auf der Tastatur: Kopierter Text ist direkt zur Hand",
+    "src": "3c97c2f272"
+  },
   "키보드 목록": {
     "v": "Tastaturen",
     "src": "4e2ac94f06"
@@ -9817,6 +9963,10 @@
   "키보드 설정 가이드": {
     "v": "Tastatur einrichten: Anleitung",
     "src": "732de54fab"
+  },
+  "키보드 설정 보기": {
+    "v": "Tastatureinstellungen öffnen",
+    "src": "7f2798cbda"
   },
   "키보드 설정, 2단계 중 1단계": {
     "v": "Tastatur einrichten, Schritt 1 von 2",
@@ -10509,6 +10659,10 @@
     "v": "Pixeldorf",
     "src": "b1fce73d1b"
   },
+  "필요 없으면 꺼 두세요": {
+    "v": "Schalte ihn aus, wenn du ihn nicht brauchst",
+    "src": "9eeff236a8"
+  },
   "필요한 글자만 손가락으로 문질러 담아요": {
     "v": "Wische mit dem Finger nur über den Text, den du brauchst",
     "src": "c5b36d635e"
@@ -10716,6 +10870,10 @@
   "함께 쓰는 앱에 실제 앱 아이콘이 보여요": {
     "v": "Zusammen genutzte Apps zeigen jetzt ihr echtes App-Symbol",
     "src": "6c5f60a1c3"
+  },
+  "함께 쓰면 좋은 앱": {
+    "v": "Passende Apps dazu",
+    "src": "fd8a10e8c6"
   },
   "함께 쓸 것들을 눌러 고르세요": {
     "v": "Tippe auf alles, was du zusammen nutzt",
@@ -10960,37 +11118,5 @@
   "🪪 명함": {
     "v": "🪪 Visitenkarte",
     "src": "9becff2df0"
-  },
-  "업무": {
-    "src": "2dd4ba1fdc",
-    "v": "Arbeit"
-  },
-  "개인": {
-    "src": "aae44f95ed",
-    "v": "Privat"
-  },
-  "금융": {
-    "src": "c887f518e4",
-    "v": "Finanzen"
-  },
-  "여행": {
-    "src": "9685ff0913",
-    "v": "Reisen"
-  },
-  "'%@' 이름을 바꿀까요?": {
-    "src": "45b5da2213",
-    "v": "„%@“ umbenennen?"
-  },
-  "앱이 처음에 만들어 둔 카테고리예요. 쓰시는 대로 이름을 정해 주세요.": {
-    "src": "00f79a61d8",
-    "v": "Diese Kategorie hat die App angelegt. Gib ihr einen Namen, der zu dir passt."
-  },
-  "그대로 쓰기": {
-    "src": "905a5c069e",
-    "v": "Behalten"
-  },
-  "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
-    "src": "bb24d4c594",
-    "v": "Diesen Namen kannst du nicht verwenden. Er existiert schon oder entspricht einem festen Tab."
   }
 }

@@ -466,6 +466,25 @@ struct KeyboardView: View {
     @AppStorage(DefaultsKey.keyboardLastCategoryPage, store: AppGroup.defaults)
     private var currentCategoryPage: Int = 0
 
+    /// 맨 앞의 '최근'(복사해 담아 둔 것) 탭을 보고 있는가. 갈래 번호와 따로 기억한다
+    /// (이유: `DefaultsKey.keyboardShowsRecentClips`).
+    @AppStorage(DefaultsKey.keyboardShowsRecentClips, store: AppGroup.defaults)
+    private var showsRecentClips: Bool = false
+    /// '최근' 탭을 세울지(설정 > 키보드 > 표시 옵션). 끄면 탭 줄은 예전 그대로다.
+    @AppStorage(KeyboardPrefs.showRecentClipsTab.key, store: AppGroup.defaults)
+    private var showsRecentClipsTab: Bool = KeyboardPrefs.showRecentClipsTab.fallback
+
+    /// 지금 '최근' 탭을 보고 있는가. 탭을 껐으면 마지막에 보던 자리가 '최근' 이어도 아니다.
+    /// ⚠️ 화면을 가르는 곳은 전부 이 값을 본다. `showsRecentClips` 는 기억해 둔 자리일 뿐이다.
+    private var isOnRecentClips: Bool { showsRecentClipsTab && showsRecentClips }
+    /// '최근' 탭에 세울 것. 단축어와 같은 자리(`loadAllMemos`)에서 읽는다.
+    @State private var recentClips: [SmartClipboardHistory] = []
+    /// 저장 버튼이 미리 보여 줄 지금 클립보드(`refreshClipboardPreview`).
+    @State private var clipboardPreview: KeyboardClipboardPreview = .unknown
+    /// 마지막으로 글을 읽었을 때의 복사 번호. 같으면 글을 다시 끌어오지 않는다.
+    @State private var clipboardPreviewChangeCount: Int?
+    @State private var showClipCapturedToast = false
+
     // 보안 메모 PIN 인증
     @State private var showPINEntry = false
     @State private var pendingSecureMemo: Memo?
@@ -558,6 +577,8 @@ struct KeyboardView: View {
     ///    사용자 카테고리로 들어가는데, 키보드는 늘 첫 페이지(★basic)에서 열린다.
     ///    그 페이지는 **비어 있다** - "이걸 눌러보세요 ↓" 아래에 아무것도 없는 화면이 된다.
     private func revealHighlightedPageIfNeeded() {
+        // 가리키는 단축어는 '최근' 탭에 없다. 그 탭에 서 있으면 단축어 쪽으로 돌려 둔다.
+        if highlightedMemoId != nil, isOnRecentClips { showsRecentClips = false }
         guard let id = highlightedMemoId, isCategoryFeatureEnabled else { return }
         // 이미 보이면 건드리지 않는다 - 사용자가 넘긴 페이지를 도로 끌고 오지 않기 위해서다.
         guard !filteredMemos.contains(where: { $0.id == id }) else { return }
@@ -997,7 +1018,8 @@ struct KeyboardView: View {
         HStack(spacing: 0) {
             ZStack(alignment: .trailing) {
                 HStack(spacing: 0) {
-                    if categoryPages.count > 1 {
+                    // '최근' 탭이 켜져 있으면 늘 맨 앞에 있으므로 탭 줄도 늘 선다.
+                    if tabKeys.count > 1 {
                         categoryTabRow
                     } else {
                         Spacer()
@@ -1190,7 +1212,7 @@ struct KeyboardView: View {
             }
 
             // 최근 사용 섹션 - 사용자 토글 ON + 검색 비활성일 때만
-            if showsQuickRow && !isReorderMode && !isSearching && shouldShowRecentSection {
+            if showsQuickRow && !isReorderMode && !isSearching && shouldShowRecentSection && !isOnRecentClips {
                 recentSection
             }
 
@@ -1209,6 +1231,26 @@ struct KeyboardView: View {
                                    keyHeight: buttonHeight,
                                    theme: theme,
                                    keycapShape: keycapShape)
+                } else if isOnRecentClips {
+                    KeyboardRecentClipsPanel(
+                        clips: filteredRecentClips,
+                        theme: theme,
+                        isFiltering: !searchQuery.isEmpty,
+                        onInsert: { clip in typingProxy?.insertText(clip.content) },
+                        onCopy: { clip in copyClipToClipboard(clip.content) },
+                        clipboardPreview: clipboardPreview,
+                        onCapture: captureClipboardToRecents
+                    )
+                    .simultaneousGesture(pageSwipeGesture)
+                    // 보고 있는 동안에는 복사 번호를 가끔 묻는다. 키보드를 띄운 채로 그 앱에서
+                    // 글을 골라 복사할 수 있어서, 처음 한 번만 읽으면 버튼이 옛 글을 보여 준다.
+                    // 번호가 그대로면 글은 끌어오지 않는다(`refreshClipboardPreview`).
+                    .task {
+                        while !Task.isCancelled {
+                            refreshClipboardPreview()
+                            try? await Task.sleep(for: .seconds(1.5))
+                        }
+                    }
                 } else if filteredMemos.isEmpty {
                     emptyStateView
                 } else {
@@ -1263,22 +1305,7 @@ struct KeyboardView: View {
                     //    (신고: 키보드 상단이 이상하게 흐릿해졌어). 카테고리 줄과 같은 처리다.
                     .scrollEdgeEffectHidden(true, for: .all)
                     // v4.1.0: 좌우 swipe로 카테고리 페이지 전환
-                    .simultaneousGesture(
-                        DragGesture(minimumDistance: 40)
-                            .onEnded { value in
-                                guard categoryPages.count > 1 else { return }
-                                let h = value.translation.width
-                                let v = value.translation.height
-                                guard abs(h) > abs(v) * 1.5, abs(h) > 60 else { return }
-                                if h < 0, currentCategoryPage < categoryPages.count - 1 {
-                                    KeyboardHaptics.tap()
-                                    currentCategoryPage += 1
-                                } else if h > 0, currentCategoryPage > 0 {
-                                    KeyboardHaptics.tap()
-                                    currentCategoryPage -= 1
-                                }
-                            }
-                    )
+                    .simultaneousGesture(pageSwipeGesture)
                 }
             }
             // 인디케이터 점 제거 - 상단 categoryTabRow에서 심볼 버튼으로 이동
@@ -1304,6 +1331,17 @@ struct KeyboardView: View {
         .overlay(alignment: .bottom) {
             if showImageCopiedToast {
                 Text(NSLocalizedString("이미지 복사됨 · 붙여넣기 하세요", comment: "Image copied toast"))
+                    .font(.footnote.weight(.medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.black.opacity(0.75))
+                    .clipShape(Capsule())
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+            if showClipCapturedToast {
+                Text(NSLocalizedString("최근 탭에 담았어요", comment: "Keyboard toast: current clipboard saved to the recent tab"))
                     .font(.footnote.weight(.medium))
                     .foregroundColor(.white)
                     .padding(.horizontal, 16)
@@ -1803,6 +1841,123 @@ struct KeyboardView: View {
         }
     }
 
+    // MARK: - '최근' 탭 (복사해 담아 둔 것)
+
+    /// 탭 줄 맨 앞의 '최근' 탭 열쇠. 사용자 카테고리 이름과 겹치지 않게 ★ 로 시작한다.
+    private static let recentClipsKey = "★recentClips"
+
+    /// 탭 줄에 서는 탭들. **'최근' 이 켜져 있으면 늘 맨 앞이다**(기본 탭보다도 앞).
+    ///
+    /// 카테고리 기능을 끈 사람은 갈래 페이지가 없다. 그때는 단축어 전체를 '전체' 한 장으로 세운다
+    /// (`memos(onPage:)` 는 기능이 꺼져 있으면 어느 열쇠든 전부를 돌려준다).
+    /// '최근' 도 끄고 갈래도 없으면 '전체' 한 장뿐이라 탭 줄을 세우지 않는다(예전 그대로).
+    private var tabKeys: [String] {
+        (showsRecentClipsTab ? [Self.recentClipsKey] : []) + (categoryPages.isEmpty ? ["★all"] : categoryPages)
+    }
+
+    /// 갈래 탭이 탭 줄에서 몇 칸 밀려 있는가('최근' 이 앞에 있으면 1).
+    private var categoryTabOffset: Int { showsRecentClipsTab ? 1 : 0 }
+
+    /// 단축어 쪽에서 지금 보는 갈래의 번호. 저장된 번호가 넘치면 잘라 낸다.
+    private var effectiveCategoryPage: Int {
+        guard !categoryPages.isEmpty else { return 0 }
+        return max(0, min(currentCategoryPage, categoryPages.count - 1))
+    }
+
+    /// 탭 줄에서 골라져 있는 칸. '최근' 이 켜져 있으면 0 이 '최근' 이고, 갈래는 한 칸씩 밀린다.
+    private var selectedTabIndex: Int {
+        isOnRecentClips ? 0 : effectiveCategoryPage + categoryTabOffset
+    }
+
+    private func selectTab(at index: Int) {
+        if showsRecentClipsTab && index == 0 {
+            showsRecentClips = true
+            reloadRecentClips()
+        } else {
+            showsRecentClips = false
+            if !categoryPages.isEmpty { currentCategoryPage = index - categoryTabOffset }
+        }
+    }
+
+    /// 좌우로 밀어 탭을 옮긴다. 단축어 격자와 '최근' 판이 같은 손짓을 쓴다.
+    private var pageSwipeGesture: some Gesture {
+        DragGesture(minimumDistance: 40)
+            .onEnded { value in
+                let h = value.translation.width
+                let v = value.translation.height
+                guard abs(h) > abs(v) * 1.5, abs(h) > 60 else { return }
+                let target = selectedTabIndex + (h < 0 ? 1 : -1)
+                guard target >= 0, target < tabKeys.count else { return }
+                KeyboardHaptics.tap()
+                selectTab(at: target)
+            }
+    }
+
+    /// 검색어가 있으면 그 글이 든 것만.
+    private var filteredRecentClips: [SmartClipboardHistory] {
+        guard !searchQuery.isEmpty else { return recentClips }
+        return recentClips.filter { $0.content.localizedStandardContains(searchQuery) }
+    }
+
+    /// '최근' 탭에 세울 것을 다시 읽는다. 앱이 모은 것과 키보드에서 담은 것이 같은 파일에 있다.
+    private func reloadRecentClips() {
+        let history = (try? MemoStore.shared.loadSmartClipboardHistory()) ?? []
+        recentClips = SmartClipboardHistory.keyboardRecents(history)
+    }
+
+    /// 저장 버튼이 미리 보여 줄 클립보드를 다시 읽는다.
+    ///
+    /// ⚠️ **메인에서 읽지 않는다.** 저절로 도는 읽기라 `PasteboardReader` 를 지난다
+    ///    (`docs/postmortem/HANG_PASTEBOARD_5_0_1.md` - 유니버설 클립보드가 켜져 있으면 옆 기기를 기다린다).
+    /// ⚠️ **글자만** 읽는다(`textOnly`). 키보드는 메모리가 빠듯해서 큰 그림을 풀면 죽는다.
+    /// ⚠️ 진짜 키보드이면서 전체 접근이 켜져 있을 때만 읽는다. 앱 안 키보드에서 저절로 읽으면
+    ///    iOS 가 붙여넣기 허용을 묻는 창을 띄운다. 그때는 버튼이 하는 일만 말한다(`.unknown`).
+    private func refreshClipboardPreview() {
+        guard hostKind == .keyboardExtension, KeyboardCapability.hasFullAccess else {
+            clipboardPreview = .unknown
+            return
+        }
+        PasteboardReader.changeCount { count in
+            guard count != clipboardPreviewChangeCount else { return }
+            PasteboardReader.textOnly { text, readCount in
+                clipboardPreviewChangeCount = readCount
+                clipboardPreview = text.map { .text($0) } ?? .empty
+            }
+        }
+    }
+
+    /// 지금 복사돼 있는 것을 '최근' 탭에 담는다.
+    ///
+    /// ⚠️ 클립보드는 **누른 순간에만** 읽는다(`clipboardTextForInsert` 와 같은 길).
+    ///    전체 접근 확인과 빈 클립보드 안내도 그쪽이 한다.
+    private func captureClipboardToRecents() {
+        guard let text = clipboardTextForInsert() else { return }
+        do {
+            try MemoStore.shared.addToSmartClipboardHistory(content: text)
+        } catch {
+            print("❌ [KeyboardView.captureClipboardToRecents] 담기 실패: \(error)")
+            KeyboardHaptics.softTap()
+            return
+        }
+        reloadRecentClips()
+        KeyboardHaptics.mediumTap()
+        withAnimation { showClipCapturedToast = true }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation { showClipCapturedToast = false }
+        }
+    }
+
+    /// '최근' 의 한 줄을 길게 눌러 클립보드로.
+    private func copyClipToClipboard(_ text: String) {
+        guard requireFullAccess() else { return }
+        UIPasteboard.general.string = text
+        KeyboardHaptics.mediumTap()
+        withAnimation { showCopiedToast = true }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation { showCopiedToast = false }
+        }
+    }
+
     // MARK: - Category Tab Row
 
     private var categoryTabRow: some View {
@@ -1864,12 +2019,12 @@ struct KeyboardView: View {
     private var categoryTabScroller: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 6) {
-                ForEach(Array(categoryPages.enumerated()), id: \.offset) { index, key in
-                    let isSelected = currentCategoryPage == index
+                ForEach(Array(tabKeys.enumerated()), id: \.offset) { index, key in
+                    let isSelected = selectedTabIndex == index
                     let accent = colorForCategoryKey(key)
                     Button {
                         KeyboardHaptics.tap()
-                        currentCategoryPage = index
+                        selectTab(at: index)
                     } label: {
                         // ⚠️ **이름만 적는다.** 처음에는 그림만 세웠는데, 사용자가 만든
                         //    카테고리는 따로 고른 그림이 없으면 전부 같은 폴더 모양이라
@@ -1906,6 +2061,7 @@ struct KeyboardView: View {
 
     /// 카테고리 페이지 키에 표시할 짧은 라벨.
     private func labelForCategoryKey(_ key: String) -> String {
+        if key == Self.recentClipsKey { return NSLocalizedString("최근", comment: "Recent") }
         if key == "★basic" { return NSLocalizedString("기본", comment: "Category tab: default/basic") }
         if key == "★all" { return NSLocalizedString("전체", comment: "Category tab: all") }
         if key == "★favorites" { return NSLocalizedString("즐겨찾기", comment: "Category tab: favorites") }
@@ -2947,6 +3103,7 @@ struct KeyboardView: View {
         // 앞에서 그냥 자르지 않는다. 심어 준 샘플이 앞자리를 차지한 만큼 자기 단축어가
         // 뒤로 밀려 안 보이게 되는데, 그러면 한도에서 빼 준 것을 화면에서 도로 세는 셈이다.
         allMemos = ProFeatureManager.memosWithinLimit(clipMemos)
+        reloadRecentClips()
         refreshQuickRowSignals()
     }
 
@@ -3165,6 +3322,7 @@ struct KeyboardView: View {
 
     /// iOS 앱 ClipKeyboardList.customCategoryColor과 동일한 팔레트 + 인덱스 기반
     private func colorForCategoryKey(_ key: String) -> Color {
+        if key == Self.recentClipsKey { return theme.accent }
         if key == "★basic" { return .gray }   // 앱 .basic 인디케이터 색과 동일
         if key == "★all" { return .blue }
         if key == "★favorites" { return .clipFavorite }

@@ -179823,6 +179823,1887 @@
           }
         }
       }
+    },
+    "%d일 동안 여기서 바로 꺼내 쓸 수 있어요" : {
+      "comment" : "Keyboard recent tab: second line of the save button. %d is the number of days items are kept",
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hier %d Tag lang direkt abrufbar"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Hier %d Tage lang direkt abrufbar"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready to use here for %d days"
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Disponible aquí para usar durante %d día"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Disponible aquí para usar durante %d días"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d日間、ここからすぐに使えます"
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Можно использовать здесь %d день"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Можно использовать здесь %d дня"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Можно использовать здесь %d дней"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Можно использовать здесь %d дня"
+                }
+              }
+            }
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ใช้ได้จากตรงนี้ทันทีนาน %d วัน"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dùng ngay tại đây trong %d ngày"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 天内可在这里直接取用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 天內可在這裡直接取用"
+          }
+        }
+      }
+    },
+    "눌러서 넣습니다. 길게 누르면 클립보드에 복사합니다" : {
+      "comment" : "Keyboard recent tab: row hint",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippen zum Einfügen. Gedrückt halten, um in die Zwischenablage zu kopieren."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to insert. Touch and hold to copy to the clipboard."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca para insertar. Mantén presionado para copiar al portapapeles"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タップで入力します。長押しでクリップボードにコピーします"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите, чтобы вставить. Нажмите и удерживайте, чтобы скопировать в буфер обмена"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แตะเพื่อใส่ กดค้างเพื่อคัดลอกไปยังคลิปบอร์ด"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chạm để chèn. Chạm giữ để sao chép vào bảng tạm"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点即可输入，长按复制到剪贴板。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輕點即可輸入，長按複製到剪貼簿。"
+          }
+        }
+      }
+    },
+    "복사한 글을 이 목록에 저장" : {
+      "comment" : "Keyboard recent tab: button that saves the text currently on the clipboard into the list below (it does not type it)",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopierten Text in dieser Liste sichern"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save copied text to this list"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar en la lista el texto copiado"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コピーした文章をこのリストに保存"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить скопированный текст в список"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "บันทึกข้อความที่คัดลอกลงในรายการนี้"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lưu văn bản đã sao chép vào danh sách này"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把复制的文字存到此列表"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把複製的文字存到此列表"
+          }
+        }
+      }
+    },
+    "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, %d일간 유지)" : {
+      "comment" : "Clipboard history empty description. %d is the number of days items are kept",
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Was du kopierst, wird hier automatisch gespeichert\n(bis zu 100 Einträge, %d Tag lang behalten)"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Was du kopierst, wird hier automatisch gespeichert\n(bis zu 100 Einträge, %d Tage lang behalten)"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What you copy is saved here automatically\n(up to 100 items, kept for %d days)"
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Lo que copies se guarda aquí automáticamente\n(hasta 100 elementos, durante %d día)"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Lo que copies se guarda aquí automáticamente\n(hasta 100 elementos, durante %d días)"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コピーした内容が自動でここに保存されます\n(最大100件、%d日間保持)"
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Скопированное сохраняется здесь автоматически\n(до 100 элементов, хранятся %d день)"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Скопированное сохраняется здесь автоматически\n(до 100 элементов, хранятся %d дня)"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Скопированное сохраняется здесь автоматически\n(до 100 элементов, хранятся %d дней)"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Скопированное сохраняется здесь автоматически\n(до 100 элементов, хранятся %d дня)"
+                }
+              }
+            }
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "สิ่งที่คัดลอกจะถูกบันทึกที่นี่โดยอัตโนมัติ\n(สูงสุด 100 รายการ เก็บไว้ %d วัน)"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nội dung bạn sao chép sẽ tự động được lưu ở đây\n(tối đa 100 mục, giữ trong %d ngày)"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制的内容会自动保存在这里\n（最多 100 条，保留 %d 天）"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製的內容會自動儲存在這裡\n（最多 100 條，保留 %d 天）"
+          }
+        }
+      }
+    },
+    "복사한 뒤 위의 버튼을 누르면 여기에 %d일 동안 남아요" : {
+      "comment" : "Keyboard recent tab: empty hint. %d is the number of days items are kept",
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Kopiere etwas und tippe dann oben auf den Button. Es bleibt %d Tag hier."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Kopiere etwas und tippe dann oben auf den Button. Es bleibt %d Tage hier."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy something, then tap the button above. It stays here for %d days."
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Copia algo y toca el botón de arriba. Se queda aquí %d día"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Copia algo y toca el botón de arriba. Se queda aquí %d días"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コピーしてから上のボタンを押すと、ここに%d日間残ります"
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Скопируйте и нажмите кнопку выше. Это останется здесь на %d день"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Скопируйте и нажмите кнопку выше. Это останется здесь на %d дня"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Скопируйте и нажмите кнопку выше. Это останется здесь на %d дней"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Скопируйте и нажмите кнопку выше. Это останется здесь на %d дня"
+                }
+              }
+            }
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "คัดลอกแล้วแตะปุ่มด้านบน จะอยู่ที่นี่ %d วัน"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hãy sao chép, rồi chạm nút phía trên. Mục này được giữ ở đây %d ngày"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制后轻点上方按钮，内容会在这里保留 %d 天。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製後輕點上方按鈕，內容會在這裡保留 %d 天。"
+          }
+        }
+      }
+    },
+    "사용법과 문의" : {
+      "comment" : "Settings section: how to use the app, tips and contact",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anleitung & Kontakt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How-to & contact"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uso y contacto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使い方とお問い合わせ"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Справка и связь"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "วิธีใช้และติดต่อ"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cách dùng & liên hệ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用方法与联系"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用方法與聯繫"
+          }
+        }
+      }
+    },
+    "아직 담아 둔 것이 없어요" : {
+      "comment" : "Keyboard recent tab: empty title",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch nichts gesichert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing saved yet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no has guardado nada"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存したものはまだありません"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока ничего не сохранено"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ยังไม่มีรายการที่เก็บไว้"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chưa có gì được lưu"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "还没有存入任何内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "還沒有存入任何內容"
+          }
+        }
+      }
+    },
+    "지금 복사돼 있는 것을 이 목록에 넣습니다. %d일 동안 남습니다" : {
+      "comment" : "Keyboard recent tab: capture button hint. %d is the number of days items are kept",
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Fügt Kopiertes zu dieser Liste hinzu. Es bleibt %d Tag."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Fügt Kopiertes zu dieser Liste hinzu. Es bleibt %d Tage."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adds what you copied to this list. It stays for %d days."
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Agrega a esta lista lo que copiaste. Se queda %d día"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Agrega a esta lista lo que copiaste. Se queda %d días"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今コピーしているものをこの一覧に追加します。%d日間残ります"
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Добавляет скопированное в этот список на %d день"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Добавляет скопированное в этот список на %d дня"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Добавляет скопированное в этот список на %d дней"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Добавляет скопированное в этот список на %d дня"
+                }
+              }
+            }
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เพิ่มสิ่งที่คัดลอกไว้ลงในรายการนี้ และจะอยู่ %d วัน"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thêm nội dung bạn đã sao chép vào danh sách này. Được giữ %d ngày"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把当前复制的内容加入此列表，保留 %d 天。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把當前複製的內容加入此列表，保留 %d 天。"
+          }
+        }
+      }
+    },
+    "최근 탭에 담았어요" : {
+      "comment" : "Keyboard toast: current clipboard saved to the recent tab",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unter „Zuletzt“ gesichert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved to Recent"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardado en Recientes"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「最近」に保存しました"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранено в «Недавние»"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เก็บไว้ในแท็บล่าสุดแล้ว"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã lưu vào tab Gần đây"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已存入“最近”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已存入「最近」"
+          }
+        }
+      }
+    },
+    "함께 쓰면 좋은 앱" : {
+      "comment" : "Settings section: other apps by the same developer that pair well with this one",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passende Apps dazu"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps that pair well"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps que combinan bien"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "あわせて使いたいアプリ"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Полезные приложения в пару"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แอปที่ใช้คู่กันได้ดี"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ứng dụng nên dùng cùng"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搭配使用的好应用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搭配使用的好應用"
+          }
+        }
+      }
+    },
+    "이미 목록 맨 위에 있어요" : {
+      "comment" : "Keyboard recent tab: save button second line when the copied text is already the newest item in the list",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Steht schon ganz oben in der Liste"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Already at the top of the list"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya está al principio de la lista"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すでに一覧の先頭にあります"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уже первое в списке"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "อยู่บนสุดของรายการแล้ว"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã ở đầu danh sách rồi"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在列表最上方"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在列表最上方"
+          }
+        }
+      }
+    },
+    "최근 탭" : {
+      "comment" : "Show the Recent tab (saved copied text) at the front of the keyboard toggle",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tab „Zuletzt“"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent tab"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pestaña Recientes"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近タブ"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вкладка «Недавние»"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แท็บล่าสุด"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tab Gần đây"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“最近”标签"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「最近」標籤"
+          }
+        }
+      }
+    },
+    "복사해 둔 글을 키보드 맨 앞 탭에 모아 둡니다. %d일 동안 남아요" : {
+      "comment" : "Recent tab toggle description. %d is the number of days items are kept",
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Sammelt kopierten Text im ersten Tastatur-Tab. Er bleibt %d Tag erhalten"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Sammelt kopierten Text im ersten Tastatur-Tab. Er bleibt %d Tage erhalten"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keeps text you copied in the first keyboard tab, for %d days"
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Reúne lo que copiaste en la primera pestaña del teclado. Se queda %d día"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Reúne lo que copiaste en la primera pestaña del teclado. Se queda %d días"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コピーした文章をキーボードの先頭タブにまとめます。%d日間残ります"
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Собирает скопированный текст на первой вкладке клавиатуры. Хранится %d день"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Собирает скопированный текст на первой вкладке клавиатуры. Хранится %d дня"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Собирает скопированный текст на первой вкладке клавиатуры. Хранится %d дней"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Собирает скопированный текст на первой вкладке клавиатуры. Хранится %d дня"
+                }
+              }
+            }
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เก็บข้อความที่คัดลอกไว้ในแท็บแรกของคีย์บอร์ด เป็นเวลา %d วัน"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lưu văn bản bạn đã sao chép ở tab đầu tiên của bàn phím, trong %d ngày"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把复制的文字收在键盘最前面的标签里，保留 %d 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把複製的文字收在鍵盤最前面的標籤裡，保留 %d 天"
+          }
+        }
+      }
+    },
+    "복사한 글을 키보드에서 바로 꺼내 써요" : {
+      "comment" : "What's new title 5.1.8",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopierten Text direkt auf der Tastatur nutzen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use what you copied, right from the keyboard"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa lo que copiaste directo desde el teclado"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コピーした文章を、キーボードからすぐ使えます"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопированный текст прямо на клавиатуре"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ใช้ข้อความที่คัดลอกจากคีย์บอร์ดได้ทันที"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dùng văn bản đã sao chép ngay trên bàn phím"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制的文字，在键盘上直接取用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製的文字，在鍵盤上直接取用"
+          }
+        }
+      }
+    },
+    "잠깐 쓸 글은 키보드 맨 앞 '최근' 탭에 모아 두세요." : {
+      "comment" : "What's new subtitle 5.1.8. 'Recent' is the name of the keyboard tab",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text, den du kurz brauchst, sammelt sich im ersten Tastatur-Tab „Zuletzt“."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep text you need for a while in the keyboard's first tab, Recent."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que necesites por un rato, déjalo en la pestaña 'Recientes', la primera del teclado."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "少しの間使う文章は、キーボード先頭の「最近」タブにまとめておきましょう。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Текст на время храните на первой вкладке клавиатуры, «Недавние»."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ข้อความที่ใช้ชั่วคราว เก็บไว้ในแท็บแรกของคีย์บอร์ด คือ \"ล่าสุด\""
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Văn bản cần dùng tạm thời có thể để ở tab đầu tiên của bàn phím, Gần đây."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂时要用的文字，就放在键盘最前面的“最近”标签里。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暫時要用的文字，就放在鍵盤最前面的「最近」標籤裡。"
+          }
+        }
+      }
+    },
+    "키보드 맨 앞에 '최근' 탭이 생겼어요" : {
+      "comment" : "What's new 5.1.8 recent tab title",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neuer Tab „Zuletzt“ ganz vorn auf der Tastatur"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new Recent tab, first on the keyboard"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nueva pestaña 'Recientes' al inicio del teclado"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キーボードの先頭に「最近」タブが加わりました"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая вкладка «Недавние» первой на клавиатуре"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "คีย์บอร์ดมีแท็บ \"ล่าสุด\" อยู่หน้าสุดแล้ว"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bàn phím có thêm tab Gần đây ở đầu tiên"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "键盘最前面新增了“最近”标签"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鍵盤最前面新增了「最近」標籤"
+          }
+        }
+      }
+    },
+    "앱이 모은 복사 기록과 키보드에서 저장한 글이 한곳에 모여요. 누르면 바로 입력되고, 길게 누르면 복사돼요." : {
+      "comment" : "What's new 5.1.8 recent tab detail",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Kopierverlauf und Text, den du auf der Tastatur sicherst, sind an einem Ort. Tippen fügt ihn ein, langes Drücken kopiert ihn."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your copy history and text you save from the keyboard live in one place. Tap to type it, touch and hold to copy."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El historial de copiado de la app y lo que guardas desde el teclado quedan en un solo lugar. Toca para escribirlo, mantén presionado para copiarlo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリが集めたコピー履歴と、キーボードで保存した文章が1か所にまとまります。タップで入力、長押しでコピーします。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "История копирования и текст, сохранённый с клавиатуры, собраны в одном месте. Нажмите, чтобы ввести, нажмите и удерживайте, чтобы скопировать."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ประวัติการคัดลอกและข้อความที่บันทึกจากคีย์บอร์ดจะรวมอยู่ในที่เดียว แตะเพื่อพิมพ์ กดค้างไว้เพื่อคัดลอก"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lịch sử sao chép và văn bản bạn lưu từ bàn phím nằm chung một chỗ. Chạm để nhập, chạm và giữ để sao chép."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App 收集的复制记录和在键盘上存下的文字都在这里。轻点即可输入，长按即可复制。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App 收集的複製記錄和在鍵盤上存下的文字都在這裡。輕點即可輸入，長按即可複製。"
+          }
+        }
+      }
+    },
+    "무엇이 저장될지 누르기 전에 보여요" : {
+      "comment" : "What's new 5.1.8 save preview title",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du siehst vor dem Tippen, was gespeichert wird"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See what will be saved before you tap"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ve qué se guardará antes de tocar"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存される内容を、タップする前に確認できます"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Видно, что сохранится, до нажатия"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ดูก่อนกดว่าจะบันทึกอะไร"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xem trước nội dung sẽ lưu trước khi bạn chạm"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点前就能看到要存入的内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輕點前就能看到要存入的內容"
+          }
+        }
+      }
+    },
+    "저장 버튼에 지금 복사해 둔 글이 미리 보여요. 카드번호는 끝 네 자리만 보여요." : {
+      "comment" : "What's new 5.1.8 save preview detail",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Sichern-Taste zeigt den kopierten Text. Bei Kartennummern siehst du nur die letzten vier Ziffern."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The save button shows the text you copied. Card numbers show only the last four digits."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El botón de guardar muestra el texto que copiaste. De las tarjetas solo se ven los últimos cuatro dígitos."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存ボタンに、いまコピーしている文章が表示されます。カード番号は下4桁のみ表示されます。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кнопка сохранения показывает скопированный текст. У номера карты видны только последние четыре цифры."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ปุ่มบันทึกจะแสดงข้อความที่คัดลอกไว้ ส่วนเลขบัตรจะแสดงเฉพาะ 4 หลักสุดท้าย"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nút lưu hiện văn bản bạn đã sao chép. Số thẻ chỉ hiện bốn chữ số cuối."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存入按钮上会预先显示当前复制的文字。卡号只显示后四位。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存入按鈕上會預先顯示當前複製的文字。卡號只顯示後四位。"
+          }
+        }
+      }
+    },
+    "복사한 글이 %d일 동안 남아요" : {
+      "comment" : "What's new 5.1.8 retention title. %d is the number of days",
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Kopierter Text bleibt %d Tag erhalten"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Kopierter Text bleibt %d Tage erhalten"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copied text stays for %d days"
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Lo copiado se queda %d día"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Lo copiado se queda %d días"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コピーした文章は%d日間残ります"
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Скопированный текст хранится %d день"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Скопированный текст хранится %d дня"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Скопированный текст хранится %d дней"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Скопированный текст хранится %d дня"
+                }
+              }
+            }
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ข้อความที่คัดลอกจะอยู่ %d วัน"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Văn bản đã sao chép được giữ %d ngày"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制的文字保留 %d 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製的文字保留 %d 天"
+          }
+        }
+      }
+    },
+    "예전에는 7일이 지나면 사라졌어요. 이제 한 달 가까이 두고 쓸 수 있어요." : {
+      "comment" : "What's new 5.1.8 retention detail",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Früher war er nach 7 Tagen weg. Jetzt kannst du ihn fast einen Monat behalten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It used to disappear after 7 days. Now you can keep it for about a month."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Antes desaparecía a los 7 días. Ahora puedes conservarlo casi un mes."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以前は7日たつと消えていました。これからは1か月近く残しておけます。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Раньше текст пропадал через 7 дней. Теперь его можно хранить почти месяц."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เมื่อก่อนข้อความจะหายไปหลัง 7 วัน ตอนนี้เก็บไว้ได้เกือบหนึ่งเดือน"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trước đây văn bản sẽ biến mất sau 7 ngày. Giờ bạn có thể giữ khoảng một tháng."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以前 7 天后就会消失，现在可以保留将近一个月。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以前 7 天後就會消失，現在可以保留將近一個月。"
+          }
+        }
+      }
+    },
+    "필요 없으면 꺼 두세요" : {
+      "comment" : "What's new 5.1.8 toggle title",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schalte ihn aus, wenn du ihn nicht brauchst"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn it off if you don’t need it"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactívala si no la necesitas"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不要ならオフにしてください"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если не нужна, отключите"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ปิดไว้ได้ถ้าไม่ต้องใช้"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tắt đi nếu bạn không cần"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用不到可以关掉"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用不到可以關掉"
+          }
+        }
+      }
+    },
+    "설정 > 키보드 > 키보드 레이아웃에서 '최근' 탭을 끌 수 있어요." : {
+      "comment" : "What's new 5.1.8 toggle detail. 'Recent' is the name of the keyboard tab",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den Tab „Zuletzt“ kannst du unter Einstellungen > Tastatur > Tastaturlayout ausschalten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can turn off the Recent tab in Settings > Keyboard > Keyboard layout."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puedes desactivar la pestaña 'Recientes' en Configuración > Teclado > Distribución del teclado."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「設定」>「キーボード」>「キーボードレイアウト」で「最近」タブをオフにできます。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вкладку «Недавние» можно отключить в Настройки > Клавиатура > Раскладка клавиатуры."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ปิดแท็บ \"ล่าสุด\" ได้ที่ การตั้งค่า > คีย์บอร์ด > เลย์เอาต์คีย์บอร์ด"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bạn có thể tắt tab Gần đây trong Cài đặt > Bàn phím > Bố cục bàn phím."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可在 设置 > 键盘 > 键盘布局 中关闭“最近”标签。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可在 設定 > 鍵盤 > 鍵盤佈局 中關閉「最近」標籤。"
+          }
+        }
+      }
+    },
+    "키보드 설정 보기" : {
+      "comment" : "What's new 5.1.8 primary button: opens keyboard settings where the Recent tab can be turned off",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tastatureinstellungen öffnen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open keyboard settings"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir ajustes del teclado"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キーボード設定を開く"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки клавиатуры"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ดูการตั้งค่าคีย์บอร์ด"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mở cài đặt bàn phím"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看键盘设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看鍵盤設定"
+          }
+        }
+      }
+    },
+    "키보드 맨 앞에 '최근' 탭이 생겼어요. 복사해 둔 글을 키보드에서 바로 꺼내 써요" : {
+      "comment" : "Changelog 5.1.8 recent tab",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neuer Tab „Zuletzt“ ganz vorn auf der Tastatur: Kopierter Text ist direkt zur Hand"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A new Recent tab, first on the keyboard, puts text you copied right at hand"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nueva pestaña 'Recientes' al inicio del teclado, con lo que copiaste a la mano"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キーボードの先頭に「最近」タブが加わりました。コピーした文章をキーボードからすぐ使えます"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Новая вкладка «Недавние» стоит первой на клавиатуре: скопированный текст всегда под рукой"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "คีย์บอร์ดมีแท็บ \"ล่าสุด\" อยู่หน้าสุดแล้ว ใช้ข้อความที่คัดลอกได้ทันที"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bàn phím có thêm tab Gần đây ở đầu tiên, giúp bạn lấy ngay văn bản đã sao chép"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "键盘最前面新增“最近”标签，复制的文字可直接取用"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鍵盤最前面新增「最近」標籤，複製的文字可直接取用"
+          }
+        }
+      }
+    },
+    "저장 버튼이 무엇이 저장될지 누르기 전에 보여 줘요" : {
+      "comment" : "Changelog 5.1.8 save preview",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Sichern-Taste zeigt vor dem Tippen, was gespeichert wird"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The save button shows what will be saved before you tap"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El botón de guardar muestra qué se guardará antes de tocarlo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存ボタンで、保存される内容をタップする前に確認できます"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кнопка сохранения показывает, что будет сохранено, до нажатия"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ปุ่มบันทึกจะแสดงให้เห็นก่อนกดว่าจะบันทึกอะไร"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nút lưu cho bạn xem nội dung sẽ được lưu trước khi bạn chạm"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存入按钮会在轻点前显示要存入的内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "存入按鈕會在輕點前顯示要存入的內容"
+          }
+        }
+      }
+    },
+    "복사한 글이 7일이 아니라 30일 동안 남아요" : {
+      "comment" : "Changelog 5.1.8 retention 30 days",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopierter Text bleibt jetzt 30 statt 7 Tage erhalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copied text now stays for 30 days instead of 7"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo copiado ahora se queda 30 días, no 7"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コピーした文章が7日ではなく30日間残ります"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скопированный текст теперь хранится 30 дней, а не 7"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ข้อความที่คัดลอกจะอยู่ 30 วัน แทนที่จะเป็น 7 วัน"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Văn bản đã sao chép nay được giữ 30 ngày thay vì 7 ngày"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制的文字保留 30 天，不再是 7 天"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "複製的文字保留 30 天，不再是 7 天"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

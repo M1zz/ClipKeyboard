@@ -23,7 +23,7 @@
 - **스마트 클립보드 히스토리**: 자동 분류 시스템 (정규식 기반)
   - 15가지 타입 자동 감지 (이메일, 전화번호, 주소, URL, 카드번호, 계좌번호 등)
   - 신뢰도(confidence) 기반 분류
-- 임시 항목은 7일 후 자동 삭제
+- 임시 항목은 30일 후 자동 삭제 (`SmartClipboardHistory.retentionDays`)
 - 최대 100개 항목 유지
 
 ### 3. 커스텀 키보드 (ClipKeyboardExtension)

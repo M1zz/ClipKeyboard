@@ -210,6 +210,33 @@ struct SmartClipboardHistory: Identifiable, Codable {
         self.detectedType = detectedType
         self.confidence = confidence
     }
+
+    // MARK: - 보관 기간
+
+    /// 임시 항목을 남겨 두는 날 수. **지우는 곳(`MemoStore`)과 보여 주는 곳(키보드 '최근' 탭)이
+    /// 이 값 하나를 본다.** 둘이 따로 적으면 키보드에는 앱이 이미 지운 날짜가 남는다.
+    ///
+    /// 7일에서 30일로 늘렸다. 잠깐 쓸 것을 담아 두는 그릇으로 쓰는 사람이 많은데
+    /// (사용자 요청: "copy things for a short time, perhaps one week or one month"),
+    /// 7일이면 한 주를 넘긴 것이 말없이 사라졌다.
+    static let retentionDays = 30
+
+    /// 아직 남겨 둘 때인가. 임시가 아닌 항목은 늘 남는다.
+    func isRetained(now: Date = Date()) -> Bool {
+        guard isTemporary else { return true }
+        guard let cutoff = Calendar.current.date(byAdding: .day, value: -Self.retentionDays, to: now) else {
+            return true
+        }
+        return copiedAt >= cutoff
+    }
+
+    /// 키보드 '최근' 탭에 세울 것들. 넣을 글이 있고 보관 기간 안인 것만, 최근 복사 순으로.
+    static func keyboardRecents(_ items: [SmartClipboardHistory], now: Date = Date()) -> [SmartClipboardHistory] {
+        items
+            .filter { $0.contentType == .text && !$0.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+            .filter { $0.isRetained(now: now) }
+            .sorted { $0.copiedAt > $1.copiedAt }
+    }
 }
 
 // Clipboard History Model (Legacy - 하위 호환성)
@@ -217,7 +244,7 @@ struct ClipboardHistory: Identifiable, Codable {
     var id = UUID()
     var content: String
     var copiedAt: Date = Date()
-    var isTemporary: Bool = true // 자동으로 7일 후 삭제
+    var isTemporary: Bool = true // 자동으로 30일 후 삭제 (SmartClipboardHistory.retentionDays)
 
     init(id: UUID = UUID(), content: String, copiedAt: Date = Date(), isTemporary: Bool = true) {
         self.id = id

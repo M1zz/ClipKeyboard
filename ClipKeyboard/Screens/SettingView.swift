@@ -194,7 +194,7 @@ struct SettingView: View {
 
     /// 피드백과 리뷰 - 설정 첫 화면의 **맨 아래**, 따로 한 섹션으로 둔다.
     ///
-    /// ⚠️ 한때 "도움말과 문의" 안쪽에 있었다. 한 칸 들어가야 보이는 문은 거의 열리지 않는다.
+    /// ⚠️ 한때 "도움말과 문의"(지금의 "사용법과 문의") 안쪽에 있었다. 한 칸 들어가야 보이는 문은 거의 열리지 않는다.
     ///    그래서 첫 화면에 꺼내 두되, 갈래 목록을 다 훑고 난 끝자리에 둔다. 갈래 이름이
     ///    먼저 보여야 설정 화면이 무엇을 하는 곳인지 읽힌다.
     private var feedbackSection: some View {
@@ -208,7 +208,7 @@ struct SettingView: View {
                       systemImage: AppSymbol.star)
             }
         } footer: {
-            // 버전은 첫 화면 맨 끝에 늘 보인다. 예전에는 앱 정보 안쪽에만 있어서
+            // 버전은 첫 화면 맨 끝에 늘 보인다. 예전에는 "앱 정보" 안쪽에만 있어서
             // "설정에서 앱 버전이 왜 안 보이지"가 됐다. 문의할 때 빌드 번호까지 말할 수 있게 같이 적는다.
             Text("\(NSLocalizedString("버전", comment: "Version label")) \(Self.versionText)")
                 .font(.footnote)
@@ -245,15 +245,15 @@ struct SettingView: View {
         }
     }
 
-    /// 가끔 여는 것 - 내 데이터, 도움, 앱에 대한 것.
+    /// 가끔 여는 것 - 내 데이터, 사용법, 함께 쓰면 좋은 앱.
     private var aboutSection: some View {
         Section {
             categoryRow(NSLocalizedString("내 데이터", comment: "Settings section: my data"),
                         systemImage: AppSymbol.externaldrive) { MyDataSettingsView() }
-            categoryRow(NSLocalizedString("도움말과 문의", comment: "Settings section: help and contact"),
+            categoryRow(NSLocalizedString("사용법과 문의", comment: "Settings section: how to use the app, tips and contact"),
                         systemImage: AppSymbol.questionmarkCircle) { HelpSettingsView() }
-            categoryRow(NSLocalizedString("앱 정보", comment: "App info section"),
-                        systemImage: AppSymbol.infoCircle) { AppInfoSettingsView() }
+            categoryRow(NSLocalizedString("함께 쓰면 좋은 앱", comment: "Settings section: other apps by the same developer that pair well with this one"),
+                        systemImage: AppSymbol.squareGrid2x2) { AppInfoSettingsView() }
         }
     }
 

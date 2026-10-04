@@ -35,6 +35,15 @@ enum ChangelogData {
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
     static let entries: [ChangelogEntry] = [
         ChangelogEntry(
+            version: "5.1.8",
+            released: nil,
+            highlights: [
+                NSLocalizedString("키보드 맨 앞에 '최근' 탭이 생겼어요. 복사해 둔 글을 키보드에서 바로 꺼내 써요", comment: "Changelog 5.1.8 recent tab"),
+                NSLocalizedString("저장 버튼이 무엇이 저장될지 누르기 전에 보여 줘요", comment: "Changelog 5.1.8 save preview"),
+                NSLocalizedString("복사한 글이 7일이 아니라 30일 동안 남아요", comment: "Changelog 5.1.8 retention 30 days"),
+            ]
+        ),
+        ChangelogEntry(
             version: "5.1.5",
             released: nil,
             highlights: [

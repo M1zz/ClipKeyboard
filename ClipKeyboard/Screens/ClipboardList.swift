@@ -305,7 +305,7 @@ struct ClipboardList: View {
                 // 아직 자동으로 안 모으는 기간에는 그렇다고 말한다
                 // "자동으로 저장됩니다"라고 해 두면 안 모이는 며칠 동안 고장 난 것처럼 보인다.
                 if PastePermissionGuidance.mayAutoReadClipboard {
-                    Text(NSLocalizedString("복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)", comment: "Clipboard history empty description"))
+                    Text(String(format: NSLocalizedString("복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, %d일간 유지)", comment: "Clipboard history empty description. %d is the number of days items are kept"), SmartClipboardHistory.retentionDays))
                         .opacity(0.7)
                 } else {
                     Text(NSLocalizedString("며칠 써 보신 뒤부터 복사한 내용을 자동으로 모아요.\n그때 iOS가 붙여넣기를 허용할지 한 번 물어봐요.", comment: "Clipboard history empty description during warm-up"))

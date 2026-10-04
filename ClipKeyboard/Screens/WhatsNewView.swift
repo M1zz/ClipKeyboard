@@ -9,10 +9,11 @@
 //     (`ClipKeyboardApp.presentWhatsNewIfNeeded`), 그 사람은 온보딩이 맞이한다.
 //     새로 온 사람에게 "새로워졌어요"는 무슨 말인지 알 수 없는 말이다.
 //
-//  ⚠️ 5.1.3 은 **키보드를 내 손에 맞게 고치는 자리**를 알린다. 보내기 키를 한 번 없앴다가
-//     "전송 버튼이 또 없어졌다"는 신고가 들어왔다. 누구에게는 필요 없고 누구에게는 꼭 있어야
-//     하는 키라, 없애는 대신 설정에서 켜고 끄게 했다. 그 스위치가 있는 줄 알려야 같은 신고가
-//     다시 안 온다. 그래서 큰 버튼이 곧장 키보드 레이아웃 화면을 연다.
+//  ⚠️ 5.1.8 은 키보드 맨 앞의 **'최근' 탭**을 알린다. 잠깐 쓸 글을 한 주·한 달 담아 두고
+//     키보드에서 바로 꺼내 쓰고 싶다는 요청에서 나왔다(단축어 30, 잠깐 쓰는 글 70 으로 쓰는 사람).
+//     탭이 저절로 생기므로 "이게 뭐지" 가 되지 않게 알리고, 필요 없는 사람이 끌 자리도 같이 말한다.
+//     큰 버튼은 그 스위치가 있는 키보드 설정을 연다.
+//  (5.1.3 은 위줄 키를 켜고 끄는 자리를 알렸다. 그 이야기는 git 기록에 있다.)
 //
 import SwiftUI
 
@@ -22,12 +23,12 @@ enum WhatsNewContent {
     ///
     /// ⚠️ **내용을 바꿀 때 이 값도 같이 올릴 것.** 안 올리면 업데이트한 사람은 이미 본 것으로
     ///    기록돼 있어 새 안내를 **한 번도 못 본다** - 새 기능이 있어도 있는 줄 모른다.
-    static let version = "5.1.3"
+    static let version = "5.1.8"
 }
 
 struct WhatsNewView: View {
     let onClose: () -> Void
-    /// 큰 버튼을 누르면 닫은 뒤 그 기능으로 데려간다(이번 버전은 키보드 레이아웃 설정).
+    /// 큰 버튼을 누르면 닫은 뒤 그 기능으로 데려간다(키보드 레이아웃 설정, '최근' 탭 스위치가 있는 곳).
     /// ⚠️ 안내는 **보여주는 데서 끝나면 안 된다** - 읽고 닫으면 아무것도 안 달라진다.
     let onPrimaryAction: () -> Void
 
@@ -36,18 +37,18 @@ struct WhatsNewView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     VStack(spacing: 10) {
-                        Image(systemName: AppSymbol.keyboard)
+                        Image(systemName: AppSymbol.docOnClipboard)
                             .font(.system(size: 64, weight: .light))
                             .foregroundColor(.accentColor)
                             .padding(.top, 24)
                             .accessibilityHidden(true)
 
-                        Text(NSLocalizedString("키보드를 내 손에 맞게 고쳐요", comment: "What's new title 5.1.3"))
+                        Text(NSLocalizedString("복사한 글을 키보드에서 바로 꺼내 써요", comment: "What's new title 5.1.8"))
                             .font(.title.bold())
                             .multilineTextAlignment(.center)
 
-                        Text(NSLocalizedString("위줄에 둘 키와 크기를 설정에서 직접 골라요.",
-                                               comment: "What's new subtitle 5.1.3"))
+                        Text(NSLocalizedString("잠깐 쓸 글은 키보드 맨 앞 '최근' 탭에 모아 두세요.",
+                                               comment: "What's new subtitle 5.1.8. 'Recent' is the name of the keyboard tab"))
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -56,19 +57,25 @@ struct WhatsNewView: View {
 
                     VStack(spacing: 18) {
                         featureRow(
-                            symbol: AppSymbol.returnLeft,
-                            title: NSLocalizedString("보내기 키를 켜고 끌 수 있어요", comment: "What's new 5.1.3 return key title"),
-                            detail: NSLocalizedString("단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.", comment: "What's new 5.1.3 return key detail")
+                            symbol: AppSymbol.tray,
+                            title: NSLocalizedString("키보드 맨 앞에 '최근' 탭이 생겼어요", comment: "What's new 5.1.8 recent tab title"),
+                            detail: NSLocalizedString("앱이 모은 복사 기록과 키보드에서 저장한 글이 한곳에 모여요. 누르면 바로 입력되고, 길게 누르면 복사돼요.", comment: "What's new 5.1.8 recent tab detail")
                         )
                         featureRow(
-                            symbol: "textformat.123",
-                            title: NSLocalizedString("숫자 판 키와 붙여넣기 키도 골라요", comment: "What's new 5.1.3 number pad paste title"),
-                            detail: NSLocalizedString("카드번호나 금액처럼 숫자 몇 자만 넣을 때는 숫자 판을 여세요. 붙여넣기 키는 쓰는 분만 켜면 돼요.", comment: "What's new 5.1.3 number pad paste detail")
+                            symbol: AppSymbol.docOnClipboard,
+                            title: NSLocalizedString("무엇이 저장될지 누르기 전에 보여요", comment: "What's new 5.1.8 save preview title"),
+                            detail: NSLocalizedString("저장 버튼에 지금 복사해 둔 글이 미리 보여요. 카드번호는 끝 네 자리만 보여요.", comment: "What's new 5.1.8 save preview detail")
                         )
                         featureRow(
-                            symbol: AppSymbol.rectangle3Group,
-                            title: NSLocalizedString("바꾸는 대로 진짜 키보드에서 보여요", comment: "What's new 5.1.3 live preview title"),
-                            detail: NSLocalizedString("설정 위쪽 미리보기가 실제 키보드 그대로예요. 키 크기와 높이를 바꾸면 바로 달라져요.", comment: "What's new 5.1.3 live preview detail")
+                            symbol: AppSymbol.clockArrowCirclepath,
+                            title: String(format: NSLocalizedString("복사한 글이 %d일 동안 남아요", comment: "What's new 5.1.8 retention title. %d is the number of days"),
+                                          SmartClipboardHistory.retentionDays),
+                            detail: NSLocalizedString("예전에는 7일이 지나면 사라졌어요. 이제 한 달 가까이 두고 쓸 수 있어요.", comment: "What's new 5.1.8 retention detail")
+                        )
+                        featureRow(
+                            symbol: AppSymbol.keyboard,
+                            title: NSLocalizedString("필요 없으면 꺼 두세요", comment: "What's new 5.1.8 toggle title"),
+                            detail: NSLocalizedString("설정 > 키보드 > 키보드 레이아웃에서 '최근' 탭을 끌 수 있어요.", comment: "What's new 5.1.8 toggle detail. 'Recent' is the name of the keyboard tab")
                         )
                     }
                     .padding(.horizontal, 24)
@@ -80,7 +87,7 @@ struct WhatsNewView: View {
                 Button {
                     onPrimaryAction()
                 } label: {
-                    Text(NSLocalizedString("키보드 꾸미러 가기", comment: "What's new 5.1.3 primary button"))
+                    Text(NSLocalizedString("키보드 설정 보기", comment: "What's new 5.1.8 primary button: opens keyboard settings where the Recent tab can be turned off"))
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)

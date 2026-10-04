@@ -367,3 +367,232 @@ final class KeyRepeater {
 
     deinit { stop() }
 }
+
+// MARK: - '최근' 탭: 복사해 담아 둔 것
+
+/// 저장 버튼이 **누르기 전에** 보여 줄 것 - 지금 클립보드에 무엇이 있는가.
+enum KeyboardClipboardPreview: Equatable {
+    /// 미리 읽을 수 없는 자리(앱 안 키보드 · 전체 접근 꺼짐) 또는 아직 못 읽었다.
+    case unknown
+    /// 복사해 둔 글이 없다.
+    case empty
+    /// 지금 복사돼 있는 글.
+    case text(String)
+}
+
+/// 키보드 맨 앞 탭. 복사해 담아 둔 것을 **잠깐 쓰는 그릇**으로 보여 준다.
+///
+/// 왜 맨 앞인가: 사용자가 보낸 말 그대로다.
+///
+///   "I use the app about 70% for short term snippets and 30% for permanent snippets.
+///    ... having the first page something like an inbox (that immediately appears in the keyboard)"
+///
+/// 단축어는 오래 두고 쓰는 것이고, 여기는 한 주·한 달 쓰고 버리는 것이다. 그런 사람에게는
+/// 이쪽이 더 자주 열린다. 보관 기간은 `SmartClipboardHistory.retentionDays` 가 정한다.
+///
+/// **짧게 누르면 넣고, 길게 누르면 클립보드로.** 단축어 키와 같은 손짓이다.
+/// 맨 위의 저장 버튼은 지금 복사돼 있는 것을 이 목록에 넣는다. 무엇이 들어갈지는 버튼이
+/// 미리 보여 준다(`clipboardPreview`, 읽는 쪽은 `KeyboardView.refreshClipboardPreview`).
+struct KeyboardRecentClipsPanel: View {
+
+    /// 보여 줄 것. 부르는 쪽이 보관 기간과 검색어로 이미 걸러서 넘긴다.
+    let clips: [SmartClipboardHistory]
+    let theme: AppTheme
+    /// 검색 중이면 빈 화면의 말이 달라진다.
+    let isFiltering: Bool
+    let onInsert: (SmartClipboardHistory) -> Void
+    let onCopy: (SmartClipboardHistory) -> Void
+    /// 저장 버튼에 미리 보여 줄 지금 클립보드.
+    let clipboardPreview: KeyboardClipboardPreview
+    let onCapture: () -> Void
+
+    private static let relativeFormatter: RelativeDateTimeFormatter = {
+        let f = RelativeDateTimeFormatter()
+        f.unitsStyle = .short
+        return f
+    }()
+
+    var body: some View {
+        VStack(spacing: 0) {
+            captureButton
+                .padding(.horizontal, 12)
+                .padding(.top, 4)
+                .padding(.bottom, 6)
+
+            if clips.isEmpty {
+                emptyState
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                ScrollView {
+                    LazyVStack(spacing: 6) {
+                        ForEach(clips) { clip in
+                            row(clip)
+                        }
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 10)
+                }
+                // 카테고리 줄과 같은 이유(키보드는 낮아서 가장자리 흐림이 첫 줄을 덮는다).
+                .scrollEdgeEffectHidden(true, for: .all)
+            }
+        }
+    }
+
+    // MARK: - 담기
+
+    private var captureButton: some View {
+        Button {
+            onCapture()
+        } label: {
+            // ⚠️ "담기" 한 마디로는 무엇이 일어날지 몰랐다(신고: "버튼을 눌렀을 때 뭐가 나올지
+            //    모르겠다"). 그다음 "며칠 동안 남아요" 를 붙였더니 그것도 아니었다(신고: "이 버튼을
+            //    눌렀을 때 어떤 값이 추가될지를 미리 알고 싶은 거야"). 그래서 **들어갈 글을 첫 줄에
+            //    크게** 두고, 아래에 하는 일("저장")을 작게 적는다(사용자가 고른 모양).
+            //    미리 읽을 수 없을 때만 예전처럼 하는 일과 며칠 남는지를 말한다.
+            HStack(spacing: 8) {
+                Image(systemName: AppSymbol.docOnClipboard)
+                    .font(.subheadline.weight(.semibold))
+                    .accessibilityHidden(true)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(buttonLines.title)
+                        .font(.footnote.weight(.semibold))
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                    Text(buttonLines.subtitle)
+                        .font(.caption2)
+                        .lineLimit(1)
+                        .opacity(0.9)
+                }
+                Spacer(minLength: 0)
+            }
+            .padding(.horizontal, 12)
+            .foregroundColor(theme.accentFg)
+            .frame(maxWidth: .infinity, minHeight: 40)
+            .background(theme.accent)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+        }
+        .buttonStyle(.squish)
+        .frame(minHeight: 44)
+        .contentShape(Rectangle())
+        .opacity(clipboardPreview == .empty ? 0.55 : 1)
+        .accessibilityHint(String(format: NSLocalizedString("지금 복사돼 있는 것을 이 목록에 넣습니다. %d일 동안 남습니다",
+                                                            comment: "Keyboard recent tab: capture button hint. %d is the number of days items are kept"),
+                                  SmartClipboardHistory.retentionDays))
+    }
+
+    /// 버튼의 두 줄. 첫 줄은 **들어갈 글**, 둘째 줄은 하는 일.
+    /// 미리 읽을 수 없거나 복사한 것이 없으면 첫 줄이 그 사정을 말한다.
+    private var buttonLines: (title: String, subtitle: String) {
+        let save = NSLocalizedString("저장", comment: "Save")
+        switch clipboardPreview {
+        case .unknown:
+            return (NSLocalizedString("복사한 글을 이 목록에 저장", comment: "Keyboard recent tab: button that saves the text currently on the clipboard into the list below (it does not type it)"),
+                    String(format: NSLocalizedString("%d일 동안 여기서 바로 꺼내 쓸 수 있어요",
+                                                     comment: "Keyboard recent tab: second line of the save button. %d is the number of days items are kept"),
+                           SmartClipboardHistory.retentionDays))
+        case .empty:
+            return (NSLocalizedString("복사해 둔 것이 없어요", comment: "Toast: clipboard is empty"), save)
+        case .text(let text):
+            let quoted = "\u{201C}" + Self.maskedPreview(text) + "\u{201D}"
+            if text == clips.first?.content {
+                return (quoted, NSLocalizedString("이미 목록 맨 위에 있어요",
+                                                  comment: "Keyboard recent tab: save button second line when the copied text is already the newest item in the list"))
+            }
+            return (quoted, save)
+        }
+    }
+
+    /// 한 줄로 보일 글. 남이 보면 곤란한 것(카드번호·계좌)은 끝 네 자리만.
+    ///
+    /// ⚠️ 분류는 앞부분만 본다. 키보드에 긴 글이 복사돼 있어도 정규식이 그 전부를 훑지 않게.
+    static func maskedPreview(_ text: String) -> String {
+        let head = String(text.prefix(300))
+        let oneLine = head.split(whereSeparator: \.isNewline).joined(separator: " ")
+            .trimmingCharacters(in: .whitespaces)
+        let type = ClipboardClassificationService.shared.classify(content: head).type
+        guard type.isSensitive else { return oneLine }
+        return "\u{2022}\u{2022}\u{2022}\u{2022} " + String(head.filter { !$0.isWhitespace }.suffix(4))
+    }
+
+    // MARK: - 한 줄
+
+    private func row(_ clip: SmartClipboardHistory) -> some View {
+        let type = clip.userCorrectedType ?? clip.detectedType
+        return HStack(alignment: .top, spacing: 8) {
+            Image(systemName: type.icon)
+                .font(.caption)
+                .foregroundColor(theme.textMuted)
+                .frame(width: 16)
+                .padding(.top, 2)
+                .accessibilityHidden(true)
+
+            Text(preview(clip, type: type))
+                .font(.subheadline)
+                .foregroundColor(theme.text)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            Text(Self.relativeFormatter.localizedString(for: clip.copiedAt, relativeTo: Date()))
+                .font(.caption2)
+                .foregroundColor(theme.textFaint)
+                .lineLimit(1)
+                .padding(.top, 2)
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 9)
+        .frame(minHeight: 44)
+        .background(theme.keycap)
+        .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+        .contentShape(Rectangle())
+        // 길게 누르기가 먼저 걸리면 짧게 누르기는 오지 않는다(SwiftUI 가 둘을 가른다).
+        .onTapGesture {
+            KeyboardHaptics.tap()
+            onInsert(clip)
+        }
+        .onLongPressGesture(minimumDuration: 0.4) {
+            onCopy(clip)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityHint(NSLocalizedString("눌러서 넣습니다. 길게 누르면 클립보드에 복사합니다",
+                                             comment: "Keyboard recent tab: row hint"))
+        .accessibilityAction(named: Text(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"))) {
+            onCopy(clip)
+        }
+    }
+
+    /// 목록에 보일 글. 카드번호·계좌처럼 남이 보면 곤란한 것은 **끝 네 자리만** 보인다.
+    /// 넣을 때는 원문 그대로 들어간다. 키보드는 남 앞에서도 열리는 자리라서다.
+    private func preview(_ clip: SmartClipboardHistory, type: ClipboardItemType) -> String {
+        let text = clip.content.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard type.isSensitive else { return text }
+        let tail = String(text.filter { !$0.isWhitespace }.suffix(4))
+        return "\u{2022}\u{2022}\u{2022}\u{2022} " + tail
+    }
+
+    // MARK: - 빈 화면
+
+    private var emptyState: some View {
+        VStack(spacing: 6) {
+            Image(systemName: isFiltering ? "magnifyingglass" : AppSymbol.tray)
+                .font(.title2)
+                .foregroundColor(theme.textFaint)
+            Text(isFiltering
+                 ? NSLocalizedString("Try a shorter keyword or clear the filter.", comment: "Empty hint: search")
+                 : NSLocalizedString("아직 담아 둔 것이 없어요", comment: "Keyboard recent tab: empty title"))
+                .font(.footnote.weight(.semibold))
+                .foregroundColor(theme.text)
+                .multilineTextAlignment(.center)
+            if !isFiltering {
+                Text(String(format: NSLocalizedString("복사한 뒤 위의 버튼을 누르면 여기에 %d일 동안 남아요",
+                                                      comment: "Keyboard recent tab: empty hint. %d is the number of days items are kept"),
+                            SmartClipboardHistory.retentionDays))
+                    .font(.caption2)
+                    .foregroundColor(theme.textMuted)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 20)
+            }
+        }
+    }
+}

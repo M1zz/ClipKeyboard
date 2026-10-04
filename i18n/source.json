@@ -593,6 +593,12 @@
     "comment": "Column count value",
     "h": "7c5988a701"
   },
+  "%d일 동안 여기서 바로 꺼내 쓸 수 있어요": {
+    "ko": "%d일 동안 여기서 바로 꺼내 쓸 수 있어요",
+    "en": "Ready to use here for %d days",
+    "comment": "Keyboard recent tab: second line of the save button. %d is the number of days items are kept",
+    "h": "6bdcea31f7"
+  },
   "%d일 무료 체험 + 무제한 단축어, iCloud 백업": {
     "ko": "%d일 무료 체험 + 무제한 단축어, iCloud 백업",
     "en": "%d-day free trial + unlimited snippets, iCloud backup",
@@ -5033,6 +5039,12 @@
     "comment": "Welcome: what a snippet is",
     "h": "62c8adf23a"
   },
+  "눌러서 넣습니다. 길게 누르면 클립보드에 복사합니다": {
+    "ko": "눌러서 넣습니다. 길게 누르면 클립보드에 복사합니다",
+    "en": "Tap to insert. Touch and hold to copy to the clipboard.",
+    "comment": "Keyboard recent tab: row hint",
+    "h": "ed0e984b1e"
+  },
   "눌러서 바로 넘어가기": {
     "ko": "눌러서 바로 넘어가기",
     "en": "Tap to skip ahead",
@@ -6947,6 +6959,12 @@
     "comment": "Free use card: see what changes",
     "h": "4c27c1bb42"
   },
+  "무엇이 저장될지 누르기 전에 보여요": {
+    "ko": "무엇이 저장될지 누르기 전에 보여요",
+    "en": "See what will be saved before you tap",
+    "comment": "What's new 5.1.8 save preview title",
+    "h": "5f3b9f1f59"
+  },
   "무제한": {
     "ko": "무제한",
     "en": "Unlimited",
@@ -7715,17 +7733,53 @@
     "comment": "DYK title: auto classify",
     "h": "5100523357"
   },
+  "복사한 글을 이 목록에 저장": {
+    "ko": "복사한 글을 이 목록에 저장",
+    "en": "Save copied text to this list",
+    "comment": "Keyboard recent tab: button that saves the text currently on the clipboard into the list below (it does not type it)",
+    "h": "8639d8b966"
+  },
+  "복사한 글을 키보드에서 바로 꺼내 써요": {
+    "ko": "복사한 글을 키보드에서 바로 꺼내 써요",
+    "en": "Use what you copied, right from the keyboard",
+    "comment": "What's new title 5.1.8",
+    "h": "52b1dd52c0"
+  },
+  "복사한 글이 %d일 동안 남아요": {
+    "ko": "복사한 글이 %d일 동안 남아요",
+    "en": "Copied text stays for %d days",
+    "comment": "What's new 5.1.8 retention title. %d is the number of days",
+    "h": "37f7490481"
+  },
+  "복사한 글이 7일이 아니라 30일 동안 남아요": {
+    "ko": "복사한 글이 7일이 아니라 30일 동안 남아요",
+    "en": "Copied text now stays for 30 days instead of 7",
+    "comment": "Changelog 5.1.8 retention 30 days",
+    "h": "3a3d50e79e"
+  },
   "복사한 내용을 자동으로 저장하고 관리": {
     "ko": "복사한 내용을 자동으로 저장하고 관리",
     "en": "Automatically save and manage what you copy",
     "comment": "Auto-registered",
     "h": "2b375c7698"
   },
+  "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, %d일간 유지)": {
+    "ko": "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, %d일간 유지)",
+    "en": "What you copy is saved here automatically\n(up to 100 items, kept for %d days)",
+    "comment": "Clipboard history empty description. %d is the number of days items are kept",
+    "h": "7534e7952e"
+  },
   "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)": {
     "ko": "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)",
     "en": "What you copy is saved here automatically\n(up to 100 items, kept for 7 days)",
     "comment": "Clipboard history empty description",
     "h": "06ccbd6d20"
+  },
+  "복사한 뒤 위의 버튼을 누르면 여기에 %d일 동안 남아요": {
+    "ko": "복사한 뒤 위의 버튼을 누르면 여기에 %d일 동안 남아요",
+    "en": "Copy something, then tap the button above. It stays here for %d days.",
+    "comment": "Keyboard recent tab: empty hint. %d is the number of days items are kept",
+    "h": "6eb7c42d8e"
   },
   "복사한 이미지 붙여넣기": {
     "ko": "복사한 이미지 붙여넣기",
@@ -7762,6 +7816,12 @@
     "en": "Nothing copied yet",
     "comment": "Toast: clipboard is empty",
     "h": "c67ff8145c"
+  },
+  "복사해 둔 글을 키보드 맨 앞 탭에 모아 둡니다. %d일 동안 남아요": {
+    "ko": "복사해 둔 글을 키보드 맨 앞 탭에 모아 둡니다. %d일 동안 남아요",
+    "en": "Keeps text you copied in the first keyboard tab, for %d days",
+    "comment": "Recent tab toggle description. %d is the number of days items are kept",
+    "h": "2c57cfc2e7"
   },
   "복원": {
     "ko": "복원",
@@ -8290,6 +8350,12 @@
     "en": "Change use case",
     "comment": "Persona settings title",
     "h": "ba70f6b98d"
+  },
+  "사용법과 문의": {
+    "ko": "사용법과 문의",
+    "en": "How-to & contact",
+    "comment": "Settings section: how to use the app, tips and contact",
+    "h": "ea0ad2b914"
   },
   "사용자": {
     "ko": "사용자",
@@ -8884,6 +8950,12 @@
     "en": "Choose your first screen (snippet list or keyboard view) in Settings › First screen, or switch instantly from the toolbar",
     "comment": "Changelog 4.4.4 item 2",
     "h": "97bb0d9bbe"
+  },
+  "설정 > 키보드 > 키보드 레이아웃에서 '최근' 탭을 끌 수 있어요.": {
+    "ko": "설정 > 키보드 > 키보드 레이아웃에서 '최근' 탭을 끌 수 있어요.",
+    "en": "You can turn off the Recent tab in Settings > Keyboard > Keyboard layout.",
+    "comment": "What's new 5.1.8 toggle detail. 'Recent' is the name of the keyboard tab",
+    "h": "8a319a45fb"
   },
   "설정 > 키보드에서 '전체 접근 허용'을 켜주세요": {
     "ko": "설정 > 키보드에서 '전체 접근 허용'을 켜주세요",
@@ -9785,6 +9857,12 @@
     "comment": "Empty list: no shortcuts yet",
     "h": "aae712a392"
   },
+  "아직 담아 둔 것이 없어요": {
+    "ko": "아직 담아 둔 것이 없어요",
+    "en": "Nothing saved yet",
+    "comment": "Keyboard recent tab: empty title",
+    "h": "a278815dad"
+  },
   "아직 뚜렷한 쓰임새가 보이지 않아요": {
     "ko": "아직 뚜렷한 쓰임새가 보이지 않아요",
     "en": "No clear pattern yet",
@@ -10096,6 +10174,12 @@
     "en": "Only choose one if the app got it wrong.",
     "comment": "Usage profile: manual override footer",
     "h": "e2a5f4f4c5"
+  },
+  "앱이 모은 복사 기록과 키보드에서 저장한 글이 한곳에 모여요. 누르면 바로 입력되고, 길게 누르면 복사돼요.": {
+    "ko": "앱이 모은 복사 기록과 키보드에서 저장한 글이 한곳에 모여요. 누르면 바로 입력되고, 길게 누르면 복사돼요.",
+    "en": "Your copy history and text you save from the keyboard live in one place. Tap to type it, touch and hold to copy.",
+    "comment": "What's new 5.1.8 recent tab detail",
+    "h": "6e047e46b7"
   },
   "앱이 미리 만들어 둔 카테고리예요. 켜면 목록 상단 탭에 나타나 해당 종류의 단축어만 모아 볼 수 있어요.": {
     "ko": "앱이 미리 만들어 둔 카테고리예요. 켜면 목록 상단 탭에 나타나 해당 종류의 단축어만 모아 볼 수 있어요.",
@@ -10612,6 +10696,12 @@
     "en": "The orange used before. Pick this to keep things as they were.",
     "comment": "Key color note: terracotta",
     "h": "fb31b86261"
+  },
+  "예전에는 7일이 지나면 사라졌어요. 이제 한 달 가까이 두고 쓸 수 있어요.": {
+    "ko": "예전에는 7일이 지나면 사라졌어요. 이제 한 달 가까이 두고 쓸 수 있어요.",
+    "en": "It used to disappear after 7 days. Now you can keep it for about a month.",
+    "comment": "What's new 5.1.8 retention detail",
+    "h": "0e347ea463"
   },
   "오늘": {
     "ko": "오늘",
@@ -11338,6 +11428,12 @@
     "en": "Bundle snippets you already have into a combo",
     "comment": "Changelog 4.4.1 item 2",
     "h": "4fc5d1a307"
+  },
+  "이미 목록 맨 위에 있어요": {
+    "ko": "이미 목록 맨 위에 있어요",
+    "en": "Already at the top of the list",
+    "comment": "Keyboard recent tab: save button second line when the copied text is already the newest item in the list",
+    "h": "fd23639e6a"
   },
   "이미 쓰는 빈칸": {
     "ko": "이미 쓰는 빈칸",
@@ -12089,6 +12185,12 @@
     "comment": "Keyboard reorder mode: how to move a key",
     "h": "51fb3c90fd"
   },
+  "잠깐 쓸 글은 키보드 맨 앞 '최근' 탭에 모아 두세요.": {
+    "ko": "잠깐 쓸 글은 키보드 맨 앞 '최근' 탭에 모아 두세요.",
+    "en": "Keep text you need for a while in the keyboard's first tab, Recent.",
+    "comment": "What's new subtitle 5.1.8. 'Recent' is the name of the keyboard tab",
+    "h": "603fa305b6"
+  },
   "장과 장 사이 기다리는 시간을 3초로 줄였고, 그 동그라미를 누르면 곧바로 넘어가요": {
     "ko": "장과 장 사이 기다리는 시간을 3초로 줄였고, 그 동그라미를 누르면 곧바로 넘어가요",
     "en": "The pause between tutorial chapters is down to three seconds, and tapping the countdown skips it",
@@ -12100,6 +12202,18 @@
     "en": "Save",
     "comment": "Save\nSave button\nSave clipboard item as memo",
     "h": "72af799af5"
+  },
+  "저장 버튼에 지금 복사해 둔 글이 미리 보여요. 카드번호는 끝 네 자리만 보여요.": {
+    "ko": "저장 버튼에 지금 복사해 둔 글이 미리 보여요. 카드번호는 끝 네 자리만 보여요.",
+    "en": "The save button shows the text you copied. Card numbers show only the last four digits.",
+    "comment": "What's new 5.1.8 save preview detail",
+    "h": "617beb422c"
+  },
+  "저장 버튼이 무엇이 저장될지 누르기 전에 보여 줘요": {
+    "ko": "저장 버튼이 무엇이 저장될지 누르기 전에 보여 줘요",
+    "en": "The save button shows what will be saved before you tap",
+    "comment": "Changelog 5.1.8 save preview",
+    "h": "48b32f65fa"
   },
   "저장된 값이 없으면 그 자리에서 바로 만들 수 있어요": {
     "ko": "저장된 값이 없으면 그 자리에서 바로 만들 수 있어요",
@@ -12857,6 +12971,12 @@
     "comment": "Button subtitle: refund receipt",
     "h": "8b6f0a40d8"
   },
+  "지금 복사돼 있는 것을 이 목록에 넣습니다. %d일 동안 남습니다": {
+    "ko": "지금 복사돼 있는 것을 이 목록에 넣습니다. %d일 동안 남습니다",
+    "en": "Adds what you copied to this list. It stays for %d days.",
+    "comment": "Keyboard recent tab: capture button hint. %d is the number of days items are kept",
+    "h": "1be979b366"
+  },
   "지금 쓸 차례: %@": {
     "ko": "지금 쓸 차례: %@",
     "en": "Due now: %@",
@@ -13432,6 +13552,18 @@
     "en": "Recent reports",
     "comment": "Crash reports section: recent",
     "h": "d052576632"
+  },
+  "최근 탭": {
+    "ko": "최근 탭",
+    "en": "Recent tab",
+    "comment": "Show the Recent tab (saved copied text) at the front of the keyboard toggle",
+    "h": "737a6ca70e"
+  },
+  "최근 탭에 담았어요": {
+    "ko": "최근 탭에 담았어요",
+    "en": "Saved to Recent",
+    "comment": "Keyboard toast: current clipboard saved to the recent tab",
+    "h": "0bd1286402"
   },
   "최근: %@": {
     "ko": "최근: %@",
@@ -14243,6 +14375,18 @@
     "comment": "Keyboard layout",
     "h": "7eba8a2b93"
   },
+  "키보드 맨 앞에 '최근' 탭이 생겼어요": {
+    "ko": "키보드 맨 앞에 '최근' 탭이 생겼어요",
+    "en": "A new Recent tab, first on the keyboard",
+    "comment": "What's new 5.1.8 recent tab title",
+    "h": "433bf59af8"
+  },
+  "키보드 맨 앞에 '최근' 탭이 생겼어요. 복사해 둔 글을 키보드에서 바로 꺼내 써요": {
+    "ko": "키보드 맨 앞에 '최근' 탭이 생겼어요. 복사해 둔 글을 키보드에서 바로 꺼내 써요",
+    "en": "A new Recent tab, first on the keyboard, puts text you copied right at hand",
+    "comment": "Changelog 5.1.8 recent tab",
+    "h": "3c97c2f272"
+  },
   "키보드 목록": {
     "ko": "키보드 목록",
     "en": "Keyboards",
@@ -14308,6 +14452,12 @@
     "en": "Keyboard setup guide",
     "comment": "Keyboard setup guide",
     "h": "732de54fab"
+  },
+  "키보드 설정 보기": {
+    "ko": "키보드 설정 보기",
+    "en": "Open keyboard settings",
+    "comment": "What's new 5.1.8 primary button: opens keyboard settings where the Recent tab can be turned off",
+    "h": "7f2798cbda"
   },
   "키보드 설정, 2단계 중 1단계": {
     "ko": "키보드 설정, 2단계 중 1단계",
@@ -15341,6 +15491,12 @@
     "comment": "Living skin name: pixel village",
     "h": "b1fce73d1b"
   },
+  "필요 없으면 꺼 두세요": {
+    "ko": "필요 없으면 꺼 두세요",
+    "en": "Turn it off if you don’t need it",
+    "comment": "What's new 5.1.8 toggle title",
+    "h": "9eeff236a8"
+  },
   "필요한 글자만 손가락으로 문질러 담아요": {
     "ko": "필요한 글자만 손가락으로 문질러 담아요",
     "en": "Swipe your finger over just the text you need",
@@ -15652,6 +15808,12 @@
     "en": "Apps that work together now show each app's real icon",
     "comment": "Changelog 5.1.1 family app icons",
     "h": "6c5f60a1c3"
+  },
+  "함께 쓰면 좋은 앱": {
+    "ko": "함께 쓰면 좋은 앱",
+    "en": "Apps that pair well",
+    "comment": "Settings section: other apps by the same developer that pair well with this one",
+    "h": "fd8a10e8c6"
   },
   "함께 쓸 것들을 눌러 고르세요": {
     "ko": "함께 쓸 것들을 눌러 고르세요",

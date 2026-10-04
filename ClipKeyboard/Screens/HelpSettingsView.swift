@@ -2,13 +2,17 @@
 //  HelpSettingsView.swift
 //  ClipKeyboard
 //
-//  설정 > 도움말과 문의
+//  설정 > 사용법과 문의
 //
 
 import SwiftUI
 import LeeoKit
 
-/// 도움말과 문의 - 막혔을 때 갈 곳.
+/// 사용법과 문의 - 막혔을 때 갈 곳.
+///
+/// ⚠️ 예전 이름은 "도움말과 문의" 였다. 튜토리얼과 "그거 아세요?" 가 여기 있는 줄 몰라서
+///    "설정 어디로 갔어?" 가 나왔다. 배우는 것이 대부분이라 '사용법' 을 앞에 세운다.
+///    맨 아래의 처리방침·약관·버전은 예전 "앱 정보" 에서 옮겨 왔다.
 /// 예전에는 배우는 길이 셋으로 흩어져 있었다(튜토리얼 다시 하기는 단축어 관리에,
 /// 사용 가이드는 도움말에, 활용 사례는 양쪽에).
 struct HelpSettingsView: View {
@@ -16,13 +20,18 @@ struct HelpSettingsView: View {
     @Environment(\.appTheme) private var theme
     /// 튜토리얼 다시 하기 확인 - 무엇이 지워지고 무엇이 남는지 먼저 알린다.
     @State private var showTutorialRestartConfirm = false
+    /// 마스터(개발자) 모드 - 버전 행을 7번 탭하면 토글. 설정 첫 화면에 개발자 섹션이 열린다.
+    @AppStorage(DefaultsKey.masterModeEnabled) private var masterModeEnabled: Bool = false
+    @State private var versionTapCount = 0
+    @State private var showMasterModeAlert = false
 
     var body: some View {
         List {
             learnSection
             contactSection
+            legalSection
         }
-        .settingsCategoryChrome(title: NSLocalizedString("도움말과 문의", comment: "Settings section: help and contact"))
+        .settingsCategoryChrome(title: NSLocalizedString("사용법과 문의", comment: "Settings section: how to use the app, tips and contact"))
         .alert(NSLocalizedString("튜토리얼을 다시 할까요?", comment: "Restart tutorial alert title"),
                isPresented: $showTutorialRestartConfirm) {
             Button(NSLocalizedString("다시 하기", comment: "Restart tutorial confirm")) {
@@ -31,6 +40,18 @@ struct HelpSettingsView: View {
             Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) { }
         } message: {
             Text(NSLocalizedString("준비된 단축어·템플릿·스택을 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.", comment: "Restart tutorial alert message"))
+        }
+        .alert(
+            masterModeEnabled
+                ? NSLocalizedString("개발자 모드가 켜졌어요", comment: "Master mode enabled alert")
+                : NSLocalizedString("개발자 모드가 꺼졌어요", comment: "Master mode disabled alert"),
+            isPresented: $showMasterModeAlert
+        ) {
+            Button(NSLocalizedString("확인", comment: "OK"), role: .cancel) { }
+        } message: {
+            if masterModeEnabled {
+                Text(NSLocalizedString("지원 섹션에 '접수된 피드백' 메뉴가 나타납니다.", comment: "Master mode enabled message"))
+            }
         }
     }
 
@@ -83,5 +104,51 @@ struct HelpSettingsView: View {
                       systemImage: AppSymbol.paperplaneFill)
             }
         }
+    }
+
+    // MARK: - 약관과 버전
+
+    /// 인앱결제가 있는 앱은 약관·처리방침을 앱 안에서 볼 수 있어야 한다(심사 대비).
+    /// 처리방침 주소는 App Store Connect 에 등록한 것과 같아야 한다.
+    private var legalSection: some View {
+        Section {
+            if let url = URL(string: Constants.privacyPolicyURL) {
+                Link(destination: url) {
+                    Label(NSLocalizedString("개인정보 처리방침", comment: "Privacy policy settings entry"),
+                          systemImage: AppSymbol.lockShield)
+                }
+            }
+            if let url = URL(string: Constants.termsOfUseURL) {
+                Link(destination: url) {
+                    Label(NSLocalizedString("이용약관", comment: "Terms of use settings entry"),
+                          systemImage: AppSymbol.docText)
+                }
+            }
+            HStack {
+                Text(NSLocalizedString("버전", comment: "Version label"))
+                    .foregroundColor(theme.textMuted)
+                Spacer()
+                Text(appVersion).foregroundColor(.primary)
+            }
+            .contentShape(Rectangle())
+            .onTapGesture { handleVersionTap() }
+        }
+    }
+
+    // MARK: - 버전
+
+    /// 버전 행 7번 탭 → 마스터(개발자) 모드 토글.
+    private func handleVersionTap() {
+        versionTapCount += 1
+        guard versionTapCount >= 7 else { return }
+        versionTapCount = 0
+        masterModeEnabled.toggle()
+        HapticManager.shared.light()
+        showMasterModeAlert = true
+    }
+
+    // 앱 버전 정보를 Info.plist에서 자동으로 가져오기
+    private var appVersion: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
     }
 }

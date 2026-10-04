@@ -65,6 +65,34 @@ enum PasteboardReader {
         }
     }
 
+    /// 복사 번호(`changeCount`)만 본다. 글자를 끌어오지 않으므로 가볍다.
+    /// 자주 물어도 되는 것은 이것뿐이다 - 바뀌었을 때만 `textOnly` 로 글자를 읽는다.
+    /// - Parameter completion: **메인에서** 부른다.
+    static func changeCount(completion: @escaping (Int) -> Void) {
+        queue.async {
+            let count = UIPasteboard.general.changeCount
+            DispatchQueue.main.async { completion(count) }
+        }
+    }
+
+    /// **글자만** 읽는다. 그림이 있어도 풀지 않는다.
+    ///
+    /// 키보드 익스텐션용이다. 키보드는 메모리 한도가 빡빡해서 큰 그림 하나를 풀면 그대로
+    /// 죽는다. `string` 은 그림을 먼저 보므로(`read`) 그 자리에 쓰면 안 된다.
+    /// - Parameter completion: **메인에서** 부른다. 글자가 없으면 nil.
+    static func textOnly(completion: @escaping (_ text: String?, _ changeCount: Int) -> Void) {
+        queue.async {
+            let board = UIPasteboard.general
+            let count = board.changeCount
+            var text: String?
+            if board.hasStrings, let value = board.string,
+               !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                text = value
+            }
+            DispatchQueue.main.async { completion(text, count) }
+        }
+    }
+
     /// 글자와 그림을 함께 본다. 둘 다 있으면 그림이 이긴다.
     /// - Parameter completion: **메인에서** 부른다.
     static func content(completion: @escaping (PasteboardContent) -> Void) {

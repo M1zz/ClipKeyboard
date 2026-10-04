@@ -35,6 +35,7 @@
 | 무료 기간을 세는 값 | 단축어를 지웠다 만들면 문턱을 피한다 | `FreeUseTests/test_쓸_때마다_세고_지워도_줄지_않는다` |
 | 이정표 안내 | 같은 안내가 계속 뜬다 · 돈 낸 사람에게 뜬다 | `FreeUseTests/test_본_이정표는_다시_뜨지_않고_돈을_낸_사람에게는_없다` |
 | 클립보드 기록 | 복사한 것이 분류되지 않는다 | `SmartClipboardLifecycleTests/testAdd_ClassifiesContentAutomatically` |
+| 키보드 '최근' 탭 | 담아 둔 것이 키보드에 없다 · 한 주 지나 말없이 사라졌다 | `BasicScenarioTests/test_담아_둔_것은_키보드_최근_탭에_30일_남는다` |
 | 키보드 한글 입력 | 검색창에서 자모가 흩어진다 | `HangulComposerTests/testMultipleSyllables_CommitOnNewInitial` |
 | 업데이트 뒤에도 데이터가 남는다 | 업데이트했더니 단축어가 사라졌다 | `MigrationCompatibilityTests/testOneLegacyItemDoesNotBreakWholeArray` |
 | iCloud 백업과 복원 | 복원했더니 일부 필드가 빠졌다 | `CloudKitBackupIntegrityTests/testBackupThenRestore_PreservesAllMemoFields` |

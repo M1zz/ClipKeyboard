@@ -45,6 +45,8 @@ struct KeyboardLayoutSettings: View {
     @AppStorage(KeyboardPrefs.showNumberPad.key, store: AppGroup.defaults) private var showNumberPad: Bool = KeyboardPrefs.showNumberPad.fallback
     /// 위줄의 붙여넣기 키. **기본 끔** - 위줄이 붐비고, 붙여넣기는 시스템 키보드에도 있다.
     @AppStorage(KeyboardPrefs.showClipboardKey.key, store: AppGroup.defaults) private var showClipboardKey: Bool = KeyboardPrefs.showClipboardKey.fallback
+    /// 키보드 맨 앞의 '최근'(복사해 담아 둔 것) 탭. **기본 켬.**
+    @AppStorage(KeyboardPrefs.showRecentClipsTab.key, store: AppGroup.defaults) private var showRecentClipsTab: Bool = KeyboardPrefs.showRecentClipsTab.fallback
     @AppStorage(KeyboardPrefs.koreanLayout.key, store: AppGroup.defaults) private var koreanLayout: String = KeyboardPrefs.koreanLayout.fallback
     @AppStorage(KeyboardPrefs.typingLang.key, store: AppGroup.defaults) private var defaultLang: String = KeyboardPrefs.typingLang.fallback
     // 한국어 입력 사용(기본 OFF). 영어 전용 사용자가 한/EN 토글을 보지 않도록 명시적으로 켜야 함.
@@ -324,6 +326,15 @@ struct KeyboardLayoutSettings: View {
                             .font(.caption).foregroundColor(.secondary)
                     }
                 }
+                // 갈래 탭 줄의 맨 앞 칸이라 표시 옵션의 맨 위에 둔다.
+                Toggle(isOn: $showRecentClipsTab) {
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(NSLocalizedString("최근 탭", comment: "Show the Recent tab (saved copied text) at the front of the keyboard toggle"))
+                        Text(String(format: NSLocalizedString("복사해 둔 글을 키보드 맨 앞 탭에 모아 둡니다. %d일 동안 남아요", comment: "Recent tab toggle description. %d is the number of days items are kept"),
+                                    SmartClipboardHistory.retentionDays))
+                            .font(.caption).foregroundColor(.secondary)
+                    }
+                }
                 Toggle(isOn: showRecentBinding) {
                     VStack(alignment: .leading, spacing: 1) {
                         Text(NSLocalizedString("최근 단축어", comment: "Show recent snippets toggle"))
@@ -532,6 +543,7 @@ struct KeyboardLayoutSettings: View {
         useCustomColors = false; customBgHex = ""; customKeyHex = ""
         customBgColor = .clear; customKeyColor = .clear
         showSearch = false; showReturnKey = true; showNumberPad = true; showClipboardKey = false
+        showRecentClipsTab = KeyboardPrefs.showRecentClipsTab.fallback
         // 최근 단축어는 false 로 박지 않는다. 그러면 "꺼 달라고 했다"가 되어
         // 개수로 정해 주는 길이 영영 막힌다. 값을 지워 "안 정했다"로 되돌린다.
         AppGroup.defaults?.removeObject(forKey: DefaultsKey.keyboardShowRecent)

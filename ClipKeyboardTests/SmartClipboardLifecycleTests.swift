@@ -6,7 +6,7 @@
 //  스마트 클립보드 히스토리 수명주기 테스트.
 //
 //  사용자 시나리오: 복사할 때마다 자동 분류되어 히스토리에 쌓이고,
-//  같은 내용은 중복 없이 맨 앞으로, 개수 제한 초과분과 7일 지난 임시 항목은
+//  같은 내용은 중복 없이 맨 앞으로, 개수 제한 초과분과 보관 기간(30일) 지난 임시 항목은
 //  자동 정리되어야 한다. 구버전 레거시 히스토리는 첫 로드에 이관된다.
 //
 
@@ -89,23 +89,49 @@ final class SmartClipboardLifecycleTests: XCTestCase {
         XCTAssertFalse(history.contains { $0.content == "항목 \(limit - 1)" }, "가장 오래된 항목은 제거")
     }
 
-    func testAdd_RemovesTemporaryItemsOlderThanSevenDays() throws {
-        // Given - 8일 지난 임시 항목 + 8일 지난 비임시(보존) 항목
+    func testAdd_RemovesTemporaryItemsPastRetention() throws {
+        // Given - 보관 기간을 하루 넘긴 임시 항목 + 같은 날짜의 비임시(보존) 항목 + 8일 된 임시 항목
+        let pastRetention = Calendar.current.date(
+            byAdding: .day, value: -(SmartClipboardHistory.retentionDays + 1), to: Date())!
         let eightDaysAgo = Calendar.current.date(byAdding: .day, value: -8, to: Date())!
         let oldTemporary = SmartClipboardHistory(
-            content: "오래된 임시", copiedAt: eightDaysAgo, isTemporary: true, detectedType: .text)
+            content: "오래된 임시", copiedAt: pastRetention, isTemporary: true, detectedType: .text)
         let oldKept = SmartClipboardHistory(
-            content: "오래된 보관", copiedAt: eightDaysAgo, isTemporary: false, detectedType: .text)
-        try sut.saveSmartClipboardHistory(history: [oldTemporary, oldKept])
+            content: "오래된 보관", copiedAt: pastRetention, isTemporary: false, detectedType: .text)
+        let weekOld = SmartClipboardHistory(
+            content: "8일 된 임시", copiedAt: eightDaysAgo, isTemporary: true, detectedType: .text)
+        try sut.saveSmartClipboardHistory(history: [oldTemporary, oldKept, weekOld])
 
         // When - 새 복사가 일어나면 정리 트리거
         try sut.addToSmartClipboardHistory(content: "새 항목")
 
-        // Then - 임시만 삭제, 보관 항목은 유지
+        // Then - 기간 지난 임시만 삭제. 보관 항목과 한 주 넘은 임시 항목은 유지(예전 7일 규칙이면 사라졌다)
         let history = try sut.loadSmartClipboardHistory()
         XCTAssertFalse(history.contains { $0.content == "오래된 임시" })
         XCTAssertTrue(history.contains { $0.content == "오래된 보관" })
+        XCTAssertTrue(history.contains { $0.content == "8일 된 임시" })
         XCTAssertTrue(history.contains { $0.content == "새 항목" })
+    }
+
+    func testKeyboardRecents_TextOnlyNewestFirst() {
+        let now = Date()
+        let older = SmartClipboardHistory(content: "먼저", copiedAt: now.addingTimeInterval(-60))
+        let newer = SmartClipboardHistory(content: "나중", copiedAt: now)
+        let blank = SmartClipboardHistory(content: "   ", copiedAt: now)
+        let image = SmartClipboardHistory(content: "", copiedAt: now, contentType: .image)
+
+        let recents = SmartClipboardHistory.keyboardRecents([older, blank, image, newer], now: now)
+
+        XCTAssertEqual(recents.map(\.content), ["나중", "먼저"], "넣을 글이 있는 것만, 최근 순으로")
+    }
+
+    /// 키보드 저장 버튼이 누르기 전에 보여 주는 글: 한 줄로 펴고, 카드번호는 끝 네 자리만.
+    func testCaptureButtonPreview_OneLineAndMasksSensitive() {
+        XCTAssertEqual(KeyboardRecentClipsPanel.maskedPreview("서울시 마포구\n월드컵북로 396"),
+                       "서울시 마포구 월드컵북로 396")
+        let card = KeyboardRecentClipsPanel.maskedPreview("4111 1111 1111 1111")
+        XCTAssertFalse(card.contains("4111"), "카드번호 앞자리는 키보드에 보이면 안 된다")
+        XCTAssertTrue(card.hasSuffix("1111"))
     }
 
     // MARK: - 사용자 분류 수정

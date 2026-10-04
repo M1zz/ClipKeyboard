@@ -365,8 +365,8 @@ class MemoStore: ObservableObject {
             history = Array(history.prefix(100))
         }
 
-        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
-        history.removeAll { $0.isTemporary && $0.copiedAt < sevenDaysAgo }
+        let cutoff = Calendar.current.date(byAdding: .day, value: -SmartClipboardHistory.retentionDays, to: Date()) ?? Date()
+        history.removeAll { $0.isTemporary && $0.copiedAt < cutoff }
 
         try saveClipboardHistory(history: history)
     }
@@ -404,8 +404,9 @@ class MemoStore: ObservableObject {
             history = Array(history.prefix(maxHistory))
         }
 
-        let sevenDaysAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date()
-        history.removeAll { $0.isTemporary && $0.copiedAt < sevenDaysAgo }
+        // 보관 기간은 `SmartClipboardHistory.retentionDays` 한 곳에서 정한다(키보드 '최근' 탭과 같은 값).
+        let now = Date()
+        history.removeAll { !$0.isRetained(now: now) }
 
         try saveSmartClipboardHistory(history: history)
 
