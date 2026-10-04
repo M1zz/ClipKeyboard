@@ -14,6 +14,108 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.8
+
+### 앱스토어 (한국어)
+
+```
+키보드 맨 앞에 최근 탭이 생겼어요.
+복사한 글을 키보드에서 바로 저장해요.
+저장하기 전에 무엇이 들어갈지 보여요.
+복사한 글이 30일 동안 남아요.
+목록이 제목 밑에 가려지던 문제를 고쳤어요.
+```
+
+### App Store (English)
+
+```
+A new Recent tab, first on the keyboard.
+Save copied text from the keyboard.
+See what will be saved before you tap.
+Copied text now stays for 30 days.
+Fixed the list hiding under the title.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+键盘最前面新增“最近”标签。
+在键盘上直接保存复制的文字。
+保存前就能看到要存入的内容。
+复制的文字可保留 30 天。
+修复了列表偶尔被标题遮住的问题。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+鍵盤最前面新增「最近」標籤。
+在鍵盤上直接儲存複製的文字。
+儲存前就能看到要存入的內容。
+複製的文字可保留 30 天。
+修正了列表偶爾被標題遮住的問題。
+```
+
+### 앱스토어 (러시아어)
+
+```
+На клавиатуре новая вкладка «Недавние».
+Сохраняйте текст прямо с клавиатуры.
+Видно, что сохранится, ещё до нажатия.
+Скопированное хранится 30 дней.
+Список не прячется под заголовком.
+```
+
+### App Store (Japanese, ja)
+
+```
+キーボードの先頭に「最近」タブが加わりました。
+コピーした文章をキーボードから保存できます。
+保存する前に中身を確かめられます。
+コピーした文章が30日間残ります。
+一覧がタイトルの下に隠れる問題を直しました。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Nueva pestaña Recientes en el teclado.
+Guarda lo que copiaste desde el teclado.
+Ve qué se guardará antes de tocar.
+Lo que copias se queda 30 días.
+La lista ya no se oculta bajo el título.
+```
+
+### App Store (German, de-DE)
+
+```
+Neuer Tab „Zuletzt“ ganz vorn.
+Kopierten Text in der Tastatur sichern.
+Du siehst vorher, was gesichert wird.
+Kopierter Text bleibt jetzt 30 Tage.
+Der Titel verdeckt die Liste nicht mehr.
+```
+
+### App Store (Thai, th)
+
+```
+คีย์บอร์ดมีแท็บล่าสุดอยู่หน้าสุดแล้ว
+บันทึกข้อความที่คัดลอกได้จากคีย์บอร์ด
+เห็นก่อนแตะว่าจะบันทึกอะไร
+ข้อความที่คัดลอกอยู่ได้ 30 วัน
+แก้ปัญหารายการถูกหัวข้อบังบางครั้ง
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Bàn phím có thêm tab Gần đây ở đầu.
+Lưu văn bản đã chép ngay trên bàn phím.
+Thấy trước nội dung sẽ được lưu.
+Văn bản sao chép được giữ 30 ngày.
+Đã sửa lỗi danh sách bị tiêu đề che.
+```
+
 ## 5.1.7
 
 ### 앱스토어 (한국어)
