@@ -10,6 +10,8 @@ App Store Connect 의 `pt-BR` 로케일에 넣을 값입니다.
 
 ## 남은 일 (사람이 해야 함)
 
+> 2026-10-06: 1~2번은 끝났다. ASC 에 `pt-BR` 로케일을 만들어 문안을 넣었고, `LOCALES` 에 더하고 릴리즈노트 절을 노출로 바꿨다.
+
 1. App Store Connect 에서 `pt-BR` 로케일을 만들고 아래 값을 채운다. 인앱 구매 표시 이름도 더한다.
 2. 로케일이 생긴 뒤 `deploy.env` 의 `LOCALES` 에 `pt-BR` 를 더한다.
    `RELEASE_NOTES.md` 5.1.7 의 이 언어 절 제목에서 `노출 안 함: ` 을 지운다.

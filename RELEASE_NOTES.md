@@ -116,7 +116,7 @@ Phím dễ nhìn hơn ở chế độ tối.
 Bàn phím không còn tự đóng khi mở.
 ```
 
-### 노출 안 함: App Store (French, fr-FR)
+### App Store (French, fr-FR)
 
 ```
 Tout est gratuit pour 100 insertions.
@@ -126,7 +126,7 @@ Touches plus lisibles en mode sombre.
 Le clavier ne se ferme plus à l’ouverture.
 ```
 
-### 노출 안 함: App Store (Italian, it)
+### App Store (Italian, it)
 
 ```
 Tutto gratis per i primi 100 inserimenti.
@@ -136,7 +136,7 @@ Tasti più leggibili in modalità scura.
 La tastiera non si chiude più all’apertura.
 ```
 
-### 노출 안 함: App Store (Portuguese, pt-BR)
+### App Store (Portuguese, pt-BR)
 
 ```
 Tudo grátis nas primeiras 100 inserções.
