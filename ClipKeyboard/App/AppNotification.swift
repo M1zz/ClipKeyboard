@@ -42,6 +42,8 @@ extension Notification.Name {
     /// 단축어당 한 번뿐이다(`EditPattern.markAsked`).
     static let editPatternSuggestion = Notification.Name("editPatternSuggestion")
     static let openMainAppPaywall = Notification.Name("openMainAppPaywall")
+    /// 키보드의 "의견 보내기" → 앱을 열어 의견 창을 띄운다. object = `FeedbackOrigin.rawValue` 문자열.
+    static let openMainAppFeedback = Notification.Name("openMainAppFeedback")
     /// 빠른 메모(Inbox) 보관함이 변경됨(추가/삭제/승격) → 열려 있는 화면·배지 새로고침.
     static let quickNotesChanged = Notification.Name("quickNotesChanged")
     static let openMemoListWindow = Notification.Name("openMemoListWindow")

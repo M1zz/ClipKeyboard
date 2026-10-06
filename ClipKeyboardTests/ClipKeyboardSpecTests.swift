@@ -32,6 +32,27 @@ final class ClipKeyboardSpecTests: XCTestCase {
         XCTAssertEqual(ClipKeyboardSpec.feedback.appIdentifier, "com.Ysoup.TokenMemo")
     }
 
+    func testFeedbackAcceptsScreenshotsAndKnowsReplyType() {
+        // 제안에도 화면을 붙여 받는다. 답장 타입 이름은 허브 Dashboard 와 뷰어가 같은 값을 본다.
+        XCTAssertTrue(ClipKeyboardSpec.feedback.acceptsScreenshots)
+        XCTAssertEqual(ClipKeyboardSpec.feedback.replyRecordType, "FeedbackReply")
+    }
+
+    func testFeedbackContextCarriesOriginAndStateOnly() {
+        let lines = FeedbackContext.lines(origin: .keyboardTemplate, isPro: false, keyboardEnabled: true)
+        XCTAssertEqual(lines.count, 2)
+        XCTAssertTrue(lines[0].contains(FeedbackOrigin.keyboardTemplate.localizedName))
+        // 모르면 적지 않는다. "안 켰다" 와 "모른다" 를 섞지 않는다.
+        let unknown = FeedbackContext.lines(origin: .settings, isPro: true, keyboardEnabled: nil)
+        XCTAssertEqual(unknown[1], "Pro")
+    }
+
+    func testKeyboardFeedbackOriginRawValueIsStable() {
+        // 키보드가 URL(clipkeyboard://feedback?from=) 에 이 글자를 그대로 싣는다.
+        XCTAssertEqual(FeedbackOrigin(rawValue: "keyboard-template"), .keyboardTemplate)
+        XCTAssertEqual(FeedbackOrigin.keyboardTemplate.suggestedType, .feature)
+    }
+
     func testAppNameAndDeveloperEmail() {
         XCTAssertEqual(ClipKeyboardSpec.appName, "ClipKeyboard")
         XCTAssertEqual(ClipKeyboardSpec.developerEmail, Constants.developerEmail)

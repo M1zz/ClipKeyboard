@@ -659,6 +659,12 @@
     "comment": "",
     "h": "3393f2e2c8"
   },
+  "%lld개 더 보기": {
+    "ko": "%lld개 더 보기",
+    "en": "Show %lld more",
+    "comment": "Placeholder value list: show N more values",
+    "h": "cf22b4198e"
+  },
   "'%1$@' 낱말이 든 단축어 %2$d개": {
     "ko": "'%1$@' 낱말이 든 단축어 %2$d개",
     "en": "%2$d snippets with the word '%1$@'",
@@ -7463,6 +7469,12 @@
     "comment": "Return key footer",
     "h": "aa598dca64"
   },
+  "보낸 곳: %@": {
+    "ko": "보낸 곳: %@",
+    "en": "Sent from: %@",
+    "comment": "Feedback auto info: origin",
+    "h": "9c893a5ccb"
+  },
   "보낸 이미지": {
     "ko": "보낸 이미지",
     "en": "Sent image",
@@ -10907,6 +10919,12 @@
     "comment": "Feedback nudge: leave feedback",
     "h": "ec35099f61"
   },
+  "의견 묻는 알림": {
+    "ko": "의견 묻는 알림",
+    "en": "Feedback prompt",
+    "comment": "Feedback origin: nudge alert",
+    "h": "f631271ffe"
+  },
   "의견을 보내실 때 답장 받을 이름과 이메일을 적을 수 있어요. 적어 두면 다음에 자동으로 채워드려요": {
     "ko": "의견을 보내실 때 답장 받을 이름과 이메일을 적을 수 있어요. 적어 두면 다음에 자동으로 채워드려요",
     "en": "Feedback now takes a name and email to reply to. Fill them in once and we fill them in for you next time",
@@ -11128,6 +11146,12 @@
     "en": "Switches between this screen and the other one",
     "comment": "Switch between list and keyboard preview",
     "h": "3133616737"
+  },
+  "이 화면에 대해 의견 보내기": {
+    "ko": "이 화면에 대해 의견 보내기",
+    "en": "Send feedback about this screen",
+    "comment": "Template fill: send feedback about this screen",
+    "h": "edd6b4710f"
   },
   "이거 쓰기": {
     "ko": "이거 쓰기",
@@ -14207,6 +14231,12 @@
     "comment": "Changelog 4.4.1 item 3",
     "h": "99c7398b9c"
   },
+  "키보드 꺼짐": {
+    "ko": "키보드 꺼짐",
+    "en": "Keyboard off",
+    "comment": "Feedback auto info: keyboard not enabled",
+    "h": "b24e7c0b7f"
+  },
   "키보드 꾸미러 가기": {
     "ko": "키보드 꾸미러 가기",
     "en": "Customize keyboard",
@@ -14374,6 +14404,12 @@
     "en": "Turn on the keyboard",
     "comment": "Mascot help: turn on the keyboard",
     "h": "1d5c88ebac"
+  },
+  "키보드 켜짐": {
+    "ko": "키보드 켜짐",
+    "en": "Keyboard on",
+    "comment": "Feedback auto info: keyboard enabled",
+    "h": "a35cdd7ce2"
   },
   "키보드 크기를 정해 볼까요": {
     "ko": "키보드 크기를 정해 볼까요",
@@ -14626,6 +14662,12 @@
     "en": "The keyboard's basics work without paying",
     "comment": "Changelog 4.0.3 item 2",
     "h": "4f278e5f73"
+  },
+  "키보드의 템플릿 빈칸": {
+    "ko": "키보드의 템플릿 빈칸",
+    "en": "Template blanks in the keyboard",
+    "comment": "Feedback origin: keyboard template blanks",
+    "h": "0b3bfc5872"
   },
   "키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.": {
     "ko": "키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.",
@@ -14992,6 +15034,12 @@
     "en": "Enter Template",
     "comment": "Template input title",
     "h": "5595c5ab86"
+  },
+  "템플릿 채우기": {
+    "ko": "템플릿 채우기",
+    "en": "Template fill",
+    "comment": "Feedback origin: template fill sheet",
+    "h": "0946fe9ace"
   },
   "템플릿 추가": {
     "ko": "템플릿 추가",

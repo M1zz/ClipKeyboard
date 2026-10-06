@@ -546,6 +546,7 @@ struct TemplateFillSheet: View {
     @Environment(\.appTheme) private var theme
     @State private var inputs: [String: String] = [:]
     @State private var placeholders: [String] = []
+    @State private var showFeedback = false
 
     /// 사용자 변수가 모두 채워졌는지.
     private var allFilled: Bool {
@@ -618,6 +619,7 @@ struct TemplateFillSheet: View {
                                 )
                             )
                         }
+                        feedbackLink
                     }
                     .padding(16)
                 }
@@ -651,6 +653,9 @@ struct TemplateFillSheet: View {
         }
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)
+        .sheet(isPresented: $showFeedback) {
+            FeedbackView(origin: .templateFill, initialType: FeedbackOrigin.templateFill.suggestedType)
+        }
         .onAppear {
             // 자동 변수({날짜} 등)는 제외하고 사용자가 채울 커스텀 변수만.
             let custom = memo.value.extractTemplatePlaceholders()
@@ -659,6 +664,23 @@ struct TemplateFillSheet: View {
         }
     }
 
+    /// 이 화면에서 바로 의견을 보내는 문. "빈칸을 세로로" 같은 요청이 여기서 생긴다.
+    ///
+    /// ⚠️ 설정 맨 아래까지 가야 열리던 문으로는 **어느 화면 얘기인지**가 같이 오지 않았다.
+    ///    여기서 열면 보낸 곳이 자동 첨부 정보에 실린다(`FeedbackOrigin.templateFill`).
+    private var feedbackLink: some View {
+        Button {
+            showFeedback = true
+        } label: {
+            Label(NSLocalizedString("이 화면에 대해 의견 보내기", comment: "Template fill: send feedback about this screen"),
+                  systemImage: AppSymbol.envelopeBadge)
+                .font(.body)
+                .foregroundColor(theme.textMuted)
+                .frame(maxWidth: .infinity)
+                .padding(.top, 8)
+        }
+        .buttonStyle(.plain)
+    }
 }
 
 // MARK: - Per-Placeholder Fill Row (키보드 PlaceholderInputView 이식 + 인앱 TextField)
@@ -847,7 +869,16 @@ private struct TemplateFillRow: View {
 
     @ViewBuilder
     private var savedChips: some View {
-        if !savedValues.isEmpty {
+        if savedValues.isEmpty {
+            EmptyView()
+        } else if PlaceholderValueLayout.resolve(for: savedValues) == .list {
+            // 긴 값은 세로 목록으로. 키보드와 같은 규칙이다(`PlaceholderValueLayout`).
+            PlaceholderValueList(values: savedValues,
+                                 nextValue: nextValue,
+                                 selection: $value,
+                                 theme: theme,
+                                 onSelect: { HapticManager.shared.selection() })
+        } else {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {
                     if let next = nextValue {

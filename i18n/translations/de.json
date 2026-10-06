@@ -10992,5 +10992,37 @@
   "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
     "src": "bb24d4c594",
     "v": "Diesen Namen kannst du nicht verwenden. Er existiert schon oder entspricht einem festen Tab."
+  },
+  "%lld개 더 보기": {
+    "v": "%lld weitere anzeigen",
+    "src": "cf22b4198e"
+  },
+  "의견 묻는 알림": {
+    "v": "Feedback-Hinweis",
+    "src": "f631271ffe"
+  },
+  "템플릿 채우기": {
+    "v": "Vorlage ausfüllen",
+    "src": "0946fe9ace"
+  },
+  "키보드의 템플릿 빈칸": {
+    "v": "Vorlagenlücken in der Tastatur",
+    "src": "0b3bfc5872"
+  },
+  "보낸 곳: %@": {
+    "v": "Gesendet aus: %@",
+    "src": "9c893a5ccb"
+  },
+  "키보드 켜짐": {
+    "v": "Tastatur an",
+    "src": "a35cdd7ce2"
+  },
+  "키보드 꺼짐": {
+    "v": "Tastatur aus",
+    "src": "b24e7c0b7f"
+  },
+  "이 화면에 대해 의견 보내기": {
+    "v": "Feedback zu diesem Bildschirm",
+    "src": "edd6b4710f"
   }
 }

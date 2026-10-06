@@ -26,6 +26,7 @@
 | 만들고 키보드에서 쓰고 고치고 지운다 | 저장했는데 키보드에 없다 · 썼는데 횟수가 그대로 · 고쳤더니 둘이 됐다 · 지웠는데 키보드에 남았다 | `BasicScenarioTests/test_만든_단축어를_키보드에서_쓰고_고치고_지운다` |
 | 즐겨찾기가 키보드 맨 앞에 | 즐겨찾기했는데 키보드에서 못 찾는다 | `BasicScenarioTests/test_즐겨찾기한_단축어가_키보드_맨_앞에_선다` |
 | 템플릿 빈칸 채우기 | `{이름}` 이 그대로 붙여넣어진다 | `BasicScenarioTests/test_템플릿은_빈칸을_채워야_들어간다` |
+| 긴 빈칸 값 고르기 | 주소 같은 긴 값이 가로로 넘쳐 옆으로 한참 밀어야 읽힌다 (2026-10 사용자 요청) | `PlaceholderValueLayoutTests/oneLongValueMakesList` |
 | 빈 것은 저장되지 않는다 | 누를 것이 없는 빈 키가 생긴다 | `BasicScenarioTests/test_이름이나_내용이_없으면_저장되지_않는다` |
 | 스택 순서 입력 | 값이 빠지거나 순서가 바뀐다 | `BasicScenarioTests/test_스택은_값을_순서대로_넣는다` |
 | 보안 단축어 | 파일에 평문 · `smenc1:...` 이 붙여넣어진다 | `BasicScenarioTests/test_보안_단축어는_파일에_평문이_없고_키보드는_원래_값을_넣는다` |

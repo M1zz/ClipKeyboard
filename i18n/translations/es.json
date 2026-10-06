@@ -10995,5 +10995,37 @@
   "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
     "src": "bb24d4c594",
     "v": "No puedes usar ese nombre. Ya existe o coincide con una pestaña integrada."
+  },
+  "%lld개 더 보기": {
+    "v": "Mostrar %lld más",
+    "src": "cf22b4198e"
+  },
+  "의견 묻는 알림": {
+    "v": "Aviso para opinar",
+    "src": "f631271ffe"
+  },
+  "템플릿 채우기": {
+    "v": "Rellenar plantilla",
+    "src": "0946fe9ace"
+  },
+  "키보드의 템플릿 빈칸": {
+    "v": "Huecos de plantilla en el teclado",
+    "src": "0b3bfc5872"
+  },
+  "보낸 곳: %@": {
+    "v": "Enviado desde: %@",
+    "src": "9c893a5ccb"
+  },
+  "키보드 켜짐": {
+    "v": "Teclado activado",
+    "src": "a35cdd7ce2"
+  },
+  "키보드 꺼짐": {
+    "v": "Teclado desactivado",
+    "src": "b24e7c0b7f"
+  },
+  "이 화면에 대해 의견 보내기": {
+    "v": "Opinar sobre esta pantalla",
+    "src": "edd6b4710f"
   }
 }

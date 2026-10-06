@@ -382,6 +382,9 @@ struct TemplateInputOverlay: View {
                                 )
                                 }
                             }
+                            if hostKind.offersFeedbackLink {
+                                feedbackLink
+                            }
                         }
                     }
                     .padding(.horizontal, 12)
@@ -396,6 +399,24 @@ struct TemplateInputOverlay: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(UIColor.systemBackground))
+    }
+
+    /// 이 화면에 대해 의견을 보내는 문. 앱을 열어 의견 창을 띄운다.
+    ///
+    /// ⚠️ 키보드는 의견 창을 직접 띄울 수 없다(자기가 키보드라 글을 받을 자판이 없다).
+    ///    그래서 앱으로 넘기면서 **어디서 왔는지**를 함께 보낸다(`FeedbackOrigin.keyboardTemplate`).
+    private var feedbackLink: some View {
+        Button {
+            NotificationCenter.postOnMain(name: .openMainAppFeedback, object: "keyboard-template")
+        } label: {
+            Label(NSLocalizedString("이 화면에 대해 의견 보내기", comment: "Template fill: send feedback about this screen"),
+                  systemImage: AppSymbol.envelopeBadge)
+                .font(.body)
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
+        }
+        .buttonStyle(.plain)
     }
 
     /// 넣으면 이렇게 된다 - **실제로 들어갈 것**을 그린다.
@@ -870,6 +891,20 @@ struct PlaceholderInputView: View {
     private var textPredefinedSection: some View {
         if predefinedValues.isEmpty {
             emptyValuesSection
+        } else if PlaceholderValueLayout.resolve(for: predefinedValues) == .list {
+            // 긴 값은 칩 하나가 화면보다 넓어져 옆으로 한참 밀어야 읽힌다. 세로로 세운다.
+            // 키보드는 높이가 정해져 있어 넷까지만 보이고 나머지는 펼친다.
+            PlaceholderValueList(values: predefinedValues,
+                                 nextValue: nextSequenceValue,
+                                 selection: $selectedValue,
+                                 theme: theme,
+                                 visibleLimit: 4,
+                                 onSelect: { KeyboardHaptics.tap() }) { _, isSelected in
+                if guidesUser && !isSelected {
+                    KeyRipple(shape: RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous),
+                              color: theme.accent, reach: 6)
+                }
+            }
         } else {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 8) {

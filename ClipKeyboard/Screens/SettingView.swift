@@ -203,6 +203,8 @@ struct SettingView: View {
                 Label(NSLocalizedString("피드백 보내기", comment: "Send feedback settings entry"),
                       systemImage: AppSymbol.envelopeBadge)
             }
+            // 보낸 적이 있을 때만 보인다. 답장이 오면 숫자가 붙는다.
+            LeeoSentFeedbackRow<ClipKeyboardSpec>()
             NavigationLink(destination: ReviewWriteView()) {
                 Label(NSLocalizedString("리뷰 남기기", comment: "Leave review"),
                       systemImage: AppSymbol.star)

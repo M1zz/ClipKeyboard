@@ -1,3 +1,16 @@
+## 📋 긴 빈칸 값은 세로 목록 (사용자 요청) · 의견 창구 - 2026-10-06
+
+- [x] `PlaceholderValueLayout`: 값 하나라도 길면(보이는 너비 20 초과 · 줄바꿈) 그 빈칸만 세로 목록, 짧으면 가로 칩 그대로
+- [x] 키보드(`PlaceholderInputView`, 넷까지 보이고 더 보기)와 앱 채우기 창(`TemplateFillRow`)이 같은 부품 `PlaceholderValueList`
+- [x] 시험 6개 · 여정 표 한 줄 · 새 문구 1개 10개 언어 · 앱과 키보드 빌드 성공
+- [ ] 실기기·시뮬레이터에서 긴 주소 값으로 눈으로 확인 (키보드 높이 안에 들어가는지)
+- [x] 의견 창구 다섯 가지: 답장(FeedbackReply, 설정 > 보낸 의견 + 배지) · 보낸 곳(템플릿 채우기 창 · 키보드 빈칸 화면 링크) · 제안에도 사진 · 제안 세 번째 질문(지금은 어떻게) · 기종 식별자·빌드·Pro·키보드 상태
+- [x] LeeoKit · FeedbackHubViewer 답장 쓰기 · deviceInfo 읽기, 세 곳 빌드 · 시험 통과(임시 미러로 확인)
+- [x] LeeoKit v3.15.0 (v3.14.0 은 다섯 언어 추가로 이미 쓰임) 푸시, ClipKeyboard 패키지 3.15.0 으로 갱신, 앱·키보드 빌드와 시험 41개 통과
+- [ ] CloudKit Console(iCloud.com.Ysoup.FeedbackHub): FeedbackReply 타입 만들기(feedbackID · message · appId, String) · World 에 Read · Production 배포
+- [ ] 같은 곳 Feedback 타입에 screenshot1~3 (Asset) 이 Production 에 있는지 확인 (없어도 사진만 빠지고 글은 간다)
+- [ ] 이번 요청 보낸 분께 답장(새 답장 기능은 그분 앱이 새 버전이어야 보인다. 지금 건은 이메일이 없어서 스토어 업데이트 노트로 알리는 수밖에 없다)
+
 ## 💳 무료로 쓰는 기간 (5.2 수익 모델) · 키보드 켜기 띠 - 2026-09-30
 
 설계: docs/product/FREE_USE_MODEL.md · 시안: https://claude.ai/artifact/FnFDBa1seGkR9zRBMoYQPT

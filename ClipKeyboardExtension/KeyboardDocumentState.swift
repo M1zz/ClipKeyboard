@@ -75,6 +75,11 @@ extension KeyboardHostKind {
 
     /// 검색으로 헤매는지 재는가(진짜 키보드의 세션 기록이 있을 때만 뜻이 있다).
     var tracksSearchStruggle: Bool { !runsInsideApp }
+
+    /// 빈칸 채우기 창 아래에 "의견 보내기" 를 두는가.
+    /// 진짜 키보드만 - 앱을 열어 의견 창을 띄운다. 앱 안(무대 · 설정 미리보기)에서는
+    /// 앱의 채우기 창에 같은 문이 이미 있고, 미리보기에서 앱을 다시 여는 것은 뜻이 없다.
+    var offersFeedbackLink: Bool { !runsInsideApp }
 }
 
 final class KeyboardDocumentState: ObservableObject {
