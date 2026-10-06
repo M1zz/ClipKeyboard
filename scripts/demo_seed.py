@@ -116,6 +116,36 @@ DATA = {
    ("Mã số thuế", "0101234567", None, None),
    ("Báo cáo sáng", "", [("Tên","Nguyễn Văn An"),("Bộ phận","Phát triển"),("Hôm nay","Kiểm tra bản phát hành")], None),
  ], "tên", ["Nguyễn Văn An", "Trần Thị Mai", "Lê Minh Khoa"]),
+ "fr": ("Général", [
+   ("Coordonnées bancaires", "IBAN FR76 3000 6000 0112 3456 7890 189", None, None),
+   ("E-mail pro", "julie.martin@entreprise.fr", None, None),
+   ("Téléphone", "06 12 34 56 78", None, None),
+   ("Adresse", "12 rue de Rivoli, 75004 Paris", None, None),
+   ("Réponse client", "Bonjour {prénom}, merci pour votre message.", None, ["{prénom}"]),
+   ("Absence", "Absente jusqu'à lundi. Je vous réponds dès mon retour.", None, None),
+   ("N° SIRET", "123 456 789 00012", None, None),
+   ("Point du matin", "", [("Nom","Julie Martin"),("Équipe","Développement"),("Aujourd'hui","Vérifier la mise en ligne")], None),
+ ], "prénom", ["Julie", "Thomas", "Camille"]),
+ "it": ("Generale", [
+   ("Conto bancario", "IBAN IT60 X054 2811 1010 0000 0123 456", None, None),
+   ("Email di lavoro", "giulia.rossi@azienda.it", None, None),
+   ("Telefono", "333 123 4567", None, None),
+   ("Indirizzo", "Via Roma 10, 20121 Milano", None, None),
+   ("Risposta clienti", "Ciao {nome}, grazie per averci scritto.", None, ["{nome}"]),
+   ("Assenza", "Fuori ufficio fino a lunedì. Ti rispondo al rientro.", None, None),
+   ("Partita IVA", "IT12345678901", None, None),
+   ("Report del mattino", "", [("Nome","Giulia Rossi"),("Team","Sviluppo"),("Oggi","Controllo del rilascio")], None),
+ ], "nome", ["Giulia", "Marco", "Sara"]),
+ "pt-BR": ("Geral", [
+   ("Conta bancária", "Itaú ag. 1234 c/c 56789-0 João Silva", None, None),
+   ("E-mail do trabalho", "joao.silva@empresa.com.br", None, None),
+   ("Celular", "(11) 91234-5678", None, None),
+   ("Endereço", "Av. Paulista, 1000, São Paulo", None, None),
+   ("Resposta ao cliente", "Olá {nome}, obrigado pelo contato.", None, ["{nome}"]),
+   ("Ausente", "Fora até segunda. Respondo assim que voltar.", None, None),
+   ("CNPJ", "12.345.678/0001-90", None, None),
+   ("Relatório da manhã", "", [("Nome","João Silva"),("Equipe","Desenvolvimento"),("Hoje","Revisar a versão")], None),
+ ], "nome", ["João", "Maria", "Pedro"]),
 }
 cat, rows, ph_name, ph_values = DATA[lang]
 memos = []
@@ -147,6 +177,13 @@ if True:
         del d[k]
     # 시연은 늘 같은 자리에서 시작한다. 지난 녹화가 바꿔 둔 것을 되돌린다.
     d.pop("keyboardHeightPreset.v1", None)
+    # 기본 카테고리(업무 · 개인)는 기기에서 앱을 **처음 켠 언어**로 지어지고 그 뒤로는 그대로다.
+    # 한 기기로 여러 언어를 찍으면 한국어 화면에 "Work" 탭이 선다. 시연은 심은 분류 하나로만 간다.
+    d["userDefinedCategories_v1"] = []
+    d["defaultCategories_v1"] = []
+    d["defaultCategories.seeded.v1"] = True
+    # 지난 촬영이 '최근' 탭을 열어 둔 채 끝났으면 다음 촬영이 거기서 시작한다. 단축어 탭으로 되돌린다.
+    d["keyboardShowsRecentClips.v1"] = False
     d["placeholder_values_{" + ph_name + "}"] = blob
     plistlib.dump(d, io.open(pref, "wb"))
     print("빈칸 값", ph_name, len(ph_values))
@@ -162,3 +199,32 @@ if True:
         a["selectedCategoryTab_v1"] = "__basic__"
         plistlib.dump(a, io.open(ap, "wb"))
         print("탭 되돌림 list")
+
+# '최근' 탭에 보일 복사 기록(`smart.clipboard.history.data`). 맨 앞이 가장 최근이다.
+# 미리보기 영상은 맨 앞 것을 넣는다(InAppKeyboardStage.runScreenshotScene).
+# 종류는 ClipboardItemType 의 rawValue 다: 주소 · 송장번호 · 텍스트 · 예약번호.
+CLIPS = {
+ "ko": ["서울 마포구 월드컵북로 396", "6012-3456-7890", "오늘 7시 강남역 2번 출구에서 봬요", "예약번호 KX4R92"],
+ "en": ["350 5th Ave, New York, NY 10118", "1Z 999 AA1 01 2345 6784", "See you at 7 by the north entrance", "Confirmation code KX4R92"],
+ "zh-Hans": ["上海市浦东新区世纪大道100号", "SF1234567890123", "晚上7点在南门见", "预订号 KX4R92"],
+ "zh-Hant": ["台北市信義區市府路45號", "1234-5678-9012", "晚上7點在南門見", "訂位代號 KX4R92"],
+ "ru": ["Москва, ул. Тверская, 7", "RA123456789RU", "Встречаемся в 7 у главного входа", "Код брони KX4R92"],
+ "ja": ["東京都渋谷区神南1-2-3", "1234-5678-9012", "7時に東口で待ち合わせしましょう", "予約番号 KX4R92"],
+ "es": ["Av. Reforma 222, Juárez, CDMX", "Guía 1234 5678 9012", "Nos vemos a las 7 en la entrada norte", "Código de reserva KX4R92"],
+ "de": ["Friedrichstraße 43, 10117 Berlin", "00340434161234567890", "Wir treffen uns um 7 am Haupteingang", "Buchungscode KX4R92"],
+ "th": ["99 ถนนสีลม กรุงเทพฯ 10500", "TH1234567890", "เจอกันหนึ่งทุ่มที่ทางเข้าหลัก", "รหัสจอง KX4R92"],
+ "vi": ["45 Nguyễn Huệ, Quận 1, TP.HCM", "1234567890", "Hẹn gặp lúc 7 giờ ở cổng chính", "Mã đặt chỗ KX4R92"],
+ "fr": ["8 rue de la Paix, 75002 Paris", "6A12345678901", "Rendez-vous à 19 h à l'entrée principale", "Code de réservation KX4R92"],
+ "it": ["Corso Buenos Aires 1, 20124 Milano", "1234567890", "Ci vediamo alle 19 all'ingresso principale", "Codice prenotazione KX4R92"],
+ "pt-BR": ["Rua Oscar Freire, 900, São Paulo", "BR123456789BR", "Te encontro às 19h na entrada principal", "Código da reserva KX4R92"],
+}
+import time
+now = time.time() - 978_307_200  # JSONEncoder 의 기본 날짜는 2001-01-01 기준 초
+kinds = ["주소", "송장번호", "텍스트", "예약번호"]
+history = [{"id": str(uuid.uuid4()).upper(), "content": c, "copiedAt": now - (i + 1) * 900,
+            "isTemporary": True, "contentType": "text", "detectedType": kinds[i],
+            "confidence": 0.9, "tags": [], "autoSaveOffered": True}
+           for i, c in enumerate(CLIPS[lang])]
+io.open(os.path.join(G, "smart.clipboard.history.data"), "w", encoding="utf-8").write(
+    json.dumps(history, ensure_ascii=False))
+print("복사 기록", lang, len(history))

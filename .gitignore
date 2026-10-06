@@ -26,3 +26,6 @@ __pycache__/
 
 # 마케팅 렌더링 중간 산출물
 scripts/*-*.html
+
+# 미리보기 영상 녹화 원본(scripts/take_demo_video.sh). 크고 언제든 다시 찍는다
+docs/screenshots/raw/video/

@@ -248,14 +248,9 @@ struct InAppKeyboardStage: View {
             refreshKeyboardReady()
             refreshClipboardImage()
             #if DEBUG
-            // 스토어 스크린샷: `-ScreenshotScene template` 이면 템플릿 키를 누른 것과 같은 길로
-            // 빈칸 채우기 판을 연다(scripts/take_screenshots.sh).
-            if UserDefaults.standard.string(forKey: "ScreenshotScene") == "template" {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                    guard let memo = (try? MemoStore.shared.load(type: .memo))?.first(where: { $0.isTemplate }) else { return }
-                    NotificationCenter.postOnMain(name: .addTextEntry, object: memo.value,
-                                                    userInfo: ["memoId": memo.id])
-                }
+            // 스토어 촬영: `-ScreenshotScene` 이 정한 장면을 손 대신 연다(scripts/take_screenshots.sh).
+            if let scene = UserDefaults.standard.string(forKey: "ScreenshotScene") {
+                runScreenshotScene(scene)
             }
             #endif
         }
@@ -1072,3 +1067,57 @@ struct StageBubble: Shape {
         return path
     }
 }
+
+#if DEBUG
+// MARK: - 스토어 촬영 (docs/screenshots/README.md)
+
+extension InAppKeyboardStage {
+    /// `-ScreenshotScene` 이 정한 장면을 **누른 것과 같은 길로** 연다. 출시 빌드에는 없다.
+    ///
+    ///   template - 빈칸 채우기 판
+    ///   sent     - 첫 단축어(계좌번호)를 넣어 보낸 뒤
+    ///   recent   - '최근' 탭 (복사 기록은 scripts/demo_seed.py 가 심는다)
+    ///   demo     - 미리보기 영상 한 바퀴: 넣고 보내기, 빈칸 채워 보내기, '최근' 탭에서 꺼내 보내기
+    ///
+    /// ⚠️ 시각을 손으로 맞춘 이유: 시뮬레이터를 조작할 도구 없이 언어마다 **같은 동작**을 녹화하려면
+    ///    앱이 스스로 움직여야 한다. 녹화본의 멈춘 구간은 scripts/make_demo_video.py 가 잘라 낸다.
+    func runScreenshotScene(_ scene: String) {
+        let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
+        let plain = memos.first { !$0.isTemplate && !$0.isStack && !$0.value.isEmpty }
+        let template = memos.first { $0.isTemplate }
+        let clip = SmartClipboardHistory.keyboardRecents(
+            (try? MemoStore.shared.loadSmartClipboardHistory()) ?? []).first
+
+        func tap(_ memo: Memo?) -> () -> Void {
+            { if let memo { insertDemo(memo.value, memoId: memo.id) } }
+        }
+        func showsRecent(_ on: Bool) -> () -> Void {
+            { NotificationCenter.postOnMain(name: .demoKeyboardTab, object: on) }
+        }
+        let send: () -> Void = { host.send() }
+        let pick: () -> Void = { NotificationCenter.postOnMain(name: .demoTemplatePick, object: 1) }
+
+        let steps: [(TimeInterval, () -> Void)]
+        switch scene {
+        case "template": steps = [(1.5, tap(template))]
+        case "sent":     steps = [(1.0, tap(plain)), (2.8, send)]
+        case "recent":   steps = [(1.0, showsRecent(true))]
+        case "demo":
+            steps = [(1.5, tap(plain)), (3.3, send),
+                     (4.6, tap(template)), (6.4, pick), (8.8, send),
+                     (10.0, showsRecent(true)),
+                     (11.6, { if let clip { insertDemo(clip.content, memoId: UUID()) } }),
+                     (13.4, send)]
+        default: steps = []
+        }
+        for (delay, step) in steps {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: step)
+        }
+    }
+
+    /// 키를 누른 것과 같은 길(`.addTextEntry`)로 넣는다. 그래야 글이 흐르는 모습까지 같다.
+    private func insertDemo(_ text: String, memoId: UUID) {
+        NotificationCenter.postOnMain(name: .addTextEntry, object: text, userInfo: ["memoId": memoId])
+    }
+}
+#endif

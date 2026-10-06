@@ -399,6 +399,17 @@ struct TemplateInputOverlay: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(UIColor.systemBackground))
+        #if DEBUG
+        // 미리보기 영상 촬영(`-ScreenshotScene demo`): 손 대신 값을 고르고, 초록으로 보인 뒤 넣는다.
+        .onReceive(NotificationCenter.default.publisher(for: .demoTemplatePick)) { note in
+            guard let index = note.object as? Int, let placeholder = state.placeholders.first else { return }
+            let values = PredefinedValuesStore.shared
+                .getValuesForTemplate(placeholder: placeholder, templateId: state.templateId)
+            guard values.indices.contains(index) else { return }
+            withAnimation { state.inputs[placeholder] = values[index] }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { completeInput() }
+        }
+        #endif
     }
 
     /// 이 화면에 대해 의견을 보내는 문. 앱을 열어 의견 창을 띄운다.

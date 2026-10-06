@@ -1469,6 +1469,13 @@ struct KeyboardView: View {
         }
         // 장이 넘어가면 가리키는 키가 바뀐다 - 뷰는 그대로라 onAppear 가 다시 돌지 않는다.
         .onChange(of: highlightedMemoId) { _, _ in revealHighlightedPageIfNeeded() }
+        #if DEBUG
+        // 스토어 촬영(`-ScreenshotScene recent` · `demo`): 손 대신 탭을 옮긴다.
+        .onReceive(NotificationCenter.default.publisher(for: .demoKeyboardTab)) { note in
+            guard let recent = note.object as? Bool, showsRecentClipsTab else { return }
+            withAnimation { selectTab(at: recent ? 0 : categoryTabOffset) }
+        }
+        #endif
         .onAppear {
             loadAllMemos()
             revealHighlightedPageIfNeeded()

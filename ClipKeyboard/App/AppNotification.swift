@@ -94,6 +94,14 @@ extension Notification.Name {
     static let showSettings = Notification.Name("showSettings")
     static let showTemplateInput = Notification.Name("showTemplateInput")
     static let templateInputComplete = Notification.Name("templateInputComplete")
+
+    #if DEBUG
+    // MARK: - 스토어 촬영 전용 (`-ScreenshotScene`, docs/screenshots/README.md)
+    /// 키보드 탭을 고른다. object = Bool(true 면 '최근' 탭, false 면 단축어 탭).
+    static let demoKeyboardTab = Notification.Name("demoKeyboardTab")
+    /// 열려 있는 빈칸 채우기 판에서 첫 빈칸의 저장된 값을 골라 넣는다. object = 값의 순번(Int).
+    static let demoTemplatePick = Notification.Name("demoTemplatePick")
+    #endif
 }
 
 // MARK: - 알림은 메인에서 쏜다
