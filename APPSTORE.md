@@ -9,13 +9,13 @@ DeployBar 가 이 파일을 읽어 App Store Connect 의 스토어 페이지를 
 ### 이름
 
 ```
-클립키보드
+클립키보드: 상용구 키보드·자주쓰는문구
 ```
 
 ### 부제
 
 ```
-상용구·자주 쓰는 문구 빠른 입력
+자주 쓰는 문구 복사 붙여넣기·빠른 답장
 ```
 
 ### 설명
@@ -57,7 +57,7 @@ iPhone과 iPad에서 쓸 수 있습니다. 한국어, 영어, 일본어, 중국�
 ### 키워드
 
 ```
-복붙,클립보드,복사,붙여넣기,자동입력,템플릿,단축키,빠른답장,복사기록,매크로,스니펫,자기소개,계좌번호,카드번호,주소,서명,이메일,메모,답장,자동완성,반복입력,고객응대
+복붙,클립보드,복붙키보드,클립보드관리,복사기록,자동입력,자동완성,스니펫,계좌번호,자기소개,주소,서명,이메일,메모,반복입력,고객응대,단축키,템플릿,문구저장,인사말,매크로
 ```
 
 ### 프로모션 텍스트
@@ -83,13 +83,13 @@ https://m1zz.github.io/ClipKeyboard/privacy.html?lang=ko
 ### 이름
 
 ```
-Clip Keyboard - Quick Phrases
+Clip Keyboard: Paste Snippets
 ```
 
 ### 부제
 
 ```
-Text snippets & canned replies
+Clipboard Manager, Quick Reply
 ```
 
 ### 설명
@@ -131,7 +131,81 @@ Terms of Use: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
 ### 키워드
 
 ```
-clipboard,paste,autofill,boilerplate,template,macro,typing,copy,form filler,signature,expander,saved
+copy,canned,saved,replies,text,expander,autofill,phrases,history,template,macro,signature,shortcut
+```
+
+### 프로모션 텍스트
+
+```
+Saved phrases, copied text, account numbers: one tap from the keyboard. Every feature is free for your first 100 inserts. Now in Japanese, Spanish, German, Thai and more.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+
+## 영어(영국) (en-GB)
+
+### 이름
+
+```
+Clip Keyboard: Paste Snippets
+```
+
+### 부제
+
+```
+Clipboard Manager, Quick Reply
+```
+
+### 설명
+
+```
+Stop typing the same thing over and over. Save it once, then it is one tap.
+
+Keep the account numbers, addresses, introductions and email openers you reuse as snippets. In Messages, Mail, Safari, anywhere you can type, switch to ClipKeyboard, tap once, and the text lands in the field.
+
+What it does
+
+Snippets: what you saved goes in exactly as it is. One tap.
+Templates: leave the parts that change as blanks, then fill them from values you already saved.
+Stacks: keep several values in one place and send them in order, or switch between them with the arrow.
+Secure snippets: lock passport and card numbers behind Face ID and open them only when you need them.
+Smart clipboard: what you copy is sorted for you. It recognises emails, phone numbers, addresses, card numbers and IBANs, so you find them again in a second.
+Text recognition: photograph a card or a document, swipe over the part you want, and only that text becomes a value.
+iCloud backup: it survives a new phone, image snippets included.
+
+Please know this first
+
+This is a keyboard for putting saved text in. It does not replace the keyboard you type on. Switch to it when you need to drop something in, then switch back.
+
+Privacy
+
+What you write stays on your device. If you turn on iCloud backup, it is stored encrypted in your own iCloud. We do not collect the contents of your snippets and we use no third-party analytics.
+
+Free and Pro
+
+Every feature is free until you have inserted snippets 100 times. After that, everything you made keeps working; the free limits apply only to new items. Pro removes every limit, as a one-time purchase or an annual subscription.
+
+Works on iPhone and iPad. Available in English, Korean, Japanese, Chinese (Simplified and Traditional), Russian, Spanish, German, French, Italian, Portuguese (Brazil), Thai and Vietnamese.
+
+Contact: leeo@kakao.com
+User guide: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+Terms of Use: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+copy,canned,saved,replies,text,expander,autofill,phrases,history,template,signature,shortcut,IBAN
 ```
 
 ### 프로모션 텍스트
@@ -157,13 +231,13 @@ https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
 ### 이름
 
 ```
-Clip Keyboard - Быстрые фразы
+Clip Keyboard: буфер обмена
 ```
 
 ### 부제
 
 ```
-Фразы, шаблоны, буфер обмена
+Шаблоны, быстрые ответы, фразы
 ```
 
 ### 설명
@@ -205,7 +279,7 @@ Clip Keyboard - Быстрые фразы
 ### 키워드
 
 ```
-копирование,вставка,автозамена,текст,сниппет,макрос,подпись,реквизиты,история,заготовки,клавиатура
+копировать,вставить,автозамена,текст,сниппет,макрос,подпись,реквизиты,история,заготовки,клавиатура
 ```
 
 ### 프로모션 텍스트
@@ -231,13 +305,13 @@ https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
 ### 이름
 
 ```
-ClipKeyboard - 快捷短语一键输入
+ClipKeyboard: 快捷短语·常用语键盘
 ```
 
 ### 부제
 
 ```
-常用语·模板·剪贴板，一点即输入
+剪贴板·快捷回复·话术，一键输入
 ```
 
 ### 설명
@@ -276,7 +350,7 @@ iCloud 备份：换手机也不会丢，图片短语也一起带走。
 ### 키워드
 
 ```
-剪切板,粘贴板,剪贴板历史,快捷回复,文字替换,自定义键盘,复制粘贴,短语库,签名,效率,自动填充,复制历史,收款账号,地址,邮箱,常用句,宏,备忘,输入助手,快捷键,文本扩展
+剪切板,粘贴板,复制粘贴,输入法,剪贴板历史,文字替换,文本扩展,短语库,签名,自动填充,复制历史,收款账号,地址,邮箱,常用句,宏,备忘,效率,客服,模板,短语键盘,快捷输入,回复
 ```
 
 ### 프로모션 텍스트
@@ -302,13 +376,13 @@ https://m1zz.github.io/ClipKeyboard/privacy.html?lang=zh-Hans
 ### 이름
 
 ```
-ClipKeyboard - 快捷短語一鍵輸入
+ClipKeyboard: 常用語·快速回覆鍵盤
 ```
 
 ### 부제
 
 ```
-常用語·範本·剪貼簿，一點即輸入
+剪貼簿·罐頭訊息·複製貼上一鍵輸入
 ```
 
 ### 설명
@@ -347,7 +421,7 @@ iCloud 備份：換手機也不會丟，圖片短語也一起帶走。
 ### 키워드
 
 ```
-剪貼簿紀錄,罐頭訊息,快速回覆,文字捷徑,自訂鍵盤,複製貼上,簽名檔,常用句,片語,效率,自動填入,帳號,地址,信箱,巨集,複製紀錄,備忘,輸入助手,快捷鍵,文字擴展
+片語,短語,常用句,快捷短語,剪貼簿紀錄,文字捷徑,自訂,簽名檔,效率,自動填入,帳號,地址,信箱,巨集,複製紀錄,備忘,輸入法,快捷鍵,文字擴展,範本,客服,快捷輸入,常用短語
 ```
 
 ### 프로모션 텍스트
@@ -373,13 +447,13 @@ https://m1zz.github.io/ClipKeyboard/privacy.html?lang=zh-Hant
 ### 이름
 
 ```
-Clip Keyboard - 定型文キーボード
+Clip Keyboard: 定型文キーボード
 ```
 
 ### 부제
 
 ```
-よく使う文章をワンタップで入力
+コピペ・クリップボード履歴をワンタップ入力
 ```
 
 ### 설명
@@ -422,7 +496,7 @@ iPhoneとiPadで使えます。日本語、韓国語、英語、中国語（簡�
 ### 키워드
 
 ```
-コピペ,クリップボード,履歴,テンプレート,辞書,単語登録,メモ,自動入力,署名,住所,口座番号,返信,スニペット,貼り付け,コピー,マクロ,ショートカット,入力補助,連絡先,メール
+ユーザー辞書,単語登録,辞書,テンプレート,メモ,自動入力,署名,住所,口座番号,返信,スニペット,貼り付け,コピー,マクロ,ショートカット,入力補助,連絡先,メール,文章,挨拶
 ```
 
 ### 프로모션 텍스트
@@ -448,13 +522,13 @@ https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
 ### 이름
 
 ```
-Clip Keyboard: Frases rápidas
+Clip Keyboard: Portapapeles
 ```
 
 ### 부제
 
 ```
-Copiar y pegar con un toque
+Copiar y pegar, frases rápidas
 ```
 
 ### 설명
@@ -497,7 +571,7 @@ Términos de uso: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
 ### 키워드
 
 ```
-portapapeles,plantilla,autocompletar,atajos,respuestas,firma,dirección,CLABE,cuenta,macro,notas
+teclado,plantilla,autocompletar,atajos,respuestas,firma,dirección,CLABE,cuenta,macro,texto,mensajes
 ```
 
 ### 프로모션 텍스트
@@ -529,7 +603,7 @@ Clip Keyboard: Textbausteine
 ### 부제
 
 ```
-Texte mit einem Tipp einfügen
+Tastatur mit Zwischenablage
 ```
 
 ### 설명
@@ -572,7 +646,7 @@ Nutzungsbedingungen: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
 ### 키워드
 
 ```
-zwischenablage,vorlage,autofill,kurzbefehl,antworten,signatur,adresse,IBAN,notizen,makro,kopieren
+vorlage,autofill,kurzbefehl,schnellantwort,signatur,adresse,IBAN,makro,kopieren,einfügen,text
 ```
 
 ### 프로모션 텍스트
@@ -604,7 +678,7 @@ Clip Keyboard ข้อความด่วน
 ### 부제
 
 ```
-ใส่ข้อความที่ใช้บ่อยในแตะเดียว
+คลิปบอร์ด คัดลอกวางในแตะเดียว
 ```
 
 ### 설명
@@ -647,7 +721,7 @@ Clip Keyboard ข้อความด่วน
 ### 키워드
 
 ```
-คลิปบอร์ด,คัดลอก,วาง,เทมเพลต,เลขบัญชี,ที่อยู่,พร้อมเพย์,ตอบกลับ,ลายเซ็น,โน้ต,คีย์บอร์ด,ทางลัด,อีเมล
+เทมเพลต,เลขบัญชี,ที่อยู่,พร้อมเพย์,ตอบกลับ,ลายเซ็น,คีย์บอร์ด,แป้นพิมพ์,ทางลัด,อีเมล,คัดลอกข้อความ
 ```
 
 ### 프로모션 텍스트
@@ -679,7 +753,7 @@ Clip Keyboard: Gõ nhanh cụm từ
 ### 부제
 
 ```
-Chèn câu hay dùng chỉ một chạm
+Bàn phím sao chép, dán nhanh
 ```
 
 ### 설명
@@ -722,7 +796,7 @@ Hướng dẫn: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
 ### 키워드
 
 ```
-bảng tạm,sao chép,dán,mẫu,gõ tắt,số tài khoản,địa chỉ,trả lời nhanh,chữ ký,ghi chú,bàn phím
+bảng tạm,mẫu,gõ tắt,số tài khoản,địa chỉ,trả lời,chữ ký,ghi chú,văn bản,tin nhắn,câu
 ```
 
 ### 프로모션 텍스트
@@ -748,13 +822,13 @@ https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
 ### 이름
 
 ```
-Clip Keyboard - Textes rapides
+Clip Keyboard: Presse-papiers
 ```
 
 ### 부제
 
 ```
-Vos textes en un seul toucher
+Clavier copier-coller rapide
 ```
 
 ### 설명
@@ -796,7 +870,7 @@ Conditions d’utilisation : https://m1zz.github.io/ClipKeyboard/terms.html?lang
 ### 키워드
 
 ```
-presse-papiers,modèle,raccourci,réponse,signature,adresse,IBAN,notes,macro,copier,clavier,remplir
+réponse,modèle,raccourci,signature,adresse,IBAN,macro,texte,remplir,phrases,historique,message
 ```
 
 ### 프로모션 텍스트
@@ -822,13 +896,13 @@ https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
 ### 이름
 
 ```
-Clip Keyboard - Frasi rapide
+Clip Keyboard: Copia e incolla
 ```
 
 ### 부제
 
 ```
-Testi pronti con un tocco
+Tastiera appunti, testi pronti
 ```
 
 ### 설명
@@ -870,7 +944,7 @@ Termini di utilizzo: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
 ### 키워드
 
 ```
-appunti,modello,scorciatoia,risposte,firma,indirizzo,IBAN,note,macro,copia,tastiera,compilare
+risposte,rapide,frasi,modello,scorciatoia,firma,indirizzo,IBAN,note,macro,compilare,cronologia
 ```
 
 ### 프로모션 텍스트
@@ -896,13 +970,13 @@ https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
 ### 이름
 
 ```
-Clip Keyboard - Frases rápidas
+Clip Keyboard: Copiar e Colar
 ```
 
 ### 부제
 
 ```
-Textos prontos com um toque
+Teclado de mensagens prontas
 ```
 
 ### 설명
@@ -944,7 +1018,7 @@ Termos de uso: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
 ### 키워드
 
 ```
-copiar,colar,modelo,atalho,respostas,assinatura,endereço,pix,notas,macro,teclado,preencher
+área,transferência,modelo,atalho,respostas,rápidas,assinatura,endereço,pix,notas,macro,texto,frases
 ```
 
 ### 프로모션 텍스트

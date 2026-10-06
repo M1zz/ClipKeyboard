@@ -14,6 +14,125 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.9
+
+### 앱스토어 (한국어)
+
+```
+빈칸 값이 길면 세로 목록으로 보여요.
+보낸 의견에 온 답장을 앱에서 읽어요.
+프랑스어, 이탈리아어, 포르투갈어도 지원해요.
+앱이 더 빨리 열려요.
+```
+
+### App Store (English)
+
+```
+Long blank values now show as a list.
+Read feedback replies in the app.
+Now in French, Italian and Portuguese.
+The app opens faster.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+空位的值较长时，改为竖向列表显示。
+可以在应用里查看反馈的回复。
+新增法语、意大利语和葡萄牙语。
+应用打开得更快了。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+空位的值較長時，改為直向列表顯示。
+可以在 App 裡查看意見的回覆。
+新增法文、義大利文和葡萄牙文。
+App 開啟得更快了。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Длинные значения полей идут списком.
+Ответы на отзывы теперь в приложении.
+Добавлены французский и ещё два языка.
+Приложение открывается быстрее.
+```
+
+### App Store (Japanese, ja)
+
+```
+長い入力欄の値は縦のリストで表示します。
+送ったご意見への返信をアプリで読めます。
+フランス語、イタリア語、ポルトガル語に対応。
+アプリの起動が速くなりました。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Los campos largos se ven en lista.
+Ve las respuestas a tus comentarios.
+Ahora en francés, italiano y portugués.
+La app abre más rápido.
+```
+
+### App Store (German, de-DE)
+
+```
+Lange Werte erscheinen als Liste.
+Antworten auf Feedback in der App.
+Drei neue Sprachen, etwa Französisch.
+Die App startet schneller.
+```
+
+### App Store (Thai, th)
+
+```
+ค่ายาวในช่องกรอกแสดงเป็นรายการ
+อ่านคำตอบความคิดเห็นของคุณได้ในแอป
+รองรับฝรั่งเศส อิตาลี และโปรตุเกส
+แอปเปิดเร็วขึ้น
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Giá trị dài hiện thành danh sách dọc.
+Xem trả lời góp ý ngay trong ứng dụng.
+Thêm tiếng Pháp, tiếng Ý, Bồ Đào Nha.
+Ứng dụng mở nhanh hơn.
+```
+
+### App Store (French, fr-FR)
+
+```
+Les valeurs longues sont en liste.
+Les réponses à vos avis, dans l'app.
+En français, italien et portugais.
+L'app s'ouvre plus vite.
+```
+
+### App Store (Italian, it)
+
+```
+I valori lunghi ora sono in elenco.
+Leggi le risposte al tuo feedback.
+Ora in francese, italiano e portoghese.
+L'app si apre più in fretta.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+Valores longos agora aparecem em lista.
+Veja as respostas ao seu feedback.
+Agora em francês, italiano e português.
+O app abre mais rápido.
+```
+
 ## 5.1.8
 
 ### 앱스토어 (한국어)
