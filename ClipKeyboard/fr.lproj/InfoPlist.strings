@@ -1,0 +1,16 @@
+/*
+  InfoPlist.strings
+  ClipKeyboard (Français)
+
+  ⚠️ scripts/i18n.py wire 가 만든 파일이다. 고칠 곳은 i18n/infoplist.json 과
+     i18n/translations/fr.json 이다.
+*/
+
+/* App display name */
+"CFBundleDisplayName" = "ClipKeyboard";
+
+/* Camera permission (bulk import OCR) */
+"NSCameraUsageDescription" = "L'accès à l'appareil photo est nécessaire pour photographier des cartes ou des documents et en reconnaître le texte.";
+
+/* Face ID permission (secure memos) */
+"NSFaceIDUsageDescription" = "Face ID est requis pour accéder aux notes sécurisées.";

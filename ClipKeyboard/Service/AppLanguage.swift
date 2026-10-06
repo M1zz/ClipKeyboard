@@ -35,7 +35,10 @@ enum AppLanguage: String, CaseIterable, Identifiable {
     case ru = "ru"
     case ja = "ja"
     case es = "es"
+    case ptBR = "pt-BR"
     case de = "de"
+    case fr = "fr"
+    case it = "it"
     case vi = "vi"
     case th = "th"
     // i18n:cases:end
@@ -63,7 +66,10 @@ enum AppLanguage: String, CaseIterable, Identifiable {
         "ru": "Русский",
         "ja": "日本語",
         "es": "Español",
+        "pt-BR": "Português (Brasil)",
         "de": "Deutsch",
+        "fr": "Français",
+        "it": "Italiano",
         "vi": "Tiếng Việt",
         "th": "ไทย",
     ]

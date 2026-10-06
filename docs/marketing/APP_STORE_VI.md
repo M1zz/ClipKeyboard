@@ -73,7 +73,7 @@ Miễn phí và Pro
 
 Mọi tính năng miễn phí trong 100 lần chèn đầu tiên. Sau đó, những gì bạn đã tạo vẫn dùng như cũ; giới hạn miễn phí chỉ áp dụng cho nội dung mới. Pro mua một lần hoặc đăng ký theo năm, bỏ mọi giới hạn.
 
-Dùng trên iPhone và iPad. Hỗ trợ tiếng Việt, Anh, Hàn, Nhật, Tây Ban Nha, Đức, Trung (giản thể và phồn thể), Nga và Thái.
+Dùng trên iPhone và iPad. Hỗ trợ tiếng Việt, Anh, Hàn, Nhật, Tây Ban Nha, Đức, Pháp, Ý, Bồ Đào Nha (Brazil), Trung (giản thể và phồn thể), Nga và Thái.
 
 Liên hệ: leeo@kakao.com
 Hướng dẫn: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en

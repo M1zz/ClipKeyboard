@@ -47,7 +47,7 @@ iCloud 백업: 기기를 바꿔도 남습니다. 이미지 단축어까지 함�
 
 단축어를 100번 넣을 때까지 모든 기능이 무료입니다. 그 뒤에도 만들어 둔 것은 그대로 쓰고, 무료 한도는 새로 만드는 것에만 적용됩니다. Pro는 한 번 결제(평생) 또는 연 구독으로 모든 한도를 풉니다.
 
-iPhone과 iPad에서 쓸 수 있습니다. 한국어, 영어, 일본어, 중국어(간체·번체), 러시아어, 스페인어, 독일어, 태국어, 베트남어를 지원합니다.
+iPhone과 iPad에서 쓸 수 있습니다. 한국어, 영어, 일본어, 중국어(간체·번체), 러시아어, 스페인어, 독일어, 프랑스어, 이탈리아어, 포르투갈어(브라질), 태국어, 베트남어를 지원합니다.
 
 문의: leeo@kakao.com
 사용 가이드: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=ko
@@ -121,7 +121,7 @@ Free and Pro
 
 Every feature is free until you have inserted snippets 100 times. After that, everything you made keeps working; the free limits apply only to new items. Pro removes every limit, as a one-time purchase or a yearly subscription.
 
-Works on iPhone and iPad. Available in English, Korean, Japanese, Chinese (Simplified and Traditional), Russian, Spanish, German, Thai and Vietnamese.
+Works on iPhone and iPad. Available in English, Korean, Japanese, Chinese (Simplified and Traditional), Russian, Spanish, German, French, Italian, Portuguese (Brazil), Thai and Vietnamese.
 
 Contact: leeo@kakao.com
 User guide: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -195,7 +195,7 @@ Clip Keyboard - Быстрые фразы
 
 Пока вы не вставите фразы 100 раз, все функции бесплатны. Потом всё созданное продолжает работать, а бесплатные ограничения касаются только нового. Pro снимает все ограничения: разовой покупкой или годовой подпиской.
 
-Работает на iPhone и iPad. Интерфейс на русском, английском, корейском, японском, китайском (упрощённом и традиционном), испанском, немецком, тайском и вьетнамском.
+Работает на iPhone и iPad. Интерфейс на русском, английском, корейском, японском, китайском (упрощённом и традиционном), испанском, немецком, французском, итальянском, португальском (Бразилия), тайском и вьетнамском.
 
 Связаться: leeo@kakao.com
 Руководство: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=ru
@@ -268,7 +268,7 @@ iCloud 备份：换手机也不会丢，图片短语也一起带走。
 
 前 100 次输入，所有功能都免费。之后已经建好的内容照常使用，免费上限只对新建的内容生效。Pro 可以一次性买断，也可以按年订阅，解除所有上限。
 
-支持 iPhone 和 iPad。界面提供简体中文、繁体中文、韩语、英语、俄语、日语、西班牙语、德语、泰语和越南语。
+支持 iPhone 和 iPad。界面提供简体中文、繁体中文、韩语、英语、俄语、日语、西班牙语、德语、法语、意大利语、葡萄牙语（巴西）、泰语和越南语。
 
 使用条款: https://m1zz.github.io/ClipKeyboard/terms.html?lang=zh-Hans
 ```
@@ -339,7 +339,7 @@ iCloud 備份：換手機也不會丟，圖片短語也一起帶走。
 
 前 100 次輸入，所有功能都免費。之後已經建好的內容照常使用，免費上限只對新建的內容生效。Pro 可以一次性買斷，也可以按年訂閱，解除所有上限。
 
-支援 iPhone 和 iPad。介面提供簡體中文、繁體中文、韓語、英語、俄語、日語、西班牙語、德語、泰語和越南語。
+支援 iPhone 和 iPad。介面提供簡體中文、繁體中文、韓語、英語、俄語、日語、西班牙語、德語、法語、義大利語、葡萄牙語（巴西）、泰語和越南語。
 
 使用條款: https://m1zz.github.io/ClipKeyboard/terms.html?lang=zh-Hant
 ```
@@ -411,7 +411,7 @@ iCloudバックアップ：機種変更しても残ります。画像の定型�
 
 最初の100回の入力までは、すべての機能を無料で使えます。その後も、作ったものはそのまま使えます。無料の上限がかかるのは新しく作るものだけです。Proは買い切り、または年額サブスクリプションで、すべての上限がなくなります。
 
-iPhoneとiPadで使えます。日本語、韓国語、英語、中国語（簡体字・繁体字）、ロシア語、スペイン語、ドイツ語、タイ語、ベトナム語に対応しています。
+iPhoneとiPadで使えます。日本語、韓国語、英語、中国語（簡体字・繁体字）、ロシア語、スペイン語、ドイツ語、フランス語、イタリア語、ポルトガル語（ブラジル）、タイ語、ベトナム語に対応しています。
 
 お問い合わせ：leeo@kakao.com
 使い方ガイド：https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -486,7 +486,7 @@ Gratis y Pro
 
 Todo es gratis durante tus primeras 100 inserciones. Después, lo que ya creaste sigue funcionando igual; el límite gratuito solo aplica a lo nuevo que crees. Pro se compra una vez, o como suscripción anual, y quita todos los límites.
 
-Funciona en iPhone y iPad. Disponible en español, inglés, coreano, japonés, alemán, chino (simplificado y tradicional), ruso, tailandés y vietnamita.
+Funciona en iPhone y iPad. Disponible en español, inglés, coreano, japonés, alemán, francés, italiano, portugués (Brasil), chino (simplificado y tradicional), ruso, tailandés y vietnamita.
 
 Contacto: leeo@kakao.com
 Guía de uso: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -561,7 +561,7 @@ Gratis und Pro
 
 Für deine ersten 100 Eingaben ist alles gratis. Danach funktioniert alles, was du schon erstellt hast, weiter wie bisher; das Gratis-Limit gilt nur für Neues. Pro gibt es als Einmalkauf oder als Jahresabo und hebt alle Limits auf.
 
-Für iPhone und iPad. Auf Deutsch, Englisch, Koreanisch, Japanisch, Spanisch, Chinesisch (vereinfacht und traditionell), Russisch, Thai und Vietnamesisch.
+Für iPhone und iPad. Auf Deutsch, Englisch, Koreanisch, Japanisch, Spanisch, Französisch, Italienisch, Portugiesisch (Brasilien), Chinesisch (vereinfacht und traditionell), Russisch, Thai und Vietnamesisch.
 
 Kontakt: leeo@kakao.com
 Anleitung: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -636,7 +636,7 @@ Clip Keyboard ข้อความด่วน
 
 ใช้ได้ทุกอย่างฟรีใน 100 ครั้งแรกที่ใส่ข้อความ หลังจากนั้นสิ่งที่สร้างไว้แล้วยังใช้ได้เหมือนเดิม ขีดจำกัดของรุ่นฟรีใช้กับสิ่งที่สร้างใหม่เท่านั้น Pro ซื้อครั้งเดียว หรือสมัครรายปี และปลดขีดจำกัดทั้งหมด
 
-ใช้ได้บน iPhone และ iPad รองรับภาษาไทย อังกฤษ เกาหลี ญี่ปุ่น สเปน เยอรมัน จีน (ตัวย่อและตัวเต็ม) รัสเซีย และเวียดนาม
+ใช้ได้บน iPhone และ iPad รองรับภาษาไทย อังกฤษ เกาหลี ญี่ปุ่น สเปน เยอรมัน ฝรั่งเศส อิตาลี โปรตุเกส (บราซิล) จีน (ตัวย่อและตัวเต็ม) รัสเซีย และเวียดนาม
 
 ติดต่อ: leeo@kakao.com
 คู่มือการใช้งาน: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -711,7 +711,7 @@ Miễn phí và Pro
 
 Mọi tính năng miễn phí trong 100 lần chèn đầu tiên. Sau đó, những gì bạn đã tạo vẫn dùng như cũ; giới hạn miễn phí chỉ áp dụng cho nội dung mới. Pro mua một lần hoặc đăng ký theo năm, bỏ mọi giới hạn.
 
-Dùng trên iPhone và iPad. Hỗ trợ tiếng Việt, Anh, Hàn, Nhật, Tây Ban Nha, Đức, Trung (giản thể và phồn thể), Nga và Thái.
+Dùng trên iPhone và iPad. Hỗ trợ tiếng Việt, Anh, Hàn, Nhật, Tây Ban Nha, Đức, Pháp, Ý, Bồ Đào Nha (Brazil), Trung (giản thể và phồn thể), Nga và Thái.
 
 Liên hệ: leeo@kakao.com
 Hướng dẫn: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -729,6 +729,228 @@ bảng tạm,sao chép,dán,mẫu,gõ tắt,số tài khoản,địa chỉ,trả
 
 ```
 Nội dung đã sao chép, câu hay dùng, cả số tài khoản: chèn từ bàn phím chỉ với một chạm. Nay đã có tiếng Việt, và bạn có thể chọn ngôn ngữ ngay trong ứng dụng.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+
+## 프랑스어(프랑스) (fr-FR)
+
+### 이름
+
+```
+Clip Keyboard - Textes rapides
+```
+
+### 부제
+
+```
+Vos textes en un seul toucher
+```
+
+### 설명
+
+```
+Arrêtez de retaper toujours la même chose. Enregistrez-la une fois, ensuite un seul toucher suffit.
+
+Gardez comme phrases vos numéros de compte, votre adresse, votre présentation ou vos débuts d’e-mail. Dans Messages, Mail, Safari et partout où vous pouvez écrire, passez à ClipKeyboard, touchez une fois, et le texte s’insère dans le champ.
+
+Ce que fait l’app
+
+Phrases : ce que vous avez enregistré s’insère tel quel. Un seul toucher.
+Modèles : laissez les parties qui changent en champs à remplir, puis remplissez-les avec des valeurs déjà enregistrées.
+Piles : plusieurs valeurs au même endroit, à envoyer dans l’ordre ou à changer avec la flèche.
+Phrases sécurisées : verrouillez vos numéros de passeport et de carte avec Face ID et ouvrez-les seulement quand il le faut.
+Presse-papiers intelligent : ce que vous copiez est trié pour vous. E-mails, numéros de téléphone, adresses, numéros de carte et IBAN sont reconnus, pour les retrouver en une seconde.
+Reconnaissance de texte : photographiez une carte ou un document, glissez sur la partie voulue, et seul ce texte devient une valeur.
+Sauvegarde iCloud : tout survit à un nouvel iPhone, phrases avec images comprises.
+
+Bon à savoir
+
+C’est un clavier pour insérer des textes enregistrés. Il ne remplace pas le clavier avec lequel vous écrivez. Passez-y quand vous voulez insérer quelque chose, puis revenez.
+
+Confidentialité
+
+Ce que vous écrivez reste sur votre appareil. Si vous activez la sauvegarde iCloud, tout est chiffré dans votre propre iCloud. Nous ne collectons pas le contenu de vos phrases et n’utilisons aucun outil d’analyse tiers.
+
+Gratuit et Pro
+
+Toutes les fonctions sont gratuites pour vos 100 premières insertions. Ensuite, tout ce que vous avez créé continue de fonctionner ; les limites gratuites ne concernent que les nouveaux éléments. Pro lève toutes les limites, en achat unique ou en abonnement annuel.
+
+Pour iPhone et iPad. En français, anglais, coréen, japonais, chinois (simplifié et traditionnel), russe, espagnol, allemand, italien, portugais (Brésil), thaï et vietnamien.
+
+Contact : leeo@kakao.com
+Guide : https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+Conditions d’utilisation : https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+presse-papiers,modèle,raccourci,réponse,signature,adresse,IBAN,notes,macro,copier,clavier,remplir
+```
+
+### 프로모션 텍스트
+
+```
+Ce que vous copiez, vos textes habituels, même votre IBAN : un toucher sur le clavier et tout est là. Maintenant en français, et la langue se choisit aussi dans l’app.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+
+## 이탈리아어 (it)
+
+### 이름
+
+```
+Clip Keyboard - Frasi rapide
+```
+
+### 부제
+
+```
+Testi pronti con un tocco
+```
+
+### 설명
+
+```
+Basta digitare sempre le stesse cose. Salvale una volta, poi basta un tocco.
+
+Salva come frasi i numeri di conto, l’indirizzo, la tua presentazione o l’inizio delle email che usi spesso. In Messaggi, Mail, Safari e ovunque puoi scrivere, passa a ClipKeyboard, tocca una volta e il testo finisce nel campo.
+
+Cosa fa
+
+Frasi: quello che hai salvato viene inserito così com’è. Un tocco.
+Modelli: lascia le parti che cambiano come campi da compilare, poi riempili con valori già salvati.
+Pile: più valori in un unico posto, da inviare in ordine o da cambiare con la freccia.
+Frasi protette: blocca numeri di passaporto e di carta con Face ID e aprili solo quando servono.
+Appunti intelligenti: quello che copi viene ordinato per te. Riconosce email, numeri di telefono, indirizzi, numeri di carta e IBAN, così li ritrovi in un secondo.
+Riconoscimento del testo: fotografa una carta o un documento, scorri sulla parte che ti serve e solo quel testo diventa un valore.
+Backup su iCloud: resiste al cambio di iPhone, frasi con immagini comprese.
+
+Da sapere
+
+È una tastiera per inserire testi salvati. Non sostituisce la tastiera con cui scrivi. Passa a questa quando devi inserire qualcosa, poi torna indietro.
+
+Privacy
+
+Quello che scrivi resta sul tuo dispositivo. Se attivi il backup su iCloud, viene salvato cifrato nel tuo iCloud. Non raccogliamo il contenuto delle tue frasi e non usiamo strumenti di analisi di terze parti.
+
+Gratis e Pro
+
+Tutte le funzioni sono gratis per i primi 100 inserimenti. Dopo, tutto quello che hai creato continua a funzionare; i limiti gratuiti valgono solo per i nuovi elementi. Pro toglie ogni limite, con acquisto una tantum o abbonamento annuale.
+
+Per iPhone e iPad. In italiano, inglese, coreano, giapponese, cinese (semplificato e tradizionale), russo, spagnolo, tedesco, francese, portoghese (Brasile), thailandese e vietnamita.
+
+Contatto: leeo@kakao.com
+Guida: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+Termini di utilizzo: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+appunti,modello,scorciatoia,risposte,firma,indirizzo,IBAN,note,macro,copia,tastiera,compilare
+```
+
+### 프로모션 텍스트
+
+```
+Quello che copi, i testi di sempre e perfino il tuo IBAN: un tocco sulla tastiera ed è tutto lì. Ora in italiano, e la lingua si sceglie anche nell’app.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+
+## 포르투갈어(브라질) (pt-BR)
+
+### 이름
+
+```
+Clip Keyboard - Frases rápidas
+```
+
+### 부제
+
+```
+Textos prontos com um toque
+```
+
+### 설명
+
+```
+Pare de digitar a mesma coisa de novo e de novo. Salve uma vez e depois é só um toque.
+
+Guarde como frases os números de conta, o endereço, sua apresentação ou o começo dos e-mails que você usa sempre. No Mensagens, no Mail, no Safari e em qualquer lugar onde dá para digitar, troque para o ClipKeyboard, toque uma vez e o texto vai para o campo.
+
+O que ele faz
+
+Frases: o que você salvou entra exatamente como está. Um toque.
+Modelos: deixe as partes que mudam como campos para preencher e complete com valores que você já salvou.
+Pilhas: vários valores em um só lugar, para enviar em ordem ou trocar com a seta.
+Frases protegidas: bloqueie números de passaporte e de cartão com o Face ID e abra só quando precisar.
+Área de transferência inteligente: o que você copia é organizado para você. Reconhece e-mails, telefones, endereços, números de cartão e IBAN, para você achar tudo em um segundo.
+Reconhecimento de texto: fotografe um cartão ou documento, passe o dedo sobre a parte que quer e só esse texto vira um valor.
+Backup no iCloud: tudo continua com você ao trocar de iPhone, frases com imagem incluídas.
+
+Bom saber
+
+Este é um teclado para inserir textos salvos. Ele não substitui o teclado em que você digita. Troque para ele quando precisar inserir algo e depois volte.
+
+Privacidade
+
+O que você escreve fica no seu dispositivo. Se você ativar o backup no iCloud, ele é guardado criptografado no seu próprio iCloud. Não coletamos o conteúdo das suas frases e não usamos ferramentas de análise de terceiros.
+
+Grátis e Pro
+
+Todos os recursos são grátis nas primeiras 100 inserções. Depois disso, tudo o que você criou continua funcionando; os limites grátis valem só para itens novos. O Pro remove todos os limites, em compra única ou assinatura anual.
+
+Para iPhone e iPad. Em português (Brasil), inglês, coreano, japonês, chinês (simplificado e tradicional), russo, espanhol, alemão, francês, italiano, tailandês e vietnamita.
+
+Contato: leeo@kakao.com
+Guia: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+Termos de uso: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+copiar,colar,modelo,atalho,respostas,assinatura,endereço,pix,notas,macro,teclado,preencher
+```
+
+### 프로모션 텍스트
+
+```
+O que você copia, seus textos de sempre e até sua chave Pix: um toque no teclado e está tudo lá. Agora em português, e o idioma também se escolhe no app.
 ```
 
 ### 지원 URL
