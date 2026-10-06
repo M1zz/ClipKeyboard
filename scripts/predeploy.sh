@@ -48,10 +48,16 @@ if [ -z "$DEST_ID" ]; then
 fi
 
 echo "🧪 [4/4] 전체 테스트 실행 (ClipKeyboardTests, 시뮬레이터 $DEST_ID)"
+# ⚠️ 병렬로 돌리지 않고, 떨어진 시험은 한 번만 다시 돌린다.
+#    맥이 바쁠 때(다른 작업의 시뮬레이터 · 색인) 병렬 복제 시뮬레이터가 앱을 못 띄우거나
+#    시간을 재는 시험이 흔들려, 2026-10-07 배포가 네 번 연달아 매번 다른 시험 하나로 멈췄다.
+#    넷 다 혼자 돌리면 통과했다. 다시 돌려도 떨어지는 시험은 그대로 배포를 막는다.
 xcodebuild test \
   -project "$PROJECT" \
   -scheme "$SCHEME" \
   -destination "platform=iOS Simulator,id=$DEST_ID" \
+  -parallel-testing-enabled NO \
+  -retry-tests-on-failure -test-iterations 2 \
   -quiet
 
 echo ""
