@@ -13,7 +13,7 @@
 자막은 ffmpeg 의 drawtext 로 쓰지 않는다. 태국어처럼 글자를 조합하는 언어가 깨진다.
 스크린샷 헤드라인과 같은 길(HTML, 헤드리스 Chrome)로 그려 투명 PNG 로 얹는다.
 """
-import pathlib, subprocess, sys, tempfile
+import pathlib, shutil, subprocess, sys, tempfile
 
 import numpy as np
 from PIL import Image
@@ -35,10 +35,32 @@ TAIL, END_CARD = 1.5, 2.2
 # 부탁마다 한 줄 + 끝 화면(이름, 한 줄). 기계번역하지 않는다.
 # 그 나라 사람이 검색하는 말을 담는다(docs/marketing/ASO_2026-10.md).
 COPY = {
-    "ko": ["문의엔 템플릿으로 바로 답장",
-           "계좌번호는 탭 한 번",
-           "복사한 송장번호도 키보드에서",
+    "ko": ["문의엔 템플릿으로 바로 답장", "계좌번호는 탭 한 번", "복사한 송장번호도 키보드에서",
            ("클립키보드", "상용구 키보드 · 클립보드")],
+    "en": ["Reply with a template, instantly", "Bank details in one tap", "Paste the tracking number you copied",
+           ("Clip Keyboard", "Text snippets · Clipboard manager")],
+    "zh-Hans": ["有人咨询，用模板马上回", "收款账号，一点就发", "复制的快递单号，键盘里就有",
+                ("ClipKeyboard", "快捷短语 · 剪贴板")],
+    "zh-Hant": ["有人詢問，用範本馬上回", "匯款帳號，一點就送出", "複製的物流單號，鍵盤裡就有",
+                ("ClipKeyboard", "常用語 · 剪貼簿")],
+    "ru": ["Ответ по шаблону за секунду", "Реквизиты в одно касание", "Трек-номер прямо из буфера обмена",
+           ("Clip Keyboard", "Быстрые фразы · Буфер обмена")],
+    "ja": ["問い合わせにはテンプレートで即返信", "口座番号はワンタップ", "コピーした追跡番号もキーボードから",
+           ("Clip Keyboard", "定型文キーボード · クリップボード")],
+    "es": ["Responde al instante con una plantilla", "Tu CLABE con un toque", "Pega el número de guía que copiaste",
+           ("Clip Keyboard", "Frases rápidas · Portapapeles")],
+    "de": ["Sofort antworten mit einer Vorlage", "Bankverbindung mit einem Tipp", "Kopierte Sendungsnummer direkt einfügen",
+           ("Clip Keyboard", "Textbausteine · Zwischenablage")],
+    "th": ["ตอบลูกค้าด้วยเทมเพลตได้ทันที", "เลขบัญชี แตะครั้งเดียว", "เลขพัสดุที่คัดลอกไว้ วางได้เลย",
+           ("Clip Keyboard", "ข้อความด่วน · คลิปบอร์ด")],
+    "vi": ["Trả lời ngay bằng mẫu", "Số tài khoản chỉ một chạm", "Mã vận đơn đã sao chép, dán ngay",
+           ("Clip Keyboard", "Gõ nhanh cụm từ · Bảng tạm")],
+    "fr": ["Répondez tout de suite avec un modèle", "Vos coordonnées bancaires en un toucher", "Le numéro de suivi copié, prêt à coller",
+           ("Clip Keyboard", "Textes rapides · Presse-papiers")],
+    "it": ["Rispondi subito con un modello", "Coordinate bancarie con un tocco", "Incolla il numero di spedizione copiato",
+           ("Clip Keyboard", "Frasi rapide · Appunti")],
+    "pt-BR": ["Responda na hora com um modelo", "Dados da conta com um toque", "Cole o código de rastreio que você copiou",
+              ("Clip Keyboard", "Frases rápidas · Área de transferência")],
 }
 
 # 자막은 화면 위 제목 자리에 띠로 얹는다. 가운데는 말풍선이 차지한다.
@@ -95,7 +117,7 @@ def caption_html(line: str) -> str:
 .band {{ position:absolute; left:0; right:0; top:{int(H * BAND_TOP)}px; height:{int(H * BAND_HEIGHT)}px;
   background:#fff; display:flex; align-items:center; justify-content:center; padding:0 36px;
   box-shadow:0 6px 18px rgba(0,0,0,0.06); }}
-.line {{ color:#111; font-size:48px; font-weight:800; letter-spacing:-0.5px; text-align:center; line-height:1.15; }}
+.line {{ color:#111; font-size:{48 if len(line) <= 24 else 42}px; font-weight:800; letter-spacing:-0.5px; text-align:center; line-height:1.15; }}
 </style></head><body><div class="band"><div class="line">{line}</div></div></body></html>"""
 
 
@@ -156,6 +178,12 @@ def main():
                 "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", str(OUT)])
         subprocess.run(cmd, check=True)
     print(f"✅ {OUT.relative_to(ROOT)}")
+    # 영국 페이지는 미국과 같은 영상을 쓴다(앱에 en-GB 번역이 없어 화면이 같다)
+    if STORE == "en-US":
+        gb = OUT.parent.parent / "en-GB" / OUT.name
+        gb.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(OUT, gb)
+        print(f"✅ {gb.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

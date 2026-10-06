@@ -31,11 +31,14 @@ for L in "$@"; do
   xcrun simctl terminate "$D" $BID 2>/dev/null || true
   # ⚠️ 앱 그룹 UserDefaults 는 **기기를 끈 상태에서** 써야 한다(scripts/demo_setup.sh 머리말).
   xcrun simctl shutdown "$D"
-  until ! xcrun simctl list devices | grep -q "$D) (Booted)"; do sleep 1; done
+  # 'Booted' 가 아니라고 다 꺼진 것이 아니다. 'Shutting Down' 중에 boot 하면 거절된다
+  until xcrun simctl list devices | grep -q "$D) (Shutdown)"; do sleep 1; done
   python3 "$ROOT/scripts/demo_seed.py" "$G" "$L" "$APP"
   boot
   sleep 6
   xcrun simctl spawn "$D" defaults write .GlobalPreferences AppleLanguages -array "$L"
+  # 아이패드 상태 막대의 날짜는 지역을 따른다. 언어만 바꾸면 앞 언어의 날짜가 남는다
+  xcrun simctl spawn "$D" defaults write .GlobalPreferences AppleLocale "$(echo "$L" | tr '-' '_')"
   # 기존 스토어 그림이 밝은 화면이다. 어두운 판 위에 밝은 화면을 얹는다.
   xcrun simctl ui "$D" appearance light
   xcrun simctl status_bar "$D" override --time "9:41" --batteryState charged --batteryLevel 100 \
@@ -61,9 +64,10 @@ for L in "$@"; do
     rm -f "$OUT/tmp.png"
     echo "  $L $1"
   }
-  shot 01-keyboard-in-messages.png keyboard none
-  shot 02-template-fill.png        keyboard template
-  shot 03-snippet-stack.png        list     stack
-  shot 04-keyboard-size.png        list     layout
+  # 1 · 2장은 미리보기 영상과 같은 이야기다: 부탁받고 템플릿으로 답하기, 복사해 둔 것 꺼내기
+  shot 01-reply.png                keyboard reply
+  shot 02-recent-clips.png         keyboard recent
+  shot 03-template-fill.png        keyboard template
+  shot 04-snippet-stack.png        list     stack
   shot 05-all-snippets.png         list     none
 done

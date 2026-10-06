@@ -8,7 +8,7 @@
   flat-rotate : 평면 회전(-5°) 폰, 하단 블리드
   dark        : 다크 배경 반전 + 정면 폰
 """
-import subprocess, sys, pathlib, tempfile
+import shutil, subprocess, sys, pathlib, tempfile
 
 # 사용법: python3 scripts/make_marketing_screenshots.py <언어> [iphone|ipad] [파일 하나만]
 #
@@ -18,7 +18,7 @@ import subprocess, sys, pathlib, tempfile
 LANG = (sys.argv[1] if len(sys.argv) > 1 else "en")
 DEVICE = (sys.argv[2] if len(sys.argv) > 2 else "iphone")
 # 앱 언어 코드 → App Store Connect 로케일
-STORE = {"en": "en-US", "es": "es-MX", "de": "de-DE"}.get(LANG, LANG)
+STORE = {"en": "en-US", "es": "es-MX", "de": "de-DE", "fr": "fr-FR"}.get(LANG, LANG)
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "docs" / "screenshots" / "raw" / DEVICE / LANG
 OUT = ROOT / "docs" / "screenshots" / "marketing" / STORE
@@ -31,90 +31,114 @@ PREFIX = "ipad-" if DEVICE == "ipad" else ""
 
 # 슬라이드 배치는 언어와 무관하게 같고, 글만 언어별로 고른다.
 # ⚠️ 기계번역하지 않는다. 각 언어권에서 자연스럽게 읽히는 말로 따로 쓴다.
+# 1 · 2장은 검색 결과에서 미리보기 영상 옆에 함께 보인다. 그 나라 검색어(머리말)와 영상과 같은 이야기를 둔다
+# (docs/marketing/ASO_2026-10.md).
 LAYOUT_ORDER = [
-    ("01-keyboard-in-messages.png", "hero-bleed"),
-    ("02-template-fill.png",        "left-text"),
-    ("03-snippet-stack.png",        "text-bottom"),
-    ("04-keyboard-size.png",        "flat-rotate"),
-    ("05-all-snippets.png",         "dark"),
+    ("01-reply.png",          "hero-bleed"),
+    ("02-recent-clips.png",   "left-text"),
+    ("03-template-fill.png",  "text-bottom"),
+    ("04-snippet-stack.png",  "flat-rotate"),
+    ("05-all-snippets.png",   "dark"),
 ]
 
 COPY = {
     "ko": [
-        ("어디서나 그대로",   "한 번 누르면<br>알아서 입력돼요",   "자주 쓰는 말이 키보드 위에 있어요"),
+        ("상용구 키보드", "문의엔<br>바로 답장", "자주 쓰는 문구를 키보드에서 탭 한 번에"),
+        ("클립보드", "복사한 글도<br>키보드에서", "복사한 것은 '최근' 탭에 30일 동안 남아요"),
         ("템플릿",           "빈칸만 채우고<br>보내세요",        "한 줄로 써 두고, 이름만 매번 바꿔요"),
         ("단축어 스택",       "값 여러 개를<br>키 하나에",        "칸마다 이름이 있어 다음이 무엇인지 알아요"),
-        ("내 손에 맞게",      "원하는<br>높이로",                "기본 키보드와 같게, 아니면 더 넉넉하게"),
         ("한곳에 모아서",     "또 쓸 말은<br>전부 여기에",        "갈래로 묶고 찾아 써요. 폰 밖으로 나가지 않아요"),
     ],
     "en": [
-        ("Works in every app", "Tap once,<br>it types itself",  "Your snippets sit right on the keyboard"),
+        ("Text snippets", "Reply in<br>one tap", "Saved replies, right on your keyboard"),
+        ("Clipboard manager", "Paste what<br>you copied", "Copied text stays in Recent for 30 days"),
         ("Templates",          "Fill the blank,<br>send it",    "One line, a different name every time"),
         ("Snippet stacks",     "Several values,<br>one key",    "Every slot has a name, so you know what is next"),
-        ("Made to fit",        "The height<br>you want",        "Match your system keyboard, or give it more room"),
         ("All in one place",   "Everything you<br>type again",  "Grouped, searchable, and never leaves your phone"),
     ],
     "zh-Hans": [
-        ("在哪个应用都能用", "点一下，<br>它自己输入",   "常用的短语就在键盘上"),
+        ("快捷短语", "有人问，<br>一点就回", "常用语就在键盘上"),
+        ("剪贴板", "复制过的，<br>键盘里就有", "复制的内容在“最近”里保留 30 天"),
         ("模板",           "填好空格，<br>直接发送",   "写一次，每次只换名字"),
         ("短语堆",         "多个值，<br>一个键",       "每一格都有名字，知道下一个是什么"),
-        ("合你的手",        "高度<br>由你定",          "和系统键盘一样高，或者更宽松"),
         ("全都放在一处",    "要反复打的，<br>都在这里", "分组、可搜索，也不会离开你的手机"),
     ],
     "zh-Hant": [
-        ("在哪個 App 都能用", "點一下，<br>它自己輸入",   "常用的短語就在鍵盤上"),
+        ("常用語", "有人問，<br>一點就回", "快速回覆就在鍵盤上"),
+        ("剪貼簿", "複製過的，<br>鍵盤裡就有", "複製的內容在「最近」裡保留 30 天"),
         ("範本",             "填好空格，<br>直接送出",   "寫一次，每次只換名字"),
         ("短語堆",           "多個值，<br>一個鍵",       "每一格都有名字，知道下一個是什麼"),
-        ("合你的手",          "高度<br>由你決定",        "和系統鍵盤一樣高，或者更寬鬆"),
         ("全都放在一處",      "要反覆打的，<br>都在這裡", "分組、可搜尋，也不會離開你的手機"),
     ],
     "ru": [
-        ("Работает везде",    "Одно нажатие,<br>и текст готов", "Ваши фразы прямо на клавиатуре"),
+        ("Быстрые ответы", "Ответ<br>в одно касание", "Шаблоны и фразы прямо на клавиатуре"),
+        ("Буфер обмена", "Скопированное<br>под рукой", "Всё скопированное 30 дней во вкладке «Недавние»"),
         ("Шаблоны",           "Заполните<br>и отправьте",       "Одна строка, каждый раз новое имя"),
         ("Стопки фраз",       "Много значений,<br>одна клавиша","У каждой ячейки есть имя, и вы знаете, что дальше"),
-        ("Под вашу руку",     "Высота,<br>какая нужна",         "Как системная клавиатура или просторнее"),
         ("Всё в одном месте", "Всё, что вы<br>печатаете снова", "По группам, с поиском. Телефон не покидает"),
     ],
     "ja": [
-        ("どのアプリでも",   "ワンタップで<br>そのまま入力",     "よく使う言葉がキーボードの上に"),
+        ("定型文キーボード", "聞かれたら<br>すぐ返信", "よく使う文章をワンタップで"),
+        ("クリップボード履歴", "コピーした文も<br>キーボードから", "コピーしたものは「最近」に30日間残ります"),
         ("テンプレート",     "空欄を埋めて<br>送るだけ",         "一度書いておけば、名前だけ毎回変えられます"),
         ("スタック",         "いくつもの値を<br>ひとつのキーに", "欄ごとに名前があるので、次が何かわかります"),
-        ("手になじむ",       "好きな<br>高さに",                "標準キーボードと同じ高さにも、もっと広くも"),
         ("ひとつの場所に",   "また使う言葉は<br>すべてここに",   "グループ分けして検索。端末の外には出ません"),
     ],
     "es": [
-        ("En cualquier app", "Un toque<br>y se escribe solo",   "Tus frases, justo en el teclado"),
+        ("Respuestas rápidas", "Responde<br>con un toque", "Tus frases guardadas, en el teclado"),
+        ("Portapapeles", "Pega lo que<br>copiaste", "Lo copiado queda 30 días en Recientes"),
         ("Plantillas",       "Llena el campo<br>y envía",        "Una línea, un nombre distinto cada vez"),
         ("Pilas",            "Varios valores,<br>una tecla",     "Cada campo tiene nombre: sabes qué sigue"),
-        ("A tu medida",      "La altura<br>que quieras",         "Igual que el teclado del sistema, o más amplio"),
         ("Todo en un lugar", "Lo que vuelves<br>a escribir",     "Por grupos y con búsqueda. No sale de tu dispositivo"),
     ],
     "de": [
-        ("In jeder App",       "Einmal tippen,<br>fertig",          "Deine Textbausteine direkt auf der Tastatur"),
+        ("Textbausteine", "Sofort<br>antworten", "Gespeicherte Antworten direkt auf der Tastatur"),
+        ("Zwischenablage", "Kopiertes<br>direkt einfügen", "Kopierter Text bleibt 30 Tage unter „Zuletzt“"),
         ("Vorlagen",           "Lücke füllen,<br>abschicken",       "Einmal schreiben, jedes Mal ein anderer Name"),
         ("Stapel",             "Viele Werte,<br>eine Taste",        "Jedes Feld hat einen Namen. Du weißt, was kommt"),
-        ("Passt zu dir",       "Die Höhe,<br>die du willst",        "Wie die Systemtastatur oder mit mehr Platz"),
         ("Alles an einem Ort", "Was du öfter<br>tippst",            "Sortiert, durchsuchbar, bleibt auf deinem Gerät"),
     ],
     "th": [
-        ("ใช้ได้ทุกแอป",     "แตะครั้งเดียว<br>พิมพ์ให้เลย",      "ข้อความที่ใช้บ่อยอยู่บนคีย์บอร์ด"),
+        ("ข้อความด่วน", "ตอบกลับ<br>ในแตะเดียว", "ข้อความที่ใช้บ่อยอยู่บนคีย์บอร์ด"),
+        ("คลิปบอร์ด", "ที่คัดลอกไว้<br>วางได้ทันที", "ข้อความที่คัดลอกอยู่ในแท็บล่าสุด 30 วัน"),
         ("เทมเพลต",          "กรอกช่องว่าง<br>แล้วส่ง",            "เขียนครั้งเดียว เปลี่ยนแค่ชื่อทุกครั้ง"),
         ("สแตก",             "หลายค่า<br>ในปุ่มเดียว",             "ทุกช่องมีชื่อ รู้ว่าถัดไปคืออะไร"),
-        ("พอดีมือคุณ",        "ความสูง<br>ตามที่ชอบ",              "เท่าคีย์บอร์ดระบบ หรือกว้างกว่านั้น"),
         ("รวมไว้ที่เดียว",     "ข้อความที่ใช้ซ้ำ<br>อยู่ที่นี่",       "จัดกลุ่ม ค้นหาได้ และไม่ออกไปจากเครื่อง"),
     ],
     "vi": [
-        ("Mọi ứng dụng",     "Chạm một lần,<br>tự gõ xong",      "Cụm từ hay dùng nằm ngay trên bàn phím"),
+        ("Trả lời nhanh", "Trả lời<br>trong một chạm", "Câu hay dùng nằm ngay trên bàn phím"),
+        ("Bảng tạm", "Đã sao chép,<br>dán ngay", "Nội dung sao chép được giữ 30 ngày ở tab Gần đây"),
         ("Mẫu",              "Điền ô trống<br>rồi gửi",          "Viết một lần, mỗi lần chỉ đổi tên"),
         ("Ngăn xếp",         "Nhiều giá trị,<br>một phím",       "Mỗi ô đều có tên, biết ngay tiếp theo là gì"),
-        ("Vừa tay bạn",      "Chiều cao<br>tùy ý",               "Bằng bàn phím hệ thống, hoặc rộng hơn"),
         ("Tất cả một chỗ",   "Những gì bạn<br>gõ lại",           "Chia nhóm, tìm nhanh, không rời khỏi máy"),
+    ],
+    "fr": [
+        ("Réponses rapides", "Répondez<br>en un toucher", "Vos textes enregistrés, sur le clavier"),
+        ("Presse-papiers", "Collez ce que<br>vous avez copié", "Le texte copié reste 30 jours dans Récents"),
+        ("Modèles", "Remplissez<br>et envoyez", "Une ligne, un prénom différent à chaque fois"),
+        ("Piles", "Plusieurs valeurs,<br>une touche", "Chaque champ a un nom : vous savez ce qui suit"),
+        ("Tout au même endroit", "Tout ce que<br>vous retapez", "Classé, consultable, et ça reste sur votre appareil"),
+    ],
+    "it": [
+        ("Risposte rapide", "Rispondi<br>con un tocco", "Le tue frasi salvate, sulla tastiera"),
+        ("Appunti", "Incolla ciò<br>che hai copiato", "Il testo copiato resta 30 giorni in Recenti"),
+        ("Modelli", "Compila<br>e invia", "Una riga, un nome diverso ogni volta"),
+        ("Pile", "Più valori,<br>un tasto", "Ogni campo ha un nome: sai cosa viene dopo"),
+        ("Tutto in un posto", "Quello che<br>riscrivi spesso", "Diviso in gruppi, con ricerca. Resta sul tuo dispositivo"),
+    ],
+    "pt-BR": [
+        ("Respostas rápidas", "Responda<br>com um toque", "Suas frases salvas, direto no teclado"),
+        ("Área de transferência", "Cole o que<br>você copiou", "O texto copiado fica 30 dias em Recentes"),
+        ("Modelos", "Preencha<br>e envie", "Uma linha, um nome diferente a cada vez"),
+        ("Pilhas", "Vários valores,<br>uma tecla", "Cada campo tem um nome: você sabe o que vem depois"),
+        ("Tudo num só lugar", "O que você<br>digita de novo", "Organizado, com busca, e não sai do seu aparelho"),
     ],
 }
 
 # 키릴·한글은 같은 글자 수라도 더 넓게 퍼진다. 언어마다 글자 크기를 조금 줄인다.
 TYPE_SCALE = {"ru": (84, 40), "ko": (92, 44), "zh-Hans": (96, 46), "zh-Hant": (96, 46), "en": (96, 46),
-              "ja": (88, 42), "es": (88, 42), "de": (84, 40), "th": (88, 42), "vi": (88, 42)}
+              "ja": (88, 42), "es": (88, 42), "de": (84, 40), "th": (88, 42), "vi": (88, 42),
+              "fr": (84, 40), "it": (88, 42), "pt-BR": (84, 40)}
 
 if LANG not in COPY:
     raise SystemExit(f"모르는 언어: {LANG} (아는 것: {', '.join(COPY)})")
@@ -230,11 +254,25 @@ def main(only=None):
         html_path = pathlib.Path(tempfile.gettempdir()) / ("clipkb-shot-" + PREFIX + fname.replace(".png", ".html"))
         html_path.write_text(HTML.format(base=BASE_CSS, layout=layout_css, body=body), encoding="utf-8")
         out_png = OUT / (PREFIX + fname)
-        subprocess.run([CHROME, "--headless=new", f"--screenshot={out_png}",
-                        f"--window-size={W},{H}", "--force-device-scale-factor=1",
-                        "--hide-scrollbars", "--disable-gpu", html_path.as_uri()],
-                       check=True, capture_output=True)
+        # ⚠️ Chrome 은 가끔 아무것도 안 그리고 끝나거나(종료 코드 2) 멈춘다. 1분씩 세 번까지 한다
+        for _ in range(3):
+            try:
+                r = subprocess.run([CHROME, "--headless=new", f"--screenshot={out_png}",
+                                    f"--window-size={W},{H}", "--force-device-scale-factor=1",
+                                    "--hide-scrollbars", "--disable-gpu", html_path.as_uri()],
+                                   capture_output=True, timeout=60)
+            except subprocess.TimeoutExpired:
+                continue
+            if r.returncode == 0:
+                break
+        else:
+            raise SystemExit(f"Chrome 이 그리지 못했다: {out_png}")
         print(f"rendered {out_png}")
+        # 영국 페이지는 미국과 같은 그림을 쓴다(앱에 en-GB 번역이 없어 화면이 같다)
+        if STORE == "en-US":
+            gb = OUT.parent / "en-GB"
+            gb.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(out_png, gb / out_png.name)
 
 if __name__ == "__main__":
     # python3 scripts/make_marketing_screenshots.py [언어] [iphone|ipad] [파일 하나만]

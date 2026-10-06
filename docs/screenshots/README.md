@@ -26,11 +26,11 @@ xcrun simctl install <아이폰 UDID> /tmp/clipkb-dd/Build/Products/Debug-iphone
 xcrun simctl install <아이패드 UDID> /tmp/clipkb-dd/Build/Products/Debug-iphonesimulator/ClipKeyboard.app
 
 # 2) 원본 (언어마다 데이터를 심고 다섯 장면을 찍는다)
-sh scripts/take_screenshots.sh <아이폰 UDID> iphone ko en zh-Hans zh-Hant ru ja es de th vi
-sh scripts/take_screenshots.sh <아이패드 UDID> ipad ko en zh-Hans zh-Hant ru ja es de th vi
+sh scripts/take_screenshots.sh <아이폰 UDID> iphone ko en zh-Hans zh-Hant ru ja es de th vi fr it pt-BR
+sh scripts/take_screenshots.sh <아이패드 UDID> ipad ko en zh-Hans zh-Hant ru ja es de th vi fr it pt-BR
 
 # 3) 글과 목업을 입힌 제출본
-for L in ko en zh-Hans zh-Hant ru ja es de th vi; do
+for L in ko en zh-Hans zh-Hant ru ja es de th vi fr it pt-BR; do
   python3 scripts/make_marketing_screenshots.py $L iphone
   python3 scripts/make_marketing_screenshots.py $L ipad
 done
@@ -44,11 +44,14 @@ done
 
 | 파일 | 첫 탭 | `-ScreenshotScene` | 무엇 |
 | --- | --- | --- | --- |
-| 01-keyboard-in-messages | 키보드 | none | 키보드 미리보기 |
-| 02-template-fill | 키보드 | template | 템플릿 빈칸 채우기 (저장해 둔 값 3개) |
-| 03-snippet-stack | 목록 | stack | 스택 시트 |
-| 04-keyboard-size | 목록 | layout | 키보드 레이아웃 설정 |
+| 01-reply | 키보드 | reply | 주문 문의를 받고 템플릿으로 답한 대화 (영상의 첫 장면과 같다) |
+| 02-recent-clips | 키보드 | recent | 송장번호를 부탁받고 '최근' 탭을 연 때 (복사 기록) |
+| 03-template-fill | 키보드 | template | 템플릿 빈칸 채우기 (저장해 둔 값 3개) |
+| 04-snippet-stack | 목록 | stack | 스택 시트 |
 | 05-all-snippets | 목록 | none | 단축어 목록 |
+
+1 · 2장은 검색 결과에서 미리보기 영상 옆에 함께 보인다. 머리말에 그 나라 검색어를 둔다
+(`docs/marketing/ASO_2026-10.md`). 상대의 부탁은 `scripts/demo_seed.py` 의 `REQUESTS` 에 있다.
 
 ### 찍히면 안 되는 것과 끄는 법 (`take_screenshots.sh` 가 실행 인자로 넘긴다)
 

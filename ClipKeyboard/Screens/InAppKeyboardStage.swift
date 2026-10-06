@@ -1075,8 +1075,8 @@ extension InAppKeyboardStage {
     /// `-ScreenshotScene` 이 정한 장면을 **누른 것과 같은 길로** 연다. 출시 빌드에는 없다.
     ///
     ///   template - 빈칸 채우기 판
-    ///   sent     - 첫 단축어(계좌번호)를 넣어 보낸 뒤
-    ///   recent   - '최근' 탭 (복사 기록은 scripts/demo_seed.py 가 심는다)
+    ///   reply    - 문의를 받고 템플릿으로 답해 보낸 뒤 (스크린샷 1장)
+    ///   recent   - 송장번호를 부탁받고 '최근' 탭을 연 때 (스크린샷 2장, 복사 기록은 demo_seed.py 가 심는다)
     ///   demo     - 미리보기 영상: 상대가 부탁할 때마다 맞는 답을 바로 보낸다.
     ///              문의엔 템플릿(이름 칸에 그 사람), 계좌는 단축어, 송장번호는 '최근' 탭.
     ///              부탁 세 줄은 언어마다 scripts/demo_seed.py 가 `DemoRequests` 에 심는다
@@ -1099,17 +1099,22 @@ extension InAppKeyboardStage {
         let send: () -> Void = { host.send() }
         let pick: () -> Void = { NotificationCenter.postOnMain(name: .demoTemplatePick, object: 1) }
 
+        let asks = UserDefaults.standard.stringArray(forKey: "DemoRequests") ?? []
+        func ask(_ i: Int) -> () -> Void {
+            { if asks.indices.contains(i) { host.demoReceive(asks[i]) } }
+        }
+
         let steps: [(TimeInterval, () -> Void)]
         switch scene {
         case "template": steps = [(1.5, tap(template))]
-        case "sent":     steps = [(1.0, tap(plain)), (2.8, send)]
-        case "recent":   steps = [(1.0, showsRecent(true))]
+        case "reply":
+            host.demoClearMessages()
+            steps = [(0.6, ask(0)), (1.2, tap(template)), (2.2, pick), (4.2, send)]
+        case "recent":
+            host.demoClearMessages()
+            steps = [(0.6, ask(2)), (1.2, showsRecent(true))]
         case "demo":
             // ⚠️ 시각은 scripts/make_preview_video.py 의 자막 시각과 짝이다. 하나를 바꾸면 둘 다 바꾼다.
-            let asks = UserDefaults.standard.stringArray(forKey: "DemoRequests") ?? []
-            func ask(_ i: Int) -> () -> Void {
-                { if asks.indices.contains(i) { host.demoReceive(asks[i]) } }
-            }
             host.demoClearMessages()
             steps = [(1.5, ask(0)), (2.9, tap(template)), (4.5, pick), (6.9, send),
                      (8.1, ask(1)), (9.3, tap(plain)), (10.9, send),
@@ -1118,7 +1123,9 @@ extension InAppKeyboardStage {
                      (16.1, send)]
         default: steps = []
         }
-        for (delay, step) in steps {
+        // '최근' 탭에 있었는지는 기억된다. 앞 장면이 열어 둔 채로 다음 장면이 시작하지 않게 한다
+        let reset: [(TimeInterval, () -> Void)] = scene == "recent" ? [] : [(0.3, showsRecent(false))]
+        for (delay, step) in reset + steps {
             DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: step)
         }
     }

@@ -252,22 +252,30 @@ struct ClipKeyboardApp: App {
             // v4.0 그랜드파더 플래그 초기화 (최초 1회만 효과 있음, 이후는 no-op)
             bootstrapV4GrandfatherFlags()
 
+            // 영수증(AppTransaction)을 읽으면 Apple 계정이 없는 시뮬레이터는 로그인 창을 띄운다.
+            // 스토어 촬영(`-ScreenshotScene`, DEBUG 전용) 중에는 읽지 않는다. 그 창이 아이패드 그림을 덮었다
+            #if DEBUG
+            let readsReceipt = UserDefaults.standard.string(forKey: "ScreenshotScene") == nil
+            #else
+            let readsReceipt = true
+            #endif
+
             // TestFlight 여부 비동기 감지 - isPro 체크 전에 완료되도록 최우선 실행
-            Task { await ProFeatureManager.bootstrapIsTestFlight() }
+            if readsReceipt { Task { await ProFeatureManager.bootstrapIsTestFlight() } }
 
             // v4.0 이전 유료 앱 구매자 그랜드파더 (AppTransaction 영수증 기반).
             // bootstrap_done 1회 가드와 무관하게 매 실행 검증 → 이미 업데이트 후 Pro를 잃은
             // 기존 구매자도 다음 실행에서 자동 복구된다. (이미 부여됐으면 즉시 no-op)
-            Task { await ProFeatureManager.grandfatherPaidUserIfNeeded() }
+            if readsReceipt { Task { await ProFeatureManager.grandfatherPaidUserIfNeeded() } }
 
             // DEBUG 빌드에서만 계정/구매 상태 진단 덤프 (Xcode 콘솔에서 "🩺 [Diag]"로 검색)
             #if DEBUG
-            Task {
+            if readsReceipt { Task {
                 // TestFlight 감지·그랜드파더 검증이 먼저 끝나도록 잠깐 양보
                 await ProFeatureManager.bootstrapIsTestFlight()
                 await ProFeatureManager.grandfatherPaidUserIfNeeded()
                 await StoreManager.shared.logAccountDiagnostics()
-            }
+            } }
             #endif
         }
 

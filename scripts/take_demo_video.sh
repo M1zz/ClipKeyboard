@@ -37,6 +37,8 @@ for L in "$@"; do
   boot
   sleep 6
   xcrun simctl spawn "$D" defaults write .GlobalPreferences AppleLanguages -array "$L"
+  # 아이패드 상태 막대의 날짜는 지역을 따른다. 언어만 바꾸면 앞 언어의 날짜가 남는다
+  xcrun simctl spawn "$D" defaults write .GlobalPreferences AppleLocale "$(echo "$L" | tr '-' '_')"
   xcrun simctl ui "$D" appearance light
   xcrun simctl status_bar "$D" override --time "9:41" --batteryState charged --batteryLevel 100 \
     --cellularBars 4 --wifiBars 3 >/dev/null 2>&1 || true
