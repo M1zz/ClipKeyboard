@@ -28,21 +28,21 @@ W, H = 886, 1920
 
 # 앱이 화면에 뜬 뒤 첫 동작까지(초). InAppKeyboardStage.runScreenshotScene 의 "demo" 와 맞춘다.
 FIRST_STEP = 1.5
-# 첫 동작 기준 장면 시각: 넣기 0 · 템플릿 3.1 · '최근' 탭 8.5 · 마지막 보내기 11.9
-LEAD, TEMPLATE, RECENT, LAST = 0.8, 3.1, 8.5, 11.9
+# 첫 동작 기준 장면 시각: 첫 부탁(템플릿으로 답) 0 · 둘째 부탁(계좌) 6.6 · 셋째 부탁(송장번호) 10.6 · 마지막 보내기 14.6
+LEAD, ASK2, ASK3, LAST = 0.6, 6.6, 10.6, 14.6
 TAIL, END_CARD = 1.5, 2.2
 
-# (작은 머리말, 헤드라인) 셋 + 끝 화면(이름, 한 줄). 기계번역하지 않는다.
-# 헤드라인은 그 나라 사람이 검색하는 말을 담는다(docs/marketing/ASO_2026-10.md).
+# 부탁마다 한 줄 + 끝 화면(이름, 한 줄). 기계번역하지 않는다.
+# 그 나라 사람이 검색하는 말을 담는다(docs/marketing/ASO_2026-10.md).
 COPY = {
-    "ko": [("어디서나 그대로", "자주 쓰는 문구,<br>탭 한 번에"),
-           ("템플릿", "빈칸만 바꿔서<br>보내요"),
-           ("최근 탭", "복사한 글도<br>키보드에서 바로"),
+    "ko": ["문의엔 템플릿으로 바로 답장",
+           "계좌번호는 탭 한 번",
+           "복사한 송장번호도 키보드에서",
            ("클립키보드", "상용구 키보드 · 클립보드")],
 }
 
-# 자막은 대화 칸의 빈 자리(말풍선 셋 아래, 입력창 위)에 얹는다.
-CAPTION_TOP = 0.38
+# 자막은 화면 위 제목 자리에 띠로 얹는다. 가운데는 말풍선이 차지한다.
+BAND_TOP, BAND_HEIGHT = 0.052, 0.07
 
 
 def stage_appears_at(src: pathlib.Path) -> float:
@@ -90,13 +90,13 @@ html, body { margin:0; width:886px; height:1920px; background:transparent; overf
 """
 
 
-def caption_html(eyebrow: str, headline: str) -> str:
+def caption_html(line: str) -> str:
     return f"""<html><head><meta charset="utf-8"><style>{BASE_CSS}
-.box {{ position:absolute; left:0; right:0; top:{int(H * CAPTION_TOP)}px; text-align:center; padding:0 60px; }}
-.eyebrow {{ color:#0a84ff; font-size:34px; font-weight:700; letter-spacing:0.5px; }}
-.headline {{ color:#111; font-size:76px; font-weight:800; line-height:1.18; margin-top:18px; letter-spacing:-1px; }}
-</style></head><body><div class="box"><div class="eyebrow">{eyebrow}</div>
-<div class="headline">{headline}</div></div></body></html>"""
+.band {{ position:absolute; left:0; right:0; top:{int(H * BAND_TOP)}px; height:{int(H * BAND_HEIGHT)}px;
+  background:#fff; display:flex; align-items:center; justify-content:center; padding:0 36px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06); }}
+.line {{ color:#111; font-size:48px; font-weight:800; letter-spacing:-0.5px; text-align:center; line-height:1.15; }}
+</style></head><body><div class="band"><div class="line">{line}</div></div></body></html>"""
 
 
 def end_html(name: str, line: str) -> str:
@@ -119,15 +119,15 @@ def main():
     clip = LEAD + LAST + TAIL                      # 원본에서 쓰는 길이
     total = clip + END_CARD
     # 자막 구간(결과 영상 시각)
-    spans = [(0.0, LEAD + TEMPLATE), (LEAD + TEMPLATE, LEAD + RECENT), (LEAD + RECENT, clip)]
+    spans = [(0.0, LEAD + ASK2), (LEAD + ASK2, LEAD + ASK3), (LEAD + ASK3, clip)]
     print(f"🎬 [{LANG}] 앱이 뜬 시각 {t0 - FIRST_STEP:.2f}s · 결과 {total:.1f}s")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory() as d:
         d = pathlib.Path(d)
         caps = COPY[LANG]
-        for i, (eyebrow, headline) in enumerate(caps[:3]):
-            render(caption_html(eyebrow, headline), d / f"c{i}.png")
+        for i, line in enumerate(caps[:3]):
+            render(caption_html(line), d / f"c{i}.png")
         render(end_html(*caps[3]), d / "end.png")
 
         inputs = ["-ss", f"{start:.3f}", "-t", f"{clip:.3f}", "-i", str(SRC)]
@@ -137,11 +137,13 @@ def main():
         overlays = [(d / f"c{i}.png", a, b) for i, (a, b) in enumerate(spans)] + [(d / "end.png", clip, total)]
         for n, (png, a, b) in enumerate(overlays, start=1):
             inputs += ["-loop", "1", "-t", f"{total:.3f}", "-i", str(png)]
-            # 첫 자막은 첫 프레임부터 또렷해야 한다. 자동 재생이 꺼진 기기는 이 장면만 본다
-            fade_in = "" if a == 0 else f"fade=t=in:st={a:.3f}:d=0.3:alpha=1,"
-            fade_out = f",fade=t=out:st={b - 0.25:.3f}:d=0.25:alpha=1" if b < total else ""
-            fc.append(f"[{n}:v]format=rgba,{fade_in}null{fade_out}[o{n}]")
-            fc.append(f"[{last}][o{n}]overlay=0:0:shortest=0[v{n}]")
+            # 자막 띠는 갈아 끼우기만 한다. 띠까지 흐려졌다 나타나면 그 틈에 제목 줄이 깜빡인다.
+            # 끝 화면만 천천히 덮는다
+            if b < total:
+                fc.append(f"[{n}:v]format=rgba,trim=start={a:.3f}:end={b:.3f}[o{n}]")
+            else:
+                fc.append(f"[{n}:v]format=rgba,fade=t=in:st={a:.3f}:d=0.35:alpha=1[o{n}]")
+            fc.append(f"[{last}][o{n}]overlay=0:0:shortest=0:eof_action=pass[v{n}]")
             last = f"v{n}"
         # ⚠️ App Store Connect 는 색 공간 태그가 sRGB 면 "손상된 파일" 로 돌려보낸다(5.1.2).
         fc.append(f"[{last}]format=yuv420p,setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709[out]")

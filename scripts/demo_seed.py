@@ -201,26 +201,26 @@ if True:
         print("탭 되돌림 list")
 
 # '최근' 탭에 보일 복사 기록(`smart.clipboard.history.data`). 맨 앞이 가장 최근이다.
-# 미리보기 영상은 맨 앞 것을 넣는다(InAppKeyboardStage.runScreenshotScene).
-# 종류는 ClipboardItemType 의 rawValue 다: 주소 · 송장번호 · 텍스트 · 예약번호.
+# 미리보기 영상은 맨 앞 것(송장번호)을 넣는다(InAppKeyboardStage.runScreenshotScene).
+# 종류는 ClipboardItemType 의 rawValue 다: 송장번호 · 주소 · 텍스트 · 예약번호.
 CLIPS = {
- "ko": ["서울 마포구 월드컵북로 396", "6012-3456-7890", "오늘 7시 강남역 2번 출구에서 봬요", "예약번호 KX4R92"],
- "en": ["350 5th Ave, New York, NY 10118", "1Z 999 AA1 01 2345 6784", "See you at 7 by the north entrance", "Confirmation code KX4R92"],
- "zh-Hans": ["上海市浦东新区世纪大道100号", "SF1234567890123", "晚上7点在南门见", "预订号 KX4R92"],
- "zh-Hant": ["台北市信義區市府路45號", "1234-5678-9012", "晚上7點在南門見", "訂位代號 KX4R92"],
- "ru": ["Москва, ул. Тверская, 7", "RA123456789RU", "Встречаемся в 7 у главного входа", "Код брони KX4R92"],
- "ja": ["東京都渋谷区神南1-2-3", "1234-5678-9012", "7時に東口で待ち合わせしましょう", "予約番号 KX4R92"],
- "es": ["Av. Reforma 222, Juárez, CDMX", "Guía 1234 5678 9012", "Nos vemos a las 7 en la entrada norte", "Código de reserva KX4R92"],
- "de": ["Friedrichstraße 43, 10117 Berlin", "00340434161234567890", "Wir treffen uns um 7 am Haupteingang", "Buchungscode KX4R92"],
- "th": ["99 ถนนสีลม กรุงเทพฯ 10500", "TH1234567890", "เจอกันหนึ่งทุ่มที่ทางเข้าหลัก", "รหัสจอง KX4R92"],
- "vi": ["45 Nguyễn Huệ, Quận 1, TP.HCM", "1234567890", "Hẹn gặp lúc 7 giờ ở cổng chính", "Mã đặt chỗ KX4R92"],
- "fr": ["8 rue de la Paix, 75002 Paris", "6A12345678901", "Rendez-vous à 19 h à l'entrée principale", "Code de réservation KX4R92"],
- "it": ["Corso Buenos Aires 1, 20124 Milano", "1234567890", "Ci vediamo alle 19 all'ingresso principale", "Codice prenotazione KX4R92"],
- "pt-BR": ["Rua Oscar Freire, 900, São Paulo", "BR123456789BR", "Te encontro às 19h na entrada principal", "Código da reserva KX4R92"],
+ "ko": ["6012-3456-7890", "서울 마포구 월드컵북로 396", "오늘 7시 강남역 2번 출구에서 봬요", "예약번호 KX4R92"],
+ "en": ["1Z 999 AA1 01 2345 6784", "350 5th Ave, New York, NY 10118", "See you at 7 by the north entrance", "Confirmation code KX4R92"],
+ "zh-Hans": ["SF1234567890123", "上海市浦东新区世纪大道100号", "晚上7点在南门见", "预订号 KX4R92"],
+ "zh-Hant": ["1234-5678-9012", "台北市信義區市府路45號", "晚上7點在南門見", "訂位代號 KX4R92"],
+ "ru": ["RA123456789RU", "Москва, ул. Тверская, 7", "Встречаемся в 7 у главного входа", "Код брони KX4R92"],
+ "ja": ["1234-5678-9012", "東京都渋谷区神南1-2-3", "7時に東口で待ち合わせしましょう", "予約番号 KX4R92"],
+ "es": ["Guía 1234 5678 9012", "Av. Reforma 222, Juárez, CDMX", "Nos vemos a las 7 en la entrada norte", "Código de reserva KX4R92"],
+ "de": ["00340434161234567890", "Friedrichstraße 43, 10117 Berlin", "Wir treffen uns um 7 am Haupteingang", "Buchungscode KX4R92"],
+ "th": ["TH1234567890", "99 ถนนสีลม กรุงเทพฯ 10500", "เจอกันหนึ่งทุ่มที่ทางเข้าหลัก", "รหัสจอง KX4R92"],
+ "vi": ["1234567890", "45 Nguyễn Huệ, Quận 1, TP.HCM", "Hẹn gặp lúc 7 giờ ở cổng chính", "Mã đặt chỗ KX4R92"],
+ "fr": ["6A12345678901", "8 rue de la Paix, 75002 Paris", "Rendez-vous à 19 h à l'entrée principale", "Code de réservation KX4R92"],
+ "it": ["1234567890", "Corso Buenos Aires 1, 20124 Milano", "Ci vediamo alle 19 all'ingresso principale", "Codice prenotazione KX4R92"],
+ "pt-BR": ["BR123456789BR", "Rua Oscar Freire, 900, São Paulo", "Te encontro às 19h na entrada principal", "Código da reserva KX4R92"],
 }
 import time
 now = time.time() - 978_307_200  # JSONEncoder 의 기본 날짜는 2001-01-01 기준 초
-kinds = ["주소", "송장번호", "텍스트", "예약번호"]
+kinds = ["송장번호", "주소", "텍스트", "예약번호"]
 history = [{"id": str(uuid.uuid4()).upper(), "content": c, "copiedAt": now - (i + 1) * 900,
             "isTemporary": True, "contentType": "text", "detectedType": kinds[i],
             "confidence": 0.9, "tags": [], "autoSaveOffered": True}
@@ -228,3 +228,32 @@ history = [{"id": str(uuid.uuid4()).upper(), "content": c, "copiedAt": now - (i 
 io.open(os.path.join(G, "smart.clipboard.history.data"), "w", encoding="utf-8").write(
     json.dumps(history, ensure_ascii=False))
 print("복사 기록", lang, len(history))
+
+# 미리보기 영상에서 상대가 건네는 부탁 셋(InAppKeyboardStage.runScreenshotScene "demo").
+# 첫 줄의 이름은 빈칸에 저장해 둔 두 번째 값과 같아야 한다. 영상이 그 이름을 골라 답한다.
+# 둘째는 첫 단축어(계좌), 셋째는 '최근' 탭의 맨 앞(송장번호)을 부른다.
+REQUESTS = {
+ "ko": ["안녕하세요, 김서연이에요. 주문 관련해서 문의드려요", "입금 계좌 알려 주실래요?", "송장번호도 부탁드려요"],
+ "en": ["Hi, this is Alice Kim. I have a question about my order", "Could you send me your bank details?", "And the tracking number, please"],
+ "zh-Hans": ["你好，我是李四，想咨询一下我的订单", "能告诉我收款账号吗？", "快递单号也发我一下吧"],
+ "zh-Hant": ["你好，我是李四，想詢問一下我的訂單", "可以告訴我匯款帳號嗎？", "也麻煩給我物流單號"],
+ "ru": ["Здравствуйте, это Анна Смирнова. У меня вопрос по заказу", "Пришлите, пожалуйста, реквизиты для оплаты", "И трек-номер, пожалуйста"],
+ "ja": ["こんにちは、佐藤花子です。注文について質問があります", "振込先を教えていただけますか？", "追跡番号もお願いします"],
+ "es": ["Hola, soy Carlos Ruiz. Tengo una duda sobre mi pedido", "¿Me pasas tu CLABE para el pago?", "Y el número de guía, por favor"],
+ "de": ["Hallo, hier ist Anna Schmidt. Ich habe eine Frage zu meiner Bestellung", "Kannst du mir deine Bankverbindung schicken?", "Und die Sendungsnummer bitte"],
+ "th": ["สวัสดี สุดา แก้วดี เอง อยากสอบถามเรื่องคำสั่งซื้อ", "ขอเลขบัญชีสำหรับโอนเงินหน่อย", "ขอเลขพัสดุด้วยนะ"],
+ "vi": ["Chào bạn, mình là Trần Thị Mai. Mình muốn hỏi về đơn hàng", "Bạn gửi mình số tài khoản nhé?", "Cho mình xin mã vận đơn luôn nhé"],
+ "fr": ["Bonjour, c'est Thomas. J'ai une question sur ma commande", "Pouvez-vous m'envoyer vos coordonnées bancaires ?", "Et le numéro de suivi, s'il vous plaît"],
+ "it": ["Ciao, sono Marco. Ho una domanda sul mio ordine", "Mi mandi le coordinate bancarie?", "E il numero di spedizione, per favore"],
+ "pt-BR": ["Oi, aqui é a Maria. Tenho uma dúvida sobre meu pedido", "Pode me passar os dados da conta?", "E o código de rastreio, por favor"],
+}
+if APP:
+    import plistlib
+    ap = os.path.join(APP, "Library", "Preferences", "com.Ysoup.TokenMemo.plist")
+    try:
+        a = plistlib.load(io.open(ap, "rb"))
+    except Exception:
+        a = {}
+    a["DemoRequests"] = REQUESTS[lang]
+    plistlib.dump(a, io.open(ap, "wb"))
+    print("부탁", lang, len(REQUESTS[lang]))

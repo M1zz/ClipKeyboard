@@ -220,6 +220,20 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
         #endif
     }
 
+    #if DEBUG
+    // MARK: - 스토어 촬영 (`-ScreenshotScene demo`)
+
+    /// 대화를 비운다. 시연은 안내 말풍선 없이 상대의 부탁으로 시작한다.
+    func demoClearMessages() { messages = [] }
+
+    /// 상대가 말을 건넨다.
+    func demoReceive(_ text: String) {
+        withAnimation(.easeOut(duration: 0.25)) {
+            messages.append(.init(side: .incoming, text: text))
+        }
+    }
+    #endif
+
     #if os(iOS)
     /// 붙여 둔 이미지를 뗀다(첨부 칩의 x).
     func detachImage() {

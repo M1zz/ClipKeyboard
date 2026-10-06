@@ -1077,7 +1077,9 @@ extension InAppKeyboardStage {
     ///   template - 빈칸 채우기 판
     ///   sent     - 첫 단축어(계좌번호)를 넣어 보낸 뒤
     ///   recent   - '최근' 탭 (복사 기록은 scripts/demo_seed.py 가 심는다)
-    ///   demo     - 미리보기 영상 한 바퀴: 넣고 보내기, 빈칸 채워 보내기, '최근' 탭에서 꺼내 보내기
+    ///   demo     - 미리보기 영상: 상대가 부탁할 때마다 맞는 답을 바로 보낸다.
+    ///              문의엔 템플릿(이름 칸에 그 사람), 계좌는 단축어, 송장번호는 '최근' 탭.
+    ///              부탁 세 줄은 언어마다 scripts/demo_seed.py 가 `DemoRequests` 에 심는다
     ///
     /// ⚠️ 시각을 손으로 맞춘 이유: 시뮬레이터를 조작할 도구 없이 언어마다 **같은 동작**을 녹화하려면
     ///    앱이 스스로 움직여야 한다. 녹화본의 멈춘 구간은 scripts/make_demo_video.py 가 잘라 낸다.
@@ -1103,11 +1105,17 @@ extension InAppKeyboardStage {
         case "sent":     steps = [(1.0, tap(plain)), (2.8, send)]
         case "recent":   steps = [(1.0, showsRecent(true))]
         case "demo":
-            steps = [(1.5, tap(plain)), (3.3, send),
-                     (4.6, tap(template)), (6.4, pick), (8.8, send),
-                     (10.0, showsRecent(true)),
-                     (11.6, { if let clip { insertDemo(clip.content, memoId: UUID()) } }),
-                     (13.4, send)]
+            // ⚠️ 시각은 scripts/make_preview_video.py 의 자막 시각과 짝이다. 하나를 바꾸면 둘 다 바꾼다.
+            let asks = UserDefaults.standard.stringArray(forKey: "DemoRequests") ?? []
+            func ask(_ i: Int) -> () -> Void {
+                { if asks.indices.contains(i) { host.demoReceive(asks[i]) } }
+            }
+            host.demoClearMessages()
+            steps = [(1.5, ask(0)), (2.9, tap(template)), (4.5, pick), (6.9, send),
+                     (8.1, ask(1)), (9.3, tap(plain)), (10.9, send),
+                     (12.1, ask(2)), (13.1, showsRecent(true)),
+                     (14.5, { if let clip { insertDemo(clip.content, memoId: UUID()) } }),
+                     (16.1, send)]
         default: steps = []
         }
         for (delay, step) in steps {

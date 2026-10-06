@@ -31,7 +31,8 @@ for L in "$@"; do
   xcrun simctl terminate "$D" $BID 2>/dev/null || true
   # 앱 그룹 UserDefaults 는 기기를 끈 상태에서 써야 한다(scripts/demo_setup.sh 머리말).
   xcrun simctl shutdown "$D"
-  until ! xcrun simctl list devices | grep -q "$D) (Booted)"; do sleep 1; done
+  # 'Booted' 가 아니라고 다 꺼진 것이 아니다. 'Shutting Down' 중에 boot 하면 거절된다
+  until xcrun simctl list devices | grep -q "$D) (Shutdown)"; do sleep 1; done
   python3 "$ROOT/scripts/demo_seed.py" "$G" "$L" "$APP"
   boot
   sleep 6
@@ -61,8 +62,8 @@ for L in "$@"; do
     -startedFresh.v444 NO -firstShortcut.done.v1 YES -tutorialChaptersDone.v1 YES \
     -keyboardStageOffered.v1 YES -didYouKnow.optOut.v1 YES -ghostSuggestionsOff_v1 YES \
     -AppleKeyboards '("com.Ysoup.TokenMemo.ClipKeyboardExtension")' >/dev/null
-  # 앱의 한 바퀴는 15초쯤에 끝난다. 마지막 장면을 조금 더 담는다
-  sleep 18
+  # 앱이 뜨는 데 3~5초, 한 바퀴가 18초쯤이다. 마지막 장면을 조금 더 담는다
+  sleep 27
   kill -INT $R
   wait $R 2>/dev/null || true
   rm -f "$OUT/$L.log"

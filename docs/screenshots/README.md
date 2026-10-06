@@ -74,7 +74,7 @@ done
 검색 결과 첫 칸에 소리 없이 자동 재생된다. 첫 2초에 "누르면 들어간다"가 보여야 하고, 자막만으로 읽혀야 한다.
 
 ```
-preview/<스토어 로케일>/app-preview.mp4   886x1920 · 16초 남짓 · 무음 AAC · bt709
+preview/<스토어 로케일>/app-preview.mp4   886x1920 · 19초 남짓 · 무음 AAC · bt709
 raw/video/<언어>.mov                      녹화 원본 (커밋하지 않는다)
 ```
 
@@ -83,9 +83,11 @@ sh scripts/take_demo_video.sh <아이폰 UDID> ko     # 디버그 빌드가 깔�
 python3 scripts/make_preview_video.py ko
 ```
 
-앱이 `-ScreenshotScene demo` 로 켜지면 스스로 한 바퀴 돈다(`InAppKeyboardStage.runScreenshotScene`):
-계좌번호 넣고 보내기, 빈칸에 두 번째 값을 골라 보내기, '최근' 탭에서 복사한 주소를 꺼내 보내기.
-시각이 정해져 있어서 자막을 장면에 맞춰 얹는다. 자막은 `make_preview_video.py` 의 `COPY` 에 언어별로 있다.
+앱이 `-ScreenshotScene demo` 로 켜지면 스스로 대화를 한다(`InAppKeyboardStage.runScreenshotScene`).
+상대가 부탁할 때마다 맞는 답을 바로 보낸다: 주문 문의엔 템플릿(이름 칸에 그 사람),
+계좌를 물으면 계좌번호 단축어, 송장번호를 물으면 '최근' 탭에 복사해 둔 것.
+부탁 세 줄은 `scripts/demo_seed.py` 의 `REQUESTS`, 위쪽 자막 띠는 `make_preview_video.py` 의 `COPY` 에 언어별로 있다.
+두 파일의 시각은 짝이다. 하나를 바꾸면 둘 다 바꾼다.
 
 ⚠️ DeployBar 는 영상을 올리지 않는다. App Store Connect 의 그 언어 페이지에 직접 올리고,
-대표 프레임은 템플릿 장면(6초쯤)으로 고른다.
+대표 프레임은 템플릿으로 답한 장면(6초쯤)으로 고른다.
