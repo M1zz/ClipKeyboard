@@ -443,6 +443,10 @@
     "v": "%lldpt",
     "src": "3393f2e2c8"
   },
+  "%lld개 더 보기": {
+    "v": "Xem thêm %lld",
+    "src": "cf22b4198e"
+  },
   "'%1$@' 낱말이 든 단축어 %2$d개": {
     "v": "%2$d cụm từ chứa từ '%1$@'",
     "src": "f6dbc64bba"
@@ -4995,6 +4999,10 @@
     "v": "Tên của phím này do từng ứng dụng quyết định. Trong ứng dụng nhắn tin, phím hiện là Gửi, còn trong ô tìm kiếm là Tìm. Một số ứng dụng chỉ xuống dòng.",
     "src": "aa598dca64"
   },
+  "보낸 곳: %@": {
+    "v": "Gửi từ: %@",
+    "src": "9c893a5ccb"
+  },
   "보낸 이미지": {
     "v": "Ảnh đã gửi",
     "src": "3cdec7e3e6"
@@ -7339,6 +7347,10 @@
     "v": "Gửi ý kiến",
     "src": "ec35099f61"
   },
+  "의견 묻는 알림": {
+    "v": "Lời nhắc góp ý",
+    "src": "f631271ffe"
+  },
   "의견을 보내실 때 답장 받을 이름과 이메일을 적을 수 있어요. 적어 두면 다음에 자동으로 채워드려요": {
     "v": "Khi gửi ý kiến, bạn có thể ghi tên và email để nhận phản hồi. Ghi một lần, lần sau chúng tôi sẽ tự điền giúp bạn",
     "src": "259e5cb9d3"
@@ -7486,6 +7498,10 @@
   "이 화면과 저 화면을 오갑니다": {
     "v": "Chuyển qua lại giữa màn hình này và màn hình kia",
     "src": "3133616737"
+  },
+  "이 화면에 대해 의견 보내기": {
+    "v": "Góp ý về màn hình này",
+    "src": "edd6b4710f"
   },
   "이거 쓰기": {
     "v": "Dùng cái này",
@@ -9567,6 +9583,10 @@
     "v": "Đã sửa lỗi chữ tiếng Hàn bị vỡ trong ô tìm kiếm của bàn phím",
     "src": "99c7398b9c"
   },
+  "키보드 꺼짐": {
+    "v": "Bàn phím tắt",
+    "src": "b24e7c0b7f"
+  },
   "키보드 꾸미러 가기": {
     "v": "Tùy chỉnh bàn phím",
     "src": "6aeb4ea34d"
@@ -9690,6 +9710,10 @@
   "키보드 켜기": {
     "v": "Bật bàn phím",
     "src": "1d5c88ebac"
+  },
+  "키보드 켜짐": {
+    "v": "Bàn phím bật",
+    "src": "a35cdd7ce2"
   },
   "키보드 크기를 정해 볼까요": {
     "v": "Chọn kích thước bàn phím nhé",
@@ -9858,6 +9882,10 @@
   "키보드의 기본 동작을 결제 없이 쓸 수 있어요": {
     "v": "Dùng các chức năng cơ bản của bàn phím mà không cần trả phí",
     "src": "4f278e5f73"
+  },
+  "키보드의 템플릿 빈칸": {
+    "v": "Ô trống mẫu trên bàn phím",
+    "src": "0b3bfc5872"
   },
   "키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.": {
     "v": "Dùng nút Hàn/EN trên bàn phím để chuyển ngôn ngữ. Ngôn ngữ mặc định được áp dụng khi bạn mở bàn phím lần đầu.",
@@ -10102,6 +10130,10 @@
   "템플릿 입력": {
     "v": "Nhập mẫu",
     "src": "5595c5ab86"
+  },
+  "템플릿 채우기": {
+    "v": "Điền mẫu",
+    "src": "0946fe9ace"
   },
   "템플릿 추가": {
     "v": "Thêm mẫu",

@@ -44,6 +44,8 @@ struct ClipKeyboardApp: App {
     @State private var showDataRecovery = false
     /// 넛지에서 "의견 남기기"를 누르면 피드백 화면을 시트로 띄운다
     @State private var showFeedbackSheet = false
+    /// 의견 창을 어디서 열었는가(넛지 · 키보드 링크). 자동 첨부 정보에 실린다.
+    @State private var feedbackSheetOrigin: FeedbackOrigin = .nudge
     /// 반값 제안 시트 - 설치 직후·한도 한 칸 앞 두 자리에서 각각 1회 노출한다.
     @State private var showDiscountOffer = false
     /// 지금 띄운 제안이 어느 자리에서 온 것인가(문구·애널리틱스가 이 값을 따라간다).
@@ -1279,6 +1281,7 @@ struct ClipKeyboardApp: App {
                     isPresented: $showFeedbackNudge
                 ) {
                     Button(NSLocalizedString("의견 남기기", comment: "Feedback nudge: leave feedback")) {
+                        feedbackSheetOrigin = .nudge
                         showFeedbackSheet = true
                     }
                     Button(NSLocalizedString("다음에", comment: "Feedback nudge: later"), role: .cancel) { }
@@ -1290,7 +1293,8 @@ struct ClipKeyboardApp: App {
                     Text(NSLocalizedString("필요한 기능이나 불편했던 점을 남겨주시면 개발자가 직접 읽고 반드시 해결해 드릴게요.", comment: "Feedback nudge message"))
                 }
                 .sheet(isPresented: $showFeedbackSheet) {
-                    FeedbackView()
+                    FeedbackView(origin: feedbackSheetOrigin,
+                                 initialType: feedbackSheetOrigin.suggestedType)
                 }
                 .sheet(item: $categoryCleanup) { request in
                     CategoryCleanupNotice(categories: request.categories, empty: request.empty)
@@ -1435,6 +1439,12 @@ struct ClipKeyboardApp: App {
         } else if url.host == "paywall" {
             // 키보드 익스텐션에서 paywall 직행 요청 (v4.0)
             NotificationCenter.postOnMain(name: .showPaywall, object: nil)
+        } else if url.host == "feedback" {
+            // 키보드의 "의견 보내기" → 어디서 왔는지 들고 의견 창을 연다.
+            let from = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+                .queryItems?.first(where: { $0.name == "from" })?.value
+            feedbackSheetOrigin = from.flatMap(FeedbackOrigin.init(rawValue:)) ?? .settings
+            showFeedbackSheet = true
         } else if url.host == "quicknote" {
             // Control Center 빠른 메모 컨트롤 → 빠른 메모 입력 시트 열기.
             // 콜드 런치에선 이 알림이 리스트의 구독 설치보다 먼저 발행돼 유실될 수 있어

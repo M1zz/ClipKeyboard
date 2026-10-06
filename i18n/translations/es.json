@@ -572,6 +572,10 @@
     },
     "src": "3393f2e2c8"
   },
+  "%lld개 더 보기": {
+    "v": "Mostrar %lld más",
+    "src": "cf22b4198e"
+  },
   "'%1$@' 낱말이 든 단축어 %2$d개": {
     "v": {
       "one": "%2$d frase con la palabra '%1$@'",
@@ -5229,6 +5233,10 @@
     "v": "Cada app decide el nombre de esta tecla. En Mensajes aparece Enviar y en un campo de búsqueda, Buscar. En algunas apps solo inserta un salto de línea.",
     "src": "aa598dca64"
   },
+  "보낸 곳: %@": {
+    "v": "Enviado desde: %@",
+    "src": "9c893a5ccb"
+  },
   "보낸 이미지": {
     "v": "Imagen enviada",
     "src": "3cdec7e3e6"
@@ -7615,6 +7623,10 @@
     "v": "Dejar comentarios",
     "src": "ec35099f61"
   },
+  "의견 묻는 알림": {
+    "v": "Aviso para opinar",
+    "src": "f631271ffe"
+  },
   "의견을 보내실 때 답장 받을 이름과 이메일을 적을 수 있어요. 적어 두면 다음에 자동으로 채워드려요": {
     "v": "Al enviar comentarios, puedes escribir un nombre y un correo para recibir respuesta. Si los escribes una vez, los llenamos por ti la próxima vez",
     "src": "259e5cb9d3"
@@ -7765,6 +7777,10 @@
   "이 화면과 저 화면을 오갑니다": {
     "v": "Cambia entre esta pantalla y la otra",
     "src": "3133616737"
+  },
+  "이 화면에 대해 의견 보내기": {
+    "v": "Opinar sobre esta pantalla",
+    "src": "edd6b4710f"
   },
   "이거 쓰기": {
     "v": "Usar esta",
@@ -9891,6 +9907,10 @@
     "v": "Corregimos que las letras en coreano se descompusieran en la búsqueda del teclado",
     "src": "99c7398b9c"
   },
+  "키보드 꺼짐": {
+    "v": "Teclado desactivado",
+    "src": "b24e7c0b7f"
+  },
   "키보드 꾸미러 가기": {
     "v": "Personalizar teclado",
     "src": "6aeb4ea34d"
@@ -10014,6 +10034,10 @@
   "키보드 켜기": {
     "v": "Activar el teclado",
     "src": "1d5c88ebac"
+  },
+  "키보드 켜짐": {
+    "v": "Teclado activado",
+    "src": "a35cdd7ce2"
   },
   "키보드 크기를 정해 볼까요": {
     "v": "Elige el tamaño de tu teclado",
@@ -10185,6 +10209,10 @@
   "키보드의 기본 동작을 결제 없이 쓸 수 있어요": {
     "v": "Lo básico del teclado se usa sin pagar",
     "src": "4f278e5f73"
+  },
+  "키보드의 템플릿 빈칸": {
+    "v": "Huecos de plantilla en el teclado",
+    "src": "0b3bfc5872"
   },
   "키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.": {
     "v": "Usa el botón de idioma del teclado para cambiar de idioma. El idioma predeterminado se aplica la primera vez que abres el teclado.",
@@ -10429,6 +10457,10 @@
   "템플릿 입력": {
     "v": "Ingresar plantilla",
     "src": "5595c5ab86"
+  },
+  "템플릿 채우기": {
+    "v": "Rellenar plantilla",
+    "src": "0946fe9ace"
   },
   "템플릿 추가": {
     "v": "Agregar plantilla",

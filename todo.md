@@ -1,3 +1,26 @@
+## 🔬 Instruments 측정 결과 (시뮬레이터 · Release · 단축어 504개) - 2026-10-06
+
+- [x] (판정 부분) 넣을 값의 지문이 같으면 PersonaInference 를 건너뜀(`PersonaResolver.fingerprint`). `memos.data` 읽기 · `UserStateStore` 첫 생성은 그대로
+- [ ] 실행 직후 메인 스레드 100~190ms: `SnippetsTab.init` 이 `UserStateStore.shared` 를 처음 만들며 `memos.data` 전체 읽기 + `PersonaInference.infer`(단축어 × 쓰임새 × 낱말 `String.contains`) + 단축어마다 `classify` 정규식을 메인에서 돈다. 캐시 없음
+- [x] `ClipKeyboardList.barBottomFloor` 를 등장 · 재는 문에서만 재어 `@State` 에 둠. 원래 문제: body 안에서 `keyWindow.safeAreaInsets` 를 읽어 상태 막대 질의를 거쳐 선호값 그래프 전체를 다시 계산(약 45~70ms)
+- [ ] 실행 뒤 약 5~8초 동안 백그라운드 스레드가 코어 절반가량을 AttributeGraph 타입 배치 계산에 씀(목록 화면 타입이 깊음, swiftui_type_metadata_limit 와 같은 뿌리)
+- [ ] 안내 고리(`KeyRipple`)와 캐럿 깜빡임이 떠 있는 동안 정지 화면에서도 매 프레임 렌더링(의도된 연출, 안내를 닫으면 멈춤)
+- 누수: 앱 코드 0건 (시스템 160바이트) · 메모리 128MB
+- 참고: `xcodebuild build` 로 만든 Release 시뮬레이터 빌드에는 커버리지 계측이 붙는다(Archive 는 아님). 측정할 때는 `CLANG_COVERAGE_MAPPING=NO ENABLE_CODE_COVERAGE=NO`
+
+## 📋 긴 빈칸 값은 세로 목록 (사용자 요청) · 의견 창구 - 2026-10-06
+
+- [x] `PlaceholderValueLayout`: 값 하나라도 길면(보이는 너비 20 초과 · 줄바꿈) 그 빈칸만 세로 목록, 짧으면 가로 칩 그대로
+- [x] 키보드(`PlaceholderInputView`, 넷까지 보이고 더 보기)와 앱 채우기 창(`TemplateFillRow`)이 같은 부품 `PlaceholderValueList`
+- [x] 시험 6개 · 여정 표 한 줄 · 새 문구 1개 10개 언어 · 앱과 키보드 빌드 성공
+- [ ] 실기기·시뮬레이터에서 긴 주소 값으로 눈으로 확인 (키보드 높이 안에 들어가는지)
+- [x] 의견 창구 다섯 가지: 답장(FeedbackReply, 설정 > 보낸 의견 + 배지) · 보낸 곳(템플릿 채우기 창 · 키보드 빈칸 화면 링크) · 제안에도 사진 · 제안 세 번째 질문(지금은 어떻게) · 기종 식별자·빌드·Pro·키보드 상태
+- [x] LeeoKit · FeedbackHubViewer 답장 쓰기 · deviceInfo 읽기, 세 곳 빌드 · 시험 통과(임시 미러로 확인)
+- [x] LeeoKit v3.15.0 (v3.14.0 은 다섯 언어 추가로 이미 쓰임) 푸시, ClipKeyboard 패키지 3.15.0 으로 갱신, 앱·키보드 빌드와 시험 41개 통과
+- [ ] CloudKit Console(iCloud.com.Ysoup.FeedbackHub): FeedbackReply 타입 만들기(feedbackID · message · appId, String) · World 에 Read · Production 배포
+- [ ] 같은 곳 Feedback 타입에 screenshot1~3 (Asset) 이 Production 에 있는지 확인 (없어도 사진만 빠지고 글은 간다)
+- [ ] 이번 요청 보낸 분께 답장(새 답장 기능은 그분 앱이 새 버전이어야 보인다. 지금 건은 이메일이 없어서 스토어 업데이트 노트로 알리는 수밖에 없다)
+
 ## 💳 무료로 쓰는 기간 (5.2 수익 모델) · 키보드 켜기 띠 - 2026-09-30
 
 설계: docs/product/FREE_USE_MODEL.md · 시안: https://claude.ai/artifact/FnFDBa1seGkR9zRBMoYQPT

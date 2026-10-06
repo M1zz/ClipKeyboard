@@ -318,8 +318,10 @@ struct ClipKeyboardList: View {
     private func considerTopInset(_ v: CGFloat) {
         guard titleBarSettled, !showsInlineNavTitle, !isPageScrolling else { return }
         guard v > 60, v < 160 else { return }
+        // 회전하면 상태 막대 높이가 바뀐다. 손을 뗀 뒤에만 여기 닿으므로 자주 돌지 않는다.
+        measureBarBottomFloor()
         // 바는 아무리 접혀도 이보다 짧지 않다. 이 아래 값은 전환 도중의 쓰레기다.
-        guard v >= Self.barBottomFloor else { return }
+        guard v >= barBottomFloor else { return }
         guard v < pageTopInset - Self.topInsetDeadband else { return }
         pageTopInset = v
     }
@@ -665,15 +667,27 @@ struct ClipKeyboardList: View {
     ///    버렸다(신고 화면: 작은 "General" 뒤로 흐릿한 띠). 바가 그보다 짧을 수는 없으므로
     ///    이 바닥은 어떤 상태에서도 안전하다.
     private var measuredBarBottomMargin: CGFloat {
-        min(max(pageTopInset, Self.barBottomFloor) - 10, 130)
+        min(max(pageTopInset, barBottomFloor) - 10, 130)
     }
 
     /// 상태 막대 + 접힌(inline) 네비게이션 바(44pt). 바의 아랫단은 이보다 위에 올 수 없다.
-    private static var barBottomFloor: CGFloat {
+    ///
+    /// ⚠️ **body 안에서 창을 읽지 말 것.** 예전에는 이 값이 계산 프로퍼티라 body 가 그릴
+    ///    때마다 `keyWindow.safeAreaInsets` 를 물었다. 그 질문은 UIKit 이 상태 막대를
+    ///    숨길지 SwiftUI 에 되묻는 길로 이어져, 그리는 도중에 선호값 그래프를 통째로 다시
+    ///    돌렸다(앱을 켤 때 45~70ms, Instruments 실측 2026-10-06). 그래서 그리기 **밖**
+    ///    (등장 · 재는 문)에서만 재어 `@State` 에 둔다.
+    @State private var barBottomFloor: CGFloat = Self.minimumBarBottomFloor
+
+    /// 재기 전의 바닥. 첫 프레임의 `pageTopInset`(113)보다 낮아 그 값을 가리지 않는다.
+    private static let minimumBarBottomFloor: CGFloat = 70
+
+    private func measureBarBottomFloor() {
         let statusTop = UIApplication.shared.connectedScenes
             .compactMap { ($0 as? UIWindowScene)?.keyWindow?.safeAreaInsets.top }
             .first ?? 0
-        return max(statusTop + 44, 70)
+        let floor = max(statusTop + 44, Self.minimumBarBottomFloor)
+        if floor != barBottomFloor { barBottomFloor = floor }
     }
 
     private var screenBody: some View {
@@ -1083,6 +1097,7 @@ struct ClipKeyboardList: View {
             ))
             .onAppear {
                 beginSettling()
+                measureBarBottomFloor()
                 viewModel.onAppear()
                 // 빈 화면이 사람에 따라 갈리므로 들어올 때마다 다시 잰다.
                 userState.refresh()

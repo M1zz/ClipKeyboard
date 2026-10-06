@@ -125,4 +125,48 @@ final class PersonaTests: XCTestCase {
         AppGroup.defaults?
             .removeObject(forKey: "user.selected_persona.v1")
     }
+
+    // MARK: - PersonaResolver 지문 (판정 건너뛰기)
+
+    /// 넣을 값이 같으면 지문도 같아야 한다. 다르면 앱을 켤 때마다 판정이 다시 돈다.
+    func testFingerprint_SameInput_SameStamp() {
+        let memos = [Memo(title: "회사 주소", value: "서울시 강남구"),
+                     Memo(title: "계좌", value: "123-456")]
+        XCTAssertEqual(PersonaResolver.fingerprint(memos: memos, sampleIDs: []),
+                       PersonaResolver.fingerprint(memos: memos, sampleIDs: []))
+    }
+
+    /// 판정이 읽는 값이 하나라도 바뀌면 지문이 바뀌어야 한다. 안 바뀌면 쓰임새가 낡은 채로 남는다.
+    func testFingerprint_ChangesWhenInferenceInputChanges() {
+        let base = Memo(title: "회사 주소", value: "서울시 강남구", templateVariables: [])
+        let stamp = PersonaResolver.fingerprint(memos: [base], sampleIDs: [])
+
+        var title = base; title.title = "학교 주소"
+        var value = base; value.value = "부산시"
+        var secure = base; secure.isSecure = true
+        var type = base; type.autoDetectedType = .address
+        var placeholder = base; placeholder.templateVariables = ["{이름}"]
+
+        for changed in [title, value, secure, type, placeholder] {
+            XCTAssertNotEqual(PersonaResolver.fingerprint(memos: [changed], sampleIDs: []), stamp)
+        }
+        XCTAssertNotEqual(PersonaResolver.fingerprint(memos: [base, base], sampleIDs: []), stamp,
+                          "단축어가 늘면 지문이 바뀌어야 함")
+    }
+
+    /// 앱이 심어 준 샘플은 판정에 안 들어가므로 지문에도 안 들어간다.
+    func testFingerprint_IgnoresSamples() {
+        let own = Memo(title: "회사 주소", value: "서울시 강남구")
+        let sample = Memo(title: "연습용", value: "hello")
+        XCTAssertEqual(PersonaResolver.fingerprint(memos: [own, sample], sampleIDs: [sample.id]),
+                       PersonaResolver.fingerprint(memos: [own], sampleIDs: []))
+    }
+
+    /// 칸 구분이 없으면 "ab"+"c" 와 "a"+"bc" 가 같은 지문이 된다.
+    func testFingerprint_FieldBoundariesMatter() {
+        let a = Memo(title: "ab", value: "c")
+        let b = Memo(title: "a", value: "bc")
+        XCTAssertNotEqual(PersonaResolver.fingerprint(memos: [a], sampleIDs: []),
+                          PersonaResolver.fingerprint(memos: [b], sampleIDs: []))
+    }
 }

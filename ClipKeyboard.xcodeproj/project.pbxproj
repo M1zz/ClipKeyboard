@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		PVLBUILD000000000000000A2 /* PlaceholderValuePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = PVLFILE0000000000000000A1 /* PlaceholderValuePicker.swift */; };
+		PVLBUILD000000000000000A3 /* PlaceholderValuePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = PVLFILE0000000000000000A1 /* PlaceholderValuePicker.swift */; };
 		0400F328680C4EA8C66511B2 /* UsageBreakdownCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A5192FEC743DF68940A67D /* UsageBreakdownCharts.swift */; };
 		06B3FF70D58722B3CBDDA128 /* DefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */; };
 		077DAE30BB547E3CBF3CDCAA /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759E1C51E0141D0101328417 /* AppNotification.swift */; };
@@ -378,6 +380,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		PVLFILE0000000000000000A1 /* PlaceholderValuePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderValuePicker.swift; sourceTree = "<group>"; };
 		01D562A947E84E2EF0858B33 /* FreeUse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FreeUse.swift; sourceTree = "<group>"; };
 		033ABFB89F872AE078A1FC22 /* TypingSpeedMeter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TypingSpeedMeter.swift; sourceTree = "<group>"; };
 		050AEED88220E19330F5B15C /* MemoSyncCore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoSyncCore.swift; sourceTree = "<group>"; };
@@ -657,6 +660,15 @@
 		9BD66F261DF7D58538B7DEC3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = "de.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		B331A8D65FD5D4A86094FE3A /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = "vi.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		2DE76662B565D4F29F8CD428 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = "th.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		C37D16EE1AB0CACFD44A6ED7 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		50DDC6CB68494CD8705C338F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = "fr.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		B62A63038347356F91B21EE0 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = "it.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		10DFAB46B413A50D60C7C44C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		1ACF4DC345D4F00CFA42E9FE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = "fr.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		2D888CB2B2CB622C40B4F834 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = "it.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		2AC213648A9DA8CB6C29474E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		26705EF38B52E202E6D91CAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = "fr.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		93CE9EB100B2629D85642CCC /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = "it.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -938,6 +950,7 @@
 			children = (
 				58DS00022F0000000000000002 /* AppTheme.swift */,
 				TPH00022F0000000000000002 /* TemplatePlaceholder.swift */,
+				PVLFILE0000000000000000A1 /* PlaceholderValuePicker.swift */,
 				58DS00042F0000000000000004 /* AppThemePreference.swift */,
 				FA000002000000000000AAA1 /* NavigationThemeModifier.swift */,
 				58DS00122F0000000000000012 /* Components */,
@@ -1397,6 +1410,9 @@
 				de,
 				vi,
 				th,
+				"pt-BR",
+				fr,
+				it,
 			);
 			mainGroup = 58C4732F2A109F0C009D87BC;
 			packageReferences = (
@@ -1505,6 +1521,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5122552BB078CED5A59A3AEB /* PlaceholderSequence.swift in Sources */,
+				PVLBUILD000000000000000A2 /* PlaceholderValuePicker.swift in Sources */,
 				E0334BEF3A7CD6F30CB4BEFF /* KeyboardSessionLedger.swift in Sources */,
 				CE5D1C53006473157051D0F0 /* UsageRhythm.swift in Sources */,
 				D9F81F4005E5FDAAAEA43A3A /* AppLanguage.swift in Sources */,
@@ -1571,6 +1588,7 @@
 				A5E8C8FB800717382C9A5C0C /* PersonaResolver.swift in Sources */,
 				F0F079FE7F11A67777478C58 /* PersonaInference.swift in Sources */,
 				D70976F231DF49E88A74FC97 /* PlaceholderSequence.swift in Sources */,
+				PVLBUILD000000000000000A3 /* PlaceholderValuePicker.swift in Sources */,
 				E8E893AB668C9275404C6DF1 /* KeyboardSessionLedger.swift in Sources */,
 				8FE0CD72D8835120A0F375CE /* UsageRhythm.swift in Sources */,
 				2DECE05C81C009F6FE7B1D49 /* UsageStatsCache.swift in Sources */,
@@ -1842,6 +1860,9 @@
 		FFEC102DB0D405F113AF6DC7 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				93CE9EB100B2629D85642CCC /* it */,
+				26705EF38B52E202E6D91CAC /* fr */,
+				2AC213648A9DA8CB6C29474E /* pt-BR */,
 				2DE76662B565D4F29F8CD428 /* th */,
 				B331A8D65FD5D4A86094FE3A /* vi */,
 				9BD66F261DF7D58538B7DEC3 /* de */,
@@ -1859,6 +1880,9 @@
 		INFOPLISTVG1 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				2D888CB2B2CB622C40B4F834 /* it */,
+				1ACF4DC345D4F00CFA42E9FE /* fr */,
+				10DFAB46B413A50D60C7C44C /* pt-BR */,
 				53815751677B3F6CAF024977 /* th */,
 				8673C8E13E118E73E1C56A83 /* vi */,
 				184192F63D91F7DBFA89F776 /* de */,
@@ -1876,6 +1900,9 @@
 		INFOPLISTVG2 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				B62A63038347356F91B21EE0 /* it */,
+				50DDC6CB68494CD8705C338F /* fr */,
+				C37D16EE1AB0CACFD44A6ED7 /* pt-BR */,
 				1395D3CCF44418873605FA48 /* th */,
 				5F81D273D7398A0A33978EA9 /* vi */,
 				CCEF9C8EC24CEADCB04AEB65 /* de */,
@@ -2455,7 +2482,7 @@
 			repositoryURL = "https://github.com/M1zz/LeeoKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.12.0;
+				minimumVersion = 3.16.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

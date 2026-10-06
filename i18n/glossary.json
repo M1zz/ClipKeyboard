@@ -33,7 +33,10 @@
    "es": "Frase",
    "de": "Textbaustein",
    "th": "ข้อความด่วน",
-   "vi": "Cụm từ"
+   "vi": "Cụm từ",
+   "fr": "Phrase",
+   "it": "Frase",
+   "pt-BR": "Frase"
   },
   "메모": {
    "en": "Note",
@@ -43,7 +46,10 @@
    "es": "Nota",
    "de": "Notiz",
    "th": "โน้ต",
-   "vi": "Ghi chú"
+   "vi": "Ghi chú",
+   "fr": "Note",
+   "it": "Nota",
+   "pt-BR": "Nota"
   },
   "보관함": {
    "en": "Inbox",
@@ -53,7 +59,10 @@
    "es": "Recibidos",
    "de": "Eingang",
    "th": "กล่องขาเข้า",
-   "vi": "Hộp thư đến"
+   "vi": "Hộp thư đến",
+   "fr": "Boîte de réception",
+   "it": "In arrivo",
+   "pt-BR": "Caixa de entrada"
   },
   "클립보드": {
    "en": "Clipboard",
@@ -63,7 +72,10 @@
    "es": "Portapapeles",
    "de": "Zwischenablage",
    "th": "คลิปบอร์ด",
-   "vi": "Bảng tạm"
+   "vi": "Bảng tạm",
+   "fr": "Presse-papiers",
+   "it": "Appunti",
+   "pt-BR": "Área de transferência"
   },
   "콤보": {
    "en": "Combo",
@@ -73,7 +85,10 @@
    "es": "Combo",
    "de": "Kombo",
    "th": "คอมโบ",
-   "vi": "Combo"
+   "vi": "Combo",
+   "fr": "Combo",
+   "it": "Combo",
+   "pt-BR": "Combo"
   },
   "템플릿": {
    "en": "Template",
@@ -83,7 +98,10 @@
    "es": "Plantilla",
    "de": "Vorlage",
    "th": "เทมเพลต",
-   "vi": "Mẫu"
+   "vi": "Mẫu",
+   "fr": "Modèle",
+   "it": "Modello",
+   "pt-BR": "Modelo"
   },
   "테마": {
    "en": "Theme",
@@ -93,7 +111,10 @@
    "es": "Tema",
    "de": "Thema",
    "th": "ธีม",
-   "vi": "Chủ đề"
+   "vi": "Chủ đề",
+   "fr": "Thème",
+   "it": "Tema",
+   "pt-BR": "Tema"
   },
   "즐겨찾기": {
    "en": "Favorites",
@@ -103,7 +124,10 @@
    "es": "Favoritos",
    "de": "Favoriten",
    "th": "รายการโปรด",
-   "vi": "Mục ưa thích"
+   "vi": "Mục ưa thích",
+   "fr": "Favoris",
+   "it": "Preferiti",
+   "pt-BR": "Favoritos"
   },
   "채우는 칸": {
    "en": "fill-in blank",
@@ -113,7 +137,10 @@
    "es": "campo para llenar",
    "de": "Ausfüllfeld",
    "th": "ช่องกรอก",
-   "vi": "ô cần điền"
+   "vi": "ô cần điền",
+   "fr": "champ à remplir",
+   "it": "campo da compilare",
+   "pt-BR": "campo para preencher"
   },
   "스택": {
    "en": "Stack",
@@ -123,7 +150,10 @@
    "es": "Pila",
    "de": "Stapel",
    "th": "สแตก",
-   "vi": "Ngăn xếp"
+   "vi": "Ngăn xếp",
+   "fr": "Pile",
+   "it": "Pila",
+   "pt-BR": "Pilha"
   }
  },
  "_tokens": "본문 안의 {토큰} 은 사용자에게 보이는 예시 글이라 번역한다. 다만 한 언어 안에서는 반드시 같은 말로. 여기 적힌 것이 그 언어의 고정값이다.",
@@ -135,7 +165,10 @@
    "es": "{precio}",
    "de": "{Preis}",
    "th": "{ราคา}",
-   "vi": "{giá}"
+   "vi": "{giá}",
+   "fr": "{prix}",
+   "it": "{prezzo}",
+   "pt-BR": "{preço}"
   },
   "{금액}": {
    "en": "{amount}",
@@ -144,7 +177,10 @@
    "es": "{monto}",
    "de": "{Betrag}",
    "th": "{จำนวนเงิน}",
-   "vi": "{số tiền}"
+   "vi": "{số tiền}",
+   "fr": "{montant}",
+   "it": "{importo}",
+   "pt-BR": "{valor}"
   },
   "{날짜}": {
    "en": "{date}",
@@ -153,7 +189,10 @@
    "es": "{fecha}",
    "de": "{Datum}",
    "th": "{วันที่}",
-   "vi": "{ngày}"
+   "vi": "{ngày}",
+   "fr": "{date}",
+   "it": "{data}",
+   "pt-BR": "{data}"
   },
   "{메모}": {
    "en": "{memo}",
@@ -162,7 +201,10 @@
    "es": "{nota}",
    "de": "{Notiz}",
    "th": "{โน้ต}",
-   "vi": "{ghi chú}"
+   "vi": "{ghi chú}",
+   "fr": "{note}",
+   "it": "{nota}",
+   "pt-BR": "{nota}"
   },
   "{수량}": {
    "en": "{quantity}",
@@ -171,7 +213,10 @@
    "es": "{cantidad}",
    "de": "{Menge}",
    "th": "{จำนวน}",
-   "vi": "{số lượng}"
+   "vi": "{số lượng}",
+   "fr": "{quantité}",
+   "it": "{quantità}",
+   "pt-BR": "{quantidade}"
   },
   "{시간}": {
    "en": "{time}",
@@ -180,7 +225,10 @@
    "es": "{hora}",
    "de": "{Uhrzeit}",
    "th": "{เวลา}",
-   "vi": "{giờ}"
+   "vi": "{giờ}",
+   "fr": "{heure}",
+   "it": "{ora}",
+   "pt-BR": "{hora}"
   },
   "{이름}": {
    "en": "{name}",
@@ -189,7 +237,10 @@
    "es": "{nombre}",
    "de": "{Name}",
    "th": "{ชื่อ}",
-   "vi": "{tên}"
+   "vi": "{tên}",
+   "fr": "{nom}",
+   "it": "{nome}",
+   "pt-BR": "{nome}"
   },
   "{전화}": {
    "en": "{phone}",
@@ -198,7 +249,10 @@
    "es": "{teléfono}",
    "de": "{Telefon}",
    "th": "{โทรศัพท์}",
-   "vi": "{điện thoại}"
+   "vi": "{điện thoại}",
+   "fr": "{téléphone}",
+   "it": "{telefono}",
+   "pt-BR": "{telefone}"
   },
   "{주소}": {
    "en": "{address}",
@@ -207,7 +261,10 @@
    "es": "{dirección}",
    "de": "{Adresse}",
    "th": "{ที่อยู่}",
-   "vi": "{địa chỉ}"
+   "vi": "{địa chỉ}",
+   "fr": "{adresse}",
+   "it": "{indirizzo}",
+   "pt-BR": "{endereço}"
   },
   "{커서}": {
    "en": "{cursor}",
@@ -216,7 +273,10 @@
    "es": "{cursor}",
    "de": "{Cursor}",
    "th": "{เคอร์เซอร์}",
-   "vi": "{con trỏ}"
+   "vi": "{con trỏ}",
+   "fr": "{curseur}",
+   "it": "{cursore}",
+   "pt-BR": "{cursor}"
   },
   "{클립보드}": {
    "en": "{clipboard}",
@@ -225,7 +285,10 @@
    "es": "{portapapeles}",
    "de": "{Zwischenablage}",
    "th": "{คลิปบอร์ด}",
-   "vi": "{bảng tạm}"
+   "vi": "{bảng tạm}",
+   "fr": "{presse-papiers}",
+   "it": "{appunti}",
+   "pt-BR": "{área de transferência}"
   },
   "{토큰}": {
    "en": "{token}",
@@ -234,7 +297,10 @@
    "es": "{variable}",
    "de": "{Variable}",
    "th": "{ตัวแปร}",
-   "vi": "{biến}"
+   "vi": "{biến}",
+   "fr": "{variable}",
+   "it": "{variabile}",
+   "pt-BR": "{variável}"
   }
  },
  "_allowSourceScript": "번역문에 한글이 남아도 되는 예외(부분 문자열). scripts/check_localization.py 의 것과 같은 뜻이다.",

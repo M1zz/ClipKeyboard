@@ -72,6 +72,9 @@ enum DefaultsKey {
     static let personaInferred = "persona.inferred.v1"
     /// 앱이 알아본 쓰임새에 확신이 있는가 (App Group, Bool).
     static let personaInferredConfident = "persona.inferred.confident.v1"
+    /// 쓰임새를 마지막으로 알아볼 때 넣은 값들의 지문 (App Group, SHA256 hex).
+    /// 같으면 판정을 다시 돌리지 않는다. 자세한 이유: ClipKeyboard/Service/PersonaResolver.swift
+    static let personaInferredFingerprint = "persona.inferred.fingerprint.v1"
     /// 같은 글을 몇 번 복사했는지 (표준, `[RepeatCopyLedger.Entry]` JSON). 글은 담지 않고 지문만.
     static let repeatCopyLedger = "repeat.copy.ledger.v1"
     /// 친구에게 알리기를 이미 권했는가 (App Group, Bool). 평생 한 번.

@@ -22,6 +22,7 @@
 //
 
 import Foundation
+import CryptoKit   // 판정 입력의 지문 - 실행 간 안정적인 해시가 필요하다
 
 enum PersonaResolver {
 
@@ -69,19 +70,50 @@ enum PersonaResolver {
 
     // MARK: - 다시 알아보기
 
-    /// 판정을 다시 돌려 적어 둔다. 결과를 돌려주는 것은 설정 화면이 근거를 보여 주기 위해서다.
+    /// 판정을 다시 돌려 적어 둔다.
     ///
     /// ⚠️ 부르는 자리는 `UserStateStore.refresh` 다. 이미 목록을 읽은 자리라 한 번 더 읽지 않는다.
-    @discardableResult
-    static func refresh(memos: [Memo], sampleIDs: Set<UUID>) -> PersonaInference.Result {
+    ///
+    /// ⚠️ **넣을 값이 지난번과 같으면 판정을 돌리지 않는다.** 판정은 단축어 × 쓰임새 × 낱말만큼
+    ///    글을 뒤지고, 종류가 안 적힌 단축어는 정규식 분류까지 돈다. 이게 앱을 켤 때 메인
+    ///    스레드에서 돌아 단축어 500개에서 100~200ms 를 막았다(Instruments 실측, 2026-10-06).
+    ///    목록은 대개 그대로이므로 지문만 비교하고 넘어간다. 지문에는 빌드 번호가 들어가서,
+    ///    낱말 표나 분류 규칙이 바뀐 새 버전에서는 한 번 다시 돈다.
+    static func refresh(memos: [Memo], sampleIDs: Set<UUID>) {
+        let stamp = fingerprint(memos: memos, sampleIDs: sampleIDs)
+        if defaults?.string(forKey: DefaultsKey.personaInferredFingerprint) == stamp { return }
+
         let result = PersonaInference.infer(facts(memos: memos, sampleIDs: sampleIDs))
         let changed = result.persona != inferred || result.isConfident != inferredIsConfident
         defaults?.set(result.persona.rawValue, forKey: DefaultsKey.personaInferred)
         defaults?.set(result.isConfident, forKey: DefaultsKey.personaInferredConfident)
+        defaults?.set(stamp, forKey: DefaultsKey.personaInferredFingerprint)
         if changed {
             print("👤 [PersonaResolver.refresh] 알아본 쓰임새: \(result.persona.rawValue) (확신 \(result.isConfident))")
         }
-        return result
+    }
+
+    /// 판정에 들어가는 값 전부의 지문. `facts` 가 읽는 것과 **같은 것**을 넣어야 한다 -
+    /// 하나라도 빠지면 그 값이 바뀌어도 판정이 낡은 채로 남는다.
+    ///
+    /// 실행 간에 같아야 해서 `Hasher` 가 아니라 SHA256 이다(`Hasher` 는 실행마다 씨앗이 바뀐다).
+    static func fingerprint(memos: [Memo], sampleIDs: Set<UUID>) -> String {
+        var hasher = SHA256()
+        func feed(_ text: String) {
+            hasher.update(data: Data(text.utf8))
+            hasher.update(data: Data([0x1F]))   // 칸 구분 - "ab"+"c" 와 "a"+"bc" 가 갈리게
+        }
+        feed(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "")
+        for memo in memos where !sampleIDs.contains(memo.id) {
+            feed(memo.title)
+            feed(memo.isSecure ? "\u{0}secure" : memo.value)
+            feed(memo.autoDetectedType?.rawValue ?? "")
+            feed(memo.templateVariables.joined(separator: "\u{1E}"))
+        }
+        feed("\u{0}categories")
+        CategoryStore.shared.allCategories.forEach(feed)
+        feed(CategoryStore.shared.selectedPersona?.rawValue ?? "")
+        return hasher.finalize().map { String(format: "%02x", $0) }.joined()
     }
 
     /// 지금 기기의 값으로 판정만 돌린다(적지 않는다). 설정 화면이 근거를 그릴 때 쓴다.

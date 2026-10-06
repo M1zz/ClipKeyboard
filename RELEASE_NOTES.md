@@ -122,7 +122,7 @@ Văn bản sao chép được giữ 30 ngày.
 
 ```
 단축어를 100번 넣을 때까지 모든 기능이 무료예요.
-일본어, 스페인어, 독일어, 태국어, 베트남어로도 쓸 수 있어요.
+일본어, 스페인어, 프랑스어 등 여덟 언어로도 쓸 수 있어요.
 업무와 개인 카테고리를 미리 만들어 뒀어요.
 다크 모드에서 키보드 키가 또렷하게 보여요.
 키보드가 뜰 때 가끔 닫히던 문제를 고쳤어요.
@@ -132,7 +132,7 @@ Văn bản sao chép được giữ 30 ngày.
 
 ```
 Every feature is free for 100 inserts.
-Five new languages, Japanese included.
+Eight new languages, Japanese included.
 Work and Personal categories are ready.
 Keys are easier to see in Dark Mode.
 The keyboard no longer closes on open.
@@ -142,7 +142,7 @@ The keyboard no longer closes on open.
 
 ```
 前 100 次输入，所有功能全部免费。
-新增日语、西班牙语、德语、泰语和越南语。
+新增日语、西班牙语、法语等八种语言。
 已预先建好“工作”和“个人”分类。
 深色模式下，键盘按键更清晰。
 修复了键盘打开时偶尔关闭的问题。
@@ -152,7 +152,7 @@ The keyboard no longer closes on open.
 
 ```
 前 100 次輸入，所有功能全部免費。
-新增日文、西班牙文、德文、泰文和越南文。
+新增日文、西班牙文、法文等八種語言。
 已預先建好「工作」和「個人」分類。
 深色模式下，鍵盤按鍵更清晰。
 修正了鍵盤開啟時偶爾關閉的問題。
@@ -162,7 +162,7 @@ The keyboard no longer closes on open.
 
 ```
 Все функции бесплатны первые 100 раз.
-Пять новых языков, включая японский.
+Восемь новых языков, включая японский.
 Категории «Работа» и «Личное» готовы.
 Клавиши лучше видны в тёмном режиме.
 Клавиатура больше не закрывается сама.
@@ -172,7 +172,7 @@ The keyboard no longer closes on open.
 
 ```
 最初の100回の入力まで、すべての機能が無料です。
-日本語、スペイン語、ドイツ語、タイ語、ベトナム語に対応しました。
+日本語、スペイン語、フランス語など8つの言語に対応しました。
 「仕事」と「プライベート」のカテゴリを用意しました。
 ダークモードでキーが見やすくなりました。
 キーボードを開くと閉じてしまうことがある問題を修正しました。
@@ -182,7 +182,7 @@ The keyboard no longer closes on open.
 
 ```
 Todo gratis en tus primeras 100 veces.
-Cinco idiomas nuevos, incluido español.
+Ocho idiomas nuevos, incluido español.
 Nuevas categorías: Trabajo y Personal.
 Las teclas se ven mejor en modo oscuro.
 El teclado ya no se cierra al abrirse.
@@ -192,7 +192,7 @@ El teclado ya no se cierra al abrirse.
 
 ```
 Die ersten 100 Eingaben: alles gratis.
-Fünf neue Sprachen, auch Deutsch.
+Acht neue Sprachen, auch Deutsch.
 Neue Kategorien: Arbeit und Privat.
 Tasten im Dunkelmodus besser sichtbar.
 Die Tastatur schließt sich nicht mehr.
@@ -202,7 +202,7 @@ Die Tastatur schließt sich nicht mehr.
 
 ```
 ใช้ทุกฟีเจอร์ฟรีใน 100 ครั้งแรก
-เพิ่ม 5 ภาษาใหม่ รวมถึงภาษาไทย
+เพิ่ม 8 ภาษาใหม่ รวมถึงภาษาไทย
 มีหมวดหมู่งานและส่วนตัวให้พร้อมใช้
 ปุ่มคีย์บอร์ดเห็นชัดขึ้นในโหมดมืด
 แก้ปัญหาคีย์บอร์ดปิดเองตอนเปิด
@@ -212,10 +212,40 @@ Die Tastatur schließt sich nicht mehr.
 
 ```
 Miễn phí mọi tính năng 100 lần đầu.
-Thêm 5 ngôn ngữ, có cả tiếng Việt.
+Thêm 8 ngôn ngữ, có cả tiếng Việt.
 Có sẵn danh mục Công việc và Cá nhân.
 Phím dễ nhìn hơn ở chế độ tối.
 Bàn phím không còn tự đóng khi mở.
+```
+
+### App Store (French, fr-FR)
+
+```
+Tout est gratuit pour 100 insertions.
+Huit nouvelles langues, dont le français.
+Catégories Travail et Perso déjà prêtes.
+Touches plus lisibles en mode sombre.
+Le clavier ne se ferme plus à l’ouverture.
+```
+
+### App Store (Italian, it)
+
+```
+Tutto gratis per i primi 100 inserimenti.
+Otto nuove lingue, incluso l’italiano.
+Categorie Lavoro e Personale già pronte.
+Tasti più leggibili in modalità scura.
+La tastiera non si chiude più all’apertura.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+Tudo grátis nas primeiras 100 inserções.
+Oito idiomas novos, incluindo português.
+Categorias Trabalho e Pessoal já prontas.
+Teclas mais visíveis no modo escuro.
+O teclado não fecha mais ao abrir.
 ```
 
 ## 5.1.6

@@ -572,6 +572,10 @@
     },
     "src": "3393f2e2c8"
   },
+  "%lld개 더 보기": {
+    "v": "%lld weitere anzeigen",
+    "src": "cf22b4198e"
+  },
   "'%1$@' 낱말이 든 단축어 %2$d개": {
     "v": "%2$d Textbausteine mit dem Wort '%1$@'",
     "src": "f6dbc64bba"
@@ -5226,6 +5230,10 @@
     "v": "Den Namen dieser Taste bestimmt die App. In Nachrichten-Apps steht dort Senden, im Suchfeld Suchen. Manche Apps fügen nur einen Zeilenumbruch ein.",
     "src": "aa598dca64"
   },
+  "보낸 곳: %@": {
+    "v": "Gesendet aus: %@",
+    "src": "9c893a5ccb"
+  },
   "보낸 이미지": {
     "v": "Gesendetes Bild",
     "src": "3cdec7e3e6"
@@ -7612,6 +7620,10 @@
     "v": "Feedback geben",
     "src": "ec35099f61"
   },
+  "의견 묻는 알림": {
+    "v": "Feedback-Hinweis",
+    "src": "f631271ffe"
+  },
   "의견을 보내실 때 답장 받을 이름과 이메일을 적을 수 있어요. 적어 두면 다음에 자동으로 채워드려요": {
     "v": "Beim Feedback kannst du jetzt Name und E-Mail für die Antwort angeben. Trägst du sie einmal ein, füllen wir sie beim nächsten Mal für dich aus",
     "src": "259e5cb9d3"
@@ -7762,6 +7774,10 @@
   "이 화면과 저 화면을 오갑니다": {
     "v": "Wechselt zwischen dieser und der anderen Ansicht",
     "src": "3133616737"
+  },
+  "이 화면에 대해 의견 보내기": {
+    "v": "Feedback zu diesem Bildschirm",
+    "src": "edd6b4710f"
   },
   "이거 쓰기": {
     "v": "Verwenden",
@@ -9888,6 +9904,10 @@
     "v": "Behoben: Koreanische Schrift brach im Suchfeld der Tastatur auseinander",
     "src": "99c7398b9c"
   },
+  "키보드 꺼짐": {
+    "v": "Tastatur aus",
+    "src": "b24e7c0b7f"
+  },
   "키보드 꾸미러 가기": {
     "v": "Tastatur anpassen",
     "src": "6aeb4ea34d"
@@ -10011,6 +10031,10 @@
   "키보드 켜기": {
     "v": "Tastatur aktivieren",
     "src": "1d5c88ebac"
+  },
+  "키보드 켜짐": {
+    "v": "Tastatur an",
+    "src": "a35cdd7ce2"
   },
   "키보드 크기를 정해 볼까요": {
     "v": "Welche Tastaturgröße passt zu dir?",
@@ -10182,6 +10206,10 @@
   "키보드의 기본 동작을 결제 없이 쓸 수 있어요": {
     "v": "Die Grundfunktionen der Tastatur nutzt du ohne Kauf",
     "src": "4f278e5f73"
+  },
+  "키보드의 템플릿 빈칸": {
+    "v": "Vorlagenlücken in der Tastatur",
+    "src": "0b3bfc5872"
   },
   "키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.": {
     "v": "Mit der Sprachtaste auf der Tastatur wechselst du die Sprache. Die Standardsprache gilt, wenn die Tastatur zum ersten Mal geöffnet wird.",
@@ -10426,6 +10454,10 @@
   "템플릿 입력": {
     "v": "Vorlage eingeben",
     "src": "5595c5ab86"
+  },
+  "템플릿 채우기": {
+    "v": "Vorlage ausfüllen",
+    "src": "0946fe9ace"
   },
   "템플릿 추가": {
     "v": "Vorlage hinzufügen",

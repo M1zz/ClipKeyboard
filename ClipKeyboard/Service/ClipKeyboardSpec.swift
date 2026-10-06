@@ -22,7 +22,10 @@ enum ClipKeyboardSpec: LeeoAppSpec {
     /// (백업은 CloudKitBackupService가 iCloud.com.Ysoup.TokenMemo에서 계속 담당한다.)
     static let feedback = LeeoFeedbackConfig(
         containerIdentifier: "iCloud.com.Ysoup.FeedbackHub",
-        appIdentifier: "com.Ysoup.TokenMemo"
+        appIdentifier: "com.Ysoup.TokenMemo",
+        // 버그와 제안에 화면을 붙여 받는다. 사진 필드(screenshot1~3)가 허브 Production 에
+        // 없으면 LeeoKit 이 사진만 빼고 다시 보내므로 글은 늘 간다.
+        acceptsScreenshots: true
     )
 
     /// App Store 숫자 ID - "리뷰 남기기" 딥링크와 앱 소개(LeeoFamilyCatalog)의 자기 식별에 쓴다.

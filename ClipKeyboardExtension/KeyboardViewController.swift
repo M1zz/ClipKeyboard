@@ -308,6 +308,29 @@ class KeyboardViewController: UIInputViewController {
         ])
     }
 
+    /// 앱을 열어 의견 창을 띄운다. 어디서 왔는지를 쿼리로 넘긴다(`FeedbackOrigin` rawValue).
+    private func openMainAppFeedback(from origin: String?) {
+        var components = URLComponents()
+        components.scheme = "clipkeyboard"
+        components.host = "feedback"
+        if let origin { components.queryItems = [URLQueryItem(name: "from", value: origin)] }
+        guard let url = components.url else { return }
+        var responder: UIResponder? = self
+        let selector = sel_registerName("openURL:")
+        while let current = responder {
+            if let application = current as? UIApplication {
+                application.open(url, options: [:], completionHandler: nil)
+                return
+            }
+            if current.responds(to: selector) {
+                _ = current.perform(selector, with: url)
+                return
+            }
+            responder = current.next
+        }
+        print("⚠️ [Keyboard] 의견 URL scheme 실행 실패")
+    }
+
     /// 앱을 연다(세이프 모드). 결제 화면이 아니라 앱 첫 화면으로 간다.
     @objc private func openMainApp() {
         guard let url = URL(string: "clipkeyboard://") else { return }
@@ -453,7 +476,10 @@ class KeyboardViewController: UIInputViewController {
         let t4 = NotificationCenter.default.addObserver(forName: Notification.Name.openMainAppPaywall, object: nil, queue: .main) { [weak self] _ in
             self?.openMainAppPaywall()
         }
-        notificationTokens = [t1, t2, t3, t4]
+        let t5 = NotificationCenter.default.addObserver(forName: Notification.Name.openMainAppFeedback, object: nil, queue: .main) { [weak self] note in
+            self?.openMainAppFeedback(from: note.object as? String)
+        }
+        notificationTokens = [t1, t2, t3, t4, t5]
     }
 
     private func handleAddTextEntry(_ notification: Notification) {

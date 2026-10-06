@@ -59,6 +59,7 @@ enum DataWipeService {
         DefaultsKey.personaOverride,
         DefaultsKey.personaInferred,
         DefaultsKey.personaInferredConfident,
+        DefaultsKey.personaInferredFingerprint,
         DefaultsKey.editionEssentialLinks,
         DefaultsKey.editionShelfDismissed,
         DefaultsKey.quickRowAnchors
