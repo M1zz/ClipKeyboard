@@ -62,7 +62,8 @@ enum DataWipeService {
         DefaultsKey.personaInferredFingerprint,
         DefaultsKey.editionEssentialLinks,
         DefaultsKey.editionShelfDismissed,
-        DefaultsKey.quickRowAnchors
+        DefaultsKey.quickRowAnchors,
+        DefaultsKey.editionAnchorsFingerprint
     ]
 
     // MARK: - 실행

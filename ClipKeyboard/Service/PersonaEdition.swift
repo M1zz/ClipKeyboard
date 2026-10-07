@@ -404,13 +404,25 @@ enum PersonaEditionStore {
     ///
     /// ⚠️ 부르는 자리는 `UserStateStore.refresh` 다. 쓰임새를 다시 알아본 **바로 뒤**여야
     ///    판이 바뀐 날 붙박이도 같이 바뀐다.
+    ///
+    /// ⚠️ **넣을 값이 지난번과 같으면 다시 재지 않는다.** 칸마다 단축어 전부의 글을 뒤져서
+    ///    앱을 켤 때 메인 스레드를 막았다(단축어 500개에서 약 20ms, Instruments 실측 2026-10-06).
+    ///    붙박이를 적는 곳은 여기 하나뿐이라 지문이 같으면 적힌 값도 그대로다.
     static func refresh(memos: [Memo], sampleIDs: Set<UUID>) {
         let kind = currentKind
+        let links = links
+        let stamp = [PersonaResolver.fingerprint(memos: memos, sampleIDs: sampleIDs),
+                     kind.rawValue,
+                     links.sorted { $0.key < $1.key }.map { "\($0.key)=\($0.value.uuidString)" }.joined(separator: ",")]
+            .joined(separator: "|")
+        if defaults?.string(forKey: DefaultsKey.editionAnchorsFingerprint) == stamp { return }
+
         let anchors = PersonaEdition.anchors(for: kind,
                                              coverage: coverage(memos: memos, sampleIDs: sampleIDs, kind: kind))
         if anchors != QuickRowAnchors.load() {
             QuickRowAnchors.save(anchors)
             print("🧩 [PersonaEditionStore.refresh] '\(kind.rawValue)' 판 붙박이 \(anchors.count)개")
         }
+        defaults?.set(stamp, forKey: DefaultsKey.editionAnchorsFingerprint)
     }
 }

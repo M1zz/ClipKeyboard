@@ -1,7 +1,6 @@
 ## 🔬 Instruments 측정 결과 (시뮬레이터 · Release · 단축어 504개) - 2026-10-06
 
-- [x] (판정 부분) 넣을 값의 지문이 같으면 PersonaInference 를 건너뜀(`PersonaResolver.fingerprint`). `memos.data` 읽기 · `UserStateStore` 첫 생성은 그대로
-- [ ] 실행 직후 메인 스레드 100~190ms: `SnippetsTab.init` 이 `UserStateStore.shared` 를 처음 만들며 `memos.data` 전체 읽기 + `PersonaInference.infer`(단축어 × 쓰임새 × 낱말 `String.contains`) + 단축어마다 `classify` 정규식을 메인에서 돈다. 캐시 없음
+- [x] 실행 직후 메인 스레드 막힘 `UserStateStore` 첫 생성 187ms → 21ms: 쓰임새 판정(`PersonaResolver.fingerprint`)과 키보드 붙박이(`PersonaEditionStore.refresh`)를 넣을 값의 지문이 같으면 건너뜀. 남은 것은 `memos.data` 읽기와 상태 로그 한 줄(약 10ms)
 - [x] `ClipKeyboardList.barBottomFloor` 를 등장 · 재는 문에서만 재어 `@State` 에 둠. 원래 문제: body 안에서 `keyWindow.safeAreaInsets` 를 읽어 상태 막대 질의를 거쳐 선호값 그래프 전체를 다시 계산(약 45~70ms)
 - [ ] 실행 뒤 약 5~8초 동안 백그라운드 스레드가 코어 절반가량을 AttributeGraph 타입 배치 계산에 씀(목록 화면 타입이 깊음, swiftui_type_metadata_limit 와 같은 뿌리)
 - [ ] 안내 고리(`KeyRipple`)와 캐럿 깜빡임이 떠 있는 동안 정지 화면에서도 매 프레임 렌더링(의도된 연출, 안내를 닫으면 멈춤)

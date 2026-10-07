@@ -97,6 +97,9 @@ enum DefaultsKey {
     static let editionShelfDismissed = "persona.edition.shelfDismissed.v1"
     /// 키보드 빠른 줄에 붙박아 세울 단축어 (App Group, `[UUID문자열]`). 앱이 적고 키보드가 읽는다.
     static let quickRowAnchors = "quick.row.anchors.v1"
+    /// 붙박이를 마지막으로 잴 때 넣은 값들의 지문 (App Group). 같으면 다시 재지 않는다.
+    /// 자세한 이유: ClipKeyboard/Service/PersonaEdition.swift 의 `PersonaEditionStore.refresh`
+    static let editionAnchorsFingerprint = "edition.anchors.fingerprint.v1"
     static let enabledBuiltInCategoriesV1 = "enabledBuiltInCategories_v1"
     /// 앱을 처음 연 날 (standard UD, Date). 리뷰 요청·붙여넣기 안내·반값 제안이 모두 이 값을 본다.
     /// ⚠️ 읽기만 하는 자리에서 값을 쓰지 말 것 - 남의 초기화를 조용히 되돌린다.
