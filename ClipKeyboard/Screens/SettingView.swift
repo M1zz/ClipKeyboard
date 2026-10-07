@@ -551,13 +551,14 @@ struct MemoHistoryView: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .solidNavBar(theme.bg)
-        .onAppear { snapshots = MemoStore.shared.loadMemoHistory() }
+        .onAppear { MemoStore.shared.flushMemoHistory(); snapshots = MemoStore.shared.loadMemoHistory() }
         .alert(item: $pendingRestore) { snap in
             Alert(
                 title: Text(NSLocalizedString("이 시점으로 되돌릴까요?", comment: "Restore confirm title")),
                 message: Text(String(format: NSLocalizedString("%@ 시점의 단축어 %d개로 되돌립니다.", comment: "Restore confirm message"), dateFormatter.string(from: snap.timestamp), snap.memoCount)),
                 primaryButton: .default(Text(NSLocalizedString("되돌리기", comment: "Restore"))) {
                     if MemoStore.shared.restoreMemoSnapshot(snap.id) {
+                        MemoStore.shared.flushMemoHistory()
                         snapshots = MemoStore.shared.loadMemoHistory()
                         withAnimation { showRestoredToast = true }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

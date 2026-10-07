@@ -7,6 +7,7 @@
 
 import Foundation
 import CloudKit
+import CryptoKit   // 백업 내용 지문 - 실행 간에 같아야 해서 Hasher 가 아니다
 import Combine
 
 /// 백업 시도의 실제 결과. "백업했다"고 뭉뚱그리지 않고, 실제로 올라간 개수/건너뛴
@@ -15,6 +16,8 @@ enum BackupOutcome {
     case backedUp(memoCount: Int)
     case nothingToBackUp
     case skippedToProtectExisting(existing: Int, new: Int)
+    /// 지난번에 올린 것과 내용이 같아 올리지 않았다(자동 백업만).
+    case unchanged
 }
 
 enum CloudKitError: Error {
@@ -326,8 +329,10 @@ class CloudKitBackupService: ObservableObject {
             forName: Notification.Name.memoDataChanged,
             object: nil,
             queue: .main
-        ) { [weak self] _ in
+        ) { [weak self] note in
             guard let self = self else { return }
+            // 쓴 횟수만 바뀐 저장(넣을 때마다 온다)으로는 백업하지 않는다. 내용이 바뀔 때 함께 실린다.
+            guard !MemoStore.isUsageOnly(note) else { return }
             guard self.autoBackupEnabled && self.isAuthenticated && !self.isBackingUp else { return }
 
             AppLog.info(.backup, "📢 [CloudKit] 데이터 변경 감지 - 자동 백업 예약")
@@ -385,12 +390,45 @@ class CloudKitBackupService: ObservableObject {
 
     /// 메모들이 참조하는 PNG들을 백업 레코드에 CKAsset 배열로 첨부(존재하는 파일만).
     /// 이미지가 없으면 필드를 비워 이전 백업의 잔존 이미지를 정리한다.
-    private func attachImages(to record: inout CKRecord, memos: [Memo]) {
+    /// 백업에 실릴 그림 파일 이름들.
+    static func imageNames(in memos: [Memo]) -> Set<String> {
         var names = Set<String>()
         for memo in memos {
             names.formUnion(memo.imageFileNames)
             if let single = memo.imageFileName, !single.isEmpty { names.insert(single) }
         }
+        return names
+    }
+
+    /// 백업 내용의 지문. 같으면 자동 백업을 건너뛴다.
+    ///
+    /// ⚠️ 쓴 횟수 · 마지막 사용 시각은 뺀다. 넣을 때마다 바뀌는 값이라 넣으면 지문이 늘 달라진다.
+    ///    그 값은 다음에 내용이 바뀔 때 함께 올라간다(복원하면 횟수가 조금 옛것일 수 있다).
+    /// ⚠️ 그림은 이름만 넣는다. 그림 파일 이름은 새로 붙일 때마다 새로 짓기 때문에 이름이 같으면 같은 그림이다.
+    static func contentFingerprint(memos: [Memo], smartClipboard: [SmartClipboardHistory], combos: [Combo],
+                                   categoriesData: Data?, imageNames: Set<String>) -> String {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        var hasher = SHA256()
+        let normalized = memos.map { memo -> Memo in
+            var m = memo
+            m.clipCount = 0
+            m.lastUsedAt = nil
+            return m
+        }
+        for part: Data? in [try? encoder.encode(normalized),
+                            try? encoder.encode(smartClipboard),
+                            try? encoder.encode(combos),
+                            categoriesData,
+                            Data(imageNames.sorted().joined(separator: "\n").utf8)] {
+            hasher.update(data: part ?? Data())
+            hasher.update(data: Data([0x1E]))
+        }
+        return hasher.finalize().map { String(format: "%02x", $0) }.joined()
+    }
+
+    private func attachImages(to record: inout CKRecord, memos: [Memo]) {
+        let names = Self.imageNames(in: memos)
         guard let dir = imagesBackupDirectory else { return }
         var assets: [CKAsset] = []
         var attachedNames: [String] = []
@@ -472,6 +510,20 @@ class CloudKitBackupService: ObservableObject {
         do {
             let (memos, smartClipboard, combos) = try loadDataForBackup()
 
+            // ⚠️ 자동 백업은 **지난번과 내용이 같으면 올리지 않는다.** 예전에는 앱이 앞에 있는
+            //    동안 5분마다, 그리고 넣을 때마다(쓴 횟수 저장) 5초 뒤에 전체를 올렸다.
+            //    그때마다 그림을 전부 다시 싣고, 버전 스냅샷에 한 벌 더 실었다. 그림이 있으면
+            //    시간당 수십 MB 를 쓰고, 타임머신은 같은 내용의 사본으로 찼다.
+            //    수동 백업은 사용자가 누른 것이라 늘 올린다.
+            let categoriesForFingerprint = try? JSONEncoder().encode(CategorySnapshotStore.current())
+            let fingerprint = Self.contentFingerprint(memos: memos, smartClipboard: smartClipboard,
+                                                      combos: combos, categoriesData: categoriesForFingerprint,
+                                                      imageNames: Self.imageNames(in: memos))
+            if isAutomatic, fingerprint == UserDefaults.standard.string(forKey: DefaultsKey.lastBackupFingerprint) {
+                AppLog.info(.backup, "⏭️ [CloudKit] 자동 백업: 지난번과 내용이 같아 건너뜀")
+                return .unchanged
+            }
+
             // 시드 샘플을 제외한 "실데이터" 개수.
             let sampleIDs = SampleMemoStorage.load()
             let realMemos = memos.filter { !sampleIDs.contains($0.id) }
@@ -533,6 +585,7 @@ class CloudKitBackupService: ObservableObject {
             } catch {
                 AppLog.warning(.backup, "⚠️ [CloudKit] 버전 스냅샷 저장 실패(메인 백업은 정상): \(error.localizedDescription)")
             }
+            UserDefaults.standard.set(fingerprint, forKey: DefaultsKey.lastBackupFingerprint)
             AppLog.info(.backup, "✅ [CloudKit] 백업 완료: \(backupDate)")
             return .backedUp(memoCount: memos.count)
 

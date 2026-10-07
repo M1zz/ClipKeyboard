@@ -131,19 +131,41 @@ class MemoStore: ObservableObject {
     ///    한 박자 미루면 그런 겹침이 없다. 받는 쪽은 언제나 **저장이 끝난 뒤** 깨끗한
     ///    상태에서 읽는다. 늦어지는 것은 한 런루프이고, 받는 일은 화면을 다시 읽는 것뿐이라
     ///    그 지연이 보이지 않는다.
-    static func postDataChanged() {
+    /// `memoDataChanged` 의 userInfo 열쇠. 값은 `MemoStore.Change.rawValue`.
+    static let changeKindKey = "MemoStore.change"
+
+    static func postDataChanged(_ change: Change = .content) {
         // ⚠️ `NotificationCenter.postOnMain` 이 아니다. 그쪽은 이미 메인이면 그 자리에서 쏜다.
         //    여기는 위에 적은 재진입 때문에 **메인이어도** 한 박자 미뤄야 한다.
         DispatchQueue.main.async {
             // notify-ok: 메인이어도 한 박자 미뤄야 하는 재진입 때문(위 머리말)
-            NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil)
+            NotificationCenter.default.post(name: Notification.Name.memoDataChanged, object: nil,
+                                            userInfo: [Self.changeKindKey: change.rawValue])
         }
     }
 
-    func save(memos: [Memo], type: MemoType, recordHistory: Bool = true) throws {
+    /// 쓴 횟수만 바뀐 저장의 알림인가. 동기화 · 백업처럼 내용만 보는 곳은 이걸로 거른다.
+    /// 열쇠가 없는 알림(다른 길에서 온 것)은 내용 변경으로 본다 - 놓치는 것보다 한 번 더 도는 편이 낫다.
+    static func isUsageOnly(_ note: Notification) -> Bool {
+        (note.userInfo?[changeKindKey] as? String) == Change.usage.rawValue
+    }
+
+    /// 무엇이 바뀐 저장인가.
+    ///
+    /// ⚠️ `.usage` 는 **쓴 횟수 · 마지막 사용 시각만** 바뀐 저장이다. 넣을 때마다 오는 저장이라
+    ///    가장 잦은데, 예전에는 내용 편집과 똑같이 이력 비교(파일을 한 번 더 풀고 단축어 전부를
+    ///    이어 붙여 두 번 비교) · 카테고리 보조 기록 · 동기화 · 백업까지 다 깨웠다.
+    ///    단축어 500개에서 넣을 때마다 메인이 100ms 가까이 막혔다.
+    enum Change: String {
+        case content
+        case usage
+    }
+
+    func save(memos: [Memo], type: MemoType, recordHistory: Bool = true, change: Change = .content) throws {
         // 타임머신: 메모를 덮어쓰기 직전, 의미 있는 변경이면 "이전 상태"를 스냅샷으로 보관.
         // (대량 삭제·편집·마이그레이션 사고를 되돌릴 수 있는 로컬 안전망. 최근 10개 유지.)
-        if type == .memo, recordHistory {
+        // 사용량만 바뀐 저장은 이력 비교 자체를 하지 않는다 - 비교해 봐야 같다.
+        if type == .memo, recordHistory, change == .content {
             captureMemoHistoryIfMeaningful(newMemos: memos)
         }
         let data = try JSONEncoder().encode(memos)
@@ -153,10 +175,11 @@ class MemoStore: ObservableObject {
         // 여기서 캐시를 채워두면 그 재로드가 디코딩 없이 끝난다.
         rememberMemos(memos, for: type, at: outfile)
         // 다운그레이드로 유실되지 않도록 카테고리 할당을 사이드카에도 보관.
-        if type == .memo {
+        // 사용량만 바뀐 저장에서는 카테고리가 그대로라 다시 쓰지 않는다.
+        if type == .memo, change == .content {
             Self.writeCategorySidecar(memos)
         }
-        Self.postDataChanged()
+        Self.postDataChanged(change)
     }
 
     func saveClipboardHistory(history: [ClipboardHistory]) throws {
@@ -320,7 +343,7 @@ class MemoStore: ObservableObject {
         if let index = memos.firstIndex(where: { $0.id == memoId }) {
             memos[index].clipCount += 1
             memos[index].lastUsedAt = Date()
-            try save(memos: memos, type: .memo)
+            try save(memos: memos, type: .memo, change: .usage)
             // 일일 카운트 + 평생 절약 시간 + 월 원장 갱신 (메모 길이 기반)
             KeyboardUsageTracker.recordMemoUse(value: memos[index].value,
                                                type: memos[index].autoDetectedType,
@@ -1047,17 +1070,25 @@ class MemoStore: ObservableObject {
 
     /// 사용량(clipCount/lastUsedAt/lastEdited)만 다른 저장은 스냅샷하지 않도록 비교용 서명 생성.
     /// 제목·본문·카테고리·타입·자식·이미지·힌트 등 "의미 있는" 필드만 포함.
-    private func historySignature(_ memos: [Memo]) -> String {
-        memos
-            .sorted { $0.id.uuidString < $1.id.uuidString }
-            .map { m in
-                [m.id.uuidString, m.title, m.value, m.category,
-                 String(m.isTemplate), String(m.isSecure),
-                 m.childMemoIds.map { $0.uuidString }.joined(separator: ","),
-                 m.imageFileNames.joined(separator: ","),
-                 m.hint ?? ""].joined(separator: "\u{1F}")   // unit separator
-            }
-            .joined(separator: "\n")
+    ///
+    /// ⚠️ 문자열로 이어 붙이지 않는다. 예전에는 단축어 전부를 정렬해 한 줄로 잇고(수백 KB)
+    ///    그걸 두 번 만들어 비교했다. 지금은 단축어마다 해시를 내고 **더한다** - 더하기는 순서와
+    ///    상관없어서 정렬이 필요 없다. 같은 프로세스 안에서 두 값을 비교할 뿐이라 `Hasher` 로 충분하다.
+    static func historySignature(_ memos: [Memo]) -> Int {
+        memos.reduce(into: (count: 0, sum: 0)) { acc, m in
+            var h = Hasher()
+            h.combine(m.id)
+            h.combine(m.title)
+            h.combine(m.value)
+            h.combine(m.category)
+            h.combine(m.isTemplate)
+            h.combine(m.isSecure)
+            h.combine(m.childMemoIds)
+            h.combine(m.imageFileNames)
+            h.combine(m.hint)
+            acc.count += 1
+            acc.sum &+= h.finalize()
+        }.sum &+ memos.count
     }
 
     func loadMemoHistory() -> [MemoSnapshot] {
@@ -1079,27 +1110,51 @@ class MemoStore: ObservableObject {
 
     /// 현재 디스크 상태(곧 덮어쓸 이전 메모)를 스냅샷으로 push. 의미 있는 변경일 때만.
     private func captureMemoHistoryIfMeaningful(newMemos: [Memo]) {
-        guard let url = try? Self.fileURL(type: .memo),
-              let data = try? Data(contentsOf: url) else { return }   // 기존 데이터 없으면 스냅샷 불필요
-        // 디코딩 실패(nil)면 스냅샷을 만들지 않는다 - 깨진 내용을 이력에 남길 이유가 없다.
-        guard let current = decodeMemosFromData(data), !current.isEmpty else { return }
-        guard historySignature(current) != historySignature(newMemos) else { return }  // 사용량만 변경 → skip
+        guard let url = try? Self.fileURL(type: .memo) else { return }
+        // 디스크 그대로를 이미 들고 있으면 다시 풀지 않는다(파일 신원표가 같을 때만 믿는다).
+        let current: [Memo]
+        if let cached = cachedMemos(for: .memo, stamp: FileStamp.of(url)) {
+            current = cached
+        } else {
+            guard let data = try? Data(contentsOf: url) else { return }   // 기존 데이터 없으면 스냅샷 불필요
+            // 디코딩 실패(nil)면 스냅샷을 만들지 않는다 - 깨진 내용을 이력에 남길 이유가 없다.
+            guard let decoded = decodeMemosFromData(data) else { return }
+            current = decoded
+        }
+        guard !current.isEmpty else { return }
+        guard Self.historySignature(current) != Self.historySignature(newMemos) else { return }  // 사용량만 변경 → skip
         pushMemoSnapshot(current)
     }
 
+    /// 이력 파일을 다루는 줄. 한 줄이라 쓰기끼리 겹치지 않는다.
+    ///
+    /// ⚠️ 이력은 최근 10벌을 통째로 담은 파일이라(단축어 500개면 수 MB) 읽고 다시 쓰는 데
+    ///    수백 ms 가 든다. 예전에는 단축어를 고칠 때마다 메인에서 했다. 이 파일은 되돌리기
+    ///    화면만 읽으므로 저장을 기다릴 이유가 없다.
+    private static let historyQueue = DispatchQueue(label: "MemoStore.history", qos: .utility)
+
     private func pushMemoSnapshot(_ memos: [Memo]) {
-        var history = loadMemoHistory()
         let snapshot = MemoSnapshot(id: UUID(), timestamp: Date(), memoCount: memos.count, memos: memos)
-        history.insert(snapshot, at: 0)
-        if history.count > Self.memoHistoryLimit {
-            history = Array(history.prefix(Self.memoHistoryLimit))
+        Self.historyQueue.async { [weak self] in
+            guard let self else { return }
+            var history = self.loadMemoHistory()
+            history.insert(snapshot, at: 0)
+            if history.count > Self.memoHistoryLimit {
+                history = Array(history.prefix(Self.memoHistoryLimit))
+            }
+            self.saveMemoHistory(history)
         }
-        saveMemoHistory(history)
+    }
+
+    /// 밀려 있는 이력 쓰기가 끝날 때까지 기다린다. 되돌리기 화면과 시험이 부른다.
+    func flushMemoHistory() {
+        Self.historyQueue.sync {}
     }
 
     /// 스냅샷으로 되돌린다. 되돌리기 자체도 취소할 수 있도록 현재 상태를 먼저 스냅샷에 남긴다.
     @discardableResult
     func restoreMemoSnapshot(_ id: UUID) -> Bool {
+        flushMemoHistory()
         let history = loadMemoHistory()
         guard let snapshot = history.first(where: { $0.id == id }) else { return false }
         // 현재 상태 보존(되돌리기의 되돌리기 가능)
@@ -1296,11 +1351,34 @@ enum KeyboardUsageTracker {
     }
 
     private static func dailyKey(for date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .gregorian)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
+        dailyKeyPrefix + LedgerDateFormat.string(date, "yyyy-MM-dd")
+    }
+}
+
+// MARK: - 장부 날짜 키
+
+/// 장부 키에 쓰는 날짜 글자(`yyyy-MM-dd` · `yyyy-MM`). 달력과 로캘을 고정한다.
+///
+/// ⚠️ 포맷터를 부를 때마다 만들지 않는다. 넣을 때마다 서너 개씩 새로 만들고 있었다.
+///    시간대는 부를 때마다 지금 것으로 맞춘다 - 여행 중에도 "오늘" 이 맞아야 한다.
+enum LedgerDateFormat {
+    private static let lock = NSLock()
+    private static var formatters: [String: DateFormatter] = [:]
+
+    static func string(_ date: Date, _ format: String) -> String {
+        lock.lock()
+        defer { lock.unlock() }
+        let formatter: DateFormatter
+        if let cached = formatters[format] {
+            formatter = cached
+        } else {
+            formatter = DateFormatter()
+            formatter.calendar = Calendar(identifier: .gregorian)
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.dateFormat = format
+            formatters[format] = formatter
+        }
         formatter.timeZone = .current
-        formatter.dateFormat = "yyyy-MM-dd"
-        return dailyKeyPrefix + formatter.string(from: date)
+        return formatter.string(from: date)
     }
 }

@@ -292,6 +292,9 @@ enum DefaultsKey {
     static let memoCardHeight = "memoCardHeight"
     static let koreanEnabledMigratedV1 = "koreanEnabledMigrated_v1"
     static let lastBackupDate = "lastBackupDate"
+    /// 마지막으로 올린 백업 내용의 지문 (표준, SHA256 hex). 같으면 자동 백업을 건너뛴다.
+    /// 자세한 이유: ClipKeyboard/Service/CloudKitBackupService.swift 의 `contentFingerprint`
+    static let lastBackupFingerprint = "backup.lastFingerprint.v1"
     static let memoCopyCount = "memoCopyCount"
     /// '순서 바꾸기'로 지정한 수동 순서(메모 id 문자열 배열). App Group - 키보드 익스텐션도 이 순서를 따른다.
     static let memoManualOrderV1 = "memoManualOrder_v1"

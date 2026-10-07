@@ -332,12 +332,7 @@ enum RefundLedger {
     private static func dayString(_ date: Date) -> String { formatted(date, "yyyy-MM-dd") }
 
     private static func formatted(_ date: Date, _ format: String) -> String {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .gregorian)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = .current
-        formatter.dateFormat = format
-        return formatter.string(from: date)
+        LedgerDateFormat.string(date, format)
     }
 }
 

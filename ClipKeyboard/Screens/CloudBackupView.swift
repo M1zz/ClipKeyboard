@@ -430,6 +430,10 @@ struct CloudBackupView: View {
                     case .skippedToProtectExisting(let existing, let new):
                         alertTitle = NSLocalizedString("백업 건너뜀", comment: "Backup skipped title")
                         alertMessage = String(format: NSLocalizedString("기존 백업(단축어 %1$d개)을 지키기 위해 이번 백업(%2$d개)을 건너뛰었습니다.", comment: "Backup skipped to protect existing"), existing, new)
+                    case .unchanged:
+                        // 수동 백업은 늘 올리므로 여기 오지 않는다. 그래도 오면 완료로 알린다.
+                        alertTitle = NSLocalizedString("백업 완료", comment: "Backup completed")
+                        alertMessage = ""
                     }
                     backupMemoCount = nil
                     showAlert = true
