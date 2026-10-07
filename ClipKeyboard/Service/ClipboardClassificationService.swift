@@ -125,11 +125,39 @@ class ClipboardClassificationService {
     // 통째로 메모리에 올라와 키보드가 죽었다(docs/postmortem/KEYBOARD_CLIPBOARD_IMAGES_5_1_8.md).
     // 다시 그림을 담으려면 파일을 따로 두고 이름만 적는다. 히스토리 JSON 안에 넣지 않는다.
 
+    // MARK: - 정규식 (미리 만들어 둔다)
+
+    /// 패턴마다 한 번만 만든 정규식. 키보드와 앱이 함께 쓴다.
+    ///
+    /// ⚠️ 예전에는 `String.range(of:options: .regularExpression)` 로 검사할 때마다 패턴을 새로
+    ///    컴파일했다. 분류 한 번에 20개 남짓, 단축어 추가 화면에서는 **한 글자마다** 돌았다.
+    private static let regexLock = NSLock()
+    private static var regexCache: [String: NSRegularExpression] = [:]
+
+    static func matches(_ pattern: String, in text: String) -> Bool {
+        regexLock.lock()
+        let regex: NSRegularExpression?
+        if let cached = regexCache[pattern] {
+            regex = cached
+        } else {
+            regex = try? NSRegularExpression(pattern: pattern)
+            if let regex { regexCache[pattern] = regex }
+        }
+        regexLock.unlock()
+        guard let regex else { return false }
+        return regex.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) != nil
+    }
+
+    /// ASCII 숫자만 남긴다(`[^0-9]` 를 지우는 것과 같다). `keeping` 에 든 글자는 남긴다.
+    static func asciiDigits(_ text: String, keeping extra: Set<Character> = []) -> String {
+        String(text.filter { ("0"..."9").contains($0) || extra.contains($0) })
+    }
+
     // MARK: - Detection Methods
 
     private func detectEmail(_ text: String) -> (ClipboardItemType, Double)? {
         let emailRegex = "^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}$"
-        if text.range(of: emailRegex, options: .regularExpression) != nil {
+        if Self.matches(emailRegex, in: text) {
             return (.email, 0.95)
         }
         return nil
@@ -139,7 +167,7 @@ class ClipboardClassificationService {
     /// detectBankAccount에 양보 (계좌번호 형식과 한국 전화번호가 겹치는 경계 케이스 처리).
     private func detectPhoneStrong(_ text: String) -> (ClipboardItemType, Double)? {
         let hasPlus = text.trimmingCharacters(in: .whitespaces).hasPrefix("+")
-        let cleaned = text.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+        let cleaned = Self.asciiDigits(text)
 
         // E.164: + 와 함께 7~15 자리 숫자
         if hasPlus && cleaned.count >= 7 && cleaned.count <= 15 {
@@ -154,7 +182,7 @@ class ClipboardClassificationService {
                 "^0[2-6][0-9]{7,8}$"
             ]
             for pattern in koreanPatterns {
-                if cleaned.range(of: pattern, options: .regularExpression) != nil {
+                if Self.matches(pattern, in: cleaned) {
                     return (.phone, 0.9)
                 }
             }
@@ -167,7 +195,7 @@ class ClipboardClassificationService {
     /// 호출되어 계좌번호로 매치 안 된 경우에만 phone으로 잡는다.
     private func detectPhoneWeak(_ text: String) -> (ClipboardItemType, Double)? {
         let hasPlus = text.trimmingCharacters(in: .whitespaces).hasPrefix("+")
-        let cleaned = text.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+        let cleaned = Self.asciiDigits(text)
         if !hasPlus && cleaned.count >= 10 && cleaned.count <= 15 {
             return (.phone, 0.55)
         }
@@ -176,7 +204,7 @@ class ClipboardClassificationService {
 
     private func detectURL(_ text: String) -> (ClipboardItemType, Double)? {
         let urlRegex = "^(https?://|www\\.)[^\\s]+"
-        if text.range(of: urlRegex, options: .regularExpression) != nil {
+        if Self.matches(urlRegex, in: text) {
             return (.url, 0.95)
         }
 
@@ -188,7 +216,7 @@ class ClipboardClassificationService {
     }
 
     private func detectCreditCard(_ text: String) -> (ClipboardItemType, Double)? {
-        let cleaned = text.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+        let cleaned = Self.asciiDigits(text)
 
         guard cleaned.count >= 13 && cleaned.count <= 19 else {
             return nil
@@ -206,7 +234,7 @@ class ClipboardClassificationService {
             return nil
         }
 
-        let cleaned = text.replacingOccurrences(of: "[^0-9-]", with: "", options: .regularExpression)
+        let cleaned = Self.asciiDigits(text, keeping: ["-"])
 
         let patterns = [
             "^[0-9]{2,4}-[0-9]{2,6}-[0-9]{2,8}$",
@@ -214,7 +242,7 @@ class ClipboardClassificationService {
         ]
 
         for pattern in patterns {
-            if cleaned.range(of: pattern, options: .regularExpression) != nil {
+            if Self.matches(pattern, in: cleaned) {
                 return (.bankAccount, 0.6)
             }
         }
@@ -224,7 +252,7 @@ class ClipboardClassificationService {
 
     private func detectPassportNumber(_ text: String) -> (ClipboardItemType, Double)? {
         let passportRegex = "^[MmSs][0-9]{8}$"
-        if text.range(of: passportRegex, options: .regularExpression) != nil {
+        if Self.matches(passportRegex, in: text) {
             return (.passportNumber, 0.9)
         }
         return nil
@@ -232,7 +260,7 @@ class ClipboardClassificationService {
 
     private func detectDeclarationNumber(_ text: String) -> (ClipboardItemType, Double)? {
         let declarationRegex = "^[Pp][0-9]{12}$"
-        if text.range(of: declarationRegex, options: .regularExpression) != nil {
+        if Self.matches(declarationRegex, in: text) {
             return (.declarationNumber, 0.95)
         }
         return nil
@@ -243,16 +271,16 @@ class ClipboardClassificationService {
         // 순수 숫자는 자동분류 신뢰도 낮춤 (오탐 위험 높음).
         let trimmed = text.trimmingCharacters(in: .whitespaces)
         // US/KR/DE/FR/JP 등 5자리 숫자 우편번호
-        let digitCleaned = trimmed.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+        let digitCleaned = Self.asciiDigits(trimmed)
         if digitCleaned == trimmed, digitCleaned.count == 5 {
             return (.postalCode, 0.55)
         }
         // UK 포맷 예: SW1A 1AA, EC1A 1BB (문자+숫자 조합)
-        if trimmed.range(of: "^[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}$", options: .regularExpression) != nil {
+        if Self.matches("^[A-Z]{1,2}[0-9][0-9A-Z]? ?[0-9][A-Z]{2}$", in: trimmed) {
             return (.postalCode, 0.85)
         }
         // Canada 포맷 예: K1A 0B1
-        if trimmed.range(of: "^[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9]$", options: .regularExpression) != nil {
+        if Self.matches("^[A-Z][0-9][A-Z] ?[0-9][A-Z][0-9]$", in: trimmed) {
             return (.postalCode, 0.85)
         }
         return nil
@@ -268,7 +296,7 @@ class ClipboardClassificationService {
         ]
 
         for pattern in patterns {
-            if text.range(of: pattern, options: .regularExpression) != nil {
+            if Self.matches(pattern, in: text) {
                 return (.birthDate, 0.75)
             }
         }
@@ -281,7 +309,7 @@ class ClipboardClassificationService {
 
     private func detectIPAddress(_ text: String) -> (ClipboardItemType, Double)? {
         let ipv4Pattern = "^([0-9]{1,3}\\.){3}[0-9]{1,3}$"
-        if text.range(of: ipv4Pattern, options: .regularExpression) != nil {
+        if Self.matches(ipv4Pattern, in: text) {
             let octets = text.split(separator: ".").compactMap { Int($0) }
             if octets.count == 4 && octets.allSatisfy({ $0 >= 0 && $0 <= 255 }) {
                 return (.ipAddress, 0.95)
@@ -289,7 +317,7 @@ class ClipboardClassificationService {
         }
 
         let ipv6Pattern = "^([0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}$"
-        if text.range(of: ipv6Pattern, options: .regularExpression) != nil {
+        if Self.matches(ipv6Pattern, in: text) {
             return (.ipAddress, 0.85)
         }
 
@@ -298,12 +326,12 @@ class ClipboardClassificationService {
 
     private func detectName(_ text: String) -> (ClipboardItemType, Double)? {
         let namePattern = "^[가-힣]{2,4}$"
-        if text.range(of: namePattern, options: .regularExpression) != nil {
+        if Self.matches(namePattern, in: text) {
             return (.name, 0.5)
         }
 
         let englishNamePattern = "^[A-Z][a-z]+( [A-Z][a-z]+)*$"
-        if text.range(of: englishNamePattern, options: .regularExpression) != nil {
+        if Self.matches(englishNamePattern, in: text) {
             return (.name, 0.6)
         }
 
@@ -323,7 +351,7 @@ class ClipboardClassificationService {
             .uppercased()
 
         // 기본 형식: 2자리 국가코드 + 2자리 체크 + 최대 30자리
-        guard normalized.range(of: "^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$", options: .regularExpression) != nil else {
+        guard Self.matches("^[A-Z]{2}[0-9]{2}[A-Z0-9]{11,30}$", in: normalized) else {
             return nil
         }
 
@@ -357,7 +385,7 @@ class ClipboardClassificationService {
     private func detectSWIFT(_ text: String) -> (ClipboardItemType, Double)? {
         let normalized = text.trimmingCharacters(in: .whitespaces).uppercased()
         let pattern = "^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$"
-        if normalized.range(of: pattern, options: .regularExpression) != nil {
+        if Self.matches(pattern, in: normalized) {
             return (.swift, 0.9)
         }
         return nil
@@ -368,7 +396,7 @@ class ClipboardClassificationService {
         let normalized = text.replacingOccurrences(of: " ", with: "").uppercased()
         let euCountries = "AT|BE|BG|CY|CZ|DE|DK|EE|EL|ES|FI|FR|GB|HR|HU|IE|IT|LT|LU|LV|MT|NL|PL|PT|RO|SE|SI|SK|XI"
         let pattern = "^(\(euCountries))[0-9A-Z+*.]{8,12}$"
-        if normalized.range(of: pattern, options: .regularExpression) != nil {
+        if Self.matches(pattern, in: normalized) {
             return (.vat, 0.85)
         }
         return nil
@@ -379,19 +407,19 @@ class ClipboardClassificationService {
         let trimmed = text.trimmingCharacters(in: .whitespaces)
 
         // BTC legacy (P2PKH, P2SH): 1 또는 3으로 시작, Base58 26~35자
-        if trimmed.range(of: "^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$", options: .regularExpression) != nil {
+        if Self.matches("^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$", in: trimmed) {
             return (.cryptoWallet, 0.9)
         }
         // BTC bech32 (SegWit): bc1 시작
-        if trimmed.lowercased().range(of: "^bc1[a-z0-9]{39,59}$", options: .regularExpression) != nil {
+        if Self.matches("^bc1[a-z0-9]{39,59}$", in: trimmed.lowercased()) {
             return (.cryptoWallet, 0.95)
         }
         // ETH / ERC-20 / Polygon / BSC: 0x + 40 hex
-        if trimmed.range(of: "^0x[a-fA-F0-9]{40}$", options: .regularExpression) != nil {
+        if Self.matches("^0x[a-fA-F0-9]{40}$", in: trimmed) {
             return (.cryptoWallet, 0.95)
         }
         // TRON: T로 시작, Base58 34자
-        if trimmed.range(of: "^T[a-km-zA-HJ-NP-Z1-9]{33}$", options: .regularExpression) != nil {
+        if Self.matches("^T[a-km-zA-HJ-NP-Z1-9]{33}$", in: trimmed) {
             return (.cryptoWallet, 0.9)
         }
         return nil
@@ -401,7 +429,7 @@ class ClipboardClassificationService {
     private func detectPayPalLink(_ text: String) -> (ClipboardItemType, Double)? {
         let trimmed = text.trimmingCharacters(in: .whitespaces)
         let pattern = "^(https?://)?(www\\.)?paypal\\.me/[A-Za-z0-9_.-]+/?$"
-        if trimmed.range(of: pattern, options: .regularExpression) != nil {
+        if Self.matches(pattern, in: trimmed) {
             return (.paypalLink, 0.95)
         }
         return nil

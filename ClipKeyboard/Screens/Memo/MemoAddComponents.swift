@@ -356,6 +356,32 @@ struct ContentInputSection: View {
     /// 읽어낸 사진과 글자 자리 - 값이 있으면 **문질러 담는** 화면이 뜬다.
     @State private var smearSource: SmearSource?
     @State private var showNoTextFound = false
+    /// 치는 동안 미뤄 둔 자동 분류. 손을 멈추면 한 번 돈다(`scheduleClassify`).
+    @State private var classifyTask: Task<Void, Never>?
+
+    /// 긴 글은 칠 때마다 분류하지 않고, 0.25초 손을 멈추면 한 번 분류한다.
+    ///
+    /// ⚠️ 예전에는 한 글자마다 정규식 20개 남짓으로 본문 전체를 다시 분류했다. 긴 글을
+    ///    붙여 넣고 고칠 때 글자마다 그만큼 돌았다.
+    /// ⚠️ 짧은 글은 그 자리에서 분류한다. 비용이 작고, 미루면 치자마자 저장할 때 이전 글의
+    ///    분류가 남아 엉뚱한 카테고리로 갈 수 있다(`MemoAddViewModel.determineFinalCategory`).
+    private func scheduleClassify(_ newValue: String) {
+        classifyTask?.cancel()
+        guard !newValue.isEmpty else { return }
+        if newValue.count < 200 {
+            let classification = ClipboardClassificationService.shared.classify(content: newValue)
+            autoDetectedType = classification.type
+            autoDetectedConfidence = classification.confidence
+            return
+        }
+        classifyTask = Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(250))
+            guard !Task.isCancelled else { return }
+            let classification = ClipboardClassificationService.shared.classify(content: newValue)
+            autoDetectedType = classification.type
+            autoDetectedConfidence = classification.confidence
+        }
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -620,13 +646,7 @@ struct ContentInputSection: View {
                 .cornerRadius(theme.radiusMd)
                 .memoAddCoachRipple(coachStep == .content, radius: theme.radiusMd)
                 .accessibilityLabel(NSLocalizedString("붙여넣을 내용", comment: "Content label: what gets pasted when user taps the memo"))
-                .onChange(of: value) { _, newValue in
-                    if !newValue.isEmpty {
-                        let classification = ClipboardClassificationService.shared.classify(content: newValue)
-                        autoDetectedType = classification.type
-                        autoDetectedConfidence = classification.confidence
-                    }
-                }
+                .onChange(of: value) { _, newValue in scheduleClassify(newValue) }
                 #else
                 TextField(placeholderText, text: $value, axis: .vertical)
                     .font(.body)
@@ -638,13 +658,7 @@ struct ContentInputSection: View {
                     .background(theme.surfaceAlt)
                     .cornerRadius(theme.radiusMd)
                     .accessibilityLabel(NSLocalizedString("붙여넣을 내용", comment: "Content label: what gets pasted when user taps the memo"))
-                    .onChange(of: value) { _, newValue in
-                        if !newValue.isEmpty {
-                            let classification = ClipboardClassificationService.shared.classify(content: newValue)
-                            autoDetectedType = classification.type
-                            autoDetectedConfidence = classification.confidence
-                        }
-                    }
+                    .onChange(of: value) { _, newValue in scheduleClassify(newValue) }
                 #endif
                 }
 

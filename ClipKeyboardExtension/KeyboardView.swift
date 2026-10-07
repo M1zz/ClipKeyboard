@@ -74,39 +74,19 @@ class PredefinedValuesStore {
 
     // UserDefaults에서 불러오기 (새로운 구조)
     func getValues(for placeholder: String) -> [String] {
-        print("🔍 [PredefinedValuesStore] getValues 호출 - placeholder: \(placeholder)")
         let key = "placeholder_values_\(placeholder)"
-        print("   Key: \(key)")
 
         // 새로운 형식으로 로드 시도
-        if let data = AppGroup.defaults?.data(forKey: key) {
-            print("   ✅ 데이터 발견 - 크기: \(data.count) bytes")
-
-            if let placeholderValues = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) {
-                let values = placeholderValues.map { $0.value }
-                print("   ✅ 디코딩 성공 - \(values.count)개 값: \(values)")
-                return values
-            } else {
-                print("   ❌ 디코딩 실패")
-            }
-        } else {
-            print("   ⚠️ 새 형식 데이터 없음")
+        // ⚠️ 여기서 값을 로그로 찍지 않는다. 빈칸 값은 사용자가 적은 내용(주소 · 계좌)이고,
+        //    릴리즈에서 print 가 없어져도 넘긴 글자는 만들어진다.
+        if let data = AppGroup.defaults?.data(forKey: key),
+           let placeholderValues = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) {
+            return placeholderValues.map { $0.value }
         }
 
         // 이전 형식 호환성 (마이그레이션)
         let oldKey = "predefined_\(placeholder)"
-        print("   🔄 이전 형식 시도 - Key: \(oldKey)")
-
-        if let saved = AppGroup.defaults?.stringArray(forKey: oldKey) {
-            print("   ✅ 이전 형식에서 로드 - \(saved.count)개 값: \(saved)")
-            return saved
-        } else {
-            print("   ⚠️ 이전 형식 데이터도 없음")
-        }
-
-        // 데이터가 없으면 빈 배열 반환
-        print("   📭 데이터 없음 - 빈 배열 반환")
-        return []
+        return AppGroup.defaults?.stringArray(forKey: oldKey) ?? []
     }
 
     /// 값을 하나 **적어 넣는다.** 앱 쪽 `MemoStore.addPlaceholderValue` 와 같은 자리·같은 형식.
@@ -140,7 +120,6 @@ class PredefinedValuesStore {
                       at: 0)
         guard let data = try? JSONEncoder().encode(values) else { return false }
         defaults.set(data, forKey: key)
-        print("✅ [PredefinedValuesStore] '\(placeholder)' 에 값 추가: \(trimmed)")
         return true
     }
 
@@ -154,71 +133,45 @@ class PredefinedValuesStore {
     //    단축어에 붙은 사본은 **옛 데이터를 위한 폴백**으로만 남긴다. 공용 저장소가 비어 있을
     //    때만 쓴다(4.4 이전에 만든 템플릿, 그리고 맥이 쓴 데이터가 여기 해당한다).
     func getValuesForTemplate(placeholder: String, templateId: UUID?) -> [String] {
-        print("\n🔍 [PredefinedValuesStore] getValuesForTemplate 호출")
-        print("   플레이스홀더: \(placeholder), 템플릿 ID: \(templateId?.uuidString ?? "nil")")
-        logClipMemosState()
 
         let shared = getValuesFromUserDefaults(placeholder: placeholder, templateId: templateId)
         if !shared.isEmpty {
             return shared
         }
         if let legacy = getValuesFromMemos(placeholder: placeholder, templateId: templateId) {
-            print("   ↩️ 공용 저장소가 비어 단축어에 붙은 옛 값을 쓴다")
             return legacy
         }
         return []
     }
 
-    /// clipMemos 배열 상태 디버그 출력
-    private func logClipMemosState() {
-        print("   📚 clipMemos 배열: \(clipMemos.count)개")
-        for (index, memo) in clipMemos.enumerated() {
-            print("      [\(index)] ID: \(memo.id.uuidString), 제목: \(memo.title)")
-            for (key, vals) in memo.placeholderValues {
-                print("              \(key): \(vals)")
-            }
-        }
-    }
 
     /// Memo 객체에서 플레이스홀더 값 조회
     private func getValuesFromMemos(placeholder: String, templateId: UUID?) -> [String]? {
         guard let templateId else {
-            print("   ⚠️ templateId가 nil입니다")
             return nil
         }
-        print("   🔎 템플릿 ID로 검색 중: \(templateId.uuidString)")
         guard let memo = clipMemos.first(where: { $0.id == templateId }) else {
-            print("   ❌ templateId로 Memo를 찾을 수 없음: \(templateId.uuidString)")
-            clipMemos.forEach { print("         - \($0.id.uuidString) (\($0.title))") }
             return nil
         }
-        print("   ✅ Memo 객체에서 찾음: \(memo.title)")
         if let values = memo.placeholderValues[placeholder], !values.isEmpty {
-            print("   ✅ Memo에 저장된 값 발견: \(values)")
             return values
         }
-        print("   ⚠️ Memo에 '\(placeholder)' 값 없음, 사용 가능한 키: \(memo.placeholderValues.keys)")
         return nil
     }
 
     /// UserDefaults에서 플레이스홀더 값 조회
     private func getValuesFromUserDefaults(placeholder: String, templateId: UUID?) -> [String] {
         let key = "placeholder_values_\(placeholder)"
-        print("   🔍 UserDefaults 확인 - Key: \(key)")
         guard let userDefaults = AppGroup.defaults,
               let data = userDefaults.data(forKey: key),
               let placeholderValues = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) else {
-            print("   ⚠️ 저장된 플레이스홀더 값 없음 - iOS 앱에서 값을 추가하세요")
             return []
         }
-        print("   ✅ UserDefaults에서 디코딩 성공 - 총 \(placeholderValues.count)개")
         if let templateId {
             let filtered = placeholderValues.filter { $0.sourceMemoId == templateId }
-            print("   📊 템플릿 ID로 필터링: \(filtered.count)개")
             if !filtered.isEmpty { return filtered.map { $0.value } }
         }
         let allValues = placeholderValues.map { $0.value }
-        print("   ℹ️ 전체 값 반환: \(allValues)")
         return allValues
     }
 

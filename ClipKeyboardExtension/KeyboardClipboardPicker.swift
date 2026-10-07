@@ -107,7 +107,25 @@ struct KeyboardClipboardPicker: View {
     @State private var focus: Int?
 
     private var source: String { String(text.prefix(ClipboardSplitter.maxCharacters)) }
-    private var pieces: [ClipboardPiece] { ClipboardSplitter.pieces(of: text, unit: unit) }
+
+    /// 나눈 조각. **단위가 바뀔 때만** 다시 나눈다.
+    ///
+    /// ⚠️ 예전에는 계산 프로퍼티라 한 번 그릴 때 여섯 번 넘게 불렸고, 그때마다 자연어 토크나이저로
+    ///    글 전체(최대 4,000자)를 다시 나눴다. 조각 하나를 누를 때마다 그만큼 돌았다.
+    @State private var piecesCache = PiecesCache()
+    private var pieces: [ClipboardPiece] {
+        if piecesCache.unit != unit {
+            piecesCache.pieces = ClipboardSplitter.pieces(of: text, unit: unit)
+            piecesCache.unit = unit
+        }
+        return piecesCache.pieces
+    }
+
+    /// 참조 타입이라 그리는 중에 채워도 화면을 다시 그리게 하지 않는다.
+    final class PiecesCache {
+        var unit: ClipboardSplitUnit?
+        var pieces: [ClipboardPiece] = []
+    }
 
     private var selectedRange: ClosedRange<Int>? {
         guard let anchor, let focus else { return nil }

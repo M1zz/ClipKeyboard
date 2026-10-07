@@ -569,9 +569,7 @@ struct ClipboardList: View {
     }
 
     private func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd HH:mm"
-        return formatter.string(from: date)
+        ClipboardDateText.string(date)
     }
 }
 
@@ -601,11 +599,13 @@ struct TypeFilterBar: View {
                 }
 
                 // 타입별 필터 (개수가 있는 것만)
-                ForEach(ClipboardItemType.allCases.filter { typeCounts[$0, default: 0] > 0 }, id: \.self) { type in
+                // ⚠️ 개수는 한 번만 센다. 예전에는 갈래마다 · 칩마다 기록 전체를 다시 묶었다(그릴 때마다 30번 남짓).
+                let counts = typeCounts
+                ForEach(ClipboardItemType.allCases.filter { counts[$0, default: 0] > 0 }, id: \.self) { type in
                     FilterChip(
                         title: type.localizedName,
                         icon: type.icon,
-                        count: typeCounts[type, default: 0],
+                        count: counts[type, default: 0],
                         color: type.color,
                         isSelected: selectedFilter == type
                     ) {
@@ -790,9 +790,7 @@ struct ClipboardItemRow: View {
     }
 
     private func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd HH:mm"
-        return formatter.string(from: date)
+        ClipboardDateText.string(date)
     }
 
 }
@@ -1032,5 +1030,20 @@ struct ClipboardList_Previews: PreviewProvider {
         NavigationView {
             ClipboardList()
         }
+    }
+}
+
+// MARK: - 날짜 글자
+
+/// 복사 기록 줄의 날짜("MM/dd HH:mm"). 포맷터를 줄마다 · 그릴 때마다 만들지 않는다.
+enum ClipboardDateText {
+    private static let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd HH:mm"
+        return formatter
+    }()
+
+    static func string(_ date: Date) -> String {
+        formatter.string(from: date)
     }
 }

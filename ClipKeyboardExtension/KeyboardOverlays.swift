@@ -399,6 +399,7 @@ struct TemplateInputOverlay: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(UIColor.systemBackground))
+        .onAppear(perform: loadClipboardPreview)
         #if DEBUG
         // 미리보기 영상 촬영(`-ScreenshotScene demo`): 손 대신 값을 고르고, 초록으로 보인 뒤 넣는다.
         .onReceive(NotificationCenter.default.publisher(for: .demoTemplatePick)) { note in
@@ -470,10 +471,18 @@ struct TemplateInputOverlay: View {
         return out
     }
 
-    /// `{클립보드}` 가 있을 때만 읽는다 - iOS 는 읽을 때마다 붙여넣기 프롬프트를 띄울 수 있다.
-    private var clipboardPreview: String? {
-        guard TemplateVariableProcessor.containsClipboardToken(state.originalText) else { return nil }
-        return UIPasteboard.general.string
+    /// 미리보기에 넣을 지금 클립보드. 창이 열릴 때 한 번 읽는다(`loadClipboardPreview`).
+    @State private var clipboardPreview: String?
+
+    /// `{클립보드}` 가 있을 때만, **창이 열릴 때 한 번, 메인 밖에서** 읽는다.
+    ///
+    /// ⚠️ 예전에는 미리보기를 그릴 때마다(값을 고를 때마다) 메인에서 `UIPasteboard.general.string`
+    ///    을 읽었다. 유니버설 클립보드가 켜져 있으면 그 한 줄이 옆 기기를 기다리며 멈춘다
+    ///    (docs/postmortem/HANG_PASTEBOARD_5_0_1.md). iOS 는 읽을 때마다 붙여넣기 프롬프트를
+    ///    띄울 수도 있다.
+    private func loadClipboardPreview() {
+        guard TemplateVariableProcessor.containsClipboardToken(state.originalText) else { return }
+        PasteboardReader.textOnly { text, _ in clipboardPreview = text }
     }
 
     private func completeInput() {
@@ -990,7 +999,9 @@ struct KeyRipple<S: InsettableShape>: View {
             if reduceMotion {
                 still
             } else {
-                TimelineView(.animation) { context in
+                // ⚠️ 초당 30번이면 충분하다. 그냥 `.animation` 이면 프로모션 화면에서 초당 120번,
+                //    고리 세 겹의 크기(레이아웃)를 매 프레임 다시 잡는다. 안내가 떠 있는 동안 내내다.
+                TimelineView(.animation(minimumInterval: 1.0 / 30)) { context in
                     let t = context.date.timeIntervalSinceReferenceDate
                     ZStack {
                         ForEach(0..<Self.ringCount, id: \.self) { i in

@@ -109,10 +109,8 @@ final class KeyboardDocumentState: ObservableObject {
     /// 앱 안의 무대는 그 트레잇을 켜지 않으므로 늘 거짓이고, 거기서는 줄바꿈이 제 일을 한다.
     var returnKeyIsLocked: Bool { returnNeedsText && !hasText }
 
-    /// 키보드가 새 텍스트 필드에 나타날 때마다 증가.
-    /// TypingKeyboardView가 이 값이 바뀌면 hangulComposer/cheonjiinInput 상태를 초기화해
-    /// 이전 필드의 조합 중 음절이 새 필드로 '딸려오는' 버그를 방지한다.
-    @Published var composerResetToken: Int = 0
+    // composerResetToken 은 걷었다. 받아 보던 TypingKeyboardView 가 이 값을 더 이상 보지 않는데,
+    // 키보드가 뜰 때마다 올라가 화면 전체를 한 번 더 그리게 했다.
 }
 
 // MARK: - 키보드 크래시 루프 가드

@@ -8,13 +8,9 @@
 import UIKit
 import SwiftUI
 
-typealias KeyboardData = [String: String]
-var clipKey: [String] = []
-var clipValue: [String] = []
-var clipMemoId: [UUID] = []  // 메모 ID 저장
 // clipMemos는 앱 무대(InAppKeyboardStage)와 공유하므로 KeyboardMemoFeed.swift로 옮겼다.
-var tappedIndex = 2
-var memoData: KeyboardData = [:]
+// ⚠️ 예전에는 여기에 단축어 사본이 네 벌 더 있었다(clipKey · clipValue · clipMemoId · memoData).
+//    아무도 읽지 않았고, memoData 는 비우지 않아 다시 읽을 때마다 커졌다. 메모리가 빠듯한 키보드라 걷었다.
 
 class KeyboardViewController: UIInputViewController {
     @IBOutlet var nextKeyboardButton: UIButton!
@@ -725,9 +721,6 @@ class KeyboardViewController: UIInputViewController {
         // 등장 **전에** 한 번 재 둔다. 첫 프레임이 이미 제 높이로 그려지게 하는 것이라
         // 남긴다(등장 뒤에 부르는 것과는 성격이 다르다, `viewDidAppear` 참고).
         view.layoutIfNeeded()
-        // 새 텍스트 필드에 키보드가 나타날 때마다 한글 컴포저 상태를 초기화.
-        // 이전 필드에서 조합 중이던 음절이 새 필드에 딸려오는 버그를 방지한다.
-        documentState.composerResetToken += 1
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -830,7 +823,6 @@ class KeyboardViewController: UIInputViewController {
             let sorted = sortMemos(userFiltered)
 
             populateKeyboardData(sorted)
-            buildMemoData(sorted)
         } catch {
             print("❌ Error loading memos: \(error.localizedDescription)")
         }
@@ -859,30 +851,14 @@ class KeyboardViewController: UIInputViewController {
         return memos
     }
 
-    /// clipKey/clipValue/clipMemoId/clipMemos 배열 채우기
+    /// clipMemos 채우기
+    ///
+    /// ⚠️ 단축어 하나하나를 로그로 풀어 쓰지 않는다. 키보드는 메모리 한도(약 60MB)가
+    ///    빠듯한데 불러올 때마다 모든 본문·빈칸 값을 문자열로 만들고 있었다.
+    ///    본문을 기기 로그에 남기는 것도 옳지 않다(보안 단축어 포함).
     private func populateKeyboardData(_ memos: [Memo]) {
-        clipKey = []
-        clipValue = []
-        clipMemoId = []
-        clipMemos = []
-
-        // ⚠️ 단축어 하나하나를 로그로 풀어 쓰지 않는다. 키보드는 메모리 한도(약 60MB)가
-        //    빠듯한데 불러올 때마다 모든 본문·빈칸 값을 문자열로 만들고 있었다.
-        //    본문을 기기 로그에 남기는 것도 옳지 않다(보안 단축어 포함).
-        for item in memos {
-            clipKey.append(item.title)
-            clipValue.append(item.value)
-            clipMemoId.append(item.id)
-            clipMemos.append(item)
-        }
+        clipMemos = memos
         print("✅ [KeyboardViewController] clipMemos 배열에 \(clipMemos.count)개 저장 완료\n")
-    }
-
-    /// memoData 딕셔너리 채우기
-    private func buildMemoData(_ memos: [Memo]) {
-        for item in memos {
-            memoData[item.title] = item.value
-        }
     }
 
     /// 정렬 규칙은 앱 무대와 공유한다(KeyboardMemoFeed) - 두 곳에서 순서가 달라지지 않게.
