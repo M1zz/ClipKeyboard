@@ -458,6 +458,8 @@ struct SnippetsTab: View {
                     // 전환 버튼은 목록의 **툴바 + 왼쪽**에 있다(ClipKeyboardList.toolbarButtons).
                     // 화면 위에 겹쳐 띄우면 카드를 가린다.
                     ClipKeyboardList()
+                        // 키보드 무대 밑에 깔려 있는 동안에는 카드 힌트 연출을 쉬게 한다.
+                        .environment(\.listIsFrontmost, style == .list)
                         .allowsHitTesting(style == .list)
                         .accessibilityHidden(style != .list)
 

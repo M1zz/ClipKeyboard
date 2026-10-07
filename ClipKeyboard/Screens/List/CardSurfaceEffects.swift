@@ -119,7 +119,9 @@ struct MemoImageBackground: View {
             return
         }
         DispatchQueue.global(qos: .userInitiated).async {
-            guard let loaded = MemoStore.shared.loadImage(fileName: fileName) else {
+            // ⚠️ 원본을 펼치지 않는다. 예전에는 원본을 통째로 읽고(1200만 화소면 48MB) 나서 줄였다.
+            //    ImageIO 는 디코드 단계에서 줄여 원본 크기 버퍼가 아예 안 생긴다.
+            guard let loaded = MemoStore.shared.loadThumbnail(fileName: fileName, maxPixel: Self.thumbnailMaxPixel) else {
                 DispatchQueue.main.async { image = nil }
                 return
             }
@@ -180,6 +182,15 @@ struct ContentHintPreview: View {
 
     @State private var stage: Stage = .waiting
     @Environment(\.appTheme) private var theme
+    /// 목록이 맨 앞인가. 키보드 무대 밑에 깔려 있으면 false.
+    @Environment(\.listIsFrontmost) private var listIsFrontmost
+    @Environment(\.scenePhase) private var scenePhase
+
+    /// 연출을 돌릴 때인가. 목록이 가려져 있거나 앱이 앞에 없으면 쉰다.
+    ///
+    /// ⚠️ 목록은 키보드 탭 밑에 늘 깔려 있다(`SnippetsTab`). 카드는 사라지지 않으니 `.task` 가
+    ///    취소되지 않아, 보이지도 않는 카드 수십 장이 흐림 애니메이션을 계속 돌렸다.
+    private var isLive: Bool { listIsFrontmost && scenePhase == .active }
 
     var body: some View {
         // ⚠️ 원문을 그대로 그리면 `{이름}` 이 중괄호째 나온다.
@@ -198,9 +209,10 @@ struct ContentHintPreview: View {
             .frame(height: Self.zoneHeight)
             .allowsHitTesting(false)        // 탭은 카드로 통과
             .accessibilityHidden(true)      // VoiceOver는 카드 라벨이 안내 (일시 표시 요소 제외)
-            .task {
-                // 카드가 화면을 벗어나면 task가 취소되고, 다시 나타나면 처음부터 시작된다.
+            .task(id: isLive) {
+                // 카드가 화면을 벗어나거나 가려지면 task가 취소되고, 다시 보이면 처음부터 시작된다.
                 stage = .waiting
+                guard isLive else { return }
                 do {
                     try await Task.sleep(for: .seconds(revealDelay))
                     while !Task.isCancelled {
@@ -222,5 +234,20 @@ struct ContentHintPreview: View {
         case .shown:   return 0
         case .gone:    return -2
         }
+    }
+}
+
+// MARK: - 목록이 맨 앞인가
+
+private struct ListIsFrontmostKey: EnvironmentKey {
+    static let defaultValue = true
+}
+
+extension EnvironmentValues {
+    /// 단축어 목록이 지금 보이는가. 키보드 무대 밑에 깔려 있으면 false(`SnippetsTab`).
+    /// 보이지 않는 동안 쉬어야 하는 연출(카드 힌트)이 본다.
+    var listIsFrontmost: Bool {
+        get { self[ListIsFrontmostKey.self] }
+        set { self[ListIsFrontmostKey.self] = newValue }
     }
 }

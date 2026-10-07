@@ -144,11 +144,8 @@ private struct QuickNoteRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            if note.hasImages, let first = note.imageFileNames.first,
-               let image = MemoStore.shared.loadImage(fileName: first) {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
+            if note.hasImages, let first = note.imageFileNames.first {
+                QuickNoteThumbnail(fileName: first, maxPixel: 132, fill: true)
                     .frame(width: 44, height: 44)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
             } else {
@@ -328,12 +325,63 @@ struct QuickNoteEditSheet: View {
 
     @ViewBuilder
     private var imagePreview: some View {
-        if let first = draft.imageFileNames.first, let image = MemoStore.shared.loadImage(fileName: first) {
-            Image(uiImage: image)
-                .resizable()
-                .scaledToFit()
+        if let first = draft.imageFileNames.first {
+            QuickNoteThumbnail(fileName: first, maxPixel: 660, fill: false)
                 .frame(maxHeight: 220)
                 .cornerRadius(8)
+        }
+    }
+}
+
+// MARK: - 작게 읽는 그림
+
+/// 빠른 메모의 그림을 **보일 크기로만** 읽는다.
+///
+/// ⚠️ 예전에는 줄마다 그릴 때마다 원본을 통째로 읽었다(44pt 자리에 1200만 화소). 메인에서,
+///    캐시 없이, 다시 그릴 때마다. 지금은 ImageIO 가 디코드 단계에서 줄이고(`loadThumbnail`),
+///    메인 밖에서 읽어 캐시에 둔다.
+private struct QuickNoteThumbnail: View {
+    let fileName: String
+    let maxPixel: CGFloat
+    let fill: Bool
+
+    @State private var image: UIImage?
+
+    private static let cache: NSCache<NSString, UIImage> = {
+        let cache = NSCache<NSString, UIImage>()
+        cache.totalCostLimit = 12 * 1024 * 1024
+        return cache
+    }()
+
+    private var cacheKey: NSString { "\(fileName)@\(Int(maxPixel))" as NSString }
+
+    var body: some View {
+        Group {
+            if let image {
+                if fill {
+                    Image(uiImage: image).resizable().scaledToFill()
+                } else {
+                    Image(uiImage: image).resizable().scaledToFit()
+                }
+            } else {
+                Color.secondary.opacity(0.12)
+            }
+        }
+        .onAppear(perform: load)
+    }
+
+    private func load() {
+        guard image == nil else { return }
+        if let cached = Self.cache.object(forKey: cacheKey) {
+            image = cached
+            return
+        }
+        let key = cacheKey
+        DispatchQueue.global(qos: .userInitiated).async {
+            guard let loaded = MemoStore.shared.loadThumbnail(fileName: fileName, maxPixel: maxPixel) else { return }
+            let cost = Int(loaded.size.width * loaded.scale * loaded.size.height * loaded.scale * 4)
+            Self.cache.setObject(loaded, forKey: key, cost: cost)
+            DispatchQueue.main.async { image = loaded }
         }
     }
 }
