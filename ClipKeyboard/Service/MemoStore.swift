@@ -552,6 +552,66 @@ class MemoStore: ObservableObject {
     // MARK: - Image Management
 
     #if os(iOS)
+    /// 단축어에 붙인 그림을 저장할 모양으로 만든다. 긴 변 2048px, 투명한 곳이 없으면 JPEG.
+    ///
+    /// ⚠️ 예전에는 원본 크기 PNG 였다. 1200만 화소 사진 한 장이 15~25MB 가 되고, 그 인코딩만
+    ///    저장 버튼을 누른 메인에서 0.5~1초 걸렸다. 그 크기가 iCloud 백업 · 동기화 · 키보드에서
+    ///    붙여 넣을 때까지 그대로 따라다녔다. 붙여 넣는 곳(메신저 · 메일)은 어차피 다시 줄인다.
+    /// ⚠️ 투명한 곳이 있는 그림(스티커 · 로고)은 PNG 로 둔다. JPEG 는 투명을 검게 메운다.
+    static let storedImageMaxPixel: CGFloat = 2048
+
+    static func storageEncoding(for image: UIImage) -> (data: Data, fileExtension: String)? {
+        let pixelSize = CGSize(width: image.size.width * image.scale, height: image.size.height * image.scale)
+        let longest = max(pixelSize.width, pixelSize.height)
+        var output = image
+        if longest > storedImageMaxPixel {
+            let ratio = storedImageMaxPixel / longest
+            let target = CGSize(width: (pixelSize.width * ratio).rounded(), height: (pixelSize.height * ratio).rounded())
+            let format = UIGraphicsImageRendererFormat.default()
+            format.scale = 1
+            format.opaque = !hasAlpha(image)
+            output = UIGraphicsImageRenderer(size: target, format: format).image { _ in
+                image.draw(in: CGRect(origin: .zero, size: target))
+            }
+        }
+        if hasAlpha(image) {
+            return output.pngData().map { ($0, "png") }
+        }
+        return output.jpegData(compressionQuality: 0.82).map { ($0, "jpg") }
+    }
+
+    private static func hasAlpha(_ image: UIImage) -> Bool {
+        switch image.cgImage?.alphaInfo {
+        case .first?, .last?, .premultipliedFirst?, .premultipliedLast?, .alphaOnly?: return true
+        default: return false
+        }
+    }
+
+    /// 그림을 저장하고 파일 이름을 돌려준다. 이름의 확장자가 형식을 말한다(붙여 넣을 때 그 형식으로 얹는다).
+    func saveImage(_ image: UIImage) throws -> String {
+        guard let encoded = Self.storageEncoding(for: image) else {
+            throw NSError(domain: "MemoStore", code: 2, userInfo: [NSLocalizedDescriptionKey: "이미지를 저장 형식으로 바꿀 수 없음"])
+        }
+        let fileName = "\(UUID().uuidString).\(encoded.fileExtension)"
+        try writeImageData(encoded.data, fileName: fileName)
+        return fileName
+    }
+
+    private func writeImageData(_ data: Data, fileName: String) throws {
+        guard let containerURL = FileManager.default.containerURL(
+            forSecurityApplicationGroupIdentifier: AppGroup.identifier
+        ) else {
+            throw NSError(domain: "MemoStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "App Group 컨테이너를 찾을 수 없음"])
+        }
+        let imagesDirectory = containerURL.appendingPathComponent("Images")
+        if !FileManager.default.fileExists(atPath: imagesDirectory.path) {
+            try FileManager.default.createDirectory(at: imagesDirectory, withIntermediateDirectories: true)
+        }
+        try data.write(to: imagesDirectory.appendingPathComponent(fileName), options: .atomic)
+    }
+
+    /// 이름을 정해 **원본 그대로 PNG** 로 저장한다. 시험처럼 이름이 미리 정해져야 하는 곳만 쓴다.
+    /// 단축어에 붙이는 그림은 `saveImage(_:)` (줄여서 저장)를 쓴다.
     func saveImage(_ image: UIImage, fileName: String) throws {
         guard let containerURL = FileManager.default.containerURL(
             forSecurityApplicationGroupIdentifier: AppGroup.identifier
