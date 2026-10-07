@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<!-- 만든 파일입니다. 고치려면 docs/tutorial.html 또는 docs/i18n/ru/ 를 고치고 node docs/i18n/build.mjs -->
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://m1zz.github.io/ClipKeyboard/ru/tutorial.html">
+    <link rel="alternate" hreflang="ko" href="https://m1zz.github.io/ClipKeyboard/ko/tutorial.html">
+    <link rel="alternate" hreflang="en" href="https://m1zz.github.io/ClipKeyboard/en/tutorial.html">
+    <link rel="alternate" hreflang="zh-Hans" href="https://m1zz.github.io/ClipKeyboard/zh-Hans/tutorial.html">
+    <link rel="alternate" hreflang="zh-Hant" href="https://m1zz.github.io/ClipKeyboard/zh-Hant/tutorial.html">
+    <link rel="alternate" hreflang="ru" href="https://m1zz.github.io/ClipKeyboard/ru/tutorial.html">
+    <link rel="alternate" hreflang="ja" href="https://m1zz.github.io/ClipKeyboard/ja/tutorial.html">
+    <link rel="alternate" hreflang="es" href="https://m1zz.github.io/ClipKeyboard/es/tutorial.html">
+    <link rel="alternate" hreflang="de" href="https://m1zz.github.io/ClipKeyboard/de/tutorial.html">
+    <link rel="alternate" hreflang="fr" href="https://m1zz.github.io/ClipKeyboard/fr/tutorial.html">
+    <link rel="alternate" hreflang="it" href="https://m1zz.github.io/ClipKeyboard/it/tutorial.html">
+    <link rel="alternate" hreflang="pt-BR" href="https://m1zz.github.io/ClipKeyboard/pt-BR/tutorial.html">
+    <link rel="alternate" hreflang="th" href="https://m1zz.github.io/ClipKeyboard/th/tutorial.html">
+    <link rel="alternate" hreflang="vi" href="https://m1zz.github.io/ClipKeyboard/vi/tutorial.html">
+    <link rel="alternate" hreflang="x-default" href="https://m1zz.github.io/ClipKeyboard/tutorial.html">
+    <script>window.PAGE_LANG = "ru";</script>
+    <title>Руководство пользователя ClipKeyboard</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Руководство по ClipKeyboard: настройка клавиатуры, сохранение фраз, шаблоны, умный буфер обмена, комбо и резервная копия в iCloud.">
+    <meta name="author" content="Leeo">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Руководство пользователя ClipKeyboard">
+    <meta property="og:description" content="Руководство по ClipKeyboard: настройка клавиатуры, сохранение фраз, шаблоны, умный буфер обмена, комбо и резервная копия в iCloud.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://m1zz.github.io/ClipKeyboard/ru/tutorial.html">
+    <meta property="og:image" content="https://m1zz.github.io/ClipKeyboard/app-icon.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Руководство пользователя ClipKeyboard">
+    <meta name="twitter:description" content="Руководство по ClipKeyboard: настройка клавиатуры, сохранение фраз, шаблоны, умный буфер обмена, комбо и резервная копия в iCloud.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../favicon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #007AFF;
+            --primary-dark: #0062CC;
+            --bg: #F2F2F3;
+            --text: #131315;
+            --text-secondary: #6B6B72;
+            --card-bg: #FFFFFF;
+            --border: rgba(0, 0, 0, 0.09);
+            --accent-green: #34C759;
+            --accent-orange: #FF9500;
+            --surface-alt: #E8E8EA;
+            --paper-1: #F5F5F6;
+            --paper-2: #E2E2E5;
+            --veil: rgba(255, 255, 255, 0.85);
+            --tip-bg: #FFF9E6;
+            --note-bg: #E8F1FF;
+            --warning-bg: #FFEEF0;
+            color-scheme: light;
+        }
+
+
+        /* 어두울 때. 값은 앱의 AppTheme.paperDark 를 그대로 옮겼다(소개 페이지와 같은 표).
+           ⚠️ 여기서는 토큰만 다시 정한다. 규칙을 새로 쓰기 시작하면 두 테마가 갈라진다. */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #0A84FF;
+                --primary-dark: #409CFF;
+                --bg: #0D0D0E;
+                --text: #F2F2F4;
+                --text-secondary: #9C9CA3;
+                --card-bg: #1A1A1C;
+                --surface-alt: #242427;
+                --border: rgba(255, 255, 255, 0.10);
+                --paper-1: #191A1C;
+                --paper-2: #26272A;
+                --veil: rgba(26, 26, 28, 0.85);
+                --tip-bg: rgba(255, 159, 10, 0.14);
+                --note-bg: rgba(10, 132, 255, 0.16);
+                --warning-bg: rgba(255, 69, 58, 0.16);
+                color-scheme: dark;
+            }
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            font-family: inherit;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) { background: var(--surface-alt); }
+
+        /* Top Nav */
+        .top-nav {
+            position: sticky;
+            top: 0;
+            background: var(--veil);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 900;
+        }
+
+        .top-nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .top-nav a.home-link {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .top-nav .nav-spacer { flex: 1; }
+
+        .top-nav .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+        }
+
+        .top-nav .nav-link:hover { color: var(--primary); }
+
+        /* Hero */
+        .tutorial-hero {
+            padding: 5rem 2rem 3rem;
+            text-align: center;
+            background: linear-gradient(180deg, var(--card-bg) 0%, var(--paper-1) 100%);
+        }
+
+        .tutorial-hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-hero h1 span {
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tutorial-hero p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        /* TOC */
+        .toc-wrap {
+            padding: 2.5rem 2rem 1rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .toc {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+        }
+
+        .toc h3 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .toc ol {
+            list-style: none;
+            counter-reset: toc-counter;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .toc li {
+            counter-increment: toc-counter;
+            padding: 0.5rem 0;
+        }
+
+        .toc a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.6rem;
+        }
+
+        .toc a::before {
+            content: counter(toc-counter, decimal-leading-zero);
+            color: var(--primary);
+            font-size: 0.8125rem;
+            font-weight: 700;
+            min-width: 1.75rem;
+        }
+
+        .toc a:hover { color: var(--primary); }
+
+        /* Sections */
+        main {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2rem 2rem 6rem;
+        }
+
+        section.step {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            scroll-margin-top: 80px;
+        }
+
+        section.step .step-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.02em;
+        }
+
+        section.step h2 {
+            font-size: 1.625rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        section.step .lead {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.0625rem;
+        }
+
+        section.step h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-top: 1.75rem;
+            margin-bottom: 0.625rem;
+        }
+
+        section.step p {
+            margin-bottom: 0.75rem;
+        }
+
+        section.step ol.steps {
+            list-style: none;
+            counter-reset: step-counter;
+            margin: 1rem 0;
+        }
+
+        section.step ol.steps li {
+            counter-increment: step-counter;
+            padding: 0.875rem 1rem 0.875rem 3rem;
+            position: relative;
+            background: var(--bg);
+            border-radius: 10px;
+            margin-bottom: 0.625rem;
+        }
+
+        section.step ol.steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.5rem;
+            height: 1.5rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        section.step ul.plain {
+            list-style: none;
+            margin: 0.75rem 0;
+        }
+
+        section.step ul.plain li {
+            padding: 0.4rem 0 0.4rem 1.5rem;
+            position: relative;
+        }
+
+        section.step ul.plain li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+
+        .tip {
+            background: var(--tip-bg);
+            border-left: 4px solid var(--accent-orange);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1.25rem 0;
+            font-size: 0.9375rem;
+        }
+
+        .tip::before {
+            content: "💡 ";
+            font-weight: 700;
+        }
+
+        .note {
+            background: var(--note-bg);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1.25rem 0;
+            font-size: 0.9375rem;
+        }
+
+        .note::before {
+            content: "ℹ️ ";
+            font-weight: 700;
+        }
+
+        .warning {
+            background: var(--warning-bg);
+            border-left: 4px solid #FF3B30;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1.25rem 0;
+            font-size: 0.9375rem;
+        }
+
+        .warning::before {
+            content: "⚠️ ";
+            font-weight: 700;
+        }
+
+        code, kbd {
+            background: var(--surface-alt);
+            padding: 0.1rem 0.375rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 0.9em;
+        }
+
+        kbd { border: 1px solid var(--border); box-shadow: 0 1px 0 rgba(0,0,0,0.06); }
+
+        /* Detail grid (auto-classification types) */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .grid-2 .item {
+            background: var(--bg);
+            padding: 0.625rem 0.875rem;
+            border-radius: 8px;
+            font-size: 0.9375rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* FAQ */
+        .faq details {
+            background: var(--bg);
+            border-radius: 10px;
+            margin-bottom: 0.625rem;
+            overflow: hidden;
+            transition: background 0.2s;
+        }
+
+        .faq details[open] { background: var(--card-bg); border: 1px solid var(--border); }
+
+        .faq summary {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            font-weight: 600;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .faq summary::-webkit-details-marker { display: none; }
+
+        .faq summary::after {
+            content: "＋";
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.25rem;
+            transition: transform 0.2s;
+        }
+
+        .faq details[open] summary::after {
+            transform: rotate(45deg);
+        }
+
+        .faq .content {
+            padding: 0 1.25rem 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA bottom */
+        .bottom-cta {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(180deg, var(--paper-1) 0%, var(--card-bg) 100%);
+        }
+
+        .bottom-cta .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.875rem 1.75rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .bottom-cta .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+            font-size: 0.9375rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        @media (max-width: 640px) {
+            section.step { padding: 1.75rem 1.5rem; }
+            .top-nav-inner { padding: 0.875rem 1rem; }
+            .tutorial-hero { padding: 3.5rem 1.5rem 2rem; }
+            main { padding: 1.5rem 1rem 4rem; }
+            .toc-wrap { padding: 1.5rem 1rem 0.5rem; }
+            /* 언어가 다섯이 되면서 좁은 화면에서 오른쪽이 잘렸다.
+               왼쪽 끝까지 자리를 내주고, 글자 여백을 줄여 다섯이 한 줄에 서게 한다. */
+            .lang-toggle { top: 0.5rem; right: 0.5rem; left: 0.5rem; justify-content: center; }
+            .lang-btn { padding: 0.5rem 0.7rem; }
+        }
+
+        /* ─────────────────────────────────────────────────────────────
+           실습판 - 내려받지 않고 여기서 그냥 써 보는 자리.
+           이 페이지의 나머지는 "이렇게 하세요" 이고, 이 판은 **해 보는 곳**이다.
+           읽고 나서 받는 것과, 써 보고 받는 것은 다른 결심이다.
+
+           ⚠️ 색·모서리·그림자는 전부 위 :root 토큰을 쓴다. 여기서 새 색을 만들면
+              어두울 때 이 판만 남의 집처럼 보인다.
+           ───────────────────────────────────────────────────────────── */
+        .play-wrap { max-width: 980px; margin: 0 auto 56px; padding: 0 20px; }
+        .play-head { text-align: center; margin-bottom: 22px; }
+        .play-head h2 { font-size: 1.8rem; letter-spacing: -0.02em; margin-bottom: 8px; }
+        .play-head p { color: var(--text-secondary); max-width: 560px; margin: 0 auto; line-height: 1.65; }
+        .play-badge {
+            display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em;
+            color: var(--primary); background: rgba(0,122,255,0.1);
+            padding: 5px 12px; border-radius: 999px; margin-bottom: 12px;
+        }
+        .play-grid { display: grid; grid-template-columns: minmax(0,320px) minmax(0,1fr); gap: 32px; align-items: start; }
+        @media (max-width: 820px) { .play-grid { grid-template-columns: 1fr; } }
+
+        /* 폰 */
+        .play-phone {
+            background: #1b1b1d; border-radius: 40px; padding: 10px;
+            box-shadow: 0 18px 46px rgba(0,0,0,0.22); margin: 0 auto; width: 320px; max-width: 100%;
+        }
+        .play-screen {
+            background: var(--card-bg); border-radius: 31px; overflow: hidden;
+            display: flex; flex-direction: column; height: 580px; position: relative;
+        }
+        .play-island {
+            width: 86px; height: 22px; background: #1b1b1d; border-radius: 999px;
+            position: absolute; top: 6px; left: 50%; transform: translateX(-50%); z-index: 5;
+        }
+        .play-appbar {
+            padding: 34px 16px 10px; border-bottom: 1px solid var(--border);
+            font-weight: 700; font-size: 0.95rem; background: var(--card-bg);
+        }
+        .play-convo { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 8px; background: var(--paper-1); }
+        .play-bubble {
+            max-width: 82%; padding: 9px 13px; border-radius: 17px; font-size: 0.86rem; line-height: 1.45;
+            white-space: pre-wrap; word-break: break-word;
+        }
+        .play-bubble.them { background: var(--surface-alt); color: var(--text); align-self: flex-start; border-bottom-left-radius: 5px; }
+        .play-bubble.me { background: var(--primary); color: #fff; align-self: flex-end; border-bottom-right-radius: 5px; }
+        .play-composer { display: flex; gap: 8px; align-items: center; padding: 9px 12px; border-top: 1px solid var(--border); background: var(--card-bg); }
+        .play-field {
+            flex: 1; min-height: 34px; border-radius: 17px; background: var(--surface-alt);
+            padding: 8px 12px; font-size: 0.85rem; color: var(--text); white-space: pre-wrap; word-break: break-word;
+        }
+        .play-field.empty { color: var(--text-secondary); }
+        .play-send {
+            width: 32px; height: 32px; border-radius: 50%; border: 0; flex: 0 0 32px; cursor: pointer;
+            background: var(--primary); color: #fff; font-size: 1rem; line-height: 1;
+        }
+        .play-send:disabled { background: var(--surface-alt); color: var(--text-secondary); cursor: default; }
+
+        /* 키보드 */
+        .play-kb { background: var(--paper-2); padding: 6px; display: flex; flex-direction: column; gap: 6px; }
+        .play-kbrow { display: flex; gap: 5px; align-items: center; }
+        .play-ctl {
+            border: 0; border-radius: 7px; background: var(--card-bg); color: var(--text-secondary);
+            height: 28px; min-width: 32px; padding: 0 7px; font-size: 0.78rem; cursor: pointer;
+        }
+        .play-ctl.on { background: var(--primary); color: #fff; }
+        .play-ctl:disabled { opacity: 0.4; cursor: default; }
+        /* 칸 높이를 줄에 고정한다. 안 그러면 글 높이만큼만 서서 키가 아니라 줄처럼 보인다.
+           높이를 바꾸면 보이는 줄 수가 달라지는 것이 이 판의 요점이라, 남는 자리는 굴린다. */
+        .play-keys { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; overflow-y: auto; align-content: start; grid-auto-rows: 44px; }
+        .play-key {
+            display: flex; align-items: center; gap: 6px; text-align: left;
+            border: 0; border-radius: 9px; background: var(--card-bg); color: var(--text);
+            padding: 0 9px; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.12); overflow: hidden;
+        }
+        .play-key:active { transform: translateY(1px); }
+        .play-key .pos { font-size: 0.7rem; font-weight: 600; color: var(--text-secondary); flex: 0 0 auto; margin-left: auto; }
+        .play-key .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .play-key .nx {
+            flex: 0 0 auto; border-left: 1px solid var(--border);
+            padding-left: 8px; margin-left: 6px; color: var(--primary); font-weight: 700;
+        }
+        .play-kbhint { flex: 1; font-size: 0.72rem; color: var(--text-secondary); padding-left: 3px; }
+        .play-empty { grid-column: 1 / -1; text-align: center; color: var(--text-secondary); font-size: 0.8rem; padding: 18px 8px; }
+
+        /* 오른쪽 안내·조작 */
+        .play-side { display: flex; flex-direction: column; gap: 14px; }
+        .play-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; }
+        .play-card h3 { font-size: 0.98rem; margin-bottom: 6px; }
+        .play-card p { color: var(--text-secondary); font-size: 0.87rem; line-height: 1.6; }
+        .play-coach { border-color: var(--primary); background: rgba(0,122,255,0.06); }
+        .play-coach h3 { color: var(--primary); }
+        .play-size { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+        .play-size button {
+            flex: 1 1 auto; border: 1px solid var(--border); background: var(--card-bg); color: var(--text);
+            border-radius: 9px; padding: 7px 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+        }
+        .play-size button.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+        .play-note { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
+        .play-form { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+        .play-form input, .play-form textarea {
+            width: 100%; border: 1px solid var(--border); border-radius: 9px; background: var(--bg);
+            color: var(--text); padding: 9px 11px; font-size: 0.87rem; font-family: inherit;
+        }
+        .play-form textarea { min-height: 62px; resize: vertical; }
+        .play-form .row { display: flex; gap: 8px; }
+        .play-form button {
+            border: 0; border-radius: 9px; background: var(--primary); color: #fff;
+            padding: 9px 14px; font-weight: 700; font-size: 0.87rem; cursor: pointer;
+        }
+        .play-form button.ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+
+        /* 빈칸 채우기 시트 */
+        .play-sheet {
+            position: absolute; inset: 0; background: rgba(0,0,0,0.34); z-index: 9;
+            display: flex; align-items: flex-end;
+        }
+        .play-sheet-inner { background: var(--card-bg); width: 100%; border-radius: 18px 18px 0 0; padding: 16px; }
+        .play-sheet-inner h4 { font-size: 0.92rem; margin-bottom: 4px; }
+        .play-sheet-inner p { font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 10px; }
+        .play-sheet-inner input {
+            width: 100%; border: 1px solid var(--border); border-radius: 9px; background: var(--bg);
+            color: var(--text); padding: 9px 11px; font-size: 0.87rem; margin-bottom: 10px; font-family: inherit;
+        }
+        .play-sheet-inner .row { display: flex; gap: 8px; }
+        .play-sheet-inner button { flex: 1; border: 0; border-radius: 9px; padding: 9px; font-weight: 700; cursor: pointer; font-size: 0.85rem; }
+        .play-sheet-inner .go { background: var(--primary); color: #fff; }
+        .play-sheet-inner .no { background: var(--surface-alt); color: var(--text); }
+
+
+        /* 언어 메뉴. 언어가 13개라 한 줄 토글에 안 들어가서 링크 목록을 접어 둔다.
+           링크는 docs/<lang>/ 의 언어별 페이지로 간다(docs/i18n/build.mjs 가 만든다). */
+        .lang-menu { position: fixed; top: 1rem; right: 1rem; z-index: 1000; font-size: 0.875rem; }
+        .lang-menu summary {
+            list-style: none; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;
+            padding: 0.5rem 0.9rem; background: var(--card-bg); color: var(--text);
+            border: 1px solid var(--border); border-radius: 100px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-weight: 500;
+        }
+        .lang-menu summary::-webkit-details-marker { display: none; }
+        .lang-menu summary::after { content: "\25BE"; color: var(--text-secondary); font-size: 0.8em; }
+        .lang-menu-list {
+            position: absolute; right: 0; top: calc(100% + 0.4rem);
+            display: grid; grid-template-columns: repeat(2, minmax(8rem, 1fr)); gap: 0.15rem;
+            padding: 0.4rem; background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 14px; box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+        }
+        .lang-menu-list a {
+            display: block; padding: 0.45rem 0.7rem; border-radius: 8px;
+            color: var(--text); text-decoration: none; white-space: nowrap;
+        }
+        .lang-menu-list a:hover { background: var(--surface-alt, rgba(127,127,127,0.14)); }
+        .lang-menu-list a[aria-current="page"] { background: var(--primary); color: #fff; font-weight: 600; }
+        @media (max-width: 600px) { .lang-menu { top: 0.5rem; right: 0.5rem; } }
+    </style>
+</head>
+<body>
+    <details class="lang-menu">
+        <summary><span aria-hidden="true">🌐</span> <span class="lang-menu-label">Русский</span></summary>
+        <nav class="lang-menu-list" aria-label="Language">
+            <a href="../ko/tutorial.html" hreflang="ko" lang="ko">한국어</a>
+            <a href="../en/tutorial.html" hreflang="en" lang="en">English</a>
+            <a href="../zh-Hans/tutorial.html" hreflang="zh-Hans" lang="zh-Hans">简体中文</a>
+            <a href="../zh-Hant/tutorial.html" hreflang="zh-Hant" lang="zh-Hant">繁體中文</a>
+            <a href="../ru/tutorial.html" hreflang="ru" lang="ru" aria-current="page">Русский</a>
+            <a href="../ja/tutorial.html" hreflang="ja" lang="ja">日本語</a>
+            <a href="../es/tutorial.html" hreflang="es" lang="es">Español</a>
+            <a href="../de/tutorial.html" hreflang="de" lang="de">Deutsch</a>
+            <a href="../fr/tutorial.html" hreflang="fr" lang="fr">Français</a>
+            <a href="../it/tutorial.html" hreflang="it" lang="it">Italiano</a>
+            <a href="../pt-BR/tutorial.html" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a>
+            <a href="../th/tutorial.html" hreflang="th" lang="th">ไทย</a>
+            <a href="../vi/tutorial.html" hreflang="vi" lang="vi">Tiếng Việt</a>
+        </nav>
+    </details>
+
+    <nav class="top-nav">
+        <div class="top-nav-inner">
+            <a href="index.html" class="home-link">
+                <img src="../favicon.png" width="24" height="24" alt="" style="border-radius: 6px;" onerror="this.style.display='none'">
+                <span>ClipKeyboard</span>
+            </a>
+            <div class="nav-spacer"></div>
+            <a href="index.html" class="nav-link" data-i18n="navHome">Главная</a>
+            <a id="nav-appstore" href="https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502" class="nav-link" data-i18n="navStore">App Store</a>
+        </div>
+    </nav>
+
+    <section class="tutorial-hero">
+        <h1 data-i18n-html="heroTitle">Изучите <span>ClipKeyboard</span> за 5 минут</h1>
+        <p data-i18n="heroSubtitle">От настройки клавиатуры до продвинутых функций, всё на одной странице.</p>
+    </section>
+
+
+    <!-- ── 실습판 ───────────────────────────────────────────────────
+         내려받지 않고 여기서 그냥 써 보는 자리. 목차 **앞**에 둔다.
+         아래 일곱 단계는 "이렇게 하세요" 이고, 이 판은 해 보는 곳이라
+         읽기 전에 한 번 만져 보는 쪽이 순서가 맞다.
+         ───────────────────────────────────────────────────────────── -->
+    <div class="play-wrap" id="playground">
+        <div class="play-head">
+            <span class="play-badge" data-i18n="playBadge">Перед загрузкой</span>
+            <h2 data-i18n="playTitle">Просто попробуйте прямо здесь</h2>
+            <p data-i18n="playLead">Загружать ничего не нужно. Клавиатура ниже работает по-настоящему. Нажимайте, чтобы вводить текст, заполняйте поле и создайте свою фразу.</p>
+        </div>
+
+        <div class="play-grid">
+            <div class="play-phone">
+                <div class="play-screen" id="play-screen">
+                    <div class="play-island"></div>
+                    <div class="play-appbar" id="play-appbar">ClipKeyboard</div>
+                    <div class="play-convo" id="play-convo"></div>
+                    <div class="play-composer">
+                        <div class="play-field empty" id="play-field"></div>
+                        <button class="play-send" id="play-send" disabled aria-label="send">&#8593;</button>
+                    </div>
+                    <div class="play-kb" id="play-kb"></div>
+                </div>
+            </div>
+
+            <div class="play-side">
+                <div class="play-card play-coach">
+                    <h3 id="play-coach-title" data-i18n="playCoachTitle">Нажмите</h3>
+                    <p id="play-coach-body" data-i18n="playCoachStart">Нажмите любую клавишу, и текст появится в поле выше.</p>
+                </div>
+
+                <div class="play-card">
+                    <h3 data-i18n="playSizeTitle">Высота клавиатуры</h3>
+                    <p data-i18n="playSizeBody">Та же настройка, что и в приложении. Нажмите на вариант, и клавиатура ниже сразу изменится.</p>
+                    <div class="play-size" id="play-size"></div>
+                </div>
+
+                <div class="play-card">
+                    <h3 data-i18n="playAddTitle">Создать свою</h3>
+                    <p data-i18n="playAddBody">Укажите название и текст, и на клавиатуре появится клавиша. Добавьте в текст фигурные скобки, например {имя}, и он станет шаблоном: при каждом нажатии он попросит заполнить поле для заполнения.</p>
+                    <div class="play-form">
+                        <input id="play-new-key" maxlength="24" data-i18n-ph="playKeyPh" placeholder="Название (например: реквизиты счета)">
+                        <textarea id="play-new-val" maxlength="400" data-i18n-ph="playValPh" placeholder="Текст (например: Тинькофф 110-123-456789 Иван Иванов)"></textarea>
+                        <div class="row">
+                            <button id="play-add" data-i18n="playAddBtn">Добавить на клавиатуру</button>
+                            <button id="play-reset" class="ghost" data-i18n="playResetBtn">Начать заново</button>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="play-note" data-i18n="playPrivacy">Эта песочница работает полностью в браузере. Ничего из того, что вы вводите, никуда не отправляется, это остается только на этом устройстве. Приложение работает так же.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toc-wrap">
+        <div class="toc">
+            <h3 data-i18n="tocTitle">Содержание</h3>
+            <ol>
+                <li><a href="#playground" data-i18n="tocPlay">Попробовать здесь</a></li>
+                <li><a href="#setup" data-i18n="tocSetup">Начало работы</a></li>
+                <li><a href="#memo" data-i18n="tocMemo">Сохранение и редактирование заметок</a></li>
+                <li><a href="#template" data-i18n="tocTemplate">Шаблоны и поля для заполнения</a></li>
+                <li><a href="#smart-clip" data-i18n="tocSmart">Умный буфер обмена</a></li>
+                <li><a href="#combo" data-i18n="tocCombo">Комбо (последовательный ввод)</a></li>
+                <li><a href="#mac" data-i18n="tocMac">Приложение в строке меню macOS</a></li>
+                <li><a href="#backup" data-i18n="tocBackup">Резервное копирование iCloud</a></li>
+                <li><a href="#faq" data-i18n="tocFaq">Вопросы и решение проблем</a></li>
+            </ol>
+        </div>
+    </div>
+
+    <main>
+        <!-- 1. 시작하기 -->
+        <section class="step" id="setup">
+            <span class="step-badge" data-i18n="stepLabel">ШАГ 01</span>
+            <h2 data-i18n="setupTitle">Начало работы. Добавление клавиатуры и полный доступ</h2>
+            <p class="lead" data-i18n="setupLead">Из соображений безопасности iOS клавиатуру нужно включить самостоятельно. Это займет около минуты.</p>
+
+            <h3 data-i18n="setupAddTitle">Добавление клавиатуры</h3>
+            <ol class="steps">
+                <li data-i18n="setupAdd1">Настройки iOS → Основные → Клавиатура → Клавиатуры → Добавить новую клавиатуру…</li>
+                <li data-i18n-html="setupAdd2">Выберите <strong>ClipKeyboard</strong> из списка</li>
+            </ol>
+
+            <h3 data-i18n="setupAccessTitle">Разрешить полный доступ</h3>
+            <ol class="steps">
+                <li data-i18n-html="setupAccess1">На этом же экране нажмите на только что добавленный <strong>ClipKeyboard</strong></li>
+                <li data-i18n-html="setupAccess2">Включите переключатель <strong>Разрешить полный доступ</strong></li>
+            </ol>
+
+            <div class="warning" data-i18n="setupWhyAccess">Полный доступ нужен, чтобы клавиатура могла читать заметки, сохранённые в основном приложении. Ваши данные хранятся только на вашем устройстве.</div>
+
+            <h3 data-i18n="setupSwitchTitle">Переключение клавиатуры</h3>
+            <p data-i18n-html="setupSwitch">В любом приложении откройте клавиатуру и удерживайте значок 🌐 внизу слева, чтобы выбрать <strong>ClipKeyboard</strong>.</p>
+        </section>
+
+        <!-- 2. 메모 -->
+        <section class="step" id="memo">
+            <span class="step-badge" data-i18n="stepLabel2">ШАГ 02</span>
+            <h2 data-i18n="memoTitle">Сохранение и редактирование заметок</h2>
+            <p class="lead" data-i18n="memoLead">Сохраните часто используемые фразы, и вы сможете вставлять их прямо из клавиатуры.</p>
+
+            <h3 data-i18n="memoAddTitle">Добавление заметки</h3>
+            <ol class="steps">
+                <li data-i18n-html="memoAdd1">На главном экране приложения нажмите кнопку <strong>＋</strong> в правом верхнем углу</li>
+                <li data-i18n="memoAdd2">Введите заголовок и текст (текст будет вставлен при использовании)</li>
+                <li data-i18n-html="memoAdd3">При необходимости выберите <strong>категорию</strong> для сортировки</li>
+                <li data-i18n="memoAdd4">После сохранения заметка сразу появится в клавиатуре</li>
+            </ol>
+
+            <h3 data-i18n="memoUseTitle">Использование в клавиатуре</h3>
+            <ul class="plain">
+                <li data-i18n="memoUse1">Нажмите на карточку заметки, и текст сразу вставится в позицию курсора</li>
+                <li data-i18n="memoUse2">Удерживайте для меню копирования и редактирования</li>
+                <li data-i18n="memoUse3">Используйте строку поиска сверху, чтобы быстро найти нужное</li>
+            </ul>
+
+            <div class="tip" data-i18n="memoTip">Эмодзи, переносы строк и разметка markdown вводятся как есть. Длинный текст, например подпись для email, тоже не проблема.</div>
+
+            <div class="note" data-i18n="memoKeyboardLook">Клавиатура выглядит так же, как приложение: избранные заметки показаны розовым цветом, у защищенных заметок перед названием стоит замок, а категория, которую вы просматриваете, отображается крупным заголовком сверху.</div>
+
+            <h3 data-i18n="memoImageTitle">Заметки с изображениями и распознавание текста</h3>
+            <p data-i18n-html="memoImage">Нажатие на заметку с прикрепленным фото копирует его в буфер обмена как изображение. Удобно для визиток и чеков. Также можно извлечь из фото только нужный текст с помощью <strong>распознавания текста (OCR)</strong>. <strong>В бесплатной версии доступно до 5 заметок с изображениями</strong>, в Pro ограничения нет.</p>
+
+            <h3 data-i18n="smearTitle">Выбор текста с фото проведением пальца</h3>
+            <p data-i18n-html="smearLead">Не переписывайте номера счетов и телефонов с бумаги вручную. Сделайте фото, затем <strong>проведите пальцем только по нужной части</strong>, и значением станет только этот текст.</p>
+            <ol class="steps">
+                <li data-i18n-html="smear1">При создании фразы нажмите <strong>Сканировать текст</strong> над полем содержимого и выберите <strong>Снять фото</strong> или <strong>Из галереи</strong></li>
+                <li data-i18n="smear2">Проведите пальцем по тексту на фото. Все, над чем пройдет палец, будет выделено желтым</li>
+                <li data-i18n-html="smear3">Выбрали что-то по ошибке? Проведите по этому месту еще раз инструментом <strong>Ластик</strong>. Чтобы увеличить мелкий текст, разведите два пальца</li>
+                <li data-i18n-html="smear4">Нажмите <strong>Использовать этот текст</strong>, и выбранный текст попадет в содержимое фразы</li>
+            </ol>
+            <div class="tip" data-i18n="smearTip">Включите кнопку переноса строк для значений, которые занимают несколько строк, например адрес из двух строк. Если оставить ее выключенной, номер счета, разбитый на две строки, соединится в одну.</div>
+            <div class="note" data-i18n="smearNote">Фото никогда не сохраняется. Текст извлекается, а фото удаляется. Распознавание происходит полностью на вашем устройстве, поэтому ни фото, ни текст никуда не отправляются. Если проводить пальцем неудобно, воспользуйтесь функцией Выбор по строкам в правом верхнем углу, чтобы выбрать нужную строку из списка распознанного текста.</div>
+
+            <h3 data-i18n="memoSecureTitle">Защищенные заметки (блокировка)</h3>
+            <p data-i18n-html="memoSecure">Защищайте важные заметки блокировкой. Нажмите и удерживайте заметку, затем выберите <strong>Заблокировать как защищенную заметку</strong>: она будет храниться на устройстве в зашифрованном виде (ключ надежно синхронизируется через ваш iCloud Keychain), а для открытия и разблокировки потребуется <strong>Face ID или Touch ID</strong>. Заблокированные заметки отмечены только замком перед названием в списке и на клавиатуре, цвет карточки остается прежним. Это функция <strong>Pro</strong>.</p>
+        </section>
+
+        <!-- 3. 템플릿 -->
+        <section class="step" id="template">
+            <span class="step-badge" data-i18n="stepLabel3">ШАГ 03</span>
+            <h2 data-i18n="tmplTitle">Шаблоны и поля для заполнения</h2>
+            <p class="lead" data-i18n-html="tmplLead">Оставляйте немного изменяющиеся части в виде <code>{переменная}</code> и заполняйте их при использовании.</p>
+
+            <h3 data-i18n="tmplSyntaxTitle">Синтаксис</h3>
+            <p data-i18n-html="tmplSyntax">Если написать имя переменной в фигурных скобках <code>{ }</code>, получится поле для заполнения. Например:</p>
+            <ul class="plain">
+                <li><code data-i18n="tmplEx1">Здравствуйте, {имя}! Ваша запись на {дата} подтверждена.</code></li>
+                <li><code data-i18n="tmplEx2">Заказ № {order_id} · Доставка {date}</code></li>
+            </ul>
+
+            <h3 data-i18n="tmplUseTitle">Как использовать</h3>
+            <ol class="steps">
+                <li data-i18n="tmplUse1">Нажмите на Заметку с Шаблоном, и снизу плавно поднимется лист для ввода значений</li>
+                <li data-i18n="tmplUse2">Заполните поля и нажмите кнопку копирования в правом верхнем углу, готовое предложение скопируется</li>
+                <li data-i18n-html="tmplUse3">Введённые значения запоминаются автоматически, и в следующий раз выбрать их будет проще (например, список часто используемых имён для поля "имя")</li>
+            </ol>
+
+            <h3 data-i18n="tmplMakeTitle">Превратить обычную заметку в шаблон</h3>
+            <p data-i18n-html="tmplMake">Нажмите и удержите обычную Заметку, выберите <strong>Сделать шаблоном</strong>, и оригинал останется как есть, а откроется новая Заметка-Шаблон с тем же содержимым. Вставьте <code>{переменная}</code> в нужном месте текста и сохраните. После добавления переменной курсор сразу встанет за ней, чтобы можно было продолжить печатать.</p>
+
+            <div class="note" data-i18n-html="tmplDateNote">Для автоматических переменных даты и времени можно выбрать <strong>Сегодня, Завтра, На следующей неделе, Через две недели или свою дату</strong>. При нажатии переменная заменяется настоящей датой и копируется.</div>
+
+            <div class="tip" data-i18n-html="tmplTip">Переменные с одинаковым именем используются во всех шаблонах вместе. Значение, введённое для <code>{имя}</code>, будет предложено и в других шаблонах с <code>{имя}</code>.</div>
+        </section>
+
+        <!-- 4. 스마트 클립보드 -->
+        <section class="step" id="smart-clip">
+            <span class="step-badge" data-i18n="stepLabel4">ШАГ 04</span>
+            <h2 data-i18n="smartTitle">Умный Буфер обмена</h2>
+            <p class="lead" data-i18n="smartLead">Скопированный текст распознаётся автоматически, чтобы вы могли найти его снова в любой момент.</p>
+
+            <h3 data-i18n="smartTypesTitle">15 автоматически распознаваемых типов</h3>
+            <div class="grid-2">
+                <div class="item">📧 <span data-i18n="smartType1">Email</span></div>
+                <div class="item">📞 <span data-i18n="smartType2">Телефон</span></div>
+                <div class="item">📍 <span data-i18n="smartType3">Адрес</span></div>
+                <div class="item">🔗 <span data-i18n="smartType4">URL</span></div>
+                <div class="item">💳 <span data-i18n="smartType5">Номер карты</span></div>
+                <div class="item">🏦 <span data-i18n="smartType6">IBAN / счёт</span></div>
+                <div class="item">🌐 <span data-i18n="smartType7">SWIFT / BIC</span></div>
+                <div class="item">🧾 <span data-i18n="smartType8">НДС / Налоговый номер</span></div>
+                <div class="item">💱 <span data-i18n="smartType9">Сумма и валюта</span></div>
+                <div class="item">📦 <span data-i18n="smartType10">Номер отслеживания</span></div>
+                <div class="item">💵 <span data-i18n="smartType11">PayPal / Wise</span></div>
+                <div class="item">🔢 <span data-i18n="smartType12">Число</span></div>
+                <div class="item">📝 <span data-i18n="smartType13">Обычный текст</span></div>
+                <div class="item">🖼️ <span data-i18n="smartType14">Изображение</span></div>
+                <div class="item">⋯ <span data-i18n="smartType15">Другое</span></div>
+            </div>
+
+            <h3 data-i18n="smartHowTitle">Как это работает</h3>
+            <ul class="plain">
+                <li data-i18n="smartHow1">Каждое копирование запускает классификацию по регулярным выражениям с оценкой достоверности</li>
+                <li data-i18n="smartHow2">В истории хранится до 100 элементов</li>
+                <li data-i18n="smartHow3">Временные элементы удаляются автоматически через 30 дней</li>
+                <li data-i18n="smartHow4">Закрепите (📌) важные элементы, чтобы они хранились всегда</li>
+            </ul>
+
+            <div class="note" data-i18n="smartNote">Конфиденциальные данные (карта, IBAN, налоговый номер) отображаются скрытыми. Настоящее значение копируется только при нажатии.</div>
+        </section>
+
+        <!-- 5. 콤보 -->
+        <section class="step" id="combo">
+            <span class="step-badge" data-i18n="stepLabel5">ШАГ 05</span>
+            <h2 data-i18n="comboTitle">Комбо: несколько заметок сразу</h2>
+            <p class="lead" data-i18n="comboLead">Функция вроде макроса, которая вводит имя, email и телефон по порядку.</p>
+
+            <h3 data-i18n="comboWhenTitle">Когда это полезно</h3>
+            <ul class="plain">
+                <li data-i18n="comboWhen1">Заполнение форм регистрации: имя, email, телефон</li>
+                <li data-i18n="comboWhen2">Заказ: адрес, пожелания и код скидки за один раз</li>
+                <li data-i18n="comboWhen3">Ответы поддержки: приветствие + текст ответа + подпись</li>
+            </ul>
+
+            <h3 data-i18n="comboMakeTitle">Создание комбо</h3>
+            <p data-i18n-html="comboMakeIntro">Теперь комбо создаётся не на отдельном экране, а <strong>прямо в списке заметок</strong>. Добавьте к заметке продолжение, и она станет комбо.</p>
+            <ol class="steps">
+                <li data-i18n-html="comboMake1">На главном экране нажмите <strong>＋</strong>, чтобы создать заметку, и введите первый текст</li>
+                <li data-i18n-html="comboMake2">Добавьте <strong>следующие заметки</strong> с содержимым, которое будет вводиться по порядку</li>
+                <li data-i18n="comboMake3">Задайте паузу (в секундах) между шагами</li>
+                <li data-i18n="comboMake4">После сохранения комбо появится в списке заметок, а при нажатии в клавиатуре шаги введутся по порядку</li>
+            </ol>
+
+            <div class="note" data-i18n="comboPreviewNote">При нажатии на комбо заметка сразу копируется, а значения шагов, которые будут введены по порядку, показываются в нижней панели предпросмотра. Уже созданные комбо, категории и заметки сохраняются без изменений после обновления.</div>
+
+            <div class="tip" data-i18n="comboTip">Пауза меньше 0,3 секунды может быть слишком короткой для системы. Рекомендуется 0,5-1 секунда.</div>
+        </section>
+
+        <!-- 6. macOS -->
+        <section class="step" id="mac">
+            <span class="step-badge" data-i18n="stepLabel6">ШАГ 06</span>
+            <h2 data-i18n="macTitle">Приложение в строке меню macOS</h2>
+            <p class="lead" data-i18n="macLead">Те же заметки, буфер обмена и комбо на Mac (через Mac Catalyst).</p>
+
+            <h3 data-i18n="macInstallTitle">Установка</h3>
+            <p data-i18n-html="macInstall">Входит в ту же покупку в App Store. Найдите <strong>ClipKeyboard</strong> в Mac App Store. Войдите с тем же Apple ID, чтобы данные синхронизировались через iCloud автоматически.</p>
+
+            <h3 data-i18n="macFeaturesTitle">Функции только для Mac</h3>
+            <ul class="plain">
+                <li data-i18n-html="macF1">Открытие панели одним щелчком по значку в строке меню</li>
+                <li data-i18n-html="macF2">Быстрый вызов через глобальные сочетания клавиш, например <kbd>⌃</kbd>+<kbd>⇧</kbd>+<kbd>V</kbd></li>
+                <li data-i18n="macF3">Мониторинг буфера обмена: умная классификация сразу при копировании</li>
+                <li data-i18n="macF4">Плавающая панель поверх других приложений</li>
+            </ul>
+
+            <div class="note" data-i18n="macNote">Сохраните фразу на Mac, и она сразу появится в клавиатуре iPhone, и наоборот.</div>
+        </section>
+
+        <!-- 7. 백업 -->
+        <section class="step" id="backup">
+            <span class="step-badge" data-i18n="stepLabel7">ШАГ 07</span>
+            <h2 data-i18n="backupTitle">Резервное копирование и восстановление iCloud</h2>
+            <p class="lead" data-i18n="backupLead">Резервируйте данные в iCloud, чтобы не потерять заметки при смене устройства или переустановке приложения.</p>
+
+            <h3 data-i18n="backupHowTitle">Резервное копирование</h3>
+            <ol class="steps">
+                <li data-i18n-html="backupHow1"><strong>Настройки</strong> приложения → <strong>Резервное копирование iCloud</strong></li>
+                <li data-i18n-html="backupHow2">Нажмите <strong>Создать резервную копию</strong>: ручное резервное копирование</li>
+                <li data-i18n-html="backupHow3">Включите <strong>Автоматическое резервное копирование</strong>: сохранение каждые 5 минут при изменениях</li>
+            </ol>
+
+            <h3 data-i18n="backupRestoreTitle">Восстановление</h3>
+            <ol class="steps">
+                <li data-i18n="backupRestore1">Установите приложение на новом устройстве и войдите с тем же Apple ID</li>
+                <li data-i18n-html="backupRestore2">Настройки → Резервное копирование iCloud → <strong>Восстановить</strong></li>
+            </ol>
+
+            <div class="warning" data-i18n="backupWarn">При восстановлении все текущие заметки, буфер обмена и комбо будут заменены данными из резервной копии. Это действие нельзя отменить.</div>
+
+            <div class="tip" data-i18n="backupTip">Объём хранилища не ограничен. Заметки с изображениями также включены в резервную копию.</div>
+        </section>
+
+        <!-- 8. FAQ -->
+        <section class="step faq" id="faq">
+            <span class="step-badge" data-i18n="stepLabel8">FAQ</span>
+            <h2 data-i18n="faqTitle">Часто задаваемые вопросы и решение проблем</h2>
+
+            <details>
+                <summary data-i18n="faq1Q">Клавиатура не показывает мои заметки</summary>
+                <div class="content" data-i18n-html="faq1A"><p>Скорее всего, отключён пункт «Полный доступ». Проверьте iOS: Настройки → Основные → Клавиатура → ClipKeyboard → <strong>Полный доступ</strong>.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq2Q">Скопированный текст не появляется в истории</summary>
+                <div class="content" data-i18n-html="faq2A"><p>iOS по умолчанию ограничивает автоматическое чтение буфера обмена другими приложениями. Откройте приложение один раз, затем переключитесь на клавиатуру, чтобы данные синхронизировались.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq3Q">IBAn определился как номер карты</summary>
+                <div class="content" data-i18n-html="faq3A"><p>Похожие числовые шаблоны могут привести к неверному определению типа. Нажмите и удерживайте элемент, чтобы изменить тип вручную, или скопируйте номер заново с пробелами или дефисами (например, <code>1234-5678-...</code>).</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq4Q">Как удалить сохранённые значения шаблона?</summary>
+                <div class="content" data-i18n-html="faq4A"><p>На экране редактирования шаблона нажмите на поле для заполнения, чтобы увидеть список "сохранённых значений". Проведите по нужному значению, чтобы удалить его.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq5Q">Комбо обрывается или вводится не полностью</summary>
+                <div class="content" data-i18n-html="faq5A"><p>Попробуйте увеличить время ожидания между шагами (рекомендуется 0,5-1 секунда). У разных приложений разная допустимая скорость ввода, поэтому при быстром выполнении часть символов может потеряться.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq6Q">Данные на Mac и iPhone не синхронизируются</summary>
+                <div class="content" data-i18n-html="faq6A"><p>Проверьте, что оба устройства вошли в один и тот же Apple ID и что iCloud Drive включён. Также можно синхронизировать вручную: в приложении нажмите <strong>Резервное копирование iCloud → Создать резервную копию сейчас</strong>.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq7Q">Где хранятся мои данные?</summary>
+                <div class="content" data-i18n-html="faq7A"><p>Все заметки хранятся только на вашем устройстве (в контейнере App Group). Если включено резервное копирование iCloud, они хранятся в зашифрованном виде в вашем собственном iCloud. Разработчик не собирает содержимое заметок, только анонимную статистику использования (например, как часто используются функции) для улучшения приложения.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq9Q">В чём разница между бесплатной версией и Pro?</summary>
+                <div class="content" data-i18n-html="faq9A"><p>В бесплатной версии доступны 10 заметок, 3 комбо, 3 шаблона, 50 записей буфера обмена, 5 заметок с изображениями и настройка темы. Pro (разовая покупка) снимает все ограничения и добавляет резервное копирование iCloud и блокировку по биометрии.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq10Q">Как начать 7-дневный бесплатный пробный период?</summary>
+                <div class="content" data-i18n-html="faq10A"><p>На экране перехода на Pro в приложении есть кнопка <strong>Начать 7-дневный пробный период</strong>. Нажмите её один раз, и все функции Pro откроются на 7 дней (только один раз). По окончании приложение автоматически вернётся к бесплатной версии, без каких-либо последствий, если вы не оформите покупку.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq11Q">Как заблокировать защищённую заметку?</summary>
+                <div class="content" data-i18n-html="faq11A"><p>Нажмите и удерживайте заметку, затем выберите <strong>Заблокировать как защищённую заметку</strong>. Заблокированные заметки хранятся на устройстве в зашифрованном виде, а ключ надёжно синхронизируется через Связку ключей iCloud. Для открытия или снятия блокировки нужна проверка Face ID или Touch ID. (Функция Pro)</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq8Q">Моей проблемы нет в этом руководстве</summary>
+                <div class="content" data-i18n-html="faq8A"><p>Напишите разработчику напрямую: <a href="mailto:leeo@kakao.com">leeo@kakao.com</a>. Обычно отвечаем в течение дня.</p></div>
+            </details>
+        </section>
+    </main>
+
+    <section class="bottom-cta">
+        <a id="bottom-cta" href="https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502" class="btn-primary">
+            <span data-i18n="bottomCta">Загрузить в App Store</span>
+        </a>
+    </section>
+
+    <footer>
+        <p>
+            Made with ❤️ by <a href="https://github.com/m1zz" target="_blank">Leeo</a> ·
+            <a href="mailto:leeo@kakao.com" data-i18n="footerContact">Связаться</a> ·
+            <a href="privacy.html" data-i18n="footerPrivacy">Политика конфиденциальности</a> ·
+            <a href="index.html" data-i18n="footerHome">Главная</a>
+        </p>
+    </footer>
+
+    <script>
+        const translations = {
+ "ru": {
+  "playKbHint": "Нажмите на фразу",
+  "playClear": "Очистить",
+  "tocPlay": "Попробовать здесь",
+  "playBadge": "Перед загрузкой",
+  "playTitle": "Просто попробуйте прямо здесь",
+  "playLead": "Загружать ничего не нужно. Клавиатура ниже работает по-настоящему. Нажимайте, чтобы вводить текст, заполняйте поле и создайте свою фразу.",
+  "playCoachTitle": "Нажмите",
+  "playCoachStart": "Нажмите любую клавишу, и текст появится в поле выше.",
+  "playCoachSend": "Готово. Нажмите стрелку вверху справа, чтобы отправить.",
+  "playCoachStack": "Это стопка. У каждого поля своё имя, а стрелка справа переводит к следующему полю.",
+  "playCoachSize": "Высота клавиатуры изменилась. В приложении вы выбираете её точно так же.",
+  "playCoachAdd": "Отправлено. Теперь создайте свою фразу справа.",
+  "playCoachMade": "Клавиша появилась на клавиатуре. Нажмите на неё.",
+  "playCoachMadeTemplate": "Фигурные скобки делают её шаблоном. При нажатии сначала попросит заполнить поле.",
+  "playCoachNeedBoth": "Заполните и имя, и содержимое.",
+  "playSizeTitle": "Высота клавиатуры",
+  "playSizeBody": "Та же настройка, что и в приложении. Нажмите на вариант, и клавиатура ниже сразу изменится.",
+  "playSize_same": "Как в системе",
+  "playSize_standard": "Стандартный",
+  "playSize_roomy": "Просторный",
+  "playAddTitle": "Создать свою",
+  "playAddBody": "Укажите название и текст, и на клавиатуре появится клавиша. Добавьте в текст фигурные скобки, например {имя}, и он станет шаблоном: при каждом нажатии он попросит заполнить поле для заполнения.",
+  "playKeyPh": "Название (например: реквизиты счета)",
+  "playValPh": "Текст (например: Тинькофф 110-123-456789 Иван Иванов)",
+  "playAddBtn": "Добавить на клавиатуру",
+  "playResetBtn": "Начать заново",
+  "playPrivacy": "Эта песочница работает полностью в браузере. Ничего из того, что вы вводите, никуда не отправляется, это остается только на этом устройстве. Приложение работает так же.",
+  "playAppbar": "Сообщения",
+  "playThem": "Сегодня отправлю свою часть! Какие у тебя реквизиты?",
+  "playFieldPh": "Текст появится здесь",
+  "playNoKeys": "Пока нет ни одной клавиши. Создайте ее справа.",
+  "playFillTitle": "Заполните поле",
+  "playFillGo": "Вставить",
+  "playFillCancel": "Отмена",
+  "playSeedBankKey": "Реквизиты счета",
+  "playSeedBankVal": "Тинькофф 110-123-456789 Иван Иванов",
+  "playSeedLateKey": "Опаздываю",
+  "playSeedLateVal": "Извините, я опоздаю примерно на 10 минут.",
+  "playSeedHelloKey": "Ответ на вопрос",
+  "playSeedHelloVal": "Здравствуйте, {name}, спасибо за ваш вопрос.",
+  "playSeedStackKey": "Утренний отчёт",
+  "playSeedStack1Key": "Имя",
+  "playSeedStack1Val": "Иван Иванов",
+  "playSeedStack2Key": "Отдел",
+  "playSeedStack2Val": "Разработка",
+  "playSeedStack3Key": "Сегодня",
+  "playSeedStack3Val": "Проверка релиза",
+  "pageTitle": "Руководство пользователя ClipKeyboard",
+  "metaDescription": "Руководство по ClipKeyboard: настройка клавиатуры, сохранение фраз, шаблоны, умный буфер обмена, комбо и резервная копия в iCloud.",
+  "navHome": "Главная",
+  "navStore": "App Store",
+  "heroTitle": "Изучите <span>ClipKeyboard</span> за 5 минут",
+  "heroSubtitle": "От настройки клавиатуры до продвинутых функций, всё на одной странице.",
+  "tocTitle": "Содержание",
+  "tocSetup": "Начало работы",
+  "tocMemo": "Сохранение и редактирование заметок",
+  "tocTemplate": "Шаблоны и поля для заполнения",
+  "tocSmart": "Умный буфер обмена",
+  "tocCombo": "Комбо (последовательный ввод)",
+  "tocMac": "Приложение в строке меню macOS",
+  "tocBackup": "Резервное копирование iCloud",
+  "tocFaq": "Вопросы и решение проблем",
+  "stepLabel": "ШАГ 01",
+  "stepLabel2": "ШАГ 02",
+  "stepLabel3": "ШАГ 03",
+  "stepLabel4": "ШАГ 04",
+  "stepLabel5": "ШАГ 05",
+  "stepLabel6": "ШАГ 06",
+  "stepLabel7": "ШАГ 07",
+  "stepLabel8": "FAQ",
+  "setupTitle": "Начало работы. Добавление клавиатуры и полный доступ",
+  "setupLead": "Из соображений безопасности iOS клавиатуру нужно включить самостоятельно. Это займет около минуты.",
+  "setupAddTitle": "Добавление клавиатуры",
+  "setupAdd1": "Настройки iOS → Основные → Клавиатура → Клавиатуры → Добавить новую клавиатуру…",
+  "setupAdd2": "Выберите <strong>ClipKeyboard</strong> из списка",
+  "setupAccessTitle": "Разрешить полный доступ",
+  "setupAccess1": "На этом же экране нажмите на только что добавленный <strong>ClipKeyboard</strong>",
+  "setupAccess2": "Включите переключатель <strong>Разрешить полный доступ</strong>",
+  "setupWhyAccess": "Полный доступ нужен, чтобы клавиатура могла читать заметки, сохранённые в основном приложении. Ваши данные хранятся только на вашем устройстве.",
+  "setupSwitchTitle": "Переключение клавиатуры",
+  "setupSwitch": "В любом приложении откройте клавиатуру и удерживайте значок 🌐 внизу слева, чтобы выбрать <strong>ClipKeyboard</strong>.",
+  "memoTitle": "Сохранение и редактирование заметок",
+  "memoLead": "Сохраните часто используемые фразы, и вы сможете вставлять их прямо из клавиатуры.",
+  "memoAddTitle": "Добавление заметки",
+  "memoAdd1": "На главном экране приложения нажмите кнопку <strong>＋</strong> в правом верхнем углу",
+  "memoAdd2": "Введите заголовок и текст (текст будет вставлен при использовании)",
+  "memoAdd3": "При необходимости выберите <strong>категорию</strong> для сортировки",
+  "memoAdd4": "После сохранения заметка сразу появится в клавиатуре",
+  "memoUseTitle": "Использование в клавиатуре",
+  "memoUse1": "Нажмите на карточку заметки, и текст сразу вставится в позицию курсора",
+  "memoUse2": "Удерживайте для меню копирования и редактирования",
+  "memoUse3": "Используйте строку поиска сверху, чтобы быстро найти нужное",
+  "memoTip": "Эмодзи, переносы строк и разметка markdown вводятся как есть. Длинный текст, например подпись для email, тоже не проблема.",
+  "memoKeyboardLook": "Клавиатура выглядит так же, как приложение: избранные заметки показаны розовым цветом, у защищенных заметок перед названием стоит замок, а категория, которую вы просматриваете, отображается крупным заголовком сверху.",
+  "memoImageTitle": "Заметки с изображениями и распознавание текста",
+  "memoImage": "Нажатие на заметку с прикрепленным фото копирует его в буфер обмена как изображение. Удобно для визиток и чеков. Также можно извлечь из фото только нужный текст с помощью <strong>распознавания текста (OCR)</strong>. <strong>В бесплатной версии доступно до 5 заметок с изображениями</strong>, в Pro ограничения нет.",
+  "smearTitle": "Выбор текста с фото проведением пальца",
+  "smearLead": "Не переписывайте номера счетов и телефонов с бумаги вручную. Сделайте фото, затем <strong>проведите пальцем только по нужной части</strong>, и значением станет только этот текст.",
+  "smear1": "При создании фразы нажмите <strong>Сканировать текст</strong> над полем содержимого и выберите <strong>Снять фото</strong> или <strong>Из галереи</strong>",
+  "smear2": "Проведите пальцем по тексту на фото. Все, над чем пройдет палец, будет выделено желтым",
+  "smear3": "Выбрали что-то по ошибке? Проведите по этому месту еще раз инструментом <strong>Ластик</strong>. Чтобы увеличить мелкий текст, разведите два пальца",
+  "smear4": "Нажмите <strong>Использовать этот текст</strong>, и выбранный текст попадет в содержимое фразы",
+  "smearTip": "Включите кнопку переноса строк для значений, которые занимают несколько строк, например адрес из двух строк. Если оставить ее выключенной, номер счета, разбитый на две строки, соединится в одну.",
+  "smearNote": "Фото никогда не сохраняется. Текст извлекается, а фото удаляется. Распознавание происходит полностью на вашем устройстве, поэтому ни фото, ни текст никуда не отправляются. Если проводить пальцем неудобно, воспользуйтесь функцией Выбор по строкам в правом верхнем углу, чтобы выбрать нужную строку из списка распознанного текста.",
+  "memoSecureTitle": "Защищенные заметки (блокировка)",
+  "memoSecure": "Защищайте важные заметки блокировкой. Нажмите и удерживайте заметку, затем выберите <strong>Заблокировать как защищенную заметку</strong>: она будет храниться на устройстве в зашифрованном виде (ключ надежно синхронизируется через ваш iCloud Keychain), а для открытия и разблокировки потребуется <strong>Face ID или Touch ID</strong>. Заблокированные заметки отмечены только замком перед названием в списке и на клавиатуре, цвет карточки остается прежним. Это функция <strong>Pro</strong>.",
+  "tmplTitle": "Шаблоны и поля для заполнения",
+  "tmplLead": "Оставляйте немного изменяющиеся части в виде <code>{переменная}</code> и заполняйте их при использовании.",
+  "tmplSyntaxTitle": "Синтаксис",
+  "tmplSyntax": "Если написать имя переменной в фигурных скобках <code>{ }</code>, получится поле для заполнения. Например:",
+  "tmplEx1": "Здравствуйте, {имя}! Ваша запись на {дата} подтверждена.",
+  "tmplEx2": "Заказ № {order_id} · Доставка {date}",
+  "tmplUseTitle": "Как использовать",
+  "tmplUse1": "Нажмите на Заметку с Шаблоном, и снизу плавно поднимется лист для ввода значений",
+  "tmplUse2": "Заполните поля и нажмите кнопку копирования в правом верхнем углу, готовое предложение скопируется",
+  "tmplUse3": "Введённые значения запоминаются автоматически, и в следующий раз выбрать их будет проще (например, список часто используемых имён для поля \"имя\")",
+  "tmplMakeTitle": "Превратить обычную заметку в шаблон",
+  "tmplMake": "Нажмите и удержите обычную Заметку, выберите <strong>Сделать шаблоном</strong>, и оригинал останется как есть, а откроется новая Заметка-Шаблон с тем же содержимым. Вставьте <code>{переменная}</code> в нужном месте текста и сохраните. После добавления переменной курсор сразу встанет за ней, чтобы можно было продолжить печатать.",
+  "tmplDateNote": "Для автоматических переменных даты и времени можно выбрать <strong>Сегодня, Завтра, На следующей неделе, Через две недели или свою дату</strong>. При нажатии переменная заменяется настоящей датой и копируется.",
+  "tmplTip": "Переменные с одинаковым именем используются во всех шаблонах вместе. Значение, введённое для <code>{имя}</code>, будет предложено и в других шаблонах с <code>{имя}</code>.",
+  "smartTitle": "Умный Буфер обмена",
+  "smartLead": "Скопированный текст распознаётся автоматически, чтобы вы могли найти его снова в любой момент.",
+  "smartTypesTitle": "15 автоматически распознаваемых типов",
+  "smartType1": "Email",
+  "smartType2": "Телефон",
+  "smartType3": "Адрес",
+  "smartType4": "URL",
+  "smartType5": "Номер карты",
+  "smartType6": "IBAN / счёт",
+  "smartType7": "SWIFT / BIC",
+  "smartType8": "НДС / Налоговый номер",
+  "smartType9": "Сумма и валюта",
+  "smartType10": "Номер отслеживания",
+  "smartType11": "PayPal / Wise",
+  "smartType12": "Число",
+  "smartType13": "Обычный текст",
+  "smartType14": "Изображение",
+  "smartType15": "Другое",
+  "smartHowTitle": "Как это работает",
+  "smartHow1": "Каждое копирование запускает классификацию по регулярным выражениям с оценкой достоверности",
+  "smartHow2": "В истории хранится до 100 элементов",
+  "smartHow3": "Временные элементы удаляются автоматически через 30 дней",
+  "smartHow4": "Закрепите (📌) важные элементы, чтобы они хранились всегда",
+  "smartNote": "Конфиденциальные данные (карта, IBAN, налоговый номер) отображаются скрытыми. Настоящее значение копируется только при нажатии.",
+  "comboTitle": "Комбо: несколько заметок сразу",
+  "comboLead": "Функция вроде макроса, которая вводит имя, email и телефон по порядку.",
+  "comboWhenTitle": "Когда это полезно",
+  "comboWhen1": "Заполнение форм регистрации: имя, email, телефон",
+  "comboWhen2": "Заказ: адрес, пожелания и код скидки за один раз",
+  "comboWhen3": "Ответы поддержки: приветствие + текст ответа + подпись",
+  "comboMakeTitle": "Создание комбо",
+  "comboMakeIntro": "Теперь комбо создаётся не на отдельном экране, а <strong>прямо в списке заметок</strong>. Добавьте к заметке продолжение, и она станет комбо.",
+  "comboMake1": "На главном экране нажмите <strong>＋</strong>, чтобы создать заметку, и введите первый текст",
+  "comboMake2": "Добавьте <strong>следующие заметки</strong> с содержимым, которое будет вводиться по порядку",
+  "comboMake3": "Задайте паузу (в секундах) между шагами",
+  "comboMake4": "После сохранения комбо появится в списке заметок, а при нажатии в клавиатуре шаги введутся по порядку",
+  "comboPreviewNote": "При нажатии на комбо заметка сразу копируется, а значения шагов, которые будут введены по порядку, показываются в нижней панели предпросмотра. Уже созданные комбо, категории и заметки сохраняются без изменений после обновления.",
+  "comboTip": "Пауза меньше 0,3 секунды может быть слишком короткой для системы. Рекомендуется 0,5-1 секунда.",
+  "macTitle": "Приложение в строке меню macOS",
+  "macLead": "Те же заметки, буфер обмена и комбо на Mac (через Mac Catalyst).",
+  "macInstallTitle": "Установка",
+  "macInstall": "Входит в ту же покупку в App Store. Найдите <strong>ClipKeyboard</strong> в Mac App Store. Войдите с тем же Apple ID, чтобы данные синхронизировались через iCloud автоматически.",
+  "macFeaturesTitle": "Функции только для Mac",
+  "macF1": "Открытие панели одним щелчком по значку в строке меню",
+  "macF2": "Быстрый вызов через глобальные сочетания клавиш, например <kbd>⌃</kbd>+<kbd>⇧</kbd>+<kbd>V</kbd>",
+  "macF3": "Мониторинг буфера обмена: умная классификация сразу при копировании",
+  "macF4": "Плавающая панель поверх других приложений",
+  "macNote": "Сохраните фразу на Mac, и она сразу появится в клавиатуре iPhone, и наоборот.",
+  "backupTitle": "Резервное копирование и восстановление iCloud",
+  "backupLead": "Резервируйте данные в iCloud, чтобы не потерять заметки при смене устройства или переустановке приложения.",
+  "backupHowTitle": "Резервное копирование",
+  "backupHow1": "<strong>Настройки</strong> приложения → <strong>Резервное копирование iCloud</strong>",
+  "backupHow2": "Нажмите <strong>Создать резервную копию</strong>: ручное резервное копирование",
+  "backupHow3": "Включите <strong>Автоматическое резервное копирование</strong>: сохранение каждые 5 минут при изменениях",
+  "backupRestoreTitle": "Восстановление",
+  "backupRestore1": "Установите приложение на новом устройстве и войдите с тем же Apple ID",
+  "backupRestore2": "Настройки → Резервное копирование iCloud → <strong>Восстановить</strong>",
+  "backupWarn": "При восстановлении все текущие заметки, буфер обмена и комбо будут заменены данными из резервной копии. Это действие нельзя отменить.",
+  "backupTip": "Объём хранилища не ограничен. Заметки с изображениями также включены в резервную копию.",
+  "faqTitle": "Часто задаваемые вопросы и решение проблем",
+  "faq1Q": "Клавиатура не показывает мои заметки",
+  "faq1A": "<p>Скорее всего, отключён пункт «Полный доступ». Проверьте iOS: Настройки → Основные → Клавиатура → ClipKeyboard → <strong>Полный доступ</strong>.</p>",
+  "faq2Q": "Скопированный текст не появляется в истории",
+  "faq2A": "<p>iOS по умолчанию ограничивает автоматическое чтение буфера обмена другими приложениями. Откройте приложение один раз, затем переключитесь на клавиатуру, чтобы данные синхронизировались.</p>",
+  "faq3Q": "IBAn определился как номер карты",
+  "faq3A": "<p>Похожие числовые шаблоны могут привести к неверному определению типа. Нажмите и удерживайте элемент, чтобы изменить тип вручную, или скопируйте номер заново с пробелами или дефисами (например, <code>1234-5678-...</code>).</p>",
+  "faq4Q": "Как удалить сохранённые значения шаблона?",
+  "faq4A": "<p>На экране редактирования шаблона нажмите на поле для заполнения, чтобы увидеть список \"сохранённых значений\". Проведите по нужному значению, чтобы удалить его.</p>",
+  "faq5Q": "Комбо обрывается или вводится не полностью",
+  "faq5A": "<p>Попробуйте увеличить время ожидания между шагами (рекомендуется 0,5-1 секунда). У разных приложений разная допустимая скорость ввода, поэтому при быстром выполнении часть символов может потеряться.</p>",
+  "faq6Q": "Данные на Mac и iPhone не синхронизируются",
+  "faq6A": "<p>Проверьте, что оба устройства вошли в один и тот же Apple ID и что iCloud Drive включён. Также можно синхронизировать вручную: в приложении нажмите <strong>Резервное копирование iCloud → Создать резервную копию сейчас</strong>.</p>",
+  "faq7Q": "Где хранятся мои данные?",
+  "faq7A": "<p>Все заметки хранятся только на вашем устройстве (в контейнере App Group). Если включено резервное копирование iCloud, они хранятся в зашифрованном виде в вашем собственном iCloud. Разработчик не собирает содержимое заметок, только анонимную статистику использования (например, как часто используются функции) для улучшения приложения.</p>",
+  "faq9Q": "В чём разница между бесплатной версией и Pro?",
+  "faq9A": "<p>В бесплатной версии доступны 10 заметок, 3 комбо, 3 шаблона, 50 записей буфера обмена, 5 заметок с изображениями и настройка темы. Pro (разовая покупка) снимает все ограничения и добавляет резервное копирование iCloud и блокировку по биометрии.</p>",
+  "faq10Q": "Как начать 7-дневный бесплатный пробный период?",
+  "faq10A": "<p>На экране перехода на Pro в приложении есть кнопка <strong>Начать 7-дневный пробный период</strong>. Нажмите её один раз, и все функции Pro откроются на 7 дней (только один раз). По окончании приложение автоматически вернётся к бесплатной версии, без каких-либо последствий, если вы не оформите покупку.</p>",
+  "faq11Q": "Как заблокировать защищённую заметку?",
+  "faq11A": "<p>Нажмите и удерживайте заметку, затем выберите <strong>Заблокировать как защищённую заметку</strong>. Заблокированные заметки хранятся на устройстве в зашифрованном виде, а ключ надёжно синхронизируется через Связку ключей iCloud. Для открытия или снятия блокировки нужна проверка Face ID или Touch ID. (Функция Pro)</p>",
+  "faq8Q": "Моей проблемы нет в этом руководстве",
+  "faq8A": "<p>Напишите разработчику напрямую: <a href=\"mailto:leeo@kakao.com\">leeo@kakao.com</a>. Обычно отвечаем в течение дня.</p>",
+  "bottomCta": "Загрузить в App Store",
+  "footerContact": "Связаться",
+  "footerHome": "Главная",
+  "footerPrivacy": "Политика конфиденциальности",
+  "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+ },
+ "en": {
+  "playKbHint": "Tap a snippet",
+  "playClear": "Clear",
+  "tocPlay": "Try it here",
+  "playBadge": "Before you download",
+  "playTitle": "Just try it right here",
+  "playLead": "No download needed. The keyboard below really works. Tap to type, fill in a blank, and make one of your own.",
+  "playCoachTitle": "Give it a tap",
+  "playCoachStart": "Tap any key and it lands in the field above.",
+  "playCoachSend": "There it is. Hit the arrow to send it.",
+  "playCoachStack": "This one is a stack. Each slot has its own name, and the arrow on the right moves to the next one.",
+  "playCoachSize": "The keyboard changed height. You pick the same thing inside the app.",
+  "playCoachAdd": "Sent. Now make one of your own on the right.",
+  "playCoachMade": "Your key is on the keyboard. Give it a tap.",
+  "playCoachMadeTemplate": "The braces make it a template. It will ask you to fill the blank first.",
+  "playCoachNeedBoth": "Please fill in both the name and the content.",
+  "playSizeTitle": "Keyboard height",
+  "playSizeBody": "The same setting you get in the app. Tap one and the keyboard below changes.",
+  "playSize_same": "Match system",
+  "playSize_standard": "Standard",
+  "playSize_roomy": "Roomy",
+  "playAddTitle": "Make one of your own",
+  "playAddBody": "Give it a name and content, and a key appears on the keyboard. Put braces in the content, like {name}, and it becomes a template that asks you to fill the blank each time.",
+  "playKeyPh": "Name (e.g. Bank details)",
+  "playValPh": "Content (e.g. Chase 110-123-456789 John Doe)",
+  "playAddBtn": "Add to keyboard",
+  "playResetBtn": "Start over",
+  "playPrivacy": "This sandbox runs entirely in your browser. Nothing you type is sent anywhere; it stays on this device. The app works the same way.",
+  "playAppbar": "Messages",
+  "playThem": "Sending my share today! What is your account?",
+  "playFieldPh": "Your text lands here",
+  "playNoKeys": "No keys yet. Make one on the right.",
+  "playFillTitle": "Fill in the blank",
+  "playFillGo": "Insert",
+  "playFillCancel": "Cancel",
+  "playSeedBankKey": "Bank details",
+  "playSeedBankVal": "Chase 110-123-456789 John Doe",
+  "playSeedLateKey": "Running late",
+  "playSeedLateVal": "Sorry, I am going to be about 10 minutes late.",
+  "playSeedHelloKey": "Reply to inquiry",
+  "playSeedHelloVal": "Hello {name}, thank you for reaching out.",
+  "playSeedStackKey": "Daily check-in",
+  "playSeedStack1Key": "Name",
+  "playSeedStack1Val": "John Doe",
+  "playSeedStack2Key": "Team",
+  "playSeedStack2Val": "Engineering",
+  "playSeedStack3Key": "Today",
+  "playSeedStack3Val": "Release check",
+  "pageTitle": "ClipKeyboard User Guide",
+  "metaDescription": "How to use ClipKeyboard from A to Z: keyboard setup, saving snippets, templates, smart clipboard, combos and iCloud backup.",
+  "navHome": "Home",
+  "navStore": "App Store",
+  "heroTitle": "Master <span>ClipKeyboard</span> in 5 Minutes",
+  "heroSubtitle": "From keyboard setup to advanced features, everything on one page.",
+  "tocTitle": "Contents",
+  "tocSetup": "Getting Started",
+  "tocMemo": "Save & Edit Memos",
+  "tocTemplate": "Templates & Placeholders",
+  "tocSmart": "Smart Clipboard",
+  "tocCombo": "Combos (Sequential Input)",
+  "tocMac": "macOS Menu Bar App",
+  "tocBackup": "iCloud Backup",
+  "tocFaq": "FAQ & Troubleshooting",
+  "stepLabel": "STEP 01",
+  "stepLabel2": "STEP 02",
+  "stepLabel3": "STEP 03",
+  "stepLabel4": "STEP 04",
+  "stepLabel5": "STEP 05",
+  "stepLabel6": "STEP 06",
+  "stepLabel7": "STEP 07",
+  "stepLabel8": "FAQ",
+  "setupTitle": "Getting Started: Add Keyboard & Allow Full Access",
+  "setupLead": "Due to iOS security, you must activate the keyboard yourself. Takes about a minute.",
+  "setupAddTitle": "Add the Keyboard",
+  "setupAdd1": "iOS Settings → General → Keyboard → Keyboards → Add New Keyboard…",
+  "setupAdd2": "Pick <strong>ClipKeyboard</strong> from the list",
+  "setupAccessTitle": "Allow Full Access",
+  "setupAccess1": "On the same screen, tap <strong>ClipKeyboard</strong> you just added",
+  "setupAccess2": "Toggle on <strong>Allow Full Access</strong>",
+  "setupWhyAccess": "Full Access lets the keyboard read memos stored in the main app. Your data stays on your device only.",
+  "setupSwitchTitle": "Switch to the Keyboard",
+  "setupSwitch": "In any app, open the keyboard and long-press the 🌐 icon on the bottom-left to pick <strong>ClipKeyboard</strong>.",
+  "memoTitle": "Save & Edit Memos",
+  "memoLead": "Save phrases you type often and pull them up from the keyboard anywhere.",
+  "memoAddTitle": "Add a Memo",
+  "memoAdd1": "Tap the <strong>＋</strong> button on the top-right of the main screen",
+  "memoAdd2": "Enter a title and content (content is the text that will be typed)",
+  "memoAdd3": "Pick a <strong>category</strong> to organize",
+  "memoAdd4": "Save, and it's instantly available in the keyboard",
+  "memoUseTitle": "Use from the Keyboard",
+  "memoUse1": "Tap a memo card → text is typed at the cursor",
+  "memoUse2": "Long-press for copy/edit menu",
+  "memoUse3": "Use the search bar at the top to find quickly",
+  "memoTip": "Emojis, line breaks, and markdown are typed as-is. Long email signatures? No problem.",
+  "memoKeyboardLook": "The keyboard mirrors the app: favorite memos appear in pink, secure memos show a lock before the title, and the category you're viewing appears as a large title at the top.",
+  "memoImageTitle": "Image Memos & Text Recognition",
+  "memoImage": "Tapping a memo with an attached photo copies it to the clipboard as an image. Great for business cards or receipts. You can also pull just the text you need from a captured image with <strong>text recognition (OCR)</strong>. <strong>The free tier supports up to 5 image memos</strong>; Pro removes the limit.",
+  "smearTitle": "Swipe to Pick from a Photo",
+  "smearLead": "Stop retyping account numbers and phone numbers off paper. Take a photo, then <strong>swipe your finger over just the part you need</strong> and only that text becomes the value.",
+  "smear1": "While creating a shortcut, tap <strong>Scan text in</strong> above the content field and choose <strong>Take a photo</strong> or <strong>From photo library</strong>",
+  "smear2": "Swipe your finger across the text in the photo. Everything your finger passes over is highlighted in yellow",
+  "smear3": "Picked something by mistake? Swipe over it again with the <strong>Eraser</strong>. Pinch with two fingers to zoom in on small text",
+  "smear4": "Tap <strong>Use this text</strong> and what you picked goes into the shortcut content",
+  "smearTip": "Turn on the line-breaks button for values that span lines, like a two-line address. Leave it off and an account number split across two lines joins into one.",
+  "smearNote": "The photo is never saved. The text is taken out and the photo is discarded. Recognition happens entirely on your device, so neither the photo nor the text is ever sent anywhere. If swiping is hard, use Pick by line at the top right to choose from a list of the recognized lines.",
+  "memoSecureTitle": "Secure Memos (Lock)",
+  "memoSecure": "Lock sensitive memos to protect them. Long-press a memo and choose <strong>Lock as secure memo</strong>: it's stored encrypted on your device (the key syncs safely via your iCloud Keychain), and opening or unlocking it requires <strong>Face ID / Touch ID</strong>. Locked memos are marked only by a lock before the title in both the list and the keyboard, keeping their card color. This is a <strong>Pro feature</strong>.",
+  "tmplTitle": "Templates & Placeholders",
+  "tmplLead": "Leave slightly-varying parts as <code>{variable}</code> and fill them in when you use it.",
+  "tmplSyntaxTitle": "Syntax",
+  "tmplSyntax": "Variable names inside curly braces <code>{ }</code> become placeholders. Examples:",
+  "tmplEx1": "Hi {name}, your booking for {date} is confirmed.",
+  "tmplEx2": "Order {order_id} · Ships {date}",
+  "tmplUseTitle": "How to Use",
+  "tmplUse1": "Tap a template memo: a value-input sheet slides up from the bottom",
+  "tmplUse2": "Fill in the blanks and tap Copy at the top-right; the completed sentence is copied",
+  "tmplUse3": "Values you've entered are remembered, making the next selection faster (e.g. a history of \"name\" values)",
+  "tmplMakeTitle": "Turn an Existing Memo into a Template",
+  "tmplMake": "Long-press a regular memo and choose <strong>Make Template</strong>: the original stays as-is while a new template memo opens pre-filled with its content. Drop <code>{variable}</code> wherever you want and save; the cursor lands right after each variable so you can keep typing.",
+  "tmplDateNote": "Date/time auto-variables let you pick <strong>Today, Tomorrow, Next week, In two weeks, or a specific date</strong>: tapping substitutes the real date and copies it.",
+  "tmplTip": "Variables with the same name are shared across templates. Values entered for <code>{name}</code> are suggested in other templates' <code>{name}</code>.",
+  "smartTitle": "Smart Clipboard",
+  "smartLead": "Automatically classifies copied text so you can pull it back up anytime.",
+  "smartTypesTitle": "15 Auto-Detected Types",
+  "smartType1": "Email",
+  "smartType2": "Phone",
+  "smartType3": "Address",
+  "smartType4": "URL",
+  "smartType5": "Card #",
+  "smartType6": "IBAN / Bank",
+  "smartType7": "SWIFT / BIC",
+  "smartType8": "VAT / Tax ID",
+  "smartType9": "Amount / Currency",
+  "smartType10": "Tracking #",
+  "smartType11": "PayPal / Wise",
+  "smartType12": "Number",
+  "smartType13": "Plain Text",
+  "smartType14": "Image",
+  "smartType15": "Other",
+  "smartHowTitle": "How It Works",
+  "smartHow1": "Each copy triggers regex-based classification with a confidence score",
+  "smartHow2": "Up to 100 items kept in history",
+  "smartHow3": "Temporary items auto-delete after 30 days",
+  "smartHow4": "Pin (📌) important items to keep them forever",
+  "smartNote": "Sensitive items (card, IBAN, Tax ID) are masked on display. The real value is copied only when tapped.",
+  "comboTitle": "Combos: Multiple Memos at Once",
+  "comboLead": "A macro-like feature that types name, email, phone in sequence.",
+  "comboWhenTitle": "Great For",
+  "comboWhen1": "Filling signup forms with name, email, phone",
+  "comboWhen2": "Orders: address + requests + discount code in one shot",
+  "comboWhen3": "Support replies = greeting + body + signature",
+  "comboMakeTitle": "Create a Combo",
+  "comboMakeIntro": "Combos are now built <strong>right inside your memo list</strong>, not on a separate screen. Add follow-up content to a memo and it becomes a combo.",
+  "comboMake1": "In the main app, tap <strong>＋</strong> to create a new memo and enter the first content",
+  "comboMake2": "Add <strong>follow-up memos</strong> for the content to be entered in order",
+  "comboMake3": "Set the delay (in seconds) between steps",
+  "comboMake4": "Save: it appears as a combo in your memo list, and tapping it in the keyboard types the steps in order",
+  "comboPreviewNote": "Tapping a combo memo copies it right away and lays out the step values that will be typed, in order, in a half-sheet preview. The combos, categories, and memos you already made are kept exactly as they were across updates.",
+  "comboTip": "Delays under 0.3s may exceed what the system can keep up with. 0.5~1s is recommended.",
+  "macTitle": "macOS Menu Bar App",
+  "macLead": "The same memos, clipboard, and combos on Mac (via Mac Catalyst).",
+  "macInstallTitle": "Install",
+  "macInstall": "Included in the same App Store purchase. Search <strong>ClipKeyboard</strong> in the Mac App Store. Sign in with the same Apple ID to sync data via iCloud automatically.",
+  "macFeaturesTitle": "Mac-Only Features",
+  "macF1": "One-click menu bar icon opens the panel",
+  "macF2": "Global shortcuts like <kbd>⌃</kbd>+<kbd>⇧</kbd>+<kbd>V</kbd> to summon instantly",
+  "macF3": "Clipboard monitoring: classifies on copy",
+  "macF4": "Floating panel on top of other apps",
+  "macNote": "Save a phrase on Mac and it appears instantly in the iPhone keyboard, and vice versa.",
+  "backupTitle": "iCloud Backup & Restore",
+  "backupLead": "Back up to iCloud so you don't lose memos when changing devices or reinstalling.",
+  "backupHowTitle": "Back Up",
+  "backupHow1": "App <strong>Settings</strong> → <strong>iCloud Backup</strong>",
+  "backupHow2": "Tap <strong>Back Up Now</strong>: manual backup",
+  "backupHow3": "Toggle <strong>Auto Backup</strong>: saves every 5 minutes on change",
+  "backupRestoreTitle": "Restore",
+  "backupRestore1": "Install the app on a new device, sign in with the same Apple ID",
+  "backupRestore2": "Settings → iCloud Backup → <strong>Restore</strong>",
+  "backupWarn": "Restoring replaces all current memos, clipboard, and combos with the backup. This cannot be undone.",
+  "backupTip": "Unlimited storage. Image memos are included in the backup.",
+  "faqTitle": "Frequently Asked Questions",
+  "faq1Q": "The keyboard doesn't show my memos",
+  "faq1A": "<p>\"Allow Full Access\" is likely off. Check iOS Settings → General → Keyboard → ClipKeyboard → <strong>Allow Full Access</strong>.</p>",
+  "faq2Q": "Copied text isn't showing in history",
+  "faq2A": "<p>iOS restricts other apps from auto-reading the clipboard. Open the app once, then switch to the keyboard to sync.</p>",
+  "faq3Q": "My IBAN was classified as a card number",
+  "faq3A": "<p>Similar digit patterns can cause misclassification. Long-press the item to change the type manually, or re-copy with spaces/hyphens (e.g. <code>1234-5678-...</code>).</p>",
+  "faq4Q": "How do I delete remembered template values?",
+  "faq4A": "<p>In the template edit view, tap a placeholder to see the \"saved values\" list. Swipe to delete individually.</p>",
+  "faq5Q": "Combos get cut off / only partial input",
+  "faq5A": "<p>Increase the delay between steps (0.5~1s recommended). Different apps have different input-rate tolerances.</p>",
+  "faq6Q": "Mac and iPhone data won't sync",
+  "faq6A": "<p>Make sure both devices are signed in with the same Apple ID and iCloud Drive is enabled. You can also manually sync via <strong>iCloud Backup → Back Up Now</strong> in the app.</p>",
+  "faq7Q": "Where is my data stored?",
+  "faq7A": "<p>All memos are stored on your device (App Group container). With iCloud Backup enabled, they're stored encrypted in your own iCloud. The developer never collects your memo contents, only anonymous usage statistics (such as how often features are used) to improve the app.</p>",
+  "faq9Q": "What's the difference between Free and Pro?",
+  "faq9A": "<p>The free tier covers 10 memos, 3 combos, 3 templates, 50 clipboard items, 5 image memos, and theme customization. Pro (one-time purchase) lifts every limit to unlimited and adds iCloud backup and biometric lock.</p>",
+  "faq10Q": "How do I start the 7-day free trial?",
+  "faq10A": "<p>On the Pro upgrade screen in the app, you'll see a <strong>Start 7-day free trial</strong> button. Tap it once and all Pro features unlock for 7 days (one-time only). When it ends, the app falls back to the free tier automatically: no penalty if you don't purchase.</p>",
+  "faq11Q": "How do I lock a secure memo?",
+  "faq11A": "<p>Long-press a memo and choose <strong>Lock as secure memo</strong>. Locked memos are stored encrypted on your device, with the key synced safely via your iCloud Keychain. Opening or unlocking requires Face ID / Touch ID. (Pro feature)</p>",
+  "faq8Q": "My issue isn't in this guide",
+  "faq8A": "<p>Email the developer directly: <a href=\"mailto:leeo@kakao.com\">leeo@kakao.com</a>. Usually a reply within a day.</p>",
+  "bottomCta": "Download on the App Store",
+  "footerContact": "Contact",
+  "footerHome": "Home",
+  "footerPrivacy": "Privacy Policy",
+  "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+ }
+};
+
+        /// 브라우저 언어 태그·저장값·?lang= 을 이 페이지가 아는 언어로 옮긴다.
+        /// 모르는 값이면 빈 문자열(=호출한 쪽이 기본값을 정한다).
+        /// ⚠️ 대만·홍콩·마카오는 번체다. zh 로만 보고 간체를 주면 남의 글자를 보게 된다.
+        function normalizeLang(tag) {
+            var t = (tag || '').toLowerCase().replace('_', '-');
+            if (!t) return '';
+            if (t.indexOf('ko') === 0) return 'ko';
+            if (t.indexOf('en') === 0) return 'en';
+            if (t.indexOf('ru') === 0) return 'ru';
+            if (t.indexOf('zh') === 0) {
+                if (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                    t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) return 'zh-Hant';
+                return 'zh-Hans';   // zh · zh-CN · zh-SG, 그리고 갈리기 전에 저장된 'zh'
+            }
+            return '';
+        }
+
+        function setLanguage(lang) {
+            localStorage.setItem('clipkb-lang', lang);
+            applyLanguage(lang);
+        }
+
+        function applyLanguage(lang) {
+            const t = translations[lang];
+            if (!t) return;
+
+            document.documentElement.lang = lang;
+            document.title = t.pageTitle;
+
+            document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) el.textContent = t[key];
+            });
+
+            document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n-html');
+                if (t[key] !== undefined) el.innerHTML = t[key];
+            });
+
+            // 실습판의 안내 글(placeholder)과, 판 자체를 그 말로 다시 그린다.
+            document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n-ph');
+                if (t[key] !== undefined) el.placeholder = t[key];
+            });
+            if (window.__playRender) window.__playRender();
+
+            // Update App Store links
+            var url = t.appStoreUrl;
+            var navCta = document.getElementById('nav-appstore');
+            var botCta = document.getElementById('bottom-cta');
+            if (navCta) navCta.href = url;
+            if (botCta) botCta.href = url;
+
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        // ── 언어별 페이지 ──
+        // 이 루트 페이지는 x-default 다. 언어마다 고정된 페이지가 docs/<lang>/ 에 있고
+        // (docs/i18n/build.mjs 가 이 파일로 만든다) 그 페이지는 window.PAGE_LANG 을 박아 둔다.
+        // 이 파일에 글이 없는 언어로 들어오면(?lang=ja, 일본어 브라우저) 그 언어 페이지로 보낸다.
+        var SITE_LANGS = ["ko", "en", "zh-Hans", "zh-Hant", "ru", "ja", "es", "de", "fr", "it", "pt-BR", "th", "vi"];
+        function siteLang(tag) {
+            var t = (tag || '').toLowerCase().replace('_', '-');
+            if (!t) return '';
+            if (t.indexOf('zh') === 0) {
+                return (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                        t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) ? 'zh-Hant' : 'zh-Hans';
+            }
+            if (t.indexOf('pt') === 0) return 'pt-BR';
+            var base = t.split('-')[0];
+            return SITE_LANGS.indexOf(base) >= 0 ? base : '';
+        }
+        function goLangPage(lang) {
+            if (!lang || translations[lang] || SITE_LANGS.indexOf(lang) < 0) return false;
+            var file = window.location.pathname.split('/').pop() || '';
+            window.location.replace(lang + '/' + file + window.location.hash);
+            return true;
+        }
+
+        (function() {
+            // 언어별 페이지(docs/<lang>/)는 언어가 정해져 있다.
+            if (window.PAGE_LANG) { applyLanguage(window.PAGE_LANG); return; }
+            if (goLangPage(siteLang(new URLSearchParams(window.location.search).get('lang') || ''))) return;
+            if (!localStorage.getItem('clipkb-lang') && goLangPage(siteLang(navigator.language || navigator.userLanguage || ''))) return;
+            // ?lang= 으로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
+            var asked = normalizeLang(new URLSearchParams(window.location.search).get('lang') || '');
+            if (asked) {
+                setLanguage(asked);
+                return;
+            }
+            // 예전에 'zh' 로 저장된 사람은 간체로 옮겨 준다(간체·번체가 갈리기 전 값).
+            var saved = normalizeLang(localStorage.getItem('clipkb-lang') || '');
+            if (saved) {
+                applyLanguage(saved);
+                return;
+            }
+            applyLanguage(normalizeLang(navigator.language || navigator.userLanguage || '') || 'en');
+        })();
+
+        /* ─────────────────────────────────────────────────────────────
+           실습판
+           ─────────────────────────────────────────────────────────────
+           왜 있나: 이 페이지의 나머지는 전부 "이렇게 하세요" 다. 그런데 이 앱의 값어치는
+           **키보드에서 꺼내 쓰는 그 순간**에 있어서, 글로는 좀처럼 안 옮겨진다.
+           받아서 설치하고 키보드를 켜야 비로소 알게 되는 것을, 받기 전에 한 번 만져 보게 한다.
+
+           ⚠️ 적은 것은 이 브라우저를 벗어나지 않는다(localStorage). 앱이 "서버가 없다" 고
+              말하는데 소개 페이지가 입력을 어디로 보내면, 그 말이 거짓이 된다.
+
+           ⚠️ 스택은 **칸마다 이름이 있다.** 값만 스쳐 지나가면 지금 몇 번째 무엇인지
+              알 수 없다는 것이 앱에서 고친 것이고, 여기서도 같은 모양이어야 한다.
+           ───────────────────────────────────────────────────────────── */
+        (function () {
+            var STORE = 'clipkb-play-v1';
+            var SIZES = ['same', 'standard', 'roomy'];
+            // 키보드 높이. 이름은 앱의 설정과 같은 뜻이고, 숫자는 이 판의 몫이다.
+            var SIZE_PX = { same: 168, standard: 208, roomy: 262 };
+
+            var state = { text: '', sent: [], mine: [], size: 'standard', step: {}, fill: null, coach: 'playCoachStart' };
+
+            function t(key) {
+                var lang = document.documentElement.lang || 'en';
+                var table = translations[lang] || translations.en;
+                return table[key] !== undefined ? table[key] : (translations.en[key] || '');
+            }
+            function esc(v) {
+                return String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
+            /// 빈칸({이름})을 찾는다. 앱의 템플릿 판정과 같은 규칙이다.
+            function slotsOf(v) {
+                var found = String(v).match(/\{[^{}\n]{1,24}\}/g) || [];
+                return found.filter(function (x, i) { return found.indexOf(x) === i; });
+            }
+
+            /// 넣어 둔 보기들. **지우지 않는다** - 실습판에 아무것도 없으면 무엇을 눌러야
+            /// 할지 모른 채로 시작하게 된다.
+            function seeded() {
+                return [
+                    { id: 's1', key: t('playSeedBankKey'), value: t('playSeedBankVal') },
+                    { id: 's2', key: t('playSeedLateKey'), value: t('playSeedLateVal') },
+                    { id: 's3', key: t('playSeedHelloKey'), value: t('playSeedHelloVal') },
+                    { id: 's4', key: t('playSeedStackKey'), stack: [
+                        { key: t('playSeedStack1Key'), value: t('playSeedStack1Val') },
+                        { key: t('playSeedStack2Key'), value: t('playSeedStack2Val') },
+                        { key: t('playSeedStack3Key'), value: t('playSeedStack3Val') }
+                    ] }
+                ];
+            }
+            function allKeys() { return seeded().concat(state.mine); }
+
+            function load() {
+                try {
+                    var raw = JSON.parse(localStorage.getItem(STORE) || '{}');
+                    if (Array.isArray(raw.mine)) state.mine = raw.mine;
+                    if (SIZES.indexOf(raw.size) >= 0) state.size = raw.size;
+                } catch (e) { /* 저장이 막힌 브라우저여도 실습은 돌아가야 한다 */ }
+            }
+            function save() {
+                try { localStorage.setItem(STORE, JSON.stringify({ mine: state.mine, size: state.size })); }
+                catch (e) { /* 사생활 보호 모드 등 - 저장만 못 할 뿐이다 */ }
+            }
+
+            function setCoach(key) { state.coach = key; }
+
+            function insert(text) {
+                state.text = state.text ? (state.text + ' ' + text) : text;
+                setCoach('playCoachSend');
+                render();
+            }
+
+            function tapKey(item) {
+                if (item.stack) {
+                    var i = state.step[item.id] || 0;
+                    insert(item.stack[i].value);
+                    setCoach('playCoachStack');
+                    return;
+                }
+                var slots = slotsOf(item.value);
+                if (slots.length) { state.fill = { id: item.id, slot: slots[0], typed: '' }; render(); return; }
+                insert(item.value);
+            }
+
+            function nextStep(item) {
+                var n = item.stack.length;
+                state.step[item.id] = ((state.step[item.id] || 0) + 1) % n;
+                setCoach('playCoachStack');
+                render();
+            }
+
+            function confirmFill() {
+                var item = allKeys().filter(function (k) { return k.id === state.fill.id; })[0];
+                if (!item) { state.fill = null; render(); return; }
+                var typed = state.fill.typed.trim();
+                var filled = item.value.split(state.fill.slot).join(typed || state.fill.slot);
+                state.fill = null;
+                insert(filled);
+            }
+
+            function send() {
+                if (!state.text) return;
+                state.sent.push(state.text);
+                state.text = '';
+                setCoach('playCoachAdd');
+                render();
+            }
+
+            function addMine() {
+                var k = document.getElementById('play-new-key').value.trim();
+                var v = document.getElementById('play-new-val').value.trim();
+                if (!k || !v) { setCoach('playCoachNeedBoth'); render(); return; }
+                state.mine.push({ id: 'm' + Date.now(), key: k, value: v });
+                document.getElementById('play-new-key').value = '';
+                document.getElementById('play-new-val').value = '';
+                setCoach(slotsOf(v).length ? 'playCoachMadeTemplate' : 'playCoachMade');
+                save();
+                render();
+            }
+
+            function resetAll() {
+                state = { text: '', sent: [], mine: [], size: 'standard', step: {}, fill: null, coach: 'playCoachStart' };
+                save();
+                render();
+            }
+
+            /// ⚠️ **키에 딱지를 붙이지 않는다.** 앱도 그렇다 - "단축어 구분 표시" 설정이
+            ///    기본 꺼짐이고, 켜지 않으면 키에는 제목만 선다. 여기에만 템플릿·스택
+            ///    표시를 달아 두면 실제로 받아서 켰을 때와 다른 키보드를 보여 주는 것이 된다.
+            ///
+            ///    스택의 자리(1/3)는 딱지가 아니라 **이름의 일부**로 읽히게 옅은 글씨로 둔다.
+            ///    지금 몇 번째 무엇인지는 스택에서 유일하게 꼭 필요한 정보다.
+            function keyHTML(item) {
+                var name = esc(item.key), pos = '', next = '';
+                if (item.stack) {
+                    var i = state.step[item.id] || 0;
+                    name = esc(item.key) + ' · ' + esc(item.stack[i].key);
+                    pos = '<span class="pos">' + (i + 1) + '/' + item.stack.length + '</span>';
+                    next = '<span class="nx" data-next="' + item.id + '">&#8250;</span>';
+                }
+                return '<button class="play-key" data-key="' + item.id + '">' +
+                    '<span class="nm">' + name + '</span>' + pos + next + '</button>';
+            }
+
+            function render() {
+                var convo = document.getElementById('play-convo');
+                if (!convo) return;
+
+                var bubbles = '<div class="play-bubble them">' + esc(t('playThem')) + '</div>';
+                state.sent.forEach(function (m) {
+                    bubbles += '<div class="play-bubble me">' + esc(m) + '</div>';
+                });
+                convo.innerHTML = bubbles;
+                convo.scrollTop = convo.scrollHeight;
+
+                var field = document.getElementById('play-field');
+                field.textContent = state.text || t('playFieldPh');
+                field.className = 'play-field' + (state.text ? '' : ' empty');
+                document.getElementById('play-send').disabled = !state.text;
+                document.getElementById('play-appbar').textContent = t('playAppbar');
+
+                var kb = document.getElementById('play-kb');
+                var keys = allKeys();
+                kb.style.height = SIZE_PX[state.size] + 'px';
+                // ⚠️ 누를 수 있는 것만 둔다. 예전에는 지구본·별을 함께 세웠는데 이 판에서는
+                //    아무 일도 안 하는 그림이었다. 못 누르는 것이 섞여 있으면 다른 키도
+                //    안 눌릴 것처럼 보인다.
+                kb.innerHTML =
+                    '<div class="play-kbrow">' +
+                        '<span class="play-kbhint">' + esc(t('playKbHint')) + '</span>' +
+                        '<button class="play-ctl" id="play-clear"' + (state.text ? '' : ' disabled') + '>' +
+                            esc(t('playClear')) + '</button>' +
+                    '</div>' +
+                    '<div class="play-keys" id="play-keys">' +
+                        (keys.length ? keys.map(keyHTML).join('')
+                                     : '<div class="play-empty">' + esc(t('playNoKeys')) + '</div>') +
+                    '</div>';
+
+                var sizeBox = document.getElementById('play-size');
+                sizeBox.innerHTML = SIZES.map(function (sz) {
+                    return '<button data-size="' + sz + '" class="' + (state.size === sz ? 'on' : '') + '">' +
+                        esc(t('playSize_' + sz)) + '</button>';
+                }).join('');
+
+                document.getElementById('play-coach-title').textContent = t('playCoachTitle');
+                document.getElementById('play-coach-body').textContent = t(state.coach);
+
+                var old = document.getElementById('play-sheet');
+                if (old) old.remove();
+                if (state.fill) {
+                    var sheet = document.createElement('div');
+                    sheet.className = 'play-sheet';
+                    sheet.id = 'play-sheet';
+                    sheet.innerHTML =
+                        '<div class="play-sheet-inner">' +
+                            '<h4>' + esc(t('playFillTitle')) + '</h4>' +
+                            '<p>' + esc(state.fill.slot) + '</p>' +
+                            '<input id="play-fill-input" value="' + esc(state.fill.typed) + '">' +
+                            '<div class="row">' +
+                                '<button class="no" id="play-fill-no">' + esc(t('playFillCancel')) + '</button>' +
+                                '<button class="go" id="play-fill-go">' + esc(t('playFillGo')) + '</button>' +
+                            '</div>' +
+                        '</div>';
+                    document.getElementById('play-screen').appendChild(sheet);
+                    var input = document.getElementById('play-fill-input');
+                    input.focus();
+                    input.addEventListener('input', function () { state.fill.typed = this.value; });
+                    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') confirmFill(); });
+                    document.getElementById('play-fill-go').addEventListener('click', confirmFill);
+                    document.getElementById('play-fill-no').addEventListener('click', function () { state.fill = null; render(); });
+                }
+            }
+
+            function wire() {
+                var wrap = document.getElementById('playground');
+                if (!wrap) return;
+
+                // 키·다음칸·크기는 한 곳에서 받는다. 매번 다시 그리므로 개별 리스너를 달면 샌다.
+                wrap.addEventListener('click', function (e) {
+                    var nx = e.target.closest('[data-next]');
+                    if (nx) {
+                        var s = allKeys().filter(function (k) { return k.id === nx.getAttribute('data-next'); })[0];
+                        if (s) nextStep(s);
+                        return;
+                    }
+                    var kb = e.target.closest('[data-key]');
+                    if (kb) {
+                        var it = allKeys().filter(function (k) { return k.id === kb.getAttribute('data-key'); })[0];
+                        if (it) tapKey(it);
+                        return;
+                    }
+                    var sz = e.target.closest('[data-size]');
+                    if (sz) { state.size = sz.getAttribute('data-size'); setCoach('playCoachSize'); save(); render(); return; }
+                    if (e.target.closest('#play-send')) { send(); return; }
+                    if (e.target.closest('#play-clear')) { state.text = ''; render(); return; }
+                    if (e.target.closest('#play-add')) { addMine(); return; }
+                    if (e.target.closest('#play-reset')) { resetAll(); return; }
+                });
+
+                load();
+                render();
+            }
+
+            // 언어가 바뀌면 실습판도 그 말로 다시 그린다.
+            window.__playRender = function () { if (document.getElementById('play-convo')) render(); };
+
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire);
+            else wire();
+        })();
+
+    </script>
+</body>
+</html>

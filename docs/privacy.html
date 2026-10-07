@@ -3,6 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://m1zz.github.io/ClipKeyboard/privacy.html">
+    <link rel="alternate" hreflang="ko" href="https://m1zz.github.io/ClipKeyboard/ko/privacy.html">
+    <link rel="alternate" hreflang="en" href="https://m1zz.github.io/ClipKeyboard/en/privacy.html">
+    <link rel="alternate" hreflang="zh-Hans" href="https://m1zz.github.io/ClipKeyboard/zh-Hans/privacy.html">
+    <link rel="alternate" hreflang="zh-Hant" href="https://m1zz.github.io/ClipKeyboard/zh-Hant/privacy.html">
+    <link rel="alternate" hreflang="ru" href="https://m1zz.github.io/ClipKeyboard/ru/privacy.html">
+    <link rel="alternate" hreflang="ja" href="https://m1zz.github.io/ClipKeyboard/ja/privacy.html">
+    <link rel="alternate" hreflang="es" href="https://m1zz.github.io/ClipKeyboard/es/privacy.html">
+    <link rel="alternate" hreflang="de" href="https://m1zz.github.io/ClipKeyboard/de/privacy.html">
+    <link rel="alternate" hreflang="fr" href="https://m1zz.github.io/ClipKeyboard/fr/privacy.html">
+    <link rel="alternate" hreflang="it" href="https://m1zz.github.io/ClipKeyboard/it/privacy.html">
+    <link rel="alternate" hreflang="pt-BR" href="https://m1zz.github.io/ClipKeyboard/pt-BR/privacy.html">
+    <link rel="alternate" hreflang="th" href="https://m1zz.github.io/ClipKeyboard/th/privacy.html">
+    <link rel="alternate" hreflang="vi" href="https://m1zz.github.io/ClipKeyboard/vi/privacy.html">
+    <link rel="alternate" hreflang="x-default" href="https://m1zz.github.io/ClipKeyboard/privacy.html">
     <title>ClipKeyboard: 개인정보 처리방침</title>
 
     <meta name="description" content="ClipKeyboard 개인정보 처리방침. 메모·클립보드 내용은 기기에만 저장되며 수집하지 않습니다. 서비스 개선용 익명 사용 통계만 수집합니다.">
@@ -286,15 +301,52 @@
             .top-nav-inner { padding: 0.875rem 1rem; }
             .lang-toggle { top: 0.5rem; right: 0.5rem; }
         }
+
+        /* 언어 메뉴. 언어가 13개라 한 줄 토글에 안 들어가서 링크 목록을 접어 둔다.
+           링크는 docs/<lang>/ 의 언어별 페이지로 간다(docs/i18n/build.mjs 가 만든다). */
+        .lang-menu { position: fixed; top: 1rem; right: 1rem; z-index: 1000; font-size: 0.875rem; }
+        .lang-menu summary {
+            list-style: none; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;
+            padding: 0.5rem 0.9rem; background: var(--card-bg); color: var(--text);
+            border: 1px solid var(--border); border-radius: 100px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-weight: 500;
+        }
+        .lang-menu summary::-webkit-details-marker { display: none; }
+        .lang-menu summary::after { content: "\25BE"; color: var(--text-secondary); font-size: 0.8em; }
+        .lang-menu-list {
+            position: absolute; right: 0; top: calc(100% + 0.4rem);
+            display: grid; grid-template-columns: repeat(2, minmax(8rem, 1fr)); gap: 0.15rem;
+            padding: 0.4rem; background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 14px; box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+        }
+        .lang-menu-list a {
+            display: block; padding: 0.45rem 0.7rem; border-radius: 8px;
+            color: var(--text); text-decoration: none; white-space: nowrap;
+        }
+        .lang-menu-list a:hover { background: var(--surface-alt, rgba(127,127,127,0.14)); }
+        .lang-menu-list a[aria-current="page"] { background: var(--primary); color: #fff; font-weight: 600; }
+        @media (max-width: 600px) { .lang-menu { top: 0.5rem; right: 0.5rem; } }
     </style>
 </head>
 <body>
-    <div class="lang-toggle">
-        <button class="lang-btn" data-lang="ko" onclick="setLanguage('ko')">KO</button>
-        <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
-        <button class="lang-btn" data-lang="zh-Hans" onclick="setLanguage('zh-Hans')">简体</button>
-        <button class="lang-btn" data-lang="zh-Hant" onclick="setLanguage('zh-Hant')">繁體</button>
-    </div>
+    <details class="lang-menu">
+        <summary><span aria-hidden="true">🌐</span> <span class="lang-menu-label">Language</span></summary>
+        <nav class="lang-menu-list" aria-label="Language">
+            <a href="ko/privacy.html" hreflang="ko" lang="ko">한국어</a>
+            <a href="en/privacy.html" hreflang="en" lang="en">English</a>
+            <a href="zh-Hans/privacy.html" hreflang="zh-Hans" lang="zh-Hans">简体中文</a>
+            <a href="zh-Hant/privacy.html" hreflang="zh-Hant" lang="zh-Hant">繁體中文</a>
+            <a href="ru/privacy.html" hreflang="ru" lang="ru">Русский</a>
+            <a href="ja/privacy.html" hreflang="ja" lang="ja">日本語</a>
+            <a href="es/privacy.html" hreflang="es" lang="es">Español</a>
+            <a href="de/privacy.html" hreflang="de" lang="de">Deutsch</a>
+            <a href="fr/privacy.html" hreflang="fr" lang="fr">Français</a>
+            <a href="it/privacy.html" hreflang="it" lang="it">Italiano</a>
+            <a href="pt-BR/privacy.html" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a>
+            <a href="th/privacy.html" hreflang="th" lang="th">ไทย</a>
+            <a href="vi/privacy.html" hreflang="vi" lang="vi">Tiếng Việt</a>
+        </nav>
+    </details>
 
     <nav class="top-nav">
         <div class="top-nav-inner">
@@ -310,7 +362,7 @@
 
     <section class="hero">
         <h1 data-i18n-html="heroTitle">개인정보 <span>처리방침</span></h1>
-        <p class="meta"><span data-i18n="metaUpdated">최종 업데이트</span>: 2026-07-30</p>
+        <p class="meta"><span data-i18n="metaUpdated">최종 업데이트</span>: 2026-10-08</p>
     </section>
 
     <div class="highlight">
@@ -325,6 +377,7 @@
             <h2 data-i18n="s1Title">1. 개요</h2>
             <p data-i18n="s1P1">ClipKeyboard("본 앱", "저희")는 사용자의 프라이버시를 최우선으로 합니다. 본 처리방침은 앱 사용 시 어떤 데이터가 어떻게 다뤄지는지 명시합니다.</p>
             <p data-i18n-html="s1P2">핵심 원칙: <strong>사용자가 쓴 내용은 수집하지 않습니다</strong>. 메모·클립보드·템플릿 내용과 결제 정보는 개발자에게 전송되지 않습니다. 다만 서비스 개선을 위해 <strong>개인을 식별할 수 없는 익명 사용 통계</strong>는 수집합니다(2절 참고). 써드파티 분석 도구는 사용하지 않습니다.</p>
+            <p data-i18n="s1P3">이 처리방침은 ClipKeyboard의 iPhone·iPad 앱과 Mac 앱에 함께 적용됩니다.</p>
         </section>
 
         <section>
@@ -338,6 +391,7 @@
                 <li data-i18n-html="s2CL3"><strong>앱 환경</strong>: 앱 버전·OS 버전·플랫폼·언어 설정, 설치 후 경과일</li>
                 <li data-i18n-html="s2CL4"><strong>설치 식별자</strong>: 앱이 만든 무작위 UUID. 기기·계정·광고 ID와 무관하며, 앱을 지웠다 다시 깔면 새 값이 됩니다</li>
                 <li data-i18n-html="s2CL5"><strong>피드백</strong>, 사용자가 직접 보낸 내용. 답장을 원해 <em>직접 입력한 경우에만</em> 이름·이메일이 함께 전송됩니다</li>
+                <li data-i18n-html="s2CL6"><strong>크래시·멈춤 진단</strong> (iPhone·iPad): 앱이 죽거나 멈췄을 때 iOS(MetricKit)가 건네주는 익명 진단. 종류·콜스택·앱 버전·OS 버전·기기 종류만 담기며 사용자가 쓴 내용은 들어가지 않습니다</li>
             </ul>
             <p data-i18n-html="s2CP2">이 정보는 개인을 식별하지 않으며, 광고·추적(ATT)에 사용하거나 외부에 판매·공유하지 않습니다. <strong>앱 안에 수집을 끄는 설정은 없습니다.</strong></p>
 
@@ -397,6 +451,11 @@
                         <td data-i18n="s4R4C1">iCloud</td>
                         <td data-i18n="s4R4C2">백업 활성화 시 사용자 iCloud 동기화</td>
                         <td data-i18n="s4R4C3">사용자 본인 iCloud로만</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="s4R5C1">카메라</td>
+                        <td data-i18n="s4R5C2">카드·문서를 찍어 글자 인식 (기기 안에서 처리)</td>
+                        <td data-i18n="s4R5C3">없음</td>
                     </tr>
                 </tbody>
             </table>
@@ -488,6 +547,7 @@
         const translations = {
             ko: {
                 pageTitle: "ClipKeyboard: 개인정보 처리방침",
+                metaDescription: "ClipKeyboard 개인정보 처리방침. 쓴 내용은 기기와 내 iCloud에만 있고, 서비스 개선용 익명 사용 통계만 받습니다.",
                 navHome: "홈", navTutorial: "가이드",
                 heroTitle: '개인정보 <span>처리방침</span>',
                 metaUpdated: "최종 업데이트",
@@ -504,6 +564,11 @@
                 s2CL3: "<strong>앱 환경</strong>: 앱 버전·OS 버전·플랫폼·언어 설정, 설치 후 경과일",
                 s2CL4: "<strong>설치 식별자</strong>: 앱이 만든 무작위 UUID. 기기·계정·광고 ID와 무관하며, 앱을 지웠다 다시 깔면 새 값이 됩니다",
                 s2CL5: "<strong>피드백</strong>, 사용자가 직접 보낸 내용. 답장을 원해 <em>직접 입력한 경우에만</em> 이름·이메일이 함께 전송됩니다",
+                s1P3: "이 처리방침은 ClipKeyboard의 iPhone·iPad 앱과 Mac 앱에 함께 적용됩니다.",
+                s2CL6: "<strong>크래시·멈춤 진단</strong> (iPhone·iPad): 앱이 죽거나 멈췄을 때 iOS(MetricKit)가 건네주는 익명 진단. 종류·콜스택·앱 버전·OS 버전·기기 종류만 담기며 사용자가 쓴 내용은 들어가지 않습니다",
+                s4R5C1: "카메라",
+                s4R5C2: "카드·문서를 찍어 글자 인식 (기기 안에서 처리)",
+                s4R5C3: "없음",
                 s2CP2: '이 정보는 개인을 식별하지 않으며, 광고·추적(ATT)에 사용하거나 외부에 판매·공유하지 않습니다. <strong>앱 안에 수집을 끄는 설정은 없습니다.</strong>',
                 s2H2: "🚫 수집하지 않는 정보",
                 s2P1: '본 앱은 다음 정보를 <strong>수집하지 않습니다</strong>:',
@@ -568,6 +633,7 @@
             },
             en: {
                 pageTitle: "ClipKeyboard: Privacy Policy",
+                metaDescription: "ClipKeyboard privacy policy. What you write stays on your device and in your own iCloud. Only anonymous usage statistics are collected to improve the app.",
                 navHome: "Home", navTutorial: "Guide",
                 heroTitle: 'Privacy <span>Policy</span>',
                 metaUpdated: "Last updated",
@@ -584,6 +650,11 @@
                 s2CL3: "<strong>App environment</strong>: app version, OS version, platform, language setting, and days since install",
                 s2CL4: "<strong>Install identifier</strong>: a random UUID generated by the app. Unrelated to your device, account, or any ad ID; reinstalling produces a brand-new value",
                 s2CL5: "<strong>Feedback</strong>: what you choose to send us. Your name and email are included <em>only if you type them in</em> because you want a reply",
+                s1P3: "This policy covers ClipKeyboard on iPhone and iPad as well as the Mac app.",
+                s2CL6: "<strong>Crash and hang diagnostics</strong> (iPhone and iPad): anonymous reports that iOS (MetricKit) hands to the app after a crash or freeze. They contain only the type of problem, the call stack, app and OS version, and device model, never anything you wrote",
+                s4R5C1: "Camera",
+                s4R5C2: "Scan a card or document to pick up its text (processed on your device)",
+                s4R5C3: "None",
                 s2CP2: 'This information cannot identify you, and is never used for advertising or tracking (ATT), nor sold or shared with anyone. <strong>There is no in-app setting to turn this off.</strong>',
                 s2H2: "🚫 What we don\'t collect",
                 s2P1: 'This app <strong>does not collect</strong> any of the following:',
@@ -648,6 +719,7 @@
             },
             'zh-Hans': {
              "pageTitle": "剪贴键盘：隐私政策",
+             "metaDescription": "剪贴键盘隐私政策。你写的内容只保存在你的设备和你自己的 iCloud 中，我们只收集用于改进 App 的匿名使用统计。",
              "navHome": "首页",
              "navTutorial": "指南",
              "heroTitle": "隐私 <span>政策</span>",
@@ -664,6 +736,11 @@
              "s2CL3": "<strong>App 环境</strong>：App 版本、系统版本、平台、语言设置，以及安装后经过的天数",
              "s2CL4": "<strong>安装标识</strong>：App 生成的随机 UUID。与设备、账户、广告 ID 无关，删除后重装会变成新的值",
              "s2CL5": "<strong>反馈</strong>：你主动发送的内容。只有在你<em>自己填写</em>希望得到回复时，姓名和邮箱才会一并发送",
+                "s1P3": "本隐私政策同时适用于 ClipKeyboard 的 iPhone、iPad 版和 Mac 版。",
+                "s2CL6": "<strong>崩溃与卡顿诊断</strong>（iPhone、iPad）：App 崩溃或卡住后，由 iOS（MetricKit）交给 App 的匿名诊断。只包含问题类型、调用栈、App 版本、系统版本和设备型号，不含你写的任何内容",
+                "s4R5C1": "相机",
+                "s4R5C2": "拍摄卡片或文件并识别文字（在设备上处理）",
+                "s4R5C3": "无",
              "s2CP2": "这些信息无法识别到个人，不会用于广告或追踪（ATT），也不会出售或提供给任何人。<strong>App 内没有关闭这项收集的设置。</strong>",
              "s2H2": "🚫 不会收集的信息",
              "s2P1": "本 App <strong>不收集</strong>以下信息：",
@@ -740,6 +817,7 @@
             },
             'zh-Hant': {
  "pageTitle": "剪貼鍵盤：隱私權政策",
+ "metaDescription": "剪貼鍵盤隱私權政策。你寫的內容只存在你的裝置和你自己的 iCloud，我們只收集用來改進 App 的匿名使用統計。",
  "navHome": "首頁",
  "navTutorial": "指南",
  "heroTitle": "隱私 <span>政策</span>",
@@ -756,6 +834,11 @@
  "s2CL3": "<strong>App 環境</strong>：App 版本、系統版本、平台、語言設定，以及安裝後經過的天數",
  "s2CL4": "<strong>安裝標識</strong>：App 生成的隨機 UUID。與裝置、帳戶、廣告 ID 無關，刪除後重裝會變成新的值",
  "s2CL5": "<strong>意見回饋</strong>：你主動發送的內容。只有在你<em>自己填寫</em>希望得到回覆時，姓名和信箱才會一併發送",
+                "s1P3": "本隱私權政策同時適用於 ClipKeyboard 的 iPhone、iPad 版與 Mac 版。",
+                "s2CL6": "<strong>當機與卡頓診斷</strong>（iPhone、iPad）：App 當機或卡住後，由 iOS（MetricKit）交給 App 的匿名診斷。只包含問題類型、呼叫堆疊、App 版本、系統版本與裝置型號，不含你寫的任何內容",
+                "s4R5C1": "相機",
+                "s4R5C2": "拍攝卡片或文件並辨識文字（在裝置上處理）",
+                "s4R5C3": "無",
  "s2CP2": "這些資訊無法識別到個人，不會用於廣告或追蹤（ATT），也不會出售或提供給任何人。<strong>App 內沒有關閉這項收集的設定。</strong>",
  "s2H2": "🚫 不會收集的資訊",
  "s2P1": "本 App <strong>不收集</strong>以下資訊：",
@@ -872,7 +955,34 @@
             });
         }
 
+        // ── 언어별 페이지 ──
+        // 이 루트 페이지는 x-default 다. 언어마다 고정된 페이지가 docs/<lang>/ 에 있고
+        // (docs/i18n/build.mjs 가 이 파일로 만든다) 그 페이지는 window.PAGE_LANG 을 박아 둔다.
+        // 이 파일에 글이 없는 언어로 들어오면(?lang=ja, 일본어 브라우저) 그 언어 페이지로 보낸다.
+        var SITE_LANGS = ["ko", "en", "zh-Hans", "zh-Hant", "ru", "ja", "es", "de", "fr", "it", "pt-BR", "th", "vi"];
+        function siteLang(tag) {
+            var t = (tag || '').toLowerCase().replace('_', '-');
+            if (!t) return '';
+            if (t.indexOf('zh') === 0) {
+                return (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                        t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) ? 'zh-Hant' : 'zh-Hans';
+            }
+            if (t.indexOf('pt') === 0) return 'pt-BR';
+            var base = t.split('-')[0];
+            return SITE_LANGS.indexOf(base) >= 0 ? base : '';
+        }
+        function goLangPage(lang) {
+            if (!lang || translations[lang] || SITE_LANGS.indexOf(lang) < 0) return false;
+            var file = window.location.pathname.split('/').pop() || '';
+            window.location.replace(lang + '/' + file + window.location.hash);
+            return true;
+        }
+
         (function() {
+            // 언어별 페이지(docs/<lang>/)는 언어가 정해져 있다.
+            if (window.PAGE_LANG) { applyLanguage(window.PAGE_LANG); return; }
+            if (goLangPage(siteLang(new URLSearchParams(window.location.search).get('lang') || ''))) return;
+            if (!localStorage.getItem('clipkb-lang') && goLangPage(siteLang(navigator.language || navigator.userLanguage || ''))) return;
             // ?lang= 으로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
             var asked = normalizeLang(new URLSearchParams(window.location.search).get('lang') || '');
             if (asked) {

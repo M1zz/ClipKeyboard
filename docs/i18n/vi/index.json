@@ -1,0 +1,761 @@
+{
+ "translations": {
+  "pageTitle": "ClipKeyboard: Thôi gõ đi gõ lại. Một cụm từ là đủ",
+  "metaDescription": "Lưu số tài khoản, địa chỉ, mẫu email thành cụm từ, rồi chèn bằng một chạm từ bàn phím trong mọi ứng dụng. 40 mẫu thực tế cho dân du mục số, người đi làm, sinh viên và đời sống hằng ngày: miễn phí.",
+  "ogTitle": "ClipKeyboard: Thôi gõ đi gõ lại. Một cụm từ là đủ",
+  "ogDescription": "Biến những câu bạn gõ lặp lại thành cụm từ. Sao chép ngay 40 mẫu có sẵn.",
+  "heroBadge": "🔒 Cụm từ của bạn là của riêng bạn · Quyền riêng tư là trên hết",
+  "heroTitle": "Thôi gõ đi gõ lại.<br><span>Một cụm từ là đủ</span>",
+  "heroSubtitle": "Số tài khoản · địa chỉ · lời giới thiệu · mẫu tiếng Anh<br>lưu một lần, chèn bằng một chạm từ bàn phím trong mọi ứng dụng.",
+  "heroCta": "Tải về trên App Store",
+  "heroDemo": "⌨️ Thử bàn phím: 30 giây",
+  "heroTemplates": "📋 Xem 40 mẫu thực tế",
+  "videoTitle": "Dùng thực tế trông thế này",
+  "videoSubtitle": "Video quay màn hình 23 giây. Không có âm thanh.",
+  "videoNote": "Video quay giao diện tiếng Anh. Ứng dụng có hỗ trợ tiếng Việt.",
+  "demoTitle": "Thử ngay tại đây",
+  "demoSubtitle": "Đây chính là màn hình “Xem trước bàn phím” trong ứng dụng. Khi dùng thật, bàn phím này hiện lên trong Tin nhắn, Mail, Safari: bất cứ đâu bạn gõ chữ.",
+  "demoBrief": "Bàn phím bên dưới là <strong>đúng màn hình có trong ứng dụng</strong>. Chạm vào một cụm từ là nó vào ô nhập ngay, gửi xong vẫn chạm tiếp được.",
+  "demoCta": "Bắt đầu với những câu của riêng bạn",
+  "demoReset": "Làm lại",
+  "demoNote": "* Mọi thông tin tài khoản và hộ chiếu trong bản demo này đều là giả. Cụm từ thật của bạn không bao giờ rời khỏi thiết bị.",
+  "demoStageTitle": "Xem trước bàn phím",
+  "demoComposerPh": "Chữ sẽ hiện ở đây",
+  "demoCueTap": "Chạm phím “%@”",
+  "demoCueSend": "Xong rồi: giờ chạm nút gửi (↑)",
+  "demoCueDone": "Chỉ đơn giản vậy thôi: thử các phím khác nhé",
+  "demoTplInsert": "Chèn",
+  "demoTplPick": "Chọn giá trị",
+  "demoFaceScanning": "Đang mở khóa bằng Face ID…",
+  "demoFaceDone": "Đã mở khóa",
+  "demoToastCombo": "Đã chuyển sang giá trị tiếp theo",
+  "demoTabBasic": "Cơ bản",
+  "demoTabFav": "Mục ưa thích",
+  "demoTabTemplate": "Mẫu",
+  "demoTabCombo": "Combo",
+  "demoFeatures": [
+   {
+    "k": "snippet",
+    "t": "Cụm từ: một chạm là xong",
+    "d": "Số tài khoản, địa chỉ hay chữ ký đã lưu được chèn đúng y như bạn lưu."
+   },
+   {
+    "k": "template",
+    "t": "Mẫu: chỉ cần điền chỗ trống",
+    "d": "Các biến như {ngày} {giờ} được điền bằng cách chạm vào giá trị bạn đã lưu trước đó."
+   },
+   {
+    "k": "combo",
+    "t": "Combo: đổi giá trị bằng →",
+    "d": "Ba tài khoản ngân hàng hay phương thức thanh toán nằm chung một phím; cần cái nào chọn cái đó."
+   },
+   {
+    "k": "secure",
+    "t": "Cụm từ bảo mật: khóa bằng Face ID",
+    "d": "Số hộ chiếu, số thẻ luôn được khóa cho tới đúng lúc bạn cần dùng."
+   }
+  ],
+  "howTitle": "Cụm từ là gì?",
+  "howSubtitle": "Một câu bạn hay dùng, được lưu lại kèm một cái tên. Vậy thôi.",
+  "how1Title": "Lưu thành cụm từ",
+  "how1Desc": "Đặt tên (phím) như “Số tài khoản” và gắn nội dung thật (giá trị). Lưu một lần là xong.",
+  "how2Title": "Chạm từ bàn phím",
+  "how2Desc": "Chuyển sang ClipKeyboard trong Tin nhắn, Mail, Safari: ở đâu cũng được. Các cụm từ nằm sẵn trên bàn phím. Một chạm là chữ vào ô.",
+  "how3Title": "Nâng cấp thành mẫu và combo",
+  "how3Desc": "Thêm biến như <span class=\"chip\">tên</span> <span class=\"chip\">ngày</span> để tạo mẫu; nối nhiều cụm từ thành combo. Cả một chuỗi thao tác lặp lại biến mất.",
+  "libTitle": "Những người giống bạn đang tiết kiệm thời gian mỗi ngày",
+  "libSubtitle": "Chọn kiểu ngày giống với bạn nhất. Sao chép bất kỳ mẫu nào ngay bây giờ, lưu vào ứng dụng là nó nằm sẵn trên bàn phím.",
+  "libNote": "💡 Các ô màu xanh là biến của mẫu, trong ứng dụng bạn chỉ cần chạm để điền.",
+  "copy": "Sao chép",
+  "copied": "Đã sao chép ✓",
+  "impactPrefix": "✨ ",
+  "privacyTitle": "🔒 Dữ liệu của bạn chỉ ở trên thiết bị của bạn",
+  "privacyDesc": "Nội dung cụm từ chỉ nằm trên thiết bị của bạn (và trong iCloud của chính bạn nếu bạn bật), chúng tôi không bao giờ thu thập. Chúng tôi chỉ thu thập thống kê sử dụng ẩn danh để cải thiện ứng dụng.",
+  "privacyBadge": "✓ Tuân thủ chính sách quyền riêng tư của Apple",
+  "pricingTitle": "Bắt đầu miễn phí",
+  "pricingSubtitle": "Tải về miễn phí · Pro mua một lần, không đăng ký định kỳ",
+  "price": "Miễn phí",
+  "priceDesc": "Nâng cấp Pro · thanh toán một lần · dùng thử miễn phí 7 ngày",
+  "priceFeature1": "Miễn phí: 10 cụm từ · 3 mẫu · 3 combo",
+  "priceFeature2": "Pro: lưu không giới hạn · sao lưu iCloud · cụm từ bảo mật",
+  "priceFeature3": "iPhone, iPad, Mac, Vision Pro",
+  "priceFeature4": "Không đăng ký định kỳ · Không quảng cáo",
+  "priceFeature5": "Cập nhật miễn phí trọn đời",
+  "pricingCta": "Tải về miễn phí",
+  "footerContact": "Liên hệ",
+  "footerTutorial": "Hướng dẫn",
+  "footerPrivacy": "Chính sách quyền riêng tư",
+  "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+ },
+ "PERSONA_META": {
+  "nomad": {
+   "icon": "🌏",
+   "name": "Du mục số · Freelancer"
+  },
+  "business": {
+   "icon": "💼",
+   "name": "Công việc"
+  },
+  "student": {
+   "icon": "🎓",
+   "name": "Sinh viên"
+  },
+  "general": {
+   "icon": "👤",
+   "name": "Hằng ngày"
+  }
+ },
+ "BADGE_LABEL": {
+  "snippet": "Cụm từ",
+  "template": "Mẫu",
+  "combo": "Combo",
+  "smartClipboard": "Bảng tạm"
+ },
+ "PERSONA_DATA": [
+  {
+   "persona": "nomad",
+   "intro": "Bạn làm việc từ quán cà phê này sang co-working kia, với khách hàng khắp thế giới. Lệch múi giờ, chuyển tiền quốc tế, visa, những email tiếng Anh na ná nhau: cả ngày trôi đi chỉ vì mở tab khác tìm lại cùng một thông tin. Lưu mỗi thứ một lần, từ đó chỉ cần một chạm.",
+   "scenarios": [
+    {
+     "title": "Khách hỏi thông tin chuyển khoản",
+     "pain": "Chỉ một câu “Send me your banking details” là bạn lại lục ứng dụng ngân hàng tìm IBAN và SWIFT.",
+     "example": "Name: {tên tiếng Anh}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nBank address: {địa chỉ ngân hàng}\nWise: {email Wise}",
+     "impact": "30 giây lục tìm thành một chạm, cũng hết lo gõ nhầm số.",
+     "feature": "combo"
+    },
+    {
+     "title": "Báo múi giờ",
+     "pain": "2 giờ sáng nhận được “Can we hop on a call?” và bạn lại phải giải thích chuyện lệch giờ.",
+     "example": "Hi {khách hàng}, I'm in GMT+{chênh lệch} ({thành phố}) right now. I can do {khung giờ}. Calendly: {link}",
+     "impact": "Ba lượt nhắn qua lại gói gọn trong một câu trả lời rõ ràng.",
+     "feature": "template"
+    },
+    {
+     "title": "Gửi hóa đơn",
+     "pain": "Lần nào cũng gõ lại số hóa đơn, số tiền, loại tiền và hạn thanh toán.",
+     "example": "Invoice #{số} · {loại tiền} {số tiền}\nDue: {hạn thanh toán}\nPayment: Wise ({email})\nThank you! 🙏",
+     "impact": "Mẫu giữ giúp bạn những mục dễ quên: ít phải xuất lại hay sửa hóa đơn hơn.",
+     "feature": "template"
+    },
+    {
+     "title": "Nhắc lại đề xuất",
+     "pain": "Ba ngày không thấy hồi âm, viết một lời nhắc mà không bị hối thúc lần nào cũng khó.",
+     "example": "Hi {khách hàng}, just following up on the proposal I sent {thứ}. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {tên}",
+     "impact": "Lời nhắc lịch sự gửi đi ngay, cứu lại những hợp đồng trước đây bạn để trôi.",
+     "feature": "template"
+    },
+    {
+     "title": "Thông tin hộ chiếu và visa",
+     "pain": "Mỗi lần đặt vé, đặt phòng hay khai visa là lại đi tìm số hộ chiếu và ngày hết hạn.",
+     "example": "Số hộ chiếu: {số hộ chiếu}\nHọ tên: {họ tên}\nNgày cấp / Ngày hết hạn: {ngày cấp} / {ngày hết hạn}\nQuốc tịch: {quốc tịch}",
+     "impact": "Khóa bằng Face ID dưới dạng cụm từ bảo mật, chỉ mở khi cần.",
+     "feature": "snippet"
+    },
+    {
+     "title": "“Bạn đang ở đâu?”",
+     "pain": "Khách mới hỏi cho vui, còn bạn lần nào cũng giải thích dài dòng chuyện làm du mục.",
+     "example": "Based nowhere in particular: currently in {thành phố}. I work async-first, so timezones rarely matter, but I'll always give you a clear window when I'm reachable.",
+     "impact": "Một câu trả lời tự tin, chuyên nghiệp thay vì nghe có vẻ bấp bênh.",
+     "feature": "template"
+    },
+    {
+     "title": "Rớt wifi",
+     "pain": "Wifi ở co-working mất ngay trước cuộc gọi, bạn cuống cuồng nghĩ lời xin lỗi.",
+     "example": "Hi team, wifi at my co-working just dropped. Moving to a backup spot: back online in {phút} min. Ready to continue right after. 🙏",
+     "impact": "Dù đang rối, bạn vẫn gửi được một câu bình tĩnh, đáng tin chỉ trong một giây.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Báo giá và tỷ giá",
+     "pain": "Báo giá cho khách dùng loại tiền khác là lại phải viết lại phần lưu ý tỷ giá.",
+     "example": "Quote: {loại tiền} {số tiền} (≈ {quy đổi} at today's rate).\nInvoiced in {loại tiền} via Wise to keep fees low for you.",
+     "impact": "Tránh hiểu lầm về giá từ sớm, không còn mặc cả lúc thanh toán.",
+     "feature": "template"
+    },
+    {
+     "title": "Đón khách hàng mới",
+     "pain": "Vừa ký hợp đồng xong, khách nào bạn cũng phải hướng dẫn lại Calendly, Slack, thanh toán, lịch làm việc.",
+     "example": "Chào mừng {khách hàng}! Mình sẽ làm việc như sau:\n1. Buổi họp đầu tiên: Calendly: {link}\n2. Thanh toán (gửi kèm thông tin chuyển khoản nếu cần)\n3. Mời vào Slack trong vòng 24 giờ\n4. Demo tiến độ vào thứ Năm hằng tuần\n\nRất mong được hợp tác!",
+     "impact": "Combo chèn lần lượt nhiều cụm từ, phần giới thiệu ban đầu rút từ 5 phút xuống 5 giây.",
+     "feature": "combo"
+    },
+    {
+     "title": "Kết thúc ngày làm việc",
+     "pain": "10 giờ tối có tin nhắn gấp, mà từ chối “giờ chưa được” sao cho lịch sự lần nào cũng ngại.",
+     "example": "Hi! Signing off for the night ({giờ} in {thành phố}). I'll reply first thing in my morning, thanks for your patience 🙏",
+     "impact": "Giữ ranh giới mà không bị thất lễ: vẫn giữ được lòng tin, lại tránh kiệt sức.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "business",
+   "intro": "Họp, báo cáo, trả lời email: mỗi ngày bạn viết lại cùng những câu ấy hàng chục lần. “Nhờ anh/chị xác nhận giúp”, thư mời họp, thông báo vắng mặt. Lưu những câu lịch sự hay lặp lại một lần, rồi dồn sức cho công việc chứ không phải câu chữ.",
+   "scenarios": [
+    {
+     "title": "Thư trả lời tự động khi vắng mặt",
+     "pain": "Mỗi chuyến công tác là lại viết lại thông báo vắng mặt, rồi quên ghi người liên hệ thay.",
+     "example": "Xin chào, tôi vắng mặt từ {ngày bắt đầu} đến {ngày kết thúc}.\nViệc gấp xin vui lòng liên hệ {người thay} ({số điện thoại}).\nTôi sẽ phản hồi lần lượt ngay khi quay lại. Xin cảm ơn.",
+     "impact": "Công việc không bị gián đoạn, quay về không phải đối mặt với hộp thư ngập tràn.",
+     "feature": "template"
+    },
+    {
+     "title": "Thư mời họp",
+     "pain": "Cuộc họp nào cũng phải gõ lại định dạng ngày, địa điểm, nội dung.",
+     "example": "Chào {tên},\nMình xin mời anh/chị tham gia cuộc họp như sau:\n📅 {ngày} {giờ}\n📍 {địa điểm}\n📌 Nội dung: {nội dung}\nAnh/chị xác nhận giúp mình nhé 😊",
+     "impact": "Thư mời rõ ràng thì ít phải xác nhận lại, cũng ít người vắng hơn hẳn.",
+     "feature": "template"
+    },
+    {
+     "title": "Báo cáo tuần",
+     "pain": "Tuần nào cũng bắt đầu cùng một mẫu báo cáo từ trang trắng.",
+     "example": "Chào cả nhóm, cập nhật tuần này:\n✅ Đã xong: {đã xong}\n🔄 Đang làm: {đang làm}\n📋 Tuần sau: {kế hoạch}\nCó gì cần trao đổi cứ báo mình nhé.",
+     "impact": "Khung đã cố định, chỉ cần điền nội dung. Chiều thứ Sáu nhẹ nhàng hơn.",
+     "feature": "template"
+    },
+    {
+     "title": "Giới thiệu bản thân và danh thiếp",
+     "pain": "Lần đầu làm quen với ai cũng phải gõ lại chức vụ, phòng ban và thông tin liên hệ.",
+     "example": "Xin chào, tôi là {tên}.\nTôi phụ trách {vai trò} tại {công ty}.\n📧 {email} / 📞 {số điện thoại}\nRất mong được hợp tác 🙏",
+     "impact": "Lời giới thiệu nhất quán tạo dựng lòng tin, không mất liên lạc vì gõ sai.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Chữ ký email",
+     "pain": "Chữ ký không đi theo sang ứng dụng mail khác, nên bạn phải dán tay.",
+     "example": "{tên}\n{chức danh} | {công ty}\n📧 {email}\n📞 {số điện thoại}\n🌐 {website}",
+     "impact": "Một chữ ký cho mọi ứng dụng, mọi thiết bị: hình ảnh chuyên nghiệp luôn chỉn chu.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Thông tin thanh toán và mã số thuế",
+     "pain": "Đối tác hỏi số tài khoản hay mã số thuế là bạn lại lục hồ sơ kế toán.",
+     "example": "Tài khoản: {ngân hàng} {số tài khoản} ({chủ tài khoản})\nMã số thuế: {mã số thuế}\nCông ty: {công ty}\nEmail nhận hóa đơn: {email}",
+     "impact": "Gửi đúng ngay lập tức: không còn thanh toán chậm hay chuyển nhầm.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Đề xuất hợp tác",
+     "pain": "Khi đề xuất hợp tác, câu mở đầu sao cho lịch sự luôn là phần khó nhất.",
+     "example": "Chào {tên},\nMình liên hệ để đề xuất khả năng hợp tác trong {dự án}.\nMình phụ trách {vai trò} tại {công ty/tên}.\nMình có thể gọi trao đổi nhanh được không? Anh/chị cho mình xin thời gian thuận tiện nhé. Cảm ơn anh/chị!",
+     "impact": "Câu mở đầu từng khiến bạn đắn đo đã có sẵn, nên bạn chủ động liên hệ nhiều hơn.",
+     "feature": "template"
+    },
+    {
+     "title": "Xin lỗi vì trả lời chậm",
+     "pain": "Khi phản hồi chậm, xin lỗi sao cho không có vẻ cẩu thả là điều rất tế nhị.",
+     "example": "Chào {tên}, xin lỗi anh/chị vì mình phản hồi chậm. Do {lý do} nên bị trễ. Mình sẽ gửi thông tin chi tiết trước {ngày}. Cảm ơn anh/chị đã kiên nhẫn.",
+     "impact": "Một câu tạo được lòng tin thay vì im lặng, mối quan hệ vẫn vẹn nguyên.",
+     "feature": "template"
+    },
+    {
+     "title": "Cảm ơn khi kết thúc dự án",
+     "pain": "Dự án càng suôn sẻ, lời cảm ơn càng bị hoãn lại rồi lỡ mất thời điểm.",
+     "example": "Chào {tên},\nCảm ơn anh/chị rất nhiều vì đã đồng hành trong {dự án}.\nNhờ có anh/chị mà kết quả rất tốt đẹp.\nMong sẽ còn được hợp tác trong những dự án tới 😊",
+     "impact": "Không bỏ lỡ lời cảm ơn mở ra dự án tiếp theo, khách quen tự tìm đến.",
+     "feature": "template"
+    },
+    {
+     "title": "Đề nghị thanh toán",
+     "pain": "Cuối tháng lại phải tự tay ghép bảng kê và thông tin tài khoản.",
+     "example": "Chào anh/chị! Em gửi bảng kê tháng {tháng}.\nSố tiền: {số tiền} (đã gồm VAT)\nTài khoản: {ngân hàng} {số tài khoản} ({chủ tài khoản})\nAnh/chị kiểm tra giúp em nhé 😊",
+     "impact": "Đề nghị thanh toán đúng định dạng thì không phải sửa lại, tiền về nhanh hơn.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "student",
+   "intro": "Mã số sinh viên, email trường, trang bìa bài tập, thông báo làm nhóm: đời sinh viên là hết biểu mẫu này đến biểu mẫu khác. Lưu sẵn email gửi thầy cô, tin nhắn chia tiền nhóm, địa chỉ phòng trọ, và bạn lấy lại thời gian để học và cho chính mình.",
+   "scenarios": [
+    {
+     "title": "Mã số sinh viên + họ tên",
+     "pain": "Đăng ký học phần, nộp bài, xin giấy xác nhận: lần nào cũng gõ lại mã số và họ tên.",
+     "example": "{ngành} {mã số sinh viên} {họ tên}",
+     "impact": "Một chạm vào bất kỳ ô nào, không còn mất điểm vì gõ sai phút chót.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Email gửi giảng viên",
+     "pain": "Email gửi thầy cô cần lễ phép, nên câu mở đầu lần nào cũng khiến bạn căng thẳng.",
+     "example": "Kính gửi Thầy/Cô,\nEm là {họ tên} ({mã số sinh viên}), sinh viên ngành {ngành}.\nEm đang học học phần {học phần} (nhóm {nhóm}).\nEm viết email này để hỏi về {vấn đề}.\nEm xin lỗi đã làm phiền và cảm ơn Thầy/Cô ạ.",
+     "impact": "Chỉ cần điền ý chính, phần khung đã có sẵn: không còn trì hoãn viết email.",
+     "feature": "template"
+    },
+    {
+     "title": "Trang bìa bài tập",
+     "pain": "Mỗi môn một kiểu trang bìa, nên sát hạn nộp bạn vẫn còn loay hoay với nó.",
+     "example": "Học phần: {học phần}\nGiảng viên: {giảng viên}\nSinh viên: {ngành} {mã số sinh viên} {họ tên}\nNgày nộp: {ngày}\nĐề tài: {đề tài}",
+     "impact": "Khung đã lưu, chỉ thay nội dung: bớt đi một nỗi lo khi chạy deadline.",
+     "feature": "template"
+    },
+    {
+     "title": "Thông báo làm nhóm",
+     "pain": "Đăng giờ họp và phân công lên nhóm chat là việc vặt lặp lại mỗi lần.",
+     "example": "[{bài tập}] Thông báo nhóm 📢\nBuổi họp tới: {ngày} {giờ} @ {địa điểm/link}\nCần mang: {đồ cần mang}\nHạn nộp: {hạn nộp}\nXem rồi thả 👍 giúp mình nhé!",
+     "impact": "Thông báo gọn gàng thì hết cảnh “ủa, mấy giờ vậy?”, cả nhóm chạy đều.",
+     "feature": "template"
+    },
+    {
+     "title": "Địa chỉ phòng trọ / ký túc xá",
+     "pain": "Lần nào đặt hàng cũng phải nhập lại địa chỉ đầy đủ và cách vào nhà.",
+     "example": "{số nhà, đường}\n{phường/xã}, {tỉnh/thành phố}\n{chi tiết phòng}\nMã cổng: {mã}\nNgười nhận: {họ tên} / {số điện thoại}",
+     "impact": "Một chạm vào ứng dụng giao hàng, không thất lạc đơn vì sai địa chỉ.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Chia tiền",
+     "pain": "Thu tiền mua đồ hay đi ăn chung là lại phải tính và đăng lại từ đầu.",
+     "example": "Tổng {tổng tiền} cho {số người} người, mỗi người {mỗi người} nha 🙏\nChuyển vào {ngân hàng} {số tài khoản} ({tên}) giúp mình nhé~",
+     "impact": "Gửi phần chia ngay lập tức: nói chuyện tiền nong cũng bớt ngại hẳn.",
+     "feature": "template"
+    },
+    {
+     "title": "Xin phép vắng học",
+     "pain": "Khi bị ốm, lời xin phép gửi thầy cô hay trợ giảng lại không nghĩ ra đúng lúc cần gấp.",
+     "example": "Kính gửi Thầy/Cô,\nEm là {họ tên} ({mã số sinh viên}).\nEm xin phép vắng buổi học {học phần} ngày {ngày} vì {lý do}.\nEm sẽ nộp giấy tờ minh chứng qua {cách nộp}. Em xin lỗi Thầy/Cô ạ.",
+     "impact": "Dù đang rối, bạn vẫn báo trước lịch sự ngay: ít bị trừ điểm hơn.",
+     "feature": "template"
+    },
+    {
+     "title": "Tuyển thành viên CLB / nhóm học",
+     "pain": "Đăng tin tuyển thành viên ở nhiều nơi là phải sửa lại lời giới thiệu mỗi lần một chút.",
+     "example": "[{nhóm}] Tuyển thành viên! 🙌\nHoạt động: {hoạt động}\nThời gian: {ngày/giờ}\nĐịa điểm: {địa điểm}\nĐăng ký: {link/liên hệ}\nCứ nhắn mình bất cứ lúc nào nhé 😊",
+     "impact": "Dán cùng một bài ở mọi nơi bằng một chạm, tuyển người nhanh hơn hẳn.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Thông tin cơ bản khi ứng tuyển thực tập",
+     "pain": "Đơn nào cũng bắt nhập lại họ tên, liên hệ, học vấn và các đường link đến phát mệt.",
+     "example": "{họ tên} · {số điện thoại} · {email}\n{trường} {ngành} (năm {năm})\nPortfolio: {link}\nGitHub/blog: {link}",
+     "impact": "Điền đơn nhanh hơn, nên bạn ứng tuyển được nhiều cơ hội hơn.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Đến trễ",
+     "pain": "Đi học hay đi gặp bạn mà trễ, áy náy khiến tin nhắn cứ dài ra.",
+     "example": "Xin lỗi nha! Mình trễ khoảng {phút} phút. Sắp tới rồi 🙏",
+     "impact": "Một tin ngắn gọn, chắc chắn giúp người đang đợi yên tâm ngay.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "general",
+   "intro": "Những thứ cơ bản bạn dùng mỗi ngày: số tài khoản, địa chỉ nhà, số điện thoại, những lời chúc hay gửi. Không phải lục trí nhớ hay kéo lại tin nhắn cũ nữa; khi cần, chỉ một chạm. Mỗi lần thì nhỏ, nhưng cộng lại cả ngày là cả một khoảng thời gian đáng kể.",
+   "scenarios": [
+    {
+     "title": "Gửi số tài khoản",
+     "pain": "“Số tài khoản bạn là gì?” và bạn lại mở ứng dụng ngân hàng để xem rồi sao chép.",
+     "example": "{ngân hàng} {số tài khoản}\nChủ tài khoản: {tên}\n(Chuyển qua MoMo cũng được nha 🙏)",
+     "impact": "Một chạm, chính xác tuyệt đối: không còn chuyển nhầm vì sai số.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Địa chỉ nhà (giao hàng)",
+     "pain": "Mua sắm online hay bán đồ cũ đều bắt gõ lại địa chỉ đầy đủ và số liên hệ.",
+     "example": "{số nhà, đường}\n{phường/xã}, {tỉnh/thành phố}\n{chi tiết}\nNgười nhận: {tên} / {số điện thoại}",
+     "impact": "Nhập địa chỉ một lần là xong, ít giao nhầm và đỡ mất thời gian.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Hẹn gặp",
+     "pain": "Mỗi lần hẹn nhau là lại soạn tin mới để chốt giờ và chỗ.",
+     "example": "{ngày} {giờ} gặp ở {địa điểm} được không? Không được thì cho mình biết lúc nào tiện nhé 😊",
+     "impact": "Đưa ra đề xuất cụ thể trước, kèo được chốt nhanh hơn nhiều.",
+     "feature": "template"
+    },
+    {
+     "title": "Đến trễ",
+     "pain": "Mỗi lần trễ hẹn, áy náy khiến bạn viết lời xin lỗi thật dài.",
+     "example": "Xin lỗi nha! Mình trễ khoảng {phút} phút. Mọi người cứ bắt đầu trước nhé 🙏",
+     "impact": "Báo nhanh ngay lập tức giúp người đang đợi yên tâm.",
+     "feature": "template"
+    },
+    {
+     "title": "Tài khoản mừng cưới / phúng viếng",
+     "pain": "Khi có người hỏi số tài khoản để gửi tiền mừng hay phúng viếng, bạn cuống cuồng đi tìm.",
+     "example": "Cảm ơn bạn đã quan tâm.\n{ngân hàng} {số tài khoản} ({chủ tài khoản})\nChỉ cần bạn có lòng là quý lắm rồi 🙏",
+     "impact": "Dù đang bận rộn, bạn vẫn gửi đúng và chu đáo.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Đăng bán đồ cũ",
+     "pain": "Bán món nào cũng phải viết lại giá, tình trạng và chỗ giao nhận y như nhau.",
+     "example": "Cần bán: {món đồ}\nGiá: {giá} (thương lượng: {có/không})\nTình trạng: {tình trạng}\nGiao nhận: {địa điểm} hoặc ship\nLiên hệ: {liên hệ}",
+     "impact": "Dán lên mọi nền tảng bằng một chạm, trả lời người mua nhanh hơn.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Thông tin khẩn cấp và gia đình",
+     "pain": "Làm thủ tục ở bệnh viện hay điền giấy tờ, lần nào cũng phải nhớ lại thông tin người giám hộ.",
+     "example": "Người giám hộ: {tên} ({quan hệ})\nĐiện thoại: {số điện thoại}\nNhóm máu: {nhóm máu}\nLưu ý/dị ứng: {chi tiết}",
+     "impact": "Thông tin chính xác trong lúc khẩn cấp, bình tĩnh xử lý thay vì hoảng loạn.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Đặt lịch khám / đặt hẹn",
+     "pain": "Gọi đặt lịch là lại phải ghép họ tên, ngày sinh và triệu chứng mỗi lần.",
+     "example": "Tôi muốn đặt lịch khám.\nHọ tên: {họ tên} / Ngày sinh: {ngày sinh}\nLý do khám: {lý do}\nThời gian mong muốn: {ngày} {giờ}",
+     "impact": "Yêu cầu gọn gàng giúp cuộc gọi ngắn hơn và đặt được đúng giờ bạn muốn.",
+     "feature": "template"
+    },
+    {
+     "title": "Gửi mật khẩu wifi",
+     "pain": "Khách nào đến cũng phải đọc mật khẩu router hoặc đi tìm tấm ảnh chụp nó.",
+     "example": "WiFi: {tên mạng}\nMật khẩu: {mật khẩu}\nDùng vui nhé 😊",
+     "impact": "Gửi một lần là xong: không phải trả lời “mật khẩu là gì?” ba lần.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Lời chúc quen dùng",
+     "pain": "Lễ Tết hay sinh nhật, lần nào cũng soạn lại từ đầu một lời chúc na ná nhau.",
+     "example": "Chào {tên}, chúc bạn {dịp} thật vui! Chúc bạn luôn mạnh khỏe và gặp nhiều điều tốt lành 😊",
+     "impact": "Chân thành mà nhanh: để bạn thật sự gửi được tới tất cả những người bạn muốn.",
+     "feature": "template"
+    }
+   ]
+  }
+ ],
+ "DEMO_SCENARIOS": [
+  {
+   "id": "daily",
+   "tab": "👤 Hằng ngày",
+   "incoming": "Tối nay mình chuyển phần của mình nhé: bao nhiêu tiền, chuyển vào đâu vậy? 🙏",
+   "target": "settle",
+   "keys": [
+    {
+     "id": "settle",
+     "title": "Chia tiền",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Tối nay mỗi người {số tiền} nha 🙏\nChuyển vào {tài khoản} (Nguyễn Minh Anh) giúp mình nhé~",
+     "ph": [
+      {
+       "name": "số tiền",
+       "values": [
+        "150.000đ",
+        "250.000đ",
+        "380.000đ"
+       ]
+      },
+      {
+       "name": "tài khoản",
+       "values": [
+        "Vietcombank 0123456789",
+        "MoMo 0901234567",
+        "Techcombank 19031234567890"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "addr",
+     "title": "Địa chỉ nhà",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Căn hộ 1203, tòa A, 123 Nguyễn Văn Linh\nPhường Tân Phong, TP. Hồ Chí Minh\nNgười nhận: Nguyễn Minh Anh / 0901 234 567"
+    },
+    {
+     "id": "late",
+     "title": "Đến trễ",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Xin lỗi nha! Mình trễ khoảng {phút} phút. Mọi người cứ bắt đầu trước nhé 🙏",
+     "ph": [
+      {
+       "name": "phút",
+       "values": [
+        "5",
+        "10",
+        "20"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pay",
+     "title": "Chuyển tiền",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "MoMo: 0901234567",
+      "ZaloPay: 0901234567",
+      "Vietcombank: 0123456789"
+     ]
+    },
+    {
+     "id": "wifi",
+     "title": "Wifi nhà",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "WiFi: Nha_Minh_5G\nMật khẩu: welcome2026!"
+    },
+    {
+     "id": "card",
+     "title": "Số thẻ",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "4212 3456 7890 7788 (12/29)"
+    },
+    {
+     "id": "delivery",
+     "title": "Ghi chú giao hàng",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Anh/chị shipper để hàng trước cửa giúp em nhé 🙏\nMã cổng: #1234\nĐừng bấm chuông giúp em, bé đang ngủ ạ."
+    },
+    {
+     "id": "sale",
+     "title": "Đăng bán đồ cũ",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Cần bán: iPad Air (thế hệ 5)\nGiá: 8.500.000đ (có thương lượng)\nTình trạng: trầy nhẹ, còn hộp\nGiao nhận: trung tâm thành phố hoặc ship"
+    }
+   ]
+  },
+  {
+   "id": "work",
+   "tab": "💼 Công việc",
+   "incoming": "Em sắp xếp giúp anh buổi họp tuần sau rồi gửi thông tin nhé?",
+   "target": "meet",
+   "keys": [
+    {
+     "id": "meet",
+     "title": "Thư mời họp",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Chào anh/chị, em xin gửi lịch họp như sau:\n📅 {ngày} {giờ}\n📍 {địa điểm}\nAnh/chị xác nhận giúp em nhé 😊",
+     "ph": [
+      {
+       "name": "ngày",
+       "values": [
+        "Thứ Ba, 12/3",
+        "Thứ Năm, 14/3"
+       ]
+      },
+      {
+       "name": "giờ",
+       "values": [
+        "10:00",
+        "14:00"
+       ]
+      },
+      {
+       "name": "địa điểm",
+       "values": [
+        "Phòng họp tầng 3",
+        "Google Meet"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "sign",
+     "title": "Chữ ký email",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Nguyễn Minh Anh\nQuản lý sản phẩm | Ysoup\n📧 leeo@example.com / 📞 0901 234 567"
+    },
+    {
+     "id": "ok",
+     "title": "Đã nhận, cảm ơn",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Em đã nhận được ạ: cảm ơn anh/chị đã hỗ trợ 🙏"
+    },
+    {
+     "id": "ooo",
+     "title": "Vắng mặt",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Tôi vắng mặt từ {ngày bắt đầu} đến {ngày kết thúc}.\nViệc gấp xin vui lòng liên hệ chị Trần Thu Hà (0909 876 543).",
+     "ph": [
+      {
+       "name": "ngày bắt đầu",
+       "values": [
+        "18/3",
+        "1/4"
+       ]
+      },
+      {
+       "name": "ngày kết thúc",
+       "values": [
+        "22/3",
+        "5/4"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "biz",
+     "title": "Thông tin thanh toán",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Tài khoản: Vietcombank 0071001234567 (Công ty TNHH Ysoup)",
+      "Mã số thuế: 0312345678",
+      "Email nhận hóa đơn: billing@example.com"
+     ]
+    },
+    {
+     "id": "rrn",
+     "title": "Số CCCD",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "•••••••••6789"
+    },
+    {
+     "id": "report",
+     "title": "Báo cáo tuần",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Cập nhật tuần này:\n✅ Đã xong: {đã xong}\n🔄 Đang làm: {đang làm}\n📋 Tuần sau: {tuần sau}",
+     "ph": [
+      {
+       "name": "đã xong",
+       "values": [
+        "Phát hành bản 4.5",
+        "Kiểm thử thanh toán"
+       ]
+      },
+      {
+       "name": "đang làm",
+       "values": [
+        "Làm mới widget",
+        "Phân tích tỷ lệ giữ chân"
+       ]
+      },
+      {
+       "name": "tuần sau",
+       "values": [
+        "Gửi duyệt App Store",
+        "Họp tổng kết sprint"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "delay",
+     "title": "Trả lời chậm",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Em xin lỗi vì phản hồi chậm, khâu duyệt nội bộ mất nhiều thời gian hơn dự kiến.\nTrong hôm nay em sẽ gửi anh/chị thông tin chi tiết ạ 🙏"
+    }
+   ]
+  },
+  {
+   "id": "nomad",
+   "tab": "🌏 Du mục số",
+   "incoming": "Great, let's start Monday! Could you send your banking details?",
+   "target": "iban",
+   "keys": [
+    {
+     "id": "iban",
+     "title": "IBAN · SWIFT",
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Name: Nguyen Minh Anh\nIBAN: DE89 3704 0044 0532 0130 00\nSWIFT/BIC: COBADEFFXXX"
+    },
+    {
+     "id": "tz",
+     "title": "Báo múi giờ",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Hi, I'm in GMT+{múi giờ} right now. I can do {khung giờ}. Calendly: cal.com/leeo",
+     "ph": [
+      {
+       "name": "múi giờ",
+       "values": [
+        "7",
+        "2"
+       ]
+      },
+      {
+       "name": "khung giờ",
+       "values": [
+        "9~11am your time",
+        "anytime after 3pm"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "inv",
+     "title": "Hóa đơn",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Invoice #{số} · USD {số tiền}\nDue: {hạn}\nPayment: Wise (leeo@example.com)\nThank you! 🙏",
+     "ph": [
+      {
+       "name": "số",
+       "values": [
+        "2026-014",
+        "2026-015"
+       ]
+      },
+      {
+       "name": "số tiền",
+       "values": [
+        "2,400",
+        "3,800"
+       ]
+      },
+      {
+       "name": "hạn",
+       "values": [
+        "Mar 31",
+        "Apr 15"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pm",
+     "title": "Phương thức thanh toán",
+     "fav": true,
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Wise: leeo@example.com",
+      "PayPal: leeo@example.com",
+      "Stripe: stripe.me/leeo"
+     ]
+    },
+    {
+     "id": "wifi2",
+     "title": "Rớt wifi",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Hi team, wifi at my co-working just dropped. Back online in 10 min 🙏"
+    },
+    {
+     "id": "pass",
+     "title": "Thông tin hộ chiếu",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "Hộ chiếu: C1234567 · Hết hạn: 18/04/2031"
+    },
+    {
+     "id": "quote",
+     "title": "Báo giá và tỷ giá",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Quote: USD 2,400 (≈ VND 63M at today's rate).\nInvoiced in USD via Wise to keep fees low for you."
+    },
+    {
+     "id": "signoff",
+     "title": "Kết thúc ngày làm việc",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Signing off for the night (11pm in Da Nang). I'll reply first thing in my morning, thanks for your patience 🙏"
+    }
+   ]
+  }
+ ]
+}

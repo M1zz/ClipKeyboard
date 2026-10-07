@@ -3,6 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://m1zz.github.io/ClipKeyboard/">
+    <link rel="alternate" hreflang="ko" href="https://m1zz.github.io/ClipKeyboard/ko/">
+    <link rel="alternate" hreflang="en" href="https://m1zz.github.io/ClipKeyboard/en/">
+    <link rel="alternate" hreflang="zh-Hans" href="https://m1zz.github.io/ClipKeyboard/zh-Hans/">
+    <link rel="alternate" hreflang="zh-Hant" href="https://m1zz.github.io/ClipKeyboard/zh-Hant/">
+    <link rel="alternate" hreflang="ru" href="https://m1zz.github.io/ClipKeyboard/ru/">
+    <link rel="alternate" hreflang="ja" href="https://m1zz.github.io/ClipKeyboard/ja/">
+    <link rel="alternate" hreflang="es" href="https://m1zz.github.io/ClipKeyboard/es/">
+    <link rel="alternate" hreflang="de" href="https://m1zz.github.io/ClipKeyboard/de/">
+    <link rel="alternate" hreflang="fr" href="https://m1zz.github.io/ClipKeyboard/fr/">
+    <link rel="alternate" hreflang="it" href="https://m1zz.github.io/ClipKeyboard/it/">
+    <link rel="alternate" hreflang="pt-BR" href="https://m1zz.github.io/ClipKeyboard/pt-BR/">
+    <link rel="alternate" hreflang="th" href="https://m1zz.github.io/ClipKeyboard/th/">
+    <link rel="alternate" hreflang="vi" href="https://m1zz.github.io/ClipKeyboard/vi/">
+    <link rel="alternate" hreflang="x-default" href="https://m1zz.github.io/ClipKeyboard/">
     <title>ClipKeyboard: 반복 입력은 그만, 단축어 하나면 끝</title>
 
     <!-- SEO Meta Tags -->
@@ -554,16 +569,53 @@
         }
         footer a { color: var(--primary); text-decoration: none; }
         footer a:hover { text-decoration: underline; }
+
+        /* 언어 메뉴. 언어가 13개라 한 줄 토글에 안 들어가서 링크 목록을 접어 둔다.
+           링크는 docs/<lang>/ 의 언어별 페이지로 간다(docs/i18n/build.mjs 가 만든다). */
+        .lang-menu { position: fixed; top: 1rem; right: 1rem; z-index: 1000; font-size: 0.875rem; }
+        .lang-menu summary {
+            list-style: none; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;
+            padding: 0.5rem 0.9rem; background: var(--card-bg); color: var(--text);
+            border: 1px solid var(--border); border-radius: 100px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-weight: 500;
+        }
+        .lang-menu summary::-webkit-details-marker { display: none; }
+        .lang-menu summary::after { content: "\25BE"; color: var(--text-secondary); font-size: 0.8em; }
+        .lang-menu-list {
+            position: absolute; right: 0; top: calc(100% + 0.4rem);
+            display: grid; grid-template-columns: repeat(2, minmax(8rem, 1fr)); gap: 0.15rem;
+            padding: 0.4rem; background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 14px; box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+        }
+        .lang-menu-list a {
+            display: block; padding: 0.45rem 0.7rem; border-radius: 8px;
+            color: var(--text); text-decoration: none; white-space: nowrap;
+        }
+        .lang-menu-list a:hover { background: var(--surface-alt, rgba(127,127,127,0.14)); }
+        .lang-menu-list a[aria-current="page"] { background: var(--primary); color: #fff; font-weight: 600; }
+        @media (max-width: 600px) { .lang-menu { top: 0.5rem; right: 0.5rem; } }
     </style>
 </head>
 <body>
     <!-- Language Toggle -->
-    <div class="lang-toggle">
-        <button class="lang-btn" data-lang="ko" onclick="setLanguage('ko')">KO</button>
-        <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
-        <button class="lang-btn" data-lang="zh-Hans" onclick="setLanguage('zh-Hans')">简体</button>
-        <button class="lang-btn" data-lang="zh-Hant" onclick="setLanguage('zh-Hant')">繁體</button>
-    </div>
+    <details class="lang-menu">
+        <summary><span aria-hidden="true">🌐</span> <span class="lang-menu-label">Language</span></summary>
+        <nav class="lang-menu-list" aria-label="Language">
+            <a href="ko/" hreflang="ko" lang="ko">한국어</a>
+            <a href="en/" hreflang="en" lang="en">English</a>
+            <a href="zh-Hans/" hreflang="zh-Hans" lang="zh-Hans">简体中文</a>
+            <a href="zh-Hant/" hreflang="zh-Hant" lang="zh-Hant">繁體中文</a>
+            <a href="ru/" hreflang="ru" lang="ru">Русский</a>
+            <a href="ja/" hreflang="ja" lang="ja">日本語</a>
+            <a href="es/" hreflang="es" lang="es">Español</a>
+            <a href="de/" hreflang="de" lang="de">Deutsch</a>
+            <a href="fr/" hreflang="fr" lang="fr">Français</a>
+            <a href="it/" hreflang="it" lang="it">Italiano</a>
+            <a href="pt-BR/" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a>
+            <a href="th/" hreflang="th" lang="th">ไทย</a>
+            <a href="vi/" hreflang="vi" lang="vi">Tiếng Việt</a>
+        </nav>
+    </details>
 
     <!-- Hero -->
     <section class="hero">
@@ -3256,7 +3308,34 @@
         })();
 
         // Initialize language on page load
+        // ── 언어별 페이지 ──
+        // 이 루트 페이지는 x-default 다. 언어마다 고정된 페이지가 docs/<lang>/ 에 있고
+        // (docs/i18n/build.mjs 가 이 파일로 만든다) 그 페이지는 window.PAGE_LANG 을 박아 둔다.
+        // 이 파일에 글이 없는 언어로 들어오면(?lang=ja, 일본어 브라우저) 그 언어 페이지로 보낸다.
+        var SITE_LANGS = ["ko", "en", "zh-Hans", "zh-Hant", "ru", "ja", "es", "de", "fr", "it", "pt-BR", "th", "vi"];
+        function siteLang(tag) {
+            var t = (tag || '').toLowerCase().replace('_', '-');
+            if (!t) return '';
+            if (t.indexOf('zh') === 0) {
+                return (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                        t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) ? 'zh-Hant' : 'zh-Hans';
+            }
+            if (t.indexOf('pt') === 0) return 'pt-BR';
+            var base = t.split('-')[0];
+            return SITE_LANGS.indexOf(base) >= 0 ? base : '';
+        }
+        function goLangPage(lang) {
+            if (!lang || translations[lang] || SITE_LANGS.indexOf(lang) < 0) return false;
+            var file = window.location.pathname.split('/').pop() || '';
+            window.location.replace(lang + '/' + file + window.location.hash);
+            return true;
+        }
+
         (function() {
+            // 언어별 페이지(docs/<lang>/)는 언어가 정해져 있다.
+            if (window.PAGE_LANG) { applyLanguage(window.PAGE_LANG); return; }
+            if (goLangPage(siteLang(new URLSearchParams(window.location.search).get('lang') || ''))) return;
+            if (!localStorage.getItem('clipkb-lang') && goLangPage(siteLang(navigator.language || navigator.userLanguage || ''))) return;
             // ?lang=en / ?lang=ko 로 들어오면 브라우저 언어나 저장된 값과 상관없이 그 언어로 연다.
             // 해외에 링크를 뿌릴 때 쓴다. 직접 고른 것과 똑같이 취급해 저장까지 하므로
             // 사용 가이드 등 다른 페이지로 넘어가도 같은 언어가 이어진다.

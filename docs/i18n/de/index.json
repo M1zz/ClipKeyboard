@@ -1,0 +1,761 @@
+{
+ "translations": {
+  "pageTitle": "ClipKeyboard: Nie wieder alles neu tippen. Ein Textbaustein genügt",
+  "metaDescription": "Speichere IBAN, Adressen und E-Mail-Vorlagen als Textbausteine und füge sie in jeder App mit einem Tipp über die Tastatur ein. 40 Vorlagen aus dem echten Leben für Nomaden, Berufstätige, Studierende und den Alltag: kostenlos.",
+  "ogTitle": "ClipKeyboard: Nie wieder alles neu tippen. Ein Textbaustein genügt",
+  "ogDescription": "Mach aus Sätzen, die du ständig schreibst, Textbausteine. 40 fertige Vorlagen zum sofortigen Kopieren.",
+  "heroBadge": "🔒 Deine Textbausteine gehören dir · Datenschutz zuerst",
+  "heroTitle": "Nie wieder alles neu tippen.<br><span>Ein Textbaustein genügt</span>",
+  "heroSubtitle": "IBAN · Adressen · Vorstellung · englische Vorlagen<br>einmal speichern, dann in jeder App mit einem Tipp über die Tastatur einfügen.",
+  "heroCta": "Im App Store laden",
+  "heroDemo": "⌨️ Tastatur ausprobieren: 30 Sekunden",
+  "heroTemplates": "📋 40 Vorlagen aus dem Alltag ansehen",
+  "videoTitle": "So sieht das aus",
+  "videoSubtitle": "Eine Bildschirmaufnahme, 23 Sekunden, ohne Ton.",
+  "videoNote": "Die Aufnahme zeigt die englische Oberfläche. Die App gibt es auch komplett auf Deutsch.",
+  "demoTitle": "Probier es gleich hier aus",
+  "demoSubtitle": "Das ist der Bildschirm „Tastaturvorschau“ aus der App. Im echten Leben erscheint diese Tastatur in Nachrichten, Mail, Safari: überall, wo du tippst.",
+  "demoBrief": "Die Tastatur unten ist <strong>genau der Bildschirm, den die App mitbringt</strong>. Tippe auf einen Textbaustein, und er landet im Feld. Auch nach dem Senden kannst du einfach weitertippen.",
+  "demoCta": "Mit deinen eigenen Sätzen loslegen",
+  "demoReset": "Neu starten",
+  "demoNote": "* Alle Konto- und Passdaten in dieser Demo sind erfunden. Deine echten Textbausteine verlassen nie dein Gerät.",
+  "demoStageTitle": "Tastaturvorschau",
+  "demoComposerPh": "Hier landet dein Text",
+  "demoCueTap": "Tippe auf die Taste „%@“",
+  "demoCueSend": "Da ist er: Jetzt auf Senden (↑) tippen",
+  "demoCueDone": "Das war schon alles: Probier die anderen Tasten aus",
+  "demoTplInsert": "Einfügen",
+  "demoTplPick": "Wert auswählen",
+  "demoFaceScanning": "Entsperren mit Face ID …",
+  "demoFaceDone": "Entsperrt",
+  "demoToastCombo": "Zum nächsten Wert gewechselt",
+  "demoTabBasic": "Allgemein",
+  "demoTabFav": "Favoriten",
+  "demoTabTemplate": "Vorlagen",
+  "demoTabCombo": "Kombos",
+  "demoFeatures": [
+   {
+    "k": "snippet",
+    "t": "Textbaustein: ein Tipp, schon steht es da",
+    "d": "Deine gespeicherte IBAN, Adresse oder Signatur wird genau so eingefügt, wie du sie gespeichert hast."
+   },
+   {
+    "k": "template",
+    "t": "Vorlage: nur die Lücken füllen",
+    "d": "Variablen wie {Datum} {Uhrzeit} füllst du mit einem Tipp auf einen Wert, den du schon einmal gespeichert hast."
+   },
+   {
+    "k": "combo",
+    "t": "Kombo: Werte mit → durchschalten",
+    "d": "Drei Konten oder Zahlungsarten auf einer Taste, du wählst je nach Situation."
+   },
+   {
+    "k": "secure",
+    "t": "Geschützter Textbaustein: hinter Face ID",
+    "d": "Pass- und Kartennummern bleiben gesperrt, bis du sie wirklich brauchst."
+   }
+  ],
+  "howTitle": "Was ist ein Textbaustein?",
+  "howSubtitle": "Ein Satz, den du oft brauchst, unter einem Namen gespeichert. Mehr nicht.",
+  "how1Title": "Als Textbaustein speichern",
+  "how1Desc": "Gib ihm einen Namen (die Taste), zum Beispiel „Bankverbindung“, und hinterlege den eigentlichen Text (den Wert). Einmal speichern, fertig.",
+  "how2Title": "Über die Tastatur einfügen",
+  "how2Desc": "Wechsle in Nachrichten, Mail, Safari oder sonst wo zu ClipKeyboard. Deine Textbausteine liegen direkt auf der Tastatur. Ein Tipp, und der Text steht da.",
+  "how3Title": "Mit Vorlagen und Kombos mehr erreichen",
+  "how3Desc": "Füge Variablen wie <span class=\"chip\">Name</span> <span class=\"chip\">Datum</span> ein, und schon hast du eine Vorlage; verkette Textbausteine zu Kombos. So erledigen sich ganze Routinen von selbst.",
+  "libTitle": "Menschen wie du sparen damit jeden Tag Zeit",
+  "libSubtitle": "Such dir den Alltag aus, der deinem am nächsten kommt. Kopiere eine Vorlage, speichere sie in der App, und schon liegt sie auf deiner Tastatur.",
+  "libNote": "💡 Die blauen Chips sind Variablen der Vorlage. In der App füllst du sie mit einem Tipp aus.",
+  "copy": "Kopieren",
+  "copied": "Kopiert ✓",
+  "impactPrefix": "✨ ",
+  "privacyTitle": "🔒 Deine Daten bleiben auf deinem Gerät",
+  "privacyDesc": "Die Inhalte deiner Textbausteine liegen nur auf deinem Gerät (und, wenn du es einschaltest, in deiner eigenen iCloud). Wir erheben sie nie. Zur Verbesserung der App werden nur anonyme Nutzungsstatistiken erfasst.",
+  "privacyBadge": "✓ Entspricht den Datenschutzvorgaben von Apple",
+  "pricingTitle": "Kostenlos starten",
+  "pricingSubtitle": "Kostenloser Download · Pro als Einmalkauf, ohne Abo",
+  "price": "Kostenlos",
+  "priceDesc": "Upgrade auf Pro · einmalige Zahlung · 7 Tage gratis testen",
+  "priceFeature1": "Gratis: 10 Textbausteine · 3 Vorlagen · 3 Kombos",
+  "priceFeature2": "Pro: unbegrenzter Speicher · iCloud-Backup · geschützte Textbausteine",
+  "priceFeature3": "iPhone, iPad, Mac, Vision Pro",
+  "priceFeature4": "Kein Abo · Keine Werbung",
+  "priceFeature5": "Lebenslang kostenlose Updates",
+  "pricingCta": "Kostenlos laden",
+  "footerContact": "Kontakt",
+  "footerTutorial": "Anleitung",
+  "footerPrivacy": "Datenschutz",
+  "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+ },
+ "PERSONA_META": {
+  "nomad": {
+   "icon": "🌏",
+   "name": "Nomade · Freelancer"
+  },
+  "business": {
+   "icon": "💼",
+   "name": "Beruf"
+  },
+  "student": {
+   "icon": "🎓",
+   "name": "Studium"
+  },
+  "general": {
+   "icon": "👤",
+   "name": "Alltag"
+  }
+ },
+ "BADGE_LABEL": {
+  "snippet": "Textbaustein",
+  "template": "Vorlage",
+  "combo": "Kombo",
+  "smartClipboard": "Zwischenablage"
+ },
+ "PERSONA_DATA": [
+  {
+   "persona": "nomad",
+   "intro": "Du ziehst von Café zu Coworking-Space und arbeitest mit Kunden auf der ganzen Welt. Zeitzonen, Auslandsüberweisungen, Visa, fast identische englische E-Mails: Dein Tag versickert damit, dieselben Angaben immer wieder in einem anderen Tab zu suchen. Speichere jede davon einmal, und ab dann ist es nur noch ein Tipp.",
+   "scenarios": [
+    {
+     "title": "„Send your banking details“",
+     "pain": "Eine Zeile vom Kunden, und schon suchst du wieder in der Banking-App nach IBAN und SWIFT.",
+     "example": "Name: {Name in Latein}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nBank address: {Bankadresse}\nWise: {Wise-E-Mail}",
+     "impact": "Aus 30 Sekunden Suchen wird ein Tipp, und keine Zahlendreher mehr.",
+     "feature": "combo"
+    },
+    {
+     "title": "Antwort zur Zeitzone",
+     "pain": "Um 2 Uhr nachts ein „Can we hop on a call?“, und du erklärst schon wieder deine Zeitzone.",
+     "example": "Hi {Kunde}, I'm in GMT+{Zeitversatz} ({Stadt}) right now. I can do {Zeitfenster}. Calendly: {Link}",
+     "impact": "Drei Nachrichten hin und her werden zu einer klaren Antwort.",
+     "feature": "template"
+    },
+    {
+     "title": "Rechnung verschicken",
+     "pain": "Rechnungsnummer, Betrag, Währung und Fälligkeit tippst du jedes Mal neu.",
+     "example": "Invoice #{Nr} · {Währung} {Betrag}\nDue: {Fälligkeit}\nPayment: Wise ({E-Mail})\nThank you! 🙏",
+     "impact": "Die Vorlage denkt an die Felder, die du sonst vergisst: weniger Korrekturen und Neuausstellungen.",
+     "feature": "template"
+    },
+    {
+     "title": "Nachfassen beim Angebot",
+     "pain": "Drei Tage Funkstille, und eine Erinnerung, die nicht aufdringlich klingt, fällt jedes Mal schwer.",
+     "example": "Hi {Kunde}, just following up on the proposal I sent {Wochentag}. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {Name}",
+     "impact": "Ein höfliches Nachfassen, sofort verschickt, rettet Aufträge, die dir sonst durchgerutscht wären.",
+     "feature": "template"
+    },
+    {
+     "title": "Pass- und Visadaten",
+     "pain": "Bei jedem Flug, jeder Unterkunft und jedem Visumantrag suchst du Passnummer und Ablaufdatum.",
+     "example": "Passnummer: {Passnummer}\nName laut Pass: {Name in Latein}\nAusgestellt / Gültig bis: {Ausstellungsdatum} / {Ablaufdatum}\nStaatsangehörigkeit: {Staatsangehörigkeit}",
+     "impact": "Als geschützter Textbaustein hinter Face ID, geöffnet nur, wenn du ihn brauchst.",
+     "feature": "snippet"
+    },
+    {
+     "title": "„Where are you based?“",
+     "pain": "Ein neuer Kunde fragt beiläufig, und du erklärst dein Nomadenleben jedes Mal viel zu ausführlich.",
+     "example": "Based nowhere in particular: currently in {Stadt}. I work async-first, so timezones rarely matter, but I'll always give you a clear window when I'm reachable.",
+     "impact": "Eine souveräne, professionelle Antwort statt eines unsteten Eindrucks.",
+     "feature": "template"
+    },
+    {
+     "title": "WLAN weg",
+     "pain": "Das WLAN im Coworking fällt kurz vor dem Call aus, und du ringst nach einer Entschuldigung.",
+     "example": "Hi team, wifi at my co-working just dropped. Moving to a backup spot: back online in {Minuten} min. Ready to continue right after. 🙏",
+     "impact": "Selbst in der Hektik schickst du in einer Sekunde eine ruhige, beruhigende Nachricht.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Hinweis zu Währung und Angebot",
+     "pain": "Bei Angeboten in fremder Währung schreibst du den Wechselkurs-Hinweis jedes Mal neu.",
+     "example": "Quote: {Währung} {Betrag} (≈ {Umrechnung} at today's rate).\nInvoiced in {Währung} via Wise to keep fees low for you.",
+     "impact": "Missverständnisse beim Preis früh ausräumen, kein Feilschen bei der Zahlung.",
+     "feature": "template"
+    },
+    {
+     "title": "Onboarding neuer Kunden",
+     "pain": "Direkt nach Vertragsabschluss erklärst du jedem Kunden Calendly, Slack, Zahlung und Rhythmus.",
+     "example": "Willkommen an Bord, {Kunde}! So arbeiten wir zusammen:\n1. Erstes Abstimmungsgespräch über Calendly: {Link}\n2. Zahlung (Bankverbindung bei Bedarf anbei)\n3. Slack-Einladung innerhalb von 24 Stunden\n4. Jeden Donnerstag eine Demo zum Stand\n\nIch freue mich auf die Zusammenarbeit!",
+     "impact": "Eine Kombo fügt mehrere Textbausteine nacheinander ein, und das Onboarding schrumpft von 5 Minuten auf 5 Sekunden.",
+     "feature": "combo"
+    },
+    {
+     "title": "Feierabend für heute",
+     "pain": "Um 22 Uhr eine dringende Nachricht, und höflich „jetzt nicht“ zu sagen, ist jedes Mal unangenehm.",
+     "example": "Hi! Signing off for the night ({Uhrzeit} in {Stadt}). I'll reply first thing in my morning, thanks for your patience 🙏",
+     "impact": "Grenzen wahren, ohne unhöflich zu wirken: Vertrauen bleibt, Burn-out bleibt aus.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "business",
+   "intro": "Meetings, Berichte, Antworten: Dieselben Formulierungen schreibst du Dutzende Male am Tag neu. „Bitte um Bestätigung“, Einladungen, Abwesenheitsnotizen. Speichere die höflichen, ewig gleichen Sätze einmal und steck deine Energie in die Arbeit statt in die Formulierung.",
+   "scenarios": [
+    {
+     "title": "Abwesenheitsnotiz",
+     "pain": "Vor jeder Dienstreise schreibst du die Abwesenheitsnotiz neu und vergisst die Vertretung.",
+     "example": "Guten Tag, ich bin vom {Beginn} bis zum {Ende} nicht im Büro.\nIn dringenden Fällen wenden Sie sich bitte an {Vertretung} ({Telefon}).\nNach meiner Rückkehr antworte ich der Reihe nach. Vielen Dank.",
+     "impact": "Keine Lücken in der Erreichbarkeit und keine E-Mail-Lawine nach dem Urlaub.",
+     "feature": "template"
+    },
+    {
+     "title": "Einladung zum Meeting",
+     "pain": "Datum, Ort und Tagesordnung tippst du für jedes einzelne Meeting neu.",
+     "example": "Hallo {Name},\nich möchte gern folgenden Termin vorschlagen:\n📅 {Datum} {Uhrzeit}\n📍 {Ort}\n📌 Thema: {Tagesordnung}\nGib mir bitte kurz Bescheid, ob es dir passt 😊",
+     "impact": "Eine saubere Einladung heißt weniger Rückfragen und deutlich weniger verpasste Termine.",
+     "feature": "template"
+    },
+    {
+     "title": "Wöchentlicher Statusbericht",
+     "pain": "Jede Woche beginnst du denselben Bericht wieder mit einem leeren Blatt.",
+     "example": "Hallo zusammen, hier das Update dieser Woche:\n✅ Erledigt: {erledigt}\n🔄 In Arbeit: {in Arbeit}\n📋 Nächste Woche: {geplant}\nBei Fragen meldet euch gern.",
+     "impact": "Das Format steht, du füllst nur noch den Inhalt. Der Freitagabend wird leichter.",
+     "feature": "template"
+    },
+    {
+     "title": "Vorstellung und Kontaktdaten",
+     "pain": "Bei jeder ersten Vorstellung tippst du Rolle, Team und Kontakt wieder ein.",
+     "example": "Hallo, ich bin {Name}.\nIch bin bei {Firma} für {Aufgabenbereich} zuständig.\n📧 {E-Mail} / 📞 {Telefon}\nIch freue mich auf die Zusammenarbeit 🙏",
+     "impact": "Eine einheitliche Vorstellung schafft Vertrauen, und kein Kontakt geht durch einen Tippfehler verloren.",
+     "feature": "snippet"
+    },
+    {
+     "title": "E-Mail-Signatur",
+     "pain": "Signaturen wandern nicht zwischen Mail-Apps mit, also fügst du deine von Hand ein.",
+     "example": "{Name}\n{Position} | {Firma}\n📧 {E-Mail}\n📞 {Telefon}\n🌐 {Website}",
+     "impact": "Eine Signatur für jede App und jedes Gerät: Dein Auftritt bleibt stimmig.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Bank- und Steuerdaten",
+     "pain": "Fragt ein Lieferant nach Bankverbindung oder Steuernummer, wühlst du dich durch die Buchhaltungsordner.",
+     "example": "IBAN: {IBAN} ({Kontoinhaber})\nUSt-IdNr.: {USt-IdNr}\nFirma: {Firma}\nE-Mail für Rechnungen: {E-Mail}",
+     "impact": "Sofort und fehlerfrei verschickt: keine verspäteten oder fehlgeleiteten Zahlungen.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Anfrage für eine Kooperation",
+     "pain": "Bei einem Kooperationsvorschlag ist der höfliche erste Satz immer das Schwierigste.",
+     "example": "Hallo {Name},\nich melde mich wegen einer möglichen Zusammenarbeit bei {Projekt}.\nIch bin bei {Firma/Name} für {Aufgabenbereich} zuständig.\nHätten Sie Zeit für ein kurzes Gespräch? Nennen Sie mir gern einen passenden Termin. Vielen Dank!",
+     "impact": "Der erste Satz, über dem du sonst brütest, steht schon, also meldest du dich tatsächlich öfter.",
+     "feature": "template"
+    },
+    {
+     "title": "Entschuldigung für späte Antwort",
+     "pain": "Wenn du spät antwortest, ist eine Entschuldigung, die nicht nachlässig klingt, eine heikle Sache.",
+     "example": "Hallo {Name}, entschuldigen Sie bitte die späte Rückmeldung. {Grund} hat sich verzögert. Bis {Datum} melde ich mich mit allen Details. Vielen Dank für Ihre Geduld.",
+     "impact": "Ein Satz, der Vertrauen schafft statt Funkstille, und die Beziehung bleibt intakt.",
+     "feature": "template"
+    },
+    {
+     "title": "Dank zum Projektabschluss",
+     "pain": "Je besser das Projekt lief, desto länger schiebst du das Dankeschön auf und verpasst den Moment.",
+     "example": "Hallo {Name},\nherzlichen Dank für die Zusammenarbeit bei {Projekt}.\nDank Ihnen ist ein tolles Ergebnis entstanden.\nIch würde mich freuen, auch beim nächsten Mal wieder zusammenzuarbeiten 😊",
+     "impact": "Verpasse nie die Nachricht, aus der das nächste Projekt entsteht: Folgeaufträge kommen von selbst.",
+     "feature": "template"
+    },
+    {
+     "title": "Rechnung und Abrechnung",
+     "pain": "Am Monatsende stellst du Abrechnung und Bankverbindung wieder von Hand zusammen.",
+     "example": "Hallo! Anbei die Abrechnung für {Monat}.\nBetrag: {Betrag} (inkl. MwSt.)\nIBAN: {IBAN} ({Kontoinhaber})\nBitte kurz bestätigen 😊",
+     "impact": "Eine formal saubere Rechnung erspart Korrekturen, und das Geld kommt schneller.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "student",
+   "intro": "Matrikelnummer, Uni-Mail, Deckblätter, Ansagen in der Gruppenarbeit: Das Studium ist ein Formular nach dem anderen. Speichere deine Mails an Dozierende, die Abrechnung in der Lerngruppe und deine WG-Adresse, und du gewinnst Zeit fürs Lernen und für dich.",
+   "scenarios": [
+    {
+     "title": "Matrikelnummer und Name",
+     "pain": "Kursanmeldung, Abgaben, Bescheinigungen: Matrikelnummer und Name tippst du jedes Mal neu.",
+     "example": "{Studiengang} {Matrikelnummer} {Name}",
+     "impact": "Ein Tipp in jedes Feld, und kein Tippfehler in letzter Minute kostet dich Punkte.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Mail an Lehrende",
+     "pain": "Mails an Lehrende verlangen einen höflichen Ton, also macht dich die erste Zeile jedes Mal nervös.",
+     "example": "Sehr geehrte/r Prof. {Nachname},\nmein Name ist {Name} (Matrikelnummer {Matrikelnummer}), ich studiere {Studiengang}.\nIch besuche Ihre Veranstaltung {Veranstaltung} (Gruppe {Nr}).\nIch schreibe Ihnen wegen {Anliegen}.\nVielen Dank für Ihre Zeit und viele Grüße",
+     "impact": "Nur noch das Anliegen ausfüllen, die Form passt: Du schiebst keine Mails mehr vor dir her.",
+     "feature": "template"
+    },
+    {
+     "title": "Deckblatt für Hausarbeiten",
+     "pain": "Jede Veranstaltung will ein anderes Deckblatt, und kurz vor der Abgabe bastelst du daran herum.",
+     "example": "Veranstaltung: {Veranstaltung}\nDozent/in: {Dozent/in}\nVorgelegt von: {Studiengang} {Matrikelnummer} {Name}\nDatum: {Datum}\nThema: {Thema}",
+     "impact": "Format gespeichert, nur der Inhalt ist neu: eine Sorge weniger vor der Deadline.",
+     "feature": "template"
+    },
+    {
+     "title": "Ansage in der Gruppenarbeit",
+     "pain": "Termin und Aufgabenverteilung in den Gruppenchat zu posten, nervt jede Runde aufs Neue.",
+     "example": "[{Projekt}] Info an alle 📢\nNächstes Treffen: {Datum} {Uhrzeit} @ {Ort/Link}\nMitbringen: {Sachen}\nAbgabe: {Abgabetermin}\nKurz mit 👍 reagieren, wenn ihr es gelesen habt!",
+     "impact": "Eine klare Ansage beendet das „Wann war das noch mal?“ und hält die Gruppe in Bewegung.",
+     "feature": "template"
+    },
+    {
+     "title": "WG- oder Wohnheimadresse",
+     "pain": "Bei jeder Bestellung gibst du die komplette Adresse samt Klingelschild wieder ein.",
+     "example": "{Name}\nc/o {Name am Klingelschild}\n{Straße und Hausnummer}\n{PLZ} {Ort}\nTelefon: {Telefon}",
+     "impact": "Ein Tipp in der Liefer-App, und kein Paket geht mehr an eine falsche Adresse.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Rechnung teilen",
+     "pain": "Geld für Material oder das Gruppenessen einzusammeln heißt jedes Mal neu rechnen und posten.",
+     "example": "Insgesamt {Summe} für {Personen} Leute, also {pro Person} pro Person 🙏\nBitte per PayPal an {PayPal} oder auf {IBAN} ({Name})~",
+     "impact": "Die Aufteilung ist sofort verschickt, und das Gespräch über Geld wird viel entspannter.",
+     "feature": "template"
+    },
+    {
+     "title": "Krankmeldung",
+     "pain": "Wenn du krank bist, fällt dir die Nachricht an Dozierende oder Tutoren genau dann nicht ein, wenn es eilt.",
+     "example": "Sehr geehrte/r Prof. {Nachname},\nmein Name ist {Name} (Matrikelnummer {Matrikelnummer}).\nAm {Datum} kann ich wegen {Grund} leider nicht an {Veranstaltung} teilnehmen.\nEinen Nachweis reiche ich per {Weg} nach. Ich bitte um Entschuldigung.",
+     "impact": "Selbst im Durcheinander schickst du sofort eine höfliche Nachricht: weniger Nachteile für dich.",
+     "feature": "template"
+    },
+    {
+     "title": "Mitglieder für AG oder Lerngruppe",
+     "pain": "Wer in mehreren Gruppen Leute sucht, schreibt den Aufruf jedes Mal ein bisschen anders.",
+     "example": "[{Gruppe}] Wir suchen Verstärkung! 🙌\nWas wir machen: {Aktivität}\nWann: {Tag/Uhrzeit}\nWo: {Ort}\nMelden: {Link/Kontakt}\nSchreib uns einfach 😊",
+     "impact": "Mit einem Tipp derselbe Aufruf überall, und die Suche geht viel schneller.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Basisdaten für Praktikumsbewerbungen",
+     "pain": "Bei jeder Bewerbung wieder Name, Kontakt, Studium und Links, bis du keine Lust mehr hast.",
+     "example": "{Name} · {Telefon} · {E-Mail}\n{Hochschule} {Studiengang} ({Semester}. Semester)\nPortfolio: {Link}\nGitHub/Blog: {Link}",
+     "impact": "Formulare sind schnell ausgefüllt, also bewirbst du dich auf mehr Stellen.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Ich komme später",
+     "pain": "Bist du spät dran, wird die Nachricht vor lauter schlechtem Gewissen immer länger.",
+     "example": "Sorry! Ich bin ungefähr {Minuten} Minuten später da. Bin gleich da 🙏",
+     "impact": "Eine kurze, klare Nachricht beruhigt die Person, die wartet, sofort.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "general",
+   "intro": "Was du jeden Tag brauchst: IBAN, Wohnadresse, Telefonnummer, die Grüße, die du oft verschickst. Kein Kramen mehr im Gedächtnis oder in alten Chats. Wenn es so weit ist, reicht ein Tipp. Einzeln sind es Kleinigkeiten, über den Tag summiert sich das zu echter Zeit.",
+   "scenarios": [
+    {
+     "title": "Bankverbindung weitergeben",
+     "pain": "„Wie ist deine IBAN?“, und du öffnest die Banking-App, um die Nummer nachzusehen und zu kopieren.",
+     "example": "{Bank}\nIBAN: {IBAN}\nKontoinhaber: {Name}\n(PayPal geht auch 🙏)",
+     "impact": "Ein Tipp, genau richtig: Kein Zahlendreher schickt Geld ins Leere.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Wohnadresse (Lieferung)",
+     "pain": "Beim Online-Shopping und bei Kleinanzeigen tippst du Adresse und Kontakt immer wieder ein.",
+     "example": "{Name}\n{Straße und Hausnummer}\n{Zusatz}\n{PLZ} {Ort}\nTelefon: {Telefon}",
+     "impact": "Adresse in einem Rutsch eingegeben, weniger Fehllieferungen, die dich Zeit kosten.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Verabredung treffen",
+     "pain": "Bei jedem Treffen schreibst du eine neue Nachricht, um Zeit und Ort zu klären.",
+     "example": "Wie wäre es am {Datum} um {Uhrzeit} im {Ort}? Wenn nicht, sag mir, wann es dir passt 😊",
+     "impact": "Wer gleich einen konkreten Vorschlag macht, hat den Termin viel schneller fest.",
+     "feature": "template"
+    },
+    {
+     "title": "Ich komme später",
+     "pain": "Jedes Mal, wenn du zu spät bist, schreibst du aus schlechtem Gewissen eine lange Entschuldigung.",
+     "example": "Sorry! Ich bin ungefähr {Minuten} Minuten später da. Fangt ruhig ohne mich an 🙏",
+     "impact": "Eine kurze Nachricht, sofort verschickt, beruhigt alle, die warten.",
+     "feature": "template"
+    },
+    {
+     "title": "Konto für Geldgeschenke",
+     "pain": "Fragt jemand nach dem Konto für ein Hochzeits- oder Sammelgeschenk, suchst du hektisch nach der Nummer.",
+     "example": "Vielen Dank, dass du an uns denkst.\n{Bank} IBAN: {IBAN} ({Kontoinhaber})\nDass du dabei bist, bedeutet uns schon so viel 🙏",
+     "impact": "Selbst im größten Trubel gibst du die Daten richtig und mit Stil weiter.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Kleinanzeige",
+     "pain": "Bei jedem Verkauf schreibst du Preis, Zustand und Übergabeort wieder genauso neu.",
+     "example": "Verkaufe: {Artikel}\nPreis: {Preis} (VB: {ja/nein})\nZustand: {Zustand}\nAbholung in {Ort} oder Versand\nKontakt: {Kontakt}",
+     "impact": "Mit einem Tipp auf jeder Plattform eingefügt, und du antwortest Interessenten schneller.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Notfall- und Familiendaten",
+     "pain": "Bei der Aufnahme im Krankenhaus oder auf Formularen musst du Notfallkontakt und Angaben jedes Mal zusammensuchen.",
+     "example": "Notfallkontakt: {Name} ({Beziehung})\nTelefon: {Telefon}\nBlutgruppe: {Blutgruppe}\nHinweise/Allergien: {Details}",
+     "impact": "Genaue Angaben im Ernstfall: ruhig handeln statt in Panik geraten.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Terminanfrage",
+     "pain": "Für jede Terminanfrage stellst du Name, Geburtsdatum und Beschwerden neu zusammen.",
+     "example": "Ich möchte gern einen Termin vereinbaren.\nName: {Name} / Geburtsdatum: {Geburtsdatum}\nAnliegen: {Anliegen}\nWunschtermin: {Datum} {Uhrzeit}",
+     "impact": "Eine klare Anfrage verkürzt das Telefonat, und du bekommst eher deinen Wunschtermin.",
+     "feature": "template"
+    },
+    {
+     "title": "WLAN-Passwort teilen",
+     "pain": "Bei jedem Besuch liest du das Router-Passwort vor oder suchst ein Foto davon.",
+     "example": "WLAN: {Netzwerkname}\nPasswort: {Passwort}\nViel Spaß 😊",
+     "impact": "Einmal geschickt, und niemand fragt dreimal nach dem Passwort.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Grüße für jeden Anlass",
+     "pain": "Zu Feiertagen und Geburtstagen schreibst du jedes Mal eine ähnliche Nachricht von vorn.",
+     "example": "Liebe/r {Name}, ich wünsche dir {Anlass} alles Liebe! Bleib gesund, und nur das Beste für dich 😊",
+     "impact": "Herzlich und trotzdem schnell: So erreichst du wirklich alle, an die du denken wolltest.",
+     "feature": "template"
+    }
+   ]
+  }
+ ],
+ "DEMO_SCENARIOS": [
+  {
+   "id": "daily",
+   "tab": "👤 Alltag",
+   "incoming": "Ich überweise dir heute Abend meinen Anteil: Wie viel, und wohin? 🙏",
+   "target": "settle",
+   "keys": [
+    {
+     "id": "settle",
+     "title": "Abrechnen",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Heute Abend macht {Betrag} pro Person 🙏\nBitte an {Konto} (Jonas Weber)~",
+     "ph": [
+      {
+       "name": "Betrag",
+       "values": [
+        "12 €",
+        "25 €",
+        "38 €"
+       ]
+      },
+      {
+       "name": "Konto",
+       "values": [
+        "DE12 5001 0517 0648 4898 90",
+        "PayPal jonas.weber@example.com",
+        "Wero 0151 23456789"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "addr",
+     "title": "Wohnadresse",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Jonas Weber\nMusterstraße 12, 3. OG\n10115 Berlin\nTelefon: 0151 23456789"
+    },
+    {
+     "id": "late",
+     "title": "Komme später",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Sorry! Ich bin ungefähr {Minuten} Minuten später da. Fangt ruhig ohne mich an 🙏",
+     "ph": [
+      {
+       "name": "Minuten",
+       "values": [
+        "5",
+        "10",
+        "20"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pay",
+     "title": "Geld senden",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "PayPal: jonas.weber@example.com",
+      "Wero: 0151 23456789",
+      "IBAN: DE12 5001 0517 0648 4898 90"
+     ]
+    },
+    {
+     "id": "wifi",
+     "title": "WLAN zu Hause",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "WLAN: FRITZ!Box 7590 XY\nPasswort: willkommen2026!"
+    },
+    {
+     "id": "card",
+     "title": "Kartennummer",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "4212 3456 7890 7788 (12/29)"
+    },
+    {
+     "id": "delivery",
+     "title": "Lieferhinweis",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Bitte vor der Wohnungstür abstellen 🙏\nHaustürcode: 1234\nBitte nicht klingeln, das Baby schläft."
+    },
+    {
+     "id": "sale",
+     "title": "Kleinanzeige",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Verkaufe: iPad Air (5. Generation)\nPreis: 320 € VB\nZustand: leichte Gebrauchsspuren, mit OVP\nAbholung in Berlin-Mitte oder Versand"
+    }
+   ]
+  },
+  {
+   "id": "work",
+   "tab": "💼 Beruf",
+   "incoming": "Kannst du das Meeting nächste Woche ansetzen und die Details schicken?",
+   "target": "meet",
+   "keys": [
+    {
+     "id": "meet",
+     "title": "Einladung zum Meeting",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Hallo, ich schlage folgenden Termin vor:\n📅 {Datum} {Uhrzeit}\n📍 {Ort}\nBitte gebt mir kurz Bescheid, ob ihr könnt 😊",
+     "ph": [
+      {
+       "name": "Datum",
+       "values": [
+        "Di., 12. März",
+        "Do., 14. März"
+       ]
+      },
+      {
+       "name": "Uhrzeit",
+       "values": [
+        "10:00 Uhr",
+        "14:00 Uhr"
+       ]
+      },
+      {
+       "name": "Ort",
+       "values": [
+        "Besprechungsraum 3. OG",
+        "Google Meet"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "sign",
+     "title": "E-Mail-Signatur",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Jonas Weber\nProduct Manager | Ysoup\n📧 jonas.weber@example.com / 📞 +49 151 23456789"
+    },
+    {
+     "id": "ok",
+     "title": "Danke, erledigt",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Alles klar, vielen Dank, dass du dich darum gekümmert hast 🙏"
+    },
+    {
+     "id": "ooo",
+     "title": "Abwesenheit",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Ich bin vom {Beginn} bis zum {Ende} nicht im Büro.\nIn dringenden Fällen wenden Sie sich bitte an Anna Becker (+49 151 98765432).",
+     "ph": [
+      {
+       "name": "Beginn",
+       "values": [
+        "18. März",
+        "1. April"
+       ]
+      },
+      {
+       "name": "Ende",
+       "values": [
+        "22. März",
+        "5. April"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "biz",
+     "title": "Rechnungsdaten",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "IBAN: DE12 5001 0517 0648 4898 90 (Ysoup GmbH)",
+      "USt-IdNr.: DE123456789",
+      "E-Mail für Rechnungen: rechnung@example.com"
+     ]
+    },
+    {
+     "id": "rrn",
+     "title": "Steuer-ID",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "•• ••• ••• 789"
+    },
+    {
+     "id": "report",
+     "title": "Wochenbericht",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Update dieser Woche:\n✅ Erledigt: {erledigt}\n🔄 In Arbeit: {laufend}\n📋 Nächste Woche: {geplant}",
+     "ph": [
+      {
+       "name": "erledigt",
+       "values": [
+        "Release 4.5",
+        "QA für den Checkout"
+       ]
+      },
+      {
+       "name": "laufend",
+       "values": [
+        "Widget-Überarbeitung",
+        "Retention-Analyse"
+       ]
+      },
+      {
+       "name": "geplant",
+       "values": [
+        "App-Store-Prüfung",
+        "Sprint-Retro"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "delay",
+     "title": "Späte Antwort",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Entschuldigen Sie bitte die späte Rückmeldung, die interne Abstimmung hat länger gedauert als gedacht.\nIch melde mich heute noch mit allen Details 🙏"
+    }
+   ]
+  },
+  {
+   "id": "nomad",
+   "tab": "🌏 Nomade",
+   "incoming": "Great, let's start Monday! Could you send your banking details?",
+   "target": "iban",
+   "keys": [
+    {
+     "id": "iban",
+     "title": "IBAN · SWIFT",
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Name: Jonas Weber\nIBAN: DE89 3704 0044 0532 0130 00\nSWIFT/BIC: COBADEFFXXX"
+    },
+    {
+     "id": "tz",
+     "title": "Antwort zur Zeitzone",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Hi, I'm in GMT+{Zeitversatz} right now. I can do {Zeitfenster}. Calendly: cal.com/leeo",
+     "ph": [
+      {
+       "name": "Zeitversatz",
+       "values": [
+        "9",
+        "2"
+       ]
+      },
+      {
+       "name": "Zeitfenster",
+       "values": [
+        "9~11am your time",
+        "anytime after 3pm"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "inv",
+     "title": "Rechnung",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Invoice #{Nr} · USD {Betrag}\nDue: {Fällig}\nPayment: Wise (leeo@example.com)\nThank you! 🙏",
+     "ph": [
+      {
+       "name": "Nr",
+       "values": [
+        "2026-014",
+        "2026-015"
+       ]
+      },
+      {
+       "name": "Betrag",
+       "values": [
+        "2,400",
+        "3,800"
+       ]
+      },
+      {
+       "name": "Fällig",
+       "values": [
+        "Mar 31",
+        "Apr 15"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pm",
+     "title": "Zahlungsarten",
+     "fav": true,
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Wise: leeo@example.com",
+      "PayPal: leeo@example.com",
+      "Stripe: stripe.me/leeo"
+     ]
+    },
+    {
+     "id": "wifi2",
+     "title": "WLAN weg",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Hi team, wifi at my co-working just dropped. Back online in 10 min 🙏"
+    },
+    {
+     "id": "pass",
+     "title": "Passdaten",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "Reisepass: C01X00T47 · gültig bis 18.04.2031"
+    },
+    {
+     "id": "quote",
+     "title": "Angebot & Wechselkurs",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Quote: USD 2,400 (≈ EUR 2,210 at today's rate).\nInvoiced in USD via Wise to keep fees low for you."
+    },
+    {
+     "id": "signoff",
+     "title": "Feierabend",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Signing off for the night (11pm in Berlin). I'll reply first thing in my morning, thanks for your patience 🙏"
+    }
+   ]
+  }
+ ]
+}

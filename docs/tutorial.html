@@ -3,6 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://m1zz.github.io/ClipKeyboard/tutorial.html">
+    <link rel="alternate" hreflang="ko" href="https://m1zz.github.io/ClipKeyboard/ko/tutorial.html">
+    <link rel="alternate" hreflang="en" href="https://m1zz.github.io/ClipKeyboard/en/tutorial.html">
+    <link rel="alternate" hreflang="zh-Hans" href="https://m1zz.github.io/ClipKeyboard/zh-Hans/tutorial.html">
+    <link rel="alternate" hreflang="zh-Hant" href="https://m1zz.github.io/ClipKeyboard/zh-Hant/tutorial.html">
+    <link rel="alternate" hreflang="ru" href="https://m1zz.github.io/ClipKeyboard/ru/tutorial.html">
+    <link rel="alternate" hreflang="ja" href="https://m1zz.github.io/ClipKeyboard/ja/tutorial.html">
+    <link rel="alternate" hreflang="es" href="https://m1zz.github.io/ClipKeyboard/es/tutorial.html">
+    <link rel="alternate" hreflang="de" href="https://m1zz.github.io/ClipKeyboard/de/tutorial.html">
+    <link rel="alternate" hreflang="fr" href="https://m1zz.github.io/ClipKeyboard/fr/tutorial.html">
+    <link rel="alternate" hreflang="it" href="https://m1zz.github.io/ClipKeyboard/it/tutorial.html">
+    <link rel="alternate" hreflang="pt-BR" href="https://m1zz.github.io/ClipKeyboard/pt-BR/tutorial.html">
+    <link rel="alternate" hreflang="th" href="https://m1zz.github.io/ClipKeyboard/th/tutorial.html">
+    <link rel="alternate" hreflang="vi" href="https://m1zz.github.io/ClipKeyboard/vi/tutorial.html">
+    <link rel="alternate" hreflang="x-default" href="https://m1zz.github.io/ClipKeyboard/tutorial.html">
     <title>ClipKeyboard 사용 가이드</title>
 
     <!-- SEO Meta Tags -->
@@ -629,16 +644,52 @@
         .play-sheet-inner .go { background: var(--primary); color: #fff; }
         .play-sheet-inner .no { background: var(--surface-alt); color: var(--text); }
 
+
+        /* 언어 메뉴. 언어가 13개라 한 줄 토글에 안 들어가서 링크 목록을 접어 둔다.
+           링크는 docs/<lang>/ 의 언어별 페이지로 간다(docs/i18n/build.mjs 가 만든다). */
+        .lang-menu { position: fixed; top: 1rem; right: 1rem; z-index: 1000; font-size: 0.875rem; }
+        .lang-menu summary {
+            list-style: none; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;
+            padding: 0.5rem 0.9rem; background: var(--card-bg); color: var(--text);
+            border: 1px solid var(--border); border-radius: 100px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-weight: 500;
+        }
+        .lang-menu summary::-webkit-details-marker { display: none; }
+        .lang-menu summary::after { content: "\25BE"; color: var(--text-secondary); font-size: 0.8em; }
+        .lang-menu-list {
+            position: absolute; right: 0; top: calc(100% + 0.4rem);
+            display: grid; grid-template-columns: repeat(2, minmax(8rem, 1fr)); gap: 0.15rem;
+            padding: 0.4rem; background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 14px; box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+        }
+        .lang-menu-list a {
+            display: block; padding: 0.45rem 0.7rem; border-radius: 8px;
+            color: var(--text); text-decoration: none; white-space: nowrap;
+        }
+        .lang-menu-list a:hover { background: var(--surface-alt, rgba(127,127,127,0.14)); }
+        .lang-menu-list a[aria-current="page"] { background: var(--primary); color: #fff; font-weight: 600; }
+        @media (max-width: 600px) { .lang-menu { top: 0.5rem; right: 0.5rem; } }
     </style>
 </head>
 <body>
-    <div class="lang-toggle">
-        <button class="lang-btn" data-lang="ko" onclick="setLanguage('ko')">KO</button>
-        <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
-        <button class="lang-btn" data-lang="zh-Hans" onclick="setLanguage('zh-Hans')">简体</button>
-        <button class="lang-btn" data-lang="zh-Hant" onclick="setLanguage('zh-Hant')">繁體</button>
-        <button class="lang-btn" data-lang="ru" onclick="setLanguage('ru')">RU</button>
-    </div>
+    <details class="lang-menu">
+        <summary><span aria-hidden="true">🌐</span> <span class="lang-menu-label">Language</span></summary>
+        <nav class="lang-menu-list" aria-label="Language">
+            <a href="ko/tutorial.html" hreflang="ko" lang="ko">한국어</a>
+            <a href="en/tutorial.html" hreflang="en" lang="en">English</a>
+            <a href="zh-Hans/tutorial.html" hreflang="zh-Hans" lang="zh-Hans">简体中文</a>
+            <a href="zh-Hant/tutorial.html" hreflang="zh-Hant" lang="zh-Hant">繁體中文</a>
+            <a href="ru/tutorial.html" hreflang="ru" lang="ru">Русский</a>
+            <a href="ja/tutorial.html" hreflang="ja" lang="ja">日本語</a>
+            <a href="es/tutorial.html" hreflang="es" lang="es">Español</a>
+            <a href="de/tutorial.html" hreflang="de" lang="de">Deutsch</a>
+            <a href="fr/tutorial.html" hreflang="fr" lang="fr">Français</a>
+            <a href="it/tutorial.html" hreflang="it" lang="it">Italiano</a>
+            <a href="pt-BR/tutorial.html" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a>
+            <a href="th/tutorial.html" hreflang="th" lang="th">ไทย</a>
+            <a href="vi/tutorial.html" hreflang="vi" lang="vi">Tiếng Việt</a>
+        </nav>
+    </details>
 
     <nav class="top-nav">
         <div class="top-nav-inner">
@@ -808,8 +859,8 @@
             <h3 data-i18n="tmplSyntaxTitle">문법</h3>
             <p data-i18n-html="tmplSyntax">중괄호 <code>{ }</code> 안에 변수 이름을 쓰면 플레이스홀더가 됩니다. 예:</p>
             <ul class="plain">
-                <li><code>안녕하세요 {이름}님, {날짜}에 예약 확정되었습니다.</code></li>
-                <li><code>주문번호 {order_id} · 배송일 {date}</code></li>
+                <li><code data-i18n="tmplEx1">안녕하세요 {이름}님, {날짜}에 예약 확정되었습니다.</code></li>
+                <li><code data-i18n="tmplEx2">주문번호 {order_id} · 배송일 {date}</code></li>
             </ul>
 
             <h3 data-i18n="tmplUseTitle">사용하기</h3>
@@ -1085,6 +1136,7 @@
                 "playSeedStack3Key": "오늘 할 일",
                 "playSeedStack3Val": "배포 점검",
                 pageTitle: "ClipKeyboard 사용 가이드",
+                metaDescription: "ClipKeyboard 사용법 A to Z: 키보드 설정, 메모 저장, 템플릿, 스마트 클립보드, 콤보, iCloud 백업까지.",
                 navHome: "홈", navStore: "App Store",
                 heroTitle: '5분 안에 배우는 <span>ClipKeyboard</span>',
                 heroSubtitle: "키보드 설정부터 고급 기능까지, 한 페이지에 다 담았습니다.",
@@ -1138,6 +1190,8 @@
                 tmplLead: '매번 조금씩 달라지는 문구는 <code>{변수}</code>로 남겨두고, 쓸 때만 채우세요.',
                 tmplSyntaxTitle: "문법",
                 tmplSyntax: '중괄호 <code>{ }</code> 안에 변수 이름을 쓰면 플레이스홀더가 됩니다. 예:',
+                tmplEx1: "안녕하세요 {이름}님, {날짜}에 예약 확정되었습니다.",
+                tmplEx2: "주문번호 {order_id} · 배송일 {date}",
                 tmplUseTitle: "사용하기",
                 tmplUse1: "템플릿 메모를 탭하면 값 입력 시트가 아래에서 부드럽게 올라옵니다",
                 tmplUse2: "빈칸을 채우고 우상단 복사 버튼을 누르면 완성된 문장이 복사됩니다",
@@ -1278,6 +1332,7 @@
                 "playSeedStack3Key": "Today",
                 "playSeedStack3Val": "Release check",
                 pageTitle: "ClipKeyboard User Guide",
+                metaDescription: "How to use ClipKeyboard from A to Z: keyboard setup, saving snippets, templates, smart clipboard, combos and iCloud backup.",
                 navHome: "Home", navStore: "App Store",
                 heroTitle: 'Master <span>ClipKeyboard</span> in 5 Minutes',
                 heroSubtitle: "From keyboard setup to advanced features, everything on one page.",
@@ -1331,6 +1386,8 @@
                 tmplLead: 'Leave slightly-varying parts as <code>{variable}</code> and fill them in when you use it.',
                 tmplSyntaxTitle: "Syntax",
                 tmplSyntax: 'Variable names inside curly braces <code>{ }</code> become placeholders. Examples:',
+                tmplEx1: "Hi {name}, your booking for {date} is confirmed.",
+                tmplEx2: "Order {order_id} · Ships {date}",
                 tmplUseTitle: "How to Use",
                 tmplUse1: "Tap a template memo: a value-input sheet slides up from the bottom",
                 tmplUse2: "Fill in the blanks and tap Copy at the top-right; the completed sentence is copied",
@@ -1470,6 +1527,7 @@
                 "playSeedStack3Key": "今天要做的",
                 "playSeedStack3Val": "发布检查",
              "pageTitle": "剪贴键盘 使用指南",
+             "metaDescription": "剪贴键盘使用指南：从键盘设置、保存短语、模板、智能剪贴板、组合到 iCloud 备份。",
              "navHome": "首页",
              "navStore": "App Store",
              "heroTitle": "5 分钟学会 <span>剪贴键盘</span>",
@@ -1531,6 +1589,8 @@
              "tmplLead": "每次只改一点点的句子，把会变的地方留成 <code>{变量}</code>，用的时候再填。",
              "tmplSyntaxTitle": "写法",
              "tmplSyntax": "在大括号 <code>{ }</code> 里写上变量名，就成了占位。例如：",
+             "tmplEx1": "{姓名}您好，您 {日期} 的预约已确认。",
+             "tmplEx2": "订单号 {order_id} · 发货日 {date}",
              "tmplUseTitle": "怎么用",
              "tmplUse1": "点一下模板短语，填值的面板会从下面缓缓升起",
              "tmplUse2": "填好空位，点右上角的复制按钮，完整的句子就复制好了",
@@ -1677,6 +1737,7 @@
                 "playSeedStack3Key": "今天要做的",
                 "playSeedStack3Val": "發布檢查",
  "pageTitle": "剪貼鍵盤 使用指南",
+ "metaDescription": "剪貼鍵盤使用指南：從鍵盤設定、儲存短語、範本、智慧剪貼簿、組合到 iCloud 備份。",
  "navHome": "首頁",
  "navStore": "App Store",
  "heroTitle": "5 分鐘學會 <span>剪貼鍵盤</span>",
@@ -1738,6 +1799,8 @@
  "tmplLead": "每次只改一點點的句子，把會變的地方留成 <code>{變量}</code>，用的時候再填。",
  "tmplSyntaxTitle": "寫法",
  "tmplSyntax": "在大括號 <code>{ }</code> 裡寫上變量名，就成了佔位。例如：",
+ "tmplEx1": "{姓名}您好，您 {日期} 的預約已確認。",
+ "tmplEx2": "訂單編號 {order_id} · 出貨日 {date}",
  "tmplUseTitle": "怎麼用",
  "tmplUse1": "點一下範本短語，填值的面板會從下面緩緩升起",
  "tmplUse2": "填好空位，點右上角的複製按鈕，完整的句子就複製好了",
@@ -1883,6 +1946,7 @@
                 "playSeedStack3Key": "Сегодня",
                 "playSeedStack3Val": "Проверка релиза",
                 "pageTitle": "Руководство пользователя ClipKeyboard",
+                "metaDescription": "Руководство по ClipKeyboard: настройка клавиатуры, сохранение фраз, шаблоны, умный буфер обмена, комбо и резервная копия в iCloud.",
                 "navHome": "Главная",
                 "navStore": "App Store",
                 "heroTitle": "Изучите <span>ClipKeyboard</span> за 5 минут",
@@ -1944,6 +2008,8 @@
                 "tmplLead": "Оставляйте немного изменяющиеся части в виде <code>{переменная}</code> и заполняйте их при использовании.",
                 "tmplSyntaxTitle": "Синтаксис",
                 "tmplSyntax": "Если написать имя переменной в фигурных скобках <code>{ }</code>, получится поле для заполнения. Например:",
+                "tmplEx1": "Здравствуйте, {имя}! Ваша запись на {дата} подтверждена.",
+                "tmplEx2": "Заказ № {order_id} · Доставка {date}",
                 "tmplUseTitle": "Как использовать",
                 "tmplUse1": "Нажмите на Заметку с Шаблоном, и снизу плавно поднимется лист для ввода значений",
                 "tmplUse2": "Заполните поля и нажмите кнопку копирования в правом верхнем углу, готовое предложение скопируется",
@@ -2100,7 +2166,34 @@
             });
         }
 
+        // ── 언어별 페이지 ──
+        // 이 루트 페이지는 x-default 다. 언어마다 고정된 페이지가 docs/<lang>/ 에 있고
+        // (docs/i18n/build.mjs 가 이 파일로 만든다) 그 페이지는 window.PAGE_LANG 을 박아 둔다.
+        // 이 파일에 글이 없는 언어로 들어오면(?lang=ja, 일본어 브라우저) 그 언어 페이지로 보낸다.
+        var SITE_LANGS = ["ko", "en", "zh-Hans", "zh-Hant", "ru", "ja", "es", "de", "fr", "it", "pt-BR", "th", "vi"];
+        function siteLang(tag) {
+            var t = (tag || '').toLowerCase().replace('_', '-');
+            if (!t) return '';
+            if (t.indexOf('zh') === 0) {
+                return (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                        t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) ? 'zh-Hant' : 'zh-Hans';
+            }
+            if (t.indexOf('pt') === 0) return 'pt-BR';
+            var base = t.split('-')[0];
+            return SITE_LANGS.indexOf(base) >= 0 ? base : '';
+        }
+        function goLangPage(lang) {
+            if (!lang || translations[lang] || SITE_LANGS.indexOf(lang) < 0) return false;
+            var file = window.location.pathname.split('/').pop() || '';
+            window.location.replace(lang + '/' + file + window.location.hash);
+            return true;
+        }
+
         (function() {
+            // 언어별 페이지(docs/<lang>/)는 언어가 정해져 있다.
+            if (window.PAGE_LANG) { applyLanguage(window.PAGE_LANG); return; }
+            if (goLangPage(siteLang(new URLSearchParams(window.location.search).get('lang') || ''))) return;
+            if (!localStorage.getItem('clipkb-lang') && goLangPage(siteLang(navigator.language || navigator.userLanguage || ''))) return;
             // ?lang= 으로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
             var asked = normalizeLang(new URLSearchParams(window.location.search).get('lang') || '');
             if (asked) {
