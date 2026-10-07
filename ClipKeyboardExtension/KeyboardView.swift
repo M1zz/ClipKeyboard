@@ -3110,7 +3110,9 @@ struct KeyboardView: View {
         // 앞에서 그냥 자르지 않는다. 심어 준 샘플이 앞자리를 차지한 만큼 자기 단축어가
         // 뒤로 밀려 안 보이게 되는데, 그러면 한도에서 빼 준 것을 화면에서 도로 세는 셈이다.
         allMemos = ProFeatureManager.memosWithinLimit(clipMemos)
-        reloadRecentClips()
+        // '최근' 탭에 있을 때만 복사 기록을 읽는다. 다른 탭이면 그 탭을 고를 때 읽는다(`selectTab`).
+        // 키보드가 뜰 때마다 보지도 않는 기록 파일을 풀던 것을 걷었다.
+        if isOnRecentClips { reloadRecentClips() }
         refreshQuickRowSignals()
     }
 
@@ -3118,11 +3120,22 @@ struct KeyboardView: View {
     ///
     /// ⚠️ 앱 안 무대에서는 찾다 포기했는지를 보지 않는다. 그 판은 키보드가 아니라 연습장이고,
     ///    기록도 익스텐션만 남긴다.
+    /// ⚠️ **첫 화면을 기다리게 하지 않는다.** 쓴 시각 기록(단축어마다 최대 24개)을 날짜로 바꿔
+    ///    달력 규칙을 맞춰 보는 일이라, 키보드가 뜨는 순간 메인에서 하면 그만큼 늦게 뜬다.
+    ///    읽기 · 계산은 메인 밖에서 하고 결과만 메인에서 꽂는다. 빠른 줄은 한 박자 늦게 채워진다.
     private func refreshQuickRowSignals(now: Date = Date()) {
-        rhythmDueIDs = UsageRhythm.dueMemoIDs(log: UsageRhythmLog.load(), now: now)
-        anchorIDs = QuickRowAnchors.load()
-        searchStruggling = hostKind.tracksSearchStruggle
-            && KeyboardSessionLedger.isStruggling(KeyboardSessionLedger.load(), now: now)
+        let tracksStruggle = hostKind.tracksSearchStruggle
+        DispatchQueue.global(qos: .userInitiated).async {
+            let due = UsageRhythm.dueMemoIDs(log: UsageRhythmLog.load(), now: now)
+            let anchors = QuickRowAnchors.load()
+            let struggling = tracksStruggle
+                && KeyboardSessionLedger.isStruggling(KeyboardSessionLedger.load(), now: now)
+            DispatchQueue.main.async {
+                if rhythmDueIDs != due { rhythmDueIDs = due }
+                if anchorIDs != anchors { anchorIDs = anchors }
+                if searchStruggling != struggling { searchStruggling = struggling }
+            }
+        }
     }
 
     // MARK: - Free tier
