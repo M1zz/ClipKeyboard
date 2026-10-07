@@ -407,6 +407,10 @@ struct KeyboardView: View {
 
     // 데이터 상태
     @State private var allMemos: [Memo] = []
+    /// 단축어 목록 · 갈래 설정이 바뀔 때마다 하나씩 오른다. 그릴 때마다 다시 계산하던 것들
+    /// (탭 줄 · 검색 결과 · 빠른 줄 · 키 색과 미리보기)은 이 값이 같으면 `renderCache` 의 것을 쓴다.
+    @State private var memosVersion = 0
+    @State private var renderCache = KeyboardRenderCache()
     /// 지금 쓸 차례인 단축어(`UsageRhythm`). 목록을 읽을 때 한 번만 잰다.
     /// ⚠️ 그리는 자리에서 기록을 읽지 않는다 - 몇 번 그릴지는 SwiftUI 가 정한다.
     @State private var rhythmDueIDs: [UUID] = []
@@ -515,7 +519,19 @@ struct KeyboardView: View {
 
     /// v4.1.0: 카테고리 기능 활성 시 선택된 카테고리 + 검색 적용, 비활성 시 검색만.
     /// 별 토글은 v4.1.0에서 제거됨 - 즐겨찾기는 카테고리 swipe(★favorites 페이지)로 접근.
+    /// ⚠️ 그릴 때마다 두 번씩 불린다(비었는지 · 격자). 검색어 · 페이지 · 목록이 그대로면
+    ///    지난 결과를 쓴다. 예전에는 한 글자 칠 때마다 단축어 전부의 본문을 지역화 비교로 두 번 훑었다.
     private var filteredMemos: [Memo] {
+        refreshRenderCacheIfNeeded()
+        let key = "\(selectedCategoryFilter ?? "")\u{1F}\(searchQuery)"
+        if renderCache.filteredKey == key { return renderCache.filtered }
+        let result = computeFilteredMemos()
+        renderCache.filteredKey = key
+        renderCache.filtered = result
+        return result
+    }
+
+    private func computeFilteredMemos() -> [Memo] {
         var result = memos(onPage: selectedCategoryFilter)
 
         if !searchQuery.isEmpty {
@@ -683,6 +699,27 @@ struct KeyboardView: View {
     ///    아무것도 없는 페이지가 한 장 끼면 넘기다 말고 되돌아와야 한다.
     ///    판정은 앱과 같은 함수(`CategoryBucketRule`)로 한다.
     private var categoryPages: [String] {
+        refreshRenderCacheIfNeeded()
+        return renderCache.categoryPages
+    }
+
+    /// 단축어 목록 · 갈래 설정이 바뀌었으면 캐시를 새로 채운다.
+    ///
+    /// ⚠️ 탭 줄은 한 번 그릴 때 탭 수의 두 배 넘게 불렸고(고른 탭 · 탭마다 색 · 거르기), 그때마다
+    ///    App Group 설정을 일곱 번 읽고 단축어 전부를 갈래 수만큼 훑었다. 이 값들은 단축어나
+    ///    설정이 바뀔 때만 바뀐다. 설정은 앱이 바꾸고, 키보드는 다시 뜰 때(`loadAllMemos`) 다시 읽는다.
+    private func refreshRenderCacheIfNeeded() {
+        guard renderCache.version != memosVersion else { return }
+        renderCache.version = memosVersion
+        renderCache.userCategories = sharedUserCategories
+        renderCache.customColors = customCategoryColors
+        renderCache.categoryPages = computeCategoryPages()
+        renderCache.filteredKey = nil
+        renderCache.quickRowKey = nil
+        renderCache.hints.removeAll(keepingCapacity: true)
+    }
+
+    private func computeCategoryPages() -> [String] {
         guard isCategoryFeatureEnabled else { return [] }
         let hidden = sharedHiddenCategoryTabs
         var pages: [String] = []
@@ -727,15 +764,22 @@ struct KeyboardView: View {
 
     /// 빠른 줄에 설 단축어들 - 지금 쓸 차례 → (찾다 포기하면) 많이 쓴 것 → 최근 1주.
     /// 순서 규칙은 `QuickRowPlanner` 한 곳에 있다.
+    /// ⚠️ 그릴 때마다 두 번 불린다. 목록 · 신호가 그대로면(분 단위) 지난 결과를 쓴다.
     private var quickRowItems: [(memo: Memo, reason: QuickRowPlanner.Reason)] {
+        refreshRenderCacheIfNeeded()
+        let now = Date()
+        let key = "\(rhythmDueIDs)\(anchorIDs)\(searchStruggling)\(Int(now.timeIntervalSince1970 / 60))"
+        if renderCache.quickRowKey == key { return renderCache.quickRow }
         let plan = QuickRowPlanner.plan(memos: allMemos,
                                         dueIDs: rhythmDueIDs,
                                         anchorIDs: anchorIDs,
                                         struggling: searchStruggling,
-                                        now: Date())
-        return plan.compactMap { item in
-            allMemos.first(where: { $0.id == item.memoID }).map { ($0, item.reason) }
-        }
+                                        now: now)
+        let byID = Dictionary(allMemos.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        let items = plan.compactMap { item in byID[item.memoID].map { ($0, item.reason) } }
+        renderCache.quickRowKey = key
+        renderCache.quickRow = items
+        return items
     }
 
     /// 빠른 줄 노출 조건 - 검색 비활성일 때만
@@ -2797,8 +2841,18 @@ struct KeyboardView: View {
     /// 사용자가 메모에 힌트를 직접 적었으면 그것이 우선이되, 메모별 동기화 토글
     /// (hintShownOnKeyboard)이 꺼져 있으면 키보드에서는 스왑하지 않는다.
     /// ⚠️ 자동 요약은 보안 메모 내용 노출 금지(값이 암호문이기도 함) → nil. 앱 카드와 동일 기준.
+    /// ⚠️ 키마다 그릴 때 불린다. 미리보기는 본문 전체를 한 줄로 펴는 일이라(템플릿은 정규식까지)
+    ///    목록이 그대로면 단축어마다 한 번만 만든다.
     private func keyboardHintText(for memo: Memo) -> String? {
         guard contentHintEnabled else { return nil }
+        refreshRenderCacheIfNeeded()
+        if let cached = renderCache.hints[memo.id] { return cached }
+        let hint = computeKeyboardHintText(for: memo)
+        renderCache.hints[memo.id] = .some(hint)
+        return hint
+    }
+
+    private func computeKeyboardHintText(for memo: Memo) -> String? {
         if let custom = memo.hint?.trimmingCharacters(in: .whitespacesAndNewlines), !custom.isEmpty {
             return memo.hintShownOnKeyboard ? custom : nil
         }
@@ -3110,6 +3164,7 @@ struct KeyboardView: View {
         // 앞에서 그냥 자르지 않는다. 심어 준 샘플이 앞자리를 차지한 만큼 자기 단축어가
         // 뒤로 밀려 안 보이게 되는데, 그러면 한도에서 빼 준 것을 화면에서 도로 세는 셈이다.
         allMemos = ProFeatureManager.memosWithinLimit(clipMemos)
+        memosVersion &+= 1
         // '최근' 탭에 있을 때만 복사 기록을 읽는다. 다른 탭이면 그 탭을 고를 때 읽는다(`selectTab`).
         // 키보드가 뜰 때마다 보지도 않는 기록 파일을 풀던 것을 걷었다.
         if isOnRecentClips { reloadRecentClips() }
@@ -3299,8 +3354,9 @@ struct KeyboardView: View {
     private func categoryColorFor(_ memo: Memo) -> Color? {
         // 즐겨찾기는 카테고리처럼 분홍색 정체성을 갖는다 - 카테고리 색보다 우선(앱과 동일).
         if memo.isFavorite { return .clipFavorite }
-        guard let idx = sharedUserCategories.firstIndex(of: memo.category) else { return nil }
-        if let hex = customCategoryColors[memo.category], let c = Color(hex: hex) { return c }
+        refreshRenderCacheIfNeeded()
+        guard let idx = renderCache.userCategories.firstIndex(of: memo.category) else { return nil }
+        if let hex = renderCache.customColors[memo.category], let c = Color(hex: hex) { return c }
         let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
         return palette[idx % palette.count]
     }
@@ -3349,9 +3405,10 @@ struct KeyboardView: View {
         if key.hasPrefix(Self.builtInPrefix) {
             return builtInTint(String(key.dropFirst(Self.builtInPrefix.count)))
         }
-        if let hex = customCategoryColors[key], let c = Color(hex: hex) { return c }
+        refreshRenderCacheIfNeeded()
+        if let hex = renderCache.customColors[key], let c = Color(hex: hex) { return c }
         let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
-        let idx = sharedUserCategories.firstIndex(of: key) ?? 0
+        let idx = renderCache.userCategories.firstIndex(of: key) ?? 0
         return palette[idx % palette.count]
     }
 
@@ -3697,4 +3754,23 @@ struct SystemKeyboardBackdrop: View {
                 : UIColor(red: 0.82, green: 0.84, blue: 0.86, alpha: 1)
         })
     }
+}
+
+// MARK: - 그리기 캐시
+
+/// 키보드가 그릴 때마다 다시 계산하던 것들. `KeyboardView.memosVersion` 이 같으면 그대로 쓴다.
+///
+/// ⚠️ 참조 타입이라 body 안에서 채워도 화면을 다시 그리게 하지 않는다. 바뀌었는지는
+///    `memosVersion`(단축어 · 갈래 설정)과 각 열쇠(검색어 · 페이지 · 빠른 줄 신호)가 말한다.
+final class KeyboardRenderCache {
+    var version = -1
+    var categoryPages: [String] = []
+    var userCategories: [String] = []
+    var customColors: [String: String] = [:]
+    var filteredKey: String?
+    var filtered: [Memo] = []
+    var quickRowKey: String?
+    var quickRow: [(memo: Memo, reason: QuickRowPlanner.Reason)] = []
+    /// 키 아래 미리보기. 값이 nil 인 것(미리보기 없음)도 기억한다.
+    var hints: [UUID: String?] = [:]
 }
