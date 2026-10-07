@@ -68,15 +68,15 @@ iPhone과 iPad에서 쓸 수 있습니다. 한국어, 영어, 일본어, 중국�
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=ko
+https://m1zz.github.io/ClipKeyboard/ko/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/ko/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=ko
+https://m1zz.github.io/ClipKeyboard/ko/privacy.html
 
 ## 영어(미국) (en-US)
 
@@ -142,15 +142,15 @@ Saved phrases, copied text, account numbers: one tap from the keyboard. Every fe
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+https://m1zz.github.io/ClipKeyboard/en/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/en/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+https://m1zz.github.io/ClipKeyboard/en/privacy.html
 
 ## 영어(영국) (en-GB)
 
@@ -216,15 +216,15 @@ Saved phrases, copied text, account numbers: one tap from the keyboard. Every fe
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+https://m1zz.github.io/ClipKeyboard/en/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/en/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+https://m1zz.github.io/ClipKeyboard/en/privacy.html
 
 ## 러시아어 (ru)
 
@@ -290,15 +290,15 @@ Clip Keyboard: буфер обмена
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=ru
+https://m1zz.github.io/ClipKeyboard/ru/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/ru/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+https://m1zz.github.io/ClipKeyboard/ru/privacy.html
 
 ## 중국어(간체) (zh-Hans)
 
@@ -361,15 +361,15 @@ iCloud 备份：换手机也不会丢，图片短语也一起带走。
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=zh-Hans
+https://m1zz.github.io/ClipKeyboard/zh-Hans/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/zh-Hans/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=zh-Hans
+https://m1zz.github.io/ClipKeyboard/zh-Hans/privacy.html
 
 ## 중국어(번체) (zh-Hant)
 
@@ -432,15 +432,15 @@ iCloud 備份：換手機也不會丟，圖片短語也一起帶走。
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=zh-Hant
+https://m1zz.github.io/ClipKeyboard/zh-Hant/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/zh-Hant/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=zh-Hant
+https://m1zz.github.io/ClipKeyboard/zh-Hant/privacy.html
 
 ## 일본어 (ja)
 
@@ -507,15 +507,15 @@ iPhoneとiPadで使えます。日本語、韓国語、英語、中国語（簡�
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+https://m1zz.github.io/ClipKeyboard/ja/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/ja/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+https://m1zz.github.io/ClipKeyboard/ja/privacy.html
 
 ## 스페인어(멕시코) (es-MX)
 
@@ -582,15 +582,15 @@ Lo que copiaste, tus frases de siempre y hasta tu CLABE, desde el teclado con un
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+https://m1zz.github.io/ClipKeyboard/es/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/es/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+https://m1zz.github.io/ClipKeyboard/es/privacy.html
 
 ## 독일어(독일) (de-DE)
 
@@ -657,15 +657,15 @@ Kopiertes, deine Standardtexte und sogar deine IBAN: ein Tipp auf der Tastatur u
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+https://m1zz.github.io/ClipKeyboard/de/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/de/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+https://m1zz.github.io/ClipKeyboard/de/privacy.html
 
 ## 태국어 (th)
 
@@ -732,15 +732,15 @@ Clip Keyboard ข้อความด่วน
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+https://m1zz.github.io/ClipKeyboard/th/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/th/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+https://m1zz.github.io/ClipKeyboard/th/privacy.html
 
 ## 베트남어 (vi)
 
@@ -807,15 +807,15 @@ Nội dung đã sao chép, câu hay dùng, cả số tài khoản: chèn từ b�
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+https://m1zz.github.io/ClipKeyboard/vi/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/vi/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+https://m1zz.github.io/ClipKeyboard/vi/privacy.html
 
 ## 프랑스어(프랑스) (fr-FR)
 
@@ -881,15 +881,15 @@ Ce que vous copiez, vos textes habituels, même votre IBAN : un toucher sur le c
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+https://m1zz.github.io/ClipKeyboard/fr/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/fr/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+https://m1zz.github.io/ClipKeyboard/fr/privacy.html
 
 ## 이탈리아어 (it)
 
@@ -955,15 +955,15 @@ Quello che copi, i testi di sempre e perfino il tuo IBAN: un tocco sulla tastier
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+https://m1zz.github.io/ClipKeyboard/it/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/it/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+https://m1zz.github.io/ClipKeyboard/it/privacy.html
 
 ## 포르투갈어(브라질) (pt-BR)
 
@@ -1029,12 +1029,12 @@ O que você copia, seus textos de sempre e até sua chave Pix: um toque no tecla
 
 ### 지원 URL
 
-https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
+https://m1zz.github.io/ClipKeyboard/pt-BR/tutorial.html
 
 ### 마케팅 URL
 
-https://m1zz.github.io/ClipKeyboard/
+https://m1zz.github.io/ClipKeyboard/pt-BR/
 
 ### 개인정보처리방침 URL
 
-https://m1zz.github.io/ClipKeyboard/privacy.html?lang=en
+https://m1zz.github.io/ClipKeyboard/pt-BR/privacy.html
