@@ -120,82 +120,10 @@ class ClipboardClassificationService {
 
     // MARK: - Clipboard Image Detection
 
-    #if canImport(UIKit)
-    /// 클립보드를 **메인 스레드 밖에서** 읽어 갈래까지 붙여 온다.
-    ///
-    /// ⚠️ 읽기와 무거운 뒷일(그림 줄이기·인코딩)을 **한 덩어리로** 백그라운드에 둔다.
-    ///    읽기만 밖으로 내보내고 인코딩을 메인에서 하면 멈추는 자리만 옮긴 셈이 된다.
-    ///
-    /// - Parameter completion: **메인에서** 부른다. 담긴 게 없으면 nil.
-    func checkClipboardOffMain(completion: @escaping (SmartClipboardHistory?) -> Void) {
-        PasteboardReader.content(transform: { content in
-            ClipboardClassificationService.shared.makeHistory(from: content)
-        }, completion: completion)
-    }
-
-    /// 읽어 온 것을 히스토리 한 줄로 만든다.
-    /// ⚠️ **백그라운드에서 불린다.** UIKit 그리기는 `UIGraphicsImageRenderer` 만 쓸 것.
-    private func makeHistory(from content: PasteboardContent) -> SmartClipboardHistory? {
-        switch content {
-        case .empty:
-            return nil
-        case .image(let image):
-            return createHistoryFromImage(image)
-        case .text(let text):
-            return createHistoryFromText(text)
-        }
-    }
-
-    /// 이미지로부터 클립보드 히스토리 생성
-    ///
-    /// ⚠️ 줄일 때 배율은 **1** 이다. 예전에는 `UIGraphicsBeginImageContextWithOptions(_:_:0.0)`
-    ///    라 화면 배율(3x)이 붙어, 1024로 줄인다면서 3072px 짜리를 만들어 base64 로 안고 있었다.
-    private func createHistoryFromImage(_ image: UIImage) -> SmartClipboardHistory? {
-        let maxDimension: CGFloat = 1024
-        let maxSize = max(image.size.width, image.size.height)
-
-        var finalImage = image
-        if maxSize > maxDimension {
-            let ratio = maxDimension / maxSize
-            let newSize = CGSize(width: image.size.width * ratio, height: image.size.height * ratio)
-
-            let format = UIGraphicsImageRendererFormat.default()
-            format.scale = 1
-            format.opaque = false
-            // `UIGraphicsImageRenderer` 는 백그라운드에서도 안전하다(예전 UIGraphics 컨텍스트와 다르다).
-            finalImage = UIGraphicsImageRenderer(size: newSize, format: format).image { _ in
-                image.draw(in: CGRect(origin: .zero, size: newSize))
-            }
-        }
-
-        guard let imageData = finalImage.jpegData(compressionQuality: 0.7) else {
-            return nil
-        }
-        let base64 = imageData.base64EncodedString()
-
-        return SmartClipboardHistory(
-            content: "이미지 (\(Int(finalImage.size.width))x\(Int(finalImage.size.height)))",
-            contentType: .image,
-            imageData: base64,
-            detectedType: .text,
-            confidence: 1.0
-        )
-    }
-
-    /// 텍스트로부터 클립보드 히스토리 생성
-    private func createHistoryFromText(_ text: String) -> SmartClipboardHistory {
-        let classification = classify(content: text)
-
-        return SmartClipboardHistory(
-            content: text,
-            contentType: .text,
-            imageData: nil,
-            detectedType: classification.type,
-            confidence: classification.confidence
-        )
-    }
-
-    #endif
+    // 클립보드 그림을 base64 로 바꿔 히스토리에 담던 길(`createHistoryFromImage`)은 걷어냈다.
+    // 부르는 곳이 없어진 지 오래인데, 예전에 담긴 그림이 히스토리 파일에 남아 키보드가 뜰 때마다
+    // 통째로 메모리에 올라와 키보드가 죽었다(docs/postmortem/KEYBOARD_CLIPBOARD_IMAGES_5_1_8.md).
+    // 다시 그림을 담으려면 파일을 따로 두고 이름만 적는다. 히스토리 JSON 안에 넣지 않는다.
 
     // MARK: - Detection Methods
 

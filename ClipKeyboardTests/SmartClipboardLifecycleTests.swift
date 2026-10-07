@@ -172,4 +172,67 @@ final class SmartClipboardLifecycleTests: XCTestCase {
         let reloaded = try sut.loadSmartClipboardHistory()
         XCTAssertEqual(reloaded.count, 2)
     }
+
+    // MARK: - 예전 판이 남긴 그림 (키보드가 열리지 않던 원인)
+
+    /// 예전 판 모양 그대로의 한 줄. 그림은 base64 글자로 줄 안에 들어 있었다.
+    private func legacyRow(content: String, type: String = "text", image: String? = nil,
+                           ageDays: Double = 0) -> [String: Any] {
+        var row: [String: Any] = [
+            "id": UUID().uuidString, "content": content,
+            "copiedAt": Date().addingTimeInterval(-ageDays * 86_400).timeIntervalSinceReferenceDate,
+            "isTemporary": true, "contentType": type, "detectedType": "텍스트",
+            "confidence": 0.3, "tags": [String](), "autoSaveOffered": false
+        ]
+        if let image { row["imageData"] = image }
+        return row
+    }
+
+    private func writeLegacyHistory(_ rows: [[String: Any]]) throws -> URL {
+        let url = try XCTUnwrap(try MemoStore.fileURL(type: .smartClipboardHistory))
+        try JSONSerialization.data(withJSONObject: rows).write(to: url, options: .atomic)
+        return url
+    }
+
+    /// 그림 20장(한 장 약 400KB)이 남은 파일. 키보드가 이걸 통째로 올리다 죽었다.
+    func testLegacyImages_LoadWithoutImagePayload() throws {
+        let fakeImage = String(repeating: "A", count: 400_000)
+        var rows = (0..<20).map { _ in self.legacyRow(content: "이미지 (1024x768)", type: "image", image: fakeImage) }
+        rows.insert(legacyRow(content: "서울시 마포구"), at: 0)
+        _ = try writeLegacyHistory(rows)
+
+        let history = try sut.loadSmartClipboardHistory()
+
+        XCTAssertEqual(history.map(\.content), ["서울시 마포구"], "그림 줄은 버리고 글은 남는다")
+        XCTAssertEqual(SmartClipboardHistory.keyboardRecents(history).map(\.content), ["서울시 마포구"])
+    }
+
+    func testCompaction_RemovesLegacyImageBytesFromDisk() throws {
+        let fakeImage = String(repeating: "B", count: 300_000)
+        let url = try writeLegacyHistory([
+            legacyRow(content: "남길 글"),
+            legacyRow(content: "이미지 (800x600)", type: "image", image: fakeImage)
+        ])
+        let before = try Data(contentsOf: url).count
+
+        XCTAssertTrue(sut.compactSmartClipboardHistoryIfNeeded())
+
+        let after = try Data(contentsOf: url)
+        XCTAssertLessThan(after.count, before / 100)
+        XCTAssertFalse(MemoStore.containsLegacyClipboardImages(after))
+        XCTAssertEqual(try sut.loadSmartClipboardHistory().map(\.content), ["남길 글"])
+        XCTAssertFalse(sut.compactSmartClipboardHistoryIfNeeded(), "한 번 줄였으면 다시 쓰지 않는다")
+    }
+
+    /// 칸 하나가 빠졌다고 기록 전체가 사라지면 안 된다(예전 판·다른 기기 백업).
+    func testDecode_MissingFieldsKeepsHistory() throws {
+        let url = try XCTUnwrap(try MemoStore.fileURL(type: .smartClipboardHistory))
+        let rows: [[String: Any]] = [["content": "칸이 적은 줄",
+                                      "copiedAt": Date().timeIntervalSinceReferenceDate]]
+        try JSONSerialization.data(withJSONObject: rows).write(to: url, options: .atomic)
+
+        let history = try sut.loadSmartClipboardHistory()
+        XCTAssertEqual(history.map(\.content), ["칸이 적은 줄"])
+        XCTAssertEqual(history.first?.contentType, .text)
+    }
 }

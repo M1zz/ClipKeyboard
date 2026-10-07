@@ -87,7 +87,7 @@ class MemoStore: ObservableObject {
         loadCacheLock.unlock()
     }
 
-    private static func fileURL(type: MemoType) throws -> URL? {
+    static func fileURL(type: MemoType) throws -> URL? {
         guard let containerURL = FileManager.default.containerURL(
             forSecurityApplicationGroupIdentifier: AppGroup.identifier
         ) else {
@@ -380,12 +380,49 @@ class MemoStore: ObservableObject {
         Self.postDataChanged()
     }
 
+    /// 복사 기록을 읽는다. **키보드도 뜰 때마다 부른다**('최근' 탭).
+    ///
+    /// ⚠️ 파일을 메모리로 복사하지 않고 **매핑**해서 읽는다(`.mappedIfSafe`). 예전 판이 남긴
+    ///    그림 글자(base64)가 수 MB 붙어 있어도 키보드의 메모리 한도에 그만큼 잡히지 않는다.
+    ///    그림 자체는 디코더가 읽지 않는다(`SmartClipboardHistory.init(from:)`).
+    /// ⚠️ 그림 줄(`.image`)은 버린다. 담겨 있던 그림을 보여 주거나 붙여 넣는 화면이 없어서,
+    ///    남는 것은 "이미지 (1024x768)" 라는 글자뿐이었다. 넣으면 그 글자가 들어갔다.
     func loadSmartClipboardHistory() throws -> [SmartClipboardHistory] {
         guard let fileURL = try Self.fileURL(type: .smartClipboardHistory) else { return [] }
-        guard let data = try? Data(contentsOf: fileURL) else {
+        guard let data = try? Data(contentsOf: fileURL, options: .mappedIfSafe) else {
             return try migrateFromLegacyClipboard()
         }
-        return (try? JSONDecoder().decode([SmartClipboardHistory].self, from: data)) ?? []
+        let history = (try? JSONDecoder().decode([SmartClipboardHistory].self, from: data)) ?? []
+        return history.filter { $0.contentType != .image }
+    }
+
+    /// 예전 판이 복사 기록 파일에 남긴 그림 글자를 걷어 파일을 줄인다. **앱만** 부른다.
+    ///
+    /// 키보드는 매핑 덕에 큰 파일도 버티지만, 파일이 작아야 키보드가 저장할 때(최근 탭에 담기)도
+    /// 가볍다. 그림 글자가 없으면 아무것도 하지 않는다 - 매번 다시 쓰지 않는다.
+    /// - Returns: 줄였으면 true.
+    @discardableResult
+    func compactSmartClipboardHistoryIfNeeded() -> Bool {
+        guard let fileURL = try? Self.fileURL(type: .smartClipboardHistory),
+              let data = try? Data(contentsOf: fileURL, options: .mappedIfSafe),
+              Self.containsLegacyClipboardImages(data) else { return false }
+        do {
+            let before = data.count
+            let history = try loadSmartClipboardHistory()
+            try saveSmartClipboardHistory(history: history)
+            let after = (try? Data(contentsOf: fileURL))?.count ?? 0
+            print("🔄 [MemoStore.compactSmartClipboardHistoryIfNeeded] 복사 기록의 옛 그림을 걷음: \(before) → \(after) 바이트")
+            return true
+        } catch {
+            print("❌ [MemoStore.compactSmartClipboardHistoryIfNeeded] 실패: \(error)")
+            return false
+        }
+    }
+
+    /// 파일에 예전 그림 칸(`"imageData"`) 이 남아 있는가. 해석하지 않고 바이트로만 찾는다.
+    static func containsLegacyClipboardImages(_ data: Data) -> Bool {
+        data.range(of: Data("\"imageData\"".utf8)) != nil
+            || data.range(of: Data("\"contentType\":\"image\"".utf8)) != nil
     }
 
     func addToSmartClipboardHistory(content: String) throws {

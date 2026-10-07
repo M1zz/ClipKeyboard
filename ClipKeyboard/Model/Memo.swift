@@ -180,9 +180,6 @@ struct SmartClipboardHistory: Identifiable, Codable {
     // 콘텐츠 타입
     var contentType: ClipboardContentType = .text
 
-    // 이미지 데이터 (Base64 인코딩)
-    var imageData: String?
-
     // 이미지 메타데이터
     var imageWidth: Int?
     var imageHeight: Int?
@@ -200,15 +197,49 @@ struct SmartClipboardHistory: Identifiable, Codable {
     // 사용자 피드백
     var userCorrectedType: ClipboardItemType?  // 사용자가 수정한 타입
 
-    init(id: UUID = UUID(), content: String, copiedAt: Date = Date(), isTemporary: Bool = true, contentType: ClipboardContentType = .text, imageData: String? = nil, detectedType: ClipboardItemType = .text, confidence: Double = 0.0) {
+    init(id: UUID = UUID(), content: String, copiedAt: Date = Date(), isTemporary: Bool = true, contentType: ClipboardContentType = .text, detectedType: ClipboardItemType = .text, confidence: Double = 0.0) {
         self.id = id
         self.content = content
         self.copiedAt = copiedAt
         self.isTemporary = isTemporary
         self.contentType = contentType
-        self.imageData = imageData
         self.detectedType = detectedType
         self.confidence = confidence
+    }
+
+    // MARK: - 읽기 (그림은 버린다)
+
+    /// ⚠️ **`imageData` 는 읽지 않는다.** 예전 판은 복사한 그림을 base64 글자로 이 줄 안에
+    ///    통째로 담았다(한 장에 수백 KB). 그 그림을 쓰는 화면은 없는데, 5.1.8 부터 키보드가 뜰 때
+    ///    '최근' 탭을 위해 이 파일을 읽으면서 그림까지 메모리에 올라왔고, 메모리 한도가 빠듯한
+    ///    키보드가 iOS 에 조용히 죽었다("키보드가 열리지 않습니다").
+    ///    열쇠를 아예 묻지 않으면 디코더는 그 글자를 만들지 않는다. 다음에 저장할 때 파일에서도 빠진다.
+    ///    (docs/postmortem/KEYBOARD_CLIPBOARD_IMAGES_5_1_8.md)
+    ///
+    /// ⚠️ 나머지 칸은 **없어도 읽는다**(`decodeIfPresent`). 칸 하나가 없다고 배열 전체가
+    ///    `keyNotFound` 로 실패하면 복사 기록이 통째로 사라진다.
+    private enum CodingKeys: String, CodingKey {
+        case id, content, copiedAt, isTemporary, contentType
+        case imageWidth, imageHeight, imageFormat
+        case detectedType, confidence, sourceApp, tags, autoSaveOffered, userCorrectedType
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        content = try c.decodeIfPresent(String.self, forKey: .content) ?? ""
+        copiedAt = try c.decodeIfPresent(Date.self, forKey: .copiedAt) ?? Date()
+        isTemporary = try c.decodeIfPresent(Bool.self, forKey: .isTemporary) ?? true
+        contentType = (try? c.decodeIfPresent(ClipboardContentType.self, forKey: .contentType)) ?? .text
+        imageWidth = try? c.decodeIfPresent(Int.self, forKey: .imageWidth)
+        imageHeight = try? c.decodeIfPresent(Int.self, forKey: .imageHeight)
+        imageFormat = try? c.decodeIfPresent(String.self, forKey: .imageFormat)
+        detectedType = (try? c.decodeIfPresent(ClipboardItemType.self, forKey: .detectedType)) ?? .text
+        confidence = (try? c.decodeIfPresent(Double.self, forKey: .confidence)) ?? 0
+        sourceApp = try? c.decodeIfPresent(String.self, forKey: .sourceApp)
+        tags = (try? c.decodeIfPresent([String].self, forKey: .tags)) ?? []
+        autoSaveOffered = (try? c.decodeIfPresent(Bool.self, forKey: .autoSaveOffered)) ?? false
+        userCorrectedType = try? c.decodeIfPresent(ClipboardItemType.self, forKey: .userCorrectedType)
     }
 
     // MARK: - 보관 기간

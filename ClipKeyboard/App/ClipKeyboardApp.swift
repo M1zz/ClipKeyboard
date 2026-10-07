@@ -243,6 +243,12 @@ struct ClipKeyboardApp: App {
             migrateSampleTemplateFlagsIfNeeded()
         }
 
+        // 예전 판이 복사 기록에 남긴 그림 글자를 걷는다. 이게 남아 있으면 키보드가 뜰 때마다
+        // 무거워진다(docs/postmortem/KEYBOARD_CLIPBOARD_IMAGES_5_1_8.md). 파일이 클 수 있어 메인 밖에서.
+        Task.detached(priority: .utility) {
+            MemoStore.shared.compactSmartClipboardHistoryIfNeeded()
+        }
+
         // ② 결제 권한 - 세이프 모드에서도 돈다. 여기를 쉬면 산 사람이 Pro 를 잃는다.
         LaunchGuard.essential(.entitlement) {
             // 심어 준 샘플의 id 를 App Group 으로 옮긴다. 한도가 자기 것만 세는 일이
