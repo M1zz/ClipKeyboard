@@ -1530,14 +1530,15 @@ struct ClipKeyboardList: View {
         }
         // 코치가 가리킬 카드의 자리를 알려준다 - 안내를 화면 아래에 고정해 두면
         // 무엇을 누르라는 건지 이어지지 않는다.
-        .background(
-            GeometryReader { geo in
-                Color.clear.preference(
-                    key: CoachAnchorKey.self,
-                    value: coachMemoID == memo.id ? geo.frame(in: .global) : .zero
-                )
+        // ⚠️ 가리킬 카드에만 단다. 예전에는 모든 카드가 자리를 재어 선호값을 올렸고(대부분 .zero),
+        //    레이아웃이 돌 때마다 카드 수만큼 모아 줄였다. 코치가 가리키는 카드는 하나뿐이다.
+        .background {
+            if coachMemoID == memo.id {
+                GeometryReader { geo in
+                    Color.clear.preference(key: CoachAnchorKey.self, value: geo.frame(in: .global))
+                }
             }
-        )
+        }
         .contentShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
         // 좌표를 받는 탭 - 동전이 **손가락이 닿은 자리**에서 튀어야 인과가 보인다.
         // 카드 중심에서 튀면 어느 카드를 눌렀는지는 알아도 내가 눌렀다는 느낌이 약하다.

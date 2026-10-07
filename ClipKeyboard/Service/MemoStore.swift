@@ -1151,7 +1151,18 @@ class MemoStore: ObservableObject {
         }.sum &+ memos.count
     }
 
+    /// 되돌리기 이력. **밀려 있는 이력 쓰기가 끝난 뒤의 것**을 읽는다.
+    ///
+    /// ⚠️ 이력 쓰기는 메인 밖 한 줄(`historyQueue`)에서 한다. 저장 직후 바로 읽어도 방금 것이
+    ///    빠지지 않게, 읽기도 같은 줄을 지난다. 그 줄 안에서 부르면 기다리지 않고 바로 읽는다.
     func loadMemoHistory() -> [MemoSnapshot] {
+        if DispatchQueue.getSpecific(key: Self.historyQueueKey) != nil {
+            return readMemoHistoryFile()
+        }
+        return Self.historyQueue.sync { readMemoHistoryFile() }
+    }
+
+    private func readMemoHistoryFile() -> [MemoSnapshot] {
         guard let url = Self.historyFileURL(), let data = try? Data(contentsOf: url) else { return [] }
         return (try? JSONDecoder().decode([MemoSnapshot].self, from: data)) ?? []
     }
@@ -1191,13 +1202,18 @@ class MemoStore: ObservableObject {
     /// ⚠️ 이력은 최근 10벌을 통째로 담은 파일이라(단축어 500개면 수 MB) 읽고 다시 쓰는 데
     ///    수백 ms 가 든다. 예전에는 단축어를 고칠 때마다 메인에서 했다. 이 파일은 되돌리기
     ///    화면만 읽으므로 저장을 기다릴 이유가 없다.
-    private static let historyQueue = DispatchQueue(label: "MemoStore.history", qos: .utility)
+    private static let historyQueueKey = DispatchSpecificKey<Bool>()
+    private static let historyQueue: DispatchQueue = {
+        let queue = DispatchQueue(label: "MemoStore.history", qos: .utility)
+        queue.setSpecific(key: historyQueueKey, value: true)
+        return queue
+    }()
 
     private func pushMemoSnapshot(_ memos: [Memo]) {
         let snapshot = MemoSnapshot(id: UUID(), timestamp: Date(), memoCount: memos.count, memos: memos)
         Self.historyQueue.async { [weak self] in
             guard let self else { return }
-            var history = self.loadMemoHistory()
+            var history = self.readMemoHistoryFile()
             history.insert(snapshot, at: 0)
             if history.count > Self.memoHistoryLimit {
                 history = Array(history.prefix(Self.memoHistoryLimit))

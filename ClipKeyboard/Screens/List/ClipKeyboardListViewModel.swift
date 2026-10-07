@@ -141,14 +141,14 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     // MARK: - Data State
 
-    @Published var memos: [Memo] = []
+    @Published var memos: [Memo] = [] { didSet { invalidateTabCache() } }
     /// 디스크에서 한 번이라도 읽어 왔는가.
     ///
     /// ⚠️ `memos.isEmpty` 를 "단축어가 없는 사람"으로 읽으면 안 된다. 화면이 뜨고
     ///    읽어 오기 전까지는 누구나 비어 있어서, 그 창에 뜨는 안내는 **모든 사람에게**
     ///    한 번씩 번쩍였다 사라진다(그러면서 아래 목록을 밀어 내린다).
     @Published private(set) var hasLoadedMemos = false
-    @Published var loadedData: [Memo] = []
+    @Published var loadedData: [Memo] = [] { didSet { invalidateTabCache() } }
 
     /// ⚠️ **첫 화면이 그려지기 전에** 단축어를 읽어 둔다.
     ///
@@ -166,7 +166,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     // MARK: - Search & Filter
 
-    @Published var searchQueryString = ""
+    @Published var searchQueryString = "" { didSet { invalidateTabCache() } }
     @Published var selectedTypeFilter: ClipboardItemType?
     @Published var selectedCategoryFilter: String?
     @Published var showFavoritesFilter: Bool = false
@@ -412,13 +412,35 @@ final class ClipKeyboardListViewModel: ObservableObject {
     // MARK: - Category Tabs
 
     @Published var selectedCategoryTab: CategoryTab = .basic
-    @Published var customCategories: [String] = []
+    @Published var customCategories: [String] = [] { didSet { invalidateTabCache() } }
     /// 탭 바에서 숨길 카테고리 이름 집합. 즐겨찾기는 "__favorites__" 키 사용.
-    @Published var hiddenCategoryTabs: Set<String> = []
+    @Published var hiddenCategoryTabs: Set<String> = [] { didSet { invalidateTabCache() } }
     /// 사용자가 카테고리 관리에서 켠 기본 제공 카테고리(타입별 모아보기). allCases 순서 유지.
-    @Published var enabledBuiltInCategories: [BuiltInCategory] = []
+    @Published var enabledBuiltInCategories: [BuiltInCategory] = [] { didSet { invalidateTabCache() } }
+
+    // MARK: - 탭 · 페이지 캐시
+
+    /// 탭 줄과 페이지마다의 단축어. 목록 · 검색어 · 갈래 설정이 바뀔 때만 다시 만든다.
+    ///
+    /// ⚠️ 목록 화면은 한 번 그릴 때 `allCategoryTabs` 를 네 번 넘게 부르고(매번 단축어 전부로
+    ///    집합을 만들고 두 번 훑는다), 페이지를 미리 다 만들면서 페이지마다 `memos(for:)` 로
+    ///    단축어 전부를 걸렀다. 카드 하나를 눌러도 화면 전체가 다시 계산되므로 그때마다 반복됐다.
+    private var cachedTabs: [CategoryTab]?
+    private var cachedPageMemos: [CategoryTab: [Memo]] = [:]
+
+    private func invalidateTabCache() {
+        cachedTabs = nil
+        cachedPageMemos.removeAll(keepingCapacity: true)
+    }
 
     var allCategoryTabs: [CategoryTab] {
+        if let cachedTabs { return cachedTabs }
+        let tabs = computeAllCategoryTabs()
+        cachedTabs = tabs
+        return tabs
+    }
+
+    private func computeAllCategoryTabs() -> [CategoryTab] {
         var tabs: [CategoryTab] = []
 
         // 즐겨찾기: 별이 하나라도 달렸을 때만. 아무것도 없는 페이지를 한 장 끼워 두지 않는다.
@@ -605,6 +627,13 @@ final class ClipKeyboardListViewModel: ObservableObject {
     }
 
     func memos(for tab: CategoryTab) -> [Memo] {
+        if let cached = cachedPageMemos[tab] { return cached }
+        let result = computeMemos(for: tab)
+        cachedPageMemos[tab] = result
+        return result
+    }
+
+    private func computeMemos(for tab: CategoryTab) -> [Memo] {
         switch tab {
         case .basic:
             return basicBucketMemos
