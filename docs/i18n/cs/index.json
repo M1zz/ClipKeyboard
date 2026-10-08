@@ -1,0 +1,761 @@
+{
+ "translations": {
+  "pageTitle": "ClipKeyboard: Přestaňte psát pořád dokola. Stačí jedna fráze",
+  "metaDescription": "Uložte si bankovní údaje, adresy a e-mailové šablony jako fráze a pak je napište jedním klepnutím z klávesnice v libovolné aplikaci. 40 šablon ze života pro digitální nomády, profesionály, studenty i každodenní situace: zdarma.",
+  "ogTitle": "ClipKeyboard: Přestaňte psát pořád dokola. Stačí jedna fráze",
+  "ogDescription": "Změňte věty, které pořád opakujete, na fráze. Zkopírujte si hned 40 hotových šablon.",
+  "heroBadge": "🔒 Vaše fráze zůstanou jen vaše · Soukromí na prvním místě",
+  "heroTitle": "Přestaňte psát pořád dokola.<br><span>Stačí jedna fráze</span>",
+  "heroSubtitle": "Bankovní údaje · adresy · představení · šablony v angličtině<br>uložené jednou, napsané jedním klepnutím z klávesnice v libovolné aplikaci.",
+  "heroCta": "Stáhnout v App Store",
+  "heroDemo": "⌨️ Vyzkoušejte klávesnici: 30 sekund",
+  "heroTemplates": "📋 Prohlédněte si 40 šablon ze života",
+  "videoTitle": "Takhle to vypadá",
+  "videoSubtitle": "23sekundový záznam obrazovky. Bez zvuku.",
+  "videoNote": "",
+  "demoTitle": "Vyzkoušejte si to přímo tady",
+  "demoSubtitle": "Toto je vlastní obrazovka aplikace „Náhled klávesnice“. V praxi se tato klávesnice objeví ve Zprávách, v Mailu, v Safari: všude, kde píšete.",
+  "demoBrief": "Klávesnice níže je <strong>obrazovka, která je součástí aplikace</strong>. Klepněte na frázi a objeví se v poli, klepat můžete i po odeslání.",
+  "demoCta": "Začněte s vlastními frázemi",
+  "demoReset": "Začít znovu",
+  "demoNote": "* Všechny údaje o účtech a pasech v této ukázce jsou vymyšlené. Vaše skutečné fráze nikdy neopustí vaše zařízení.",
+  "demoStageTitle": "Náhled klávesnice",
+  "demoComposerPh": "Váš text se objeví tady",
+  "demoCueTap": "Klepněte na klávesu „%@“",
+  "demoCueSend": "A je tam: teď klepněte na odeslat (↑)",
+  "demoCueDone": "To je celé: zkuste i další klávesy",
+  "demoTplInsert": "Vložit",
+  "demoTplPick": "Vyberte hodnotu",
+  "demoFaceScanning": "Odemykání pomocí Face ID…",
+  "demoFaceDone": "Odemčeno",
+  "demoToastCombo": "Přepnuto na další hodnotu",
+  "demoTabBasic": "Základní",
+  "demoTabFav": "Oblíbené",
+  "demoTabTemplate": "Šablony",
+  "demoTabCombo": "Kombo",
+  "demoFeatures": [
+   {
+    "k": "snippet",
+    "t": "Fráze: jedno klepnutí a je napsáno",
+    "d": "Vaše uložené bankovní údaje, adresa nebo podpis se vloží přesně tak, jak jsou uložené."
+   },
+   {
+    "k": "template",
+    "t": "Šablona: vyplníte jen pole",
+    "d": "Proměnné jako {datum} {čas} se doplní klepnutím na hodnotu, kterou jste si uložili dříve."
+   },
+   {
+    "k": "combo",
+    "t": "Kombo: přepínejte hodnoty pomocí →",
+    "d": "Tři bankovní účty nebo platební metody najdete na jedné klávese, vyberete si podle potřeby."
+   },
+   {
+    "k": "secure",
+    "t": "Zabezpečená fráze: zamčená za Face ID",
+    "d": "Číslo pasu a platební karty zůstávají zamčené až do chvíle, kdy je potřebujete."
+   }
+  ],
+  "howTitle": "Co je to fráze?",
+  "howSubtitle": "Věta, kterou často používáte, uložená pod názvem. To je celé.",
+  "how1Title": "Uložte ji jako frázi",
+  "how1Desc": "Dejte jí název (klíč), například „Bankovní údaje“, a přidejte skutečný text (hodnotu). Uložíte jednou.",
+  "how2Title": "Klepněte na ni na klávesnici",
+  "how2Desc": "Přepněte na ClipKeyboard ve Zprávách, v Mailu, v Safari: kdekoli. Vaše fráze jsou přímo na klávesnici. Jedno klepnutí a je napsáno.",
+  "how3Title": "Pokračujte k šablonám a kombům",
+  "how3Desc": "Přidejte proměnné jako <span class=\"chip\">jméno</span> <span class=\"chip\">datum</span> a vytvořte šablony, fráze řetězte do komb. Celé rutiny zmizí.",
+  "libTitle": "Lidé jako vy, kteří denně šetří čas",
+  "libSubtitle": "Vyberte si den, který se podobá tomu vašemu. Libovolnou šablonu si hned zkopírujte, uložte do aplikace a bude na vaší klávesnici.",
+  "libNote": "💡 Modré štítky jsou proměnné šablony, v aplikaci je vyplníte klepnutím.",
+  "copy": "Kopírovat",
+  "copied": "Zkopírováno ✓",
+  "impactPrefix": "✨ ",
+  "privacyTitle": "🔒 Vaše data, jen ve vašem zařízení",
+  "privacyDesc": "Obsah vašich frází je uložen pouze ve vašem zařízení (a ve vašem vlastním iCloudu, pokud ho zapnete), nikdy ho neshromažďujeme. Shromažďujeme pouze anonymní statistiky používání, abychom aplikaci vylepšovali.",
+  "privacyBadge": "✓ V souladu se zásadami ochrany soukromí společnosti Apple",
+  "pricingTitle": "Začněte zdarma",
+  "pricingSubtitle": "Stažení zdarma · Pro je jednorázový nákup, žádná předplatná",
+  "price": "Zdarma",
+  "priceDesc": "Upgrade na Pro 229 Kč · jednorázově · 7 dní zdarma na zkoušku",
+  "priceFeature1": "Zdarma: 10 frází · 3 šablony · 3 kombo",
+  "priceFeature2": "Pro: neomezené úložiště · záloha na iCloud · zabezpečené fráze",
+  "priceFeature3": "iPhone, iPad, Mac, Vision Pro",
+  "priceFeature4": "Bez předplatného · Bez reklam",
+  "priceFeature5": "Aktualizace navždy zdarma",
+  "pricingCta": "Stáhnout zdarma",
+  "footerContact": "Kontakt",
+  "footerTutorial": "Návod",
+  "footerPrivacy": "Zásady ochrany soukromí",
+  "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+ },
+ "PERSONA_DATA": [
+  {
+   "persona": "nomad",
+   "intro": "Přesouváte se mezi kavárnami a coworkingy a pracujete pro klienty z celého světa. Časová pásma, mezinárodní platby, víza, skoro stejné anglické e-maily: den vám utíká hledáním stejných údajů na další záložce. Každý údaj uložíte jednou a od té chvíle stačí jedno klepnutí.",
+   "scenarios": [
+    {
+     "title": "\"Pošlete mi bankovní údaje\"",
+     "pain": "Jedna věta od klienta a znovu se prohrabáváte bankovní aplikací kvůli IBAN a SWIFT.",
+     "example": "Jméno: {vaše jméno}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nAdresa banky: {adresa banky}\nWise: {e-mail Wise}",
+     "impact": "Třicetisekundové hledání se promění v jedno klepnutí a už žádné přehozené číslice.",
+     "feature": "combo"
+    },
+    {
+     "title": "Odpověď kvůli časovému pásmu",
+     "pain": "Ve 2 ráno přijde \"Můžeme si zavolat?\" a vy zase vysvětlujete své časové pásmo.",
+     "example": "Dobrý den, {klient}, právě jsem v pásmu GMT+{posun} ({město}). Mohu v čase {časové okno}. Calendly: {odkaz}",
+     "impact": "Tři zprávy sem a tam se zkrátí na jednu jasnou odpověď.",
+     "feature": "template"
+    },
+    {
+     "title": "Odeslání faktury",
+     "pain": "Číslo faktury, částku, měnu i datum splatnosti píšete pokaždé znovu.",
+     "example": "Faktura č. {číslo} · {měna} {částka}\nSplatnost: {datum splatnosti}\nPlatba: Wise ({e-mail})\nDěkuji! 🙏",
+     "impact": "Šablona hlídá pole, na která byste zapomněli: méně dofakturací a oprav.",
+     "feature": "template"
+    },
+    {
+     "title": "Připomenutí nabídky",
+     "pain": "Tři dny ticha a napsat připomenutí, které nepůsobí dotěrně, je pokaždé těžké.",
+     "example": "Dobrý den, {klient}, ozývám se k nabídce, kterou jsem poslal(a) {den}. Rád(a) si zavolám, pokud je potřeba cokoli upřesnit.\n\nS pozdravem {jméno}",
+     "impact": "Zdvořilé připomenutí odešle okamžitě a zachrání zakázky, které jste dřív nechali proklouznout.",
+     "feature": "template"
+    },
+    {
+     "title": "Údaje o pasu a vízu",
+     "pain": "U každého letu, ubytování nebo vízového formuláře hledáte číslo pasu a datum platnosti.",
+     "example": "Číslo pasu: {pas}\nCelé jméno: {jméno}\nVydán / platný do: {vydán} / {platnost}\nStátní příslušnost: {státní příslušnost}",
+     "impact": "Zamkněte je přes Face ID jako zabezpečenou frázi a otevřete jen tehdy, když je potřebujete.",
+     "feature": "snippet"
+    },
+    {
+     "title": "\"Kde vlastně sídlíte?\"",
+     "pain": "Nový klient se zeptá jen tak mimochodem a vy pokaždé příliš vysvětlujete, jak to s nomádstvím je.",
+     "example": "Sídlím nikde konkrétně, momentálně jsem v místě {město}. Pracuji asynchronně, takže na časových pásmech obvykle nezáleží, ale vždy vám dám jasné okno, kdy jsem k zastižení.",
+     "impact": "Jedna sebevědomá, profesionální odpověď místo dojmu, že jste nestabilní.",
+     "feature": "template"
+    },
+    {
+     "title": "Vypadla wifi",
+     "pain": "Wifi v coworkingu vypadne těsně před hovorem a vy honem sháníte omluvu.",
+     "example": "Dobrý den, v mém coworkingu právě vypadla wifi. Přesouvám se na záložní místo a budu zpět za {min} min. Hned poté pokračujeme. 🙏",
+     "impact": "I v panice odešlete klidnou, uklidňující větu za vteřinu.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Poznámka k měně a nabídce",
+     "pain": "Nabídka klientovi v jiné měně znamená pokaždé znovu psát upozornění na kurz.",
+     "example": "Nabídka: {měna} {částka} (≈ {přepočet} podle dnešního kurzu).\nFakturováno v {měna} přes Wise, aby poplatky pro vás zůstaly nízké.",
+     "impact": "Předejdete nejasnostem kolem ceny včas, bez smlouvání při platbě.",
+     "feature": "template"
+    },
+    {
+     "title": "Zapojení nového klienta",
+     "pain": "Hned po podpisu každému klientovi vysvětlujete Calendly, Slack, platbu i rytmus spolupráce.",
+     "example": "Vítejte na palubě, {klient}! Takto budeme spolupracovat:\n1. První schůzka: Calendly: {odkaz}\n2. Platba (bankovní údaje v příloze, pokud je potřeba)\n3. Pozvánka do Slacku do 24 hodin\n4. Ukázky pokroku každý čtvrtek\n\nTěším se na start!",
+     "impact": "Kombo vloží několik frází za sebou, zapojení klienta se zkrátí z 5 minut na 5 vteřin.",
+     "feature": "combo"
+    },
+    {
+     "title": "Konec pracovního dne",
+     "pain": "Naléhavá zpráva ve 22:00 a zdvořile říct \"teď ne\" je pokaždé nepříjemné.",
+     "example": "Dobrý den! Pro dnešek končím ({čas} v místě {město}). Odpovím hned ráno, děkuji za trpělivost 🙏",
+     "impact": "Udržíte svou hranici, aniž byste působili nezdvořile: důvěra zůstane a vyhnete se vyhoření.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "business",
+   "intro": "Schůzky, reporty, odpovědi: stejné fráze přepisujete desítkykrát denně. \"Prosím o potvrzení\", pozvánky na schůzky, automatické odpovědi při nepřítomnosti. Zdvořilé opakované věty uložte jednou a soustřeďte se na práci, ne na formulace.",
+   "scenarios": [
+    {
+     "title": "Automatická odpověď při nepřítomnosti",
+     "pain": "Při každé cestě přepisujete zprávu o nepřítomnosti a zapomínáte na záložní kontakt.",
+     "example": "Dobrý den, jsem mimo kancelář od {začátek} do {konec}.\nV naléhavých případech se prosím obraťte na {kontakt} ({telefon}).\nPo návratu odpovím postupně v pořadí. Děkuji.",
+     "impact": "Žádné mezery v zastupitelnosti a po návratu na vás nečeká lavina e-mailů.",
+     "feature": "template"
+    },
+    {
+     "title": "Pozvánka na schůzku",
+     "pain": "Formát datum / místo / program píšete znovu u každé schůzky.",
+     "example": "Dobrý den, {jméno},\nžádám o schůzku v tomto termínu:\n📅 {datum} {čas}\n📍 {místo}\n📌 Program: {program}\nProsím o potvrzení, zda se můžete zúčastnit 😊",
+     "impact": "Přehledná pozvánka znamená méně opakovaných potvrzování a mnohem méně neúčastí.",
+     "feature": "template"
+    },
+    {
+     "title": "Týdenní stavová zpráva",
+     "pain": "Každý týden začínáte stejný formát reportu od prázdné obrazovky.",
+     "example": "Dobrý den, týmu, týdenní přehled:\n✅ Hotovo: {hotovo}\n🔄 Rozpracováno: {rozpracováno}\n📋 Příští týden: {plán}\nRád(a) cokoli z výše uvedeného probereme.",
+     "impact": "Formát je daný, stačí doplnit obsah. Páteční večery budou lehčí.",
+     "feature": "template"
+    },
+    {
+     "title": "Představení a vizitka",
+     "pain": "Při každém prvním představení znovu píšete svou pozici, tým a kontakt.",
+     "example": "Dobrý den, jsem {jméno}.\nV {společnost} mám na starosti {role}.\n📧 {e-mail} / 📞 {telefon}\nTěším se na spolupráci 🙏",
+     "impact": "Jednotné představení buduje důvěru a překlep nezpůsobí ztrátu kontaktu.",
+     "feature": "snippet"
+    },
+    {
+     "title": "E-mailový podpis",
+     "pain": "Podpisy se mezi poštovními aplikacemi nepřenášejí, takže ten svůj vkládáte ručně.",
+     "example": "{jméno}\n{pozice} | {společnost}\n📧 {e-mail}\n📞 {telefon}\n🌐 {web}",
+     "impact": "Jeden podpis v jakékoli aplikaci i zařízení: dojem z vaší značky zůstane ostrý.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Platební a daňové údaje",
+     "pain": "Pokaždé, když dodavatel chce údaje o účtu nebo daňové údaje, hledáte ve finančních souborech.",
+     "example": "Účet: {banka} {číslo} ({majitel})\nDIČ: {DIČ}\nFirma: {společnost}\nE-mail pro faktury: {e-mail}",
+     "impact": "Odešlete je přesně a okamžitě: žádné zpožděné nebo chybně směrované platby.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Oslovení kvůli spolupráci",
+     "pain": "Navrhnout spolupráci, ta zdvořilá úvodní věta je vždy to nejtěžší.",
+     "example": "Dobrý den, {jméno},\nozývám se ohledně možné spolupráce na projektu {projekt}.\nV {společnost/jméno} mám na starosti {role}.\nHodil by se vám krátký hovor? Dejte mi vědět, kdy vám to vyhovuje. Děkuji!",
+     "impact": "První věta, kterou jste dlouho zvažovali, je hotová, takže oslovujete víc lidí.",
+     "feature": "template"
+    },
+    {
+     "title": "Omluva za pozdní odpověď",
+     "pain": "Když odpovídáte pomalu, požádat o shovívavost bez dojmu nedbalosti je choulostivé.",
+     "example": "Dobrý den, {jméno}, omlouvám se za zpožděnou odpověď. Věc zdržel(a) {důvod}. S podrobnostmi se vám ozvu do {datum}. Děkuji za trpělivost.",
+     "impact": "Věta, která získá důvěru místo mlčení, a vztah zůstane v pořádku.",
+     "feature": "template"
+    },
+    {
+     "title": "Poděkování po dokončení projektu",
+     "pain": "Čím lépe projekt dopadl, tím déle odkládáte poděkování a promeškáte ten správný okamžik.",
+     "example": "Dobrý den, {jméno},\nupřímně děkuji za spolupráci na projektu {projekt}.\nDíky vám jsme dosáhli skvělého výsledku.\nRád(a) bych nechal(a) dveře otevřené pro to, co přijde dál 😊",
+     "impact": "Nikdy nepropásnete zprávu, která z jednoho projektu udělá další, a opakovaná spolupráce přijde sama.",
+     "feature": "template"
+    },
+    {
+     "title": "Fakturace a vyúčtování",
+     "pain": "Na konci měsíce zase ručně sestavujete vyúčtování a údaje o účtu.",
+     "example": "Dobrý den! Zasílám vyúčtování za {měsíc}.\nČástka: {částka} (včetně DPH)\nÚčet: {banka} {číslo} ({majitel})\nProsím o potvrzení 😊",
+     "impact": "Dokonale zformátovaná faktura znamená žádné přepisování a rychlejší platbu.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "student",
+   "intro": "Studentské číslo, školní e-mail, titulní listy prací, oznámení pro skupinové projekty: studentský život je jeden opakovaný formulář za druhým. Uložte si e-maily vyučujícím, vyúčtování ve skupině i adresu bytu a získáte zpět čas na učení i na sebe.",
+   "scenarios": [
+    {
+     "title": "Studentské číslo + jméno",
+     "pain": "Zápis předmětů, odevzdávání, potvrzení: číslo i jméno píšete pokaždé znovu.",
+     "example": "{obor} {studentské číslo} {jméno}",
+     "impact": "Jedno klepnutí do libovolného pole a žádný překlep na poslední chvíli, který by stál body.",
+     "feature": "snippet"
+    },
+    {
+     "title": "E-mail vyučujícímu",
+     "pain": "E-maily vyučujícím vyžadují zdvořilý tón, takže první věta vás pokaždé stresuje.",
+     "example": "Dobrý den, paní profesorko / pane profesore, jmenuji se {jméno} ({studentské číslo}), studuji obor {obor}.\nMám zapsaný předmět {předmět} (skupina {číslo}).\nPíši ohledně {téma}.\nOmlouvám se za vyrušení a děkuji.",
+     "impact": "Doplníte jen podstatu, formát je vyřešen: přestanete e-maily odkládat.",
+     "feature": "template"
+    },
+    {
+     "title": "Titulní list práce",
+     "pain": "Každý předmět chce jiný formát titulní strany, takže se s tím piplete tesně před termínem.",
+     "example": "Předmět: {předmět}\nVyučující: {vyučující}\nOdevzdal(a): {obor} {studentské číslo} {jméno}\nDatum: {datum}\nTéma: {téma}",
+     "impact": "Formát uložený, obsah aktualizovaný: o jednu vrstvu stresu z termínu méně.",
+     "feature": "template"
+    },
+    {
+     "title": "Oznámení pro skupinový projekt",
+     "pain": "Psát do týmového chatu čas schůzky a rozdělení rolí je každé kolo otrava.",
+     "example": "[{zadání}] Oznámení týmu 📢\nPříští schůzka: {datum} {čas} @ {místo/odkaz}\nMějte s sebou: {věci}\nTermín: {termín}\nDejte 👍, až to uvidíte!",
+     "impact": "Přehledné oznámení ukončí otázky \"počkat, kdy to vlastně bylo?\" a tým jede dál.",
+     "feature": "template"
+    },
+    {
+     "title": "Adresa bytu / koleje",
+     "pain": "U každé zásilky znovu vyplňujete celou adresu a kód ke dveřím.",
+     "example": "{PSČ}\n{adresa}\n{podrobnosti o bytě}\nKód ke vchodu: {kód}\nPříjemce: {jméno} / {telefon}",
+     "impact": "Jedno klepnutí do aplikace pro doručení a žádné balíky ztracené kvůli špatné adrese.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Rozúčtování útraty",
+     "pain": "Vybírání peněz za materiál nebo týmovou večeři znamená pokaždé přepočítávat a psát zprávu.",
+     "example": "Celkem to bylo {celkem} za {počet lidí} lidí, tedy {na osobu} na osobu 🙏\nPošlete prosím na účet {číslo účtu} ({jméno})~",
+     "impact": "Rozúčtování odešlete hned: a řeči o penězích jsou mnohem méně trapné.",
+     "feature": "template"
+    },
+    {
+     "title": "Omluva z absence",
+     "pain": "Když jste nemocní, omluva vyučujícímu nebo asistentovi vás nenapadne právě ve chvíli, kdy je naléhavá.",
+     "example": "Dobrý den, paní profesorko / pane profesore, píše {jméno} ({studentské číslo}).\nBohužel nemohu dne {datum} přijít na {předmět} kvůli {důvod}.\nDoklad odevzdám {způsob}. Omlouvám se.",
+     "impact": "I ve zmatku hned odešlete zdvořilé upozornění: menší postih.",
+     "feature": "template"
+    },
+    {
+     "title": "Nábor do spolku / studijní skupiny",
+     "pain": "Rozeslat výzvu do různých komunit znamená pokaždé lehce přepsat úvod.",
+     "example": "[{skupina}] Hledáme nové členy! 🙌\nČím se zabýváme: {činnost}\nKdy: {den/čas}\nKde: {místo}\nPřihlášky: {odkaz/kontakt}\nOzvěte se kdykoli 😊",
+     "impact": "Stejný příspěvek vložíte všude jedním klepnutím, nábor jde mnohem rychleji.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Základ přihlášky na stáž",
+     "pain": "Každá přihláška opakuje vaše jméno, kontakt, vzdělání a odkazy, až vás to unaví.",
+     "example": "{jméno} · {telefon} · {e-mail}\n{škola} {obor} ({ročník}. ročník)\nPortfolio: {odkaz}\nGitHub/blog: {odkaz}",
+     "impact": "Vyplňování formulářů zrychlí, takže se přihlásíte na víc příležitostí.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Zpoždění",
+     "pain": "Když se opozdíte na přednášku nebo za kamarádem, výčitky dělají zprávu stále delší.",
+     "example": "Moc se omlouvám! Přijdu asi o {min} min později. Už tam skoro jsem 🙏",
+     "impact": "Krátká a jistá zpráva okamžitě uklidní toho, kdo čeká.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "general",
+   "intro": "Základní věci, které používáte každý den: číslo účtu, adresa bydliště, telefonní číslo, pozdravy, které posíláte často. Žádné hledání v paměti ani ve starých chatech; když nastane chvíle, stačí jedno klepnutí. Každá maličkost zvlášť je malá, dohromady ale za den ušetří spoustu času.",
+   "scenarios": [
+    {
+     "title": "Sdílení čísla účtu",
+     "pain": "\"Jaké máš číslo účtu?\" a vy otevřete bankovní aplikaci, abyste číslo zkontrolovali a zkopírovali.",
+     "example": "{banka} {číslo účtu}\nMajitel: {jméno}\n(Apple Pay / převod také v pořádku 🙏)",
+     "impact": "Jedno klepnutí, přesně správně: žádné chybné číslice, které by poslaly peníze jinam.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Domácí adresa (doručení)",
+     "pain": "Nákupy i prodej ojetých věcí vás nutí znovu psát celou adresu a kontakt.",
+     "example": "{PSČ}\n{adresa}\n{podrobnosti o bytě}\nPříjemce: {jméno} / {telefon}",
+     "impact": "Adresa vyplněná najednou, méně chybných doručení, která zabírají váš čas.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Domlouvání schůzky",
+     "pain": "Každé setkání znamená psát novou zprávu kvůli času a místu.",
+     "example": "Co kdybychom se sešli {datum} v {čas} v místě {místo}? Pokud ne, napiš, co by ti vyhovovalo 😊",
+     "impact": "Začít konkrétním návrhem znamená mnohem rychlejší domluvu.",
+     "feature": "template"
+    },
+    {
+     "title": "Zpoždění",
+     "pain": "Pokaždé, když se zpozdíte, výčitky vás nutí dlouze přepisovat omluvu.",
+     "example": "Moc se omlouvám! Přijdu asi o {min} min později. Klidně začněte beze mě 🙏",
+     "impact": "Rychlá zpráva odeslaná hned uklidní toho, kdo čeká.",
+     "feature": "template"
+    },
+    {
+     "title": "Účet pro příležitosti (dary/soustrast)",
+     "pain": "Když se někdo zeptá na účet pro dar nebo kondolenci, horečně hledáte číslo.",
+     "example": "Děkujeme za milou myšlenku.\n{banka} {číslo účtu} ({majitel})\nVaše přítomnost sama o sobě znamená moc 🙏",
+     "impact": "I v hektické chvíli ho sdílíte správně a s noblesou.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Inzerát na prodej",
+     "pain": "Při každém prodeji znovu stejně píšete cenu, stav a místo předání.",
+     "example": "Prodám: {předmět}\nCena: {cena} (k jednání: {ano/ne})\nStav: {stav}\nPředání: {místo} nebo poštou\nKontakt: {kontakt}",
+     "impact": "Vložíte na jakoukoli platformu jedním klepnutím a kupujícím odpovíte rychleji.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Nouzové údaje a rodina",
+     "pain": "Při příjmu v nemocnici a u formulářů si pokaždé vybavujete kontakt na zákonného zástupce a další údaje.",
+     "example": "Zákonný zástupce: {jméno} ({vztah})\nTelefon: {telefon}\nKrevní skupina: {krevní skupina}\nPoznámky/alergie: {podrobnosti}",
+     "impact": "Přesné údaje v naléhavé chvíli, klidná reakce místo paniky.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Údaje k objednání",
+     "pain": "Při telefonování kvůli objednání pokaždé skládáte jméno, datum narození a potíže.",
+     "example": "Chtěl(a) bych se objednat.\nJméno: {jméno} / Datum narození: {datum narození}\nDůvod: {důvod}\nPreferovaný termín: {datum} {čas}",
+     "impact": "Přehledná žádost zkrátí hovor a získáte termín, který chcete.",
+     "feature": "template"
+    },
+    {
+     "title": "Sdílení hesla k wifi",
+     "pain": "U každého hosta čtete nahlas heslo k routeru nebo hledáte jeho fotku.",
+     "example": "WiFi: {název sítě}\nHeslo: {heslo}\nUžijte si to 😊",
+     "impact": "Sdílíte jednou: žádné třikrát opakované \"jaké je to heslo?\".",
+     "feature": "snippet"
+    },
+    {
+     "title": "Oblíbená přání",
+     "pain": "Svátky a narozeniny vás nutí pokaždé psát podobné přání od nuly.",
+     "example": "Ahoj {jméno}, ať se ti {příležitost} povede! Přeju hodně zdraví a jen samé dobré věci do dalších dnů 😊",
+     "impact": "Upřímné, ale rychlé: opravdu se dostanete ke všem, na které jste mysleli.",
+     "feature": "template"
+    }
+   ]
+  }
+ ],
+ "DEMO_SCENARIOS": [
+  {
+   "id": "daily",
+   "tab": "👤 Každý den",
+   "incoming": "Dnes večer posílám svůj podíl: kolik to je a kam to mám poslat? 🙏",
+   "target": "settle",
+   "keys": [
+    {
+     "id": "settle",
+     "title": "Vyrovnání dluhu",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Dnes to vychází na {částka} na osobu 🙏\nPošlete to na {účet} (Hyunho Lee)~",
+     "ph": [
+      {
+       "name": "částka",
+       "values": [
+        "300 Kč",
+        "600 Kč",
+        "900 Kč"
+       ]
+      },
+      {
+       "name": "účet",
+       "values": [
+        "Fio 2012345678/2010",
+        "Revolut @leeo",
+        "Air Bank 1234567890/3030"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "addr",
+     "title": "Adresa domů",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Vinohradská 1203/35, byt 12\n120 00 Praha 2\nPříjemce: Hyunho Lee / +420 601 234 567"
+    },
+    {
+     "id": "late",
+     "title": "Zpoždění",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Moc se omlouvám! Budu mít zpoždění asi {minut} min. Začněte beze mě 🙏",
+     "ph": [
+      {
+       "name": "minut",
+       "values": [
+        "5",
+        "10",
+        "20"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pay",
+     "title": "Poslat peníze",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Revolut: @leeo",
+      "PayPal: leeo@example.com",
+      "Účet: Fio 2012345678/2010"
+     ]
+    },
+    {
+     "id": "wifi",
+     "title": "Wifi doma",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Wi-Fi: Domov_5G\nHeslo: welcome2026!"
+    },
+    {
+     "id": "card",
+     "title": "Číslo karty",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "4212 3456 7890 7788 (12/29)"
+    },
+    {
+     "id": "delivery",
+     "title": "Pokyny k doručení",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Prosím nechte zásilku u dveří 🙏\nKód ke vchodu: #1234\nNezvoňte prosím, spí miminko."
+    },
+    {
+     "id": "sale",
+     "title": "Inzerát na prodej",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Prodám: iPad Air (5. generace)\nCena: 7 500 Kč (k jednání)\nStav: drobné šrámy, krabice v ceně\nPředání: v centru nebo zásilkou"
+    }
+   ]
+  },
+  {
+   "id": "work",
+   "tab": "💼 Práce",
+   "incoming": "Mohl(a) byste domluvit schůzku na příští týden a poslat podrobnosti?",
+   "target": "meet",
+   "keys": [
+    {
+     "id": "meet",
+     "title": "Pozvánka na schůzku",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Dobrý den, žádám o schůzku v tomto termínu:\n📅 {datum} {čas}\n📍 {místo}\nProsím o potvrzení, zda se můžete zúčastnit 😊",
+     "ph": [
+      {
+       "name": "datum",
+       "values": [
+        "út 12. 3.",
+        "čt 14. 3."
+       ]
+      },
+      {
+       "name": "čas",
+       "values": [
+        "10:00",
+        "14:00"
+       ]
+      },
+      {
+       "name": "místo",
+       "values": [
+        "Zasedačka ve 3. patře",
+        "Google Meet"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "sign",
+     "title": "E-mailový podpis",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Hyunho Lee\nProduct Manager | Ysoup\n📧 leeo@example.com / 📞 +420 601 234 567"
+    },
+    {
+     "id": "ok",
+     "title": "Beru na vědomí, děkuji",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Beru na vědomí, děkuji, že se o to postaráte 🙏"
+    },
+    {
+     "id": "ooo",
+     "title": "Mimo kancelář",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Jsem mimo kancelář od {od} do {do}.\nV naléhavých případech se prosím obraťte na Hanu Kim (+420 601 234 599).",
+     "ph": [
+      {
+       "name": "od",
+       "values": [
+        "18. 3.",
+        "1. 4."
+       ]
+      },
+      {
+       "name": "do",
+       "values": [
+        "22. 3.",
+        "5. 4."
+       ]
+      }
+     ]
+    },
+    {
+     "id": "biz",
+     "title": "Fakturační údaje",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Účet: Fio 2012345678/2010 (Ysoup s.r.o.)",
+      "IČO: 12345678 / DIČ: CZ12345678",
+      "Fakturační e-mail: billing@example.com"
+     ]
+    },
+    {
+     "id": "rrn",
+     "title": "Rodné číslo",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "••••••/6789"
+    },
+    {
+     "id": "report",
+     "title": "Týdenní report",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Přehled za tento týden:\n✅ Hotovo: {hotovo}\n🔄 Rozpracováno: {rozpracováno}\n📋 Příští týden: {příště}",
+     "ph": [
+      {
+       "name": "hotovo",
+       "values": [
+        "Vydání verze 4.5",
+        "QA objednávkového procesu"
+       ]
+      },
+      {
+       "name": "rozpracováno",
+       "values": [
+        "Redesign widgetu",
+        "Analýza retence"
+       ]
+      },
+      {
+       "name": "příště",
+       "values": [
+        "Schvalování v App Store",
+        "Retrospektiva sprintu"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "delay",
+     "title": "Pozdní odpověď",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Omlouvám se za pozdní odpověď, interní posouzení trvalo déle, než se čekalo.\nDnes se Vám ozvu s podrobnostmi 🙏"
+    }
+   ]
+  },
+  {
+   "id": "nomad",
+   "tab": "🌏 Nomád",
+   "incoming": "Skvěle, začneme v pondělí! Můžete mi poslat své bankovní údaje?",
+   "target": "iban",
+   "keys": [
+    {
+     "id": "iban",
+     "title": "IBAN · SWIFT",
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Jméno: Hyunho Lee\nIBAN: CZ65 0800 0000 1920 0014 5399\nSWIFT/BIC: GIBACZPX"
+    },
+    {
+     "id": "tz",
+     "title": "Odpověď o časovém pásmu",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Dobrý den, momentálně jsem v pásmu GMT+{posun}. Hodí se mi {okno}. Calendly: cal.com/leeo",
+     "ph": [
+      {
+       "name": "posun",
+       "values": [
+        "9",
+        "2"
+       ]
+      },
+      {
+       "name": "okno",
+       "values": [
+        "9:00~11:00 vašeho času",
+        "kdykoli po 15:00"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "inv",
+     "title": "Faktura",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Faktura č. {číslo} · USD {částka}\nSplatnost: {splatnost}\nPlatba: Wise (leeo@example.com)\nDěkuji! 🙏",
+     "ph": [
+      {
+       "name": "číslo",
+       "values": [
+        "2026-014",
+        "2026-015"
+       ]
+      },
+      {
+       "name": "částka",
+       "values": [
+        "2 400",
+        "3 800"
+       ]
+      },
+      {
+       "name": "splatnost",
+       "values": [
+        "31. 3.",
+        "15. 4."
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pm",
+     "title": "Způsoby platby",
+     "fav": true,
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Wise: leeo@example.com",
+      "PayPal: leeo@example.com",
+      "Stripe: stripe.me/leeo"
+     ]
+    },
+    {
+     "id": "wifi2",
+     "title": "Výpadek wifi",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Ahoj týme, v coworkingu mi právě vypadla wifi. Za 10 minut jsem zpět online 🙏"
+    },
+    {
+     "id": "pass",
+     "title": "Údaje z pasu",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "Cestovní pas: 12345678 · platnost do 18. 4. 2031"
+    },
+    {
+     "id": "quote",
+     "title": "Nabídka a kurz",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Nabídka: 2 400 USD (≈ 2 210 EUR podle dnešního kurzu).\nFakturováno v USD přes Wise, aby poplatky pro vás zůstaly nízké."
+    },
+    {
+     "id": "signoff",
+     "title": "Končím pro dnešek",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Na dnešek končím (u mě je 23:00). Odpovím hned ráno, děkuji za trpělivost 🙏"
+    }
+   ]
+  }
+ ],
+ "PERSONA_META": {
+  "nomad": {
+   "icon": "🌏",
+   "name": "Nomád · Freelancer"
+  },
+  "business": {
+   "icon": "💼",
+   "name": "Byznys"
+  },
+  "student": {
+   "icon": "🎓",
+   "name": "Student"
+  },
+  "general": {
+   "icon": "👤",
+   "name": "Každodenní použití"
+  }
+ },
+ "BADGE_LABEL": {
+  "snippet": "Fráze",
+  "template": "Šablona",
+  "combo": "Kombo",
+  "smartClipboard": "Schránka"
+ }
+}

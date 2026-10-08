@@ -1,0 +1,761 @@
+{
+ "translations": {
+  "pageTitle": "ClipKeyboard: Berhenti mengetik ulang. Cukup satu frasa",
+  "metaDescription": "Simpan data rekening bank, alamat, dan templat email sebagai frasa, lalu ketik dengan satu ketukan dari keyboard di aplikasi apa pun. 40 templat nyata untuk nomad digital, profesional, mahasiswa, dan kebutuhan sehari-hari: gratis.",
+  "ogTitle": "ClipKeyboard: Berhenti mengetik ulang. Cukup satu frasa",
+  "ogDescription": "Ubah kalimat yang sering Anda ulang menjadi frasa. Salin 40 templat siap pakai sekarang juga.",
+  "heroBadge": "🔒 Frasa Anda tetap milik Anda · Privasi nomor satu",
+  "heroTitle": "Berhenti mengetik ulang.<br><span>Cukup satu frasa</span>",
+  "heroSubtitle": "Data rekening · alamat · perkenalan diri · templat bahasa Inggris<br>cukup simpan sekali, ketik dengan satu ketukan dari keyboard di aplikasi apa pun.",
+  "heroCta": "Unduh di App Store",
+  "heroDemo": "⌨️ Coba keyboard-nya: 30 detik",
+  "heroTemplates": "📋 Jelajahi 40 templat nyata",
+  "videoTitle": "Beginilah tampilannya",
+  "videoSubtitle": "Rekaman layar 23 detik. Tanpa suara.",
+  "videoNote": "",
+  "demoTitle": "Coba langsung di sini",
+  "demoSubtitle": "Ini adalah layar \"Pratinjau keyboard\" milik aplikasi. Pada pemakaian sebenarnya, keyboard ini muncul di Pesan, Mail, Safari: di mana pun Anda mengetik.",
+  "demoBrief": "Keyboard di bawah adalah <strong>layar yang sama persis dengan yang ada di aplikasi</strong>. Ketuk sebuah frasa dan teksnya langsung masuk ke kolom, lanjutkan mengetuk setelah mengirim juga boleh.",
+  "demoCta": "Mulai dengan frasa Anda sendiri",
+  "demoReset": "Mulai ulang",
+  "demoNote": "* Semua data rekening dan paspor dalam demo ini palsu. Frasa asli Anda tidak pernah meninggalkan perangkat Anda.",
+  "demoStageTitle": "Pratinjau keyboard",
+  "demoComposerPh": "Teks Anda muncul di sini",
+  "demoCueTap": "Ketuk tombol \"%@\"",
+  "demoCueSend": "Nah, sudah masuk: sekarang ketuk kirim (↑)",
+  "demoCueDone": "Begitu saja caranya: coba tombol lainnya",
+  "demoTplInsert": "Sisipkan",
+  "demoTplPick": "Pilih nilai",
+  "demoFaceScanning": "Membuka kunci dengan Face ID…",
+  "demoFaceDone": "Terbuka",
+  "demoToastCombo": "Beralih ke nilai berikutnya",
+  "demoTabBasic": "Dasar",
+  "demoTabFav": "Favorit",
+  "demoTabTemplate": "Templat",
+  "demoTabCombo": "Kombo",
+  "demoFeatures": [
+   {
+    "k": "snippet",
+    "t": "Frasa: satu ketukan langsung terketik",
+    "d": "Data rekening, alamat, atau tanda tangan yang tersimpan akan masuk persis seperti aslinya."
+   },
+   {
+    "k": "template",
+    "t": "Templat: isi kolom yang kosong saja",
+    "d": "Variabel seperti {tanggal} {waktu} terisi hanya dengan mengetuk nilai yang pernah Anda simpan."
+   },
+   {
+    "k": "combo",
+    "t": "Kombo: ganti nilai dengan →",
+    "d": "Tiga rekening bank atau metode pembayaran cukup di satu tombol; pilih sesuai kebutuhan."
+   },
+   {
+    "k": "secure",
+    "t": "Frasa aman: dikunci dengan Face ID",
+    "d": "Nomor paspor dan kartu tetap terkunci sampai saat Anda benar-benar memerlukannya."
+   }
+  ],
+  "howTitle": "Apa itu frasa?",
+  "howSubtitle": "Kalimat yang sering Anda pakai, disimpan dengan sebuah nama. Hanya itu.",
+  "how1Title": "Simpan sebagai frasa",
+  "how1Desc": "Beri nama (kuncinya) seperti \"Info bank\" lalu lampirkan teks aslinya (nilainya). Simpan sekali saja.",
+  "how2Title": "Ketuk dari keyboard",
+  "how2Desc": "Beralih ke ClipKeyboard di Pesan, Mail, Safari: di mana saja. Frasa Anda tersedia langsung di keyboard. Satu ketukan, langsung terketik.",
+  "how3Title": "Berkembang ke templat & kombo",
+  "how3Desc": "Tambahkan variabel seperti <span class=\"chip\">nama</span> <span class=\"chip\">tanggal</span> untuk membuat templat; rangkai frasa menjadi kombo. Rutinitas panjang pun beres.",
+  "libTitle": "Orang seperti Anda, hemat waktu setiap hari",
+  "libSubtitle": "Pilih hari yang mirip dengan keseharian Anda. Salin templat apa pun sekarang, simpan di aplikasi, dan templat itu siap di keyboard Anda.",
+  "libNote": "💡 Chip biru adalah variabel templat. Di aplikasi, Anda mengisinya dengan satu ketukan.",
+  "copy": "Salin",
+  "copied": "Tersalin ✓",
+  "impactPrefix": "✨ ",
+  "privacyTitle": "🔒 Data Anda, Hanya di Perangkat Anda",
+  "privacyDesc": "Isi frasa Anda hanya tersimpan di perangkat Anda (dan di iCloud milik Anda sendiri jika Anda mengaktifkannya), kami tidak pernah mengumpulkannya. Yang dikumpulkan hanyalah statistik penggunaan anonim untuk meningkatkan aplikasi.",
+  "privacyBadge": "✓ Sesuai Kebijakan Privasi Apple",
+  "pricingTitle": "Mulai Gratis",
+  "pricingSubtitle": "Unduh gratis · Pro adalah pembelian sekali bayar, tanpa langganan",
+  "price": "Gratis",
+  "priceDesc": "Upgrade Pro $9.99 · sekali bayar · uji coba gratis 7 hari",
+  "priceFeature1": "Gratis: 10 frasa · 3 templat · 3 kombo",
+  "priceFeature2": "Pro: penyimpanan tanpa batas · cadangan iCloud · frasa aman",
+  "priceFeature3": "iPhone, iPad, Mac, Vision Pro",
+  "priceFeature4": "Tanpa langganan · Tanpa iklan",
+  "priceFeature5": "Pembaruan gratis seumur hidup",
+  "pricingCta": "Unduh Gratis",
+  "footerContact": "Hubungi Kami",
+  "footerTutorial": "Tutorial",
+  "footerPrivacy": "Kebijakan Privasi",
+  "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+ },
+ "PERSONA_DATA": [
+  {
+   "persona": "nomad",
+   "intro": "Anda berpindah dari kafe ke kafe dan ruang kerja bersama, bekerja dengan klien dari seluruh dunia. Zona waktu, transfer internasional, visa, email bahasa Inggris yang nyaris sama: hari Anda habis untuk mencari detail yang sama di tab lain. Simpan sekali, dan setelah itu cukup satu ketukan.",
+   "scenarios": [
+    {
+     "title": "\"Kirimkan detail rekening bank Anda\"",
+     "pain": "Satu baris pesan dari klien membuat Anda kembali mengobrak-abrik aplikasi bank untuk mencari IBAN dan SWIFT.",
+     "example": "Nama: {nama Anda}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nAlamat bank: {alamat bank}\nWise: {email Wise}",
+     "impact": "Pencarian 30 detik berubah jadi satu ketukan, tanpa angka yang tertukar lagi.",
+     "feature": "combo"
+    },
+    {
+     "title": "Balasan soal zona waktu",
+     "pain": "Pesan pukul 2 pagi, \"Bisa telepon sebentar?\", dan Anda menjelaskan zona waktu Anda lagi dari awal.",
+     "example": "Halo {klien}, saat ini saya berada di GMT+{selisih} ({kota}). Saya bisa di {rentang waktu}. Calendly: {tautan}",
+     "impact": "Tiga kali berbalas pesan menjadi satu jawaban yang jelas.",
+     "feature": "template"
+    },
+    {
+     "title": "Mengirim faktur",
+     "pain": "Anda mengetik ulang nomor faktur, jumlah, mata uang, dan tanggal jatuh tempo setiap kali.",
+     "example": "Faktur #{nomor} · {mata uang} {jumlah}\nJatuh tempo: {tanggal jatuh tempo}\nPembayaran: Wise ({email})\nTerima kasih! 🙏",
+     "impact": "Templat menangkap kolom yang biasa terlewat: lebih sedikit penagihan ulang dan koreksi.",
+     "feature": "template"
+    },
+    {
+     "title": "Menindaklanjuti proposal",
+     "pain": "Tiga hari tanpa kabar, dan menulis pengingat yang tidak terkesan mendesak selalu sulit.",
+     "example": "Halo {klien}, saya ingin menindaklanjuti proposal yang saya kirim pada {hari}. Saya siap berdiskusi singkat lewat telepon jika ada hal yang perlu diperjelas.\n\nSalam, {nama}",
+     "impact": "Tindak lanjut yang sopan dan bisa langsung dikirim, menyelamatkan kesepakatan yang dulu terlewat begitu saja.",
+     "feature": "template"
+    },
+    {
+     "title": "Info paspor & visa",
+     "pain": "Setiap penerbangan, penginapan, atau formulir visa membuat Anda mencari nomor paspor dan tanggal kedaluwarsanya.",
+     "example": "No. paspor: {paspor}\nNama lengkap: {nama}\nDiterbitkan / Berlaku hingga: {tanggal terbit} / {tanggal kedaluwarsa}\nKewarganegaraan: {kewarganegaraan}",
+     "impact": "Kunci dengan Face ID sebagai frasa aman, dibuka hanya saat dibutuhkan.",
+     "feature": "snippet"
+    },
+    {
+     "title": "\"Anda tinggal di mana?\"",
+     "pain": "Klien baru bertanya santai, dan Anda menjelaskan panjang lebar soal gaya hidup nomaden setiap kali.",
+     "example": "Tidak menetap di satu tempat: saat ini di {kota}. Saya bekerja dengan sistem asinkron, jadi zona waktu jarang jadi kendala, tetapi saya selalu memberi tahu jam yang jelas kapan saya bisa dihubungi.",
+     "impact": "Satu jawaban yang yakin dan profesional, bukan kesan tidak menentu.",
+     "feature": "template"
+    },
+    {
+     "title": "WiFi terputus",
+     "pain": "WiFi di ruang kerja bersama mati tepat sebelum rapat dan Anda buru-buru mencari kata maaf.",
+     "example": "Halo tim, WiFi di tempat kerja saya baru saja terputus. Saya pindah ke lokasi cadangan: kembali online dalam {menit} menit. Siap lanjut setelahnya. 🙏",
+     "impact": "Bahkan saat panik, Anda bisa mengirim kalimat yang tenang dan menenangkan dalam sedetik.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Catatan mata uang & penawaran",
+     "pain": "Memberi penawaran dalam mata uang lain berarti menulis ulang catatan kurs setiap kali.",
+     "example": "Penawaran: {mata uang} {jumlah} (≈ {hasil konversi} dengan kurs hari ini).\nDitagihkan dalam {mata uang} lewat Wise agar biaya bagi Anda tetap rendah.",
+     "impact": "Cegah kebingungan harga sejak awal, tanpa tawar-menawar saat pembayaran.",
+     "feature": "template"
+    },
+    {
+     "title": "Orientasi klien baru",
+     "pain": "Begitu kontrak ditandatangani, Anda memandu setiap klien soal Calendly, Slack, pembayaran, dan ritme kerja.",
+     "example": "Selamat bergabung, {klien}! Beginilah cara kita bekerja:\n1. Sinkronisasi pertama: Calendly: {tautan}\n2. Pembayaran (info rekening dilampirkan jika perlu)\n3. Undangan Slack dalam 24 jam\n4. Demo perkembangan setiap hari Kamis\n\nSenang sekali bisa memulai!",
+     "impact": "Satu Kombo menempelkan beberapa frasa berurutan, orientasi dari 5 menit menjadi 5 detik.",
+     "feature": "combo"
+    },
+    {
+     "title": "Pamit istirahat malam",
+     "pain": "DM mendesak pukul 10 malam, dan mengatakan \"nanti dulu\" dengan sopan selalu canggung.",
+     "example": "Halo! Saya pamit istirahat dulu ({waktu} di {kota}). Saya akan membalas di pagi hari, terima kasih atas kesabaran Anda 🙏",
+     "impact": "Jaga batasan tanpa terkesan kasar: kepercayaan tetap terjaga, kelelahan pun terhindar.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "business",
+   "intro": "Rapat, laporan, balasan: Anda menulis ulang frasa yang sama berpuluh kali sehari. \"Mohon konfirmasi,\" undangan rapat, pesan keluar kantor. Simpan kalimat sopan yang berulang itu sekali saja, dan fokuskan tenaga Anda pada pekerjaan, bukan pada susunan kata.",
+   "scenarios": [
+    {
+     "title": "Balasan otomatis keluar kantor",
+     "pain": "Setiap bepergian, Anda menulis ulang pesan keluar kantor, dan lupa mencantumkan kontak pengganti.",
+     "example": "Halo, saya sedang tidak di kantor dari {mulai} hingga {selesai}.\nUntuk urusan mendesak, silakan hubungi {kontak} ({telepon}).\nSaya akan membalas sesuai urutan setelah kembali. Terima kasih.",
+     "impact": "Tidak ada celah layanan, dan tidak ada longsoran email menanti saat Anda kembali.",
+     "feature": "template"
+    },
+    {
+     "title": "Undangan rapat",
+     "pain": "Anda mengetik ulang format tanggal / tempat / agenda untuk setiap rapat.",
+     "example": "Halo {nama},\nMohon waktunya untuk rapat sebagai berikut:\n📅 {tanggal} {waktu}\n📍 {tempat}\n📌 Agenda: {agenda}\nMohon konfirmasi kehadiran Anda 😊",
+     "impact": "Undangan yang rapi mengurangi konfirmasi ulang dan jauh mengurangi peserta yang tidak hadir.",
+     "feature": "template"
+    },
+    {
+     "title": "Laporan status mingguan",
+     "pain": "Setiap minggu Anda memulai format laporan yang sama dari layar kosong.",
+     "example": "Halo tim, ini pembaruan minggu ini:\n✅ Selesai: {selesai}\n🔄 Sedang dikerjakan: {sedang dikerjakan}\n📋 Minggu depan: {rencana}\nSiap berdiskusi jika ada yang ingin dibahas.",
+     "impact": "Format sudah tetap, tinggal isi konten. Jumat sore jadi lebih ringan.",
+     "feature": "template"
+    },
+    {
+     "title": "Perkenalan & kartu nama",
+     "pain": "Setiap perkenalan pertama membuat Anda mengetik ulang jabatan, tim, dan kontak.",
+     "example": "Halo, saya {nama}.\nSaya menangani {jabatan} di {perusahaan}.\n📧 {email} / 📞 {telepon}\nSenang bisa bekerja sama 🙏",
+     "impact": "Perkenalan yang konsisten membangun kepercayaan, dan kontak tidak salah karena typo.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Tanda tangan email",
+     "pain": "Tanda tangan tidak terbawa antaraplikasi email, jadi Anda menempelkannya secara manual.",
+     "example": "{nama}\n{jabatan} | {perusahaan}\n📧 {email}\n📞 {telepon}\n🌐 {situs web}",
+     "impact": "Satu tanda tangan untuk aplikasi atau perangkat apa pun: kesan merek Anda tetap tajam.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Detail pembayaran & pajak",
+     "pain": "Setiap kali vendor meminta info rekening atau pajak, Anda mencarinya di berkas keuangan.",
+     "example": "Rekening: {bank} {nomor} (a.n. {pemilik})\nNPWP: {NPWP}\nPerusahaan: {perusahaan}\nEmail faktur: {email}",
+     "impact": "Kirim dengan tepat dan instan: tidak ada pembayaran yang tertunda atau salah tujuan.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Ajakan kemitraan",
+     "pain": "Saat mengusulkan kolaborasi, kalimat pembuka yang sopan selalu jadi bagian tersulit.",
+     "example": "Halo {nama},\nSaya menghubungi Anda terkait kemungkinan kolaborasi pada {proyek}.\nSaya menangani {jabatan} di {perusahaan/nama}.\nApakah bisa berdiskusi singkat lewat telepon? Kabari saya waktu yang sesuai. Terima kasih!",
+     "impact": "Kalimat pertama yang dulu membuat Anda ragu kini sudah siap, sehingga Anda lebih sering menghubungi.",
+     "feature": "template"
+    },
+    {
+     "title": "Meminta maaf atas balasan terlambat",
+     "pain": "Saat lambat merespons, meminta maaf tanpa terkesan lalai itu cukup rumit.",
+     "example": "Halo {nama}, mohon maaf atas keterlambatan balasan saya. {alasan} menghambat pekerjaan. Saya akan menghubungi Anda dengan rincian paling lambat {tanggal}. Terima kasih atas kesabaran Anda.",
+     "impact": "Kalimat yang menumbuhkan kepercayaan, bukan membiarkan sunyi, hubungan tetap terjaga.",
+     "feature": "template"
+    },
+    {
+     "title": "Ucapan terima kasih penutup proyek",
+     "pain": "Semakin lancar proyeknya, semakin Anda menunda ucapan terima kasih dan kehilangan momennya.",
+     "example": "Halo {nama},\nTerima kasih banyak atas kerja sama pada {proyek}.\nKita mencapai hasil yang sangat baik berkat Anda.\nSaya berharap pintu kerja sama berikutnya tetap terbuka 😊",
+     "impact": "Tak ada lagi ucapan yang terlewat, padahal bisa mengubah satu proyek menjadi proyek berikutnya.",
+     "feature": "template"
+    },
+    {
+     "title": "Penagihan & pelunasan",
+     "pain": "Setiap akhir bulan, Anda menyusun rincian tagihan dan detail rekening secara manual lagi.",
+     "example": "Halo! Berikut rincian tagihan bulan {bulan}.\nJumlah: {jumlah} (termasuk pajak)\nRekening: {bank} {nomor} (a.n. {pemilik})\nMohon konfirmasi 😊",
+     "impact": "Tagihan dengan format sempurna tanpa tulis ulang, dan Anda dibayar lebih cepat.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "student",
+   "intro": "NIM, email kampus, sampul tugas, pengumuman kerja kelompok: kehidupan kampus adalah formulir yang berulang tanpa henti. Simpan email dosen, patungan kelompok, dan alamat kos Anda, lalu dapatkan kembali waktu untuk belajar dan untuk diri sendiri.",
+   "scenarios": [
+    {
+     "title": "NIM + nama",
+     "pain": "Pengisian KRS, pengumpulan tugas, sertifikat: Anda mengetik ulang NIM dan nama setiap kali.",
+     "example": "{jurusan} {NIM} {nama}",
+     "impact": "Satu ketukan ke kolom mana pun, tanpa typo menit terakhir yang mengurangi nilai.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Email ke dosen",
+     "pain": "Email ke dosen menuntut nada sopan, jadi kalimat pembukanya selalu membuat Anda tegang.",
+     "example": "Yth. Bapak/Ibu Dosen, saya {nama} ({NIM}) dari {jurusan}.\nSaya mengambil mata kuliah {mata kuliah} (kelas {nomor}).\nSaya menulis terkait {topik}.\nMohon maaf mengganggu, dan terima kasih.",
+     "impact": "Isi inti pesannya saja, formatnya sudah diurus: Anda tak lagi menunda-nunda email.",
+     "feature": "template"
+    },
+    {
+     "title": "Sampul tugas",
+     "pain": "Setiap mata kuliah meminta format sampul berbeda, jadi Anda sibuk mengurusnya menjelang tenggat.",
+     "example": "Mata kuliah: {mata kuliah}\nDosen: {dosen}\nDisusun oleh: {jurusan} {NIM} {nama}\nTanggal: {tanggal}\nTopik: {topik}",
+     "impact": "Format tersimpan, isi tinggal diperbarui: satu lapis stres tenggat hilang.",
+     "feature": "template"
+    },
+    {
+     "title": "Pengumuman kerja kelompok",
+     "pain": "Mengumumkan jadwal rapat dan pembagian tugas ke grup kelompok jadi pekerjaan rutin tiap kali.",
+     "example": "[{tugas}] Pengumuman kelompok 📢\nRapat berikutnya: {tanggal} {waktu} @ {tempat/tautan}\nYang dibawa: {barang}\nTenggat: {tenggat}\nBeri reaksi 👍 kalau sudah baca ya!",
+     "impact": "Pengumuman yang rapi mengakhiri pertanyaan \"eh, kapan sih?\" dan membuat tim terus bergerak.",
+     "feature": "template"
+    },
+    {
+     "title": "Alamat kos / asrama",
+     "pain": "Setiap pengiriman paket membuat Anda mengisi ulang alamat lengkap dan kode akses.",
+     "example": "{kode pos}\n{alamat}\n{detail unit}\nKode akses: {kode}\nPenerima: {nama} / {telepon}",
+     "impact": "Satu ketukan ke aplikasi pengiriman, tak ada paket nyasar karena alamat salah.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Patungan tagihan",
+     "pain": "Menagih uang untuk perlengkapan atau makan malam kelompok berarti menghitung ulang dan mengirimnya tiap kali.",
+     "example": "Totalnya {total} untuk {jumlah orang} orang, jadi masing-masing {per orang} 🙏\nTransfer ke {bank} {nomor} (a.n. {nama}) ya~",
+     "impact": "Kirim pembagiannya seketika: dan urusan uang jadi jauh tidak canggung.",
+     "feature": "template"
+    },
+    {
+     "title": "Surat izin tidak hadir",
+     "pain": "Saat sakit, pesan ke dosen atau asisten dosen tak terpikir tepat ketika paling dibutuhkan.",
+     "example": "Yth. Bapak/Ibu Dosen, saya {nama} ({NIM}).\nSaya tidak dapat mengikuti kuliah {mata kuliah} pada {tanggal} karena {alasan}.\nBukti pendukung akan saya kirim melalui {cara}. Mohon maaf.",
+     "impact": "Walau sedang panik, Anda tetap bisa langsung mengirim pemberitahuan yang santun: sanksi lebih ringan.",
+     "feature": "template"
+    },
+    {
+     "title": "Rekrutmen UKM / kelompok belajar",
+     "pain": "Menyebar ajakan bergabung ke berbagai komunitas berarti menulis ulang perkenalan dengan sedikit perubahan.",
+     "example": "[{kelompok}] Open recruitment! 🙌\nKegiatan: {kegiatan}\nWaktu: {hari/jam}\nTempat: {tempat}\nDaftar: {tautan/kontak}\nHubungi kami kapan saja 😊",
+     "impact": "Tempel unggahan yang sama di mana saja dengan satu ketukan, rekrutmen jadi jauh lebih cepat.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Data dasar lamaran magang",
+     "pain": "Setiap lamaran mengulang nama, kontak, pendidikan, dan tautan sampai Anda lelah.",
+     "example": "{nama} · {telepon} · {email}\n{kampus} {jurusan} (angkatan {angkatan})\nPortofolio: {tautan}\nGitHub/blog: {tautan}",
+     "impact": "Mengisi formulir jadi cepat, sehingga Anda bisa melamar ke lebih banyak peluang.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Terlambat",
+     "pain": "Saat terlambat ke kelas atau janji dengan teman, rasa bersalah membuat pesan Anda makin panjang.",
+     "example": "Maaf banget! Aku telat sekitar {menit} menit. Sebentar lagi sampai 🙏",
+     "impact": "Pesan singkat dan pasti langsung menenangkan orang yang menunggu.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "general",
+   "intro": "Hal-hal dasar yang Anda pakai setiap hari: nomor rekening, alamat rumah, nomor telepon, ucapan yang sering dikirim. Tak perlu lagi mengorek ingatan atau obrolan lama; saat dibutuhkan, cukup satu ketukan. Kecil jika sendiri-sendiri, tetapi bila dikumpulkan menghemat banyak waktu dalam sehari.",
+   "scenarios": [
+    {
+     "title": "Membagikan nomor rekening",
+     "pain": "\"Nomor rekeningnya berapa?\" lalu Anda membuka aplikasi bank untuk memeriksa dan menyalin nomornya.",
+     "example": "{bank} {nomor rekening}\na.n. {nama}\n(Bisa juga lewat QRIS / transfer 🙏)",
+     "impact": "Satu ketukan, tepat sasaran: tidak ada angka salah yang membuat uang nyasar.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Alamat rumah (pengiriman)",
+     "pain": "Belanja online dan jual beli sama-sama membuat Anda mengetik ulang alamat lengkap dan kontak.",
+     "example": "{kode pos}\n{alamat}\n{detail unit}\nPenerima: {nama} / {telepon}",
+     "impact": "Alamat terisi sekali jalan, paket salah kirim yang menyita waktu pun berkurang.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Membuat janji",
+     "pain": "Setiap janji bertemu membuat Anda menulis pesan baru untuk menentukan waktu dan tempat.",
+     "example": "Gimana kalau di {tempat} jam {waktu} tanggal {tanggal}? Kalau tidak bisa, kabari aku waktu yang cocok ya 😊",
+     "impact": "Membuka dengan tawaran konkret membuat janji terkunci jauh lebih cepat.",
+     "feature": "template"
+    },
+    {
+     "title": "Terlambat",
+     "pain": "Setiap kali terlambat, rasa bersalah membuat Anda menulis ulang permintaan maaf yang panjang.",
+     "example": "Maaf banget! Aku telat sekitar {menit} menit. Duluan aja ya 🙏",
+     "impact": "Pesan singkat yang langsung terkirim membuat orang yang menunggu tenang.",
+     "feature": "template"
+    },
+    {
+     "title": "Rekening acara (hadiah/duka cita)",
+     "pain": "Saat seseorang menanyakan rekening untuk hadiah atau ucapan duka, Anda kelabakan mencari nomornya.",
+     "example": "Terima kasih atas perhatiannya.\n{bank} {nomor rekening} (a.n. {pemilik})\nKehadiran Anda saja sudah sangat berarti 🙏",
+     "impact": "Bahkan di saat sibuk, Anda membagikannya dengan benar dan santun.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Iklan jual beli barang bekas",
+     "pain": "Setiap penjualan membuat Anda menulis ulang harga, kondisi, dan lokasi COD dengan cara yang sama.",
+     "example": "Dijual: {barang}\nHarga: {harga} (nego: {ya/tidak})\nKondisi: {kondisi}\nCOD: {lokasi} atau kirim\nKontak: {kontak}",
+     "impact": "Tempel ke platform mana pun dengan satu ketukan, Anda membalas pembeli lebih cepat.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Info darurat & keluarga",
+     "pain": "Pendaftaran rumah sakit dan formulir membuat Anda mengingat kontak wali dan detailnya setiap kali.",
+     "example": "Wali: {nama} ({hubungan})\nTelepon: {telepon}\nGolongan darah: {golongan darah}\nCatatan/alergi: {detail}",
+     "impact": "Info akurat di saat genting, respons tenang alih-alih panik.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Info janji temu / reservasi",
+     "pain": "Menelepon untuk reservasi membuat Anda menyusun nama, tanggal lahir, dan keluhan setiap kali.",
+     "example": "Saya ingin membuat janji temu.\nNama: {nama} / Tgl. lahir: {tanggal lahir}\nKeperluan: {keperluan}\nWaktu yang diinginkan: {tanggal} {waktu}",
+     "impact": "Permintaan yang rapi mempersingkat telepon dan mendapatkan waktu yang Anda inginkan.",
+     "feature": "template"
+    },
+    {
+     "title": "Membagikan kata sandi WiFi",
+     "pain": "Setiap ada tamu, Anda harus membacakan kata sandi router atau mencari fotonya.",
+     "example": "WiFi: {nama jaringan}\nKata sandi: {kata sandi}\nSelamat menikmati 😊",
+     "impact": "Bagikan sekali: tak perlu mengulang \"kata sandinya apa?\" tiga kali.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Ucapan andalan",
+     "pain": "Hari raya dan ulang tahun membuat Anda menyusun pesan serupa dari nol setiap kali.",
+     "example": "Halo {nama}, semoga {momen} Anda menyenangkan! Semoga selalu sehat dan hal-hal baik menyertai ke depannya 😊",
+     "impact": "Tulus tapi cepat: sehingga Anda benar-benar menjangkau semua orang yang ingin Anda sapa.",
+     "feature": "template"
+    }
+   ]
+  }
+ ],
+ "DEMO_SCENARIOS": [
+  {
+   "id": "daily",
+   "tab": "👤 Sehari-hari",
+   "incoming": "Malam ini aku transfer bagianku: berapa totalnya, dan kirim ke mana? 🙏",
+   "target": "settle",
+   "keys": [
+    {
+     "id": "settle",
+     "title": "Patungan",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Malam ini masing-masing {jumlah} 🙏\nTransfer ke {rekening} (a.n. Hyunho Lee)~",
+     "ph": [
+      {
+       "name": "jumlah",
+       "values": [
+        "Rp50.000",
+        "Rp125.000",
+        "Rp200.000"
+       ]
+      },
+      {
+       "name": "rekening",
+       "values": [
+        "BCA 1234567890",
+        "GoPay 0812 5550 134",
+        "OVO 0812 5550 134"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "addr",
+     "title": "Alamat rumah",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Jl. Sudirman No. 350, Apartemen Lt. 12 No. 1203\nJakarta Pusat 10220\nPenerima: Hyunho Lee / +62 812 5550 134"
+    },
+    {
+     "id": "late",
+     "title": "Terlambat",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Maaf banget ya! Saya terlambat sekitar {menit} menit. Silakan mulai duluan 🙏",
+     "ph": [
+      {
+       "name": "menit",
+       "values": [
+        "5",
+        "10",
+        "20"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pay",
+     "title": "Kirim uang",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "GoPay: 0812 5550 134",
+      "PayPal: leeo@example.com",
+      "OVO: 0812 5550 134"
+     ]
+    },
+    {
+     "id": "wifi",
+     "title": "Wifi rumah",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "WiFi: Home_5G\nKata sandi: welcome2026!"
+    },
+    {
+     "id": "card",
+     "title": "Nomor kartu",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "4212 3456 7890 7788 (12/29)"
+    },
+    {
+     "id": "delivery",
+     "title": "Catatan pengiriman",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Mohon taruh di depan pintu 🙏\nKode gerbang: #1234\nMohon jangan tekan bel, bayi sedang tidur."
+    },
+    {
+     "id": "sale",
+     "title": "Iklan jual barang",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Dijual: iPad Air (generasi ke-5)\nHarga: Rp5.500.000 (bisa nego)\nKondisi: lecet halus, dus lengkap\nCOD: area Jakarta Pusat atau kirim via ekspedisi"
+    }
+   ]
+  },
+  {
+   "id": "work",
+   "tab": "💼 Bisnis",
+   "incoming": "Bisa tolong atur rapat minggu depan dan kirimkan detailnya?",
+   "target": "meet",
+   "keys": [
+    {
+     "id": "meet",
+     "title": "Undangan rapat",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Halo, saya ingin mengajukan rapat dengan rincian berikut:\n📅 {tanggal} {waktu}\n📍 {tempat}\nMohon konfirmasi jika Anda dapat hadir 😊",
+     "ph": [
+      {
+       "name": "tanggal",
+       "values": [
+        "Selasa, 12 Maret",
+        "Kamis, 14 Maret"
+       ]
+      },
+      {
+       "name": "waktu",
+       "values": [
+        "10.00",
+        "14.00"
+       ]
+      },
+      {
+       "name": "tempat",
+       "values": [
+        "Ruang rapat lantai 3",
+        "Google Meet"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "sign",
+     "title": "Tanda tangan email",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Hyunho Lee\nProduct Manager | Ysoup\n📧 leeo@example.com / 📞 +62 812 5550 134"
+    },
+    {
+     "id": "ok",
+     "title": "Baik, terima kasih",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Baik, terima kasih sudah mengurusnya 🙏"
+    },
+    {
+     "id": "ooo",
+     "title": "Sedang cuti",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Saya sedang tidak di kantor dari {mulai} sampai {selesai}.\nUntuk hal mendesak, silakan hubungi Hana Kim (+62 812 5550 199).",
+     "ph": [
+      {
+       "name": "mulai",
+       "values": [
+        "18 Mar",
+        "1 Apr"
+       ]
+      },
+      {
+       "name": "selesai",
+       "values": [
+        "22 Mar",
+        "5 Apr"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "biz",
+     "title": "Info penagihan",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Rekening: BCA 010-123456-01 (PT Ysoup)",
+      "NPWP: 12.345.678.9-012.345",
+      "Email faktur: billing@example.com"
+     ]
+    },
+    {
+     "id": "rrn",
+     "title": "NIK",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "••••••••••••6789"
+    },
+    {
+     "id": "report",
+     "title": "Laporan mingguan",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Pembaruan minggu ini:\n✅ Selesai: {selesai}\n🔄 Sedang berjalan: {berjalan}\n📋 Minggu depan: {berikutnya}",
+     "ph": [
+      {
+       "name": "selesai",
+       "values": [
+        "Rilis 4.5",
+        "QA checkout"
+       ]
+      },
+      {
+       "name": "berjalan",
+       "values": [
+        "Perombakan widget",
+        "Analisis retensi"
+       ]
+      },
+      {
+       "name": "berikutnya",
+       "values": [
+        "Peninjauan App Store",
+        "Retrospektif sprint"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "delay",
+     "title": "Balasan terlambat",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Mohon maaf atas keterlambatan balasan kami, tinjauan internal memakan waktu lebih lama dari perkiraan.\nHari ini saya akan kembali dengan rincian lengkap 🙏"
+    }
+   ]
+  },
+  {
+   "id": "nomad",
+   "tab": "🌏 Nomaden",
+   "incoming": "Bagus, kita mulai hari Senin ya! Bisa kirim data rekening bank Anda?",
+   "target": "iban",
+   "keys": [
+    {
+     "id": "iban",
+     "title": "IBAN · SWIFT",
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Nama: Hyunho Lee\nIBAN: DE89 3704 0044 0532 0130 00\nSWIFT/BIC: COBADEFFXXX"
+    },
+    {
+     "id": "tz",
+     "title": "Balasan zona waktu",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Halo, saat ini saya berada di GMT+{selisih}. Saya bisa {jam}. Calendly: cal.com/leeo",
+     "ph": [
+      {
+       "name": "selisih",
+       "values": [
+        "9",
+        "2"
+       ]
+      },
+      {
+       "name": "jam",
+       "values": [
+        "pukul 9 sampai 11 waktu Anda",
+        "kapan saja setelah pukul 15.00"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "inv",
+     "title": "Faktur",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Faktur #{nomor} · USD {jumlah}\nJatuh tempo: {tempo}\nPembayaran: Wise (leeo@example.com)\nTerima kasih! 🙏",
+     "ph": [
+      {
+       "name": "nomor",
+       "values": [
+        "2026-014",
+        "2026-015"
+       ]
+      },
+      {
+       "name": "jumlah",
+       "values": [
+        "2.400",
+        "3.800"
+       ]
+      },
+      {
+       "name": "tempo",
+       "values": [
+        "31 Mar",
+        "15 Apr"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pm",
+     "title": "Metode pembayaran",
+     "fav": true,
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Wise: leeo@example.com",
+      "PayPal: leeo@example.com",
+      "Stripe: stripe.me/leeo"
+     ]
+    },
+    {
+     "id": "wifi2",
+     "title": "Wifi terputus",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Halo tim, wifi di tempat co-working saya baru saja putus. Saya online lagi dalam 10 menit 🙏"
+    },
+    {
+     "id": "pass",
+     "title": "Data paspor",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "Paspor: M12345678 · Berlaku hingga 2031-04-18"
+    },
+    {
+     "id": "quote",
+     "title": "Penawaran & catatan kurs",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Penawaran: USD 2.400 (≈ EUR 2.210 dengan kurs hari ini).\nDitagihkan dalam USD melalui Wise agar biaya untuk Anda tetap rendah."
+    },
+    {
+     "id": "signoff",
+     "title": "Pamit istirahat",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Saya pamit istirahat dulu (pukul 23.00 di sini). Saya akan membalas pagi-pagi sekali, terima kasih atas kesabaran Anda 🙏"
+    }
+   ]
+  }
+ ],
+ "PERSONA_META": {
+  "nomad": {
+   "icon": "🌏",
+   "name": "Nomad · Freelancer"
+  },
+  "business": {
+   "icon": "💼",
+   "name": "Bisnis"
+  },
+  "student": {
+   "icon": "🎓",
+   "name": "Pelajar"
+  },
+  "general": {
+   "icon": "👤",
+   "name": "Sehari-hari"
+  }
+ },
+ "BADGE_LABEL": {
+  "snippet": "Frasa",
+  "template": "Templat",
+  "combo": "Kombo",
+  "smartClipboard": "Papan Klip"
+ }
+}

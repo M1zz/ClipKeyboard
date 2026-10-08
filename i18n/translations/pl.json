@@ -1,0 +1,3482 @@
+{
+  "\"Where are you based?\" answer": {
+    "v": "Odpowiedź na „Gdzie mieszkasz?”",
+    "src": "78e9bf2648"
+  },
+  "%1$@ · %2$d번": {
+    "v": "%1$@ · razy: %2$d",
+    "src": "2e74b6dcc1"
+  },
+  "%1$@ 값이 든 단축어 %2$d개": {
+    "v": "Frazy z wartością %1$@: %2$d",
+    "src": "217119b545"
+  },
+  "%1$@ 같은 갈래로 나눠 두었고, %2$@ 처럼 바로 쓸 수 있는 문구가 들어 있어요. 마음에 드는 것만 골라 담으면 됩니다.": {
+    "v": "Podzielono je na grupy, np. %1$@, z gotowymi frazami, np. %2$@. Wybierz tylko te, które chcesz.",
+    "src": "b18267b195"
+  },
+  "%1$@ 로 %2$d칸만 더 늘리기": {
+    "v": "Dodaj jeszcze tylko %2$d miejsc za %1$@",
+    "src": "ec5ccf1a49"
+  },
+  "%1$@, %2$d회 사용": {
+    "v": "%1$@, użyto %2$d razy",
+    "src": "a6d8daeeb4"
+  },
+  "%1$@, 저장된 값 %2$d개": {
+    "v": "%1$@, zapisane wartości: %2$d",
+    "src": "fc17e4b27a"
+  },
+  "%1$@에 단축어 %2$d개가 있어요": {
+    "v": "%1$@ zawiera fraz: %2$d",
+    "src": "bd3bf319f3"
+  },
+  "%1$@에 있는 단축어 %2$d개를 옮길 곳을 고르세요": {
+    "v": "Wybierz, dokąd przenieść frazy (%2$d) z: %1$@",
+    "src": "b5e97e1a89"
+  },
+  "%1$@은(는) 상한인 %2$lld건까지만 받았어요. 더 오래된 기록은 빠져 있어요.": {
+    "v": "%1$@: pobrano tylko do limitu %2$lld. Starsze wpisy pominięto.",
+    "src": "0c9974a087"
+  },
+  "%1$@은(는) 중간에 끊겨 %2$lld건까지만 받았어요: %3$@": {
+    "v": "%1$@ przerwano na %2$lld: %3$@",
+    "src": "3b48a1a145"
+  },
+  "%1$@을(를) 받다가 멈췄어요(%2$lld건). 당겨서 새로고침하면 다시 받아요.": {
+    "v": "Przerwano pobieranie: %1$@ (dotąd %2$lld). Pociągnij, aby odświeżyć i spróbować ponownie.",
+    "src": "6eb0050152"
+  },
+  "%1$d / %2$d 채움": {
+    "v": "Zapisano %1$d z %2$d",
+    "src": "6a9a3de9d3"
+  },
+  "%1$d개 중 %2$d개는 키보드에 안 보여요": {
+    "v": "%2$d z %1$d nie pojawi się na klawiaturze",
+    "src": "ca277d4b0a"
+  },
+  "%1$d개 중 %2$d개를 쓰고 있어요": {
+    "v": "Używasz %2$d z %1$d",
+    "src": "723333f656"
+  },
+  "%1$d개를 %2$@(으)로 옮기고 %3$@ 탭을 숨겼어요": {
+    "v": "Przeniesiono %1$d do %2$@ i ukryto kartę %3$@",
+    "src": "bfed5cd3e1"
+  },
+  "%1$d개를 '%2$@'(으)로 옮겼어요": {
+    "v": "Przeniesiono %1$d do '%2$@'",
+    "src": "c5c55fef28"
+  },
+  "%1$d건 · 설치 %2$d곳": {
+    "v": "Zdarzenia: %1$d · instalacje: %2$d",
+    "src": "096e083e95"
+  },
+  "%1$d단계 중 %2$d단계": {
+    "v": "Krok %2$d z %1$d",
+    "src": "7d11144e95"
+  },
+  "%1$d명 (%2$@)": {
+    "v": "%1$d (%2$@)",
+    "src": "3a43a0155f"
+  },
+  "%1$d번 중 %2$d번 썼어요": {
+    "v": "Użycia: %2$d z %1$d",
+    "src": "caf20dba6a"
+  },
+  "%1$d번째, 전체 %2$d개": {
+    "v": "%1$d z %2$d",
+    "src": "e25d3ecfe6"
+  },
+  "%@ · iOS %@": {
+    "v": "%1$@ · iOS %2$@",
+    "src": "daccb926e9"
+  },
+  "%@ · 단축어 %d개, 현재 데이터는 이 시점으로 교체됩니다.": {
+    "v": "%1$@ · fraz: %2$d. Obecne dane zostaną zastąpione tą wersją.",
+    "src": "9d7956fe5c"
+  },
+  "%@ · 단축어 %d번": {
+    "v": "%1$@ · fraz: %2$d",
+    "src": "c4da6ebd80"
+  },
+  "%@ 값": {
+    "v": "Wartość %@",
+    "src": "dda834446c"
+  },
+  "%@ 같아서 Face ID로 잠가 둘게요": {
+    "v": "Wygląda to na: %@, więc zablokowano Face ID",
+    "src": "02c22fff59"
+  },
+  "%@ 걸을 수 있는 시간이에요": {
+    "v": "tyle czasu wystarczy, by przejść %@",
+    "src": "0c5f110732"
+  },
+  "%@ 다 읽을 수 있는 시간이에요": {
+    "v": "tyle czasu wystarczy, by przeczytać %@ od deski do deski",
+    "src": "db11c98007"
+  },
+  "%@ 단축어로 저장": {
+    "v": "Zapisz jako frazę: %@",
+    "src": "aca7e2241a"
+  },
+  "%@ 달릴 수 있는 시간이에요": {
+    "v": "tyle czasu wystarczy, by przebiec %@",
+    "src": "67d6283fac"
+  },
+  "%@ 로 두 기기에서 같이 쓰기": {
+    "v": "Używaj na dwóch urządzeniach za %@",
+    "src": "a4f4e1fceb"
+  },
+  "%@ 로 평생 사용": {
+    "v": "Kup na stałe za %@",
+    "src": "817c581ffd"
+  },
+  "%@ 복사됨": {
+    "v": "Skopiowano: %@",
+    "src": "6642fa5dea"
+  },
+  "%@ 삭제": {
+    "v": "Usuń: %@",
+    "src": "c229d4f9e5"
+  },
+  "%@ 색상": {
+    "v": "Kolor: %@",
+    "src": "c5c8cd3b14"
+  },
+  "%@ 수정": {
+    "v": "Edytuj: %@",
+    "src": "6f4c3aac9f"
+  },
+  "%@ 시점의 단축어 %d개로 되돌립니다.": {
+    "v": "Przywraca stan z %1$@: fraz %2$d.",
+    "src": "47759c966b"
+  },
+  "%@ 쓰임새로 직접 정해 두셨어요": {
+    "v": "Ustawiono ręcznie: %@",
+    "src": "5de292ff8a"
+  },
+  "%@ 완료": {
+    "v": "Gotowe: %@",
+    "src": "c7c6a6972b"
+  },
+  "%@ 완주할 수 있는 시간이에요": {
+    "v": "Wystarczy czasu na %@",
+    "src": "b299d05eba"
+  },
+  "%@ 을(를) 저장해 두기": {
+    "v": "Zachowaj %@",
+    "src": "dcd8afb60e"
+  },
+  "%@ 입력": {
+    "v": "Wpisz %@",
+    "src": "0a8352d4ae"
+  },
+  "%@ 제목으로 바로 저장": {
+    "v": "Zapisz od razu jako %@",
+    "src": "c1f9d2966c"
+  },
+  "%@ 주 시작": {
+    "v": "Tydzień od %@",
+    "src": "f7b349f7d9"
+  },
+  "%@ 쪽으로 쓰고 계신 것 같아요": {
+    "v": "Wygląda na to, że używasz jako: %@",
+    "src": "9860d34e25"
+  },
+  "%@ 추가": {
+    "v": "Dodaj %@",
+    "src": "51354bac6b"
+  },
+  "%@ 카테고리 이름을 변경합니다": {
+    "v": "Zmień nazwę kategorii %@",
+    "src": "abafb7de4b"
+  },
+  "%@ 카테고리 표시": {
+    "v": "Pokaż kategorię %@",
+    "src": "5614dd08b3"
+  },
+  "%@ 타입 없음": {
+    "v": "Brak typu %@",
+    "src": "33e788414c"
+  },
+  "%@ 탭 표시": {
+    "v": "Pokaż kartę %@",
+    "src": "061a000c01"
+  },
+  "%@, %d개": {
+    "v": "%1$@, liczba: %2$d",
+    "src": "962d287c89"
+  },
+  "%@, 값 %d개": {
+    "v": "%1$@, wartości: %2$d",
+    "src": "2c8602f7f6"
+  },
+  "%@, 무료: %@, Pro: %@": {
+    "v": "%1$@, bezpłatnie: %2$@, Pro: %3$@",
+    "src": "79bd720f23"
+  },
+  "%@, 스택 %d단계": {
+    "v": "%@, Stos, kroki: %d",
+    "src": "70ef11d44b"
+  },
+  "%@, 아이콘 변경": {
+    "v": "%@, zmień ikonę",
+    "src": "07c33628a6"
+  },
+  "%@, 채울 빈칸 %d개": {
+    "v": "%@, pola do wypełnienia: %d",
+    "src": "4c77bc814c"
+  },
+  "%@, 콤보 %d단계": {
+    "v": "%@, Kombo, kroki: %d",
+    "src": "16131516cf"
+  },
+  "%@km": {
+    "v": "%@ km",
+    "src": "17e3d01d7f"
+  },
+  "%@부터 센 값이에요.": {
+    "v": "Liczone od %@.",
+    "src": "66a1726f6f"
+  },
+  "%@부터 센 금액이에요.": {
+    "v": "Liczone od %@.",
+    "src": "a5ce5e546b"
+  },
+  "%@에게 맞는 것들을 골라 뒀어요": {
+    "v": "Wybraliśmy to dla: %@",
+    "src": "9532d51ad4"
+  },
+  "%@에는 아직 쓴 기록이 없어요": {
+    "v": "Brak zapisów dla %@",
+    "src": "ecbe5495ee"
+  },
+  "%@에서 넣음": {
+    "v": "Dodano z: %@",
+    "src": "e276662f09"
+  },
+  "%d categories": {
+    "v": {
+      "one": "%d kategoria",
+      "few": "%d kategorie",
+      "many": "%d kategorii",
+      "other": "%d kategorii"
+    },
+    "src": "8ffbe2368e"
+  },
+  "%d image(s)": {
+    "v": {
+      "one": "%d obraz",
+      "few": "%d obrazy",
+      "many": "%d obrazów",
+      "other": "%d obrazu"
+    },
+    "src": "6c0267de68"
+  },
+  "%d images": {
+    "v": {
+      "one": "%d obraz",
+      "few": "%d obrazy",
+      "many": "%d obrazów",
+      "other": "%d obrazu"
+    },
+    "src": "04e763e427"
+  },
+  "%d items": {
+    "v": {
+      "one": "%d element",
+      "few": "%d elementy",
+      "many": "%d elementów",
+      "other": "%d elementu"
+    },
+    "src": "1a072b9b67"
+  },
+  "%d memos detected": {
+    "v": {
+      "one": "Wykryto %d frazę",
+      "few": "Wykryto %d frazy",
+      "many": "Wykryto %d fraz",
+      "other": "Wykryto %d frazy"
+    },
+    "src": "35b6f04c52"
+  },
+  "%d saved · %d taps today": {
+    "v": "Zapisano: %d · dziś użyć: %d",
+    "src": "074392a7e1"
+  },
+  "%d saved · find what you need": {
+    "v": {
+      "one": "Zapisano: %d · znajdź, czego trzeba",
+      "few": "Zapisano: %d · znajdź, czego trzeba",
+      "many": "Zapisano: %d · znajdź, czego trzeba",
+      "other": "Zapisano: %d · znajdź, czego trzeba"
+    },
+    "src": "c3d7eb173f"
+  },
+  "%d variables": {
+    "v": {
+      "one": "%d zmienna",
+      "few": "%d zmienne",
+      "many": "%d zmiennych",
+      "other": "%d zmiennej"
+    },
+    "src": "67db1d1b8a"
+  },
+  "%d waiting to be sorted": {
+    "v": {
+      "one": "Do uporządkowania: %d",
+      "few": "Do uporządkowania: %d",
+      "many": "Do uporządkowania: %d",
+      "other": "Do uporządkowania: %d"
+    },
+    "src": "65a3d4881f"
+  },
+  "%d%% 확신": {
+    "v": {
+      "one": "Pewność: %d%%",
+      "few": "Pewność: %d%%",
+      "many": "Pewność: %d%%",
+      "other": "Pewność: %d%%"
+    },
+    "src": "8611d4b6be"
+  },
+  "%d가지 활용법": {
+    "v": {
+      "one": "%d sposób użycia",
+      "few": "%d sposoby użycia",
+      "many": "%d sposobów użycia",
+      "other": "%d sposobu użycia"
+    },
+    "src": "f4f914f83d"
+  },
+  "%d개": {
+    "v": {
+      "one": "%d",
+      "few": "%d",
+      "many": "%d",
+      "other": "%d"
+    },
+    "src": "54bd2e5b76"
+  },
+  "%d개 단축어 더 보기 → Pro 업그레이드": {
+    "v": {
+      "one": "Zobacz więcej fraz (%d) → przejdź na Pro",
+      "few": "Zobacz więcej fraz (%d) → przejdź na Pro",
+      "many": "Zobacz więcej fraz (%d) → przejdź na Pro",
+      "other": "Zobacz więcej fraz (%d) → przejdź na Pro"
+    },
+    "src": "373744da41"
+  },
+  "%d개 단축어 잠김, iOS에서 Pro 구매 시 동기화됩니다": {
+    "v": {
+      "one": "Zablokowane frazy: %d. Odblokują się po zakupie Pro w iOS",
+      "few": "Zablokowane frazy: %d. Odblokują się po zakupie Pro w iOS",
+      "many": "Zablokowane frazy: %d. Odblokują się po zakupie Pro w iOS",
+      "other": "Zablokowane frazy: %d. Odblokują się po zakupie Pro w iOS"
+    },
+    "src": "f8c6a3fbf4"
+  },
+  "%d개 선택": {
+    "v": {
+      "one": "Wybrano: %d",
+      "few": "Wybrano: %d",
+      "many": "Wybrano: %d",
+      "other": "Wybrano: %d"
+    },
+    "src": "b3d13f4dd5"
+  },
+  "%d개 선택됨": {
+    "v": {
+      "one": "Wybrano: %d",
+      "few": "Wybrano: %d",
+      "many": "Wybrano: %d",
+      "other": "Wybrano: %d"
+    },
+    "src": "7b47442909"
+  },
+  "%d개 카테고리 더 보기": {
+    "v": {
+      "one": "Pokaż jeszcze %d kategorię",
+      "few": "Pokaż jeszcze %d kategorie",
+      "many": "Pokaż jeszcze %d kategorii",
+      "other": "Pokaż jeszcze %d kategorii"
+    },
+    "src": "336f77788d"
+  },
+  "%d개 항목": {
+    "v": {
+      "one": "%d element",
+      "few": "%d elementy",
+      "many": "%d elementów",
+      "other": "%d elementu"
+    },
+    "src": "073f734307"
+  },
+  "%d개 항목이 순서대로 실행됩니다": {
+    "v": {
+      "one": "%d element zostanie uruchomiony po kolei",
+      "few": "%d elementy zostaną uruchomione po kolei",
+      "many": "%d elementów zostanie uruchomionych po kolei",
+      "other": "%d elementu zostanie uruchomionych po kolei"
+    },
+    "src": "ceaf241997"
+  },
+  "%d개를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.": {
+    "v": {
+      "one": "Usunąć %d element? Tej operacji nie można cofnąć.",
+      "few": "Usunąć %d elementy? Tej operacji nie można cofnąć.",
+      "many": "Usunąć %d elementów? Tej operacji nie można cofnąć.",
+      "other": "Usunąć %d elementu? Tej operacji nie można cofnąć."
+    },
+    "src": "b7b7f19f5b"
+  },
+  "%d개를 삭제했어요": {
+    "v": {
+      "one": "Usunięto %d",
+      "few": "Usunięto %d",
+      "many": "Usunięto %d",
+      "other": "Usunięto %d"
+    },
+    "src": "f209c3686c"
+  },
+  "%d개의 항목": {
+    "v": {
+      "one": "%d element",
+      "few": "%d elementy",
+      "many": "%d elementów",
+      "other": "%d elementu"
+    },
+    "src": "13aac7c134"
+  },
+  "%d건": {
+    "v": {
+      "one": "%d zgłoszenie",
+      "few": "%d zgłoszenia",
+      "many": "%d zgłoszeń",
+      "other": "%d zgłoszenia"
+    },
+    "src": "e655f2564e"
+  },
+  "%d곡": {
+    "v": {
+      "one": "%d utwór",
+      "few": "%d utwory",
+      "many": "%d utworów",
+      "other": "%d utworu"
+    },
+    "src": "0a99f40fba"
+  },
+  "%d단계": {
+    "v": {
+      "one": "Krok %d",
+      "few": "Krok %d",
+      "many": "Krok %d",
+      "other": "Krok %d"
+    },
+    "src": "0b72fb0796"
+  },
+  "%d단계 중 %d단계": {
+    "v": "Krok %2$d z %1$d",
+    "src": "c314b5ab3b"
+  },
+  "%d단계: %@": {
+    "v": "Krok %d: %@",
+    "src": "923a771d25"
+  },
+  "%d번": {
+    "v": {
+      "one": "%d raz",
+      "few": "%d razy",
+      "many": "%d razy",
+      "other": "%d raza"
+    },
+    "src": "a0d2e57d01"
+  },
+  "%d번 남았어요": {
+    "v": {
+      "one": "Zostało %d użycie",
+      "few": "Zostały %d użycia",
+      "many": "Zostało %d użyć",
+      "other": "Zostało %d użycia"
+    },
+    "src": "bfb033df11"
+  },
+  "%d번까지는 지금처럼 모두 무료예요.": {
+    "v": {
+      "one": "Wszystko jest bezpłatne do %d użycia.",
+      "few": "Wszystko jest bezpłatne do %d użyć.",
+      "many": "Wszystko jest bezpłatne do %d użyć.",
+      "other": "Wszystko jest bezpłatne do %d użycia."
+    },
+    "src": "eb8861434f"
+  },
+  "%d번부터는 새로 만들 때 Pro가 필요해요.": {
+    "v": {
+      "one": "Od %d użycia tworzenie nowych wymaga Pro.",
+      "few": "Od %d użyć tworzenie nowych wymaga Pro.",
+      "many": "Od %d użyć tworzenie nowych wymaga Pro.",
+      "other": "Od %d użycia tworzenie nowych wymaga Pro."
+    },
+    "src": "a59e72208f"
+  },
+  "%d봉지": {
+    "v": {
+      "one": "%d paczka",
+      "few": "%d paczki",
+      "many": "%d paczek",
+      "other": "%d paczki"
+    },
+    "src": "adcfd0735c"
+  },
+  "%d분": {
+    "v": {
+      "one": "%d min",
+      "few": "%d min",
+      "many": "%d min",
+      "other": "%d min"
+    },
+    "src": "9ba936f449"
+  },
+  "%d시간 %d분": {
+    "v": "%1$d godz. %2$d min",
+    "src": "223996329b"
+  },
+  "%d열": {
+    "v": {
+      "one": "%d kolumna",
+      "few": "%d kolumny",
+      "many": "%d kolumn",
+      "other": "%d kolumny"
+    },
+    "src": "7c5988a701"
+  },
+  "%d일 동안 여기서 바로 꺼내 쓸 수 있어요": {
+    "v": {
+      "one": "Pod ręką tutaj przez %d dzień",
+      "few": "Pod ręką tutaj przez %d dni",
+      "many": "Pod ręką tutaj przez %d dni",
+      "other": "Pod ręką tutaj przez %d dnia"
+    },
+    "src": "6bdcea31f7"
+  },
+  "%d일 무료 체험 + 무제한 단축어, iCloud 백업": {
+    "v": {
+      "one": "%d-dniowy bezpłatny okres próbny + nielimitowane frazy, kopia w iCloud",
+      "few": "%d-dniowy bezpłatny okres próbny + nielimitowane frazy, kopia w iCloud",
+      "many": "%d-dniowy bezpłatny okres próbny + nielimitowane frazy, kopia w iCloud",
+      "other": "%d-dniowy bezpłatny okres próbny + nielimitowane frazy, kopia w iCloud"
+    },
+    "src": "0ddbceb5e7"
+  },
+  "%d일 무료 체험 · 한번 구매, 평생 사용": {
+    "v": {
+      "one": "%d-dniowy okres próbny · Jeden zakup, na zawsze",
+      "few": "%d-dniowy okres próbny · Jeden zakup, na zawsze",
+      "many": "%d-dniowy okres próbny · Jeden zakup, na zawsze",
+      "other": "%d-dniowy okres próbny · Jeden zakup, na zawsze"
+    },
+    "src": "9ee946fcdf"
+  },
+  "%d일 무료 체험 시작": {
+    "v": {
+      "one": "Zacznij %d-dniowy okres próbny",
+      "few": "Zacznij %d-dniowy okres próbny",
+      "many": "Zacznij %d-dniowy okres próbny",
+      "other": "Zacznij %d-dniowy okres próbny"
+    },
+    "src": "c5ed166700"
+  },
+  "%d잔": {
+    "v": {
+      "one": "%d filiżanka",
+      "few": "%d filiżanki",
+      "many": "%d filiżanek",
+      "other": "%d filiżanki"
+    },
+    "src": "d189c46839"
+  },
+  "%d정거장": {
+    "v": {
+      "one": "%d przystanek",
+      "few": "%d przystanki",
+      "many": "%d przystanków",
+      "other": "%d przystanku"
+    },
+    "src": "3d814ae015"
+  },
+  "%d쪽": {
+    "v": {
+      "one": "%d strona",
+      "few": "%d strony",
+      "many": "%d stron",
+      "other": "%d strony"
+    },
+    "src": "fad3f0a85b"
+  },
+  "%d초": {
+    "v": {
+      "one": "%d s",
+      "few": "%d s",
+      "many": "%d s",
+      "other": "%d s"
+    },
+    "src": "eb71f069ff"
+  },
+  "%d편": {
+    "v": {
+      "one": "%d odcinek",
+      "few": "%d odcinki",
+      "many": "%d odcinków",
+      "other": "%d odcinka"
+    },
+    "src": "c1fbf958c3"
+  },
+  "%d회": {
+    "v": {
+      "one": "%d×",
+      "few": "%d×",
+      "many": "%d×",
+      "other": "%d×"
+    },
+    "src": "8323973e66"
+  },
+  "%d회 사용": {
+    "v": {
+      "one": "Użyto %d raz",
+      "few": "Użyto %d razy",
+      "many": "Użyto %d razy",
+      "other": "Użyto %d raza"
+    },
+    "src": "7f164c7f54"
+  },
+  "%lldpt": {
+    "v": {
+      "one": "%lldpt",
+      "few": "%lldpt",
+      "many": "%lldpt",
+      "other": "%lldpt"
+    },
+    "src": "3393f2e2c8"
+  },
+  "%lld개 더 보기": {
+    "v": {
+      "one": "Pokaż jeszcze %lld",
+      "few": "Pokaż jeszcze %lld",
+      "many": "Pokaż jeszcze %lld",
+      "other": "Pokaż jeszcze %lld"
+    },
+    "src": "cf22b4198e"
+  },
+  "'%1$@' 낱말이 든 단축어 %2$d개": {
+    "v": "Frazy ze słowem '%1$@': %2$d",
+    "src": "f6dbc64bba"
+  },
+  "'%@' 값을 수정하세요.": {
+    "v": "Edytuj wartość '%@'.",
+    "src": "4e3139e3c0"
+  },
+  "'%@' 검색 결과가 없어요": {
+    "v": "Brak wyników dla '%@'",
+    "src": "e3147687a8"
+  },
+  "'%@' 단축어 만들기": {
+    "v": "Utwórz frazę '%@'",
+    "src": "4745253186"
+  },
+  "'%@' 단축어가 %d개 있어요": {
+    "v": "Fraz w '%1$@': %2$d",
+    "src": "b3308dbf7b"
+  },
+  "'%@' 단축어로 저장했어요": {
+    "v": "Zapisano jako frazę '%@'",
+    "src": "2c6683eb63"
+  },
+  "'%@' 빈칸을 지울까요?": {
+    "v": "Usunąć pole '%@'?",
+    "src": "3c6f711025"
+  },
+  "'%@' 이름을 바꿀까요?": {
+    "v": "Zmienić nazwę '%@'?",
+    "src": "45b5da2213"
+  },
+  "'%@' 추가": {
+    "v": "Dodaj do '%@'",
+    "src": "9082a3d837"
+  },
+  "'%@' 카테고리 삭제": {
+    "v": "Usuń kategorię '%@'",
+    "src": "c72caddb6c"
+  },
+  "'%@' 카테고리를 만들어 한 곳에 모아드릴까요?": {
+    "v": "Utworzyć kategorię '%@', żeby mieć je w jednym miejscu?",
+    "src": "aada03d00f"
+  },
+  "'%@' 카테고리를 삭제하시겠습니까? 단축어는 유지됩니다.": {
+    "v": "Usunąć kategorię '%@'? Frazy zostaną zachowane.",
+    "src": "53835b256a"
+  },
+  "'%@' 카테고리에 단축어 추가": {
+    "v": "Dodaj frazę do kategorii '%@'",
+    "src": "e7fcaef543"
+  },
+  "'%@' 탭만": {
+    "v": "Tylko karta '%@'",
+    "src": "f9b620c371"
+  },
+  "'%@'에 단축어가 없습니다": {
+    "v": "Brak fraz w '%@'",
+    "src": "b72a3fe750"
+  },
+  "'%@'에 해당하는 단축어가 없습니다": {
+    "v": "Brak fraz pasujących do '%@'",
+    "src": "a7d43ca55d"
+  },
+  "'%@'에서 옮기거나 지울 카드를 고르세요": {
+    "v": "Wybierz karty w '%@', które chcesz przenieść lub usunąć",
+    "src": "1dd22a7e84"
+  },
+  "'%@'은 자동으로 채워져요": {
+    "v": "'%@' wypełnia się automatycznie",
+    "src": "dd363129ee"
+  },
+  "'%@'을(를) 삭제하시겠습니까?": {
+    "v": "Usunąć '%@'?",
+    "src": "682e4f531b"
+  },
+  "'%@'을(를) 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.": {
+    "v": "Na pewno usunąć '%@'? Tej operacji nie można cofnąć.",
+    "src": "7681a813d1"
+  },
+  "'%@'의 카드를 끌어 순서를 바꾸세요": {
+    "v": "Przeciągaj karty w '%@', aby zmienić kolejność",
+    "src": "2e39d1933b"
+  },
+  "'+' 버튼을 탭하면 iMessage, Mail 또는 기타 앱에서 쉽게 접근할 수 있는 문구나 일반 텍스트를 추가할 수 있습니다.": {
+    "v": "Stuknij '+', aby dodać frazy lub zwykły tekst, do których łatwo sięgniesz z iMessage, Mail i innych aplikacji.",
+    "src": "17ce5e4733"
+  },
+  "'전체 접근 허용' 토글 켜기 ✓": {
+    "v": "Włącz 'Zezwalaj na pełny dostęp' ✓",
+    "src": "8f11e92ee4"
+  },
+  "'전체 접근 허용'을 켜주세요": {
+    "v": "Włącz 'Zezwalaj na pełny dostęp'",
+    "src": "ced0ad12fc"
+  },
+  "'탭 단축어 검색'처럼 화면에 보이는 이름을 그대로 말해 조작합니다. 모든 버튼과 입력 필드에 읽기 가능한 이름이 지정되어 있습니다.": {
+    "v": "Mów nazwę widoczną na ekranie, np. 'Stuknij Wyszukiwanie fraz', aby sterować aplikacją. Wszystkie przyciski i pola mają czytelne nazwy.",
+    "src": "54273b3f9a"
+  },
+  "(권장)": {
+    "v": "(Zalecane)",
+    "src": "08e72dc60b"
+  },
+  "(단축어 본문)": {
+    "v": "(treść frazy)",
+    "src": "4eea8567e9"
+  },
+  "+ 버튼으로 자주 쓰는 텍스트를 저장할 수 있어요.": {
+    "v": "Przyciskiem + zapiszesz tekst, którego często używasz.",
+    "src": "85a6533e62"
+  },
+  "+%d개": {
+    "v": {
+      "one": "+%d więcej",
+      "few": "+%d więcej",
+      "many": "+%d więcej",
+      "other": "+%d więcej"
+    },
+    "src": "610ffea924"
+  },
+  "+Template": {
+    "v": "+ Szablon",
+    "src": "b9b9cdafd8"
+  },
+  "--- separator": {
+    "v": "--- separator",
+    "src": "e5c834c6ec"
+  },
+  "0개": {
+    "v": "0",
+    "src": "705b5841df"
+  },
+  "0분": {
+    "v": "0 min",
+    "src": "a292c85a53"
+  },
+  "12가1234": {
+    "v": "WA 12345",
+    "src": "211c03c457"
+  },
+  "12시간": {
+    "v": "12-godzinny",
+    "src": "4bf7b6e570"
+  },
+  "15분을 벌었어요": {
+    "v": "Zaoszczędzono 15 minut",
+    "src": "de99815961"
+  },
+  "1년마다 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.": {
+    "v": "Odnawia się automatycznie za %@ rocznie. Anuluj co najmniej 24 godziny przed odnowieniem w Ustawienia > Konto Apple > Subskrypcje.",
+    "src": "d720d2bf58"
+  },
+  "1분·5분·한 시간처럼 눈에 잡히는 만큼 아끼면 알려드려요": {
+    "v": "Powiadomimy Cię, gdy zaoszczędzisz minutę, pięć minut albo godzinę",
+    "src": "f017470d1d"
+  },
+  "1분을 벌었어요": {
+    "v": "Zaoszczędzono minutę",
+    "src": "7207ccf498"
+  },
+  "1초": {
+    "v": "1 sekunda",
+    "src": "1f1aa88771"
+  },
+  "20개 이상": {
+    "v": "20+",
+    "src": "1859f2150c"
+  },
+  "24시간": {
+    "v": "24-godzinny",
+    "src": "c340b5478c"
+  },
+  "2주 뒤": {
+    "v": "Za 2 tygodnie",
+    "src": "6e21a81d09"
+  },
+  "2초": {
+    "v": "2 sekundy",
+    "src": "97be29e234"
+  },
+  "30 non-native-speaker-friendly templates.": {
+    "v": "30 szablonów po angielsku, naturalnych także dla osób nieanglojęzycznych",
+    "src": "5fa8b9ad17"
+  },
+  "3×3 키패드 스타일": {
+    "v": "Klawiatura 3×3",
+    "src": "c1ff202603"
+  },
+  "3초": {
+    "v": "3 sekundy",
+    "src": "56da54ebe9"
+  },
+  "3초짜리 세로 영상으로 만들어 어디로든 보낼 수 있어요.": {
+    "v": "3-sekundowy pionowy film, który wyślesz gdziekolwiek.",
+    "src": "b25d3109fa"
+  },
+  "4자리 PIN 입력": {
+    "v": "Wpisz 4-cyfrowy PIN",
+    "src": "c9f9328cf2"
+  },
+  "4자리 보안 PIN을 새로 설정합니다": {
+    "v": "Ustaw nowy 4-cyfrowy PIN zabezpieczający",
+    "src": "a50f582bdc"
+  },
+  "50% 할인": {
+    "v": "50% taniej",
+    "src": "b960bfac32"
+  },
+  "5분을 벌었어요": {
+    "v": "Zyskujesz pięć minut",
+    "src": "281f6dd5fe"
+  },
+  "5초": {
+    "v": "5 sekund",
+    "src": "90d2a46381"
+  },
+  "9개": {
+    "v": "9",
+    "src": "1c6c3d0ed8"
+  },
+  "ABC": {
+    "v": "ABC",
+    "src": "df4e3c5a78"
+  },
+  "AI 모델을 준비하고 있어요. 잠시 후 다시 시도해 주세요": {
+    "v": "Model AI jest w przygotowaniu. Spróbuj ponownie za chwilę",
+    "src": "009ef3c20c"
+  },
+  "AI 스마트 분류": {
+    "v": "Inteligentna klasyfikacja AI",
+    "src": "fc3c547d75"
+  },
+  "About": {
+    "v": "Informacje",
+    "src": "091b9f1c53"
+  },
+  "Accessibility permission granted": {
+    "v": "Uprawnienie dostępności przyznane",
+    "src": "1b46296441"
+  },
+  "Accessibility permission required for direct paste.": {
+    "v": "Do wklejania bezpośredniego potrzebne jest uprawnienie dostępności.",
+    "src": "f931dfc15c"
+  },
+  "Add": {
+    "v": "Dodaj",
+    "src": "b52520d5ec"
+  },
+  "Add Quick Note": {
+    "v": "Dodaj notatkę",
+    "src": "db6b44e127"
+  },
+  "Add new": {
+    "v": "Dodaj nowe",
+    "src": "0fdf083245"
+  },
+  "Add snippets in the main app, they'll appear here in seconds.": {
+    "v": "Frazy utworzone w aplikacji pojawią się tutaj od razu.",
+    "src": "d28760a38f"
+  },
+  "Add your own categories or remove ones you don't use. Defaults vary by region.": {
+    "v": "Dodaj własne kategorie lub usuń nieużywane. Domyślne zależą od regionu.",
+    "src": "9fd7b0eae2"
+  },
+  "Address": {
+    "v": "Adres",
+    "src": "4e63961138"
+  },
+  "After successful project wrap-up": {
+    "v": "Po zakończeniu projektu",
+    "src": "416d320d73"
+  },
+  "All categories will be deleted. Your memos are kept (they just won't have a category tab).": {
+    "v": "Wszystkie kategorie zostaną usunięte. Frazy zostaną zachowane (zniknie tylko karta kategorii).",
+    "src": "f2eb6fd9d0"
+  },
+  "Also on your Mac": {
+    "v": "Także na Mac",
+    "src": "5eb2f51ab1"
+  },
+  "Apartment info bundle": {
+    "v": "Zestaw informacji o mieszkaniu",
+    "src": "b462204e47"
+  },
+  "App Store 에 연결하지 못했어요. 잠시 뒤 다시 시도해 주세요.\n(%@)": {
+    "v": "Nie udało się połączyć z App Store. Spróbuj ponownie za chwilę.\n(%@)",
+    "src": "5d9a58bd25"
+  },
+  "App Store 페이지로 이동합니다": {
+    "v": "Przejdź do strony App Store",
+    "src": "52f4ce8969"
+  },
+  "App Store 페이지에서 직접 작성합니다": {
+    "v": "Napisz bezpośrednio na stronie App Store",
+    "src": "ce17b9da69"
+  },
+  "App Store에서 리뷰 작성": {
+    "v": "Napisz opinię w App Store",
+    "src": "cfabcd32ad"
+  },
+  "App will split the text and let you review each memo before saving.": {
+    "v": "Aplikacja podzieli tekst, a przed zapisem sprawdzisz każdą frazę.",
+    "src": "451b8662b9"
+  },
+  "Appearance": {
+    "v": "Wygląd",
+    "src": "029987777f"
+  },
+  "Apple Intelligence": {
+    "v": "Apple Intelligence",
+    "src": "ab7b802e6c"
+  },
+  "Asking for testimonial": {
+    "v": "Prośba o referencje",
+    "src": "ce427c4175"
+  },
+  "Assignment submission": {
+    "v": "Przesłanie zadania",
+    "src": "208084f3b4"
+  },
+  "Async-first availability": {
+    "v": "Informacja o odpowiedziach asynchronicznych",
+    "src": "5aad02a912"
+  },
+  "Auto": {
+    "v": "Auto",
+    "src": "2f11add8e6"
+  },
+  "Auto-classifies what you copy: find it later instantly.": {
+    "v": "Automatycznie klasyfikuje skopiowane treści, by łatwo je później znaleźć.",
+    "src": "82d7e53b25"
+  },
+  "Background": {
+    "v": "Tło",
+    "src": "b7efa36b71"
+  },
+  "Banking & Payments": {
+    "v": "Płatności i finanse",
+    "src": "c16e6ca125"
+  },
+  "Based nowhere in particular: currently in {city}. I've set up for async-first communication so timezones usually don't matter, but I'll give you a clear window when I'm reachable.": {
+    "v": "Nie mam stałego miejsca, obecnie jestem w {miasto}. Pracuję głównie asynchronicznie, więc strefy czasowe zwykle nie mają znaczenia, ale jasno podam, kiedy można się ze mną skontaktować.",
+    "src": "7cd2277104"
+  },
+  "Blank line": {
+    "v": "Pusty wiersz",
+    "src": "5976183301"
+  },
+  "Bulk import": {
+    "v": "Import zbiorczy",
+    "src": "3fb997e82c"
+  },
+  "Business / Office": {
+    "v": "Biznes / Biuro",
+    "src": "ede0cb3ba9"
+  },
+  "Can you send your Wise details?": {
+    "v": "Czy możesz wysłać dane Wise?",
+    "src": "0617a580a9"
+  },
+  "Cancel": {
+    "v": "Anuluj",
+    "src": "587e1cf483"
+  },
+  "Capture a quick note into ClipKeyboard.": {
+    "v": "Zapisz szybką notatkę w ClipKeyboard.",
+    "src": "986e0e14bc"
+  },
+  "Card": {
+    "v": "Karta",
+    "src": "a1634bd97e"
+  },
+  "Categories": {
+    "v": "Kategorie",
+    "src": "642ba47fb3"
+  },
+  "Category": {
+    "v": "Kategoria",
+    "src": "d7d53edad0"
+  },
+  "Category Label": {
+    "v": "Kategoria:",
+    "src": "9e9564faf0"
+  },
+  "Clear search": {
+    "v": "Wyczyść wyszukiwanie",
+    "src": "1618a16b1d"
+  },
+  "Click to paste": {
+    "v": "Kliknij, aby wkleić",
+    "src": "d3be7494ed"
+  },
+  "Client is waiting for you": {
+    "v": "Klient czeka na odpowiedź",
+    "src": "c272df885d"
+  },
+  "Client requests something outside scope": {
+    "v": "Klient prosi o coś poza zakresem",
+    "src": "b87ac2a2ec"
+  },
+  "Client's IBAN → filed automatically": {
+    "v": "IBAN klienta zapisany automatycznie",
+    "src": "a95893906c"
+  },
+  "ClipKeyboard": {
+    "v": "ClipKeyboard",
+    "src": "d1c8b1a6d4"
+  },
+  "ClipKeyboard Help": {
+    "v": "Pomoc ClipKeyboard",
+    "src": "48281bffb6"
+  },
+  "ClipKeyboard Pro": {
+    "v": "ClipKeyboard Pro",
+    "src": "9585a3fe01"
+  },
+  "ClipKeyboard for Mac": {
+    "v": "ClipKeyboard na Mac",
+    "src": "a757307740"
+  },
+  "ClipKeyboard needs Accessibility permission to register global shortcuts. Grant access in System Settings → Privacy & Security → Accessibility.": {
+    "v": "ClipKeyboard potrzebuje uprawnienia Dostępność, aby rejestrować globalne skróty. Przyznaj dostęp w Ustawienia systemowe → Prywatność i ochrona → Dostępność.",
+    "src": "0248a71c60"
+  },
+  "ClipKeyboard 키보드를 활성화하면 어디서든 바로 입력돼요.": {
+    "v": "Po włączeniu klawiatury ClipKeyboard wpiszesz tekst w każdej aplikacji.",
+    "src": "957ac57c8a"
+  },
+  "ClipKeyboard가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다.": {
+    "v": "Podoba Ci się ClipKeyboard? Twoja opinia bardzo pomaga ulepszać aplikację.",
+    "src": "33a9eb5735"
+  },
+  "ClipKeyboard는 모든 사용자를 위해 설계됐습니다": {
+    "v": "ClipKeyboard jest dla wszystkich",
+    "src": "4b4e166201"
+  },
+  "ClipKeyboard를 선택해요": {
+    "v": "Wybierz ClipKeyboard",
+    "src": "d6aa49cdd5"
+  },
+  "ClipKeyboard에 담기": {
+    "v": "Dodaj do ClipKeyboard",
+    "src": "ba44d190c1"
+  },
+  "ClipKeyboard에 오신 것을 환영합니다": {
+    "v": "Witaj w ClipKeyboard",
+    "src": "ba07891619"
+  },
+  "Clipboard History": {
+    "v": "Historia schowka",
+    "src": "04f016fa54"
+  },
+  "Clipboard history": {
+    "v": "Historia schowka",
+    "src": "c527f8ee9b"
+  },
+  "Combo": {
+    "v": "Kombo",
+    "src": "4d9c09d5e8"
+  },
+  "Combo '%@' 생성됨": {
+    "v": "Utworzono kombo '%@'",
+    "src": "80c5ab5187"
+  },
+  "Combo 생성": {
+    "v": "Utwórz kombo",
+    "src": "1a1dc5d24a"
+  },
+  "Combo 생성 실패: %@": {
+    "v": "Nie udało się utworzyć kombo: %@",
+    "src": "a86c28d2cd"
+  },
+  "Combo 이름": {
+    "v": "Nazwa kombo",
+    "src": "55392e6bdd"
+  },
+  "Combo 정보": {
+    "v": "Informacje o kombo",
+    "src": "3c436df22e"
+  },
+  "Combo는 이렇게 동작해요": {
+    "v": "Jak działa kombo",
+    "src": "96c3d17a01"
+  },
+  "Content": {
+    "v": "Treść",
+    "src": "026fb11309"
+  },
+  "Copied Stripe URLs are auto-tagged as \"URL\". Pull them up anytime from the clipboard history.": {
+    "v": "Skopiowane adresy Stripe URL są automatycznie oznaczane jako \"URL\". Znajdziesz je w historii schowka.",
+    "src": "9207d22ab1"
+  },
+  "Copied Stripe URLs are auto-tagged as \\": {
+    "v": "Skopiowane adresy Stripe URL są automatycznie oznaczane jako \\",
+    "src": "c5492aeae8"
+  },
+  "Copy": {
+    "v": "Kopiuj",
+    "src": "5c9129dd88"
+  },
+  "Copy IBAN from Wise / Revolut": {
+    "v": "Skopiuj IBAN z Wise / Revolut",
+    "src": "9f89a8ecdc"
+  },
+  "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \"VAT / Tax ID\" and masks on display.": {
+    "v": "Skopiuj numer VAT w formacie PT123456789 lub EU123456789, a aplikacja rozpozna go jako \"VAT / numer podatkowy\" i zamaskuje na ekranie.",
+    "src": "fae339688d"
+  },
+  "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \\": {
+    "v": "Skopiuj numer VAT w formacie PT123456789 lub EU123456789, a aplikacja rozpozna go jako \\",
+    "src": "be3cf40a90"
+  },
+  "Copy and Paste": {
+    "v": "Kopiuj i wklej",
+    "src": "4172ebda9e"
+  },
+  "Copy any IBAN: the app auto-tags it as \"IBAN\". Find it later under the IBAN filter without searching.": {
+    "v": "Skopiuj IBAN, a aplikacja automatycznie doda tag \"IBAN\". Potem znajdziesz go w filtrze IBAN bez szukania.",
+    "src": "9aa8984689"
+  },
+  "Copy any IBAN: the app auto-tags it as \\": {
+    "v": "Skopiuj IBAN, a aplikacja automatycznie doda tag \\",
+    "src": "57db5e851b"
+  },
+  "Copy to clipboard": {
+    "v": "Skopiuj do schowka",
+    "src": "cd5bc8395c"
+  },
+  "Cross-border invoicing notice": {
+    "v": "Informacja o fakturach zagranicznych",
+    "src": "0c8071d551"
+  },
+  "Crossing borders update": {
+    "v": "Aktualizacja: przekraczam granicę",
+    "src": "f5119fcc86"
+  },
+  "Crypto Wallet": {
+    "v": "Portfel kryptowalut",
+    "src": "3af8dc9cdc"
+  },
+  "Currency preference reply": {
+    "v": "Odpowiedź o wyborze waluty",
+    "src": "ed423662c0"
+  },
+  "Daily life": {
+    "v": "Codzienność",
+    "src": "09d7079ac4"
+  },
+  "Dark": {
+    "v": "Ciemny",
+    "src": "e24d5d81c5"
+  },
+  "Delete": {
+    "v": "Usuń",
+    "src": "b3729f8f89"
+  },
+  "Delete this quick note?": {
+    "v": "Usunąć tę notatkę?",
+    "src": "b73724d6f4"
+  },
+  "Delivery delay heads-up": {
+    "v": "Zapowiedź opóźnienia dostawy",
+    "src": "f6aa417925"
+  },
+  "Delivery instructions": {
+    "v": "Instrukcje dostawy",
+    "src": "b88590387b"
+  },
+  "Deselect all": {
+    "v": "Odznacz wszystko",
+    "src": "de1feec4f8"
+  },
+  "Dismiss": {
+    "v": "Zamknij",
+    "src": "598be39d3f"
+  },
+  "Done": {
+    "v": "Gotowe",
+    "src": "bb2b6066cb"
+  },
+  "Dusk": {
+    "v": "Dusk",
+    "src": "b58df15910"
+  },
+  "Dusk·Paper 두 테마 모두 다크 모드를 완전히 지원합니다. 시스템 설정을 따르거나 앱 내에서 직접 선택할 수 있습니다.": {
+    "v": "Oba tematy, Dusk i Paper, w pełni obsługują tryb ciemny. Możesz zostawić ustawienia systemu albo wybrać tryb w aplikacji.",
+    "src": "565799981d"
+  },
+  "EN": {
+    "v": "EN",
+    "src": "783df92285"
+  },
+  "Earlier": {
+    "v": "Wcześniej",
+    "src": "2f4247481f"
+  },
+  "Email": {
+    "v": "E-mail",
+    "src": "d32c837a86"
+  },
+  "Email signature template": {
+    "v": "Podpis e-mail",
+    "src": "522d9297e3"
+  },
+  "Emergency contact": {
+    "v": "Kontakt alarmowy",
+    "src": "3c78c2893e"
+  },
+  "English": {
+    "v": "English",
+    "src": "c9ea1a6f09"
+  },
+  "Explaining your time, once.": {
+    "v": "Moja strefa czasowa, wyjaśniona raz.",
+    "src": "4d98ebe6d6"
+  },
+  "Face ID로 보호": {
+    "v": "Chroń przez Face ID",
+    "src": "fe7ea153c2"
+  },
+  "Favorite": {
+    "v": "Ulubione",
+    "src": "1d2da631cb"
+  },
+  "Favorites": {
+    "v": "Ulubione",
+    "src": "4b91b5f4e8"
+  },
+  "Free plan is now 5 items. Everything you've saved stays: just no new adds until you upgrade or delete.": {
+    "v": "Limit planu bezpłatnego wynosi teraz 5 pozycji. Zapisane zostają, ale nowe dodasz po przejściu na wyższy plan lub usunięciu części.",
+    "src": "5657603af3"
+  },
+  "General": {
+    "v": "Ogólne",
+    "src": "078a4035fb"
+  },
+  "Global Shortcuts": {
+    "v": "Skróty globalne",
+    "src": "b7511a79ac"
+  },
+  "Global hotkey": {
+    "v": "Skrót globalny",
+    "src": "765dff92c4"
+  },
+  "Gmail: new client onboarding": {
+    "v": "Gmail: wdrożenie nowego klienta",
+    "src": "12d574b064"
+  },
+  "Good afternoon": {
+    "v": "Dzień dobry",
+    "src": "7150758b92"
+  },
+  "Good evening": {
+    "v": "Dobry wieczór",
+    "src": "c985debe8d"
+  },
+  "Good morning": {
+    "v": "Miłego poranka",
+    "src": "44725acaef"
+  },
+  "Grant Access…": {
+    "v": "Zezwól na dostęp…",
+    "src": "bbaa5279b7"
+  },
+  "Group project kickoff": {
+    "v": "Start projektu grupowego",
+    "src": "e4ed14be7c"
+  },
+  "Hi team, wifi at my co-working just dropped. Back online now from a backup spot. Ready to continue whenever you are.": {
+    "v": "Cześć, w moim coworkingu zniknęło wifi. Jestem już online z zapasowego miejsca. Możemy kontynuować, kiedy tylko będziecie gotowi.",
+    "src": "109a595420"
+  },
+  "Hi {client_name}, I noticed you're hiring for {role}. I've worked on similar projects for {reference}, here's a quick overview: {portfolio}. Open to a 15-min chat?": {
+    "v": "Cześć {client_name}, widzę, że rekrutujecie na stanowisko {role}. Mam doświadczenie w podobnych projektach dla {reference}, krótki przegląd: {portfolio}. Znajdzie się 15 minut na rozmowę?",
+    "src": "9c58f13c08"
+  },
+  "Hi {client}, I'm in GMT+{offset} right now ({city}). I can do {time_window}. Calendly: {link}": {
+    "v": "Dzień dobry {client}, jestem teraz w strefie GMT+{offset} ({city}). Mogę {time_window}. Calendly: {link}",
+    "src": "4d97e52a99"
+  },
+  "Hi {client}, giving you a heads-up: {reason}, so I'm pushing the delivery to {new_date}. I'll send a progress preview tomorrow so you're not left in the dark.": {
+    "v": "Dzień dobry {client}, uprzedzam: {reason}, dlatego termin dostawy przesuwam na {new_date}. Jutro wyślę podgląd postępów, żeby nie zostawiać Państwa bez informacji.",
+    "src": "5f4381d05f"
+  },
+  "Hi {client}, happy to take this on: it falls outside our original scope ({original_scope}), so I'll send an updated quote for this add-on. Does that work?": {
+    "v": "Dzień dobry {client}, chętnie się tym zajmę. Prace wykraczają jednak poza pierwotny zakres ({original_scope}), więc wyślę zaktualizowaną wycenę. Czy tak będzie dobrze?",
+    "src": "71a8d54b00"
+  },
+  "Hi {client}, if you enjoyed working together, a short testimonial (2 to 3 sentences) for my site would mean a lot. No pressure at all: only if it's easy.": {
+    "v": "Dzień dobry {client}, jeśli współpraca się Państwu podobała, proszę o krótką opinię (2 do 3 zdań) na mojej stronie. Bez presji, tylko jeśli to dla Państwa wygodne.",
+    "src": "4a9c88b0fc"
+  },
+  "Hi {client}, just a kind reminder about invoice #{invoice_no} (due {due_date}, now {days} days overdue). Let me know if there's any issue on your end, happy to help resolve.": {
+    "v": "Dzień dobry {client}, uprzejmie przypominam o fakturze #{invoice_no} (termin {due_date}, opóźnienie: {days} dni). Jeśli pojawił się jakiś problem, proszę dać znać. Chętnie pomogę go rozwiązać.",
+    "src": "70e5a7648d"
+  },
+  "Hi {client}, just wanted to follow up on the proposal I sent Monday. Happy to jump on a quick call if anything needs clarifying.\n\nBest, {name}": {
+    "v": "Dzień dobry {client}, wracam do oferty wysłanej w poniedziałek. Jeśli coś wymaga wyjaśnienia, chętnie porozmawiam krótko przez telefon.\n\nPozdrawiam, {name}",
+    "src": "a3e29a1443"
+  },
+  "Hi {name}, noticed you're hiring for {role} at {company}. I've worked on similar projects for {reference_client}, here's a quick overview: {portfolio_link}. Open to a 15-min chat this week?": {
+    "v": "Dzień dobry {name}, widziałem(-am) ogłoszenie o pracy na stanowisko {role} w firmie {company}. Realizowałem(-am) podobne projekty dla {reference_client}, krótkie przedstawienie: {portfolio_link}. Czy znajdzie Pan(i) w tym tygodniu 15 minut na rozmowę?",
+    "src": "88f6800dda"
+  },
+  "Hi {상대 이름}, I'm in {도시} ({타임존}). I can do {가능한 시간}. Book here: {예약 링크}": {
+    "v": "Cześć {imię}, jestem w {city} ({timezone}). Mogę {dostępne godziny}. Umów się tutaj: {link do rezerwacji}",
+    "src": "621734a61f"
+  },
+  "Hi! Signing off for the night ({time} in {city}, GMT+{offset}). Will reply first thing tomorrow.": {
+    "v": "Cześć! Kończę na dziś ({time} w {city}, GMT+{offset}). Odpiszę jutro rano, na początku dnia.",
+    "src": "62c2783de0"
+  },
+  "Home address quick share": {
+    "v": "Adres domowy",
+    "src": "dd061a8d47"
+  },
+  "IBAN": {
+    "v": "IBAN",
+    "src": "ed4e0ae912"
+  },
+  "IBAN (선택 사항)": {
+    "v": "IBAN (opcjonalnie)",
+    "src": "dda988dea8"
+  },
+  "IBAN, SWIFT, VAT 같은 해외 업무용 값도 갈래를 찾아내요": {
+    "v": "Rozpoznajemy też IBAN, SWIFT i numery VAT",
+    "src": "7d8e39b973"
+  },
+  "IBAN·타임존·계좌 응대를 무제한 저장, 어떤 앱에서든 탭 한 번": {
+    "v": "Zapisuj bez limitu IBAN, odpowiedzi o strefie czasowej i dane konta. Jedno stuknięcie w każdej aplikacji",
+    "src": "df0fa794a3"
+  },
+  "IP주소": {
+    "v": "Adres IP",
+    "src": "b1b111b731"
+  },
+  "If you've purchased Pro on iOS, it works on Mac automatically: no extra payment.": {
+    "v": "Jeśli kupisz Pro na iOS, działa też na Mac bez dodatkowej opłaty.",
+    "src": "b36c32fa3f"
+  },
+  "Image": {
+    "v": "Obraz",
+    "src": "f44b542e80"
+  },
+  "Imported %d memos": {
+    "v": {
+      "one": "Zaimportowano %d frazę",
+      "few": "Zaimportowano %d frazy",
+      "many": "Zaimportowano %d fraz",
+      "other": "Zaimportowano %d frazy"
+    },
+    "src": "3233b5e936"
+  },
+  "Inbox": {
+    "v": "Odebrane",
+    "src": "8f4a088785"
+  },
+  "Internship inquiry": {
+    "v": "Zapytanie o staż",
+    "src": "cccdef7dfc"
+  },
+  "Invoice #{invoice_no} · {currency} {amount}\nDue: {due_date}\nPayment: Wise ([email])": {
+    "v": "Faktura #{invoice_no} · {currency} {amount}\nTermin: {due_date}\nPłatność: Wise ([email])",
+    "src": "8a721a72bc"
+  },
+  "Invoice #{번호} · {금액}\nDue: {기한}\nPayment: {결제 수단}": {
+    "v": "Faktura #{numer} · {kwota}\nTermin: {termin}\nPłatność: {metoda płatności}",
+    "src": "57069d6738"
+  },
+  "Invoice is past due": {
+    "v": "Faktura po terminie",
+    "src": "dbadd84bf3"
+  },
+  "Invoice summary": {
+    "v": "Podsumowanie faktury",
+    "src": "86dff1f247"
+  },
+  "Just copied": {
+    "v": "Właśnie skopiowano",
+    "src": "b29b12af7f"
+  },
+  "Just used %@": {
+    "v": "Przed chwilą użyto: %@",
+    "src": "53ec268802"
+  },
+  "Keep in Inbox": {
+    "v": "Zachowaj w Odebranych",
+    "src": "35013967fa"
+  },
+  "Key": {
+    "v": "Klawisz",
+    "src": "b2adb5793f"
+  },
+  "Korean keyboard": {
+    "v": "Klawiatura koreańska",
+    "src": "2dc16dbacc"
+  },
+  "Korean layout": {
+    "v": "Układ koreański",
+    "src": "62ec2286b4"
+  },
+  "Launch at login": {
+    "v": "Uruchom przy logowaniu",
+    "src": "8ea557e0a5"
+  },
+  "Library book request": {
+    "v": "Prośba o książkę z biblioteki",
+    "src": "26f2ef3613"
+  },
+  "Light": {
+    "v": "Jasny",
+    "src": "50c181c779"
+  },
+  "Link": {
+    "v": "Link",
+    "src": "d5e159cef2"
+  },
+  "LinkedIn cold DM": {
+    "v": "Zimna wiadomość na LinkedIn",
+    "src": "8e99f9d28c"
+  },
+  "Long-press to drag and reorder. Swipe left to delete (protected ones can't be removed).": {
+    "v": "Przytrzymaj i przeciągnij, aby zmienić kolejność. Przesuń w lewo, aby usunąć (chronionych elementów nie można usunąć).",
+    "src": "12459b563e"
+  },
+  "Mac 앱이 완전히 새로워졌어요. 단축키 하나로 어디서든 문구를 꺼내 써요": {
+    "v": "Aplikacja na Mac jest zupełnie nowa. Jeden skrót przywołuje frazy w każdym miejscu",
+    "src": "a9581bc99c"
+  },
+  "Manage categories": {
+    "v": "Zarządzaj kategoriami",
+    "src": "0ca9352fc9"
+  },
+  "Mark snippets as favorite in the main app to see them here.": {
+    "v": "Oznacz frazy jako ulubione w aplikacji, a pojawią się tutaj.",
+    "src": "c55fe2ec97"
+  },
+  "Masked %@, ending %@": {
+    "v": "Zamaskowane %1$@, końcówka %2$@",
+    "src": "a37bdc9232"
+  },
+  "Meeting delay reply": {
+    "v": "Odpowiedź o opóźnieniu spotkania",
+    "src": "21aec6dea7"
+  },
+  "Meeting minutes template": {
+    "v": "Protokół ze spotkania",
+    "src": "f6cbba9f1c"
+  },
+  "Memo List": {
+    "v": "Lista fraz",
+    "src": "5cd1a41601"
+  },
+  "Menu bar access": {
+    "v": "Dostęp z paska menu",
+    "src": "4b989ddadd"
+  },
+  "Menu bar access · Global hotkey · iCloud sync": {
+    "v": "Dostęp z paska menu · Globalny skrót · Synchronizacja iCloud",
+    "src": "2ce807ff2c"
+  },
+  "MetricKit이 보내주는 익명 진단이에요. 콜스택·앱 버전·OS만 담기고 사용자 정보는 들어가지 않습니다.": {
+    "v": "Anonimowa diagnostyka z MetricKit. Zawiera tylko stos wywołań, wersję aplikacji i system. Bez danych użytkownika.",
+    "src": "991e37c763"
+  },
+  "Monitor clipboard in background": {
+    "v": "Monitoruj schowek w tle",
+    "src": "69b8d2b234"
+  },
+  "M월 d일 주": {
+    "v": "'Tydzień od' d MMM",
+    "src": "38a0330cd5"
+  },
+  "Name: [Your Name]\nIBAN: [Your IBAN]\nSWIFT: [Your SWIFT/BIC]\nAddress: [Your Registered Address]\nVAT ID: [Your VAT Number]": {
+    "v": "Imię: [Imię]\nIBAN: [IBAN]\nSWIFT: [SWIFT/BIC]\nAdres: [Adres rejestrowy]\nNumer VAT: [Numer VAT]",
+    "src": "8807f0e7e9"
+  },
+  "Name: {영문 이름}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}": {
+    "v": "Imię i nazwisko: {imię i nazwisko}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}",
+    "src": "5a7feea065"
+  },
+  "Native keyboard shortcuts": {
+    "v": "Natywne skróty klawiszowe",
+    "src": "09a36f2ee8"
+  },
+  "New": {
+    "v": "Nowe",
+    "src": "c0fed0f60f"
+  },
+  "New Memo": {
+    "v": "Nowa fraza",
+    "src": "e8c181ffeb"
+  },
+  "New category name": {
+    "v": "Nazwa nowej kategorii",
+    "src": "cbb1973921"
+  },
+  "New client asks out of curiosity": {
+    "v": "Nowy klient pyta z ciekawości",
+    "src": "24e40c43fc"
+  },
+  "New client wire transfer info": {
+    "v": "Dane do przelewu dla nowego klienta",
+    "src": "d01acd4622"
+  },
+  "New memo": {
+    "v": "Nowa fraza",
+    "src": "007e77fcae"
+  },
+  "Next Keyboard": {
+    "v": "Następna klawiatura",
+    "src": "01fd60e948"
+  },
+  "No favorites yet": {
+    "v": "Brak ulubionych",
+    "src": "be995a212a"
+  },
+  "No matches": {
+    "v": "Brak wyników",
+    "src": "5deb0db3dd"
+  },
+  "No matches for \"%@\"": {
+    "v": "Brak wyników dla \"%@\"",
+    "src": "b2f561e6bd"
+  },
+  "No matches for \\": {
+    "v": "Brak wyników dla \\",
+    "src": "5952aaa3e9"
+  },
+  "No memos yet": {
+    "v": "Brak fraz",
+    "src": "ee52e98b55"
+  },
+  "No placeholders": {
+    "v": "Brak pól do wypełnienia",
+    "src": "c9b1b2e3d8"
+  },
+  "No saved values": {
+    "v": "Brak zapisanych wartości",
+    "src": "4863c99fc4"
+  },
+  "No template variables": {
+    "v": "Brak zmiennych szablonu",
+    "src": "6f543fb4cf"
+  },
+  "Nomad essentials": {
+    "v": "Niezbędnik nomady",
+    "src": "90e5016e45"
+  },
+  "Nomad life essentials": {
+    "v": "Niezbędne frazy nomady",
+    "src": "46a5cc40fb"
+  },
+  "Not now": {
+    "v": "Później",
+    "src": "a919e17f45"
+  },
+  "Note": {
+    "v": "Notatka",
+    "src": "704467bfad"
+  },
+  "Nothing to save.": {
+    "v": "Nie ma nic do zapisania.",
+    "src": "728de890f6"
+  },
+  "Office hours request": {
+    "v": "Prośba o konsultację",
+    "src": "9dd687d19c"
+  },
+  "Once installed, look for the ClipKeyboard icon in your Mac menu bar. Sign in with the same Apple ID to sync via iCloud.": {
+    "v": "Po instalacji znajdź ikonę ClipKeyboard na pasku menu Maca. Zaloguj się tym samym Apple ID, aby synchronizować przez iCloud.",
+    "src": "17d07b0071"
+  },
+  "One per line": {
+    "v": "Jedno w wierszu",
+    "src": "0f6f6968ef"
+  },
+  "Open App": {
+    "v": "Otwórz aplikację",
+    "src": "b5c1eef13f"
+  },
+  "Open Inbox": {
+    "v": "Otwórz Odebrane",
+    "src": "9023e3229d"
+  },
+  "Open Web Page": {
+    "v": "Otwórz stronę internetową",
+    "src": "55dc2e7e45"
+  },
+  "Open memo list": {
+    "v": "Otwórz listę fraz",
+    "src": "980ec78982"
+  },
+  "Open on Mac App Store": {
+    "v": "Otwórz w Mac App Store",
+    "src": "92f94c42ed"
+  },
+  "Open the ClipKeyboard inbox of quick notes.": {
+    "v": "Otwiera Odebrane w ClipKeyboard.",
+    "src": "92725b3a14"
+  },
+  "Open the app to add values for '%@' in placeholder settings": {
+    "v": "Otwórz aplikację i dodaj wartości dla '%@' w ustawieniach zmiennych",
+    "src": "4d31915ced"
+  },
+  "Open the main app to upgrade.": {
+    "v": "Przejdź na wyższy plan w głównej aplikacji.",
+    "src": "aa98c58b6a"
+  },
+  "Out of office reply": {
+    "v": "Automatyczna odpowiedź o nieobecności",
+    "src": "a3fa190d54"
+  },
+  "PIN 변경": {
+    "v": "Zmień PIN",
+    "src": "2e05142f9f"
+  },
+  "PIN 삭제": {
+    "v": "Usuń PIN",
+    "src": "5991fd141e"
+  },
+  "PIN 확인": {
+    "v": "Potwierdź PIN",
+    "src": "b00302283d"
+  },
+  "PIN을 삭제하면 보안 단축어 잠금이 해제됩니다. 계속하시겠습니까?": {
+    "v": "Usunięcie PINu odblokuje zabezpieczone frazy. Kontynuować?",
+    "src": "4528af0aff"
+  },
+  "PIN이 올바르지 않습니다": {
+    "v": "Nieprawidłowy PIN",
+    "src": "63f6efbe13"
+  },
+  "PIN이 일치하지 않습니다. 다시 시도하세요.": {
+    "v": "PIN się nie zgadza. Spróbuj ponownie.",
+    "src": "4fb2e63688"
+  },
+  "Paper": {
+    "v": "Papier",
+    "src": "5bbd97f4c5"
+  },
+  "Paste behavior": {
+    "v": "Sposób wklejania",
+    "src": "863ccf9eab"
+  },
+  "Paste directly after selecting": {
+    "v": "Wklejaj od razu po wybraniu",
+    "src": "97e51c66e8"
+  },
+  "Paste your notes": {
+    "v": "Wklej notatki",
+    "src": "b2151f284c"
+  },
+  "PayPal Link": {
+    "v": "Link PayPal",
+    "src": "f1fa8fa383"
+  },
+  "Payment reminder (overdue)": {
+    "v": "Przypomnienie o płatności (zaległa)",
+    "src": "4bab23f068"
+  },
+  "Paywall": {
+    "v": "Przejdź na Pro",
+    "src": "e6a7be94be"
+  },
+  "Per-platform shortcuts": {
+    "v": "Skróty dla platform",
+    "src": "12e9b8d9e9"
+  },
+  "Phone": {
+    "v": "Telefon",
+    "src": "93a1039ce6"
+  },
+  "Pin ClipKeyboard to the macOS menu bar and paste from anywhere.": {
+    "v": "Przypnij ClipKeyboard do paska menu macOS i wklejaj z dowolnej aplikacji.",
+    "src": "b49e58ee9b"
+  },
+  "Please send your banking details for wire transfer.": {
+    "v": "Podaj dane konta do przelewu.",
+    "src": "d12fd1dd95"
+  },
+  "Plus Template": {
+    "v": "+ Szablon",
+    "src": "633c3474a2"
+  },
+  "Preferences": {
+    "v": "Preferencje",
+    "src": "dc059f1f89"
+  },
+  "Preferences…": {
+    "v": "Preferencje…",
+    "src": "7c93a42c6c"
+  },
+  "Press ⌃⌥K from any app to open your snippet list instantly.": {
+    "v": "Naciśnij ⌃⌥K w dowolnej aplikacji, aby od razu otworzyć listę fraz.",
+    "src": "acdefdd8c9"
+  },
+  "Pro": {
+    "v": "Pro",
+    "src": "36a6c9ff3e"
+  },
+  "Pro 권유를 누름": {
+    "v": "Kliknięto propozycję Pro",
+    "src": "c7cb82cd05"
+  },
+  "Pro 권유를 봄": {
+    "v": "Wyświetlono propozycję Pro",
+    "src": "27bf3dd44a"
+  },
+  "Pro 기능을 다시 쓸 수 있어요.": {
+    "v": "Funkcje Pro są znowu dostępne.",
+    "src": "6e98c5388e"
+  },
+  "Pro 기능이 모두 열려 있어요": {
+    "v": "Wszystkie funkcje Pro są odblokowane",
+    "src": "3feced0f21"
+  },
+  "Pro 를 열었어요. 기본 기능은 그대로 무료예요": {
+    "v": "Jest Pro. Podstawowe funkcje nadal są bezpłatne",
+    "src": "06a2c917b6"
+  },
+  "Pro 버전에서 Face ID/Touch ID 잠금을 사용할 수 있습니다.": {
+    "v": "Blokada Face ID/Touch ID jest dostępna w wersji Pro.",
+    "src": "c43d2302d7"
+  },
+  "Pro 버전에서 iCloud 백업을 사용할 수 있습니다.": {
+    "v": "Kopia zapasowa w iCloud jest dostępna w wersji Pro.",
+    "src": "5b1258f01c"
+  },
+  "Pro 버전에서 테마를 변경할 수 있습니다.": {
+    "v": "Zmiana motywu jest dostępna w wersji Pro.",
+    "src": "2271160a3f"
+  },
+  "Pro 보기": {
+    "v": "Zobacz Pro",
+    "src": "b779703548"
+  },
+  "Pro 업그레이드": {
+    "v": "Przejdź na Pro",
+    "src": "daf7b6010a"
+  },
+  "Pro 업그레이드 화면을 엽니다": {
+    "v": "Otwiera ekran przejścia na Pro",
+    "src": "80c53e824e"
+  },
+  "Pro 업그레이드: %@": {
+    "v": "Przejdź na Pro: %@",
+    "src": "29f6aba6e5"
+  },
+  "Pro 전환율": {
+    "v": "Konwersja do Pro",
+    "src": "d5ae1874d3"
+  },
+  "Pro 활성화 완료!": {
+    "v": "Pro aktywowane!",
+    "src": "1aca27c396"
+  },
+  "Pro 활성화됨": {
+    "v": "Pro aktywne",
+    "src": "7e5d04446f"
+  },
+  "Pro 활성화됨을 누르면 어떤 혜택을 얼마나 누리고 있는지 보여요": {
+    "v": "Stuknij Pro aktywne, aby zobaczyć, z jakich korzyści korzystasz i jak często",
+    "src": "e51b6be2dd"
+  },
+  "Professional English": {
+    "v": "Profesjonalny angielski",
+    "src": "a016b7520b"
+  },
+  "Proposal follow-up (3 days silent)": {
+    "v": "Kontynuacja oferty (3 dni bez odpowiedzi)",
+    "src": "6ebffa6321"
+  },
+  "Pro는 개수 제한 없이 만들고, iCloud 백업과 기기 사이 동기화, 생체인증 잠금을 열어요.": {
+    "v": "Pro pozwala tworzyć bez limitu i odblokowuje kopię w iCloud, synchronizację między urządzeniami oraz blokadę biometryczną.",
+    "src": "36fe7a5bd2"
+  },
+  "Pro로 열린 기능": {
+    "v": "Odblokowane z Pro",
+    "src": "5d21f24ddd"
+  },
+  "Pro를 쓰고 있어요": {
+    "v": "Korzystasz z Pro",
+    "src": "a5b97d7277"
+  },
+  "QWERTY 스타일 (표준)": {
+    "v": "Układ QWERTY (standardowy)",
+    "src": "13d00a6baa"
+  },
+  "Quick Note": {
+    "v": "Notatka",
+    "src": "93ac90fa22"
+  },
+  "Quick Paste Panel": {
+    "v": "Panel szybkiego wklejania",
+    "src": "de691e6a77"
+  },
+  "Quick heads-up: I'm crossing borders today ({from} → {to}), so replies will be slower until ~{eta}. Everything is on track on my end.": {
+    "v": "Krótka informacja: dziś przekraczam granice ({skąd} → {dokąd}), więc do ~{czas} mogę odpowiadać wolniej. Wszystko idzie zgodnie z planem.",
+    "src": "3112a944a6"
+  },
+  "Quick note": {
+    "v": "Notatka",
+    "src": "45492d922a"
+  },
+  "Quick timezone reply": {
+    "v": "Szybka odpowiedź o strefie czasowej",
+    "src": "8c1b33ae4e"
+  },
+  "Quickly capture anything from the Share Sheet, Shortcuts, or Control Center. Decide later whether to keep it as a keyboard memo.": {
+    "v": "Szybko zapisuj wszystko z arkusza udostępniania, Skrótów lub Centrum sterowania. To, czy zostanie frazą na klawiaturze, zdecydujesz później.",
+    "src": "b7c02d344f"
+  },
+  "Quickly capture text into your ClipKeyboard inbox to decide later whether to keep it as a keyboard memo.": {
+    "v": "Szybko zapisz tekst w Odebrane w ClipKeyboard i zdecyduj później, czy zostanie frazą na klawiaturze.",
+    "src": "9bb96f2d9a"
+  },
+  "Quit ClipKeyboard": {
+    "v": "Zakończ ClipKeyboard",
+    "src": "a22a24b4f1"
+  },
+  "Recent snippets": {
+    "v": "Ostatnie frazy",
+    "src": "f2b425be5b"
+  },
+  "Remove all": {
+    "v": "Usuń wszystko",
+    "src": "0c1bfce0e7"
+  },
+  "Remove all categories": {
+    "v": "Usuń wszystkie tematy",
+    "src": "3c801166e5"
+  },
+  "Remove all categories?": {
+    "v": "Usunąć wszystkie tematy?",
+    "src": "f3fbe428d9"
+  },
+  "Reset": {
+    "v": "Resetuj",
+    "src": "20ea075721"
+  },
+  "Restaurant recommendation": {
+    "v": "Polecenie restauracji",
+    "src": "f9be0bdbaf"
+  },
+  "Return": {
+    "v": "Return",
+    "src": "47dd5bd118"
+  },
+  "Reviewing reply": {
+    "v": "Odpowiedź po sprawdzeniu",
+    "src": "bb26fc376e"
+  },
+  "SWIFT/BIC": {
+    "v": "SWIFT/BIC",
+    "src": "b28b21fd83"
+  },
+  "Same snippets, same memos: available on macOS.": {
+    "v": "Te same frazy i notatki także na macOS.",
+    "src": "a804ddc374"
+  },
+  "Save": {
+    "v": "Zapisz",
+    "src": "f77aa30a37"
+  },
+  "Save %d": {
+    "v": {
+      "one": "Zapisz (%d)",
+      "few": "Zapisz (%d)",
+      "many": "Zapisz (%d)",
+      "other": "Zapisz (%d)"
+    },
+    "src": "b52539b30e"
+  },
+  "Save as Memo": {
+    "v": "Zapisz jako frazę",
+    "src": "e6a0b5b363"
+  },
+  "Save as snippet": {
+    "v": "Zapisz jako frazę",
+    "src": "bd70527da6"
+  },
+  "Save it once. Paste it forever.": {
+    "v": "Zapisz raz, wklejaj zawsze",
+    "src": "1a18711fe7"
+  },
+  "Saved %dh %dm so far": {
+    "v": "Zaoszczędzono %1$d godz. %2$d min",
+    "src": "8d5617bd62"
+  },
+  "Saved %dm so far": {
+    "v": {
+      "one": "Zaoszczędzono %d min",
+      "few": "Zaoszczędzono %d min",
+      "many": "Zaoszczędzono %d min",
+      "other": "Zaoszczędzono %d min"
+    },
+    "src": "294b6d1f8a"
+  },
+  "Saved items": {
+    "v": "Zapisane elementy",
+    "src": "90f72b933a"
+  },
+  "Saved to your ClipKeyboard inbox.": {
+    "v": "Zapisano w Odebrane w ClipKeyboard.",
+    "src": "87eeb27c67"
+  },
+  "Scope pushback (politely)": {
+    "v": "Uprzejma odmowa rozszerzenia zakresu",
+    "src": "38503ba596"
+  },
+  "Search bar": {
+    "v": "Pasek wyszukiwania",
+    "src": "7dc769da56"
+  },
+  "Search memos": {
+    "v": "Szukaj fraz",
+    "src": "6af75084e3"
+  },
+  "Search snippets": {
+    "v": "Szukaj fraz",
+    "src": "6de4c90004"
+  },
+  "Select all": {
+    "v": "Zaznacz wszystko",
+    "src": "831e833d0e"
+  },
+  "Send Feedback": {
+    "v": "Wyślij opinię",
+    "src": "ae8bed5255"
+  },
+  "Sending payment confirmation link": {
+    "v": "Wysyłanie linku do potwierdzenia płatności",
+    "src": "67baebd225"
+  },
+  "Sent a proposal but no reply yet": {
+    "v": "Wysłano ofertę, brak odpowiedzi",
+    "src": "4441d88960"
+  },
+  "Shortcuts": {
+    "v": "Skróty",
+    "src": "92762e1530"
+  },
+  "Show Onboarding": {
+    "v": "Pokaż wprowadzenie",
+    "src": "d667a67d04"
+  },
+  "Show all": {
+    "v": "Pokaż wszystko",
+    "src": "f3edf6c290"
+  },
+  "Signing off for the night": {
+    "v": "Wiadomość na koniec dnia pracy",
+    "src": "5c57764444"
+  },
+  "Smart Clipboard": {
+    "v": "Inteligentny schowek",
+    "src": "a04682599b"
+  },
+  "Snippet": {
+    "v": "Fraza",
+    "src": "6844c9917b"
+  },
+  "Startup": {
+    "v": "Uruchamianie",
+    "src": "50a4dd818d"
+  },
+  "Still up?": {
+    "v": "Jeszcze nie śpisz?",
+    "src": "69b95bd1b1"
+  },
+  "Stripe dashboard links": {
+    "v": "Linki do panelu Stripe",
+    "src": "70d7b4353d"
+  },
+  "Student": {
+    "v": "Student",
+    "src": "22f55f5f9c"
+  },
+  "Syncs via iCloud": {
+    "v": "Synchronizacja przez iCloud",
+    "src": "a4279717f7"
+  },
+  "System": {
+    "v": "Systemowy",
+    "src": "d58d1e6331"
+  },
+  "Tap to edit · Swipe right to save as a keyboard memo": {
+    "v": "Dotknij, aby edytować · Przesuń w prawo, aby zapisać jako frazę klawiatury",
+    "src": "1ca01991fa"
+  },
+  "Template": {
+    "v": "Szablon",
+    "src": "dac4104447"
+  },
+  "Text": {
+    "v": "Tekst",
+    "src": "2471fddfc6"
+  },
+  "The quick paste panel (⌃⇧V) stays over your current app, click a memo and the text is pasted directly into the text field you were typing in, without losing focus.": {
+    "v": "Panel szybkiego wklejania (⌃⇧V) pozostaje nad bieżącą aplikacją, kliknij frazę, a tekst trafi prosto do pola, w którym piszesz, bez utraty fokusu.",
+    "src": "e8913c4712"
+  },
+  "The text to capture.": {
+    "v": "Tekst do zapisania.",
+    "src": "4c6aeca4ef"
+  },
+  "Theme": {
+    "v": "Temat",
+    "src": "267c1cfcd6"
+  },
+  "This month": {
+    "v": "W tym miesiącu",
+    "src": "3b28c971bc"
+  },
+  "This quick note will be permanently removed from your inbox.": {
+    "v": "Ta notatka zostanie trwale usunięta z odebranych.",
+    "src": "3ddc4cfdbc"
+  },
+  "This template has no values to set.\nPlease try again.": {
+    "v": "Ten szablon nie ma pól do wypełnienia.\nSpróbuj ponownie.",
+    "src": "d46f588de3"
+  },
+  "This week": {
+    "v": "W tym tygodniu",
+    "src": "231d062946"
+  },
+  "Timezone & availability": {
+    "v": "Strefa czasowa i dostępność",
+    "src": "f9cac6a3ee"
+  },
+  "Tip": {
+    "v": "Wskazówka",
+    "src": "fde82bb560"
+  },
+  "Title": {
+    "v": "Tytuł",
+    "src": "9a03f7664e"
+  },
+  "Today": {
+    "v": "Dzisiaj",
+    "src": "88eb83bca9"
+  },
+  "Travel days notice": {
+    "v": "Powiadomienie o dniach podróży",
+    "src": "1ffa33bd65"
+  },
+  "Try a shorter keyword or clear the filter.": {
+    "v": "Spróbuj krótszego słowa kluczowego lub wyczyść filtr.",
+    "src": "8a48668547"
+  },
+  "Type": {
+    "v": "Klawiatura",
+    "src": "59a3d9b014"
+  },
+  "Type to filter…": {
+    "v": "Wpisz, aby filtrować…",
+    "src": "c6b8ec4325"
+  },
+  "URL": {
+    "v": "URL",
+    "src": "501b80cacf"
+  },
+  "Universal Purchase": {
+    "v": "Jeden zakup na wszystkie urządzenia",
+    "src": "8cf0e7f611"
+  },
+  "Unlock keyboard in ClipKeyboard": {
+    "v": "Odblokuj klawiaturę w ClipKeyboard",
+    "src": "3a5275d05e"
+  },
+  "Upwork proposal intro": {
+    "v": "Wstęp do oferty na Upwork",
+    "src": "2c54016702"
+  },
+  "Upwork, LinkedIn, Gmail: templates that ship.": {
+    "v": "Upwork, LinkedIn, Gmail: gotowe do wysłania szablony",
+    "src": "ff375cc2b6"
+  },
+  "Urgent DM at 10pm": {
+    "v": "Pilna wiadomość o 22:00",
+    "src": "0ad14d3c37"
+  },
+  "VAT / Tax ID detection": {
+    "v": "Wykrywanie VAT / NIP",
+    "src": "4e224e8889"
+  },
+  "VAT Number": {
+    "v": "Numer VAT",
+    "src": "e294fe507f"
+  },
+  "Version %@": {
+    "v": "Wersja %@",
+    "src": "e7ed672ec6"
+  },
+  "View User Guide": {
+    "v": "Zobacz instrukcję",
+    "src": "6ccf9fb48b"
+  },
+  "Visa run notice": {
+    "v": "Przypomnienie o wizie",
+    "src": "de1e16680b"
+  },
+  "VoiceOver": {
+    "v": "VoiceOver",
+    "src": "d2fb1df472"
+  },
+  "VoiceOver: 단축어 행에서 한 번 탭 → 읽기 확인. 이중 탭 → '복사됨' 알림 확인.": {
+    "v": "VoiceOver: stuknij raz wiersz frazy → sprawdź, czy czyta na głos. Stuknij dwukrotnie → sprawdź komunikat „Skopiowano”.",
+    "src": "166c97ee6e"
+  },
+  "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!": {
+    "v": "Witamy, {klient}! Oto plan:\n\n1. Pierwsze spotkanie, Calendly: {calendly}\n2. Dane do przelewu poniżej (przy płatności przelewem)\n3. Zaproszenie na kanał Slack w ciągu 24 godzin\n4. Co czwartek podsumowanie postępów\n\nCieszymy się na wspólną pracę!",
+    "src": "79ae1fd37b"
+  },
+  "Welcome to ClipKeyboard": {
+    "v": "Witamy w ClipKeyboard",
+    "src": "f11e9d7b9b"
+  },
+  "What do you want to capture?": {
+    "v": "Co chcesz zapisać?",
+    "src": "8069a14b69"
+  },
+  "When can we jump on a call?": {
+    "v": "Terminy rozmów",
+    "src": "80477b3891"
+  },
+  "When on, pressing Enter in the menu bar popover copies AND pastes to the frontmost app. Otherwise, Enter only copies (use ⌥Enter to paste).": {
+    "v": "Gdy włączone, Enter w oknie paska menu kopiuje i wkleja do aplikacji na wierzchu. Gdy wyłączone, Enter tylko kopiuje (⌥Enter wkleja).",
+    "src": "7bf80d4055"
+  },
+  "Wifi dropped: back online": {
+    "v": "Wi-Fi padło: znowu online",
+    "src": "69a6255fe6"
+  },
+  "Wifi drops, visa runs, location questions.": {
+    "v": "Zrywane Wi-Fi, wizy, pytania o lokalizację.",
+    "src": "17b9595bb7"
+  },
+  "Wire transfers, VAT, invoicing: save once, tap forever.": {
+    "v": "Przelewy, VAT, faktury: zapisz raz, stukaj bez końca.",
+    "src": "933fc1e774"
+  },
+  "Wise / PayPal quick share": {
+    "v": "Szybkie udostępnienie Wise / PayPal",
+    "src": "940e226b42"
+  },
+  "Wise email: you@example.com\nPayPal: you@example.com\n(Prefer Wise, faster + lower fees for {currency})": {
+    "v": "Wise: you@example.com\nPayPal: you@example.com\n(Wolę Wise, szybciej i taniej dla {waluta})",
+    "src": "0a5e8b74e0"
+  },
+  "Writing cover letters in bulk": {
+    "v": "Pisanie wielu ofert naraz",
+    "src": "dd19ab3284"
+  },
+  "Yesterday": {
+    "v": "Wczoraj",
+    "src": "a7b5a45745"
+  },
+  "Your existing items are safe": {
+    "v": "Twoje dotychczasowe elementy są bezpieczne",
+    "src": "9961b61c8e"
+  },
+  "Your inbox is empty": {
+    "v": "Odebrane są puste",
+    "src": "5528dd8e36"
+  },
+  "Your memos, templates and clipboard history follow you between iPhone and Mac.": {
+    "v": "Frazy, szablony i historia schowka podążają za Tobą między iPhone a Mac.",
+    "src": "de290fab8b"
+  },
+  "[%@] 복사됨": {
+    "v": "[%@] skopiowano",
+    "src": "785aac141f"
+  },
+  "[%@] 이 복사되었습니다.": {
+    "v": "[%@] skopiowano",
+    "src": "5a4000542f"
+  },
+  "[{과제}] 회의\n{회의 날짜} {회의 시간} @ {장소}\n준비: {준비물}\n확인하면 👍": {
+    "v": "[{projekt}] Spotkanie\n{data spotkania} {godzina spotkania} @ {miejsce}\nZabierz: {co zabrać}\nDaj 👍, gdy zobaczysz",
+    "src": "a2bc031f03"
+  },
+  "iCloud Backup": {
+    "v": "Kopia iCloud",
+    "src": "bbd5246f5e"
+  },
+  "iCloud Drive가 활성화되어 있는지 확인해주세요. 설정 > [사용자 이름] > iCloud > iCloud Drive를 켜주세요.": {
+    "v": "Sprawdź, czy iCloud Drive jest włączony. Wejdź w Ustawienia > [Twoje imię] > iCloud i włącz iCloud Drive.",
+    "src": "0bd69616ad"
+  },
+  "iCloud 동기화": {
+    "v": "Synchronizacja iCloud",
+    "src": "1fe9471fb1"
+  },
+  "iCloud 동기화가 어긋나던 것을 고쳤어요": {
+    "v": "Naprawiono rozjeżdżającą się synchronizację iCloud",
+    "src": "f82c1cf352"
+  },
+  "iCloud 백업": {
+    "v": "Kopia iCloud",
+    "src": "58d7ad2398"
+  },
+  "iCloud 백업 및 복구": {
+    "v": "Kopia i przywracanie iCloud",
+    "src": "47a32d8169"
+  },
+  "iCloud 백업·스택·보안 단축어·macOS 앱까지 전부": {
+    "v": "Kopia iCloud, Stosy, zabezpieczone frazy i aplikacja na macOS. Wszystko w pakiecie",
+    "src": "8072dbdb6f"
+  },
+  "iCloud 백업·콤보·보안 단축어·macOS 앱까지 전부": {
+    "v": "Kopia iCloud, Kombo, zabezpieczone frazy i aplikacja na macOS. Wszystko w pakiecie",
+    "src": "c68aef1f6e"
+  },
+  "iCloud 백업에 첨부 사진까지 담겨요": {
+    "v": "Kopia iCloud obejmuje teraz dołączone zdjęcia",
+    "src": "4fe71d8687"
+  },
+  "iCloud 백업에서 복원": {
+    "v": "Przywróć z kopii iCloud",
+    "src": "ed6ba2179d"
+  },
+  "iCloud 백업은 Pro 기능입니다": {
+    "v": "Kopia iCloud to funkcja Pro",
+    "src": "d03ae5ca81"
+  },
+  "iCloud 백업이 켜져 있으면 새 폰에서 그대로 불러올 수 있어요. 백업은 본인 iCloud 계정에만 저장됩니다.": {
+    "v": "Z włączoną kopią iCloud nowy telefon odzyska wszystko. Kopia jest tylko na Twoim koncie iCloud.",
+    "src": "4819a49372"
+  },
+  "iCloud 상태": {
+    "v": "Stan iCloud",
+    "src": "a4eeb2c62c"
+  },
+  "iCloud 상태:": {
+    "v": "Stan iCloud:",
+    "src": "2342173e3f"
+  },
+  "iCloud 서버에 일시적인 문제가 있습니다. 잠시 후 다시 시도해주세요.": {
+    "v": "Serwer iCloud ma chwilowy problem. Spróbuj ponownie za chwilę.",
+    "src": "c581e54a3d"
+  },
+  "iCloud 저장 공간이 부족합니다. 설정 > [사용자 이름] > iCloud > 저장 공간 관리에서 확인해주세요.": {
+    "v": "Brak miejsca w iCloud. Sprawdź w Ustawienia > [Twoje imię] > iCloud > Zarządzaj pamięcią.",
+    "src": "fdf93be9b9"
+  },
+  "iCloud에 로그인되어 있지 않습니다. 설정 > [사용자 이름] > iCloud에서 로그인해주세요.": {
+    "v": "Nie jesteś zalogowany w iCloud. Zaloguj się w Ustawienia > [Twoje imię] > iCloud.",
+    "src": "5e1eac8fe8"
+  },
+  "iCloud에 로그인하세요": {
+    "v": "Zaloguj się do iCloud",
+    "src": "fb9b379b3d"
+  },
+  "iCloud에서 데이터를 복구합니다": {
+    "v": "Przywróć dane z iCloud",
+    "src": "0696c217fd"
+  },
+  "iCloud의 백업 데이터를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.": {
+    "v": "Usunąć kopię zapasową z iCloud? Tej czynności nie można cofnąć.",
+    "src": "12b6d53000"
+  },
+  "iCloud의 백업 데이터를 삭제합니다": {
+    "v": "Usuń kopię zapasową z iCloud",
+    "src": "f23d623f1a"
+  },
+  "iOS 26 순정 디자인 전면 적용, 유리 탭바와 투명한 상단": {
+    "v": "Pełny wygląd iOS 26, szklany pasek kart i przezroczysta góra",
+    "src": "653d88e4f9"
+  },
+  "iOS 26 에서 지구본 줄과 배경색이 갈려 보이던 것을 고쳤어요. 두 부분이 한 장으로 이어져요": {
+    "v": "W iOS 26 wiersz z globusem nie różni się już kolorem od tła. Obie części tworzą jedną powierzchnię",
+    "src": "f31d08dd06"
+  },
+  "iOS 26 이상에서 사용할 수 있어요": {
+    "v": "Dostępne w iOS 26 lub nowszym",
+    "src": "a1fb424722"
+  },
+  "iOS 구매 시 자동 연동": {
+    "v": "Synchronizacja z zakupem w iOS",
+    "src": "ee5bf0cf7a"
+  },
+  "iOS 설정 > 일반 > 키보드에서 추가할 수 있어요": {
+    "v": "Możesz dodać ją w Ustawienia iOS > Ogólne > Klawiatura",
+    "src": "008b354ec6"
+  },
+  "iOS 설정에서 Apple Intelligence를 켜주세요": {
+    "v": "Włącz Apple Intelligence w Ustawieniach iOS",
+    "src": "9b7e1a951c"
+  },
+  "iOS 앱에서 Pro를 구매하면 macOS에서도 자동으로 활성화됩니다.": {
+    "v": "Kup Pro w aplikacji na iOS, a włączy się też w macOS.",
+    "src": "bd48e18f31"
+  },
+  "iOS 앱에서 Pro를 구매하면 이 Mac에서도 자동으로 활성화됩니다.": {
+    "v": "Kup Pro w aplikacji na iOS, a włączy się też na tym Macu.",
+    "src": "a3d4c6b014"
+  },
+  "iPhone 단축어 앱에 이 앱의 동작이 들어가 있어요. 빠른 메모 적기와 보관함 열기를 자동화에 끼우거나 Siri 로 부를 수 있습니다.": {
+    "v": "Działania tej aplikacji są w aplikacji Skróty na iPhonie. Dodaj Szybką notatkę lub otwarcie Odebranych do automatyzacji albo poproś Siri.",
+    "src": "92102a1e4b"
+  },
+  "iPhone 설정에서 ClipKeyboard 키보드를 추가하세요. 딱 한 번만 하면 됩니다.": {
+    "v": "Dodaj klawiaturę ClipKeyboard w Ustawieniach iPhone'a. Wystarczy zrobić to raz.",
+    "src": "ca029e8c22"
+  },
+  "macOS 전용 단축어 앱": {
+    "v": "Aplikacja z frazami dla macOS",
+    "src": "00d512e1b7"
+  },
+  "space": {
+    "v": "spacja",
+    "src": "4713698866"
+  },
+  "x 버튼을 탭하면 검색을 닫습니다": {
+    "v": "Dotknij ×, aby zamknąć wyszukiwanie",
+    "src": "66c2526c09"
+  },
+  "{ }로 감싼 부분은 쓸 때마다 새로 채우는 칸이에요": {
+    "v": "Tekst w { } to pole do wypełnienia przy każdym użyciu",
+    "src": "f10de6931b"
+  },
+  "{가격}": {
+    "v": "{cena}",
+    "src": "46728dca4f"
+  },
+  "{금액}": {
+    "v": "{kwota}",
+    "src": "0073facf0f"
+  },
+  "{날짜}": {
+    "v": "{data}",
+    "src": "1d21ef569c"
+  },
+  "{담당자}님, 오늘 {고객사} 미팅 감사합니다.\n논의: {요약}\n다음 단계: {다음 단계} ({다음 일정})": {
+    "v": "Dzień dobry, {Kontakt}, dziękuję za dzisiejsze spotkanie z {Klient}.\nOmówiliśmy: {Podsumowanie}\nNastępny krok: {Następny krok} ({Następny termin})",
+    "src": "af1f72aa52"
+  },
+  "{메모}": {
+    "v": "{notatka}",
+    "src": "33f81f7dc0"
+  },
+  "{수량}": {
+    "v": "{ilość}",
+    "src": "cbcc97e708"
+  },
+  "{시간}": {
+    "v": "{godzina}",
+    "src": "3e8d8986fb"
+  },
+  "{요일} {약속 시간}, {장소} 앞에서 뵐게요. 도착하면 채팅 주세요!": {
+    "v": "Do zobaczenia {Dzień} o {Godzina}, przed {Miejsce}. Napisz, jak będziesz na miejscu!",
+    "src": "fc57a99d60"
+  },
+  "{은행} {계좌번호} {예금주}": {
+    "v": "{Bank} {Numer konta} {Właściciel konta}",
+    "src": "501ae2b828"
+  },
+  "{이름}": {
+    "v": "{imię}",
+    "src": "121a618781"
+  },
+  "{이름}\n{전화번호}\n{이메일}": {
+    "v": "{imię}\n{numer telefonu}\n{e-mail}",
+    "src": "1269919d98"
+  },
+  "{전화}": {
+    "v": "{telefon}",
+    "src": "dbe7f80be1"
+  },
+  "{주소}": {
+    "v": "{adres}",
+    "src": "12c09c2c56"
+  },
+  "{주소}\n공동현관 {현관 비밀번호}": {
+    "v": "{adres}\nKod do domofonu {kod do domofonu}",
+    "src": "6777046439"
+  },
+  "{커서}": {
+    "v": "{kursor}",
+    "src": "60a8545ddc"
+  },
+  "{클립보드}": {
+    "v": "{schowek}",
+    "src": "5090c5a115"
+  },
+  "{클립보드} 를 적어 두면 그 자리에 방금 복사한 것이 들어가요. \"운송장 번호는 {클립보드} 입니다\" 처럼요.": {
+    "v": "Wpisz {schowek}, a w tym miejscu pojawi się to, co przed chwilą skopiowano. Na przykład: \"Numer przesyłki to {schowek}\".",
+    "src": "a9018a584a"
+  },
+  "{학과} {학번} {이름}": {
+    "v": "{Kierunek} {Numer albumu} {imię}",
+    "src": "ebbb001e47"
+  },
+  "• iCloud와 별개로, 데이터를 파일로 직접 보관하는 가장 확실한 방법입니다\n• 가져오기는 현재 데이터를 지우지 않고 합칩니다(같은 항목은 최신본 유지)": {
+    "v": "• Najpewniejszy sposób na przechowanie danych w pliku, niezależnie od iCloud\n• Import łączy dane z bieżącymi bez ich usuwania (dla takich samych elementów zostaje nowsza wersja)",
+    "src": "a5e5c4905c"
+  },
+  "• 백업 데이터는 iCloud에 안전하게 저장됩니다": {
+    "v": "• Kopia zapasowa jest bezpiecznie przechowywana w iCloud",
+    "src": "fb677352c5"
+  },
+  "• 백업은 단축어와 클립보드 히스토리를 모두 포함합니다": {
+    "v": "• Kopia zawiera frazy i historię schowka",
+    "src": "0252f9a178"
+  },
+  "• 복구 시 현재 데이터는 백업 데이터로 교체됩니다": {
+    "v": "• Podczas przywracania bieżące dane zostaną zastąpione kopią zapasową",
+    "src": "ed55823cd8"
+  },
+  "• 자동 백업이 활성화되면 단축어, 클립보드, 스택 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다": {
+    "v": "• Gdy kopia automatyczna jest włączona, frazy, schowek i stosy są archiwizowane przy każdej zmianie\n• Kopia wykonuje się też co 5 minut",
+    "src": "20a2b813eb"
+  },
+  "• 자동 백업이 활성화되면 단축어, 클립보드, 콤보 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다": {
+    "v": "• Gdy kopia automatyczna jest włączona, frazy, schowek i kombo są archiwizowane przy każdej zmianie\n• Kopia wykonuje się też co 5 minut",
+    "src": "fb3508abe6"
+  },
+  "⌃⌥K로 어디서나 빠르게 접근": {
+    "v": "Szybki dostęp z każdego miejsca: ⌃⌥K",
+    "src": "29686aa8be"
+  },
+  "⌘⇧N for a new memo, ⌘⇧H for clipboard history, and more.": {
+    "v": "⌘⇧N nowa fraza, ⌘⇧H historia schowka i inne skróty Mac.",
+    "src": "42dc61289f"
+  },
+  "○○주식회사": {
+    "v": "Acme Sp. z o.o.",
+    "src": "3311f50bac"
+  },
+  "⚠️ 복구 시 현재 데이터가 백업 데이터로 교체됩니다": {
+    "v": "⚠️ Przywrócenie zastąpi bieżące dane kopią",
+    "src": "d6639bb385"
+  },
+  "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?": {
+    "v": "⚠️ To urządzenie zawiera już dane.\n\nPrzywrócenie usunie wszystkie bieżące frazy, schowek i stosy i zastąpi je kopią.\n\nTej operacji nie można cofnąć. Kontynuować?",
+    "src": "80775225d0"
+  },
+  "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택이 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?": {
+    "v": "⚠️ To urządzenie zawiera już dane.\n\nPrzywrócenie usunie wszystkie bieżące frazy, schowek i stosy i zastąpi je kopią.\n\nTej operacji nie można cofnąć. Kontynuować?",
+    "src": "3eb9c184e4"
+  },
+  "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?": {
+    "v": "⚠️ To urządzenie zawiera już dane.\n\nPrzywrócenie usunie wszystkie bieżące frazy, schowek i kombo i zastąpi je kopią.\n\nTej operacji nie można cofnąć. Kontynuować?",
+    "src": "49ae9b2d1a"
+  },
+  "✈️ 비자": {
+    "v": "✈️ Wiza",
+    "src": "95bf98f924"
+  },
+  "✉️ 이메일": {
+    "v": "✉️ E-mail",
+    "src": "a4e30b0fe6"
+  },
+  "⭐️ 리뷰 및 평점 매기기": {
+    "v": "⭐️ Oceń i napisz opinię",
+    "src": "78fb89db43"
+  },
+  "가끔 고양이가 카드 사이를 지나가요.": {
+    "v": "Czasem kot przechodzi między kartami.",
+    "src": "21b585b242"
+  },
+  "가끔 새 안내 받기": {
+    "v": "Pokazuj czasem wskazówkę",
+    "src": "2a3ee67ecb"
+  },
+  "가끔 새가 날아와 카드에 앉았다 가요.": {
+    "v": "Czasem ptak siada na karcie i odlatuje.",
+    "src": "34346d70be"
+  },
+  "가끔 잠깐 나타나요": {
+    "v": "Pojawia się od czasu do czasu",
+    "src": "aa3abb8cf2"
+  },
+  "가운데 접기": {
+    "v": "Skróć środek",
+    "src": "3d21906a36"
+  },
+  "가장 많이 쓴 것": {
+    "v": "Najczęściej używane",
+    "src": "b95c9ac6a5"
+  },
+  "가장 자주 다시 치는 세 가지부터": {
+    "v": "Zacznij od trzech rzeczy, które wpisujesz najczęściej",
+    "src": "a8643e6d8d"
+  },
+  "가져오기": {
+    "v": "Uwzględnij",
+    "src": "5d7868aabb"
+  },
+  "가져오기 실패": {
+    "v": "Import nie powiódł się",
+    "src": "c7066b8fa0"
+  },
+  "가져오기 완료": {
+    "v": "Import zakończony",
+    "src": "139ad8a3c5"
+  },
+  "가져올 글자 위를 손가락으로 쓸어 보세요. 두 손가락으로 벌리면 확대됩니다.": {
+    "v": "Przesuń palcem po tekście, który chcesz pobrać. Rozsuń dwoma palcami, by powiększyć.",
+    "src": "c5d9194284"
+  },
+  "가져올 단축어가 없어요": {
+    "v": "Brak fraz do zaimportowania",
+    "src": "88f1b29e27"
+  },
+  "간격": {
+    "v": "Odstęp",
+    "src": "b134af45a9"
+  },
+  "갈래를 옆으로 넘기다 마지막 갈래로 튀던 것을 고쳤어요": {
+    "v": "Naprawiono przeskakiwanie do ostatniej kategorii przy przesuwaniu",
+    "src": "41a18705e5"
+  },
+  "갈래를 하나만 쓰셔도 지구본이 사라지지 않아요": {
+    "v": "Globus zostaje, nawet gdy masz tylko jedną kategorię",
+    "src": "eec9762c58"
+  },
+  "갈래마다 아이콘이 붙어 목록에서 찾기 쉬워졌어요": {
+    "v": "Każda kategoria ma ikonę, więc łatwiej znaleźć ją na liście",
+    "src": "4760e56062"
+  },
+  "값": {
+    "v": "Wartość",
+    "src": "dc7644fe90"
+  },
+  "값 %d": {
+    "v": {
+      "one": "Wartość %d",
+      "few": "Wartość %d",
+      "many": "Wartość %d",
+      "other": "Wartość %d"
+    },
+    "src": "c1438e8eb2"
+  },
+  "값 %d개": {
+    "v": {
+      "one": "%d wartość",
+      "few": "%d wartości",
+      "many": "%d wartości",
+      "other": "%d wartości"
+    },
+    "src": "c8497a8893"
+  },
+  "값 끝에 이어 붙이기": {
+    "v": "Dopisz do wartości",
+    "src": "036656808f"
+  },
+  "값 복사": {
+    "v": "Skopiuj wartość",
+    "src": "d3b60228c3"
+  },
+  "값 선택": {
+    "v": "Wybierz wartość",
+    "src": "1c74d363e8"
+  },
+  "값 선택으로 이동합니다": {
+    "v": "Przechodzi do wyboru wartości",
+    "src": "8bae4597a1"
+  },
+  "값 수정": {
+    "v": "Edytuj wartość",
+    "src": "e4cc7d63e0"
+  },
+  "값 입력": {
+    "v": "Wpisz wartość",
+    "src": "171bd95b90"
+  },
+  "값 채우기": {
+    "v": "Uzupełnij wartości",
+    "src": "6386d12c19"
+  },
+  "값 추가": {
+    "v": "Dodaj wartość",
+    "src": "bdca148768"
+  },
+  "값 크게 보기": {
+    "v": "Powiększ wartość",
+    "src": "844ee64e11"
+  },
+  "값에 담았어요": {
+    "v": "Dodano do wartości",
+    "src": "76959c01ea"
+  },
+  "값으로 저장": {
+    "v": "Zapisz wartość",
+    "src": "33bd0cfe3d"
+  },
+  "값을 고르면 미리보기가 먼저 바뀌고, 입력하기를 눌러야 들어가요": {
+    "v": "Wybór wartości najpierw zmienia podgląd. Nic nie zostanie wpisane, dopóki nie stukniesz Wstaw",
+    "src": "edda929581"
+  },
+  "값을 넣고 단축어에서 { }로 불러 쓰세요": {
+    "v": "Dodaj wartości, a potem użyj ich we frazie przez { }",
+    "src": "afac57b25e"
+  },
+  "값을 눌러 복사하세요": {
+    "v": "Stuknij wartość, aby skopiować",
+    "src": "b8364de4c8"
+  },
+  "값을 사진에서 가져올 수도 있어요. 직접 칠 거면 그냥 넘어가세요.": {
+    "v": "Wartość możesz pobrać ze zdjęcia. Jeśli wolisz wpisać ją ręcznie, pomiń ten krok.",
+    "src": "c47174e80e"
+  },
+  "값을 선택하세요": {
+    "v": "Wybierz wartość",
+    "src": "2b25003e56"
+  },
+  "값을 입력하세요": {
+    "v": "Wpisz wartość",
+    "src": "ccaf5b3422"
+  },
+  "값을 입력해주세요": {
+    "v": "Wpisz wartość",
+    "src": "28c93b8182"
+  },
+  "값이 바뀌었죠? 이번엔 왼쪽을 눌러 두 번째 값을 넣어보세요.": {
+    "v": "Wartość się zmieniła? Teraz stuknij lewą stronę, aby wstawić drugą wartość.",
+    "src": "6788e96be8"
+  },
+  "값이 없습니다": {
+    "v": "Brak wartości",
+    "src": "c1b332bfbe"
+  },
+  "값이 없습니다.\n템플릿 사용 시 값을 추가하세요.": {
+    "v": "Brak wartości.\nDodaj wartości przy użyciu szablonu.",
+    "src": "e0e21cc570"
+  },
+  "값이 여러 개인 단축어를 잠가 두었어도, 오른쪽 화살표로 원하는 값을 고른 다음 왼쪽을 눌러 인증하면 그 값만 들어갑니다.": {
+    "v": "Nawet gdy fraza z wieloma wartościami jest zablokowana, wybierz strzałką potrzebną wartość, a potem stuknij lewą stronę i uwierzytelnij się. Wstawiona zostanie tylko ta wartość.",
+    "src": "d95c9353c6"
+  },
+  "강조된 칸만 채우면 나머지 문장은 그대로 완성돼요. 자주 쓰는 양식을 빠르게 입력하세요.": {
+    "v": "Wypełnij tylko wyróżnione pola, a reszta tekstu uzupełni się sama. Szybko wpisuj swoje ulubione formularze.",
+    "src": "3e6e29e035"
+  },
+  "같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 또는 두 대째 상품으로 열리며, 실험적 기능이라 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.": {
+    "v": "Automatycznie synchronizuje frazy między iPhonem i Makiem zalogowanymi na to samo konto iCloud. Odblokowuje to Pro lub Drugie urządzenie. Funkcja jest eksperymentalna, więc najpierw sprawdź, czy działa na obu urządzeniach. Zabezpieczone frazy są synchronizowane w postaci zaszyfrowanej.",
+    "src": "62def30970"
+  },
+  "같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 전용이며 실험적 기능이라, 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.": {
+    "v": "Automatycznie synchronizuje frazy między iPhonem i Makiem zalogowanymi na to samo konto iCloud. Tylko w Pro. Funkcja jest eksperymentalna, więc najpierw sprawdź, czy działa na obu urządzeniach. Zabezpieczone frazy są synchronizowane w postaci zaszyfrowanej.",
+    "src": "8cb02ded1f"
+  },
+  "같은 iCloud 계정의 다른 기기에서도 같은 단축어를 쓸 수 있습니다.": {
+    "v": "Używaj tych samych fraz na innych urządzeniach zalogowanych na to samo konto iCloud.",
+    "src": "cf6e218e91"
+  },
+  "같은 글을 이번 주에 두 번 복사하면 단축어로 저장하자고 한 번 더 알려 드려요": {
+    "v": "Jeśli skopiujesz ten sam tekst dwa razy w tygodniu, jeszcze raz przypomnimy, żeby zapisać go jako frazę",
+    "src": "2286f21bf6"
+  },
+  "같은 문구를 잇달아 쓰면 찾아오는 시간을 한 번만 세요. 한 번 꺼내 온 값은 이미 손에 있으니까요": {
+    "v": "Jeśli użyjesz tej samej frazy dwa razy z rzędu, wyszukiwanie policzymy tylko raz. Pobrana wartość jest już pod ręką.",
+    "src": "96d5fe7657"
+  },
+  "같은 이벤트는 설치당 6시간에 한 번만 기록돼요. 절대 건수보다 단계 사이의 비율을 보세요.": {
+    "v": "To samo zdarzenie jest zapisywane najwyżej raz na 6 godzin dla każdej instalacji. Patrz na proporcje między krokami, a nie na liczby bezwzględne.",
+    "src": "f1f14c68df"
+  },
+  "같은 종류가 쌓이면 카테고리를 만들어 드릴까 여쭤봐요": {
+    "v": "Gdy zbierze się wiele podobnych fraz, aplikacja zaproponuje utworzenie kategorii",
+    "src": "e7d5c33cae"
+  },
+  "같이 과제하는 친구에게도 알려 줄까요?": {
+    "v": "Powiedzieć o tym też koledze, z którym odrabiasz zadania?",
+    "src": "99a7f40c84"
+  },
+  "개발자 모드가 꺼졌어요": {
+    "v": "Tryb dewelopera jest wyłączony",
+    "src": "59ccab3550"
+  },
+  "개발자 모드가 켜졌어요": {
+    "v": "Tryb dewelopera jest włączony",
+    "src": "021ba88e86"
+  },
+  "개수": {
+    "v": "Liczba",
+    "src": "4a944c61f9"
+  },
+  "개수만 늘어요. 다른 Pro 기능은 열리지 않아요": {
+    "v": "Zwiększa tylko liczbę miejsc. Inne funkcje Pro pozostają zablokowane",
+    "src": "db36742cb1"
+  },
+  "개수만 늘어요. 다른 Pro 기능은 열리지 않아요 (최대 %d칸)": {
+    "v": {
+      "one": "Zwiększa tylko liczbę miejsc. Inne funkcje Pro pozostają zablokowane (maks. %d miejsce)",
+      "few": "Zwiększa tylko liczbę miejsc. Inne funkcje Pro pozostają zablokowane (maks. %d miejsca)",
+      "many": "Zwiększa tylko liczbę miejsc. Inne funkcje Pro pozostają zablokowane (maks. %d miejsc)",
+      "other": "Zwiększa tylko liczbę miejsc. Inne funkcje Pro pozostają zablokowane (maks. %d miejsca)"
+    },
+    "src": "ae39e115e3"
+  },
+  "개인": {
+    "v": "Osobiste",
+    "src": "aae44f95ed"
+  },
+  "개인정보 처리방침": {
+    "v": "Polityka prywatności",
+    "src": "ea66992367"
+  },
+  "개인정보를 수집하지 않습니다.": {
+    "v": "Nie zbieramy żadnych danych osobowych.",
+    "src": "f6586bbf85"
+  },
+  "개인정보를 수집하지 않습니다. 안심하고 사용하세요.": {
+    "v": "Nie zbieramy danych osobowych, więc możesz korzystać bez obaw.",
+    "src": "aa73358f0c"
+  },
+  "개인화": {
+    "v": "Personalizacja",
+    "src": "c198e3b239"
+  },
+  "거부": {
+    "v": "Odmów",
+    "src": "da3f4e8df6"
+  },
+  "걸을 수 있는 시간이에요": {
+    "v": "Tyle, co na spacer",
+    "src": "81fcb2e07d"
+  },
+  "검색": {
+    "v": "Szukaj",
+    "src": "af1caf3dcf"
+  },
+  "검색 결과 없음": {
+    "v": "Brak wyników",
+    "src": "24b20b269c"
+  },
+  "검색 중": {
+    "v": "Szukam…",
+    "src": "07616c5508"
+  },
+  "검색...": {
+    "v": "Szukaj...",
+    "src": "432dd5fc23"
+  },
+  "검색어 지우기": {
+    "v": "Wyczyść wyszukiwanie",
+    "src": "d5d6e3434a"
+  },
+  "검색창": {
+    "v": "Pasek wyszukiwania",
+    "src": "ecb5866204"
+  },
+  "검증됨": {
+    "v": "Zweryfikowano",
+    "src": "52f4d3f6e1"
+  },
+  "결": {
+    "v": "Wzór",
+    "src": "eb3e6a1ba8"
+  },
+  "결제 실패": {
+    "v": "Zakup nieudany",
+    "src": "1797865192"
+  },
+  "결제 전환 퍼널": {
+    "v": "Lejek zakupu",
+    "src": "84ca48e3d2"
+  },
+  "결제 전환율": {
+    "v": "Konwersja płatna",
+    "src": "3cea88f393"
+  },
+  "결제 취소": {
+    "v": "Zakup anulowany",
+    "src": "351f755ad4"
+  },
+  "결제·그랜드파더·체험을 모두 포함해 Pro 기능이 열려 있는 비율이에요. 결제율이 아닙니다.": {
+    "v": "Odsetek użytkowników z odblokowanymi funkcjami Pro, razem z zakupami, kontami grandfathered i okresem próbnym. To nie jest wskaźnik zakupów.",
+    "src": "6bc60c3322"
+  },
+  "결제가 실패함": {
+    "v": "Zakup nie powiódł się",
+    "src": "8d0f2f043b"
+  },
+  "결제를 취소함": {
+    "v": "Anulowano zakup",
+    "src": "6637e4fbd2"
+  },
+  "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Pro는 새로 만들고, 백업과 동기화를 여는 것이에요.": {
+    "v": {
+      "one": "Bez płatności %d fraza nadal działa. Pro pozwala tworzyć nowe oraz włącza kopię zapasową i synchronizację.",
+      "few": "Bez płatności %d frazy nadal działają. Pro pozwala tworzyć nowe oraz włącza kopię zapasową i synchronizację.",
+      "many": "Bez płatności %d fraz nadal działa. Pro pozwala tworzyć nowe oraz włącza kopię zapasową i synchronizację.",
+      "other": "Bez płatności %d frazy nadal działa. Pro pozwala tworzyć nowe oraz włącza kopię zapasową i synchronizację."
+    },
+    "src": "1b65bca054"
+  },
+  "결제한 사용자": {
+    "v": "Płacący użytkownicy",
+    "src": "706daddb3a"
+  },
+  "계속": {
+    "v": "Dalej",
+    "src": "528e2f1ba5"
+  },
+  "계좌": {
+    "v": "Konto bankowe",
+    "src": "a10e3fdccb"
+  },
+  "계좌·주소는 한 번만 맞춰 두세요": {
+    "v": "Raz ustaw konto i adres",
+    "src": "e77b80bdf9"
+  },
+  "계좌·주소처럼 다른 앱을 열어 가져와야 했던 값이에요.": {
+    "v": "Wartości, jak numer konta czy adres, po które trzeba było otwierać inną aplikację.",
+    "src": "9d7b3cf2c1"
+  },
+  "계좌·학번처럼 불쑥 묻는 것은 키보드 빠른 줄 같은 자리에 늘 세워 둬요": {
+    "v": "Rzeczy, o które ktoś pyta znienacka, jak konto czy numer indeksu, zostają w tym samym miejscu szybkiego rzędu klawiatury",
+    "src": "aaba3d0200"
+  },
+  "계좌번호": {
+    "v": "Numer konta",
+    "src": "592baec91d"
+  },
+  "계좌번호 좀 보내줄래?": {
+    "v": "Prześlesz mi numer konta?",
+    "src": "a1c8ad048d"
+  },
+  "계좌번호를 복사하면 계좌로, 주소를 복사하면 주소로 스스로 분류돼요. 나중에 찾을 때 검색하지 않고 갈래만 고르면 됩니다.": {
+    "v": "Skopiuj numer konta, a trafi do kont. Skopiuj adres, a trafi do adresów. Później wybierzesz kategorię zamiast szukać.",
+    "src": "8535ff0acf"
+  },
+  "고르는 즉시 앱에 적용돼요. 키보드는 다음에 열 때부터 바뀝니다.": {
+    "v": "Zmiana działa w aplikacji od razu. Klawiatura zmieni się przy następnym otwarciu.",
+    "src": "e678de395f"
+  },
+  "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요": {
+    "v": "Wskażemy kategorie i frazy dopasowane do sposobu, w jaki używasz aplikacji",
+    "src": "99d0651b2f"
+  },
+  "고른 글자": {
+    "v": "Wybrany tekst",
+    "src": "a58fed252a"
+  },
+  "고른 단계의 단축어와 클립보드 기록이 깔리고, 안내와 감춤도 그 사람 것으로 바뀝니다. 내 데이터는 보관되고 끄면 그대로 돌아옵니다.": {
+    "v": "Załadują się frazy i historia schowka wybranego etapu, a podpowiedzi i ukryte elementy zmienią się na jego. Twoje dane zostają i wracają po wyłączeniu.",
+    "src": "1ecd896775"
+  },
+  "고른 단축어 삭제": {
+    "v": "Usuń zaznaczone",
+    "src": "c7b4fd7a1a"
+  },
+  "고른 색은 키보드에서도 같이 써요. 갈래(카테고리) 색은 따로예요, 그건 \"무슨 종류인지\"를 말하는 색이라 그대로 둡니다.": {
+    "v": "Wybrany kolor działa też na klawiaturze. Kolory kategorii są osobne, mówią \"jaki to rodzaj\", więc zostają bez zmian.",
+    "src": "f12d1b09b0"
+  },
+  "고름": {
+    "v": "Równy",
+    "src": "eea0320522"
+  },
+  "고양이": {
+    "v": "Kot",
+    "src": "6ac12247c8"
+  },
+  "고칠 곳을 빈칸으로, 실수 없이": {
+    "v": "Zmień to, co edytujesz, w pola do wypełnienia. Bez pomyłek",
+    "src": "e0ad3c5e43"
+  },
+  "골라 담으러 가기": {
+    "v": "Wybierz coś",
+    "src": "1499570ccd"
+  },
+  "공유 시트 아래 목록의 '단축어로 저장'을 누르면 화면 없이 한 번에 담겨요": {
+    "v": "Dotknij \"Zapisz jako frazę\" na liście akcji arkusza udostępniania, a zapisze się od razu, bez ekranu",
+    "src": "ff8f17e855"
+  },
+  "공유 시트·단축어·제어 센터로 담은 항목은 ⋯ 메뉴의 보관함에 모여요. 나중에 키보드 단축어로 저장하면 돼요.": {
+    "v": "Elementy dodane przez arkusz udostępniania, Skróty lub Centrum sterowania trafiają do Odebranych w menu ⋯. Później zapiszesz je jako frazy klawiatury.",
+    "src": "474e4a0506"
+  },
+  "공유하기": {
+    "v": "Udostępnij",
+    "src": "d41a8ed041"
+  },
+  "과도한 디스크 쓰기": {
+    "v": "Nadmierne zapisy na dysku",
+    "src": "1bd28227c7"
+  },
+  "괜찮아요": {
+    "v": "Może później",
+    "src": "ffc7449fee"
+  },
+  "교수님 메일": {
+    "v": "E-mail do profesora",
+    "src": "16d0ff3f47"
+  },
+  "구경": {
+    "v": "Przeglądanie",
+    "src": "68c62cd8c3"
+  },
+  "구경만 하는 사람": {
+    "v": "Tylko oglądam",
+    "src": "5e3933d860"
+  },
+  "구매 버튼 탭": {
+    "v": "Dotknięto zakupu",
+    "src": "e51690d69d"
+  },
+  "구매 버튼을 누름": {
+    "v": "Dotknięto przycisku zakupu",
+    "src": "2c34d4130b"
+  },
+  "구매 완료": {
+    "v": "Zakupiono",
+    "src": "61ca9e838e"
+  },
+  "구매를 복원했어요": {
+    "v": "Zakup przywrócony",
+    "src": "d465ad1730"
+  },
+  "구매함": {
+    "v": "Kupiono",
+    "src": "53538bcc69"
+  },
+  "구버전 기록 %d개는 이 개수를 안 보내서 빠졌어요.": {
+    "v": {
+      "one": "%d starszy rekord pominięto: nie podaje tej liczby.",
+      "few": "%d starsze rekordy pominięto: nie podają tej liczby.",
+      "many": "%d starszych rekordów pominięto: nie podają tej liczby.",
+      "other": "%d starszego rekordu pominięto: nie podaje tej liczby."
+    },
+    "src": "9d2aeb2105"
+  },
+  "국민 123456-78-901234": {
+    "v": "PKO 1234567890",
+    "src": "52fdf1e803"
+  },
+  "국제 송금": {
+    "v": "Przelew zagraniczny",
+    "src": "b414a862d9"
+  },
+  "국제 송금, 비자, 여행 정보를 자주 입력하는 분께 추천": {
+    "v": "Dla osób, które często wpisują dane przelewów zagranicznych, wiz i podróży",
+    "src": "dceb7d146e"
+  },
+  "그 뒤에도 만든 단축어는 전부 계속 쓸 수 있어요.": {
+    "v": "Wszystkie utworzone frazy nadal będą działać.",
+    "src": "b49a80060e"
+  },
+  "그 밖에 %d개": {
+    "v": {
+      "one": "Jeszcze %d",
+      "few": "Jeszcze %d",
+      "many": "Jeszcze %d",
+      "other": "Jeszcze %d"
+    },
+    "src": "b72f7e982e"
+  },
+  "그 밖에 문구 %d개": {
+    "v": {
+      "one": "I jeszcze %d fraza",
+      "few": "I jeszcze %d frazy",
+      "many": "I jeszcze %d fraz",
+      "other": "I jeszcze %d frazy"
+    },
+    "src": "4f976d759d"
+  },
+  "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
+    "v": "Ta nazwa jest niedostępna. Już istnieje lub jest taka sama jak wbudowana karta.",
+    "src": "bb24d4c594"
+  },
+  "그거 아세요?": {
+    "v": "Czy wiesz?",
+    "src": "eba6344976"
+  },
+  "그냥 닫음": {
+    "v": "Tylko zamknięto",
+    "src": "b0820ecab2"
+  },
+  "그냥 둘게요": {
+    "v": "Zostaw widoczne",
+    "src": "e057f0d2d9"
+  },
+  "그대로 두기": {
+    "v": "Zostaw jako jedną",
+    "src": "a42ca0c386"
+  },
+  "그대로 둘게요": {
+    "v": "Zostaw",
+    "src": "45d6f793e5"
+  },
+  "그대로 쓰기": {
+    "v": "Zachowaj",
+    "src": "905a5c069e"
+  },
+  "그동안 모든 기능이 무료로 열려 있었어요. %d일 뒤부터 무료 플랜이 적용돼요. 저장한 단축어는 지워지지 않아요.": {
+    "v": {
+      "one": "Do tej pory wszystkie funkcje były bezpłatne. Plan bezpłatny obowiązuje za %d dzień. Zapisane frazy nie zostaną usunięte.",
+      "few": "Do tej pory wszystkie funkcje były bezpłatne. Plan bezpłatny obowiązuje za %d dni. Zapisane frazy nie zostaną usunięte.",
+      "many": "Do tej pory wszystkie funkcje były bezpłatne. Plan bezpłatny obowiązuje za %d dni. Zapisane frazy nie zostaną usunięte.",
+      "other": "Do tej pory wszystkie funkcje były bezpłatne. Plan bezpłatny obowiązuje za %d dnia. Zapisane frazy nie zostaną usunięte."
+    },
+    "src": "aa46575d6b"
+  },
+  "그동안 모든 기능이 무료로 열려 있었어요. 이제 무료 플랜이 적용돼요. 저장한 단축어는 지워지지 않아요.": {
+    "v": "Do tej pory wszystkie funkcje były bezpłatne. Teraz obowiązuje plan bezpłatny. Zapisane frazy nie zostaną usunięte.",
+    "src": "4d7e9923fb"
+  },
+  "그래도 백업": {
+    "v": "Mimo to utwórz kopię",
+    "src": "e1f7ad1097"
+  },
+  "그리드 레이아웃": {
+    "v": "Układ siatki",
+    "src": "0200132a0a"
+  },
+  "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요": {
+    "v": "Do tego czasu ustawiony jest Ogólny. Dawna wartość domyślna, Cyfrowy nomada, była miejscem startu aplikacji, a nie Twoim",
+    "src": "aa7579c8f3"
+  },
+  "그중 키보드 없이 앱에서만": {
+    "v": "Z tego tylko w aplikacji, bez klawiatury",
+    "src": "fd7b80286a"
+  },
+  "글과 사진을 함께 담은 단축어를 복사하면 사진이 빠지던 것을 고쳤어요": {
+    "v": "Naprawiono gubienie zdjęcia przy kopiowaniu frazy z tekstem i zdjęciem",
+    "src": "dd2c538bc8"
+  },
+  "글자 위를 문질러 주세요": {
+    "v": "Przesuń palcem po tekście",
+    "src": "14d73f220e"
+  },
+  "글자 읽기": {
+    "v": "Skanuj tekst",
+    "src": "a9452edd2d"
+  },
+  "글자 줄이기": {
+    "v": "Zmniejsz do rozmiaru",
+    "src": "a2865591ef"
+  },
+  "글자 크기": {
+    "v": "Rozmiar czcionki",
+    "src": "cddd29e8fa"
+  },
+  "글자를 찾지 못했어요": {
+    "v": "Nie znaleziono tekstu",
+    "src": "d2a3db28d9"
+  },
+  "금고": {
+    "v": "Sejf",
+    "src": "bf9e927885"
+  },
+  "금액": {
+    "v": "Kwota",
+    "src": "321227ec6e"
+  },
+  "금액이나 수량처럼 매번 달라지는 값은 저장하지 않아요. 쓸 때 숫자판이 열립니다.": {
+    "v": "Kwoty i ilości zmieniają się za każdym razem, więc nie są zapisywane. Przy użyciu otworzy się klawiatura numeryczna.",
+    "src": "ada035ab9a"
+  },
+  "금액이나 수량처럼 숫자를 넣는 칸은 숫자 키패드로 열려요": {
+    "v": "Pola do wypełnienia na kwoty lub ilości otwierają klawiaturę numeryczną",
+    "src": "93b37d9c36"
+  },
+  "금요일": {
+    "v": "Piątek",
+    "src": "fc5d92616c"
+  },
+  "금요일 오후 보고 마감 전에": {
+    "v": "Przed piątkowym terminem raportu",
+    "src": "23b5bde554"
+  },
+  "금융": {
+    "v": "Finanse",
+    "src": "c887f518e4"
+  },
+  "기간": {
+    "v": "Okres",
+    "src": "06974ac0b0"
+  },
+  "기간 단위": {
+    "v": "Jednostka okresu",
+    "src": "fedfe7a907"
+  },
+  "기간별 추이": {
+    "v": "Trend w czasie",
+    "src": "d144242ed0"
+  },
+  "기계식": {
+    "v": "Mechaniczna",
+    "src": "df43c7dbfc"
+  },
+  "기기 간 단축어 동기화": {
+    "v": "Synchronizuj frazy między urządzeniami",
+    "src": "70365919c6"
+  },
+  "기기 간 동기화 (베타)": {
+    "v": "Synchronizacja między urządzeniami (beta)",
+    "src": "fa5258122e"
+  },
+  "기기 간 동기화(베타) 수정, 전송이 확정된 뒤에만 완료 처리해 누락을 막아요": {
+    "v": "Poprawki synchronizacji między urządzeniami (beta): zmiany są uznawane za wysłane dopiero po potwierdzeniu, więc nic nie ginie",
+    "src": "f6f982321d"
+  },
+  "기기 간 동기화가 꺼져 있거나 아직 시작되지 않았어요.": {
+    "v": "Synchronizacja między urządzeniami jest wyłączona albo jeszcze się nie rozpoczęła.",
+    "src": "3201764ab6"
+  },
+  "기기 간 동기화에서 처음 올린 뒤의 수정과 삭제가 반영되지 않던 문제를 고쳤어요": {
+    "v": "Naprawiono synchronizację między urządzeniami, która pomijała edycje i usunięcia po pierwszym wysłaniu.",
+    "src": "f81c9cc9f9"
+  },
+  "기기 사이 동기화": {
+    "v": "Synchronizacja między urządzeniami",
+    "src": "16ea47473c"
+  },
+  "기기 사이 동기화에서 수정과 삭제가 반영되지 않던 것을 고쳤어요": {
+    "v": "Edycje i usunięcia są teraz przenoszone między urządzeniami",
+    "src": "2f1cdcc9ec"
+  },
+  "기기 설정 따르기": {
+    "v": "Zgodnie z ustawieniem urządzenia",
+    "src": "55e6c51555"
+  },
+  "기기 안에서만 계산돼요. 어디에도 보내지 않아요.": {
+    "v": "Obliczenia odbywają się tylko na tym urządzeniu. Nic nie jest nigdzie wysyłane.",
+    "src": "82d3b67bfe"
+  },
+  "기기 안에서만 계산했어요. 어디에도 보내지 않았어요.": {
+    "v": "Obliczono tylko na tym urządzeniu. Nic nie zostało nigdzie wysłane.",
+    "src": "cbb719a2e7"
+  },
+  "기기가 둘이 되셨네요. 같은 단축어를 두 기기에서 쓸 수 있어요": {
+    "v": "Masz już dwa urządzenia. Używaj tych samych fraz na obu",
+    "src": "94966847d2"
+  },
+  "기기를 2대 이상 쓰는 신호예요.": {
+    "v": "Sygnał, że używasz co najmniej dwóch urządzeń.",
+    "src": "e186e74375"
+  },
+  "기능": {
+    "v": "Funkcja",
+    "src": "95a5536727"
+  },
+  "기능 열린 비율": {
+    "v": "Odsetek z odblokowanymi funkcjami",
+    "src": "b886b4aa01"
+  },
+  "기능 열림 (결제 아님)": {
+    "v": "Funkcje odblokowane (to nie zakup)",
+    "src": "f294d6d3e0"
+  },
+  "기본": {
+    "v": "Podstawowe",
+    "src": "e1dd96853d"
+  },
+  "기본 Paper 테마 대신 직접 색상을 지정합니다": {
+    "v": "Ustaw własne kolory zamiast domyślnego motywu Paper",
+    "src": "f75e67eda6"
+  },
+  "기본 번역 언어": {
+    "v": "Domyślny język tłumaczenia",
+    "src": "a8839bb7cc"
+  },
+  "기본 언어": {
+    "v": "Język domyślny",
+    "src": "10505abdec"
+  },
+  "기본 정보": {
+    "v": "Podstawowe informacje",
+    "src": "21059bffed"
+  },
+  "기본 제공 카테고리": {
+    "v": "Wbudowane kategorie",
+    "src": "4366c51189"
+  },
+  "기본 카테고리 (삭제 불가)": {
+    "v": "Kategoria domyślna (nie można usunąć)",
+    "src": "9ddab4e3ff"
+  },
+  "기본 키보드보다 윗줄 하나만큼 높아요. 단축어가 더 보입니다.": {
+    "v": "O jeden rząd wyższa niż standardowa klawiatura, więc mieści się więcej fraz.",
+    "src": "958c677986"
+  },
+  "기본 키보드와 높이가 같아요. 키보드를 바꿔도 화면이 움직이지 않습니다. 단축어는 굴려서 봅니다.": {
+    "v": "Ma taką samą wysokość jak standardowa klawiatura, więc nic się nie przesuwa po zmianie klawiatury. Przewiń, aby zobaczyć więcej fraz.",
+    "src": "10c63a3678"
+  },
+  "기본값으로 되돌리기": {
+    "v": "Przywróć domyślne",
+    "src": "61d28846c0"
+  },
+  "기본값으로 초기화": {
+    "v": "Przywróć domyślne",
+    "src": "2df8a231d2"
+  },
+  "기본값은 아이폰이 쓰는 그 파랑이에요. 예전 주황은 테라코타로, 색을 아예 빼고 싶으면 먹으로 고르면 돼요": {
+    "v": "Domyślnie jest to niebieski, którego używa sam iPhone. Wybierz Terakotę dla dawnego pomarańczu albo Tusz, jeśli nie chcesz żadnego koloru",
+    "src": "05785bce0b"
+  },
+  "기본색": {
+    "v": "Domyślny",
+    "src": "4cf8d2489c"
+  },
+  "기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·스택·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.": {
+    "v": "Domyślnie karty pokazują tylko tytuł: bez symboli i obramowań. Włącz to, aby zobaczyć ikony typów fraz (szablon, stos, zabezpieczona), symbole oraz obramowania kart i pól klawiatury.",
+    "src": "65b0f782ba"
+  },
+  "기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·콤보·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.": {
+    "v": "Domyślnie karty pokazują tylko tytuł: bez symboli i obramowań. Włącz to, aby zobaczyć ikony typów fraz (szablon, kombo, zabezpieczona), symbole oraz obramowania kart i pól klawiatury.",
+    "src": "607d8228e5"
+  },
+  "기존 단축어 가져오기": {
+    "v": "Importuj z istniejących fraz",
+    "src": "a0510ec880"
+  },
+  "기존 단축어 남기기": {
+    "v": "Zachowaj oryginalną frazę",
+    "src": "360455e74f"
+  },
+  "기존 단축어를 불러올 수 있어요": {
+    "v": "Możesz przywrócić swoje frazy",
+    "src": "07c2b3e573"
+  },
+  "기존 단축어에서 가져오기": {
+    "v": "Importuj z istniejących fraz",
+    "src": "ab05718dd2"
+  },
+  "기존 데이터가 있습니다. 복원하면 현재 데이터가 모두 삭제됩니다. 계속하시겠습니까?": {
+    "v": "Istnieją już dane. Przywrócenie usunie wszystkie bieżące dane. Kontynuować?",
+    "src": "a7fce27cae"
+  },
+  "기존 백업(단축어 %1$d개)을 %2$d개로 덮어쓰려고 합니다. 줄어든 데이터는 백업에서 사라집니다.": {
+    "v": "Zamierzasz nadpisać istniejącą kopię (liczba fraz: %1$d) kopią z %2$d. Usunięte dane znikną z kopii zapasowej.",
+    "src": "ab3a85fe9d"
+  },
+  "기존 백업(단축어 %1$d개)을 지키기 위해 이번 백업(%2$d개)을 건너뛰었습니다.": {
+    "v": "Pominięto tę kopię (liczba fraz: %2$d), aby chronić istniejącą kopię (liczba fraz: %1$d).",
+    "src": "69a7a17a61"
+  },
+  "기존 백업(단축어 %1$d개)이 %2$d개로 줄어듭니다.\n줄어든 데이터는 백업에서 사라집니다.\n(나중에 '이전 버전에서 복원'으로 되돌릴 수 있어요.)": {
+    "v": "Istniejąca kopia (liczba fraz: %1$d) zmniejszy się do %2$d.\nUsunięte dane znikną z kopii zapasowej.\n(Możesz to cofnąć później przez „Przywróć z poprzedniej wersji”.)",
+    "src": "afbf291892"
+  },
+  "기존에 쓰던 단축어를 불러오는 방법이 있습니다. iCloud 백업에서 복원할 수 있어요.": {
+    "v": "Możesz odzyskać frazy, których używano wcześniej. Przywróć je z kopii w iCloud.",
+    "src": "25858c7c0b"
+  },
+  "기타": {
+    "v": "Inne",
+    "src": "4823d26f06"
+  },
+  "기호": {
+    "v": "Symbole",
+    "src": "912b120400"
+  },
+  "긴 이름": {
+    "v": "Długie nazwy",
+    "src": "8333c19c21"
+  },
+  "길게 누르면 복사돼요": {
+    "v": "Przytrzymaj, aby skopiować",
+    "src": "7b8542875d"
+  },
+  "길게 누르면 이모지를 포함한 키보드 목록이 열립니다": {
+    "v": "Przytrzymaj, aby otworzyć listę klawiatur, także z emoji",
+    "src": "c16ea0533c"
+  },
+  "길게 눌러 선택하고, 복사하고, 돌아와서 붙여넣던 손놀림이에요.": {
+    "v": "Przytrzymanie, żeby zaznaczyć, skopiować, wrócić i wkleić. Cały ten rytuał.",
+    "src": "943d421e31"
+  },
+  "길어서 치기 싫은 것": {
+    "v": "Zbyt długie do wpisywania",
+    "src": "17a7df3598"
+  },
+  "김민수": {
+    "v": "Jan Kowalski",
+    "src": "3104c902cf"
+  },
+  "깊은 초록이에요. 어두운 화면에서 눈이 편합니다.": {
+    "v": "Głęboka zieleń. Łagodna dla oczu w ciemnym trybie.",
+    "src": "ae85079e1c"
+  },
+  "꺼내 쓴 설치": {
+    "v": "Użyto frazy",
+    "src": "2ea3e787dc"
+  },
+  "꺼냄": {
+    "v": "Użyto",
+    "src": "949812949e"
+  },
+  "꺼짐": {
+    "v": "Wyłączone",
+    "src": "aae35362ff"
+  },
+  "꾸준히 쓰는 사람": {
+    "v": "Stali użytkownicy",
+    "src": "455f7ab63b"
+  },
+  "끄고 내 데이터로 돌아가기": {
+    "v": "Wyłącz i przywróć moje dane",
+    "src": "a744e244fe"
+  },
+  "끄기": {
+    "v": "Wyłącz",
+    "src": "beb220eece"
+  },
+  "끄면 저장할 때 원본 단축어가 삭제돼요": {
+    "v": "Wyłącz, aby usuwać oryginalną frazę przy zapisie",
+    "src": "b643c858e1"
+  },
+  "끔": {
+    "v": "Wył.",
+    "src": "d5a786b5cc"
+  },
+  "나눠 담기": {
+    "v": "Podziel",
+    "src": "d8d771b857"
+  },
+  "나에게 맞추기": {
+    "v": "Dopasuj do mnie",
+    "src": "51ddf66355"
+  },
+  "나중에": {
+    "v": "Później",
+    "src": "a87f3586ca"
+  },
+  "나중에 할게요": {
+    "v": "Może później",
+    "src": "86123c6260"
+  },
+  "날짜": {
+    "v": "Data",
+    "src": "12adee423b"
+  },
+  "날짜 형식": {
+    "v": "Format daty",
+    "src": "11b30e4cec"
+  },
+  "날짜나 시각 조각이 하나는 들어가야 해요": {
+    "v": "Dodaj przynajmniej jeden element daty lub godziny",
+    "src": "7b0c335a52"
+  },
+  "날짜를 선택합니다": {
+    "v": "Wybierz datę",
+    "src": "3692e572b4"
+  },
+  "날짜별 백업에서 골라서 복원합니다": {
+    "v": "Wybierz kopię według daty i przywróć ją",
+    "src": "467163b605"
+  },
+  "날짜와 시간 서식을 직접 만들 수 있어요. 조각을 눌러 넣으면 오늘 날짜가 그 모양으로 바로 보여요": {
+    "v": "Twórz własne formaty daty i godziny. Dotknij elementów, a dzisiejsza data od razu pokaże się w tym kształcie.",
+    "src": "b0e4d08267"
+  },
+  "날짜와 시간이 사시는 곳의 모양으로 들어가요. 미국은 08/31/2026 과 9:57 PM, 영국은 31/08/2026 이에요": {
+    "v": "Data i godzina mają format używany w Twoim regionie. W USA to 08/31/2026 i 9:57 PM, w Wielkiej Brytanii 31/08/2026",
+    "src": "b88031789a"
+  },
+  "남에게 보여주기 싫은 건 잠글 수 있어요": {
+    "v": "Te, których nie chcesz pokazywać, możesz zablokować",
+    "src": "81e5181178"
+  },
+  "납작": {
+    "v": "Płaski",
+    "src": "d3c1298a5e"
+  },
+  "내 %@": {
+    "v": "Moje %@",
+    "src": "1cc78149cf"
+  },
+  "내 Pro 혜택": {
+    "v": "Moje korzyści Pro",
+    "src": "1d716f11a4"
+  },
+  "내 것을 저장해보세요": {
+    "v": "Zapisz własną",
+    "src": "7c40449eba"
+  },
+  "내 데이터": {
+    "v": "Moje dane",
+    "src": "9ecb84740c"
+  },
+  "내 모양 만들기": {
+    "v": "Utwórz własny",
+    "src": "0f256bd058"
+  },
+  "내 사진": {
+    "v": "Moje zdjęcie",
+    "src": "82d045242e"
+  },
+  "내 손에 맞는 키보드 크기": {
+    "v": "Rozmiar klawiatury dopasowany do dłoni",
+    "src": "2937dab534"
+  },
+  "내 연락처": {
+    "v": "Moje dane kontaktowe",
+    "src": "3bdbda8981"
+  },
+  "내 주소": {
+    "v": "Mój adres",
+    "src": "6fece5a5e3"
+  },
+  "내가 만든 모양": {
+    "v": "Twoje formaty",
+    "src": "248d22ead0"
+  },
+  "내가 아낀 시간 보기": {
+    "v": "Zobacz, ile czasu zaoszczędzam",
+    "src": "f8cba3d5b2"
+  },
+  "내보내기 실패": {
+    "v": "Eksport nie powiódł się",
+    "src": "cc29aa5489"
+  }
+}

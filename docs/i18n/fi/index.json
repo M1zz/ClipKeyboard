@@ -1,0 +1,761 @@
+{
+ "translations": {
+  "pageTitle": "ClipKeyboard: Lopeta saman kirjoittaminen uudestaan. Yksi fraasi riittää",
+  "metaDescription": "Tallenna pankkitietosi, osoitteesi ja sähköpostipohjasi fraaseiksi ja kirjoita ne yhdellä napautuksella näppäimistöltä missä tahansa sovelluksessa. 40 arkielämän pohjaa nomadeille, ammattilaisille, opiskelijoille ja arjen tilanteisiin: ilmaiseksi.",
+  "ogTitle": "ClipKeyboard: Lopeta saman kirjoittaminen uudestaan. Yksi fraasi riittää",
+  "ogDescription": "Muuta toistuvat lauseesi fraaseiksi. Kopioi 40 valmista pohjaa saman tien.",
+  "heroBadge": "🔒 Fraasisi pysyvät sinun · Yksityisyys ensin",
+  "heroTitle": "Lopeta saman kirjoittaminen uudestaan.<br><span>Yksi fraasi riittää</span>",
+  "heroSubtitle": "Pankkitiedot · osoitteet · esittelyt · englanninkieliset pohjat<br>tallennetaan kerran ja kirjoitetaan yhdellä napautuksella näppäimistöltä missä tahansa sovelluksessa.",
+  "heroCta": "Lataa App Storesta",
+  "heroDemo": "⌨️ Kokeile näppäimistöä: 30 sekuntia",
+  "heroTemplates": "📋 Selaa 40 arkielämän pohjaa",
+  "videoTitle": "Näin se toimii",
+  "videoSubtitle": "23 sekunnin näytön tallenne. Ei ääntä.",
+  "videoNote": "",
+  "demoTitle": "Kokeile heti tässä",
+  "demoSubtitle": "Tämä on sovelluksen oma \"Näppäimistön esikatselu\" -näkymä. Oikeasti tämä näppäimistö aukeaa Viesteissä, Mailissa ja Safarissa: kaikkialla, missä kirjoitat.",
+  "demoBrief": "Alla oleva näppäimistö on <strong>sama näkymä, joka on mukana sovelluksessa</strong>. Napauta fraasia, niin se ilmestyy kenttään. Jatka napauttelua lähettämisen jälkeenkin.",
+  "demoCta": "Aloita omilla lauseillasi",
+  "demoReset": "Aloita alusta",
+  "demoNote": "* Kaikki tämän demon tili- ja passitiedot ovat keksittyjä. Oikeat fraasisi eivät koskaan poistu laitteeltasi.",
+  "demoStageTitle": "Näppäimistön esikatselu",
+  "demoComposerPh": "Tekstisi ilmestyy tähän",
+  "demoCueTap": "Napauta \"%@\" -näppäintä",
+  "demoCueSend": "Siinä se on: napauta nyt lähetä (↑)",
+  "demoCueDone": "Siinä kaikki: kokeile muita näppäimiä",
+  "demoTplInsert": "Lisää",
+  "demoTplPick": "Valitse arvo",
+  "demoFaceScanning": "Avataan Face ID:llä…",
+  "demoFaceDone": "Avattu",
+  "demoToastCombo": "Siirryttiin seuraavaan arvoon",
+  "demoTabBasic": "Perus",
+  "demoTabFav": "Suosikit",
+  "demoTabTemplate": "Pohjat",
+  "demoTabCombo": "Kombot",
+  "demoFeatures": [
+   {
+    "k": "snippet",
+    "t": "Fraasi: yksi napautus ja teksti on kirjoitettu",
+    "d": "Tallentamasi pankkitiedot, osoite tai allekirjoitus menevät sisään täsmälleen sellaisenaan."
+   },
+   {
+    "k": "template",
+    "t": "Pohja: täytä vain kentät",
+    "d": "Muuttujat kuten {päivämäärä} ja {kellonaika} täytetään napauttamalla aiemmin tallentamaasi arvoa."
+   },
+   {
+    "k": "combo",
+    "t": "Kombo: selaa arvoja →-näppäimellä",
+    "d": "Kolme pankkitiliä tai maksutapaa mahtuu yhteen näppäimeen. Valitse sopiva lennossa."
+   },
+   {
+    "k": "secure",
+    "t": "Suojattu fraasi: Face ID:n takana",
+    "d": "Passin ja kortin numerot pysyvät lukittuina siihen asti, kun tarvitset niitä."
+   }
+  ],
+  "howTitle": "Mikä on fraasi?",
+  "howSubtitle": "Usein käyttämäsi lause, joka on tallennettu nimellä. Siinä kaikki.",
+  "how1Title": "Tallenna se fraasiksi",
+  "how1Desc": "Anna sille nimi (avain), esimerkiksi \"Pankkitiedot\", ja liitä varsinainen teksti (arvo). Tallenna kerran.",
+  "how2Title": "Napauta sitä näppäimistöltä",
+  "how2Desc": "Vaihda ClipKeyboardiin Viesteissä, Mailissa tai Safarissa: missä vain. Fraasisi odottavat suoraan näppäimistöllä. Yksi napautus, ja teksti on kirjoitettu.",
+  "how3Title": "Kasva pohjiin ja komboihin",
+  "how3Desc": "Lisää muuttujia kuten <span class=\"chip\">nimi</span> <span class=\"chip\">päivämäärä</span>, niin saat pohjia. Ketjuta fraaseja komboiksi. Kokonaiset rutiinit katoavat.",
+  "libTitle": "Samanlaisia kuin sinä säästää aikaa joka päivä",
+  "libSubtitle": "Valitse päivä, joka muistuttaa omaasi. Kopioi mikä tahansa pohja heti, tallenna se sovellukseen, niin se on aina näppäimistölläsi.",
+  "libNote": "💡 Siniset merkit ovat pohjan muuttujia. Sovelluksessa täytät ne napautuksella.",
+  "copy": "Kopioi",
+  "copied": "Kopioitu ✓",
+  "impactPrefix": "✨ ",
+  "privacyTitle": "🔒 Tietosi pysyvät vain laitteellasi",
+  "privacyDesc": "Fraasiesi sisältö on vain laitteellasi (ja omassa iCloudissasi, jos otat sen käyttöön), emmekä koskaan kerää sitä. Keräämme vain anonyymia käyttötilastoa sovelluksen parantamiseksi.",
+  "privacyBadge": "✓ Apple Privacy Policy -yhteensopiva",
+  "pricingTitle": "Aloita ilmaiseksi",
+  "pricingSubtitle": "Lataus on ilmainen · Pro on kertaosto, ei tilauksia",
+  "price": "Ilmainen",
+  "priceDesc": "Pro-päivitys 9,99 € · kertamaksu · 7 päivän ilmainen kokeilu",
+  "priceFeature1": "Ilmainen: 10 fraasia · 3 pohjaa · 3 kombo",
+  "priceFeature2": "Pro: rajaton tallennustila · iCloud-varmuuskopio · suojatut fraasit",
+  "priceFeature3": "iPhone, iPad, Mac, Vision Pro",
+  "priceFeature4": "Ei tilausta · Ei mainoksia",
+  "priceFeature5": "Ilmaiset päivitykset elinikäisesti",
+  "pricingCta": "Lataa ilmaiseksi",
+  "footerContact": "Ota yhteyttä",
+  "footerTutorial": "Opas",
+  "footerPrivacy": "Tietosuojakäytäntö",
+  "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+ },
+ "PERSONA_DATA": [
+  {
+   "persona": "nomad",
+   "intro": "Hyppelet kahvilasta ja coworking-tilasta toiseen ja teet töitä asiakkaille ympäri maailmaa. Aikavyöhykkeet, kansainväliset maksut, viisumit ja lähes identtiset englanninkieliset viestit: päiväsi valuu siihen, että etsit samoja tietoja toiselta välilehdeltä. Tallenna jokainen tieto kerran, niin jatkossa se on yhden napautuksen päässä.",
+   "scenarios": [
+    {
+     "title": "\"Lähetä pankkitietosi\"",
+     "pain": "Asiakkaan yksi rivi, ja kaivat taas pankkisovellusta IBANin ja SWIFTin perässä.",
+     "example": "Nimi: {oma nimi}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nPankin osoite: {pankin osoite}\nWise: {Wise-sähköposti}",
+     "impact": "30 sekunnin etsintä muuttuu yhdeksi napautukseksi, eikä numerot enää mene sekaisin.",
+     "feature": "combo"
+    },
+    {
+     "title": "Vastaus aikavyöhykekysymykseen",
+     "pain": "Kello 2 yöllä tulee \"Voisimmeko soittaa?\", ja selität taas aikavyöhykettäsi.",
+     "example": "Hei {asiakas}, olen tällä hetkellä GMT+{aikaero}-vyöhykkeellä ({kaupunki}). Sopiva aika olisi {aikaikkuna}. Calendly: {linkki}",
+     "impact": "Kolme edestakaista viestiä tiivistyy yhdeksi selkeäksi vastaukseksi.",
+     "feature": "template"
+    },
+    {
+     "title": "Laskun lähettäminen",
+     "pain": "Kirjoitat laskunumeron, summan, valuutan ja eräpäivän uudelleen joka kerta.",
+     "example": "Lasku nro {numero} · {valuutta} {summa}\nEräpäivä: {eräpäivä}\nMaksu: Wise ({sähköposti})\nKiitos! 🙏",
+     "impact": "Pohja huomaa kentät, jotka muuten unohtuisivat: vähemmän uudelleenlaskutuksia ja korjauksia.",
+     "feature": "template"
+    },
+    {
+     "title": "Tarjouksen seuranta",
+     "pain": "Kolme päivää hiljaisuutta, ja töykeältä kuulostamattoman muistutuksen kirjoittaminen on joka kerta hankalaa.",
+     "example": "Hei {asiakas}, palaan vielä {päivä} lähettämääni tarjoukseen. Soitan mielelläni lyhyen puhelun, jos jokin kaipaa selvennystä.\n\nYstävällisin terveisin,\n{nimi}",
+     "impact": "Kohtelias muistutus lähtee heti ja pelastaa kaupat, jotka ennen jäivät roikkumaan.",
+     "feature": "template"
+    },
+    {
+     "title": "Passin ja viisumin tiedot",
+     "pain": "Jokainen lento, majoitus tai viisumilomake pakottaa etsimään passinumeron ja voimassaoloajan.",
+     "example": "Passin numero: {passin numero}\nKokonimi: {nimi}\nMyönnetty / Voimassa asti: {myönnetty} / {voimassaolo}\nKansalaisuus: {kansalaisuus}",
+     "impact": "Lukitse se Face ID:n taakse suojattuna fraasina ja avaa vain tarvittaessa.",
+     "feature": "snippet"
+    },
+    {
+     "title": "\"Missä päin asut?\"",
+     "pain": "Uusi asiakas kysyy ohimennen, ja selität nomadielämää liian pitkästi joka kerta.",
+     "example": "En asu missään tietyssä paikassa: tällä hetkellä olen kaupungissa {kaupunki}. Työskentelen ensisijaisesti asynkronisesti, joten aikavyöhykkeillä on harvoin merkitystä, mutta kerron aina selvästi, milloin olen tavoitettavissa.",
+     "impact": "Yksi varma ja ammattimainen vastaus, ei epävarmaa vaikutelmaa.",
+     "feature": "template"
+    },
+    {
+     "title": "Wifi katkesi",
+     "pain": "Coworking-tilan wifi pätkii juuri ennen puhelua, ja etsit kiireessä anteeksipyyntöä.",
+     "example": "Hei tiimi, wifi katkesi coworking-tilassani. Siirryn varapaikkaan: takaisin linjoilla {min} min kuluttua. Jatketaan heti sen jälkeen. 🙏",
+     "impact": "Vaikka paniikki iskisi, rauhallinen ja rauhoittava viesti lähtee sekunnissa.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Valuutta- ja tarjoushuomautus",
+     "pain": "Kun tarjoat toisessa valuutassa, kirjoitat valuuttakurssia koskevan huomautuksen uudestaan joka kerta.",
+     "example": "Tarjous: {valuutta} {summa} (≈ {muunnettu} tämän päivän kurssilla).\nLaskutus {valuutta}-määräisenä Wisen kautta, jotta kulut pysyvät sinulle pieninä.",
+     "impact": "Hintaepäselvyydet selviävät ajoissa, eikä maksuhetkellä tarvitse tinkiä.",
+     "feature": "template"
+    },
+    {
+     "title": "Uuden asiakkaan perehdytys",
+     "pain": "Heti sopimuksen allekirjoituksen jälkeen käyt jokaiselle asiakkaalle läpi Calendlyn, Slackin, maksun ja työtahdin.",
+     "example": "Tervetuloa mukaan, {asiakas}! Näin työskentelemme:\n1. Ensimmäinen palaveri: Calendly: {linkki}\n2. Maksu (pankkitiedot liitteenä tarvittaessa)\n3. Slack-kutsu 24 tunnin sisällä\n4. Edistymisesittelyt joka torstai\n\nInnolla odotan yhteistyön alkua!",
+     "impact": "Kombo liittää useita fraaseja peräkkäin, ja perehdytys lyhenee viidestä minuutista viiteen sekuntiin.",
+     "feature": "combo"
+    },
+    {
+     "title": "Yöksi pois linjoilta",
+     "pain": "Kello 22 tulee kiireellinen yksityisviesti, ja \"ei nyt\" on kohteliaasti sanottuna joka kerta kiusallista.",
+     "example": "Hei! Lopettelen tältä päivältä ({aika} kaupungissa {kaupunki}). Vastaan heti aamulla, kiitos kärsivällisyydestä 🙏",
+     "impact": "Pidät rajasi töykeältä vaikuttamatta: luottamus säilyy ja loppuunpalaminen jää väliin.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "business",
+   "intro": "Palaverit, raportit, vastaukset: kirjoitat samoja fraaseja uudelleen kymmeniä kertoja päivässä. \"Pyydän vahvistamaan\", kokouskutsut, poissaoloviestit. Tallenna kohteliaat toistuvat rivit kerran ja käytä keskittymisesi työhön, et sanamuotoihin.",
+   "scenarios": [
+    {
+     "title": "Poissaolovastaus",
+     "pain": "Jokaisen matkan yhteydessä kirjoitat poissaoloviestin uudelleen ja unohdat sijaisen yhteystiedot.",
+     "example": "Hei, olen poissa toimistolta {alku} - {loppu}.\nKiireellisissä asioissa ota yhteyttä: {yhteyshenkilö} ({puhelin}).\nVastaan viesteihin järjestyksessä palattuani. Kiitos.",
+     "impact": "Ei aukkoja tavoitettavuudessa, eikä saapuneiden lumivyöry odota paluupäivänä.",
+     "feature": "template"
+    },
+    {
+     "title": "Kokouskutsu",
+     "pain": "Kirjoitat päivämäärän, paikan ja esityslistan muodon uudelleen jokaista kokousta varten.",
+     "example": "Hei {nimi},\nEhdotan kokousta seuraavasti:\n📅 {päivämäärä} klo {kellonaika}\n📍 {paikka}\n📌 Esityslista: {esityslista}\nVahvistathan, pääsetkö paikalle 😊",
+     "impact": "Selkeä kutsu vähentää uudelleenvahvistuksia ja poisjääntejä huomattavasti.",
+     "feature": "template"
+    },
+    {
+     "title": "Viikkoraportti",
+     "pain": "Joka viikko aloitat saman raporttipohjan tyhjältä ruudulta.",
+     "example": "Hei tiimi, tämän viikon tilanne:\n✅ Valmista: {valmis}\n🔄 Työn alla: {työn alla}\n📋 Ensi viikolla: {suunniteltu}\nKeskustelen mielelläni mistä tahansa yllä olevasta.",
+     "impact": "Muoto on valmiina, täytät vain sisällön. Perjantai-illat keventyvät.",
+     "feature": "template"
+    },
+    {
+     "title": "Esittäytyminen ja käyntikortti",
+     "pain": "Jokaisessa ensimmäisessä esittäytymisessä kirjoitat roolisi, tiimisi ja yhteystietosi uudelleen.",
+     "example": "Hei, olen {nimi}.\nVastaan tehtävästä {rooli} yrityksessä {yritys}.\n📧 {sähköposti} / 📞 {puhelin}\nOdotan innolla yhteistyötä 🙏",
+     "impact": "Yhtenäinen esittäytyminen rakentaa luottamusta, eikä yhteystieto katoa kirjoitusvirheeseen.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Sähköpostin allekirjoitus",
+     "pain": "Allekirjoitukset eivät siirry sähköpostisovelluksesta toiseen, joten liität omasi käsin.",
+     "example": "{nimi}\n{titteli} | {yritys}\n📧 {sähköposti}\n📞 {puhelin}\n🌐 {verkkosivusto}",
+     "impact": "Yksi allekirjoitus mihin tahansa sovellukseen tai laitteeseen: brändimielikuvasi pysyy tarkkana.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Maksu- ja verotiedot",
+     "pain": "Aina kun toimittaja kysyy tili- tai verotietoja, kaivat niitä talouskansioista.",
+     "example": "Tili: {pankki} {IBAN} ({tilinomistaja})\nY-tunnus: {Y-tunnus}\nYritys: {yritys}\nLaskujen sähköposti: {sähköposti}",
+     "impact": "Lähetät tiedot täsmälleen oikein heti: ei myöhästyneitä tai väärään osoitteeseen menneitä maksuja.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Yhteistyöehdotus",
+     "pain": "Yhteistyötä ehdottaessa kohtelias avauslause on aina vaikein osa.",
+     "example": "Hei {nimi},\nOlen yhteydessä mahdollisesta yhteistyöstä hankkeessa {projekti}.\nVastaan tehtävästä {rooli} yrityksessä {yritys}.\nSopisiko lyhyt puhelu? Kerro minulle sopiva ajankohta. Kiitos!",
+     "impact": "Lause, jota vatvoit, on valmiina, joten otat yhteyttä useammin.",
+     "feature": "template"
+    },
+    {
+     "title": "Myöhästyneen vastauksen pahoittelu",
+     "pain": "Kun vastaat hitaasti, anteeksipyyntö huolimattomalta kuulostamatta on hienovarainen tehtävä.",
+     "example": "Hei {nimi}, pahoittelen viivästynyttä vastausta. {syy} hidasti asioita. Palaan asiaan tarkemmin viimeistään {päivämäärä}. Kiitos kärsivällisyydestä.",
+     "impact": "Rivi, joka ansaitsee luottamusta hiljaisuuden sijaan, ja suhde säilyy ehjänä.",
+     "feature": "template"
+    },
+    {
+     "title": "Kiitos projektin päätteeksi",
+     "pain": "Mitä paremmin projekti meni, sitä pidempään lykkäät kiitosta ja hetki ohitetaan.",
+     "example": "Hei {nimi},\nKiitos sydämellisesti yhteistyöstä projektissa {projekti}.\nSaavutimme erinomaisen tuloksen sinun ansiostasi.\nHaluaisin pitää oven auki sille, mitä seuraavaksi tapahtuu 😊",
+     "impact": "Et enää jätä väliin viestiä, joka muuttaa projektin seuraavaksi, ja uusia toimeksiantoja seuraa.",
+     "feature": "template"
+    },
+    {
+     "title": "Laskutus ja tilitys",
+     "pain": "Kuukauden lopussa kokoat erittelyn ja tilitiedot taas käsin.",
+     "example": "Hei! Tässä kuukauden {kuukausi} erittely.\nSumma: {summa} (sis. alv)\nTili: {pankki} {IBAN} ({tilinomistaja})\nVahvistathan vastaanoton 😊",
+     "impact": "Täydellisesti muotoiltu lasku säästää uudelleenkirjoitukselta, ja saat maksun nopeammin.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "student",
+   "intro": "Opiskelijanumero, koulun sähköposti, tehtävien kansilehdet, ryhmätyöilmoitukset: kampuselämä on yhtä toistuvaa lomaketta toisensa perään. Tallenna viestit opettajille, ryhmän kulujen jaot ja asuntosi osoite, niin saat aikaa takaisin opiskeluun ja itsellesi.",
+   "scenarios": [
+    {
+     "title": "Opiskelijanumero + nimi",
+     "pain": "Kurssi-ilmoittautumisissa, palautuksissa ja todistuksissa kirjoitat numerosi ja nimesi uudelleen joka kerta.",
+     "example": "{koulutusohjelma} {opiskelijanumero} {nimi}",
+     "impact": "Yksi napautus mihin tahansa kenttään, eikä viime hetken kirjoitusvirhe maksa pisteitä.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Sähköposti opettajalle",
+     "pain": "Opettajalle kirjoittaminen vaatii kohteliasta sävyä, joten ensimmäinen rivi jännittää joka kerta.",
+     "example": "Hei {opettaja}, olen {nimi} ({opiskelijanumero}), {koulutusohjelma}.\nOlen ilmoittautunut kurssille {kurssi} (ryhmä {numero}).\nKirjoitan aiheesta {aihe}.\nAnteeksi häiriö ja kiitos.",
+     "impact": "Täytät vain asian, muoto hoituu: et enää lykkää viestien kirjoittamista.",
+     "feature": "template"
+    },
+    {
+     "title": "Tehtävän kansilehti",
+     "pain": "Jokainen kurssi haluaa eri kansilehtimuodon, ja säädät sitä juuri ennen määräaikaa.",
+     "example": "Kurssi: {kurssi}\nOpettaja: {opettaja}\nPalauttaja: {koulutusohjelma} {opiskelijanumero} {nimi}\nPäivämäärä: {päivämäärä}\nAihe: {aihe}",
+     "impact": "Muoto tallessa, sisältö päivitetty: yksi kerros deadline-stressiä pois.",
+     "feature": "template"
+    },
+    {
+     "title": "Ryhmätyöilmoitus",
+     "pain": "Tapaamisajan ja roolijaon julkaiseminen tiimin chatissa on työläs rutiini joka kerta.",
+     "example": "[{tehtävä}] Tiimi-ilmoitus 📢\nSeuraava tapaaminen: {päivämäärä} klo {kellonaika}, {paikka/linkki}\nMukaan: {tarvikkeet}\nMääräaika: {määräaika}\nReagoi 👍, kun olet nähnyt tämän!",
+     "impact": "Siisti ilmoitus lopettaa \"hetkinen, milloin se olikaan?\" -kyselyt ja pitää tiimin liikkeessä.",
+     "feature": "template"
+    },
+    {
+     "title": "Asunnon / asuntolan osoite",
+     "pain": "Jokaisen toimituksen yhteydessä syötät koko osoitteen ja ovikoodin uudelleen.",
+     "example": "{postinumero}\n{osoite}\n{asunnon tiedot}\nOvikoodi: {koodi}\nVastaanottaja: {nimi} / {puhelin}",
+     "impact": "Yksi napautus toimitussovellukseen, eikä paketteja katoa väärän osoitteen vuoksi.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Kulujen jako",
+     "pain": "Rahan keräämisessä tarvikkeisiin tai tiimin illalliseen lasket ja kirjoitat viestin uudelleen joka kerta.",
+     "example": "Yhteensä tuli {yhteensä} {henkilömäärä} hengelle, eli {per henkilö} per nenä 🙏\nLähetäthän tilille {IBAN} ({nimi}) tai MobilePayllä~",
+     "impact": "Jako lähtee heti, ja rahasta puhuminen tuntuu paljon vähemmän kiusalliselta.",
+     "feature": "template"
+    },
+    {
+     "title": "Poissaoloilmoitus",
+     "pain": "Kun olet sairas, viesti opettajalle tai assistentille ei tule mieleen juuri silloin, kun se on kiireellinen.",
+     "example": "Hei {opettaja}, olen {nimi} ({opiskelijanumero}).\nJoudun jäämään pois kurssilta {kurssi} {päivämäärä} syystä: {syy}.\nToimitan todistuksen {tapa}. Pahoittelen.",
+     "impact": "Vaikka olisit sekaisin, lähetät kohteliaan ennakkoilmoituksen heti: pienempi rangaistus.",
+     "feature": "template"
+    },
+    {
+     "title": "Kerhon / opintopiirin jäsenhaku",
+     "pain": "Jäsenhaun julkaiseminen eri yhteisöissä tarkoittaa esittelyn muokkaamista hieman joka kerta.",
+     "example": "[{ryhmä}] Etsimme jäseniä! 🙌\nMitä teemme: {toiminta}\nMilloin: {päivä/aika}\nMissä: {paikka}\nIlmoittaudu: {linkki/yhteystieto}\nOta rohkeasti yhteyttä 😊",
+     "impact": "Liität saman julkaisun kaikkialle yhdellä napautuksella, ja rekrytointi etenee paljon nopeammin.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Harjoittelupaikkahakemuksen perustiedot",
+     "pain": "Jokaisessa hakemuksessa toistuvat nimesi, yhteystietosi, koulutuksesi ja linkkisi, kunnes olet puhki.",
+     "example": "{nimi} · {puhelin} · {sähköposti}\n{oppilaitos} {koulutusohjelma} ({vuosikurssi}. vuosi)\nPortfolio: {linkki}\nGitHub/blogi: {linkki}",
+     "impact": "Lomakkeiden täyttö nopeutuu, joten haet useampiin paikkoihin.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Myöhästyn",
+     "pain": "Kun myöhästyt tunnilta tai ystävän luota, syyllisyys venyttää viestiä pidemmäksi ja pidemmäksi.",
+     "example": "Todella pahoillani! Myöhästyn noin {min} min. Melkein perillä 🙏",
+     "impact": "Lyhyt ja varma viesti rauhoittaa odottajan heti.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "general",
+   "intro": "Arjen perusasiat: tilinumero, kotiosoite, puhelinnumero ja usein lähettämäsi tervehdykset. Ei enää muistin tai vanhojen keskustelujen penkomista: kun hetki koittaa, se on yhden napautuksen päässä. Yksinään pieniä, mutta yhdessä ne säästävät päivässä oikeasti aikaa.",
+   "scenarios": [
+    {
+     "title": "Tilinumeron jakaminen",
+     "pain": "\"Mikä on tilinumerosi?\" ja avaat pankkisovelluksen tarkistaaksesi ja kopioidaksesi numeron.",
+     "example": "{pankki} {IBAN}\nSaaja: {nimi}\n(MobilePay / Apple Pay käy myös 🙏)",
+     "impact": "Yksi napautus, täsmälleen oikein: ei väärien numeroiden vuoksi eksyviä rahoja.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Kotiosoite (toimitukset)",
+     "pain": "Verkkokaupat ja kirpputorikaupat pakottavat kirjoittamaan koko osoitteen ja yhteystiedot uudelleen.",
+     "example": "{postinumero}\n{osoite}\n{asunnon tiedot}\nVastaanottaja: {nimi} / {puhelin}",
+     "impact": "Osoite täytetty kerralla, vähemmän väärin menneitä toimituksia syömässä aikaasi.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Treffien sopiminen",
+     "pain": "Jokaista tapaamista varten kirjoitat uuden viestin ajan ja paikan sopimiseksi.",
+     "example": "Sopisiko {paikka} klo {kellonaika} {päivämäärä}? Jos ei, kerro mikä sopii 😊",
+     "impact": "Konkreettinen ehdotus ensin, ja suunnitelmat lukkoon paljon nopeammin.",
+     "feature": "template"
+    },
+    {
+     "title": "Myöhästyn",
+     "pain": "Aina kun myöhästyt, syyllisyys saa sinut kirjoittamaan pitkän anteeksipyynnön uudelleen.",
+     "example": "Todella pahoillani! Myöhästyn noin {min} min. Aloittakaa ilman minua 🙏",
+     "impact": "Nopea viesti heti matkaan, ja odottaja rauhoittuu.",
+     "feature": "template"
+    },
+    {
+     "title": "Tilinumero tapahtumaan (lahjat/osanotto)",
+     "pain": "Kun joku kysyy lahja- tai muistotilin numeroa, etsit sitä kiireessä.",
+     "example": "Kiitos ystävällisestä ajatuksesta.\n{pankki} {IBAN} ({tilinomistaja})\nLäsnäolosi yksin merkitsee paljon 🙏",
+     "impact": "Vaikka hetki olisi hektinen, jaat tiedon oikein ja kauniisti.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Kirpputori-ilmoitus",
+     "pain": "Jokaisessa myynnissä kirjoitat hinnan, kunnon ja tapaamispaikan samalla tavalla uudelleen.",
+     "example": "Myydään: {tuote}\nHinta: {hinta} (neuvoteltavissa: {kyllä/ei})\nKunto: {kunto}\nLuovutus: {paikka} tai postitus\nYhteys: {yhteystieto}",
+     "impact": "Liität minne tahansa yhdellä napautuksella ja vastaat ostajille nopeammin.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Hätätilanne- ja perhetiedot",
+     "pain": "Sairaalan ilmoittautumisessa ja lomakkeissa joudut muistelemaan huoltajan yhteystiedot ja muut tiedot joka kerta.",
+     "example": "Läheinen: {nimi} ({suhde})\nPuhelin: {puhelin}\nVeriryhmä: {veriryhmä}\nHuomautukset/allergiat: {tiedot}",
+     "impact": "Oikeat tiedot kiireellisessä hetkessä, rauhallinen reagointi paniikin sijaan.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Ajanvarauksen tiedot",
+     "pain": "Ajanvarauspuheluissa kokoat nimesi, syntymäaikasi ja oireesi joka kerta.",
+     "example": "Haluaisin varata ajan.\nNimi: {nimi} / Henkilötunnus: {henkilötunnus}\nSyy: {syy}\nToivottu aika: {päivämäärä} klo {kellonaika}",
+     "impact": "Siisti pyyntö lyhentää puhelua ja varmistaa haluamasi ajan.",
+     "feature": "template"
+    },
+    {
+     "title": "Wifi-salasanan jakaminen",
+     "pain": "Jokaisen vieraan kohdalla luet reitittimen salasanan ääneen tai etsit siitä kuvaa.",
+     "example": "WiFi: {verkon nimi}\nSalasana: {salasana}\nOle hyvä 😊",
+     "impact": "Jaat sen kerran: ei enää kolmatta \"mikä se salasana oli?\" -kysymystä.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Tutut tervehdykset",
+     "pain": "Juhlapyhinä ja syntymäpäivinä kirjoitat samankaltaisen viestin alusta alkaen joka kerta.",
+     "example": "Hei {nimi}, toivottavasti {tilaisuus} on ihana! Toivotan sinulle hyvää terveyttä ja pelkkää hyvää tulevaisuudessa 😊",
+     "impact": "Sydämellinen mutta nopea: tavoitat kaikki, joille aioit lähettää viestin.",
+     "feature": "template"
+    }
+   ]
+  }
+ ],
+ "DEMO_SCENARIOS": [
+  {
+   "id": "daily",
+   "tab": "👤 Arki",
+   "incoming": "Lähetän osuuteni tänään: paljonko se on ja minne maksan? 🙏",
+   "target": "settle",
+   "keys": [
+    {
+     "id": "settle",
+     "title": "Tilitä osuudet",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Tämän illan osuus on {summa} per henkilö 🙏\nMaksa tilille {tili} (Hyunho Lee)~",
+     "ph": [
+      {
+       "name": "summa",
+       "values": [
+        "12 €",
+        "25 €",
+        "38 €"
+       ]
+      },
+      {
+       "name": "tili",
+       "values": [
+        "FI21 1234 5600 0007 85",
+        "MobilePay 040 123 4567",
+        "Nordea FI42 5000 1520 0069 83"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "addr",
+     "title": "Kotiosoite",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Mannerheimintie 12 B 34\n00100 Helsinki\nVastaanottaja: Hyunho Lee / +358 40 123 4567"
+    },
+    {
+     "id": "late",
+     "title": "Myöhästyn",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Todella pahoittelen! Myöhästyn noin {min} min. Aloittakaa ilman minua 🙏",
+     "ph": [
+      {
+       "name": "min",
+       "values": [
+        "5",
+        "10",
+        "20"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pay",
+     "title": "Lähetä rahaa",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "MobilePay: 040 123 4567",
+      "PayPal: leeo@example.com",
+      "Tili: FI21 1234 5600 0007 85"
+     ]
+    },
+    {
+     "id": "wifi",
+     "title": "Kodin wifi",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "WiFi: Koti_5G\nSalasana: tervetuloa2026!"
+    },
+    {
+     "id": "card",
+     "title": "Kortin numero",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "4212 3456 7890 7788 (12/29)"
+    },
+    {
+     "id": "delivery",
+     "title": "Toimitusohjeet",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Jättäkää paketti oven eteen 🙏\nPortin koodi: #1234\nOvikelloa ei saa soittaa, vauva nukkuu."
+    },
+    {
+     "id": "sale",
+     "title": "Myynti-ilmoitus",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Myydään: iPad Air (5. sukupolvi)\nHinta: 320 € (neuvoteltavissa)\nKunto: pieniä naarmuja, alkuperäinen laatikko mukana\nLuovutus: Helsingin keskusta tai postitus"
+    }
+   ]
+  },
+  {
+   "id": "work",
+   "tab": "💼 Työ",
+   "incoming": "Voisitko sopia ensi viikon palaverin ja lähettää tiedot?",
+   "target": "meet",
+   "keys": [
+    {
+     "id": "meet",
+     "title": "Kokouskutsu",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Hei, ehdotan palaveria seuraavasti:\n📅 {päivä} klo {aika}\n📍 {paikka}\nKerrothan, pääsetkö mukaan 😊",
+     "ph": [
+      {
+       "name": "päivä",
+       "values": [
+        "ti 12.3.",
+        "to 14.3."
+       ]
+      },
+      {
+       "name": "aika",
+       "values": [
+        "10.00",
+        "14.00"
+       ]
+      },
+      {
+       "name": "paikka",
+       "values": [
+        "Neuvotteluhuone 3. krs",
+        "Google Meet"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "sign",
+     "title": "Sähköpostin allekirjoitus",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Hyunho Lee\nTuotepäällikkö | Ysoup\n📧 leeo@example.com / 📞 +358 40 123 4567"
+    },
+    {
+     "id": "ok",
+     "title": "Selvä, kiitos",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Selvä, kiitos kun hoidit asian 🙏"
+    },
+    {
+     "id": "ooo",
+     "title": "Poissa toimistolta",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Olen poissa toimistolta {alku} - {loppu}.\nJos asia on kiireellinen, ota yhteys Hana Kimiin (+358 40 765 4321).",
+     "ph": [
+      {
+       "name": "alku",
+       "values": [
+        "18.3.",
+        "1.4."
+       ]
+      },
+      {
+       "name": "loppu",
+       "values": [
+        "22.3.",
+        "5.4."
+       ]
+      }
+     ]
+    },
+    {
+     "id": "biz",
+     "title": "Laskutustiedot",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Tili: FI21 1234 5600 0007 85 (Ysoup Oy)",
+      "Y-tunnus: 1234567-8",
+      "Laskujen sähköposti: billing@example.com"
+     ]
+    },
+    {
+     "id": "rrn",
+     "title": "Henkilötunnus",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "•••••-123X"
+    },
+    {
+     "id": "report",
+     "title": "Viikkoraportti",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Tämän viikon tilanne:\n✅ Valmista: {valmis}\n🔄 Työn alla: {kesken}\n📋 Ensi viikolla: {seuraava}",
+     "ph": [
+      {
+       "name": "valmis",
+       "values": [
+        "Versio 4.5 julkaistu",
+        "Kassan testaus"
+       ]
+      },
+      {
+       "name": "kesken",
+       "values": [
+        "Widgetin uudistus",
+        "Asiakaspysyvyyden analyysi"
+       ]
+      },
+      {
+       "name": "seuraava",
+       "values": [
+        "App Storen tarkistus",
+        "Sprintin retrospektiivi"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "delay",
+     "title": "Myöhästynyt vastaus",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Pahoittelen viivästynyttä vastausta, sisäinen tarkistus vei odotettua pidempään.\nPalaan asiaan tarkemmin vielä tänään 🙏"
+    }
+   ]
+  },
+  {
+   "id": "nomad",
+   "tab": "🌏 Nomadi",
+   "incoming": "Mahtavaa, aloitetaan maanantaina! Voitko lähettää pankkitietosi?",
+   "target": "iban",
+   "keys": [
+    {
+     "id": "iban",
+     "title": "IBAN · SWIFT",
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Nimi: Hyunho Lee\nIBAN: DE89 3704 0044 0532 0130 00\nSWIFT/BIC: COBADEFFXXX"
+    },
+    {
+     "id": "tz",
+     "title": "Aikavyöhykevastaus",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Hei, olen tällä hetkellä aikavyöhykkeellä GMT+{ero}. Sopiva aika on {aika}. Calendly: cal.com/leeo",
+     "ph": [
+      {
+       "name": "ero",
+       "values": [
+        "9",
+        "2"
+       ]
+      },
+      {
+       "name": "aika",
+       "values": [
+        "9-11 sinun aikasi mukaan",
+        "mihin tahansa klo 15 jälkeen"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "inv",
+     "title": "Lasku",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Lasku nro {numero} · {summa} USD\nEräpäivä: {erapaiva}\nMaksu: Wise (leeo@example.com)\nKiitos! 🙏",
+     "ph": [
+      {
+       "name": "numero",
+       "values": [
+        "2026-014",
+        "2026-015"
+       ]
+      },
+      {
+       "name": "summa",
+       "values": [
+        "2 400",
+        "3 800"
+       ]
+      },
+      {
+       "name": "erapaiva",
+       "values": [
+        "31.3.",
+        "15.4."
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pm",
+     "title": "Maksutavat",
+     "fav": true,
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Wise: leeo@example.com",
+      "PayPal: leeo@example.com",
+      "Stripe: stripe.me/leeo"
+     ]
+    },
+    {
+     "id": "wifi2",
+     "title": "Wifi katkesi",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Hei tiimi, coworking-tilani wifi katkesi juuri. Palaan verkkoon 10 min kuluttua 🙏"
+    },
+    {
+     "id": "pass",
+     "title": "Passin tiedot",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "Passi: M12345678 · Voimassa 2031-04-18"
+    },
+    {
+     "id": "quote",
+     "title": "Tarjous ja valuutta",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Tarjous: 2 400 USD (≈ 2 210 € tämän päivän kurssilla).\nLaskutan USD:na Wisen kautta, jotta kulusi pysyvät pieninä."
+    },
+    {
+     "id": "signoff",
+     "title": "Lopetan päiväksi",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Lopetan tältä illalta (täällä kello on 23). Vastaan heti aamulla, kiitos kärsivällisyydestä 🙏"
+    }
+   ]
+  }
+ ],
+ "PERSONA_META": {
+  "nomad": {
+   "icon": "🌏",
+   "name": "Nomadi · Freelancer"
+  },
+  "business": {
+   "icon": "💼",
+   "name": "Yritys"
+  },
+  "student": {
+   "icon": "🎓",
+   "name": "Opiskelija"
+  },
+  "general": {
+   "icon": "👤",
+   "name": "Arki"
+  }
+ },
+ "BADGE_LABEL": {
+  "snippet": "Fraasi",
+  "template": "Pohja",
+  "combo": "Kombo",
+  "smartClipboard": "Leikepöytä"
+ }
+}

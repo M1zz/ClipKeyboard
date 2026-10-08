@@ -47,7 +47,7 @@ iCloud 백업: 기기를 바꿔도 남습니다. 이미지 단축어까지 함�
 
 단축어를 100번 넣을 때까지 모든 기능이 무료입니다. 그 뒤에도 만들어 둔 것은 그대로 쓰고, 무료 한도는 새로 만드는 것에만 적용됩니다. Pro는 한 번 결제(평생) 또는 연 구독으로 모든 한도를 풉니다.
 
-iPhone과 iPad에서 쓸 수 있습니다. 한국어, 영어, 일본어, 중국어(간체·번체), 러시아어, 스페인어, 독일어, 프랑스어, 이탈리아어, 포르투갈어(브라질), 태국어, 베트남어를 지원합니다.
+iPhone과 iPad에서 쓸 수 있습니다. 한국어, 영어, 일본어, 중국어(간체·번체), 러시아어, 스페인어, 독일어, 프랑스어, 이탈리아어, 포르투갈어(브라질), 태국어, 베트남어, 인도네시아어, 튀르키예어, 네덜란드어, 폴란드어, 체코어, 그리스어, 스웨덴어, 덴마크어, 노르웨이어, 핀란드어를 지원합니다.
 
 문의: leeo@kakao.com
 사용 가이드: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=ko
@@ -121,7 +121,7 @@ Free and Pro
 
 Every feature is free until you have inserted snippets 100 times. After that, everything you made keeps working; the free limits apply only to new items. Pro removes every limit, as a one-time purchase or a yearly subscription.
 
-Works on iPhone and iPad. Available in English, Korean, Japanese, Chinese (Simplified and Traditional), Russian, Spanish, German, French, Italian, Portuguese (Brazil), Thai and Vietnamese.
+Works on iPhone and iPad. Available in English, Korean, Japanese, Chinese (Simplified and Traditional), Russian, Spanish, German, French, Italian, Portuguese (Brazil), Dutch, Polish, Czech, Greek, Turkish, Indonesian, Swedish, Danish, Norwegian, Finnish, Thai and Vietnamese.
 
 Contact: leeo@kakao.com
 User guide: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -195,7 +195,7 @@ Free and Pro
 
 Every feature is free until you have inserted snippets 100 times. After that, everything you made keeps working; the free limits apply only to new items. Pro removes every limit, as a one-time purchase or an annual subscription.
 
-Works on iPhone and iPad. Available in English, Korean, Japanese, Chinese (Simplified and Traditional), Russian, Spanish, German, French, Italian, Portuguese (Brazil), Thai and Vietnamese.
+Works on iPhone and iPad. Available in English, Korean, Japanese, Chinese (Simplified and Traditional), Russian, Spanish, German, French, Italian, Portuguese (Brazil), Dutch, Polish, Czech, Greek, Turkish, Indonesian, Swedish, Danish, Norwegian, Finnish, Thai and Vietnamese.
 
 Contact: leeo@kakao.com
 User guide: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -269,7 +269,7 @@ Clip Keyboard: буфер обмена
 
 Пока вы не вставите фразы 100 раз, все функции бесплатны. Потом всё созданное продолжает работать, а бесплатные ограничения касаются только нового. Pro снимает все ограничения: разовой покупкой или годовой подпиской.
 
-Работает на iPhone и iPad. Интерфейс на русском, английском, корейском, японском, китайском (упрощённом и традиционном), испанском, немецком, французском, итальянском, португальском (Бразилия), тайском и вьетнамском.
+Работает на iPhone и iPad. Интерфейс на русском, английском, корейском, японском, китайском (упрощённом и традиционном), испанском, немецком, французском, итальянском, португальском (Бразилия), нидерландском, польском, чешском, греческом, турецком, индонезийском, шведском, датском, норвежском, финском, тайском и вьетнамском.
 
 Связаться: leeo@kakao.com
 Руководство: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=ru
@@ -342,7 +342,7 @@ iCloud 备份：换手机也不会丢，图片短语也一起带走。
 
 前 100 次输入，所有功能都免费。之后已经建好的内容照常使用，免费上限只对新建的内容生效。Pro 可以一次性买断，也可以按年订阅，解除所有上限。
 
-支持 iPhone 和 iPad。界面提供简体中文、繁体中文、韩语、英语、俄语、日语、西班牙语、德语、法语、意大利语、葡萄牙语（巴西）、泰语和越南语。
+支持 iPhone 和 iPad。界面提供简体中文、繁体中文、韩语、英语、俄语、日语、西班牙语、德语、法语、意大利语、葡萄牙语（巴西）、荷兰语、波兰语、捷克语、希腊语、土耳其语、印尼语、瑞典语、丹麦语、挪威语、芬兰语、泰语和越南语。
 
 使用条款: https://m1zz.github.io/ClipKeyboard/terms.html?lang=zh-Hans
 ```
@@ -413,7 +413,7 @@ iCloud 備份：換手機也不會丟，圖片短語也一起帶走。
 
 前 100 次輸入，所有功能都免費。之後已經建好的內容照常使用，免費上限只對新建的內容生效。Pro 可以一次性買斷，也可以按年訂閱，解除所有上限。
 
-支援 iPhone 和 iPad。介面提供簡體中文、繁體中文、韓語、英語、俄語、日語、西班牙語、德語、法語、義大利語、葡萄牙語（巴西）、泰語和越南語。
+支援 iPhone 和 iPad。介面提供簡體中文、繁體中文、韓語、英語、俄語、日語、西班牙語、德語、法語、義大利語、葡萄牙語（巴西）、荷蘭文、波蘭文、捷克文、希臘文、土耳其文、印尼文、瑞典文、丹麥文、挪威文、芬蘭文、泰語和越南語。
 
 使用條款: https://m1zz.github.io/ClipKeyboard/terms.html?lang=zh-Hant
 ```
@@ -485,7 +485,7 @@ iCloudバックアップ：機種変更しても残ります。画像の定型�
 
 最初の100回の入力までは、すべての機能を無料で使えます。その後も、作ったものはそのまま使えます。無料の上限がかかるのは新しく作るものだけです。Proは買い切り、または年額サブスクリプションで、すべての上限がなくなります。
 
-iPhoneとiPadで使えます。日本語、韓国語、英語、中国語（簡体字・繁体字）、ロシア語、スペイン語、ドイツ語、フランス語、イタリア語、ポルトガル語（ブラジル）、タイ語、ベトナム語に対応しています。
+iPhoneとiPadで使えます。日本語、韓国語、英語、中国語（簡体字・繁体字）、ロシア語、スペイン語、ドイツ語、フランス語、イタリア語、ポルトガル語（ブラジル）、オランダ語、ポーランド語、チェコ語、ギリシャ語、トルコ語、インドネシア語、スウェーデン語、デンマーク語、ノルウェー語、フィンランド語、タイ語、ベトナム語に対応しています。
 
 お問い合わせ：leeo@kakao.com
 使い方ガイド：https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -560,7 +560,7 @@ Gratis y Pro
 
 Todo es gratis durante tus primeras 100 inserciones. Después, lo que ya creaste sigue funcionando igual; el límite gratuito solo aplica a lo nuevo que crees. Pro se compra una vez, o como suscripción anual, y quita todos los límites.
 
-Funciona en iPhone y iPad. Disponible en español, inglés, coreano, japonés, alemán, francés, italiano, portugués (Brasil), chino (simplificado y tradicional), ruso, tailandés y vietnamita.
+Funciona en iPhone y iPad. Disponible en español, inglés, coreano, japonés, alemán, francés, italiano, portugués (Brasil), chino (simplificado y tradicional), ruso, neerlandés, polaco, checo, griego, turco, indonesio, sueco, danés, noruego, finés, tailandés y vietnamita.
 
 Contacto: leeo@kakao.com
 Guía de uso: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -635,7 +635,7 @@ Gratis und Pro
 
 Für deine ersten 100 Eingaben ist alles gratis. Danach funktioniert alles, was du schon erstellt hast, weiter wie bisher; das Gratis-Limit gilt nur für Neues. Pro gibt es als Einmalkauf oder als Jahresabo und hebt alle Limits auf.
 
-Für iPhone und iPad. Auf Deutsch, Englisch, Koreanisch, Japanisch, Spanisch, Französisch, Italienisch, Portugiesisch (Brasilien), Chinesisch (vereinfacht und traditionell), Russisch, Thai und Vietnamesisch.
+Für iPhone und iPad. Auf Deutsch, Englisch, Koreanisch, Japanisch, Spanisch, Französisch, Italienisch, Portugiesisch (Brasilien), Chinesisch (vereinfacht und traditionell), Russisch, Niederländisch, Polnisch, Tschechisch, Griechisch, Türkisch, Indonesisch, Schwedisch, Dänisch, Norwegisch, Finnisch, Thai und Vietnamesisch.
 
 Kontakt: leeo@kakao.com
 Anleitung: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -710,7 +710,7 @@ Clip Keyboard ข้อความด่วน
 
 ใช้ได้ทุกอย่างฟรีใน 100 ครั้งแรกที่ใส่ข้อความ หลังจากนั้นสิ่งที่สร้างไว้แล้วยังใช้ได้เหมือนเดิม ขีดจำกัดของรุ่นฟรีใช้กับสิ่งที่สร้างใหม่เท่านั้น Pro ซื้อครั้งเดียว หรือสมัครรายปี และปลดขีดจำกัดทั้งหมด
 
-ใช้ได้บน iPhone และ iPad รองรับภาษาไทย อังกฤษ เกาหลี ญี่ปุ่น สเปน เยอรมัน ฝรั่งเศส อิตาลี โปรตุเกส (บราซิล) จีน (ตัวย่อและตัวเต็ม) รัสเซีย และเวียดนาม
+ใช้ได้บน iPhone และ iPad รองรับภาษาไทย อังกฤษ เกาหลี ญี่ปุ่น สเปน เยอรมัน ฝรั่งเศส อิตาลี โปรตุเกส (บราซิล) จีน (ตัวย่อและตัวเต็ม) รัสเซีย ดัตช์ โปแลนด์ เช็ก กรีก ตุรกี อินโดนีเซีย สวีเดน เดนมาร์ก นอร์เวย์ ฟินแลนด์ และเวียดนาม
 
 ติดต่อ: leeo@kakao.com
 คู่มือการใช้งาน: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -785,7 +785,7 @@ Miễn phí và Pro
 
 Mọi tính năng miễn phí trong 100 lần chèn đầu tiên. Sau đó, những gì bạn đã tạo vẫn dùng như cũ; giới hạn miễn phí chỉ áp dụng cho nội dung mới. Pro mua một lần hoặc đăng ký theo năm, bỏ mọi giới hạn.
 
-Dùng trên iPhone và iPad. Hỗ trợ tiếng Việt, Anh, Hàn, Nhật, Tây Ban Nha, Đức, Pháp, Ý, Bồ Đào Nha (Brazil), Trung (giản thể và phồn thể), Nga và Thái.
+Dùng trên iPhone và iPad. Hỗ trợ tiếng Việt, Anh, Hàn, Nhật, Tây Ban Nha, Đức, Pháp, Ý, Bồ Đào Nha (Brazil), Trung (giản thể và phồn thể), Nga, Hà Lan, Ba Lan, Séc, Hy Lạp, Thổ Nhĩ Kỳ, Indonesia, Thụy Điển, Đan Mạch, Na Uy, Phần Lan và Thái.
 
 Liên hệ: leeo@kakao.com
 Hướng dẫn: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -860,7 +860,7 @@ Gratuit et Pro
 
 Toutes les fonctions sont gratuites pour vos 100 premières insertions. Ensuite, tout ce que vous avez créé continue de fonctionner ; les limites gratuites ne concernent que les nouveaux éléments. Pro lève toutes les limites, en achat unique ou en abonnement annuel.
 
-Pour iPhone et iPad. En français, anglais, coréen, japonais, chinois (simplifié et traditionnel), russe, espagnol, allemand, italien, portugais (Brésil), thaï et vietnamien.
+Pour iPhone et iPad. En français, anglais, coréen, japonais, chinois (simplifié et traditionnel), russe, espagnol, allemand, italien, portugais (Brésil), néerlandais, polonais, tchèque, grec, turc, indonésien, suédois, danois, norvégien, finnois, thaï et vietnamien.
 
 Contact : leeo@kakao.com
 Guide : https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -934,7 +934,7 @@ Gratis e Pro
 
 Tutte le funzioni sono gratis per i primi 100 inserimenti. Dopo, tutto quello che hai creato continua a funzionare; i limiti gratuiti valgono solo per i nuovi elementi. Pro toglie ogni limite, con acquisto una tantum o abbonamento annuale.
 
-Per iPhone e iPad. In italiano, inglese, coreano, giapponese, cinese (semplificato e tradizionale), russo, spagnolo, tedesco, francese, portoghese (Brasile), thailandese e vietnamita.
+Per iPhone e iPad. In italiano, inglese, coreano, giapponese, cinese (semplificato e tradizionale), russo, spagnolo, tedesco, francese, portoghese (Brasile), olandese, polacco, ceco, greco, turco, indonesiano, svedese, danese, norvegese, finlandese, thailandese e vietnamita.
 
 Contatto: leeo@kakao.com
 Guida: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -1008,7 +1008,7 @@ Grátis e Pro
 
 Todos os recursos são grátis nas primeiras 100 inserções. Depois disso, tudo o que você criou continua funcionando; os limites grátis valem só para itens novos. O Pro remove todos os limites, em compra única ou assinatura anual.
 
-Para iPhone e iPad. Em português (Brasil), inglês, coreano, japonês, chinês (simplificado e tradicional), russo, espanhol, alemão, francês, italiano, tailandês e vietnamita.
+Para iPhone e iPad. Em português (Brasil), inglês, coreano, japonês, chinês (simplificado e tradicional), russo, espanhol, alemão, francês, italiano, holandês, polonês, tcheco, grego, turco, indonésio, sueco, dinamarquês, norueguês, finlandês, tailandês e vietnamita.
 
 Contato: leeo@kakao.com
 Guia: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
@@ -1038,3 +1038,743 @@ https://m1zz.github.io/ClipKeyboard/pt-BR/
 ### 개인정보처리방침 URL
 
 https://m1zz.github.io/ClipKeyboard/pt-BR/privacy.html
+
+## 체코어 (cs)
+
+### 이름
+
+```
+Clip Keyboard: Schránka
+```
+
+### 부제
+
+```
+Rychlé odpovědi a hotové texty
+```
+
+### 설명
+
+```
+Přestaňte psát pořád to samé. Uložte si to jednou a příště stačí jedno ťuknutí.
+
+Čísla účtů, adresy, krátké představení nebo úvod e-mailu, které používáte znovu a znovu, si uložte jako fráze. Ve Zprávách, Mailu, Safari a všude, kde se dá psát, přepněte na ClipKeyboard, ťukněte a text se vloží do pole.
+
+Co umí
+
+Fráze: uložený text se vloží přesně tak, jak je. Jedno ťuknutí.
+Šablony: části, které se mění, nechte jako pole k vyplnění a doplňte je z hodnot, které už máte uložené.
+Zásobníky: více hodnot na jednom místě. Vkládejte je postupně, nebo je přepínejte šipkou.
+Zabezpečené fráze: číslo pasu nebo karty zamkněte pomocí Face ID a otevřete je, jen když je potřebujete.
+Chytrá schránka: co zkopírujete, se samo roztřídí. Pozná e-maily, telefonní čísla, adresy, čísla karet a IBAN, takže je za vteřinu najdete znovu.
+Rozpoznávání textu: vyfoťte kartu nebo dokument, přejeďte prstem přes potřebnou část a jen ten text se stane hodnotou.
+Záloha na iCloud: přežije i výměnu telefonu, včetně frází s obrázky.
+
+Dobré vědět
+
+Je to klávesnice pro vkládání uložených textů. Nenahrazuje klávesnici, na které běžně píšete. Přepněte na ni, když potřebujete něco vložit, a pak se vraťte zpět.
+
+Soukromí
+
+Co napíšete, zůstává ve vašem zařízení. Když zapnete zálohu na iCloud, uloží se šifrovaně do vašeho vlastního iCloudu. Obsah vašich frází neshromažďujeme a nepoužíváme žádné analytické nástroje třetích stran.
+
+Zdarma a Pro
+
+Všechny funkce jsou zdarma, dokud frázi nevložíte stokrát. Potom vše, co jste vytvořili, dál funguje a bezplatné limity platí jen pro nové položky. Pro odemkne všechny limity jednorázovým nákupem nebo ročním předplatným.
+
+Pro iPhone a iPad. Ve 23 jazycích, mimo jiné v češtině, polštině, němčině a angličtině.
+
+Kontakt: leeo@kakao.com
+Návod: https://m1zz.github.io/ClipKeyboard/cs/tutorial.html
+Podmínky použití: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+kopírovat,vložit,šablona,fráze,podpis,adresa,IBAN,číslo,účtu,klávesnice,historie,makro,zkratka
+```
+
+### 프로모션 텍스트
+
+```
+Číslo účtu, adresa, odpovědi, které píšete pořád dokola: jedno ťuknutí na klávesnici. Prvních 100 vložení máte všechny funkce zdarma. Nově i v češtině.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/cs/tutorial.html
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/cs/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/cs/privacy.html
+
+## 덴마크어 (da)
+
+### 이름
+
+```
+Clip Keyboard: Udklipsholder
+```
+
+### 부제
+
+```
+Kopiér, indsæt og svar hurtigt
+```
+
+### 설명
+
+```
+Stop med at skrive det samme igen og igen. Gem det én gang, så er det ét tryk næste gang.
+
+Gem de kontonumre, adresser, korte præsentationer og mailindledninger, du bruger tit, som fraser. I Beskeder, Mail, Safari og alle andre steder, hvor du kan skrive, skifter du til ClipKeyboard, trykker én gang, og teksten lander i feltet.
+
+Det kan appen
+
+Fraser: det, du har gemt, indsættes præcis, som det er. Ét tryk.
+Skabeloner: lad de dele, der skifter, stå som udfyldningsfelter, og udfyld dem med værdier, du allerede har gemt.
+Stakke: flere værdier samlet ét sted, som du sender i rækkefølge eller skifter mellem med pilen.
+Sikre fraser: lås pas- og kortnumre med Face ID, og åbn dem kun, når du har brug for dem.
+Smart udklipsholder: det, du kopierer, bliver sorteret for dig. Den genkender mailadresser, telefonnumre, adresser, kortnumre og IBAN, så du finder dem igen på et sekund.
+Tekstgenkendelse: tag et billede af et kort eller et dokument, stryg over den del, du skal bruge, og kun den tekst bliver til en værdi.
+iCloud-backup: alt følger med til en ny iPhone, også fraser med billeder.
+
+Godt at vide
+
+Det er et tastatur til at indsætte gemt tekst. Det erstatter ikke det tastatur, du skriver på. Skift til det, når du skal sætte noget ind, og skift så tilbage.
+
+Privatliv
+
+Det, du skriver, bliver på din enhed. Slår du iCloud-backup til, gemmes det krypteret i din egen iCloud. Vi indsamler ikke indholdet af dine fraser og bruger ingen analyseværktøjer fra tredjeparter.
+
+Gratis og Pro
+
+Alle funktioner er gratis, indtil du har indsat fraser 100 gange. Derefter virker alt, hvad du har lavet, stadig, og de gratis grænser gælder kun nye elementer. Pro fjerner alle grænser som et engangskøb eller et årligt abonnement.
+
+Til iPhone og iPad. På 23 sprog, blandt andet dansk, svensk, norsk, tysk og engelsk.
+
+Kontakt: leeo@kakao.com
+Vejledning: https://m1zz.github.io/ClipKeyboard/da/tutorial.html
+Vilkår for brug: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+skabelon,genvej,signatur,adresse,kontonummer,IBAN,autoudfyld,makro,fraser,historik,tastatur,noter
+```
+
+### 프로모션 텍스트
+
+```
+Kontonummer, adresse og de svar, du skriver igen og igen: ét tryk fra tastaturet. Alle funktioner er gratis de første 100 indsættelser. Nu også på dansk.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/da/tutorial.html
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/da/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/da/privacy.html
+
+## 그리스어 (el)
+
+### 이름
+
+```
+Clip Keyboard: Πρόχειρο
+```
+
+### 부제
+
+```
+Αντιγραφή, επικόλληση, φράσεις
+```
+
+### 설명
+
+```
+Σταματήστε να πληκτρολογείτε τα ίδια ξανά και ξανά. Αποθηκεύστε τα μία φορά και μετά αρκεί ένα πάτημα.
+
+Αποθηκεύστε ως φράσεις τους αριθμούς λογαριασμού, τις διευθύνσεις, τις συστάσεις και τις εισαγωγές email που χρησιμοποιείτε συχνά. Στα Μηνύματα, στο Mail, στο Safari, οπουδήποτε γράφετε, αλλάξτε στο ClipKeyboard, πατήστε μία φορά και το κείμενο μπαίνει στο πεδίο.
+
+Τι κάνει
+
+Φράσεις: ό,τι αποθηκεύσατε μπαίνει ακριβώς όπως είναι. Ένα πάτημα.
+Πρότυπα: αφήστε τα σημεία που αλλάζουν ως πεδία συμπλήρωσης και συμπληρώστε τα με τιμές που έχετε ήδη αποθηκεύσει.
+Στοίβες: πολλές τιμές σε ένα σημείο, που τις στέλνετε με τη σειρά ή τις εναλλάσσετε με το βέλος.
+Ασφαλείς φράσεις: κλειδώστε αριθμούς διαβατηρίου και καρτών με Face ID και ανοίξτε τους μόνο όταν τους χρειάζεστε.
+Έξυπνο πρόχειρο: ό,τι αντιγράφετε ταξινομείται αυτόματα. Αναγνωρίζει email, τηλέφωνα, διευθύνσεις, αριθμούς καρτών και IBAN, για να τα βρίσκετε ξανά σε ένα δευτερόλεπτο.
+Αναγνώριση κειμένου: φωτογραφίστε μια κάρτα ή ένα έγγραφο, σύρετε το δάχτυλο πάνω στο κομμάτι που θέλετε και μόνο αυτό το κείμενο γίνεται τιμή.
+Αντίγραφο ασφαλείας iCloud: όλα σας ακολουθούν σε νέο iPhone, μαζί και οι φράσεις με εικόνες.
+
+Καλό να ξέρετε
+
+Είναι πληκτρολόγιο για την εισαγωγή αποθηκευμένου κειμένου. Δεν αντικαθιστά το πληκτρολόγιο με το οποίο γράφετε. Αλλάξτε σε αυτό όταν θέλετε να βάλετε κάτι και μετά επιστρέψτε.
+
+Απόρρητο
+
+Ό,τι γράφετε μένει στη συσκευή σας. Αν ενεργοποιήσετε το αντίγραφο ασφαλείας iCloud, αποθηκεύεται κρυπτογραφημένο στο δικό σας iCloud. Δεν συλλέγουμε το περιεχόμενο των φράσεών σας και δεν χρησιμοποιούμε εργαλεία ανάλυσης τρίτων.
+
+Δωρεάν και Pro
+
+Όλες οι λειτουργίες είναι δωρεάν μέχρι να εισαγάγετε φράσεις 100 φορές. Μετά, ό,τι έχετε φτιάξει συνεχίζει να λειτουργεί και τα δωρεάν όρια ισχύουν μόνο για νέα στοιχεία. Το Pro αφαιρεί όλα τα όρια, με εφάπαξ αγορά ή ετήσια συνδρομή.
+
+Για iPhone και iPad. Σε 23 γλώσσες, ανάμεσά τους ελληνικά, αγγλικά, γερμανικά και γαλλικά.
+
+Επικοινωνία: leeo@kakao.com
+Οδηγός: https://m1zz.github.io/ClipKeyboard/el/tutorial.html
+Όροι χρήσης: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+πληκτρολόγιο,πρότυπο,γρήγορες,απαντήσεις,υπογραφή,διεύθυνση,IBAN,λογαριασμός,κείμενο,ιστορικό
+```
+
+### 프로모션 텍스트
+
+```
+Αριθμός λογαριασμού, διεύθυνση, οι απαντήσεις που γράφετε ξανά και ξανά: ένα πάτημα από το πληκτρολόγιο. Όλες οι λειτουργίες δωρεάν για τις πρώτες 100 εισαγωγές.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/el/tutorial.html
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/el/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/el/privacy.html
+
+## 핀란드어 (fi)
+
+### 이름
+
+```
+Clip Keyboard: Leikepöytä
+```
+
+### 부제
+
+```
+Kopioi ja liitä vakiotekstit
+```
+
+### 설명
+
+```
+Lopeta saman tekstin kirjoittaminen yhä uudelleen. Tallenna se kerran, niin jatkossa riittää yksi napautus.
+
+Tallenna usein tarvitsemasi tilinumerot, osoitteet, esittelyt ja sähköpostien aloitukset fraaseiksi. Viesteissä, Mailissa, Safarissa ja kaikkialla, missä voit kirjoittaa, vaihda ClipKeyboardiin, napauta kerran, ja teksti ilmestyy kenttään.
+
+Mitä se tekee
+
+Fraasit: tallentamasi teksti lisätään juuri sellaisenaan. Yksi napautus.
+Pohjat: jätä vaihtuvat kohdat täytettäviksi kentiksi ja täytä ne arvoilla, jotka olet jo tallentanut.
+Pinot: useita arvoja yhdessä paikassa. Lähetä ne järjestyksessä tai vaihda niiden välillä nuolella.
+Suojatut fraasit: lukitse passin ja korttien numerot Face ID:llä ja avaa ne vain tarvittaessa.
+Älykäs leikepöytä: kopioimasi sisältö lajitellaan puolestasi. Se tunnistaa sähköpostiosoitteet, puhelinnumerot, osoitteet, korttinumerot ja IBAN-numerot, joten löydät ne sekunnissa.
+Tekstintunnistus: kuvaa kortti tai asiakirja, pyyhkäise haluamasi kohdan yli, ja vain siitä tekstistä tulee arvo.
+iCloud-varmuuskopio: kaikki siirtyy uuteen iPhoneen, myös kuvia sisältävät fraasit.
+
+Hyvä tietää
+
+Tämä on näppäimistö tallennettujen tekstien lisäämiseen. Se ei korvaa näppäimistöä, jolla kirjoitat. Vaihda siihen, kun haluat lisätä jotain, ja palaa sitten takaisin.
+
+Tietosuoja
+
+Kirjoittamasi tiedot pysyvät laitteellasi. Jos otat iCloud-varmuuskopion käyttöön, ne tallennetaan salattuina omaan iCloudiisi. Emme kerää fraasiesi sisältöä emmekä käytä kolmansien osapuolten analytiikkatyökaluja.
+
+Ilmainen ja Pro
+
+Kaikki ominaisuudet ovat ilmaisia, kunnes olet lisännyt fraaseja 100 kertaa. Sen jälkeen kaikki tekemäsi toimii edelleen, ja ilmaisrajat koskevat vain uusia kohteita. Pro poistaa kaikki rajat kertaostoksena tai vuositilauksena.
+
+iPhonelle ja iPadille. 23 kielellä, muun muassa suomeksi, ruotsiksi ja englanniksi.
+
+Yhteystiedot: leeo@kakao.com
+Opas: https://m1zz.github.io/ClipKeyboard/fi/tutorial.html
+Käyttöehdot: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+pikavastaus,pohja,allekirjoitus,osoite,tilinumero,IBAN,täyttö,makro,historia,näppäimistö,fraasit
+```
+
+### 프로모션 텍스트
+
+```
+Tilinumero, osoite ja vastaukset, joita kirjoitat yhä uudelleen: yksi napautus näppäimistöltä. Kaikki ominaisuudet ilmaisia ensimmäiset 100 lisäystä. Nyt myös suomeksi.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/fi/tutorial.html
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/fi/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/fi/privacy.html
+
+## 인도네시아어 (id)
+
+### 이름
+
+```
+Clip Keyboard: Salin Tempel
+```
+
+### 부제
+
+```
+Papan Klip dan Balas Cepat
+```
+
+### 설명
+
+```
+Berhenti mengetik hal yang sama berulang kali. Simpan sekali, lalu cukup satu ketukan.
+
+Simpan nomor rekening, alamat, perkenalan diri, dan pembuka email yang sering Anda pakai sebagai frasa. Di Pesan, Mail, Safari, atau di mana pun Anda bisa mengetik, beralihlah ke ClipKeyboard, ketuk sekali, dan teksnya langsung masuk ke kolom.
+
+Yang bisa dilakukan
+
+Frasa: yang Anda simpan dimasukkan persis apa adanya. Cukup satu ketukan.
+Templat: biarkan bagian yang berubah sebagai kolom isian, lalu isi dengan nilai yang sudah Anda simpan.
+Tumpukan: beberapa nilai dalam satu tempat. Kirim berurutan atau ganti dengan tombol panah.
+Frasa aman: kunci nomor paspor dan kartu dengan Face ID, lalu buka hanya saat dibutuhkan.
+Papan klip pintar: yang Anda salin dikelompokkan otomatis. Email, nomor telepon, alamat, nomor kartu, dan IBAN dikenali, sehingga bisa ditemukan lagi dalam sedetik.
+Pengenalan teks: foto kartu atau dokumen, usap bagian yang Anda perlukan, dan hanya teks itu yang menjadi nilai.
+Cadangan iCloud: semuanya ikut pindah ke iPhone baru, termasuk frasa bergambar.
+
+Perlu diketahui
+
+Ini adalah keyboard untuk memasukkan teks yang sudah disimpan. Keyboard ini tidak menggantikan keyboard yang biasa Anda pakai untuk mengetik. Beralihlah ke sini saat perlu memasukkan sesuatu, lalu kembali lagi.
+
+Privasi
+
+Yang Anda tulis tetap ada di perangkat Anda. Jika cadangan iCloud diaktifkan, data disimpan terenkripsi di iCloud milik Anda sendiri. Kami tidak mengumpulkan isi frasa Anda dan tidak memakai alat analitik pihak ketiga.
+
+Gratis dan Pro
+
+Semua fitur gratis sampai Anda memasukkan frasa sebanyak 100 kali. Setelah itu, semua yang sudah Anda buat tetap berfungsi, dan batas gratis hanya berlaku untuk item baru. Pro membuka semua batas, dengan sekali beli atau langganan tahunan.
+
+Untuk iPhone dan iPad. Tersedia dalam 23 bahasa, termasuk bahasa Indonesia, Inggris, Vietnam, dan Thai.
+
+Kontak: leeo@kakao.com
+Panduan: https://m1zz.github.io/ClipKeyboard/id/tutorial.html
+Ketentuan Penggunaan: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+template,teks,frasa,tanda,tangan,alamat,rekening,otomatis,riwayat,catatan,pintasan,pesan,copy,paste
+```
+
+### 프로모션 텍스트
+
+```
+Nomor rekening, alamat, dan balasan yang Anda ketik berulang kali kini cukup satu ketukan dari keyboard. Semua fitur gratis untuk 100 kali sisip pertama.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/id/tutorial.html
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/id/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/id/privacy.html
+
+## 노르웨이어 (nb)
+
+### 이름
+
+```
+Clip Keyboard: Utklippstavle
+```
+
+### 부제
+
+```
+Kopier, lim inn og svar raskt
+```
+
+### 설명
+
+```
+Slutt å skrive det samme om og om igjen. Lagre det én gang, så holder det med ett trykk.
+
+Lagre kontonumre, adresser, korte presentasjoner og e-postinnledninger du bruker ofte, som fraser. I Meldinger, Mail, Safari og overalt ellers der du kan skrive, bytter du til ClipKeyboard, trykker én gang, og teksten havner i feltet.
+
+Dette kan appen
+
+Fraser: det du har lagret, settes inn akkurat som det er. Ett trykk.
+Maler: la delene som endrer seg, stå som utfyllingsfelt, og fyll dem med verdier du allerede har lagret.
+Stabler: flere verdier på ett sted, som du sender i rekkefølge eller bytter mellom med pilen.
+Sikre fraser: lås pass- og kortnumre med Face ID, og åpne dem bare når du trenger dem.
+Smart utklippstavle: det du kopierer, sorteres for deg. Den kjenner igjen e-postadresser, telefonnumre, adresser, kortnumre og IBAN, så du finner dem igjen på et sekund.
+Tekstgjenkjenning: ta bilde av et kort eller et dokument, sveip over delen du trenger, og bare den teksten blir en verdi.
+iCloud-sikkerhetskopi: alt blir med til en ny iPhone, også fraser med bilder.
+
+Greit å vite
+
+Dette er et tastatur for å sette inn lagret tekst. Det erstatter ikke tastaturet du skriver med. Bytt til det når du skal sette inn noe, og bytt tilbake etterpå.
+
+Personvern
+
+Det du skriver, blir værende på enheten din. Slår du på iCloud-sikkerhetskopi, lagres det kryptert i din egen iCloud. Vi samler ikke inn innholdet i frasene dine og bruker ingen analyseverktøy fra tredjeparter.
+
+Gratis og Pro
+
+Alle funksjoner er gratis til du har satt inn fraser 100 ganger. Etter det fungerer alt du har laget, som før, og gratisgrensene gjelder bare nye elementer. Pro fjerner alle grenser, som engangskjøp eller årsabonnement.
+
+For iPhone og iPad. På 23 språk, blant annet norsk, dansk, svensk og engelsk.
+
+Kontakt: leeo@kakao.com
+Veiledning: https://m1zz.github.io/ClipKeyboard/nb/tutorial.html
+Vilkår for bruk: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+mal,snarvei,signatur,adresse,kontonummer,IBAN,autoutfyll,makro,fraser,historikk,tastatur,notater
+```
+
+### 프로모션 텍스트
+
+```
+Kontonummer, adresse og svarene du skriver om og om igjen: ett trykk fra tastaturet. Alle funksjoner er gratis de første 100 innsettingene. Nå også på norsk.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/nb/tutorial.html
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/nb/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/nb/privacy.html
+
+## 네덜란드어 (nl)
+
+### 이름
+
+```
+Clip Keyboard: Klembord
+```
+
+### 부제
+
+```
+Kopiëren en plakken in één tik
+```
+
+### 설명
+
+```
+Typ niet steeds hetzelfde. Bewaar het één keer, daarna is het één tik.
+
+Bewaar rekeningnummers, adressen, een korte introductie of de opening van je e-mails die je vaak gebruikt als fragmenten. In Berichten, Mail, Safari en overal waar je kunt typen, schakel je over naar ClipKeyboard, tik je één keer en staat de tekst in het veld.
+
+Wat de app doet
+
+Fragmenten: wat je hebt bewaard, wordt precies zo ingevoegd. Eén tik.
+Sjablonen: laat de delen die veranderen open als invulveld en vul ze in met waarden die je al hebt bewaard.
+Stapels: meerdere waarden op één plek, die je op volgorde verstuurt of met de pijl afwisselt.
+Beveiligde fragmenten: vergrendel paspoort- en kaartnummers met Face ID en open ze alleen als je ze nodig hebt.
+Slim klembord: wat je kopieert, wordt voor je gesorteerd. Het herkent e-mailadressen, telefoonnummers, adressen, kaartnummers en IBAN's, zodat je ze binnen een seconde terugvindt.
+Tekstherkenning: maak een foto van een kaart of document, veeg over het stuk dat je wilt, en alleen die tekst wordt een waarde.
+iCloud-reservekopie: alles gaat mee naar een nieuwe iPhone, ook fragmenten met afbeeldingen.
+
+Goed om te weten
+
+Dit is een toetsenbord om bewaarde tekst in te voegen. Het vervangt niet het toetsenbord waarmee je typt. Schakel ernaar over als je iets wilt invoegen en schakel daarna terug.
+
+Privacy
+
+Wat je schrijft, blijft op je apparaat. Zet je de iCloud-reservekopie aan, dan wordt het versleuteld in je eigen iCloud bewaard. We verzamelen de inhoud van je fragmenten niet en gebruiken geen analysetools van derden.
+
+Gratis en Pro
+
+Alle functies zijn gratis tot je 100 keer een fragment hebt ingevoegd. Daarna blijft alles wat je hebt gemaakt gewoon werken, en de gratis limieten gelden alleen voor nieuwe items. Pro heft alle limieten op, met een eenmalige aankoop of een jaarabonnement.
+
+Voor iPhone en iPad. In 23 talen, waaronder Nederlands, Engels, Duits en Frans.
+
+Contact: leeo@kakao.com
+Handleiding: https://m1zz.github.io/ClipKeyboard/nl/tutorial.html
+Gebruiksvoorwaarden: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+sjabloon,tekst,standaardtekst,handtekening,adres,IBAN,rekeningnummer,invullen,macro,toetsenbord
+```
+
+### 프로모션 텍스트
+
+```
+Rekeningnummer, adres en antwoorden die je steeds opnieuw typt: één tik op het toetsenbord. De eerste 100 keer invoegen is alles gratis. Nu ook in het Nederlands.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/nl/tutorial.html
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/nl/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/nl/privacy.html
+
+## 폴란드어 (pl)
+
+### 이름
+
+```
+Clip Keyboard: Schowek
+```
+
+### 부제
+
+```
+Kopiuj i wklejaj gotowe teksty
+```
+
+### 설명
+
+```
+Przestań pisać w kółko to samo. Zapisz raz, a potem wystarczy jedno stuknięcie.
+
+Zapisz jako frazy numery kont, adresy, krótkie przedstawienie się czy początki maili, których często używasz. W Wiadomościach, Mailu, Safari i wszędzie, gdzie możesz pisać, przełącz się na ClipKeyboard, stuknij raz, a tekst trafi do pola.
+
+Co potrafi
+
+Frazy: to, co zapiszesz, wstawia się dokładnie tak, jak jest. Jedno stuknięcie.
+Szablony: zostaw zmieniające się części jako pola do wypełnienia i uzupełniaj je zapisanymi wcześniej wartościami.
+Stosy: kilka wartości w jednym miejscu. Wysyłaj je po kolei albo przełączaj strzałką.
+Bezpieczne frazy: zablokuj numery paszportu i kart za pomocą Face ID i otwieraj je tylko wtedy, gdy ich potrzebujesz.
+Inteligentny schowek: to, co skopiujesz, samo się porządkuje. Rozpoznaje adresy e-mail, numery telefonów, adresy, numery kart i IBAN, więc znajdziesz je w sekundę.
+Rozpoznawanie tekstu: zrób zdjęcie karty lub dokumentu, przesuń palcem po potrzebnym fragmencie i tylko ten tekst stanie się wartością.
+Kopia zapasowa iCloud: wszystko przechodzi na nowego iPhone'a, także frazy z obrazkami.
+
+Dobrze wiedzieć
+
+To klawiatura do wstawiania zapisanych tekstów. Nie zastępuje klawiatury, na której zwykle piszesz. Przełącz się na nią, gdy chcesz coś wstawić, a potem wróć.
+
+Prywatność
+
+To, co piszesz, zostaje na Twoim urządzeniu. Jeśli włączysz kopię zapasową iCloud, dane są zapisywane w postaci zaszyfrowanej w Twoim własnym iCloud. Nie zbieramy treści Twoich fraz i nie używamy narzędzi analitycznych firm trzecich.
+
+Za darmo i Pro
+
+Wszystkie funkcje są bezpłatne, dopóki nie wstawisz fraz 100 razy. Potem wszystko, co już masz, nadal działa, a darmowe limity dotyczą tylko nowych elementów. Pro znosi wszystkie limity, jako jednorazowy zakup lub roczna subskrypcja.
+
+Na iPhone'a i iPada. W 23 językach, w tym po polsku, angielsku, niemiecku i czesku.
+
+Kontakt: leeo@kakao.com
+Poradnik: https://m1zz.github.io/ClipKeyboard/pl/tutorial.html
+Warunki korzystania: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+szablon,szybkie,odpowiedzi,podpis,adres,IBAN,numer,konta,makro,historia,klawiatura,frazy,skrót
+```
+
+### 프로모션 텍스트
+
+```
+Numer konta, adres i odpowiedzi, które piszesz w kółko: jedno stuknięcie na klawiaturze. Wszystkie funkcje gratis przy pierwszych 100 wstawieniach. Teraz także po polsku.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/pl/tutorial.html
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/pl/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/pl/privacy.html
+
+## 스웨덴어 (sv)
+
+### 이름
+
+```
+Clip Keyboard: Urklipp
+```
+
+### 부제
+
+```
+Kopiera och klistra in snabbt
+```
+
+### 설명
+
+```
+Sluta skriva samma sak om och om igen. Spara det en gång, sedan räcker ett tryck.
+
+Spara kontonummer, adresser, korta presentationer och mejlinledningar som du använder ofta som fraser. I Meddelanden, Mail, Safari och överallt där du kan skriva byter du till ClipKeyboard, trycker en gång och texten hamnar i fältet.
+
+Det här gör appen
+
+Fraser: det du har sparat infogas precis som det är. Ett tryck.
+Mallar: lämna delarna som ändras som ifyllnadsfält och fyll i dem med värden du redan har sparat.
+Staplar: flera värden på ett ställe, som du skickar i ordning eller växlar mellan med pilen.
+Säkra fraser: lås pass- och kortnummer med Face ID och öppna dem bara när du behöver dem.
+Smart urklipp: det du kopierar sorteras åt dig. Det känner igen mejladresser, telefonnummer, adresser, kortnummer och IBAN, så att du hittar dem igen på en sekund.
+Textigenkänning: fotografera ett kort eller ett dokument, svep över den del du vill ha och bara den texten blir ett värde.
+Säkerhetskopiering till iCloud: allt följer med till en ny iPhone, även fraser med bilder.
+
+Bra att veta
+
+Det här är ett tangentbord för att infoga sparad text. Det ersätter inte tangentbordet du skriver med. Byt till det när du vill infoga något och byt sedan tillbaka.
+
+Integritet
+
+Det du skriver stannar på din enhet. Om du slår på säkerhetskopiering till iCloud sparas det krypterat i din egen iCloud. Vi samlar inte in innehållet i dina fraser och använder inga analysverktyg från tredje part.
+
+Gratis och Pro
+
+Alla funktioner är gratis tills du har infogat fraser 100 gånger. Därefter fungerar allt du har skapat som vanligt, och gratisgränserna gäller bara nya objekt. Pro tar bort alla gränser, som engångsköp eller årsprenumeration.
+
+För iPhone och iPad. På 23 språk, bland annat svenska, norska, danska och engelska.
+
+Kontakt: leeo@kakao.com
+Guide: https://m1zz.github.io/ClipKeyboard/sv/tutorial.html
+Användarvillkor: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+mall,snabbsvar,genväg,signatur,adress,kontonummer,IBAN,autofyll,makro,fraser,historik,tangentbord
+```
+
+### 프로모션 텍스트
+
+```
+Kontonummer, adress och svaren du skriver om och om igen: ett tryck från tangentbordet. Alla funktioner är gratis de första 100 infogningarna. Nu även på svenska.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/sv/tutorial.html
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/sv/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/sv/privacy.html
+
+## 튀르키예어 (tr)
+
+### 이름
+
+```
+Clip Keyboard: Hazır Mesajlar
+```
+
+### 부제
+
+```
+Pano ve hızlı kopyala yapıştır
+```
+
+### 설명
+
+```
+Aynı şeyleri tekrar tekrar yazmayı bırakın. Bir kez kaydedin, sonrası tek dokunuş.
+
+Sık kullandığınız IBAN'ları, adresleri, kendinizi tanıttığınız metinleri ve e-posta girişlerini ifade olarak kaydedin. Mesajlar, Mail, Safari ve yazı yazabildiğiniz her yerde ClipKeyboard'a geçin, bir kez dokunun, metin alana yerleşsin.
+
+Neler yapabilir
+
+İfadeler: kaydettiğiniz metin olduğu gibi eklenir. Tek dokunuş.
+Şablonlar: değişen kısımları doldurulacak alan olarak bırakın, sonra daha önce kaydettiğiniz değerlerle doldurun.
+Yığınlar: birden fazla değeri tek yerde tutun, sırayla gönderin ya da okla aralarında geçiş yapın.
+Güvenli ifadeler: pasaport ve kart numaralarını Face ID ile kilitleyin, yalnızca gerektiğinde açın.
+Akıllı pano: kopyaladıklarınız sizin için sınıflandırılır. E-posta, telefon numarası, adres, kart numarası ve IBAN'ı tanır, böylece onları bir saniyede yeniden bulursunuz.
+Metin tanıma: bir kartın ya da belgenin fotoğrafını çekin, istediğiniz kısmın üzerinden parmağınızı kaydırın, yalnızca o metin değer olsun.
+iCloud yedeği: her şey yeni iPhone'unuza taşınır, görselli ifadeler de dahil.
+
+Bilmeniz gerekenler
+
+Bu, kayıtlı metinleri eklemek için bir klavyedir. Yazı yazdığınız klavyenin yerini almaz. Bir şey eklemeniz gerektiğinde ona geçin, sonra geri dönün.
+
+Gizlilik
+
+Yazdıklarınız cihazınızda kalır. iCloud yedeğini açarsanız kendi iCloud hesabınızda şifreli olarak saklanır. İfadelerinizin içeriğini toplamıyoruz ve üçüncü taraf analiz araçları kullanmıyoruz.
+
+Ücretsiz ve Pro
+
+İfadeleri 100 kez ekleyene kadar tüm özellikler ücretsizdir. Sonrasında oluşturduğunuz her şey çalışmaya devam eder, ücretsiz sınırlar yalnızca yeni öğeler için geçerlidir. Pro, tek seferlik satın alma veya yıllık abonelikle tüm sınırları kaldırır.
+
+iPhone ve iPad için. Türkçe, İngilizce, Almanca ve Rusça dahil 23 dilde.
+
+İletişim: leeo@kakao.com
+Kılavuz: https://m1zz.github.io/ClipKeyboard/tr/tutorial.html
+Kullanım Koşulları: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+```
+
+### 키워드
+
+```
+klavye,şablon,metin,ifade,imza,adres,IBAN,hesap,numarası,otomatik,doldurma,geçmiş,kısayol,yanıt
+```
+
+### 프로모션 텍스트
+
+```
+IBAN, adres ve tekrar tekrar yazdığınız yanıtlar klavyeden tek dokunuşla. İlk 100 eklemede tüm özellikler ücretsiz. Artık Türkçe de kullanabilirsiniz.
+```
+
+### 지원 URL
+
+https://m1zz.github.io/ClipKeyboard/tr/tutorial.html
+
+### 마케팅 URL
+
+https://m1zz.github.io/ClipKeyboard/tr/
+
+### 개인정보처리방침 URL
+
+https://m1zz.github.io/ClipKeyboard/tr/privacy.html
