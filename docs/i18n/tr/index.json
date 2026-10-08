@@ -1,0 +1,761 @@
+{
+ "translations": {
+  "pageTitle": "ClipKeyboard: Artık tekrar tekrar yazmayın. Tek bir ifade yeter",
+  "metaDescription": "IBAN bilgilerinizi, adreslerinizi ve e-posta şablonlarınızı ifade olarak kaydedin, ardından herhangi bir uygulamada klavyeden tek dokunuşla yazın. Gezginler, profesyoneller, öğrenciler ve günlük hayat için 40 gerçekçi şablon: ücretsiz.",
+  "ogTitle": "ClipKeyboard: Artık tekrar tekrar yazmayın. Tek bir ifade yeter",
+  "ogDescription": "Sürekli yazdığınız cümleleri ifadeye dönüştürün. 40 hazır şablonu hemen kopyalayın.",
+  "heroBadge": "🔒 İfadeleriniz size ait · Önce gizlilik",
+  "heroTitle": "Artık tekrar tekrar yazmayın.<br><span>Tek bir ifade yeter</span>",
+  "heroSubtitle": "IBAN bilgileri · adresler · tanıtım yazıları · İngilizce şablonlar<br>bir kez kaydedin, herhangi bir uygulamada klavyenizden tek dokunuşla yazın.",
+  "heroCta": "App Store'dan indirin",
+  "heroDemo": "⌨️ Klavyeyi deneyin: 30 saniye",
+  "heroTemplates": "📋 40 gerçekçi şablona göz atın",
+  "videoTitle": "Böyle görünüyor",
+  "videoSubtitle": "23 saniyelik bir ekran kaydı. Sessiz.",
+  "videoNote": "",
+  "demoTitle": "Hemen burada deneyin",
+  "demoSubtitle": "Bu, uygulamanın kendi \"Klavye önizlemesi\" ekranıdır. Gerçek kullanımda bu klavye Mesajlar, Mail, Safari gibi yazı yazdığınız her yerde açılır.",
+  "demoBrief": "Aşağıdaki klavye, <strong>uygulamada yer alan ekranın kendisidir</strong>. Bir ifadeye dokunun, alana yazılsın; gönderdikten sonra da dokunmaya devam edebilirsiniz.",
+  "demoCta": "Kendi cümlelerinizle başlayın",
+  "demoReset": "Baştan başla",
+  "demoNote": "* Bu demodaki tüm hesap ve pasaport bilgileri sahtedir. Gerçek ifadeleriniz cihazınızdan asla çıkmaz.",
+  "demoStageTitle": "Klavye önizlemesi",
+  "demoComposerPh": "Metniniz buraya gelir",
+  "demoCueTap": "\"%@\" tuşuna dokunun",
+  "demoCueSend": "İşte oldu: şimdi gönder (↑) tuşuna dokunun",
+  "demoCueDone": "Hepsi bu kadar: diğer tuşları da deneyin",
+  "demoTplInsert": "Ekle",
+  "demoTplPick": "Bir değer seçin",
+  "demoFaceScanning": "Face ID ile kilit açılıyor…",
+  "demoFaceDone": "Kilit açıldı",
+  "demoToastCombo": "Sonraki değere geçildi",
+  "demoTabBasic": "Temel",
+  "demoTabFav": "Favoriler",
+  "demoTabTemplate": "Şablonlar",
+  "demoTabCombo": "Kombolar",
+  "demoFeatures": [
+   {
+    "k": "snippet",
+    "t": "İfade: tek dokunuşla yazılır",
+    "d": "Kaydettiğiniz IBAN bilgisi, adres veya imza, saklandığı haliyle aynen girilir."
+   },
+   {
+    "k": "template",
+    "t": "Şablon: yalnızca boşlukları doldurun",
+    "d": "{tarih} {saat} gibi değişkenler, daha önce kaydettiğiniz bir değere dokunarak dolar."
+   },
+   {
+    "k": "combo",
+    "t": "Kombo: değerler arasında → ile geçin",
+    "d": "Üç banka hesabı ya da ödeme yöntemi tek bir tuşta durur; işinize göre seçersiniz."
+   },
+   {
+    "k": "secure",
+    "t": "Güvenli ifade: Face ID ile kilitli",
+    "d": "Pasaport ve kart numaraları, ihtiyaç duyduğunuz âna kadar kilitli kalır."
+   }
+  ],
+  "howTitle": "İfade nedir?",
+  "howSubtitle": "Sık kullandığınız bir cümlenin, bir ad altında kaydedilmiş hali. Hepsi bu.",
+  "how1Title": "İfade olarak kaydedin",
+  "how1Desc": "\"IBAN bilgisi\" gibi bir ad (anahtar) verin ve asıl metni (değer) ekleyin. Bir kez kaydedin.",
+  "how2Title": "Klavyeden dokunun",
+  "how2Desc": "Mesajlar, Mail, Safari gibi her yerde ClipKeyboard'a geçin. İfadeleriniz doğrudan klavyenin üzerinde durur. Tek dokunuş, yazıldı.",
+  "how3Title": "Şablonlara ve komboya geçin",
+  "how3Desc": "<span class=\"chip\">ad</span> <span class=\"chip\">tarih</span> gibi değişkenler ekleyerek şablon oluşturun; ifadeleri zincirleyip kombo yapın. Koca rutinler ortadan kalkar.",
+  "libTitle": "Sizin gibi insanlar her gün zaman kazanıyor",
+  "libSubtitle": "Sizinkine benzeyen günü seçin. Herhangi bir şablonu hemen kopyalayın, uygulamaya kaydedin; klavyenizde hazır beklesin.",
+  "libNote": "💡 Mavi etiketler şablon değişkenleridir; uygulamada bunları tek dokunuşla doldurursunuz.",
+  "copy": "Kopyala",
+  "copied": "Kopyalandı ✓",
+  "impactPrefix": "✨ ",
+  "privacyTitle": "🔒 Verileriniz Yalnızca Cihazınızda",
+  "privacyDesc": "İfadelerinizin içeriği yalnızca cihazınızda (etkinleştirirseniz kendi iCloud hesabınızda) durur, biz bunları asla toplamayız. Uygulamayı geliştirmek için yalnızca anonim kullanım istatistikleri toplanır.",
+  "privacyBadge": "✓ Apple Gizlilik Politikası'na Uygun",
+  "pricingTitle": "Ücretsiz Başlayın",
+  "pricingSubtitle": "İndirmesi ücretsiz · Pro tek seferlik bir satın alımdır, abonelik yok",
+  "price": "Ücretsiz",
+  "priceDesc": "Pro yükseltmesi $9,99 · tek seferlik · 7 gün ücretsiz deneme",
+  "priceFeature1": "Ücretsiz: 10 ifade · 3 şablon · 3 kombo",
+  "priceFeature2": "Pro: sınırsız depolama · iCloud yedekleme · güvenli ifadeler",
+  "priceFeature3": "iPhone, iPad, Mac, Vision Pro",
+  "priceFeature4": "Abonelik yok · Reklam yok",
+  "priceFeature5": "Ömür boyu ücretsiz güncellemeler",
+  "pricingCta": "Ücretsiz İndirin",
+  "footerContact": "Bize Ulaşın",
+  "footerTutorial": "Kılavuz",
+  "footerPrivacy": "Gizlilik Politikası",
+  "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+ },
+ "PERSONA_DATA": [
+  {
+   "persona": "nomad",
+   "intro": "Kafelerde ve ortak çalışma alanlarında gezip dünyanın dört bir yanındaki müşterilerle çalışıyorsunuz. Saat dilimleri, uluslararası transferler, vizeler, birbirinin neredeyse aynısı İngilizce e-postalar: gününüz, aynı bilgileri başka bir sekmede aramakla geçiyor. Her birini bir kez kaydedin, sonrasında tek dokunuş yeter.",
+   "scenarios": [
+    {
+     "title": "\"Banka bilgilerinizi gönderin\"",
+     "pain": "Müşteriden gelen tek bir satır, IBAN ve SWIFT için yine banka uygulamanızı karıştırmanıza yol açar.",
+     "example": "Ad Soyad: {adınız soyadınız}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nBanka adresi: {banka adresi}\nWise: {Wise e-postası}",
+     "impact": "30 saniyelik arama tek dokunuşa iner, yer değiştirmiş rakam hatası da biter.",
+     "feature": "combo"
+    },
+    {
+     "title": "Saat dilimi yanıtı",
+     "pain": "Gece 2'de gelen \"Görüşme yapabilir miyiz?\" mesajına saat diliminizi bir kez daha anlatıp durursunuz.",
+     "example": "Merhaba {müşteri}, şu an GMT+{fark} ({şehir}) saat dilimindeyim. {zaman aralığı} arasında müsaidim. Calendly: {bağlantı}",
+     "impact": "Üç mesajlık gidiş geliş, tek ve net bir yanıta dönüşür.",
+     "feature": "template"
+    },
+    {
+     "title": "Fatura gönderme",
+     "pain": "Fatura numarasını, tutarı, para birimini ve vade tarihini her seferinde baştan yazarsınız.",
+     "example": "Fatura No: {no} · {para birimi} {tutar}\nVade: {vade tarihi}\nÖdeme: Wise ({e-posta})\nTeşekkür ederim! 🙏",
+     "impact": "Şablon, unutabileceğiniz alanları yakalar: daha az yeniden faturalama ve düzeltme.",
+     "feature": "template"
+    },
+    {
+     "title": "Teklif sonrası hatırlatma",
+     "pain": "Üç gün sessizlik olur ve ısrarcı görünmeyen bir hatırlatma yazmak her seferinde zordur.",
+     "example": "Merhaba {müşteri}, {gün} günü gönderdiğim teklifi merak ediyordum. Açıklığa kavuşturmamız gereken bir nokta varsa kısa bir görüşme yapmaktan memnuniyet duyarım.\n\nSevgiler, {ad}",
+     "impact": "Anında gönderebileceğiniz kibar bir hatırlatma, elinizden kaçırdığınız işleri kurtarır.",
+     "feature": "template"
+    },
+    {
+     "title": "Pasaport ve vize bilgileri",
+     "pain": "Her uçuşta, konaklamada ya da vize formunda pasaport numaranızı ve geçerlilik tarihinizi aramak zorunda kalırsınız.",
+     "example": "Pasaport no: {pasaport}\nAd Soyad: {ad}\nVeriliş / Geçerlilik: {veriliş} / {son geçerlilik}\nUyruk: {uyruk}",
+     "impact": "Güvenli ifade olarak Face ID arkasına kilitleyin, yalnızca ihtiyaç duyduğunuzda açın.",
+     "feature": "snippet"
+    },
+    {
+     "title": "\"Nerede yaşıyorsunuz?\"",
+     "pain": "Yeni bir müşteri gelişigüzel sorar, siz de göçebe yaşamı her seferinde uzun uzun anlatırsınız.",
+     "example": "Belirli bir yerde değilim: şu an {şehir} şehrindeyim. Öncelikle asenkron çalışıyorum, bu yüzden saat dilimleri nadiren sorun olur, ama ulaşılabilir olduğum zaman aralığını size her zaman net biçimde bildiririm.",
+     "impact": "Kararsız görünmek yerine tek, kendinden emin ve profesyonel bir yanıt.",
+     "feature": "template"
+    },
+    {
+     "title": "İnternet koptu",
+     "pain": "Ortak çalışma alanının interneti tam görüşmeden önce kesilir ve özür mesajı için telaşlanırsınız.",
+     "example": "Merhaba ekip, çalıştığım ortak alanda internet az önce koptu. Yedek bir yere geçiyorum: {dk} dakika içinde tekrar çevrimiçi olacağım. Hemen ardından devam etmeye hazırım. 🙏",
+     "impact": "Panik anında bile sakin ve güven veren bir cümleyi saniyeler içinde gönderirsiniz.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Para birimi ve teklif notu",
+     "pain": "Başka bir para biriminde teklif verirken kur uyarısını her seferinde yeniden yazarsınız.",
+     "example": "Teklif: {para birimi} {tutar} (bugünkü kurla ≈ {karşılığı}).\nSizin için masrafları düşük tutmak amacıyla fatura {para birimi} cinsinden Wise üzerinden kesilir.",
+     "impact": "Fiyat karışıklığını baştan önleyin, ödeme anında pazarlık yaşanmasın.",
+     "feature": "template"
+    },
+    {
+     "title": "Yeni müşteri karşılama",
+     "pain": "Sözleşmeyi imzalar imzalamaz her müşteriye Calendly'yi, Slack'i, ödemeyi ve çalışma temposunu tek tek anlatırsınız.",
+     "example": "Aramıza hoş geldiniz, {müşteri}! Birlikte şöyle çalışacağız:\n1. İlk toplantı: Calendly: {bağlantı}\n2. Ödeme (gerekirse banka bilgileri ekte)\n3. 24 saat içinde Slack daveti\n4. Her perşembe ilerleme sunumu\n\nBaşlamak için sabırsızlanıyorum!",
+     "impact": "Kombo, birden çok ifadeyi sırayla yapıştırır: karşılama 5 dakikadan 5 saniyeye iner.",
+     "feature": "combo"
+    },
+    {
+     "title": "Geceye veda",
+     "pain": "Akşam 10'da gelen acil bir mesaja \"şimdi olmaz\" demek, kibarca yapmak istedikçe her seferinde garip gelir.",
+     "example": "Merhaba! Bugünlük çevrimdışı oluyorum ({şehir} saatiyle {saat}). Sabah ilk iş size döneceğim, anlayışınız için teşekkürler 🙏",
+     "impact": "Kaba görünmeden sınırınızı koruyun: güven zedelenmez, tükenmişlik önlenir.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "business",
+   "intro": "Toplantılar, raporlar, yanıtlar: aynı cümleleri günde onlarca kez yeniden yazıyorsunuz. \"Lütfen teyit ediniz\", toplantı davetleri, otomatik yanıt notları. Kibar ve sık kullanılan cümleleri bir kez kaydedin, dikkatinizi ifadelere değil işe verin.",
+   "scenarios": [
+    {
+     "title": "Ofis dışı otomatik yanıt",
+     "pain": "Her seyahatte izin notunu baştan yazarsınız ve yedek kişiyi belirtmeyi unutursunuz.",
+     "example": "Merhaba, {başlangıç} ile {bitiş} tarihleri arasında ofis dışındayım.\nAcil durumlarda lütfen {kişi} ile ({telefon}) iletişime geçiniz.\nDöndüğümde mesajlara sırayla yanıt vereceğim. Teşekkür ederim.",
+     "impact": "İletişimde boşluk kalmaz, döndüğünüzde sizi bekleyen bir e-posta yığını da olmaz.",
+     "feature": "template"
+    },
+    {
+     "title": "Toplantı daveti",
+     "pain": "Her toplantı için tarih / yer / gündem biçimini baştan yazarsınız.",
+     "example": "Merhaba {ad},\nAşağıdaki bilgilerle bir toplantı talep ediyorum:\n📅 {tarih} {saat}\n📍 {yer}\n📌 Gündem: {gündem}\nKatılabilecekseniz lütfen teyit ediniz 😊",
+     "impact": "Düzenli bir davet, yeniden teyit ihtiyacını ve katılmayanların sayısını azaltır.",
+     "feature": "template"
+    },
+    {
+     "title": "Haftalık durum raporu",
+     "pain": "Her hafta aynı rapor düzenini boş bir ekrandan başlatırsınız.",
+     "example": "Merhaba ekip, bu haftanın özeti:\n✅ Tamamlanan: {tamamlanan}\n🔄 Devam eden: {devam eden}\n📋 Gelecek hafta: {planlanan}\nYukarıdakilerle ilgili konuşmaktan memnuniyet duyarım.",
+     "impact": "Düzen hazır, siz yalnızca içeriği doldurursunuz. Cuma akşamları hafifler.",
+     "feature": "template"
+    },
+    {
+     "title": "Tanışma ve kartvizit",
+     "pain": "Her ilk tanışmada görevinizi, ekibinizi ve iletişim bilgilerinizi yeniden yazarsınız.",
+     "example": "Merhaba, ben {ad}.\n{şirket} bünyesinde {görev} olarak çalışıyorum.\n📧 {e-posta} / 📞 {telefon}\nBirlikte çalışmayı dört gözle bekliyorum 🙏",
+     "impact": "Tutarlı bir tanıtım güven oluşturur, yazım hatası yüzünden eksik kalan iletişim bilgisi de olmaz.",
+     "feature": "snippet"
+    },
+    {
+     "title": "E-posta imzası",
+     "pain": "İmzalar posta uygulamaları arasında taşınmaz, siz de kendi imzanızı elle yapıştırırsınız.",
+     "example": "{ad soyad}\n{unvan} | {şirket}\n📧 {e-posta}\n📞 {telefon}\n🌐 {web sitesi}",
+     "impact": "Tek imza, her uygulamada ve cihazda: markanızın izlenimi net kalır.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Ödeme ve vergi bilgileri",
+     "pain": "Bir tedarikçi hesap ya da vergi bilgisi istediğinde finans dosyalarını karıştırırsınız.",
+     "example": "Hesap: {banka} {IBAN} ({hesap sahibi})\nVergi Dairesi / No: {vergi no}\nŞirket: {şirket}\nFatura e-postası: {e-posta}",
+     "impact": "Bilgiyi tam doğru ve anında gönderin: geciken ya da yanlış hesaba giden ödeme olmaz.",
+     "feature": "snippet"
+    },
+    {
+     "title": "İş birliği teklifi",
+     "pain": "Bir iş birliği önerirken o nazik açılış cümlesi hep en zor kısımdır.",
+     "example": "Merhaba {ad},\n{proje} konusunda olası bir iş birliği için yazıyorum.\n{şirket/ad} bünyesinde {görev} olarak çalışıyorum.\nKısa bir görüşme uygun olur mu? Size uyan bir zamanı bildirirseniz sevinirim. Teşekkürler!",
+     "impact": "Üzerinde kafa yorduğunuz ilk cümle hazır, bu yüzden gerçekten daha çok kişiye ulaşırsınız.",
+     "feature": "template"
+    },
+    {
+     "title": "Geç yanıt için özür",
+     "pain": "Geç yanıt verdiğinizde, ilgisiz görünmeden özür dilemek hassas bir iştir.",
+     "example": "Merhaba {ad}, geç dönüş yaptığım için özür dilerim. {sebep} nedeniyle süreç aksadı. Ayrıntılarla birlikte {tarih} tarihine kadar size döneceğim. Anlayışınız için teşekkür ederim.",
+     "impact": "Sessizlik yerine güven kazandıran bir cümle: ilişkiniz zarar görmez.",
+     "feature": "template"
+    },
+    {
+     "title": "Proje sonu teşekkürü",
+     "pain": "Proje ne kadar iyi geçtiyse teşekkürü o kadar ertelersiniz ve doğru an kaçar.",
+     "example": "Merhaba {ad},\n{proje} sürecindeki iş birliğiniz için içtenlikle teşekkür ederim.\nSizin sayenizde çok güzel bir sonuca ulaştık.\nBundan sonraki işler için de kapıyı açık tutmak isterim 😊",
+     "impact": "Bir projeyi sıradakine dönüştüren notu hiç kaçırmazsınız, tekrar eden işler gelir.",
+     "feature": "template"
+    },
+    {
+     "title": "Fatura ve mutabakat",
+     "pain": "Ay sonu geldiğinde ekstreyi ve hesap bilgilerini yine elle derlersiniz.",
+     "example": "Merhaba! {ay} ayı ekstresi aşağıdadır.\nTutar: {tutar} (KDV dahil)\nHesap: {banka} {IBAN} ({hesap sahibi})\nLütfen teyit ediniz 😊",
+     "impact": "Biçimi kusursuz bir fatura mesajı yeniden yazma derdini bitirir, ödemenizi de daha hızlı alırsınız.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "student",
+   "intro": "Öğrenci numarası, okul e-postası, ödev kapak sayfaları, grup projesi duyuruları: kampüs hayatı, art arda tekrarlanan formlardan ibaret. Hocalarınıza yazacağınız e-postaları, grup hesaplaşmalarını ve ev adresinizi kaydedin, ders çalışmak ve kendinize ayırmak için zaman kazanın.",
+   "scenarios": [
+    {
+     "title": "Öğrenci numarası + ad soyad",
+     "pain": "Ders kaydında, ödev tesliminde ve belgelerde numaranızı ve adınızı her seferinde yeniden yazarsınız.",
+     "example": "{bölüm} {öğrenci no} {ad soyad}",
+     "impact": "Her alana tek dokunuşla girer, son dakikada yapılan bir yazım hatası puan kaybettirmez.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Hocaya e-posta",
+     "pain": "Hocalara yazılan e-postalar kibar bir ton gerektirir, bu yüzden ilk cümle sizi her seferinde geriyor.",
+     "example": "Sayın Hocam, ben {bölüm} bölümünden {ad soyad} ({öğrenci no}).\n{ders} dersinin ({şube no}. şube) öğrencisiyim.\n{konu} hakkında yazıyorum.\nRahatsız ettiğim için özür dilerim, teşekkür ederim.",
+     "impact": "Siz yalnızca konuyu yazın, biçim hazır: e-postaları ertelemeyi bırakırsınız.",
+     "feature": "template"
+    },
+    {
+     "title": "Ödev kapak sayfası",
+     "pain": "Her ders farklı bir kapak biçimi ister, siz de teslimden hemen önce onunla uğraşırsınız.",
+     "example": "Ders: {ders}\nÖğretim Üyesi: {öğretim üyesi}\nHazırlayan: {bölüm} {öğrenci no} {ad soyad}\nTarih: {tarih}\nKonu: {konu}",
+     "impact": "Biçim kayıtlı, içerik güncel: teslim stresinin bir katmanı daha azalır.",
+     "feature": "template"
+    },
+    {
+     "title": "Grup projesi duyurusu",
+     "pain": "Toplantı saatini ve görev dağılımını grup sohbetine yazmak her turda angaryadır.",
+     "example": "[{ödev}] Ekip duyurusu 📢\nSonraki toplantı: {tarih} {saat} @ {yer/bağlantı}\nGetirilecekler: {malzemeler}\nSon teslim: {teslim tarihi}\nGördüyseniz 👍 ile işaretleyin!",
+     "impact": "Düzenli bir duyuru \"dur, ne zamandı?\" sorularını bitirir ve ekibi hareketli tutar.",
+     "feature": "template"
+    },
+    {
+     "title": "Ev / yurt adresi",
+     "pain": "Her teslimatta açık adresi ve kapı kodunu yeniden girmeniz gerekir.",
+     "example": "{mahalle}, {sokak ve bina no}\n{daire ve kat bilgisi}\n{posta kodu} {ilçe}/{il}\nKapı kodu: {kod}\nAlıcı: {ad soyad} / {telefon}",
+     "impact": "Teslimat uygulamasına tek dokunuşla girer, yanlış adres yüzünden kaybolan paket olmaz.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Hesap bölüşme",
+     "pain": "Malzeme ya da ekip yemeği için para toplarken her seferinde yeniden hesaplayıp paylaşırsınız.",
+     "example": "Toplam {toplam} oldu, {kişi sayısı} kişiyiz, kişi başı {kişi başı} 🙏\nLütfen {banka} {IBAN} ({ad soyad}) hesabına gönderin~",
+     "impact": "Hesabı anında gönderin: para konuşmak da çok daha az utandırıcı olur.",
+     "feature": "template"
+    },
+    {
+     "title": "Devamsızlık bildirimi",
+     "pain": "Hastayken hocaya ya da asistana yazılacak not, tam da en acil olduğu anda aklınıza gelmez.",
+     "example": "Sayın Hocam, ben {ad soyad} ({öğrenci no}).\n{sebep} nedeniyle {tarih} tarihindeki {ders} dersine katılamayacağım.\nBelgemi {yöntem} ile ileteceğim. Özür dilerim.",
+     "impact": "Telaştayken bile kibar bir bilgilendirmeyi hemen gönderirsiniz: yaptırım riski azalır.",
+     "feature": "template"
+    },
+    {
+     "title": "Kulüp / çalışma grubu duyurusu",
+     "pain": "Üye arama ilanını topluluklara tek tek yayınlarken tanıtımı her seferinde biraz değiştirirsiniz.",
+     "example": "[{grup}] Üye arıyoruz! 🙌\nNe yapıyoruz: {etkinlik}\nNe zaman: {gün/saat}\nNerede: {yer}\nBaşvuru: {bağlantı/iletişim}\nİstediğiniz zaman yazabilirsiniz 😊",
+     "impact": "Aynı ilanı tek dokunuşla her yere yapıştırın, üye bulma çok daha hızlı ilerler.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Staj başvurusu temel bilgileri",
+     "pain": "Her başvuruda adınız, iletişim bilgileriniz, eğitiminiz ve bağlantılarınız bıkana kadar tekrarlanır.",
+     "example": "{ad soyad} · {telefon} · {e-posta}\n{okul} {bölüm} ({sınıf}. sınıf)\nPortfolyo: {bağlantı}\nGitHub/blog: {bağlantı}",
+     "impact": "Form doldurmak hızlanır, böylece daha fazla fırsata başvurursunuz.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Geç kalıyorum",
+     "pain": "Derse ya da bir arkadaşınıza geç kaldığınızda suçluluk mesajı gitgide uzatır.",
+     "example": "Çok özür dilerim! Yaklaşık {dk} dakika gecikeceğim. Neredeyse geldim 🙏",
+     "impact": "Kısa ve net bir mesaj, bekleyen kişiyi hemen rahatlatır.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "general",
+   "intro": "Her gün kullandığınız temel bilgiler: hesap numaranız, ev adresiniz, telefon numaranız, sık gönderdiğiniz selamlamalar. Artık hafızanızı ya da eski sohbetleri karıştırmanıza gerek yok; an geldiğinde tek dokunuş yeter. Tek tek küçük görünen bu kazanımlar, gün içinde gerçek bir zamana dönüşür.",
+   "scenarios": [
+    {
+     "title": "Hesap numarası paylaşma",
+     "pain": "\"Hesap numaran neydi?\" sorusuna banka uygulamasını açıp numarayı bakıp kopyalarsınız.",
+     "example": "{banka} {IBAN}\nHesap sahibi: {ad soyad}\n(Havale/EFT de olur 🙏)",
+     "impact": "Tek dokunuş, tam doğru: yanlış rakam yüzünden yanlış kişiye giden para olmaz.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Ev adresi (teslimat)",
+     "pain": "Alışverişte ve ikinci el satışta açık adresi ve iletişim bilgisini yeniden yazmanız gerekir.",
+     "example": "{mahalle}, {sokak ve bina no}\n{daire ve kat bilgisi}\n{posta kodu} {ilçe}/{il}\nAlıcı: {ad soyad} / {telefon}",
+     "impact": "Adres girişi tek seferde biter, yanlış teslimatlar zamanınızı yemez.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Buluşma planı",
+     "pain": "Her buluşmada zamanı ve yeri ayarlamak için yeni bir mesaj yazarsınız.",
+     "example": "{tarih} günü saat {saat} için {yer} nasıl olur? Olmazsa sana uyan zamanı söyle 😊",
+     "impact": "Somut bir teklifle başlamak planları çok daha hızlı netleştirir.",
+     "feature": "template"
+    },
+    {
+     "title": "Geç kalıyorum",
+     "pain": "Her geç kalışınızda suçluluk, özür mesajını uzun uzun yeniden yazdırır.",
+     "example": "Çok özür dilerim! Yaklaşık {dk} dakika gecikeceğim. Bensiz başlayabilirsiniz 🙏",
+     "impact": "Hemen gönderilen kısa bir not, bekleyen kişiyi rahatlatır.",
+     "feature": "template"
+    },
+    {
+     "title": "Etkinlik hesabı (hediye/taziye)",
+     "pain": "Biri hediye ya da taziye için hesap numarası istediğinde numarayı bulmak için telaşlanırsınız.",
+     "example": "Düşündüğünüz için teşekkür ederiz.\n{banka} {IBAN} ({hesap sahibi})\nVarlığınız bile bizim için çok değerli 🙏",
+     "impact": "Yoğun bir anda bile bilgiyi doğru ve zarif bir şekilde paylaşırsınız.",
+     "feature": "snippet"
+    },
+    {
+     "title": "İkinci el ilanı",
+     "pain": "Her satışta fiyatı, durumu ve buluşma yerini aynı şekilde yeniden yazarsınız.",
+     "example": "Satılık: {ürün}\nFiyat: {fiyat} (pazarlık: {var/yok})\nDurum: {durum}\nTeslim: {konum} veya kargo\nİletişim: {iletişim}",
+     "impact": "Tek dokunuşla her platforma yapıştırın, alıcılara daha hızlı yanıt verirsiniz.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Acil durum ve aile bilgileri",
+     "pain": "Hastane kaydında ve formlarda yakınınızın iletişim bilgisini ve ayrıntıları her seferinde hatırlamanız gerekir.",
+     "example": "Yakını: {ad soyad} ({yakınlık})\nTelefon: {telefon}\nKan grubu: {kan grubu}\nNotlar/alerjiler: {ayrıntılar}",
+     "impact": "Acil bir anda doğru bilgi, panik yerine sakin bir müdahale sağlar.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Randevu bilgileri",
+     "pain": "Randevu aramalarında adınızı, doğum tarihinizi ve şikâyetinizi her seferinde yeniden toparlarsınız.",
+     "example": "Randevu almak istiyorum.\nAd Soyad: {ad soyad} / Doğum tarihi: {doğum tarihi}\nSebep: {sebep}\nTercih: {tarih} {saat}",
+     "impact": "Düzenli bir talep görüşmeyi kısaltır ve istediğiniz saati almanızı sağlar.",
+     "feature": "template"
+    },
+    {
+     "title": "Wi-Fi şifresi paylaşma",
+     "pain": "Her misafirde modem şifresini sesli okumanız ya da fotoğrafını aramanız gerekir.",
+     "example": "Wi-Fi: {ağ adı}\nŞifre: {şifre}\nKeyifli vakitler 😊",
+     "impact": "Bir kez paylaşın: \"şifre neydi?\" sorusunu üç kez tekrarlamanıza gerek kalmaz.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Hazır tebrik mesajları",
+     "pain": "Bayramlarda ve doğum günlerinde her seferinde sıfırdan benzer bir not yazarsınız.",
+     "example": "Merhaba {ad}, {vesile} güzel geçsin! Sağlık ve mutluluk dolu günler dilerim 😊",
+     "impact": "İçten ama hızlı: böylece aklınızdaki herkese gerçekten ulaşırsınız.",
+     "feature": "template"
+    }
+   ]
+  }
+ ],
+ "DEMO_SCENARIOS": [
+  {
+   "id": "daily",
+   "tab": "👤 Günlük",
+   "incoming": "Payımı bu akşam gönderiyorum: ne kadar, nereye atayım? 🙏",
+   "target": "settle",
+   "keys": [
+    {
+     "id": "settle",
+     "title": "Hesaplaşma",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Bu akşam kişi başı {tutar} tuttu 🙏\n{hesap} hesabına gönderebilirsiniz (Hyunho Lee)~",
+     "ph": [
+      {
+       "name": "tutar",
+       "values": [
+        "450 TL",
+        "900 TL",
+        "1.350 TL"
+       ]
+      },
+      {
+       "name": "hesap",
+       "values": [
+        "Ziraat TR12 3456 7890",
+        "Papara 1234567890",
+        "Garanti TR98 7654 3210"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "addr",
+     "title": "Ev adresi",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Bağdat Caddesi No: 350, Daire 12\nKadıköy / İstanbul 34728\nAlıcı: Hyunho Lee / +90 555 013 45 67"
+    },
+    {
+     "id": "late",
+     "title": "Geç kalacağım",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Çok üzgünüm! Yaklaşık {dakika} dakika geç kalacağım. Siz bensiz başlayın 🙏",
+     "ph": [
+      {
+       "name": "dakika",
+       "values": [
+        "5",
+        "10",
+        "20"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pay",
+     "title": "Para gönder",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Papara: 1234567890",
+      "PayPal: leeo@example.com",
+      "Havale/EFT: TR12 3456 7890"
+     ]
+    },
+    {
+     "id": "wifi",
+     "title": "Ev wifi",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "WiFi: Home_5G\nŞifre: welcome2026!"
+    },
+    {
+     "id": "card",
+     "title": "Kart numarası",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "4212 3456 7890 7788 (12/29)"
+    },
+    {
+     "id": "delivery",
+     "title": "Teslimat notu",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Lütfen kapının önüne bırakın 🙏\nSite kapı kodu: #1234\nZili çalmayın lütfen, bebek uyuyor."
+    },
+    {
+     "id": "sale",
+     "title": "İkinci el ilanı",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Satılık: iPad Air (5. nesil)\nFiyat: 14.000 TL (pazarlık payı var)\nDurum: hafif çizikler var, kutusu mevcut\nTeslim: elden ya da kargo"
+    }
+   ]
+  },
+  {
+   "id": "work",
+   "tab": "💼 İş",
+   "incoming": "Gelecek haftaki toplantıyı ayarlayıp ayrıntıları paylaşabilir misiniz?",
+   "target": "meet",
+   "keys": [
+    {
+     "id": "meet",
+     "title": "Toplantı daveti",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Merhaba, aşağıdaki şekilde bir toplantı planlamak istiyorum:\n📅 {tarih} {saat}\n📍 {yer}\nKatılabiliyorsanız lütfen onaylayın 😊",
+     "ph": [
+      {
+       "name": "tarih",
+       "values": [
+        "12 Mart Salı",
+        "14 Mart Perşembe"
+       ]
+      },
+      {
+       "name": "saat",
+       "values": [
+        "10:00",
+        "14:00"
+       ]
+      },
+      {
+       "name": "yer",
+       "values": [
+        "3. kat toplantı odası",
+        "Google Meet"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "sign",
+     "title": "E-posta imzası",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Hyunho Lee\nÜrün Yöneticisi | Ysoup\n📧 leeo@example.com / 📞 +90 555 013 45 67"
+    },
+    {
+     "id": "ok",
+     "title": "Not aldım, teşekkürler",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Not aldım: ilgilendiğiniz için teşekkür ederim 🙏"
+    },
+    {
+     "id": "ooo",
+     "title": "Ofis dışındayım",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "{başlangıç} ile {bitiş} tarihleri arasında ofis dışındayım.\nAcil durumlarda lütfen Hana Kim ile iletişime geçin (+90 555 019 99 00).",
+     "ph": [
+      {
+       "name": "başlangıç",
+       "values": [
+        "18 Mart",
+        "1 Nisan"
+       ]
+      },
+      {
+       "name": "bitiş",
+       "values": [
+        "22 Mart",
+        "5 Nisan"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "biz",
+     "title": "Fatura bilgileri",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Hesap: Garanti BBVA TR12 0006 2000 1234 5678 9012 34 (Ysoup A.Ş.)",
+      "Vergi No: 1234567890",
+      "Fatura e-postası: billing@example.com"
+     ]
+    },
+    {
+     "id": "rrn",
+     "title": "TC Kimlik No",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "•••••••6789"
+    },
+    {
+     "id": "report",
+     "title": "Haftalık rapor",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Bu haftanın özeti:\n✅ Tamamlanan: {biten}\n🔄 Devam eden: {süren}\n📋 Gelecek hafta: {sonraki}",
+     "ph": [
+      {
+       "name": "biten",
+       "values": [
+        "4.5 sürümü",
+        "Ödeme akışı testi"
+       ]
+      },
+      {
+       "name": "süren",
+       "values": [
+        "Widget yenileme",
+        "Elde tutma analizi"
+       ]
+      },
+      {
+       "name": "sonraki",
+       "values": [
+        "App Store incelemesi",
+        "Sprint değerlendirmesi"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "delay",
+     "title": "Geç yanıt",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Geç yanıt verdiğim için özür dilerim, iç değerlendirme beklediğimden uzun sürdü.\nBugün size ayrıntılarla dönüş yapacağım 🙏"
+    }
+   ]
+  },
+  {
+   "id": "nomad",
+   "tab": "🌏 Nomad",
+   "incoming": "Harika, Pazartesi başlıyoruz! Banka bilgilerinizi iletebilir misiniz?",
+   "target": "iban",
+   "keys": [
+    {
+     "id": "iban",
+     "title": "IBAN · SWIFT",
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Ad Soyad: Hyunho Lee\nIBAN: DE89 3704 0044 0532 0130 00\nSWIFT/BIC: COBADEFFXXX"
+    },
+    {
+     "id": "tz",
+     "title": "Saat dilimi yanıtı",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Merhaba, şu an GMT+{fark} saat dilimindeyim. {aralık} uygunum. Calendly: cal.com/leeo",
+     "ph": [
+      {
+       "name": "fark",
+       "values": [
+        "9",
+        "2"
+       ]
+      },
+      {
+       "name": "aralık",
+       "values": [
+        "sizin saatinizle 9~11 arası",
+        "saat 15:00'ten sonra herhangi bir zaman"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "inv",
+     "title": "Fatura",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Fatura No: {no} · USD {tutar}\nSon ödeme tarihi: {vade}\nÖdeme: Wise (leeo@example.com)\nTeşekkürler! 🙏",
+     "ph": [
+      {
+       "name": "no",
+       "values": [
+        "2026-014",
+        "2026-015"
+       ]
+      },
+      {
+       "name": "tutar",
+       "values": [
+        "2.400",
+        "3.800"
+       ]
+      },
+      {
+       "name": "vade",
+       "values": [
+        "31 Mart",
+        "15 Nisan"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pm",
+     "title": "Ödeme yöntemleri",
+     "fav": true,
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Wise: leeo@example.com",
+      "PayPal: leeo@example.com",
+      "Stripe: stripe.me/leeo"
+     ]
+    },
+    {
+     "id": "wifi2",
+     "title": "Wifi koptu",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Merhaba ekip, çalıştığım ortak çalışma alanında wifi koptu. 10 dakika içinde tekrar çevrimiçi olurum 🙏"
+    },
+    {
+     "id": "pass",
+     "title": "Pasaport bilgileri",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "Pasaport: U12345678 · Geçerlilik: 2031-04-18"
+    },
+    {
+     "id": "quote",
+     "title": "Teklif ve kur notu",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Teklif: USD 2.400 (bugünkü kurla yaklaşık EUR 2.210).\nSizin için masrafları düşük tutmak amacıyla fatura Wise üzerinden USD olarak kesilmiştir."
+    },
+    {
+     "id": "signoff",
+     "title": "Çevrimdışıyım",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Bu gece için çevrimdışı oluyorum (burada saat 23:00). Sabah ilk iş size döneceğim, anlayışınız için teşekkürler 🙏"
+    }
+   ]
+  }
+ ],
+ "PERSONA_META": {
+  "nomad": {
+   "icon": "🌏",
+   "name": "Gezgin · Serbest Çalışan"
+  },
+  "business": {
+   "icon": "💼",
+   "name": "İş"
+  },
+  "student": {
+   "icon": "🎓",
+   "name": "Öğrenci"
+  },
+  "general": {
+   "icon": "👤",
+   "name": "Günlük"
+  }
+ },
+ "BADGE_LABEL": {
+  "snippet": "İfade",
+  "template": "Şablon",
+  "combo": "Kombo",
+  "smartClipboard": "Pano"
+ }
+}

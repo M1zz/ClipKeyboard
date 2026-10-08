@@ -23,11 +23,14 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DOCS = path.dirname(HERE);
 const BASE = 'https://m1zz.github.io/ClipKeyboard/';
 
-export const LANGS = ['ko', 'en', 'zh-Hans', 'zh-Hant', 'ru', 'ja', 'es', 'de', 'fr', 'it', 'pt-BR', 'th', 'vi'];
+export const LANGS = ['ko', 'en', 'zh-Hans', 'zh-Hant', 'ru', 'ja', 'es', 'de', 'fr', 'it', 'pt-BR', 'th', 'vi',
+    'cs', 'da', 'el', 'fi', 'id', 'nb', 'nl', 'pl', 'sv', 'tr'];
 const NAMES = {
     ko: '한국어', en: 'English', 'zh-Hans': '简体中文', 'zh-Hant': '繁體中文', ru: 'Русский',
     ja: '日本語', es: 'Español', de: 'Deutsch', fr: 'Français', it: 'Italiano',
     'pt-BR': 'Português (Brasil)', th: 'ไทย', vi: 'Tiếng Việt',
+    cs: 'Čeština', da: 'Dansk', el: 'Ελληνικά', fi: 'Suomi', id: 'Bahasa Indonesia',
+    nb: 'Norsk bokmål', nl: 'Nederlands', pl: 'Polski', sv: 'Svenska', tr: 'Türkçe',
 };
 
 // 페이지마다 언어를 타는 데이터 상수. 처음 것이 translations(제목 · 본문)다.

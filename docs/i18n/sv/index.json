@@ -1,0 +1,761 @@
+{
+ "translations": {
+  "pageTitle": "ClipKeyboard: Sluta skriva samma sak om och om igen. En fras räcker",
+  "metaDescription": "Spara dina bankuppgifter, adresser och mejlmallar som fraser och skriv in dem med ett tryck från tangentbordet i vilken app som helst. 40 mallar från vardagen för nomader, yrkesverksamma, studenter och vardagslivet: gratis.",
+  "ogTitle": "ClipKeyboard: Sluta skriva samma sak om och om igen. En fras räcker",
+  "ogDescription": "Gör om det du ständigt upprepar till fraser. Kopiera 40 färdiga mallar direkt.",
+  "heroBadge": "🔒 Dina fraser förblir dina · Integriteten först",
+  "heroTitle": "Sluta skriva samma sak om och om igen.<br><span>En fras räcker</span>",
+  "heroSubtitle": "Bankuppgifter · adresser · presentationer · mallar på engelska<br>sparas en gång och skrivs in med ett tryck från tangentbordet i vilken app som helst.",
+  "heroCta": "Ladda ner från App Store",
+  "heroDemo": "⌨️ Testa tangentbordet: 30 sekunder",
+  "heroTemplates": "📋 Bläddra bland 40 mallar från vardagen",
+  "videoTitle": "Så här ser det ut",
+  "videoSubtitle": "En skärminspelning på 23 sekunder. Utan ljud.",
+  "videoNote": "",
+  "demoTitle": "Testa direkt här",
+  "demoSubtitle": "Det här är appens egen skärm \"Tangentbordsförhandsvisning\". I verkligheten dyker tangentbordet upp i Meddelanden, Mail, Safari: överallt där du skriver.",
+  "demoBrief": "Tangentbordet nedan är <strong>samma skärm som finns i appen</strong>. Tryck på en fras så hamnar den i fältet. Fortsätt gärna trycka även efter att du har skickat.",
+  "demoCta": "Börja med dina egna fraser",
+  "demoReset": "Börja om",
+  "demoNote": "* Alla konto- och passuppgifter i den här demon är påhittade. Dina riktiga fraser lämnar aldrig din enhet.",
+  "demoStageTitle": "Tangentbordsförhandsvisning",
+  "demoComposerPh": "Din text hamnar här",
+  "demoCueTap": "Tryck på knappen \"%@\"",
+  "demoCueSend": "Där är den: tryck nu på skicka (↑)",
+  "demoCueDone": "Så enkelt är det: testa de andra knapparna",
+  "demoTplInsert": "Infoga",
+  "demoTplPick": "Välj ett värde",
+  "demoFaceScanning": "Låser upp med Face ID…",
+  "demoFaceDone": "Upplåst",
+  "demoToastCombo": "Bytte till nästa värde",
+  "demoTabBasic": "Bas",
+  "demoTabFav": "Favoriter",
+  "demoTabTemplate": "Mallar",
+  "demoTabCombo": "Kombon",
+  "demoFeatures": [
+   {
+    "k": "snippet",
+    "t": "Fras: ett tryck och den är inskriven",
+    "d": "Dina sparade bankuppgifter, din adress eller signatur skrivs in precis som du sparade dem."
+   },
+   {
+    "k": "template",
+    "t": "Mall: fyll bara i ifyllnadsfälten",
+    "d": "Variabler som {datum} {tid} fylls i med ett tryck på ett värde som du sparat tidigare."
+   },
+   {
+    "k": "combo",
+    "t": "Kombo: bläddra bland värden med →",
+    "d": "Tre bankkonton eller betalsätt får plats på en och samma knapp. Välj efter behov."
+   },
+   {
+    "k": "secure",
+    "t": "Skyddad fras: låst bakom Face ID",
+    "d": "Pass- och kortnummer förblir låsta tills det är dags att använda dem."
+   }
+  ],
+  "howTitle": "Vad är en fras?",
+  "howSubtitle": "En text du använder ofta, sparad under ett namn. Mer är det inte.",
+  "how1Title": "Spara den som en fras",
+  "how1Desc": "Ge den ett namn (nyckeln), till exempel \"Bankuppgifter\", och lägg till själva texten (värdet). Spara en gång.",
+  "how2Title": "Tryck på den från tangentbordet",
+  "how2Desc": "Byt till ClipKeyboard i Meddelanden, Mail, Safari: var som helst. Dina fraser finns direkt på tangentbordet. Ett tryck, så är det inskrivet.",
+  "how3Title": "Bygg vidare med mallar och kombon",
+  "how3Desc": "Lägg till variabler som <span class=\"chip\">namn</span> <span class=\"chip\">datum</span> för att skapa mallar, och koppla ihop fraser till kombon. Hela rutiner försvinner.",
+  "libTitle": "Folk som du sparar tid varje dag",
+  "libSubtitle": "Välj den dag som liknar din. Kopiera valfri mall direkt, spara den i appen så finns den på ditt tangentbord.",
+  "libNote": "💡 De blå markeringarna är mallvariabler. I appen fyller du i dem med ett tryck.",
+  "copy": "Kopiera",
+  "copied": "Kopierat ✓",
+  "impactPrefix": "✨ ",
+  "privacyTitle": "🔒 Din data, bara på din enhet",
+  "privacyDesc": "Innehållet i dina fraser finns bara på din enhet (och i din egen iCloud om du aktiverar det). Vi samlar aldrig in det. Det enda som samlas in är anonym användningsstatistik för att förbättra appen.",
+  "privacyBadge": "✓ Uppfyller Apples integritetspolicy",
+  "pricingTitle": "Börja gratis",
+  "pricingSubtitle": "Gratis att ladda ner · Pro är ett engångsköp, inga prenumerationer",
+  "price": "Gratis",
+  "priceDesc": "Uppgradering till Pro 109 kr · engångsbetalning · 7 dagars gratis provperiod",
+  "priceFeature1": "Gratis: 10 fraser · 3 mallar · 3 kombon",
+  "priceFeature2": "Pro: obegränsad lagring · iCloud-säkerhetskopiering · skyddade fraser",
+  "priceFeature3": "iPhone, iPad, Mac, Vision Pro",
+  "priceFeature4": "Ingen prenumeration · Inga annonser",
+  "priceFeature5": "Gratis uppdateringar för alltid",
+  "pricingCta": "Ladda ner gratis",
+  "footerContact": "Kontakta oss",
+  "footerTutorial": "Handledning",
+  "footerPrivacy": "Integritetspolicy",
+  "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+ },
+ "PERSONA_DATA": [
+  {
+   "persona": "nomad",
+   "intro": "Du hoppar mellan caféer och coworking-ytor och jobbar med kunder över hela världen. Tidszoner, internationella överföringar, visum, nästan identiska engelska mejl: dagen rinner iväg när du letar efter samma uppgifter i en annan flik. Spara varje uppgift en gång, så räcker det sedan med ett tryck.",
+   "scenarios": [
+    {
+     "title": "\"Skicka dina bankuppgifter\"",
+     "pain": "En enda rad från en kund, och du gräver i bankappen efter IBAN och SWIFT igen.",
+     "example": "Namn: {ditt namn}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nBankens adress: {bankens adress}\nWise: {Wise-mejl}",
+     "impact": "En jakt på 30 sekunder blir ett enda tryck, och inga fler siffror som byter plats.",
+     "feature": "combo"
+    },
+    {
+     "title": "Svar om tidszon",
+     "pain": "Ett \"Kan vi ta ett samtal?\" klockan 02 på natten, och du förklarar din tidszon för hundrade gången.",
+     "example": "Hej {kund}, jag befinner mig just nu i GMT+{tidsskillnad} ({stad}). Jag kan {tidsintervall}. Calendly: {länk}",
+     "impact": "Tre meddelanden fram och tillbaka blir ett tydligt svar.",
+     "feature": "template"
+    },
+    {
+     "title": "Skicka en faktura",
+     "pain": "Du skriver om fakturanummer, belopp, valuta och förfallodatum varje enda gång.",
+     "example": "Faktura nr {nr} · {valuta} {belopp}\nFörfallodatum: {förfallodatum}\nBetalning: Wise ({mejl})\nTack! 🙏",
+     "impact": "Mallen fångar de fält du annars glömmer: färre omfaktureringar och rättelser.",
+     "feature": "template"
+    },
+    {
+     "title": "Uppföljning av offert",
+     "pain": "Tre dagars tystnad, och att skriva en påminnelse som inte känns påträngande är svårt varje gång.",
+     "example": "Hej {kund}, jag hör av mig angående offerten jag skickade {dag}. Jag tar gärna ett kort samtal om något behöver förtydligas.\n\nVänliga hälsningar,\n{namn}",
+     "impact": "En artig uppföljning som skickas direkt och räddar affärer du tidigare lät rinna ut i sanden.",
+     "feature": "template"
+    },
+    {
+     "title": "Pass- och visumuppgifter",
+     "pain": "Varje flyg, vistelse eller visumansökan får dig att leta efter passnummer och utgångsdatum.",
+     "example": "Passnummer: {passnummer}\nFullständigt namn: {namn}\nUtfärdat / Giltigt till: {utfärdat} / {utgångsdatum}\nMedborgarskap: {medborgarskap}",
+     "impact": "Lås det bakom Face ID som en säker fras, öppnas bara när du behöver det.",
+     "feature": "snippet"
+    },
+    {
+     "title": "\"Var är du baserad?\"",
+     "pain": "En ny kund frågar i förbifarten, och du förklarar nomadlivet i onödan långt varje gång.",
+     "example": "Jag är inte baserad på något särskilt ställe: just nu i {stad}. Jag jobbar asynkront i första hand, så tidszoner spelar sällan någon roll, men jag ger dig alltid ett tydligt tidsfönster när jag är nåbar.",
+     "impact": "Ett tryggt, professionellt svar i stället för att låta vilsen.",
+     "feature": "template"
+    },
+    {
+     "title": "Wifi föll bort",
+     "pain": "Wifi på coworkingen dör precis före ett samtal och du famlar efter en ursäkt.",
+     "example": "Hej allihop, wifi på min coworking föll just bort. Jag flyttar till en reservplats: tillbaka online om {min} min. Redo att fortsätta direkt efteråt. 🙏",
+     "impact": "Även mitt i paniken skickar du en lugn, förtroendeingivande rad på en sekund.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Valuta- och offertnotering",
+     "pain": "Att offerera till en kund i en annan valuta betyder att du skriver om valutaförbehållet varje gång.",
+     "example": "Offert: {valuta} {belopp} (≈ {omräknat} till dagens kurs).\nFaktureras i {valuta} via Wise för att hålla avgifterna låga för dig.",
+     "impact": "Undvik prismissförstånd tidigt, ingen prutning när det är dags att betala.",
+     "feature": "template"
+    },
+    {
+     "title": "Onboarding av ny kund",
+     "pain": "Direkt efter signeringen går du igenom Calendly, Slack, betalning och rytm med varje kund.",
+     "example": "Välkommen ombord, {kund}! Så här jobbar vi:\n1. Första avstämning: Calendly: {länk}\n2. Betalning (bankuppgifter bifogas vid behov)\n3. Slack-inbjudan inom 24 timmar\n4. Demo av framsteg varje torsdag\n\nVi ser fram emot att komma igång!",
+     "impact": "En Kombo klistrar in flera fraser i ordning, och onboardingen går från 5 minuter till 5 sekunder.",
+     "feature": "combo"
+    },
+    {
+     "title": "Logga ut för kvällen",
+     "pain": "Ett brådskande DM klockan 22, och att säga \"inte nu\" på ett artigt sätt är krångligt varje gång.",
+     "example": "Hej! Jag loggar ut för kvällen (klockan {tid} i {stad}). Jag svarar först av allt i morgon bitti, tack för tålamodet 🙏",
+     "impact": "Håll din gräns utan att verka oartig: förtroendet består och du undviker utbrändhet.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "business",
+   "intro": "Möten, rapporter, svar: du skriver om samma formuleringar dussintals gånger om dagen. \"Vänligen bekräfta\", mötesinbjudningar, frånvaromeddelanden. Spara de artiga, återkommande raderna en gång och lägg din energi på jobbet i stället för på ordvalen.",
+   "scenarios": [
+    {
+     "title": "Frånvaromeddelande",
+     "pain": "Varje resa betyder att du skriver om frånvaromeddelandet och glömmer reservkontakten.",
+     "example": "Hej, jag är ute ur kontoret från {start} till {slut}.\nVid brådskande ärenden, kontakta {kontakt} ({telefon}).\nJag svarar i tur och ordning när jag är tillbaka. Tack.",
+     "impact": "Inga luckor i bevakningen och ingen mejlskred som väntar när du kommer tillbaka.",
+     "feature": "template"
+    },
+    {
+     "title": "Mötesinbjudan",
+     "pain": "Du skriver om formatet med datum, plats och agenda inför varje enskilt möte.",
+     "example": "Hej {namn},\nJag vill gärna boka ett möte enligt följande:\n📅 {datum} {tid}\n📍 {plats}\n📌 Agenda: {agenda}\nBekräfta gärna om du kan delta 😊",
+     "impact": "En tydlig inbjudan ger färre omfrågningar och betydligt färre uteblivna deltagare.",
+     "feature": "template"
+    },
+    {
+     "title": "Veckorapport",
+     "pain": "Varje vecka börjar du samma rapportformat från en tom skärm.",
+     "example": "Hej teamet, veckans uppdatering:\n✅ Klart: {klart}\n🔄 Pågår: {pågår}\n📋 Nästa vecka: {planerat}\nDiskutera gärna något av ovanstående.",
+     "impact": "Formatet är klart, du fyller bara i innehållet. Fredagskvällarna blir lättare.",
+     "feature": "template"
+    },
+    {
+     "title": "Presentation och visitkort",
+     "pain": "Varje första presentation får dig att skriva om din roll, ditt team och dina kontaktuppgifter.",
+     "example": "Hej, jag heter {namn}.\nJag ansvarar för {roll} på {företag}.\n📧 {mejl} / 📞 {telefon}\nJag ser fram emot att samarbeta 🙏",
+     "impact": "En enhetlig presentation skapar förtroende, och inga kontaktuppgifter försvinner på grund av stavfel.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Mejlsignatur",
+     "pain": "Signaturer följer inte med mellan mejlappar, så du klistrar in din för hand.",
+     "example": "{namn}\n{titel} | {företag}\n📧 {mejl}\n📞 {telefon}\n🌐 {webbplats}",
+     "impact": "En signatur, vilken app eller enhet som helst: ditt varumärke ger fortsatt ett skarpt intryck.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Betalnings- och skatteuppgifter",
+     "pain": "Varje gång en leverantör frågar efter konto- eller skatteuppgifter gräver du bland ekonomifilerna.",
+     "example": "Bankgiro: {bankgironummer} ({kontoinnehavare})\nOrganisationsnummer: {organisationsnummer}\nMomsregistreringsnummer: {momsnummer}\nFöretag: {företag}\nFakturamejl: {mejl}",
+     "impact": "Skicka rätt uppgifter direkt: inga försenade eller felriktade betalningar.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Kontakt för samarbete",
+     "pain": "När du föreslår ett samarbete är den där artiga inledningen alltid det svåra.",
+     "example": "Hej {namn},\nJag hör av mig angående ett möjligt samarbete kring {projekt}.\nJag ansvarar för {roll} på {företag/namn}.\nSkulle ett kort samtal passa? Säg till vilken tid som funkar för dig. Tack!",
+     "impact": "Den första meningen du grubblade över är redan klar, så du tar faktiskt kontakt oftare.",
+     "feature": "template"
+    },
+    {
+     "title": "Ursäkt för sent svar",
+     "pain": "När du är långsam med svaret är det knepigt att be om ursäkt utan att verka slarvig.",
+     "example": "Hej {namn}, jag ber om ursäkt för det sena svaret. {orsak} försenade saker och ting. Jag återkommer med detaljer senast {datum}. Tack för tålamodet.",
+     "impact": "En rad som vinner förtroende i stället för tystnad, och relationen förblir intakt.",
+     "feature": "template"
+    },
+    {
+     "title": "Tack efter avslutat projekt",
+     "pain": "Ju bättre projektet gick, desto längre skjuter du upp tacket och missar rätt tillfälle.",
+     "example": "Hej {namn},\nTack så mycket för samarbetet kring {projekt}.\nVi nådde ett utmärkt resultat tack vare dig.\nJag håller gärna dörren öppen för vad som kommer härnäst 😊",
+     "impact": "Missa aldrig det meddelande som gör ett projekt till nästa, och återkommande uppdrag följer.",
+     "feature": "template"
+    },
+    {
+     "title": "Fakturering och avräkning",
+     "pain": "Vid månadsskiftet sätter du ihop sammanställningen och kontouppgifterna för hand igen.",
+     "example": "Hej! Här kommer sammanställningen för {månad}.\nBelopp: {belopp} (inkl. moms)\nBankgiro: {bankgironummer} ({kontoinnehavare})\nBekräfta gärna 😊",
+     "impact": "En felfri faktura betyder inga omskrivningar, och du får betalt snabbare.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "student",
+   "intro": "Studentkort, skolmejl, försättsblad till uppgifter, meddelanden i grupparbeten: campuslivet är ett återkommande formulär efter det andra. Spara dina mejl till lärare, gruppens utjämning av utlägg och din bostadsadress, så vinner du tillbaka tid till pluggande och till dig själv.",
+   "scenarios": [
+    {
+     "title": "Studentnummer + namn",
+     "pain": "Kursanmälan, inlämningar, intyg: du skriver om ditt nummer och ditt namn varje gång.",
+     "example": "{program} {studentnummer} {namn}",
+     "impact": "Ett tryck i vilket fält som helst, inget slarvfel i sista minuten som kostar poäng.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Mejl till en lärare",
+     "pain": "Mejl till lärare kräver en artig ton, så första raden gör dig spänd varje gång.",
+     "example": "Hej, jag heter {namn} ({studentnummer}) och läser {program}.\nJag är anmäld till {kurs} (grupp {nr}).\nJag skriver angående {ämne}.\nUrsäkta att jag stör, och tack på förhand.",
+     "impact": "Fyll i poängen, formatet är fixat: du slutar skjuta upp mejlen.",
+     "feature": "template"
+    },
+    {
+     "title": "Försättsblad till uppgift",
+     "pain": "Varje kurs vill ha ett annat försättsbladsformat, så du pillar med det precis före deadline.",
+     "example": "Kurs: {kurs}\nLärare: {lärare}\nInlämnad av: {program} {studentnummer} {namn}\nDatum: {datum}\nÄmne: {ämne}",
+     "impact": "Formatet är sparat, innehållet uppdateras: ett lager av deadlinestress försvinner.",
+     "feature": "template"
+    },
+    {
+     "title": "Meddelande i grupparbete",
+     "pain": "Att lägga ut mötestid och rollfördelning i gruppchatten är en syssla varje omgång.",
+     "example": "[{uppgift}] Meddelande till gruppen 📢\nNästa möte: {datum} {tid} @ {plats/länk}\nTa med: {saker}\nDeadline: {deadline}\nReagera med 👍 när du har sett detta!",
+     "impact": "Ett prydligt meddelande gör slut på \"vänta, när var det?\" och håller gruppen i rörelse.",
+     "feature": "template"
+    },
+    {
+     "title": "Lägenhets- / studentboendeadress",
+     "pain": "Varje leverans får dig att skriva in hela adressen och portkoden igen.",
+     "example": "{postnummer}\n{adress}\n{lägenhetsuppgifter}\nPortkod: {kod}\nMottagare: {namn} / {telefon}",
+     "impact": "Ett tryck in i leveransappen, inga paket som försvinner på grund av fel adress.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Dela på notan",
+     "pain": "Att samla in pengar till material eller en gruppmiddag betyder att du räknar om och postar det varje gång.",
+     "example": "Totalt blev det {totalt} för {personer} personer, alltså {per person} var 🙏\nSwisha till {nummer} ({namn}) tack~",
+     "impact": "Skicka uppdelningen direkt: och prat om pengar känns mycket mindre pinsamt.",
+     "feature": "template"
+    },
+    {
+     "title": "Frånvaroanmälan",
+     "pain": "När du är sjuk dyker inte meddelandet till läraren eller assistenten upp i huvudet precis när det är brådskande.",
+     "example": "Hej, jag heter {namn} ({studentnummer}).\nJag måste tyvärr missa {kurs} den {datum} på grund av {orsak}.\nJag skickar intyg via {metod}. Jag ber om ursäkt.",
+     "impact": "Även när du är stressad skickar du direkt en hövlig förvarning: mindre risk för påföljder.",
+     "feature": "template"
+    },
+    {
+     "title": "Rekrytering till förening / studiegrupp",
+     "pain": "Att lägga ut en rekryteringsannons i flera forum betyder att du skriver om presentationen lite varje gång.",
+     "example": "[{grupp}] Vi söker medlemmar! 🙌\nVad vi gör: {aktivitet}\nNär: {dag/tid}\nVar: {plats}\nAnmälan: {länk/kontakt}\nHör av dig när som helst 😊",
+     "impact": "Klistra in samma inlägg överallt med ett tryck, rekryteringen går mycket snabbare.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Grunduppgifter till praktikansökan",
+     "pain": "Varje ansökan upprepar ditt namn, dina kontaktuppgifter, din utbildning och dina länkar tills du är utsliten.",
+     "example": "{namn} · {telefon} · {mejl}\n{skola} {program} (år {år})\nPortfolio: {länk}\nGitHub/blogg: {länk}",
+     "impact": "Det går snabbt att fylla i formulär, så du söker fler möjligheter.",
+     "feature": "snippet"
+    },
+    {
+     "title": "På väg, men sen",
+     "pain": "När du är sen till lektionen eller till en vän blir meddelandet längre och längre av dåligt samvete.",
+     "example": "Förlåt! Jag blir ungefär {min} min sen. Är nästan framme 🙏",
+     "impact": "Ett kort, tryggt meddelande lugnar den som väntar direkt.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "general",
+   "intro": "Grunderna du använder varje dag: kontonummer, hemadress, telefonnummer och de hälsningar du skickar ofta. Ingen mer letande i minnet eller bland gamla chattar; när stunden kommer räcker det med ett tryck. Små var för sig, men tillsammans blir det riktigt mycket tid över en dag.",
+   "scenarios": [
+    {
+     "title": "Dela ett kontonummer",
+     "pain": "\"Vad har du för konto?\" och du öppnar bankappen för att kolla och kopiera numret.",
+     "example": "{bank} {kontonummer}\nKontoinnehavare: {namn}\n(Swish går också bra 🙏)",
+     "impact": "Ett tryck, helt rätt: inga felaktiga siffror som skickar pengar åt fel håll.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Hemadress (leverans)",
+     "pain": "Både shopping och andrahandsförsäljning får dig att skriva om hela adressen och kontaktuppgifterna.",
+     "example": "{postnummer}\n{adress}\n{lägenhetsuppgifter}\nMottagare: {namn} / {telefon}",
+     "impact": "Adressen är ifylld i ett svep, färre felleveranser som tar din tid.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Bestämma träff",
+     "pain": "Varje träff betyder att du skriver ett nytt meddelande för att reda ut tid och plats.",
+     "example": "Vad sägs om {plats} klockan {tid} den {datum}? Annars säg vad som passar dig 😊",
+     "impact": "Att börja med ett konkret förslag gör att planerna spikas mycket snabbare.",
+     "feature": "template"
+    },
+    {
+     "title": "På väg, men sen",
+     "pain": "Varje gång du är sen får dåligt samvete dig att skriva en lång ursäkt på nytt.",
+     "example": "Förlåt! Jag blir ungefär {min} min sen. Börja gärna utan mig 🙏",
+     "impact": "Ett snabbt meddelande som skickas direkt får den som väntar att slappna av.",
+     "feature": "template"
+    },
+    {
+     "title": "Konto för högtider (gåvor/kondoleanser)",
+     "pain": "När någon frågar efter kontot för gåva eller minnesgåva letar du febrilt efter numret.",
+     "example": "Tack för den vänliga tanken.\n{bank} {kontonummer} ({kontoinnehavare})\nDin närvaro betyder så mycket i sig 🙏",
+     "impact": "Även i ett hektiskt ögonblick delar du det rätt och med värdighet.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Annons för andrahandsförsäljning",
+     "pain": "Varje försäljning får dig att skriva om pris, skick och mötesplats på samma sätt.",
+     "example": "Säljer: {pryl}\nPris: {pris} (går att diskutera: {ja/nej})\nSkick: {skick}\nÖverlämning: {plats} eller frakt\nKontakt: {kontakt}",
+     "impact": "Klistra in på vilken plattform som helst med ett tryck, så svarar du snabbare till köparna.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Nöd- och familjeuppgifter",
+     "pain": "Vid incheckning på sjukhus och i formulär måste du komma ihåg anhörigas kontaktuppgifter varje gång.",
+     "example": "Anhörig: {namn} ({relation})\nTelefon: {telefon}\nBlodgrupp: {blodgrupp}\nAnteckningar/allergier: {detaljer}",
+     "impact": "Korrekta uppgifter i ett akut läge, lugn hantering i stället för panik.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Tidsbokning / bokningsuppgifter",
+     "pain": "Vid bokningssamtal får du sätta ihop namn, födelsedatum och symtom varje gång.",
+     "example": "Jag vill gärna boka en tid.\nNamn: {namn} / Personnummer: {personnummer}\nOrsak: {orsak}\nÖnskad tid: {datum} {tid}",
+     "impact": "En tydlig förfrågan kortar samtalet och ger dig den tid du vill ha.",
+     "feature": "template"
+    },
+    {
+     "title": "Dela wifi-lösenord",
+     "pain": "Varje gäst innebär att du läser upp routerns lösenord eller letar efter ett foto av det.",
+     "example": "WiFi: {nätverksnamn}\nLösenord: {lösenord}\nVälkommen 😊",
+     "impact": "Dela det en gång: slipp upprepa \"vad är lösenordet?\" tre gånger.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Favoritönskningar",
+     "pain": "Högtider och födelsedagar får dig att skriva ett liknande meddelande från grunden varje gång.",
+     "example": "Hej {namn}, hoppas att din {tillfälle} blir underbar! Önskar dig hälsa och bara gott framöver 😊",
+     "impact": "Hjärtligt men snabbt: så att du faktiskt når alla du tänkt på.",
+     "feature": "template"
+    }
+   ]
+  }
+ ],
+ "DEMO_SCENARIOS": [
+  {
+   "id": "daily",
+   "tab": "👤 Vardag",
+   "incoming": "Jag swishar min del ikväll: hur mycket blir det, och vart ska jag skicka? 🙏",
+   "target": "settle",
+   "keys": [
+    {
+     "id": "settle",
+     "title": "Dela upp notan",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Ikväll blir det {belopp} each 🙏\nSwisha till {konto} (Hyunho Lee)~",
+     "ph": [
+      {
+       "name": "belopp",
+       "values": [
+        "120 kr",
+        "250 kr",
+        "380 kr"
+       ]
+      },
+      {
+       "name": "konto",
+       "values": [
+        "Swish 070 123 45 67",
+        "Bankgiro 123-4567",
+        "Swish 073 555 01 34"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "addr",
+     "title": "Hemadress",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Drottninggatan 45, lgh 1203\n111 21 Stockholm\nMottagare: Hyunho Lee / 070 123 45 67"
+    },
+    {
+     "id": "late",
+     "title": "Blir sen",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Förlåt! Jag blir ungefär {min} min sen. Börja utan mig 🙏",
+     "ph": [
+      {
+       "name": "min",
+       "values": [
+        "5",
+        "10",
+        "20"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pay",
+     "title": "Skicka pengar",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Swish: 070 123 45 67",
+      "PayPal: leeo@example.com",
+      "Bankgiro: 123-4567"
+     ]
+    },
+    {
+     "id": "wifi",
+     "title": "Wifi hemma",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Wifi: Home_5G\nLösenord: welcome2026!"
+    },
+    {
+     "id": "card",
+     "title": "Kortnummer",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "4212 3456 7890 7788 (12/29)"
+    },
+    {
+     "id": "delivery",
+     "title": "Leveransinfo",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Lämna gärna paketet utanför dörren 🙏\nPortkod: 1234\nRing inte på dörrklockan, bebisen sover."
+    },
+    {
+     "id": "sale",
+     "title": "Annons för andrahandsförsäljning",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Säljer: iPad Air (5:e generationen)\nPris: 3 200 kr (kan diskuteras)\nSkick: lätta repor, kartong medföljer\nÖverlämning: centrala stan eller frakt"
+    }
+   ]
+  },
+  {
+   "id": "work",
+   "tab": "💼 Jobb",
+   "incoming": "Kan du boka in mötet nästa vecka och skicka detaljerna?",
+   "target": "meet",
+   "keys": [
+    {
+     "id": "meet",
+     "title": "Mötesinbjudan",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Hej, jag vill boka ett möte enligt följande:\n📅 {datum} {tid}\n📍 {plats}\nBekräfta gärna om du kan delta 😊",
+     "ph": [
+      {
+       "name": "datum",
+       "values": [
+        "tis 12 mars",
+        "tors 14 mars"
+       ]
+      },
+      {
+       "name": "tid",
+       "values": [
+        "10:00",
+        "14:00"
+       ]
+      },
+      {
+       "name": "plats",
+       "values": [
+        "Mötesrum plan 3",
+        "Google Meet"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "sign",
+     "title": "E-postsignatur",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Hyunho Lee\nProduktchef | Ysoup\n📧 leeo@example.com / 📞 070 123 45 67"
+    },
+    {
+     "id": "ok",
+     "title": "Uppfattat, tack",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Uppfattat: tack för att du tar hand om det 🙏"
+    },
+    {
+     "id": "ooo",
+     "title": "Frånvaro",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Jag är ute ur kontoret från {start} till {slut}.\nVid brådskande ärenden, kontakta Hana Kim (070 765 43 21).",
+     "ph": [
+      {
+       "name": "start",
+       "values": [
+        "18 mars",
+        "1 april"
+       ]
+      },
+      {
+       "name": "slut",
+       "values": [
+        "22 mars",
+        "5 april"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "biz",
+     "title": "Faktureringsuppgifter",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Konto: Swedbank 8327-9 123 456 789-1 (Ysoup AB)",
+      "Organisationsnummer: 556123-4567",
+      "Fakturamejl: billing@example.com"
+     ]
+    },
+    {
+     "id": "rrn",
+     "title": "Personnummer",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "••••••-6789"
+    },
+    {
+     "id": "report",
+     "title": "Veckorapport",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Veckans uppdatering:\n✅ Klart: {klart}\n🔄 Pågår: {pagar}\n📋 Nästa vecka: {nasta}",
+     "ph": [
+      {
+       "name": "klart",
+       "values": [
+        "Lansering av 4.5",
+        "QA av kassan"
+       ]
+      },
+      {
+       "name": "pagar",
+       "values": [
+        "Ny design av widgeten",
+        "Retentionsanalys"
+       ]
+      },
+      {
+       "name": "nasta",
+       "values": [
+        "Granskning i App Store",
+        "Sprintretrospektiv"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "delay",
+     "title": "Sent svar",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Ursäkta det sena svaret, den interna granskningen tog längre tid än väntat.\nJag återkommer med detaljer under dagen 🙏"
+    }
+   ]
+  },
+  {
+   "id": "nomad",
+   "tab": "🌏 Nomad",
+   "incoming": "Toppen, vi kör igång på måndag! Kan du skicka dina bankuppgifter?",
+   "target": "iban",
+   "keys": [
+    {
+     "id": "iban",
+     "title": "IBAN · SWIFT",
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Namn: Hyunho Lee\nIBAN: DE89 3704 0044 0532 0130 00\nSWIFT/BIC: COBADEFFXXX"
+    },
+    {
+     "id": "tz",
+     "title": "Svar om tidszon",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Hej, jag befinner mig just nu i GMT+{offset}. Jag kan {tidsfonster}. Calendly: cal.com/leeo",
+     "ph": [
+      {
+       "name": "offset",
+       "values": [
+        "9",
+        "2"
+       ]
+      },
+      {
+       "name": "tidsfonster",
+       "values": [
+        "kl. 9~11 enligt din tid",
+        "när som helst efter kl. 15"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "inv",
+     "title": "Faktura",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Faktura nr {nr} · USD {belopp}\nFörfallodatum: {forfallo}\nBetalning: Wise (leeo@example.com)\nTack! 🙏",
+     "ph": [
+      {
+       "name": "nr",
+       "values": [
+        "2026-014",
+        "2026-015"
+       ]
+      },
+      {
+       "name": "belopp",
+       "values": [
+        "2 400",
+        "3 800"
+       ]
+      },
+      {
+       "name": "forfallo",
+       "values": [
+        "31 mars",
+        "15 april"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pm",
+     "title": "Betalsätt",
+     "fav": true,
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Wise: leeo@example.com",
+      "PayPal: leeo@example.com",
+      "Stripe: stripe.me/leeo"
+     ]
+    },
+    {
+     "id": "wifi2",
+     "title": "Wifi föll bort",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Hej team, wifi på mitt coworking föll just bort. Är online igen om 10 min 🙏"
+    },
+    {
+     "id": "pass",
+     "title": "Passuppgifter",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "Pass: M12345678 · Giltigt till 2031-04-18"
+    },
+    {
+     "id": "quote",
+     "title": "Offert och valutanotis",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Offert: USD 2 400 (≈ EUR 2 210 enligt dagens kurs).\nFakturerat i USD via Wise för att hålla ner avgifterna för dig."
+    },
+    {
+     "id": "signoff",
+     "title": "Loggar ut för dagen",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Loggar ut för ikväll (23.00 här). Jag svarar först på morgonen, tack för ditt tålamod 🙏"
+    }
+   ]
+  }
+ ],
+ "PERSONA_META": {
+  "nomad": {
+   "icon": "🌏",
+   "name": "Nomad · Frilansare"
+  },
+  "business": {
+   "icon": "💼",
+   "name": "Företag"
+  },
+  "student": {
+   "icon": "🎓",
+   "name": "Student"
+  },
+  "general": {
+   "icon": "👤",
+   "name": "Vardag"
+  }
+ },
+ "BADGE_LABEL": {
+  "snippet": "Fras",
+  "template": "Mall",
+  "combo": "Kombo",
+  "smartClipboard": "Urklipp"
+ }
+}

@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<!-- 만든 파일입니다. 고치려면 docs/privacy.html 또는 docs/i18n/tr/ 를 고치고 node docs/i18n/build.mjs -->
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://m1zz.github.io/ClipKeyboard/tr/privacy.html">
+    <link rel="alternate" hreflang="ko" href="https://m1zz.github.io/ClipKeyboard/ko/privacy.html">
+    <link rel="alternate" hreflang="en" href="https://m1zz.github.io/ClipKeyboard/en/privacy.html">
+    <link rel="alternate" hreflang="zh-Hans" href="https://m1zz.github.io/ClipKeyboard/zh-Hans/privacy.html">
+    <link rel="alternate" hreflang="zh-Hant" href="https://m1zz.github.io/ClipKeyboard/zh-Hant/privacy.html">
+    <link rel="alternate" hreflang="ru" href="https://m1zz.github.io/ClipKeyboard/ru/privacy.html">
+    <link rel="alternate" hreflang="ja" href="https://m1zz.github.io/ClipKeyboard/ja/privacy.html">
+    <link rel="alternate" hreflang="es" href="https://m1zz.github.io/ClipKeyboard/es/privacy.html">
+    <link rel="alternate" hreflang="de" href="https://m1zz.github.io/ClipKeyboard/de/privacy.html">
+    <link rel="alternate" hreflang="fr" href="https://m1zz.github.io/ClipKeyboard/fr/privacy.html">
+    <link rel="alternate" hreflang="it" href="https://m1zz.github.io/ClipKeyboard/it/privacy.html">
+    <link rel="alternate" hreflang="pt-BR" href="https://m1zz.github.io/ClipKeyboard/pt-BR/privacy.html">
+    <link rel="alternate" hreflang="th" href="https://m1zz.github.io/ClipKeyboard/th/privacy.html">
+    <link rel="alternate" hreflang="vi" href="https://m1zz.github.io/ClipKeyboard/vi/privacy.html">
+    <link rel="alternate" hreflang="cs" href="https://m1zz.github.io/ClipKeyboard/cs/privacy.html">
+    <link rel="alternate" hreflang="da" href="https://m1zz.github.io/ClipKeyboard/da/privacy.html">
+    <link rel="alternate" hreflang="el" href="https://m1zz.github.io/ClipKeyboard/el/privacy.html">
+    <link rel="alternate" hreflang="fi" href="https://m1zz.github.io/ClipKeyboard/fi/privacy.html">
+    <link rel="alternate" hreflang="id" href="https://m1zz.github.io/ClipKeyboard/id/privacy.html">
+    <link rel="alternate" hreflang="nb" href="https://m1zz.github.io/ClipKeyboard/nb/privacy.html">
+    <link rel="alternate" hreflang="nl" href="https://m1zz.github.io/ClipKeyboard/nl/privacy.html">
+    <link rel="alternate" hreflang="pl" href="https://m1zz.github.io/ClipKeyboard/pl/privacy.html">
+    <link rel="alternate" hreflang="sv" href="https://m1zz.github.io/ClipKeyboard/sv/privacy.html">
+    <link rel="alternate" hreflang="tr" href="https://m1zz.github.io/ClipKeyboard/tr/privacy.html">
+    <link rel="alternate" hreflang="x-default" href="https://m1zz.github.io/ClipKeyboard/privacy.html">
+    <script>window.PAGE_LANG = "tr";</script>
+    <title>ClipKeyboard: Gizlilik Politikası</title>
+
+    <meta name="description" content="ClipKeyboard gizlilik politikası. Yazdıklarınız cihazınızda ve kendi iCloud hesabınızda kalır. Uygulamayı geliştirmek için yalnızca anonim kullanım istatistikleri toplanır.">
+    <meta name="author" content="Leeo">
+    <meta property="og:title" content="ClipKeyboard: Gizlilik Politikası">
+    <meta property="og:description" content="ClipKeyboard gizlilik politikası. Yazdıklarınız cihazınızda ve kendi iCloud hesabınızda kalır. Uygulamayı geliştirmek için yalnızca anonim kullanım istatistikleri toplanır.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://m1zz.github.io/ClipKeyboard/tr/privacy.html">
+
+    <link rel="icon" type="image/png" href="../favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #007AFF;
+            --primary-dark: #0062CC;
+            --bg: #F2F2F3;
+            --text: #131315;
+            --text-secondary: #6B6B72;
+            --card-bg: #FFFFFF;
+            --border: rgba(0, 0, 0, 0.09);
+            --surface-alt: #E8E8EA;
+            --paper-1: #F5F5F6;
+            --paper-2: #E2E2E5;
+            --veil: rgba(255, 255, 255, 0.85);
+            color-scheme: light;
+        }
+
+
+        /* 어두울 때. 값은 앱의 AppTheme.paperDark 를 그대로 옮겼다(소개 페이지와 같은 표).
+           ⚠️ 여기서는 토큰만 다시 정한다. 규칙을 새로 쓰기 시작하면 두 테마가 갈라진다. */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #0A84FF;
+                --primary-dark: #409CFF;
+                --bg: #0D0D0E;
+                --text: #F2F2F4;
+                --text-secondary: #9C9CA3;
+                --card-bg: #1A1A1C;
+                --surface-alt: #242427;
+                --border: rgba(255, 255, 255, 0.10);
+                --paper-1: #191A1C;
+                --paper-2: #26272A;
+                --veil: rgba(26, 26, 28, 0.85);
+                color-scheme: dark;
+            }
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            font-family: inherit;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) { background: var(--surface-alt); }
+
+        /* Top Nav */
+        .top-nav {
+            position: sticky;
+            top: 0;
+            background: var(--veil);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 900;
+        }
+
+        .top-nav-inner {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .top-nav a.home-link {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .top-nav .nav-spacer { flex: 1; }
+
+        .top-nav .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+        }
+
+        .top-nav .nav-link:hover { color: var(--primary); }
+
+        /* Hero */
+        .hero {
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+            background: linear-gradient(180deg, var(--card-bg) 0%, var(--paper-1) 100%);
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .meta {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        /* Highlight Banner */
+        .highlight {
+            max-width: 860px;
+            margin: 2rem auto 0;
+            padding: 0 2rem;
+        }
+
+        .highlight-inner {
+            background: #E8F5E9;
+            border: 1px solid #A5D6A7;
+            border-radius: 14px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .highlight .emoji { font-size: 2rem; }
+
+        .highlight p {
+            font-weight: 500;
+            color: #1B5E20;
+        }
+
+        /* Content */
+        main {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2.5rem 2rem 5rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem 2.25rem;
+            margin-bottom: 1.5rem;
+            scroll-margin-top: 80px;
+        }
+
+        section h2 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        section h3 {
+            font-size: 1.0625rem;
+            font-weight: 600;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        section p {
+            margin-bottom: 0.75rem;
+        }
+
+        section ul, section ol {
+            margin: 0.75rem 0 0.75rem 1.25rem;
+        }
+
+        section li {
+            margin-bottom: 0.375rem;
+        }
+
+        section strong { font-weight: 600; }
+
+        section a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        section a:hover { text-decoration: underline; }
+
+        .tag {
+            display: inline-block;
+            background: #E8F1FF;
+            color: var(--primary);
+            padding: 0.125rem 0.625rem;
+            border-radius: 100px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9375rem;
+        }
+
+        th, td {
+            padding: 0.625rem 0.875rem;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+
+        th {
+            background: var(--bg);
+            font-weight: 600;
+        }
+
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+            font-size: 0.9375rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        @media (max-width: 640px) {
+            section { padding: 1.5rem 1.25rem; }
+            main { padding: 1.5rem 1rem 3rem; }
+            .hero { padding: 3rem 1.5rem 2rem; }
+            .highlight { padding: 0 1rem; }
+            .top-nav-inner { padding: 0.875rem 1rem; }
+            .lang-toggle { top: 0.5rem; right: 0.5rem; }
+        }
+
+        /* 언어 메뉴. 언어가 13개라 한 줄 토글에 안 들어가서 링크 목록을 접어 둔다.
+           링크는 docs/<lang>/ 의 언어별 페이지로 간다(docs/i18n/build.mjs 가 만든다). */
+        .lang-menu { position: fixed; top: 1rem; right: 1rem; z-index: 1000; font-size: 0.875rem; }
+        .lang-menu summary {
+            list-style: none; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;
+            padding: 0.5rem 0.9rem; background: var(--card-bg); color: var(--text);
+            border: 1px solid var(--border); border-radius: 100px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-weight: 500;
+        }
+        .lang-menu summary::-webkit-details-marker { display: none; }
+        .lang-menu summary::after { content: "\25BE"; color: var(--text-secondary); font-size: 0.8em; }
+        .lang-menu-list {
+            position: absolute; right: 0; top: calc(100% + 0.4rem);
+            display: grid; grid-template-columns: repeat(2, minmax(8rem, 1fr)); gap: 0.15rem;
+            padding: 0.4rem; background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 14px; box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+        }
+        .lang-menu-list a {
+            display: block; padding: 0.45rem 0.7rem; border-radius: 8px;
+            color: var(--text); text-decoration: none; white-space: nowrap;
+        }
+        .lang-menu-list a:hover { background: var(--surface-alt, rgba(127,127,127,0.14)); }
+        .lang-menu-list a[aria-current="page"] { background: var(--primary); color: #fff; font-weight: 600; }
+        @media (max-width: 600px) { .lang-menu { top: 0.5rem; right: 0.5rem; } }
+    </style>
+</head>
+<body>
+    <details class="lang-menu">
+        <summary><span aria-hidden="true">🌐</span> <span class="lang-menu-label">Türkçe</span></summary>
+        <nav class="lang-menu-list" aria-label="Language">
+            <a href="../ko/privacy.html" hreflang="ko" lang="ko">한국어</a>
+            <a href="../en/privacy.html" hreflang="en" lang="en">English</a>
+            <a href="../zh-Hans/privacy.html" hreflang="zh-Hans" lang="zh-Hans">简体中文</a>
+            <a href="../zh-Hant/privacy.html" hreflang="zh-Hant" lang="zh-Hant">繁體中文</a>
+            <a href="../ru/privacy.html" hreflang="ru" lang="ru">Русский</a>
+            <a href="../ja/privacy.html" hreflang="ja" lang="ja">日本語</a>
+            <a href="../es/privacy.html" hreflang="es" lang="es">Español</a>
+            <a href="../de/privacy.html" hreflang="de" lang="de">Deutsch</a>
+            <a href="../fr/privacy.html" hreflang="fr" lang="fr">Français</a>
+            <a href="../it/privacy.html" hreflang="it" lang="it">Italiano</a>
+            <a href="../pt-BR/privacy.html" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a>
+            <a href="../th/privacy.html" hreflang="th" lang="th">ไทย</a>
+            <a href="../vi/privacy.html" hreflang="vi" lang="vi">Tiếng Việt</a>
+            <a href="../cs/privacy.html" hreflang="cs" lang="cs">Čeština</a>
+            <a href="../da/privacy.html" hreflang="da" lang="da">Dansk</a>
+            <a href="../el/privacy.html" hreflang="el" lang="el">Ελληνικά</a>
+            <a href="../fi/privacy.html" hreflang="fi" lang="fi">Suomi</a>
+            <a href="../id/privacy.html" hreflang="id" lang="id">Bahasa Indonesia</a>
+            <a href="../nb/privacy.html" hreflang="nb" lang="nb">Norsk bokmål</a>
+            <a href="../nl/privacy.html" hreflang="nl" lang="nl">Nederlands</a>
+            <a href="../pl/privacy.html" hreflang="pl" lang="pl">Polski</a>
+            <a href="../sv/privacy.html" hreflang="sv" lang="sv">Svenska</a>
+            <a href="../tr/privacy.html" hreflang="tr" lang="tr" aria-current="page">Türkçe</a>
+        </nav>
+    </details>
+
+    <nav class="top-nav">
+        <div class="top-nav-inner">
+            <a href="index.html" class="home-link">
+                <img src="../favicon.png" width="24" height="24" alt="" style="border-radius: 6px;" onerror="this.style.display='none'">
+                <span>ClipKeyboard</span>
+            </a>
+            <div class="nav-spacer"></div>
+            <a href="index.html" class="nav-link" data-i18n="navHome">Ana Sayfa</a>
+            <a href="tutorial.html" class="nav-link" data-i18n="navTutorial">Rehber</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1 data-i18n-html="heroTitle">Gizlilik <span>Politikası</span></h1>
+        <p class="meta"><span data-i18n="metaUpdated">Son güncelleme</span>: 2026-10-08</p>
+    </section>
+
+    <div class="highlight">
+        <div class="highlight-inner">
+            <div class="emoji">🔒</div>
+            <p data-i18n="highlightText">ClipKeyboard notlarınızı, finansal bilgilerinizi veya diğer içeriklerinizi asla toplamaz ya da iletmez. Anonim kullanım istatistikleri yalnızca uygulamayı geliştirmek amacıyla toplanır (IDFA kullanılmaz).</p>
+        </div>
+    </div>
+
+    <main>
+        <section>
+            <h2 data-i18n="s1Title">1. Genel Bakış</h2>
+            <p data-i18n="s1P1">ClipKeyboard ("uygulama", "biz") gizliliğinizi ön planda tutar. Bu politika, uygulamayı kullandığınızda hangi verilerin nasıl işlendiğini ayrıntılı olarak açıklar.</p>
+            <p data-i18n-html="s1P2">Temel ilke: <strong>yazdıklarınızı toplamayız</strong>. Notlarınızın, panonuzun ve şablonlarınızın içeriği (ve ödeme bilgileriniz) geliştiriciye hiçbir zaman iletilmez. Yalnızca <strong>sizi tanımlayamayan anonim kullanım istatistikleri</strong> toplarız (bkz. 2. bölüm). Üçüncü taraf analiz araçları kullanılmaz.</p>
+            <p data-i18n="s1P3">Bu politika, iPhone ve iPad üzerindeki ClipKeyboard'u ve Mac uygulamasını kapsar.</p>
+        </section>
+
+        <section>
+            <h2 data-i18n="s2Title">2. Neleri Topluyoruz / Neleri Toplamıyoruz</h2>
+
+            <h3 data-i18n="s2H1">📊 Topladıklarımız (anonim)</h3>
+            <p data-i18n-html="s2CP1">Uygulamayı geliştirmek için aşağıdaki <strong>anonim</strong> bilgiler geliştiricinin CloudKit depolama alanına gönderilir:</p>
+            <ul>
+                <li data-i18n-html="s2CL1"><strong>Kullanım ölçümleri</strong>: kaç <em>adet</em> kısayolunuz, şablonunuz ve kombonuz olduğu, ne sıklıkla kullanıldıkları, tasarruf edilen dakika, Pro sahibi olup olmadığınız ve klavyenin ile senkronizasyonun kullanımda olup olmadığı</li>
+                <li data-i18n-html="s2CL2"><strong>Eylem olayları</strong>: kullanılan özelliğin <em>adı</em> (ör. uygulama açıldı, kısayol eklendi). Hiçbir içerik dahil edilmez</li>
+                <li data-i18n-html="s2CL3"><strong>Uygulama ortamı</strong>: uygulama sürümü, işletim sistemi sürümü, platform, dil ayarı ve kurulumdan bu yana geçen gün sayısı</li>
+                <li data-i18n-html="s2CL4"><strong>Kurulum tanımlayıcısı</strong>: uygulamanın oluşturduğu rastgele bir UUID. Cihazınızla, hesabınızla veya herhangi bir reklam kimliğiyle ilgisi yoktur; uygulamayı yeniden yüklemek tamamen yeni bir değer üretir</li>
+                <li data-i18n-html="s2CL5"><strong>Geri bildirim</strong>: bize göndermeyi seçtiğiniz içerik. Adınız ve e-postanız <em>yalnızca yanıt almak istediğiniz için kendiniz yazarsanız</em> dahil edilir</li>
+                <li data-i18n-html="s2CL6"><strong>Çökme ve donma tanılamaları</strong> (iPhone ve iPad): iOS'in (MetricKit) bir çökme veya donmadan sonra uygulamaya ilettiği anonim raporlar. Bunlar yalnızca sorunun türünü, çağrı yığınını, uygulama ve işletim sistemi sürümünü ile cihaz modelini içerir; yazdığınız hiçbir şeyi içermez</li>
+            </ul>
+            <p data-i18n-html="s2CP2">Bu bilgiler sizi tanımlayamaz; reklam veya izleme (ATT) amacıyla kullanılmaz, kimseye satılmaz ya da kimseyle paylaşılmaz. <strong>Bunu kapatmak için uygulama içinde bir ayar yoktur.</strong></p>
+
+            <h3 data-i18n="s2H2">🚫 Toplamadıklarımız</h3>
+            <p data-i18n-html="s2P1">Bu uygulama aşağıdakilerin hiçbirini <strong>toplamaz</strong>:</p>
+            <ul>
+                <li data-i18n="s2L1">Kişisel tanımlayıcılar (ad, e-posta, telefon, adres vb.): geri bildirime kendiniz yazdıklarınız hariç</li>
+                <li data-i18n="s2L2">Ekran akışı, oturum süresi veya dokunma koordinatları gibi ayrıntılı davranış kayıtları</li>
+                <li data-i18n="s2L3">Reklam tanımlayıcıları (IDFA) veya cihaza özgü kimlikler</li>
+                <li data-i18n="s2L4">Konum verileri</li>
+                <li data-i18n="s2L5">Kayıtlı notların, panonun veya şablonların içeriği</li>
+                <li data-i18n="s2L6">Ödeme bilgileri (Apple tarafından işlenir; geliştiricinin erişimi yoktur)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 data-i18n="s3Title">3. Veriler Nerede Saklanır</h2>
+            <p data-i18n="s3P1">Uygulamaya girdiğiniz her şey (notlar, pano geçmişi, şablonlar, kombolar, ayarlar) yalnızca aşağıdaki konumlarda saklanır:</p>
+
+            <h3 data-i18n="s3H1">📱 Cihazınızda (App Group kapsayıcısı)</h3>
+            <p data-i18n-html="s3P2">iOS App Group kapsayıcısı <code>group.com.Ysoup.TokenMemo</code> içinde yerel olarak saklanır. Ana uygulama ile klavye uzantısı arasında paylaşılır, ancak <strong>geliştiriciye veya herhangi bir harici sunucuya asla iletilmez</strong>.</p>
+
+            <h3 data-i18n="s3H2">☁️ iCloud (isteğe bağlı)</h3>
+            <p data-i18n-html="s3P3">Yalnızca uygulamada <strong>iCloud Yedekleme</strong>'yi etkinleştirirseniz verileriniz, Apple'ın CloudKit hizmeti aracılığıyla kendi iCloud hesabınızda <strong>şifreli</strong> olarak saklanır. Geliştiricinin bu verilere erişimi yoktur.</p>
+            <p data-i18n-html="s3P4">iCloud Yedekleme <strong>istediğiniz zaman kapatılabilir</strong> ve Apple'ın iCloud politikasına tabidir: <a href="https://www.apple.com/legal/privacy/" target="_blank">Apple Gizlilik Politikası</a></p>
+        </section>
+
+        <section>
+            <h2 data-i18n="s4Title">4. İzinler</h2>
+            <p data-i18n="s4P1">Uygulamanın istediği izinler ve amaçları:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th data-i18n="s4TH1">İzin</th>
+                        <th data-i18n="s4TH2">Amaç</th>
+                        <th data-i18n="s4TH3">Veri iletimi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-i18n="s4R1C1">Tam Erişim (klavye)</td>
+                        <td data-i18n="s4R1C2">Kayıtlı notlarınızı klavyeye yüklemek</td>
+                        <td data-i18n="s4R1C3">Yok</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="s4R2C1">Face ID / Touch ID</td>
+                        <td data-i18n="s4R2C2">Güvenli notların kilidini açmak (iOS tarafından yönetilir)</td>
+                        <td data-i18n="s4R2C3">Yok</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="s4R3C1">Fotoğraf kitaplığı</td>
+                        <td data-i18n="s4R3C2">Görsel notları kaydetmek (yalnızca seçtiğiniz fotoğraflar)</td>
+                        <td data-i18n="s4R3C3">Yok</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="s4R4C1">iCloud</td>
+                        <td data-i18n="s4R4C2">Yedekleme etkinken iCloud'unuzla senkronize etmek</td>
+                        <td data-i18n="s4R4C3">Yalnızca kendi iCloud'unuz</td>
+                    </tr>
+                    <tr>
+                        <td data-i18n="s4R5C1">Kamera</td>
+                        <td data-i18n="s4R5C2">Bir kartı veya belgeyi tarayarak metnini almak (cihazınızda işlenir)</td>
+                        <td data-i18n="s4R5C3">Yok</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2 data-i18n="s5Title">5. Üçüncü Taraf Hizmetler</h2>
+            <p data-i18n="s5P1">Bu uygulama, aşağıdakiler dışında hiçbir üçüncü taraf hizmeti içermez:</p>
+            <ul>
+                <li data-i18n-html="s5L1"><strong>Apple CloudKit</strong>: yalnızca iCloud Yedekleme için kullanılır. Yalnızca siz etkinleştirirseniz çalışır.</li>
+                <li data-i18n-html="s5L2"><strong>Apple StoreKit</strong>: uygulama içi satın alımları yönetir (işlemi Apple gerçekleştirir; geliştirici yalnızca toplulaştırılmış satış verilerini görür).</li>
+                <li data-i18n-html="s5L3"><strong>Geliştiricinin CloudKit depolama alanı</strong>: anonim kullanım istatistiklerinin ve geri bildirimlerin ulaştığı yerdir. Apple'ın iCloud altyapısı üzerinde çalışır ve geliştiriciden başka kimse okuyamaz.</li>
+            </ul>
+            <p data-i18n="s5P2">Üçüncü taraf analiz araçları (Firebase, Mixpanel, Amplitude vb.), reklam ağları veya harici çökme raporlama hizmetleri kullanılmaz. Yukarıdakilerin tümü Apple altyapısıdır: hiçbir veri üçüncü bir şirkete verilmez.</p>
+        </section>
+
+        <section>
+            <h2 data-i18n="s6Title">6. Ödeme İşlemleri</h2>
+            <p data-i18n="s6P1">Uygulama içi satın alımlar (Pro'nun kilidini açma) Apple'ın App Store'u tarafından işlenir. Geliştirici yalnızca şunları görebilir:</p>
+            <ul>
+                <li data-i18n="s6L1">Satın alımın başarılı olup olmadığı (makbuz doğrulaması)</li>
+                <li data-i18n="s6L2">Toplulaştırılmış satış verileri (App Store Connect tarafından sağlanır)</li>
+            </ul>
+            <p data-i18n="s6P2">Kart numaraları ve fatura adresleri gibi ödeme bilgileri geliştiriciye hiçbir zaman iletilmez.</p>
+        </section>
+
+        <section>
+            <h2 data-i18n="s7Title">7. App Store Connect Analizleri</h2>
+            <p data-i18n="s7P1">Apple tarafından otomatik olarak sağlanan anonim istatistikleri (indirmeler, dönüşüm oranı, elde tutma vb.) inceleriz. Bu veriler:</p>
+            <ul>
+                <li data-i18n="s7L1">Apple tarafından yalnızca anonimleştirilmiş ve toplulaştırılmış biçimde sağlanır</li>
+                <li data-i18n="s7L2">Tek tek kullanıcılarla ilişkilendirilemez</li>
+                <li data-i18n="s7L3">Yalnızca kullanıcı iOS Ayarları'nda "Uygulama Geliştiricileriyle Paylaş" seçeneğini açtıysa dahil edilir</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 data-i18n="s8Title">8. Haklarınız (KVKK / GDPR / CCPA)</h2>
+            <p data-i18n="s8P1">Yazdığınız her şey cihazınızda (ve kendi iCloud hesabınızda) kaldığı için bu haklarınızı doğrudan kullanabilirsiniz. Topladığımız anonim kullanım istatistikleri tek bir kişiye kadar izlenemez:</p>
+
+            <h3 data-i18n="s8H1">🇪🇺 GDPR (AB kullanıcıları)</h3>
+            <ul>
+                <li data-i18n-html="s8L1"><strong>Erişim hakkı</strong>: Saklanan tüm veriler cihazınızdadır ve doğrudan uygulama içinde görüntülenebilir</li>
+                <li data-i18n-html="s8L2"><strong>Silme hakkı</strong>: Uygulamayı silmek veya uygulama içinde verileri temizlemek her şeyi kalıcı olarak siler</li>
+                <li data-i18n-html="s8L3"><strong>Taşınabilirlik hakkı</strong>: iCloud Yedekleme, verileri başka bir cihaza taşımanıza olanak tanır</li>
+                <li data-i18n-html="s8L4"><strong>Anonim istatistikler hakkında</strong>: kurulum tanımlayıcısı rastgele bir UUID olduğundan, herhangi bir kişiye ait kayıtları bulamayız; bu nedenle bireysel erişim, düzeltme veya silme taleplerini yerine getiremeyiz. Uygulamayı silmek tüm iletimi durdurur, yeniden yüklemek ise öncekiyle bağlantısı olmayan yeni bir tanımlayıcı oluşturur</li>
+                <li data-i18n-html="s8L7"><strong>Sorularınız için</strong>: nelerin toplandığı veya nasıl işlendiği hakkındaki her konuda 11. bölümdeki adresten bize e-posta gönderin</li>
+            </ul>
+
+            <h3 data-i18n="s8H2">🇺🇸 CCPA (Kaliforniya kullanıcıları)</h3>
+            <ul>
+                <li data-i18n="s8L5">Kişisel bilgileri satmayız ve üçüncü taraflarla paylaşmayız</li>
+                <li data-i18n="s8L6">"Satmayın" hakkı geçerli değildir: ortada zaten bir satış yoktur</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 data-i18n="s9Title">9. Çocukların Gizliliği</h2>
+            <p data-i18n="s9P1">Bu uygulama özellikle 13 yaşın altındaki çocuklar için tasarlanmamıştır ve bu yaş grubundan bilerek bilgi toplamaz (COPPA uyumludur).</p>
+        </section>
+
+        <section>
+            <h2 data-i18n="s10Title">10. Bu Politikadaki Değişiklikler</h2>
+            <p data-i18n="s10P1">Bu politikayı değiştirirsek yeni tarihi bu sayfada yayımlarız. Önemli değişikliklerde kullanıcıları uygulama içi mesajlarla veya App Store sayfası aracılığıyla bilgilendiririz.</p>
+        </section>
+
+        <section>
+            <h2 data-i18n="s11Title">11. İletişim</h2>
+            <p data-i18n-html="s11P1">Bu politika veya genel olarak gizlilik hakkındaki sorularınız için lütfen geliştiriciyle iletişime geçin:</p>
+            <ul>
+                <li data-i18n-html="s11L1"><strong>E-posta</strong>: <a href="mailto:leeo@kakao.com">leeo@kakao.com</a></li>
+                <li data-i18n-html="s11L2"><strong>Geliştirici</strong>: Leeo (Ysoup)</li>
+                <li data-i18n-html="s11L3"><strong>Uygulama Bundle ID</strong>: com.Ysoup.TokenMemo</li>
+            </ul>
+            <p data-i18n="s11P2">Çoğu soru bir gün içinde yanıtlanır.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            <a href="index.html" data-i18n="footerHome">Ana Sayfa</a> ·
+            <a href="tutorial.html" data-i18n="footerTutorial">Rehber</a> ·
+            <a href="mailto:leeo@kakao.com" data-i18n="footerContact">İletişim</a>
+        </p>
+        <p style="margin-top: 1rem; font-size: 0.875rem;">© 2026 ClipKeyboard. Made with ❤️ by Leeo.</p>
+    </footer>
+
+    <script>
+        const translations = {
+ "tr": {
+  "pageTitle": "ClipKeyboard: Gizlilik Politikası",
+  "metaDescription": "ClipKeyboard gizlilik politikası. Yazdıklarınız cihazınızda ve kendi iCloud hesabınızda kalır. Uygulamayı geliştirmek için yalnızca anonim kullanım istatistikleri toplanır.",
+  "navHome": "Ana Sayfa",
+  "navTutorial": "Rehber",
+  "heroTitle": "Gizlilik <span>Politikası</span>",
+  "metaUpdated": "Son güncelleme",
+  "highlightText": "ClipKeyboard notlarınızı, finansal bilgilerinizi veya diğer içeriklerinizi asla toplamaz ya da iletmez. Anonim kullanım istatistikleri yalnızca uygulamayı geliştirmek amacıyla toplanır (IDFA kullanılmaz).",
+  "s1Title": "1. Genel Bakış",
+  "s1P1": "ClipKeyboard (\"uygulama\", \"biz\") gizliliğinizi ön planda tutar. Bu politika, uygulamayı kullandığınızda hangi verilerin nasıl işlendiğini ayrıntılı olarak açıklar.",
+  "s1P2": "Temel ilke: <strong>yazdıklarınızı toplamayız</strong>. Notlarınızın, panonuzun ve şablonlarınızın içeriği (ve ödeme bilgileriniz) geliştiriciye hiçbir zaman iletilmez. Yalnızca <strong>sizi tanımlayamayan anonim kullanım istatistikleri</strong> toplarız (bkz. 2. bölüm). Üçüncü taraf analiz araçları kullanılmaz.",
+  "s2Title": "2. Neleri Topluyoruz / Neleri Toplamıyoruz",
+  "s2H1": "📊 Topladıklarımız (anonim)",
+  "s2CP1": "Uygulamayı geliştirmek için aşağıdaki <strong>anonim</strong> bilgiler geliştiricinin CloudKit depolama alanına gönderilir:",
+  "s2CL1": "<strong>Kullanım ölçümleri</strong>: kaç <em>adet</em> kısayolunuz, şablonunuz ve kombonuz olduğu, ne sıklıkla kullanıldıkları, tasarruf edilen dakika, Pro sahibi olup olmadığınız ve klavyenin ile senkronizasyonun kullanımda olup olmadığı",
+  "s2CL2": "<strong>Eylem olayları</strong>: kullanılan özelliğin <em>adı</em> (ör. uygulama açıldı, kısayol eklendi). Hiçbir içerik dahil edilmez",
+  "s2CL3": "<strong>Uygulama ortamı</strong>: uygulama sürümü, işletim sistemi sürümü, platform, dil ayarı ve kurulumdan bu yana geçen gün sayısı",
+  "s2CL4": "<strong>Kurulum tanımlayıcısı</strong>: uygulamanın oluşturduğu rastgele bir UUID. Cihazınızla, hesabınızla veya herhangi bir reklam kimliğiyle ilgisi yoktur; uygulamayı yeniden yüklemek tamamen yeni bir değer üretir",
+  "s2CL5": "<strong>Geri bildirim</strong>: bize göndermeyi seçtiğiniz içerik. Adınız ve e-postanız <em>yalnızca yanıt almak istediğiniz için kendiniz yazarsanız</em> dahil edilir",
+  "s1P3": "Bu politika, iPhone ve iPad üzerindeki ClipKeyboard'u ve Mac uygulamasını kapsar.",
+  "s2CL6": "<strong>Çökme ve donma tanılamaları</strong> (iPhone ve iPad): iOS'in (MetricKit) bir çökme veya donmadan sonra uygulamaya ilettiği anonim raporlar. Bunlar yalnızca sorunun türünü, çağrı yığınını, uygulama ve işletim sistemi sürümünü ile cihaz modelini içerir; yazdığınız hiçbir şeyi içermez",
+  "s4R5C1": "Kamera",
+  "s4R5C2": "Bir kartı veya belgeyi tarayarak metnini almak (cihazınızda işlenir)",
+  "s4R5C3": "Yok",
+  "s2CP2": "Bu bilgiler sizi tanımlayamaz; reklam veya izleme (ATT) amacıyla kullanılmaz, kimseye satılmaz ya da kimseyle paylaşılmaz. <strong>Bunu kapatmak için uygulama içinde bir ayar yoktur.</strong>",
+  "s2H2": "🚫 Toplamadıklarımız",
+  "s2P1": "Bu uygulama aşağıdakilerin hiçbirini <strong>toplamaz</strong>:",
+  "s2L1": "Kişisel tanımlayıcılar (ad, e-posta, telefon, adres vb.): geri bildirime kendiniz yazdıklarınız hariç",
+  "s2L2": "Ekran akışı, oturum süresi veya dokunma koordinatları gibi ayrıntılı davranış kayıtları",
+  "s2L3": "Reklam tanımlayıcıları (IDFA) veya cihaza özgü kimlikler",
+  "s2L4": "Konum verileri",
+  "s2L5": "Kayıtlı notların, panonun veya şablonların içeriği",
+  "s2L6": "Ödeme bilgileri (Apple tarafından işlenir; geliştiricinin erişimi yoktur)",
+  "s3Title": "3. Veriler Nerede Saklanır",
+  "s3P1": "Uygulamaya girdiğiniz her şey (notlar, pano geçmişi, şablonlar, kombolar, ayarlar) yalnızca aşağıdaki konumlarda saklanır:",
+  "s3H1": "📱 Cihazınızda (App Group kapsayıcısı)",
+  "s3P2": "iOS App Group kapsayıcısı <code>group.com.Ysoup.TokenMemo</code> içinde yerel olarak saklanır. Ana uygulama ile klavye uzantısı arasında paylaşılır, ancak <strong>geliştiriciye veya herhangi bir harici sunucuya asla iletilmez</strong>.",
+  "s3H2": "☁️ iCloud (isteğe bağlı)",
+  "s3P3": "Yalnızca uygulamada <strong>iCloud Yedekleme</strong>'yi etkinleştirirseniz verileriniz, Apple'ın CloudKit hizmeti aracılığıyla kendi iCloud hesabınızda <strong>şifreli</strong> olarak saklanır. Geliştiricinin bu verilere erişimi yoktur.",
+  "s3P4": "iCloud Yedekleme <strong>istediğiniz zaman kapatılabilir</strong> ve Apple'ın iCloud politikasına tabidir: <a href=\"https://www.apple.com/legal/privacy/\" target=\"_blank\">Apple Gizlilik Politikası</a>",
+  "s4Title": "4. İzinler",
+  "s4P1": "Uygulamanın istediği izinler ve amaçları:",
+  "s4TH1": "İzin",
+  "s4TH2": "Amaç",
+  "s4TH3": "Veri iletimi",
+  "s4R1C1": "Tam Erişim (klavye)",
+  "s4R1C2": "Kayıtlı notlarınızı klavyeye yüklemek",
+  "s4R1C3": "Yok",
+  "s4R2C1": "Face ID / Touch ID",
+  "s4R2C2": "Güvenli notların kilidini açmak (iOS tarafından yönetilir)",
+  "s4R2C3": "Yok",
+  "s4R3C1": "Fotoğraf kitaplığı",
+  "s4R3C2": "Görsel notları kaydetmek (yalnızca seçtiğiniz fotoğraflar)",
+  "s4R3C3": "Yok",
+  "s4R4C1": "iCloud",
+  "s4R4C2": "Yedekleme etkinken iCloud'unuzla senkronize etmek",
+  "s4R4C3": "Yalnızca kendi iCloud'unuz",
+  "s5Title": "5. Üçüncü Taraf Hizmetler",
+  "s5P1": "Bu uygulama, aşağıdakiler dışında hiçbir üçüncü taraf hizmeti içermez:",
+  "s5L1": "<strong>Apple CloudKit</strong>: yalnızca iCloud Yedekleme için kullanılır. Yalnızca siz etkinleştirirseniz çalışır.",
+  "s5L2": "<strong>Apple StoreKit</strong>: uygulama içi satın alımları yönetir (işlemi Apple gerçekleştirir; geliştirici yalnızca toplulaştırılmış satış verilerini görür).",
+  "s5L3": "<strong>Geliştiricinin CloudKit depolama alanı</strong>: anonim kullanım istatistiklerinin ve geri bildirimlerin ulaştığı yerdir. Apple'ın iCloud altyapısı üzerinde çalışır ve geliştiriciden başka kimse okuyamaz.",
+  "s5P2": "Üçüncü taraf analiz araçları (Firebase, Mixpanel, Amplitude vb.), reklam ağları veya harici çökme raporlama hizmetleri kullanılmaz. Yukarıdakilerin tümü Apple altyapısıdır: hiçbir veri üçüncü bir şirkete verilmez.",
+  "s6Title": "6. Ödeme İşlemleri",
+  "s6P1": "Uygulama içi satın alımlar (Pro'nun kilidini açma) Apple'ın App Store'u tarafından işlenir. Geliştirici yalnızca şunları görebilir:",
+  "s6L1": "Satın alımın başarılı olup olmadığı (makbuz doğrulaması)",
+  "s6L2": "Toplulaştırılmış satış verileri (App Store Connect tarafından sağlanır)",
+  "s6P2": "Kart numaraları ve fatura adresleri gibi ödeme bilgileri geliştiriciye hiçbir zaman iletilmez.",
+  "s7Title": "7. App Store Connect Analizleri",
+  "s7P1": "Apple tarafından otomatik olarak sağlanan anonim istatistikleri (indirmeler, dönüşüm oranı, elde tutma vb.) inceleriz. Bu veriler:",
+  "s7L1": "Apple tarafından yalnızca anonimleştirilmiş ve toplulaştırılmış biçimde sağlanır",
+  "s7L2": "Tek tek kullanıcılarla ilişkilendirilemez",
+  "s7L3": "Yalnızca kullanıcı iOS Ayarları'nda \"Uygulama Geliştiricileriyle Paylaş\" seçeneğini açtıysa dahil edilir",
+  "s8Title": "8. Haklarınız (KVKK / GDPR / CCPA)",
+  "s8P1": "Yazdığınız her şey cihazınızda (ve kendi iCloud hesabınızda) kaldığı için bu haklarınızı doğrudan kullanabilirsiniz. Topladığımız anonim kullanım istatistikleri tek bir kişiye kadar izlenemez:",
+  "s8H1": "🇪🇺 GDPR (AB kullanıcıları)",
+  "s8L1": "<strong>Erişim hakkı</strong>: Saklanan tüm veriler cihazınızdadır ve doğrudan uygulama içinde görüntülenebilir",
+  "s8L2": "<strong>Silme hakkı</strong>: Uygulamayı silmek veya uygulama içinde verileri temizlemek her şeyi kalıcı olarak siler",
+  "s8L3": "<strong>Taşınabilirlik hakkı</strong>: iCloud Yedekleme, verileri başka bir cihaza taşımanıza olanak tanır",
+  "s8L4": "<strong>Anonim istatistikler hakkında</strong>: kurulum tanımlayıcısı rastgele bir UUID olduğundan, herhangi bir kişiye ait kayıtları bulamayız; bu nedenle bireysel erişim, düzeltme veya silme taleplerini yerine getiremeyiz. Uygulamayı silmek tüm iletimi durdurur, yeniden yüklemek ise öncekiyle bağlantısı olmayan yeni bir tanımlayıcı oluşturur",
+  "s8L7": "<strong>Sorularınız için</strong>: nelerin toplandığı veya nasıl işlendiği hakkındaki her konuda 11. bölümdeki adresten bize e-posta gönderin",
+  "s8H2": "🇺🇸 CCPA (Kaliforniya kullanıcıları)",
+  "s8L5": "Kişisel bilgileri satmayız ve üçüncü taraflarla paylaşmayız",
+  "s8L6": "\"Satmayın\" hakkı geçerli değildir: ortada zaten bir satış yoktur",
+  "s9Title": "9. Çocukların Gizliliği",
+  "s9P1": "Bu uygulama özellikle 13 yaşın altındaki çocuklar için tasarlanmamıştır ve bu yaş grubundan bilerek bilgi toplamaz (COPPA uyumludur).",
+  "s10Title": "10. Bu Politikadaki Değişiklikler",
+  "s10P1": "Bu politikayı değiştirirsek yeni tarihi bu sayfada yayımlarız. Önemli değişikliklerde kullanıcıları uygulama içi mesajlarla veya App Store sayfası aracılığıyla bilgilendiririz.",
+  "s11Title": "11. İletişim",
+  "s11P1": "Bu politika veya genel olarak gizlilik hakkındaki sorularınız için lütfen geliştiriciyle iletişime geçin:",
+  "s11L1": "<strong>E-posta</strong>: <a href=\"mailto:leeo@kakao.com\">leeo@kakao.com</a>",
+  "s11L2": "<strong>Geliştirici</strong>: Leeo (Ysoup)",
+  "s11L3": "<strong>Uygulama Bundle ID</strong>: com.Ysoup.TokenMemo",
+  "s11P2": "Çoğu soru bir gün içinde yanıtlanır.",
+  "footerHome": "Ana Sayfa",
+  "footerTutorial": "Rehber",
+  "footerContact": "İletişim"
+ },
+ "en": {
+  "pageTitle": "ClipKeyboard: Privacy Policy",
+  "metaDescription": "ClipKeyboard privacy policy. What you write stays on your device and in your own iCloud. Only anonymous usage statistics are collected to improve the app.",
+  "navHome": "Home",
+  "navTutorial": "Guide",
+  "heroTitle": "Privacy <span>Policy</span>",
+  "metaUpdated": "Last updated",
+  "highlightText": "ClipKeyboard never collects or transmits your memos, financial info, or other content. Anonymous usage statistics are collected solely to improve the app (no IDFA).",
+  "s1Title": "1. Overview",
+  "s1P1": "ClipKeyboard (\"the app\", \"we\") puts your privacy first. This policy explains exactly what data is handled and how when you use the app.",
+  "s1P2": "Core principle: <strong>we do not collect what you write</strong>. The contents of your memos, clipboard, and templates (and your payment details) are never transmitted to the developer. We do collect <strong>anonymous usage statistics that cannot identify you</strong> (see section 2). No third-party analytics tools are used.",
+  "s2Title": "2. What We Collect / What We Don't",
+  "s2H1": "📊 What we collect (anonymous)",
+  "s2CP1": "To improve the app, the following <strong>anonymous</strong> information is sent to the developer's CloudKit storage:",
+  "s2CL1": "<strong>Usage metrics</strong>: how <em>many</em> shortcuts, templates, and combos you have, how often they were used, minutes saved, whether you own Pro, and whether the keyboard and sync are in use",
+  "s2CL2": "<strong>Action events</strong>: the <em>name</em> of the feature used (e.g. app opened, shortcut added). No content is included",
+  "s2CL3": "<strong>App environment</strong>: app version, OS version, platform, language setting, and days since install",
+  "s2CL4": "<strong>Install identifier</strong>: a random UUID generated by the app. Unrelated to your device, account, or any ad ID; reinstalling produces a brand-new value",
+  "s2CL5": "<strong>Feedback</strong>: what you choose to send us. Your name and email are included <em>only if you type them in</em> because you want a reply",
+  "s1P3": "This policy covers ClipKeyboard on iPhone and iPad as well as the Mac app.",
+  "s2CL6": "<strong>Crash and hang diagnostics</strong> (iPhone and iPad): anonymous reports that iOS (MetricKit) hands to the app after a crash or freeze. They contain only the type of problem, the call stack, app and OS version, and device model, never anything you wrote",
+  "s4R5C1": "Camera",
+  "s4R5C2": "Scan a card or document to pick up its text (processed on your device)",
+  "s4R5C3": "None",
+  "s2CP2": "This information cannot identify you, and is never used for advertising or tracking (ATT), nor sold or shared with anyone. <strong>There is no in-app setting to turn this off.</strong>",
+  "s2H2": "🚫 What we don't collect",
+  "s2P1": "This app <strong>does not collect</strong> any of the following:",
+  "s2L1": "Personal identifiers (name, email, phone, address, etc.): except what you type into feedback yourself",
+  "s2L2": "Detailed behavior records such as screen flow, session time, or tap coordinates",
+  "s2L3": "Advertising identifiers (IDFA) or device-unique IDs",
+  "s2L4": "Location data",
+  "s2L5": "Contents of stored memos, clipboard, or templates",
+  "s2L6": "Payment information (handled by Apple; developer has no access)",
+  "s3Title": "3. Where Data Is Stored",
+  "s3P1": "Everything you enter into the app (memos, clipboard history, templates, combos, settings) is stored only in the following locations:",
+  "s3H1": "📱 On your device (App Group container)",
+  "s3P2": "Stored locally in the iOS App Group container <code>group.com.Ysoup.TokenMemo</code>. Shared between the main app and the keyboard extension, but <strong>never transmitted to the developer or any external server</strong>.",
+  "s3H2": "☁️ iCloud (optional)",
+  "s3P3": "Only if you enable <strong>iCloud Backup</strong> in the app, your data is stored <strong>encrypted</strong> in your own iCloud account via Apple's CloudKit. The developer has no access to this data.",
+  "s3P4": "iCloud Backup can be <strong>disabled at any time</strong>, and is governed by Apple's iCloud policy: <a href=\"https://www.apple.com/legal/privacy/\" target=\"_blank\">Apple Privacy Policy</a>",
+  "s4Title": "4. Permissions",
+  "s4P1": "Permissions the app requests and their purposes:",
+  "s4TH1": "Permission",
+  "s4TH2": "Purpose",
+  "s4TH3": "Data transmission",
+  "s4R1C1": "Full Access (keyboard)",
+  "s4R1C2": "Load your saved memos into the keyboard",
+  "s4R1C3": "None",
+  "s4R2C1": "Face ID / Touch ID",
+  "s4R2C2": "Unlock secure memos (handled by iOS)",
+  "s4R2C3": "None",
+  "s4R3C1": "Photo library",
+  "s4R3C2": "Save image memos (only photos you select)",
+  "s4R3C3": "None",
+  "s4R4C1": "iCloud",
+  "s4R4C2": "Sync with your iCloud when backup is enabled",
+  "s4R4C3": "Your own iCloud only",
+  "s5Title": "5. Third-Party Services",
+  "s5P1": "This app does not include any third-party services except the following:",
+  "s5L1": "<strong>Apple CloudKit</strong>: used solely for iCloud Backup. Active only if you enable it.",
+  "s5L2": "<strong>Apple StoreKit</strong>: handles in-app purchases (Apple processes the transaction; developer sees only aggregated sales data).",
+  "s5L3": "<strong>The developer's CloudKit storage</strong>: where anonymous usage statistics and feedback arrive. It runs on Apple's iCloud infrastructure and nobody but the developer can read it.",
+  "s5P2": "No third-party analytics tools (Firebase, Mixpanel, Amplitude, etc.), ad networks, or external crash reporting services are used. Everything above is Apple infrastructure: no data is handed to a third company.",
+  "s6Title": "6. Payment Processing",
+  "s6P1": "In-app purchases (Pro unlock) are processed by Apple's App Store. The developer can only see:",
+  "s6L1": "Whether the purchase succeeded (receipt validation)",
+  "s6L2": "Aggregated sales data (provided by App Store Connect)",
+  "s6P2": "Payment details such as card numbers and billing addresses are never passed to the developer.",
+  "s7Title": "7. App Store Connect Analytics",
+  "s7P1": "We review anonymous statistics (downloads, conversion rate, retention, etc.) provided by Apple automatically. This data is:",
+  "s7L1": "Only provided in anonymized, aggregated form by Apple",
+  "s7L2": "Impossible to tie to individual users",
+  "s7L3": "Only included if the user has turned on \"Share with App Developers\" in iOS Settings",
+  "s8Title": "8. Your Rights (GDPR / CCPA)",
+  "s8P1": "Everything you write stays on your device (and your own iCloud), so you can exercise these rights directly. The anonymous usage statistics we do collect cannot be traced to an individual:",
+  "s8H1": "🇪🇺 GDPR (EU users)",
+  "s8L1": "<strong>Right of access</strong>: All stored data lives on your device and can be viewed directly inside the app",
+  "s8L2": "<strong>Right to erasure</strong>: Deleting the app or clearing data inside the app permanently erases everything",
+  "s8L3": "<strong>Right to portability</strong>: iCloud Backup lets you move data to another device",
+  "s8L4": "<strong>About the anonymous statistics</strong>: because the install identifier is a random UUID, we cannot locate any individual's records, so we cannot act on individual access, correction, or deletion requests. Deleting the app stops all transmission, and reinstalling issues a new identifier that is not linked to the previous one",
+  "s8L7": "<strong>Questions</strong>: for anything about what is collected or how it is handled, email us using the address in section 11",
+  "s8H2": "🇺🇸 CCPA (California users)",
+  "s8L5": "We do not sell personal information or share it with third parties",
+  "s8L6": "\"Do Not Sell\" does not apply: no sale exists in the first place",
+  "s9Title": "9. Children's Privacy",
+  "s9P1": "This app is not specifically designed for children under 13 and does not knowingly collect information from that age group (COPPA compliant).",
+  "s10Title": "10. Changes to this Policy",
+  "s10P1": "If we change this policy, we will post the new date on this page. For significant changes, we will notify users via in-app messaging or the App Store listing.",
+  "s11Title": "11. Contact",
+  "s11P1": "For questions about this policy or privacy in general, please contact the developer:",
+  "s11L1": "<strong>Email</strong>: <a href=\"mailto:leeo@kakao.com\">leeo@kakao.com</a>",
+  "s11L2": "<strong>Developer</strong>: Leeo (Ysoup)",
+  "s11L3": "<strong>App Bundle ID</strong>: com.Ysoup.TokenMemo",
+  "s11P2": "Most inquiries are answered within a day.",
+  "footerHome": "Home",
+  "footerTutorial": "Tutorial",
+  "footerContact": "Contact"
+ }
+};
+
+        /// 브라우저 언어 태그·저장값·?lang= 을 이 페이지가 아는 언어로 옮긴다.
+        /// 모르는 값이면 빈 문자열(=호출한 쪽이 기본값을 정한다).
+        /// ⚠️ 대만·홍콩·마카오는 번체다. zh 로만 보고 간체를 주면 남의 글자를 보게 된다.
+        function normalizeLang(tag) {
+            var t = (tag || '').toLowerCase().replace('_', '-');
+            if (!t) return '';
+            if (t.indexOf('ko') === 0) return 'ko';
+            if (t.indexOf('en') === 0) return 'en';
+            if (t.indexOf('zh') === 0) {
+                if (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                    t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) return 'zh-Hant';
+                return 'zh-Hans';   // zh · zh-CN · zh-SG, 그리고 갈리기 전에 저장된 'zh'
+            }
+            return '';
+        }
+
+        function setLanguage(lang) {
+            localStorage.setItem('clipkb-lang', lang);
+            applyLanguage(lang);
+        }
+
+        function applyLanguage(lang) {
+            const t = translations[lang];
+            if (!t) return;
+            document.documentElement.lang = lang;
+            document.title = t.pageTitle;
+
+            document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) el.textContent = t[key];
+            });
+            document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n-html');
+                if (t[key] !== undefined) el.innerHTML = t[key];
+            });
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        // ── 언어별 페이지 ──
+        // 이 루트 페이지는 x-default 다. 언어마다 고정된 페이지가 docs/<lang>/ 에 있고
+        // (docs/i18n/build.mjs 가 이 파일로 만든다) 그 페이지는 window.PAGE_LANG 을 박아 둔다.
+        // 이 파일에 글이 없는 언어로 들어오면(?lang=ja, 일본어 브라우저) 그 언어 페이지로 보낸다.
+        var SITE_LANGS = ["ko", "en", "zh-Hans", "zh-Hant", "ru", "ja", "es", "de", "fr", "it", "pt-BR", "th", "vi", "cs", "da", "el", "fi", "id", "nb", "nl", "pl", "sv", "tr"];
+        function siteLang(tag) {
+            var t = (tag || '').toLowerCase().replace('_', '-');
+            if (!t) return '';
+            if (t.indexOf('zh') === 0) {
+                return (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                        t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) ? 'zh-Hant' : 'zh-Hans';
+            }
+            if (t.indexOf('pt') === 0) return 'pt-BR';
+            if (t.indexOf('no') === 0 || t.indexOf('nn') === 0) return 'nb';
+            var base = t.split('-')[0];
+            return SITE_LANGS.indexOf(base) >= 0 ? base : '';
+        }
+        function goLangPage(lang) {
+            if (!lang || translations[lang] || SITE_LANGS.indexOf(lang) < 0) return false;
+            var file = window.location.pathname.split('/').pop() || '';
+            window.location.replace(lang + '/' + file + window.location.hash);
+            return true;
+        }
+
+        (function() {
+            // 언어별 페이지(docs/<lang>/)는 언어가 정해져 있다.
+            if (window.PAGE_LANG) { applyLanguage(window.PAGE_LANG); return; }
+            if (goLangPage(siteLang(new URLSearchParams(window.location.search).get('lang') || ''))) return;
+            if (!localStorage.getItem('clipkb-lang') && goLangPage(siteLang(navigator.language || navigator.userLanguage || ''))) return;
+            // ?lang= 으로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
+            var asked = normalizeLang(new URLSearchParams(window.location.search).get('lang') || '');
+            if (asked) {
+                setLanguage(asked);
+                return;
+            }
+            // 예전에 'zh' 로 저장된 사람은 간체로 옮겨 준다(간체·번체가 갈리기 전 값).
+            var saved = normalizeLang(localStorage.getItem('clipkb-lang') || '');
+            if (saved) {
+                applyLanguage(saved);
+                return;
+            }
+            applyLanguage(normalizeLang(navigator.language || navigator.userLanguage || '') || 'en');
+        })();
+    </script>
+</body>
+</html>

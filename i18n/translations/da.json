@@ -798,6 +798,14 @@
     "v": "9",
     "src": "1c6c3d0ed8"
   },
+  "@InfoPlist/ClipKeyboard/NSCameraUsageDescription": {
+    "v": "Kameraadgang er nødvendig for at fotografere kort eller dokumenter og genkende teksten.",
+    "src": "2d4369bb61"
+  },
+  "@InfoPlist/ClipKeyboard/NSFaceIDUsageDescription": {
+    "v": "Face ID er påkrævet for at få adgang til sikre noter.",
+    "src": "848590a8e9"
+  },
   "ABC": {
     "v": "ABC",
     "src": "df4e3c5a78"
@@ -8126,5 +8134,3024 @@
   "인식된 텍스트가 없어요": {
     "v": "Ingen tekst genkendt",
     "src": "0d3326a0ad"
+  },
+  "인증 실패": {
+    "v": "Godkendelse mislykkedes",
+    "src": "09d9d46460"
+  },
+  "일": {
+    "v": "Dag",
+    "src": "5f877aa4d5"
+  },
+  "일·주·월·연 단위로 묶어서 보여줘요. 차트를 좌우로 넘기면 그 단위만큼 과거로 이동하고, 막대를 탭하면 그 기간의 정확한 날짜와 숫자가 나와요.": {
+    "v": "Grupperet efter dag, uge, måned eller år. Stryg i diagrammet for at gå tilbage i tiden, og tryk på en søjle for at se periodens præcise dato og tal.",
+    "src": "993f60d991"
+  },
+  "일간": {
+    "v": "Daglig",
+    "src": "aefa86948b"
+  },
+  "일반": {
+    "v": "Generelt",
+    "src": "b49d409c6a"
+  },
+  "일반 / 개인": {
+    "v": "Generelt / Privat",
+    "src": "c3201a4a84"
+  },
+  "일부 항목을 지우지 못했어요. 앱을 다시 실행한 뒤 시도해 주세요.": {
+    "v": "Nogle emner kunne ikke slettes. Start appen igen, og prøv igen.",
+    "src": "f4d9075d9a"
+  },
+  "일상에서 자주 쓰는 기본 정보만 빠르게 입력": {
+    "v": "Hurtig indtastning af hverdagens basisoplysninger",
+    "src": "72e05e1aaf"
+  },
+  "일주일이 지나도 하나도 안 만들었다. 예시에서 고르는 화면이 나온다.": {
+    "v": "Der er gået en uge, og du har stadig ikke oprettet noget. Skærmen med eksempler vises.",
+    "src": "25bfa27073"
+  },
+  "일회성 결제 · 구독 없음 · 환불 가능": {
+    "v": "Engangsbetaling · Intet abonnement · Kan refunderes",
+    "src": "56df55f2c2"
+  },
+  "읽은 글자": {
+    "v": "Læst tekst",
+    "src": "5e63793cb3"
+  },
+  "읽은 글자 전부 넣기": {
+    "v": "Brug al tekst",
+    "src": "4b340bf7d1"
+  },
+  "임시": {
+    "v": "Midlertidig",
+    "src": "d804626567"
+  },
+  "임시 저장": {
+    "v": "Kladder",
+    "src": "52992c0d3c"
+  },
+  "임시 저장 (%d)": {
+    "v": {
+      "one": "Kladder (%d)",
+      "other": "Kladder (%d)"
+    },
+    "src": "03996cba20"
+  },
+  "임시 저장 보기": {
+    "v": "Vis kladder",
+    "src": "b2a913fea1"
+  },
+  "임시 저장된 항목이 없어요": {
+    "v": "Ingen kladder endnu",
+    "src": "d15cae856c"
+  },
+  "임시 항목": {
+    "v": "Midlertidigt emne",
+    "src": "39d285e134"
+  },
+  "입금 계좌": {
+    "v": "Bankkonto",
+    "src": "cf8af22a18"
+  },
+  "입력": {
+    "v": "Indsæt",
+    "src": "4083992b75"
+  },
+  "입력 내용 초기화": {
+    "v": "Ryd indtastning",
+    "src": "f05635a7ad"
+  },
+  "입력 반응": {
+    "v": "Respons ved indsætning",
+    "src": "153ccef013"
+  },
+  "입력 반응은 문구를 넣을 때의 진동과 짧은 연출이에요.": {
+    "v": "Respons ved indsætning er den lille vibration og animation, når en frase sættes ind.",
+    "src": "b0ffbffe0e"
+  },
+  "입력 언어 전환": {
+    "v": "Skift inputsprog",
+    "src": "e90de3eb7c"
+  },
+  "입력 취소": {
+    "v": "Annuller indtastning",
+    "src": "1a99cc89ef"
+  },
+  "입력될 결과": {
+    "v": "Resultat der indsættes",
+    "src": "9bca95cdaf"
+  },
+  "입력창": {
+    "v": "Tekstfelt",
+    "src": "b6edf32f33"
+  },
+  "입력창에 줄바꿈을 넣습니다. 앱에 따라 보내기로 동작합니다": {
+    "v": "Indsætter et linjeskift. I nogle apps sender det beskeden",
+    "src": "23be16ca8e"
+  },
+  "입력하기": {
+    "v": "Indsæt",
+    "src": "1223cfa191"
+  },
+  "입력하세요": {
+    "v": "Indtast",
+    "src": "bc91b07aff"
+  },
+  "입력하지 않아도 돼요. 언제든지 앱에서 추가할 수 있어요.": {
+    "v": "Du behøver ikke udfylde noget nu. Du kan altid tilføje mere i appen.",
+    "src": "751203bb01"
+  },
+  "입력한 내용과 이름을 지웁니다. 카테고리는 그대로 둡니다": {
+    "v": "Rydder det, du har skrevet, og navnet. Kategorien beholdes.",
+    "src": "71ba344480"
+  },
+  "입력한 내용이 모두 지워집니다. 계속하시겠습니까?": {
+    "v": "Alt indhold ryddes. Vil du fortsætte?",
+    "src": "43c43dc62d"
+  },
+  "자기소개": {
+    "v": "Om mig",
+    "src": "6fdaaf024a"
+  },
+  "자동": {
+    "v": "Automatisk",
+    "src": "009461f38a"
+  },
+  "자동 (%@)": {
+    "v": "Automatisk (%@)",
+    "src": "9e3bb4ec68"
+  },
+  "자동 (추천)": {
+    "v": "Automatisk (anbefalet)",
+    "src": "60647babbc"
+  },
+  "자동 백업": {
+    "v": "Automatisk backup",
+    "src": "c1c54c2e78"
+  },
+  "자동 백업 설정": {
+    "v": "Indstillinger for automatisk backup",
+    "src": "fbaceda9e9"
+  },
+  "자동 복사 간격": {
+    "v": "Interval for automatisk kopiering",
+    "src": "17e0ca447d"
+  },
+  "자동 분류 정보": {
+    "v": "Info om automatisk sortering",
+    "src": "a77c779a5d"
+  },
+  "자동 붙여넣기가 차단됩니다. 하지만 길게 눌러서 수동으로 붙여넣기는 가능합니다.": {
+    "v": "Automatisk indsættelse blokeres. Du kan stadig indsætte manuelt med et langt tryk.",
+    "src": "3083c034e7"
+  },
+  "자동 추가될 카테고리": {
+    "v": "Kategorier, der tilføjes",
+    "src": "9ee499295c"
+  },
+  "자동으로 채워지는 값": {
+    "v": "Udfyldes automatisk",
+    "src": "6f4b2badb3"
+  },
+  "자동으로 채워지는 값입니다": {
+    "v": "Denne værdi udfyldes automatisk",
+    "src": "3f625dfada"
+  },
+  "자두": {
+    "v": "Blomme",
+    "src": "2bb6977e7e"
+  },
+  "자랑할 영상을 만들 수 있어요": {
+    "v": "Lav en video, du kan være stolt af",
+    "src": "d0a44f4df1"
+  },
+  "자리를 잡았어요. 한도에 닿으면 결제로 이어지는 무리예요.": {
+    "v": "De er faldet til. Det er gruppen, der køber, når de rammer grænsen.",
+    "src": "e35ce33f54"
+  },
+  "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다.": {
+    "v": "Emner med lås slået til gemmes krypteret som sikre fraser.",
+    "src": "79ce831bf6"
+  },
+  "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택로 묶거나 풀 수 있어요.": {
+    "v": "Emner med lås slået til gemmes krypteret som sikre fraser. Hold et emne inde for at samle det i en stak med emnet ovenfor, eller del stakken op.",
+    "src": "8043acda82"
+  },
+  "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택으로 묶거나 풀 수 있어요.": {
+    "v": "Emner med lås slået til gemmes krypteret som sikre fraser. Hold et emne inde for at samle det i en stak med emnet ovenfor, eller del stakken op.",
+    "src": "32c8576a89"
+  },
+  "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 콤보로 묶거나 풀 수 있어요.": {
+    "v": "Emner med lås slået til gemmes krypteret som sikre fraser. Hold et emne inde for at samle det i en kombo med emnet ovenfor, eller del kombon op.",
+    "src": "f2f0c10bca"
+  },
+  "자세히": {
+    "v": "Læs mere",
+    "src": "1b151032ee"
+  },
+  "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기": {
+    "v": "Gem tekster, du bruger ofte, og indsæt dem hurtigt",
+    "src": "e7cd511f5b"
+  },
+  "자주 쓰는 단축어를 위로 옮길 수 있어요": {
+    "v": "Flyt de fraser, du bruger mest, øverst",
+    "src": "13a74fef33"
+  },
+  "자주 쓰는 빈칸": {
+    "v": "Almindelige udfyldningsfelter",
+    "src": "25e86c8d3a"
+  },
+  "자주 쓰는 이메일 (선택 사항)": {
+    "v": "Ofte brugt e-mail (valgfrit)",
+    "src": "6a87e208ab"
+  },
+  "자주 쓰는 정보를 먼저 등록해드릴게요.": {
+    "v": "Lad os først gemme de oplysninger, du bruger ofte.",
+    "src": "78aa1116ed"
+  },
+  "자주 쓰는 카테고리를 미리 만들어 드릴게요. 나중에 자유롭게 바꿀 수 있어요.": {
+    "v": "Vi opretter de kategorier, du bruger ofte, på forhånd. Du kan ændre dem når som helst.",
+    "src": "558a5fc53e"
+  },
+  "자주 씀: %@": {
+    "v": "Ofte brugt: %@",
+    "src": "4e3c6b9c43"
+  },
+  "작게": {
+    "v": "Lille",
+    "src": "aa98a27c53"
+  },
+  "작성하던 내용을 불러왔어요": {
+    "v": "Din kladde er gendannet",
+    "src": "4bb8c911a8"
+  },
+  "잘 쓰고 계신가요?": {
+    "v": "Er du glad for appen?",
+    "src": "b784a1b96b"
+  },
+  "잠근 단축어도 값을 골라서 넣어요": {
+    "v": "Låste fraser lader dig vælge en værdi",
+    "src": "1b5d74fe2b"
+  },
+  "잠근 단축어에 값이 여러 개면, 화살표로 고른 다음 인증해서 그 값만 넣어요": {
+    "v": "Hvis en låst frase har flere værdier, vælg én med pilen og godkend, så indsættes kun den værdi",
+    "src": "25f90e43ab"
+  },
+  "잠근 단축어에 자물쇠가 늘 보여요. 구분 표시를 꺼 두셔도 보입니다": {
+    "v": "Låste fraser viser altid en lås, også når visuelle markeringer er slået fra",
+    "src": "d265be1978"
+  },
+  "잠금 번호를 아직 안 만드셨어요. 만들어야 키보드에서 꺼낼 수 있어요.": {
+    "v": "Du har ikke oprettet en adgangskode endnu. Du skal bruge en for at bruge dem fra tastaturet.",
+    "src": "50a1275d7e"
+  },
+  "잠금 화면과 홈 화면 위젯에서도 바로 적을 수 있어요": {
+    "v": "Du kan også skrive med det samme fra låseskærmen og fra Widgets på hjemmeskærmen",
+    "src": "d296a6efdc"
+  },
+  "잠금화면 위젯에서 즐겨찾기를 바로 복사해요": {
+    "v": "Kopiér en favorit direkte fra Widget på låseskærmen",
+    "src": "ccc5f8b198"
+  },
+  "잠긴 값이에요. 눌러서 인증하면 입력돼요.": {
+    "v": "Værdien er låst. Tryk på nøglen og godkend for at indsætte den.",
+    "src": "8f22fc1b61"
+  },
+  "잠긴 단축어가 있는데 잠금 번호가 없으면 누르기 전에 알려드려요": {
+    "v": "Hvis du har låste fraser, men ingen adgangskode, får du besked, før du trykker",
+    "src": "ee2478cb52"
+  },
+  "잠긴 단축어라 복사되지 않아요. 눌러서 인증하면 입력돼요.": {
+    "v": "Låste fraser kan ikke kopieres. Tryk på nøglen og godkend for at indsætte dem.",
+    "src": "ce28495ced"
+  },
+  "잠긴 단축어를 열 수 없어요": {
+    "v": "Dine låste fraser kan ikke åbnes",
+    "src": "7da6bbd440"
+  },
+  "잠긴 문구": {
+    "v": "Låst frase",
+    "src": "3f3672371e"
+  },
+  "잠깐 눌렀다 끌면 자리가 바뀌어요": {
+    "v": "Hold nede og træk for at flytte",
+    "src": "51fb3c90fd"
+  },
+  "잠깐 쓸 글은 키보드 맨 앞 '최근' 탭에 모아 두세요.": {
+    "v": "Gem tekst, du kun skal bruge et øjeblik, i tastaturets første fane, Seneste.",
+    "src": "603fa305b6"
+  },
+  "장과 장 사이 기다리는 시간을 3초로 줄였고, 그 동그라미를 누르면 곧바로 넘어가요": {
+    "v": "Pausen mellem kapitlerne er nede på tre sekunder, og et tryk på nedtællingen springer den over",
+    "src": "cd09b09662"
+  },
+  "저장": {
+    "v": "Gem",
+    "src": "72af799af5"
+  },
+  "저장 버튼에 지금 복사해 둔 글이 미리 보여요. 카드번호는 끝 네 자리만 보여요.": {
+    "v": "Gem-knappen viser den tekst, du har kopieret. Kortnumre viser kun de sidste fire cifre.",
+    "src": "617beb422c"
+  },
+  "저장 버튼이 무엇이 저장될지 누르기 전에 보여 줘요": {
+    "v": "Gem-knappen viser, hvad der bliver gemt, før du trykker",
+    "src": "48b32f65fa"
+  },
+  "저장된 값이 없으면 그 자리에서 바로 만들 수 있어요": {
+    "v": "Mangler du gemte værdier, kan du oprette en direkte her",
+    "src": "cc0844dedf"
+  },
+  "저장된 내용을 불러오지 못했어요": {
+    "v": "Dine gemte data kunne ikke indlæses",
+    "src": "3b96dcb7a5"
+  },
+  "저장된 버전이 없습니다": {
+    "v": "Ingen gemte versioner endnu",
+    "src": "47cddeda73"
+  },
+  "저장된 보안 PIN을 삭제합니다": {
+    "v": "Sletter den gemte sikkerheds-PIN",
+    "src": "9f05558b66"
+  },
+  "저장된 클립보드 항목이 모두 삭제됩니다. 이 작업은 되돌릴 수 없습니다.": {
+    "v": "Alle gemte emner i udklipsholderen slettes. Det kan ikke fortrydes.",
+    "src": "df0f9bb446"
+  },
+  "저장됨": {
+    "v": "Gemt",
+    "src": "770117c006"
+  },
+  "저장소를 찾을 수 없습니다.": {
+    "v": "Lageret kunne ikke findes.",
+    "src": "43fa0aea1c"
+  },
+  "저장에 실패했습니다. 다시 시도해주세요.": {
+    "v": "Kunne ikke gemme. Prøv igen.",
+    "src": "541fd894b1"
+  },
+  "저장은 다 돼요. 지금 여시면 전부 키보드에 나와요": {
+    "v": "Alt er gemt. Låser du op nu, vises det hele på tastaturet",
+    "src": "6d045fc915"
+  },
+  "저장하는 도중 앱이 닫혀도 원본이 깨지지 않아요": {
+    "v": "Dine data forbliver intakte, selv hvis appen lukker under lagring",
+    "src": "f57839b480"
+  },
+  "저장하면 키보드가 이 모습이 돼요. 키를 눌러 뺄 것을 빼고, 제목·자물쇠는 목록에서 손보세요.": {
+    "v": "Sådan ser dit tastatur ud. Tryk på en tast for at udelade den. Rediger titler og låse på listen.",
+    "src": "db67f11890"
+  },
+  "저장하신 단축어의 제목·종류·빈칸 이름만 봐요. 기기 밖으로 보내지 않아요.": {
+    "v": "Kun titler, typer og navne på udfyldningsfelter i dine fraser bruges. Intet forlader din enhed.",
+    "src": "492eaa4797"
+  },
+  "저장한 IBAN이나 여권번호를 탭하면 양식에 바로 입력돼요": {
+    "v": "Tryk på din gemte IBAN eller dit pas for at udfylde formularer med det samme",
+    "src": "4a1aaf8fe6"
+  },
+  "저장한 뒤에는 그 단축어가 보이는 자리로 데려가요. 이미 보이고 있으면 화면을 옮기지 않아요": {
+    "v": "Efter lagring går listen hen til den frase. Hvis den allerede er synlig, flytter intet sig",
+    "src": "082ee3b7cf"
+  },
+  "저장할 때 카테고리를 고를 수 있어요. 그 자리에서 새 카테고리도 만들어요": {
+    "v": "Vælg en kategori, når du gemmer, og opret en ny samme sted",
+    "src": "6df2bb85a4"
+  },
+  "저장해 두셨어요": {
+    "v": "Gemt",
+    "src": "1c2bf8e04a"
+  },
+  "저장해 둔 값": {
+    "v": "Gemte værdier",
+    "src": "132155a904"
+  },
+  "저장해 둔 값 %d개가 함께 사라져요. 이 빈칸을 쓰는 단축어는 없습니다.": {
+    "v": {
+      "one": "Den gemte værdi (%d) forsvinder sammen med det. Ingen frase bruger dette udfyldningsfelt.",
+      "other": "De %d gemte værdier forsvinder sammen med det. Ingen frase bruger dette udfyldningsfelt."
+    },
+    "src": "dedc992f07"
+  },
+  "적은 값은 이번에만 써요. 별을 누르면 다음에도 쓰게 저장돼요": {
+    "v": "Det, du skriver, bruges kun denne ene gang. Tryk på stjernen for at gemme det til næste gang",
+    "src": "12781f599c"
+  },
+  "적절한 때에만 리뷰를 여쭤봐요": {
+    "v": "Appen beder kun om en anmeldelse på et passende tidspunkt",
+    "src": "117a0b6852"
+  },
+  "전": {
+    "v": "siden",
+    "src": "353a107fd8"
+  },
+  "전부 다": {
+    "v": "Alle typer",
+    "src": "397495d433"
+  },
+  "전에 직접 고르신 유형": {
+    "v": "Den type, du valgte før",
+    "src": "9fb056bb28"
+  },
+  "전역 단축키": {
+    "v": "Global genvej",
+    "src": "87f3861940"
+  },
+  "전역 단축키: ⌃⌥K": {
+    "v": "Global genvej: ⌃⌥K",
+    "src": "ac4fd7b8d2"
+  },
+  "전체": {
+    "v": "Alle",
+    "src": "39a8c3dfd9"
+  },
+  "전체 관리": {
+    "v": "Administrer alle",
+    "src": "876f8a87cd"
+  },
+  "전체 기간": {
+    "v": "Hele perioden",
+    "src": "0bca585887"
+  },
+  "전체 기간 보기": {
+    "v": "Se hele perioden",
+    "src": "bd2ce71bdb"
+  },
+  "전체 대비 %1$@ · 직전 단계 대비 %2$@": {
+    "v": "%1$@ af alle · %2$@ af forrige trin",
+    "src": "d0a35ff71b"
+  },
+  "전체 복사": {
+    "v": "Kopiér alle",
+    "src": "055b0a490e"
+  },
+  "전체 삭제": {
+    "v": "Fjern alle",
+    "src": "99d2e2c10c"
+  },
+  "전체 삭제에 실패했습니다": {
+    "v": "Kunne ikke rydde alt",
+    "src": "c1cc2f2207"
+  },
+  "전체 선택": {
+    "v": "Vælg alle",
+    "src": "d810138ca1"
+  },
+  "전체 설치": {
+    "v": "Alle installationer",
+    "src": "8123d8b27f"
+  },
+  "전체 접근 허용": {
+    "v": "Tillad fuld adgang",
+    "src": "ed8d663377"
+  },
+  "전체 접근 허용 켜기": {
+    "v": "Slå fuld adgang til",
+    "src": "f5bac9c5cf"
+  },
+  "전체 접근을 허용해요": {
+    "v": "Tillad fuld adgang",
+    "src": "ca1a16a50c"
+  },
+  "전체 통계를 읽으려면 CloudKit 컨테이너의 read 권한과 UsageSnapshot·UsageEvent 스키마 배포가 필요해요.": {
+    "v": "Læsning af alle statistikker kræver læseadgang til CloudKit-containeren og at skemaet UsageSnapshot/UsageEvent er udrullet.",
+    "src": "bda08b5648"
+  },
+  "전체 해제": {
+    "v": "Fravælg alle",
+    "src": "18e94e69f0"
+  },
+  "전체로 바꿔서 더 둘러보거나, 직접 하나 만들어도 돼요.": {
+    "v": "Skift til Alle for at se flere, eller lav en selv.",
+    "src": "28dd8a936a"
+  },
+  "전화": {
+    "v": "Telefon",
+    "src": "62093df5d0"
+  },
+  "전화 걸기": {
+    "v": "Ring",
+    "src": "735aa0eda1"
+  },
+  "전화번호": {
+    "v": "Telefonnummer",
+    "src": "3e771ae891"
+  },
+  "절약한 시간 (분)": {
+    "v": "Sparet tid (min.)",
+    "src": "78b8e25888"
+  },
+  "절약한 시간 합계": {
+    "v": "Sparet tid i alt",
+    "src": "e500dc3f6f"
+  },
+  "점": {
+    "v": "Punktum",
+    "src": "5358e6b938"
+  },
+  "점심 한 끼를 통째로 벌었어요.": {
+    "v": "Det svarer til en hel frokostpause.",
+    "src": "23d2e9a2d0"
+  },
+  "접기": {
+    "v": "Skjul",
+    "src": "ecbeac034a"
+  },
+  "접수된 피드백": {
+    "v": "Modtaget feedback",
+    "src": "bb2d0c543f"
+  },
+  "접수된 피드백 (개발자)": {
+    "v": "Modtaget feedback (udvikler)",
+    "src": "42bf89404f"
+  },
+  "접으려면 두 번 탭하세요": {
+    "v": "Tryk to gange for at skjule",
+    "src": "b200839e7d"
+  },
+  "접힘": {
+    "v": "Skjult",
+    "src": "5229621c8b"
+  },
+  "정가 %1$@, 지금은 50%% 할인된 %2$@": {
+    "v": "Normalpris %1$@, nu %2$@ med 50%% rabat",
+    "src": "5b48cefa42"
+  },
+  "정규식으로 알아보기 어렵던 것을 기기 안의 AI가 다시 분류해요": {
+    "v": "AI på enheden klassificerer igen det, mønstergenkendelse ikke kunne afgøre",
+    "src": "02e192b468"
+  },
+  "정규식으로 확신하기 어려운 클립보드 항목(주소, 이름, 송장번호 등)을 온디바이스 AI가 다시 분류해요.": {
+    "v": "AI på enheden klassificerer igen udklipsholderens indhold, som mønstergenkendelse ikke er sikker på (adresser, navne, forsendelsesnumre m.m.).",
+    "src": "2fb0421f41"
+  },
+  "정동석": {
+    "v": "Geode",
+    "src": "91023b86ce"
+  },
+  "정류장 하나만큼 걸어갈 시간이에요.": {
+    "v": "Det er tid nok til at gå til næste busstop.",
+    "src": "2a7cf909ec"
+  },
+  "정리 기능을 실제로 쓰는 비율이에요.": {
+    "v": "Andel, der faktisk bruger organisering.",
+    "src": "210a60ada5"
+  },
+  "정리해도 단축어는 지워지지 않아요. 카테고리를 지우면 그 안에 있던 단축어는 기본 탭으로 옮겨 갑니다.": {
+    "v": "Oprydning sletter aldrig dine fraser. Hvis du fjerner en kategori, flyttes fraserne i den til fanen Basis.",
+    "src": "f397ff1ecb"
+  },
+  "정말 백업할까요?": {
+    "v": "Vil du sikkerhedskopiere alligevel?",
+    "src": "465d5bc555"
+  },
+  "정말 삭제할까요?": {
+    "v": "Vil du slette for altid?",
+    "src": "d112d7e642"
+  },
+  "정보": {
+    "v": "Info",
+    "src": "62a752d419"
+  },
+  "정착": {
+    "v": "Etableret",
+    "src": "83b8773bdd"
+  },
+  "정해 둔 단축어의 값을 앱을 열지 않고 복사합니다.": {
+    "v": "Kopierer værdien af din frase uden at åbne appen.",
+    "src": "5b3581c09b"
+  },
+  "제거": {
+    "v": "Fjern",
+    "src": "62d1f47a61"
+  },
+  "제목": {
+    "v": "Titel",
+    "src": "25157992d2"
+  },
+  "제목 없음": {
+    "v": "Uden titel",
+    "src": "9767125498"
+  },
+  "제목을 입력하세요": {
+    "v": "Skriv en titel",
+    "src": "852d086f92"
+  },
+  "제목이나 내용으로 저장한 단축어를 찾아보세요.": {
+    "v": "Find dine gemte fraser på titel eller indhold.",
+    "src": "d210265d2f"
+  },
+  "제안된 제목 %@": {
+    "v": "Foreslået titel: %@",
+    "src": "270c49e953"
+  },
+  "제어센터에 빠른 메모 버튼을 넣어 두면, 앱을 열지 않고 적어만 둘 수 있어요. 적어 둔 것은 보관함에 쌓이고, 나중에 쓸 만한 것만 단축어로 올리면 됩니다.": {
+    "v": "Læg knappen Hurtig note i Kontrolcenter, så kan du skrive noget ned uden at åbne appen. Det lander i din indbakke, og senere løfter du kun de ting, der er værd at beholde, til fraser.",
+    "src": "89ced1d7c5"
+  },
+  "제어센터에서 바로 적어 둘 수 있어요": {
+    "v": "Skriv noget ned direkte fra Kontrolcenter",
+    "src": "4b4dfb54f1"
+  },
+  "제어센터에서 한 번 눌러 빠른 메모를 적어요": {
+    "v": "Skriv en hurtig note med ét tryk fra Kontrolcenter",
+    "src": "f5906e9381"
+  },
+  "제어센터와 위젯에서 앱을 열지 않고 바로 복사돼요. 제어센터에 '값 복사' 버튼을 추가해 보세요": {
+    "v": "Kontrolcenter og widgets kopierer nu uden at åbne appen. Prøv at tilføje knappen Kopiér værdi",
+    "src": "afa3f54f90"
+  },
+  "제어센터와 위젯에서 앱을 열지 않고 바로 복사해요": {
+    "v": "Kopiér fra Kontrolcenter og widgets uden at åbne appen",
+    "src": "ab54532688"
+  },
+  "조각": {
+    "v": "Dele",
+    "src": "239600ff40"
+  },
+  "조별과제 공지": {
+    "v": "Besked om gruppeprojekt",
+    "src": "1a7a24c3af"
+  },
+  "조작 키 접기": {
+    "v": "Skjul kontroltaster",
+    "src": "613e7eeaa5"
+  },
+  "조작 키 크기": {
+    "v": "Størrelse på kontroltaster",
+    "src": "867f1acd4e"
+  },
+  "조작 키 펼치기": {
+    "v": "Vis kontroltaster",
+    "src": "552adc2dee"
+  },
+  "조장이 되어 회의 공지를 올릴 때": {
+    "v": "Når du som teamleder slår en mødemeddelelse op",
+    "src": "d242bc67c8"
+  },
+  "종류별로 모아 보는 카테고리를 준비해 뒀어요": {
+    "v": "Kategorier, der samler efter type, er klar til at blive slået til",
+    "src": "cb40e0e6a5"
+  },
+  "종이 질감에 가장 가깝게 붙는 흙빛 노랑이에요.": {
+    "v": "Et jordfarvet gult, der ligger tættest på papirets struktur.",
+    "src": "5b5953abd6"
+  },
+  "종이에 적힌 건 옮겨 적지 말고 문지르세요": {
+    "v": "Skriv ikke af fra papir. Stryg hen over det.",
+    "src": "b5502d7647"
+  },
+  "좌우로 넘겨서 다른 기간을 보세요.": {
+    "v": "Stryg til siden for at se andre perioder.",
+    "src": "bd70a4dedf"
+  },
+  "주간": {
+    "v": "Ugentlig",
+    "src": "fc4d1e6842"
+  },
+  "주간 보고": {
+    "v": "Ugerapport",
+    "src": "911c30d9d3"
+  },
+  "주소": {
+    "v": "Adresse",
+    "src": "cccba857c8"
+  },
+  "준비 완료": {
+    "v": "Klar",
+    "src": "b2ace13d7c"
+  },
+  "준비 완료!": {
+    "v": "Alt er klar!",
+    "src": "50ff9461b2"
+  },
+  "준비되었어요": {
+    "v": "Jeg er klar",
+    "src": "05e79cb930"
+  },
+  "준비된 단축어·템플릿·스택를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.": {
+    "v": "Vi gennemgår den klargjorte frase, skabelon og stak ved at trykke på dem igen, én ad gangen. Fraserne på din liste bliver ikke fjernet.",
+    "src": "b104d88a19"
+  },
+  "준비된 단축어·템플릿·스택을 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.": {
+    "v": "Vi gennemgår den klargjorte frase, skabelon og stak ved at trykke på dem igen, én ad gangen. Fraserne på din liste bliver ikke fjernet.",
+    "src": "d6f3ea52cf"
+  },
+  "준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.": {
+    "v": "Vi gennemgår den klargjorte frase, skabelon og kombo ved at trykke på dem igen, én ad gangen. Fraserne på din liste bliver ikke fjernet.",
+    "src": "6e5ea29c66"
+  },
+  "준비된 모양": {
+    "v": "Indbyggede formater",
+    "src": "d60f517a94"
+  },
+  "줄": {
+    "v": "Linje",
+    "src": "3e2bb40568"
+  },
+  "줄로 고르기": {
+    "v": "Vælg efter linje",
+    "src": "9cfd928cd7"
+  },
+  "줄바꿈": {
+    "v": "Linjeskift",
+    "src": "bb1fffccc1"
+  },
+  "줄을 골라주세요": {
+    "v": "Vælg nogle linjer",
+    "src": "9aedd5d24d"
+  },
+  "줄이 %d개네요. 하나씩 나눠 담을까요?": {
+    "v": {
+      "one": "Det er %d linje. Del den op i separate fraser?",
+      "other": "Det er %d linjer. Del dem op i separate fraser?"
+    },
+    "src": "31e6835aaa"
+  },
+  "중고거래 시간과 장소를 정할 때": {
+    "v": "Når du aftaler tid og sted for en brugthandel",
+    "src": "22513304fe"
+  },
+  "중괄호 없이 이름만 적어 주세요. 단축어 내용에 {이름}처럼 적으면 이 빈칸을 불러 씁니다.": {
+    "v": "Skriv kun navnet, uden tuborgklammer. Skriver du {navn} i en frase, bruges dette udfyldningsfelt.",
+    "src": "edeab59b65"
+  },
+  "중국어를 넣었어요. 간체와 번체 두 벌이고, 앱 이름도 함께 바뀌어요": {
+    "v": "Kinesisk er kommet med, både forenklet og traditionelt, og appens navn skifter med",
+    "src": "d089e954e3"
+  },
+  "중국어에서 여러 줄 안내가 첫 줄만 보이던 것을 고쳤어요": {
+    "v": "Rettet flerlinjede beskeder på kinesisk, der kun viste første linje.",
+    "src": "84f1fd4099"
+  },
+  "즐겨찾기": {
+    "v": "Favoritter",
+    "src": "e7fbb3c3a7"
+  },
+  "즐겨찾기 단축어": {
+    "v": "Favoritfraser",
+    "src": "aa8cccea47"
+  },
+  "즐겨찾기 단축어 선택": {
+    "v": "Vælg favoritfrase",
+    "src": "dd2510a675"
+  },
+  "즐겨찾기 단축어 추가": {
+    "v": "Føj frase til favoritter",
+    "src": "1ba1252ba5"
+  },
+  "즐겨찾기 단축어를 정리할 카테고리를 만들어볼까요?": {
+    "v": "Vil du oprette en kategori til dine favoritter?",
+    "src": "206be2478c"
+  },
+  "즐겨찾기 단축어를 탭하여 바로 복사합니다. 단축어를 왼쪽으로 밀어 즐겨찾기를 설정하세요.": {
+    "v": "Tryk på en favoritfrase for at kopiere den med det samme. Stryg en frase til venstre for at gøre den til favorit.",
+    "src": "a3316dae79"
+  },
+  "즐겨찾기 수": {
+    "v": "Favoritter",
+    "src": "2018c8898a"
+  },
+  "즐겨찾기 없음": {
+    "v": "Ingen favoritter",
+    "src": "2c0eb1f2cd"
+  },
+  "즐겨찾기 추가": {
+    "v": "Føj til favoritter",
+    "src": "f8f32aa128"
+  },
+  "즐겨찾기 추가 시 나타나는 하트 애니메이션이 '동작 줄이기' 설정을 자동으로 따릅니다. 켜져 있으면 이동·스케일 없이 페이드만 사용합니다.": {
+    "v": "Hjerteanimationen, når du føjer til favoritter, følger indstillingen 'Reducer bevægelse'. Når den er slået til, bruges kun en udtoning uden bevægelse eller skalering.",
+    "src": "aebb6843be"
+  },
+  "즐겨찾기 탭 표시": {
+    "v": "Vis fanen Favoritter",
+    "src": "92c9900d91"
+  },
+  "즐겨찾기 해제": {
+    "v": "Fjern fra favoritter",
+    "src": "dd80a3524f"
+  },
+  "즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요": {
+    "v": "Ingen favoritfraser endnu.\nTryk længe på en frase for at føje den til favoritter.",
+    "src": "85e08dc3f4"
+  },
+  "지구본을 길게 누르면 이모지 키보드로 바로 갈 수 있어요. 다른 키보드를 함께 써도 됩니다": {
+    "v": "Hold globussen nede for at gå direkte til emoji-tastaturet, også når andre tastaturer er installeret",
+    "src": "6bef60d0d6"
+  },
+  "지금 Pro로 업그레이드하면 평생 사용": {
+    "v": "Opgradér til Pro nu og brug den for evigt",
+    "src": "5d3b360a39"
+  },
+  "지금 기본 키보드보다 %dpt 낮아요.": {
+    "v": {
+      "one": "Lige nu er det %dpt lavere end standardtastaturet.",
+      "other": "Lige nu er det %dpt lavere end standardtastaturet."
+    },
+    "src": "888832d0ef"
+  },
+  "지금 기본 키보드보다 %dpt 높아요.": {
+    "v": {
+      "one": "Lige nu er det %dpt højere end standardtastaturet.",
+      "other": "Lige nu er det %dpt højere end standardtastaturet."
+    },
+    "src": "732fa02323"
+  },
+  "지금 내 단축어 %1$d / %2$d칸": {
+    "v": "%1$d af %2$d pladser brugt",
+    "src": "d35800976d"
+  },
+  "지금 로그인한 Apple ID 로 Pro 를 구매한 기록을 찾지 못했어요. 구매할 때 쓴 Apple ID 로 로그인했는지 확인해 주세요.": {
+    "v": "Vi kunne ikke finde et Pro-køb for det Apple-ID, du er logget ind med. Kontrollér, at du er logget ind med det Apple-ID, du købte det med.",
+    "src": "f2873bb475"
+  },
+  "지금 말고 다음에 할래요": {
+    "v": "Ikke nu, senere",
+    "src": "0660df0f16"
+  },
+  "지금 보고 있는 기간을 한 장으로 뽑아요.": {
+    "v": "Udskriver den periode, du ser på, som én kvittering.",
+    "src": "8b6f0a40d8"
+  },
+  "지금 복사돼 있는 것을 이 목록에 넣습니다. %d일 동안 남습니다": {
+    "v": {
+      "one": "Tilføjer det, du har kopieret, til listen. Det gemmes i %d dag.",
+      "other": "Tilføjer det, du har kopieret, til listen. Det gemmes i %d dage."
+    },
+    "src": "1be979b366"
+  },
+  "지금 쓸 차례: %@": {
+    "v": "Til nu: %@",
+    "src": "4b08bcd053"
+  },
+  "지금 안 하셔도 괜찮아요. 나중에 설정에서 구매할 수 있어요.": {
+    "v": "Det haster ikke. Du kan købe senere i Indstillinger.",
+    "src": "dd7c1cdc39"
+  },
+  "지금 앱이 보는 나": {
+    "v": "Sådan ser appen dig nu",
+    "src": "594b21b972"
+  },
+  "지금 이 기기의 기본 키보드와 높이가 같아요.": {
+    "v": "Lige nu har det samme højde som standardtastaturet på denne enhed.",
+    "src": "886a262802"
+  },
+  "지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요.": {
+    "v": "Vi spørger ud fra det, du har lavet indtil nu. Dit valg tilpasser kun forslagene. Du behøver ikke vælge nu.",
+    "src": "d8095d1827"
+  },
+  "지금까지 쌓인 시간": {
+    "v": "Samlet tid indtil nu",
+    "src": "7d01833b23"
+  },
+  "지금은 괜찮아요": {
+    "v": "Ikke nu",
+    "src": "544d163fe7"
+  },
+  "지금은 모든 기능이 무료예요. %d번 남았어요": {
+    "v": {
+      "one": "Alt er gratis lige nu. %d brug tilbage",
+      "other": "Alt er gratis lige nu. %d brug tilbage"
+    },
+    "src": "1262cac757"
+  },
+  "지난 %d일 동안": {
+    "v": {
+      "one": "Den seneste %d dag",
+      "other": "De seneste %d dage"
+    },
+    "src": "f0812e8cfe"
+  },
+  "지난달": {
+    "v": "Sidste måned",
+    "src": "4aa6d918a5"
+  },
+  "지도에서 보기": {
+    "v": "Vis i Kort",
+    "src": "b1bed22114"
+  },
+  "지우개": {
+    "v": "Viskelæder",
+    "src": "db253c175b"
+  },
+  "지우기": {
+    "v": "Slet",
+    "src": "4f5f463022"
+  },
+  "지우기·보내기 같은 조작 키 크기도 정할 수 있어요": {
+    "v": "Du kan også vælge størrelsen på knapper som slet og send.",
+    "src": "dd773283fb"
+  },
+  "지운 문구": {
+    "v": "Slettede fraser",
+    "src": "801177ac85"
+  },
+  "지원": {
+    "v": "Support",
+    "src": "399213516f"
+  },
+  "지원 섹션에 '접수된 피드백' 메뉴가 나타납니다.": {
+    "v": "Menuen 'Modtaget feedback' vises i afsnittet Support.",
+    "src": "827a32d558"
+  },
+  "지하철 %@ 갈 수 있는 시간이에요": {
+    "v": "Nok tid til at tage metroen %@",
+    "src": "354125fab6"
+  },
+  "지하철로 갈 수 있는 시간이에요": {
+    "v": "Nok tid til at tage metroen så langt",
+    "src": "b1a02ca710"
+  },
+  "직거래 약속": {
+    "v": "Mødeaftale ved salg",
+    "src": "ce4dfb916f"
+  },
+  "직장인": {
+    "v": "Arbejde",
+    "src": "201e0fae1e"
+  },
+  "직접 만든 단축어": {
+    "v": "Egne fraser",
+    "src": "99f82ca66c"
+  },
+  "직접 선택": {
+    "v": "Vælg en dato",
+    "src": "255501feec"
+  },
+  "직접 정하기": {
+    "v": "Vælg selv",
+    "src": "be5f1f11d0"
+  },
+  "직접 쳤다면 약 %d분이 걸렸을 거예요.": {
+    "v": {
+      "one": "Hvis du havde skrevet det selv, ville det have taget ca. %d minut.",
+      "other": "Hvis du havde skrevet det selv, ville det have taget ca. %d minutter."
+    },
+    "src": "b890c8c4d5"
+  },
+  "진단 스키마가 아직 허브에 배포되지 않았어요. CloudKit Console 에서 CrashReport 레코드 타입과 인덱스를 배포하면 여기에 쌓입니다.": {
+    "v": "Diagnosticeringsskemaet er endnu ikke udrullet til hubben. Udrul recordtypen CrashReport og dens indekser i CloudKit Console, så vises rapporterne her.",
+    "src": "35c5b2e73c"
+  },
+  "진료기록번호": {
+    "v": "Journalnummer",
+    "src": "de5868b050"
+  },
+  "진짜 내 기록으로 판정한 값입니다.": {
+    "v": "Baseret på din faktiske brug.",
+    "src": "06b2db15ef"
+  },
+  "집 주소": {
+    "v": "Hjemmeadresse",
+    "src": "9b017e391e"
+  },
+  "짧게 누르면 입력, 길게 누르면 복사예요": {
+    "v": "Kort tryk indsætter, langt tryk kopierer",
+    "src": "177bd65d3a"
+  },
+  "짧게 누르면 입력창에, 길게 누르면 클립보드로: 앱 안에서요": {
+    "v": "Tryk for at skrive, hold nede for at kopiere: i appen",
+    "src": "8848ce0383"
+  },
+  "짧게 자주 쓰는 것": {
+    "v": "Korte, men hyppige",
+    "src": "70186997cb"
+  },
+  "짧아서 아끼는 시간은 작지만, 자주 쓰면 쌓여요.": {
+    "v": "Hver gang sparer det lidt, men det bliver til meget, når du bruger det ofte.",
+    "src": "857d59c3a9"
+  },
+  "쪽": {
+    "v": "Indigo",
+    "src": "a8e5d9833f"
+  },
+  "차량번호": {
+    "v": "Nummerplade",
+    "src": "966342687f"
+  },
+  "차분한 파랑이에요. 갈래 칩의 파랑과 나란히 서니 헷갈릴 수 있어요.": {
+    "v": "En rolig blå. Ved siden af de blå kategorichips kan de to flyde sammen.",
+    "src": "c395eae43d"
+  },
+  "창을 닫아도 앱은 백그라운드에서 계속 실행됩니다": {
+    "v": "Appen kører videre i baggrunden, når du lukker vinduet",
+    "src": "63567dbd45"
+  },
+  "찾는 것이 없어요": {
+    "v": "Intet her",
+    "src": "2aa1e26db7"
+  },
+  "찾아오지 않아도 된 시간": {
+    "v": "Tid, du slap for at hente det",
+    "src": "12315e5201"
+  },
+  "찾아와야 했던 것": {
+    "v": "Skulle hentes frem",
+    "src": "21a4dcba54"
+  },
+  "찾은 값": {
+    "v": "Fundne værdier",
+    "src": "2310250451"
+  },
+  "찾은 뒤 선택하고 복사해서 돌아오는 손놀림도 이제 함께 세요": {
+    "v": "At vælge, kopiere og vende tilbage tæller nu også med",
+    "src": "385850ae11"
+  },
+  "찾을 필요는 없지만 손으로 옮겨 적기엔 긴 글이에요.": {
+    "v": "Intet at slå op, men for langt til at skrive af i hånden.",
+    "src": "2314d1c933"
+  },
+  "채우는 동안 최종 결과를 미리 보여드려요": {
+    "v": "Du ser det færdige resultat, mens du udfylder",
+    "src": "4c8572d2e5"
+  },
+  "채우는 칸만 펼치고 나머지는 한 줄로 접어요. 빈칸이 여럿이어도 굴리지 않고 다 보입니다. 끄면 전부 펼쳐요.": {
+    "v": "Kun det felt, du udfylder, er åbent. Resten foldes til én linje. Flere felter er der plads til uden at rulle. Slå fra for at åbne alle.",
+    "src": "2b64b3b33b"
+  },
+  "채우는 칸이 뭔지 같은 문장을 값만 바꿔 두 줄로 보여줘요. { } 기호는 어디서도 안 보여요": {
+    "v": "Se, hvad et udfyldningsfelt gør: samme sætning to gange med forskellige værdier, og ingen { } nogen steder",
+    "src": "606597680f"
+  },
+  "채울 것 없이 바로 쓸 수 있어요.": {
+    "v": "Intet at udfylde: klar til brug.",
+    "src": "fade9c6a06"
+  },
+  "채워야 할 자리를 빨갛게 보여드려요": {
+    "v": "Felter, du endnu ikke har udfyldt, vises med rødt",
+    "src": "2371a4e32f"
+  },
+  "책 %@ 읽을 수 있는 시간이에요": {
+    "v": "tid nok til at læse %@",
+    "src": "b7542c4f42"
+  },
+  "책 %d권": {
+    "v": {
+      "one": "%d bog",
+      "other": "%d bøger"
+    },
+    "src": "6025214882"
+  },
+  "책을 읽을 수 있는 시간이에요": {
+    "v": "tid nok til at læse så langt",
+    "src": "9057acfb51"
+  },
+  "처리 중": {
+    "v": "Behandler",
+    "src": "fdcb099d60"
+  },
+  "처음 만난 사람이 연락처를 물을 때": {
+    "v": "Når en ny person spørger, hvordan de kan kontakte dig",
+    "src": "c93545a1f7"
+  },
+  "처음 시작할 때 키보드 크기를 한 번 정하고 넘어가요": {
+    "v": "Vælg tastaturets størrelse én gang, når du starter.",
+    "src": "b571655d26"
+  },
+  "처음 실행에서 쓰임새를 고르면 자주 쓰는 갈래를 미리 만들어 드려요": {
+    "v": "Fortæl, hvordan du bruger appen, første gang, så oprettes kategorierne for dig",
+    "src": "5f17890e8d"
+  },
+  "처음 써 본 사람": {
+    "v": "Har lige prøvet det",
+    "src": "fe87a414df"
+  },
+  "처음 쓰는 분께는 만들라고 하지 않고, 준비된 단축어를 하나씩 눌러보게 안내해요": {
+    "v": "Nye brugere bliver ikke bedt om at oprette noget. De får færdige fraser at prøve",
+    "src": "adfb64d0e0"
+  },
+  "처음 쓰시는 분께 쓰임새에 맞는 예시를 세 개씩 보여드려요": {
+    "v": "Ny her? Tre eksempler, der passer til din brug",
+    "src": "e3887e44c1"
+  },
+  "처음 쓰신다면 단축어를 직접 하나 만들고, 눌러 써 봐야 다음으로 넘어가요": {
+    "v": "Ny her? Du opretter selv én frase og går først videre, når du har brugt den",
+    "src": "7bd32259a8"
+  },
+  "처음 안내를 끝냄": {
+    "v": "Gennemførte introduktionen",
+    "src": "8342ee7eeb"
+  },
+  "처음으로": {
+    "v": "Forfra",
+    "src": "807655c831"
+  },
+  "천지인": {
+    "v": "Cheonjiin",
+    "src": "3298959b92"
+  },
+  "천지인 키보드의 한글 조합을 바로잡았어요": {
+    "v": "Rettede koreansk sammensætning på Cheonjiin-tastaturet",
+    "src": "eb3d2c9927"
+  },
+  "첫 단축어까지 못 갔어요. 여기가 막히면 그 뒤는 전부 안 일어나요.": {
+    "v": "De nåede aldrig til en første frase. Hvis det går i stå her, sker intet efter.",
+    "src": "88a9af0d06"
+  },
+  "첫 단축어를 만드는 자리까지 안내가 이어져요. 이름, 값을 가져오는 방법, 붙여넣을 내용, 저장까지 위에서부터 하나씩 짚어 드려요": {
+    "v": "Vejledningen følger med helt til din første frase og gennemgår felterne oppefra: navn, hvor værdien kommer fra, hvad der indsættes og Gem.",
+    "src": "d9c95f7a7d"
+  },
+  "첫 달": {
+    "v": "Første måned",
+    "src": "1813b5e84b"
+  },
+  "첫 방문자": {
+    "v": "Førstedagsbruger",
+    "src": "bc3e946ecf"
+  },
+  "첫 번째 단축어를 추가해볼까요?": {
+    "v": "Vil du tilføje din første frase?",
+    "src": "afcb9421e9"
+  },
+  "첫 실행에 무엇부터 할지 알려 드리는 안내를 넣었어요": {
+    "v": "Første start viser nu, hvor du kan begynde",
+    "src": "3ecad3e1fe"
+  },
+  "첫 주": {
+    "v": "Første uge",
+    "src": "72f36c87fc"
+  },
+  "첫 템플릿 만들기": {
+    "v": "Opret første skabelon",
+    "src": "f3a77c9321"
+  },
+  "첫 화면": {
+    "v": "Første skærm",
+    "src": "1f19777095"
+  },
+  "첫날": {
+    "v": "Første dag",
+    "src": "5c6acbd13a"
+  },
+  "체크 도장은 언제나 연두예요. 축하 카드의 도장만 혼자 키 컬러를 따라가고 있었어요": {
+    "v": "Flueben-stemplet er altid lysegrønt. Kun stemplet på fejringskortet fulgte stadig nøglefarven",
+    "src": "0e6c9a5266"
+  },
+  "체크 표시는 언제나 연두예요. 골랐다는 말은 원래 자기 색을 갖고 있어서, 키 컬러를 따라가지 않아요": {
+    "v": "Flueben er altid lysegrønne. At vælge har sin egen farve, så den følger ikke længere din nøglefarve",
+    "src": "380d35ba66"
+  },
+  "체크섬을 통과했어요.": {
+    "v": "Kontrolsummen er godkendt.",
+    "src": "ef27d3ed9b"
+  },
+  "체크해서 함께 쓰는 값들을 콤보 한 키로 묶을 수 있어요. 떨어져 있어도 묶여요": {
+    "v": "Markér de værdier, du bruger sammen, så samles de i én kombonøgle, også selvom de ikke står ved siden af hinanden",
+    "src": "53ef47c5f5"
+  },
+  "체험 시작! 모든 기능 잠금 해제됨": {
+    "v": "Prøveperioden er startet! Alle funktioner er låst op",
+    "src": "2e41818d2c"
+  },
+  "체험 중": {
+    "v": "I prøveperiode",
+    "src": "e33ff486b9"
+  },
+  "체험 활성: %d일 남음": {
+    "v": {
+      "one": "Prøve aktiv: %d dag tilbage",
+      "other": "Prøve aktiv: %d dage tilbage"
+    },
+    "src": "de2a1f5c6a"
+  },
+  "체험을 시작함": {
+    "v": "Startede prøveperioden",
+    "src": "1276af4d99"
+  },
+  "체험해 보기": {
+    "v": "Tilføj eksempler",
+    "src": "9bc4d5e2c2"
+  },
+  "초": {
+    "v": "Sekund",
+    "src": "de90f95e24"
+  },
+  "초기화": {
+    "v": "Nulstil",
+    "src": "d62ec58456"
+  },
+  "최근": {
+    "v": "Seneste",
+    "src": "5d9fdc6ac7"
+  },
+  "최근 100건 기준이에요. 완료 표시는 이 기기에만 저장됩니다.": {
+    "v": "Baseret på de seneste 100 poster. Markeringer som udført gemmes kun på denne enhed.",
+    "src": "c60c7c28b9"
+  },
+  "최근 30일 설치": {
+    "v": "Seneste 30 dage",
+    "src": "7bd5313e69"
+  },
+  "최근 30일 활성": {
+    "v": "Aktive de seneste 30 dage",
+    "src": "e563eb17d4"
+  },
+  "최근 7일 신규": {
+    "v": "Nye de seneste 7 dage",
+    "src": "4b8af6105e"
+  },
+  "최근 7일 활성": {
+    "v": "Aktive de seneste 7 dage",
+    "src": "b70be55387"
+  },
+  "최근 단축어": {
+    "v": "Seneste fraser",
+    "src": "81c85e6ddf"
+  },
+  "최근 단축어는 단축어가 늘어나면 저절로 켜집니다. 한 번 직접 켜거나 끄시면 그대로 둡니다.": {
+    "v": "Seneste fraser slås til af sig selv, når du får flere fraser. Slår du det til eller fra selv, bliver det, som du valgte.",
+    "src": "557f5a46ce"
+  },
+  "최근 사용": {
+    "v": "Senest brugt",
+    "src": "9f04573967"
+  },
+  "최근 사용한 단축어 5개를 상단에 표시합니다": {
+    "v": "Viser dine 5 senest brugte fraser øverst",
+    "src": "c89b42bc6c"
+  },
+  "최근 이벤트 3,000건 기준이에요. 같은 이벤트는 설치당 6시간에 한 번만 기록되니, 건수보다 '설치 몇 곳이 쓰는지'를 보세요.": {
+    "v": "Baseret på de seneste 3.000 hændelser. Samme hændelse registreres højst én gang pr. 6 timer pr. installation, så se på antal installationer frem for antal hændelser.",
+    "src": "829366341b"
+  },
+  "최근 진단": {
+    "v": "Seneste rapporter",
+    "src": "d052576632"
+  },
+  "최근 탭": {
+    "v": "Fanen Seneste",
+    "src": "737a6ca70e"
+  },
+  "최근 탭에 담았어요": {
+    "v": "Gemt under Seneste",
+    "src": "0bd1286402"
+  },
+  "최근: %@": {
+    "v": "Seneste: %@",
+    "src": "43198b365d"
+  },
+  "최대 100개": {
+    "v": "Op til 100",
+    "src": "65666ae30c"
+  },
+  "최대 20개": {
+    "v": "Op til 20",
+    "src": "0fae4e49f2"
+  },
+  "최대 5개": {
+    "v": "Op til 5",
+    "src": "f70cc7fdcd"
+  },
+  "최저임금으로 쳐도 라면 %@ 값이에요": {
+    "v": "Det svarer til %@ nudler, selv med mindsteløn",
+    "src": "5bf726886f"
+  },
+  "최저임금으로 쳐도 라면 값이에요": {
+    "v": "det er nudelpenge, selv med mindsteløn",
+    "src": "90cedc52bf"
+  },
+  "최저임금으로 쳐도 커피 %@ 값이에요": {
+    "v": "Det svarer til %@ kaffe, selv med mindsteløn",
+    "src": "99c8c1fe8a"
+  },
+  "최저임금으로 쳐도 커피 값이에요": {
+    "v": "det er kaffepenge, selv med mindsteløn",
+    "src": "04bffce4dc"
+  },
+  "추가": {
+    "v": "Tilføj",
+    "src": "381c17c0df"
+  },
+  "추가 실패": {
+    "v": "Kunne ikke tilføje",
+    "src": "3f424511ce"
+  },
+  "추가됨": {
+    "v": "Medtaget",
+    "src": "9391b722f8"
+  },
+  "추천": {
+    "v": "Bedste værdi",
+    "src": "13de63ae05"
+  },
+  "추천 단축어 %@": {
+    "v": "Foreslået frase %@",
+    "src": "e583e5f3b5"
+  },
+  "추천 카테고리가 추가돼요. 처음엔 꺼져 있으니 카테고리 관리에서 원하는 것만 켜세요.": {
+    "v": "Anbefalede kategorier tilføjes. De er slået fra i starten, så slå kun dem til, du vil have, i Administrer kategorier.",
+    "src": "afdb286a98"
+  },
+  "출력 예시": {
+    "v": "Eksempel på output",
+    "src": "ffda3e23f9"
+  },
+  "출석 구글폼·과제 제출에 학번을 적을 때": {
+    "v": "Når du skriver dit studienummer i en fremmødeformular eller opgaveaflevering",
+    "src": "9d9c722000"
+  },
+  "취소": {
+    "v": "Annuller",
+    "src": "578d75b423"
+  },
+  "치는 시간만 세던 걸 고쳤어요. 계좌번호처럼 다른 앱에서 찾아와야 했던 값은 찾는 시간까지 셉니다. 어떻게 셌는지도 적어 뒀어요.": {
+    "v": "Vi talte før kun skrivetiden. Nu tæller værdier, du skulle hente i en anden app, som et kontonummer, også tiden til at finde dem med. Vi viser også, hvordan vi har talt.",
+    "src": "d12c64b04d"
+  },
+  "치우기": {
+    "v": "Ryd dem",
+    "src": "3cf7fd4f13"
+  },
+  "치지 않아도 된 시간": {
+    "v": "Tid, du slap for at skrive",
+    "src": "a3f59128f5"
+  },
+  "친구들에게 알리기": {
+    "v": "Fortæl det til dine venner",
+    "src": "cbcc115c58"
+  },
+  "친구들에게 알리기 영상에서 큰 자리에 아낀 시간 대신 그걸 빗댄 것이 서요. 12.5km 달리기, 드라마 8편, 책 3권, 마라톤 4번처럼요": {
+    "v": "Delevideoen viser nu, hvad din sparede tid svarer til, i stor skrift i stedet for selve tiden: 12,5 km løb, 8 afsnit, 3 bøger, 4 maratonløb",
+    "src": "f535197f88"
+  },
+  "친구들에게 알리기를 누르면 영상을 먼저 보고 나서 보낼 수 있어요": {
+    "v": "Fortæl det til dine venner viser nu videoen først, så du kan beslutte, før du sender.",
+    "src": "5c7cba383e"
+  },
+  "카드 목록이에요. 여기서 만들고 고칩니다.": {
+    "v": "Kortlisten. Her opretter og redigerer du.",
+    "src": "7148dfd37b"
+  },
+  "카드 오른쪽 점이 카테고리를 표시해요. 끄시겠어요?": {
+    "v": "Prikken til højre på hvert kort viser kategorien. Vil du slå den fra?",
+    "src": "ac7e9df4f1"
+  },
+  "카드가 잠시 머물면 제목 아래에 내용이 살며시 맺혀요": {
+    "v": "Hold pause på et kort, så dukker en linje af indholdet op under titlen",
+    "src": "10e066f802"
+  },
+  "카드를 끌어 순서를 바꾸세요": {
+    "v": "Træk kort for at ændre rækkefølgen",
+    "src": "b1666e29c5"
+  },
+  "카드만 깔끔하게 보여요.": {
+    "v": "Kun kortene, ikke andet.",
+    "src": "fb5ad40d55"
+  },
+  "카드번호": {
+    "v": "Kortnummer",
+    "src": "9d3834d579"
+  },
+  "카드번호·IBAN·사업자등록번호는 검사식이 있어요. 한 자리를 잘못 적었으면 저장하기 전에 짚어 드립니다.": {
+    "v": "Kortnumre, IBAN og CVR-numre har kontrolcifre. Skriver du ét ciffer forkert, siger vi til, før du gemmer.",
+    "src": "f295fae985"
+  },
+  "카드번호나 금액처럼 숫자 몇 자만 넣을 때는 숫자 판을 여세요. 붙여넣기 키는 쓰는 분만 켜면 돼요.": {
+    "v": "Åbn taltastaturet, når du kun skal bruge få cifre, som et kortnummer eller et beløb. Slå indsæt-tasten til, hvis du bruger den.",
+    "src": "035f627d2e"
+  },
+  "카드에 살며시 보여줄 한 줄, 비우면 자동 요약": {
+    "v": "En linje, der vises diskret på kortet. Tom giver automatisk resumé",
+    "src": "471cda0a06"
+  },
+  "카메라로 찍어서": {
+    "v": "Tag et billede",
+    "src": "021ff3562a"
+  },
+  "카메라로 촬영해 추출": {
+    "v": "Tag billede og udtræk",
+    "src": "640a016d0d"
+  },
+  "카테고리": {
+    "v": "Kategori",
+    "src": "a0a4dc0298"
+  },
+  "카테고리 %1$d개 가운데 %2$d개에는 단축어가 하나도 없어요. 안 쓰는 것을 정리하면 목록을 옆으로 넘길 때 훨씬 가벼워집니다.": {
+    "v": "%2$d af dine %1$d kategorier har slet ingen fraser. Rydder du op i dem, du ikke bruger, bliver det lettere at stryge gennem listen.",
+    "src": "5ef80cb556"
+  },
+  "카테고리 '%@'": {
+    "v": "Kategori '%@'",
+    "src": "1bf4ebf5c3"
+  },
+  "카테고리 관리": {
+    "v": "Administrer kategorier",
+    "src": "bc6456a9cf"
+  },
+  "카테고리 만들기": {
+    "v": "Opret kategori",
+    "src": "8e2f3eb598"
+  },
+  "카테고리 사용": {
+    "v": "Bruger kategorier",
+    "src": "7e3cdf9d52"
+  },
+  "카테고리 삭제": {
+    "v": "Slet kategori",
+    "src": "7dca3149ab"
+  },
+  "카테고리 색상 배지": {
+    "v": "Kategorifarvemærke",
+    "src": "1b7ad2e7be"
+  },
+  "카테고리 색은 항상 표시돼요. 이 설정을 켜면 단축어 타입(템플릿·콤보·보안) 아이콘과 테두리, 심볼까지 함께 표시해 더 자세히 구분할 수 있어요. iOS '색상 없이 구별' 접근성 설정을 켜면 자동으로 표시됩니다.": {
+    "v": "Kategorifarver vises altid. Slå dette til, så vises også frasetype (skabelon/kombo/sikker) med ikoner, kanter og symboler, så du kan skelne bedre. Det slås automatisk til, når iOS 'Differentier uden farve' er aktiveret.",
+    "src": "3f94e9394b"
+  },
+  "카테고리 심볼": {
+    "v": "Kategorisymbol",
+    "src": "ce85e167e9"
+  },
+  "카테고리 아이콘": {
+    "v": "Kategoriikoner",
+    "src": "b4e825af99"
+  },
+  "카테고리 아이콘은 카테고리 관리 안에서 바로 고를 수 있어요": {
+    "v": "Kategoriikoner vælger du nu i Administrer kategorier.",
+    "src": "a62a5e433c"
+  },
+  "카테고리 이동": {
+    "v": "Flyt til kategori",
+    "src": "4901728167"
+  },
+  "카테고리 이름": {
+    "v": "Kategorinavn",
+    "src": "1a2f817505"
+  },
+  "카테고리 정리": {
+    "v": "Ryd op i kategorier",
+    "src": "df765ac7d4"
+  },
+  "카테고리 정리하기": {
+    "v": "Ryd op i kategorier",
+    "src": "a22eb45263"
+  },
+  "카테고리 추가": {
+    "v": "Tilføj kategori",
+    "src": "8cfc65c32a"
+  },
+  "카테고리 탭과 좌우 넘기기가 처음부터 보여요": {
+    "v": "Kategorifaner og stryg mellem sider er der fra start",
+    "src": "bc7c435286"
+  },
+  "카테고리가 많아졌어요": {
+    "v": "Du har mange kategorier",
+    "src": "6666e760ce"
+  },
+  "카테고리가 생성되고 고른 단축어가 모두 이동됩니다.": {
+    "v": "Kategorien oprettes, og alle valgte fraser flyttes til den.",
+    "src": "996d1fdcb7"
+  },
+  "카테고리가 생성되고 이 단축어가 바로 이동됩니다.": {
+    "v": "Kategorien oprettes, og denne frase flyttes straks til den.",
+    "src": "06520f69c0"
+  },
+  "카테고리가 저절로 늘어나지 않아요. 이제 직접 만드실 때만 생겨요": {
+    "v": "Kategorier oprettes ikke længere af sig selv. Kun når du selv opretter dem",
+    "src": "2ff8241be1"
+  },
+  "카테고리도 %1$d개가 이 기기 내용으로 바뀌고 %2$d개가 지워져요.": {
+    "v": "%1$d kategorier erstattes også med denne enheds version, og %2$d slettes.",
+    "src": "6263ccafbe"
+  },
+  "카테고리로 분류해서 빠르게 찾아볼까요?": {
+    "v": "Vil du sortere dem i kategorier for hurtigere adgang?",
+    "src": "8249db8b6e"
+  },
+  "카테고리로 옮기기": {
+    "v": "Flyt til kategori",
+    "src": "47f163a0a6"
+  },
+  "카테고리를 고르면 그에 맞는 예시가 미리 채워져요": {
+    "v": "Vælg en kategori, så udfyldes et passende eksempel for dig",
+    "src": "45b48cbe95"
+  },
+  "카테고리를 넘길 때 목록이 번쩍이던 것을 없앴어요": {
+    "v": "Listen blinker ikke længere, når du stryger mellem kategorier",
+    "src": "2708f4d3b6"
+  },
+  "카테고리를 만들고 고치는 자리를 한곳으로 모았어요": {
+    "v": "Du opretter og redigerer kategorier ét sted",
+    "src": "eba3672ee9"
+  },
+  "카테고리를 정리하는 자리를 하나로 모았어요": {
+    "v": "Du redigerer nu kategorier ét sted",
+    "src": "6239eeda69"
+  },
+  "카테고리를 직접 만들고 이름과 순서를 바꿀 수 있어요": {
+    "v": "Opret dine egne kategorier, omdøb dem og ændr rækkefølgen",
+    "src": "1bd68cbe82"
+  },
+  "카테고리를 처음부터 비워 뒀어요. 필요한 것만 만들어 쓰세요": {
+    "v": "Kategorier starter nu tomme. Opret kun dem, du skal bruge",
+    "src": "3593d732fc"
+  },
+  "카테고리에 단축어가 들어 있으면 탭을 숨기기 전에 알려드리고, 다른 카테고리로 한 번에 옮길 수 있어요": {
+    "v": "Hvis en kategori stadig indeholder fraser, får du besked, før fanen skjules, og du kan flytte dem alle til en anden kategori på én gang.",
+    "src": "dea42159d8"
+  },
+  "카테고리에 추가": {
+    "v": "Føj til kategori",
+    "src": "0707f95400"
+  },
+  "카테고리에서 빼기": {
+    "v": "Fjern fra kategori",
+    "src": "35b4686485"
+  },
+  "카테고리에서 추가하면 그 카테고리로 저장돼요": {
+    "v": "Når du tilføjer fra en kategori, gemmes det nu i den kategori",
+    "src": "77c25f7781"
+  },
+  "칸 추가에 내신 값이 빠진 값이에요": {
+    "v": "Prisen er allerede fratrukket det, du har betalt for pladser",
+    "src": "336ab872ee"
+  },
+  "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.": {
+    "v": {
+      "one": "Hvert trin tælles for sig. Slået til, men aldrig vist betyder, at det endnu ikke er hentet frem, eller at det blev brugt uden Fuld adgang, så der ikke er spor. Brugte en frase tæller alle, der faktisk har brugt en, via tastaturet eller ved at kopiere i appen. %d ældre post uden de nye målinger er udeladt.",
+      "other": "Hvert trin tælles for sig. Slået til, men aldrig vist betyder, at det endnu ikke er hentet frem, eller at det blev brugt uden Fuld adgang, så der ikke er spor. Brugte en frase tæller alle, der faktisk har brugt en, via tastaturet eller ved at kopiere i appen. %d ældre poster uden de nye målinger er udeladt."
+    },
+    "src": "b626346872"
+  },
+  "캘린더 열기": {
+    "v": "Åbn Kalender",
+    "src": "eb6f21bbcd"
+  },
+  "커서": {
+    "v": "Markør",
+    "src": "69b40af5c7"
+  },
+  "커서를 어디에 둘지 정할 수 있어요": {
+    "v": "Du kan bestemme, hvor markøren havner",
+    "src": "6b418d38f2"
+  },
+  "커스텀": {
+    "v": "Brugerdefineret",
+    "src": "21771f1787"
+  },
+  "커스텀 색상": {
+    "v": "Brugerdefineret farve",
+    "src": "6e5bf274fd"
+  },
+  "커스텀 색상 사용": {
+    "v": "Brug brugerdefinerede farver",
+    "src": "7aebbd1d28"
+  },
+  "커피 한 잔 주문할 시간이에요.": {
+    "v": "Nok tid til at bestille en kop kaffe.",
+    "src": "e28f9835c5"
+  },
+  "켜 둔 빈 카테고리도 탭으로 남아 스와이프로 바로 이동": {
+    "v": "Tomme kategorier, du har slået til, forbliver som faner, så du kan stryge direkte til dem",
+    "src": "0a7a91e636"
+  },
+  "켜기": {
+    "v": "Slå til",
+    "src": "408e7ef1df"
+  },
+  "켜면 키보드에서 한국어도 입력할 수 있어요": {
+    "v": "Slå til for også at skrive koreansk på tastaturet",
+    "src": "17b1b19e2d"
+  },
+  "켜짐": {
+    "v": "Til",
+    "src": "7c435660e3"
+  },
+  "켠 사용자당 평균 입력": {
+    "v": "Gns. pr. aktiveret bruger",
+    "src": "f733728066"
+  },
+  "켬": {
+    "v": "Til",
+    "src": "b16a83f0a4"
+  },
+  "콜스택": {
+    "v": "Opkaldsstak",
+    "src": "cce0bf3663"
+  },
+  "콤보": {
+    "v": "Kombo",
+    "src": "68f52dc0a2"
+  },
+  "콤보 개수 제한": {
+    "v": "Kombogrænse",
+    "src": "582ce63f20"
+  },
+  "콤보 수": {
+    "v": "Kombo'er",
+    "src": "32e876b75f"
+  },
+  "콤보 추가": {
+    "v": "Tilføj kombo",
+    "src": "fd1476d602"
+  },
+  "콤보 풀기": {
+    "v": "Opdel kombo",
+    "src": "750d93f803"
+  },
+  "콤보 하나에 값을 여러 개 담아 두고, 오른쪽 → 로 골라 쓰는 거예요. 계좌를 여러 개 쓰거나, 같은 안내를 이름만 바꿔 보낼 때 편합니다.": {
+    "v": "Én kombo rummer flere værdier, og → til højre vælger mellem dem. Praktisk, hvis du har flere bankkonti, eller sender den samme besked med et andet navn.",
+    "src": "d05bf36755"
+  },
+  "콤보가 쉬워졌어요. 값을 이어 붙이고 보안 콤보로 암호화 저장까지": {
+    "v": "Kombo er blevet nemmere: sæt værdier sammen, nu også med krypterede sikre kombo'er",
+    "src": "66b1f91b08"
+  },
+  "콤보는 3개까지, 클립보드 기록은 50개까지 늘렸어요": {
+    "v": "Op til 3 kombo'er og 50 poster i udklipsholderen",
+    "src": "e992042397"
+  },
+  "콤보로 묶기": {
+    "v": "Saml til en kombo",
+    "src": "2f26e033f1"
+  },
+  "콤보를 배우는 자리를 다시 만들었어요. 값을 넣고 보내고, 오른쪽 화살표로 값을 바꾸고, 다시 넣고 보내는 데까지 데려가요": {
+    "v": "Kombo'er har fået en ny gennemgang: indsæt en værdi, send den, skift med pilen, og indsæt og send igen",
+    "src": "7e5b461185"
+  },
+  "콤보를 앱에서 바로 고칠 수 있어요": {
+    "v": "Kombo kan nu redigeres direkte i appen",
+    "src": "14685ca83c"
+  },
+  "콤보를 키보드에서 값 하나씩 골라 넣을 수 있어요": {
+    "v": "Vælg én værdi ad gangen fra en kombo på tastaturet",
+    "src": "2c5dba2c04"
+  },
+  "크게": {
+    "v": "Stor",
+    "src": "070d0b9ee2"
+  },
+  "크래시": {
+    "v": "Nedbrud",
+    "src": "bff4abd520"
+  },
+  "큰 제목이 스크롤에 따라 작아졌다 커지는 순정 타이틀 동작": {
+    "v": "Den store titel bliver mindre og større, som den skal, når du ruller",
+    "src": "f69dfa1bde"
+  },
+  "클라이언트가 banking details 를 물을 때": {
+    "v": "Når en kunde spørger efter dine bankoplysninger",
+    "src": "f9a43c307a"
+  },
+  "클립보드": {
+    "v": "Udklipsholder",
+    "src": "be74532f04"
+  },
+  "클립보드 AI 분류·붙여넣기 앱 제안·번역. 모든 처리는 기기 안에서만 이루어져요.": {
+    "v": "AI-sortering af udklipsholder, forslag til indsættelse og oversættelse. Alt behandles kun på din enhed.",
+    "src": "6ad9e61dc0"
+  },
+  "클립보드 감지": {
+    "v": "Registrering af udklipsholder",
+    "src": "b798da7291"
+  },
+  "클립보드 글을 16개 언어로 기기 안에서 번역해요": {
+    "v": "Oversæt tekst fra udklipsholderen til 16 sprog på enheden",
+    "src": "8e1e5b3217"
+  },
+  "클립보드 기록": {
+    "v": "Udklipsholderhistorik",
+    "src": "d6e1a35fbb"
+  },
+  "클립보드 기록도 그대로예요": {
+    "v": "Din udklipsholderhistorik er også uændret",
+    "src": "8163606147"
+  },
+  "클립보드 기록을 쓰는 비율이에요.": {
+    "v": "Andel, der bruger udklipsholderhistorik.",
+    "src": "c019883740"
+  },
+  "클립보드 사용": {
+    "v": "Bruger udklipsholder",
+    "src": "2c7951df58"
+  },
+  "클립보드 히스토리": {
+    "v": "Udklipsholderhistorik",
+    "src": "d240e94ea4"
+  },
+  "클립보드 히스토리 없음": {
+    "v": "Ingen udklipsholderhistorik",
+    "src": "374d8c5ea2"
+  },
+  "클립보드 히스토리 전체 삭제": {
+    "v": "Ryd al udklipsholderhistorik",
+    "src": "8dd8f358b3"
+  },
+  "클립보드 히스토리 제한": {
+    "v": "Grænse for udklipsholderhistorik",
+    "src": "a2591eb4cd"
+  },
+  "클립보드 히스토리의 텍스트 항목에서 '번역' 버튼을 누르면 이 언어로 번역해요. 무료이고, 언어 자료를 한 번 받아 두면 오프라인에서도 됩니다. Apple Intelligence 를 못 켜는 기기에서도 동작해요.": {
+    "v": "Tryk på Oversæt på et tekstelement i din udklipsholderhistorik, så oversættes det til dette sprog. Gratis, og det virker offline, når sproget er hentet. Det virker også på enheder, hvor Apple Intelligence ikke kan slås til.",
+    "src": "573f1175e9"
+  },
+  "클립보드는 설정 > 내 데이터로, 사용 기록은 탭으로 자리를 바꿨어요": {
+    "v": "Udklipsholderen er flyttet til Indstillinger › Mine data, og Brug er blevet en fane.",
+    "src": "8743e35ef0"
+  },
+  "클립보드에 복사": {
+    "v": "Kopiér til udklipsholder",
+    "src": "4213ae54d0"
+  },
+  "클립보드에서 붙여넣기": {
+    "v": "Indsæt fra udklipsholder",
+    "src": "84247ae567"
+  },
+  "클립보드에서 이미지 붙여넣기": {
+    "v": "Indsæt billede fra udklipsholder",
+    "src": "bd4f9f2077"
+  },
+  "클립키보드 추가": {
+    "v": "Tilføj ClipKeyboard",
+    "src": "c536951952"
+  },
+  "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.": {
+    "v": "Antal taster, højde, tekststørrelse og farver: alt kan du selv vælge. Nogle får otte taster på én skærm.",
+    "src": "203f92f256"
+  },
+  "키 색상": {
+    "v": "Tastfarve",
+    "src": "d57baead37"
+  },
+  "키 컬러": {
+    "v": "Tastfarve",
+    "src": "15eaab3734"
+  },
+  "키 크기와 개수": {
+    "v": "Tastestørrelse og antal",
+    "src": "6c6975fd5f"
+  },
+  "키가 도톰해지고 누르면 내려앉아요.": {
+    "v": "Tasterne får dybde og trykkes ned, når du trykker.",
+    "src": "b22500d529"
+  },
+  "키를 길게 누르면 값이 키보드를 꽉 채워 보여요. 잠긴 단축어는 값을 보여주지 않아요": {
+    "v": "Hold en tast nede, så fylder værdien hele tastaturet. Låste fraser viser aldrig deres værdi",
+    "src": "7876fc5bf8"
+  },
+  "키마다 복사 버튼": {
+    "v": "Kopiknap på hver tast",
+    "src": "eba3df6cf2"
+  },
+  "키보드": {
+    "v": "Tastatur",
+    "src": "451b4be966"
+  },
+  "키보드 검색에서 한글이 흩어지던 문제 수정, 이제 정확히 조합돼 찾아져요": {
+    "v": "Rettet: hangul blev spredt i tastatursøgningen, nu samles og findes det korrekt",
+    "src": "38763963ab"
+  },
+  "키보드 검색창에 한글을 칠 때 글자가 깨지던 것을 고쳤어요": {
+    "v": "Rettet: hangul gik i stykker i tastaturets søgefelt",
+    "src": "99c7398b9c"
+  },
+  "키보드 꺼짐": {
+    "v": "Tastatur slået fra",
+    "src": "b24e7c0b7f"
+  },
+  "키보드 꾸미러 가기": {
+    "v": "Tilpas tastatur",
+    "src": "6aeb4ea34d"
+  },
+  "키보드 내리기": {
+    "v": "Skjul tastatur",
+    "src": "ffec780a86"
+  },
+  "키보드 높이": {
+    "v": "Tastaturhøjde",
+    "src": "077ebe5d55"
+  },
+  "키보드 높이를 기기의 기본 키보드에 맞췄어요. 올라올 때 높이가 튀던 것도 함께 없앴어요": {
+    "v": "Tastaturet har nu samme højde som enhedens standardtastatur, og hoppet, når det kommer frem, er væk",
+    "src": "139133aad3"
+  },
+  "키보드 높이를 기본 키보드와 같게 맞출 수 있어요. 키보드를 바꿔도 화면이 움직이지 않아요": {
+    "v": "Du kan give tastaturet samme højde som systemets tastatur, så intet flytter sig, når du skifter tastatur.",
+    "src": "bc11287db2"
+  },
+  "키보드 레이아웃": {
+    "v": "Tastaturlayout",
+    "src": "7eba8a2b93"
+  },
+  "키보드 맨 앞에 '최근' 탭이 생겼어요": {
+    "v": "En ny fane, Seneste, står først på tastaturet",
+    "src": "433bf59af8"
+  },
+  "키보드 맨 앞에 '최근' 탭이 생겼어요. 복사해 둔 글을 키보드에서 바로 꺼내 써요": {
+    "v": "En ny fane, Seneste, står først på tastaturet og giver dig direkte adgang til tekst, du har kopieret",
+    "src": "3c97c2f272"
+  },
+  "키보드 목록": {
+    "v": "Tastaturer",
+    "src": "4e2ac94f06"
+  },
+  "키보드 목록에서 '클립키보드'를 탭": {
+    "v": "Tryk på 'ClipKeyboard' i tastaturlisten",
+    "src": "a814060f7e"
+  },
+  "키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n앱에 저장한 단축어를 키보드가 꺼내 오려면 필요해요. 치시는 글자는 기기 밖으로 보내지 않아요.": {
+    "v": "Tryk på ClipKeyboard i tastaturlisten, og slå 'Tillad fuld adgang' til.\nTastaturet skal bruge den for at hente de fraser, du har gemt i appen. Det, du skriver, forlader aldrig din enhed.",
+    "src": "c58bbb62f3"
+  },
+  "키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 단축어에 접근하기 위해 꼭 필요합니다.": {
+    "v": "Tryk på ClipKeyboard i tastaturlisten, og slå 'Tillad fuld adgang' til.\nDen er nødvendig for at få adgang til dine gemte fraser.",
+    "src": "c8e1834214"
+  },
+  "키보드 미리보기": {
+    "v": "Tastaturvisning",
+    "src": "8b52ec4dbd"
+  },
+  "키보드 미리보기가 한 번에 부드럽게 오르내리고, 입력창 캐럿이 깜빡여요": {
+    "v": "Tastaturvisningen glider nu jævnt op og ned i ét, og markøren blinker",
+    "src": "463c2763a0"
+  },
+  "키보드 사용 횟수": {
+    "v": "Tastaturbrug",
+    "src": "07a483a199"
+  },
+  "키보드 사용량": {
+    "v": "Tastaturforbrug",
+    "src": "3a0a45a907"
+  },
+  "키보드 생김새를 바꿀 수 있어요": {
+    "v": "Du kan ændre tastaturets udseende",
+    "src": "5283dbbc8f"
+  },
+  "키보드 설정": {
+    "v": "Tastaturindstillinger",
+    "src": "af050ac956"
+  },
+  "키보드 설정 가이드": {
+    "v": "Guide til tastatur",
+    "src": "732de54fab"
+  },
+  "키보드 설정 보기": {
+    "v": "Åbn tastaturindstillinger",
+    "src": "7f2798cbda"
+  },
+  "키보드 설정, 2단계 중 1단계": {
+    "v": "Opsætning af tastatur, trin 1 af 2",
+    "src": "e0268e2ed3"
+  },
+  "키보드 설정하기": {
+    "v": "Opsæt tastatur",
+    "src": "dcfa90f9ea"
+  },
+  "키보드 안에서 문구 순서를 바꿔요. 순서를 고치려고 앱까지 다녀와야 하면 대개 안 고치니까요": {
+    "v": "Ændr rækkefølgen på fraser direkte i tastaturet. Hvis du skal omvej via appen for at rette rækkefølgen, lader de fleste være",
+    "src": "89239cc1dd"
+  },
+  "키보드 연습": {
+    "v": "Tastaturøvelse",
+    "src": "ce020ff35b"
+  },
+  "키보드 연습하기": {
+    "v": "Øv tastaturet",
+    "src": "f4d494f9f4"
+  },
+  "키보드 오른쪽 끝이 잘려 보이던 것을 고쳤어요": {
+    "v": "Rettet: tastaturets højre kant blev skåret af",
+    "src": "ace3023374"
+  },
+  "키보드 위줄에 보내기 키가 생겼어요. 단축어를 넣고 키보드를 바꾸러 나갈 일이 없습니다. 키 이름은 앱이 정해요, 메시지 앱에서는 보내기로 보입니다.": {
+    "v": "Der er en send-tast i tastaturets øverste række. Indsæt en frase og send den uden at skifte tastatur. Hver app navngiver tasten selv, så i beskedapps står der Send.",
+    "src": "49705f7fce"
+  },
+  "키보드 입력 횟수": {
+    "v": "Tastaturindsættelser",
+    "src": "7564fef1b3"
+  },
+  "키보드 추가": {
+    "v": "Gem",
+    "src": "657d24eb5d"
+  },
+  "키보드 카드에서 작은 뱃지를 걷어내고 제목만 남겼어요": {
+    "v": "Små badges er fjernet fra tastaturkortene, så kun titlen er tilbage",
+    "src": "6c487c5f11"
+  },
+  "키보드 켜기": {
+    "v": "Slå tastaturet til",
+    "src": "1d5c88ebac"
+  },
+  "키보드 켜짐": {
+    "v": "Tastatur slået til",
+    "src": "a35cdd7ce2"
+  },
+  "키보드 크기를 정해 볼까요": {
+    "v": "Vælg størrelse på dit tastatur",
+    "src": "1faac4c86e"
+  },
+  "키보드 화면": {
+    "v": "Tastaturvisning",
+    "src": "46ddc5fa8c"
+  },
+  "키보드 화면이 아래로 사라질 때 끝에서 끌리던 것과 말풍선 꼬리 모양을 손봤어요": {
+    "v": "Tastaturskærmen hænger ikke længere i enden, når den glider væk, og taleboblens hale er tegnet om.",
+    "src": "91e2d322d2"
+  },
+  "키보드가 떠 봄": {
+    "v": "Tastatur vist",
+    "src": "c28b3a4f50"
+  },
+  "키보드가 화면을 넓게 쓰고, 키보드 안에서 바로 칠 수 있어요": {
+    "v": "Tastaturet bruger hele skærmen, og du kan skrive direkte i det",
+    "src": "20f42b2910"
+  },
+  "키보드가 확인됐어요! 다음으로 넘어갈게요.": {
+    "v": "Tastatur fundet! Vi går videre til næste trin.",
+    "src": "897bc6a69e"
+  },
+  "키보드로 넣어 봄": {
+    "v": "Indsat med tastatur",
+    "src": "ba6ca8d097"
+  },
+  "키보드로 입력함": {
+    "v": "Skrevet med tastaturet",
+    "src": "27b76de9dc"
+  },
+  "키보드를 내 손에 맞게 고쳐요": {
+    "v": "Tilpas tastaturet til dine hænder",
+    "src": "7ac51aaefe"
+  },
+  "키보드를 다시 열면 보던 갈래가 그대로 열려요. 매번 처음으로 돌아가지 않아요": {
+    "v": "Tastaturet åbner på det tema, du brugte sidst, i stedet for at starte forfra hver gang",
+    "src": "33d75a9097"
+  },
+  "키보드를 설정에서 뺐는데도 켜라는 안내가 다시는 안 뜨던 것을 고쳤어요. 이제 설정 목록을 그때그때 확인해요": {
+    "v": "Rettet: hvis du fjernede tastaturet i Indstillinger, kom påmindelsen aldrig igen. Nu tjekkes listen i Indstillinger hver gang.",
+    "src": "d4aeb7e5d8"
+  },
+  "키보드를 쓰는 사용자": {
+    "v": "Brugere med tastatur",
+    "src": "616c7a92fc"
+  },
+  "키보드를 올리고 키를 찾아 누르기까지, 한 번에 1초로 봤어요.": {
+    "v": "Fra tastaturet åbnes, til du har fundet tasten: vi regner 1 sekund pr. brug.",
+    "src": "da01ed537e"
+  },
+  "키보드를 잠시 가볍게 띄웠어요": {
+    "v": "Et lettere tastatur er åbnet for nu",
+    "src": "dd47802e94"
+  },
+  "키보드를 추가해요": {
+    "v": "Tilføj tastaturet",
+    "src": "e6edb1de30"
+  },
+  "키보드를 켜는 방법을 봅니다": {
+    "v": "Viser, hvordan du slår tastaturet til",
+    "src": "dae5d14728"
+  },
+  "키보드를 켜라는 안내가 더는 앞을 막지 않아요. 키보드 화면 위쪽에 띠로 남고, 다른 안내가 그 자리를 쓰고 있으면 비켜 있다가 자리가 비면 올라와요": {
+    "v": "Beskeden om at slå tastaturet til står ikke længere i vejen. Den ligger som et bånd øverst på tastaturet, viger, hvis en anden besked bruger pladsen, og kommer frem igen, når pladsen er fri",
+    "src": "995c6c6937"
+  },
+  "키보드를 켜면 어디서든 이 화면이 올라와요": {
+    "v": "Slå tastaturet til, så kommer denne skærm frem overalt",
+    "src": "2578359f7c"
+  },
+  "키보드를 켜야 어느 앱에서든 단축어를 넣을 수 있어요": {
+    "v": "Slå tastaturet til for at indsætte fraser i enhver app",
+    "src": "80b12dbbdf"
+  },
+  "키보드를 켠 것이 확인될 때까지 안내가 다시 떠요. 닫기만 해서는 끝나지 않아요": {
+    "v": "Vejledningen vises igen, indtil vi kan se, at tastaturet er slået til. Det er ikke nok at lukke den",
+    "src": "4a2de17028"
+  },
+  "키보드를 켠 비율이 이 앱에서 가장 중요한 숫자예요. 앱만 깔고 키보드를 안 켰다면 핵심 가치를 아직 못 받은 거예요.": {
+    "v": "Andelen, der har slået tastaturet til, er appens vigtigste tal. Hvis nogen kun har installeret appen, har de endnu ikke fået det vigtigste ud af den.",
+    "src": "a70dc47775"
+  },
+  "키보드를 켠 사용자": {
+    "v": "Har slået tastaturet til",
+    "src": "a9f021b9e6"
+  },
+  "키보드를 한 번에 설정해요": {
+    "v": "Konfigurer tastaturet på én gang",
+    "src": "741d40232a"
+  },
+  "키보드에 닿기까지": {
+    "v": "Vejen til tastaturet",
+    "src": "c10bf5f418"
+  },
+  "키보드에 보내기 키가 생겼어요. 단축어를 넣고 키보드를 바꾸지 않고 그 자리에서 보냅니다": {
+    "v": "Tastaturet har fået en send-tast. Indsæt en frase og send den med det samme, uden at skifte tastatur",
+    "src": "2d6c797474"
+  },
+  "키보드에 지우기 키가 생겼어요. 오타 하나를 고치려고 다른 키보드로 건너갈 일이 없어요": {
+    "v": "Tastaturet har fået en slettetast. Du behøver ikke skifte tastatur for at rette en tastefejl.",
+    "src": "8eda686b5d"
+  },
+  "키보드에 표시할 이름": {
+    "v": "Navn på tastaturet",
+    "src": "a45f95f765"
+  },
+  "키보드에 표시할 이름과 같이 표시": {
+    "v": "Vis sammen med navnet på tastaturet",
+    "src": "2ea0350c80"
+  },
+  "키보드에는 단축어가 %d개까지만 보여요. 나머지는 지워지지 않고 가려져요. 모두 계속 쓰려면 Pro로 바꿔 주세요.": {
+    "v": {
+      "one": "Tastaturet viser kun %d frase. Resten er skjult, ikke slettet. Skift til Pro for at bruge dem alle.",
+      "other": "Tastaturet viser kun %d fraser. Resten er skjult, ikke slettet. Skift til Pro for at bruge dem alle."
+    },
+    "src": "bf082cce41"
+  },
+  "키보드에서 길게 누르면 값이 크게 보여요": {
+    "v": "Hold nede på tastaturet for at se værdien stort",
+    "src": "31949ff88a"
+  },
+  "키보드에서 단축어를 길게 누르면 입력 대신 클립보드로 들어가요. 붙여넣을 곳이 따로 있을 때 쓰세요.": {
+    "v": "Hold en frase nede på tastaturet, så havner den i udklipsholderen i stedet for at blive skrevet. Praktisk, når du skal indsætte et andet sted.",
+    "src": "181e1c7c66"
+  },
+  "키보드에서 문구를 한 번 쓰면 여기에 자국이 남기 시작해요.": {
+    "v": "Brug en frase fra tastaturet én gang, så begynder der at komme mærker her.",
+    "src": "5d2ed5e089"
+  },
+  "키보드에서 보이는 단축어": {
+    "v": "Fraser, der er synlige på tastaturet",
+    "src": "e133e09780"
+  },
+  "키보드에서 사진 단축어를 눌러도 붙여넣어지지 않던 것을 고쳤어요": {
+    "v": "Rettet: billedfraser, der ikke indsatte noget, når du trykkede på dem på tastaturet",
+    "src": "2527e08f5f"
+  },
+  "키보드에서 이 순서로 입력돼요": {
+    "v": "Skrives i denne rækkefølge på tastaturet",
+    "src": "a38f57bb10"
+  },
+  "키보드에서 이름이 잠시 이 힌트로 바뀌었다 돌아와요.": {
+    "v": "På tastaturet skifter navnet kort til dette tip og tilbage igen.",
+    "src": "a3d45afcbe"
+  },
+  "키보드에서 카테고리 색이 엉뚱하게 나오던 것을 고쳤어요": {
+    "v": "Rettet: forkerte kategorifarver på tastaturet",
+    "src": "fe5675182e"
+  },
+  "키보드에서 카테고리 탭에 표시되는 아이콘을 변경합니다.": {
+    "v": "Skift det ikon, der vises på kategorifanen på tastaturet.",
+    "src": "91dbc4a57b"
+  },
+  "키보드에서 해보기": {
+    "v": "Prøv det på tastaturet",
+    "src": "dd281e8f60"
+  },
+  "키보드에서는 Face ID를 쓸 수 없어 번호로 엽니다": {
+    "v": "Tastaturer kan ikke bruge Face ID, så du åbner med en kode",
+    "src": "19e2594077"
+  },
+  "키보드에서도 쓸 수 있어요": {
+    "v": "Virker også på tastaturet",
+    "src": "de3d942376"
+  },
+  "키보드의 기본 동작을 결제 없이 쓸 수 있어요": {
+    "v": "Tastaturets grundfunktioner kan bruges uden betaling",
+    "src": "4f278e5f73"
+  },
+  "키보드의 템플릿 빈칸": {
+    "v": "Udfyldningsfelter i skabeloner på tastaturet",
+    "src": "0b3bfc5872"
+  },
+  "키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.": {
+    "v": "Brug sprogknappen på tastaturet til at skifte sprog. Standardsproget bruges, når tastaturet åbnes første gang.",
+    "src": "0cfe769018"
+  },
+  "키의 두께와 눌리는 느낌만 바뀌어요. 색은 아래에서 따로 고를 수 있어요.": {
+    "v": "Kun tykkelsen og trykfølelsen ændres. Farver vælger du separat nedenfor.",
+    "src": "14b83cdf7d"
+  },
+  "키캡": {
+    "v": "Tastehætte",
+    "src": "5b79d940c3"
+  },
+  "키캡 스킨": {
+    "v": "Tastehætte-stil",
+    "src": "3b7a557c90"
+  },
+  "키컬러를 주황으로 바꿔 눌러야 할 곳이 분명해졌어요": {
+    "v": "Den nye orange tastefarve gør det tydeligt, hvor du skal trykke",
+    "src": "ee60172a3c"
+  },
+  "타임존": {
+    "v": "Tidszone",
+    "src": "cba04a9b1e"
+  },
+  "타입 변경": {
+    "v": "Skift type",
+    "src": "f60334f637"
+  },
+  "타입 변경에 실패했습니다": {
+    "v": "Typen kunne ikke skiftes",
+    "src": "15c4015c39"
+  },
+  "타입이 %@로 변경되었습니다": {
+    "v": "Typen er ændret til %@",
+    "src": "e6067d8c7d"
+  },
+  "탭을 숨긴 카테고리의 단축어가 어디에도 보이지 않던 문제를 고쳤어요. 갈 수 있는 탭이 없으면 기본 탭에 모여요": {
+    "v": "Rettet: fraser i en kategori med skjult fane blev ikke vist nogen steder. Fraser uden egen fane samles nu i fanen Basis.",
+    "src": "9c508e6139"
+  },
+  "탭을 한 번 더 누르면 단축어 목록과 키보드 화면이 오가요": {
+    "v": "Tryk på fanen igen for at skifte mellem din fraseliste og tastaturet.",
+    "src": "0cc180a325"
+  },
+  "탭하면 PIN 인증 후 붙여넣기합니다": {
+    "v": "Tryk for at indsætte efter PIN-bekræftelse.",
+    "src": "c892fa2679"
+  },
+  "탭하면 Pro 업그레이드 보기": {
+    "v": "Tryk for at se Pro-opgraderingen",
+    "src": "5408cf2cb1"
+  },
+  "탭하면 Pro를 구매합니다": {
+    "v": "Tryk for at købe Pro",
+    "src": "97b52fe5ad"
+  },
+  "탭하면 값 목록을 접습니다": {
+    "v": "Tryk for at skjule værdilisten.",
+    "src": "509500b789"
+  },
+  "탭하면 값 목록을 펼칩니다": {
+    "v": "Tryk for at vise værdilisten.",
+    "src": "89ec383d8d"
+  },
+  "탭하면 값에 담기/제외": {
+    "v": "Tryk for at tilføje eller fjerne værdien",
+    "src": "5176978540"
+  },
+  "탭하면 그 시점의 단축어 상태로 되돌려요. 되돌리기 직전 상태도 기록에 남아 다시 되돌릴 수 있어요.": {
+    "v": "Tryk for at gendanne dine fraser til det tidspunkt. Tilstanden lige før gendannelsen gemmes også, så du kan fortryde.",
+    "src": "129ae600bc"
+  },
+  "탭하면 내용을 채워 담습니다": {
+    "v": "Tryk for at udfylde og tilføje",
+    "src": "290ee43f6f"
+  },
+  "탭하면 다른 것에 빗대어 보여줍니다": {
+    "v": "Tryk for at sammenligne med noget andet",
+    "src": "2b1773b832"
+  },
+  "탭하면 단축어를 검색합니다": {
+    "v": "Tryk for at søge i fraser.",
+    "src": "66372228e3"
+  },
+  "탭하면 바로 복사돼요": {
+    "v": "Tryk for at kopiere med det samme",
+    "src": "157651cb13"
+  },
+  "탭하면 빈칸만 채워서 저장해요": {
+    "v": "Tryk for at udfylde felterne og gemme",
+    "src": "315c2a6e52"
+  },
+  "탭하면 빈칸을 채워 붙여넣습니다": {
+    "v": "Tryk for at udfylde felterne og indsætte",
+    "src": "c2423789b4"
+  },
+  "탭하면 선택을 해제합니다": {
+    "v": "Tryk for at fravælge",
+    "src": "7e09290005"
+  },
+  "탭하면 선택합니다": {
+    "v": "Tryk for at vælge",
+    "src": "da2eb297e7"
+  },
+  "탭하면 여러 값이 순서대로 입력됩니다": {
+    "v": "Tryk for at indtaste flere værdier i rækkefølge",
+    "src": "8d46a87641"
+  },
+  "탭하면 이 값으로 설정됩니다": {
+    "v": "Tryk for at sætte denne værdi.",
+    "src": "4e2f8b50cc"
+  },
+  "탭하면 이 값으로 저장됩니다": {
+    "v": "Tryk for at gemme denne værdi",
+    "src": "89254877cf"
+  },
+  "탭하면 이 값을 복사합니다": {
+    "v": "Tryk for at kopiere denne værdi",
+    "src": "785c726ff4"
+  },
+  "탭하면 이 빈칸이 들어가고, 저장해 둔 값도 함께 따라옵니다": {
+    "v": "Indsætter dette udfyldningsfelt sammen med de gemte værdier",
+    "src": "ca8843e4e4"
+  },
+  "탭하면 커서 자리에 빈칸이 들어갑니다": {
+    "v": "Tryk for at indsætte et udfyldningsfelt ved markøren",
+    "src": "9bcfa7f792"
+  },
+  "탭하면 클립보드에 복사, 꾹 누르면 추가 옵션": {
+    "v": "Tryk for at kopiere til udklipsholderen, tryk og hold for flere valg",
+    "src": "4b0aa50c49"
+  },
+  "탭하면 클립보드에 복사됩니다": {
+    "v": "Tryk for at kopiere til udklipsholderen",
+    "src": "e035978aef"
+  },
+  "탭하면 한 번에 정리하기 열기": {
+    "v": "Åbner samlet import",
+    "src": "56fda1a0f2"
+  },
+  "탭하여 Combo에 포함하거나 제외합니다": {
+    "v": "Tryk for at inkludere eller udelade i Kombo",
+    "src": "1aa5947e6e"
+  },
+  "탭하여 복사": {
+    "v": "Tryk for at kopiere",
+    "src": "42ee227f74"
+  },
+  "탭하여 사진 선택": {
+    "v": "Tryk for at vælge et foto",
+    "src": "5d54e5da08"
+  },
+  "탭하여 이 유형으로 필터링": {
+    "v": "Tryk for at filtrere efter denne type",
+    "src": "944f935b1a"
+  },
+  "탭할 때마다 저장된 값이 순서대로 하나씩 입력돼요. 키보드에서 이어서 다음 값을 넣을 수 있어요.": {
+    "v": "Hvert tryk indsætter dine gemte værdier én ad gangen i rækkefølge. Fortsæt med den næste værdi direkte fra tastaturet.",
+    "src": "8e6cbdde9f"
+  },
+  "테라코타": {
+    "v": "Terracotta",
+    "src": "7868613907"
+  },
+  "테마": {
+    "v": "Tema",
+    "src": "5ed42d31c2"
+  },
+  "테마 선택": {
+    "v": "Vælg tema",
+    "src": "d9c94ffe28"
+  },
+  "테마 설정": {
+    "v": "Temaindstillinger",
+    "src": "522648ca32"
+  },
+  "테스트": {
+    "v": "Test",
+    "src": "fcbd5f914e"
+  },
+  "테스트 방법": {
+    "v": "Sådan tester du",
+    "src": "27a9ec365f"
+  },
+  "텍스트": {
+    "v": "Tekst",
+    "src": "b00fe9e12f"
+  },
+  "텍스트 인식 중...": {
+    "v": "Genkender tekst...",
+    "src": "473c9c36f6"
+  },
+  "텍스트 인식 중…": {
+    "v": "Genkender tekst…",
+    "src": "10b412118c"
+  },
+  "텍스트를 찾지 못했습니다": {
+    "v": "Ingen tekst fundet",
+    "src": "dddd90825e"
+  },
+  "템플릿": {
+    "v": "Skabelon",
+    "src": "303d4aba2b"
+  },
+  "템플릿 → 있는 걸 템플릿으로 바꾸기 → 콤보까지 차례로 익혀요(\"나중에\"를 고르면 다시 묻지 않아요)": {
+    "v": "Skabeloner, at gøre noget eksisterende til en skabelon og så kombo: ét trin ad gangen (vælger du \"Senere\", spørger vi ikke igen)",
+    "src": "03b7adf5f2"
+  },
+  "템플릿 개수 제한": {
+    "v": "Grænse for skabeloner",
+    "src": "dac2781098"
+  },
+  "템플릿 내용": {
+    "v": "Skabelonindhold",
+    "src": "af7ce8ed62"
+  },
+  "템플릿 내용 편집": {
+    "v": "Rediger skabelonindhold",
+    "src": "837ffb5ab9"
+  },
+  "템플릿 내용을 직접 수정합니다": {
+    "v": "Rediger skabelonindholdet direkte.",
+    "src": "44ae15bf0c"
+  },
+  "템플릿 미리보기": {
+    "v": "Skabelonvisning",
+    "src": "02c01e46e3"
+  },
+  "템플릿 본문": {
+    "v": "Skabelonens tekst",
+    "src": "7adc72fa65"
+  },
+  "템플릿 불러오는 중...": {
+    "v": "Henter skabelon...",
+    "src": "9720630b35"
+  },
+  "템플릿 수": {
+    "v": "Skabeloner",
+    "src": "37fe876ba9"
+  },
+  "템플릿 입력": {
+    "v": "Indtast skabelon",
+    "src": "5595c5ab86"
+  },
+  "템플릿 채우기": {
+    "v": "Udfyld skabelon",
+    "src": "0946fe9ace"
+  },
+  "템플릿 추가": {
+    "v": "Tilføj skabelon",
+    "src": "4b1237f777"
+  },
+  "템플릿 텍스트 복사": {
+    "v": "Kopiér skabelontekst",
+    "src": "cc6e32a72a"
+  },
+  "템플릿 힌트 닫기": {
+    "v": "Luk skabelontip",
+    "src": "c5559db1b1"
+  },
+  "템플릿·스택·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.": {
+    "v": "Tilføj 4 eksempler (skabelon, stak og frase + skabelon), så du kan prøve dem. Dine eksisterende fraser bliver, som de er.",
+    "src": "cec2a2c7d7"
+  },
+  "템플릿·콤보·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.": {
+    "v": "Tilføj 4 eksempler (skabelon, kombo og frase + skabelon), så du kan prøve dem. Dine eksisterende fraser bliver, som de er.",
+    "src": "c0d6965cae"
+  },
+  "템플릿과 콤보와 잠긴 단축어를 테두리 무늬로 구분해요": {
+    "v": "Skabeloner, kombo og låste fraser kendes på deres kantmønster",
+    "src": "37e8294eb8"
+  },
+  "템플릿으로 만들기": {
+    "v": "Lav skabelon",
+    "src": "237ccc2806"
+  },
+  "템플릿은 이렇게 채워요": {
+    "v": "Sådan fungerer en skabelon",
+    "src": "fc94b70f6d"
+  },
+  "템플릿을 누르면 그 자리에서 빈칸을 채워 복사해요": {
+    "v": "Tryk på en skabelon, udfyld felterne lige der, og kopiér",
+    "src": "f5a8648ae1"
+  },
+  "템플릿을 배울 때 다 끝난 걸음의 키가 한 번 더 물결치던 것을 고쳤어요": {
+    "v": "Rettet: tasten bølgede en ekstra gang efter et færdigt trin i skabelonkapitlet",
+    "src": "eb09308175"
+  },
+  "통관번호": {
+    "v": "Toldnummer",
+    "src": "33e261da2b"
+  },
+  "통화": {
+    "v": "Valuta",
+    "src": "f770573ad5"
+  },
+  "튜토리얼 다시 하기": {
+    "v": "Gentag vejledningen",
+    "src": "917e71cf6b"
+  },
+  "튜토리얼에서 눌러 본 단축어·템플릿·스택예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.": {
+    "v": "Det er den frase, skabelon og stak, du prøvede i vejledningen. Nu har du lavet dine egne, så du kan rydde dem væk eller beholde dem og redigere dem.",
+    "src": "5d1342f259"
+  },
+  "튜토리얼에서 눌러 본 단축어·템플릿·스택이에요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.": {
+    "v": "Det er den frase, skabelon og stak, du prøvede i vejledningen. Nu har du lavet dine egne, så du kan rydde dem væk eller beholde dem og redigere dem.",
+    "src": "78cebde2c2"
+  },
+  "튜토리얼에서 눌러 본 단축어·템플릿·콤보예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.": {
+    "v": "Det er den frase, skabelon og kombo, du prøvede i vejledningen. Nu har du lavet dine egne, så du kan rydde dem væk eller beholde dem og redigere dem.",
+    "src": "1687a24997"
+  },
+  "튜토리얼을 다시 할까요?": {
+    "v": "Gentag vejledningen?",
+    "src": "8ba1111e0f"
+  },
+  "튜토리얼이 가리키는 단축어가 다른 페이지에 있어 안 보이던 것을 고쳤어요": {
+    "v": "Rettet: vejledningen pegede på en frase, der lå på en anden side",
+    "src": "ad8c45fc5b"
+  },
+  "틀린 카드번호는 저장할 때 알려드려요": {
+    "v": "Vi fanger et forkert kortnummer, når du gemmer",
+    "src": "45a7a63cdc"
+  },
+  "파일 백업": {
+    "v": "Filbackup",
+    "src": "22dd0f9538"
+  },
+  "파일로 내보내기": {
+    "v": "Eksportér til fil",
+    "src": "1fbd76844f"
+  },
+  "파일에서 가져오기": {
+    "v": "Importér fra fil",
+    "src": "fca0bb0bb6"
+  },
+  "파일에서 선택": {
+    "v": "Vælg fra fil",
+    "src": "1ed98be16d"
+  },
+  "팝업 없이 복사한 텍스트를 바로 확인하고 붙여넣을 수 있습니다. 클립보드 자동 분류 기능을 사용하려면 이 옵션을 권장합니다.": {
+    "v": "Du kan se og indsætte kopieret tekst med det samme uden pop-ups. Vi anbefaler denne indstilling, hvis du vil bruge automatisk sortering af udklipsholderen.",
+    "src": "b73c73fa6c"
+  },
+  "페르소나": {
+    "v": "Persona",
+    "src": "20ebe4ee77"
+  },
+  "페르소나 변경": {
+    "v": "Skift persona",
+    "src": "d49c097e45"
+  },
+  "페르소나 변경됨": {
+    "v": "Persona skiftet",
+    "src": "73e5429e64"
+  },
+  "페르소나를 골라도 단축어가 추가되지 않아요. 여러분에게 맞는 추천(이런 단축어 어때요? · 카테고리 이름)만 바뀝니다.": {
+    "v": "Når du vælger en persona, tilføjes der ingen fraser. Kun forslagene (foreslåede fraser · kategorinavne) ændres.",
+    "src": "f916a52db6"
+  },
+  "페르소나를 처음이 아니라 써 보고 나서 여쭤봐요. 단축어를 두 개 만드셨거나 카테고리를 하나 만드셨을 때 한 번만요": {
+    "v": "Vi spørger om din persona, når du har brugt appen, ikke på første skærm. Én gang, efter to fraser eller én kategori",
+    "src": "6f8d643d93"
+  },
+  "페이월 노출": {
+    "v": "Betalingsmur vist",
+    "src": "b8337d06a7"
+  },
+  "페이월을 닫음": {
+    "v": "Lukkede betalingsmuren",
+    "src": "2cdf4ea4e3"
+  },
+  "페이월을 봄": {
+    "v": "Så betalingsmuren",
+    "src": "ed641e1a29"
+  },
+  "편집": {
+    "v": "Rediger",
+    "src": "1acbfc68d1"
+  },
+  "편집을 완료하고 미리보기에 반영합니다": {
+    "v": "Afslut redigering og opdater forhåndsvisningen",
+    "src": "a1af6b7c81"
+  },
+  "펼치려면 두 번 탭하세요": {
+    "v": "Tryk to gange for at folde ud",
+    "src": "f8728bc878"
+  },
+  "펼침": {
+    "v": "Foldet ud",
+    "src": "55f42c078f"
+  },
+  "평균 몇 개를 만드는지예요.": {
+    "v": "Det gennemsnitlige antal, man opretter.",
+    "src": "f73075a05f"
+  },
+  "평생 Pro": {
+    "v": "Pro for livet",
+    "src": "82b76e83ce"
+  },
+  "평생 Pro로 계속하기": {
+    "v": "Fortsæt med Pro for livet",
+    "src": "79ff21c044"
+  },
+  "평생 한 번 결제와 연 구독 중에 고를 수 있어요.": {
+    "v": "Vælg mellem et engangskøb for livet og et årligt abonnement.",
+    "src": "e21a8783de"
+  },
+  "평평한 기본 모습이에요. 카드가 푹신하게 반응해요.": {
+    "v": "Flad og enkel. Kortene giver blødt efter.",
+    "src": "d09b5a218e"
+  },
+  "포함": {
+    "v": "Inkluderet",
+    "src": "176461cafb"
+  },
+  "폰을 잃어버려도 단축어는 남아요": {
+    "v": "Mist telefonen, behold fraserne",
+    "src": "dc83f971f2"
+  },
+  "표시 옵션": {
+    "v": "Visningsmuligheder",
+    "src": "55a5f325dc"
+  },
+  "표시할 값": {
+    "v": "Måleværdi",
+    "src": "0cd0c8faed"
+  },
+  "표정": {
+    "v": "Smileys",
+    "src": "4076a5c567"
+  },
+  "표준": {
+    "v": "Standard",
+    "src": "997ec1db42"
+  },
+  "프로페셔널 영어 템플릿을 마음껏: 비원어민도 유창하게": {
+    "v": "Ubegrænsede professionelle engelske skabeloner: lyd flydende, også som ikke-modersmålstaler",
+    "src": "40a20258cf"
+  },
+  "프리랜서": {
+    "v": "Freelance",
+    "src": "29ae747ced"
+  },
+  "프리셋": {
+    "v": "Forudindstilling",
+    "src": "741ceff228"
+  },
+  "플랫폼": {
+    "v": "Platform",
+    "src": "8a723559b5"
+  },
+  "플레이스홀더 값 관리": {
+    "v": "Administrer værdier for udfyldningsfelter",
+    "src": "e644adba09"
+  },
+  "플레이스홀더 값 관리를 단축어 목록과 편집 화면에서 바로 열 수 있어요": {
+    "v": "Åbn værdier for udfyldningsfelter direkte fra din liste over fraser eller fra editoren",
+    "src": "00a78edfbb"
+  },
+  "플레이스홀더와 변수로 갈려 있던 말을 빈칸 하나로 맞췄어요": {
+    "v": "Pladsholder og variabel hedder nu det samme: udfyldningsfelt",
+    "src": "22dae6bac0"
+  },
+  "피드백": {
+    "v": "Feedback",
+    "src": "ad618f44b7"
+  },
+  "피드백 보내기": {
+    "v": "Send feedback",
+    "src": "46891289d7"
+  },
+  "피드백 전부 보기": {
+    "v": "Se al feedback",
+    "src": "18243aac1e"
+  },
+  "픽셀 마을": {
+    "v": "Pixelby",
+    "src": "b1fce73d1b"
+  },
+  "필요 없으면 꺼 두세요": {
+    "v": "Slå den fra, hvis du ikke har brug for den",
+    "src": "9eeff236a8"
+  },
+  "필요한 글자만 손가락으로 문질러 담아요": {
+    "v": "Stryg fingeren hen over den tekst, du skal bruge",
+    "src": "c5b36d635e"
+  },
+  "필요한 기능이나 불편했던 점을 남겨주시면 개발자가 직접 읽고 반드시 해결해 드릴게요.": {
+    "v": "Fortæl os, hvad du mangler, eller hvad der er besværligt: Udvikleren læser alt og får det rettet.",
+    "src": "eec7b2e40c"
+  },
+  "필터 초기화": {
+    "v": "Nulstil filter",
+    "src": "5559918d75"
+  },
+  "하나만 계속 쓰는 사람": {
+    "v": "Én frase, brugt meget",
+    "src": "4e5d7ccdf5"
+  },
+  "하나만 쓰는": {
+    "v": "Én frase",
+    "src": "f140c3560b"
+  },
+  "하나만 쓰는 사람": {
+    "v": "Bruger af én frase",
+    "src": "ac06fdfb28"
+  },
+  "하나씩 만들고 계시네요. 통째로 붙여넣으면 한 번에 담겨요": {
+    "v": "Opretter du dem én ad gangen? Indsæt hele listen, så får du dem alle på én gang",
+    "src": "27ab50ea26"
+  },
+  "하루 일과를 통째로 벌었어요. 이건 자랑해도 돼요.": {
+    "v": "En hel arbejdsdag, tjent ind. Du må godt prale.",
+    "src": "ecaa6e0cac"
+  },
+  "하루치 일과를 벌었어요": {
+    "v": "Du har tjent en hel arbejdsdag ind",
+    "src": "7ad0f6a0c7"
+  },
+  "하세요": {
+    "v": "Hej",
+    "src": "c0d355e0f0"
+  },
+  "하이픈": {
+    "v": "Bindestreg",
+    "src": "39f09faffd"
+  },
+  "학과 학번 이름": {
+    "v": "Studieretning, studienummer, navn",
+    "src": "c47043b097"
+  },
+  "학교 이메일": {
+    "v": "Skolemail",
+    "src": "7a483ba39d"
+  },
+  "학교 이메일 (선택 사항)": {
+    "v": "Skolemail (valgfri)",
+    "src": "8979bf3aae"
+  },
+  "학번": {
+    "v": "Studienummer",
+    "src": "f97f054673"
+  },
+  "학번, 학교 이메일, 과제 템플릿이 필요한 분께 추천": {
+    "v": "Anbefalet, hvis du har brug for studienummer, skolemail og opgaveskabeloner",
+    "src": "bb26920adb"
+  },
+  "학번·교수님 메일·조별과제 공지를 한 번에 넣고 계시잖아요. 조별과제 방에 링크 하나면 돼요.": {
+    "v": "Du indsætter allerede studienummer, underviserens mail og gruppeopgavens beskeder med ét tryk. Et enkelt link i gruppechatten er nok.",
+    "src": "598c832785"
+  },
+  "학번은 이제 한 탭으로": {
+    "v": "Dit studienummer, med ét tryk",
+    "src": "7b37b36ebc"
+  },
+  "학번이나 과제 메일처럼 매번 치는 글을 키보드에서 한 번에 넣어요. %@": {
+    "v": "Skriv ting som studienummer eller opgavemails med ét tryk fra tastaturet. %@",
+    "src": "67e9769643"
+  },
+  "학생": {
+    "v": "Studerende",
+    "src": "cd9ef8f134"
+  },
+  "한": {
+    "v": "Ko",
+    "src": "b454aecd90"
+  },
+  "한 가지 일에 딱 맞게 쓰고 있어요. 두 번째 쓸모를 알려주면 늘어나요.": {
+    "v": "De bruger den til netop én opgave. Vis dem en anden brug, så vokser den.",
+    "src": "8990a614a8"
+  },
+  "한 글자씩 지웁니다. 누르고 있으면 이어서 지웁니다": {
+    "v": "Sletter ét tegn ad gangen. Hold nede for at blive ved med at slette",
+    "src": "7812c8bf1d"
+  },
+  "한 단축어는 한 종류로만 세요(스택 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요.": {
+    "v": "Hver frase tæller som én type (stak > skabelon > billede > tekst). Teksttal tælles fra 4.4.3, så ældre registreringer kan få tekst til at se lavere ud, end den er.",
+    "src": "94e2032acf"
+  },
+  "한 단축어는 한 종류로만 세요(콤보 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요.": {
+    "v": "Hver frase tæller som én type (kombo > skabelon > billede > tekst). Teksttal tælles fra 4.4.3, så ældre registreringer kan få tekst til at se lavere ud, end den er.",
+    "src": "a5d87f903e"
+  },
+  "한 단축어에 여러 값: \"내용 더 넣기\"로 담고, 기존 단축어에서 값 가져오기도 가능": {
+    "v": "Flere værdier i én frase: gem dem med \"Tilføj mere indhold\", eller hent værdier fra eksisterende fraser",
+    "src": "0321cda730"
+  },
+  "한 달 동안 안 썼다. 먼저 말을 거는 자리가 전부 꺼진다.": {
+    "v": "Ikke brugt i en måned. Alt, der selv henvender sig, er slået fra.",
+    "src": "0502dd1f78"
+  },
+  "한 번 결제하고 계속": {
+    "v": "Betal én gang, behold den",
+    "src": "9f6c860083"
+  },
+  "한 번 꺼내 쓸 때마다 적어도 2분은 아낀 것으로 세요. 깃 토큰처럼 갈래를 못 알아보는 값이 10초로 적히던 걸 고쳤어요": {
+    "v": "Hver brug tæller nu som mindst 2 minutters tidsbesparelse. Værdier, vi ikke kan afgøre, som et git-token, blev før regnet som 10 sekunder.",
+    "src": "129fad03f3"
+  },
+  "한 번에 200건씩 나눠 받아요. 지금 숫자는 중간 집계라 계속 올라가요.": {
+    "v": "De hentes 200 ad gangen. Tallet stiger løbende, fordi det er en delopgørelse.",
+    "src": "1e9ec1ad59"
+  },
+  "한 번에 옮기기": {
+    "v": "Flyt dem over",
+    "src": "25835e8f86"
+  },
+  "한 번에 정리하기": {
+    "v": "Importér samlet",
+    "src": "1cabd5dc33"
+  },
+  "한 번에 최소 2분": {
+    "v": "Mindst 2 minutter pr. brug",
+    "src": "0cf520aa8d"
+  },
+  "한 사람은 한 무리에만 들어가요(합이 전체와 같아요). 위에서부터 걸리는 첫 무리로 정해져요. '만들고 안 쓴 사람'이 크면 키보드를 켜는 데까지 못 간 거고, '쌓아만 두는 사람'이 크면 만드는 것보다 꺼내 쓰는 게 어려운 거예요.": {
+    "v": "Hver person hører kun til én gruppe (summen svarer til det samlede antal), bestemt af den første regel, der passer oppefra. Hvis \"oprettet, men aldrig brugt\" er stor, når folk ikke frem til tastaturet. Hvis \"samlere\" er stor, er det sværere at hente end at oprette.",
+    "src": "65f0506867"
+  },
+  "한 시간을 벌었어요": {
+    "v": "Du har sparet en hel time",
+    "src": "2a60e00cab"
+  },
+  "한 자만 틀려도 곤란한 숫자를 되짚어 보는 시간이에요.": {
+    "v": "Tid til at gennemgå tal igen, hvor ét forkert ciffer giver problemer.",
+    "src": "88c43bbd31"
+  },
+  "한 줄씩 나눠서 담으면 키보드에서 따로따로 꺼내 쓸 수 있어요.": {
+    "v": "Delt op i én frase pr. linje, så du kan hente dem hver for sig på tastaturet.",
+    "src": "b34847d054"
+  },
+  "한 줄을 더 얹어요. 단축어를 굴리지 않고 보고 싶을 때.": {
+    "v": "Tilføjer én række mere, når du hellere vil slippe for at rulle.",
+    "src": "b39f71bab5"
+  },
+  "한 줄을 지키면서 글자를 조금 줄여요.": {
+    "v": "Holder det på én linje og gør teksten lidt mindre.",
+    "src": "2090232173"
+  },
+  "한국어": {
+    "v": "Koreansk",
+    "src": "dd4d21dcaa"
+  },
+  "한국어 레이아웃": {
+    "v": "Koreansk layout",
+    "src": "134c31cc70"
+  },
+  "한국어 입력": {
+    "v": "Koreansk indtastning",
+    "src": "b3d2056a5e"
+  },
+  "한꺼번에 가져올 때 저장하기 전에 키보드 모습으로 보여줘요. 키를 눌러 뺄 것만 빼면 돼요": {
+    "v": "Ved import af mange ad gangen vises et tastaturudkast, før du gemmer. Tryk på en tast for at udelade den",
+    "src": "57b22ef807"
+  },
+  "한꺼번에 가져옴": {
+    "v": "Importeret samlet",
+    "src": "95c82753ca"
+  },
+  "한번 결제하면 평생, 구독 아니에요": {
+    "v": "Betal én gang, behold den for evigt. Intet abonnement",
+    "src": "5a73b49a3c"
+  },
+  "한번 결제하면 평생이에요. 지금 안 하셔도 앱은 그대로 다 쓰실 수 있어요.": {
+    "v": "Betal én gang, behold den for evigt. Springer du over, virker appen præcis som nu.",
+    "src": "561f1d33d4"
+  },
+  "한번 구매, 평생 사용": {
+    "v": "Ét køb, for evigt",
+    "src": "64186f3b06"
+  },
+  "한번 구매로 데이터를 안전하게 백업하세요": {
+    "v": "Hold dine data trygge med ét køb",
+    "src": "5ee76c9a25"
+  },
+  "한번에 가져오기 개편, 붙여넣으면 서비스명·아이디·비밀번호를 알아서 분리": {
+    "v": "Smartere samlet import: indsæt dine noter, så deles titler, brugernavne og adgangskoder automatisk",
+    "src": "04957cd864"
+  },
+  "한번에 많은 단축어 정리하기": {
+    "v": "Ryd op i mange Fraser på én gang",
+    "src": "19c9fb1ad6"
+  },
+  "함께 쓰는 값들을 골라 하나로 묶으면 키 하나가 돼요. 주황색 숫자는 그 키가 몇 단계인지예요.": {
+    "v": "Vælg de værdier, du bruger sammen, så bliver de til én tast. Det orange tal viser, hvor mange trin tasten har.",
+    "src": "220e01d8eb"
+  },
+  "함께 쓰는 앱에 실제 앱 아이콘이 보여요": {
+    "v": "Apps, der hører sammen, viser nu hver apps rigtige ikon",
+    "src": "6c5f60a1c3"
+  },
+  "함께 쓰면 좋은 앱": {
+    "v": "Apps, der passer godt sammen",
+    "src": "fd8a10e8c6"
+  },
+  "함께 쓸 것들을 눌러 고르세요": {
+    "v": "Tryk på dem, du bruger sammen",
+    "src": "69c8643bf6"
+  },
+  "항목 (\\(selectedItems.count)개)": {
+    "v": "Elementer (\\(selectedItems.count))",
+    "src": "7b9346a3da"
+  },
+  "항상 표시": {
+    "v": "Vis altid",
+    "src": "a86965d16b"
+  },
+  "허용": {
+    "v": "Tillad",
+    "src": "cb940e371c"
+  },
+  "허용하러 가기": {
+    "v": "Gå og tillad",
+    "src": "eace2c49b0"
+  },
+  "현재 데이터를 iCloud에 백업합니다": {
+    "v": "Sikkerhedskopierer nuværende data til iCloud",
+    "src": "724c3b0ae1"
+  },
+  "현재 선택됨": {
+    "v": "Valgt nu",
+    "src": "4b651a9783"
+  },
+  "현재 입력된 텍스트를 모두 지웁니다": {
+    "v": "Sletter al den indtastede tekst",
+    "src": "3c5ec3be78"
+  },
+  "혹시 불편한 점이 있으세요?": {
+    "v": "Er der noget, der generer dig?",
+    "src": "6006a50459"
+  },
+  "혹시 이런 분이신가요?": {
+    "v": "Lyder det som dig?",
+    "src": "a6ec53d055"
+  },
+  "홈 화면 앱 이름과 아이콘을 바로잡았어요": {
+    "v": "Navn og ikon på hjemmeskærmen er rettet",
+    "src": "6175548b99"
+  },
+  "홈 화면 작성 가이드 카드를 닫으면 조용히 사라져요": {
+    "v": "Vejledningskortet på hjemmeskærmen forsvinder stille, når du lukker det",
+    "src": "c3caf331b7"
+  },
+  "홍길동": {
+    "v": "Anders Jensen",
+    "src": "4895061c04"
+  },
+  "화면": {
+    "v": "Skærm",
+    "src": "3ba292333c"
+  },
+  "화면 색조에서 옅게 섞여 있던 노란 기를 걷어냈어요. 삭제·저장·주의를 알리는 빨강·초록·노랑과 갈래 색은 그대로예요": {
+    "v": "Den svage gule tone i farverne er fjernet. Rød, grøn og gul til sletning, gem og advarsler er uændrede, og det samme gælder temafarverne",
+    "src": "5a3d1b741d"
+  },
+  "화면 전체를 종이 느낌으로 다시 칠했어요": {
+    "v": "Hele skærmen er malet om, så den føles som papir",
+    "src": "abfb4d06a9"
+  },
+  "화면과 표시": {
+    "v": "Udseende",
+    "src": "b46669de5b"
+  },
+  "화면이 둘이라고 알려 드릴 때 위의 버튼과 아래 탭이 함께 빛나요. 콤보 키에서 잘려 나가던 물결도 고쳤어요": {
+    "v": "Når vi fortæller, at der er to skærme, lyser knappen foroven og fanen forneden sammen. Bølgen på en kombotast bliver ikke længere klippet af.",
+    "src": "459064740b"
+  },
+  "확인": {
+    "v": "OK",
+    "src": "9e828514bd"
+  },
+  "확인 필요": {
+    "v": "Skal tjekkes",
+    "src": "ce03eabe15"
+  },
+  "확인했습니다. 검토 후 답변드리겠습니다": {
+    "v": "Modtaget. Jeg vender tilbage efter gennemgang",
+    "src": "6d3cb24a35"
+  },
+  "확인했어요": {
+    "v": "Forstået",
+    "src": "c8193aae6d"
+  },
+  "환급 영수증": {
+    "v": "Tilbagebetalingskvittering",
+    "src": "b0b83edca5"
+  },
+  "환급 영수증. 다시 치지 않은 횟수 %1$d번, 손으로 했다면 어림잡아 %2$@.": {
+    "v": "Tilbagebetalingskvittering. Du undgik at skrive igen %1$d gange. Manuelt ville det have taget cirka %2$@.",
+    "src": "5e04420b0d"
+  },
+  "환급 영수증에서 픽셀 그림을 빼고 진짜 영수증처럼 바꿨어요": {
+    "v": "Tilbagebetalingskvitteringen ligner nu en rigtig kvittering, uden pixelgrafik",
+    "src": "2c49d73dba"
+  },
+  "환영합니다": {
+    "v": "Velkommen",
+    "src": "a9990f1da5"
+  },
+  "활동": {
+    "v": "Aktiviteter",
+    "src": "8e4204ffbb"
+  },
+  "활동한 사용자": {
+    "v": "Aktive brugere",
+    "src": "c6d9a74e42"
+  },
+  "활용 사례": {
+    "v": "Brugsscenarier",
+    "src": "58ea67efe9"
+  },
+  "활용사례": {
+    "v": "Eksempler på brug",
+    "src": "ad9dce9492"
+  },
+  "활용사례에서 영감 받기": {
+    "v": "Find inspiration i eksempler",
+    "src": "50f0475137"
+  },
+  "회사 이메일": {
+    "v": "Arbejdsmail",
+    "src": "049af41a4b"
+  },
+  "회사 이메일, 명함 정보, 미팅 관련 입력이 잦은 분께 추천": {
+    "v": "Anbefalet, hvis du ofte skriver arbejdsmail, visitkortoplysninger og mødeoplysninger",
+    "src": "1b34e5404b"
+  },
+  "회사명": {
+    "v": "Firmanavn",
+    "src": "54791797ca"
+  },
+  "회사명 (선택 사항)": {
+    "v": "Firmanavn (valgfrit)",
+    "src": "58943b9b5b"
+  },
+  "회원번호": {
+    "v": "Medlemsnummer",
+    "src": "360a19529f"
+  },
+  "회의가 10분 늦어질 것 같습니다": {
+    "v": "Jeg er 10 minutter forsinket til mødet",
+    "src": "80a017c3f4"
+  },
+  "회의실 A": {
+    "v": "Mødelokale A",
+    "src": "62ca2fa135"
+  },
+  "횟수는 실제로 센 값이고, 시간은 어림한 값이에요.": {
+    "v": "Antallet er talt. Tiden er et skøn.",
+    "src": "340231d8bf"
+  },
+  "휴대폰 번호": {
+    "v": "Mobilnummer",
+    "src": "1447351842"
+  },
+  "휴면": {
+    "v": "Inaktiv",
+    "src": "1f2314554b"
+  },
+  "힌트 (선택)": {
+    "v": "Tip (valgfrit)",
+    "src": "b1a34975e6"
+  },
+  "🌐 길게 눌러 전환": {
+    "v": "Hold 🌐 nede for at skifte",
+    "src": "56dd77bb08"
+  },
+  "🎉 첫 붙여넣기 완료! 이제 진짜 ClipKeyboard 사용자예요": {
+    "v": "🎉 Første indsættelse er klaret! Nu er du en rigtig ClipKeyboard-bruger",
+    "src": "b9faca6358"
+  },
+  "🎓 학번": {
+    "v": "🎓 Studienr.",
+    "src": "2d90627397"
+  },
+  "🏠 기숙사 주소": {
+    "v": "🏠 Kollegieadresse",
+    "src": "3d090d442f"
+  },
+  "🏦 IBAN": {
+    "v": "🏦 IBAN",
+    "src": "1276d2c0d6"
+  },
+  "💡 템플릿으로 반복 입력을 자동화해보세요": {
+    "v": "💡 Automatisér gentaget input med skabeloner",
+    "src": "73f563c5b8"
+  },
+  "💱 환전 단축어": {
+    "v": "💱 Valutafraser",
+    "src": "35f12acd67"
+  },
+  "💼 사업자번호": {
+    "v": "💼 CVR-nr.",
+    "src": "f0794a3c83"
+  },
+  "📋 미팅 단축어": {
+    "v": "📋 Mødefraser",
+    "src": "c2292a1411"
+  },
+  "📋 붙여넣기 허용 설정": {
+    "v": "📋 Indstillinger for indsættelse",
+    "src": "156f541da1"
+  },
+  "📋 새로운 %@ 항목이 추가되었습니다": {
+    "v": "📋 Nyt %@-element tilføjet",
+    "src": "18636765ca"
+  },
+  "📍 주소": {
+    "v": "📍 Adresse",
+    "src": "c154306025"
+  },
+  "📚 학교 이메일": {
+    "v": "📚 Skolemail",
+    "src": "eb7781645f"
+  },
+  "📝 과제 템플릿": {
+    "v": "📝 Opgave",
+    "src": "6e26f59743"
+  },
+  "📞 전화번호": {
+    "v": "📞 Telefon",
+    "src": "925db84436"
+  },
+  "📧 회사 이메일": {
+    "v": "📧 Arbejdsmail",
+    "src": "7ed6da0f28"
+  },
+  "🔑 긴급 연락처": {
+    "v": "🔑 Nødkontakt",
+    "src": "3cda80a12c"
+  },
+  "🛂 여권번호": {
+    "v": "🛂 Pas",
+    "src": "70b5166b62"
+  },
+  "🪪 명함": {
+    "v": "🪪 Visitkort",
+    "src": "9becff2df0"
   }
 }

@@ -18,6 +18,16 @@
     <link rel="alternate" hreflang="pt-BR" href="https://m1zz.github.io/ClipKeyboard/pt-BR/tutorial.html">
     <link rel="alternate" hreflang="th" href="https://m1zz.github.io/ClipKeyboard/th/tutorial.html">
     <link rel="alternate" hreflang="vi" href="https://m1zz.github.io/ClipKeyboard/vi/tutorial.html">
+    <link rel="alternate" hreflang="cs" href="https://m1zz.github.io/ClipKeyboard/cs/tutorial.html">
+    <link rel="alternate" hreflang="da" href="https://m1zz.github.io/ClipKeyboard/da/tutorial.html">
+    <link rel="alternate" hreflang="el" href="https://m1zz.github.io/ClipKeyboard/el/tutorial.html">
+    <link rel="alternate" hreflang="fi" href="https://m1zz.github.io/ClipKeyboard/fi/tutorial.html">
+    <link rel="alternate" hreflang="id" href="https://m1zz.github.io/ClipKeyboard/id/tutorial.html">
+    <link rel="alternate" hreflang="nb" href="https://m1zz.github.io/ClipKeyboard/nb/tutorial.html">
+    <link rel="alternate" hreflang="nl" href="https://m1zz.github.io/ClipKeyboard/nl/tutorial.html">
+    <link rel="alternate" hreflang="pl" href="https://m1zz.github.io/ClipKeyboard/pl/tutorial.html">
+    <link rel="alternate" hreflang="sv" href="https://m1zz.github.io/ClipKeyboard/sv/tutorial.html">
+    <link rel="alternate" hreflang="tr" href="https://m1zz.github.io/ClipKeyboard/tr/tutorial.html">
     <link rel="alternate" hreflang="x-default" href="https://m1zz.github.io/ClipKeyboard/tutorial.html">
     <script>window.PAGE_LANG = "ko";</script>
     <title>ClipKeyboard 사용 가이드</title>
@@ -690,6 +700,16 @@
             <a href="../pt-BR/tutorial.html" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a>
             <a href="../th/tutorial.html" hreflang="th" lang="th">ไทย</a>
             <a href="../vi/tutorial.html" hreflang="vi" lang="vi">Tiếng Việt</a>
+            <a href="../cs/tutorial.html" hreflang="cs" lang="cs">Čeština</a>
+            <a href="../da/tutorial.html" hreflang="da" lang="da">Dansk</a>
+            <a href="../el/tutorial.html" hreflang="el" lang="el">Ελληνικά</a>
+            <a href="../fi/tutorial.html" hreflang="fi" lang="fi">Suomi</a>
+            <a href="../id/tutorial.html" hreflang="id" lang="id">Bahasa Indonesia</a>
+            <a href="../nb/tutorial.html" hreflang="nb" lang="nb">Norsk bokmål</a>
+            <a href="../nl/tutorial.html" hreflang="nl" lang="nl">Nederlands</a>
+            <a href="../pl/tutorial.html" hreflang="pl" lang="pl">Polski</a>
+            <a href="../sv/tutorial.html" hreflang="sv" lang="sv">Svenska</a>
+            <a href="../tr/tutorial.html" hreflang="tr" lang="tr">Türkçe</a>
         </nav>
     </details>
 
@@ -1548,7 +1568,7 @@
         // 이 루트 페이지는 x-default 다. 언어마다 고정된 페이지가 docs/<lang>/ 에 있고
         // (docs/i18n/build.mjs 가 이 파일로 만든다) 그 페이지는 window.PAGE_LANG 을 박아 둔다.
         // 이 파일에 글이 없는 언어로 들어오면(?lang=ja, 일본어 브라우저) 그 언어 페이지로 보낸다.
-        var SITE_LANGS = ["ko", "en", "zh-Hans", "zh-Hant", "ru", "ja", "es", "de", "fr", "it", "pt-BR", "th", "vi"];
+        var SITE_LANGS = ["ko", "en", "zh-Hans", "zh-Hant", "ru", "ja", "es", "de", "fr", "it", "pt-BR", "th", "vi", "cs", "da", "el", "fi", "id", "nb", "nl", "pl", "sv", "tr"];
         function siteLang(tag) {
             var t = (tag || '').toLowerCase().replace('_', '-');
             if (!t) return '';
@@ -1557,6 +1577,7 @@
                         t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) ? 'zh-Hant' : 'zh-Hans';
             }
             if (t.indexOf('pt') === 0) return 'pt-BR';
+            if (t.indexOf('no') === 0 || t.indexOf('nn') === 0) return 'nb';
             var base = t.split('-')[0];
             return SITE_LANGS.indexOf(base) >= 0 ? base : '';
         }

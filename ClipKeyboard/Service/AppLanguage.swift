@@ -39,8 +39,18 @@ enum AppLanguage: String, CaseIterable, Identifiable {
     case de = "de"
     case fr = "fr"
     case it = "it"
+    case id = "id"
+    case tr = "tr"
     case vi = "vi"
     case th = "th"
+    case pl = "pl"
+    case nl = "nl"
+    case sv = "sv"
+    case da = "da"
+    case nb = "nb"
+    case fi = "fi"
+    case cs = "cs"
+    case el = "el"
     // i18n:cases:end
 
     var id: String { rawValue }
@@ -70,8 +80,18 @@ enum AppLanguage: String, CaseIterable, Identifiable {
         "de": "Deutsch",
         "fr": "Français",
         "it": "Italiano",
+        "id": "Bahasa Indonesia",
+        "tr": "Türkçe",
         "vi": "Tiếng Việt",
         "th": "ไทย",
+        "pl": "Polski",
+        "nl": "Nederlands",
+        "sv": "Svenska",
+        "da": "Dansk",
+        "nb": "Norsk bokmål",
+        "fi": "Suomi",
+        "cs": "Čeština",
+        "el": "Ελληνικά",
     ]
     // i18n:names:end
 

@@ -1,0 +1,761 @@
+{
+ "translations": {
+  "pageTitle": "ClipKeyboard: Nooit meer hetzelfde typen. Eén fragment is genoeg",
+  "metaDescription": "Bewaar je bankgegevens, adressen en e-mailsjablonen als fragmenten en typ ze met één tik vanaf het toetsenbord in elke app. 40 sjablonen uit het echte leven voor nomaden, professionals, studenten en het dagelijks leven: gratis.",
+  "ogTitle": "ClipKeyboard: Nooit meer hetzelfde typen. Eén fragment is genoeg",
+  "ogDescription": "Maak fragmenten van de zinnen die je steeds herhaalt. Kopieer nu 40 kant-en-klare sjablonen.",
+  "heroBadge": "🔒 Je fragmenten blijven van jou · Privacy eerst",
+  "heroTitle": "Nooit meer hetzelfde typen.<br><span>Eén fragment is genoeg</span>",
+  "heroSubtitle": "Bankgegevens · adressen · introducties · sjablonen<br>één keer bewaard, met één tik getypt vanaf je toetsenbord in elke app.",
+  "heroCta": "Download in de App Store",
+  "heroDemo": "⌨️ Probeer het toetsenbord: 30 seconden",
+  "heroTemplates": "📋 Bekijk 40 sjablonen uit het echte leven",
+  "videoTitle": "Zo ziet het eruit",
+  "videoSubtitle": "Een schermopname van 23 seconden. Zonder geluid.",
+  "videoNote": "",
+  "demoTitle": "Probeer het meteen hier",
+  "demoSubtitle": "Dit is het eigen scherm \"Toetsenbordvoorbeeld\" van de app. In het echt verschijnt dit toetsenbord in Berichten, Mail en Safari: overal waar je typt.",
+  "demoBrief": "Het toetsenbord hieronder is <strong>precies het scherm dat in de app zit</strong>. Tik op een fragment en het verschijnt in het veld. Blijf ook na het verzenden gewoon tikken.",
+  "demoCta": "Begin met je eigen zinnen",
+  "demoReset": "Opnieuw beginnen",
+  "demoNote": "* Alle rekening- en paspoortgegevens in deze demo zijn nep. Je echte fragmenten verlaten je apparaat nooit.",
+  "demoStageTitle": "Toetsenbordvoorbeeld",
+  "demoComposerPh": "Je tekst verschijnt hier",
+  "demoCueTap": "Tik op de toets \"%@\"",
+  "demoCueSend": "Daar staat het: tik nu op verzenden (↑)",
+  "demoCueDone": "Zo simpel is het: probeer ook de andere toetsen",
+  "demoTplInsert": "Invoegen",
+  "demoTplPick": "Kies een waarde",
+  "demoFaceScanning": "Ontgrendelen met Face ID…",
+  "demoFaceDone": "Ontgrendeld",
+  "demoToastCombo": "Overgeschakeld naar de volgende waarde",
+  "demoTabBasic": "Basis",
+  "demoTabFav": "Favorieten",
+  "demoTabTemplate": "Sjablonen",
+  "demoTabCombo": "Combo's",
+  "demoFeatures": [
+   {
+    "k": "snippet",
+    "t": "Fragment: één tik en het staat er",
+    "d": "Je bewaarde bankgegevens, adres of handtekening worden precies zo ingevoegd als je ze hebt opgeslagen."
+   },
+   {
+    "k": "template",
+    "t": "Sjabloon: vul alleen de invulvelden in",
+    "d": "Variabelen zoals {datum} {tijd} vul je in door te tikken op een waarde die je eerder hebt bewaard."
+   },
+   {
+    "k": "combo",
+    "t": "Combo: wissel van waarde met →",
+    "d": "Drie bankrekeningen of betaalmethoden op één toets; kies gewoon wat je nodig hebt."
+   },
+   {
+    "k": "secure",
+    "t": "Beveiligd fragment: vergrendeld met Face ID",
+    "d": "Paspoort- en kaartnummers blijven vergrendeld tot het moment dat je ze nodig hebt."
+   }
+  ],
+  "howTitle": "Wat is een fragment?",
+  "howSubtitle": "Een zin die je vaak gebruikt, bewaard onder een naam. Meer is het niet.",
+  "how1Title": "Bewaar het als fragment",
+  "how1Desc": "Geef het een naam (de toets), bijvoorbeeld \"Bankgegevens\", en voeg de eigenlijke tekst toe (de waarde). Eén keer opslaan.",
+  "how2Title": "Tik erop vanaf het toetsenbord",
+  "how2Desc": "Schakel over naar ClipKeyboard in Berichten, Mail, Safari: overal. Je fragmenten staan direct op het toetsenbord. Eén tik en het is getypt.",
+  "how3Title": "Groei door naar sjablonen en combo's",
+  "how3Desc": "Voeg variabelen toe zoals <span class=\"chip\">naam</span> <span class=\"chip\">datum</span> om sjablonen te maken en koppel fragmenten aan elkaar tot combo's. Complete routines verdwijnen.",
+  "libTitle": "Mensen zoals jij, elke dag tijd winnen",
+  "libSubtitle": "Kies de dag die op jouw dag lijkt. Kopieer nu een sjabloon, bewaar het in de app en het staat direct op je toetsenbord.",
+  "libNote": "💡 De blauwe labels zijn sjabloonvariabelen, in de app vul je ze in met een tik.",
+  "copy": "Kopiëren",
+  "copied": "Gekopieerd ✓",
+  "impactPrefix": "✨ ",
+  "privacyTitle": "🔒 Jouw gegevens, alleen op jouw apparaat",
+  "privacyDesc": "De inhoud van je fragmenten staat alleen op je apparaat (en in je eigen iCloud als je dat inschakelt). Wij verzamelen die inhoud nooit. Alleen anonieme gebruiksstatistieken worden verzameld om de app te verbeteren.",
+  "privacyBadge": "✓ Voldoet aan het privacybeleid van Apple",
+  "pricingTitle": "Begin gratis",
+  "pricingSubtitle": "Gratis te downloaden · Pro is een eenmalige aankoop, geen abonnementen",
+  "price": "Gratis",
+  "priceDesc": "Pro-upgrade €9,99 · eenmalig · 7 dagen gratis proberen",
+  "priceFeature1": "Gratis: 10 fragmenten · 3 sjablonen · 3 combo's",
+  "priceFeature2": "Pro: onbeperkte opslag · iCloud-back-up · beveiligde fragmenten",
+  "priceFeature3": "iPhone, iPad, Mac, Vision Pro",
+  "priceFeature4": "Geen abonnement · Geen advertenties",
+  "priceFeature5": "Gratis updates voor altijd",
+  "pricingCta": "Gratis downloaden",
+  "footerContact": "Contact",
+  "footerTutorial": "Handleiding",
+  "footerPrivacy": "Privacybeleid",
+  "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+ },
+ "PERSONA_DATA": [
+  {
+   "persona": "nomad",
+   "intro": "Je trekt van café naar coworkingruimte en werkt voor klanten over de hele wereld. Tijdzones, internationale overschrijvingen, visa, bijna identieke Engelse mails: je dag lekt weg met zoeken naar dezelfde gegevens in een ander tabblad. Sla alles één keer op en vanaf dan is het één tik.",
+   "scenarios": [
+    {
+     "title": "\"Stuur je bankgegevens\"",
+     "pain": "Eén regel van een klant en je duikt weer je bankapp in voor de IBAN en SWIFT.",
+     "example": "Naam: {je naam}\nIBAN: {IBAN}\nSWIFT/BIC: {SWIFT}\nBankadres: {bankadres}\nWise: {Wise-e-mailadres}",
+     "impact": "Een zoektocht van 30 seconden wordt één tik, en je verwisselt nooit meer cijfers.",
+     "feature": "combo"
+    },
+    {
+     "title": "Antwoord over tijdzone",
+     "pain": "Een \"Kunnen we even bellen?\" om 2 uur 's nachts en je legt weer eens uit in welke tijdzone je zit.",
+     "example": "Hoi {klant}, ik zit nu in GMT+{verschil} ({stad}). Ik kan {tijdvak}. Calendly: {link}",
+     "impact": "Drie berichten heen en weer worden één helder antwoord.",
+     "feature": "template"
+    },
+    {
+     "title": "Een factuur versturen",
+     "pain": "Je typt elke keer opnieuw het factuurnummer, bedrag, de valuta en de vervaldatum.",
+     "example": "Factuur #{nr} · {valuta} {bedrag}\nVervaldatum: {vervaldatum}\nBetaling: Wise ({e-mailadres})\nBedankt! 🙏",
+     "impact": "Het sjabloon vangt de velden op die je zou vergeten: minder correcties en herfacturaties.",
+     "feature": "template"
+    },
+    {
+     "title": "Opvolging van een offerte",
+     "pain": "Drie dagen stilte en elke keer weer lastig om een herinnering te schrijven die niet pusherig overkomt.",
+     "example": "Hoi {klant}, ik kom even terug op de offerte die ik {dag} stuurde. Ik bel graag kort als er iets onduidelijk is.\n\nGroet, {naam}",
+     "impact": "Een beleefde follow-up die je direct verstuurt, en zo red je deals die je eerder liet versloffen.",
+     "feature": "template"
+    },
+    {
+     "title": "Paspoort- en visuminfo",
+     "pain": "Bij elke vlucht, verblijfsboeking of visumformulier zoek je je paspoortnummer en vervaldatum.",
+     "example": "Paspoortnr.: {paspoortnummer}\nVolledige naam: {naam}\nUitgegeven / Geldig tot: {uitgifte} / {vervaldatum}\nNationaliteit: {nationaliteit}",
+     "impact": "Beveilig het met Face ID als beveiligd fragment, en open het alleen als je het nodig hebt.",
+     "feature": "snippet"
+    },
+    {
+     "title": "\"Waar ben je gevestigd?\"",
+     "pain": "Een nieuwe klant vraagt het terloops en je legt elke keer uitgebreid uit hoe dat zit met je nomadenleven.",
+     "example": "Nergens in het bijzonder: op dit moment in {stad}. Ik werk async-first, dus tijdzones spelen zelden een rol, maar ik geef je altijd een duidelijk tijdvak waarin ik bereikbaar ben.",
+     "impact": "Eén zelfverzekerd, professioneel antwoord in plaats van een onzekere indruk.",
+     "feature": "template"
+    },
+    {
+     "title": "Wifi viel uit",
+     "pain": "De wifi in de coworkingruimte valt uit vlak voor een call en je zoekt snel naar woorden voor een excuus.",
+     "example": "Hoi team, de wifi in mijn coworkingruimte is net uitgevallen. Ik ga naar een uitwijklocatie en ben over {min} min weer online. Daarna ga ik meteen verder. 🙏",
+     "impact": "Zelfs in paniek stuur je binnen een seconde een rustig, geruststellend bericht.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Valuta- en offertenotitie",
+     "pain": "Een offerte in een andere valuta betekent elke keer opnieuw dezelfde opmerking over wisselkoersen schrijven.",
+     "example": "Offerte: {valuta} {bedrag} (≈ {omgerekend} tegen de koers van vandaag).\nGefactureerd in {valuta} via Wise om de kosten voor jou laag te houden.",
+     "impact": "Voorkom prijsverwarring vroeg, dus geen gesteggel op het moment van betalen.",
+     "feature": "template"
+    },
+    {
+     "title": "Onboarding van een nieuwe klant",
+     "pain": "Direct na de ondertekening loop je elke klant door Calendly, Slack, betaling en werkritme heen.",
+     "example": "Welkom aan boord, {klant}! Zo gaan we samenwerken:\n1. Eerste afstemming: Calendly: {link}\n2. Betaling (bankgegevens bijgevoegd indien nodig)\n3. Slack-uitnodiging binnen 24 uur\n4. Voortgangsdemo's elke donderdag\n\nIk heb er zin in!",
+     "impact": "Een Combo plakt meerdere fragmenten achter elkaar, en onboarding gaat van 5 minuten naar 5 seconden.",
+     "feature": "combo"
+    },
+    {
+     "title": "Afsluiten voor de avond",
+     "pain": "Een dringend bericht om 22:00 uur en beleefd \"nu even niet\" zeggen blijft elke keer ongemakkelijk.",
+     "example": "Hoi! Ik ga offline voor vandaag ({tijd} in {stad}). Ik antwoord morgenochtend als eerste, bedankt voor je geduld 🙏",
+     "impact": "Houd je grens zonder onbeleefd over te komen: het vertrouwen blijft, een burn-out blijft uit.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "business",
+   "intro": "Vergaderingen, rapporten, reacties: je herschrijft dezelfde zinnen tientallen keren per dag. \"Graag bevestigen\", uitnodigingen voor overleg, afwezigheidsberichten. Sla de beleefde, steeds terugkerende zinnen één keer op en besteed je aandacht aan het werk in plaats van aan de formulering.",
+   "scenarios": [
+    {
+     "title": "Afwezigheidsbericht",
+     "pain": "Bij elke reis schrijf je je afwezigheidsbericht opnieuw en vergeet je de vervanger te noemen.",
+     "example": "Goedendag, ik ben afwezig van {start} tot {einde}.\nVoor dringende zaken kunt u contact opnemen met {contactpersoon} ({telefoon}).\nIk beantwoord uw bericht op volgorde zodra ik terug ben. Hartelijk dank.",
+     "impact": "Geen gaten in de bereikbaarheid en geen lawine aan mails bij je terugkomst.",
+     "feature": "template"
+    },
+    {
+     "title": "Uitnodiging voor overleg",
+     "pain": "Je typt voor elke vergadering opnieuw de opzet met datum, plek en agenda.",
+     "example": "Hoi {naam},\nGraag plan ik een overleg in:\n📅 {datum} {tijd}\n📍 {plek}\n📌 Agenda: {agenda}\nLaat je weten of je erbij kunt zijn? 😊",
+     "impact": "Een heldere uitnodiging betekent minder herhaalde bevestigingen en veel minder no-shows.",
+     "feature": "template"
+    },
+    {
+     "title": "Wekelijkse statusrapportage",
+     "pain": "Elke week begin je dezelfde rapportage vanaf een leeg scherm.",
+     "example": "Hoi team, de update van deze week:\n✅ Afgerond: {afgerond}\n🔄 In uitvoering: {in uitvoering}\n📋 Volgende week: {gepland}\nIk bespreek bovenstaande graag.",
+     "impact": "De opzet staat vast, je vult alleen de inhoud in. Vrijdagavond wordt een stuk lichter.",
+     "feature": "template"
+    },
+    {
+     "title": "Voorstellen & visitekaartje",
+     "pain": "Bij elke kennismaking typ je opnieuw je functie, team en contactgegevens.",
+     "example": "Hoi, ik ben {naam}.\nIk ben {functie} bij {bedrijf}.\n📧 {e-mailadres} / 📞 {telefoon}\nIk kijk uit naar de samenwerking 🙏",
+     "impact": "Een consistente kennismaking wekt vertrouwen, en door een typefout gaan er geen contactgegevens verloren.",
+     "feature": "snippet"
+    },
+    {
+     "title": "E-mailhandtekening",
+     "pain": "Handtekeningen worden niet overgenomen tussen mailapps, dus plak je de jouwe met de hand.",
+     "example": "{naam}\n{functie} | {bedrijf}\n📧 {e-mailadres}\n📞 {telefoon}\n🌐 {website}",
+     "impact": "Eén handtekening voor elke app of elk apparaat: je merk blijft strak zichtbaar.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Betaal- en belastinggegevens",
+     "pain": "Elke keer dat een leverancier om rekening- of belastinggegevens vraagt, zoek je tussen financiële bestanden.",
+     "example": "Rekening: {bank} {nummer} ({tenaamstelling})\nBTW-nummer: {btw-nummer}\nBedrijf: {bedrijf}\nFactuur-e-mailadres: {e-mailadres}",
+     "impact": "Stuur het direct en foutloos door: geen vertraagde of verkeerd gerichte betalingen.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Samenwerking voorstellen",
+     "pain": "Bij een voorstel tot samenwerking is die beleefde openingszin altijd het lastigst.",
+     "example": "Hoi {naam},\nIk neem contact op over een mogelijke samenwerking rond {project}.\nIk ben {functie} bij {bedrijf/naam}.\nZou een kort belletje passen? Laat me weten wanneer het jou schikt. Alvast bedankt!",
+     "impact": "De zin waar je urenlang over piekerde staat klaar, dus je neemt vaker daadwerkelijk contact op.",
+     "feature": "template"
+    },
+    {
+     "title": "Excuses voor een late reactie",
+     "pain": "Als je traag reageert, is het lastig om excuses aan te bieden zonder nonchalant over te komen.",
+     "example": "Hoi {naam}, excuses voor mijn late reactie. {reden} zorgde voor vertraging. Uiterlijk {datum} kom ik met details bij je terug. Bedankt voor je geduld.",
+     "impact": "Een zin die vertrouwen oplevert in plaats van stilte, en de relatie blijft goed.",
+     "feature": "template"
+    },
+    {
+     "title": "Bedankje na afronding van een project",
+     "pain": "Hoe beter het project liep, hoe langer je het bedankje uitstelt en het moment mist.",
+     "example": "Hoi {naam},\nOprecht bedankt voor de samenwerking aan {project}.\nDankzij jou hebben we een mooi resultaat bereikt.\nIk houd de deur graag open voor wat er daarna komt 😊",
+     "impact": "Mis nooit het bericht dat van een project het volgende maakt, en vervolgopdrachten volgen.",
+     "feature": "template"
+    },
+    {
+     "title": "Facturatie & afrekening",
+     "pain": "Aan het einde van de maand stel je het overzicht en de rekeninggegevens weer met de hand samen.",
+     "example": "Hoi! Hierbij het overzicht van {maand}.\nBedrag: {bedrag} (incl. btw)\nRekening: {bank} {nummer} ({tenaamstelling})\nGraag bevestigen 😊",
+     "impact": "Een foutloos opgemaakte factuur betekent geen herschrijven, en je wordt sneller betaald.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "student",
+   "intro": "Studentenkaart, universiteitsmail, voorbladen van opdrachten, mededelingen voor groepsprojecten: het studentenleven is het ene steeds terugkerende formulier na het andere. Sla je mails aan docenten, het verrekenen met je groep en je kamer- of studentenhuisadres op, en je wint tijd terug om te studeren en voor jezelf.",
+   "scenarios": [
+    {
+     "title": "Studentnummer + naam",
+     "pain": "Bij vakinschrijving, inleveren en bewijzen typ je elke keer opnieuw je nummer en naam.",
+     "example": "{opleiding} {studentnummer} {naam}",
+     "impact": "Eén tik in elk veld, zonder dat een typefout op het laatste moment je punten kost.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Mail aan een docent",
+     "pain": "Mails aan docenten vragen om een beleefde toon, dus de eerste zin maakt je elke keer gespannen.",
+     "example": "Geachte docent, mijn naam is {naam} ({studentnummer}), student {opleiding}.\nIk volg {vak} (groep {nr}).\nIk schrijf u over {onderwerp}.\nExcuses voor de storing en alvast bedankt.",
+     "impact": "Vul het punt in, de opzet staat al: je stelt mails niet meer uit.",
+     "feature": "template"
+    },
+    {
+     "title": "Voorblad van een opdracht",
+     "pain": "Elk vak wil een ander voorblad, dus vlak voor de deadline zit je te priegelen.",
+     "example": "Vak: {vak}\nDocent: {docent}\nIngeleverd door: {opleiding} {studentnummer} {naam}\nDatum: {datum}\nOnderwerp: {onderwerp}",
+     "impact": "Opzet opgeslagen, inhoud ververst: weer een laag deadlinestress minder.",
+     "feature": "template"
+    },
+    {
+     "title": "Mededeling voor een groepsproject",
+     "pain": "De vergadertijd en rolverdeling in de groepsapp zetten is elke ronde weer een klus.",
+     "example": "[{opdracht}] Groepsmededeling 📢\nVolgende afspraak: {datum} {tijd} @ {plek/link}\nMeenemen: {spullen}\nDeadline: {deadline}\nReageer met 👍 als je dit gezien hebt!",
+     "impact": "Een nette mededeling maakt een eind aan \"wacht, wanneer was het ook alweer?\" en houdt de groep op koers.",
+     "feature": "template"
+    },
+    {
+     "title": "Adres van je kamer of studentenhuis",
+     "pain": "Bij elke bezorging voer je opnieuw het volledige adres en de toegangscode in.",
+     "example": "{postcode}\n{adres}\n{kamer of appartement}\nToegangscode: {code}\nOntvanger: {naam} / {telefoon}",
+     "impact": "Eén tik in de bezorgapp, en geen pakketjes meer kwijt door een verkeerd adres.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Rekening splitsen",
+     "pain": "Geld ophalen voor spullen of een etentje met de groep betekent elke keer opnieuw rekenen en posten.",
+     "example": "Het totaal was {totaal} voor {personen} personen, dus {per persoon} p.p. 🙏\nMaak het over naar {bank} {nummer} ({naam}), alvast bedankt~",
+     "impact": "Stuur de verdeling direct door: en het gepraat over geld voelt een stuk minder ongemakkelijk.",
+     "feature": "template"
+    },
+    {
+     "title": "Afmelding bij ziekte",
+     "pain": "Als je ziek bent, schiet het bericht aan een docent of TA je niet te binnen, juist als het dringend is.",
+     "example": "Geachte docent, mijn naam is {naam} ({studentnummer}).\nOp {datum} kan ik {vak} niet bijwonen wegens {reden}.\nIk lever een bewijs aan via {methode}. Mijn excuses.",
+     "impact": "Zelfs als je in de stress zit, stuur je meteen een beleefd bericht: minder kans op een sanctie.",
+     "feature": "template"
+    },
+    {
+     "title": "Leden werven voor vereniging of studiegroep",
+     "pain": "Een oproep in meerdere communities plaatsen betekent dat je de intro telkens licht aanpast.",
+     "example": "[{groep}] We zoeken leden! 🙌\nWat we doen: {activiteit}\nWanneer: {dag/tijd}\nWaar: {plek}\nAanmelden: {link/contact}\nStuur gerust een berichtje 😊",
+     "impact": "Plak dezelfde oproep met één tik overal neer, en het werven gaat veel sneller.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Basisgegevens voor een stage-aanvraag",
+     "pain": "Elke sollicitatie herhaalt je naam, contactgegevens, opleiding en links tot je er doodmoe van bent.",
+     "example": "{naam} · {telefoon} · {e-mailadres}\n{onderwijsinstelling} {opleiding} (jaar {jaar})\nPortfolio: {link}\nGitHub/blog: {link}",
+     "impact": "Formulieren invullen gaat snel, dus solliciteer je op meer kansen.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Je komt te laat",
+     "pain": "Als je te laat bent voor college of een afspraak met een vriend, wordt je bericht door schuldgevoel steeds langer.",
+     "example": "Sorry! Ik ben ongeveer {min} min te laat. Ben er bijna 🙏",
+     "impact": "Een kort, duidelijk bericht stelt degene die wacht meteen gerust.",
+     "feature": "template"
+    }
+   ]
+  },
+  {
+   "persona": "general",
+   "intro": "De basis die je elke dag gebruikt: rekeningnummer, huisadres, telefoonnummer, de groeten die je vaak verstuurt. Je hoeft niet meer in je geheugen of oude chats te graven; als het zover is, is het één tik. Elk onderdeel is klein, maar samen leveren ze op één dag echt tijd op.",
+   "scenarios": [
+    {
+     "title": "Rekeningnummer delen",
+     "pain": "\"Wat is je rekeningnummer?\" en je opent de bankapp om het nummer te zoeken en te kopiëren.",
+     "example": "{bank} {rekeningnummer}\nTenaamstelling: {naam}\n(Apple Pay / overschrijving kan ook 🙏)",
+     "impact": "Eén tik, precies goed: geen verkeerde cijfers waardoor geld op een verkeerde rekening belandt.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Thuisadres (bezorging)",
+     "pain": "Bij zowel online winkelen als tweedehands verkopen typ je opnieuw het volledige adres en je contactgegevens.",
+     "example": "{postcode}\n{adres}\n{aanvullende gegevens}\nOntvanger: {naam} / {telefoon}",
+     "impact": "Adres in één keer ingevuld, minder foute bezorgingen die je tijd kosten.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Iets afspreken",
+     "pain": "Voor elke afspraak schrijf je een nieuw bericht om tijd en plek te regelen.",
+     "example": "Wat dacht je van {plek} om {tijd} op {datum}? Zo niet, laat me weten wat jou past 😊",
+     "impact": "Met een concreet voorstel openen zorgt dat afspraken veel sneller vastliggen.",
+     "feature": "template"
+    },
+    {
+     "title": "Je komt te laat",
+     "pain": "Elke keer dat je te laat bent, schrijf je door schuldgevoel je excuses uitgebreid opnieuw.",
+     "example": "Sorry! Ik ben ongeveer {min} min te laat. Begin gerust zonder mij 🙏",
+     "impact": "Een kort bericht dat je meteen verstuurt, stelt degene die wacht gerust.",
+     "feature": "template"
+    },
+    {
+     "title": "Rekening voor een gelegenheid (cadeau of condoleance)",
+     "pain": "Als iemand om het rekeningnummer voor een cadeau of condoleance vraagt, ga je naarstig op zoek naar het nummer.",
+     "example": "Bedankt voor de attente gedachte.\n{bank} {rekeningnummer} ({tenaamstelling})\nJe aanwezigheid alleen betekent al zo veel 🙏",
+     "impact": "Ook in een hectisch moment deel je het correct en beleefd.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Advertentie voor tweedehands verkoop",
+     "pain": "Bij elke verkoop schrijf je prijs, staat en ophaalplek steeds op dezelfde manier opnieuw.",
+     "example": "Te koop: {artikel}\nPrijs: {prijs} (onderhandelbaar: {ja/nee})\nStaat: {staat}\nOphalen: {locatie} of verzenden\nContact: {contact}",
+     "impact": "Plak het met één tik op elk platform, en je reageert sneller op kopers.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Noodgegevens & gezinsinfo",
+     "pain": "Bij inschrijving in het ziekenhuis en op formulieren moet je elke keer de contactpersoon en gegevens oproepen.",
+     "example": "Contactpersoon: {naam} ({relatie})\nTelefoon: {telefoon}\nBloedgroep: {bloedgroep}\nOpmerkingen/allergieën: {details}",
+     "impact": "Juiste gegevens op een dringend moment, kalm reageren in plaats van in paniek raken.",
+     "feature": "snippet"
+    },
+    {
+     "title": "Gegevens voor een afspraak of reservering",
+     "pain": "Bij het bellen voor een afspraak zoek je elke keer naam, geboortedatum en klachten bij elkaar.",
+     "example": "Ik wil graag een afspraak maken.\nNaam: {naam} / Geboortedatum: {geboortedatum}\nReden: {reden}\nVoorkeur: {datum} {tijd}",
+     "impact": "Een nette aanvraag maakt het gesprek korter en levert je de gewenste tijd op.",
+     "feature": "template"
+    },
+    {
+     "title": "Wifi-wachtwoord delen",
+     "pain": "Bij elke gast moet je het wachtwoord van de router voorlezen of zoeken naar een foto ervan.",
+     "example": "WiFi: {netwerknaam}\nWachtwoord: {wachtwoord}\nVeel plezier 😊",
+     "impact": "Deel het één keer: geen drie keer herhalen van \"wat is het wachtwoord?\".",
+     "feature": "snippet"
+    },
+    {
+     "title": "Vaste groeten",
+     "pain": "Bij feestdagen en verjaardagen schrijf je telkens een soortgelijk bericht helemaal opnieuw.",
+     "example": "Hoi {naam}, ik hoop dat je {gelegenheid} fantastisch is! Ik wens je een goede gezondheid en alleen maar goeds voor de toekomst 😊",
+     "impact": "Hartelijk maar snel: zo bereik je echt iedereen die je wilde bereiken.",
+     "feature": "template"
+    }
+   ]
+  }
+ ],
+ "DEMO_SCENARIOS": [
+  {
+   "id": "daily",
+   "tab": "👤 Dagelijks",
+   "incoming": "Ik maak vanavond mijn deel over: hoeveel is het en waar moet ik het naartoe sturen? 🙏",
+   "target": "settle",
+   "keys": [
+    {
+     "id": "settle",
+     "title": "Verrekenen",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Vanavond is het {bedrag} p.p. 🙏\nStuur het naar {rekening} (t.n.v. Hyunho Lee)~",
+     "ph": [
+      {
+       "name": "bedrag",
+       "values": [
+        "€12",
+        "€25",
+        "€38"
+       ]
+      },
+      {
+       "name": "rekening",
+       "values": [
+        "NL91 ABNA 0417 1643 00",
+        "Tikkie-link",
+        "ING 1234567"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "addr",
+     "title": "Thuisadres",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Prinsengracht 263, 1016 GV Amsterdam\nOntvanger: Hyunho Lee / +31 6 12345678"
+    },
+    {
+     "id": "late",
+     "title": "Ik ben te laat",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Sorry! Ik ben ongeveer {minuten} min later. Begin maar zonder mij 🙏",
+     "ph": [
+      {
+       "name": "minuten",
+       "values": [
+        "5",
+        "10",
+        "20"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pay",
+     "title": "Geld sturen",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Tikkie: leeo",
+      "PayPal: leeo@example.com",
+      "IBAN: NL91 ABNA 0417 1643 00"
+     ]
+    },
+    {
+     "id": "wifi",
+     "title": "Wifi thuis",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "WiFi: Thuis_5G\nWachtwoord: welkom2026!"
+    },
+    {
+     "id": "card",
+     "title": "Kaartnummer",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "4212 3456 7890 7788 (12/29)"
+    },
+    {
+     "id": "delivery",
+     "title": "Bezorginstructies",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Leg het pakket graag bij de voordeur 🙏\nCode hek: #1234\nGraag niet aanbellen, de baby slaapt."
+    },
+    {
+     "id": "sale",
+     "title": "Advertentie tweedehands",
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Te koop: iPad Air (5e generatie)\nPrijs: €320 (bieden mogelijk)\nStaat: lichte gebruikssporen, doos inbegrepen\nOphalen: centrum of verzenden"
+    }
+   ]
+  },
+  {
+   "id": "work",
+   "tab": "💼 Zakelijk",
+   "incoming": "Kun je de vergadering van volgende week inplannen en de details delen?",
+   "target": "meet",
+   "keys": [
+    {
+     "id": "meet",
+     "title": "Vergaderuitnodiging",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Hoi, ik wil graag een afspraak inplannen:\n📅 {datum} {tijd}\n📍 {locatie}\nLaat je even weten of je erbij kunt zijn? 😊",
+     "ph": [
+      {
+       "name": "datum",
+       "values": [
+        "di 12 mrt",
+        "do 14 mrt"
+       ]
+      },
+      {
+       "name": "tijd",
+       "values": [
+        "10:00",
+        "14:00"
+       ]
+      },
+      {
+       "name": "locatie",
+       "values": [
+        "Vergaderruimte 3e verdieping",
+        "Google Meet"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "sign",
+     "title": "E-mailhandtekening",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Hyunho Lee\nProductmanager | Ysoup\n📧 leeo@example.com / 📞 +31 6 12345678"
+    },
+    {
+     "id": "ok",
+     "title": "Genoteerd, dank",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Genoteerd: bedankt voor het regelen 🙏"
+    },
+    {
+     "id": "ooo",
+     "title": "Afwezig",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Ik ben afwezig van {start} tot {einde}.\nVoor spoedeisende zaken kun je contact opnemen met Hana Kim (+31 6 87654321).",
+     "ph": [
+      {
+       "name": "start",
+       "values": [
+        "18 mrt",
+        "1 apr"
+       ]
+      },
+      {
+       "name": "einde",
+       "values": [
+        "22 mrt",
+        "5 apr"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "biz",
+     "title": "Factuurgegevens",
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Rekening: NL91 ABNA 0417 1643 00 (Ysoup B.V.)",
+      "BTW-nummer: NL123456789B01",
+      "Factuur-e-mail: billing@example.com"
+     ]
+    },
+    {
+     "id": "rrn",
+     "title": "BSN",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "•••••6789"
+    },
+    {
+     "id": "report",
+     "title": "Weekrapport",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Update van deze week:\n✅ Afgerond: {afgerond}\n🔄 In uitvoering: {lopend}\n📋 Volgende week: {volgende}",
+     "ph": [
+      {
+       "name": "afgerond",
+       "values": [
+        "Release 4.5",
+        "QA van afrekenen"
+       ]
+      },
+      {
+       "name": "lopend",
+       "values": [
+        "Widget vernieuwen",
+        "Retentieanalyse"
+       ]
+      },
+      {
+       "name": "volgende",
+       "values": [
+        "App Store-review",
+        "Sprintretro"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "delay",
+     "title": "Late reactie",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Excuses voor mijn late reactie, de interne beoordeling duurde langer dan verwacht.\nIk kom er vandaag met details op terug 🙏"
+    }
+   ]
+  },
+  {
+   "id": "nomad",
+   "tab": "🌏 Nomade",
+   "incoming": "Top, we beginnen maandag! Kun je je bankgegevens sturen?",
+   "target": "iban",
+   "keys": [
+    {
+     "id": "iban",
+     "title": "IBAN · SWIFT",
+     "type": "snippet",
+     "tint": "#FF9F0A",
+     "value": "Naam: Hyunho Lee\nIBAN: DE89 3704 0044 0532 0130 00\nSWIFT/BIC: COBADEFFXXX"
+    },
+    {
+     "id": "tz",
+     "title": "Reactie tijdzone",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Hoi, ik zit nu in GMT+{verschil}. Ik kan {tijdvak}. Calendly: cal.com/leeo",
+     "ph": [
+      {
+       "name": "verschil",
+       "values": [
+        "9",
+        "2"
+       ]
+      },
+      {
+       "name": "tijdvak",
+       "values": [
+        "9 tot 11 uur jouw tijd",
+        "op elk moment na 15:00"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "inv",
+     "title": "Factuur",
+     "type": "template",
+     "tint": "#AF52DE",
+     "text": "Factuur #{nummer} · USD {bedrag}\nVervaldatum: {vervaldatum}\nBetaling: Wise (leeo@example.com)\nBedankt! 🙏",
+     "ph": [
+      {
+       "name": "nummer",
+       "values": [
+        "2026-014",
+        "2026-015"
+       ]
+      },
+      {
+       "name": "bedrag",
+       "values": [
+        "2.400",
+        "3.800"
+       ]
+      },
+      {
+       "name": "vervaldatum",
+       "values": [
+        "31 mrt",
+        "15 apr"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pm",
+     "title": "Betaalmethoden",
+     "fav": true,
+     "type": "combo",
+     "tint": "#FF9500",
+     "values": [
+      "Wise: leeo@example.com",
+      "PayPal: leeo@example.com",
+      "Stripe: stripe.me/leeo"
+     ]
+    },
+    {
+     "id": "wifi2",
+     "title": "Wifi viel uit",
+     "fav": true,
+     "type": "snippet",
+     "tint": "#007AFF",
+     "value": "Hoi team, de wifi op mijn coworkingplek viel net uit. Over 10 min ben ik weer online 🙏"
+    },
+    {
+     "id": "pass",
+     "title": "Paspoortgegevens",
+     "type": "secure",
+     "tint": "#5E8BFF",
+     "value": "Paspoort: M12345678 · Geldig tot 2031-04-18"
+    },
+    {
+     "id": "quote",
+     "title": "Offerte en wisselkoers",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Offerte: USD 2.400 (≈ EUR 2.210 tegen de huidige koers).\nIn USD gefactureerd via Wise om de kosten voor jou laag te houden."
+    },
+    {
+     "id": "signoff",
+     "title": "Ik log uit",
+     "type": "snippet",
+     "tint": "#34C759",
+     "value": "Ik log af voor vandaag (hier is het 23:00). Ik reageer morgenochtend meteen, bedankt voor je geduld 🙏"
+    }
+   ]
+  }
+ ],
+ "PERSONA_META": {
+  "nomad": {
+   "icon": "🌏",
+   "name": "Nomade · Freelancer"
+  },
+  "business": {
+   "icon": "💼",
+   "name": "Zakelijk"
+  },
+  "student": {
+   "icon": "🎓",
+   "name": "Student"
+  },
+  "general": {
+   "icon": "👤",
+   "name": "Dagelijks gebruik"
+  }
+ },
+ "BADGE_LABEL": {
+  "snippet": "Fragment",
+  "template": "Sjabloon",
+  "combo": "Combo",
+  "smartClipboard": "Klembord"
+ }
+}

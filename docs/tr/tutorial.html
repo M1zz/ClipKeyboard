@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<!-- 만든 파일입니다. 고치려면 docs/tutorial.html 또는 docs/i18n/tr/ 를 고치고 node docs/i18n/build.mjs -->
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://m1zz.github.io/ClipKeyboard/tr/tutorial.html">
+    <link rel="alternate" hreflang="ko" href="https://m1zz.github.io/ClipKeyboard/ko/tutorial.html">
+    <link rel="alternate" hreflang="en" href="https://m1zz.github.io/ClipKeyboard/en/tutorial.html">
+    <link rel="alternate" hreflang="zh-Hans" href="https://m1zz.github.io/ClipKeyboard/zh-Hans/tutorial.html">
+    <link rel="alternate" hreflang="zh-Hant" href="https://m1zz.github.io/ClipKeyboard/zh-Hant/tutorial.html">
+    <link rel="alternate" hreflang="ru" href="https://m1zz.github.io/ClipKeyboard/ru/tutorial.html">
+    <link rel="alternate" hreflang="ja" href="https://m1zz.github.io/ClipKeyboard/ja/tutorial.html">
+    <link rel="alternate" hreflang="es" href="https://m1zz.github.io/ClipKeyboard/es/tutorial.html">
+    <link rel="alternate" hreflang="de" href="https://m1zz.github.io/ClipKeyboard/de/tutorial.html">
+    <link rel="alternate" hreflang="fr" href="https://m1zz.github.io/ClipKeyboard/fr/tutorial.html">
+    <link rel="alternate" hreflang="it" href="https://m1zz.github.io/ClipKeyboard/it/tutorial.html">
+    <link rel="alternate" hreflang="pt-BR" href="https://m1zz.github.io/ClipKeyboard/pt-BR/tutorial.html">
+    <link rel="alternate" hreflang="th" href="https://m1zz.github.io/ClipKeyboard/th/tutorial.html">
+    <link rel="alternate" hreflang="vi" href="https://m1zz.github.io/ClipKeyboard/vi/tutorial.html">
+    <link rel="alternate" hreflang="cs" href="https://m1zz.github.io/ClipKeyboard/cs/tutorial.html">
+    <link rel="alternate" hreflang="da" href="https://m1zz.github.io/ClipKeyboard/da/tutorial.html">
+    <link rel="alternate" hreflang="el" href="https://m1zz.github.io/ClipKeyboard/el/tutorial.html">
+    <link rel="alternate" hreflang="fi" href="https://m1zz.github.io/ClipKeyboard/fi/tutorial.html">
+    <link rel="alternate" hreflang="id" href="https://m1zz.github.io/ClipKeyboard/id/tutorial.html">
+    <link rel="alternate" hreflang="nb" href="https://m1zz.github.io/ClipKeyboard/nb/tutorial.html">
+    <link rel="alternate" hreflang="nl" href="https://m1zz.github.io/ClipKeyboard/nl/tutorial.html">
+    <link rel="alternate" hreflang="pl" href="https://m1zz.github.io/ClipKeyboard/pl/tutorial.html">
+    <link rel="alternate" hreflang="sv" href="https://m1zz.github.io/ClipKeyboard/sv/tutorial.html">
+    <link rel="alternate" hreflang="tr" href="https://m1zz.github.io/ClipKeyboard/tr/tutorial.html">
+    <link rel="alternate" hreflang="x-default" href="https://m1zz.github.io/ClipKeyboard/tutorial.html">
+    <script>window.PAGE_LANG = "tr";</script>
+    <title>ClipKeyboard Kullanım Kılavuzu</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="ClipKeyboard'u baştan sona kullanma rehberi: klavye kurulumu, ifade kaydetme, şablonlar, akıllı pano, kombolar ve iCloud yedekleme.">
+    <meta name="author" content="Leeo">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="ClipKeyboard Kullanım Kılavuzu">
+    <meta property="og:description" content="ClipKeyboard'u baştan sona kullanma rehberi: klavye kurulumu, ifade kaydetme, şablonlar, akıllı pano, kombolar ve iCloud yedekleme.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://m1zz.github.io/ClipKeyboard/tr/tutorial.html">
+    <meta property="og:image" content="https://m1zz.github.io/ClipKeyboard/app-icon.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ClipKeyboard Kullanım Kılavuzu">
+    <meta name="twitter:description" content="ClipKeyboard'u baştan sona kullanma rehberi: klavye kurulumu, ifade kaydetme, şablonlar, akıllı pano, kombolar ve iCloud yedekleme.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../favicon.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #007AFF;
+            --primary-dark: #0062CC;
+            --bg: #F2F2F3;
+            --text: #131315;
+            --text-secondary: #6B6B72;
+            --card-bg: #FFFFFF;
+            --border: rgba(0, 0, 0, 0.09);
+            --accent-green: #34C759;
+            --accent-orange: #FF9500;
+            --surface-alt: #E8E8EA;
+            --paper-1: #F5F5F6;
+            --paper-2: #E2E2E5;
+            --veil: rgba(255, 255, 255, 0.85);
+            --tip-bg: #FFF9E6;
+            --note-bg: #E8F1FF;
+            --warning-bg: #FFEEF0;
+            color-scheme: light;
+        }
+
+
+        /* 어두울 때. 값은 앱의 AppTheme.paperDark 를 그대로 옮겼다(소개 페이지와 같은 표).
+           ⚠️ 여기서는 토큰만 다시 정한다. 규칙을 새로 쓰기 시작하면 두 테마가 갈라진다. */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: #0A84FF;
+                --primary-dark: #409CFF;
+                --bg: #0D0D0E;
+                --text: #F2F2F4;
+                --text-secondary: #9C9CA3;
+                --card-bg: #1A1A1C;
+                --surface-alt: #242427;
+                --border: rgba(255, 255, 255, 0.10);
+                --paper-1: #191A1C;
+                --paper-2: #26272A;
+                --veil: rgba(26, 26, 28, 0.85);
+                --tip-bg: rgba(255, 159, 10, 0.14);
+                --note-bg: rgba(10, 132, 255, 0.16);
+                --warning-bg: rgba(255, 69, 58, 0.16);
+                color-scheme: dark;
+            }
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            font-family: inherit;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) { background: var(--surface-alt); }
+
+        /* Top Nav */
+        .top-nav {
+            position: sticky;
+            top: 0;
+            background: var(--veil);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 900;
+        }
+
+        .top-nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .top-nav a.home-link {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .top-nav .nav-spacer { flex: 1; }
+
+        .top-nav .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+        }
+
+        .top-nav .nav-link:hover { color: var(--primary); }
+
+        /* Hero */
+        .tutorial-hero {
+            padding: 5rem 2rem 3rem;
+            text-align: center;
+            background: linear-gradient(180deg, var(--card-bg) 0%, var(--paper-1) 100%);
+        }
+
+        .tutorial-hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-hero h1 span {
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tutorial-hero p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        /* TOC */
+        .toc-wrap {
+            padding: 2.5rem 2rem 1rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .toc {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+        }
+
+        .toc h3 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .toc ol {
+            list-style: none;
+            counter-reset: toc-counter;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .toc li {
+            counter-increment: toc-counter;
+            padding: 0.5rem 0;
+        }
+
+        .toc a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.6rem;
+        }
+
+        .toc a::before {
+            content: counter(toc-counter, decimal-leading-zero);
+            color: var(--primary);
+            font-size: 0.8125rem;
+            font-weight: 700;
+            min-width: 1.75rem;
+        }
+
+        .toc a:hover { color: var(--primary); }
+
+        /* Sections */
+        main {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2rem 2rem 6rem;
+        }
+
+        section.step {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            scroll-margin-top: 80px;
+        }
+
+        section.step .step-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.02em;
+        }
+
+        section.step h2 {
+            font-size: 1.625rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        section.step .lead {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.0625rem;
+        }
+
+        section.step h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-top: 1.75rem;
+            margin-bottom: 0.625rem;
+        }
+
+        section.step p {
+            margin-bottom: 0.75rem;
+        }
+
+        section.step ol.steps {
+            list-style: none;
+            counter-reset: step-counter;
+            margin: 1rem 0;
+        }
+
+        section.step ol.steps li {
+            counter-increment: step-counter;
+            padding: 0.875rem 1rem 0.875rem 3rem;
+            position: relative;
+            background: var(--bg);
+            border-radius: 10px;
+            margin-bottom: 0.625rem;
+        }
+
+        section.step ol.steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0.875rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.5rem;
+            height: 1.5rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        section.step ul.plain {
+            list-style: none;
+            margin: 0.75rem 0;
+        }
+
+        section.step ul.plain li {
+            padding: 0.4rem 0 0.4rem 1.5rem;
+            position: relative;
+        }
+
+        section.step ul.plain li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+
+        .tip {
+            background: var(--tip-bg);
+            border-left: 4px solid var(--accent-orange);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1.25rem 0;
+            font-size: 0.9375rem;
+        }
+
+        .tip::before {
+            content: "💡 ";
+            font-weight: 700;
+        }
+
+        .note {
+            background: var(--note-bg);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1.25rem 0;
+            font-size: 0.9375rem;
+        }
+
+        .note::before {
+            content: "ℹ️ ";
+            font-weight: 700;
+        }
+
+        .warning {
+            background: var(--warning-bg);
+            border-left: 4px solid #FF3B30;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1.25rem 0;
+            font-size: 0.9375rem;
+        }
+
+        .warning::before {
+            content: "⚠️ ";
+            font-weight: 700;
+        }
+
+        code, kbd {
+            background: var(--surface-alt);
+            padding: 0.1rem 0.375rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', Menlo, Consolas, monospace;
+            font-size: 0.9em;
+        }
+
+        kbd { border: 1px solid var(--border); box-shadow: 0 1px 0 rgba(0,0,0,0.06); }
+
+        /* Detail grid (auto-classification types) */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .grid-2 .item {
+            background: var(--bg);
+            padding: 0.625rem 0.875rem;
+            border-radius: 8px;
+            font-size: 0.9375rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* FAQ */
+        .faq details {
+            background: var(--bg);
+            border-radius: 10px;
+            margin-bottom: 0.625rem;
+            overflow: hidden;
+            transition: background 0.2s;
+        }
+
+        .faq details[open] { background: var(--card-bg); border: 1px solid var(--border); }
+
+        .faq summary {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            font-weight: 600;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .faq summary::-webkit-details-marker { display: none; }
+
+        .faq summary::after {
+            content: "＋";
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.25rem;
+            transition: transform 0.2s;
+        }
+
+        .faq details[open] summary::after {
+            transform: rotate(45deg);
+        }
+
+        .faq .content {
+            padding: 0 1.25rem 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA bottom */
+        .bottom-cta {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(180deg, var(--paper-1) 0%, var(--card-bg) 100%);
+        }
+
+        .bottom-cta .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.875rem 1.75rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .bottom-cta .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+            font-size: 0.9375rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        @media (max-width: 640px) {
+            section.step { padding: 1.75rem 1.5rem; }
+            .top-nav-inner { padding: 0.875rem 1rem; }
+            .tutorial-hero { padding: 3.5rem 1.5rem 2rem; }
+            main { padding: 1.5rem 1rem 4rem; }
+            .toc-wrap { padding: 1.5rem 1rem 0.5rem; }
+            /* 언어가 다섯이 되면서 좁은 화면에서 오른쪽이 잘렸다.
+               왼쪽 끝까지 자리를 내주고, 글자 여백을 줄여 다섯이 한 줄에 서게 한다. */
+            .lang-toggle { top: 0.5rem; right: 0.5rem; left: 0.5rem; justify-content: center; }
+            .lang-btn { padding: 0.5rem 0.7rem; }
+        }
+
+        /* ─────────────────────────────────────────────────────────────
+           실습판 - 내려받지 않고 여기서 그냥 써 보는 자리.
+           이 페이지의 나머지는 "이렇게 하세요" 이고, 이 판은 **해 보는 곳**이다.
+           읽고 나서 받는 것과, 써 보고 받는 것은 다른 결심이다.
+
+           ⚠️ 색·모서리·그림자는 전부 위 :root 토큰을 쓴다. 여기서 새 색을 만들면
+              어두울 때 이 판만 남의 집처럼 보인다.
+           ───────────────────────────────────────────────────────────── */
+        .play-wrap { max-width: 980px; margin: 0 auto 56px; padding: 0 20px; }
+        .play-head { text-align: center; margin-bottom: 22px; }
+        .play-head h2 { font-size: 1.8rem; letter-spacing: -0.02em; margin-bottom: 8px; }
+        .play-head p { color: var(--text-secondary); max-width: 560px; margin: 0 auto; line-height: 1.65; }
+        .play-badge {
+            display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em;
+            color: var(--primary); background: rgba(0,122,255,0.1);
+            padding: 5px 12px; border-radius: 999px; margin-bottom: 12px;
+        }
+        .play-grid { display: grid; grid-template-columns: minmax(0,320px) minmax(0,1fr); gap: 32px; align-items: start; }
+        @media (max-width: 820px) { .play-grid { grid-template-columns: 1fr; } }
+
+        /* 폰 */
+        .play-phone {
+            background: #1b1b1d; border-radius: 40px; padding: 10px;
+            box-shadow: 0 18px 46px rgba(0,0,0,0.22); margin: 0 auto; width: 320px; max-width: 100%;
+        }
+        .play-screen {
+            background: var(--card-bg); border-radius: 31px; overflow: hidden;
+            display: flex; flex-direction: column; height: 580px; position: relative;
+        }
+        .play-island {
+            width: 86px; height: 22px; background: #1b1b1d; border-radius: 999px;
+            position: absolute; top: 6px; left: 50%; transform: translateX(-50%); z-index: 5;
+        }
+        .play-appbar {
+            padding: 34px 16px 10px; border-bottom: 1px solid var(--border);
+            font-weight: 700; font-size: 0.95rem; background: var(--card-bg);
+        }
+        .play-convo { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 8px; background: var(--paper-1); }
+        .play-bubble {
+            max-width: 82%; padding: 9px 13px; border-radius: 17px; font-size: 0.86rem; line-height: 1.45;
+            white-space: pre-wrap; word-break: break-word;
+        }
+        .play-bubble.them { background: var(--surface-alt); color: var(--text); align-self: flex-start; border-bottom-left-radius: 5px; }
+        .play-bubble.me { background: var(--primary); color: #fff; align-self: flex-end; border-bottom-right-radius: 5px; }
+        .play-composer { display: flex; gap: 8px; align-items: center; padding: 9px 12px; border-top: 1px solid var(--border); background: var(--card-bg); }
+        .play-field {
+            flex: 1; min-height: 34px; border-radius: 17px; background: var(--surface-alt);
+            padding: 8px 12px; font-size: 0.85rem; color: var(--text); white-space: pre-wrap; word-break: break-word;
+        }
+        .play-field.empty { color: var(--text-secondary); }
+        .play-send {
+            width: 32px; height: 32px; border-radius: 50%; border: 0; flex: 0 0 32px; cursor: pointer;
+            background: var(--primary); color: #fff; font-size: 1rem; line-height: 1;
+        }
+        .play-send:disabled { background: var(--surface-alt); color: var(--text-secondary); cursor: default; }
+
+        /* 키보드 */
+        .play-kb { background: var(--paper-2); padding: 6px; display: flex; flex-direction: column; gap: 6px; }
+        .play-kbrow { display: flex; gap: 5px; align-items: center; }
+        .play-ctl {
+            border: 0; border-radius: 7px; background: var(--card-bg); color: var(--text-secondary);
+            height: 28px; min-width: 32px; padding: 0 7px; font-size: 0.78rem; cursor: pointer;
+        }
+        .play-ctl.on { background: var(--primary); color: #fff; }
+        .play-ctl:disabled { opacity: 0.4; cursor: default; }
+        /* 칸 높이를 줄에 고정한다. 안 그러면 글 높이만큼만 서서 키가 아니라 줄처럼 보인다.
+           높이를 바꾸면 보이는 줄 수가 달라지는 것이 이 판의 요점이라, 남는 자리는 굴린다. */
+        .play-keys { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; overflow-y: auto; align-content: start; grid-auto-rows: 44px; }
+        .play-key {
+            display: flex; align-items: center; gap: 6px; text-align: left;
+            border: 0; border-radius: 9px; background: var(--card-bg); color: var(--text);
+            padding: 0 9px; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+            box-shadow: 0 1px 0 rgba(0,0,0,0.12); overflow: hidden;
+        }
+        .play-key:active { transform: translateY(1px); }
+        .play-key .pos { font-size: 0.7rem; font-weight: 600; color: var(--text-secondary); flex: 0 0 auto; margin-left: auto; }
+        .play-key .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .play-key .nx {
+            flex: 0 0 auto; border-left: 1px solid var(--border);
+            padding-left: 8px; margin-left: 6px; color: var(--primary); font-weight: 700;
+        }
+        .play-kbhint { flex: 1; font-size: 0.72rem; color: var(--text-secondary); padding-left: 3px; }
+        .play-empty { grid-column: 1 / -1; text-align: center; color: var(--text-secondary); font-size: 0.8rem; padding: 18px 8px; }
+
+        /* 오른쪽 안내·조작 */
+        .play-side { display: flex; flex-direction: column; gap: 14px; }
+        .play-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; }
+        .play-card h3 { font-size: 0.98rem; margin-bottom: 6px; }
+        .play-card p { color: var(--text-secondary); font-size: 0.87rem; line-height: 1.6; }
+        .play-coach { border-color: var(--primary); background: rgba(0,122,255,0.06); }
+        .play-coach h3 { color: var(--primary); }
+        .play-size { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+        .play-size button {
+            flex: 1 1 auto; border: 1px solid var(--border); background: var(--card-bg); color: var(--text);
+            border-radius: 9px; padding: 7px 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+        }
+        .play-size button.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+        .play-note { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
+        .play-form { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+        .play-form input, .play-form textarea {
+            width: 100%; border: 1px solid var(--border); border-radius: 9px; background: var(--bg);
+            color: var(--text); padding: 9px 11px; font-size: 0.87rem; font-family: inherit;
+        }
+        .play-form textarea { min-height: 62px; resize: vertical; }
+        .play-form .row { display: flex; gap: 8px; }
+        .play-form button {
+            border: 0; border-radius: 9px; background: var(--primary); color: #fff;
+            padding: 9px 14px; font-weight: 700; font-size: 0.87rem; cursor: pointer;
+        }
+        .play-form button.ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+
+        /* 빈칸 채우기 시트 */
+        .play-sheet {
+            position: absolute; inset: 0; background: rgba(0,0,0,0.34); z-index: 9;
+            display: flex; align-items: flex-end;
+        }
+        .play-sheet-inner { background: var(--card-bg); width: 100%; border-radius: 18px 18px 0 0; padding: 16px; }
+        .play-sheet-inner h4 { font-size: 0.92rem; margin-bottom: 4px; }
+        .play-sheet-inner p { font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 10px; }
+        .play-sheet-inner input {
+            width: 100%; border: 1px solid var(--border); border-radius: 9px; background: var(--bg);
+            color: var(--text); padding: 9px 11px; font-size: 0.87rem; margin-bottom: 10px; font-family: inherit;
+        }
+        .play-sheet-inner .row { display: flex; gap: 8px; }
+        .play-sheet-inner button { flex: 1; border: 0; border-radius: 9px; padding: 9px; font-weight: 700; cursor: pointer; font-size: 0.85rem; }
+        .play-sheet-inner .go { background: var(--primary); color: #fff; }
+        .play-sheet-inner .no { background: var(--surface-alt); color: var(--text); }
+
+
+        /* 언어 메뉴. 언어가 13개라 한 줄 토글에 안 들어가서 링크 목록을 접어 둔다.
+           링크는 docs/<lang>/ 의 언어별 페이지로 간다(docs/i18n/build.mjs 가 만든다). */
+        .lang-menu { position: fixed; top: 1rem; right: 1rem; z-index: 1000; font-size: 0.875rem; }
+        .lang-menu summary {
+            list-style: none; cursor: pointer; display: flex; align-items: center; gap: 0.35rem;
+            padding: 0.5rem 0.9rem; background: var(--card-bg); color: var(--text);
+            border: 1px solid var(--border); border-radius: 100px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08); font-weight: 500;
+        }
+        .lang-menu summary::-webkit-details-marker { display: none; }
+        .lang-menu summary::after { content: "\25BE"; color: var(--text-secondary); font-size: 0.8em; }
+        .lang-menu-list {
+            position: absolute; right: 0; top: calc(100% + 0.4rem);
+            display: grid; grid-template-columns: repeat(2, minmax(8rem, 1fr)); gap: 0.15rem;
+            padding: 0.4rem; background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 14px; box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+        }
+        .lang-menu-list a {
+            display: block; padding: 0.45rem 0.7rem; border-radius: 8px;
+            color: var(--text); text-decoration: none; white-space: nowrap;
+        }
+        .lang-menu-list a:hover { background: var(--surface-alt, rgba(127,127,127,0.14)); }
+        .lang-menu-list a[aria-current="page"] { background: var(--primary); color: #fff; font-weight: 600; }
+        @media (max-width: 600px) { .lang-menu { top: 0.5rem; right: 0.5rem; } }
+    </style>
+</head>
+<body>
+    <details class="lang-menu">
+        <summary><span aria-hidden="true">🌐</span> <span class="lang-menu-label">Türkçe</span></summary>
+        <nav class="lang-menu-list" aria-label="Language">
+            <a href="../ko/tutorial.html" hreflang="ko" lang="ko">한국어</a>
+            <a href="../en/tutorial.html" hreflang="en" lang="en">English</a>
+            <a href="../zh-Hans/tutorial.html" hreflang="zh-Hans" lang="zh-Hans">简体中文</a>
+            <a href="../zh-Hant/tutorial.html" hreflang="zh-Hant" lang="zh-Hant">繁體中文</a>
+            <a href="../ru/tutorial.html" hreflang="ru" lang="ru">Русский</a>
+            <a href="../ja/tutorial.html" hreflang="ja" lang="ja">日本語</a>
+            <a href="../es/tutorial.html" hreflang="es" lang="es">Español</a>
+            <a href="../de/tutorial.html" hreflang="de" lang="de">Deutsch</a>
+            <a href="../fr/tutorial.html" hreflang="fr" lang="fr">Français</a>
+            <a href="../it/tutorial.html" hreflang="it" lang="it">Italiano</a>
+            <a href="../pt-BR/tutorial.html" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a>
+            <a href="../th/tutorial.html" hreflang="th" lang="th">ไทย</a>
+            <a href="../vi/tutorial.html" hreflang="vi" lang="vi">Tiếng Việt</a>
+            <a href="../cs/tutorial.html" hreflang="cs" lang="cs">Čeština</a>
+            <a href="../da/tutorial.html" hreflang="da" lang="da">Dansk</a>
+            <a href="../el/tutorial.html" hreflang="el" lang="el">Ελληνικά</a>
+            <a href="../fi/tutorial.html" hreflang="fi" lang="fi">Suomi</a>
+            <a href="../id/tutorial.html" hreflang="id" lang="id">Bahasa Indonesia</a>
+            <a href="../nb/tutorial.html" hreflang="nb" lang="nb">Norsk bokmål</a>
+            <a href="../nl/tutorial.html" hreflang="nl" lang="nl">Nederlands</a>
+            <a href="../pl/tutorial.html" hreflang="pl" lang="pl">Polski</a>
+            <a href="../sv/tutorial.html" hreflang="sv" lang="sv">Svenska</a>
+            <a href="../tr/tutorial.html" hreflang="tr" lang="tr" aria-current="page">Türkçe</a>
+        </nav>
+    </details>
+
+    <nav class="top-nav">
+        <div class="top-nav-inner">
+            <a href="index.html" class="home-link">
+                <img src="../favicon.png" width="24" height="24" alt="" style="border-radius: 6px;" onerror="this.style.display='none'">
+                <span>ClipKeyboard</span>
+            </a>
+            <div class="nav-spacer"></div>
+            <a href="index.html" class="nav-link" data-i18n="navHome">Ana Sayfa</a>
+            <a id="nav-appstore" href="https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502" class="nav-link" data-i18n="navStore">App Store</a>
+        </div>
+    </nav>
+
+    <section class="tutorial-hero">
+        <h1 data-i18n-html="heroTitle"><span>ClipKeyboard</span>'u 5 Dakikada Öğrenin</h1>
+        <p data-i18n="heroSubtitle">Klavye kurulumundan gelişmiş özelliklere kadar her şey tek sayfada.</p>
+    </section>
+
+
+    <!-- ── 실습판 ───────────────────────────────────────────────────
+         내려받지 않고 여기서 그냥 써 보는 자리. 목차 **앞**에 둔다.
+         아래 일곱 단계는 "이렇게 하세요" 이고, 이 판은 해 보는 곳이라
+         읽기 전에 한 번 만져 보는 쪽이 순서가 맞다.
+         ───────────────────────────────────────────────────────────── -->
+    <div class="play-wrap" id="playground">
+        <div class="play-head">
+            <span class="play-badge" data-i18n="playBadge">İndirmeden önce</span>
+            <h2 data-i18n="playTitle">Hemen burada deneyin</h2>
+            <p data-i18n="playLead">İndirmeniz gerekmez. Aşağıdaki klavye gerçekten çalışıyor. Yazmak için dokunun, doldurulacak alanı doldurun ve kendi ifadenizi oluşturun.</p>
+        </div>
+
+        <div class="play-grid">
+            <div class="play-phone">
+                <div class="play-screen" id="play-screen">
+                    <div class="play-island"></div>
+                    <div class="play-appbar" id="play-appbar">ClipKeyboard</div>
+                    <div class="play-convo" id="play-convo"></div>
+                    <div class="play-composer">
+                        <div class="play-field empty" id="play-field"></div>
+                        <button class="play-send" id="play-send" disabled aria-label="send">&#8593;</button>
+                    </div>
+                    <div class="play-kb" id="play-kb"></div>
+                </div>
+            </div>
+
+            <div class="play-side">
+                <div class="play-card play-coach">
+                    <h3 id="play-coach-title" data-i18n="playCoachTitle">Bir dokunun</h3>
+                    <p id="play-coach-body" data-i18n="playCoachStart">Herhangi bir tuşa dokunun, yukarıdaki alana yazılsın.</p>
+                </div>
+
+                <div class="play-card">
+                    <h3 data-i18n="playSizeTitle">Klavye yüksekliği</h3>
+                    <p data-i18n="playSizeBody">Uygulamadaki ayarın aynısı. Birine dokunun, aşağıdaki klavye değişsin.</p>
+                    <div class="play-size" id="play-size"></div>
+                </div>
+
+                <div class="play-card">
+                    <h3 data-i18n="playAddTitle">Kendi ifadenizi oluşturun</h3>
+                    <p data-i18n="playAddBody">Bir ad ve içerik girin, klavyede bir tuş belirsin. İçeriğe {ad} gibi süslü parantez koyarsanız bu bir şablon olur ve her seferinde doldurulacak alanı doldurmanızı ister.</p>
+                    <div class="play-form">
+                        <input id="play-new-key" maxlength="24" data-i18n-ph="playKeyPh" placeholder="Ad (örn. Banka bilgileri)">
+                        <textarea id="play-new-val" maxlength="400" data-i18n-ph="playValPh" placeholder="İçerik (örn. Garanti BBVA TR12 0006 2000 1234 0006 1234 56 Ahmet Yılmaz)"></textarea>
+                        <div class="row">
+                            <button id="play-add" data-i18n="playAddBtn">Klavyeye ekle</button>
+                            <button id="play-reset" class="ghost" data-i18n="playResetBtn">Baştan başla</button>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="play-note" data-i18n="playPrivacy">Bu deneme alanı tamamen tarayıcınızda çalışır. Yazdığınız hiçbir şey bir yere gönderilmez, bu cihazda kalır. Uygulama da aynı şekilde çalışır.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toc-wrap">
+        <div class="toc">
+            <h3 data-i18n="tocTitle">İçindekiler</h3>
+            <ol>
+                <li><a href="#playground" data-i18n="tocPlay">Burada deneyin</a></li>
+                <li><a href="#setup" data-i18n="tocSetup">Başlarken</a></li>
+                <li><a href="#memo" data-i18n="tocMemo">Not Kaydetme ve Düzenleme</a></li>
+                <li><a href="#template" data-i18n="tocTemplate">Şablonlar ve Doldurulacak Alanlar</a></li>
+                <li><a href="#smart-clip" data-i18n="tocSmart">Akıllı Pano</a></li>
+                <li><a href="#combo" data-i18n="tocCombo">Kombolar (Sıralı Giriş)</a></li>
+                <li><a href="#mac" data-i18n="tocMac">macOS Menü Çubuğu Uygulaması</a></li>
+                <li><a href="#backup" data-i18n="tocBackup">iCloud Yedekleme</a></li>
+                <li><a href="#faq" data-i18n="tocFaq">SSS ve Sorun Giderme</a></li>
+            </ol>
+        </div>
+    </div>
+
+    <main>
+        <!-- 1. 시작하기 -->
+        <section class="step" id="setup">
+            <span class="step-badge" data-i18n="stepLabel">ADIM 01</span>
+            <h2 data-i18n="setupTitle">Başlarken: Klavyeyi Ekleyin ve Tam Erişime İzin Verin</h2>
+            <p class="lead" data-i18n="setupLead">iOS güvenliği nedeniyle klavyeyi kendiniz etkinleştirmeniz gerekir. Yaklaşık bir dakika sürer.</p>
+
+            <h3 data-i18n="setupAddTitle">Klavyeyi Ekleyin</h3>
+            <ol class="steps">
+                <li data-i18n="setupAdd1">iOS Ayarlar → Genel → Klavye → Klavyeler → Yeni Klavye Ekle…</li>
+                <li data-i18n-html="setupAdd2">Listeden <strong>ClipKeyboard</strong> seçeneğini seçin</li>
+            </ol>
+
+            <h3 data-i18n="setupAccessTitle">Tam Erişime İzin Verin</h3>
+            <ol class="steps">
+                <li data-i18n-html="setupAccess1">Aynı ekranda, az önce eklediğiniz <strong>ClipKeyboard</strong> seçeneğine dokunun</li>
+                <li data-i18n-html="setupAccess2"><strong>Tam Erişime İzin Ver</strong> seçeneğini açın</li>
+            </ol>
+
+            <div class="warning" data-i18n="setupWhyAccess">Tam Erişim, klavyenin ana uygulamada kayıtlı notları okumasını sağlar. Verileriniz yalnızca cihazınızda kalır.</div>
+
+            <h3 data-i18n="setupSwitchTitle">Klavyeye Geçin</h3>
+            <p data-i18n-html="setupSwitch">Herhangi bir uygulamada klavyeyi açın ve sol alttaki 🌐 simgesine uzun basarak <strong>ClipKeyboard</strong> seçeneğini seçin.</p>
+        </section>
+
+        <!-- 2. 메모 -->
+        <section class="step" id="memo">
+            <span class="step-badge" data-i18n="stepLabel2">ADIM 02</span>
+            <h2 data-i18n="memoTitle">Not Kaydetme ve Düzenleme</h2>
+            <p class="lead" data-i18n="memoLead">Sık yazdığınız ifadeleri kaydedin, her yerde klavyeden çağırın.</p>
+
+            <h3 data-i18n="memoAddTitle">Not Ekleyin</h3>
+            <ol class="steps">
+                <li data-i18n-html="memoAdd1">Ana ekranın sağ üstündeki <strong>＋</strong> düğmesine dokunun</li>
+                <li data-i18n="memoAdd2">Bir başlık ve içerik girin (içerik, yazılacak metindir)</li>
+                <li data-i18n-html="memoAdd3">Düzenlemek için bir <strong>kategori</strong> seçin</li>
+                <li data-i18n="memoAdd4">Kaydedin, klavyede hemen kullanıma hazır olur</li>
+            </ol>
+
+            <h3 data-i18n="memoUseTitle">Klavyeden Kullanın</h3>
+            <ul class="plain">
+                <li data-i18n="memoUse1">Bir not kartına dokunun → metin imlecin olduğu yere yazılır</li>
+                <li data-i18n="memoUse2">Kopyala/düzenle menüsü için uzun basın</li>
+                <li data-i18n="memoUse3">Hızlıca bulmak için üstteki arama çubuğunu kullanın</li>
+            </ul>
+
+            <div class="tip" data-i18n="memoTip">Emojiler, satır sonları ve markdown olduğu gibi yazılır. Uzun e-posta imzaları mı? Sorun değil.</div>
+
+            <div class="note" data-i18n="memoKeyboardLook">Klavye uygulamayı yansıtır: favori notlar pembe görünür, güvenli notların başlığından önce bir kilit yer alır ve baktığınız kategori üstte büyük bir başlık olarak görünür.</div>
+
+            <h3 data-i18n="memoImageTitle">Görsel Notlar ve Metin Tanıma</h3>
+            <p data-i18n-html="memoImage">Fotoğraf eklenmiş bir nota dokunmak, onu görsel olarak panoya kopyalar. Kartvizitler veya fişler için çok uygundur. Ayrıca <strong>metin tanıma (OCR)</strong> ile çekilmiş bir görselden yalnızca ihtiyacınız olan metni alabilirsiniz. <strong>Ücretsiz sürümde en fazla 5 görsel not</strong> desteklenir; Pro ile sınır kalkar.</p>
+
+            <h3 data-i18n="smearTitle">Fotoğraftan Kaydırarak Seçin</h3>
+            <p data-i18n-html="smearLead">Hesap numaralarını ve telefon numaralarını kağıttan tekrar yazmayı bırakın. Fotoğraf çekin, ardından <strong>parmağınızı yalnızca ihtiyacınız olan kısmın üzerinde kaydırın</strong>; sadece o metin değer olur.</p>
+            <ol class="steps">
+                <li data-i18n-html="smear1">Bir ifade oluştururken içerik alanının üstündeki <strong>Metni tara</strong> seçeneğine dokunun ve <strong>Fotoğraf çek</strong> ya da <strong>Fotoğraf kitaplığından</strong> seçeneğini seçin</li>
+                <li data-i18n="smear2">Parmağınızı fotoğraftaki metnin üzerinde kaydırın. Parmağınızın geçtiği her yer sarı renkle vurgulanır</li>
+                <li data-i18n-html="smear3">Yanlışlıkla bir şey mi seçtiniz? Üzerinde <strong>Silgi</strong> ile tekrar kaydırın. Küçük metinleri büyütmek için iki parmakla yakınlaştırın</li>
+                <li data-i18n-html="smear4"><strong>Bu metni kullan</strong> seçeneğine dokunun, seçtiğiniz metin ifadenin içeriğine eklenir</li>
+            </ol>
+            <div class="tip" data-i18n="smearTip">İki satırlı adres gibi birden çok satıra yayılan değerler için satır sonu düğmesini açın. Kapalı bırakırsanız iki satıra bölünmüş bir hesap numarası tek parça olarak birleşir.</div>
+            <div class="note" data-i18n="smearNote">Fotoğraf asla kaydedilmez. Metin çıkarılır ve fotoğraf silinir. Tanıma tamamen cihazınızda yapılır, bu yüzden ne fotoğraf ne de metin bir yere gönderilir. Kaydırmak zor geliyorsa, sağ üstteki Satıra göre seç seçeneğiyle tanınan satırların listesinden seçim yapabilirsiniz.</div>
+
+            <h3 data-i18n="memoSecureTitle">Güvenli Notlar (Kilit)</h3>
+            <p data-i18n-html="memoSecure">Hassas notları kilitleyerek koruyun. Bir nota uzun basın ve <strong>Güvenli not olarak kilitle</strong> seçeneğini seçin: not cihazınızda şifreli olarak saklanır (anahtar iCloud Anahtar Zinciri ile güvenle eşitlenir) ve açmak ya da kilidini kaldırmak için <strong>Face ID / Touch ID</strong> gerekir. Kilitli notlar hem listede hem klavyede yalnızca başlığın önündeki bir kilitle işaretlenir ve kart rengini korur. Bu bir <strong>Pro özelliğidir</strong>.</p>
+        </section>
+
+        <!-- 3. 템플릿 -->
+        <section class="step" id="template">
+            <span class="step-badge" data-i18n="stepLabel3">ADIM 03</span>
+            <h2 data-i18n="tmplTitle">Şablonlar ve Doldurulacak Alanlar</h2>
+            <p class="lead" data-i18n-html="tmplLead">Biraz değişen kısımları <code>{değişken}</code> olarak bırakın, kullanırken doldurun.</p>
+
+            <h3 data-i18n="tmplSyntaxTitle">Sözdizimi</h3>
+            <p data-i18n-html="tmplSyntax">Süslü parantez <code>{ }</code> içindeki değişken adları doldurulacak alan olur. Örnekler:</p>
+            <ul class="plain">
+                <li><code data-i18n="tmplEx1">Merhaba {ad}, {tarih} tarihli rezervasyonunuz onaylandı.</code></li>
+                <li><code data-i18n="tmplEx2">Sipariş {sipariş_no} · Kargo tarihi {tarih}</code></li>
+            </ul>
+
+            <h3 data-i18n="tmplUseTitle">Nasıl Kullanılır</h3>
+            <ol class="steps">
+                <li data-i18n="tmplUse1">Bir şablon notuna dokunun: alttan bir değer giriş sayfası açılır</li>
+                <li data-i18n="tmplUse2">Boşlukları doldurun ve sağ üstteki Kopyala'ya dokunun; tamamlanan cümle kopyalanır</li>
+                <li data-i18n-html="tmplUse3">Girdiğiniz değerler hatırlanır, böylece sonraki seçim daha hızlı olur (örn. "ad" değerlerinin geçmişi)</li>
+            </ol>
+
+            <h3 data-i18n="tmplMakeTitle">Mevcut Bir Notu Şablona Dönüştürün</h3>
+            <p data-i18n-html="tmplMake">Normal bir nota uzun basın ve <strong>Şablon Yap</strong> seçeneğini seçin: orijinal olduğu gibi kalır, içeriği önceden doldurulmuş yeni bir şablon notu açılır. İstediğiniz yere <code>{değişken}</code> ekleyip kaydedin; imleç her değişkenin hemen ardına gelir, böylece yazmaya devam edebilirsiniz.</p>
+
+            <div class="note" data-i18n-html="tmplDateNote">Tarih/saat otomatik değişkenleriyle <strong>Bugün, Yarın, Gelecek hafta, İki hafta sonra veya belirli bir tarih</strong> seçebilirsiniz: dokunduğunuzda gerçek tarih yerine konur ve kopyalanır.</div>
+
+            <div class="tip" data-i18n-html="tmplTip">Aynı ada sahip değişkenler şablonlar arasında paylaşılır. <code>{ad}</code> için girilen değerler, diğer şablonlardaki <code>{ad}</code> alanında da önerilir.</div>
+        </section>
+
+        <!-- 4. 스마트 클립보드 -->
+        <section class="step" id="smart-clip">
+            <span class="step-badge" data-i18n="stepLabel4">ADIM 04</span>
+            <h2 data-i18n="smartTitle">Akıllı Pano</h2>
+            <p class="lead" data-i18n="smartLead">Kopyaladığınız metni otomatik olarak sınıflandırır, böylece istediğiniz an geri çağırabilirsiniz.</p>
+
+            <h3 data-i18n="smartTypesTitle">Otomatik Algılanan 15 Tür</h3>
+            <div class="grid-2">
+                <div class="item">📧 <span data-i18n="smartType1">E-posta</span></div>
+                <div class="item">📞 <span data-i18n="smartType2">Telefon</span></div>
+                <div class="item">📍 <span data-i18n="smartType3">Adres</span></div>
+                <div class="item">🔗 <span data-i18n="smartType4">URL</span></div>
+                <div class="item">💳 <span data-i18n="smartType5">Kart No</span></div>
+                <div class="item">🏦 <span data-i18n="smartType6">IBAN / Banka</span></div>
+                <div class="item">🌐 <span data-i18n="smartType7">SWIFT / BIC</span></div>
+                <div class="item">🧾 <span data-i18n="smartType8">KDV / Vergi No</span></div>
+                <div class="item">💱 <span data-i18n="smartType9">Tutar / Para Birimi</span></div>
+                <div class="item">📦 <span data-i18n="smartType10">Takip No</span></div>
+                <div class="item">💵 <span data-i18n="smartType11">PayPal / Wise</span></div>
+                <div class="item">🔢 <span data-i18n="smartType12">Sayı</span></div>
+                <div class="item">📝 <span data-i18n="smartType13">Düz Metin</span></div>
+                <div class="item">🖼️ <span data-i18n="smartType14">Görsel</span></div>
+                <div class="item">⋯ <span data-i18n="smartType15">Diğer</span></div>
+            </div>
+
+            <h3 data-i18n="smartHowTitle">Nasıl Çalışır</h3>
+            <ul class="plain">
+                <li data-i18n="smartHow1">Her kopyalamada, güven puanıyla birlikte düzenli ifade (regex) tabanlı sınıflandırma yapılır</li>
+                <li data-i18n="smartHow2">Geçmişte en fazla 100 öğe tutulur</li>
+                <li data-i18n="smartHow3">Geçici öğeler 30 gün sonra otomatik silinir</li>
+                <li data-i18n="smartHow4">Önemli öğeleri sonsuza dek saklamak için iğneleyin (📌)</li>
+            </ul>
+
+            <div class="note" data-i18n="smartNote">Hassas öğeler (kart, IBAN, Vergi No) ekranda maskelenir. Gerçek değer yalnızca dokunduğunuzda kopyalanır.</div>
+        </section>
+
+        <!-- 5. 콤보 -->
+        <section class="step" id="combo">
+            <span class="step-badge" data-i18n="stepLabel5">ADIM 05</span>
+            <h2 data-i18n="comboTitle">Kombolar: Birden Çok Not Tek Seferde</h2>
+            <p class="lead" data-i18n="comboLead">Ad, e-posta ve telefonu sırayla yazan makro benzeri bir özellik.</p>
+
+            <h3 data-i18n="comboWhenTitle">Şunlar İçin Birebir</h3>
+            <ul class="plain">
+                <li data-i18n="comboWhen1">Kayıt formlarını ad, e-posta ve telefonla doldurmak</li>
+                <li data-i18n="comboWhen2">Siparişler: adres + istekler + indirim kodu tek seferde</li>
+                <li data-i18n="comboWhen3">Destek yanıtları = selamlama + metin + imza</li>
+            </ul>
+
+            <h3 data-i18n="comboMakeTitle">Kombo Oluşturun</h3>
+            <p data-i18n-html="comboMakeIntro">Kombolar artık ayrı bir ekranda değil, <strong>doğrudan not listenizin içinde</strong> oluşturuluyor. Bir nota devam içeriği ekleyin, kombo olsun.</p>
+            <ol class="steps">
+                <li data-i18n-html="comboMake1">Ana uygulamada <strong>＋</strong> düğmesine dokunarak yeni bir not oluşturun ve ilk içeriği girin</li>
+                <li data-i18n-html="comboMake2">Sırayla girilecek içerik için <strong>devam notları</strong> ekleyin</li>
+                <li data-i18n="comboMake3">Adımlar arasındaki gecikmeyi (saniye olarak) ayarlayın</li>
+                <li data-i18n="comboMake4">Kaydedin: not listenizde kombo olarak görünür ve klavyede dokunduğunuzda adımlar sırayla yazılır</li>
+            </ol>
+
+            <div class="note" data-i18n="comboPreviewNote">Bir kombo notuna dokunmak onu hemen kopyalar ve yazılacak adım değerlerini sırayla yarım sayfalık bir önizlemede gösterir. Önceden oluşturduğunuz kombolar, kategoriler ve notlar güncellemelerde tamamen olduğu gibi korunur.</div>
+
+            <div class="tip" data-i18n="comboTip">0,3 sn'nin altındaki gecikmeler sistemin yetişebileceği hızı aşabilir. 0,5 ile 1 sn arası önerilir.</div>
+        </section>
+
+        <!-- 6. macOS -->
+        <section class="step" id="mac">
+            <span class="step-badge" data-i18n="stepLabel6">ADIM 06</span>
+            <h2 data-i18n="macTitle">macOS Menü Çubuğu Uygulaması</h2>
+            <p class="lead" data-i18n="macLead">Aynı notlar, pano ve kombolar Mac'te de (Mac Catalyst ile) sizinle.</p>
+
+            <h3 data-i18n="macInstallTitle">Kurulum</h3>
+            <p data-i18n-html="macInstall">Aynı App Store satın alımına dahildir. Mac App Store'da <strong>ClipKeyboard</strong> aratın. Verilerin iCloud ile otomatik eşitlenmesi için aynı Apple ID ile oturum açın.</p>
+
+            <h3 data-i18n="macFeaturesTitle">Yalnızca Mac'e Özel Özellikler</h3>
+            <ul class="plain">
+                <li data-i18n-html="macF1">Tek tıkla menü çubuğu simgesi paneli açar</li>
+                <li data-i18n-html="macF2"><kbd>⌃</kbd>+<kbd>⇧</kbd>+<kbd>V</kbd> gibi genel kısayollarla anında çağırın</li>
+                <li data-i18n="macF3">Pano izleme: kopyalarken sınıflandırır</li>
+                <li data-i18n="macF4">Diğer uygulamaların üzerinde yüzen panel</li>
+            </ul>
+
+            <div class="note" data-i18n="macNote">Mac'te bir ifade kaydedin, iPhone klavyesinde anında görünür; tersi de geçerlidir.</div>
+        </section>
+
+        <!-- 7. 백업 -->
+        <section class="step" id="backup">
+            <span class="step-badge" data-i18n="stepLabel7">ADIM 07</span>
+            <h2 data-i18n="backupTitle">iCloud Yedekleme ve Geri Yükleme</h2>
+            <p class="lead" data-i18n="backupLead">Cihaz değiştirirken veya uygulamayı yeniden kurarken notlarınızı kaybetmemek için iCloud'a yedekleyin.</p>
+
+            <h3 data-i18n="backupHowTitle">Yedekleme</h3>
+            <ol class="steps">
+                <li data-i18n-html="backupHow1">Uygulama <strong>Ayarlar</strong> → <strong>iCloud Yedekleme</strong></li>
+                <li data-i18n-html="backupHow2"><strong>Şimdi Yedekle</strong> seçeneğine dokunun: elle yedekleme</li>
+                <li data-i18n-html="backupHow3"><strong>Otomatik Yedekleme</strong> seçeneğini açın: değişiklik olduğunda her 5 dakikada bir kaydeder</li>
+            </ol>
+
+            <h3 data-i18n="backupRestoreTitle">Geri Yükleme</h3>
+            <ol class="steps">
+                <li data-i18n="backupRestore1">Uygulamayı yeni cihaza kurun, aynı Apple ID ile oturum açın</li>
+                <li data-i18n-html="backupRestore2">Ayarlar → iCloud Yedekleme → <strong>Geri Yükle</strong></li>
+            </ol>
+
+            <div class="warning" data-i18n="backupWarn">Geri yükleme, mevcut tüm notlarınızı, panonuzu ve kombolarınızı yedektekilerle değiştirir. Bu işlem geri alınamaz.</div>
+
+            <div class="tip" data-i18n="backupTip">Sınırsız depolama. Görsel notlar da yedeğe dahildir.</div>
+        </section>
+
+        <!-- 8. FAQ -->
+        <section class="step faq" id="faq">
+            <span class="step-badge" data-i18n="stepLabel8">SSS</span>
+            <h2 data-i18n="faqTitle">Sık Sorulan Sorular</h2>
+
+            <details>
+                <summary data-i18n="faq1Q">Klavye notlarımı göstermiyor</summary>
+                <div class="content" data-i18n-html="faq1A"><p>Büyük olasılıkla "Tam Erişime İzin Ver" kapalı. iOS Ayarlar → Genel → Klavye → ClipKeyboard → <strong>Tam Erişime İzin Ver</strong> seçeneğini kontrol edin.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq2Q">Kopyaladığım metin geçmişte görünmüyor</summary>
+                <div class="content" data-i18n-html="faq2A"><p>iOS, diğer uygulamaların panoyu otomatik okumasını kısıtlar. Uygulamayı bir kez açın, ardından eşitlemek için klavyeye geçin.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq3Q">IBAN'ım kart numarası olarak sınıflandırıldı</summary>
+                <div class="content" data-i18n-html="faq3A"><p>Benzer rakam desenleri yanlış sınıflandırmaya yol açabilir. Türü elle değiştirmek için öğeye uzun basın ya da boşluk/tire ile yeniden kopyalayın (örn. <code>1234-5678-...</code>).</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq4Q">Hatırlanan şablon değerlerini nasıl silerim?</summary>
+                <div class="content" data-i18n-html="faq4A"><p>Şablon düzenleme ekranında bir doldurulacak alana dokunarak "kayıtlı değerler" listesini görün. Tek tek silmek için kaydırın.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq5Q">Kombolar yarıda kesiliyor / yalnızca kısmen giriliyor</summary>
+                <div class="content" data-i18n-html="faq5A"><p>Adımlar arasındaki gecikmeyi artırın (0,5 ile 1 sn önerilir). Farklı uygulamaların giriş hızı toleransı farklıdır.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq6Q">Mac ve iPhone verileri eşitlenmiyor</summary>
+                <div class="content" data-i18n-html="faq6A"><p>Her iki cihazda da aynı Apple ID ile oturum açıldığından ve iCloud Drive'ın etkin olduğundan emin olun. Ayrıca uygulamada <strong>iCloud Yedekleme → Şimdi Yedekle</strong> ile elle de eşitleyebilirsiniz.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq7Q">Verilerim nerede saklanıyor?</summary>
+                <div class="content" data-i18n-html="faq7A"><p>Tüm notlar cihazınızda saklanır (App Group kapsayıcısı). iCloud Yedekleme etkinse kendi iCloud'unuzda şifreli olarak saklanır. Geliştirici not içeriklerinizi asla toplamaz; yalnızca uygulamayı geliştirmek için anonim kullanım istatistikleri (özelliklerin ne sıklıkla kullanıldığı gibi) toplar.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq9Q">Ücretsiz ve Pro arasındaki fark nedir?</summary>
+                <div class="content" data-i18n-html="faq9A"><p>Ücretsiz sürüm 10 not, 3 kombo, 3 şablon, 50 pano öğesi, 5 görsel not ve tema özelleştirmesi sunar. Pro (tek seferlik satın alma) tüm sınırları kaldırarak sınırsız yapar ve iCloud yedekleme ile biyometrik kilidi ekler.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq10Q">7 günlük ücretsiz denemeyi nasıl başlatırım?</summary>
+                <div class="content" data-i18n-html="faq10A"><p>Uygulamadaki Pro yükseltme ekranında <strong>7 günlük ücretsiz denemeyi başlat</strong> düğmesini göreceksiniz. Bir kez dokunun, tüm Pro özellikleri 7 gün boyunca açılır (yalnızca bir kez). Süre bittiğinde uygulama otomatik olarak ücretsiz sürüme döner: satın almazsanız herhangi bir yaptırım olmaz.</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq11Q">Güvenli notu nasıl kilitlerim?</summary>
+                <div class="content" data-i18n-html="faq11A"><p>Bir nota uzun basın ve <strong>Güvenli not olarak kilitle</strong> seçeneğini seçin. Kilitli notlar cihazınızda şifreli olarak saklanır, anahtar iCloud Anahtar Zinciri ile güvenle eşitlenir. Açmak veya kilidini kaldırmak için Face ID / Touch ID gerekir. (Pro özelliği)</p></div>
+            </details>
+
+            <details>
+                <summary data-i18n="faq8Q">Sorunum bu kılavuzda yok</summary>
+                <div class="content" data-i18n-html="faq8A"><p>Geliştiriciye doğrudan e-posta gönderin: <a href="mailto:leeo@kakao.com">leeo@kakao.com</a>. Genellikle bir gün içinde yanıt verilir.</p></div>
+            </details>
+        </section>
+    </main>
+
+    <section class="bottom-cta">
+        <a id="bottom-cta" href="https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502" class="btn-primary">
+            <span data-i18n="bottomCta">App Store'dan İndirin</span>
+        </a>
+    </section>
+
+    <footer>
+        <p>
+            Made with ❤️ by <a href="https://github.com/m1zz" target="_blank">Leeo</a> ·
+            <a href="mailto:leeo@kakao.com" data-i18n="footerContact">İletişim</a> ·
+            <a href="privacy.html" data-i18n="footerPrivacy">Gizlilik Politikası</a> ·
+            <a href="index.html" data-i18n="footerHome">Ana Sayfa</a>
+        </p>
+    </footer>
+
+    <script>
+        const translations = {
+ "tr": {
+  "playKbHint": "Bir ifadeye dokunun",
+  "playClear": "Temizle",
+  "tocPlay": "Burada deneyin",
+  "playBadge": "İndirmeden önce",
+  "playTitle": "Hemen burada deneyin",
+  "playLead": "İndirmeniz gerekmez. Aşağıdaki klavye gerçekten çalışıyor. Yazmak için dokunun, doldurulacak alanı doldurun ve kendi ifadenizi oluşturun.",
+  "playCoachTitle": "Bir dokunun",
+  "playCoachStart": "Herhangi bir tuşa dokunun, yukarıdaki alana yazılsın.",
+  "playCoachSend": "İşte oldu. Göndermek için oka basın.",
+  "playCoachStack": "Bu bir yığın. Her bölmenin kendi adı var, sağdaki ok ise sıradakine geçirir.",
+  "playCoachSize": "Klavyenin yüksekliği değişti. Aynı ayarı uygulamanın içinden de seçebilirsiniz.",
+  "playCoachAdd": "Gönderildi. Şimdi sağdan kendi ifadenizi oluşturun.",
+  "playCoachMade": "Tuşunuz klavyede. Bir dokunun.",
+  "playCoachMadeTemplate": "Süslü parantezler bunu bir şablon yapar. Önce doldurulacak alanı dolduracaksınız.",
+  "playCoachNeedBoth": "Lütfen hem adı hem de içeriği doldurun.",
+  "playSizeTitle": "Klavye yüksekliği",
+  "playSizeBody": "Uygulamadaki ayarın aynısı. Birine dokunun, aşağıdaki klavye değişsin.",
+  "playSize_same": "Sisteme uyar",
+  "playSize_standard": "Standart",
+  "playSize_roomy": "Geniş",
+  "playAddTitle": "Kendi ifadenizi oluşturun",
+  "playAddBody": "Bir ad ve içerik girin, klavyede bir tuş belirsin. İçeriğe {ad} gibi süslü parantez koyarsanız bu bir şablon olur ve her seferinde doldurulacak alanı doldurmanızı ister.",
+  "playKeyPh": "Ad (örn. Banka bilgileri)",
+  "playValPh": "İçerik (örn. Garanti BBVA TR12 0006 2000 1234 0006 1234 56 Ahmet Yılmaz)",
+  "playAddBtn": "Klavyeye ekle",
+  "playResetBtn": "Baştan başla",
+  "playPrivacy": "Bu deneme alanı tamamen tarayıcınızda çalışır. Yazdığınız hiçbir şey bir yere gönderilmez, bu cihazda kalır. Uygulama da aynı şekilde çalışır.",
+  "playAppbar": "Mesajlar",
+  "playThem": "Payımı bugün gönderiyorum! Hesap numaran nedir?",
+  "playFieldPh": "Metniniz buraya yazılır",
+  "playNoKeys": "Henüz tuş yok. Sağdan bir tane oluşturun.",
+  "playFillTitle": "Doldurulacak alanı doldurun",
+  "playFillGo": "Ekle",
+  "playFillCancel": "Vazgeç",
+  "playSeedBankKey": "Banka bilgileri",
+  "playSeedBankVal": "Garanti BBVA TR12 0006 2000 1234 0006 1234 56 Ahmet Yılmaz",
+  "playSeedLateKey": "Geç kalıyorum",
+  "playSeedLateVal": "Kusura bakmayın, yaklaşık 10 dakika geç kalacağım.",
+  "playSeedHelloKey": "Talebe yanıt",
+  "playSeedHelloVal": "Merhaba {ad}, bize ulaştığınız için teşekkür ederiz.",
+  "playSeedStackKey": "Günlük durum",
+  "playSeedStack1Key": "Ad",
+  "playSeedStack1Val": "Ahmet Yılmaz",
+  "playSeedStack2Key": "Ekip",
+  "playSeedStack2Val": "Mühendislik",
+  "playSeedStack3Key": "Bugün",
+  "playSeedStack3Val": "Sürüm kontrolü",
+  "pageTitle": "ClipKeyboard Kullanım Kılavuzu",
+  "metaDescription": "ClipKeyboard'u baştan sona kullanma rehberi: klavye kurulumu, ifade kaydetme, şablonlar, akıllı pano, kombolar ve iCloud yedekleme.",
+  "navHome": "Ana Sayfa",
+  "navStore": "App Store",
+  "heroTitle": "<span>ClipKeyboard</span>'u 5 Dakikada Öğrenin",
+  "heroSubtitle": "Klavye kurulumundan gelişmiş özelliklere kadar her şey tek sayfada.",
+  "tocTitle": "İçindekiler",
+  "tocSetup": "Başlarken",
+  "tocMemo": "Not Kaydetme ve Düzenleme",
+  "tocTemplate": "Şablonlar ve Doldurulacak Alanlar",
+  "tocSmart": "Akıllı Pano",
+  "tocCombo": "Kombolar (Sıralı Giriş)",
+  "tocMac": "macOS Menü Çubuğu Uygulaması",
+  "tocBackup": "iCloud Yedekleme",
+  "tocFaq": "SSS ve Sorun Giderme",
+  "stepLabel": "ADIM 01",
+  "stepLabel2": "ADIM 02",
+  "stepLabel3": "ADIM 03",
+  "stepLabel4": "ADIM 04",
+  "stepLabel5": "ADIM 05",
+  "stepLabel6": "ADIM 06",
+  "stepLabel7": "ADIM 07",
+  "stepLabel8": "SSS",
+  "setupTitle": "Başlarken: Klavyeyi Ekleyin ve Tam Erişime İzin Verin",
+  "setupLead": "iOS güvenliği nedeniyle klavyeyi kendiniz etkinleştirmeniz gerekir. Yaklaşık bir dakika sürer.",
+  "setupAddTitle": "Klavyeyi Ekleyin",
+  "setupAdd1": "iOS Ayarlar → Genel → Klavye → Klavyeler → Yeni Klavye Ekle…",
+  "setupAdd2": "Listeden <strong>ClipKeyboard</strong> seçeneğini seçin",
+  "setupAccessTitle": "Tam Erişime İzin Verin",
+  "setupAccess1": "Aynı ekranda, az önce eklediğiniz <strong>ClipKeyboard</strong> seçeneğine dokunun",
+  "setupAccess2": "<strong>Tam Erişime İzin Ver</strong> seçeneğini açın",
+  "setupWhyAccess": "Tam Erişim, klavyenin ana uygulamada kayıtlı notları okumasını sağlar. Verileriniz yalnızca cihazınızda kalır.",
+  "setupSwitchTitle": "Klavyeye Geçin",
+  "setupSwitch": "Herhangi bir uygulamada klavyeyi açın ve sol alttaki 🌐 simgesine uzun basarak <strong>ClipKeyboard</strong> seçeneğini seçin.",
+  "memoTitle": "Not Kaydetme ve Düzenleme",
+  "memoLead": "Sık yazdığınız ifadeleri kaydedin, her yerde klavyeden çağırın.",
+  "memoAddTitle": "Not Ekleyin",
+  "memoAdd1": "Ana ekranın sağ üstündeki <strong>＋</strong> düğmesine dokunun",
+  "memoAdd2": "Bir başlık ve içerik girin (içerik, yazılacak metindir)",
+  "memoAdd3": "Düzenlemek için bir <strong>kategori</strong> seçin",
+  "memoAdd4": "Kaydedin, klavyede hemen kullanıma hazır olur",
+  "memoUseTitle": "Klavyeden Kullanın",
+  "memoUse1": "Bir not kartına dokunun → metin imlecin olduğu yere yazılır",
+  "memoUse2": "Kopyala/düzenle menüsü için uzun basın",
+  "memoUse3": "Hızlıca bulmak için üstteki arama çubuğunu kullanın",
+  "memoTip": "Emojiler, satır sonları ve markdown olduğu gibi yazılır. Uzun e-posta imzaları mı? Sorun değil.",
+  "memoKeyboardLook": "Klavye uygulamayı yansıtır: favori notlar pembe görünür, güvenli notların başlığından önce bir kilit yer alır ve baktığınız kategori üstte büyük bir başlık olarak görünür.",
+  "memoImageTitle": "Görsel Notlar ve Metin Tanıma",
+  "memoImage": "Fotoğraf eklenmiş bir nota dokunmak, onu görsel olarak panoya kopyalar. Kartvizitler veya fişler için çok uygundur. Ayrıca <strong>metin tanıma (OCR)</strong> ile çekilmiş bir görselden yalnızca ihtiyacınız olan metni alabilirsiniz. <strong>Ücretsiz sürümde en fazla 5 görsel not</strong> desteklenir; Pro ile sınır kalkar.",
+  "smearTitle": "Fotoğraftan Kaydırarak Seçin",
+  "smearLead": "Hesap numaralarını ve telefon numaralarını kağıttan tekrar yazmayı bırakın. Fotoğraf çekin, ardından <strong>parmağınızı yalnızca ihtiyacınız olan kısmın üzerinde kaydırın</strong>; sadece o metin değer olur.",
+  "smear1": "Bir ifade oluştururken içerik alanının üstündeki <strong>Metni tara</strong> seçeneğine dokunun ve <strong>Fotoğraf çek</strong> ya da <strong>Fotoğraf kitaplığından</strong> seçeneğini seçin",
+  "smear2": "Parmağınızı fotoğraftaki metnin üzerinde kaydırın. Parmağınızın geçtiği her yer sarı renkle vurgulanır",
+  "smear3": "Yanlışlıkla bir şey mi seçtiniz? Üzerinde <strong>Silgi</strong> ile tekrar kaydırın. Küçük metinleri büyütmek için iki parmakla yakınlaştırın",
+  "smear4": "<strong>Bu metni kullan</strong> seçeneğine dokunun, seçtiğiniz metin ifadenin içeriğine eklenir",
+  "smearTip": "İki satırlı adres gibi birden çok satıra yayılan değerler için satır sonu düğmesini açın. Kapalı bırakırsanız iki satıra bölünmüş bir hesap numarası tek parça olarak birleşir.",
+  "smearNote": "Fotoğraf asla kaydedilmez. Metin çıkarılır ve fotoğraf silinir. Tanıma tamamen cihazınızda yapılır, bu yüzden ne fotoğraf ne de metin bir yere gönderilir. Kaydırmak zor geliyorsa, sağ üstteki Satıra göre seç seçeneğiyle tanınan satırların listesinden seçim yapabilirsiniz.",
+  "memoSecureTitle": "Güvenli Notlar (Kilit)",
+  "memoSecure": "Hassas notları kilitleyerek koruyun. Bir nota uzun basın ve <strong>Güvenli not olarak kilitle</strong> seçeneğini seçin: not cihazınızda şifreli olarak saklanır (anahtar iCloud Anahtar Zinciri ile güvenle eşitlenir) ve açmak ya da kilidini kaldırmak için <strong>Face ID / Touch ID</strong> gerekir. Kilitli notlar hem listede hem klavyede yalnızca başlığın önündeki bir kilitle işaretlenir ve kart rengini korur. Bu bir <strong>Pro özelliğidir</strong>.",
+  "tmplTitle": "Şablonlar ve Doldurulacak Alanlar",
+  "tmplLead": "Biraz değişen kısımları <code>{değişken}</code> olarak bırakın, kullanırken doldurun.",
+  "tmplSyntaxTitle": "Sözdizimi",
+  "tmplSyntax": "Süslü parantez <code>{ }</code> içindeki değişken adları doldurulacak alan olur. Örnekler:",
+  "tmplEx1": "Merhaba {ad}, {tarih} tarihli rezervasyonunuz onaylandı.",
+  "tmplEx2": "Sipariş {sipariş_no} · Kargo tarihi {tarih}",
+  "tmplUseTitle": "Nasıl Kullanılır",
+  "tmplUse1": "Bir şablon notuna dokunun: alttan bir değer giriş sayfası açılır",
+  "tmplUse2": "Boşlukları doldurun ve sağ üstteki Kopyala'ya dokunun; tamamlanan cümle kopyalanır",
+  "tmplUse3": "Girdiğiniz değerler hatırlanır, böylece sonraki seçim daha hızlı olur (örn. \"ad\" değerlerinin geçmişi)",
+  "tmplMakeTitle": "Mevcut Bir Notu Şablona Dönüştürün",
+  "tmplMake": "Normal bir nota uzun basın ve <strong>Şablon Yap</strong> seçeneğini seçin: orijinal olduğu gibi kalır, içeriği önceden doldurulmuş yeni bir şablon notu açılır. İstediğiniz yere <code>{değişken}</code> ekleyip kaydedin; imleç her değişkenin hemen ardına gelir, böylece yazmaya devam edebilirsiniz.",
+  "tmplDateNote": "Tarih/saat otomatik değişkenleriyle <strong>Bugün, Yarın, Gelecek hafta, İki hafta sonra veya belirli bir tarih</strong> seçebilirsiniz: dokunduğunuzda gerçek tarih yerine konur ve kopyalanır.",
+  "tmplTip": "Aynı ada sahip değişkenler şablonlar arasında paylaşılır. <code>{ad}</code> için girilen değerler, diğer şablonlardaki <code>{ad}</code> alanında da önerilir.",
+  "smartTitle": "Akıllı Pano",
+  "smartLead": "Kopyaladığınız metni otomatik olarak sınıflandırır, böylece istediğiniz an geri çağırabilirsiniz.",
+  "smartTypesTitle": "Otomatik Algılanan 15 Tür",
+  "smartType1": "E-posta",
+  "smartType2": "Telefon",
+  "smartType3": "Adres",
+  "smartType4": "URL",
+  "smartType5": "Kart No",
+  "smartType6": "IBAN / Banka",
+  "smartType7": "SWIFT / BIC",
+  "smartType8": "KDV / Vergi No",
+  "smartType9": "Tutar / Para Birimi",
+  "smartType10": "Takip No",
+  "smartType11": "PayPal / Wise",
+  "smartType12": "Sayı",
+  "smartType13": "Düz Metin",
+  "smartType14": "Görsel",
+  "smartType15": "Diğer",
+  "smartHowTitle": "Nasıl Çalışır",
+  "smartHow1": "Her kopyalamada, güven puanıyla birlikte düzenli ifade (regex) tabanlı sınıflandırma yapılır",
+  "smartHow2": "Geçmişte en fazla 100 öğe tutulur",
+  "smartHow3": "Geçici öğeler 30 gün sonra otomatik silinir",
+  "smartHow4": "Önemli öğeleri sonsuza dek saklamak için iğneleyin (📌)",
+  "smartNote": "Hassas öğeler (kart, IBAN, Vergi No) ekranda maskelenir. Gerçek değer yalnızca dokunduğunuzda kopyalanır.",
+  "comboTitle": "Kombolar: Birden Çok Not Tek Seferde",
+  "comboLead": "Ad, e-posta ve telefonu sırayla yazan makro benzeri bir özellik.",
+  "comboWhenTitle": "Şunlar İçin Birebir",
+  "comboWhen1": "Kayıt formlarını ad, e-posta ve telefonla doldurmak",
+  "comboWhen2": "Siparişler: adres + istekler + indirim kodu tek seferde",
+  "comboWhen3": "Destek yanıtları = selamlama + metin + imza",
+  "comboMakeTitle": "Kombo Oluşturun",
+  "comboMakeIntro": "Kombolar artık ayrı bir ekranda değil, <strong>doğrudan not listenizin içinde</strong> oluşturuluyor. Bir nota devam içeriği ekleyin, kombo olsun.",
+  "comboMake1": "Ana uygulamada <strong>＋</strong> düğmesine dokunarak yeni bir not oluşturun ve ilk içeriği girin",
+  "comboMake2": "Sırayla girilecek içerik için <strong>devam notları</strong> ekleyin",
+  "comboMake3": "Adımlar arasındaki gecikmeyi (saniye olarak) ayarlayın",
+  "comboMake4": "Kaydedin: not listenizde kombo olarak görünür ve klavyede dokunduğunuzda adımlar sırayla yazılır",
+  "comboPreviewNote": "Bir kombo notuna dokunmak onu hemen kopyalar ve yazılacak adım değerlerini sırayla yarım sayfalık bir önizlemede gösterir. Önceden oluşturduğunuz kombolar, kategoriler ve notlar güncellemelerde tamamen olduğu gibi korunur.",
+  "comboTip": "0,3 sn'nin altındaki gecikmeler sistemin yetişebileceği hızı aşabilir. 0,5 ile 1 sn arası önerilir.",
+  "macTitle": "macOS Menü Çubuğu Uygulaması",
+  "macLead": "Aynı notlar, pano ve kombolar Mac'te de (Mac Catalyst ile) sizinle.",
+  "macInstallTitle": "Kurulum",
+  "macInstall": "Aynı App Store satın alımına dahildir. Mac App Store'da <strong>ClipKeyboard</strong> aratın. Verilerin iCloud ile otomatik eşitlenmesi için aynı Apple ID ile oturum açın.",
+  "macFeaturesTitle": "Yalnızca Mac'e Özel Özellikler",
+  "macF1": "Tek tıkla menü çubuğu simgesi paneli açar",
+  "macF2": "<kbd>⌃</kbd>+<kbd>⇧</kbd>+<kbd>V</kbd> gibi genel kısayollarla anında çağırın",
+  "macF3": "Pano izleme: kopyalarken sınıflandırır",
+  "macF4": "Diğer uygulamaların üzerinde yüzen panel",
+  "macNote": "Mac'te bir ifade kaydedin, iPhone klavyesinde anında görünür; tersi de geçerlidir.",
+  "backupTitle": "iCloud Yedekleme ve Geri Yükleme",
+  "backupLead": "Cihaz değiştirirken veya uygulamayı yeniden kurarken notlarınızı kaybetmemek için iCloud'a yedekleyin.",
+  "backupHowTitle": "Yedekleme",
+  "backupHow1": "Uygulama <strong>Ayarlar</strong> → <strong>iCloud Yedekleme</strong>",
+  "backupHow2": "<strong>Şimdi Yedekle</strong> seçeneğine dokunun: elle yedekleme",
+  "backupHow3": "<strong>Otomatik Yedekleme</strong> seçeneğini açın: değişiklik olduğunda her 5 dakikada bir kaydeder",
+  "backupRestoreTitle": "Geri Yükleme",
+  "backupRestore1": "Uygulamayı yeni cihaza kurun, aynı Apple ID ile oturum açın",
+  "backupRestore2": "Ayarlar → iCloud Yedekleme → <strong>Geri Yükle</strong>",
+  "backupWarn": "Geri yükleme, mevcut tüm notlarınızı, panonuzu ve kombolarınızı yedektekilerle değiştirir. Bu işlem geri alınamaz.",
+  "backupTip": "Sınırsız depolama. Görsel notlar da yedeğe dahildir.",
+  "faqTitle": "Sık Sorulan Sorular",
+  "faq1Q": "Klavye notlarımı göstermiyor",
+  "faq1A": "<p>Büyük olasılıkla \"Tam Erişime İzin Ver\" kapalı. iOS Ayarlar → Genel → Klavye → ClipKeyboard → <strong>Tam Erişime İzin Ver</strong> seçeneğini kontrol edin.</p>",
+  "faq2Q": "Kopyaladığım metin geçmişte görünmüyor",
+  "faq2A": "<p>iOS, diğer uygulamaların panoyu otomatik okumasını kısıtlar. Uygulamayı bir kez açın, ardından eşitlemek için klavyeye geçin.</p>",
+  "faq3Q": "IBAN'ım kart numarası olarak sınıflandırıldı",
+  "faq3A": "<p>Benzer rakam desenleri yanlış sınıflandırmaya yol açabilir. Türü elle değiştirmek için öğeye uzun basın ya da boşluk/tire ile yeniden kopyalayın (örn. <code>1234-5678-...</code>).</p>",
+  "faq4Q": "Hatırlanan şablon değerlerini nasıl silerim?",
+  "faq4A": "<p>Şablon düzenleme ekranında bir doldurulacak alana dokunarak \"kayıtlı değerler\" listesini görün. Tek tek silmek için kaydırın.</p>",
+  "faq5Q": "Kombolar yarıda kesiliyor / yalnızca kısmen giriliyor",
+  "faq5A": "<p>Adımlar arasındaki gecikmeyi artırın (0,5 ile 1 sn önerilir). Farklı uygulamaların giriş hızı toleransı farklıdır.</p>",
+  "faq6Q": "Mac ve iPhone verileri eşitlenmiyor",
+  "faq6A": "<p>Her iki cihazda da aynı Apple ID ile oturum açıldığından ve iCloud Drive'ın etkin olduğundan emin olun. Ayrıca uygulamada <strong>iCloud Yedekleme → Şimdi Yedekle</strong> ile elle de eşitleyebilirsiniz.</p>",
+  "faq7Q": "Verilerim nerede saklanıyor?",
+  "faq7A": "<p>Tüm notlar cihazınızda saklanır (App Group kapsayıcısı). iCloud Yedekleme etkinse kendi iCloud'unuzda şifreli olarak saklanır. Geliştirici not içeriklerinizi asla toplamaz; yalnızca uygulamayı geliştirmek için anonim kullanım istatistikleri (özelliklerin ne sıklıkla kullanıldığı gibi) toplar.</p>",
+  "faq9Q": "Ücretsiz ve Pro arasındaki fark nedir?",
+  "faq9A": "<p>Ücretsiz sürüm 10 not, 3 kombo, 3 şablon, 50 pano öğesi, 5 görsel not ve tema özelleştirmesi sunar. Pro (tek seferlik satın alma) tüm sınırları kaldırarak sınırsız yapar ve iCloud yedekleme ile biyometrik kilidi ekler.</p>",
+  "faq10Q": "7 günlük ücretsiz denemeyi nasıl başlatırım?",
+  "faq10A": "<p>Uygulamadaki Pro yükseltme ekranında <strong>7 günlük ücretsiz denemeyi başlat</strong> düğmesini göreceksiniz. Bir kez dokunun, tüm Pro özellikleri 7 gün boyunca açılır (yalnızca bir kez). Süre bittiğinde uygulama otomatik olarak ücretsiz sürüme döner: satın almazsanız herhangi bir yaptırım olmaz.</p>",
+  "faq11Q": "Güvenli notu nasıl kilitlerim?",
+  "faq11A": "<p>Bir nota uzun basın ve <strong>Güvenli not olarak kilitle</strong> seçeneğini seçin. Kilitli notlar cihazınızda şifreli olarak saklanır, anahtar iCloud Anahtar Zinciri ile güvenle eşitlenir. Açmak veya kilidini kaldırmak için Face ID / Touch ID gerekir. (Pro özelliği)</p>",
+  "faq8Q": "Sorunum bu kılavuzda yok",
+  "faq8A": "<p>Geliştiriciye doğrudan e-posta gönderin: <a href=\"mailto:leeo@kakao.com\">leeo@kakao.com</a>. Genellikle bir gün içinde yanıt verilir.</p>",
+  "bottomCta": "App Store'dan İndirin",
+  "footerContact": "İletişim",
+  "footerHome": "Ana Sayfa",
+  "footerPrivacy": "Gizlilik Politikası",
+  "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+ },
+ "en": {
+  "playKbHint": "Tap a snippet",
+  "playClear": "Clear",
+  "tocPlay": "Try it here",
+  "playBadge": "Before you download",
+  "playTitle": "Just try it right here",
+  "playLead": "No download needed. The keyboard below really works. Tap to type, fill in a blank, and make one of your own.",
+  "playCoachTitle": "Give it a tap",
+  "playCoachStart": "Tap any key and it lands in the field above.",
+  "playCoachSend": "There it is. Hit the arrow to send it.",
+  "playCoachStack": "This one is a stack. Each slot has its own name, and the arrow on the right moves to the next one.",
+  "playCoachSize": "The keyboard changed height. You pick the same thing inside the app.",
+  "playCoachAdd": "Sent. Now make one of your own on the right.",
+  "playCoachMade": "Your key is on the keyboard. Give it a tap.",
+  "playCoachMadeTemplate": "The braces make it a template. It will ask you to fill the blank first.",
+  "playCoachNeedBoth": "Please fill in both the name and the content.",
+  "playSizeTitle": "Keyboard height",
+  "playSizeBody": "The same setting you get in the app. Tap one and the keyboard below changes.",
+  "playSize_same": "Match system",
+  "playSize_standard": "Standard",
+  "playSize_roomy": "Roomy",
+  "playAddTitle": "Make one of your own",
+  "playAddBody": "Give it a name and content, and a key appears on the keyboard. Put braces in the content, like {name}, and it becomes a template that asks you to fill the blank each time.",
+  "playKeyPh": "Name (e.g. Bank details)",
+  "playValPh": "Content (e.g. Chase 110-123-456789 John Doe)",
+  "playAddBtn": "Add to keyboard",
+  "playResetBtn": "Start over",
+  "playPrivacy": "This sandbox runs entirely in your browser. Nothing you type is sent anywhere; it stays on this device. The app works the same way.",
+  "playAppbar": "Messages",
+  "playThem": "Sending my share today! What is your account?",
+  "playFieldPh": "Your text lands here",
+  "playNoKeys": "No keys yet. Make one on the right.",
+  "playFillTitle": "Fill in the blank",
+  "playFillGo": "Insert",
+  "playFillCancel": "Cancel",
+  "playSeedBankKey": "Bank details",
+  "playSeedBankVal": "Chase 110-123-456789 John Doe",
+  "playSeedLateKey": "Running late",
+  "playSeedLateVal": "Sorry, I am going to be about 10 minutes late.",
+  "playSeedHelloKey": "Reply to inquiry",
+  "playSeedHelloVal": "Hello {name}, thank you for reaching out.",
+  "playSeedStackKey": "Daily check-in",
+  "playSeedStack1Key": "Name",
+  "playSeedStack1Val": "John Doe",
+  "playSeedStack2Key": "Team",
+  "playSeedStack2Val": "Engineering",
+  "playSeedStack3Key": "Today",
+  "playSeedStack3Val": "Release check",
+  "pageTitle": "ClipKeyboard User Guide",
+  "metaDescription": "How to use ClipKeyboard from A to Z: keyboard setup, saving snippets, templates, smart clipboard, combos and iCloud backup.",
+  "navHome": "Home",
+  "navStore": "App Store",
+  "heroTitle": "Master <span>ClipKeyboard</span> in 5 Minutes",
+  "heroSubtitle": "From keyboard setup to advanced features, everything on one page.",
+  "tocTitle": "Contents",
+  "tocSetup": "Getting Started",
+  "tocMemo": "Save & Edit Memos",
+  "tocTemplate": "Templates & Placeholders",
+  "tocSmart": "Smart Clipboard",
+  "tocCombo": "Combos (Sequential Input)",
+  "tocMac": "macOS Menu Bar App",
+  "tocBackup": "iCloud Backup",
+  "tocFaq": "FAQ & Troubleshooting",
+  "stepLabel": "STEP 01",
+  "stepLabel2": "STEP 02",
+  "stepLabel3": "STEP 03",
+  "stepLabel4": "STEP 04",
+  "stepLabel5": "STEP 05",
+  "stepLabel6": "STEP 06",
+  "stepLabel7": "STEP 07",
+  "stepLabel8": "FAQ",
+  "setupTitle": "Getting Started: Add Keyboard & Allow Full Access",
+  "setupLead": "Due to iOS security, you must activate the keyboard yourself. Takes about a minute.",
+  "setupAddTitle": "Add the Keyboard",
+  "setupAdd1": "iOS Settings → General → Keyboard → Keyboards → Add New Keyboard…",
+  "setupAdd2": "Pick <strong>ClipKeyboard</strong> from the list",
+  "setupAccessTitle": "Allow Full Access",
+  "setupAccess1": "On the same screen, tap <strong>ClipKeyboard</strong> you just added",
+  "setupAccess2": "Toggle on <strong>Allow Full Access</strong>",
+  "setupWhyAccess": "Full Access lets the keyboard read memos stored in the main app. Your data stays on your device only.",
+  "setupSwitchTitle": "Switch to the Keyboard",
+  "setupSwitch": "In any app, open the keyboard and long-press the 🌐 icon on the bottom-left to pick <strong>ClipKeyboard</strong>.",
+  "memoTitle": "Save & Edit Memos",
+  "memoLead": "Save phrases you type often and pull them up from the keyboard anywhere.",
+  "memoAddTitle": "Add a Memo",
+  "memoAdd1": "Tap the <strong>＋</strong> button on the top-right of the main screen",
+  "memoAdd2": "Enter a title and content (content is the text that will be typed)",
+  "memoAdd3": "Pick a <strong>category</strong> to organize",
+  "memoAdd4": "Save, and it's instantly available in the keyboard",
+  "memoUseTitle": "Use from the Keyboard",
+  "memoUse1": "Tap a memo card → text is typed at the cursor",
+  "memoUse2": "Long-press for copy/edit menu",
+  "memoUse3": "Use the search bar at the top to find quickly",
+  "memoTip": "Emojis, line breaks, and markdown are typed as-is. Long email signatures? No problem.",
+  "memoKeyboardLook": "The keyboard mirrors the app: favorite memos appear in pink, secure memos show a lock before the title, and the category you're viewing appears as a large title at the top.",
+  "memoImageTitle": "Image Memos & Text Recognition",
+  "memoImage": "Tapping a memo with an attached photo copies it to the clipboard as an image. Great for business cards or receipts. You can also pull just the text you need from a captured image with <strong>text recognition (OCR)</strong>. <strong>The free tier supports up to 5 image memos</strong>; Pro removes the limit.",
+  "smearTitle": "Swipe to Pick from a Photo",
+  "smearLead": "Stop retyping account numbers and phone numbers off paper. Take a photo, then <strong>swipe your finger over just the part you need</strong> and only that text becomes the value.",
+  "smear1": "While creating a shortcut, tap <strong>Scan text in</strong> above the content field and choose <strong>Take a photo</strong> or <strong>From photo library</strong>",
+  "smear2": "Swipe your finger across the text in the photo. Everything your finger passes over is highlighted in yellow",
+  "smear3": "Picked something by mistake? Swipe over it again with the <strong>Eraser</strong>. Pinch with two fingers to zoom in on small text",
+  "smear4": "Tap <strong>Use this text</strong> and what you picked goes into the shortcut content",
+  "smearTip": "Turn on the line-breaks button for values that span lines, like a two-line address. Leave it off and an account number split across two lines joins into one.",
+  "smearNote": "The photo is never saved. The text is taken out and the photo is discarded. Recognition happens entirely on your device, so neither the photo nor the text is ever sent anywhere. If swiping is hard, use Pick by line at the top right to choose from a list of the recognized lines.",
+  "memoSecureTitle": "Secure Memos (Lock)",
+  "memoSecure": "Lock sensitive memos to protect them. Long-press a memo and choose <strong>Lock as secure memo</strong>: it's stored encrypted on your device (the key syncs safely via your iCloud Keychain), and opening or unlocking it requires <strong>Face ID / Touch ID</strong>. Locked memos are marked only by a lock before the title in both the list and the keyboard, keeping their card color. This is a <strong>Pro feature</strong>.",
+  "tmplTitle": "Templates & Placeholders",
+  "tmplLead": "Leave slightly-varying parts as <code>{variable}</code> and fill them in when you use it.",
+  "tmplSyntaxTitle": "Syntax",
+  "tmplSyntax": "Variable names inside curly braces <code>{ }</code> become placeholders. Examples:",
+  "tmplEx1": "Hi {name}, your booking for {date} is confirmed.",
+  "tmplEx2": "Order {order_id} · Ships {date}",
+  "tmplUseTitle": "How to Use",
+  "tmplUse1": "Tap a template memo: a value-input sheet slides up from the bottom",
+  "tmplUse2": "Fill in the blanks and tap Copy at the top-right; the completed sentence is copied",
+  "tmplUse3": "Values you've entered are remembered, making the next selection faster (e.g. a history of \"name\" values)",
+  "tmplMakeTitle": "Turn an Existing Memo into a Template",
+  "tmplMake": "Long-press a regular memo and choose <strong>Make Template</strong>: the original stays as-is while a new template memo opens pre-filled with its content. Drop <code>{variable}</code> wherever you want and save; the cursor lands right after each variable so you can keep typing.",
+  "tmplDateNote": "Date/time auto-variables let you pick <strong>Today, Tomorrow, Next week, In two weeks, or a specific date</strong>: tapping substitutes the real date and copies it.",
+  "tmplTip": "Variables with the same name are shared across templates. Values entered for <code>{name}</code> are suggested in other templates' <code>{name}</code>.",
+  "smartTitle": "Smart Clipboard",
+  "smartLead": "Automatically classifies copied text so you can pull it back up anytime.",
+  "smartTypesTitle": "15 Auto-Detected Types",
+  "smartType1": "Email",
+  "smartType2": "Phone",
+  "smartType3": "Address",
+  "smartType4": "URL",
+  "smartType5": "Card #",
+  "smartType6": "IBAN / Bank",
+  "smartType7": "SWIFT / BIC",
+  "smartType8": "VAT / Tax ID",
+  "smartType9": "Amount / Currency",
+  "smartType10": "Tracking #",
+  "smartType11": "PayPal / Wise",
+  "smartType12": "Number",
+  "smartType13": "Plain Text",
+  "smartType14": "Image",
+  "smartType15": "Other",
+  "smartHowTitle": "How It Works",
+  "smartHow1": "Each copy triggers regex-based classification with a confidence score",
+  "smartHow2": "Up to 100 items kept in history",
+  "smartHow3": "Temporary items auto-delete after 30 days",
+  "smartHow4": "Pin (📌) important items to keep them forever",
+  "smartNote": "Sensitive items (card, IBAN, Tax ID) are masked on display. The real value is copied only when tapped.",
+  "comboTitle": "Combos: Multiple Memos at Once",
+  "comboLead": "A macro-like feature that types name, email, phone in sequence.",
+  "comboWhenTitle": "Great For",
+  "comboWhen1": "Filling signup forms with name, email, phone",
+  "comboWhen2": "Orders: address + requests + discount code in one shot",
+  "comboWhen3": "Support replies = greeting + body + signature",
+  "comboMakeTitle": "Create a Combo",
+  "comboMakeIntro": "Combos are now built <strong>right inside your memo list</strong>, not on a separate screen. Add follow-up content to a memo and it becomes a combo.",
+  "comboMake1": "In the main app, tap <strong>＋</strong> to create a new memo and enter the first content",
+  "comboMake2": "Add <strong>follow-up memos</strong> for the content to be entered in order",
+  "comboMake3": "Set the delay (in seconds) between steps",
+  "comboMake4": "Save: it appears as a combo in your memo list, and tapping it in the keyboard types the steps in order",
+  "comboPreviewNote": "Tapping a combo memo copies it right away and lays out the step values that will be typed, in order, in a half-sheet preview. The combos, categories, and memos you already made are kept exactly as they were across updates.",
+  "comboTip": "Delays under 0.3s may exceed what the system can keep up with. 0.5~1s is recommended.",
+  "macTitle": "macOS Menu Bar App",
+  "macLead": "The same memos, clipboard, and combos on Mac (via Mac Catalyst).",
+  "macInstallTitle": "Install",
+  "macInstall": "Included in the same App Store purchase. Search <strong>ClipKeyboard</strong> in the Mac App Store. Sign in with the same Apple ID to sync data via iCloud automatically.",
+  "macFeaturesTitle": "Mac-Only Features",
+  "macF1": "One-click menu bar icon opens the panel",
+  "macF2": "Global shortcuts like <kbd>⌃</kbd>+<kbd>⇧</kbd>+<kbd>V</kbd> to summon instantly",
+  "macF3": "Clipboard monitoring: classifies on copy",
+  "macF4": "Floating panel on top of other apps",
+  "macNote": "Save a phrase on Mac and it appears instantly in the iPhone keyboard, and vice versa.",
+  "backupTitle": "iCloud Backup & Restore",
+  "backupLead": "Back up to iCloud so you don't lose memos when changing devices or reinstalling.",
+  "backupHowTitle": "Back Up",
+  "backupHow1": "App <strong>Settings</strong> → <strong>iCloud Backup</strong>",
+  "backupHow2": "Tap <strong>Back Up Now</strong>: manual backup",
+  "backupHow3": "Toggle <strong>Auto Backup</strong>: saves every 5 minutes on change",
+  "backupRestoreTitle": "Restore",
+  "backupRestore1": "Install the app on a new device, sign in with the same Apple ID",
+  "backupRestore2": "Settings → iCloud Backup → <strong>Restore</strong>",
+  "backupWarn": "Restoring replaces all current memos, clipboard, and combos with the backup. This cannot be undone.",
+  "backupTip": "Unlimited storage. Image memos are included in the backup.",
+  "faqTitle": "Frequently Asked Questions",
+  "faq1Q": "The keyboard doesn't show my memos",
+  "faq1A": "<p>\"Allow Full Access\" is likely off. Check iOS Settings → General → Keyboard → ClipKeyboard → <strong>Allow Full Access</strong>.</p>",
+  "faq2Q": "Copied text isn't showing in history",
+  "faq2A": "<p>iOS restricts other apps from auto-reading the clipboard. Open the app once, then switch to the keyboard to sync.</p>",
+  "faq3Q": "My IBAN was classified as a card number",
+  "faq3A": "<p>Similar digit patterns can cause misclassification. Long-press the item to change the type manually, or re-copy with spaces/hyphens (e.g. <code>1234-5678-...</code>).</p>",
+  "faq4Q": "How do I delete remembered template values?",
+  "faq4A": "<p>In the template edit view, tap a placeholder to see the \"saved values\" list. Swipe to delete individually.</p>",
+  "faq5Q": "Combos get cut off / only partial input",
+  "faq5A": "<p>Increase the delay between steps (0.5~1s recommended). Different apps have different input-rate tolerances.</p>",
+  "faq6Q": "Mac and iPhone data won't sync",
+  "faq6A": "<p>Make sure both devices are signed in with the same Apple ID and iCloud Drive is enabled. You can also manually sync via <strong>iCloud Backup → Back Up Now</strong> in the app.</p>",
+  "faq7Q": "Where is my data stored?",
+  "faq7A": "<p>All memos are stored on your device (App Group container). With iCloud Backup enabled, they're stored encrypted in your own iCloud. The developer never collects your memo contents, only anonymous usage statistics (such as how often features are used) to improve the app.</p>",
+  "faq9Q": "What's the difference between Free and Pro?",
+  "faq9A": "<p>The free tier covers 10 memos, 3 combos, 3 templates, 50 clipboard items, 5 image memos, and theme customization. Pro (one-time purchase) lifts every limit to unlimited and adds iCloud backup and biometric lock.</p>",
+  "faq10Q": "How do I start the 7-day free trial?",
+  "faq10A": "<p>On the Pro upgrade screen in the app, you'll see a <strong>Start 7-day free trial</strong> button. Tap it once and all Pro features unlock for 7 days (one-time only). When it ends, the app falls back to the free tier automatically: no penalty if you don't purchase.</p>",
+  "faq11Q": "How do I lock a secure memo?",
+  "faq11A": "<p>Long-press a memo and choose <strong>Lock as secure memo</strong>. Locked memos are stored encrypted on your device, with the key synced safely via your iCloud Keychain. Opening or unlocking requires Face ID / Touch ID. (Pro feature)</p>",
+  "faq8Q": "My issue isn't in this guide",
+  "faq8A": "<p>Email the developer directly: <a href=\"mailto:leeo@kakao.com\">leeo@kakao.com</a>. Usually a reply within a day.</p>",
+  "bottomCta": "Download on the App Store",
+  "footerContact": "Contact",
+  "footerHome": "Home",
+  "footerPrivacy": "Privacy Policy",
+  "appStoreUrl": "https://apps.apple.com/app/clip-keyboard-quick-phrases/id1543660502"
+ }
+};
+
+        /// 브라우저 언어 태그·저장값·?lang= 을 이 페이지가 아는 언어로 옮긴다.
+        /// 모르는 값이면 빈 문자열(=호출한 쪽이 기본값을 정한다).
+        /// ⚠️ 대만·홍콩·마카오는 번체다. zh 로만 보고 간체를 주면 남의 글자를 보게 된다.
+        function normalizeLang(tag) {
+            var t = (tag || '').toLowerCase().replace('_', '-');
+            if (!t) return '';
+            if (t.indexOf('ko') === 0) return 'ko';
+            if (t.indexOf('en') === 0) return 'en';
+            if (t.indexOf('ru') === 0) return 'ru';
+            if (t.indexOf('zh') === 0) {
+                if (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                    t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) return 'zh-Hant';
+                return 'zh-Hans';   // zh · zh-CN · zh-SG, 그리고 갈리기 전에 저장된 'zh'
+            }
+            return '';
+        }
+
+        function setLanguage(lang) {
+            localStorage.setItem('clipkb-lang', lang);
+            applyLanguage(lang);
+        }
+
+        function applyLanguage(lang) {
+            const t = translations[lang];
+            if (!t) return;
+
+            document.documentElement.lang = lang;
+            document.title = t.pageTitle;
+
+            document.querySelectorAll('[data-i18n]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n');
+                if (t[key] !== undefined) el.textContent = t[key];
+            });
+
+            document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n-html');
+                if (t[key] !== undefined) el.innerHTML = t[key];
+            });
+
+            // 실습판의 안내 글(placeholder)과, 판 자체를 그 말로 다시 그린다.
+            document.querySelectorAll('[data-i18n-ph]').forEach(function(el) {
+                var key = el.getAttribute('data-i18n-ph');
+                if (t[key] !== undefined) el.placeholder = t[key];
+            });
+            if (window.__playRender) window.__playRender();
+
+            // Update App Store links
+            var url = t.appStoreUrl;
+            var navCta = document.getElementById('nav-appstore');
+            var botCta = document.getElementById('bottom-cta');
+            if (navCta) navCta.href = url;
+            if (botCta) botCta.href = url;
+
+            document.querySelectorAll('.lang-btn').forEach(function(btn) {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+        }
+
+        // ── 언어별 페이지 ──
+        // 이 루트 페이지는 x-default 다. 언어마다 고정된 페이지가 docs/<lang>/ 에 있고
+        // (docs/i18n/build.mjs 가 이 파일로 만든다) 그 페이지는 window.PAGE_LANG 을 박아 둔다.
+        // 이 파일에 글이 없는 언어로 들어오면(?lang=ja, 일본어 브라우저) 그 언어 페이지로 보낸다.
+        var SITE_LANGS = ["ko", "en", "zh-Hans", "zh-Hant", "ru", "ja", "es", "de", "fr", "it", "pt-BR", "th", "vi", "cs", "da", "el", "fi", "id", "nb", "nl", "pl", "sv", "tr"];
+        function siteLang(tag) {
+            var t = (tag || '').toLowerCase().replace('_', '-');
+            if (!t) return '';
+            if (t.indexOf('zh') === 0) {
+                return (t.indexOf('hant') >= 0 || t.indexOf('-tw') >= 0 ||
+                        t.indexOf('-hk') >= 0 || t.indexOf('-mo') >= 0) ? 'zh-Hant' : 'zh-Hans';
+            }
+            if (t.indexOf('pt') === 0) return 'pt-BR';
+            if (t.indexOf('no') === 0 || t.indexOf('nn') === 0) return 'nb';
+            var base = t.split('-')[0];
+            return SITE_LANGS.indexOf(base) >= 0 ? base : '';
+        }
+        function goLangPage(lang) {
+            if (!lang || translations[lang] || SITE_LANGS.indexOf(lang) < 0) return false;
+            var file = window.location.pathname.split('/').pop() || '';
+            window.location.replace(lang + '/' + file + window.location.hash);
+            return true;
+        }
+
+        (function() {
+            // 언어별 페이지(docs/<lang>/)는 언어가 정해져 있다.
+            if (window.PAGE_LANG) { applyLanguage(window.PAGE_LANG); return; }
+            if (goLangPage(siteLang(new URLSearchParams(window.location.search).get('lang') || ''))) return;
+            if (!localStorage.getItem('clipkb-lang') && goLangPage(siteLang(navigator.language || navigator.userLanguage || ''))) return;
+            // ?lang= 으로 들어오면 그 언어로 연다 (index.html 과 같은 규칙).
+            var asked = normalizeLang(new URLSearchParams(window.location.search).get('lang') || '');
+            if (asked) {
+                setLanguage(asked);
+                return;
+            }
+            // 예전에 'zh' 로 저장된 사람은 간체로 옮겨 준다(간체·번체가 갈리기 전 값).
+            var saved = normalizeLang(localStorage.getItem('clipkb-lang') || '');
+            if (saved) {
+                applyLanguage(saved);
+                return;
+            }
+            applyLanguage(normalizeLang(navigator.language || navigator.userLanguage || '') || 'en');
+        })();
+
+        /* ─────────────────────────────────────────────────────────────
+           실습판
+           ─────────────────────────────────────────────────────────────
+           왜 있나: 이 페이지의 나머지는 전부 "이렇게 하세요" 다. 그런데 이 앱의 값어치는
+           **키보드에서 꺼내 쓰는 그 순간**에 있어서, 글로는 좀처럼 안 옮겨진다.
+           받아서 설치하고 키보드를 켜야 비로소 알게 되는 것을, 받기 전에 한 번 만져 보게 한다.
+
+           ⚠️ 적은 것은 이 브라우저를 벗어나지 않는다(localStorage). 앱이 "서버가 없다" 고
+              말하는데 소개 페이지가 입력을 어디로 보내면, 그 말이 거짓이 된다.
+
+           ⚠️ 스택은 **칸마다 이름이 있다.** 값만 스쳐 지나가면 지금 몇 번째 무엇인지
+              알 수 없다는 것이 앱에서 고친 것이고, 여기서도 같은 모양이어야 한다.
+           ───────────────────────────────────────────────────────────── */
+        (function () {
+            var STORE = 'clipkb-play-v1';
+            var SIZES = ['same', 'standard', 'roomy'];
+            // 키보드 높이. 이름은 앱의 설정과 같은 뜻이고, 숫자는 이 판의 몫이다.
+            var SIZE_PX = { same: 168, standard: 208, roomy: 262 };
+
+            var state = { text: '', sent: [], mine: [], size: 'standard', step: {}, fill: null, coach: 'playCoachStart' };
+
+            function t(key) {
+                var lang = document.documentElement.lang || 'en';
+                var table = translations[lang] || translations.en;
+                return table[key] !== undefined ? table[key] : (translations.en[key] || '');
+            }
+            function esc(v) {
+                return String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            }
+            /// 빈칸({이름})을 찾는다. 앱의 템플릿 판정과 같은 규칙이다.
+            function slotsOf(v) {
+                var found = String(v).match(/\{[^{}\n]{1,24}\}/g) || [];
+                return found.filter(function (x, i) { return found.indexOf(x) === i; });
+            }
+
+            /// 넣어 둔 보기들. **지우지 않는다** - 실습판에 아무것도 없으면 무엇을 눌러야
+            /// 할지 모른 채로 시작하게 된다.
+            function seeded() {
+                return [
+                    { id: 's1', key: t('playSeedBankKey'), value: t('playSeedBankVal') },
+                    { id: 's2', key: t('playSeedLateKey'), value: t('playSeedLateVal') },
+                    { id: 's3', key: t('playSeedHelloKey'), value: t('playSeedHelloVal') },
+                    { id: 's4', key: t('playSeedStackKey'), stack: [
+                        { key: t('playSeedStack1Key'), value: t('playSeedStack1Val') },
+                        { key: t('playSeedStack2Key'), value: t('playSeedStack2Val') },
+                        { key: t('playSeedStack3Key'), value: t('playSeedStack3Val') }
+                    ] }
+                ];
+            }
+            function allKeys() { return seeded().concat(state.mine); }
+
+            function load() {
+                try {
+                    var raw = JSON.parse(localStorage.getItem(STORE) || '{}');
+                    if (Array.isArray(raw.mine)) state.mine = raw.mine;
+                    if (SIZES.indexOf(raw.size) >= 0) state.size = raw.size;
+                } catch (e) { /* 저장이 막힌 브라우저여도 실습은 돌아가야 한다 */ }
+            }
+            function save() {
+                try { localStorage.setItem(STORE, JSON.stringify({ mine: state.mine, size: state.size })); }
+                catch (e) { /* 사생활 보호 모드 등 - 저장만 못 할 뿐이다 */ }
+            }
+
+            function setCoach(key) { state.coach = key; }
+
+            function insert(text) {
+                state.text = state.text ? (state.text + ' ' + text) : text;
+                setCoach('playCoachSend');
+                render();
+            }
+
+            function tapKey(item) {
+                if (item.stack) {
+                    var i = state.step[item.id] || 0;
+                    insert(item.stack[i].value);
+                    setCoach('playCoachStack');
+                    return;
+                }
+                var slots = slotsOf(item.value);
+                if (slots.length) { state.fill = { id: item.id, slot: slots[0], typed: '' }; render(); return; }
+                insert(item.value);
+            }
+
+            function nextStep(item) {
+                var n = item.stack.length;
+                state.step[item.id] = ((state.step[item.id] || 0) + 1) % n;
+                setCoach('playCoachStack');
+                render();
+            }
+
+            function confirmFill() {
+                var item = allKeys().filter(function (k) { return k.id === state.fill.id; })[0];
+                if (!item) { state.fill = null; render(); return; }
+                var typed = state.fill.typed.trim();
+                var filled = item.value.split(state.fill.slot).join(typed || state.fill.slot);
+                state.fill = null;
+                insert(filled);
+            }
+
+            function send() {
+                if (!state.text) return;
+                state.sent.push(state.text);
+                state.text = '';
+                setCoach('playCoachAdd');
+                render();
+            }
+
+            function addMine() {
+                var k = document.getElementById('play-new-key').value.trim();
+                var v = document.getElementById('play-new-val').value.trim();
+                if (!k || !v) { setCoach('playCoachNeedBoth'); render(); return; }
+                state.mine.push({ id: 'm' + Date.now(), key: k, value: v });
+                document.getElementById('play-new-key').value = '';
+                document.getElementById('play-new-val').value = '';
+                setCoach(slotsOf(v).length ? 'playCoachMadeTemplate' : 'playCoachMade');
+                save();
+                render();
+            }
+
+            function resetAll() {
+                state = { text: '', sent: [], mine: [], size: 'standard', step: {}, fill: null, coach: 'playCoachStart' };
+                save();
+                render();
+            }
+
+            /// ⚠️ **키에 딱지를 붙이지 않는다.** 앱도 그렇다 - "단축어 구분 표시" 설정이
+            ///    기본 꺼짐이고, 켜지 않으면 키에는 제목만 선다. 여기에만 템플릿·스택
+            ///    표시를 달아 두면 실제로 받아서 켰을 때와 다른 키보드를 보여 주는 것이 된다.
+            ///
+            ///    스택의 자리(1/3)는 딱지가 아니라 **이름의 일부**로 읽히게 옅은 글씨로 둔다.
+            ///    지금 몇 번째 무엇인지는 스택에서 유일하게 꼭 필요한 정보다.
+            function keyHTML(item) {
+                var name = esc(item.key), pos = '', next = '';
+                if (item.stack) {
+                    var i = state.step[item.id] || 0;
+                    name = esc(item.key) + ' · ' + esc(item.stack[i].key);
+                    pos = '<span class="pos">' + (i + 1) + '/' + item.stack.length + '</span>';
+                    next = '<span class="nx" data-next="' + item.id + '">&#8250;</span>';
+                }
+                return '<button class="play-key" data-key="' + item.id + '">' +
+                    '<span class="nm">' + name + '</span>' + pos + next + '</button>';
+            }
+
+            function render() {
+                var convo = document.getElementById('play-convo');
+                if (!convo) return;
+
+                var bubbles = '<div class="play-bubble them">' + esc(t('playThem')) + '</div>';
+                state.sent.forEach(function (m) {
+                    bubbles += '<div class="play-bubble me">' + esc(m) + '</div>';
+                });
+                convo.innerHTML = bubbles;
+                convo.scrollTop = convo.scrollHeight;
+
+                var field = document.getElementById('play-field');
+                field.textContent = state.text || t('playFieldPh');
+                field.className = 'play-field' + (state.text ? '' : ' empty');
+                document.getElementById('play-send').disabled = !state.text;
+                document.getElementById('play-appbar').textContent = t('playAppbar');
+
+                var kb = document.getElementById('play-kb');
+                var keys = allKeys();
+                kb.style.height = SIZE_PX[state.size] + 'px';
+                // ⚠️ 누를 수 있는 것만 둔다. 예전에는 지구본·별을 함께 세웠는데 이 판에서는
+                //    아무 일도 안 하는 그림이었다. 못 누르는 것이 섞여 있으면 다른 키도
+                //    안 눌릴 것처럼 보인다.
+                kb.innerHTML =
+                    '<div class="play-kbrow">' +
+                        '<span class="play-kbhint">' + esc(t('playKbHint')) + '</span>' +
+                        '<button class="play-ctl" id="play-clear"' + (state.text ? '' : ' disabled') + '>' +
+                            esc(t('playClear')) + '</button>' +
+                    '</div>' +
+                    '<div class="play-keys" id="play-keys">' +
+                        (keys.length ? keys.map(keyHTML).join('')
+                                     : '<div class="play-empty">' + esc(t('playNoKeys')) + '</div>') +
+                    '</div>';
+
+                var sizeBox = document.getElementById('play-size');
+                sizeBox.innerHTML = SIZES.map(function (sz) {
+                    return '<button data-size="' + sz + '" class="' + (state.size === sz ? 'on' : '') + '">' +
+                        esc(t('playSize_' + sz)) + '</button>';
+                }).join('');
+
+                document.getElementById('play-coach-title').textContent = t('playCoachTitle');
+                document.getElementById('play-coach-body').textContent = t(state.coach);
+
+                var old = document.getElementById('play-sheet');
+                if (old) old.remove();
+                if (state.fill) {
+                    var sheet = document.createElement('div');
+                    sheet.className = 'play-sheet';
+                    sheet.id = 'play-sheet';
+                    sheet.innerHTML =
+                        '<div class="play-sheet-inner">' +
+                            '<h4>' + esc(t('playFillTitle')) + '</h4>' +
+                            '<p>' + esc(state.fill.slot) + '</p>' +
+                            '<input id="play-fill-input" value="' + esc(state.fill.typed) + '">' +
+                            '<div class="row">' +
+                                '<button class="no" id="play-fill-no">' + esc(t('playFillCancel')) + '</button>' +
+                                '<button class="go" id="play-fill-go">' + esc(t('playFillGo')) + '</button>' +
+                            '</div>' +
+                        '</div>';
+                    document.getElementById('play-screen').appendChild(sheet);
+                    var input = document.getElementById('play-fill-input');
+                    input.focus();
+                    input.addEventListener('input', function () { state.fill.typed = this.value; });
+                    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') confirmFill(); });
+                    document.getElementById('play-fill-go').addEventListener('click', confirmFill);
+                    document.getElementById('play-fill-no').addEventListener('click', function () { state.fill = null; render(); });
+                }
+            }
+
+            function wire() {
+                var wrap = document.getElementById('playground');
+                if (!wrap) return;
+
+                // 키·다음칸·크기는 한 곳에서 받는다. 매번 다시 그리므로 개별 리스너를 달면 샌다.
+                wrap.addEventListener('click', function (e) {
+                    var nx = e.target.closest('[data-next]');
+                    if (nx) {
+                        var s = allKeys().filter(function (k) { return k.id === nx.getAttribute('data-next'); })[0];
+                        if (s) nextStep(s);
+                        return;
+                    }
+                    var kb = e.target.closest('[data-key]');
+                    if (kb) {
+                        var it = allKeys().filter(function (k) { return k.id === kb.getAttribute('data-key'); })[0];
+                        if (it) tapKey(it);
+                        return;
+                    }
+                    var sz = e.target.closest('[data-size]');
+                    if (sz) { state.size = sz.getAttribute('data-size'); setCoach('playCoachSize'); save(); render(); return; }
+                    if (e.target.closest('#play-send')) { send(); return; }
+                    if (e.target.closest('#play-clear')) { state.text = ''; render(); return; }
+                    if (e.target.closest('#play-add')) { addMine(); return; }
+                    if (e.target.closest('#play-reset')) { resetAll(); return; }
+                });
+
+                load();
+                render();
+            }
+
+            // 언어가 바뀌면 실습판도 그 말로 다시 그린다.
+            window.__playRender = function () { if (document.getElementById('play-convo')) render(); };
+
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire);
+            else wire();
+        })();
+
+    </script>
+</body>
+</html>
