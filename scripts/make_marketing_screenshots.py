@@ -133,12 +133,83 @@ COPY = {
         ("Pilhas", "Vários valores,<br>uma tecla", "Cada campo tem um nome: você sabe o que vem depois"),
         ("Tudo num só lugar", "O que você<br>digita de novo", "Organizado, com busca, e não sai do seu aparelho"),
     ],
+    "cs": [
+        ("Rychlé odpovědi", "Odpověď<br>jedním ťuknutím", "Uložené odpovědi přímo na klávesnici"),
+        ("Schránka", "Vložte, co jste<br>zkopírovali", "Zkopírovaný text zůstane 30 dní v sekci Nedávné"),
+        ("Šablony", "Vyplňte pole<br>a odešlete", "Jeden řádek, pokaždé jiné jméno"),
+        ("Zásobníky", "Více hodnot,<br>jedna klávesa", "Každé pole má název, víte, co přijde dál"),
+        ("Vše na jednom místě", "Vše, co píšete<br>znovu a znovu", "Ve skupinách, s hledáním. Zůstává ve vašem zařízení"),
+    ],
+    "da": [
+        ("Hurtige svar", "Svar med<br>ét tryk", "Gemte svar lige på tastaturet"),
+        ("Udklipsholder", "Indsæt det,<br>du kopierede", "Kopieret tekst bliver i Seneste i 30 dage"),
+        ("Skabeloner", "Udfyld feltet,<br>og send", "Én linje, et nyt navn hver gang"),
+        ("Stakke", "Flere værdier,<br>én tast", "Hvert felt har et navn, så du ved, hvad der kommer"),
+        ("Alt samlet ét sted", "Alt det, du<br>skriver igen", "Sorteret og søgbart. Bliver på din enhed"),
+    ],
+    "el": [
+        ("Γρήγορες απαντήσεις", "Απάντηση<br>με ένα πάτημα", "Αποθηκευμένες απαντήσεις στο πληκτρολόγιο"),
+        ("Πρόχειρο", "Επικολλήστε ό,τι<br>αντιγράψατε", "Το κείμενο μένει 30 ημέρες στα Πρόσφατα"),
+        ("Πρότυπα", "Συμπληρώστε<br>και στείλτε", "Μία γραμμή, άλλο όνομα κάθε φορά"),
+        ("Στοίβες", "Πολλές τιμές,<br>ένα πλήκτρο", "Κάθε πεδίο έχει όνομα, ξέρετε τι ακολουθεί"),
+        ("Όλα σε ένα σημείο", "Ό,τι γράφετε<br>ξανά και ξανά", "Σε ομάδες, με αναζήτηση. Μένει στη συσκευή σας"),
+    ],
+    "fi": [
+        ("Pikavastaukset", "Vastaa yhdellä<br>napautuksella", "Tallennetut vastaukset suoraan näppäimistöllä"),
+        ("Leikepöytä", "Liitä se, minkä<br>kopioit", "Kopioitu teksti säilyy 30 päivää kohdassa Viimeisimmät"),
+        ("Pohjat", "Täytä kenttä<br>ja lähetä", "Yksi rivi, joka kerta eri nimi"),
+        ("Pinot", "Monta arvoa,<br>yksi näppäin", "Jokaisella kentällä on nimi, joten tiedät, mitä seuraa"),
+        ("Kaikki yhdessä", "Kaikki, mitä<br>kirjoitat uudelleen", "Ryhmissä ja haettavissa. Pysyy laitteellasi"),
+    ],
+    "id": [
+        ("Balas cepat", "Balas dengan<br>satu ketukan", "Balasan tersimpan langsung di keyboard"),
+        ("Papan klip", "Tempel yang<br>tadi disalin", "Teks yang disalin tersimpan 30 hari di Terbaru"),
+        ("Templat", "Isi kolomnya,<br>lalu kirim", "Satu baris, nama berbeda setiap kali"),
+        ("Tumpukan", "Banyak nilai,<br>satu tombol", "Tiap kolom punya nama, jadi tahu apa selanjutnya"),
+        ("Semua di satu tempat", "Semua yang<br>sering diketik", "Dikelompokkan, bisa dicari, tetap di perangkat Anda"),
+    ],
+    "nb": [
+        ("Hurtigsvar", "Svar med<br>ett trykk", "Lagrede svar rett på tastaturet"),
+        ("Utklippstavle", "Lim inn det<br>du kopierte", "Kopiert tekst ligger i Nylig i 30 dager"),
+        ("Maler", "Fyll inn feltet<br>og send", "Én linje, nytt navn hver gang"),
+        ("Stabler", "Flere verdier,<br>én tast", "Hvert felt har et navn, så du vet hva som kommer"),
+        ("Alt på ett sted", "Alt du skriver<br>om igjen", "Sortert og søkbart. Blir på enheten din"),
+    ],
+    "nl": [
+        ("Snelle antwoorden", "Antwoord<br>met één tik", "Bewaarde antwoorden op je toetsenbord"),
+        ("Klembord", "Plak wat je<br>hebt gekopieerd", "Gekopieerde tekst blijft 30 dagen in Recent"),
+        ("Sjablonen", "Vul het veld in<br>en verstuur", "Eén regel, elke keer een andere naam"),
+        ("Stapels", "Meerdere waarden,<br>één toets", "Elk veld heeft een naam, dus je weet wat volgt"),
+        ("Alles op één plek", "Alles wat je<br>opnieuw typt", "Gegroepeerd en doorzoekbaar. Blijft op je apparaat"),
+    ],
+    "pl": [
+        ("Szybkie odpowiedzi", "Odpowiedz<br>jednym stuknięciem", "Zapisane odpowiedzi prosto na klawiaturze"),
+        ("Schowek", "Wklej to,<br>co skopiowano", "Skopiowany tekst zostaje 30 dni w sekcji Ostatnie"),
+        ("Szablony", "Wypełnij pole<br>i wyślij", "Jedna linijka, za każdym razem inne imię"),
+        ("Stosy", "Wiele wartości,<br>jeden klawisz", "Każde pole ma nazwę, więc wiesz, co dalej"),
+        ("Wszystko w jednym miejscu", "Wszystko, co<br>piszesz znowu", "W grupach, z wyszukiwaniem. Zostaje na urządzeniu"),
+    ],
+    "sv": [
+        ("Snabbsvar", "Svara med<br>ett tryck", "Sparade svar direkt på tangentbordet"),
+        ("Urklipp", "Klistra in det<br>du kopierade", "Kopierad text ligger kvar i Senaste i 30 dagar"),
+        ("Mallar", "Fyll i fältet<br>och skicka", "En rad, ett nytt namn varje gång"),
+        ("Staplar", "Flera värden,<br>en tangent", "Varje fält har ett namn, så du vet vad som kommer"),
+        ("Allt på ett ställe", "Allt du skriver<br>om igen", "Sorterat och sökbart. Stannar på din enhet"),
+    ],
+    "tr": [
+        ("Hazır mesajlar", "Tek dokunuşla<br>yanıtlayın", "Kayıtlı yanıtlarınız klavyede"),
+        ("Pano", "Kopyaladığınızı<br>yapıştırın", "Kopyalanan metin “Son” sekmesinde 30 gün kalır"),
+        ("Şablonlar", "Boşluğu doldurun,<br>gönderin", "Tek satır, her seferinde farklı bir isim"),
+        ("Yığınlar", "Birçok değer,<br>tek tuş", "Her alanın bir adı var, sırada ne olduğunu bilirsiniz"),
+        ("Hepsi tek yerde", "Tekrar tekrar<br>yazdıklarınız", "Gruplu ve aranabilir. Cihazınızda kalır"),
+    ],
 }
 
 # 키릴·한글은 같은 글자 수라도 더 넓게 퍼진다. 언어마다 글자 크기를 조금 줄인다.
 TYPE_SCALE = {"ru": (84, 40), "ko": (92, 44), "zh-Hans": (96, 46), "zh-Hant": (96, 46), "en": (96, 46),
               "ja": (88, 42), "es": (88, 42), "de": (84, 40), "th": (88, 42), "vi": (88, 42),
-              "fr": (84, 40), "it": (88, 42), "pt-BR": (84, 40)}
+              "fr": (84, 40), "it": (88, 42), "pt-BR": (84, 40),
+              "cs": (84, 40), "da": (88, 42), "el": (84, 40), "fi": (84, 40), "id": (88, 42), "nb": (88, 42), "nl": (84, 40), "pl": (84, 40), "sv": (88, 42), "tr": (84, 40)}
 
 if LANG not in COPY:
     raise SystemExit(f"모르는 언어: {LANG} (아는 것: {', '.join(COPY)})")

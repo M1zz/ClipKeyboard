@@ -47,6 +47,16 @@ SEARCH = {
     "fr":      ("Réponses rapides", "Répondez<br>en un toucher", "Vos textes enregistrés, sur le clavier"),
     "it":      ("Risposte rapide", "Rispondi<br>con un tocco", "Le tue frasi salvate, sulla tastiera"),
     "pt-BR":   ("Respostas rápidas", "Responda<br>com um toque", "Suas frases salvas, direto no teclado"),
+    "cs": ("Rychlé odpovědi", "Odpověď<br>jedním ťuknutím", "Uložené odpovědi přímo na klávesnici"),
+    "da": ("Hurtige svar", "Svar med<br>ét tryk", "Gemte svar lige på tastaturet"),
+    "el": ("Γρήγορες απαντήσεις", "Απάντηση<br>με ένα πάτημα", "Αποθηκευμένες απαντήσεις στο πληκτρολόγιο"),
+    "fi": ("Pikavastaukset", "Vastaa yhdellä<br>napautuksella", "Tallennetut vastaukset suoraan näppäimistöllä"),
+    "id": ("Balas cepat", "Balas dengan<br>satu ketukan", "Balasan tersimpan langsung di keyboard"),
+    "nb": ("Hurtigsvar", "Svar med<br>ett trykk", "Lagrede svar rett på tastaturet"),
+    "nl": ("Snelle antwoorden", "Antwoord<br>met één tik", "Bewaarde antwoorden op je toetsenbord"),
+    "pl": ("Szybkie odpowiedzi", "Odpowiedz<br>jednym stuknięciem", "Zapisane odpowiedzi prosto na klawiaturze"),
+    "sv": ("Snabbsvar", "Svara med<br>ett tryck", "Sparade svar direkt på tangentbordet"),
+    "tr": ("Hazır mesajlar", "Tek dokunuşla<br>yanıtlayın", "Kayıtlı yanıtlarınız klavyede"),
 }
 
 # 헤더는 처음 온 사람에게 **한 가지 약속**만 한다(Apple: 단일한 생각, 빽빽하지 않게).
@@ -66,6 +76,16 @@ HEADER = {
     "fr":      ("Réponses rapides", "Écrivez une fois,<br>ensuite touchez"),
     "it":      ("Risposte rapide", "Scrivilo una volta,<br>poi basta un tocco"),
     "pt-BR":   ("Respostas rápidas", "Escreva uma vez,<br>depois é só tocar"),
+    "cs": ("Rychlé odpovědi", "Napište jednou,<br>pak jen ťukněte"),
+    "da": ("Hurtige svar", "Skriv det én gang.<br>Derefter ét tryk."),
+    "el": ("Γρήγορες απαντήσεις", "Γράψτε το μία φορά,<br>μετά ένα πάτημα"),
+    "fi": ("Pikavastaukset", "Kirjoita kerran,<br>sitten vain napauta"),
+    "id": ("Balas cepat", "Tulis sekali,<br>lalu tinggal ketuk"),
+    "nb": ("Hurtigsvar", "Skriv det én gang.<br>Deretter ett trykk."),
+    "nl": ("Snelle antwoorden", "Typ het één keer,<br>daarna alleen tikken"),
+    "pl": ("Szybkie odpowiedzi", "Napisz raz,<br>potem tylko stuknij"),
+    "sv": ("Snabbsvar", "Skriv det en gång.<br>Sedan ett tryck."),
+    "tr": ("Hazır mesajlar", "Bir kez yazın,<br>sonra sadece dokunun"),
 }
 
 # ⚠️ 바탕 · 글자색은 기존 스크린샷(make_marketing_screenshots.py)과 같다. 다르면 페이지에서

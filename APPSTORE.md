@@ -721,7 +721,7 @@ Clip Keyboard ข้อความด่วน
 ### 키워드
 
 ```
-เทมเพลต,เลขบัญชี,ที่อยู่,พร้อมเพย์,ตอบกลับ,ลายเซ็น,คีย์บอร์ด,แป้นพิมพ์,ทางลัด,อีเมล,คัดลอกข้อความ
+เทมเพลต,เลขบัญชี,ที่อยู่,พร้อมเพย์,ตอบกลับ,ลายเซ็น,คีย์บอร์ด,แป้นพิมพ์,ทางลัด,อีเมล,แม่แบบ,โน้ต
 ```
 
 ### 프로모션 텍스트
@@ -796,7 +796,7 @@ Hướng dẫn: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
 ### 키워드
 
 ```
-bảng tạm,mẫu,gõ tắt,số tài khoản,địa chỉ,trả lời,chữ ký,ghi chú,văn bản,tin nhắn,câu
+bảng,tạm,mẫu,tắt,số,tài,khoản,địa,chỉ,trả,lời,chữ,ký,ghi,chú,văn,bản,tin,nhắn,câu,soạn,sẵn,email
 ```
 
 ### 프로모션 텍스트
@@ -1409,7 +1409,7 @@ https://m1zz.github.io/ClipKeyboard/id/
 
 https://m1zz.github.io/ClipKeyboard/id/privacy.html
 
-## 노르웨이어 (nb)
+## 노르웨이어(보크말) (nb)
 
 ### 이름
 
