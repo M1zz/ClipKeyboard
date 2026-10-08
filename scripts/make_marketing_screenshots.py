@@ -24,6 +24,30 @@ SRC = ROOT / "docs" / "screenshots" / "raw" / DEVICE / LANG
 OUT = ROOT / "docs" / "screenshots" / "marketing" / STORE
 WORK = pathlib.Path(__file__).parent
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+def _chrome_shot(cmd, out_png, limit=180):
+    """Chrome 으로 그림 한 장. 기계가 바쁘면 Chrome 은 그림을 다 써 놓고도 끝나지 않는다.
+    그림이 생기고 크기가 멈추면 기다리지 않고 끝낸다. 그림이 생겼으면 True."""
+    import time
+    p = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    t0, last = time.time(), -1
+    while time.time() - t0 < limit:
+        if p.poll() is not None:
+            break
+        if out_png.exists():
+            size = out_png.stat().st_size
+            if size > 0 and size == last:
+                break
+            last = size
+        time.sleep(1)
+    if p.poll() is None:
+        p.kill()
+        p.wait()
+    for a in cmd:
+        if a.startswith("--user-data-dir="):
+            shutil.rmtree(a.split("=", 1)[1], ignore_errors=True)
+    return out_png.exists() and out_png.stat().st_size > 0
+
 # ⚠️ 이 앱의 App Store Connect 제출 규격은 아이폰 **1242x2688**, 아이패드 **2064x2752** 다.
 #    시뮬레이터 원본(1320x2868 · 2064x2752)은 raw 이고, 여기서 바로 제출 규격으로 그린다.
 W, H = (2064, 2752) if DEVICE == "ipad" else (1242, 2688)
@@ -325,16 +349,14 @@ def main(only=None):
         html_path = pathlib.Path(tempfile.gettempdir()) / ("clipkb-shot-" + PREFIX + fname.replace(".png", ".html"))
         html_path.write_text(HTML.format(base=BASE_CSS, layout=layout_css, body=body), encoding="utf-8")
         out_png = OUT / (PREFIX + fname)
-        # ⚠️ Chrome 은 가끔 아무것도 안 그리고 끝나거나(종료 코드 2) 멈춘다. 1분씩 세 번까지 한다
-        for _ in range(3):
-            try:
-                r = subprocess.run([CHROME, "--headless=new", f"--screenshot={out_png}",
+        # ⚠️ Chrome 은 가끔 아무것도 안 그리고 끝나거나(종료 코드 2) 멈춘다. 3분씩 다섯 번까지 한다.
+        #    다른 일로 Chrome 이 함께 떠 있으면 같은 프로필을 두고 다투다 그대로 끝난다. 부를 때마다 빈 프로필을 쓴다
+        for _ in range(5):
+            out_png.unlink(missing_ok=True)
+            if _chrome_shot([CHROME, "--headless=new", f"--screenshot={out_png}",
+                                    f"--user-data-dir={tempfile.mkdtemp(prefix='clipkb-chrome-')}",
                                     f"--window-size={W},{H}", "--force-device-scale-factor=1",
-                                    "--hide-scrollbars", "--disable-gpu", html_path.as_uri()],
-                                   capture_output=True, timeout=60)
-            except subprocess.TimeoutExpired:
-                continue
-            if r.returncode == 0:
+                                    "--hide-scrollbars", "--disable-gpu", html_path.as_uri()], out_png):
                 break
         else:
             raise SystemExit(f"Chrome 이 그리지 못했다: {out_png}")

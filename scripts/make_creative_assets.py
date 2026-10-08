@@ -21,6 +21,54 @@ OUT = ROOT / "docs" / "screenshots" / "creative"
 ICON = ROOT / "docs" / "app-icon.png"
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
+
+def _chrome_dom(cmd, limit=180):
+    """--dump-dom 결과. 바쁜 기계에서 Chrome 은 DOM 을 다 내놓고도 끝나지 않으므로
+    </html> 이 나오면 기다리지 않고 끝낸다."""
+    import time, threading
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
+    out = []
+    def pump():
+        for line in p.stdout:
+            out.append(line)
+    th = threading.Thread(target=pump, daemon=True)
+    th.start()
+    t0 = time.time()
+    while time.time() - t0 < limit and p.poll() is None and "</html>" not in "".join(out[-3:]):
+        time.sleep(0.5)
+    if p.poll() is None:
+        p.kill()
+        p.wait()
+    th.join(timeout=2)
+    for a in cmd:
+        if a.startswith("--user-data-dir="):
+            shutil.rmtree(a.split("=", 1)[1], ignore_errors=True)
+    return "".join(out)
+
+def _chrome_shot(cmd, out_png, limit=180):
+    """Chrome 으로 그림 한 장. 기계가 바쁘면 Chrome 은 그림을 다 써 놓고도 끝나지 않는다.
+    그림이 생기고 크기가 멈추면 기다리지 않고 끝낸다. 그림이 생겼으면 True."""
+    import time
+    p = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    t0, last = time.time(), -1
+    while time.time() - t0 < limit:
+        if p.poll() is not None:
+            break
+        if out_png.exists():
+            size = out_png.stat().st_size
+            if size > 0 and size == last:
+                break
+            last = size
+        time.sleep(1)
+    if p.poll() is None:
+        p.kill()
+        p.wait()
+    for a in cmd:
+        if a.startswith("--user-data-dir="):
+            shutil.rmtree(a.split("=", 1)[1], ignore_errors=True)
+    return out_png.exists() and out_png.stat().st_size > 0
+
+
 # 앱 언어 코드 → App Store Connect 로케일 (make_marketing_screenshots.py 와 같다)
 STORE = {"en": "en-US", "es": "es-MX", "de": "de-DE", "fr": "fr-FR"}
 
@@ -54,7 +102,7 @@ SEARCH = {
     "id": ("Balas cepat", "Balas dengan<br>satu ketukan", "Balasan tersimpan langsung di keyboard"),
     "nb": ("Hurtigsvar", "Svar med<br>ett trykk", "Lagrede svar rett på tastaturet"),
     "nl": ("Snelle antwoorden", "Antwoord<br>met één tik", "Bewaarde antwoorden op je toetsenbord"),
-    "pl": ("Szybkie odpowiedzi", "Odpowiedz<br>jednym stuknięciem", "Zapisane odpowiedzi prosto na klawiaturze"),
+    "pl": ("Szybkie odpowiedzi", "Odpowiedz<br>w sekundę", "Zapisane odpowiedzi prosto na klawiaturze"),
     "sv": ("Snabbsvar", "Svara med<br>ett tryck", "Sparade svar direkt på tangentbordet"),
     "tr": ("Hazır mesajlar", "Tek dokunuşla<br>yanıtlayın", "Kayıtlı yanıtlarınız klavyede"),
 }
@@ -200,9 +248,10 @@ def render(lang, kind):
     html_path = pathlib.Path(tempfile.gettempdir()) / f"clipkb-creative-{lang}-{kind}.html"
     html_path.write_text(page, encoding="utf-8")
     # 글이 끝까지 안 맞으면 그림을 만들지 않는다(잘린 글이 스토어에 올라가는 것보다 낫다).
-    dom = subprocess.run([CHROME, "--headless=new", "--dump-dom", f"--window-size={W},{H}",
-                          "--force-device-scale-factor=1", "--disable-gpu", "--virtual-time-budget=3000",
-                          html_path.as_uri()], capture_output=True, text=True, timeout=90).stdout
+    dom = _chrome_dom([CHROME, "--headless=new", "--dump-dom", f"--window-size={W},{H}",
+                       f"--user-data-dir={tempfile.mkdtemp(prefix='clipkb-chrome-')}",
+                       "--force-device-scale-factor=1", "--disable-gpu", "--virtual-time-budget=3000",
+                       html_path.as_uri()])
     if 'data-done="1"' not in dom:
         raise SystemExit(f"글 맞추기가 끝나지 않았다: {lang} {kind}")
     if 'data-overflow="1"' in dom:
@@ -211,16 +260,13 @@ def render(lang, kind):
     out_dir.mkdir(parents=True, exist_ok=True)
     out_png = out_dir / f"{kind}.png"
     # ⚠️ Chrome 은 가끔 아무것도 안 그리고 끝나거나 멈춘다. 세 번까지 한다.
-    for _ in range(3):
-        try:
-            r = subprocess.run([CHROME, "--headless=new", f"--screenshot={out_png}",
+    for _ in range(5):
+        out_png.unlink(missing_ok=True)
+        if _chrome_shot([CHROME, "--headless=new", f"--screenshot={out_png}",
+                                f"--user-data-dir={tempfile.mkdtemp(prefix='clipkb-chrome-')}",
                                 f"--window-size={W},{H}", "--force-device-scale-factor=1",
                                 "--hide-scrollbars", "--disable-gpu", "--virtual-time-budget=3000",
-                                "--allow-file-access-from-files", html_path.as_uri()],
-                               capture_output=True, timeout=90)
-        except subprocess.TimeoutExpired:
-            continue
-        if r.returncode == 0:
+                                "--allow-file-access-from-files", html_path.as_uri()], out_png):
             break
     else:
         raise SystemExit(f"Chrome 이 그리지 못했다: {out_png}")

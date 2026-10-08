@@ -26,11 +26,11 @@ xcrun simctl install <아이폰 UDID> /tmp/clipkb-dd/Build/Products/Debug-iphone
 xcrun simctl install <아이패드 UDID> /tmp/clipkb-dd/Build/Products/Debug-iphonesimulator/ClipKeyboard.app
 
 # 2) 원본 (언어마다 데이터를 심고 다섯 장면을 찍는다)
-sh scripts/take_screenshots.sh <아이폰 UDID> iphone ko en zh-Hans zh-Hant ru ja es de th vi fr it pt-BR
-sh scripts/take_screenshots.sh <아이패드 UDID> ipad ko en zh-Hans zh-Hant ru ja es de th vi fr it pt-BR
+sh scripts/take_screenshots.sh <아이폰 UDID> iphone ko en zh-Hans zh-Hant ru ja es de th vi fr it pt-BR cs da el fi id nb nl pl sv tr
+sh scripts/take_screenshots.sh <아이패드 UDID> ipad ko en zh-Hans zh-Hant ru ja es de th vi fr it pt-BR cs da el fi id nb nl pl sv tr
 
 # 3) 글과 목업을 입힌 제출본
-for L in ko en zh-Hans zh-Hant ru ja es de th vi fr it pt-BR; do
+for L in ko en zh-Hans zh-Hant ru ja es de th vi fr it pt-BR cs da el fi id nb nl pl sv tr; do
   python3 scripts/make_marketing_screenshots.py $L iphone
   python3 scripts/make_marketing_screenshots.py $L ipad
 done
@@ -58,6 +58,7 @@ done
 | 무엇 | 인자 |
 | --- | --- |
 | 첫 실행 안내 · 튜토리얼 | `-startedFresh.v444 NO -firstShortcut.done.v1 YES -tutorialChaptersDone.v1 YES -keyboardStageOffered.v1 YES` |
+| 새 기기의 첫 실행 샘플(My Email · Name + Contact 와 그 분류 탭) | `-defaultSamplesInserted_v1 YES -demoSampleOfferResolved_v1 YES`. 새로 만든 시뮬레이터에서 찍으면 심은 시연 데이터 위에 영어 샘플이 얹힌다 |
 | "알고 계셨나요" 안내 | `-didYouKnow.optOut.v1 YES` |
 | 추천 카드(카드 정보 등) | `-ghostSuggestionsOff_v1 YES` |
 | "아직 다른 앱에서는 못 써요" 띠 | `-AppleKeyboards '("com.Ysoup.TokenMemo.ClipKeyboardExtension")'` |
