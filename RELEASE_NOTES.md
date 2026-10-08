@@ -23,6 +23,7 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 키보드가 더 빨리 뜨고 부드럽게 움직여요.
 사진을 넣은 단축어가 공간을 덜 차지해요.
 폴란드어, 튀르키예어 등 10개 언어를 새로 지원해요.
+예시 문구가 이제 쓰는 언어로 나와요.
 ```
 
 ### App Store (English)
@@ -32,6 +33,7 @@ Fixed a crash when opening the keyboard.
 The keyboard opens faster and smoother.
 Photo snippets now take up less space.
 10 new languages, including Polish.
+Examples now show in your language.
 ```
 
 ### 앱스토어 (중국어 간체)
@@ -41,6 +43,7 @@ Photo snippets now take up less space.
 键盘弹出更快，滑动更流畅。
 带图片的短语占用空间更少。
 新增波兰语、土耳其语等 10 种语言。
+示例文字现在会以你的语言显示。
 ```
 
 ### 앱스토어 (중국어 번체)
@@ -50,6 +53,7 @@ Photo snippets now take up less space.
 鍵盤跳出更快，滑動更流暢。
 含圖片的短語佔用空間更少。
 新增波蘭文、土耳其文等 10 種語言。
+範例文字現在會以你的語言顯示。
 ```
 
 ### 앱스토어 (러시아어)
@@ -59,6 +63,7 @@ Photo snippets now take up less space.
 Клавиатура открывается быстрее.
 Фразы с фото занимают меньше места.
 Ещё 10 языков, включая польский.
+Примеры теперь на вашем языке.
 ```
 
 ### App Store (Japanese, ja)
@@ -68,6 +73,7 @@ Photo snippets now take up less space.
 キーボードの表示と動きが速くなりました。
 画像付き定型文の保存容量が減りました。
 ポーランド語、トルコ語など10言語を追加。
+例文がお使いの言語で表示されます。
 ```
 
 ### App Store (Spanish, es-MX)
@@ -77,6 +83,7 @@ Ya no se cierra al abrir el teclado.
 El teclado abre más rápido y fluido.
 Frases con foto ocupan menos espacio.
 Ahora en 10 idiomas más, como polaco.
+Los ejemplos ahora salen en tu idioma.
 ```
 
 ### App Store (German, de-DE)
@@ -86,6 +93,7 @@ Ein Absturz der Tastatur ist behoben.
 Die Tastatur öffnet schneller.
 Textbausteine mit Bild sind kleiner.
 10 neue Sprachen, etwa Polnisch.
+Beispiele sind jetzt in deiner Sprache.
 ```
 
 ### App Store (Thai, th)
@@ -95,6 +103,7 @@ Textbausteine mit Bild sind kleiner.
 คีย์บอร์ดเปิดเร็วขึ้นและลื่นขึ้น
 ข้อความด่วนที่มีรูปใช้พื้นที่น้อยลง
 เพิ่มอีก 10 ภาษา เช่น โปแลนด์ ตุรกี
+ตัวอย่างข้อความแสดงเป็นภาษาของคุณแล้ว
 ```
 
 ### App Store (Vietnamese, vi)
@@ -104,6 +113,7 @@ Sửa lỗi bàn phím bị thoát khi mở.
 Bàn phím mở nhanh và mượt hơn.
 Cụm từ có ảnh chiếm ít dung lượng hơn.
 Thêm 10 ngôn ngữ như Ba Lan, Thổ Nhĩ Kỳ.
+Văn bản mẫu nay theo ngôn ngữ của bạn.
 ```
 
 ### App Store (French, fr-FR)
@@ -113,6 +123,7 @@ Le clavier ne plante plus à l'ouverture.
 Le clavier s'ouvre plus vite.
 Les phrases avec image pèsent moins.
 10 langues de plus, dont le polonais.
+Exemples affichés dans votre langue.
 ```
 
 ### App Store (Italian, it)
@@ -122,6 +133,7 @@ La tastiera non si chiude più all'avvio.
 La tastiera si apre più in fretta.
 Le frasi con foto occupano meno spazio.
 10 nuove lingue, tra cui il polacco.
+Gli esempi ora sono nella tua lingua.
 ```
 
 ### App Store (Portuguese, pt-BR)
@@ -131,6 +143,7 @@ O teclado não fecha mais ao abrir.
 O teclado abre mais rápido.
 Frases com foto ocupam menos espaço.
 Mais 10 idiomas, como polonês.
+Exemplos agora aparecem no seu idioma.
 ```
 
 ### App Store (Czech, cs)
@@ -140,6 +153,7 @@ Klávesnice už při otevření nepadá.
 Klávesnice se otevírá rychleji.
 Fráze s obrázky zabírají méně místa.
 Nově i česky a v dalších 9 jazycích.
+Ukázky jsou nyní ve vašem jazyce.
 ```
 
 ### App Store (Danish, da)
@@ -149,6 +163,7 @@ Rettet nedbrud, når tastaturet åbnes.
 Tastaturet åbner hurtigere.
 Fraser med billeder fylder mindre.
 Nu på dansk og 9 andre nye sprog.
+Eksempler vises nu på dit sprog.
 ```
 
 ### App Store (Greek, el)
@@ -158,6 +173,7 @@ Nu på dansk og 9 andre nye sprog.
 Το πληκτρολόγιο ανοίγει πιο γρήγορα.
 Φράσεις με εικόνα πιάνουν λιγότερο χώρο.
 Τώρα και στα ελληνικά, μαζί με 9 ακόμα.
+Τα παραδείγματα είναι στη γλώσσα σας.
 ```
 
 ### App Store (Finnish, fi)
@@ -167,6 +183,7 @@ Korjattu näppäimistön kaatuminen.
 Näppäimistö aukeaa nopeammin.
 Kuvafraasit vievät vähemmän tilaa.
 Nyt suomeksi ja 9 muulla kielellä.
+Esimerkit näkyvät nyt omalla kielelläsi.
 ```
 
 ### App Store (Indonesian, id)
@@ -176,6 +193,7 @@ Keyboard tak lagi tertutup saat dibuka.
 Keyboard terbuka lebih cepat.
 Frasa bergambar kini lebih hemat ruang.
 Kini ada bahasa Indonesia dan 9 lainnya.
+Contoh teks kini dalam bahasa Anda.
 ```
 
 ### App Store (Norsk bokmål, nb)
@@ -185,6 +203,7 @@ Retter krasj når tastaturet åpnes.
 Tastaturet åpner raskere.
 Fraser med bilder tar mindre plass.
 Nå på norsk og 9 andre nye språk.
+Eksempler vises nå på ditt språk.
 ```
 
 ### App Store (Dutch, nl)
@@ -194,6 +213,7 @@ Toetsenbord crasht niet meer bij openen.
 Het toetsenbord opent sneller.
 Fragmenten met foto nemen minder ruimte.
 Nu in het Nederlands en 9 andere talen.
+Voorbeelden staan nu in je eigen taal.
 ```
 
 ### App Store (Polish, pl)
@@ -203,6 +223,7 @@ Naprawiono zamykanie się klawiatury.
 Klawiatura otwiera się szybciej.
 Frazy ze zdjęciem zajmują mniej miejsca.
 Teraz po polsku i w 9 innych językach.
+Przykłady są teraz w Twoim języku.
 ```
 
 ### App Store (Swedish, sv)
@@ -212,6 +233,7 @@ Tangentbordet kraschar inte längre.
 Tangentbordet öppnas snabbare.
 Fraser med bilder tar mindre plats.
 Nu på svenska och 9 andra nya språk.
+Exempel visas nu på ditt språk.
 ```
 
 ### App Store (Turkish, tr)
@@ -221,6 +243,7 @@ Klavyenin açılırken kapanması giderildi.
 Klavye artık daha hızlı açılıyor.
 Görselli ifadeler daha az yer kaplıyor.
 Türkçe dahil 10 yeni dil eklendi.
+Örnekler artık kendi dilinizde.
 ```
 
 ## 5.1.9

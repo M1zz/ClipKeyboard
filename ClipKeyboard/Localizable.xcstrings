@@ -33209,6 +33209,144 @@
         }
       }
     },
+    "12가 3456" : {
+      "comment" : "Sample value for a new License Plate snippet. Use the plate format of the user's country",
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1AB 2345"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AB 12 345"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "B-AB 1234"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ΙΚΑ-1234"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ABC 1234"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ABC-123-A"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ABC-123"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AB-123-CD"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "B 1234 ABC"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AB 123 CD"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "品川 300 あ 12-34"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AB 12345"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12-ABC-3"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WA 12345"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ABC1D23"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "А123ВС 77"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ABC 123"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1กข 1234"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "34 ABC 123"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30A-123.45"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "京A·12345"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "京A·12345"
+          }
+        }
+      }
+    },
     "12가1234" : {
       "comment" : "Vehicle plate placeholder",
       "localizations" : {
@@ -94301,6 +94439,144 @@
         }
       }
     },
+    "{회사명} 인사 담당자님께,\n안녕하세요, {학교/전공}의 {이름}입니다. {역할} 인턴십에 관심이 있어 문의드립니다." : {
+      "comment" : "Empty state seed content: internship inquiry",
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vážený HR tým společnosti {společnost},\njmenuji se {jméno} a studuji na {škola/obor}. Mám zájem o stáž na pozici {pozice} a rád/a bych se dozvěděl/a více."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kære HR-team hos {virksomhed},\njeg hedder {navn} og læser på {uddannelsessted/studie}. Jeg er interesseret i praktikpladsen som {rolle} og vil gerne høre mere."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sehr geehrtes Recruiting-Team von {Firma},\nich bin {Name} von {Hochschule/Studiengang} und interessiere mich für ein Praktikum als {Rolle}."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Αξιότιμο τμήμα προσωπικού της {εταιρεία},\nονομάζομαι {όνομα} και σπουδάζω στο {σχολή/τμήμα}. Ενδιαφέρομαι για την πρακτική άσκηση στη θέση {θέση} και θα ήθελα περισσότερες πληροφορίες."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dear {company} Hiring Team,\nHello, I'm {name} from {school/major}. I'm interested in the {role} internship and wanted to reach out."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estimado equipo de Recursos Humanos de {empresa}:\nHola, soy {nombre}, de {universidad/carrera}. Me interesan las prácticas profesionales de {puesto} y quisiera más información."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hyvä {yritys} / HR-tiimi,\nolen {nimi} ({oppilaitos/ala}). Olen kiinnostunut harjoittelupaikasta tehtävässä {rooli} ja haluaisin kuulla lisää."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Madame, Monsieur, équipe RH de {entreprise},\nJe m'appelle {nom}, étudiant(e) à {école/filière}. Le stage de {poste} m'intéresse et je souhaiterais en savoir plus."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yth. Tim HR {perusahaan},\nPerkenalkan, saya {nama} dari {kampus/jurusan}. Saya tertarik dengan program magang {posisi} dan ingin bertanya lebih lanjut."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gentile team HR di {azienda},\nsono {nome} di {università/corso}. Mi interessa il tirocinio come {ruolo} e vorrei ricevere maggiori informazioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{会社名} 採用ご担当者様\nはじめまして、{大学/専攻}の{名前}と申します。{職種}のインターンシップに関心があり、ご連絡いたしました。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hei, HR-teamet i {bedrift}.\nJeg heter {navn} og studerer ved {skole/studium}. Jeg er interessert i praksisplassen som {rolle} og vil gjerne vite mer."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beste HR-team van {bedrijf},\nIk ben {naam}, student aan {school/studie}. Ik heb interesse in de stage als {functie} en wil graag meer informatie."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Szanowni Państwo z działu HR {firma},\nnazywam się {imię} i studiuję na {uczelnia/kierunek}. Interesuje mnie staż na stanowisku {stanowisko} i chętnie dowiem się więcej."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prezada equipe de RH da {empresa},\nOlá, sou {nome}, de {faculdade/curso}. Tenho interesse no estágio de {vaga} e gostaria de mais informações."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здравствуйте, отдел кадров {компания}!\nМеня зовут {имя}, я учусь в {вуз/специальность}. Меня интересует стажировка на позицию {должность}."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hej HR-teamet på {företag},\njag heter {namn} och studerar på {skola/program}. Jag är intresserad av praktikplatsen som {roll} och vill gärna veta mer."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เรียน ฝ่ายบุคคล {บริษัท}\nชื่อ {ชื่อ} จาก {มหาวิทยาลัย/สาขา} สนใจฝึกงานตำแหน่ง {ตำแหน่ง} จึงขอสอบถามรายละเอียดเพิ่มเติม"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sayın {şirket} İK ekibi,\nMerhaba, ben {okul/bölüm} öğrencisi {isim}. {pozisyon} stajıyla ilgileniyorum ve bilgi almak istiyorum."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kính gửi bộ phận nhân sự {công ty},\nEm là {tên}, sinh viên {trường/ngành}. Em rất quan tâm đến vị trí thực tập {vị trí} và xin được hỏi thêm thông tin."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{公司名}招聘负责人您好：\n我是{学校/专业}的{姓名}，对{职位}实习很感兴趣，特此咨询。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "{公司名}招聘負責人您好：\n我是{學校/專業}的{姓名}，對{職位}實習很感興趣，特此咨詢。"
+          }
+        }
+      }
+    },
     "×%d" : {
       "comment" : "Receipt: use count multiplier",
       "localizations" : {
@@ -105999,6 +106275,144 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "個性化"
+          }
+        }
+      }
+    },
+    "거기 맛있어요! 특히 {메뉴} 추천합니다. {주소}에 있어요." : {
+      "comment" : "Empty state seed content: restaurant recommendation",
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je tam výborně! Doporučuju hlavně {jídlo}. Adresa: {adresa}."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der er virkelig lækkert! Prøv især {ret}. Adresse: {adresse}."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da ist es richtig lecker! Probier unbedingt {Gericht}. Adresse: {Adresse}."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Είναι πολύ νόστιμα εκεί! Προτείνω ιδιαίτερα {πιάτο}. Διεύθυνση: {διεύθυνση}."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That place is great! Try the {dish}. It's at {address}."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Ahí se come muy rico! Te recomiendo {platillo}. Está en {dirección}."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siellä on tosi hyvää! Suosittelen erityisesti: {annos}. Osoite: {osoite}."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C'est délicieux là-bas ! Je recommande surtout {plat}. Adresse : {adresse}."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di sana enak banget! Coba {menu}. Alamatnya di {alamat}."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lì si mangia benissimo! Ti consiglio {piatto}. Indirizzo: {indirizzo}."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "あそこ美味しいよ！特に{メニュー}がおすすめ。場所は{住所}だよ。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der er det kjempegodt! Prøv særlig {rett}. Adresse: {adresse}."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daar is het echt lekker! Probeer zeker {gerecht}. Adres: {adres}."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tam jest pysznie! Polecam szczególnie {danie}. Adres: {adres}."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lá é muito bom! Recomendo muito o {prato}. Fica em {endereço}."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Там очень вкусно! Особенно советую {блюдо}. Адрес: {адрес}."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det är jättegott där! Testa särskilt {rätt}. Adress: {adress}."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ร้านนั้นอร่อยมาก! แนะนำ {เมนู} อยู่ที่ {ที่อยู่}"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orası çok lezzetli! Özellikle {yemek} tavsiye ederim. Adresi: {adres}."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quán đó ngon lắm! Nhất định phải thử {món}. Địa chỉ ở {địa chỉ}."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "那家很好吃！特别推荐{菜品}。地址在{地址}。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "那家很好吃！特別推薦{菜品}。地址在{地址}。"
           }
         }
       }
@@ -130334,6 +130748,144 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "我的地址"
+          }
+        }
+      }
+    },
+    "내 주소: [실제 주소 입력]" : {
+      "comment" : "Empty state seed content: home address quick share",
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moje adresa: [zadejte adresu]"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Min adresse: [indtast din adresse]"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meine Adresse: [Adresse eingeben]"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Η διεύθυνσή μου: [συμπληρώστε τη διεύθυνση]"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My address: [enter your address]"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mi dirección: [escribe tu dirección]"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Osoitteeni: [kirjoita osoitteesi]"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mon adresse : [saisir votre adresse]"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alamat saya: [isi alamat]"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il mio indirizzo: [inserisci l'indirizzo]"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自宅住所：[実際の住所を入力]"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adressen min: [skriv inn adressen]"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mijn adres: [vul je adres in]"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mój adres: [wpisz adres]"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meu endereço: [digite seu endereço]"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мой адрес: [укажите адрес]"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Min adress: [ange din adress]"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ที่อยู่ของฉัน: [กรอกที่อยู่จริง]"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adresim: [adresinizi girin]"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Địa chỉ của tôi: [nhập địa chỉ]"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的地址：[填写实际地址]"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我的地址：[填寫實際地址]"
           }
         }
       }
@@ -162996,6 +163548,144 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "資料已儲存為檔案。請放在安全的地方。"
+          }
+        }
+      }
+    },
+    "도서관 책 요청\n도서명: \nISBN: \n요청일: {날짜}" : {
+      "comment" : "Empty state seed content: library book request form",
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Žádost o knihu v knihovně\nNázev: \nISBN: \nDatum žádosti: {datum}"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bogbestilling til biblioteket\nTitel: \nISBN: \nBestilt den: {dato}"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buchwunsch an die Bibliothek\nTitel: \nISBN: \nAngefragt am: {Datum}"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Αίτημα βιβλίου στη βιβλιοθήκη\nΤίτλος: \nISBN: \nΗμερομηνία αιτήματος: {ημερομηνία}"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Library book request\nTitle: \nISBN: \nRequested on: {date}"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solicitud de libro a la biblioteca\nTítulo: \nISBN: \nFecha de solicitud: {fecha}"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kirjapyyntö kirjastolle\nNimeke: \nISBN: \nPyydetty: {päivämäärä}"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demande de livre à la bibliothèque\nTitre : \nISBN : \nDate de la demande : {date}"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permintaan buku perpustakaan\nJudul: \nISBN: \nTanggal permintaan: {tanggal}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Richiesta libro in biblioteca\nTitolo: \nISBN: \nData richiesta: {data}"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "図書館への購入リクエスト\n書名：\nISBN：\n申請日：{日付}"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bokbestilling til biblioteket\nTittel: \nISBN: \nBestilt: {dato}"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boekaanvraag bibliotheek\nTitel: \nISBN: \nAangevraagd op: {datum}"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zamówienie książki w bibliotece\nTytuł: \nISBN: \nData zamówienia: {data}"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pedido de livro à biblioteca\nTítulo: \nISBN: \nData do pedido: {data}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заявка на книгу в библиотеку\nНазвание: \nISBN: \nДата заявки: {дата}"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bokförfrågan till biblioteket\nTitel: \nISBN: \nBegärd: {datum}"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "คำขอหนังสือห้องสมุด\nชื่อหนังสือ: \nISBN: \nวันที่ขอ: {วันที่}"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kütüphane kitap talebi\nKitap adı: \nISBN: \nTalep tarihi: {tarih}"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yêu cầu mượn sách thư viện\nTên sách: \nISBN: \nNgày yêu cầu: {ngày}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图书馆购书申请\n书名：\nISBN：\n申请日期：{日期}"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "圖書館購書申請\n書名：\nISBN：\n申請日期：{日期}"
           }
         }
       }
@@ -233452,6 +234142,144 @@
         }
       }
     },
+    "서울특별시 종로구 청와대로 1" : {
+      "comment" : "Sample value for a new Address snippet. Use a well-known, obviously fake street address in the user's country",
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Václavské náměstí 1, 110 00 Praha 1"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Strøget 1, 1160 København K"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Musterstraße 1, 10115 Berlin"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Οδός Ερμού 1, 105 63 Αθήνα"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 Main Street, Springfield"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Av. Paseo de la Reforma 1, Ciudad de México"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mannerheimintie 1, 00100 Helsinki"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 rue de la Paix, 75002 Paris"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jl. Jenderal Sudirman No. 1, Jakarta"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Via Roma 1, 00184 Roma"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "東京都千代田区丸の内1-1-1"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karl Johans gate 1, 0154 Oslo"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Damrak 1, 1012 LG Amsterdam"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ul. Marszałkowska 1, 00-001 Warszawa"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Av. Paulista, 1000, São Paulo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ул. Тверская, д. 1, Москва"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Storgatan 1, 111 22 Stockholm"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 ถนนสุขุมวิท แขวงคลองเตย กรุงเทพฯ 10110"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İstiklal Caddesi No: 1, Beyoğlu, İstanbul"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 Lê Lợi, Quận 1, TP. Hồ Chí Minh"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "北京市朝阳区建国路1号"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "臺北市信義區建國路1號"
+          }
+        }
+      }
+    },
     "선택 안 됨" : {
       "comment" : "Bulk import key preview: not picked for bundling\nCombo checkbox: not selected\nNot selected",
       "localizations" : {
@@ -260574,6 +261402,144 @@
         }
       }
     },
+    "안녕하세요 교수님, {날짜} 면담 가능할까요? {주제} 관련 질문이 있어 찾아뵙고 싶습니다." : {
+      "comment" : "Empty state seed content: office hours request to a professor",
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dobrý den, bylo by možné domluvit si konzultaci {datum}? Mám několik otázek k tématu {téma}."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hej! Har du tid til et møde den {dato}? Jeg har nogle spørgsmål om {emne}."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guten Tag, hätten Sie am {Datum} Zeit für eine Sprechstunde? Ich habe einige Fragen zu {Thema}."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Καλημέρα σας, θα ήταν δυνατή μια συνάντηση στις {ημερομηνία}; Έχω μερικές ερωτήσεις σχετικά με το θέμα {θέμα}."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hello Professor, would you be available to meet on {date}? I have a few questions about {topic}."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buen día, profesor(a). ¿Tendría disponibilidad para una asesoría el {fecha}? Tengo algunas dudas sobre {tema}."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hei! Olisiko sinulla aikaa tapaamiselle {päivämäärä}? Minulla on muutama kysymys aiheesta {aihe}."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bonjour, seriez-vous disponible le {date} pour un rendez-vous ? J'ai quelques questions sur {sujet}."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selamat siang, Bapak/Ibu. Apakah saya bisa bertemu pada {tanggal}? Ada beberapa pertanyaan tentang {topik}."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gentile professore, sarebbe possibile un colloquio il {data}? Avrei alcune domande su {argomento}."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先生、{日付}に面談のお時間をいただけますでしょうか。{テーマ}について伺いたいことがあります。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hei! Har du tid til et møte {dato}? Jeg har noen spørsmål om {tema}."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beste professor, zou u op {datum} tijd hebben voor een afspraak? Ik heb een paar vragen over {onderwerp}."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dzień dobry, czy byłaby możliwość spotkania {data}? Mam kilka pytań dotyczących tematu {temat}."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Olá, professor(a). Seria possível conversarmos em {data}? Tenho algumas dúvidas sobre {tema}."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здравствуйте! Можно ли подойти к вам {дата}? У меня есть вопросы по теме {тема}."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hej! Skulle du ha tid för ett möte den {datum}? Jag har några frågor om {ämne}."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เรียนอาจารย์ ไม่ทราบว่า {วันที่} อาจารย์สะดวกให้เข้าพบหรือไม่ มีคำถามเรื่อง {หัวข้อ} อยากขอคำแนะนำ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Merhaba hocam, {tarih} tarihinde görüşme imkânınız olur mu? {konu} hakkında birkaç sorum var."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em chào thầy/cô, {ngày} thầy/cô có thể dành thời gian cho em gặp được không ạ? Em có vài câu hỏi về {chủ đề}."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "老师您好，{日期}方便见面吗？我有一些关于{主题}的问题想当面请教。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "老師您好，{日期}方便見面嗎？我有一些關於{主題}的問題想當面請教。"
+          }
+        }
+      }
+    },
     "안녕하세요 교수님, {학과} {학번} {이름}입니다.\n{과목} {과제} 제출드립니다." : {
       "comment" : "Essential snippet body: polite email to a professor. Keep every {…} blank with its braces; translate only the words inside",
       "localizations" : {
@@ -260791,6 +261757,144 @@
         }
       },
       "shouldTranslate" : false
+    },
+    "안녕하세요, {수업명} 과제 제출합니다.\n학번: {학번}\n이름: {이름}\n첨부 파일 확인 부탁드립니다." : {
+      "comment" : "Empty state seed content: assignment submission",
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dobrý den, posílám úkol z předmětu {předmět}.\nStudijní číslo: {studijní číslo}\nJméno: {jméno}\nSoubor je v příloze."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hej! Her er min aflevering i {fag}.\nStudienummer: {studienummer}\nNavn: {navn}\nFilen er vedhæftet."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guten Tag, anbei meine Abgabe für {Kurs}.\nMatrikelnummer: {Matrikelnummer}\nName: {Name}\nDie Datei ist angehängt."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Καλημέρα σας, υποβάλλω την εργασία για το μάθημα {μάθημα}.\nΑριθμός μητρώου: {αριθμός μητρώου}\nΌνομα: {όνομα}\nΤο αρχείο επισυνάπτεται."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hello, I'm submitting my assignment for {course}.\nStudent ID: {student_id}\nName: {name}\nPlease find the file attached."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buen día, envío la tarea de {materia}.\nMatrícula: {matrícula}\nNombre: {nombre}\nAdjunto el archivo."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hei! Palautan kurssin {kurssi} tehtävän.\nOpiskelijanumero: {opiskelijanumero}\nNimi: {nimi}\nTiedosto on liitteenä."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bonjour, voici mon devoir pour le cours {cours}.\nNuméro d'étudiant : {numéro}\nNom : {nom}\nVous trouverez le fichier en pièce jointe."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selamat siang, saya mengumpulkan tugas {mata kuliah}.\nNIM: {NIM}\nNama: {nama}\nMohon cek file terlampir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buongiorno, invio il compito per il corso di {corso}.\nMatricola: {matricola}\nNome: {nome}\nIn allegato il file."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お疲れさまです。{授業名}の課題を提出します。\n学籍番号：{学籍番号}\n氏名：{名前}\n添付ファイルをご確認ください。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hei! Her er innleveringen min i {emne}.\nStudentnummer: {studentnummer}\nNavn: {navn}\nFilen ligger vedlagt."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beste docent, hierbij lever ik mijn opdracht voor {vak} in.\nStudentnummer: {studentnummer}\nNaam: {naam}\nHet bestand zit in de bijlage."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dzień dobry, przesyłam pracę z przedmiotu {przedmiot}.\nNr indeksu: {nr indeksu}\nImię i nazwisko: {imię}\nPlik w załączniku."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Olá, segue o trabalho de {disciplina}.\nMatrícula: {matrícula}\nNome: {nome}\nO arquivo está em anexo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здравствуйте! Отправляю задание по курсу {курс}.\nНомер студенческого: {номер}\nИмя: {имя}\nФайл во вложении."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hej! Här kommer min inlämning i {kurs}.\nStudent-ID: {student-id}\nNamn: {namn}\nFilen finns bifogad."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เรียนอาจารย์ ขอส่งงานวิชา {ชื่อวิชา}\nรหัสนักศึกษา: {รหัสนักศึกษา}\nชื่อ: {ชื่อ}\nรบกวนตรวจสอบไฟล์แนบ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Merhaba, {ders} ödevimi gönderiyorum.\nÖğrenci no: {öğrenci no}\nAd soyad: {isim}\nEkteki dosyayı kontrol edebilir misiniz?"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em chào thầy/cô, em xin nộp bài tập môn {môn học}.\nMã số sinh viên: {MSSV}\nHọ tên: {tên}\nThầy/cô vui lòng kiểm tra tệp đính kèm ạ."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "老师好，提交{课程名}的作业。\n学号：{学号}\n姓名：{姓名}\n请查收附件。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "老師好，提交{課程名}的作業。\n學號：{學號}\n姓名：{姓名}\n請查收附件。"
+          }
+        }
+      }
     },
     "안녕하세요, {회사} {이름}입니다.\n{이메일} / {전화번호}" : {
       "comment" : "Essential snippet body: business intro with contact. Keep every {…} blank with its braces; translate only the words inside",
@@ -284963,6 +286067,144 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "美食"
+          }
+        }
+      }
+    },
+    "응급 연락처\n{이름}: {전화번호}\n관계: {가족 관계}" : {
+      "comment" : "Empty state seed content: emergency contact",
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouzový kontakt\n{jméno}: {telefon}\nVztah: {vztah}"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nødkontakt\n{navn}: {telefon}\nRelation: {relation}"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notfallkontakt\n{Name}: {Telefon}\nBeziehung: {Beziehung}"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Επαφή έκτακτης ανάγκης\n{όνομα}: {τηλέφωνο}\nΣχέση: {σχέση}"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emergency contact\n{name}: {phone}\nRelationship: {relationship}"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contacto de emergencia\n{nombre}: {teléfono}\nParentesco: {parentesco}"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hätäyhteystieto\n{nimi}: {puhelin}\nSuhde: {suhde}"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact d'urgence\n{nom} : {téléphone}\nLien : {lien de parenté}"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontak darurat\n{nama}: {telepon}\nHubungan: {hubungan}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contatto di emergenza\n{nome}: {telefono}\nRelazione: {parentela}"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "緊急連絡先\n{名前}：{電話番号}\n続柄：{続柄}"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nødkontakt\n{navn}: {telefon}\nRelasjon: {relasjon}"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noodcontact\n{naam}: {telefoon}\nRelatie: {relatie}"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontakt alarmowy\n{imię}: {telefon}\nRelacja: {stopień pokrewieństwa}"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contato de emergência\n{nome}: {telefone}\nParentesco: {parentesco}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Экстренный контакт\n{имя}: {телефон}\nКем приходится: {родство}"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nödkontakt\n{namn}: {telefon}\nRelation: {relation}"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ผู้ติดต่อฉุกเฉิน\n{ชื่อ}: {โทรศัพท์}\nความสัมพันธ์: {ความสัมพันธ์}"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acil durum kişisi\n{isim}: {telefon}\nYakınlık: {yakınlık}"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liên hệ khẩn cấp\n{tên}: {điện thoại}\nQuan hệ: {quan hệ}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紧急联系人\n{姓名}：{电话}\n关系：{关系}"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "緊急聯繫人\n{姓名}：{電話}\n關係：{關係}"
           }
         }
       }
@@ -380614,6 +381856,144 @@
         }
       }
     },
+    "택배 메모\n부재 시 경비실에 맡겨주세요.\n공동현관 비밀번호: [번호]" : {
+      "comment" : "Empty state seed content: delivery instructions",
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poznámka pro kurýra\nPokud nebudu doma, nechte zásilku u sousedů.\nKód ke vchodu: [kód]"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leveringsbesked\nHvis jeg ikke er hjemme, så aflever pakken hos naboen.\nDørkode: [kode]"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lieferhinweis\nFalls ich nicht da bin, bitte bei den Nachbarn abgeben.\nTürcode: [Code]"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Σημείωση παράδοσης\nΑν λείπω, αφήστε το δέμα στον διπλανό.\nΚωδικός εισόδου: [κωδικός]"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delivery note\nIf I'm not home, please leave it with the front desk.\nBuilding door code: [code]"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nota para paquetería\nSi no estoy, déjalo con el portero.\nCódigo de acceso: [código]"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toimitusohje\nJos en ole kotona, jätä paketti naapurille.\nOvikoodi: [koodi]"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note pour la livraison\nEn cas d'absence, merci de laisser le colis au gardien.\nDigicode : [code]"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catatan pengiriman\nJika saya tidak ada, titipkan ke satpam.\nKode pintu: [kode]"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nota per la consegna\nSe non ci sono, lasciate il pacco al portiere.\nCodice citofono: [codice]"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配達メモ\n不在時は管理人室に預けてください。\nオートロック番号：[番号]"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leveringsbeskjed\nHvis jeg ikke er hjemme, lever pakken til naboen.\nPortkode: [kode]"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bezorginstructie\nAls ik niet thuis ben, graag afgeven bij de buren.\nDeurcode: [code]"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uwagi dla kuriera\nJeśli mnie nie będzie, proszę zostawić u portiera.\nKod do domofonu: [kod]"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recado para entrega\nSe eu não estiver, deixe na portaria.\nSenha do portão: [senha]"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для курьера\nЕсли меня нет дома, оставьте посылку у консьержа.\nКод домофона: [код]"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leveransinstruktion\nOm jag inte är hemma, lämna paketet hos grannen.\nPortkod: [kod]"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "โน้ตสำหรับพัสดุ\nถ้าไม่อยู่ ฝากไว้ที่ป้อม รปภ. ได้เลย\nรหัสประตู: [รหัส]"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kargo notu\nEvde yoksam lütfen kapıcıya bırakın.\nBina kapı şifresi: [şifre]"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ghi chú giao hàng\nNếu không có nhà, vui lòng gửi ở phòng bảo vệ.\nMã cửa: [mã]"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快递备注\n不在家时请放在门卫处。\n单元门密码：[密码]"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快遞備註\n不在家時請放在門衛處。\n單元門密碼：[密碼]"
+          }
+        }
+      }
+    },
     "택배 보낼 때, 배달 주문할 때마다 치던 그 주소예요." : {
       "comment" : "Onboarding seed hint: address",
       "extractionState" : "stale",
@@ -407427,6 +408807,144 @@
         }
       }
     },
+    "확인했습니다. 검토 후 답변드리겠습니다." : {
+      "comment" : "Empty state seed content: reviewing reply",
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rozumím. Projdu to a ozvu se."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modtaget. Jeg kigger på det og vender tilbage."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verstanden. Ich schaue es mir an und melde mich."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ελήφθη. Θα το εξετάσω και θα επανέλθω."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Got it. I'll review and get back to you."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recibido. Lo reviso y te respondo."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selvä. Katson asian ja palaan siihen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bien reçu. Je regarde et je reviens vers vous."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baik, sudah saya terima. Saya cek dulu lalu saya kabari."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricevuto. Do un'occhiata e ti rispondo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "承知しました。確認のうえ、改めてご連絡します。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mottatt. Jeg ser på det og kommer tilbake til deg."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ontvangen. Ik bekijk het en kom erop terug."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jasne, sprawdzę i odpiszę."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entendido. Vou analisar e te retorno."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Принято. Посмотрю и вернусь с ответом."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uppfattat. Jag tittar på det och återkommer."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "รับทราบ จะตรวจสอบแล้วแจ้งกลับอีกครั้ง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anlaşıldı. İnceleyip size dönüş yapacağım."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã nhận. Mình sẽ xem lại và phản hồi sau."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收到。我看过后再回复你。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收到。我看過後再回覆你。"
+          }
+        }
+      }
+    },
     "확인했어요" : {
       "comment" : "Combo step: confirm button",
       "localizations" : {
@@ -409667,6 +411185,282 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "會議大概要晚 10 分鐘"
+          }
+        }
+      }
+    },
+    "회의가 10분 늦어질 것 같습니다. 양해 부탁드립니다." : {
+      "comment" : "Empty state seed content: meeting delay reply",
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na schůzku přijdu asi o 10 minut později. Omlouvám se."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeg bliver cirka 10 minutter forsinket til mødet. Undskyld."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ich komme etwa 10 Minuten später zum Meeting. Entschuldige die Verspätung."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Θα καθυστερήσω περίπου 10 λεπτά για τη σύσκεψη. Ζητώ συγγνώμη."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I'm running about 10 minutes late for the meeting. Sorry for the delay."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voy a llegar unos 10 minutos tarde a la reunión. Disculpa la demora."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Myöhästyn kokouksesta noin 10 minuuttia. Pahoittelut."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "J'aurai environ 10 minutes de retard à la réunion. Merci de votre compréhension."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saya akan terlambat sekitar 10 menit ke rapat. Mohon maaf."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arriverò alla riunione con circa 10 minuti di ritardo. Scusa il disagio."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会議に10分ほど遅れそうです。申し訳ありません。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeg blir omtrent 10 minutter forsinket til møtet. Beklager."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ik ben ongeveer 10 minuten later bij de vergadering. Excuses daarvoor."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spóźnię się na spotkanie jakieś 10 minut. Przepraszam."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vou me atrasar uns 10 minutos para a reunião. Peço desculpas."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Похоже, я опоздаю на встречу минут на 10. Прошу прощения."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jag blir ungefär 10 minuter sen till mötet. Ursäkta."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "น่าจะเข้าประชุมช้าประมาณ 10 นาที ขออภัยในความไม่สะดวก"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toplantıya yaklaşık 10 dakika geç kalacağım. Kusura bakmayın."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mình sẽ đến họp trễ khoảng 10 phút. Mong mọi người thông cảm."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会议我大概会晚到10分钟，抱歉。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "會議我大概會晚到10分鐘，抱歉。"
+          }
+        }
+      }
+    },
+    "회의록 - {날짜}\n참석: {참석자}\n\n안건:\n1.\n2.\n\n결정사항:\n\n액션 아이템:" : {
+      "comment" : "Empty state seed content: meeting minutes template. Keep the line breaks and the {placeholders}",
+      "extractionState" : "manual",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zápis z porady - {datum}\nPřítomni: {účastníci}\n\nProgram:\n1.\n2.\n\nRozhodnutí:\n\nÚkoly:"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mødereferat - {dato}\nDeltagere: {deltagere}\n\nDagsorden:\n1.\n2.\n\nBeslutninger:\n\nOpgaver:"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protokoll - {Datum}\nTeilnehmende: {Teilnehmende}\n\nTagesordnung:\n1.\n2.\n\nBeschlüsse:\n\nTo-dos:"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πρακτικά σύσκεψης - {ημερομηνία}\nΠαρόντες: {συμμετέχοντες}\n\nΘέματα:\n1.\n2.\n\nΑποφάσεις:\n\nΕνέργειες:"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meeting notes - {date}\nAttendees: {attendees}\n\nAgenda:\n1.\n2.\n\nDecisions:\n\nAction items:"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minuta de reunión - {fecha}\nAsistentes: {asistentes}\n\nTemas:\n1.\n2.\n\nAcuerdos:\n\nPendientes:"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muistio - {päivämäärä}\nLäsnä: {osallistujat}\n\nAsialista:\n1.\n2.\n\nPäätökset:\n\nTehtävät:"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compte rendu - {date}\nParticipants : {participants}\n\nOrdre du jour :\n1.\n2.\n\nDécisions :\n\nActions :"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notulen rapat - {tanggal}\nPeserta: {peserta}\n\nAgenda:\n1.\n2.\n\nKeputusan:\n\nTindak lanjut:"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbale riunione - {data}\nPartecipanti: {partecipanti}\n\nOrdine del giorno:\n1.\n2.\n\nDecisioni:\n\nAzioni:"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "議事録 - {日付}\n出席者：{出席者}\n\n議題：\n1.\n2.\n\n決定事項：\n\nアクションアイテム："
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Møtereferat - {dato}\nTil stede: {deltakere}\n\nAgenda:\n1.\n2.\n\nVedtak:\n\nOppgaver:"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notulen - {datum}\nAanwezig: {aanwezigen}\n\nAgenda:\n1.\n2.\n\nBesluiten:\n\nActiepunten:"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notatka ze spotkania - {data}\nObecni: {uczestnicy}\n\nAgenda:\n1.\n2.\n\nUstalenia:\n\nZadania:"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ata de reunião - {data}\nParticipantes: {participantes}\n\nPauta:\n1.\n2.\n\nDecisões:\n\nPróximos passos:"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Протокол встречи - {дата}\nУчастники: {участники}\n\nПовестка:\n1.\n2.\n\nРешения:\n\nЗадачи:"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mötesanteckningar - {datum}\nNärvarande: {deltagare}\n\nDagordning:\n1.\n2.\n\nBeslut:\n\nAtt göra:"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "บันทึกการประชุม - {วันที่}\nผู้เข้าร่วม: {ผู้เข้าร่วม}\n\nวาระ:\n1.\n2.\n\nข้อสรุป:\n\nสิ่งที่ต้องทำ:"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toplantı notları - {tarih}\nKatılımcılar: {katılımcılar}\n\nGündem:\n1.\n2.\n\nKararlar:\n\nYapılacaklar:"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biên bản họp - {ngày}\nThành phần: {người tham dự}\n\nNội dung:\n1.\n2.\n\nQuyết định:\n\nViệc cần làm:"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会议记录 - {日期}\n参会人：{参会人}\n\n议题：\n1.\n2.\n\n决定事项：\n\n待办事项："
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "會議記錄 - {日期}\n參會人：{參會人}\n\n議題：\n1.\n2.\n\n決定事項：\n\n待辦事項："
           }
         }
       }

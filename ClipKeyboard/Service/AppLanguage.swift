@@ -158,7 +158,14 @@ enum AppLanguage: String, CaseIterable, Identifiable {
            let language = Locale(identifier: code).language.languageCode?.identifier {
             return language
         }
-        return Locale.current.language.languageCode?.identifier ?? "en"
+        // 기기 설정을 따를 때도 **글자를 고른 곳(번들)** 을 본다. `Locale.current` 는 기기
+        // 언어라, 앱이 지원하지 않는 언어(아랍어 등)면 글자는 개발 언어(영어)로 나오는데
+        // 예시만 엉뚱한 언어 갈래를 탔다. 번들이 고른 언어가 곧 글자의 언어다.
+        if let resolved = Bundle.main.preferredLocalizations.first,
+           let language = Locale(identifier: resolved).language.languageCode?.identifier {
+            return language
+        }
+        return "en"
     }
 
     private static func apply(_ language: AppLanguage) {

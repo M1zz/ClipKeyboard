@@ -714,6 +714,10 @@
     "v": "0 min",
     "src": "a292c85a53"
   },
+  "12가 3456": {
+    "v": "ABC 123",
+    "src": "0eecc2cc45"
+  },
   "12가1234": {
     "v": "ABC 123",
     "src": "211c03c457"
@@ -2375,6 +2379,10 @@
     "v": "{Ämne} {Studentnummer} {namn}",
     "src": "ebbb001e47"
   },
+  "{회사명} 인사 담당자님께,\n안녕하세요, {학교/전공}의 {이름}입니다. {역할} 인턴십에 관심이 있어 문의드립니다.": {
+    "v": "Hej HR-teamet på {företag},\njag heter {namn} och studerar på {skola/program}. Jag är intresserad av praktikplatsen som {roll} och vill gärna veta mer.",
+    "src": "7f951fa167"
+  },
   "• iCloud와 별개로, 데이터를 파일로 직접 보관하는 가장 확실한 방법입니다\n• 가져오기는 현재 데이터를 지우지 않고 합칩니다(같은 항목은 최신본 유지)": {
     "v": "• Det säkraste sättet att spara dina data som en fil, oberoende av iCloud\n• Import slår ihop med dina nuvarande data utan att radera dem (den nyaste versionen behålls för matchande poster)",
     "src": "a5e5c4905c"
@@ -2687,6 +2695,10 @@
   "개인화": {
     "v": "Anpassning",
     "src": "c198e3b239"
+  },
+  "거기 맛있어요! 특히 {메뉴} 추천합니다. {주소}에 있어요.": {
+    "v": "Det är jättegott där! Testa särskilt {rätt}. Adress: {adress}.",
+    "src": "4fd196fbb2"
   },
   "거부": {
     "v": "Neka",
@@ -3362,6 +3374,10 @@
   "내 주소": {
     "v": "Min adress",
     "src": "6fece5a5e3"
+  },
+  "내 주소: [실제 주소 입력]": {
+    "v": "Min adress: [ange din adress]",
+    "src": "00fee73539"
   },
   "내가 만든 모양": {
     "v": "Dina format",
@@ -4250,6 +4266,10 @@
   "데이터를 파일로 저장했습니다. 안전한 곳에 보관하세요.": {
     "v": "Dina data har sparats som en fil. Förvara den på ett säkert ställe.",
     "src": "ddbe9e514e"
+  },
+  "도서관 책 요청\n도서명: \nISBN: \n요청일: {날짜}": {
+    "v": "Bokförfrågan till biblioteket\nTitel: \nISBN: \nBegärd: {datum}",
+    "src": "96db1fdb6c"
   },
   "도시": {
     "v": "Stad",
@@ -6194,6 +6214,10 @@
     "v": "Teheran-ro 123, Gangnam-gu, Seoul",
     "src": "febc08f491"
   },
+  "서울특별시 종로구 청와대로 1": {
+    "v": "Storgatan 1, 111 22 Stockholm",
+    "src": "67969d6959"
+  },
   "선택 안 됨": {
     "v": "Inte vald",
     "src": "0730748711"
@@ -6944,9 +6968,17 @@
     "v": "Hej",
     "src": "4daa886ff1"
   },
+  "안녕하세요 교수님, {날짜} 면담 가능할까요? {주제} 관련 질문이 있어 찾아뵙고 싶습니다.": {
+    "v": "Hej! Skulle du ha tid för ett möte den {datum}? Jag har några frågor om {ämne}.",
+    "src": "602a7dbc7e"
+  },
   "안녕하세요 교수님, {학과} {학번} {이름}입니다.\n{과목} {과제} 제출드립니다.": {
     "v": "Hej professorn, jag heter {namn} ({program}, {studentnummer}).\nHär kommer min {uppgift} i {kurs}.",
     "src": "82575412e5"
+  },
+  "안녕하세요, {수업명} 과제 제출합니다.\n학번: {학번}\n이름: {이름}\n첨부 파일 확인 부탁드립니다.": {
+    "v": "Hej! Här kommer min inlämning i {kurs}.\nStudent-ID: {student-id}\nNamn: {namn}\nFilen finns bifogad.",
+    "src": "457758eea2"
   },
   "안녕하세요, {회사} {이름}입니다.\n{이메일} / {전화번호}": {
     "v": "Hej, jag heter {namn} och jobbar på {företag}.\n{e-post} / {telefon}",
@@ -7618,6 +7650,10 @@
   "음식": {
     "v": "Mat",
     "src": "7313c0c8cb"
+  },
+  "응급 연락처\n{이름}: {전화번호}\n관계: {가족 관계}": {
+    "v": "Nödkontakt\n{namn}: {telefon}\nRelation: {relation}",
+    "src": "131c105009"
   },
   "의견 남기기": {
     "v": "Lämna feedback",
@@ -10250,6 +10286,10 @@
     "v": "Typen ändrades till %@",
     "src": "e6067d8c7d"
   },
+  "택배 메모\n부재 시 경비실에 맡겨주세요.\n공동현관 비밀번호: [번호]": {
+    "v": "Leveransinstruktion\nOm jag inte är hemma, lämna paketet hos grannen.\nPortkod: [kod]",
+    "src": "dae48e35e6"
+  },
   "탭을 숨긴 카테고리의 단축어가 어디에도 보이지 않던 문제를 고쳤어요. 갈 수 있는 탭이 없으면 기본 탭에 모여요": {
     "v": "Åtgärdade att fraser i en dold kategori inte syntes någonstans. Fraser utan egen flik samlas nu i fliken Grundläggande",
     "src": "9c508e6139"
@@ -10994,6 +11034,10 @@
     "v": "Uppfattat. Jag granskar och återkommer",
     "src": "6d3cb24a35"
   },
+  "확인했습니다. 검토 후 답변드리겠습니다.": {
+    "v": "Uppfattat. Jag tittar på det och återkommer.",
+    "src": "a996fd4c09"
+  },
   "확인했어요": {
     "v": "Uppfattat",
     "src": "c8193aae6d"
@@ -11057,6 +11101,14 @@
   "회의가 10분 늦어질 것 같습니다": {
     "v": "Jag blir tio minuter sen till mötet",
     "src": "80a017c3f4"
+  },
+  "회의가 10분 늦어질 것 같습니다. 양해 부탁드립니다.": {
+    "v": "Jag blir ungefär 10 minuter sen till mötet. Ursäkta.",
+    "src": "a21827826f"
+  },
+  "회의록 - {날짜}\n참석: {참석자}\n\n안건:\n1.\n2.\n\n결정사항:\n\n액션 아이템:": {
+    "v": "Mötesanteckningar - {datum}\nNärvarande: {deltagare}\n\nDagordning:\n1.\n2.\n\nBeslut:\n\nAtt göra:",
+    "src": "87d226215a"
   },
   "회의실 A": {
     "v": "Rum A",

@@ -34,6 +34,23 @@ struct ContentLanguageTests {
         #expect(AppLanguage.contentLanguageCode == "zh")
     }
 
+    /// 빈 화면 제안의 본문과 새 단축어 샘플 값(주소·이름·차량번호)은 한때 한국어가
+    /// 코드에 박혀 번역을 거치지 않았다. 다른 언어 사용자에게 "홍길동"이 그대로 나왔다.
+    @Test("프랑스어를 고르면 빈 화면 제안과 샘플 값에 한국어가 없다")
+    func frenchNeverGetsKoreanSuggestionsOrSamples() {
+        let before = AppLanguage.current
+        defer { AppLanguage.select(before) }
+
+        AppLanguage.select(.fr)
+        let hangul = /[가-힣]/
+        for suggestion in SuggestionManager.shared.allSuggestions {
+            #expect(suggestion.content.firstMatch(of: hangul) == nil, "\(suggestion.stableID)")
+        }
+        for type in [ClipboardItemType.address, .name, .vehiclePlate] {
+            #expect(Constants.sampleValue(for: type.rawValue)?.firstMatch(of: hangul) == nil, "\(type)")
+        }
+    }
+
     @Test("한국어를 고르면 한국어 예시가 나온다")
     func koreanGetsKoreanExamples() {
         let before = AppLanguage.current

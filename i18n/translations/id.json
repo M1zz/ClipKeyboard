@@ -579,6 +579,10 @@
     "v": "0 menit",
     "src": "a292c85a53"
   },
+  "12가 3456": {
+    "v": "B 1234 ABC",
+    "src": "0eecc2cc45"
+  },
   "12가1234": {
     "v": "B 1234 ABC",
     "src": "211c03c457"
@@ -2233,6 +2237,10 @@
     "v": "{jurusan} {NIM} {nama}",
     "src": "ebbb001e47"
   },
+  "{회사명} 인사 담당자님께,\n안녕하세요, {학교/전공}의 {이름}입니다. {역할} 인턴십에 관심이 있어 문의드립니다.": {
+    "v": "Yth. Tim HR {perusahaan},\nPerkenalkan, saya {nama} dari {kampus/jurusan}. Saya tertarik dengan program magang {posisi} dan ingin bertanya lebih lanjut.",
+    "src": "7f951fa167"
+  },
   "• iCloud와 별개로, 데이터를 파일로 직접 보관하는 가장 확실한 방법입니다\n• 가져오기는 현재 데이터를 지우지 않고 합칩니다(같은 항목은 최신본 유지)": {
     "v": "• Terlepas dari iCloud, ini cara paling andal untuk menyimpan data Anda sebagai berkas\n• Impor menggabungkan data tanpa menghapus data saat ini (item yang sama memakai versi terbaru)",
     "src": "a5e5c4905c"
@@ -2536,6 +2544,10 @@
   "개인화": {
     "v": "Personalisasi",
     "src": "c198e3b239"
+  },
+  "거기 맛있어요! 특히 {메뉴} 추천합니다. {주소}에 있어요.": {
+    "v": "Di sana enak banget! Coba {menu}. Alamatnya di {alamat}.",
+    "src": "4fd196fbb2"
   },
   "거부": {
     "v": "Tolak",
@@ -3196,6 +3208,10 @@
   "내 주소": {
     "v": "Alamat saya",
     "src": "6fece5a5e3"
+  },
+  "내 주소: [실제 주소 입력]": {
+    "v": "Alamat saya: [isi alamat]",
+    "src": "00fee73539"
   },
   "내가 만든 모양": {
     "v": "Format buatan Anda",
@@ -4048,6 +4064,10 @@
   "데이터를 파일로 저장했습니다. 안전한 곳에 보관하세요.": {
     "v": "Data Anda sudah disimpan ke file. Simpan di tempat yang aman.",
     "src": "ddbe9e514e"
+  },
+  "도서관 책 요청\n도서명: \nISBN: \n요청일: {날짜}": {
+    "v": "Permintaan buku perpustakaan\nJudul: \nISBN: \nTanggal permintaan: {tanggal}",
+    "src": "96db1fdb6c"
   },
   "도시": {
     "v": "Kota",
@@ -5943,6 +5963,10 @@
     "v": "Jl. Merdeka No. 123, Jakarta",
     "src": "febc08f491"
   },
+  "서울특별시 종로구 청와대로 1": {
+    "v": "Jl. Jenderal Sudirman No. 1, Jakarta",
+    "src": "67969d6959"
+  },
   "선택 안 됨": {
     "v": "Tidak dipilih",
     "src": "0730748711"
@@ -6675,9 +6699,17 @@
     "v": "Halo",
     "src": "4daa886ff1"
   },
+  "안녕하세요 교수님, {날짜} 면담 가능할까요? {주제} 관련 질문이 있어 찾아뵙고 싶습니다.": {
+    "v": "Selamat siang, Bapak/Ibu. Apakah saya bisa bertemu pada {tanggal}? Ada beberapa pertanyaan tentang {topik}.",
+    "src": "602a7dbc7e"
+  },
   "안녕하세요 교수님, {학과} {학번} {이름}입니다.\n{과목} {과제} 제출드립니다.": {
     "v": "Selamat siang Prof, saya {nama} ({jurusan}, {NIM}).\nSaya kirimkan {tugas} untuk {mata kuliah}.",
     "src": "82575412e5"
+  },
+  "안녕하세요, {수업명} 과제 제출합니다.\n학번: {학번}\n이름: {이름}\n첨부 파일 확인 부탁드립니다.": {
+    "v": "Selamat siang, saya mengumpulkan tugas {mata kuliah}.\nNIM: {NIM}\nNama: {nama}\nMohon cek file terlampir.",
+    "src": "457758eea2"
   },
   "안녕하세요, {회사} {이름}입니다.\n{이메일} / {전화번호}": {
     "v": "Halo, saya {nama} dari {perusahaan}.\n{email} / {telepon}",
@@ -7346,6 +7378,10 @@
   "음식": {
     "v": "Makanan",
     "src": "7313c0c8cb"
+  },
+  "응급 연락처\n{이름}: {전화번호}\n관계: {가족 관계}": {
+    "v": "Kontak darurat\n{nama}: {telepon}\nHubungan: {hubungan}",
+    "src": "131c105009"
   },
   "의견 남기기": {
     "v": "Beri Masukan",
@@ -9929,6 +9965,10 @@
     "v": "Tipe diubah menjadi %@",
     "src": "e6067d8c7d"
   },
+  "택배 메모\n부재 시 경비실에 맡겨주세요.\n공동현관 비밀번호: [번호]": {
+    "v": "Catatan pengiriman\nJika saya tidak ada, titipkan ke satpam.\nKode pintu: [kode]",
+    "src": "dae48e35e6"
+  },
   "탭을 숨긴 카테고리의 단축어가 어디에도 보이지 않던 문제를 고쳤어요. 갈 수 있는 탭이 없으면 기본 탭에 모여요": {
     "v": "Memperbaiki frasa di kategori tersembunyi yang tidak tampil di mana pun. Frasa tanpa tab sendiri kini terkumpul di tab Dasar",
     "src": "9c508e6139"
@@ -10673,6 +10713,10 @@
     "v": "Sudah kami terima. Akan kami tinjau lalu kami balas",
     "src": "6d3cb24a35"
   },
+  "확인했습니다. 검토 후 답변드리겠습니다.": {
+    "v": "Baik, sudah saya terima. Saya cek dulu lalu saya kabari.",
+    "src": "a996fd4c09"
+  },
   "확인했어요": {
     "v": "Sudah saya lihat",
     "src": "c8193aae6d"
@@ -10736,6 +10780,14 @@
   "회의가 10분 늦어질 것 같습니다": {
     "v": "Rapat mungkin terlambat 10 menit",
     "src": "80a017c3f4"
+  },
+  "회의가 10분 늦어질 것 같습니다. 양해 부탁드립니다.": {
+    "v": "Saya akan terlambat sekitar 10 menit ke rapat. Mohon maaf.",
+    "src": "a21827826f"
+  },
+  "회의록 - {날짜}\n참석: {참석자}\n\n안건:\n1.\n2.\n\n결정사항:\n\n액션 아이템:": {
+    "v": "Notulen rapat - {tanggal}\nPeserta: {peserta}\n\nAgenda:\n1.\n2.\n\nKeputusan:\n\nTindak lanjut:",
+    "src": "87d226215a"
   },
   "회의실 A": {
     "v": "Ruang A",

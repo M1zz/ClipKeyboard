@@ -61,21 +61,27 @@ struct Constants {
     // 사용자는 샘플을 수정해서 사용하면 됨. 사용자에게 "샘플" 뱃지로 명시 표시.
 
     /// 사용자에게 친화적인 샘플 placeholder 값들의 raw key로 매핑된 사전.
-    private static let sampleValuesByRawType: [String: String] = [
+    ///
+    /// ⚠️ 주소·이름·차량번호처럼 **글자가 있는 샘플은 번역을 거친다.** 한국어로 박아 두면
+    ///    다른 언어 사용자의 새 단축어 칸에 "홍길동"이 그대로 나왔다. 앱 안에서 언어를
+    ///    바꿀 수 있으므로 `let` 으로 굳히지 않고 부를 때마다 만든다.
+    private static var sampleValuesByRawType: [String: String] { [
         ClipboardItemType.email.rawValue: "example@email.com",
         ClipboardItemType.phone.rawValue: "010-0000-0000",
-        ClipboardItemType.address.rawValue: "서울특별시 종로구 청와대로 1",
+        ClipboardItemType.address.rawValue: NSLocalizedString("서울특별시 종로구 청와대로 1",
+                                                              comment: "Sample value for a new Address snippet. Use a well-known, obviously fake street address in the user's country"),
         ClipboardItemType.url.rawValue: "https://example.com",
         ClipboardItemType.creditCard.rawValue: "0000-0000-0000-0000",
         ClipboardItemType.bankAccount.rawValue: "000-0000-000000",
         ClipboardItemType.passportNumber.rawValue: "M12345678",
         ClipboardItemType.declarationNumber.rawValue: "P000000000000",
         ClipboardItemType.postalCode.rawValue: "06234",
-        ClipboardItemType.name.rawValue: "홍길동",
+        ClipboardItemType.name.rawValue: NSLocalizedString("홍길동", comment: "Name placeholder"),
         ClipboardItemType.birthDate.rawValue: "1990-01-01",
         ClipboardItemType.taxID.rawValue: "000-00-00000",
         ClipboardItemType.insuranceNumber.rawValue: "0000000000",
-        ClipboardItemType.vehiclePlate.rawValue: "12가 3456",
+        ClipboardItemType.vehiclePlate.rawValue: NSLocalizedString("12가 3456",
+                                                                   comment: "Sample value for a new License Plate snippet. Use the plate format of the user's country"),
         ClipboardItemType.ipAddress.rawValue: "192.168.0.1",
         ClipboardItemType.membershipNumber.rawValue: "M0000000",
         ClipboardItemType.trackingNumber.rawValue: "1Z000000000000000",
@@ -87,7 +93,7 @@ struct Constants {
         ClipboardItemType.vat.rawValue: "DE123456789",
         ClipboardItemType.cryptoWallet.rawValue: "0x0000000000000000000000000000000000000000",
         ClipboardItemType.paypalLink.rawValue: "paypal.me/yourname"
-    ]
+    ] }
 
     /// 카테고리(테마)에 맞는 샘플 값을 반환. 매핑이 없거나 image/text면 nil.
     static func sampleValue(for category: String) -> String? {

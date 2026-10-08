@@ -804,6 +804,10 @@
     "v": "0 min",
     "src": "a292c85a53"
   },
+  "12가 3456": {
+    "v": "WA 12345",
+    "src": "0eecc2cc45"
+  },
   "12가1234": {
     "v": "WA 12345",
     "src": "211c03c457"
@@ -2471,6 +2475,10 @@
     "v": "{Kierunek} {Numer albumu} {imię}",
     "src": "ebbb001e47"
   },
+  "{회사명} 인사 담당자님께,\n안녕하세요, {학교/전공}의 {이름}입니다. {역할} 인턴십에 관심이 있어 문의드립니다.": {
+    "v": "Szanowni Państwo z działu HR {firma},\nnazywam się {imię} i studiuję na {uczelnia/kierunek}. Interesuje mnie staż na stanowisku {stanowisko} i chętnie dowiem się więcej.",
+    "src": "7f951fa167"
+  },
   "• iCloud와 별개로, 데이터를 파일로 직접 보관하는 가장 확실한 방법입니다\n• 가져오기는 현재 데이터를 지우지 않고 합칩니다(같은 항목은 최신본 유지)": {
     "v": "• Najpewniejszy sposób na przechowanie danych w pliku, niezależnie od iCloud\n• Import łączy dane z bieżącymi bez ich usuwania (dla takich samych elementów zostaje nowsza wersja)",
     "src": "a5e5c4905c"
@@ -2789,6 +2797,10 @@
   "개인화": {
     "v": "Personalizacja",
     "src": "c198e3b239"
+  },
+  "거기 맛있어요! 특히 {메뉴} 추천합니다. {주소}에 있어요.": {
+    "v": "Tam jest pysznie! Polecam szczególnie {danie}. Adres: {adres}.",
+    "src": "4fd196fbb2"
   },
   "거부": {
     "v": "Odmów",
@@ -3474,6 +3486,10 @@
   "내 주소": {
     "v": "Mój adres",
     "src": "6fece5a5e3"
+  },
+  "내 주소: [실제 주소 입력]": {
+    "v": "Mój adres: [wpisz adres]",
+    "src": "00fee73539"
   },
   "내가 만든 모양": {
     "v": "Twoje formaty",
@@ -4386,6 +4402,10 @@
   "데이터를 파일로 저장했습니다. 안전한 곳에 보관하세요.": {
     "v": "Dane zapisano w pliku. Przechowuj go w bezpiecznym miejscu.",
     "src": "ddbe9e514e"
+  },
+  "도서관 책 요청\n도서명: \nISBN: \n요청일: {날짜}": {
+    "v": "Zamówienie książki w bibliotece\nTytuł: \nISBN: \nData zamówienia: {data}",
+    "src": "96db1fdb6c"
   },
   "도시": {
     "v": "Miasto",
@@ -6364,6 +6384,10 @@
     "v": "ul. Teheran 123, Gangnam, Seul",
     "src": "febc08f491"
   },
+  "서울특별시 종로구 청와대로 1": {
+    "v": "ul. Marszałkowska 1, 00-001 Warszawa",
+    "src": "67969d6959"
+  },
   "선택 안 됨": {
     "v": "Nie wybrano",
     "src": "0730748711"
@@ -7126,9 +7150,17 @@
     "v": "Cześć",
     "src": "4daa886ff1"
   },
+  "안녕하세요 교수님, {날짜} 면담 가능할까요? {주제} 관련 질문이 있어 찾아뵙고 싶습니다.": {
+    "v": "Dzień dobry, czy byłaby możliwość spotkania {data}? Mam kilka pytań dotyczących tematu {temat}.",
+    "src": "602a7dbc7e"
+  },
   "안녕하세요 교수님, {학과} {학번} {이름}입니다.\n{과목} {과제} 제출드립니다.": {
     "v": "Dzień dobry, Panie Profesorze, tu {imię} ({kierunek}, {nr albumu}).\nPrzesyłam {zadanie} z przedmiotu {przedmiot}.",
     "src": "82575412e5"
+  },
+  "안녕하세요, {수업명} 과제 제출합니다.\n학번: {학번}\n이름: {이름}\n첨부 파일 확인 부탁드립니다.": {
+    "v": "Dzień dobry, przesyłam pracę z przedmiotu {przedmiot}.\nNr indeksu: {nr indeksu}\nImię i nazwisko: {imię}\nPlik w załączniku.",
+    "src": "457758eea2"
   },
   "안녕하세요, {회사} {이름}입니다.\n{이메일} / {전화번호}": {
     "v": "Dzień dobry, tu {imię} z firmy {firma}.\n{e-mail} / {telefon}",
@@ -7802,6 +7834,10 @@
   "음식": {
     "v": "Jedzenie",
     "src": "7313c0c8cb"
+  },
+  "응급 연락처\n{이름}: {전화번호}\n관계: {가족 관계}": {
+    "v": "Kontakt alarmowy\n{imię}: {telefon}\nRelacja: {stopień pokrewieństwa}",
+    "src": "131c105009"
   },
   "의견 남기기": {
     "v": "Zostaw opinię",
@@ -10468,6 +10504,10 @@
     "v": "Typ zmieniono na %@",
     "src": "e6067d8c7d"
   },
+  "택배 메모\n부재 시 경비실에 맡겨주세요.\n공동현관 비밀번호: [번호]": {
+    "v": "Uwagi dla kuriera\nJeśli mnie nie będzie, proszę zostawić u portiera.\nKod do domofonu: [kod]",
+    "src": "dae48e35e6"
+  },
   "탭을 숨긴 카테고리의 단축어가 어디에도 보이지 않던 문제를 고쳤어요. 갈 수 있는 탭이 없으면 기본 탭에 모여요": {
     "v": "Naprawiono znikanie fraz z ukrytej kategorii. Wszystko bez własnej karty trafia teraz na kartę podstawową.",
     "src": "9c508e6139"
@@ -11212,6 +11252,10 @@
     "v": "Rozumiem. Sprawdzę i odpowiem",
     "src": "6d3cb24a35"
   },
+  "확인했습니다. 검토 후 답변드리겠습니다.": {
+    "v": "Jasne, sprawdzę i odpiszę.",
+    "src": "a996fd4c09"
+  },
   "확인했어요": {
     "v": "Rozumiem",
     "src": "c8193aae6d"
@@ -11275,6 +11319,14 @@
   "회의가 10분 늦어질 것 같습니다": {
     "v": "Spóźnię się na spotkanie o 10 minut",
     "src": "80a017c3f4"
+  },
+  "회의가 10분 늦어질 것 같습니다. 양해 부탁드립니다.": {
+    "v": "Spóźnię się na spotkanie jakieś 10 minut. Przepraszam.",
+    "src": "a21827826f"
+  },
+  "회의록 - {날짜}\n참석: {참석자}\n\n안건:\n1.\n2.\n\n결정사항:\n\n액션 아이템:": {
+    "v": "Notatka ze spotkania - {data}\nObecni: {uczestnicy}\n\nAgenda:\n1.\n2.\n\nUstalenia:\n\nZadania:",
+    "src": "87d226215a"
   },
   "회의실 A": {
     "v": "Sala A",
