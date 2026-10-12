@@ -1850,6 +1850,9 @@ struct KeyboardView: View {
     /// 탭 줄 맨 앞의 '최근' 탭 열쇠. 사용자 카테고리 이름과 겹치지 않게 ★ 로 시작한다.
     private static let recentClipsKey = "★recentClips"
 
+    /// 안 눌린 카테고리 칩에 까는 제 색의 진하기. 글자(키캡 글자색)가 또렷하게 읽히는 선까지만.
+    private static let idleCategoryTint: Double = 0.18
+
     /// 탭 줄에 서는 탭들. **'최근' 이 켜져 있으면 늘 맨 앞이다**(기본 탭보다도 앞).
     ///
     /// 카테고리 기능을 끈 사람은 갈래 페이지가 없다. 그때는 단축어 전체를 '전체' 한 장으로 세운다
@@ -2044,7 +2047,19 @@ struct KeyboardView: View {
                             .padding(.horizontal, 10 * controlKeyScale)
                             .frame(height: controlKeyHeight)
                             .frame(maxWidth: controlKeyWidth(120))
-                            .background(isSelected ? accent : theme.keycap)
+                            // 안 눌린 칩도 제 색을 옅게 띤다. 흰 키캡이면 줄 전체가 같은 흰색이라
+                            // 어느 칩이 어느 카테고리인지 색으로 이어지지 않았다. 키캡 위에 덮어
+                            // 어두운 키보드에서도 같은 비율로 옅어진다.
+                            .background(
+                                ZStack {
+                                    if isSelected {
+                                        accent
+                                    } else {
+                                        theme.keycap
+                                        accent.opacity(Self.idleCategoryTint)
+                                    }
+                                }
+                            )
                             .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
                             // 보이는 칩은 28pt 지만 손가락 자리는 44pt 이상(HIG). 같은 줄의 지구본 ·
                             // "…" 키와 같은 규칙이다. 예전에는 칩만 빠져서 눌리는 곳이 28pt 였다.
