@@ -23,6 +23,7 @@ struct FeedbackView: View {
         LeeoFeedbackView<ClipKeyboardSpec>(initialType: initialType,
                                            showsContactFields: true,
                                            extraInfo: FeedbackContext.lines(origin: origin),
+                                           categoryInfo: { await FeedbackContext.lines(for: $0) },
                                            emailFallback: { subject, body in
             #if os(iOS)
             if EmailController.canSendMail {
@@ -92,6 +93,46 @@ enum FeedbackContext {
         }
         lines.append(state.joined(separator: " · "))
         return lines
+    }
+
+    /// 버그 분류를 고르면 덧붙이는 줄. LeeoKit 이 모르는 **이 앱의 권한 길**을 싣는다.
+    ///
+    /// ⚠️ 결제 분류에서 이 줄이 없으면 "결제는 없는데 Pro 였다" 를 가릴 수 없다. Apple 은 결제만
+    ///    돌려주고, 체험 · 예전 무료 혜택 · 무료 사용 횟수는 이 기기에만 있다(2026-10 태국어 문의:
+    ///    재설치 뒤 Pro 소실, 복원은 "없음"). 읽는 법: LeeoKit `docs/BUG_CATEGORIES.md` 3번.
+    ///
+    /// 개발자가 읽는 줄이라 번역하지 않는다(LeeoKit 진단 줄과 같은 꼴).
+    static func lines(for category: LeeoBugCategory) async -> [String] {
+        switch category {
+        case .purchase, .dataLoss:
+            return await MainActor.run { [accessLine()] }
+        case .sync:
+            return await MainActor.run {
+                [accessLine(), "[sync] available=\(ProFeatureManager.isSyncAvailable) twoDevice=\(TwoDevicePack.isPurchased)"]
+            }
+        case .widget:
+            let keyboard = KeyboardInstallState.enabledInSettingsIfKnown.map { $0 ? "on" : "off" } ?? "unknown"
+            return ["[keyboard] enabled=\(keyboard)"]
+        case .crash, .slow, .notification, .display, .other:
+            return []
+        }
+    }
+
+    /// 지금 열려 있는 권한이 **어느 길로** 열렸는가. 결제 · 영수증 날짜 · 체험 · 무료 사용 · 기기에만 있던 혜택.
+    @MainActor
+    static func accessLine() -> String {
+        let revokedAt = AppGroup.defaults?.double(forKey: ProFeatureManager.existingFreeUserRevokedAtKey) ?? 0
+        let parts = [
+            "paid=\(ProFeatureManager.isPro)",
+            "grandfathered=\(ProFeatureManager.hasGrandfatheredPurchase)",
+            "deviceOnlyFree=\(ProFeatureManager.wasExistingFreeUser)",
+            "deviceOnlyFreeRevoked=\(revokedAt > 0)",
+            "trial=\(ProFeatureManager.isInTrial ? "\(ProFeatureManager.trialDaysRemaining)d" : (ProFeatureManager.hasStartedTrial ? "used" : "never"))",
+            "freeUse=\(FreeUse.uses)/\(FreeUse.threshold)",
+            "slots=\(SlotPack.ownedPacks)",
+            "testFlight=\(ProFeatureManager.isTestFlight)"
+        ]
+        return "[access] " + parts.joined(separator: " ")
     }
 }
 
