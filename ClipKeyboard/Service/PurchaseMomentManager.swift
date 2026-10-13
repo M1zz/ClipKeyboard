@@ -123,7 +123,8 @@ enum PurchaseMomentManager {
     @MainActor
     static func dueMomentNow(ownMemoCount: Int) -> PurchaseMoment? {
         dueMoment(context: Context(
-            hasPro: ProFeatureManager.hasFullAccess,
+            // 이 순간들은 백업 · 잠금 · 동기화를 권한다. 플러스를 산 사람에게도 아직 없는 것이다.
+            hasPro: ProFeatureManager.hasProTier,
             hasSync: ProFeatureManager.isSyncAvailable,
             shownMoments: shownMoments,
             sensitiveSavedAt: sensitiveSavedAt,

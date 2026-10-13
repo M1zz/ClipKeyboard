@@ -536,6 +536,8 @@ struct PlaceholderInputView: View {
     /// 값을 적는 칸. 앱 안에서만 쓰인다.
     @State private var draftValue: String = ""
     @FocusState private var draftFocused: Bool
+    /// 값이 이미 있는 칸에서 + 를 눌러 새 값 칸을 연 상태. 앱 안에서만 열린다.
+    @State private var isAddingValue = false
 
     private func reloadValues() {
         predefinedValues = PredefinedValuesStore.shared
@@ -560,6 +562,7 @@ struct PlaceholderInputView: View {
         guard !trimmedDraft.isEmpty else { return }
         selectedValue = trimmedDraft
         draftFocused = false
+        isAddingValue = false
         KeyboardHaptics.tap()
     }
 
@@ -573,6 +576,12 @@ struct PlaceholderInputView: View {
                                               sourceMemoTitle: placeholder.strippingTemplateBraces)
         reloadValues()
         selectedValue = value
+        // 저장한 값은 이제 칩으로 선다. 적는 칸을 닫고 비워 다음 값을 받을 준비를 한다.
+        if isAddingValue {
+            isAddingValue = false
+            draftValue = ""
+            draftFocused = false
+        }
         KeyboardHaptics.tap()
     }
 
@@ -853,45 +862,7 @@ struct PlaceholderInputView: View {
                     .foregroundColor(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
 
-                HStack(spacing: 8) {
-                    TextField(String(format: NSLocalizedString("%@ 값",
-                                                               comment: "Placeholder value field prompt"),
-                                     placeholder.strippingTemplateBraces),
-                              text: $draftValue)
-                        .textFieldStyle(.plain)
-                        .font(.footnote)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 10)
-                        .background(Color(UIColor.systemGray6))
-                        .cornerRadius(theme.radiusSm)
-                        .focused($draftFocused)
-                        .submitLabel(.done)
-                        .onSubmit { commitDraft() }
-
-                    // 남길 값만 별로. 누르지 않으면 이번에만 쓰고 사라진다.
-                    Button(action: keepDraft) {
-                        Image(systemName: isDraftKept ? AppSymbol.starFill : AppSymbol.star)
-                            .font(.footnote.weight(.semibold))
-                            .foregroundColor(isDraftKept ? .yellow : .secondary)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 10)
-                    }
-                    .disabled(trimmedDraft.isEmpty || isDraftKept)
-                    .accessibilityLabel(isDraftKept
-                        ? NSLocalizedString("이미 저장해 둔 값이에요", comment: "Fill sheet: value already kept")
-                        : NSLocalizedString("이 값 저장해 두기", comment: "Fill sheet: keep this value"))
-
-                    Button(action: commitDraft) {
-                        Text(NSLocalizedString("쓰기", comment: "Use typed value button"))
-                            .font(.footnote.weight(.semibold))
-                            .foregroundColor(theme.accentFg)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 10)
-                            .background(trimmedDraft.isEmpty ? Color.gray.opacity(0.4) : theme.accent)
-                            .cornerRadius(theme.radiusSm)
-                    }
-                    .disabled(trimmedDraft.isEmpty)
-                }
+                draftInputRow
             } else {
                 Text(String(format: NSLocalizedString("Open the app to add values for '%@' in placeholder settings", comment: "Placeholder values empty hint"), placeholder.strippingTemplateBraces))
                     .font(.caption2)
@@ -903,6 +874,95 @@ struct PlaceholderInputView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.orange.opacity(0.1))
         .cornerRadius(theme.radiusXs)
+    }
+
+    /// 값을 적는 한 줄. 적은 값은 이번에만 쓰고, 별을 누르면 다음에도 쓰게 저장한다.
+    /// 값이 없는 칸과, 값이 있는 칸에서 + 를 누른 때가 같은 줄을 쓴다.
+    private var draftInputRow: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            draftInputFields
+            // 빈칸 이름이 카드번호·여권번호 같은 타입 이름이면 그 틀의 상태를 한 줄로 말한다.
+            if let status = valueFormat?.check(draftValue) {
+                ValueFormatStatusLine(status: status)
+            }
+        }
+    }
+
+    /// 빈칸 이름이 타입 이름과 같으면 그 입력 틀(`{카드번호}` → 카드번호 틀). 아니면 nil.
+    private var valueFormat: ValueFormat? { ValueFormat(placeholder: placeholder) }
+
+    private var draftInputFields: some View {
+        HStack(spacing: 8) {
+            TextField(String(format: NSLocalizedString("%@ 값",
+                                                       comment: "Placeholder value field prompt"),
+                             placeholder.strippingTemplateBraces),
+                      text: $draftValue)
+                .textFieldStyle(.plain)
+                .font(.footnote)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 10)
+                .background(Color(UIColor.systemGray6))
+                .cornerRadius(theme.radiusSm)
+                .focused($draftFocused)
+                .submitLabel(.done)
+                .onSubmit { commitDraft() }
+                .keyboardType(valueFormat?.keyboardType ?? .default)
+                .textInputAutocapitalization(valueFormat?.autocapitalization ?? .sentences)
+                .onChange(of: draftValue) { _, newValue in
+                    guard let format = valueFormat else { return }
+                    let formatted = format.format(newValue)
+                    if formatted != newValue { draftValue = formatted }
+                }
+
+            // 남길 값만 별로. 누르지 않으면 이번에만 쓰고 사라진다.
+            Button(action: keepDraft) {
+                Image(systemName: isDraftKept ? AppSymbol.starFill : AppSymbol.star)
+                    .font(.footnote.weight(.semibold))
+                    .foregroundColor(isDraftKept ? .yellow : .secondary)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 10)
+            }
+            .disabled(trimmedDraft.isEmpty || isDraftKept)
+            .accessibilityLabel(isDraftKept
+                ? NSLocalizedString("이미 저장해 둔 값이에요", comment: "Fill sheet: value already kept")
+                : NSLocalizedString("이 값 저장해 두기", comment: "Fill sheet: keep this value"))
+
+            Button(action: commitDraft) {
+                Text(NSLocalizedString("쓰기", comment: "Use typed value button"))
+                    .font(.footnote.weight(.semibold))
+                    .foregroundColor(theme.accentFg)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .background(trimmedDraft.isEmpty ? Color.gray.opacity(0.4) : theme.accent)
+                    .cornerRadius(theme.radiusSm)
+            }
+            .disabled(trimmedDraft.isEmpty)
+        }
+    }
+
+    // MARK: - 값이 이미 있을 때 새 값 더하기
+
+    /// 고를 값들 끝에 서는 +. **앱 안(키보드 탭)에서만** 선다.
+    ///
+    /// ⚠️ 예전에는 값이 하나라도 있으면 새 값을 적을 길이 없었다. 적는 칸은 값이 없을 때만
+    ///    떴고, 목록에 없는 값을 쓰려면 템플릿을 닫고 설정의 빈칸 화면까지 가야 했다.
+    /// ⚠️ 진짜 키보드에서는 세우지 않는다. 키보드는 제 안에 글자를 받을 자판을 부를 수 없다.
+    private var addValueButton: some View {
+        Button {
+            KeyboardHaptics.tap()
+            withAnimation(.easeOut(duration: 0.18)) { isAddingValue = true }
+            draftFocused = true
+        } label: {
+            Image(systemName: AppSymbol.plus)
+                .font(.footnote.weight(.semibold))
+                .foregroundColor(theme.accent)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(theme.accentSoft)
+                .cornerRadius(theme.radiusLg)
+        }
+        .buttonStyle(.squish)
+        .accessibilityLabel(NSLocalizedString("값 추가", comment: "Add value button"))
     }
 
     // MARK: - Text predefined (existing flow)
@@ -924,6 +984,9 @@ struct PlaceholderInputView: View {
                     KeyRipple(shape: RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous),
                               color: theme.accent, reach: 6)
                 }
+            }
+            if hostKind.showsOneOffValueHint {
+                if isAddingValue { draftInputRow } else { addValueButton }
             }
         } else {
             ScrollView(.horizontal, showsIndicators: false) {
@@ -953,9 +1016,15 @@ struct PlaceholderInputView: View {
                             }
                         }
                     }
+                    if hostKind.showsOneOffValueHint && !isAddingValue {
+                        addValueButton
+                    }
                 }
                 // 파형이 잘리지 않게 - ScrollView 는 넘치는 것을 잘라낸다.
                 .padding(.vertical, 8)
+            }
+            if hostKind.showsOneOffValueHint && isAddingValue {
+                draftInputRow
             }
         }
     }

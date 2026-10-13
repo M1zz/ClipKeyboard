@@ -386,19 +386,9 @@ final class KeyRepeater {
     deinit { stop() }
 }
 
-// MARK: - '최근' 탭: 복사해 담아 둔 것
+// MARK: - '최근' 탭: 복사한 것
 
-/// 저장 버튼이 **누르기 전에** 보여 줄 것 - 지금 클립보드에 무엇이 있는가.
-enum KeyboardClipboardPreview: Equatable {
-    /// 미리 읽을 수 없는 자리(앱 안 키보드 · 전체 접근 꺼짐) 또는 아직 못 읽었다.
-    case unknown
-    /// 복사해 둔 글이 없다.
-    case empty
-    /// 지금 복사돼 있는 글.
-    case text(String)
-}
-
-/// 키보드 맨 앞 탭. 복사해 담아 둔 것을 **잠깐 쓰는 그릇**으로 보여 준다.
+/// 키보드 맨 앞 탭. 복사한 것을 **잠깐 쓰는 그릇**으로 보여 준다.
 ///
 /// 왜 맨 앞인가: 사용자가 보낸 말 그대로다.
 ///
@@ -408,21 +398,45 @@ enum KeyboardClipboardPreview: Equatable {
 /// 단축어는 오래 두고 쓰는 것이고, 여기는 한 주·한 달 쓰고 버리는 것이다. 그런 사람에게는
 /// 이쪽이 더 자주 열린다. 보관 기간은 `SmartClipboardHistory.retentionDays` 가 정한다.
 ///
-/// **짧게 누르면 넣고, 길게 누르면 클립보드로.** 단축어 키와 같은 손짓이다.
-/// 맨 위의 저장 버튼은 지금 복사돼 있는 것을 이 목록에 넣는다. 무엇이 들어갈지는 버튼이
-/// 미리 보여 준다(`clipboardPreview`, 읽는 쪽은 `KeyboardView.refreshClipboardPreview`).
+/// **복사한 것이 저절로 선다.** 예전에는 맨 위의 저장 버튼을 눌러야 담겼는데, 사람들은 그
+/// 버튼("복사한 글을 이 목록에 저장")이 아니라 복사한 글 자체를 보고 싶어 했다.
+/// 담는 일은 `KeyboardView.collectCopiedTextIntoRecents` 가 한다.
+///
+/// **짧게 누르면 넣고, 길게 누르면 클립보드로, 왼쪽으로 밀면 지운다.**
 struct KeyboardRecentClipsPanel: View {
 
     /// 보여 줄 것. 부르는 쪽이 보관 기간과 검색어로 이미 걸러서 넘긴다.
     let clips: [SmartClipboardHistory]
     let theme: AppTheme
+    /// 단축어 키와 같은 키캡으로 그린다(물성 · 키 색 · 높이 · 글자 크기를 그대로 받는다).
+    let skin: KeyboardSkin
+    let keyColor: Color
+    let keyHeight: CGFloat
+    let fontSize: CGFloat
     /// 검색 중이면 빈 화면의 말이 달라진다.
     let isFiltering: Bool
+    /// 전체 접근이 꺼져 있어 복사한 것을 못 읽는가(진짜 키보드만). 빈 화면이 그 사정을 말한다.
+    let needsFullAccess: Bool
     let onInsert: (SmartClipboardHistory) -> Void
     let onCopy: (SmartClipboardHistory) -> Void
-    /// 저장 버튼에 미리 보여 줄 지금 클립보드.
-    let clipboardPreview: KeyboardClipboardPreview
-    let onCapture: () -> Void
+    let onDelete: (SmartClipboardHistory) -> Void
+    /// 한 줄을 밀고 있는 동안 참. 부르는 쪽은 그동안 탭을 넘기지 않는다.
+    @Binding var isSwipingRow: Bool
+
+    /// 지우기 버튼이 열려 있는 줄. 한 번에 하나만 연다.
+    @State private var openRowId: UUID?
+    /// 지금 밀고 있는 줄과 그 거리(왼쪽이 음수).
+    @State private var draggingId: UUID?
+    @State private var dragOffset: CGFloat = 0
+    /// 길게 눌러 복사한 줄. 손을 뗄 때 오는 누르기를 한 번 삼킨다(단축어 키의 `InAppLongPressCopy` 와 같다).
+    @State private var suppressedTapId: UUID?
+    /// 줄을 민 손짓이 끝난 때. 민 손을 떼는 순간 버튼이 눌린 것으로 읽히지 않게 한다.
+    @State private var lastSwipeEnd = Date.distantPast
+
+    /// 밀어서 드러나는 지우기 버튼의 폭.
+    private static let deleteWidth: CGFloat = 76
+    /// 이만큼 끝까지 밀면 버튼을 누르지 않아도 지운다(iOS 목록과 같은 손짓).
+    private static let fullSwipeDistance: CGFloat = 170
 
     private static let relativeFormatter: RelativeDateTimeFormatter = {
         let f = RelativeDateTimeFormatter()
@@ -431,92 +445,22 @@ struct KeyboardRecentClipsPanel: View {
     }()
 
     var body: some View {
-        VStack(spacing: 0) {
-            captureButton
+        if clips.isEmpty {
+            emptyState
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            ScrollView {
+                LazyVStack(spacing: 8) {
+                    ForEach(clips) { clip in
+                        swipeRow(clip)
+                    }
+                }
                 .padding(.horizontal, 12)
                 .padding(.top, 4)
-                .padding(.bottom, 6)
-
-            if clips.isEmpty {
-                emptyState
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: 6) {
-                        ForEach(clips) { clip in
-                            row(clip)
-                        }
-                    }
-                    .padding(.horizontal, 12)
-                    .padding(.bottom, 10)
-                }
-                // 카테고리 줄과 같은 이유(키보드는 낮아서 가장자리 흐림이 첫 줄을 덮는다).
-                .scrollEdgeEffectHidden(true, for: .all)
+                .padding(.bottom, 10)
             }
-        }
-    }
-
-    // MARK: - 담기
-
-    private var captureButton: some View {
-        Button {
-            onCapture()
-        } label: {
-            // ⚠️ "담기" 한 마디로는 무엇이 일어날지 몰랐다(신고: "버튼을 눌렀을 때 뭐가 나올지
-            //    모르겠다"). 그다음 "며칠 동안 남아요" 를 붙였더니 그것도 아니었다(신고: "이 버튼을
-            //    눌렀을 때 어떤 값이 추가될지를 미리 알고 싶은 거야"). 그래서 **들어갈 글을 첫 줄에
-            //    크게** 두고, 아래에 하는 일("저장")을 작게 적는다(사용자가 고른 모양).
-            //    미리 읽을 수 없을 때만 예전처럼 하는 일과 며칠 남는지를 말한다.
-            HStack(spacing: 8) {
-                Image(systemName: AppSymbol.docOnClipboard)
-                    .font(.subheadline.weight(.semibold))
-                    .accessibilityHidden(true)
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(buttonLines.title)
-                        .font(.footnote.weight(.semibold))
-                        .lineLimit(1)
-                        .truncationMode(.tail)
-                    Text(buttonLines.subtitle)
-                        .font(.caption2)
-                        .lineLimit(1)
-                        .opacity(0.9)
-                }
-                Spacer(minLength: 0)
-            }
-            .padding(.horizontal, 12)
-            .foregroundColor(theme.accentFg)
-            .frame(maxWidth: .infinity, minHeight: 40)
-            .background(theme.accent)
-            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
-        }
-        .buttonStyle(.squish)
-        .frame(minHeight: 44)
-        .contentShape(Rectangle())
-        .opacity(clipboardPreview == .empty ? 0.55 : 1)
-        .accessibilityHint(String(format: NSLocalizedString("지금 복사돼 있는 것을 이 목록에 넣습니다. %d일 동안 남습니다",
-                                                            comment: "Keyboard recent tab: capture button hint. %d is the number of days items are kept"),
-                                  SmartClipboardHistory.retentionDays))
-    }
-
-    /// 버튼의 두 줄. 첫 줄은 **들어갈 글**, 둘째 줄은 하는 일.
-    /// 미리 읽을 수 없거나 복사한 것이 없으면 첫 줄이 그 사정을 말한다.
-    private var buttonLines: (title: String, subtitle: String) {
-        let save = NSLocalizedString("저장", comment: "Save")
-        switch clipboardPreview {
-        case .unknown:
-            return (NSLocalizedString("복사한 글을 이 목록에 저장", comment: "Keyboard recent tab: button that saves the text currently on the clipboard into the list below (it does not type it)"),
-                    String(format: NSLocalizedString("%d일 동안 여기서 바로 꺼내 쓸 수 있어요",
-                                                     comment: "Keyboard recent tab: second line of the save button. %d is the number of days items are kept"),
-                           SmartClipboardHistory.retentionDays))
-        case .empty:
-            return (NSLocalizedString("복사해 둔 것이 없어요", comment: "Toast: clipboard is empty"), save)
-        case .text(let text):
-            let quoted = "\u{201C}" + Self.maskedPreview(text) + "\u{201D}"
-            if text == clips.first?.content {
-                return (quoted, NSLocalizedString("이미 목록 맨 위에 있어요",
-                                                  comment: "Keyboard recent tab: save button second line when the copied text is already the newest item in the list"))
-            }
-            return (quoted, save)
+            // 카테고리 줄과 같은 이유(키보드는 낮아서 가장자리 흐림이 첫 줄을 덮는다).
+            .scrollEdgeEffectHidden(true, for: .all)
         }
     }
 
@@ -532,43 +476,147 @@ struct KeyboardRecentClipsPanel: View {
         return "\u{2022}\u{2022}\u{2022}\u{2022} " + String(head.filter { !$0.isWhitespace }.suffix(4))
     }
 
+    // MARK: - 밀어서 지우기
+
+    private func restingOffset(_ clip: SmartClipboardHistory) -> CGFloat {
+        openRowId == clip.id ? -Self.deleteWidth : 0
+    }
+
+    private func offset(_ clip: SmartClipboardHistory) -> CGFloat {
+        draggingId == clip.id ? dragOffset : restingOffset(clip)
+    }
+
+    /// 한 줄 + 그 뒤에 숨은 지우기 버튼.
+    ///
+    /// ⚠️ `List` 의 swipeActions 를 쓰지 않는다. 이 판은 옆으로 밀어 탭을 넘기는 판이라,
+    ///    목록의 손짓과 탭 넘기기가 같은 손짓을 두고 다툰다. 줄을 민 손짓은 여기서 잡고
+    ///    `isSwipingRow` 로 알려, 부르는 쪽이 그때만 탭을 넘기지 않는다.
+    /// ⚠️ 손짓은 `simultaneousGesture` 로 단다. 우선 손짓으로 달면 위아래 스크롤이 먹힌다.
+    private func swipeRow(_ clip: SmartClipboardHistory) -> some View {
+        let current = offset(clip)
+        return ZStack(alignment: .trailing) {
+            if current < 0 {
+                Button {
+                    delete(clip)
+                } label: {
+                    VStack(spacing: 2) {
+                        Image(systemName: "trash.fill")
+                            .font(.subheadline.weight(.semibold))
+                        Text(NSLocalizedString("Delete", comment: "Delete button"))
+                            .font(.caption2.weight(.semibold))
+                            .lineLimit(1)
+                    }
+                    .foregroundColor(.white)
+                    .frame(width: max(Self.deleteWidth, -current))
+                    .frame(maxHeight: .infinity)
+                    .background(Color.red)
+                    .clipShape(KeycapShape(radius: keycapRadius))
+                }
+                .buttonStyle(.plain)
+            }
+            row(clip)
+                .offset(x: current)
+        }
+        .simultaneousGesture(swipeGesture(clip))
+    }
+
+    private func swipeGesture(_ clip: SmartClipboardHistory) -> some Gesture {
+        DragGesture(minimumDistance: 15)
+            .onChanged { value in
+                let w = value.translation.width
+                let h = value.translation.height
+                if draggingId != clip.id {
+                    // 위아래로 미는 것은 스크롤이다. 닫힌 줄을 오른쪽으로 미는 것은 탭 넘기기다.
+                    guard abs(w) > abs(h) * 1.2 else { return }
+                    guard w < 0 || openRowId == clip.id else { return }
+                    if openRowId != clip.id { openRowId = nil }
+                    draggingId = clip.id
+                    isSwipingRow = true
+                }
+                dragOffset = min(0, restingOffset(clip) + w)
+            }
+            .onEnded { value in
+                guard draggingId == clip.id else { return }
+                let final = restingOffset(clip) + value.translation.width
+                if final < -Self.fullSwipeDistance {
+                    delete(clip)
+                } else {
+                    withAnimation(.spring(response: 0.28, dampingFraction: 0.85)) {
+                        openRowId = final < -Self.deleteWidth / 2 ? clip.id : nil
+                        draggingId = nil
+                    }
+                }
+                lastSwipeEnd = Date()
+                // 탭 넘기기 쪽 손짓도 같은 순간에 끝난다. 그쪽이 먼저든 나중이든 이 값을 보게 한 박자 늦춘다.
+                DispatchQueue.main.async { isSwipingRow = false }
+            }
+    }
+
+    private func delete(_ clip: SmartClipboardHistory) {
+        withAnimation(.easeOut(duration: 0.2)) {
+            openRowId = nil
+            draggingId = nil
+        }
+        onDelete(clip)
+    }
+
+    // MARK: - 키캡
+
+    /// 단축어 키와 같은 값(`KeyboardView.keycapRadius` · `keycapSkirtColor`).
+    private var keycapRadius: CGFloat { skin.cornerRadius(base: theme.radiusMd) }
+    private var keycapShape: KeycapShape { KeycapShape(radius: keycapRadius) }
+    private var keycapStyle: KeycapButtonStyle {
+        KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius,
+                          skirtColor: Color.black.opacity(skin.skirtOpacity(isDark: theme.isDark)))
+    }
+
+    /// 단축어 키의 면(`memoButtonLabel`): 키 색 + 윗면 빛 + 그림자.
+    private var keycapFace: some View {
+        keycapShape
+            .foregroundColor(keyColor)
+            .overlay(
+                keycapShape.fill(LinearGradient(
+                    colors: [Color.white.opacity(skin.sheenOpacity(isDark: theme.isDark)), .clear],
+                    startPoint: .top, endPoint: .center))
+            )
+            .shadow(color: Color.black.opacity(skin.shadowOpacity), radius: 2, y: 1)
+    }
+
     // MARK: - 한 줄
 
     private func row(_ clip: SmartClipboardHistory) -> some View {
         let type = clip.userCorrectedType ?? clip.detectedType
-        return HStack(alignment: .top, spacing: 8) {
-            Image(systemName: type.icon)
-                .font(.caption)
-                .foregroundColor(theme.textMuted)
-                .frame(width: 16)
-                .padding(.top, 2)
-                .accessibilityHidden(true)
+        return Button {
+            tap(clip)
+        } label: {
+            HStack(alignment: .center, spacing: 8) {
+                Image(systemName: type.icon)
+                    .font(.system(size: fontSize * 0.82, weight: .semibold))
+                    .foregroundColor(theme.textMuted)
+                    .frame(width: 18)
+                    .accessibilityHidden(true)
 
-            Text(preview(clip, type: type))
-                .font(.subheadline)
-                .foregroundColor(theme.text)
-                .lineLimit(2)
-                .multilineTextAlignment(.leading)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                Text(preview(clip, type: type))
+                    .font(.system(size: fontSize))
+                    .foregroundColor(theme.text)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-            Text(Self.relativeFormatter.localizedString(for: clip.copiedAt, relativeTo: Date()))
-                .font(.caption2)
-                .foregroundColor(theme.textFaint)
-                .lineLimit(1)
-                .padding(.top, 2)
+                Text(Self.relativeFormatter.localizedString(for: clip.copiedAt, relativeTo: Date()))
+                    .font(.caption2)
+                    .foregroundColor(theme.textFaint)
+                    .lineLimit(1)
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .frame(minHeight: keyHeight)
+            .background(keycapFace)
+            .contentShape(Rectangle())
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 9)
-        .frame(minHeight: 44)
-        .background(theme.keycap)
-        .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
-        .contentShape(Rectangle())
-        // 길게 누르기가 먼저 걸리면 짧게 누르기는 오지 않는다(SwiftUI 가 둘을 가른다).
-        .onTapGesture {
-            KeyboardHaptics.tap()
-            onInsert(clip)
-        }
+        .buttonStyle(keycapStyle)
         .onLongPressGesture(minimumDuration: 0.4) {
+            suppressedTapId = clip.id
             onCopy(clip)
         }
         .accessibilityElement(children: .combine)
@@ -578,6 +626,25 @@ struct KeyboardRecentClipsPanel: View {
         .accessibilityAction(named: Text(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"))) {
             onCopy(clip)
         }
+        .accessibilityAction(named: Text(NSLocalizedString("Delete", comment: "Delete button"))) {
+            delete(clip)
+        }
+    }
+
+    private func tap(_ clip: SmartClipboardHistory) {
+        if suppressedTapId == clip.id {
+            suppressedTapId = nil
+            return
+        }
+        // 밀던 손을 뗀 것은 누른 것이 아니다.
+        guard draggingId == nil, Date().timeIntervalSince(lastSwipeEnd) > 0.3 else { return }
+        // 지우기 버튼이 열려 있으면 누른 것은 닫으라는 뜻이다. 그때 글을 넣으면 놀란다.
+        if openRowId != nil {
+            withAnimation(.spring(response: 0.28, dampingFraction: 0.85)) { openRowId = nil }
+            return
+        }
+        KeyboardHaptics.tap()
+        onInsert(clip)
     }
 
     /// 목록에 보일 글. 카드번호·계좌처럼 남이 보면 곤란한 것은 **끝 네 자리만** 보인다.
@@ -603,9 +670,13 @@ struct KeyboardRecentClipsPanel: View {
                 .foregroundColor(theme.text)
                 .multilineTextAlignment(.center)
             if !isFiltering {
-                Text(String(format: NSLocalizedString("복사한 뒤 위의 버튼을 누르면 여기에 %d일 동안 남아요",
-                                                      comment: "Keyboard recent tab: empty hint. %d is the number of days items are kept"),
-                            SmartClipboardHistory.retentionDays))
+                // 위에 버튼이 없어졌으니 "버튼을 누르면" 이 아니다. 복사하면 저절로 선다.
+                // 전체 접근이 꺼져 있으면 저절로 못 서므로 그 사정을 먼저 말한다.
+                Text(needsFullAccess
+                     ? NSLocalizedString("설정 > 키보드에서 '전체 접근 허용'을 켜주세요", comment: "Full Access required toast")
+                     : String(format: NSLocalizedString("복사한 글이 %d일 동안 남아요",
+                                                        comment: "What's new 5.1.8 retention title. %d is the number of days"),
+                              SmartClipboardHistory.retentionDays))
                     .font(.caption2)
                     .foregroundColor(theme.textMuted)
                     .multilineTextAlignment(.center)

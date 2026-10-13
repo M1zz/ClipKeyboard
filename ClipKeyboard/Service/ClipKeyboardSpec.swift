@@ -71,16 +71,19 @@ enum ClipKeyboardSpec: LeeoAppSpec {
                          ProUpgrade.productID,
                          SlotPack.productID,
                          SlotPack.consumableProductID,
-                         TwoDevicePack.productID],
+                         TwoDevicePack.productID,
+                         // 마스터(`AccessTier`). 플러스 · 플러스→프로는 위의 `slots5` · `pro.upgrade` 다.
+                         // App Store Connect 에 아직 없으면 그 상품만 안 뜬다.
+                         AccessTier.masterProductID,
+                         AccessTier.proToMasterProductID],
             // ⚠️ **Pro 로 인정할 상품을 손으로 못박는다.** 기본값이 "파는 상품 전체"라,
             //    나중에 칸 추가 상품(`SlotPack.productID`)을 productIDs 에 한 줄 넣는 순간
             //    $3 결제가 평생 Pro 를 열어 버린다. 그 사고는 되돌릴 수도 없다
             //    (이미 권한을 받은 사람에게서 도로 뺏을 방법이 없다).
             //    연 구독도 Pro 다. 구독이 끝나면 StoreKit 의 권한 목록에서 빠져 저절로 닫힌다.
-            entitlementIDs: [StoreManager.proProductID,
-                             StoreManager.yearlyProductID,
-                             DiscountOfferManager.discountedProProductID,
-                             ProUpgrade.productID],
+            //    **플러스는 Pro 가 아니다.** 프로 이상 트림을 여는 상품만 여기 선다(`AccessTier`).
+            //    플러스가 들어가면 플러스를 산 사람에게 백업 · 잠금 · 동기화가 열린다.
+            entitlementIDs: AccessTier.proOrHigherProductIDs,
             gate: LeeoGatePolicy(
                 freeLimits: ["shortcut": ProFeatureManager.freeMemoLimit],
                 warnWhenRemaining: 3

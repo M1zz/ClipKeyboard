@@ -1141,7 +1141,7 @@
   },
   "Delete": {
     "v": "Löschen",
-    "src": "b3729f8f89"
+    "src": "f70ebfa7e7"
   },
   "Delete this quick note?": {
     "v": "Diese Notiz löschen?",
@@ -2556,7 +2556,7 @@
   },
   "값 추가": {
     "v": "Wert hinzufügen",
-    "src": "bdca148768"
+    "src": "1128e1b39b"
   },
   "값 크게 보기": {
     "v": "Wert vergrößert ansehen",
@@ -2906,6 +2906,10 @@
       "other": "%d ältere Einträge fehlen: Sie melden diese Anzahl nicht."
     },
     "src": "9d2aeb2105"
+  },
+  "국가 코드부터 끝까지 입력해 주세요": {
+    "v": "Gib sie vollständig ein, beginnend mit dem Ländercode",
+    "src": "909e701e72"
   },
   "국민 123456-78-901234": {
     "v": "Sparkasse 1234567890",
@@ -3750,7 +3754,7 @@
   },
   "단축어": {
     "v": "Textbaustein",
-    "src": "e5f8dadd0c"
+    "src": "8c10487a02"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "%1$d Textbausteine hinzugefügt, %2$d aktualisiert (insgesamt %3$d).\n%4$d Stapel, %5$d Bilder und %6$d Kategorien importiert.",
@@ -4776,8 +4780,8 @@
     "src": "b5f2d452fd"
   },
   "무료": {
-    "v": "Gratis",
-    "src": "78f8612778"
+    "v": "Kostenlos",
+    "src": "3e4da5bf1a"
   },
   "무료 %1$d개 · 지금 %2$d개": {
     "v": "Gratis: %1$d · Jetzt: %2$d",
@@ -6168,6 +6172,10 @@
     "v": "Geburtsdatum",
     "src": "6dccb3727a"
   },
+  "생년월일 8자리를 입력해 주세요 (예: 19900101)": {
+    "v": "Gib dein Geburtsdatum mit 8 Ziffern ein (z. B. 19900101)",
+    "src": "daf4851a5f"
+  },
   "생성": {
     "v": "Erstellen",
     "src": "57bdc8c650"
@@ -6252,7 +6260,7 @@
   },
   "설정": {
     "v": "Einstellungen",
-    "src": "9931740d7a"
+    "src": "9cb8bfe128"
   },
   "설정 > [사용자 이름] > iCloud에서 로그인할 수 있습니다.": {
     "v": "Du kannst dich unter Einstellungen > [Benutzername] > iCloud anmelden.",
@@ -7176,6 +7184,10 @@
     "src": "2dd4ba1fdc",
     "v": "Arbeit"
   },
+  "없는 날짜예요. 다시 확인해 주세요": {
+    "v": "Dieses Datum gibt es nicht. Prüf es bitte noch einmal",
+    "src": "d5302d2664"
+  },
   "없음": {
     "v": "Keine",
     "src": "492e0779db"
@@ -7195,6 +7207,10 @@
   "여권번호, 비자": {
     "v": "Reisepass, Visum",
     "src": "cc24be47c1"
+  },
+  "여권번호는 영문과 숫자 6~9자예요": {
+    "v": "Reisepassnummern bestehen aus 6 bis 9 Buchstaben und Ziffern",
+    "src": "949ca68b8f"
   },
   "여기": {
     "v": "hier",
@@ -8670,6 +8686,10 @@
     "v": "Telefonnummer",
     "src": "3e771ae891"
   },
+  "전화번호는 숫자 7~15자리예요": {
+    "v": "Telefonnummern haben 7 bis 15 Ziffern",
+    "src": "dfe791dc2a"
+  },
   "절약한 시간 (분)": {
     "v": "Gesparte Zeit (Min.)",
     "src": "78b8e25888"
@@ -8688,7 +8708,7 @@
   },
   "접기": {
     "v": "Einklappen",
-    "src": "ecbeac034a"
+    "src": "629f11d4ce"
   },
   "접수된 피드백": {
     "v": "Eingegangenes Feedback",
@@ -9548,6 +9568,10 @@
   "카드에 살며시 보여줄 한 줄, 비우면 자동 요약": {
     "v": "Eine Zeile, die dezent auf der Karte erscheint. Leer lassen für automatische Kurzfassung",
     "src": "471cda0a06"
+  },
+  "카드에 적힌 숫자를 모두 입력해 주세요": {
+    "v": "Gib alle Ziffern auf der Karte ein",
+    "src": "22888e372f"
   },
   "카메라로 찍어서": {
     "v": "Foto aufnehmen",
@@ -10978,6 +11002,10 @@
   "현재 입력된 텍스트를 모두 지웁니다": {
     "v": "Löscht den gesamten eingegebenen Text.",
     "src": "3c5ec3be78"
+  },
+  "형식이 맞아요": {
+    "v": "Format passt",
+    "src": "aaccf75b36"
   },
   "혹시 불편한 점이 있으세요?": {
     "v": "Stört dich etwas?",

@@ -215,7 +215,8 @@ struct ClipKeyboardList: View {
     ///    "백업이 없다" 는 말까지 영영 못 하게 되면, 정작 알려야 할 때 말을 못 한다.
     ///    대신 순간은 각각 평생 한 번뿐이라 되풀이되지 않는다.
     private var shouldShowProValueNudge: Bool {
-        guard !ProFeatureManager.hasFullAccess,
+        // 이 넛지가 꺼내는 말(백업 · 잠금 · 동기화)은 프로의 것이다. 플러스를 산 사람에게도 한다.
+        guard !ProFeatureManager.hasProTier,
               !shouldShowGraceBanner else { return false }
         // 오랜만에 돌아온 사람에게 먼저 꺼낼 말이 돈일 수는 없다(순간도 마찬가지다).
         guard userState.state.activity == .active else { return false }

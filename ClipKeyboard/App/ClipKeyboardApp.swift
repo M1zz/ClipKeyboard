@@ -127,6 +127,9 @@ struct ClipKeyboardApp: App {
             return
         }
 
+        // 키보드 탭(무대)의 '최근' 이 클립보드를 알아서 읽어도 되는지는 앱의 관문이 정한다.
+        KeyboardHostKind.appMayAutoReadClipboard = { PastePermissionGuidance.mayAutoReadClipboard }
+
         // ⚠️ 화면에 글자가 하나라도 나가기 **전에** 언어를 세운다. 늦으면 첫 화면만
         //    기기 언어로 그려졌다가 뒤늦게 바뀌는 깜빡임이 생긴다.
         AppLanguage.applyStored()

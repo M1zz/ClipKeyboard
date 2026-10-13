@@ -83,12 +83,17 @@ final class ClipKeyboardSpecTests: XCTestCase {
                                              ProUpgrade.productID,
                                              SlotPack.productID,
                                              SlotPack.consumableProductID,
-                                             TwoDevicePack.productID])
-        // 연 구독은 평생 Pro 와 같은 권한을 기간으로 판다(5.2).
+                                             TwoDevicePack.productID,
+                                             AccessTier.masterProductID,
+                                             AccessTier.proToMasterProductID])
+        // 연 구독은 평생 Pro 와 같은 권한을 기간으로 판다(5.2). 프로 이상 트림을 여는 상품이 전부 권한이다.
         XCTAssertEqual(paywall?.entitlementIDs, [StoreManager.proProductID,
                                                  StoreManager.yearlyProductID,
                                                  DiscountOfferManager.discountedProProductID,
-                                                 ProUpgrade.productID])
+                                                 ProUpgrade.productID,
+                                                 AccessTier.masterProductID,
+                                                 AccessTier.proToMasterProductID])
+        // ⚠️ 플러스(`slots5`)는 Pro 가 아니다. 들어가면 플러스 값에 백업 · 잠금 · 동기화가 열린다.
         for small in [SlotPack.productID, SlotPack.consumableProductID, TwoDevicePack.productID] {
             XCTAssertFalse(paywall?.entitlementIDs.contains(small) ?? true,
                            "\(small) 가 Pro 권한이 되면 안 된다")

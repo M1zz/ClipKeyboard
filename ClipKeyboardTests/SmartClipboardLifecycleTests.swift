@@ -54,6 +54,18 @@ final class SmartClipboardLifecycleTests: XCTestCase {
         XCTAssertGreaterThan(history[0].confidence, 0.5)
     }
 
+    // MARK: - 삭제 (키보드 '최근' 탭에서 밀어서 지우기)
+
+    func testDelete_RemovesOnlyThatItem() throws {
+        try sut.addToSmartClipboardHistory(content: "남길 것")
+        try sut.addToSmartClipboardHistory(content: "지울 것")
+        let target = try XCTUnwrap(try sut.loadSmartClipboardHistory().first { $0.content == "지울 것" })
+
+        try sut.deleteSmartClipboardItem(id: target.id)
+
+        XCTAssertEqual(try sut.loadSmartClipboardHistory().map(\.content), ["남길 것"])
+    }
+
     func testAdd_DuplicateContent_MovesToFrontWithoutDuplicating() throws {
         // Given
         try sut.addToSmartClipboardHistory(content: "첫 번째")

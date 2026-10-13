@@ -1502,8 +1502,8 @@
   "Delete": {
     "ko": "삭제",
     "en": "Delete",
-    "comment": "Delete",
-    "h": "b3729f8f89"
+    "comment": "Delete\nDelete button",
+    "h": "f70ebfa7e7"
   },
   "Delete this quick note?": {
     "ko": "이 메모를 삭제할까요?",
@@ -3602,8 +3602,8 @@
   "값 추가": {
     "ko": "값 추가",
     "en": "Add value",
-    "comment": "Add combo value button\nAdd placeholder value",
-    "h": "bdca148768"
+    "comment": "Add combo value button\nAdd placeholder value\nAdd value button",
+    "h": "1128e1b39b"
   },
   "값 크게 보기": {
     "ko": "값 크게 보기",
@@ -4114,6 +4114,12 @@
     "en": "%d older records are left out: they don't report this count.",
     "comment": "",
     "h": "9d2aeb2105"
+  },
+  "국가 코드부터 끝까지 입력해 주세요": {
+    "ko": "국가 코드부터 끝까지 입력해 주세요",
+    "en": "Enter it in full, starting with the country code",
+    "comment": "IBAN field: shown while the IBAN is still incomplete (it starts with a 2-letter country code)",
+    "h": "909e701e72"
   },
   "국민 123456-78-901234": {
     "ko": "국민 123456-78-901234",
@@ -5366,8 +5372,8 @@
   "단축어": {
     "ko": "단축어",
     "en": "Snippet",
-    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSnippet (saved key-value item) display name",
-    "h": "e5f8dadd0c"
+    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter",
+    "h": "8c10487a02"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "ko": "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.",
@@ -6848,8 +6854,8 @@
   "무료": {
     "ko": "무료",
     "en": "Free",
-    "comment": "Free",
-    "h": "78f8612778"
+    "comment": "Feedback auto info: free plan\nFree",
+    "h": "3e4da5bf1a"
   },
   "무료 %1$d개 · 지금 %2$d개": {
     "ko": "무료 %1$d개 · 지금 %2$d개",
@@ -8867,6 +8873,12 @@
     "comment": "Date of Birth",
     "h": "6dccb3727a"
   },
+  "생년월일 8자리를 입력해 주세요 (예: 19900101)": {
+    "ko": "생년월일 8자리를 입력해 주세요 (예: 19900101)",
+    "en": "Enter your birth date as 8 digits (e.g. 19900101)",
+    "comment": "Birth date field: shown while incomplete. Keep the example digits 19900101 as they are",
+    "h": "daf4851a5f"
+  },
   "생성": {
     "ko": "생성",
     "en": "Create",
@@ -8984,8 +8996,8 @@
   "설정": {
     "ko": "설정",
     "en": "Settings",
-    "comment": "Menu: settings\nSettings\niOS Settings",
-    "h": "9931740d7a"
+    "comment": "Feedback origin: settings\nMenu: settings\nSettings\niOS Settings",
+    "h": "9cb8bfe128"
   },
   "설정 > [사용자 이름] > iCloud에서 로그인할 수 있습니다.": {
     "ko": "설정 > [사용자 이름] > iCloud에서 로그인할 수 있습니다.",
@@ -10343,6 +10355,12 @@
     "comment": "Default category created for new users: work snippets. One short word",
     "h": "2dd4ba1fdc"
   },
+  "없는 날짜예요. 다시 확인해 주세요": {
+    "ko": "없는 날짜예요. 다시 확인해 주세요",
+    "en": "That date doesn't exist. Please check it again",
+    "comment": "Birth date field: the date does not exist or is in the future",
+    "h": "d5302d2664"
+  },
   "없음": {
     "ko": "없음",
     "en": "None",
@@ -10372,6 +10390,12 @@
     "en": "Passport, Visa",
     "comment": "Nomad focus subtitle: travel",
     "h": "cc24be47c1"
+  },
+  "여권번호는 영문과 숫자 6~9자예요": {
+    "ko": "여권번호는 영문과 숫자 6~9자예요",
+    "en": "Passport numbers are 6 to 9 letters and digits",
+    "comment": "Passport field: expected format. Passport numbers are 6 to 9 letters and digits",
+    "h": "949ca68b8f"
   },
   "여기": {
     "ko": "여기",
@@ -12557,6 +12581,12 @@
     "comment": "Phone Number",
     "h": "3e771ae891"
   },
+  "전화번호는 숫자 7~15자리예요": {
+    "ko": "전화번호는 숫자 7~15자리예요",
+    "en": "Phone numbers have 7 to 15 digits",
+    "comment": "Phone field: expected length. Phone numbers have 7 to 15 digits",
+    "h": "dfe791dc2a"
+  },
   "절약한 시간 (분)": {
     "ko": "절약한 시간 (분)",
     "en": "Time saved (min)",
@@ -12584,8 +12614,8 @@
   "접기": {
     "ko": "접기",
     "en": "Collapse",
-    "comment": "Collapse filter bar",
-    "h": "ecbeac034a"
+    "comment": "Collapse filter bar\nPlaceholder value list: collapse",
+    "h": "629f11d4ce"
   },
   "접수된 피드백": {
     "ko": "접수된 피드백",
@@ -13834,6 +13864,12 @@
     "en": "A line to gently show on the card, auto summary if empty",
     "comment": "Custom hint field placeholder",
     "h": "471cda0a06"
+  },
+  "카드에 적힌 숫자를 모두 입력해 주세요": {
+    "ko": "카드에 적힌 숫자를 모두 입력해 주세요",
+    "en": "Enter every digit on the card",
+    "comment": "Card number field: shown while the number is still incomplete",
+    "h": "22888e372f"
   },
   "카메라로 찍어서": {
     "ko": "카메라로 찍어서",
@@ -15970,6 +16006,12 @@
     "en": "Clears all currently entered text.",
     "comment": "Clear all button hint",
     "h": "3c5ec3be78"
+  },
+  "형식이 맞아요": {
+    "ko": "형식이 맞아요",
+    "en": "Format looks right",
+    "comment": "Value field: the typed value has the expected format",
+    "h": "aaccf75b36"
   },
   "혹시 불편한 점이 있으세요?": {
     "ko": "혹시 불편한 점이 있으세요?",

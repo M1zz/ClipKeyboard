@@ -404,6 +404,13 @@ struct MemoAdd: View {
         advanceCoach(from: step)
     }
 
+    /// 타입에 맞춘 입력 틀의 지금 상태(`ValueFormat`). 틀이 없는 타입이거나 예시 값이면 nil.
+    private var formatStatus: ValueFormat.Status? {
+        guard let format = ValueFormat(category: viewModel.selectedCategory),
+              !Constants.isSampleValue(viewModel.value, forCategory: viewModel.selectedCategory) else { return nil }
+        return format.check(viewModel.value)
+    }
+
     // MARK: - Body
 
     /// 새로 만들 때든 고칠 때든 **같은 화면**이다.
@@ -444,9 +451,14 @@ struct MemoAdd: View {
                         )
                         .id("contentField")
 
-                        // 검증 각인 - 체크섬이 있는 값이면 "맞았다"를 눈에 보이게.
-                        // 확실할 때만 뜬다(형식이 모호하면 nil) - ChecksumVerifier 주석 참고.
-                        if let verification = ChecksumVerifier.verify(viewModel.value) {
+                        // 모양이 정해진 값(카드·전화·생년월일·여권·IBAN)은 적는 동안 상태를 한 줄로 말한다.
+                        // 예시 값에는 말하지 않는다 - 0000-0000-0000-0000 도 체크섬은 통과한다.
+                        if let status = formatStatus {
+                            ValueFormatStatusLine(status: status)
+                                .padding(.top, -20)
+                        } else if let verification = ChecksumVerifier.verify(viewModel.value) {
+                            // 검증 각인 - 체크섬이 있는 값이면 "맞았다"를 눈에 보이게.
+                            // 확실할 때만 뜬다(형식이 모호하면 nil) - ChecksumVerifier 주석 참고.
                             VerificationSealView(result: verification)
                         }
 

@@ -67,37 +67,71 @@ struct ProFeatureManager {
 
     // MARK: - Pro 전용 기능 플래그
 
-    /// 모든 Pro 기능에 무제한 접근 가능 - 구매(Pro · 구독) / v3.x 그랜드파더 / 활성 7일 체험 /
-    /// **무료로 쓰는 기간**(단축어를 문턱만큼 넣기 전, `FreeUse`).
+    // MARK: 트림 (`AccessTier`)
+
+    /// **산** 트림 - 결제 권한에서 앱이 App Group 에 새긴 값. TestFlight 는 마스터다.
     ///
-    /// ⚠️ 무료 기간은 Pro 와 **똑같다.** 반쯤 열어 두면 무엇이 되고 안 되는지를 사용자가
-    ///    배워야 하고, 그 배움이 곧 "완성도가 떨어진다"로 읽힌다. 문턱 전에는 아무 벽도 없다.
-    static var hasFullAccess: Bool {
-        isPro || isGrandfathered || isInTrial || FreeUse.isActive
+    /// ⚠️ 트림을 새기기 전 판에서 올라온 설치(또는 StoreKit 이 아직 한 번도 안 돈 첫 실행)에는
+    ///    Pro 키(`proStatus`)만 있다. 그 키가 켜져 있으면 적어도 프로다 - 둘 중 높은 쪽을 쓴다.
+    ///    낮은 쪽을 믿으면 업데이트한 날 산 Pro 가 잠깐 잠긴다.
+    static var purchasedTier: AccessTier {
+        if isTestFlight { return .master }
+        let mirrored = AccessTier.mirrored ?? .free
+        let legacy: AccessTier = (groupDefaults?.bool(forKey: proStatusKey) ?? false) ? .pro : .free
+        return max(mirrored, legacy)
     }
 
-    /// 영구적인 Pro 권한 보유 여부 - 구매(Pro) / v3.x 그랜드파더 / TestFlight.
-    /// 체험(trial)은 일부러 제외한다(체험 유저에겐 "평생 Pro" 업셀을 계속 보여줘야 하므로).
+    /// 지금 **열려 있는** 트림. 기능을 여닫는 곳은 전부 이 값(또는 아래 속성)을 본다.
+    ///
+    /// - 무료로 쓰는 기간(`FreeUse`) · 7일 체험: 전부 열린다(마스터). 반쯤 열어 두면 무엇이
+    ///   되고 안 되는지를 사용자가 배워야 하고, 그 배움이 곧 "완성도가 떨어진다"로 읽힌다.
+    /// - v3.x 에 앱을 산 사람(그랜드파더): 적어도 프로. 그때 산 것이 지금의 프로다.
+    static var tier: AccessTier {
+        if isInTrial || FreeUse.isActive { return .master }
+        if isGrandfathered { return max(purchasedTier, .pro) }
+        return purchasedTier
+    }
+
+    /// **개수 제한이 없다** - 플러스 이상. 단축어 · 템플릿 · 스택 · 이미지 · 클립보드 기록 한도를 묻는 곳이 본다.
+    ///
+    /// ⚠️ 이름은 예전 그대로다(부르는 곳이 스무 곳 가깝다). 뜻만 "Pro 전부" 에서 "플러스 이상" 으로 좁혔다.
+    ///    백업 · 잠금 · 동기화는 이 값이 아니라 `hasProTier` 를 본다. 그 셋을 이 값으로 열면
+    ///    플러스를 산 사람에게 프로가 열린다.
+    static var hasFullAccess: Bool { tier >= .plus }
+
+    /// 프로 이상 - 백업 · 생체 잠금 · 동기화, 그리고 그것들을 권하는 안내를 그칠지 묻는 곳이 본다.
+    static var hasProTier: Bool { tier >= .pro }
+
+    /// 마스터 - 오래 쓴 사람에게만 뜻이 있는 기능. 아직 그런 기능이 없다(생기면 이 값으로 연다).
+    static var hasMasterTier: Bool { tier >= .master }
+
+    /// 영구적인 프로 권한 보유 여부 - 산 트림이 프로 이상 / v3.x 그랜드파더 / TestFlight.
+    /// 체험(trial)은 일부러 제외한다(체험 유저에겐 업셀을 계속 보여줘야 하므로).
     ///
     /// ⚠️ UI에서 "Pro 활성화됨 vs 업그레이드 유도"를 결정할 땐 반드시 이 값을 쓴다.
     /// `StoreManager.isPro`(실제 결제 entitlement만 봄)를 쓰면 그랜드파더/TestFlight 유저가
     /// 기능은 다 열려 있는데도 "업그레이드" 안내를 보게 되는 불일치가 생긴다.
     static var hasPermanentPro: Bool {
-        isPro || isGrandfathered
+        purchasedTier >= .pro || isGrandfathered
     }
 
-    /// iCloud 백업 사용 가능 여부
-    static var isCloudBackupAvailable: Bool { hasFullAccess }
+    /// 트림을 하나라도 샀는가(플러스 포함) / v3.x 그랜드파더. "이미 돈을 낸 사람" 을 가르는 곳이 본다.
+    static var hasPaidTier: Bool {
+        purchasedTier >= .plus || isGrandfathered
+    }
 
-    /// 생체인증 잠금 사용 가능 여부
-    static var isBiometricLockAvailable: Bool { hasFullAccess }
+    /// iCloud 백업 사용 가능 여부 - 프로 이상.
+    static var isCloudBackupAvailable: Bool { hasProTier }
+
+    /// 생체인증 잠금 사용 가능 여부 - 프로 이상.
+    static var isBiometricLockAvailable: Bool { hasProTier }
 
     /// 기기 사이 동기화 사용 가능 여부.
     ///
-    /// Pro 면 당연히 되고, **두 대째 상품(`TwoDevicePack`)만 산 사람도 된다.**
+    /// 프로 이상이면 되고, **두 대째 상품(`TwoDevicePack`)만 산 사람도 된다.**
     /// ⚠️ 동기화를 묻는 곳은 전부 이 값을 봐야 한다. `hasFullAccess` 를 직접 보면
-    ///    두 대째를 산 사람이 돈을 내고도 토글을 못 켠다.
-    static var isSyncAvailable: Bool { hasFullAccess || TwoDevicePack.isPurchased }
+    ///    두 대째를 산 사람이 돈을 내고도 토글을 못 켜고, 플러스를 산 사람에게는 열려 버린다.
+    static var isSyncAvailable: Bool { hasProTier || TwoDevicePack.isPurchased }
 
     /// 테마 커스터마이징 사용 가능 여부 (v4.1부터 무료 개방)
     static var isThemeCustomizationAvailable: Bool { true }

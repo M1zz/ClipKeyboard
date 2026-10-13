@@ -31,7 +31,9 @@ final class ProFeatureManagerTests: XCTestCase {
             ProFeatureManager.existingFreeUserRevokedAtKey,
             ProFeatureManager.accessRevokedNoticeSeenKey,
             ProFeatureManager.accessEndingSoonNoticeSeenKey,
-            DefaultsKey.sampleMemoIdsV1
+            DefaultsKey.sampleMemoIdsV1,
+            DefaultsKey.purchasedTier,
+            DefaultsKey.twoDevicePurchased
         ]
         for key in keys {
             groupDefaults?.removeObject(forKey: key)
@@ -124,6 +126,58 @@ final class ProFeatureManagerTests: XCTestCase {
     func testKeyboardMemoDisplayLimit_FreeUser_Limited() throws {
         guard !ProFeatureManager.hasFullAccess else { throw XCTSkip("Pro 환경") }
         XCTAssertEqual(ProFeatureManager.keyboardMemoDisplayLimit, 10)
+    }
+
+    // MARK: - 트림 (AccessTier)
+
+    /// 플러스는 **개수만** 연다. 백업 · 잠금 · 동기화가 열리면 프로를 플러스 값에 판 셈이다.
+    func testPlus_UnlocksCountsButNotProFeatures() throws {
+        guard !ProFeatureManager.isTestFlight else { throw XCTSkip("TestFlight 는 마스터") }
+        AccessTier.mirror(.plus)
+        XCTAssertEqual(ProFeatureManager.tier, .plus)
+        XCTAssertTrue(ProFeatureManager.hasFullAccess)
+        XCTAssertTrue(ProFeatureManager.canAddMemo(currentCount: 99999))
+        XCTAssertTrue(ProFeatureManager.canAddTemplate(currentCount: 99999))
+        XCTAssertFalse(ProFeatureManager.isCloudBackupAvailable)
+        XCTAssertFalse(ProFeatureManager.isBiometricLockAvailable)
+        XCTAssertFalse(ProFeatureManager.isSyncAvailable)
+        XCTAssertFalse(ProFeatureManager.hasPermanentPro, "플러스를 산 사람에게도 프로 안내는 계속 선다")
+        XCTAssertTrue(ProFeatureManager.hasPaidTier, "그래도 돈을 낸 사람이다")
+    }
+
+    /// 플러스에 두 대째(옵션)를 붙이면 동기화만 열린다.
+    func testPlusWithTwoDeviceOption_OpensSyncOnly() throws {
+        guard !ProFeatureManager.isTestFlight else { throw XCTSkip("TestFlight 는 마스터") }
+        AccessTier.mirror(.plus)
+        TwoDevicePack.mirror(purchased: true)
+        XCTAssertTrue(ProFeatureManager.isSyncAvailable)
+        XCTAssertFalse(ProFeatureManager.isCloudBackupAvailable)
+    }
+
+    /// 트림을 새기기 전 판에서 올라온 Pro 는 Pro 키만 있다. 업데이트한 날 잠기면 안 된다.
+    func testLegacyProKeyOnly_IsProTier() throws {
+        guard !ProFeatureManager.isTestFlight else { throw XCTSkip("TestFlight 는 마스터") }
+        groupDefaults?.set(true, forKey: ProFeatureManager.proStatusKey)
+        XCTAssertEqual(ProFeatureManager.tier, .pro)
+        XCTAssertTrue(ProFeatureManager.isCloudBackupAvailable)
+        XCTAssertTrue(ProFeatureManager.hasPermanentPro)
+        XCTAssertFalse(ProFeatureManager.hasMasterTier, "예전 Pro 는 마스터가 아니다 - 마스터는 새로 산다")
+    }
+
+    func testMaster_OpensEverything() throws {
+        guard !ProFeatureManager.isTestFlight else { throw XCTSkip("TestFlight 는 마스터") }
+        AccessTier.mirror(.master)
+        XCTAssertTrue(ProFeatureManager.hasMasterTier)
+        XCTAssertTrue(ProFeatureManager.isCloudBackupAvailable)
+        XCTAssertTrue(ProFeatureManager.hasPermanentPro)
+    }
+
+    /// v3.x 에 앱을 산 사람은 플러스만 샀어도 프로다. 그때 산 것이 지금의 프로다.
+    func testGrandfathered_IsAtLeastPro() throws {
+        guard !ProFeatureManager.isTestFlight else { throw XCTSkip("TestFlight 는 마스터") }
+        groupDefaults?.set(true, forKey: ProFeatureManager.grandfatheredPurchaseKey)
+        AccessTier.mirror(.plus)
+        XCTAssertEqual(ProFeatureManager.tier, .pro)
     }
 
     // MARK: - 그랜드파더

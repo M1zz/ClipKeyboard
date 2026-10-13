@@ -646,7 +646,15 @@ struct ContentInputSection: View {
                 .cornerRadius(theme.radiusMd)
                 .memoAddCoachRipple(coachStep == .content, radius: theme.radiusMd)
                 .accessibilityLabel(NSLocalizedString("붙여넣을 내용", comment: "Content label: what gets pasted when user taps the memo"))
-                .onChange(of: value) { _, newValue in scheduleClassify(newValue) }
+                .onChange(of: value) { _, newValue in
+                    // 카드번호·IBAN 처럼 모양이 정해진 값은 적는 대로 다듬는다(`ValueFormat`).
+                    // 다듬은 값이 다시 들어오면 그때 분류한다 - 한 번 고친 값은 그대로라 돌지 않는다.
+                    if let formatted = formattedValue(newValue), formatted != newValue {
+                        value = formatted
+                        return
+                    }
+                    scheduleClassify(newValue)
+                }
                 #else
                 TextField(placeholderText, text: $value, axis: .vertical)
                     .font(.body)
@@ -860,9 +868,21 @@ struct ContentInputSection: View {
         }
     }
 
+    /// 모양이 정해진 값이면 그 모양으로 다듬은 글. 아니면 nil(건드리지 않는다).
+    ///
+    /// ⚠️ 템플릿(`{`)이나 여러 줄 글은 건드리지 않는다. 카드번호 칸에 적힌 안내 문장까지
+    ///    숫자만 남기고 지워 버리면 그건 돕는 게 아니다.
+    private func formattedValue(_ text: String) -> String? {
+        guard !forceTextKeyboard,
+              !text.contains("{"), !text.contains("\n"),
+              let format = ValueFormat(category: selectedCategory) else { return nil }
+        return format.format(text)
+    }
+
     private var keyboardTypeForTheme: UIKeyboardType {
         // 템플릿 작성 중이거나 본문에 {변수}가 있으면 글자 입력이 필요하므로 항상 기본 키보드.
         if forceTextKeyboard || value.contains("{") { return .default }
+        if let format = ValueFormat(category: selectedCategory) { return format.keyboardType }
         guard let type = ClipboardItemType(rawValue: selectedCategory) else {
             return .default
         }

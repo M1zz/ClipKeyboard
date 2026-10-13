@@ -436,11 +436,8 @@ struct KeyboardView: View {
     private var isOnRecentClips: Bool { showsRecentClipsTab && showsRecentClips }
     /// '최근' 탭에 세울 것. 단축어와 같은 자리(`loadAllMemos`)에서 읽는다.
     @State private var recentClips: [SmartClipboardHistory] = []
-    /// 저장 버튼이 미리 보여 줄 지금 클립보드(`refreshClipboardPreview`).
-    @State private var clipboardPreview: KeyboardClipboardPreview = .unknown
-    /// 마지막으로 글을 읽었을 때의 복사 번호. 같으면 글을 다시 끌어오지 않는다.
-    @State private var clipboardPreviewChangeCount: Int?
-    @State private var showClipCapturedToast = false
+    /// '최근' 의 한 줄을 옆으로 밀고 있는가. 그동안은 탭을 넘기지 않는다(`pageSwipeGesture`).
+    @State private var isSwipingRecentRow = false
 
     // 보안 메모 PIN 인증
     @State private var showPINEntry = false
@@ -985,9 +982,10 @@ struct KeyboardView: View {
             KeyboardHaptics.mediumTap()
             proxy.clearAll()
         } label: {
+            // 한 번에 다 지우는 키라 빨강이다. 한 글자씩 지우는 키와 같은 색이면 둘이 같은 무게로 읽힌다.
             Image(systemName: AppSymbol.xmarkCircle)
                 .font(.system(size: controlKeyIconSize, weight: .semibold))
-                .foregroundColor(theme.keycapLabel)
+                .foregroundColor(Color(UIColor.systemRed))
                 .frame(width: controlKeyWidth(36), height: controlKeyHeight)
                 .background(theme.keycap)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
@@ -1232,19 +1230,24 @@ struct KeyboardView: View {
                     KeyboardRecentClipsPanel(
                         clips: filteredRecentClips,
                         theme: theme,
+                        skin: skin,
+                        keyColor: keyColor,
+                        keyHeight: CGFloat(buttonHeight),
+                        fontSize: CGFloat(buttonFontSize),
                         isFiltering: !searchQuery.isEmpty,
+                        needsFullAccess: hostKind.requiresFullAccessForPaste && !KeyboardCapability.hasFullAccess,
                         onInsert: { clip in typingProxy?.insertText(clip.content) },
                         onCopy: { clip in copyClipToClipboard(clip.content) },
-                        clipboardPreview: clipboardPreview,
-                        onCapture: captureClipboardToRecents
+                        onDelete: deleteRecentClip,
+                        isSwipingRow: $isSwipingRecentRow
                     )
                     .simultaneousGesture(pageSwipeGesture)
                     // 보고 있는 동안에는 복사 번호를 가끔 묻는다. 키보드를 띄운 채로 그 앱에서
-                    // 글을 골라 복사할 수 있어서, 처음 한 번만 읽으면 버튼이 옛 글을 보여 준다.
-                    // 번호가 그대로면 글은 끌어오지 않는다(`refreshClipboardPreview`).
+                    // 글을 골라 복사할 수 있어서, 처음 한 번만 읽으면 새로 복사한 글이 안 담긴다.
+                    // 번호가 그대로면 글은 끌어오지 않는다(`collectCopiedTextIntoRecents`).
                     .task {
                         while !Task.isCancelled {
-                            refreshClipboardPreview()
+                            collectCopiedTextIntoRecents()
                             try? await Task.sleep(for: .seconds(1.5))
                         }
                     }
@@ -1328,17 +1331,6 @@ struct KeyboardView: View {
         .overlay(alignment: .bottom) {
             if showImageCopiedToast {
                 Text(NSLocalizedString("이미지 복사됨 · 붙여넣기 하세요", comment: "Image copied toast"))
-                    .font(.footnote.weight(.medium))
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
-                    .background(Color.black.opacity(0.75))
-                    .clipShape(Capsule())
-                    .padding(.bottom, 8)
-                    .transition(.opacity.combined(with: .move(edge: .bottom)))
-            }
-            if showClipCapturedToast {
-                Text(NSLocalizedString("최근 탭에 담았어요", comment: "Keyboard toast: current clipboard saved to the recent tab"))
                     .font(.footnote.weight(.medium))
                     .foregroundColor(.white)
                     .padding(.horizontal, 16)
@@ -1893,6 +1885,8 @@ struct KeyboardView: View {
                 let h = value.translation.width
                 let v = value.translation.height
                 guard abs(h) > abs(v) * 1.5, abs(h) > 60 else { return }
+                // '최근' 의 한 줄을 밀어 지우는 손짓이면 탭을 넘기지 않는다.
+                guard !isSwipingRecentRow else { return }
                 let target = selectedTabIndex + (h < 0 ? 1 : -1)
                 guard target >= 0, target < tabKeys.count else { return }
                 KeyboardHaptics.tap()
@@ -1912,45 +1906,51 @@ struct KeyboardView: View {
         recentClips = SmartClipboardHistory.keyboardRecents(history)
     }
 
-    /// 저장 버튼이 미리 보여 줄 클립보드를 다시 읽는다.
+    /// 지금 복사돼 있는 글을 '최근' 탭에 **알아서** 담는다. 저장 버튼을 누르지 않아도
+    /// 복사한 것이 그대로 목록에 선다.
     ///
     /// ⚠️ **메인에서 읽지 않는다.** 저절로 도는 읽기라 `PasteboardReader` 를 지난다
     ///    (`docs/postmortem/HANG_PASTEBOARD_5_0_1.md` - 유니버설 클립보드가 켜져 있으면 옆 기기를 기다린다).
     /// ⚠️ **글자만** 읽는다(`textOnly`). 키보드는 메모리가 빠듯해서 큰 그림을 풀면 죽는다.
-    /// ⚠️ 진짜 키보드이면서 전체 접근이 켜져 있을 때만 읽는다. 앱 안 키보드에서 저절로 읽으면
-    ///    iOS 가 붙여넣기 허용을 묻는 창을 띄운다. 그때는 버튼이 하는 일만 말한다(`.unknown`).
-    private func refreshClipboardPreview() {
-        guard hostKind == .keyboardExtension, KeyboardCapability.hasFullAccess else {
-            clipboardPreview = .unknown
-            return
-        }
+    /// ⚠️ 읽어도 되는 자리인지는 `KeyboardHostKind.autoCollectsClipboard` 가 정한다
+    ///    (진짜 키보드는 전체 접근, 키보드 탭은 앱의 붙여넣기 관문).
+    /// ⚠️ 복사 번호가 그대로면 글을 끌어오지 않는다. 번호는 App Group 에 남겨 둔다. 키보드는
+    ///    뜰 때마다 새로 만들어져서, 기억이 없으면 밀어서 지운 글이 다시 뜰 때 도로 담긴다.
+    private func collectCopiedTextIntoRecents() {
+        guard hostKind.autoCollectsClipboard else { return }
+        let lastCount = AppGroup.defaults?.object(forKey: DefaultsKey.keyboardRecentsCollectedChangeCount) as? Int
         PasteboardReader.changeCount { count in
-            guard count != clipboardPreviewChangeCount else { return }
+            guard count != lastCount else { return }
             PasteboardReader.textOnly { text, readCount in
-                clipboardPreviewChangeCount = readCount
-                clipboardPreview = text.map { .text($0) } ?? .empty
+                AppGroup.defaults?.set(readCount, forKey: DefaultsKey.keyboardRecentsCollectedChangeCount)
+                guard let text else { return }
+                do {
+                    let history = try MemoStore.shared.loadSmartClipboardHistory()
+                    // 이미 맨 위에 있으면 다시 쓰지 않는다(복사한 시각만 바뀌는 것을 막는다).
+                    guard history.first?.content != text else { return }
+                    try MemoStore.shared.addToSmartClipboardHistory(content: text)
+                    print("✅ [KeyboardView.collectCopiedTextIntoRecents] 복사한 글을 최근에 담음")
+                } catch {
+                    print("❌ [KeyboardView.collectCopiedTextIntoRecents] 담기 실패: \(error)")
+                    return
+                }
+                reloadRecentClips()
             }
         }
     }
 
-    /// 지금 복사돼 있는 것을 '최근' 탭에 담는다.
-    ///
-    /// ⚠️ 클립보드는 **누른 순간에만** 읽는다(`clipboardTextForInsert` 와 같은 길).
-    ///    전체 접근 확인과 빈 클립보드 안내도 그쪽이 한다.
-    private func captureClipboardToRecents() {
-        guard let text = clipboardTextForInsert() else { return }
+    /// '최근' 의 한 줄을 지운다(왼쪽으로 밀어서).
+    private func deleteRecentClip(_ clip: SmartClipboardHistory) {
         do {
-            try MemoStore.shared.addToSmartClipboardHistory(content: text)
+            try MemoStore.shared.deleteSmartClipboardItem(id: clip.id)
         } catch {
-            print("❌ [KeyboardView.captureClipboardToRecents] 담기 실패: \(error)")
+            print("❌ [KeyboardView.deleteRecentClip] 삭제 실패: \(error)")
             KeyboardHaptics.softTap()
             return
         }
-        reloadRecentClips()
         KeyboardHaptics.mediumTap()
-        withAnimation { showClipCapturedToast = true }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            withAnimation { showClipCapturedToast = false }
+        withAnimation(.easeOut(duration: 0.2)) {
+            recentClips.removeAll { $0.id == clip.id }
         }
     }
 
@@ -3325,7 +3325,7 @@ struct KeyboardView: View {
         refreshRenderCacheIfNeeded()
         guard let idx = renderCache.userCategories.firstIndex(of: memo.category) else { return nil }
         if let hex = renderCache.customColors[memo.category], let c = Color(hex: hex) { return c }
-        let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
+        let palette = Color.categoryPalette
         return palette[idx % palette.count]
     }
 
@@ -3366,18 +3366,58 @@ struct KeyboardView: View {
 
     /// iOS 앱 ClipKeyboardList.customCategoryColor과 동일한 팔레트 + 인덱스 기반
     private func colorForCategoryKey(_ key: String) -> Color {
-        if key == Self.recentClipsKey { return theme.accent }
+        if key == Self.recentClipsKey { return recentTabColor }
         if key == "★basic" { return .gray }   // 앱 .basic 인디케이터 색과 동일
-        if key == "★all" { return .blue }
+        // 파랑은 '최근' 탭의 색이다. 카테고리 기능을 끈 사람의 '전체' 한 장은 '기본' 과 같은 회색.
+        if key == "★all" { return .gray }
         if key == "★favorites" { return .clipFavorite }
         if key.hasPrefix(Self.builtInPrefix) {
             return builtInTint(String(key.dropFirst(Self.builtInPrefix.count)))
         }
         refreshRenderCacheIfNeeded()
         if let hex = renderCache.customColors[key], let c = Color(hex: hex) { return c }
-        let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
+        let palette = Color.categoryPalette
         let idx = renderCache.userCategories.firstIndex(of: key) ?? 0
         return palette[idx % palette.count]
+    }
+
+    /// '최근' 탭의 색. **탭 줄의 다른 칩이 쓰는 색과 겹치지 않는 것**을 고른다.
+    ///
+    /// 기본은 파랑이고, 그래서 카테고리 기본 팔레트(`Color.categoryPalette`)에는 파랑이 없다.
+    /// ⚠️ 그래도 카테고리 색은 사람이 아무 색이나 고를 수 있다(`CategorySettings` 의 ColorPicker).
+    ///    그래서 후보를 차례로 대 보고, 지금 서 있는 칩 색과 멀리 떨어진 첫 색을 쓴다.
+    private var recentTabColor: Color {
+        let used = tabKeys
+            .filter { $0 != Self.recentClipsKey }
+            .map { Self.rgb(colorForCategoryKey($0), isDark: theme.isDark) }
+        // 기본은 파랑. 사람이 카테고리에 파랑을 직접 골랐을 때만 다른 색으로 비킨다.
+        // 흰 글자가 얹히므로 너무 밝은 색은 뒤로 둔다.
+        let candidates: [Color] = [.blue, .pink, .cyan, .brown, .yellow]
+        let scored = candidates.map { candidate -> (Color, Double) in
+            let c = Self.rgb(candidate, isDark: theme.isDark)
+            let nearest = used.map { Self.rgbDistance(c, $0) }.min() ?? .infinity
+            return (candidate, nearest)
+        }
+        if let free = scored.first(where: { $0.1 >= Self.distinctColorDistance }) { return free.0 }
+        // 다 겹치면 그나마 가장 멀리 떨어진 색.
+        return scored.max(by: { $0.1 < $1.1 })?.0 ?? theme.accent
+    }
+
+    /// 두 색이 "다른 색" 으로 읽히는 RGB 거리(0~√3). 시스템 파랑과 청록(cyan)이 약 0.29 라
+    /// 그보다 조금 위에 둔다.
+    private static let distinctColorDistance: Double = 0.3
+
+    private static func rgb(_ color: Color, isDark: Bool) -> (Double, Double, Double) {
+        let ui = UIColor(color).resolvedColor(
+            with: UITraitCollection(userInterfaceStyle: isDark ? .dark : .light))
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        ui.getRed(&r, green: &g, blue: &b, alpha: &a)
+        return (Double(r), Double(g), Double(b))
+    }
+
+    private static func rgbDistance(_ a: (Double, Double, Double), _ b: (Double, Double, Double)) -> Double {
+        let dr = a.0 - b.0, dg = a.1 - b.1, db = a.2 - b.2
+        return (dr * dr + dg * dg + db * db).squareRoot()
     }
 
     // MARK: - Theme-derived Colors (Paper 테마 + 사용자 커스텀 오버라이드)

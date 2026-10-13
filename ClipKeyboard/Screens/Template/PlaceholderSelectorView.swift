@@ -735,6 +735,14 @@ struct PlaceholderDetailView: View {
             HStack {
                 TextField(NSLocalizedString("값 추가", comment: "Add placeholder value"), text: $newValue)
                     .onSubmit(addValue)
+                    // 빈칸 이름이 카드번호·여권번호 같은 타입 이름이면 적는 대로 그 모양으로 다듬는다.
+                    .keyboardType(valueFormat?.keyboardType ?? .default)
+                    .textInputAutocapitalization(valueFormat?.autocapitalization ?? .sentences)
+                    .onChange(of: newValue) { _, typed in
+                        guard let format = valueFormat else { return }
+                        let formatted = format.format(typed)
+                        if formatted != typed { newValue = formatted }
+                    }
                 Button(action: addValue) {
                     Image(systemName: AppSymbol.plusCircleFill)
                         .foregroundColor(newValue.trimmingCharacters(in: .whitespaces).isEmpty
@@ -743,6 +751,9 @@ struct PlaceholderDetailView: View {
                 .buttonStyle(.squish)
                 .disabled(newValue.trimmingCharacters(in: .whitespaces).isEmpty)
                 .accessibilityLabel(NSLocalizedString("값 추가", comment: "Add placeholder value"))
+            }
+            if let status = valueFormat?.check(newValue) {
+                ValueFormatStatusLine(status: status)
             }
         } header: {
             HStack {
@@ -793,6 +804,9 @@ struct PlaceholderDetailView: View {
         HapticManager.shared.selection()
         onChange()
     }
+
+    /// 빈칸 이름이 타입 이름과 같으면 그 입력 틀(`ValueFormat`). 아니면 nil.
+    private var valueFormat: ValueFormat? { ValueFormat(placeholder: summary.token) }
 
     private func addValue() {
         let trimmed = newValue.trimmingCharacters(in: .whitespacesAndNewlines)

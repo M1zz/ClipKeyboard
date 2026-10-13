@@ -133,9 +133,9 @@ enum FreeUse {
         defaults?.set(raw, forKey: DefaultsKey.freeUseMilestonesSeen)
     }
 
-    /// 지금 보여 줄 이정표. 이미 돈을 낸 사람(평생 · 구독 · 예전 구매)에게는 없다.
+    /// 지금 보여 줄 이정표. 이미 돈을 낸 사람(트림 · 구독 · 예전 구매)에게는 없다.
     static var pendingMilestone: Milestone? {
         pendingMilestone(uses: uses, threshold: threshold, seen: seenMilestones,
-                         hasPaid: ProFeatureManager.hasPermanentPro)
+                         hasPaid: ProFeatureManager.hasPaidTier)
     }
 }

@@ -1009,7 +1009,7 @@
   },
   "Delete": {
     "v": "Xóa",
-    "src": "b3729f8f89"
+    "src": "f70ebfa7e7"
   },
   "Delete this quick note?": {
     "v": "Xóa ghi chú này?",
@@ -2409,7 +2409,7 @@
   },
   "값 추가": {
     "v": "Thêm giá trị",
-    "src": "bdca148768"
+    "src": "1128e1b39b"
   },
   "값 크게 보기": {
     "v": "Xem giá trị lớn hơn",
@@ -2750,6 +2750,10 @@
   "구버전 기록 %d개는 이 개수를 안 보내서 빠졌어요.": {
     "v": "%d bản ghi cũ bị bỏ qua vì không báo số lượng này.",
     "src": "9d2aeb2105"
+  },
+  "국가 코드부터 끝까지 입력해 주세요": {
+    "v": "Hãy nhập đầy đủ, bắt đầu từ mã quốc gia",
+    "src": "909e701e72"
   },
   "국민 123456-78-901234": {
     "v": "Vietcombank 1234567890",
@@ -3585,7 +3589,7 @@
   },
   "단축어": {
     "v": "Cụm từ",
-    "src": "e5f8dadd0c"
+    "src": "8c10487a02"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "Đã thêm %1$d cụm từ, cập nhật %2$d (tổng %3$d).\nĐã nhập %4$d ngăn xếp, %5$d hình ảnh và %6$d danh mục.",
@@ -4573,7 +4577,7 @@
   },
   "무료": {
     "v": "Miễn phí",
-    "src": "78f8612778"
+    "src": "3e4da5bf1a"
   },
   "무료 %1$d개 · 지금 %2$d개": {
     "v": "Miễn phí: %1$d · Hiện có: %2$d",
@@ -5919,6 +5923,10 @@
     "v": "Ngày sinh",
     "src": "6dccb3727a"
   },
+  "생년월일 8자리를 입력해 주세요 (예: 19900101)": {
+    "v": "Hãy nhập ngày sinh gồm 8 chữ số (ví dụ: 19900101)",
+    "src": "daf4851a5f"
+  },
   "생성": {
     "v": "Tạo",
     "src": "57bdc8c650"
@@ -5997,7 +6005,7 @@
   },
   "설정": {
     "v": "Cài đặt",
-    "src": "9931740d7a"
+    "src": "9cb8bfe128"
   },
   "설정 > [사용자 이름] > iCloud에서 로그인할 수 있습니다.": {
     "v": "Bạn có thể đăng nhập tại Cài đặt > [Tên người dùng] > iCloud.",
@@ -6903,6 +6911,10 @@
     "src": "2dd4ba1fdc",
     "v": "Công việc"
   },
+  "없는 날짜예요. 다시 확인해 주세요": {
+    "v": "Ngày này không tồn tại. Bạn kiểm tra lại nhé",
+    "src": "d5302d2664"
+  },
   "없음": {
     "v": "Không có",
     "src": "492e0779db"
@@ -6922,6 +6934,10 @@
   "여권번호, 비자": {
     "v": "Hộ chiếu, visa",
     "src": "cc24be47c1"
+  },
+  "여권번호는 영문과 숫자 6~9자예요": {
+    "v": "Số hộ chiếu gồm 6 đến 9 chữ cái và chữ số",
+    "src": "949ca68b8f"
   },
   "여기": {
     "v": "đây",
@@ -8379,6 +8395,10 @@
     "v": "Số điện thoại",
     "src": "3e771ae891"
   },
+  "전화번호는 숫자 7~15자리예요": {
+    "v": "Số điện thoại gồm 7 đến 15 chữ số",
+    "src": "dfe791dc2a"
+  },
   "절약한 시간 (분)": {
     "v": "Thời gian tiết kiệm (phút)",
     "src": "78b8e25888"
@@ -8397,7 +8417,7 @@
   },
   "접기": {
     "v": "Thu gọn",
-    "src": "ecbeac034a"
+    "src": "629f11d4ce"
   },
   "접수된 피드백": {
     "v": "Phản hồi đã nhận",
@@ -9230,6 +9250,10 @@
   "카드에 살며시 보여줄 한 줄, 비우면 자동 요약": {
     "v": "Một dòng hiện nhẹ trên thẻ, để trống sẽ tự tóm tắt",
     "src": "471cda0a06"
+  },
+  "카드에 적힌 숫자를 모두 입력해 주세요": {
+    "v": "Hãy nhập đủ các chữ số trên thẻ",
+    "src": "22888e372f"
   },
   "카메라로 찍어서": {
     "v": "Chụp ảnh",
@@ -10654,6 +10678,10 @@
   "현재 입력된 텍스트를 모두 지웁니다": {
     "v": "Xóa toàn bộ văn bản đang nhập.",
     "src": "3c5ec3be78"
+  },
+  "형식이 맞아요": {
+    "v": "Định dạng hợp lệ",
+    "src": "aaccf75b36"
   },
   "혹시 불편한 점이 있으세요?": {
     "v": "Bạn có gặp điều gì bất tiện không?",

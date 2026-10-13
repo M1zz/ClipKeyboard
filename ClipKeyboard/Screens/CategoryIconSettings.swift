@@ -240,7 +240,7 @@ func defaultIcon(for category: String, in list: [String]) -> String {
 }
 
 func defaultColor(for category: String, in list: [String]) -> Color {
-    let palette: [Color] = [.blue, .green, .orange, .purple, .teal, .indigo, .cyan]
+    let palette = Color.categoryPalette
     let idx = list.firstIndex(of: category) ?? 0
     return palette[idx % palette.count]
 }

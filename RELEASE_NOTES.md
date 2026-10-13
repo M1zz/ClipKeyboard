@@ -14,6 +14,215 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.11
+
+### 앱스토어 (한국어)
+
+```
+최근 탭에 복사한 글이 저절로 쌓여요.
+최근 항목은 왼쪽으로 밀어서 지울 수 있어요.
+카드번호, 여권번호를 맞는 모양으로 적어 줘요.
+템플릿 값을 고르다가 바로 새 값을 더해요.
+```
+
+### App Store (English)
+
+```
+Copied text now appears in Recent.
+Swipe left to delete a recent item.
+Card and passport numbers auto-format.
+Add new template values on the spot.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+复制的内容会自动出现在“最近”中。
+在最近项目上左滑即可删除。
+卡号、护照号会自动排成正确格式。
+选择模板值时可直接添加新值。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+複製的內容會自動出現在「最近」中。
+在最近項目上左滑即可刪除。
+卡號、護照號碼會自動排成正確格式。
+選擇範本值時可直接新增新值。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Скопированное теперь появляется в «Недавних».
+Смахните влево, чтобы удалить запись.
+Номера карт и паспортов форматируются сами.
+Новое значение шаблона можно добавить сразу.
+```
+
+### App Store (Japanese, ja)
+
+```
+コピーした内容が「最近」に自動でたまります。
+最近の項目は左にスワイプして削除できます。
+カード番号やパスポート番号を正しい形に整えます。
+テンプレートの値を選ぶときに新しい値を追加できます。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Lo que copias ya aparece en Recientes.
+Desliza a la izquierda para borrar un reciente.
+Tarjetas y pasaportes se formatean solos.
+Agrega un valor nuevo desde la plantilla.
+```
+
+### App Store (German, de-DE)
+
+```
+Kopierte Texte erscheinen jetzt unter „Zuletzt“.
+Nach links wischen löscht einen Eintrag.
+Karten- und Passnummern werden richtig formatiert.
+Neue Vorlagenwerte direkt hinzufügen.
+```
+
+### App Store (Thai, th)
+
+```
+ข้อความที่คัดลอกจะแสดงในแท็บล่าสุดทันที
+ปัดซ้ายเพื่อลบรายการล่าสุดได้
+เลขบัตรและหนังสือเดินทางจัดรูปแบบให้อัตโนมัติ
+เพิ่มค่าใหม่ได้ทันทีขณะเลือกค่าในเทมเพลต
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Nội dung đã sao chép tự hiện trong Gần đây.
+Vuốt sang trái để xóa một mục gần đây.
+Số thẻ và số hộ chiếu tự định dạng đúng.
+Thêm giá trị mới ngay khi chọn mẫu.
+```
+
+### App Store (French, fr-FR)
+
+```
+Ce que vous copiez apparaît dans Récents.
+Balayez à gauche pour supprimer un élément.
+Numéros de carte et de passeport bien formatés.
+Ajoutez une valeur depuis le modèle.
+```
+
+### App Store (Italian, it)
+
+```
+Ciò che copi ora compare in Recenti.
+Scorri a sinistra per eliminare un elemento.
+Numeri di carta e passaporto formattati da soli.
+Aggiungi un nuovo valore dal modello.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+O que você copia agora aparece em Recentes.
+Deslize para a esquerda para apagar um item.
+Cartão e passaporte já saem formatados.
+Adicione um novo valor direto no modelo.
+```
+
+### App Store (Czech, cs)
+
+```
+Zkopírovaný text se teď objeví v Nedávných.
+Přejetím doleva položku smažete.
+Čísla karet a pasů se naformátují sama.
+Novou hodnotu šablony přidáte hned.
+```
+
+### App Store (Danish, da)
+
+```
+Det, du kopierer, vises nu under Seneste.
+Stryg til venstre for at slette et element.
+Kort- og pasnumre formateres automatisk.
+Tilføj en ny værdi direkte fra skabelonen.
+```
+
+### App Store (Greek, el)
+
+```
+Ό,τι αντιγράφετε εμφανίζεται στα Πρόσφατα.
+Σύρετε αριστερά για να διαγράψετε στοιχείο.
+Κάρτες και διαβατήρια μορφοποιούνται σωστά.
+Προσθέστε νέα τιμή από το πρότυπο.
+```
+
+### App Store (Finnish, fi)
+
+```
+Kopioimasi teksti näkyy nyt Viimeisimmissä.
+Poista kohde pyyhkäisemällä vasemmalle.
+Kortin- ja passinnumerot muotoillaan oikein.
+Lisää uusi arvo suoraan mallista.
+```
+
+### App Store (Indonesian, id)
+
+```
+Teks yang disalin kini muncul di Terbaru.
+Geser ke kiri untuk menghapus item.
+Nomor kartu dan paspor diformat otomatis.
+Tambah nilai baru langsung dari template.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Det du kopierer, vises nå under Nylige.
+Sveip til venstre for å slette et element.
+Kort- og passnumre formateres automatisk.
+Legg til en ny verdi rett fra malen.
+```
+
+### App Store (Dutch, nl)
+
+```
+Wat je kopieert, staat nu bij Recent.
+Veeg naar links om een item te verwijderen.
+Kaart- en paspoortnummers netjes opgemaakt.
+Voeg direct een nieuwe waarde toe.
+```
+
+### App Store (Polish, pl)
+
+```
+Skopiowany tekst pojawia się w Ostatnich.
+Przesuń w lewo, aby usunąć element.
+Numery kart i paszportów formatują się same.
+Nową wartość dodasz prosto z szablonu.
+```
+
+### App Store (Swedish, sv)
+
+```
+Det du kopierar visas nu under Senaste.
+Svep åt vänster för att radera ett objekt.
+Kort- och passnummer formateras automatiskt.
+Lägg till ett nytt värde direkt från mallen.
+```
+
+### App Store (Turkish, tr)
+
+```
+Kopyaladıklarınız artık Son Kullanılanlar'da.
+Bir öğeyi silmek için sola kaydırın.
+Kart ve pasaport numaraları kendiliğinden biçimlenir.
+Şablondan hemen yeni bir değer ekleyin.
+```
+
 ## 5.1.10
 
 ### 앱스토어 (한국어)

@@ -80,6 +80,24 @@ extension KeyboardHostKind {
     /// 진짜 키보드만 - 앱을 열어 의견 창을 띄운다. 앱 안(무대 · 설정 미리보기)에서는
     /// 앱의 채우기 창에 같은 문이 이미 있고, 미리보기에서 앱을 다시 여는 것은 뜻이 없다.
     var offersFeedbackLink: Bool { !runsInsideApp }
+
+    /// 복사한 글을 '최근' 탭에 **알아서** 담는가(묻지 않고 클립보드를 읽는다).
+    ///
+    /// - 진짜 키보드: 전체 접근이 켜져 있을 때만. 꺼져 있으면 iOS 가 읽게 두지 않는다.
+    /// - 키보드 탭(무대): 앱이 클립보드를 알아서 읽어도 되는 때만(`appMayAutoReadClipboard`).
+    ///   앱이 읽는 순간 iOS 가 "붙여넣기 허용?" 을 묻기 때문에, 클립보드 목록과 같은 관문을 쓴다.
+    /// - 설정 미리보기: 읽지 않는다. 보여 주기만 하는 자리다.
+    var autoCollectsClipboard: Bool {
+        switch self {
+        case .keyboardExtension: return KeyboardCapability.hasFullAccess
+        case .inApp:             return Self.appMayAutoReadClipboard()
+        case .settingsPreview:   return false
+        }
+    }
+
+    /// 앱이 채운다(`PastePermissionGuidance.mayAutoReadClipboard`). 그 관문은 앱 타겟에만 있어서
+    /// 익스텐션과 같이 쓰는 이 파일이 직접 부르지 못한다. 채우기 전에는 읽지 않는 쪽이 기본이다.
+    static var appMayAutoReadClipboard: () -> Bool = { false }
 }
 
 final class KeyboardDocumentState: ObservableObject {

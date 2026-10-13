@@ -500,7 +500,7 @@ final class MemoAddViewModel: ObservableObject {
             // 가려야 할 것을 방금 저장했는가 - 생체잠금을 권할 자리인지 남긴다.
             // ⚠️ 남기는 것은 **시각 하나뿐**이다. 무엇을 저장했는지는 어디에도 안 적는다
             //    (민감한 값을 다루는 자리에서 그 값을 또 어딘가에 적는 것이 사고다).
-            if isNewMemo, !value.isEmpty, !ProFeatureManager.hasFullAccess {
+            if isNewMemo, !value.isEmpty, !ProFeatureManager.isBiometricLockAvailable {
                 let guess = ClipboardClassificationService.shared.classify(content: value)
                 if guess.type.isSensitive, guess.confidence >= 0.7 {
                     PurchaseMomentManager.noteSensitiveSaved()

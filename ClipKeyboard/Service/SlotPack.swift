@@ -47,6 +47,8 @@ enum SlotPack {
 
     /// 처음 판 칸 추가 상품 (**비소모성**, 한 번만).
     /// ⚠️ App Store Connect 등록값. 변경 금지(영수증과의 계약).
+    /// ⚠️ 5.x 부터 이 상품은 **플러스 트림**이다(`AccessTier.plusProductID`). 산 사람은 칸 다섯 개가
+    ///    아니라 개수 무제한을 받는다. 아래 칸 계산에도 여전히 한 팩으로 세지만, 플러스라 한도가 없어 뜻이 없다.
     static let productID = "com.Ysoup.TokenMemo.slots5"
 
     /// 다시 살 수 있는 칸 추가 상품 (**소모성**).

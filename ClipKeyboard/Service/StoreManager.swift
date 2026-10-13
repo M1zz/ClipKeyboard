@@ -112,6 +112,19 @@ class StoreManager: ObservableObject {
             }
             .store(in: &cancellables)
 
+        // 산 트림(플러스 · 프로 · 마스터)도 미러링한다. Pro 키 하나로는 플러스와 마스터를 못 가른다.
+        store.$purchasedProductIDs
+            .map(AccessTier.purchased(from:))
+            .removeDuplicates()
+            .sink { tier in
+                Task { @MainActor in
+                    AccessTier.mirror(tier)
+                    // 동기화 권한은 트림을 보고 정해진다(프로 이상). 트림이 바뀌면 다시 새긴다.
+                    ProFeatureManager.mirrorSyncEntitlement()
+                }
+            }
+            .store(in: &cancellables)
+
         // 칸 추가 상품도 같은 방식으로 미러링한다 - 익스텐션은 StoreKit 을 못 보므로
         // 이 값이 없으면 앱에서는 15칸, 키보드에서는 10칸으로 갈린다.
         //
@@ -140,6 +153,7 @@ class StoreManager: ObservableObject {
 
         // 초기(캐시) 상태 즉시 미러링.
         mirrorProStatus(isPro: Self.grantsPro(store.purchasedProductIDs))
+        AccessTier.mirror(AccessTier.purchased(from: store.purchasedProductIDs))
         SlotPack.mirror(purchased: store.purchasedProductIDs.contains(SlotPack.productID))
         TwoDevicePack.mirror(purchased: store.purchasedProductIDs.contains(TwoDevicePack.productID))
         // 소모성이라 애플이 돌려주지 않는 칸수를 iCloud 에서 회수한다(둘 중 큰 값).
@@ -409,7 +423,8 @@ class StoreManager: ObservableObject {
 
         // 2) 앱이 인식하는 Pro 권한 종합 (ProFeatureManager)
         print("🩺 [Diag] -- ProFeatureManager 종합 판정 --")
-        print("🩺 [Diag] hasFullAccess         = \(ProFeatureManager.hasFullAccess)  ← 최종 Pro 기능 개방 여부")
+        print("🩺 [Diag] tier                  = \(ProFeatureManager.tier)  (산 트림 \(ProFeatureManager.purchasedTier))")
+        print("🩺 [Diag] hasFullAccess         = \(ProFeatureManager.hasFullAccess)  ← 개수 제한 없음(플러스 이상)")
         print("🩺 [Diag]   isPro               = \(ProFeatureManager.isPro)")
         print("🩺 [Diag]   isGrandfathered     = \(ProFeatureManager.isGrandfathered)")
         print("🩺 [Diag]     hasGrandfathered  = \(ProFeatureManager.hasGrandfatheredPurchase)")

@@ -239,7 +239,10 @@ enum UsageReportingService {
         // v4.0 이전 유료 다운로드로만 Pro 인 사람. 돈을 냈으니 isPaid 에 들지만, 지금의 인앱 결제와는
         // 무관하다 - 허브가 매출과 대조할 때 따로 뺄 수 있게 한 비트 더 보낸다. 인앱으로도 샀으면 인앱이 이긴다.
         let legacyPaid = ProFeatureManager.hasGrandfatheredPurchase && !boughtInApp
-        metrics["flag.isPaid"] = (boughtInApp || legacyPaid) ? 1 : 0
+        // 플러스만 산 사람은 Pro 키(`proStatus`)가 꺼져 있다. 그래도 돈을 낸 사람이다.
+        let boughtTier = AccessTier.mirrored ?? .free
+        let boughtPlusOnly = boughtTier == .plus
+        metrics["flag.isPaid"] = (boughtInApp || legacyPaid || boughtPlusOnly) ? 1 : 0
         metrics["flag.isLegacyPaid"] = legacyPaid ? 1 : 0
         metrics["flag.isTrial"] = ProFeatureManager.isInTrial ? 1 : 0
         metrics["flag.isComped"] = (ProFeatureManager.wasExistingFreeUser || ProFeatureManager.isTestFlight || viaFamily) ? 1 : 0
@@ -256,6 +259,9 @@ enum UsageReportingService {
         metrics["own.pro"] = (boughtInApp && paysReal) ? 1 : 0
         metrics["own.slots"] = paysReal ? Double(SlotPack.ownedPacks) : 0
         metrics["own.twodevice"] = (TwoDevicePack.isPurchased && paysReal) ? 1 : 0
+        // 트림(`AccessTier`). own.pro 는 "프로 이상" 이라 마스터를 산 사람도 1 이다 - 예전 뜻 그대로.
+        metrics["own.plus"] = (boughtTier == .plus && paysReal) ? 1 : 0
+        metrics["own.master"] = (boughtTier == .master && boughtInApp && paysReal) ? 1 : 0
         // 이 설치가 위 규약을 아는 버전이라는 표시. 허브는 이 값이 있는 설치만 산 것으로 가른다 -
         // 옛 버전의 섞인 값을 지우지 않고 기준선 밖으로 빼는 방법이다.
         metrics["flag.schema"] = 2
