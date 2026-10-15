@@ -103,15 +103,9 @@ struct KeyboardSetupOnboardingView: View {
                 // Close button row
                 HStack {
                     Spacer()
-                    Button(action: exitAction) {
-                        Image(systemName: AppSymbol.xmark)
-                            .font(.callout.weight(.semibold))
-                            .foregroundColor(theme.textMuted)
-                            .padding(9)
-                            .background(theme.surfaceAlt)
-                            .clipShape(Circle())
-                    }
-                    .accessibilityLabel(NSLocalizedString("닫기", comment: "Close"))
+                    GlassCircleButton(AppSymbol.xmark, role: .secondary,
+                                      label: NSLocalizedString("닫기", comment: "Close"),
+                                      action: exitAction)
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 16)

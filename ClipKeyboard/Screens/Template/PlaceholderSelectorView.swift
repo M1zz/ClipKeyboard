@@ -658,11 +658,14 @@ struct PlaceholderDetailView: View {
     let allMemos: [Memo]
     /// 값을 고치면 앞 화면의 개수도 다시 세게 한다.
     var onChange: () -> Void = {}
+    /// 열자마자 값 추가 칸에 커서를 둔다. 키보드의 + 로 왔을 때(`PlaceholderValueAddSheet`).
+    var focusesNewValue: Bool = false
 
     @Environment(\.appTheme) private var theme
     @Environment(\.dismiss) private var dismiss
     @State private var values: [PlaceholderValue] = []
     @State private var newValue: String = ""
+    @FocusState private var newValueFocused: Bool
     @State private var pendingDelete: PlaceholderValue?
     @State private var showDeleteAlert = false
     /// 이 빈칸의 이름을 바꾸는 중.
@@ -687,6 +690,12 @@ struct PlaceholderDetailView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .task {
+            guard focusesNewValue, !summary.isNumeric else { return }
+            // 시트가 다 올라온 뒤에 잡아야 키보드가 뜬다. 바로 잡으면 무시된다.
+            try? await Task.sleep(for: .milliseconds(450))
+            newValueFocused = true
+        }
         .solidNavBar(theme.bg)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -752,6 +761,7 @@ struct PlaceholderDetailView: View {
 
             HStack {
                 TextField(NSLocalizedString("값 추가", comment: "Add placeholder value"), text: $newValue)
+                    .focused($newValueFocused)
                     .onSubmit(addValue)
                     // 빈칸 이름이 카드번호·여권번호 같은 타입 이름이면 적는 대로 그 모양으로 다듬는다.
                     .keyboardType(valueFormat?.keyboardType ?? .default)
@@ -841,5 +851,38 @@ struct PlaceholderDetailView: View {
         values = MemoStore.shared.loadPlaceholderValues(for: summary.token)
         newValue = ""
         onChange()
+    }
+}
+
+// MARK: - 키보드의 + 로 온 값 추가
+
+/// 키보드 빈칸 채우기의 + 가 연다(`clipkeyboard://placeholder?token=`).
+///
+/// 빈칸 값은 템플릿마다가 아니라 **빈칸 이름마다** 저장된다. 그래서 그 빈칸의 상세 화면을
+/// 열고 값 추가 칸에 커서를 둔다. 다 적고 키보드로 돌아가면 새 값이 칩으로 서 있다.
+struct PlaceholderValueAddSheet: View {
+    let token: String
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var allMemos: [Memo] = []
+
+    /// 지금 이 빈칸을 쓰는 단축어로 요약을 만든다. 못 찾으면(방금 지운 템플릿 등) 빈 요약.
+    private var summary: PlaceholderSummary {
+        PlaceholderCatalog.summaries(from: allMemos).first { $0.token == token }
+            ?? PlaceholderSummary(token: token, valueCount: 0, memos: [])
+    }
+
+    var body: some View {
+        NavigationStack {
+            PlaceholderDetailView(summary: summary, allMemos: allMemos, focusesNewValue: true)
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button(NSLocalizedString("완료", comment: "Done")) { dismiss() }
+                    }
+                }
+        }
+        .onAppear {
+            allMemos = (try? MemoStore.shared.load(type: .memo)) ?? MemoStore.shared.memos
+        }
     }
 }

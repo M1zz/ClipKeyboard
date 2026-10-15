@@ -429,7 +429,7 @@ struct InAppKeyboardStage: View {
     /// ⚠️ **+ 가 없으면 이 화면에서는 단축어를 만들 길이 없다.** 무대는 쓰는 자리이지
     ///    만드는 자리가 아니어서 목록으로만 보냈는데, 만들려면 두 번 건너가야 했다.
     private var stageHeader: some View {
-        HStack(spacing: SnippetsStyleSwitchButton.clusterSpacing) {
+        HStack(spacing: GlassCircle.spacing) {
             // ⚠️ 이건 **화면 제목**이다. 목록 쪽은 진짜 `navigationTitle` 이라 크게 나오는데
             //    여기만 `.headline`(본문과 같은 크기)이라, 같은 탭을 오갈 때 한쪽만
             //    제목이 사라진 것처럼 보였다. 무대는 네비게이션 바가 없어 머리말을 직접
@@ -449,13 +449,8 @@ struct InAppKeyboardStage: View {
                 categoryForNewSnippet = currentKeyboardCategory
                 showsAddMemo = true
             } label: {
-                // 목록 툴바의 + 와 같은 규격·같은 유리 서클.
-                Image(systemName: AppSymbol.plus)
-                    .font(.body.weight(.semibold))
-                    .foregroundColor(.accentColor)
-                    .frame(width: SnippetsStyleSwitchButton.diameter,
-                           height: SnippetsStyleSwitchButton.diameter)
-                    .glassEffect(.clear.interactive(), in: Circle())
+                // 목록 툴바의 + 와 같은 시그니처 서클.
+                GlassCircleLabel(systemImage: AppSymbol.plus)
             }
             .buttonStyle(.squish)
             .accessibilityLabel(NSLocalizedString("단축어 추가", comment: "Add a snippet"))

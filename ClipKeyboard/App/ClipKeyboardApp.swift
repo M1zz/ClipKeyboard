@@ -46,6 +46,10 @@ struct ClipKeyboardApp: App {
     @State private var showFeedbackSheet = false
     /// 의견 창을 어디서 열었는가(넛지 · 키보드 링크). 자동 첨부 정보에 실린다.
     @State private var feedbackSheetOrigin: FeedbackOrigin = .nudge
+    /// 키보드의 전체 접근 안내 줄에서 왔다 → 켜는 법(`clipkeyboard://fullaccess`).
+    @State private var showFullAccessGuide = false
+    /// 키보드 빈칸 채우기의 + 에서 왔다 → 그 빈칸의 값 추가(`clipkeyboard://placeholder?token=`).
+    @State private var placeholderValueAddToken: PlaceholderValueAddRequest?
     /// 반값 제안 시트 - 설치 직후·한도 한 칸 앞 두 자리에서 각각 1회 노출한다.
     @State private var showDiscountOffer = false
     /// 지금 띄운 제안이 어느 자리에서 온 것인가(문구·애널리틱스가 이 값을 따라간다).
@@ -1313,6 +1317,12 @@ struct ClipKeyboardApp: App {
                     FeedbackView(origin: feedbackSheetOrigin,
                                  initialType: feedbackSheetOrigin.suggestedType)
                 }
+                .sheet(isPresented: $showFullAccessGuide) {
+                    FullAccessGuideView()
+                }
+                .sheet(item: $placeholderValueAddToken) { request in
+                    PlaceholderValueAddSheet(token: request.token)
+                }
                 .sheet(item: $categoryCleanup) { request in
                     CategoryCleanupNotice(categories: request.categories, empty: request.empty)
                 }
@@ -1467,6 +1477,15 @@ struct ClipKeyboardApp: App {
                 .queryItems?.first(where: { $0.name == "from" })?.value
             feedbackSheetOrigin = from.flatMap(FeedbackOrigin.init(rawValue:)) ?? .settings
             showFeedbackSheet = true
+        } else if url.host == "fullaccess" {
+            // 키보드의 "진동과 복사한 글 꺼내기가 꺼져 있어요" 줄 → 켜는 법.
+            showFullAccessGuide = true
+        } else if url.host == "placeholder",
+                  let token = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+                    .queryItems?.first(where: { $0.name == "token" })?.value,
+                  !token.isEmpty {
+            // 키보드 빈칸 채우기의 + → 그 빈칸의 값 추가 칸.
+            placeholderValueAddToken = PlaceholderValueAddRequest(token: token)
         } else if url.host == "quicknote" {
             // Control Center 빠른 메모 컨트롤 → 빠른 메모 입력 시트 열기.
             // 콜드 런치에선 이 알림이 리스트의 구독 설치보다 먼저 발행돼 유실될 수 있어
@@ -1950,3 +1969,9 @@ enum OffMainPublishDetector {
     }
 }
 #endif
+
+/// 키보드의 + 가 연 값 추가 요청. 같은 빈칸을 연달아 열어도 시트가 다시 뜨게 id 를 따로 둔다.
+struct PlaceholderValueAddRequest: Identifiable {
+    let id = UUID()
+    let token: String
+}

@@ -49,12 +49,12 @@ struct FreeUsePaywallView: View {
             .background(theme.surface.ignoresSafeArea())
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button { dismiss() } label: {
-                        Image(systemName: AppSymbol.xmark)
-                            .font(.body.weight(.semibold))
+                    GlassCircleButton(AppSymbol.xmark, role: .secondary,
+                                      label: NSLocalizedString("닫기", comment: "Close / dismiss")) {
+                        dismiss()
                     }
-                    .accessibilityLabel(NSLocalizedString("닫기", comment: "Close / dismiss"))
                 }
+                .sharedBackgroundVisibility(.hidden)
             }
         }
         .restoreOutcomeAlert($restoreOutcome)

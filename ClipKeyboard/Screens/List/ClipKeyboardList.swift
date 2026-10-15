@@ -2725,7 +2725,7 @@ struct ClipKeyboardList: View {
         ToolbarItem(placement: .topBarTrailing) {
             // ⚠️ 간격은 무대 머리말과 **같은 값**을 쓴다. 예전엔 여기만 -8이라
             //    44pt 유리 서클끼리 겹쳐 두 버튼이 한 덩어리로 보였다.
-            HStack(spacing: SnippetsStyleSwitchButton.clusterSpacing) {
+            GlassCircleCluster {
                 toolbarButtons
             }
         }
@@ -2795,12 +2795,8 @@ struct ClipKeyboardList: View {
                       systemImage: AppSymbol.listBulletRectangle)
             }
         } label: {
-            // 클리어 글래스 서클 - 하단 탭바와 같은 유리 언어(맑은 유리에 아이콘).
-            Image(systemName: AppSymbol.plus)
-                .font(.body.weight(.semibold))
-                .foregroundColor(.accentColor)
-                .frame(width: 44, height: 44)
-                .glassEffect(.clear.interactive(), in: Circle())
+            // 시그니처 유리 서클(`GlassCircle`) - 하단 탭바와 같은 유리 언어.
+            GlassCircleLabel(systemImage: AppSymbol.plus)
         }
         .accessibilityLabel(NSLocalizedString("단축어 추가", comment: "Add memo menu label"))
         .accessibilityHint(NSLocalizedString("새 단축어를 작성하거나 텍스트를 가져옵니다", comment: "Add memo menu hint"))

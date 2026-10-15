@@ -70,14 +70,10 @@ struct DiscountOfferView: View {
     private var closeBar: some View {
         HStack {
             Spacer()
-            Button {
+            GlassCircleButton(AppSymbol.xmark, role: .secondary,
+                              label: NSLocalizedString("닫기", comment: "Close paywall")) {
                 dismiss()
-            } label: {
-                Image(systemName: AppSymbol.xmarkCircleFill)
-                    .font(.title3)
-                    .foregroundStyle(.secondary)
             }
-            .accessibilityLabel(NSLocalizedString("닫기", comment: "Close paywall"))
         }
         .padding(.horizontal, 16)
         .padding(.top, 14)

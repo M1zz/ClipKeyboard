@@ -299,30 +299,30 @@ struct MemoAdd: View {
     ///    두면 안 된다. 바깥 끝은 V 가 맡는다.
     @ToolbarContentBuilder
     private var formToolbar: some ToolbarContent {
-        ToolbarItemGroup(placement: .navigationBarTrailing) {
-            Button {
-                if hasAnythingToReset {
-                    showResetConfirm = true
-                } else {
-                    viewModel.reset()
+        // 시그니처 서클 둘(`GlassCircle`). 한 아이템에 묶어야 간격을 이쪽이 쥔다.
+        ToolbarItem(placement: .navigationBarTrailing) {
+            GlassCircleCluster {
+                GlassCircleButton(AppSymbol.arrowCounterclockwise,
+                                  role: .secondary,
+                                  label: NSLocalizedString("초기화", comment: "Reset")) {
+                    if hasAnythingToReset {
+                        showResetConfirm = true
+                    } else {
+                        viewModel.reset()
+                    }
                 }
-            } label: {
-                Image(systemName: AppSymbol.arrowCounterclockwise)
-            }
-            .disabled(!hasAnythingToReset)
-            .accessibilityLabel(NSLocalizedString("초기화", comment: "Reset"))
-            .accessibilityHint(NSLocalizedString("입력한 내용과 이름을 지웁니다. 카테고리는 그대로 둡니다", comment: "Reset button hint v2"))
+                .disabled(!hasAnythingToReset)
+                .accessibilityHint(NSLocalizedString("입력한 내용과 이름을 지웁니다. 카테고리는 그대로 둡니다", comment: "Reset button hint v2"))
 
-            // 글이든 그림이든 하나는 있어야 저장이 된다 - `validateMemoInput` 과 같은 기준.
-            Button {
-                commitSave()
-            } label: {
-                Image(systemName: AppSymbol.checkmark)
-                    .fontWeight(.semibold)
+                // 글이든 그림이든 하나는 있어야 저장이 된다 - `validateMemoInput` 과 같은 기준.
+                GlassCircleButton(AppSymbol.checkmark,
+                                  label: NSLocalizedString("저장", comment: "Save")) {
+                    commitSave()
+                }
+                .disabled(!canSave)
             }
-            .disabled(!canSave)
-            .accessibilityLabel(NSLocalizedString("저장", comment: "Save"))
         }
+        .sharedBackgroundVisibility(.hidden)
     }
 
     /// 저장하고 닫는다.

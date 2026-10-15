@@ -14,6 +14,215 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.12
+
+### 앱스토어 (한국어)
+
+```
+Plus와 Pro 중 나에게 맞는 것을 고를 수 있어요.
+키보드에 지우기 키가 늘 보여요.
+키보드에서 템플릿 값을 앱으로 가서 바로 더해요.
+전체 접근이 꺼져 있으면 켜는 법을 알려 드려요.
+```
+
+### App Store (English)
+
+```
+Choose between Plus and Pro.
+The delete key is now always on the keyboard.
+Add template values right from the keyboard.
+We show you how to turn on Full Access.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+现在可以在 Plus 和 Pro 之间选择。
+键盘上始终显示删除键。
+在键盘上可直接跳到 App 添加模板值。
+未开启完全访问时，会告诉你如何开启。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+現在可以在 Plus 和 Pro 之間選擇。
+鍵盤上始終顯示刪除鍵。
+在鍵盤上可直接跳到 App 新增範本值。
+未開啟完整取用時，會告訴你如何開啟。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Теперь можно выбрать Plus или Pro.
+Клавиша удаления всегда на клавиатуре.
+Добавляйте значения шаблонов прямо с клавиатуры.
+Подскажем, как включить полный доступ.
+```
+
+### App Store (Japanese, ja)
+
+```
+PlusとProから選べるようになりました。
+削除キーがいつもキーボードに表示されます。
+キーボードからアプリでテンプレート値を追加。
+フルアクセスを有効にする方法をご案内します。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Ahora puedes elegir entre Plus y Pro.
+La tecla de borrar siempre está a la vista.
+Agrega valores de plantilla desde el teclado.
+Te mostramos cómo activar el acceso total.
+```
+
+### App Store (German, de-DE)
+
+```
+Wähle jetzt zwischen Plus und Pro.
+Die Löschtaste ist immer sichtbar.
+Vorlagenwerte direkt von der Tastatur ergänzen.
+Wir zeigen, wie du vollen Zugriff aktivierst.
+```
+
+### App Store (Thai, th)
+
+```
+เลือกได้ระหว่าง Plus และ Pro
+ปุ่มลบแสดงบนแป้นพิมพ์ตลอดเวลา
+เพิ่มค่าเทมเพลตในแอปได้จากแป้นพิมพ์
+แนะนำวิธีเปิดการเข้าถึงแบบเต็ม
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Giờ bạn có thể chọn Plus hoặc Pro.
+Phím xóa luôn hiện trên bàn phím.
+Thêm giá trị mẫu trong ứng dụng từ bàn phím.
+Hướng dẫn bật Cho phép truy cập đầy đủ.
+```
+
+### App Store (French, fr-FR)
+
+```
+Choisissez entre Plus et Pro.
+La touche Effacer est toujours visible.
+Ajoutez des valeurs de modèle depuis le clavier.
+On vous montre comment activer l’accès complet.
+```
+
+### App Store (Italian, it)
+
+```
+Ora puoi scegliere tra Plus e Pro.
+Il tasto Cancella è sempre visibile.
+Aggiungi valori ai modelli dalla tastiera.
+Ti mostriamo come attivare l’accesso completo.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+Agora você escolhe entre Plus e Pro.
+A tecla de apagar fica sempre visível.
+Adicione valores de modelo a partir do teclado.
+Mostramos como ativar o acesso total.
+```
+
+### App Store (Czech, cs)
+
+```
+Nově si vyberete mezi Plus a Pro.
+Klávesa mazání je vždy na klávesnici.
+Hodnoty šablon přidáte přímo z klávesnice.
+Ukážeme vám, jak zapnout plný přístup.
+```
+
+### App Store (Danish, da)
+
+```
+Vælg nu mellem Plus og Pro.
+Slettetasten er altid på tastaturet.
+Tilføj skabelonværdier direkte fra tastaturet.
+Vi viser dig, hvordan du slår fuld adgang til.
+```
+
+### App Store (Greek, el)
+
+```
+Επιλέξτε ανάμεσα σε Plus και Pro.
+Το πλήκτρο διαγραφής φαίνεται πάντα.
+Προσθέστε τιμές προτύπων από το πληκτρολόγιο.
+Σας δείχνουμε πώς ενεργοποιείτε πλήρη πρόσβαση.
+```
+
+### App Store (Finnish, fi)
+
+```
+Valitse nyt Plus tai Pro.
+Poistonäppäin näkyy aina näppäimistöllä.
+Lisää pohjien arvoja suoraan näppäimistöltä.
+Neuvomme, miten täysi käyttöoikeus kytketään.
+```
+
+### App Store (Indonesian, id)
+
+```
+Kini bisa pilih Plus atau Pro.
+Tombol hapus selalu tampil di keyboard.
+Tambah nilai template dari keyboard.
+Kami tunjukkan cara mengaktifkan Akses Penuh.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Velg nå mellom Plus og Pro.
+Slettetasten er alltid på tastaturet.
+Legg til malverdier rett fra tastaturet.
+Vi viser deg hvordan du slår på full tilgang.
+```
+
+### App Store (Dutch, nl)
+
+```
+Kies nu tussen Plus en Pro.
+De wistoets staat altijd op het toetsenbord.
+Voeg sjabloonwaarden toe vanaf het toetsenbord.
+We laten zien hoe je volledige toegang aanzet.
+```
+
+### App Store (Polish, pl)
+
+```
+Teraz wybierzesz między Plus a Pro.
+Klawisz usuwania jest zawsze widoczny.
+Dodawaj wartości szablonów z klawiatury.
+Pokażemy, jak włączyć pełny dostęp.
+```
+
+### App Store (Swedish, sv)
+
+```
+Välj nu mellan Plus och Pro.
+Raderingstangenten syns alltid.
+Lägg till mallvärden direkt från tangentbordet.
+Vi visar hur du slår på full åtkomst.
+```
+
+### App Store (Turkish, tr)
+
+```
+Artık Plus ve Pro arasında seçim yapın.
+Silme tuşu her zaman klavyede görünür.
+Şablon değerlerini klavyeden ekleyin.
+Tam Erişimi nasıl açacağınızı gösteriyoruz.
+```
+
 ## 5.1.11
 
 ### 앱스토어 (한국어)

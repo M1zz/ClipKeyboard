@@ -19,9 +19,17 @@
     "v": "Přidat jen %2$d míst navíc za %1$@",
     "src": "ec5ccf1a49"
   },
+  "%1$@ 시작하기 · %2$@": {
+    "v": "Začít s %1$@ · %2$@",
+    "src": "3b20a4b734"
+  },
   "%1$@, %2$d회 사용": {
     "v": "%1$@, použito %2$d×",
     "src": "a6d8daeeb4"
+  },
+  "%1$@, 무료: %2$@, Plus: %3$@, Pro: %4$@": {
+    "v": "%1$@, zdarma: %2$@, Plus: %3$@, Pro: %4$@",
+    "src": "837be64ce0"
   },
   "%1$@, 저장된 값 %2$d개": {
     "v": "%1$@, uložených hodnot: %2$d",
@@ -123,6 +131,10 @@
     "v": "Dost času na %@ běhu",
     "src": "67d6283fac"
   },
+  "%@ 로 Pro 로 올리기": {
+    "v": "Přejít na Pro za %@",
+    "src": "563b603e6a"
+  },
   "%@ 로 두 기기에서 같이 쓰기": {
     "v": "Používat na dvou zařízeních za %@",
     "src": "a4f4e1fceb"
@@ -146,6 +158,10 @@
   "%@ 수정": {
     "v": "Upravit %@",
     "src": "6f4c3aac9f"
+  },
+  "%@ 시작하기": {
+    "v": "Začít s %@",
+    "src": "cfeb30eeb2"
   },
   "%@ 시점의 단축어 %d개로 되돌립니다.": {
     "v": "Vrátí stav k %1$@: frází %2$d.",
@@ -759,9 +775,17 @@
     "v": "Zapněte 'Povolit plný přístup' ✓",
     "src": "8f11e92ee4"
   },
+  "'전체 접근 허용'을 켜고 '허용'을 눌러요": {
+    "v": "Zapněte „Povolit úplný přístup“ a klepněte na „Povolit“",
+    "src": "bca0b956af"
+  },
   "'전체 접근 허용'을 켜주세요": {
     "v": "Zapněte 'Povolit plný přístup'",
     "src": "ced0ad12fc"
+  },
+  "'키보드'를 눌러요": {
+    "v": "Klepněte na „Klávesnice“",
+    "src": "cbf9e6dd2b"
   },
   "'탭 단축어 검색'처럼 화면에 보이는 이름을 그대로 말해 조작합니다. 모든 버튼과 입력 필드에 읽기 가능한 이름이 지정되어 있습니다.": {
     "v": "Řekněte název, který vidíte na obrazovce, například 'Klepnout Hledání frází', a ovládejte aplikaci. Všechna tlačítka a pole mají čitelné názvy.",
@@ -1765,6 +1789,22 @@
     "v": "+ Šablona",
     "src": "633c3474a2"
   },
+  "Plus 기능을 다시 쓸 수 있어요.": {
+    "v": "Funkce Plus můžete znovu používat.",
+    "src": "994f772158"
+  },
+  "Plus 에서 Pro 로 오르는 값 · 한 번 결제": {
+    "v": "Cena upgradu z Plus · jednorázová platba",
+    "src": "34a4d7e13e"
+  },
+  "Plus 의 모든 것": {
+    "v": "Vše z Plus",
+    "src": "0880a5de5e"
+  },
+  "Plus 활성화 완료!": {
+    "v": "Plus je aktivní!",
+    "src": "439850926b"
+  },
   "Preferences": {
     "v": "Preferences",
     "src": "dc059f1f89"
@@ -1789,6 +1829,10 @@
     "v": "Zobrazení nabídky Pro",
     "src": "27bf3dd44a"
   },
+  "Pro 기능 전체 보기": {
+    "v": "Zobrazit všechny funkce Pro",
+    "src": "1b5934cd01"
+  },
   "Pro 기능을 다시 쓸 수 있어요.": {
     "v": "Funkce Pro jsou znovu k dispozici.",
     "src": "6e98c5388e"
@@ -1796,6 +1840,10 @@
   "Pro 기능이 모두 열려 있어요": {
     "v": "Všechny funkce Pro jsou odemčené",
     "src": "3feced0f21"
+  },
+  "Pro 로 올리기": {
+    "v": "Přejít na Pro",
+    "src": "d7feed4ced"
   },
   "Pro 를 열었어요. 기본 기능은 그대로 무료예요": {
     "v": "Pro je tady. Základní funkce zůstávají zdarma",
@@ -1828,6 +1876,10 @@
   "Pro 업그레이드: %@": {
     "v": "Upgrade na Pro: %@",
     "src": "29f6aba6e5"
+  },
+  "Pro 에 포함": {
+    "v": "Součástí Pro",
+    "src": "44a2dcdd86"
   },
   "Pro 전환율": {
     "v": "Konverze na Pro",
@@ -2282,6 +2334,10 @@
   "iCloud 백업": {
     "v": "Záloha na iCloudu",
     "src": "58d7ad2398"
+  },
+  "iCloud 백업 · 생체인증 잠금": {
+    "v": "Záloha na iCloud · zámek biometrikou",
+    "src": "cf32afff58"
   },
   "iCloud 백업 및 복구": {
     "v": "Záloha a obnova z iCloudu",
@@ -3877,7 +3933,7 @@
   },
   "단축어": {
     "v": "Fráze",
-    "src": "8c10487a02"
+    "src": "e5f8dadd0c"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "Přidáno frází: %1$d, aktualizováno: %2$d (celkem %3$d).\nNačteno zásobníků: %4$d, obrázků: %5$d a kategorií: %6$d.",
@@ -3971,6 +4027,10 @@
     "v": "Limit: 5 frází · 20 položek schránky",
     "src": "48d299c377"
   },
+  "단축어 · 템플릿 무제한": {
+    "v": "Neomezené fráze a šablony",
+    "src": "9d1de3462e"
+  },
   "단축어 개수": {
     "v": "Počet frází",
     "src": "ea22f8a393"
@@ -4006,6 +4066,10 @@
   "단축어 내용 힌트": {
     "v": "Náhledy obsahu frází",
     "src": "9dd8d37782"
+  },
+  "단축어 넣기는 지금도 돼요. 켜면 아래 기능이 더 열려요.": {
+    "v": "Vkládání frází funguje i teď. Po zapnutí se odemknou funkce níže.",
+    "src": "f44cf741d3"
   },
   "단축어 높이": {
     "v": "Výška frází",
@@ -4230,6 +4294,10 @@
   "단축어를 가져오지 못했습니다. 잠시 후 다시 시도해주세요.": {
     "v": "Fráze se nepodařilo importovat. Zkuste to prosím později.",
     "src": "04db95087f"
+  },
+  "단축어를 길게 눌러 복사하기": {
+    "v": "Dlouhým stisknutím fráze ji zkopírujete",
+    "src": "823c258a22"
   },
   "단축어를 길게 눌러 템플릿으로 만들 수 있어요": {
     "v": "Dlouhým stisknutím změníte frázi na šablonu",
@@ -4527,6 +4595,10 @@
     "v": "Oblé a jemné, vrací se pomalu.",
     "src": "13a83b8b2d"
   },
+  "뒤로": {
+    "v": "Zpět",
+    "src": "dc3ab3aacb"
+  },
   "뒤로 옮기기": {
     "v": "Posunout dozadu",
     "src": "6a8d0c38ca"
@@ -4627,6 +4699,10 @@
       "other": "%d maratonů"
     },
     "src": "874656ebde"
+  },
+  "마음껏 쌓기": {
+    "v": "Ukládejte bez limitu",
+    "src": "01dd0707fd"
   },
   "마지막 백업": {
     "v": "Poslední záloha",
@@ -4851,6 +4927,10 @@
   "모든 AI 처리는 기기 안에서만 이루어져요. 텍스트가 기기 밖으로 전송되지 않습니다.": {
     "v": "Veškeré zpracování AI probíhá jen v zařízení. Text z něj neodchází.",
     "src": "6578ebd82e"
+  },
+  "모든 Pro 기능이 열려 있어요": {
+    "v": "Všechny funkce Pro jsou odemčené",
+    "src": "e896527fd6"
   },
   "모든 기기에서 데이터 동기화": {
     "v": "Synchronizace dat na všech zařízeních",
@@ -5608,6 +5688,10 @@
   "복사한 글을 키보드에서 바로 꺼내 써요": {
     "v": "Zkopírovaný text použijte přímo z klávesnice",
     "src": "52b1dd52c0"
+  },
+  "복사한 글을 키보드에서 바로 꺼내기": {
+    "v": "Vložte zkopírovaný text přímo z klávesnice",
+    "src": "59aa0dc767"
   },
   "복사한 글이 %d일 동안 남아요": {
     "v": {
@@ -6774,6 +6858,10 @@
     "v": "Zásobník",
     "src": "b37cd50e8c"
   },
+  "스택 · 이미지 단축어 무제한": {
+    "v": "Neomezené zásobníky a obrázkové fráze",
+    "src": "e4bf4bb886"
+  },
   "스택 개수 제한": {
     "v": "Limit zásobníků",
     "src": "d1356ec836"
@@ -6899,6 +6987,10 @@
     "v": "Sběratelé (téměř nepoužité)",
     "src": "1245f1ea57"
   },
+  "쌓은 것을 지키기": {
+    "v": "Chraňte, co jste uložili",
+    "src": "7b87dec0b6"
+  },
   "써볼게요": {
     "v": "Zkusím to",
     "src": "87878f1408"
@@ -7016,6 +7108,10 @@
   "아니요": {
     "v": "Ne, děkuji",
     "src": "b5a8fe4049"
+  },
+  "아래 단추로 설정을 열어요": {
+    "v": "Tlačítkem níže otevřete Nastavení",
+    "src": "4e24331461"
   },
   "아래 키보드가 바로 따라 바뀝니다. 나중에 설정에서 언제든 다시 바꿀 수 있어요.": {
     "v": "Klávesnice níže se mění hned. Později to můžete kdykoli změnit v Nastavení.",
@@ -7262,6 +7358,10 @@
     "v": "Vzhled aplikace",
     "src": "2fecaaedd4"
   },
+  "앱에서 값 추가": {
+    "v": "Přidat hodnotu v aplikaci",
+    "src": "1ffb79bc22"
+  },
   "앱에서 보안 PIN을 먼저 설정하세요": {
     "v": "Nejdřív v aplikaci nastavte zabezpečený PIN",
     "src": "62a3e0422a"
@@ -7301,6 +7401,10 @@
   "앱을 열면 키보드가 올라온 모습이 그대로 보여요": {
     "v": "Otevřete aplikaci a uvidíte klávesnici přesně tak, jak vypadá jinde",
     "src": "282a67625c"
+  },
+  "앱을 열어 전체 접근 허용을 켜는 법을 봅니다": {
+    "v": "Otevře aplikaci a ukáže, jak zapnout úplný přístup",
+    "src": "17a89c693d"
   },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
     "v": "Fráze už se při spuštění aplikace neposouvají shora ani neposkakují",
@@ -8144,6 +8248,10 @@
     "v": "Tlačítka bez popisku mají nově názvy pro VoiceOver a Ovládání hlasem",
     "src": "a2fc667de4"
   },
+  "이름은 iOS가 정한 것이에요. 치는 글자와 단축어 내용은 어디로도 보내지 않고 이 기기에만 남아요.": {
+    "v": "Název zvolil iOS. To, co píšete, i vaše fráze se nikam neodesílají. Zůstávají jen v tomto zařízení.",
+    "src": "3306fd6eb7"
+  },
   "이메일": {
     "v": "E-mail",
     "src": "b0528097c1"
@@ -8873,6 +8981,10 @@
     "v": "Zapnout úplný přístup",
     "src": "f5bac9c5cf"
   },
+  "전체 접근 허용이 무엇이고 어떻게 켜는지 봅니다": {
+    "v": "Ukáže, co je úplný přístup a jak ho zapnout",
+    "src": "fb18f5deb7"
+  },
   "전체 접근을 허용해요": {
     "v": "Povolte úplný přístup",
     "src": "ca1a16a50c"
@@ -9273,6 +9385,10 @@
     "v": "Právě teď je stejně vysoká jako standardní klávesnice tohoto zařízení.",
     "src": "886a262802"
   },
+  "지금 켜져 있어요. 키보드의 모든 기능을 쓸 수 있어요.": {
+    "v": "Je zapnuto. Můžete používat všechny funkce klávesnice.",
+    "src": "3047c51e76"
+  },
   "지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요.": {
     "v": "Ptáme se podle toho, co jste dosud vytvořili. Výběr jen upraví doporučení. Můžete ho přeskočit.",
     "src": "d8095d1827"
@@ -9375,6 +9491,10 @@
   "진단 스키마가 아직 허브에 배포되지 않았어요. CloudKit Console 에서 CrashReport 레코드 타입과 인덱스를 배포하면 여기에 쌓입니다.": {
     "v": "Diagnostické schéma ještě není nasazeno v hubu. Nasaďte v CloudKit Console typ záznamu CrashReport a jeho indexy, hlášení se pak zobrazí tady.",
     "src": "35c5b2e73c"
+  },
+  "진동과 복사한 글 꺼내기가 꺼져 있어요": {
+    "v": "Vibrace a zkopírovaný text jsou vypnuté",
+    "src": "e44052f2f6"
   },
   "진료기록번호": {
     "v": "Zdravotní záznam",
@@ -10016,6 +10136,10 @@
     "v": "Zapnout",
     "src": "408e7ef1df"
   },
+  "켜는 법": {
+    "v": "Jak zapnout",
+    "src": "17fa569c64"
+  },
   "켜면 키보드에서 한국어도 입력할 수 있어요": {
     "v": "Zapněte, pokud chcete na klávesnici psát i korejsky",
     "src": "17b1b19e2d"
@@ -10120,6 +10244,15 @@
     "v": "Historie schránky",
     "src": "d6e1a35fbb"
   },
+  "클립보드 기록 %d개": {
+    "v": {
+      "one": "%d položka historie schránky",
+      "few": "%d položky historie schránky",
+      "many": "%d položky historie schránky",
+      "other": "%d položek historie schránky"
+    },
+    "src": "d1a278e8d7"
+  },
   "클립보드 기록도 그대로예요": {
     "v": "Historie schránky zůstává také",
     "src": "8163606147"
@@ -10195,6 +10328,10 @@
   "키를 길게 누르면 값이 키보드를 꽉 채워 보여요. 잠긴 단축어는 값을 보여주지 않아요": {
     "v": "Podržte klávesu a hodnota vyplní celou klávesnici. Zamčené fráze svou hodnotu nikdy neukážou.",
     "src": "7876fc5bf8"
+  },
+  "키를 누를 때 진동": {
+    "v": "Vibrace při klepnutí na klávesy",
+    "src": "2f64cfa90c"
   },
   "키마다 복사 버튼": {
     "v": "Tlačítko kopírování na každé klávese",
@@ -10813,6 +10950,10 @@
     "v": "Opraveno dvojí zavlnění klávesy po dokončeném kroku v kapitole o šablonách",
     "src": "eb09308175"
   },
+  "템플릿의 클립보드 빈칸 채우기": {
+    "v": "Vyplňování schránky v šablonách",
+    "src": "5621c63f18"
+  },
   "통관번호": {
     "v": "Číslo celního prohlášení",
     "src": "33e261da2b"
@@ -11116,6 +11257,10 @@
   "한 달 동안 안 썼다. 먼저 말을 거는 자리가 전부 꺼진다.": {
     "v": "Měsíc nepoužito. Vše, co se ozývá samo, je vypnuté.",
     "src": "0502dd1f78"
+  },
+  "한 번 결제 · 평생 사용": {
+    "v": "Jednorázová platba · navždy vaše",
+    "src": "3adc0c2eca"
   },
   "한 번 결제하고 계속": {
     "v": "Zaplaťte jednou a mějte navždy",
@@ -11480,9 +11625,5 @@
   "🪪 명함": {
     "v": "🪪 Vizitka",
     "src": "9becff2df0"
-  },
-  "뒤로": {
-    "v": "Zpět",
-    "src": "dc3ab3aacb"
   }
 }

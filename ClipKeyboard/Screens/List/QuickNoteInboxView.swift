@@ -31,13 +31,12 @@ struct QuickNoteInboxView: View {
         #endif
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button {
+                GlassCircleButton(AppSymbol.plus,
+                                  label: NSLocalizedString("Add Quick Note", comment: "Add quick note button")) {
                     showAddSheet = true
-                } label: {
-                    Image(systemName: AppSymbol.plusCircleFill)
                 }
-                .accessibilityLabel(NSLocalizedString("Add Quick Note", comment: "Add quick note button"))
             }
+            .sharedBackgroundVisibility(.hidden)
         }
         .sheet(item: $noteToEdit) { note in
             QuickNoteEditSheet(note: note) { updated in

@@ -372,6 +372,20 @@ Text(theme.rawValue) // "비즈니스" 같은 한글이 그대로 노출
 Text(theme.localizedName) // NSLocalizedString으로 처리된 값
 ```
 
+### 11. 화면 머리의 아이콘 버튼은 시그니처 유리 서클
+```swift
+// ❌ BAD - 화면마다 모양을 다시 적는다 (맨몸 아이콘, 회색 원, xmark.circle.fill)
+Button { dismiss() } label: { Image(systemName: AppSymbol.xmarkCircleFill) }
+
+// ✅ GOOD - DesignSystem/Components/GlassCircleButton.swift
+GlassCircleButton(AppSymbol.xmark, role: .secondary, label: NSLocalizedString("닫기", comment: "")) { dismiss() }
+// Menu 라벨은 GlassCircleLabel, 여럿이면 GlassCircleCluster
+```
+- 지름 44 · 간격 6 · 유리 · 아이콘 굵기는 `GlassCircle` 한 곳에만 있다. 값을 화면에 다시 적지 않는다
+- 역할은 색만 바꾼다: `.primary`(추가·저장·전환, 강조색) / `.secondary`(닫기·초기화·더보기, 흐린 글자색)
+- 툴바에 둘 때는 `.sharedBackgroundVisibility(.hidden)` 을 붙인다 (시스템 유리 알약과 두 겹이 되지 않게)
+- 배너 안 작은 닫기, 입력칸 지우기, 타일 위 지우기 단추는 내용의 일부라 서클을 쓰지 않는다
+
 ## 테스트 시 확인사항
 
 **사용자 여정은 `docs/engineering/USER_JOURNEYS.md` 의 표가 단일 출처다.** 새 기능을 내면 표에 한 줄과

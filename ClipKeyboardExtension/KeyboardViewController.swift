@@ -290,12 +290,18 @@ class KeyboardViewController: UIInputViewController {
         ])
     }
 
-    /// 앱을 열어 의견 창을 띄운다. 어디서 왔는지를 쿼리로 넘긴다(`FeedbackOrigin` rawValue).
-    private func openMainAppFeedback(from origin: String?) {
+    /// 앱을 열어 전체 접근 켜는 법(`FullAccessGuideView`)을 띄운다.
+    private func openMainAppFullAccessGuide() {
+        guard let url = URL(string: "clipkeyboard://fullaccess") else { return }
+        openContainingApp(url)
+    }
+
+    /// 앱을 열어 이 빈칸의 값 추가 칸을 띄운다(빈칸 채우기의 +).
+    private func openMainAppPlaceholderValueAdd(token: String) {
         var components = URLComponents()
         components.scheme = "clipkeyboard"
-        components.host = "feedback"
-        if let origin { components.queryItems = [URLQueryItem(name: "from", value: origin)] }
+        components.host = "placeholder"
+        components.queryItems = [URLQueryItem(name: "token", value: token)]
         guard let url = components.url else { return }
         openContainingApp(url)
     }
@@ -460,10 +466,14 @@ class KeyboardViewController: UIInputViewController {
         let t4 = NotificationCenter.default.addObserver(forName: Notification.Name.openMainAppPaywall, object: nil, queue: .main) { [weak self] _ in
             self?.openMainAppPaywall()
         }
-        let t5 = NotificationCenter.default.addObserver(forName: Notification.Name.openMainAppFeedback, object: nil, queue: .main) { [weak self] note in
-            self?.openMainAppFeedback(from: note.object as? String)
+        let t5 = NotificationCenter.default.addObserver(forName: Notification.Name.openFullAccessGuide, object: nil, queue: .main) { [weak self] _ in
+            self?.openMainAppFullAccessGuide()
         }
-        notificationTokens = [t1, t2, t3, t4, t5]
+        let t6 = NotificationCenter.default.addObserver(forName: Notification.Name.openPlaceholderValueAdd, object: nil, queue: .main) { [weak self] note in
+            guard let token = note.object as? String else { return }
+            self?.openMainAppPlaceholderValueAdd(token: token)
+        }
+        notificationTokens = [t1, t2, t3, t4, t5, t6]
     }
 
     private func handleAddTextEntry(_ notification: Notification) {
@@ -707,6 +717,9 @@ class KeyboardViewController: UIInputViewController {
         //    UIKit 안에서 doesNotRecognizeSelector 예외로 죽는다(5.0.7~5.1.5, 25건).
         //    `viewDidAppear` 에서 읽는다. (docs/postmortem/KEYBOARD_INPUT_MODE_SWITCH_CRASH.md)
         KeyboardCapability.update(hasFullAccess: hasFullAccess)
+        // 앱의 키보드 설정이 "켜져 있어요 / 꺼져 있어요" 를 말할 수 있게 남긴다.
+        // 꺼져 있으면 이 쓰기가 막힐 수 있다 - 앱은 true 만 믿는다(`DefaultsKey.keyboardFullAccessGranted`).
+        AppGroup.defaults?.set(hasFullAccess, forKey: DefaultsKey.keyboardFullAccessGranted)
         // 사용자가 앱에서 높이를 바꿨을 수 있다. 익스텐션 프로세스는 키보드를 내려도
         // 살아 있어서, 여기서 다시 읽지 않으면 다음에 뜰 때도 예전 높이 그대로다
         // (프로세스가 죽었다 살아날 때까지, 즉 언제 반영될지 모르는 상태가 된다).

@@ -229,9 +229,9 @@ struct VaultButton: View {
 
     var body: some View {
         Button(action: action) {
-            // 바에서는 금고만 세운다. 잔고 숫자까지 붙이면 제목과 자리를 다투고,
-            // 다른 툴바 버튼들이 유리 알약을 걷어낸 상태라 여기만 채워진 알약이면 튄다.
+            // 바에서는 금고만 세운다. 잔고 숫자까지 붙이면 제목과 자리를 다툰다.
             // 숫자는 금고 화면에서 크게 보여 주고, 여기서는 **들어왔다는 것**만 알린다.
+            // 옆의 + · 화면 전환과 같은 시그니처 서클에 넣는다. 셋 중 하나만 맨몸이면 튄다.
             Group {
                 if collects == .gem {
                     // 지오드 스킨에서는 보석이 모이는 주머니다. 금고를 세워 두면
@@ -243,8 +243,7 @@ struct VaultButton: View {
             }
             .scaleEffect(kick ? 1.18 : 1)
             .offset(y: kick ? -2 : 0)
-            .frame(width: 44, height: 44)     // 손가락이 닿을 만큼
-            .contentShape(Rectangle())
+            .glassCircle()
         }
         .buttonStyle(.squish)
         // 금고가 자기 중심을 알려준다 - 동전은 이 좌표로 날아온다.

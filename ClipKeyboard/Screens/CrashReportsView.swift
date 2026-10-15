@@ -93,13 +93,12 @@ struct CrashReportsView: View {
         .toolbar {
             if !reports.isEmpty {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
+                    GlassCircleButton(AppSymbol.docOnDoc,
+                                      label: NSLocalizedString("전체 복사", comment: "Copy all diagnostics")) {
                         copy(allReportsText, label: NSLocalizedString("전체 복사", comment: "Copy all diagnostics"))
-                    } label: {
-                        Image(systemName: AppSymbol.docOnDoc)
                     }
-                    .accessibilityLabel(NSLocalizedString("전체 복사", comment: "Copy all diagnostics"))
                 }
+                .sharedBackgroundVisibility(.hidden)
             }
         }
         // 복사한 것을 알린다 - 눌렀는데 아무 일도 안 일어나면 안 된 줄 안다.

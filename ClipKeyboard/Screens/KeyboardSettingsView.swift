@@ -14,6 +14,10 @@ struct KeyboardSettingsView: View {
 
     @Environment(\.appTheme) private var theme
     @State private var showKeyboardGuide = false
+    @State private var showFullAccessGuide = false
+    /// 키보드가 마지막으로 뜰 때 본 전체 접근. true 만 믿는다(`DefaultsKey.keyboardFullAccessGranted`).
+    @AppStorage(DefaultsKey.keyboardFullAccessGranted, store: AppGroup.defaults)
+    private var fullAccessGranted: Bool = false
     /// 키보드에서 빈칸을 채울 때 한 칸만 펼칠지. App Group - 키보드도 같은 값을 읽는다.
     @AppStorage(DefaultsKey.keyboardCompactPlaceholders, store: AppGroup.defaults)
     private var compactPlaceholders: Bool = true
@@ -27,6 +31,9 @@ struct KeyboardSettingsView: View {
         .sheet(isPresented: $showKeyboardGuide) {
             KeyboardSetupOnboardingView { showKeyboardGuide = false }
                 .presentationDetents([.large])
+        }
+        .sheet(isPresented: $showFullAccessGuide) {
+            FullAccessGuideView()
         }
     }
 
@@ -57,6 +64,31 @@ struct KeyboardSettingsView: View {
                 }
             }
             .accessibilityHint(NSLocalizedString("단계별 키보드 설정 가이드를 엽니다", comment: "Open keyboard setup guide hint"))
+
+            // 전체 접근 - 꺼져 있으면 진동·복사한 글 꺼내기가 말없이 안 된다. 상태를 오른쪽에 말한다.
+            Button {
+                HapticManager.shared.light()
+                showFullAccessGuide = true
+            } label: {
+                HStack {
+                    Label {
+                        Text(NSLocalizedString("전체 접근 허용", comment: "Settings row: keyboard Full Access"))
+                            .foregroundStyle(Color.primary)
+                    } icon: {
+                        Image(systemName: AppSymbol.lockShieldFill)
+                    }
+                    Spacer()
+                    Text(fullAccessGranted
+                         ? NSLocalizedString("켜짐", comment: "Full Access status: on")
+                         : NSLocalizedString("꺼짐", comment: "Full Access status: off"))
+                        .foregroundStyle(fullAccessGranted ? Color.secondary : Color.orange)
+                    Image(systemName: AppSymbol.chevronForward)
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Color(uiColor: .tertiaryLabel))
+                        .accessibilityHidden(true)
+                }
+            }
+            .accessibilityHint(NSLocalizedString("전체 접근 허용이 무엇이고 어떻게 켜는지 봅니다", comment: "Full Access settings row hint"))
 
             FoldLink(destination: KeyboardLayoutSettings()) {
                 Label(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"),

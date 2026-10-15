@@ -198,11 +198,14 @@ struct ClipboardList: View {
                                 Label(NSLocalizedString("필터 초기화", comment: "Reset filter"), systemImage: AppSymbol.line3HorizontalDecreaseCircle)
                             }
                         } label: {
-                            Image(systemName: AppSymbol.ellipsisCircle)
+                            // 목록 탭과 같은 시그니처 서클(`GlassCircle`).
+                            GlassCircleLabel(systemImage: AppSymbol.ellipsis, role: .secondary)
                         }
                         .accessibilityLabel(NSLocalizedString("더보기", comment: "More options"))
                     }
                 }
+                // 서클 위에 시스템 유리 알약이 한 겹 더 얹히지 않게 한다.
+                .sharedBackgroundVisibility(isSelectingForStack ? .automatic : .hidden)
             }
             .onAppear {
                 checkAndAddCurrentClipboard()

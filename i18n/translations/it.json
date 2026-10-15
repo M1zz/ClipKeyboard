@@ -19,9 +19,17 @@
     "v": "Aggiungi solo altri %2$d posti con %1$@",
     "src": "ec5ccf1a49"
   },
+  "%1$@ 시작하기 · %2$@": {
+    "v": "Prendi %1$@ · %2$@",
+    "src": "3b20a4b734"
+  },
   "%1$@, %2$d회 사용": {
     "v": "%1$@, usato %2$d volte",
     "src": "a6d8daeeb4"
+  },
+  "%1$@, 무료: %2$@, Plus: %3$@, Pro: %4$@": {
+    "v": "%1$@, Gratis: %2$@, Plus: %3$@, Pro: %4$@",
+    "src": "837be64ce0"
   },
   "%1$@, 저장된 값 %2$d개": {
     "v": "%1$@, %2$d valori salvati",
@@ -123,6 +131,10 @@
     "v": "il tempo per correre %@",
     "src": "67d6283fac"
   },
+  "%@ 로 Pro 로 올리기": {
+    "v": "Passa a Pro a %@",
+    "src": "563b603e6a"
+  },
   "%@ 로 두 기기에서 같이 쓰기": {
     "v": "Usa su due dispositivi con %@",
     "src": "a4f4e1fceb"
@@ -146,6 +158,10 @@
   "%@ 수정": {
     "v": "Modifica %@",
     "src": "6f4c3aac9f"
+  },
+  "%@ 시작하기": {
+    "v": "Prendi %@",
+    "src": "cfeb30eeb2"
   },
   "%@ 시점의 단축어 %d개로 되돌립니다.": {
     "v": "Ripristina a %@: %d frasi.",
@@ -671,9 +687,17 @@
     "v": "Attiva 'Consenti accesso completo' ✓",
     "src": "8f11e92ee4"
   },
+  "'전체 접근 허용'을 켜고 '허용'을 눌러요": {
+    "v": "Attiva 'Consenti accesso completo' e tocca 'Consenti'",
+    "src": "bca0b956af"
+  },
   "'전체 접근 허용'을 켜주세요": {
     "v": "Attiva 'Consenti accesso completo'",
     "src": "ced0ad12fc"
+  },
+  "'키보드'를 눌러요": {
+    "v": "Tocca 'Tastiere'",
+    "src": "cbf9e6dd2b"
   },
   "'탭 단축어 검색'처럼 화면에 보이는 이름을 그대로 말해 조작합니다. 모든 버튼과 입력 필드에 읽기 가능한 이름이 지정되어 있습니다.": {
     "v": "Di' il nome che vedi sullo schermo, come 'Tocca Cerca frase', per usare l'app. Tutti i pulsanti e i campi hanno un nome leggibile.",
@@ -1673,6 +1697,22 @@
     "v": "+ Modello",
     "src": "633c3474a2"
   },
+  "Plus 기능을 다시 쓸 수 있어요.": {
+    "v": "Puoi usare di nuovo le funzioni Plus.",
+    "src": "994f772158"
+  },
+  "Plus 에서 Pro 로 오르는 값 · 한 번 결제": {
+    "v": "Prezzo per passare da Plus · pagamento unico",
+    "src": "34a4d7e13e"
+  },
+  "Plus 의 모든 것": {
+    "v": "Tutto di Plus",
+    "src": "0880a5de5e"
+  },
+  "Plus 활성화 완료!": {
+    "v": "Plus attivato!",
+    "src": "439850926b"
+  },
   "Preferences": {
     "v": "Preferenze",
     "src": "dc059f1f89"
@@ -1697,6 +1737,10 @@
     "v": "Hai visto un invito a Pro",
     "src": "27bf3dd44a"
   },
+  "Pro 기능 전체 보기": {
+    "v": "Vedi tutte le funzioni Pro",
+    "src": "1b5934cd01"
+  },
   "Pro 기능을 다시 쓸 수 있어요.": {
     "v": "Le funzioni Pro sono di nuovo disponibili.",
     "src": "6e98c5388e"
@@ -1704,6 +1748,10 @@
   "Pro 기능이 모두 열려 있어요": {
     "v": "Tutte le funzioni Pro sono sbloccate",
     "src": "3feced0f21"
+  },
+  "Pro 로 올리기": {
+    "v": "Passa a Pro",
+    "src": "d7feed4ced"
   },
   "Pro 를 열었어요. 기본 기능은 그대로 무료예요": {
     "v": "Pro è arrivato. Le funzioni di base restano gratuite",
@@ -1736,6 +1784,10 @@
   "Pro 업그레이드: %@": {
     "v": "Passa a Pro: %@",
     "src": "29f6aba6e5"
+  },
+  "Pro 에 포함": {
+    "v": "Incluso in Pro",
+    "src": "44a2dcdd86"
   },
   "Pro 전환율": {
     "v": "Conversione a Pro",
@@ -2186,6 +2238,10 @@
   "iCloud 백업": {
     "v": "Backup iCloud",
     "src": "58d7ad2398"
+  },
+  "iCloud 백업 · 생체인증 잠금": {
+    "v": "Backup su iCloud e blocco biometrico",
+    "src": "cf32afff58"
   },
   "iCloud 백업 및 복구": {
     "v": "Backup e ripristino iCloud",
@@ -3765,7 +3821,7 @@
   },
   "단축어": {
     "v": "Frase",
-    "src": "8c10487a02"
+    "src": "e5f8dadd0c"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "Aggiunte %1$d frasi, aggiornate %2$d (%3$d in totale).\nImportate %4$d pile, %5$d immagini e %6$d categorie.",
@@ -3843,6 +3899,10 @@
     "v": "Limite di 5 frasi · 20 elementi negli appunti",
     "src": "48d299c377"
   },
+  "단축어 · 템플릿 무제한": {
+    "v": "Frasi e modelli illimitati",
+    "src": "9d1de3462e"
+  },
   "단축어 개수": {
     "v": "Frasi",
     "src": "ea22f8a393"
@@ -3878,6 +3938,10 @@
   "단축어 내용 힌트": {
     "v": "Anteprima delle frasi",
     "src": "9dd8d37782"
+  },
+  "단축어 넣기는 지금도 돼요. 켜면 아래 기능이 더 열려요.": {
+    "v": "Inserire le frasi funziona già. Attivalo per sbloccare le funzioni qui sotto.",
+    "src": "f44cf741d3"
   },
   "단축어 높이": {
     "v": "Altezza frasi",
@@ -4094,6 +4158,10 @@
   "단축어를 가져오지 못했습니다. 잠시 후 다시 시도해주세요.": {
     "v": "Impossibile importare le frasi. Riprova più tardi.",
     "src": "04db95087f"
+  },
+  "단축어를 길게 눌러 복사하기": {
+    "v": "Tieni premuta una frase per copiarla",
+    "src": "823c258a22"
   },
   "단축어를 길게 눌러 템플릿으로 만들 수 있어요": {
     "v": "Tieni premuta una frase per trasformarla in un modello",
@@ -4391,6 +4459,10 @@
     "v": "Tondi e morbidi, tornano su lentamente.",
     "src": "13a83b8b2d"
   },
+  "뒤로": {
+    "v": "Indietro",
+    "src": "dc3ab3aacb"
+  },
   "뒤로 옮기기": {
     "v": "Sposta dopo",
     "src": "6a8d0c38ca"
@@ -4489,6 +4561,10 @@
       "other": "%d maratone"
     },
     "src": "874656ebde"
+  },
+  "마음껏 쌓기": {
+    "v": "Salva senza limiti",
+    "src": "01dd0707fd"
   },
   "마지막 백업": {
     "v": "Ultimo backup",
@@ -4713,6 +4789,10 @@
   "모든 AI 처리는 기기 안에서만 이루어져요. 텍스트가 기기 밖으로 전송되지 않습니다.": {
     "v": "Tutta l'elaborazione AI avviene sul dispositivo. Il testo non esce mai da lì.",
     "src": "6578ebd82e"
+  },
+  "모든 Pro 기능이 열려 있어요": {
+    "v": "Tutte le funzioni Pro sono sbloccate",
+    "src": "e896527fd6"
   },
   "모든 기기에서 데이터 동기화": {
     "v": "Sincronizza i dati su tutti i dispositivi",
@@ -5452,6 +5532,10 @@
   "복사한 글을 키보드에서 바로 꺼내 써요": {
     "v": "Usa ciò che hai copiato, direttamente dalla tastiera",
     "src": "52b1dd52c0"
+  },
+  "복사한 글을 키보드에서 바로 꺼내기": {
+    "v": "Incolla ciò che hai copiato direttamente dalla tastiera",
+    "src": "59aa0dc767"
   },
   "복사한 글이 %d일 동안 남아요": {
     "v": {
@@ -6600,6 +6684,10 @@
     "v": "Pila",
     "src": "b37cd50e8c"
   },
+  "스택 · 이미지 단축어 무제한": {
+    "v": "Pile e frasi con immagini illimitate",
+    "src": "e4bf4bb886"
+  },
   "스택 개수 제한": {
     "v": "Limite di pile",
     "src": "d1356ec836"
@@ -6723,6 +6811,10 @@
     "v": "Chi accumula (quasi mai usate)",
     "src": "1245f1ea57"
   },
+  "쌓은 것을 지키기": {
+    "v": "Proteggi quello che hai salvato",
+    "src": "7b87dec0b6"
+  },
   "써볼게요": {
     "v": "Proviamo",
     "src": "87878f1408"
@@ -6836,6 +6928,10 @@
   "아니요": {
     "v": "No, grazie",
     "src": "b5a8fe4049"
+  },
+  "아래 단추로 설정을 열어요": {
+    "v": "Apri le Impostazioni con il pulsante qui sotto",
+    "src": "4e24331461"
   },
   "아래 키보드가 바로 따라 바뀝니다. 나중에 설정에서 언제든 다시 바꿀 수 있어요.": {
     "v": "La tastiera qui sotto cambia subito. Potrai modificarla in Impostazioni quando vuoi.",
@@ -7080,6 +7176,10 @@
     "v": "Tema dell'app",
     "src": "2fecaaedd4"
   },
+  "앱에서 값 추가": {
+    "v": "Aggiungi un valore nell'app",
+    "src": "1ffb79bc22"
+  },
   "앱에서 보안 PIN을 먼저 설정하세요": {
     "v": "Imposta prima il PIN di sicurezza nell'app",
     "src": "62a3e0422a"
@@ -7119,6 +7219,10 @@
   "앱을 열면 키보드가 올라온 모습이 그대로 보여요": {
     "v": "Apri l'app e vedi la tastiera com'è altrove",
     "src": "282a67625c"
+  },
+  "앱을 열어 전체 접근 허용을 켜는 법을 봅니다": {
+    "v": "Apre l'app per mostrare come attivare l'accesso completo",
+    "src": "17a89c693d"
   },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
     "v": "Le frasi non scendono più dall'alto né sobbalzano all'apertura dell'app",
@@ -7958,6 +8062,10 @@
     "v": "I pulsanti senza etichetta ora hanno un nome per VoiceOver e Controllo vocale",
     "src": "a2fc667de4"
   },
+  "이름은 iOS가 정한 것이에요. 치는 글자와 단축어 내용은 어디로도 보내지 않고 이 기기에만 남아요.": {
+    "v": "Il nome lo ha scelto iOS. Ciò che scrivi e le tue frasi non vengono inviati da nessuna parte. Restano su questo dispositivo.",
+    "src": "3306fd6eb7"
+  },
   "이메일": {
     "v": "Email",
     "src": "b0528097c1"
@@ -8677,6 +8785,10 @@
     "v": "Attiva Accesso completo",
     "src": "f5bac9c5cf"
   },
+  "전체 접근 허용이 무엇이고 어떻게 켜는지 봅니다": {
+    "v": "Mostra cos'è l'accesso completo e come attivarlo",
+    "src": "fb18f5deb7"
+  },
   "전체 접근을 허용해요": {
     "v": "Consenti l'accesso completo",
     "src": "ca1a16a50c"
@@ -9069,6 +9181,10 @@
     "v": "Ora ha la stessa altezza della tastiera standard di questo dispositivo.",
     "src": "886a262802"
   },
+  "지금 켜져 있어요. 키보드의 모든 기능을 쓸 수 있어요.": {
+    "v": "È attivo. Puoi usare tutte le funzioni della tastiera.",
+    "src": "3047c51e76"
+  },
   "지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요.": {
     "v": "Te lo chiediamo in base a ciò che hai creato finora. Scegliere un'opzione adatta solo i suggerimenti. Puoi anche saltare.",
     "src": "d8095d1827"
@@ -9162,6 +9278,10 @@
   "진단 스키마가 아직 허브에 배포되지 않았어요. CloudKit Console 에서 CrashReport 레코드 타입과 인덱스를 배포하면 여기에 쌓입니다.": {
     "v": "Lo schema diagnostico non è ancora distribuito sull'hub. Distribuisci in CloudKit Console il tipo di record CrashReport e i suoi indici, e i report compariranno qui.",
     "src": "35c5b2e73c"
+  },
+  "진동과 복사한 글 꺼내기가 꺼져 있어요": {
+    "v": "Vibrazione e testo copiato sono disattivati",
+    "src": "e44052f2f6"
   },
   "진료기록번호": {
     "v": "N. cartella clinica",
@@ -9795,6 +9915,10 @@
     "v": "Attiva",
     "src": "408e7ef1df"
   },
+  "켜는 법": {
+    "v": "Come attivarlo",
+    "src": "17fa569c64"
+  },
   "켜면 키보드에서 한국어도 입력할 수 있어요": {
     "v": "Attiva per scrivere anche in coreano dalla tastiera",
     "src": "17b1b19e2d"
@@ -9899,6 +10023,13 @@
     "v": "Cronologia appunti",
     "src": "d6e1a35fbb"
   },
+  "클립보드 기록 %d개": {
+    "v": {
+      "one": "%d elemento negli appunti",
+      "other": "%d elementi negli appunti"
+    },
+    "src": "d1a278e8d7"
+  },
   "클립보드 기록도 그대로예요": {
     "v": "Anche la cronologia appunti resta",
     "src": "8163606147"
@@ -9974,6 +10105,10 @@
   "키를 길게 누르면 값이 키보드를 꽉 채워 보여요. 잠긴 단축어는 값을 보여주지 않아요": {
     "v": "Tieni premuto un tasto e il valore riempie la tastiera. Le frasi bloccate non mostrano il valore.",
     "src": "7876fc5bf8"
+  },
+  "키를 누를 때 진동": {
+    "v": "Vibrazione quando tocchi i tasti",
+    "src": "2f64cfa90c"
   },
   "키마다 복사 버튼": {
     "v": "Un pulsante Copia su ogni tasto",
@@ -10590,6 +10725,10 @@
     "v": "Corretto il tasto che ondeggiava una volta in più dopo un passo completato nel capitolo sui modelli",
     "src": "eb09308175"
   },
+  "템플릿의 클립보드 빈칸 채우기": {
+    "v": "Compila i campi degli appunti nei modelli",
+    "src": "5621c63f18"
+  },
   "통관번호": {
     "v": "Numero doganale",
     "src": "33e261da2b"
@@ -10893,6 +11032,10 @@
   "한 달 동안 안 썼다. 먼저 말을 거는 자리가 전부 꺼진다.": {
     "v": "Non usata da un mese. Tutto ciò che si fa avanti per primo è disattivato.",
     "src": "0502dd1f78"
+  },
+  "한 번 결제 · 평생 사용": {
+    "v": "Pagamento unico · tuo per sempre",
+    "src": "3adc0c2eca"
   },
   "한 번 결제하고 계속": {
     "v": "Paghi una volta, è tua",
@@ -11257,9 +11400,5 @@
   "🪪 명함": {
     "v": "🪪 Biglietto da visita",
     "src": "9becff2df0"
-  },
-  "뒤로": {
-    "v": "Indietro",
-    "src": "dc3ab3aacb"
   }
 }

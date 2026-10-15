@@ -208,6 +208,16 @@ enum DefaultsKey {
     /// ⚠️ 그 값은 키보드가 **뜬 뒤에야** 읽는다. 뜨기 전에 읽으면 UIKit 안에서 예외로 죽는다
     ///    (docs/postmortem/KEYBOARD_INPUT_MODE_SWITCH_CRASH.md). 그래서 첫 그림은 지난번 값으로 그린다.
     static let keyboardNeedsGlobeKey = "keyboardNeedsGlobeKey.v1"
+    /// 키보드가 마지막으로 뜰 때 본 "전체 접근 허용" (App Group, Bool). 앱의 키보드 설정이 읽는다.
+    ///
+    /// ⚠️ 꺼져 있으면 iOS 가 키보드의 App Group **쓰기**를 막을 수 있다. 그래서 `false` 가
+    ///    안 적힐 수 있다. 앱은 `true` 일 때만 "켜져 있다" 고 믿고, 없거나 `false` 면 꺼진 것으로 본다.
+    static let keyboardFullAccessGranted = "keyboardFullAccessGranted.v1"
+    /// 키보드의 전체 접근 안내 줄을 닫은 시각(timeIntervalSince1970). **익스텐션의 표준 UserDefaults.**
+    ///
+    /// ⚠️ App Group 에 두지 않는다. 이 값을 쓰는 때는 전체 접근이 꺼진 때뿐이고,
+    ///    그때는 App Group 쓰기가 막힐 수 있다. 키보드 혼자 기억하면 되는 값이다.
+    static let keyboardFullAccessNoticeDismissedAt = "keyboardFullAccessNoticeDismissedAt.v1"
 
     // MARK: 무료로 쓰는 기간 (FreeUse)
 

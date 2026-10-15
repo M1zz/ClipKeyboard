@@ -76,10 +76,27 @@ extension KeyboardHostKind {
     /// 검색으로 헤매는지 재는가(진짜 키보드의 세션 기록이 있을 때만 뜻이 있다).
     var tracksSearchStruggle: Bool { !runsInsideApp }
 
-    /// 빈칸 채우기 창 아래에 "의견 보내기" 를 두는가.
-    /// 진짜 키보드만 - 앱을 열어 의견 창을 띄운다. 앱 안(무대 · 설정 미리보기)에서는
-    /// 앱의 채우기 창에 같은 문이 이미 있고, 미리보기에서 앱을 다시 여는 것은 뜻이 없다.
-    var offersFeedbackLink: Bool { !runsInsideApp }
+    /// 빈칸 값 옆의 + 가 **앱을 열어** 값 추가 칸으로 가는가(진짜 키보드만).
+    /// 앱 안(무대 · 설정 미리보기)은 그 자리에서 적는다(`showsOneOffValueHint`).
+    var opensAppToAddValue: Bool { self == .keyboardExtension }
+
+    /// 전체 접근이 꺼져 있다고 위에 한 줄 알리는가.
+    ///
+    /// 진짜 키보드에서 꺼져 있을 때만. 꺼져 있으면 진동·복사한 글 꺼내기·클립보드 복사가
+    /// iOS 차원에서 **아무 말 없이** 막힌다. 키보드 익스텐션이 낯선 사람은 고장인 줄 안다.
+    /// 앱 안(무대 · 설정 미리보기)은 전체 접근이라는 개념이 없다.
+    ///
+    /// ⚠️ 빈칸 채우기 창의 "의견 보내기" 줄은 뺐다. 키보드는 높이가 좁아 그 한 줄이
+    ///    빈칸 하나만큼 자리를 먹었고, 누르는 사람은 거의 없었다. 앱의 채우기 창에는 남아 있다.
+    var showsFullAccessNotice: Bool {
+        showsFullAccessNotice(hasFullAccess: KeyboardCapability.hasFullAccess)
+    }
+
+    /// 판정 자체. 전역 값(`KeyboardCapability`)을 받지 않고 인자로 받아, 시험이 다른 시험과
+    /// 같은 전역을 다투지 않게 한다(앱 안 키보드 시험은 그 값을 true 로 둔다).
+    func showsFullAccessNotice(hasFullAccess: Bool) -> Bool {
+        self == .keyboardExtension && !hasFullAccess
+    }
 
     /// 복사한 글을 '최근' 탭에 **알아서** 담는가(묻지 않고 클립보드를 읽는다).
     ///

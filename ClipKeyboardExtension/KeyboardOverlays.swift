@@ -382,9 +382,6 @@ struct TemplateInputOverlay: View {
                                 )
                                 }
                             }
-                            if hostKind.offersFeedbackLink {
-                                feedbackLink
-                            }
                         }
                     }
                     .padding(.horizontal, 12)
@@ -411,24 +408,6 @@ struct TemplateInputOverlay: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { completeInput() }
         }
         #endif
-    }
-
-    /// 이 화면에 대해 의견을 보내는 문. 앱을 열어 의견 창을 띄운다.
-    ///
-    /// ⚠️ 키보드는 의견 창을 직접 띄울 수 없다(자기가 키보드라 글을 받을 자판이 없다).
-    ///    그래서 앱으로 넘기면서 **어디서 왔는지**를 함께 보낸다(`FeedbackOrigin.keyboardTemplate`).
-    private var feedbackLink: some View {
-        Button {
-            NotificationCenter.postOnMain(name: .openMainAppFeedback, object: "keyboard-template")
-        } label: {
-            Label(NSLocalizedString("이 화면에 대해 의견 보내기", comment: "Template fill: send feedback about this screen"),
-                  systemImage: AppSymbol.envelopeBadge)
-                .font(.body)
-                .foregroundColor(.secondary)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 8)
-        }
-        .buttonStyle(.plain)
     }
 
     /// 넣으면 이렇게 된다 - **실제로 들어갈 것**을 그린다.
@@ -868,6 +847,9 @@ struct PlaceholderInputView: View {
                     .font(.caption2)
                     .foregroundColor(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
+                if hostKind.opensAppToAddValue {
+                    addValueInAppButton
+                }
             }
         }
         .padding(12)
@@ -965,6 +947,27 @@ struct PlaceholderInputView: View {
         .accessibilityLabel(NSLocalizedString("값 추가", comment: "Add value button"))
     }
 
+    /// 진짜 키보드의 +. 앱을 열어 **이 빈칸의 값 추가 칸**으로 바로 데려간다.
+    ///
+    /// 키보드는 제 안에 글자를 받을 자판을 부를 수 없어서 여기서 적게 할 수 없다.
+    /// 그래서 적는 일은 앱에 넘긴다(`clipkeyboard://placeholder?token=`). 모양은 앱 안의 + 와 같다.
+    private var addValueInAppButton: some View {
+        Button {
+            KeyboardHaptics.tap()
+            NotificationCenter.postOnMain(name: .openPlaceholderValueAdd, object: placeholder)
+        } label: {
+            Image(systemName: AppSymbol.plus)
+                .font(.footnote.weight(.semibold))
+                .foregroundColor(theme.accent)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(theme.accentSoft)
+                .cornerRadius(theme.radiusLg)
+        }
+        .buttonStyle(.squish)
+        .accessibilityLabel(NSLocalizedString("앱에서 값 추가", comment: "Keyboard: open the app to add a value for this placeholder"))
+    }
+
     // MARK: - Text predefined (existing flow)
 
     @ViewBuilder
@@ -987,6 +990,8 @@ struct PlaceholderInputView: View {
             }
             if hostKind.showsOneOffValueHint {
                 if isAddingValue { draftInputRow } else { addValueButton }
+            } else if hostKind.opensAppToAddValue {
+                addValueInAppButton
             }
         } else {
             ScrollView(.horizontal, showsIndicators: false) {
@@ -1018,6 +1023,8 @@ struct PlaceholderInputView: View {
                     }
                     if hostKind.showsOneOffValueHint && !isAddingValue {
                         addValueButton
+                    } else if hostKind.opensAppToAddValue {
+                        addValueInAppButton
                     }
                 }
                 // 파형이 잘리지 않게 - ScrollView 는 넘치는 것을 잘라낸다.

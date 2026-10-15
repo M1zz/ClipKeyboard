@@ -376,6 +376,8 @@ struct KeyboardView: View {
     @State private var showPinNotSetToast = false
     /// 전체 접근이 꺼진 상태에서 클립보드 동작을 시도했을 때의 안내.
     @State private var showFullAccessToast = false
+    /// 전체 접근 안내 줄을 닫았는가. 뜰 때 한 번 읽는다(`fullAccessNoticeSnoozed`).
+    @State private var fullAccessNoticeClosed = KeyboardView.fullAccessNoticeSnoozed
     /// 배운 캐럿 자리를 처음 적용했을 때 한 번만 뜨는 줄. 단축어당 한 번뿐이다.
     @State private var showCursorMemoryToast = false
     /// 매번 같은 자리를 고치는 것을 알아챘을 때 뜨는 제안. 단축어당 한 번뿐이다.
@@ -1020,10 +1022,24 @@ struct KeyboardView: View {
                         Spacer()
                     }
                     expandControlKeysButton
-                        .padding(.trailing, 6)
+                        .padding(.trailing, controlBackspaceKeyIsVisible ? 0 : 6)
                         .opacity(controlKeysExpanded ? 0 : 1)
                         .allowsHitTesting(!controlKeysExpanded)
                         .accessibilityHidden(controlKeysExpanded)
+                    // 지우기는 **접혀 있어도 늘 선다.** 맨 오른쪽, 시스템 키보드와 같은 귀퉁이다.
+                    //
+                    // ⚠️ 예전에는 … 서랍 안에만 있었다. 다 적고 몇 글자만 지우려던 사람이 못 찾고
+                    //    다른 키보드로 건너가서 지웠다(사용자 의견: "删除按钮", 2026-10).
+                    //    보내기를 밖에 꺼냈다가 되돌린 일(`12bfce3`)과는 다르다. 지우기는 어느
+                    //    키보드에나 같은 자리에 있어 홀로 서 있어도 "왜 이것만" 으로 읽히지 않는다.
+                    // ⚠️ 펼치면 서랍 판이 이 자리를 덮고, 서랍 안에 같은 지우기가 있다. 그래서 숨긴다.
+                    if controlBackspaceKeyIsVisible {
+                        controlBackspaceKey
+                            .padding(.trailing, 6)
+                            .opacity(controlKeysExpanded ? 0 : 1)
+                            .allowsHitTesting(!controlKeysExpanded)
+                            .accessibilityHidden(controlKeysExpanded)
+                    }
                 }
 
                 if controlKeysExpanded {
@@ -1054,6 +1070,9 @@ struct KeyboardView: View {
                 .disabled(documentState.returnKeyIsLocked)
         }
     }
+
+    /// 접힌 줄에 지우기가 서는가. 지울 곳(`typingProxy`)이 있어야 선다.
+    private var controlBackspaceKeyIsVisible: Bool { typingProxy != nil }
 
     /// 한 글자 지우기. 이게 없어서 오타 하나를 고치려고 **다른 키보드로
     /// 건너갔다가 돌아와야 했다**(사용자 요청).
@@ -1172,8 +1191,11 @@ struct KeyboardView: View {
     @ViewBuilder
     private var memoModeContent: some View {
         VStack(spacing: 0) {
-            // 무료 유저: 숨겨진 메모 있을 때 또는 한도 임박(2개 이내) 시 업그레이드 배너
-            if isFreeUser && !isReorderMode && (hiddenMemoCount > 0 || isMemoLimitNear) {
+            // 전체 접근이 꺼져 있으면 그 말이 먼저다. 띠를 둘 겹치면 단축어 자리가 너무 준다.
+            if showsFullAccessBanner {
+                fullAccessBanner
+            } else if isFreeUser && !isReorderMode && (hiddenMemoCount > 0 || isMemoLimitNear) {
+                // 무료 유저: 숨겨진 메모 있을 때 또는 한도 임박(2개 이내) 시 업그레이드 배너
                 freeUpgradeBanner
             }
 
@@ -1533,6 +1555,74 @@ struct KeyboardView: View {
                 templateObserverToken = nil
             }
         }
+    }
+
+    // MARK: - Full Access Banner
+
+    /// 이 띠를 지금 세우는가.
+    private var showsFullAccessBanner: Bool {
+        hostKind.showsFullAccessNotice && !fullAccessNoticeClosed && !isReorderMode
+    }
+
+    /// 닫은 뒤 다시 세우기까지. 키보드 익스텐션이 낯선 사람이 많아 아주 끄지는 않는다.
+    private static let fullAccessNoticeSnoozeDays: Double = 7
+
+    /// 닫은 지 아직 쉬는 기간인가.
+    ///
+    /// ⚠️ 익스텐션의 **표준** UserDefaults 를 쓴다. 이 띠가 서는 때는 전체 접근이 꺼진 때이고,
+    ///    그때는 App Group 쓰기가 막힐 수 있다(`DefaultsKey.keyboardFullAccessNoticeDismissedAt`).
+    static var fullAccessNoticeSnoozed: Bool {
+        let at = UserDefaults.standard.double(forKey: DefaultsKey.keyboardFullAccessNoticeDismissedAt)
+        guard at > 0 else { return false }
+        return Date().timeIntervalSince1970 - at < fullAccessNoticeSnoozeDays * 86_400
+    }
+
+    /// 전체 접근이 꺼져 있다는 한 줄. 누르면 앱의 켜는 법(`FullAccessGuideView`)으로 간다.
+    ///
+    /// ⚠️ 꺼져 있으면 진동·복사한 글 꺼내기·클립보드 복사가 **아무 말 없이** 안 된다.
+    ///    예전에는 클립보드 단추를 눌렀다 막힐 때 3초 토스트만 떴고, 진동은 그것조차 없었다.
+    ///    키보드 익스텐션이 낯선 사람은 고장인 줄 알고 지운다.
+    /// ⚠️ 단축어 넣기는 꺼져 있어도 된다. 그래서 막지 않고 **알리기만** 한다. 닫을 수 있다.
+    private var fullAccessBanner: some View {
+        HStack(spacing: 6) {
+            Button {
+                KeyboardHaptics.tap()
+                NotificationCenter.postOnMain(name: .openFullAccessGuide, object: nil)
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: AppSymbol.lockFill)
+                        .font(.caption2)
+                    Text(NSLocalizedString("진동과 복사한 글 꺼내기가 꺼져 있어요", comment: "Keyboard banner: Full Access is off"))
+                        .font(.caption2.weight(.medium))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                    Spacer(minLength: 4)
+                    Text(NSLocalizedString("켜는 법", comment: "Keyboard banner: how to turn on Full Access"))
+                        .font(.caption2.weight(.semibold))
+                    Image(systemName: AppSymbol.chevronRight)
+                        .font(.caption2)
+                }
+            }
+            .buttonStyle(.squish)
+            .accessibilityHint(NSLocalizedString("앱을 열어 전체 접근 허용을 켜는 법을 봅니다", comment: "Keyboard banner a11y hint"))
+
+            Button {
+                KeyboardHaptics.softTap()
+                UserDefaults.standard.set(Date().timeIntervalSince1970,
+                                          forKey: DefaultsKey.keyboardFullAccessNoticeDismissedAt)
+                withAnimation(.easeOut(duration: 0.2)) { fullAccessNoticeClosed = true }
+            } label: {
+                Image(systemName: AppSymbol.xmark)
+                    .font(.caption2.weight(.bold))
+                    .padding(.leading, 4)
+            }
+            .buttonStyle(.squish)
+            .accessibilityLabel(NSLocalizedString("닫기", comment: "Close / dismiss"))
+        }
+        .foregroundColor(.white)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 5)
+        .background(Color.accentColor.opacity(0.9))
     }
 
     // MARK: - Free Upgrade Banner

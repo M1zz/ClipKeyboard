@@ -42,6 +42,9 @@
 | 아이폰 듀오 펼침 | 펴도 화면이 늘어나기만 한다 · 누를 것이 접힌 선에 걸린다 · 펴면 목록 모양이 바뀐다 | `FoldLayoutTests/test_두_쪽은_접힌_선을_비우고_창_기준으로_맞는다` |
 | 아이폰 듀오 펼침: 접힌 선 비움 | 탭바 · 시트 · 알림창이 접힌 선 위에 선다 · 알림창이 닫힌 뒤 보이지 않는 창이 터치를 막는다 | `FoldPresentationGuardTests/test_펴면_알림창은_고르는_쪽_판에서_뜨고_내려가면_판_창이_비켜선다` |
 | 아이폰 듀오 펼침: 목록 \| 자세히 | 펴도 설정 줄을 누르면 화면이 통째로 바뀐다 · 깊이 들어가면 돌아올 길이 없다 · 미리보기가 작은 채로 남는다 | `FoldNavigationTests/test_결과_쪽에서_고르면_밀리고_뒤로는_한_장씩` |
+| 키보드에서 빈칸 값 더하기 | 고를 값이 없는데 키보드에서 더할 길이 없다 · 앱 안에서 앱을 다시 열려 한다 (2026-10 사용자 요청) | `KeyboardAppLinkTests/addValueOpensAppOnlyInExtension` |
+| 전체 접근이 꺼져 있다는 안내 | 진동·복사한 글이 말없이 안 돼 고장인 줄 안다 · 앱 안에서 엉뚱하게 켜라고 한다 | `KeyboardAppLinkTests/fullAccessNoticeOnlyInExtensionWhenOff` |
+| 페이월 세 칸 (무료 · Plus · Pro) | Plus 를 살 길이 없다 · 아무것도 안 산 사람에게 업그레이드 값이 보인다 · 이미 Pro 인 사람에게 다시 판다 | `PaywallPlansTests/plusOwnerUpgrades` |
 | 키보드 한글 입력 | 검색창에서 자모가 흩어진다 | `HangulComposerTests/testMultipleSyllables_CommitOnNewInitial` |
 | 업데이트 뒤에도 데이터가 남는다 | 업데이트했더니 단축어가 사라졌다 | `MigrationCompatibilityTests/testOneLegacyItemDoesNotBreakWholeArray` |
 | iCloud 백업과 복원 | 복원했더니 일부 필드가 빠졌다 | `CloudKitBackupIntegrityTests/testBackupThenRestore_PreservesAllMemoFields` |

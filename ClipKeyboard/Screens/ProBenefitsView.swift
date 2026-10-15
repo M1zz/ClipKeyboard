@@ -22,14 +22,18 @@ struct ProBenefitsView: View {
     @AppStorage(DefaultsKey.memoSyncEnabled, store: AppGroup.defaults)
     private var memoSyncEnabled: Bool = false
     @State private var usage = Usage()
+    /// Pro 기능 전체를 결제 화면의 모양 그대로 본다(산 사람에게는 구매 단추 대신 "활성화됨").
+    @State private var showAllFeatures = false
 
     var body: some View {
         List {
             heroSection
             limitsSection
             unlockedSection
+            allFeaturesSection
         }
         .settingsCategoryChrome(title: NSLocalizedString("내 Pro 혜택", comment: "Pro benefits screen title"))
+        .sheet(isPresented: $showAllFeatures) { PaywallView() }
         // 들어올 때 한 번 센다 - 그릴 때마다 저장 파일을 읽지 않도록.
         .onAppear { usage = Usage.load() }
     }
@@ -190,6 +194,34 @@ struct ProBenefitsView: View {
                      value: durationText(usage.savedSeconds))
         } header: {
             Text(NSLocalizedString("Pro로 열린 기능", comment: "Pro benefits section: features unlocked by Pro"))
+        }
+    }
+
+    /// 무엇이 Pro 인지 한눈에. 위의 숫자는 "내가 얼마나 쓰나" 이고, 이건 "무엇이 열려 있나" 다.
+    ///
+    /// ⚠️ 목록을 여기 따로 적지 않는다. 결제 화면 비교표가 원본이라, 거기를 그대로 연다.
+    ///    두 곳에 적으면 기능이 늘 때 한쪽만 고쳐진다.
+    private var allFeaturesSection: some View {
+        Section {
+            Button {
+                HapticManager.shared.light()
+                showAllFeatures = true
+            } label: {
+                HStack {
+                    Label {
+                        Text(NSLocalizedString("Pro 기능 전체 보기", comment: "Pro benefits: open the full Pro feature list"))
+                            .foregroundStyle(Color.primary)
+                    } icon: {
+                        Image(systemName: AppSymbol.crownFill)
+                            .foregroundStyle(.yellow)
+                    }
+                    Spacer()
+                    Image(systemName: AppSymbol.chevronForward)
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Color(uiColor: .tertiaryLabel))
+                        .accessibilityHidden(true)
+                }
+            }
         }
     }
 

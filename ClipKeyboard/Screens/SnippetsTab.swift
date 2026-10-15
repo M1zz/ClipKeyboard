@@ -188,15 +188,7 @@ final class SwitchHintBeacon: ObservableObject {
 ///
 /// 고른 값은 그대로 저장된다(설정 > 첫 화면과 같은 값) - 다음에 열면 마지막에 본 쪽이 나온다.
 struct SnippetsStyleSwitchButton: View {
-    /// 유리 서클 버튼들 사이 간격 - **목록 툴바와 무대 머리말이 같은 값을 쓴다.**
-    ///
-    /// ⚠️ 두 곳이 제각각이던 것을 여기로 모았다. 목록은 `-8`(서클이 8pt 겹침),
-    ///    무대는 `14`(넉넉히 떨어짐)라, 같은 버튼 쌍이 화면마다 다른 물건처럼 보였다.
-    ///    음수 간격은 44pt 서클끼리 실제로 겹쳐서 두 개가 한 덩어리로 읽힌다.
-    static let clusterSpacing: CGFloat = 6
-
-    /// 유리 서클의 지름 - 버튼을 새로 만들 때 이 값을 쓸 것.
-    static let diameter: CGFloat = 44
+    // 서클의 지름·간격·유리는 `GlassCircle`(DesignSystem/Components/GlassCircleButton.swift) 한 곳에 있다.
 
     @Binding var styleRaw: String
 
@@ -218,13 +210,9 @@ struct SnippetsStyleSwitchButton: View {
             // (`SnippetsTab.content` 의 `screenSwapAnimation`).
             styleRaw = target.rawValue
         } label: {
-            // 툴바의 + 와 **같은 유리 언어** - 클리어 글래스 서클(하단 탭바와도 같다).
-            // 옆에 나란히 선 버튼이 하나만 맨몸이면 그것만 다른 앱에서 온 것처럼 보인다.
-            Image(systemName: target.symbolName)
-                .font(.body.weight(.semibold))
-                .foregroundColor(.accentColor)
-                .frame(width: Self.diameter, height: Self.diameter)
-                .glassEffect(.clear.interactive(), in: Circle())
+            // 툴바의 + 와 **같은 시그니처 서클**. 옆에 나란히 선 버튼이 하나만 맨몸이면
+            // 그것만 다른 앱에서 온 것처럼 보인다.
+            GlassCircleLabel(systemImage: target.symbolName)
         }
         .buttonStyle(.squish)
         // 머리말의 + 를 가리킬 때와 **같은 물결**이다(`InAppKeyboardStage.stageHeader`).

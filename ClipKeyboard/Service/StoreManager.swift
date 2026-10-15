@@ -80,6 +80,11 @@ class StoreManager: ObservableObject {
         store.products.first { $0.id == ProUpgrade.productID }
     }
 
+    /// Plus 트림 상품(`AccessTier.plusProductID` = 예전 `slots5`). 페이월의 가운데 칸이 판다.
+    var plusProduct: Product? {
+        store.products.first { $0.id == AccessTier.plusProductID }
+    }
+
     /// 두 대째 상품 - 동기화만 여는 별도의 문. **Pro 가 아니다.**
     var twoDeviceProduct: Product? {
         store.products.first { $0.id == TwoDevicePack.productID }
@@ -254,6 +259,18 @@ class StoreManager: ObservableObject {
         return await purchase(product, triggeredBy: triggeredBy)
     }
 
+    /// Plus 구매 - 개수 한도만 푼다(백업 · 잠금 · 동기화는 Pro).
+    /// ⚠️ 상품이 없으면 **다른 상품으로 대신 결제하지 않는다.** 고른 칸과 다른 값이 빠져나간다.
+    func purchasePlus(triggeredBy: String? = nil) async -> Bool {
+        if store.products.isEmpty { await store.loadProducts() }
+        guard let product = plusProduct else {
+            print("❌ [StoreManager] Plus 상품을 찾을 수 없음: \(AccessTier.plusProductID)")
+            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
+            return false
+        }
+        return await purchase(product, triggeredBy: triggeredBy)
+    }
+
     /// 두 대째 구매 - 동기화만 여는 문.
     func purchaseTwoDevice(triggeredBy: String? = nil) async -> Bool {
         if store.products.isEmpty { await store.loadProducts() }
@@ -346,7 +363,9 @@ class StoreManager: ObservableObject {
         ProStatusManager.shared.objectWillChange.send()
 
         let outcome: RestoreOutcome
-        if Self.grantsPro(store.purchasedProductIDs) || ProFeatureManager.hasPermanentPro {
+        // ⚠️ Plus 도 산 것이다. Pro 만 보면 Plus 를 산 사람이 복원을 눌렀을 때 "구매 없음" 을 듣는다.
+        if Self.grantsPro(store.purchasedProductIDs) || ProFeatureManager.hasPermanentPro
+            || AccessTier.purchased(from: store.purchasedProductIDs) >= .plus {
             outcome = .restored
         } else if let error = store.lastError ?? receiptError {
             // 영수증을 못 읽었는데 "구매 없음" 이라 하면 v4.0 이전 구매자가 Pro 를 잃었다고 믿는다
