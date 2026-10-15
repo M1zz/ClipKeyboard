@@ -237,21 +237,7 @@ class KeyboardViewController: UIInputViewController {
 
     @objc private func openMainAppPaywall() {
         guard let url = URL(string: "clipkeyboard://paywall") else { return }
-        var responder: UIResponder? = self
-        while let current = responder {
-            if let application = current as? UIApplication {
-                application.open(url, options: [:], completionHandler: nil)
-                return
-            }
-            // iOS 18+: use openURL(_:) via extensionContext selector chain fallback
-            let selector = sel_registerName("openURL:")
-            if current.responds(to: selector) {
-                _ = current.perform(selector, with: url)
-                return
-            }
-            responder = current.next
-        }
-        print("⚠️ [Keyboard] Paywall URL scheme 실행 실패")
+        openContainingApp(url)
     }
 
     // MARK: - 세이프 모드
@@ -311,6 +297,22 @@ class KeyboardViewController: UIInputViewController {
         components.host = "feedback"
         if let origin { components.queryItems = [URLQueryItem(name: "from", value: origin)] }
         guard let url = components.url else { return }
+        openContainingApp(url)
+    }
+
+    /// 앱을 연다(세이프 모드). 결제 화면이 아니라 앱 첫 화면으로 간다.
+    @objc private func openMainApp() {
+        guard let url = URL(string: "clipkeyboard://") else { return }
+        openContainingApp(url)
+    }
+
+    /// 키보드에서 앱을 여는 길은 여기 하나다.
+    ///
+    /// ⚠️ 응답 체인에서 `UIApplication` 을 **먼저** 찾아 `open(_:options:)` 을 부른다.
+    ///    `UIApplication` 도 옛 `openURL:` 에 응답하지만 iOS 18 부터 그 메시지는 아무 일도 하지 않는다.
+    ///    세이프 모드 버튼이 `openURL:` 만 보고 있어서 "앱을 열어 주세요" 화면의 앱 열기가 눌리지 않았다
+    ///    (2026-10-07 문의). 세 버튼이 같은 길을 따로 베껴 두었던 탓이다.
+    private func openContainingApp(_ url: URL) {
         var responder: UIResponder? = self
         let selector = sel_registerName("openURL:")
         while let current = responder {
@@ -324,21 +326,7 @@ class KeyboardViewController: UIInputViewController {
             }
             responder = current.next
         }
-        print("⚠️ [Keyboard] 의견 URL scheme 실행 실패")
-    }
-
-    /// 앱을 연다(세이프 모드). 결제 화면이 아니라 앱 첫 화면으로 간다.
-    @objc private func openMainApp() {
-        guard let url = URL(string: "clipkeyboard://") else { return }
-        var responder: UIResponder? = self
-        let selector = sel_registerName("openURL:")
-        while let current = responder {
-            if current.responds(to: selector) {
-                _ = current.perform(selector, with: url)
-                return
-            }
-            responder = current.next
-        }
+        print("⚠️ [KeyboardViewController.openContainingApp] \(url.host ?? "root") 열기 실패")
     }
 
     // MARK: - viewDidLoad Helpers
@@ -702,6 +690,12 @@ class KeyboardViewController: UIInputViewController {
         // 버튼 자체는 `handleInputModeList` 타깃 때문에 남겨 두고 숨기기만 한다.
         self.nextKeyboardButton.isHidden = true
         super.viewWillLayoutSubviews()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // 아이폰 듀오를 가로로 펴면 키보드가 접힌 선을 가로지른다. 선 자리를 다시 읽어 키보드를 나눈다.
+        KeyboardFoldState.shared.update(from: view)
     }
 
     override func viewWillAppear(_ animated: Bool) {

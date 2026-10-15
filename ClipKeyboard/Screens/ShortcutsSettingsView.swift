@@ -40,12 +40,12 @@ struct ShortcutsSettingsView: View {
             // 활용 사례는 페르소나로 고르는 화면이라 페르소나와 나란히 둔다.
             // ⚠️ 예전에는 이 행이 "단축어 관리"와 "도움말" 양쪽에 있었다(같은 UsageGuideView).
             //    같은 곳으로 가는 문이 둘이면 다른 화면인 줄 안다. 여기 하나만 남긴다.
-            NavigationLink(destination: UsageGuideView()) {
+            FoldLink(destination: UsageGuideView()) {
                 Label(NSLocalizedString("이렇게들 써요", comment: "Use cases / usage scenarios"),
                       systemImage: AppSymbol.lightbulb)
             }
             // 예전에는 페르소나를 고르는 자리였다. 이제 앱이 알아보고, 여기서는 근거를 보고 바로잡는다.
-            NavigationLink(destination: UsageProfileSettingsView()) {
+            FoldLink(destination: UsageProfileSettingsView()) {
                 Label {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(NSLocalizedString("나에게 맞추기", comment: "Usage profile settings title: the app adapts to how you use it"))
@@ -70,18 +70,18 @@ struct ShortcutsSettingsView: View {
             // ⚠️ **단추가 아니라 `NavigationLink` 다.** 단추로 두면 옆줄들과 달리 오른쪽
             //    화살표가 없어서, 들어가는 줄인지 그 자리에서 무엇이 일어나는 줄인지
             //    모양만으로는 알 수 없었다.
-            NavigationLink(destination: PlaceholderManagementView(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])) {
+            FoldLink(destination: PlaceholderManagementView(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])) {
                 Label(NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)"),
                       systemImage: AppSymbol.listBullet)
             }
             dateFormatRow
             timeFormatRow
             // 카테고리 아이콘은 이 화면 안에서 이어서 고른다(예전에는 형제 행이었다).
-            NavigationLink(destination: CategorySettings()) {
+            FoldLink(destination: CategorySettings()) {
                 Label(NSLocalizedString("카테고리 관리", comment: "Manage categories settings entry"),
                       systemImage: AppSymbol.folderBadgeGearshape)
             }
-            NavigationLink(destination: QuickNoteInboxView()) {
+            FoldLink(destination: QuickNoteInboxView()) {
                 Label(NSLocalizedString("보관함", comment: "Quick note inbox entry"),
                       systemImage: AppSymbol.trayFull)
             }
@@ -104,7 +104,7 @@ struct ShortcutsSettingsView: View {
         systemImage: String,
         chips: [TokenFormatField.Chip]
     ) -> some View {
-        NavigationLink {
+        FoldLink {
             TokenFormatSettingsView(title: title, chips: chips, of: Format.self)
         } label: {
             HStack {

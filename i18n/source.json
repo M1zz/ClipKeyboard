@@ -3977,6 +3977,12 @@
     "comment": "Language settings footer",
     "h": "e678de395f"
   },
+  "고르면 여기에 열려요": {
+    "ko": "고르면 여기에 열려요",
+    "en": "Pick something and it opens here",
+    "comment": "Fold detail pane: nothing selected yet",
+    "h": "83a577dde6"
+  },
   "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요": {
     "ko": "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요",
     "en": "We point out the groups and lines picked for how you use the app",
@@ -4222,6 +4228,12 @@
     "en": "Grid layout",
     "comment": "Section: grid layout",
     "h": "0200132a0a"
+  },
+  "그림 단축어": {
+    "ko": "그림 단축어",
+    "en": "Image snippet",
+    "comment": "Fold result pane: an image snippet was copied",
+    "h": "eaa36fcde2"
   },
   "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요": {
     "ko": "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요",
@@ -7175,6 +7187,12 @@
     "comment": "Purchase moment: sensitive saved",
     "h": "cd9c13be8f"
   },
+  "방금 복사함": {
+    "ko": "방금 복사함",
+    "en": "Just copied",
+    "comment": "Fold result pane: the snippet just copied",
+    "h": "02d7e18ccc"
+  },
   "배경 없음": {
     "ko": "배경 없음",
     "en": "No background",
@@ -7594,6 +7612,12 @@
     "en": "Secure snippets can be used from the list after authentication",
     "comment": "Search: secure row hint",
     "h": "5263aaf2b9"
+  },
+  "보안 단축어라 값은 보이지 않아요": {
+    "ko": "보안 단축어라 값은 보이지 않아요",
+    "en": "Secure snippet, so the value stays hidden",
+    "comment": "Fold result pane: secure snippet value is hidden",
+    "h": "9b105a42a7"
   },
   "보안 단축어로 설정": {
     "ko": "보안 단축어로 설정",
@@ -13625,6 +13649,12 @@
     "comment": "Usage stats: active last 7 days",
     "h": "b70be55387"
   },
+  "최근 · %d일": {
+    "ko": "최근 · %d일",
+    "en": "Recent · %d days",
+    "comment": "Fold result pane: recent clips header. %d is the retention days",
+    "h": "b46b18195e"
+  },
   "최근 단축어": {
     "ko": "최근 단축어",
     "en": "Recent snippets",
@@ -13834,6 +13864,12 @@
     "en": "Drag cards to reorder",
     "comment": "Reorder mode hint",
     "h": "b1666e29c5"
+  },
+  "카드를 누르면 복사한 값이 여기 보여요": {
+    "ko": "카드를 누르면 복사한 값이 여기 보여요",
+    "en": "Tap a card and what you copied shows up here",
+    "comment": "Fold result pane: hint before anything is copied",
+    "h": "b8ed4c2d5c"
   },
   "카드만 깔끔하게 보여요.": {
     "ko": "카드만 깔끔하게 보여요.",
@@ -16360,5 +16396,11 @@
     "en": "Face ID is required to access secure memos.",
     "comment": "Face ID permission (secure memos)",
     "h": "848590a8e9"
+  },
+  "뒤로": {
+    "ko": "뒤로",
+    "en": "Back",
+    "comment": "Back button",
+    "h": "dc3ab3aacb"
   }
 }

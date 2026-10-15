@@ -387,7 +387,7 @@ struct PlaceholderManagementView: View {
             if orphans.count >= 2 { sweepSection }
             Section {
                 ForEach(summaries) { summary in
-                    NavigationLink {
+                    FoldLink {
                         PlaceholderDetailView(summary: summary, allMemos: allMemos, onChange: reload)
                     } label: {
                         row(summary)
@@ -495,6 +495,16 @@ struct PlaceholderRenameSheet: View {
     @FocusState private var focused: Bool
 
     var body: some View {
+        sheetBody
+            .foldSheetCompanion(title: NSLocalizedString("미리보기", comment: "Preview"),
+                                value: FoldPlaceholderRenameCompanion.Draft(token: summary.token, newName: name,
+                                                                            memoIDs: summary.memos.map(\.id))) {
+                FoldPlaceholderRenameCompanion(draft: $0)
+            }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationStack {
             Form {
                 Section {
@@ -575,6 +585,14 @@ struct PlaceholderCreateSheet: View {
     @FocusState private var focused: Bool
 
     var body: some View {
+        sheetBody
+            .foldSheetCompanion(title: NSLocalizedString("미리보기", comment: "Preview"), value: name) { name in
+                FoldFilledTextCompanion(text: name.isEmpty ? "" : "{\(name)}")
+            }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationStack {
             Form {
                 Section {
@@ -778,7 +796,7 @@ struct PlaceholderDetailView: View {
             } else {
                 ForEach(summary.memos) { reference in
                     if let memo = allMemos.first(where: { $0.id == reference.id }) {
-                        NavigationLink {
+                        FoldLink {
                             TemplateDetailPlaceholderView(template: memo)
                         } label: {
                             Text(memo.title.templateAwareAttributed(theme: theme, font: .body))

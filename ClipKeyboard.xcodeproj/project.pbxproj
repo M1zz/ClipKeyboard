@@ -235,6 +235,12 @@
 		CF493815B00448E38477E06A /* ShortcutsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC201306E1F4FE094DC76F4 /* ShortcutsSettingsView.swift */; };
 		CHOICEROW0000000000GG2 /* ChoiceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CHOICEROW0000000000GG1 /* ChoiceRow.swift */; };
 		CLC00012F0000000000000001 /* ClipKeyboardListComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */; };
+		RCP00012F0000000000000001 /* RecentClipsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = RCP00022F0000000000000002 /* RecentClipsPage.swift */; };
+		FOLDL0012F0000000000000001 /* FoldLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDL0022F0000000000000002 /* FoldLayout.swift */; };
+		FOLDT0012F0000000000000001 /* FoldTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDT0022F0000000000000002 /* FoldTabBar.swift */; };
+		FOLDG0012F0000000000000001 /* FoldPresentationGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDG0022F0000000000000002 /* FoldPresentationGuard.swift */; };
+		FOLDN0012F0000000000000001 /* FoldNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDN0022F0000000000000002 /* FoldNavigation.swift */; };
+		FOLDP0012F0000000000000001 /* FoldCopiedPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDP0022F0000000000000002 /* FoldCopiedPane.swift */; };
 		CLIPPICK0BUILDAPP0000001 /* KeyboardClipboardPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */; };
 		CLIPPICK0BUILDEXT0000001 /* KeyboardClipboardPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */; };
 		CO00012F0000000000000001 /* MemoAddCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = CO00022F0000000000000002 /* MemoAddCoach.swift */; };
@@ -314,6 +320,7 @@
 		SMC00012F0000000000000001 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
 		SMC00032F0000000000000003 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
 		SNIPTAB0B000000000000001 /* SnippetsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = SNIPTAB0R000000000000001 /* SnippetsTab.swift */; };
+		FOLDC0012F0000000000000001 /* FoldCompanions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDC0022F0000000000000002 /* FoldCompanions.swift */; };
 		TB00012F0000000000000001 /* TabBarProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = TB00022F0000000000000002 /* TabBarProbe.swift */; };
 		TIMEEQUIVBUILDAPP0000001 /* TimeEquivalent.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */; };
 		TIMESAVEDBUILDAPP0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
@@ -634,6 +641,12 @@
 		CE7340554588DBC6AB85710E /* AppLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
 		CHOICEROW0000000000GG1 /* ChoiceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceRow.swift; sourceTree = "<group>"; };
 		CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListComponents.swift; sourceTree = "<group>"; };
+		RCP00022F0000000000000002 /* RecentClipsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentClipsPage.swift; sourceTree = "<group>"; };
+		FOLDL0022F0000000000000002 /* FoldLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldLayout.swift; sourceTree = "<group>"; };
+		FOLDT0022F0000000000000002 /* FoldTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldTabBar.swift; sourceTree = "<group>"; };
+		FOLDG0022F0000000000000002 /* FoldPresentationGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldPresentationGuard.swift; sourceTree = "<group>"; };
+		FOLDN0022F0000000000000002 /* FoldNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldNavigation.swift; sourceTree = "<group>"; };
+		FOLDP0022F0000000000000002 /* FoldCopiedPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldCopiedPane.swift; sourceTree = "<group>"; };
 		CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardClipboardPicker.swift; sourceTree = "<group>"; };
 		CO00022F0000000000000002 /* MemoAddCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddCoach.swift; sourceTree = "<group>"; };
 		CONTRACTS0000000000HH1 /* MemoScreenContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoScreenContracts.swift; sourceTree = "<group>"; };
@@ -696,6 +709,7 @@
 		SHAREVIDEOFILE000000001 /* ShareVideoRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareVideoRenderer.swift; sourceTree = "<group>"; };
 		SMC00022F0000000000000002 /* SecureMemoCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureMemoCrypto.swift; sourceTree = "<group>"; };
 		SNIPTAB0R000000000000001 /* SnippetsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsTab.swift; sourceTree = "<group>"; };
+		FOLDC0022F0000000000000002 /* FoldCompanions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldCompanions.swift; sourceTree = "<group>"; };
 		TB00022F0000000000000002 /* TabBarProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarProbe.swift; sourceTree = "<group>"; };
 		TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEquivalent.swift; sourceTree = "<group>"; };
 		TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSavedModel.swift; sourceTree = "<group>"; };
@@ -976,6 +990,10 @@
 				58DL00A02F00000000000000A0 /* Living */,
 				F798B1517ACAE28C0CFF032D /* Vault */,
 				EF7D374184C74DA684E7CC89 /* KeyLabelTruncation.swift */,
+				FOLDL0022F0000000000000002 /* FoldLayout.swift */,
+				FOLDT0022F0000000000000002 /* FoldTabBar.swift */,
+				FOLDG0022F0000000000000002 /* FoldPresentationGuard.swift */,
+				FOLDN0022F0000000000000002 /* FoldNavigation.swift */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -1078,6 +1096,7 @@
 				INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */,
 				INAPPKBR0000000000000002 /* InAppKeyboardStage.swift */,
 				SNIPTAB0R000000000000001 /* SnippetsTab.swift */,
+				FOLDC0022F0000000000000002 /* FoldCompanions.swift */,
 				KG00022F0000000000000002 /* KeyboardSetupBannerGate.swift */,
 				TB00022F0000000000000002 /* TabBarProbe.swift */,
 				581D8A992F49B4E900F2F032 /* PaywallView.swift */,
@@ -1166,6 +1185,8 @@
 				QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */,
 				CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */,
 				DCN00022F0000000000000002 /* DefaultCategoryNamePrompt.swift */,
+				RCP00022F0000000000000002 /* RecentClipsPage.swift */,
+				FOLDP0022F0000000000000002 /* FoldCopiedPane.swift */,
 				9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */,
 				CONTRACTS0000000000HH1 /* MemoScreenContracts.swift */,
 				SEARCHNORESULT000000FF1 /* SearchNoResultsView.swift */,
@@ -1627,6 +1648,7 @@
 				B3D4BFBC2978C6B78156E1B6 /* AppLanguage.swift in Sources */,
 				B41E7C09D5A2F3610E88AA12 /* UUIDExtension.swift in Sources */,
 				SNIPTAB0B000000000000001 /* SnippetsTab.swift in Sources */,
+				FOLDC0012F0000000000000001 /* FoldCompanions.swift in Sources */,
 				KG00012F0000000000000001 /* KeyboardSetupBannerGate.swift in Sources */,
 				TB00012F0000000000000001 /* TabBarProbe.swift in Sources */,
 				KBFEED0B0000000000000001 /* KeyboardMemoFeed.swift in Sources */,
@@ -1703,6 +1725,12 @@
 				US00002C2F0000000000000006 /* UsageTrendChartView.swift in Sources */,
 				CLC00012F0000000000000001 /* ClipKeyboardListComponents.swift in Sources */,
 				DCN00012F0000000000000001 /* DefaultCategoryNamePrompt.swift in Sources */,
+				RCP00012F0000000000000001 /* RecentClipsPage.swift in Sources */,
+				FOLDL0012F0000000000000001 /* FoldLayout.swift in Sources */,
+				FOLDT0012F0000000000000001 /* FoldTabBar.swift in Sources */,
+				FOLDG0012F0000000000000001 /* FoldPresentationGuard.swift in Sources */,
+				FOLDN0012F0000000000000001 /* FoldNavigation.swift in Sources */,
+				FOLDP0012F0000000000000001 /* FoldCopiedPane.swift in Sources */,
 				EP00002A2F0000000000000004 /* EmojiPicker.swift in Sources */,
 				IC00002A2F0000000000000006 /* ImagePickerComponents.swift in Sources */,
 				HT00002A2F0000000000000008 /* HighlightedTextEditor.swift in Sources */,

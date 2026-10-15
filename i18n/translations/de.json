@@ -2812,6 +2812,10 @@
     "v": "Gilt sofort in der App. Die Tastatur ändert sich beim nächsten Öffnen.",
     "src": "e678de395f"
   },
+  "고르면 여기에 열려요": {
+    "src": "83a577dde6",
+    "v": "Wähle etwas aus, dann öffnet es sich hier"
+  },
   "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요": {
     "v": "Wir zeigen dir passende Gruppen und Formulierungen für deine Art der Nutzung",
     "src": "99d0651b2f"
@@ -2987,6 +2991,10 @@
   "그리드 레이아웃": {
     "v": "Rasterlayout",
     "src": "0200132a0a"
+  },
+  "그림 단축어": {
+    "src": "eaa36fcde2",
+    "v": "Bild-Textbaustein"
   },
   "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요": {
     "v": "Bis dahin bleibt es auf Allgemein. Der frühere Standard, Digital Nomad, war der Startpunkt dieser App, nicht dein Platz",
@@ -5022,6 +5030,10 @@
     "v": "Du hast gerade etwas Privates gesichert. Mit Face ID kannst du es sperren",
     "src": "cd9c13be8f"
   },
+  "방금 복사함": {
+    "src": "02d7e18ccc",
+    "v": "Gerade kopiert"
+  },
   "배경 없음": {
     "v": "Kein Hintergrund",
     "src": "62a8879d8f"
@@ -5301,6 +5313,10 @@
   "보안 단축어는 목록에서 인증 후 사용할 수 있어요": {
     "v": "Geschützte Textbausteine nutzt du in der Liste nach der Authentifizierung",
     "src": "5263aaf2b9"
+  },
+  "보안 단축어라 값은 보이지 않아요": {
+    "src": "9b105a42a7",
+    "v": "Geschützter Textbaustein, der Wert bleibt verborgen"
   },
   "보안 단축어로 설정": {
     "v": "Als geschützt festlegen",
@@ -9409,6 +9425,13 @@
     "v": "Aktiv in 7 Tagen",
     "src": "b70be55387"
   },
+  "최근 · %d일": {
+    "src": "b46b18195e",
+    "v": {
+      "one": "Zuletzt · %d Tag",
+      "other": "Zuletzt · %d Tage"
+    }
+  },
   "최근 단축어": {
     "v": "Letzte Textbausteine",
     "src": "81c85e6ddf"
@@ -9548,6 +9571,10 @@
   "카드를 끌어 순서를 바꾸세요": {
     "v": "Ziehe Karten, um sie neu zu ordnen",
     "src": "b1666e29c5"
+  },
+  "카드를 누르면 복사한 값이 여기 보여요": {
+    "src": "b8ed4c2d5c",
+    "v": "Tippe auf eine Karte, dann erscheint hier, was du kopiert hast"
   },
   "카드만 깔끔하게 보여요.": {
     "v": "Nur die Karten, sonst nichts.",
@@ -11230,5 +11257,9 @@
   "🪪 명함": {
     "v": "🪪 Visitenkarte",
     "src": "9becff2df0"
+  },
+  "뒤로": {
+    "v": "Zurück",
+    "src": "dc3ab3aacb"
   }
 }

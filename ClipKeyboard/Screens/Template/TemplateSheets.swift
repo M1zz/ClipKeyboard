@@ -12,6 +12,7 @@ import LeeoKit
 // MARK: - Template Input Sheet
 
 struct TemplateInputSheet: View {
+    @Environment(\.foldLayout) private var fold
     let placeholders: [String]
     @Binding var inputs: [String: String]
     let onComplete: () -> Void
@@ -44,6 +45,12 @@ struct TemplateInputSheet: View {
     }
 
     var body: some View {
+        sheetBody
+            .foldSheetCompanion(title: NSLocalizedString("입력될 결과", comment: "Live preview header"), value: previewText) { FoldFilledTextCompanion(text: $0) }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationStack {
             Form {
                 // 상단 설명 - 다른 뷰들처럼 TipKit 팁으로(플로팅, 닫기 가능).
@@ -61,7 +68,8 @@ struct TemplateInputSheet: View {
                 } header: { EmptyView() }
 
                 // 실시간 결합 미리보기 - '값 선택'보다 위에 둬서 채우는 동안 결과가 바로 보인다.
-                if !previewText.isEmpty {
+                // 펼친 듀오에서는 비어 있는 다른 판에 크게 선다(`foldSheetCompanion`).
+                if !previewText.isEmpty && !fold.isUnfolded {
                     Section {
                         VStack(alignment: .leading, spacing: 6) {
                             HStack(spacing: 6) {
@@ -538,6 +546,7 @@ extension String {
 // MARK: - Template Fill Sheet (탭 시 하프모달, 키보드 스타일 값 입력)
 
 struct TemplateFillSheet: View {
+    @Environment(\.foldLayout) private var fold
     let memo: Memo
     /// 최종 resolved 문자열(자동 변수까지 치환됨)을 전달.
     let onCopy: (String) -> Void
@@ -580,11 +589,19 @@ struct TemplateFillSheet: View {
     }
 
     var body: some View {
+        sheetBody
+            .foldSheetCompanion(title: NSLocalizedString("입력될 결과", comment: "Live preview header"), value: previewValue) { FoldFilledTextCompanion(text: $0) }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationStack {
             VStack(spacing: 0) {
                 // MARK: 미리보기 - 복사될 결과. 입력값은 치환된 평문으로, 아직 안 채운 변수는
                 // 다른 화면(TemplateInputSheet/TemplateEditSheet)과 동일하게 중괄호 없는 강조색
                 // 칩으로 표시한다(templateAwareAttributed).
+                // 펼친 듀오에서는 비어 있는 다른 판에 크게 선다(`foldSheetCompanion`).
+                if !fold.isUnfolded {
                 VStack(alignment: .leading, spacing: 6) {
                     HStack(spacing: 6) {
                         Image(systemName: AppSymbol.eyeFill)
@@ -604,6 +621,7 @@ struct TemplateFillSheet: View {
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 12)
+                }
 
                 // MARK: 플레이스홀더 입력
                 ScrollView {

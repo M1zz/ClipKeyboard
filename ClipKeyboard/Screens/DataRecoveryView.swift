@@ -55,11 +55,11 @@ struct DataRecoveryView: View {
                         Text(NSLocalizedString("복원 방법", comment: "Data recovery options header"))
                             .font(.headline)
 
-                        NavigationLink(destination: CloudBackupView()) {
+                        FoldLink(destination: CloudBackupView()) {
                             Label(NSLocalizedString("iCloud 백업에서 복원", comment: "Restore from iCloud backup"),
                                   systemImage: AppSymbol.icloudAndArrowUp)
                         }
-                        NavigationLink(destination: MemoHistoryView()) {
+                        FoldLink(destination: MemoHistoryView()) {
                             Label(NSLocalizedString("변경 기록에서 되돌리기", comment: "Restore from change history"),
                                   systemImage: AppSymbol.clockArrowCirclepath)
                         }

@@ -2661,6 +2661,10 @@
     "v": "Langsung berlaku di aplikasi. Keyboard berubah saat Anda membukanya lagi.",
     "src": "e678de395f"
   },
+  "고르면 여기에 열려요": {
+    "src": "83a577dde6",
+    "v": "Pilih sesuatu dan akan terbuka di sini"
+  },
   "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요": {
     "v": "Kami tunjukkan kelompok dan kalimat yang cocok dengan cara Anda memakai aplikasi",
     "src": "99d0651b2f"
@@ -2824,6 +2828,10 @@
   "그리드 레이아웃": {
     "v": "Tata letak kisi",
     "src": "0200132a0a"
+  },
+  "그림 단축어": {
+    "src": "eaa36fcde2",
+    "v": "Frasa gambar"
   },
   "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요": {
     "v": "Sebelum itu diatur ke Umum. Bawaan lama, Digital Nomad, adalah tempat aplikasi ini bermula, bukan tempat Anda berada",
@@ -4795,6 +4803,10 @@
     "v": "Anda baru menyimpan sesuatu yang bersifat pribadi. Anda bisa menguncinya dengan Face ID",
     "src": "cd9c13be8f"
   },
+  "방금 복사함": {
+    "src": "02d7e18ccc",
+    "v": "Baru saja disalin"
+  },
   "배경 없음": {
     "v": "Tanpa latar belakang",
     "src": "62a8879d8f"
@@ -5074,6 +5086,10 @@
   "보안 단축어는 목록에서 인증 후 사용할 수 있어요": {
     "v": "Frasa aman bisa dipakai dari daftar setelah autentikasi",
     "src": "5263aaf2b9"
+  },
+  "보안 단축어라 값은 보이지 않아요": {
+    "src": "9b105a42a7",
+    "v": "Frasa aman, jadi nilainya tetap tersembunyi"
   },
   "보안 단축어로 설정": {
     "v": "Jadikan Aman",
@@ -9097,6 +9113,10 @@
     "v": "Aktif dalam 7 hari terakhir",
     "src": "b70be55387"
   },
+  "최근 · %d일": {
+    "src": "b46b18195e",
+    "v": "Terbaru · %d hari"
+  },
   "최근 단축어": {
     "v": "Frasa terbaru",
     "src": "81c85e6ddf"
@@ -9236,6 +9256,10 @@
   "카드를 끌어 순서를 바꾸세요": {
     "v": "Seret kartu untuk mengubah urutan",
     "src": "b1666e29c5"
+  },
+  "카드를 누르면 복사한 값이 여기 보여요": {
+    "src": "b8ed4c2d5c",
+    "v": "Ketuk kartu dan hasil salinan Anda muncul di sini"
   },
   "카드만 깔끔하게 보여요.": {
     "v": "Hanya kartu, tanpa yang lain.",
@@ -10912,5 +10936,9 @@
   "🪪 명함": {
     "v": "🪪 Kartu Nama",
     "src": "9becff2df0"
+  },
+  "뒤로": {
+    "v": "Kembali",
+    "src": "dc3ab3aacb"
   }
 }

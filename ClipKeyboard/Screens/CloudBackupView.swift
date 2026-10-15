@@ -234,7 +234,7 @@ struct CloudBackupView: View {
                     .disabled(backupService.isBackingUp || backupService.isRestoring)
 
                     // 버전(타임머신)에서 복원 - 날짜별 스냅샷 선택
-                    NavigationLink {
+                    FoldLink {
                         BackupVersionsView()
                     } label: {
                         HStack {

@@ -35,6 +35,14 @@ struct PhotoValuePicker: View {
     @State private var appended: Set<String> = []
 
     var body: some View {
+        sheetBody
+            .foldSheetCompanion(title: NSLocalizedString("입력될 결과", comment: "Live preview header"), value: lines.filter { appended.contains($0) }) {
+                FoldLinesCompanion(lines: $0)
+            }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationStack {
             List {
                 if !smartPicks.isEmpty {

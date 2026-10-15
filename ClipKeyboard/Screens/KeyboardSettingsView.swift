@@ -58,11 +58,11 @@ struct KeyboardSettingsView: View {
             }
             .accessibilityHint(NSLocalizedString("단계별 키보드 설정 가이드를 엽니다", comment: "Open keyboard setup guide hint"))
 
-            NavigationLink(destination: KeyboardLayoutSettings()) {
+            FoldLink(destination: KeyboardLayoutSettings()) {
                 Label(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"),
                       systemImage: AppSymbol.rectangle3Group)
             }
-            NavigationLink(destination: CopyPasteView()) {
+            FoldLink(destination: CopyPasteView()) {
                 Label(NSLocalizedString("붙여넣기 알림 허용 끄기", comment: "Paste notification settings title"),
                       systemImage: AppSymbol.docOnClipboard)
             }
@@ -92,7 +92,7 @@ struct KeyboardSettingsView: View {
             }
             // 온디바이스 AI(iOS 26+). 설명은 행 안에 둔다 - 예전에는 이 행 하나만을 위한
             // 섹션이 따로 있었고, 섹션 머리말이 내용보다 길었다.
-            NavigationLink(destination: AISettingsView()) {
+            FoldLink(destination: AISettingsView()) {
                 Label {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(NSLocalizedString("Apple Intelligence", comment: "AI settings status row title"))

@@ -16,6 +16,9 @@ import LeeoKit
 
 struct KeyboardLayoutSettings: View {
 
+    /// 펼친 듀오에서 미리보기가 결과 쪽 판에 따로 서 있는가(`FoldCompanionProviding`).
+    @Environment(\.foldShowsCompanion) private var showsFoldCompanion
+
     // MARK: AppStorage - App Group 공유 (익스텐션과 동일 키)
     @AppStorage(KeyboardPrefs.columnCount.key, store: AppGroup.defaults) private var columnCount: Int = KeyboardPrefs.columnCount.fallback
     @AppStorage(KeyboardPrefs.buttonHeight.key, store: AppGroup.defaults) private var buttonHeight: Double = KeyboardPrefs.buttonHeight.fallback
@@ -113,6 +116,8 @@ struct KeyboardLayoutSettings: View {
             // ⚠️ **위를 기준으로 담는다.** 가운데로 두면 줄여 담은 키보드가 위아래로
             //    똑같이 삐져나가고, 그 위쪽이 바로 조작 키 줄이다. 잘릴 데가 있다면 아래여야 한다.
             //    (여기서 200 을 주고 미리보기가 그 안에 맞춰 줄어든다 - `KeyboardPreviewView.budget`)
+            // 펼친 듀오에서는 이 미리보기가 결과 쪽 판 전체에 크게 선다(`FoldCompanionProviding`).
+            if !showsFoldCompanion {
             KeyboardPreviewView()
                 .frame(height: KeyboardPreviewView.budget, alignment: .top)
                 .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
@@ -127,6 +132,7 @@ struct KeyboardLayoutSettings: View {
                 // (새 기능 안내 → 키보드 꾸미러 가기) 양옆에 흰 띠가 남는다.
                 .frame(maxWidth: .infinity)
                 .background(theme.bg)
+            }
 
             List {
             // ── 0. 키보드 높이 ─────────────────────────
@@ -558,6 +564,16 @@ struct KeyboardLayoutSettings: View {
 /// AppStorage를 직접 읽어 슬라이더/토글 변경이 즉시 반영된다.
 struct KeyboardPreviewView: View {
 
+    /// 담을 폭. nil 이면 화면 폭(설정 화면 맨 위). 펼친 듀오의 짝 판에서는 그 판의 폭이다.
+    private let fitWidth: CGFloat?
+    /// 담을 높이. 이보다 크면 줄여 담는다.
+    private let heightBudget: CGFloat
+
+    init(fitWidth: CGFloat? = nil, heightBudget: CGFloat = KeyboardPreviewView.budget) {
+        self.fitWidth = fitWidth
+        self.heightBudget = heightBudget
+    }
+
     /// 미리보기가 쓰는 입력창. 실제로 글이 들어가지는 않지만, 키보드가 기대는 상태다.
     @StateObject private var host = InAppKeyboardHost()
     @Environment(\.appTheme) private var theme
@@ -611,7 +627,7 @@ struct KeyboardPreviewView: View {
             .accessibilityLabel(NSLocalizedString("키보드 미리보기", comment: "Keyboard preview accessibility label"))
     }
 
-    private var screenWidth: CGFloat { ScreenSize.current.width }
+    private var screenWidth: CGFloat { fitWidth ?? ScreenSize.current.width }
 
     /// 설정 화면에서 미리보기가 쓸 수 있는 높이. 이보다 크면 줄여 담는다.
     ///
@@ -623,7 +639,7 @@ struct KeyboardPreviewView: View {
     static let budget: CGFloat = 200
 
     private var previewScale: CGFloat {
-        min(1, Self.budget / max(naturalHeight, 1))
+        min(1, heightBudget / max(naturalHeight, 1))
     }
 
     /// 지금 고른 설정으로 실제 키보드가 차지할 높이. **익스텐션과 같은 함수로 잰다** -

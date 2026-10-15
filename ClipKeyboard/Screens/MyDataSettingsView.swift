@@ -143,7 +143,7 @@ struct MyDataSettingsView: View {
     /// 내 것을 잃지 않게 하는 것들.
     private var backupSection: some View {
         Section {
-            NavigationLink(destination: CloudBackupView()) {
+            FoldLink(destination: CloudBackupView()) {
                 Label(NSLocalizedString("백업 및 복원", comment: "Backup and restore"),
                       systemImage: AppSymbol.icloudAndArrowUp)
             }
@@ -191,7 +191,7 @@ struct MyDataSettingsView: View {
                 }
                 .disabled(isCheckingAuthority)
             }
-            NavigationLink(destination: MemoHistoryView()) {
+            FoldLink(destination: MemoHistoryView()) {
                 Label(NSLocalizedString("변경 기록 (되돌리기)", comment: "Memo change history / undo"),
                       systemImage: AppSymbol.clockArrowCirclepath)
             }
@@ -201,7 +201,7 @@ struct MyDataSettingsView: View {
     /// 기기 안에 담겨 있는 것들.
     private var storedSection: some View {
         Section {
-            NavigationLink(destination: SecurePINSettings()) {
+            FoldLink(destination: SecurePINSettings()) {
                 HStack {
                     Label(NSLocalizedString("보안 단축어 PIN", comment: "Secure memo PIN"),
                           systemImage: AppSymbol.lockShield)
@@ -214,7 +214,7 @@ struct MyDataSettingsView: View {
             }
             // ⚠️ 사용 기록과 자리를 맞바꿨다. 클립보드는 **키보드 안에서 꺼내 쓰는 것**이지
             //    탭을 열어 들여다보는 것이 아니었고, 사용 기록은 가끔 열어 보는 것이라 탭이 맞다.
-            NavigationLink(destination: ClipboardList()) {
+            FoldLink(destination: ClipboardList()) {
                 Label(NSLocalizedString("클립보드 기록", comment: "Clipboard history settings entry"),
                       systemImage: AppSymbol.clockArrowCirclepath)
             }

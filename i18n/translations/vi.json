@@ -2659,6 +2659,10 @@
     "v": "Áp dụng cho ứng dụng ngay. Bàn phím sẽ đổi ở lần mở tiếp theo.",
     "src": "e678de395f"
   },
+  "고르면 여기에 열려요": {
+    "src": "83a577dde6",
+    "v": "Chọn một mục, nó sẽ mở ở đây"
+  },
   "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요": {
     "v": "Chúng tôi gợi ý nhóm và câu phù hợp với cách bạn dùng ứng dụng",
     "src": "99d0651b2f"
@@ -2822,6 +2826,10 @@
   "그리드 레이아웃": {
     "v": "Bố cục lưới",
     "src": "0200132a0a"
+  },
+  "그림 단축어": {
+    "src": "eaa36fcde2",
+    "v": "Cụm từ hình ảnh"
   },
   "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요": {
     "v": "Cho đến lúc đó, ứng dụng để ở chế độ Chung. Mặc định cũ là Digital Nomad, đó là nơi ứng dụng bắt đầu, không phải nơi bạn đang đứng",
@@ -4791,6 +4799,10 @@
     "v": "Bạn vừa lưu một nội dung riêng tư. Bạn có thể khóa bằng Face ID",
     "src": "cd9c13be8f"
   },
+  "방금 복사함": {
+    "src": "02d7e18ccc",
+    "v": "Vừa sao chép"
+  },
   "배경 없음": {
     "v": "Không có nền",
     "src": "62a8879d8f"
@@ -5070,6 +5082,10 @@
   "보안 단축어는 목록에서 인증 후 사용할 수 있어요": {
     "v": "Bạn có thể dùng cụm từ bảo mật từ danh sách sau khi xác thực",
     "src": "5263aaf2b9"
+  },
+  "보안 단축어라 값은 보이지 않아요": {
+    "src": "9b105a42a7",
+    "v": "Đây là cụm từ bảo mật nên giá trị được ẩn"
   },
   "보안 단축어로 설정": {
     "v": "Đặt làm cụm từ bảo mật",
@@ -9091,6 +9107,10 @@
     "v": "Hoạt động trong 7 ngày qua",
     "src": "b70be55387"
   },
+  "최근 · %d일": {
+    "src": "b46b18195e",
+    "v": "Gần đây · %d ngày"
+  },
   "최근 단축어": {
     "v": "Cụm từ gần đây",
     "src": "81c85e6ddf"
@@ -9230,6 +9250,10 @@
   "카드를 끌어 순서를 바꾸세요": {
     "v": "Kéo thẻ để đổi thứ tự",
     "src": "b1666e29c5"
+  },
+  "카드를 누르면 복사한 값이 여기 보여요": {
+    "src": "b8ed4c2d5c",
+    "v": "Chạm vào thẻ để xem giá trị bạn vừa sao chép ở đây"
   },
   "카드만 깔끔하게 보여요.": {
     "v": "Chỉ hiển thị thẻ, không có gì khác.",
@@ -10906,5 +10930,9 @@
   "🪪 명함": {
     "v": "🪪 Danh thiếp",
     "src": "9becff2df0"
+  },
+  "뒤로": {
+    "v": "Quay lại",
+    "src": "dc3ab3aacb"
   }
 }

@@ -913,6 +913,15 @@ struct OCRTextPickerSheet: View {
     @State private var selected: Set<Int> = []
 
     var body: some View {
+        sheetBody
+            .foldSheetCompanion(title: NSLocalizedString("입력될 결과", comment: "Live preview header"),
+                                value: selected.sorted().compactMap { candidates.indices.contains($0) ? candidates[$0] : nil }) {
+                FoldLinesCompanion(lines: $0)
+            }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {

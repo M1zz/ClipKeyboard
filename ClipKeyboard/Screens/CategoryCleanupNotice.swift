@@ -147,7 +147,7 @@ struct CategoryCleanupNotice: View {
 
     private var actions: some View {
         VStack(spacing: 10) {
-            NavigationLink {
+            FoldLink {
                 CategorySettings()
             } label: {
                 Text(NSLocalizedString("카테고리 정리하기", comment: "Category cleanup primary action"))

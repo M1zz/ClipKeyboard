@@ -1357,6 +1357,11 @@ struct ClipKeyboardApp: App {
                     }
                 }
         } // AppThemedContainer
+            // 아이폰 듀오: 접혔는지 · 어느 쪽으로 펴졌는지를 아래로 흘린다(DesignSystem/FoldLayout.swift).
+            // ⚠️ 앱 맨 바깥에 건다. 시트는 그 `.sheet` 가 걸린 자리의 환경을 물려받으므로,
+            //    탭 화면에만 걸면 앱 루트에서 띄우는 시트(새 기능 · 의견 · 결제)는 접힌 줄 모르고
+            //    창 가득 올라와 접힌 선을 덮는다(실측).
+            .foldAware()
             } // else (비테스트 실행)
 
         }
@@ -1533,7 +1538,22 @@ struct MainTabView: View {
     @State private var showClipboardSheet = false
 
     /// 지금 어느 탭인가. 이미 선택된 탭을 **한 번 더** 누른 것을 잡아내려면 선택 값이 필요하다.
-    @State private var selection: MainTab = .snippets
+    @State private var selection: MainTab = Self.initialTab
+
+    /// 처음 보이는 탭. 개발 빌드에서 `-FoldPreviewTab settings` 처럼 주면 그 탭으로 연다
+    /// (명령줄 시뮬레이터에서는 탭을 누를 수 없어 듀오 펼친 화면을 탭마다 찍으려고 둔다).
+    private static var initialTab: MainTab {
+        #if DEBUG
+        switch UserDefaults.standard.string(forKey: "FoldPreviewTab") {
+        case "usage": return .usage
+        case "settings": return .settings
+        case "search": return .search
+        default: return .snippets
+        }
+        #else
+        return .snippets
+        #endif
+    }
 
     // MARK: - "이 탭에는 화면이 둘이에요" 를 띄우는 동안
 
@@ -1542,6 +1562,7 @@ struct MainTabView: View {
     ///    조건은 `SnippetsTab.showsSwitchHint` 한 곳에서 정하고 여기로 흘러온다.
     @ObservedObject private var switchHint = SwitchHintBeacon.shared
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.foldLayout) private var fold
 
     /// 잰 탭바 첫 칸의 자리(화면 좌표). 못 재면 nil - 그러면 아무것도 안 그린다.
     @State private var firstTabFrame: CGRect?
@@ -1582,6 +1603,19 @@ struct MainTabView: View {
         }
     }
 
+    /// 펼친 화면의 탭 막대에 세울 칸. 시스템 탭바의 `Tab` 과 같은 이름 · 아이콘 · 순서다.
+    private var foldTabItems: [FoldTabBar<MainTab>.Item] {
+        [
+            .init(value: .snippets, title: snippetsStyle.tabName, symbol: snippetsStyle.symbolName),
+            .init(value: .usage, title: NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
+                  symbol: AppSymbol.checkmarkSealFill),
+            .init(value: .settings, title: NSLocalizedString("설정", comment: "Menu: settings"),
+                  symbol: AppSymbol.gearshape),
+            .init(value: .search, title: NSLocalizedString("검색", comment: "Search"),
+                  symbol: AppSymbol.magnifyingglass, standsApart: true),
+        ]
+    }
+
     /// 검색 탭의 역할.
     ///
     /// ⚠️ iOS 26 은 `.search` 탭을 막대 밖 동그라미로 떼어 그렸다. iOS 27 은 같은 코드를
@@ -1605,6 +1639,7 @@ struct MainTabView: View {
                 systemImage: snippetsStyle.symbolName,
                 value: MainTab.snippets, role: nil) {
                 SnippetsTab()
+                    .foldTabBarRoom()
             }
             // ⚠️ 예전에는 이 자리가 **클립보드**였고 사용 기록은 설정 안에 있었다. 둘을 맞바꾼다.
             //    클립보드는 키보드 안에서 꺼내 쓰는 것이지 탭을 열어 들여다보는 것이 아니었고,
@@ -1613,17 +1648,44 @@ struct MainTabView: View {
             Tab(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
                 systemImage: AppSymbol.checkmarkSealFill,
                 value: MainTab.usage, role: nil) {
-                NavigationStack { UsagePassportView().alwaysTransparentBars() }
+                // 듀오를 펴면 여권 옆(세로면 위)에 고른 도장 하나가 크게 선다.
+                FoldSplitView {
+                    NavigationStack { UsagePassportView().alwaysTransparentBars() }
+                } result: {
+                    UsagePassportStampPane()
+                }
+                .foldTabBarRoom()
             }
             Tab(NSLocalizedString("설정", comment: "Menu: settings"),
                 systemImage: AppSymbol.gearshape,
                 value: MainTab.settings, role: nil) {
-                NavigationStack { SettingView().alwaysTransparentBars() }
+                // 듀오를 펴면 설정 목록 옆에 고른 설정이 열린다(목록 | 자세히).
+                // 듀오를 펴면 설정 목록 옆(세로면 위)에 고른 설정이 열린다(목록 | 자세히).
+                FoldNavigation {
+                    SettingView().alwaysTransparentBars()
+                }
+                .foldTabBarRoom()
             }
             Tab(NSLocalizedString("검색", comment: "Search"),
                 systemImage: AppSymbol.magnifyingglass,
                 value: MainTab.search, role: Self.searchTabRole) {
-                NavigationStack { MemoSearchView().alwaysTransparentBars() }
+                // 듀오를 펴면 검색 결과 옆에 방금 복사한 값 · 최근이 선다(단축어 탭과 같은 결과 쪽).
+                FoldSplitView {
+                    NavigationStack { MemoSearchView().alwaysTransparentBars() }
+                } result: {
+                    FoldCopiedPane()
+                }
+                .foldTabBarRoom()
+            }
+        }
+        // 듀오를 펴면 시스템 탭바 대신 이 막대가 **고르는 쪽 판 안**에 선다(`FoldTabBar` 주석).
+        .overlay(alignment: fold.posture == .innerLandscape ? .bottomLeading : .bottom) {
+            if fold.isUnfolded {
+                FoldTabBar(items: foldTabItems,
+                           selected: selection,
+                           select: { selectionBinding.wrappedValue = $0 })
+                    .frame(width: fold.posture == .innerLandscape
+                           ? fold.leadEnd : nil)
             }
         }
         // ⚠️ 물결은 **`TabView` 바깥쪽**에 얹는다. 탭바는 UIKit 이 콘텐츠 위에 그리므로
@@ -1632,7 +1694,8 @@ struct MainTabView: View {
         //    무대 머리말의 격자 버튼도 같이 빛난다(`SnippetsStyleSwitchButton.highlighted`).
         //    안내가 두 길을 적어 두었으니(버튼·탭 다시 누르기) 가리키는 것도 둘이어야 한다.
         .overlay {
-            if showsSwitchHint, let frame = firstTabFrame {
+            // 펼친 화면에는 시스템 탭바가 없다. 잰 자리는 숨은 막대의 것이라 엉뚱한 곳(접힌 선)을 짚는다.
+            if showsSwitchHint, !fold.isUnfolded, let frame = firstTabFrame {
                 KeyRipple(shape: Capsule(), color: .accentColor, reach: 7)
                     .frame(width: frame.width, height: frame.height)
                     .position(x: frame.midX, y: frame.midY)

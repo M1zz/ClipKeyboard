@@ -371,7 +371,10 @@ class MemoStore: ObservableObject {
                             value: memos[index].value,
                             type: memos[index].autoDetectedType,
                             useCount: 1),
-                           MemoUsedKey.copiedText: copiedText ?? memos[index].value]
+                           MemoUsedKey.copiedText: copiedText ?? memos[index].value,
+                           MemoUsedKey.title: memos[index].title,
+                           MemoUsedKey.isSecure: memos[index].isSecure,
+                           MemoUsedKey.isImage: memos[index].contentType == .image]
             )
         }
     }
@@ -1280,6 +1283,11 @@ enum MemoUsedKey {
     static let earnedSeconds = "earnedSeconds"
     /// 실제로 클립보드에 들어간 글.
     static let copiedText = "copiedText"
+    /// 단축어 제목 · 보안인가 · 그림인가. 받는 쪽이 파일을 다시 읽지 않게 함께 싣는다
+    /// (듀오 결과 쪽 `FoldCopiedPane` 이 "방금 복사함"에 쓴다).
+    static let title = "title"
+    static let isSecure = "isSecure"
+    static let isImage = "isImage"
 }
 
 // MARK: - KeyboardUsageTracker

@@ -38,6 +38,10 @@
 | 이정표 안내 | 같은 안내가 계속 뜬다 · 돈 낸 사람에게 뜬다 | `FreeUseTests/test_본_이정표는_다시_뜨지_않고_돈을_낸_사람에게는_없다` |
 | 클립보드 기록 | 복사한 것이 분류되지 않는다 | `SmartClipboardLifecycleTests/testAdd_ClassifiesContentAutomatically` |
 | 키보드 '최근' 탭 | 담아 둔 것이 키보드에 없다 · 한 주 지나 말없이 사라졌다 | `BasicScenarioTests/test_담아_둔_것은_키보드_최근_탭에_30일_남는다` |
+| 목록 '최근' 탭 | 키보드에는 '최근' 이 있는데 목록 탭에는 없다 · 앱을 켜면 단축어 대신 복사 기록이 먼저 보인다 | `BasicScenarioTests/test_키보드에_최근이_있으면_목록_탭에도_맨_앞에_선다` |
+| 아이폰 듀오 펼침 | 펴도 화면이 늘어나기만 한다 · 누를 것이 접힌 선에 걸린다 · 펴면 목록 모양이 바뀐다 | `FoldLayoutTests/test_두_쪽은_접힌_선을_비우고_창_기준으로_맞는다` |
+| 아이폰 듀오 펼침: 접힌 선 비움 | 탭바 · 시트 · 알림창이 접힌 선 위에 선다 · 알림창이 닫힌 뒤 보이지 않는 창이 터치를 막는다 | `FoldPresentationGuardTests/test_펴면_알림창은_고르는_쪽_판에서_뜨고_내려가면_판_창이_비켜선다` |
+| 아이폰 듀오 펼침: 목록 \| 자세히 | 펴도 설정 줄을 누르면 화면이 통째로 바뀐다 · 깊이 들어가면 돌아올 길이 없다 · 미리보기가 작은 채로 남는다 | `FoldNavigationTests/test_결과_쪽에서_고르면_밀리고_뒤로는_한_장씩` |
 | 키보드 한글 입력 | 검색창에서 자모가 흩어진다 | `HangulComposerTests/testMultipleSyllables_CommitOnNewInitial` |
 | 업데이트 뒤에도 데이터가 남는다 | 업데이트했더니 단축어가 사라졌다 | `MigrationCompatibilityTests/testOneLegacyItemDoesNotBreakWholeArray` |
 | iCloud 백업과 복원 | 복원했더니 일부 필드가 빠졌다 | `CloudKitBackupIntegrityTests/testBackupThenRestore_PreservesAllMemoFields` |
@@ -57,4 +61,5 @@
 | 화면 모양 (가장 큰 글자, 다크, 번역 길이) | 논리 시험은 픽셀을 안 본다 | 기기 QA, `AccessibilityContrastTests` |
 | 실기기 전용 경로 (CloudKit 실서버, 결제, MetricKit) | 시뮬레이터에 없다 | 허브의 릴리즈 건강 카드 · 크래시/멈춤 이슈 |
 | 멈춤 · 워치독 | 시간과 기기 부하에 달렸다 | 허브 멈춤 이슈 + dSYM 으로 되돌리기, `check_main_thread_*.sh` |
+| 아이폰 듀오의 실제 펼친 화면 | Xcode 27.0 으로 빌드한 앱은 듀오에서 호환 틀(아이폰 크기)로 떠서 펼친 배치가 켜지지 않는다. 명령줄 시뮬레이터는 펼칠 수 없다 | `-FoldPreview` 미리보기 틀(아이패드 시뮬레이터), Xcode 27.1 로 올린 뒤 듀오 시뮬레이터 · 기기 QA |
 | 무료 한도의 경계 | Pro 상태가 기기의 구매 기록에 달려 시험에서 고정하기 어렵다 | `OwnShortcutLimitTests`(계산), 기기 QA |

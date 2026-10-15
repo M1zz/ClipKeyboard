@@ -196,6 +196,15 @@ struct StackImportSheet: View {
     @State private var selected: Set<UUID> = []
 
     var body: some View {
+        sheetBody
+            .foldSheetCompanion(title: NSLocalizedString("입력될 결과", comment: "Live preview header"),
+                                value: memos.filter { selected.contains($0.id) }.map(\.title)) {
+                FoldLinesCompanion(lines: $0)
+            }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationStack {
             Group {
                 if memos.isEmpty {

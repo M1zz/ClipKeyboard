@@ -60,7 +60,7 @@ struct HelpSettingsView: View {
     /// 스스로 알아보는 길.
     private var learnSection: some View {
         Section {
-            NavigationLink(destination: TutorialView()) {
+            FoldLink(destination: TutorialView()) {
                 Label(NSLocalizedString("사용 가이드", comment: "User guide"),
                       systemImage: AppSymbol.bookClosed)
             }
@@ -76,16 +76,16 @@ struct HelpSettingsView: View {
             }
             // 띄엄띄엄 오는 안내에는 반드시 다시 볼 자리가 있어야 한다 - 정작 필요해진 날
             // ("그때 잠글 수 있다고 하지 않았나?") 찾을 길이 없으면 안 알려 준 것과 같다.
-            NavigationLink(destination: DidYouKnowListView()) {
+            FoldLink(destination: DidYouKnowListView()) {
                 Label(NSLocalizedString("그거 아세요?", comment: "Did you know header"),
                       systemImage: "lightbulb")
             }
-            NavigationLink(destination: AccessibilityGuideView()) {
+            FoldLink(destination: AccessibilityGuideView()) {
                 Label(NSLocalizedString("손쉬운 사용", comment: "Accessibility guide settings entry"),
                       systemImage: AppSymbol.figureWalkCircle)
             }
             // 업데이트 직후 1회 뜨는 WhatsNew 와 달리 언제든 다시 볼 수 있는 기록.
-            NavigationLink(destination: ChangelogView()) {
+            FoldLink(destination: ChangelogView()) {
                 Label(NSLocalizedString("변경사항", comment: "Changelog settings entry"),
                       systemImage: AppSymbol.clockArrowCirclepath)
             }

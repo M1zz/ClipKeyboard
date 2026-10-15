@@ -12,6 +12,7 @@ import LeeoKit
 // MARK: - Template Edit Sheet
 
 struct TemplateEditSheet: View {
+    @Environment(\.foldLayout) private var fold
     let memo: Memo
     let onCopy: (String) -> Void
     let onCancel: () -> Void
@@ -50,6 +51,12 @@ struct TemplateEditSheet: View {
     }
 
     var body: some View {
+        sheetBody
+            .foldSheetCompanion(title: NSLocalizedString("입력될 결과", comment: "Live preview header"), value: previewText) { FoldFilledTextCompanion(text: $0) }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationStack {
             ScrollViewReader { proxy in
             ScrollView {
@@ -62,7 +69,10 @@ struct TemplateEditSheet: View {
                         fillChipsRow(proxy)
                     }
                     // 미리보기를 '값 선택'보다 위에 - 채우는 동안 결과가 바로 보이게.
-                    previewSection
+                    // 펼친 듀오에서는 비어 있는 다른 판에 크게 선다(`foldSheetCompanion`).
+                    if !fold.isUnfolded {
+                        previewSection
+                    }
                     placeholderSection
                 }
                 .padding()

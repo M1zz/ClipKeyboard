@@ -42,7 +42,7 @@ struct SettingView: View {
             Section {
                 // 누르면 **지금 누리는 혜택과 그 양**을 본다(ProBenefitsView).
                 // 산 사람에게 "활성화됨" 한 줄은 영수증일 뿐이다. 무엇을 얼마나 쓰고 있는지가 보여야 산 값이 보인다.
-                NavigationLink(destination: ProBenefitsView()) {
+                FoldLink(destination: ProBenefitsView()) {
                     HStack {
                         Image(systemName: AppSymbol.checkmarkSealFill)
                             .font(.title2)
@@ -199,13 +199,13 @@ struct SettingView: View {
     ///    먼저 보여야 설정 화면이 무엇을 하는 곳인지 읽힌다.
     private var feedbackSection: some View {
         Section {
-            NavigationLink(destination: FeedbackView()) {
+            FoldLink(destination: FeedbackView()) {
                 Label(NSLocalizedString("피드백 보내기", comment: "Send feedback settings entry"),
                       systemImage: AppSymbol.envelopeBadge)
             }
             // 보낸 적이 있을 때만 보인다. 답장이 오면 숫자가 붙는다.
             LeeoSentFeedbackRow<ClipKeyboardSpec>()
-            NavigationLink(destination: ReviewWriteView()) {
+            FoldLink(destination: ReviewWriteView()) {
                 Label(NSLocalizedString("리뷰 남기기", comment: "Leave review"),
                       systemImage: AppSymbol.star)
             }
@@ -264,7 +264,7 @@ struct SettingView: View {
         systemImage: String,
         @ViewBuilder destination: () -> Destination
     ) -> some View {
-        NavigationLink(destination: destination()) {
+        FoldLink(destination: destination()) {
             Label(title, systemImage: systemImage)
         }
     }
@@ -273,19 +273,19 @@ struct SettingView: View {
     /// 머리말을 두지 않는다. 행마다 "(개발자)"가 붙어 있어 한 번 더 말할 필요가 없다.
     private var developerSection: some View {
         Section {
-            NavigationLink(destination: FeedbackInboxView()) {
+            FoldLink(destination: FeedbackInboxView()) {
                 Label(NSLocalizedString("접수된 피드백 (개발자)", comment: "Feedback inbox settings entry (developer)"),
                       systemImage: AppSymbol.trayFull)
             }
-            NavigationLink(destination: UsageStatsView()) {
+            FoldLink(destination: UsageStatsView()) {
                 Label(NSLocalizedString("사용 통계 (개발자)", comment: "Usage stats settings entry (developer)"),
                       systemImage: AppSymbol.chartBarXaxis)
             }
-            NavigationLink(destination: CrashReportsView()) {
+            FoldLink(destination: CrashReportsView()) {
                 Label(NSLocalizedString("안정성 (개발자)", comment: "Stability settings entry (developer)"),
                       systemImage: AppSymbol.exclamationmarkTriangleFill)
             }
-            NavigationLink(destination: UserStageSimulatorView()) {
+            FoldLink(destination: UserStageSimulatorView()) {
                 Label(NSLocalizedString("사용 단계 흉내 (개발자)", comment: "Stage simulator settings entry (developer)"),
                       systemImage: AppSymbol.personCropCircleBadgeCheckmark)
             }
@@ -360,6 +360,7 @@ struct SettingsCategoryChrome: ViewModifier {
 /// 메모 표시 방식(이 앱 전용) - 메모 셀 높이 + 우상단 카테고리 심볼 표시.
 struct DisplaySettingsView: View {
     @Environment(\.appTheme) private var theme
+    @Environment(\.foldShowsCompanion) private var showsFoldCompanion
     /// 메모 구분 표시 마스터 토글 - 기본 OFF(제목만). 켜면 타입 아이콘·배지·테두리·심볼·색을 모두 표시.
     /// App Group에 저장해 키보드 익스텐션도 동일 설정을 읽는다.
     @AppStorage(KeyboardPrefs.showVisualCues.key, store: AppGroup.defaults)
@@ -374,6 +375,8 @@ struct DisplaySettingsView: View {
     var body: some View {
         List {
             // 라이브 미리보기 - 아래 설정을 바꾸면 즉시 반영된다(실제 메모 카드와 동일 모양).
+            // 펼친 듀오에서는 결과 쪽 판에 크게 선다(`FoldCompanionProviding`).
+            if !showsFoldCompanion {
             Section(header: Text(NSLocalizedString("미리보기", comment: "Preview"))) {
                 HStack(spacing: 12) {
                     previewCell(title: NSLocalizedString("단축어", comment: "Snippet (saved key-value item) display name"),
@@ -385,6 +388,7 @@ struct DisplaySettingsView: View {
                 .padding(.vertical, 8)
                 .animation(.easeInOut(duration: 0.2), value: memoCardHeight)
                 .animation(.easeInOut(duration: 0.2), value: visible)
+            }
             }
 
             // 메모 높이
@@ -450,8 +454,25 @@ struct DisplaySettingsView: View {
     }
 
     /// 실제 메모 그리드 셀(ClipKeyboardList.memoGridCell)과 동일한 모양의 미리보기.
-    /// memoCardHeight·visible(심볼 토글)을 그대로 반영해 설정 변화를 즉시 보여준다.
     private func previewCell(title: String, symbol: String, color: Color, plusTemplate: Bool) -> some View {
+        MemoCardPreviewCell(title: title, symbol: symbol, color: color, plusTemplate: plusTemplate)
+    }
+}
+
+/// 실제 메모 그리드 셀(ClipKeyboardList.memoGridCell)과 동일한 모양의 미리보기.
+/// memoCardHeight · 구분 표시(visible)를 스스로 읽어, 설정 화면과 펼친 듀오의 짝 판이 같이 바뀐다.
+struct MemoCardPreviewCell: View {
+    @Environment(\.appTheme) private var theme
+    @AppStorage(KeyboardPrefs.showVisualCues.key, store: AppGroup.defaults)
+    private var visible: Bool = KeyboardPrefs.showVisualCues.fallback
+    @AppStorage(AppPrefs.memoCardHeight.key) private var memoCardHeight: Double = AppPrefs.memoCardHeight.fallback
+
+    let title: String
+    let symbol: String
+    let color: Color
+    let plusTemplate: Bool
+
+    var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 4) {
                 // 좌상단: 메모 심볼 (+ 템플릿이면 막대기 심볼) - 실제 카드와 동일하게
@@ -981,11 +1002,22 @@ struct KeyColorSettingsView: View {
 
     // MARK: 고르는 자리
 
+    /// ⚠️ 색이 늘어 한 줄에 다 안 들어간다(폰에서 첫 동그라미가 왼쪽으로 잘려 나갔다).
+    ///    들어가면 고르게 펼치고, 안 들어가면 옆으로 민다.
     private var swatchRow: some View {
-        HStack(spacing: 12) {
-            ForEach(AppAccent.allCases) { candidate in
-                swatchButton(candidate)
-                if candidate != AppAccent.allCases.last { Spacer(minLength: 0) }
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 12) {
+                ForEach(AppAccent.allCases) { candidate in
+                    swatchButton(candidate)
+                    if candidate != AppAccent.allCases.last { Spacer(minLength: 0) }
+                }
+            }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 14) {
+                    ForEach(AppAccent.allCases) { candidate in
+                        swatchButton(candidate)
+                    }
+                }
             }
         }
     }

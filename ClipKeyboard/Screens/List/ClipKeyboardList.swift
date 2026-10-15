@@ -65,6 +65,11 @@ struct ClipKeyboardList: View {
     // 메모 구분 표시 마스터 토글 - 기본 OFF(제목만, 가장 심플).
     // 켜면 타입 아이콘·배지·테두리·우상단 심볼·카테고리/즐겨찾기 색을 모두 표시.
     // App Group에 저장해 키보드 익스텐션도 같은 설정을 읽는다.
+    /// 맨 앞 '최근' 페이지를 세우는가 - 키보드 '최근' 탭과 같은 설정. 페이지 목록은 뷰모델이
+    /// 같은 값을 읽어 만든다(`allCategoryTabs`). 여기 둔 것은 설정이 바뀌면 다시 그리게 하려는 것이다.
+    @AppStorage(KeyboardPrefs.showRecentClipsTab.key, store: AppGroup.defaults)
+    private var showsRecentClipsTab: Bool = KeyboardPrefs.showRecentClipsTab.fallback
+
     @AppStorage(KeyboardPrefs.showVisualCues.key, store: AppGroup.defaults)
     private var showVisualCues: Bool = KeyboardPrefs.showVisualCues.fallback
     @State private var showCategoryBadgeNudge: Bool = false
@@ -192,6 +197,9 @@ struct ClipKeyboardList: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     /// 카드 열 수 결정용 - 아이패드·맥에서 `.regular` 가 된다.
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    /// 아이폰 듀오: 펴졌는가, 이 목록이 선 판의 위 끝은 어디인가(DesignSystem/FoldLayout.swift).
+    @Environment(\.foldLayout) private var foldLayout
+    @Environment(\.foldPaneTop) private var foldPaneTop
 
     private var shouldShowGraceBanner: Bool {
         graceBannerVisible && !ProFeatureManager.isPro
@@ -396,8 +404,12 @@ struct ClipKeyboardList: View {
 
     /// 네비게이션 바 인라인 타이틀 - 현재 카테고리 이름(스와이프 시 갱신).
     private var currentCategoryTitle: String {
-        let tab: CategoryTab = CategoryStore.shared.isFeatureEnabled ? viewModel.selectedCategoryTab : .all
-        return tab.displayName
+        usesCategoryPager ? viewModel.displayedCategoryTab.displayName : CategoryTab.all.displayName
+    }
+
+    /// 페이지를 넘기는 화면인가. 카테고리 기능이 꺼져 있어도 '최근' 이 서면 '최근' · '전체' 두 장이다.
+    private var usesCategoryPager: Bool {
+        CategoryStore.shared.isFeatureEnabled || showsRecentClipsTab
     }
 
     @ViewBuilder
@@ -601,10 +613,12 @@ struct ClipKeyboardList: View {
     private var categoryContent: some View {
         AnyView(
             GeometryReader { geo in
-                let minY = geo.frame(in: .global).minY
+                // 창 위 끝 기준. 듀오를 세로로 폈을 때 이 목록은 접힌 선 아래 판에 서므로
+                // 판의 위 끝(`foldPaneTop`)을 빼서 판 기준으로 잰다(DesignSystem/FoldLayout.swift).
+                let minY = geo.frame(in: .global).minY - foldLayout.windowOrigin.y - foldPaneTop
                 Group {
-                    // 카테고리 기능이 활성일 때만 탭/swipe 뷰. 비활성이면 .all 페이지 하나.
-                    if CategoryStore.shared.isFeatureEnabled {
+                    // 넘길 페이지가 있을 때만 탭/swipe 뷰. 기능도 '최근' 도 꺼져 있으면 .all 페이지 하나.
+                    if usesCategoryPager {
                         categoryTabView
                     } else {
                         tabPageView(for: .all)
@@ -656,7 +670,7 @@ struct ClipKeyboardList: View {
     ///
     /// 그래서 **어느 경로로 그려지는지**를 그대로 따라간다(categoryContent 의 분기와 같은 조건).
     private var pageContentTopMargin: CGFloat {
-        CategoryStore.shared.isFeatureEnabled ? measuredBarBottomMargin : 8
+        usesCategoryPager ? measuredBarBottomMargin : 8
     }
 
     /// 잰 네비바 하단에서 10pt 끌어올린 값. 페이저·빈 화면처럼 **시스템이 안 밀어 주는**
@@ -684,7 +698,8 @@ struct ClipKeyboardList: View {
     private static let minimumBarBottomFloor: CGFloat = 70
 
     private func measureBarBottomFloor() {
-        let statusTop = UIApplication.shared.connectedScenes
+        // 접힌 선 아래 판에는 상태 막대가 없다.
+        let statusTop = foldPaneTop > 0 ? 0 : UIApplication.shared.connectedScenes
             .compactMap { ($0 as? UIWindowScene)?.keyWindow?.safeAreaInsets.top }
             .first ?? 0
         let floor = max(statusTop + 44, Self.minimumBarBottomFloor)
@@ -998,12 +1013,14 @@ struct ClipKeyboardList: View {
                 MemoReorderScreen(viewModel: viewModel,
                                   style: cardStyle,
                                   columnCount: gridColumnCount)
+                    .foldConfined()
             }
             // 여러 개 고르기 - 지금 탭의 카드를 체크로 골라 한꺼번에 옮기거나 지운다.
             .fullScreenCover(isPresented: $viewModel.isSelectionMode) {
                 MemoSelectionScreen(viewModel: viewModel,
                                     style: cardStyle,
                                     columnCount: gridColumnCount)
+                    .foldConfined()
             }
             // 즐겨찾기 탭 + 버튼 - 즐겨찾기로 바로 저장
             .sheet(isPresented: $showAddFavoriteMemoSheet, onDismiss: { viewModel.loadMemos() }) {
@@ -1411,7 +1428,18 @@ struct ClipKeyboardList: View {
     ///    `.adaptive` 가 열 수를 1로 계산해 카드가 화면 전체로 늘어난다(실제로 그렇게 깨졌다).
     ///    `.flexible()` 은 폭 측정 없이 "가용 공간을 n등분"이라 이 문제가 없다.
     ///    그래서 열 수는 **측정이 아니라 size class 로** 정한다.
-    private var gridColumnCount: Int { horizontalSizeClass == .regular ? 4 : 2 }
+    private var gridColumnCount: Int {
+        // 듀오를 폈을 때는 이 목록이 선 판의 **폭**으로 정한다(크기 등급은 판을 모른다).
+        // 가로로 펴면 판 폭이 바깥 화면과 같아(약 463pt) 2열 그대로 - 펴도 카드 자리가 안 바뀐다.
+        // 세로로 펴면 접힌 선 아래 판이 창 폭(669pt)이라, 카드 150pt 이상이 들어가는 만큼 세운다.
+        if foldLayout.isUnfolded {
+            let paneWidth = foldLayout.posture == .innerPortrait
+                ? foldLayout.windowSize.width
+                : foldLayout.leadEnd
+            return max(2, min(4, Int((paneWidth - 32 + 12) / 162)))
+        }
+        return horizontalSizeClass == .regular ? 4 : 2
+    }
 
     private var gridColumns: [GridItem] {
         Array(repeating: GridItem(.flexible(), spacing: 12), count: gridColumnCount)
@@ -1806,7 +1834,8 @@ struct ClipKeyboardList: View {
     /// 하단 인디케이터 선택 dot 색상 - 탭 배경색과 시각적으로 매칭.
     /// 즐겨찾기는 분홍, 커스텀 카테고리는 그 카테고리 색, 전체는 무채색.
     private var tabIndicatorColor: Color {
-        switch viewModel.selectedCategoryTab {
+        switch viewModel.displayedCategoryTab {
+        case .recent:    return .accentColor
         case .basic:     return .gray
         case .all:       return .gray
         case .favorites: return .clipFavorite
@@ -1988,7 +2017,7 @@ struct ClipKeyboardList: View {
             //    그려진다. 그 틈을 여기서 닫는다(2026-09-26, 샘플 즐겨찾기를 지운 뒤 크래시 문의).
             get: {
                 let selected = viewModel.selectedCategoryTab
-                return tabs.contains(selected) ? selected : (tabs.first ?? selected)
+                return tabs.contains(selected) ? selected : viewModel.landingTab(in: tabs)
             },
             set: { newTab in
                 // 같은 페이지로 다시 들어오는 호출은 넘긴 것이 아니다 - 톡 하지 않는다.
@@ -2085,26 +2114,9 @@ struct ClipKeyboardList: View {
                     }
                 }
         )
-        // 하단 그라데이션 베일 - 콘텐츠가 탭바 뒤로 지나가되, 카드 흰 배경이
-        // 탭바 주변에 어중간하게 걸쳐 보이지 않게 배경색으로 서서히 사라지게 한다.
-        // ignoresSafeArea보다 먼저 걸어 확장된 바닥(홈 인디케이터)까지 덮는다.
-        //
-        // ⚠️ 카테고리 페이지가 있으면 베일은 **페이지마다** 단다(`pageVeil`). 여기 하나로 깔면
-        //    늘 무채색 바닥으로 바래서, 카테고리 색이 든 페이지의 아래쪽만 잘려 보였다.
-        .overlay(alignment: .bottom) {
-            if !CategoryStore.shared.isFeatureEnabled {
-                LinearGradient(
-                    stops: [
-                        .init(color: tabVeilColor.opacity(0), location: 0),
-                        .init(color: tabVeilColor.opacity(0.9), location: 0.45),
-                        .init(color: tabVeilColor, location: 1)
-                    ],
-                    startPoint: .top, endPoint: .bottom
-                )
-                .frame(height: 130)
-                .allowsHitTesting(false)
-            }
-        }
+        // 하단 베일은 **페이지마다** 단다(`pageVeil`). 페이저 전체에 하나로 깔면 늘 무채색
+        // 바닥으로 바래서, 카테고리 색이 든 페이지의 아래쪽만 잘려 보였다. 예전에 여기 있던
+        // "기능이 꺼졌을 때" 베일은 '최근' 이 생기며 페이지 베일과 겹쳐서 걷었다.
         // 콘텐츠가 상단 툴바·하단 탭바 뒤로 지나다니게 - 페이저를 화면 위아래 끝까지 확장.
         // (기본값은 바 사이에 갇혀 콘텐츠가 바 밑으로 못 들어감)
         // 콘텐츠 시작 위치는 각 ScrollView의 contentMargins(.top, pageContentTopMargin)가 잡는다.
@@ -2129,6 +2141,30 @@ struct ClipKeyboardList: View {
 
     @ViewBuilder
     private func tabPageView(for tab: CategoryTab) -> some View {
+        if tab == .recent {
+            recentClipsPage
+        } else {
+            memoPageView(for: tab)
+        }
+    }
+
+    /// 맨 앞 '최근' 페이지. 격자 페이지와 같은 틀(스크롤 · 위 여백 · 제목 접기)에 담는다.
+    /// 타입 메타데이터 깊이 때문에 AnyView 로 끊는다(`mainColumn` 주석).
+    private var recentClipsPage: AnyView {
+        AnyView(trackPageScroll(ScrollView {
+            RecentClipsPage(
+                searchQuery: viewModel.searchQueryString,
+                onToast: { viewModel.showPlainToast($0) },
+                onSnippetSaved: { viewModel.loadMemos() }
+            )
+            .padding(.bottom, 110)
+        })
+        .scrollEdgeEffectHidden(true, for: .all)
+        .contentMargins(.top, pageContentTopMargin, for: .scrollContent))
+    }
+
+    @ViewBuilder
+    private func memoPageView(for tab: CategoryTab) -> some View {
         let filtered = viewModel.memos(for: tab)
         // 검색 중인데 결과가 하나도 없으면, 메모가 아예 없을 때의 빈 화면(EmptyListView 등)
         // 대신 "검색 결과 없음" 피드백 + 실제 메모 모양의 제안 카드를 보여준다.
@@ -2182,6 +2218,9 @@ struct ClipKeyboardList: View {
     @ViewBuilder
     private func tabPageContent(for tab: CategoryTab, filtered: [Memo]) -> some View {
         switch tab {
+        case .recent:
+            // `tabPageView` 가 먼저 가른다 - 여기 오지 않는다.
+            EmptyView()
         case .basic:
             if !filtered.isEmpty {
                 allTabScrollView(memos: filtered, tab: .basic)

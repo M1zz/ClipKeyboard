@@ -175,7 +175,7 @@ struct ClipboardCaptureCard: View {
             )
 
             // 제목을 바꾸고 싶을 때만 - 편집 화면으로.
-            NavigationLink {
+            FoldLink {
                 MemoAdd(insertedKeyword: suggestedTitle, insertedValue: value)
             } label: {
                 Text(NSLocalizedString("편집", comment: "Inline capture card: edit before saving"))

@@ -36,6 +36,18 @@ struct ListBackgroundPickerSheet: View {
     @Environment(\.appTheme) private var theme
 
     var body: some View {
+        sheetBody
+            // 펼친 듀오: 고르는 동안 비어 있는 다른 판에 그 사진 위에 놓인 카드가 선다.
+            .foldSheetCompanion(title: "", value: selectedName) { FoldListBackgroundCompanion(name: $0) }
+    }
+
+    /// 지금 이 탭에 깔린 사진. 없으면 빈 문자열.
+    private var selectedName: String {
+        (Self.options + myBackgrounds).first(where: isSelected) ?? ""
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 14) {

@@ -177,7 +177,9 @@ final class HiddenCategoryReachabilityTests: XCTestCase {
     func testBasicTabAlwaysStandsWhenItIsTheOnlyOne() {
         seed(categories: [], hidden: [], memos: [])
 
-        XCTAssertEqual(viewModel.allCategoryTabs, [.basic],
+        // '최근' 페이지는 단축어 탭이 아니라 맨 앞에 붙는 복사 기록이다(목록 탭에도 '최근', 10-13).
+        // 단축어를 담는 탭으로는 기본 하나가 남아야 한다.
+        XCTAssertEqual(viewModel.allCategoryTabs.filter { $0 != .recent }, [.basic],
                        "탭이 0개가 되면 화면이 통째로 사라진다")
     }
 

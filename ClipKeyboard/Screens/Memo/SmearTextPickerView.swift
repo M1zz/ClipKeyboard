@@ -73,6 +73,12 @@ struct SmearTextPickerView: View {
     }
 
     var body: some View {
+        sheetBody
+            .foldSheetCompanion(title: NSLocalizedString("입력될 결과", comment: "Live preview header"), value: pickedText) { FoldFilledTextCompanion(text: $0) }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationStack {
             VStack(spacing: 0) {
                 if hintShownCount < hintMaxShows {

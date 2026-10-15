@@ -1,3 +1,70 @@
+## 🌐 인앱 상품 이름 나라별 언어 (2026-10-15)
+- [x] 원본 표 `Config/StoreKit/iap_localizations.json` (상품 7개 · 39개 지역, 이름 30자 · 설명 55자 검사 통과)
+- [x] 올리는 스크립트 `scripts/asc_iap_localize.py` (기본은 미리 보기, --apply 로 올림)
+- [ ] Issuer ID 받아서 미리 보기 → --apply
+- [ ] 올린 뒤 `app-portfolio/scripts/sync-us-store.py` 다시 돌려 허브 ✓ 확인
+
+## 📱 아이폰 듀오 (2026-10-15)
+
+실측: 바깥 화면 466 x 678pt, 안쪽 화면 669 x 951pt (바깥 = 안쪽의 절반). 시안은 scratchpad 의 duo-flat-all.html.
+
+- [x] 접힘 셈 `DesignSystem/FoldLayout.swift`: 자세 판단 · 두 쪽 나누기(`FoldSplitView`) · 목록 | 자세히(`FoldNavigation`) · 시트 결과 쪽(`foldSheetPlacement`) · `-FoldPreview` 미리보기 틀
+- [x] 단축어 탭 · 검색 탭: 결과 쪽에 방금 복사한 값 + 최근 (`FoldCopiedPane`), 펴고 접어도 목록이 같은 뷰
+- [x] 설정 탭: 가로로 펴면 목록 | 자세히 (설정에서 들어가는 화면 전부가 오른쪽에 열린다)
+- [x] **접힌 선 앞뒤 12pt 에는 아무것도 없다** (사용자 규칙, 10-15). 누를 것만이 아니라 글 · 카드 · 탭바 · 시트 · 알림창 전부
+  - [x] 탭바: 펴면 시스템 탭바를 숨기고 `FoldTabBar` 를 고르는 쪽 판 바닥에 (시스템 탭바는 창 가운데 = 가로로 편 선 위)
+  - [x] 설정(세로) · 사용 기록: 고르는 쪽 판에만, 결과 쪽은 방금 복사함 · 최근 (예전엔 세로 설정 목록이 선을 가로질렀다)
+  - [x] 시트 79곳 전부: `FoldSheetGuard` 가 `UISheetPresentationController.detents` 쓰기를 붙잡아 세로면 아래 판 높이, 가로면 `preferredPlacement = .trailing`. 시트마다 걸던 `foldSheetPlacement` 23개는 걷어 냄 (띄우는 쪽 detents 가 이겨서 새 기능 안내가 창 끝까지 올라왔다)
+  - [x] `foldAware` 를 앱 맨 바깥으로 (루트에서 띄우는 시트가 접힘을 몰랐다)
+  - [x] 창 가득 덮는 화면 4개(`fullScreenCover`): `foldConfined()` 로 고르는 쪽 판에만
+  - [x] 알림창: `FoldAlertRouter` 가 고르는 쪽 판 크기의 창에서 띄운다. 판 창은 띄운 것이 없으면 터치를 흘린다
+  - [x] `-FoldPretend`(폰 시뮬레이터 창을 펼친 화면으로) · `-FoldTestAlert` 개발용 시험 길, `FoldPresentationGuardTests` 3개
+- [x] `.memoUsed` 에 제목 · 보안 · 그림 여부를 실어 결과 판이 파일을 다시 읽지 않게
+- [x] 여정 표 한 줄 + `FoldLayoutTests` 5개
+- [x] Xcode 27.1(`~/Downloads/Xcode.app`)로 빌드 확인. 접힌 바깥 화면에서 호환 틀 없이 제 크기로 뜬다(실측). 시스템 탭바가 바깥 화면에서는 오른쪽 세로로 선다
+- [x] 접힌 선 자리를 시스템에 묻는다: `DivisionProbe` 가 `reservedRegions(kind: .division)` 을 읽고, 못 읽으면 창 크기로 어림. 띠가 24pt 보다 두꺼우면 그 두께를 비운다(`FoldLayout.band`)
+- [x] 목록 | 자세히: `FoldNavigation` 을 화면 줄(`FoldColumns`)로 다시 씀. 마지막 두 장이 두 판에, 결과 쪽에서 고르면 한 칸 밀림 + 뒤로. `NavigationLink` 43곳을 `FoldLink` 로(접히면 똑같이 민다). 시스템 `NavigationSplitView` 는 버림(세로에서 덮어 띄우고, 가로에서 선 위에 구분선)
+- [x] 손잡이 | 미리보기 7개(`FoldCompanionProviding`): 키보드 레이아웃 · 키 컬러 · 카테고리 · 카테고리 아이콘 → 키보드 미리보기, 단축어 표시 → 카드, 단축어 스킨, 첫 화면
+- [x] 재료 | 결과 6개(`foldSheetCompanion`): 템플릿 채우기 · 입력 · 다듬기 → 완성 문장, 단축어로 저장 · 빠른 메모 · 새 단축어 → 카드. 시트가 없는 판에 판 크기 창으로 띄움. 시트로 떠 있을 때만
+- [x] 안내 | 따라 하기: 키보드 설정 가이드 옆에 켜졌는지 실시간 + 설정 열기
+- [x] 키보드 익스텐션: 가로로 펴면 왼 엄지(최근 복사) | 오른 엄지(단축어 키보드), 선 위 비움(`KeyboardFoldState`)
+- [x] 키 컬러 견본 줄이 폰에서도 왼쪽으로 잘리던 것(넘치면 옆으로 밀리게)
+- [ ] **배포 빌드를 27.1 로.** fastlane · 기본 Xcode 는 아직 27.0(`/Applications/Xcode.app`). `xcode-select` 를 바꾸거나 `DEVELOPER_DIR` 지정
+- [ ] 듀오 시뮬레이터 펴기: 27.1 에도 Simulator 창 앱이 없어 명령줄로는 못 편다. 펼친 화면 · 키보드 나누기 · `reservedRegions` 실측은 GUI 또는 기기에서
+- [ ] 듀오 시뮬레이터(GUI)에서 펴고 접으며 확인: 설정 행을 누르면 오른쪽에 열리는지, 시트가 결과 쪽에 서는지 (명령줄로는 누를 수 없어 못 봤다)
+- [ ] 손잡이 | 미리보기 남은 9개: 날짜/시간 모양 · Apple Intelligence · 언어 · 나에게 맞추기 · 단축어 설정 · 배경 이미지 · 배경 고르기 시트 · 이모지 · 사용 단계 흉내 (지금은 목록 | 자세히로 선다)
+- [ ] 재료 | 결과 남은 것: 번역 · 스택 만들기 · 스택 미리보기 · 스택 가져오기 · 한번에 가져오기 · 사진에서 고르기 3개 · 빈칸 추가/이름 바꾸기 · 버전에서 복원(지금과 비교) · 변경 기록
+- [ ] 안내 | 따라 하기 남은 8개: 붙여넣기 알림 끄기 · 손쉬운 사용 · 복구 안내 · Mac 소개 · 튜토리얼 환영 · 새 기능 · 카테고리 정리 · 키보드 켜기 띠
+- [ ] 사용 기록 탭, 금고
+- [ ] 실제 듀오에서 확인: 알림창 단추를 누르면 판 창이 거둬지는지(시험은 같은 길을 코드로 탔다), 가로 시트가 오른쪽 판 안에만 서는지(`preferredPlacement` 폭), 알림창이 떠 있는 동안 결과 쪽은 눌린다(막을지 정하기)
+- [ ] 메뉴(길게 누르기 · `Menu`)와 팝오버는 아직 안 막았다. 누른 자리 곁에 뜨지만 선 가까이서 누르면 선을 넘을 수 있다
+- [ ] `HiddenCategoryReachabilityTests/testBasicTabAlwaysStandsWhenItIsTheOnlyOne` 이 '목록 탭에도 최근' 작업 때문에 실패 중 (기대 [기본], 실제 [최근, 기본])
+
+## 🗺️ 화면 지도 갱신 (2026-10-14)
+
+- [x] `docs/screens.html` 86개에서 93개로: 목록 '최근' 페이지 · 키보드 켜기 띠 · 카테고리 이름 묻기 · 무료로 쓰는 방법 · 무료 사용 영수증 · 이정표 카드 · 보낸 의견
+- [x] Pro 결제 설명을 '무료 한도' 에서 '100번까지 무료' 로, 키보드 · 레이아웃에 '최근' 탭 설명
+- [ ] 새 화면 7개 캡처 찍어 `docs/media/screens/` 에 넣기 (지금은 '캡처 없음')
+
+## 🕘 목록 탭에도 '최근' (2026-10-13)
+
+- [x] 목록 탭 맨 앞에 '최근' 페이지: 키보드와 같은 설정(`KeyboardPrefs.showRecentClipsTab`) · 같은 기록(`keyboardRecents`). 누르면 복사, 길게 누르면 단축어로 저장 · 삭제
+- [x] 카테고리 기능을 끈 사람도 '최근' · '전체' 두 장. 고른 탭이 접히면 '최근' 이 아니라 단축어 페이지로
+- [x] 여정 표 한 줄 + `test_키보드에_최근이_있으면_목록_탭에도_맨_앞에_선다`
+- [ ] 키보드 레이아웃 설정의 토글 이름이 "키보드" 만 말한다. 목록에도 걸린다는 것을 알릴지 정하기
+
+## 💳 재설치 후 Pro 사라짐 · 흰 화면 문의 (2026-10-12)
+
+- [x] 구매 복원이 영수증을 못 읽어도 "복원할 구매가 없어요" 라 하던 것: `AppTransaction.refresh()` 로 새로 받고, 못 읽으면 실패 알림으로
+- [ ] 답장 보내기 (구매 여부 · Apple ID · 버전 · 기기 확인, 필요하면 프로모션 코드)
+- [ ] 흰 화면: 사용자 버전 · 기기 받으면 MetricKit 멈춤 보고 · launch_stall 확인
+
+## 🛟 키보드 세이프 모드 문의 (2026-10-07)
+
+- [x] 세이프 모드 "앱 열기" 버튼이 iOS 18+ 에서 안 눌리던 것: 앱 여는 길을 `openContainingApp` 하나로 합침 (UIApplication.open 먼저)
+- [ ] 허브에서 `launch_incomplete:keyboard` · 키보드 CrashReport 확인 (cktool 토큰 만료로 보류)
+- [ ] 사용자 답장(버전 · 기기 · 사진 단축어 수) 받으면 원인 좁히기
+
 ## 🖼️ App Store 크리에이티브 자산 (헤더 · 검색 결과) - 2026-10-07
 
 - [x] `scripts/make_creative_assets.py`: 헤더 3840x1646 · 검색 결과 3840x2560, 13개 언어(+en-GB), Apple 템플릿 안전 영역 안에 글을 맞추고 넘치면 멈춤

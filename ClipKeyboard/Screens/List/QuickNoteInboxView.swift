@@ -273,6 +273,15 @@ struct QuickNoteEditSheet: View {
     }
 
     var body: some View {
+        sheetBody
+            .foldSheetCompanion(title: NSLocalizedString("미리보기", comment: "Preview"),
+                                value: FoldSnippetCompanion.Draft(title: String(draft.text.prefix(30)), value: draft.text, isSecure: false)) {
+                FoldSnippetCompanion(draft: $0)
+            }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationStack {
             Form {
                 if draft.hasImages {

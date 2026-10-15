@@ -404,7 +404,15 @@ struct SnippetsTab: View {
         // 바닥색이 한 번 바뀌어 번쩍인다 - 바뀌는 건 그 위에 놓인 것뿐이어야 한다.
         ZStack {
             theme.bg.ignoresSafeArea()
-            content
+            // 아이폰 듀오를 펴면 접힌 선 건너편에 결과 쪽(방금 복사한 값 · 최근)이 선다.
+            // 접혀 있거나 보통 아이폰이면 `content` 만 그린다. 고르는 쪽은 펴고 접어도 같은 뷰다.
+            // ⚠️ AnyView 로 끊는다. 목록 화면의 타입이 이미 깊어서(swiftui 타입 메타데이터 한도)
+            //    틀 하나를 더 씌우면 기기에서 죽을 수 있다.
+            FoldSplitView {
+                AnyView(content)
+            } result: {
+                FoldCopiedPane()
+            }
         }
     }
 

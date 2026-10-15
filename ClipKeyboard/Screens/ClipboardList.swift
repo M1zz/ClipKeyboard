@@ -824,6 +824,15 @@ struct SaveToMemoSheet: View {
     }
 
     var body: some View {
+        sheetBody
+            .foldSheetCompanion(title: NSLocalizedString("미리보기", comment: "Preview"),
+                                value: FoldSnippetCompanion.Draft(title: title, value: item.content, isSecure: isSecure)) {
+                FoldSnippetCompanion(draft: $0)
+            }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationView {
             Form {
                 Section(NSLocalizedString("단축어 정보", comment: "Memo info section header")) {

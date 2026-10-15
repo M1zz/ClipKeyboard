@@ -726,7 +726,7 @@ struct UsageStatsView: View {
             statRow(NSLocalizedString("접수된 피드백", comment: "Usage stats: feedback count"), "\(feedback.count)")
             statRow(NSLocalizedString("아직 처리 안 함", comment: "Usage stats: feedback not done"),
                     "\(feedback.filter { !$0.isDone }.count)")
-            NavigationLink(destination: FeedbackInboxView()) {
+            FoldLink(destination: FeedbackInboxView()) {
                 Label(NSLocalizedString("피드백 전부 보기", comment: "Usage stats: open feedback inbox"),
                       systemImage: AppSymbol.trayFull)
             }

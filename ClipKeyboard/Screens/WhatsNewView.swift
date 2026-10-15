@@ -33,6 +33,13 @@ struct WhatsNewView: View {
     let onPrimaryAction: () -> Void
 
     var body: some View {
+        sheetBody
+            // 펼친 듀오: 읽는 동안 옆 판에 그 기능이 들어간 진짜 키보드가 선다.
+            .foldSheetCompanion(title: "", value: 0) { _ in FoldKeyboardCompanion() }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         VStack(spacing: 0) {
             ScrollView {
                 VStack(spacing: 24) {

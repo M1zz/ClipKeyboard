@@ -2815,6 +2815,10 @@
     "v": "Gælder i appen med det samme. Tastaturet ændres, næste gang du åbner det.",
     "src": "e678de395f"
   },
+  "고르면 여기에 열려요": {
+    "src": "83a577dde6",
+    "v": "Vælg noget, så åbner det her"
+  },
   "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요": {
     "v": "Vi peger på de kategorier og formuleringer, der passer til, hvordan du bruger appen",
     "src": "99d0651b2f"
@@ -2990,6 +2994,10 @@
   "그리드 레이아웃": {
     "v": "Gitterlayout",
     "src": "0200132a0a"
+  },
+  "그림 단축어": {
+    "src": "eaa36fcde2",
+    "v": "Billedfrase"
   },
   "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요": {
     "v": "Indtil da er den sat til Generelt. Den gamle standard, Digital nomade, var der, hvor appen begyndte, ikke der, hvor du er",
@@ -5025,6 +5033,10 @@
     "v": "Du har lige gemt noget privat. Du kan låse det med Face ID",
     "src": "cd9c13be8f"
   },
+  "방금 복사함": {
+    "src": "02d7e18ccc",
+    "v": "Lige kopieret"
+  },
   "배경 없음": {
     "v": "Ingen baggrund",
     "src": "62a8879d8f"
@@ -5304,6 +5316,10 @@
   "보안 단축어는 목록에서 인증 후 사용할 수 있어요": {
     "v": "Sikre fraser kan bruges fra listen efter godkendelse",
     "src": "5263aaf2b9"
+  },
+  "보안 단축어라 값은 보이지 않아요": {
+    "src": "9b105a42a7",
+    "v": "Sikker frase, så værdien er skjult"
   },
   "보안 단축어로 설정": {
     "v": "Gør sikker",
@@ -9412,6 +9428,13 @@
     "v": "Aktive de seneste 7 dage",
     "src": "b70be55387"
   },
+  "최근 · %d일": {
+    "src": "b46b18195e",
+    "v": {
+      "one": "Seneste · %d dag",
+      "other": "Seneste · %d dage"
+    }
+  },
   "최근 단축어": {
     "v": "Seneste fraser",
     "src": "81c85e6ddf"
@@ -9551,6 +9574,10 @@
   "카드를 끌어 순서를 바꾸세요": {
     "v": "Træk kort for at ændre rækkefølgen",
     "src": "b1666e29c5"
+  },
+  "카드를 누르면 복사한 값이 여기 보여요": {
+    "src": "b8ed4c2d5c",
+    "v": "Tryk på et kort, så vises det kopierede her"
   },
   "카드만 깔끔하게 보여요.": {
     "v": "Kun kortene, ikke andet.",
@@ -11233,5 +11260,9 @@
   "🪪 명함": {
     "v": "🪪 Visitkort",
     "src": "9becff2df0"
+  },
+  "뒤로": {
+    "v": "Tilbage",
+    "src": "dc3ab3aacb"
   }
 }

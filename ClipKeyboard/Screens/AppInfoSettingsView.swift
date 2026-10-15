@@ -31,7 +31,7 @@ struct AppInfoSettingsView: View {
     private var familySection: some View {
         Section {
             #if !targetEnvironment(macCatalyst)
-            NavigationLink(destination: MacAppIntroView()) {
+            FoldLink(destination: MacAppIntroView()) {
                 HStack(spacing: 12) {
                     ZStack {
                         RoundedRectangle(cornerRadius: theme.radiusSm)

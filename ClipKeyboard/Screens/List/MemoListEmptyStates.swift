@@ -82,7 +82,7 @@ enum AddCardCopy {
 
     static func label(for tab: CategoryTab) -> String {
         switch tab {
-        case .basic, .all:
+        case .recent, .basic, .all:
             return NSLocalizedString("단축어 추가", comment: "Add memo card")
         case .favorites:
             return NSLocalizedString("즐겨찾기 추가", comment: "Add memo to favorites card")
@@ -111,7 +111,7 @@ enum AddCardCopy {
 
     static func intent(for tab: CategoryTab) -> Intent {
         switch tab {
-        case .basic, .all:
+        case .recent, .basic, .all:
             return .addMemo(category: "")
         case .favorites:
             return .addFavorite

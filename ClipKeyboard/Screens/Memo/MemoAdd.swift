@@ -82,6 +82,13 @@ struct MemoAdd: View {
 
     var body: some View {
         addBody
+        // 펼친 듀오: 쓰는 동안 비어 있는 다른 판에 카드 모양이 선다(재료 | 결과).
+        .foldSheetCompanion(title: NSLocalizedString("미리보기", comment: "Preview"),
+                            value: FoldSnippetCompanion.Draft(title: viewModel.keyword,
+                                                              value: viewModel.value,
+                                                              isSecure: viewModel.isSecure)) {
+            FoldSnippetCompanion(draft: $0)
+        }
         .alert(viewModel.alertMessage, isPresented: $viewModel.showAlert) {}
         .alert(NSLocalizedString("입력 내용 초기화", comment: "Reset form confirm title"),
                isPresented: $showResetConfirm) {

@@ -212,6 +212,12 @@ struct TranslationSheet: View {
     @State private var didCopy = false
 
     var body: some View {
+        sheetBody
+            .foldSheetCompanion(title: NSLocalizedString("원문", comment: "Translation: source text label"), value: sourceText) { FoldSourceTextCompanion(text: $0) }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {

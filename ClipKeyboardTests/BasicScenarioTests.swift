@@ -357,6 +357,25 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertFalse(recents.contains { $0.content == "한 달 넘은 것" }, "보관 기간이 지난 것은 사라져야 한다")
     }
 
+    /// 키보드에 '최근' 이 있으면 목록 탭에도 맨 앞에 선다(사용자: "키보드에는 최근이 생겼는데
+    /// 목록 탭에는 안 생겼네"). 같은 설정 하나로 켜고 끄며, 앱이 스스로 옮길 때는 '최근' 에 세우지 않는다.
+    @MainActor
+    func test_키보드에_최근이_있으면_목록_탭에도_맨_앞에_선다() {
+        let key = KeyboardPrefs.showRecentClipsTab.key
+        let saved = AppGroup.defaults?.object(forKey: key)
+        defer { AppGroup.defaults?.set(saved, forKey: key) }
+
+        AppGroup.defaults?.set(true, forKey: key)
+        let list = ClipKeyboardListViewModel()
+        XCTAssertEqual(list.allCategoryTabs.first, .recent, "'최근' 은 키보드처럼 맨 앞이어야 한다")
+        XCTAssertTrue(list.memos(for: .recent).isEmpty, "'최근' 은 단축어 페이지가 아니다")
+        XCTAssertNotEqual(list.landingTab(in: list.allCategoryTabs), .recent,
+                          "고른 탭이 접혔을 때 복사 기록 앞에 세우면 안 된다")
+
+        AppGroup.defaults?.set(false, forKey: key)
+        XCTAssertFalse(list.allCategoryTabs.contains(.recent), "키보드에서 끄면 목록에서도 사라져야 한다")
+    }
+
     // MARK: - Helpers
 
     private func makeAddViewModel(editing memo: Memo? = nil) -> MemoAddViewModel {

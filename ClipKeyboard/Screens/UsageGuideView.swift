@@ -651,7 +651,7 @@ struct UsageGuideView: View {
     /// ⚠️ 하위 화면으로 넘기면 그 둘이 해결된다. 제목이 위에 남아 누구 이야기인지
     ///    계속 보이고, 돌아가는 길이 뒤로 가기 하나로 분명해진다.
     private func personaRow(_ guide: PersonaGuide) -> some View {
-        NavigationLink {
+        FoldLink {
             PersonaDetailView(guide: guide)
         } label: {
             VStack(alignment: .leading, spacing: 8) {
@@ -821,7 +821,7 @@ struct PersonaScenarioCard: View {
             .accessibilityLabel(String(format: NSLocalizedString("이렇게 달라져요: %@", comment: "VoiceOver: the difference it makes"), scenario.impact))
 
             HStack(spacing: 8) {
-                NavigationLink {
+                FoldLink {
                     // 시나리오의 feature에 따라 단축어 추가 화면의 토글도 미리 ON.
                     // .template → 템플릿 토글, .combo → Combo 토글, 그 외(.snippet/.smartClipboard)는 일반 단축어
                     MemoAdd(

@@ -760,7 +760,7 @@ struct KeyboardView: View {
             backgroundColor.ignoresSafeArea()
 
             VStack(spacing: 0) {
-                memoModeContent
+                foldAwareContent
             }
             // 지금 보는 페이지가 어느 카테고리인지 남긴다 - 앱의 키보드 탭이 + 를 누르면
             // 이 카테고리에 만든다(예전에는 늘 기본에 들어갔다).
@@ -1892,6 +1892,55 @@ struct KeyboardView: View {
                 KeyboardHaptics.tap()
                 selectTab(at: target)
             }
+    }
+
+    // MARK: - 아이폰 듀오: 가로로 편 화면
+
+    /// 가로로 편 듀오에서는 키보드가 화면 폭 전체(약 951pt)에 깔려 접힌 선 위에 키가 선다.
+    /// 시스템이 접힌 선 띠를 알려 주면(`KeyboardFoldState`) 키보드를 선 양쪽으로 나눈다.
+    /// 왼 엄지 쪽에는 최근 복사한 것, 오른 엄지 쪽에는 지금의 단축어 키보드. 선 위는 비운다.
+    ///
+    /// ⚠️ 앱 안(키보드 탭 · 설정 미리보기)에서는 나누지 않는다. 앱이 이미 판 하나에 담아 둔다.
+    @ObservedObject private var foldState = KeyboardFoldState.shared
+
+    private var foldAwareContent: some View {
+        if let split = foldState.split, !hostKind.runsInsideApp {
+            return AnyView(
+                HStack(spacing: 0) {
+                    KeyboardRecentClipsPanel(
+                        clips: filteredRecentClips,
+                        theme: theme,
+                        skin: skin,
+                        keyColor: keyColor,
+                        keyHeight: CGFloat(buttonHeight),
+                        fontSize: CGFloat(buttonFontSize),
+                        isFiltering: !searchQuery.isEmpty,
+                        needsFullAccess: hostKind.requiresFullAccessForPaste && !KeyboardCapability.hasFullAccess,
+                        onInsert: { clip in typingProxy?.insertText(clip.content) },
+                        onCopy: { clip in copyClipToClipboard(clip.content) },
+                        onDelete: deleteRecentClip,
+                        isSwipingRow: $isSwipingRecentRow
+                    )
+                    .frame(width: split.leadWidth)
+                    .onAppear { reloadRecentClips() }
+                    // 최근 탭과 같다: 키보드를 띄운 채 새로 복사한 글도 왼쪽 판에 담긴다.
+                    .task {
+                        while !Task.isCancelled {
+                            collectCopiedTextIntoRecents()
+                            try? await Task.sleep(for: .seconds(1.5))
+                        }
+                    }
+
+                    Color.clear
+                        .frame(width: split.band)
+                        .accessibilityHidden(true)
+
+                    memoModeContent
+                        .frame(maxWidth: .infinity)
+                }
+            )
+        }
+        return AnyView(memoModeContent)
     }
 
     /// 검색어가 있으면 그 글이 든 것만.
@@ -3781,4 +3830,60 @@ final class KeyboardRenderCache {
     var quickRow: [(memo: Memo, reason: QuickRowPlanner.Reason)] = []
     /// 키 아래 미리보기. 값이 nil 인 것(미리보기 없음)도 기억한다.
     var hints: [UUID: String?] = [:]
+}
+
+// MARK: - 아이폰 듀오: 접힌 선
+
+/// 키보드 창에서 시스템이 알려 준 접힌 선 띠. 키보드 컨트롤러가 그릴 때마다 적는다.
+///
+/// 세로로 편 듀오에서는 키보드가 아래 판 안에만 서므로 나눌 일이 없다. 띠가 **세로로 지나갈 때**
+/// (가로로 편 화면)만 `split` 이 생긴다.
+/// ⚠️ 시스템에 묻는 길은 iOS 27.1 `reservedRegions(kind: .division)` 이다. 27.0 SDK 로도 빌드되게
+///    ObjC 이름으로 부른다(앱 쪽 `DivisionProbe` 와 같은 방식).
+@MainActor
+final class KeyboardFoldState: ObservableObject {
+    static let shared = KeyboardFoldState()
+
+    struct Split: Equatable {
+        /// 왼쪽 판 폭(키보드 뷰 좌표). 띠가 시작하는 자리다.
+        let leadWidth: CGFloat
+        /// 비우는 띠의 폭. 24pt 보다 얇게 두지 않는다.
+        let band: CGFloat
+    }
+
+    @Published private(set) var split: Split?
+
+    private init() {}
+
+    /// 키보드 뷰를 기준으로 다시 읽는다.
+    func update(from view: UIView) {
+        let next = Self.verticalDivision(in: view).map { band -> Split in
+            let width = max(24, band.width)
+            return Split(leadWidth: max(0, band.midX - width / 2), band: width)
+        }
+        if next != split {
+            if let next { print("📐 [KeyboardFoldState.update] 키보드를 접힌 선 양쪽으로 나눔: \(next)") }
+            split = next
+        }
+    }
+
+    /// 세로로 지나가는 접힌 선 띠(뷰 좌표). 없거나 가로로 지나가면 nil.
+    private static func verticalDivision(in view: UIView) -> CGRect? {
+        guard let kindClass = NSClassFromString("UIViewReservedRegionKind") as? NSObject.Type,
+              kindClass.responds(to: NSSelectorFromString("divisionRegionKind")),
+              let kind = kindClass.perform(NSSelectorFromString("divisionRegionKind"))?.takeUnretainedValue(),
+              view.responds(to: NSSelectorFromString("reservedRegionsOfKind:")),
+              let regions = view.perform(NSSelectorFromString("reservedRegionsOfKind:"), with: kind)?
+                .takeUnretainedValue() as? [NSObject] else {
+            return nil
+        }
+        for region in regions {
+            let active = (region.value(forKey: "active") as? Bool) ?? true
+            guard active, let frame = (region.value(forKey: "frame") as? NSValue)?.cgRectValue,
+                  !frame.isEmpty, frame.height > frame.width,
+                  frame.midX > 0, frame.midX < view.bounds.width else { continue }
+            return frame
+        }
+        return nil
+    }
 }

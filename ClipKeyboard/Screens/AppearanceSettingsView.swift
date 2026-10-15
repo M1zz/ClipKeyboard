@@ -55,7 +55,7 @@ struct AppearanceSettingsView: View {
             firstScreenRow
             // 키 컬러가 이 섹션의 맨 위쪽에 있는 이유: 이 하나가 앱 전체의 인상을 바꾼다.
             // 아래 항목들(높이·배경)은 그다음에 손보는 것들이다.
-            NavigationLink(destination: KeyColorSettingsView()) {
+            FoldLink(destination: KeyColorSettingsView()) {
                 Label {
                     Text(NSLocalizedString("키 컬러", comment: "Settings: key color"))
                 } icon: {
@@ -66,19 +66,19 @@ struct AppearanceSettingsView: View {
                         .overlay(Circle().strokeBorder(theme.divider, lineWidth: 0.5))
                 }
             }
-            NavigationLink(destination: DisplaySettingsView()) {
+            FoldLink(destination: DisplaySettingsView()) {
                 Label(NSLocalizedString("단축어 표시", comment: "Memo display settings entry"),
                       systemImage: AppSymbol.rectangleGrid1x2)
             }
             // 단축어 스킨(생활 레이어)은 지금 감춰 둔다 - LivingSkin.isEnabled = false.
             // 되살리려면 그 값을 true 로. 화면(LivingSkinSettings)은 그대로 남아 있다.
             if LivingSkin.isEnabled {
-                NavigationLink(destination: LivingSkinSettings()) {
+                FoldLink(destination: LivingSkinSettings()) {
                     Label(NSLocalizedString("단축어 스킨", comment: "Section: shortcut card skin"),
                           systemImage: AppSymbol.sparkles)
                 }
             }
-            NavigationLink(destination: ListBackgroundSettings()) {
+            FoldLink(destination: ListBackgroundSettings()) {
                 Label(NSLocalizedString("배경 이미지", comment: "Menu: list background image"),
                       systemImage: "photo.on.rectangle.angled")
             }
@@ -103,7 +103,7 @@ struct AppearanceSettingsView: View {
         Section {
             // 기기 언어와 읽고 싶은 언어가 다른 사람이 있다. iOS 설정까지 가지 않아도
             // 여기서 바로 고르게 한다(자세한 건 AppLanguage 머리말).
-            NavigationLink(destination: LanguageSettingsView()) {
+            FoldLink(destination: LanguageSettingsView()) {
                 Label(NSLocalizedString("언어", comment: "Settings: app language"),
                       systemImage: "globe")
             }
@@ -123,7 +123,7 @@ struct AppearanceSettingsView: View {
     ///    차지해서 한 행으로 접었지만, **현재 값은 행에 남긴다**. 값이 안 보이면 눌러 보기
     ///    전에는 무엇으로 되어 있는지 알 수 없고, 첫 화면은 되돌리기가 번거로운 설정이다.
     private var firstScreenRow: some View {
-        NavigationLink(destination: FirstScreenSettingsView()) {
+        FoldLink(destination: FirstScreenSettingsView()) {
             HStack {
                 Label(NSLocalizedString("첫 화면", comment: "Settings section: first screen"),
                       systemImage: currentSnippetsTabStyle.symbolName)

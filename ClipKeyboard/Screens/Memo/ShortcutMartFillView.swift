@@ -31,6 +31,12 @@ struct ShortcutMartFillView: View {
     @FocusState private var focused: String?
 
     var body: some View {
+        sheetBody
+            .foldSheetCompanion(title: NSLocalizedString("입력될 결과", comment: "Live preview header"), value: filledValue) { FoldFilledTextCompanion(text: $0) }
+    }
+
+    @ViewBuilder
+    private var sheetBody: some View {
         NavigationStack {
             Form {
                 previewSection

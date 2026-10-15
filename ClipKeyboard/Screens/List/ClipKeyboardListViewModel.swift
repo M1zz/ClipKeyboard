@@ -67,6 +67,9 @@ enum BuiltInCategory: String, CaseIterable, Hashable {
 // MARK: - CategoryTab
 
 enum CategoryTab: Hashable, Equatable {
+    /// 맨 앞 '최근' - 복사해 담아 둔 것(단축어가 아니다). 키보드 '최근' 탭과 같은 것을 같은 설정으로 세운다
+    /// (`KeyboardPrefs.showRecentClipsTab`). 사용자: "키보드에는 최근이 생겼는데 목록 탭에는 안 생겼네".
+    case recent
     /// "전체" 탭 제거 후 기본 홈 탭 - 어떤 사용자 카테고리에도 속하지 않은(기본/미분류) 메모 모음.
     case basic
     /// 카테고리 기능이 꺼져 있을 때의 단일 "모든 메모" 페이지 전용. 탭 바에는 노출되지 않음.
@@ -77,6 +80,7 @@ enum CategoryTab: Hashable, Equatable {
 
     var displayName: String {
         switch self {
+        case .recent:    return NSLocalizedString("최근", comment: "Recent")
         case .basic:     return NSLocalizedString("기본", comment: "Category tab: default/basic")
         case .all:       return NSLocalizedString("전체", comment: "Category tab: all")
         case .favorites: return NSLocalizedString("즐겨찾기", comment: "Category tab: favorites")
@@ -88,6 +92,7 @@ enum CategoryTab: Hashable, Equatable {
     /// UserDefaults 저장용 안정 키 (마지막 본 탭 복원).
     var storageKey: String {
         switch self {
+        case .recent:           return "__recent__"
         case .basic:            return "__basic__"
         case .all:              return "__all__"
         case .favorites:        return "__favorites__"
@@ -98,6 +103,7 @@ enum CategoryTab: Hashable, Equatable {
 
     init?(storageKey: String) {
         switch storageKey {
+        case "__recent__":    self = .recent
         case "__basic__":     self = .basic
         case "__all__":       self = .all
         case "__favorites__": self = .favorites
@@ -118,6 +124,7 @@ enum CategoryTab: Hashable, Equatable {
 
     var icon: String {
         switch self {
+        case .recent:    return AppSymbol.clockArrowCirclepath
         case .basic:     return "tray.full.fill"
         case .all:       return "square.grid.2x2"
         case .favorites: return "heart.fill"
@@ -206,7 +213,9 @@ final class ClipKeyboardListViewModel: ObservableObject {
     /// 순서 바꾸기와 여러 개 고르기가 **같은 범위**를 쓴다. 두 모드가 다른 기준으로 모으면
     /// "여기서는 보이는데 저기서는 없는" 메모가 생긴다.
     func scopedMemosForCurrentTab() -> [Memo] {
-        CategoryStore.shared.isFeatureEnabled
+        // '최근' 에는 단축어가 없다. 기능이 꺼진 사람도 '최근' 에 서 있으면 아무것도 고르지 않는다.
+        if displayedCategoryTab == .recent { return [] }
+        return CategoryStore.shared.isFeatureEnabled
             ? reorderScopeMemos(for: selectedCategoryTab)
             : loadedData
     }
@@ -215,6 +224,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
     /// loadedData가 이미 표시 순서(sortMemos)라 부분집합도 화면과 같은 순서로 나온다.
     func reorderScopeMemos(for tab: CategoryTab) -> [Memo] {
         switch tab {
+        case .recent:
+            return []
         case .all:
             return loadedData
         case .basic:
@@ -433,11 +444,41 @@ final class ClipKeyboardListViewModel: ObservableObject {
         cachedPageMemos.removeAll(keepingCapacity: true)
     }
 
+    /// 페이저에 서는 페이지들. '최근' 이 켜져 있으면 **늘 맨 앞**이다(키보드 `tabKeys` 와 같은 규칙).
+    ///
+    /// 카테고리 기능이 꺼진 사람은 갈래 페이지 대신 '전체' 한 장이다. 그래도 '최근' 은 선다.
+    /// ⚠️ '최근' 은 캐시 바깥에서 붙인다. 설정은 키보드 레이아웃 화면에서 바뀌고, 그때 목록의
+    ///    캐시를 비울 길이 없다. 값 하나 읽는 것이라 매번 읽어도 싸다.
     var allCategoryTabs: [CategoryTab] {
-        if let cachedTabs { return cachedTabs }
-        let tabs = computeAllCategoryTabs()
-        cachedTabs = tabs
-        return tabs
+        let pages: [CategoryTab]
+        if !CategoryStore.shared.isFeatureEnabled {
+            pages = [.all]
+        } else if let cachedTabs {
+            pages = cachedTabs
+        } else {
+            pages = computeAllCategoryTabs()
+            cachedTabs = pages
+        }
+        return showsRecentTab ? [.recent] + pages : pages
+    }
+
+    /// '최근' 페이지를 세우는가. 키보드 '최근' 탭과 **같은 설정 하나**를 본다.
+    var showsRecentTab: Bool {
+        KeyboardPrefs.showRecentClipsTab.value()
+    }
+
+    /// 지금 보이는 페이지. 고른 탭이 접혔으면 갈 자리(`landingTab`)다.
+    var displayedCategoryTab: CategoryTab {
+        let tabs = allCategoryTabs
+        return tabs.contains(selectedCategoryTab) ? selectedCategoryTab : landingTab(in: tabs)
+    }
+
+    /// 고른 탭이 없을 때 설 자리. **'최근' 은 고르지 않는다.**
+    ///
+    /// '최근' 이 맨 앞이라 그냥 첫 장으로 보내면, 기능을 끈 사람이나 즐겨찾기 페이지가 접힌 사람이
+    /// 단축어 대신 복사 기록 앞에 선다. 거기는 손으로 넘겨 가는 곳이다.
+    func landingTab(in tabs: [CategoryTab]) -> CategoryTab {
+        tabs.first(where: { $0 != .recent }) ?? tabs.first ?? .basic
     }
 
     private func computeAllCategoryTabs() -> [CategoryTab] {
@@ -496,9 +537,10 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func normalizeSelectedCategoryTabIfNeeded() {
         let tabs = allCategoryTabs
         guard !tabs.isEmpty, !tabs.contains(selectedCategoryTab) else { return }
-        selectedCategoryTab = tabs[0]
-        UserDefaults.standard.set(tabs[0].storageKey, forKey: Self.selectedCategoryTabKey)
-        print("↔️ [CategoryTab] 서 있던 탭이 접혀 '\(tabs[0].displayName)' 으로 옮김")
+        let landing = landingTab(in: tabs)
+        selectedCategoryTab = landing
+        UserDefaults.standard.set(landing.storageKey, forKey: Self.selectedCategoryTabKey)
+        print("↔️ [CategoryTab] 서 있던 탭이 접혀 '\(landing.displayName)' 으로 옮김")
     }
 
     var selectedCategoryIndex: Int {
@@ -635,6 +677,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     private func computeMemos(for tab: CategoryTab) -> [Memo] {
         switch tab {
+        case .recent:
+            return []
         case .basic:
             return basicBucketMemos
         case .all:

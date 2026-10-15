@@ -18,6 +18,8 @@ import LeeoKit
 #endif
 
 struct UsagePassportView: View {
+    @Environment(\.foldLayout) private var fold
+    @ObservedObject private var stampFocus = UsagePassportStampFocus.shared
 
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -318,7 +320,29 @@ struct UsagePassportView: View {
         }
     }
 
+    /// 펼친 듀오에서는 도장을 누르면 옆 판(`UsagePassportStampPane`)에 그 문구가 크게 선다.
+    @ViewBuilder
     private func stampCard(_ stamp: UsagePassport.Stamp, index: Int) -> some View {
+        if fold.isUnfolded {
+            let isOn = stampFocus.stamp?.id == stamp.id
+            Button {
+                HapticManager.shared.selection()
+                withAnimation(.easeOut(duration: 0.2)) { stampFocus.stamp = stamp }
+            } label: {
+                stampCardBody(stamp, index: index)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                            .strokeBorder(theme.accent, lineWidth: isOn ? 2 : 0)
+                    )
+            }
+            .buttonStyle(.plain)
+            .accessibilityAddTraits(isOn ? .isSelected : [])
+        } else {
+            stampCardBody(stamp, index: index)
+        }
+    }
+
+    private func stampCardBody(_ stamp: UsagePassport.Stamp, index: Int) -> some View {
         HStack(spacing: 10) {
             // 손으로 찍은 것처럼 카드마다 각도를 조금씩 흔든다(순서 기반이라 렌더마다 안 바뀐다).
             StampMark(useCount: stamp.useCount, size: 30, angle: [-9.0, 5.0, -3.0, 8.0][index % 4])
@@ -463,6 +487,11 @@ struct UsagePassportView: View {
         breakdown = period == .allTime ? KeyboardUsageTracker.savedBreakdown() : .zero
         // 기간이 바뀌면 빗대는 목록 자체가 달라진다. 자리를 그대로 두면 엉뚱한 칸에서 시작한다.
         exampleIndex = 0
+        // 펼친 듀오의 옆 판: 고른 도장이 이 기간에 없으면 가장 많이 쓴 것으로.
+        let stamps = summary?.stamps ?? []
+        if !stamps.contains(where: { $0.id == stampFocus.stamp?.id }) {
+            stampFocus.stamp = stamps.first
+        }
 
         // ⚠️ 화면을 열 때 확인하고, **본 즉시 지나간 것으로 적는다.** 다음에 또 띄우면
         //    축하가 아니라 배너가 된다.
@@ -643,3 +672,61 @@ struct ActivityShareSheet: UIViewControllerRepresentable {
 
     func updateUIViewController(_ controller: UIActivityViewController, context: Context) {}
 }
+
+// MARK: - 아이폰 듀오: 고른 도장
+
+/// 펼친 듀오에서 사용 기록의 고르는 쪽(여권)과 결과 쪽(도장 하나)이 함께 보는 값.
+@MainActor
+final class UsagePassportStampFocus: ObservableObject {
+    static let shared = UsagePassportStampFocus()
+    @Published var stamp: UsagePassport.Stamp?
+    private init() {}
+}
+
+/// 사용 기록 탭의 결과 쪽. 고른 문구 하나를 크게: 몇 번 썼고, 언제 마지막으로 썼고, 얼마나 아꼈나.
+struct UsagePassportStampPane: View {
+    @Environment(\.appTheme) private var theme
+    @ObservedObject private var focus = UsagePassportStampFocus.shared
+
+    var body: some View {
+        if let stamp = focus.stamp {
+            FoldCompanionPane(title: NSLocalizedString("많이 쓴 문구", comment: "Usage passport: top shortcuts section")) {
+                VStack(alignment: .leading, spacing: 18) {
+                    HStack(spacing: 16) {
+                        StampMark(useCount: stamp.useCount, size: 72, angle: -6)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(stamp.label)
+                                .font(.title2.weight(.bold))
+                                .foregroundColor(theme.text)
+                                .lineLimit(2)
+                            Text(String(format: NSLocalizedString("%d회", comment: "Usage count suffix"), stamp.useCount))
+                                .font(.title3.weight(.semibold))
+                                .foregroundColor(theme.accent)
+                                .monospacedDigit()
+                        }
+                    }
+                    if let saved = UsagePassport.timeSavedText(seconds: stamp.earnedSeconds) {
+                        Text(String(format: NSLocalizedString("대략 %@을 아꼈어요.", comment: "Usage passport: time saved sentence"), saved))
+                            .font(.body)
+                            .foregroundColor(theme.text)
+                    }
+                    Text(stamp.kind.localizedName)
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                    if let last = stamp.lastUsedAt {
+                        Text(last.formatted(.relative(presentation: .named)))
+                            .font(.body)
+                            .foregroundColor(theme.textMuted)
+                    }
+                }
+                .padding(18)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(theme.surface, in: RoundedRectangle(cornerRadius: theme.radiusLg))
+            }
+            .animation(.easeOut(duration: 0.2), value: stamp.id)
+        } else {
+            FoldDetailPlaceholder()
+        }
+    }
+}
+
