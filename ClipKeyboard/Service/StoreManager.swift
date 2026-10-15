@@ -341,13 +341,16 @@ class StoreManager: ObservableObject {
         await store.restore()
         // v4.0 이전 유료 앱 구매자도 "이전 구매 복원"으로 즉시 Pro 해제되도록
         // AppTransaction(최초 구매일) 재검증. (신규 Pro IAP 영수증이 없어도 부여됨)
-        await ProFeatureManager.grandfatherPaidUserIfNeeded()
+        // 복원은 사용자가 누른 것이라 영수증을 App Store 에서 새로 받아 온다(재설치 직후 대비).
+        let receiptError = await ProFeatureManager.grandfatherPaidUserIfNeeded(refreshReceipt: true)
         ProStatusManager.shared.objectWillChange.send()
 
         let outcome: RestoreOutcome
         if Self.grantsPro(store.purchasedProductIDs) || ProFeatureManager.hasPermanentPro {
             outcome = .restored
-        } else if let error = store.lastError {
+        } else if let error = store.lastError ?? receiptError {
+            // 영수증을 못 읽었는데 "구매 없음" 이라 하면 v4.0 이전 구매자가 Pro 를 잃었다고 믿는다
+            // (2026-10-12 문의: 재설치 뒤 Pro 가 사라졌고 복원해도 찾지 못했다).
             outcome = .failed(error)
         } else {
             outcome = .nothingFound

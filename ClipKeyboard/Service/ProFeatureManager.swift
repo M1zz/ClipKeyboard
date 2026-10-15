@@ -255,18 +255,28 @@ struct ProFeatureManager {
     /// 호출 시점: ClipKeyboardApp.init() / 구매 복원 직후.
     ///
     /// 같은 영수증으로 `existingFreeUser` 도 한 번 다시 확인한다(`shouldRevokeExistingFreeUser`).
-    static func grandfatherPaidUserIfNeeded() async {
+    ///
+    /// - Parameter refreshReceipt: 사용자가 "구매 복원" 을 눌렀을 때만 true. 기기에 남은 영수증 대신
+    ///   App Store 에서 새로 받아 온다(로그인 창이 뜰 수 있어 실행 때는 쓰지 않는다).
+    /// - Returns: 영수증을 읽지 못했으면 그 까닭. 읽었으면(또는 볼 필요가 없었으면) nil.
+    ///   ⚠️ 못 읽은 것을 "구매 없음" 으로 말하면 v4.0 이전 구매자가 Pro 를 잃었다고 믿는다.
+    @discardableResult
+    static func grandfatherPaidUserIfNeeded(refreshReceipt: Bool = false) async -> String? {
         let purchaseSettled = hasGrandfatheredPurchase
             && (groupDefaults?.bool(forKey: grandfatheredPurchaseRevalidatedKey) ?? false)
         let freeUserSettled = !wasExistingFreeUser
             || (groupDefaults?.bool(forKey: existingFreeUserRevalidatedKey) ?? false)
-        if purchaseSettled && freeUserSettled { return }
+        if purchaseSettled && freeUserSettled { return nil }
 
         do {
-            let result = try await AppTransaction.shared
-            guard case .verified(let appTransaction) = result else {
-                print("⚠️ [ProFeatureManager] AppTransaction 미검증, 유료 구매자 판별 보류")
-                return
+            let result = refreshReceipt ? try await AppTransaction.refresh() : try await AppTransaction.shared
+            let appTransaction: AppTransaction
+            switch result {
+            case .verified(let verified):
+                appTransaction = verified
+            case .unverified(_, let error):
+                print("⚠️ [ProFeatureManager] AppTransaction 미검증, 유료 구매자 판별 보류: \(error)")
+                return error.localizedDescription
             }
 
             let entitled = isGrandfatheredPurchase(originalPurchaseDate: appTransaction.originalPurchaseDate)
@@ -303,8 +313,10 @@ struct ProFeatureManager {
                 // 목록 화면은 이 판정보다 먼저 뜬다 - 안내 배너가 다음 실행까지 기다리지 않게.
                 NotificationCenter.postOnMain(name: .accessRevoked, object: nil)
             }
+            return nil
         } catch {
             print("⚠️ [ProFeatureManager] AppTransaction 조회 실패, 다음 실행에 재시도: \(error)")
+            return error.localizedDescription
         }
     }
 
