@@ -845,6 +845,12 @@
     "comment": "Enable Full Access title",
     "h": "ced0ad12fc"
   },
+  "'클립보드 담기'를 찾아 골라요": {
+    "ko": "'클립보드 담기'를 찾아 골라요",
+    "en": "Find and choose Capture Clipboard",
+    "comment": "Action Button / Control Center setup: pick the Capture Clipboard control",
+    "h": "9af4f4be32"
+  },
   "'키보드'를 눌러요": {
     "ko": "'키보드'를 눌러요",
     "en": "Tap 'Keyboards'",
@@ -3281,6 +3287,12 @@
     "comment": "Auto-registered",
     "h": "a3d4c6b014"
   },
+  "iPhone 15 Pro 이후 모델의 왼쪽 위 버튼이에요.": {
+    "ko": "iPhone 15 Pro 이후 모델의 왼쪽 위 버튼이에요.",
+    "en": "It's the button on the upper left of iPhone 15 Pro and later.",
+    "comment": "Action Button guide: which iPhones have the Action Button",
+    "h": "8a7a5f8f2f"
+  },
   "iPhone 단축어 앱에 이 앱의 동작이 들어가 있어요. 빠른 메모 적기와 보관함 열기를 자동화에 끼우거나 Siri 로 부를 수 있습니다.": {
     "ko": "iPhone 단축어 앱에 이 앱의 동작이 들어가 있어요. 빠른 메모 적기와 보관함 열기를 자동화에 끼우거나 Siri 로 부를 수 있습니다.",
     "en": "This app's actions show up in the iPhone Shortcuts app. Drop Add Quick Note or Open Inbox into an automation, or just ask Siri.",
@@ -5135,6 +5147,12 @@
     "comment": "Changelog 5.0.0 ripple",
     "h": "3fda5da517"
   },
+  "누를 때마다 '붙여넣기 허용?'이 떠요": {
+    "ko": "누를 때마다 '붙여넣기 허용?'이 떠요",
+    "en": "“Allow Paste?” shows up every time",
+    "comment": "Action Button guide tip: paste permission prompt every time",
+    "h": "4c8bae2eca"
+  },
   "누적 사용 횟수": {
     "ko": "누적 사용 횟수",
     "en": "Total uses",
@@ -6053,6 +6071,18 @@
     "comment": "Share video: running equivalent",
     "h": "94a0c9b109"
   },
+  "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
+    "ko": "담을 글이 없어요. 먼저 글을 복사해 주세요.",
+    "en": "Nothing to capture. Copy some text first.",
+    "comment": "Toast when the Action Button capture finds no copied text",
+    "h": "c44bc79ce2"
+  },
+  "담지 못했어요. 잠시 뒤 다시 해 주세요.": {
+    "ko": "담지 못했어요. 잠시 뒤 다시 해 주세요.",
+    "en": "Couldn't capture it. Try again in a moment.",
+    "comment": "Toast when saving the captured clipboard failed",
+    "h": "d0ca351c51"
+  },
   "당신과 닮은 누군가는, 이 순간들에서 매일 몇 분을 되찾고 있어요. 마음에 드는 예시는 탭 한 번으로 내 단축어가 됩니다.": {
     "ko": "당신과 닮은 누군가는, 이 순간들에서 매일 몇 분을 되찾고 있어요. 마음에 드는 예시는 탭 한 번으로 내 단축어가 됩니다.",
     "en": "Someone a lot like you reclaims a few minutes in these moments every day. Any example you like becomes your snippet in one tap.",
@@ -6274,6 +6304,12 @@
     "en": "Enter the same PIN again.",
     "comment": "PIN setup: confirm hint",
     "h": "91d07fe859"
+  },
+  "동작 버튼에 걸기": {
+    "ko": "동작 버튼에 걸기",
+    "en": "Set up the Action Button",
+    "comment": "Action Button guide: section title for Action Button setup",
+    "h": "1a855ca800"
   },
   "동작 줄이기": {
     "ko": "동작 줄이기",
@@ -7307,6 +7343,18 @@
     "comment": "Purchase moment: sensitive saved",
     "h": "cd9c13be8f"
   },
+  "방금 복사한 글을 키보드 '최근'에 바로 담습니다.": {
+    "ko": "방금 복사한 글을 키보드 '최근'에 바로 담습니다.",
+    "en": "Puts what you just copied straight into Recent on the keyboard.",
+    "comment": "Capture clipboard intent description",
+    "h": "4ee1a6ee8e"
+  },
+  "방금 복사한 글이 키보드 '최근'에 바로 담겨요. 저장할지 묻지 않고, 담긴 글은 %d일 뒤 저절로 지워져요.": {
+    "ko": "방금 복사한 글이 키보드 '최근'에 바로 담겨요. 저장할지 묻지 않고, 담긴 글은 %d일 뒤 저절로 지워져요.",
+    "en": "What you just copied goes straight into Recent on the keyboard. Nothing to confirm, and it clears itself after %d days.",
+    "comment": "Action Button guide subtitle. %d is the number of days temporary clipboard items are kept",
+    "h": "b7c7ded4bc"
+  },
   "방금 복사함": {
     "ko": "방금 복사함",
     "en": "Just copied",
@@ -7487,11 +7535,23 @@
     "comment": "Restore from a version: screen title",
     "h": "64a02ae01a"
   },
+  "버튼": {
+    "ko": "버튼",
+    "en": "Press",
+    "comment": "Action Button guide flow: press the button",
+    "h": "feae630191"
+  },
   "버튼 높이": {
     "ko": "버튼 높이",
     "en": "Button Height",
     "comment": "Button height label",
     "h": "75e443393c"
+  },
+  "버튼 한 번으로 담기": {
+    "ko": "버튼 한 번으로 담기",
+    "en": "Capture with One Press",
+    "comment": "Action Button capture guide title",
+    "h": "215cd32f05"
   },
   "번역": {
     "ko": "번역",
@@ -7895,6 +7955,18 @@
     "comment": "Copied confirmation",
     "h": "1c579141b4"
   },
+  "복사하고 버튼을 누르면 키보드에서 꺼내 쓸 수 있어요": {
+    "ko": "복사하고 버튼을 누르면 키보드에서 꺼내 쓸 수 있어요",
+    "en": "Copy, press the button, then use it from the keyboard",
+    "comment": "Action Button guide flow, VoiceOver",
+    "h": "ebdbd77c51"
+  },
+  "복사하고, 버튼만 누르세요": {
+    "ko": "복사하고, 버튼만 누르세요",
+    "en": "Copy, then just press the button",
+    "comment": "Action Button guide headline",
+    "h": "bd2cc2fcb0"
+  },
   "복사한 것": {
     "ko": "복사한 것",
     "en": "Clipboard",
@@ -8014,6 +8086,12 @@
     "en": "Nothing copied yet",
     "comment": "Toast: clipboard is empty",
     "h": "c67ff8145c"
+  },
+  "복사해 둔 글로 지금 해 보기": {
+    "ko": "복사해 둔 글로 지금 해 보기",
+    "en": "Try it now with what you copied",
+    "comment": "Action Button guide: try capturing the current clipboard now",
+    "h": "d39e6dd819"
   },
   "복사해 둔 글을 키보드 맨 앞 탭에 모아 둡니다. %d일 동안 남아요": {
     "ko": "복사해 둔 글을 키보드 맨 앞 탭에 모아 둡니다. %d일 동안 남아요",
@@ -8195,6 +8273,12 @@
     "comment": "Paste permission alert title",
     "h": "6fb55e2113"
   },
+  "붙여넣기를 허용해야 담을 수 있어요.": {
+    "ko": "붙여넣기를 허용해야 담을 수 있어요.",
+    "en": "Allow pasting to capture it.",
+    "comment": "Toast when the user declined the paste permission during capture",
+    "h": "d420129e41"
+  },
   "붙여넣을 내용": {
     "ko": "붙여넣을 내용",
     "en": "Content to paste",
@@ -8266,6 +8350,12 @@
     "en": "Business / Office Worker",
     "comment": "Persona: Business title",
     "h": "6801fe515b"
+  },
+  "빈 곳을 길게 누르고 '제어 항목 추가'를 눌러요": {
+    "ko": "빈 곳을 길게 누르고 '제어 항목 추가'를 눌러요",
+    "en": "Touch and hold an empty spot, then tap Add a Control",
+    "comment": "Control Center setup step 2",
+    "h": "1fb602d714"
   },
   "빈칸": {
     "ko": "빈칸",
@@ -9238,6 +9328,12 @@
     "en": "Settings Path",
     "comment": "Settings path section header",
     "h": "64252656f2"
+  },
+  "설정 앱에서 '동작 버튼'을 열어요": {
+    "ko": "설정 앱에서 '동작 버튼'을 열어요",
+    "en": "Open Action Button in the Settings app",
+    "comment": "Action Button setup step 1",
+    "h": "05f9b57848"
   },
   "설정 열기": {
     "ko": "설정 열기",
@@ -10852,6 +10948,12 @@
     "en": "Enough for a movie, with time to spare.",
     "comment": "Milestone note: three hours",
     "h": "84a182f6d6"
+  },
+  "옆으로 넘겨 '제어 항목'에 두고, '제어 항목 선택'을 눌러요": {
+    "ko": "옆으로 넘겨 '제어 항목'에 두고, '제어 항목 선택'을 눌러요",
+    "en": "Swipe to Controls, then tap Choose a Control",
+    "comment": "Action Button setup step 2: swipe to Controls and tap Choose a Control",
+    "h": "75a6fb80a0"
   },
   "예) “입금액 {금액}원” → 단축어를 쓸 때 금액만 새로 넣어 재사용해요. 그냥 ‘금액’이라고 쓰면 글자 그대로 고정됩니다.": {
     "ko": "예) “입금액 {금액}원” → 단축어를 쓸 때 금액만 새로 넣어 재사용해요. 그냥 ‘금액’이라고 쓰면 글자 그대로 고정됩니다.",
@@ -12941,6 +13043,18 @@
     "comment": "VoiceOver: suggested title",
     "h": "270c49e953"
   },
+  "제어 센터에 두기": {
+    "ko": "제어 센터에 두기",
+    "en": "Add it to Control Center",
+    "comment": "Action Button guide: Control Center setup as the main way",
+    "h": "82369adbe0"
+  },
+  "제어 센터에 두어도 돼요": {
+    "ko": "제어 센터에 두어도 돼요",
+    "en": "Or add it to Control Center",
+    "comment": "Action Button guide: Control Center setup as an alternative",
+    "h": "ced682da9b"
+  },
   "제어센터에 빠른 메모 버튼을 넣어 두면, 앱을 열지 않고 적어만 둘 수 있어요. 적어 둔 것은 보관함에 쌓이고, 나중에 쓸 만한 것만 단축어로 올리면 됩니다.": {
     "ko": "제어센터에 빠른 메모 버튼을 넣어 두면, 앱을 열지 않고 적어만 둘 수 있어요. 적어 둔 것은 보관함에 쌓이고, 나중에 쓸 만한 것만 단축어로 올리면 됩니다.",
     "en": "Add the Quick Note button to Control Center and you can capture text without opening the app. It lands in your inbox, and later you promote only the ones worth keeping.",
@@ -14555,6 +14669,12 @@
     "comment": "Marketing hint: clipboard",
     "h": "c019883740"
   },
+  "클립보드 담기": {
+    "ko": "클립보드 담기",
+    "en": "Capture Clipboard",
+    "comment": "Capture clipboard intent / control title",
+    "h": "a9914dba0c"
+  },
   "클립보드 사용": {
     "ko": "클립보드 사용",
     "en": "Uses clipboard",
@@ -14674,6 +14794,12 @@
     "en": "Keyboard",
     "comment": "Bulk import preview mode: keyboard\nKeyboard\nKeyboard list header\nSettings section: keyboard\nTab: snippets showing the keyboard stage\niOS Settings: Keyboard",
     "h": "451b4be966"
+  },
+  "키보드 '최근'에 담았어요: %@": {
+    "ko": "키보드 '최근'에 담았어요: %@",
+    "en": "Added to Recent on the keyboard: %@",
+    "comment": "Toast after capturing the clipboard with the Action Button. %@ is the start of the copied text",
+    "h": "415a9cbd1b"
   },
   "키보드 검색에서 한글이 흩어지던 문제 수정, 이제 정확히 조합돼 찾아져요": {
     "ko": "키보드 검색에서 한글이 흩어지던 문제 수정, 이제 정확히 조합돼 찾아져요",
@@ -15059,11 +15185,23 @@
     "comment": "Access ending banner: body, last trial day (shortcut limit)",
     "h": "bf082cce41"
   },
+  "키보드에서 '최근'을 보려면 전체 접근 허용을 켜 주세요": {
+    "ko": "키보드에서 '최근'을 보려면 전체 접근 허용을 켜 주세요",
+    "en": "Turn on Allow Full Access to see Recent on the keyboard",
+    "comment": "Action Button guide tip: Full Access is needed to see Recent in the keyboard",
+    "h": "f789b143d3"
+  },
   "키보드에서 길게 누르면 값이 크게 보여요": {
     "ko": "키보드에서 길게 누르면 값이 크게 보여요",
     "en": "Long press in the keyboard to see the value up close",
     "comment": "Changelog 4.4.7 item 2",
     "h": "31949ff88a"
+  },
+  "키보드에서 꺼내기": {
+    "ko": "키보드에서 꺼내기",
+    "en": "Use from keyboard",
+    "comment": "Action Button guide flow: use it from the keyboard",
+    "h": "0baef71bc4"
   },
   "키보드에서 단축어를 길게 누르면 입력 대신 클립보드로 들어가요. 붙여넣을 곳이 따로 있을 때 쓰세요.": {
     "ko": "키보드에서 단축어를 길게 누르면 입력 대신 클립보드로 들어가요. 붙여넣을 곳이 따로 있을 때 쓰세요.",
@@ -16300,6 +16438,12 @@
     "en": "The faint yellow cast in the palette is gone. Red, green and yellow for delete, save and warnings stay, and so do category colors",
     "comment": "Changelog 5.0.3 neutral tone",
     "h": "5a3d1b741d"
+  },
+  "화면 오른쪽 위에서 쓸어내려 제어 센터를 열어요": {
+    "ko": "화면 오른쪽 위에서 쓸어내려 제어 센터를 열어요",
+    "en": "Swipe down from the top-right corner to open Control Center",
+    "comment": "Control Center setup step 1",
+    "h": "e46cef3a27"
   },
   "화면 전체를 종이 느낌으로 다시 칠했어요": {
     "ko": "화면 전체를 종이 느낌으로 다시 칠했어요",

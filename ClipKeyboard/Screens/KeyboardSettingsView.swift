@@ -98,6 +98,11 @@ struct KeyboardSettingsView: View {
                 Label(NSLocalizedString("붙여넣기 알림 허용 끄기", comment: "Paste notification settings title"),
                       systemImage: AppSymbol.docOnClipboard)
             }
+            // 복사하고 동작 버튼(또는 제어 센터)을 누르면 키보드 '최근'에 담긴다.
+            FoldLink(destination: ActionButtonGuideView()) {
+                Label(NSLocalizedString("버튼 한 번으로 담기", comment: "Action Button capture guide title"),
+                      systemImage: AppSymbol.buttonProgrammable)
+            }
         } header: {
             Text(NSLocalizedString("iOS 설정 > 일반 > 키보드에서 추가할 수 있어요", comment: "Keyboard optional section footer"))
                 .textCase(.none)

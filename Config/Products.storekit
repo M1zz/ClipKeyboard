@@ -141,6 +141,66 @@
       "productID": "com.Ysoup.TokenMemo.twodevice",
       "referenceName": "ClipKeyboard Two devices (sync)",
       "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "tip_small",
+      "localizations": [
+        {
+          "description": "A one-time tip for the developer. Unlocks nothing.",
+          "displayName": "A coffee",
+          "locale": "en_US"
+        },
+        {
+          "description": "\uac1c\ubc1c\uc790\uc5d0\uac8c \ubcf4\ub0b4\ub294 \ud55c \ubc88\uc758 \uc751\uc6d0. \uc5f4\ub9ac\ub294 \uae30\ub2a5\uc740 \uc5c6\uc2b5\ub2c8\ub2e4.",
+          "displayName": "\ucee4\ud53c \ud55c \uc794",
+          "locale": "ko"
+        }
+      ],
+      "productID": "com.Ysoup.TokenMemo.tip.small",
+      "referenceName": "Tip small (consumable)",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "tip_medium",
+      "localizations": [
+        {
+          "description": "A one-time tip for the developer. Unlocks nothing.",
+          "displayName": "A snack",
+          "locale": "en_US"
+        },
+        {
+          "description": "\uac1c\ubc1c\uc790\uc5d0\uac8c \ubcf4\ub0b4\ub294 \ud55c \ubc88\uc758 \uc751\uc6d0. \uc5f4\ub9ac\ub294 \uae30\ub2a5\uc740 \uc5c6\uc2b5\ub2c8\ub2e4.",
+          "displayName": "\uac04\uc2dd \ud55c \ubc88",
+          "locale": "ko"
+        }
+      ],
+      "productID": "com.Ysoup.TokenMemo.tip.medium",
+      "referenceName": "Tip medium (consumable)",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "9.99",
+      "familyShareable": false,
+      "internalID": "tip_large",
+      "localizations": [
+        {
+          "description": "A one-time tip for the developer. Unlocks nothing.",
+          "displayName": "A hearty meal",
+          "locale": "en_US"
+        },
+        {
+          "description": "\uac1c\ubc1c\uc790\uc5d0\uac8c \ubcf4\ub0b4\ub294 \ud55c \ubc88\uc758 \uc751\uc6d0. \uc5f4\ub9ac\ub294 \uae30\ub2a5\uc740 \uc5c6\uc2b5\ub2c8\ub2e4.",
+          "displayName": "\ub4e0\ub4e0\ud55c \ud55c \ub07c",
+          "locale": "ko"
+        }
+      ],
+      "productID": "com.Ysoup.TokenMemo.tip.large",
+      "referenceName": "Tip large (consumable)",
+      "type": "Consumable"
     }
   ],
   "settings": {

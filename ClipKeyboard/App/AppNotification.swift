@@ -53,6 +53,8 @@ extension Notification.Name {
     static let openQuickNoteInbox = Notification.Name("openQuickNoteInbox")
     /// 빠른 메모 입력 시트를 연다(Control Center 컨트롤의 clipkeyboard://quicknote 딥링크).
     static let openQuickNoteAdd = Notification.Name("openQuickNoteAdd")
+    /// 방금 복사한 글을 복사 기록에 담는다(동작 버튼 · 제어 센터의 '클립보드 담기').
+    static let captureClipboard = Notification.Name("captureClipboard")
     static let reviewTriggerClipSaved = Notification.Name("reviewTriggerClipSaved")
     static let reviewTriggerStackCompleted = Notification.Name("reviewTriggerComboCompleted")
     /// 사용 기록 탭을 연다. 새 단장 안내가 "내가 아낀 시간 보기"로 데려갈 때 쓴다.

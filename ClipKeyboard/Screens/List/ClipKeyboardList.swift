@@ -1219,6 +1219,13 @@ struct ClipKeyboardList: View {
                 AppGroup.defaults?.set(false, forKey: DefaultsKey.pendingQuickNoteAdd)
                 showQuickNoteAdd = true
             }
+            .onReceive(NotificationCenter.default.publisher(for: .captureClipboard)) { _ in
+                // 앱이 앞에 선 뒤에 읽어야 한다. 알림은 앱이 아직 넘어오는 중에 올 수 있어
+                // 여기서는 보류 플래그만 두고, 실제 읽기는 활성화 때 한 곳(`consumePendingInboxOpen`)에서 한다.
+                if UIApplication.shared.applicationState == .active {
+                    consumePendingInboxOpen()
+                }
+            }
     }
 
     // MARK: - 배경 이미지 (선택)
@@ -1402,12 +1409,18 @@ struct ClipKeyboardList: View {
 
     /// Control Center 컨트롤·딥링크가 켜둔 보류 플래그를 소비한다(앱 활성화 시).
     /// - 빠른 메모 컨트롤: 입력 시트 표시 / - 보관함 열기 컨트롤: Inbox 화면 이동.
+    /// - 클립보드 담기(동작 버튼): 방금 복사한 글을 복사 기록에 담고 토스트로 알린다.
     private func consumePendingInboxOpen() {
         let store = AppGroup.defaults
         if store?.bool(forKey: DefaultsKey.pendingQuickNoteAdd) == true {
             store?.set(false, forKey: DefaultsKey.pendingQuickNoteAdd)
             print("🎛️ [ClipKeyboardList] 제어센터 보류 플래그 소비 → 빠른 메모 입력 시트")
             showQuickNoteAdd = true
+        }
+        if store?.bool(forKey: DefaultsKey.pendingClipboardCapture) == true {
+            store?.set(false, forKey: DefaultsKey.pendingClipboardCapture)
+            print("🎛️ [ClipKeyboardList] 보류 플래그 소비 → 클립보드 담기")
+            viewModel.captureClipboardFromButton()
         }
         if store?.bool(forKey: DefaultsKey.pendingOpenQuickNoteInbox) == true {
             store?.set(false, forKey: DefaultsKey.pendingOpenQuickNoteInbox)

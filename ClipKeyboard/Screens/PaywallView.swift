@@ -214,6 +214,16 @@ struct PaywallView: View {
                     .font(.headline)
                     .foregroundStyle(.green)
                     .padding()
+                // 다 가진 사람이 더 내고 싶을 때 갈 곳(팁). 팁 상품이 와 있을 때만.
+                if let tipJar = store.tipJar, tipJar.isAvailable {
+                    NavigationLink {
+                        LeeoTipJarView<ClipKeyboardSpec>(tipJar: tipJar).leeoStyle(theme.leeoStyle)
+                    } label: {
+                        Label(LeeoTipText.entry, systemImage: AppSymbol.heartFill)
+                            .font(.body.weight(.semibold))
+                            .foregroundStyle(.orange)
+                    }
+                }
             } else {
                 if ProFeatureManager.isInTrial {
                     trialActiveBadge

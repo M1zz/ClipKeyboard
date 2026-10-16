@@ -93,6 +93,23 @@ enum PasteboardReader {
         }
     }
 
+    /// **사용자가 시킨** 담기용 글자 읽기. 글자가 없는 것과 **있는데 못 읽은 것**(붙여넣기 거절)을 가른다.
+    ///
+    /// `hasStrings` 는 팝업 없이 대답한다. 그게 참인데 `string` 이 비어 오면 사용자가 '허용 안 함'을 누른 것이다.
+    /// 둘을 가르지 않으면 거절한 사람에게 "복사한 글이 없어요" 라고 틀린 말을 하게 된다.
+    /// - Parameter completion: **메인에서** 부른다.
+    static func textOrRefusal(completion: @escaping (_ text: String?, _ refused: Bool) -> Void) {
+        queue.async {
+            let board = UIPasteboard.general
+            let hasText = board.hasStrings
+            // ⚠️ `string` 은 **한 번만** 읽는다. 다시 읽으면 붙여넣기 팝업이 또 뜬다.
+            let raw = hasText ? board.string : nil
+            let text = raw.flatMap { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : $0 }
+            let refused = hasText && raw == nil
+            DispatchQueue.main.async { completion(text, refused) }
+        }
+    }
+
     /// 글자와 그림을 함께 본다. 둘 다 있으면 그림이 이긴다.
     /// - Parameter completion: **메인에서** 부른다.
     static func content(completion: @escaping (PasteboardContent) -> Void) {

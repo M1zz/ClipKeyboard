@@ -215,6 +215,29 @@ struct SettingView: View {
         }
     }
 
+    /// 팁(응원) - 이미 다 가진 사람이 더 내고 싶을 때. 팁 상품이 App Store 에서 와야 보인다.
+    /// ⚠️ 문구는 LeeoKit 카탈로그에 있다(`LeeoTipText`).
+    @ViewBuilder
+    private var tipSection: some View {
+        if let tipJar = proManager.tipJar, tipJar.isAvailable {
+            Section {
+                FoldLink(destination: LeeoTipJarView<ClipKeyboardSpec>(tipJar: tipJar)
+                    .leeoStyle(theme.leeoStyle)) {
+                    Label {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(LeeoTipText.entry)
+                            Text(LeeoTipText.entrySubtitle)
+                                .font(.footnote)
+                                .foregroundColor(theme.textMuted)
+                        }
+                    } icon: {
+                        Image(systemName: AppSymbol.heartFill)
+                    }
+                }
+            }
+        }
+    }
+
     /// 피드백과 리뷰 - 설정 첫 화면의 **맨 아래**, 따로 한 섹션으로 둔다.
     ///
     /// ⚠️ 한때 "도움말과 문의"(지금의 "사용법과 문의") 안쪽에 있었다. 한 칸 들어가야 보이는 문은 거의 열리지 않는다.
@@ -321,6 +344,7 @@ struct SettingView: View {
         List {
             proSection
             giftSection
+            tipSection
             everydaySection
             aboutSection
             // 사용자가 보는 설정의 **맨 끝**. 아래 개발자 섹션은 마스터 모드에서만 보인다.

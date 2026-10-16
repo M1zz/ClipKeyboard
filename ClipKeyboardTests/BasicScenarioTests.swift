@@ -377,6 +377,40 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertFalse(list.allCategoryTabs.contains(.recent), "키보드에서 끄면 목록에서도 사라져야 한다")
     }
 
+    /// 동작 버튼 · 제어 센터의 '클립보드 담기': 글을 복사하고 버튼을 누르면 앱이 열리면서
+    /// 방금 복사한 글이 키보드 '최근' 맨 위에 **임시 항목**으로 담긴다. 저장할지 묻지 않는다.
+    /// 버튼이 앱을 여는 순간 목록의 자동 읽기는 쉰다(같이 읽으면 붙여넣기 팝업이 두 번 뜬다).
+    func test_복사하고_버튼을_누르면_키보드_최근에_담긴다() async throws {
+        try MemoStore.shared.saveSmartClipboardHistory(history: [])
+        defer {
+            try? MemoStore.shared.saveSmartClipboardHistory(history: [])
+            groupDefaults?.removeObject(forKey: DefaultsKey.pendingClipboardCapture)
+        }
+        let copied = "CJ대한통운 6543 2109 8765"
+        UIPasteboard.general.string = copied
+
+        // 1. 버튼을 누른다 (인텐트가 하는 그대로)
+        _ = try await CaptureClipboardIntent().perform()
+        XCTAssertEqual(groupDefaults?.bool(forKey: DefaultsKey.pendingClipboardCapture), true,
+                       "콜드 런치에서도 목록이 담을 수 있게 보류 플래그가 남아야 한다")
+        XCTAssertTrue(ClipboardCapture.shouldSkipAutoRead(), "버튼으로 담는 동안 목록의 자동 읽기는 쉬어야 한다")
+
+        // 2. 앱이 앞에 서면 목록이 플래그를 소비하고 담는다
+        groupDefaults?.set(false, forKey: DefaultsKey.pendingClipboardCapture)
+        let list = ClipKeyboardListViewModel()
+        list.captureClipboardFromButton()
+        for _ in 0..<60 where !list.showToast { try await Task.sleep(for: .milliseconds(50)) }
+        XCTAssertTrue(list.showToast, "담았다고 알려야 한다")
+        XCTAssertFalse(list.hasFreshClipboard, "담은 글로 '저장할까요?' 카드를 또 띄우지 않는다")
+
+        // 3. 키보드 '최근' 맨 위에 선다
+        let history = try MemoStore.shared.loadSmartClipboardHistory()
+        let first = try XCTUnwrap(history.first)
+        XCTAssertEqual(first.content, copied)
+        XCTAssertTrue(first.isTemporary, "버튼으로 담은 것은 보관 기간 뒤 지워지는 임시 항목이다")
+        XCTAssertEqual(SmartClipboardHistory.keyboardRecents(history, now: Date()).first?.content, copied)
+    }
+
     /// 선물받은 사람은 정가 Pro 를 산 사람과 같다: 프로 트림이 열리고(백업 · 잠금 · 동기화),
     /// 앱을 다시 켜도(StoreKit 응답 전) 그대로다. 선물을 산 사람 자신은 Pro 가 되지 않는다.
     ///
@@ -404,6 +438,19 @@ final class BasicScenarioTests: XCTestCase {
         // 선물을 산 것만으로는 아무것도 열리지 않는다 (받는 사람 몫이다)
         XCTAssertFalse(StoreManager.grantsPro([gift.productID]))
         XCTAssertEqual(AccessTier.purchased(from: [gift.productID]), .free)
+    }
+
+    /// 다 가진 사람이 더 내는 팁(응원)은 **아무것도 열지 않는다.** 무료 사용자가 팁을 내도 Pro 가 아니고,
+    /// 계약의 팁 상품은 판매 · 권한 목록과 겹치지 않는다(겹치면 팁이 Pro 를 파는 뒷문이 된다).
+    func test_팁은_응원일_뿐_아무것도_열지_않는다() throws {
+        let spec = try XCTUnwrap(ClipKeyboardSpec.paywall)
+        let tips = try XCTUnwrap(spec.tipJar?.productIDs, "계약에 팁이 선언돼 있어야 한다")
+        XCTAssertEqual(tips, StoreManager.tipProductIDs)
+
+        XCTAssertTrue(Set(spec.productIDs).union(spec.entitlementIDs).isDisjoint(with: tips))
+        XCTAssertEqual(AccessTier.purchased(from: Set(tips)), .free, "팁을 낸 사람의 트림은 그대로다")
+        XCTAssertFalse(StoreManager.grantsPro(Set(tips)), "익스텐션 Pro 키도 켜지지 않는다")
+        XCTAssertFalse(LeeoPreflight.audit(ClipKeyboardSpec.self).contains { $0.code.hasPrefix("tip.") })
     }
 
     // MARK: - Helpers

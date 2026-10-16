@@ -66,6 +66,15 @@ struct ClipKeyboardAppShortcuts: AppShortcutsProvider {
             systemImageName: "tray.and.arrow.down.fill"
         )
         AppShortcut(
+            intent: CaptureClipboardIntent(),
+            phrases: [
+                "Capture clipboard in \(.applicationName)",
+                "Save what I copied to \(.applicationName)"
+            ],
+            shortTitle: "Capture Clipboard",
+            systemImageName: "doc.on.clipboard"
+        )
+        AppShortcut(
             intent: OpenQuickNoteInboxIntent(),
             phrases: [
                 "Open \(.applicationName) inbox"

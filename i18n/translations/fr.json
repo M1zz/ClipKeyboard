@@ -695,6 +695,10 @@
     "v": "Activez « Autoriser l'accès complet »",
     "src": "ced0ad12fc"
   },
+  "'클립보드 담기'를 찾아 골라요": {
+    "v": "Trouvez et choisissez « Capturer le presse-papiers »",
+    "src": "9af4f4be32"
+  },
   "'키보드'를 눌러요": {
     "v": "Touchez « Claviers »",
     "src": "cbf9e6dd2b"
@@ -2339,6 +2343,10 @@
     "v": "Achetez Pro dans l’app iOS, il sera aussi activé automatiquement sur ce Mac.",
     "src": "a3d4c6b014"
   },
+  "iPhone 15 Pro 이후 모델의 왼쪽 위 버튼이에요.": {
+    "v": "C'est le bouton en haut à gauche de l'iPhone 15 Pro et des modèles suivants.",
+    "src": "8a7a5f8f2f"
+  },
   "iPhone 단축어 앱에 이 앱의 동작이 들어가 있어요. 빠른 메모 적기와 보관함 열기를 자동화에 끼우거나 Siri 로 부를 수 있습니다.": {
     "v": "Les actions de cette app sont disponibles dans l’app Raccourcis de l’iPhone. Ajoutez Nouvelle note rapide ou Ouvrir la boîte de réception à une automatisation, ou demandez à Siri.",
     "src": "92102a1e4b"
@@ -3599,6 +3607,10 @@
     "v": "Une ondulation indique quoi toucher ensuite",
     "src": "3fda5da517"
   },
+  "누를 때마다 '붙여넣기 허용?'이 떠요": {
+    "v": "« Autoriser le collage ? » s'affiche à chaque appui",
+    "src": "4c8bae2eca"
+  },
   "누적 사용 횟수": {
     "v": "Utilisations totales",
     "src": "42b316f9e8"
@@ -4247,6 +4259,14 @@
     "v": "Assez de temps pour courir",
     "src": "94a0c9b109"
   },
+  "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
+    "v": "Rien à capturer. Copiez d'abord du texte.",
+    "src": "c44bc79ce2"
+  },
+  "담지 못했어요. 잠시 뒤 다시 해 주세요.": {
+    "v": "Capture impossible. Réessayez dans un instant.",
+    "src": "d0ca351c51"
+  },
   "당신과 닮은 누군가는, 이 순간들에서 매일 몇 분을 되찾고 있어요. 마음에 드는 예시는 탭 한 번으로 내 단축어가 됩니다.": {
     "v": "Quelqu'un qui vous ressemble récupère quelques minutes chaque jour dans ces moments. Chaque exemple qui vous plaît devient votre phrase d'une simple touche.",
     "src": "554ca2817e"
@@ -4394,6 +4414,10 @@
   "동일한 PIN을 한 번 더 입력하세요.": {
     "v": "Saisissez à nouveau le même code PIN.",
     "src": "91d07fe859"
+  },
+  "동작 버튼에 걸기": {
+    "v": "Configurer le bouton Action",
+    "src": "1a855ca800"
   },
   "동작 줄이기": {
     "v": "Réduire les animations",
@@ -5113,6 +5137,17 @@
     "v": "Vous venez d'enregistrer un élément privé. Vous pouvez le verrouiller avec Face ID",
     "src": "cd9c13be8f"
   },
+  "방금 복사한 글을 키보드 '최근'에 바로 담습니다.": {
+    "v": "Place le texte que vous venez de copier dans « Récents » sur le clavier.",
+    "src": "4ee1a6ee8e"
+  },
+  "방금 복사한 글이 키보드 '최근'에 바로 담겨요. 저장할지 묻지 않고, 담긴 글은 %d일 뒤 저절로 지워져요.": {
+    "v": {
+      "one": "Le texte que vous venez de copier arrive directement dans « Récents » sur le clavier. Aucune confirmation, et il s'efface seul après %d jour.",
+      "other": "Le texte que vous venez de copier arrive directement dans « Récents » sur le clavier. Aucune confirmation, et il s'efface seul après %d jours."
+    },
+    "src": "b7c7ded4bc"
+  },
   "방금 복사함": {
     "src": "02d7e18ccc",
     "v": "Copié à l'instant"
@@ -5233,9 +5268,17 @@
     "v": "Restaurer une version",
     "src": "64a02ae01a"
   },
+  "버튼": {
+    "v": "Appuyez",
+    "src": "feae630191"
+  },
   "버튼 높이": {
     "v": "Hauteur des boutons",
     "src": "75e443393c"
+  },
+  "버튼 한 번으로 담기": {
+    "v": "Capturer d'une seule pression",
+    "src": "215cd32f05"
   },
   "번역": {
     "v": "Traduire",
@@ -5505,6 +5548,14 @@
     "v": "Copié !",
     "src": "1c579141b4"
   },
+  "복사하고 버튼을 누르면 키보드에서 꺼내 쓸 수 있어요": {
+    "v": "Copiez, appuyez sur le bouton, puis utilisez-le depuis le clavier",
+    "src": "ebdbd77c51"
+  },
+  "복사하고, 버튼만 누르세요": {
+    "v": "Copiez, puis appuyez sur le bouton",
+    "src": "bd2cc2fcb0"
+  },
   "복사한 것": {
     "v": "Presse-papiers",
     "src": "3f751e9106"
@@ -5593,6 +5644,10 @@
   "복사해 둔 것이 없어요": {
     "v": "Rien n'a été copié",
     "src": "c67ff8145c"
+  },
+  "복사해 둔 글로 지금 해 보기": {
+    "v": "Essayer avec le texte copié",
+    "src": "d39e6dd819"
   },
   "복사해 둔 글을 키보드 맨 앞 탭에 모아 둡니다. %d일 동안 남아요": {
     "v": {
@@ -5717,6 +5772,10 @@
     "v": "Autorisez le collage",
     "src": "6fb55e2113"
   },
+  "붙여넣기를 허용해야 담을 수 있어요.": {
+    "v": "Autorisez le collage pour capturer.",
+    "src": "d420129e41"
+  },
   "붙여넣을 내용": {
     "v": "Contenu à coller",
     "src": "c66132ba38"
@@ -5764,6 +5823,10 @@
   "비즈니스 / 직장인": {
     "v": "Entreprise / Salarié",
     "src": "6801fe515b"
+  },
+  "빈 곳을 길게 누르고 '제어 항목 추가'를 눌러요": {
+    "v": "Maintenez le doigt sur un espace vide, puis touchez « Ajouter un contrôle »",
+    "src": "1fb602d714"
   },
   "빈칸": {
     "v": "champ",
@@ -6424,6 +6487,10 @@
   "설정 경로": {
     "v": "Chemin des réglages",
     "src": "64252656f2"
+  },
+  "설정 앱에서 '동작 버튼'을 열어요": {
+    "v": "Ouvrez « Bouton Action » dans Réglages",
+    "src": "05f9b57848"
   },
   "설정 열기": {
     "v": "Ouvrir les réglages",
@@ -7518,6 +7585,10 @@
   "영화 한 편 보고도 남아요.": {
     "v": "De quoi regarder un film, avec du temps en plus.",
     "src": "84a182f6d6"
+  },
+  "옆으로 넘겨 '제어 항목'에 두고, '제어 항목 선택'을 눌러요": {
+    "v": "Balayez jusqu'à « Contrôles », puis touchez « Choisir un contrôle »",
+    "src": "75a6fb80a0"
   },
   "예) “입금액 {금액}원” → 단축어를 쓸 때 금액만 새로 넣어 재사용해요. 그냥 ‘금액’이라고 쓰면 글자 그대로 고정됩니다.": {
     "v": "Ex. : « Dépôt de {montant} » → réutilisez la phrase en saisissant un nouveau montant à chaque fois. Un simple texte comme « montant » reste fixe.",
@@ -8929,6 +9000,14 @@
     "v": "Titre suggéré : %@",
     "src": "270c49e953"
   },
+  "제어 센터에 두기": {
+    "v": "Ajouter au centre de contrôle",
+    "src": "82369adbe0"
+  },
+  "제어 센터에 두어도 돼요": {
+    "v": "Ou ajoutez-le au centre de contrôle",
+    "src": "ced682da9b"
+  },
   "제어센터에 빠른 메모 버튼을 넣어 두면, 앱을 열지 않고 적어만 둘 수 있어요. 적어 둔 것은 보관함에 쌓이고, 나중에 쓸 만한 것만 단축어로 올리면 됩니다.": {
     "v": "Ajoutez le bouton Note rapide au Centre de contrôle pour noter du texte sans ouvrir l'app. Il arrive dans votre boîte de réception, et vous ne gardez ensuite que les notes utiles en tant que phrases.",
     "src": "89ced1d7c5"
@@ -10038,6 +10117,10 @@
     "v": "Part d'utilisation de l'historique du presse-papiers.",
     "src": "c019883740"
   },
+  "클립보드 담기": {
+    "v": "Capturer le presse-papiers",
+    "src": "a9914dba0c"
+  },
   "클립보드 사용": {
     "v": "Utilise le presse-papiers",
     "src": "2c7951df58"
@@ -10117,6 +10200,10 @@
   "키보드": {
     "v": "Clavier",
     "src": "451b4be966"
+  },
+  "키보드 '최근'에 담았어요: %@": {
+    "v": "Ajouté à « Récents » sur le clavier : %@",
+    "src": "415a9cbd1b"
   },
   "키보드 검색에서 한글이 흩어지던 문제 수정, 이제 정확히 조합돼 찾아져요": {
     "v": "Correction de la saisie coréenne dispersée dans la recherche du clavier, elle se compose et se trouve désormais correctement",
@@ -10377,9 +10464,17 @@
     },
     "src": "bf082cce41"
   },
+  "키보드에서 '최근'을 보려면 전체 접근 허용을 켜 주세요": {
+    "v": "Activez « Autoriser l'accès complet » pour voir « Récents » sur le clavier",
+    "src": "f789b143d3"
+  },
   "키보드에서 길게 누르면 값이 크게 보여요": {
     "v": "Appuyez longuement sur le clavier pour voir la valeur en grand",
     "src": "31949ff88a"
+  },
+  "키보드에서 꺼내기": {
+    "v": "Utiliser depuis le clavier",
+    "src": "0baef71bc4"
   },
   "키보드에서 단축어를 길게 누르면 입력 대신 클립보드로 들어가요. 붙여넣을 곳이 따로 있을 때 쓰세요.": {
     "v": "Appuyez longuement sur une phrase du clavier : elle va dans le presse-papiers au lieu d'être saisie. Utile pour coller ailleurs.",
@@ -11204,6 +11299,10 @@
   "화면 색조에서 옅게 섞여 있던 노란 기를 걷어냈어요. 삭제·저장·주의를 알리는 빨강·초록·노랑과 갈래 색은 그대로예요": {
     "v": "La légère teinte jaune de la palette a disparu. Le rouge, le vert et le jaune de la suppression, de l'enregistrement et des alertes restent, tout comme les couleurs des thèmes",
     "src": "5a3d1b741d"
+  },
+  "화면 오른쪽 위에서 쓸어내려 제어 센터를 열어요": {
+    "v": "Balayez vers le bas depuis le coin supérieur droit pour ouvrir le centre de contrôle",
+    "src": "e46cef3a27"
   },
   "화면 전체를 종이 느낌으로 다시 칠했어요": {
     "v": "Tout l'écran a été repeint dans un esprit papier",

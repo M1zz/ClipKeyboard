@@ -338,6 +338,9 @@ enum DefaultsKey {
     /// Control Center 빠른 메모 컨트롤·quicknote 딥링크가 켠 "빠른 메모 입력 시트 열기" 보류 플래그.
     /// 위젯 타겟은 같은 문자열 리터럴 사용(QuickNoteControl.swift).
     static let pendingQuickNoteAdd = "pendingQuickNoteAdd"
+    /// 동작 버튼 · 제어 센터의 '클립보드 담기'(`CaptureClipboardIntent`)가 켠 "복사한 글 담기" 보류 플래그.
+    /// 콜드 런치에서는 알림보다 목록이 늦게 뜨므로 목록이 활성화될 때 소비한다(`ClipboardCapture`).
+    static let pendingClipboardCapture = "pendingClipboardCapture"
     static let proValueNudgeDismissedV1 = "proValueNudgeDismissed_v1"
     static let recentEmojis = "recentEmojis"
     static let recentlyUsedCategories = "recentlyUsedCategories"

@@ -40,6 +40,14 @@ class StoreManager: ObservableObject {
     /// ⚠️ App Store Connect 에 소모성 상품으로 만들어야 뜬다. 없으면 설정의 선물 행이 숨는다.
     nonisolated static let giftProductID = "com.Ysoup.TokenMemo.gift.pro"
 
+    /// 팁(응원), 작은 것부터. 소모성이고 아무것도 열지 않는다(`LeeoTipJar`).
+    /// ⚠️ App Store Connect 에 소모성 상품으로 만들어야 뜬다. 없으면 설정의 응원 행이 숨는다.
+    nonisolated static let tipProductIDs = [
+        "com.Ysoup.TokenMemo.tip.small",
+        "com.Ysoup.TokenMemo.tip.medium",
+        "com.Ysoup.TokenMemo.tip.large"
+    ]
+
     // MARK: - 내부 공용 스토어
 
     private let store: LeeoStore
@@ -102,6 +110,9 @@ class StoreManager: ObservableObject {
     /// 트림 · 익스텐션 미러는 산 것과 똑같이 따라간다.
     var gift: LeeoGiftStore? { store.gift }
 
+    /// 팁(응원). 권한과 상관없다.
+    var tipJar: LeeoTipJar? { store.tipJar }
+
     // MARK: - Init
 
     private init() {
@@ -114,6 +125,10 @@ class StoreManager: ObservableObject {
 
         // 선물 상품이 불러와지면(설정의 선물 행이 보이게) 화면도 다시 그린다.
         store.gift?.objectWillChange
+            .sink { [weak self] in self?.objectWillChange.send() }
+            .store(in: &cancellables)
+        // 팁 상품도 같다(설정의 응원 행).
+        store.tipJar?.objectWillChange
             .sink { [weak self] in self?.objectWillChange.send() }
             .store(in: &cancellables)
         // 이미 Pro 인 사람(앱이 따로 판정하는 v3 그랜드파더 포함)은 선물을 받지 않는다.

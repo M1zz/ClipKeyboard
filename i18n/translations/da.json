@@ -695,6 +695,10 @@
     "v": "Slå 'Tillad fuld adgang' til",
     "src": "ced0ad12fc"
   },
+  "'클립보드 담기'를 찾아 골라요": {
+    "v": "Find og vælg Capture Clipboard",
+    "src": "9af4f4be32"
+  },
   "'키보드'를 눌러요": {
     "v": "Tryk på 'Tastaturer'",
     "src": "cbf9e6dd2b"
@@ -2339,6 +2343,10 @@
     "v": "Køb Pro i iOS-appen, så aktiveres det også på denne Mac.",
     "src": "a3d4c6b014"
   },
+  "iPhone 15 Pro 이후 모델의 왼쪽 위 버튼이에요.": {
+    "v": "Det er knappen øverst til venstre på iPhone 15 Pro og nyere.",
+    "src": "8a7a5f8f2f"
+  },
   "iPhone 단축어 앱에 이 앱의 동작이 들어가 있어요. 빠른 메모 적기와 보관함 열기를 자동화에 끼우거나 Siri 로 부를 수 있습니다.": {
     "v": "Denne apps handlinger findes i appen Genveje på iPhone. Du kan sætte Tilføj hurtig note eller Åbn indbakke ind i en automatisering eller bede Siri om det.",
     "src": "92102a1e4b"
@@ -3599,6 +3607,10 @@
     "v": "En bølge viser, hvad du skal trykke på næste gang",
     "src": "3fda5da517"
   },
+  "누를 때마다 '붙여넣기 허용?'이 떠요": {
+    "v": "\"Tillad indsættelse?\" vises hver gang",
+    "src": "4c8bae2eca"
+  },
   "누적 사용 횟수": {
     "v": "Samlet brug",
     "src": "42b316f9e8"
@@ -4247,6 +4259,14 @@
     "v": "tid nok til en løbetur",
     "src": "94a0c9b109"
   },
+  "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
+    "v": "Intet at gemme. Kopiér først noget tekst.",
+    "src": "c44bc79ce2"
+  },
+  "담지 못했어요. 잠시 뒤 다시 해 주세요.": {
+    "v": "Kunne ikke gemme. Prøv igen om lidt.",
+    "src": "d0ca351c51"
+  },
   "당신과 닮은 누군가는, 이 순간들에서 매일 몇 분을 되찾고 있어요. 마음에 드는 예시는 탭 한 번으로 내 단축어가 됩니다.": {
     "v": "En, der minder om dig, vinder hver dag nogle minutter tilbage i disse øjeblikke. Et eksempel, du kan lide, bliver din frase med ét tryk.",
     "src": "554ca2817e"
@@ -4394,6 +4414,10 @@
   "동일한 PIN을 한 번 더 입력하세요.": {
     "v": "Indtast den samme PIN igen.",
     "src": "91d07fe859"
+  },
+  "동작 버튼에 걸기": {
+    "v": "Opsæt handlingsknappen",
+    "src": "1a855ca800"
   },
   "동작 줄이기": {
     "v": "Reducer bevægelse",
@@ -5113,6 +5137,17 @@
     "v": "Du har lige gemt noget privat. Du kan låse det med Face ID",
     "src": "cd9c13be8f"
   },
+  "방금 복사한 글을 키보드 '최근'에 바로 담습니다.": {
+    "v": "Lægger det, du lige har kopieret, direkte i Seneste på tastaturet.",
+    "src": "4ee1a6ee8e"
+  },
+  "방금 복사한 글이 키보드 '최근'에 바로 담겨요. 저장할지 묻지 않고, 담긴 글은 %d일 뒤 저절로 지워져요.": {
+    "v": {
+      "one": "Det, du lige har kopieret, lægges direkte i Seneste på tastaturet. Du skal ikke bekræfte noget, og det slettes af sig selv efter %d dag.",
+      "other": "Det, du lige har kopieret, lægges direkte i Seneste på tastaturet. Du skal ikke bekræfte noget, og det slettes af sig selv efter %d dage."
+    },
+    "src": "b7c7ded4bc"
+  },
   "방금 복사함": {
     "src": "02d7e18ccc",
     "v": "Lige kopieret"
@@ -5233,9 +5268,17 @@
     "v": "Gendan en version",
     "src": "64a02ae01a"
   },
+  "버튼": {
+    "v": "Tryk",
+    "src": "feae630191"
+  },
   "버튼 높이": {
     "v": "Knaphøjde",
     "src": "75e443393c"
+  },
+  "버튼 한 번으로 담기": {
+    "v": "Gem med ét tryk",
+    "src": "215cd32f05"
   },
   "번역": {
     "v": "Oversæt",
@@ -5505,6 +5548,14 @@
     "v": "Kopieret!",
     "src": "1c579141b4"
   },
+  "복사하고 버튼을 누르면 키보드에서 꺼내 쓸 수 있어요": {
+    "v": "Kopiér, tryk på knappen, og brug det fra tastaturet",
+    "src": "ebdbd77c51"
+  },
+  "복사하고, 버튼만 누르세요": {
+    "v": "Kopiér, og tryk så bare på knappen",
+    "src": "bd2cc2fcb0"
+  },
   "복사한 것": {
     "v": "Udklipsholder",
     "src": "3f751e9106"
@@ -5593,6 +5644,10 @@
   "복사해 둔 것이 없어요": {
     "v": "Intet kopieret endnu",
     "src": "c67ff8145c"
+  },
+  "복사해 둔 글로 지금 해 보기": {
+    "v": "Prøv med det, du har kopieret",
+    "src": "d39e6dd819"
   },
   "복사해 둔 글을 키보드 맨 앞 탭에 모아 둡니다. %d일 동안 남아요": {
     "v": {
@@ -5717,6 +5772,10 @@
     "v": "Tillad indsætning",
     "src": "6fb55e2113"
   },
+  "붙여넣기를 허용해야 담을 수 있어요.": {
+    "v": "Tillad indsættelse for at gemme.",
+    "src": "d420129e41"
+  },
   "붙여넣을 내용": {
     "v": "Indhold at indsætte",
     "src": "c66132ba38"
@@ -5764,6 +5823,10 @@
   "비즈니스 / 직장인": {
     "v": "Erhverv / Kontoransat",
     "src": "6801fe515b"
+  },
+  "빈 곳을 길게 누르고 '제어 항목 추가'를 눌러요": {
+    "v": "Hold en tom plads nede, og tryk på Tilføj en kontrol",
+    "src": "1fb602d714"
   },
   "빈칸": {
     "v": "felt",
@@ -6424,6 +6487,10 @@
   "설정 경로": {
     "v": "Sti i Indstillinger",
     "src": "64252656f2"
+  },
+  "설정 앱에서 '동작 버튼'을 열어요": {
+    "v": "Åbn Handlingsknap i appen Indstillinger",
+    "src": "05f9b57848"
   },
   "설정 열기": {
     "v": "Åbn Indstillinger",
@@ -7518,6 +7585,10 @@
   "영화 한 편 보고도 남아요.": {
     "v": "Rigeligt til en film, med tid til overs.",
     "src": "84a182f6d6"
+  },
+  "옆으로 넘겨 '제어 항목'에 두고, '제어 항목 선택'을 눌러요": {
+    "v": "Stryg til Kontrolelementer, og tryk på Vælg en kontrol",
+    "src": "75a6fb80a0"
   },
   "예) “입금액 {금액}원” → 단축어를 쓸 때 금액만 새로 넣어 재사용해요. 그냥 ‘금액’이라고 쓰면 글자 그대로 고정됩니다.": {
     "v": "fx “Indbetaling {beløb}” → brug frasen igen og skriv et nyt beløb hver gang. Almindelig tekst som ‘beløb’ står fast.",
@@ -8929,6 +9000,14 @@
     "v": "Foreslået titel: %@",
     "src": "270c49e953"
   },
+  "제어 센터에 두기": {
+    "v": "Føj til Kontrolcenter",
+    "src": "82369adbe0"
+  },
+  "제어 센터에 두어도 돼요": {
+    "v": "Du kan også føje det til Kontrolcenter",
+    "src": "ced682da9b"
+  },
   "제어센터에 빠른 메모 버튼을 넣어 두면, 앱을 열지 않고 적어만 둘 수 있어요. 적어 둔 것은 보관함에 쌓이고, 나중에 쓸 만한 것만 단축어로 올리면 됩니다.": {
     "v": "Læg knappen Hurtig note i Kontrolcenter, så kan du skrive noget ned uden at åbne appen. Det lander i din indbakke, og senere løfter du kun de ting, der er værd at beholde, til fraser.",
     "src": "89ced1d7c5"
@@ -10041,6 +10120,10 @@
     "v": "Andel, der bruger udklipsholderhistorik.",
     "src": "c019883740"
   },
+  "클립보드 담기": {
+    "v": "Capture Clipboard",
+    "src": "a9914dba0c"
+  },
   "클립보드 사용": {
     "v": "Bruger udklipsholder",
     "src": "2c7951df58"
@@ -10120,6 +10203,10 @@
   "키보드": {
     "v": "Tastatur",
     "src": "451b4be966"
+  },
+  "키보드 '최근'에 담았어요: %@": {
+    "v": "Lagt i Seneste på tastaturet: %@",
+    "src": "415a9cbd1b"
   },
   "키보드 검색에서 한글이 흩어지던 문제 수정, 이제 정확히 조합돼 찾아져요": {
     "v": "Rettet: hangul blev spredt i tastatursøgningen, nu samles og findes det korrekt",
@@ -10380,9 +10467,17 @@
     },
     "src": "bf082cce41"
   },
+  "키보드에서 '최근'을 보려면 전체 접근 허용을 켜 주세요": {
+    "v": "Slå Tillad fuld adgang til for at se Seneste på tastaturet",
+    "src": "f789b143d3"
+  },
   "키보드에서 길게 누르면 값이 크게 보여요": {
     "v": "Hold nede på tastaturet for at se værdien stort",
     "src": "31949ff88a"
+  },
+  "키보드에서 꺼내기": {
+    "v": "Brug fra tastaturet",
+    "src": "0baef71bc4"
   },
   "키보드에서 단축어를 길게 누르면 입력 대신 클립보드로 들어가요. 붙여넣을 곳이 따로 있을 때 쓰세요.": {
     "v": "Hold en frase nede på tastaturet, så havner den i udklipsholderen i stedet for at blive skrevet. Praktisk, når du skal indsætte et andet sted.",
@@ -11207,6 +11302,10 @@
   "화면 색조에서 옅게 섞여 있던 노란 기를 걷어냈어요. 삭제·저장·주의를 알리는 빨강·초록·노랑과 갈래 색은 그대로예요": {
     "v": "Den svage gule tone i farverne er fjernet. Rød, grøn og gul til sletning, gem og advarsler er uændrede, og det samme gælder temafarverne",
     "src": "5a3d1b741d"
+  },
+  "화면 오른쪽 위에서 쓸어내려 제어 센터를 열어요": {
+    "v": "Stryg ned fra øverste højre hjørne for at åbne Kontrolcenter",
+    "src": "e46cef3a27"
   },
   "화면 전체를 종이 느낌으로 다시 칠했어요": {
     "v": "Hele skærmen er malet om, så den føles som papir",

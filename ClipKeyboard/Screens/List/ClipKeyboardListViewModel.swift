@@ -1424,6 +1424,8 @@ final class ClipKeyboardListViewModel: ObservableObject {
         if UserDefaults.standard.string(forKey: "ScreenshotScene") != nil { return }
         #endif
         #if os(iOS)
+        // 동작 버튼으로 담는 중이면 쉰다. 같이 읽으면 붙여넣기 팝업이 두 번 뜬다.
+        if ClipboardCapture.shouldSkipAutoRead() { return }
         PasteboardReader.stringWithChangeCount { [weak self] clipboardString, changeCount in
             guard let self else { return }
             guard let clipboardString, !clipboardString.isEmpty else {
@@ -1456,6 +1458,23 @@ final class ClipKeyboardListViewModel: ObservableObject {
             print("📋 [checkFreshClipboard] 새 클립보드 감지: \(classification.type.rawValue)")
         }
         #endif
+    }
+
+    /// 동작 버튼 · 제어 센터의 '클립보드 담기'. 방금 복사한 글을 복사 기록에 넣고 토스트로 알린다.
+    func captureClipboardFromButton() {
+        ClipboardCapture.capture { [weak self] outcome in
+            guard let self else { return }
+            #if os(iOS)
+            if case .captured = outcome {
+                HapticManager.shared.success()
+                // 담은 글로 "저장할까요?" 카드를 또 띄우지 않는다. 지금은 담는 것이 대답이다.
+                self.hasFreshClipboard = false
+            } else {
+                HapticManager.shared.warning()
+            }
+            #endif
+            self.showPlainToast(ClipboardCapture.message(for: outcome))
+        }
     }
 
     /// 사용자가 "숨기기"한 경우: 같은 값이 다시 나타나지 않도록 저장하고 카드 닫기.

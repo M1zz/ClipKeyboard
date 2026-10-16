@@ -97,7 +97,10 @@ enum ClipKeyboardSpec: LeeoAppSpec {
                 productID: StoreManager.giftProductID,
                 grantsProductID: StoreManager.proProductID,
                 containerIdentifier: "iCloud.com.Ysoup.FeedbackHub"
-            )
+            ),
+            // 팁(응원). 이미 다 가진 사람이 더 내고 싶을 때. 아무것도 열지 않는 소모성 상품이다.
+            // ⚠️ 이것도 productIDs · entitlementIDs 에 넣지 않는다(사전 점검 `tip.sellsPro`).
+            tipJar: LeeoTipJarConfig(productIDs: StoreManager.tipProductIDs)
         )
     )
 }

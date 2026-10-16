@@ -123,7 +123,6 @@
 		58F8FBBF2A127D3C00F5446E /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
 		58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		58FA00012F0000000000000001 /* FullAccessGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FA00022F0000000000000002 /* FullAccessGuideView.swift */; };
-		58PB00012F0000000000000001 /* PaywallPlans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PB00022F0000000000000002 /* PaywallPlans.swift */; };
 		58GB00012F0000000000000001 /* GraceQuotaBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */; };
 		58GC00012F0000000000000001 /* GlassCircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58GC00022F0000000000000002 /* GlassCircleButton.swift */; };
 		58KS00012B6F1B3200000001 /* KeyboardSetupOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */; };
@@ -132,6 +131,7 @@
 		58MP00032F0000000000000003 /* MemoPreviewFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */; };
 		58NP00012F0000000000000106 /* NumberPadPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58NP00012F0000000000000006 /* NumberPadPanel.swift */; };
 		58NP00012F0000000000000206 /* NumberPadPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58NP00012F0000000000000006 /* NumberPadPanel.swift */; };
+		58PB00012F0000000000000001 /* PaywallPlans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PB00022F0000000000000002 /* PaywallPlans.swift */; };
 		58PS00022B5E1A2100000002 /* ProStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PS00012B5E1A2100000001 /* ProStatusManager.swift */; };
 		58PS00032B5E1A2100000003 /* ProStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PS00012B5E1A2100000001 /* ProStatusManager.swift */; };
 		58SV00032F9A1B0100000003 /* ClipboardClassificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */; };
@@ -231,6 +231,9 @@
 		C0AE3312846EEEF99DA6724E /* MemoReorderDropDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C970386B61BF7C8C53F03C /* MemoReorderDropDelegates.swift */; };
 		C0DD5A687D1374950DEF38B4 /* TutorialFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B352BD33E4C1A3A117C0015D /* TutorialFlow.swift */; };
 		CAF1B3E88B0D503417882A0B /* KeyLabelTruncation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7D374184C74DA684E7CC89 /* KeyLabelTruncation.swift */; };
+		CAPT02338691788037886333 /* CaptureClipboardIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAPF08121046781592177660 /* CaptureClipboardIntent.swift */; };
+		CAPT03344186028773257723 /* ActionButtonGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAPF02124872219370368914 /* ActionButtonGuideView.swift */; };
+		CAPT05227483827168128135 /* ClipboardCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAPF03703213076876277430 /* ClipboardCapture.swift */; };
 		CARDSURFACE00000000AAA2 /* MemoCardSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = CARDSURFACE00000000AAA1 /* MemoCardSurface.swift */; };
 		CCB8AEA5617265F09D8DC7AA /* FreeUse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D562A947E84E2EF0858B33 /* FreeUse.swift */; };
 		CD638BA0C61FCD61EF838265 /* CardSurfaceEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B8DA5DE589A8AD6F7F0604 /* CardSurfaceEffects.swift */; };
@@ -238,12 +241,6 @@
 		CF493815B00448E38477E06A /* ShortcutsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC201306E1F4FE094DC76F4 /* ShortcutsSettingsView.swift */; };
 		CHOICEROW0000000000GG2 /* ChoiceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CHOICEROW0000000000GG1 /* ChoiceRow.swift */; };
 		CLC00012F0000000000000001 /* ClipKeyboardListComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */; };
-		RCP00012F0000000000000001 /* RecentClipsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = RCP00022F0000000000000002 /* RecentClipsPage.swift */; };
-		FOLDL0012F0000000000000001 /* FoldLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDL0022F0000000000000002 /* FoldLayout.swift */; };
-		FOLDT0012F0000000000000001 /* FoldTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDT0022F0000000000000002 /* FoldTabBar.swift */; };
-		FOLDG0012F0000000000000001 /* FoldPresentationGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDG0022F0000000000000002 /* FoldPresentationGuard.swift */; };
-		FOLDN0012F0000000000000001 /* FoldNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDN0022F0000000000000002 /* FoldNavigation.swift */; };
-		FOLDP0012F0000000000000001 /* FoldCopiedPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDP0022F0000000000000002 /* FoldCopiedPane.swift */; };
 		CLIPPICK0BUILDAPP0000001 /* KeyboardClipboardPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */; };
 		CLIPPICK0BUILDEXT0000001 /* KeyboardClipboardPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */; };
 		CO00012F0000000000000001 /* MemoAddCoach.swift in Sources */ = {isa = PBXBuildFile; fileRef = CO00022F0000000000000002 /* MemoAddCoach.swift */; };
@@ -286,6 +283,12 @@
 		FDCD2C3B73296667EB269CE4 /* DiscountOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331E4A08FC0262575AAFF22A /* DiscountOfferView.swift */; };
 		FE88BF9076D96D3BA4383172 /* BulkImportNudgeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D263F93D9CCA08817D2C32 /* BulkImportNudgeBanner.swift */; };
 		FE99DDC8F7FA1B08EBECAEC3 /* CrashReportsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B7F28AC88AE2E44D301FA7 /* CrashReportsView.swift */; };
+		FOLDC0012F0000000000000001 /* FoldCompanions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDC0022F0000000000000002 /* FoldCompanions.swift */; };
+		FOLDG0012F0000000000000001 /* FoldPresentationGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDG0022F0000000000000002 /* FoldPresentationGuard.swift */; };
+		FOLDL0012F0000000000000001 /* FoldLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDL0022F0000000000000002 /* FoldLayout.swift */; };
+		FOLDN0012F0000000000000001 /* FoldNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDN0022F0000000000000002 /* FoldNavigation.swift */; };
+		FOLDP0012F0000000000000001 /* FoldCopiedPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDP0022F0000000000000002 /* FoldCopiedPane.swift */; };
+		FOLDT0012F0000000000000001 /* FoldTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDT0022F0000000000000002 /* FoldTabBar.swift */; };
 		HT00002A2F0000000000000008 /* HighlightedTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */; };
 		IC00002A2F0000000000000006 /* ImagePickerComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = IC00001A2F0000000000000005 /* ImagePickerComponents.swift */; };
 		INAPPKBD0000000000000001 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585FE9762ACC62A5003A7FF9 /* KeyboardView.swift */; };
@@ -315,6 +318,7 @@
 		QKN0XCSTRINGSWIDGET00001 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
 		QKNCTL9BUILD000000000001 /* QuickNoteControlIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKNCTL9FILE0000000000001 /* QuickNoteControlIntent.swift */; };
 		QKP00012F0000000000000001 /* QuickPatterns.swift in Sources */ = {isa = PBXBuildFile; fileRef = QKP00022F0000000000000002 /* QuickPatterns.swift */; };
+		RCP00012F0000000000000001 /* RecentClipsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = RCP00022F0000000000000002 /* RecentClipsPage.swift */; };
 		REORDERSCREEN0000000BB2 /* MemoReorderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = REORDERSCREEN0000000BB1 /* MemoReorderScreen.swift */; };
 		SEARCHNORESULT000000FF2 /* SearchNoResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = SEARCHNORESULT000000FF1 /* SearchNoResultsView.swift */; };
 		SELECTSCREEN00000000CC2 /* MemoSelectionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = SELECTSCREEN00000000CC1 /* MemoSelectionScreen.swift */; };
@@ -323,7 +327,6 @@
 		SMC00012F0000000000000001 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
 		SMC00032F0000000000000003 /* SecureMemoCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = SMC00022F0000000000000002 /* SecureMemoCrypto.swift */; };
 		SNIPTAB0B000000000000001 /* SnippetsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = SNIPTAB0R000000000000001 /* SnippetsTab.swift */; };
-		FOLDC0012F0000000000000001 /* FoldCompanions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDC0022F0000000000000002 /* FoldCompanions.swift */; };
 		TB00012F0000000000000001 /* TabBarProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = TB00022F0000000000000002 /* TabBarProbe.swift */; };
 		TIMEEQUIVBUILDAPP0000001 /* TimeEquivalent.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */; };
 		TIMESAVEDBUILDAPP0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
@@ -521,13 +524,13 @@
 		58F8FBBE2A127D3C00F5446E /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		58F8FBC02A13C9A400F5446E /* MemoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStore.swift; sourceTree = "<group>"; };
 		58FA00022F0000000000000002 /* FullAccessGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullAccessGuideView.swift; sourceTree = "<group>"; };
-		58PB00022F0000000000000002 /* PaywallPlans.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallPlans.swift; sourceTree = "<group>"; };
 		58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraceQuotaBannerView.swift; sourceTree = "<group>"; };
 		58GC00022F0000000000000002 /* GlassCircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassCircleButton.swift; sourceTree = "<group>"; };
 		58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSetupOnboardingView.swift; sourceTree = "<group>"; };
 		58MA00022F0000000000000002 /* MacAppIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppIntroView.swift; sourceTree = "<group>"; };
 		58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoPreviewFormatter.swift; sourceTree = "<group>"; };
 		58NP00012F0000000000000006 /* NumberPadPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPadPanel.swift; sourceTree = "<group>"; };
+		58PB00022F0000000000000002 /* PaywallPlans.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallPlans.swift; sourceTree = "<group>"; };
 		58PS00012B5E1A2100000001 /* ProStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProStatusManager.swift; sourceTree = "<group>"; };
 		58SV00012F9A1B0100000001 /* ClipboardClassificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardClassificationService.swift; sourceTree = "<group>"; };
 		58SV00022F9A1B0100000002 /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
@@ -642,17 +645,14 @@
 		C7B61FE8EE93BC24351604AD /* MemoSyncEngine.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoSyncEngine.swift; sourceTree = "<group>"; };
 		C8DF20ED1A4C7E6BF4875D4B /* UsageProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageProfileSettingsView.swift; sourceTree = "<group>"; };
 		C9C914F1F19D6D8E01B2B8E8 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CAPF02124872219370368914 /* ActionButtonGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonGuideView.swift; sourceTree = "<group>"; };
+		CAPF03703213076876277430 /* ClipboardCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardCapture.swift; sourceTree = "<group>"; };
+		CAPF08121046781592177660 /* CaptureClipboardIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureClipboardIntent.swift; sourceTree = "<group>"; };
 		CARDSURFACE00000000AAA1 /* MemoCardSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoCardSurface.swift; sourceTree = "<group>"; };
 		CCEF9C8EC24CEADCB04AEB65 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CE7340554588DBC6AB85710E /* AppLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
 		CHOICEROW0000000000GG1 /* ChoiceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceRow.swift; sourceTree = "<group>"; };
 		CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListComponents.swift; sourceTree = "<group>"; };
-		RCP00022F0000000000000002 /* RecentClipsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentClipsPage.swift; sourceTree = "<group>"; };
-		FOLDL0022F0000000000000002 /* FoldLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldLayout.swift; sourceTree = "<group>"; };
-		FOLDT0022F0000000000000002 /* FoldTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldTabBar.swift; sourceTree = "<group>"; };
-		FOLDG0022F0000000000000002 /* FoldPresentationGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldPresentationGuard.swift; sourceTree = "<group>"; };
-		FOLDN0022F0000000000000002 /* FoldNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldNavigation.swift; sourceTree = "<group>"; };
-		FOLDP0022F0000000000000002 /* FoldCopiedPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldCopiedPane.swift; sourceTree = "<group>"; };
 		CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardClipboardPicker.swift; sourceTree = "<group>"; };
 		CO00022F0000000000000002 /* MemoAddCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddCoach.swift; sourceTree = "<group>"; };
 		CONTRACTS0000000000HH1 /* MemoScreenContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoScreenContracts.swift; sourceTree = "<group>"; };
@@ -688,6 +688,12 @@
 		FDC201306E1F4FE094DC76F4 /* ShortcutsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutsSettingsView.swift; sourceTree = "<group>"; };
 		FEF2BBA875E5DD8B5DB1456D /* PersonaEdition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PersonaEdition.swift; sourceTree = "<group>"; };
 		FF353965FBB3FB43B9D3E5B0 /* RepeatCopyLedger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatCopyLedger.swift; sourceTree = "<group>"; };
+		FOLDC0022F0000000000000002 /* FoldCompanions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldCompanions.swift; sourceTree = "<group>"; };
+		FOLDG0022F0000000000000002 /* FoldPresentationGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldPresentationGuard.swift; sourceTree = "<group>"; };
+		FOLDL0022F0000000000000002 /* FoldLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldLayout.swift; sourceTree = "<group>"; };
+		FOLDN0022F0000000000000002 /* FoldNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldNavigation.swift; sourceTree = "<group>"; };
+		FOLDP0022F0000000000000002 /* FoldCopiedPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldCopiedPane.swift; sourceTree = "<group>"; };
+		FOLDT0022F0000000000000002 /* FoldTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldTabBar.swift; sourceTree = "<group>"; };
 		HT00001A2F0000000000000007 /* HighlightedTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightedTextEditor.swift; sourceTree = "<group>"; };
 		IC00001A2F0000000000000005 /* ImagePickerComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerComponents.swift; sourceTree = "<group>"; };
 		INAPPKBR0000000000000001 /* InAppKeyboardHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppKeyboardHost.swift; sourceTree = "<group>"; };
@@ -708,6 +714,7 @@
 		QKN0FILE0000000000000005 /* WhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewView.swift; sourceTree = "<group>"; };
 		QKNCTL9FILE0000000000001 /* QuickNoteControlIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickNoteControlIntent.swift; sourceTree = "<group>"; };
 		QKP00022F0000000000000002 /* QuickPatterns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPatterns.swift; sourceTree = "<group>"; };
+		RCP00022F0000000000000002 /* RecentClipsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentClipsPage.swift; sourceTree = "<group>"; };
 		REORDERSCREEN0000000BB1 /* MemoReorderScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoReorderScreen.swift; sourceTree = "<group>"; };
 		SEARCHNORESULT000000FF1 /* SearchNoResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNoResultsView.swift; sourceTree = "<group>"; };
 		SELECTSCREEN00000000CC1 /* MemoSelectionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSelectionScreen.swift; sourceTree = "<group>"; };
@@ -715,7 +722,6 @@
 		SHAREVIDEOFILE000000001 /* ShareVideoRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareVideoRenderer.swift; sourceTree = "<group>"; };
 		SMC00022F0000000000000002 /* SecureMemoCrypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureMemoCrypto.swift; sourceTree = "<group>"; };
 		SNIPTAB0R000000000000001 /* SnippetsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsTab.swift; sourceTree = "<group>"; };
-		FOLDC0022F0000000000000002 /* FoldCompanions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldCompanions.swift; sourceTree = "<group>"; };
 		TB00022F0000000000000002 /* TabBarProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarProbe.swift; sourceTree = "<group>"; };
 		TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEquivalent.swift; sourceTree = "<group>"; };
 		TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSavedModel.swift; sourceTree = "<group>"; };
@@ -1082,6 +1088,7 @@
 				C46587B73A823222D84C1399 /* CloudKitContainerGate.swift */,
 				5AE1C2D30007PHCAT0000002 /* PlaceholderCatalog.swift */,
 				5AE1C2D30004PASTE0000002 /* PasteboardReader.swift */,
+				CAPF03703213076876277430 /* ClipboardCapture.swift */,
 				033ABFB89F872AE078A1FC22 /* TypingSpeedMeter.swift */,
 				308AA33ECDA9323BA548C0CD /* CursorMemory.swift */,
 				59F119CAE59775A57E44249A /* EditPattern.swift */,
@@ -1127,6 +1134,7 @@
 				63C7CC7878D04F4491D10BC2 /* ProBenefitsView.swift */,
 				4CCD344C5E0F419B90144643 /* KeyboardSettingsView.swift */,
 				58FA00022F0000000000000002 /* FullAccessGuideView.swift */,
+				CAPF02124872219370368914 /* ActionButtonGuideView.swift */,
 				58PB00022F0000000000000002 /* PaywallPlans.swift */,
 				FDC201306E1F4FE094DC76F4 /* ShortcutsSettingsView.swift */,
 				C7A69055FDB74D70A07714CB /* AppearanceSettingsView.swift */,
@@ -1247,6 +1255,7 @@
 				A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */,
 				QKN0FILE0000000000000004 /* QuickNoteAppIntents.swift */,
 				QKNCTL9FILE0000000000001 /* QuickNoteControlIntent.swift */,
+				CAPF08121046781592177660 /* CaptureClipboardIntent.swift */,
 				716D2F3FE56C8A81348A2686 /* StorageFile.swift */,
 				TPS0001A2F0000000000000001 /* Tips.swift */,
 			);
@@ -1678,6 +1687,7 @@
 				QKN0BUILD000000000000003 /* QuickNoteInboxView.swift in Sources */,
 				QKN0BUILD000000000000004 /* QuickNoteAppIntents.swift in Sources */,
 				QKNCTL9BUILD000000000001 /* QuickNoteControlIntent.swift in Sources */,
+				CAPT02338691788037886333 /* CaptureClipboardIntent.swift in Sources */,
 				DYK0BUILD000000000000002 /* DidYouKnowView.swift in Sources */,
 				QKN0BUILD000000000000005 /* WhatsNewView.swift in Sources */,
 				TPS0002A2F0000000000000002 /* Tips.swift in Sources */,
@@ -1695,6 +1705,7 @@
 				5AAE55B3A09146619D7A38A7 /* ProBenefitsView.swift in Sources */,
 				7B2B6CBDF5BB46AB8A6A9926 /* KeyboardSettingsView.swift in Sources */,
 				58FA00012F0000000000000001 /* FullAccessGuideView.swift in Sources */,
+				CAPT03344186028773257723 /* ActionButtonGuideView.swift in Sources */,
 				58PB00012F0000000000000001 /* PaywallPlans.swift in Sources */,
 				CF493815B00448E38477E06A /* ShortcutsSettingsView.swift in Sources */,
 				AF4C3A056C3F419A9EAC8892 /* AppearanceSettingsView.swift in Sources */,
@@ -1858,6 +1869,7 @@
 				9D5AF22140BC574C2215FD13 /* CloudKitContainerGate.swift in Sources */,
 				5AE1C2D30006PHCAT0000001 /* PlaceholderCatalog.swift in Sources */,
 				5AE1C2D30003PASTE0000001 /* PasteboardReader.swift in Sources */,
+				CAPT05227483827168128135 /* ClipboardCapture.swift in Sources */,
 				A0F086A5561B436AEBBC4E62 /* ShareVideoSheet.swift in Sources */,
 				C09F146774868650F62B4FB8 /* TypingSpeedMeter.swift in Sources */,
 				56039E24315E99BF6402A594 /* CursorMemory.swift in Sources */,
@@ -2585,7 +2597,7 @@
 			repositoryURL = "https://github.com/M1zz/LeeoKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.18.0;
+				minimumVersion = 3.19.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

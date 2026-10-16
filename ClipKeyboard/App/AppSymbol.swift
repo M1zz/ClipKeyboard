@@ -27,6 +27,8 @@ enum AppSymbol {
     static let bookClosed = "book.closed"
     static let bookPages = "book.pages"
     static let booksVerticalFill = "books.vertical.fill"
+    static let buttonProgrammable = "button.programmable"
+    static let switch2 = "switch.2"
     static let calendar = "calendar"
     static let checkmark = "checkmark"
     static let chevronUpChevronDown = "chevron.up.chevron.down"
