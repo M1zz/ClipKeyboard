@@ -192,6 +192,29 @@ struct SettingView: View {
         .accessibilityHint(NSLocalizedString("이전에 구매한 Pro를 복원합니다", comment: "Restore purchases accessibility hint"))
     }
 
+    /// Pro 선물하기 - Pro 자리 바로 아래. 선물 상품이 App Store 에서 와야 보인다.
+    ///
+    /// 보내는 쪽은 누구나(산 사람이 가장 많이 보낸다). 받는 쪽 행은 아직 Pro 가 아닌 사람에게만 둔다.
+    /// 이미 Pro 인 사람이 코드를 넣으면 "다른 분께 보내 주세요" 만 듣는다.
+    /// ⚠️ 문구는 LeeoKit 카탈로그에 있다(`LeeoGiftText`). 앱 카탈로그에 다시 적지 않는다.
+    @ViewBuilder
+    private var giftSection: some View {
+        if let gift = proManager.gift, gift.isAvailable {
+            Section {
+                FoldLink(destination: LeeoGiftView<ClipKeyboardSpec>(gift: gift, showsRedeemLink: false)
+                    .leeoStyle(theme.leeoStyle)) {
+                    Label(LeeoGiftText.sendEntry, systemImage: AppSymbol.giftFill)
+                }
+                if !ProFeatureManager.hasPermanentPro || gift.redeemed != nil {
+                    FoldLink(destination: LeeoGiftRedeemView<ClipKeyboardSpec>(gift: gift)
+                        .leeoStyle(theme.leeoStyle)) {
+                        Label(LeeoGiftText.redeemEntry, systemImage: AppSymbol.giftcard)
+                    }
+                }
+            }
+        }
+    }
+
     /// 피드백과 리뷰 - 설정 첫 화면의 **맨 아래**, 따로 한 섹션으로 둔다.
     ///
     /// ⚠️ 한때 "도움말과 문의"(지금의 "사용법과 문의") 안쪽에 있었다. 한 칸 들어가야 보이는 문은 거의 열리지 않는다.
@@ -297,6 +320,7 @@ struct SettingView: View {
     var body: some View {
         List {
             proSection
+            giftSection
             everydaySection
             aboutSection
             // 사용자가 보는 설정의 **맨 끝**. 아래 개발자 섹션은 마스터 모드에서만 보인다.

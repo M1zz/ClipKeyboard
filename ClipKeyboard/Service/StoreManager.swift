@@ -36,6 +36,10 @@ class StoreManager: ObservableObject {
     ///    평생 Pro 는 그대로 팔린다(`FreeUsePaywallView` 가 없는 칸을 숨긴다).
     nonisolated static let yearlyProductID = "com.Ysoup.TokenMemo.pro.yearly"
 
+    /// Pro 선물 (소모성). 산 사람이 아니라 **코드를 받은 사람**에게 정가 Pro 를 연다(`LeeoGiftStore`).
+    /// ⚠️ App Store Connect 에 소모성 상품으로 만들어야 뜬다. 없으면 설정의 선물 행이 숨는다.
+    nonisolated static let giftProductID = "com.Ysoup.TokenMemo.gift.pro"
+
     // MARK: - 내부 공용 스토어
 
     private let store: LeeoStore
@@ -94,6 +98,10 @@ class StoreManager: ObservableObject {
     /// (그랜드파더 / TestFlight / 체험은 ProFeatureManager 가 별도로 판단한다.)
     var isPro: Bool { store.hasPro }
 
+    /// Pro 선물하기. 받은 선물은 `purchasedProductIDs` 에 정가 Pro 로 합쳐져 들어오므로
+    /// 트림 · 익스텐션 미러는 산 것과 똑같이 따라간다.
+    var gift: LeeoGiftStore? { store.gift }
+
     // MARK: - Init
 
     private init() {
@@ -103,6 +111,14 @@ class StoreManager: ObservableObject {
         store.objectWillChange
             .sink { [weak self] in self?.objectWillChange.send() }
             .store(in: &cancellables)
+
+        // 선물 상품이 불러와지면(설정의 선물 행이 보이게) 화면도 다시 그린다.
+        store.gift?.objectWillChange
+            .sink { [weak self] in self?.objectWillChange.send() }
+            .store(in: &cancellables)
+        // 이미 Pro 인 사람(앱이 따로 판정하는 v3 그랜드파더 포함)은 선물을 받지 않는다.
+        // 코드를 쓰지 않고 남겨 두면 다른 사람에게 넘길 수 있다.
+        store.gift?.alreadyEntitled = { ProFeatureManager.hasPermanentPro }
 
         // 결제 권한을 익스텐션이 읽는 App Group Pro 키에 미러링한다.
         //

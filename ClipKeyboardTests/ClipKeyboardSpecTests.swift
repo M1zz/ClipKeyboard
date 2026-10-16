@@ -53,6 +53,19 @@ final class ClipKeyboardSpecTests: XCTestCase {
         XCTAssertEqual(FeedbackOrigin.keyboardTemplate.suggestedType, .feature)
     }
 
+    func testGiftContractIsStable() throws {
+        // 선물 상품 ID 와 컨테이너는 App Store Connect · 이미 보낸 선물 코드와의 계약이다
+        let gift = try XCTUnwrap(ClipKeyboardSpec.paywall?.gift)
+        XCTAssertEqual(gift.productID, "com.Ysoup.TokenMemo.gift.pro")
+        XCTAssertEqual(gift.grantsProductID, StoreManager.proProductID)
+        XCTAssertEqual(gift.containerIdentifier, "iCloud.com.Ysoup.FeedbackHub")
+        XCTAssertEqual(gift.giftRecordType, "LeeoGift")
+        XCTAssertEqual(gift.redemptionRecordType, "LeeoGiftRedemption")
+        // 선물 상품이 판매 목록이나 권한 목록에 들어가면 산 사람 자신이 Pro 가 된다
+        let issues = LeeoPreflight.audit(ClipKeyboardSpec.self).filter { $0.code.hasPrefix("gift.") }
+        XCTAssertTrue(issues.isEmpty, "\(issues)")
+    }
+
     func testAppNameAndDeveloperEmail() {
         XCTAssertEqual(ClipKeyboardSpec.appName, "ClipKeyboard")
         XCTAssertEqual(ClipKeyboardSpec.developerEmail, Constants.developerEmail)

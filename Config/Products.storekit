@@ -103,6 +103,26 @@
       "type": "Consumable"
     },
     {
+      "displayPrice": "9.99",
+      "familyShareable": false,
+      "internalID": "gift_pro",
+      "localizations": [
+        {
+          "description": "A one-time code that unlocks ClipKeyboard Pro for someone else.",
+          "displayName": "Gift ClipKeyboard Pro",
+          "locale": "en_US"
+        },
+        {
+          "description": "\ub2e4\ub978 \uc0ac\ub78c\uc758 ClipKeyboard Pro\ub97c \uc5ec\ub294 \uc77c\ud68c\uc6a9 \uc120\ubb3c \ucf54\ub4dc",
+          "displayName": "ClipKeyboard Pro \uc120\ubb3c",
+          "locale": "ko"
+        }
+      ],
+      "productID": "com.Ysoup.TokenMemo.gift.pro",
+      "referenceName": "ClipKeyboard Pro Gift (consumable)",
+      "type": "Consumable"
+    },
+    {
       "displayPrice": "6.99",
       "familyShareable": true,
       "internalID": "two_device",

@@ -85,6 +85,7 @@ enum AppSymbol {
     static let gear = "gear"
     static let gearshape = "gearshape"
     static let giftFill = "gift.fill"
+    static let giftcard = "giftcard"
     static let globe = "globe"
     static let globeAsiaAustraliaFill = "globe.asia.australia.fill"
     /// 문질러 담기 - 사진을 끌어 옮기는 손.
