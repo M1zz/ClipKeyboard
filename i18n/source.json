@@ -2447,6 +2447,12 @@
     "comment": "Pro nudge CTA",
     "h": "b779703548"
   },
+  "Pro 선물하기": {
+    "ko": "Pro 선물하기",
+    "en": "Gift Pro",
+    "comment": "Roadmap item: gift Pro",
+    "h": "c7865730b2"
+  },
   "Pro 업그레이드": {
     "ko": "Pro 업그레이드",
     "en": "Upgrade to Pro",
@@ -4001,6 +4007,12 @@
     "comment": "Event label: purchase failed",
     "h": "8d0f2f043b"
   },
+  "결제는 보내는 분이 하고, Pro는 받는 분이 써요.": {
+    "ko": "결제는 보내는 분이 하고, Pro는 받는 분이 써요.",
+    "en": "You pay, and they get Pro.",
+    "comment": "Roadmap item detail: gift Pro",
+    "h": "3717a19b70"
+  },
   "결제를 취소함": {
     "ko": "결제를 취소함",
     "en": "Cancelled the purchase",
@@ -4456,6 +4468,12 @@
     "en": "Cross-Device Sync (Beta)",
     "comment": "Cross-device sync section header",
     "h": "fa5258122e"
+  },
+  "기기 간 동기화 정식판": {
+    "ko": "기기 간 동기화 정식판",
+    "en": "Cross-device sync, out of beta",
+    "comment": "Roadmap item: stable cross-device sync",
+    "h": "9f80d61173"
   },
   "기기 간 동기화(베타) 수정, 전송이 확정된 뒤에만 완료 처리해 누락을 막아요": {
     "ko": "기기 간 동기화(베타) 수정, 전송이 확정된 뒤에만 완료 처리해 누락을 막아요",
@@ -6287,6 +6305,12 @@
     "comment": "Usage metric: sync enabled users",
     "h": "71fcbb166f"
   },
+  "동기화가 엇갈릴 때 고르는 화면": {
+    "ko": "동기화가 엇갈릴 때 고르는 화면",
+    "en": "Choose a version when sync conflicts",
+    "comment": "Roadmap item: sync conflict picker",
+    "h": "bc772ff1e6"
+  },
   "동기화만 열려요. 단축어 개수는 그대로예요": {
     "ko": "동기화만 열려요. 단축어 개수는 그대로예요",
     "en": "Sync only. Your snippet count stays the same",
@@ -6310,6 +6334,12 @@
     "en": "Set up the Action Button",
     "comment": "Action Button guide: section title for Action Button setup",
     "h": "1a855ca800"
+  },
+  "동작 버튼이나 제어 센터를 누르면 방금 복사한 글이 키보드 '최근'에 담겨요.": {
+    "ko": "동작 버튼이나 제어 센터를 누르면 방금 복사한 글이 키보드 '최근'에 담겨요.",
+    "en": "Press the Action Button or a Control Center control, and what you just copied goes into Recent on the keyboard.",
+    "comment": "Roadmap item detail: capture clipboard",
+    "h": "30f83bd075"
   },
   "동작 줄이기": {
     "ko": "동작 줄이기",
@@ -6340,6 +6370,12 @@
     "en": "Restore points",
     "comment": "Restore points header",
     "h": "32b3760f6a"
+  },
+  "두 기기에서 같은 단축어를 고쳤을 때 어느 쪽을 남길지 직접 골라요.": {
+    "ko": "두 기기에서 같은 단축어를 고쳤을 때 어느 쪽을 남길지 직접 골라요.",
+    "en": "When the same snippet is edited on two devices, you pick which one to keep.",
+    "comment": "Roadmap item detail: sync conflict picker",
+    "h": "86cea5e10d"
   },
   "두 번 누르면 다음 칸으로 갑니다": {
     "ko": "두 번 누르면 다음 칸으로 갑니다",
@@ -6544,6 +6580,12 @@
     "en": "Retention (weekly cohorts)",
     "comment": "Usage stats section: weekly retention",
     "h": "d5bf041e1c"
+  },
+  "링크 단축어 미리보기": {
+    "ko": "링크 단축어 미리보기",
+    "en": "Link previews",
+    "comment": "Roadmap item: link previews",
+    "h": "9f0893b4a2"
   },
   "마감 직전 과제를 메일로 낼 때": {
     "ko": "마감 직전 과제를 메일로 낼 때",
@@ -7954,6 +7996,12 @@
     "en": "Copied!",
     "comment": "Copied confirmation",
     "h": "1c579141b4"
+  },
+  "복사하고 버튼 한 번으로 담기": {
+    "ko": "복사하고 버튼 한 번으로 담기",
+    "en": "Copy, then capture with one press",
+    "comment": "Roadmap item: capture clipboard with the Action Button",
+    "h": "9fc2426ec8"
   },
   "복사하고 버튼을 누르면 키보드에서 꺼내 쓸 수 있어요": {
     "ko": "복사하고 버튼을 누르면 키보드에서 꺼내 쓸 수 있어요",
@@ -12689,6 +12737,12 @@
     "comment": "Changelog 5.0.6 reveal after save",
     "h": "082ee3b7cf"
   },
+  "저장한 링크의 제목과 그림을 목록에서 바로 보여 줘요.": {
+    "ko": "저장한 링크의 제목과 그림을 목록에서 바로 보여 줘요.",
+    "en": "See the title and image of saved links right in the list.",
+    "comment": "Roadmap item detail: link previews",
+    "h": "7f7329afcd"
+  },
   "저장할 때 카테고리를 고를 수 있어요. 그 자리에서 새 카테고리도 만들어요": {
     "ko": "저장할 때 카테고리를 고를 수 있어요. 그 자리에서 새 카테고리도 만들어요",
     "en": "Pick a category while you save, and create a new one right there",
@@ -13444,6 +13498,12 @@
     "en": "Everything is free right now. %d uses left",
     "comment": "Free use guide: active status",
     "h": "1262cac757"
+  },
+  "지금은 베타예요. 더 안정되게 다듬어 정식으로 열어요.": {
+    "ko": "지금은 베타예요. 더 안정되게 다듬어 정식으로 열어요.",
+    "en": "It's in beta now. We'll make it more reliable and release it fully.",
+    "comment": "Roadmap item detail: stable sync",
+    "h": "b286f8633e"
   },
   "지난 %d일 동안": {
     "ko": "지난 %d일 동안",
@@ -14741,6 +14801,12 @@
     "comment": "Setup step 1 label",
     "h": "c536951952"
   },
+  "클립키보드로 벌써 %d시간을 아꼈어요": {
+    "ko": "클립키보드로 벌써 %d시간을 아꼈어요",
+    "en": "ClipKeyboard has already saved you %d hours",
+    "comment": "Tip ask card: hours saved so far. %d is hours",
+    "h": "c6b77aeac7"
+  },
   "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.": {
     "ko": "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.",
     "en": "Key count, height, text size, colors: all yours to set. Some people fit eight keys on one screen.",
@@ -15202,6 +15268,12 @@
     "en": "Use from keyboard",
     "comment": "Action Button guide flow: use it from the keyboard",
     "h": "0baef71bc4"
+  },
+  "키보드에서 단축어를 %d번 꺼내 쓰셨어요": {
+    "ko": "키보드에서 단축어를 %d번 꺼내 쓰셨어요",
+    "en": "You've used snippets from the keyboard %d times",
+    "comment": "Tip ask card: how many times snippets were used from the keyboard",
+    "h": "8256026cbb"
   },
   "키보드에서 단축어를 길게 누르면 입력 대신 클립보드로 들어가요. 붙여넣을 곳이 따로 있을 때 쓰세요.": {
     "ko": "키보드에서 단축어를 길게 누르면 입력 대신 클립보드로 들어가요. 붙여넣을 곳이 따로 있을 때 쓰세요.",

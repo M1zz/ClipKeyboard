@@ -546,6 +546,9 @@ struct ClipKeyboardList: View {
                     }
                 }
 
+                // 다 가진 사람에게 드물게 "계속 만들 수 있게 힘을 보태 주세요" - 컨테이너가 스스로 정한다.
+                TipAskBannerContainer()
+
                 // 한 번에 정리하기 권유 - 보여줄지는 컨테이너가 스스로 정한다.
                 // (mainColumn 타입 복잡도에 영향이 없도록 자식 하나로 유지)
                 BulkImportNudgeBannerContainer(memoCount: viewModel.memos.count,

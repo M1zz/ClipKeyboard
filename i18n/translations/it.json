@@ -1777,6 +1777,10 @@
     "v": "Scopri Pro",
     "src": "b779703548"
   },
+  "Pro 선물하기": {
+    "v": "Regala Pro",
+    "src": "c7865730b2"
+  },
   "Pro 업그레이드": {
     "v": "Passa a Pro",
     "src": "daf7b6010a"
@@ -2828,6 +2832,10 @@
     "v": "Acquisto non riuscito",
     "src": "8d0f2f043b"
   },
+  "결제는 보내는 분이 하고, Pro는 받는 분이 써요.": {
+    "v": "Paghi tu, e Pro lo usa chi lo riceve.",
+    "src": "3717a19b70"
+  },
   "결제를 취소함": {
     "v": "Acquisto annullato",
     "src": "6637e4fbd2"
@@ -3146,6 +3154,10 @@
   "기기 간 동기화 (베타)": {
     "v": "Sincronizzazione tra dispositivi (beta)",
     "src": "fa5258122e"
+  },
+  "기기 간 동기화 정식판": {
+    "v": "Sincronizzazione tra dispositivi, non più in beta",
+    "src": "9f80d61173"
   },
   "기기 간 동기화(베타) 수정, 전송이 확정된 뒤에만 완료 처리해 누락을 막아요": {
     "v": "Sincronizzazione tra dispositivi (beta): le modifiche contano come inviate solo dopo la conferma, così non si perde nulla",
@@ -4403,6 +4415,10 @@
     "v": "Utenti con sincronizzazione attiva",
     "src": "71fcbb166f"
   },
+  "동기화가 엇갈릴 때 고르는 화면": {
+    "v": "Scegli una versione quando la sincronizzazione va in conflitto",
+    "src": "bc772ff1e6"
+  },
   "동기화만 열려요. 단축어 개수는 그대로예요": {
     "v": "Si attiva solo la sincronizzazione. Il numero di frasi resta invariato",
     "src": "0b87282fc9"
@@ -4418,6 +4434,10 @@
   "동작 버튼에 걸기": {
     "v": "Imposta il tasto Azione",
     "src": "1a855ca800"
+  },
+  "동작 버튼이나 제어 센터를 누르면 방금 복사한 글이 키보드 '최근'에 담겨요.": {
+    "v": "Premi il tasto Azione o un controllo del Centro di Controllo: ciò che hai appena copiato finisce in Recenti sulla tastiera.",
+    "src": "30f83bd075"
   },
   "동작 줄이기": {
     "v": "Riduci movimento",
@@ -4438,6 +4458,10 @@
   "되돌릴 시점": {
     "v": "Punti di ripristino",
     "src": "32b3760f6a"
+  },
+  "두 기기에서 같은 단축어를 고쳤을 때 어느 쪽을 남길지 직접 골라요.": {
+    "v": "Se modifichi la stessa frase su due dispositivi, scegli tu quale tenere.",
+    "src": "86cea5e10d"
   },
   "두 번 누르면 다음 칸으로 갑니다": {
     "v": "Tocca due volte per passare al campo successivo",
@@ -4574,6 +4598,10 @@
   "리텐션 (주간 코호트)": {
     "v": "Retention (coorti settimanali)",
     "src": "d5bf041e1c"
+  },
+  "링크 단축어 미리보기": {
+    "v": "Anteprime dei link",
+    "src": "9f0893b4a2"
   },
   "마감 직전 과제를 메일로 낼 때": {
     "v": "Quando invii un compito via mail poco prima della scadenza",
@@ -5547,6 +5575,10 @@
   "복사됨!": {
     "v": "Copiato!",
     "src": "1c579141b4"
+  },
+  "복사하고 버튼 한 번으로 담기": {
+    "v": "Copia e salva con un solo tocco",
+    "src": "9fc2426ec8"
   },
   "복사하고 버튼을 누르면 키보드에서 꺼내 쓸 수 있어요": {
     "v": "Copia, premi il tasto, poi usa il testo dalla tastiera",
@@ -8761,6 +8793,10 @@
     "v": "Dopo il salvataggio, l'elenco ti porta dove si vede quella frase. Se è già visibile, non si sposta nulla",
     "src": "082ee3b7cf"
   },
+  "저장한 링크의 제목과 그림을 목록에서 바로 보여 줘요.": {
+    "v": "Vedi il titolo e l'immagine dei link salvati direttamente nell'elenco.",
+    "src": "7f7329afcd"
+  },
   "저장할 때 카테고리를 고를 수 있어요. 그 자리에서 새 카테고리도 만들어요": {
     "v": "Scegli una categoria mentre salvi e creane una nuova lì per lì",
     "src": "6df2bb85a4"
@@ -9282,6 +9318,10 @@
       "other": "Per ora tutte le funzioni sono gratuite. Restano %d utilizzi"
     },
     "src": "1262cac757"
+  },
+  "지금은 베타예요. 더 안정되게 다듬어 정식으로 열어요.": {
+    "v": "Per ora è in beta. Lo renderemo più affidabile e lo rilasceremo a tutti.",
+    "src": "b286f8633e"
   },
   "지난 %d일 동안": {
     "v": "Negli ultimi %d giorni",
@@ -10165,6 +10205,13 @@
     "v": "Aggiungi ClipKeyboard",
     "src": "c536951952"
   },
+  "클립키보드로 벌써 %d시간을 아꼈어요": {
+    "v": {
+      "one": "ClipKeyboard ti ha già fatto risparmiare %d ora",
+      "other": "ClipKeyboard ti ha già fatto risparmiare %d ore"
+    },
+    "src": "c6b77aeac7"
+  },
   "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.": {
     "v": "Numero, altezza, dimensione del testo e colore dei tasti: decidi tu. C'è chi ne mette otto in una schermata.",
     "src": "203f92f256"
@@ -10475,6 +10522,13 @@
   "키보드에서 꺼내기": {
     "v": "Usa dalla tastiera",
     "src": "0baef71bc4"
+  },
+  "키보드에서 단축어를 %d번 꺼내 쓰셨어요": {
+    "v": {
+      "one": "Hai usato le frasi dalla tastiera %d volta",
+      "other": "Hai usato le frasi dalla tastiera %d volte"
+    },
+    "src": "8256026cbb"
   },
   "키보드에서 단축어를 길게 누르면 입력 대신 클립보드로 들어가요. 붙여넣을 곳이 따로 있을 때 쓰세요.": {
     "v": "Tieni premuta una frase sulla tastiera: va negli appunti invece di essere scritta. Utile se devi incollarla altrove.",

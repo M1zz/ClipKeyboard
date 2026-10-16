@@ -1777,6 +1777,10 @@
     "v": "Näytä Pro",
     "src": "b779703548"
   },
+  "Pro 선물하기": {
+    "v": "Lahjoita Pro",
+    "src": "c7865730b2"
+  },
   "Pro 업그레이드": {
     "v": "Päivitä Pro",
     "src": "daf7b6010a"
@@ -2828,6 +2832,10 @@
     "v": "Osto epäonnistui",
     "src": "8d0f2f043b"
   },
+  "결제는 보내는 분이 하고, Pro는 받는 분이 써요.": {
+    "v": "Sinä maksat, ja saaja saa Pron.",
+    "src": "3717a19b70"
+  },
   "결제를 취소함": {
     "v": "Peruutti oston",
     "src": "6637e4fbd2"
@@ -3146,6 +3154,10 @@
   "기기 간 동기화 (베타)": {
     "v": "Synkronointi laitteiden välillä (beta)",
     "src": "fa5258122e"
+  },
+  "기기 간 동기화 정식판": {
+    "v": "Synkronointi laitteiden välillä, ei enää beta",
+    "src": "9f80d61173"
   },
   "기기 간 동기화(베타) 수정, 전송이 확정된 뒤에만 완료 처리해 누락을 막아요": {
     "v": "Laitteiden välisen synkronoinnin (beta) korjauksia: muutokset katsotaan lähetetyiksi vasta vahvistuksen jälkeen, joten mikään ei jää puuttumaan",
@@ -4403,6 +4415,10 @@
     "v": "Käyttäjät, joilla synkronointi on päällä",
     "src": "71fcbb166f"
   },
+  "동기화가 엇갈릴 때 고르는 화면": {
+    "v": "Valitse versio, kun synkronointi on ristiriidassa",
+    "src": "bc772ff1e6"
+  },
   "동기화만 열려요. 단축어 개수는 그대로예요": {
     "v": "Vain synkronointi aukeaa. Fraasien määrä pysyy samana",
     "src": "0b87282fc9"
@@ -4418,6 +4434,10 @@
   "동작 버튼에 걸기": {
     "v": "Aseta Toimintopainike",
     "src": "1a855ca800"
+  },
+  "동작 버튼이나 제어 센터를 누르면 방금 복사한 글이 키보드 '최근'에 담겨요.": {
+    "v": "Paina toimintopainiketta tai Control Centerin säädintä, niin juuri kopioimasi teksti siirtyy näppäimistön Viimeisimmät-välilehdelle.",
+    "src": "30f83bd075"
   },
   "동작 줄이기": {
     "v": "Vähennä liikettä",
@@ -4438,6 +4458,10 @@
   "되돌릴 시점": {
     "v": "Palautuskohdat",
     "src": "32b3760f6a"
+  },
+  "두 기기에서 같은 단축어를 고쳤을 때 어느 쪽을 남길지 직접 골라요.": {
+    "v": "Jos samaa fraasia on muokattu kahdella laitteella, valitset itse, kumpi säilyy.",
+    "src": "86cea5e10d"
   },
   "두 번 누르면 다음 칸으로 갑니다": {
     "v": "Siirry seuraavaan kenttään kaksoisnapauttamalla",
@@ -4574,6 +4598,10 @@
   "리텐션 (주간 코호트)": {
     "v": "Pysyvyys (viikkokohortit)",
     "src": "d5bf041e1c"
+  },
+  "링크 단축어 미리보기": {
+    "v": "Linkkien esikatselu",
+    "src": "9f0893b4a2"
   },
   "마감 직전 과제를 메일로 낼 때": {
     "v": "Kun lähetät tehtävän sähköpostilla juuri ennen määräaikaa",
@@ -5547,6 +5575,10 @@
   "복사됨!": {
     "v": "Kopioitu!",
     "src": "1c579141b4"
+  },
+  "복사하고 버튼 한 번으로 담기": {
+    "v": "Kopioi ja tallenna yhdellä painalluksella",
+    "src": "9fc2426ec8"
   },
   "복사하고 버튼을 누르면 키보드에서 꺼내 쓸 수 있어요": {
     "v": "Kopioi, paina painiketta ja käytä sitä näppäimistöltä",
@@ -8761,6 +8793,10 @@
     "v": "Tallennuksen jälkeen lista vie kohtaan, jossa fraasi näkyy. Jos se näkyy jo, näkymä ei liiku",
     "src": "082ee3b7cf"
   },
+  "저장한 링크의 제목과 그림을 목록에서 바로 보여 줘요.": {
+    "v": "Näet tallennettujen linkkien otsikon ja kuvan suoraan luettelossa.",
+    "src": "7f7329afcd"
+  },
   "저장할 때 카테고리를 고를 수 있어요. 그 자리에서 새 카테고리도 만들어요": {
     "v": "Valitse luokka tallentaessasi tai luo uusi saman tien",
     "src": "6df2bb85a4"
@@ -9282,6 +9318,10 @@
       "other": "Kaikki on nyt ilmaista. %d käyttökertaa jäljellä"
     },
     "src": "1262cac757"
+  },
+  "지금은 베타예요. 더 안정되게 다듬어 정식으로 열어요.": {
+    "v": "Tämä on nyt beta-vaiheessa. Teemme siitä vakaamman ja julkaisemme sen kokonaan.",
+    "src": "b286f8633e"
   },
   "지난 %d일 동안": {
     "v": {
@@ -10168,6 +10208,13 @@
     "v": "Lisää ClipKeyboard",
     "src": "c536951952"
   },
+  "클립키보드로 벌써 %d시간을 아꼈어요": {
+    "v": {
+      "one": "ClipKeyboard on jo säästänyt sinulta %d tunnin",
+      "other": "ClipKeyboard on jo säästänyt sinulta %d tuntia"
+    },
+    "src": "c6b77aeac7"
+  },
   "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.": {
     "v": "Näppäinten määrän, korkeuden, tekstikoon ja värit voit valita itse. Jotkut mahtuttavat yhdelle näytölle kahdeksan näppäintä.",
     "src": "203f92f256"
@@ -10478,6 +10525,13 @@
   "키보드에서 꺼내기": {
     "v": "Käytä näppäimistöltä",
     "src": "0baef71bc4"
+  },
+  "키보드에서 단축어를 %d번 꺼내 쓰셨어요": {
+    "v": {
+      "one": "Olet käyttänyt fraaseja näppäimistöltä %d kerran",
+      "other": "Olet käyttänyt fraaseja näppäimistöltä %d kertaa"
+    },
+    "src": "8256026cbb"
   },
   "키보드에서 단축어를 길게 누르면 입력 대신 클립보드로 들어가요. 붙여넣을 곳이 따로 있을 때 쓰세요.": {
     "v": "Kun pidät fraasia pohjassa näppäimistössä, se menee leikepöydälle eikä kirjoitu. Hyödyllinen, kun liität muualle.",

@@ -1777,6 +1777,10 @@
     "v": "Se Pro",
     "src": "b779703548"
   },
+  "Pro 선물하기": {
+    "v": "Gi Pro i gave",
+    "src": "c7865730b2"
+  },
   "Pro 업그레이드": {
     "v": "Oppgrader til Pro",
     "src": "daf7b6010a"
@@ -2828,6 +2832,10 @@
     "v": "Kjøpet mislyktes",
     "src": "8d0f2f043b"
   },
+  "결제는 보내는 분이 하고, Pro는 받는 분이 써요.": {
+    "v": "Du betaler, og mottakeren får Pro.",
+    "src": "3717a19b70"
+  },
   "결제를 취소함": {
     "v": "Avbrøt kjøpet",
     "src": "6637e4fbd2"
@@ -3146,6 +3154,10 @@
   "기기 간 동기화 (베타)": {
     "v": "Synkronisering mellom enheter (beta)",
     "src": "fa5258122e"
+  },
+  "기기 간 동기화 정식판": {
+    "v": "Synkronisering mellom enheter, ute av beta",
+    "src": "9f80d61173"
   },
   "기기 간 동기화(베타) 수정, 전송이 확정된 뒤에만 완료 처리해 누락을 막아요": {
     "v": "Rettelser i synkronisering mellom enheter (beta): endringer regnes som sendt først når de er bekreftet, så ingenting går tapt",
@@ -4403,6 +4415,10 @@
     "v": "Brukere med synkronisering på",
     "src": "71fcbb166f"
   },
+  "동기화가 엇갈릴 때 고르는 화면": {
+    "v": "Velg versjon når synkronisering er i konflikt",
+    "src": "bc772ff1e6"
+  },
   "동기화만 열려요. 단축어 개수는 그대로예요": {
     "v": "Bare synkronisering åpnes. Antall fraser er uendret",
     "src": "0b87282fc9"
@@ -4418,6 +4434,10 @@
   "동작 버튼에 걸기": {
     "v": "Sett opp handlingsknappen",
     "src": "1a855ca800"
+  },
+  "동작 버튼이나 제어 센터를 누르면 방금 복사한 글이 키보드 '최근'에 담겨요.": {
+    "v": "Trykk på handlingsknappen eller en kontroll i Kontrollsenter, så havner det du nettopp kopierte i Nylig på tastaturet.",
+    "src": "30f83bd075"
   },
   "동작 줄이기": {
     "v": "Reduser bevegelse",
@@ -4438,6 +4458,10 @@
   "되돌릴 시점": {
     "v": "Gjenopprettingspunkter",
     "src": "32b3760f6a"
+  },
+  "두 기기에서 같은 단축어를 고쳤을 때 어느 쪽을 남길지 직접 골라요.": {
+    "v": "Hvis samme frase er endret på to enheter, velger du hvilken som skal beholdes.",
+    "src": "86cea5e10d"
   },
   "두 번 누르면 다음 칸으로 갑니다": {
     "v": "Dobbelttrykk for å gå til neste felt",
@@ -4574,6 +4598,10 @@
   "리텐션 (주간 코호트)": {
     "v": "Retensjon (ukentlige kohorter)",
     "src": "d5bf041e1c"
+  },
+  "링크 단축어 미리보기": {
+    "v": "Forhåndsvisning av lenker",
+    "src": "9f0893b4a2"
   },
   "마감 직전 과제를 메일로 낼 때": {
     "v": "Når du sender en oppgave på e-post rett før fristen",
@@ -5547,6 +5575,10 @@
   "복사됨!": {
     "v": "Kopiert!",
     "src": "1c579141b4"
+  },
+  "복사하고 버튼 한 번으로 담기": {
+    "v": "Kopier, og lagre med ett trykk",
+    "src": "9fc2426ec8"
   },
   "복사하고 버튼을 누르면 키보드에서 꺼내 쓸 수 있어요": {
     "v": "Kopier, trykk på knappen, og bruk det fra tastaturet",
@@ -8761,6 +8793,10 @@
     "v": "Etter lagring tar listen deg dit frasen vises. Vises den allerede, flyttes ingenting",
     "src": "082ee3b7cf"
   },
+  "저장한 링크의 제목과 그림을 목록에서 바로 보여 줘요.": {
+    "v": "Se tittel og bilde for lagrede lenker rett i listen.",
+    "src": "7f7329afcd"
+  },
   "저장할 때 카테고리를 고를 수 있어요. 그 자리에서 새 카테고리도 만들어요": {
     "v": "Velg kategori når du lagrer, og lag en ny med en gang",
     "src": "6df2bb85a4"
@@ -9282,6 +9318,10 @@
       "other": "Alt er gratis nå. %d ganger igjen"
     },
     "src": "1262cac757"
+  },
+  "지금은 베타예요. 더 안정되게 다듬어 정식으로 열어요.": {
+    "v": "Den er i beta nå. Vi gjør den mer stabil og lanserer den fullt ut.",
+    "src": "b286f8633e"
   },
   "지난 %d일 동안": {
     "v": {
@@ -10168,6 +10208,13 @@
     "v": "Legg til ClipKeyboard",
     "src": "c536951952"
   },
+  "클립키보드로 벌써 %d시간을 아꼈어요": {
+    "v": {
+      "one": "ClipKeyboard har allerede spart deg for %d time",
+      "other": "ClipKeyboard har allerede spart deg for %d timer"
+    },
+    "src": "c6b77aeac7"
+  },
   "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.": {
     "v": "Antall taster, høyde, tekststørrelse og farger kan du velge selv. Noen får plass til åtte taster på én skjerm.",
     "src": "203f92f256"
@@ -10478,6 +10525,13 @@
   "키보드에서 꺼내기": {
     "v": "Bruk fra tastaturet",
     "src": "0baef71bc4"
+  },
+  "키보드에서 단축어를 %d번 꺼내 쓰셨어요": {
+    "v": {
+      "one": "Du har brukt fraser fra tastaturet %d gang",
+      "other": "Du har brukt fraser fra tastaturet %d ganger"
+    },
+    "src": "8256026cbb"
   },
   "키보드에서 단축어를 길게 누르면 입력 대신 클립보드로 들어가요. 붙여넣을 곳이 따로 있을 때 쓰세요.": {
     "v": "Hold inne en frase på tastaturet, så havner den på utklippstavlen i stedet for å bli skrevet inn. Praktisk når du skal lime inn et annet sted.",

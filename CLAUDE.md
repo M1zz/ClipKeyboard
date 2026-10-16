@@ -386,6 +386,18 @@ GlassCircleButton(AppSymbol.xmark, role: .secondary, label: NSLocalizedString("�
 - 툴바에 둘 때는 `.sharedBackgroundVisibility(.hidden)` 을 붙인다 (시스템 유리 알약과 두 겹이 되지 않게)
 - 배너 안 작은 닫기, 입력칸 지우기, 타일 위 지우기 단추는 내용의 일부라 서클을 쓰지 않는다
 
+## 앞으로 만들 것 (로드맵)
+
+**개발하다 "이건 다음에" 가 생기면 `ClipKeyboard/Service/ClipKeyboardRoadmap.swift` 에 한 줄을 더한다.**
+코드의 `// TODO` 주석으로만 남기지 않는다. 사용자는 설정 ▸ 앞으로 만들 기능에서 이 목록을 그대로 본다.
+
+- 새 항목 `.planned` → 손대면 `.building` → 내보내면 `.shipped("버전")`
+- 사용자에게 보일 만한 것만. 리팩터링 · 시험 · 빌드 설정은 `.sprintcommander/tasks.json`
+- 문구는 사용자 말로, 번역은 i18n 파이프라인으로
+- 작업을 마치고 보고할 때 로드맵에 더한 것 · 옮긴 것이 있으면 함께 말한다
+
+자세한 것은 `docs/engineering/ROADMAP.md`.
+
 ## 테스트 시 확인사항
 
 **사용자 여정은 `docs/engineering/USER_JOURNEYS.md` 의 표가 단일 출처다.** 새 기능을 내면 표에 한 줄과
