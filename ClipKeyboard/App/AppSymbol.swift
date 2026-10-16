@@ -95,6 +95,7 @@ enum AppSymbol {
     static let icloudAndArrowDown = "icloud.and.arrow.down"
     static let icloudAndArrowUp = "icloud.and.arrow.up"
     static let icloudFill = "icloud.fill"
+    static let infinity = "infinity"
     static let infoCircle = "info.circle"
     static let infoCircleFill = "info.circle.fill"
     static let keyFill = "key.fill"
@@ -118,6 +119,7 @@ enum AppSymbol {
     static let macbook = "macbook"
     static let magnifyingglass = "magnifyingglass"
     static let menubarRectangle = "menubar.rectangle"   // 맥 메뉴바 앱 안내
+    static let minus = "minus"
     static let minusCircleFill = "minus.circle.fill"
     static let number = "number"
     static let paintbrush = "paintbrush"

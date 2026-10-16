@@ -8,6 +8,7 @@
 //  거꾸로 업그레이드 값이 아무에게나 보이면 정가보다 싼 뒷문이 된다.
 //
 
+import Foundation
 import Testing
 @testable import ClipKeyboard
 
@@ -16,8 +17,8 @@ struct PaywallPlansTests {
 
     private func states(_ purchased: AccessTier, permanentPro: Bool = false, upgrade: Bool = false)
         -> (plus: PaywallPlanState, pro: PaywallPlanState) {
-        (PaywallPlanRules.state(of: .plus, purchased: purchased, hasPermanentPro: permanentPro, upgradeEligible: upgrade),
-         PaywallPlanRules.state(of: .pro, purchased: purchased, hasPermanentPro: permanentPro, upgradeEligible: upgrade))
+        let access = PaywallAccess(purchased: purchased, hasPermanentPro: permanentPro, upgradeEligible: upgrade)
+        return (access[.plus], access[.pro])
     }
 
     @Test("아무것도 안 산 사람은 Plus 와 Pro 를 정가로 고르고, 처음엔 Pro 가 골라져 있다")
@@ -50,5 +51,12 @@ struct PaywallPlansTests {
             #expect(s.pro == .owned)
         }
         #expect(PaywallPlanRules.initialSelection(purchased: .pro, hasPermanentPro: true, upgradeEligible: false) == nil)
+    }
+
+    @Test("비교표 칸은 VoiceOver 에 숫자와 포함 여부를 말한다(글자 칸이 없어 잘리지 않는다)")
+    func comparisonCellsSpeak() {
+        #expect(PaywallComparisonTable.spoken(.count(10)) == 10.formatted())
+        #expect(PaywallComparisonTable.spoken(.unlimited) == NSLocalizedString("무제한", comment: "Unlimited"))
+        #expect(PaywallComparisonTable.spoken(.included) != PaywallComparisonTable.spoken(.excluded))
     }
 }

@@ -103,10 +103,45 @@ enum PaywallPlanRules {
     static func initialSelection(purchased: AccessTier,
                                  hasPermanentPro: Bool,
                                  upgradeEligible: Bool) -> PaywallPlan? {
-        PaywallPlan.allCases.reversed().first {
-            state(of: $0, purchased: purchased, hasPermanentPro: hasPermanentPro,
-                  upgradeEligible: upgradeEligible).isPurchasable
+        PaywallAccess(purchased: purchased, hasPermanentPro: hasPermanentPro,
+                      upgradeEligible: upgradeEligible).initialSelection
+    }
+}
+
+/// 이 사람의 권한을 **한 번** 읽어 둔 것.
+///
+/// `ProFeatureManager.purchasedTier` 는 읽을 때마다 App Group 저장소를 열고 거울을 푼다.
+/// 페이월이 한 번 그려질 때 칸 상태 · 가격 · 버튼 문구 · 막힘 여부가 저마다 그걸 다시 읽어
+/// 열 번 넘게 열었다. 이제 body 머리에서 한 번 읽고 이 값을 돌려쓴다.
+struct PaywallAccess: Equatable {
+    let hasPermanentPro: Bool
+    let plus: PaywallPlanState
+    let pro: PaywallPlanState
+
+    init(purchased: AccessTier, hasPermanentPro: Bool, upgradeEligible: Bool) {
+        self.hasPermanentPro = hasPermanentPro
+        plus = PaywallPlanRules.state(of: .plus, purchased: purchased,
+                                      hasPermanentPro: hasPermanentPro, upgradeEligible: upgradeEligible)
+        pro = PaywallPlanRules.state(of: .pro, purchased: purchased,
+                                     hasPermanentPro: hasPermanentPro, upgradeEligible: upgradeEligible)
+    }
+
+    static var current: PaywallAccess {
+        PaywallAccess(purchased: ProFeatureManager.purchasedTier,
+                      hasPermanentPro: ProFeatureManager.hasPermanentPro,
+                      upgradeEligible: ProUpgrade.isEligible)
+    }
+
+    subscript(plan: PaywallPlan) -> PaywallPlanState {
+        switch plan {
+        case .plus: return plus
+        case .pro:  return pro
         }
+    }
+
+    /// 처음 골라 둘 칸. 살 수 있는 칸 중 **위의 것**. 둘 다 못 사면(이미 Pro) nil.
+    var initialSelection: PaywallPlan? {
+        PaywallPlan.allCases.reversed().first { self[$0].isPurchasable }
     }
 }
 
@@ -215,40 +250,45 @@ struct PaywallPlanCard: View {
 // MARK: - 비교표
 
 /// 무료 · Plus · Pro 세 열. 값은 `ProFeatureManager` 의 한도에서 읽는다(여기 숫자를 따로 적지 않는다).
+///
+/// ⚠️ 칸에는 **글자를 쓰지 않는다**(숫자와 기호만). 열이 좁아 "Unlimited" · "Без ограничений" 같은 말은
+///    "Unli…" 로 잘렸고, "%d개" 는 번역이 없는 언어에서 한국어로 나왔다.
 struct PaywallComparisonTable: View {
     @Environment(\.appTheme) private var theme
 
+    /// 한 칸의 값.
+    enum Cell: Equatable {
+        case count(Int)
+        case unlimited
+        case included
+        case excluded
+    }
+
     private struct Row: Identifiable {
         let name: String
-        let free: String
-        let plus: String
-        let pro: String
+        let free: Cell
+        let plus: Cell
+        let pro: Cell
         var id: String { name }
     }
 
-    private static let check = "✓"
-    private static let none = "-"
-
-    private var rows: [Row] {
-        let unlimited = NSLocalizedString("무제한", comment: "Unlimited")
-        func count(_ n: Int) -> String { String(format: NSLocalizedString("%d개", comment: "count unit"), n) }
+    private static var rows: [Row] {
+        func limit(_ name: String, free: Int, paid: Cell = .unlimited) -> Row {
+            Row(name: name, free: .count(free), plus: paid, pro: paid)
+        }
+        func proOnly(_ name: String) -> Row {
+            Row(name: name, free: .excluded, plus: .excluded, pro: .included)
+        }
         return [
-            Row(name: NSLocalizedString("단축어 저장", comment: "Memo"),
-                free: count(ProFeatureManager.freeMemoLimit), plus: unlimited, pro: unlimited),
-            Row(name: NSLocalizedString("템플릿", comment: "Template"),
-                free: count(ProFeatureManager.freeTemplateLimit), plus: unlimited, pro: unlimited),
-            Row(name: NSLocalizedString("스택", comment: "Combo"),
-                free: count(ProFeatureManager.freeStackLimit), plus: unlimited, pro: unlimited),
-            Row(name: NSLocalizedString("이미지 단축어", comment: "Image"),
-                free: count(ProFeatureManager.freeImageMemoLimit), plus: unlimited, pro: unlimited),
-            Row(name: NSLocalizedString("클립보드 기록", comment: "Clipboard"),
-                free: count(ProFeatureManager.freeClipboardHistoryLimit), plus: count(100), pro: count(100)),
-            Row(name: NSLocalizedString("iCloud 백업", comment: "iCloud"),
-                free: Self.none, plus: Self.none, pro: Self.check),
-            Row(name: NSLocalizedString("생체인증 잠금", comment: "Biometric"),
-                free: Self.none, plus: Self.none, pro: Self.check),
-            Row(name: NSLocalizedString("기기 간 동기화 (베타)", comment: "Cross-device sync section header"),
-                free: Self.none, plus: Self.none, pro: Self.check)
+            limit(NSLocalizedString("단축어 저장", comment: "Memo"), free: ProFeatureManager.freeMemoLimit),
+            limit(NSLocalizedString("템플릿", comment: "Template"), free: ProFeatureManager.freeTemplateLimit),
+            limit(NSLocalizedString("스택", comment: "Combo"), free: ProFeatureManager.freeStackLimit),
+            limit(NSLocalizedString("이미지 단축어", comment: "Image"), free: ProFeatureManager.freeImageMemoLimit),
+            limit(NSLocalizedString("클립보드 기록", comment: "Clipboard"),
+                  free: ProFeatureManager.freeClipboardHistoryLimit, paid: .count(100)),
+            proOnly(NSLocalizedString("iCloud 백업", comment: "iCloud")),
+            proOnly(NSLocalizedString("생체인증 잠금", comment: "Biometric")),
+            proOnly(NSLocalizedString("기기 간 동기화 (베타)", comment: "Cross-device sync section header"))
         ]
     }
 
@@ -259,27 +299,23 @@ struct PaywallComparisonTable: View {
             HStack {
                 Text(NSLocalizedString("기능", comment: "Feature"))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Text(NSLocalizedString("무료", comment: "Free"))
-                    .frame(width: columnWidth)
-                Text(PaywallPlan.plus.name)
-                    .frame(width: columnWidth)
-                Text(PaywallPlan.pro.name)
-                    .foregroundStyle(.orange)
-                    .frame(width: columnWidth)
+                header(NSLocalizedString("무료", comment: "Free"))
+                header(PaywallPlan.plus.name)
+                header(PaywallPlan.pro.name).foregroundStyle(.orange)
             }
             .font(.subheadline.weight(.semibold))
             .padding(.horizontal, 14)
             .padding(.vertical, 12)
             .background(Color(uiColor: .tertiarySystemBackground))
 
-            ForEach(rows) { row in
+            ForEach(Self.rows) { row in
                 HStack {
                     Text(row.name)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .fixedSize(horizontal: false, vertical: true)
-                    cell(row.free, muted: true)
-                    cell(row.plus, muted: false)
-                    cell(row.pro, muted: false, accent: true)
+                    cell(row.free, tint: .secondary)
+                    cell(row.plus, tint: .primary)
+                    cell(row.pro, tint: .orange)
                 }
                 .font(.subheadline)
                 .padding(.horizontal, 14)
@@ -288,27 +324,55 @@ struct PaywallComparisonTable: View {
                 .accessibilityLabel(String(
                     format: NSLocalizedString("%1$@, 무료: %2$@, Plus: %3$@, Pro: %4$@",
                                               comment: "Paywall comparison row for VoiceOver: feature, free, Plus, Pro"),
-                    row.name, spoken(row.free), spoken(row.plus), spoken(row.pro)))
+                    row.name, Self.spoken(row.free), Self.spoken(row.plus), Self.spoken(row.pro)))
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
         .overlay(RoundedRectangle(cornerRadius: theme.radiusMd).stroke(Color(uiColor: .separator), lineWidth: 1))
     }
 
-    private func cell(_ value: String, muted: Bool, accent: Bool = false) -> some View {
-        Text(value)
-            .fontWeight(accent ? .semibold : .regular)
-            .foregroundStyle(accent ? Color.orange : (muted || value == Self.none ? Color.secondary : Color.primary))
-            .minimumScaleFactor(0.7)
+    /// 열 이름. 세 열을 한 단계 작은 글자로 맞춰 "Bezpłatnie" · "Бесплатно" 도 잘리지 않게 한다.
+    /// (더 긴 말만 줄어들면 열마다 글자 크기가 달라 보인다.)
+    private func header(_ title: String) -> some View {
+        Text(title)
+            .font(.footnote.weight(.semibold))
             .lineLimit(1)
+            .minimumScaleFactor(0.75)
             .frame(width: columnWidth)
     }
 
-    private func spoken(_ value: String) -> String {
+    @ViewBuilder
+    private func cell(_ value: Cell, tint: Color) -> some View {
+        Group {
+            switch value {
+            case .count(let n):
+                Text(n, format: .number)
+                    .monospacedDigit()
+                    .foregroundStyle(tint)
+            case .unlimited:
+                Image(systemName: AppSymbol.infinity)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(tint)
+            case .included:
+                Image(systemName: AppSymbol.checkmark)
+                    .fontWeight(.bold)
+                    .foregroundStyle(tint)
+            case .excluded:
+                Image(systemName: AppSymbol.minus)
+                    .foregroundStyle(.tertiary)
+            }
+        }
+        .lineLimit(1)
+        .minimumScaleFactor(0.7)
+        .frame(width: columnWidth)
+    }
+
+    static func spoken(_ value: Cell) -> String {
         switch value {
-        case Self.none:  return NSLocalizedString("미포함", comment: "Feature not included")
-        case Self.check: return NSLocalizedString("포함", comment: "Feature included")
-        default:         return value
+        case .count(let n): return n.formatted()
+        case .unlimited:    return NSLocalizedString("무제한", comment: "Unlimited")
+        case .included:     return NSLocalizedString("포함", comment: "Feature included")
+        case .excluded:     return NSLocalizedString("미포함", comment: "Feature not included")
         }
     }
 }
