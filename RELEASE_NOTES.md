@@ -20,6 +20,7 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 ```
 Plus와 Pro 중 나에게 맞는 것을 고를 수 있어요.
+복사하고 버튼 한 번이면 키보드에 담겨요.
 키보드에 지우기 키가 늘 보여요.
 키보드에서 템플릿 값을 앱으로 가서 바로 더해요.
 전체 접근이 꺼져 있으면 켜는 법을 알려 드려요.
@@ -29,6 +30,7 @@ Plus와 Pro 중 나에게 맞는 것을 고를 수 있어요.
 
 ```
 Choose between Plus and Pro.
+Copy, then save it with one button.
 The delete key is now always on the keyboard.
 Add template values right from the keyboard.
 We show you how to turn on Full Access.
@@ -38,6 +40,7 @@ We show you how to turn on Full Access.
 
 ```
 现在可以在 Plus 和 Pro 之间选择。
+复制后按一下按钮，就能放进键盘。
 键盘上始终显示删除键。
 在键盘上可直接跳到 App 添加模板值。
 未开启完全访问时，会告诉你如何开启。
@@ -47,6 +50,7 @@ We show you how to turn on Full Access.
 
 ```
 現在可以在 Plus 和 Pro 之間選擇。
+複製後按一下按鈕，就能放進鍵盤。
 鍵盤上始終顯示刪除鍵。
 在鍵盤上可直接跳到 App 新增範本值。
 未開啟完整取用時，會告訴你如何開啟。
@@ -56,6 +60,7 @@ We show you how to turn on Full Access.
 
 ```
 Теперь можно выбрать Plus или Pro.
+Копируйте и сохраняйте одной кнопкой.
 Клавиша удаления всегда на клавиатуре.
 Добавляйте значения шаблонов прямо с клавиатуры.
 Подскажем, как включить полный доступ.
@@ -65,6 +70,7 @@ We show you how to turn on Full Access.
 
 ```
 PlusとProから選べるようになりました。
+コピーしてボタンひとつでキーボードへ。
 削除キーがいつもキーボードに表示されます。
 キーボードからアプリでテンプレート値を追加。
 フルアクセスを有効にする方法をご案内します。
@@ -74,6 +80,7 @@ PlusとProから選べるようになりました。
 
 ```
 Ahora puedes elegir entre Plus y Pro.
+Copia y guárdalo con un solo botón.
 La tecla de borrar siempre está a la vista.
 Agrega valores de plantilla desde el teclado.
 Te mostramos cómo activar el acceso total.
@@ -83,6 +90,7 @@ Te mostramos cómo activar el acceso total.
 
 ```
 Wähle jetzt zwischen Plus und Pro.
+Kopieren und per Taste ablegen.
 Die Löschtaste ist immer sichtbar.
 Vorlagenwerte direkt von der Tastatur ergänzen.
 Wir zeigen, wie du vollen Zugriff aktivierst.
@@ -92,6 +100,7 @@ Wir zeigen, wie du vollen Zugriff aktivierst.
 
 ```
 เลือกได้ระหว่าง Plus และ Pro
+คัดลอกแล้วกดปุ่มเดียว เก็บไว้บนแป้นพิมพ์
 ปุ่มลบแสดงบนแป้นพิมพ์ตลอดเวลา
 เพิ่มค่าเทมเพลตในแอปได้จากแป้นพิมพ์
 แนะนำวิธีเปิดการเข้าถึงแบบเต็ม
@@ -101,6 +110,7 @@ Wir zeigen, wie du vollen Zugriff aktivierst.
 
 ```
 Giờ bạn có thể chọn Plus hoặc Pro.
+Sao chép và lưu bằng một nút.
 Phím xóa luôn hiện trên bàn phím.
 Thêm giá trị mẫu trong ứng dụng từ bàn phím.
 Hướng dẫn bật Cho phép truy cập đầy đủ.
@@ -110,6 +120,7 @@ Hướng dẫn bật Cho phép truy cập đầy đủ.
 
 ```
 Choisissez entre Plus et Pro.
+Copiez et gardez d'un seul bouton.
 La touche Effacer est toujours visible.
 Ajoutez des valeurs de modèle depuis le clavier.
 On vous montre comment activer l’accès complet.
@@ -119,6 +130,7 @@ On vous montre comment activer l’accès complet.
 
 ```
 Ora puoi scegliere tra Plus e Pro.
+Copia e salva con un solo tasto.
 Il tasto Cancella è sempre visibile.
 Aggiungi valori ai modelli dalla tastiera.
 Ti mostriamo come attivare l’accesso completo.
@@ -128,6 +140,7 @@ Ti mostriamo come attivare l’accesso completo.
 
 ```
 Agora você escolhe entre Plus e Pro.
+Copie e guarde com um só botão.
 A tecla de apagar fica sempre visível.
 Adicione valores de modelo a partir do teclado.
 Mostramos como ativar o acesso total.
@@ -137,6 +150,7 @@ Mostramos como ativar o acesso total.
 
 ```
 Nově si vyberete mezi Plus a Pro.
+Zkopírujte a uložte jedním tlačítkem.
 Klávesa mazání je vždy na klávesnici.
 Hodnoty šablon přidáte přímo z klávesnice.
 Ukážeme vám, jak zapnout plný přístup.
@@ -146,6 +160,7 @@ Ukážeme vám, jak zapnout plný přístup.
 
 ```
 Vælg nu mellem Plus og Pro.
+Kopiér og gem med ét tryk.
 Slettetasten er altid på tastaturet.
 Tilføj skabelonværdier direkte fra tastaturet.
 Vi viser dig, hvordan du slår fuld adgang til.
@@ -155,6 +170,7 @@ Vi viser dig, hvordan du slår fuld adgang til.
 
 ```
 Επιλέξτε ανάμεσα σε Plus και Pro.
+Αντέγραψε και κράτα το με ένα κουμπί.
 Το πλήκτρο διαγραφής φαίνεται πάντα.
 Προσθέστε τιμές προτύπων από το πληκτρολόγιο.
 Σας δείχνουμε πώς ενεργοποιείτε πλήρη πρόσβαση.
@@ -164,6 +180,7 @@ Vi viser dig, hvordan du slår fuld adgang til.
 
 ```
 Valitse nyt Plus tai Pro.
+Kopioi ja tallenna yhdellä napilla.
 Poistonäppäin näkyy aina näppäimistöllä.
 Lisää pohjien arvoja suoraan näppäimistöltä.
 Neuvomme, miten täysi käyttöoikeus kytketään.
@@ -173,6 +190,7 @@ Neuvomme, miten täysi käyttöoikeus kytketään.
 
 ```
 Kini bisa pilih Plus atau Pro.
+Salin, lalu simpan dengan satu tombol.
 Tombol hapus selalu tampil di keyboard.
 Tambah nilai template dari keyboard.
 Kami tunjukkan cara mengaktifkan Akses Penuh.
@@ -182,6 +200,7 @@ Kami tunjukkan cara mengaktifkan Akses Penuh.
 
 ```
 Velg nå mellom Plus og Pro.
+Kopier og lagre med ett trykk.
 Slettetasten er alltid på tastaturet.
 Legg til malverdier rett fra tastaturet.
 Vi viser deg hvordan du slår på full tilgang.
@@ -191,6 +210,7 @@ Vi viser deg hvordan du slår på full tilgang.
 
 ```
 Kies nu tussen Plus en Pro.
+Kopieer en bewaar met één knop.
 De wistoets staat altijd op het toetsenbord.
 Voeg sjabloonwaarden toe vanaf het toetsenbord.
 We laten zien hoe je volledige toegang aanzet.
@@ -200,6 +220,7 @@ We laten zien hoe je volledige toegang aanzet.
 
 ```
 Teraz wybierzesz między Plus a Pro.
+Skopiuj i zapisz jednym przyciskiem.
 Klawisz usuwania jest zawsze widoczny.
 Dodawaj wartości szablonów z klawiatury.
 Pokażemy, jak włączyć pełny dostęp.
@@ -209,6 +230,7 @@ Pokażemy, jak włączyć pełny dostęp.
 
 ```
 Välj nu mellan Plus och Pro.
+Kopiera och spara med en knapp.
 Raderingstangenten syns alltid.
 Lägg till mallvärden direkt från tangentbordet.
 Vi visar hur du slår på full åtkomst.
@@ -218,6 +240,7 @@ Vi visar hur du slår på full åtkomst.
 
 ```
 Artık Plus ve Pro arasında seçim yapın.
+Kopyalayın, tek tuşla klavyeye kaydedin.
 Silme tuşu her zaman klavyede görünür.
 Şablon değerlerini klavyeden ekleyin.
 Tam Erişimi nasıl açacağınızı gösteriyoruz.

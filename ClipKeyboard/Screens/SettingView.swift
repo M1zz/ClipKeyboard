@@ -21,6 +21,8 @@ struct SettingView: View {
     @State private var memoCountState = 0
     /// 무료로 쓰는 방법 안내(FreeUseGuideView).
     @State private var showFreeUseGuide = false
+    /// 선물이 안 될 때의 문의 창(결제 번호 · 코드가 붙는다).
+    @State private var showGiftSupport = false
     /// 마스터(개발자) 모드 - 앱 정보의 버전 행을 7번 탭하면 토글. 피드백 인박스 진입점 노출.
     @AppStorage(DefaultsKey.masterModeEnabled) private var masterModeEnabled: Bool = false
 
@@ -199,18 +201,28 @@ struct SettingView: View {
     /// ⚠️ 문구는 LeeoKit 카탈로그에 있다(`LeeoGiftText`). 앱 카탈로그에 다시 적지 않는다.
     @ViewBuilder
     private var giftSection: some View {
-        if let gift = proManager.gift, gift.isAvailable {
+        // 상품이 와야 보이지만, 이미 결제했거나 주고받은 선물이 있는 사람에게는 늘 보인다.
+        // (상품을 못 불러온 날에도 그 사람이 문의 줄까지 갈 길이 있어야 한다)
+        if let gift = proManager.gift,
+           gift.isAvailable || gift.pendingCount > 0 || !gift.sentGifts.isEmpty || gift.redeemed != nil {
             Section {
-                FoldLink(destination: LeeoGiftView<ClipKeyboardSpec>(gift: gift, showsRedeemLink: false)
+                // 선물이 안 되면 결제 번호 · 코드를 붙여 문의하게 한다(아직 다듬는 중인 기능이라 막힌 사람을 놓치지 않게).
+                FoldLink(destination: LeeoGiftView<ClipKeyboardSpec>(gift: gift, showsRedeemLink: false,
+                                                                      onContactSupport: { showGiftSupport = true })
                     .leeoStyle(theme.leeoStyle)) {
                     Label(LeeoGiftText.sendEntry, systemImage: AppSymbol.giftFill)
                 }
                 if !ProFeatureManager.hasPermanentPro || gift.redeemed != nil {
-                    FoldLink(destination: LeeoGiftRedeemView<ClipKeyboardSpec>(gift: gift)
+                    FoldLink(destination: LeeoGiftRedeemView<ClipKeyboardSpec>(gift: gift,
+                                                                             onContactSupport: { showGiftSupport = true })
                         .leeoStyle(theme.leeoStyle)) {
                         Label(LeeoGiftText.redeemEntry, systemImage: AppSymbol.giftcard)
                     }
                 }
+            }
+            .sheet(isPresented: $showGiftSupport) {
+                FeedbackView(origin: .gift, initialType: .bug, initialCategory: .purchase,
+                             extraLines: gift.supportLines)
             }
         }
     }

@@ -18,9 +18,6 @@ import LeeoKit
 extension ClipKeyboardSpec {
     static var roadmap: [LeeoRoadmapItem] {[
         // MARK: 만들고 있어요
-        .init(id: "capture.button", status: .building,
-              title: NSLocalizedString("복사하고 버튼 한 번으로 담기", comment: "Roadmap item: capture clipboard with the Action Button"),
-              detail: NSLocalizedString("동작 버튼이나 제어 센터를 누르면 방금 복사한 글이 키보드 '최근'에 담겨요.", comment: "Roadmap item detail: capture clipboard")),
         .init(id: "gift.pro", status: .building,
               title: NSLocalizedString("Pro 선물하기", comment: "Roadmap item: gift Pro"),
               detail: NSLocalizedString("결제는 보내는 분이 하고, Pro는 받는 분이 써요.", comment: "Roadmap item detail: gift Pro")),
@@ -35,6 +32,11 @@ extension ClipKeyboardSpec {
         .init(id: "link.preview", status: .planned,
               title: NSLocalizedString("링크 단축어 미리보기", comment: "Roadmap item: link previews"),
               detail: NSLocalizedString("저장한 링크의 제목과 그림을 목록에서 바로 보여 줘요.", comment: "Roadmap item detail: link previews")),
+
+        // MARK: 최근에 나왔어요 (최신 것부터)
+        .init(id: "capture.button", status: .shipped("5.1.12"),
+              title: NSLocalizedString("복사하고 버튼 한 번으로 담기", comment: "Roadmap item: capture clipboard with the Action Button"),
+              detail: NSLocalizedString("동작 버튼이나 제어 센터를 누르면 방금 복사한 글이 키보드 '최근'에 담겨요.", comment: "Roadmap item detail: capture clipboard")),
     ]}
 }
 

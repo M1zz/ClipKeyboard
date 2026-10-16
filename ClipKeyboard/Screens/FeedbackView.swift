@@ -15,6 +15,10 @@ struct FeedbackView: View {
     var origin: FeedbackOrigin = .settings
     /// 처음 고를 유형. 템플릿 화면에서 열면 제안으로 시작한다.
     var initialType: LeeoFeedbackType? = nil
+    /// 미리 고를 버그 분류. 선물 화면에서 열면 결제로 시작한다.
+    var initialCategory: LeeoBugCategory? = nil
+    /// 자동 첨부 정보에 더할 줄들(선물의 결제 번호 · 코드 같은 것, `LeeoGiftStore.supportLines`).
+    var extraLines: [String] = []
 
     var body: some View {
         // 회신 정보(이름·이메일)는 선택 입력이다. 남기면 CloudKit 레코드와 메일 본문에 함께 실려
@@ -22,8 +26,9 @@ struct FeedbackView: View {
         // 이메일이 없어도 답장은 설정 > 보낸 의견으로 닿는다(LeeoFeedbackReplies).
         LeeoFeedbackView<ClipKeyboardSpec>(initialType: initialType,
                                            showsContactFields: true,
-                                           extraInfo: FeedbackContext.lines(origin: origin),
+                                           extraInfo: FeedbackContext.lines(origin: origin) + extraLines,
                                            categoryInfo: { await FeedbackContext.lines(for: $0) },
+                                           initialCategory: initialCategory,
                                            emailFallback: { subject, body in
             #if os(iOS)
             if EmailController.canSendMail {
@@ -49,6 +54,8 @@ enum FeedbackOrigin: String {
     case templateFill = "template-fill"
     /// 키보드의 템플릿 빈칸 화면.
     case keyboardTemplate = "keyboard-template"
+    /// Pro 선물하기 · 선물 코드 입력 화면의 "선물이 잘 안 되나요?".
+    case gift
 
     var localizedName: String {
         switch self {
@@ -60,6 +67,8 @@ enum FeedbackOrigin: String {
             return NSLocalizedString("템플릿 채우기", comment: "Feedback origin: template fill sheet")
         case .keyboardTemplate:
             return NSLocalizedString("키보드의 템플릿 빈칸", comment: "Feedback origin: keyboard template blanks")
+        case .gift:
+            return NSLocalizedString("선물하기", comment: "Feedback origin: gift screens")
         }
     }
 
@@ -67,6 +76,7 @@ enum FeedbackOrigin: String {
     var suggestedType: LeeoFeedbackType? {
         switch self {
         case .templateFill, .keyboardTemplate: return .feature
+        case .gift: return .bug
         case .settings, .nudge: return nil
         }
     }

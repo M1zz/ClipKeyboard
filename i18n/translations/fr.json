@@ -6421,6 +6421,10 @@
     "v": "1 rue de la Paix, 75002 Paris",
     "src": "67969d6959"
   },
+  "선물하기": {
+    "v": "Cadeaux",
+    "src": "21e7e72bc2"
+  },
   "선택 안 됨": {
     "v": "Non sélectionné",
     "src": "0730748711"
