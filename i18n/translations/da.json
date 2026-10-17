@@ -2155,6 +2155,10 @@
     "v": "VoiceOver: Tryk én gang på en frase → kontrollér, at den læses op. Dobbelttryk → kontrollér meddelelsen 'Kopieret'.",
     "src": "166c97ee6e"
   },
+  "VoiceOver로 더 편하게": {
+    "v": "Bedre understøttelse af VoiceOver",
+    "src": "b6b047abf4"
+  },
   "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!": {
     "v": "Velkommen, {klient}! Sådan går vi videre:\n\n1. Første møde via Calendly: {calendly}\n2. Bankoplysninger nedenfor (ved bankoverførsel)\n3. Invitation til Slack-kanal inden for 24 timer\n4. Statusopdatering hver torsdag\n\nVi glæder os til at arbejde sammen!",
     "src": "79ae1fd37b"
@@ -3098,6 +3102,10 @@
   "글자 크기": {
     "v": "Skriftstørrelse",
     "src": "cddd29e8fa"
+  },
+  "글자 크기를 키워도 잘리지 않고 보기 좋게 다시 배치돼요.": {
+    "v": "Når du gør teksten større, placeres alt pænt igen, og intet bliver skåret af.",
+    "src": "b8fb6d24e0"
   },
   "글자를 찾지 못했어요": {
     "v": "Ingen tekst fundet",
@@ -4291,6 +4299,10 @@
     "v": "Slår du Øget kontrast til, bliver svag tekst og linjer tydeligere",
     "src": "bfe746d7ee"
   },
+  "대비를 높이거나 색을 구별하기 어려워도 내용을 알아볼 수 있어요.": {
+    "v": "Alt er let at se med øget kontrast, eller hvis farver er svære at skelne.",
+    "src": "670ec2d300"
+  },
   "더 보기": {
     "v": "Mere",
     "src": "fdeec8e241"
@@ -5403,6 +5415,10 @@
   "보관함에 담아 둬요. 나중에 앱에서 단축어로 만들지 정하면 돼요.": {
     "v": "Den gemmes i indbakken, så du senere kan beslutte, om den skal være en frase.",
     "src": "4a86c5f66b"
+  },
+  "보기 편한 색과 대비": {
+    "v": "Tydeligere farver og kontrast",
+    "src": "adfef7f3f0"
   },
   "보내기": {
     "v": "Send",
@@ -10121,6 +10137,10 @@
     "v": "Nedbrud",
     "src": "bff4abd520"
   },
+  "큰 글씨에 맞춘 화면": {
+    "v": "Skærme til stor tekst",
+    "src": "e407a4a952"
+  },
   "큰 제목이 스크롤에 따라 작아졌다 커지는 순정 타이틀 동작": {
     "v": "Den store titel bliver mindre og større, som den skal, når du ruller",
     "src": "f69dfa1bde"
@@ -11364,6 +11384,10 @@
   "화면 오른쪽 위에서 쓸어내려 제어 센터를 열어요": {
     "v": "Stryg ned fra øverste højre hjørne for at åbne Kontrolcenter",
     "src": "e46cef3a27"
+  },
+  "화면 읽기 기능이 단추와 내용을 빠짐없이, 알맞은 순서로 읽어 줘요.": {
+    "v": "VoiceOver læser alle knapper og alt indhold op i den rigtige rækkefølge.",
+    "src": "b05787a8ec"
   },
   "화면 전체를 종이 느낌으로 다시 칠했어요": {
     "v": "Hele skærmen er malet om, så den føles som papir",

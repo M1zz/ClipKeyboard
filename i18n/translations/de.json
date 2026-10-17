@@ -2152,6 +2152,10 @@
     "v": "VoiceOver: Einmal auf eine Textbaustein-Zeile tippen → Vorlesen prüfen. Doppeltippen → Hinweis 'Kopiert' prüfen.",
     "src": "166c97ee6e"
   },
+  "VoiceOver로 더 편하게": {
+    "v": "Bessere VoiceOver-Unterstützung",
+    "src": "b6b047abf4"
+  },
   "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!": {
     "v": "Willkommen, {Kunde}! So geht es weiter:\n\n1. Erster Termin per Calendly: {Calendly}\n2. Bankdaten unten (bei Zahlung per Überweisung)\n3. Slack-Einladung innerhalb von 24 Std.\n4. Fortschrittsbericht jeden Donnerstag\n\nIch freue mich auf die Zusammenarbeit!",
     "src": "79ae1fd37b"
@@ -3095,6 +3099,10 @@
   "글자 크기": {
     "v": "Schriftgröße",
     "src": "cddd29e8fa"
+  },
+  "글자 크기를 키워도 잘리지 않고 보기 좋게 다시 배치돼요.": {
+    "v": "Bei größerer Schrift ordnet sich alles sauber neu an und nichts wird abgeschnitten.",
+    "src": "b8fb6d24e0"
   },
   "글자를 찾지 못했어요": {
     "v": "Kein Text gefunden",
@@ -4288,6 +4296,10 @@
     "v": "Mit „Kontrast erhöhen“ werden blasse Schrift und Linien deutlicher",
     "src": "bfe746d7ee"
   },
+  "대비를 높이거나 색을 구별하기 어려워도 내용을 알아볼 수 있어요.": {
+    "v": "Alles bleibt gut erkennbar, mit erhöhtem Kontrast oder wenn Farben schwer zu unterscheiden sind.",
+    "src": "670ec2d300"
+  },
   "더 보기": {
     "v": "Mehr",
     "src": "fdeec8e241"
@@ -5400,6 +5412,10 @@
   "보관함에 담아 둬요. 나중에 앱에서 단축어로 만들지 정하면 돼요.": {
     "v": "Wir legen es im Eingang ab. Später entscheidest du in der App, ob daraus ein Textbaustein wird.",
     "src": "4a86c5f66b"
+  },
+  "보기 편한 색과 대비": {
+    "v": "Gut erkennbare Farben und Kontraste",
+    "src": "adfef7f3f0"
   },
   "보내기": {
     "v": "Senden",
@@ -10118,6 +10134,10 @@
     "v": "Absturz",
     "src": "bff4abd520"
   },
+  "큰 글씨에 맞춘 화면": {
+    "v": "Ansichten für große Schrift",
+    "src": "e407a4a952"
+  },
   "큰 제목이 스크롤에 따라 작아졌다 커지는 순정 타이틀 동작": {
     "v": "Der große Titel wird beim Scrollen jetzt ganz natürlich kleiner und wieder größer",
     "src": "f69dfa1bde"
@@ -11361,6 +11381,10 @@
   "화면 오른쪽 위에서 쓸어내려 제어 센터를 열어요": {
     "v": "Wische oben rechts nach unten, um das Kontrollzentrum zu öffnen",
     "src": "e46cef3a27"
+  },
+  "화면 읽기 기능이 단추와 내용을 빠짐없이, 알맞은 순서로 읽어 줘요.": {
+    "v": "VoiceOver liest alle Tasten und Inhalte vollständig in der richtigen Reihenfolge vor.",
+    "src": "b05787a8ec"
   },
   "화면 전체를 종이 느낌으로 다시 칠했어요": {
     "v": "Alles wurde im Papierlook neu gestaltet",

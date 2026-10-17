@@ -2251,6 +2251,10 @@
     "v": "VoiceOver: Jedno klepnutí na řádek fráze → ověřte přečtení nahlas. Dvojité klepnutí → ověřte oznámení „Zkopírováno“.",
     "src": "166c97ee6e"
   },
+  "VoiceOver로 더 편하게": {
+    "v": "Lepší podpora VoiceOveru",
+    "src": "b6b047abf4"
+  },
   "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!": {
     "v": "Vítejte, {klient}! Postup bude takový:\n\n1. První schůzka přes Calendly: {calendly}\n2. Údaje o účtu jsou níže (při platbě převodem)\n3. Pozvánka do kanálu Slack do 24 hodin\n4. Každý čtvrtek sdílíme postup prací\n\nTěšíme se na spolupráci!",
     "src": "79ae1fd37b"
@@ -3210,6 +3214,10 @@
   "글자 크기": {
     "v": "Velikost písma",
     "src": "cddd29e8fa"
+  },
+  "글자 크기를 키워도 잘리지 않고 보기 좋게 다시 배치돼요.": {
+    "v": "Když zvětšíte písmo, vše se úhledně přeskládá a nic se neusekne.",
+    "src": "b8fb6d24e0"
   },
   "글자를 찾지 못했어요": {
     "v": "Text nenalezen",
@@ -4427,6 +4435,10 @@
     "v": "Po zapnutí Zvýšit kontrast jsou slabý text a čáry výraznější",
     "src": "bfe746d7ee"
   },
+  "대비를 높이거나 색을 구별하기 어려워도 내용을 알아볼 수 있어요.": {
+    "v": "Vše zůstane čitelné se zvýšeným kontrastem, i když hůře rozlišujete barvy.",
+    "src": "670ec2d300"
+  },
   "더 보기": {
     "v": "Více",
     "src": "fdeec8e241"
@@ -5561,6 +5573,10 @@
   "보관함에 담아 둬요. 나중에 앱에서 단축어로 만들지 정하면 돼요.": {
     "v": "Uložíme to do Doručených. Později se můžete rozhodnout, zda z toho vytvoříte frázi.",
     "src": "4a86c5f66b"
+  },
+  "보기 편한 색과 대비": {
+    "v": "Lépe čitelné barvy a kontrast",
+    "src": "adfef7f3f0"
   },
   "보내기": {
     "v": "Odeslat",
@@ -10341,6 +10357,10 @@
     "v": "Pád aplikace",
     "src": "bff4abd520"
   },
+  "큰 글씨에 맞춘 화면": {
+    "v": "Obrazovky pro velké písmo",
+    "src": "e407a4a952"
+  },
   "큰 제목이 스크롤에 따라 작아졌다 커지는 순정 타이틀 동작": {
     "v": "Velký nadpis se při posouvání přirozeně zmenšuje a zvětšuje",
     "src": "f69dfa1bde"
@@ -11592,6 +11612,10 @@
   "화면 오른쪽 위에서 쓸어내려 제어 센터를 열어요": {
     "v": "Přejetím z pravého horního rohu dolů otevřete Ovládací centrum",
     "src": "e46cef3a27"
+  },
+  "화면 읽기 기능이 단추와 내용을 빠짐없이, 알맞은 순서로 읽어 줘요.": {
+    "v": "VoiceOver přečte všechna tlačítka a obsah ve správném pořadí.",
+    "src": "b05787a8ec"
   },
   "화면 전체를 종이 느낌으로 다시 칠했어요": {
     "v": "Celé rozhraní jsme přebarvili na papírový styl",

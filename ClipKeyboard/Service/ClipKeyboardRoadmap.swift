@@ -32,6 +32,15 @@ extension ClipKeyboardSpec {
         .init(id: "link.preview", status: .planned,
               title: NSLocalizedString("링크 단축어 미리보기", comment: "Roadmap item: link previews"),
               detail: NSLocalizedString("저장한 링크의 제목과 그림을 목록에서 바로 보여 줘요.", comment: "Roadmap item detail: link previews")),
+        .init(id: "a11y.voiceover", status: .planned,
+              title: NSLocalizedString("VoiceOver로 더 편하게", comment: "Roadmap item: better VoiceOver support"),
+              detail: NSLocalizedString("화면 읽기 기능이 단추와 내용을 빠짐없이, 알맞은 순서로 읽어 줘요.", comment: "Roadmap item detail: better VoiceOver support")),
+        .init(id: "a11y.largetext", status: .planned,
+              title: NSLocalizedString("큰 글씨에 맞춘 화면", comment: "Roadmap item: layouts that fit large text sizes"),
+              detail: NSLocalizedString("글자 크기를 키워도 잘리지 않고 보기 좋게 다시 배치돼요.", comment: "Roadmap item detail: large text layouts")),
+        .init(id: "a11y.contrast", status: .planned,
+              title: NSLocalizedString("보기 편한 색과 대비", comment: "Roadmap item: better colors and contrast"),
+              detail: NSLocalizedString("대비를 높이거나 색을 구별하기 어려워도 내용을 알아볼 수 있어요.", comment: "Roadmap item detail: colors and contrast")),
 
         // MARK: 최근에 나왔어요 (최신 것부터)
         .init(id: "capture.button", status: .shipped("5.1.12"),

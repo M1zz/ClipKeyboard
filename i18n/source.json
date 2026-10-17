@@ -3005,6 +3005,12 @@
     "comment": "Test step: VoiceOver",
     "h": "166c97ee6e"
   },
+  "VoiceOver로 더 편하게": {
+    "ko": "VoiceOver로 더 편하게",
+    "en": "Better VoiceOver support",
+    "comment": "Roadmap item: better VoiceOver support",
+    "h": "b6b047abf4"
+  },
   "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!": {
     "ko": "환영합니다 {client}님! 다음과 같이 진행할 예정입니다:\n\n1. 첫 미팅 Calendly: {calendly}\n2. 송금 계좌 정보는 아래에 (송금 결제 시)\n3. 24시간 내 Slack 채널 초대\n4. 매주 목요일 진행 상황 공유\n\n함께 일하게 되어 기대됩니다!",
     "en": "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!",
@@ -4384,6 +4390,12 @@
     "en": "Font Size",
     "comment": "Font size label",
     "h": "cddd29e8fa"
+  },
+  "글자 크기를 키워도 잘리지 않고 보기 좋게 다시 배치돼요.": {
+    "ko": "글자 크기를 키워도 잘리지 않고 보기 좋게 다시 배치돼요.",
+    "en": "When you make text bigger, screens rearrange neatly and nothing gets cut off.",
+    "comment": "Roadmap item detail: large text layouts",
+    "h": "b8fb6d24e0"
   },
   "글자를 찾지 못했어요": {
     "ko": "글자를 찾지 못했어요",
@@ -6119,6 +6131,12 @@
     "comment": "Changelog 5.0.0 contrast",
     "h": "bfe746d7ee"
   },
+  "대비를 높이거나 색을 구별하기 어려워도 내용을 알아볼 수 있어요.": {
+    "ko": "대비를 높이거나 색을 구별하기 어려워도 내용을 알아볼 수 있어요.",
+    "en": "Everything stays clear with Increase Contrast on, or if colors are hard to tell apart.",
+    "comment": "Roadmap item detail: colors and contrast",
+    "h": "670ec2d300"
+  },
   "더 보기": {
     "ko": "더 보기",
     "en": "More",
@@ -7738,6 +7756,12 @@
     "en": "We'll keep it in your inbox so you can decide later whether to make it a shortcut.",
     "comment": "Share destination explanation: inbox",
     "h": "4a86c5f66b"
+  },
+  "보기 편한 색과 대비": {
+    "ko": "보기 편한 색과 대비",
+    "en": "Easier-to-see colors and contrast",
+    "comment": "Roadmap item: better colors and contrast",
+    "h": "adfef7f3f0"
   },
   "보내기": {
     "ko": "보내기",
@@ -14675,6 +14699,12 @@
     "comment": "Diagnostic kind: crash",
     "h": "bff4abd520"
   },
+  "큰 글씨에 맞춘 화면": {
+    "ko": "큰 글씨에 맞춘 화면",
+    "en": "Layouts for larger text",
+    "comment": "Roadmap item: layouts that fit large text sizes",
+    "h": "e407a4a952"
+  },
   "큰 제목이 스크롤에 따라 작아졌다 커지는 순정 타이틀 동작": {
     "ko": "큰 제목이 스크롤에 따라 작아졌다 커지는 순정 타이틀 동작",
     "en": "The large title now shrinks and grows naturally as you scroll",
@@ -16522,6 +16552,12 @@
     "en": "Swipe down from the top-right corner to open Control Center",
     "comment": "Control Center setup step 1",
     "h": "e46cef3a27"
+  },
+  "화면 읽기 기능이 단추와 내용을 빠짐없이, 알맞은 순서로 읽어 줘요.": {
+    "ko": "화면 읽기 기능이 단추와 내용을 빠짐없이, 알맞은 순서로 읽어 줘요.",
+    "en": "VoiceOver reads every button and piece of content, in the right order.",
+    "comment": "Roadmap item detail: better VoiceOver support",
+    "h": "b05787a8ec"
   },
   "화면 전체를 종이 느낌으로 다시 칠했어요": {
     "ko": "화면 전체를 종이 느낌으로 다시 칠했어요",

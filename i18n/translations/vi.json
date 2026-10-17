@@ -2011,6 +2011,10 @@
     "v": "VoiceOver: Chạm một lần vào hàng cụm từ → kiểm tra phần đọc to. Chạm hai lần → kiểm tra thông báo 'Đã sao chép'.",
     "src": "166c97ee6e"
   },
+  "VoiceOver로 더 편하게": {
+    "v": "Hỗ trợ VoiceOver tốt hơn",
+    "src": "b6b047abf4"
+  },
   "Welcome aboard, {client}! Here's what to expect:\n\n1. Calendly for our first sync: {calendly}\n2. Banking info below (if paying by wire)\n3. Slack channel invite coming in 24h\n4. Progress demos every Thursday\n\nLooking forward to working together!": {
     "v": "Chào mừng {khách hàng}! Sau đây là những gì sẽ diễn ra:\n\n1. Calendly cho buổi trao đổi đầu tiên: {calendly}\n2. Thông tin tài khoản ở bên dưới (nếu thanh toán chuyển khoản)\n3. Lời mời vào kênh Slack trong vòng 24 giờ\n4. Chia sẻ tiến độ vào mỗi thứ Năm\n\nRất mong được làm việc cùng bạn!",
     "src": "79ae1fd37b"
@@ -2930,6 +2934,10 @@
   "글자 크기": {
     "v": "Cỡ chữ",
     "src": "cddd29e8fa"
+  },
+  "글자 크기를 키워도 잘리지 않고 보기 좋게 다시 배치돼요.": {
+    "v": "Khi phóng to chữ, giao diện tự sắp xếp lại gọn gàng, không bị cắt chữ.",
+    "src": "b8fb6d24e0"
   },
   "글자를 찾지 못했어요": {
     "v": "Không tìm thấy chữ",
@@ -4087,6 +4095,10 @@
     "v": "Bật Tăng độ tương phản để chữ và đường kẻ mờ trở nên rõ nét hơn",
     "src": "bfe746d7ee"
   },
+  "대비를 높이거나 색을 구별하기 어려워도 내용을 알아볼 수 있어요.": {
+    "v": "Nội dung vẫn rõ ràng khi bật tăng tương phản hoặc khi khó phân biệt màu.",
+    "src": "670ec2d300"
+  },
   "더 보기": {
     "v": "Thêm",
     "src": "fdeec8e241"
@@ -5166,6 +5178,10 @@
   "보관함에 담아 둬요. 나중에 앱에서 단축어로 만들지 정하면 돼요.": {
     "v": "Chúng tôi sẽ giữ trong Hộp thư đến để bạn quyết định sau có tạo thành Cụm từ hay không.",
     "src": "4a86c5f66b"
+  },
+  "보기 편한 색과 대비": {
+    "v": "Màu sắc và độ tương phản dễ nhìn",
+    "src": "adfef7f3f0"
   },
   "보내기": {
     "v": "Gửi",
@@ -9791,6 +9807,10 @@
     "v": "Lỗi sập",
     "src": "bff4abd520"
   },
+  "큰 글씨에 맞춘 화면": {
+    "v": "Giao diện cho chữ lớn",
+    "src": "e407a4a952"
+  },
   "큰 제목이 스크롤에 따라 작아졌다 커지는 순정 타이틀 동작": {
     "v": "Tiêu đề lớn nay thu nhỏ và phóng to tự nhiên khi bạn cuộn",
     "src": "f69dfa1bde"
@@ -11022,6 +11042,10 @@
   "화면 오른쪽 위에서 쓸어내려 제어 센터를 열어요": {
     "v": "Vuốt xuống từ góc trên bên phải để mở Trung tâm điều khiển",
     "src": "e46cef3a27"
+  },
+  "화면 읽기 기능이 단추와 내용을 빠짐없이, 알맞은 순서로 읽어 줘요.": {
+    "v": "VoiceOver đọc đầy đủ mọi nút và nội dung theo đúng thứ tự.",
+    "src": "b05787a8ec"
   },
   "화면 전체를 종이 느낌으로 다시 칠했어요": {
     "v": "Toàn bộ giao diện được tô lại theo cảm giác giấy",
