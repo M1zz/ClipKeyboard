@@ -157,8 +157,9 @@ final class ClipKeyboardSpecTests: XCTestCase {
     }
 
     /// LeeoKit 계약의 자체 감사 - 선언끼리 어긋나는 것을 잡는다(예: 팔 물건은 있는데 게이트가 없음).
-    func testPreflightHasNoErrors() {
-        let errors = LeeoPreflight.audit(ClipKeyboardSpec.self).filter { $0.severity == .error }
-        XCTAssertTrue(errors.isEmpty, "LeeoKit 프리플라이트 오류: \(errors)")
+    /// 앱도 DEBUG 실행마다 같은 감사를 콘솔에 남긴다(`ClipKeyboardApp.auditLeeoContract`). 막는 것은 이 시험이다.
+    func testPreflightIsReleasable() {
+        let issues = LeeoPreflight.audit(ClipKeyboardSpec.self)
+        XCTAssertTrue(issues.isReleasable, "LeeoKit 프리플라이트 오류: \(issues.errors)")
     }
 }

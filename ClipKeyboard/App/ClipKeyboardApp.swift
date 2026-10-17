@@ -210,6 +210,35 @@ struct ClipKeyboardApp: App {
         LaunchGuard.markFirstFrame()
     }
 
+    // MARK: - 계약 점검 (DEBUG)
+
+    #if DEBUG
+    /// LeeoKit 계약(`ClipKeyboardSpec`)이 출시할 수 있는 상태인지 개발 빌드에서 매 실행 확인한다.
+    ///
+    /// 이 앱은 `LeeoKit.bootstrap` 대신 사용량 · 진단 · 통계 · 킬스위치를 각자 켠다. 그래서 부트스트랩이
+    /// DEBUG 에서 해 주던 계약 감사가 저절로 돌지 않는다. 그 감사를 여기서 직접 부른다.
+    ///
+    /// ⚠️ `LeeoPreflight.report` 가 아니라 `audit` 을 쓴다. `report` 는 부트스트랩을 거쳤는지도 보는데,
+    ///    이 앱은 일부러 거치지 않으므로 매번 거짓 경보가 난다. 계약 자체의 모순만 본다.
+    /// 여기서는 알리기만 한다(개발 중 촬영 · 시연을 멈추지 않게). 출시를 막는 것은
+    /// 시험(`ClipKeyboardSpecTests.testPreflightIsReleasable`)이다.
+    static func auditLeeoContract() {
+        let issues = LeeoPreflight.audit(ClipKeyboardSpec.self)
+        guard !issues.isEmpty else {
+            AppLog.info(.launch, "✅ [LeeoPreflight] 계약 문제 없음")
+            return
+        }
+        for issue in issues {
+            let line = "[LeeoPreflight] \(issue.severity.symbol) [\(issue.code)] \(issue.message)"
+            if issue.severity == .error {
+                AppLog.error(.launch, "❌ " + line)
+            } else {
+                AppLog.warning(.launch, "⚠️ " + line)
+            }
+        }
+    }
+    #endif
+
     // MARK: - 첫 화면 뒤에 하는 일
 
     /// 화면이 뜬 **다음에** 도는 런치 작업 전부.
@@ -227,6 +256,10 @@ struct ClipKeyboardApp: App {
         // 첫 프레임을 먼저 내보낸다. 아래 일들이 메인 스레드를 쓰긴 하지만, 그때는 이미
         // 화면이 떠 있어서 "런치가 안 끝난 앱"으로 죽지 않는다.
         await Task.yield()
+
+        #if DEBUG
+        ClipKeyboardApp.auditLeeoContract()
+        #endif
 
         // ① 데이터 - 세이프 모드에서도 돈다.
         //    샘플 삽입 전에 "이 기기에 원래 내 메모가 있었는지"를 먼저 본다.
