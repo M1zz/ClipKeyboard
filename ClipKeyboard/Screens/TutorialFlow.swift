@@ -227,24 +227,14 @@ enum TutorialScenarios {
 
 // MARK: - 환영
 
-/// 첫 화면 - **무엇을 넣어 뒀는지** 알리고 바로 써 보게 한다.
+/// 환영 화면의 머리 - 손 흔드는 기호와 제목 두 줄.
 ///
-/// ⚠️ 여기서 기능을 설명하지 않는다. 셋을 다 설명하면 하나도 안 남는다. 이름만 대고
-///    "눌러 보면 안다"로 넘긴다 - 실제 설명은 누른 순간 화면이 대신 해 준다.
-struct TutorialWelcomeView: View {
-
-    /// 준비된 것을 써 보러 간다.
-    let onStart: () -> Void
-    /// 지금은 됐다 - 평소 화면으로.
-    let onSkip: () -> Void
-
+/// ⚠️ 따로 떼어 둔 이유: 세로로 편 듀오에서는 아래 판이 380pt 남짓이라 환영 화면이 통째로
+///    들어가지 않는다. 다 넣었더니 머리는 접힌 선을 넘고 버튼은 탭바 밑으로 내려갔다.
+///    펼친 화면에서는 이 머리를 **결과 쪽 판**(위 · 오른쪽)에 세우고, 고르는 쪽에는
+///    목록과 버튼만 남긴다(`SnippetsTab.body`). 그 판은 이때 보여 줄 복사 값도 없다.
+struct TutorialWelcomeHeader: View {
     @Environment(\.appTheme) private var theme
-
-    /// 지금 목록에 실제로 있는 장들만 소개한다.
-    ///
-    /// ⚠️ 계산 프로퍼티로 두지 않는다 - body 가 그려질 때마다 저장소를 디스크에서 읽게 된다.
-    ///    화면이 뜰 때 한 번만 읽고 붙잡아 둔다.
-    @State private var chapters: [TutorialChapter] = TutorialChapter.allCases
 
     /// 맞이하는 기호. 브랜드색 옅은 원 위에 손 흔드는 기호를 얹는다.
     ///
@@ -263,16 +253,8 @@ struct TutorialWelcomeView: View {
         .accessibilityHidden(true)
     }
 
-    private func loadChapters() {
-        let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
-        let available = TutorialScenarios.availableChapters(in: memos)
-        chapters = available.isEmpty ? TutorialChapter.allCases : available
-    }
-
     var body: some View {
         VStack(spacing: 0) {
-            Spacer(minLength: 0)
-
             greeting
 
             Text(NSLocalizedString("바로 써 볼 수 있게 준비해 뒀어요",
@@ -290,6 +272,60 @@ struct TutorialWelcomeView: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 8)
                 .padding(.horizontal, 8)
+        }
+    }
+}
+
+/// 첫 화면 - **무엇을 넣어 뒀는지** 알리고 바로 써 보게 한다.
+///
+/// ⚠️ 여기서 기능을 설명하지 않는다. 셋을 다 설명하면 하나도 안 남는다. 이름만 대고
+///    "눌러 보면 안다"로 넘긴다 - 실제 설명은 누른 순간 화면이 대신 해 준다.
+struct TutorialWelcomeView: View {
+
+    /// 준비된 것을 써 보러 간다.
+    let onStart: () -> Void
+    /// 지금은 됐다 - 평소 화면으로.
+    let onSkip: () -> Void
+
+    @Environment(\.appTheme) private var theme
+    @Environment(\.foldLayout) private var fold
+
+    /// 지금 목록에 실제로 있는 장들만 소개한다.
+    ///
+    /// ⚠️ 계산 프로퍼티로 두지 않는다 - body 가 그려질 때마다 저장소를 디스크에서 읽게 된다.
+    ///    화면이 뜰 때 한 번만 읽고 붙잡아 둔다.
+    @State private var chapters: [TutorialChapter] = TutorialChapter.allCases
+
+    private func loadChapters() {
+        let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
+        let available = TutorialScenarios.availableChapters(in: memos)
+        chapters = available.isEmpty ? TutorialChapter.allCases : available
+    }
+
+    var body: some View {
+        // ⚠️ 들어가면 가운데에 세우고, 안 들어가면 스크롤로 받는다. 큰 글자나 낮은 판에서
+        //    내용이 판 밖으로 넘쳐 탭바 밑에 깔리면 "지금 말고" 를 누를 수 없다.
+        ViewThatFits(in: .vertical) {
+            column
+                .frame(maxHeight: .infinity)
+            ScrollView {
+                column
+                    .padding(.vertical, 20)
+            }
+            .scrollBounceBehavior(.basedOnSize)
+        }
+        .padding(.horizontal, 26)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear { loadChapters() }
+    }
+
+    private var column: some View {
+        VStack(spacing: 0) {
+            // 펼친 화면에서는 머리가 다른 판에 서 있다(`TutorialWelcomeHeader`).
+            if !fold.isUnfolded {
+                TutorialWelcomeHeader()
+                    .padding(.bottom, 26)
+            }
 
             VStack(alignment: .leading, spacing: 12) {
                 ForEach(chapters) { chapter in
@@ -311,7 +347,6 @@ struct TutorialWelcomeView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(theme.surfaceAlt)
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
-            .padding(.top, 26)
 
             Button(action: onStart) {
                 Text(NSLocalizedString("준비되었어요", comment: "Tutorial welcome: start"))
@@ -338,12 +373,7 @@ struct TutorialWelcomeView: View {
             }
             .buttonStyle(.squish)
             .padding(.top, 2)
-
-            Spacer(minLength: 0)
         }
-        .padding(.horizontal, 26)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .onAppear { loadChapters() }
     }
 }
 

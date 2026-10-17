@@ -15,6 +15,7 @@
 //
 
 import SwiftUI
+import UIKit
 import LeeoKit   // HapticManager
 
 struct FoldTabBar<Value: Hashable>: View {
@@ -98,15 +99,63 @@ private struct FoldTabBarRoomModifier: ViewModifier {
     /// 막대 높이(칸 44 + 위아래 4) + 바닥 여백 8.
     static var barHeight: CGFloat { 60 }
 
+    /// ⚠️ 자리는 SwiftUI `safeAreaInset` 이 아니라 **UIKit 안전 영역**으로 낸다.
+    ///    `safeAreaInset` 은 탭 안의 `NavigationStack` 안쪽까지 내려가지 않았다(실측: 목록 안쪽의
+    ///    바닥 여백이 시스템 탭바 83 에서 홈 막대 20 으로 줄었다). 그래서 목록 · 사용 기록 · 설정 ·
+    ///    검색의 갈래 점, 알림 띠, 스크롤 끝이 이 막대 밑에 깔렸다. 시스템 탭바가 자리를 내는 길과
+    ///    같은 길(`additionalSafeAreaInsets`)이라야 어느 깊이에서든 똑같이 비켜 선다.
+    /// ⚠️ 접고 펴도 같은 뷰로 둔다. `if` 로 가르면 펴는 순간 탭 안쪽이 새로 만들어진다.
     func body(content: Content) -> some View {
-        if fold.isUnfolded {
-            content
-                .toolbarVisibility(.hidden, for: .tabBar)
-                .safeAreaInset(edge: .bottom, spacing: 0) {
-                    Color.clear.frame(height: Self.barHeight)
-                }
-        } else {
-            content
+        content
+            .toolbarVisibility(fold.isUnfolded ? .hidden : .automatic, for: .tabBar)
+            .background {
+                TabSafeAreaRoom(bottom: fold.isUnfolded ? Self.barHeight : 0)
+                    .frame(width: 0, height: 0)
+                    .accessibilityHidden(true)
+            }
+    }
+}
+
+/// 이 탭을 담은 화면(탭 막대 컨트롤러의 자식)의 바닥 안전 영역에 `bottom` 만큼 더한다.
+private struct TabSafeAreaRoom: UIViewControllerRepresentable {
+    let bottom: CGFloat
+
+    func makeUIViewController(context: Context) -> Probe {
+        Probe()
+    }
+
+    func updateUIViewController(_ probe: Probe, context: Context) {
+        probe.bottom = bottom
+        probe.apply()
+    }
+
+    final class Probe: UIViewController {
+        var bottom: CGFloat = 0
+
+        override func didMove(toParent parent: UIViewController?) {
+            super.didMove(toParent: parent)
+            apply()
+        }
+
+        override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            apply()
+        }
+
+        /// 탭 막대 컨트롤러 바로 밑의 화면. 탭 하나를 통째로 담은 그릇이다.
+        private var tabRoot: UIViewController? {
+            var vc: UIViewController? = parent
+            while let current = vc {
+                if current.parent is UITabBarController { return current }
+                vc = current.parent
+            }
+            return nil
+        }
+
+        func apply() {
+            guard let root = tabRoot, root.additionalSafeAreaInsets.bottom != bottom else { return }
+            root.additionalSafeAreaInsets.bottom = bottom
+            print("📐 [TabSafeAreaRoom.apply] 탭 바닥 자리 \(bottom)pt")
         }
     }
 }

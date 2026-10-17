@@ -399,7 +399,16 @@ struct SnippetsTab: View {
             FoldSplitView {
                 AnyView(content)
             } result: {
-                FoldCopiedPane()
+                // 환영 화면에서는 아직 복사한 것이 없다. 그 자리에 환영의 머리를 세운다
+                // (아래 판에는 다 안 들어간다 · `TutorialWelcomeHeader`).
+                if onboardingStep == .welcome {
+                    TutorialWelcomeHeader()
+                        .padding(.horizontal, 26)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .transition(screenTransition)
+                } else {
+                    FoldCopiedPane()
+                }
             }
         }
     }
