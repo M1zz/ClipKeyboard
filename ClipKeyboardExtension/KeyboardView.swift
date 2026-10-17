@@ -457,6 +457,7 @@ struct KeyboardView: View {
 
     /// 설정 > 손쉬운 사용 > 디스플레이 > 대비 증가.
     @Environment(\.colorSchemeContrast) private var contrast
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     enum SearchLang { case english, korean }
 
@@ -1046,8 +1047,9 @@ struct KeyboardView: View {
                     expandedControlKeyCluster
                         .background(
                             // 줄 위에 떠 있는 판이라 네 귀를 다 둥글린다.
+                            // 투명도 줄이기를 켠 사람에게는 뒤 키가 비치지 않는 단색 판으로.
                             RoundedRectangle(cornerRadius: theme.radiusSm)
-                                .fill(.regularMaterial)
+                                .fill(reduceTransparency ? AnyShapeStyle(theme.surface) : AnyShapeStyle(.regularMaterial))
                                 .shadow(color: .black.opacity(0.18), radius: 6, x: -3, y: 0)
                         )
                         .transition(.move(edge: .trailing).combined(with: .opacity))

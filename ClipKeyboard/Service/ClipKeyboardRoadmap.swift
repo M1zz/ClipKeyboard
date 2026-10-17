@@ -21,6 +21,9 @@ extension ClipKeyboardSpec {
         .init(id: "gift.pro", status: .building,
               title: NSLocalizedString("Pro 선물하기", comment: "Roadmap item: gift Pro"),
               detail: NSLocalizedString("결제는 보내는 분이 하고, Pro는 받는 분이 써요.", comment: "Roadmap item detail: gift Pro")),
+        .init(id: "a11y.contrast", status: .building,
+              title: NSLocalizedString("보기 편한 색과 대비", comment: "Roadmap item: better colors and contrast"),
+              detail: NSLocalizedString("대비를 높이거나 색을 구별하기 어려워도 내용을 알아볼 수 있어요.", comment: "Roadmap item detail: colors and contrast")),
 
         // MARK: 다음에 만들어요
         .init(id: "sync.stable", status: .planned,
@@ -38,9 +41,6 @@ extension ClipKeyboardSpec {
         .init(id: "a11y.largetext", status: .planned,
               title: NSLocalizedString("큰 글씨에 맞춘 화면", comment: "Roadmap item: layouts that fit large text sizes"),
               detail: NSLocalizedString("글자 크기를 키워도 잘리지 않고 보기 좋게 다시 배치돼요.", comment: "Roadmap item detail: large text layouts")),
-        .init(id: "a11y.contrast", status: .planned,
-              title: NSLocalizedString("보기 편한 색과 대비", comment: "Roadmap item: better colors and contrast"),
-              detail: NSLocalizedString("대비를 높이거나 색을 구별하기 어려워도 내용을 알아볼 수 있어요.", comment: "Roadmap item detail: colors and contrast")),
 
         // MARK: 최근에 나왔어요 (최신 것부터)
         .init(id: "capture.button", status: .shipped("5.1.12"),

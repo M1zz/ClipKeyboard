@@ -2007,7 +2007,7 @@ struct ClipKeyboardList: View {
                 } else {
                     // 비선택 칩: glass 환경에서 자연스럽게 녹아드는 반투명
                     if #available(iOS 26, *) {
-                        Capsule().fill(.thinMaterial)
+                        TranslucentFill(.thinMaterial, in: Capsule())
                     } else {
                         Capsule().fill(theme.surfaceAlt)
                     }

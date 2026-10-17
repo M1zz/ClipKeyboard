@@ -422,7 +422,7 @@ struct PaywallView: View {
                     .multilineTextAlignment(.center)
             }
             .padding(40)
-            .background(.ultraThinMaterial)
+            .translucentBackground(.ultraThinMaterial)
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg))
         }
         .transition(.opacity)

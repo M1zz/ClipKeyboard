@@ -440,7 +440,7 @@ struct VaultCardBadge: View {
             .padding(.horizontal, 5)
             .padding(.vertical, 3)
             .background(
-                Capsule().fill(.ultraThinMaterial)
+                TranslucentFill(.ultraThinMaterial, in: Capsule())
             )
             .accessibilityHidden(true)
         }

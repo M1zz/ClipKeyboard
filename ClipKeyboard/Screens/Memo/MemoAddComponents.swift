@@ -1016,7 +1016,7 @@ struct OCRTextPickerSheet: View {
         .disabled(count == 0)
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
-        .background(.regularMaterial)
+        .translucentBackground(.regularMaterial)
     }
 }
 

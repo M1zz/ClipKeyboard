@@ -125,6 +125,7 @@
 		58FA00012F0000000000000001 /* FullAccessGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FA00022F0000000000000002 /* FullAccessGuideView.swift */; };
 		58GB00012F0000000000000001 /* GraceQuotaBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */; };
 		58GC00012F0000000000000001 /* GlassCircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58GC00022F0000000000000002 /* GlassCircleButton.swift */; };
+		C1A0B0012F80000000A1100C /* SolidUnderReducedTransparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A0B0012F80000000A1100D /* SolidUnderReducedTransparency.swift */; };
 		58KS00012B6F1B3200000001 /* KeyboardSetupOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */; };
 		58MA00012F0000000000000001 /* MacAppIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58MA00022F0000000000000002 /* MacAppIntroView.swift */; };
 		58MP00012F0000000000000001 /* MemoPreviewFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */; };
@@ -528,6 +529,7 @@
 		58FA00022F0000000000000002 /* FullAccessGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullAccessGuideView.swift; sourceTree = "<group>"; };
 		58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraceQuotaBannerView.swift; sourceTree = "<group>"; };
 		58GC00022F0000000000000002 /* GlassCircleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassCircleButton.swift; sourceTree = "<group>"; };
+		C1A0B0012F80000000A1100D /* SolidUnderReducedTransparency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolidUnderReducedTransparency.swift; sourceTree = "<group>"; };
 		58KS00002B6F1B3200000001 /* KeyboardSetupOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardSetupOnboardingView.swift; sourceTree = "<group>"; };
 		58MA00022F0000000000000002 /* MacAppIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacAppIntroView.swift; sourceTree = "<group>"; };
 		58MP00022F0000000000000002 /* MemoPreviewFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoPreviewFormatter.swift; sourceTree = "<group>"; };
@@ -1021,6 +1023,7 @@
 				CHOICEROW0000000000GG1 /* ChoiceRow.swift */,
 				58DS00142F0000000000000014 /* TagBadge.swift */,
 				58GC00022F0000000000000002 /* GlassCircleButton.swift */,
+				C1A0B0012F80000000A1100D /* SolidUnderReducedTransparency.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1786,6 +1789,7 @@
 				CHOICEROW0000000000GG2 /* ChoiceRow.swift in Sources */,
 				58DS00132F0000000000000013 /* TagBadge.swift in Sources */,
 				58GC00012F0000000000000001 /* GlassCircleButton.swift in Sources */,
+				C1A0B0012F80000000A1100C /* SolidUnderReducedTransparency.swift in Sources */,
 				58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */,
 				SG00002A2F0000000000000002 /* SuggestionManager.swift in Sources */,
 				58CK00032B5E1A2100000002 /* CloudBackupView.swift in Sources */,

@@ -25,6 +25,7 @@ struct AddMemoCard: View {
     let action: () -> Void
 
     @Environment(\.appTheme) private var theme
+    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     var body: some View {
         Button {
@@ -45,9 +46,10 @@ struct AddMemoCard: View {
             // 배경 사진 위에서는 반투명 표면이 씻겨 보여 프로스트 유리로 받친다.
             .background {
                 if hasListBackground {
-                    Rectangle().fill(.ultraThinMaterial)
+                    TranslucentFill(.ultraThinMaterial)
                 } else {
-                    theme.surface.opacity(0.5)
+                    // 투명도 줄이기에서는 반쯤 비치는 받침을 온전한 표면으로 채운다.
+                    theme.surface.opacity(reduceTransparency ? 1 : 0.5)
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous))
@@ -152,8 +154,8 @@ struct EmptyStateMessage: View {
         .padding(24)
         .background {
             if hasListBackground {
-                RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
-                    .fill(.ultraThinMaterial)
+                TranslucentFill(.ultraThinMaterial,
+                                in: RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
             }
         }
         .padding(.horizontal, 32)

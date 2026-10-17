@@ -44,6 +44,8 @@ struct MemoCardSurface: View {
     let lightweight: Bool
 
     @Environment(\.appTheme) private var theme
+    /// 설정 ▸ 손쉬운 사용 ▸ 디스플레이 및 텍스트 크기 ▸ 색상 없이 구별.
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
 
     init(memo: Memo,
          categories: [String],
@@ -87,7 +89,7 @@ struct MemoCardSurface: View {
         let onColor = isColored(hasImage: hasImage)
 
         return VStack(alignment: .leading, spacing: 0) {
-            if showsVisualCues {
+            if showsCueRow {
                 cueRow(onColor: onColor)
                 Spacer(minLength: 16)
             }
@@ -125,6 +127,16 @@ struct MemoCardSurface: View {
         // ⚠️ 옅고 낮게. 진한 그림자는 카드를 단추가 아니라 **떠 있는 판**으로 만들고,
         //    격자에서 여덟 장이 한꺼번에 떠 있으면 그것대로 시끄럽다.
         .shadow(color: Self.shadowColor(isDark: theme.isDark), radius: 4, x: 0, y: 2)
+    }
+
+    /// 윗줄(타입 아이콘 · 하트 · 카테고리 심볼)을 세울지.
+    ///
+    /// 구분 표시는 기본이 꺼짐이라, 그대로면 즐겨찾기와 카테고리는 **카드 색으로만** 구별된다.
+    /// '색상 없이 구별'을 켠 사람에게는 색이 뜻하는 것이 있는 카드에 한해 윗줄을 세워
+    /// 하트 · 카테고리 심볼로 같은 것을 모양으로도 알려 준다.
+    private var showsCueRow: Bool {
+        if showsVisualCues { return true }
+        return differentiateWithoutColor && (memo.isFavorite || hasCustomCategory)
     }
 
     /// 카드 그림자 색. 어두운 테마에서는 더 진하게 - 어두운 바탕에서 옅은 그림자는 안 보인다.

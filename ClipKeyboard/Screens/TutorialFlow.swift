@@ -514,7 +514,7 @@ struct NextChapterCountdown: View {
                 }
                 .padding(.horizontal, 14)
                 .padding(.vertical, 10)
-                .background(Capsule().fill(.ultraThinMaterial))
+                .background(TranslucentFill(.ultraThinMaterial, in: Capsule()))
                 .overlay(Capsule().strokeBorder(theme.divider, lineWidth: 0.5))
             }
         }
