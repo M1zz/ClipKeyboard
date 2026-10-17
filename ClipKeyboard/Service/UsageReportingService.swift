@@ -245,7 +245,7 @@ enum UsageReportingService {
         metrics["flag.isPaid"] = (boughtInApp || legacyPaid || boughtPlusOnly) ? 1 : 0
         metrics["flag.isLegacyPaid"] = legacyPaid ? 1 : 0
         metrics["flag.isTrial"] = ProFeatureManager.isInTrial ? 1 : 0
-        metrics["flag.isComped"] = (ProFeatureManager.wasExistingFreeUser || ProFeatureManager.isTestFlight || viaFamily) ? 1 : 0
+        metrics["flag.isComped"] = (ProFeatureManager.wasExistingFreeUser || ProFeatureManager.isDeveloperBuild || viaFamily) ? 1 : 0
         // Pro 가 아닌 **작은 결제**(칸 추가 · 두 대째). 권한을 열지 않으니 isPaid 는 아니지만
         // 돈을 낸 사람이다 - 허브가 "결제한 사람의 종류" 로 가를 때 무료와 섞이지 않게 따로 보낸다.
         metrics["flag.boughtAddOn"] = (SlotPack.isPurchased || TwoDevicePack.isPurchased) ? 1 : 0

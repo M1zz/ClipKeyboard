@@ -4,10 +4,11 @@
 //
 //  Pro/무료/체험 게이팅 로직 테스트.
 //  주의: ProFeatureManager는 App Group UserDefaults를 직접 읽고/쓰는 static struct.
-//  TestFlight 환경에서는 isPro가 무조건 true가 되므로 시뮬레이터/디버그 빌드에서 실행 권장.
+//  Xcode 로 직접 설치한 빌드(AppTransaction .xcode)에서는 isPro가 무조건 true가 되어 일부 시험은 건너뛴다.
 //
 
 import XCTest
+import StoreKit
 @testable import ClipKeyboard
 
 final class ProFeatureManagerTests: XCTestCase {
@@ -128,11 +129,31 @@ final class ProFeatureManagerTests: XCTestCase {
         XCTAssertEqual(ProFeatureManager.keyboardMemoDisplayLimit, 10)
     }
 
+    // MARK: - 개발 빌드 자동 마스터
+
+    /// App Review 기기는 sandbox 다. 거기서 저절로 Pro 가 열리면 구독 결제 화면에 닿지 못한다(5.1.12 2.1 거절).
+    func testSandboxEnvironment_DoesNotGrantMaster() {
+        XCTAssertFalse(ProFeatureManager.grantsDeveloperMaster(.sandbox), "TestFlight · App Review 는 산 것만 열린다")
+        XCTAssertFalse(ProFeatureManager.grantsDeveloperMaster(.production))
+        XCTAssertTrue(ProFeatureManager.grantsDeveloperMaster(.xcode))
+    }
+
+    /// 산 것 없는 sandbox 설치(심사 기기)는 "Pro 활성화됨" 이 아니라 업그레이드 안내를 본다.
+    func testSandboxInstallWithoutPurchase_IsNotPermanentPro() throws {
+        guard !ProFeatureManager.isDeveloperBuild else { throw XCTSkip("Xcode 빌드는 마스터") }
+        let saved = ProFeatureManager.isTestFlight
+        defer { ProFeatureManager.isTestFlight = saved }
+        ProFeatureManager.isTestFlight = true
+        XCTAssertFalse(ProFeatureManager.hasPermanentPro)
+        XCTAssertFalse(ProFeatureManager.isPro)
+        XCTAssertEqual(ProFeatureManager.purchasedTier, .free)
+    }
+
     // MARK: - 트림 (AccessTier)
 
     /// 플러스는 **개수만** 연다. 백업 · 잠금 · 동기화가 열리면 프로를 플러스 값에 판 셈이다.
     func testPlus_UnlocksCountsButNotProFeatures() throws {
-        guard !ProFeatureManager.isTestFlight else { throw XCTSkip("TestFlight 는 마스터") }
+        guard !ProFeatureManager.isDeveloperBuild else { throw XCTSkip("Xcode 빌드는 마스터") }
         AccessTier.mirror(.plus)
         XCTAssertEqual(ProFeatureManager.tier, .plus)
         XCTAssertTrue(ProFeatureManager.hasFullAccess)
@@ -147,7 +168,7 @@ final class ProFeatureManagerTests: XCTestCase {
 
     /// 플러스에 두 대째(옵션)를 붙이면 동기화만 열린다.
     func testPlusWithTwoDeviceOption_OpensSyncOnly() throws {
-        guard !ProFeatureManager.isTestFlight else { throw XCTSkip("TestFlight 는 마스터") }
+        guard !ProFeatureManager.isDeveloperBuild else { throw XCTSkip("Xcode 빌드는 마스터") }
         AccessTier.mirror(.plus)
         TwoDevicePack.mirror(purchased: true)
         XCTAssertTrue(ProFeatureManager.isSyncAvailable)
@@ -156,7 +177,7 @@ final class ProFeatureManagerTests: XCTestCase {
 
     /// 트림을 새기기 전 판에서 올라온 Pro 는 Pro 키만 있다. 업데이트한 날 잠기면 안 된다.
     func testLegacyProKeyOnly_IsProTier() throws {
-        guard !ProFeatureManager.isTestFlight else { throw XCTSkip("TestFlight 는 마스터") }
+        guard !ProFeatureManager.isDeveloperBuild else { throw XCTSkip("Xcode 빌드는 마스터") }
         groupDefaults?.set(true, forKey: ProFeatureManager.proStatusKey)
         XCTAssertEqual(ProFeatureManager.tier, .pro)
         XCTAssertTrue(ProFeatureManager.isCloudBackupAvailable)
@@ -165,7 +186,7 @@ final class ProFeatureManagerTests: XCTestCase {
     }
 
     func testMaster_OpensEverything() throws {
-        guard !ProFeatureManager.isTestFlight else { throw XCTSkip("TestFlight 는 마스터") }
+        guard !ProFeatureManager.isDeveloperBuild else { throw XCTSkip("Xcode 빌드는 마스터") }
         AccessTier.mirror(.master)
         XCTAssertTrue(ProFeatureManager.hasMasterTier)
         XCTAssertTrue(ProFeatureManager.isCloudBackupAvailable)
@@ -174,7 +195,7 @@ final class ProFeatureManagerTests: XCTestCase {
 
     /// v3.x 에 앱을 산 사람은 플러스만 샀어도 프로다. 그때 산 것이 지금의 프로다.
     func testGrandfathered_IsAtLeastPro() throws {
-        guard !ProFeatureManager.isTestFlight else { throw XCTSkip("TestFlight 는 마스터") }
+        guard !ProFeatureManager.isDeveloperBuild else { throw XCTSkip("Xcode 빌드는 마스터") }
         groupDefaults?.set(true, forKey: ProFeatureManager.grandfatheredPurchaseKey)
         AccessTier.mirror(.plus)
         XCTAssertEqual(ProFeatureManager.tier, .pro)
@@ -272,7 +293,7 @@ final class ProFeatureManagerTests: XCTestCase {
 
     /// 걷을 때 한 번에 막지 않는다 - 체험 7일이 붙는다.
     func testRevokeExistingFreeUser_StartsTrialAsLanding() throws {
-        guard !ProFeatureManager.isTestFlight else { throw XCTSkip("TestFlight 에서는 isPro 라 체험이 시작되지 않는다") }
+        guard !ProFeatureManager.isDeveloperBuild else { throw XCTSkip("Xcode 빌드에서는 isPro 라 체험이 시작되지 않는다") }
         groupDefaults?.set(true, forKey: ProFeatureManager.existingFreeUserKey)
         XCTAssertTrue(ProFeatureManager.revokeExistingFreeUser())
         XCTAssertFalse(ProFeatureManager.wasExistingFreeUser)
@@ -283,7 +304,7 @@ final class ProFeatureManagerTests: XCTestCase {
 
     /// 이미 체험을 쓴 사람에게는 체험이 다시 붙지 않는다.
     func testRevokeExistingFreeUser_TrialAlreadyUsed_NoSecondTrial() throws {
-        guard !ProFeatureManager.isTestFlight else { throw XCTSkip("TestFlight 환경") }
+        guard !ProFeatureManager.isDeveloperBuild else { throw XCTSkip("Xcode 빌드") }
         groupDefaults?.set(1.0, forKey: ProFeatureManager.trialStartedAtKey)
         groupDefaults?.set(true, forKey: ProFeatureManager.existingFreeUserKey)
         XCTAssertFalse(ProFeatureManager.revokeExistingFreeUser())

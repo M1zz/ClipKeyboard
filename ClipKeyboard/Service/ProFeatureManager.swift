@@ -69,13 +69,13 @@ struct ProFeatureManager {
 
     // MARK: 트림 (`AccessTier`)
 
-    /// **산** 트림 - 결제 권한에서 앱이 App Group 에 새긴 값. TestFlight 는 마스터다.
+    /// **산** 트림 - 결제 권한에서 앱이 App Group 에 새긴 값. Xcode 로 직접 설치한 빌드는 마스터다.
     ///
     /// ⚠️ 트림을 새기기 전 판에서 올라온 설치(또는 StoreKit 이 아직 한 번도 안 돈 첫 실행)에는
     ///    Pro 키(`proStatus`)만 있다. 그 키가 켜져 있으면 적어도 프로다 - 둘 중 높은 쪽을 쓴다.
     ///    낮은 쪽을 믿으면 업데이트한 날 산 Pro 가 잠깐 잠긴다.
     static var purchasedTier: AccessTier {
-        if isTestFlight { return .master }
+        if isDeveloperBuild { return .master }
         let mirrored = AccessTier.mirrored ?? .free
         let legacy: AccessTier = (groupDefaults?.bool(forKey: proStatusKey) ?? false) ? .pro : .free
         return max(mirrored, legacy)
@@ -105,11 +105,11 @@ struct ProFeatureManager {
     /// 마스터 - 오래 쓴 사람에게만 뜻이 있는 기능. 아직 그런 기능이 없다(생기면 이 값으로 연다).
     static var hasMasterTier: Bool { tier >= .master }
 
-    /// 영구적인 프로 권한 보유 여부 - 산 트림이 프로 이상 / v3.x 그랜드파더 / TestFlight.
+    /// 영구적인 프로 권한 보유 여부 - 산 트림이 프로 이상 / v3.x 그랜드파더 / Xcode 빌드.
     /// 체험(trial)은 일부러 제외한다(체험 유저에겐 업셀을 계속 보여줘야 하므로).
     ///
     /// ⚠️ UI에서 "Pro 활성화됨 vs 업그레이드 유도"를 결정할 땐 반드시 이 값을 쓴다.
-    /// `StoreManager.isPro`(실제 결제 entitlement만 봄)를 쓰면 그랜드파더/TestFlight 유저가
+    /// `StoreManager.isPro`(실제 결제 entitlement만 봄)를 쓰면 그랜드파더 유저가
     /// 기능은 다 열려 있는데도 "업그레이드" 안내를 보게 되는 불일치가 생긴다.
     static var hasPermanentPro: Bool {
         purchasedTier >= .pro || isGrandfathered
@@ -156,19 +156,34 @@ struct ProFeatureManager {
         AppGroup.defaults
     }
 
-    /// TestFlight 빌드 여부 - 앱 시작 시 bootstrapIsTestFlight()로 설정.
+    /// 결제가 돈이 아닌 환경(Xcode · TestFlight · App Review) - 앱 시작 시 bootstrapIsTestFlight()로 설정.
+    /// **권한을 열지 않는다.** 통계에서 샌드박스 결제를 매출로 세지 않을 때만 본다.
     nonisolated(unsafe) static var isTestFlight: Bool = false
 
-    /// AppTransaction으로 TestFlight/Sandbox 환경 감지 후 캐시 저장.
+    /// Xcode 로 직접 설치한 개발 빌드 - 이때만 저절로 마스터가 된다.
+    nonisolated(unsafe) static var isDeveloperBuild: Bool = false
+
+    /// 이 환경이면 저절로 마스터를 주는가 - **순수 함수.**
+    ///
+    /// ⚠️ `.sandbox` 는 주지 않는다. App Review 기기도 `.sandbox` 라 TestFlight 와 가를 수 없다.
+    ///    5.1.12 (33) 까지는 sandbox 도 마스터였고, 심사 기기에 "Pro 활성화됨"만 떠서 구독 결제
+    ///    화면에 닿지 못해 2.1 로 거절됐다(2026-10-17). TestFlight 테스터는 샌드박스 결제로 사서 본다.
+    static func grantsDeveloperMaster(_ environment: AppStore.Environment) -> Bool {
+        environment == .xcode
+    }
+
+    /// AppTransaction으로 Xcode/Sandbox 환경 감지 후 캐시 저장.
     /// ClipKeyboardApp.init()에서 Task로 호출.
     static func bootstrapIsTestFlight() async {
         do {
             let result = try await AppTransaction.shared
             if case .verified(let transaction) = result {
                 isTestFlight = transaction.environment == .xcode || transaction.environment == .sandbox
+                isDeveloperBuild = grantsDeveloperMaster(transaction.environment)
             }
         } catch {
             isTestFlight = false
+            isDeveloperBuild = false
         }
     }
 
@@ -380,9 +395,9 @@ struct ProFeatureManager {
         }
     }
 
-    /// Pro 여부 (TestFlight 베타 사용자는 자동 Pro 활성화)
+    /// Pro 여부 (Xcode 개발 빌드는 자동 Pro 활성화)
     static var isPro: Bool {
-        if isTestFlight { return true }
+        if isDeveloperBuild { return true }
         return groupDefaults?.bool(forKey: proStatusKey) ?? false
     }
 
@@ -442,13 +457,13 @@ struct ProFeatureManager {
         let purchased = groupDefaults?.bool(forKey: proStatusKey) ?? false
         let reason: String
         if purchased { reason = "구매(IAP)" }
-        else if isTestFlight { reason = "TestFlight/Xcode" }
+        else if isDeveloperBuild { reason = "Xcode 개발 빌드" }
         else if hasGrandfatheredPurchase { reason = "그랜드파더(v3.x 유료구매)" }
         else if wasExistingFreeUser { reason = "기존 무료유저(v3.x)" }
         else if isInTrial { reason = "7일 체험" }
         else { reason = "없음(무료)" }
         print("🔑 [ProFeature] \(context), 접근권한: \(hasFullAccess ? "Pro ✅" : "무료") · 경로=\(reason) " +
-              "[구매IAP=\(purchased) TestFlight=\(isTestFlight) 그랜드파더구매=\(hasGrandfatheredPurchase) 기존무료=\(wasExistingFreeUser) 체험=\(isInTrial)]")
+              "[구매IAP=\(purchased) Xcode=\(isDeveloperBuild) 샌드박스=\(isTestFlight) 그랜드파더구매=\(hasGrandfatheredPurchase) 기존무료=\(wasExistingFreeUser) 체험=\(isInTrial)]")
     }
 
     // MARK: - 7일 무료 체험 (Trial)
