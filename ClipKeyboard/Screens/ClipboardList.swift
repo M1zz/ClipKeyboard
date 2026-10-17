@@ -80,7 +80,13 @@ struct ClipboardList: View {
                 ScrollViewReader { proxy in
                     List {
                         if filteredHistory.isEmpty {
+                            // ⚠️ 빈 안내도 목록의 한 줄이다. 기록 줄처럼 줄 바탕과 구분선을 지우지 않으면
+                            //    이 줄만 시스템 기본 바탕으로 칠해지고 위아래에 선이 그어져,
+                            //    화면 가운데에 상자가 하나 떠 바탕이 끊겨 보였다(듀오 · 아이폰 둘 다).
                             EmptyListView
+                                .frame(maxWidth: .infinity)
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
                         } else {
                             ForEach(filteredHistory) { item in
                                 HStack(spacing: 12) {
@@ -154,6 +160,9 @@ struct ClipboardList: View {
             }
             // 붙여넣기 안내 배너 닫힘 애니메이션 - 배너 transition과 함께 컨테이너 레이아웃도 부드럽게.
             .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: showPasteTip)
+            // 바탕은 화면 전체에 한 장 깐다. 목록에만 칠하면 제목줄 뒤와 홈 막대 쪽에
+            // 다른 바탕(밀어 넣은 쪽 · 펼친 듀오의 판)이 드러나 위아래가 끊겨 보인다.
+            .background(theme.bg.ignoresSafeArea())
             .navigationTitle(isSelectingForStack
                 ? NSLocalizedString("Combo 생성", comment: "Clipboard list: combo creation mode title")
                 : NSLocalizedString("클립보드 히스토리", comment: "Clipboard list navigation title")
