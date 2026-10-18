@@ -2090,6 +2090,7 @@ struct ClipKeyboardList: View {
                     //    키워 칠한다. 좌우를 키우면 옆 페이지 위로 번진다.
                     .background { pageTint(for: tab).padding(.vertical, -120).ignoresSafeArea() }
                     .overlay(alignment: .bottom) { pageVeil(for: tab) }
+                    .background(PagerVerticalPin())
                     .tag(tab)
             }
         }
@@ -3133,6 +3134,58 @@ struct ClipKeyboardList: View {
 struct ClipKeyboardList_Previews: PreviewProvider {
     static var previews: some View {
         ClipKeyboardList()
+    }
+}
+
+// MARK: - 갈래 페이저가 세로로 밀린 채 굳지 않게
+
+/// 갈래 페이저(`TabView(.page)`)는 옆으로만 넘긴다. 속의 UIKit 컬렉션 뷰가 **세로로 밀리면 제자리로 되돌린다.**
+///
+/// 왜 필요한가: 새 단축어 시트가 뜨면 바닥 안전 영역이 탭바만큼(83pt) 바뀐다. 속의 컬렉션 뷰가 그에 맞춰
+/// 여백을 다시 맞추며 세로 위치(`contentOffset.y`)를 옮기고, 시트가 닫혀도 돌아오지 않았다. 단축어를
+/// 하나 만들면 첫 화면이 통째로 약 115pt 올라가 키보드 켜기 띠가 제목줄 밑으로 들어가고 제목이 접혔다
+/// (사용자 신고 2026-10-18, UI 시험 실측: 띠 y 143 → 시트 중 69 → 닫힌 뒤 27, 페이지 안 스크롤은 그대로).
+///
+/// ⚠️ 여백 맞추기 자체를 끄지 않는다(`contentInsetAdjustmentBehavior = .never`). 그렇게 하면 페이지가
+///    16pt 올라가 띠 윗단이 제목줄에 걸렸다. 목록의 위 여백(`measuredBarBottomMargin`)이 그 자동 여백을
+///    딛고 맞춰져 있어서다. 그래서 여백은 시스템에 맡기고, 어긋난 세로 위치만 바로잡는다.
+private struct PagerVerticalPin: UIViewRepresentable {
+    func makeUIView(context: Context) -> Probe { Probe() }
+    func updateUIView(_ view: Probe, context: Context) { view.attach() }
+
+    final class Probe: UIView {
+        private weak var pager: UICollectionView?
+        private var observation: NSKeyValueObservation?
+
+        override func didMoveToWindow() {
+            super.didMoveToWindow()
+            attach()
+        }
+
+        /// 위로 올라가며 처음 만나는 페이저 컬렉션 뷰를 지켜본다.
+        func attach() {
+            guard pager == nil else { return }
+            var view = superview
+            while let current = view {
+                if let found = current as? UICollectionView, found.isPagingEnabled {
+                    pager = found
+                    observation = found.observe(\.contentOffset, options: [.new]) { collection, _ in
+                        DispatchQueue.main.async { Self.settle(collection) }
+                    }
+                    Self.settle(found)
+                    return
+                }
+                view = current.superview
+            }
+        }
+
+        /// 옆으로 넘기는 페이저의 세로 자리는 늘 맨 위(위 여백만큼 위)다.
+        private static func settle(_ pager: UICollectionView) {
+            let top = -pager.adjustedContentInset.top
+            guard abs(pager.contentOffset.y - top) > 0.5 else { return }
+            print("📐 [PagerVerticalPin.settle] 페이저 세로 자리 \(pager.contentOffset.y) → \(top)")
+            pager.contentOffset.y = top
+        }
     }
 }
 

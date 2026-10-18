@@ -61,6 +61,46 @@ final class ClipKeyboardUITests: XCTestCase {
         XCTAssertFalse(app.textFields["키보드에 표시할 이름"].exists, "저장 뒤에도 새 단축어 화면이 남아 있다")
     }
 
+    /// 목록 화면에서 단축어를 만들어도 첫 화면이 **제자리에 있다.**
+    ///
+    /// 새 단축어 시트가 뜨고 닫히는 사이 갈래 페이저가 세로로 밀린 채 굳어, 첫 화면이 통째로 약 115pt
+    /// 올라가던 일을 지킨다(사용자 신고 2026-10-18, `PagerVerticalPin`). 맨 위 키보드 켜기 띠를 잣대로
+    /// 쓴다. 시뮬레이터에서는 이 키보드를 켜지 않으므로 늘 서 있다.
+    func testCreatingShortcutKeepsListInPlace() throws {
+        let app = XCUIApplication()
+        app.launchArguments += [
+            "-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR",
+            "-startedFresh.v444", "NO", "-firstShortcut.done.v1", "YES",
+            "-tutorialChaptersDone.v1", "YES", "-keyboardStageOffered.v1", "YES",
+            "-didYouKnow.optOut.v1", "YES", "-ghostSuggestionsOff_v1", "YES",
+            "-defaultSamplesInserted_v1", "YES", "-demoSampleOfferResolved_v1", "YES",
+            "-snippetsTabStyle.v1", "list",
+        ]
+        app.launch()
+
+        let banner = app.staticTexts["아직 다른 앱에서는 못 써요"].firstMatch
+        guard banner.waitForExistence(timeout: 20) else {
+            throw XCTSkip("키보드 켜기 띠가 없다(이 기기에서 키보드가 켜져 있다). 잣대가 없어 건너뛴다.")
+        }
+        let before = banner.frame.minY
+
+        app.buttons["단축어 추가"].firstMatch.tap()
+        app.buttons["새 단축어 만들기"].firstMatch.tap()
+        let name = app.textFields["키보드에 표시할 이름"]
+        XCTAssertTrue(name.waitForExistence(timeout: 10), "새 단축어 화면이 열리지 않았다")
+        let title = "제자리 \(Int(Date().timeIntervalSince1970) % 100_000)"
+        name.typeText(title)
+        let body = app.textViews["붙여넣을 내용"]
+        body.tap()
+        body.typeText("안녕하세요")
+        app.buttons["저장"].firstMatch.tap()
+
+        XCTAssertTrue(app.buttons[title].firstMatch.waitForExistence(timeout: 10), "저장한 단축어가 보이지 않는다")
+        sleep(1)
+        XCTAssertEqual(banner.frame.minY, before, accuracy: 1,
+                       "단축어를 만든 뒤 첫 화면이 밀렸다(\(before) → \(banner.frame.minY))")
+    }
+
     // MARK: - 접근성 자동 점검
 
     /// 새 단축어 화면(가장 많이 쓰는 입력 화면)의 접근성 자동 점검.
