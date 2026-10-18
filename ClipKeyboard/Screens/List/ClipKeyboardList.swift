@@ -461,6 +461,16 @@ struct ClipKeyboardList: View {
                 // 키보드를 켜지 않았으면 맨 위에 늘 선다. 닫는 단추가 없다 - 켜면 걷힌다.
                 KeyboardSetupRequiredBanner()
 
+                // 방금 복사한 글을 단축어로 - 앱에 들어오면 클립보드를 보고 권한다.
+                // ⚠️ 2026-05 목록을 갈래 격자로 바꿀 때(`8d4347f5`) 이 카드를 담던 묶음이 옮겨지지 않아
+                //    다섯 달 동안 안 보였다. 클립보드는 그동안에도 읽고 있었다(사용자 신고 2026-10-18).
+                DismissibleRow(isShowing: viewModel.hasFreshClipboard) {
+                    freshClipboardCard
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                        .padding(.bottom, 4)
+                }
+
                 // 붙여넣기 허용 안내 - 앱 진입 시 클립보드를 읽어 팝업이 뜨는 바로 그 지점.
                 // 한 번 설정을 바꾸면 팝업이 사라지므로, 최상단에서 설정으로 바로 안내한다.
                 DismissibleRow(isShowing: showPasteTip) {
@@ -2574,35 +2584,28 @@ struct ClipKeyboardList: View {
         return String(format: NSLocalizedString("Saved %dm so far", comment: "Time saved badge minutes"), minutes)
     }
 
-    /// 상황에 맞는 단 하나의 액션 카드.
-    /// 우선순위: 방금 복사한 클립보드 → 최근 1시간 내 쓴 메모 히어로 → 없음(숨김)
-    @ViewBuilder
-    private var contextActionCard: some View {
-        if viewModel.hasFreshClipboard {
-            ClipboardCaptureCard(
-                value: viewModel.value,
-                detectedType: viewModel.clipboardDetectedType,
-                confidence: viewModel.clipboardConfidence,
-                suggestedTitle: viewModel.suggestedClipboardTitle,
-                repeatCopies: viewModel.clipboardRepeatCopies,
-                onDismiss: {
-                    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
-                        viewModel.dismissClipboardCapture()
-                    }
-                },
-                onSaveDirect: {
-                    withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
-                        viewModel.saveClipboardAsMemo()
-                    }
-                },
-                onEditTap: {
-                    viewModel.markClipboardSaved()
+    /// 방금 복사한 글을 단축어로 저장하자는 카드.
+    private var freshClipboardCard: some View {
+        ClipboardCaptureCard(
+            value: viewModel.value,
+            detectedType: viewModel.clipboardDetectedType,
+            confidence: viewModel.clipboardConfidence,
+            suggestedTitle: viewModel.suggestedClipboardTitle,
+            repeatCopies: viewModel.clipboardRepeatCopies,
+            onDismiss: {
+                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
+                    viewModel.dismissClipboardCapture()
                 }
-            )
-            .transition(.move(edge: .top).combined(with: .opacity))
-        } else if let hero = heroMemo {
-            heroCardView(memo: hero)
-        }
+            },
+            onSaveDirect: {
+                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.25)) {
+                    viewModel.saveClipboardAsMemo()
+                }
+            },
+            onEditTap: {
+                viewModel.markClipboardSaved()
+            }
+        )
     }
 
     /// 시간대 기반 인사말 + 이모지 - 아침/낮/저녁/밤.
@@ -2658,37 +2661,6 @@ struct ClipKeyboardList: View {
 
         let format = NSLocalizedString("%d saved · find what you need", comment: "Stats default")
         return String(format: format, memos.count)
-    }
-
-    /// 히어로 카드에 띄울 메모. lastUsedAt이 최근 1시간 이내인 항목만 채택.
-    private var heroMemo: Memo? {
-        let hourAgo = Date().addingTimeInterval(-60 * 60)
-        return viewModel.memos.first(where: { ($0.lastUsedAt ?? Date.distantPast) >= hourAgo })
-    }
-
-    /// "방금 쓴 것" 히어로 카드.
-    private func heroCardView(memo: Memo) -> some View {
-        Button {
-            HapticManager.shared.soft()
-            viewModel.copyMemo(memo: memo)
-        } label: {
-            MemoRowView(
-                memo: memo,
-                fontSize: fontSize,
-                onFavoriteToggle: { viewModel.toggleFavorite(memoId: memo.id) },
-                onDelete: { memoToDelete = memo }
-            )
-            .padding(14)
-            .background(theme.surface)
-            .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
-                    // 메모 구분 표시 토글을 따른다 (OFF면 테두리 숨김).
-                    .stroke(visualCuesVisible ? Color.accentColor.opacity(0.12) : .clear, lineWidth: 1)
-            )
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.squish)
     }
 
     // MARK: - Recency Fade

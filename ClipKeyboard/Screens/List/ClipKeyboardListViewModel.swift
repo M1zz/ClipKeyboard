@@ -829,7 +829,15 @@ final class ClipKeyboardListViewModel: ObservableObject {
     @Published var clipboardRepeatCopies: Int = 0
 
     /// 상단 인라인 캡처 카드 노출 여부. onAppear에서 새 클립보드 감지 시 true.
-    @Published var hasFreshClipboard: Bool = false
+    /// 바뀔 때마다 키보드 탭의 무대에도 알린다(`FreshClipboardOffer`).
+    @Published var hasFreshClipboard: Bool = false {
+        didSet { FreshClipboardOffer.shared.update(from: self) }
+    }
+
+    #if os(iOS)
+    /// 비활성일 때 미뤄 둔 클립보드 확인. 활성이 되면 한 번 돌고 지운다(`checkFreshClipboard`).
+    private var pendingActiveClipboardCheck: NSObjectProtocol?
+    #endif
 
     /// 마지막으로 사용자가 "숨기기"한 클립보드 값. 같은 값이 다시 나타나면 재노출하지 않는다.
     private let lastDismissedClipboardKey = "lastDismissedClipboard"
@@ -1426,6 +1434,26 @@ final class ClipKeyboardListViewModel: ObservableObject {
         #if os(iOS)
         // 동작 버튼으로 담는 중이면 쉰다. 같이 읽으면 붙여넣기 팝업이 두 번 뜬다.
         if ClipboardCapture.shouldSkipAutoRead() { return }
+        // ⚠️ **앱이 앞에 완전히 올라온 뒤에** 읽는다. 앱을 새로 열 때 목록이 그려지는 순간은 아직
+        //    비활성이라 iOS 가 클립보드를 내주지 않는다(글이 있어도 nil). 활성이 되는 알림은 첫 실행에서
+        //    목록의 구독이 걸리기 전에 지나가 버려서, 앱을 새로 열면 카드가 한 번도 안 떴다(2026-10-18 실측).
+        //    비활성이면 활성이 되는 순간 한 번만 다시 부른다.
+        guard UIApplication.shared.applicationState == .active else {
+            guard pendingActiveClipboardCheck == nil else { return }
+            pendingActiveClipboardCheck = NotificationCenter.default.addObserver(
+                forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main
+            ) { [weak self] _ in
+                MainActor.assumeIsolated {
+                    guard let self else { return }
+                    if let token = self.pendingActiveClipboardCheck {
+                        NotificationCenter.default.removeObserver(token)
+                    }
+                    self.pendingActiveClipboardCheck = nil
+                    self.checkFreshClipboard()
+                }
+            }
+            return
+        }
         PasteboardReader.stringWithChangeCount { [weak self] clipboardString, changeCount in
             guard let self else { return }
             guard let clipboardString, !clipboardString.isEmpty else {

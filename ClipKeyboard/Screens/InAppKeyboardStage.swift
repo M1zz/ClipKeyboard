@@ -101,6 +101,8 @@ struct InAppKeyboardStage: View {
     }
 
     @StateObject private var host = InAppKeyboardHost()
+    /// 방금 복사한 글을 단축어로 저장하자는 카드. 목록이 확인한 것을 같이 본다.
+    @ObservedObject private var freshClipboard = FreshClipboardOffer.shared
     @Environment(\.appTheme) private var theme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -206,6 +208,8 @@ struct InAppKeyboardStage: View {
                 // 여기까지 배웠으면 마지막 한 걸음은 **진짜 키보드를 켜는 것**이다.
                 // 무대에서 아무리 눌러 봐도 다른 앱에서 못 쓰면 아무 일도 일어나지 않는다.
                 if showsKeyboardSetupBanner { keyboardSetupBanner }
+                // 방금 복사한 글이 있으면 단축어로 만들자고 권한다(목록 맨 위 카드와 같은 것).
+                if let offer = freshClipboard.snapshot { freshClipboardCard(offer) }
                 // 잠긴 단축어가 있는데 잠금을 안 만들어 뒀으면, 누르기 **전에** 알린다.
                 if needsSecurePIN { securePINBanner }
                 conversation
@@ -337,6 +341,24 @@ struct InAppKeyboardStage: View {
     ///
     /// ⚠️ 알림(모달)로 띄우지 않는다. 앱을 열자마자 창이 뜨면 무엇을 하라는 건지 보기도 전에
     ///    닫게 된다. 무대를 보여준 **다음에** 한 줄로 권하는 편이 이어진다.
+    /// 목록의 "방금 복사함" 카드와 같은 것. 무대는 화면 이동 틀 밖이라 "편집" 은 뺀다.
+    private func freshClipboardCard(_ offer: FreshClipboardOffer.Snapshot) -> some View {
+        ClipboardCaptureCard(
+            value: offer.value,
+            detectedType: offer.detectedType,
+            confidence: offer.confidence,
+            suggestedTitle: offer.suggestedTitle,
+            repeatCopies: offer.repeatCopies,
+            onDismiss: { withAnimation(.easeOut(duration: 0.25)) { freshClipboard.dismiss() } },
+            onSaveDirect: { withAnimation(.easeOut(duration: 0.25)) { freshClipboard.save() } },
+            onEditTap: {},
+            showsEdit: false
+        )
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+        .transition(.move(edge: .top).combined(with: .opacity))
+    }
+
     private var keyboardSetupBanner: some View {
         Button {
             HapticManager.shared.light()

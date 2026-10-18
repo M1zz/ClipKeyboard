@@ -41,6 +41,8 @@ struct ClipboardCaptureCard: View {
     let onSaveDirect: () -> Void
     /// "편집"으로 진입 - 카드만 닫고 MemoAdd로 이동.
     let onEditTap: () -> Void
+    /// "편집" 을 세우는가. 화면 이동 틀 밖(키보드 탭의 무대)에서는 갈 곳이 없어 뺀다.
+    var showsEdit: Bool = true
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -175,6 +177,7 @@ struct ClipboardCaptureCard: View {
             )
 
             // 제목을 바꾸고 싶을 때만 - 편집 화면으로.
+            if showsEdit {
             FoldLink {
                 MemoAdd(insertedKeyword: suggestedTitle, insertedValue: value)
             } label: {
@@ -186,6 +189,7 @@ struct ClipboardCaptureCard: View {
             }
             .buttonStyle(.squish)
             .simultaneousGesture(TapGesture().onEnded { onEditTap() })
+            }
 
             Button(action: onDismiss) {
                 Text(NSLocalizedString("Dismiss", comment: "Inline capture card: dismiss button"))
@@ -200,6 +204,45 @@ struct ClipboardCaptureCard: View {
         }
         .padding(.top, 2)
     }
+}
+
+// MARK: - 목록 밖에서 같은 카드를 보이기
+
+/// "방금 복사함" 카드를 **목록 밖(키보드 탭의 무대)** 에서도 보이게 하는 통로.
+///
+/// 클립보드를 읽고 저장하는 일은 목록의 뷰모델이 한다(`ClipKeyboardListViewModel.checkFreshClipboard`).
+/// 목록은 무대 밑에 늘 깔려 있어 앱에 들어올 때마다 그 확인이 돈다. 무대는 여기서 결과만 본다.
+///
+/// ⚠️ 무대가 클립보드를 따로 읽지 않는다. 두 곳이 읽으면 iOS 의 "붙여넣기 허용?" 이 두 번 뜬다.
+@MainActor
+final class FreshClipboardOffer: ObservableObject {
+    static let shared = FreshClipboardOffer()
+    private init() {}
+
+    struct Snapshot: Equatable {
+        let value: String
+        let detectedType: ClipboardItemType
+        let confidence: Double
+        let suggestedTitle: String
+        let repeatCopies: Int
+    }
+
+    @Published private(set) var snapshot: Snapshot?
+    private weak var owner: ClipKeyboardListViewModel?
+
+    func update(from viewModel: ClipKeyboardListViewModel) {
+        owner = viewModel
+        let next: Snapshot? = viewModel.hasFreshClipboard ? Snapshot(
+            value: viewModel.value,
+            detectedType: viewModel.clipboardDetectedType,
+            confidence: viewModel.clipboardConfidence,
+            suggestedTitle: viewModel.suggestedClipboardTitle,
+            repeatCopies: viewModel.clipboardRepeatCopies) : nil
+        if next != snapshot { snapshot = next }
+    }
+
+    func save() { owner?.saveClipboardAsMemo() }
+    func dismiss() { owner?.dismissClipboardCapture() }
 }
 
 #if DEBUG
