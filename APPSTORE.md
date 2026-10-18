@@ -57,7 +57,7 @@ iPhone과 iPad에서 쓸 수 있습니다. 한국어, 영어, 일본어, 중국�
 ### 키워드
 
 ```
-복붙,클립보드,복붙키보드,클립보드관리,복사기록,자동입력,자동완성,스니펫,계좌번호,자기소개,주소,서명,이메일,메모,반복입력,고객응대,단축키,템플릿,문구저장,인사말,매크로
+반복입력,문구저장,반복문구,매크로키보드,복사기록,스니펫,고객응대,빠른답장,복붙키보드,복붙,클립보드,매크로,단축키,텍스트대치,서명,클립보드기록,인사말,자기소개,클립보드관리,자동입력
 ```
 
 ### 프로모션 텍스트
@@ -131,7 +131,7 @@ Terms of Use: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
 ### 키워드
 
 ```
-copy,canned,saved,replies,text,expander,autofill,phrases,history,template,macro,signature,shortcut
+text,replacement,replies,autofill,canned,shortcuts,history,signature,boilerplate,expander,macro
 ```
 
 ### 프로모션 텍스트
