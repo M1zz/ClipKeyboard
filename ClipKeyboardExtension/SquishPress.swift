@@ -116,3 +116,34 @@ struct SquishButtonStyle: ButtonStyle {
 extension ButtonStyle where Self == SquishButtonStyle {
     static var squish: SquishButtonStyle { SquishButtonStyle() }
 }
+
+// MARK: - 넓은 줄의 눌림
+
+/// 화면 폭을 다 쓰는 줄(최근 목록)의 눌림. **튕기지 않고 살짝 가라앉기만** 한다.
+///
+/// ⚠️ 넓은 줄에 `.squish` 를 쓰지 않는다. 그 눌림은 작은 키에 맞춘 것이라 90% 로 줄었다가
+///    107% 로 부풀고 한 번 더 출렁인다. 폭이 380pt 인 줄이면 좌우로 30~40pt 가 움직여서,
+///    누를 때마다 목록 전체가 덜렁거리는 것으로 보였다(사용자 의견 2026-10-18).
+struct RowPressButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        RowPressBody(label: configuration.label, pressed: configuration.isPressed)
+    }
+}
+
+private struct RowPressBody<Label: View>: View {
+    let label: Label
+    let pressed: Bool
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    var body: some View {
+        let moves = !reduceMotion && SquishPress.delightEnabled
+        label
+            .scaleEffect(moves && pressed ? 0.985 : 1)
+            .opacity(pressed ? 0.8 : 1)
+            .animation(.easeOut(duration: 0.12), value: pressed)
+    }
+}
+
+extension ButtonStyle where Self == RowPressButtonStyle {
+    static var rowPress: RowPressButtonStyle { RowPressButtonStyle() }
+}
