@@ -2604,6 +2604,11 @@ struct ClipKeyboardList: View {
             },
             onEditTap: {
                 viewModel.markClipboardSaved()
+            },
+            onTimeout: {
+                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.3)) {
+                    viewModel.dismissClipboardCapture()
+                }
             }
         )
     }

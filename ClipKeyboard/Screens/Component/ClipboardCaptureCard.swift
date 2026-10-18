@@ -43,6 +43,21 @@ struct ClipboardCaptureCard: View {
     let onEditTap: () -> Void
     /// "편집" 을 세우는가. 화면 이동 틀 밖(키보드 탭의 무대)에서는 갈 곳이 없어 뺀다.
     var showsEdit: Bool = true
+    /// 이 시간이 지나면 저절로 사라진다. 그동안 테두리를 따라 선이 줄어든다.
+    var lifetime: TimeInterval = ClipboardCaptureCard.defaultLifetime
+    /// 시간이 다 됐다. 부르는 쪽이 "닫기" 와 같게 처리한다.
+    var onTimeout: () -> Void = {}
+
+    /// 떠 있는 시간(사용자 요청 2026-10-18: 10초 지나면 그냥 사라지게).
+    static let defaultLifetime: TimeInterval = 10
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverOn
+    /// 세기 시작한 때. 테두리 선의 길이는 여기서 지난 시간으로 매 프레임 계산한다.
+    ///
+    /// ⚠️ `withAnimation` 으로 1 → 0 을 걸지 않는다. 카드가 화면에 그려지기 전에 걸린 애니메이션은
+    ///    SwiftUI 가 건너뛰어 선이 처음부터 0 이었다(실측: 선이 아예 안 보였다).
+    @State private var startedAt: Date?
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -67,7 +82,34 @@ struct ClipboardCaptureCard: View {
             RoundedRectangle(cornerRadius: theme.radiusMd)
                 .stroke(Color.accentColor.opacity(0.18), lineWidth: 1)
         )
+        // 남은 시간. 테두리를 따라 은은한 선이 줄어든다. 시계처럼 읽히지 않게 숫자는 두지 않는다.
+        .overlay {
+            if counts && !reduceMotion, let startedAt {
+                TimelineView(.animation) { context in
+                    let elapsed = context.date.timeIntervalSince(startedAt)
+                    RoundedRectangle(cornerRadius: theme.radiusMd)
+                        .trim(from: 0, to: max(0, 1 - elapsed / lifetime))
+                        .stroke(Color.accentColor.opacity(0.55),
+                                style: StrokeStyle(lineWidth: 1.5, lineCap: .round))
+                }
+                .allowsHitTesting(false)
+                .accessibilityHidden(true)
+            }
+        }
         .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
+        // 글이 바뀌면(새로 복사하고 왔으면) 처음부터 다시 센다.
+        .task(id: value) { await countDown() }
+    }
+
+    /// 저절로 사라지는가. VoiceOver 를 켠 사람에게는 카드가 읽는 도중에 없어지면 안 된다.
+    private var counts: Bool { lifetime > 0 && !voiceOverOn }
+
+    private func countDown() async {
+        guard counts else { return }
+        startedAt = Date()
+        try? await Task.sleep(for: .seconds(lifetime))
+        guard !Task.isCancelled else { return }
+        onTimeout()
     }
 
     // MARK: - Subviews

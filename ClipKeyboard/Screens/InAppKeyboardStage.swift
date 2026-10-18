@@ -352,7 +352,8 @@ struct InAppKeyboardStage: View {
             onDismiss: { withAnimation(.easeOut(duration: 0.25)) { freshClipboard.dismiss() } },
             onSaveDirect: { withAnimation(.easeOut(duration: 0.25)) { freshClipboard.save() } },
             onEditTap: {},
-            showsEdit: false
+            showsEdit: false,
+            onTimeout: { withAnimation(.easeOut(duration: 0.3)) { freshClipboard.dismiss() } }
         )
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
