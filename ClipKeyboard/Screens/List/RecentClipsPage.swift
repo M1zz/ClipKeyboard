@@ -110,7 +110,7 @@ struct RecentClipsPage: View {
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
             .contentShape(RoundedRectangle(cornerRadius: theme.radiusMd))
         }
-        // 줄이 넓어 `.squish` 의 튕김이 목록 전체를 흔든다. 가라앉기만 한다.
+        // 줄이 넓어 `.squish` 깊이로는 목록 전체가 흔들린다. 같은 곡선을 얕게.
         .buttonStyle(.rowPress)
         .contextMenu {
             Button {

@@ -19,17 +19,24 @@ import SwiftUI
 
 enum SquishPress {
     /// 누르고 있는 동안. 손끝은 따라가되 **딱 멈추지는 않는다** - 끝에서 살짝 무르게 눌린다.
-    /// (0.16 · 0.82 였다. 그때는 눌림이 단단한 스위치처럼 딱 떨어져 쫀득함이 없었다)
-    static let pressIn: Animation = .spring(response: 0.22, dampingFraction: 0.7)
+    /// (0.16 · 0.82 는 단단한 스위치처럼 딱 떨어졌고, 0.22 · 0.7 은 누르는 데서부터 출렁였다)
+    static let pressIn: Animation = .spring(response: 0.2, dampingFraction: 0.78)
 
-    /// 기본 눌림 비율. 깊이가 얕으면 무엇이 움직였는지 눈이 못 따라와 단단하게 느껴진다.
-    /// (0.92 였다. 0.90 이면 손가락 아래에서 한 번 더 들어가는 것이 보인다)
-    static let defaultScale: CGFloat = 0.90
+    /// 기본 눌림 비율.
+    ///
+    /// ⚠️ 0.90 은 너무 깊었다. 놓을 때의 튕김과 겹쳐 버튼마다 덜렁거린다는 말을 들었다
+    ///    (사용자 의견 2026-10-18). 그렇다고 줄이지 않으면 단단한 스위치처럼 죽는다.
+    ///    "적당히 말랑하게": 눌린 것이 보일 만큼만 들어간다.
+    static let defaultScale: CGFloat = 0.94
 
-    /// 떼는 순간 원래 크기를 넘어 커지는 비율. 줄어든 만큼의 4분의 3쯤 넘친다.
-    /// 절반(0.6)만 넘겼을 때는 그냥 제자리로 돌아오는 것으로 보였다.
+    /// 화면 폭을 다 쓰는 줄(최근 목록)의 눌림 비율. 같은 곡선이되 얕게.
+    /// 폭이 380pt 면 0.94 로도 좌우 23pt 가 움직인다. 0.975 는 10pt 남짓이다.
+    static let rowScale: CGFloat = 0.975
+
+    /// 떼는 순간 원래 크기를 넘어 커지는 비율. 줄어든 만큼의 3분의 1쯤 넘친다.
+    /// 4분의 3(0.75)은 버튼이 놓일 때마다 부풀어 덜렁거렸고, 0 이면 고무가 아니라 플라스틱이다.
     static func overshoot(for scale: CGFloat) -> CGFloat {
-        1 + (1 - scale) * 0.75
+        1 + (1 - scale) * 0.35
     }
 
     /// 연출 마스터 스위치(`DefaultsKey.delightEffectsEnabled`). 값이 없으면 켜짐.
@@ -74,11 +81,11 @@ struct SquishPressEffect: ViewModifier {
                     // 눌린 크기에서 시작한다. 이미 줄어 있었다면 그 자리 그대로다.
                     LinearKeyframe(scale, duration: 0.01)
                     CubicKeyframe(scale, duration: 0.05)
-                    // 원래보다 커졌다가 - 천천히 부풀어야 고무처럼 읽힌다(0.14 였다).
-                    CubicKeyframe(overshoot, duration: 0.19)
-                    // 제자리로 내려앉는다. 덜 잡아 두어 한 번 더 흔들리게 한다
-                    // (0.28 · 0.62 는 한 번에 딱 멈춰서 딱딱했다).
-                    SpringKeyframe(1, duration: 0.45, spring: .init(response: 0.36, dampingRatio: 0.42))
+                    // 원래보다 살짝 커졌다가 - 천천히 부풀어야 고무처럼 읽힌다.
+                    CubicKeyframe(overshoot, duration: 0.16)
+                    // 제자리로 내려앉는다. 한 번 부드럽게 닿고 멈춘다.
+                    // ⚠️ 감쇠 0.42 는 한 번 더 흔들려 덜렁거렸다(2026-10-18). 0.62 는 출렁임 없이 탄력만 남는다.
+                    SpringKeyframe(1, duration: 0.36, spring: .init(response: 0.32, dampingRatio: 0.62))
                 }
             }
             .opacity(!moves && pressed ? 0.7 : 1)
@@ -119,28 +126,14 @@ extension ButtonStyle where Self == SquishButtonStyle {
 
 // MARK: - 넓은 줄의 눌림
 
-/// 화면 폭을 다 쓰는 줄(최근 목록)의 눌림. **튕기지 않고 살짝 가라앉기만** 한다.
+/// 화면 폭을 다 쓰는 줄(최근 목록)의 눌림. `.squish` 와 **같은 곡선을 얕게** 쓴다.
 ///
-/// ⚠️ 넓은 줄에 `.squish` 를 쓰지 않는다. 그 눌림은 작은 키에 맞춘 것이라 90% 로 줄었다가
-///    107% 로 부풀고 한 번 더 출렁인다. 폭이 380pt 인 줄이면 좌우로 30~40pt 가 움직여서,
-///    누를 때마다 목록 전체가 덜렁거리는 것으로 보였다(사용자 의견 2026-10-18).
+/// ⚠️ 넓은 줄에 기본 깊이를 쓰면 좌우가 수십 pt 씩 움직여 목록 전체가 덜렁거린다.
+///    그렇다고 튕김을 아예 빼면 단단히 굳은 것으로 읽혔다(둘 다 사용자 의견 2026-10-18).
 struct RowPressButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
-        RowPressBody(label: configuration.label, pressed: configuration.isPressed)
-    }
-}
-
-private struct RowPressBody<Label: View>: View {
-    let label: Label
-    let pressed: Bool
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-    var body: some View {
-        let moves = !reduceMotion && SquishPress.delightEnabled
-        label
-            .scaleEffect(moves && pressed ? 0.985 : 1)
-            .opacity(pressed ? 0.8 : 1)
-            .animation(.easeOut(duration: 0.12), value: pressed)
+        configuration.label
+            .squishPress(configuration.isPressed, scale: SquishPress.rowScale)
     }
 }
 

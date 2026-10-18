@@ -3864,8 +3864,8 @@ struct KeycapButtonStyle: ButtonStyle {
     let skin: KeyboardSkin
     let cornerRadius: CGFloat
     let skirtColor: Color
-    /// 말랑하게 줄었다 튕기는가. 넓은 줄(최근 목록)은 내려앉기만 한다(`RowPressButtonStyle` 주석).
-    var squishes: Bool = true
+    /// 말랑하게 줄었다 튕기는 깊이. 넓은 줄(최근 목록)은 얕게(`SquishPress.rowScale`).
+    var squishScale: CGFloat = SquishPress.defaultScale
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -3880,7 +3880,7 @@ struct KeycapButtonStyle: ButtonStyle {
                                     enabled: enabled))
             // 내려앉는 것과 따로, 말랑하게 줄었다 튕긴다(`SquishPress`).
             // 두께가 없는 납작 스킨도 이건 받는다 - 눌렸다는 손맛이 아예 없던 자리다.
-            .squishPress(squishes && configuration.isPressed)
+            .squishPress(configuration.isPressed, scale: squishScale)
     }
 }
 

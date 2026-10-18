@@ -564,11 +564,11 @@ struct KeyboardRecentClipsPanel: View {
     /// 단축어 키와 같은 값(`KeyboardView.keycapRadius` · `keycapSkirtColor`).
     private var keycapRadius: CGFloat { skin.cornerRadius(base: theme.radiusMd) }
     private var keycapShape: KeycapShape { KeycapShape(radius: keycapRadius) }
-    /// 단축어 키와 같은 키캡이되, 줄이 넓어 **튕기지 않는다.** 내려앉기만 한다(`RowPressButtonStyle` 주석).
+    /// 단축어 키와 같은 키캡이되, 줄이 넓어 **얕게** 눌린다(`RowPressButtonStyle` 주석).
     private var keycapStyle: KeycapButtonStyle {
         KeycapButtonStyle(skin: skin, cornerRadius: keycapRadius,
                           skirtColor: Color.black.opacity(skin.skirtOpacity(isDark: theme.isDark)),
-                          squishes: false)
+                          squishScale: SquishPress.rowScale)
     }
 
     /// 단축어 키의 면(`memoButtonLabel`): 키 색 + 윗면 빛 + 그림자.
