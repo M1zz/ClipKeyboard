@@ -25,7 +25,17 @@ extension ClipKeyboardSpec {
               title: NSLocalizedString("보기 편한 색과 대비", comment: "Roadmap item: better colors and contrast"),
               detail: NSLocalizedString("대비를 높이거나 색을 구별하기 어려워도 내용을 알아볼 수 있어요.", comment: "Roadmap item detail: colors and contrast")),
 
+        .init(id: "keyboard.typing", status: .building,
+              title: NSLocalizedString("키보드 하나로 글까지", comment: "Roadmap item: type everything with this keyboard"),
+              detail: NSLocalizedString("쓰던 키보드 없이 이 키보드로 23개 언어를 치고, 단축어도 같이 써요.", comment: "Roadmap item detail: typing keyboard in 23 languages")),
+
         // MARK: 다음에 만들어요
+        .init(id: "keyboard.autocorrect", status: .planned,
+              title: NSLocalizedString("자동 고침과 낱말 추천", comment: "Roadmap item: autocorrect and word suggestions"),
+              detail: NSLocalizedString("틀린 글자를 고쳐 주고, 칠 낱말을 미리 보여 줘요.", comment: "Roadmap item detail: autocorrect and suggestions")),
+        .init(id: "keyboard.kanji", status: .planned,
+              title: NSLocalizedString("일본어·중국어 한자 변환", comment: "Roadmap item: kanji and hanzi conversion"),
+              detail: NSLocalizedString("가나·병음·주음을 한자로 바꿔요. 사전은 필요할 때만 받아요.", comment: "Roadmap item detail: kanji conversion with on-demand dictionary")),
         .init(id: "sync.stable", status: .planned,
               title: NSLocalizedString("기기 간 동기화 정식판", comment: "Roadmap item: stable cross-device sync"),
               detail: NSLocalizedString("지금은 베타예요. 더 안정되게 다듬어 정식으로 열어요.", comment: "Roadmap item detail: stable sync")),

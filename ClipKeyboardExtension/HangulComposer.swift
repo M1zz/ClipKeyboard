@@ -135,6 +135,14 @@ final class HangulComposer {
         commitAndReset()
     }
 
+    /// 조합 중인 음절이 있는가.
+    var isComposing: Bool { initial != nil || medial != nil || final != nil }
+
+    /// 새 입력칸으로 왔다. 이미 들어간 글자는 두고 조합 상태만 비운다.
+    func reset() {
+        commitAndReset()
+    }
+
     // MARK: - Private handlers
 
     private func handleConsonant(_ jamo: Character) {

@@ -90,6 +90,10 @@ struct KeyboardSettingsView: View {
             }
             .accessibilityHint(NSLocalizedString("전체 접근 허용이 무엇이고 어떻게 켜는지 봅니다", comment: "Full Access settings row hint"))
 
+            FoldLink(destination: TypingLanguagesSettings()) {
+                Label(NSLocalizedString("입력 언어", comment: "Settings: typing languages screen title"),
+                      systemImage: AppSymbol.globe)
+            }
             FoldLink(destination: KeyboardLayoutSettings()) {
                 Label(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"),
                       systemImage: AppSymbol.rectangle3Group)

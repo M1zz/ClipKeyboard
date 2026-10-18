@@ -1259,6 +1259,12 @@
     "comment": "Cancel",
     "h": "587e1cf483"
   },
+  "Capture Clipboard": {
+    "ko": "Capture Clipboard",
+    "en": "Capture Clipboard",
+    "comment": "",
+    "h": "29fdf05b52"
+  },
   "Capture a quick note into ClipKeyboard.": {
     "ko": "ClipKeyboard에 빠른 메모를 남깁니다.",
     "en": "Capture a quick note into ClipKeyboard.",
@@ -1330,6 +1336,12 @@
     "en": "ClipKeyboard Help",
     "comment": "Menu: help",
     "h": "48281bffb6"
+  },
+  "ClipKeyboard Plus · Pro": {
+    "ko": "ClipKeyboard Plus · Pro",
+    "en": "ClipKeyboard Plus · Pro",
+    "comment": "A paywall title for users who haven't purchased Pro.",
+    "h": "47f47387a2"
   },
   "ClipKeyboard Pro": {
     "ko": "ClipKeyboard Pro",
@@ -2747,6 +2759,12 @@
     "comment": "Scenario context: proposal silent",
     "h": "4441d88960"
   },
+  "Shift": {
+    "ko": "Shift",
+    "en": "Shift",
+    "comment": "Typing keyboard: shift key",
+    "h": "1226995e6c"
+  },
   "Shortcuts": {
     "ko": "Shortcuts",
     "en": "Shortcuts",
@@ -3215,6 +3233,12 @@
     "comment": "iCloud server error message",
     "h": "c581e54a3d"
   },
+  "iCloud 설정 화면": {
+    "ko": "iCloud 설정 화면",
+    "en": "iCloud settings screen",
+    "comment": "",
+    "h": "9b9552fa70"
+  },
   "iCloud 저장 공간이 부족합니다. 설정 > [사용자 이름] > iCloud > 저장 공간 관리에서 확인해주세요.": {
     "ko": "iCloud 저장 공간이 부족합니다. 설정 > [사용자 이름] > iCloud > 저장 공간 관리에서 확인해주세요.",
     "en": "iCloud storage is full. Please check Settings > [Your Name] > iCloud > Manage Storage.",
@@ -3574,6 +3598,12 @@
     "en": "Shows up now and then",
     "comment": "Living skin trait: occasional visitor",
     "h": "aa3abb8cf2"
+  },
+  "가나·병음·주음을 한자로 바꿔요. 사전은 필요할 때만 받아요.": {
+    "ko": "가나·병음·주음을 한자로 바꿔요. 사전은 필요할 때만 받아요.",
+    "en": "Turns kana, Pinyin, and Zhuyin into kanji and hanzi. The dictionary downloads only when you need it.",
+    "comment": "Roadmap item detail: kanji conversion with on-demand dictionary",
+    "h": "f1b25e257f"
   },
   "가운데 접기": {
     "ko": "가운데 접기",
@@ -3977,6 +4007,12 @@
     "comment": "Stage simulator: grain",
     "h": "eb3e6a1ba8"
   },
+  "결제 · 구매 복원": {
+    "ko": "결제 · 구매 복원",
+    "en": "Payments · Restore Purchases",
+    "comment": "",
+    "h": "6ca05a2625"
+  },
   "결제 실패": {
     "ko": "결제 실패",
     "en": "Purchase failed",
@@ -4235,6 +4271,30 @@
     "comment": "",
     "h": "9d2aeb2105"
   },
+  "구입 내역": {
+    "ko": "구입 내역",
+    "en": "Purchase history",
+    "comment": "",
+    "h": "dc11d074af"
+  },
+  "구입 복원을 누른 뒤 나온 화면": {
+    "ko": "구입 복원을 누른 뒤 나온 화면",
+    "en": "Screen after tapping Restore Purchases",
+    "comment": "",
+    "h": "68759becea"
+  },
+  "구입 복원을 한 번 더 누르고, 나온 안내를 찍어 주세요.": {
+    "ko": "구입 복원을 한 번 더 누르고, 나온 안내를 찍어 주세요.",
+    "en": "Tap Restore Purchases once more and take a screenshot of the message that appears.",
+    "comment": "",
+    "h": "710c8daa64"
+  },
+  "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
+    "ko": "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.",
+    "en": "First, check that you’re signed in with the Apple Account you used to buy it. Purchases are tied to that account.",
+    "comment": "",
+    "h": "9486e90c00"
+  },
   "국가 코드부터 끝까지 입력해 주세요": {
     "ko": "국가 코드부터 끝까지 입력해 주세요",
     "en": "Enter it in full, starting with the country code",
@@ -4277,11 +4337,23 @@
     "comment": "Receipt: remaining shortcuts line",
     "h": "4f976d759d"
   },
+  "그 밖의 문제": {
+    "ko": "그 밖의 문제",
+    "en": "Something else",
+    "comment": "",
+    "h": "02f171ea75"
+  },
   "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
     "ko": "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.",
     "en": "You can't use that name. It already exists or matches a built-in tab.",
     "comment": "Rename rejected: name already exists or is reserved",
     "h": "bb24d4c594"
+  },
+  "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
+    "ko": "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.",
+    "en": "Take a screenshot of that screen as it is. If a translation sounds off, tell us how it would read naturally. We’ll use your wording.",
+    "comment": "",
+    "h": "a6067d252a"
   },
   "그거 아세요?": {
     "ko": "그거 아세요?",
@@ -4331,6 +4403,12 @@
     "comment": "Access ending banner: body, closed now",
     "h": "4d7e9923fb"
   },
+  "그때 집중 모드나 무음 모드였나요? (선택)": {
+    "ko": "그때 집중 모드나 무음 모드였나요? (선택)",
+    "en": "Was a Focus or Silent Mode on at the time? (optional)",
+    "comment": "",
+    "h": "0548daa9e3"
+  },
   "그래도 백업": {
     "ko": "그래도 백업",
     "en": "Back up anyway",
@@ -4367,6 +4445,12 @@
     "comment": "Changelog 5.0.9 mixed memo image",
     "h": "dd2c538bc8"
   },
+  "글자": {
+    "ko": "글자",
+    "en": "Letters",
+    "comment": "Typing keyboard: switch to letters",
+    "h": "1947165158"
+  },
   "글자 위를 문질러 주세요": {
     "ko": "글자 위를 문질러 주세요",
     "en": "Swipe over some text",
@@ -4402,6 +4486,12 @@
     "en": "No text found",
     "comment": "No text found in photo alert title",
     "h": "d2a3db28d9"
+  },
+  "글자를 치는 자판으로 바꿉니다": {
+    "ko": "글자를 치는 자판으로 바꿉니다",
+    "en": "Switches to the keyboard for typing",
+    "comment": "Snippet keyboard: typing key hint",
+    "h": "e45844aee1"
   },
   "금고": {
     "ko": "금고",
@@ -4775,11 +4865,17 @@
     "comment": "User level: first real use",
     "h": "949812949e"
   },
+  "꺼지거나 열리지 않아요": {
+    "ko": "꺼지거나 열리지 않아요",
+    "en": "It crashes or won’t open",
+    "comment": "",
+    "h": "bc87d0bf1b"
+  },
   "꺼짐": {
     "ko": "꺼짐",
     "en": "Off",
-    "comment": "Off",
-    "h": "aae35362ff"
+    "comment": "Full Access status: off\nOff",
+    "h": "5930ba091c"
   },
   "꾸준히 쓰는 사람": {
     "ko": "꾸준히 쓰는 사람",
@@ -5261,6 +5357,18 @@
     "comment": "Ghost memo: tap to try",
     "h": "41585900fd"
   },
+  "느려지는 화면": {
+    "ko": "느려지는 화면",
+    "en": "Screen that slows down",
+    "comment": "",
+    "h": "b9d49c6e77"
+  },
+  "느리거나 버벅여요": {
+    "ko": "느리거나 버벅여요",
+    "en": "It’s slow or laggy",
+    "comment": "",
+    "h": "44bedc6b6a"
+  },
   "늘 이 자리: %@": {
     "ko": "늘 이 자리: %@",
     "en": "Always here: %@",
@@ -5516,8 +5624,8 @@
   "단축어": {
     "ko": "단축어",
     "en": "Snippet",
-    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSnippet (saved key-value item) display name",
-    "h": "e5f8dadd0c"
+    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter",
+    "h": "8c10487a02"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "ko": "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.",
@@ -5855,6 +5963,12 @@
     "comment": "Content hint explanation",
     "h": "b82098b42c"
   },
+  "단축어 키 판으로 바꿉니다": {
+    "ko": "단축어 키 판으로 바꿉니다",
+    "en": "Switches to your shortcut keys",
+    "comment": "Typing keyboard: snippets button hint",
+    "h": "2c793ede35"
+  },
   "단축어 탭을 열었을 때 보이는 화면이에요. 어느 쪽을 골라도 저장한 단축어는 그대로예요.": {
     "ko": "단축어 탭을 열었을 때 보이는 화면이에요. 어느 쪽을 골라도 저장한 단축어는 그대로예요.",
     "en": "What you see when you open the Snippets tab. Your saved snippets stay the same either way.",
@@ -6179,6 +6293,12 @@
     "comment": "More options",
     "h": "d7caeb16e1"
   },
+  "더할 수 있는 언어": {
+    "ko": "더할 수 있는 언어",
+    "en": "Other Languages",
+    "comment": "Typing languages: available section header",
+    "h": "5fed1c7074"
+  },
   "데모": {
     "ko": "데모",
     "en": "Demo",
@@ -6226,6 +6346,12 @@
     "en": "Your data was backed up to iCloud successfully.",
     "comment": "Auto-registered",
     "h": "b029663445"
+  },
+  "데이터가 사라졌어요": {
+    "ko": "데이터가 사라졌어요",
+    "en": "My data is gone",
+    "comment": "",
+    "h": "09995527de"
   },
   "데이터가 성공적으로 복구되었습니다. 앱을 재시작하여 변경사항을 확인하세요.": {
     "ko": "데이터가 성공적으로 복구되었습니다. 앱을 재시작하여 변경사항을 확인하세요.",
@@ -6310,6 +6436,12 @@
     "en": "Returning user",
     "comment": "Stage simulator: returning",
     "h": "006b56d8ee"
+  },
+  "동기화 · 백업": {
+    "ko": "동기화 · 백업",
+    "en": "Sync · Backup",
+    "comment": "",
+    "h": "1d6b855cc3"
   },
   "동기화 사용": {
     "ko": "동기화 사용",
@@ -6803,6 +6935,12 @@
     "comment": "Plan: yearly caption",
     "h": "f4f8177bfb"
   },
+  "매번 그런가요? 껐다 켜도 그런가요? (선택)": {
+    "ko": "매번 그런가요? 껐다 켜도 그런가요? (선택)",
+    "en": "Does it happen every time? Even after restarting? (optional)",
+    "comment": "",
+    "h": "240874ecc6"
+  },
   "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
     "ko": "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요",
     "en": "Snippets you use at the same time each week or month move to the front of the keyboard when that time comes",
@@ -6839,11 +6977,23 @@
     "comment": "Usage profile: section listing the three essential snippets for the current usage profile",
     "h": "674b4e32dc"
   },
+  "멈추거나 꺼지기 직전 화면": {
+    "ko": "멈추거나 꺼지기 직전 화면",
+    "en": "Screen right before it froze or closed",
+    "comment": "",
+    "h": "99ab12df74"
+  },
   "멈춤": {
     "ko": "멈춤",
     "en": "Hang",
     "comment": "Diagnostic kind: hang",
     "h": "bdaf65bee7"
+  },
+  "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
+    "ko": "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.",
+    "en": "One screenshot of the stutter is enough. If we can see what’s on the screen and how much of it, we can find the cause faster.",
+    "comment": "",
+    "h": "e15a2fb4d2"
   },
   "메뉴바 아이콘: 🛶": {
     "ko": "메뉴바 아이콘: 🛶",
@@ -7217,6 +7367,12 @@
     "comment": "Nomad wizard step 1 title",
     "h": "1b2227aee3"
   },
+  "무엇을 샀고, 지금 어떻게 보이나요?": {
+    "ko": "무엇을 샀고, 지금 어떻게 보이나요?",
+    "en": "What did you buy, and what do you see now?",
+    "comment": "",
+    "h": "e45434a7f1"
+  },
   "무엇을 저장할지부터 묻고, 제목은 그 다음에 물어요": {
     "ko": "무엇을 저장할지부터 묻고, 제목은 그 다음에 물어요",
     "en": "It asks what to save first and for a title second",
@@ -7229,11 +7385,23 @@
     "comment": "Free use card: see what changes",
     "h": "4c27c1bb42"
   },
+  "무엇이 어떻게 안 되나요?": {
+    "ko": "무엇이 어떻게 안 되나요?",
+    "en": "What isn’t working, and how?",
+    "comment": "",
+    "h": "bab272ba3d"
+  },
   "무엇이 저장될지 누르기 전에 보여요": {
     "ko": "무엇이 저장될지 누르기 전에 보여요",
     "en": "See what will be saved before you tap",
     "comment": "What's new 5.1.8 save preview title",
     "h": "5f3b9f1f59"
+  },
+  "무엇이, 얼마나 사라졌나요?": {
+    "ko": "무엇이, 얼마나 사라졌나요?",
+    "en": "What disappeared, and how much?",
+    "comment": "",
+    "h": "e8bee7e094"
   },
   "무제한": {
     "ko": "무제한",
@@ -7264,6 +7432,12 @@
     "en": "Sentence",
     "comment": "Clipboard split unit: sentence",
     "h": "2a9c9c6e6c"
+  },
+  "문제 종류": {
+    "ko": "문제 종류",
+    "en": "Type of problem",
+    "comment": "",
+    "h": "3700193079"
   },
   "문제가 발생했습니다. 네트워크 연결과 iCloud 상태를 확인하고 다시 시도해주세요.": {
     "ko": "문제가 발생했습니다. 네트워크 연결과 iCloud 상태를 확인하고 다시 시도해주세요.",
@@ -7982,8 +8156,8 @@
   "복사": {
     "ko": "복사",
     "en": "Copy",
-    "comment": "Action: copy\nCopy\nCopy translation button",
-    "h": "94eb51f2ec"
+    "comment": "Action Button guide flow: copy\nAction: copy\nCopy\nCopy translation button",
+    "h": "615c9aad58"
   },
   "복사 될 값": {
     "ko": "복사 될 값",
@@ -8597,6 +8771,12 @@
     "comment": "Changelog 4.2.0 item 1",
     "h": "e1e2b47f34"
   },
+  "사라지기 전에 무엇을 했나요?": {
+    "ko": "사라지기 전에 무엇을 했나요?",
+    "en": "What did you do before it disappeared?",
+    "comment": "",
+    "h": "4fd4efcd55"
+  },
   "사번/학번": {
     "ko": "사번/학번",
     "en": "Employee/Student ID",
@@ -8678,8 +8858,8 @@
   "사용 중": {
     "ko": "사용 중",
     "en": "Installed",
-    "comment": "Changelog: currently installed version badge",
-    "h": "1e13a95386"
+    "comment": "Changelog: currently installed version badge\nPaywall plan badge: already owned",
+    "h": "6f1eb87d1f"
   },
   "사용 중인 사람 (설치)": {
     "ko": "사용 중인 사람 (설치)",
@@ -9407,6 +9587,24 @@
     "comment": "Settings path section header",
     "h": "64252656f2"
   },
+  "설정 앱 > 알림 > 이 앱 화면을 찍어 주세요. 알림 허용, 잠금 화면, 배너, 사운드가 다 보이게요.": {
+    "ko": "설정 앱 > 알림 > 이 앱 화면을 찍어 주세요. 알림 허용, 잠금 화면, 배너, 사운드가 다 보이게요.",
+    "en": "Take a screenshot of Settings > Notifications > this app, with Allow Notifications, Lock Screen, Banners, and Sounds all visible.",
+    "comment": "",
+    "h": "bde90d0212"
+  },
+  "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.": {
+    "ko": "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.",
+    "en": "In Settings, tap your name at the top > iCloud > See All, and take a screenshot showing whether this app is on. Screenshots from both devices are even better.",
+    "comment": "",
+    "h": "f6734b03c2"
+  },
+  "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
+    "ko": "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.",
+    "en": "In Settings, tap your name at the top > Media & Purchases > View Account > Purchase History, find this app’s payment, and take a screenshot. The date and amount are all we need. You can hide the payment method.",
+    "comment": "",
+    "h": "2c4dd5890d"
+  },
   "설정 앱에서 '동작 버튼'을 열어요": {
     "ko": "설정 앱에서 '동작 버튼'을 열어요",
     "en": "Open Action Button in the Settings app",
@@ -10013,6 +10211,12 @@
     "comment": "Changelog 5.0.5 delete blank",
     "h": "a94dd6a191"
   },
+  "쓰던 키보드 없이 이 키보드로 23개 언어를 치고, 단축어도 같이 써요.": {
+    "ko": "쓰던 키보드 없이 이 키보드로 23개 언어를 치고, 단축어도 같이 써요.",
+    "en": "Type in 23 languages without switching keyboards, and use your shortcuts right alongside.",
+    "comment": "Roadmap item detail: typing keyboard in 23 languages",
+    "h": "edf8053353"
+  },
   "쓰임새를 묻지 않아요. 저장하신 단축어를 보고 앱이 알아서 맞춰요": {
     "ko": "쓰임새를 묻지 않아요. 저장하신 단축어를 보고 앱이 알아서 맞춰요",
     "en": "No more picking a profile. The app adapts to the snippets you save",
@@ -10367,6 +10571,12 @@
     "comment": "Receipt: empty line items",
     "h": "cfc40de398"
   },
+  "안 되는 곳": {
+    "ko": "안 되는 곳",
+    "en": "Where it doesn’t work",
+    "comment": "",
+    "h": "3ec599cf33"
+  },
   "안 쓰는 단축어": {
     "ko": "안 쓰는 단축어",
     "en": "Unused snippets",
@@ -10444,6 +10654,12 @@
     "en": "Notifications are off. Turn them on in iOS Settings > %@ > Notifications.",
     "comment": "",
     "h": "ee0ec98e32"
+  },
+  "알림이 안 오거나 늦어요": {
+    "ko": "알림이 안 오거나 늦어요",
+    "en": "Notifications don’t arrive or come late",
+    "comment": "",
+    "h": "132f374923"
   },
   "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.": {
     "ko": "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.",
@@ -10589,6 +10805,12 @@
     "comment": "Keyboard banner a11y hint",
     "h": "17a89c693d"
   },
+  "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.": {
+    "ko": "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.",
+    "en": "Please send this before deleting and reinstalling the app. Deleting it also removes data that was only on this device, and it can’t be recovered.",
+    "comment": "",
+    "h": "6c47aed7d4"
+  },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
     "ko": "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요",
     "en": "Snippets no longer drop in or jolt when the app opens",
@@ -10643,6 +10865,24 @@
     "comment": "Photo value picker title",
     "h": "728d55302a"
   },
+  "어느 기기 사이에서, 무엇이 안 맞나요?": {
+    "ko": "어느 기기 사이에서, 무엇이 안 맞나요?",
+    "en": "Between which devices, and what doesn’t match?",
+    "comment": "",
+    "h": "7faff7af57"
+  },
+  "어느 화면에서, 얼마나 걸리나요?": {
+    "ko": "어느 화면에서, 얼마나 걸리나요?",
+    "en": "On which screen, and how long does it take?",
+    "comment": "",
+    "h": "dbd64ff7c0"
+  },
+  "어느 화면의 무엇이 이상한가요?": {
+    "ko": "어느 화면의 무엇이 이상한가요?",
+    "en": "What looks wrong, and on which screen?",
+    "comment": "",
+    "h": "bcccf8a8a5"
+  },
   "어두운 바탕에서 가장 잘 읽히는 색이에요.": {
     "ko": "어두운 바탕에서 가장 잘 읽히는 색이에요.",
     "en": "The most legible of these on a dark background.",
@@ -10661,17 +10901,35 @@
     "comment": "Share sheet: destination picker",
     "h": "311a548ea9"
   },
+  "어떤 문제인가요?": {
+    "ko": "어떤 문제인가요?",
+    "en": "What’s the problem?",
+    "comment": "",
+    "h": "cb4d89f7b8"
+  },
   "어떤 상황인가요?": {
     "ko": "어떤 상황인가요?",
     "en": "What's the situation?",
     "comment": "Shortcut mart search prompt",
     "h": "a26f1a2ba4"
   },
+  "어떤 알림이, 언제 오기로 돼 있었나요?": {
+    "ko": "어떤 알림이, 언제 오기로 돼 있었나요?",
+    "en": "Which notification, and when was it supposed to arrive?",
+    "comment": "",
+    "h": "00a1a78353"
+  },
   "어떤 앱에서든 글을 고르고 공유에서 ClipKeyboard 를 누르면 단축어가 됩니다. 앱을 열지 않아도 돼요.": {
     "ko": "어떤 앱에서든 글을 고르고 공유에서 ClipKeyboard 를 누르면 단축어가 됩니다. 앱을 열지 않아도 돼요.",
     "en": "Select text in any app, tap Share, pick ClipKeyboard, and it becomes a snippet. No need to open the app.",
     "comment": "DYK body: share sheet",
     "h": "dab67cc7cb"
+  },
+  "어떻게 되나요?": {
+    "ko": "어떻게 되나요?",
+    "en": "What happens?",
+    "comment": "",
+    "h": "187e8341ac"
   },
   "어떻게 사용하실 예정인가요?": {
     "ko": "어떻게 사용하실 예정인가요?",
@@ -10697,11 +10955,23 @@
     "comment": "Section: language\nSettings: app language",
     "h": "d9a6ac3cd1"
   },
+  "언제, 어느 기기에서 샀나요? (선택)": {
+    "ko": "언제, 어느 기기에서 샀나요? (선택)",
+    "en": "When, and on which device, did you buy it? (optional)",
+    "comment": "",
+    "h": "231181af2a"
+  },
   "언제든지 접근 가능": {
     "ko": "언제든지 접근 가능",
     "en": "Always accessible",
     "comment": "Always accessible label",
     "h": "c1f88829b5"
+  },
+  "언제부터 그랬나요? (선택)": {
+    "ko": "언제부터 그랬나요? (선택)",
+    "en": "Since when has this been happening? (optional)",
+    "comment": "",
+    "h": "482f56e353"
   },
   "업무": {
     "ko": "업무",
@@ -11038,6 +11308,84 @@
     "en": "e.g. “Deposit {amount}” → reuse the snippet, entering a new amount each time. Plain text like ‘amount’ stays fixed.",
     "comment": "Template token vs plain text example",
     "h": "e8fcf11de2"
+  },
+  "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.": {
+    "ko": "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.",
+    "en": "e.g. About half of the 20 I’d made are gone.",
+    "comment": "",
+    "h": "c0a5a82c2c"
+  },
+  "예) 매번요. 기기를 껐다 켜도 같아요.": {
+    "ko": "예) 매번요. 기기를 껐다 켜도 같아요.",
+    "en": "e.g. Every time. Same after restarting the device.",
+    "comment": "",
+    "h": "c952ed962c"
+  },
+  "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
+    "ko": "예) 목록을 내릴 때마다 1초쯤 멈칫해요.",
+    "en": "e.g. It freezes for about a second every time I scroll the list.",
+    "comment": "",
+    "h": "5d25eabe10"
+  },
+  "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
+    "ko": "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.",
+    "en": "e.g. Button text on the settings screen is cut off. This sentence’s translation sounds awkward.",
+    "comment": "",
+    "h": "e32a425323"
+  },
+  "예) 수면 모드가 켜져 있었어요.": {
+    "ko": "예) 수면 모드가 켜져 있었어요.",
+    "en": "e.g. Sleep Focus was on.",
+    "comment": "",
+    "h": "e444a75fad"
+  },
+  "예) 아이폰에서 만든 것이 아이패드에 안 보여요.": {
+    "ko": "예) 아이폰에서 만든 것이 아이패드에 안 보여요.",
+    "en": "e.g. What I made on my iPhone doesn’t show up on my iPad.",
+    "comment": "",
+    "h": "e193e298fe"
+  },
+  "예) 앱을 업데이트했어요. 새 아이폰으로 옮겼어요. 앱을 지웠다 다시 깔았어요.": {
+    "ko": "예) 앱을 업데이트했어요. 새 아이폰으로 옮겼어요. 앱을 지웠다 다시 깔았어요.",
+    "en": "e.g. I updated the app. I moved to a new iPhone. I deleted and reinstalled the app.",
+    "comment": "",
+    "h": "190007f2af"
+  },
+  "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.": {
+    "ko": "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.",
+    "en": "e.g. It gets stuck on a white screen when I open it. The app closes when I tap Save.",
+    "comment": "",
+    "h": "7fd7282c7d"
+  },
+  "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
+    "ko": "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.",
+    "en": "e.g. The 9 AM notification never came. It came 5 minutes late.",
+    "comment": "",
+    "h": "b7aa5cb55e"
+  },
+  "예) 올해 3월쯤, 예전 아이폰에서요.": {
+    "ko": "예) 올해 3월쯤, 예전 아이폰에서요.",
+    "en": "e.g. Around March this year, on my old iPhone.",
+    "comment": "",
+    "h": "1ef384c00a"
+  },
+  "예) 지난주 업데이트 뒤부터요.": {
+    "ko": "예) 지난주 업데이트 뒤부터요.",
+    "en": "e.g. Since last week’s update.",
+    "comment": "",
+    "h": "5b7fbdbe2b"
+  },
+  "예) 평생 이용권을 샀는데, 앱을 다시 깔고 나니 잠겨 있어요. 복원을 눌러도 없다고 나와요.": {
+    "ko": "예) 평생 이용권을 샀는데, 앱을 다시 깔고 나니 잠겨 있어요. 복원을 눌러도 없다고 나와요.",
+    "en": "e.g. I bought lifetime access, but after reinstalling the app it’s locked. Restore says there’s nothing to restore.",
+    "comment": "",
+    "h": "c935df2f4a"
+  },
+  "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
+    "ko": "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.",
+    "en": "e.g. The Home Screen widget is stuck on yesterday’s value. This app doesn’t appear in the keyboard list.",
+    "comment": "",
+    "h": "9713f82101"
   },
   "예: 010-1234-5678": {
     "ko": "예: 010-1234-5678",
@@ -11399,6 +11747,18 @@
     "comment": "Select memo intent description",
     "h": "13d40b4407"
   },
+  "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.": {
+    "ko": "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.",
+    "en": "Take a screenshot of the Home Screen with the widget, or of the screen with the keyboard showing. For the keyboard, also attach Settings > General > Keyboard > Keyboards.",
+    "comment": "",
+    "h": "bd66902936"
+  },
+  "위젯이나 키보드가 안 돼요": {
+    "ko": "위젯이나 키보드가 안 돼요",
+    "en": "The widget or keyboard doesn’t work",
+    "comment": "",
+    "h": "550a8b0ffd"
+  },
   "위줄에 둘 키와 크기를 설정에서 직접 골라요.": {
     "ko": "위줄에 둘 키와 크기를 설정에서 직접 골라요.",
     "en": "Pick the keys on the top row and their size in Settings.",
@@ -11585,11 +11945,23 @@
     "comment": "Grounds row: tap cost",
     "h": "a12038db6b"
   },
+  "이 앱의 알림 설정": {
+    "ko": "이 앱의 알림 설정",
+    "en": "This app’s notification settings",
+    "comment": "",
+    "h": "89060849e9"
+  },
   "이 앱이 하루에 박혀 있는 사람들이에요. 리뷰와 입소문이 여기서 나와요.": {
     "ko": "이 앱이 하루에 박혀 있는 사람들이에요. 리뷰와 입소문이 여기서 나와요.",
     "en": "The app is part of their day. Reviews and word of mouth come from here.",
     "comment": "Segment hint: heavy",
     "h": "a2bdb42049"
+  },
+  "이 언어를 키보드에 더합니다": {
+    "ko": "이 언어를 키보드에 더합니다",
+    "en": "Adds this language to the keyboard",
+    "comment": "Typing languages: add language hint",
+    "h": "b694ee8fb0"
   },
   "이 작업은 되돌릴 수 없습니다.": {
     "ko": "이 작업은 되돌릴 수 없습니다.",
@@ -12113,6 +12485,12 @@
     "comment": "Usage stats: events",
     "h": "15fd035e42"
   },
+  "이상한 화면": {
+    "ko": "이상한 화면",
+    "en": "Screen that looks wrong",
+    "comment": "",
+    "h": "46b4000f7f"
+  },
   "이어서 입력할 내용": {
     "ko": "이어서 입력할 내용",
     "en": "Next step content",
@@ -12239,6 +12617,18 @@
     "comment": "Persona: General title",
     "h": "c3201a4a84"
   },
+  "일본어·중국어 한자 변환": {
+    "ko": "일본어·중국어 한자 변환",
+    "en": "Kanji and hanzi conversion",
+    "comment": "Roadmap item: kanji and hanzi conversion",
+    "h": "1fa50ccb8e"
+  },
+  "일본어는 가나, 중국어는 병음·주음까지 칠 수 있어요. 한자로 바꾸는 사전은 다음 업데이트에서 필요할 때 받아 쓰게 돼요.": {
+    "ko": "일본어는 가나, 중국어는 병음·주음까지 칠 수 있어요. 한자로 바꾸는 사전은 다음 업데이트에서 필요할 때 받아 쓰게 돼요.",
+    "en": "You can type Japanese in kana and Chinese in Pinyin or Zhuyin. Conversion to kanji and hanzi comes in a future update, with the dictionary downloaded only when you need it.",
+    "comment": "Typing languages: CJK conversion dictionary is coming later",
+    "h": "5646a40242"
+  },
   "일부 항목을 지우지 못했어요. 앱을 다시 실행한 뒤 시도해 주세요.": {
     "ko": "일부 항목을 지우지 못했어요. 앱을 다시 실행한 뒤 시도해 주세요.",
     "en": "Some items couldn't be deleted. Please relaunch the app and try again.",
@@ -12341,11 +12731,23 @@
     "comment": "Appearance section footer",
     "h": "b0ffbffe0e"
   },
+  "입력 언어": {
+    "ko": "입력 언어",
+    "en": "Typing Languages",
+    "comment": "Settings: typing languages screen title",
+    "h": "58961289ea"
+  },
   "입력 언어 전환": {
     "ko": "입력 언어 전환",
     "en": "Switch input language",
     "comment": "Toggle input language key",
     "h": "e90de3eb7c"
+  },
+  "입력 언어를 바꿉니다": {
+    "ko": "입력 언어를 바꿉니다",
+    "en": "Changes the typing language",
+    "comment": "Typing keyboard: language key hint",
+    "h": "5c439e068c"
   },
   "입력 취소": {
     "ko": "입력 취소",
@@ -12424,6 +12826,12 @@
     "en": "Automatic (Recommended)",
     "comment": "Usage profile: automatic option",
     "h": "60647babbc"
+  },
+  "자동 고침과 낱말 추천": {
+    "ko": "자동 고침과 낱말 추천",
+    "en": "Autocorrect and word suggestions",
+    "comment": "Roadmap item: autocorrect and word suggestions",
+    "h": "2e99a9ef3a"
   },
   "자동 백업": {
     "ko": "자동 백업",
@@ -12562,6 +12970,12 @@
     "en": "Often used: %@",
     "comment": "Keyboard quick row chip label: frequently used shortcut",
     "h": "4e3c6b9c43"
+  },
+  "자판": {
+    "ko": "자판",
+    "en": "Keyboard",
+    "comment": "Snippet keyboard: switch to the typing keyboard",
+    "h": "7bb07c5f0b"
   },
   "작게": {
     "ko": "작게",
@@ -12902,8 +13316,8 @@
   "전체 접근 허용": {
     "ko": "전체 접근 허용",
     "en": "Allow Full Access",
-    "comment": "Allow Full Access\nAllow Full Access toggle",
-    "h": "ed8d663377"
+    "comment": "Allow Full Access\nAllow Full Access toggle\nSettings row: keyboard Full Access",
+    "h": "ada4e5f0a7"
   },
   "전체 접근 허용 켜기": {
     "ko": "전체 접근 허용 켜기",
@@ -13445,6 +13859,12 @@
     "comment": "Keyboard height comparison: taller",
     "h": "732fa02323"
   },
+  "지금 남아 있는 화면": {
+    "ko": "지금 남아 있는 화면",
+    "en": "What’s left now",
+    "comment": "",
+    "h": "3fa1a883bf"
+  },
   "지금 내 단축어 %1$d / %2$d칸": {
     "ko": "지금 내 단축어 %1$d / %2$d칸",
     "en": "%1$d of %2$d slots used",
@@ -13462,6 +13882,12 @@
     "en": "Not now, later",
     "comment": "Tutorial welcome: skip",
     "h": "0660df0f16"
+  },
+  "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
+    "ko": "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.",
+    "en": "Take a screenshot of the list as it is now. If you have an older screenshot in Photos, attach it too so we can compare what’s missing.",
+    "comment": "",
+    "h": "ff5f634480"
   },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
     "ko": "지금 보고 있는 기간을 한 장으로 뽑아요.",
@@ -13642,6 +14068,12 @@
     "en": "The diagnostics schema isn't deployed to the hub yet. Deploy the CrashReport record type and its indexes in CloudKit Console and reports will show up here.",
     "comment": "Crash reports schema not deployed",
     "h": "35c5b2e73c"
+  },
+  "진단 정보를 모으는 중…": {
+    "ko": "진단 정보를 모으는 중…",
+    "en": "Gathering diagnostic info…",
+    "comment": "",
+    "h": "cb69319857"
   },
   "진동과 복사한 글 꺼내기가 꺼져 있어요": {
     "ko": "진동과 복사한 글 꺼내기가 꺼져 있어요",
@@ -14156,8 +14588,8 @@
   "추천": {
     "ko": "추천",
     "en": "Best value",
-    "comment": "Plan: recommended badge",
-    "h": "13de63ae05"
+    "comment": "Paywall plan badge: recommended\nPlan: recommended badge",
+    "h": "101985eb52"
   },
   "추천 단축어 %@": {
     "ko": "추천 단축어 %@",
@@ -14573,6 +15005,12 @@
     "comment": "Changelog 4.4.0 item 4",
     "h": "0a7a91e636"
   },
+  "켜 둔 언어": {
+    "ko": "켜 둔 언어",
+    "en": "Enabled Languages",
+    "comment": "Typing languages: enabled section header",
+    "h": "d1c1be1375"
+  },
   "켜기": {
     "ko": "켜기",
     "en": "Turn on",
@@ -14594,8 +15032,8 @@
   "켜짐": {
     "ko": "켜짐",
     "en": "On",
-    "comment": "On",
-    "h": "7c435660e3"
+    "comment": "Full Access status: on\nOn",
+    "h": "95cf86b9c1"
   },
   "켠 사용자당 평균 입력": {
     "ko": "켠 사용자당 평균 입력",
@@ -15119,6 +15557,12 @@
     "comment": "Layout step: headline",
     "h": "1faac4c86e"
   },
+  "키보드 하나로 글까지": {
+    "ko": "키보드 하나로 글까지",
+    "en": "Type everything with one keyboard",
+    "comment": "Roadmap item: type everything with this keyboard",
+    "h": "4577177520"
+  },
   "키보드 화면": {
     "ko": "키보드 화면",
     "en": "Keyboard view",
@@ -15382,6 +15826,12 @@
     "en": "The keyboard's basics work without paying",
     "comment": "Changelog 4.0.3 item 2",
     "h": "4f278e5f73"
+  },
+  "키보드의 언어 키가 이 순서대로 바뀌어요. 끌어서 순서를 바꾸고, 밀어서 뺄 수 있어요.": {
+    "ko": "키보드의 언어 키가 이 순서대로 바뀌어요. 끌어서 순서를 바꾸고, 밀어서 뺄 수 있어요.",
+    "en": "The language key on the keyboard cycles in this order. Drag to reorder, swipe to remove.",
+    "comment": "Typing languages: enabled section footer",
+    "h": "3afc6ec64c"
   },
   "키보드의 템플릿 빈칸": {
     "ko": "키보드의 템플릿 빈칸",
@@ -15880,6 +16330,12 @@
     "en": "Fixed the tutorial pointing at a snippet that was on another page",
     "comment": "Changelog 5.0.0 tutorial page",
     "h": "ad8c45fc5b"
+  },
+  "틀린 글자를 고쳐 주고, 칠 낱말을 미리 보여 줘요.": {
+    "ko": "틀린 글자를 고쳐 주고, 칠 낱말을 미리 보여 줘요.",
+    "en": "Fixes typos and shows the words you’re about to type.",
+    "comment": "Roadmap item detail: autocorrect and suggestions",
+    "h": "552ec962c3"
   },
   "틀린 카드번호는 저장할 때 알려드려요": {
     "ko": "틀린 카드번호는 저장할 때 알려드려요",
@@ -16433,6 +16889,12 @@
     "comment": "Menu: bulk import",
     "h": "19c9fb1ad6"
   },
+  "한자 사전은 앱의 키보드 설정에서 받아요": {
+    "ko": "한자 사전은 앱의 키보드 설정에서 받아요",
+    "en": "Get the conversion dictionary in the app’s keyboard settings",
+    "comment": "Typing keyboard: CJK dictionary not downloaded yet",
+    "h": "a98b852c20"
+  },
   "함께 쓰는 값들을 골라 하나로 묶으면 키 하나가 돼요. 주황색 숫자는 그 키가 몇 단계인지예요.": {
     "ko": "함께 쓰는 값들을 골라 하나로 묶으면 키 하나가 돼요. 주황색 숫자는 그 키가 몇 단계인지예요.",
     "en": "Pick the values you use together and they become a single key. The orange number is how many steps that key has.",
@@ -16576,6 +17038,12 @@
     "en": "When we tell you this tab has two screens, the button above and the tab below light up together. The ripple on a combo key is no longer clipped.",
     "comment": "Changelog 5.0.3 highlight fix",
     "h": "459064740b"
+  },
+  "화면이나 글자가 이상해요": {
+    "ko": "화면이나 글자가 이상해요",
+    "en": "The screen or text looks wrong",
+    "comment": "",
+    "h": "77ad812308"
   },
   "확인": {
     "ko": "확인",
@@ -16732,6 +17200,12 @@
     "en": "Dormant",
     "comment": "Stage simulator: dormant",
     "h": "1f2314554b"
+  },
+  "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.": {
+    "ko": "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.",
+    "en": "A white screen is fine too. Press the side button and the volume up button together to take a screenshot.",
+    "comment": "",
+    "h": "5bc1d83572"
   },
   "힌트 (선택)": {
     "ko": "힌트 (선택)",

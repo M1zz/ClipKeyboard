@@ -982,6 +982,10 @@
     "v": "Peruuta",
     "src": "587e1cf483"
   },
+  "Capture Clipboard": {
+    "v": "Kaappaa leikepöytä",
+    "src": "05a894f630"
+  },
   "Capture a quick note into ClipKeyboard.": {
     "v": "Tallenna pikamuistiinpano ClipKeyboardiin.",
     "src": "986e0e14bc"
@@ -1029,6 +1033,10 @@
   "ClipKeyboard Help": {
     "v": "ClipKeyboard-ohje",
     "src": "48281bffb6"
+  },
+  "ClipKeyboard Plus · Pro": {
+    "v": "ClipKeyboard Plus · Pro",
+    "src": "f99e702da7"
   },
   "ClipKeyboard Pro": {
     "v": "ClipKeyboard Pro",
@@ -1983,6 +1991,10 @@
     "v": "Lähetin tarjouksen, mutta vastausta ei ole vielä tullut",
     "src": "4441d88960"
   },
+  "Shift": {
+    "v": "Vaihto",
+    "src": "1226995e6c"
+  },
   "Shortcuts": {
     "v": "Oikotiet",
     "src": "92762e1530"
@@ -2295,6 +2307,10 @@
     "v": "iCloud-palvelimessa on tilapäinen ongelma. Yritä hetken päästä uudelleen.",
     "src": "c581e54a3d"
   },
+  "iCloud 설정 화면": {
+    "v": "iCloud-asetusten näkymä",
+    "src": "c688d26dc9"
+  },
   "iCloud 저장 공간이 부족합니다. 설정 > [사용자 이름] > iCloud > 저장 공간 관리에서 확인해주세요.": {
     "v": "iCloud-tila on täynnä. Tarkista Asetukset > [Nimesi] > iCloud > Hallitse tilaa.",
     "src": "fdf93be9b9"
@@ -2534,6 +2550,10 @@
   "가끔 잠깐 나타나요": {
     "v": "Ilmestyy joskus",
     "src": "aa3abb8cf2"
+  },
+  "가나·병음·주음을 한자로 바꿔요. 사전은 필요할 때만 받아요.": {
+    "v": "Muuntaa kanan, pinyinin ja zhuyinin kanjiksi ja hanziksi. Sanakirja ladataan vasta tarvittaessa.",
+    "src": "f1b25e257f"
   },
   "가운데 접기": {
     "v": "Lyhennä keskeltä",
@@ -2812,6 +2832,10 @@
     "v": "Kuvio",
     "src": "eb3e6a1ba8"
   },
+  "결제 · 구매 복원": {
+    "v": "Maksu · ostosten palautus",
+    "src": "31f3185bbf"
+  },
   "결제 실패": {
     "v": "Osto epäonnistui",
     "src": "1797865192"
@@ -2990,6 +3014,22 @@
     },
     "src": "9d2aeb2105"
   },
+  "구입 내역": {
+    "v": "Ostohistoria",
+    "src": "76b5d28703"
+  },
+  "구입 복원을 누른 뒤 나온 화면": {
+    "v": "Näkymä, kun painoit Palauta ostokset",
+    "src": "12da0bff52"
+  },
+  "구입 복원을 한 번 더 누르고, 나온 안내를 찍어 주세요.": {
+    "v": "Paina Palauta ostokset vielä kerran ja ota kuvakaappaus ilmoituksesta.",
+    "src": "5c2fdb82c1"
+  },
+  "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
+    "v": "Tarkista ensin, että olet kirjautunut samalla Apple-tilillä, jolla teit ostoksen. Maksu on sidottu siihen tiliin.",
+    "src": "ad99bfcd82"
+  },
   "국가 코드부터 끝까지 입력해 주세요": {
     "v": "Kirjoita koko tunnus maakoodista alkaen",
     "src": "909e701e72"
@@ -3024,9 +3064,17 @@
     },
     "src": "4f976d759d"
   },
+  "그 밖의 문제": {
+    "v": "Muut ongelmat",
+    "src": "b046d2243a"
+  },
   "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
     "v": "Nimeä ei voi käyttää. Se on jo olemassa tai vastaa oletusvälilehteä.",
     "src": "bb24d4c594"
+  },
+  "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
+    "v": "Ota kuvakaappaus kyseisestä näkymästä. Jos käännös kuulostaa oudolta, kirjoita myös, miten se olisi luontevampi. Otamme sen käyttöön sellaisenaan.",
+    "src": "57908db83f"
   },
   "그거 아세요?": {
     "v": "Tiesitkö?",
@@ -3063,6 +3111,10 @@
     "v": "Kaikki ominaisuudet olivat käytössäsi ilmaiseksi. Ilmainen versio on nyt voimassa. Tallentamiasi fraaseja ei poisteta.",
     "src": "4d7e9923fb"
   },
+  "그때 집중 모드나 무음 모드였나요? (선택)": {
+    "v": "Oliko silloin Keskittyminen tai Äänetön-tila päällä? (valinnainen)",
+    "src": "3a4c14cf63"
+  },
   "그래도 백업": {
     "v": "Varmuuskopioi silti",
     "src": "e1f7ad1097"
@@ -3087,6 +3139,10 @@
     "v": "Korjattu: kuva jäi pois, kun kopioitiin fraasi, jossa on sekä tekstiä että valokuva",
     "src": "dd2c538bc8"
   },
+  "글자": {
+    "v": "Kirjaimet",
+    "src": "1947165158"
+  },
   "글자 위를 문질러 주세요": {
     "v": "Pyyhkäise tekstin yli",
     "src": "14d73f220e"
@@ -3110,6 +3166,10 @@
   "글자를 찾지 못했어요": {
     "v": "Tekstiä ei löytynyt",
     "src": "d2a3db28d9"
+  },
+  "글자를 치는 자판으로 바꿉니다": {
+    "v": "Vaihtaa kirjoitusnäppäimistöön",
+    "src": "e45844aee1"
   },
   "금고": {
     "v": "Holvi",
@@ -3359,9 +3419,13 @@
     "v": "Käytetty",
     "src": "949812949e"
   },
+  "꺼지거나 열리지 않아요": {
+    "v": "Sammuu tai ei aukea",
+    "src": "58a0718ad9"
+  },
   "꺼짐": {
     "v": "Pois",
-    "src": "aae35362ff"
+    "src": "5930ba091c"
   },
   "꾸준히 쓰는 사람": {
     "v": "Säännölliset käyttäjät",
@@ -3683,6 +3747,14 @@
     "v": "Napauta kokeillaksesi lisäämistä",
     "src": "41585900fd"
   },
+  "느려지는 화면": {
+    "v": "Hidastuva näkymä",
+    "src": "4e60ce0842"
+  },
+  "느리거나 버벅여요": {
+    "v": "Hidas tai nykii",
+    "src": "87d07e3996"
+  },
   "늘 이 자리: %@": {
     "v": "Aina tässä: %@",
     "src": "e64d260244"
@@ -3853,7 +3925,7 @@
   },
   "단축어": {
     "v": "Fraasi",
-    "src": "e5f8dadd0c"
+    "src": "8c10487a02"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "Lisätty %1$d fraasia, päivitetty %2$d (yhteensä %3$d).\nTuotu %4$d pinoa, %5$d kuvaa ja %6$d kategoriaa.",
@@ -4103,6 +4175,10 @@
     "v": "Kun fraasikortti on näkyvissä noin kaksi sekuntia, sisältö ilmestyy kerran otsikon alle ja häipyy. Näppäimistössä otsikko vaihtuu hetkeksi sisällöksi ja palaa takaisin. Suojattujen fraasien sisältöä ei näytetä.",
     "src": "b82098b42c"
   },
+  "단축어 키 판으로 바꿉니다": {
+    "v": "Vaihtaa fraasinäppäimiin",
+    "src": "2c793ede35"
+  },
   "단축어 탭을 열었을 때 보이는 화면이에요. 어느 쪽을 골라도 저장한 단축어는 그대로예요.": {
     "v": "Tämä näkyy, kun avaat Fraasit-välilehden. Tallennetut fraasit säilyvät kummassakin vaihtoehdossa.",
     "src": "c6404813d9"
@@ -4331,6 +4407,10 @@
     "v": "Lisää",
     "src": "d7caeb16e1"
   },
+  "더할 수 있는 언어": {
+    "v": "Muut kielet",
+    "src": "5fed1c7074"
+  },
   "데모": {
     "v": "Demo",
     "src": "330f423c9d"
@@ -4362,6 +4442,10 @@
   "데이터가 iCloud에 성공적으로 백업되었습니다.": {
     "v": "Tiedot varmuuskopioitiin iCloudiin.",
     "src": "b029663445"
+  },
+  "데이터가 사라졌어요": {
+    "v": "Tiedot katosivat",
+    "src": "e2a552f3bd"
   },
   "데이터가 성공적으로 복구되었습니다. 앱을 재시작하여 변경사항을 확인하세요.": {
     "v": "Tiedot palautettiin. Käynnistä appi uudelleen, niin näet muutokset.",
@@ -4418,6 +4502,10 @@
   "돌아온 사람": {
     "v": "Palaava käyttäjä",
     "src": "006b56d8ee"
+  },
+  "동기화 · 백업": {
+    "v": "Synkronointi · varmuuskopio",
+    "src": "27185a6478"
   },
   "동기화 사용": {
     "v": "Käyttää synkronointia",
@@ -4750,6 +4838,10 @@
     "v": "Uusiutuu vuosittain, peruutus milloin vain",
     "src": "f4f8177bfb"
   },
+  "매번 그런가요? 껐다 켜도 그런가요? (선택)": {
+    "v": "Tapahtuuko aina? Entä käynnistyksen jälkeen? (valinnainen)",
+    "src": "c5acee625f"
+  },
   "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
     "v": "Fraasit, joita käytät samaan aikaan joka viikko tai kuukausi, siirtyvät näppäimistön eteen, kun se aika tulee",
     "src": "3b3ef667b1"
@@ -4774,9 +4866,17 @@
     "v": "Kolme asiaa valmiina",
     "src": "674b4e32dc"
   },
+  "멈추거나 꺼지기 직전 화면": {
+    "v": "Näkymä juuri ennen jumiutumista tai sammumista",
+    "src": "d996ee5b1f"
+  },
   "멈춤": {
     "v": "Jumiutuminen",
     "src": "bdaf65bee7"
+  },
+  "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
+    "v": "Yksi kuvakaappaus nykivästä näkymästä riittää. Kun näkyy, mitä siellä on ja kuinka paljon, syy löytyy nopeammin.",
+    "src": "88eed68b17"
   },
   "메뉴바 아이콘: 🛶": {
     "v": "Valikkorivin kuvake: 🛶",
@@ -5053,6 +5153,10 @@
     "v": "Mitä kirjoitat useimmin?",
     "src": "1b2227aee3"
   },
+  "무엇을 샀고, 지금 어떻게 보이나요?": {
+    "v": "Mitä ostit, ja miltä se näyttää nyt?",
+    "src": "62ca6c75c7"
+  },
   "무엇을 저장할지부터 묻고, 제목은 그 다음에 물어요": {
     "v": "Ensin kysytään, mitä tallennetaan, ja vasta sitten otsikko",
     "src": "4f222ae127"
@@ -5061,9 +5165,17 @@
     "v": "Katso, mikä muuttuu",
     "src": "4c27c1bb42"
   },
+  "무엇이 어떻게 안 되나요?": {
+    "v": "Mikä ei toimi, ja miten?",
+    "src": "44a0025815"
+  },
   "무엇이 저장될지 누르기 전에 보여요": {
     "v": "Näet ennen napautusta, mitä tallennetaan",
     "src": "5f3b9f1f59"
+  },
+  "무엇이, 얼마나 사라졌나요?": {
+    "v": "Mitä katosi, ja kuinka paljon?",
+    "src": "4efae0b24c"
   },
   "무제한": {
     "v": "Rajaton",
@@ -5084,6 +5196,10 @@
   "문장": {
     "v": "Lause",
     "src": "2a9c9c6e6c"
+  },
+  "문제 종류": {
+    "v": "Ongelman tyyppi",
+    "src": "f5e8d835d4"
   },
   "문제가 발생했습니다. 네트워크 연결과 iCloud 상태를 확인하고 다시 시도해주세요.": {
     "v": "Jotain meni pieleen. Tarkista verkkoyhteys ja iCloudin tila ja yritä uudelleen.",
@@ -5566,7 +5682,7 @@
   },
   "복사": {
     "v": "Kopioi",
-    "src": "94eb51f2ec"
+    "src": "615c9aad58"
   },
   "복사 될 값": {
     "v": "Kopioitava arvo",
@@ -5994,6 +6110,10 @@
     "v": "Korjattu: ensimmäinen näppäily ei enää katkea, kun kirjoitat nopeasti",
     "src": "e1e2b47f34"
   },
+  "사라지기 전에 무엇을 했나요?": {
+    "v": "Mitä teit ennen katoamista?",
+    "src": "060b66e8fd"
+  },
   "사번/학번": {
     "v": "Työntekijä-/opiskelijanro",
     "src": "a79f366e7e"
@@ -6048,7 +6168,7 @@
   },
   "사용 중": {
     "v": "Käytössä",
-    "src": "1e13a95386"
+    "src": "6f1eb87d1f"
   },
   "사용 중인 사람 (설치)": {
     "v": "Käyttäjiä (asennukset)",
@@ -6540,6 +6660,18 @@
     "v": "Asetuspolku",
     "src": "64252656f2"
   },
+  "설정 앱 > 알림 > 이 앱 화면을 찍어 주세요. 알림 허용, 잠금 화면, 배너, 사운드가 다 보이게요.": {
+    "v": "Ota kuvakaappaus: Asetukset > Ilmoitukset > tämä appi. Ilmoitusten salliminen, lukitusnäyttö, bannerit ja äänet pitää näkyä.",
+    "src": "caa39f6495"
+  },
+  "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.": {
+    "v": "Ota kuvakaappaus: Asetukset > nimesi ylhäällä > iCloud > Näytä kaikki, niin että näkyy, onko tämä appi päällä. Parempi, jos otat kuvan molemmilta laitteilta.",
+    "src": "1f8e4dc9d9"
+  },
+  "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
+    "v": "Etsi tämän apin maksu: Asetukset > nimesi ylhäällä > Media ja ostokset > Näytä tili > Ostohistoria, ja ota kuvakaappaus. Vain päivämäärän ja summan tarvitsee näkyä. Maksutavan voi peittää.",
+    "src": "abf81174a8"
+  },
   "설정 앱에서 '동작 버튼'을 열어요": {
     "v": "Avaa Asetukset-apissa Toimintopainike",
     "src": "05f9b57848"
@@ -6953,6 +7085,10 @@
     "v": "Kentät, joita mikään fraasi ei käytä, voi poistaa. Käytössä olevat palaisivat takaisin, joten niille ei tarjota poistoa",
     "src": "a94dd6a191"
   },
+  "쓰던 키보드 없이 이 키보드로 23개 언어를 치고, 단축어도 같이 써요.": {
+    "v": "Kirjoita 23 kielellä vaihtamatta näppäimistöä, ja käytä Fraasejasi samalla.",
+    "src": "edf8053353"
+  },
   "쓰임새를 묻지 않아요. 저장하신 단축어를 보고 앱이 알아서 맞춰요": {
     "v": "Käyttötapaa ei enää kysytä. Sovellus mukautuu tallentamiesi fraasien mukaan",
     "src": "92b35ef9b7"
@@ -7195,6 +7331,10 @@
     "v": "Ei vielä hyvityksiä",
     "src": "cfc40de398"
   },
+  "안 되는 곳": {
+    "v": "Missä ei toimi",
+    "src": "7e0c6671e6"
+  },
   "안 쓰는 단축어": {
     "v": "Käyttämättömät fraasit",
     "src": "b6d486afad"
@@ -7246,6 +7386,10 @@
   "알림 권한이 꺼져 있어요. iOS 설정 > %@ > 알림에서 허용해 주세요.": {
     "v": "Ilmoitukset ovat pois päältä. Salli ne: iOS Asetukset > %@ > Ilmoitukset.",
     "src": "ee0ec98e32"
+  },
+  "알림이 안 오거나 늦어요": {
+    "v": "Ilmoitukset eivät tule tai myöhästyvät",
+    "src": "9983f9cc84"
   },
   "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.": {
     "v": "Tarkista 4 ensimmäistä merkkiä (maakoodi + tarkistusluvut). Loput ovat oikein.",
@@ -7343,6 +7487,10 @@
     "v": "Avaa sovelluksen ja näyttää, miten Täysi pääsy otetaan käyttöön",
     "src": "17a89c693d"
   },
+  "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.": {
+    "v": "Lähetä ensin, ennen kuin poistat apin ja asennat sen uudelleen. Poistaminen vie mukanaan tiedot, jotka ovat vain tällä laitteella, eikä niitä saa takaisin.",
+    "src": "dac4f6cc67"
+  },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
     "v": "Fraasit eivät enää putoa sisään tai värise sovellusta avattaessa",
     "src": "3e208a2bde"
@@ -7382,6 +7530,18 @@
     "v": "Mikä lisätään?",
     "src": "728d55302a"
   },
+  "어느 기기 사이에서, 무엇이 안 맞나요?": {
+    "v": "Mitkä laitteet, ja mikä ei täsmää?",
+    "src": "92a6a1b382"
+  },
+  "어느 화면에서, 얼마나 걸리나요?": {
+    "v": "Missä näkymässä ja kuinka kauan se kestää?",
+    "src": "12e763a59f"
+  },
+  "어느 화면의 무엇이 이상한가요?": {
+    "v": "Missä näkymässä mikä näyttää oudolta?",
+    "src": "1d0fed11b3"
+  },
   "어두운 바탕에서 가장 잘 읽히는 색이에요.": {
     "v": "Tämä on näistä luettavin tummalla taustalla.",
     "src": "164250874e"
@@ -7394,13 +7554,25 @@
     "v": "Minne tallennetaan?",
     "src": "311a548ea9"
   },
+  "어떤 문제인가요?": {
+    "v": "Mikä ongelma on?",
+    "src": "1564132fcc"
+  },
   "어떤 상황인가요?": {
     "v": "Mikä tilanne on?",
     "src": "a26f1a2ba4"
   },
+  "어떤 알림이, 언제 오기로 돼 있었나요?": {
+    "v": "Mikä ilmoitus piti tulla ja milloin?",
+    "src": "1bdc5b0c52"
+  },
   "어떤 앱에서든 글을 고르고 공유에서 ClipKeyboard 를 누르면 단축어가 됩니다. 앱을 열지 않아도 돼요.": {
     "v": "Valitse teksti missä tahansa sovelluksessa, napauta Jaa ja valitse ClipKeyboard, niin siitä tulee fraasi. Sovellusta ei tarvitse avata.",
     "src": "dab67cc7cb"
+  },
+  "어떻게 되나요?": {
+    "v": "Mitä tapahtuu?",
+    "src": "9bc5b93fc0"
   },
   "어떻게 사용하실 예정인가요?": {
     "v": "Miten aiot käyttää ClipKeyboardia?",
@@ -7418,9 +7590,17 @@
     "v": "Kieli",
     "src": "d9a6ac3cd1"
   },
+  "언제, 어느 기기에서 샀나요? (선택)": {
+    "v": "Milloin ja millä laitteella ostit sen? (valinnainen)",
+    "src": "d0719238f7"
+  },
   "언제든지 접근 가능": {
     "v": "Aina käytettävissä",
     "src": "c1f88829b5"
+  },
+  "언제부터 그랬나요? (선택)": {
+    "v": "Mistä lähtien näin on käynyt? (valinnainen)",
+    "src": "c4bda368be"
   },
   "업무": {
     "v": "Työ",
@@ -7645,6 +7825,58 @@
   "예) “입금액 {금액}원” → 단축어를 쓸 때 금액만 새로 넣어 재사용해요. 그냥 ‘금액’이라고 쓰면 글자 그대로 고정됩니다.": {
     "v": "Esim. “Talletus {summa}” → käytä fraasia uudelleen ja syötä uusi summa joka kerta. Pelkkä teksti, kuten ‘summa’, pysyy samana.",
     "src": "e8fcf11de2"
+  },
+  "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.": {
+    "v": "Esim. noin puolet 20 luomastani fraasista katosi.",
+    "src": "760fa41bf5"
+  },
+  "예) 매번요. 기기를 껐다 켜도 같아요.": {
+    "v": "Esim. joka kerta. Sama, vaikka laite käynnistetään uudelleen.",
+    "src": "b30897dd26"
+  },
+  "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
+    "v": "Esim. lista jää hetkeksi jumiin noin sekunniksi aina vieritettäessä.",
+    "src": "cc97cff3ba"
+  },
+  "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
+    "v": "Esim. asetusten painikkeen teksti leikkautuu. Tämä käännös on outo.",
+    "src": "3769e5db1c"
+  },
+  "예) 수면 모드가 켜져 있었어요.": {
+    "v": "Esim. Älä häiritse -tila oli päällä.",
+    "src": "6b2785fc2a"
+  },
+  "예) 아이폰에서 만든 것이 아이패드에 안 보여요.": {
+    "v": "Esim. iPhonessa luomani ei näy iPadissa.",
+    "src": "8b31679082"
+  },
+  "예) 앱을 업데이트했어요. 새 아이폰으로 옮겼어요. 앱을 지웠다 다시 깔았어요.": {
+    "v": "Esim. päivitin sovelluksen. Siirryin uuteen iPhoneen. Poistin sovelluksen ja asensin sen uudelleen.",
+    "src": "e37d5fac70"
+  },
+  "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.": {
+    "v": "Esim. avattaessa näkyy vain valkoinen ruutu. Sovellus sulkeutuu, kun painan Tallenna.",
+    "src": "db98524642"
+  },
+  "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
+    "v": "Esim. klo 9 ilmoitus ei tullut. Se tuli 5 minuuttia myöhässä.",
+    "src": "f815cafa08"
+  },
+  "예) 올해 3월쯤, 예전 아이폰에서요.": {
+    "v": "Esim. maaliskuussa tänä vuonna, vanhalla iPhonella.",
+    "src": "c7cb0e5e85"
+  },
+  "예) 지난주 업데이트 뒤부터요.": {
+    "v": "Esim. viime viikon päivityksestä lähtien.",
+    "src": "430ffeecba"
+  },
+  "예) 평생 이용권을 샀는데, 앱을 다시 깔고 나니 잠겨 있어요. 복원을 눌러도 없다고 나와요.": {
+    "v": "Esim. ostin kertamaksulla kaiken avaavan käyttöoikeuden, mutta uudelleenasennuksen jälkeen sovellus on lukittu. Palauta-painike sanoo, ettei ostosta löydy.",
+    "src": "a2f034964c"
+  },
+  "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
+    "v": "Esim. Koti-valikon Widget on jäänyt eilisen arvoon. Sovellus ei näy näppäimistöluettelossa.",
+    "src": "52d729fadc"
   },
   "예: 010-1234-5678": {
     "v": "Esim. 010-1234-5678",
@@ -7886,6 +8118,14 @@
     "v": "Valitse widgetissä näytettävä suosikkifraasi",
     "src": "13d40b4407"
   },
+  "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.": {
+    "v": "Ota kuvakaappaus Koti-valikosta, jossa Widget on, tai näkymästä, jossa näppäimistö näkyy. Jos kyse on näppäimistöstä, liitä mukaan myös kuva kohdasta Asetukset > Yleiset > Näppäimistö > Näppäimistöt.",
+    "src": "697bc694cf"
+  },
+  "위젯이나 키보드가 안 돼요": {
+    "v": "Widget tai näppäimistö ei toimi",
+    "src": "b0655c13c1"
+  },
   "위줄에 둘 키와 크기를 설정에서 직접 골라요.": {
     "v": "Valitse ylärivin näppäimet ja niiden koko asetuksissa.",
     "src": "6e22eb19a9"
@@ -8013,9 +8253,17 @@
     "v": "Tähän appiin kulunut aika",
     "src": "a12038db6b"
   },
+  "이 앱의 알림 설정": {
+    "v": "Tämän sovelluksen ilmoitusasetukset",
+    "src": "1ca71effba"
+  },
   "이 앱이 하루에 박혀 있는 사람들이에요. 리뷰와 입소문이 여기서 나와요.": {
     "v": "Appi on osa heidän päiväänsä. Arvostelut ja suosittelut tulevat täältä.",
     "src": "a2bdb42049"
+  },
+  "이 언어를 키보드에 더합니다": {
+    "v": "Lisää tämän kielen näppäimistöön",
+    "src": "b694ee8fb0"
   },
   "이 작업은 되돌릴 수 없습니다.": {
     "v": "Tätä ei voi kumota.",
@@ -8374,6 +8622,10 @@
     "v": "Tapahtumat",
     "src": "15fd035e42"
   },
+  "이상한 화면": {
+    "v": "Outo näkymä",
+    "src": "91fbee75ba"
+  },
   "이어서 입력할 내용": {
     "v": "Seuraavan vaiheen sisältö",
     "src": "829d0abf7d"
@@ -8458,6 +8710,14 @@
     "v": "Yleinen / henkilökohtainen",
     "src": "c3201a4a84"
   },
+  "일본어·중국어 한자 변환": {
+    "v": "Kanji- ja hanzi-muunnos",
+    "src": "1fa50ccb8e"
+  },
+  "일본어는 가나, 중국어는 병음·주음까지 칠 수 있어요. 한자로 바꾸는 사전은 다음 업데이트에서 필요할 때 받아 쓰게 돼요.": {
+    "v": "Voit kirjoittaa japania kanalla sekä kiinaa pinyinillä tai zhuyinilla. Muunnos kanjiksi ja hanziksi tulee myöhemmässä päivityksessä, ja sanakirja ladataan vasta tarvittaessa.",
+    "src": "5646a40242"
+  },
   "일부 항목을 지우지 못했어요. 앱을 다시 실행한 뒤 시도해 주세요.": {
     "v": "Joitakin kohteita ei voitu poistaa. Käynnistä appi uudelleen ja yritä uudelleen.",
     "src": "f4d9075d9a"
@@ -8529,9 +8789,17 @@
     "v": "Syöttöpalaute on värinä ja pieni tehoste, kun fraasi lisätään.",
     "src": "b0ffbffe0e"
   },
+  "입력 언어": {
+    "v": "Kirjoituskielet",
+    "src": "58961289ea"
+  },
   "입력 언어 전환": {
     "v": "Vaihda syöttökieltä",
     "src": "e90de3eb7c"
+  },
+  "입력 언어를 바꿉니다": {
+    "v": "Vaihtaa kirjoituskieltä",
+    "src": "5c439e068c"
   },
   "입력 취소": {
     "v": "Peruuta syöttö",
@@ -8584,6 +8852,10 @@
   "자동 (추천)": {
     "v": "Automaattinen (suositus)",
     "src": "60647babbc"
+  },
+  "자동 고침과 낱말 추천": {
+    "v": "Automaattinen korjaus ja sanaehdotukset",
+    "src": "2e99a9ef3a"
   },
   "자동 백업": {
     "v": "Automaattinen varmuuskopiointi",
@@ -8676,6 +8948,10 @@
   "자주 씀: %@": {
     "v": "Usein käytetty: %@",
     "src": "4e3c6b9c43"
+  },
+  "자판": {
+    "v": "Näppäimet",
+    "src": "7bb07c5f0b"
   },
   "작게": {
     "v": "Pieni",
@@ -8905,8 +9181,8 @@
     "src": "8123d8b27f"
   },
   "전체 접근 허용": {
-    "v": "Salli täysi pääsy",
-    "src": "ed8d663377"
+    "v": "Salli täysi käyttö",
+    "src": "ada4e5f0a7"
   },
   "전체 접근 허용 켜기": {
     "v": "Ota täysi pääsy käyttöön",
@@ -9277,6 +9553,10 @@
     },
     "src": "732fa02323"
   },
+  "지금 남아 있는 화면": {
+    "v": "Nykyinen näkymä",
+    "src": "21d87f24eb"
+  },
   "지금 내 단축어 %1$d / %2$d칸": {
     "v": "%1$d / %2$d paikkaa käytössä",
     "src": "d35800976d"
@@ -9288,6 +9568,10 @@
   "지금 말고 다음에 할래요": {
     "v": "Ei nyt, myöhemmin",
     "src": "0660df0f16"
+  },
+  "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
+    "v": "Ota kuvakaappaus näkymästä, jossa lista on nyt. Jos Kuvat-sovelluksessa on vanha kuvakaappaus, liitä se mukaan. Sen avulla näkee, mitä puuttuu.",
+    "src": "c6abc20c09"
   },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
     "v": "Tulostaa katsomasi jakson yhdelle kuitille.",
@@ -9420,6 +9704,10 @@
   "진단 스키마가 아직 허브에 배포되지 않았어요. CloudKit Console 에서 CrashReport 레코드 타입과 인덱스를 배포하면 여기에 쌓입니다.": {
     "v": "Diagnostiikkaskeemaa ei ole vielä otettu käyttöön keskuksessa. Ota CrashReport-tietuetyyppi ja indeksit käyttöön CloudKit Consolessa, niin raportit näkyvät tässä.",
     "src": "35c5b2e73c"
+  },
+  "진단 정보를 모으는 중…": {
+    "v": "Kerätään diagnostiikkatietoja…",
+    "src": "99e6c1ae77"
   },
   "진동과 복사한 글 꺼내기가 꺼져 있어요": {
     "v": "Värinä ja kopioidun tekstin liittäminen ovat pois päältä",
@@ -9771,8 +10059,8 @@
     "src": "9391b722f8"
   },
   "추천": {
-    "v": "Edullisin",
-    "src": "13de63ae05"
+    "v": "Paras hinta",
+    "src": "101985eb52"
   },
   "추천 단축어 %@": {
     "v": "Ehdotettu fraasi %@",
@@ -10053,6 +10341,10 @@
     "v": "Käyttöön otetut tyhjät luokat jäävät välilehdiksi, joten voit pyyhkäistä suoraan niihin",
     "src": "0a7a91e636"
   },
+  "켜 둔 언어": {
+    "v": "Käytössä olevat kielet",
+    "src": "d1c1be1375"
+  },
   "켜기": {
     "v": "Ota käyttöön",
     "src": "408e7ef1df"
@@ -10067,7 +10359,7 @@
   },
   "켜짐": {
     "v": "Päällä",
-    "src": "7c435660e3"
+    "src": "95cf86b9c1"
   },
   "켠 사용자당 평균 입력": {
     "v": "Keskim. käyttö per käyttäjä",
@@ -10423,6 +10715,10 @@
     "v": "Valitaan näppäimistön koko",
     "src": "1faac4c86e"
   },
+  "키보드 하나로 글까지": {
+    "v": "Kaikki yhdellä näppäimistöllä",
+    "src": "4577177520"
+  },
   "키보드 화면": {
     "v": "Näppäimistönäkymä",
     "src": "46ddc5fa8c"
@@ -10604,6 +10900,10 @@
   "키보드의 기본 동작을 결제 없이 쓸 수 있어요": {
     "v": "Näppäimistön perustoiminnot toimivat ilman maksua",
     "src": "4f278e5f73"
+  },
+  "키보드의 언어 키가 이 순서대로 바뀌어요. 끌어서 순서를 바꾸고, 밀어서 뺄 수 있어요.": {
+    "v": "Näppäimistön kielinäppäin vaihtaa kieltä tässä järjestyksessä. Muuta järjestystä vetämällä ja poista pyyhkäisemällä.",
+    "src": "3afc6ec64c"
   },
   "키보드의 템플릿 빈칸": {
     "v": "Pohjan täytettävät kentät näppäimistössä",
@@ -10936,6 +11236,10 @@
   "튜토리얼이 가리키는 단축어가 다른 페이지에 있어 안 보이던 것을 고쳤어요": {
     "v": "Korjattu virhe, jossa opastus osoitti fraasiin, joka oli toisella sivulla",
     "src": "ad8c45fc5b"
+  },
+  "틀린 글자를 고쳐 주고, 칠 낱말을 미리 보여 줘요.": {
+    "v": "Korjaa kirjoitusvirheet ja näyttää sanat, joita olet kirjoittamassa.",
+    "src": "552ec962c3"
   },
   "틀린 카드번호는 저장할 때 알려드려요": {
     "v": "Ilmoitamme virheellisestä korttinumerosta tallennettaessa",
@@ -11305,6 +11609,10 @@
     "v": "Järjestä monta kerralla",
     "src": "19c9fb1ad6"
   },
+  "한자 사전은 앱의 키보드 설정에서 받아요": {
+    "v": "Hae muunnossanakirja sovelluksen näppäimistöasetuksista",
+    "src": "a98b852c20"
+  },
   "함께 쓰는 값들을 골라 하나로 묶으면 키 하나가 돼요. 주황색 숫자는 그 키가 몇 단계인지예요.": {
     "v": "Valitse yhdessä käyttämäsi arvot, niin niistä tulee yksi näppäin. Oranssi luku kertoo, montako vaihetta näppäimessä on.",
     "src": "220e01d8eb"
@@ -11400,6 +11708,10 @@
   "화면이 둘이라고 알려 드릴 때 위의 버튼과 아래 탭이 함께 빛나요. 콤보 키에서 잘려 나가던 물결도 고쳤어요": {
     "v": "Kun kerromme, että tässä on kaksi näkymää, ylänäppäin ja alatabi hehkuvat yhdessä. Kombo-näppäimen aaltoilu ei enää leikkaudu pois.",
     "src": "459064740b"
+  },
+  "화면이나 글자가 이상해요": {
+    "v": "Näyttö tai teksti näyttää oudolta",
+    "src": "6b40596213"
   },
   "확인": {
     "v": "OK",
@@ -11504,6 +11816,10 @@
   "휴면": {
     "v": "Lepotilassa",
     "src": "1f2314554b"
+  },
+  "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.": {
+    "v": "Valkoinen ruutu ei haittaa. Kuvakaappaus syntyy painamalla sivupainiketta ja äänenvoimakkuuden lisäyspainiketta yhtä aikaa.",
+    "src": "b06b55deb5"
   },
   "힌트 (선택)": {
     "v": "Vihje (valinnainen)",

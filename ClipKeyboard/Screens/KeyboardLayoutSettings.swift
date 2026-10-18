@@ -52,8 +52,6 @@ struct KeyboardLayoutSettings: View {
     @AppStorage(KeyboardPrefs.showRecentClipsTab.key, store: AppGroup.defaults) private var showRecentClipsTab: Bool = KeyboardPrefs.showRecentClipsTab.fallback
     @AppStorage(KeyboardPrefs.koreanLayout.key, store: AppGroup.defaults) private var koreanLayout: String = KeyboardPrefs.koreanLayout.fallback
     @AppStorage(KeyboardPrefs.typingLang.key, store: AppGroup.defaults) private var defaultLang: String = KeyboardPrefs.typingLang.fallback
-    // 한국어 입력 사용(기본 OFF). 영어 전용 사용자가 한/EN 토글을 보지 않도록 명시적으로 켜야 함.
-    @AppStorage(KeyboardPrefs.koreanEnabled.key, store: AppGroup.defaults) private var koreanEnabled: Bool = KeyboardPrefs.koreanEnabled.fallback
 
     @State private var customBgColor: Color = .clear
     @State private var customKeyColor: Color = .clear
@@ -278,49 +276,14 @@ struct KeyboardLayoutSettings: View {
             }
 
             // ── 3. 언어 설정 ───────────────────────────────────────────
+            // 예전에는 여기서 한국어만 켜고 끌 수 있었다. 이제 자판은 23개 언어라 한 화면을 따로 둔다.
             Section {
-                // 한국어 입력 사용 - 기본 OFF. 켜야 키보드에 한/EN 토글과 한글 자판이 나타난다.
-                Toggle(isOn: $koreanEnabled) {
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text(NSLocalizedString("한국어 입력", comment: "Enable Korean input toggle"))
-                        Text(NSLocalizedString("켜면 키보드에서 한국어도 입력할 수 있어요", comment: "Enable Korean input subtitle"))
-                            .font(.caption).foregroundColor(.secondary)
-                    }
+                FoldLink(destination: TypingLanguagesSettings()) {
+                    Label(NSLocalizedString("입력 언어", comment: "Settings: typing languages screen title"),
+                          systemImage: AppSymbol.globe)
                 }
-
-                if koreanEnabled {
-                // 기본 언어 - Apple-style Picker (NavigationLink)
-                Picker(NSLocalizedString("기본 언어", comment: "Default language picker label"), selection: $defaultLang) {
-                    Label("English", systemImage: AppSymbol.globe).tag("english")
-                    Label(NSLocalizedString("한국어", comment: "Korean language option"), systemImage: AppSymbol.globeAsiaAustraliaFill).tag("korean")
-                }
-
-                // 한국어 레이아웃 - Apple-style Picker (NavigationLink)
-                Picker(NSLocalizedString("한국어 레이아웃", comment: "Korean layout picker label"), selection: $koreanLayout) {
-                    VStack(alignment: .leading) {
-                        Text(NSLocalizedString("두벌식", comment: "Korean layout: dubeolsik"))
-                        Text(NSLocalizedString("QWERTY 스타일 (표준)", comment: "Dubeolsik subtitle"))
-                            .font(.caption).foregroundColor(.secondary)
-                    }
-                    .tag("dubeolsik")
-
-                    VStack(alignment: .leading) {
-                        Text(NSLocalizedString("천지인", comment: "Korean layout: cheonjiin"))
-                        Text(NSLocalizedString("3×3 키패드 스타일", comment: "Cheonjiin subtitle"))
-                            .font(.caption).foregroundColor(.secondary)
-                    }
-                    .tag("cheonjiin")
-                }
-
-                // 레이아웃 시각 가이드
-                koreanLayoutGuide
-                }   // if koreanEnabled
             } header: {
                 Text(NSLocalizedString("언어", comment: "Section: language"))
-            } footer: {
-                Text(koreanEnabled
-                     ? NSLocalizedString("키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.", comment: "Language section footer")
-                     : NSLocalizedString("이 설정을 켜면 키보드에 한/EN 전환 버튼이 추가됩니다.", comment: "Language section footer when Korean off"))
             }
 
             // ── 4. 표시 옵션 ───────────────────────────────────────────
@@ -464,63 +427,6 @@ struct KeyboardLayoutSettings: View {
             Text(NSLocalizedString("키의 두께와 눌리는 느낌만 바뀌어요. 색은 아래에서 따로 고를 수 있어요.",
                                    comment: "Keycap skin section footer"))
         }
-    }
-
-    // MARK: - Korean Layout Visual Guide
-
-    private var koreanLayoutGuide: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(NSLocalizedString("레이아웃 미리보기", comment: "Layout preview label"))
-                .font(.caption)
-                .foregroundColor(.secondary)
-            HStack(spacing: 12) {
-                // 두벌식
-                layoutCard(
-                    title: NSLocalizedString("두벌식", comment: "Dubeolsik Korean keyboard layout name"),
-                    layoutId: "dubeolsik",
-                    rows: [["ㅂ", "ㅈ", "ㄷ", "ㄱ", "ㅅ"], ["ㅁ", "ㄴ", "ㅇ", "ㄹ", "ㅎ"], ["ㅗ", "ㅓ", "ㅏ", "ㅣ", "ㅡ"]],
-                    isSelected: koreanLayout == "dubeolsik"
-                )
-                // 천지인
-                layoutCard(
-                    title: NSLocalizedString("천지인", comment: "Cheonjiin Korean keyboard layout name"),
-                    layoutId: "cheonjiin",
-                    rows: [["ㅣ", "ㆍ", "ㅡ"], ["ㄱㅋ", "ㄴㄹ", "ㄷㅌ"], ["ㅂㅍ", "ㅅㅎ", "ㅈㅊ"]],
-                    isSelected: koreanLayout == "cheonjiin"
-                )
-            }
-        }
-        .padding(.vertical, 4)
-    }
-
-    private func layoutCard(title: String, layoutId: String, rows: [[String]], isSelected: Bool) -> some View {
-        VStack(spacing: 4) {
-            ForEach(rows.indices, id: \.self) { ri in
-                HStack(spacing: 3) {
-                    ForEach(rows[ri].indices, id: \.self) { ci in
-                        Text(rows[ri][ci])
-                            .font(.system(size: 9, weight: .medium))
-                            .frame(minWidth: 18, minHeight: 16)
-                            .background(isSelected ? theme.accent.opacity(0.15) : Color(.systemGray6))
-                            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
-                    }
-                }
-            }
-            Text(title)
-                .font(.caption2)
-                .foregroundColor(isSelected ? theme.accent : .secondary)
-                .padding(.top, 2)
-        }
-        .padding(8)
-        .background(
-            RoundedRectangle(cornerRadius: theme.radiusSm)
-                .fill(isSelected ? theme.accent.opacity(0.08) : Color(.systemGray6))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusSm)
-                .strokeBorder(isSelected ? theme.accent.opacity(0.5) : Color.clear, lineWidth: 1.5)
-        )
-        .onTapGesture { if !isSelected { koreanLayout = layoutId } }
     }
 
     // MARK: - 표시 옵션

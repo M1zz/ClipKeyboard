@@ -229,6 +229,11 @@ class TemplateInputState: ObservableObject {
 struct KeyboardView: View {
 
     @AppStorage(KeyboardPrefs.columnCount.key, store: AppGroup.defaults) private var keyboardColumnCount: Int = KeyboardPrefs.columnCount.fallback
+    /// 지금 보이는 판(자판 · 단축어). 마지막에 보던 판으로 다시 연다.
+    @AppStorage(TypingPrefs.modeKey, store: AppGroup.defaults) private var inputModeRaw: String = KeyboardInputMode.snippets.rawValue
+    /// 자판에 켜 둔 언어 · 지금 언어. 단축어 판의 자판 키 이름을 여기서 고른다.
+    @AppStorage(TypingPrefs.languagesKey, store: AppGroup.defaults) private var typingLanguagesRaw: String = ""
+    @AppStorage(TypingPrefs.currentKey, store: AppGroup.defaults) private var typingCurrentRaw: String = ""
     /// 조작 키 한 칸의 높이. **단축어 키와 다른 값이다** - 저쪽은 문구가 적힌 키,
     /// 이쪽은 맨 윗줄의 기능 키(지우기 · 보내기 · 클립보드 · 지구본 · 갈래 · 전체삭제).
     @AppStorage(KeyboardPrefs.controlKeySize.key, store: AppGroup.defaults)
@@ -1217,6 +1222,11 @@ struct KeyboardView: View {
                         globeKey(proxy: proxy)
                             .padding(.leading, 8)
                     }
+                    // 자판으로. 입력칸이 있는 자리(진짜 키보드 · 키보드 탭)에만 선다.
+                    if typingProxy != nil, hostKind != .settingsPreview {
+                        typingModeKey()
+                            .padding(.leading, KeyboardCapability.needsInputModeSwitchKey ? 0 : 6)
+                    }
                     // 카테고리 탭 + 조작 키. **세 자리(진짜 키보드 · 키보드 탭 · 설정 미리보기) 모두
                     // 같은 줄**이다. 펼친 조작 키는 카테고리 줄 위에 겹쳐 나온다(서랍).
                     // 자세한 이유: `controlKeyDrawerRow`
@@ -2029,12 +2039,64 @@ struct KeyboardView: View {
                         .frame(width: split.band)
                         .accessibilityHidden(true)
 
-                    memoModeContent
+                    primaryContent
                         .frame(maxWidth: .infinity)
                 }
             )
         }
-        return AnyView(memoModeContent)
+        return AnyView(primaryContent)
+    }
+
+    // MARK: - 자판 ↔ 단축어 판
+
+    /// 자판으로 치고 있는가. 입력칸이 없는 자리(설정 미리보기)에서는 늘 단축어 판이다.
+    private var isTyping: Bool {
+        inputModeRaw == KeyboardInputMode.typing.rawValue && typingProxy != nil && hostKind != .settingsPreview
+    }
+
+    /// 판 자리에 서는 것. 자판이면 자판, 아니면 예전부터 있던 단축어 판.
+    @ViewBuilder
+    private var primaryContent: some View {
+        if isTyping, let proxy = typingProxy {
+            TypingKeyboardPanel(
+                proxy: proxy,
+                theme: theme,
+                returnKeyName: returnKeyName,
+                returnLocked: documentState.returnKeyIsLocked,
+                globeKey: KeyboardCapability.needsInputModeSwitchKey ? AnyView(globeKey(proxy: proxy)) : nil,
+                onShowSnippets: { setInputMode(.snippets) }
+            )
+        } else {
+            memoModeContent
+        }
+    }
+
+    private func setInputMode(_ mode: KeyboardInputMode) {
+        withAnimation(.easeOut(duration: 0.15)) { inputModeRaw = mode.rawValue }
+    }
+
+    /// 단축어 판에서 자판으로 가는 키. 이름은 지금 자판 언어로 적는다(가 · A · あ …).
+    private func typingModeKey() -> some View {
+        let languages = TypingPrefs.languages(from: typingLanguagesRaw)
+        let current = TypingLanguage(rawValue: typingCurrentRaw).flatMap { languages.contains($0) ? $0 : nil }
+            ?? languages.first ?? .en
+        return Button {
+            KeyboardHaptics.softTap()
+            setInputMode(.typing)
+        } label: {
+            Image(systemName: AppSymbol.keyboard)
+                .font(.system(size: controlKeyIconSize, weight: .semibold))
+                .foregroundColor(theme.keycapLabel)
+                .frame(width: controlKeyWidth(32), height: controlKeyHeight)
+                .background(theme.keycap)
+                .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
+                .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.squish)
+        .accessibilityLabel(NSLocalizedString("자판", comment: "Snippet keyboard: switch to the typing keyboard"))
+        .accessibilityValue(current.nativeName)
+        .accessibilityHint(NSLocalizedString("글자를 치는 자판으로 바꿉니다", comment: "Snippet keyboard: typing key hint"))
     }
 
     /// 검색어가 있으면 그 글이 든 것만.

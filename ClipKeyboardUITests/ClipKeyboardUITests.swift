@@ -101,6 +101,40 @@ final class ClipKeyboardUITests: XCTestCase {
                        "단축어를 만든 뒤 첫 화면이 밀렸다(\(before) → \(banner.frame.minY))")
     }
 
+    /// 키보드 탭에서 자판으로 바꿔 두벌식으로 치면 입력칸에 조합된 한글이 들어간다.
+    func testTypingKeyboardComposesHangul() throws {
+        let app = XCUIApplication()
+        app.launchArguments += [
+            "-AppleLanguages", "(ko)", "-AppleLocale", "ko_KR",
+            "-startedFresh.v444", "NO", "-firstShortcut.done.v1", "YES",
+            "-tutorialChaptersDone.v1", "YES", "-keyboardStageOffered.v1", "YES",
+            "-didYouKnow.optOut.v1", "YES", "-ghostSuggestionsOff_v1", "YES",
+            "-defaultSamplesInserted_v1", "YES", "-demoSampleOfferResolved_v1", "YES",
+            // ⚠️ 판(자판 · 단축어)은 실행 인자로 박지 않는다. 박으면 자판 키로 바꾼 값보다 인자가 이겨서
+            //    판이 안 바뀐다. 어느 판에서 시작하든 아래에서 맞춘다.
+            "-snippetsTabStyle.v1", "keyboard",
+            "-keyboardTypingLanguages.v1", "ko,en", "-keyboardTypingCurrent.v1", "ko",
+            "-keyboardKoreanLayout", "dubeolsik",
+        ]
+        app.launch()
+        let element = { (label: String) in
+            app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", label)).firstMatch
+        }
+        // 지난번에 자판에서 끝났으면 단축어 판으로 돌려 두고 시작한다.
+        if element("단축어").waitForExistence(timeout: 8), element("ㅎ").exists { element("단축어").tap() }
+        let typingKey = element("자판")
+        XCTAssertTrue(typingKey.waitForExistence(timeout: 20), "단축어 판에 자판 키가 없다")
+        typingKey.tap()
+        XCTAssertTrue(element("ㅎ").waitForExistence(timeout: 5), "자판으로 바뀌지 않았다")
+        for key in ["ㅎ", "ㅏ", "ㄴ", "ㄱ", "ㅡ", "ㄹ"] { element(key).tap() }
+        let typed = app.descendants(matching: .any)
+            .matching(NSPredicate(format: "value CONTAINS %@ OR label CONTAINS %@", "한글", "한글")).firstMatch
+        XCTAssertTrue(typed.waitForExistence(timeout: 5), "입력칸에 '한글' 이 들어가지 않았다")
+
+        element("단축어").tap()
+        XCTAssertTrue(element("자판").waitForExistence(timeout: 5), "단축어 판으로 돌아오지 않았다")
+    }
+
     // MARK: - 접근성 자동 점검
 
     /// 새 단축어 화면(가장 많이 쓰는 입력 화면)의 접근성 자동 점검.

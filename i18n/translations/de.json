@@ -979,6 +979,10 @@
     "v": "Abbrechen",
     "src": "587e1cf483"
   },
+  "Capture Clipboard": {
+    "v": "Zwischenablage sichern",
+    "src": "05a894f630"
+  },
   "Capture a quick note into ClipKeyboard.": {
     "v": "Hält eine kurze Notiz in ClipKeyboard fest.",
     "src": "986e0e14bc"
@@ -1026,6 +1030,10 @@
   "ClipKeyboard Help": {
     "v": "ClipKeyboard Hilfe",
     "src": "48281bffb6"
+  },
+  "ClipKeyboard Plus · Pro": {
+    "v": "ClipKeyboard Plus · Pro",
+    "src": "f99e702da7"
   },
   "ClipKeyboard Pro": {
     "v": "ClipKeyboard Pro",
@@ -1980,6 +1988,10 @@
     "v": "Angebot gesendet, noch keine Antwort",
     "src": "4441d88960"
   },
+  "Shift": {
+    "v": "Umschalt",
+    "src": "1226995e6c"
+  },
   "Shortcuts": {
     "v": "Kurzbefehle",
     "src": "92762e1530"
@@ -2292,6 +2304,10 @@
     "v": "Beim iCloud-Server gibt es ein vorübergehendes Problem. Bitte versuche es später erneut.",
     "src": "c581e54a3d"
   },
+  "iCloud 설정 화면": {
+    "v": "iCloud-Einstellungen",
+    "src": "c688d26dc9"
+  },
   "iCloud 저장 공간이 부족합니다. 설정 > [사용자 이름] > iCloud > 저장 공간 관리에서 확인해주세요.": {
     "v": "Der iCloud-Speicher ist voll. Prüfe unter Einstellungen > [Dein Name] > iCloud > Speicher verwalten.",
     "src": "fdf93be9b9"
@@ -2531,6 +2547,10 @@
   "가끔 잠깐 나타나요": {
     "v": "Erscheint ab und zu kurz",
     "src": "aa3abb8cf2"
+  },
+  "가나·병음·주음을 한자로 바꿔요. 사전은 필요할 때만 받아요.": {
+    "v": "Wandelt Kana, Pinyin und Zhuyin in Kanji und Hanzi um. Das Wörterbuch wird nur bei Bedarf geladen.",
+    "src": "f1b25e257f"
   },
   "가운데 접기": {
     "v": "Mitte kürzen",
@@ -2809,6 +2829,10 @@
     "v": "Muster",
     "src": "eb3e6a1ba8"
   },
+  "결제 · 구매 복원": {
+    "v": "Zahlung · Kauf wiederherstellen",
+    "src": "31f3185bbf"
+  },
   "결제 실패": {
     "v": "Kauf fehlgeschlagen",
     "src": "1797865192"
@@ -2987,6 +3011,22 @@
     },
     "src": "9d2aeb2105"
   },
+  "구입 내역": {
+    "v": "Käufe",
+    "src": "76b5d28703"
+  },
+  "구입 복원을 누른 뒤 나온 화면": {
+    "v": "Bildschirm nach „Käufe wiederherstellen“",
+    "src": "12da0bff52"
+  },
+  "구입 복원을 한 번 더 누르고, 나온 안내를 찍어 주세요.": {
+    "v": "Tippe noch einmal auf „Käufe wiederherstellen“ und mach einen Screenshot vom angezeigten Hinweis.",
+    "src": "5c2fdb82c1"
+  },
+  "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
+    "v": "Prüfe bitte zuerst, ob du mit dem Apple-Account angemeldet bist, mit dem du gekauft hast. Die Zahlung ist an diesen Account gebunden.",
+    "src": "ad99bfcd82"
+  },
   "국가 코드부터 끝까지 입력해 주세요": {
     "v": "Gib sie vollständig ein, beginnend mit dem Ländercode",
     "src": "909e701e72"
@@ -3021,9 +3061,17 @@
     },
     "src": "4f976d759d"
   },
+  "그 밖의 문제": {
+    "v": "Andere Probleme",
+    "src": "b046d2243a"
+  },
   "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
     "src": "bb24d4c594",
     "v": "Diesen Namen kannst du nicht verwenden. Er existiert schon oder entspricht einem festen Tab."
+  },
+  "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
+    "v": "Mach bitte einen Screenshot von genau diesem Bildschirm. Wenn die Übersetzung holprig klingt, schreib dazu, wie sie natürlicher wäre. Wir übernehmen es so.",
+    "src": "57908db83f"
   },
   "그거 아세요?": {
     "v": "Schon gewusst?",
@@ -3060,6 +3108,10 @@
     "v": "Bisher waren alle Funktionen kostenlos für dich offen. Jetzt gilt der kostenlose Tarif. Deine gesicherten Textbausteine werden nicht gelöscht.",
     "src": "4d7e9923fb"
   },
+  "그때 집중 모드나 무음 모드였나요? (선택)": {
+    "v": "War zu der Zeit ein Fokus oder der Lautlos-Modus aktiv? (optional)",
+    "src": "3a4c14cf63"
+  },
   "그래도 백업": {
     "v": "Trotzdem sichern",
     "src": "e1f7ad1097"
@@ -3084,6 +3136,10 @@
     "v": "Behoben: Beim Kopieren eines Textbausteins mit Text und Foto ging das Foto verloren",
     "src": "dd2c538bc8"
   },
+  "글자": {
+    "v": "Buchstaben",
+    "src": "1947165158"
+  },
   "글자 위를 문질러 주세요": {
     "v": "Wische über einen Text",
     "src": "14d73f220e"
@@ -3107,6 +3163,10 @@
   "글자를 찾지 못했어요": {
     "v": "Kein Text gefunden",
     "src": "d2a3db28d9"
+  },
+  "글자를 치는 자판으로 바꿉니다": {
+    "v": "Wechselt zur Tastatur zum Tippen",
+    "src": "e45844aee1"
   },
   "금고": {
     "v": "Tresor",
@@ -3356,9 +3416,13 @@
     "v": "Genutzt",
     "src": "949812949e"
   },
+  "꺼지거나 열리지 않아요": {
+    "v": "Schließt sich oder öffnet sich nicht",
+    "src": "58a0718ad9"
+  },
   "꺼짐": {
     "v": "Aus",
-    "src": "aae35362ff"
+    "src": "5930ba091c"
   },
   "꾸준히 쓰는 사람": {
     "v": "Stammnutzer",
@@ -3680,6 +3744,14 @@
     "v": "Tippen zum Ausprobieren",
     "src": "41585900fd"
   },
+  "느려지는 화면": {
+    "v": "Bildschirm, der langsam wird",
+    "src": "4e60ce0842"
+  },
+  "느리거나 버벅여요": {
+    "v": "Langsam oder hakelig",
+    "src": "87d07e3996"
+  },
   "늘 이 자리: %@": {
     "v": "Immer hier: %@",
     "src": "e64d260244"
@@ -3850,7 +3922,7 @@
   },
   "단축어": {
     "v": "Textbaustein",
-    "src": "e5f8dadd0c"
+    "src": "8c10487a02"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "%1$d Textbausteine hinzugefügt, %2$d aktualisiert (insgesamt %3$d).\n%4$d Stapel, %5$d Bilder und %6$d Kategorien importiert.",
@@ -4100,6 +4172,10 @@
     "v": "Bleibt eine Textbaustein-Karte etwa 2 Sekunden auf dem Bildschirm, erscheint der Inhalt einmal dezent unter dem Titel und verschwindet wieder. Auf der Tastatur wechselt der Titel kurz zum Inhalt und zurück. Der Inhalt geschützter Textbausteine wird nie angezeigt.",
     "src": "b82098b42c"
   },
+  "단축어 키 판으로 바꿉니다": {
+    "v": "Wechselt zu deinen Textbaustein-Tasten",
+    "src": "2c793ede35"
+  },
   "단축어 탭을 열었을 때 보이는 화면이에요. 어느 쪽을 골라도 저장한 단축어는 그대로예요.": {
     "v": "Das siehst du, wenn du den Tab „Textbausteine“ öffnest. Deine gespeicherten Textbausteine bleiben in beiden Fällen gleich.",
     "src": "c6404813d9"
@@ -4328,6 +4404,10 @@
     "v": "Mehr",
     "src": "d7caeb16e1"
   },
+  "더할 수 있는 언어": {
+    "v": "Weitere Sprachen",
+    "src": "5fed1c7074"
+  },
   "데모": {
     "v": "Demo",
     "src": "330f423c9d"
@@ -4359,6 +4439,10 @@
   "데이터가 iCloud에 성공적으로 백업되었습니다.": {
     "v": "Deine Daten wurden erfolgreich in iCloud gesichert.",
     "src": "b029663445"
+  },
+  "데이터가 사라졌어요": {
+    "v": "Daten sind verschwunden",
+    "src": "e2a552f3bd"
   },
   "데이터가 성공적으로 복구되었습니다. 앱을 재시작하여 변경사항을 확인하세요.": {
     "v": "Die Daten wurden erfolgreich wiederhergestellt. Starte die App neu, um die Änderungen zu sehen.",
@@ -4415,6 +4499,10 @@
   "돌아온 사람": {
     "v": "Rückkehrer",
     "src": "006b56d8ee"
+  },
+  "동기화 · 백업": {
+    "v": "Sync · Backup",
+    "src": "27185a6478"
   },
   "동기화 사용": {
     "v": "Nutzt Synchronisierung",
@@ -4747,6 +4835,10 @@
     "v": "Verlängert sich jährlich, jederzeit kündbar",
     "src": "f4f8177bfb"
   },
+  "매번 그런가요? 껐다 켜도 그런가요? (선택)": {
+    "v": "Passiert das jedes Mal? Auch nach einem Neustart? (optional)",
+    "src": "c5acee625f"
+  },
   "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
     "v": "Textbausteine, die du jede Woche oder jeden Monat zur gleichen Zeit nutzt, rücken dann an den Anfang der Tastatur",
     "src": "3b3ef667b1"
@@ -4771,9 +4863,17 @@
     "v": "Drei Dinge, die wir zuerst einrichten",
     "src": "674b4e32dc"
   },
+  "멈추거나 꺼지기 직전 화면": {
+    "v": "Bildschirm kurz vor dem Hängen oder Schließen",
+    "src": "d996ee5b1f"
+  },
   "멈춤": {
     "v": "Hänger",
     "src": "bdaf65bee7"
+  },
+  "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
+    "v": "Ein Screenshot vom Ruckeln reicht. Wenn man sieht, was wie viel enthält, finden wir die Ursache schneller.",
+    "src": "88eed68b17"
   },
   "메뉴바 아이콘: 🛶": {
     "v": "Menüleistensymbol: 🛶",
@@ -5050,6 +5150,10 @@
     "v": "Was tippst du am häufigsten?",
     "src": "1b2227aee3"
   },
+  "무엇을 샀고, 지금 어떻게 보이나요?": {
+    "v": "Was hast du gekauft, und wie sieht es jetzt aus?",
+    "src": "62ca6c75c7"
+  },
   "무엇을 저장할지부터 묻고, 제목은 그 다음에 물어요": {
     "v": "Zuerst fragt es, was du speichern willst, danach nach dem Titel",
     "src": "4f222ae127"
@@ -5058,9 +5162,17 @@
     "v": "Änderungen ansehen",
     "src": "4c27c1bb42"
   },
+  "무엇이 어떻게 안 되나요?": {
+    "v": "Was funktioniert nicht, und wie?",
+    "src": "44a0025815"
+  },
   "무엇이 저장될지 누르기 전에 보여요": {
     "v": "Du siehst vor dem Tippen, was gespeichert wird",
     "src": "5f3b9f1f59"
+  },
+  "무엇이, 얼마나 사라졌나요?": {
+    "v": "Was ist verschwunden, und wie viel?",
+    "src": "4efae0b24c"
   },
   "무제한": {
     "v": "Unbegrenzt",
@@ -5081,6 +5193,10 @@
   "문장": {
     "v": "Satz",
     "src": "2a9c9c6e6c"
+  },
+  "문제 종류": {
+    "v": "Art des Problems",
+    "src": "f5e8d835d4"
   },
   "문제가 발생했습니다. 네트워크 연결과 iCloud 상태를 확인하고 다시 시도해주세요.": {
     "v": "Es ist ein Fehler aufgetreten. Prüfe deine Netzwerkverbindung und den iCloud-Status und versuche es erneut.",
@@ -5563,7 +5679,7 @@
   },
   "복사": {
     "v": "Kopieren",
-    "src": "94eb51f2ec"
+    "src": "615c9aad58"
   },
   "복사 될 값": {
     "v": "Zu kopierender Wert",
@@ -5991,6 +6107,10 @@
     "v": "Behoben: Der erste Tastenanschlag stockte beim schnellen Tippen",
     "src": "e1e2b47f34"
   },
+  "사라지기 전에 무엇을 했나요?": {
+    "v": "Was hast du gemacht, bevor es verschwand?",
+    "src": "060b66e8fd"
+  },
   "사번/학번": {
     "v": "Personal-/Matrikelnummer",
     "src": "a79f366e7e"
@@ -6044,8 +6164,8 @@
     "src": "e23935ee57"
   },
   "사용 중": {
-    "v": "Installiert",
-    "src": "1e13a95386"
+    "v": "Aktiv",
+    "src": "6f1eb87d1f"
   },
   "사용 중인 사람 (설치)": {
     "v": "Nutzer (Installationen)",
@@ -6537,6 +6657,18 @@
     "v": "Einstellungspfad",
     "src": "64252656f2"
   },
+  "설정 앱 > 알림 > 이 앱 화면을 찍어 주세요. 알림 허용, 잠금 화면, 배너, 사운드가 다 보이게요.": {
+    "v": "Mach bitte einen Screenshot von Einstellungen > Mitteilungen > dieser App. Mitteilungen erlauben, Sperrbildschirm, Banner und Töne sollten alle zu sehen sein.",
+    "src": "caa39f6495"
+  },
+  "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.": {
+    "v": "Mach bitte einen Screenshot von Einstellungen > dein Name ganz oben > iCloud > Alle anzeigen, auf dem man sieht, ob diese App aktiviert ist. Am besten auf beiden Geräten.",
+    "src": "1f8e4dc9d9"
+  },
+  "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
+    "v": "Such bitte unter Einstellungen > dein Name ganz oben > Medien & Käufe > Account anzeigen > Käufe die Zahlung für diese App und mach einen Screenshot. Datum und Betrag reichen. Die Zahlungsart darf verdeckt sein.",
+    "src": "abf81174a8"
+  },
   "설정 앱에서 '동작 버튼'을 열어요": {
     "v": "Öffne in der Einstellungen-App „Action Button“",
     "src": "05f9b57848"
@@ -6950,6 +7082,10 @@
     "v": "Ausfüllfelder, die kein Textbaustein nutzt, kannst du löschen. Genutzte kämen zurück, daher gibt es dafür kein Löschen",
     "src": "a94dd6a191"
   },
+  "쓰던 키보드 없이 이 키보드로 23개 언어를 치고, 단축어도 같이 써요.": {
+    "v": "Tippe in 23 Sprachen, ohne die Tastatur zu wechseln, und nutze deine Textbausteine gleich mit.",
+    "src": "edf8053353"
+  },
   "쓰임새를 묻지 않아요. 저장하신 단축어를 보고 앱이 알아서 맞춰요": {
     "v": "Du musst keinen Verwendungszweck wählen. Die App passt sich an deine gespeicherten Textbausteine an",
     "src": "92b35ef9b7"
@@ -7192,6 +7328,10 @@
     "v": "Noch keine Erstattungen",
     "src": "cfc40de398"
   },
+  "안 되는 곳": {
+    "v": "Wo es nicht klappt",
+    "src": "7e0c6671e6"
+  },
   "안 쓰는 단축어": {
     "v": "Ungenutzte Textbausteine",
     "src": "b6d486afad"
@@ -7243,6 +7383,10 @@
   "알림 권한이 꺼져 있어요. iOS 설정 > %@ > 알림에서 허용해 주세요.": {
     "v": "Mitteilungen sind aus. Aktiviere sie in den iOS-Einstellungen > %@ > Mitteilungen.",
     "src": "ee0ec98e32"
+  },
+  "알림이 안 오거나 늦어요": {
+    "v": "Mitteilungen kommen nicht oder zu spät",
+    "src": "9983f9cc84"
   },
   "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.": {
     "v": "Prüfe die ersten 4 Zeichen (Ländercode + Prüfziffern). Der Rest passt.",
@@ -7340,6 +7484,10 @@
     "v": "Öffnet die App und zeigt, wie du den Vollzugriff aktivierst",
     "src": "17a89c693d"
   },
+  "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.": {
+    "v": "Schick uns das bitte, bevor du die App löschst und neu installierst. Beim Löschen gehen Daten, die nur auf diesem Gerät liegen, verloren und lassen sich nicht wiederherstellen.",
+    "src": "dac4f6cc67"
+  },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
     "v": "Textbausteine fallen beim Start der App nicht mehr von oben herein und wackeln nicht mehr",
     "src": "3e208a2bde"
@@ -7379,6 +7527,18 @@
     "v": "Welchen einfügen?",
     "src": "728d55302a"
   },
+  "어느 기기 사이에서, 무엇이 안 맞나요?": {
+    "v": "Zwischen welchen Geräten stimmt was nicht?",
+    "src": "92a6a1b382"
+  },
+  "어느 화면에서, 얼마나 걸리나요?": {
+    "v": "Auf welchem Bildschirm, und wie lange dauert es?",
+    "src": "12e763a59f"
+  },
+  "어느 화면의 무엇이 이상한가요?": {
+    "v": "Was ist auf welchem Bildschirm seltsam?",
+    "src": "1d0fed11b3"
+  },
   "어두운 바탕에서 가장 잘 읽히는 색이에요.": {
     "v": "Auf dunklem Grund am besten lesbar.",
     "src": "164250874e"
@@ -7391,13 +7551,25 @@
     "v": "Wohin damit?",
     "src": "311a548ea9"
   },
+  "어떤 문제인가요?": {
+    "v": "Um welches Problem geht es?",
+    "src": "1564132fcc"
+  },
   "어떤 상황인가요?": {
     "v": "Um welche Situation geht es?",
     "src": "a26f1a2ba4"
   },
+  "어떤 알림이, 언제 오기로 돼 있었나요?": {
+    "v": "Welche Mitteilung sollte wann kommen?",
+    "src": "1bdc5b0c52"
+  },
   "어떤 앱에서든 글을 고르고 공유에서 ClipKeyboard 를 누르면 단축어가 됩니다. 앱을 열지 않아도 돼요.": {
     "v": "Wähle in einer beliebigen App Text aus, tippe auf Teilen und dann auf ClipKeyboard, und schon ist es ein Textbaustein. Die App musst du nicht öffnen.",
     "src": "dab67cc7cb"
+  },
+  "어떻게 되나요?": {
+    "v": "Was passiert dann?",
+    "src": "9bc5b93fc0"
   },
   "어떻게 사용하실 예정인가요?": {
     "v": "Wie willst du ClipKeyboard nutzen?",
@@ -7415,9 +7587,17 @@
     "v": "Sprache",
     "src": "d9a6ac3cd1"
   },
+  "언제, 어느 기기에서 샀나요? (선택)": {
+    "v": "Wann und auf welchem Gerät gekauft? (optional)",
+    "src": "d0719238f7"
+  },
   "언제든지 접근 가능": {
     "v": "Immer verfügbar",
     "src": "c1f88829b5"
+  },
+  "언제부터 그랬나요? (선택)": {
+    "v": "Seit wann ist das so? (optional)",
+    "src": "c4bda368be"
   },
   "업무": {
     "src": "2dd4ba1fdc",
@@ -7642,6 +7822,58 @@
   "예) “입금액 {금액}원” → 단축어를 쓸 때 금액만 새로 넣어 재사용해요. 그냥 ‘금액’이라고 쓰면 글자 그대로 고정됩니다.": {
     "v": "z. B. „Eingang {Betrag} €“ → Nutze den Textbaustein wieder und gib jedes Mal nur den Betrag neu ein. Ein einfaches „Betrag“ bleibt dagegen feststehender Text.",
     "src": "e8fcf11de2"
+  },
+  "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.": {
+    "v": "z. B. Etwa die Hälfte von 20 angelegten Einträgen ist weg.",
+    "src": "760fa41bf5"
+  },
+  "예) 매번요. 기기를 껐다 켜도 같아요.": {
+    "v": "z. B. Jedes Mal. Auch nach dem Aus- und Einschalten des Geräts.",
+    "src": "b30897dd26"
+  },
+  "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
+    "v": "z. B. Beim Scrollen durch die Liste hakt es etwa 1 Sekunde.",
+    "src": "cc97cff3ba"
+  },
+  "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
+    "v": "z. B. In den Einstellungen wird ein Button-Text abgeschnitten. Die Übersetzung dieses Satzes wirkt unpassend.",
+    "src": "3769e5db1c"
+  },
+  "예) 수면 모드가 켜져 있었어요.": {
+    "v": "z. B. Der Schlafmodus war aktiv.",
+    "src": "6b2785fc2a"
+  },
+  "예) 아이폰에서 만든 것이 아이패드에 안 보여요.": {
+    "v": "z. B. Was ich auf dem iPhone angelegt habe, erscheint nicht auf dem iPad.",
+    "src": "8b31679082"
+  },
+  "예) 앱을 업데이트했어요. 새 아이폰으로 옮겼어요. 앱을 지웠다 다시 깔았어요.": {
+    "v": "z. B. Ich habe die App aktualisiert. Ich bin auf ein neues iPhone umgezogen. Ich habe die App gelöscht und neu installiert.",
+    "src": "e37d5fac70"
+  },
+  "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.": {
+    "v": "z. B. Beim Öffnen bleibt der Bildschirm weiß. Beim Tippen auf Sichern schließt sich die App.",
+    "src": "db98524642"
+  },
+  "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
+    "v": "z. B. Die Mitteilung um 9 Uhr kam nicht. Sie kam 5 Minuten zu spät.",
+    "src": "f815cafa08"
+  },
+  "예) 올해 3월쯤, 예전 아이폰에서요.": {
+    "v": "z. B. Etwa im März dieses Jahres, auf dem alten iPhone.",
+    "src": "c7cb0e5e85"
+  },
+  "예) 지난주 업데이트 뒤부터요.": {
+    "v": "z. B. Seit dem Update letzte Woche.",
+    "src": "430ffeecba"
+  },
+  "예) 평생 이용권을 샀는데, 앱을 다시 깔고 나니 잠겨 있어요. 복원을 눌러도 없다고 나와요.": {
+    "v": "z. B. Ich habe die lebenslange Lizenz gekauft, aber nach der Neuinstallation ist alles gesperrt. Beim Wiederherstellen heißt es, es gibt nichts.",
+    "src": "a2f034964c"
+  },
+  "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
+    "v": "z. B. Das Widget auf dem Home-Bildschirm zeigt noch den Wert von gestern. Die App fehlt in der Tastaturliste.",
+    "src": "52d729fadc"
   },
   "예: 010-1234-5678": {
     "v": "z. B. 010-1234-5678",
@@ -7883,6 +8115,14 @@
     "v": "Wähle einen Favoriten-Textbaustein für das Widget",
     "src": "13d40b4407"
   },
+  "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.": {
+    "v": "Mach einen Screenshot vom Home-Bildschirm mit dem Widget oder vom Bildschirm mit der Tastatur. Bei einem Tastaturproblem hänge bitte auch Einstellungen > Allgemein > Tastatur > Tastaturen an.",
+    "src": "697bc694cf"
+  },
+  "위젯이나 키보드가 안 돼요": {
+    "v": "Widget oder Tastatur funktioniert nicht",
+    "src": "b0655c13c1"
+  },
   "위줄에 둘 키와 크기를 설정에서 직접 골라요.": {
     "v": "Lege die Tasten der obersten Reihe und ihre Größe in den Einstellungen fest.",
     "src": "6e22eb19a9"
@@ -8010,9 +8250,17 @@
     "v": "Zeit, die dich diese App gekostet hat",
     "src": "a12038db6b"
   },
+  "이 앱의 알림 설정": {
+    "v": "Mitteilungen für diese App",
+    "src": "1ca71effba"
+  },
   "이 앱이 하루에 박혀 있는 사람들이에요. 리뷰와 입소문이 여기서 나와요.": {
     "v": "Diese Leute haben die App fest im Alltag. Bewertungen und Empfehlungen kommen von hier.",
     "src": "a2bdb42049"
+  },
+  "이 언어를 키보드에 더합니다": {
+    "v": "Fügt diese Sprache zur Tastatur hinzu",
+    "src": "b694ee8fb0"
   },
   "이 작업은 되돌릴 수 없습니다.": {
     "v": "Das lässt sich nicht rückgängig machen.",
@@ -8371,6 +8619,10 @@
     "v": "Ereignisse",
     "src": "15fd035e42"
   },
+  "이상한 화면": {
+    "v": "Seltsamer Bildschirm",
+    "src": "91fbee75ba"
+  },
   "이어서 입력할 내용": {
     "v": "Inhalt für den nächsten Schritt",
     "src": "829d0abf7d"
@@ -8455,6 +8707,14 @@
     "v": "Allgemein / Privat",
     "src": "c3201a4a84"
   },
+  "일본어·중국어 한자 변환": {
+    "v": "Kanji- und Hanzi-Umwandlung",
+    "src": "1fa50ccb8e"
+  },
+  "일본어는 가나, 중국어는 병음·주음까지 칠 수 있어요. 한자로 바꾸는 사전은 다음 업데이트에서 필요할 때 받아 쓰게 돼요.": {
+    "v": "Japanisch tippst du in Kana, Chinesisch in Pinyin oder Zhuyin. Das Wörterbuch für Kanji und Hanzi kommt mit einem späteren Update und wird nur bei Bedarf geladen.",
+    "src": "5646a40242"
+  },
   "일부 항목을 지우지 못했어요. 앱을 다시 실행한 뒤 시도해 주세요.": {
     "v": "Einige Einträge konnten nicht gelöscht werden. Starte die App neu und versuche es noch einmal.",
     "src": "f4d9075d9a"
@@ -8526,9 +8786,17 @@
     "v": "Das Eingabefeedback ist die Vibration und der kurze Effekt, wenn ein Textbaustein eingefügt wird.",
     "src": "b0ffbffe0e"
   },
+  "입력 언어": {
+    "v": "Eingabesprachen",
+    "src": "58961289ea"
+  },
   "입력 언어 전환": {
     "v": "Eingabesprache wechseln",
     "src": "e90de3eb7c"
+  },
+  "입력 언어를 바꿉니다": {
+    "v": "Ändert die Eingabesprache",
+    "src": "5c439e068c"
   },
   "입력 취소": {
     "v": "Eingabe abbrechen",
@@ -8581,6 +8849,10 @@
   "자동 (추천)": {
     "v": "Automatisch (empfohlen)",
     "src": "60647babbc"
+  },
+  "자동 고침과 낱말 추천": {
+    "v": "Autokorrektur und Wortvorschläge",
+    "src": "2e99a9ef3a"
   },
   "자동 백업": {
     "v": "Automatisches Backup",
@@ -8673,6 +8945,10 @@
   "자주 씀: %@": {
     "v": "Oft genutzt: %@",
     "src": "4e3c6b9c43"
+  },
+  "자판": {
+    "v": "ABC",
+    "src": "7bb07c5f0b"
   },
   "작게": {
     "v": "Klein",
@@ -8903,7 +9179,7 @@
   },
   "전체 접근 허용": {
     "v": "Vollzugriff erlauben",
-    "src": "ed8d663377"
+    "src": "ada4e5f0a7"
   },
   "전체 접근 허용 켜기": {
     "v": "Vollzugriff aktivieren",
@@ -9274,6 +9550,10 @@
     },
     "src": "732fa02323"
   },
+  "지금 남아 있는 화면": {
+    "v": "Aktueller Bildschirm",
+    "src": "21d87f24eb"
+  },
   "지금 내 단축어 %1$d / %2$d칸": {
     "v": "Aktuell %1$d von %2$d Plätzen belegt",
     "src": "d35800976d"
@@ -9285,6 +9565,10 @@
   "지금 말고 다음에 할래요": {
     "v": "Jetzt nicht, später",
     "src": "0660df0f16"
+  },
+  "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
+    "v": "Mach einen Screenshot vom Bildschirm, auf dem die Liste zu sehen ist. Falls du in Fotos noch einen älteren Screenshot hast, hänge ihn bitte auch an. So lässt sich vergleichen, was fehlt.",
+    "src": "c6abc20c09"
   },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
     "v": "Druckt den angezeigten Zeitraum als einen Beleg.",
@@ -9417,6 +9701,10 @@
   "진단 스키마가 아직 허브에 배포되지 않았어요. CloudKit Console 에서 CrashReport 레코드 타입과 인덱스를 배포하면 여기에 쌓입니다.": {
     "v": "Das Diagnoseschema ist noch nicht im Hub bereitgestellt. Stelle den Recordtyp CrashReport und die Indizes in der CloudKit Console bereit, dann erscheinen die Berichte hier.",
     "src": "35c5b2e73c"
+  },
+  "진단 정보를 모으는 중…": {
+    "v": "Diagnoseinformationen werden gesammelt…",
+    "src": "99e6c1ae77"
   },
   "진동과 복사한 글 꺼내기가 꺼져 있어요": {
     "v": "Vibration und kopierter Text sind deaktiviert",
@@ -9769,7 +10057,7 @@
   },
   "추천": {
     "v": "Empfohlen",
-    "src": "13de63ae05"
+    "src": "101985eb52"
   },
   "추천 단축어 %@": {
     "v": "Vorgeschlagener Textbaustein %@",
@@ -10050,6 +10338,10 @@
     "v": "Aktivierte leere Kategorien bleiben als Tabs, per Wischen erreichst du sie direkt",
     "src": "0a7a91e636"
   },
+  "켜 둔 언어": {
+    "v": "Aktivierte Sprachen",
+    "src": "d1c1be1375"
+  },
   "켜기": {
     "v": "Einschalten",
     "src": "408e7ef1df"
@@ -10064,7 +10356,7 @@
   },
   "켜짐": {
     "v": "An",
-    "src": "7c435660e3"
+    "src": "95cf86b9c1"
   },
   "켠 사용자당 평균 입력": {
     "v": "Ø Eingaben je aktivem Nutzer",
@@ -10420,6 +10712,10 @@
     "v": "Welche Tastaturgröße passt zu dir?",
     "src": "1faac4c86e"
   },
+  "키보드 하나로 글까지": {
+    "v": "Alles mit einer Tastatur tippen",
+    "src": "4577177520"
+  },
   "키보드 화면": {
     "v": "Tastaturansicht",
     "src": "46ddc5fa8c"
@@ -10601,6 +10897,10 @@
   "키보드의 기본 동작을 결제 없이 쓸 수 있어요": {
     "v": "Die Grundfunktionen der Tastatur nutzt du ohne Kauf",
     "src": "4f278e5f73"
+  },
+  "키보드의 언어 키가 이 순서대로 바뀌어요. 끌어서 순서를 바꾸고, 밀어서 뺄 수 있어요.": {
+    "v": "Die Sprachtaste der Tastatur wechselt in dieser Reihenfolge. Zum Sortieren ziehen, zum Entfernen wischen.",
+    "src": "3afc6ec64c"
   },
   "키보드의 템플릿 빈칸": {
     "v": "Vorlagenlücken in der Tastatur",
@@ -10933,6 +11233,10 @@
   "튜토리얼이 가리키는 단축어가 다른 페이지에 있어 안 보이던 것을 고쳤어요": {
     "v": "Behoben: Das Tutorial zeigte auf einen Textbaustein, der auf einer anderen Seite lag",
     "src": "ad8c45fc5b"
+  },
+  "틀린 글자를 고쳐 주고, 칠 낱말을 미리 보여 줘요.": {
+    "v": "Korrigiert Tippfehler und zeigt Wörter, die du gleich tippst.",
+    "src": "552ec962c3"
   },
   "틀린 카드번호는 저장할 때 알려드려요": {
     "v": "Wir melden dir eine falsch getippte Kartennummer beim Sichern",
@@ -11302,6 +11606,10 @@
     "v": "Viele Textbausteine auf einmal ordnen",
     "src": "19c9fb1ad6"
   },
+  "한자 사전은 앱의 키보드 설정에서 받아요": {
+    "v": "Das Wörterbuch lädst du in den Tastatureinstellungen der App",
+    "src": "a98b852c20"
+  },
   "함께 쓰는 값들을 골라 하나로 묶으면 키 하나가 돼요. 주황색 숫자는 그 키가 몇 단계인지예요.": {
     "v": "Wähle Werte, die du zusammen nutzt, und sie werden zu einer Taste. Die orange Zahl zeigt, wie viele Schritte die Taste hat.",
     "src": "220e01d8eb"
@@ -11397,6 +11705,10 @@
   "화면이 둘이라고 알려 드릴 때 위의 버튼과 아래 탭이 함께 빛나요. 콤보 키에서 잘려 나가던 물결도 고쳤어요": {
     "v": "Wenn wir dich auf die zwei Ansichten hinweisen, leuchten die Taste oben und der Tab unten zusammen. Die Welle auf einer Kombo-Taste wird nicht mehr abgeschnitten.",
     "src": "459064740b"
+  },
+  "화면이나 글자가 이상해요": {
+    "v": "Bildschirm oder Text sieht seltsam aus",
+    "src": "6b40596213"
   },
   "확인": {
     "v": "OK",
@@ -11501,6 +11813,10 @@
   "휴면": {
     "v": "Inaktiv",
     "src": "1f2314554b"
+  },
+  "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.": {
+    "v": "Ein weißer Bildschirm ist in Ordnung. Drücke die Seitentaste und die Lauter-Taste gleichzeitig.",
+    "src": "b06b55deb5"
   },
   "힌트 (선택)": {
     "v": "Hinweis (optional)",

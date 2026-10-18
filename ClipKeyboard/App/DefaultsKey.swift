@@ -306,6 +306,14 @@ enum DefaultsKey {
     static let keyboardCustomBgHex = "keyboardCustomBgHex"
     static let keyboardCustomKeyHex = "keyboardCustomKeyHex"
     static let keyboardKoreanLayout = "keyboardKoreanLayout"
+    /// 자판에 켜 둔 언어들(순서대로, 쉼표로 이은 `TypingLanguage.rawValue`). 비어 있으면 기기 언어에서 고른다.
+    static let keyboardTypingLanguages = "keyboardTypingLanguages.v1"
+    /// 자판에서 지금 치는 언어(`TypingLanguage.rawValue`).
+    ///
+    /// ⚠️ `keyboardTypingLang` 과 따로 둔다. 그쪽은 검색칸 자판이 "english" · "korean" 으로 쓰고 있다.
+    static let keyboardTypingCurrent = "keyboardTypingCurrent.v1"
+    /// 키보드를 열면 먼저 보일 판(`KeyboardInputMode`: typing · snippets). 마지막에 보던 판을 따른다.
+    static let keyboardInputMode = "keyboardInputMode.v1"
     /// 목록 카드의 최소 높이(pt). 표준 UserDefaults (앱 전용).
     static let memoCardHeight = "memoCardHeight"
     static let koreanEnabledMigratedV1 = "koreanEnabledMigrated_v1"

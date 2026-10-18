@@ -76,6 +76,11 @@ final class CheonjiinInput {
 
     // MARK: - Public API
 
+    /// 천지인 키인가(자음 묶음 키 · ㅣ ㆍ ㅡ). 아니면 자판이 그대로 넣는다.
+    static func handles(_ key: String) -> Bool {
+        consonantCycles[key] != nil || key == "ㅣ" || key == "ㆍ" || key == "ㅡ"
+    }
+
     /// 천지인 키 탭. consonantCycles에 있으면 자음 multi-tap, 그 외엔 모음 stroke.
     func tap(_ key: String) {
         if let cycle = Self.consonantCycles[key] {
