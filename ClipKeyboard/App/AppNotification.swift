@@ -46,6 +46,9 @@ extension Notification.Name {
     static let openFullAccessGuide = Notification.Name("openFullAccessGuide")
     /// 키보드 빈칸 채우기의 + → 앱을 열어 그 빈칸의 값 추가 칸을 띄운다. object = 빈칸 토큰(`{이름}`).
     static let openPlaceholderValueAdd = Notification.Name("openPlaceholderValueAdd")
+    /// 키보드 '최근' 줄의 + → 그 글을 단축어로 저장하는 시트를 띄운다. object = 복사 기록 id(`UUID.uuidString`).
+    /// 앱 안 미리보기에서는 앱 루트가 바로 받고, 진짜 키보드에서는 키보드가 앱을 연다(`clipkeyboard://saveclip?id=`).
+    static let saveRecentClipAsSnippet = Notification.Name("saveRecentClipAsSnippet")
     /// 빠른 메모(Inbox) 보관함이 변경됨(추가/삭제/승격) → 열려 있는 화면·배지 새로고침.
     static let quickNotesChanged = Notification.Name("quickNotesChanged")
     static let openMemoListWindow = Notification.Name("openMemoListWindow")

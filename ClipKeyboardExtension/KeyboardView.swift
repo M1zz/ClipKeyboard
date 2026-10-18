@@ -1263,6 +1263,7 @@ struct KeyboardView: View {
                         onInsert: { clip in typingProxy?.insertText(clip.content) },
                         onCopy: { clip in copyClipToClipboard(clip.content) },
                         onDelete: deleteRecentClip,
+                        onSave: saveRecentClipAsSnippet,
                         isSwipingRow: $isSwipingRecentRow
                     )
                     .simultaneousGesture(pageSwipeGesture)
@@ -2011,6 +2012,7 @@ struct KeyboardView: View {
                         onInsert: { clip in typingProxy?.insertText(clip.content) },
                         onCopy: { clip in copyClipToClipboard(clip.content) },
                         onDelete: deleteRecentClip,
+                        onSave: saveRecentClipAsSnippet,
                         isSwipingRow: $isSwipingRecentRow
                     )
                     .frame(width: split.leadWidth)
@@ -2093,6 +2095,15 @@ struct KeyboardView: View {
         withAnimation(.easeOut(duration: 0.2)) {
             recentClips.removeAll { $0.id == clip.id }
         }
+    }
+
+    /// '최근' 의 + : 그 글을 단축어로 저장한다.
+    ///
+    /// 키보드는 제 안에 이름을 적을 자판을 부를 수 없어서 저장 시트는 앱이 띄운다.
+    /// 앱 안 미리보기면 앱 루트가 이 알림을 바로 받고, 진짜 키보드면 키보드가 앱을 연다
+    /// (`KeyboardViewController` · `clipkeyboard://saveclip?id=`).
+    private func saveRecentClipAsSnippet(_ clip: SmartClipboardHistory) {
+        NotificationCenter.postOnMain(name: .saveRecentClipAsSnippet, object: clip.id.uuidString)
     }
 
     /// '최근' 의 한 줄을 길게 눌러 클립보드로.

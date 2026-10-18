@@ -420,6 +420,8 @@ struct KeyboardRecentClipsPanel: View {
     let onInsert: (SmartClipboardHistory) -> Void
     let onCopy: (SmartClipboardHistory) -> Void
     let onDelete: (SmartClipboardHistory) -> Void
+    /// 줄 오른쪽 + : 이 글을 단축어로 저장한다(앱의 저장 시트가 뜬다).
+    let onSave: (SmartClipboardHistory) -> Void
     /// 한 줄을 밀고 있는 동안 참. 부르는 쪽은 그동안 탭을 넘기지 않는다.
     @Binding var isSwipingRow: Bool
 
@@ -438,11 +440,8 @@ struct KeyboardRecentClipsPanel: View {
     /// 이만큼 끝까지 밀면 버튼을 누르지 않아도 지운다(iOS 목록과 같은 손짓).
     private static let fullSwipeDistance: CGFloat = 170
 
-    private static let relativeFormatter: RelativeDateTimeFormatter = {
-        let f = RelativeDateTimeFormatter()
-        f.unitsStyle = .short
-        return f
-    }()
+    /// 줄 오른쪽 + 가 차지하는 폭. 줄의 글은 이만큼 비켜 선다.
+    private static let saveButtonWidth: CGFloat = 40
 
     var body: some View {
         if clips.isEmpty {
@@ -584,7 +583,39 @@ struct KeyboardRecentClipsPanel: View {
 
     // MARK: - 한 줄
 
+    /// 한 줄. 키캡 전체가 넣기 단추이고, 오른쪽 끝에 단축어로 저장하는 + 가 얹힌다.
+    ///
+    /// ⚠️ 예전에는 그 자리에 "4초 전" 같은 복사한 때가 있었다. 최근은 30일 안의 것만 서고
+    ///    새것이 위에 오므로 때는 순서가 이미 말해 준다. 그보다 "이건 계속 쓰겠다" 싶은 글을
+    ///    그 자리에서 단축어로 옮기는 길이 없었다(길게 누르기는 복사다).
+    /// ⚠️ + 는 넣기 단추 **바깥**에 얹는다. 단추 안의 단추는 눌림이 바깥 단추로 새어 글이 같이 들어간다.
     private func row(_ clip: SmartClipboardHistory) -> some View {
+        ZStack(alignment: .trailing) {
+            insertButton(clip)
+            saveButton(clip)
+                .padding(.trailing, 4)
+        }
+    }
+
+    private func saveButton(_ clip: SmartClipboardHistory) -> some View {
+        Button {
+            guard draggingId == nil, Date().timeIntervalSince(lastSwipeEnd) > 0.3, openRowId == nil else { return }
+            KeyboardHaptics.tap()
+            onSave(clip)
+        } label: {
+            Image(systemName: AppSymbol.plus)
+                .font(.system(size: fontSize * 0.82, weight: .semibold))
+                .foregroundColor(theme.accent)
+                .frame(width: 30, height: 30)
+                .background(Circle().fill(theme.accentSoft))
+                .frame(width: Self.saveButtonWidth, height: max(keyHeight, 44))
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(NSLocalizedString("단축어로 저장", comment: "Save to memo sheet title"))
+    }
+
+    private func insertButton(_ clip: SmartClipboardHistory) -> some View {
         let type = clip.userCorrectedType ?? clip.detectedType
         return Button {
             tap(clip)
@@ -603,10 +634,10 @@ struct KeyboardRecentClipsPanel: View {
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                Text(Self.relativeFormatter.localizedString(for: clip.copiedAt, relativeTo: Date()))
-                    .font(.caption2)
-                    .foregroundColor(theme.textFaint)
-                    .lineLimit(1)
+                // 오른쪽 + 자리(`saveButton`). 글이 그 밑으로 들어가지 않게 비워 둔다.
+                Color.clear
+                    .frame(width: Self.saveButtonWidth - 8, height: 1)
+                    .accessibilityHidden(true)
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
@@ -625,6 +656,9 @@ struct KeyboardRecentClipsPanel: View {
                                              comment: "Keyboard recent tab: row hint"))
         .accessibilityAction(named: Text(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"))) {
             onCopy(clip)
+        }
+        .accessibilityAction(named: Text(NSLocalizedString("단축어로 저장", comment: "Save to memo sheet title"))) {
+            onSave(clip)
         }
         .accessibilityAction(named: Text(NSLocalizedString("Delete", comment: "Delete button"))) {
             delete(clip)

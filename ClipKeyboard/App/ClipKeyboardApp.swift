@@ -50,6 +50,8 @@ struct ClipKeyboardApp: App {
     @State private var showFullAccessGuide = false
     /// 키보드 빈칸 채우기의 + 에서 왔다 → 그 빈칸의 값 추가(`clipkeyboard://placeholder?token=`).
     @State private var placeholderValueAddToken: PlaceholderValueAddRequest?
+    /// 키보드 '최근' 줄의 + 에서 왔다 → 그 글을 단축어로 저장(`clipkeyboard://saveclip?id=`).
+    @State private var clipToSave: SmartClipboardHistory?
     /// 반값 제안 시트 - 설치 직후·한도 한 칸 앞 두 자리에서 각각 1회 노출한다.
     @State private var showDiscountOffer = false
     /// 지금 띄운 제안이 어느 자리에서 온 것인가(문구·애널리틱스가 이 값을 따라간다).
@@ -1356,6 +1358,14 @@ struct ClipKeyboardApp: App {
                 .sheet(item: $placeholderValueAddToken) { request in
                     PlaceholderValueAddSheet(token: request.token)
                 }
+                .sheet(item: $clipToSave) { clip in
+                    SaveToMemoSheet(item: clip) { _ in clipToSave = nil }
+                }
+                // 앱 안 키보드 미리보기의 '최근' + 는 앱을 거치지 않고 여기로 바로 온다.
+                .onReceive(NotificationCenter.default.publisher(for: .saveRecentClipAsSnippet)) { note in
+                    guard let id = note.object as? String else { return }
+                    presentSaveClip(id: id)
+                }
                 .sheet(item: $categoryCleanup) { request in
                     CategoryCleanupNotice(categories: request.categories, empty: request.empty)
                 }
@@ -1492,6 +1502,23 @@ struct ClipKeyboardApp: App {
 
     // MARK: - URL Scheme Handler
 
+    /// '최근' 의 그 글을 단축어로 저장하는 시트를 띄운다.
+    ///
+    /// ⚠️ 글은 URL 에 싣지 않고 id 만 받아 복사 기록에서 찾는다. 카드번호 · 계좌 같은 글이
+    ///    URL 로 오가며 남지 않게 하려는 것이다. 그사이 지워졌으면 아무것도 띄우지 않는다.
+    private func presentSaveClip(id: String) {
+        guard let uuid = UUID(uuidString: id) else { return }
+        do {
+            guard let clip = try MemoStore.shared.loadSmartClipboardHistory().first(where: { $0.id == uuid }) else {
+                print("⚠️ [ClipKeyboardApp.presentSaveClip] 복사 기록에 없는 id: \(id)")
+                return
+            }
+            clipToSave = clip
+        } catch {
+            print("❌ [ClipKeyboardApp.presentSaveClip] 복사 기록을 못 읽음: \(error)")
+        }
+    }
+
     private func handleOpenURL(_ url: URL) {
         guard url.scheme == "clipkeyboard" else { return }
         print("🔗 [URL] App opened with URL: \(url)")
@@ -1519,6 +1546,11 @@ struct ClipKeyboardApp: App {
                   !token.isEmpty {
             // 키보드 빈칸 채우기의 + → 그 빈칸의 값 추가 칸.
             placeholderValueAddToken = PlaceholderValueAddRequest(token: token)
+        } else if url.host == "saveclip",
+                  let id = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+                    .queryItems?.first(where: { $0.name == "id" })?.value {
+            // 키보드 '최근' 줄의 + → 그 글을 단축어로 저장.
+            presentSaveClip(id: id)
         } else if url.host == "quicknote" {
             // Control Center 빠른 메모 컨트롤 → 빠른 메모 입력 시트 열기.
             // 콜드 런치에선 이 알림이 리스트의 구독 설치보다 먼저 발행돼 유실될 수 있어

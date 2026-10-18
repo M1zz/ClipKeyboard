@@ -306,6 +306,16 @@ class KeyboardViewController: UIInputViewController {
         openContainingApp(url)
     }
 
+    /// 앱을 열어 '최근' 의 이 글을 단축어로 저장하는 시트를 띄운다(최근 줄의 +).
+    private func openMainAppSaveClip(id: String) {
+        var components = URLComponents()
+        components.scheme = "clipkeyboard"
+        components.host = "saveclip"
+        components.queryItems = [URLQueryItem(name: "id", value: id)]
+        guard let url = components.url else { return }
+        openContainingApp(url)
+    }
+
     /// 앱을 연다(세이프 모드). 결제 화면이 아니라 앱 첫 화면으로 간다.
     @objc private func openMainApp() {
         guard let url = URL(string: "clipkeyboard://") else { return }
@@ -473,7 +483,11 @@ class KeyboardViewController: UIInputViewController {
             guard let token = note.object as? String else { return }
             self?.openMainAppPlaceholderValueAdd(token: token)
         }
-        notificationTokens = [t1, t2, t3, t4, t5, t6]
+        let t7 = NotificationCenter.default.addObserver(forName: Notification.Name.saveRecentClipAsSnippet, object: nil, queue: .main) { [weak self] note in
+            guard let id = note.object as? String else { return }
+            self?.openMainAppSaveClip(id: id)
+        }
+        notificationTokens = [t1, t2, t3, t4, t5, t6, t7]
     }
 
     private func handleAddTextEntry(_ notification: Notification) {
