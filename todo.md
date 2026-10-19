@@ -1,3 +1,10 @@
+## 🚫 5.1.12 (35) 2.1(b) 재거절: 심사 기기에서 또 저절로 Pro (2026-10-19)
+- [x] 원인: 그랜드파더 판정이 영수증 날짜만 봤다. 샌드박스(TestFlight · App Review) 영수증은 최초 구매일이 v4.0 한참 전으로 와서 새 심사 기기도 평생 Pro. (34 에서 고친 것은 sandbox 자동 마스터 한 길뿐이었다)
+- [x] `isGrandfatheredPurchase` 에 환경을 받아 `.production` 만 인정. 이미 새겨진 기기를 걷도록 재확인 키를 `_v2` 로
+- [x] 시험 `testGrandfatheredPurchase_NeverInSandboxOrXcode`, ProFeatureManagerTests 51개 통과
+- [ ] 빌드 올리고 TestFlight 설치본에서 설정이 "Pro 활성화됨"이 아니라 업그레이드 안내인지 확인 (피드백 화면 진단의 grandfathered=false)
+- [ ] 해결 센터 답장 후 재제출
+
 ## 🌐 인앱 상품 이름 나라별 언어 (2026-10-15)
 - [x] 원본 표 `Config/StoreKit/iap_localizations.json` (상품 7개 · 39개 지역, 이름 30자 · 설명 55자 검사 통과)
 - [x] 올리는 스크립트 `scripts/asc_iap_localize.py` (기본은 미리 보기, --apply 로 올림)

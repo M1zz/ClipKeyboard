@@ -244,10 +244,20 @@ final class ProFeatureManagerTests: XCTestCase {
     func testGrandfatheredPurchase_OnlyBeforeFreemiumRelease() {
         let before = ProFeatureManager.freemiumReleaseDate.addingTimeInterval(-1)
         let after = ProFeatureManager.freemiumReleaseDate.addingTimeInterval(86_400)
-        XCTAssertTrue(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: before))
-        XCTAssertFalse(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: after),
+        XCTAssertTrue(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: before, environment: .production))
+        XCTAssertFalse(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: after, environment: .production),
                        "v4.0 이후 설치는 결제했다 환불해도 그랜드파더로 남으면 안 된다")
-        XCTAssertFalse(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: ProFeatureManager.freemiumReleaseDate))
+        XCTAssertFalse(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: ProFeatureManager.freemiumReleaseDate,
+                                                                    environment: .production))
+    }
+
+    /// Xcode · TestFlight · App Review 영수증은 최초 구매일이 v4.0 전으로 찍혀 온다.
+    /// 날짜만 믿으면 심사 기기가 평생 Pro 가 되어 결제 화면에 닿지 못한다(5.1.12 (35) 2.1(b) 거절).
+    func testGrandfatheredPurchase_NeverInSandboxOrXcode() {
+        let longAgo = Date(timeIntervalSince1970: 1_375_340_400) // 2013-08-01, 샌드박스가 흔히 주는 날짜
+        XCTAssertFalse(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: longAgo, environment: .sandbox))
+        XCTAssertFalse(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: longAgo, environment: .xcode))
+        XCTAssertTrue(ProFeatureManager.isGrandfatheredPurchase(originalPurchaseDate: longAgo, environment: .production))
     }
 
     /// 첫 실행에 심어 준 샘플만 있는 설치는 기존 사용자가 아니다.
@@ -284,11 +294,14 @@ final class ProFeatureManagerTests: XCTestCase {
         let before = ProFeatureManager.freemiumReleaseDate.addingTimeInterval(-86_400)
         let after = ProFeatureManager.freemiumReleaseDate.addingTimeInterval(86_400)
         XCTAssertTrue(ProFeatureManager.shouldRevokeExistingFreeUser(wasExistingFreeUser: true,
-                                                                      originalPurchaseDate: after))
+                                                                      originalPurchaseDate: after,
+                                                                      environment: .production))
         XCTAssertFalse(ProFeatureManager.shouldRevokeExistingFreeUser(wasExistingFreeUser: true,
-                                                                       originalPurchaseDate: before))
+                                                                       originalPurchaseDate: before,
+                                                                       environment: .production))
         XCTAssertFalse(ProFeatureManager.shouldRevokeExistingFreeUser(wasExistingFreeUser: false,
-                                                                       originalPurchaseDate: after))
+                                                                       originalPurchaseDate: after,
+                                                                       environment: .production))
     }
 
     /// 걷을 때 한 번에 막지 않는다 - 체험 7일이 붙는다.
