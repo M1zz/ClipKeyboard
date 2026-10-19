@@ -131,7 +131,9 @@ final class UserStateStore: ObservableObject {
             keyboardInstalled: keyboardLoaded || beaconLastUse > 0,
             templates: templates,
             combos: combos,
-            unusedShortcuts: own.filter { $0.clipCount == 0 }.count
+            unusedShortcuts: own.filter { $0.clipCount == 0 }.count,
+            appLaunches: UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount),
+            showsAllFeatures: UserDefaults.standard.bool(forKey: DefaultsKey.showsAllFeatures)
         )
     }
 

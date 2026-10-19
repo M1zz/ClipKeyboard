@@ -353,6 +353,9 @@ struct MemoActionSheet: View {
     var highlightsMakeTemplate: Bool = false
     /// "보안 메모로 설정 / 보안 해제" - 값을 암호화/복호화. 해제 시 호스트에서 생체 인증.
     var onToggleSecure: (() -> Void)?
+    /// 층에 걸린 줄(즐겨찾기 · 순서 바꾸기 · 템플릿으로 만들기)을 낼지 본다.
+    /// 자세한 설계: docs/design/PROGRESSIVE_DISCLOSURE.md 2절
+    @ObservedObject private var userState = UserStateStore.shared
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
     /// 시트 높이 - 내용 실측으로 갱신. 고정 높이는 행 개수·Dynamic Type에 따라
@@ -398,6 +401,8 @@ struct MemoActionSheet: View {
                     onCopy()
                     dismiss()
                 }
+                // ⚠️ 이미 즐겨찾기인 것은 층과 무관하게 풀 수 있어야 한다.
+                if memo.isFavorite || userState.isVisible(.favorites) {
                 Divider().padding(.leading, 56)
                 actionRow(
                     label: memo.isFavorite
@@ -407,6 +412,7 @@ struct MemoActionSheet: View {
                 ) {
                     onToggleFavorite()
                     dismiss()
+                }
                 }
                 // 카테고리 지정 - 미분류(흰 배경) 메모는 "추가", 이미 카테고리가 있으면 "이동".
                 if let onMoveToCategory {
@@ -469,7 +475,7 @@ struct MemoActionSheet: View {
                         onSelectMultiple()
                     }
                 }
-                if let onReorder {
+                if let onReorder, userState.isVisible(.searchAndReorder) {
                     Divider().padding(.leading, 56)
                     actionRow(
                         label: NSLocalizedString("순서 바꾸기", comment: "Action: reorder memos"),
@@ -489,7 +495,9 @@ struct MemoActionSheet: View {
                 }
                 // 템플릿으로 만들기 - 아직 템플릿/콤보가 아닌 일반 텍스트 메모에서만 노출
                 // (보안 메모는 값이 암호문이라 제외).
-                if let onMakeTemplate, !memo.isTemplate, !memo.isStack, !memo.isSecure, memo.contentType == .text {
+                // 튜토리얼이 이 줄을 가리키는 중이면 층과 무관하게 낸다.
+                if let onMakeTemplate, !memo.isTemplate, !memo.isStack, !memo.isSecure, memo.contentType == .text,
+                   highlightsMakeTemplate || userState.isVisible(.template) {
                     Divider().padding(.leading, 56)
                     actionRow(
                         label: NSLocalizedString("템플릿으로 만들기", comment: "Action: turn memo into a template"),

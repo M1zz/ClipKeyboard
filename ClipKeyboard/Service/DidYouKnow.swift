@@ -34,6 +34,10 @@ struct DidYouKnow: Identifiable, Equatable {
     let symbol: String
     /// 읽고 나서 갈 수 있는 곳(있으면). 없으면 알기만 하면 되는 이야기다.
     var action: Action?
+    /// 이 이야기가 소개하는 기능이 층에 걸려 있으면 그 자리. 그 자리가 아직 감춰져 있으면
+    /// **건너뛰고 본 것으로 적지 않는다.** 그 층에 오르면 그때 말한다.
+    /// 자세한 설계: docs/design/PROGRESSIVE_DISCLOSURE.md 2절
+    var surface: UserSurface?
 
     enum Action: Equatable {
         /// 설정 화면으로.
@@ -154,27 +158,31 @@ extension DidYouKnow {
             id: "cursor-token",
             title: NSLocalizedString("커서를 어디에 둘지 정할 수 있어요", comment: "DYK title: cursor token"),
             body: NSLocalizedString("단축어 안에 {커서} 를 적어 두면, 넣은 뒤 커서가 그 자리에 섭니다. 뒷말을 이어 쓸 때 손이 덜 갑니다.", comment: "DYK body: cursor token"),
-            symbol: "text.cursor"
+            symbol: "text.cursor",
+            surface: .template
         ),
         DidYouKnow(
             id: "clipboard-token",
             title: NSLocalizedString("복사해 둔 것을 문장 안에 끼울 수 있어요", comment: "DYK title: clipboard token"),
             body: NSLocalizedString("{클립보드} 를 적어 두면 그 자리에 방금 복사한 것이 들어가요. \"운송장 번호는 {클립보드} 입니다\" 처럼요.", comment: "DYK body: clipboard token"),
-            symbol: "doc.on.clipboard"
+            symbol: "doc.on.clipboard",
+            surface: .template
         ),
         DidYouKnow(
             id: "icloud-backup",
             title: NSLocalizedString("폰을 잃어버려도 단축어는 남아요", comment: "DYK title: backup"),
             body: NSLocalizedString("iCloud 백업이 켜져 있으면 새 폰에서 그대로 불러올 수 있어요. 백업은 본인 iCloud 계정에만 저장됩니다.", comment: "DYK body: backup"),
             symbol: "icloud",
-            action: .openBackup
+            action: .openBackup,
+            surface: .backupSync
         ),
         DidYouKnow(
             id: "keyboard-look",
             title: NSLocalizedString("키보드 생김새를 바꿀 수 있어요", comment: "DYK title: keyboard look"),
             body: NSLocalizedString("키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.", comment: "DYK body: keyboard look"),
             symbol: "keyboard",
-            action: .openSettings
+            action: .openSettings,
+            surface: .keyboardLayout
         ),
         DidYouKnow(
             id: "bulk-import",
@@ -184,7 +192,8 @@ extension DidYouKnow {
             // ⚠️ 목록이 아니라 **그 화면으로 바로** 데려간다. 예전에는 목록까지만 보내서
             //    "+ 안 어딘가에 있다"는 말만 듣고 스스로 찾아야 했다. 찾는 일이 남으면
             //    알려 준 것이 아니다.
-            action: .openBulkImport
+            action: .openBulkImport,
+            surface: .bulkImport
         ),
         DidYouKnow(
             id: "photo-smear",
@@ -198,20 +207,23 @@ extension DidYouKnow {
             title: NSLocalizedString("제어센터에서 바로 적어 둘 수 있어요", comment: "DYK title: quick note control"),
             body: NSLocalizedString("제어센터에 빠른 메모 버튼을 넣어 두면, 앱을 열지 않고 적어만 둘 수 있어요. 적어 둔 것은 보관함에 쌓이고, 나중에 쓸 만한 것만 단축어로 올리면 됩니다.", comment: "DYK body: quick note control"),
             symbol: "switch.2",
-            action: .openQuickNoteInbox
+            action: .openQuickNoteInbox,
+            surface: .widgets
         ),
         DidYouKnow(
             id: "siri-shortcuts",
             title: NSLocalizedString("단축어 앱에서도 부를 수 있어요", comment: "DYK title: siri shortcuts"),
             body: NSLocalizedString("iPhone 단축어 앱에 이 앱의 동작이 들어가 있어요. 빠른 메모 적기와 보관함 열기를 자동화에 끼우거나 Siri 로 부를 수 있습니다.", comment: "DYK body: siri shortcuts"),
-            symbol: "app.connected.to.app.below.fill"
+            symbol: "app.connected.to.app.below.fill",
+            surface: .widgets
         ),
         DidYouKnow(
             id: "compact-placeholders",
             title: NSLocalizedString("빈칸이 여럿이어도 굴리지 않아요", comment: "DYK title: compact placeholders"),
             body: NSLocalizedString("빈칸이 여러 개인 단축어를 키보드에서 채울 때, 지금 채우는 칸만 펼치고 나머지는 한 줄로 접어 둬요. 하나를 고르면 다음 칸이 저절로 펼쳐집니다. 전부 펼쳐 보고 싶으면 설정에서 끌 수 있어요.", comment: "DYK body: compact placeholders"),
             symbol: AppSymbol.rectangleCompressVertical,
-            action: .openSettings
+            action: .openSettings,
+            surface: .template
         ),
         DidYouKnow(
             id: "return-key",
@@ -276,9 +288,13 @@ enum DidYouKnowScheduler {
     }
 
     /// 아직 안 한 이야기 중 첫 번째. 다 했으면 nil.
-    static var next: DidYouKnow? {
+    static func next(isVisible: (UserSurface) -> Bool = { _ in true }) -> DidYouKnow? {
         let done = seen
-        return DidYouKnow.all.first { !done.contains($0.id) }
+        return DidYouKnow.all.first { item in
+            guard !done.contains(item.id) else { return false }
+            guard let surface = item.surface else { return true }
+            return isVisible(surface)
+        }
     }
 
     /// 지금 말을 걸어도 되는가 - 되면 그 이야기를, 아니면 nil.
@@ -286,13 +302,15 @@ enum DidYouKnowScheduler {
     /// - Parameters:
     ///   - onboardingFinished: 처음 오는 길을 다 지났는가. 지나기 전에는 말하지 않는다.
     ///   - installedAt: 설치 시각. 모르면 말하지 않는다(모르는 채로 첫날에 말을 걸 수 있다).
+    ///   - isVisible: 층에 걸린 이야기를 지금 해도 되는가. 보통 `UserStateStore.isVisible`.
     static func candidate(onboardingFinished: Bool,
                           installedAt: Date?,
-                          now: Date = Date()) -> DidYouKnow? {
+                          now: Date = Date(),
+                          isVisible: (UserSurface) -> Bool = { _ in true }) -> DidYouKnow? {
         guard !isOptedOut, onboardingFinished else { return nil }
         guard let installedAt, now.timeIntervalSince(installedAt) >= quietAfterInstall else { return nil }
         if let last = lastShownAt, now.timeIntervalSince(last) < interval { return nil }
-        return next
+        return next(isVisible: isVisible)
     }
 
     /// 보여 줬다고 적는다.

@@ -25,12 +25,16 @@ struct AppearanceSettingsView: View {
     private var demoDataActive: Bool = false
     /// 마스터(개발자) 모드에서는 데모 토글이 늘 보인다.
     @AppStorage(DefaultsKey.masterModeEnabled) private var masterModeEnabled: Bool = false
+    /// 감춘 기능을 조용히라도 보이게 하는 탈출구. 앱 안에서만 쓰므로 표준 UserDefaults.
+    /// 자세한 설계: docs/design/PROGRESSIVE_DISCLOSURE.md 2절 "탈출구와 상한선"
+    @AppStorage(DefaultsKey.showsAllFeatures) private var showsAllFeatures: Bool = false
     @State private var demoResultMessage: String?
 
     var body: some View {
         List {
             lookSection
             delightSection
+            featuresSection
             languageSection
             // ⚠️ 데모는 **맨 아래**다. 예전에는 위에서 두 번째 섹션이라, 매일 쓰는 설정보다
             //    "둘러보기용 가짜 데이터"가 먼저 보였다. 켜 둔 사람이 끌 수 있게 남기되,
@@ -95,6 +99,26 @@ struct AppearanceSettingsView: View {
         } footer: {
             Text(NSLocalizedString("입력 반응은 문구를 넣을 때의 진동과 짧은 연출이에요.",
                                    comment: "Appearance section footer"))
+                .font(.body)
+        }
+    }
+
+    /// 앱이 아직 앞에 내지 않은 기능까지 화면에 둔다.
+    ///
+    /// ⚠️ 앞에 세우지는 않는다(조용히). 안내 띠와 권유도 그대로다. 숨겨진 기능을 찾는 사람에게
+    ///    문을 열어 주는 것이지 말을 더 거는 것이 아니다.
+    private var featuresSection: some View {
+        Section {
+            Toggle(isOn: $showsAllFeatures) {
+                Label(NSLocalizedString("모든 기능 바로 보기", comment: "Settings toggle: show every feature on the main screens right away"),
+                      systemImage: AppSymbol.squareGrid2x2)
+            }
+            .onChange(of: showsAllFeatures) { _, _ in
+                UserStateStore.shared.refresh()
+            }
+        } footer: {
+            Text(NSLocalizedString("앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.",
+                                   comment: "Footer for the show-all-features toggle"))
                 .font(.body)
         }
     }

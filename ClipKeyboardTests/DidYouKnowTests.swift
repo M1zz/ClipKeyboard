@@ -72,14 +72,25 @@ final class DidYouKnowTests: XCTestCase {
 
     func test_다_하고_나면_처음으로_돌아가지_않는다() {
         for item in DidYouKnow.all { DidYouKnowScheduler.markShown(item, at: now) }
-        XCTAssertNil(DidYouKnowScheduler.next,
+        XCTAssertNil(DidYouKnowScheduler.next(),
                      "되풀이되는 순간 알림이 아니라 광고가 된다")
     }
 
     func test_본_것은_다시_나오지_않는다() {
-        guard let first = DidYouKnowScheduler.next else { return XCTFail() }
+        guard let first = DidYouKnowScheduler.next() else { return XCTFail() }
         DidYouKnowScheduler.markShown(first, at: now)
-        XCTAssertNotEqual(DidYouKnowScheduler.next?.id, first.id)
+        XCTAssertNotEqual(DidYouKnowScheduler.next()?.id, first.id)
+    }
+
+    /// 아직 감춘 기능을 소개하는 이야기는 건너뛰고, 본 것으로 적지 않는다.
+    func test_감춘_층의_이야기는_건너뛰고_나중에_한다() {
+        let layered = DidYouKnow.all.filter { $0.surface != nil }
+        XCTAssertFalse(layered.isEmpty)
+        for item in DidYouKnow.all where item.surface == nil { DidYouKnowScheduler.markShown(item, at: now) }
+        XCTAssertNil(DidYouKnowScheduler.next(isVisible: { _ in false }),
+                     "층이 감춰져 있으면 할 이야기가 없다")
+        XCTAssertNotNil(DidYouKnowScheduler.next(isVisible: { _ in true }),
+                        "그 층에 오르면 그때 말한다")
     }
 
     // MARK: - 이야기 자체

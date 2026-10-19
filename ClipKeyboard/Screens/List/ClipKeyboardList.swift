@@ -2786,12 +2786,15 @@ struct ClipKeyboardList: View {
             // ⚠️ 이 시트는 배선만 돼 있고 **여는 길이 어디에도 없었다.**
             //    ⋯ 메뉴를 설정으로 옮길 때 항목만 빠지고 바인딩은 남아, 목록에서는
             //    죽은 화면이 되어 있었다. 설정 깊숙이 들어가야만 닿았다.
+            // 빈칸은 3층이다. 설정 ▸ 단축어에는 늘 있다.
+            if userState.isVisible(.template) {
             Button {
                 HapticManager.shared.light()
                 viewModel.showPlaceholderManagementSheet = true
             } label: {
                 Label(NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)"),
                       systemImage: AppSymbol.listBulletRectangle)
+            }
             }
         } label: {
             // 시그니처 유리 서클(`GlassCircle`) - 하단 탭바와 같은 유리 언어.

@@ -251,4 +251,37 @@ final class UserStateTests: XCTestCase {
         XCTAssertEqual(state(.browsing, tenure: .day0).leadingSurface, .tutorialStage)
         XCTAssertEqual(state(.made).leadingSurface, .keyboardSetupBanner)
     }
+
+    // MARK: - 탈출구와 상한선
+
+    /// 켜면 감춘 기능이 조용히 보인다. 앞에 세우지는 않고, 말 거는 자리는 그대로 감춘다.
+    func testRevealRaisesHiddenToQuietButLeavesPromptsAlone() {
+        var beginner = state(.browsing, tenure: .day0)
+        beginner.revealsHidden = true
+        XCTAssertEqual(beginner.visibility(of: .combo), .quiet)
+        XCTAssertEqual(beginner.visibility(of: .statsPassport), .quiet)
+        XCTAssertEqual(beginner.visibility(of: .categories), .quiet)
+        // 이미 보이는 것은 그대로
+        XCTAssertEqual(beginner.visibility(of: .createShortcut), .lead)
+        // 말 거는 자리는 안 연다
+        XCTAssertEqual(beginner.visibility(of: .slotLimit), .hidden)
+        XCTAssertEqual(beginner.visibility(of: .reviewRequest), .hidden)
+        XCTAssertEqual(beginner.visibility(of: .macApp), .hidden)
+        XCTAssertEqual(beginner.leadingSurface, .tutorialStage)
+    }
+
+    /// 하나만 쓰는 사람에게 결이 감춘 것(검색·카테고리)도 탈출구로는 열린다.
+    func testRevealOpensWhatGrainHid() {
+        var oneTrick = state(.fluent, grain: .oneTrick)
+        XCTAssertEqual(oneTrick.visibility(of: .searchAndReorder), .hidden)
+        oneTrick.revealsHidden = true
+        XCTAssertEqual(oneTrick.visibility(of: .searchAndReorder), .quiet)
+    }
+
+    func testRevealComesFromToggleOrLaunchCap() {
+        let cap = UserState.Threshold.revealLaunches
+        XCTAssertFalse(UserState.resolve(facts: UserStateFacts(appLaunches: cap)).revealsHidden)
+        XCTAssertTrue(UserState.resolve(facts: UserStateFacts(appLaunches: cap + 1)).revealsHidden)
+        XCTAssertTrue(UserState.resolve(facts: UserStateFacts(showsAllFeatures: true)).revealsHidden)
+    }
 }

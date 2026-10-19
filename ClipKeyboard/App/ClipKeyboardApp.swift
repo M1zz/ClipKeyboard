@@ -546,7 +546,8 @@ struct ClipKeyboardApp: App {
             && !d.bool(forKey: DefaultsKey.tutorialMakeOwnDone)
         return DidYouKnowScheduler.candidate(
             onboardingFinished: !stillOnboarding,
-            installedAt: d.object(forKey: DefaultsKey.appInstallDate) as? Date)
+            installedAt: d.object(forKey: DefaultsKey.appInstallDate) as? Date,
+            isVisible: { UserStateStore.shared.isVisible($0) })
     }
 
     private func presentDidYouKnow(_ item: DidYouKnow) {
@@ -1669,6 +1670,8 @@ struct MainTabView: View {
 
     /// 클립보드 기록 시트(맥 메뉴·딥링크에서 열린다).
     @State private var showClipboardSheet = false
+    /// 사용 기록 탭이 감춰져 있을 때 "사용 기록 보기" 를 받으면 여는 시트.
+    @State private var showUsageSheet = false
 
     /// 지금 어느 탭인가. 이미 선택된 탭을 **한 번 더** 누른 것을 잡아내려면 선택 값이 필요하다.
     @State private var selection: MainTab = Self.initialTab
@@ -1694,6 +1697,9 @@ struct MainTabView: View {
     ///    조건이 빠져, 앱을 켜자마자 탭만 빛나고 그게 무슨 뜻인지 말해 주는 띠는 없었다.
     ///    조건은 `SnippetsTab.showsSwitchHint` 한 곳에서 정하고 여기로 흘러온다.
     @ObservedObject private var switchHint = SwitchHintBeacon.shared
+    /// 사용 기록 · 검색 탭은 층에 걸려 있다. 첫날 사람에게는 단축어와 설정 두 칸이면 된다.
+    /// 자세한 설계: docs/design/PROGRESSIVE_DISCLOSURE.md 2절
+    @ObservedObject private var userState = UserStateStore.shared
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.foldLayout) private var fold
 
@@ -1738,15 +1744,32 @@ struct MainTabView: View {
 
     /// 펼친 화면의 탭 막대에 세울 칸. 시스템 탭바의 `Tab` 과 같은 이름 · 아이콘 · 순서다.
     private var foldTabItems: [FoldTabBar<MainTab>.Item] {
-        [
+        var items: [FoldTabBar<MainTab>.Item] = [
             .init(value: .snippets, title: snippetsStyle.tabName, symbol: snippetsStyle.symbolName),
-            .init(value: .usage, title: NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
-                  symbol: AppSymbol.checkmarkSealFill),
-            .init(value: .settings, title: NSLocalizedString("설정", comment: "Menu: settings"),
-                  symbol: AppSymbol.gearshape),
-            .init(value: .search, title: NSLocalizedString("검색", comment: "Search"),
-                  symbol: AppSymbol.magnifyingglass, standsApart: true),
         ]
+        if showsUsageTab {
+            items.append(.init(value: .usage, title: NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
+                               symbol: AppSymbol.checkmarkSealFill))
+        }
+        items.append(.init(value: .settings, title: NSLocalizedString("설정", comment: "Menu: settings"),
+                           symbol: AppSymbol.gearshape))
+        if showsSearchTab {
+            items.append(.init(value: .search, title: NSLocalizedString("검색", comment: "Search"),
+                               symbol: AppSymbol.magnifyingglass, standsApart: true))
+        }
+        return items
+    }
+
+    /// 사용 기록은 쓴 것이 쌓여야 볼 것이 있다. 감춰도 설정 ▸ 사용 통계에는 늘 있다.
+    private var showsUsageTab: Bool { userState.isVisible(.statsPassport) }
+    /// 찾을 만큼 쌓이기 전에는 목록이 곧 검색이다.
+    private var showsSearchTab: Bool { userState.isVisible(.searchAndReorder) }
+
+    /// 보던 탭이 감춰지면(설정에서 "모든 기능 바로 보기" 를 끈 때) 단축어 탭으로 돌아온다.
+    private func leaveHiddenTab() {
+        if (selection == .usage && !showsUsageTab) || (selection == .search && !showsSearchTab) {
+            selection = .snippets
+        }
     }
 
     /// 검색 탭의 역할.
@@ -1778,6 +1801,7 @@ struct MainTabView: View {
             //    클립보드는 키보드 안에서 꺼내 쓰는 것이지 탭을 열어 들여다보는 것이 아니었고,
             //    사용 기록(내가 얼마나 아꼈나)은 오히려 가끔 열어 보는 자리라 탭이 어울린다.
             //    클립보드는 설정 > 내 데이터에 있고, 맥 메뉴/딥링크는 아래 시트로 계속 닿는다.
+            if showsUsageTab {
             Tab(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
                 systemImage: AppSymbol.checkmarkSealFill,
                 value: MainTab.usage, role: nil) {
@@ -1789,6 +1813,7 @@ struct MainTabView: View {
                 }
                 .foldTabBarRoom()
             }
+            }
             Tab(NSLocalizedString("설정", comment: "Menu: settings"),
                 systemImage: AppSymbol.gearshape,
                 value: MainTab.settings, role: nil) {
@@ -1799,6 +1824,7 @@ struct MainTabView: View {
                 }
                 .foldTabBarRoom()
             }
+            if showsSearchTab {
             Tab(NSLocalizedString("검색", comment: "Search"),
                 systemImage: AppSymbol.magnifyingglass,
                 value: MainTab.search, role: Self.searchTabRole) {
@@ -1809,6 +1835,7 @@ struct MainTabView: View {
                     FoldCopiedPane()
                 }
                 .foldTabBarRoom()
+            }
             }
         }
         // 듀오를 펴면 시스템 탭바 대신 이 막대가 **고르는 쪽 판 안**에 선다(`FoldTabBar` 주석).
@@ -1847,6 +1874,7 @@ struct MainTabView: View {
         // 탭 이름이 바뀌면(목록 ↔ 키보드) 칸 너비도 따라 바뀐다. 탭을 옮겨도 마찬가지.
         .onChange(of: snippetsStyleRaw) { _, _ in measureFirstTab() }
         .onChange(of: selection) { _, _ in measureFirstTab() }
+        .onChange(of: userState.state) { _, _ in leaveHiddenTab() }
         // 맥 메뉴·딥링크의 "클립보드 기록"이 갈 곳 - 탭에서 내려온 뒤로도 길은 남긴다.
         // ⚠️ 예전에는 이 알림을 **아무도 받지 않아** 메뉴를 눌러도 조용히 아무 일이 없었다.
         .sheet(isPresented: $showClipboardSheet) {
@@ -1858,7 +1886,15 @@ struct MainTabView: View {
         // 새 단장 안내에서 "내가 아낀 시간 보기"를 누르면 그 탭으로 데려간다.
         // ⚠️ 안내는 **보여주는 데서 끝나면 안 된다** - 읽고 닫으면 아무것도 안 달라진다.
         .onReceive(NotificationCenter.default.publisher(for: .openUsageTab)) { _ in
-            withAnimation(.easeInOut(duration: 0.2)) { selection = .usage }
+            // 탭이 아직 감춰져 있으면 시트로 연다. 없는 탭을 고르면 아무 일도 안 일어난다.
+            if showsUsageTab {
+                withAnimation(.easeInOut(duration: 0.2)) { selection = .usage }
+            } else {
+                showUsageSheet = true
+            }
+        }
+        .sheet(isPresented: $showUsageSheet) {
+            NavigationStack { UsagePassportView() }
         }
         // [디자인 불변식] 하단(탭바) 배경 언제나 투명 - 스크롤 엣지 이펙트는 하단만 숨김.
         // 상단은 시스템 기본(맨 위 투명 → 스크롤 시 glass 베일)에 맡긴다. 상단까지 숨기면
