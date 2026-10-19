@@ -90,15 +90,8 @@ final class PromptBoard: ObservableObject {
 
     /// 사용자 상태나 원장이 바뀌었을 때 다시 고른다.
     func recompute(now: Date = Date()) {
-        let store = UserStateStore.shared
-        let state = store.state
         let candidates = order.filter { !(raised[$0.id]?.isEmpty ?? true) }
-        let context = PromptArbiter.Context(activity: state.activity,
-                                            visibility: { state.visibility(of: $0) },
-                                            ledger: PromptLedger.current,
-                                            activeDays: store.lastFacts.activeDays,
-                                            now: now)
-        let next = PromptArbiter.pick(candidates, in: context)
+        let next = Self.pickNow(candidates, now: now)
         guard next != picked else { return }
         picked = next
         print("🔄 [PromptBoard.recompute] " + PromptSlot.allCases.map { "\($0.rawValue)=\(next[$0]?.id ?? "-")" }.joined(separator: " "))
@@ -153,5 +146,84 @@ struct PromptRow<Content: View>: View {
             board.set(candidate, wants: wants, token: token)
         }
         .onDisappear { board.set(candidate, wants: false, token: token) }
+    }
+}
+
+// MARK: - 실행 시트
+
+extension PromptCandidate {
+    // 고장 · 막힘
+    static let accessibilityGuide = PromptCandidate(id: "accessibilityGuide", slot: .launchSheet, kind: .status)
+    static let categoryCleanup = PromptCandidate(id: "categoryCleanup", slot: .launchSheet, kind: .unblock)
+    // ⚠️ 새 소식은 **방금 일어난 일(업데이트)에 대한 답**으로 친다. 소식으로 두면 같은 실행의
+    //    반값 제안·리뷰에 밀려, 정작 새 버전 첫 실행에 말하지 못한다. 평생 한 번이라 예산도 안 쓴다.
+    static let whatsNew = PromptCandidate(id: "whatsNew", slot: .launchSheet, kind: .moment,
+                                          bypassesBudget: true, allowedWhenReturning: true)
+    static let discountOffer = PromptCandidate(id: "discountOffer", slot: .launchSheet, kind: .money)
+    static let reviewRequest = PromptCandidate(id: "reviewRequest", slot: .launchSheet, kind: .ask,
+                                               surface: .reviewRequest)
+    static let feedbackNudge = PromptCandidate(id: "feedbackNudge", slot: .launchSheet, kind: .ask)
+    static let didYouKnow = PromptCandidate(id: "didYouKnow", slot: .launchSheet, kind: .news)
+
+    // 탭이 띄우는 판
+    static let shareMoment = PromptCandidate(id: "shareMoment", slot: .launchSheet, kind: .ask)
+
+    /// 앱을 열 때 고르는 차례. 같은 종류 안에서는 이 순서다.
+    static let launchOrder: [PromptCandidate] = [
+        .accessibilityGuide, .categoryCleanup, .whatsNew, .discountOffer,
+        .reviewRequest, .feedbackNudge, .didYouKnow,
+    ]
+}
+
+extension PromptBoard {
+    /// 지금 사용자 상태와 원장으로 고른다. 실행 시트처럼 게시판을 거치지 않는 자리가 쓴다.
+    static func pickNow(_ candidates: [PromptCandidate], now: Date = Date()) -> [PromptSlot: PromptCandidate] {
+        PromptArbiter.pick(candidates, in: currentContext(now: now))
+    }
+
+    /// 이 말 하나가 지금 해도 되는 말인가(활동 · 층 · 예산).
+    static func allowsNow(_ candidate: PromptCandidate, now: Date = Date()) -> Bool {
+        PromptArbiter.isAllowed(candidate, in: currentContext(now: now))
+    }
+
+    private static func currentContext(now: Date) -> PromptArbiter.Context {
+        let store = UserStateStore.shared
+        let state = store.state
+        return PromptArbiter.Context(activity: state.activity,
+                                     visibility: { state.visibility(of: $0) },
+                                     ledger: PromptLedger.current,
+                                     activeDays: store.lastFacts.activeDays,
+                                     now: now)
+    }
+}
+
+/// **앱을 한 번 여는 동안 저절로 뜨는 창은 하나.** 먼저 쥔 쪽이 띄운다.
+///
+/// 왜 필요한가: 실행 때 뜨는 창은 앱(`ClipKeyboardApp`)도, 목록(무료 사용 영수증 · 배경 제안)도,
+/// 첫 탭(연습용 단축어 치우기 · 키보드 무대 권유 · 친구에게 알리기)도 띄운다. 앱은 1.0초에서
+/// 4.5초까지 시간차를 두고 서로를 확인했지만 목록과 탭의 창은 몰랐다. 그래서 두 창이 겹쳤다.
+///
+/// ⚠️ 자리를 못 쥔 쪽은 **본 것으로 적지 않는다.** 다음 실행에 다시 온다.
+/// ⚠️ 사람이 직접 연 화면(설정의 "다시 보기", 버튼으로 연 페이월)은 여기를 거치지 않는다.
+@MainActor
+enum LaunchSheetGate {
+    private static var holder: String?
+
+    static var isTaken: Bool { holder != nil }
+
+    /// 이번 실행의 자리를 쥔다. 이미 누가 쥐었으면 false.
+    static func claim(_ id: String) -> Bool {
+        guard holder == nil else {
+            print("⏭️ [LaunchSheetGate.claim] \(id) 비킴 (이미 \(holder ?? "") 이 떠 있음)")
+            return false
+        }
+        holder = id
+        print("🪟 [LaunchSheetGate.claim] \(id)")
+        return true
+    }
+
+    /// 앱이 뒤로 갔다. 다음에 앞으로 오면 새 실행으로 친다.
+    static func reset() {
+        holder = nil
     }
 }

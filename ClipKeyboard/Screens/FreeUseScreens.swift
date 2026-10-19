@@ -38,7 +38,9 @@ final class FreeUseMoments: ObservableObject {
             card = FreeUse.pendingMilestone
         case .reached?:
             card = nil
-            if presentReceipt { showsReceipt = true }
+            // 실행 때 저절로 뜨는 창은 하나다(`LaunchSheetGate`). 자리를 못 쥐면 본 것으로
+            // 적지 않으므로 다음에 앱을 열 때 다시 온다.
+            if presentReceipt, !showsReceipt, LaunchSheetGate.claim("freeUseReceipt") { showsReceipt = true }
         case nil:
             card = nil
         }

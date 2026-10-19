@@ -20,6 +20,11 @@ struct ClipKeyboardApp: App {
     @State private var showDemoSampleOffer = false
     /// 새 기기 첫 실행에서 "기존 메모를 불러올 수 있어요"를 1회 안내
     @State private var showRestoreHint = false
+    /// 백업이 있는지 iCloud 에 묻는 중인가. 묻는 동안에는 다른 실행 창이 자리를 쥐지 않는다.
+    ///
+    /// ⚠️ 복원 안내는 **새 기기 첫 실행에만** 뜬다(그때만 기기가 비어 있다). 다른 창에 자리를
+    ///    내주면 다음 실행에는 샘플이 깔려 있어 영영 못 뜬다.
+    @State private var restoreCheckInFlight = false
     /// 그거 아세요? - 지금 보여 줄 이야기. **이 값이 곧 시트의 상태다.**
     ///
     /// ⚠️ `isPresented` 로 띄우지 않는다. 켜는 값과 그릴 값이 둘로 나뉘어 있으면,
@@ -274,6 +279,8 @@ struct ClipKeyboardApp: App {
             // ⚠️ 다른 안내(샘플 제안·복원 힌트)보다 우선한다 - 이 상태에서 샘플을
             //    넣으면 읽지 못한 파일을 덮어쓸 수 있다.
             if MemoStore.hasDetectedCorruption {
+                // 무엇보다 먼저다. 자리를 쥐어 다른 실행 창이 그 위에 얹히지 않게 한다.
+                _ = LaunchSheetGate.claim("dataRecovery")
                 showDataRecovery = true
             }
 
@@ -450,46 +457,15 @@ struct ClipKeyboardApp: App {
                 UIApplication.shared.registerForRemoteNotifications()
             }
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                // 데모 체험 질문이 떠 있으면 리뷰 요청은 양보 (모달 중첩 방지)
-                if !showDemoSampleOffer, ReviewManager.shared.shouldShowReview() {
-                    showReviewRequest = true
-                }
-            }
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                checkVoiceOverAndNudge()
-            }
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                maybeShowWhatsNew()
-            }
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                maybeShowFeedbackNudge()
-            }
-
-            // 카테고리 정리 안내 - 앞의 안내들에게 자리를 내주고 조용히 한 번만 묻는다.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                maybeOfferCategoryCleanup()
-            }
-
-            // 반값 제안은 맨 뒤에 - 앞의 안내들이 자리를 잡고 난 다음에야 물어본다.
-            // (상품 로드가 늦을 수 있어 3초를 준다. 못 받으면 다음 실행에 다시 본다)
+            // 실행 때 저절로 뜨는 창은 **하나**다. 1초 뒤 한 번 후보를 모아 고른다.
+            // 예전에는 1.0초에서 4.5초까지 시간차 계단으로 서로를 확인했다(`runLaunchPrompt`).
             noteShortcutCountForDiscountOffer()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
-                maybeShowDiscountOffer()
-            }
-
-            // ⚠️ **정말 맨 마지막.** 이건 급한 이야기가 아니라서 앞의 것들에게 자리를
-            //    다 내주고 남으면 한다. 다른 안내가 떠 있으면 조용히 접고 다음 실행을
-            //    기다린다(`markShown` 을 부르지 않으므로 그 이야기는 없어지지 않는다).
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
-                maybeShowDidYouKnow()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                runLaunchPrompt()
             }
         }
 
-        // ⚠️ 마지막 안내가 뜨는 자리(3.5초)까지 지켜본 뒤에 런치를 닫는다.
+        // ⚠️ 안내가 뜨는 자리(반값 제안은 상품을 기다린다)까지 지켜본 뒤에 런치를 닫는다.
         //    시트가 올라오다 죽는 것도 사용자에게는 똑같은 "런치 크래시"라, 그 구간을
         //    빵부스러기 밖에 두면 정작 알고 싶은 사고를 못 잡는다.
         try? await Task.sleep(for: .seconds(4))
@@ -521,8 +497,8 @@ struct ClipKeyboardApp: App {
     /// 업데이트한 기존 사용자에게 "새로운 기능" 시트를 1회 노출한다.
     /// - 신규 설치(첫 실행)는 새 기능이 아니므로 노출하지 않고 본 것으로 표시만 한다.
     /// - 데이터성 알림(복원/데모)·리뷰 요청이 떠 있으면 양보한다(모달 중첩 방지).
-    private func maybeShowWhatsNew() {
-        guard !ClipKeyboardApp.isRunningUnitTests else { return }
+    /// 새 소식을 보여 줄 차례인가. 처음 온 사람이면 여기서 본 것으로만 적는다.
+    private func whatsNewIsDue() -> Bool {
         let defaults = UserDefaults.standard
         let current = WhatsNewContent.version
 
@@ -537,13 +513,14 @@ struct ClipKeyboardApp: App {
         if audience.marksWhatsNewSeenSilently {
             defaults.set(current, forKey: DefaultsKey.lastSeenWhatsNewVersion)
             print("🎉 [WhatsNew] 처음 온 사람 - 안내 대신 온보딩이 맞이한다")
-            return
+            return false
         }
-        guard audience.showsWhatsNew else { return }
-        // 데이터성 알림·리뷰 요청이 떠 있으면 양보한다(모달 중첩 방지). 다음 실행에 다시 온다.
-        guard !showDemoSampleOffer, !showRestoreHint, !showReviewRequest, !showWhatsNew else { return }
+        return audience.showsWhatsNew
+    }
 
-        defaults.set(current, forKey: DefaultsKey.lastSeenWhatsNewVersion)
+    private func presentWhatsNew() {
+        let current = WhatsNewContent.version
+        UserDefaults.standard.set(current, forKey: DefaultsKey.lastSeenWhatsNewVersion)
         showWhatsNew = true
         print("🎉 [WhatsNew] 쓰던 사람에게 \(current) 새 단장 안내")
     }
@@ -562,16 +539,17 @@ struct ClipKeyboardApp: App {
     /// ⚠️ 언제 말을 걸지는 `DidYouKnowScheduler` 가 혼자 판단한다(첫날 침묵 · 사흘 간격 ·
     ///    다 하면 멈춤). 여기서는 **다른 안내가 떠 있지 않은지**만 본다 - 모달이 모달 위에
     ///    얹히는 것이 이 화면들에서 가장 나쁜 일이다.
-    private func maybeShowDidYouKnow() {
-        guard !ClipKeyboardApp.isRunningUnitTests, noOtherModalIsUp else { return }
+    private func didYouKnowDue() -> DidYouKnow? {
         // 처음 오는 길을 지나는 중이면 말하지 않는다 - 온보딩 위에 얹히면 둘 다 안 읽힌다.
         let d = UserDefaults.standard
         let stillOnboarding = d.bool(forKey: DefaultsKey.startedFreshV444)
             && !d.bool(forKey: DefaultsKey.tutorialMakeOwnDone)
-        guard let item = DidYouKnowScheduler.candidate(
+        return DidYouKnowScheduler.candidate(
             onboardingFinished: !stillOnboarding,
-            installedAt: d.object(forKey: DefaultsKey.appInstallDate) as? Date) else { return }
+            installedAt: d.object(forKey: DefaultsKey.appInstallDate) as? Date)
+    }
 
+    private func presentDidYouKnow(_ item: DidYouKnow) {
         DidYouKnowScheduler.markShown(item)
         didYouKnowItem = item
         print("💡 [DidYouKnow] \(item.id)")
@@ -611,33 +589,33 @@ struct ClipKeyboardApp: App {
         }
     }
 
-    private func maybeShowFeedbackNudge() {
-        guard !ClipKeyboardApp.isRunningUnitTests else { return }
+    private func feedbackNudgeDue() -> Bool {
         let defaults = UserDefaults.standard
 
         // 구버전 영구 옵트아웃(Bool) 마이그레이션 - 지금부터 6개월 유예로 전환.
         if defaults.bool(forKey: DefaultsKey.feedbackNudgeOptOut) {
             defaults.set(Date().timeIntervalSince1970, forKey: DefaultsKey.feedbackNudgeOptOutDate)
             defaults.removeObject(forKey: DefaultsKey.feedbackNudgeOptOut)
-            return
+            return false
         }
         // "다시 보지 않기" 유예: 6개월 안 지났으면 침묵, 지났으면 해제하고 다시 노출 대상.
         let optOutAt = defaults.double(forKey: DefaultsKey.feedbackNudgeOptOutDate)
         if optOutAt > 0 {
             let sixMonths: TimeInterval = 60 * 60 * 24 * 182
-            guard Date().timeIntervalSince1970 - optOutAt >= sixMonths else { return }
+            guard Date().timeIntervalSince1970 - optOutAt >= sixMonths else { return false }
             defaults.removeObject(forKey: DefaultsKey.feedbackNudgeOptOutDate)
         }
 
         let launchCount = defaults.integer(forKey: DefaultsKey.appLaunchCount)
         let lastShown = defaults.integer(forKey: DefaultsKey.feedbackNudgeLastShownLaunch)
-        let due = (lastShown == 0 && launchCount >= 10)
+        return (lastShown == 0 && launchCount >= 10)
             || (lastShown > 0 && launchCount - lastShown >= 40)
-        guard due else { return }
-        guard !showDemoSampleOffer, !showRestoreHint, !showReviewRequest,
-              !showWhatsNew, !showFeedbackNudge else { return }
+    }
 
-        defaults.set(launchCount, forKey: DefaultsKey.feedbackNudgeLastShownLaunch)
+    private func presentFeedbackNudge() {
+        let defaults = UserDefaults.standard
+        defaults.set(defaults.integer(forKey: DefaultsKey.appLaunchCount),
+                     forKey: DefaultsKey.feedbackNudgeLastShownLaunch)
         showFeedbackNudge = true
     }
 
@@ -654,23 +632,21 @@ struct ClipKeyboardApp: App {
     /// ⚠️ **앱이 지우지 않는다.** 어느 것이 사용자가 만든 것이고 어느 것이 동기화 사고로
     ///    불어난 것인지 앱은 구분할 수 없다. 보여 주고 정리할 자리로 데려다주는 데까지가
     ///    앱의 몫이다. 자세한 사연: ClipKeyboard/Screens/CategoryCleanupNotice.swift
-    private func maybeOfferCategoryCleanup() {
-        // 다른 안내가 떠 있으면 양보한다. 급한 이야기가 아니다.
-        guard !showDemoSampleOffer, !showRestoreHint, !showReviewRequest,
-              !showWhatsNew, !showFeedbackNudge, !showDataRecovery,
-              !showDiscountOffer, categoryCleanup == nil else { return }
-
+    private func categoryCleanupDue() -> CategoryCleanupRequest? {
         // 개수부터 본다. 여기서 걸리면 단축어를 읽지 않는다(런치 뒤라도 공짜는 아니다).
         let categories = CategoryStore.shared.categories
-        guard categories.count >= 12 else { return }
+        guard categories.count >= 12 else { return nil }
 
         let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
         let empty = CategoryCleanupNudge.emptyCategories(categories, memos: memos)
         guard CategoryCleanupNudge.shouldAsk(categoryCount: categories.count,
-                                             emptyCount: empty.count) else { return }
+                                             emptyCount: empty.count) else { return nil }
+        return CategoryCleanupRequest(categories: categories, empty: empty)
+    }
 
-        CategoryCleanupNudge.markAsked(categoryCount: categories.count)
-        categoryCleanup = CategoryCleanupRequest(categories: categories, empty: empty)
+    private func presentCategoryCleanup(_ request: CategoryCleanupRequest) {
+        CategoryCleanupNudge.markAsked(categoryCount: request.categories.count)
+        categoryCleanup = request
     }
 
     // MARK: - 반값 제안 (한도 한 칸 앞에서 일주일)
@@ -688,12 +664,13 @@ struct ClipKeyboardApp: App {
     ///
     /// ⚠️ 상품이 아직 안 왔으면 그냥 넘어간다 - **다음 실행에 다시 물어본다.** 여기서
     ///    본 것으로 표시해 버리면, 네트워크가 느렸다는 이유만으로 제안을 영영 잃는다.
-    private func maybeShowDiscountOffer() {
-        guard !ClipKeyboardApp.isRunningUnitTests else { return }
-        guard noOtherModalIsUp else { return }
-        // 때가 됐는지부터 본다 - 아닌 사람에게 스토어를 두드리지 않기 위해서다.
-        guard DiscountOfferManager.isDueIgnoringProduct(isMidFirstShortcut: isMidFirstShortcut) else { return }
+    /// 때가 됐는지만 본다 - 아닌 사람에게 스토어를 두드리지 않기 위해서다.
+    private func discountOfferDue() -> Bool {
+        DiscountOfferManager.isDueIgnoringProduct(isMidFirstShortcut: isMidFirstShortcut)
+    }
 
+    /// 실행 시트 자리를 이미 쥔 뒤에 부른다. 상품이 안 오면 이번 실행은 조용히 지나간다.
+    private func presentDiscountOffer() {
         Task { @MainActor in
             // ⚠️ 상품을 **여기서** 부른다. 이 앱은 런치에 상품을 미리 읽지 않아서
             //    (페이월 화면이 필요할 때 읽는다) 미리 확인하면 언제나 "없음"이 된다.
@@ -725,6 +702,54 @@ struct ClipKeyboardApp: App {
         let d = UserDefaults.standard
         return d.bool(forKey: DefaultsKey.startedFreshV444)
             && !d.bool(forKey: DefaultsKey.tutorialWelcomeDone)
+    }
+
+    // MARK: - 실행 때 뜨는 창 하나
+
+    /// 앱을 열고 1초 뒤 한 번. 할 말이 있는 쪽을 모아 **하나**를 고른다.
+    ///
+    /// 고르는 일은 `PromptArbiter` 가 한다(종류의 차례 · 휴면 · 층 · 예산). 같은 종류 안의
+    /// 차례는 `PromptCandidate.launchOrder` 다. 고른 것만 본 것으로 적고, 나머지는 손대지
+    /// 않는다 - 다음 실행에 다시 온다.
+    ///
+    /// ⚠️ 자리는 `LaunchSheetGate` 로 목록·탭이 띄우는 창과 나눠 쓴다. 그쪽이 먼저 쥐었으면
+    ///    이번 실행에는 아무것도 띄우지 않는다.
+    /// 설계: docs/design/PROGRESSIVE_DISCLOSURE.md 4.1절
+    private func runLaunchPrompt() {
+        guard !ClipKeyboardApp.isRunningUnitTests else { return }
+        guard noOtherModalIsUp, !LaunchSheetGate.isTaken else { return }
+        // 복원 안내를 기다리는 중이면 비킨다. 답이 오면 그쪽이 다시 부른다.
+        guard !restoreCheckInFlight else { return }
+
+        let cleanup = categoryCleanupDue()
+        let didYouKnow = didYouKnowDue()
+        var due: [PromptCandidate] = []
+        if accessibilityGuideDue() { due.append(.accessibilityGuide) }
+        if cleanup != nil { due.append(.categoryCleanup) }
+        if whatsNewIsDue() { due.append(.whatsNew) }
+        if discountOfferDue() { due.append(.discountOffer) }
+        if ReviewManager.shared.shouldShowReview() { due.append(.reviewRequest) }
+        if feedbackNudgeDue() { due.append(.feedbackNudge) }
+        if didYouKnow != nil { due.append(.didYouKnow) }
+
+        let ordered = PromptCandidate.launchOrder.filter { due.contains($0) }
+        guard let pick = PromptBoard.pickNow(ordered)[.launchSheet] else {
+            if !due.isEmpty { print("🔇 [runLaunchPrompt] 할 말 \(due.map(\.id)) 모두 이번에는 쉰다") }
+            return
+        }
+        guard LaunchSheetGate.claim(pick.id) else { return }
+        PromptBoard.list.noteShown(pick)
+
+        switch pick {
+        case .accessibilityGuide: presentAccessibilityGuide()
+        case .categoryCleanup: if let cleanup { presentCategoryCleanup(cleanup) }
+        case .whatsNew: presentWhatsNew()
+        case .discountOffer: presentDiscountOffer()
+        case .reviewRequest: showReviewRequest = true
+        case .feedbackNudge: presentFeedbackNudge()
+        case .didYouKnow: if let didYouKnow { presentDidYouKnow(didYouKnow) }
+        default: break
+        }
     }
 
     /// 지금 화면에 다른 안내가 떠 있지 않은가 - 모달이 모달 위에 얹히는 것을 막는다.
@@ -1040,6 +1065,7 @@ struct ClipKeyboardApp: App {
         guard UserDefaults.standard.bool(forKey: samplesInsertedKey),
               !UserDefaults.standard.bool(forKey: demoOfferResolvedKey) else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            guard LaunchSheetGate.claim("demoSampleOffer") else { return }
             showDemoSampleOffer = true
         }
     }
@@ -1051,11 +1077,18 @@ struct ClipKeyboardApp: App {
     private func offerRestoreHintIfNeeded(localWasEmpty: Bool) {
         guard !UserDefaults.standard.bool(forKey: restoreHintShownKey) else { return }
         guard localWasEmpty else { return }   // 이미 내 메모가 있는 기기면 안내 불필요
+        restoreCheckInFlight = true
         Task {
             let hasBackup = await CloudKitBackupService.shared.hasBackup()
-            guard hasBackup else { return }   // 복원할 백업이 없으면 안내하지 않음(플래그도 유지)
             await MainActor.run {
-                guard !showDemoSampleOffer else { return }   // 다른 모달과 중첩 방지
+                restoreCheckInFlight = false
+                // 복원할 백업이 없으면 안내하지 않는다(플래그도 유지). 기다리던 실행 창을 이제 고른다.
+                guard hasBackup else {
+                    runLaunchPrompt()
+                    return
+                }
+                // 다른 창이 이미 떴으면 비킨다. 본 것으로 적지 않으니 다음 실행에 다시 온다.
+                guard LaunchSheetGate.claim("restoreHint") else { return }
                 UserDefaults.standard.set(true, forKey: restoreHintShownKey)
                 showRestoreHint = true
             }
@@ -1285,6 +1318,8 @@ struct ClipKeyboardApp: App {
                     // 죽더라도 "런치가 멈췄다"고 잘못 읽지 않게 한다.
                     if phase == .background {
                         LaunchGuard.finish()
+                        // 다음에 앞으로 오면 새 실행이다. 그때 다시 창 하나를 띄울 수 있다.
+                        LaunchSheetGate.reset()
                     }
                 }
                 // 데이터 손상 복구 안내 - 다른 시트보다 먼저 붙여 우선 노출시킨다.
@@ -1327,7 +1362,7 @@ struct ClipKeyboardApp: App {
                 .sheet(isPresented: $showCloudBackupSheet) {
                     NavigationStack { CloudBackupView() }
                 }
-                // 반값 제안 - 조건은 maybeShowDiscountOffer 가 다 본다.
+                // 반값 제안 - 조건은 discountOfferDue · presentDiscountOffer 가 다 본다.
                 .sheet(isPresented: $showDiscountOffer) {
                     DiscountOfferView(occasion: discountOccasion)
                         .presentationDetents([.large])
@@ -1342,7 +1377,7 @@ struct ClipKeyboardApp: App {
                     }
                     Button(NSLocalizedString("다음에", comment: "Feedback nudge: later"), role: .cancel) { }
                     Button(NSLocalizedString("다시 보지 않기", comment: "Feedback nudge: never show again")) {
-                        // 영구 중단이 아니라 6개월 유예 - maybeShowFeedbackNudge가 기간 판정.
+                        // 영구 중단이 아니라 6개월 유예 - feedbackNudgeDue 가 기간 판정.
                         UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: DefaultsKey.feedbackNudgeOptOutDate)
                     }
                 } message: {
@@ -1473,17 +1508,31 @@ struct ClipKeyboardApp: App {
     // MARK: - Accessibility Nudge
 
     /// VoiceOver가 켜진 상태로 앱에 진입하면 최초 1회 접근성 안내 시트를 띄운다.
+    ///
+    /// ⚠️ 쓰는 도중에 VoiceOver 를 켰을 때도 불린다. 그때는 실행 시트 자리를 보지 않는다 -
+    ///    지금 이 사람에게 가장 필요한 안내라서다.
     private func checkVoiceOverAndNudge() {
-        #if os(iOS)
-        let nudgeKey = "a11y_guide_nudge_shown_v1"
-        guard UIAccessibility.isVoiceOverRunning,
-              !(UserDefaults.standard.bool(forKey: nudgeKey)) else { return }
-        UserDefaults.standard.set(true, forKey: nudgeKey)
+        guard accessibilityGuideDue() else { return }
         // 리뷰 시트와 겹치지 않도록 약간 지연
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            showAccessibilityGuide = true
+            presentAccessibilityGuide()
         }
+    }
+
+    private static let accessibilityGuideShownKey = "a11y_guide_nudge_shown_v1"
+
+    private func accessibilityGuideDue() -> Bool {
+        #if os(iOS)
+        return UIAccessibility.isVoiceOverRunning
+            && !UserDefaults.standard.bool(forKey: Self.accessibilityGuideShownKey)
+        #else
+        return false
         #endif
+    }
+
+    private func presentAccessibilityGuide() {
+        UserDefaults.standard.set(true, forKey: Self.accessibilityGuideShownKey)
+        showAccessibilityGuide = true
     }
 
     // MARK: - 사용 통계 (사람이 앱을 앞으로 가져온 순간)

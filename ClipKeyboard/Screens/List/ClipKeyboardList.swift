@@ -1393,6 +1393,8 @@ struct ClipKeyboardList: View {
                     guard !isLaunchAppearance else { return }
                     guard !backgroundOfferResolved, isReadyForBackgroundOffer else { return }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        // 이번 실행에 이미 다른 창이 떴으면 다음에 묻는다(`LaunchSheetGate`).
+                        guard LaunchSheetGate.claim("backgroundOffer") else { return }
                         showBackgroundOffer = true
                     }
                 }
