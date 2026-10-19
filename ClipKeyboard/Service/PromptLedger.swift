@@ -16,6 +16,41 @@
 
 import Foundation
 
+// MARK: - 종류
+
+/// 말의 종류. **선언 순서가 곧 우선순위다.** 위가 먼저다.
+enum PromptKind: Int, CaseIterable, Comparable {
+    /// 고장 난 것. 휴면이어도 말한다.
+    case status
+    /// 사용자가 방금 한 일에 대한 답. 휴면이어도 말한다.
+    case moment
+    /// 막힌 사람을 푸는 것. 예시에서 골라 담기 · 필수 세 칸.
+    case unblock
+    /// 필요해진 다음 층 기능 하나를 소개.
+    case nextFloor
+    /// 결제 이야기. 앱과 키보드가 예산 하나를 나눠 쓴다.
+    case money
+    /// 부탁. 리뷰 · 피드백 · 친구에게 알리기 · 팁.
+    case ask
+    /// 소식. 새 소식 · 그거 아세요.
+    case news
+
+    static func < (lhs: PromptKind, rhs: PromptKind) -> Bool { lhs.rawValue < rhs.rawValue }
+}
+
+// MARK: - 예산
+
+enum PromptBudget {
+    /// 돈 이야기를 거절했으면 쉬는 날.
+    static let moneyRestAfterDecline: TimeInterval = 3 * 86_400
+    /// 부탁: 7일에 한 번.
+    static let askInterval: TimeInterval = 7 * 86_400
+    /// 소식: 단축어를 쓴 날 기준 3일에 한 번.
+    static let newsActiveDays = 3
+}
+
+// MARK: - 원장
+
 enum PromptLedger {
 
     /// 원장의 한 장면. 순수한 값이라 시험이 직접 만든다.
@@ -41,6 +76,31 @@ enum PromptLedger {
             lastSpokeID[kind] = id
         }
 
+        /// 종류의 예산이 남았는가. 돈은 하루 한 번(같은 날이면 다시 안 함, 거절하면 사흘 쉼),
+        /// 부탁은 7일에 한 번, 소식은 쓴 날 기준 3일에 한 번.
+        func hasBudget(_ kind: PromptKind, activeDays: Int, now: Date, calendar: Calendar = .current) -> Bool {
+            switch kind {
+            case .status, .moment, .unblock, .nextFloor:
+                return true
+
+            case .money:
+                if let declined = lastDeclined[.money],
+                   now.timeIntervalSince(declined) < PromptBudget.moneyRestAfterDecline {
+                    return false
+                }
+                guard let last = lastSpoke[.money] else { return true }
+                return !calendar.isDate(last, inSameDayAs: now)
+
+            case .ask:
+                guard let last = lastSpoke[.ask] else { return true }
+                return now.timeIntervalSince(last) >= PromptBudget.askInterval
+
+            case .news:
+                guard let spokeAt = activeDaysAtSpeak[.news] else { return true }
+                return activeDays - spokeAt >= PromptBudget.newsActiveDays
+            }
+        }
+
         /// 이 말이 지금 예산을 쥐고 있는가. 말한 뒤로 거절당하지 않았으면 쥐고 있다.
         func holdsBudget(_ kind: PromptKind, id: String) -> Bool {
             guard lastSpokeID[kind] == id, let spoke = lastSpoke[kind] else { return false }
@@ -57,6 +117,25 @@ enum PromptLedger {
     // MARK: - 기기
 
     private static var defaults: UserDefaults? { AppGroup.defaults }
+
+    // MARK: - 키보드
+
+    /// 키보드가 먼저 돈 이야기를 해도 되는 사람인가. 앱이 `UserStateStore.refresh` 에서 적는다.
+    ///
+    /// ⚠️ 앱이 아직 한 번도 적지 않았으면 말해도 되는 것으로 본다(예전 그대로).
+    static var keyboardMayTalkMoney: Bool {
+        get { defaults?.object(forKey: DefaultsKey.promptKeyboardMayTalkMoney) as? Bool ?? true }
+        set { defaults?.set(newValue, forKey: DefaultsKey.promptKeyboardMayTalkMoney) }
+    }
+
+    /// 키보드의 돈 이야기가 지금 설 수 있는가. 앱과 **같은 예산**을 쓴다.
+    /// 앱이 오늘 이미 돈 이야기를 했으면 키보드는 하지 않는다(그 반대도).
+    static func keyboardMayShowMoney(id: String, now: Date = Date()) -> Bool {
+        guard keyboardMayTalkMoney else { return false }
+        let snapshot = current
+        return snapshot.holdsBudget(.money, id: id)
+            || snapshot.hasBudget(.money, activeDays: 0, now: now)
+    }
 
     static var current: Snapshot {
         guard let data = defaults?.data(forKey: DefaultsKey.promptLedger),

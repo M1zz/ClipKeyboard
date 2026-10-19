@@ -41,28 +41,6 @@ enum PromptSlot: String, CaseIterable {
     case launchSheet
 }
 
-// MARK: - 종류
-
-/// 말의 종류. **선언 순서가 곧 우선순위다.** 위가 먼저다.
-enum PromptKind: Int, CaseIterable, Comparable {
-    /// 고장 난 것. 휴면이어도 말한다.
-    case status
-    /// 사용자가 방금 한 일에 대한 답. 휴면이어도 말한다.
-    case moment
-    /// 막힌 사람을 푸는 것. 예시에서 골라 담기 · 필수 세 칸.
-    case unblock
-    /// 필요해진 다음 층 기능 하나를 소개.
-    case nextFloor
-    /// 결제 이야기. 앱과 키보드가 예산 하나를 나눠 쓴다.
-    case money
-    /// 부탁. 리뷰 · 피드백 · 친구에게 알리기 · 팁.
-    case ask
-    /// 소식. 새 소식 · 그거 아세요.
-    case news
-
-    static func < (lhs: PromptKind, rhs: PromptKind) -> Bool { lhs.rawValue < rhs.rawValue }
-}
-
 // MARK: - 후보
 
 /// 말하는 쪽이 내미는 것. "말할 거리가 있다" 는 뜻이다.
@@ -77,19 +55,6 @@ struct PromptCandidate: Equatable {
     var bypassesBudget: Bool = false
     /// 돌아온 사람에게도 해도 되는 말. 새 소식처럼 "그동안 바뀐 것" 이 그 사람에게 필요한 것.
     var allowedWhenReturning: Bool = false
-}
-
-// MARK: - 예산
-
-enum PromptBudget {
-    /// 돈 이야기: 하루 한 번(같은 날이면 다시 안 함).
-    static let moneyPerDay = 1
-    /// 돈 이야기를 거절했으면 쉬는 날.
-    static let moneyRestAfterDecline: TimeInterval = 3 * 86_400
-    /// 부탁: 7일에 한 번.
-    static let askInterval: TimeInterval = 7 * 86_400
-    /// 소식: 단축어를 쓴 날 기준 3일에 한 번.
-    static let newsActiveDays = 3
 }
 
 // MARK: - 고르기
@@ -162,27 +127,8 @@ enum PromptArbiter {
 
     // MARK: 예산
 
+    /// 예산 규칙은 원장(`PromptLedger.Snapshot.hasBudget`)에 있다. 키보드도 같은 규칙을 쓴다.
     static func hasBudget(_ kind: PromptKind, in context: Context) -> Bool {
-        let ledger = context.ledger
-        switch kind {
-        case .status, .moment, .unblock, .nextFloor:
-            return true
-
-        case .money:
-            if let declined = ledger.lastDeclined[.money],
-               context.now.timeIntervalSince(declined) < PromptBudget.moneyRestAfterDecline {
-                return false
-            }
-            guard let last = ledger.lastSpoke[.money] else { return true }
-            return !context.calendar.isDate(last, inSameDayAs: context.now)
-
-        case .ask:
-            guard let last = ledger.lastSpoke[.ask] else { return true }
-            return context.now.timeIntervalSince(last) >= PromptBudget.askInterval
-
-        case .news:
-            guard let spokeAt = ledger.activeDaysAtSpeak[.news] else { return true }
-            return context.activeDays - spokeAt >= PromptBudget.newsActiveDays
-        }
+        context.ledger.hasBudget(kind, activeDays: context.activeDays, now: context.now, calendar: context.calendar)
     }
 }

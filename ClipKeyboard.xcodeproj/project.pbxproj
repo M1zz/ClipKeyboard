@@ -143,6 +143,7 @@
 		58US00022F0000000000000106 /* UserStateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58US00022F0000000000000006 /* UserStateStore.swift */; };
 		58PA00012F0000000000000106 /* PromptArbiter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PA00012F0000000000000006 /* PromptArbiter.swift */; };
 		58PA00022F0000000000000106 /* PromptLedger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PA00022F0000000000000006 /* PromptLedger.swift */; };
+		58PA00042F0000000000000106 /* PromptLedger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PA00022F0000000000000006 /* PromptLedger.swift */; };
 		58US00032F0000000000000106 /* UserStageSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58US00032F0000000000000006 /* UserStageSimulator.swift */; };
 		58US00042F0000000000000106 /* UserStageSimulatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58US00042F0000000000000006 /* UserStageSimulatorView.swift */; };
 		58VF00012F0000000000000101 /* ValueFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58VF00012F0000000000000001 /* ValueFormat.swift */; };
@@ -1697,6 +1698,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58PA00042F0000000000000106 /* PromptLedger.swift in Sources */,
 				5122552BB078CED5A59A3AEB /* PlaceholderSequence.swift in Sources */,
 				PVLBUILD000000000000000A2 /* PlaceholderValuePicker.swift in Sources */,
 				E0334BEF3A7CD6F30CB4BEFF /* KeyboardSessionLedger.swift in Sources */,

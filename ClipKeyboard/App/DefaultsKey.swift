@@ -535,6 +535,11 @@ enum DefaultsKey {
     ///
     /// ⚠️ 앱과 키보드가 **같이** 쓴다. 키보드가 오늘 돈 이야기를 했으면 앱은 하지 않는다.
     static let promptLedger = "prompt.ledger.v1"
+    /// 키보드가 먼저 돈 이야기를 해도 되는 사람인가 (App Group, Bool). **앱이 적고 키보드가 읽는다.**
+    ///
+    /// 키보드는 사용자 상태(휴면 · 결)와 쓰임새를 판정하지 못한다. 앱이 판정해 한 값으로 내려 둔다.
+    /// 없으면 예전처럼 말해도 되는 것으로 본다.
+    static let promptKeyboardMayTalkMoney = "prompt.keyboardMayTalkMoney.v1"
 
     /// 지금 흉내 내는 사용 단계 (App Group, `UserStage.rawValue`). 비어 있으면 진짜 상태를 쓴다.
     ///
