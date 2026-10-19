@@ -26,13 +26,26 @@ enum PromptLedger {
         var lastDeclined: [PromptKind: Date] = [:]
         /// 종류마다 말할 때의 활동일 수. 소식 예산을 쓴 날로 센다.
         var activeDaysAtSpeak: [PromptKind: Int] = [:]
+        /// 종류마다 마지막으로 말한 후보(`PromptCandidate.id`).
+        ///
+        /// ⚠️ 예산을 쓴 그 말은 **계속 서 있어도 된다.** 이걸 안 적으면 돈 이야기 카드가
+        ///    뜨는 순간 예산을 다 써서, 다음 그리기에서 자기 예산에 걸려 도로 사라진다.
+        var lastSpokeID: [PromptKind: String] = [:]
 
         static let empty = Snapshot()
 
         /// 말했다고 적는다.
-        mutating func noteSpoke(_ kind: PromptKind, at date: Date, activeDays: Int) {
+        mutating func noteSpoke(_ kind: PromptKind, id: String, at date: Date, activeDays: Int) {
             lastSpoke[kind] = date
             activeDaysAtSpeak[kind] = activeDays
+            lastSpokeID[kind] = id
+        }
+
+        /// 이 말이 지금 예산을 쥐고 있는가. 말한 뒤로 거절당하지 않았으면 쥐고 있다.
+        func holdsBudget(_ kind: PromptKind, id: String) -> Bool {
+            guard lastSpokeID[kind] == id, let spoke = lastSpoke[kind] else { return false }
+            guard let declined = lastDeclined[kind] else { return true }
+            return declined < spoke
         }
 
         /// 거절당했다고 적는다.
@@ -53,11 +66,13 @@ enum PromptLedger {
         return snapshot
     }
 
-    static func noteSpoke(_ kind: PromptKind, activeDays: Int, now: Date = Date()) {
+    /// 말했다고 적는다. 이미 예산을 쥔 말이 다시 그려진 것이면 적지 않는다(시각이 밀리지 않게).
+    static func noteSpoke(_ kind: PromptKind, id: String, activeDays: Int, now: Date = Date()) {
         var snapshot = current
-        snapshot.noteSpoke(kind, at: now, activeDays: activeDays)
+        guard !snapshot.holdsBudget(kind, id: id) else { return }
+        snapshot.noteSpoke(kind, id: id, at: now, activeDays: activeDays)
         save(snapshot)
-        print("📝 [PromptLedger.noteSpoke] \(kind) 말함 (활동일 \(activeDays))")
+        print("📝 [PromptLedger.noteSpoke] \(kind) \(id) 말함 (활동일 \(activeDays))")
     }
 
     static func noteDeclined(_ kind: PromptKind, now: Date = Date()) {

@@ -129,7 +129,9 @@ enum PromptArbiter {
     static func isAllowed(_ candidate: PromptCandidate, in context: Context) -> Bool {
         allowsActivity(candidate, context.activity)
             && allowsSurface(candidate, context.visibility)
-            && (candidate.bypassesBudget || hasBudget(candidate.kind, in: context))
+            && (candidate.bypassesBudget
+                || context.ledger.holdsBudget(candidate.kind, id: candidate.id)
+                || hasBudget(candidate.kind, in: context))
     }
 
     // MARK: 활동

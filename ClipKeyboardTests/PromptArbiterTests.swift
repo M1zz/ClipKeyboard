@@ -128,7 +128,7 @@ final class PromptArbiterTests: XCTestCase {
 
     func testMoneyOncePerDay() {
         var ledger = PromptLedger.Snapshot.empty
-        ledger.noteSpoke(.money, at: now.addingTimeInterval(-3600), activeDays: 10)
+        ledger.noteSpoke(.money, id: "other", at: now.addingTimeInterval(-3600), activeDays: 10)
 
         let sameDay = PromptArbiter.pick([candidate("proValue", .suggestionCard, .money)],
                                          in: context(ledger: ledger))
@@ -141,7 +141,7 @@ final class PromptArbiterTests: XCTestCase {
 
     func testMoneyRestsThreeDaysAfterDecline() {
         var ledger = PromptLedger.Snapshot.empty
-        ledger.noteSpoke(.money, at: now, activeDays: 10)
+        ledger.noteSpoke(.money, id: "other", at: now, activeDays: 10)
         ledger.noteDeclined(.money, at: now)
 
         let twoDays = PromptArbiter.hasBudget(.money, in: context(ledger: ledger, now: now.addingTimeInterval(2 * day)))
@@ -154,7 +154,7 @@ final class PromptArbiterTests: XCTestCase {
 
     func testAskOncePerWeek() {
         var ledger = PromptLedger.Snapshot.empty
-        ledger.noteSpoke(.ask, at: now, activeDays: 10)
+        ledger.noteSpoke(.ask, id: "other", at: now, activeDays: 10)
 
         XCTAssertFalse(PromptArbiter.hasBudget(.ask, in: context(ledger: ledger, now: now.addingTimeInterval(6 * day))))
         XCTAssertTrue(PromptArbiter.hasBudget(.ask, in: context(ledger: ledger, now: now.addingTimeInterval(7 * day))))
@@ -164,7 +164,7 @@ final class PromptArbiterTests: XCTestCase {
 
     func testNewsCountsActiveDaysNotCalendarDays() {
         var ledger = PromptLedger.Snapshot.empty
-        ledger.noteSpoke(.news, at: now, activeDays: 10)
+        ledger.noteSpoke(.news, id: "other", at: now, activeDays: 10)
 
         // 한 달이 지나도 그동안 안 썼으면 소식을 다시 꺼내지 않는다.
         XCTAssertFalse(PromptArbiter.hasBudget(.news, in: context(ledger: ledger, activeDays: 12,
@@ -174,7 +174,7 @@ final class PromptArbiterTests: XCTestCase {
 
     func testBypassIgnoresBudgetOnly() {
         var ledger = PromptLedger.Snapshot.empty
-        ledger.noteSpoke(.news, at: now, activeDays: 10)
+        ledger.noteSpoke(.news, id: "other", at: now, activeDays: 10)
         let whatsNew = candidate("whatsNew", .launchSheet, .news, bypassesBudget: true)
 
         XCTAssertTrue(PromptArbiter.isAllowed(whatsNew, in: context(ledger: ledger)))
@@ -182,11 +182,28 @@ final class PromptArbiterTests: XCTestCase {
                        "예산을 건너뛰어도 휴면은 건너뛰지 못한다")
     }
 
+    func testSpeakerHoldingBudgetKeepsStanding() {
+        var ledger = PromptLedger.Snapshot.empty
+        ledger.noteSpoke(.money, id: "proValue", at: now.addingTimeInterval(-60), activeDays: 10)
+
+        let picked = PromptArbiter.pick([
+            candidate("freeUse", .suggestionCard, .money),
+            candidate("proValue", .suggestionCard, .money),
+        ], in: context(ledger: ledger))
+        XCTAssertEqual(picked[.suggestionCard]?.id, "proValue",
+                       "예산을 쓴 카드는 다음 그리기에서도 서 있고, 같은 날 다른 돈 이야기는 못 낀다")
+
+        ledger.noteDeclined(.money, at: now)
+        let afterDecline = PromptArbiter.pick([candidate("proValue", .suggestionCard, .money)],
+                                              in: context(ledger: ledger))
+        XCTAssertNil(afterDecline[.suggestionCard], "닫은 뒤에는 쥐고 있지 않다")
+    }
+
     // MARK: - 원장
 
     func testLedgerRoundTripsByName() throws {
         var ledger = PromptLedger.Snapshot.empty
-        ledger.noteSpoke(.money, at: now, activeDays: 4)
+        ledger.noteSpoke(.money, id: "other", at: now, activeDays: 4)
         ledger.noteDeclined(.ask, at: now)
 
         let data = try JSONEncoder().encode(ledger)

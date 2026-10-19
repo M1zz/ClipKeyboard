@@ -291,6 +291,7 @@
 		FD6F5DCD2186DB284543C323 /* PersonaEdition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF2BBA875E5DD8B5DB1456D /* PersonaEdition.swift */; };
 		FDCD2C3B73296667EB269CE4 /* DiscountOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331E4A08FC0262575AAFF22A /* DiscountOfferView.swift */; };
 		FE88BF9076D96D3BA4383172 /* BulkImportNudgeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D263F93D9CCA08817D2C32 /* BulkImportNudgeBanner.swift */; };
+		58PA00032F0000000000000106 /* PromptBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58PA00032F0000000000000006 /* PromptBoard.swift */; };
 		FE99DDC8F7FA1B08EBECAEC3 /* CrashReportsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B7F28AC88AE2E44D301FA7 /* CrashReportsView.swift */; };
 		FOLDC0012F0000000000000001 /* FoldCompanions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDC0022F0000000000000002 /* FoldCompanions.swift */; };
 		FOLDG0012F0000000000000001 /* FoldPresentationGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDG0022F0000000000000002 /* FoldPresentationGuard.swift */; };
@@ -602,6 +603,7 @@
 		845C19F2833D49C436124BAC /* KeyboardDocumentState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardDocumentState.swift; sourceTree = "<group>"; };
 		8460217AE452162D125D8E0D /* QuickShortcutSave.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = QuickShortcutSave.swift; sourceTree = "<group>"; };
 		84D263F93D9CCA08817D2C32 /* BulkImportNudgeBanner.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BulkImportNudgeBanner.swift; sourceTree = "<group>"; };
+		58PA00032F0000000000000006 /* PromptBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptBoard.swift; sourceTree = "<group>"; };
 		8673C8E13E118E73E1C56A83 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8789BB34EE8F45ECB57252A8 /* MyDataSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDataSettingsView.swift; sourceTree = "<group>"; };
 		87C7E82D595E178AECF1B15F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -904,6 +906,7 @@
 				US00001C2F0000000000000005 /* UsageTrendChartView.swift */,
 				91A5192FEC743DF68940A67D /* UsageBreakdownCharts.swift */,
 				84D263F93D9CCA08817D2C32 /* BulkImportNudgeBanner.swift */,
+				58PA00032F0000000000000006 /* PromptBoard.swift */,
 				3A5A96E7B79BA628A2624067 /* PersonaEssentialsCard.swift */,
 			);
 			path = Component;
@@ -1989,6 +1992,7 @@
 				A7086366E02E482415AFAA37 /* EditPattern.swift in Sources */,
 				6972347EDFF8F477DC389772 /* BulkImportNudge.swift in Sources */,
 				FE88BF9076D96D3BA4383172 /* BulkImportNudgeBanner.swift in Sources */,
+				58PA00032F0000000000000106 /* PromptBoard.swift in Sources */,
 				3A32DD099834816440075E83 /* TwoDevicePack.swift in Sources */,
 				4B40C14F060FCB80F9E6164E /* ProUpgrade.swift in Sources */,
 				4BD38C1ADDBFFC84D997DF86 /* PurchaseMomentManager.swift in Sources */,

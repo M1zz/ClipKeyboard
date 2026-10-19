@@ -33,8 +33,8 @@ struct BulkImportNudgeBannerContainer: View {
         // ⚠️ 조건을 맨 `if` 로 두지 않는다. 이 줄은 페이지의 `LazyVStack` 안에 사는데,
         //    조건이 거짓이 되는 순간 게으른 스택이 행을 그냥 걷어내서 전이가 걸릴 자리가
         //    없다("띡" 하고 사라진다). `DismissibleRow` 가 크기 0 인 그릇으로 남는다.
-        DismissibleRow(isShowing: hasLoaded && !dismissed
-                       && BulkImportNudge.shouldOfferInList(memoCount: memoCount)) {
+        PromptRow(.bulkImport, wants: hasLoaded && !dismissed
+                  && BulkImportNudge.shouldOfferInList(memoCount: memoCount)) {
             BulkImportNudgeBanner(
                 isNewcomer: BulkImportNudge.isNewcomer(memoCount: memoCount),
                 onTap: {

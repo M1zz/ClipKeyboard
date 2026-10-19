@@ -52,18 +52,31 @@ enum TipAskMoments {
 final class TipAskCenter: ObservableObject {
     static let shared = TipAskCenter()
     @Published private(set) var moment: LeeoTipMoment?
+    /// 물을 거리를 정할 때 닿아 있던 순간들. 카드가 실제로 섰을 때 물은 것으로 적는다.
+    private var reachedAtEvaluate: [LeeoTipMoment] = []
 
     private init() {}
 
     /// 물을 때인지 본다. 이미 카드가 서 있으면 그대로 둔다.
+    ///
+    /// ⚠️ 여기서 물은 것으로 적지 않는다. 카드가 설지는 `PromptBoard` 가 고르므로,
+    ///    다른 말에 자리를 내줬는데 물은 것으로 적히면 그 순간이 조용히 사라진다.
     func evaluate() {
         guard moment == nil, ProFeatureManager.hasPermanentPro,
               let tipJar = StoreManager.shared.tipJar else { return }
         let reached = TipAskMoments.reachedNow
         guard let next = tipJar.momentToAsk(from: reached) else { return }
-        tipJar.markAsked(covering: reached)
+        reachedAtEvaluate = reached
         moment = next
-        print("💛 [TipAskCenter.evaluate] 팁 부탁 카드: \(next.id)")
+        print("💛 [TipAskCenter.evaluate] 팁 부탁 거리: \(next.id)")
+    }
+
+    /// 카드가 실제로 섰다. 이때 물은 것으로 적는다.
+    func markShown() {
+        guard moment != nil, !reachedAtEvaluate.isEmpty,
+              let tipJar = StoreManager.shared.tipJar else { return }
+        tipJar.markAsked(covering: reachedAtEvaluate)
+        reachedAtEvaluate = []
     }
 
     func close() { moment = nil }
@@ -78,7 +91,7 @@ struct TipAskBannerContainer: View {
     @State private var showTipJar = false
 
     var body: some View {
-        DismissibleRow(isShowing: center.moment != nil && store.tipJar != nil) {
+        PromptRow(.tipAsk, wants: center.moment != nil && store.tipJar != nil) {
             if let moment = center.moment, let tipJar = store.tipJar {
                 LeeoTipAskCard(tipJar: tipJar, moment: moment,
                                onSupport: {
@@ -88,6 +101,7 @@ struct TipAskBannerContainer: View {
                                },
                                onLater: { center.close() })
                     .leeoStyle(theme.leeoStyle)
+                    .onAppear { center.markShown() }
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                     .padding(.bottom, 4)

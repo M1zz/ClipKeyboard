@@ -64,7 +64,7 @@ struct FreeUseMilestoneBanner: View {
     @State private var showsGuide = false
 
     var body: some View {
-        DismissibleRow(isShowing: moments.card != nil) {
+        PromptRow(.freeUseMilestone, wants: moments.card != nil) {
             if let milestone = moments.card {
                 FreeUseMilestoneCard(
                     milestone: milestone,
@@ -72,7 +72,10 @@ struct FreeUseMilestoneBanner: View {
                     threshold: FreeUse.threshold,
                     minutesSaved: Int(KeyboardUsageTracker.totalTimeSavedSeconds() / 60),
                     onMore: { showsGuide = true },
-                    onDismiss: { moments.dismissCard() }
+                    onDismiss: {
+                        moments.dismissCard()
+                        PromptBoard.list.noteDeclined(.freeUseMilestone)
+                    }
                 )
                 .padding(.horizontal, 16)
                 .padding(.top, 8)

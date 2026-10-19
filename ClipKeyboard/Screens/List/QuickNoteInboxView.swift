@@ -199,7 +199,7 @@ struct QuickNoteInboxBannerContainer: View {
 
     var body: some View {
         // 게으른 스택 안이라 맨 `if` 로 두면 전이가 안 걸린다(`DismissibleRow` 주석 참고).
-        DismissibleRow(isShowing: store.count > dismissCount) {
+        PromptRow(.quickNoteInbox, wants: store.count > dismissCount) {
             QuickNoteInboxBanner(
                 count: store.count,
                 onTap: onOpen,
