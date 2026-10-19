@@ -94,7 +94,8 @@ extension DidYouKnow {
     /// ⚠️ 권하는 목록과 이 문장은 **같은 곳**(`SuggestionManager`)에서 나온다.
     ///    화면에 그 갈래가 안 보이는 사람에게 골라 뒀다고 말하면 거짓말이 된다.
     static var personaPicks: DidYouKnow {
-        let persona = CategoryStore.shared.selectedPersona ?? .general
+        // 권하는 목록(`SuggestionManager.personaWeightedPool`)과 같은 출처를 본다.
+        let persona = PersonaResolver.confident ?? .general
         let categories = SuggestionManager.recommendedCategories(for: persona)
         let titles = SuggestionManager.recommendedTitles(for: persona)
 

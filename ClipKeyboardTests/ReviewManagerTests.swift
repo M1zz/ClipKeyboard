@@ -80,33 +80,6 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertFalse(sut.shouldShowReview(), "응답 완료 사용자에게는 다시 안 띄움")
     }
 
-    // MARK: - 배너
-
-    func testShouldShowBanner_RequiresEnoughClips() {
-        // 클립 저장 5회 미만이면 false
-        for _ in 0..<3 { sut.trackClipSaved() }
-        XCTAssertFalse(sut.shouldShowBanner)
-    }
-
-    func testShouldShowBanner_FiveClips_True() {
-        for _ in 0..<5 { sut.trackClipSaved() }
-        XCTAssertTrue(sut.shouldShowBanner)
-    }
-
-    func testDismissBannerPermanently_HidesBanner() {
-        for _ in 0..<5 { sut.trackClipSaved() }
-        XCTAssertTrue(sut.shouldShowBanner)
-        sut.dismissBannerPermanently()
-        XCTAssertFalse(sut.shouldShowBanner)
-    }
-
-    func testDismissBannerTemporarily_HidesBannerForOneWeek() {
-        for _ in 0..<5 { sut.trackClipSaved() }
-        XCTAssertTrue(sut.shouldShowBanner)
-        sut.dismissBannerTemporarily()
-        XCTAssertFalse(sut.shouldShowBanner)
-    }
-
     // MARK: - 디버그 정보
 
     func testGetReviewRequestInfo_ReturnsString() {

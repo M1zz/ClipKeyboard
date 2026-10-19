@@ -57,10 +57,7 @@ struct ClipKeyboardList: View {
     @State private var showInboxFromIntent: Bool = false
     /// Inbox 배너를 닫은 시점의 항목 수. 이보다 더 쌓이면(=새 캡처) 배너가 다시 나타난다.
     @State private var inboxBannerDismissCount: Int = 0
-    @State private var hasAppeared: Bool = false
     @State private var scrollOffset: CGFloat = 0
-    @State private var occasionalSuggestion_: SuggestionTemplate?
-    @State private var navigateToOccasionalAdd: Bool = false
 
     // 메모 구분 표시 마스터 토글 - 기본 OFF(제목만, 가장 심플).
     // 켜면 타입 아이콘·배지·테두리·우상단 심볼·카테고리/즐겨찾기 색을 모두 표시.
@@ -840,18 +837,6 @@ struct ClipKeyboardList: View {
                         }
                 }
             }
-            .sheet(isPresented: $navigateToOccasionalAdd, onDismiss: { viewModel.loadMemos() }) {
-                NavigationStack {
-                    Group {
-                        if let s = occasionalSuggestion_ { memoAdd(for: s) } else { MemoAdd() }
-                    }
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(NSLocalizedString("취소", comment: "Cancel")) { navigateToOccasionalAdd = false }
-                        }
-                    }
-                }
-            }
             .task {
                 viewModel.loadMemos()
                 refreshGhostSuggestion()
@@ -1141,15 +1126,6 @@ struct ClipKeyboardList: View {
                 CategoryStore.shared.migrateFeatureEnabledIfNeeded(
                     existingMemoCategories: viewModel.memos.map { $0.category }
                 )
-                // 이 화면을 연 것을 한 번만 센다 - 목록은 탭을 오갈 때마다 다시 나타난다.
-                if !hasAppeared {
-                    hasAppeared = true
-                    SuggestionManager.shared.recordAppOpen()
-                }
-                // 앱을 두 번 이상 연 사용자에게만 빠른 메모 캡처 팁을 노출(첫날 도배 방지).
-                if UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) >= 2 {
-                    QuickNoteInboxTip.engaged = true
-                }
             }
     }
 
@@ -3093,17 +3069,6 @@ struct ClipKeyboardList: View {
         .background(theme.surface)
         .cornerRadius(theme.radiusMd)
         .shadow(color: .black.opacity(0.06), radius: 4, x: 0, y: 2)
-    }
-
-    private func memoAdd(for suggestion: SuggestionTemplate) -> MemoAdd {
-        var add = MemoAdd()
-        add.insertedValue = suggestion.content
-        switch suggestion.feature {
-        case .template:      add.insertedIsTemplate = true
-        case .stack:         add.insertedIsStack    = true
-        case .snippet, .smartClipboard: break
-        }
-        return add
     }
 
 }

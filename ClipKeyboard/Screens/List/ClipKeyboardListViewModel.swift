@@ -864,18 +864,10 @@ final class ClipKeyboardListViewModel: ObservableObject {
     @Published var showToast: Bool = false
     @Published var toastMessage: String = ""
 
-    // MARK: - UI
+    // MARK: - 첫 붙여넣기 축하
 
-    @Published var showFavoriteNudge: Bool = false
-
-    // MARK: - Activation Card (첫 붙여넣기 유도)
-
-    @Published var showActivationCard: Bool = false
-    @Published var showTemplateHint: Bool = false
+    /// 키보드에서 넣은 횟수를 마지막으로 본 값. 0 에서 처음 오르는 순간에 축하한다.
     private var lastKnownPasteCount: Int = 0
-    private let practicePromptShownKey = "keyboard_practice_prompt_shown_v1"
-    private let activationCardSnoozedKey = "activation_card_snoozed_until"
-    private let templateHintShownKey = "template_hint_shown_v1"
 
     // MARK: - Private
 
@@ -890,14 +882,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
         migrateExistingMemosClassification()
 
         checkFreshClipboard()
-        checkActivationCard()
-
-        FavoriteNudgeManager.shared.resetIfNeeded()
-        if FavoriteNudgeManager.shared.shouldShowNudge {
-            print("💝 [ClipKeyboardListViewModel] 즐겨찾기 넛지 표시")
-            showFavoriteNudge = true
-            FavoriteNudgeManager.shared.recordNudgeShown()
-        }
+        lastKnownPasteCount = currentPasteCount
 
         print("✅ [ClipKeyboardListViewModel] onAppear 완료")
     }
@@ -907,14 +892,16 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func onSceneResume() {
         reloadIfChangedOutsideApp()
         checkFreshClipboard()
-        let newCount = AppGroup.defaults?.integer(forKey: DefaultsKey.keyboardPasteCount) ?? 0
+        let newCount = currentPasteCount
         if lastKnownPasteCount == 0 && newCount > 0 {
-            showActivationCard = false
             showCelebrationToast()
             print("🎉 [ViewModel] 첫 붙여넣기 감지, 축하 토스트 표시")
         }
         lastKnownPasteCount = newCount
-        checkActivationCard()
+    }
+
+    private var currentPasteCount: Int {
+        AppGroup.defaults?.integer(forKey: DefaultsKey.keyboardPasteCount) ?? 0
     }
 
     /// 앱 **밖에서**(공유 익스텐션) `memos.data` 가 바뀌었으면 다시 읽는다.
@@ -947,42 +934,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) { [weak self] in
             self?.showToast = false
         }
-    }
-
-    // MARK: - Activation Card
-
-    private func checkActivationCard() {
-        let pasted = AppGroup.defaults?.integer(forKey: DefaultsKey.keyboardPasteCount) ?? 0
-        lastKnownPasteCount = pasted
-        guard pasted == 0 else {
-            showActivationCard = false
-            return
-        }
-        guard UserDefaults.standard.bool(forKey: practicePromptShownKey) else { return }
-        if let snoozedUntil = UserDefaults.standard.object(forKey: activationCardSnoozedKey) as? Date,
-           snoozedUntil > Date() {
-            showActivationCard = false
-            return
-        }
-        showActivationCard = true
-    }
-
-    func snoozeActivationCard() {
-        UserDefaults.standard.set(Date().addingTimeInterval(24 * 60 * 60), forKey: activationCardSnoozedKey)
-        showActivationCard = false
-    }
-
-    // MARK: - Template Hint
-
-    func checkTemplateHintIfNeeded() {
-        guard !UserDefaults.standard.bool(forKey: templateHintShownKey) else { return }
-        guard loadedData.count >= 3 else { return }
-        showTemplateHint = true
-    }
-
-    func dismissTemplateHint() {
-        UserDefaults.standard.set(true, forKey: templateHintShownKey)
-        showTemplateHint = false
     }
 
     // MARK: - Section Helpers (ADHD 친화 섹션 분리)
@@ -1026,7 +977,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
             hasLoadedMemos = true
             print("✅ [loadMemos] 메모 로드 완료")
             applyFilters()
-            checkTemplateHintIfNeeded()
             // 데이터·카테고리가 로드된 뒤 1회 - 마지막 본 탭으로 복원.
             restoreSelectedCategoryTabIfNeeded()
         } catch {
@@ -1165,10 +1115,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
         withAnimation(.easeInOut) {
             loadedData[index].isFavorite.toggle()
-
-            if loadedData[index].isFavorite {
-                showFavoriteNudge = false
-            }
 
             loadedData = sortMemos(loadedData)
 
@@ -1376,8 +1322,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
             print("❌ [finalizeCopy] 오류: \(error)")
         }
 
-        // 첫 복사 시 KeyboardTip 표시 조건 충족
-        KeyboardTip.hasCopiedMemo = true
 
         // 복사됐다는 대답은 셋이 나눠 맡는다. 토스트는 쓰지 않는다.
         //  - 눈: 누른 카드 위의 "복사됨" 도장 (`ClipKeyboardList.stampCopied`, `.memoUsed` 로 온다)

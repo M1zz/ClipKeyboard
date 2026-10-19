@@ -197,30 +197,6 @@ class ReviewManager {
         requestReviewOnce(key: keyStackReview, delay: 1.5)
     }
 
-    /// 리뷰 배너 표시 여부 확인
-    var shouldShowBanner: Bool {
-        let dismissed = UserDefaults.standard.bool(forKey: DefaultsKey.reviewBannerDismissed)
-        if dismissed { return false }
-
-        let laterDate = UserDefaults.standard.double(forKey: DefaultsKey.reviewBannerLaterDate)
-        if laterDate > 0 && Date().timeIntervalSince1970 < laterDate { return false }
-
-        return UserDefaults.standard.integer(forKey: keyClipSaveCount) >= 5
-    }
-
-    /// 배너에서 "나중에" 선택
-    func dismissBannerTemporarily() {
-        let laterDate = Date().addingTimeInterval(7 * 86400).timeIntervalSince1970
-        UserDefaults.standard.set(laterDate, forKey: DefaultsKey.reviewBannerLaterDate)
-        print("📊 [ReviewManager] 배너 7일 후 다시 표시")
-    }
-
-    /// 배너에서 "리뷰 남기기" 선택
-    func dismissBannerPermanently() {
-        UserDefaults.standard.set(true, forKey: DefaultsKey.reviewBannerDismissed)
-        print("📊 [ReviewManager] 배너 영구 닫기")
-    }
-
     // MARK: - Private Methods
 
     /// 파워 유저 마일스톤 체크
