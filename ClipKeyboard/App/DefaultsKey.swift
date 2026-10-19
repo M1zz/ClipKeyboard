@@ -531,6 +531,10 @@ enum DefaultsKey {
     static let userStateWasDormant = "userstate.wasDormant.v1"
     /// 휴면에서 깬 시각 (App Group, epoch 초). 이때부터 7일이 "돌아온 사람"이다.
     static let userStateReturnedAt = "userstate.returnedAt.v1"
+    /// 말 거는 자리 원장 (App Group, JSON). 종류마다 마지막으로 말한 때·거절한 때.
+    ///
+    /// ⚠️ 앱과 키보드가 **같이** 쓴다. 키보드가 오늘 돈 이야기를 했으면 앱은 하지 않는다.
+    static let promptLedger = "prompt.ledger.v1"
 
     /// 지금 흉내 내는 사용 단계 (App Group, `UserStage.rawValue`). 비어 있으면 진짜 상태를 쓴다.
     ///
