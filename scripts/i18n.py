@@ -279,7 +279,9 @@ def _add_from_source(catalog):
     strings = d["strings"]
     added = 0
     for base, _, files in os.walk(ROOT):
-        if any(p in base for p in (os.sep + "build", os.sep + ".git", "DerivedData")):
+        # ⚠️ `.claude` 아래에는 다른 작업의 워크트리(저장소 통째 사본)가 있다. 거기 문구까지 걷으면
+        #    아직 들어오지 않은 브랜치의 키가 이 카탈로그에 섞인다(2026-10-20 실제로 두 개가 섞였다).
+        if any(p in base for p in (os.sep + "build", os.sep + ".git", "DerivedData", os.sep + ".claude")):
             continue
         for f in files:
             if not f.endswith(".swift"):
