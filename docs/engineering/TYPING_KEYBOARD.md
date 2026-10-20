@@ -29,7 +29,7 @@
 
 | 키 | 값 |
 | --- | --- |
-| `keyboardTypingLanguages.v1` | 켜 둔 언어, 쉼표로 이은 rawValue. 비면 **영어 하나**(예전에 한국어를 켰으면 한국어도). 다른 언어는 설정 ▸ 키보드 ▸ 입력 언어에서 더한다. 2026-10 전에 키보드를 띄운 적 있는 사람은 예전 처음 목록(기기 언어 + 영어)을 한 번 저장해 그대로 쓴다(`TypingPrefs.keepLegacyDefaultIfNeeded`) |
+| `keyboardTypingLanguages.v1` | 켜 둔 언어, 쉼표로 이은 rawValue. 비면 **그 사람의 언어 + 영어**: 앱에서 고른 언어 → 기기 언어 → iOS 에 켜 둔 키보드의 언어(앱이 `keyboardUserKeyboardLanguages.v1` 에 적는다), 영어는 늘(예전에 한국어를 켰으면 한국어도). 설정 ▸ 키보드 ▸ 입력 언어에서 더하고 뺀다. 2026-10 전에 키보드를 띄운 적 있는 사람은 예전 처음 목록(기기 언어 + 영어)을 한 번 저장해 그대로 쓴다(`TypingPrefs.keepLegacyDefaultIfNeeded`) |
 | `keyboardTypingCurrent.v1` | 지금 언어 |
 | `keyboardInputMode.v1` | 처음 보일 판(typing · snippets). 마지막에 보던 판 |
 | `keyboardKoreanLayout` | dubeolsik · cheonjiin (예전 키 그대로) |
@@ -55,6 +55,6 @@
 ## 시험
 
 - `ClipKeyboardTests/TypingEnginesTests.swift`: 언어표 모양, 터키어 대문자, 두벌식 쌍자음, 길게 누르기 순서,
-  처음 언어(영어 하나) · 기존 사용자 목록 지키기 · 기기 언어 고르기, 한글 조합, Telex(모양 · 성조 · 되돌리기), 로마자 → 가나, 후보 고르기.
+  처음 언어(그 사람의 언어 + 영어) · 켜 둔 키보드 읽기 · 기존 사용자 목록 지키기 · 기기 언어 고르기, 한글 조합, Telex(모양 · 성조 · 되돌리기), 로마자 → 가나, 후보 고르기.
 - `ClipKeyboardUITests`: `testTypingKeyboardComposesHangul` - 키보드 탭에서 자판으로 바꿔 "한글" 이 들어가는지.
 - 진짜 키보드(남의 앱)에서 치는 것은 XCUITest 로 못 본다. 기기에서 손으로 본다.

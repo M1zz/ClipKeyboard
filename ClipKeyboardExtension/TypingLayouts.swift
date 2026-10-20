@@ -106,20 +106,37 @@ enum TypingLanguage: String, CaseIterable, Identifiable, Codable {
         }
     }
 
-    /// 처음 켤 언어. **영어 하나**다. 다른 언어는 앱의 설정 ▸ 키보드 ▸ 입력 언어에서 더한다.
+    /// 처음 켤 언어. **그 사람의 언어 + 영어.** 영어는 늘 들어간다(주소 · 이메일 · 영문 이름을 칠 일이 늘 있다).
     ///
-    /// ⚠️ 예전에는 기기 언어에서 골랐다(`deviceLanguages`). 기존 사용자는 그 목록을 한 번 저장해
-    ///    그대로 쓴다(`TypingPrefs.keepLegacyDefaultIfNeeded`). 업데이트가 쓰던 자판을 빼앗지 않게.
-    static func defaults() -> [TypingLanguage] { [.en] }
-
-    /// 기기 언어 중 우리가 아는 것 + 영어. 예전의 처음 목록이다(기존 사용자를 그대로 두는 데만 쓴다).
-    static func deviceLanguages(preferred: [String] = Locale.preferredLanguages) -> [TypingLanguage] {
+    /// - Parameter userLanguages: 그 사람의 언어 코드들, 앞이 먼저다. 보통 앱 언어 → 기기 언어 →
+    ///   iOS 에 켜 둔 키보드의 언어(`TypingPrefs.userLanguageCodes`). 우리가 모르는 언어는 건너뛴다.
+    /// 다른 언어는 앱의 설정 > 키보드 > 입력 언어에서 더하고 뺀다.
+    static func defaults(userLanguages: [String]) -> [TypingLanguage] {
         var picked: [TypingLanguage] = []
-        for code in preferred {
+        for code in userLanguages {
             if let lang = match(code), !picked.contains(lang) { picked.append(lang) }
         }
         if !picked.contains(.en) { picked.append(.en) }
         return picked
+    }
+
+    /// iOS 에 켜 둔 키보드(`AppleKeyboards`)에서 언어 코드를 뽑는다.
+    ///
+    ///     "ko_KR@sw=Korean;hw=Automatic" → "ko-KR",  "zh_Hans-Pinyin@sw=Pinyin10" → "zh-Hans",
+    ///     "ja_JP-Kana@sw=Kana" → "ja-JP",  "emoji@sw=Emoji" · 다른 앱의 키보드(번들 ID) → 건너뜀
+    static func languageCodes(fromAppleKeyboards keyboards: [String]) -> [String] {
+        keyboards.compactMap { entry in
+            let head = String(entry.split(separator: "@").first ?? "")
+            // 다른 앱이 준 키보드는 번들 ID 로 적힌다(com.example.keyboard). 언어가 아니다.
+            guard !head.isEmpty, !head.contains("."), head != "emoji" else { return nil }
+            let locale = String(head.split(separator: "-").first ?? "")
+            return locale.replacingOccurrences(of: "_", with: "-")
+        }
+    }
+
+    /// 기기 언어 중 우리가 아는 것 + 영어. 예전의 처음 목록이다(기존 사용자를 그대로 두는 데만 쓴다).
+    static func deviceLanguages(preferred: [String] = Locale.preferredLanguages) -> [TypingLanguage] {
+        defaults(userLanguages: preferred)
     }
 
     /// "ko-KR", "zh-Hans-CN", "pt-BR", "nb-NO" 같은 코드를 우리 언어로.

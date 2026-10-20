@@ -29,7 +29,7 @@ enum TypingPrefs {
     /// 키보드를 열면 어느 판이 먼저인가(typing · snippets).
     static let modeKey = DefaultsKey.keyboardInputMode
 
-    /// 저장된 문자열을 언어 목록으로. 비어 있으면 기기 언어에서 고른다.
+    /// 저장된 문자열을 언어 목록으로. 비어 있으면 그 사람의 언어 + 영어(`userLanguageCodes`).
     ///
     /// ⚠️ 예전 설정에서 "한국어 입력" 을 켜 둔 사람(`keyboardKoreanEnabled`)은 기기 언어가 무엇이든
     ///    한국어를 넣는다. 켜 둔 것을 업데이트가 빼앗지 않게.
@@ -38,16 +38,43 @@ enum TypingPrefs {
         var unique: [TypingLanguage] = []
         for lang in parsed where !unique.contains(lang) { unique.append(lang) }
         guard unique.isEmpty else { return unique }
-        var picked = TypingLanguage.defaults()
+        var picked = TypingLanguage.defaults(userLanguages: userLanguageCodes())
         if koreanWasEnabled && !picked.contains(.ko) { picked.insert(.ko, at: 0) }
         return picked
     }
 
+    /// 그 사람의 언어 코드, 앞이 먼저다: 앱에서 고른 언어 → 기기 언어 → iOS 에 켜 둔 키보드의 언어.
+    ///
+    /// ⚠️ 켜 둔 키보드 목록(`AppleKeyboards`)은 앱만 읽을 수 있다. 앱이 `noteEnabledKeyboards()` 로
+    ///    App Group 에 적어 둔 것을 본다. 앱을 아직 안 열었으면 그 몫은 빈다.
+    static func userLanguageCodes(defaults: UserDefaults? = AppGroup.defaults,
+                                  preferred: [String] = Locale.preferredLanguages) -> [String] {
+        var codes: [String] = []
+        if let app = defaults?.string(forKey: DefaultsKey.appLanguage),
+           !app.isEmpty, app != AppLanguage.system.rawValue {
+            codes.append(app)
+        }
+        codes += preferred
+        codes += defaults?.stringArray(forKey: DefaultsKey.keyboardUserKeyboardLanguages) ?? []
+        return codes
+    }
+
+    /// iOS 에 켜 둔 키보드의 언어를 App Group 에 적는다. 앱이 처음 뜰 때 부른다.
+    /// 키보드는 이 목록을 스스로 못 읽는다(`AppleKeyboards` 는 앱의 표준 UserDefaults 에만 비친다).
+    static func noteEnabledKeyboards(_ keyboards: [String]? = UserDefaults.standard.array(forKey: "AppleKeyboards") as? [String],
+                                     defaults: UserDefaults? = AppGroup.defaults) {
+        guard let keyboards else { return }
+        let codes = TypingLanguage.languageCodes(fromAppleKeyboards: keyboards)
+        guard defaults?.stringArray(forKey: DefaultsKey.keyboardUserKeyboardLanguages) != codes else { return }
+        defaults?.set(codes, forKey: DefaultsKey.keyboardUserKeyboardLanguages)
+    }
+
     /// 기존 사용자의 처음 목록을 한 번 저장해 둔다. 앱과 키보드가 각자 처음 뜰 때 부른다(한 번만 돈다).
     ///
-    /// 왜: 처음 목록이 "기기 언어 + 영어" 에서 "영어 하나" 로 바뀌었다. 목록은 설정에서 손대기 전까지
-    /// 저장되지 않고 뜰 때마다 계산됐으므로, 그냥 바꾸면 한국어 기기 사용자의 한국어 자판이 업데이트한
-    /// 날 말없이 사라진다. 그래서 **키보드를 이미 띄운 적이 있는 사람**은 예전 목록을 저장해 그대로 둔다.
+    /// 왜: 처음 목록이 "기기 언어 + 영어" 에서 "앱 언어 · 기기 언어 · 켜 둔 키보드의 언어 + 영어" 로 바뀌었다.
+    /// 목록은 설정에서 손대기 전까지 저장되지 않고 뜰 때마다 계산되므로, 그냥 바꾸면 이미 쓰던 사람의
+    /// 언어 키가 업데이트한 날 말없이 다른 순서로 돈다. 그래서 **키보드를 이미 띄운 적이 있는 사람**은
+    /// 예전 목록을 저장해 그대로 둔다.
     ///
     /// ⚠️ 키보드에서는 `keyboardExtensionDidLoad` 를 적기 **전에** 불러야 한다. 그 값이 "예전에 띄운 적 있음" 의 증거다.
     static func keepLegacyDefaultIfNeeded(defaults: UserDefaults? = AppGroup.defaults,
