@@ -862,14 +862,25 @@ struct NativeKeyMetrics {
 
     var keyHeight: CGFloat { rowPitch - gapY }
 
-    /// 글자 키(라틴 대문자 높이 15.3pt = 22pt).
-    var letterFontSize: CGFloat { min(22, keyHeight * 0.52) }
+    /// 키 글자 크기를 줄이기 시작하는 키 높이. 이보다 높으면 기본 키보드와 같은 크기로 그린다.
+    ///
+    /// ⚠️ 예전에는 크기를 "키 높이 × 비율" 로 정하고 비율을 기본 키보드의 키(42.3pt)에 맞췄다.
+    ///    우리 키는 판이 낮아 40.5pt 쯤이라 글자가 21pt 로 그려졌고, 기본 키보드(22pt)보다
+    ///    획이 가늘고 연해 보였다(사용자: "볼드같이 진하게 그려진 것도 똑같아?").
+    ///    시뮬레이터에서 같은 글자를 굵기 · 크기별로 그려 기본 키보드 스크린샷과 맞춰 보니
+    ///    굵기는 같은 regular 이고 크기만 1pt 작았다. 키가 이보다 낮을 때(가로 화면)만 줄인다.
+    static let fullSizeKeyHeight: CGFloat = 38
+
+    private var fontScale: CGFloat { min(1, keyHeight / Self.fullSizeKeyHeight) }
+
+    /// 글자 키(라틴 대문자 높이 15.3pt = 22pt, regular).
+    var letterFontSize: CGFloat { 22 * fontScale }
     /// 123 · ABC 같은 글자 조작 키.
-    var controlFontSize: CGFloat { min(18, keyHeight * 0.42) }
+    var controlFontSize: CGFloat { 18 * fontScale }
     /// #+= · 스페이스 같은 작은 이름.
-    var smallControlFontSize: CGFloat { min(16, keyHeight * 0.38) }
+    var smallControlFontSize: CGFloat { 16 * fontScale }
     /// Shift · 지우기 · 리턴 그림.
-    var symbolFontSize: CGFloat { min(20, keyHeight * 0.46) }
+    var symbolFontSize: CGFloat { 20 * fontScale }
 }
 
 /// 기본 키보드의 키 색. iOS 26 부터는 조작 키도 글자 키와 같은 색이고 그림자가 없다.
