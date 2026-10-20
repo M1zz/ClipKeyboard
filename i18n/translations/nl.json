@@ -1449,6 +1449,10 @@
     "v": "Houd ingedrukt om te slepen en de volgorde te wijzigen. Veeg naar links om te verwijderen (beveiligde items kunnen niet worden verwijderd).",
     "src": "12459b563e"
   },
+  "Mac 앱은 따로 사는 앱이에요": {
+    "v": "De Mac-app koop je los",
+    "src": "94691692e8"
+  },
   "Mac 앱이 완전히 새로워졌어요. 단축키 하나로 어디서든 문구를 꺼내 써요": {
     "v": "De Mac-app is helemaal nieuw. Met één sneltoets haal je overal je fragmenten tevoorschijn",
     "src": "a9581bc99c"
@@ -7231,6 +7235,10 @@
   "아이폰에서 바꾼 순서도 맥의 모든 화면에 그대로 반영": {
     "v": "Een volgorde die je op iPhone instelt, geldt op elk Mac-scherm",
     "src": "f16491ac93"
+  },
+  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
+    "v": "Dit staat los van Pro op iPhone. Koop de Mac-app één keer en alle functies zijn inbegrepen, zonder verdere kosten.",
+    "src": "b5cda4716b"
   },
   "아이폰이 쓰는 그 파랑이에요. 어느 앱에서 왔는지 티가 안 나는 색입니다.": {
     "v": "Het blauw dat iPhone zelf gebruikt. Er is niet aan te zien uit welke app het komt.",

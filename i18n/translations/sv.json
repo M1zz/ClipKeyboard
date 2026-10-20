@@ -1449,6 +1449,10 @@
     "v": "Håll nedtryckt och dra för att ändra ordning. Svep åt vänster för att ta bort (skyddade går inte att ta bort).",
     "src": "12459b563e"
   },
+  "Mac 앱은 따로 사는 앱이에요": {
+    "v": "Mac-appen köps separat",
+    "src": "94691692e8"
+  },
   "Mac 앱이 완전히 새로워졌어요. 단축키 하나로 어디서든 문구를 꺼내 써요": {
     "v": "Mac-appen är helt ny. Med en genväg hämtar du fram dina fraser var som helst",
     "src": "a9581bc99c"
@@ -7231,6 +7235,10 @@
   "아이폰에서 바꾼 순서도 맥의 모든 화면에 그대로 반영": {
     "v": "Ordning du ställer in på iPhone gäller i alla vyer på Mac",
     "src": "f16491ac93"
+  },
+  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
+    "v": "Den är skild från Pro på iPhone. Köp Mac-appen en gång så ingår alla funktioner, och du betalar inget mer.",
+    "src": "b5cda4716b"
   },
   "아이폰이 쓰는 그 파랑이에요. 어느 앱에서 왔는지 티가 안 나는 색입니다.": {
     "v": "Samma blå som iPhone själv använder. Inget avslöjar vilken app den kommer från.",

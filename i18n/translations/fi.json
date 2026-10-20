@@ -1449,6 +1449,10 @@
     "v": "Järjestä painamalla pitkään ja vetämällä. Poista pyyhkäisemällä vasemmalle (suojattuja ei voi poistaa).",
     "src": "12459b563e"
   },
+  "Mac 앱은 따로 사는 앱이에요": {
+    "v": "Mac-sovellus ostetaan erikseen",
+    "src": "94691692e8"
+  },
   "Mac 앱이 완전히 새로워졌어요. 단축키 하나로 어디서든 문구를 꺼내 써요": {
     "v": "Aivan uusi Mac-sovellus. Yksi pikanäppäin tuo fraasisi esiin missä vain",
     "src": "a9581bc99c"
@@ -7231,6 +7235,10 @@
   "아이폰에서 바꾼 순서도 맥의 모든 화면에 그대로 반영": {
     "v": "iPhonessa asetettu järjestys näkyy kaikkialla Macissa",
     "src": "f16491ac93"
+  },
+  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
+    "v": "Se on erillinen iPhonen Prosta. Osta Mac-sovellus kerran, niin kaikki ominaisuudet ovat käytössä. Muuta maksettavaa ei ole.",
+    "src": "b5cda4716b"
   },
   "아이폰이 쓰는 그 파랑이에요. 어느 앱에서 왔는지 티가 안 나는 색입니다.": {
     "v": "Samaa sinistä, jota iPhone itse käyttää. Siitä ei näe, mistä sovelluksesta se tulee.",

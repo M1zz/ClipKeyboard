@@ -1446,6 +1446,10 @@
     "v": "Lange drücken und ziehen zum Sortieren, nach links wischen zum Löschen (geschützte Einträge lassen sich nicht löschen).",
     "src": "12459b563e"
   },
+  "Mac 앱은 따로 사는 앱이에요": {
+    "v": "Die Mac-App wird separat gekauft",
+    "src": "94691692e8"
+  },
   "Mac 앱이 완전히 새로워졌어요. 단축키 하나로 어디서든 문구를 꺼내 써요": {
     "v": "Die Mac-App ist ganz neu. Mit einem Tastenkürzel rufst du deine Textbausteine überall auf",
     "src": "a9581bc99c"
@@ -7228,6 +7232,10 @@
   "아이폰에서 바꾼 순서도 맥의 모든 화면에 그대로 반영": {
     "v": "Die Reihenfolge vom iPhone gilt auch in allen Mac-Ansichten",
     "src": "f16491ac93"
+  },
+  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
+    "v": "Sie gilt unabhängig von Pro auf dem iPhone. Die Mac-App kaufst du einmal, dann sind alle Funktionen freigeschaltet und es fallen keine weiteren Kosten an.",
+    "src": "b5cda4716b"
   },
   "아이폰이 쓰는 그 파랑이에요. 어느 앱에서 왔는지 티가 안 나는 색입니다.": {
     "v": "Das Blau, das auch das iPhone nutzt. Man sieht ihm nicht an, aus welcher App es stammt.",

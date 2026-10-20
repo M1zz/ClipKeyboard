@@ -1449,6 +1449,10 @@
     "v": "Tieni premuto per trascinare e riordinare. Scorri a sinistra per eliminare (gli elementi protetti non si possono rimuovere).",
     "src": "12459b563e"
   },
+  "Mac 앱은 따로 사는 앱이에요": {
+    "v": "L'app per Mac si acquista a parte",
+    "src": "94691692e8"
+  },
   "Mac 앱이 완전히 새로워졌어요. 단축키 하나로 어디서든 문구를 꺼내 써요": {
     "v": "L'app Mac è completamente nuova. Con una sola scorciatoia richiami le tue frasi ovunque",
     "src": "a9581bc99c"
@@ -7231,6 +7235,10 @@
   "아이폰에서 바꾼 순서도 맥의 모든 화면에 그대로 반영": {
     "v": "L'ordine impostato su iPhone vale in tutte le schermate del Mac",
     "src": "f16491ac93"
+  },
+  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
+    "v": "È separata da Pro su iPhone. Acquista l'app per Mac una sola volta e hai tutte le funzioni, senza altri pagamenti.",
+    "src": "b5cda4716b"
   },
   "아이폰이 쓰는 그 파랑이에요. 어느 앱에서 왔는지 티가 안 나는 색입니다.": {
     "v": "Il blu che usa iPhone stesso. Non si capisce da quale app arrivi.",

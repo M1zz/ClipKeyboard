@@ -2,8 +2,8 @@
 //  MacAppIntroView.swift
 //  ClipKeyboard
 //
-//  iOS에서 Mac 버전의 존재를 소개. Universal Purchase이므로 같은 App Store
-//  구매로 Mac에서도 설치 가능.
+//  iOS에서 Mac 버전(탭클립키보드)의 존재를 소개. Mac 앱은 번들 ID 가 다른 별도 앱이고
+//  처음 살 때 값을 내는 유료 앱이다. 아이폰 구매가 넘어가지 않는다.
 //
 
 import SwiftUI
@@ -95,10 +95,13 @@ struct MacAppIntroView: View {
                 .foregroundColor(.green)
                 .font(.system(.body))
             VStack(alignment: .leading, spacing: 4) {
-                Text(NSLocalizedString("Universal Purchase", comment: "Mac universal purchase title"))
+                // ⚠️ 예전에는 "Universal Purchase: 아이폰 Pro 가 Mac 에서도" 라고 적었다. 사실이 아니다.
+                //    Mac 앱은 번들 ID 가 다른 별도 앱이고, 처음 살 때 값을 내는 유료 앱이다(앱 안 결제 없음).
+                Text(NSLocalizedString("Mac 앱은 따로 사는 앱이에요", comment: "Mac app intro: the Mac app is a separate purchase"))
                     .font(.body)
                     .fontWeight(.semibold)
-                Text(NSLocalizedString("If you've purchased Pro on iOS, it works on Mac automatically: no extra payment.", comment: "Universal purchase description"))
+                Text(NSLocalizedString("아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.",
+                                       comment: "Mac app intro: iPhone Pro does not carry over; the Mac app is paid once with everything included"))
                     .font(.body)
                     .foregroundColor(theme.textMuted)
                     .fixedSize(horizontal: false, vertical: true)

@@ -1955,6 +1955,12 @@
     "comment": "Categories footer hint",
     "h": "12459b563e"
   },
+  "Mac 앱은 따로 사는 앱이에요": {
+    "ko": "Mac 앱은 따로 사는 앱이에요",
+    "en": "The Mac app is a separate purchase",
+    "comment": "Mac app intro: the Mac app is a separate purchase",
+    "h": "94691692e8"
+  },
   "Mac 앱이 완전히 새로워졌어요. 단축키 하나로 어디서든 문구를 꺼내 써요": {
     "ko": "Mac 앱이 완전히 새로워졌어요. 단축키 하나로 어디서든 문구를 꺼내 써요",
     "en": "A brand new Mac app. One shortcut brings your snippets up anywhere",
@@ -10426,6 +10432,12 @@
     "en": "Orders set on iPhone reflect across every Mac surface",
     "comment": "Changelog 4.4.0 item 2",
     "h": "f16491ac93"
+  },
+  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
+    "ko": "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.",
+    "en": "It's separate from Pro on iPhone. Buy the Mac app once and every feature is included, with nothing more to pay.",
+    "comment": "Mac app intro: iPhone Pro does not carry over; the Mac app is paid once with everything included",
+    "h": "b5cda4716b"
   },
   "아이폰이 쓰는 그 파랑이에요. 어느 앱에서 왔는지 티가 안 나는 색입니다.": {
     "ko": "아이폰이 쓰는 그 파랑이에요. 어느 앱에서 왔는지 티가 안 나는 색입니다.",

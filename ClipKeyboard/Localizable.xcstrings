@@ -439741,6 +439741,280 @@
           }
         }
       }
+    },
+    "Mac 앱은 따로 사는 앱이에요" : {
+      "comment" : "Mac app intro: the Mac app is a separate purchase",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikace pro Mac se kupuje zvlášť"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac-appen købes separat"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Mac-App wird separat gekauft"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Η εφαρμογή Mac αγοράζεται ξεχωριστά"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Mac app is a separate purchase"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La app de Mac se compra por separado"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac-sovellus ostetaan erikseen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'app Mac est un achat à part"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikasi Mac dibeli terpisah"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'app per Mac si acquista a parte"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac版は別売りのアプリです"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac-appen er et eget kjøp"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De Mac-app koop je los"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplikacja na Maca jest kupowana osobno"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O app para Mac é uma compra separada"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приложение для Mac покупается отдельно"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac-appen köps separat"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แอป Mac ซื้อแยกต่างหาก"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac uygulaması ayrı satın alınır"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ứng dụng Mac được mua riêng"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac 应用需要单独购买"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mac 應用需要單獨購買"
+          }
+        }
+      }
+    },
+    "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요." : {
+      "comment" : "Mac app intro: iPhone Pro does not carry over; the Mac app is paid once with everything included",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je oddělená od Pro na iPhonu. Aplikaci pro Mac koupíte jednou, odemknou se všechny funkce a nic dalšího už nedoplácíte."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den er adskilt fra Pro på iPhone. Køb Mac-appen én gang, så er alle funktioner med, og du skal ikke betale mere."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie gilt unabhängig von Pro auf dem iPhone. Die Mac-App kaufst du einmal, dann sind alle Funktionen freigeschaltet und es fallen keine weiteren Kosten an."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Είναι ξεχωριστή από το Pro στο iPhone. Αγοράστε την εφαρμογή Mac μία φορά και έχετε όλες τις λειτουργίες, χωρίς άλλη χρέωση."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It's separate from Pro on iPhone. Buy the Mac app once and every feature is included, with nothing more to pay."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es independiente de Pro en iPhone. Compras la app de Mac una vez y incluye todas las funciones, sin pagos adicionales."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se on erillinen iPhonen Prosta. Osta Mac-sovellus kerran, niin kaikki ominaisuudet ovat käytössä. Muuta maksettavaa ei ole."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elle est distincte de Pro sur iPhone. Achetez l'app Mac une fois et toutes les fonctions sont incluses, sans rien à payer de plus."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ini terpisah dari Pro di iPhone. Beli aplikasi Mac sekali, semua fitur langsung terbuka, tanpa biaya tambahan."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È separata da Pro su iPhone. Acquista l'app per Mac una sola volta e hai tutte le funzioni, senza altri pagamenti."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhoneのProとは別です。Mac版は一度購入すればすべての機能が使え、追加のお支払いはありません。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den er atskilt fra Pro på iPhone. Kjøp Mac-appen én gang, så er alle funksjoner med, og du betaler ikke mer."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit staat los van Pro op iPhone. Koop de Mac-app één keer en alle functies zijn inbegrepen, zonder verdere kosten."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To osobny zakup względem Pro na iPhonie. Aplikację na Maca kupujesz raz i masz wszystkie funkcje, bez dalszych opłat."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "É separado do Pro no iPhone. Compre o app para Mac uma vez e todos os recursos ficam liberados, sem nenhum pagamento extra."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оно не связано с Pro на iPhone. Приложение для Mac покупается один раз, и все функции сразу доступны. Больше платить не нужно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den är skild från Pro på iPhone. Köp Mac-appen en gång så ingår alla funktioner, och du betalar inget mer."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แยกจาก Pro บน iPhone ซื้อแอป Mac ครั้งเดียว ใช้ได้ทุกฟีเจอร์ ไม่มีค่าใช้จ่ายเพิ่ม"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone'daki Pro'dan ayrıdır. Mac uygulamasını bir kez satın alın, tüm özellikler açılır ve ek ödeme gerekmez."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Không dùng chung với Pro trên iPhone. Mua ứng dụng Mac một lần là có đầy đủ tính năng, không phải trả thêm."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与 iPhone 上的 Pro 互不通用。Mac 应用买一次即可使用全部功能，无需再付费。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "與 iPhone 上的 Pro 互不通用。Mac 應用買一次即可使用全部功能，無需再付費。"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
