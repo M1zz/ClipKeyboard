@@ -983,7 +983,7 @@
     "src": "587e1cf483"
   },
   "Capture Clipboard": {
-    "v": "Fang utklippstavle",
+    "v": "Hent fra utklippstavle",
     "src": "29fdf05b52"
   },
   "Capture a quick note into ClipKeyboard.": {
@@ -2308,7 +2308,7 @@
     "src": "c581e54a3d"
   },
   "iCloud 설정 화면": {
-    "v": "iCloud-innstillinger",
+    "v": "Skjermbilde av iCloud-innstillinger",
     "src": "9b9552fa70"
   },
   "iCloud 저장 공간이 부족합니다. 설정 > [사용자 이름] > iCloud > 저장 공간 관리에서 확인해주세요.": {
@@ -3027,7 +3027,7 @@
     "src": "710c8daa64"
   },
   "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
-    "v": "Sjekk først at du er logget inn med den Apple-kontoen du brukte til kjøpet. Kjøp er knyttet til den kontoen.",
+    "v": "Sjekk først at du er logget inn med Apple-kontoen du brukte til kjøpet. Kjøp er knyttet til den kontoen.",
     "src": "9486e90c00"
   },
   "국가 코드부터 끝까지 입력해 주세요": {
@@ -3112,7 +3112,7 @@
     "src": "4d7e9923fb"
   },
   "그때 집중 모드나 무음 모드였나요? (선택)": {
-    "v": "Var fokus eller lydløs modus på da? (valgfritt)",
+    "v": "Var Fokus eller stille modus på da? (valgfritt)",
     "src": "0548daa9e3"
   },
   "그래도 백업": {
@@ -3420,7 +3420,7 @@
     "src": "949812949e"
   },
   "꺼지거나 열리지 않아요": {
-    "v": "Den krasjer eller åpner seg ikke",
+    "v": "Den krasjer eller åpnes ikke",
     "src": "bc87d0bf1b"
   },
   "꺼짐": {
@@ -4875,7 +4875,7 @@
     "src": "bdaf65bee7"
   },
   "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
-    "v": "Ett skjermbilde av hakkingen holder. Hvis vi ser hva som står på skjermen og hvor mye, finner vi årsaken raskere.",
+    "v": "Ett skjermbilde av hakkingen er nok. Hvis vi ser hva som er på skjermen og hvor mye, finner vi årsaken raskere.",
     "src": "e15a2fb4d2"
   },
   "메뉴바 아이콘: 🛶": {
@@ -6661,7 +6661,7 @@
     "src": "64252656f2"
   },
   "설정 앱 > 알림 > 이 앱 화면을 찍어 주세요. 알림 허용, 잠금 화면, 배너, 사운드가 다 보이게요.": {
-    "v": "Ta et skjermbilde av Innstillinger > Varsler > denne appen, slik at Tillat varsler, Låseskjerm, Bannere og Lyder er synlige.",
+    "v": "Ta et skjermbilde av Innstillinger > Varsler > denne appen, slik at Tillat varsler, Låst skjerm, Bannere og Lyder er synlige.",
     "src": "bde90d0212"
   },
   "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.": {
@@ -7332,7 +7332,7 @@
     "src": "cfc40de398"
   },
   "안 되는 곳": {
-    "v": "Der det ikke fungerer",
+    "v": "Hvor det ikke fungerer",
     "src": "3ec599cf33"
   },
   "안 쓰는 단축어": {
@@ -7388,7 +7388,7 @@
     "src": "ee0ec98e32"
   },
   "알림이 안 오거나 늦어요": {
-    "v": "Varsler kommer ikke fram eller er forsinket",
+    "v": "Varsler kommer ikke fram eller kommer for sent",
     "src": "132f374923"
   },
   "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.": {
@@ -7488,7 +7488,7 @@
     "src": "17a89c693d"
   },
   "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.": {
-    "v": "Send dette før du sletter og installerer appen på nytt. Når du sletter den, forsvinner også data som bare lå på denne enheten, og de kan ikke gjenopprettes.",
+    "v": "Send dette før du sletter og installerer appen på nytt. Sletting fjerner også data som bare finnes på denne enheten, og de kan ikke gjenopprettes.",
     "src": "6c47aed7d4"
   },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
@@ -7535,7 +7535,7 @@
     "src": "7faff7af57"
   },
   "어느 화면에서, 얼마나 걸리나요?": {
-    "v": "På hvilken skjerm, og hvor lang tid tar det?",
+    "v": "På hvilken skjerm, og hvor lenge tar det?",
     "src": "dbd64ff7c0"
   },
   "어느 화면의 무엇이 이상한가요?": {
@@ -7591,7 +7591,7 @@
     "src": "d9a6ac3cd1"
   },
   "언제, 어느 기기에서 샀나요? (선택)": {
-    "v": "Når og på hvilken enhet kjøpte du det? (valgfritt)",
+    "v": "Når, og på hvilken enhet, kjøpte du det? (valgfritt)",
     "src": "231181af2a"
   },
   "언제든지 접근 가능": {
@@ -7831,7 +7831,7 @@
     "src": "e8fcf11de2"
   },
   "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.": {
-    "v": "F.eks. Omtrent halvparten av de 20 jeg hadde laget, er borte.",
+    "v": "F.eks. Omtrent halvparten av de 20 jeg hadde laget er borte.",
     "src": "c0a5a82c2c"
   },
   "예) 매번요. 기기를 껐다 켜도 같아요.": {
@@ -7839,7 +7839,7 @@
     "src": "c952ed962c"
   },
   "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
-    "v": "F.eks. Den henger i et sekund hver gang jeg ruller i listen.",
+    "v": "F.eks. Den henger i omtrent ett sekund hver gang jeg ruller i listen.",
     "src": "5d25eabe10"
   },
   "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
@@ -7847,11 +7847,11 @@
     "src": "e32a425323"
   },
   "예) 수면 모드가 켜져 있었어요.": {
-    "v": "F.eks. Sovefokus var på.",
+    "v": "F.eks. Hvilemodus var slått på.",
     "src": "e444a75fad"
   },
   "예) 아이폰에서 만든 것이 아이패드에 안 보여요.": {
-    "v": "F.eks. Det jeg laget på iPhone vises ikke på iPad.",
+    "v": "F.eks. Det jeg lagde på iPhone vises ikke på iPad.",
     "src": "e193e298fe"
   },
   "예) 앱을 업데이트했어요. 새 아이폰으로 옮겼어요. 앱을 지웠다 다시 깔았어요.": {
@@ -7879,7 +7879,7 @@
     "src": "c935df2f4a"
   },
   "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
-    "v": "F.eks. Widgeten på Hjem-skjermen sitter fast på verdien fra i går. Appen vises ikke i tastaturlisten.",
+    "v": "F.eks. Widgeten på Hjem-skjermen står fast på gårsdagens verdi. Appen vises ikke i tastaturlisten.",
     "src": "9713f82101"
   },
   "예: 010-1234-5678": {
@@ -8631,7 +8631,7 @@
     "src": "15fd035e42"
   },
   "이상한 화면": {
-    "v": "Skjerm som ser feil ut",
+    "v": "Skjermen ser feil ut",
     "src": "46b4000f7f"
   },
   "이어서 입력할 내용": {
@@ -9714,7 +9714,7 @@
     "src": "35c5b2e73c"
   },
   "진단 정보를 모으는 중…": {
-    "v": "Samler diagnostikkinfo …",
+    "v": "Samler diagnoseinformasjon…",
     "src": "cb69319857"
   },
   "진동과 복사한 글 꺼내기가 꺼져 있어요": {
@@ -11834,7 +11834,7 @@
     "src": "1f2314554b"
   },
   "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.": {
-    "v": "En hvit skjerm går også fint. Trykk på sideknappen og volum opp-knappen samtidig for å ta et skjermbilde.",
+    "v": "En hvit skjerm går fint. Trykk på sideknappen og volum opp-knappen samtidig for å ta et skjermbilde.",
     "src": "5bc1d83572"
   },
   "힌트 (선택)": {
@@ -11916,5 +11916,21 @@
   "🪪 명함": {
     "v": "🪪 Visittkort",
     "src": "9becff2df0"
+  },
+  "Mac 앱은 따로 사는 앱이에요": {
+    "v": "Mac-appen er et eget kjøp",
+    "src": "94691692e8"
+  },
+  "Mac에서는 탭클립키보드를 받아 주세요": {
+    "v": "På Mac kan du hente ClipKeyboard for Mac",
+    "src": "4ce028311c"
+  },
+  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
+    "v": "Den er atskilt fra Pro på iPhone. Kjøp Mac-appen én gang, så er alle funksjoner med, og du betaler ikke mer.",
+    "src": "b5cda4716b"
+  },
+  "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
+    "v": "Denne appen fungerer via tastaturet på iPhone, så den kan ikke skrive inn fraser på en Mac. ClipKeyboard for Mac limer dem inn i alle apper fra menylinjen eller med en hurtigtast.",
+    "src": "2e5ad98226"
   }
 }

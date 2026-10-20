@@ -3027,7 +3027,7 @@
     "src": "710c8daa64"
   },
   "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
-    "v": "Önce satın alırken kullandığınız Apple hesabıyla giriş yaptığınızı kontrol edin. Satın alımlar o hesaba bağlıdır.",
+    "v": "Önce, satın alırken kullandığınız Apple Hesabı ile giriş yapmış olduğunuzu kontrol edin. Satın alımlar o hesaba bağlıdır.",
     "src": "9486e90c00"
   },
   "국가 코드부터 끝까지 입력해 주세요": {
@@ -3073,7 +3073,7 @@
     "src": "bb24d4c594"
   },
   "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
-    "v": "O ekranın görüntüsünü olduğu gibi alın. Çeviri yapay duruyorsa, nasıl daha doğal olacağını da yazın. Yazdığınız şekilde kullanacağız.",
+    "v": "O ekranın görüntüsünü olduğu gibi alın. Çeviri yapay duruyorsa, nasıl daha doğal olacağını da yazın. Yazdığınız şekliyle kullanacağız.",
     "src": "a6067d252a"
   },
   "그거 아세요?": {
@@ -3112,7 +3112,7 @@
     "src": "4d7e9923fb"
   },
   "그때 집중 모드나 무음 모드였나요? (선택)": {
-    "v": "O sırada Odak ya da Sessiz modu açık mıydı? (isteğe bağlı)",
+    "v": "O sırada Odak ya da Sessiz Mod açık mıydı? (isteğe bağlı)",
     "src": "0548daa9e3"
   },
   "그래도 백업": {
@@ -3752,7 +3752,7 @@
     "src": "b9d49c6e77"
   },
   "느리거나 버벅여요": {
-    "v": "Yavaş çalışıyor ya da takılıyor",
+    "v": "Yavaş ya da takılıyor",
     "src": "44bedc6b6a"
   },
   "늘 이 자리: %@": {
@@ -4875,7 +4875,7 @@
     "src": "bdaf65bee7"
   },
   "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
-    "v": "Takılan ekranın tek bir görüntüsü yeterli. Ekranda ne olduğu ve ne kadar olduğu görünürse nedeni daha hızlı buluruz.",
+    "v": "Takılan ekranın tek bir görüntüsü yeterli. Ekranda neler olduğunu ve ne kadar olduğunu görebilirsek nedeni daha çabuk buluruz.",
     "src": "e15a2fb4d2"
   },
   "메뉴바 아이콘: 🛶": {
@@ -5166,7 +5166,7 @@
     "src": "4c27c1bb42"
   },
   "무엇이 어떻게 안 되나요?": {
-    "v": "Ne çalışmıyor ve nasıl?",
+    "v": "Ne, nasıl çalışmıyor?",
     "src": "bab272ba3d"
   },
   "무엇이 저장될지 누르기 전에 보여요": {
@@ -5174,7 +5174,7 @@
     "src": "5f3b9f1f59"
   },
   "무엇이, 얼마나 사라졌나요?": {
-    "v": "Ne kayboldu ve ne kadar?",
+    "v": "Ne ve ne kadarı kayboldu?",
     "src": "e8bee7e094"
   },
   "무제한": {
@@ -6669,7 +6669,7 @@
     "src": "f6734b03c2"
   },
   "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
-    "v": "Ayarlar'da en üstteki adınıza > Medya ve Satın Alımlar > Hesabı Görüntüle > Satın Alma Geçmişi'ne dokunun, bu uygulamanın ödemesini bulup ekran görüntüsünü alın. Tarih ve tutar yeterli. Ödeme yöntemini gizleyebilirsiniz.",
+    "v": "Ayarlar'da en üstteki adınıza > Medya ve Satın Alımlar > Hesabı Görüntüle > Satın Alma Geçmişi'ne dokunun, bu uygulamanın ödemesini bulup ekran görüntüsü alın. Tarih ve tutar yeterli. Ödeme yöntemini gizleyebilirsiniz.",
     "src": "2c4dd5890d"
   },
   "설정 앱에서 '동작 버튼'을 열어요": {
@@ -7488,7 +7488,7 @@
     "src": "17a89c693d"
   },
   "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.": {
-    "v": "Uygulamayı silip yeniden yüklemeden önce bunu gönderin. Silerseniz yalnızca bu cihazdaki veriler de silinir ve geri getirilemez.",
+    "v": "Uygulamayı silip yeniden yüklemeden önce bunu gönderin. Silmek, yalnızca bu cihazda bulunan verileri de kaldırır ve geri getirilemez.",
     "src": "6c47aed7d4"
   },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
@@ -7539,7 +7539,7 @@
     "src": "dbd64ff7c0"
   },
   "어느 화면의 무엇이 이상한가요?": {
-    "v": "Hangi ekranda ve neyin yanlış göründüğünü yazın.",
+    "v": "Hangi ekranda ve neyin yanlış olduğunu düşünüyorsunuz?",
     "src": "bcccf8a8a5"
   },
   "어두운 바탕에서 가장 잘 읽히는 색이에요.": {
@@ -7599,7 +7599,7 @@
     "src": "c1f88829b5"
   },
   "언제부터 그랬나요? (선택)": {
-    "v": "Ne zamandan beri oluyor? (isteğe bağlı)",
+    "v": "Ne zamandır böyle? (isteğe bağlı)",
     "src": "482f56e353"
   },
   "업무": {
@@ -7831,7 +7831,7 @@
     "src": "e8fcf11de2"
   },
   "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.": {
-    "v": "örn. Oluşturduğum 20 ifadenin yaklaşık yarısı kayboldu.",
+    "v": "Örn. Oluşturduğum 20 öğenin yaklaşık yarısı kayboldu.",
     "src": "c0a5a82c2c"
   },
   "예) 매번요. 기기를 껐다 켜도 같아요.": {
@@ -7839,11 +7839,11 @@
     "src": "c952ed962c"
   },
   "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
-    "v": "Örn. Listeyi kaydırdığımda her seferinde yaklaşık bir saniye takılıyor.",
+    "v": "Örn. Listeyi her kaydırışımda yaklaşık bir saniye takılıyor.",
     "src": "5d25eabe10"
   },
   "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
-    "v": "Örn. Ayarlar ekranındaki düğme yazısı kesiliyor. Bu cümlenin çevirisi tuhaf.",
+    "v": "Örn. Ayarlar ekranındaki düğme metni kesiliyor. Bu cümlenin çevirisi tuhaf.",
     "src": "e32a425323"
   },
   "예) 수면 모드가 켜져 있었어요.": {
@@ -7863,7 +7863,7 @@
     "src": "7fd7282c7d"
   },
   "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
-    "v": "Örn. Sabah 9 bildirimi gelmedi. 5 dakika geç geldi.",
+    "v": "Örn. Sabah 9 bildirimi hiç gelmedi. 5 dakika geç geldi.",
     "src": "b7aa5cb55e"
   },
   "예) 올해 3월쯤, 예전 아이폰에서요.": {
@@ -7875,11 +7875,11 @@
     "src": "5b7fbdbe2b"
   },
   "예) 평생 이용권을 샀는데, 앱을 다시 깔고 나니 잠겨 있어요. 복원을 눌러도 없다고 나와요.": {
-    "v": "Örn. Ömür boyu erişim satın aldım ama uygulamayı yeniden yükleyince kilitli kaldı. Geri Yükle'ye dokununca geri yüklenecek bir şey yok diyor.",
+    "v": "Örn. Ömür boyu erişim satın aldım ama uygulamayı yeniden yükleyince kilitli. Geri Yükle'ye dokununca geri yüklenecek bir şey olmadığı yazıyor.",
     "src": "c935df2f4a"
   },
   "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
-    "v": "Örn. Ana Ekran Widget'ı dünkü değerde takılı kalmış. Bu uygulama klavye listesinde görünmüyor.",
+    "v": "Örn. Ana Ekran widget'ı dünkü değerde takılı kalmış. Bu uygulama klavye listesinde görünmüyor.",
     "src": "9713f82101"
   },
   "예: 010-1234-5678": {
@@ -8123,7 +8123,7 @@
     "src": "13d40b4407"
   },
   "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.": {
-    "v": "Widget'ın bulunduğu Ana Ekran'ın ya da klavyenin açık olduğu ekranın görüntüsünü alın. Klavye için Ayarlar > Genel > Klavye > Klavyeler ekranını da ekleyin.",
+    "v": "Widget'ın bulunduğu Ana Ekran'ın ya da klavyenin açık olduğu ekranın görüntüsünü alın. Klavye sorunuysa Ayarlar > Genel > Klavye > Klavyeler ekranını da ekleyin.",
     "src": "bd66902936"
   },
   "위젯이나 키보드가 안 돼요": {
@@ -9578,7 +9578,7 @@
     "src": "0660df0f16"
   },
   "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
-    "v": "Listenin şu anki ekran görüntüsünü alın. Fotoğraflar'da eski bir ekran görüntünüz varsa onu da ekleyin, neyin eksildiğini karşılaştırabiliriz.",
+    "v": "Listenin şu anki halinin ekran görüntüsünü alın. Fotoğraflar'da eski bir ekran görüntünüz varsa onu da ekleyin, neyin eksik olduğunu karşılaştırabiliriz.",
     "src": "ff5f634480"
   },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
@@ -9714,7 +9714,7 @@
     "src": "35c5b2e73c"
   },
   "진단 정보를 모으는 중…": {
-    "v": "Tanı bilgileri toplanıyor…",
+    "v": "Tanılama bilgileri toplanıyor…",
     "src": "cb69319857"
   },
   "진동과 복사한 글 꺼내기가 꺼져 있어요": {
@@ -11722,7 +11722,7 @@
     "src": "459064740b"
   },
   "화면이나 글자가 이상해요": {
-    "v": "Ekran veya yazı hatalı görünüyor",
+    "v": "Ekran veya metin hatalı görünüyor",
     "src": "77ad812308"
   },
   "확인": {
@@ -11834,7 +11834,7 @@
     "src": "1f2314554b"
   },
   "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.": {
-    "v": "Beyaz ekran da olur. Ekran görüntüsü için yan düğmeyle ses açma düğmesine birlikte basın.",
+    "v": "Beyaz ekran olsa da sorun değil. Yan düğmeyle ses açma düğmesine birlikte basarak ekran görüntüsü alabilirsiniz.",
     "src": "5bc1d83572"
   },
   "힌트 (선택)": {
@@ -11916,5 +11916,21 @@
   "🪪 명함": {
     "v": "🪪 Kartvizit",
     "src": "9becff2df0"
+  },
+  "Mac 앱은 따로 사는 앱이에요": {
+    "v": "Mac uygulaması ayrı satın alınır",
+    "src": "94691692e8"
+  },
+  "Mac에서는 탭클립키보드를 받아 주세요": {
+    "v": "Mac'te Mac için ClipKeyboard'u edinin",
+    "src": "4ce028311c"
+  },
+  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
+    "v": "iPhone'daki Pro'dan ayrıdır. Mac uygulamasını bir kez satın alın, tüm özellikler açılır ve ek ödeme gerekmez.",
+    "src": "b5cda4716b"
+  },
+  "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
+    "v": "Bu uygulama iPhone klavyesi üzerinden çalışır, bu yüzden Mac'te ifadeleri yazamaz. Mac için ClipKeyboard, ifadeleri menü çubuğundan veya bir klavye kısayoluyla her uygulamaya yapıştırır.",
+    "src": "2e5ad98226"
   }
 }

@@ -2308,7 +2308,7 @@
     "src": "c581e54a3d"
   },
   "iCloud 설정 화면": {
-    "v": "Tela de ajustes do iCloud",
+    "v": "Tela de configurações do iCloud",
     "src": "9b9552fa70"
   },
   "iCloud 저장 공간이 부족합니다. 설정 > [사용자 이름] > iCloud > 저장 공간 관리에서 확인해주세요.": {
@@ -3073,7 +3073,7 @@
     "src": "bb24d4c594"
   },
   "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
-    "v": "Tire uma captura dessa tela como ela está. Se a tradução estiver estranha, escreva como ficaria mais natural. Vamos usar a sua sugestão.",
+    "v": "Tire uma captura dessa tela como ela está. Se a tradução parecer estranha, conte como ficaria mais natural. Vamos usar o seu texto.",
     "src": "a6067d252a"
   },
   "그거 아세요?": {
@@ -3112,7 +3112,7 @@
     "src": "4d7e9923fb"
   },
   "그때 집중 모드나 무음 모드였나요? (선택)": {
-    "v": "Havia um modo de Foco ou o modo Silencioso ativado na hora? (opcional)",
+    "v": "Estava no modo Foco ou no modo Silencioso nessa hora? (opcional)",
     "src": "0548daa9e3"
   },
   "그래도 백업": {
@@ -4875,7 +4875,7 @@
     "src": "bdaf65bee7"
   },
   "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
-    "v": "Uma captura da tela que trava já basta. Se der para ver o que há nela e em que quantidade, fica mais rápido achar a causa.",
+    "v": "Uma captura da tela travando já basta. Se der para ver o que há nela e em que quantidade, achamos a causa mais rápido.",
     "src": "e15a2fb4d2"
   },
   "메뉴바 아이콘: 🛶": {
@@ -5163,7 +5163,7 @@
     "src": "4c27c1bb42"
   },
   "무엇이 어떻게 안 되나요?": {
-    "v": "O que não está funcionando e como?",
+    "v": "O que não está funcionando, e como?",
     "src": "bab272ba3d"
   },
   "무엇이 저장될지 누르기 전에 보여요": {
@@ -5171,7 +5171,7 @@
     "src": "5f3b9f1f59"
   },
   "무엇이, 얼마나 사라졌나요?": {
-    "v": "O que sumiu e quanto?",
+    "v": "O que sumiu, e quanto?",
     "src": "e8bee7e094"
   },
   "무제한": {
@@ -6666,7 +6666,7 @@
     "src": "f6734b03c2"
   },
   "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
-    "v": "Em Ajustes, toque no seu nome no topo > Mídia e Compras > Ver Conta > Histórico de Compras, ache o pagamento deste app e tire uma captura. Só precisamos da data e do valor. Pode ocultar a forma de pagamento.",
+    "v": "Em Ajustes, toque no seu nome no topo > Mídia e Compras > Ver Conta > Histórico de Compras, encontre o pagamento deste app e tire uma captura. Só precisamos da data e do valor. Pode ocultar a forma de pagamento.",
     "src": "2c4dd5890d"
   },
   "설정 앱에서 '동작 버튼'을 열어요": {
@@ -7485,7 +7485,7 @@
     "src": "17a89c693d"
   },
   "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.": {
-    "v": "Envie isto antes de apagar e reinstalar o app. Ao apagar, os dados que estavam só neste aparelho também somem e não dá para recuperá-los.",
+    "v": "Envie isto antes de apagar e reinstalar o app. Ao apagar, os dados que estavam só neste aparelho também somem e não podem ser recuperados.",
     "src": "6c47aed7d4"
   },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
@@ -7528,15 +7528,15 @@
     "src": "728d55302a"
   },
   "어느 기기 사이에서, 무엇이 안 맞나요?": {
-    "v": "Entre quais aparelhos e o que não confere?",
+    "v": "Entre quais aparelhos, e o que não confere?",
     "src": "7faff7af57"
   },
   "어느 화면에서, 얼마나 걸리나요?": {
-    "v": "Em qual tela e quanto tempo demora?",
+    "v": "Em qual tela, e quanto tempo leva?",
     "src": "dbd64ff7c0"
   },
   "어느 화면의 무엇이 이상한가요?": {
-    "v": "O que parece errado e em qual tela?",
+    "v": "O que parece errado, e em qual tela?",
     "src": "bcccf8a8a5"
   },
   "어두운 바탕에서 가장 잘 읽히는 색이에요.": {
@@ -7560,7 +7560,7 @@
     "src": "a26f1a2ba4"
   },
   "어떤 알림이, 언제 오기로 돼 있었나요?": {
-    "v": "Qual notificação e quando ela deveria chegar?",
+    "v": "Qual notificação, e quando ela deveria chegar?",
     "src": "00a1a78353"
   },
   "어떤 앱에서든 글을 고르고 공유에서 ClipKeyboard 를 누르면 단축어가 됩니다. 앱을 열지 않아도 돼요.": {
@@ -7828,7 +7828,7 @@
     "src": "e8fcf11de2"
   },
   "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.": {
-    "v": "Ex.: Cerca de metade dos 20 que eu tinha criado sumiu.",
+    "v": "Ex.: Cerca de metade dos 20 que eu criei sumiu.",
     "src": "c0a5a82c2c"
   },
   "예) 매번요. 기기를 껐다 켜도 같아요.": {
@@ -7840,11 +7840,11 @@
     "src": "5d25eabe10"
   },
   "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
-    "v": "Ex.: O texto do botão na tela de ajustes está cortado. A tradução desta frase está estranha.",
+    "v": "Ex.: O texto dos botões na tela de ajustes aparece cortado. A tradução desta frase está estranha.",
     "src": "e32a425323"
   },
   "예) 수면 모드가 켜져 있었어요.": {
-    "v": "Ex.: O modo de foco Sono estava ativado.",
+    "v": "Ex.: O modo de foco Dormir estava ativado.",
     "src": "e444a75fad"
   },
   "예) 아이폰에서 만든 것이 아이패드에 안 보여요.": {
@@ -7852,11 +7852,11 @@
     "src": "e193e298fe"
   },
   "예) 앱을 업데이트했어요. 새 아이폰으로 옮겼어요. 앱을 지웠다 다시 깔았어요.": {
-    "v": "Ex.: Atualizei o app. Troquei para um iPhone novo. Apaguei o app e instalei de novo.",
+    "v": "Ex.: Atualizei o app. Troquei de iPhone. Apaguei o app e instalei de novo.",
     "src": "190007f2af"
   },
   "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.": {
-    "v": "Ex.: Fica travado numa tela branca quando abro. O app fecha quando toco em Salvar.",
+    "v": "Ex.: Ao abrir, ele trava numa tela branca. O app fecha quando toco em Salvar.",
     "src": "7fd7282c7d"
   },
   "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
@@ -7876,7 +7876,7 @@
     "src": "c935df2f4a"
   },
   "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
-    "v": "Ex.: O widget da tela de início está parado no valor de ontem. Este app não aparece na lista de teclados.",
+    "v": "Ex.: O Widget da tela de início está parado no valor de ontem. Este app não aparece na lista de teclados.",
     "src": "9713f82101"
   },
   "예: 010-1234-5678": {
@@ -8120,11 +8120,11 @@
     "src": "13d40b4407"
   },
   "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.": {
-    "v": "Faça uma captura da tela de início com o widget ou da tela com o teclado aberto. No caso do teclado, anexe também Ajustes > Geral > Teclado > Teclados.",
+    "v": "Tire uma captura da tela de início com o Widget, ou da tela com o teclado aberto. Se for o teclado, anexe também Ajustes > Geral > Teclado > Teclados.",
     "src": "bd66902936"
   },
   "위젯이나 키보드가 안 돼요": {
-    "v": "O widget ou o teclado não funciona",
+    "v": "O Widget ou o teclado não funciona",
     "src": "550a8b0ffd"
   },
   "위줄에 둘 키와 크기를 설정에서 직접 골라요.": {
@@ -9575,7 +9575,7 @@
     "src": "0660df0f16"
   },
   "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
-    "v": "Faça uma captura da lista como está agora. Se tiver uma captura antiga no app Fotos, anexe também para podermos comparar o que sumiu.",
+    "v": "Tire uma captura da lista como ela está agora. Se tiver uma captura antiga no app Fotos, anexe também. Assim podemos comparar o que sumiu.",
     "src": "ff5f634480"
   },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
@@ -11828,7 +11828,7 @@
     "src": "1f2314554b"
   },
   "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.": {
-    "v": "Uma tela branca também serve. Pressione o botão lateral e o botão de aumentar volume ao mesmo tempo para fazer a captura.",
+    "v": "Tela branca também serve. Aperte juntos o botão lateral e o de aumentar volume para fazer a captura.",
     "src": "5bc1d83572"
   },
   "힌트 (선택)": {
@@ -11910,5 +11910,21 @@
   "🪪 명함": {
     "v": "🪪 Cartão de visita",
     "src": "9becff2df0"
+  },
+  "Mac 앱은 따로 사는 앱이에요": {
+    "v": "O app para Mac é uma compra separada",
+    "src": "94691692e8"
+  },
+  "Mac에서는 탭클립키보드를 받아 주세요": {
+    "v": "No Mac, baixe o ClipKeyboard para Mac",
+    "src": "4ce028311c"
+  },
+  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
+    "v": "É separado do Pro no iPhone. Compre o app para Mac uma vez e todos os recursos ficam liberados, sem nenhum pagamento extra.",
+    "src": "b5cda4716b"
+  },
+  "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
+    "v": "Este app funciona pelo teclado do iPhone, então não consegue digitar suas frases em um Mac. O ClipKeyboard para Mac cola em qualquer app, pela barra de menus ou por um atalho de teclado.",
+    "src": "2e5ad98226"
   }
 }
