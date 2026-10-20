@@ -4047,6 +4047,10 @@
     "v": "Hints om frasens indhold",
     "src": "9dd8d37782"
   },
+  "단축어 넣고 쓰던 키보드로": {
+    "v": "Tilbage til dit tastatur efter en frase",
+    "src": "ffec1ddb5e"
+  },
   "단축어 넣기는 지금도 돼요. 켜면 아래 기능이 더 열려요.": {
     "v": "Du kan allerede indsætte fraser. Slå det til for at få flere funktioner nedenfor.",
     "src": "f44cf741d3"
@@ -4286,6 +4290,10 @@
   "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.": {
     "v": "Lad den være slået til, hvis du vil sende lige efter indsættelsen af en frase. Slå den fra, hvis du vil have mere plads.",
     "src": "8607b208c0"
+  },
+  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
+    "v": "Når en frase er indsat, skifter den til det næste tastatur på din liste, som som regel er det, du brugte. Den skifter ikke, hvis du har skrevet med dette tastatur.",
+    "src": "c6a685cb72"
   },
   "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다": {
     "v": "Send lige efter indsættelse af en frase, uden at skifte tastatur",

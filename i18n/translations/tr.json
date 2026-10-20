@@ -4047,6 +4047,10 @@
     "v": "İfade İçeriği İpuçları",
     "src": "9dd8d37782"
   },
+  "단축어 넣고 쓰던 키보드로": {
+    "v": "İfade girince önceki klavyeye dön",
+    "src": "ffec1ddb5e"
+  },
   "단축어 넣기는 지금도 돼요. 켜면 아래 기능이 더 열려요.": {
     "v": "İfade ekleme şimdiden çalışıyor. Açarsanız aşağıdaki özellikler de açılır.",
     "src": "f44cf741d3"
@@ -4286,6 +4290,10 @@
   "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.": {
     "v": "Bir ifadeyi ekledikten hemen sonra göndermek için açık tutun. Gerekmiyorsa kapatıp yer açın.",
     "src": "8607b208c0"
+  },
+  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
+    "v": "İfade girildikten sonra klavye listesindeki sonraki klavyeye geçilir. Bu genellikle kullandığınız klavyedir. Bu klavyeyle yazı yazdıysanız geçiş yapılmaz.",
+    "src": "c6a685cb72"
   },
   "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다": {
     "v": "İfadeyi ekledikten sonra klavye değiştirmeden hemen gönderir",

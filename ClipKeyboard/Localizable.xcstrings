@@ -439468,6 +439468,292 @@
         }
       }
     },
+    "단축어 넣고 쓰던 키보드로" : {
+      "comment" : "Toggle: switch back to the previous keyboard after inserting a snippet",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zpět na vaši klávesnici po vložení fráze"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tilbage til dit tastatur efter en frase"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nach dem Snippet zurück zur Tastatur"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πίσω στο πληκτρολόγιό σας μετά από φράση"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back to your keyboard after a snippet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volver a tu teclado tras una frase"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Takaisin omaan näppäimistöön fraasin jälkeen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retour au clavier habituel après un snippet"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kembali ke keyboard semula setelah frasa"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Torna alla tastiera di prima dopo una frase"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定型文を入れたら元のキーボードへ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어 넣고 쓰던 키보드로"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tilbake til tastaturet etter en frase"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terug naar je toetsenbord na een fragment"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wróć do poprzedniej klawiatury po frazie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltar ao teclado anterior após inserir"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вернуться к прежней клавиатуре после фразы"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tillbaka till ditt tangentbord efter en fras"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "กลับไปคีย์บอร์ดเดิมหลังใส่ข้อความด่วน"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İfade girince önceki klavyeye dön"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Về bàn phím cũ sau khi chèn cụm từ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "插入短语后回到原来的键盘"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "插入短語後回到原來的鍵盤"
+          }
+        }
+      }
+    },
+    "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요." : {
+      "comment" : "Footer for the switch-back-after-snippet toggle. iOS can only go to the next keyboard in the user's list, not the previous one.",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po vložení fráze se přepne na další klávesnici v seznamu, obvykle na tu, kterou jste používali. Pokud jste psali touto klávesnicí, zůstane na místě."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Når en frase er indsat, skifter den til det næste tastatur på din liste, som som regel er det, du brugte. Den skifter ikke, hvis du har skrevet med dette tastatur."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nach dem Einfügen eines Snippets wechselt die Tastatur zur nächsten in deiner Liste, meist zu der, die du vorher genutzt hast. Hast du mit dieser Tastatur getippt, bleibt sie aktiv."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Μετά την εισαγωγή μιας φράσης, γίνεται εναλλαγή στο επόμενο πληκτρολόγιο της λίστας σας, συνήθως αυτό που χρησιμοποιούσατε. Δεν γίνεται εναλλαγή αν πληκτρολογούσατε με αυτό το πληκτρολόγιο."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "After a snippet goes in, it switches to the next keyboard in your list, which is usually the one you were using. It stays put if you have been typing with this keyboard."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Al insertar una frase, se pasa al siguiente teclado de tu lista, que normalmente es el que usabas. No cambia si escribiste con este teclado."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kun fraasi on lisätty, vaihdetaan luettelon seuraavaan näppäimistöön, yleensä siihen, jota käytit. Vaihtoa ei tehdä, jos kirjoitit tällä näppäimistöllä."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Après l’insertion d’une phrase, le clavier suivant de votre liste s’active, en général celui que vous utilisiez. Il ne change pas si vous avez écrit avec ce clavier."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setelah frasa dimasukkan, keyboard beralih ke keyboard berikutnya di daftar Anda, biasanya yang tadi Anda pakai. Tidak beralih jika Anda mengetik dengan keyboard ini."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dopo l'inserimento di una frase, passa alla tastiera successiva nell'elenco, di solito quella che stavi usando. Non cambia se hai scritto con questa tastiera."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定型文を入れると、キーボード一覧の次のキーボードに切り替わります。たいていは、それまで使っていたキーボードです。このキーボードで文字を入力した後は切り替わりません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Når en frase er satt inn, bytter den til neste tastatur i listen din, som vanligvis er det du brukte. Den blir stående hvis du har skrevet med dette tastaturet."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na het invoegen van een fragment ga je naar het volgende toetsenbord in je lijst, meestal het toetsenbord dat je gebruikte. Als je met dit toetsenbord hebt getypt, blijf je hier."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po wstawieniu frazy nastąpi przełączenie na następną klawiaturę z listy, zwykle tę, której używasz na co dzień. Jeśli pisałeś na tej klawiaturze, przełączenie nie nastąpi."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depois de inserir uma frase, o teclado muda para o próximo da sua lista, que costuma ser o que você usava. Se você estava digitando com este teclado, ele não muda."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "После вставки фразы клавиатура переключится на следующую в вашем списке, обычно это та, которой вы пользовались. Если вы печатали на этой клавиатуре, переключения не будет."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När en fras har lagts in byter du till nästa tangentbord i listan, vanligtvis det du använde. Det byter inte om du har skrivit med det här tangentbordet."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เมื่อใส่ข้อความด่วนแล้ว จะสลับไปคีย์บอร์ดถัดไปในรายการ ซึ่งมักเป็นคีย์บอร์ดที่ใช้อยู่เดิม แต่หากพิมพ์ด้วยคีย์บอร์ดนี้ จะไม่สลับไป"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İfade girildikten sonra klavye listesindeki sonraki klavyeye geçilir. Bu genellikle kullandığınız klavyedir. Bu klavyeyle yazı yazdıysanız geçiş yapılmaz."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sau khi chèn cụm từ, bàn phím sẽ chuyển sang bàn phím kế tiếp trong danh sách của bạn, thường là bàn phím bạn đang dùng. Nếu bạn vừa gõ bằng bàn phím này thì sẽ không chuyển."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "插入短语后会切换到键盘列表中的下一个键盘，通常就是你原来用的那个。如果你一直在用这个键盘打字，就不会切换。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "插入短語後會切換到鍵盤列表中的下一個鍵盤，通常就是你原來用的那個。如果你一直在用這個鍵盤打字，就不會切換。"
+          }
+        }
+      }
+    },
     "다음 글자" : {
       "comment" : "Cheonjiin keyboard: finish the current consonant so the same key starts a new one",
       "localizations" : {

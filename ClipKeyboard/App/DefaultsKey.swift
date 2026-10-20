@@ -314,6 +314,11 @@ enum DefaultsKey {
     static let keyboardTypingCurrent = "keyboardTypingCurrent.v1"
     /// 키보드를 열면 먼저 보일 판(`KeyboardInputMode`: typing · snippets). 마지막에 보던 판을 따른다.
     static let keyboardInputMode = "keyboardInputMode.v1"
+    /// 단축어를 넣은 뒤 쓰던 키보드로 돌아갈지. App Group. **기본 켬**(`KeyboardPrefs.returnAfterSnippet`).
+    ///
+    /// 사용자 요청에서 왔다: "단축어 입력하면 쓰던 키보드로 돌아오게 해줘. 누구는 다시 안 돌아가고 싶을 수 있으니까 설정으로."
+    /// ⚠️ iOS 에는 '앞 키보드로' 가는 API 가 없다. 목록의 **다음** 키보드로 간다(대개 쓰던 키보드).
+    static let keyboardReturnAfterSnippet = "keyboardReturnAfterSnippet.v1"
     /// 목록 카드의 최소 높이(pt). 표준 UserDefaults (앱 전용).
     static let memoCardHeight = "memoCardHeight"
     static let koreanEnabledMigratedV1 = "koreanEnabledMigrated_v1"
@@ -637,10 +642,34 @@ enum KeyboardPrefs {
     static let koreanEnabled = Pref(key: DefaultsKey.keyboardKoreanEnabled, fallback: false)
     static let typingLang = Pref(key: DefaultsKey.keyboardTypingLang, fallback: "english")
     static let koreanLayout = Pref(key: DefaultsKey.keyboardKoreanLayout, fallback: "dubeolsik")
+    /// 단축어를 넣으면 쓰던 키보드로 돌아간다. 기본 켬(앱 주인이 바란 동작). 이유는 `DefaultsKey` 에.
+    static let returnAfterSnippet = Pref(key: DefaultsKey.keyboardReturnAfterSnippet, fallback: true)
 
     // 앱과 같이 쓰는 표시 (기본값이 다르면 앱에서는 안 보이고 키보드에서만 보인다)
     static let showVisualCues = Pref(key: DefaultsKey.showVisualCues, fallback: false)
     static let contentHintEnabled = Pref(key: DefaultsKey.contentHintEnabled, fallback: false)
+}
+
+/// 단축어를 넣은 뒤 쓰던 키보드로 넘길지 가르는 곳. 키보드(`KeyboardViewController`)가 부르고 시험이 지킨다.
+///
+/// ⚠️ 넘기는 것은 **단축어 하나를 다 넣었을 때**뿐이다.
+///    스택의 중간 단계에서 넘기면 남은 값이 들어갈 키보드가 사라지고,
+///    스택 키의 값 하나만 넣는 오른쪽 칸은 다음 칸에 다음 값을 넣으러 다시 올 자리라 넘기지 않는다.
+enum SnippetReturnPolicy {
+    enum Insertion {
+        /// 단축어 · 템플릿 · 스택의 마지막 값까지 다 들어갔다.
+        case snippetFinished
+        /// 스택 순서 입력의 중간 단계.
+        case stackStep
+        /// 스택 키에서 값 하나만 넣었다.
+        case stackSingleValue
+    }
+
+    /// - Parameter typedOnTypingPanel: 이 판에서 우리 자판으로 글을 쳤는가. 그렇다면 우리가 쓰던 키보드다.
+    static func shouldSwitch(after insertion: Insertion, enabled: Bool, typedOnTypingPanel: Bool) -> Bool {
+        guard enabled, !typedOnTypingPanel else { return false }
+        return insertion == .snippetFinished
+    }
 }
 
 /// 앱 화면 설정 중 여러 화면이 같이 읽는 것.

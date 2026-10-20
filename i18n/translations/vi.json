@@ -3855,6 +3855,10 @@
     "v": "Gợi ý nội dung cụm từ",
     "src": "9dd8d37782"
   },
+  "단축어 넣고 쓰던 키보드로": {
+    "v": "Về bàn phím cũ sau khi chèn cụm từ",
+    "src": "ffec1ddb5e"
+  },
   "단축어 넣기는 지금도 돼요. 켜면 아래 기능이 더 열려요.": {
     "v": "Bạn vẫn chèn được cụm từ ngay bây giờ. Bật lên để mở thêm các tính năng bên dưới.",
     "src": "f44cf741d3"
@@ -4082,6 +4086,10 @@
   "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.": {
     "v": "Hãy bật nếu bạn muốn gửi ngay sau khi chèn cụm từ. Không cần thì tắt để có thêm chỗ.",
     "src": "8607b208c0"
+  },
+  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
+    "v": "Sau khi chèn cụm từ, bàn phím sẽ chuyển sang bàn phím kế tiếp trong danh sách của bạn, thường là bàn phím bạn đang dùng. Nếu bạn vừa gõ bằng bàn phím này thì sẽ không chuyển.",
+    "src": "c6a685cb72"
   },
   "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다": {
     "v": "Gửi ngay sau khi chèn cụm từ, không cần đổi bàn phím",

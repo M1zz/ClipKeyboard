@@ -4175,6 +4175,10 @@
     "v": "Podpowiedzi treści fraz",
     "src": "9dd8d37782"
   },
+  "단축어 넣고 쓰던 키보드로": {
+    "v": "Wróć do poprzedniej klawiatury po frazie",
+    "src": "ffec1ddb5e"
+  },
   "단축어 넣기는 지금도 돼요. 켜면 아래 기능이 더 열려요.": {
     "v": "Wstawianie fraz już działa. Włącz, by odblokować funkcje poniżej.",
     "src": "f44cf741d3"
@@ -4422,6 +4426,10 @@
   "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.": {
     "v": "Zostaw włączone, aby wysyłać zaraz po wstawieniu frazy. Wyłącz, jeśli potrzebujesz więcej miejsca.",
     "src": "8607b208c0"
+  },
+  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
+    "v": "Po wstawieniu frazy nastąpi przełączenie na następną klawiaturę z listy, zwykle tę, której używasz na co dzień. Jeśli pisałeś na tej klawiaturze, przełączenie nie nastąpi.",
+    "src": "c6a685cb72"
   },
   "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다": {
     "v": "Wysyłaj zaraz po wstawieniu frazy, bez zmiany klawiatury",

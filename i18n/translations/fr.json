@@ -4047,6 +4047,10 @@
     "v": "Aperçu du contenu des phrases",
     "src": "9dd8d37782"
   },
+  "단축어 넣고 쓰던 키보드로": {
+    "v": "Retour au clavier habituel après un snippet",
+    "src": "ffec1ddb5e"
+  },
   "단축어 넣기는 지금도 돼요. 켜면 아래 기능이 더 열려요.": {
     "v": "L'insertion de phrases fonctionne déjà. Activez-le pour débloquer les fonctions ci-dessous.",
     "src": "f44cf741d3"
@@ -4286,6 +4290,10 @@
   "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.": {
     "v": "Laissez activé pour envoyer juste après avoir inséré une phrase. Désactivez pour gagner de la place.",
     "src": "8607b208c0"
+  },
+  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
+    "v": "Après l’insertion d’une phrase, le clavier suivant de votre liste s’active, en général celui que vous utilisiez. Il ne change pas si vous avez écrit avec ce clavier.",
+    "src": "c6a685cb72"
   },
   "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다": {
     "v": "Envoyez juste après avoir inséré une phrase, sans changer de clavier",
