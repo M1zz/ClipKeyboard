@@ -73,6 +73,10 @@ enum BeaconBackgroundScheduler {
         let work = Task { @MainActor in
             defer { task.setTaskCompleted(success: !Task.isCancelled) }
 
+            // 화면 없이 깨어난 런치라면 여기서 닫는다. 안 닫으면 이 프로세스가 뒤에서 정리된 뒤
+            // 다음 런치가 세이프 모드로 열린다(`LaunchGuard.closeIfBackgroundLaunch`).
+            LaunchGuard.closeIfBackgroundLaunch("background-refresh")
+
             AnalyticsService.flushKeyboardBeacon()
             await UsageReportingService.reportKeyboardActiveDays()
         }
