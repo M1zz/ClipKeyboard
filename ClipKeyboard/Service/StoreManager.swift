@@ -134,6 +134,8 @@ class StoreManager: ObservableObject {
         // 이미 Pro 인 사람(앱이 따로 판정하는 v3 그랜드파더 포함)은 선물을 받지 않는다.
         // 코드를 쓰지 않고 남겨 두면 다른 사람에게 넘길 수 있다.
         store.gift?.alreadyEntitled = { ProFeatureManager.hasPermanentPro }
+        // 개발자 모드에서만 시험 선물을 만들고 받는다. 시험 선물은 Pro 를 열지 않는다(`GiftDeveloperTestView`).
+        store.gift?.allowsTestGifts = { UserDefaults.standard.bool(forKey: DefaultsKey.masterModeEnabled) }
 
         // 결제 권한을 익스텐션이 읽는 App Group Pro 키에 미러링한다.
         //

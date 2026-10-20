@@ -4019,6 +4019,12 @@
     "comment": "Dropoff: purchase failed",
     "h": "1797865192"
   },
+  "결제 없이 시험 코드를 만들어 지금 빌드의 iCloud 환경에 올려요. 받아도 Pro는 열리지 않아요.": {
+    "ko": "결제 없이 시험 코드를 만들어 지금 빌드의 iCloud 환경에 올려요. 받아도 Pro는 열리지 않아요.",
+    "en": "Creates a test code without payment and uploads it to this build's iCloud environment. Redeeming it never unlocks Pro.",
+    "comment": "Developer gift test: footer explaining test codes skip payment and never unlock Pro",
+    "h": "f0eae4ba30"
+  },
   "결제 전환 퍼널": {
     "ko": "결제 전환 퍼널",
     "en": "Purchase funnel",
@@ -9437,6 +9443,12 @@
     "comment": "Sample value for a new Address snippet. Use a well-known, obviously fake street address in the user's country",
     "h": "67969d6959"
   },
+  "선물 시험 (개발자)": {
+    "ko": "선물 시험 (개발자)",
+    "en": "Gift Test (Developer)",
+    "comment": "Developer gift test settings entry",
+    "h": "1d2ea3a9db"
+  },
   "선물하기": {
     "ko": "선물하기",
     "en": "Gifts",
@@ -10120,6 +10132,12 @@
     "en": "Time zone note",
     "comment": "Essential snippet title: time zone note for booking a call",
     "h": "2e566d5370"
+  },
+  "시험 코드 만들기": {
+    "ko": "시험 코드 만들기",
+    "en": "Create Test Code",
+    "comment": "Developer gift test: create a test gift code",
+    "h": "53e670eceb"
   },
   "신규 사용자": {
     "ko": "신규 사용자",
@@ -15046,6 +15064,12 @@
     "en": "On",
     "comment": "Toggle state: on",
     "h": "b16a83f0a4"
+  },
+  "코드를 넣으면 끝까지 처리됐다고 나와야 해요. 같은 코드를 한 번 더 넣으면 이미 받은 선물로 나와야 맞아요.": {
+    "ko": "코드를 넣으면 끝까지 처리됐다고 나와야 해요. 같은 코드를 한 번 더 넣으면 이미 받은 선물로 나와야 맞아요.",
+    "en": "Entering the code should show that it went all the way through. Entering the same code again should say the gift was already redeemed.",
+    "comment": "Developer gift test: what a successful test looks like",
+    "h": "755c71b1ac"
   },
   "콜스택": {
     "ko": "콜스택",
