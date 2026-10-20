@@ -56,10 +56,9 @@ struct ActionButtonGuideView: View {
 
     private let hasActionButton = ActionButtonSupport.isAvailable
 
-    /// 키보드가 마지막으로 뜰 때 본 값(`FullAccessGuideView` 와 같다).
-    private var fullAccessGranted: Bool {
-        AppGroup.defaults?.bool(forKey: DefaultsKey.keyboardFullAccessGranted) ?? false
-    }
+    /// 키보드가 마지막으로 뜰 때 본 값(`FullAccessStatus`).
+    @ObservedObject private var fullAccess = FullAccessStatus.shared
+    private var fullAccessGranted: Bool { fullAccess.state == .on }
 
     var body: some View {
         ScrollView {

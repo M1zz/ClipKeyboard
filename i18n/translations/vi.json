@@ -849,7 +849,7 @@
   },
   "Capture Clipboard": {
     "v": "Lưu bảng tạm",
-    "src": "05a894f630"
+    "src": "29fdf05b52"
   },
   "Capture a quick note into ClipKeyboard.": {
     "v": "Ghi nhanh một ghi chú vào ClipKeyboard.",
@@ -901,7 +901,7 @@
   },
   "ClipKeyboard Plus · Pro": {
     "v": "ClipKeyboard Plus · Pro",
-    "src": "f99e702da7"
+    "src": "47f47387a2"
   },
   "ClipKeyboard Pro": {
     "v": "ClipKeyboard Pro",
@@ -2165,7 +2165,7 @@
   },
   "iCloud 설정 화면": {
     "v": "Màn hình cài đặt iCloud",
-    "src": "c688d26dc9"
+    "src": "9b9552fa70"
   },
   "iCloud 저장 공간이 부족합니다. 설정 > [사용자 이름] > iCloud > 저장 공간 관리에서 확인해주세요.": {
     "v": "Dung lượng iCloud đã đầy. Hãy kiểm tra tại Cài đặt > [Tên của bạn] > iCloud > Quản lý dung lượng.",
@@ -2681,7 +2681,7 @@
   },
   "결제 · 구매 복원": {
     "v": "Thanh toán · Khôi phục giao dịch mua",
-    "src": "31f3185bbf"
+    "src": "6ca05a2625"
   },
   "결제 실패": {
     "v": "Thanh toán thất bại",
@@ -2856,20 +2856,20 @@
     "src": "9d2aeb2105"
   },
   "구입 내역": {
-    "v": "Lịch sử mua",
-    "src": "76b5d28703"
+    "v": "Lịch sử mua hàng",
+    "src": "dc11d074af"
   },
   "구입 복원을 누른 뒤 나온 화면": {
-    "v": "Màn hình hiện ra sau khi bấm Khôi phục giao dịch mua",
-    "src": "12da0bff52"
+    "v": "Màn hình sau khi bấm Khôi phục giao dịch mua",
+    "src": "68759becea"
   },
   "구입 복원을 한 번 더 누르고, 나온 안내를 찍어 주세요.": {
-    "v": "Hãy bấm Khôi phục giao dịch mua thêm một lần nữa, rồi chụp thông báo hiện ra.",
-    "src": "5c2fdb82c1"
+    "v": "Bấm Khôi phục giao dịch mua thêm một lần nữa, rồi chụp màn hình thông báo hiện ra.",
+    "src": "710c8daa64"
   },
   "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
-    "v": "Trước hết, bạn hãy kiểm tra xem mình đã đăng nhập đúng tài khoản Apple dùng khi mua chưa. Giao dịch thanh toán gắn với tài khoản đó.",
-    "src": "ad99bfcd82"
+    "v": "Trước hết, bạn hãy kiểm tra xem mình có đăng nhập bằng tài khoản Apple đã dùng để mua không. Giao dịch mua gắn với tài khoản đó.",
+    "src": "9486e90c00"
   },
   "국가 코드부터 끝까지 입력해 주세요": {
     "v": "Hãy nhập đầy đủ, bắt đầu từ mã quốc gia",
@@ -2901,15 +2901,15 @@
   },
   "그 밖의 문제": {
     "v": "Vấn đề khác",
-    "src": "b046d2243a"
+    "src": "02f171ea75"
   },
   "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
     "src": "bb24d4c594",
     "v": "Không dùng được tên này. Tên đã có hoặc trùng với một thẻ mặc định."
   },
   "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
-    "v": "Bạn hãy chụp nguyên màn hình đó. Nếu bản dịch chưa tự nhiên, bạn cũng ghi giúp cách sửa cho tự nhiên hơn. Chúng tôi sẽ cập nhật đúng như vậy.",
-    "src": "57908db83f"
+    "v": "Bạn hãy chụp màn hình đó nguyên trạng. Nếu bản dịch nghe chưa tự nhiên, bạn cho chúng tôi biết nên sửa thế nào. Chúng tôi sẽ dùng đúng cách diễn đạt của bạn.",
+    "src": "a6067d252a"
   },
   "그거 아세요?": {
     "v": "Bạn có biết?",
@@ -2944,8 +2944,8 @@
     "src": "4d7e9923fb"
   },
   "그때 집중 모드나 무음 모드였나요? (선택)": {
-    "v": "Lúc đó bạn đang bật chế độ Tập trung hoặc chế độ im lặng phải không? (Không bắt buộc)",
-    "src": "3a4c14cf63"
+    "v": "Lúc đó bạn có bật chế độ Tập trung hoặc chế độ Im lặng không? (không bắt buộc)",
+    "src": "0548daa9e3"
   },
   "그래도 백업": {
     "v": "Vẫn sao lưu",
@@ -3252,8 +3252,8 @@
     "src": "949812949e"
   },
   "꺼지거나 열리지 않아요": {
-    "v": "Bị tắt hoặc không mở được",
-    "src": "58a0718ad9"
+    "v": "Ứng dụng bị thoát hoặc không mở được",
+    "src": "bc87d0bf1b"
   },
   "꺼짐": {
     "v": "Tắt",
@@ -3581,11 +3581,11 @@
   },
   "느려지는 화면": {
     "v": "Màn hình bị chậm",
-    "src": "4e60ce0842"
+    "src": "b9d49c6e77"
   },
   "느리거나 버벅여요": {
-    "v": "Chậm hoặc giật",
-    "src": "87d07e3996"
+    "v": "Ứng dụng chậm hoặc bị giật",
+    "src": "44bedc6b6a"
   },
   "늘 이 자리: %@": {
     "v": "Luôn ở đây: %@",
@@ -4240,8 +4240,8 @@
     "src": "b029663445"
   },
   "데이터가 사라졌어요": {
-    "v": "Dữ liệu đã biến mất",
-    "src": "e2a552f3bd"
+    "v": "Dữ liệu của tôi đã mất",
+    "src": "09995527de"
   },
   "데이터가 성공적으로 복구되었습니다. 앱을 재시작하여 변경사항을 확인하세요.": {
     "v": "Đã khôi phục dữ liệu thành công. Vui lòng khởi động lại ứng dụng để xem các thay đổi.",
@@ -4301,7 +4301,7 @@
   },
   "동기화 · 백업": {
     "v": "Đồng bộ · Sao lưu",
-    "src": "27185a6478"
+    "src": "1d6b855cc3"
   },
   "동기화 사용": {
     "v": "Dùng đồng bộ",
@@ -4632,8 +4632,8 @@
     "src": "f4f8177bfb"
   },
   "매번 그런가요? 껐다 켜도 그런가요? (선택)": {
-    "v": "Lần nào cũng vậy không? Tắt rồi bật lại vẫn vậy không? (Không bắt buộc)",
-    "src": "c5acee625f"
+    "v": "Lỗi xảy ra mọi lần không? Khởi động lại rồi vẫn bị chứ? (không bắt buộc)",
+    "src": "240874ecc6"
   },
   "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
     "v": "Cụm từ bạn dùng vào cùng thời điểm mỗi tuần hoặc mỗi tháng sẽ lên đầu bàn phím khi đến lúc",
@@ -4660,16 +4660,16 @@
     "src": "674b4e32dc"
   },
   "멈추거나 꺼지기 직전 화면": {
-    "v": "Màn hình ngay trước khi bị đứng hoặc tắt",
-    "src": "d996ee5b1f"
+    "v": "Màn hình ngay trước khi bị đứng hoặc thoát",
+    "src": "99ab12df74"
   },
   "멈춤": {
     "v": "Treo máy",
     "src": "bdaf65bee7"
   },
   "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
-    "v": "Chỉ cần một ảnh chụp màn hình lúc bị khựng là đủ. Nếu thấy bên trong có gì và nhiều đến đâu, chúng tôi sẽ tìm ra nguyên nhân nhanh hơn.",
-    "src": "88eed68b17"
+    "v": "Chỉ cần một ảnh chụp màn hình lúc bị khựng là đủ. Nếu thấy được trên màn hình có gì và nhiều đến đâu, chúng tôi sẽ tìm ra nguyên nhân nhanh hơn.",
+    "src": "e15a2fb4d2"
   },
   "메뉴바 아이콘: 🛶": {
     "v": "Biểu tượng thanh menu: 🛶",
@@ -4920,8 +4920,8 @@
     "src": "1b2227aee3"
   },
   "무엇을 샀고, 지금 어떻게 보이나요?": {
-    "v": "Bạn đã mua gì, và hiện đang thấy thế nào?",
-    "src": "62ca6c75c7"
+    "v": "Bạn đã mua gì và hiện giờ thấy gì?",
+    "src": "e45434a7f1"
   },
   "무엇을 저장할지부터 묻고, 제목은 그 다음에 물어요": {
     "v": "Hỏi bạn muốn lưu gì trước, rồi mới hỏi tiêu đề",
@@ -4932,8 +4932,8 @@
     "src": "4c27c1bb42"
   },
   "무엇이 어떻게 안 되나요?": {
-    "v": "Điều gì không hoạt động, và như thế nào?",
-    "src": "44a0025815"
+    "v": "Chức năng nào không hoạt động, và như thế nào?",
+    "src": "bab272ba3d"
   },
   "무엇이 저장될지 누르기 전에 보여요": {
     "v": "Xem trước nội dung sẽ lưu trước khi bạn chạm",
@@ -4941,7 +4941,7 @@
   },
   "무엇이, 얼마나 사라졌나요?": {
     "v": "Cái gì đã mất, và mất bao nhiêu?",
-    "src": "4efae0b24c"
+    "src": "e8bee7e094"
   },
   "무제한": {
     "v": "Không giới hạn",
@@ -4965,7 +4965,7 @@
   },
   "문제 종류": {
     "v": "Loại vấn đề",
-    "src": "f5e8d835d4"
+    "src": "3700193079"
   },
   "문제가 발생했습니다. 네트워크 연결과 iCloud 상태를 확인하고 다시 시도해주세요.": {
     "v": "Đã xảy ra lỗi. Vui lòng kiểm tra kết nối mạng và trạng thái iCloud rồi thử lại.",
@@ -5856,8 +5856,8 @@
     "src": "e1e2b47f34"
   },
   "사라지기 전에 무엇을 했나요?": {
-    "v": "Bạn đã làm gì trước khi dữ liệu biến mất?",
-    "src": "060b66e8fd"
+    "v": "Bạn đã làm gì trước khi dữ liệu mất?",
+    "src": "4fd4efcd55"
   },
   "사번/학번": {
     "v": "Mã nhân viên/sinh viên",
@@ -6400,16 +6400,16 @@
     "src": "64252656f2"
   },
   "설정 앱 > 알림 > 이 앱 화면을 찍어 주세요. 알림 허용, 잠금 화면, 배너, 사운드가 다 보이게요.": {
-    "v": "Hãy chụp màn hình Cài đặt > Thông báo > ứng dụng này, sao cho thấy rõ Cho phép thông báo, Màn hình khóa, Biểu ngữ và Âm thanh.",
-    "src": "caa39f6495"
+    "v": "Chụp màn hình Cài đặt > Thông báo > ứng dụng này, thấy rõ Cho phép thông báo, Màn hình khóa, Biểu ngữ và Âm thanh.",
+    "src": "bde90d0212"
   },
   "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.": {
-    "v": "Hãy chụp màn hình Cài đặt > tên của bạn ở trên cùng > iCloud > Xem tất cả, để thấy ứng dụng này đã bật hay chưa. Nếu chụp trên cả hai thiết bị thì càng tốt.",
-    "src": "1f8e4dc9d9"
+    "v": "Trong Cài đặt, bấm vào tên của bạn ở trên cùng > iCloud > Xem tất cả, rồi chụp màn hình cho thấy ứng dụng này đang bật hay tắt. Nếu chụp được trên cả hai thiết bị thì càng tốt.",
+    "src": "f6734b03c2"
   },
   "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
-    "v": "Hãy chụp màn hình Cài đặt > tên của bạn ở trên cùng > Phương tiện & Mục mua > Xem tài khoản > Lịch sử mua, rồi tìm giao dịch của ứng dụng này. Chỉ cần thấy ngày và số tiền. Bạn có thể che phương thức thanh toán.",
-    "src": "abf81174a8"
+    "v": "Trong Cài đặt, bấm vào tên của bạn ở trên cùng > Phương tiện & Mục mua > Xem tài khoản > Lịch sử mua hàng, tìm giao dịch của ứng dụng này rồi chụp màn hình. Chỉ cần thấy ngày và số tiền. Bạn có thể che phương thức thanh toán.",
+    "src": "2c4dd5890d"
   },
   "설정 앱에서 '동작 버튼'을 열어요": {
     "v": "Mở “Nút Tác vụ” trong ứng dụng Cài đặt",
@@ -7057,7 +7057,7 @@
   },
   "안 되는 곳": {
     "v": "Nơi không hoạt động",
-    "src": "7e0c6671e6"
+    "src": "3ec599cf33"
   },
   "안 쓰는 단축어": {
     "v": "Cụm từ ít dùng",
@@ -7112,8 +7112,8 @@
     "src": "ee0ec98e32"
   },
   "알림이 안 오거나 늦어요": {
-    "v": "Thông báo không đến hoặc đến trễ",
-    "src": "9983f9cc84"
+    "v": "Thông báo không đến hoặc đến muộn",
+    "src": "132f374923"
   },
   "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.": {
     "v": "Hãy kiểm tra lại 4 ký tự đầu (mã quốc gia + số kiểm tra). Phần còn lại đúng định dạng.",
@@ -7212,8 +7212,8 @@
     "src": "17a89c693d"
   },
   "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.": {
-    "v": "Hãy gửi cho chúng tôi trước khi xóa và cài lại ứng dụng. Nếu xóa, dữ liệu chỉ có trên thiết bị này cũng mất theo và không thể khôi phục.",
-    "src": "dac4f6cc67"
+    "v": "Bạn hãy gửi trước khi xóa và cài lại ứng dụng. Khi xóa, dữ liệu chỉ có trên thiết bị này cũng mất theo và không thể khôi phục.",
+    "src": "6c47aed7d4"
   },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
     "v": "Cụm từ không còn trượt xuống hay giật khi mở ứng dụng",
@@ -7253,15 +7253,15 @@
   },
   "어느 기기 사이에서, 무엇이 안 맞나요?": {
     "v": "Giữa những thiết bị nào, và cái gì không khớp?",
-    "src": "92a6a1b382"
+    "src": "7faff7af57"
   },
   "어느 화면에서, 얼마나 걸리나요?": {
-    "v": "Ở màn hình nào, mất bao lâu?",
-    "src": "12e763a59f"
+    "v": "Ở màn hình nào, và mất bao lâu?",
+    "src": "dbd64ff7c0"
   },
   "어느 화면의 무엇이 이상한가요?": {
-    "v": "Màn hình nào có gì lạ?",
-    "src": "1d0fed11b3"
+    "v": "Cái gì có vẻ sai, ở màn hình nào?",
+    "src": "bcccf8a8a5"
   },
   "어두운 바탕에서 가장 잘 읽히는 색이에요.": {
     "v": "Đây là màu dễ đọc nhất trên nền tối.",
@@ -7277,23 +7277,23 @@
   },
   "어떤 문제인가요?": {
     "v": "Vấn đề là gì?",
-    "src": "1564132fcc"
+    "src": "cb4d89f7b8"
   },
   "어떤 상황인가요?": {
     "v": "Bạn đang ở tình huống nào?",
     "src": "a26f1a2ba4"
   },
   "어떤 알림이, 언제 오기로 돼 있었나요?": {
-    "v": "Thông báo nào, dự kiến đến lúc nào?",
-    "src": "1bdc5b0c52"
+    "v": "Thông báo nào, và dự kiến đến lúc nào?",
+    "src": "00a1a78353"
   },
   "어떤 앱에서든 글을 고르고 공유에서 ClipKeyboard 를 누르면 단축어가 됩니다. 앱을 열지 않아도 돼요.": {
     "v": "Chọn văn bản trong bất kỳ ứng dụng nào, chạm Chia sẻ rồi chọn ClipKeyboard, văn bản sẽ thành cụm từ. Bạn không cần mở ứng dụng.",
     "src": "dab67cc7cb"
   },
   "어떻게 되나요?": {
-    "v": "Điều gì xảy ra?",
-    "src": "9bc5b93fc0"
+    "v": "Chuyện gì xảy ra?",
+    "src": "187e8341ac"
   },
   "어떻게 사용하실 예정인가요?": {
     "v": "Bạn định dùng ClipKeyboard như thế nào?",
@@ -7312,16 +7312,16 @@
     "src": "d9a6ac3cd1"
   },
   "언제, 어느 기기에서 샀나요? (선택)": {
-    "v": "Bạn mua khi nào, trên thiết bị nào? (Không bắt buộc)",
-    "src": "d0719238f7"
+    "v": "Bạn mua khi nào, trên thiết bị nào? (không bắt buộc)",
+    "src": "231181af2a"
   },
   "언제든지 접근 가능": {
     "v": "Luôn truy cập được",
     "src": "c1f88829b5"
   },
   "언제부터 그랬나요? (선택)": {
-    "v": "Bắt đầu từ khi nào? (Không bắt buộc)",
-    "src": "c4bda368be"
+    "v": "Việc này xảy ra từ khi nào? (không bắt buộc)",
+    "src": "482f56e353"
   },
   "업무": {
     "src": "2dd4ba1fdc",
@@ -7366,6 +7366,10 @@
   "여기가 실제로 붙여넣어질 내용이에요. 키를 누르면 이게 들어가요.": {
     "v": "Đây là nội dung sẽ thực sự được dán. Chạm vào phím là nội dung này được nhập.",
     "src": "52323df69c"
+  },
+  "여기를 누르고 지구본으로 클립키보드 고르기": {
+    "v": "Bấm vào đây, rồi chọn ClipKeyboard bằng phím quả địa cầu",
+    "src": "eb37f448da"
   },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "v": "Bạn thường gõ tiếp ở đây nên con trỏ được đặt sẵn tại đây. Bạn có thể tắt trong phần sửa cụm từ.",
@@ -7548,56 +7552,56 @@
     "src": "e8fcf11de2"
   },
   "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.": {
-    "v": "VD: Khoảng một nửa trong 20 mục đã tạo bị mất.",
-    "src": "760fa41bf5"
+    "v": "Ví dụ: 20 cụm từ tôi đã tạo, mất khoảng một nửa.",
+    "src": "c0a5a82c2c"
   },
   "예) 매번요. 기기를 껐다 켜도 같아요.": {
-    "v": "VD: Lần nào cũng vậy. Tắt rồi mở lại thiết bị vẫn thế.",
-    "src": "b30897dd26"
+    "v": "Ví dụ: Lần nào cũng vậy. Khởi động lại thiết bị cũng không khác.",
+    "src": "c952ed962c"
   },
   "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
-    "v": "VD: Mỗi lần kéo danh sách xuống, máy khựng khoảng 1 giây.",
-    "src": "cc97cff3ba"
+    "v": "Ví dụ: Mỗi lần cuộn danh sách, ứng dụng khựng lại khoảng một giây.",
+    "src": "5d25eabe10"
   },
   "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
-    "v": "VD: Chữ trên nút ở màn hình Cài đặt bị cắt. Câu này dịch chưa tự nhiên.",
-    "src": "3769e5db1c"
+    "v": "Ví dụ: Chữ trên nút ở màn hình Cài đặt bị cắt. Câu dịch này nghe hơi gượng.",
+    "src": "e32a425323"
   },
   "예) 수면 모드가 켜져 있었어요.": {
-    "v": "VD: Chế độ Ngủ đang bật.",
-    "src": "6b2785fc2a"
+    "v": "Ví dụ: Chế độ Ngủ đã bật.",
+    "src": "e444a75fad"
   },
   "예) 아이폰에서 만든 것이 아이패드에 안 보여요.": {
-    "v": "VD: Mục tạo trên iPhone không hiện trên iPad.",
-    "src": "8b31679082"
+    "v": "Ví dụ: Thứ tôi tạo trên iPhone không hiện trên iPad.",
+    "src": "e193e298fe"
   },
   "예) 앱을 업데이트했어요. 새 아이폰으로 옮겼어요. 앱을 지웠다 다시 깔았어요.": {
-    "v": "VD: Tôi đã cập nhật ứng dụng. Tôi đã chuyển sang iPhone mới. Tôi đã xóa rồi cài lại ứng dụng.",
-    "src": "e37d5fac70"
+    "v": "Ví dụ: Tôi vừa cập nhật ứng dụng. Tôi vừa chuyển sang iPhone mới. Tôi đã xóa rồi cài lại ứng dụng.",
+    "src": "190007f2af"
   },
   "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.": {
-    "v": "VD: Mở ra thì đứng ở màn hình trắng. Nhấn Lưu thì ứng dụng tắt.",
-    "src": "db98524642"
+    "v": "Ví dụ: Mở ra thì bị đứng ở màn hình trắng. Nhấn Lưu thì ứng dụng tự đóng.",
+    "src": "7fd7282c7d"
   },
   "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
-    "v": "VD: Thông báo 9 giờ sáng không đến. Đến trễ 5 phút.",
-    "src": "f815cafa08"
+    "v": "Ví dụ: Thông báo 9 giờ sáng không đến. Thông báo đến trễ 5 phút.",
+    "src": "b7aa5cb55e"
   },
   "예) 올해 3월쯤, 예전 아이폰에서요.": {
-    "v": "VD: Khoảng tháng 3 năm nay, trên iPhone cũ.",
-    "src": "c7cb0e5e85"
+    "v": "Ví dụ: Khoảng tháng 3 năm nay, trên iPhone cũ của tôi.",
+    "src": "1ef384c00a"
   },
   "예) 지난주 업데이트 뒤부터요.": {
-    "v": "VD: Từ sau bản cập nhật tuần trước.",
-    "src": "430ffeecba"
+    "v": "Ví dụ: Từ sau bản cập nhật tuần trước.",
+    "src": "5b7fbdbe2b"
   },
   "예) 평생 이용권을 샀는데, 앱을 다시 깔고 나니 잠겨 있어요. 복원을 눌러도 없다고 나와요.": {
-    "v": "VD: Tôi đã mua gói trọn đời, nhưng cài lại ứng dụng thì bị khóa. Nhấn Khôi phục vẫn báo không có.",
-    "src": "a2f034964c"
+    "v": "Ví dụ: Tôi đã mua quyền dùng trọn đời, nhưng cài lại ứng dụng thì bị khóa. Nhấn Khôi phục thì báo không có gì để khôi phục.",
+    "src": "c935df2f4a"
   },
   "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
-    "v": "VD: Widget trên Màn hình chính đứng ở giá trị hôm qua. Ứng dụng không hiện trong danh sách bàn phím.",
-    "src": "52d729fadc"
+    "v": "Ví dụ: Widget trên Màn hình chính đứng yên ở giá trị của hôm qua. Ứng dụng này không có trong danh sách bàn phím.",
+    "src": "9713f82101"
   },
   "예: 010-1234-5678": {
     "v": "VD: 010-1234-5678",
@@ -7840,12 +7844,12 @@
     "src": "13d40b4407"
   },
   "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.": {
-    "v": "Hãy chụp Màn hình chính có Widget hoặc màn hình đang hiện bàn phím. Nếu là bàn phím, vui lòng đính kèm cả Cài đặt > Cài đặt chung > Bàn phím > Bàn phím.",
-    "src": "697bc694cf"
+    "v": "Hãy chụp Màn hình chính có Widget, hoặc màn hình đang hiện bàn phím. Với bàn phím, bạn đính kèm thêm Cài đặt > Cài đặt chung > Bàn phím > Bàn phím.",
+    "src": "bd66902936"
   },
   "위젯이나 키보드가 안 돼요": {
     "v": "Widget hoặc bàn phím không hoạt động",
-    "src": "b0655c13c1"
+    "src": "550a8b0ffd"
   },
   "위줄에 둘 키와 크기를 설정에서 직접 골라요.": {
     "v": "Chọn phím và kích thước cho hàng trên cùng trong Cài đặt.",
@@ -7973,7 +7977,7 @@
   },
   "이 앱의 알림 설정": {
     "v": "Cài đặt thông báo của ứng dụng này",
-    "src": "1ca71effba"
+    "src": "89060849e9"
   },
   "이 앱이 하루에 박혀 있는 사람들이에요. 리뷰와 입소문이 여기서 나와요.": {
     "v": "Ứng dụng này đã thành một phần trong ngày của họ. Đánh giá và lời truyền miệng đến từ đây.",
@@ -8207,6 +8211,10 @@
     "v": "Đã lưu",
     "src": "f3e8452fa3"
   },
+  "이미 켰는데 꺼짐으로 보이면, 아래 칸에서 키보드를 한 번 띄워 보세요.": {
+    "v": "Đã bật mà vẫn thấy Tắt? Hãy mở bàn phím một lần trong ô bên dưới.",
+    "src": "3ce16cdc39"
+  },
   "이미지": {
     "v": "Hình ảnh",
     "src": "c7a66ed444"
@@ -8332,8 +8340,8 @@
     "src": "15fd035e42"
   },
   "이상한 화면": {
-    "v": "Màn hình lạ",
-    "src": "91fbee75ba"
+    "v": "Màn hình hiển thị lạ",
+    "src": "46b4000f7f"
   },
   "이어서 입력할 내용": {
     "v": "Nội dung bước tiếp theo",
@@ -9248,8 +9256,8 @@
     "src": "732fa02323"
   },
   "지금 남아 있는 화면": {
-    "v": "Màn hình hiện tại",
-    "src": "21d87f24eb"
+    "v": "Những gì còn lại hiện nay",
+    "src": "3fa1a883bf"
   },
   "지금 내 단축어 %1$d / %2$d칸": {
     "v": "Cụm từ của bạn: %1$d / %2$d ô",
@@ -9264,8 +9272,8 @@
     "src": "0660df0f16"
   },
   "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
-    "v": "Hãy chụp màn hình đang hiện danh sách. Nếu có ảnh chụp màn hình cũ trong Ảnh, vui lòng đính kèm để so sánh xem thiếu gì.",
-    "src": "c6abc20c09"
+    "v": "Hãy chụp màn hình danh sách như hiện tại. Nếu có ảnh chụp cũ trong Ảnh, bạn đính kèm thêm để chúng tôi so sánh xem thiếu gì.",
+    "src": "ff5f634480"
   },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
     "v": "In khoảng thời gian bạn đang xem thành một phiếu.",
@@ -9389,7 +9397,7 @@
   },
   "진단 정보를 모으는 중…": {
     "v": "Đang thu thập thông tin chẩn đoán…",
-    "src": "99e6c1ae77"
+    "src": "cb69319857"
   },
   "진동과 복사한 글 꺼내기가 꺼져 있어요": {
     "v": "Rung và dán nội dung đã sao chép đang tắt",
@@ -10026,6 +10034,10 @@
   "켜면 키보드에서 한국어도 입력할 수 있어요": {
     "v": "Bật để gõ cả tiếng Hàn trên bàn phím",
     "src": "17b1b19e2d"
+  },
+  "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
+    "v": "Nếu bạn đã bật, hãy mở bàn phím một lần, trạng thái sẽ chuyển sang Bật. iOS chỉ báo cho chúng tôi khi bàn phím mở.",
+    "src": "a472d9b559"
   },
   "켜짐": {
     "v": "Bật",
@@ -11368,12 +11380,16 @@
     "src": "459064740b"
   },
   "화면이나 글자가 이상해요": {
-    "v": "Màn hình hoặc chữ bị lạ",
-    "src": "6b40596213"
+    "v": "Màn hình hoặc chữ hiển thị lạ",
+    "src": "77ad812308"
   },
   "확인": {
     "v": "OK",
     "src": "9e828514bd"
+  },
+  "확인 중": {
+    "v": "Đang kiểm tra",
+    "src": "d6e3148302"
   },
   "확인 필요": {
     "v": "Cần kiểm tra",
@@ -11476,8 +11492,8 @@
     "src": "1f2314554b"
   },
   "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.": {
-    "v": "Màn hình trắng cũng không sao. Nhấn đồng thời nút bên và nút tăng âm lượng để chụp.",
-    "src": "b06b55deb5"
+    "v": "Màn hình trắng cũng không sao. Nhấn đồng thời nút bên và nút tăng âm lượng để chụp màn hình.",
+    "src": "5bc1d83572"
   },
   "힌트 (선택)": {
     "v": "Gợi ý (không bắt buộc)",
