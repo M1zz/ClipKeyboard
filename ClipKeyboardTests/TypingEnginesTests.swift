@@ -125,6 +125,21 @@ final class TypingEnginesTests: XCTestCase {
         XCTAssertEqual(proxy.text, "")
     }
 
+    // MARK: - 저절로 대문자
+
+    /// 기본 키보드처럼 빈 칸 · 문장 끝 뒤에서만 대문자를 켠다.
+    func testAutoCapitalizationFollowsSentences() {
+        let rule = UITextAutocapitalizationType.sentences
+        XCTAssertTrue(TypingKeyboardPanel.wantsCapital(before: nil, rule: rule))
+        XCTAssertTrue(TypingKeyboardPanel.wantsCapital(before: "", rule: rule))
+        XCTAssertTrue(TypingKeyboardPanel.wantsCapital(before: "Hi. ", rule: rule))
+        XCTAssertTrue(TypingKeyboardPanel.wantsCapital(before: "Hi\n", rule: rule))
+        XCTAssertFalse(TypingKeyboardPanel.wantsCapital(before: "Hi", rule: rule))
+        XCTAssertFalse(TypingKeyboardPanel.wantsCapital(before: "Hi ", rule: rule))
+        XCTAssertFalse(TypingKeyboardPanel.wantsCapital(before: "", rule: .none))
+        XCTAssertTrue(TypingKeyboardPanel.wantsCapital(before: "a ", rule: .words))
+    }
+
     // MARK: - 베트남어 Telex
 
     private func telex(_ s: String) -> String {

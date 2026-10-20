@@ -5549,6 +5549,12 @@
     "comment": "Placeholder chip: next value in a sequence, e.g. next invoice number",
     "h": "c1f6f40ce6"
   },
+  "다음 글자": {
+    "ko": "다음 글자",
+    "en": "Next letter",
+    "comment": "Cheonjiin keyboard: finish the current consonant so the same key starts a new one",
+    "h": "dcd15e997c"
+  },
   "다음 주": {
     "ko": "다음 주",
     "en": "Next week",
@@ -7432,6 +7438,12 @@
     "en": "Sentence",
     "comment": "Clipboard split unit: sentence",
     "h": "2a9c9c6e6c"
+  },
+  "문장 부호": {
+    "ko": "문장 부호",
+    "en": "Punctuation",
+    "comment": "Cheonjiin keyboard: punctuation key",
+    "h": "9d60a84665"
   },
   "문제 종류": {
     "ko": "문제 종류",

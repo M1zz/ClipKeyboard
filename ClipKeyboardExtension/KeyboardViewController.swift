@@ -820,12 +820,18 @@ class KeyboardViewController: UIInputViewController {
         let wantedReturn = proxy.returnKeyType ?? .default
         // 빈 칸에서 리턴을 잠글지도 호스트가 정한다. 검색창·보내기창이 이것을 켠다.
         let needsText = proxy.enablesReturnKeyAutomatically ?? false
+        // 자판의 저절로 대문자. 키보드가 막 떴을 때는 트레잇이 아직 안 와 있어서 자판이
+        // 혼자 읽으면 놓친다. 필드가 바뀔 때마다 여기서 다시 알린다.
+        let startsSentence = TypingKeyboardPanel.wantsCapital(
+            before: proxy.documentContextBeforeInput,
+            rule: proxy.autocapitalizationType ?? .sentences)
         // @Published 갱신은 메인 스레드에서
         let apply = { [weak self] in
             guard let self else { return }
             if self.documentState.hasText != hasAny { self.documentState.hasText = hasAny }
             if self.documentState.returnKeyType != wantedReturn { self.documentState.returnKeyType = wantedReturn }
             if self.documentState.returnNeedsText != needsText { self.documentState.returnNeedsText = needsText }
+            if self.documentState.startsSentence != startsSentence { self.documentState.startsSentence = startsSentence }
         }
         if Thread.isMainThread {
             apply()
@@ -1202,6 +1208,13 @@ extension KeyboardViewController: TypingInputProxy {
 
     func cursorRight() {
         textDocumentProxy.adjustTextPosition(byCharacterOffset: 1)
+    }
+    var typingContextBefore: String? {
+        textDocumentProxy.documentContextBeforeInput
+    }
+    /// 입력칸이 말하지 않으면 기본 키보드처럼 문장 단위로 본다.
+    var typingAutocapitalization: UITextAutocapitalizationType {
+        textDocumentProxy.autocapitalizationType ?? .sentences
     }
     func clearAll() {
         guard let before = textDocumentProxy.documentContextBeforeInput, !before.isEmpty else { return }

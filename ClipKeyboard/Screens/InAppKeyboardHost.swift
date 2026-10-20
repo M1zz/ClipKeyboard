@@ -177,6 +177,13 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
         }
     }
 
+    /// 무대도 진짜 입력칸처럼 문장 첫 글자에서 대문자를 켠다.
+    nonisolated var typingContextBefore: String? {
+        MainActor.assumeIsolated { String(text.prefix(caret)) }
+    }
+
+    nonisolated var typingAutocapitalization: UITextAutocapitalizationType { .sentences }
+
     nonisolated func clearAll() {
         MainActor.assumeIsolated {
             typingTask?.cancel()

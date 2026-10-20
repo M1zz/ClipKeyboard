@@ -9,10 +9,12 @@
 //
 //  ⚠️ 키보드 확장은 제 영역 밖에 그릴 수 없다. 그래서 길게 눌러 나오는 글자, 한자 후보는
 //     키 위로 띄우지 않고 **맨 위 띠**에 세운다(맨 윗줄 키 위로는 그릴 자리가 없다).
+//     누를 때 솟는 미리보기 풍선만은 키 위에 그린다. 맨 윗줄 풍선은 띠 높이 안에서 끝낸다.
 //  ⚠️ 키 크기는 판의 폭과 높이로 계산한다. 키보드 높이 설정 · 언어(3줄 · 4줄)가 달라도 넘치지 않는다.
 //
 
 import SwiftUI
+import UIKit
 
 // MARK: - 설정 값
 
@@ -56,18 +58,34 @@ enum KeyboardInputMode: String {
 
 // MARK: - 자판 판
 
+
+/// 글자를 치는 자판.
+///
+/// ⚠️ **모양은 iOS 기본 키보드를 잰 값으로 그린다**(`NativeKeyMetrics` · `NativeKeyStyle`).
+///    사용자는 하루 수천 번 기본 키보드를 친다. 키 간격 · 모서리 · 색 · 글자 크기가 조금만 달라도
+///    "뭔가 어색한 키보드" 로 느끼고 쓰던 키보드로 돌아간다. 값을 바꾸려면 시뮬레이터에서
+///    기본 키보드와 나란히 찍어 보고 바꾼다.
+/// ⚠️ 키가 받는 자리는 **보이는 키보다 넓다.** 키 사이 틈까지 반씩 나눠 받는다(기본 키보드와 같다).
+///    예전에는 보이는 키만 받아서 틈을 누르면 아무 일도 없었다.
 struct TypingKeyboardPanel: View {
 
     let proxy: TypingInputProxy
     let theme: AppTheme
-    /// 호스트가 말한 리턴 키 이름. nil 이면 줄바꿈 화살표.
+    /// 호스트가 말한 리턴 키 이름. 보이스오버가 읽는다.
     let returnKeyName: String?
+    /// 호스트가 고른 리턴 키 종류. 기본 키보드처럼 그림으로 그린다.
+    let returnKeyType: UIReturnKeyType
     /// 빈 칸에서 리턴을 잠그는가.
     let returnLocked: Bool
-    /// 시스템 지구본(다음 키보드). iOS 가 요구하는 기기에서만 받는다.
-    let globeKey: AnyView?
+    /// 커서가 문장 첫머리인가(`KeyboardDocumentState.startsSentence`). 바뀌면 Shift 를 다시 정한다.
+    let startsSentence: Bool
+    /// 시스템 지구본(다음 키보드)을 받는 투명 단추. iOS 가 요구하는 기기에서만 받는다.
+    /// 키 모양은 여기서 그리고, 손가락은 이 단추가 받는다(`handleInputModeList`).
+    let globeOverlay: AnyView?
     /// 단축어 판으로.
     let onShowSnippets: () -> Void
+
+    @Environment(\.colorScheme) private var colorScheme
 
     @AppStorage(TypingPrefs.languagesKey, store: AppGroup.defaults) private var languagesRaw: String = ""
     @AppStorage(TypingPrefs.currentKey, store: AppGroup.defaults) private var currentRaw: String = ""
@@ -77,13 +95,19 @@ struct TypingKeyboardPanel: View {
     @StateObject private var session = TypingSession()
     @State private var layer: Layer = .letters
     @State private var shift: ShiftState = .off
+    /// 바로 전에 Shift 를 누른 때. 두 번 빨리 누르면 대문자 고정(기본 키보드와 같다).
+    @State private var lastShiftTap: Date?
     /// 길게 눌러 고르는 중인 키와 그 후보, 지금 손가락이 가리키는 칸.
     @State private var alternates: AlternatePick?
     /// 판 폭. 길게 누른 키가 왼쪽 반인지 오른쪽 반인지 가를 때 쓴다.
     @State private var panelWidth: CGFloat = 0
+    /// 천지인 문장부호 키(.,?!)를 이어 누르는 중인가. 같은 키를 빨리 누르면 다음 부호로 바뀐다.
+    @State private var punctuationCycle: (index: Int, at: Date)?
 
     enum Layer { case letters, numbers, symbols }
     enum ShiftState { case off, once, locked }
+
+    private var style: NativeKeyStyle { NativeKeyStyle(isDark: colorScheme == .dark) }
 
     private var languages: [TypingLanguage] { TypingPrefs.languages(from: languagesRaw) }
 
@@ -98,35 +122,49 @@ struct TypingKeyboardPanel: View {
 
     private var usesCheonjiin: Bool { language == .ko && koreanLayout == .cheonjiin && layer == .letters }
 
+    /// 한 줄에 놓는 칸 수. 보통 10칸, 11 · 12칸 언어(독일어 · 태국어 …)는 그만큼 좁힌다.
+    private var columns: Int {
+        let rows = letterRows
+        return max(10, rows.prefix(max(rows.count - 1, 1)).map(\.count).max() ?? 10)
+    }
+
     var body: some View {
         GeometryReader { geo in
-            let metrics = Metrics(size: geo.size, rowCount: letterRows.count + 1)
+            let metrics = NativeKeyMetrics(size: geo.size,
+                                           rowCount: usesCheonjiin ? 4 : letterRows.count + 1,
+                                           columns: usesCheonjiin ? 5 : columns)
             VStack(spacing: 0) {
                 topStrip(metrics: metrics)
                     .frame(height: metrics.stripHeight)
+                    .padding(.horizontal, NativeKeyMetrics.sideInset + metrics.gapX / 2)
                 if usesCheonjiin {
                     cheonjiinGrid(metrics: metrics)
                 } else {
                     keyRows(metrics: metrics)
                 }
             }
-            .padding(.horizontal, Metrics.sidePadding)
-            .padding(.bottom, Metrics.bottomPadding)
+            .padding(.horizontal, NativeKeyMetrics.sideInset)
+            .padding(.bottom, NativeKeyMetrics.bottomInset)
             .onAppear { panelWidth = geo.size.width }
             .onChange(of: geo.size.width) { _, width in panelWidth = width }
         }
         .coordinateSpace(name: TypingLetterKeySpace.name)
-        .onAppear { session.prepare(language: language, proxy: proxy, koreanLayout: koreanLayout) }
+        .onAppear {
+            session.prepare(language: language, proxy: proxy, koreanLayout: koreanLayout)
+            updateAutoShift()
+        }
         .onChange(of: currentRaw) { _, _ in languageDidChange() }
         .onChange(of: languagesRaw) { _, _ in languageDidChange() }
         .onChange(of: koreanLayoutRaw) { _, _ in languageDidChange() }
+        .onChange(of: startsSentence) { _, _ in updateAutoShift() }
     }
 
     // MARK: - 맨 위 띠
 
     /// 맨 위 띠: 길게 누르는 중이면 그 글자들, 후보가 있으면 후보, 아니면 단축어 판으로 가는 키.
+    /// 기본 키보드의 예측 막대 자리다. 맨 윗줄 키의 미리보기 풍선도 이 자리로 올라온다.
     @ViewBuilder
-    private func topStrip(metrics: Metrics) -> some View {
+    private func topStrip(metrics: NativeKeyMetrics) -> some View {
         if let pick = alternates {
             alternateStrip(pick, metrics: metrics)
         } else if !session.candidates.isEmpty {
@@ -141,10 +179,10 @@ struct TypingKeyboardPanel: View {
                     Label(NSLocalizedString("단축어", comment: "Typing keyboard: switch to the snippet keys"),
                           systemImage: AppSymbol.squareGrid2x2)
                         .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(theme.keycapLabel)
+                        .foregroundColor(style.label)
                         .padding(.horizontal, 12)
-                        .frame(height: metrics.stripHeight - 8)
-                        .background(theme.keycap)
+                        .frame(height: min(32, metrics.stripHeight - 10))
+                        .background(style.fill(.letter, pressed: false))
                         .clipShape(Capsule())
                         .frame(minHeight: 44)
                         .contentShape(Rectangle())
@@ -174,7 +212,7 @@ struct TypingKeyboardPanel: View {
                     } label: {
                         Text(word)
                             .font(.system(size: 18))
-                            .foregroundColor(theme.text)
+                            .foregroundColor(style.label)
                             .padding(.horizontal, 10)
                             .frame(minHeight: 36)
                             .contentShape(Rectangle())
@@ -186,16 +224,16 @@ struct TypingKeyboardPanel: View {
         .scrollEdgeEffectHidden(true, for: .all)
     }
 
-    private func alternateStrip(_ pick: AlternatePick, metrics: Metrics) -> some View {
+    private func alternateStrip(_ pick: AlternatePick, metrics: NativeKeyMetrics) -> some View {
         HStack(spacing: 4) {
             ForEach(Array(pick.options.enumerated()), id: \.offset) { index, option in
                 Text(option)
-                    .font(.system(size: 20))
-                    .foregroundColor(index == pick.highlighted ? theme.accentFg : theme.text)
-                    .frame(width: metrics.keyWidth, height: metrics.stripHeight - 6)
+                    .font(.system(size: metrics.letterFontSize))
+                    .foregroundColor(index == pick.highlighted ? .white : style.label)
+                    .frame(width: metrics.keyWidth, height: min(metrics.keyHeight, metrics.stripHeight - 6))
                     .background(
-                        RoundedRectangle(cornerRadius: theme.radiusXs)
-                            .fill(index == pick.highlighted ? theme.accent : theme.keycap)
+                        RoundedRectangle(cornerRadius: style.cornerRadius, style: .continuous)
+                            .fill(index == pick.highlighted ? style.accent : style.fill(.letter, pressed: false))
                     )
             }
         }
@@ -221,59 +259,136 @@ struct TypingKeyboardPanel: View {
         layer == .letters && (language.hasCase || language.layout.shiftedRows != nil)
     }
 
-    private func keyRows(metrics: Metrics) -> some View {
+    private func keyRows(metrics: NativeKeyMetrics) -> some View {
         let rows = letterRows
         let lastIndex = rows.count - 1
-        return VStack(spacing: Metrics.rowSpacing) {
+        return VStack(spacing: 0) {
             ForEach(Array(rows.enumerated()), id: \.offset) { index, row in
-                HStack(spacing: Metrics.keySpacing) {
-                    if index == lastIndex {
-                        if layer == .letters {
-                            if hasShiftKey { shiftKey(metrics: metrics) }
-                        } else {
-                            symbolsToggleKey(metrics: metrics)
-                        }
-                    }
-                    ForEach(Array(row.enumerated()), id: \.offset) { _, key in
-                        letterKey(key, metrics: metrics, width: metrics.keyWidth(forRow: row.count, in: index == lastIndex))
-                    }
-                    if index == lastIndex {
-                        backspaceKey(metrics: metrics)
-                    }
+                if index == lastIndex {
+                    lastLetterRow(row, rowIndex: index, metrics: metrics)
+                } else {
+                    centeredRow(row, rowIndex: index, metrics: metrics)
                 }
-                .frame(maxWidth: .infinity)
             }
             bottomRow(metrics: metrics)
         }
     }
 
-    private func bottomRow(metrics: Metrics) -> some View {
-        HStack(spacing: Metrics.keySpacing) {
-            layerKey(metrics: metrics)
-            if let globeKey { globeKey }
-            if languages.count > 1 { languageKey(metrics: metrics) }
-            spaceKey(metrics: metrics)
-            returnKey(metrics: metrics)
+    /// 윗줄들. 칸이 모자라는 줄(QWERTY 둘째 줄)은 가운데로 모으고, 양 끝 키가 남는 자리까지 받는다.
+    private func centeredRow(_ row: [String], rowIndex: Int, metrics: NativeKeyMetrics) -> some View {
+        let pitch = metrics.pitch
+        let side = max(0, (metrics.usableWidth - pitch * CGFloat(row.count)) / 2)
+        return HStack(spacing: 0) {
+            ForEach(Array(row.enumerated()), id: \.offset) { i, key in
+                letterKey(key, metrics: metrics, rowIndex: rowIndex, width: pitch,
+                          leadExtra: i == 0 ? side : 0,
+                          trailExtra: i == row.count - 1 ? side : 0)
+            }
         }
-        .frame(height: metrics.keyHeight)
+        .frame(width: metrics.usableWidth, height: metrics.rowPitch)
+    }
+
+    /// 마지막 글자 줄: 왼쪽 끝 Shift(또는 #+= · 123), 오른쪽 끝 지우기, 글자는 그 사이 가운데.
+    private func lastLetterRow(_ row: [String], rowIndex: Int, metrics: NativeKeyMetrics) -> some View {
+        let edge = metrics.edgeKeyWidth
+        let between = metrics.usableWidth - edge * 2
+        let preferred = row.count <= 5 ? metrics.pitch * 1.4 : metrics.pitch
+        let pitch = min(preferred, between / CGFloat(max(row.count, 1)))
+        let side = max(0, (between - pitch * CGFloat(row.count)) / 2)
+        return HStack(spacing: 0) {
+            Group {
+                if layer == .letters {
+                    if hasShiftKey {
+                        shiftKey(metrics: metrics, width: edge)
+                    } else {
+                        Color.clear.frame(width: edge)
+                    }
+                } else {
+                    symbolsToggleKey(metrics: metrics, width: edge)
+                }
+            }
+            ForEach(Array(row.enumerated()), id: \.offset) { i, key in
+                letterKey(key, metrics: metrics, rowIndex: rowIndex, width: pitch,
+                          leadExtra: i == 0 ? side : 0,
+                          trailExtra: i == row.count - 1 ? side : 0)
+            }
+            backspaceKey(metrics: metrics, width: edge)
+        }
+        .frame(width: metrics.usableWidth, height: metrics.rowPitch)
+    }
+
+    /// 맨 아랫줄: 123 · (지구본) · (언어) · 스페이스 · 리턴. 기본 키보드는 2.5 : 5 : 2.5 칸이다.
+    private func bottomRow(metrics: NativeKeyMetrics) -> some View {
+        let unit = metrics.usableWidth / 10
+        let sideKeys = (globeOverlay != nil ? 1 : 0) + (languages.count > 1 ? 1 : 0)
+        let layerWidth = sideKeys == 0 ? unit * 2.5 : unit * 1.25
+        let returnWidth = unit * 2.5
+        let spaceWidth = metrics.usableWidth - layerWidth - unit * 1.25 * CGFloat(sideKeys) - returnWidth
+        return HStack(spacing: 0) {
+            layerKey(metrics: metrics, width: layerWidth)
+            if let globeOverlay { globeKey(globeOverlay, metrics: metrics, width: unit * 1.25, height: metrics.rowPitch) }
+            if languages.count > 1 { languageKey(metrics: metrics, width: unit * 1.25, height: metrics.rowPitch) }
+            spaceKey(metrics: metrics, width: spaceWidth, label: nil)
+            returnKey(metrics: metrics, width: returnWidth, height: metrics.rowPitch)
+        }
+        .frame(width: metrics.usableWidth, height: metrics.rowPitch)
+    }
+
+    // MARK: - 키 모양
+
+    /// 키 한 칸. `width` · `height` 는 손가락이 받는 자리, 보이는 키는 틈만큼 안으로 들인다.
+    private func cell<Face: View>(width: CGFloat, height: CGFloat, metrics: NativeKeyMetrics,
+                                  leadExtra: CGFloat = 0, trailExtra: CGFloat = 0,
+                                  @ViewBuilder face: () -> Face) -> some View {
+        face()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.horizontal, metrics.gapX / 2)
+            .padding(.vertical, metrics.gapY / 2)
+            .padding(.leading, leadExtra)
+            .padding(.trailing, trailExtra)
+            .frame(width: width + leadExtra + trailExtra, height: height)
+            .contentShape(Rectangle())
+    }
+
+    /// 보이는 키: 둥근 판 위에 글자나 그림.
+    private func keyFace<Label: View>(_ label: Label, kind: NativeKeyStyle.Kind, pressed: Bool) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: style.cornerRadius, style: .continuous)
+                .fill(style.fill(kind, pressed: pressed))
+                .shadow(color: style.shadow, radius: 0, x: 0, y: 1)
+            label
+        }
+    }
+
+    private func textLabel(_ text: String, size: CGFloat, color: Color? = nil, tracking: CGFloat = 0) -> some View {
+        Text(text)
+            .font(.system(size: size))
+            .tracking(tracking)
+            .foregroundColor(color ?? style.label)
+            .lineLimit(1)
+            .minimumScaleFactor(0.6)
+    }
+
+    private func symbolLabel(_ name: String, size: CGFloat, color: Color? = nil) -> some View {
+        Image(systemName: name)
+            .font(.system(size: size, weight: .regular))
+            .foregroundColor(color ?? style.label)
     }
 
     // MARK: - 키
 
-    private func keyFace(_ label: some View, fill: Color, width: CGFloat?, metrics: Metrics) -> some View {
-        label
-            .frame(width: width, height: metrics.keyHeight)
-            .frame(maxWidth: width == nil ? .infinity : nil)
-            .background(fill)
-            .clipShape(RoundedRectangle(cornerRadius: theme.radiusXs))
-            .shadow(color: .black.opacity(0.18), radius: 0, x: 0, y: 1)
-    }
-
-    private func letterKey(_ key: String, metrics: Metrics, width: CGFloat) -> some View {
+    private func letterKey(_ key: String, metrics: NativeKeyMetrics, rowIndex: Int, width: CGFloat,
+                           leadExtra: CGFloat = 0, trailExtra: CGFloat = 0) -> some View {
         TypingLetterKey(
             key: key,
             alternates: layer == .letters ? language.alternates(for: key) : [],
-            keyWidth: width,
+            cellWidth: width,
+            leadExtra: leadExtra,
+            trailExtra: trailExtra,
+            metrics: metrics,
+            style: style,
+            // 맨 윗줄 풍선은 띠 안에서 끝나야 한다(키보드 확장은 제 영역 밖에 못 그린다).
+            maxRise: rowIndex == 0 ? metrics.stripHeight + metrics.gapY / 2 - 2 : metrics.rowPitch * 1.4,
             panelWidth: panelWidth,
             onTap: { type(key) },
             onAlternatesBegan: { options, alignLeading in
@@ -284,82 +399,88 @@ struct TypingKeyboardPanel: View {
                 if let options = alternates?.options, options.indices.contains(index) { type(options[index]) }
                 alternates = nil
             }
-        ) {
-            keyFace(Text(key).font(.system(size: metrics.letterFontSize)).foregroundColor(theme.keycapLabel),
-                    fill: theme.keycap, width: width, metrics: metrics)
-        }
+        )
         .accessibilityLabel(key)
     }
 
-    private func controlFace(_ symbol: String, active: Bool = false, width: CGFloat, metrics: Metrics) -> some View {
-        keyFace(Image(systemName: symbol)
-                    .font(.system(size: metrics.controlFontSize, weight: .medium))
-                    .foregroundColor(active ? theme.accentFg : theme.text),
-                fill: active ? theme.accent : theme.divider, width: width, metrics: metrics)
-    }
-
-    private func shiftKey(metrics: Metrics) -> some View {
-        Button {
+    private func shiftKey(metrics: NativeKeyMetrics, width: CGFloat) -> some View {
+        // ⚠️ 기본 키보드처럼 **누르는 순간** 바뀐다. 한 번은 다음 글자만, 빨리 두 번은 고정.
+        PressableKey(firesOnTouchDown: true, action: {
             KeyboardHaptics.softTap()
+            let now = Date()
+            let quickSecond = lastShiftTap.map { now.timeIntervalSince($0) < 0.35 } ?? false
             switch shift {
             case .off: shift = .once
-            case .once: shift = .locked
+            case .once: shift = quickSecond ? .locked : .off
             case .locked: shift = .off
             }
-        } label: {
-            controlFace(shift == .locked ? "capslock.fill" : (shift == .once ? "shift.fill" : "shift"),
-                        active: shift != .off, width: metrics.wideKeyWidth, metrics: metrics)
+            lastShiftTap = now
+        }) { pressed in
+            cell(width: width, height: metrics.rowPitch, metrics: metrics) {
+                keyFace(symbolLabel(shift == .locked ? "capslock.fill" : (shift == .once ? "shift.fill" : "shift"),
+                                    size: metrics.symbolFontSize),
+                        kind: .control, pressed: pressed)
+            }
         }
-        .buttonStyle(.squish)
         .accessibilityLabel(NSLocalizedString("Shift", comment: "Typing keyboard: shift key"))
         .accessibilityAddTraits(shift != .off ? .isSelected : [])
     }
 
-    private func backspaceKey(metrics: Metrics) -> some View {
-        RepeatingKey {
+    private func backspaceKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat? = nil) -> some View {
+        PressableKey(firesOnTouchDown: true, repeats: true, action: {
             KeyboardHaptics.tap()
             session.engine?.backspace()
             session.refresh()
-        } label: {
-            controlFace(AppSymbol.deleteLeft, width: metrics.wideKeyWidth, metrics: metrics)
+            updateAutoShift()
+        }) { pressed in
+            cell(width: width, height: height ?? metrics.rowPitch, metrics: metrics) {
+                keyFace(symbolLabel(AppSymbol.deleteLeft, size: metrics.symbolFontSize), kind: .control, pressed: pressed)
+            }
         }
         .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace key"))
     }
 
-    private func symbolsToggleKey(metrics: Metrics) -> some View {
-        Button {
+    private func symbolsToggleKey(metrics: NativeKeyMetrics, width: CGFloat) -> some View {
+        PressableKey(action: {
             KeyboardHaptics.softTap()
             layer = layer == .numbers ? .symbols : .numbers
-        } label: {
-            keyFace(Text(layer == .numbers ? "#+=" : "123").font(.system(size: metrics.controlFontSize)).foregroundColor(theme.text),
-                    fill: theme.divider, width: metrics.wideKeyWidth, metrics: metrics)
+        }) { pressed in
+            cell(width: width, height: metrics.rowPitch, metrics: metrics) {
+                keyFace(textLabel(layer == .numbers ? "#+=" : "123", size: metrics.smallControlFontSize),
+                        kind: .control, pressed: pressed)
+            }
         }
-        .buttonStyle(.squish)
+        .accessibilityLabel(layer == .numbers
+                            ? NSLocalizedString("기호", comment: "Typing keyboard: switch to symbols")
+                            : NSLocalizedString("숫자", comment: "Typing keyboard: switch to numbers"))
     }
 
-    private func layerKey(metrics: Metrics) -> some View {
-        Button {
+    private func layerKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat? = nil, label: String? = nil) -> some View {
+        PressableKey(action: {
             KeyboardHaptics.softTap()
             session.engine?.commit()
             session.refresh()
             layer = layer == .letters ? .numbers : .letters
             shift = .off
-        } label: {
-            keyFace(Text(layer == .letters ? "123" : lettersLabel).font(.system(size: metrics.controlFontSize)).foregroundColor(theme.text),
-                    fill: theme.divider, width: metrics.wideKeyWidth, metrics: metrics)
+            updateAutoShift()
+        }) { pressed in
+            cell(width: width, height: height ?? metrics.rowPitch, metrics: metrics) {
+                keyFace(textLabel(label ?? (layer == .letters ? "123" : lettersLabel), size: metrics.controlFontSize),
+                        kind: .control, pressed: pressed)
+            }
         }
-        .buttonStyle(.squish)
         .accessibilityLabel(layer == .letters
                             ? NSLocalizedString("숫자", comment: "Typing keyboard: switch to numbers")
                             : NSLocalizedString("글자", comment: "Typing keyboard: switch to letters"))
     }
 
-    /// 숫자 층에서 글자로 돌아가는 키의 이름(그 언어 글자로).
+    /// 숫자 층에서 글자로 돌아가는 키의 이름(그 언어 글자로). 기본 키보드와 같은 낱말이다.
     private var lettersLabel: String {
         switch language {
-        case .ko: return "가"
-        case .ja: return "あ"
-        case .zhHans, .zhHant: return "中"
+        case .ko: return "한글"
+        case .ja: return "あいう"
+        case .zhHans: return "拼音"
+        case .zhHant: return "注音"
         case .ru: return "АБВ"
         case .el: return "ΑΒΓ"
         case .th: return "กขค"
@@ -368,18 +489,27 @@ struct TypingKeyboardPanel: View {
     }
 
     /// 다음 언어로. 이름은 **갈 곳**을 적는다(누르면 그 언어가 된다).
-    private func languageKey(metrics: Metrics) -> some View {
+    private func languageKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat) -> some View {
         let next = nextLanguage
-        return Button {
+        return PressableKey(action: {
             KeyboardHaptics.softTap()
             currentRaw = next.rawValue
-        } label: {
-            keyFace(Text(next.shortLabel).font(.system(size: metrics.controlFontSize, weight: .medium)).foregroundColor(theme.text),
-                    fill: theme.divider, width: metrics.wideKeyWidth, metrics: metrics)
+        }) { pressed in
+            cell(width: width, height: height, metrics: metrics) {
+                keyFace(textLabel(next == .en ? "ABC" : next.shortLabel, size: metrics.controlFontSize),
+                        kind: .control, pressed: pressed)
+            }
         }
-        .buttonStyle(.squish)
         .accessibilityLabel(next.nativeName)
         .accessibilityHint(NSLocalizedString("입력 언어를 바꿉니다", comment: "Typing keyboard: language key hint"))
+    }
+
+    /// 지구본. 모양은 우리가 그리고 손가락은 위에 얹은 시스템 단추가 받는다.
+    private func globeKey(_ overlay: AnyView, metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat) -> some View {
+        cell(width: width, height: height, metrics: metrics) {
+            keyFace(symbolLabel(AppSymbol.globe, size: metrics.symbolFontSize), kind: .control, pressed: false)
+        }
+        .overlay(overlay)
     }
 
     private var nextLanguage: TypingLanguage {
@@ -387,8 +517,9 @@ struct TypingKeyboardPanel: View {
         return languages[(index + 1) % languages.count]
     }
 
-    private func spaceKey(metrics: Metrics) -> some View {
-        Button {
+    /// 스페이스. 기본 키보드(iOS 26)는 이름을 적지 않는다. 천지인 판만 "스페이스" 라고 적는다.
+    private func spaceKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat? = nil, label: String?) -> some View {
+        PressableKey(action: {
             KeyboardHaptics.tap()
             if let engine = session.engine, engine.isComposing {
                 engine.commit()
@@ -399,32 +530,31 @@ struct TypingKeyboardPanel: View {
             }
             session.refresh()
             if shift == .once { shift = .off }
-        } label: {
-            keyFace(Text(language.nativeName).font(.system(size: metrics.controlFontSize)).foregroundColor(theme.textMuted).lineLimit(1),
-                    fill: theme.keycap, width: nil, metrics: metrics)
+            updateAutoShift()
+        }) { pressed in
+            cell(width: width, height: height ?? metrics.rowPitch, metrics: metrics) {
+                keyFace(textLabel(label ?? "", size: metrics.smallControlFontSize), kind: .letter, pressed: pressed)
+            }
         }
-        .buttonStyle(.squish)
         .accessibilityLabel(NSLocalizedString("스페이스", comment: "Spacebar (ko)"))
     }
 
-    private func returnKey(metrics: Metrics) -> some View {
-        Button {
+    /// 리턴. 기본 키보드처럼 종류마다 그림으로 그린다(줄바꿈 · 다음 · 완료 · 이동 · 검색 · 보내기).
+    private func returnKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat) -> some View {
+        let glyph = NativeReturnGlyph(returnKeyType)
+        return PressableKey(action: {
             KeyboardHaptics.tap()
             session.engine?.commit()
             session.refresh()
             proxy.insertNewline()
-        } label: {
-            Group {
-                if let returnKeyName {
-                    keyFace(Text(returnKeyName).font(.system(size: metrics.controlFontSize, weight: .semibold))
-                                .foregroundColor(theme.accentFg).lineLimit(1).minimumScaleFactor(0.7),
-                            fill: theme.accent, width: metrics.returnKeyWidth, metrics: metrics)
-                } else {
-                    controlFace(AppSymbol.returnLeft, width: metrics.returnKeyWidth, metrics: metrics)
-                }
+            updateAutoShift()
+        }) { pressed in
+            cell(width: width, height: height, metrics: metrics) {
+                keyFace(symbolLabel(glyph.symbol, size: metrics.symbolFontSize,
+                                    color: glyph.isAccent ? .white : nil),
+                        kind: glyph.isAccent ? .accent : .control, pressed: pressed)
             }
         }
-        .buttonStyle(.squish)
         .opacity(returnLocked ? 0.4 : 1)
         .disabled(returnLocked)
         .accessibilityLabel(returnKeyName ?? NSLocalizedString("리턴 키", comment: "Return key accessibility label"))
@@ -432,65 +562,188 @@ struct TypingKeyboardPanel: View {
 
     // MARK: - 천지인
 
-    /// 천지인 판. 12칸 격자(3열) 양옆에 조작 키를 세운다.
-    private func cheonjiinGrid(metrics: Metrics) -> some View {
-        let grid: [[String]] = [["ㅣ", "ㆍ", "ㅡ"], ["ㄱㅋ", "ㄴㄹ", "ㄷㅌ"], ["ㅂㅍ", "ㅅㅎ", "ㅈㅊ"], [".,?!", "ㅇㅁ", "?"]]
-        return VStack(spacing: Metrics.rowSpacing) {
-            ForEach(Array(grid.enumerated()), id: \.offset) { index, row in
-                HStack(spacing: Metrics.keySpacing) {
-                    ForEach(Array(row.enumerated()), id: \.offset) { _, key in
-                        cheonjiinKey(key, metrics: metrics)
-                    }
-                    if index == 0 { backspaceKey(metrics: metrics) }
+    /// 천지인 판. iOS 한국어 10키와 같은 5칸 4줄이다.
+    ///
+    ///     #123 | ㅣ  | ㆍ  | ㅡ   | 지우기
+    ///     ABC  | ㄱㅋ | ㄴㄹ | ㄷㅌ  | 리턴(두 줄)
+    ///     지구본| ㅂㅍ | ㅅㅎ | ㅈㅊ  |
+    ///     (두 줄)| →  | ㅇㅁ | .,?! | 스페이스
+    ///
+    /// ⚠️ 왼쪽 아래 긴 키는 기본 키보드에서 다음 키보드로 가는 자리다. 지구본이 필요 없는 기기에서는
+    ///    그 자리에 단축어 판으로 가는 키를 세운다(우리 키보드의 '다음 판' 이다).
+    private func cheonjiinGrid(metrics: NativeKeyMetrics) -> some View {
+        let w = metrics.usableWidth / 5
+        let h = metrics.rowPitch
+        return HStack(spacing: 0) {
+            VStack(spacing: 0) {
+                layerKey(metrics: metrics, width: w, height: h, label: "#123")
+                cheonjiinLanguageKey(metrics: metrics, width: w, height: h)
+                cheonjiinTallKey(metrics: metrics, width: w, height: h * 2)
+            }
+            VStack(spacing: 0) {
+                cheonjiinKey("ㅣ", metrics: metrics, width: w)
+                cheonjiinKey("ㄱㅋ", metrics: metrics, width: w)
+                cheonjiinKey("ㅂㅍ", metrics: metrics, width: w)
+                cheonjiinAdvanceKey(metrics: metrics, width: w)
+            }
+            VStack(spacing: 0) {
+                cheonjiinKey("ㆍ", metrics: metrics, width: w)
+                cheonjiinKey("ㄴㄹ", metrics: metrics, width: w)
+                cheonjiinKey("ㅅㅎ", metrics: metrics, width: w)
+                cheonjiinKey("ㅇㅁ", metrics: metrics, width: w)
+            }
+            VStack(spacing: 0) {
+                cheonjiinKey("ㅡ", metrics: metrics, width: w)
+                cheonjiinKey("ㄷㅌ", metrics: metrics, width: w)
+                cheonjiinKey("ㅈㅊ", metrics: metrics, width: w)
+                cheonjiinPunctuationKey(metrics: metrics, width: w)
+            }
+            VStack(spacing: 0) {
+                backspaceKey(metrics: metrics, width: w)
+                returnKey(metrics: metrics, width: w, height: h * 2)
+                spaceKey(metrics: metrics, width: w, label: NSLocalizedString("스페이스", comment: "Spacebar (ko)"))
+            }
+        }
+        .frame(width: metrics.usableWidth, height: h * 4)
+    }
+
+    /// 천지인의 "ABC": 다음 언어로. 언어가 하나뿐이면 기호 층(#+=)으로 가는 키가 된다.
+    @ViewBuilder
+    private func cheonjiinLanguageKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat) -> some View {
+        if languages.count > 1 {
+            languageKey(metrics: metrics, width: width, height: height)
+        } else {
+            PressableKey(action: {
+                KeyboardHaptics.softTap()
+                session.engine?.commit()
+                session.refresh()
+                layer = .symbols
+            }) { pressed in
+                cell(width: width, height: height, metrics: metrics) {
+                    keyFace(textLabel("#+=", size: metrics.controlFontSize), kind: .control, pressed: pressed)
                 }
             }
-            bottomRow(metrics: metrics)
+            .accessibilityLabel(NSLocalizedString("기호", comment: "Typing keyboard: switch to symbols"))
         }
     }
 
+    /// 왼쪽 아래 긴 키: 지구본이 필요한 기기면 지구본, 아니면 단축어 판으로.
     @ViewBuilder
-    private func cheonjiinKey(_ key: String, metrics: Metrics) -> some View {
-        if key == ".,?!" {
-            Button {
-                KeyboardHaptics.tap()
-                session.engine?.commit()
-                proxy.insertText(".")
-                session.refresh()
-            } label: {
-                keyFace(Text(".,?!").font(.system(size: metrics.controlFontSize)).foregroundColor(theme.keycapLabel),
-                        fill: theme.keycap, width: nil, metrics: metrics)
-            }
-            .buttonStyle(.squish)
-        } else if key == "?" {
-            Button {
-                KeyboardHaptics.tap()
-                session.engine?.commit()
-                proxy.insertText("?")
-                session.refresh()
-            } label: {
-                keyFace(Text("?").font(.system(size: metrics.letterFontSize)).foregroundColor(theme.keycapLabel),
-                        fill: theme.keycap, width: nil, metrics: metrics)
-            }
-            .buttonStyle(.squish)
+    private func cheonjiinTallKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat) -> some View {
+        if let globeOverlay {
+            globeKey(globeOverlay, metrics: metrics, width: width, height: height)
         } else {
-            Button {
-                type(key)
-            } label: {
-                keyFace(Text(key).font(.system(size: metrics.letterFontSize * 0.85)).foregroundColor(theme.keycapLabel),
-                        fill: theme.keycap, width: nil, metrics: metrics)
-            }
-            .buttonStyle(.squish)
-            .accessibilityLabel(key)
+            snippetsKey(metrics: metrics, width: width, height: height)
         }
+    }
+
+    private func snippetsKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat) -> some View {
+        PressableKey(action: {
+            KeyboardHaptics.softTap()
+            session.engine?.commit()
+            onShowSnippets()
+        }) { pressed in
+            cell(width: width, height: height, metrics: metrics) {
+                keyFace(symbolLabel(AppSymbol.squareGrid2x2, size: metrics.symbolFontSize), kind: .control, pressed: pressed)
+            }
+        }
+        .accessibilityLabel(NSLocalizedString("단축어", comment: "Typing keyboard: switch to the snippet keys"))
+        .accessibilityHint(NSLocalizedString("단축어 키 판으로 바꿉니다", comment: "Typing keyboard: snippets button hint"))
+    }
+
+    /// 자모 키. 기본 10키처럼 두 자모 사이를 띄워 적고, 누르면 풍선 대신 키 색이 바뀐다.
+    private func cheonjiinKey(_ key: String, metrics: NativeKeyMetrics, width: CGFloat) -> some View {
+        PressableKey(action: { type(key) }) { pressed in
+            cell(width: width, height: metrics.rowPitch, metrics: metrics) {
+                // ⚠️ 글꼴의 ㅡ 는 글자 칸 아래쪽에 앉아 키 가운데보다 4pt 쯤 낮게 보인다.
+                //    기본 10키는 획을 키 한가운데에 둔다.
+                keyFace(textLabel(key.map(String.init).joined(separator: " "), size: metrics.letterFontSize)
+                            .offset(y: key == "ㅡ" ? -metrics.keyHeight * 0.1 : 0),
+                        kind: .letter, pressed: pressed)
+            }
+        }
+        .accessibilityLabel(key)
+    }
+
+    /// → 키: 같은 자음 키를 이어서 칠 때 앞 글자를 끊는다(ㄱ → ㄱ 이 ㅋ 이 되지 않게).
+    /// 조합 중이 아니면 커서를 한 칸 옮긴다(기본 10키와 같다).
+    private func cheonjiinAdvanceKey(metrics: NativeKeyMetrics, width: CGFloat) -> some View {
+        PressableKey(action: {
+            KeyboardHaptics.tap()
+            session.engine?.input(CheonjiinInput.advanceKey)
+            session.refresh()
+        }) { pressed in
+            cell(width: width, height: metrics.rowPitch, metrics: metrics) {
+                keyFace(symbolLabel("arrow.right", size: metrics.symbolFontSize), kind: .letter, pressed: pressed)
+            }
+        }
+        .accessibilityLabel(NSLocalizedString("다음 글자", comment: "Cheonjiin keyboard: finish the current consonant so the same key starts a new one"))
+    }
+
+    /// .,?! 키: 빨리 이어 누르면 . → , → ? → ! 로 바뀐다(기본 10키와 같다).
+    private func cheonjiinPunctuationKey(metrics: NativeKeyMetrics, width: CGFloat) -> some View {
+        PressableKey(action: {
+            KeyboardHaptics.tap()
+            let marks = [".", ",", "?", "!"]
+            let now = Date()
+            if let cycle = punctuationCycle, now.timeIntervalSince(cycle.at) < 0.8 {
+                let next = (cycle.index + 1) % marks.count
+                proxy.deleteBackward()
+                proxy.insertText(marks[next])
+                punctuationCycle = (next, now)
+            } else {
+                session.engine?.commit()
+                proxy.insertText(marks[0])
+                punctuationCycle = (0, now)
+            }
+            session.refresh()
+        }) { pressed in
+            cell(width: width, height: metrics.rowPitch, metrics: metrics) {
+                keyFace(textLabel(".,?!", size: metrics.smallControlFontSize, tracking: 2), kind: .letter, pressed: pressed)
+            }
+        }
+        .accessibilityLabel(NSLocalizedString("문장 부호", comment: "Cheonjiin keyboard: punctuation key"))
     }
 
     // MARK: - 넣기
 
     private func type(_ key: String) {
         KeyboardHaptics.tap()
+        punctuationCycle = nil
         session.engine?.input(key)
         session.refresh()
         if shift == .once { shift = .off }
+        updateAutoShift()
+    }
+
+    /// 기본 키보드처럼 문장 첫 글자(빈 칸 · 마침표 뒤 · 줄 바뀐 뒤)에서 Shift 를 저절로 켠다.
+    ///
+    /// ⚠️ 대소문자가 있는 언어의 글자 층에서만. 고정(caps lock)은 건드리지 않는다.
+    ///    입력칸이 대문자를 원하지 않으면(이메일 · 주소 칸) 켜지 않는다.
+    private func updateAutoShift() {
+        guard layer == .letters, language.hasCase, shift != .locked else { return }
+        let wants = Self.wantsCapital(before: proxy.typingContextBefore,
+                                      rule: proxy.typingAutocapitalization)
+        shift = wants ? .once : .off
+    }
+
+    /// - Parameter before: 커서 앞 글. 빈 입력칸에서 iOS 는 nil 을 주므로 nil 은 빈 글로 본다.
+    static func wantsCapital(before: String?, rule: UITextAutocapitalizationType) -> Bool {
+        let before = before ?? ""
+        switch rule {
+        case .none: return false
+        case .allCharacters: return true
+        case .words:
+            guard let last = before.last else { return true }
+            return last.isWhitespace
+        case .sentences:
+            if before.isEmpty || before.last == "\n" { return true }
+            guard before.last?.isWhitespace == true else { return false }
+            let trimmed = before.trimmingCharacters(in: .whitespaces)
+            guard let end = trimmed.last else { return true }
+            return ".!?\n".contains(end)
+        @unknown default: return false
+        }
     }
 
     private func languageDidChange() {
@@ -498,10 +751,31 @@ struct TypingKeyboardPanel: View {
         layer = .letters
         shift = .off
         alternates = nil
+        punctuationCycle = nil
         session.prepare(language: language, proxy: proxy, koreanLayout: koreanLayout)
+        updateAutoShift()
     }
 }
 
+// MARK: - 리턴 키 그림
+
+/// 리턴 키 종류 → 기본 키보드(iOS 26)가 그리는 그림.
+/// 줄바꿈 · 다음은 다른 조작 키와 같은 색, 끝내는 동작(이동 · 검색 · 보내기 · 완료)은 파란 키다.
+struct NativeReturnGlyph {
+    let symbol: String
+    let isAccent: Bool
+
+    init(_ type: UIReturnKeyType) {
+        switch type {
+        case .next, .continue: symbol = "chevron.right"; isAccent = false
+        case .done: symbol = "checkmark"; isAccent = true
+        case .go, .join, .route: symbol = "arrow.right"; isAccent = true
+        case .search, .google, .yahoo: symbol = "magnifyingglass"; isAccent = true
+        case .send: symbol = "arrow.up"; isAccent = true
+        default: symbol = AppSymbol.returnLeft; isAccent = false
+        }
+    }
+}
 // MARK: - 엔진을 들고 있는 것
 
 /// 엔진은 언어가 바뀔 때만 새로 만든다. 그리기마다 만들면 조합 중이던 글자가 끊긴다.
@@ -533,46 +807,150 @@ enum ConversionDictionaryStore {
     static func dictionary(for language: TypingLanguage) -> ConversionDictionary? { nil }
 }
 
+
 // MARK: - 치수
 
-private struct Metrics {
-    static let sidePadding: CGFloat = 3
-    static let bottomPadding: CGFloat = 4
-    static let keySpacing: CGFloat = 6
-    static let rowSpacing: CGFloat = 10
+/// 기본 키보드를 잰 치수(iPhone 17 Pro · iOS 27 시뮬레이터, 2026-10).
+///
+///     폭 402pt: 바깥 여백 3.67 + 10칸(칸 39.5) , 보이는 키 33.3 · 틈 6
+///     줄 간격 54pt: 보이는 키 42.3 · 틈 11.7, 모서리 8.5(연속 곡선)
+///     맨 아랫줄 123 : 스페이스 : 리턴 = 2.5 : 5 : 2.5 칸, 셋째 줄 Shift · 지우기 = 1.31 칸
+///
+/// ⚠️ 판 높이는 단축어 판과 같이 쓴다(`KeyboardHeightBook`). 그래서 줄 간격을 그대로 박지 않고
+///    남는 높이로 나누되, 키가 기본 키보드보다 지나치게 커지지 않게 줄 간격에 상한을 두고
+///    나머지는 맨 위 띠(예측 막대 자리)에 준다.
+struct NativeKeyMetrics {
+    static let sideInset: CGFloat = 3.67
+    static let bottomInset: CGFloat = 0
+    /// 줄 간격의 상한. 기본 10키 판의 키(46pt)보다 커지지 않게.
+    static let maxRowPitch: CGFloat = 58
+    /// 맨 위 띠의 최소 높이. 단축어 키(32pt)가 들어가고, 남는 높이는 키 줄이 먼저 가져간다.
+    /// (우리 판은 기본 키보드보다 15pt 쯤 낮게 잡힌다. 띠를 줄여야 키가 기본 키보드 크기에 가까워진다)
+    static let minStripHeight: CGFloat = 38
 
     let size: CGSize
     let rowCount: Int
+    let columns: Int
 
-    /// 맨 위 띠 높이.
-    var stripHeight: CGFloat { 40 }
+    var usableWidth: CGFloat { max(0, size.width - Self.sideInset * 2) }
 
-    /// 한 줄에 가장 많은 키 수에 맞춘 글자 키 폭. 12개(태국어 · 터키어)까지 들어간다.
-    var keyWidth: CGFloat {
-        let columns: CGFloat = 10
-        let usable = size.width - Self.sidePadding * 2
-        return (usable - Self.keySpacing * (columns - 1)) / columns
+    /// 한 칸(손가락이 받는 폭).
+    var pitch: CGFloat { usableWidth / CGFloat(max(columns, 1)) }
+
+    /// 키 사이 가로 틈. 칸이 좁은 언어(12칸)는 틈도 줄인다.
+    var gapX: CGFloat { min(6, pitch * 0.152) }
+
+    /// 보이는 글자 키 폭.
+    var keyWidth: CGFloat { pitch - gapX }
+
+    /// Shift · 지우기 · #+= 칸 폭.
+    var edgeKeyWidth: CGFloat { (usableWidth / 10) * 1.31 }
+
+    /// 줄 하나의 높이(손가락이 받는 높이).
+    var rowPitch: CGFloat {
+        let usable = size.height - Self.minStripHeight - Self.bottomInset
+        return max(34, min(usable / CGFloat(max(rowCount, 1)), Self.maxRowPitch))
     }
 
-    /// 줄 하나에 키가 몇 개냐에 따라 폭을 줄인다. 마지막 줄은 Shift · 지우기 자리를 뺀다.
-    func keyWidth(forRow count: Int, in lastRow: Bool) -> CGFloat {
-        let usable = size.width - Self.sidePadding * 2
-        let reserved = lastRow ? (wideKeyWidth + Self.keySpacing) * 2 : 0
-        let fit = (usable - reserved - Self.keySpacing * CGFloat(max(count - 1, 0))) / CGFloat(max(count, 1))
-        return min(keyWidth, fit)
+    /// 남는 높이는 맨 위 띠로.
+    var stripHeight: CGFloat {
+        max(Self.minStripHeight, size.height - Self.bottomInset - rowPitch * CGFloat(rowCount))
     }
 
-    var wideKeyWidth: CGFloat { max(keyWidth * 1.35, 40) }
-    var returnKeyWidth: CGFloat { max(keyWidth * 2.2, 72) }
+    /// 줄 사이 세로 틈.
+    var gapY: CGFloat { min(11.67, rowPitch * 0.216) }
 
-    /// 남는 높이를 줄 수로 나눈다.
-    var keyHeight: CGFloat {
-        let usable = size.height - stripHeight - Self.bottomPadding - Self.rowSpacing * CGFloat(rowCount - 1)
-        return max(30, min(usable / CGFloat(rowCount), 54))
+    var keyHeight: CGFloat { rowPitch - gapY }
+
+    /// 글자 키(라틴 대문자 높이 15.3pt = 22pt).
+    var letterFontSize: CGFloat { min(22, keyHeight * 0.52) }
+    /// 123 · ABC 같은 글자 조작 키.
+    var controlFontSize: CGFloat { min(18, keyHeight * 0.42) }
+    /// #+= · 스페이스 같은 작은 이름.
+    var smallControlFontSize: CGFloat { min(16, keyHeight * 0.38) }
+    /// Shift · 지우기 · 리턴 그림.
+    var symbolFontSize: CGFloat { min(20, keyHeight * 0.46) }
+}
+
+/// 기본 키보드의 키 색. iOS 26 부터는 조작 키도 글자 키와 같은 색이고 그림자가 없다.
+/// 그 전 iOS 는 조작 키가 어둡고 아래에 1pt 그림자가 있었다(그 기기에서는 그쪽이 '기본' 이다).
+struct NativeKeyStyle {
+    enum Kind { case letter, control, accent }
+
+    let isDark: Bool
+
+    private var isModern: Bool {
+        if #available(iOS 26.0, *) { return true }
+        return false
     }
 
-    var letterFontSize: CGFloat { min(keyHeight * 0.52, 24) }
-    var controlFontSize: CGFloat { min(keyHeight * 0.36, 16) }
+    var cornerRadius: CGFloat { isModern ? 8.5 : 5 }
+
+    var label: Color { isDark ? .white : .black }
+
+    var accent: Color { Color(uiColor: .systemBlue) }
+
+    var shadow: Color {
+        isModern ? .clear : .black.opacity(isDark ? 0.5 : 0.3)
+    }
+
+    func fill(_ kind: Kind, pressed: Bool) -> Color {
+        if kind == .accent {
+            return pressed ? accent.opacity(0.7) : accent
+        }
+        if isModern {
+            // 잰 값: 라이트 흰색 · 다크 (70, 70, 70). 눌린 글자 키는 라이트 (229, 229, 229).
+            if isDark { return Color(white: pressed ? 0.43 : 0.275) }
+            return pressed ? Color(white: 0.898) : .white
+        }
+        switch (kind, isDark) {
+        case (.letter, false): return pressed ? Color(red: 0.67, green: 0.69, blue: 0.73) : .white
+        case (.letter, true): return Color(white: pressed ? 0.27 : 0.42)
+        default:
+            if isDark { return Color(white: pressed ? 0.42 : 0.27) }
+            return pressed ? .white : Color(red: 0.67, green: 0.69, blue: 0.73)
+        }
+    }
+}
+
+// MARK: - 누르는 키
+
+/// 조작 키 · 천지인 키. 누르고 있는 동안 키 색이 바뀐다(기본 키보드는 줄어들지 않는다).
+///
+/// ⚠️ 손가락은 `DragGesture` 로 받으므로 보이스오버에는 따로 동작을 단다.
+private struct PressableKey<Face: View>: View {
+    /// 누르는 순간 일한다(Shift · 지우기). 아니면 뗄 때(기본 키보드의 나머지 키).
+    var firesOnTouchDown = false
+    /// 누르고 있으면 되풀이한다(지우기).
+    var repeats = false
+    let action: () -> Void
+    @ViewBuilder let face: (_ pressed: Bool) -> Face
+
+    @State private var pressed = false
+    @State private var repeater = KeyRepeater()
+
+    var body: some View {
+        face(pressed)
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in
+                        guard !pressed else { return }
+                        pressed = true
+                        if firesOnTouchDown { action() }
+                        if repeats { repeater.start(action) }
+                    }
+                    .onEnded { _ in
+                        pressed = false
+                        repeater.stop()
+                        if !firesOnTouchDown { action() }
+                    }
+            )
+            .onDisappear { repeater.stop() }
+            .accessibilityElement(children: .ignore)
+            .accessibilityAddTraits(.isButton)
+            .accessibilityAction { action() }
+    }
 }
 
 // MARK: - 길게 누르기
@@ -589,57 +967,117 @@ struct AlternatePick: Equatable {
     var alignLeading: Bool
 }
 
-/// 글자 키. 짧게 누르면 그 글자, 길게 누르면 맨 위 띠에 다른 글자를 띄우고 옆으로 밀어 고른다.
-private struct TypingLetterKey<Label: View>: View {
+/// 글자 키. 누르면 키 위로 미리보기 풍선이 뜨고(기본 키보드와 같다) 뗄 때 글자가 들어간다.
+/// 길게 누르면 맨 위 띠에 다른 글자를 띄우고 옆으로 밀어 고른다.
+private struct TypingLetterKey: View {
     let key: String
     let alternates: [String]
-    let keyWidth: CGFloat
+    /// 손가락이 받는 폭. 양 끝 키는 `leadExtra` · `trailExtra` 만큼 더 받는다.
+    let cellWidth: CGFloat
+    let leadExtra: CGFloat
+    let trailExtra: CGFloat
+    let metrics: NativeKeyMetrics
+    let style: NativeKeyStyle
+    /// 풍선이 키 위로 솟을 수 있는 높이. 맨 윗줄은 띠 안에서 끝나야 한다.
+    let maxRise: CGFloat
     let panelWidth: CGFloat
     let onTap: () -> Void
     let onAlternatesBegan: (_ options: [String], _ alignLeading: Bool) -> Void
     let onAlternatesMoved: (Int) -> Void
     let onAlternatesEnded: (Int) -> Void
-    @ViewBuilder let label: () -> Label
 
     @State private var pressStarted: Date?
     @State private var showingAlternates = false
     @State private var highlighted = 0
     @State private var longPressWork: DispatchWorkItem?
+    /// 이 키의 보이는 판이 판 전체에서 어디에 있는가. 풍선이 가장자리 밖으로 나가지 않게 쓴다.
+    @State private var keyFrame: CGRect = .zero
 
     private static var longPressDelay: TimeInterval { 0.4 }
 
+    private var showsPopup: Bool { pressStarted != nil && !showingAlternates }
+
     var body: some View {
-        GeometryReader { geo in
-            label()
-                .scaleEffect(pressStarted != nil && !showingAlternates ? 0.94 : 1)
-                .animation(.easeOut(duration: 0.08), value: pressStarted != nil)
-                .contentShape(Rectangle())
-                .gesture(
-                    DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                        .onChanged { value in
-                            if pressStarted == nil { began(alignLeading: isLeadingHalf(geo)) }
-                            if showingAlternates {
-                                let step = keyWidth + 4
-                                let raw = Int((value.translation.width / step).rounded())
-                                let options = options(alignLeading: isLeadingHalf(geo))
-                                let index = min(max(raw, 0), options.count - 1)
-                                if index != highlighted {
-                                    highlighted = index
-                                    onAlternatesMoved(index)
-                                }
-                            }
-                        }
-                        .onEnded { _ in ended() }
-                )
+        let visualWidth = cellWidth - metrics.gapX
+        ZStack {
+            RoundedRectangle(cornerRadius: style.cornerRadius, style: .continuous)
+                .fill(style.fill(.letter, pressed: pressStarted != nil))
+                .shadow(color: style.shadow, radius: 0, x: 0, y: 1)
+            Text(key)
+                .font(.system(size: metrics.letterFontSize))
+                .foregroundColor(style.label)
         }
-        .frame(width: keyWidth)
+        .frame(width: visualWidth, height: metrics.keyHeight)
+        .background(
+            GeometryReader { geo in
+                Color.clear
+                    .onAppear { keyFrame = geo.frame(in: .named(TypingLetterKeySpace.name)) }
+                    .onChange(of: geo.frame(in: .named(TypingLetterKeySpace.name))) { _, frame in keyFrame = frame }
+            }
+        )
+        .overlay(alignment: .bottom) {
+            if showsPopup { popup(visualWidth: visualWidth) }
+        }
+        .padding(.leading, metrics.gapX / 2 + leadExtra)
+        .padding(.trailing, metrics.gapX / 2 + trailExtra)
+        .frame(width: cellWidth + leadExtra + trailExtra, height: metrics.rowPitch)
+        .contentShape(Rectangle())
+        .zIndex(showsPopup ? 1 : 0)
+        .gesture(
+            DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                .onChanged { value in
+                    if pressStarted == nil { began(alignLeading: isLeadingHalf) }
+                    if showingAlternates {
+                        let step = metrics.keyWidth + 4
+                        let raw = Int((value.translation.width / step).rounded())
+                        let options = options
+                        let index = min(max(raw, 0), options.count - 1)
+                        if index != highlighted {
+                            highlighted = index
+                            onAlternatesMoved(index)
+                        }
+                    }
+                }
+                .onEnded { _ in ended() }
+        )
+        .accessibilityElement(children: .ignore)
+        .accessibilityAddTraits(.isKeyboardKey)
+        .accessibilityAction { onTap() }
     }
 
-    private func isLeadingHalf(_ geo: GeometryProxy) -> Bool {
-        geo.frame(in: .named(TypingLetterKeySpace.name)).midX < panelWidth / 2
+    /// 미리보기 풍선. iOS 26 기본 키보드처럼 키에서 떨어진 둥근 판이 키 위에 뜨고, 키는 눌린 색이 된다.
+    ///
+    /// 잰 값: 풍선 폭 = 키 폭 x 1.72, 높이 = 키 높이 x 1.53, 키 윗변과 3pt 띄움, 글자 약 38pt.
+    /// ⚠️ 맨 윗줄은 위로 띠 높이만큼만 솟을 수 있어 그만큼 낮게 그린다(확장은 제 영역 밖에 못 그린다).
+    private func popup(visualWidth: CGFloat) -> some View {
+        let lift: CGFloat = 3
+        let width = visualWidth * 1.72
+        let height = max(metrics.keyHeight, min(metrics.keyHeight * 1.53, maxRise - lift))
+        // 가장자리 키는 풍선을 안쪽으로 민다.
+        var dx: CGFloat = 0
+        if panelWidth > 0 {
+            let half = width / 2
+            let leftOver = (keyFrame.midX - half) - 1
+            let rightOver = panelWidth - 1 - (keyFrame.midX + half)
+            if leftOver < 0 { dx = -leftOver } else if rightOver < 0 { dx = rightOver }
+        }
+        return Text(key)
+            .font(.system(size: min(metrics.letterFontSize * 1.75, height * 0.62)))
+            .foregroundColor(style.label)
+            .frame(width: width, height: height)
+            .background(
+                RoundedRectangle(cornerRadius: style.cornerRadius * 1.4, style: .continuous)
+                    .fill(style.fill(.letter, pressed: false))
+                    .shadow(color: .black.opacity(style.isDark ? 0.45 : 0.18), radius: 3, x: 0, y: 1)
+            )
+            .offset(x: dx, y: -(metrics.keyHeight + lift))
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
     }
 
-    private func options(alignLeading: Bool) -> [String] { [key] + alternates }
+    private var isLeadingHalf: Bool { keyFrame.midX < panelWidth / 2 }
+
+    private var options: [String] { [key] + alternates }
 
     private func began(alignLeading: Bool) {
         pressStarted = Date()
@@ -648,7 +1086,7 @@ private struct TypingLetterKey<Label: View>: View {
         let work = DispatchWorkItem {
             showingAlternates = true
             KeyboardHaptics.softTap()
-            onAlternatesBegan(options(alignLeading: alignLeading), alignLeading)
+            onAlternatesBegan(options, alignLeading)
         }
         longPressWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.longPressDelay, execute: work)

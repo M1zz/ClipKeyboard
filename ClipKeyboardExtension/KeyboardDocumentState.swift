@@ -139,6 +139,10 @@ final class KeyboardDocumentState: ObservableObject {
     /// 아무 일도 일어나지 않는다. 이름이 있는 키는 그 이름의 일을 할 것처럼 보인다.
     @Published var returnNeedsText: Bool = false
 
+    /// 커서가 문장 첫머리에 있는가(입력칸의 대문자 규칙까지 따져서). 자판이 Shift 를 저절로 켤 때 본다.
+    /// 참 · 거짓이 바뀔 때만 알린다. 글자마다 판 전체를 다시 그리지 않게.
+    @Published var startsSentence: Bool = false
+
     /// 지금 리턴 키를 눌러도 소용없는가. **판정은 여기 하나뿐이다.**
     ///
     /// 앱 안의 무대는 그 트레잇을 켜지 않으므로 늘 거짓이고, 거기서는 줄바꿈이 제 일을 한다.
