@@ -14,6 +14,238 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.13
+
+### 앱스토어 (한국어)
+
+```
+키보드가 iPhone 기본 키보드와 같은 모양이 됐어요.
+천지인도 iPhone과 같은 배열로 바뀌었어요.
+단축어를 넣으면 쓰던 키보드로 돌아가요.
+처음 쓰는 화면이 한결 가벼워졌어요.
+전체 접근을 켜고 오면 바로 확인돼요.
+```
+
+### App Store (English)
+
+```
+The keyboard now looks just like the iPhone keyboard.
+The Korean Cheonjiin layout now matches iPhone.
+After a snippet, you're back on your own keyboard.
+Getting started feels lighter and calmer.
+Full Access is confirmed as soon as you come back.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+键盘外观现在与 iPhone 自带键盘一致。
+韩文天地人布局也与 iPhone 相同。
+输入短语后，会切回你原来的键盘。
+初次使用的界面更简洁了。
+打开完全访问后返回，立即就能确认。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+鍵盤外觀現在與 iPhone 內建鍵盤一致。
+韓文天地人配置也與 iPhone 相同。
+輸入短語後，會切回你原本的鍵盤。
+初次使用的畫面更簡潔了。
+開啟完整取用後返回，立即就能確認。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Клавиатура теперь выглядит как стандартная на iPhone.
+Корейская раскладка Чхонджиин теперь как на iPhone.
+После вставки фразы вернётся ваша клавиатура.
+Первые шаги стали проще и спокойнее.
+Полный доступ виден сразу, как только вы вернётесь.
+```
+
+### App Store (Japanese, ja)
+
+```
+キーボードがiPhone標準と同じ見た目になりました。
+韓国語の天地人もiPhoneと同じ配列になりました。
+定型文を入力すると、元のキーボードに戻ります。
+はじめての画面がすっきりしました。
+フルアクセスをオンにして戻ると、すぐに反映されます。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+El teclado ahora se ve igual que el del iPhone.
+La distribución coreana Cheonjiin ya es como en iPhone.
+Al insertar una frase, vuelves a tu teclado.
+Empezar es más sencillo y tranquilo.
+El acceso total se confirma en cuanto regresas.
+```
+
+### App Store (German, de-DE)
+
+```
+Die Tastatur sieht jetzt aus wie die iPhone-Tastatur.
+Das koreanische Cheonjiin-Layout entspricht dem iPhone.
+Nach einem Textbaustein bist du wieder auf deiner Tastatur.
+Der Einstieg ist schlichter und ruhiger.
+Vollzugriff wird sofort erkannt, wenn du zurückkommst.
+```
+
+### App Store (Thai, th)
+
+```
+แป้นพิมพ์หน้าตาเหมือนแป้นพิมพ์ของ iPhone แล้ว
+แป้นพิมพ์เกาหลีเชียนจีจัดวางแบบเดียวกับ iPhone
+ใส่ข้อความด่วนแล้วจะกลับไปที่แป้นพิมพ์เดิม
+หน้าจอเริ่มต้นใช้งานเรียบง่ายขึ้น
+เปิดการเข้าถึงทั้งหมดแล้วกลับมา จะเห็นผลทันที
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Bàn phím giờ trông giống hệt bàn phím iPhone.
+Bố cục Cheonjiin tiếng Hàn nay giống trên iPhone.
+Chèn cụm từ xong, bạn quay lại bàn phím của mình.
+Màn hình bắt đầu gọn gàng và nhẹ nhàng hơn.
+Bật truy cập đầy đủ rồi quay lại là được xác nhận ngay.
+```
+
+### App Store (French, fr-FR)
+
+```
+Le clavier ressemble désormais à celui de l’iPhone.
+La disposition coréenne Cheonjiin est comme sur iPhone.
+Après une phrase, vous revenez à votre clavier.
+Les premiers pas sont plus simples et plus calmes.
+L’accès complet est confirmé dès votre retour.
+```
+
+### App Store (Italian, it)
+
+```
+La tastiera ora è identica a quella di iPhone.
+Il layout coreano Cheonjiin ora è come su iPhone.
+Dopo una frase torni alla tua tastiera.
+I primi passi sono più semplici e tranquilli.
+L’accesso completo viene confermato appena torni.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+O teclado agora é igual ao teclado do iPhone.
+O layout coreano Cheonjiin agora é como no iPhone.
+Depois de inserir uma frase, você volta ao seu teclado.
+Começar a usar ficou mais simples e tranquilo.
+O acesso total é confirmado assim que você volta.
+```
+
+### App Store (Czech, cs)
+
+```
+Klávesnice teď vypadá stejně jako na iPhonu.
+Korejské rozložení Cheonjiin je teď jako na iPhonu.
+Po vložení fráze se vrátíte ke své klávesnici.
+Začátky jsou jednodušší a klidnější.
+Plný přístup se potvrdí hned po návratu.
+```
+
+### App Store (Danish, da)
+
+```
+Tastaturet ligner nu iPhones eget tastatur.
+Det koreanske Cheonjiin-layout er nu som på iPhone.
+Når du har indsat en frase, er du tilbage på dit tastatur.
+Det er blevet enklere og roligere at komme i gang.
+Fuld adgang bekræftes, så snart du kommer tilbage.
+```
+
+### App Store (Greek, el)
+
+```
+Το πληκτρολόγιο μοιάζει πλέον με αυτό του iPhone.
+Η κορεατική διάταξη Τσεονζίν είναι πλέον όπως στο iPhone.
+Μετά από μια φράση επιστρέφετε στο πληκτρολόγιό σας.
+Τα πρώτα βήματα είναι πιο απλά και πιο ήρεμα.
+Η πλήρης πρόσβαση επιβεβαιώνεται μόλις επιστρέψετε.
+```
+
+### App Store (Finnish, fi)
+
+```
+Näppäimistö näyttää nyt samalta kuin iPhonen oma.
+Korealainen Cheonjiin-asettelu on nyt kuin iPhonessa.
+Fraasin jälkeen palaat omaan näppäimistöösi.
+Alkuun pääsee nyt helpommin ja rauhallisemmin.
+Täysi käyttö vahvistuu heti, kun palaat.
+```
+
+### App Store (Indonesian, id)
+
+```
+Papan ketik kini tampak sama seperti papan ketik iPhone.
+Tata letak Cheonjiin Korea kini sama seperti di iPhone.
+Setelah memasukkan frasa, Anda kembali ke papan ketik Anda.
+Langkah awal kini lebih sederhana dan tenang.
+Akses Penuh langsung terkonfirmasi begitu Anda kembali.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Tastaturet ser nå ut akkurat som iPhone-tastaturet.
+Den koreanske Cheonjiin-layouten er nå som på iPhone.
+Etter en frase er du tilbake på ditt eget tastatur.
+Det er blitt enklere og roligere å komme i gang.
+Full tilgang bekreftes med en gang du kommer tilbake.
+```
+
+### App Store (Dutch, nl)
+
+```
+Het toetsenbord ziet er nu uit als dat van de iPhone.
+De Koreaanse Cheonjiin-indeling is nu zoals op iPhone.
+Na een fragment ben je terug op je eigen toetsenbord.
+Beginnen is eenvoudiger en rustiger geworden.
+Volledige toegang wordt bevestigd zodra je terugkomt.
+```
+
+### App Store (Polish, pl)
+
+```
+Klawiatura wygląda teraz jak klawiatura iPhone’a.
+Koreański układ Cheonjiin jest teraz jak na iPhonie.
+Po wstawieniu frazy wracasz do swojej klawiatury.
+Pierwsze kroki są prostsze i spokojniejsze.
+Pełny dostęp jest potwierdzany zaraz po powrocie.
+```
+
+### App Store (Swedish, sv)
+
+```
+Tangentbordet ser nu ut precis som iPhones.
+Den koreanska Cheonjiin-layouten är nu som på iPhone.
+Efter en fras är du tillbaka på ditt eget tangentbord.
+Det har blivit enklare och lugnare att komma igång.
+Full åtkomst bekräftas så fort du kommer tillbaka.
+```
+
+### App Store (Turkish, tr)
+
+```
+Klavye artık iPhone klavyesiyle aynı görünüyor.
+Korece Cheonjiin düzeni artık iPhone’daki gibi.
+Bir ifade ekledikten sonra kendi klavyenize dönersiniz.
+Başlangıç ekranları daha sade ve sakin.
+Tam erişim, geri döndüğünüz anda onaylanır.
+```
+
 ## 5.1.12
 
 ### 앱스토어 (한국어)
