@@ -34,6 +34,7 @@ protocol TypingInputProxy: AnyObject {
 
     func cursorRight()
     func clearAll()
+
 }
 
 // MARK: - 엔진
@@ -127,8 +128,11 @@ final class HangulTypingEngine: TypingEngine {
     private let cheonjiin = CheonjiinInput()
     private let layout: KoreanTypingLayout
 
+    private weak var proxyTyping: TypingInputProxy?
+
     init(proxy: TypingInputProxy, layout: KoreanTypingLayout) {
         self.layout = layout
+        self.proxyTyping = proxy
         composer.proxy = HangulProxyAdapter(typing: proxy)
         cheonjiin.composer = composer
     }
@@ -145,6 +149,14 @@ final class HangulTypingEngine: TypingEngine {
             }
             composer.input(jamo)
         case .cheonjiin:
+            if key == CheonjiinInput.advanceKey {
+                // 끊을 자음 돌림이 없으면 기본 10키처럼 커서를 한 칸 옮긴다.
+                if !cheonjiin.advance() {
+                    cheonjiin.commit()
+                    proxyTyping?.cursorRight()
+                }
+                return
+            }
             if CheonjiinInput.handles(key) {
                 cheonjiin.tap(key)
             } else {

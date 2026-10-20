@@ -76,9 +76,23 @@ final class CheonjiinInput {
 
     // MARK: - Public API
 
+    /// → 키. 기본 10키의 '다음 글자' 키와 같다.
+    static let advanceKey = "→"
+
     /// 천지인 키인가(자음 묶음 키 · ㅣ ㆍ ㅡ). 아니면 자판이 그대로 넣는다.
     static func handles(_ key: String) -> Bool {
         consonantCycles[key] != nil || key == "ㅣ" || key == "ㆍ" || key == "ㅡ"
+    }
+
+    /// → 키: 자음 돌림을 끊는다. 같은 자음 키를 다시 누르면 다음 자모(ㅋ)가 아니라 새 자음(ㄱ)이 된다.
+    /// - Returns: 끊을 돌림이 있었으면 true. 없으면 부르는 쪽이 커서를 한 칸 옮긴다.
+    @discardableResult
+    func advance() -> Bool {
+        guard lastConsonantKey != nil else { return false }
+        lastConsonantKey = nil
+        lastTapTime = nil
+        consonantTapIndex = 0
+        return true
     }
 
     /// 천지인 키 탭. consonantCycles에 있으면 자음 multi-tap, 그 외엔 모음 stroke.
