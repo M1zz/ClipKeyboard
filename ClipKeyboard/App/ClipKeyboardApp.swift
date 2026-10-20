@@ -210,6 +210,14 @@ struct ClipKeyboardApp: App {
         // 여기서부터 SwiftUI 가 `body` 를 처음 평가한다 - 워치독의 `scene-create` 창이다.
         // 이 표식이 없으면 첫 화면을 그리다 죽은 사고가 직전 단계(`tips`) 것으로 기록된다.
         LaunchGuard.markFirstFrame()
+
+        // 화면 없이 깨어난 프로세스(백그라운드 새로고침 · 인텐트 · 동기화 푸시)는 첫 화면이 오지 않는다.
+        // 그대로 두면 위 표식이 남아, 다음에 사용자가 열 때 죽은 적 없는 런치가 세이프 모드로 열린다.
+        // 씬이 붙었으면 아무것도 안 한다(`LaunchGuard.closeIfBackgroundLaunch` 주석).
+        // ⚠️ 3초 뒤에 본다. 앞으로 열리는 런치라면 그때는 씬이 이미 붙어 있다.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            LaunchGuard.closeIfBackgroundLaunch("init+3s")
+        }
     }
 
     // MARK: - 계약 점검 (DEBUG)
@@ -255,6 +263,9 @@ struct ClipKeyboardApp: App {
     ///    (되풀이해서 같은 단계가 멈추면 `LaunchGuard` 가 그 단계를 이 버전 동안 격리한다)
     @MainActor
     private func runLaunchSequence() async {
+        // 씬이 붙었다. 이제부터 이 프로세스는 화면 없는 런치가 아니다.
+        LaunchGuard.markSceneStarted()
+
         // 첫 프레임을 먼저 내보낸다. 아래 일들이 메인 스레드를 쓰긴 하지만, 그때는 이미
         // 화면이 떠 있어서 "런치가 안 끝난 앱"으로 죽지 않는다.
         await Task.yield()
@@ -327,11 +338,14 @@ struct ClipKeyboardApp: App {
             #endif
         }
 
+        // ③-a 직전 런치가 멈췄다면 그 단계 이름을 여기서 한 번 보낸다.
+        //     재현 안 되는 런치 크래시를 남의 기기에서 알아내는 유일한 통로다.
+        //     ⚠️ 아래 `optional(.analytics)` 안에 두지 않는다. 멈춘 기록이 있는 런치는 늘 세이프
+        //        모드라 그 묶음을 통째로 건너뛰어, 보낼 일이 있을 때마다 못 보냈다.
+        LaunchGuard.reportStallIfNeeded()
+
         // ③ 익명 사용 통계.
         LaunchGuard.optional(.analytics) {
-            // 직전 런치가 멈췄다면 그 단계 이름을 여기서 한 번 보낸다.
-            // 재현 안 되는 런치 크래시를 남의 기기에서 알아내는 유일한 통로다.
-            LaunchGuard.reportStallIfNeeded()
             // 키보드가 끝까지 못 뜬 횟수도 같은 이름으로 보낸다(`launch_incomplete:keyboard`).
             // 키보드는 허브로 직접 못 보내서(전체 접근 · iCloud) App Group 에 적어 두고 앱이 나른다.
             // 릴리즈 건강 카드가 이것을 불안정 설치로 센다. 통로가 없으면 꺼내지 않는다(다음에 보낸다).

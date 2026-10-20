@@ -26,6 +26,9 @@
 //
 
 import Foundation
+#if canImport(UIKit)
+import UIKit
+#endif
 
 enum LaunchGuard {
 
@@ -89,6 +92,9 @@ enum LaunchGuard {
 
     /// 되풀이해서 멈춘 탓에 이번 빌드에서는 시작하지 않는 단계들.
     private(set) static var quarantined: Set<String> = []
+
+    /// 이 프로세스에 화면(씬)이 붙어 첫 화면 뒤의 런치 작업이 시작됐는가(`markSceneStarted`).
+    private(set) static var sceneStarted = false
 
     private static var defaults: UserDefaults { AppGroup.defaults ?? .standard }
 
@@ -165,6 +171,36 @@ enum LaunchGuard {
         mark(.firstFrame, tier: .essential)
     }
 
+    // MARK: - 화면 없는 런치(백그라운드)
+
+    /// 화면이 붙어 `runLaunchSequence()` 가 돌기 시작했다. 그 맨 앞에서 1회.
+    static func markSceneStarted() {
+        sceneStarted = true
+    }
+
+    /// 이 프로세스가 **화면 없이** 깨어난 것이면 런치를 닫는다.
+    ///
+    /// 왜: 백그라운드 새로고침(`BeaconBackgroundScheduler`), 앱을 띄우지 않는 인텐트
+    /// (`AddQuickNoteIntent`), iCloud 동기화 푸시는 앱을 뒤에서 깨운다. 그때도 `init()` 은
+    /// 그대로 돌아 `first-frame` 표식을 남기지만, 씬이 붙지 않으니 `.task` 도 `scenePhase` 도
+    /// 오지 않아 `finish()` 를 부를 사람이 없다. 그 프로세스가 나중에 시스템 정리로 조용히
+    /// 사라지면, 다음에 사용자가 앱을 열 때 "직전 런치가 첫 화면에서 멈췄다" 로 읽혀
+    /// **세이프 모드로 열린다**(동기화 · 백업 · 통계 · 안내를 통째로 쉰다). 죽은 적이 없는데도.
+    ///
+    /// ⚠️ 씬이 하나라도 붙어 있으면 아무것도 하지 않는다. 첫 화면을 그리다 멈춘 진짜 사고
+    ///    (`scene-create` 워치독)를 지우면 안 된다. 그때는 메인 스레드가 막혀 있어서 이 함수가
+    ///    불릴 일도 없다.
+    /// ⚠️ 같은 프로세스에 나중에 씬이 붙으면 `runLaunchSequence()` 의 단계들이 표식을 다시 남긴다.
+    static func closeIfBackgroundLaunch(_ reason: String) {
+        guard !sceneStarted else { return }
+        #if canImport(UIKit)
+        guard UIApplication.shared.connectedScenes.isEmpty else { return }
+        #endif
+        guard defaults.string(forKey: DefaultsKey.launchStageInFlight) != nil else { return }
+        AppLog.info(.launch, "🌙 [LaunchGuard.closeIfBackgroundLaunch] 화면 없이 깨어남(\(reason)), 런치를 닫는다")
+        finish()
+    }
+
     // MARK: - 단계 실행
 
     /// 데이터 무결성에 필요한 단계 - 세이프 모드에서도 반드시 돈다.
@@ -191,8 +227,21 @@ enum LaunchGuard {
 
     /// 직전 런치가 멈췄다면 그 사실을 허브로 한 번 보낸다.
     /// ⚠️ 통계 훅이 꽂힌 **뒤에** 부를 것. 단계 이름만 가고 내용은 실리지 않는다.
+    ///
+    /// ⚠️ **세이프 모드에서도 부른다.** 멈춘 기록이 있으면 이번 런치는 언제나 세이프 모드라,
+    ///    예전처럼 `optional(.analytics)` 안에서 부르면 보낼 일이 있을 때마다 건너뛰었다
+    ///    (5.1.11 · 5.1.12 에서 이 이벤트는 한 번도 나가지 못했다. 허브의 불안정 설치는 전부
+    ///    `launch_incomplete:keyboard` 였다).
+    ///    대신 보내는 길(통계) 자체가 멈춘 자리였거나 격리됐으면 보내지 않는다. 같은 자리에서
+    ///    또 죽을 수 있다. 보내기 전에 그 단계 표식을 남겨, 여기서 죽어도 다음 런치가 알아본다.
     static func reportStallIfNeeded() {
         guard let stage = stalledStage else { return }
+        let analytics = Stage.analytics.rawValue
+        guard stage != analytics, !quarantined.contains(analytics) else {
+            AppLog.warning(.launch, "⏭ [LaunchGuard.reportStallIfNeeded] 통계 단계에서 멈췄던 기록이라 보내지 않는다")
+            return
+        }
+        mark(.analytics, tier: .optional)
         AnalyticsService.log(.launchIncomplete, parameters: [.source: stage])
     }
 

@@ -30,6 +30,9 @@ struct AddQuickNoteIntent: AppIntent {
             return .result(dialog: "Nothing to save.")
         }
         QuickNoteStore.shared.add(QuickNote(text: trimmed, source: "shortcut"))
+        // 앱을 띄우지 않는 인텐트라 화면 없이 깨어났을 수 있다. 그 런치를 여기서 닫는다
+        // (`LaunchGuard.closeIfBackgroundLaunch`). 메인에서 본다.
+        await MainActor.run { LaunchGuard.closeIfBackgroundLaunch("add-quick-note-intent") }
         return .result(dialog: "Saved to your ClipKeyboard inbox.")
     }
 }

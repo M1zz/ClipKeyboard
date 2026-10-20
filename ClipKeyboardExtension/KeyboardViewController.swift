@@ -142,6 +142,16 @@ class KeyboardViewController: UIInputViewController {
         setupHeightConstraint()
         configureNextKeyboardButton()
 
+        // 호스트 앱이 뒤로 가면 키보드도 같이 내려가고, 그 프로세스는 곧 정리된다. 뜬 지 3초 안에
+        // 그렇게 내려간 판은 `viewWillDisappear` 없이 사라질 수 있어 "끝까지 못 뜸" 으로 남았다.
+        // 사용자가 다른 데로 간 것이지 죽은 것이 아니다(허브의 `launch_incomplete:keyboard` 를 부풀린다).
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(hostWillLeave),
+            name: .NSExtensionHostWillResignActive, object: nil)
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(hostWillLeave),
+            name: .NSExtensionHostDidEnterBackground, object: nil)
+
         // ⚠️ 무거운 준비(단축어 읽기 · SwiftUI 판)보다 **먼저** 묻는다. 죽는 자리가 그 안이다.
         if crashGuard.beginLaunch() {
             print("🛟 [KeyboardViewController] 직전 실행들이 끝까지 못 떠서 최소 화면으로 연다")
@@ -771,6 +781,11 @@ class KeyboardViewController: UIInputViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 몇 초 안에 내린 사람을 죽은 것으로 세지 않는다.
+        crashGuard.markLaunchSucceeded()
+    }
+
+    /// 호스트 앱이 비활성 · 백그라운드로 간다. 여기까지 왔으면 이 판은 뜨다가 죽은 것이 아니다.
+    @objc private func hostWillLeave() {
         crashGuard.markLaunchSucceeded()
     }
 
