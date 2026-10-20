@@ -149,6 +149,13 @@ struct Constants {
     /// App Store 앱 페이지 URL
     static let appStoreURL = "https://apps.apple.com/app/id\(appStoreID)"
 
+    /// Mac 앱(탭클립키보드, `com.ysoup.TokenMemo-tap`)의 App Store 앱 ID.
+    /// ⚠️ 아이폰 앱과 **다른 앱 레코드**다. 번들 ID 가 달라 Universal Purchase 가 아니다.
+    static let macAppStoreID = "6756433372"
+
+    /// Mac 앱 페이지. Mac 에서 열면 App Store 앱이 그 페이지로 열린다.
+    static let macAppStoreURL = "https://apps.apple.com/app/id\(macAppStoreID)"
+
     /// 개발자 이메일
     static let developerEmail = "leeo@kakao.com"
 

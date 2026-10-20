@@ -1961,6 +1961,12 @@
     "comment": "Changelog 4.0.1 item 1",
     "h": "a9581bc99c"
   },
+  "Mac에서는 탭클립키보드를 받아 주세요": {
+    "ko": "Mac에서는 탭클립키보드를 받아 주세요",
+    "en": "On a Mac, get ClipKeyboard for Mac",
+    "comment": "Shown when the iPhone app is opened on a Mac: title asking to download the Mac app (Tap ClipKeyboard)",
+    "h": "4ce028311c"
+  },
   "Manage categories": {
     "ko": "카테고리 관리",
     "en": "Manage categories",
@@ -11938,6 +11944,12 @@
     "en": "This app has no server. Your account numbers and ID numbers live only on this phone, and even we can't see them. There's no server to breach, so there's nothing to breach.",
     "comment": "DYK body: no server",
     "h": "748fd3e528"
+  },
+  "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
+    "ko": "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.",
+    "en": "This app works through the iPhone keyboard, so it can't type your snippets on a Mac. ClipKeyboard for Mac pastes them into any app from the menu bar or a keyboard shortcut.",
+    "comment": "Shown when the iPhone app is opened on a Mac: why, and what the Mac app does",
+    "h": "2e5ad98226"
   },
   "이 앱을 쓰느라 든 시간": {
     "ko": "이 앱을 쓰느라 든 시간",

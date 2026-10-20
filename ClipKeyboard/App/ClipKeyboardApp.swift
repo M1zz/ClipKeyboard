@@ -1224,6 +1224,9 @@ struct ClipKeyboardApp: App {
             // 테스트 러너가 즉시 연결되게 한다. (ViewBuilder 조건 분기)
             if ClipKeyboardApp.isRunningUnitTests {
                 Color.clear
+            } else if MacOnlyGuideView.isRunningOnMac {
+                // Mac 에서 열면 Mac 앱(탭클립키보드)을 받으라는 안내 하나만. 키보드가 안 붙는 곳이다.
+                AppThemedContainer { MacOnlyGuideView() }
             } else {
             AppThemedContainer {
             MainTabView()
