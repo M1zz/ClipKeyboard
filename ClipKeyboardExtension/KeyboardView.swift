@@ -365,6 +365,10 @@ struct KeyboardView: View {
 
     // 데이터 상태
     @State private var allMemos: [Memo] = []
+    /// "한도까지 n개 남음" 띠를 세워도 되는가. 키보드가 뜰 때 한 번 본다(`PromptLedger`).
+    ///
+    /// ⚠️ 그릴 때마다 원장을 읽지 않는다. 키보드는 자주 다시 그려진다.
+    @State private var limitNudgeAllowed = false
     /// 단축어 목록 · 갈래 설정이 바뀔 때마다 하나씩 오른다. 그릴 때마다 다시 계산하던 것들
     /// (탭 줄 · 검색 결과 · 빠른 줄 · 키 색과 미리보기)은 이 값이 같으면 `renderCache` 의 것을 쓴다.
     @State private var memosVersion = 0
@@ -1188,9 +1192,17 @@ struct KeyboardView: View {
             // 전체 접근이 꺼져 있으면 그 말이 먼저다. 띠를 둘 겹치면 단축어 자리가 너무 준다.
             if showsFullAccessBanner {
                 fullAccessBanner
-            } else if isFreeUser && !isReorderMode && (hiddenMemoCount > 0 || isMemoLimitNear) {
-                // 무료 유저: 숨겨진 메모 있을 때 또는 한도 임박(2개 이내) 시 업그레이드 배너
+            } else if isFreeUser && !isReorderMode && hiddenMemoCount > 0 {
+                // 무료 유저: 숨겨진 메모가 있으면 늘 선다. 권하는 말이 아니라 지금 상태다.
                 freeUpgradeBanner
+            } else if isFreeUser && !isReorderMode && isMemoLimitNear && limitNudgeAllowed {
+                // 한도 임박(2개 이내)은 **권하는 말**이다. 앱의 프로 넛지 · 반값 제안과 같은 예산을 쓴다.
+                // 앱이 오늘 돈 이야기를 했거나, 돌아온 사람 · 쌓아 두는 사람 · 학생이면 서지 않는다.
+                freeUpgradeBanner
+                    .onAppear {
+                        // 돈 예산은 쓴 날을 세지 않는다(활동일은 소식 예산에만 쓴다).
+                        PromptLedger.noteSpoke(.money, id: Self.limitNudgeID, activeDays: 0)
+                    }
             }
 
             // 순서를 바꾸는 동안에는 위 줄을 이 안내가 대신 쓴다.
@@ -1490,6 +1502,7 @@ struct KeyboardView: View {
         .onAppear {
             loadAllMemos()
             revealHighlightedPageIfNeeded()
+            limitNudgeAllowed = PromptLedger.keyboardMayShowMoney(id: Self.limitNudgeID)
 
             guard templateObserverToken == nil else { return }
             // 템플릿 입력 알림 구독
@@ -1657,6 +1670,9 @@ struct KeyboardView: View {
         let remaining = max(0, ProFeatureManager.memoLimit - ownMemoCount)
         return String(format: NSLocalizedString("단축어 한도까지 %d개 남음 → Pro 업그레이드", comment: "Memo limit near banner"), remaining)
     }
+
+    /// 원장에 적는 이름. 한 번 정하면 바꾸지 않는다.
+    private static let limitNudgeID = "keyboardLimitNudge"
 
     /// 한도 도달 임박 (남은 슬롯 2개 이하)
     private var isMemoLimitNear: Bool {

@@ -21,7 +21,7 @@ struct KeyboardSetupRequiredBanner: View {
     @State private var showsSetup = false
 
     var body: some View {
-        DismissibleRow(isShowing: !isUsable) {
+        PromptRow(.keyboardSetup, wants: !isUsable) {
             Button {
                 HapticManager.shared.light()
                 showsSetup = true

@@ -2308,7 +2308,7 @@
     "src": "c581e54a3d"
   },
   "iCloud 설정 화면": {
-    "v": "iCloud-asetusnäkymä",
+    "v": "iCloud-asetusten näkymä",
     "src": "9b9552fa70"
   },
   "iCloud 저장 공간이 부족합니다. 설정 > [사용자 이름] > iCloud > 저장 공간 관리에서 확인해주세요.": {
@@ -2833,7 +2833,7 @@
     "src": "eb3e6a1ba8"
   },
   "결제 · 구매 복원": {
-    "v": "Maksut · Palauta ostokset",
+    "v": "Maksut · Osto palautus",
     "src": "6ca05a2625"
   },
   "결제 실패": {
@@ -3027,7 +3027,7 @@
     "src": "710c8daa64"
   },
   "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
-    "v": "Tarkista ensin, että olet kirjautunut sillä Apple-tilillä, jolla teit ostoksen. Ostokset on sidottu siihen tiliin.",
+    "v": "Tarkista ensin, että olet kirjautunut sillä Apple-tilillä, jolla teit oston. Ostos on sidottu siihen tiliin.",
     "src": "9486e90c00"
   },
   "국가 코드부터 끝까지 입력해 주세요": {
@@ -3073,7 +3073,7 @@
     "src": "bb24d4c594"
   },
   "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
-    "v": "Ota kuvakaappaus kyseisestä näkymästä sellaisenaan. Jos käännös kuulostaa oudolta, kerro, miten se kuuluisi luontevasti. Käytämme sinun sanamuotoasi.",
+    "v": "Ota kuvakaappaus kyseisestä näkymästä sellaisenaan. Jos käännös kuulostaa oudolta, kirjoita, miten se kuuluisi sanoa luontevasti. Käytämme sinun sanamuotoasi.",
     "src": "a6067d252a"
   },
   "그거 아세요?": {
@@ -3112,7 +3112,7 @@
     "src": "4d7e9923fb"
   },
   "그때 집중 모드나 무음 모드였나요? (선택)": {
-    "v": "Oliko silloin Keskitys- tai Äänetön-tila päällä? (valinnainen)",
+    "v": "Oliko Keskittyminen tai Äänetön-tila päällä silloin? (valinnainen)",
     "src": "0548daa9e3"
   },
   "그래도 백업": {
@@ -3752,7 +3752,7 @@
     "src": "b9d49c6e77"
   },
   "느리거나 버벅여요": {
-    "v": "Hidas tai nykivä",
+    "v": "Sovellus on hidas tai nykii",
     "src": "44bedc6b6a"
   },
   "늘 이 자리: %@": {
@@ -4875,7 +4875,7 @@
     "src": "bdaf65bee7"
   },
   "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
-    "v": "Yksi kuvakaappaus nykimisen hetkestä riittää. Kun näemme, mitä näkymässä on ja kuinka paljon, syyn löytäminen on nopeampaa.",
+    "v": "Yksi kuvakaappaus nykivästä näkymästä riittää. Kun näemme, mitä näkymässä on ja kuinka paljon, löydämme syyn nopeammin.",
     "src": "e15a2fb4d2"
   },
   "메뉴바 아이콘: 🛶": {
@@ -5174,7 +5174,7 @@
     "src": "5f3b9f1f59"
   },
   "무엇이, 얼마나 사라졌나요?": {
-    "v": "Mikä katosi ja kuinka paljon?",
+    "v": "Mitä katosi ja kuinka paljon?",
     "src": "e8bee7e094"
   },
   "무제한": {
@@ -6111,7 +6111,7 @@
     "src": "e1e2b47f34"
   },
   "사라지기 전에 무엇을 했나요?": {
-    "v": "Mitä teit ennen kuin se katosi?",
+    "v": "Mitä teit ennen kuin tiedot katosivat?",
     "src": "4fd4efcd55"
   },
   "사번/학번": {
@@ -6661,15 +6661,15 @@
     "src": "64252656f2"
   },
   "설정 앱 > 알림 > 이 앱 화면을 찍어 주세요. 알림 허용, 잠금 화면, 배너, 사운드가 다 보이게요.": {
-    "v": "Ota kuvakaappaus kohdasta Asetukset > Ilmoitukset > tämä sovellus. Sallitse ilmoitukset, Lukitusnäyttö, Bannerit ja Äänet näkyviin.",
+    "v": "Ota kuvakaappaus kohdasta Asetukset > Ilmoitukset > tämä sovellus niin, että Salli ilmoitukset, Lukitusnäyttö, Bannerit ja Äänet näkyvät kaikki.",
     "src": "bde90d0212"
   },
   "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.": {
-    "v": "Napauta Asetuksissa ylhäältä nimeäsi > iCloud > Näytä kaikki ja ota kuvakaappaus, josta näkyy, onko tämä sovellus päällä. Kuvakaappaukset molemmilta laitteilta ovat vielä parempi.",
+    "v": "Avaa Asetukset, paina nimeäsi ylhäällä > iCloud > Näytä kaikki ja ota kuvakaappaus, josta näkyy, onko tämä sovellus päällä. Kuvakaappaukset molemmilta laitteilta ovat vielä parempi.",
     "src": "f6734b03c2"
   },
   "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
-    "v": "Napauta Asetuksissa ylhäältä nimeäsi > Media ja ostokset > Näytä tili > Ostohistoria, etsi tämän sovelluksen maksu ja ota kuvakaappaus. Päivämäärä ja summa riittävät. Maksutavan voit peittää.",
+    "v": "Avaa Asetukset, paina nimeäsi ylhäällä > Media ja ostokset > Näytä tili > Ostohistoria, etsi tämän sovelluksen maksu ja ota kuvakaappaus. Päivämäärä ja summa riittävät. Maksutavan voit peittää.",
     "src": "2c4dd5890d"
   },
   "설정 앱에서 '동작 버튼'을 열어요": {
@@ -7531,7 +7531,7 @@
     "src": "728d55302a"
   },
   "어느 기기 사이에서, 무엇이 안 맞나요?": {
-    "v": "Mitkä laitteet ja mikä ei täsmää?",
+    "v": "Minkä laitteiden välillä ja mikä ei täsmää?",
     "src": "7faff7af57"
   },
   "어느 화면에서, 얼마나 걸리나요?": {
@@ -7563,7 +7563,7 @@
     "src": "a26f1a2ba4"
   },
   "어떤 알림이, 언제 오기로 돼 있었나요?": {
-    "v": "Mikä ilmoitus piti tulla ja milloin?",
+    "v": "Mikä ilmoitus ja milloin sen piti tulla?",
     "src": "00a1a78353"
   },
   "어떤 앱에서든 글을 고르고 공유에서 ClipKeyboard 를 누르면 단축어가 됩니다. 앱을 열지 않아도 돼요.": {
@@ -7599,7 +7599,7 @@
     "src": "c1f88829b5"
   },
   "언제부터 그랬나요? (선택)": {
-    "v": "Mistä lähtien tämä on tapahtunut? (valinnainen)",
+    "v": "Mistä asti näin on ollut? (valinnainen)",
     "src": "482f56e353"
   },
   "업무": {
@@ -7835,7 +7835,7 @@
     "src": "c0a5a82c2c"
   },
   "예) 매번요. 기기를 껐다 켜도 같아요.": {
-    "v": "Esim. Joka kerta. Sama myös laitteen uudelleenkäynnistyksen jälkeen.",
+    "v": "Esim. Joka kerta. Sama laitteen uudelleenkäynnistyksen jälkeen.",
     "src": "c952ed962c"
   },
   "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
@@ -7843,7 +7843,7 @@
     "src": "5d25eabe10"
   },
   "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
-    "v": "Esim. Asetusnäytön painikkeiden teksti leikkautuu. Tämän lauseen käännös kuulostaa oudolta.",
+    "v": "Esim. Asetusnäytön painikkeen teksti on leikkautunut. Tämän lauseen käännös kuulostaa oudolta.",
     "src": "e32a425323"
   },
   "예) 수면 모드가 켜져 있었어요.": {
@@ -7855,11 +7855,11 @@
     "src": "e193e298fe"
   },
   "예) 앱을 업데이트했어요. 새 아이폰으로 옮겼어요. 앱을 지웠다 다시 깔았어요.": {
-    "v": "Esim. Päivitin appin. Siirryin uuteen iPhoneen. Poistin appin ja asensin sen uudelleen.",
+    "v": "Esim. Päivitin apin. Siirryin uuteen iPhoneen. Poistin apin ja asensin sen uudelleen.",
     "src": "190007f2af"
   },
   "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.": {
-    "v": "Esim. Se jumittuu valkoiseen näyttöön avattaessa. App sulkeutuu, kun painan Tallenna.",
+    "v": "Esim. Se jää valkoiselle näytölle, kun avaan sen. Appi sulkeutuu, kun painan Tallenna.",
     "src": "7fd7282c7d"
   },
   "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
@@ -7867,7 +7867,7 @@
     "src": "b7aa5cb55e"
   },
   "예) 올해 3월쯤, 예전 아이폰에서요.": {
-    "v": "Esim. Maaliskuussa tänä vuonna, vanhalla iPhonellani.",
+    "v": "Esim. Maaliskuun tienoilla tänä vuonna, vanhalla iPhonellani.",
     "src": "1ef384c00a"
   },
   "예) 지난주 업데이트 뒤부터요.": {
@@ -7875,11 +7875,11 @@
     "src": "5b7fbdbe2b"
   },
   "예) 평생 이용권을 샀는데, 앱을 다시 깔고 나니 잠겨 있어요. 복원을 눌러도 없다고 나와요.": {
-    "v": "Esim. Ostin kertamaksulla ikuisen käyttöoikeuden, mutta appin uudelleenasennuksen jälkeen se on lukittu. Palauta-painike sanoo, ettei palautettavaa ole.",
+    "v": "Esim. Ostin kertamaksulla ostettavan käyttöoikeuden, mutta apin uudelleenasennuksen jälkeen se on lukittu. Palauta-painike sanoo, ettei palautettavaa ole.",
     "src": "c935df2f4a"
   },
   "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
-    "v": "Esim. Koti-valikon Widget on jumissa eilisessä arvossa. Tämä app ei näy näppäimistöluettelossa.",
+    "v": "Esim. Koti-valikon Widget on jumissa eilisessä arvossa. Tämä appi ei näy näppäimistöluettelossa.",
     "src": "9713f82101"
   },
   "예: 010-1234-5678": {
@@ -8123,7 +8123,7 @@
     "src": "13d40b4407"
   },
   "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.": {
-    "v": "Ota kuvakaappaus Koti-valikosta, jossa Widget näkyy, tai näytöstä, jossa näppäimistö on esillä. Näppäimistöstä liitä mukaan myös Asetukset > Yleiset > Näppäimistö > Näppäimistöt.",
+    "v": "Ota kuvakaappaus Koti-valikosta, jossa Widget on, tai näytöstä, jossa näppäimistö on auki. Näppäimistöstä liitä mukaan myös Asetukset > Yleiset > Näppäimistö > Näppäimistöt.",
     "src": "bd66902936"
   },
   "위젯이나 키보드가 안 돼요": {
@@ -8258,7 +8258,7 @@
     "src": "a12038db6b"
   },
   "이 앱의 알림 설정": {
-    "v": "Tämän appin ilmoitusasetukset",
+    "v": "Tämän apin ilmoitusasetukset",
     "src": "89060849e9"
   },
   "이 앱이 하루에 박혀 있는 사람들이에요. 리뷰와 입소문이 여기서 나와요.": {
@@ -8631,7 +8631,7 @@
     "src": "15fd035e42"
   },
   "이상한 화면": {
-    "v": "Näyttö näyttää oudolta",
+    "v": "Virheellisen näköinen näyttö",
     "src": "46b4000f7f"
   },
   "이어서 입력할 내용": {
@@ -9562,7 +9562,7 @@
     "src": "732fa02323"
   },
   "지금 남아 있는 화면": {
-    "v": "Tämänhetkinen näkymä",
+    "v": "Mitä on jäljellä nyt",
     "src": "3fa1a883bf"
   },
   "지금 내 단축어 %1$d / %2$d칸": {
@@ -9578,7 +9578,7 @@
     "src": "0660df0f16"
   },
   "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
-    "v": "Ota kuvakaappaus listasta sellaisena kuin se nyt on. Jos Kuvissa on vanhempi kuvakaappaus, liitä sekin mukaan, niin näemme, mikä puuttuu.",
+    "v": "Ota kuvakaappaus listasta sellaisena kuin se nyt on. Jos Kuvat-apissa on vanhempi kuvakaappaus, liitä se myös, niin voimme verrata, mikä puuttuu.",
     "src": "ff5f634480"
   },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
@@ -11722,7 +11722,7 @@
     "src": "459064740b"
   },
   "화면이나 글자가 이상해요": {
-    "v": "Näyttö tai teksti näyttää oudolta",
+    "v": "Näyttö tai teksti näyttää virheelliseltä",
     "src": "77ad812308"
   },
   "확인": {
@@ -11948,5 +11948,13 @@
   "코드를 넣으면 끝까지 처리됐다고 나와야 해요. 같은 코드를 한 번 더 넣으면 이미 받은 선물로 나와야 맞아요.": {
     "v": "Koodin syöttämisen pitäisi näyttää, että käsittely meni loppuun asti. Saman koodin syöttämisen uudelleen pitäisi kertoa, että lahja on jo lunastettu.",
     "src": "755c71b1ac"
+  },
+  "모든 기능 바로 보기": {
+    "v": "Näytä kaikki toiminnot heti",
+    "src": "879adde95e"
+  },
+  "앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.": {
+    "v": "Sovellus tuo toimintoja esiin yksi kerrallaan käytön mukana. Kun otat tämän käyttöön, myös vielä esiin tuomattomat toiminnot näkyvät heti.",
+    "src": "89dc7d71c6"
   }
 }

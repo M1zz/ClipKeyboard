@@ -75,6 +75,21 @@ final class UserStateStore: ObservableObject {
             state = resolved
             print("🧭 [UserState] \(resolved.tenure.rawValue)·\(resolved.level.rawValue) 결=\(resolved.grain) 활동=\(resolved.activity) 칸=\(resolved.cell)")
         }
+        publishKeyboardMoneyRule(resolved)
+    }
+
+    /// 키보드가 먼저 돈 이야기를 해도 되는 사람인지 App Group 에 적는다.
+    ///
+    /// 키보드는 이 판정을 스스로 못 한다(사용자 상태 · 쓰임새를 빌드하지 않는다).
+    /// 목록 위 프로 넛지 · 반값 제안과 같은 사람을 거른다:
+    /// 오랜만에 돌아온 사람 · 쌓아만 두는 사람(칸이 아니라 찾는 길이 모자라다) · 학생으로 확신.
+    private func publishKeyboardMoneyRule(_ state: UserState) {
+        let allowed = state.activity == .active
+            && state.grain != .hoarder
+            && FeatureFit.allowsDiscountOffer(PersonaResolver.profile)
+        guard PromptLedger.keyboardMayTalkMoney != allowed else { return }
+        PromptLedger.keyboardMayTalkMoney = allowed
+        print("📝 [UserState] 키보드 돈 이야기: \(allowed ? "허용" : "쉼")")
     }
 
     // MARK: - 기기에서 값 긁기
@@ -116,7 +131,9 @@ final class UserStateStore: ObservableObject {
             keyboardInstalled: keyboardLoaded || beaconLastUse > 0,
             templates: templates,
             combos: combos,
-            unusedShortcuts: own.filter { $0.clipCount == 0 }.count
+            unusedShortcuts: own.filter { $0.clipCount == 0 }.count,
+            appLaunches: UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount),
+            showsAllFeatures: UserDefaults.standard.bool(forKey: DefaultsKey.showsAllFeatures)
         )
     }
 

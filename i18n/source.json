@@ -7139,6 +7139,12 @@
     "comment": "Auto-registered",
     "h": "4c0f9b7542"
   },
+  "모든 기능 바로 보기": {
+    "ko": "모든 기능 바로 보기",
+    "en": "Show All Features Now",
+    "comment": "Settings toggle: show every feature on the main screens right away",
+    "h": "879adde95e"
+  },
   "모든 기능 사용": {
     "ko": "모든 기능 사용",
     "en": "All features available",
@@ -10786,6 +10792,12 @@
     "en": "Tap in the app to pick a value from a list; on the keyboard, a 2/3 split inserts values one by one",
     "comment": "Changelog 4.4.3 item 2",
     "h": "b858ffcd9a"
+  },
+  "앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.": {
+    "ko": "앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.",
+    "en": "The app brings out features one at a time as you use it. Turn this on to show the ones it hasn't brought out yet, too.",
+    "comment": "Footer for the show-all-features toggle",
+    "h": "89dc7d71c6"
   },
   "앱을 다시 깔거나 새 폰을 켜도, 켜기 전에는 iCloud 데이터를 당겨오지 않아요": {
     "ko": "앱을 다시 깔거나 새 폰을 켜도, 켜기 전에는 iCloud 데이터를 당겨오지 않아요",

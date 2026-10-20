@@ -160,6 +160,10 @@ struct UserStateFacts: Equatable {
     var combos: Int
     /// 한 번도 안 쓴 단축어 수.
     var unusedShortcuts: Int
+    /// 앱을 연 횟수(`DefaultsKey.appLaunchCount`). 상한선을 넘으면 감춘 기능이 조용히 보인다.
+    var appLaunches: Int
+    /// 설정 ▸ 화면의 "모든 기능 바로 보기"(`DefaultsKey.showsAllFeatures`).
+    var showsAllFeatures: Bool
 
     init(installedAt: Date? = nil,
          ownShortcuts: Int = 0,
@@ -171,7 +175,9 @@ struct UserStateFacts: Equatable {
          keyboardInstalled: Bool = false,
          templates: Int = 0,
          combos: Int = 0,
-         unusedShortcuts: Int = 0) {
+         unusedShortcuts: Int = 0,
+         appLaunches: Int = 0,
+         showsAllFeatures: Bool = false) {
         self.installedAt = installedAt
         self.ownShortcuts = ownShortcuts
         self.uses = uses
@@ -183,6 +189,8 @@ struct UserStateFacts: Equatable {
         self.templates = templates
         self.combos = combos
         self.unusedShortcuts = unusedShortcuts
+        self.appLaunches = appLaunches
+        self.showsAllFeatures = showsAllFeatures
     }
 }
 
@@ -195,6 +203,10 @@ struct UserState: Equatable {
     let activity: UserActivity
     /// 기간과 숙련도가 만나는 칸의 진단.
     let cell: Cell
+    /// 감춘 기능을 조용히라도 보이는가. 탈출구(설정)를 켰거나 상한선(앱을 연 횟수)을 넘었다.
+    ///
+    /// ⚠️ 판정이 틀렸을 때 사람이 갇히지 않게 하는 문이다. 앞에 세우지는 않는다(`.quiet` 까지).
+    var revealsHidden: Bool = false
 
     /// 지도 한 칸의 성격. 무엇을 손봐야 하는지가 여기서 나온다.
     enum Cell {
@@ -234,6 +246,9 @@ struct UserState: Equatable {
         static let dormantDays = 14
         /// 휴면에서 깬 뒤 이 기간 동안은 "돌아온 사람".
         static let returningDays = 7
+        /// 앱을 이만큼 **넘게** 열었으면 판정이 어떻든 감춘 기능을 조용히 보인다.
+        /// 스무 번 연 사람에게 아직 모르는 기능이 있다면 숨길 일이 아니라 찾게 할 일이다.
+        static let revealLaunches = 20
     }
 
     // MARK: 판정
@@ -251,7 +266,8 @@ struct UserState: Equatable {
                          level: level,
                          grain: grain(facts),
                          activity: activity(facts, now: now),
-                         cell: cell(tenure: tenure, level: level))
+                         cell: cell(tenure: tenure, level: level),
+                         revealsHidden: facts.showsAllFeatures || facts.appLaunches > Threshold.revealLaunches)
     }
 
     /// floor 를 씌우기 전의 날것 레벨. **위에서부터 걸리는 첫 칸** 하나다.
@@ -372,6 +388,7 @@ extension UserState {
     func visibility(of surface: UserSurface) -> SurfaceVisibility {
         var result = Self.baseVisibility(of: surface, level: level)
         result = Self.grainAdjusted(result, surface: surface, grain: grain)
+        result = Self.revealAdjusted(result, surface: surface, reveals: revealsHidden)
         return Self.activityAdjusted(result, surface: surface, activity: activity)
     }
 
@@ -444,6 +461,17 @@ extension UserState {
             default: return base
             }
         }
+    }
+
+    // MARK: 탈출구와 상한선
+
+    /// 감춘 기능을 조용히 보인다. **말 거는 자리는 건드리지 않는다**(띠·안내는 그대로 감춘다).
+    /// 찾으러 온 사람에게 기능이 있으면 되지, 그 기능이 먼저 말을 걸 이유는 없다.
+    static func revealAdjusted(_ base: SurfaceVisibility,
+                               surface: UserSurface,
+                               reveals: Bool) -> SurfaceVisibility {
+        guard reveals, base == .hidden, !surface.isPrompt else { return base }
+        return .quiet
     }
 
     // MARK: 활동이 마지막으로 덮는다

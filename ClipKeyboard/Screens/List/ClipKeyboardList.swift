@@ -57,10 +57,7 @@ struct ClipKeyboardList: View {
     @State private var showInboxFromIntent: Bool = false
     /// Inbox 배너를 닫은 시점의 항목 수. 이보다 더 쌓이면(=새 캡처) 배너가 다시 나타난다.
     @State private var inboxBannerDismissCount: Int = 0
-    @State private var hasAppeared: Bool = false
     @State private var scrollOffset: CGFloat = 0
-    @State private var occasionalSuggestion_: SuggestionTemplate?
-    @State private var navigateToOccasionalAdd: Bool = false
 
     // 메모 구분 표시 마스터 토글 - 기본 OFF(제목만, 가장 심플).
     // 켜면 타입 아이콘·배지·테두리·우상단 심볼·카테고리/즐겨찾기 색을 모두 표시.
@@ -453,18 +450,25 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 상단 배너 모음(빠른 메모 Inbox · Pro 넛지 · 카테고리 활성/제안).
+    /// 상단 배너 모음. **자리마다 하나, 많아야 세 줄이다** (상태 띠 · 지금 카드 · 제안 카드).
+    ///
+    /// 띠마다 "말할 거리가 있다" 를 `PromptRow` 로 올리고, 누가 설지는 `PromptBoard` 가
+    /// 고른다(`PromptArbiter`). 예전에는 띠 13개가 서로를 몰라 한꺼번에 설 수 있었다.
+    /// 아래 순서는 그리는 순서일 뿐이고, 같은 종류 안의 차례는 `PromptCandidate.listOrder` 다.
+    /// 설계: docs/design/PROGRESSIVE_DISCLOSURE.md 4절
+    ///
     /// AnyView로 타입 소거 - mainColumn VStack의 제네릭 중첩 깊이를 줄이는 핵심.
     private var topBanners: some View {
         AnyView(
             VStack(spacing: 0) {
-                // 키보드를 켜지 않았으면 맨 위에 늘 선다. 닫는 단추가 없다 - 켜면 걷힌다.
+                // 키보드를 켜지 않았으면 선다. 닫는 단추가 없다 - 켜면 걷힌다.
+                // 아직 자기 단축어가 없는 사람에게는 서지 않는다(꺼낼 것이 없다, `UserSurface.keyboardSetupBanner`).
                 KeyboardSetupRequiredBanner()
 
                 // 방금 복사한 글을 단축어로 - 앱에 들어오면 클립보드를 보고 권한다.
                 // ⚠️ 2026-05 목록을 갈래 격자로 바꿀 때(`8d4347f5`) 이 카드를 담던 묶음이 옮겨지지 않아
                 //    다섯 달 동안 안 보였다. 클립보드는 그동안에도 읽고 있었다(사용자 신고 2026-10-18).
-                DismissibleRow(isShowing: viewModel.hasFreshClipboard) {
+                PromptRow(.freshClipboard, wants: viewModel.hasFreshClipboard) {
                     freshClipboardCard
                         .padding(.horizontal, 16)
                         .padding(.top, 8)
@@ -473,7 +477,7 @@ struct ClipKeyboardList: View {
 
                 // 붙여넣기 허용 안내 - 앱 진입 시 클립보드를 읽어 팝업이 뜨는 바로 그 지점.
                 // 한 번 설정을 바꾸면 팝업이 사라지므로, 최상단에서 설정으로 바로 안내한다.
-                DismissibleRow(isShowing: showPasteTip) {
+                PromptRow(.pasteTip, wants: showPasteTip) {
                     PastePermissionTipBanner(
                         onOpenSettings: { openAppSettings() },
                         onDismiss: {
@@ -498,7 +502,7 @@ struct ClipKeyboardList: View {
                 FreeUseMilestoneBanner()
 
                 // 열려 있던 기능이 닫힌다는 안내 - 파는 넛지보다 먼저 온다(알리는 말이 먼저다).
-                DismissibleRow(isShowing: accessNotice != nil) {
+                PromptRow(.accessEnding, wants: accessNotice != nil) {
                     if let notice = accessNotice {
                         AccessEndingBanner(
                             notice: notice,
@@ -521,7 +525,7 @@ struct ClipKeyboardList: View {
                 }
 
                 // 가치 순간 Pro 넛지 - 무료 유저가 가치를 느낀 시점에 1회 노출.
-                DismissibleRow(isShowing: shouldShowProValueNudge) {
+                PromptRow(.proValue, wants: shouldShowProValueNudge) {
                     ProValueNudgeBanner(
                         message: proValueNudgeMessage,
                         onTap: {
@@ -540,6 +544,7 @@ struct ClipKeyboardList: View {
                                 UserDefaults.standard.set(true, forKey: DefaultsKey.proValueNudgeDismissedV1)
                                 proNudgeDismissed = true
                             }
+                            PromptBoard.list.noteDeclined(.proValue)
                         }
                     )
                     .padding(.horizontal, 16)
@@ -575,7 +580,8 @@ struct ClipKeyboardList: View {
                     showPaywallFromKeyboard = true
                 }
 
-                if CategoryStore.shared.shouldShowActivationBanner(currentMemoCount: viewModel.memos.count) {
+                PromptRow(.categoryActivation,
+                          wants: CategoryStore.shared.shouldShowActivationBanner(currentMemoCount: viewModel.memos.count)) {
                     CategoryActivationBanner(
                         onEnable: {
                             withAnimation { CategoryStore.shared.enableFeature() }
@@ -588,28 +594,31 @@ struct ClipKeyboardList: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                     .padding(.bottom, 4)
-                    .transition(.move(edge: .top).combined(with: .opacity))
                 }
 
                 // 페르소나 기반 카테고리 이름 제안 (TipKit).
-                if shouldShowPersonaCategoryTip {
+                // ⚠️ 팁이 스스로 물러났는지(`shouldDisplay`)까지 본다. 안 보면 닫힌 팁이 자리를 쥐고
+                //    아래 말들이 영영 못 선다.
+                PromptRow(.personaCategoryTip,
+                          wants: shouldShowPersonaCategoryTip && personaCategoryTip.shouldDisplay) {
                     personaCategorySuggestionTip()
                         .padding(.horizontal, 16)
                         .padding(.top, 8)
                         .padding(.bottom, 4)
-                        .transition(.move(edge: .top).combined(with: .opacity))
                 }
 
                 // 메모를 보고 카테고리 생성을 제안 (TipKit).
-                if CategoryStore.shared.isFeatureEnabled,
-                   let suggestion = viewModel.suggestedCategory {
-                    categorySuggestionTip(name: suggestion.name, count: suggestion.count)
-                        .padding(.horizontal, 16)
-                        .padding(.top, 8)
-                        .padding(.bottom, 4)
-                        .transition(.move(edge: .top).combined(with: .opacity))
+                PromptRow(.categorySuggestionTip, wants: categorySuggestionTipWants) {
+                    if let suggestion = viewModel.suggestedCategory {
+                        categorySuggestionTip(name: suggestion.name, count: suggestion.count)
+                            .padding(.horizontal, 16)
+                            .padding(.top, 8)
+                            .padding(.bottom, 4)
+                    }
                 }
             }
+            // 활동(휴면·복귀)이나 층이 바뀌면 다시 고른다. 손을 든 쪽은 그대로다.
+            .onChange(of: userState.state) { _, _ in PromptBoard.list.recompute() }
         )
     }
 
@@ -838,18 +847,6 @@ struct ClipKeyboardList: View {
                                 Button(NSLocalizedString("취소", comment: "Cancel")) { ghostAddPattern = nil }
                             }
                         }
-                }
-            }
-            .sheet(isPresented: $navigateToOccasionalAdd, onDismiss: { viewModel.loadMemos() }) {
-                NavigationStack {
-                    Group {
-                        if let s = occasionalSuggestion_ { memoAdd(for: s) } else { MemoAdd() }
-                    }
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(NSLocalizedString("취소", comment: "Cancel")) { navigateToOccasionalAdd = false }
-                        }
-                    }
                 }
             }
             .task {
@@ -1141,15 +1138,6 @@ struct ClipKeyboardList: View {
                 CategoryStore.shared.migrateFeatureEnabledIfNeeded(
                     existingMemoCategories: viewModel.memos.map { $0.category }
                 )
-                // 이 화면을 연 것을 한 번만 센다 - 목록은 탭을 오갈 때마다 다시 나타난다.
-                if !hasAppeared {
-                    hasAppeared = true
-                    SuggestionManager.shared.recordAppOpen()
-                }
-                // 앱을 두 번 이상 연 사용자에게만 빠른 메모 캡처 팁을 노출(첫날 도배 방지).
-                if UserDefaults.standard.integer(forKey: DefaultsKey.appLaunchCount) >= 2 {
-                    QuickNoteInboxTip.engaged = true
-                }
             }
     }
 
@@ -1405,6 +1393,8 @@ struct ClipKeyboardList: View {
                     guard !isLaunchAppearance else { return }
                     guard !backgroundOfferResolved, isReadyForBackgroundOffer else { return }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        // 이번 실행에 이미 다른 창이 떴으면 다음에 묻는다(`LaunchSheetGate`).
+                        guard LaunchSheetGate.claim("backgroundOffer") else { return }
                         showBackgroundOffer = true
                     }
                 }
@@ -1952,8 +1942,12 @@ struct ClipKeyboardList: View {
 
     /// 카테고리 생성 제안 TipKit 카드. 수락 시 카테고리 추가 + 해당 탭으로 이동.
     /// id에 카테고리명을 포함해 카테고리별로 1회만 노출(무효화 추적)된다.
+    private var personaCategoryTip: PersonaCategoryTip {
+        PersonaCategoryTip(suggestions: Array(personaCategorySuggestions.prefix(3)))
+    }
+
     private func personaCategorySuggestionTip() -> some View {
-        let tip = PersonaCategoryTip(suggestions: Array(personaCategorySuggestions.prefix(3)))
+        let tip = personaCategoryTip
         return AnimatedTip(tip: tip) {
             TipView(tip) { action in
                 // action.id == 카테고리 이름. 탭하면 그 카테고리를 만들고 기능을 켠다.
@@ -1967,12 +1961,23 @@ struct ClipKeyboardList: View {
         }
     }
 
-    private func categorySuggestionTip(name: String, count: Int) -> some View {
-        let tip = CategorySuggestionTip(
+    private func makeCategorySuggestionTip(name: String, count: Int) -> CategorySuggestionTip {
+        CategorySuggestionTip(
             categoryRawName: name,
             displayName: Constants.localizedThemeName(name),
             count: count
         )
+    }
+
+    /// 카테고리 생성 제안을 올릴 때인가. 팁이 스스로 물러났으면 손을 들지 않는다.
+    private var categorySuggestionTipWants: Bool {
+        guard CategoryStore.shared.isFeatureEnabled,
+              let suggestion = viewModel.suggestedCategory else { return false }
+        return makeCategorySuggestionTip(name: suggestion.name, count: suggestion.count).shouldDisplay
+    }
+
+    private func categorySuggestionTip(name: String, count: Int) -> some View {
+        let tip = makeCategorySuggestionTip(name: name, count: count)
         return AnimatedTip(tip: tip) {
             TipView(tip) { action in
                 if action.id == "create" {
@@ -2781,12 +2786,15 @@ struct ClipKeyboardList: View {
             // ⚠️ 이 시트는 배선만 돼 있고 **여는 길이 어디에도 없었다.**
             //    ⋯ 메뉴를 설정으로 옮길 때 항목만 빠지고 바인딩은 남아, 목록에서는
             //    죽은 화면이 되어 있었다. 설정 깊숙이 들어가야만 닿았다.
+            // 빈칸은 3층이다. 설정 ▸ 단축어에는 늘 있다.
+            if userState.isVisible(.template) {
             Button {
                 HapticManager.shared.light()
                 viewModel.showPlaceholderManagementSheet = true
             } label: {
                 Label(NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)"),
                       systemImage: AppSymbol.listBulletRectangle)
+            }
             }
         } label: {
             // 시그니처 유리 서클(`GlassCircle`) - 하단 탭바와 같은 유리 언어.
@@ -3093,17 +3101,6 @@ struct ClipKeyboardList: View {
         .background(theme.surface)
         .cornerRadius(theme.radiusMd)
         .shadow(color: .black.opacity(0.06), radius: 4, x: 0, y: 2)
-    }
-
-    private func memoAdd(for suggestion: SuggestionTemplate) -> MemoAdd {
-        var add = MemoAdd()
-        add.insertedValue = suggestion.content
-        switch suggestion.feature {
-        case .template:      add.insertedIsTemplate = true
-        case .stack:         add.insertedIsStack    = true
-        case .snippet, .smartClipboard: break
-        }
-        return add
     }
 
 }

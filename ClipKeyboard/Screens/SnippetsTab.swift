@@ -853,10 +853,14 @@ struct SnippetsTab: View {
             isAwayOrJustBack: store.state.activity != .active
         )
         guard FeatureFit.isShareMomentDue(context) else { return }
+        // 부탁이다. 리뷰·피드백과 같은 예산(7일에 한 번)을 나눠 쓴다.
+        guard PromptBoard.allowsNow(.shareMoment) else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
-            // 그 사이 다른 판(연습용 단축어 치우기 등)이 떴으면 이번에는 비킨다. 다음에 다시 본다.
-            guard !showOffer, !showSampleCleanup, !showShareMoment else { return }
+            // 그 사이 다른 판이 떴으면 이번에는 비킨다. 다음에 다시 본다.
+            guard !showOffer, !showSampleCleanup, !showShareMoment,
+                  LaunchSheetGate.claim(PromptCandidate.shareMoment.id) else { return }
             AppGroup.defaults?.set(true, forKey: DefaultsKey.shareMomentShown)
+            PromptBoard.list.noteShown(.shareMoment)
             showShareMoment = true
         }
     }
@@ -884,9 +888,11 @@ struct SnippetsTab: View {
             sampleCleanupAsked = true   // 이미 지운 사람에게 물을 것이 없다
             return
         }
-        sampleCleanupAsked = true
         // 화면이 자리를 잡은 뒤에 - 마지막 걸음이 끝나는 순간에 겹쳐 뜨면 무엇에 대한 물음인지 안 보인다.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+            // 다른 창이 떠 있으면 비킨다. 물은 것으로 적지 않았으니 다음에 다시 묻는다.
+            guard LaunchSheetGate.claim("sampleCleanup") else { return }
+            sampleCleanupAsked = true
             showSampleCleanup = true
         }
     }
@@ -932,9 +938,11 @@ struct SnippetsTab: View {
     /// 고르든 넘기든 다시 묻지 않는다. 설정에 자리가 있으므로 언제든 바꿀 수 있다.
     private func offerKeyboardStageIfNeeded() {
         guard !offered, style == .list else { return }
-        offered = true
         // 화면이 자리를 잡은 뒤에 - 열자마자 알림이 뜨면 무엇에 대한 물음인지 안 보인다.
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+            // 다른 창이 떠 있으면 비킨다. 권한 것으로 적지 않았으니 다음에 다시 권한다.
+            guard LaunchSheetGate.claim("keyboardStageOffer") else { return }
+            offered = true
             showOffer = true
         }
     }

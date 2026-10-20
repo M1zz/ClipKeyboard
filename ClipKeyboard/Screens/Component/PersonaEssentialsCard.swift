@@ -61,7 +61,7 @@ struct PersonaEssentialsCardContainer: View {
     }
 
     var body: some View {
-        DismissibleRow(isShowing: isShowing) {
+        PromptRow(.personaEssentials, wants: isShowing) {
             PersonaEssentialsCard(kind: kind,
                                   essentials: essentials,
                                   coverage: coverage,

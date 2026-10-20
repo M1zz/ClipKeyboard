@@ -24,16 +24,6 @@ final class SuggestionManager: ObservableObject {
     static let shared = SuggestionManager()
     private init() {}
 
-    @Published private(set) var occasionalSuggestion: SuggestionTemplate?
-
-    private var defaults: UserDefaults? { AppConfig.sharedDefaults }
-
-    private enum Keys {
-        static let dismissedIDs  = "suggestion_dismissed_ids"
-        static let lastShownDate = "suggestion_last_shown_date"
-        static let appOpenCount  = "suggestion_app_open_count"
-    }
-
     // MARK: - Locale-aware suggestion list
 
     /// 기존 UsageGuideView의 시나리오 풀 + v4.0.8 페르소나별 친화 seed.
@@ -75,7 +65,8 @@ final class SuggestionManager: ObservableObject {
     /// 선택된 페르소나가 있으면 usageCategories 시나리오 + personaSeed에서 매칭만 필터.
     /// 매칭 풀이 3개 미만이면 fallback으로 전체 풀 사용 (empty state 보장).
     private func personaWeightedPool() -> [SuggestionTemplate] {
-        guard let selected = CategoryStore.shared.selectedPersona else {
+        // 페르소나 출처는 `PersonaResolver` 하나다. 확신이 없으면 좁히지 않는다.
+        guard let selected = PersonaResolver.confident else {
             return allSuggestions
         }
 
@@ -247,58 +238,4 @@ final class SuggestionManager: ObservableObject {
                     contentKey: "거기 맛있어요! 특히 {메뉴} 추천합니다. {주소}에 있어요.",
                     feature: .template, persona: .general, categoryKey: "Daily life")
     ]
-
-    // MARK: - Persistence helpers
-
-    private var dismissedIDs: Set<Int> {
-        get {
-            let arr = defaults?.array(forKey: Keys.dismissedIDs) as? [Int] ?? []
-            return Set(arr)
-        }
-        set { defaults?.set(Array(newValue), forKey: Keys.dismissedIDs) }
-    }
-
-    private var lastShownDate: Date? {
-        get { defaults?.object(forKey: Keys.lastShownDate) as? Date }
-        set { defaults?.set(newValue, forKey: Keys.lastShownDate) }
-    }
-
-    private var appOpenCount: Int {
-        defaults?.integer(forKey: Keys.appOpenCount) ?? 0
-    }
-
-    // MARK: - App open tracking
-
-    func recordAppOpen() {
-        let count = appOpenCount + 1
-        defaults?.set(count, forKey: Keys.appOpenCount)
-        evaluateOccasionalSuggestion(openCount: count)
-    }
-
-    private func evaluateOccasionalSuggestion(openCount: Int) {
-        guard openCount >= 3 else { return }
-        if let last = lastShownDate {
-            let days = Calendar.current.dateComponents([.day], from: last, to: Date()).day ?? 0
-            guard days >= 3 else { return }
-        }
-        guard Double.random(in: 0...1) < 0.3 else { return }
-        let dismissed = dismissedIDs
-        occasionalSuggestion = allSuggestions.first { !dismissed.contains($0.stableID) }
-    }
-
-    // MARK: - User actions
-
-    func dismissOccasionalSuggestion() {
-        guard let s = occasionalSuggestion else { return }
-        var dismissed = dismissedIDs
-        dismissed.insert(s.stableID)
-        dismissedIDs = dismissed
-        lastShownDate = Date()
-        occasionalSuggestion = nil
-    }
-
-    func acceptOccasionalSuggestion() {
-        lastShownDate = Date()
-        occasionalSuggestion = nil
-    }
 }

@@ -3027,7 +3027,7 @@
     "src": "710c8daa64"
   },
   "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
-    "v": "Controleer eerst of je bent ingelogd met het Apple-account waarmee je hebt gekocht. Aankopen horen bij dat account.",
+    "v": "Controleer eerst of je bent ingelogd met het Apple Account waarmee je hebt gekocht. Aankopen horen bij dat account.",
     "src": "9486e90c00"
   },
   "국가 코드부터 끝까지 입력해 주세요": {
@@ -3073,7 +3073,7 @@
     "src": "bb24d4c594"
   },
   "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
-    "v": "Maak een schermafbeelding van dat scherm zoals het is. Klinkt een vertaling raar, schrijf dan erbij hoe het natuurlijker zou lezen. Wij nemen jouw formulering over.",
+    "v": "Maak een schermafbeelding van dat scherm zoals het is. Klinkt een vertaling vreemd, laat dan weten hoe het natuurlijker zou lezen. We nemen jouw formulering over.",
     "src": "a6067d252a"
   },
   "그거 아세요?": {
@@ -3420,7 +3420,7 @@
     "src": "949812949e"
   },
   "꺼지거나 열리지 않아요": {
-    "v": "De app stopt of gaat niet open",
+    "v": "Sluit af of opent niet",
     "src": "bc87d0bf1b"
   },
   "꺼짐": {
@@ -3752,7 +3752,7 @@
     "src": "b9d49c6e77"
   },
   "느리거나 버벅여요": {
-    "v": "De app is traag of hapert",
+    "v": "Traag of haperend",
     "src": "44bedc6b6a"
   },
   "늘 이 자리: %@": {
@@ -4839,7 +4839,7 @@
     "src": "f4f8177bfb"
   },
   "매번 그런가요? 껐다 켜도 그런가요? (선택)": {
-    "v": "Gebeurt het elke keer? Ook na opnieuw opstarten? (optioneel)",
+    "v": "Gebeurt het elke keer? Ook na een herstart? (optioneel)",
     "src": "240874ecc6"
   },
   "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
@@ -4867,7 +4867,7 @@
     "src": "674b4e32dc"
   },
   "멈추거나 꺼지기 직전 화면": {
-    "v": "Scherm vlak voordat het vastliep of sloot",
+    "v": "Scherm vlak voor het vastliep of sloot",
     "src": "99ab12df74"
   },
   "멈춤": {
@@ -6661,7 +6661,7 @@
     "src": "64252656f2"
   },
   "설정 앱 > 알림 > 이 앱 화면을 찍어 주세요. 알림 허용, 잠금 화면, 배너, 사운드가 다 보이게요.": {
-    "v": "Maak een schermafbeelding van Instellingen > Meldingen > deze app, met Sta meldingen toe, Toegangsscherm, Banners en Geluiden goed zichtbaar.",
+    "v": "Maak een schermafbeelding van Instellingen > Meldingen > deze app, met Sta meldingen toe, Toegangsscherm, Banners en Geluiden allemaal in beeld.",
     "src": "bde90d0212"
   },
   "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.": {
@@ -6669,7 +6669,7 @@
     "src": "f6734b03c2"
   },
   "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
-    "v": "Tik in Instellingen bovenaan op je naam > Media en aankopen > Bekijk account > Aankoopgeschiedenis, zoek de betaling voor deze app en maak een schermafbeelding. Alleen de datum en het bedrag zijn nodig. Je mag de betaalmethode verbergen.",
+    "v": "Tik in Instellingen bovenaan op je naam > Media en aankopen > Bekijk account > Aankoopgeschiedenis, zoek de betaling van deze app en maak een schermafbeelding. De datum en het bedrag zijn genoeg. Je mag de betaalmethode verbergen.",
     "src": "2c4dd5890d"
   },
   "설정 앱에서 '동작 버튼'을 열어요": {
@@ -7488,7 +7488,7 @@
     "src": "17a89c693d"
   },
   "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.": {
-    "v": "Stuur dit op voordat je de app verwijdert en opnieuw installeert. Bij het verwijderen verdwijnen ook gegevens die alleen op dit apparaat stonden, en die zijn niet te herstellen.",
+    "v": "Stuur dit voordat je de app verwijdert en opnieuw installeert. Bij verwijderen gaan ook gegevens weg die alleen op dit apparaat stonden, en die zijn niet te herstellen.",
     "src": "6c47aed7d4"
   },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
@@ -7531,7 +7531,7 @@
     "src": "728d55302a"
   },
   "어느 기기 사이에서, 무엇이 안 맞나요?": {
-    "v": "Tussen welke apparaten, en wat klopt er niet?",
+    "v": "Tussen welke apparaten, en wat komt niet overeen?",
     "src": "7faff7af57"
   },
   "어느 화면에서, 얼마나 걸리나요?": {
@@ -7831,23 +7831,23 @@
     "src": "e8fcf11de2"
   },
   "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.": {
-    "v": "Bijv. Ongeveer de helft van de 20 die ik had gemaakt is weg.",
+    "v": "Bijv. Van de 20 die ik had gemaakt is ongeveer de helft weg.",
     "src": "c0a5a82c2c"
   },
   "예) 매번요. 기기를 껐다 켜도 같아요.": {
-    "v": "Bijv. Elke keer. Na een herstart van het apparaat ook.",
+    "v": "Bijv. Elke keer. Ook na een herstart van het apparaat.",
     "src": "c952ed962c"
   },
   "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
-    "v": "Bijv. Het hapert ongeveer een seconde als ik door de lijst scrol.",
+    "v": "Bijv. Het hapert ongeveer een seconde elke keer dat ik door de lijst scrol.",
     "src": "5d25eabe10"
   },
   "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
-    "v": "Bijv. De tekst van een knop in Instellingen is afgekapt. Deze zin klinkt vreemd vertaald.",
+    "v": "Bijv. De knoptekst in Instellingen is afgekapt. Deze zin is onhandig vertaald.",
     "src": "e32a425323"
   },
   "예) 수면 모드가 켜져 있었어요.": {
-    "v": "Bijv. De focus Slaap stond aan.",
+    "v": "Bijv. Focus Slaap stond aan.",
     "src": "e444a75fad"
   },
   "예) 아이폰에서 만든 것이 아이패드에 안 보여요.": {
@@ -7859,7 +7859,7 @@
     "src": "190007f2af"
   },
   "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.": {
-    "v": "Bijv. Bij het openen blijft de app hangen op een wit scherm. Als ik op Bewaar tik, sluit de app.",
+    "v": "Bijv. Bij het openen blijft het scherm wit. Als ik op Bewaar tik, sluit de app af.",
     "src": "7fd7282c7d"
   },
   "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
@@ -7875,7 +7875,7 @@
     "src": "5b7fbdbe2b"
   },
   "예) 평생 이용권을 샀는데, 앱을 다시 깔고 나니 잠겨 있어요. 복원을 눌러도 없다고 나와요.": {
-    "v": "Bijv. Ik heb de levenslange toegang gekocht, maar na het opnieuw installeren van de app is alles vergrendeld. Bij Herstel staat dat er niets is om te herstellen.",
+    "v": "Bijv. Ik heb levenslange toegang gekocht, maar na het opnieuw installeren is de app vergrendeld. Bij Herstel staat dat er niets te herstellen is.",
     "src": "c935df2f4a"
   },
   "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
@@ -8123,7 +8123,7 @@
     "src": "13d40b4407"
   },
   "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.": {
-    "v": "Maak een schermafbeelding van het beginscherm met de Widget, of van het scherm met het toetsenbord. Voeg bij een toetsenbord ook Instellingen > Algemeen > Toetsenbord > Toetsenborden toe.",
+    "v": "Maak een schermafbeelding van het beginscherm met de Widget, of van het scherm met het toetsenbord. Voeg bij het toetsenbord ook Instellingen > Algemeen > Toetsenbord > Toetsenborden toe.",
     "src": "bd66902936"
   },
   "위젯이나 키보드가 안 돼요": {
@@ -9562,7 +9562,7 @@
     "src": "732fa02323"
   },
   "지금 남아 있는 화면": {
-    "v": "Wat er nu nog staat",
+    "v": "Wat er nu nog is",
     "src": "3fa1a883bf"
   },
   "지금 내 단축어 %1$d / %2$d칸": {
@@ -9578,7 +9578,7 @@
     "src": "0660df0f16"
   },
   "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
-    "v": "Maak een schermafbeelding van de lijst zoals die nu is. Heeft u in Foto's een oudere schermafbeelding, voeg die dan ook toe. Dan kunnen we zien wat er ontbreekt.",
+    "v": "Maak een schermafbeelding van de lijst zoals die nu is. Heeft u een oudere schermafbeelding in Foto's, voeg die dan ook toe, zodat we kunnen vergelijken wat er ontbreekt.",
     "src": "ff5f634480"
   },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
@@ -11834,7 +11834,7 @@
     "src": "1f2314554b"
   },
   "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.": {
-    "v": "Een wit scherm is ook goed. Druk tegelijk op de zijknop en de volume-omhoogknop voor een schermafbeelding.",
+    "v": "Een wit scherm is ook goed. Druk tegelijk op de zijknop en de volume-omhoogknop om een schermafbeelding te maken.",
     "src": "5bc1d83572"
   },
   "힌트 (선택)": {
@@ -11948,5 +11948,13 @@
   "코드를 넣으면 끝까지 처리됐다고 나와야 해요. 같은 코드를 한 번 더 넣으면 이미 받은 선물로 나와야 맞아요.": {
     "v": "Na het invoeren van de code moet er staan dat alles is verwerkt. Voer je dezelfde code nog een keer in, dan moet er staan dat het cadeau al is ingewisseld.",
     "src": "755c71b1ac"
+  },
+  "모든 기능 바로 보기": {
+    "v": "Alle functies direct tonen",
+    "src": "879adde95e"
+  },
+  "앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.": {
+    "v": "De app toont functies één voor één naarmate je ze gebruikt. Zet dit aan om ook de functies te tonen die nog niet zichtbaar zijn.",
+    "src": "89dc7d71c6"
   }
 }

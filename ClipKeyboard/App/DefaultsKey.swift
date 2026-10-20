@@ -108,6 +108,8 @@ enum DefaultsKey {
     /// ⚠️ 읽기만 하는 자리에서 값을 쓰지 말 것 - 남의 초기화를 조용히 되돌린다.
     static let appInstallDate = "app_install_date"
     static let appLaunchCount = "appLaunchCount"
+    /// 설정 ▸ 화면의 "모든 기능 바로 보기" (standard UD, Bool). 켜면 감춘 기능이 조용히 보인다.
+    static let showsAllFeatures = "userState.showsAllFeatures.v1"
     /// 사용자가 고른 앱 언어 (App Group, `AppLanguage.rawValue`). 값이 없으면 기기 설정을 따른다.
     /// ⚠️ App Group 이어야 한다. 키보드 익스텐션은 다른 프로세스라 표준 UserDefaults 를 못 본다.
     static let appLanguage = "app.language.v1"
@@ -534,6 +536,15 @@ enum DefaultsKey {
     static let userStateWasDormant = "userstate.wasDormant.v1"
     /// 휴면에서 깬 시각 (App Group, epoch 초). 이때부터 7일이 "돌아온 사람"이다.
     static let userStateReturnedAt = "userstate.returnedAt.v1"
+    /// 말 거는 자리 원장 (App Group, JSON). 종류마다 마지막으로 말한 때·거절한 때.
+    ///
+    /// ⚠️ 앱과 키보드가 **같이** 쓴다. 키보드가 오늘 돈 이야기를 했으면 앱은 하지 않는다.
+    static let promptLedger = "prompt.ledger.v1"
+    /// 키보드가 먼저 돈 이야기를 해도 되는 사람인가 (App Group, Bool). **앱이 적고 키보드가 읽는다.**
+    ///
+    /// 키보드는 사용자 상태(휴면 · 결)와 쓰임새를 판정하지 못한다. 앱이 판정해 한 값으로 내려 둔다.
+    /// 없으면 예전처럼 말해도 되는 것으로 본다.
+    static let promptKeyboardMayTalkMoney = "prompt.keyboardMayTalkMoney.v1"
 
     /// 지금 흉내 내는 사용 단계 (App Group, `UserStage.rawValue`). 비어 있으면 진짜 상태를 쓴다.
     ///

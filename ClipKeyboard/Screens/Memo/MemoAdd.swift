@@ -744,6 +744,10 @@ struct MemoAdd: View {
 
     /// "내용 더 넣기" - 붙여넣을 내용을 이어 더하면 자동으로 콤보가 된다(본문=1단계, 아래 칸=2단계~).
     /// 내용 입력칸 바로 아래에 배치. 이미지가 첨부돼 있어도 값을 더 넣을 수 있다(이미지+여러 값 허용).
+    private var showsContinuationButtons: Bool {
+        !viewModel.continuations.isEmpty || UserStateStore.shared.isVisible(.combo)
+    }
+
     private var continuationsSection: some View {
             VStack(alignment: .leading, spacing: 10) {
                 // ⚠️ 인덱스가 아니라 **단계 자체**를 돌린다. 인덱스로 돌면서 배열에 바인딩을 걸면
@@ -772,6 +776,9 @@ struct MemoAdd: View {
                     }
                 }
 
+                // 콤보는 4층이다. 아직 단축어를 쓰기 전인 사람에게는 이어 넣는 단추를 내지 않는다.
+                // ⚠️ 이미 이어 넣은 칸이 있으면(콤보를 고치는 중) 층과 무관하게 낸다.
+                if showsContinuationButtons {
                 Button {
                     HapticManager.shared.light()
                     viewModel.addContinuation()
@@ -816,6 +823,7 @@ struct MemoAdd: View {
                     )
                 }
                 .buttonStyle(.squish)
+                }
 
                 if !viewModel.continuations.isEmpty {
                     Text(NSLocalizedString("내용을 이어 더하면 스택이 돼요. 키보드에서 순서대로 입력됩니다.", comment: "Continuation/combo explanation"))
