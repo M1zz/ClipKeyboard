@@ -157,6 +157,9 @@ struct ClipKeyboardApp: App {
 
         print("🚀 [APP INIT] ClipKeyboardApp 초기화 시작")
 
+        // 처음 자판 언어가 영어 하나로 바뀌었다. 키보드를 띄운 적 있는 사람은 쓰던 목록을 그대로 둔다.
+        TypingPrefs.keepLegacyDefaultIfNeeded()
+
         // 콤보/attached 데이터 모델 통합 마이그레이션 - 다른 어떤 load/save보다 먼저 실행해
         // 레거시 키(isStack/stackValues/attachedTemplateId)가 신 모델 재저장으로 사라지기 전에 변환.
         LaunchGuard.essential(.comboMigration) {

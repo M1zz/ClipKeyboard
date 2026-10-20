@@ -43,6 +43,25 @@ enum TypingPrefs {
         return picked
     }
 
+    /// 기존 사용자의 처음 목록을 한 번 저장해 둔다. 앱과 키보드가 각자 처음 뜰 때 부른다(한 번만 돈다).
+    ///
+    /// 왜: 처음 목록이 "기기 언어 + 영어" 에서 "영어 하나" 로 바뀌었다. 목록은 설정에서 손대기 전까지
+    /// 저장되지 않고 뜰 때마다 계산됐으므로, 그냥 바꾸면 한국어 기기 사용자의 한국어 자판이 업데이트한
+    /// 날 말없이 사라진다. 그래서 **키보드를 이미 띄운 적이 있는 사람**은 예전 목록을 저장해 그대로 둔다.
+    ///
+    /// ⚠️ 키보드에서는 `keyboardExtensionDidLoad` 를 적기 **전에** 불러야 한다. 그 값이 "예전에 띄운 적 있음" 의 증거다.
+    static func keepLegacyDefaultIfNeeded(defaults: UserDefaults? = AppGroup.defaults,
+                                          preferred: [String] = Locale.preferredLanguages) {
+        guard let defaults, !defaults.bool(forKey: DefaultsKey.keyboardTypingDefaultsSettled) else { return }
+        defaults.set(true, forKey: DefaultsKey.keyboardTypingDefaultsSettled)
+        let stored = defaults.string(forKey: languagesKey) ?? ""
+        guard stored.isEmpty, defaults.bool(forKey: DefaultsKey.keyboardExtensionDidLoad) else { return }
+        var legacy = TypingLanguage.deviceLanguages(preferred: preferred)
+        if defaults.bool(forKey: DefaultsKey.keyboardKoreanEnabled) && !legacy.contains(.ko) { legacy.insert(.ko, at: 0) }
+        defaults.set(raw(from: legacy), forKey: languagesKey)
+        print("🔄 [TypingPrefs.keepLegacyDefaultIfNeeded] 기존 사용자의 입력 언어를 그대로 둔다: \(raw(from: legacy))")
+    }
+
     static func raw(from languages: [TypingLanguage]) -> String {
         languages.map(\.rawValue).joined(separator: ",")
     }

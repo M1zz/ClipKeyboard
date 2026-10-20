@@ -106,8 +106,14 @@ enum TypingLanguage: String, CaseIterable, Identifiable, Codable {
         }
     }
 
-    /// 기기 언어에서 고른 처음 켤 언어들. 기기 언어 중 우리가 아는 것 + 영어.
-    static func defaults(preferred: [String] = Locale.preferredLanguages) -> [TypingLanguage] {
+    /// 처음 켤 언어. **영어 하나**다. 다른 언어는 앱의 설정 ▸ 키보드 ▸ 입력 언어에서 더한다.
+    ///
+    /// ⚠️ 예전에는 기기 언어에서 골랐다(`deviceLanguages`). 기존 사용자는 그 목록을 한 번 저장해
+    ///    그대로 쓴다(`TypingPrefs.keepLegacyDefaultIfNeeded`). 업데이트가 쓰던 자판을 빼앗지 않게.
+    static func defaults() -> [TypingLanguage] { [.en] }
+
+    /// 기기 언어 중 우리가 아는 것 + 영어. 예전의 처음 목록이다(기존 사용자를 그대로 두는 데만 쓴다).
+    static func deviceLanguages(preferred: [String] = Locale.preferredLanguages) -> [TypingLanguage] {
         var picked: [TypingLanguage] = []
         for code in preferred {
             if let lang = match(code), !picked.contains(lang) { picked.append(lang) }

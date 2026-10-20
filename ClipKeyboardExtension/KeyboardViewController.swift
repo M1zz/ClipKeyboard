@@ -155,6 +155,10 @@ class KeyboardViewController: UIInputViewController {
             self, selector: #selector(hostWillLeave),
             name: .NSExtensionHostDidEnterBackground, object: nil)
 
+        // 처음 자판 언어가 영어 하나로 바뀌었다. 예전에 띄운 적 있는 사람은 쓰던 목록을 그대로 둔다.
+        // ⚠️ 아래에서 `keyboardExtensionDidLoad` 를 적기 전이어야 한다.
+        TypingPrefs.keepLegacyDefaultIfNeeded()
+
         // ⚠️ 무거운 준비(단축어 읽기 · SwiftUI 판)보다 **먼저** 묻는다. 죽는 자리가 그 안이다.
         if crashGuard.beginLaunch() {
             print("🛟 [KeyboardViewController] 직전 실행들이 끝까지 못 떠서 최소 화면으로 연다")

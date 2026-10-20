@@ -80,11 +80,52 @@ final class TypingEnginesTests: XCTestCase {
         XCTAssertTrue(TypingLanguage.ko.alternates(for: "ㄱ").isEmpty)
     }
 
-    func testDefaultsComeFromDeviceLanguages() {
-        XCTAssertEqual(TypingLanguage.defaults(preferred: ["ko-KR", "ja-JP"]), [.ko, .ja, .en])
-        XCTAssertEqual(TypingLanguage.defaults(preferred: ["zh-Hant-TW"]), [.zhHant, .en])
-        XCTAssertEqual(TypingLanguage.defaults(preferred: ["pt-PT", "nb-NO"]), [.ptBR, .nb, .en])
-        XCTAssertEqual(TypingLanguage.defaults(preferred: ["ar-SA"]), [.en])
+    func testDeviceLanguagesMatchOurLanguages() {
+        XCTAssertEqual(TypingLanguage.deviceLanguages(preferred: ["ko-KR", "ja-JP"]), [.ko, .ja, .en])
+        XCTAssertEqual(TypingLanguage.deviceLanguages(preferred: ["zh-Hant-TW"]), [.zhHant, .en])
+        XCTAssertEqual(TypingLanguage.deviceLanguages(preferred: ["pt-PT", "nb-NO"]), [.ptBR, .nb, .en])
+        XCTAssertEqual(TypingLanguage.deviceLanguages(preferred: ["ar-SA"]), [.en])
+    }
+
+    /// 처음 켤 언어는 영어 하나다. 다른 언어는 앱의 입력 언어 설정에서 더한다.
+    func testFirstLanguageIsEnglishOnly() {
+        XCTAssertEqual(TypingLanguage.defaults(), [.en])
+        XCTAssertEqual(TypingPrefs.languages(from: "", koreanWasEnabled: false), [.en])
+    }
+
+    private func freshDefaults() -> UserDefaults {
+        let name = "TypingPrefsTests.\(UUID().uuidString)"
+        let d = UserDefaults(suiteName: name)!
+        d.removePersistentDomain(forName: name)
+        return d
+    }
+
+    /// 키보드를 띄운 적 있는 사람은 업데이트해도 쓰던 자판(기기 언어 + 영어)이 그대로다.
+    func testExistingKeyboardUserKeepsDeviceLanguages() {
+        let d = freshDefaults()
+        d.set(true, forKey: DefaultsKey.keyboardExtensionDidLoad)
+        TypingPrefs.keepLegacyDefaultIfNeeded(defaults: d, preferred: ["ko-KR"])
+        XCTAssertEqual(d.string(forKey: TypingPrefs.languagesKey), "ko,en")
+    }
+
+    /// 새로 깐 사람은 아무것도 적지 않는다. 그래서 영어 하나로 시작한다.
+    func testNewInstallStartsWithEnglish() {
+        let d = freshDefaults()
+        TypingPrefs.keepLegacyDefaultIfNeeded(defaults: d, preferred: ["ko-KR"])
+        XCTAssertNil(d.string(forKey: TypingPrefs.languagesKey))
+        // 한 번만 돈다. 나중에 키보드를 띄워도 영어 하나 그대로다.
+        d.set(true, forKey: DefaultsKey.keyboardExtensionDidLoad)
+        TypingPrefs.keepLegacyDefaultIfNeeded(defaults: d, preferred: ["ko-KR"])
+        XCTAssertNil(d.string(forKey: TypingPrefs.languagesKey))
+    }
+
+    /// 설정에서 이미 고른 목록은 건드리지 않는다.
+    func testChosenListIsNeverOverwritten() {
+        let d = freshDefaults()
+        d.set(true, forKey: DefaultsKey.keyboardExtensionDidLoad)
+        d.set("ja,en", forKey: TypingPrefs.languagesKey)
+        TypingPrefs.keepLegacyDefaultIfNeeded(defaults: d, preferred: ["ko-KR"])
+        XCTAssertEqual(d.string(forKey: TypingPrefs.languagesKey), "ja,en")
     }
 
     // MARK: - 바로 넣기 · 한글
