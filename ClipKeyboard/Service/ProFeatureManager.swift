@@ -207,7 +207,10 @@ struct ProFeatureManager {
     static let legacyV3ProKey = "com.ysoup.tokenmemo.isPro"
 
     /// `wasProAtV3` 를 영수증으로 한 번 다시 확인했는가. 결제 이력으로 잘못 새겨진 값을 걷어 낸 뒤 켠다.
-    static let grandfatheredPurchaseRevalidatedKey = "clipkeyboard_was_pro_at_v3_revalidated"
+    ///
+    /// `_v2`: 샌드박스 영수증도 날짜로 그랜드파더를 주던 판(5.1.12 (35) 까지)이 새긴 값을 한 번 더 걷는다.
+    ///    키를 바꾸지 않으면 이미 "확인됨" 인 심사 · TestFlight 기기는 다시 보지 않고 평생 Pro 로 남는다.
+    static let grandfatheredPurchaseRevalidatedKey = "clipkeyboard_was_pro_at_v3_revalidated_v2"
 
     /// `existingFreeUser` 를 영수증으로 한 번 다시 확인했는가.
     static let existingFreeUserRevalidatedKey = "clipkeyboard_existing_free_user_revalidated"
@@ -221,8 +224,10 @@ struct ProFeatureManager {
     /// v4.0 이후 새로 받은 사람까지 전부 켜졌다. 영수증의 최초 다운로드일이 v4.0 이후면
     /// 넘어온 사람일 수가 없다.
     static func shouldRevokeExistingFreeUser(wasExistingFreeUser: Bool,
-                                             originalPurchaseDate: Date) -> Bool {
-        wasExistingFreeUser && !isGrandfatheredPurchase(originalPurchaseDate: originalPurchaseDate)
+                                             originalPurchaseDate: Date,
+                                             environment: AppStore.Environment) -> Bool {
+        wasExistingFreeUser && !isGrandfatheredPurchase(originalPurchaseDate: originalPurchaseDate,
+                                                        environment: environment)
     }
 
     /// 잘못 켜졌던 `existingFreeUser` 를 걷는다. **한 번에 막지 않는다** - 7일 체험을 붙인다.
@@ -252,8 +257,14 @@ struct ProFeatureManager {
     /// ⚠️ **Apple 영수증의 날짜 하나만 본다.** 예전에는 기기에 남은 v3 Pro 키(`legacyV3ProKey`)도
     ///    인정했는데, 기기에만 있는 값은 재설치하면 사라져 복원으로 돌아오지 않는다.
     ///    평생 Pro 는 복원이 늘 같은 답을 내는 근거로만 준다(2026-09-26).
-    static func isGrandfatheredPurchase(originalPurchaseDate: Date) -> Bool {
-        originalPurchaseDate < freemiumReleaseDate
+    ///
+    /// ⚠️ **진짜 App Store(`.production`) 영수증만 믿는다.** Xcode · TestFlight · App Review 의
+    ///    영수증(`.xcode` · `.sandbox`)은 최초 구매일이 v4.0 한참 전으로 찍혀 와서, 날짜만 보면
+    ///    새로 받은 심사 기기까지 평생 Pro 가 된다. 5.1.12 (35) 가 이 길로 "Pro 활성화됨"만 띄워
+    ///    2.1(b) 로 거절됐다(2026-10-18). 샌드박스는 산 것만 연다.
+    static func isGrandfatheredPurchase(originalPurchaseDate: Date,
+                                        environment: AppStore.Environment) -> Bool {
+        environment == .production && originalPurchaseDate < freemiumReleaseDate
     }
 
     /// v4.0 이전 유료 구매자를 AppTransaction(Apple ID에 묶인 최초 구매 영수증)으로 식별해
@@ -294,7 +305,8 @@ struct ProFeatureManager {
                 return error.localizedDescription
             }
 
-            let entitled = isGrandfatheredPurchase(originalPurchaseDate: appTransaction.originalPurchaseDate)
+            let entitled = isGrandfatheredPurchase(originalPurchaseDate: appTransaction.originalPurchaseDate,
+                                                   environment: appTransaction.environment)
             let before = hasGrandfatheredPurchase
             if entitled {
                 groupDefaults?.set(true, forKey: grandfatheredPurchaseKey)
@@ -311,7 +323,8 @@ struct ProFeatureManager {
 
             var revoked = false
             if shouldRevokeExistingFreeUser(wasExistingFreeUser: wasExistingFreeUser,
-                                            originalPurchaseDate: appTransaction.originalPurchaseDate) {
+                                            originalPurchaseDate: appTransaction.originalPurchaseDate,
+                                            environment: appTransaction.environment) {
                 revokeExistingFreeUser()
                 revoked = true
             }
