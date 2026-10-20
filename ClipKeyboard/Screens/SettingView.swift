@@ -347,6 +347,13 @@ struct SettingView: View {
                 Label(NSLocalizedString("안정성 (개발자)", comment: "Stability settings entry (developer)"),
                       systemImage: AppSymbol.exclamationmarkTriangleFill)
             }
+            // 출시 빌드에서 선물을 돈 없이 끝까지 주고받아 본다. 시험 코드는 Pro 를 열지 않는다.
+            if let gift = proManager.gift {
+                FoldLink(destination: GiftDeveloperTestView(gift: gift)) {
+                    Label(NSLocalizedString("선물 시험 (개발자)", comment: "Developer gift test settings entry"),
+                          systemImage: AppSymbol.giftFill)
+                }
+            }
             FoldLink(destination: UserStageSimulatorView()) {
                 Label(NSLocalizedString("사용 단계 흉내 (개발자)", comment: "Stage simulator settings entry (developer)"),
                       systemImage: AppSymbol.personCropCircleBadgeCheckmark)

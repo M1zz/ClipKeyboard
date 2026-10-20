@@ -3129,7 +3129,7 @@
     "src": "68759becea"
   },
   "구입 복원을 한 번 더 누르고, 나온 안내를 찍어 주세요.": {
-    "v": "Klepněte na Obnovit nákupy ještě jednou a pošlete snímek zobrazeného hlášení.",
+    "v": "Klepněte na Obnovit nákupy ještě jednou a pošlete snímek zobrazené zprávy.",
     "src": "710c8daa64"
   },
   "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
@@ -3183,7 +3183,7 @@
     "src": "bb24d4c594"
   },
   "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
-    "v": "Pošlete snímek této obrazovky tak, jak vypadá. Pokud překlad zní nepřirozeně, napište nám, jak by zněl správně. Vaše znění převezmeme.",
+    "v": "Pošlete snímek této obrazovky beze změn. Pokud překlad zní nepřirozeně, napište, jak by znělo lépe. Vaši formulaci použijeme.",
     "src": "a6067d252a"
   },
   "그거 아세요?": {
@@ -3224,7 +3224,7 @@
     "src": "4d7e9923fb"
   },
   "그때 집중 모드나 무음 모드였나요? (선택)": {
-    "v": "Byl v tu chvíli zapnutý Soustředění nebo Tichý režim? (volitelné)",
+    "v": "Byl v té době zapnutý Soustředění nebo tichý režim? (volitelné)",
     "src": "0548daa9e3"
   },
   "그래도 백업": {
@@ -3532,7 +3532,7 @@
     "src": "949812949e"
   },
   "꺼지거나 열리지 않아요": {
-    "v": "Aplikace padá nebo se neotevře",
+    "v": "Aplikace se vypne nebo neotevře",
     "src": "bc87d0bf1b"
   },
   "꺼짐": {
@@ -3864,7 +3864,7 @@
     "src": "b9d49c6e77"
   },
   "느리거나 버벅여요": {
-    "v": "Je pomalá nebo sekává",
+    "v": "Aplikace je pomalá nebo sekává",
     "src": "44bedc6b6a"
   },
   "늘 이 자리: %@": {
@@ -4580,7 +4580,7 @@
     "src": "b029663445"
   },
   "데이터가 사라졌어요": {
-    "v": "Data zmizela",
+    "v": "Moje data zmizela",
     "src": "09995527de"
   },
   "데이터가 성공적으로 복구되었습니다. 앱을 재시작하여 변경사항을 확인하세요.": {
@@ -5013,7 +5013,7 @@
     "src": "bdaf65bee7"
   },
   "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
-    "v": "Stačí jeden snímek obrazovky ve chvíli, kdy se zasekne. Když uvidíme, co na ní je a kolik toho je, najdeme příčinu rychleji.",
+    "v": "Stačí jeden snímek obrazovky, když aplikace sekne. Když uvidíme, co na ní je a kolik toho je, najdeme příčinu rychleji.",
     "src": "e15a2fb4d2"
   },
   "메뉴바 아이콘: 🛶": {
@@ -6835,7 +6835,7 @@
     "src": "64252656f2"
   },
   "설정 앱 > 알림 > 이 앱 화면을 찍어 주세요. 알림 허용, 잠금 화면, 배너, 사운드가 다 보이게요.": {
-    "v": "Pošlete snímek Nastavení > Oznámení > tato aplikace, kde je vidět Povolit oznámení, Zamčená obrazovka, Bannery a Zvuky.",
+    "v": "Pošlete snímek obrazovky Nastavení > Oznámení > tato aplikace, kde je vidět Povolit oznámení, Zamčená obrazovka, Bannery a Zvuky.",
     "src": "bde90d0212"
   },
   "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.": {
@@ -6843,7 +6843,7 @@
     "src": "f6734b03c2"
   },
   "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
-    "v": "V Nastavení klepněte nahoře na své jméno > Média a nákupy > Zobrazit účet > Historie nákupů, najděte platbu za tuto aplikaci a pošlete snímek. Stačí datum a částka. Způsob platby můžete zakrýt.",
+    "v": "V Nastavení klepněte nahoře na své jméno > Média a nákupy > Zobrazit účet > Historie nákupů, najděte platbu za tuto aplikaci a pošlete snímek. Stačí datum a částka. Platební metodu můžete zakrýt.",
     "src": "2c4dd5890d"
   },
   "설정 앱에서 '동작 버튼'을 열어요": {
@@ -7572,7 +7572,7 @@
     "src": "ee0ec98e32"
   },
   "알림이 안 오거나 늦어요": {
-    "v": "Oznámení nechodí nebo chodí pozdě",
+    "v": "Oznámení nedorazí nebo se zpozdí",
     "src": "132f374923"
   },
   "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.": {
@@ -7717,7 +7717,7 @@
     "src": "728d55302a"
   },
   "어느 기기 사이에서, 무엇이 안 맞나요?": {
-    "v": "Mezi kterými zařízeními a co nesouhlasí?",
+    "v": "Mezi jakými zařízeními a co nesouhlasí?",
     "src": "7faff7af57"
   },
   "어느 화면에서, 얼마나 걸리나요?": {
@@ -7741,7 +7741,7 @@
     "src": "311a548ea9"
   },
   "어떤 문제인가요?": {
-    "v": "Jaký je problém?",
+    "v": "O jaký problém jde?",
     "src": "cb4d89f7b8"
   },
   "어떤 상황인가요?": {
@@ -7749,7 +7749,7 @@
     "src": "a26f1a2ba4"
   },
   "어떤 알림이, 언제 오기로 돼 있었나요?": {
-    "v": "Které oznámení a kdy mělo přijít?",
+    "v": "Jaké oznámení a kdy mělo přijít?",
     "src": "00a1a78353"
   },
   "어떤 앱에서든 글을 고르고 공유에서 ClipKeyboard 를 누르면 단축어가 됩니다. 앱을 열지 않아도 돼요.": {
@@ -7777,7 +7777,7 @@
     "src": "d9a6ac3cd1"
   },
   "언제, 어느 기기에서 샀나요? (선택)": {
-    "v": "Kdy a na kterém zařízení jste nákup provedli? (volitelné)",
+    "v": "Kdy a na kterém zařízení jste to koupili? (volitelné)",
     "src": "231181af2a"
   },
   "언제든지 접근 가능": {
@@ -7785,7 +7785,7 @@
     "src": "c1f88829b5"
   },
   "언제부터 그랬나요? (선택)": {
-    "v": "Odkdy to tak je? (volitelné)",
+    "v": "Od kdy to nastává? (volitelné)",
     "src": "482f56e353"
   },
   "업무": {
@@ -8017,55 +8017,55 @@
     "src": "e8fcf11de2"
   },
   "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.": {
-    "v": "Např. Z 20 vytvořených zmizela asi polovina.",
+    "v": "Např. Zmizela asi polovina z 20 vytvořených.",
     "src": "c0a5a82c2c"
   },
   "예) 매번요. 기기를 껐다 켜도 같아요.": {
-    "v": "Např. pokaždé. Stejné i po restartu zařízení.",
+    "v": "Např. Pokaždé. Po restartu zařízení je to stejné.",
     "src": "c952ed962c"
   },
   "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
-    "v": "Např. při posouvání seznamu se na asi sekundu zasekne.",
+    "v": "Např. Při posouvání seznamu se vždy asi na vteřinu zasekne.",
     "src": "5d25eabe10"
   },
   "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
-    "v": "Např. text tlačítek v nastavení je oříznutý. Překlad této věty zní nepřirozeně.",
+    "v": "Např. Text tlačítka v nastavení je oříznutý. Překlad této věty zní nepřirozeně.",
     "src": "e32a425323"
   },
   "예) 수면 모드가 켜져 있었어요.": {
-    "v": "Např. byl zapnutý režim Spánek.",
+    "v": "Např. Byl zapnutý režim Spánek.",
     "src": "e444a75fad"
   },
   "예) 아이폰에서 만든 것이 아이패드에 안 보여요.": {
-    "v": "Např. co jsem vytvořil(a) v iPhonu, se na iPadu nezobrazuje.",
+    "v": "Např. To, co jsem vytvořil(a) v iPhonu, se v iPadu nezobrazuje.",
     "src": "e193e298fe"
   },
   "예) 앱을 업데이트했어요. 새 아이폰으로 옮겼어요. 앱을 지웠다 다시 깔았어요.": {
-    "v": "Např. aktualizoval(a) jsem aplikaci. Přešel/přešla jsem na nový iPhone. Smazal(a) jsem aplikaci a nainstaloval(a) ji znovu.",
+    "v": "Např. Aktualizoval(a) jsem aplikaci. Přešel/přešla jsem na nový iPhone. Smazal(a) jsem aplikaci a nainstaloval(a) ji znovu.",
     "src": "190007f2af"
   },
   "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.": {
-    "v": "Např. po otevření se zasekne na bílé obrazovce. Po klepnutí na Uložit se aplikace zavře.",
+    "v": "Např. Po otevření se zasekne na bílé obrazovce. Po klepnutí na Uložit se aplikace zavře.",
     "src": "7fd7282c7d"
   },
   "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
-    "v": "Např. oznámení v 9:00 nepřišlo. Přišlo o 5 minut později.",
+    "v": "Např. Oznámení v 9:00 nepřišlo. Přišlo o 5 minut později.",
     "src": "b7aa5cb55e"
   },
   "예) 올해 3월쯤, 예전 아이폰에서요.": {
-    "v": "Např. zhruba v březnu tohoto roku, na starém iPhonu.",
+    "v": "Např. Asi v březnu tohoto roku, na starém iPhonu.",
     "src": "1ef384c00a"
   },
   "예) 지난주 업데이트 뒤부터요.": {
-    "v": "Např. od aktualizace minulý týden.",
+    "v": "Např. Od aktualizace minulý týden.",
     "src": "5b7fbdbe2b"
   },
   "예) 평생 이용권을 샀는데, 앱을 다시 깔고 나니 잠겨 있어요. 복원을 눌러도 없다고 나와요.": {
-    "v": "Např. koupil(a) jsem doživotní přístup, ale po přeinstalaci je aplikace zamčená. Obnovit nákupy hlásí, že není co obnovit.",
+    "v": "Např. Koupil(a) jsem doživotní přístup, ale po přeinstalaci je aplikace zamčená. Obnovení hlásí, že není co obnovit.",
     "src": "c935df2f4a"
   },
   "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
-    "v": "Např. widget na ploše se zasekl na včerejší hodnotě. Aplikace se v seznamu klávesnic nezobrazuje.",
+    "v": "Např. Widget na ploše se zasekl na včerejší hodnotě. Aplikace se v seznamu klávesnic nezobrazuje.",
     "src": "9713f82101"
   },
   "예: 010-1234-5678": {
@@ -8309,7 +8309,7 @@
     "src": "13d40b4407"
   },
   "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.": {
-    "v": "Pořiďte snímek obrazovky plochy s widgetem nebo obrazovky se zobrazenou klávesnicí. U klávesnice přiložte také Nastavení > Obecné > Klávesnice > Klávesnice.",
+    "v": "Pořiďte snímek plochy s widgetem nebo obrazovky se zobrazenou klávesnicí. U klávesnice přiložte také Nastavení > Obecné > Klávesnice > Klávesnice.",
     "src": "bd66902936"
   },
   "위젯이나 키보드가 안 돼요": {
@@ -8446,7 +8446,7 @@
     "src": "a12038db6b"
   },
   "이 앱의 알림 설정": {
-    "v": "Nastavení oznámení aplikace",
+    "v": "Nastavení oznámení této aplikace",
     "src": "89060849e9"
   },
   "이 앱이 하루에 박혀 있는 사람들이에요. 리뷰와 입소문이 여기서 나와요.": {
@@ -8825,7 +8825,7 @@
     "src": "15fd035e42"
   },
   "이상한 화면": {
-    "v": "Chybně zobrazená obrazovka",
+    "v": "Obrazovka, která vypadá špatně",
     "src": "46b4000f7f"
   },
   "이어서 입력할 내용": {
@@ -9766,7 +9766,7 @@
     "src": "732fa02323"
   },
   "지금 남아 있는 화면": {
-    "v": "Co zbylo teď",
+    "v": "Co zbývá teď",
     "src": "3fa1a883bf"
   },
   "지금 내 단축어 %1$d / %2$d칸": {
@@ -9782,7 +9782,7 @@
     "src": "0660df0f16"
   },
   "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
-    "v": "Pořiďte snímek obrazovky seznamu, jak vypadá teď. Pokud máte v aplikaci Fotky starší snímek, přiložte i ten, abychom mohli porovnat, co chybí.",
+    "v": "Pořiďte snímek seznamu v současném stavu. Pokud máte ve Fotkách starší snímek, přiložte ho také, abychom mohli porovnat, co chybí.",
     "src": "ff5f634480"
   },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
@@ -12062,7 +12062,7 @@
     "src": "1f2314554b"
   },
   "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.": {
-    "v": "I bílá obrazovka je v pořádku. Snímek pořídíte současným stisknutím bočního tlačítka a tlačítka pro zvýšení hlasitosti.",
+    "v": "Bílá obrazovka nevadí. Snímek pořídíte současným stisknutím bočního tlačítka a tlačítka zvýšení hlasitosti.",
     "src": "5bc1d83572"
   },
   "힌트 (선택)": {
@@ -12160,5 +12160,21 @@
   "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
     "v": "Tato aplikace funguje přes klávesnici na iPhonu, takže na Macu do ní fráze vložit nelze. ClipKeyboard pro Mac je vloží do libovolné aplikace z řádku nabídek nebo klávesovou zkratkou.",
     "src": "2e5ad98226"
+  },
+  "결제 없이 시험 코드를 만들어 지금 빌드의 iCloud 환경에 올려요. 받아도 Pro는 열리지 않아요.": {
+    "v": "Vytvoří zkušební kód bez platby a nahraje ho do prostředí iCloud této verze. Po uplatnění se Pro neodemkne.",
+    "src": "f0eae4ba30"
+  },
+  "선물 시험 (개발자)": {
+    "v": "Test dárku (vývojář)",
+    "src": "1d2ea3a9db"
+  },
+  "시험 코드 만들기": {
+    "v": "Vytvořit zkušební kód",
+    "src": "53e670eceb"
+  },
+  "코드를 넣으면 끝까지 처리됐다고 나와야 해요. 같은 코드를 한 번 더 넣으면 이미 받은 선물로 나와야 맞아요.": {
+    "v": "Po zadání kódu by se mělo zobrazit, že proběhl celý. Po opětovném zadání stejného kódu by se mělo zobrazit, že dárek už byl uplatněn.",
+    "src": "755c71b1ac"
   }
 }

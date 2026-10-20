@@ -3019,11 +3019,11 @@
     "src": "dc11d074af"
   },
   "구입 복원을 누른 뒤 나온 화면": {
-    "v": "Écran après avoir touché Restaurer les achats",
+    "v": "Écran affiché après avoir touché Restaurer les achats",
     "src": "68759becea"
   },
   "구입 복원을 한 번 더 누르고, 나온 안내를 찍어 주세요.": {
-    "v": "Touchez encore une fois Restaurer les achats, puis faites une capture du message qui s’affiche.",
+    "v": "Touchez de nouveau Restaurer les achats, puis faites une capture du message qui s’affiche.",
     "src": "710c8daa64"
   },
   "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
@@ -3073,7 +3073,7 @@
     "src": "bb24d4c594"
   },
   "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
-    "v": "Faites une capture de cet écran tel quel. Si une traduction vous paraît étrange, indiquez-nous comment la formuler plus naturellement. Nous reprendrons vos mots.",
+    "v": "Faites une capture de cet écran tel quel. Si une traduction vous semble étrange, indiquez-nous comment la formuler plus naturellement. Nous reprendrons vos mots.",
     "src": "a6067d252a"
   },
   "그거 아세요?": {
@@ -3112,7 +3112,7 @@
     "src": "4d7e9923fb"
   },
   "그때 집중 모드나 무음 모드였나요? (선택)": {
-    "v": "Un mode Concentration ou le mode Silencieux était-il activé à ce moment-là ? (facultatif)",
+    "v": "Un mode Concentration ou le mode Silence était-il actif à ce moment-là ? (facultatif)",
     "src": "0548daa9e3"
   },
   "그래도 백업": {
@@ -3420,7 +3420,7 @@
     "src": "949812949e"
   },
   "꺼지거나 열리지 않아요": {
-    "v": "L’app plante ou ne s’ouvre pas",
+    "v": "L’app se ferme ou ne s’ouvre pas",
     "src": "bc87d0bf1b"
   },
   "꺼짐": {
@@ -3752,7 +3752,7 @@
     "src": "b9d49c6e77"
   },
   "느리거나 버벅여요": {
-    "v": "L’app est lente ou saccade",
+    "v": "C’est lent ou saccadé",
     "src": "44bedc6b6a"
   },
   "늘 이 자리: %@": {
@@ -4839,7 +4839,7 @@
     "src": "f4f8177bfb"
   },
   "매번 그런가요? 껐다 켜도 그런가요? (선택)": {
-    "v": "Cela arrive-t-il à chaque fois ? Même après un redémarrage ? (facultatif)",
+    "v": "Est-ce à chaque fois ? Même après un redémarrage ? (facultatif)",
     "src": "240874ecc6"
   },
   "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
@@ -4875,7 +4875,7 @@
     "src": "bdaf65bee7"
   },
   "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
-    "v": "Une seule capture de l’écran qui saccade suffit. Si l’on voit ce qu’il contient et en quelle quantité, nous trouverons la cause plus vite.",
+    "v": "Une seule capture de l’écran qui saccade suffit. Si l’on voit ce qu’il contient et en quelle quantité, la cause sera plus vite trouvée.",
     "src": "e15a2fb4d2"
   },
   "메뉴바 아이콘: 🛶": {
@@ -6665,11 +6665,11 @@
     "src": "bde90d0212"
   },
   "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.": {
-    "v": "Dans Réglages, touchez votre nom en haut > iCloud > Tout afficher, et faites une capture montrant si cette app est activée. Des captures des deux appareils seraient encore mieux.",
+    "v": "Dans Réglages, touchez votre nom en haut > iCloud > Tout afficher, puis faites une capture indiquant si cette app est activée. Les captures des deux appareils sont encore mieux.",
     "src": "f6734b03c2"
   },
   "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
-    "v": "Dans Réglages, touchez votre nom en haut > Contenu multimédia et achats > Consulter le compte > Historique des achats, trouvez le paiement de cette app et faites une capture. La date et le montant suffisent. Vous pouvez masquer le moyen de paiement.",
+    "v": "Dans Réglages, touchez votre nom en haut > Contenu multimédia et achats > Séance du compte > Historique des achats, trouvez le paiement de cette app et faites une capture. La date et le montant suffisent. Vous pouvez masquer le moyen de paiement.",
     "src": "2c4dd5890d"
   },
   "설정 앱에서 '동작 버튼'을 열어요": {
@@ -7388,7 +7388,7 @@
     "src": "ee0ec98e32"
   },
   "알림이 안 오거나 늦어요": {
-    "v": "Les notifications n’arrivent pas ou arrivent en retard",
+    "v": "Les notifications n’arrivent pas ou en retard",
     "src": "132f374923"
   },
   "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.": {
@@ -7488,7 +7488,7 @@
     "src": "17a89c693d"
   },
   "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.": {
-    "v": "Envoyez ceci avant de supprimer et de réinstaller l’app. La suppression efface aussi les données présentes uniquement sur cet appareil, et elles ne pourront pas être récupérées.",
+    "v": "Envoyez ceci avant de supprimer et de réinstaller l’app. La suppression efface aussi les données présentes uniquement sur cet appareil, et elles ne peuvent pas être récupérées.",
     "src": "6c47aed7d4"
   },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
@@ -7531,7 +7531,7 @@
     "src": "728d55302a"
   },
   "어느 기기 사이에서, 무엇이 안 맞나요?": {
-    "v": "Entre quels appareils, et qu’est-ce qui diffère ?",
+    "v": "Entre quels appareils, et qu’est-ce qui ne correspond pas ?",
     "src": "7faff7af57"
   },
   "어느 화면에서, 얼마나 걸리나요?": {
@@ -7591,7 +7591,7 @@
     "src": "d9a6ac3cd1"
   },
   "언제, 어느 기기에서 샀나요? (선택)": {
-    "v": "Quand et sur quel appareil l’avez-vous acheté ? (facultatif)",
+    "v": "Quand, et sur quel appareil, l’avez-vous acheté ? (facultatif)",
     "src": "231181af2a"
   },
   "언제든지 접근 가능": {
@@ -7599,7 +7599,7 @@
     "src": "c1f88829b5"
   },
   "언제부터 그랬나요? (선택)": {
-    "v": "Depuis quand ? (facultatif)",
+    "v": "Depuis quand cela se produit-il ? (facultatif)",
     "src": "482f56e353"
   },
   "업무": {
@@ -7831,19 +7831,19 @@
     "src": "e8fcf11de2"
   },
   "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.": {
-    "v": "Ex. : environ la moitié des 20 que j’avais créés a disparu.",
+    "v": "Ex. : environ la moitié des 20 que j’avais créés ont disparu.",
     "src": "c0a5a82c2c"
   },
   "예) 매번요. 기기를 껐다 켜도 같아요.": {
-    "v": "Ex. : à chaque fois. Pareil après un redémarrage de l'appareil.",
+    "v": "Ex. : à chaque fois. Pareil après avoir redémarré l’appareil.",
     "src": "c952ed962c"
   },
   "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
-    "v": "Ex. : l'affichage se fige environ une seconde à chaque défilement de la liste.",
+    "v": "Ex. : ça se fige environ une seconde à chaque défilement de la liste.",
     "src": "5d25eabe10"
   },
   "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
-    "v": "Ex. : le texte des boutons est coupé dans les réglages. La traduction de cette phrase est étrange.",
+    "v": "Ex. : le texte des boutons est coupé dans les réglages. La traduction de cette phrase est maladroite.",
     "src": "e32a425323"
   },
   "예) 수면 모드가 켜져 있었어요.": {
@@ -7851,23 +7851,23 @@
     "src": "e444a75fad"
   },
   "예) 아이폰에서 만든 것이 아이패드에 안 보여요.": {
-    "v": "Ex. : ce que j'ai créé sur mon iPhone n'apparaît pas sur mon iPad.",
+    "v": "Ex. : ce que j’ai créé sur mon iPhone n’apparaît pas sur mon iPad.",
     "src": "e193e298fe"
   },
   "예) 앱을 업데이트했어요. 새 아이폰으로 옮겼어요. 앱을 지웠다 다시 깔았어요.": {
-    "v": "Ex. : j'ai mis à jour l'app. J'ai changé d'iPhone. J'ai supprimé puis réinstallé l'app.",
+    "v": "Ex. : j’ai mis à jour l’app. Je suis passé sur un nouvel iPhone. J’ai supprimé puis réinstallé l’app.",
     "src": "190007f2af"
   },
   "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.": {
-    "v": "Ex. : l'app reste bloquée sur un écran blanc à l'ouverture. Elle se ferme quand j'touche Enregistrer.",
+    "v": "Ex. : l’app reste bloquée sur un écran blanc à l’ouverture. Elle se ferme quand j’appuie sur Enregistrer.",
     "src": "7fd7282c7d"
   },
   "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
-    "v": "Ex. : la notification de 9 h n'est pas arrivée. Elle est arrivée avec 5 minutes de retard.",
+    "v": "Ex. : la notification de 9 h n’est pas arrivée. Elle est arrivée avec 5 minutes de retard.",
     "src": "b7aa5cb55e"
   },
   "예) 올해 3월쯤, 예전 아이폰에서요.": {
-    "v": "Ex. : vers mars cette année, sur mon ancien iPhone.",
+    "v": "Ex. : vers mars de cette année, sur mon ancien iPhone.",
     "src": "1ef384c00a"
   },
   "예) 지난주 업데이트 뒤부터요.": {
@@ -7875,11 +7875,11 @@
     "src": "5b7fbdbe2b"
   },
   "예) 평생 이용권을 샀는데, 앱을 다시 깔고 나니 잠겨 있어요. 복원을 눌러도 없다고 나와요.": {
-    "v": "Ex. : j'ai acheté l'accès à vie, mais après une réinstallation, l'app est verrouillée. La restauration indique qu'il n'y a rien à restaurer.",
+    "v": "Ex. : j’ai acheté l’accès à vie, mais après avoir réinstallé l’app, tout est verrouillé. Restaurer indique qu’il n’y a rien à restaurer.",
     "src": "c935df2f4a"
   },
   "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
-    "v": "Ex. : le Widget de l'écran d'accueil reste bloqué sur la valeur d'hier. Cette app n'apparaît pas dans la liste des claviers.",
+    "v": "Ex. : le Widget de l’écran d’accueil reste bloqué sur la valeur d’hier. Cette app n’apparaît pas dans la liste des claviers.",
     "src": "9713f82101"
   },
   "예: 010-1234-5678": {
@@ -8123,7 +8123,7 @@
     "src": "13d40b4407"
   },
   "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.": {
-    "v": "Faites une capture de l'écran d'accueil avec le Widget, ou de l'écran où le clavier s'affiche. Pour le clavier, joignez aussi Réglages > Général > Clavier > Claviers.",
+    "v": "Faites une capture de l’écran d’accueil avec le Widget, ou de l’écran où le clavier est affiché. Pour le clavier, joignez aussi Réglages > Général > Clavier > Claviers.",
     "src": "bd66902936"
   },
   "위젯이나 키보드가 안 돼요": {
@@ -8631,7 +8631,7 @@
     "src": "15fd035e42"
   },
   "이상한 화면": {
-    "v": "Écran anormal",
+    "v": "Écran qui s’affiche mal",
     "src": "46b4000f7f"
   },
   "이어서 입력할 내용": {
@@ -9562,7 +9562,7 @@
     "src": "732fa02323"
   },
   "지금 남아 있는 화면": {
-    "v": "Ce qui reste à présent",
+    "v": "Ce qu’il reste maintenant",
     "src": "3fa1a883bf"
   },
   "지금 내 단축어 %1$d / %2$d칸": {
@@ -9578,7 +9578,7 @@
     "src": "0660df0f16"
   },
   "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
-    "v": "Faites une capture de la liste telle qu'elle apparaît maintenant. Si vous avez une ancienne capture dans Photos, joignez-la aussi, pour que l'on puisse voir ce qui manque.",
+    "v": "Faites une capture de la liste telle qu’elle est maintenant. Si vous avez une ancienne capture dans Photos, joignez-la aussi pour que nous puissions comparer ce qui manque.",
     "src": "ff5f634480"
   },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
@@ -11719,7 +11719,7 @@
     "src": "459064740b"
   },
   "화면이나 글자가 이상해요": {
-    "v": "L'écran ou le texte semble anormal",
+    "v": "L’écran ou le texte s’affiche mal",
     "src": "77ad812308"
   },
   "확인": {
@@ -11831,7 +11831,7 @@
     "src": "1f2314554b"
   },
   "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.": {
-    "v": "Un écran blanc convient aussi. Appuyez en même temps sur le bouton latéral et sur le bouton d'augmentation du volume pour faire une capture.",
+    "v": "Un écran blanc convient aussi. Appuyez en même temps sur le bouton latéral et sur le bouton d’augmentation du volume pour faire une capture.",
     "src": "5bc1d83572"
   },
   "힌트 (선택)": {
@@ -11929,5 +11929,21 @@
   "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
     "v": "Cette app fonctionne depuis le clavier de l'iPhone, elle ne peut donc pas saisir vos phrases sur un Mac. ClipKeyboard pour Mac les colle dans n'importe quelle app depuis la barre des menus ou un raccourci clavier.",
     "src": "2e5ad98226"
+  },
+  "결제 없이 시험 코드를 만들어 지금 빌드의 iCloud 환경에 올려요. 받아도 Pro는 열리지 않아요.": {
+    "v": "Crée un code de test sans paiement et le met dans l’environnement iCloud de cette version. L’échanger ne débloque pas Pro.",
+    "src": "f0eae4ba30"
+  },
+  "선물 시험 (개발자)": {
+    "v": "Test de cadeau (développeur)",
+    "src": "1d2ea3a9db"
+  },
+  "시험 코드 만들기": {
+    "v": "Créer un code de test",
+    "src": "53e670eceb"
+  },
+  "코드를 넣으면 끝까지 처리됐다고 나와야 해요. 같은 코드를 한 번 더 넣으면 이미 받은 선물로 나와야 맞아요.": {
+    "v": "Après la saisie du code, un message doit indiquer que tout s’est bien déroulé. En saisissant le même code une seconde fois, le cadeau doit apparaître comme déjà utilisé.",
+    "src": "755c71b1ac"
   }
 }
