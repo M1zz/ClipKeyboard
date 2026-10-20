@@ -13,14 +13,129 @@
 import SwiftUI
 import LeeoKit
 
+// MARK: - 지금 켜져 있나
+
+/// 전체 접근이 켜져 있는지 앱이 아는 만큼.
+///
+/// ⚠️ 앱은 이 값을 **직접 물을 수 없다.** iOS 가 알려 주는 곳은 키보드 익스텐션이 뜰 때
+///    (`KeyboardViewController.viewWillAppear`) 하나뿐이고, 익스텐션이 그때 App Group 에 적는다.
+///    그래서 설정에서 켜고 돌아와도 키보드가 한 번 뜨기 전까지는 지난 값(꺼짐)이 남는다.
+///    예전에는 그 값을 그대로 "꺼짐" 으로 보여서, 방금 켠 사람에게 안 켜졌다고 말했다.
+///
+/// 그래서 셋으로 말한다.
+///  · 켜짐: 키보드가 마지막으로 뜰 때 켜져 있었다
+///  · 확인 중: 이 앱이 설정을 열어 준 뒤다. 켰을 수 있으니 꺼졌다고 단정하지 않는다
+///  · 꺼짐: 그 밖
+///
+/// ⚠️ 키보드가 같은 기기의 다른 프로세스에서 값을 적으므로 `@AppStorage` 는 바뀐 것을 모른다.
+///    보이는 동안 `watch()` 로 다시 읽는다.
+@MainActor
+final class FullAccessStatus: ObservableObject {
+    static let shared = FullAccessStatus()
+
+    enum State: Equatable {
+        case on, checking, off
+    }
+
+    @Published private(set) var state: State = .off
+
+    /// 설정을 열어 준 뒤 이만큼은 "확인 중" 으로 둔다. 그 안에 키보드를 안 띄웠으면 꺼진 것으로 돌아간다.
+    static let checkingWindow: TimeInterval = 10 * 60
+
+    private init() {
+        refresh()
+    }
+
+    /// 키보드가 마지막으로 적은 값을 다시 읽는다. true 일 때만 믿는다(`DefaultsKey.keyboardFullAccessGranted`).
+    func refresh(now: Date = Date()) {
+        let granted = AppGroup.defaults?.bool(forKey: DefaultsKey.keyboardFullAccessGranted) ?? false
+        let openedAt = UserDefaults.standard.double(forKey: DefaultsKey.fullAccessSettingsOpenedAt)
+        let next = Self.state(granted: granted,
+                              openedSettingsAt: openedAt > 0 ? Date(timeIntervalSince1970: openedAt) : nil,
+                              now: now)
+        guard next != state else { return }
+        if state == .checking, next == .on {
+            HapticManager.shared.success()
+            print("✅ [FullAccessStatus.refresh] 전체 접근이 켜진 것을 확인")
+        }
+        state = next
+    }
+
+    /// 이 앱이 설정을 열어 준다. 돌아오면 "확인 중" 이다.
+    func noteOpenedSettings(now: Date = Date()) {
+        UserDefaults.standard.set(now.timeIntervalSince1970, forKey: DefaultsKey.fullAccessSettingsOpenedAt)
+        refresh(now: now)
+    }
+
+    /// 보이는 동안 1초마다 다시 읽는다. `.task { await FullAccessStatus.shared.watch() }`
+    func watch() async {
+        while !Task.isCancelled {
+            refresh()
+            try? await Task.sleep(for: .seconds(1))
+        }
+    }
+
+    /// 순수한 판정. 시험이 직접 부른다.
+    nonisolated static func state(granted: Bool, openedSettingsAt: Date?, now: Date) -> State {
+        if granted { return .on }
+        if let openedSettingsAt, now.timeIntervalSince(openedSettingsAt) < checkingWindow { return .checking }
+        return .off
+    }
+
+    /// 설정 줄 오른쪽에 붙이는 말.
+    var label: String {
+        switch state {
+        case .on:       return NSLocalizedString("켜짐", comment: "Full Access status: on")
+        case .checking: return NSLocalizedString("확인 중", comment: "Full Access status: just came back from Settings, not confirmed yet")
+        case .off:      return NSLocalizedString("꺼짐", comment: "Full Access status: off")
+        }
+    }
+}
+
+// MARK: - 여기서 확인하기
+
+/// 키보드를 한 번 띄워 전체 접근을 확인하는 칸. 이 칸에서 클립키보드가 뜨면 그 순간 키보드가 값을 적는다.
+///
+/// ⚠️ 칸에 친 글은 어디에도 쓰지 않는다. 키보드를 부르는 자리일 뿐이다.
+struct FullAccessCheckField: View {
+    @Environment(\.appTheme) private var theme
+    @ObservedObject private var status = FullAccessStatus.shared
+    @State private var text = ""
+    @FocusState private var focused: Bool
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(status.state == .checking
+                 ? NSLocalizedString("켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.",
+                                     comment: "Full Access check: explain why status is still being checked")
+                 : NSLocalizedString("이미 켰는데 꺼짐으로 보이면, 아래 칸에서 키보드를 한 번 띄워 보세요.",
+                                     comment: "Full Access check: hint when status says off"))
+                .font(.footnote)
+                .foregroundColor(theme.textMuted)
+                .fixedSize(horizontal: false, vertical: true)
+            TextField(NSLocalizedString("여기를 누르고 지구본으로 클립키보드 고르기",
+                                        comment: "Full Access check field placeholder: tap here and switch to this keyboard with the globe key"),
+                      text: $text)
+                .focused($focused)
+                .autocorrectionDisabled()
+                .padding(12)
+                .background(theme.surfaceAlt, in: RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+        }
+        .onChange(of: status.state) { _, state in
+            // 켜진 것을 봤으면 키보드를 내린다. 할 일이 끝났다.
+            if state == .on { focused = false }
+        }
+    }
+}
+
+// MARK: - 안내
+
 struct FullAccessGuideView: View {
     @Environment(\.appTheme) private var theme
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var status = FullAccessStatus.shared
 
-    /// 키보드가 마지막으로 뜰 때 본 값. true 일 때만 믿는다(`DefaultsKey.keyboardFullAccessGranted`).
-    private var isGranted: Bool {
-        AppGroup.defaults?.bool(forKey: DefaultsKey.keyboardFullAccessGranted) ?? false
-    }
+    private var isGranted: Bool { status.state == .on }
 
     var body: some View {
         NavigationStack {
@@ -30,9 +145,11 @@ struct FullAccessGuideView: View {
                     benefits
                     privacyNote
                     steps
+                    if !isGranted { FullAccessCheckField() }
                 }
                 .padding(20)
             }
+            .task { await status.watch() }
             .background(theme.bg.ignoresSafeArea())
             .safeAreaInset(edge: .bottom) { openSettingsButton }
             .toolbar {
@@ -58,6 +175,7 @@ struct FullAccessGuideView: View {
             Text(isGranted
                  ? NSLocalizedString("지금 켜져 있어요. 키보드의 모든 기능을 쓸 수 있어요.", comment: "Full Access guide: already on")
                  : NSLocalizedString("단축어 넣기는 지금도 돼요. 켜면 아래 기능이 더 열려요.", comment: "Full Access guide: subtitle when off"))
+                .animation(.easeInOut(duration: 0.2), value: isGranted)
                 .font(.body)
                 .foregroundColor(theme.textMuted)
                 .fixedSize(horizontal: false, vertical: true)
@@ -145,6 +263,8 @@ struct FullAccessGuideView: View {
         Button {
             HapticManager.shared.light()
             if let url = URL(string: UIApplication.openSettingsURLString) {
+                // 돌아오면 "꺼짐" 이 아니라 "확인 중" 이다. 켜고 왔을 수 있다.
+                status.noteOpenedSettings()
                 UIApplication.shared.open(url)
             }
         } label: {

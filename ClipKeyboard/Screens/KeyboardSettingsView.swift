@@ -15,9 +15,8 @@ struct KeyboardSettingsView: View {
     @Environment(\.appTheme) private var theme
     @State private var showKeyboardGuide = false
     @State private var showFullAccessGuide = false
-    /// 키보드가 마지막으로 뜰 때 본 전체 접근. true 만 믿는다(`DefaultsKey.keyboardFullAccessGranted`).
-    @AppStorage(DefaultsKey.keyboardFullAccessGranted, store: AppGroup.defaults)
-    private var fullAccessGranted: Bool = false
+    /// 전체 접근. 키보드가 다른 프로세스에서 적으므로 `@AppStorage` 로는 바뀐 것을 모른다(`FullAccessStatus`).
+    @ObservedObject private var fullAccess = FullAccessStatus.shared
     /// 키보드에서 빈칸을 채울 때 한 칸만 펼칠지. App Group - 키보드도 같은 값을 읽는다.
     @AppStorage(DefaultsKey.keyboardCompactPlaceholders, store: AppGroup.defaults)
     private var compactPlaceholders: Bool = true
@@ -35,6 +34,8 @@ struct KeyboardSettingsView: View {
         .sheet(isPresented: $showFullAccessGuide) {
             FullAccessGuideView()
         }
+        // 설정에서 켜고 돌아와 키보드를 한 번 띄우면 그 자리에서 바뀌게 보이는 동안 다시 읽는다.
+        .task { await fullAccess.watch() }
     }
 
     // MARK: - 섹션
@@ -78,10 +79,9 @@ struct KeyboardSettingsView: View {
                         Image(systemName: AppSymbol.lockShieldFill)
                     }
                     Spacer()
-                    Text(fullAccessGranted
-                         ? NSLocalizedString("켜짐", comment: "Full Access status: on")
-                         : NSLocalizedString("꺼짐", comment: "Full Access status: off"))
-                        .foregroundStyle(fullAccessGranted ? Color.secondary : Color.orange)
+                    // 꺼짐만 주황이다. 꺼져 있으면 기능이 말없이 안 되므로 계속 눈에 띄게 둔다.
+                    Text(fullAccess.label)
+                        .foregroundStyle(fullAccess.state == .off ? Color.orange : Color.secondary)
                     Image(systemName: AppSymbol.chevronForward)
                         .font(.footnote.weight(.semibold))
                         .foregroundStyle(Color(uiColor: .tertiaryLabel))

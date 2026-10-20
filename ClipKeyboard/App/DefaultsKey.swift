@@ -213,6 +213,9 @@ enum DefaultsKey {
     /// ⚠️ 꺼져 있으면 iOS 가 키보드의 App Group **쓰기**를 막을 수 있다. 그래서 `false` 가
     ///    안 적힐 수 있다. 앱은 `true` 일 때만 "켜져 있다" 고 믿고, 없거나 `false` 면 꺼진 것으로 본다.
     static let keyboardFullAccessGranted = "keyboardFullAccessGranted.v1"
+    /// 이 앱이 전체 접근을 켜러 설정을 열어 준 시각(standard UD, timeIntervalSince1970).
+    /// 돌아온 뒤 잠시 "꺼짐" 대신 "확인 중" 이라 말하는 데 쓴다(`FullAccessStatus`).
+    static let fullAccessSettingsOpenedAt = "fullAccessSettingsOpenedAt.v1"
     /// 키보드의 전체 접근 안내 줄을 닫은 시각(timeIntervalSince1970). **익스텐션의 표준 UserDefaults.**
     ///
     /// ⚠️ App Group 에 두지 않는다. 이 값을 쓰는 때는 전체 접근이 꺼진 때뿐이고,

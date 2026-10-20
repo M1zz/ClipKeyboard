@@ -11039,6 +11039,12 @@
     "comment": "New snippet coach: content field",
     "h": "52323df69c"
   },
+  "여기를 누르고 지구본으로 클립키보드 고르기": {
+    "ko": "여기를 누르고 지구본으로 클립키보드 고르기",
+    "en": "Tap here, then pick ClipKeyboard with the globe key",
+    "comment": "Full Access check field placeholder: tap here and switch to this keyboard with the globe key",
+    "h": "eb37f448da"
+  },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "ko": "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.",
     "en": "You keep typing here, so the cursor now starts here. Turn it off in the snippet editor.",
@@ -12298,6 +12304,12 @@
     "en": "Already kept",
     "comment": "Fill sheet: value already kept",
     "h": "f3e8452fa3"
+  },
+  "이미 켰는데 꺼짐으로 보이면, 아래 칸에서 키보드를 한 번 띄워 보세요.": {
+    "ko": "이미 켰는데 꺼짐으로 보이면, 아래 칸에서 키보드를 한 번 띄워 보세요.",
+    "en": "Already turned it on but still see Off? Bring up the keyboard once in the field below.",
+    "comment": "Full Access check: hint when status says off",
+    "h": "3ce16cdc39"
   },
   "이미지": {
     "ko": "이미지",
@@ -15029,6 +15041,12 @@
     "comment": "Enable Korean input subtitle",
     "h": "17b1b19e2d"
   },
+  "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
+    "ko": "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.",
+    "en": "If you turned it on, bring up the keyboard once and this switches to On. iOS only tells us when the keyboard opens.",
+    "comment": "Full Access check: explain why status is still being checked",
+    "h": "a472d9b559"
+  },
   "켜짐": {
     "ko": "켜짐",
     "en": "On",
@@ -17050,6 +17068,12 @@
     "en": "OK",
     "comment": "Confirm\nConfirm button\nDismiss accessibility guide\nOK\nOK button",
     "h": "9e828514bd"
+  },
+  "확인 중": {
+    "ko": "확인 중",
+    "en": "Checking",
+    "comment": "Full Access status: just came back from Settings, not confirmed yet",
+    "h": "d6e3148302"
   },
   "확인 필요": {
     "ko": "확인 필요",

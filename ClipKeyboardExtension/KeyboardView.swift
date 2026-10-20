@@ -1028,24 +1028,14 @@ struct KeyboardView: View {
                         Spacer()
                     }
                     expandControlKeysButton
-                        .padding(.trailing, controlBackspaceKeyIsVisible ? 0 : 6)
+                        .padding(.trailing, 6)
                         .opacity(controlKeysExpanded ? 0 : 1)
                         .allowsHitTesting(!controlKeysExpanded)
                         .accessibilityHidden(controlKeysExpanded)
-                    // 지우기는 **접혀 있어도 늘 선다.** 맨 오른쪽, 시스템 키보드와 같은 귀퉁이다.
-                    //
-                    // ⚠️ 예전에는 … 서랍 안에만 있었다. 다 적고 몇 글자만 지우려던 사람이 못 찾고
-                    //    다른 키보드로 건너가서 지웠다(사용자 의견: "删除按钮", 2026-10).
-                    //    보내기를 밖에 꺼냈다가 되돌린 일(`12bfce3`)과는 다르다. 지우기는 어느
-                    //    키보드에나 같은 자리에 있어 홀로 서 있어도 "왜 이것만" 으로 읽히지 않는다.
-                    // ⚠️ 펼치면 서랍 판이 이 자리를 덮고, 서랍 안에 같은 지우기가 있다. 그래서 숨긴다.
-                    if controlBackspaceKeyIsVisible {
-                        controlBackspaceKey
-                            .padding(.trailing, 6)
-                            .opacity(controlKeysExpanded ? 0 : 1)
-                            .allowsHitTesting(!controlKeysExpanded)
-                            .accessibilityHidden(controlKeysExpanded)
-                    }
+                    // ⚠️ 지우기를 접힌 줄 맨 오른쪽에 따로 세운 적이 있다(2026-10, 사용자 의견 "删除按钮").
+                    //    서랍 안에 같은 지우기가 있어서 한 줄에 같은 키가 두 번 있는 셈이 됐고,
+                    //    보내기 때(`12bfce3`)처럼 키 하나만 밖에 튀어나와 보였다. 서랍 안으로 되돌렸다
+                    //    (개발자 판단, 2026-10-20). 다시 꺼내자는 의견이 또 오면 이 두 갈래를 함께 본다.
                 }
 
                 if controlKeysExpanded {
@@ -1078,10 +1068,7 @@ struct KeyboardView: View {
         }
     }
 
-    /// 접힌 줄에 지우기가 서는가. 지울 곳(`typingProxy`)이 있어야 선다.
-    private var controlBackspaceKeyIsVisible: Bool { typingProxy != nil }
-
-    /// 한 글자 지우기. 이게 없어서 오타 하나를 고치려고 **다른 키보드로
+    /// 한 글자 지우기(서랍 안). 이게 없어서 오타 하나를 고치려고 **다른 키보드로
     /// 건너갔다가 돌아와야 했다**(사용자 요청).
     @ViewBuilder
     private var controlBackspaceKey: some View {
