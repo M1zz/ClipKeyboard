@@ -20,6 +20,9 @@ class KeyboardViewController: UIInputViewController {
     private var notificationTokens: [NSObjectProtocol] = []
     /// 이번 판에서 글자를 직접 쳤다고 이미 적었는가. 키마다 저장소를 다시 쓰지 않으려고 든다.
     private var sessionTypedNoted = false
+    /// 이번 판에서 **우리 자판으로** 글을 쳤는가. 쳤다면 우리가 '쓰던 키보드' 이므로
+    /// 단축어를 넣은 뒤에도 다른 키보드로 넘기지 않는다(`returnToPreviousKeyboardIfWanted`).
+    private var typedOnTypingPanel = false
 
     /// 넣은 직후 "사용자가 캐럿을 앞으로 옮겨 거기서 쓰는지" 지켜보는 동안의 메모지.
     /// 여기 담긴 것을 `CursorMemory` 가 배운다. 자세한 이유는 그 파일 머리말.
@@ -530,6 +533,7 @@ class KeyboardViewController: UIInputViewController {
             print("⚡ 자동 변수만 치환해서 바로 입력")
             insertProcessedText(text, memoId: memoId)
             trackKeyboardPaste(memoId: memoId)
+            returnToPreviousKeyboardIfWanted(after: skipStack ? .stackSingleValue : .snippetFinished)
         }
     }
 
@@ -568,6 +572,8 @@ class KeyboardViewController: UIInputViewController {
         } else {
             // 마지막 항목 - 여기서만 커서 위치를 반영하고 날인으로 마무리.
             insertProcessedText(values[index], memoId: memoId)
+            // 마지막 값에서만 넘긴다(중간 단계는 위 분기라 여기 오지 않는다).
+            returnToPreviousKeyboardIfWanted(after: .snippetFinished)
         }
     }
 
@@ -607,6 +613,31 @@ class KeyboardViewController: UIInputViewController {
             trackKeyboardPaste(memoId: memoId)
         }
         print("✅ 입력 완료!")
+        returnToPreviousKeyboardIfWanted(after: .snippetFinished)
+    }
+
+    // MARK: - 쓰던 키보드로 돌아가기
+
+    /// 단축어를 넣은 뒤 쓰던 키보드로 돌아간다(설정 ▸ 키보드 ▸ "단축어 넣고 쓰던 키보드로").
+    ///
+    /// ⚠️ iOS 에는 **앞** 키보드로 가는 공개 API 가 없다. `advanceToNextInputMode()` 는 목록의
+    ///    **다음** 글자 키보드로 간다. 사람들은 대개 쓰던 키보드에서 지구본으로 우리에게 왔으므로
+    ///    그 다음이 쓰던 키보드인 경우가 많지만, 키보드가 셋 이상이면 다른 것이 나올 수 있다.
+    ///    설정 설명에 그대로 적어 두었다. 우리 키보드 하나뿐이면 갈 곳이 없어 아무 일도 없다.
+    /// ⚠️ 이 판에서 우리 자판으로 글을 쳤으면 넘기지 않는다. 그 사람에게는 우리가 쓰던 키보드다.
+    /// ⚠️ 잠깐 뒤에 넘긴다. 날인 햅틱과 들어간 글을 본 다음에 키보드가 바뀌어야 무엇이 일어났는지 안다.
+    /// 어느 때 넘기는지는 `SnippetReturnPolicy` 한 곳이 정한다.
+    private func returnToPreviousKeyboardIfWanted(after insertion: SnippetReturnPolicy.Insertion) {
+        guard SnippetReturnPolicy.shouldSwitch(after: insertion,
+                                               enabled: KeyboardPrefs.returnAfterSnippet.value(),
+                                               typedOnTypingPanel: typedOnTypingPanel) else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            guard let self, self.view.window != nil else { return }
+            print("⌨️ [KeyboardViewController.returnToPreviousKeyboard] 단축어를 넣어 다음 키보드로 넘깁니다")
+            // 글자 키보드만 도는 것이 오히려 맞다(쓰던 키보드가 이모지 키보드일 일은 없다).
+            // globe-ok: 지구본이 아니라 단축어를 넣은 뒤 쓰던 키보드로 돌아가는 자리에서 부른다
+            self.advanceToNextInputMode()
+        }
     }
 
     /// 넣기를 마친 빈칸 값 가운데 **다음 번호**만 새로 적는다(`PlaceholderSequence.shouldRemember`).
@@ -772,6 +803,7 @@ class KeyboardViewController: UIInputViewController {
         // 이 판에서 무엇을 넣는지 본다 - 넣지 않고 닫는 판이 잦으면 찾다가 포기하는 것이다.
         KeyboardSessionLedger.begin()
         sessionTypedNoted = false
+        typedOnTypingPanel = false
         // 햅틱 엔진 사전 깨우기 - 첫 키 입력 지연 제거 (빠른 타이핑 시 버벅임 방지)
         KeyboardHaptics.prepare()
         // 뜨고 몇 초 버티면 "끝까지 떴다" 로 적는다. 그리는 도중에 죽으면 표식이 남는다.
@@ -835,12 +867,18 @@ class KeyboardViewController: UIInputViewController {
         let wantedReturn = proxy.returnKeyType ?? .default
         // 빈 칸에서 리턴을 잠글지도 호스트가 정한다. 검색창·보내기창이 이것을 켠다.
         let needsText = proxy.enablesReturnKeyAutomatically ?? false
+        // 자판의 저절로 대문자. 키보드가 막 떴을 때는 트레잇이 아직 안 와 있어서 자판이
+        // 혼자 읽으면 놓친다. 필드가 바뀔 때마다 여기서 다시 알린다.
+        let startsSentence = TypingKeyboardPanel.wantsCapital(
+            before: proxy.documentContextBeforeInput,
+            rule: proxy.autocapitalizationType ?? .sentences)
         // @Published 갱신은 메인 스레드에서
         let apply = { [weak self] in
             guard let self else { return }
             if self.documentState.hasText != hasAny { self.documentState.hasText = hasAny }
             if self.documentState.returnKeyType != wantedReturn { self.documentState.returnKeyType = wantedReturn }
             if self.documentState.returnNeedsText != needsText { self.documentState.returnNeedsText = needsText }
+            if self.documentState.startsSentence != startsSentence { self.documentState.startsSentence = startsSentence }
         }
         if Thread.isMainThread {
             apply()
@@ -1178,6 +1216,11 @@ extension KeyboardViewController: TypingInputProxy {
         print("⌨️ [TypingProxy.insertText] '\(text)': hasInput=\(textDocumentProxy.hasText)")
         textDocumentProxy.insertText(text)
         updateHasTextState()
+        // 자판이 떠 있는 동안 들어온 글은 우리 자판으로 친 것이다(단축어 판의 붙여넣기 키는 단축어 판에서만 보인다).
+        if !typedOnTypingPanel,
+           AppGroup.defaults?.string(forKey: TypingPrefs.modeKey) == KeyboardInputMode.typing.rawValue {
+            typedOnTypingPanel = true
+        }
         // 글자를 직접 친 판은 "찾다가 포기한 판" 이 아니다. 한 판에 한 번만 적는다.
         if !sessionTypedNoted {
             sessionTypedNoted = true
@@ -1217,6 +1260,13 @@ extension KeyboardViewController: TypingInputProxy {
 
     func cursorRight() {
         textDocumentProxy.adjustTextPosition(byCharacterOffset: 1)
+    }
+    var typingContextBefore: String? {
+        textDocumentProxy.documentContextBeforeInput
+    }
+    /// 입력칸이 말하지 않으면 기본 키보드처럼 문장 단위로 본다.
+    var typingAutocapitalization: UITextAutocapitalizationType {
+        textDocumentProxy.autocapitalizationType ?? .sentences
     }
     func clearAll() {
         guard let before = textDocumentProxy.documentContextBeforeInput, !before.isEmpty else { return }

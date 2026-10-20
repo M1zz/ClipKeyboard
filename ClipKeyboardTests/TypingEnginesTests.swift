@@ -109,6 +109,37 @@ final class TypingEnginesTests: XCTestCase {
         XCTAssertEqual(proxy.text, "한글.")
     }
 
+    /// 천지인 → 키: 같은 자음 키를 이어 눌러도 ㅋ 로 돌지 않고 새 ㄱ 이 된다(기본 10키와 같다).
+    func testCheonjiinAdvanceKeyBreaksConsonantCycle() {
+        let proxy = FakeTypingProxy()
+        let engine = HangulTypingEngine(proxy: proxy, layout: .cheonjiin)
+        type(["ㄱㅋ", CheonjiinInput.advanceKey, "ㄱㅋ"], into: engine)
+        XCTAssertEqual(proxy.text, "ㄱㄱ")
+    }
+
+    /// 돌림이 없을 때 → 키는 글을 넣지 않는다(커서만 옮긴다).
+    func testCheonjiinAdvanceKeyInsertsNothing() {
+        let proxy = FakeTypingProxy()
+        let engine = HangulTypingEngine(proxy: proxy, layout: .cheonjiin)
+        engine.input(CheonjiinInput.advanceKey)
+        XCTAssertEqual(proxy.text, "")
+    }
+
+    // MARK: - 저절로 대문자
+
+    /// 기본 키보드처럼 빈 칸 · 문장 끝 뒤에서만 대문자를 켠다.
+    func testAutoCapitalizationFollowsSentences() {
+        let rule = UITextAutocapitalizationType.sentences
+        XCTAssertTrue(TypingKeyboardPanel.wantsCapital(before: nil, rule: rule))
+        XCTAssertTrue(TypingKeyboardPanel.wantsCapital(before: "", rule: rule))
+        XCTAssertTrue(TypingKeyboardPanel.wantsCapital(before: "Hi. ", rule: rule))
+        XCTAssertTrue(TypingKeyboardPanel.wantsCapital(before: "Hi\n", rule: rule))
+        XCTAssertFalse(TypingKeyboardPanel.wantsCapital(before: "Hi", rule: rule))
+        XCTAssertFalse(TypingKeyboardPanel.wantsCapital(before: "Hi ", rule: rule))
+        XCTAssertFalse(TypingKeyboardPanel.wantsCapital(before: "", rule: .none))
+        XCTAssertTrue(TypingKeyboardPanel.wantsCapital(before: "a ", rule: .words))
+    }
+
     // MARK: - 베트남어 Telex
 
     private func telex(_ s: String) -> String {

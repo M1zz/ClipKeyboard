@@ -983,7 +983,7 @@
     "src": "587e1cf483"
   },
   "Capture Clipboard": {
-    "v": "Hent fra utklippstavle",
+    "v": "Fang utklippstavle",
     "src": "29fdf05b52"
   },
   "Capture a quick note into ClipKeyboard.": {
@@ -3019,15 +3019,15 @@
     "src": "dc11d074af"
   },
   "구입 복원을 누른 뒤 나온 화면": {
-    "v": "Skjermen etter at du trykket Gjenopprett kjøp",
+    "v": "Skjermen etter at du trykket på Gjenopprett kjøp",
     "src": "68759becea"
   },
   "구입 복원을 한 번 더 누르고, 나온 안내를 찍어 주세요.": {
-    "v": "Trykk på Gjenopprett kjøp en gang til, og ta et skjermbilde av meldingen som vises.",
+    "v": "Trykk på Gjenopprett kjøp én gang til, og ta et skjermbilde av meldingen som vises.",
     "src": "710c8daa64"
   },
   "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
-    "v": "Sjekk først at du er logget inn med den Apple-kontoen du brukte til kjøpet. Kjøp er knyttet til den kontoen.",
+    "v": "Sjekk først at du er logget inn med Apple-kontoen du brukte til kjøpet. Kjøp er knyttet til den kontoen.",
     "src": "9486e90c00"
   },
   "국가 코드부터 끝까지 입력해 주세요": {
@@ -3073,7 +3073,7 @@
     "src": "bb24d4c594"
   },
   "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
-    "v": "Ta et skjermbilde av den skjermen slik den er. Hvis en oversettelse høres rar ut, skriv gjerne hvordan den bør lyde. Vi bruker formuleringen din.",
+    "v": "Ta et skjermbilde av skjermen slik den er. Hvis en oversettelse høres rar ut, skriv gjerne hvordan den bør lyde. Vi bruker formuleringen din.",
     "src": "a6067d252a"
   },
   "그거 아세요?": {
@@ -3748,7 +3748,7 @@
     "src": "41585900fd"
   },
   "느려지는 화면": {
-    "v": "Skjermen som går tregt",
+    "v": "Skjerm som går tregt",
     "src": "b9d49c6e77"
   },
   "느리거나 버벅여요": {
@@ -4875,7 +4875,7 @@
     "src": "bdaf65bee7"
   },
   "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
-    "v": "Ett skjermbilde av der det hakker er nok. Når vi ser hva som ligger på skjermen og hvor mye, finner vi årsaken raskere.",
+    "v": "Ett skjermbilde av hakkingen er nok. Hvis vi ser hva som er på skjermen og hvor mye, finner vi årsaken raskere.",
     "src": "e15a2fb4d2"
   },
   "메뉴바 아이콘: 🛶": {
@@ -6661,7 +6661,7 @@
     "src": "64252656f2"
   },
   "설정 앱 > 알림 > 이 앱 화면을 찍어 주세요. 알림 허용, 잠금 화면, 배너, 사운드가 다 보이게요.": {
-    "v": "Ta et skjermbilde av Innstillinger > Varsler > denne appen, slik at Tillat varsler, Låst skjerm, Bannere og Lyder er synlige.",
+    "v": "Ta et skjermbilde av Innstillinger > Varsler > denne appen, med Tillat varsler, Låst skjerm, Bannere og Lyder synlige.",
     "src": "bde90d0212"
   },
   "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.": {
@@ -6669,7 +6669,7 @@
     "src": "f6734b03c2"
   },
   "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
-    "v": "I Innstillinger trykker du på navnet ditt øverst > Medier og kjøp > Vis konto > Kjøpshistorikk, finner betalingen for denne appen og tar et skjermbilde. Vi trenger bare dato og beløp. Du kan skjule betalingsmåten.",
+    "v": "I Innstillinger trykker du på navnet ditt øverst > Medier og kjøp > Vis konto > Kjøpshistorikk, finner betalingen for denne appen og tar et skjermbilde. Dato og beløp er nok. Du kan skjule betalingsmåten.",
     "src": "2c4dd5890d"
   },
   "설정 앱에서 '동작 버튼'을 열어요": {
@@ -7332,7 +7332,7 @@
     "src": "cfc40de398"
   },
   "안 되는 곳": {
-    "v": "Hvor det ikke fungerer",
+    "v": "Der det ikke fungerer",
     "src": "3ec599cf33"
   },
   "안 쓰는 단축어": {
@@ -7388,7 +7388,7 @@
     "src": "ee0ec98e32"
   },
   "알림이 안 오거나 늦어요": {
-    "v": "Varsler kommer ikke fram eller kommer sent",
+    "v": "Varsler kommer ikke eller er forsinket",
     "src": "132f374923"
   },
   "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.": {
@@ -7488,7 +7488,7 @@
     "src": "17a89c693d"
   },
   "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.": {
-    "v": "Send dette før du sletter appen og installerer den på nytt. Når appen slettes, forsvinner også data som bare lå på denne enheten, og de kan ikke gjenopprettes.",
+    "v": "Send dette før du sletter og installerer appen på nytt. Når du sletter den, forsvinner også data som bare lå på denne enheten, og de kan ikke gjenopprettes.",
     "src": "6c47aed7d4"
   },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
@@ -7591,7 +7591,7 @@
     "src": "d9a6ac3cd1"
   },
   "언제, 어느 기기에서 샀나요? (선택)": {
-    "v": "Når og på hvilken enhet kjøpte du det? (valgfritt)",
+    "v": "Når og på hvilken enhet kjøpte du den? (valgfritt)",
     "src": "231181af2a"
   },
   "언제든지 접근 가능": {
@@ -7599,7 +7599,7 @@
     "src": "c1f88829b5"
   },
   "언제부터 그랬나요? (선택)": {
-    "v": "Siden når har det vært slik? (valgfritt)",
+    "v": "Siden når har dette skjedd? (valgfritt)",
     "src": "482f56e353"
   },
   "업무": {
@@ -7835,15 +7835,15 @@
     "src": "c0a5a82c2c"
   },
   "예) 매번요. 기기를 껐다 켜도 같아요.": {
-    "v": "F.eks. Hver gang. Det samme etter omstart av enheten.",
+    "v": "F.eks. Hver gang. Det er likt etter omstart av enheten.",
     "src": "c952ed962c"
   },
   "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
-    "v": "F.eks. Den fryser i omtrent ett sekund hver gang jeg ruller i listen.",
+    "v": "F.eks. Den henger i omtrent ett sekund hver gang jeg ruller i listen.",
     "src": "5d25eabe10"
   },
   "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
-    "v": "F.eks. Knappeteksten på innstillingsskjermen er kuttet. Oversettelsen av denne setningen høres rar ut.",
+    "v": "F.eks. Knappeteksten i innstillingene er avkortet. Oversettelsen av denne setningen høres rar ut.",
     "src": "e32a425323"
   },
   "예) 수면 모드가 켜져 있었어요.": {
@@ -7859,7 +7859,7 @@
     "src": "190007f2af"
   },
   "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.": {
-    "v": "F.eks. Den setter seg fast på en hvit skjerm når jeg åpner den. Appen lukkes når jeg trykker på Lagre.",
+    "v": "F.eks. Den står fast på en hvit skjerm når jeg åpner den. Appen lukkes når jeg trykker på Lagre.",
     "src": "7fd7282c7d"
   },
   "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
@@ -9578,7 +9578,7 @@
     "src": "0660df0f16"
   },
   "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
-    "v": "Ta et skjermbilde av listen slik den er nå. Hvis du har et eldre skjermbilde i Bilder, legg det ved også, så kan vi se hva som mangler.",
+    "v": "Ta et skjermbilde av listen slik den ser ut nå. Har du et eldre skjermbilde i Bilder, legg det ved også, så kan vi se hva som mangler.",
     "src": "ff5f634480"
   },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
@@ -9714,7 +9714,7 @@
     "src": "35c5b2e73c"
   },
   "진단 정보를 모으는 중…": {
-    "v": "Samler diagnoseinformasjon…",
+    "v": "Samler diagnostikkinformasjon…",
     "src": "cb69319857"
   },
   "진동과 복사한 글 꺼내기가 꺼져 있어요": {
@@ -11956,5 +11956,21 @@
   "앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.": {
     "v": "Appen viser funksjoner én om gangen etter hvert som du bruker den. Slå på for å vise de som ikke er vist ennå også.",
     "src": "89dc7d71c6"
+  },
+  "다음 글자": {
+    "v": "Neste bokstav",
+    "src": "dcd15e997c"
+  },
+  "단축어 넣고 쓰던 키보드로": {
+    "v": "Tilbake til tastaturet etter en frase",
+    "src": "ffec1ddb5e"
+  },
+  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
+    "v": "Når en frase er satt inn, bytter den til neste tastatur i listen din, som vanligvis er det du brukte. Den blir stående hvis du har skrevet med dette tastaturet.",
+    "src": "c6a685cb72"
+  },
+  "문장 부호": {
+    "v": "Tegnsetting",
+    "src": "9d60a84665"
   }
 }

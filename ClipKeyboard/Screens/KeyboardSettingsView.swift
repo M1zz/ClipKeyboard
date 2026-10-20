@@ -20,6 +20,9 @@ struct KeyboardSettingsView: View {
     /// 키보드에서 빈칸을 채울 때 한 칸만 펼칠지. App Group - 키보드도 같은 값을 읽는다.
     @AppStorage(DefaultsKey.keyboardCompactPlaceholders, store: AppGroup.defaults)
     private var compactPlaceholders: Bool = true
+    /// 단축어를 넣은 뒤 쓰던 키보드로 돌아갈지. App Group - 키보드가 같은 값을 읽는다.
+    @AppStorage(KeyboardPrefs.returnAfterSnippet.key, store: AppGroup.defaults)
+    private var returnAfterSnippet: Bool = KeyboardPrefs.returnAfterSnippet.fallback
 
     var body: some View {
         List {
@@ -116,6 +119,21 @@ struct KeyboardSettingsView: View {
     /// 키보드로 입력하는 동안 일어나는 일.
     private var typingSection: some View {
         Section {
+            // 사용자 요청에서 왔다: "단축어 입력하면 쓰던 키보드로 돌아오게 해줘. 누구는 다시 안 돌아가고 싶을 수 있으니까."
+            // ⚠️ iOS 는 '앞 키보드' 로 가는 길을 주지 않는다. 목록의 다음 키보드로 간다는 것을 그대로 적는다.
+            Toggle(isOn: $returnAfterSnippet) {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("단축어 넣고 쓰던 키보드로", comment: "Toggle: switch back to the previous keyboard after inserting a snippet"))
+                        Text(NSLocalizedString("단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.", comment: "Footer for the switch-back-after-snippet toggle. iOS can only go to the next keyboard in the user's list, not the previous one."))
+                            .font(.caption)
+                            .foregroundColor(theme.textMuted)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                } icon: {
+                    Image(systemName: AppSymbol.arrowUturnBackward)
+                }
+            }
             // 빈칸이 여럿인 단축어를 키보드에서 채울 때의 모양.
             // 사용자 요청에서 왔다: "빈칸이 여러 개일 때 스크롤이 번거로워서요."
             Toggle(isOn: $compactPlaceholders) {

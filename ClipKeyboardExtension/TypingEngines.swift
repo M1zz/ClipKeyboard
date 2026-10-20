@@ -34,6 +34,17 @@ protocol TypingInputProxy: AnyObject {
 
     func cursorRight()
     func clearAll()
+
+    /// 커서 앞 글. 자판이 문장 첫 글자에서 Shift 를 저절로 켤지 가를 때 본다. 모르면 nil.
+    var typingContextBefore: String? { get }
+    /// 입력칸이 바라는 대문자 규칙(기본 키보드가 문장 첫 글자를 대문자로 올리는 근거).
+    var typingAutocapitalization: UITextAutocapitalizationType { get }
+}
+
+extension TypingInputProxy {
+    /// 모르는 입력칸에서는 저절로 대문자를 켜지 않는다(시험용 가짜 입력칸 등).
+    var typingContextBefore: String? { nil }
+    var typingAutocapitalization: UITextAutocapitalizationType { .none }
 }
 
 // MARK: - 엔진
@@ -127,8 +138,11 @@ final class HangulTypingEngine: TypingEngine {
     private let cheonjiin = CheonjiinInput()
     private let layout: KoreanTypingLayout
 
+    private weak var proxyTyping: TypingInputProxy?
+
     init(proxy: TypingInputProxy, layout: KoreanTypingLayout) {
         self.layout = layout
+        self.proxyTyping = proxy
         composer.proxy = HangulProxyAdapter(typing: proxy)
         cheonjiin.composer = composer
     }
@@ -145,6 +159,14 @@ final class HangulTypingEngine: TypingEngine {
             }
             composer.input(jamo)
         case .cheonjiin:
+            if key == CheonjiinInput.advanceKey {
+                // 끊을 자음 돌림이 없으면 기본 10키처럼 커서를 한 칸 옮긴다.
+                if !cheonjiin.advance() {
+                    cheonjiin.commit()
+                    proxyTyping?.cursorRight()
+                }
+                return
+            }
             if CheonjiinInput.handles(key) {
                 cheonjiin.tap(key)
             } else {

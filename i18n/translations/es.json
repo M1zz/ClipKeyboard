@@ -3023,11 +3023,11 @@
     "src": "68759becea"
   },
   "구입 복원을 한 번 더 누르고, 나온 안내를 찍어 주세요.": {
-    "v": "Toca Restaurar compras una vez más y captura el aviso que aparezca.",
+    "v": "Toca Restaurar compras una vez más y toma una captura del aviso que aparezca.",
     "src": "710c8daa64"
   },
   "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
-    "v": "Primero revisa que hayas iniciado sesión con la cuenta de Apple con la que compraste. Las compras están ligadas a esa cuenta.",
+    "v": "Primero revisa que hayas iniciado sesión con la cuenta de Apple que usaste para comprar. Las compras están ligadas a esa cuenta.",
     "src": "9486e90c00"
   },
   "국가 코드부터 끝까지 입력해 주세요": {
@@ -3073,7 +3073,7 @@
     "v": "No puedes usar ese nombre. Ya existe o coincide con una pestaña integrada."
   },
   "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
-    "v": "Captura esa pantalla tal como está. Si la traducción suena rara, escribe cómo se leería mejor. La usaremos tal cual.",
+    "v": "Toma una captura de esa pantalla tal como se ve. Si alguna traducción suena rara, cuéntanos cómo se leería más natural. Usaremos tus palabras.",
     "src": "a6067d252a"
   },
   "그거 아세요?": {
@@ -3752,7 +3752,7 @@
     "src": "b9d49c6e77"
   },
   "느리거나 버벅여요": {
-    "v": "Va lento o se traba",
+    "v": "Va lenta o se traba",
     "src": "44bedc6b6a"
   },
   "늘 이 자리: %@": {
@@ -4839,7 +4839,7 @@
     "src": "f4f8177bfb"
   },
   "매번 그런가요? 껐다 켜도 그런가요? (선택)": {
-    "v": "¿Pasa siempre? ¿Incluso después de reiniciar? (opcional)",
+    "v": "¿Pasa siempre? ¿Y después de reiniciar? (opcional)",
     "src": "240874ecc6"
   },
   "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
@@ -4875,7 +4875,7 @@
     "src": "bdaf65bee7"
   },
   "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
-    "v": "Con una captura del momento en que se traba es suficiente. Si se ve qué hay en la pantalla y cuánto, podemos encontrar la causa más rápido.",
+    "v": "Una captura del momento en que se traba es suficiente. Si se ve qué hay en la pantalla y cuánto, podremos encontrar la causa más rápido.",
     "src": "e15a2fb4d2"
   },
   "메뉴바 아이콘: 🛶": {
@@ -6661,15 +6661,15 @@
     "src": "64252656f2"
   },
   "설정 앱 > 알림 > 이 앱 화면을 찍어 주세요. 알림 허용, 잠금 화면, 배너, 사운드가 다 보이게요.": {
-    "v": "Captura Ajustes > Notificaciones > esta app, con Permitir notificaciones, Pantalla bloqueada, Banners y Sonidos a la vista.",
+    "v": "Toma una captura de Ajustes > Notificaciones > esta app, con Permitir notificaciones, Pantalla bloqueada, Banners y Sonidos a la vista.",
     "src": "bde90d0212"
   },
   "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.": {
-    "v": "En Ajustes, toca tu nombre arriba > iCloud > Ver todo y captura la pantalla donde se vea si esta app está activada. Si lo haces en los dos dispositivos, mejor.",
+    "v": "En Ajustes, toca tu nombre arriba > iCloud > Ver todo, y toma una captura donde se vea si esta app está activada. Si la tomas en ambos dispositivos, mejor.",
     "src": "f6734b03c2"
   },
   "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
-    "v": "En Ajustes, toca tu nombre arriba > Contenido multimedia y compras > Ver cuenta > Historial de compras, busca el pago de esta app y captúralo. Solo necesitamos la fecha y el monto. Puedes ocultar el método de pago.",
+    "v": "En Ajustes, toca tu nombre arriba > Contenido multimedia y compras > Ver cuenta > Historial de compras, busca el pago de esta app y toma una captura. Solo necesitamos la fecha y el monto. Puedes ocultar el método de pago.",
     "src": "2c4dd5890d"
   },
   "설정 앱에서 '동작 버튼'을 열어요": {
@@ -7488,7 +7488,7 @@
     "src": "17a89c693d"
   },
   "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.": {
-    "v": "Envíalo antes de borrar y volver a instalar la app. Al borrarla también se pierden los datos que solo estaban en este dispositivo, y no se pueden recuperar.",
+    "v": "Envíanos esto antes de borrar y reinstalar la app. Al borrarla también se elimina lo que solo estaba en este dispositivo, y no se puede recuperar.",
     "src": "6c47aed7d4"
   },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
@@ -7591,7 +7591,7 @@
     "src": "d9a6ac3cd1"
   },
   "언제, 어느 기기에서 샀나요? (선택)": {
-    "v": "¿Cuándo y en qué dispositivo la compraste? (opcional)",
+    "v": "¿Cuándo y en qué dispositivo lo compraste? (opcional)",
     "src": "231181af2a"
   },
   "언제든지 접근 가능": {
@@ -7831,55 +7831,55 @@
     "src": "e8fcf11de2"
   },
   "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.": {
-    "v": "Ej. Como la mitad de las 20 que había creado ya no están.",
+    "v": "Ej.: Falta como la mitad de las 20 frases que creé.",
     "src": "c0a5a82c2c"
   },
   "예) 매번요. 기기를 껐다 켜도 같아요.": {
-    "v": "Ej. Siempre. Igual después de reiniciar el dispositivo.",
+    "v": "Ej.: Siempre. Igual después de reiniciar el dispositivo.",
     "src": "c952ed962c"
   },
   "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
-    "v": "Ej. Se congela como un segundo cada vez que desplazo la lista.",
+    "v": "Ej.: Se congela como un segundo cada vez que deslizo la lista.",
     "src": "5d25eabe10"
   },
   "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
-    "v": "Ej. El texto del botón en Ajustes se corta. La traducción de esta frase suena rara.",
+    "v": "Ej.: El texto de un botón en Ajustes se corta. La traducción de esta frase suena rara.",
     "src": "e32a425323"
   },
   "예) 수면 모드가 켜져 있었어요.": {
-    "v": "Ej. Tenía activado el modo de concentración para dormir.",
+    "v": "Ej.: Tenía activado el Enfoque de sueño.",
     "src": "e444a75fad"
   },
   "예) 아이폰에서 만든 것이 아이패드에 안 보여요.": {
-    "v": "Ej. Lo que creé en mi iPhone no aparece en mi iPad.",
+    "v": "Ej.: Lo que creé en mi iPhone no aparece en mi iPad.",
     "src": "e193e298fe"
   },
   "예) 앱을 업데이트했어요. 새 아이폰으로 옮겼어요. 앱을 지웠다 다시 깔았어요.": {
-    "v": "Ej. Actualicé la app. Cambié a un iPhone nuevo. Borré la app y la volví a instalar.",
+    "v": "Ej.: Actualicé la app. Cambié a un iPhone nuevo. Borré la app y la volví a instalar.",
     "src": "190007f2af"
   },
   "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.": {
-    "v": "Ej. Al abrirla se queda en una pantalla blanca. La app se cierra cuando toco Guardar.",
+    "v": "Ej.: Se queda en una pantalla en blanco al abrirla. La app se cierra al tocar Guardar.",
     "src": "7fd7282c7d"
   },
   "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
-    "v": "Ej. La notificación de las 9 a. m. no llegó. Llegó 5 minutos tarde.",
+    "v": "Ej.: La notificación de las 9 AM no llegó. Llegó 5 minutos tarde.",
     "src": "b7aa5cb55e"
   },
   "예) 올해 3월쯤, 예전 아이폰에서요.": {
-    "v": "Ej. Como en marzo de este año, en mi iPhone anterior.",
+    "v": "Ej.: Hacia marzo de este año, en mi iPhone anterior.",
     "src": "1ef384c00a"
   },
   "예) 지난주 업데이트 뒤부터요.": {
-    "v": "Ej. Desde la actualización de la semana pasada.",
+    "v": "Ej.: Desde la actualización de la semana pasada.",
     "src": "5b7fbdbe2b"
   },
   "예) 평생 이용권을 샀는데, 앱을 다시 깔고 나니 잠겨 있어요. 복원을 눌러도 없다고 나와요.": {
-    "v": "Ej. Compré el acceso de por vida, pero al reinstalar la app está bloqueada. Al tocar Restaurar dice que no hay nada.",
+    "v": "Ej.: Compré el acceso de por vida, pero al reinstalar la app aparece bloqueado. Al tocar Restaurar dice que no hay nada.",
     "src": "c935df2f4a"
   },
   "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
-    "v": "Ej. El widget de la pantalla de inicio se quedó con el valor de ayer. Esta app no aparece en la lista de teclados.",
+    "v": "Ej.: El Widget de la pantalla de inicio se quedó con el valor de ayer. Esta app no aparece en la lista de teclados.",
     "src": "9713f82101"
   },
   "예: 010-1234-5678": {
@@ -8123,11 +8123,11 @@
     "src": "13d40b4407"
   },
   "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.": {
-    "v": "Toma una captura de la pantalla de inicio con el widget, o de la pantalla con el teclado abierto. Si es el teclado, adjunta también Ajustes > General > Teclado > Teclados.",
+    "v": "Toma una captura de la pantalla de inicio con el Widget, o de la pantalla con el teclado abierto. Si es el teclado, adjunta también Ajustes > General > Teclado > Teclados.",
     "src": "bd66902936"
   },
   "위젯이나 키보드가 안 돼요": {
-    "v": "El widget o el teclado no funciona",
+    "v": "El Widget o el teclado no funcionan",
     "src": "550a8b0ffd"
   },
   "위줄에 둘 키와 크기를 설정에서 직접 골라요.": {
@@ -8631,7 +8631,7 @@
     "src": "15fd035e42"
   },
   "이상한 화면": {
-    "v": "Pantalla con algo raro",
+    "v": "Pantalla con aspecto raro",
     "src": "46b4000f7f"
   },
   "이어서 입력할 내용": {
@@ -9578,7 +9578,7 @@
     "src": "0660df0f16"
   },
   "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
-    "v": "Toma una captura de la lista como está ahora. Si tienes una captura anterior en Fotos, adjúntala también para comparar qué falta.",
+    "v": "Toma una captura de la lista como está ahora. Si tienes una captura anterior en Fotos, adjúntala también para ver qué falta.",
     "src": "ff5f634480"
   },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
@@ -11834,7 +11834,7 @@
     "src": "1f2314554b"
   },
   "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.": {
-    "v": "Una pantalla blanca también sirve. Presiona el botón lateral y el de subir volumen al mismo tiempo para tomar la captura.",
+    "v": "Aunque sea una pantalla en blanco, sirve. Presiona al mismo tiempo el botón lateral y el de subir volumen para tomar la captura.",
     "src": "5bc1d83572"
   },
   "힌트 (선택)": {
@@ -11956,5 +11956,21 @@
   "앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.": {
     "v": "La app va mostrando las funciones una por una según la usas. Actívalo para ver desde el inicio las que aún no ha mostrado.",
     "src": "89dc7d71c6"
+  },
+  "다음 글자": {
+    "v": "Siguiente letra",
+    "src": "dcd15e997c"
+  },
+  "단축어 넣고 쓰던 키보드로": {
+    "v": "Volver a tu teclado tras una frase",
+    "src": "ffec1ddb5e"
+  },
+  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
+    "v": "Al insertar una frase, se pasa al siguiente teclado de tu lista, que normalmente es el que usabas. No cambia si escribiste con este teclado.",
+    "src": "c6a685cb72"
+  },
+  "문장 부호": {
+    "v": "Signos de puntuación",
+    "src": "9d60a84665"
   }
 }

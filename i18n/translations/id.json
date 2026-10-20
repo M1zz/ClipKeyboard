@@ -848,7 +848,7 @@
     "src": "587e1cf483"
   },
   "Capture Clipboard": {
-    "v": "Tangkap Papan Klip",
+    "v": "Ambil Papan Klip",
     "src": "29fdf05b52"
   },
   "Capture a quick note into ClipKeyboard.": {
@@ -2866,11 +2866,11 @@
     "src": "68759becea"
   },
   "구입 복원을 한 번 더 누르고, 나온 안내를 찍어 주세요.": {
-    "v": "Ketuk Pulihkan Pembelian sekali lagi, lalu tangkap layar pesan yang muncul.",
+    "v": "Ketuk Pulihkan Pembelian sekali lagi, lalu ambil tangkapan layar pesan yang muncul.",
     "src": "710c8daa64"
   },
   "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
-    "v": "Pertama, pastikan Anda masuk dengan Akun Apple yang dipakai untuk membeli. Pembelian terikat pada akun itu.",
+    "v": "Pertama, pastikan Anda masuk dengan akun Apple yang dipakai untuk membeli. Pembelian terhubung ke akun itu.",
     "src": "9486e90c00"
   },
   "국가 코드부터 끝까지 입력해 주세요": {
@@ -2902,7 +2902,7 @@
     "src": "4f976d759d"
   },
   "그 밖의 문제": {
-    "v": "Masalah lainnya",
+    "v": "Masalah lain",
     "src": "02f171ea75"
   },
   "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
@@ -2910,7 +2910,7 @@
     "src": "bb24d4c594"
   },
   "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
-    "v": "Tangkap layar tersebut apa adanya. Jika terjemahannya terasa janggal, tuliskan juga bagaimana agar terdengar lebih alami. Akan kami pakai tulisan Anda.",
+    "v": "Ambil tangkapan layar apa adanya. Jika terjemahannya terasa janggal, tulis juga bagaimana agar terdengar alami. Kami akan memakai kata-kata Anda.",
     "src": "a6067d252a"
   },
   "그거 아세요?": {
@@ -2946,7 +2946,7 @@
     "src": "4d7e9923fb"
   },
   "그때 집중 모드나 무음 모드였나요? (선택)": {
-    "v": "Apakah Fokus atau Mode Senyap sedang aktif saat itu? (opsional)",
+    "v": "Apakah mode Fokus atau Senyap sedang aktif saat itu? (opsional)",
     "src": "0548daa9e3"
   },
   "그래도 백업": {
@@ -3586,7 +3586,7 @@
     "src": "b9d49c6e77"
   },
   "느리거나 버벅여요": {
-    "v": "Aplikasi lambat atau tersendat",
+    "v": "Lambat atau tersendat",
     "src": "44bedc6b6a"
   },
   "늘 이 자리: %@": {
@@ -4636,7 +4636,7 @@
     "src": "f4f8177bfb"
   },
   "매번 그런가요? 껐다 켜도 그런가요? (선택)": {
-    "v": "Apakah terjadi setiap kali? Termasuk setelah dimulai ulang? (opsional)",
+    "v": "Apakah terjadi setiap kali? Tetap terjadi setelah dimulai ulang? (opsional)",
     "src": "240874ecc6"
   },
   "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
@@ -4672,7 +4672,7 @@
     "src": "bdaf65bee7"
   },
   "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
-    "v": "Satu tangkapan layar saat tersendat sudah cukup. Jika terlihat apa saja yang ada di layar dan seberapa banyak, penyebabnya lebih cepat ketemu.",
+    "v": "Satu tangkapan layar saat tersendat sudah cukup. Jika terlihat isi layar dan jumlahnya, kami bisa menemukan penyebabnya lebih cepat.",
     "src": "e15a2fb4d2"
   },
   "메뉴바 아이콘: 🛶": {
@@ -4944,7 +4944,7 @@
     "src": "5f3b9f1f59"
   },
   "무엇이, 얼마나 사라졌나요?": {
-    "v": "Apa yang hilang, dan seberapa banyak?",
+    "v": "Apa yang hilang, dan berapa banyak?",
     "src": "e8bee7e094"
   },
   "무제한": {
@@ -6404,15 +6404,15 @@
     "src": "64252656f2"
   },
   "설정 앱 > 알림 > 이 앱 화면을 찍어 주세요. 알림 허용, 잠금 화면, 배너, 사운드가 다 보이게요.": {
-    "v": "Tangkap layar Pengaturan > Notifikasi > aplikasi ini, dengan Izinkan Notifikasi, Layar Kunci, Banner, dan Suara terlihat semua.",
+    "v": "Ambil tangkapan layar Pengaturan > Notifikasi > aplikasi ini, dengan Izinkan Notifikasi, Layar Kunci, Banner, dan Suara terlihat semua.",
     "src": "bde90d0212"
   },
   "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.": {
-    "v": "Di Pengaturan, ketuk nama Anda di bagian atas > iCloud > Lihat Semua, lalu tangkap layar yang menunjukkan apakah aplikasi ini aktif. Tangkapan dari kedua perangkat akan lebih baik.",
+    "v": "Di Pengaturan, ketuk nama Anda di bagian atas > iCloud > Tampilkan Semua, lalu ambil tangkapan layar yang menunjukkan apakah aplikasi ini aktif. Tangkapan layar dari kedua perangkat akan lebih baik.",
     "src": "f6734b03c2"
   },
   "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
-    "v": "Di Pengaturan, ketuk nama Anda di bagian atas > Media & Pembelian > Lihat Akun > Riwayat Pembelian, cari pembayaran aplikasi ini, lalu tangkap layarnya. Cukup tanggal dan jumlahnya saja. Metode pembayaran boleh ditutupi.",
+    "v": "Di Pengaturan, ketuk nama Anda di bagian atas > Media & Pembelian > Lihat Akun > Riwayat Pembelian, cari pembayaran aplikasi ini, lalu ambil tangkapan layar. Cukup tanggal dan jumlahnya saja. Metode pembayaran boleh ditutupi.",
     "src": "2c4dd5890d"
   },
   "설정 앱에서 '동작 버튼'을 열어요": {
@@ -7060,7 +7060,7 @@
     "src": "cfc40de398"
   },
   "안 되는 곳": {
-    "v": "Bagian yang tidak berfungsi",
+    "v": "Tempat yang bermasalah",
     "src": "3ec599cf33"
   },
   "안 쓰는 단축어": {
@@ -7216,7 +7216,7 @@
     "src": "17a89c693d"
   },
   "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.": {
-    "v": "Mohon kirim ini sebelum menghapus dan memasang ulang aplikasi. Menghapusnya juga menghilangkan data yang hanya ada di perangkat ini, dan tidak bisa dipulihkan.",
+    "v": "Kirimkan ini sebelum menghapus dan memasang ulang aplikasi. Menghapusnya juga menghilangkan data yang hanya ada di perangkat ini, dan tidak bisa dipulihkan.",
     "src": "6c47aed7d4"
   },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
@@ -7256,7 +7256,7 @@
     "src": "728d55302a"
   },
   "어느 기기 사이에서, 무엇이 안 맞나요?": {
-    "v": "Di antara perangkat mana, dan apa yang tidak cocok?",
+    "v": "Di antara perangkat mana, dan apa yang tidak sama?",
     "src": "7faff7af57"
   },
   "어느 화면에서, 얼마나 걸리나요?": {
@@ -7264,7 +7264,7 @@
     "src": "dbd64ff7c0"
   },
   "어느 화면의 무엇이 이상한가요?": {
-    "v": "Apa yang tampak salah, dan di layar mana?",
+    "v": "Apa yang terlihat janggal, dan di layar mana?",
     "src": "bcccf8a8a5"
   },
   "어두운 바탕에서 가장 잘 읽히는 색이에요.": {
@@ -7316,7 +7316,7 @@
     "src": "d9a6ac3cd1"
   },
   "언제, 어느 기기에서 샀나요? (선택)": {
-    "v": "Kapan, dan di perangkat mana Anda membelinya? (opsional)",
+    "v": "Kapan dan di perangkat apa Anda membelinya? (opsional)",
     "src": "231181af2a"
   },
   "언제든지 접근 가능": {
@@ -7556,55 +7556,55 @@
     "src": "e8fcf11de2"
   },
   "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.": {
-    "v": "Contoh: Setengah dari 20 frasa yang saya buat hilang.",
+    "v": "mis. Sekitar separuh dari 20 yang sudah saya buat hilang.",
     "src": "c0a5a82c2c"
   },
   "예) 매번요. 기기를 껐다 켜도 같아요.": {
-    "v": "Contoh: Setiap kali. Tetap sama setelah perangkat dimatikan dan dinyalakan lagi.",
+    "v": "mis. Setiap kali. Sama saja setelah perangkat dimulai ulang.",
     "src": "c952ed962c"
   },
   "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
-    "v": "Contoh: Layar terhenti sekitar satu detik setiap kali saya menggulir daftar.",
+    "v": "mis. Layar tersendat sekitar satu detik setiap kali saya menggulir daftar.",
     "src": "5d25eabe10"
   },
   "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
-    "v": "Contoh: Teks tombol di layar pengaturan terpotong. Terjemahan kalimat ini terasa janggal.",
+    "v": "mis. Teks tombol di layar pengaturan terpotong. Terjemahan kalimat ini terasa janggal.",
     "src": "e32a425323"
   },
   "예) 수면 모드가 켜져 있었어요.": {
-    "v": "Contoh: Mode Fokus Tidur sedang aktif.",
+    "v": "mis. Fokus Tidur sedang aktif.",
     "src": "e444a75fad"
   },
   "예) 아이폰에서 만든 것이 아이패드에 안 보여요.": {
-    "v": "Contoh: Yang saya buat di iPhone tidak muncul di iPad.",
+    "v": "mis. Yang saya buat di iPhone tidak muncul di iPad.",
     "src": "e193e298fe"
   },
   "예) 앱을 업데이트했어요. 새 아이폰으로 옮겼어요. 앱을 지웠다 다시 깔았어요.": {
-    "v": "Contoh: Saya memperbarui aplikasi. Saya pindah ke iPhone baru. Saya menghapus lalu memasang ulang aplikasi.",
+    "v": "mis. Saya memperbarui aplikasi. Saya pindah ke iPhone baru. Saya menghapus lalu memasang ulang aplikasi.",
     "src": "190007f2af"
   },
   "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.": {
-    "v": "Contoh: Macet di layar putih saat dibuka. Aplikasi menutup sendiri saat saya mengetuk Simpan.",
+    "v": "mis. Macet di layar putih saat dibuka. Aplikasi menutup sendiri saat saya ketuk Simpan.",
     "src": "7fd7282c7d"
   },
   "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
-    "v": "Contoh: Notifikasi pukul 09.00 tidak muncul. Muncul terlambat 5 menit.",
+    "v": "mis. Notifikasi jam 9 pagi tidak muncul. Notifikasi terlambat 5 menit.",
     "src": "b7aa5cb55e"
   },
   "예) 올해 3월쯤, 예전 아이폰에서요.": {
-    "v": "Contoh: Sekitar Maret tahun ini, di iPhone lama saya.",
+    "v": "mis. Sekitar Maret tahun ini, di iPhone lama saya.",
     "src": "1ef384c00a"
   },
   "예) 지난주 업데이트 뒤부터요.": {
-    "v": "Contoh: Sejak pembaruan minggu lalu.",
+    "v": "mis. Sejak pembaruan minggu lalu.",
     "src": "5b7fbdbe2b"
   },
   "예) 평생 이용권을 샀는데, 앱을 다시 깔고 나니 잠겨 있어요. 복원을 눌러도 없다고 나와요.": {
-    "v": "Contoh: Saya sudah membeli akses seumur hidup, tetapi setelah aplikasi dipasang ulang, aksesnya terkunci. Saat memilih Pulihkan, muncul pesan tidak ada yang dipulihkan.",
+    "v": "mis. Saya membeli akses seumur hidup, tetapi setelah aplikasi dipasang ulang, aksesnya terkunci. Saat saya ketuk Pulihkan, muncul pesan tidak ada yang bisa dipulihkan.",
     "src": "c935df2f4a"
   },
   "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
-    "v": "Contoh: Widget Layar Utama berhenti di nilai kemarin. Aplikasi ini tidak muncul di daftar keyboard.",
+    "v": "mis. Widget di Layar Utama macet di nilai kemarin. Aplikasi ini tidak muncul di daftar keyboard.",
     "src": "9713f82101"
   },
   "예: 010-1234-5678": {
@@ -7848,7 +7848,7 @@
     "src": "13d40b4407"
   },
   "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.": {
-    "v": "Ambil tangkapan layar Layar Utama dengan Widget, atau layar saat keyboard tampil. Untuk keyboard, lampirkan juga Pengaturan > Umum > Keyboard > Keyboard.",
+    "v": "Ambil tangkapan layar Layar Utama yang berisi Widget, atau layar saat keyboard tampil. Untuk keyboard, sertakan juga Pengaturan > Umum > Keyboard > Keyboard.",
     "src": "bd66902936"
   },
   "위젯이나 키보드가 안 돼요": {
@@ -8346,7 +8346,7 @@
     "src": "15fd035e42"
   },
   "이상한 화면": {
-    "v": "Layar tampak janggal",
+    "v": "Tampilan layar yang janggal",
     "src": "46b4000f7f"
   },
   "이어서 입력할 내용": {
@@ -9278,7 +9278,7 @@
     "src": "0660df0f16"
   },
   "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
-    "v": "Ambil tangkapan layar daftar seperti saat ini. Jika Anda punya tangkapan layar lama di Foto, lampirkan juga agar kami bisa membandingkan apa yang hilang.",
+    "v": "Ambil tangkapan layar daftar seperti saat ini. Jika Anda punya tangkapan layar lama di Foto, sertakan juga agar kami bisa membandingkan apa yang hilang.",
     "src": "ff5f634480"
   },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
@@ -11498,7 +11498,7 @@
     "src": "1f2314554b"
   },
   "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.": {
-    "v": "Layar putih juga tidak masalah. Tekan tombol samping dan tombol volume atas bersamaan untuk mengambil tangkapan layar.",
+    "v": "Layar putih juga tidak apa-apa. Tekan tombol samping dan tombol naikkan volume bersamaan untuk mengambil tangkapan layar.",
     "src": "5bc1d83572"
   },
   "힌트 (선택)": {
@@ -11620,5 +11620,21 @@
   "앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.": {
     "v": "Aplikasi memunculkan fitur satu per satu seiring Anda memakainya. Aktifkan agar fitur yang belum dimunculkan juga langsung tampil.",
     "src": "89dc7d71c6"
+  },
+  "다음 글자": {
+    "v": "Huruf berikutnya",
+    "src": "dcd15e997c"
+  },
+  "단축어 넣고 쓰던 키보드로": {
+    "v": "Kembali ke keyboard semula setelah frasa",
+    "src": "ffec1ddb5e"
+  },
+  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
+    "v": "Setelah frasa dimasukkan, keyboard beralih ke keyboard berikutnya di daftar Anda, biasanya yang tadi Anda pakai. Tidak beralih jika Anda mengetik dengan keyboard ini.",
+    "src": "c6a685cb72"
+  },
+  "문장 부호": {
+    "v": "Tanda baca",
+    "src": "9d60a84665"
   }
 }

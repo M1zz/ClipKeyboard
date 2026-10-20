@@ -5567,6 +5567,12 @@
     "comment": "Placeholder chip: next value in a sequence, e.g. next invoice number",
     "h": "c1f6f40ce6"
   },
+  "다음 글자": {
+    "ko": "다음 글자",
+    "en": "Next letter",
+    "comment": "Cheonjiin keyboard: finish the current consonant so the same key starts a new one",
+    "h": "dcd15e997c"
+  },
   "다음 주": {
     "ko": "다음 주",
     "en": "Next week",
@@ -5782,6 +5788,12 @@
     "en": "Snippet Content Hints",
     "comment": "Content hint toggle",
     "h": "9dd8d37782"
+  },
+  "단축어 넣고 쓰던 키보드로": {
+    "ko": "단축어 넣고 쓰던 키보드로",
+    "en": "Back to your keyboard after a snippet",
+    "comment": "Toggle: switch back to the previous keyboard after inserting a snippet",
+    "h": "ffec1ddb5e"
   },
   "단축어 넣기는 지금도 돼요. 켜면 아래 기능이 더 열려요.": {
     "ko": "단축어 넣기는 지금도 돼요. 켜면 아래 기능이 더 열려요.",
@@ -6124,6 +6136,12 @@
     "en": "Keep it on to send right after inserting a snippet. Turn it off if you want more room.",
     "comment": "What's new 5.1.3 return key detail",
     "h": "8607b208c0"
+  },
+  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
+    "ko": "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.",
+    "en": "After a snippet goes in, it switches to the next keyboard in your list, which is usually the one you were using. It stays put if you have been typing with this keyboard.",
+    "comment": "Footer for the switch-back-after-snippet toggle. iOS can only go to the next keyboard in the user's list, not the previous one.",
+    "h": "c6a685cb72"
   },
   "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다": {
     "ko": "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다",
@@ -7456,6 +7474,12 @@
     "en": "Sentence",
     "comment": "Clipboard split unit: sentence",
     "h": "2a9c9c6e6c"
+  },
+  "문장 부호": {
+    "ko": "문장 부호",
+    "en": "Punctuation",
+    "comment": "Cheonjiin keyboard: punctuation key",
+    "h": "9d60a84665"
   },
   "문제 종류": {
     "ko": "문제 종류",

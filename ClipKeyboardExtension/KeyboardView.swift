@@ -2065,8 +2065,10 @@ struct KeyboardView: View {
                 proxy: proxy,
                 theme: theme,
                 returnKeyName: returnKeyName,
+                returnKeyType: documentState.returnKeyType,
                 returnLocked: documentState.returnKeyIsLocked,
-                globeKey: KeyboardCapability.needsInputModeSwitchKey ? AnyView(globeKey(proxy: proxy)) : nil,
+                startsSentence: documentState.startsSentence,
+                globeOverlay: KeyboardCapability.needsInputModeSwitchKey ? AnyView(InputModeSwitchOverlay(proxy: proxy)) : nil,
                 onShowSnippets: { setInputMode(.snippets) }
             )
         } else {

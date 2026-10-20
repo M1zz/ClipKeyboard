@@ -49,6 +49,7 @@
 | 키보드에서 빈칸 값 더하기 | 고를 값이 없는데 키보드에서 더할 길이 없다 · 앱 안에서 앱을 다시 열려 한다 (2026-10 사용자 요청) | `KeyboardAppLinkTests/addValueOpensAppOnlyInExtension` |
 | 전체 접근이 꺼져 있다는 안내 | 진동·복사한 글이 말없이 안 돼 고장인 줄 안다 · 앱 안에서 엉뚱하게 켜라고 한다 | `KeyboardAppLinkTests/fullAccessNoticeOnlyInExtensionWhenOff` |
 | 페이월 세 칸 (무료 · Plus · Pro) | Plus 를 살 길이 없다 · 아무것도 안 산 사람에게 업그레이드 값이 보인다 · 이미 Pro 인 사람에게 다시 판다 | `PaywallPlansTests/plusOwnerUpgrades` |
+| 단축어 넣고 쓰던 키보드로 | 단축어를 넣을 때마다 지구본을 눌러 쓰던 키보드로 돌아가야 한다 · 끈 사람도 넘어간다 · 스택 중간에 넘어가 남은 값이 엉뚱한 데로 간다 (2026-10 사용자 요청) | `SnippetReturnPolicyTests/test_단축어를_다_넣으면_쓰던_키보드로_돌아가고_끄면_그대로다` |
 | 키보드 한글 입력 | 검색창에서 자모가 흩어진다 | `HangulComposerTests/testMultipleSyllables_CommitOnNewInitial` |
 | 업데이트 뒤에도 데이터가 남는다 | 업데이트했더니 단축어가 사라졌다 | `MigrationCompatibilityTests/testOneLegacyItemDoesNotBreakWholeArray` |
 | iCloud 백업과 복원 | 복원했더니 일부 필드가 빠졌다 | `CloudKitBackupIntegrityTests/testBackupThenRestore_PreservesAllMemoFields` |
