@@ -139,6 +139,18 @@ ClipKeyboard keeps the things you retype (account numbers, addresses, replies, t
 
 **Topics**: `Productivity`, `iOS`, `Privacy`
 
+**Gallery** (1270×760, 순서대로 올린다. 다시 만들기: `python3 marketing/global/producthunt/make_ph_gallery.py`)
+
+| # | 파일 | 무엇 |
+| --- | --- | --- |
+| 1 | `marketing/global/producthunt/01-one-keyboard.png` | 5.1.13 자판(영어)과 대화. "One keyboard for typing and for everything you retype" |
+| 2 | `marketing/global/producthunt/02-23-languages.png` | 영어 · 독일어 · 러시아어 · 한국어 · 태국어 · 그리스어 자판. 일본어 · 중국어 한자 변환이 아직 없다는 말을 아래에 적었다 |
+| 3 | `marketing/global/producthunt/03-one-tap-reply.png` | 단축어 판에서 템플릿으로 답한 장면 |
+| 4 | `marketing/global/producthunt/04-recent-copies.png` | '최근' 탭의 복사해 둔 것 |
+
+원본은 `marketing/global/producthunt/raw/`(5.1.13 디버그 빌드, 앱 안 키보드 미리보기를 시뮬레이터로 찍음), 찍는 법은 같은 폴더 `capture.sh`.
+썸네일(240×240)과 GIF 는 아직 없다.
+
 **Links**: App Store, `https://m1zz.github.io/ClipKeyboard/en/`
 
 **First comment** (메이커 코멘트, 런칭 즉시)
@@ -153,7 +165,7 @@ What it does today:
 - A clipboard history that sorts what you copy (emails, phone numbers, addresses, IBANs)
 - Face ID lock for sensitive snippets, text capture from photos, iCloud backup
 
-What's new: version 5.1.13 turns it into a full typing keyboard with iPhone-style layouts for 23 languages, so you no longer switch keyboards to reach a saved phrase. Japanese and Chinese type kana, Pinyin and Zhuyin for now; kanji and hanzi conversion is the next step on the in-app roadmap.
+What's new: version 5.1.13 turns it into a full typing keyboard with iPhone-style layouts for 23 languages, so you no longer switch keyboards to reach a saved phrase. Japanese and Chinese type kana, Pinyin and Zhuyin for now; kanji and hanzi conversion is on the in-app roadmap.
 
 Everything you save stays on your device or in your own iCloud. No third-party analytics.
 

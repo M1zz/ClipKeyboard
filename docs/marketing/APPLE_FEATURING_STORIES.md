@@ -30,19 +30,22 @@
 | 사진 속 글자 인식 | `ClipKeyboard/Service/OCRService.swift`, Vision |
 | iOS 26 디자인 언어 대응 | `glassEffect` 사용 5개 화면, `scrollEdgeEffectHidden` |
 | 키보드 · 공유 · 액션 확장 3종 | `ClipKeyboardExtension`, `ClipKeyboardShareExtension`, `ClipKeyboardActionExtension` |
-| 접근성 | `accessibilityLabel` 116곳, `accessibilityHint` 61곳, `accessibilityAddTraits` 24곳, 46개 파일. 색 외 구분 수단(`differentiateWithoutColor`) |
+| 접근성 | `accessibilityLabel` 179곳, `accessibilityHint` 85곳(2026-10-21 기준), `accessibilityAddTraits` 24곳, 46개 파일. 색 외 구분 수단(`differentiateWithoutColor`) |
 | Face ID 잠금 | `LocalAuthentication`, 보안 단축어 |
-| 구독 없음, 일회성 결제 | StoreKit 2, `ProStatusManager` |
+| 한 번 결제(평생) 또는 연 구독, Plus · Pro 두 트림 | StoreKit 2, `StoreManager.proProductID` · `yearlyProductID`, `AccessTier` |
+| 단축어 100번 넣을 때까지 모든 기능 무료 | `ClipKeyboard/Service/FreeUse.swift` |
+| 23개 언어 자판(5.1.13), 단축어를 넣으면 쓰던 키보드로 돌아감 | `ClipKeyboardExtension/TypingLayouts.swift`, `SnippetReturnPolicy` |
 | 기존 유료 구매자 무상 승계 | `AppTransaction.originalPurchaseDate` 기반 그랜드파더링 (v4.0 프리미엄 전환 시) |
-| 분석 SDK 0개 | Firebase 를 4.3.9 에서 제거. 남은 것은 CloudKit 익명 집계뿐 |
-| 자동 테스트 600건 이상 | `ClipKeyboardTests` 의 테스트 함수 676개 |
-| 한국어 · 영어 | `Localizable.xcstrings`, 원본 ko 2,085키에 en 번역 2,076건 |
+| 서드파티 분석 SDK 0개 | Firebase 를 4.3.9 에서 제거. 남은 것은 자기 CloudKit 허브로 보내는 익명 사용 통계(`AnalyticsService.swift`). "데이터 수집 0" 은 틀린 말이다 |
+| 자동 테스트 1,000건 가까이 | 테스트 함수 992개(2026-10-21 기준) |
+| 23개 언어 | `i18n/config.json` 의 enabled, 스토어 24개 로케일(`APPSTORE.md`) |
 
 ### ⛔️ 쓰면 안 되는 문장
 
 - **"visionOS 지원"**: 근거 없음. `TARGETED_DEVICE_FAMILY = 1,2` (iPhone · iPad) 뿐이다.
-- **"인도네시아어 지원"**: 9317416 에서 제거했다. 카탈로그에 4키만 남은 잔재다.
-- **"Mac 앱 포함"**: Mac 은 **별도 앱 · 별도 저장소**(`~/workspace/code/ClipKeyboardMac`)다.
+- **"구독 없음"**: 연 구독이 있다. **"데이터 수집 0"**: 익명 사용 통계를 보낸다.
+- **"일본어 · 중국어 입력"**: 자판은 가나 · 병음 · 주음까지만 치고 한자 변환이 없다(로드맵 `keyboard.kanji`).
+- **"Mac 앱 포함"**: Mac 은 **별도 앱 · 별도 저장소**다.
   "iPhone 과 Mac 을 오간다"는 맞고, "한 앱이 두 플랫폼에서 돈다"는 틀리다.
 - **Full Access 없이 전 기능**: 핵심 입력은 되지만 클립보드 읽기 등은 아니다. 범위를 붙여 쓸 것.
 
@@ -65,24 +68,27 @@ I am a solo developer with ten years of shipping iOS apps, and I mentor at
 Apple Developer Academy @ POSTECH in Korea. I teach students by day and build
 this app at night, which is why it is put together the way it is: every visual
 cue in the app has a non-color alternative, every control has a VoiceOver
-label, and the whole thing ships with over 600 automated tests because there
+label, and the whole thing ships with nearly a thousand automated tests because there
 is no QA team behind me.
 
 ClipKeyboard exists because I kept watching people retype the same bank
 account number, the same address, the same canned reply, several times a day.
 It puts those inside the keyboard itself, so they go in with one tap in any
-app. Everything a user copies is classified on device into fifteen semantic
-types. Nothing is sent anywhere: there is no analytics SDK in the binary and
-no server of mine to send it to.
+app, and since 5.1.13 it is a full keyboard in 23 languages, so nobody has
+to switch keyboards to reach a saved phrase. Everything a user copies is
+sorted by type on device. Snippet contents never leave the device except to
+the user's own iCloud; there is no third-party analytics SDK, and the only
+thing that comes back to me is anonymous usage counts.
 
 When the app moved from paid to freemium, every existing paying customer was
-grandfathered into Pro for free rather than being asked to buy again. Pro is
-still a one-time purchase. There is no subscription and there will not be one.
+grandfathered into Pro for free rather than being asked to buy again. Pro can
+still be bought once, for good; a yearly plan sits next to it for people who
+prefer that.
 ```
 
 **에디터가 그대로 쓸 수 있는 문장**
 - "A mentor at Apple's own developer academy in Korea, building the app he wishes his students would build."
-- "No analytics SDK, no server, no subscription. Just a keyboard that remembers."
+- "No third-party analytics SDK. Just a keyboard that remembers."
 - "When he switched to freemium, he let everyone who had already paid keep everything."
 
 **준비물**: 개발자 사진 1장, 작업 공간 사진 1장. 인물 스토리 앵글은 사진이 없으면 실리지 못한다.
@@ -147,7 +153,7 @@ address is the difference between doing it and not doing it. That is the frame
 we build in.
 
 What is actually in the app:
-- Every interactive element has a VoiceOver label, and 61 of them carry hints
+- Every interactive element has a VoiceOver label, and 85 of them carry hints
   that explain what happens next rather than restating the label.
 - Every visual cue that distinguishes one snippet from another has a
   non-color alternative. The app honors Differentiate Without Color, and by
@@ -157,7 +163,8 @@ What is actually in the app:
   where most keyboard apps stop caring.
 - Sensitive entries can be locked behind Face ID, so a shared or assisted
   device does not expose them.
-- Korean and English, fully localized rather than machine translated.
+- Localized in 23 languages, with keyboard layouts that follow each
+  country's iPhone keyboard.
 
 The developer mentors at Apple Developer Academy @ POSTECH and teaches this
 as the default way to build, not as a late pass over a finished app.
@@ -190,17 +197,19 @@ treat it that way.
 Everything the app understands about your content is worked out on the device.
 Foundation Models classify what you copied, suggest which app you are likely
 to paste it into, and translate a snippet, all locally, with a rules based
-classifier as the fallback on devices without Apple Intelligence. Fifteen
-semantic types are detected, including bank account numbers validated by
-checksum rather than by shape alone.
+classifier as the fallback on devices without Apple Intelligence. More than
+twenty kinds of values are detected, including bank account numbers validated
+by checksum rather than by shape alone.
 
-There is no analytics SDK in the binary. We removed the last one in 4.3.9.
-There is no server we own. Data lives in the App Group container and, only if
+There is no third-party analytics SDK in the binary. We removed the last one
+in 4.3.9. What the user writes lives in the App Group container and, only if
 the user turns it on, in their own private CloudKit database. Optional
 device-to-device sync uses CKSyncEngine, so it never passes through us either.
+The only thing the app sends us is anonymous usage counts, never the contents
+of a snippet or the clipboard.
 
-This is also why the business model is a one-time purchase. We do not need
-recurring revenue from data we refuse to collect.
+Pro can be bought once, for good, and that option stays. A yearly plan sits
+next to it for people who prefer it.
 ```
 
 **에디터가 그대로 쓸 수 있는 문장**
@@ -325,8 +334,8 @@ Shipping [DATE], now in TestFlight.
 
 Why it matters for the platform: [사용한 애플 기술 한 줄. 0절 표에서 고른다.]
 
-Context: solo developer, no analytics SDK, one-time purchase with no
-subscription, Korean and English, over 600 automated tests.
+Context: solo developer, no third-party analytics SDK, Pro as a one-time
+purchase or a yearly plan, 23 languages, nearly 1,000 automated tests.
 ```
 
 > 이 마지막 "Context" 세 줄은 **모든 앵글에 넣는다.** 에디터가 앱을 분류하는 데 쓰는 정보다.

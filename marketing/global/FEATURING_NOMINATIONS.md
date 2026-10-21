@@ -75,7 +75,7 @@ For people who write in more than one language every day, which is most of our u
 
 The first languages turned on are chosen from the person's own app language, device language and the iOS keyboards they already use, plus English. Nothing to set up.
 
-Honest limit: Japanese and Chinese currently type kana, Pinyin and Zhuyin; kanji and hanzi conversion is the next step on our public roadmap.
+Honest limit: Japanese and Chinese currently type kana, Pinyin and Zhuyin; kanji and hanzi conversion is on our public roadmap.
 ```
 
 **Helpful Details** (728자)
@@ -176,6 +176,8 @@ It is a productivity app that succeeds when you spend less time in it.
 | "one-time $9.99 Pro, no subscription" (`APPLE_FEATURING_PITCH.md`, `PRODUCT_HUNT_LAUNCH.md`) | 연 구독도 있다(`StoreManager.yearlyProductID`). Plus · Pro 트림이 있다. 가격은 적지 않는다 |
 | "Zero data collection" | 서드파티 분석 SDK 는 없지만, 익명 사용 통계를 자기 CloudKit 허브로 보낸다(`AnalyticsService.swift`). "No third-party analytics SDK" 로만 쓴다 |
 | "Korean and English" | 앱 23개 언어, 스토어 24개 로케일 |
+| "15 types" (자동 분류) | `ClipboardItemType` 에 20가지가 넘는다. 숫자를 쓰려면 "more than twenty" |
+| "Mac menu-bar companion" | Mac 은 별도 앱이다. iOS 앱 소개에 넣지 않는다 |
 | "116 labels, 61 hints", "over 600 tests" | 2026-10-21 기준 `accessibilityLabel` 179 · `accessibilityHint` 85, 테스트 함수 992개 |
-| "It does not replace the keyboard you type on" (`APPSTORE.md` 설명) | 5.1.13 부터 자판이 있다. **APPSTORE.md 설명을 다음 배포 전에 고쳐야 한다**(이 작업에서는 손대지 않았다) |
+| "It does not replace the keyboard you type on" (`APPSTORE.md` 설명) | 5.1.13 부터 자판이 있다. 2026-10-21 에 `APPSTORE.md` 24개 로케일을 고쳤다. 스토어에는 다음 버전 배포 때 실린다 |
 | Apple Developer Academy 멘토 직함 | 코드로 확인할 수 없다. 넣으려면 직접 표기를 확인한다 |

@@ -1,5 +1,10 @@
 # 🎯 ClipKeyboard 마케팅 마스터 플랜, 2026-07
 
+> ⚠️ **2026-10-21 덧붙임: 이 글은 쓴 때의 기록이라 지금과 다른 사실이 있다. 다시 쓸 때는 고쳐 쓴다.**
+> Pro 는 한 번 결제(평생) **또는 연 구독**이다("no subscription" 금지). 무료는 "단축어 100번 넣을 때까지 모든 기능"이고 그 뒤에는 새로 만드는 것에만 예전 한도가 선다.
+> 익명 사용 통계를 자기 CloudKit 허브로 보내므로 "zero data collection" · "데이터 수집 없음" 은 쓰지 않는다("no third-party analytics SDK" 는 맞다).
+> 앱은 23개 언어이고, 5.1.13 부터 23개 언어 자판이 있다(일본어 · 중국어는 한자 변환이 아직 없다). 자동 분류는 20가지가 넘는다. 가격 숫자는 나라 · 시기마다 달라 쓰지 않는다.
+
 > 작성: 2026-07-07 (v4.3.5 출시 직후 리서치 기반)
 > 관련 문서: [docs/marketing/ASO_2026-07.md](ASO_2026-07.md) · [docs/marketing/KR_COMMUNITY_POSTS.md](KR_COMMUNITY_POSTS.md) · [docs/marketing/PRODUCT_HUNT_LAUNCH.md](PRODUCT_HUNT_LAUNCH.md) · [docs/marketing/APPLE_FEATURING_PITCH.md](APPLE_FEATURING_PITCH.md) · 기존 [docs/engineering/SEEDING-GUIDE.md](../engineering/SEEDING-GUIDE.md) · [docs/marketing/REDDIT_LAUNCH_POST.md](REDDIT_LAUNCH_POST.md) · [docs/product/LAUNCH_TODO.md](../product/LAUNCH_TODO.md)
 

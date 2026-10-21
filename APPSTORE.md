@@ -37,7 +37,7 @@ iCloud 백업: 기기를 바꿔도 남습니다. 이미지 단축어까지 함�
 
 먼저 알아 두실 것
 
-저장해 둔 문구를 꺼내 넣는 키보드입니다. 평소에 글자를 치는 키보드를 대신하지 않습니다. 자주 쓰는 내용을 넣어야 할 때 잠깐 바꿔서 탭하고, 넣고 나면 다시 돌아가시면 됩니다.
+이제 글자도 치는 키보드입니다. iPhone 기본 키보드와 같은 배열로 23개 언어를 치고, 같은 키보드에서 단축어도 넣습니다. 쓰던 키보드가 편하면 그대로 쓰세요. 단축어를 넣고 나면 쓰던 키보드로 알아서 돌아가고, 이 동작은 끌 수 있습니다. 일본어는 가나까지, 중국어는 병음·주음까지만 치며 한자 변환은 아직 없습니다.
 
 개인정보
 
@@ -111,7 +111,7 @@ iCloud backup: it survives a new phone, image snippets included.
 
 Please know this first
 
-This is a keyboard for putting saved text in. It does not replace the keyboard you type on. Switch to it when you need to drop something in, then switch back.
+It is now a full keyboard too, with iPhone-style keys in 23 languages and your snippets on the same keyboard. Prefer the keyboard you already use? Keep it: after a snippet goes in, ClipKeyboard switches back to it, and you can turn that off. For Japanese and Chinese, conversion to kanji is not available yet.
 
 Privacy
 
@@ -185,7 +185,7 @@ iCloud backup: it survives a new phone, image snippets included.
 
 Please know this first
 
-This is a keyboard for putting saved text in. It does not replace the keyboard you type on. Switch to it when you need to drop something in, then switch back.
+It is now a full keyboard too, with iPhone-style keys in 23 languages and your snippets on the same keyboard. Prefer the keyboard you already use? Keep it: after a snippet goes in, ClipKeyboard switches back to it, and you can turn that off. For Japanese and Chinese, conversion to kanji is not available yet.
 
 Privacy
 
@@ -259,7 +259,7 @@ Clip Keyboard: буфер обмена
 
 Что стоит знать заранее
 
-Это клавиатура для вставки сохранённого текста. Она не заменяет ту клавиатуру, на которой вы печатаете. Переключитесь на неё, когда нужно что-то вставить, и вернитесь обратно.
+Теперь это и полноценная клавиатура: раскладки как на iPhone для 23 языков, а фразы под рукой на той же клавиатуре. Привыкли к своей клавиатуре? Оставьте её: после вставки фразы ClipKeyboard сам вернёт вас к ней, и это можно отключить. Для японского и китайского преобразования в иероглифы пока нет.
 
 Конфиденциальность
 
@@ -336,7 +336,7 @@ iCloud 备份：换手机也不会丢，图片短语也一起带走。
 
 请先知道这一点
 
-这是一个用来取用存好短语的键盘，不是拼音输入法。它不替代你平时打字的键盘。需要填入常用内容时切过来点一下，填完再切回去。
+现在它也能打字了：支持 23 种语言，按键布局和 iPhone 自带键盘一样，打字和短语在同一个键盘上。不过中文目前还不能把拼音、注音转换成汉字，打中文请继续使用你平时的输入法。输入短语后，会自动切回你原来的键盘，也可以在设置中关闭。日语目前也只能输入假名。
 
 免费与 Pro
 
@@ -407,7 +407,7 @@ iCloud 備份：換手機也不會丟，圖片短語也一起帶走。
 
 請先知道這一點
 
-這是一個用來取用存好短語的鍵盤，不是拼音輸入法。它不替代你平時打字的鍵盤。需要填入常用內容時切過來點一下，填完再切回去。
+現在它也能打字了：支援 23 種語言，按鍵配置和 iPhone 內建鍵盤一樣，打字和短語在同一個鍵盤上。不過中文目前還不能把注音、拼音轉換成漢字，打中文請繼續使用你平時的輸入法。輸入短語後，會自動切回你原本的鍵盤，也可以在設定中關閉。日文目前也只能輸入假名。
 
 免費與 Pro
 
@@ -475,7 +475,7 @@ iCloudバックアップ：機種変更しても残ります。画像の定型�
 
 はじめに知っておいてほしいこと
 
-保存した文章を取り出して入力するためのキーボードです。ふだん文字を打つキーボードの代わりにはなりません。よく使う内容を入れたいときだけ切り替えてタップし、入れ終わったら元のキーボードに戻してください。
+文字も打てるキーボードになりました。iPhoneの標準キーボードと同じ配列で23言語を入力でき、同じキーボードで定型文も入れられます。ただし日本語は今のところローマ字からひらがなまでで、漢字変換にはまだ対応していません。日本語を打つときは、ふだんのキーボードをそのままお使いください。定型文を入れたあとは元のキーボードに自動で戻ります。この動作は設定でオフにできます。
 
 プライバシー
 
@@ -550,7 +550,7 @@ Respaldo en iCloud: sobrevive al cambio de celular, incluidas las frases con ima
 
 Antes de empezar
 
-Es un teclado para insertar texto guardado. No reemplaza el teclado con el que escribes. Cámbiate a él cuando necesites insertar algo y luego regresa.
+Ahora también es un teclado completo, con teclas como las del iPhone en 23 idiomas y tus frases en el mismo teclado. ¿Prefieres el teclado que ya usas? Sigue con él: después de insertar una frase, ClipKeyboard regresa a ese teclado, y puedes desactivarlo. En japonés y chino todavía no hay conversión a kanji.
 
 Privacidad
 
@@ -625,7 +625,7 @@ iCloud-Backup: Übersteht ein neues iPhone, Bild-Textbausteine inklusive.
 
 Gut zu wissen
 
-Das ist eine Tastatur zum Einfügen gespeicherter Texte. Sie ersetzt nicht die Tastatur, mit der du schreibst. Wechsle zu ihr, wenn du etwas einfügen willst, und danach zurück.
+Jetzt ist es auch eine vollwertige Tastatur: Tasten wie auf dem iPhone in 23 Sprachen, deine Textbausteine auf derselben Tastatur. Lieber bei deiner gewohnten Tastatur bleiben? Kein Problem: Nach dem Einfügen wechselt ClipKeyboard automatisch zu ihr zurück, und das lässt sich ausschalten. Für Japanisch und Chinesisch gibt es noch keine Umwandlung in Kanji.
 
 Datenschutz
 
@@ -700,7 +700,7 @@ Clip Keyboard ข้อความด่วน
 
 ก่อนเริ่มใช้
 
-นี่คือคีย์บอร์ดสำหรับใส่ข้อความที่บันทึกไว้ ไม่ได้มาแทนคีย์บอร์ดที่ใช้พิมพ์ประจำ สลับมาใช้เมื่ออยากใส่อะไรบางอย่าง แล้วสลับกลับ
+ตอนนี้ใช้พิมพ์ได้เต็มรูปแบบแล้ว ปุ่มเรียงแบบเดียวกับคีย์บอร์ดของ iPhone ใน 23 ภาษา และใส่ข้อความด่วนได้จากคีย์บอร์ดเดียวกัน ถ้าชอบคีย์บอร์ดที่ใช้อยู่ก็ใช้ต่อได้ เมื่อใส่ข้อความด่วนแล้ว ClipKeyboard จะสลับกลับไปให้เอง และปิดการทำงานนี้ได้ ภาษาญี่ปุ่นและภาษาจีนยังไม่รองรับการแปลงเป็นคันจิ
 
 ความเป็นส่วนตัว
 
@@ -775,7 +775,7 @@ Sao lưu iCloud: đổi điện thoại vẫn còn, kể cả cụm từ hình �
 
 Trước khi bắt đầu
 
-Đây là bàn phím để chèn văn bản đã lưu, không thay thế bàn phím bạn dùng để gõ. Chuyển sang khi cần chèn gì đó, xong thì chuyển lại.
+Giờ đây nó cũng là bàn phím gõ đầy đủ: phím bố trí như bàn phím iPhone cho 23 ngôn ngữ, tiếng Việt gõ kiểu Telex, cụm từ nằm ngay trên cùng bàn phím. Thích bàn phím đang dùng hơn? Cứ giữ nó: chèn cụm từ xong, ClipKeyboard tự chuyển lại, và bạn có thể tắt việc này. Tiếng Nhật và tiếng Trung chưa chuyển được sang chữ Hán.
 
 Quyền riêng tư
 
@@ -850,7 +850,7 @@ Sauvegarde iCloud : tout survit à un nouvel iPhone, phrases avec images compris
 
 Bon à savoir
 
-C’est un clavier pour insérer des textes enregistrés. Il ne remplace pas le clavier avec lequel vous écrivez. Passez-y quand vous voulez insérer quelque chose, puis revenez.
+C’est désormais aussi un vrai clavier : des touches comme sur l’iPhone en 23 langues, et vos phrases sur le même clavier. Vous préférez votre clavier habituel ? Gardez-le : après l’insertion d’une phrase, ClipKeyboard y revient tout seul, et vous pouvez désactiver ce comportement. Le japonais et le chinois ne se convertissent pas encore en kanji.
 
 Confidentialité
 
@@ -924,7 +924,7 @@ Backup su iCloud: resiste al cambio di iPhone, frasi con immagini comprese.
 
 Da sapere
 
-È una tastiera per inserire testi salvati. Non sostituisce la tastiera con cui scrivi. Passa a questa quando devi inserire qualcosa, poi torna indietro.
+Ora è anche una tastiera completa: tasti come su iPhone in 23 lingue e le tue frasi sulla stessa tastiera. Preferisci la tastiera che usi già? Tienila: dopo aver inserito una frase, ClipKeyboard torna automaticamente a quella, e puoi disattivarlo. Per giapponese e cinese la conversione in kanji non è ancora disponibile.
 
 Privacy
 
@@ -998,7 +998,7 @@ Backup no iCloud: tudo continua com você ao trocar de iPhone, frases com imagem
 
 Bom saber
 
-Este é um teclado para inserir textos salvos. Ele não substitui o teclado em que você digita. Troque para ele quando precisar inserir algo e depois volte.
+Agora ele também é um teclado completo: teclas como as do iPhone em 23 idiomas e suas frases no mesmo teclado. Prefere o teclado que você já usa? Continue com ele: depois de inserir uma frase, o ClipKeyboard volta para ele sozinho, e dá para desativar isso. Japonês e chinês ainda não têm conversão para kanji.
 
 Privacidade
 
@@ -1072,7 +1072,7 @@ Záloha na iCloud: přežije i výměnu telefonu, včetně frází s obrázky.
 
 Dobré vědět
 
-Je to klávesnice pro vkládání uložených textů. Nenahrazuje klávesnici, na které běžně píšete. Přepněte na ni, když potřebujete něco vložit, a pak se vraťte zpět.
+Teď je to i plnohodnotná klávesnice: klávesy jako na iPhonu ve 23 jazycích a vaše fráze na stejné klávesnici. Máte radši svou klávesnici? Nechte si ji: po vložení fráze se ClipKeyboard sám přepne zpět na ni a dá se to vypnout. Japonštinu a čínštinu zatím nejde převádět na znaky kanji.
 
 Soukromí
 
@@ -1146,7 +1146,7 @@ iCloud-backup: alt følger med til en ny iPhone, også fraser med billeder.
 
 Godt at vide
 
-Det er et tastatur til at indsætte gemt tekst. Det erstatter ikke det tastatur, du skriver på. Skift til det, når du skal sætte noget ind, og skift så tilbage.
+Nu er det også et rigtigt tastatur: taster som på iPhone på 23 sprog og dine fraser på samme tastatur. Foretrækker du dit vante tastatur? Behold det: Når en frase er sat ind, skifter ClipKeyboard selv tilbage, og det kan slås fra. Japansk og kinesisk kan endnu ikke omdannes til kanji.
 
 Privatliv
 
@@ -1220,7 +1220,7 @@ Clip Keyboard: Πρόχειρο
 
 Καλό να ξέρετε
 
-Είναι πληκτρολόγιο για την εισαγωγή αποθηκευμένου κειμένου. Δεν αντικαθιστά το πληκτρολόγιο με το οποίο γράφετε. Αλλάξτε σε αυτό όταν θέλετε να βάλετε κάτι και μετά επιστρέψτε.
+Τώρα είναι και κανονικό πληκτρολόγιο: πλήκτρα όπως στο iPhone σε 23 γλώσσες και οι φράσεις σας στο ίδιο πληκτρολόγιο. Προτιμάτε το πληκτρολόγιο που ήδη χρησιμοποιείτε; Κρατήστε το: μόλις μπει μια φράση, το ClipKeyboard επιστρέφει μόνο του σε αυτό, και μπορείτε να το απενεργοποιήσετε. Στα ιαπωνικά και τα κινεζικά δεν υπάρχει ακόμη μετατροπή σε κάντζι.
 
 Απόρρητο
 
@@ -1294,7 +1294,7 @@ iCloud-varmuuskopio: kaikki siirtyy uuteen iPhoneen, myös kuvia sisältävät f
 
 Hyvä tietää
 
-Tämä on näppäimistö tallennettujen tekstien lisäämiseen. Se ei korvaa näppäimistöä, jolla kirjoitat. Vaihda siihen, kun haluat lisätä jotain, ja palaa sitten takaisin.
+Nyt se on myös täysi näppäimistö: iPhonen kaltaiset näppäimet 23 kielellä ja fraasit samalla näppäimistöllä. Haluatko jatkaa tutulla näppäimistölläsi? Se onnistuu: kun fraasi on lisätty, ClipKeyboard vaihtaa itse takaisin siihen, ja tämän voi kytkeä pois. Japanin ja kiinan muunnosta kanji-merkeiksi ei vielä ole.
 
 Tietosuoja
 
@@ -1368,7 +1368,7 @@ Cadangan iCloud: semuanya ikut pindah ke iPhone baru, termasuk frasa bergambar.
 
 Perlu diketahui
 
-Ini adalah keyboard untuk memasukkan teks yang sudah disimpan. Keyboard ini tidak menggantikan keyboard yang biasa Anda pakai untuk mengetik. Beralihlah ke sini saat perlu memasukkan sesuatu, lalu kembali lagi.
+Kini keyboard ini juga bisa dipakai mengetik: tombol seperti keyboard iPhone dalam 23 bahasa, dan frasa Anda ada di keyboard yang sama. Lebih suka keyboard yang biasa Anda pakai? Tetap gunakan saja: setelah frasa dimasukkan, ClipKeyboard otomatis kembali ke keyboard itu, dan fitur ini bisa dimatikan. Bahasa Jepang dan Mandarin belum bisa dikonversi ke kanji.
 
 Privasi
 
@@ -1442,7 +1442,7 @@ iCloud-sikkerhetskopi: alt blir med til en ny iPhone, også fraser med bilder.
 
 Greit å vite
 
-Dette er et tastatur for å sette inn lagret tekst. Det erstatter ikke tastaturet du skriver med. Bytt til det når du skal sette inn noe, og bytt tilbake etterpå.
+Nå er det også et fullverdig tastatur: taster som på iPhone på 23 språk, og frasene dine på samme tastatur. Liker du tastaturet du bruker i dag bedre? Behold det: Når en frase er satt inn, bytter ClipKeyboard selv tilbake, og det kan slås av. Japansk og kinesisk kan ennå ikke gjøres om til kanji.
 
 Personvern
 
@@ -1516,7 +1516,7 @@ iCloud-reservekopie: alles gaat mee naar een nieuwe iPhone, ook fragmenten met a
 
 Goed om te weten
 
-Dit is een toetsenbord om bewaarde tekst in te voegen. Het vervangt niet het toetsenbord waarmee je typt. Schakel ernaar over als je iets wilt invoegen en schakel daarna terug.
+Het is nu ook een volwaardig toetsenbord: toetsen zoals op de iPhone in 23 talen, en je fragmenten op hetzelfde toetsenbord. Liever je eigen toetsenbord? Houd het: na het invoegen van een fragment schakelt ClipKeyboard vanzelf terug, en dat kun je uitzetten. Japans en Chinees kunnen nog niet naar kanji worden omgezet.
 
 Privacy
 
@@ -1590,7 +1590,7 @@ Kopia zapasowa iCloud: wszystko przechodzi na nowego iPhone'a, także frazy z ob
 
 Dobrze wiedzieć
 
-To klawiatura do wstawiania zapisanych tekstów. Nie zastępuje klawiatury, na której zwykle piszesz. Przełącz się na nią, gdy chcesz coś wstawić, a potem wróć.
+Teraz to także pełna klawiatura: klawisze jak na iPhonie w 23 językach i Twoje frazy na tej samej klawiaturze. Wolisz swoją dotychczasową klawiaturę? Zostań przy niej: po wstawieniu frazy ClipKeyboard sam na nią wraca, a można to wyłączyć. Japoński i chiński nie mają jeszcze zamiany na kanji.
 
 Prywatność
 
@@ -1664,7 +1664,7 @@ Säkerhetskopiering till iCloud: allt följer med till en ny iPhone, även frase
 
 Bra att veta
 
-Det här är ett tangentbord för att infoga sparad text. Det ersätter inte tangentbordet du skriver med. Byt till det när du vill infoga något och byt sedan tillbaka.
+Nu är det också ett fullständigt tangentbord: tangenter som på iPhone på 23 språk och dina fraser på samma tangentbord. Föredrar du ditt vanliga tangentbord? Behåll det: när en fras har infogats byter ClipKeyboard tillbaka av sig själv, och det går att stänga av. Japanska och kinesiska kan ännu inte omvandlas till kanji.
 
 Integritet
 
@@ -1738,7 +1738,7 @@ iCloud yedeği: her şey yeni iPhone'unuza taşınır, görselli ifadeler de dah
 
 Bilmeniz gerekenler
 
-Bu, kayıtlı metinleri eklemek için bir klavyedir. Yazı yazdığınız klavyenin yerini almaz. Bir şey eklemeniz gerektiğinde ona geçin, sonra geri dönün.
+Artık tam bir klavye de: 23 dilde iPhone'daki gibi tuşlar ve ifadeleriniz aynı klavyede. Alıştığınız klavyeyi mi tercih edersiniz? Onu kullanmaya devam edin: bir ifade eklendikten sonra ClipKeyboard kendiliğinden ona geri döner, bunu kapatabilirsiniz de. Japonca ve Çince için kanji dönüştürme henüz yok.
 
 Gizlilik
 
