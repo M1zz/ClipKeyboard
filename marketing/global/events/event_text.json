@@ -1,0 +1,247 @@
+{
+  "_": "인앱 이벤트 문구. 한도: 이름 30 · 짧은 설명 50 · 긴 설명 120 (Apple 공식). 세기: python3 marketing/global/events/count_event_text.py",
+  "typing-23": {
+    "ko": [
+      "키보드 하나로 23개 언어",
+      "글도 단축어도, 키보드를 바꾸지 않고",
+      "iPhone과 같은 배열로 23개 언어를 치고, 저장해 둔 단축어도 같은 키보드에서 바로 넣어요."
+    ],
+    "en-US": [
+      "One Keyboard, 23 Languages",
+      "Type and use snippets on the same keyboard",
+      "Type in 23 languages on layouts that match iPhone, and drop in a saved snippet without switching keyboards."
+    ],
+    "en-GB": [
+      "One Keyboard, 23 Languages",
+      "Type and use snippets on the same keyboard",
+      "Type in 23 languages on layouts that match iPhone, and drop in a saved snippet without switching keyboards."
+    ],
+    "zh-Hans": [
+      "一个键盘，23 种语言",
+      "打字和插入短语，都不用切换键盘",
+      "按 iPhone 的键位输入 23 种语言，常用短语也在同一个键盘上。汉字输入将在后续更新中加入。"
+    ],
+    "zh-Hant": [
+      "一個鍵盤，23 種語言",
+      "打字和插入短語，都不用切換鍵盤",
+      "依 iPhone 的鍵位輸入 23 種語言，常用短語也在同一個鍵盤上。漢字輸入將在之後的更新加入。"
+    ],
+    "ru": [
+      "Одна клавиатура, 23 языка",
+      "Печать и фразы на одной клавиатуре",
+      "Печатайте на 23 языках с раскладками как на iPhone и вставляйте сохранённые фразы, не меняя клавиатуру."
+    ],
+    "ja": [
+      "ひとつのキーボードで23言語",
+      "文字入力も定型文も、切り替えなしで",
+      "iPhoneと同じ配列で23言語を入力でき、定型文もそのまま挿入できます。漢字変換は今後のアップデートで対応予定です。"
+    ],
+    "es-MX": [
+      "Un teclado, 23 idiomas",
+      "Escribe y usa tus frases sin cambiar de teclado",
+      "Escribe en 23 idiomas con la distribución del iPhone y usa tus frases guardadas sin cambiar de teclado."
+    ],
+    "de-DE": [
+      "Eine Tastatur, 23 Sprachen",
+      "Tippen und Textbausteine ohne Tastaturwechsel",
+      "Tippe in 23 Sprachen mit den Layouts des iPhone und füge Textbausteine ein, ohne die Tastatur zu wechseln."
+    ],
+    "fr-FR": [
+      "Un clavier, 23 langues",
+      "Saisie et phrases sur un seul et même clavier",
+      "Écrivez dans 23 langues avec les dispositions de l’iPhone et insérez vos phrases sans changer de clavier."
+    ],
+    "it": [
+      "Una tastiera, 23 lingue",
+      "Scrivi e inserisci frasi senza cambiare tastiera",
+      "Scrivi in 23 lingue con i layout dell’iPhone e inserisci le frasi salvate senza cambiare tastiera."
+    ],
+    "pt-BR": [
+      "Um teclado, 23 idiomas",
+      "Digite e use suas frases sem trocar de teclado",
+      "Digite em 23 idiomas com o layout do iPhone e insira suas frases salvas sem trocar de teclado."
+    ],
+    "th": [
+      "คีย์บอร์ดเดียว 23 ภาษา",
+      "พิมพ์และใส่ข้อความด่วนได้ในคีย์บอร์ดเดียว",
+      "พิมพ์ได้ 23 ภาษาด้วยแป้นแบบเดียวกับ iPhone และใส่ข้อความด่วนที่บันทึกไว้ได้โดยไม่ต้องสลับคีย์บอร์ด"
+    ],
+    "vi": [
+      "Một bàn phím, 23 ngôn ngữ",
+      "Gõ chữ và chèn cụm từ mà không cần đổi bàn phím",
+      "Gõ 23 ngôn ngữ với bố cục giống iPhone và chèn cụm từ đã lưu mà không cần đổi bàn phím."
+    ],
+    "cs": [
+      "Jedna klávesnice, 23 jazyků",
+      "Pište a vkládejte fráze bez přepínání klávesnice",
+      "Pište ve 23 jazycích s rozložením jako na iPhonu a vkládejte uložené fráze bez přepínání klávesnice."
+    ],
+    "da": [
+      "Ét tastatur, 23 sprog",
+      "Skriv og indsæt fraser uden at skifte tastatur",
+      "Skriv på 23 sprog med samme layout som på iPhone, og indsæt gemte fraser uden at skifte tastatur."
+    ],
+    "el": [
+      "Ένα πληκτρολόγιο, 23 γλώσσες",
+      "Γράψτε και προσθέστε φράσεις στο ίδιο πληκτρολόγιο",
+      "Γράψτε σε 23 γλώσσες με διάταξη όπως στο iPhone και προσθέστε φράσεις χωρίς να αλλάξετε πληκτρολόγιο."
+    ],
+    "fi": [
+      "Yksi näppäimistö, 23 kieltä",
+      "Kirjoita ja lisää fraaseja samalla näppäimistöllä",
+      "Kirjoita 23 kielellä iPhonen asetteluilla ja lisää tallennetut fraasit vaihtamatta näppäimistöä."
+    ],
+    "id": [
+      "Satu Keyboard, 23 Bahasa",
+      "Mengetik dan memakai frasa di satu keyboard",
+      "Ketik dalam 23 bahasa dengan tata letak seperti iPhone, lalu masukkan frasa tersimpan tanpa berganti keyboard."
+    ],
+    "nb": [
+      "Ett tastatur, 23 språk",
+      "Skriv og sett inn fraser uten å bytte tastatur",
+      "Skriv på 23 språk med samme oppsett som på iPhone, og sett inn lagrede fraser uten å bytte tastatur."
+    ],
+    "nl": [
+      "Eén toetsenbord, 23 talen",
+      "Typen en fragmenten invoegen op één toetsenbord",
+      "Typ in 23 talen met de indeling van de iPhone en voeg bewaarde fragmenten in zonder te wisselen."
+    ],
+    "pl": [
+      "Jedna klawiatura, 23 języki",
+      "Pisz i wstawiaj frazy bez zmiany klawiatury",
+      "Pisz w 23 językach na układach jak w iPhonie i wstawiaj zapisane frazy bez zmiany klawiatury."
+    ],
+    "sv": [
+      "Ett tangentbord, 23 språk",
+      "Skriv och infoga fraser utan att byta tangentbord",
+      "Skriv på 23 språk med samma layout som på iPhone och infoga sparade fraser utan att byta tangentbord."
+    ],
+    "tr": [
+      "Tek Klavye, 23 Dil",
+      "Klavye değiştirmeden yazın ve ifade ekleyin",
+      "iPhone ile aynı düzenlerle 23 dilde yazın, kayıtlı ifadelerinizi klavye değiştirmeden ekleyin."
+    ]
+  },
+  "holiday-gift": {
+    "ko": [
+      "연말 Pro 선물 시즌",
+      "결제는 내가, Pro는 받는 사람이 써요",
+      "설정의 Pro 선물하기에서 결제하면 선물 코드가 생겨요. 받는 사람이 앱에 코드를 넣으면 Pro를 계속 써요."
+    ],
+    "en-US": [
+      "Holiday Pro Gifting",
+      "You pay, and someone you care about gets Pro",
+      "Buy a gift in Settings and you get a code to send. They enter it in the app, and Pro is theirs to keep."
+    ],
+    "en-GB": [
+      "Holiday Pro Gifting",
+      "You pay, and someone you care about gets Pro",
+      "Buy a gift in Settings and you get a code to send. They enter it in the app, and Pro is theirs to keep."
+    ],
+    "zh-Hans": [
+      "节日 Pro 礼物季",
+      "由你付款，对方使用 Pro",
+      "在设置的“赠送 Pro”中付款后，会得到一个礼物码。对方在 App 中输入礼物码，即可一直使用 Pro。"
+    ],
+    "zh-Hant": [
+      "節日 Pro 禮物季",
+      "由你付款，對方使用 Pro",
+      "在設定的「贈送 Pro」付款後，會取得一組禮物碼。對方在 App 中輸入禮物碼，即可一直使用 Pro。"
+    ],
+    "ru": [
+      "Pro в подарок к праздникам",
+      "Платите вы, а Pro получает близкий человек",
+      "Купите подарок в настройках и отправьте код. Получатель вводит его в приложении, и Pro остаётся у него навсегда."
+    ],
+    "ja": [
+      "ホリデー Pro ギフト",
+      "お支払いは贈る方、Pro は受け取る方に",
+      "設定の「Pro をギフトする」で購入するとギフトコードが表示されます。相手がアプリでコードを入力すれば、Pro をずっと使えます。"
+    ],
+    "es-MX": [
+      "Temporada de regalos Pro",
+      "Tú pagas y la otra persona recibe Pro",
+      "Compra un regalo en Ajustes y obtén un código para enviarlo. Al ingresarlo en la app, Pro es suyo para siempre."
+    ],
+    "de-DE": [
+      "Pro als Festtagsgeschenk",
+      "Du zahlst, und die beschenkte Person bekommt Pro",
+      "Kaufe in den Einstellungen ein Geschenk und sende den Code. Wer ihn in der App eingibt, behält Pro dauerhaft."
+    ],
+    "fr-FR": [
+      "Pro à offrir pour les fêtes",
+      "Vous réglez, et la personne reçoit Pro",
+      "Achetez un cadeau dans les Réglages et envoyez le code. Une fois saisi dans l’app, Pro lui reste acquis."
+    ],
+    "it": [
+      "Pro da regalare per le feste",
+      "Paghi tu, e Pro lo usa chi lo riceve",
+      "Acquista un regalo nelle Impostazioni e invia il codice. Chi lo inserisce nell’app tiene Pro per sempre."
+    ],
+    "pt-BR": [
+      "Pro de presente nas festas",
+      "Você paga, e a pessoa presenteada usa o Pro",
+      "Compre um presente nos Ajustes e envie o código. Quem inserir o código no app fica com o Pro para sempre."
+    ],
+    "th": [
+      "ของขวัญ Pro ช่วงเทศกาล",
+      "คุณชำระเงิน แล้วอีกฝ่ายใช้ Pro ได้เลย",
+      "ซื้อของขวัญในการตั้งค่าแล้วส่งรหัสให้ผู้รับ เมื่อใส่รหัสในแอป ผู้รับจะใช้ Pro ได้ตลอดไป"
+    ],
+    "vi": [
+      "Quà tặng Pro mùa lễ",
+      "Bạn thanh toán, người nhận dùng Pro",
+      "Mua quà trong Cài đặt rồi gửi mã. Người nhận nhập mã trong ứng dụng là dùng được Pro mãi mãi."
+    ],
+    "cs": [
+      "Pro jako vánoční dárek",
+      "Platíte vy, Pro dostane druhá osoba",
+      "Kupte dárek v Nastavení a pošlete kód. Kdo ho zadá v aplikaci, má Pro natrvalo."
+    ],
+    "da": [
+      "Pro som julegave",
+      "Du betaler, og modtageren får Pro",
+      "Køb en gave under Indstillinger, og send koden. Når modtageren indtaster den i appen, har de Pro for altid."
+    ],
+    "el": [
+      "Pro για δώρο στις γιορτές",
+      "Εσείς πληρώνετε και ο παραλήπτης αποκτά το Pro",
+      "Αγοράστε ένα δώρο από τις Ρυθμίσεις και στείλτε τον κωδικό. Όποιος τον βάλει στην εφαρμογή κρατά το Pro για πάντα."
+    ],
+    "fi": [
+      "Pro joululahjaksi",
+      "Sinä maksat, ja saaja saa Pron",
+      "Osta lahja asetuksista ja lähetä koodi. Kun saaja syöttää sen apissa, Pro jää hänelle pysyvästi."
+    ],
+    "id": [
+      "Hadiah Pro Akhir Tahun",
+      "Anda yang membayar, dia yang memakai Pro",
+      "Beli hadiah di Pengaturan, lalu kirim kodenya. Setelah kode dimasukkan di app, Pro bisa dipakai selamanya."
+    ],
+    "nb": [
+      "Pro som julegave",
+      "Du betaler, og mottakeren får Pro",
+      "Kjøp en gave under Innstillinger og send koden. Når mottakeren skriver den inn i appen, har de Pro for alltid."
+    ],
+    "nl": [
+      "Pro cadeau voor de feestdagen",
+      "Jij betaalt, de ander krijgt Pro",
+      "Koop een cadeau in Instellingen en stuur de code. Wie de code in de app invoert, houdt Pro voorgoed."
+    ],
+    "pl": [
+      "Pro w prezencie na święta",
+      "Ty płacisz, a ktoś bliski dostaje Pro",
+      "Kup prezent w Ustawieniach i wyślij kod. Kto wpisze go w aplikacji, zachowa Pro na zawsze."
+    ],
+    "sv": [
+      "Pro som julklapp",
+      "Du betalar, och mottagaren får Pro",
+      "Köp en gåva under Inställningar och skicka koden. När mottagaren anger den i appen har hen Pro för alltid."
+    ],
+    "tr": [
+      "Yılbaşına Özel Pro Hediyesi",
+      "Siz ödersiniz, Pro'yu sevdiğiniz kişi kullanır",
+      "Ayarlar'dan hediye satın alın ve kodu gönderin. Kodu uygulamaya giren kişi Pro'yu kalıcı olarak kullanır."
+    ]
+  }
+}
