@@ -1449,9 +1449,17 @@
     "v": "Trykk og hold for å dra og endre rekkefølge. Sveip til venstre for å slette (beskyttede kan ikke fjernes).",
     "src": "12459b563e"
   },
+  "Mac 앱은 따로 사는 앱이에요": {
+    "v": "Mac-appen er et eget kjøp",
+    "src": "94691692e8"
+  },
   "Mac 앱이 완전히 새로워졌어요. 단축키 하나로 어디서든 문구를 꺼내 써요": {
     "v": "Mac-appen er helt ny. Ett hurtigtastvalg henter frem frasene dine hvor som helst",
     "src": "a9581bc99c"
+  },
+  "Mac에서는 탭클립키보드를 받아 주세요": {
+    "v": "På Mac kan du hente ClipKeyboard for Mac",
+    "src": "4ce028311c"
   },
   "Manage categories": {
     "v": "Administrer kategorier",
@@ -2840,6 +2848,10 @@
     "v": "Kjøpet mislyktes",
     "src": "1797865192"
   },
+  "결제 없이 시험 코드를 만들어 지금 빌드의 iCloud 환경에 올려요. 받아도 Pro는 열리지 않아요.": {
+    "v": "Lager en testkode uten betaling og laster den opp til iCloud-miljøet i denne versjonen. Å løse den inn åpner aldri Pro.",
+    "src": "f0eae4ba30"
+  },
   "결제 전환 퍼널": {
     "v": "Kjøpstrakt",
     "src": "84ca48e3d2"
@@ -3875,6 +3887,10 @@
     "v": "Neste %@",
     "src": "c1f6f40ce6"
   },
+  "다음 글자": {
+    "v": "Neste bokstav",
+    "src": "dcd15e997c"
+  },
   "다음 주": {
     "v": "Neste uke",
     "src": "34e1929d1b"
@@ -4042,6 +4058,10 @@
   "단축어 내용 힌트": {
     "v": "Hint om frasens innhold",
     "src": "9dd8d37782"
+  },
+  "단축어 넣고 쓰던 키보드로": {
+    "v": "Tilbake til tastaturet etter en frase",
+    "src": "ffec1ddb5e"
   },
   "단축어 넣기는 지금도 돼요. 켜면 아래 기능이 더 열려요.": {
     "v": "Du kan sette inn fraser allerede nå. Slå på for å låse opp funksjonene under.",
@@ -4282,6 +4302,10 @@
   "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.": {
     "v": "La den stå på for å sende rett etter at du har satt inn en frase. Slå av hvis du vil ha mer plass.",
     "src": "8607b208c0"
+  },
+  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
+    "v": "Når en frase er satt inn, bytter den til neste tastatur i listen din, som vanligvis er det du brukte. Den blir stående hvis du har skrevet med dette tastaturet.",
+    "src": "c6a685cb72"
   },
   "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다": {
     "v": "Send rett etter at du har satt inn en frase, uten å bytte tastatur",
@@ -4962,6 +4986,10 @@
     "v": "Synkroniser data på alle enheter",
     "src": "4c0f9b7542"
   },
+  "모든 기능 바로 보기": {
+    "v": "Vis alle funksjoner nå",
+    "src": "879adde95e"
+  },
   "모든 기능 사용": {
     "v": "Alle funksjoner tilgjengelig",
     "src": "063c9b4dc1"
@@ -5196,6 +5224,10 @@
   "문장": {
     "v": "Setning",
     "src": "2a9c9c6e6c"
+  },
+  "문장 부호": {
+    "v": "Tegnsetting",
+    "src": "9d60a84665"
   },
   "문제 종류": {
     "v": "Type problem",
@@ -5543,6 +5575,10 @@
   "보내기 키": {
     "v": "Send-tast",
     "src": "5165bd1e95"
+  },
+  "보내기 키 늘 보이기": {
+    "v": "Vis alltid send-tast",
+    "src": "59476ed389"
   },
   "보내기 키를 켜고 끌 수 있어요": {
     "v": "Du kan slå send-tasten av og på",
@@ -6557,6 +6593,10 @@
     "v": "Karl Johans gate 1, 0154 Oslo",
     "src": "67969d6959"
   },
+  "선물 시험 (개발자)": {
+    "v": "Gavetest (utvikler)",
+    "src": "1d2ea3a9db"
+  },
   "선물하기": {
     "v": "Gaver",
     "src": "21e7e72bc2"
@@ -7019,6 +7059,10 @@
     "v": "Tidssoneinfo",
     "src": "2e566d5370"
   },
+  "시험 코드 만들기": {
+    "v": "Lag testkode",
+    "src": "53e670eceb"
+  },
   "신규 사용자": {
     "v": "Nye brukere",
     "src": "14cced0c33"
@@ -7227,6 +7271,10 @@
   "아이폰에서 바꾼 순서도 맥의 모든 화면에 그대로 반영": {
     "v": "Rekkefølger satt på iPhone vises på alle flater på Mac",
     "src": "f16491ac93"
+  },
+  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
+    "v": "Den er atskilt fra Pro på iPhone. Kjøp Mac-appen én gang, så er alle funksjoner med, og du betaler ikke mer.",
+    "src": "b5cda4716b"
   },
   "아이폰이 쓰는 그 파랑이에요. 어느 앱에서 왔는지 티가 안 나는 색입니다.": {
     "v": "Det samme blå som iPhone selv bruker. Ingenting avslører hvilken app det kommer fra.",
@@ -7450,6 +7498,10 @@
   "앱에서 탭하면 값 목록에서 골라 복사, 키보드에선 2/3 분할로 값을 하나씩 입력": {
     "v": "Trykk i appen for å velge en verdi fra en liste. På tastaturet setter en 2/3-deling inn verdiene én og én",
     "src": "b858ffcd9a"
+  },
+  "앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.": {
+    "v": "Appen viser funksjoner én om gangen etter hvert som du bruker den. Slå på for å vise de som ikke er vist ennå også.",
+    "src": "89dc7d71c6"
   },
   "앱을 다시 깔거나 새 폰을 켜도, 켜기 전에는 iCloud 데이터를 당겨오지 않아요": {
     "v": "Etter ny installasjon eller på en ny telefon hentes ingenting fra iCloud før du slår på synkronisering",
@@ -8252,6 +8304,10 @@
   "이 앱에는 서버가 없어요. 계좌번호도 주민등록번호도 이 폰 안에만 있고, 저희조차 볼 수 없습니다. 털릴 서버가 없으니 털릴 방법도 없어요.": {
     "v": "Denne appen har ingen server. Kontonumre og personnumre ligger bare på denne telefonen, og ikke engang vi kan se dem. Det finnes ingen server å bryte seg inn i, så det er ingenting å bryte seg inn i.",
     "src": "748fd3e528"
+  },
+  "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
+    "v": "Denne appen fungerer via tastaturet på iPhone, så den kan ikke skrive inn fraser på en Mac. ClipKeyboard for Mac limer dem inn i alle apper fra menylinjen eller med en hurtigtast.",
+    "src": "2e5ad98226"
   },
   "이 앱을 쓰느라 든 시간": {
     "v": "Tid denne appen har kostet deg",
@@ -10381,6 +10437,10 @@
     "v": "På",
     "src": "b16a83f0a4"
   },
+  "코드를 넣으면 끝까지 처리됐다고 나와야 해요. 같은 코드를 한 번 더 넣으면 이미 받은 선물로 나와야 맞아요.": {
+    "v": "Når du legger inn koden, skal det vises at den er behandlet helt ferdig. Legger du inn den samme koden en gang til, skal det stå at gaven allerede er innløst.",
+    "src": "755c71b1ac"
+  },
   "콜스택": {
     "v": "Kallstabel",
     "src": "cce0bf3663"
@@ -11916,61 +11976,5 @@
   "🪪 명함": {
     "v": "🪪 Visittkort",
     "src": "9becff2df0"
-  },
-  "Mac 앱은 따로 사는 앱이에요": {
-    "v": "Mac-appen er et eget kjøp",
-    "src": "94691692e8"
-  },
-  "Mac에서는 탭클립키보드를 받아 주세요": {
-    "v": "På Mac kan du hente ClipKeyboard for Mac",
-    "src": "4ce028311c"
-  },
-  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
-    "v": "Den er atskilt fra Pro på iPhone. Kjøp Mac-appen én gang, så er alle funksjoner med, og du betaler ikke mer.",
-    "src": "b5cda4716b"
-  },
-  "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
-    "v": "Denne appen fungerer via tastaturet på iPhone, så den kan ikke skrive inn fraser på en Mac. ClipKeyboard for Mac limer dem inn i alle apper fra menylinjen eller med en hurtigtast.",
-    "src": "2e5ad98226"
-  },
-  "결제 없이 시험 코드를 만들어 지금 빌드의 iCloud 환경에 올려요. 받아도 Pro는 열리지 않아요.": {
-    "v": "Lager en testkode uten betaling og laster den opp til iCloud-miljøet i denne versjonen. Å løse den inn åpner aldri Pro.",
-    "src": "f0eae4ba30"
-  },
-  "선물 시험 (개발자)": {
-    "v": "Gavetest (utvikler)",
-    "src": "1d2ea3a9db"
-  },
-  "시험 코드 만들기": {
-    "v": "Lag testkode",
-    "src": "53e670eceb"
-  },
-  "코드를 넣으면 끝까지 처리됐다고 나와야 해요. 같은 코드를 한 번 더 넣으면 이미 받은 선물로 나와야 맞아요.": {
-    "v": "Når du legger inn koden, skal det vises at den er behandlet helt ferdig. Legger du inn den samme koden en gang til, skal det stå at gaven allerede er innløst.",
-    "src": "755c71b1ac"
-  },
-  "모든 기능 바로 보기": {
-    "v": "Vis alle funksjoner nå",
-    "src": "879adde95e"
-  },
-  "앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.": {
-    "v": "Appen viser funksjoner én om gangen etter hvert som du bruker den. Slå på for å vise de som ikke er vist ennå også.",
-    "src": "89dc7d71c6"
-  },
-  "다음 글자": {
-    "v": "Neste bokstav",
-    "src": "dcd15e997c"
-  },
-  "단축어 넣고 쓰던 키보드로": {
-    "v": "Tilbake til tastaturet etter en frase",
-    "src": "ffec1ddb5e"
-  },
-  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
-    "v": "Når en frase er satt inn, bytter den til neste tastatur i listen din, som vanligvis er det du brukte. Den blir stående hvis du har skrevet med dette tastaturet.",
-    "src": "c6a685cb72"
-  },
-  "문장 부호": {
-    "v": "Tegnsetting",
-    "src": "9d60a84665"
   }
 }

@@ -275,6 +275,8 @@ struct KeyboardView: View {
     @AppStorage(KeyboardPrefs.showNumberPad.key, store: AppGroup.defaults)
     private var showNumberPadKeyRaw: Bool = KeyboardPrefs.showNumberPad.fallback
     @AppStorage(KeyboardPrefs.showReturnKey.key, store: AppGroup.defaults) private var showReturnKey: Bool = KeyboardPrefs.showReturnKey.fallback
+    /// 보내기 키를 서랍 밖에 늘 세울지. 기본 끔(이유는 `DefaultsKey.keyboardPinReturnKey`).
+    @AppStorage(KeyboardPrefs.pinReturnKey.key, store: AppGroup.defaults) private var pinReturnKey: Bool = KeyboardPrefs.pinReturnKey.fallback
     /// 위줄에 붙여넣기 키를 세울지. 값이 없으면 꺼짐.
     ///
     /// ⚠️ 위줄의 키 설정은 **전부 `@AppStorage` 로** 읽는다. 이것만 그릴 때 한 번 읽는
@@ -1058,8 +1060,19 @@ struct KeyboardView: View {
             // ⚠️ 보내기를 서랍 밖 맨 오른쪽에 따로 세운 적이 있다(2026-09-27, `12bfce3`).
             //    … 를 한 번 더 누르지 않게 하려던 것인데, 접힌 줄에 키 하나만 홀로 튀어나와
             //    "왜 이것만 밖에 있지" 로 읽혔다. 서랍 안으로 되돌렸다(사용자 요청, 같은 날).
-            //    보내기를 안 쓰는 사람은 설정에서 끈다(`KeyboardPrefs.showReturnKey`).
+            //    그래서 기본은 서랍 안이고, 매번 … 를 누르기 싫은 사람만 설정에서 꺼낸다
+            //    (`KeyboardPrefs.pinReturnKey`). 꺼내면 서랍 안의 것은 걷는다 - 한 줄에 두 번 서지 않게.
+            //    서랍 바깥이라 서랍을 펼쳐도 가려지지 않고, 펼친 줄의 맨 오른쪽 끝이 된다.
+            if returnKeyPinned {
+                sendKey
+                    .padding(.trailing, 6)
+            }
         }
+    }
+
+    /// 보내기 키가 서랍 밖에 서 있는가. 키 자체가 꺼져 있으면 꺼낼 것도 없다.
+    private var returnKeyPinned: Bool {
+        pinReturnKey && showReturnKey && typingProxy != nil
     }
 
     /// 넣고 나서 보내는 키. 설정에서 끌 수 있다(`KeyboardPrefs.showReturnKey`).
@@ -1113,7 +1126,9 @@ struct KeyboardView: View {
         .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
         .contentShape(Rectangle())
         .accessibilityLabel(NSLocalizedString("조작 키 펼치기", comment: "Keyboard: expand control keys"))
-        .accessibilityHint(NSLocalizedString("숫자 판, 보내기, 지우기, 전체 삭제 키를 펼칩니다", comment: "Keyboard: expand control keys hint"))
+        .accessibilityHint(returnKeyPinned
+            ? NSLocalizedString("숫자 판, 지우기, 전체 삭제 키를 펼칩니다", comment: "Keyboard: expand control keys hint")
+            : NSLocalizedString("숫자 판, 보내기, 지우기, 전체 삭제 키를 펼칩니다", comment: "Keyboard: expand control keys hint"))
     }
 
     /// 펼친 묶음의 맨 앞에서 다시 접는 키.
@@ -1176,7 +1191,9 @@ struct KeyboardView: View {
             //    할 것처럼 보이므로, 못 할 때는 못 한다고 보여야 한다.
             //    숨기지는 않는다. 자리가 비면 줄이 흔들리고, 무엇을 누르면 되는지도 감춰진다.
             //
-            sendKey
+            if !returnKeyPinned {
+                sendKey
+            }
             controlBackspaceKey
             clearAllKey
         }

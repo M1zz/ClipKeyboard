@@ -43,6 +43,8 @@ struct KeyboardLayoutSettings: View {
     @AppStorage(DefaultsKey.keyboardShowRecent, store: AppGroup.defaults) private var showRecentRaw: Bool = false
     /// 위줄의 리턴(보내기) 키. 기본 켬 - 없어서 못 보내던 것이 신고로 들어온 쪽이다.
     @AppStorage(KeyboardPrefs.showReturnKey.key, store: AppGroup.defaults) private var showReturnKey: Bool = KeyboardPrefs.showReturnKey.fallback
+    /// 보내기 키를 … 서랍 밖에 늘 세울지. 기본 끔 - 기본 모양은 서랍 안이다.
+    @AppStorage(KeyboardPrefs.pinReturnKey.key, store: AppGroup.defaults) private var pinReturnKey: Bool = KeyboardPrefs.pinReturnKey.fallback
     /// 위줄의 숫자 판 키. 기본 켬 - 숫자 몇 자 넣으려고 다른 키보드로 건너가던 것을 없애려고 둔 키라,
     /// 있는 줄 몰라서 못 쓰면 둔 뜻이 없다.
     @AppStorage(KeyboardPrefs.showNumberPad.key, store: AppGroup.defaults) private var showNumberPad: Bool = KeyboardPrefs.showNumberPad.fallback
@@ -318,6 +320,11 @@ struct KeyboardLayoutSettings: View {
                             .font(.caption).foregroundColor(.secondary)
                     }
                 }
+                // 보내기 키를 켠 사람에게만 선다. 끈 키를 꺼낼 수는 없다.
+                if showReturnKey {
+                    Toggle(NSLocalizedString("보내기 키 늘 보이기", comment: "Keep the return/send key outside the … drawer so it is always visible toggle"),
+                           isOn: $pinReturnKey)
+                }
                 Toggle(isOn: $showClipboardKey) {
                     VStack(alignment: .leading, spacing: 1) {
                         Text(NSLocalizedString("붙여넣기 키", comment: "Show clipboard paste key toggle"))
@@ -455,6 +462,7 @@ struct KeyboardLayoutSettings: View {
         useCustomColors = false; customBgHex = ""; customKeyHex = ""
         customBgColor = .clear; customKeyColor = .clear
         showSearch = false; showReturnKey = true; showNumberPad = true; showClipboardKey = false
+        pinReturnKey = KeyboardPrefs.pinReturnKey.fallback
         showRecentClipsTab = KeyboardPrefs.showRecentClipsTab.fallback
         // 최근 단축어는 false 로 박지 않는다. 그러면 "꺼 달라고 했다"가 되어
         // 개수로 정해 주는 길이 영영 막힌다. 값을 지워 "안 정했다"로 되돌린다.

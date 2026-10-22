@@ -7997,6 +7997,12 @@
     "comment": "Show return key toggle",
     "h": "5165bd1e95"
   },
+  "보내기 키 늘 보이기": {
+    "ko": "보내기 키 늘 보이기",
+    "en": "Always Show Send Key",
+    "comment": "Keep the return/send key outside the … drawer so it is always visible toggle",
+    "h": "59476ed389"
+  },
   "보내기 키를 켜고 끌 수 있어요": {
     "ko": "보내기 키를 켜고 끌 수 있어요",
     "en": "Turn the send key on or off",

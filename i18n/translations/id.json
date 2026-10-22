@@ -1313,9 +1313,17 @@
     "v": "Tekan lama untuk menyeret dan mengurutkan ulang. Geser ke kiri untuk menghapus (item yang dilindungi tidak bisa dihapus).",
     "src": "12459b563e"
   },
+  "Mac 앱은 따로 사는 앱이에요": {
+    "v": "Aplikasi Mac dibeli terpisah",
+    "src": "94691692e8"
+  },
   "Mac 앱이 완전히 새로워졌어요. 단축키 하나로 어디서든 문구를 꺼내 써요": {
     "v": "Aplikasi Mac yang benar-benar baru. Satu pintasan memunculkan frasa Anda di mana saja",
     "src": "a9581bc99c"
+  },
+  "Mac에서는 탭클립키보드를 받아 주세요": {
+    "v": "Di Mac, unduh ClipKeyboard untuk Mac",
+    "src": "4ce028311c"
   },
   "Manage categories": {
     "v": "Kelola kategori",
@@ -2689,6 +2697,10 @@
     "v": "Pembelian gagal",
     "src": "1797865192"
   },
+  "결제 없이 시험 코드를 만들어 지금 빌드의 iCloud 환경에 올려요. 받아도 Pro는 열리지 않아요.": {
+    "v": "Membuat kode uji tanpa pembayaran dan mengunggahnya ke lingkungan iCloud build ini. Kode ini tidak akan membuka Pro meski ditebus.",
+    "src": "f0eae4ba30"
+  },
   "결제 전환 퍼널": {
     "v": "Corong pembelian",
     "src": "84ca48e3d2"
@@ -3709,6 +3721,10 @@
     "v": "%@ berikutnya",
     "src": "c1f6f40ce6"
   },
+  "다음 글자": {
+    "v": "Huruf berikutnya",
+    "src": "dcd15e997c"
+  },
   "다음 주": {
     "v": "Minggu depan",
     "src": "34e1929d1b"
@@ -3852,6 +3868,10 @@
   "단축어 내용 힌트": {
     "v": "Petunjuk Isi Frasa",
     "src": "9dd8d37782"
+  },
+  "단축어 넣고 쓰던 키보드로": {
+    "v": "Kembali ke keyboard semula setelah frasa",
+    "src": "ffec1ddb5e"
   },
   "단축어 넣기는 지금도 돼요. 켜면 아래 기능이 더 열려요.": {
     "v": "Memasukkan frasa tetap bisa dilakukan. Aktifkan untuk membuka fitur di bawah.",
@@ -4080,6 +4100,10 @@
   "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.": {
     "v": "Biarkan menyala untuk langsung mengirim setelah memasukkan frasa. Matikan jika Anda ingin ruang lebih luas.",
     "src": "8607b208c0"
+  },
+  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
+    "v": "Setelah frasa dimasukkan, keyboard beralih ke keyboard berikutnya di daftar Anda, biasanya yang tadi Anda pakai. Tidak beralih jika Anda mengetik dengan keyboard ini.",
+    "src": "c6a685cb72"
   },
   "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다": {
     "v": "Kirim langsung setelah memasukkan frasa, tanpa berganti keyboard",
@@ -4759,6 +4783,10 @@
     "v": "Sinkronkan data di semua perangkat",
     "src": "4c0f9b7542"
   },
+  "모든 기능 바로 보기": {
+    "v": "Tampilkan Semua Fitur Sekarang",
+    "src": "879adde95e"
+  },
   "모든 기능 사용": {
     "v": "Semua fitur tersedia",
     "src": "063c9b4dc1"
@@ -4966,6 +4994,10 @@
   "문장": {
     "v": "Kalimat",
     "src": "2a9c9c6e6c"
+  },
+  "문장 부호": {
+    "v": "Tanda baca",
+    "src": "9d60a84665"
   },
   "문제 종류": {
     "v": "Jenis masalah",
@@ -5310,6 +5342,10 @@
   "보내기 키": {
     "v": "Tombol Kirim",
     "src": "5165bd1e95"
+  },
+  "보내기 키 늘 보이기": {
+    "v": "Selalu Tampilkan Tombol Kirim",
+    "src": "59476ed389"
   },
   "보내기 키를 켜고 끌 수 있어요": {
     "v": "Tombol Kirim bisa dinyalakan atau dimatikan",
@@ -6303,6 +6339,10 @@
     "v": "Jl. Jenderal Sudirman No. 1, Jakarta",
     "src": "67969d6959"
   },
+  "선물 시험 (개발자)": {
+    "v": "Uji Hadiah (Pengembang)",
+    "src": "1d2ea3a9db"
+  },
   "선물하기": {
     "v": "Hadiah",
     "src": "21e7e72bc2"
@@ -6759,6 +6799,10 @@
     "v": "Info zona waktu",
     "src": "2e566d5370"
   },
+  "시험 코드 만들기": {
+    "v": "Buat Kode Uji",
+    "src": "53e670eceb"
+  },
   "신규 사용자": {
     "v": "Pengguna baru",
     "src": "14cced0c33"
@@ -6958,6 +7002,10 @@
   "아이폰에서 바꾼 순서도 맥의 모든 화면에 그대로 반영": {
     "v": "Urutan yang diatur di iPhone juga tampil di semua layar Mac",
     "src": "f16491ac93"
+  },
+  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
+    "v": "Ini terpisah dari Pro di iPhone. Beli aplikasi Mac sekali, semua fitur langsung terbuka, tanpa biaya tambahan.",
+    "src": "b5cda4716b"
   },
   "아이폰이 쓰는 그 파랑이에요. 어느 앱에서 왔는지 티가 안 나는 색입니다.": {
     "v": "Biru yang dipakai iPhone sendiri. Tidak terlihat berasal dari aplikasi mana.",
@@ -7178,6 +7226,10 @@
   "앱에서 탭하면 값 목록에서 골라 복사, 키보드에선 2/3 분할로 값을 하나씩 입력": {
     "v": "Ketuk di app untuk memilih nilai dari daftar. Di keyboard, tampilan terbagi 2/3 memasukkan nilai satu per satu",
     "src": "b858ffcd9a"
+  },
+  "앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.": {
+    "v": "Aplikasi memunculkan fitur satu per satu seiring Anda memakainya. Aktifkan agar fitur yang belum dimunculkan juga langsung tampil.",
+    "src": "89dc7d71c6"
   },
   "앱을 다시 깔거나 새 폰을 켜도, 켜기 전에는 iCloud 데이터를 당겨오지 않아요": {
     "v": "Setelah instal ulang atau di iPhone baru, tidak ada data iCloud yang diambil sampai Anda mengaktifkan sinkronisasi",
@@ -7974,6 +8026,10 @@
   "이 앱에는 서버가 없어요. 계좌번호도 주민등록번호도 이 폰 안에만 있고, 저희조차 볼 수 없습니다. 털릴 서버가 없으니 털릴 방법도 없어요.": {
     "v": "Aplikasi ini tidak punya server. Nomor rekening dan nomor identitas Anda hanya ada di ponsel ini, dan kami pun tidak bisa melihatnya. Tidak ada server yang bisa dibobol, jadi tidak ada yang bisa dibobol.",
     "src": "748fd3e528"
+  },
+  "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
+    "v": "App ini bekerja lewat papan ketik iPhone, jadi tidak bisa mengetik frasa Anda di Mac. ClipKeyboard untuk Mac menempelkannya ke app mana pun lewat bilah menu atau pintasan keyboard.",
+    "src": "2e5ad98226"
   },
   "이 앱을 쓰느라 든 시간": {
     "v": "Waktu yang terpakai untuk aplikasi ini",
@@ -10057,6 +10113,10 @@
     "v": "Aktif",
     "src": "b16a83f0a4"
   },
+  "코드를 넣으면 끝까지 처리됐다고 나와야 해요. 같은 코드를 한 번 더 넣으면 이미 받은 선물로 나와야 맞아요.": {
+    "v": "Setelah kode dimasukkan, akan muncul keterangan bahwa prosesnya selesai. Jika kode yang sama dimasukkan lagi, akan muncul keterangan bahwa hadiah sudah ditukarkan.",
+    "src": "755c71b1ac"
+  },
   "콜스택": {
     "v": "Call stack",
     "src": "cce0bf3663"
@@ -11580,61 +11640,5 @@
   "🪪 명함": {
     "v": "🪪 Kartu Nama",
     "src": "9becff2df0"
-  },
-  "Mac 앱은 따로 사는 앱이에요": {
-    "v": "Aplikasi Mac dibeli terpisah",
-    "src": "94691692e8"
-  },
-  "Mac에서는 탭클립키보드를 받아 주세요": {
-    "v": "Di Mac, unduh ClipKeyboard untuk Mac",
-    "src": "4ce028311c"
-  },
-  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
-    "v": "Ini terpisah dari Pro di iPhone. Beli aplikasi Mac sekali, semua fitur langsung terbuka, tanpa biaya tambahan.",
-    "src": "b5cda4716b"
-  },
-  "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
-    "v": "App ini bekerja lewat papan ketik iPhone, jadi tidak bisa mengetik frasa Anda di Mac. ClipKeyboard untuk Mac menempelkannya ke app mana pun lewat bilah menu atau pintasan keyboard.",
-    "src": "2e5ad98226"
-  },
-  "결제 없이 시험 코드를 만들어 지금 빌드의 iCloud 환경에 올려요. 받아도 Pro는 열리지 않아요.": {
-    "v": "Membuat kode uji tanpa pembayaran dan mengunggahnya ke lingkungan iCloud build ini. Kode ini tidak akan membuka Pro meski ditebus.",
-    "src": "f0eae4ba30"
-  },
-  "선물 시험 (개발자)": {
-    "v": "Uji Hadiah (Pengembang)",
-    "src": "1d2ea3a9db"
-  },
-  "시험 코드 만들기": {
-    "v": "Buat Kode Uji",
-    "src": "53e670eceb"
-  },
-  "코드를 넣으면 끝까지 처리됐다고 나와야 해요. 같은 코드를 한 번 더 넣으면 이미 받은 선물로 나와야 맞아요.": {
-    "v": "Setelah kode dimasukkan, akan muncul keterangan bahwa prosesnya selesai. Jika kode yang sama dimasukkan lagi, akan muncul keterangan bahwa hadiah sudah ditukarkan.",
-    "src": "755c71b1ac"
-  },
-  "모든 기능 바로 보기": {
-    "v": "Tampilkan Semua Fitur Sekarang",
-    "src": "879adde95e"
-  },
-  "앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.": {
-    "v": "Aplikasi memunculkan fitur satu per satu seiring Anda memakainya. Aktifkan agar fitur yang belum dimunculkan juga langsung tampil.",
-    "src": "89dc7d71c6"
-  },
-  "다음 글자": {
-    "v": "Huruf berikutnya",
-    "src": "dcd15e997c"
-  },
-  "단축어 넣고 쓰던 키보드로": {
-    "v": "Kembali ke keyboard semula setelah frasa",
-    "src": "ffec1ddb5e"
-  },
-  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
-    "v": "Setelah frasa dimasukkan, keyboard beralih ke keyboard berikutnya di daftar Anda, biasanya yang tadi Anda pakai. Tidak beralih jika Anda mengetik dengan keyboard ini.",
-    "src": "c6a685cb72"
-  },
-  "문장 부호": {
-    "v": "Tanda baca",
-    "src": "9d60a84665"
   }
 }

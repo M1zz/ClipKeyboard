@@ -1449,9 +1449,17 @@
     "v": "Tieni premuto per trascinare e riordinare. Scorri a sinistra per eliminare (gli elementi protetti non si possono rimuovere).",
     "src": "12459b563e"
   },
+  "Mac 앱은 따로 사는 앱이에요": {
+    "v": "L'app per Mac si acquista a parte",
+    "src": "94691692e8"
+  },
   "Mac 앱이 완전히 새로워졌어요. 단축키 하나로 어디서든 문구를 꺼내 써요": {
     "v": "L'app Mac è completamente nuova. Con una sola scorciatoia richiami le tue frasi ovunque",
     "src": "a9581bc99c"
+  },
+  "Mac에서는 탭클립키보드를 받아 주세요": {
+    "v": "Su Mac, scarica ClipKeyboard per Mac",
+    "src": "4ce028311c"
   },
   "Manage categories": {
     "v": "Gestisci categorie",
@@ -2840,6 +2848,10 @@
     "v": "Acquisto non riuscito",
     "src": "1797865192"
   },
+  "결제 없이 시험 코드를 만들어 지금 빌드의 iCloud 환경에 올려요. 받아도 Pro는 열리지 않아요.": {
+    "v": "Crea un codice di prova senza pagamento e lo carica nell'ambiente iCloud di questa build. Riscattarlo non sblocca mai Pro.",
+    "src": "f0eae4ba30"
+  },
   "결제 전환 퍼널": {
     "v": "Percorso di acquisto",
     "src": "84ca48e3d2"
@@ -3875,6 +3887,10 @@
     "v": "Prossimo %@",
     "src": "c1f6f40ce6"
   },
+  "다음 글자": {
+    "v": "Lettera successiva",
+    "src": "dcd15e997c"
+  },
   "다음 주": {
     "v": "Settimana prossima",
     "src": "34e1929d1b"
@@ -4042,6 +4058,10 @@
   "단축어 내용 힌트": {
     "v": "Anteprima delle frasi",
     "src": "9dd8d37782"
+  },
+  "단축어 넣고 쓰던 키보드로": {
+    "v": "Torna alla tastiera di prima dopo una frase",
+    "src": "ffec1ddb5e"
   },
   "단축어 넣기는 지금도 돼요. 켜면 아래 기능이 더 열려요.": {
     "v": "Inserire le frasi funziona già. Attivalo per sbloccare le funzioni qui sotto.",
@@ -4282,6 +4302,10 @@
   "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.": {
     "v": "Lascialo attivo per inviare subito dopo aver inserito una frase. Disattivalo se vuoi più spazio.",
     "src": "8607b208c0"
+  },
+  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
+    "v": "Dopo l'inserimento di una frase, passa alla tastiera successiva nell'elenco, di solito quella che stavi usando. Non cambia se hai scritto con questa tastiera.",
+    "src": "c6a685cb72"
   },
   "단축어를 넣은 뒤 키보드를 바꾸지 않고 바로 보냅니다": {
     "v": "Invia subito dopo aver inserito una frase, senza cambiare tastiera",
@@ -4962,6 +4986,10 @@
     "v": "Sincronizza i dati su tutti i dispositivi",
     "src": "4c0f9b7542"
   },
+  "모든 기능 바로 보기": {
+    "v": "Mostra subito tutte le funzioni",
+    "src": "879adde95e"
+  },
   "모든 기능 사용": {
     "v": "Tutte le funzioni disponibili",
     "src": "063c9b4dc1"
@@ -5196,6 +5224,10 @@
   "문장": {
     "v": "Frase",
     "src": "2a9c9c6e6c"
+  },
+  "문장 부호": {
+    "v": "Punteggiatura",
+    "src": "9d60a84665"
   },
   "문제 종류": {
     "v": "Tipo di problema",
@@ -5543,6 +5575,10 @@
   "보내기 키": {
     "v": "Tasto Invio",
     "src": "5165bd1e95"
+  },
+  "보내기 키 늘 보이기": {
+    "v": "Mostra sempre il tasto Invio",
+    "src": "59476ed389"
   },
   "보내기 키를 켜고 끌 수 있어요": {
     "v": "Attiva o disattiva il tasto Invio",
@@ -6557,6 +6593,10 @@
     "v": "Via Roma 1, 00184 Roma",
     "src": "67969d6959"
   },
+  "선물 시험 (개발자)": {
+    "v": "Test regalo (sviluppatore)",
+    "src": "1d2ea3a9db"
+  },
   "선물하기": {
     "v": "Regali",
     "src": "21e7e72bc2"
@@ -7019,6 +7059,10 @@
     "v": "Avviso fuso orario",
     "src": "2e566d5370"
   },
+  "시험 코드 만들기": {
+    "v": "Crea codice di prova",
+    "src": "53e670eceb"
+  },
   "신규 사용자": {
     "v": "Nuovi utenti",
     "src": "14cced0c33"
@@ -7227,6 +7271,10 @@
   "아이폰에서 바꾼 순서도 맥의 모든 화면에 그대로 반영": {
     "v": "L'ordine impostato su iPhone vale in tutte le schermate del Mac",
     "src": "f16491ac93"
+  },
+  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
+    "v": "È separata da Pro su iPhone. Acquista l'app per Mac una sola volta e hai tutte le funzioni, senza altri pagamenti.",
+    "src": "b5cda4716b"
   },
   "아이폰이 쓰는 그 파랑이에요. 어느 앱에서 왔는지 티가 안 나는 색입니다.": {
     "v": "Il blu che usa iPhone stesso. Non si capisce da quale app arrivi.",
@@ -7450,6 +7498,10 @@
   "앱에서 탭하면 값 목록에서 골라 복사, 키보드에선 2/3 분할로 값을 하나씩 입력": {
     "v": "Tocca nell'app per scegliere un valore da un elenco; sulla tastiera, una divisione 2/3 inserisce i valori uno alla volta",
     "src": "b858ffcd9a"
+  },
+  "앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.": {
+    "v": "L'app mostra le funzioni una alla volta, man mano che la usi. Attiva per vedere subito anche quelle non ancora mostrate.",
+    "src": "89dc7d71c6"
   },
   "앱을 다시 깔거나 새 폰을 켜도, 켜기 전에는 iCloud 데이터를 당겨오지 않아요": {
     "v": "Dopo una reinstallazione o su un nuovo telefono, nulla viene scaricato da iCloud finché non attivi la sincronizzazione",
@@ -8252,6 +8304,10 @@
   "이 앱에는 서버가 없어요. 계좌번호도 주민등록번호도 이 폰 안에만 있고, 저희조차 볼 수 없습니다. 털릴 서버가 없으니 털릴 방법도 없어요.": {
     "v": "Questa app non ha un server. Numeri di conto e codici identificativi restano solo su questo telefono e nemmeno noi possiamo vederli. Senza server da violare, non c'è nulla da violare.",
     "src": "748fd3e528"
+  },
+  "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
+    "v": "Questa app funziona con la tastiera di iPhone, quindi su Mac non può inserire le tue frasi. ClipKeyboard per Mac le incolla in qualsiasi app dalla barra dei menu o con una scorciatoia da tastiera.",
+    "src": "2e5ad98226"
   },
   "이 앱을 쓰느라 든 시간": {
     "v": "Tempo speso con questa app",
@@ -10378,6 +10434,10 @@
     "v": "Attivo",
     "src": "b16a83f0a4"
   },
+  "코드를 넣으면 끝까지 처리됐다고 나와야 해요. 같은 코드를 한 번 더 넣으면 이미 받은 선물로 나와야 맞아요.": {
+    "v": "Inserendo il codice dovrebbe risultare che l'operazione è stata completata. Inserendo di nuovo lo stesso codice dovrebbe risultare che il regalo è già stato riscattato.",
+    "src": "755c71b1ac"
+  },
   "콜스택": {
     "v": "Stack di chiamate",
     "src": "cce0bf3663"
@@ -11913,61 +11973,5 @@
   "🪪 명함": {
     "v": "🪪 Biglietto da visita",
     "src": "9becff2df0"
-  },
-  "Mac 앱은 따로 사는 앱이에요": {
-    "v": "L'app per Mac si acquista a parte",
-    "src": "94691692e8"
-  },
-  "Mac에서는 탭클립키보드를 받아 주세요": {
-    "v": "Su Mac, scarica ClipKeyboard per Mac",
-    "src": "4ce028311c"
-  },
-  "아이폰의 Pro와는 따로예요. Mac 앱은 한 번 사면 모든 기능이 열리고, 더 결제할 것이 없어요.": {
-    "v": "È separata da Pro su iPhone. Acquista l'app per Mac una sola volta e hai tutte le funzioni, senza altri pagamenti.",
-    "src": "b5cda4716b"
-  },
-  "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
-    "v": "Questa app funziona con la tastiera di iPhone, quindi su Mac non può inserire le tue frasi. ClipKeyboard per Mac le incolla in qualsiasi app dalla barra dei menu o con una scorciatoia da tastiera.",
-    "src": "2e5ad98226"
-  },
-  "결제 없이 시험 코드를 만들어 지금 빌드의 iCloud 환경에 올려요. 받아도 Pro는 열리지 않아요.": {
-    "v": "Crea un codice di prova senza pagamento e lo carica nell'ambiente iCloud di questa build. Riscattarlo non sblocca mai Pro.",
-    "src": "f0eae4ba30"
-  },
-  "선물 시험 (개발자)": {
-    "v": "Test regalo (sviluppatore)",
-    "src": "1d2ea3a9db"
-  },
-  "시험 코드 만들기": {
-    "v": "Crea codice di prova",
-    "src": "53e670eceb"
-  },
-  "코드를 넣으면 끝까지 처리됐다고 나와야 해요. 같은 코드를 한 번 더 넣으면 이미 받은 선물로 나와야 맞아요.": {
-    "v": "Inserendo il codice dovrebbe risultare che l'operazione è stata completata. Inserendo di nuovo lo stesso codice dovrebbe risultare che il regalo è già stato riscattato.",
-    "src": "755c71b1ac"
-  },
-  "모든 기능 바로 보기": {
-    "v": "Mostra subito tutte le funzioni",
-    "src": "879adde95e"
-  },
-  "앱은 쓰는 만큼 기능을 하나씩 꺼내 보여요. 켜면 아직 꺼내지 않은 기능도 처음부터 화면에 둬요.": {
-    "v": "L'app mostra le funzioni una alla volta, man mano che la usi. Attiva per vedere subito anche quelle non ancora mostrate.",
-    "src": "89dc7d71c6"
-  },
-  "다음 글자": {
-    "v": "Lettera successiva",
-    "src": "dcd15e997c"
-  },
-  "단축어 넣고 쓰던 키보드로": {
-    "v": "Torna alla tastiera di prima dopo una frase",
-    "src": "ffec1ddb5e"
-  },
-  "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
-    "v": "Dopo l'inserimento di una frase, passa alla tastiera successiva nell'elenco, di solito quella che stavi usando. Non cambia se hai scritto con questa tastiera.",
-    "src": "c6a685cb72"
-  },
-  "문장 부호": {
-    "v": "Punteggiatura",
-    "src": "9d60a84665"
   }
 }
