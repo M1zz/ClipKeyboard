@@ -103,6 +103,22 @@ struct FeatureSettingsSection: View {
     }
 }
 
+// MARK: - 안쪽 화면
+
+/// 설정 ▸ 기능 더하기. 첫 화면에는 이름 한 줄만 있고, 누르면 이 화면으로 들어온다.
+struct FeatureSettingsView: View {
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        List { FeatureSettingsSection() }
+            .listStyle(.insetGrouped)
+            .scrollContentBackground(.hidden)
+            .background(theme.bg.ignoresSafeArea())
+            .navigationTitle(NSLocalizedString("기능 더하기", comment: "Settings: add features section header"))
+            .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
 // MARK: - 조합 이름
 
 extension FeaturePreset {

@@ -140,6 +140,7 @@ enum AppSymbol {
     static let photoBadgePlus = "photo.badge.plus"
     static let photoOnRectangleAngled = "photo.on.rectangle.angled"
     static let plus = "plus"
+    static let plusSquareOnSquare = "plus.square.on.square"
     static let plusCircle = "plus.circle"
     static let plusCircleFill = "plus.circle.fill"
     static let questionmarkCircle = "questionmark.circle"
