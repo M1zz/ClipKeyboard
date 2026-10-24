@@ -87,13 +87,21 @@ struct MemoAdd: View {
     @State private var showStackImport: Bool = false
 
     var body: some View {
-        addBody
-        // 펼친 듀오: 쓰는 동안 비어 있는 다른 판에 카드 모양이 선다(재료 | 결과).
-        .foldSheetCompanion(title: NSLocalizedString("미리보기", comment: "Preview"),
-                            value: FoldSnippetCompanion.Draft(title: viewModel.keyword,
-                                                              value: viewModel.value,
-                                                              isSecure: viewModel.isSecure)) {
-            FoldSnippetCompanion(draft: $0)
+        Group {
+            if simple {
+                // 처음 사용자의 단순한 새 단축어에는 다른 판의 미리보기를 세우지 않는다.
+                // 이름 · 내용 두 칸뿐이라 볼 것이 없고, 빈 판에 카드만 길게 늘어나 보였다(2026-10 사용자 신고).
+                addBody
+            } else {
+                addBody
+                // 펼친 듀오: 쓰는 동안 비어 있는 다른 판에 카드 모양이 선다(재료 | 결과).
+                .foldSheetCompanion(title: NSLocalizedString("미리보기", comment: "Preview"),
+                                    value: FoldSnippetCompanion.Draft(title: viewModel.keyword,
+                                                                      value: viewModel.value,
+                                                                      isSecure: viewModel.isSecure)) {
+                    FoldSnippetCompanion(draft: $0)
+                }
+            }
         }
         .alert(viewModel.alertMessage, isPresented: $viewModel.showAlert) {}
         .alert(NSLocalizedString("입력 내용 초기화", comment: "Reset form confirm title"),

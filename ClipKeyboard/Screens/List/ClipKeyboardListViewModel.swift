@@ -1379,6 +1379,12 @@ final class ClipKeyboardListViewModel: ObservableObject {
         if UserDefaults.standard.string(forKey: "ScreenshotScene") != nil { return }
         #endif
         #if os(iOS)
+        // 처음 사용자(백지)에게는 '방금 복사한 것' 카드가 없다. 보여 줄 데가 없는데 읽으면
+        // iOS 붙여넣기 허용 창만 뜬다(새 단축어를 열 때 떴다, 2026-10 실측). '최근' 을 켜면 읽는다.
+        if FeatureSet.isBlankStartUser() && !FeatureSet.isOn(.recent) {
+            hasFreshClipboard = false
+            return
+        }
         // 동작 버튼으로 담는 중이면 쉰다. 같이 읽으면 붙여넣기 팝업이 두 번 뜬다.
         if ClipboardCapture.shouldSkipAutoRead() { return }
         // ⚠️ **앱이 앞에 완전히 올라온 뒤에** 읽는다. 앱을 새로 열 때 목록이 그려지는 순간은 아직

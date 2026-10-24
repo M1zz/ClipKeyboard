@@ -394,6 +394,14 @@ struct SettingView: View {
         //    어디까지 들어왔는지를 제목이 말해 준다.
         .navigationBarTitleDisplayMode(.inline)
         .onAppear { refreshMemoCount() }
+        #if DEBUG
+        // 명령줄 시뮬레이터에서 '무료로 쓰는 중' 시트를 곧장 연다: -FoldPreviewTab settings -PreviewFreeUseGuide YES
+        .onAppear {
+            if UserDefaults.standard.bool(forKey: "PreviewFreeUseGuide") {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { showFreeUseGuide = true }
+            }
+        }
+        #endif
         // 다른 화면에서 만들거나 지우면 남은 칸도 따라와야 한다.
         .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
             refreshMemoCount()
