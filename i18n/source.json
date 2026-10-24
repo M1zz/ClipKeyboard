@@ -827,6 +827,18 @@
     "comment": "Empty state description",
     "h": "17ce5e4733"
   },
+  "'개인'도 눌러 보세요": {
+    "ko": "'개인'도 눌러 보세요",
+    "en": "Now tap Personal",
+    "comment": "Feature lesson category: tap personal",
+    "h": "31c5c4bc09"
+  },
+  "'업무'를 눌러 보세요": {
+    "ko": "'업무'를 눌러 보세요",
+    "en": "Tap Work",
+    "comment": "Feature lesson category: subline",
+    "h": "58a17831fb"
+  },
   "'전체 접근 허용' 토글 켜기 ✓": {
     "ko": "'전체 접근 허용' 토글 켜기 ✓",
     "en": "Turn on 'Allow Full Access' ✓",
@@ -844,6 +856,12 @@
     "en": "Turn on 'Allow Full Access'",
     "comment": "Enable Full Access title",
     "h": "ced0ad12fc"
+  },
+  "'최근' 탭에 30일 동안 있어요": {
+    "ko": "'최근' 탭에 30일 동안 있어요",
+    "en": "It stays in the Recent tab for 30 days",
+    "comment": "Feature lesson recent: done line",
+    "h": "02989c7ab8"
   },
   "'클립보드 담기'를 찾아 골라요": {
     "ko": "'클립보드 담기'를 찾아 골라요",
@@ -929,6 +947,12 @@
     "comment": "Time pattern chip: 12-hour",
     "h": "4bf7b6e570"
   },
+  "15분 전": {
+    "ko": "15분 전",
+    "en": "15 min ago",
+    "comment": "Feature lesson recent: 15 minutes ago",
+    "h": "d88aa7408c"
+  },
   "15분을 벌었어요": {
     "ko": "15분을 벌었어요",
     "en": "You earned fifteen minutes",
@@ -952,6 +976,12 @@
     "en": "You earned a minute",
     "comment": "Milestone title: one minute",
     "h": "7207ccf498"
+  },
+  "1시간 전": {
+    "ko": "1시간 전",
+    "en": "1 hr ago",
+    "comment": "Feature lesson recent: 1 hour ago",
+    "h": "0a1d1144db"
   },
   "1초": {
     "ko": "1초",
@@ -1660,6 +1690,12 @@
     "en": "Lock it behind Face ID",
     "comment": "Lesson subtitle: secure",
     "h": "d31b55848f"
+  },
+  "Face ID 로 확인해야 꺼낼 수 있어요": {
+    "ko": "Face ID 로 확인해야 꺼낼 수 있어요",
+    "en": "It only comes out after Face ID",
+    "comment": "Feature nudge secure: detail",
+    "h": "b69be503b2"
   },
   "Face ID로 보호": {
     "ko": "Face ID로 보호",
@@ -3635,6 +3671,18 @@
     "comment": "Key label truncation: middle",
     "h": "3d21906a36"
   },
+  "가이드북": {
+    "ko": "가이드북",
+    "en": "Guidebook",
+    "comment": "Guidebook title",
+    "h": "878fe2fbac"
+  },
+  "가이드북으로 돌아가기": {
+    "ko": "가이드북으로 돌아가기",
+    "en": "Back to Guidebook",
+    "comment": "Guidebook replay: back to the guidebook",
+    "h": "f12c0338c9"
+  },
   "가장 많이 쓴 것": {
     "ko": "가장 많이 쓴 것",
     "en": "Most used",
@@ -3851,6 +3899,12 @@
     "comment": "DYK body: secure combo pick",
     "h": "d95c9353c6"
   },
+  "값이 여럿인 키예요": {
+    "ko": "값이 여럿인 키예요",
+    "en": "This key holds several values",
+    "comment": "Feature lesson stack: line",
+    "h": "62d46883e7"
+  },
   "강조된 칸만 채우면 나머지 문장은 그대로 완성돼요. 자주 쓰는 양식을 빠르게 입력하세요.": {
     "ko": "강조된 칸만 채우면 나머지 문장은 그대로 완성돼요. 자주 쓰는 양식을 빠르게 입력하세요.",
     "en": "Just fill in the highlighted slots, the rest of the text completes itself. Enter your go-to formats in a flash.",
@@ -3917,6 +3971,12 @@
     "comment": "Master mode enabled alert",
     "h": "021ba88e86"
   },
+  "개발팀": {
+    "ko": "개발팀",
+    "en": "Engineering",
+    "comment": "Feature lesson stack: sample team",
+    "h": "90fa7467ad"
+  },
   "개수": {
     "ko": "개수",
     "en": "Count",
@@ -3976,6 +4036,12 @@
     "en": "Deny",
     "comment": "Deny option",
     "h": "da3f4e8df6"
+  },
+  "건너뛰기": {
+    "ko": "건너뛰기",
+    "en": "Skip",
+    "comment": "Feature lesson: skip",
+    "h": "dbca331a34"
   },
   "걸을 수 있는 시간이에요": {
     "ko": "걸을 수 있는 시간이에요",
@@ -4679,6 +4745,12 @@
     "comment": "Feature",
     "h": "95a5536727"
   },
+  "기능 더하기": {
+    "ko": "기능 더하기",
+    "en": "Add Features",
+    "comment": "Settings: add features section header",
+    "h": "fbf3b61782"
+  },
   "기능 열린 비율": {
     "ko": "기능 열린 비율",
     "en": "Share with features unlocked",
@@ -4883,6 +4955,12 @@
     "comment": "Placeholder example: person name 2",
     "h": "3104c902cf"
   },
+  "김서연": {
+    "ko": "김서연",
+    "en": "Alice Kim",
+    "comment": "Feature lesson template: sample person name 1",
+    "h": "a2e2efa57b"
+  },
   "깊은 초록이에요. 어두운 화면에서 눈이 편합니다.": {
     "ko": "깊은 초록이에요. 어두운 화면에서 눈이 편합니다.",
     "en": "A deep green. Easy on the eyes in dark mode.",
@@ -4948,6 +5026,12 @@
     "en": "Split them",
     "comment": "Accept splitting a pasted list into separate snippets",
     "h": "d8d771b857"
+  },
+  "나눠 담을 수 있어요": {
+    "ko": "나눠 담을 수 있어요",
+    "en": "You can sort them",
+    "comment": "Feature lesson category: line",
+    "h": "a74243d83f"
   },
   "나에게 맞추기": {
     "ko": "나에게 맞추기",
@@ -5207,6 +5291,12 @@
     "comment": "Date option: tomorrow",
     "h": "c85ae14422"
   },
+  "내일 7시 강남역 2번 출구": {
+    "ko": "내일 7시 강남역 2번 출구",
+    "en": "Tomorrow 7pm, north entrance",
+    "comment": "Feature lesson recent: sample copied text",
+    "h": "cbfd880c6e"
+  },
   "내일부터 무료 플랜이에요": {
     "ko": "내일부터 무료 플랜이에요",
     "en": "The free plan starts tomorrow",
@@ -5266,6 +5356,12 @@
     "en": "Remember cursor position",
     "comment": "Learned caret position toggle",
     "h": "b66e02b4d0"
+  },
+  "넣을 이름을 눌러 보세요": {
+    "ko": "넣을 이름을 눌러 보세요",
+    "en": "Tap a name to fill it in",
+    "comment": "Feature lesson template: subline",
+    "h": "157d99cd71"
   },
   "네, 켰어요": {
     "ko": "네, 켰어요",
@@ -5332,6 +5428,12 @@
     "en": "“Allow Paste?” shows up every time",
     "comment": "Action Button guide tip: paste permission prompt every time",
     "h": "4c8bae2eca"
+  },
+  "누를 때마다 다음 값이 들어가는 키 하나로 묶을 수 있어요": {
+    "ko": "누를 때마다 다음 값이 들어가는 키 하나로 묶을 수 있어요",
+    "en": "Combine them into one key that enters the next value each tap",
+    "comment": "Feature nudge stack: detail",
+    "h": "99f9835f3b"
   },
   "누를 때마다 다음 값이 들어가요": {
     "ko": "누를 때마다 다음 값이 들어가요",
@@ -5458,6 +5560,24 @@
     "en": "Expert user",
     "comment": "Stage simulator: expert",
     "h": "eb70f5144b"
+  },
+  "님 안녕하세요": {
+    "ko": "님 안녕하세요",
+    "en": ", hello",
+    "comment": "Feature preview: template greeting",
+    "h": "f5317a4697"
+  },
+  "님 안녕하세요, 문의 주셔서 감사합니다.": {
+    "ko": "님 안녕하세요, 문의 주셔서 감사합니다.",
+    "en": ", hello! Thanks for reaching out.",
+    "comment": "Feature lesson template: text after the name blank",
+    "h": "f3407ccb2f"
+  },
+  "다 넣었어요": {
+    "ko": "다 넣었어요",
+    "en": "All entered",
+    "comment": "Feature lesson stack: all values entered",
+    "h": "2cddb33f51"
   },
   "다 됐어요. 저장하면 키보드에 바로 올라가요.": {
     "ko": "다 됐어요. 저장하면 키보드에 바로 올라가요.",
@@ -5591,6 +5711,12 @@
     "comment": "Snippets tab style description: keyboard stage",
     "h": "8a71491838"
   },
+  "다른 이름도 눌러 보세요": {
+    "ko": "다른 이름도 눌러 보세요",
+    "en": "Try another name",
+    "comment": "Feature lesson template: pick another",
+    "h": "9ff10303e4"
+  },
   "다른 카테고리 탭에서 다시 열어 보세요": {
     "ko": "다른 카테고리 탭에서 다시 열어 보세요",
     "en": "Try opening it from another category tab",
@@ -5609,11 +5735,23 @@
     "comment": "Move all snippets to another category",
     "h": "710255cf6a"
   },
+  "다섯 가지 모두": {
+    "ko": "다섯 가지 모두",
+    "en": "All five",
+    "comment": "Feature preset all: what it includes",
+    "h": "ff1b04bb97"
+  },
   "다시 가기": {
     "ko": "다시 가기",
     "en": "Go Again",
     "comment": "Keyboard lesson: go to Settings again",
     "h": "d62091634c"
+  },
+  "다시 보기": {
+    "ko": "다시 보기",
+    "en": "Watch Again",
+    "comment": "Guidebook: watch again",
+    "h": "a9a5b0c590"
   },
   "다시 보지 않기": {
     "ko": "다시 보지 않기",
@@ -5656,6 +5794,12 @@
     "en": "Next %@",
     "comment": "Placeholder chip: next value in a sequence, e.g. next invoice number",
     "h": "c1f6f40ce6"
+  },
+  "다음 값이 차례로 들어가요": {
+    "ko": "다음 값이 차례로 들어가요",
+    "en": "enters the next value in order",
+    "comment": "Feature lesson stack: after first tap subline",
+    "h": "e6b8efa203"
   },
   "다음 글자": {
     "ko": "다음 글자",
@@ -5728,6 +5872,12 @@
     "en": "Opens the step-by-step keyboard setup guide",
     "comment": "Open keyboard setup guide hint",
     "h": "17823e323d"
+  },
+  "단순하게": {
+    "ko": "단순하게",
+    "en": "Keep It Simple",
+    "comment": "Feature preset: simple",
+    "h": "9deebce454"
   },
   "단어": {
     "ko": "단어",
@@ -6143,6 +6293,12 @@
     "comment": "Category activation banner title",
     "h": "154f7241cd"
   },
+  "단축어가 많아졌어요": {
+    "ko": "단축어가 많아졌어요",
+    "en": "You've saved quite a few snippets",
+    "comment": "Feature nudge category: headline",
+    "h": "2a894e1c99"
+  },
   "단축어가 삭제된 게 아니라, 저장 파일을 읽지 못한 상태예요. 원본은 그대로 보관해 두었습니다.": {
     "ko": "단축어가 삭제된 게 아니라, 저장 파일을 읽지 못한 상태예요. 원본은 그대로 보관해 두었습니다.",
     "en": "Your snippets weren't deleted: we just couldn't read the file. The original has been kept safe.",
@@ -6341,11 +6497,23 @@
     "comment": "Share video: running equivalent",
     "h": "94a0c9b109"
   },
+  "담아 두지 않은 것도 다시 꺼내 써요": {
+    "ko": "담아 두지 않은 것도 다시 꺼내 써요",
+    "en": "Use it again even if you never saved it",
+    "comment": "Feature lesson recent: done subline",
+    "h": "b35dc3afe6"
+  },
   "담아 둔 것을 누르면 복사돼요": {
     "ko": "담아 둔 것을 누르면 복사돼요",
     "en": "Tap a saved one to copy it",
     "comment": "Lesson subtitle: copy",
     "h": "6cc30a8f7d"
+  },
+  "담아 둔 것이 많아서": {
+    "ko": "담아 둔 것이 많아서",
+    "en": "Because you've saved a lot",
+    "comment": "Feature preset recommended reason: all",
+    "h": "8bb3da6e11"
   },
   "담아 둔 글을 키보드가 읽으려면 필요해요": {
     "ko": "담아 둔 글을 키보드가 읽으려면 필요해요",
@@ -6364,6 +6532,18 @@
     "en": "Couldn't capture it. Try again in a moment.",
     "comment": "Toast when saving the captured clipboard failed",
     "h": "d0ca351c51"
+  },
+  "답장 글을 담아 둬서": {
+    "ko": "답장 글을 담아 둬서",
+    "en": "Because you saved reply text",
+    "comment": "Feature preset recommended reason: reply",
+    "h": "26285766a7"
+  },
+  "답장이 많아요": {
+    "ko": "답장이 많아요",
+    "en": "I Reply a Lot",
+    "comment": "Feature preset: lots of replies",
+    "h": "85d4616b44"
   },
   "당신과 닮은 누군가는, 이 순간들에서 매일 몇 분을 되찾고 있어요. 마음에 드는 예시는 탭 한 번으로 내 단축어가 됩니다.": {
     "ko": "당신과 닮은 누군가는, 이 순간들에서 매일 몇 분을 되찾고 있어요. 마음에 드는 예시는 탭 한 번으로 내 단축어가 됩니다.",
@@ -6761,6 +6941,12 @@
     "comment": "Reorder cell a11y hint",
     "h": "c81ec081f6"
   },
+  "들어갔어요": {
+    "ko": "들어갔어요",
+    "en": "Filled in",
+    "comment": "Feature lesson template: after first pick",
+    "h": "9f868a21de"
+  },
   "들어갔어요. 보내 보세요": {
     "ko": "들어갔어요. 보내 보세요",
     "en": "It's in. Now send it",
@@ -7031,6 +7217,12 @@
     "comment": "User level: created but unused",
     "h": "759e04c013"
   },
+  "많아지면 탭으로 찾아요": {
+    "ko": "많아지면 탭으로 찾아요",
+    "en": "Find things by tab as they grow",
+    "comment": "Feature lesson category: done line",
+    "h": "e9812a3b39"
+  },
   "많이 쓰는 사람": {
     "ko": "많이 쓰는 사람",
     "en": "Heavy users",
@@ -7180,6 +7372,12 @@
     "en": "Saved to Inbox",
     "comment": "Toast after quick note saved to inbox",
     "h": "4245c137e4"
+  },
+  "메모의 '복사'를 눌러 보세요": {
+    "ko": "메모의 '복사'를 눌러 보세요",
+    "en": "Tap Copy in the note",
+    "comment": "Feature lesson recent: subline",
+    "h": "2559d34f02"
   },
   "메모장에 모아 둔 걸 통째로 붙여넣으면 알아서 한 줄씩 나눠 담아요. 사진에서 읽어 올 수도 있고, 비밀번호처럼 보이는 값은 잠긴 단축어로 들어갑니다. 단축어 목록의 + 안에 있어요.": {
     "ko": "메모장에 모아 둔 걸 통째로 붙여넣으면 알아서 한 줄씩 나눠 담아요. 사진에서 읽어 올 수도 있고, 비밀번호처럼 보이는 값은 잠긴 단축어로 들어갑니다. 단축어 목록의 + 안에 있어요.",
@@ -7378,6 +7576,12 @@
     "en": "A two finger tap on the list opens select mode. The same path sits in the press and hold panel",
     "comment": "Changelog 5.0.7 two finger tap",
     "h": "524c7319e5"
+  },
+  "목록에서 옆으로 넘기면 분류가 바뀌어요": {
+    "ko": "목록에서 옆으로 넘기면 분류가 바뀌어요",
+    "en": "Swipe sideways in the list to switch categories",
+    "comment": "Feature lesson category: done subline",
+    "h": "126bbfce33"
   },
   "목록에서 제목 아래 내용이 한 줄 보이고, 민감한 값은 가려져요": {
     "ko": "목록에서 제목 아래 내용이 한 줄 보이고, 민감한 값은 가려져요",
@@ -7691,6 +7895,12 @@
     "comment": "Feature not included",
     "h": "a94b695289"
   },
+  "민감한 글은 잠가 둬요": {
+    "ko": "민감한 글은 잠가 둬요",
+    "en": "Lock away sensitive text",
+    "comment": "Feature lesson secure: line",
+    "h": "3699890fa7"
+  },
   "바꾸기": {
     "ko": "바꾸기",
     "en": "Change it",
@@ -7739,6 +7949,12 @@
     "comment": "Share destination explanation: shortcut",
     "h": "24a6b860e4"
   },
+  "박도윤": {
+    "ko": "박도윤",
+    "en": "Sam Patel",
+    "comment": "Feature lesson template: sample person name 2",
+    "h": "3f1b4d82f8"
+  },
   "박서연": {
     "ko": "박서연",
     "en": "Alex Kim",
@@ -7756,6 +7972,12 @@
     "en": "Want it for life, at half price?",
     "comment": "Discount offer title",
     "h": "6395bf8804"
+  },
+  "방금": {
+    "ko": "방금",
+    "en": "Just now",
+    "comment": "Feature lesson recent: just now",
+    "h": "54f8277af2"
   },
   "방금 가려야 할 것을 저장하셨어요. Face ID로 잠글 수 있어요": {
     "ko": "방금 가려야 할 것을 저장하셨어요. Face ID로 잠글 수 있어요",
@@ -7816,6 +8038,12 @@
     "en": "Learned",
     "comment": "Learn more sheet: lesson already learned",
     "h": "8b425034bf"
+  },
+  "배포 점검": {
+    "ko": "배포 점검",
+    "en": "Release check",
+    "comment": "Feature lesson stack: sample task",
+    "h": "8167fdcd5b"
   },
   "백업 건너뜀": {
     "ko": "백업 건너뜀",
@@ -8027,6 +8255,12 @@
     "comment": "Changelog 5.1.4 next number",
     "h": "30fafa6081"
   },
+  "번호만 다른 단축어가 생겼어요": {
+    "ko": "번호만 다른 단축어가 생겼어요",
+    "en": "You have snippets that differ only by number",
+    "comment": "Feature nudge stack: headline",
+    "h": "3cabca5b87"
+  },
   "변경": {
     "ko": "변경",
     "en": "Change",
@@ -8122,6 +8356,12 @@
     "en": "We'll keep it in your inbox so you can decide later whether to make it a shortcut.",
     "comment": "Share destination explanation: inbox",
     "h": "4a86c5f66b"
+  },
+  "보기": {
+    "ko": "보기",
+    "en": "Watch",
+    "comment": "Guidebook: watch",
+    "h": "28f0a900e2"
   },
   "보기 편한 색과 대비": {
     "ko": "보기 편한 색과 대비",
@@ -8381,6 +8621,12 @@
     "comment": "Action Button guide flow: copy\nAction: copy\nBlank start intro: the system copy bubble\nCopy\nCopy translation button",
     "h": "a64a3c5bb3"
   },
+  "복사 · 붙여넣기 · 바로 넣기": {
+    "ko": "복사 · 붙여넣기 · 바로 넣기",
+    "en": "Copy, Paste, Insert",
+    "comment": "Guidebook: the hands-on first run",
+    "h": "ecb7c12601"
+  },
   "복사 될 값": {
     "ko": "복사 될 값",
     "en": "Value to copy",
@@ -8495,11 +8741,23 @@
     "comment": "Lesson subtitle: recent",
     "h": "006c8040e7"
   },
+  "복사한 글이 30일 동안 저절로 남게 할 수 있어요": {
+    "ko": "복사한 글이 30일 동안 저절로 남게 할 수 있어요",
+    "en": "Keep what you copy for 30 days automatically",
+    "comment": "Feature nudge recent: detail",
+    "h": "cf783fc537"
+  },
   "복사한 글이 7일이 아니라 30일 동안 남아요": {
     "ko": "복사한 글이 7일이 아니라 30일 동안 남아요",
     "en": "Copied text now stays for 30 days instead of 7",
     "comment": "Changelog 5.1.8 retention 30 days",
     "h": "3a3d50e79e"
+  },
+  "복사한 글이 저절로 남아요": {
+    "ko": "복사한 글이 저절로 남아요",
+    "en": "What you copy is kept for you",
+    "comment": "Feature lesson recent: line",
+    "h": "d5dcd686c0"
   },
   "복사한 내용을 자동으로 저장하고 관리": {
     "ko": "복사한 내용을 자동으로 저장하고 관리",
@@ -8627,6 +8885,12 @@
     "comment": "Restore result title: nothing to restore",
     "h": "64b6d39340"
   },
+  "본인만 꺼낼 수 있어요": {
+    "ko": "본인만 꺼낼 수 있어요",
+    "en": "Only you can take it out",
+    "comment": "Feature lesson secure: done line",
+    "h": "7d77eba9fa"
+  },
   "봉인됨": {
     "ko": "봉인됨",
     "en": "Sealed",
@@ -8644,6 +8908,12 @@
     "en": "Sealed",
     "comment": "Memo locked toast",
     "h": "72780a26c3"
+  },
+  "봤어요": {
+    "ko": "봤어요",
+    "en": "Seen",
+    "comment": "Guidebook: already seen",
+    "h": "269601366d"
   },
   "부분만 고르기": {
     "ko": "부분만 고르기",
@@ -8788,6 +9058,12 @@
     "en": "Allow pasting to capture it.",
     "comment": "Toast when the user declined the paste permission during capture",
     "h": "d420129e41"
+  },
+  "붙여넣어 담는 일이 잦네요": {
+    "ko": "붙여넣어 담는 일이 잦네요",
+    "en": "You paste things in often",
+    "comment": "Feature nudge recent: headline",
+    "h": "6587f7f508"
   },
   "붙여넣을 내용": {
     "ko": "붙여넣을 내용",
@@ -8945,6 +9221,12 @@
     "comment": "Add placeholder",
     "h": "c4b41951af"
   },
+  "빈칸 하나로 두면 단축어 하나로 여러 사람에게 써요": {
+    "ko": "빈칸 하나로 두면 단축어 하나로 여러 사람에게 써요",
+    "en": "Leave a blank for the name and one snippet works for everyone",
+    "comment": "Feature nudge template: detail",
+    "h": "2bc36b4c01"
+  },
   "빈칸 한 칸씩 채우기": {
     "ko": "빈칸 한 칸씩 채우기",
     "en": "Fill blanks one at a time",
@@ -9010,6 +9292,12 @@
     "en": "No more scrolling when there are several blanks",
     "comment": "DYK title: compact placeholders",
     "h": "52d81595f3"
+  },
+  "빈칸이 있는 글이에요": {
+    "ko": "빈칸이 있는 글이에요",
+    "en": "This text has a blank",
+    "comment": "Feature lesson template: line",
+    "h": "6b6a1334d8"
   },
   "빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요": {
     "ko": "빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요",
@@ -9419,6 +9707,12 @@
     "comment": "New memo navigation title",
     "h": "5edec876a0"
   },
+  "새 단축어 내용에 {이름} 처럼 쓰면 빈칸이 돼요": {
+    "ko": "새 단축어 내용에 {이름} 처럼 쓰면 빈칸이 돼요",
+    "en": "Type {name} in a new snippet's text to make a blank",
+    "comment": "Feature lesson template: done subline",
+    "h": "7fd3c028bc"
+  },
   "새 단축어 만들기": {
     "ko": "새 단축어 만들기",
     "en": "New Snippet",
@@ -9460,6 +9754,12 @@
     "en": "Write a new snippet or import text.",
     "comment": "Add memo menu hint",
     "h": "8c374ebb1d"
+  },
+  "새 단축어에서 내용을 더하면 스택이 돼요": {
+    "ko": "새 단축어에서 내용을 더하면 스택이 돼요",
+    "en": "Add more text to a new snippet to make a stack",
+    "comment": "Feature lesson stack: done subline",
+    "h": "72f9538eed"
   },
   "새 스택": {
     "ko": "새 스택",
@@ -9694,6 +9994,12 @@
     "en": "Format",
     "comment": "Token format editor: pattern section",
     "h": "35e1bab14d"
+  },
+  "서울 마포구 월드컵북로 396": {
+    "ko": "서울 마포구 월드컵북로 396",
+    "en": "1 Market St, San Francisco",
+    "comment": "Feature lesson recent: sample address",
+    "h": "078fd9af15"
   },
   "서울시 강남구 …": {
     "ko": "서울시 강남구 …",
@@ -10346,8 +10652,8 @@
   "스페이스": {
     "ko": "스페이스",
     "en": "space",
-    "comment": "Space key\nSpacebar (ko)",
-    "h": "3552e7f0e3"
+    "comment": "Keyboard lesson demo: space bar label\nSpace key\nSpacebar (ko)",
+    "h": "f0aab83939"
   },
   "시각·운동·청각 보조 기능을 함께 지원합니다. 아래 기능들은 iPhone 설정 → 손쉬운 사용에서 켤 수 있습니다.": {
     "ko": "시각·운동·청각 보조 기능을 함께 지원합니다. 아래 기능들은 iPhone 설정 → 손쉬운 사용에서 켤 수 있습니다.",
@@ -10976,8 +11282,8 @@
   "알겠어요": {
     "ko": "알겠어요",
     "en": "Got it",
-    "comment": "Did you know: dismiss\nFree use card: got it\nNew snippet coach: last step, dismiss\nSwitch hint: dismiss",
-    "h": "f6ae636405"
+    "comment": "Did you know: dismiss\nFree use card: got it\nKeyboard stage intro: dismiss\nNew snippet coach: last step, dismiss\nSwitch hint: dismiss",
+    "h": "005423f0d6"
   },
   "알려 주기": {
     "ko": "알려 주기",
@@ -11002,6 +11308,12 @@
     "en": "Check the first 4 characters (country code + check digits). The rest looks right.",
     "comment": "Repair hint when IBAN checksum fails",
     "h": "ffe99c9acb"
+  },
+  "앞 글과 이름만 다르네요": {
+    "ko": "앞 글과 이름만 다르네요",
+    "en": "Only the name is different from the last one",
+    "comment": "Feature nudge template: headline",
+    "h": "0d04c1485c"
   },
   "앞뒤를 남기고 가운데만 줄여요. 앞이 비슷한 이름끼리도 구분돼요.": {
     "ko": "앞뒤를 남기고 가운데만 줄여요. 앞이 비슷한 이름끼리도 구분돼요.",
@@ -11201,6 +11513,12 @@
     "comment": "Free use receipt: about N minutes",
     "h": "77bc369908"
   },
+  "양식 칸을 차례로 채울 때 좋아요": {
+    "ko": "양식 칸을 차례로 채울 때 좋아요",
+    "en": "Great for filling form fields in order",
+    "comment": "Feature lesson stack: done line",
+    "h": "2d42bff07c"
+  },
   "어느 걸 넣을까요?": {
     "ko": "어느 걸 넣을까요?",
     "en": "Which one?",
@@ -11326,6 +11644,18 @@
     "en": "Sort into Work, Personal and more",
     "comment": "Lesson subtitle: category",
     "h": "62d1489990"
+  },
+  "업무 · 개인처럼 나눠 담으면 찾기 쉬워요": {
+    "ko": "업무 · 개인처럼 나눠 담으면 찾기 쉬워요",
+    "en": "Sorting into Work and Personal makes them easier to find",
+    "comment": "Feature nudge category: detail",
+    "h": "d4832f5763"
+  },
+  "업무 것만 남았어요": {
+    "ko": "업무 것만 남았어요",
+    "en": "Only Work items are left",
+    "comment": "Feature lesson category: after first tap",
+    "h": "db356c3bd0"
   },
   "없는 날짜예요. 다시 확인해 주세요": {
     "ko": "없는 날짜예요. 다시 확인해 주세요",
@@ -11674,6 +12004,12 @@
     "en": "Enough for a movie, with time to spare.",
     "comment": "Milestone note: three hours",
     "h": "84a182f6d6"
+  },
+  "옆 사람 화면에도 값이 보이지 않아요": {
+    "ko": "옆 사람 화면에도 값이 보이지 않아요",
+    "en": "The value stays hidden from anyone looking over",
+    "comment": "Feature lesson secure: done subline",
+    "h": "757bca9ace"
   },
   "옆으로 넘겨 '제어 항목'에 두고, '제어 항목 선택'을 눌러요": {
     "ko": "옆으로 넘겨 '제어 항목'에 두고, '제어 항목 선택'을 눌러요",
@@ -12622,6 +12958,12 @@
     "en": "Spots like name or date that change each time",
     "comment": "Fill-in field drawer: collapsed subtitle",
     "h": "235bfbed70"
+  },
+  "이름과 내용만. 지금 그대로": {
+    "ko": "이름과 내용만. 지금 그대로",
+    "en": "Just a name and text, as it is now",
+    "comment": "Feature preset simple: what it includes",
+    "h": "19b73ede6e"
   },
   "이름만 바꿔 여러 사람에게": {
     "ko": "이름만 바꿔 여러 사람에게",
@@ -13721,6 +14063,12 @@
     "comment": "Nomad focus: all types",
     "h": "397495d433"
   },
+  "전부 쓸래요": {
+    "ko": "전부 쓸래요",
+    "en": "Give Me Everything",
+    "comment": "Feature preset: everything",
+    "h": "ba51f4e817"
+  },
   "전에 직접 고르신 유형": {
     "ko": "전에 직접 고르신 유형",
     "en": "The type you picked before",
@@ -14465,6 +14813,12 @@
     "comment": "Roadmap item detail: stable sync",
     "h": "b286f8633e"
   },
+  "지금은 이걸로 충분해요": {
+    "ko": "지금은 이걸로 충분해요",
+    "en": "This is plenty for now",
+    "comment": "Feature preset recommended reason: simple",
+    "h": "3193dd9df0"
+  },
   "지난 %d일 동안": {
     "ko": "지난 %d일 동안",
     "en": "Over the last %d days",
@@ -14795,6 +15149,12 @@
     "comment": "Event label: onboarding completed",
     "h": "8342ee7eeb"
   },
+  "처음에 본 그림과 해 보기를 언제든 다시 볼 수 있어요.": {
+    "ko": "처음에 본 그림과 해 보기를 언제든 다시 볼 수 있어요.",
+    "en": "Watch the first-run walkthroughs again anytime.",
+    "comment": "Guidebook footer",
+    "h": "c16db54e42"
+  },
   "처음으로": {
     "ko": "처음으로",
     "en": "Start over",
@@ -15119,6 +15479,12 @@
     "comment": "Persona settings subtitle",
     "h": "afdb286a98"
   },
+  "출근 보고": {
+    "ko": "출근 보고",
+    "en": "Morning check in",
+    "comment": "Feature lesson stack: sample stack name",
+    "h": "ebbdafaa53"
+  },
   "출력 예시": {
     "ko": "출력 예시",
     "en": "Output preview",
@@ -15203,6 +15569,12 @@
     "comment": "Fold result pane: hint before anything is copied",
     "h": "b8ed4c2d5c"
   },
+  "카드를 눌러 보세요": {
+    "ko": "카드를 눌러 보세요",
+    "en": "Tap the card",
+    "comment": "Feature lesson secure: subline",
+    "h": "53eb6f1218"
+  },
   "카드만 깔끔하게 보여요.": {
     "ko": "카드만 깔끔하게 보여요.",
     "en": "Just the cards, nothing else.",
@@ -15214,6 +15586,12 @@
     "en": "Card Number",
     "comment": "Bulk import: card number label\nCard Number\nChecksum subject: credit card number",
     "h": "9d3834d579"
+  },
+  "카드번호 같아요. 잠가 둘까요?": {
+    "ko": "카드번호 같아요. 잠가 둘까요?",
+    "en": "Looks like a card number. Lock it?",
+    "comment": "Feature nudge secure: headline",
+    "h": "28daf579e7"
   },
   "카드번호·IBAN·사업자등록번호는 검사식이 있어요. 한 자리를 잘못 적었으면 저장하기 전에 짚어 드립니다.": {
     "ko": "카드번호·IBAN·사업자등록번호는 검사식이 있어요. 한 자리를 잘못 적었으면 저장하기 전에 짚어 드립니다.",
@@ -15533,11 +15911,17 @@
     "comment": "Typing languages: enabled section header",
     "h": "d1c1be1375"
   },
+  "켜고 해 보기": {
+    "ko": "켜고 해 보기",
+    "en": "Turn On and Try",
+    "comment": "Feature nudge: turn on and try",
+    "h": "54cd98b2e1"
+  },
   "켜기": {
     "ko": "켜기",
     "en": "Turn on",
-    "comment": "Turn on the keyboard",
-    "h": "408e7ef1df"
+    "comment": "Keyboard lesson banner: turn on button\nTurn on the keyboard",
+    "h": "55cd856c4b"
   },
   "켜는 법": {
     "ko": "켜는 법",
@@ -15869,6 +16253,12 @@
     "comment": "Full Access benefit: haptics",
     "h": "2f64cfa90c"
   },
+  "키를 세 번 눌러 보세요": {
+    "ko": "키를 세 번 눌러 보세요",
+    "en": "Tap the key three times",
+    "comment": "Feature lesson stack: subline",
+    "h": "b00997831c"
+  },
   "키마다 복사 버튼": {
     "ko": "키마다 복사 버튼",
     "en": "A copy button on every key",
@@ -15878,8 +16268,8 @@
   "키보드": {
     "ko": "키보드",
     "en": "Keyboard",
-    "comment": "Bulk import preview mode: keyboard\nKeyboard\nKeyboard list header\nSettings section: keyboard\nTab: snippets showing the keyboard stage\niOS Settings: Keyboard",
-    "h": "451b4be966"
+    "comment": "Bulk import preview mode: keyboard\nKeyboard\nKeyboard lesson step 1 title\nKeyboard list header\nSettings section: keyboard\nTab: snippets showing the keyboard stage\niOS Settings: Keyboard",
+    "h": "678ee7da4c"
   },
   "키보드 '최근'에 담았어요: %@": {
     "ko": "키보드 '최근'에 담았어요: %@",
@@ -15980,8 +16370,8 @@
   "키보드 미리보기": {
     "ko": "키보드 미리보기",
     "en": "Keyboard preview",
-    "comment": "In-app keyboard stage title\nKeyboard preview accessibility label",
-    "h": "8b52ec4dbd"
+    "comment": "In-app keyboard stage title\nKeyboard preview accessibility label\nLesson title: keyboard preview in the app",
+    "h": "2c86ceca60"
   },
   "키보드 미리보기가 한 번에 부드럽게 오르내리고, 입력창 캐럿이 깜빡여요": {
     "ko": "키보드 미리보기가 한 번에 부드럽게 오르내리고, 입력창 캐럿이 깜빡여요",
@@ -16775,6 +17165,12 @@
     "comment": "Lesson title: template blanks",
     "h": "3bc037961c"
   },
+  "템플릿 빈칸 · 최근 복사한 것": {
+    "ko": "템플릿 빈칸 · 최근 복사한 것",
+    "en": "Template blanks and recently copied",
+    "comment": "Feature preset reply: what it includes",
+    "h": "1052160cf3"
+  },
   "템플릿 수": {
     "ko": "템플릿 수",
     "en": "Templates",
@@ -17159,6 +17555,12 @@
     "comment": "What's new 5.1.8 toggle title",
     "h": "9eeff236a8"
   },
+  "필요한 것만 켜세요. 켜면 그 자리에 바로 생겨요.": {
+    "ko": "필요한 것만 켜세요. 켜면 그 자리에 바로 생겨요.",
+    "en": "Turn on only what you need. It appears right where you use it.",
+    "comment": "Settings: add features section footer",
+    "h": "bb01adbc3a"
+  },
   "필요한 글자만 손가락으로 문질러 담아요": {
     "ko": "필요한 글자만 손가락으로 문질러 담아요",
     "en": "Swipe your finger over just the text you need",
@@ -17297,6 +17699,12 @@
     "comment": "Segment hint: one trick",
     "h": "8990a614a8"
   },
+  "한 글로 여러 사람에게": {
+    "ko": "한 글로 여러 사람에게",
+    "en": "One text for many people",
+    "comment": "Feature lesson template: done line",
+    "h": "ac5c91eb2a"
+  },
   "한 글자씩 지웁니다. 누르고 있으면 이어서 지웁니다": {
     "ko": "한 글자씩 지웁니다. 누르고 있으면 이어서 지웁니다",
     "en": "Deletes one character. Hold to keep deleting.",
@@ -17344,6 +17752,12 @@
     "en": "Every use now counts as at least 2 minutes saved. Values we can't classify, like a git token, used to be logged as 10 seconds.",
     "comment": "Changelog 5.0.1 baseline",
     "h": "129fad03f3"
+  },
+  "한 번 누를 때마다": {
+    "ko": "한 번 누를 때마다",
+    "en": "Every tap",
+    "comment": "Feature lesson stack: after first tap",
+    "h": "51639c9032"
   },
   "한 번에 200건씩 나눠 받아요. 지금 숫자는 중간 집계라 계속 올라가요.": {
     "ko": "한 번에 200건씩 나눠 받아요. 지금 숫자는 중간 집계라 계속 올라가요.",

@@ -52,6 +52,7 @@
 | 단축어 넣고 쓰던 키보드로 | 단축어를 넣을 때마다 지구본을 눌러 쓰던 키보드로 돌아가야 한다 · 끈 사람도 넘어간다 · 스택 중간에 넘어가 남은 값이 엉뚱한 데로 간다 (2026-10 사용자 요청) | `SnippetReturnPolicyTests/test_단축어를_다_넣으면_쓰던_키보드로_돌아가고_끄면_그대로다` |
 | 백지 첫 실행 (새 설치) | 쓰던 사람에게 새 첫 실행이 뜬다 · 옛 튜토리얼과 겹쳐 둘이 뜬다 · 중간에 꺼진 뒤 맥락 없이 중간부터 시작한다 · 끝냈는데 목록이 비어 있다 | `BasicScenarioTests/test_백지_첫_실행은_새_설치에만_뜨고_끝내기_전에_끄면_처음부터_끝나면_예시_하나가_남는다` |
 | 키보드 켜기 수업 (새 설치) | 첫 단축어를 담았는데 키보드를 켜라는 말이 없다 · 나중에 다시를 골랐더니 다시는 안 알려 준다 · 켰는데도 켜라는 줄이 남는다 | `BasicScenarioTests/test_키보드_켜기를_미루면_켤_때까지만_목록_위에_남는다` |
+| 기능 넛지 · 기능 더하기 (새 설치) | 단순하게 쓰던 사람이 스택 · 템플릿을 끝내 모른다 · 같은 권유가 계속 뜬다 · 켰는데 목록 · 키보드에 그 자리가 없다 | `BasicScenarioTests/test_쓰는_모습이_부를_때_기능을_한_번만_권하고_켜면_그_자리가_생긴다` |
 | 키보드 한글 입력 | 검색창에서 자모가 흩어진다 | `HangulComposerTests/testMultipleSyllables_CommitOnNewInitial` |
 | 업데이트 뒤에도 데이터가 남는다 | 업데이트했더니 단축어가 사라졌다 | `MigrationCompatibilityTests/testOneLegacyItemDoesNotBreakWholeArray` |
 | iCloud 백업과 복원 | 복원했더니 일부 필드가 빠졌다 | `CloudKitBackupIntegrityTests/testBackupThenRestore_PreservesAllMemoFields` |

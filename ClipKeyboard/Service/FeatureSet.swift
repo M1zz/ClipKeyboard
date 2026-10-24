@@ -54,6 +54,12 @@ enum FeatureSet {
 
     static func set(_ feature: AppFeature, on: Bool, group: UserDefaults? = AppGroup.defaults) {
         group?.set(on, forKey: key(feature))
+        // 이미 있는 스위치 둘은 그쪽을 같이 움직인다. 화면 · 키보드는 그 스위치를 본다
+        switch feature {
+        case .recent: group?.set(on, forKey: KeyboardPrefs.showRecentClipsTab.key)   // 목록 · 키보드의 '최근'
+        case .category: on ? CategoryStore.shared.enableFeature() : CategoryStore.shared.disableFeature()
+        case .template, .stack, .secure: break
+        }
         print("🔧 [FeatureSet.set] \(feature.rawValue) = \(on)")
         NotificationCenter.postOnMain(name: .featureSetChanged, object: nil)
     }

@@ -94,6 +94,13 @@ final class CategoryStore: ObservableObject {
         print("✅ [CategoryStore] 카테고리 기능 활성화")
     }
 
+    /// 카테고리 기능 끄기(설정 ▸ 기능 더하기에서 끈 백지 사용자). 담아 둔 분류는 지우지 않는다.
+    func disableFeature() {
+        AppGroup.defaults?.set(false, forKey: featureEnabledKey)
+        isFeatureEnabled = false
+        print("🚫 [CategoryStore] 카테고리 기능 끔")
+    }
+
     /// 사용자가 "안 쓸래요" 선택 - 배너 영구 닫기. 추후 카테고리 관리 페이지에서
     /// 수동으로 다시 켤 수 있음.
     func dismissActivationBanner() {

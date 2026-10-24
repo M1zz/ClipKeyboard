@@ -505,6 +505,8 @@ enum DefaultsKey {
     static let featureOnPrefix = "feature.on.v1."
     /// 키보드 켜기 수업에서 "나중에 다시" 를 골랐는가. 켤 때까지 목록 위에 한 줄이 남는다.
     static let keyboardLessonDeferred = "keyboardLesson.deferred.v1"
+    /// 넛지를 언제 무엇을 물었는지(App Group). `[기능: shown | no | yes, "__day": 마지막으로 물은 날]` (`FeatureNudge`).
+    static let featureNudges = "featureNudges.v1"
     /// 준비된 단축어를 한 번 눌러 봤는지(또는 가리킬 것이 없어 건너뛰었는지).
     static let tutorialSnippetDone = "tutorial.snippet.done.v1"
     /// 준비된 템플릿을 한 번 써 봤는지.

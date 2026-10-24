@@ -372,6 +372,14 @@ struct SettingView: View {
 
     var body: some View {
         List {
+            // 백지로 시작한 사람만: 기능 더하기(조합 · 추천 · 스위치)와 가이드북. 기존 사용자에게는 없다
+            if FeatureSet.isBlankStartUser() {
+                FeatureSettingsSection()
+                Section {
+                    categoryRow(NSLocalizedString("가이드북", comment: "Guidebook title"),
+                                systemImage: AppSymbol.bookPagesFill) { GuideBookView() }
+                }
+            }
             proSection
             giftSection
             tipSection

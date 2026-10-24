@@ -20,8 +20,23 @@ import LeeoKit
 struct BlankStartView: View {
     /// 첫 실행을 끝냈다. 목록으로 간다.
     let onFinish: () -> Void
+    /// 가이드북에서 다시 보는 중인가. 그러면 끝에서 고르기 대신 가이드북으로 돌아간다.
+    private let replay: Bool
 
-    @State private var stage: Stage = BlankStartView.resumeStage()
+    @State private var stage: Stage
+
+    init(onFinish: @escaping () -> Void) {
+        self.onFinish = onFinish
+        self.replay = false
+        _stage = State(initialValue: Self.resumeStage())
+    }
+
+    /// 가이드북에서 다시 보기. 장부는 건드리지 않는다(이미 본 것을 지우지 않는다).
+    init(replayFrom: Stage, onFinish: @escaping () -> Void) {
+        self.onFinish = onFinish
+        self.replay = true
+        _stage = State(initialValue: replayFrom)
+    }
     @State private var showLearnMore = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -75,6 +90,19 @@ struct BlankStartView: View {
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
             Spacer()
+            if replay {
+                Button {
+                    HapticManager.shared.selection()
+                    onFinish()
+                } label: {
+                    Text(NSLocalizedString("가이드북으로 돌아가기", comment: "Guidebook replay: back to the guidebook"))
+                        .font(.body.weight(.bold))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 17)
+                        .foregroundStyle(Color(.systemBackground))
+                        .background(Color.primary, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                }
+            } else {
             Button {
                 HapticManager.shared.selection()
                 makeOwn()
@@ -96,6 +124,7 @@ struct BlankStartView: View {
                     .padding(.vertical, 17)
                     .foregroundStyle(Color.primary)
                     .background(Color(.secondarySystemFill), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+            }
             }
         }
         .padding(.horizontal, 22)

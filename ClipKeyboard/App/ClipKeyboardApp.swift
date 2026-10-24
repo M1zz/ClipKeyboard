@@ -107,6 +107,8 @@ struct ClipKeyboardApp: App {
         standard.set(true, forKey: DefaultsKey.blankStartV1)
         // 키보드도 같은 판단을 보게 그룹에도 적는다(`FeatureSet.isBlankStartUser`)
         AppGroup.defaults?.set(true, forKey: DefaultsKey.blankStartV1)
+        // '최근' 은 켤 수 있는 기능 중 하나다. 백지는 꺼진 채로(목록 · 키보드 둘 다)
+        AppGroup.defaults?.set(false, forKey: KeyboardPrefs.showRecentClipsTab.key)
         standard.set(SnippetsTabStyle.list.rawValue, forKey: DefaultsKey.snippetsTabStyle)
         standard.set(true, forKey: DefaultsKey.keyboardStageOffered)
         // 샘플 네 벌도, 기존 사용자용 "체험해 볼래요?" 도 없다. 첫 실행이 예시 하나만 남긴다(`BlankStartSample`).
@@ -1758,7 +1760,7 @@ struct MainTabView: View {
             selection
         } set: { tapped in
             // 단순한 목록에는 키보드 미리보기로 건너가는 길이 없다. 다시 눌러도 목록 그대로
-            if tapped == .snippets, selection == .snippets, !plain {
+            if tapped == .snippets, selection == .snippets, !blank {
                 HapticManager.shared.light()
                 // 값만 바꾼다 - 연출은 `SnippetsTab.content` 가 건다.
                 snippetsStyleRaw = snippetsStyle.toggled.rawValue
@@ -1786,12 +1788,12 @@ struct MainTabView: View {
     }
 
     /// 사용 기록은 쓴 것이 쌓여야 볼 것이 있다. 감춰도 설정 ▸ 사용 통계에는 늘 있다.
-    private var showsUsageTab: Bool { !plain && userState.isVisible(.statsPassport) }
+    private var showsUsageTab: Bool { !blank && userState.isVisible(.statsPassport) }
     /// 찾을 만큼 쌓이기 전에는 목록이 곧 검색이다.
     /// ⚠️ 백지 사용자는 처음부터 목록 · 설정 · 검색 셋이다(시안). 사용 기록은 아직 없다.
-    private var showsSearchTab: Bool { plain || userState.isVisible(.searchAndReorder) }
-    /// 백지로 시작해 아직 아무 기능도 안 켠 사람(`FeatureSet.isPlain`).
-    @State private var plain = FeatureSet.isPlain()
+    private var showsSearchTab: Bool { blank || userState.isVisible(.searchAndReorder) }
+    /// 백지로 시작한 사람(`FeatureSet.isBlankStartUser`). 탭은 목록 · 설정 · 검색.
+    @State private var blank = FeatureSet.isBlankStartUser()
 
     /// 보던 탭이 감춰지면(설정에서 "모든 기능 바로 보기" 를 끈 때) 단축어 탭으로 돌아온다.
     private func leaveHiddenTab() {
@@ -1925,7 +1927,7 @@ struct MainTabView: View {
             NavigationStack { UsagePassportView() }
         }
         .onReceive(NotificationCenter.default.publisher(for: .featureSetChanged)) { _ in
-            plain = FeatureSet.isPlain()
+            blank = FeatureSet.isBlankStartUser()
         }
         .fullScreenCover(isPresented: Binding(get: { blankStart && !blankStartFinished }, set: { _ in })) {
             BlankStartView {

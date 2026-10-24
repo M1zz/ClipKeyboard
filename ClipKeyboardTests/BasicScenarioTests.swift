@@ -557,6 +557,55 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertFalse(KeyboardLessonBanner.isDue)
     }
 
+    // MARK: - 시나리오 13: 쓰는 모습이 기능을 부르면 한 번만 권한다 · 조합 · 켜면 그 자리가 생긴다
+
+    func test_쓰는_모습이_부를_때_기능을_한_번만_권하고_켜면_그_자리가_생긴다() {
+        let std = UserDefaults.standard
+        let keys = [DefaultsKey.featureNudges, DefaultsKey.blankStartV1, KeyboardPrefs.showRecentClipsTab.key]
+            + AppFeature.allCases.map { DefaultsKey.featureOnPrefix + $0.rawValue }
+        let saved = keys.map { groupDefaults?.object(forKey: $0) }
+        let savedStd = std.object(forKey: DefaultsKey.blankStartV1)
+        defer {
+            for (k, v) in zip(keys, saved) { groupDefaults?.set(v, forKey: k) }
+            std.set(savedStd, forKey: DefaultsKey.blankStartV1)
+            CategoryStore.shared.disableFeature()
+        }
+        keys.forEach { groupDefaults?.removeObject(forKey: $0) }
+        groupDefaults?.set(true, forKey: DefaultsKey.blankStartV1)
+
+        // 1. 무엇을 권하나
+        XCTAssertEqual(FeatureNudge.suggestion(saved: ("카드", "1234-5678-9012-3456"), others: []), .secure)
+        XCTAssertEqual(FeatureNudge.suggestion(saved: ("인사 박", "박님 안녕하세요 문의 감사합니다"),
+                                               others: [("인사 김", "김님 안녕하세요 문의 감사합니다")]), .template)
+        XCTAssertEqual(FeatureNudge.suggestion(saved: ("출근 보고 2", "개발팀"), others: [("출근 보고 1", "홍길동")]), .stack)
+        XCTAssertEqual(FeatureNudge.suggestion(saved: ("메일", "a@b.com"),
+                                               others: (1...5).map { ("이름\($0)", "값\($0)") }), .category)
+        XCTAssertNil(FeatureNudge.suggestion(saved: ("메일", "a@b.com"), others: [("집", "서울")]),
+                     "부를 까닭이 없으면 아무것도 권하지 않는다")
+
+        // 2. 한 번만 · 하루에 하나
+        let day = Date()
+        XCTAssertTrue(FeatureNudge.mayAsk(.secure, now: day))
+        FeatureNudge.record(.secure, .no, now: day)
+        XCTAssertFalse(FeatureNudge.mayAsk(.secure, now: day.addingTimeInterval(86_400 * 3)), "괜찮아요 했으면 다시 묻지 않는다")
+        XCTAssertFalse(FeatureNudge.mayAsk(.template, now: day), "하루에 하나까지")
+        XCTAssertTrue(FeatureNudge.mayAsk(.template, now: day.addingTimeInterval(86_400)))
+
+        // 3. 켜면 그 자리가 생긴다: 최근은 목록 · 키보드의 '최근' 스위치를, 분류는 분류 기능을 같이 켠다
+        XCTAssertFalse(FeatureSet.isOn(.recent))
+        FeatureSet.set(.recent, on: true)
+        XCTAssertTrue(KeyboardPrefs.showRecentClipsTab.value())
+        FeatureSet.set(.category, on: true)
+        XCTAssertTrue(CategoryStore.shared.isFeatureEnabled)
+        XCTAssertFalse(FeatureNudge.mayAsk(.recent, now: day.addingTimeInterval(86_400 * 9)), "이미 켠 기능은 권하지 않는다")
+
+        // 4. 조합: 켠 것이 조합과 같으면 그 조합, 하나씩 바꾸면 어느 조합도 아니다
+        XCTAssertNil(FeaturePreset.matching([.recent, .category]))
+        XCTAssertEqual(FeaturePreset.matching([.template, .recent]), .reply)
+        XCTAssertEqual(FeatureNudge.recommendedPreset(memos: [("문의 답장", "{이름}님 안녕하세요")]), .reply)
+        XCTAssertEqual(FeatureNudge.recommendedPreset(memos: [("집", "서울")]), .simple)
+    }
+
     private func rawMemoFile() -> String {
         guard let url = FileManager.default
             .containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier)?

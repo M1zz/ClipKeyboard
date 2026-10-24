@@ -51,9 +51,10 @@ struct MemoAdd: View {
     /// "쓸 때 채우는 칸" 서랍이 펴져 있는가. **기본은 닫힘**(`DefaultsKey.contentTokenBarExpanded`).
     @AppStorage(DefaultsKey.contentTokenBarExpanded) private var tokenBarExpanded: Bool = false
     @FocusState private var isTitleFocused: Bool
-    /// 백지로 시작해 아직 아무 기능도 안 켠 사람. 이름 · 내용 · V 만 남는다(docs/design/blank-start-onboarding.html).
-    /// 붙여넣기 줄 · 사진 · 힌트 · 카테고리 · 보안 · 빈칸 · 이어 붙이기는 기능을 켜면 그 자리에 생긴다.
-    private let simple = FeatureSet.isPlain()
+    /// 백지로 시작한 사람. 이름 · 내용 · V 만 남는다(docs/design/blank-start-onboarding.html).
+    /// 스택(값 더하기) · 분류 · 보안 · 템플릿(빈칸 도구)은 그 기능을 켜면 그 자리만 생긴다.
+    /// 붙여넣기 줄 · 사진 · 힌트는 없다. 기존 사용자는 그대로다.
+    private let simple = FeatureSet.isBlankStartUser()
     /// 단순한 내용 칸의 포커스. 화면의 나머지는 `isFocused`(Bool) 를 보므로 둘을 맞춘다.
     @FocusState private var simpleContentFocused: Bool
     @FocusState private var isHintFocused: Bool
@@ -448,6 +449,10 @@ struct MemoAdd: View {
                         if simple {
                             simpleContentSection
                                 .id("contentField")
+                            if FeatureSet.isOn(.stack) { continuationsSection }
+                            if FeatureSet.isOn(.category) { categoryPickerSection }
+                            if FeatureSet.isOn(.secure) { additionalOptionsSection }
+                            if FeatureSet.isOn(.template) { templateSection }
                         } else {
                         // 📌 붙여넣을 내용
                         ContentInputSection(
@@ -513,12 +518,12 @@ struct MemoAdd: View {
                 // 키보드 바로 위에 붙는 줄 - 쓸 때 채우는 칸과 짚어 주는 띠.
                 // 저장은 머리 줄 V 로 올라갔다(`formToolbar`). 보여 줄 것이 없으면 줄도 세우지 않는다.
                 .safeAreaInset(edge: .bottom, spacing: 0) {
-                if (isFocused && !simple) || coachStep != nil {
+                if (isFocused && (!simple || FeatureSet.isOn(.template))) || coachStep != nil {
                 VStack(spacing: 0) {
                     Divider()
 
                     // 본문 포커스 시 변수 삽입 버튼 표시 - {변수}를 넣으면 자동으로 템플릿이 됨
-                    if isFocused && !simple {
+                    if isFocused && (!simple || FeatureSet.isOn(.template)) {
                         variableTokenBar
                     }
 
@@ -782,6 +787,7 @@ struct MemoAdd: View {
     /// 내용 입력칸 바로 아래에 배치. 이미지가 첨부돼 있어도 값을 더 넣을 수 있다(이미지+여러 값 허용).
     private var showsContinuationButtons: Bool {
         !viewModel.continuations.isEmpty || UserStateStore.shared.isVisible(.combo)
+            || (FeatureSet.isBlankStartUser() && FeatureSet.isOn(.stack))
     }
 
     private var continuationsSection: some View {

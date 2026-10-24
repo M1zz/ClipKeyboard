@@ -27,6 +27,7 @@ enum AppSymbol {
     static let arrowUturnBackward = "arrow.uturn.backward"
     static let birdFill = "bird.fill"
     static let bookClosed = "book.closed"
+    static let bookPagesFill = "book.pages.fill"
     static let bookPages = "book.pages"
     static let booksVerticalFill = "books.vertical.fill"
     static let buttonProgrammable = "button.programmable"
@@ -90,6 +91,7 @@ enum AppSymbol {
     static let gearshape = "gearshape"
     static let giftFill = "gift.fill"
     static let giftcard = "giftcard"
+    static let faceid = "faceid"
     static let globe = "globe"
     static let globeAsiaAustraliaFill = "globe.asia.australia.fill"
     /// 문질러 담기 - 사진을 끌어 옮기는 손.
