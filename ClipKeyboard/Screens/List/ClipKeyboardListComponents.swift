@@ -685,12 +685,15 @@ struct SwipePageIndicator: View {
 ///    묻혔고, 내용과 겹치면 둘 다 안 읽힌다. 같은 자리를 잠깐 빌렸다 돌려준다(동전과 같은 원칙).
 struct CopiedStamp: View {
     let cornerRadius: CGFloat
+    /// 단순한 목록(백지 사용자)에서는 초록 체크. 복사됨 = 잘 됐다는 뜻이 색으로도 읽히게.
+    /// 기존 사용자는 그대로 강조색이다(화면이 달라지지 않게).
+    var green: Bool = false
 
     @Environment(\.appTheme) private var theme
 
     var body: some View {
         RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-            .fill(theme.accent)
+            .fill(green ? Color.green : theme.accent)
             .overlay {
                 VStack(spacing: 6) {
                     Image(systemName: AppSymbol.checkmarkCircleFill)
@@ -698,7 +701,7 @@ struct CopiedStamp: View {
                     Text(NSLocalizedString("복사됨", comment: "Widget: copied confirmation"))
                         .font(.headline)
                 }
-                .foregroundStyle(Color.accentForeground)
+                .foregroundStyle(green ? Color.white : Color.accentForeground)
             }
             // 소리 내 읽는 것은 `finalizeCopy` 의 안내가 한다. 여기까지 읽으면 두 번 말한다.
             .accessibilityHidden(true)

@@ -501,6 +501,8 @@ enum DefaultsKey {
     /// 배운 것 장부. App Group 에 `[lesson rawValue: 배운 시각(1970 기준 초)]` 로 둔다.
     /// 키보드에서 처음 쓴 순간도 같은 장부에 적어야 해서 그룹에 산다(`LessonLedger`).
     static let lessonLedger = "lessonLedger.v1"
+    /// 기능 스위치(App Group). 뒤에 `AppFeature.rawValue` 를 붙인다. 백지 사용자에게만 뜻이 있다(`FeatureSet`).
+    static let featureOnPrefix = "feature.on.v1."
     /// 준비된 단축어를 한 번 눌러 봤는지(또는 가리킬 것이 없어 건너뛰었는지).
     static let tutorialSnippetDone = "tutorial.snippet.done.v1"
     /// 준비된 템플릿을 한 번 써 봤는지.

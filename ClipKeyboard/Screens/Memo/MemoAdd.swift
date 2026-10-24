@@ -51,6 +51,11 @@ struct MemoAdd: View {
     /// "쓸 때 채우는 칸" 서랍이 펴져 있는가. **기본은 닫힘**(`DefaultsKey.contentTokenBarExpanded`).
     @AppStorage(DefaultsKey.contentTokenBarExpanded) private var tokenBarExpanded: Bool = false
     @FocusState private var isTitleFocused: Bool
+    /// 백지로 시작해 아직 아무 기능도 안 켠 사람. 이름 · 내용 · V 만 남는다(docs/design/blank-start-onboarding.html).
+    /// 붙여넣기 줄 · 사진 · 힌트 · 카테고리 · 보안 · 빈칸 · 이어 붙이기는 기능을 켜면 그 자리에 생긴다.
+    private let simple = FeatureSet.isPlain()
+    /// 단순한 내용 칸의 포커스. 화면의 나머지는 `isFocused`(Bool) 를 보므로 둘을 맞춘다.
+    @FocusState private var simpleContentFocused: Bool
     @FocusState private var isHintFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
@@ -302,6 +307,7 @@ struct MemoAdd: View {
         // 시그니처 서클 둘(`GlassCircle`). 한 아이템에 묶어야 간격을 이쪽이 쥔다.
         ToolbarItem(placement: .navigationBarTrailing) {
             GlassCircleCluster {
+                if !simple {
                 GlassCircleButton(AppSymbol.arrowCounterclockwise,
                                   role: .secondary,
                                   label: NSLocalizedString("초기화", comment: "Reset")) {
@@ -313,6 +319,7 @@ struct MemoAdd: View {
                 }
                 .disabled(!hasAnythingToReset)
                 .accessibilityHint(NSLocalizedString("입력한 내용과 이름을 지웁니다. 카테고리는 그대로 둡니다", comment: "Reset button hint v2"))
+                }
 
                 // 글이든 그림이든 하나는 있어야 저장이 된다 - `validateMemoInput` 과 같은 기준.
                 GlassCircleButton(AppSymbol.checkmark,
@@ -438,6 +445,10 @@ struct MemoAdd: View {
                         titleInputSection
                             .memoAddCoachRipple(coachStep == .name, radius: theme.radiusMd)
 
+                        if simple {
+                            simpleContentSection
+                                .id("contentField")
+                        } else {
                         // 📌 붙여넣을 내용
                         ContentInputSection(
                             value: $viewModel.value,
@@ -483,6 +494,7 @@ struct MemoAdd: View {
                         additionalOptionsSection
                         // 변수가 있으면 자동으로 템플릿 도우미 노출
                         templateSection
+                        }
                     }
                     .padding(.horizontal, 20)
                     .padding(.top, 24)
@@ -501,12 +513,12 @@ struct MemoAdd: View {
                 // 키보드 바로 위에 붙는 줄 - 쓸 때 채우는 칸과 짚어 주는 띠.
                 // 저장은 머리 줄 V 로 올라갔다(`formToolbar`). 보여 줄 것이 없으면 줄도 세우지 않는다.
                 .safeAreaInset(edge: .bottom, spacing: 0) {
-                if isFocused || coachStep != nil {
+                if (isFocused && !simple) || coachStep != nil {
                 VStack(spacing: 0) {
                     Divider()
 
                     // 본문 포커스 시 변수 삽입 버튼 표시 - {변수}를 넣으면 자동으로 템플릿이 됨
-                    if isFocused {
+                    if isFocused && !simple {
                         variableTokenBar
                     }
 
@@ -536,6 +548,30 @@ struct MemoAdd: View {
     }
 
     // MARK: - View Sections
+
+    /// 단순한 새 단축어의 내용 칸. 글을 쓰거나 붙여넣는 상자 하나뿐이다.
+    private var simpleContentSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(NSLocalizedString("붙여넣을 내용", comment: "Memo content label"))
+                .font(.body)
+                .fontWeight(.medium)
+                .foregroundColor(theme.textMuted)
+            TextField(NSLocalizedString("예: 서울 마포구 월드컵북로 396", comment: "Simple new snippet: content placeholder"),
+                      text: $viewModel.value, axis: .vertical)
+                .font(.body)
+                .lineLimit(4...12)
+                .focused($simpleContentFocused)
+                .onChange(of: simpleContentFocused) { _, f in isFocused = f }
+                .onChange(of: isFocused) { _, f in if simpleContentFocused != f { simpleContentFocused = f } }
+                .padding(.vertical, 12)
+                .padding(.horizontal, 16)
+                .background(theme.surfaceAlt)
+                .cornerRadius(theme.radiusMd)
+                .contentShape(Rectangle())
+                .onTapGesture { isFocused = true }
+                .accessibilityLabel(NSLocalizedString("붙여넣을 내용", comment: "Memo content label"))
+        }
+    }
 
     private var titleInputSection: some View {
         VStack(alignment: .leading, spacing: 10) {

@@ -116,7 +116,10 @@ struct BlankStartPractice: View {
                 .font(.body)
                 .focused($fieldFocused)
                 .padding(.horizontal, 16).padding(.vertical, 14)
-                .overlay(Capsule().stroke(fieldFocused ? Color.accentColor : Color(.separator), lineWidth: 1.5))
+                .overlay(Capsule().stroke(fieldFocused || step == .paste ? Color.accentColor : Color(.separator),
+                                          lineWidth: step == .paste ? 2.5 : 1.5))
+                // "여기에 붙여넣어 보세요" 의 '여기' 가 어딘지 보이게 입력칸이 물결친다. 붙여넣으면 거둔다
+                .overlay(BlankStartPulse(active: step == .paste && text.isEmpty, cornerRadius: 26))
                 .disabled(step == .insert)
             Button(action: send) {
                 Image(systemName: AppSymbol.arrowUp)
@@ -147,7 +150,7 @@ struct BlankStartPractice: View {
     /// 지금 물결로 짚어 줄 곳이 이 버튼인가. 누르고 난 뒤(흐려진 동안)에는 물결을 거둔다.
     /// 다 했는데 계속 물결치면 시선만 끌고, 또 누르라는 말로 읽힌다.
     ///
-    /// ⚠️ 물결은 처음 두 번(복사 버튼 · 첫 보내기)에만 쓴다. "이번엔 버튼만 눌러 보세요" 부터는
+    /// ⚠️ 물결은 처음 세 곳(복사 버튼 · 붙여넣을 입력칸 · 첫 보내기)에만 쓴다. "이번엔 버튼만 눌러 보세요" 부터는
     ///    이미 어디를 누르는지 안다. 그때부터 물결은 길잡이가 아니라 소음이다.
     private var sampleIsNext: Bool {
         step == .copy && !buttonUsed

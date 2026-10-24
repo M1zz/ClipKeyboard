@@ -4136,8 +4136,8 @@
   "계좌번호": {
     "ko": "계좌번호",
     "en": "Account Number",
-    "comment": "Account Number",
-    "h": "592baec91d"
+    "comment": "Account Number\nBlank start: example snippet title (bank account)",
+    "h": "5d3df7e20d"
   },
   "계좌번호 좀 보내줄래?": {
     "ko": "계좌번호 좀 보내줄래?",
@@ -7106,8 +7106,8 @@
   "메모": {
     "ko": "메모",
     "en": "Note",
-    "comment": "Quick note widget title",
-    "h": "7dead95b66"
+    "comment": "Blank start intro: title of the notes card the text is copied from\nQuick note widget title",
+    "h": "db504a131e"
   },
   "메모 구분 표시를 꺼도 남아있던 카드 테두리까지 완전히 숨김": {
     "ko": "메모 구분 표시를 꺼도 남아있던 카드 테두리까지 완전히 숨김",
@@ -8078,8 +8078,8 @@
   "보내기": {
     "ko": "보내기",
     "en": "Send",
-    "comment": "Return key label: send\nSend composed message",
-    "h": "99d64fa263"
+    "comment": "Blank start: send button\nLesson title: send\nReturn key label: send\nSend composed message",
+    "h": "b47ad9123e"
   },
   "보내기 키": {
     "ko": "보내기 키",
@@ -8168,8 +8168,8 @@
   "보안 단축어": {
     "ko": "보안 단축어",
     "en": "Secure Snippet",
-    "comment": "Bulk import key preview: untitled secure item\nSecure memo toggle\nVoiceOver: secure memo badge",
-    "h": "d2a8de662d"
+    "comment": "Bulk import key preview: untitled secure item\nLesson title: secure snippet\nSecure memo toggle\nVoiceOver: secure memo badge",
+    "h": "d66d121067"
   },
   "보안 단축어 PIN": {
     "ko": "보안 단축어 PIN",
@@ -8318,8 +8318,8 @@
   "복사": {
     "ko": "복사",
     "en": "Copy",
-    "comment": "Action Button guide flow: copy\nAction: copy\nCopy\nCopy translation button",
-    "h": "615c9aad58"
+    "comment": "Action Button guide flow: copy\nAction: copy\nBlank start intro: the system copy bubble\nCopy\nCopy translation button",
+    "h": "a64a3c5bb3"
   },
   "복사 될 값": {
     "ko": "복사 될 값",
@@ -8642,8 +8642,8 @@
   "붙여넣기": {
     "ko": "붙여넣기",
     "en": "Paste",
-    "comment": "Paste clipboard key",
-    "h": "e2803c8693"
+    "comment": "Lesson title: paste\nPaste clipboard key",
+    "h": "399e74789b"
   },
   "붙여넣기 알림 설정": {
     "ko": "붙여넣기 알림 설정",
@@ -11728,6 +11728,12 @@
     "en": "e.g. MMM d, yyyy",
     "comment": "Token format editor: pattern field placeholder. Keep the ICU pattern letters (yyyy, M, d) exactly as they are, they are code, not words",
     "h": "53da35c592"
+  },
+  "예: 서울 마포구 월드컵북로 396": {
+    "ko": "예: 서울 마포구 월드컵북로 396",
+    "en": "e.g. 1 Market St, San Francisco",
+    "comment": "Simple new snippet: content placeholder",
+    "h": "aeb4e3a4a8"
   },
   "예: 회사 이메일, 송금 계좌": {
     "ko": "예: 회사 이메일, 송금 계좌",
@@ -15944,8 +15950,8 @@
   "키보드 켜기": {
     "ko": "키보드 켜기",
     "en": "Turn on the keyboard",
-    "comment": "Mascot help: turn on the keyboard",
-    "h": "1d5c88ebac"
+    "comment": "Lesson title: turn on the keyboard",
+    "h": "f014241548"
   },
   "키보드 켜짐": {
     "ko": "키보드 켜짐",

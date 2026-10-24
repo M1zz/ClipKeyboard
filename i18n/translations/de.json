@@ -2918,7 +2918,7 @@
   },
   "계좌번호": {
     "v": "Kontonummer",
-    "src": "592baec91d"
+    "src": "5d3df7e20d"
   },
   "계좌번호 좀 보내줄래?": {
     "v": "Kannst du mir deine Kontonummer schicken?",
@@ -4949,7 +4949,7 @@
   },
   "메모": {
     "v": "Notiz",
-    "src": "7dead95b66"
+    "src": "db504a131e"
   },
   "메모 구분 표시를 꺼도 남아있던 카드 테두리까지 완전히 숨김": {
     "v": "Ohne Notiz-Markierung werden jetzt auch übrig gebliebene Kartenränder ganz ausgeblendet",
@@ -5627,7 +5627,7 @@
   },
   "보내기": {
     "v": "Senden",
-    "src": "99d64fa263"
+    "src": "b47ad9123e"
   },
   "보내기 키": {
     "v": "Senden-Taste",
@@ -5687,7 +5687,7 @@
   },
   "보안 단축어": {
     "v": "Geschützter Textbaustein",
-    "src": "d2a8de662d"
+    "src": "d66d121067"
   },
   "보안 단축어 PIN": {
     "v": "PIN für geschützte Textbausteine",
@@ -5787,7 +5787,7 @@
   },
   "복사": {
     "v": "Kopieren",
-    "src": "615c9aad58"
+    "src": "a64a3c5bb3"
   },
   "복사 될 값": {
     "v": "Zu kopierender Wert",
@@ -6014,8 +6014,8 @@
     "src": "454d077ed6"
   },
   "붙여넣기": {
-    "v": "Einfügen",
-    "src": "e2803c8693"
+    "v": "Einsetzen",
+    "src": "399e74789b"
   },
   "붙여넣기 알림 설정": {
     "v": "Einfügehinweise",
@@ -8102,6 +8102,10 @@
   "예: yyyy년 M월 d일": {
     "v": "z. B. d. MMM yyyy",
     "src": "53da35c592"
+  },
+  "예: 서울 마포구 월드컵북로 396": {
+    "v": "z. B. Musterstraße 1, 10115 Berlin",
+    "src": "aeb4e3a4a8"
   },
   "예: 회사 이메일, 송금 계좌": {
     "v": "z. B. Firmen-E-Mail, Bankkonto",
@@ -10970,7 +10974,7 @@
   },
   "키보드 켜기": {
     "v": "Tastatur aktivieren",
-    "src": "1d5c88ebac"
+    "src": "f014241548"
   },
   "키보드 켜짐": {
     "v": "Tastatur an",

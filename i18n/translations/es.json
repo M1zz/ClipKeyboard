@@ -2921,7 +2921,7 @@
   },
   "계좌번호": {
     "v": "Número de cuenta",
-    "src": "592baec91d"
+    "src": "5d3df7e20d"
   },
   "계좌번호 좀 보내줄래?": {
     "v": "¿Me mandas tu número de cuenta?",
@@ -4952,7 +4952,7 @@
   },
   "메모": {
     "v": "Nota",
-    "src": "7dead95b66"
+    "src": "db504a131e"
   },
   "메모 구분 표시를 꺼도 남아있던 카드 테두리까지 완전히 숨김": {
     "v": "Al desactivar los indicadores de nota, ahora también se ocultan por completo los bordes que quedaban en las tarjetas",
@@ -5630,7 +5630,7 @@
   },
   "보내기": {
     "v": "Enviar",
-    "src": "99d64fa263"
+    "src": "b47ad9123e"
   },
   "보내기 키": {
     "v": "Tecla Enviar",
@@ -5690,7 +5690,7 @@
   },
   "보안 단축어": {
     "v": "Frase segura",
-    "src": "d2a8de662d"
+    "src": "d66d121067"
   },
   "보안 단축어 PIN": {
     "v": "PIN de frase segura",
@@ -5790,7 +5790,7 @@
   },
   "복사": {
     "v": "Copiar",
-    "src": "615c9aad58"
+    "src": "a64a3c5bb3"
   },
   "복사 될 값": {
     "v": "Valor a copiar",
@@ -6018,7 +6018,7 @@
   },
   "붙여넣기": {
     "v": "Pegar",
-    "src": "e2803c8693"
+    "src": "399e74789b"
   },
   "붙여넣기 알림 설정": {
     "v": "Ajustes de avisos de pegado",
@@ -8105,6 +8105,10 @@
   "예: yyyy년 M월 d일": {
     "v": "Ej.: d MMM yyyy",
     "src": "53da35c592"
+  },
+  "예: 서울 마포구 월드컵북로 396": {
+    "v": "Ej.: Av. Paseo de la Reforma 222, CDMX",
+    "src": "aeb4e3a4a8"
   },
   "예: 회사 이메일, 송금 계좌": {
     "v": "Ej.: Correo del trabajo, Cuenta bancaria",
@@ -10973,7 +10977,7 @@
   },
   "키보드 켜기": {
     "v": "Activar el teclado",
-    "src": "1d5c88ebac"
+    "src": "f014241548"
   },
   "키보드 켜짐": {
     "v": "Teclado activado",
