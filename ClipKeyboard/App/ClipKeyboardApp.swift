@@ -71,7 +71,8 @@ struct ClipKeyboardApp: App {
     static let isRunningUnitTests: Bool =
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
-    /// 4.4.4 부터 **새로 시작하는 사람만** 금고 스킨으로 연다.
+    /// **새로 시작하는 사람만** 백지 첫 실행으로 연다. (4.4.4 ~ 5.1.13 에는 여기서 금고 스킨 · 키보드 무대 ·
+    /// 옛 튜토리얼을 켰다. 지금은 하얀 화면 하나다.)
     ///
     /// ⚠️ 쓰던 사람의 화면은 건드리지 않는다. 업데이트했다는 이유로 남의 카드에 갑자기
     ///    다이얼이 생기고 툴바에 금고가 서 있으면, 고른 적 없는 것이 얹힌 셈이다.
@@ -98,27 +99,18 @@ struct ClipKeyboardApp: App {
             return
         }
 
-        // 이 기기가 4.4.4 에서 처음 시작했다는 사실을 남긴다.
-        // 스킨 기본값과 튜토리얼이 **같은 판단**을 근거로 움직여야 서로 어긋나지 않는다.
-        standard.set(true, forKey: DefaultsKey.startedFreshV444)
-
-        // 처음 쓰는 사람은 **키보드가 쓰이는 장면**부터 본다 - 이 앱의 값어치가 거기 있다.
-        // ⚠️ 쓰던 사람에게는 뿌리지 않는다. 값이 없으면 목록이고, 그쪽에는 1회 제안이 따로 간다
-        //    (SnippetsTab.offerKeyboardStageIfNeeded).
-        standard.set(SnippetsTabStyle.keyboard.rawValue, forKey: DefaultsKey.snippetsTabStyle)
-        // 이미 무대로 시작하므로 다시 권할 일이 없다.
+        // 새 설치는 **백지 첫 실행**으로 연다(docs/design/blank-start-onboarding.html).
+        //
+        // ⚠️ 옛 첫 실행(키보드 무대 · 샘플 네 벌 · 단축어 → 템플릿 → 스택 → 크기 튜토리얼 · 금고 스킨)은
+        //    여기서 더 켜지 않는다. 하얀 화면 하나에서 시작해, 필요한 기능은 필요한 순간에 배운다.
+        //    `startedFreshV444` 를 켜지 않는 것이 옛 튜토리얼을 끄는 스위치다.
+        standard.set(true, forKey: DefaultsKey.blankStartV1)
+        standard.set(SnippetsTabStyle.list.rawValue, forKey: DefaultsKey.snippetsTabStyle)
         standard.set(true, forKey: DefaultsKey.keyboardStageOffered)
-        print("🎬 [APP INIT] 새 설치, 키보드 화면으로 시작")
-
-        // 생활 레이어가 꺼져 있는 동안에는 아무것도 뿌리지 않는다 - 고를 수 없는 것을
-        // 미리 켜 두면 나중에 되살렸을 때 "고른 적 없는 것"이 이미 얹혀 있게 된다.
-        guard LivingSkin.isEnabled else { return }
-
-        guard let group = AppGroup.defaults,
-              group.string(forKey: DefaultsKey.livingSkin) == nil else { return }
-
-        group.set(LivingSkin.vault.rawValue, forKey: DefaultsKey.livingSkin)
-        print("🎨 [APP INIT] 새 설치, 금고 스킨으로 시작")
+        // 샘플 네 벌도, 기존 사용자용 "체험해 볼래요?" 도 없다. 첫 실행이 예시 하나만 남긴다(`BlankStartSample`).
+        standard.set(true, forKey: "defaultSamplesInserted_v1")
+        standard.set(true, forKey: "demoSampleOfferResolved_v1")
+        print("🤍 [APP INIT] 새 설치, 백지 첫 실행으로 시작")
     }
 
     /// ⚠️ **여기에는 "앱이 뜨기 전에 반드시 끝나야 하는 것"만 둔다.**
@@ -1723,6 +1715,9 @@ struct MainTabView: View {
     /// 사용 기록 · 검색 탭은 층에 걸려 있다. 첫날 사람에게는 단축어와 설정 두 칸이면 된다.
     /// 자세한 설계: docs/design/PROGRESSIVE_DISCLOSURE.md 2절
     @ObservedObject private var userState = UserStateStore.shared
+    /// 백지 첫 실행(새 설치만). 끝내기 전까지 탭 화면 위를 하얗게 덮는다.
+    @AppStorage(DefaultsKey.blankStartV1) private var blankStart = false
+    @AppStorage(DefaultsKey.blankStartFinished) private var blankStartFinished = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.foldLayout) private var fold
 
@@ -1918,6 +1913,12 @@ struct MainTabView: View {
         }
         .sheet(isPresented: $showUsageSheet) {
             NavigationStack { UsagePassportView() }
+        }
+        .fullScreenCover(isPresented: Binding(get: { blankStart && !blankStartFinished }, set: { _ in })) {
+            BlankStartView {
+                selection = .snippets
+                blankStartFinished = true
+            }
         }
         // [디자인 불변식] 하단(탭바) 배경 언제나 투명 - 스크롤 엣지 이펙트는 하단만 숨김.
         // 상단은 시스템 기본(맨 위 투명 → 스크롤 시 glass 베일)에 맡긴다. 상단까지 숨기면

@@ -1649,6 +1649,12 @@
     "comment": "Usage category description: timezone",
     "h": "4d98ebe6d6"
   },
+  "Face ID 뒤에 잠가 둬요": {
+    "ko": "Face ID 뒤에 잠가 둬요",
+    "en": "Lock it behind Face ID",
+    "comment": "Lesson subtitle: secure",
+    "h": "d31b55848f"
+  },
   "Face ID로 보호": {
     "ko": "Face ID로 보호",
     "en": "Protect with Face ID",
@@ -4103,6 +4109,12 @@
     "comment": "Bank account category name",
     "h": "a10e3fdccb"
   },
+  "계좌 알려 주실래요?": {
+    "ko": "계좌 알려 주실래요?",
+    "en": "Can you send me your account number?",
+    "comment": "Blank start intro: a chat message asking for the account number",
+    "h": "e82e7161da"
+  },
   "계좌·주소는 한 번만 맞춰 두세요": {
     "ko": "계좌·주소는 한 번만 맞춰 두세요",
     "en": "Get your account and address right once",
@@ -4826,8 +4838,8 @@
   "기호": {
     "ko": "기호",
     "en": "Symbols",
-    "comment": "Emoji category: symbols",
-    "h": "912b120400"
+    "comment": "Typing keyboard: switch to symbols",
+    "h": "812dafa9b1"
   },
   "긴 이름": {
     "ko": "긴 이름",
@@ -5020,6 +5032,18 @@
     "en": "Save your own",
     "comment": "Add memo tip title",
     "h": "7c40449eba"
+  },
+  "내 단축어 만들기": {
+    "ko": "내 단축어 만들기",
+    "en": "Make Your Own Snippet",
+    "comment": "Lesson title: make your own snippet",
+    "h": "966e73db02"
+  },
+  "내 단축어 만들러 가기": {
+    "ko": "내 단축어 만들러 가기",
+    "en": "Make My Own Snippets",
+    "comment": "Blank start: go to my snippet list",
+    "h": "5f0c7533c3"
   },
   "내 데이터": {
     "ko": "내 데이터",
@@ -5297,6 +5321,12 @@
     "comment": "Action Button guide tip: paste permission prompt every time",
     "h": "4c8bae2eca"
   },
+  "누를 때마다 다음 값이 들어가요": {
+    "ko": "누를 때마다 다음 값이 들어가요",
+    "en": "Each tap enters the next value",
+    "comment": "Lesson subtitle: stack",
+    "h": "d46f9752bc"
+  },
   "누적 사용 횟수": {
     "ko": "누적 사용 횟수",
     "en": "Total uses",
@@ -5327,6 +5357,12 @@
     "comment": "Changelog 4.4.4 item 7",
     "h": "57acf2e671"
   },
+  "눌러 보세요": {
+    "ko": "눌러 보세요",
+    "en": "Give it a tap",
+    "comment": "Blank start: copy step line",
+    "h": "10c0451083"
+  },
   "눌러서 그대로 입력하는 단축어": {
     "ko": "눌러서 그대로 입력하는 단축어",
     "en": "A snippet you tap to type as is",
@@ -5344,6 +5380,12 @@
     "en": "Tap to skip ahead",
     "comment": "Countdown: tap to skip the wait",
     "h": "96266d8ee9"
+  },
+  "눌러서 복사": {
+    "ko": "눌러서 복사",
+    "en": "Tap to Copy",
+    "comment": "Lesson title: tap to copy",
+    "h": "9e45c8e926"
   },
   "눌러서 이 빈칸을 펼칩니다": {
     "ko": "눌러서 이 빈칸을 펼칩니다",
@@ -5423,6 +5465,18 @@
     "comment": "Button: pick another equivalent",
     "h": "24fb297dfa"
   },
+  "다른 곳에 자주 쓰는 글이 있으면": {
+    "ko": "다른 곳에 자주 쓰는 글이 있으면",
+    "en": "Text you type again and again?",
+    "comment": "Blank start intro: line 1",
+    "h": "a8067a390a"
+  },
+  "다른 곳에 자주 쓰는 글이 있으면 복사해서 여기 담아 두세요. 필요할 때 꺼내 쓰면 돼요.": {
+    "ko": "다른 곳에 자주 쓰는 글이 있으면 복사해서 여기 담아 두세요. 필요할 때 꺼내 쓰면 돼요.",
+    "en": "If you often type the same text somewhere, copy it and keep it here. Use it whenever you need it.",
+    "comment": "Blank start intro: whole animation read as one sentence for VoiceOver",
+    "h": "b0f22e41a8"
+  },
   "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.": {
     "ko": "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.",
     "en": "Your other devices will match this one the next time they sync.",
@@ -5488,6 +5542,12 @@
     "en": "Paste in other apps",
     "comment": "Paste from other apps",
     "h": "43186426db"
+  },
+  "다른 앱에서 지구본 한 번": {
+    "ko": "다른 앱에서 지구본 한 번",
+    "en": "Tap the globe in any app",
+    "comment": "Lesson subtitle: keyboard",
+    "h": "360d6cba38"
   },
   "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요": {
     "ko": "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요",
@@ -6251,6 +6311,12 @@
     "comment": "Share video: running equivalent",
     "h": "94a0c9b109"
   },
+  "담아 둔 것을 누르면 복사돼요": {
+    "ko": "담아 둔 것을 누르면 복사돼요",
+    "en": "Tap a saved one to copy it",
+    "comment": "Lesson subtitle: copy",
+    "h": "6cc30a8f7d"
+  },
   "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
     "ko": "담을 글이 없어요. 먼저 글을 복사해 주세요.",
     "en": "Nothing to capture. Copy some text first.",
@@ -6620,8 +6686,8 @@
   "두벌식": {
     "ko": "두벌식",
     "en": "Dubeolsik",
-    "comment": "Dubeolsik Korean keyboard layout name\nKorean layout: dubeolsik",
-    "h": "ff66d88372"
+    "comment": "Korean layout: dubeolsik",
+    "h": "6b281885aa"
   },
   "둥글고 부드럽게, 느리게 돌아와요.": {
     "ko": "둥글고 부드럽게, 느리게 돌아와요.",
@@ -7078,6 +7144,12 @@
     "en": "Paste a whole pile from your notes app and we split it into separate snippets for you. You can also read it off a photo, and anything that looks like a password comes in locked. Look under + in your snippet list.",
     "comment": "DYK body: bulk import",
     "h": "d96f9a2420"
+  },
+  "메시지": {
+    "ko": "메시지",
+    "en": "Message",
+    "comment": "Blank start intro: placeholder of the chat input",
+    "h": "b955bd7602"
   },
   "메시지 보내기": {
     "ko": "메시지 보내기",
@@ -7583,6 +7655,12 @@
     "comment": "Toast after applying an edit-pattern suggestion",
     "h": "5877132c73"
   },
+  "바로 넣기": {
+    "ko": "바로 넣기",
+    "en": "Insert in One Tap",
+    "comment": "Lesson title: insert with one tap",
+    "h": "3fc74f6418"
+  },
   "바로 써 볼 수 있게 준비해 뒀어요": {
     "ko": "바로 써 볼 수 있게 준비해 뒀어요",
     "en": "We set up a few things for you to try",
@@ -7672,6 +7750,12 @@
     "en": "When a delivery app asks for your address",
     "comment": "Essential snippet moment: a delivery app asks for your address",
     "h": "5111a2020a"
+  },
+  "배웠어요": {
+    "ko": "배웠어요",
+    "en": "Learned",
+    "comment": "Learn more sheet: lesson already learned",
+    "h": "8b425034bf"
   },
   "백업 건너뜀": {
     "ko": "백업 건너뜀",
@@ -7985,6 +8069,12 @@
     "comment": "Roadmap item: better colors and contrast",
     "h": "adfef7f3f0"
   },
+  "보내 볼까요?": {
+    "ko": "보내 볼까요?",
+    "en": "Ready to send?",
+    "comment": "Blank start: send step line",
+    "h": "6ed75e40a0"
+  },
   "보내기": {
     "ko": "보내기",
     "en": "Send",
@@ -8015,6 +8105,18 @@
     "comment": "Return key footer",
     "h": "aa598dca64"
   },
+  "보내기까지 눌러 보세요": {
+    "ko": "보내기까지 눌러 보세요",
+    "en": "Now tap send",
+    "comment": "Blank start: send again subline",
+    "h": "8205e1634c"
+  },
+  "보내면 말풍선이 돼요": {
+    "ko": "보내면 말풍선이 돼요",
+    "en": "Send it and it becomes a bubble",
+    "comment": "Lesson subtitle: send",
+    "h": "5f14ef8141"
+  },
   "보낸 곳: %@": {
     "ko": "보낸 곳: %@",
     "en": "Sent from: %@",
@@ -8026,6 +8128,12 @@
     "en": "Sent image",
     "comment": "Stage bubble: sent image",
     "h": "3cdec7e3e6"
+  },
+  "보냄": {
+    "ko": "보냄",
+    "en": "Delivered",
+    "comment": "Blank start: small 'sent' mark under the last chat bubble",
+    "h": "8cc53faa15"
   },
   "보안 PIN": {
     "ko": "보안 PIN",
@@ -8321,6 +8429,12 @@
     "comment": "What's new 5.1.8 retention title. %d is the number of days",
     "h": "37f7490481"
   },
+  "복사한 글이 30일 동안 남아요": {
+    "ko": "복사한 글이 30일 동안 남아요",
+    "en": "What you copy stays for 30 days",
+    "comment": "Lesson subtitle: recent",
+    "h": "006c8040e7"
+  },
   "복사한 글이 7일이 아니라 30일 동안 남아요": {
     "ko": "복사한 글이 7일이 아니라 30일 동안 남아요",
     "en": "Copied text now stays for 30 days instead of 7",
@@ -8375,6 +8489,12 @@
     "comment": "Changelog 5.0.7 no auto save",
     "h": "03998369ee"
   },
+  "복사해 두고 꺼내 쓰는 것, 이게 전부예요": {
+    "ko": "복사해 두고 꺼내 쓰는 것, 이게 전부예요",
+    "en": "Copy, keep, use. That's all there is to it",
+    "comment": "Blank start: after the first message is sent, subline",
+    "h": "dfadb743c5"
+  },
   "복사해 둔 것을 문장 안에 끼울 수 있어요": {
     "ko": "복사해 둔 것을 문장 안에 끼울 수 있어요",
     "en": "You can drop what you copied into a sentence",
@@ -8398,6 +8518,30 @@
     "en": "Keeps text you copied in the first keyboard tab, for %d days",
     "comment": "Recent tab toggle description. %d is the number of days items are kept",
     "h": "2c57cfc2e7"
+  },
+  "복사해서 담아 두고 꺼내 쓰기": {
+    "ko": "복사해서 담아 두고 꺼내 쓰기",
+    "en": "Copy it, keep it, use it later",
+    "comment": "Lesson subtitle: intro",
+    "h": "1b601f7340"
+  },
+  "복사해서 여기 담아 두세요": {
+    "ko": "복사해서 여기 담아 두세요",
+    "en": "Copy it and keep it here",
+    "comment": "Blank start intro: line 2",
+    "h": "4b8fd041aa"
+  },
+  "복사해요": {
+    "ko": "복사해요",
+    "en": "Copies it",
+    "comment": "Blank start: hint for the sample button in the copy step",
+    "h": "224639c8d4"
+  },
+  "복사했어요": {
+    "ko": "복사했어요",
+    "en": "Copied",
+    "comment": "Blank start: toast after copying the sample",
+    "h": "5f587d67aa"
   },
   "복원": {
     "ko": "복원",
@@ -8458,6 +8602,12 @@
     "en": "Category",
     "comment": "Share sheet: detected category label",
     "h": "d311748ec5"
+  },
+  "분류 탭": {
+    "ko": "분류 탭",
+    "en": "Category Tabs",
+    "comment": "Lesson title: category tabs",
+    "h": "8960084754"
   },
   "불러오기": {
     "ko": "불러오기",
@@ -8602,6 +8752,18 @@
     "en": "The content buttons are now two separate rows. Scan text in takes only the text from a photo; Attach an image keeps the photo itself",
     "comment": "Changelog 5.0.2 scan vs image",
     "h": "646026a637"
+  },
+  "붙여넣지 않아도 바로 들어가요": {
+    "ko": "붙여넣지 않아도 바로 들어가요",
+    "en": "It goes in without pasting",
+    "comment": "Blank start: insert step subline",
+    "h": "6965edda85"
+  },
+  "붙여넣지 않아도 버튼이 바로 넣어요": {
+    "ko": "붙여넣지 않아도 버튼이 바로 넣어요",
+    "en": "The button types it in, no pasting",
+    "comment": "Lesson subtitle: insert",
+    "h": "711467619d"
   },
   "브라우저에서 열기": {
     "ko": "브라우저에서 열기",
@@ -10028,8 +10190,8 @@
   "숫자 판, 지우기, 전체 삭제 키를 펼칩니다": {
     "ko": "숫자 판, 지우기, 전체 삭제 키를 펼칩니다",
     "en": "Shows the number pad, delete, and clear all keys",
-    "comment": "Keyboard: expand control keys hint (the send key stays outside, always visible)",
-    "h": "d735dcc2cd"
+    "comment": "Keyboard: expand control keys hint",
+    "h": "fc5aa3822b"
   },
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "ko": "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.",
@@ -10106,8 +10268,8 @@
   "스페이스": {
     "ko": "스페이스",
     "en": "space",
-    "comment": "Space key",
-    "h": "ec89ecd97a"
+    "comment": "Space key\nSpacebar (ko)",
+    "h": "3552e7f0e3"
   },
   "시각·운동·청각 보조 기능을 함께 지원합니다. 아래 기능들은 iPhone 설정 → 손쉬운 사용에서 켤 수 있습니다.": {
     "ko": "시각·운동·청각 보조 기능을 함께 지원합니다. 아래 기능들은 iPhone 설정 → 손쉬운 사용에서 켤 수 있습니다.",
@@ -10198,6 +10360,12 @@
     "en": "Identity",
     "comment": "Nomad focus: identity verification",
     "h": "098ff54eac"
+  },
+  "신한 110-123-456789": {
+    "ko": "신한 110-123-456789",
+    "en": "Chase 110-123-456789",
+    "comment": "Blank start: example bank account value. Use a bank name common in the locale and keep the made-up number format",
+    "h": "fd23b6f361"
   },
   "신한 계좌번호 예금주": {
     "ko": "신한 계좌번호 예금주",
@@ -10307,6 +10475,12 @@
     "comment": "Sweep orphan placeholders title",
     "h": "74de95db83"
   },
+  "쓸 때 알려 줘요": {
+    "ko": "쓸 때 알려 줘요",
+    "en": "Shown when needed",
+    "comment": "Learn more sheet: lesson will be taught when needed",
+    "h": "e2b42b737c"
+  },
   "쓸 때 채우는 칸": {
     "ko": "쓸 때 채우는 칸",
     "en": "Fill-in field",
@@ -10336,6 +10510,12 @@
     "en": "The more you use it, sprouts become trees and houses.",
     "comment": "Living skin description: village",
     "h": "4e0db59246"
+  },
+  "아, 이렇게 보내는 거예요": {
+    "ko": "아, 이렇게 보내는 거예요",
+    "en": "That's how you send it",
+    "comment": "Blank start: after the first message is sent",
+    "h": "5d1a1fdd24"
   },
   "아까와 다른 값이에요. 한 번 더 보내볼까요?": {
     "ko": "아까와 다른 값이에요. 한 번 더 보내볼까요?",
@@ -11057,6 +11237,12 @@
     "comment": "Default category created for new users: work snippets. One short word",
     "h": "2dd4ba1fdc"
   },
+  "업무 · 개인처럼 나눠 담아요": {
+    "ko": "업무 · 개인처럼 나눠 담아요",
+    "en": "Sort into Work, Personal and more",
+    "comment": "Lesson subtitle: category",
+    "h": "62d1489990"
+  },
   "없는 날짜예요. 다시 확인해 주세요": {
     "ko": "없는 날짜예요. 다시 확인해 주세요",
     "en": "That date doesn't exist. Please check it again",
@@ -11123,6 +11309,12 @@
     "comment": "Full Access check field placeholder: tap here and switch to this keyboard with the globe key",
     "h": "eb37f448da"
   },
+  "여기를 누르세요": {
+    "ko": "여기를 누르세요",
+    "en": "Tap here",
+    "comment": "Blank start: placeholder of the practice input field",
+    "h": "fe481cd374"
+  },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "ko": "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.",
     "en": "You keep typing here, so the cursor now starts here. Turn it off in the snippet editor.",
@@ -11135,6 +11327,12 @@
     "comment": "Learned caret position toggle description",
     "h": "442f975e8b"
   },
+  "여기에 붙여넣어 보세요": {
+    "ko": "여기에 붙여넣어 보세요",
+    "en": "Now paste it here",
+    "comment": "Blank start: paste step line",
+    "h": "35f987d4ae"
+  },
   "여기에 입력돼요": {
     "ko": "여기에 입력돼요",
     "en": "Your text goes here",
@@ -11146,6 +11344,12 @@
     "en": "This one",
     "comment": "Tutorial pointer in action sheet",
     "h": "6b83f5788f"
+  },
+  "여러 값 스택": {
+    "ko": "여러 값 스택",
+    "en": "Stack of Values",
+    "comment": "Lesson title: stack with several values",
+    "h": "e668b70d6a"
   },
   "여러 값을 담은 단축어가 단축어 스택이 됐어요. 칸마다 이름을 붙여 지금 무엇이 들어갈지 보여요": {
     "ko": "여러 값을 담은 단축어가 단축어 스택이 됐어요. 칸마다 이름을 붙여 지금 무엇이 들어갈지 보여요",
@@ -11603,6 +11807,12 @@
     "comment": "Stage summary: returning",
     "h": "7058e1663f"
   },
+  "오른쪽 파란 화살표를 누르세요": {
+    "ko": "오른쪽 파란 화살표를 누르세요",
+    "en": "Tap the blue arrow on the right",
+    "comment": "Blank start: send step subline",
+    "h": "22b28ee01a"
+  },
   "오른쪽 화살표로 값을 고르고, 왼쪽을 누르면 PIN 인증 후 넣어요": {
     "ko": "오른쪽 화살표로 값을 고르고, 왼쪽을 누르면 PIN 인증 후 넣어요",
     "en": "Pick a value with the arrow, then tap the left side to enter your PIN and paste it",
@@ -12023,6 +12233,18 @@
     "comment": "DYK body: no server",
     "h": "748fd3e528"
   },
+  "이 앱으로 할 수 있는 일": {
+    "ko": "이 앱으로 할 수 있는 일",
+    "en": "What You Can Do",
+    "comment": "Learn more sheet: title",
+    "h": "9d4c540c29"
+  },
+  "이 앱으로 할 수 있는 일 더 알아보기": {
+    "ko": "이 앱으로 할 수 있는 일 더 알아보기",
+    "en": "See What Else It Can Do",
+    "comment": "Blank start: open the list of what the app can do",
+    "h": "259ccf35b2"
+  },
   "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
     "ko": "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.",
     "en": "This app works through the iPhone keyboard, so it can't type your snippets on a Mac. ClipKeyboard for Mac pastes them into any app from the menu bar or a keyboard shortcut.",
@@ -12173,6 +12395,12 @@
     "comment": "Persona prompt apply button",
     "h": "c2e9755ca1"
   },
+  "이게 클립키보드예요": {
+    "ko": "이게 클립키보드예요",
+    "en": "That's ClipKeyboard",
+    "comment": "Blank start: final line after trying the app",
+    "h": "7e6e4b6e18"
+  },
   "이대로 할게요": {
     "ko": "이대로 할게요",
     "en": "Looks good",
@@ -12298,6 +12526,12 @@
     "en": "Spots like name or date that change each time",
     "comment": "Fill-in field drawer: collapsed subtitle",
     "h": "235bfbed70"
+  },
+  "이름만 바꿔 여러 사람에게": {
+    "ko": "이름만 바꿔 여러 사람에게",
+    "en": "Change just the name for each person",
+    "comment": "Lesson subtitle: template",
+    "h": "be86093563"
   },
   "이름만 없던 버튼들에 이름을 붙여 보이스오버와 음성 제어로 부를 수 있어요": {
     "ko": "이름만 없던 버튼들에 이름을 붙여 보이스오버와 음성 제어로 부를 수 있어요",
@@ -12563,6 +12797,12 @@
     "comment": "Clipboard capture card: the same text was copied N times within 7 days",
     "h": "2258e4149d"
   },
+  "이번엔 버튼만 눌러 보세요": {
+    "ko": "이번엔 버튼만 눌러 보세요",
+    "en": "This time, just tap the button",
+    "comment": "Blank start: insert step line",
+    "h": "ac9339c7b4"
+  },
   "이번엔 셈을 고쳤어요": {
     "ko": "이번엔 셈을 고쳤어요",
     "en": "We fixed the math",
@@ -12803,6 +13043,12 @@
     "comment": "Essential snippet title: my bank account for receiving money",
     "h": "cf8af22a18"
   },
+  "입금은 여기로": {
+    "ko": "입금은 여기로",
+    "en": "Pay to this account",
+    "comment": "Blank start intro: a line in the notes card before the account number",
+    "h": "95923ae33d"
+  },
   "입력": {
     "ko": "입력",
     "en": "Insert",
@@ -12868,6 +13114,24 @@
     "en": "Inserts a line break. In some apps this sends the message",
     "comment": "Return key hint",
     "h": "23be16ca8e"
+  },
+  "입력칸에 바로 넣어요": {
+    "ko": "입력칸에 바로 넣어요",
+    "en": "Types it straight into the field",
+    "comment": "Blank start: hint for the sample button in the insert step",
+    "h": "e7bc4669af"
+  },
+  "입력칸을 누르고, 한 번 더 눌러 '붙여넣기'를 고르세요": {
+    "ko": "입력칸을 누르고, 한 번 더 눌러 '붙여넣기'를 고르세요",
+    "en": "Tap the field, tap again, and choose Paste",
+    "comment": "Blank start: paste step subline, how to paste on iOS",
+    "h": "5f83a06eb9"
+  },
+  "입력칸을 눌러 붙여넣어요": {
+    "ko": "입력칸을 눌러 붙여넣어요",
+    "en": "Tap the text field and paste",
+    "comment": "Lesson subtitle: paste",
+    "h": "086305aea3"
   },
   "입력하기": {
     "ko": "입력",
@@ -13030,6 +13294,18 @@
     "en": "Save text you use often and paste it fast",
     "comment": "Auto-registered",
     "h": "e7cd511f5b"
+  },
+  "자주 쓰는 계좌번호를 담아 뒀어요": {
+    "ko": "자주 쓰는 계좌번호를 담아 뒀어요",
+    "en": "We saved an account number you might use often",
+    "comment": "Blank start: copy step subline",
+    "h": "31526a880a"
+  },
+  "자주 쓰는 내 글을 담아요": {
+    "ko": "자주 쓰는 내 글을 담아요",
+    "en": "Save text you type often",
+    "comment": "Lesson subtitle: make your own",
+    "h": "c9e544c801"
   },
   "자주 쓰는 단축어를 위로 옮길 수 있어요": {
     "ko": "자주 쓰는 단축어를 위로 옮길 수 있어요",
@@ -13967,6 +14243,12 @@
     "comment": "Paywall: current slot usage",
     "h": "d35800976d"
   },
+  "지금 다 외우지 않아도 돼요. 쓸 때가 오면 그 자리에서 보여 드려요.": {
+    "ko": "지금 다 외우지 않아도 돼요. 쓸 때가 오면 그 자리에서 보여 드려요.",
+    "en": "No need to learn it all now. We'll show you each one when you need it.",
+    "comment": "Learn more sheet: footer, you don't need to memorize now",
+    "h": "fd36aa996d"
+  },
   "지금 로그인한 Apple ID 로 Pro 를 구매한 기록을 찾지 못했어요. 구매할 때 쓴 Apple ID 로 로그인했는지 확인해 주세요.": {
     "ko": "지금 로그인한 Apple ID 로 Pro 를 구매한 기록을 찾지 못했어요. 구매할 때 쓴 Apple ID 로 로그인했는지 확인해 주세요.",
     "en": "We couldn't find a Pro purchase for the Apple ID you're signed in with. Please make sure you're signed in with the Apple ID you used to buy it.",
@@ -14339,6 +14621,12 @@
     "comment": "Essential snippet moment: someone new asks for your contact",
     "h": "c93545a1f7"
   },
+  "처음 보는 그림": {
+    "ko": "처음 보는 그림",
+    "en": "First Look",
+    "comment": "Lesson title: the intro animation",
+    "h": "ca609c628d"
+  },
   "처음 시작할 때 키보드 크기를 한 번 정하고 넘어가요": {
     "ko": "처음 시작할 때 키보드 크기를 한 번 정하고 넘어가요",
     "en": "Pick your keyboard size once when you first start out.",
@@ -14390,8 +14678,8 @@
   "천지인": {
     "ko": "천지인",
     "en": "Cheonjiin",
-    "comment": "Cheonjiin Korean keyboard layout name\nKorean layout: cheonjiin",
-    "h": "3298959b92"
+    "comment": "Korean layout: cheonjiin",
+    "h": "db2c902cda"
   },
   "천지인 키보드의 한글 조합을 바로잡았어요": {
     "ko": "천지인 키보드의 한글 조합을 바로잡았어요",
@@ -14578,6 +14866,12 @@
     "en": "Recent snippets turns on by itself as you add more. Once you switch it yourself, your choice stays.",
     "comment": "Recent snippets auto default footer",
     "h": "557f5a46ce"
+  },
+  "최근 복사한 것": {
+    "ko": "최근 복사한 것",
+    "en": "Recently Copied",
+    "comment": "Lesson title: recently copied",
+    "h": "ab4103cf14"
   },
   "최근 사용": {
     "ko": "최근 사용",
@@ -15815,6 +16109,12 @@
     "comment": "Changelog 5.0.9 return key",
     "h": "2d6c797474"
   },
+  "키보드에 이 버튼들이 서 있어서, 어느 앱에서든 한 번에 넣어요": {
+    "ko": "키보드에 이 버튼들이 서 있어서, 어느 앱에서든 한 번에 넣어요",
+    "en": "These buttons sit on your keyboard, so you can insert them in any app with one tap",
+    "comment": "Blank start: what the keyboard does, under the final line",
+    "h": "ff00a43929"
+  },
   "키보드에 지우기 키가 생겼어요. 오타 하나를 고치려고 다른 키보드로 건너갈 일이 없어요": {
     "ko": "키보드에 지우기 키가 생겼어요. 오타 하나를 고치려고 다른 키보드로 건너갈 일이 없어요",
     "en": "The keyboard now has a delete key. No more switching keyboards to fix one typo.",
@@ -16307,6 +16607,12 @@
     "comment": "Loading template",
     "h": "9720630b35"
   },
+  "템플릿 빈칸": {
+    "ko": "템플릿 빈칸",
+    "en": "Template Blanks",
+    "comment": "Lesson title: template blanks",
+    "h": "3bc037961c"
+  },
   "템플릿 수": {
     "ko": "템플릿 수",
     "en": "Templates",
@@ -16703,6 +17009,12 @@
     "comment": "Feedback nudge message",
     "h": "eec7b2e40c"
   },
+  "필요할 때 꺼내 쓰면 돼요": {
+    "ko": "필요할 때 꺼내 쓰면 돼요",
+    "en": "Use it whenever you need it",
+    "comment": "Blank start intro: line 3",
+    "h": "bea3af3281"
+  },
   "필터 초기화": {
     "ko": "필터 초기화",
     "en": "Reset Filter",
@@ -16877,6 +17189,12 @@
     "comment": "Usage stats: paged loading footer",
     "h": "1e9ec1ad59"
   },
+  "한 번에 들어갔죠?": {
+    "ko": "한 번에 들어갔죠?",
+    "en": "In with one tap, right?",
+    "comment": "Blank start: after the button typed the text in",
+    "h": "6c7148618a"
+  },
   "한 번에 옮기기": {
     "ko": "한 번에 옮기기",
     "en": "Bring them over",
@@ -16934,8 +17252,8 @@
   "한국어": {
     "ko": "한국어",
     "en": "Korean",
-    "comment": "Keyboard name: Korean\nKorean language option",
-    "h": "dd4d21dcaa"
+    "comment": "Keyboard name: Korean",
+    "h": "aff645339d"
   },
   "한국어 레이아웃": {
     "ko": "한국어 레이아웃",

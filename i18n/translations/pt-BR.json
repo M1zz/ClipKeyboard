@@ -1242,6 +1242,10 @@
     "v": "Explique seu fuso horário de uma vez.",
     "src": "4d98ebe6d6"
   },
+  "Face ID 뒤에 잠가 둬요": {
+    "v": "Proteja com Face ID",
+    "src": "d31b55848f"
+  },
   "Face ID로 보호": {
     "v": "Proteger com Face ID",
     "src": "fe7ea153c2"
@@ -2899,6 +2903,10 @@
     "v": "Banco",
     "src": "a10e3fdccb"
   },
+  "계좌 알려 주실래요?": {
+    "v": "Pode me passar o número da sua conta?",
+    "src": "e82e7161da"
+  },
   "계좌·주소는 한 번만 맞춰 두세요": {
     "v": "Acerte conta e endereço uma só vez",
     "src": "e77b80bdf9"
@@ -3393,7 +3401,7 @@
   },
   "기호": {
     "v": "Símbolos",
-    "src": "912b120400"
+    "src": "812dafa9b1"
   },
   "긴 이름": {
     "v": "Nomes longos",
@@ -3522,6 +3530,14 @@
   "내 것을 저장해보세요": {
     "v": "Salve o seu",
     "src": "7c40449eba"
+  },
+  "내 단축어 만들기": {
+    "v": "Crie sua própria frase",
+    "src": "966e73db02"
+  },
+  "내 단축어 만들러 가기": {
+    "v": "Criar minhas frases",
+    "src": "5f0c7533c3"
   },
   "내 데이터": {
     "v": "Meus dados",
@@ -3707,6 +3723,10 @@
     "v": "“Permitir colar?” aparece toda vez",
     "src": "4c8bae2eca"
   },
+  "누를 때마다 다음 값이 들어가요": {
+    "v": "Cada toque insere o próximo valor",
+    "src": "d46f9752bc"
+  },
   "누적 사용 횟수": {
     "v": "Total de usos",
     "src": "42b316f9e8"
@@ -3727,6 +3747,10 @@
     "v": "Corrigimos o texto inserido que sumia, o tutorial que parava no meio e as cores de fundo de categoria que desapareciam",
     "src": "57acf2e671"
   },
+  "눌러 보세요": {
+    "v": "Toque para testar",
+    "src": "10c0451083"
+  },
   "눌러서 그대로 입력하는 단축어": {
     "v": "Uma Frase que você toca para digitar como está",
     "src": "62c8adf23a"
@@ -3738,6 +3762,10 @@
   "눌러서 바로 넘어가기": {
     "v": "Toque para pular a espera",
     "src": "96266d8ee9"
+  },
+  "눌러서 복사": {
+    "v": "Toque para copiar",
+    "src": "9e45c8e926"
   },
   "눌러서 이 빈칸을 펼칩니다": {
     "v": "Toque para abrir este campo",
@@ -3791,6 +3819,14 @@
     "v": "Outra opção",
     "src": "24fb297dfa"
   },
+  "다른 곳에 자주 쓰는 글이 있으면": {
+    "v": "Tem um texto que você digita sempre?",
+    "src": "a8067a390a"
+  },
+  "다른 곳에 자주 쓰는 글이 있으면 복사해서 여기 담아 두세요. 필요할 때 꺼내 쓰면 돼요.": {
+    "v": "Se você costuma digitar o mesmo texto em outro lugar, copie e guarde aqui. Use quando precisar.",
+    "src": "b0f22e41a8"
+  },
   "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.": {
     "v": "Seus outros dispositivos ficarão iguais a este na próxima sincronização.",
     "src": "0fcdae3b29"
@@ -3834,6 +3870,10 @@
   "다른 앱에서 붙여넣기": {
     "v": "Colar em outros apps",
     "src": "43186426db"
+  },
+  "다른 앱에서 지구본 한 번": {
+    "v": "Toque no globo em qualquer app",
+    "src": "360d6cba38"
   },
   "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요": {
     "v": "O tempo gasto buscando valores em outros apps agora segue o que medimos de verdade. Abrir o app do banco nunca levava só 28 segundos.",
@@ -4379,6 +4419,10 @@
     "v": "tempo para uma corrida",
     "src": "94a0c9b109"
   },
+  "담아 둔 것을 누르면 복사돼요": {
+    "v": "Toque em um item guardado para copiar",
+    "src": "6cc30a8f7d"
+  },
   "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
     "v": "Nada para capturar. Copie um texto primeiro.",
     "src": "c44bc79ce2"
@@ -4625,7 +4669,7 @@
   },
   "두벌식": {
     "v": "Dubeolsik",
-    "src": "ff66d88372"
+    "src": "6b281885aa"
   },
   "둥글고 부드럽게, 느리게 돌아와요.": {
     "v": "Arredondada e suave, volta devagar.",
@@ -4933,6 +4977,10 @@
   "메모장에 모아 둔 걸 통째로 붙여넣으면 알아서 한 줄씩 나눠 담아요. 사진에서 읽어 올 수도 있고, 비밀번호처럼 보이는 값은 잠긴 단축어로 들어갑니다. 단축어 목록의 + 안에 있어요.": {
     "v": "Cole de uma vez tudo o que você guardou no app de notas e separamos em Snippets, um por linha. Também dá para ler de uma foto, e o que parecer senha entra como Snippet bloqueado. Está no + da lista de Snippets.",
     "src": "d96f9a2420"
+  },
+  "메시지": {
+    "v": "Mensagem",
+    "src": "b955bd7602"
   },
   "메시지 보내기": {
     "v": "Enviar mensagem",
@@ -5294,6 +5342,10 @@
     "v": "Pronto. Você pode ajustar de novo no app.",
     "src": "5877132c73"
   },
+  "바로 넣기": {
+    "v": "Inserir com um toque",
+    "src": "3fc74f6418"
+  },
   "바로 써 볼 수 있게 준비해 뒀어요": {
     "v": "Deixamos algumas coisas prontas para você testar",
     "src": "295214406d"
@@ -5356,6 +5408,10 @@
   "배달앱 주소칸이 비어 있을 때": {
     "v": "Quando um app de entrega pede seu endereço",
     "src": "5111a2020a"
+  },
+  "배웠어요": {
+    "v": "Já aprendi",
+    "src": "8b425034bf"
   },
   "백업 건너뜀": {
     "v": "Backup ignorado",
@@ -5565,6 +5621,10 @@
     "v": "Cores e contraste mais fáceis de ver",
     "src": "adfef7f3f0"
   },
+  "보내 볼까요?": {
+    "v": "Vamos enviar?",
+    "src": "6ed75e40a0"
+  },
   "보내기": {
     "v": "Enviar",
     "src": "99d64fa263"
@@ -5585,6 +5645,14 @@
     "v": "O nome desta tecla é definido pelo app. Em apps de mensagens, aparece como Enviar; em um campo de busca, como Buscar. Em alguns apps, ela só insere uma quebra de linha.",
     "src": "aa598dca64"
   },
+  "보내기까지 눌러 보세요": {
+    "v": "Agora toque em enviar",
+    "src": "8205e1634c"
+  },
+  "보내면 말풍선이 돼요": {
+    "v": "Ao enviar, vira um balão",
+    "src": "5f14ef8141"
+  },
   "보낸 곳: %@": {
     "v": "Enviado de: %@",
     "src": "9c893a5ccb"
@@ -5592,6 +5660,10 @@
   "보낸 이미지": {
     "v": "Imagem enviada",
     "src": "3cdec7e3e6"
+  },
+  "보냄": {
+    "v": "Enviada",
+    "src": "8cc53faa15"
   },
   "보안 PIN": {
     "v": "PIN de segurança",
@@ -5792,6 +5864,10 @@
     },
     "src": "37f7490481"
   },
+  "복사한 글이 30일 동안 남아요": {
+    "v": "O que você copia fica por 30 dias",
+    "src": "006c8040e7"
+  },
   "복사한 글이 7일이 아니라 30일 동안 남아요": {
     "v": "O texto copiado agora fica 30 dias em vez de 7",
     "src": "3a3d50e79e"
@@ -5834,6 +5910,10 @@
     "v": "Copiar não salva mais valores por conta própria, então valores de uso único deixam de encher a lista",
     "src": "03998369ee"
   },
+  "복사해 두고 꺼내 쓰는 것, 이게 전부예요": {
+    "v": "Copiar, guardar e usar. É só isso",
+    "src": "dfadb743c5"
+  },
   "복사해 둔 것을 문장 안에 끼울 수 있어요": {
     "v": "Você pode colocar o que copiou dentro de uma frase",
     "src": "571baf7c00"
@@ -5852,6 +5932,22 @@
       "other": "Guarda o texto copiado na primeira aba do teclado por %d dias"
     },
     "src": "2c57cfc2e7"
+  },
+  "복사해서 담아 두고 꺼내 쓰기": {
+    "v": "Copie, guarde e use depois",
+    "src": "1b601f7340"
+  },
+  "복사해서 여기 담아 두세요": {
+    "v": "Copie e guarde aqui",
+    "src": "4b8fd041aa"
+  },
+  "복사해요": {
+    "v": "Copia o texto",
+    "src": "224639c8d4"
+  },
+  "복사했어요": {
+    "v": "Copiado",
+    "src": "5f587d67aa"
   },
   "복원": {
     "v": "Restaurar",
@@ -5892,6 +5988,10 @@
   "분류": {
     "v": "Categoria",
     "src": "d311748ec5"
+  },
+  "분류 탭": {
+    "v": "Abas de categoria",
+    "src": "8960084754"
   },
   "불러오기": {
     "v": "Restaurar",
@@ -5988,6 +6088,14 @@
   "붙여넣을 내용의 단추를 둘로 갈랐어요. 스캔해서 글자 넣기는 사진 속 글자만 가져오고, 이미지 붙이기는 사진을 그대로 담아요": {
     "v": "Os botões de conteúdo agora são duas linhas separadas. Escanear texto traz só o texto da foto. Anexar imagem mantém a foto como está",
     "src": "646026a637"
+  },
+  "붙여넣지 않아도 바로 들어가요": {
+    "v": "Entra direto, sem precisar colar",
+    "src": "6965edda85"
+  },
+  "붙여넣지 않아도 버튼이 바로 넣어요": {
+    "v": "O botão insere direto, sem colar",
+    "src": "711467619d"
   },
   "브라우저에서 열기": {
     "v": "Abrir no navegador",
@@ -6953,8 +7061,8 @@
     "src": "da15387b89"
   },
   "숫자 판, 지우기, 전체 삭제 키를 펼칩니다": {
-    "v": "Mostra as teclas de teclado numérico, apagar e limpar tudo",
-    "src": "d735dcc2cd"
+    "v": "Mostra o teclado numérico e as teclas de apagar e limpar tudo",
+    "src": "fc5aa3822b"
   },
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "v": "Um dígito está errado. Confira com o número do cartão.",
@@ -7006,7 +7114,7 @@
   },
   "스페이스": {
     "v": "espaço",
-    "src": "ec89ecd97a"
+    "src": "3552e7f0e3"
   },
   "시각·운동·청각 보조 기능을 함께 지원합니다. 아래 기능들은 iPhone 설정 → 손쉬운 사용에서 켤 수 있습니다.": {
     "v": "Há suporte a recursos de acessibilidade visual, motora e auditiva. Você pode ativá-los em Ajustes do iPhone → Acessibilidade.",
@@ -7067,6 +7175,10 @@
   "신원 확인": {
     "v": "Identidade",
     "src": "098ff54eac"
+  },
+  "신한 110-123-456789": {
+    "v": "Nubank 110-123-456789",
+    "src": "fd23b6f361"
   },
   "신한 계좌번호 예금주": {
     "v": "Chase nº conta titular",
@@ -7149,6 +7261,10 @@
     "v": "Excluir todos os campos sem uso?",
     "src": "74de95db83"
   },
+  "쓸 때 알려 줘요": {
+    "v": "Aparece quando precisar",
+    "src": "e2b42b737c"
+  },
   "쓸 때 채우는 칸": {
     "v": "Campo para preencher ao usar",
     "src": "41f27192a0"
@@ -7168,6 +7284,10 @@
   "쓸수록 카드 위에 싹이 트고 나무와 집이 들어서요.": {
     "v": "Quanto mais você usa, brotos viram árvores e casas no cartão.",
     "src": "4e0db59246"
+  },
+  "아, 이렇게 보내는 거예요": {
+    "v": "Ah, é assim que se envia",
+    "src": "5d1a1fdd24"
   },
   "아까와 다른 값이에요. 한 번 더 보내볼까요?": {
     "v": "O valor é diferente do anterior. Enviar mais uma vez?",
@@ -7655,6 +7775,10 @@
     "v": "Trabalho",
     "src": "2dd4ba1fdc"
   },
+  "업무 · 개인처럼 나눠 담아요": {
+    "v": "Separe em Trabalho, Pessoal e mais",
+    "src": "62d1489990"
+  },
   "없는 날짜예요. 다시 확인해 주세요": {
     "v": "Essa data não existe. Confira e tente de novo",
     "src": "d5302d2664"
@@ -7699,6 +7823,10 @@
     "v": "Toque aqui e escolha o ClipKeyboard com a tecla do globo",
     "src": "eb37f448da"
   },
+  "여기를 누르세요": {
+    "v": "Toque aqui",
+    "src": "fe481cd374"
+  },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "v": "Você costuma continuar digitando aqui, então deixei o cursor neste ponto. Dá para desativar na edição da frase.",
     "src": "f03e1fd1f1"
@@ -7707,6 +7835,10 @@
     "v": "Você costuma continuar digitando aqui, então o cursor começa nesse ponto",
     "src": "442f975e8b"
   },
+  "여기에 붙여넣어 보세요": {
+    "v": "Agora cole aqui",
+    "src": "35f987d4ae"
+  },
   "여기에 입력돼요": {
     "v": "Seu texto entra aqui",
     "src": "5dc6b62d0c"
@@ -7714,6 +7846,10 @@
   "여기예요": {
     "v": "É este",
     "src": "6b83f5788f"
+  },
+  "여러 값 스택": {
+    "v": "Pilha de valores",
+    "src": "e668b70d6a"
   },
   "여러 값을 담은 단축어가 단축어 스택이 됐어요. 칸마다 이름을 붙여 지금 무엇이 들어갈지 보여요": {
     "v": "Frases com vários valores agora são pilhas de frases. Cada campo ganha um nome, e você vê o que entra em seguida.",
@@ -8019,6 +8155,10 @@
     "v": "Você voltou depois de muito tempo. Sem tutorial e sem pedido de avaliação.",
     "src": "7058e1663f"
   },
+  "오른쪽 파란 화살표를 누르세요": {
+    "v": "Toque na seta azul à direita",
+    "src": "22b28ee01a"
+  },
   "오른쪽 화살표로 값을 고르고, 왼쪽을 누르면 PIN 인증 후 넣어요": {
     "v": "Escolha um valor com a seta direita e toque no lado esquerdo para informar o PIN e inserir",
     "src": "83ee800fdf"
@@ -8302,6 +8442,14 @@
     "v": "Este app não tem servidor. Seus números de conta e de documento ficam só neste celular, e nem nós conseguimos ver. Sem servidor para invadir, não há o que invadir.",
     "src": "748fd3e528"
   },
+  "이 앱으로 할 수 있는 일": {
+    "v": "O que você pode fazer",
+    "src": "9d4c540c29"
+  },
+  "이 앱으로 할 수 있는 일 더 알아보기": {
+    "v": "Ver o que mais ele faz",
+    "src": "259ccf35b2"
+  },
   "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
     "v": "Este app funciona pelo teclado do iPhone, então não consegue digitar suas frases em um Mac. O ClipKeyboard para Mac cola em qualquer app, pela barra de menus ou por um atalho de teclado.",
     "src": "2e5ad98226"
@@ -8402,6 +8550,10 @@
     "v": "Quero este",
     "src": "c2e9755ca1"
   },
+  "이게 클립키보드예요": {
+    "v": "Este é o ClipKeyboard",
+    "src": "7e6e4b6e18"
+  },
   "이대로 할게요": {
     "v": "Está bom assim",
     "src": "88890b4e87"
@@ -8485,6 +8637,10 @@
   "이름·날짜처럼 쓸 때마다 달라지는 자리": {
     "v": "Campos como nome ou data, que mudam a cada uso",
     "src": "235bfbed70"
+  },
+  "이름만 바꿔 여러 사람에게": {
+    "v": "Troque só o nome para cada pessoa",
+    "src": "be86093563"
   },
   "이름만 없던 버튼들에 이름을 붙여 보이스오버와 음성 제어로 부를 수 있어요": {
     "v": "Botões sem nome agora têm nome para o VoiceOver e o Controle por Voz",
@@ -8671,6 +8827,10 @@
     },
     "src": "2258e4149d"
   },
+  "이번엔 버튼만 눌러 보세요": {
+    "v": "Agora, é só tocar no botão",
+    "src": "ac9339c7b4"
+  },
   "이번엔 셈을 고쳤어요": {
     "v": "Desta vez, corrigimos a conta",
     "src": "fa8769e8dd"
@@ -8834,6 +8994,10 @@
     "v": "Conta bancária",
     "src": "cf8af22a18"
   },
+  "입금은 여기로": {
+    "v": "Pagamento nesta conta",
+    "src": "95923ae33d"
+  },
   "입력": {
     "v": "Inserir",
     "src": "4083992b75"
@@ -8877,6 +9041,18 @@
   "입력창에 줄바꿈을 넣습니다. 앱에 따라 보내기로 동작합니다": {
     "v": "Insere uma quebra de linha. Em alguns apps, isso envia a mensagem",
     "src": "23be16ca8e"
+  },
+  "입력칸에 바로 넣어요": {
+    "v": "Digita direto no campo",
+    "src": "e7bc4669af"
+  },
+  "입력칸을 누르고, 한 번 더 눌러 '붙여넣기'를 고르세요": {
+    "v": "Toque no campo, toque de novo e escolha Colar",
+    "src": "5f83a06eb9"
+  },
+  "입력칸을 눌러 붙여넣어요": {
+    "v": "Toque no campo de texto e cole",
+    "src": "086305aea3"
   },
   "입력하기": {
     "v": "Inserir",
@@ -8985,6 +9161,14 @@
   "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기": {
     "v": "Salve os textos que você mais usa e cole rapidamente",
     "src": "e7cd511f5b"
+  },
+  "자주 쓰는 계좌번호를 담아 뒀어요": {
+    "v": "Deixamos um número de conta salvo para você",
+    "src": "31526a880a"
+  },
+  "자주 쓰는 내 글을 담아요": {
+    "v": "Salve os textos que você mais digita",
+    "src": "c9e544c801"
   },
   "자주 쓰는 단축어를 위로 옮길 수 있어요": {
     "v": "Mova para o topo as frases que você mais usa",
@@ -9622,6 +9806,10 @@
     "v": "%1$d de %2$d espaços usados",
     "src": "d35800976d"
   },
+  "지금 다 외우지 않아도 돼요. 쓸 때가 오면 그 자리에서 보여 드려요.": {
+    "v": "Você não precisa aprender tudo agora. Mostramos cada item quando for a hora.",
+    "src": "fd36aa996d"
+  },
   "지금 로그인한 Apple ID 로 Pro 를 구매한 기록을 찾지 못했어요. 구매할 때 쓴 Apple ID 로 로그인했는지 확인해 주세요.": {
     "v": "Não encontramos uma compra do Pro no Apple ID em que você está conectado. Verifique se entrou com o Apple ID usado na compra.",
     "src": "f2873bb475"
@@ -9882,6 +10070,10 @@
     "v": "Quando alguém novo pergunta como falar com você",
     "src": "c93545a1f7"
   },
+  "처음 보는 그림": {
+    "v": "Primeira olhada",
+    "src": "ca609c628d"
+  },
   "처음 시작할 때 키보드 크기를 한 번 정하고 넘어가요": {
     "v": "Escolha o tamanho do teclado uma vez, ao começar.",
     "src": "b571655d26"
@@ -9916,7 +10108,7 @@
   },
   "천지인": {
     "v": "Cheonjiin",
-    "src": "3298959b92"
+    "src": "db2c902cda"
   },
   "천지인 키보드의 한글 조합을 바로잡았어요": {
     "v": "Corrigimos a composição de hangul no teclado Cheonjiin.",
@@ -10047,6 +10239,10 @@
   "최근 단축어는 단축어가 늘어나면 저절로 켜집니다. 한 번 직접 켜거나 끄시면 그대로 둡니다.": {
     "v": "Frases recentes liga sozinho quando você tem mais frases. Se você ligar ou desligar, sua escolha permanece.",
     "src": "557f5a46ce"
+  },
+  "최근 복사한 것": {
+    "v": "Copiados recentemente",
+    "src": "ab4103cf14"
   },
   "최근 사용": {
     "v": "Usados recentemente",
@@ -10881,6 +11077,10 @@
     "v": "O teclado ganhou uma tecla de enviar. Insira uma frase e envie ali mesmo, sem trocar de teclado",
     "src": "2d6c797474"
   },
+  "키보드에 이 버튼들이 서 있어서, 어느 앱에서든 한 번에 넣어요": {
+    "v": "Esses botões ficam no seu teclado, então você insere em qualquer app com um toque",
+    "src": "ff00a43929"
+  },
   "키보드에 지우기 키가 생겼어요. 오타 하나를 고치려고 다른 키보드로 건너갈 일이 없어요": {
     "v": "O teclado ganhou uma tecla de apagar. Chega de trocar de teclado para corrigir um erro de digitação.",
     "src": "8eda686b5d"
@@ -11215,6 +11415,10 @@
     "v": "Carregando modelo...",
     "src": "9720630b35"
   },
+  "템플릿 빈칸": {
+    "v": "Campos do modelo",
+    "src": "3bc037961c"
+  },
   "템플릿 수": {
     "v": "Modelos",
     "src": "37fe876ba9"
@@ -11479,6 +11683,10 @@
     "v": "Conte o que você precisa ou o que atrapalhou. O desenvolvedor lê cada mensagem e vai resolver.",
     "src": "eec7b2e40c"
   },
+  "필요할 때 꺼내 쓰면 돼요": {
+    "v": "Use quando precisar",
+    "src": "bea3af3281"
+  },
   "필터 초기화": {
     "v": "Limpar filtro",
     "src": "5559918d75"
@@ -11595,6 +11803,10 @@
     "v": "Chegam 200 por vez. O número continua subindo porque é uma contagem parcial.",
     "src": "1e9ec1ad59"
   },
+  "한 번에 들어갔죠?": {
+    "v": "Entrou com um toque, né?",
+    "src": "6c7148618a"
+  },
   "한 번에 옮기기": {
     "v": "Mover de uma vez",
     "src": "25835e8f86"
@@ -11633,7 +11845,7 @@
   },
   "한국어": {
     "v": "Coreano",
-    "src": "dd4d21dcaa"
+    "src": "aff645339d"
   },
   "한국어 레이아웃": {
     "v": "Layout coreano",

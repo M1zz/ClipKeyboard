@@ -1242,6 +1242,10 @@
     "v": "Aikasi selitettynä kerralla",
     "src": "4d98ebe6d6"
   },
+  "Face ID 뒤에 잠가 둬요": {
+    "v": "Lukitse se Face ID:n taakse",
+    "src": "d31b55848f"
+  },
   "Face ID로 보호": {
     "v": "Suojaa Face ID:llä",
     "src": "fe7ea153c2"
@@ -2899,6 +2903,10 @@
     "v": "Pankki",
     "src": "a10e3fdccb"
   },
+  "계좌 알려 주실래요?": {
+    "v": "Voitko lähettää tilinumerosi?",
+    "src": "e82e7161da"
+  },
   "계좌·주소는 한 번만 맞춰 두세요": {
     "v": "Aseta tili ja osoite kerran kuntoon",
     "src": "e77b80bdf9"
@@ -3393,7 +3401,7 @@
   },
   "기호": {
     "v": "Symbolit",
-    "src": "912b120400"
+    "src": "812dafa9b1"
   },
   "긴 이름": {
     "v": "Pitkät nimet",
@@ -3522,6 +3530,14 @@
   "내 것을 저장해보세요": {
     "v": "Tallenna omasi",
     "src": "7c40449eba"
+  },
+  "내 단축어 만들기": {
+    "v": "Tee oma fraasi",
+    "src": "966e73db02"
+  },
+  "내 단축어 만들러 가기": {
+    "v": "Tee omia fraaseja",
+    "src": "5f0c7533c3"
   },
   "내 데이터": {
     "v": "Omat tiedot",
@@ -3707,6 +3723,10 @@
     "v": "”Salli liittäminen?” kysytään joka kerta",
     "src": "4c8bae2eca"
   },
+  "누를 때마다 다음 값이 들어가요": {
+    "v": "Jokainen napautus lisää seuraavan arvon",
+    "src": "d46f9752bc"
+  },
   "누적 사용 횟수": {
     "v": "Käyttökerrat yhteensä",
     "src": "42b316f9e8"
@@ -3727,6 +3747,10 @@
     "v": "Korjattu: lisätty teksti katosi, opastus keskeytyi ja luokkien taustavärit puuttuivat",
     "src": "57acf2e671"
   },
+  "눌러 보세요": {
+    "v": "Kokeile napauttaa",
+    "src": "10c0451083"
+  },
   "눌러서 그대로 입력하는 단축어": {
     "v": "Fraasi, jonka napautat kirjoittaaksesi sellaisenaan",
     "src": "62c8adf23a"
@@ -3738,6 +3762,10 @@
   "눌러서 바로 넘어가기": {
     "v": "Napauta ohittaaksesi odotuksen",
     "src": "96266d8ee9"
+  },
+  "눌러서 복사": {
+    "v": "Kopioi napauttamalla",
+    "src": "9e45c8e926"
   },
   "눌러서 이 빈칸을 펼칩니다": {
     "v": "Napauta avataksesi tämän kentän",
@@ -3791,6 +3819,14 @@
     "v": "Toinen",
     "src": "24fb297dfa"
   },
+  "다른 곳에 자주 쓰는 글이 있으면": {
+    "v": "Kirjoitatko usein samaa tekstiä?",
+    "src": "a8067a390a"
+  },
+  "다른 곳에 자주 쓰는 글이 있으면 복사해서 여기 담아 두세요. 필요할 때 꺼내 쓰면 돼요.": {
+    "v": "Jos kirjoitat usein samaa tekstiä jossain, kopioi se ja säilytä täällä. Käytä sitä aina kun tarvitset.",
+    "src": "b0f22e41a8"
+  },
   "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.": {
     "v": "Muut laitteesi vastaavat tätä laitetta, kun ne seuraavan kerran synkronoivat.",
     "src": "0fcdae3b29"
@@ -3834,6 +3870,10 @@
   "다른 앱에서 붙여넣기": {
     "v": "Liitä muissa sovelluksissa",
     "src": "43186426db"
+  },
+  "다른 앱에서 지구본 한 번": {
+    "v": "Napauta maapalloa missä tahansa apissa",
+    "src": "360d6cba38"
   },
   "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요": {
     "v": "Muista sovelluksista haetun arvon aika vastaa nyt mitattua. Pankkisovelluksen avaaminen ei koskaan kestänyt vain 28 sekuntia.",
@@ -4379,6 +4419,10 @@
     "v": "Riittää juoksulenkkiin",
     "src": "94a0c9b109"
   },
+  "담아 둔 것을 누르면 복사돼요": {
+    "v": "Kopioi napauttamalla tallennettua",
+    "src": "6cc30a8f7d"
+  },
   "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
     "v": "Tallennettavaa tekstiä ei ole. Kopioi ensin teksti.",
     "src": "c44bc79ce2"
@@ -4625,7 +4669,7 @@
   },
   "두벌식": {
     "v": "Dubeolsik",
-    "src": "ff66d88372"
+    "src": "6b281885aa"
   },
   "둥글고 부드럽게, 느리게 돌아와요.": {
     "v": "Pyöreä ja pehmeä, palautuu hitaasti.",
@@ -4933,6 +4977,10 @@
   "메모장에 모아 둔 걸 통째로 붙여넣으면 알아서 한 줄씩 나눠 담아요. 사진에서 읽어 올 수도 있고, 비밀번호처럼 보이는 값은 잠긴 단축어로 들어갑니다. 단축어 목록의 + 안에 있어요.": {
     "v": "Liitä koko muistiinpanolistasi, niin jaamme sen puolestasi omiksi fraaseiksi. Voit myös lukea sen kuvasta, ja salasanalta näyttävät arvot tallentuvat lukittuina. Löydät toiminnon fraasilistan +-painikkeen alta.",
     "src": "d96f9a2420"
+  },
+  "메시지": {
+    "v": "Viesti",
+    "src": "b955bd7602"
   },
   "메시지 보내기": {
     "v": "Lähetä viesti",
@@ -5297,6 +5345,10 @@
     "v": "Valmis. Voit hienosäätää sitä sovelluksessa.",
     "src": "5877132c73"
   },
+  "바로 넣기": {
+    "v": "Lisää yhdellä napautuksella",
+    "src": "3fc74f6418"
+  },
   "바로 써 볼 수 있게 준비해 뒀어요": {
     "v": "Laitoimme valmiiksi muutaman asian kokeiltavaksi",
     "src": "295214406d"
@@ -5359,6 +5411,10 @@
   "배달앱 주소칸이 비어 있을 때": {
     "v": "Kun ruokatilauksen osoitekenttä on tyhjä",
     "src": "5111a2020a"
+  },
+  "배웠어요": {
+    "v": "Opittu",
+    "src": "8b425034bf"
   },
   "백업 건너뜀": {
     "v": "Varmuuskopiointi ohitettu",
@@ -5568,6 +5624,10 @@
     "v": "Selkeämmät värit ja kontrasti",
     "src": "adfef7f3f0"
   },
+  "보내 볼까요?": {
+    "v": "Lähetetäänkö?",
+    "src": "6ed75e40a0"
+  },
   "보내기": {
     "v": "Lähetä",
     "src": "99d64fa263"
@@ -5588,6 +5648,14 @@
     "v": "Sovellus päättää, minkä nimen näppäin saa. Viestisovelluksissa se on Lähetä ja hakukentässä Hae. Joissakin sovelluksissa se vain lisää rivinvaihdon.",
     "src": "aa598dca64"
   },
+  "보내기까지 눌러 보세요": {
+    "v": "Napauta vielä lähetä",
+    "src": "8205e1634c"
+  },
+  "보내면 말풍선이 돼요": {
+    "v": "Lähetä, niin siitä tulee kupla",
+    "src": "5f14ef8141"
+  },
   "보낸 곳: %@": {
     "v": "Lähettäjä: %@",
     "src": "9c893a5ccb"
@@ -5595,6 +5663,10 @@
   "보낸 이미지": {
     "v": "Lähetetty kuva",
     "src": "3cdec7e3e6"
+  },
+  "보냄": {
+    "v": "Toimitettu",
+    "src": "8cc53faa15"
   },
   "보안 PIN": {
     "v": "Suojattu PIN",
@@ -5795,6 +5867,10 @@
     },
     "src": "37f7490481"
   },
+  "복사한 글이 30일 동안 남아요": {
+    "v": "Kopioitu teksti säilyy 30 päivää",
+    "src": "006c8040e7"
+  },
   "복사한 글이 7일이 아니라 30일 동안 남아요": {
     "v": "Kopioitu teksti säilyy nyt 30 päivää eikä 7",
     "src": "3a3d50e79e"
@@ -5837,6 +5913,10 @@
     "v": "Kopiointi ei enää tallenna arvoja itsestään, joten kertaluonteiset arvot eivät täytä listaa",
     "src": "03998369ee"
   },
+  "복사해 두고 꺼내 쓰는 것, 이게 전부예요": {
+    "v": "Kopioi, tallenna, käytä. Siinä kaikki",
+    "src": "dfadb743c5"
+  },
   "복사해 둔 것을 문장 안에 끼울 수 있어요": {
     "v": "Voit upottaa kopioimasi lauseeseen",
     "src": "571baf7c00"
@@ -5855,6 +5935,22 @@
       "other": "Kokoaa kopioimasi tekstin näppäimistön ensimmäiselle välilehdelle %d päiväksi"
     },
     "src": "2c57cfc2e7"
+  },
+  "복사해서 담아 두고 꺼내 쓰기": {
+    "v": "Kopioi, tallenna ja käytä myöhemmin",
+    "src": "1b601f7340"
+  },
+  "복사해서 여기 담아 두세요": {
+    "v": "Kopioi ja säilytä täällä",
+    "src": "4b8fd041aa"
+  },
+  "복사해요": {
+    "v": "Kopioi sen",
+    "src": "224639c8d4"
+  },
+  "복사했어요": {
+    "v": "Kopioitu",
+    "src": "5f587d67aa"
   },
   "복원": {
     "v": "Palauta",
@@ -5895,6 +5991,10 @@
   "분류": {
     "v": "Luokka",
     "src": "d311748ec5"
+  },
+  "분류 탭": {
+    "v": "Luokkavälilehdet",
+    "src": "8960084754"
   },
   "불러오기": {
     "v": "Palauta",
@@ -5991,6 +6091,14 @@
   "붙여넣을 내용의 단추를 둘로 갈랐어요. 스캔해서 글자 넣기는 사진 속 글자만 가져오고, 이미지 붙이기는 사진을 그대로 담아요": {
     "v": "Sisällön painikkeet on jaettu kahteen. Skannaa teksti ottaa vain kuvan tekstin, Liitä kuva tallentaa kuvan sellaisenaan",
     "src": "646026a637"
+  },
+  "붙여넣지 않아도 바로 들어가요": {
+    "v": "Se menee sisään ilman liittämistä",
+    "src": "6965edda85"
+  },
+  "붙여넣지 않아도 버튼이 바로 넣어요": {
+    "v": "Painike kirjoittaa sen, ei liittämistä",
+    "src": "711467619d"
   },
   "브라우저에서 열기": {
     "v": "Avaa selaimessa",
@@ -6956,8 +7064,8 @@
     "src": "da15387b89"
   },
   "숫자 판, 지우기, 전체 삭제 키를 펼칩니다": {
-    "v": "Näyttää numeronäppäimet sekä Poista- ja Tyhjennä kaikki -näppäimet",
-    "src": "d735dcc2cd"
+    "v": "Näyttää numeronäppäimistön sekä poisto- ja tyhjennysnäppäimet",
+    "src": "fc5aa3822b"
   },
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "v": "Yksi numero on pielessä. Vertaa sitä kortin numeroon.",
@@ -7008,8 +7116,8 @@
     "src": "9edb9e9bc2"
   },
   "스페이스": {
-    "v": "väli",
-    "src": "ec89ecd97a"
+    "v": "välilyönti",
+    "src": "3552e7f0e3"
   },
   "시각·운동·청각 보조 기능을 함께 지원합니다. 아래 기능들은 iPhone 설정 → 손쉬운 사용에서 켤 수 있습니다.": {
     "v": "Tuemme näkö-, liikkumis- ja kuuloapuominaisuuksia. Voit ottaa ne käyttöön iPhonen Asetuksissa → Saavutettavuus.",
@@ -7070,6 +7178,10 @@
   "신원 확인": {
     "v": "Henkilöllisyys",
     "src": "098ff54eac"
+  },
+  "신한 110-123-456789": {
+    "v": "Nordea 110-123-456789",
+    "src": "fd23b6f361"
   },
   "신한 계좌번호 예금주": {
     "v": "Chase-tilinro, haltija",
@@ -7152,6 +7264,10 @@
     "v": "Poistetaanko kaikki käyttämättömät kentät?",
     "src": "74de95db83"
   },
+  "쓸 때 알려 줘요": {
+    "v": "Näytetään tarvittaessa",
+    "src": "e2b42b737c"
+  },
   "쓸 때 채우는 칸": {
     "v": "Täytettävä kenttä",
     "src": "41f27192a0"
@@ -7171,6 +7287,10 @@
   "쓸수록 카드 위에 싹이 트고 나무와 집이 들어서요.": {
     "v": "Mitä enemmän käytät, sitä enemmän versoja kasvaa puiksi ja taloiksi.",
     "src": "4e0db59246"
+  },
+  "아, 이렇게 보내는 거예요": {
+    "v": "Näin sen lähetetään",
+    "src": "5d1a1fdd24"
   },
   "아까와 다른 값이에요. 한 번 더 보내볼까요?": {
     "v": "Arvo on eri kuin äsken. Lähetetäänkö se vielä kerran?",
@@ -7658,6 +7778,10 @@
     "v": "Työ",
     "src": "2dd4ba1fdc"
   },
+  "업무 · 개인처럼 나눠 담아요": {
+    "v": "Lajittele työhön, henkilökohtaiseen ja muuhun",
+    "src": "62d1489990"
+  },
   "없는 날짜예요. 다시 확인해 주세요": {
     "v": "Päivämäärää ei ole olemassa. Tarkista se uudelleen",
     "src": "d5302d2664"
@@ -7702,6 +7826,10 @@
     "v": "Napauta tästä ja valitse ClipKeyboard maapallonäppäimellä",
     "src": "eb37f448da"
   },
+  "여기를 누르세요": {
+    "v": "Napauta tästä",
+    "src": "fe481cd374"
+  },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "v": "Jatkat kirjoittamista tästä, joten kohdistin alkaa nyt tästä. Voit poistaa tämän käytöstä fraasin muokkauksessa.",
     "src": "f03e1fd1f1"
@@ -7710,6 +7838,10 @@
     "v": "Jatkat usein kirjoittamista tästä, joten kohdistin alkaa siitä",
     "src": "442f975e8b"
   },
+  "여기에 붙여넣어 보세요": {
+    "v": "Liitä se nyt tähän",
+    "src": "35f987d4ae"
+  },
   "여기에 입력돼요": {
     "v": "Tekstisi tulee tähän",
     "src": "5dc6b62d0c"
@@ -7717,6 +7849,10 @@
   "여기예요": {
     "v": "Tämä tässä",
     "src": "6b83f5788f"
+  },
+  "여러 값 스택": {
+    "v": "Arvopino",
+    "src": "e668b70d6a"
   },
   "여러 값을 담은 단축어가 단축어 스택이 됐어요. 칸마다 이름을 붙여 지금 무엇이 들어갈지 보여요": {
     "v": "Useita arvoja sisältävät fraasit ovat nyt pinoja. Jokaisella kentällä on nimi, joten näet, mikä tulee seuraavaksi.",
@@ -8022,6 +8158,10 @@
     "v": "Avattu uudelleen tauon jälkeen. Ei opastusta eikä arvostelupyyntöä.",
     "src": "7058e1663f"
   },
+  "오른쪽 파란 화살표를 누르세요": {
+    "v": "Napauta sinistä nuolta oikealla",
+    "src": "22b28ee01a"
+  },
   "오른쪽 화살표로 값을 고르고, 왼쪽을 누르면 PIN 인증 후 넣어요": {
     "v": "Valitse arvo oikealla nuolella ja syötä PIN vasemmalta puolelta napauttamalla, niin arvo liitetään",
     "src": "83ee800fdf"
@@ -8305,6 +8445,14 @@
     "v": "Tässä apissa ei ole palvelinta. Tilinumerosi ja henkilötunnuksesi ovat vain tässä puhelimessa, emmekä näe niitä itsekään. Murrettavaa palvelinta ei ole, joten murtaa ei voi.",
     "src": "748fd3e528"
   },
+  "이 앱으로 할 수 있는 일": {
+    "v": "Mitä voit tehdä",
+    "src": "9d4c540c29"
+  },
+  "이 앱으로 할 수 있는 일 더 알아보기": {
+    "v": "Näytä, mitä muuta tämä osaa",
+    "src": "259ccf35b2"
+  },
   "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
     "v": "Tämä app toimii iPhonen näppäimistön kautta, joten se ei voi kirjoittaa fraasejasi Macilla. ClipKeyboard Macille liittää ne mihin tahansa appiin valikkorivistä tai pikanäppäimellä.",
     "src": "2e5ad98226"
@@ -8405,6 +8553,10 @@
     "v": "Tämä sopii",
     "src": "c2e9755ca1"
   },
+  "이게 클립키보드예요": {
+    "v": "Tältä ClipKeyboard toimii",
+    "src": "7e6e4b6e18"
+  },
   "이대로 할게요": {
     "v": "Näin kelpaa",
     "src": "88890b4e87"
@@ -8488,6 +8640,10 @@
   "이름·날짜처럼 쓸 때마다 달라지는 자리": {
     "v": "Kohdat, kuten nimi tai päivämäärä, jotka vaihtuvat joka kerralla",
     "src": "235bfbed70"
+  },
+  "이름만 바꿔 여러 사람에게": {
+    "v": "Vaihda vain nimi jokaiselle",
+    "src": "be86093563"
   },
   "이름만 없던 버튼들에 이름을 붙여 보이스오버와 음성 제어로 부를 수 있어요": {
     "v": "Painikkeilla, joilla ei ollut nimeä, on nyt nimi VoiceOveria ja puheohjausta varten",
@@ -8674,6 +8830,10 @@
     },
     "src": "2258e4149d"
   },
+  "이번엔 버튼만 눌러 보세요": {
+    "v": "Nyt riittää, kun painat painiketta",
+    "src": "ac9339c7b4"
+  },
   "이번엔 셈을 고쳤어요": {
     "v": "Tällä kertaa korjasimme laskut",
     "src": "fa8769e8dd"
@@ -8837,6 +8997,10 @@
     "v": "Tilinumero",
     "src": "cf8af22a18"
   },
+  "입금은 여기로": {
+    "v": "Maksu tälle tilille",
+    "src": "95923ae33d"
+  },
   "입력": {
     "v": "Lisää",
     "src": "4083992b75"
@@ -8880,6 +9044,18 @@
   "입력창에 줄바꿈을 넣습니다. 앱에 따라 보내기로 동작합니다": {
     "v": "Lisää rivinvaihdon. Joissakin apeissa tämä lähettää viestin",
     "src": "23be16ca8e"
+  },
+  "입력칸에 바로 넣어요": {
+    "v": "Kirjoittaa suoraan kenttään",
+    "src": "e7bc4669af"
+  },
+  "입력칸을 누르고, 한 번 더 눌러 '붙여넣기'를 고르세요": {
+    "v": "Napauta kenttää, napauta uudelleen ja valitse Liitä",
+    "src": "5f83a06eb9"
+  },
+  "입력칸을 눌러 붙여넣어요": {
+    "v": "Napauta tekstikenttää ja liitä",
+    "src": "086305aea3"
   },
   "입력하기": {
     "v": "Lisää",
@@ -8988,6 +9164,14 @@
   "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기": {
     "v": "Tallenna usein käyttämäsi teksti ja liitä se nopeasti",
     "src": "e7cd511f5b"
+  },
+  "자주 쓰는 계좌번호를 담아 뒀어요": {
+    "v": "Tallensimme tilinumeron, jota käytät ehkä usein",
+    "src": "31526a880a"
+  },
+  "자주 쓰는 내 글을 담아요": {
+    "v": "Tallenna teksti, jonka kirjoitat usein",
+    "src": "c9e544c801"
   },
   "자주 쓰는 단축어를 위로 옮길 수 있어요": {
     "v": "Siirrä eniten käyttämäsi fraasit ylös",
@@ -9625,6 +9809,10 @@
     "v": "%1$d / %2$d paikkaa käytössä",
     "src": "d35800976d"
   },
+  "지금 다 외우지 않아도 돼요. 쓸 때가 오면 그 자리에서 보여 드려요.": {
+    "v": "Kaikkea ei tarvitse opetella nyt. Näytämme jokaisen, kun tarvitset sitä.",
+    "src": "fd36aa996d"
+  },
   "지금 로그인한 Apple ID 로 Pro 를 구매한 기록을 찾지 못했어요. 구매할 때 쓴 Apple ID 로 로그인했는지 확인해 주세요.": {
     "v": "Kirjautuneen Apple ID:n Pro-ostoa ei löytynyt. Tarkista, että olet kirjautunut ostossa käyttämälläsi Apple ID:llä.",
     "src": "f2873bb475"
@@ -9888,6 +10076,10 @@
     "v": "Kun uusi tuttava kysyy yhteystietojasi",
     "src": "c93545a1f7"
   },
+  "처음 보는 그림": {
+    "v": "Ensikatsaus",
+    "src": "ca609c628d"
+  },
   "처음 시작할 때 키보드 크기를 한 번 정하고 넘어가요": {
     "v": "Valitse näppäimistön koko heti alussa.",
     "src": "b571655d26"
@@ -9922,7 +10114,7 @@
   },
   "천지인": {
     "v": "Cheonjiin",
-    "src": "3298959b92"
+    "src": "db2c902cda"
   },
   "천지인 키보드의 한글 조합을 바로잡았어요": {
     "v": "Korjasimme hangulin kirjoituksen Cheonjiin-näppäimistöllä",
@@ -10053,6 +10245,10 @@
   "최근 단축어는 단축어가 늘어나면 저절로 켜집니다. 한 번 직접 켜거나 끄시면 그대로 둡니다.": {
     "v": "Viimeisimmät fraasit kytkeytyvät itsestään päälle, kun fraaseja kertyy. Jos muutat asetusta itse, valintasi pysyy.",
     "src": "557f5a46ce"
+  },
+  "최근 복사한 것": {
+    "v": "Viimeksi kopioidut",
+    "src": "ab4103cf14"
   },
   "최근 사용": {
     "v": "Viimeksi käytetyt",
@@ -10887,6 +11083,10 @@
     "v": "Näppäimistössä on nyt lähetysnäppäin. Lisää fraasi ja lähetä se heti vaihtamatta näppäimistöä",
     "src": "2d6c797474"
   },
+  "키보드에 이 버튼들이 서 있어서, 어느 앱에서든 한 번에 넣어요": {
+    "v": "Painikkeet ovat näppäimistössäsi, joten voit lisätä ne mihin tahansa appiin yhdellä napautuksella",
+    "src": "ff00a43929"
+  },
   "키보드에 지우기 키가 생겼어요. 오타 하나를 고치려고 다른 키보드로 건너갈 일이 없어요": {
     "v": "Näppäimistössä on nyt poistonäppäin. Yhden kirjoitusvirheen korjaamiseen ei tarvitse vaihtaa näppäimistöä.",
     "src": "8eda686b5d"
@@ -11221,6 +11421,10 @@
     "v": "Ladataan pohjaa...",
     "src": "9720630b35"
   },
+  "템플릿 빈칸": {
+    "v": "Pohjan kentät",
+    "src": "3bc037961c"
+  },
   "템플릿 수": {
     "v": "Pohjat",
     "src": "37fe876ba9"
@@ -11485,6 +11689,10 @@
     "v": "Kerro, mitä tarvitset tai mikä on hankalaa. Kehittäjä lukee jokaisen viestin ja korjaa asian.",
     "src": "eec7b2e40c"
   },
+  "필요할 때 꺼내 쓰면 돼요": {
+    "v": "Käytä, kun tarvitset",
+    "src": "bea3af3281"
+  },
   "필터 초기화": {
     "v": "Nollaa suodatin",
     "src": "5559918d75"
@@ -11601,6 +11809,10 @@
     "v": "Tiedot haetaan 200 kerrallaan. Luku kasvaa, koska se on välisumma.",
     "src": "1e9ec1ad59"
   },
+  "한 번에 들어갔죠?": {
+    "v": "Meni yhdellä napautuksella, eikö?",
+    "src": "6c7148618a"
+  },
   "한 번에 옮기기": {
     "v": "Siirrä kerralla",
     "src": "25835e8f86"
@@ -11639,7 +11851,7 @@
   },
   "한국어": {
     "v": "Korea",
-    "src": "dd4d21dcaa"
+    "src": "aff645339d"
   },
   "한국어 레이아웃": {
     "v": "Korealainen asettelu",

@@ -1107,6 +1107,10 @@
     "v": "Giải thích múi giờ của bạn, chỉ một lần.",
     "src": "4d98ebe6d6"
   },
+  "Face ID 뒤에 잠가 둬요": {
+    "v": "Khóa bằng Face ID",
+    "src": "d31b55848f"
+  },
   "Face ID로 보호": {
     "v": "Bảo vệ bằng Face ID",
     "src": "fe7ea153c2"
@@ -2743,6 +2747,10 @@
     "v": "Ngân hàng",
     "src": "a10e3fdccb"
   },
+  "계좌 알려 주실래요?": {
+    "v": "Bạn gửi số tài khoản cho mình được không?",
+    "src": "e82e7161da"
+  },
   "계좌·주소는 한 번만 맞춰 두세요": {
     "v": "Chỉ cần cài tài khoản và địa chỉ một lần",
     "src": "e77b80bdf9"
@@ -3225,7 +3233,7 @@
   },
   "기호": {
     "v": "Ký hiệu",
-    "src": "912b120400"
+    "src": "812dafa9b1"
   },
   "긴 이름": {
     "v": "Tên dài",
@@ -3354,6 +3362,14 @@
   "내 것을 저장해보세요": {
     "v": "Hãy lưu cụm từ của riêng bạn",
     "src": "7c40449eba"
+  },
+  "내 단축어 만들기": {
+    "v": "Tạo cụm từ của riêng bạn",
+    "src": "966e73db02"
+  },
+  "내 단축어 만들러 가기": {
+    "v": "Tạo cụm từ của tôi",
+    "src": "5f0c7533c3"
   },
   "내 데이터": {
     "v": "Dữ liệu của tôi",
@@ -3539,6 +3555,10 @@
     "v": "Mỗi lần nhấn đều hiện “Cho phép dán?”",
     "src": "4c8bae2eca"
   },
+  "누를 때마다 다음 값이 들어가요": {
+    "v": "Mỗi lần chạm, giá trị tiếp theo được nhập",
+    "src": "d46f9752bc"
+  },
   "누적 사용 횟수": {
     "v": "Tổng số lần dùng",
     "src": "42b316f9e8"
@@ -3559,6 +3579,10 @@
     "v": "Đã sửa: chữ vừa chèn biến mất, phần hướng dẫn dừng giữa chừng và màu nền danh mục bị mất",
     "src": "57acf2e671"
   },
+  "눌러 보세요": {
+    "v": "Bạn thử chạm vào nhé",
+    "src": "10c0451083"
+  },
   "눌러서 그대로 입력하는 단축어": {
     "v": "Cụm từ bạn chạm để nhập nguyên văn",
     "src": "62c8adf23a"
@@ -3570,6 +3594,10 @@
   "눌러서 바로 넘어가기": {
     "v": "Chạm để bỏ qua",
     "src": "96266d8ee9"
+  },
+  "눌러서 복사": {
+    "v": "Chạm để sao chép",
+    "src": "9e45c8e926"
   },
   "눌러서 이 빈칸을 펼칩니다": {
     "v": "Chạm để mở ô này",
@@ -3623,6 +3651,14 @@
     "v": "Chọn cái khác",
     "src": "24fb297dfa"
   },
+  "다른 곳에 자주 쓰는 글이 있으면": {
+    "v": "Có đoạn văn bạn hay gõ lại?",
+    "src": "a8067a390a"
+  },
+  "다른 곳에 자주 쓰는 글이 있으면 복사해서 여기 담아 두세요. 필요할 때 꺼내 쓰면 돼요.": {
+    "v": "Nếu bạn hay gõ cùng một đoạn văn ở đâu đó, hãy sao chép và lưu vào đây. Cần lúc nào thì dùng lúc đó.",
+    "src": "b0f22e41a8"
+  },
   "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.": {
     "v": "Các thiết bị khác sẽ giống thiết bị này ở lần đồng bộ tiếp theo.",
     "src": "0fcdae3b29"
@@ -3666,6 +3702,10 @@
   "다른 앱에서 붙여넣기": {
     "v": "Dán trong ứng dụng khác",
     "src": "43186426db"
+  },
+  "다른 앱에서 지구본 한 번": {
+    "v": "Chạm vào quả địa cầu trong mọi ứng dụng",
+    "src": "360d6cba38"
   },
   "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요": {
     "v": "Thời gian lấy giá trị từ ứng dụng khác nay được tính theo số đo thực tế. Mở ứng dụng ngân hàng chưa bao giờ chỉ mất 28 giây",
@@ -4175,6 +4215,10 @@
     "v": "đủ thời gian để chạy bộ",
     "src": "94a0c9b109"
   },
+  "담아 둔 것을 누르면 복사돼요": {
+    "v": "Chạm vào mục đã lưu để sao chép",
+    "src": "6cc30a8f7d"
+  },
   "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
     "v": "Chưa có gì để lưu. Hãy sao chép văn bản trước.",
     "src": "c44bc79ce2"
@@ -4421,7 +4465,7 @@
   },
   "두벌식": {
     "v": "Dubeolsik",
-    "src": "ff66d88372"
+    "src": "6b281885aa"
   },
   "둥글고 부드럽게, 느리게 돌아와요.": {
     "v": "Bo tròn và êm, bật lại chậm.",
@@ -4726,6 +4770,10 @@
   "메모장에 모아 둔 걸 통째로 붙여넣으면 알아서 한 줄씩 나눠 담아요. 사진에서 읽어 올 수도 있고, 비밀번호처럼 보이는 값은 잠긴 단축어로 들어갑니다. 단축어 목록의 + 안에 있어요.": {
     "v": "Dán cả loạt nội dung từ ứng dụng ghi chú, ứng dụng sẽ tự tách thành từng cụm từ. Bạn cũng có thể đọc từ ảnh, và những gì trông giống mật khẩu sẽ được khóa lại. Xem trong dấu + ở danh sách cụm từ.",
     "src": "d96f9a2420"
+  },
+  "메시지": {
+    "v": "Tin nhắn",
+    "src": "b955bd7602"
   },
   "메시지 보내기": {
     "v": "Gửi tin nhắn",
@@ -5063,6 +5111,10 @@
     "v": "Đã đổi. Bạn có thể chỉnh thêm trong ứng dụng.",
     "src": "5877132c73"
   },
+  "바로 넣기": {
+    "v": "Nhập bằng một chạm",
+    "src": "3fc74f6418"
+  },
   "바로 써 볼 수 있게 준비해 뒀어요": {
     "v": "Chúng tôi đã chuẩn bị sẵn vài thứ để bạn dùng thử",
     "src": "295214406d"
@@ -5122,6 +5174,10 @@
   "배달앱 주소칸이 비어 있을 때": {
     "v": "Khi ứng dụng giao đồ ăn hỏi địa chỉ của bạn",
     "src": "5111a2020a"
+  },
+  "배웠어요": {
+    "v": "Đã học",
+    "src": "8b425034bf"
   },
   "백업 건너뜀": {
     "v": "Đã bỏ qua sao lưu",
@@ -5331,6 +5387,10 @@
     "v": "Màu sắc và độ tương phản dễ nhìn",
     "src": "adfef7f3f0"
   },
+  "보내 볼까요?": {
+    "v": "Gửi thử nhé?",
+    "src": "6ed75e40a0"
+  },
   "보내기": {
     "v": "Gửi",
     "src": "99d64fa263"
@@ -5351,6 +5411,14 @@
     "v": "Tên của phím này do từng ứng dụng quyết định. Trong ứng dụng nhắn tin, phím hiện là Gửi, còn trong ô tìm kiếm là Tìm. Một số ứng dụng chỉ xuống dòng.",
     "src": "aa598dca64"
   },
+  "보내기까지 눌러 보세요": {
+    "v": "Chạm tiếp để gửi",
+    "src": "8205e1634c"
+  },
+  "보내면 말풍선이 돼요": {
+    "v": "Gửi đi sẽ thành một bong bóng tin nhắn",
+    "src": "5f14ef8141"
+  },
   "보낸 곳: %@": {
     "v": "Gửi từ: %@",
     "src": "9c893a5ccb"
@@ -5358,6 +5426,10 @@
   "보낸 이미지": {
     "v": "Ảnh đã gửi",
     "src": "3cdec7e3e6"
+  },
+  "보냄": {
+    "v": "Đã gửi",
+    "src": "8cc53faa15"
   },
   "보안 PIN": {
     "v": "PIN bảo mật",
@@ -5555,6 +5627,10 @@
     "v": "Văn bản đã sao chép được giữ %d ngày",
     "src": "37f7490481"
   },
+  "복사한 글이 30일 동안 남아요": {
+    "v": "Nội dung bạn sao chép được giữ 30 ngày",
+    "src": "006c8040e7"
+  },
   "복사한 글이 7일이 아니라 30일 동안 남아요": {
     "v": "Văn bản đã sao chép nay được giữ 30 ngày thay vì 7 ngày",
     "src": "3a3d50e79e"
@@ -5591,6 +5667,10 @@
     "v": "Khi sao chép, giá trị không còn tự động được lưu. Danh sách sẽ không bị đầy bởi các giá trị chỉ dùng một lần",
     "src": "03998369ee"
   },
+  "복사해 두고 꺼내 쓰는 것, 이게 전부예요": {
+    "v": "Sao chép, lưu, dùng. Chỉ có vậy thôi",
+    "src": "dfadb743c5"
+  },
   "복사해 둔 것을 문장 안에 끼울 수 있어요": {
     "v": "Bạn có thể chèn nội dung đã sao chép vào câu",
     "src": "571baf7c00"
@@ -5606,6 +5686,22 @@
   "복사해 둔 글을 키보드 맨 앞 탭에 모아 둡니다. %d일 동안 남아요": {
     "v": "Lưu văn bản bạn đã sao chép ở tab đầu tiên của bàn phím, trong %d ngày",
     "src": "2c57cfc2e7"
+  },
+  "복사해서 담아 두고 꺼내 쓰기": {
+    "v": "Sao chép, lưu lại, dùng khi cần",
+    "src": "1b601f7340"
+  },
+  "복사해서 여기 담아 두세요": {
+    "v": "Sao chép rồi lưu vào đây",
+    "src": "4b8fd041aa"
+  },
+  "복사해요": {
+    "v": "Sao chép",
+    "src": "224639c8d4"
+  },
+  "복사했어요": {
+    "v": "Đã sao chép",
+    "src": "5f587d67aa"
   },
   "복원": {
     "v": "Khôi phục",
@@ -5646,6 +5742,10 @@
   "분류": {
     "v": "Phân loại",
     "src": "d311748ec5"
+  },
+  "분류 탭": {
+    "v": "Tab phân loại",
+    "src": "8960084754"
   },
   "불러오기": {
     "v": "Khôi phục",
@@ -5742,6 +5842,14 @@
   "붙여넣을 내용의 단추를 둘로 갈랐어요. 스캔해서 글자 넣기는 사진 속 글자만 가져오고, 이미지 붙이기는 사진을 그대로 담아요": {
     "v": "Nút nội dung dán giờ tách làm hai. Quét để nhập chữ chỉ lấy chữ trong ảnh, Đính kèm ảnh giữ nguyên cả ảnh",
     "src": "646026a637"
+  },
+  "붙여넣지 않아도 바로 들어가요": {
+    "v": "Không cần dán, vẫn nhập được ngay",
+    "src": "6965edda85"
+  },
+  "붙여넣지 않아도 버튼이 바로 넣어요": {
+    "v": "Nút sẽ nhập thẳng, không cần dán",
+    "src": "711467619d"
   },
   "브라우저에서 열기": {
     "v": "Mở trong trình duyệt",
@@ -6692,8 +6800,8 @@
     "src": "da15387b89"
   },
   "숫자 판, 지우기, 전체 삭제 키를 펼칩니다": {
-    "v": "Mở rộng các phím bàn phím số, xóa và xóa tất cả",
-    "src": "d735dcc2cd"
+    "v": "Hiện bàn phím số, phím xóa và phím xóa tất cả",
+    "src": "fc5aa3822b"
   },
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "v": "Một chữ số bị lệch. Bạn hãy đối chiếu lại với số trên thẻ.",
@@ -6745,7 +6853,7 @@
   },
   "스페이스": {
     "v": "dấu cách",
-    "src": "ec89ecd97a"
+    "src": "3552e7f0e3"
   },
   "시각·운동·청각 보조 기능을 함께 지원합니다. 아래 기능들은 iPhone 설정 → 손쉬운 사용에서 켤 수 있습니다.": {
     "v": "Ứng dụng hỗ trợ các tính năng trợ năng cho thị giác, vận động và thính giác. Bạn có thể bật chúng trong Cài đặt của iPhone → Trợ năng.",
@@ -6806,6 +6914,10 @@
   "신원 확인": {
     "v": "Xác minh danh tính",
     "src": "098ff54eac"
+  },
+  "신한 110-123-456789": {
+    "v": "Vietcombank 110-123-456789",
+    "src": "fd23b6f361"
   },
   "신한 계좌번호 예금주": {
     "v": "Số tài khoản Chase, chủ tài khoản",
@@ -6879,6 +6991,10 @@
     "v": "Xóa mọi ô cần điền không dùng?",
     "src": "74de95db83"
   },
+  "쓸 때 알려 줘요": {
+    "v": "Sẽ hiển thị khi cần",
+    "src": "e2b42b737c"
+  },
   "쓸 때 채우는 칸": {
     "v": "Ô cần điền khi dùng",
     "src": "41f27192a0"
@@ -6898,6 +7014,10 @@
   "쓸수록 카드 위에 싹이 트고 나무와 집이 들어서요.": {
     "v": "Càng dùng nhiều, mầm càng lên cây và nhà cửa mọc lên.",
     "src": "4e0db59246"
+  },
+  "아, 이렇게 보내는 거예요": {
+    "v": "À, gửi như vậy đấy",
+    "src": "5d1a1fdd24"
   },
   "아까와 다른 값이에요. 한 번 더 보내볼까요?": {
     "v": "Giá trị khác với lần trước. Gửi thêm một lần nữa nhé?",
@@ -7379,6 +7499,10 @@
     "src": "2dd4ba1fdc",
     "v": "Công việc"
   },
+  "업무 · 개인처럼 나눠 담아요": {
+    "v": "Chia thành Công việc, Cá nhân và hơn nữa",
+    "src": "62d1489990"
+  },
   "없는 날짜예요. 다시 확인해 주세요": {
     "v": "Ngày này không tồn tại. Bạn kiểm tra lại nhé",
     "src": "d5302d2664"
@@ -7423,6 +7547,10 @@
     "v": "Bấm vào đây, rồi chọn ClipKeyboard bằng phím quả địa cầu",
     "src": "eb37f448da"
   },
+  "여기를 누르세요": {
+    "v": "Chạm vào đây",
+    "src": "fe481cd374"
+  },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "v": "Bạn thường gõ tiếp ở đây nên con trỏ được đặt sẵn tại đây. Bạn có thể tắt trong phần sửa cụm từ.",
     "src": "f03e1fd1f1"
@@ -7431,6 +7559,10 @@
     "v": "Bạn thường gõ tiếp ở đây nên con trỏ sẽ bắt đầu từ vị trí đó",
     "src": "442f975e8b"
   },
+  "여기에 붙여넣어 보세요": {
+    "v": "Giờ dán vào đây nhé",
+    "src": "35f987d4ae"
+  },
   "여기에 입력돼요": {
     "v": "Nội dung của bạn sẽ hiện ở đây",
     "src": "5dc6b62d0c"
@@ -7438,6 +7570,10 @@
   "여기예요": {
     "v": "Chỗ này",
     "src": "6b83f5788f"
+  },
+  "여러 값 스택": {
+    "v": "Ngăn xếp nhiều giá trị",
+    "src": "e668b70d6a"
   },
   "여러 값을 담은 단축어가 단축어 스택이 됐어요. 칸마다 이름을 붙여 지금 무엇이 들어갈지 보여요": {
     "v": "Các cụm từ chứa nhiều giá trị nay là ngăn xếp cụm từ. Mỗi ô có một tên, để bạn thấy giá trị nào sẽ được nhập tiếp.",
@@ -7743,6 +7879,10 @@
     "v": "Mở lại sau một thời gian dài. Không hiện hướng dẫn hay lời nhắc đánh giá.",
     "src": "7058e1663f"
   },
+  "오른쪽 파란 화살표를 누르세요": {
+    "v": "Chạm vào mũi tên xanh bên phải",
+    "src": "22b28ee01a"
+  },
   "오른쪽 화살표로 값을 고르고, 왼쪽을 누르면 PIN 인증 후 넣어요": {
     "v": "Chọn giá trị bằng mũi tên, rồi chạm vào bên trái để nhập PIN và dán",
     "src": "83ee800fdf"
@@ -8023,6 +8163,14 @@
     "v": "Ứng dụng này không có máy chủ. Số tài khoản và số căn cước của bạn chỉ nằm trên chiếc điện thoại này, ngay cả chúng tôi cũng không xem được. Không có máy chủ để bị xâm nhập, nên cũng không có gì để bị lộ.",
     "src": "748fd3e528"
   },
+  "이 앱으로 할 수 있는 일": {
+    "v": "Những gì bạn có thể làm",
+    "src": "9d4c540c29"
+  },
+  "이 앱으로 할 수 있는 일 더 알아보기": {
+    "v": "Xem thêm những gì ứng dụng làm được",
+    "src": "259ccf35b2"
+  },
   "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
     "v": "Ứng dụng này hoạt động qua bàn phím iPhone nên không nhập được cụm từ trên Mac. ClipKeyboard cho Mac dán cụm từ vào mọi ứng dụng từ thanh menu hoặc phím tắt.",
     "src": "2e5ad98226"
@@ -8123,6 +8271,10 @@
     "v": "Chọn cái này",
     "src": "c2e9755ca1"
   },
+  "이게 클립키보드예요": {
+    "v": "Đây là ClipKeyboard",
+    "src": "7e6e4b6e18"
+  },
   "이대로 할게요": {
     "v": "Vậy nhé",
     "src": "88890b4e87"
@@ -8206,6 +8358,10 @@
   "이름·날짜처럼 쓸 때마다 달라지는 자리": {
     "v": "Những chỗ như tên hoặc ngày thay đổi mỗi lần dùng",
     "src": "235bfbed70"
+  },
+  "이름만 바꿔 여러 사람에게": {
+    "v": "Chỉ đổi tên cho nhiều người",
+    "src": "be86093563"
   },
   "이름만 없던 버튼들에 이름을 붙여 보이스오버와 음성 제어로 부를 수 있어요": {
     "v": "Các nút chưa có nhãn nay đã có tên cho VoiceOver và Điều khiển bằng giọng nói",
@@ -8383,6 +8539,10 @@
     "v": "Bạn đã sao chép đoạn này %d lần trong tuần này",
     "src": "2258e4149d"
   },
+  "이번엔 버튼만 눌러 보세요": {
+    "v": "Lần này, bạn chỉ cần nhấn nút",
+    "src": "ac9339c7b4"
+  },
   "이번엔 셈을 고쳤어요": {
     "v": "Lần này chúng tôi đã sửa phép tính",
     "src": "fa8769e8dd"
@@ -8543,6 +8703,10 @@
     "v": "Tài khoản nhận tiền",
     "src": "cf8af22a18"
   },
+  "입금은 여기로": {
+    "v": "Chuyển khoản vào đây",
+    "src": "95923ae33d"
+  },
   "입력": {
     "v": "Chèn",
     "src": "4083992b75"
@@ -8586,6 +8750,18 @@
   "입력창에 줄바꿈을 넣습니다. 앱에 따라 보내기로 동작합니다": {
     "v": "Chèn một dòng mới. Ở một số ứng dụng, thao tác này sẽ gửi tin nhắn",
     "src": "23be16ca8e"
+  },
+  "입력칸에 바로 넣어요": {
+    "v": "Nhập thẳng vào ô nhập",
+    "src": "e7bc4669af"
+  },
+  "입력칸을 누르고, 한 번 더 눌러 '붙여넣기'를 고르세요": {
+    "v": "Nhấn vào ô nhập, nhấn thêm lần nữa rồi chọn Dán",
+    "src": "5f83a06eb9"
+  },
+  "입력칸을 눌러 붙여넣어요": {
+    "v": "Nhấn vào ô nhập để dán",
+    "src": "086305aea3"
   },
   "입력하기": {
     "v": "Chèn",
@@ -8694,6 +8870,14 @@
   "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기": {
     "v": "Lưu văn bản bạn hay dùng và dán nhanh",
     "src": "e7cd511f5b"
+  },
+  "자주 쓰는 계좌번호를 담아 뒀어요": {
+    "v": "Đã lưu sẵn một số tài khoản bạn hay dùng",
+    "src": "31526a880a"
+  },
+  "자주 쓰는 내 글을 담아요": {
+    "v": "Lưu những đoạn văn bạn hay dùng",
+    "src": "c9e544c801"
   },
   "자주 쓰는 단축어를 위로 옮길 수 있어요": {
     "v": "Bạn có thể đưa các cụm từ hay dùng lên đầu",
@@ -9319,6 +9503,10 @@
     "v": "Cụm từ của bạn: %1$d / %2$d ô",
     "src": "d35800976d"
   },
+  "지금 다 외우지 않아도 돼요. 쓸 때가 오면 그 자리에서 보여 드려요.": {
+    "v": "Bạn không cần nhớ hết ngay bây giờ. Khi cần, chúng tôi sẽ chỉ cho bạn ngay lúc đó.",
+    "src": "fd36aa996d"
+  },
   "지금 로그인한 Apple ID 로 Pro 를 구매한 기록을 찾지 못했어요. 구매할 때 쓴 Apple ID 로 로그인했는지 확인해 주세요.": {
     "v": "Chúng tôi không tìm thấy giao dịch mua Pro nào với Apple ID bạn đang đăng nhập. Hãy kiểm tra xem bạn đã đăng nhập bằng Apple ID dùng để mua chưa.",
     "src": "f2873bb475"
@@ -9567,6 +9755,10 @@
     "v": "Khi người mới quen hỏi cách liên lạc với bạn",
     "src": "c93545a1f7"
   },
+  "처음 보는 그림": {
+    "v": "Cái nhìn đầu tiên",
+    "src": "ca609c628d"
+  },
   "처음 시작할 때 키보드 크기를 한 번 정하고 넘어가요": {
     "v": "Chọn cỡ bàn phím một lần khi bạn bắt đầu.",
     "src": "b571655d26"
@@ -9601,7 +9793,7 @@
   },
   "천지인": {
     "v": "Cheonjiin",
-    "src": "3298959b92"
+    "src": "db2c902cda"
   },
   "천지인 키보드의 한글 조합을 바로잡았어요": {
     "v": "Đã sửa lỗi ghép chữ Hàn trên bàn phím Cheonjiin",
@@ -9726,6 +9918,10 @@
   "최근 단축어는 단축어가 늘어나면 저절로 켜집니다. 한 번 직접 켜거나 끄시면 그대로 둡니다.": {
     "v": "Cụm từ gần đây tự bật khi bạn có thêm cụm từ. Khi bạn đã tự bật hoặc tắt, lựa chọn đó sẽ được giữ nguyên.",
     "src": "557f5a46ce"
+  },
+  "최근 복사한 것": {
+    "v": "Vừa sao chép gần đây",
+    "src": "ab4103cf14"
   },
   "최근 사용": {
     "v": "Dùng gần đây",
@@ -10551,6 +10747,10 @@
     "v": "Bàn phím có phím gửi. Bạn chèn cụm từ rồi gửi ngay tại chỗ, không cần đổi bàn phím",
     "src": "2d6c797474"
   },
+  "키보드에 이 버튼들이 서 있어서, 어느 앱에서든 한 번에 넣어요": {
+    "v": "Các nút này nằm sẵn trên bàn phím, nên bạn nhập được trong mọi ứng dụng chỉ với một lần nhấn",
+    "src": "ff00a43929"
+  },
   "키보드에 지우기 키가 생겼어요. 오타 하나를 고치려고 다른 키보드로 건너갈 일이 없어요": {
     "v": "Bàn phím có phím xóa. Không phải đổi bàn phím chỉ để sửa một lỗi gõ nữa.",
     "src": "8eda686b5d"
@@ -10879,6 +11079,10 @@
     "v": "Đang tải mẫu...",
     "src": "9720630b35"
   },
+  "템플릿 빈칸": {
+    "v": "Ô cần điền trong mẫu",
+    "src": "3bc037961c"
+  },
   "템플릿 수": {
     "v": "Số mẫu",
     "src": "37fe876ba9"
@@ -11143,6 +11347,10 @@
     "v": "Hãy cho chúng tôi biết bạn cần gì hoặc điều gì chưa tiện. Nhà phát triển sẽ đọc từng tin nhắn và xử lý cho bạn.",
     "src": "eec7b2e40c"
   },
+  "필요할 때 꺼내 쓰면 돼요": {
+    "v": "Cần lúc nào, dùng lúc đó",
+    "src": "bea3af3281"
+  },
   "필터 초기화": {
     "v": "Đặt lại bộ lọc",
     "src": "5559918d75"
@@ -11259,6 +11467,10 @@
     "v": "Tải từng đợt 200 mục. Con số hiện tại là số đếm tạm nên sẽ còn tăng.",
     "src": "1e9ec1ad59"
   },
+  "한 번에 들어갔죠?": {
+    "v": "Vào ngay một lần nhấn, đúng không?",
+    "src": "6c7148618a"
+  },
   "한 번에 옮기기": {
     "v": "Chuyển một lần",
     "src": "25835e8f86"
@@ -11297,7 +11509,7 @@
   },
   "한국어": {
     "v": "Tiếng Hàn",
-    "src": "dd4d21dcaa"
+    "src": "aff645339d"
   },
   "한국어 레이아웃": {
     "v": "Bố cục tiếng Hàn",

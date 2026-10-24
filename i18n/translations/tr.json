@@ -1242,6 +1242,10 @@
     "v": "Saatinizi tek seferde anlatın",
     "src": "4d98ebe6d6"
   },
+  "Face ID 뒤에 잠가 둬요": {
+    "v": "Face ID ile kilitleyin",
+    "src": "d31b55848f"
+  },
   "Face ID로 보호": {
     "v": "Face ID ile koruyun",
     "src": "fe7ea153c2"
@@ -2899,6 +2903,10 @@
     "v": "Banka",
     "src": "a10e3fdccb"
   },
+  "계좌 알려 주실래요?": {
+    "v": "Hesap numaranızı gönderir misiniz?",
+    "src": "e82e7161da"
+  },
   "계좌·주소는 한 번만 맞춰 두세요": {
     "v": "Hesap ve adresi bir kez ayarlayın",
     "src": "e77b80bdf9"
@@ -3393,7 +3401,7 @@
   },
   "기호": {
     "v": "Semboller",
-    "src": "912b120400"
+    "src": "812dafa9b1"
   },
   "긴 이름": {
     "v": "Uzun isimler",
@@ -3522,6 +3530,14 @@
   "내 것을 저장해보세요": {
     "v": "Kendinizinkini kaydedin",
     "src": "7c40449eba"
+  },
+  "내 단축어 만들기": {
+    "v": "Kendi İfadenizi Oluşturun",
+    "src": "966e73db02"
+  },
+  "내 단축어 만들러 가기": {
+    "v": "Kendi İfadelerimi Oluştur",
+    "src": "5f0c7533c3"
   },
   "내 데이터": {
     "v": "Verilerim",
@@ -3707,6 +3723,10 @@
     "v": "Her basışta 'Yapıştırmaya İzin Ver?' sorulur",
     "src": "4c8bae2eca"
   },
+  "누를 때마다 다음 값이 들어가요": {
+    "v": "Her dokunuşta sıradaki değer girer",
+    "src": "d46f9752bc"
+  },
   "누적 사용 횟수": {
     "v": "Toplam kullanım",
     "src": "42b316f9e8"
@@ -3727,6 +3747,10 @@
     "v": "Eklenen metnin kaybolması, rehberin yarıda kesilmesi ve kategori arka plan renklerinin kaybolması düzeltildi",
     "src": "57acf2e671"
   },
+  "눌러 보세요": {
+    "v": "Dokunun",
+    "src": "10c0451083"
+  },
   "눌러서 그대로 입력하는 단축어": {
     "v": "Dokunarak olduğu gibi yazdığınız ifade",
     "src": "62c8adf23a"
@@ -3738,6 +3762,10 @@
   "눌러서 바로 넘어가기": {
     "v": "Atlamak için dokunun",
     "src": "96266d8ee9"
+  },
+  "눌러서 복사": {
+    "v": "Dokunup Kopyala",
+    "src": "9e45c8e926"
   },
   "눌러서 이 빈칸을 펼칩니다": {
     "v": "Bu alanı açmak için dokunun",
@@ -3791,6 +3819,14 @@
     "v": "Başka bir tane",
     "src": "24fb297dfa"
   },
+  "다른 곳에 자주 쓰는 글이 있으면": {
+    "v": "Sık yazdığınız metinler mi var?",
+    "src": "a8067a390a"
+  },
+  "다른 곳에 자주 쓰는 글이 있으면 복사해서 여기 담아 두세요. 필요할 때 꺼내 쓰면 돼요.": {
+    "v": "Bir yerde sık aynı metni yazıyorsanız kopyalayıp buraya kaydedin. İhtiyacınız olduğunda kullanın.",
+    "src": "b0f22e41a8"
+  },
   "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.": {
     "v": "Diğer cihazlarınız bir sonraki senkronizasyonda bu cihazla aynı olur.",
     "src": "0fcdae3b29"
@@ -3834,6 +3870,10 @@
   "다른 앱에서 붙여넣기": {
     "v": "Diğer uygulamalara yapıştır",
     "src": "43186426db"
+  },
+  "다른 앱에서 지구본 한 번": {
+    "v": "Herhangi bir uygulamada küre simgesine dokunun",
+    "src": "360d6cba38"
   },
   "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요": {
     "v": "Diğer uygulamalardan değer almak için ayrılan süre artık gerçekte ölçülen süreye göre belirleniyor. Bir bankacılık uygulamasını açmak hiçbir zaman 28 saniyede bitmedi",
@@ -4379,6 +4419,10 @@
     "v": "koşmaya yetecek zaman",
     "src": "94a0c9b109"
   },
+  "담아 둔 것을 누르면 복사돼요": {
+    "v": "Kayıtlı olana dokunursanız kopyalanır",
+    "src": "6cc30a8f7d"
+  },
   "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
     "v": "Yakalanacak metin yok. Önce bir metin kopyalayın.",
     "src": "c44bc79ce2"
@@ -4625,7 +4669,7 @@
   },
   "두벌식": {
     "v": "Dubeolsik",
-    "src": "ff66d88372"
+    "src": "6b281885aa"
   },
   "둥글고 부드럽게, 느리게 돌아와요.": {
     "v": "Yuvarlak ve yumuşak, yavaşça geri döner.",
@@ -4933,6 +4977,10 @@
   "메모장에 모아 둔 걸 통째로 붙여넣으면 알아서 한 줄씩 나눠 담아요. 사진에서 읽어 올 수도 있고, 비밀번호처럼 보이는 값은 잠긴 단축어로 들어갑니다. 단축어 목록의 + 안에 있어요.": {
     "v": "Notlar uygulamanızdaki metni toptan yapıştırın, satır satır ayrı ifadelere bölelim. Fotoğraftan da okuyabilirsiniz; parolaya benzeyen değerler kilitli gelir. Yeri: ifade listesindeki + altında.",
     "src": "d96f9a2420"
+  },
+  "메시지": {
+    "v": "Mesaj",
+    "src": "b955bd7602"
   },
   "메시지 보내기": {
     "v": "Mesaj gönder",
@@ -5297,6 +5345,10 @@
     "v": "Değiştirildi. Uygulamada yeniden düzenleyebilirsiniz.",
     "src": "5877132c73"
   },
+  "바로 넣기": {
+    "v": "Tek Dokunuşla Ekle",
+    "src": "3fc74f6418"
+  },
   "바로 써 볼 수 있게 준비해 뒀어요": {
     "v": "Hemen denemeniz için birkaç şey hazırladık",
     "src": "295214406d"
@@ -5359,6 +5411,10 @@
   "배달앱 주소칸이 비어 있을 때": {
     "v": "Yemek uygulaması adres istediğinde",
     "src": "5111a2020a"
+  },
+  "배웠어요": {
+    "v": "Öğrenildi",
+    "src": "8b425034bf"
   },
   "백업 건너뜀": {
     "v": "Yedekleme atlandı",
@@ -5568,6 +5624,10 @@
     "v": "Daha kolay görülen renkler ve kontrast",
     "src": "adfef7f3f0"
   },
+  "보내 볼까요?": {
+    "v": "Göndermeye hazır mısınız?",
+    "src": "6ed75e40a0"
+  },
   "보내기": {
     "v": "Gönder",
     "src": "99d64fa263"
@@ -5588,6 +5648,14 @@
     "v": "Tuşun adını uygulama belirler. Mesaj uygulamalarında Gönder, arama alanında Ara olarak görünür. Yalnızca satır başı ekleyen uygulamalar da vardır.",
     "src": "aa598dca64"
   },
+  "보내기까지 눌러 보세요": {
+    "v": "Şimdi gönder düğmesine dokunun",
+    "src": "8205e1634c"
+  },
+  "보내면 말풍선이 돼요": {
+    "v": "Gönderince balon olur",
+    "src": "5f14ef8141"
+  },
   "보낸 곳: %@": {
     "v": "Gönderilen yer: %@",
     "src": "9c893a5ccb"
@@ -5595,6 +5663,10 @@
   "보낸 이미지": {
     "v": "Gönderilen görsel",
     "src": "3cdec7e3e6"
+  },
+  "보냄": {
+    "v": "Gönderildi",
+    "src": "8cc53faa15"
   },
   "보안 PIN": {
     "v": "Güvenli PIN",
@@ -5795,6 +5867,10 @@
     },
     "src": "37f7490481"
   },
+  "복사한 글이 30일 동안 남아요": {
+    "v": "Kopyaladıklarınız 30 gün kalır",
+    "src": "006c8040e7"
+  },
   "복사한 글이 7일이 아니라 30일 동안 남아요": {
     "v": "Kopyalanan metin artık 7 yerine 30 gün kalır",
     "src": "3a3d50e79e"
@@ -5837,6 +5913,10 @@
     "v": "Kopyalarken değerler artık kendiliğinden kaydedilmez, tek seferlik değerler listeyi doldurmaz",
     "src": "03998369ee"
   },
+  "복사해 두고 꺼내 쓰는 것, 이게 전부예요": {
+    "v": "Kopyala, sakla, kullan. Hepsi bu",
+    "src": "dfadb743c5"
+  },
   "복사해 둔 것을 문장 안에 끼울 수 있어요": {
     "v": "Kopyaladığınızı cümlenin içine ekleyebilirsiniz",
     "src": "571baf7c00"
@@ -5855,6 +5935,22 @@
       "other": "Kopyaladığınız metni klavyenin ilk sekmesinde tutar, %d gün kalır"
     },
     "src": "2c57cfc2e7"
+  },
+  "복사해서 담아 두고 꺼내 쓰기": {
+    "v": "Kopyalayın, saklayın, sonra kullanın",
+    "src": "1b601f7340"
+  },
+  "복사해서 여기 담아 두세요": {
+    "v": "Kopyalayıp buraya kaydedin",
+    "src": "4b8fd041aa"
+  },
+  "복사해요": {
+    "v": "Kopyalar",
+    "src": "224639c8d4"
+  },
+  "복사했어요": {
+    "v": "Kopyalandı",
+    "src": "5f587d67aa"
   },
   "복원": {
     "v": "Geri yükle",
@@ -5895,6 +5991,10 @@
   "분류": {
     "v": "Kategori",
     "src": "d311748ec5"
+  },
+  "분류 탭": {
+    "v": "Tema Sekmeleri",
+    "src": "8960084754"
   },
   "불러오기": {
     "v": "Geri yükle",
@@ -5991,6 +6091,14 @@
   "붙여넣을 내용의 단추를 둘로 갈랐어요. 스캔해서 글자 넣기는 사진 속 글자만 가져오고, 이미지 붙이기는 사진을 그대로 담아요": {
     "v": "Yapıştırılacak içerik düğmeleri ikiye ayrıldı. Taratıp yazı ekle yalnızca fotoğraftaki yazıyı alır, Görsel ekle fotoğrafı olduğu gibi tutar",
     "src": "646026a637"
+  },
+  "붙여넣지 않아도 바로 들어가요": {
+    "v": "Yapıştırmadan doğrudan girer",
+    "src": "6965edda85"
+  },
+  "붙여넣지 않아도 버튼이 바로 넣어요": {
+    "v": "Düğme yapıştırmadan yazar",
+    "src": "711467619d"
   },
   "브라우저에서 열기": {
     "v": "Tarayıcıda Aç",
@@ -6956,8 +7064,8 @@
     "src": "da15387b89"
   },
   "숫자 판, 지우기, 전체 삭제 키를 펼칩니다": {
-    "v": "Sayı paneli, sil ve tümünü sil tuşlarını açar",
-    "src": "d735dcc2cd"
+    "v": "Sayı tuşlarını, silme ve tümünü silme tuşlarını açar",
+    "src": "fc5aa3822b"
   },
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "v": "Bir hane yanlış. Kartınızdaki numarayla karşılaştırın.",
@@ -7009,7 +7117,7 @@
   },
   "스페이스": {
     "v": "boşluk",
-    "src": "ec89ecd97a"
+    "src": "3552e7f0e3"
   },
   "시각·운동·청각 보조 기능을 함께 지원합니다. 아래 기능들은 iPhone 설정 → 손쉬운 사용에서 켤 수 있습니다.": {
     "v": "Görsel, motor ve işitsel erişilebilirlik özelliklerini destekler. Aşağıdakileri iPhone Ayarlar → Erişilebilirlik bölümünden açabilirsiniz.",
@@ -7070,6 +7178,10 @@
   "신원 확인": {
     "v": "Kimlik",
     "src": "098ff54eac"
+  },
+  "신한 110-123-456789": {
+    "v": "Ziraat TR33 0001 0012 3456 7890",
+    "src": "fd23b6f361"
   },
   "신한 계좌번호 예금주": {
     "v": "Chase hesap no sahibi",
@@ -7152,6 +7264,10 @@
     "v": "Kullanılmayan tüm alanlar silinsin mi?",
     "src": "74de95db83"
   },
+  "쓸 때 알려 줘요": {
+    "v": "Gerektiğinde gösterilir",
+    "src": "e2b42b737c"
+  },
   "쓸 때 채우는 칸": {
     "v": "Kullanırken doldurulacak alan",
     "src": "41f27192a0"
@@ -7171,6 +7287,10 @@
   "쓸수록 카드 위에 싹이 트고 나무와 집이 들어서요.": {
     "v": "Kullandıkça kartın üstünde filizler ağaca, eve dönüşür.",
     "src": "4e0db59246"
+  },
+  "아, 이렇게 보내는 거예요": {
+    "v": "Bu şekilde gönderilir",
+    "src": "5d1a1fdd24"
   },
   "아까와 다른 값이에요. 한 번 더 보내볼까요?": {
     "v": "Bu değer öncekinden farklı. Bir kez daha gönderilsin mi?",
@@ -7658,6 +7778,10 @@
     "v": "İş",
     "src": "2dd4ba1fdc"
   },
+  "업무 · 개인처럼 나눠 담아요": {
+    "v": "İş · Kişisel gibi temalara ayırın",
+    "src": "62d1489990"
+  },
   "없는 날짜예요. 다시 확인해 주세요": {
     "v": "Böyle bir tarih yok. Lütfen tekrar kontrol edin",
     "src": "d5302d2664"
@@ -7702,6 +7826,10 @@
     "v": "Buraya dokunun, sonra küre tuşuyla ClipKeyboard'u seçin",
     "src": "eb37f448da"
   },
+  "여기를 누르세요": {
+    "v": "Buraya dokunun",
+    "src": "fe481cd374"
+  },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "v": "Burada yazmaya devam ettiğiniz için imleci buraya yerleştirdim. İfade düzenlemeden kapatabilirsiniz.",
     "src": "f03e1fd1f1"
@@ -7710,6 +7838,10 @@
     "v": "Çoğunlukla burada yazmaya devam ettiğiniz için imleç oraya yerleşir",
     "src": "442f975e8b"
   },
+  "여기에 붙여넣어 보세요": {
+    "v": "Şimdi buraya yapıştırın",
+    "src": "35f987d4ae"
+  },
   "여기에 입력돼요": {
     "v": "Metniniz buraya girilir",
     "src": "5dc6b62d0c"
@@ -7717,6 +7849,10 @@
   "여기예요": {
     "v": "Bu",
     "src": "6b83f5788f"
+  },
+  "여러 값 스택": {
+    "v": "Çok Değerli Yığın",
+    "src": "e668b70d6a"
   },
   "여러 값을 담은 단축어가 단축어 스택이 됐어요. 칸마다 이름을 붙여 지금 무엇이 들어갈지 보여요": {
     "v": "Birden fazla değer taşıyan ifadeler artık ifade yığını oldu. Her alana ad verilir, sıradaki değeri görürsünüz.",
@@ -8022,6 +8158,10 @@
     "v": "Uzun bir aradan sonra yeniden açıldı. Eğitim de değerlendirme isteği de yok.",
     "src": "7058e1663f"
   },
+  "오른쪽 파란 화살표를 누르세요": {
+    "v": "Sağdaki mavi oka dokunun",
+    "src": "22b28ee01a"
+  },
   "오른쪽 화살표로 값을 고르고, 왼쪽을 누르면 PIN 인증 후 넣어요": {
     "v": "Değeri sağ oktan seçin, sola dokunursanız PIN doğrulamasından sonra eklenir",
     "src": "83ee800fdf"
@@ -8305,6 +8445,14 @@
     "v": "Bu uygulamanın sunucusu yok. Hesap numaralarınız ve kimlik numaralarınız yalnızca bu telefonda durur, biz bile göremeyiz. Ele geçirilecek sunucu olmadığı için ele geçirilecek bir şey de yok.",
     "src": "748fd3e528"
   },
+  "이 앱으로 할 수 있는 일": {
+    "v": "Yapabilecekleriniz",
+    "src": "9d4c540c29"
+  },
+  "이 앱으로 할 수 있는 일 더 알아보기": {
+    "v": "Daha Fazlasına Göz Atın",
+    "src": "259ccf35b2"
+  },
   "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
     "v": "Bu uygulama iPhone klavyesi üzerinden çalışır, bu yüzden Mac'te ifadeleri yazamaz. Mac için ClipKeyboard, ifadeleri menü çubuğundan veya bir klavye kısayoluyla her uygulamaya yapıştırır.",
     "src": "2e5ad98226"
@@ -8405,6 +8553,10 @@
     "v": "Bunu seç",
     "src": "c2e9755ca1"
   },
+  "이게 클립키보드예요": {
+    "v": "ClipKeyboard işte bu",
+    "src": "7e6e4b6e18"
+  },
   "이대로 할게요": {
     "v": "Böyle olsun",
     "src": "88890b4e87"
@@ -8488,6 +8640,10 @@
   "이름·날짜처럼 쓸 때마다 달라지는 자리": {
     "v": "İsim veya tarih gibi her seferinde değişen alanlar",
     "src": "235bfbed70"
+  },
+  "이름만 바꿔 여러 사람에게": {
+    "v": "Yalnızca ismi değiştirip herkese gönderin",
+    "src": "be86093563"
   },
   "이름만 없던 버튼들에 이름을 붙여 보이스오버와 음성 제어로 부를 수 있어요": {
     "v": "Adı olmayan düğmelere artık VoiceOver ve Ses Denetimi için isimler verildi",
@@ -8674,6 +8830,10 @@
     },
     "src": "2258e4149d"
   },
+  "이번엔 버튼만 눌러 보세요": {
+    "v": "Bu kez yalnızca düğmeye dokunun",
+    "src": "ac9339c7b4"
+  },
   "이번엔 셈을 고쳤어요": {
     "v": "Hesabı düzelttik",
     "src": "fa8769e8dd"
@@ -8837,6 +8997,10 @@
     "v": "Banka hesabı",
     "src": "cf8af22a18"
   },
+  "입금은 여기로": {
+    "v": "Ödeme bu hesaba",
+    "src": "95923ae33d"
+  },
   "입력": {
     "v": "Ekle",
     "src": "4083992b75"
@@ -8880,6 +9044,18 @@
   "입력창에 줄바꿈을 넣습니다. 앱에 따라 보내기로 동작합니다": {
     "v": "Satır sonu ekler. Bazı uygulamalarda mesajı gönderir",
     "src": "23be16ca8e"
+  },
+  "입력칸에 바로 넣어요": {
+    "v": "Doğrudan alana yazar",
+    "src": "e7bc4669af"
+  },
+  "입력칸을 누르고, 한 번 더 눌러 '붙여넣기'를 고르세요": {
+    "v": "Alana dokunun, tekrar dokunup Yapıştır'ı seçin",
+    "src": "5f83a06eb9"
+  },
+  "입력칸을 눌러 붙여넣어요": {
+    "v": "Metin alanına dokunup yapıştırın",
+    "src": "086305aea3"
   },
   "입력하기": {
     "v": "Ekle",
@@ -8988,6 +9164,14 @@
   "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기": {
     "v": "Sık kullandığınız metni kaydedin, hızla yapıştırın",
     "src": "e7cd511f5b"
+  },
+  "자주 쓰는 계좌번호를 담아 뒀어요": {
+    "v": "Sık kullanabileceğiniz bir hesap numarası kaydettik",
+    "src": "31526a880a"
+  },
+  "자주 쓰는 내 글을 담아요": {
+    "v": "Sık yazdığınız metni kaydedin",
+    "src": "c9e544c801"
   },
   "자주 쓰는 단축어를 위로 옮길 수 있어요": {
     "v": "Sık kullandığınız ifadeleri en üste taşıyabilirsiniz",
@@ -9625,6 +9809,10 @@
     "v": "Şu an %1$d / %2$d yuva dolu",
     "src": "d35800976d"
   },
+  "지금 다 외우지 않아도 돼요. 쓸 때가 오면 그 자리에서 보여 드려요.": {
+    "v": "Şimdi hepsini öğrenmeniz gerekmez. Sırası geldiğinde burada gösteririz.",
+    "src": "fd36aa996d"
+  },
   "지금 로그인한 Apple ID 로 Pro 를 구매한 기록을 찾지 못했어요. 구매할 때 쓴 Apple ID 로 로그인했는지 확인해 주세요.": {
     "v": "Giriş yaptığınız Apple ID ile Pro satın alımı bulunamadı. Satın alırken kullandığınız Apple ID ile giriş yaptığınızdan emin olun.",
     "src": "f2873bb475"
@@ -9888,6 +10076,10 @@
     "v": "Yeni tanıştığınız biri iletişim bilgisi sorduğunda",
     "src": "c93545a1f7"
   },
+  "처음 보는 그림": {
+    "v": "İlk Bakış",
+    "src": "ca609c628d"
+  },
   "처음 시작할 때 키보드 크기를 한 번 정하고 넘어가요": {
     "v": "İlk açılışta klavye boyutunu bir kez seçin",
     "src": "b571655d26"
@@ -9922,7 +10114,7 @@
   },
   "천지인": {
     "v": "Cheonjiin",
-    "src": "3298959b92"
+    "src": "db2c902cda"
   },
   "천지인 키보드의 한글 조합을 바로잡았어요": {
     "v": "Cheonjiin klavyesinde Korece birleştirme düzeltildi",
@@ -10053,6 +10245,10 @@
   "최근 단축어는 단축어가 늘어나면 저절로 켜집니다. 한 번 직접 켜거나 끄시면 그대로 둡니다.": {
     "v": "Son ifadeler, ifadeleriniz arttıkça kendiliğinden açılır. Bir kez kendiniz açıp kapatırsanız tercihiniz korunur.",
     "src": "557f5a46ce"
+  },
+  "최근 복사한 것": {
+    "v": "Son Kopyalananlar",
+    "src": "ab4103cf14"
   },
   "최근 사용": {
     "v": "Son kullanılan",
@@ -10887,6 +11083,10 @@
     "v": "Klavyeye gönder tuşu eklendi. İfadeyi ekleyip klavye değiştirmeden orada gönderirsiniz",
     "src": "2d6c797474"
   },
+  "키보드에 이 버튼들이 서 있어서, 어느 앱에서든 한 번에 넣어요": {
+    "v": "Bu düğmeler klavyenizde durur, böylece her uygulamada tek dokunuşla ekleyebilirsiniz",
+    "src": "ff00a43929"
+  },
   "키보드에 지우기 키가 생겼어요. 오타 하나를 고치려고 다른 키보드로 건너갈 일이 없어요": {
     "v": "Klavyeye silme tuşu eklendi. Tek bir yazım hatası için başka klavyeye geçmeniz gerekmez.",
     "src": "8eda686b5d"
@@ -11221,6 +11421,10 @@
     "v": "Şablon yükleniyor...",
     "src": "9720630b35"
   },
+  "템플릿 빈칸": {
+    "v": "Şablon Alanları",
+    "src": "3bc037961c"
+  },
   "템플릿 수": {
     "v": "Şablonlar",
     "src": "37fe876ba9"
@@ -11485,6 +11689,10 @@
     "v": "İhtiyacınız olan özelliği ya da zorlandığınız noktayı yazın: geliştirici her mesajı okur ve mutlaka çözer.",
     "src": "eec7b2e40c"
   },
+  "필요할 때 꺼내 쓰면 돼요": {
+    "v": "İhtiyacınız olduğunda kullanın",
+    "src": "bea3af3281"
+  },
   "필터 초기화": {
     "v": "Filtreyi sıfırla",
     "src": "5559918d75"
@@ -11601,6 +11809,10 @@
     "v": "200'er kayıt halinde gelir. Sayı kısmi olduğu için yükselmeye devam eder.",
     "src": "1e9ec1ad59"
   },
+  "한 번에 들어갔죠?": {
+    "v": "Tek dokunuşla girdi, değil mi?",
+    "src": "6c7148618a"
+  },
   "한 번에 옮기기": {
     "v": "Hepsini taşıyın",
     "src": "25835e8f86"
@@ -11639,7 +11851,7 @@
   },
   "한국어": {
     "v": "Korece",
-    "src": "dd4d21dcaa"
+    "src": "aff645339d"
   },
   "한국어 레이아웃": {
     "v": "Korece düzen",

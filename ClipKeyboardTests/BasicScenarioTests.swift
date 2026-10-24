@@ -467,6 +467,57 @@ final class BasicScenarioTests: XCTestCase {
     }
 
     /// 저장 파일의 원문. 평문이 새어 있는지 글자로 확인한다.
+    // MARK: - 시나리오 11: 백지 첫 실행은 새 설치에만, 끄면 이어서, 끝나면 예시 하나
+
+    func test_백지_첫_실행은_새_설치에만_뜨고_껐다_켜면_이어서_끝나면_예시_하나가_남는다() throws {
+        let std = UserDefaults.standard
+        let keys = [DefaultsKey.skinSeededV444, DefaultsKey.appLaunchCount, DefaultsKey.blankStartV1,
+                    DefaultsKey.startedFreshV444, DefaultsKey.snippetsTabStyle]
+        let saved = keys.map { std.object(forKey: $0) }
+        let savedLedger = groupDefaults?.object(forKey: DefaultsKey.lessonLedger)
+        defer {
+            for (k, v) in zip(keys, saved) { std.set(v, forKey: k) }
+            groupDefaults?.set(savedLedger, forKey: DefaultsKey.lessonLedger)
+        }
+
+        // 1. 쓰던 사람(실행 횟수가 이미 있다)에게는 아무것도 켜지지 않는다. 화면이 그대로다
+        keys.forEach { std.removeObject(forKey: $0) }
+        std.set(12, forKey: DefaultsKey.appLaunchCount)
+        ClipKeyboardApp.seedDefaultSkinForNewInstalls()
+        XCTAssertFalse(std.bool(forKey: DefaultsKey.blankStartV1), "기존 사용자에게 새 첫 실행이 뜨면 안 된다")
+
+        // 2. 새 설치는 백지 첫 실행으로 열리고, 옛 튜토리얼은 켜지지 않는다(둘이 겹치면 안 된다)
+        keys.forEach { std.removeObject(forKey: $0) }
+        ClipKeyboardApp.seedDefaultSkinForNewInstalls()
+        XCTAssertTrue(std.bool(forKey: DefaultsKey.blankStartV1))
+        XCTAssertFalse(std.bool(forKey: DefaultsKey.startedFreshV444), "옛 튜토리얼까지 켜지면 첫 실행이 둘이 된다")
+        XCTAssertEqual(std.string(forKey: DefaultsKey.snippetsTabStyle), SnippetsTabStyle.list.rawValue)
+
+        // 3. 중간에 끄면 안 배운 첫 칸부터 잇는다. 붙여넣기 전에 껐으면 복사부터 다시(클립보드가 비었을 수 있다)
+        groupDefaults?.removeObject(forKey: DefaultsKey.lessonLedger)
+        XCTAssertEqual(BlankStartView.resumeStage(), .intro)
+        LessonLedger.learn(.intro)
+        LessonLedger.learn(.copy)
+        XCTAssertEqual(LessonLedger.nextFirstRunLesson(), .paste)
+        XCTAssertEqual(BlankStartView.resumeStage(), .practice(.copy))
+        LessonLedger.learnAll([.paste, .send])
+        XCTAssertEqual(BlankStartView.resumeStage(), .practice(.insert))
+        LessonLedger.learn(.insert)
+        XCTAssertEqual(BlankStartView.resumeStage(), .choose)
+
+        // 처음 배운 시각은 다시 배워도 바뀌지 않는다
+        let first = LessonLedger.learnedAt(.copy)
+        LessonLedger.learn(.copy, at: Date().addingTimeInterval(3600))
+        XCTAssertEqual(LessonLedger.learnedAt(.copy), first)
+
+        // 4. "내 단축어 만들러 가기" 를 누르면 방금 써 본 예시 하나가 목록에 남는다. 두 번 눌러도 하나다
+        BlankStartSample.insertIfNeeded()
+        BlankStartSample.insertIfNeeded()
+        let memos = try MemoStore.shared.load(type: .memo)
+        XCTAssertEqual(memos.filter { $0.title == BlankStartSample.title }.count, 1)
+        XCTAssertEqual(memos.first?.value, BlankStartSample.value)
+    }
+
     private func rawMemoFile() -> String {
         guard let url = FileManager.default
             .containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier)?

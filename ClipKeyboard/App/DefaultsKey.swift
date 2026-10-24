@@ -490,6 +490,17 @@ enum DefaultsKey {
     /// 이 기기가 4.4.4 에서 **처음** 시작했는지. 금고 스킨 기본값과 튜토리얼이
     /// 같은 판단을 근거로 움직이게 하는 표식이다.
     static let startedFreshV444 = "startedFresh.v444"
+    /// 이 기기가 **백지 첫 실행**으로 시작했는지(새 설치에서만 켜진다).
+    ///
+    /// ⚠️ 기존 사용자는 이 표식이 없다. 그 사람들의 화면은 아무것도 달라지지 않는다
+    ///    (docs/design/blank-start-onboarding.html). 옛 튜토리얼 표식(`startedFreshV444`)은
+    ///    이 길에서는 켜지 않는다. 두 첫 실행이 겹치면 안 된다.
+    static let blankStartV1 = "blankStart.v1"
+    /// 백지 첫 실행을 끝냈는지(마지막 고르기에서 무엇을 골랐든).
+    static let blankStartFinished = "blankStart.finished.v1"
+    /// 배운 것 장부. App Group 에 `[lesson rawValue: 배운 시각(1970 기준 초)]` 로 둔다.
+    /// 키보드에서 처음 쓴 순간도 같은 장부에 적어야 해서 그룹에 산다(`LessonLedger`).
+    static let lessonLedger = "lessonLedger.v1"
     /// 준비된 단축어를 한 번 눌러 봤는지(또는 가리킬 것이 없어 건너뛰었는지).
     static let tutorialSnippetDone = "tutorial.snippet.done.v1"
     /// 준비된 템플릿을 한 번 써 봤는지.

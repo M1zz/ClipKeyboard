@@ -1,0 +1,1139 @@
+<title>백지 첫 실행</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* 배치: 왼쪽에 폰 한 대(늘 하얀 화면), 오른쪽에 배운 것 장부. 좁으면 위아래로 쌓는다 */
+:root {
+  --page: #eef0f3;
+  --ink: #15171a;
+  --muted: #6b7079;
+  --line: #d9dce1;
+  --screen: #ffffff;
+  --screen-ink: #111214;
+  --screen-muted: #8a8f98;
+  --screen-line: #dfe1e5;
+  --accent: #0a7cff;
+  --accent-soft: #e3f0ff;
+  --chip: #f2f3f5;
+  --done: #1f9d55;
+  --font: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --page: #121417; --ink: #eceef1; --muted: #9aa0a9; --line: #2a2e34; --done: #4cc38a; color-scheme: dark } }
+:root[data-theme="dark"] { --page: #121417; --ink: #eceef1; --muted: #9aa0a9; --line: #2a2e34; --done: #4cc38a; color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--page); color: var(--ink); font-family: var(--font); margin: 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px; }
+.wrap { max-width: 1000px; margin: 0 auto; display: flex; gap: 48px; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
+
+/* ── 폰 ── */
+.phone { width: 360px; max-width: 100%; aspect-ratio: 360 / 760; background: #0c0d0f; border-radius: 54px; padding: 12px; flex: none;
+  box-shadow: 0 30px 60px rgba(0,0,0,.18); }
+.screen { position: relative; width: 100%; height: 100%; background: var(--screen); color: var(--screen-ink);
+  border-radius: 43px; overflow: hidden; }
+.island { position: absolute; top: 11px; left: 50%; translate: -50% 0; width: 96px; height: 28px; border-radius: 20px; background: #0c0d0f; z-index: 9; }
+
+.scene { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .5s ease; }
+.scene.on { opacity: 1; pointer-events: auto; }
+/* 꺼진 장면 안의 판이 pointer-events: auto 로 화면을 덮어 단추를 가로채지 않게 */
+.scene:not(.on) * { pointer-events: none !important; }
+
+.line { font-size: 21px; font-weight: 700; letter-spacing: -.4px; line-height: 1.4; text-align: center; text-wrap: balance;
+  transition: opacity .4s ease, translate .4s ease; }
+.line.hide { opacity: 0; translate: 0 8px; }
+.subline { font-size: 17px; color: var(--screen-muted); text-align: center; margin-top: 8px; line-height: 1.45; text-wrap: balance;
+  transition: opacity .4s ease; min-height: 1.45em; }
+
+/* ── 0. 그림으로 설명 ── */
+#s0 { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 28px; }
+.stage { position: relative; width: 100%; height: 360px; margin-top: 28px; }
+.memo { position: absolute; left: 0; right: 0; top: 0; margin: auto; width: 250px; background: #fffbe8; border: 1px solid #f0e6b8;
+  border-radius: 16px; padding: 14px 16px; font-size: 16px; line-height: 1.5; transition: opacity .5s, translate .5s; }
+.memo .head { font-size: 15px; font-weight: 700; color: #8b7a2f; margin-bottom: 6px; }
+.memo mark { background: transparent; border-radius: 4px; transition: background .5s; color: inherit; padding: 0 2px; }
+.memo mark.sel { background: #b9d8ff; }
+.pill { position: absolute; background: #1d1f23; color: #fff; font-size: 15px; font-weight: 600; padding: 7px 12px; border-radius: 10px;
+  opacity: 0; scale: .8; transition: opacity .25s, scale .25s; }
+.pill.show { opacity: 1; scale: 1; }
+.box { position: absolute; left: 0; right: 0; margin: auto; top: 150px; width: 92px; height: 92px; border-radius: 26px; background: var(--accent);
+  display: grid; place-items: center; opacity: 0; scale: .7; transition: opacity .4s, scale .4s cubic-bezier(.3,1.4,.5,1); }
+.box.show { opacity: 1; scale: 1; }
+.box.gulp { scale: 1.08; }
+.box svg { width: 44px; height: 44px; }
+.flying { position: absolute; background: var(--chip); border: 1px solid var(--screen-line); border-radius: 10px; font-size: 15px; font-weight: 600;
+  padding: 6px 10px; white-space: nowrap; opacity: 0; transition: left .8s cubic-bezier(.5,0,.2,1), top .8s cubic-bezier(.5,0,.2,1), opacity .3s, scale .8s; }
+.chatdemo { position: absolute; left: 0; right: 0; bottom: 0; margin: auto; width: 270px; opacity: 0; translate: 0 16px; transition: opacity .5s, translate .5s; }
+.chatdemo.show { opacity: 1; translate: 0 0; }
+.bubble-in { background: #e9e9eb; border-radius: 18px; padding: 9px 13px; font-size: 16px; width: fit-content; }
+.inputbar { margin-top: 12px; border: 1px solid var(--screen-line); border-radius: 20px; height: 40px; padding: 0 14px; display: flex; align-items: center;
+  font-size: 16px; color: var(--screen-muted); }
+.inputbar.filled { color: var(--screen-ink); }
+
+/* ── 1~5. 해 보기 ── */
+#s1 { display: flex; flex-direction: column; padding: 56px 22px 34px; }
+.chat { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 8px; overflow: hidden; padding-bottom: 14px; }
+.bubble { align-self: flex-end; max-width: 80%; background: var(--accent); color: #fff; font-size: 17px; padding: 9px 14px; border-radius: 20px;
+  border-bottom-right-radius: 6px; animation: pop .45s cubic-bezier(.3,1.4,.5,1); transform-origin: right bottom; }
+@keyframes pop { from { opacity: 0; scale: .6; translate: 0 18px; } to { opacity: 1; scale: 1; translate: 0 0; } }
+.sent { align-self: flex-end; font-size: 14px; color: var(--screen-muted); margin-top: -4px; animation: fade .4s .25s both; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.guide { flex: none; padding-block: 8px 20px; }
+.save { align-self: center; flex: none; border: 0; background: var(--chip); color: var(--screen-ink); font: inherit; font-size: 19px; font-weight: 700;
+  padding: 16px 30px; border-radius: 20px; cursor: pointer; position: relative; transition: scale .15s, background .3s; }
+.save small { display: block; font-size: 15px; font-weight: 500; color: var(--screen-muted); margin-top: 4px; }
+.save:active { scale: .96; }
+.glow::after { content: ""; position: absolute; inset: -6px; border-radius: inherit; border: 3px solid var(--accent); animation: ring 1.4s ease-out infinite; }
+@keyframes ring { from { opacity: .9; scale: .96; } to { opacity: 0; scale: 1.12; } }
+.save.done { background: var(--accent-soft); }
+button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.toast { position: absolute; top: 64px; left: 50%; translate: -50% -8px; background: #1d1f23; color: #fff; font-size: 16px; font-weight: 600;
+  padding: 10px 16px; border-radius: 14px; opacity: 0; transition: opacity .25s, translate .25s; white-space: nowrap; z-index: 8; }
+.toast.show { opacity: 1; translate: -50% 0; }
+
+.fieldwrap { flex: none; margin-top: 22px; position: relative; display: flex; gap: 8px; align-items: center;
+  opacity: 0; translate: 0 12px; transition: opacity .45s, translate .45s; pointer-events: none; }
+.fieldwrap.show { opacity: 1; translate: 0 0; pointer-events: auto; }
+.field { flex: 1; min-width: 0; min-height: 50px; border: 1.5px solid var(--screen-line); border-radius: 25px; padding: 12px 16px; font-size: 17px;
+  color: var(--screen-muted); text-align: left; background: var(--screen); font-family: inherit; cursor: text; transition: border-color .3s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.field.focus { border-color: var(--accent); color: var(--screen-ink); }
+.caret { display: inline-block; width: 2px; height: 20px; background: var(--accent); vertical-align: -4px; margin-left: 1px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.send { flex: none; position: relative; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--screen-line); color: #fff;
+  display: grid; place-items: center; cursor: default; transition: background .3s; }
+.send.ready { background: var(--accent); cursor: pointer; }
+.send svg { width: 22px; height: 22px; }
+.paste { position: absolute; left: 14px; top: -46px; border: 0; background: #1d1f23; color: #fff; font: inherit; font-size: 16px; font-weight: 600;
+  padding: 9px 16px; border-radius: 10px; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity .2s; }
+.paste::after { content: ""; position: absolute; left: 22px; bottom: -6px; border: 6px solid transparent; border-bottom: 0; border-top-color: #1d1f23; }
+.paste.show { opacity: 1; pointer-events: auto; }
+
+/* ── 고르기 ── */
+.choices { position: absolute; left: 22px; right: 22px; bottom: 34px; display: grid; gap: 10px; opacity: 0; translate: 0 20px;
+  pointer-events: none; transition: opacity .45s, translate .45s; background: var(--screen); padding-top: 14px; }
+.choices.show { opacity: 1; translate: 0 0; pointer-events: auto; }
+.choices button { border: 0; font: inherit; font-size: 18px; font-weight: 700; padding: 17px; border-radius: 18px; cursor: pointer; }
+.choices .primary { background: var(--screen-ink); color: var(--screen); }
+.choices .secondary { background: var(--chip); color: var(--screen-ink); }
+
+/* 더 알아보기 판 */
+.sheet { position: absolute; inset: auto 0 0 0; height: 78%; background: var(--screen); border-radius: 28px 28px 0 0; z-index: 7;
+  box-shadow: 0 -10px 40px rgba(0,0,0,.12); padding: 14px 22px 30px; translate: 0 105%; transition: translate .45s cubic-bezier(.3,1,.4,1);
+  display: flex; flex-direction: column; }
+.sheet.show { translate: 0 0; }
+.grab { width: 40px; height: 5px; border-radius: 3px; background: var(--screen-line); margin: 0 auto 16px; }
+.sheet h2 { font-size: 21px; margin: 0 0 4px; letter-spacing: -.4px; }
+.sheet p { margin: 0 0 14px; color: var(--screen-muted); font-size: 16px; line-height: 1.45; }
+.feat { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; overflow: auto; }
+.feat li { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 12px 2px; border-bottom: 1px solid var(--screen-line); }
+.feat b { font-size: 17px; }
+.feat span { display: block; font-size: 15px; color: var(--screen-muted); margin-top: 2px; }
+.tag { font-size: 14px; font-weight: 700; padding: 4px 9px; border-radius: 8px; background: var(--chip); color: var(--screen-muted); white-space: nowrap; }
+.tag.ok { background: #e2f6ea; color: #157a40; }
+.sheet .close { margin-top: auto; border: 0; background: var(--chip); color: var(--screen-ink); font: inherit; font-size: 17px; font-weight: 700;
+  padding: 15px; border-radius: 16px; cursor: pointer; }
+
+/* ── 목록(내 단축어) ── */
+#s2 { padding: 58px 20px 0; }
+.listhead { display: flex; align-items: center; justify-content: space-between; }
+.listhead h2 { font-size: 34px; font-weight: 800; letter-spacing: -.8px; margin: 0; }
+.glass { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--screen-line); background: rgba(255,255,255,.85);
+  box-shadow: 0 4px 14px rgba(0,0,0,.08); display: grid; place-items: center; color: var(--accent); cursor: pointer; position: relative; }
+.glass svg { width: 22px; height: 22px; }
+.glass.glow::after { border-radius: 50%; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+.card { aspect-ratio: 1; border-radius: 22px; background: var(--screen); border: 1px solid var(--screen-line); box-shadow: 0 6px 18px rgba(0,0,0,.07);
+  padding: 14px 15px; font-size: 18px; font-weight: 700; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
+.card small { font-size: 14px; font-weight: 500; color: var(--screen-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card.arrive { animation: land .7s cubic-bezier(.3,1.3,.5,1) both; }
+@keyframes land { from { opacity: 0; scale: 1.5; translate: 40% 150%; } to { opacity: 1; scale: 1; translate: 0 0; } }
+.tabbar { position: absolute; left: 20px; right: 20px; bottom: 30px; display: flex; align-items: center; justify-content: space-between; }
+.tabs { display: flex; align-items: center; gap: 4px; padding: 5px; border-radius: 30px; border: 1px solid var(--screen-line);
+  background: rgba(255,255,255,.9); box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+.tab { display: flex; align-items: center; gap: 6px; height: 44px; padding: 0 16px; border-radius: 22px; font-size: 16px; font-weight: 700; color: var(--screen-ink); }
+.tab.on { background: var(--accent-soft); color: var(--accent); }
+.tab svg { width: 20px; height: 20px; }
+.tabbar .glass { width: 54px; height: 54px; color: var(--screen-ink); }
+.rise { animation: rise .5s .35s cubic-bezier(.3,1,.4,1) both; }
+@keyframes rise { from { opacity: 0; translate: 0 16px; } to { opacity: 1; translate: 0 0; } }
+
+.tab { cursor: pointer; border: 0; background: transparent; font: inherit; font-size: 16px; font-weight: 700; color: var(--screen-ink); }
+.tab.on { background: var(--accent-soft); color: var(--accent); }
+.chips { display: flex; gap: 6px; margin-top: 14px; }
+.chips span { font-size: 15px; font-weight: 700; padding: 7px 12px; border-radius: 12px; background: var(--chip); color: var(--screen-muted); }
+.chips span.on { background: var(--screen-ink); color: var(--screen); }
+.page { position: absolute; inset: 0; padding: 58px 20px 110px; overflow: auto; opacity: 0; pointer-events: none; transition: opacity .3s; }
+.page.on { opacity: 1; pointer-events: auto; }
+
+/* 새 단축어: 이름 · 내용 · V 하나 */
+.compose { position: absolute; inset: 0; background: var(--screen); z-index: 7; padding: 22px 20px 30px; translate: 0 105%;
+  transition: translate .45s cubic-bezier(.3,1,.4,1); display: flex; flex-direction: column; border-radius: 30px 30px 0 0; }
+.compose.show { translate: 0 0; }
+.compose .bar { display: flex; align-items: center; justify-content: space-between; margin-top: 26px; }
+.compose .bar h2 { font-size: 22px; margin: 0; letter-spacing: -.4px; }
+.check { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--screen-line); color: #fff; display: grid; place-items: center; cursor: default; }
+.check.ready { background: var(--accent); cursor: pointer; }
+.check svg { width: 22px; height: 22px; }
+.fieldset { margin-top: 22px; display: grid; gap: 8px; }
+.fieldset label { font-size: 15px; font-weight: 700; color: var(--screen-muted); }
+.fieldset input, .fieldset textarea { width: 100%; border: 1.5px solid var(--screen-line); border-radius: 16px; padding: 14px 16px; font: inherit;
+  font-size: 18px; color: var(--screen-ink); background: var(--screen); resize: none; }
+.fieldset input:focus, .fieldset textarea:focus { outline: none; border-color: var(--accent); }
+.fieldset textarea { min-height: 120px; line-height: 1.45; }
+.extra { margin-top: 14px; display: grid; gap: 8px; }
+.extra .opt { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 14px; background: var(--chip);
+  font-size: 16px; font-weight: 600; animation: rise .4s both; }
+.extra .opt span { font-size: 14px; font-weight: 500; color: var(--screen-muted); display: block; margin-top: 2px; }
+
+/* 설정: 기능 더하기 */
+.sethead h2 { font-size: 34px; font-weight: 800; letter-spacing: -.8px; margin: 0; }
+.sethead p { margin: 6px 0 0; font-size: 16px; line-height: 1.45; color: var(--screen-muted); }
+.feature { display: grid; grid-template-columns: 92px 1fr auto; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--screen-line); }
+.feature b { font-size: 17px; display: block; }
+.feature .fd { font-size: 14px; color: var(--screen-muted); line-height: 1.4; margin-top: 2px; }
+.prev { height: 68px; border-radius: 14px; background: var(--chip); display: grid; place-items: center; overflow: hidden; font-size: 12px; font-weight: 700;
+  padding: 6px; text-align: center; line-height: 1.35; color: var(--screen-ink); }
+.prev i { font-style: normal; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 0 3px; }
+.switch { width: 51px; height: 31px; border-radius: 16px; background: var(--screen-line); border: 0; position: relative; cursor: pointer; transition: background .25s; flex: none; }
+.switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,.2); transition: left .25s; }
+.switch[aria-checked="true"] { background: #34c759; }
+.switch[aria-checked="true"]::after { left: 22px; }
+
+.presets { display: grid; gap: 8px; margin: 16px 0 6px; }
+.preset { border: 1.5px solid var(--screen-line); background: var(--screen); border-radius: 16px; padding: 12px 14px; text-align: left; font: inherit;
+  color: var(--screen-ink); cursor: pointer; display: grid; gap: 3px; transition: border-color .2s, background .2s; }
+.preset b { font-size: 17px; }
+.preset span { font-size: 14px; color: var(--screen-muted); line-height: 1.4; }
+.preset[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.preset b em { font-style: normal; font-size: 13px; font-weight: 800; color: #fff; background: var(--accent); padding: 2px 7px; border-radius: 7px; margin-left: 6px; vertical-align: 2px; }
+.preset .why { font-size: 13px; color: var(--accent); font-weight: 600; }
+.subhead { font-size: 14px; font-weight: 700; color: var(--screen-muted); margin: 18px 0 2px; letter-spacing: .3px; }
+
+/* ── 키보드 켜기 수업 ── */
+#s3 { display: flex; flex-direction: column; padding: 64px 22px 30px; z-index: 6; background: var(--screen); }
+#s3 .guide { padding: 0 0 14px; }
+.kbdemo { flex: 1 1 auto; min-height: 0; border-radius: 22px; background: #f6f7f9; border: 1px solid var(--screen-line); overflow: hidden;
+  display: flex; flex-direction: column; position: relative; transition: opacity .4s; }
+.kbdemo .msgs { flex: 1; padding: 14px 12px 8px; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; min-height: 0; overflow: hidden; }
+.kbdemo .in { align-self: flex-start; background: #e6e7ea; border-radius: 16px; padding: 7px 11px; font-size: 15px; }
+.kbdemo .out { align-self: flex-end; background: var(--accent); color: #fff; border-radius: 16px; padding: 7px 11px; font-size: 15px; animation: pop .45s cubic-bezier(.3,1.4,.5,1); }
+.kbdemo .ibar { margin: 0 10px 8px; display: flex; gap: 6px; align-items: center; }
+.kbdemo .ibox { flex: 1; min-width: 0; height: 36px; border-radius: 18px; border: 1px solid var(--screen-line); background: #fff; font-size: 15px; padding: 0 12px;
+  display: flex; align-items: center; color: var(--screen-muted); white-space: nowrap; overflow: hidden; }
+.kbdemo .ibox.filled { color: var(--screen-ink); }
+.kbdemo .isend { width: 34px; height: 34px; border-radius: 50%; border: 0; background: var(--screen-line); color: #fff; display: grid; place-items: center; position: relative; }
+.kbdemo .isend.ready { background: var(--accent); cursor: pointer; }
+.kbdemo .isend svg { width: 18px; height: 18px; }
+.kbd { height: 168px; background: #d5d8dd; padding: 8px 5px; display: grid; gap: 7px; flex: none; position: relative; }
+.kbd .row { display: flex; gap: 5px; justify-content: center; }
+.kbd .k { flex: 1; max-width: 28px; height: 32px; border-radius: 6px; background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.25); font-size: 14px;
+  display: grid; place-items: center; color: #222; }
+.kbd .k.wide { max-width: none; flex: 4; }
+.kbd .k.fn { background: #abb0ba; max-width: 40px; }
+.kbd .k.globe { cursor: pointer; position: relative; }
+.kbd .k.globe svg { width: 18px; height: 18px; }
+.kbd .k.globe.glow::after { border-radius: 8px; }
+.kbcards { position: absolute; inset: 0; background: #d5d8dd; padding: 10px 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-content: start;
+  opacity: 0; pointer-events: none; transition: opacity .3s; }
+.kbcards.on { opacity: 1; pointer-events: auto; }
+.kbcards button { border: 0; background: #fff; border-radius: 12px; height: 44px; font: inherit; font-size: 15px; font-weight: 700; color: #111;
+  box-shadow: 0 1px 0 rgba(0,0,0,.2); cursor: pointer; position: relative; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 0 8px; }
+.kbcards .tap { position: absolute; width: 26px; height: 26px; border-radius: 50%; background: rgba(10,124,255,.35); pointer-events: none; opacity: 0; }
+.howto { display: grid; gap: 8px; }
+.howto li { list-style: none; display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: center; padding: 11px 12px; border-radius: 14px;
+  background: var(--chip); font-size: 16px; font-weight: 600; opacity: 0; translate: 0 8px; transition: opacity .4s, translate .4s; }
+.howto li.show { opacity: 1; translate: 0 0; }
+.howto li span { font-size: 14px; font-weight: 500; color: var(--screen-muted); display: block; margin-top: 1px; }
+.howto .num { width: 26px; height: 26px; border-radius: 50%; background: var(--screen-ink); color: var(--screen); display: grid; place-items: center; font-size: 14px; font-weight: 800; }
+.howto { margin: 0; padding: 0; }
+.kbbtns { display: grid; gap: 8px; margin-top: 14px; opacity: 0; pointer-events: none; transition: opacity .4s; }
+.kbbtns.show { opacity: 1; pointer-events: auto; }
+.kbbtns button { border: 0; font: inherit; font-size: 18px; font-weight: 700; padding: 16px; border-radius: 18px; cursor: pointer; }
+.kbbtns .primary { background: var(--screen-ink); color: var(--screen); }
+.kbbtns .later { background: transparent; color: var(--screen-muted); font-size: 16px; padding: 8px; }
+.privacy { font-size: 14px; color: var(--screen-muted); text-align: center; margin-top: 6px; line-height: 1.4; }
+
+/* 흉내 낸 iOS 설정 앱. 여기엔 우리 안내를 띄울 수 없다 */
+#s4 { background: #f2f2f7; z-index: 6; padding: 50px 0 0; font-size: 17px; }
+.ios-back { position: absolute; top: 14px; left: 22px; font-size: 13px; font-weight: 600; color: var(--accent); border: 0; background: transparent; cursor: pointer; z-index: 10; padding: 0; }
+.ios-nav { display: flex; align-items: center; height: 44px; padding: 0 12px; color: var(--accent); font-size: 17px; }
+.ios-nav button { border: 0; background: transparent; color: var(--accent); font: inherit; cursor: pointer; padding: 0; }
+.ios-title { font-size: 32px; font-weight: 800; padding: 2px 18px 12px; letter-spacing: -.5px; color: #000; }
+.ios-group { margin: 0 16px 22px; background: #fff; border-radius: 12px; overflow: hidden; }
+.ios-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-bottom: 1px solid #e5e5ea; color: #000; }
+.ios-row:last-child { border-bottom: 0; }
+button.ios-row { width: 100%; border-left: 0; border-right: 0; border-top: 0; background: #fff; font: inherit; text-align: left; cursor: pointer; }
+.ios-row .ic { width: 29px; height: 29px; border-radius: 7px; display: grid; place-items: center; color: #fff; font-size: 15px; flex: none; }
+.ios-row .lbl { flex: 1; display: flex; align-items: center; gap: 12px; }
+.ios-row .chev { color: #c4c4c7; font-size: 20px; }
+.ios-foot { margin: -14px 30px 22px; font-size: 13px; color: #6d6d72; line-height: 1.4; }
+.ios-page { position: absolute; inset: 50px 0 0; overflow: auto; transition: translate .35s cubic-bezier(.3,1,.4,1); background: #f2f2f7; }
+.ios-page.off { translate: 100% 0; }
+.ios-alert { position: absolute; inset: 0; background: rgba(0,0,0,.35); display: grid; place-items: center; z-index: 11; opacity: 0; pointer-events: none; transition: opacity .2s; }
+.ios-alert.show { opacity: 1; pointer-events: auto; }
+.ios-alert .box { width: 270px; background: rgba(245,245,247,.97); border-radius: 14px; text-align: center; overflow: hidden; }
+.ios-alert .box b { display: block; padding: 18px 16px 4px; font-size: 17px; color: #000; }
+.ios-alert .box p { margin: 0; padding: 0 16px 16px; font-size: 13px; color: #333; line-height: 1.4; }
+.ios-alert .btns { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid #d1d1d6; }
+.ios-alert .btns button { border: 0; background: transparent; font: inherit; font-size: 17px; color: var(--accent); padding: 12px; cursor: pointer; }
+.ios-alert .btns button + button { border-left: 1px solid #d1d1d6; font-weight: 700; }
+.kbanner { margin-top: 14px; border-radius: 16px; background: var(--accent-soft); padding: 12px 14px; display: flex; gap: 10px; align-items: center; justify-content: space-between; }
+.kbanner div { font-size: 15px; line-height: 1.4; color: var(--screen-ink); }
+.kbanner button { border: 0; background: var(--accent); color: #fff; font: inherit; font-size: 15px; font-weight: 700; padding: 8px 14px; border-radius: 12px; cursor: pointer; flex: none; }
+
+/* 카드: 누르면 복사(초록 체크), 길게 누르면 메뉴 */
+.card { position: relative; cursor: pointer; user-select: none; -webkit-user-select: none; transition: scale .15s; touch-action: manipulation; }
+.card:active { scale: .97; }
+.card .copied { position: absolute; inset: 0; border-radius: inherit; background: rgba(255,255,255,.92); display: grid; place-items: center; align-content: center;
+  gap: 6px; font-size: 15px; font-weight: 700; color: #1f9d55; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.card .copied.show { opacity: 1; }
+.card .copied i { width: 42px; height: 42px; border-radius: 50%; background: #34c759; display: grid; place-items: center; animation: pop .4s cubic-bezier(.3,1.4,.5,1); }
+.card .copied i::after { content: ""; width: 16px; height: 8px; border: 3px solid #fff; border-top: 0; border-right: 0; rotate: -45deg; translate: 0 -2px; }
+.ctx { position: absolute; inset: 0; z-index: 8; background: rgba(0,0,0,.18); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  opacity: 0; pointer-events: none; transition: opacity .2s; }
+.ctx.show { opacity: 1; pointer-events: auto; }
+.ctx .lift { position: absolute; scale: 1.04; box-shadow: 0 18px 40px rgba(0,0,0,.2); }
+.ctx .menu { position: absolute; width: 220px; background: rgba(250,250,252,.98); border-radius: 14px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.18); }
+.ctx .menu button { display: flex; width: 100%; justify-content: space-between; border: 0; border-bottom: 1px solid #e5e5ea; background: transparent; font: inherit;
+  font-size: 17px; padding: 12px 16px; cursor: pointer; color: #000; }
+.ctx .menu button:last-child { border-bottom: 0; color: #ff3b30; }
+
+/* ── 기능 수업(그림으로 해 보기) ── */
+#s5 { display: flex; flex-direction: column; padding: 64px 22px 30px; z-index: 6; background: var(--screen); }
+#s5 .guide { padding-bottom: 18px; }
+.lstage { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.lcard { width: 100%; border-radius: 20px; border: 1px solid var(--screen-line); box-shadow: 0 6px 18px rgba(0,0,0,.07); padding: 16px; font-size: 18px; line-height: 1.5; background: var(--screen); }
+.lcard .ttl { font-size: 15px; font-weight: 700; color: var(--screen-muted); margin-bottom: 6px; }
+.blank { display: inline-block; min-width: 64px; padding: 0 8px; border-radius: 8px; background: var(--accent-soft); color: var(--accent); font-weight: 700; text-align: center; transition: background .3s; }
+.blank.fill { animation: pop .4s cubic-bezier(.3,1.4,.5,1); background: #e2f6ea; color: #157a40; }
+.lchips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.lchips button { border: 0; background: var(--chip); font: inherit; font-size: 17px; font-weight: 700; padding: 10px 16px; border-radius: 14px; cursor: pointer; color: var(--screen-ink); position: relative; }
+.lchips button.on { background: var(--screen-ink); color: var(--screen); }
+.lkey { border: 0; background: var(--chip); font: inherit; font-size: 19px; font-weight: 700; padding: 16px 26px; border-radius: 18px; cursor: pointer; position: relative; color: var(--screen-ink); }
+.lkey small { display: block; font-size: 14px; color: var(--screen-muted); margin-top: 3px; font-weight: 600; }
+.lbox { width: 100%; min-height: 96px; border: 1.5px solid var(--screen-line); border-radius: 16px; padding: 12px 14px; font-size: 17px; line-height: 1.6; white-space: pre-line; }
+.lbox .new { animation: rise .35s both; display: inline; }
+.faceid { width: 72px; height: 72px; border-radius: 18px; border: 3px solid var(--accent); display: grid; place-items: center; opacity: 0; scale: .6;
+  transition: opacity .25s, scale .35s cubic-bezier(.3,1.4,.5,1); color: var(--accent); font-size: 30px; }
+.faceid.show { opacity: 1; scale: 1; }
+.minigrid { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.minigrid div { border-radius: 16px; border: 1px solid var(--screen-line); padding: 12px; font-size: 16px; font-weight: 700; transition: opacity .3s, scale .3s; }
+.minigrid div.out { opacity: 0; scale: .85; position: absolute; visibility: hidden; }
+.minigrid div span { display: block; font-size: 13px; color: var(--screen-muted); font-weight: 600; margin-top: 4px; }
+.rlist { width: 100%; display: grid; gap: 8px; }
+.rlist div { border-radius: 14px; background: var(--chip); padding: 10px 12px; font-size: 16px; }
+.rlist div span { display: block; font-size: 13px; color: var(--screen-muted); }
+.rlist div.new { animation: pop .45s cubic-bezier(.3,1.4,.5,1); background: var(--accent-soft); }
+.ldone { display: grid; gap: 6px; opacity: 0; pointer-events: none; transition: opacity .4s; }
+.ldone.show { opacity: 1; pointer-events: auto; }
+.ldone button { border: 0; font: inherit; font-size: 18px; font-weight: 700; padding: 16px; border-radius: 18px; cursor: pointer; background: var(--screen-ink); color: var(--screen); }
+.lskip { border: 0; background: transparent; color: var(--screen-muted); font: inherit; font-size: 15px; padding: 6px; cursor: pointer; align-self: center; }
+
+/* 가이드북 */
+.gb { margin-top: 6px; }
+.gbrow { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--screen-line); }
+.gbrow b { font-size: 17px; display: block; }
+.gbrow span { font-size: 14px; color: var(--screen-muted); }
+.gbrow span.ok { color: #157a40; font-weight: 700; }
+.gbrow button { border: 0; background: var(--accent-soft); color: var(--accent); font: inherit; font-size: 15px; font-weight: 700; padding: 8px 14px; border-radius: 12px; cursor: pointer; }
+
+/* 넛지: 쓰는 모습을 보고 그 순간에 한 번만 권한다 */
+.nudge { margin-top: 14px; border-radius: 18px; border: 1.5px solid var(--accent); background: var(--screen); padding: 14px; display: grid; gap: 10px;
+  animation: rise .45s both; box-shadow: 0 8px 22px rgba(10,124,255,.12); }
+.nudge .top { display: grid; grid-template-columns: 74px 1fr; gap: 12px; align-items: center; }
+.nudge .prev { height: 58px; }
+.nudge b { font-size: 17px; display: block; line-height: 1.35; }
+.nudge span { font-size: 14px; color: var(--screen-muted); line-height: 1.4; display: block; margin-top: 2px; }
+.nudge .acts { display: flex; gap: 8px; }
+.nudge .acts button { flex: 1; border: 0; font: inherit; font-size: 15px; font-weight: 700; padding: 11px; border-radius: 12px; cursor: pointer; }
+.nudge .yes { background: var(--accent); color: #fff; }
+.nudge .no { background: var(--chip); color: var(--screen-ink); }
+.oldkb { color: var(--accent); }
+
+/* ── 옆: 배운 것 장부 ── */
+.side { flex: 1 1 340px; min-width: 0; max-width: 460px; padding-top: 12px; }
+.side h1 { font-size: 26px; letter-spacing: -.5px; margin: 0 0 6px; text-wrap: balance; }
+.side p { color: var(--muted); font-size: 16px; line-height: 1.6; margin: 0 0 20px; }
+.side h3 { font-size: 15px; letter-spacing: .4px; color: var(--muted); margin: 26px 0 8px; }
+.ledger { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.ledger li { display: grid; grid-template-columns: 24px 1fr auto; gap: 10px; align-items: center; padding: 9px 10px; border-radius: 12px; }
+.ledger li.now { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.dot { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center; }
+.ledger li.done .dot { background: var(--done); border-color: var(--done); }
+.ledger li.done .dot::after { content: ""; width: 9px; height: 5px; border: 2px solid #fff; border-top: 0; border-right: 0; rotate: -45deg; translate: 0 -1px; }
+.ledger .t { font-size: 16px; font-weight: 600; min-width: 0; }
+.ledger .t small { display: block; font-size: 14px; font-weight: 400; color: var(--muted); margin-top: 1px; }
+.ledger .when { font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.ledger button { all: unset; cursor: pointer; display: contents; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+.ghost { border: 1.5px solid var(--line); background: transparent; color: var(--ink); font: inherit; font-size: 15px; font-weight: 600;
+  padding: 10px 16px; border-radius: 12px; cursor: pointer; }
+code { font-size: 14px; background: color-mix(in srgb, var(--line) 60%, transparent); padding: 1px 5px; border-radius: 5px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition-duration: 0s !important; animation: none !important; } }
+</style>
+
+<div class="wrap">
+  <div class="phone" aria-label="앱 화면 시안">
+    <div class="screen">
+      <div class="island"></div>
+
+      <!-- 그림으로 보기 -->
+      <section class="scene" id="s0" aria-live="polite">
+        <div class="line hide" id="l0">다른 곳에 자주 쓰는 글이 있으면</div>
+        <div class="stage">
+          <div class="memo" id="memo"><div class="head">메모</div>입금은 여기로<br><mark id="mark">신한 110-123-456789</mark></div>
+          <div class="pill" id="pill" style="left:118px;top:96px">복사</div>
+          <div class="box" id="box"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M4 7l2-3h12l2 3"/><path d="M9 12h6"/></svg></div>
+          <div class="flying" id="fly">신한 110-123-456789</div>
+          <div class="chatdemo" id="chatdemo"><div class="bubble-in">계좌 알려 주실래요?</div><div class="inputbar" id="bar">메시지</div></div>
+        </div>
+      </section>
+
+      <!-- 해 보기 -->
+      <section class="scene" id="s1">
+        <div class="chat" id="chat" aria-live="polite"></div>
+        <div class="guide">
+          <div class="line" id="tl">눌러 보세요</div>
+          <div class="subline" id="ts">자주 쓰는 계좌번호를 담아 뒀어요</div>
+        </div>
+        <button class="save glow" id="save" type="button">계좌번호<small>신한 110-123-456789</small></button>
+        <div class="fieldwrap" id="fw">
+          <button class="paste" id="paste" type="button">붙여넣기</button>
+          <button class="field" id="field" type="button">여기를 누르세요</button>
+          <button class="send" id="send" type="button" aria-label="보내기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></button>
+        </div>
+        <div class="choices" id="choices">
+          <button class="primary" id="makeOwn" type="button">내 단축어 만들러 가기</button>
+          <button class="secondary" id="more" type="button">이 앱으로 할 수 있는 일 더 알아보기</button>
+        </div>
+      </section>
+      <div class="toast" id="toast">복사했어요</div>
+
+      <!-- 내 단축어 (목록) -->
+      <section class="scene" id="s2" aria-label="기본">
+        <div class="page on" id="pList">
+        <div class="listhead rise">
+          <h2>기본</h2>
+          <div style="display:flex;gap:6px"><button class="glass oldkb" id="oldKb" type="button" hidden aria-label="키보드 미리보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h1M11 10h1M15 10h1M8 14h8"/></svg></button>
+          <button class="glass glow" id="plus" type="button" aria-label="단축어 추가"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
+        </div>
+        <div class="nudge" id="nudge" hidden></div>
+        <div class="kbanner" id="kbanner" hidden><div>키보드를 켜면 어느 앱에서든<br>바로 넣을 수 있어요</div><button id="kbannerGo" type="button">켜기</button></div>
+        <div class="chips" id="cats" hidden><span class="on">기본</span><span>업무</span><span>개인</span><span>+</span></div>
+        <div class="grid" id="grid"></div>
+        </div>
+        <div class="page" id="pSet">
+          <div class="sethead"><h2>설정</h2><p>필요한 것만 켜세요. 켜면 그 자리에 바로 생겨요.</p></div>
+          <div class="presets" id="presets"></div>
+          <div class="subhead">하나씩 고르기</div>
+          <div id="features"></div>
+          <div class="subhead">가이드북</div>
+          <div class="gb" id="guide"></div>
+        </div>
+        <div class="tabbar rise">
+          <div class="tabs">
+            <button class="tab on" id="tabList" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>목록</button>
+            <button class="tab" id="tabRecent" type="button" hidden>최근</button>
+            <button class="tab" id="tabSet" type="button" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+          </div>
+          <div class="glass" aria-label="검색"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></div>
+        </div>
+      </section>
+
+      <!-- 키보드 켜기 수업 -->
+      <section class="scene" id="s3">
+        <div class="guide">
+          <div class="line" id="kl">이제 다른 앱에서 써 볼까요?</div>
+          <div class="subline" id="ks">키보드를 한 번만 켜 두면 돼요</div>
+        </div>
+        <div class="kbdemo" id="kbdemo">
+          <div class="msgs" id="kmsgs"><div class="in">주소 좀 보내 줄래?</div></div>
+          <div class="ibar"><div class="ibox" id="kibox">메시지</div><button class="isend" id="ksend" type="button" aria-label="보내기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg></button></div>
+          <div class="kbd" id="kbd"><div class="row"><div class="k">ㅂ</div><div class="k">ㅈ</div><div class="k">ㄷ</div><div class="k">ㄱ</div><div class="k">ㅅ</div><div class="k">ㅛ</div><div class="k">ㅕ</div><div class="k">ㅑ</div><div class="k">ㅐ</div><div class="k">ㅔ</div></div><div class="row"><div class="k">ㅁ</div><div class="k">ㄴ</div><div class="k">ㅇ</div><div class="k">ㄹ</div><div class="k">ㅎ</div><div class="k">ㅗ</div><div class="k">ㅓ</div><div class="k">ㅏ</div><div class="k">ㅣ</div></div><div class="row"><div class="k fn">⇧</div><div class="k">ㅋ</div><div class="k">ㅌ</div><div class="k">ㅊ</div><div class="k">ㅍ</div><div class="k">ㅠ</div><div class="k">ㅜ</div><div class="k">ㅡ</div><div class="k fn">⌫</div></div><div class="row"><div class="k fn">123</div><div class="k fn globe" id="globe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div><div class="k wide">스페이스</div><div class="k fn" style="max-width:60px">return</div></div><div class="kbcards" id="kbcards"></div></div>
+        </div>
+        <ol class="howto" id="howto" hidden>
+          <li><span class="num">1</span><div>키보드<span>설정에서 '키보드'를 누르세요</span></div></li>
+          <li><span class="num">2</span><div>클립키보드 켜기<span>스위치를 켜세요</span></div></li>
+          <li><span class="num">3</span><div>전체 접근 허용 켜기<span>담아 둔 글을 키보드가 읽으려면 필요해요</span></div></li>
+        </ol>
+        <div class="kbbtns" id="kbbtns">
+          <button class="primary" id="goSettings" type="button">키보드 켜러 가기</button>
+          <button class="later" id="kbLater" type="button">나중에 다시</button>
+          <div class="privacy">입력하는 글은 어디로도 보내지 않아요</div>
+        </div>
+      </section>
+
+      <!-- 흉내 낸 iOS 설정 -->
+      <section class="scene" id="s4">
+        <button class="ios-back" id="iosBack" type="button">◀ 클립키보드</button>
+        <div class="ios-page" id="iosApp">
+          <div class="ios-title">클립키보드</div>
+          <div class="ios-group">
+            <button class="ios-row" id="rowKb" type="button"><span class="lbl"><span class="ic" style="background:#8e8e93">⌨</span>키보드</span><span class="chev">›</span></button>
+            <div class="ios-row"><span class="lbl"><span class="ic" style="background:#ff3b30">●</span>알림</span><span class="chev">›</span></div>
+            <div class="ios-row"><span class="lbl"><span class="ic" style="background:#5856d6">◎</span>Siri</span><span class="chev">›</span></div>
+          </div>
+        </div>
+        <div class="ios-page off" id="iosKb">
+          <div class="ios-nav"><button id="iosKbBack" type="button">‹ 클립키보드</button></div>
+          <div class="ios-title">키보드</div>
+          <div class="ios-group">
+            <div class="ios-row"><span class="lbl">클립키보드</span><button class="switch" id="swKb" type="button" role="switch" aria-checked="false" aria-label="클립키보드"></button></div>
+            <div class="ios-row"><span class="lbl">전체 접근 허용</span><button class="switch" id="swFull" type="button" role="switch" aria-checked="false" aria-label="전체 접근 허용"></button></div>
+          </div>
+          <div class="ios-foot">전체 접근을 허용하면 이 키보드의 개발자가 입력한 내용을 전송할 수 있습니다.</div>
+        </div>
+        <div class="ios-alert" id="iosAlert"><div class="box"><b>"클립키보드" 키보드에 전체 접근을 허용하겠습니까?</b>
+          <p>전체 접근 허용 시 이 키보드의 개발자가 입력한 모든 내용을 전송할 수 있습니다.</p>
+          <div class="btns"><button id="alNo" type="button">허용 안 함</button><button id="alYes" type="button">허용</button></div></div></div>
+      </section>
+
+      <!-- 기능 수업 -->
+      <section class="scene" id="s5">
+        <div class="guide"><div class="line" id="ll"></div><div class="subline" id="ls"></div></div>
+        <div class="lstage" id="lstage"></div>
+        <div class="ldone" id="ldone"><button id="lok" type="button">알겠어요</button></div>
+        <button class="lskip" id="lskip" type="button">건너뛰기</button>
+      </section>
+
+      <div class="ctx" id="ctx"></div>
+
+      <!-- 새 단축어 -->
+      <div class="compose" id="compose" role="dialog" aria-label="새 단축어">
+        <div class="grab" id="grab" title="내리기" style="cursor:pointer"></div>
+        <div class="bar"><h2>새 단축어</h2>
+          <button class="check" id="check" type="button" aria-label="저장"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+        </div>
+        <div class="fieldset"><label for="cName">키보드에 보일 이름</label><input id="cName" placeholder="예: 집 주소" autocomplete="off"></div>
+        <div class="fieldset"><label for="cBody">붙여넣을 내용</label><textarea id="cBody" placeholder="예: 서울 마포구 월드컵북로 396"></textarea></div>
+        <div class="extra" id="extra"></div>
+      </div>
+
+      <!-- 더 알아보기 -->
+      <div class="sheet" id="sheet" role="dialog" aria-label="할 수 있는 일">
+        <div class="grab"></div>
+        <h2>이 앱으로 할 수 있는 일</h2>
+        <p>지금 다 외우지 않아도 돼요. 쓸 때가 오면 그 자리에서 보여 드려요.</p>
+        <ul class="feat" id="feat"></ul>
+        <button class="close" id="closeSheet" type="button">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <aside class="side">
+    <h1>백지에서 시작하는 첫 실행</h1>
+    <p>시안 10. 하얀 화면에서 그림으로 한 번 보여 주고, 직접 복사 · 붙여넣기 · 보내기 · 바로 넣기를 해 보게 한다. 끝에서 내 단축어 만들기와 더 알아보기 중 고른다. 내 단축어로 가면 방금 써 본 단추가 '기본' 목록의 첫 카드로 내려앉고, 화면에는 + 와 목록 · 설정 · 검색만 있다. + 는 튜토리얼이 아니라 그냥 쓰는 화면이다(이름 · 내용 · V). 더 쓰고 싶은 사람은 설정에서 미리보기를 보고 기능을 켠다. 켜면 목록과 새 단축어에 그 자리가 바로 생긴다. 하나씩 켜기 귀찮은 사람을 위해 위에 조합 셋(단순하게 · 답장이 많아요 · 전부)을 둔다. 담아 둔 글을 보고 하나에 추천 표시를 붙인다(켜 주지는 않는다). 첫 단축어를 V 로 저장하면 그 자리에서 키보드 켜기 수업이 뜬다(그림 → 세 걸음 → 설정 → 돌아와 확인 → 직접 한 번 보내기). 나중에를 고르면 목록 위에 한 줄로 남는다. 카드는 누르면 초록 체크와 복사됨, 길게 누르면 메뉴. 기존 사용자는 아무 변화도 느끼지 않는다: 첫 실행 · 키보드 수업 · 넛지 없이 지금 화면 그대로, 기능은 전부 켜진 채. 새 사용자에게는 쓰는 모습을 보고 저장 직후 기능을 한 번만 권한다(넛지). 설정에서 기능을 처음 켜면 그 자리에서 그림으로 한 번 해 본다. 모든 그림과 해 보기는 설정 ▸ 가이드북에서 다시 볼 수 있다. 폰 안을 직접 눌러 보세요.</p>
+
+    <h3>배운 것 (앱이 저장하는 장부)</h3>
+    <ul class="ledger" id="ledger"></ul>
+    <div class="row">
+      <button class="ghost" id="restart" type="button">처음부터 다시</button>
+      <button class="ghost" id="wipe" type="button">장부 비우기</button>
+      <button class="ghost" id="asExisting" type="button">기존 사용자로 열기</button>
+    </div>
+    <p style="margin-top:18px">장부는 배운 순간마다 한 줄씩 남는다(<code>lesson id → 배운 시각</code>). 다시 켜면 아직 안 배운 첫 칸부터 이어 간다. 아래쪽 칸들은 첫 실행에서 가르치지 않고, 그 기능을 처음 쓸 때 그 자리에서 짧은 그림으로 가르친 뒤 체크한다.</p>
+  </aside>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const VALUE = "신한 110-123-456789";
+
+// 기능 소개 장부. 앞의 여섯은 첫 실행에서, 나머지는 필요한 순간에 배운다
+const LESSONS = [
+  { id: "intro",     t: "그림으로 보기",     d: "복사해서 담아 두고 꺼내 쓴다", first: true },
+  { id: "copy",      t: "눌러서 복사",       d: "담아 둔 것을 누르면 복사된다", first: true },
+  { id: "paste",     t: "붙여넣기",          d: "입력칸을 눌러 붙여넣는다", first: true },
+  { id: "send",      t: "보내기",            d: "보내면 말풍선이 된다", first: true },
+  { id: "insert",    t: "바로 넣기",         d: "붙여넣지 않아도 버튼이 바로 넣는다", first: true },
+  { id: "makeOwn",   t: "내 단축어 만들기",  d: "내 글을 담는다 (다음에 같이 설계)", first: true },
+  { id: "keyboard",  t: "키보드 켜기",       d: "다른 앱에서 처음 쓰려 할 때" },
+  { id: "template",  t: "템플릿 빈칸",       d: "{이름} 이 든 글을 처음 담을 때" },
+  { id: "stack",     t: "여러 값 스택",      d: "값이 여럿인 단축어를 처음 만들 때" },
+  { id: "recent",    t: "최근 복사한 것",    d: "복사 기록이 처음 쌓였을 때" },
+  { id: "secure",    t: "보안 단축어",       d: "카드 · 계좌처럼 민감한 글을 담을 때" },
+];
+const KEY = "clipkb.lessons.v1";
+let ledger = {};
+try { ledger = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { ledger = {}; }
+const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(ledger)); } catch (e) {} };
+function learn(id) { if (!ledger[id]) { ledger[id] = Date.now(); persist(); } drawLedger(); }
+
+let current = "intro";
+function drawLedger() {
+  const fmt = ms => { const d = new Date(ms); return d.getHours().toString().padStart(2, "0") + ":" + d.getMinutes().toString().padStart(2, "0") + ":" + d.getSeconds().toString().padStart(2, "0"); };
+  $("ledger").innerHTML = LESSONS.map(l => `<li class="${ledger[l.id] ? "done" : ""} ${current === l.id ? "now" : ""}">
+    <span class="dot"></span><span class="t">${l.t}<small>${l.d}</small></span><span class="when">${ledger[l.id] ? fmt(ledger[l.id]) : (l.first ? "" : "필요할 때")}</span></li>`).join("");
+  $("feat").innerHTML = LESSONS.filter(l => l.id !== "intro").map(l => `<li><div><b>${l.t}</b><span>${l.d}</span></div>
+    <span class="tag ${ledger[l.id] ? "ok" : ""}">${ledger[l.id] ? "배웠어요" : "쓸 때 알려 줘요"}</span></li>`).join("");
+}
+
+let timers = [], step = "";
+const later = (ms, fn) => timers.push(setTimeout(fn, ms));
+const clearAll = () => { timers.forEach(clearTimeout); timers = []; };
+function say(line, sub) {
+  const l = $("tl"), s = $("ts");
+  l.classList.add("hide"); s.style.opacity = 0;
+  later(240, () => { l.textContent = line; s.textContent = sub || ""; l.classList.remove("hide"); s.style.opacity = 1; });
+}
+function toast(t) { const el = $("toast"); el.textContent = t; el.classList.add("show"); later(1300, () => el.classList.remove("show")); }
+function setField(text, focus) {
+  const f = $("field");
+  f.classList.toggle("focus", !!focus);
+  if (text === null) f.textContent = "여기를 누르세요";
+  else f.innerHTML = text + (focus ? '<span class="caret"></span>' : "");
+  $("send").classList.toggle("ready", !!text);
+}
+
+// ── 그림으로 보기 ──
+function intro() {
+  clearAll(); step = "intro"; current = "intro"; drawLedger();
+  scenesOff();
+  $("sheet").classList.remove("show");
+  $("s1").classList.remove("on"); $("s0").classList.add("on");
+  const l = $("l0"), memo = $("memo"), mk = $("mark"), pill = $("pill"), box = $("box"), fly = $("fly"), chat = $("chatdemo"), bar = $("bar");
+  l.classList.add("hide"); memo.style.opacity = 0; memo.style.translate = "0 10px"; mk.classList.remove("sel");
+  pill.classList.remove("show"); box.classList.remove("show"); chat.classList.remove("show");
+  fly.style.transition = "none"; fly.style.opacity = 0; fly.style.left = "66px"; fly.style.top = "62px"; fly.style.scale = 1;
+  bar.textContent = "메시지"; bar.classList.remove("filled");
+  const caption = (t, at) => later(at, () => { l.classList.add("hide"); later(300, () => { l.textContent = t; l.classList.remove("hide"); }); });
+
+  later(600, () => { l.textContent = "다른 곳에 자주 쓰는 글이 있으면"; l.classList.remove("hide"); });
+  later(1300, () => { memo.style.opacity = 1; memo.style.translate = "0 0"; });
+  later(2300, () => mk.classList.add("sel"));
+  later(2800, () => pill.classList.add("show"));
+  caption("복사해서 여기 담아 두세요", 3600);
+  later(3700, () => { pill.classList.remove("show"); box.classList.add("show"); });
+  later(4300, () => { fly.style.transition = ""; fly.style.opacity = 1; });
+  later(4600, () => { fly.style.left = "88px"; fly.style.top = "180px"; fly.style.scale = .5; });
+  later(5400, () => { fly.style.opacity = 0; box.classList.add("gulp"); mk.classList.remove("sel"); memo.style.opacity = .25; });
+  later(5650, () => box.classList.remove("gulp"));
+  caption("필요할 때 꺼내 쓰면 돼요", 6400);
+  later(6600, () => { memo.style.opacity = 0; chat.classList.add("show"); });
+  later(7500, () => { fly.style.transition = "none"; fly.style.left = "88px"; fly.style.top = "180px"; fly.style.scale = .5;
+    requestAnimationFrame(() => { fly.style.transition = ""; fly.style.opacity = 1; fly.style.left = "60px"; fly.style.top = "330px"; fly.style.scale = 1; }); });
+  later(8400, () => { fly.style.opacity = 0; bar.textContent = VALUE; bar.classList.add("filled"); });
+  later(10200, () => { learn("intro"); go("copy"); });
+}
+
+// ── 해 보기 ──
+function go(id) {
+  clearAll(); step = id; current = id; drawLedger();
+  $("sheet").classList.remove("show");
+  if (id === "intro") return intro();
+  scenesOff(); $("s1").classList.add("on");
+  const save = $("save"), fw = $("fw");
+  $("paste").classList.remove("show"); $("choices").classList.remove("show");
+  save.classList.remove("done", "glow"); $("send").classList.remove("glow");
+  save.hidden = false; fw.hidden = false;
+  if (id === "copy") {
+    $("chat").innerHTML = "";
+    say("눌러 보세요", "자주 쓰는 계좌번호를 담아 뒀어요");
+    save.classList.add("glow"); fw.classList.remove("show"); setField(null);
+  } else if (id === "paste") {
+    say("여기에 붙여넣어 보세요", "입력칸을 누르면 붙여넣기가 떠요");
+    fw.classList.add("show"); setField(null);
+  } else if (id === "send") {
+    say("보내 볼까요?", "오른쪽 파란 화살표를 누르세요");
+    fw.classList.add("show"); setField(VALUE, true); $("send").classList.add("glow");
+  } else if (id === "insert") {
+    say("이번엔 버튼만 눌러 보세요", "붙여넣지 않아도 바로 들어가요");
+    fw.classList.add("show"); save.classList.add("glow"); setField("", true);
+  } else if (id === "makeOwn") {
+    finish();
+  }
+}
+function finish() {
+  step = "choose";
+  // 가이드북에서 다시 본 것이면 고르기 대신 가이드북으로 돌아간다
+  $("makeOwn").hidden = replaying;
+  $("more").textContent = replaying ? "가이드북으로 돌아가기" : "이 앱으로 할 수 있는 일 더 알아보기";
+  say("이게 클립키보드예요", "키보드에 이 버튼들이 서 있어서, 어느 앱에서든 한 번에 넣어요");
+  $("save").hidden = true; $("fw").hidden = true;
+  later(500, () => $("choices").classList.add("show"));
+}
+function sendBubble() {
+  const chat = $("chat");
+  const b = document.createElement("div"); b.className = "bubble"; b.textContent = VALUE;
+  chat.appendChild(b);
+  const s = document.createElement("div"); s.className = "sent"; s.textContent = "보냄";
+  chat.querySelectorAll(".sent").forEach(x => x.remove());
+  chat.appendChild(s);
+  setField("", true); $("send").classList.remove("glow");
+}
+
+$("save").addEventListener("click", () => {
+  if (step === "copy") {
+    $("save").classList.remove("glow"); $("save").classList.add("done");
+    toast("복사했어요");
+    learn("copy");
+    later(900, () => go("paste"));
+  } else if (step === "insert") {
+    $("save").classList.remove("glow"); $("save").classList.add("done");
+    let i = 0; step = "typing";
+    const type = () => {
+      if (i <= VALUE.length) { setField(VALUE.slice(0, i), true); i++; later(28, type); }
+      else { learn("insert"); step = "send2"; say("한 번에 들어갔죠?", "보내기까지 눌러 보세요"); $("send").classList.add("glow"); }
+    };
+    type();
+  }
+});
+$("field").addEventListener("click", () => {
+  if (step !== "paste") return;
+  setField("", true); $("send").classList.remove("ready");
+  $("paste").classList.add("show");
+});
+$("paste").addEventListener("click", () => {
+  $("paste").classList.remove("show");
+  learn("paste");
+  go("send");
+});
+$("send").addEventListener("click", () => {
+  if (step === "send") {
+    sendBubble(); learn("send");
+    say("아, 이렇게 보내는 거예요", "복사해 두고 꺼내 쓰는 것, 이게 전부예요");
+    later(1900, () => go("insert"));
+  } else if (step === "send2") {
+    sendBubble();
+    later(700, finish);
+  }
+});
+function showList() {
+  clearAll(); step = "list"; current = "makeOwn"; drawLedger();
+  $("sheet").classList.remove("show");
+  scenesOff(); $("s2").classList.add("on"); $("kbanner").hidden = true;
+  // 방금 써 본 그 단추가 목록의 첫 단축어로 내려앉는다
+  $("grid").innerHTML = cardHTML("계좌번호", VALUE, true);
+  tab("list"); $("plus").classList.add("glow"); $("compose").classList.remove("show");
+  document.querySelectorAll("#s2 .rise").forEach(el => { el.classList.remove("rise"); void el.offsetWidth; el.classList.add("rise"); });
+}
+$("makeOwn").addEventListener("click", showList);
+// ── 카드 동작 ──
+// 누르면 복사되고 카드 위에 초록 체크와 '복사됨'. 길게 누르면 iOS 처럼 카드가 들리고 메뉴
+function cardHTML(name, body, arrive) {
+  const esc = t => t.replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+  return `<div class="card${arrive ? " arrive" : ""}" data-body="${esc(body)}" data-name="${esc(name)}">${esc(name)}<small>${esc(body)}</small><div class="copied"><i></i>복사됨</div></div>`;
+}
+let pressTimer = null, longFired = false, ctxCard = null;
+$("grid").addEventListener("pointerdown", e => {
+  const c = e.target.closest(".card"); if (!c) return;
+  longFired = false;
+  pressTimer = setTimeout(() => { longFired = true; openCtx(c); }, 480);
+});
+["pointerup", "pointerleave", "pointercancel"].forEach(t => $("grid").addEventListener(t, () => clearTimeout(pressTimer)));
+$("grid").addEventListener("contextmenu", e => { const c = e.target.closest(".card"); if (c) { e.preventDefault(); openCtx(c); } });
+$("grid").addEventListener("click", e => {
+  const c = e.target.closest(".card"); if (!c || longFired) return;
+  try { navigator.clipboard.writeText(c.dataset.body).catch(() => {}); } catch (err) {}
+  const o = c.querySelector(".copied"); o.classList.remove("show"); void o.offsetWidth; o.classList.add("show");
+  setTimeout(() => o.classList.remove("show"), 1100);
+});
+function openCtx(c) {
+  ctxCard = c;
+  const scr = document.querySelector(".screen").getBoundingClientRect(), r = c.getBoundingClientRect();
+  const lift = c.cloneNode(true); lift.classList.remove("arrive"); lift.classList.add("lift");
+  Object.assign(lift.style, { left: (r.left - scr.left) + "px", top: (r.top - scr.top) + "px", width: r.width + "px", height: r.height + "px" });
+  const menuTop = Math.min(r.bottom - scr.top + 10, scr.height - 200);
+  const menuLeft = Math.min(Math.max(12, r.left - scr.left), scr.width - 232);
+  $("ctx").innerHTML = "";
+  $("ctx").appendChild(lift);
+  $("ctx").insertAdjacentHTML("beforeend", `<div class="menu" style="top:${menuTop}px;left:${menuLeft}px">
+    <button type="button" data-a="copy">복사<span>⧉</span></button><button type="button" data-a="edit">편집<span>✎</span></button>
+    <button type="button" data-a="share">공유<span>↑</span></button><button type="button" data-a="del">삭제<span>🗑</span></button></div>`);
+  $("ctx").classList.add("show");
+}
+$("ctx").addEventListener("click", e => {
+  const a = e.target.closest("button")?.dataset.a;
+  $("ctx").classList.remove("show");
+  if (!a || !ctxCard) return;
+  if (a === "copy") ctxCard.click();
+  if (a === "del") { ctxCard.style.transition = "opacity .25s, scale .25s"; ctxCard.style.opacity = 0; ctxCard.style.scale = .8; const c = ctxCard; setTimeout(() => c.remove(), 260); }
+  if (a === "edit") { $("cName").value = ctxCard.dataset.name; $("cBody").value = ctxCard.dataset.body; validate(); applyFeatures(); $("compose").classList.add("show"); editing = ctxCard; }
+  if (a === "share") toast("공유 시트");
+});
+let editing = null;
+
+// ── 기존 사용자 ──
+// 업데이트로 들어온 사람은 첫 실행을 건너뛰고, 기능은 전부 켜진 채로 시작한다(그동안 쓰던 것이 사라져 보이지 않게)
+let isExisting = false;
+$("asExisting").addEventListener("click", () => {
+  // 기존 사용자는 아무것도 달라졌다고 느끼지 않아야 한다: 첫 실행 · 키보드 수업 · 넛지 · 추천 없이, 지금 화면 그대로
+  isExisting = true; $("oldKb").hidden = false; $("nudge").hidden = true;
+  LESSONS.forEach(l => { if (l.first || l.id === "keyboard") ledger[l.id] = ledger[l.id] || Date.now(); });
+  persist();
+  FEATURES.forEach(f => feats[f.id] = true);
+  try { localStorage.setItem(FKEY, JSON.stringify(feats)); } catch (e) {}
+  applyFeatures();
+  clearAll(); scenesOff(); $("s2").classList.add("on"); current = ""; drawLedger();
+  $("kbanner").hidden = true; tab("list"); $("plus").classList.remove("glow"); $("compose").classList.remove("show");
+  $("grid").innerHTML = [["계좌번호", VALUE], ["회사 이메일", "hong@company.com"], ["주소", "서울 마포구 월드컵북로 396"], ["문의 답장", "{이름}님 안녕하세요, 문의 주셔서 감사합니다."]]
+    .map(([n, b]) => cardHTML(n, b)).join("");
+});
+
+// ── 키보드 켜기 ──
+// 첫 단축어를 V 로 저장한 직후에 뜬다. 앱은 사용자가 다른 앱에 간 순간을 알 수 없어서, 가장 의욕이 있는 이때 묻는다
+const snippets = [{ name: "계좌번호", body: VALUE }];
+let kb = { on: false, full: false }, kbPhase = "";
+function scenesOff() { ["s0", "s1", "s2", "s3", "s4", "s5"].forEach(id => $(id).classList.remove("on")); }
+function drawKbCards() {
+  $("kbcards").innerHTML = snippets.map((sn, i) => `<button type="button" data-i="${i}">${sn.name.replace(/</g, "&lt;")}</button>`).join("");
+  $("kbcards").querySelectorAll("button").forEach(b => b.addEventListener("click", () => kbPick(+b.dataset.i)));
+}
+function kbReset() {
+  $("kmsgs").innerHTML = '<div class="in">주소 좀 보내 줄래?</div>';
+  $("kibox").textContent = "메시지"; $("kibox").classList.remove("filled");
+  $("ksend").classList.remove("ready", "glow"); $("globe").classList.remove("glow"); $("kbcards").classList.remove("on");
+  drawKbCards();
+}
+function kbSay(a, b) {
+  const l = $("kl"), s = $("ks"); l.classList.add("hide"); s.style.opacity = 0;
+  later(240, () => { l.textContent = a; s.textContent = b || ""; l.classList.remove("hide"); s.style.opacity = 1; });
+}
+function keyboardLesson() {
+  clearAll(); step = "kb"; current = "keyboard"; drawLedger();
+  scenesOff(); $("s3").classList.add("on");
+  kbPhase = "demo"; kbReset();
+  $("kbdemo").hidden = false; $("howto").hidden = true; $("kbbtns").classList.remove("show");
+  $("kl").textContent = "이제 다른 앱에서 써 볼까요?"; $("ks").textContent = "메시지를 쓰다가 지구본을 누르면";
+  // 그림: 지구본 → 클립키보드로 바뀜 → 방금 담은 것 누름 → 들어감
+  later(1400, () => $("globe").classList.add("glow"));
+  later(2600, () => { $("globe").classList.remove("glow"); $("kbcards").classList.add("on"); kbSay("담아 둔 것이 키보드에 서 있어요", "누르면 바로 들어가요"); });
+  later(4200, () => { const b = $("kbcards").querySelector(`[data-i="${snippets.length - 1}"]`); if (b) { b.style.background = "#e3f0ff"; } });
+  later(4600, () => { const sn = snippets[snippets.length - 1]; $("kibox").textContent = sn.body; $("kibox").classList.add("filled"); });
+  later(6200, () => {
+    kbPhase = "howto";
+    kbSay("키보드를 한 번만 켜 두면 돼요", "설정에서 이렇게 하세요");
+    $("kbdemo").hidden = true; $("howto").hidden = false;
+    $("howto").querySelectorAll("li").forEach((li, i) => { li.classList.remove("show"); later(500 + i * 450, () => li.classList.add("show")); });
+    later(2000, () => $("kbbtns").classList.add("show"));
+  });
+}
+// 흉내 낸 설정 앱. 실제로는 UIApplication.openSettingsURLString 이 이 앱의 설정 페이지를 바로 연다
+$("goSettings").addEventListener("click", () => {
+  clearAll(); scenesOff(); $("s4").classList.add("on");
+  $("iosApp").classList.remove("off"); $("iosKb").classList.add("off");
+  $("swKb").setAttribute("aria-checked", kb.on); $("swFull").setAttribute("aria-checked", kb.full);
+});
+$("rowKb").addEventListener("click", () => { $("iosKb").classList.remove("off"); });
+$("iosKbBack").addEventListener("click", () => $("iosKb").classList.add("off"));
+$("swKb").addEventListener("click", () => { kb.on = !kb.on; if (!kb.on) kb.full = false;
+  $("swKb").setAttribute("aria-checked", kb.on); $("swFull").setAttribute("aria-checked", kb.full); });
+$("swFull").addEventListener("click", () => {
+  if (kb.full) { kb.full = false; $("swFull").setAttribute("aria-checked", false); return; }
+  if (!kb.on) return;
+  $("iosAlert").classList.add("show");
+});
+$("alNo").addEventListener("click", () => $("iosAlert").classList.remove("show"));
+$("alYes").addEventListener("click", () => { kb.full = true; $("swFull").setAttribute("aria-checked", true); $("iosAlert").classList.remove("show"); });
+// 돌아오면 확인한다. 실제로는 UITextInputMode.activeInputModes 로 켜졌는지, 키보드가 App Group 에 남긴 표식으로 전체 접근을 본다
+$("iosBack").addEventListener("click", () => {
+  scenesOff(); $("s3").classList.add("on"); clearAll();
+  $("kbbtns").classList.remove("show");
+  if (kb.on && kb.full) return practice();
+  kbPhase = "howto"; $("kbdemo").hidden = true; $("howto").hidden = false;
+  $("howto").querySelectorAll("li").forEach((li, i) => li.classList.toggle("show", true));
+  if (!kb.on) kbSay("아직 안 켜졌어요", "2번 '클립키보드 켜기'만 하면 돼요");
+  else kbSay("하나만 더요", "3번 '전체 접근 허용'을 켜야 담아 둔 글이 보여요");
+  $("goSettings").textContent = "다시 가기";
+  later(400, () => $("kbbtns").classList.add("show"));
+});
+// 켜졌으면 진짜로 한 번 써 본다: 지구본 → 고르기 → 보내기
+function practice() {
+  kbPhase = "globe"; kbReset();
+  $("howto").hidden = true; $("kbdemo").hidden = false;
+  kbSay("켜졌어요. 써 볼까요?", "지구본을 눌러 클립키보드로 바꾸세요");
+  $("globe").classList.add("glow");
+}
+$("globe").addEventListener("click", () => {
+  if (kbPhase !== "globe") return;
+  kbPhase = "pick"; $("globe").classList.remove("glow"); $("kbcards").classList.add("on");
+  kbSay("보낼 것을 누르세요", "담아 둔 것이 다 여기 있어요");
+});
+function kbPick(i) {
+  if (kbPhase !== "pick") return;
+  kbPhase = "send"; $("kibox").textContent = snippets[i].body; $("kibox").classList.add("filled");
+  $("ksend").classList.add("ready", "glow");
+  kbSay("들어갔어요", "보내 보세요");
+}
+$("ksend").addEventListener("click", () => {
+  if (kbPhase !== "send") return;
+  kbPhase = "done";
+  const b = document.createElement("div"); b.className = "out"; b.textContent = $("kibox").textContent; $("kmsgs").appendChild(b);
+  $("kibox").textContent = "메시지"; $("kibox").classList.remove("filled"); $("ksend").classList.remove("ready", "glow");
+  learn("keyboard");
+  kbSay("이제 어느 앱에서든 이렇게 써요", "카톡 · 문자 · 메일 어디서든 지구본 한 번");
+  $("goSettings").textContent = "키보드 켜러 가기";
+  later(1500, () => { $("kbbtns").classList.add("show"); $("goSettings").hidden = true; $("kbLater").textContent = "목록으로"; $("kbLater").classList.replace("later", "primary"); });
+});
+$("kbLater").addEventListener("click", () => {
+  $("goSettings").hidden = false; $("kbLater").textContent = "나중에 다시"; $("kbLater").classList.replace("primary", "later");
+  backToList();
+});
+// '나중에' 를 고르면 목록 위에 한 줄로 남는다. 켤 때까지만
+function backToList() {
+  if (replaying) { replaying = false; lessonBack = "set"; return leaveLesson(); }
+  clearAll(); scenesOff(); $("s2").classList.add("on"); current = "makeOwn"; drawLedger();
+  $("kbanner").hidden = !!ledger.keyboard;
+}
+$("kbannerGo").addEventListener("click", keyboardLesson);
+// ── 넛지 ──
+// 스스로 설정에 가서 켜길 기대하지 않는다. 쓰는 모습이 그 기능을 부를 때, 저장이 끝난 바로 뒤에 한 번만 권한다.
+// 규칙: 기능마다 한 번. '괜찮아요' 면 다시 묻지 않는다. 하루에 하나까지. 기존 사용자(전부 켜짐)는 대상이 아니다
+const NKEY = "clipkb.nudges.v1";
+let nudged = {};
+try { nudged = JSON.parse(localStorage.getItem(NKEY) || "{}") || {}; } catch (e) { nudged = {}; }
+const saveNudged = () => { try { localStorage.setItem(NKEY, JSON.stringify(nudged)); } catch (e) {} };
+const NUDGES = {
+  secure:   { t: "카드번호 같아요. 잠가 둘까요?", d: "Face ID 로 확인해야 꺼낼 수 있어요" },
+  template: { t: "앞 글과 이름만 다르네요", d: "빈칸 하나로 두면 단축어 하나로 여러 사람에게 써요" },
+  stack:    { t: "번호만 다른 단축어가 생겼어요", d: "누를 때마다 다음 값이 들어가는 키 하나로 묶을 수 있어요" },
+  category: { t: "단축어가 많아졌어요", d: "업무 · 개인처럼 나눠 담으면 찾기 쉬워요" },
+  recent:   { t: "붙여넣어 담는 일이 잦네요", d: "복사한 글이 30일 동안 저절로 남게 할 수 있어요" },
+};
+// 무엇이 그 기능을 부르나 (앱에서는 ClipboardClassificationService · 저장된 단축어 비교 · 사용 기록으로)
+function nudgeFor(name, body, pasted) {
+  const cards = [...document.querySelectorAll("#grid .card")];
+  const others = cards.slice(0, -1).map(c => ({ name: c.dataset.name, body: c.dataset.body }));
+  const digits = body.replace(/\D/g, "");
+  if (/\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b/.test(body) || (digits.length >= 10 && /계좌|카드|신한|국민|우리|하나/.test(name + body))) return "secure";
+  const tail = t => t.replace(/^\S+\s*/, "");
+  if (others.some(o => o.body !== body && tail(o.body).length >= 8 && tail(o.body) === tail(body))) return "template";
+  const base = t => t.replace(/\s*\d+$/, "");
+  if (/\d+$/.test(name) && others.some(o => o.name !== name && base(o.name) === base(name))) return "stack";
+  if (cards.length >= 6) return "category";
+  if (pasted >= 3) return "recent";
+  return null;
+}
+function showNudge(id) {
+  if (!id || feats[id] || nudged[id] || isExisting) return;
+  const today = new Date().toDateString();
+  if (nudged.__day === today) return;
+  nudged[id] = "shown"; nudged.__day = today; saveNudged();
+  const f = FEATURES.find(x => x.id === id), n = NUDGES[id];
+  $("nudge").innerHTML = `<div class="top"><div class="prev">${f.prev}</div><div><b>${n.t}</b><span>${n.d}</span></div></div>
+    <div class="acts"><button class="no" type="button" id="nNo">괜찮아요</button><button class="yes" type="button" id="nYes">켜고 해 보기</button></div>`;
+  $("nudge").hidden = false;
+  $("nNo").addEventListener("click", () => { nudged[id] = "no"; saveNudged(); $("nudge").hidden = true; });
+  $("nYes").addEventListener("click", () => {
+    nudged[id] = "yes"; saveNudged(); $("nudge").hidden = true;
+    feats[id] = true; try { localStorage.setItem(FKEY, JSON.stringify(feats)); } catch (e) {}
+    applyFeatures(); playLesson(id, "list");
+  });
+}
+let pastedCount = 0;
+$("cBody").addEventListener("paste", () => { pastedCount++; });
+
+// ── 기능 수업: 그 기능을 처음 켤 때 그림으로 한 번 해 본다. 가이드북에서 언제든 다시 ──
+let lessonBack = "set";
+function lsay(a, b) {
+  const l = $("ll"), s2 = $("ls"); l.classList.add("hide"); s2.style.opacity = 0;
+  later(220, () => { l.textContent = a; s2.textContent = b || ""; l.classList.remove("hide"); s2.style.opacity = 1; });
+}
+function lessonDone(id, line, sub) { lsay(line, sub); learn(id); later(500, () => $("ldone").classList.add("show")); }
+const MINI = {
+  template(st) {
+    lsay("빈칸이 있는 글이에요", "넣을 이름을 눌러 보세요");
+    st.innerHTML = `<div class="lcard"><div class="ttl">문의 답장</div><span class="blank" id="lb">이름</span>님 안녕하세요,<br>문의 주셔서 감사합니다.</div>
+      <div class="lchips" id="lc"><button type="button" class="glow">김서연</button><button type="button">박도윤</button><button type="button">홍길동</button></div>`;
+    let n = 0;
+    st.querySelectorAll("#lc button").forEach(b => b.addEventListener("click", () => {
+      st.querySelectorAll("#lc button").forEach(x => x.classList.remove("glow", "on")); b.classList.add("on");
+      const bl = $("lb"); bl.textContent = b.textContent; bl.classList.remove("fill"); void bl.offsetWidth; bl.classList.add("fill");
+      n++;
+      if (n === 1) lsay("들어갔어요", "다른 이름도 눌러 보세요");
+      if (n === 2) lessonDone("template", "한 글로 여러 사람에게", "새 단축어 내용에 {이름} 처럼 쓰면 빈칸이 돼요");
+    }));
+  },
+  stack(st) {
+    lsay("값이 여럿인 키예요", "키를 세 번 눌러 보세요");
+    const vals = ["홍길동", "개발팀", "배포 점검"];
+    st.innerHTML = `<button class="lkey glow" id="lk" type="button">출근 보고<small id="lkn">1/3 → 홍길동</small></button><div class="lbox" id="lx"></div>`;
+    let i = 0;
+    $("lk").addEventListener("click", () => {
+      if (i >= vals.length) return;
+      $("lx").insertAdjacentHTML("beforeend", `<span class="new">${vals[i]}\n</span>`); i++;
+      $("lkn").textContent = i < vals.length ? `${i + 1}/3 → ${vals[i]}` : "다 넣었어요";
+      if (i === 1) lsay("한 번 누를 때마다", "다음 값이 차례로 들어가요");
+      if (i === vals.length) { $("lk").classList.remove("glow"); lessonDone("stack", "양식 칸을 차례로 채울 때 좋아요", "새 단축어에서 '값 여러 개'를 켜세요"); }
+    });
+  },
+  secure(st) {
+    lsay("민감한 글은 잠가 둬요", "카드를 눌러 보세요");
+    st.innerHTML = `<button class="lkey glow" id="lsec" type="button">카드번호<small id="lsv">•••• •••• •••• 1234</small></button><div class="faceid" id="lfid">☺</div>`;
+    $("lsec").addEventListener("click", () => {
+      $("lsec").classList.remove("glow"); $("lfid").classList.add("show"); lsay("Face ID 로 확인하고", "");
+      later(1100, () => { $("lfid").classList.remove("show"); $("lsv").textContent = "1234-5678-9012-1234"; toast("복사했어요");
+        lessonDone("secure", "본인만 꺼낼 수 있어요", "옆 사람 화면에도 값이 보이지 않아요"); });
+    });
+  },
+  category(st) {
+    lsay("나눠 담을 수 있어요", "'업무'를 눌러 보세요");
+    const items = [["계좌번호", "개인"], ["회사 이메일", "업무"], ["집 주소", "개인"], ["출근 보고", "업무"]];
+    st.innerHTML = `<div class="lchips" id="lt"><button type="button" class="on">전체</button><button type="button" class="glow">업무</button><button type="button">개인</button></div>
+      <div class="minigrid" id="lg">${items.map(([n, c]) => `<div data-c="${c}">${n}<span>${c}</span></div>`).join("")}</div>`;
+    let tapped = 0;
+    st.querySelectorAll("#lt button").forEach(b => b.addEventListener("click", () => {
+      st.querySelectorAll("#lt button").forEach(x => x.classList.remove("on", "glow")); b.classList.add("on");
+      st.querySelectorAll("#lg div").forEach(d => d.classList.toggle("out", b.textContent !== "전체" && d.dataset.c !== b.textContent));
+      tapped++;
+      if (tapped === 1) lsay("업무 것만 남았어요", "'개인'도 눌러 보세요");
+      if (tapped === 2) lessonDone("category", "많아지면 탭으로 찾아요", "목록 위 + 로 탭을 더해요");
+    }));
+  },
+  recent(st) {
+    lsay("복사한 글이 저절로 남아요", "메모의 '복사'를 눌러 보세요");
+    st.innerHTML = `<div class="lcard"><div class="ttl">메모</div>내일 7시 강남역 2번 출구 <button class="lkey glow" id="lcp" type="button" style="padding:6px 12px;font-size:15px;margin-left:4px">복사</button></div>
+      <div class="rlist" id="lr"><div>6012-3456-7890<span>15분 전</span></div><div>서울 마포구 월드컵북로 396<span>1시간 전</span></div></div>`;
+    $("lcp").addEventListener("click", () => {
+      $("lcp").classList.remove("glow");
+      $("lr").insertAdjacentHTML("afterbegin", `<div class="new">내일 7시 강남역 2번 출구<span>방금</span></div>`);
+      lessonDone("recent", "'최근' 탭에 30일 동안 있어요", "담아 두지 않은 것도 다시 꺼내 써요");
+    });
+  },
+};
+function playLesson(id, back) {
+  clearAll(); lessonBack = back || "set";
+  scenesOff(); $("s5").classList.add("on"); current = id; drawLedger();
+  $("ldone").classList.remove("show");
+  $("ll").textContent = ""; $("ls").textContent = "";
+  MINI[id]($("lstage"));
+}
+function leaveLesson() {
+  clearAll(); scenesOff(); $("s2").classList.add("on"); current = ""; drawLedger();
+  tab(lessonBack); drawGuide();
+}
+$("lok").addEventListener("click", leaveLesson);
+$("lskip").addEventListener("click", leaveLesson);
+
+// 가이드북: 지금까지의 모든 그림 · 해 보기를 다시
+const GUIDE = [
+  { id: "intro", t: "처음 보는 그림", d: "복사해서 담아 두고 꺼내 쓰기", play: () => { replaying = true; intro(); } },
+  { id: "insert", t: "복사 · 붙여넣기 · 바로 넣기", d: "직접 눌러 보며 보내기까지", play: () => { replaying = true; go("copy"); } },
+  { id: "keyboard", t: "키보드 켜기", d: "다른 앱에서 지구본 한 번", play: () => { replaying = true; keyboardLesson(); } },
+  { id: "template", t: "템플릿 빈칸", d: "이름만 바꿔 쓰기", play: () => playLesson("template") },
+  { id: "stack", t: "여러 값 스택", d: "누를 때마다 다음 값", play: () => playLesson("stack") },
+  { id: "secure", t: "보안 단축어", d: "Face ID 로 꺼내기", play: () => playLesson("secure") },
+  { id: "category", t: "분류 탭", d: "업무 · 개인으로 나누기", play: () => playLesson("category") },
+  { id: "recent", t: "최근 복사한 것", d: "복사한 글이 30일 남기", play: () => playLesson("recent") },
+];
+let replaying = false;
+function drawGuide() {
+  $("guide").innerHTML = GUIDE.map((g, i) => `<div class="gbrow"><div><b>${g.t}</b><span class="${ledger[g.id] ? "ok" : ""}">${ledger[g.id] ? "봤어요 · " : ""}${g.d}</span></div>
+    <button type="button" data-g="${i}">${ledger[g.id] ? "다시 보기" : "보기"}</button></div>`).join("");
+  $("guide").querySelectorAll("button").forEach(b => b.addEventListener("click", () => GUIDE[+b.dataset.g].play()));
+}
+
+
+// 새 단축어. 튜토리얼이 아니라 그냥 쓰는 화면이다: 이름 · 내용 · V
+const FEATURES = [
+  { id: "template", t: "템플릿 빈칸", d: "글에 {이름} 같은 빈칸을 두고 쓸 때마다 채워요", prev: "<i>{이름}</i>님<br>안녕하세요",
+    opt: ["빈칸 넣기", "{이름} 처럼 바꿔 쓸 자리"] },
+  { id: "stack", t: "여러 값 스택", d: "누를 때마다 다음 값이 차례로 들어가요", prev: "출근 보고<br><i>1/3 →</i>",
+    opt: ["값 여러 개", "누를 때마다 다음 값"] },
+  { id: "secure", t: "보안 단축어", d: "카드 · 계좌를 Face ID 뒤에 잠가요", prev: "카드번호<br>•••• 1234",
+    opt: ["잠그기", "쓸 때 Face ID 를 물어요"] },
+  { id: "category", t: "분류 탭", d: "업무 · 개인처럼 나눠 담아요", prev: "<i>기본</i> 업무 개인" },
+  { id: "recent", t: "최근 복사한 것", d: "복사한 글이 30일 동안 탭에 남아요", prev: "6012-3456…<br>마포구 월드…" },
+];
+const FKEY = "clipkb.features.v1";
+let feats = {};
+try { feats = JSON.parse(localStorage.getItem(FKEY) || "{}") || {}; } catch (e) { feats = {}; }
+// 하나씩 켜는 건 귀찮다. 자주 쓰는 조합을 셋 둔다. 하나씩 바꾸면 어느 프리셋도 아닌 '직접 고름' 이 된다
+const PRESETS = [
+  { id: "simple", t: "단순하게", d: "이름과 내용만. 지금 그대로", on: [] },
+  { id: "reply",  t: "답장이 많아요", d: "템플릿 빈칸 · 최근 복사한 것", on: ["template", "recent"] },
+  { id: "all",    t: "전부 쓸래요", d: "다섯 가지 모두", on: ["template", "stack", "secure", "category", "recent"] },
+];
+// 추천: 담아 둔 글을 보고 하나를 고른다(앱에서는 PersonaResolver). 켜 주지는 않고 표시만 한다
+function recommendPreset() {
+  const bodies = [...document.querySelectorAll("#grid .card")].map(c => (c.dataset.name || "") + " " + (c.dataset.body || ""));
+  if (bodies.length >= 8) return { id: "all", why: "담아 둔 것이 많아서" };
+  if (bodies.some(b => /\{[^}]+\}|답장|문의|안녕하세요|감사합니다/.test(b))) return { id: "reply", why: "답장 글을 담아 둬서" };
+  return { id: "simple", why: "지금은 이걸로 충분해요" };
+}
+function drawPresets() {
+  const rec = isExisting ? { id: "" } : recommendPreset();
+  const onIds = FEATURES.filter(f => feats[f.id]).map(f => f.id).sort().join();
+  $("presets").innerHTML = PRESETS.map(p => `<button class="preset" type="button" data-p="${p.id}" aria-pressed="${[...p.on].sort().join() === onIds}"><b>${p.t}${p.id === rec.id ? "<em>추천</em>" : ""}</b><span>${p.d}</span>${p.id === rec.id ? `<span class="why">${rec.why}</span>` : ""}</button>`).join("");
+  $("presets").querySelectorAll(".preset").forEach(b => b.addEventListener("click", () => {
+    const p = PRESETS.find(x => x.id === b.dataset.p);
+    feats = {}; p.on.forEach(id => feats[id] = true);
+    try { localStorage.setItem(FKEY, JSON.stringify(feats)); } catch (e) {}
+    applyFeatures();
+  }));
+}
+function applyFeatures() {
+  drawPresets();
+  $("cats").hidden = !feats.category;
+  $("tabRecent").hidden = !feats.recent;
+  $("extra").innerHTML = FEATURES.filter(f => f.opt && feats[f.id])
+    .map(f => `<div class="opt"><div>${f.opt[0]}<span>${f.opt[1]}</span></div><button class="switch" type="button" role="switch" aria-checked="false"></button></div>`).join("");
+  $("extra").querySelectorAll(".switch").forEach(sw => sw.addEventListener("click", () => sw.setAttribute("aria-checked", sw.getAttribute("aria-checked") !== "true")));
+  $("features").innerHTML = FEATURES.map(f => `<div class="feature"><div class="prev">${f.prev}</div><div><b>${f.t}</b><div class="fd">${f.d}</div></div>
+    <button class="switch" type="button" role="switch" aria-label="${f.t}" aria-checked="${!!feats[f.id]}" data-f="${f.id}"></button></div>`).join("");
+  $("features").querySelectorAll(".switch").forEach(sw => sw.addEventListener("click", () => {
+    feats[sw.dataset.f] = !feats[sw.dataset.f];
+    try { localStorage.setItem(FKEY, JSON.stringify(feats)); } catch (e) {}
+    applyFeatures();
+    // 처음 켤 때 그 자리에서 그림으로 한 번 해 본다. 프리셋으로 여럿 켤 때는 띄우지 않는다(가이드북에 남는다)
+    if (feats[sw.dataset.f] && !ledger[sw.dataset.f] && MINI[sw.dataset.f]) later(350, () => playLesson(sw.dataset.f, "set"));
+  }));
+}
+function tab(which) {
+  $("pList").classList.toggle("on", which === "list"); $("pSet").classList.toggle("on", which === "set");
+  $("tabList").classList.toggle("on", which === "list"); $("tabSet").classList.toggle("on", which === "set");
+  $("plus").style.visibility = which === "list" ? "" : "hidden";
+  if (which === "set") { drawGuide(); drawPresets(); }
+}
+$("tabList").addEventListener("click", () => tab("list"));
+$("tabSet").addEventListener("click", () => tab("set"));
+$("tabRecent").addEventListener("click", () => toast("최근 탭 (켠 기능)"));
+const validate = () => $("check").classList.toggle("ready", $("cBody").value.trim().length > 0);
+$("cName").addEventListener("input", validate); $("cBody").addEventListener("input", validate);
+$("plus").addEventListener("click", () => {
+  $("plus").classList.remove("glow");
+  $("cName").value = ""; $("cBody").value = ""; validate(); applyFeatures();
+  $("compose").classList.add("show"); setTimeout(() => $("cName").focus(), 450);
+});
+$("grab").addEventListener("click", () => $("compose").classList.remove("show"));
+$("check").addEventListener("click", () => {
+  const body = $("cBody").value.trim(); if (!body) return;
+  // 이름을 비우면 내용 앞부분이 이름이 된다
+  const name = $("cName").value.trim() || body.split("\n")[0].slice(0, 12);
+  $("compose").classList.remove("show");
+  if (editing) { editing.outerHTML = cardHTML(name, body); editing = null; return; }
+  $("grid").insertAdjacentHTML("beforeend", cardHTML(name, body, true));
+  snippets.push({ name, body });
+  const first = !ledger.makeOwn;
+  learn("makeOwn");
+  // 첫 단축어를 담은 바로 그때 키보드를 켜자고 한다. 이미 켰으면 묻지 않는다
+  if (first && !ledger.keyboard) { later(900, keyboardLesson); return; }
+  // 그 밖에는 방금 저장한 것을 보고 넛지를 하나 고른다
+  const pasted = pastedCount; pastedCount = 0;
+  later(700, () => showNudge(nudgeFor(name, body, pasted)));
+});
+applyFeatures();
+drawGuide();
+$("more").addEventListener("click", () => {
+  if (replaying) { replaying = false; lessonBack = "set"; return leaveLesson(); }
+  drawLedger(); $("sheet").classList.add("show");
+});
+$("closeSheet").addEventListener("click", () => $("sheet").classList.remove("show"));
+$("restart").addEventListener("click", intro);
+$("wipe").addEventListener("click", () => {
+  ledger = {}; persist(); isExisting = false; $("oldKb").hidden = true; nudged = {}; saveNudged(); $("nudge").hidden = true;
+  feats = {}; try { localStorage.setItem(FKEY, "{}"); } catch (e) {}
+  applyFeatures(); intro();
+});
+
+// 다시 켜면 아직 안 배운 첫 칸부터
+drawLedger();
+const resumeAt = LESSONS.filter(l => l.first).find(l => !ledger[l.id]);
+if (matchMedia("(prefers-reduced-motion: reduce)").matches && !resumeAt) go("copy");
+else if (!resumeAt) finish(), $("s1").classList.add("on");
+else go(resumeAt.id);
+</script>
