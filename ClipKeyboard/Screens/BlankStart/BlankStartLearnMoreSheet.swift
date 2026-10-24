@@ -73,6 +73,7 @@ extension Lesson {
         case .secure: return NSLocalizedString("보안 단축어", comment: "Lesson title: secure snippet")
         case .category: return NSLocalizedString("분류 탭", comment: "Lesson title: category tabs")
         case .recent: return NSLocalizedString("최근 복사한 것", comment: "Lesson title: recently copied")
+        case .stage: return NSLocalizedString("키보드 미리보기", comment: "Lesson title: keyboard preview in the app")
         }
     }
 
@@ -90,6 +91,7 @@ extension Lesson {
         case .secure: return NSLocalizedString("Face ID 뒤에 잠가 둬요", comment: "Lesson subtitle: secure")
         case .category: return NSLocalizedString("업무 · 개인처럼 나눠 담아요", comment: "Lesson subtitle: category")
         case .recent: return NSLocalizedString("복사한 글이 30일 동안 남아요", comment: "Lesson subtitle: recent")
+        case .stage: return NSLocalizedString("다른 앱에서 보일 키보드를 여기서 미리", comment: "Lesson subtitle: keyboard preview")
         }
     }
 }

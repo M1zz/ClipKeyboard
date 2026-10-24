@@ -647,6 +647,10 @@
     "v": "24 giờ",
     "src": "c340b5478c"
   },
+  "2번 '클립키보드 켜기'만 하면 돼요": {
+    "v": "Chỉ cần làm bước 2, bật ClipKeyboard",
+    "src": "f4994e0a13"
+  },
   "2주 뒤": {
     "v": "2 tuần nữa",
     "src": "6e21a81d09"
@@ -3311,6 +3315,10 @@
     "v": "Để sau",
     "src": "a87f3586ca"
   },
+  "나중에 다시": {
+    "v": "Nhắc lại sau",
+    "src": "5ac2f59d1d"
+  },
   "나중에 할게요": {
     "v": "Để sau nhé",
     "src": "86123c6260"
@@ -3699,6 +3707,10 @@
     "v": "Hiển thị đúng như trong các ứng dụng khác",
     "src": "4fc7fc8744"
   },
+  "다른 앱에서 보일 키보드를 여기서 미리": {
+    "v": "Xem trước bàn phím bạn sẽ thấy trong các ứng dụng khác",
+    "src": "c1b76984d5"
+  },
   "다른 앱에서 붙여넣기": {
     "v": "Dán trong ứng dụng khác",
     "src": "43186426db"
@@ -3706,6 +3718,10 @@
   "다른 앱에서 지구본 한 번": {
     "v": "Chạm vào quả địa cầu trong mọi ứng dụng",
     "src": "360d6cba38"
+  },
+  "다른 앱에서 지구본을 누르면 이 키보드가 떠요": {
+    "v": "Chạm vào quả địa cầu trong bất kỳ ứng dụng nào, bàn phím này sẽ hiện ra",
+    "src": "0da9272aca"
   },
   "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요": {
     "v": "Thời gian lấy giá trị từ ứng dụng khác nay được tính theo số đo thực tế. Mở ứng dụng ngân hàng chưa bao giờ chỉ mất 28 giây",
@@ -3730,6 +3746,10 @@
   "다른 카테고리로 옮기기": {
     "v": "Chuyển sang danh mục khác",
     "src": "710255cf6a"
+  },
+  "다시 가기": {
+    "v": "Quay lại Cài đặt",
+    "src": "d62091634c"
   },
   "다시 보지 않기": {
     "v": "Không hiện lại",
@@ -4219,6 +4239,10 @@
     "v": "Chạm vào mục đã lưu để sao chép",
     "src": "6cc30a8f7d"
   },
+  "담아 둔 글을 키보드가 읽으려면 필요해요": {
+    "v": "Bàn phím cần quyền này để đọc văn bản bạn đã lưu",
+    "src": "9bcf7460e5"
+  },
   "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
     "v": "Chưa có gì để lưu. Hãy sao chép văn bản trước.",
     "src": "c44bc79ce2"
@@ -4490,6 +4514,10 @@
   "드래그하여 순서를 바꿉니다": {
     "v": "Kéo để đổi thứ tự",
     "src": "c81ec081f6"
+  },
+  "들어갔어요. 보내 보세요": {
+    "v": "Đã vào rồi. Gửi thử nhé",
+    "src": "0fe34a8563"
   },
   "들어갔어요. 보내기를 눌러 올려보세요.": {
     "v": "Đã vào. Nhấn gửi để đăng.",
@@ -4779,6 +4807,14 @@
     "v": "Gửi tin nhắn",
     "src": "83aaab5a2b"
   },
+  "메시지를 쓰다가 지구본을 누르면": {
+    "v": "Chạm vào quả địa cầu khi đang soạn tin nhắn",
+    "src": "d9e4463eb3"
+  },
+  "메시지를 쓰다가 지구본을 누르면 담아 둔 단축어가 키보드에 서 있어요. 누르면 바로 들어가요.": {
+    "v": "Khi đang soạn tin nhắn, chạm vào quả địa cầu là các cụm từ bạn đã lưu hiện ngay trên bàn phím. Chạm vào một cụm là nó được nhập vào.",
+    "src": "2bcb827fc0"
+  },
   "메일 쓰기": {
     "v": "Soạn thư",
     "src": "bf4e551833"
@@ -4894,6 +4930,10 @@
   "목록에서 제목 아래 내용이 한 줄 보이고, 민감한 값은 가려져요": {
     "v": "Danh sách hiện một dòng nội dung dưới mỗi tiêu đề, và các giá trị nhạy cảm sẽ được ẩn",
     "src": "13e35b9625"
+  },
+  "목록으로": {
+    "v": "Về danh sách",
+    "src": "bfc3e6a5f5"
   },
   "목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요": {
     "v": "Khoảng cách giữa tiêu đề và các cụm từ không còn giật khi bạn mở và sửa danh sách",
@@ -6591,6 +6631,10 @@
     "v": "Cài đặt có thêm mục \"Ứng dụng dùng cùng nhau\". Những ứng dụng nên dùng chung được giới thiệu qua các tình huống quen thuộc",
     "src": "61b3d0a7b8"
   },
+  "설정에서 '키보드'를 누르세요": {
+    "v": "Trong Cài đặt, chạm vào Bàn phím",
+    "src": "d4678e94b0"
+  },
   "설정에서 나에게 맞는 유형을 고르면 더 잘 맞는 것부터 보여드려요": {
     "v": "Chọn kiểu phù hợp với bạn trong Cài đặt, chúng tôi sẽ hiện những mục hợp nhất trước",
     "src": "1dc96301dd"
@@ -6602,6 +6646,10 @@
   "설정에서 언어를 고를 수 있어요. 고르는 즉시 바뀌고, 키보드는 다음에 열 때부터 따라와요": {
     "v": "Bạn có thể chọn ngôn ngữ trong Cài đặt. Ngôn ngữ đổi ngay, còn bàn phím sẽ đổi vào lần mở tiếp theo",
     "src": "fbd49c84f0"
+  },
+  "설정에서 이렇게 하세요": {
+    "v": "Bạn làm như sau trong Cài đặt",
+    "src": "e8291faee7"
   },
   "설정에서 키 컬러를 고를 수 있어요. 일곱 가지 중에 고르면 앱과 키보드가 함께 그 색으로 바뀌어요": {
     "v": "Cài đặt có thêm Màu phím. Chọn một trong bảy màu, ứng dụng và bàn phím cùng đổi theo",
@@ -6806,6 +6854,10 @@
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "v": "Một chữ số bị lệch. Bạn hãy đối chiếu lại với số trên thẻ.",
     "src": "ecc28f1bca"
+  },
+  "스위치를 켜세요": {
+    "v": "Bật công tắc lên",
+    "src": "0a7bf71081"
   },
   "스캔해서 글자 넣기": {
     "v": "Quét để nhập chữ",
@@ -7187,6 +7239,10 @@
     "v": "Chưa tạo gì",
     "src": "7ce4b55985"
   },
+  "아직 안 켜졌어요": {
+    "v": "Chưa được bật",
+    "src": "d07b8317d6"
+  },
   "아직 없어요": {
     "v": "Chưa lưu",
     "src": "265208ca21"
@@ -7550,6 +7606,10 @@
   "여기를 누르세요": {
     "v": "Chạm vào đây",
     "src": "fe481cd374"
+  },
+  "여기서 미리 눌러 볼 수 있어요": {
+    "v": "Bạn có thể thử ngay tại đây",
+    "src": "e15d81f8d6"
   },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "v": "Bạn thường gõ tiếp ở đây nên con trỏ được đặt sẵn tại đây. Bạn có thể tắt trong phần sửa cụm từ.",
@@ -8583,6 +8643,10 @@
     "v": "Khôi phục Pro bạn đã mua trước đây",
     "src": "f4b89e1d93"
   },
+  "이제 다른 앱에서 써 볼까요?": {
+    "v": "Dùng thử trong ứng dụng khác nhé?",
+    "src": "347da98733"
+  },
   "이제 다른 앱에서 써보세요": {
     "v": "Giờ hãy thử trong ứng dụng khác",
     "src": "8320312516"
@@ -8590,6 +8654,10 @@
   "이제 막 써 보는 사람": {
     "v": "Người mới bắt đầu dùng",
     "src": "8d2e17bfdc"
+  },
+  "이제 어느 앱에서든 이렇게 써요": {
+    "v": "Giờ bạn có thể dùng như vậy trong mọi ứng dụng",
+    "src": "48c804c73d"
   },
   "이제 직접 하나 만들어 보세요. 위의 + 를 누르면 돼요.": {
     "v": "Giờ hãy tự tạo một cụm từ. Chạm vào + ở trên.",
@@ -8770,6 +8838,10 @@
   "입력하기": {
     "v": "Chèn",
     "src": "1223cfa191"
+  },
+  "입력하는 글은 어디로도 보내지 않아요": {
+    "v": "Văn bản bạn nhập không được gửi đi đâu cả",
+    "src": "a1ce964e17"
   },
   "입력하세요": {
     "v": "Nhập",
@@ -9367,6 +9439,10 @@
     "v": "Địa chỉ",
     "src": "cccba857c8"
   },
+  "주소 좀 보내 줄래?": {
+    "v": "Gửi mình địa chỉ với được không?",
+    "src": "7ccd714465"
+  },
   "준비 완료": {
     "v": "Đã sẵn sàng",
     "src": "b2ace13d7c"
@@ -9486,6 +9562,10 @@
   "지구본을 길게 누르면 이모지 키보드로 바로 갈 수 있어요. 다른 키보드를 함께 써도 됩니다": {
     "v": "Nhấn giữ biểu tượng quả địa cầu để chuyển thẳng sang bàn phím emoji, kể cả khi có cài bàn phím khác",
     "src": "6bef60d0d6"
+  },
+  "지구본을 눌러 클립키보드로 바꾸고, 카드를 누르세요": {
+    "v": "Chạm vào quả địa cầu để chuyển sang ClipKeyboard, rồi chạm vào một thẻ",
+    "src": "b34e4b6be0"
   },
   "지금 Pro로 업그레이드하면 평생 사용": {
     "v": "Nâng cấp lên Pro ngay để dùng trọn đời",
@@ -10235,6 +10315,10 @@
     "v": "Thêm từ một danh mục sẽ lưu thẳng vào danh mục đó",
     "src": "77c25f7781"
   },
+  "카톡 · 문자 · 메일 어디서든 지구본 한 번": {
+    "v": "Tin nhắn, thư, ở đâu cũng được. Chỉ cần chạm vào quả địa cầu",
+    "src": "a387edb1ec"
+  },
   "칸 추가에 내신 값이 빠진 값이에요": {
     "v": "Giá này đã trừ số tiền bạn đã trả cho các ô thêm.",
     "src": "336ab872ee"
@@ -10294,6 +10378,10 @@
   "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
     "v": "Nếu bạn đã bật, hãy mở bàn phím một lần, trạng thái sẽ chuyển sang Bật. iOS chỉ báo cho chúng tôi khi bàn phím mở.",
     "src": "a472d9b559"
+  },
+  "켜졌어요. 써 볼까요?": {
+    "v": "Đã bật. Thử nhé?",
+    "src": "00cded27a9"
   },
   "켜짐": {
     "v": "Bật",
@@ -10462,6 +10550,10 @@
   "클립키보드 추가": {
     "v": "Thêm ClipKeyboard",
     "src": "c536951952"
+  },
+  "클립키보드 켜기": {
+    "v": "Bật ClipKeyboard",
+    "src": "a21f37767e"
   },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "v": "ClipKeyboard đã giúp bạn tiết kiệm %d giờ",
@@ -10643,6 +10735,10 @@
     "v": "Bật bàn phím",
     "src": "f014241548"
   },
+  "키보드 켜러 가기": {
+    "v": "Đi tới bật bàn phím",
+    "src": "d1f714834a"
+  },
   "키보드 켜짐": {
     "v": "Bàn phím bật",
     "src": "a35cdd7ce2"
@@ -10719,6 +10815,10 @@
     "v": "Lời nhắc bật bàn phím không còn chặn lối nữa. Nó là một dải ở đầu màn hình bàn phím, nhường chỗ khi có thông báo khác và quay lại khi chỗ trống.",
     "src": "995c6c6937"
   },
+  "키보드를 켜면 어느 앱에서든 바로 넣을 수 있어요": {
+    "v": "Bật bàn phím để chèn cụm từ trong mọi ứng dụng",
+    "src": "edb589de36"
+  },
   "키보드를 켜면 어디서든 이 화면이 올라와요": {
     "v": "Bật bàn phím, màn hình này sẽ hiện lên ở mọi nơi",
     "src": "2578359f7c"
@@ -10738,6 +10838,10 @@
   "키보드를 켠 사용자": {
     "v": "Đã bật bàn phím",
     "src": "a9f021b9e6"
+  },
+  "키보드를 한 번만 켜 두면 돼요": {
+    "v": "Bạn chỉ cần bật bàn phím một lần",
+    "src": "fe70292c7c"
   },
   "키보드를 한 번에 설정해요": {
     "v": "Cài đặt bàn phím trong một lần",

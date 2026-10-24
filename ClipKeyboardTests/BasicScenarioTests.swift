@@ -524,6 +524,39 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertEqual(memos.first?.value, BlankStartSample.value)
     }
 
+    // MARK: - 시나리오 12: 키보드 켜기를 미루면 목록 위에 남고, 켜면 걷힌다
+
+    func test_키보드_켜기를_미루면_켤_때까지만_목록_위에_남는다() {
+        let std = UserDefaults.standard
+        let savedDeferred = std.object(forKey: DefaultsKey.keyboardLessonDeferred)
+        let savedKeyboards = std.object(forKey: "AppleKeyboards")
+        let savedLedger = groupDefaults?.object(forKey: DefaultsKey.lessonLedger)
+        defer {
+            std.set(savedDeferred, forKey: DefaultsKey.keyboardLessonDeferred)
+            std.set(savedKeyboards, forKey: "AppleKeyboards")
+            groupDefaults?.set(savedLedger, forKey: DefaultsKey.lessonLedger)
+        }
+        groupDefaults?.removeObject(forKey: DefaultsKey.lessonLedger)
+        std.set(["ko_KR@sw=Korean;hw=Automatic"], forKey: "AppleKeyboards")
+
+        // 미루지 않았으면 띄우지 않는다(수업은 첫 단축어 직후 한 번 떴다)
+        std.set(false, forKey: DefaultsKey.keyboardLessonDeferred)
+        XCTAssertFalse(KeyboardLessonBanner.isDue)
+
+        // "나중에 다시" → 한 줄이 선다
+        std.set(true, forKey: DefaultsKey.keyboardLessonDeferred)
+        XCTAssertTrue(KeyboardLessonBanner.isDue, "미뤘으면 켤 때까지 다시 알려 줘야 한다")
+
+        // 설정에서 켰으면 걷힌다(수업을 다시 안 거쳐도)
+        std.set([KeyboardInstallState.extensionBundleID], forKey: "AppleKeyboards")
+        XCTAssertFalse(KeyboardLessonBanner.isDue, "켰는데 켜라는 줄이 남으면 안 된다")
+
+        // 실습까지 마쳤으면 걷힌다
+        std.set(["ko_KR@sw=Korean;hw=Automatic"], forKey: "AppleKeyboards")
+        LessonLedger.learn(.keyboard)
+        XCTAssertFalse(KeyboardLessonBanner.isDue)
+    }
+
     private func rawMemoFile() -> String {
         guard let url = FileManager.default
             .containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier)?

@@ -782,6 +782,10 @@
     "v": "24 ore",
     "src": "c340b5478c"
   },
+  "2번 '클립키보드 켜기'만 하면 돼요": {
+    "v": "Basta il passo 2: attiva ClipKeyboard",
+    "src": "f4994e0a13"
+  },
   "2주 뒤": {
     "v": "Tra 2 settimane",
     "src": "6e21a81d09"
@@ -3479,6 +3483,10 @@
     "v": "Più tardi",
     "src": "a87f3586ca"
   },
+  "나중에 다시": {
+    "v": "Più tardi",
+    "src": "5ac2f59d1d"
+  },
   "나중에 할게요": {
     "v": "Forse più tardi",
     "src": "86123c6260"
@@ -3867,6 +3875,10 @@
     "v": "Esattamente come appare in altre app",
     "src": "4fc7fc8744"
   },
+  "다른 앱에서 보일 키보드를 여기서 미리": {
+    "v": "Guarda qui la tastiera che vedrai nelle altre app",
+    "src": "c1b76984d5"
+  },
   "다른 앱에서 붙여넣기": {
     "v": "Incolla in altre app",
     "src": "43186426db"
@@ -3874,6 +3886,10 @@
   "다른 앱에서 지구본 한 번": {
     "v": "Tocca il globo in qualsiasi app",
     "src": "360d6cba38"
+  },
+  "다른 앱에서 지구본을 누르면 이 키보드가 떠요": {
+    "v": "In qualsiasi app, tocca il globo e compare questa tastiera",
+    "src": "0da9272aca"
   },
   "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요": {
     "v": "Il tempo passato a recuperare valori da altre app ora corrisponde a quanto abbiamo misurato. Aprire l'app della banca non ha mai richiesto solo 28 secondi.",
@@ -3898,6 +3914,10 @@
   "다른 카테고리로 옮기기": {
     "v": "Sposta in un'altra categoria",
     "src": "710255cf6a"
+  },
+  "다시 가기": {
+    "v": "Riprova",
+    "src": "d62091634c"
   },
   "다시 보지 않기": {
     "v": "Non mostrare più",
@@ -4423,6 +4443,10 @@
     "v": "Tocca una voce salvata per copiarla",
     "src": "6cc30a8f7d"
   },
+  "담아 둔 글을 키보드가 읽으려면 필요해요": {
+    "v": "Serve alla tastiera per leggere i testi salvati",
+    "src": "9bcf7460e5"
+  },
   "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
     "v": "Niente da salvare. Prima copia del testo.",
     "src": "c44bc79ce2"
@@ -4694,6 +4718,10 @@
   "드래그하여 순서를 바꿉니다": {
     "v": "Trascina per cambiare l'ordine",
     "src": "c81ec081f6"
+  },
+  "들어갔어요. 보내 보세요": {
+    "v": "È inserito. Ora invialo",
+    "src": "0fe34a8563"
   },
   "들어갔어요. 보내기를 눌러 올려보세요.": {
     "v": "Inserito. Tocca Invia per pubblicarlo.",
@@ -4986,6 +5014,14 @@
     "v": "Invia messaggio",
     "src": "83aaab5a2b"
   },
+  "메시지를 쓰다가 지구본을 누르면": {
+    "v": "Mentre scrivi un messaggio, tocca il globo",
+    "src": "d9e4463eb3"
+  },
+  "메시지를 쓰다가 지구본을 누르면 담아 둔 단축어가 키보드에 서 있어요. 누르면 바로 들어가요.": {
+    "v": "Mentre scrivi un messaggio, tocca il globo e le tue frasi salvate sono sulla tastiera. Tocca una frase e viene inserita.",
+    "src": "2bcb827fc0"
+  },
   "메일 쓰기": {
     "v": "Scrivi e-mail",
     "src": "bf4e551833"
@@ -5101,6 +5137,10 @@
   "목록에서 제목 아래 내용이 한 줄 보이고, 민감한 값은 가려져요": {
     "v": "L'elenco mostra una riga di contenuto sotto ogni titolo, con i valori sensibili nascosti",
     "src": "13e35b9625"
+  },
+  "목록으로": {
+    "v": "Torna all'elenco",
+    "src": "bfc3e6a5f5"
   },
   "목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요": {
     "v": "Lo spazio tra il titolo e le frasi resta fermo mentre apri e modifichi l'elenco",
@@ -6852,6 +6892,10 @@
     "v": "In Impostazioni ora trovi «App da usare insieme», con le app abbinabili mostrate come scene di tutti i giorni",
     "src": "61b3d0a7b8"
   },
+  "설정에서 '키보드'를 누르세요": {
+    "v": "In Impostazioni, tocca Tastiere",
+    "src": "d4678e94b0"
+  },
   "설정에서 나에게 맞는 유형을 고르면 더 잘 맞는 것부터 보여드려요": {
     "v": "Scegli in Impostazioni il tipo più adatto a te e ti mostreremo prima i risultati migliori",
     "src": "1dc96301dd"
@@ -6863,6 +6907,10 @@
   "설정에서 언어를 고를 수 있어요. 고르는 즉시 바뀌고, 키보드는 다음에 열 때부터 따라와요": {
     "v": "Scegli la lingua in Impostazioni. Cambia subito, e la tastiera si aggiorna alla prossima apertura",
     "src": "fbd49c84f0"
+  },
+  "설정에서 이렇게 하세요": {
+    "v": "Ecco cosa fare in Impostazioni",
+    "src": "e8291faee7"
   },
   "설정에서 키 컬러를 고를 수 있어요. 일곱 가지 중에 고르면 앱과 키보드가 함께 그 색으로 바뀌어요": {
     "v": "In Impostazioni ora c'è il colore dei tasti. Scegline uno tra sette e app e tastiera cambiano insieme",
@@ -7070,6 +7118,10 @@
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "v": "Una cifra non torna. Controlla il numero sulla carta.",
     "src": "ecc28f1bca"
+  },
+  "스위치를 켜세요": {
+    "v": "Attiva l'interruttore",
+    "src": "0a7bf71081"
   },
   "스캔해서 글자 넣기": {
     "v": "Scansiona il testo",
@@ -7460,6 +7512,10 @@
     "v": "Non hanno ancora creato nulla",
     "src": "7ce4b55985"
   },
+  "아직 안 켜졌어요": {
+    "v": "Non è ancora attiva",
+    "src": "d07b8317d6"
+  },
   "아직 없어요": {
     "v": "Non ancora salvata",
     "src": "265208ca21"
@@ -7829,6 +7885,10 @@
   "여기를 누르세요": {
     "v": "Tocca qui",
     "src": "fe481cd374"
+  },
+  "여기서 미리 눌러 볼 수 있어요": {
+    "v": "Qui puoi provarla subito",
+    "src": "e15d81f8d6"
   },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "v": "Continui a scrivere da qui, quindi il cursore parte da qui. Puoi disattivarlo nella modifica della frase.",
@@ -8874,6 +8934,10 @@
     "v": "Ripristina il Pro acquistato in precedenza",
     "src": "f4b89e1d93"
   },
+  "이제 다른 앱에서 써 볼까요?": {
+    "v": "Vuoi usarla nelle altre app?",
+    "src": "347da98733"
+  },
   "이제 다른 앱에서 써보세요": {
     "v": "Ora provalo in un'altra app",
     "src": "8320312516"
@@ -8881,6 +8945,10 @@
   "이제 막 써 보는 사람": {
     "v": "Hai appena iniziato",
     "src": "8d2e17bfdc"
+  },
+  "이제 어느 앱에서든 이렇게 써요": {
+    "v": "Ora puoi farlo in qualsiasi app",
+    "src": "48c804c73d"
   },
   "이제 직접 하나 만들어 보세요. 위의 + 를 누르면 돼요.": {
     "v": "Ora creane una tu. Tocca + in alto.",
@@ -9064,6 +9132,10 @@
   "입력하기": {
     "v": "Inserisci",
     "src": "1223cfa191"
+  },
+  "입력하는 글은 어디로도 보내지 않아요": {
+    "v": "Quello che scrivi non viene inviato da nessuna parte",
+    "src": "a1ce964e17"
   },
   "입력하세요": {
     "v": "Inserisci",
@@ -9664,6 +9736,10 @@
     "v": "Indirizzo",
     "src": "cccba857c8"
   },
+  "주소 좀 보내 줄래?": {
+    "v": "Puoi mandarmi l'indirizzo?",
+    "src": "7ccd714465"
+  },
   "준비 완료": {
     "v": "Tutto pronto",
     "src": "b2ace13d7c"
@@ -9786,6 +9862,10 @@
   "지구본을 길게 누르면 이모지 키보드로 바로 갈 수 있어요. 다른 키보드를 함께 써도 됩니다": {
     "v": "Tieni premuto il globo per passare subito alla tastiera emoji, anche con altre tastiere installate",
     "src": "6bef60d0d6"
+  },
+  "지구본을 눌러 클립키보드로 바꾸고, 카드를 누르세요": {
+    "v": "Tocca il globo per passare a ClipKeyboard, poi tocca una scheda",
+    "src": "b34e4b6be0"
   },
   "지금 Pro로 업그레이드하면 평생 사용": {
     "v": "Passa a Pro ora e usalo per sempre",
@@ -10559,6 +10639,10 @@
     "v": "Se aggiungi da una categoria, la frase viene salvata in quella categoria",
     "src": "77c25f7781"
   },
+  "카톡 · 문자 · 메일 어디서든 지구본 한 번": {
+    "v": "Messaggi, Mail, ovunque. Basta toccare il globo",
+    "src": "a387edb1ec"
+  },
   "칸 추가에 내신 값이 빠진 값이에요": {
     "v": "Questo prezzo esclude già quanto hai pagato per gli slot",
     "src": "336ab872ee"
@@ -10621,6 +10705,10 @@
   "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
     "v": "Se l'hai attivato, apri una volta la tastiera e qui passerà subito a Attivo. iOS ce lo comunica solo quando la tastiera si apre.",
     "src": "a472d9b559"
+  },
+  "켜졌어요. 써 볼까요?": {
+    "v": "È attiva. Vuoi provarla?",
+    "src": "00cded27a9"
   },
   "켜짐": {
     "v": "Attivo",
@@ -10792,6 +10880,10 @@
   "클립키보드 추가": {
     "v": "Aggiungi ClipKeyboard",
     "src": "c536951952"
+  },
+  "클립키보드 켜기": {
+    "v": "Attiva ClipKeyboard",
+    "src": "a21f37767e"
   },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "v": {
@@ -10976,6 +11068,10 @@
     "v": "Attiva la tastiera",
     "src": "f014241548"
   },
+  "키보드 켜러 가기": {
+    "v": "Vai ad attivare la tastiera",
+    "src": "d1f714834a"
+  },
   "키보드 켜짐": {
     "v": "Tastiera attiva",
     "src": "a35cdd7ce2"
@@ -11052,6 +11148,10 @@
     "v": "L'avviso per attivare la tastiera non blocca più il passaggio. È una barra in alto nella schermata della tastiera: si sposta se un altro messaggio occupa il posto e torna quando è libero.",
     "src": "995c6c6937"
   },
+  "키보드를 켜면 어느 앱에서든 바로 넣을 수 있어요": {
+    "v": "Attiva la tastiera per inserire le frasi in qualsiasi app",
+    "src": "edb589de36"
+  },
   "키보드를 켜면 어디서든 이 화면이 올라와요": {
     "v": "Attiva la tastiera e questa schermata appare ovunque",
     "src": "2578359f7c"
@@ -11071,6 +11171,10 @@
   "키보드를 켠 사용자": {
     "v": "Ha attivato la tastiera",
     "src": "a9f021b9e6"
+  },
+  "키보드를 한 번만 켜 두면 돼요": {
+    "v": "Basta attivare la tastiera una volta sola",
+    "src": "fe70292c7c"
   },
   "키보드를 한 번에 설정해요": {
     "v": "Imposta la tastiera in un colpo solo",

@@ -782,6 +782,10 @@
     "v": "24 saat",
     "src": "c340b5478c"
   },
+  "2번 '클립키보드 켜기'만 하면 돼요": {
+    "v": "Sadece 2. adım kaldı: ClipKeyboard'u açın",
+    "src": "f4994e0a13"
+  },
   "2주 뒤": {
     "v": "2 hafta sonra",
     "src": "6e21a81d09"
@@ -3479,6 +3483,10 @@
     "v": "Sonra",
     "src": "a87f3586ca"
   },
+  "나중에 다시": {
+    "v": "Daha Sonra",
+    "src": "5ac2f59d1d"
+  },
   "나중에 할게요": {
     "v": "Sonra yaparım",
     "src": "86123c6260"
@@ -3867,6 +3875,10 @@
     "v": "Diğer uygulamalarda göründüğü gibi",
     "src": "4fc7fc8744"
   },
+  "다른 앱에서 보일 키보드를 여기서 미리": {
+    "v": "Diğer uygulamalarda göreceğiniz klavyeyi burada önizleyin",
+    "src": "c1b76984d5"
+  },
   "다른 앱에서 붙여넣기": {
     "v": "Diğer uygulamalara yapıştır",
     "src": "43186426db"
@@ -3874,6 +3886,10 @@
   "다른 앱에서 지구본 한 번": {
     "v": "Herhangi bir uygulamada küre simgesine dokunun",
     "src": "360d6cba38"
+  },
+  "다른 앱에서 지구본을 누르면 이 키보드가 떠요": {
+    "v": "Herhangi bir uygulamada küre simgesine dokunun, bu klavye açılır",
+    "src": "0da9272aca"
   },
   "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요": {
     "v": "Diğer uygulamalardan değer almak için ayrılan süre artık gerçekte ölçülen süreye göre belirleniyor. Bir bankacılık uygulamasını açmak hiçbir zaman 28 saniyede bitmedi",
@@ -3898,6 +3914,10 @@
   "다른 카테고리로 옮기기": {
     "v": "Başka kategoriye taşı",
     "src": "710255cf6a"
+  },
+  "다시 가기": {
+    "v": "Tekrar Git",
+    "src": "d62091634c"
   },
   "다시 보지 않기": {
     "v": "Bir Daha Gösterme",
@@ -4423,6 +4443,10 @@
     "v": "Kayıtlı olana dokunursanız kopyalanır",
     "src": "6cc30a8f7d"
   },
+  "담아 둔 글을 키보드가 읽으려면 필요해요": {
+    "v": "Klavyenin kayıtlı metinlerinizi okuması için gerekli",
+    "src": "9bcf7460e5"
+  },
   "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
     "v": "Yakalanacak metin yok. Önce bir metin kopyalayın.",
     "src": "c44bc79ce2"
@@ -4694,6 +4718,10 @@
   "드래그하여 순서를 바꿉니다": {
     "v": "Sırayı değiştirmek için sürükleyin",
     "src": "c81ec081f6"
+  },
+  "들어갔어요. 보내 보세요": {
+    "v": "Eklendi. Şimdi gönderin",
+    "src": "0fe34a8563"
   },
   "들어갔어요. 보내기를 눌러 올려보세요.": {
     "v": "Eklendi. Göndere dokunarak paylaşın.",
@@ -4986,6 +5014,14 @@
     "v": "Mesaj gönder",
     "src": "83aaab5a2b"
   },
+  "메시지를 쓰다가 지구본을 누르면": {
+    "v": "Mesaj yazarken küre simgesine dokunun",
+    "src": "d9e4463eb3"
+  },
+  "메시지를 쓰다가 지구본을 누르면 담아 둔 단축어가 키보드에 서 있어요. 누르면 바로 들어가요.": {
+    "v": "Mesaj yazarken küre simgesine dokunun, kayıtlı ifadeleriniz klavyede hazır olur. Birine dokunun, hemen eklenir.",
+    "src": "2bcb827fc0"
+  },
   "메일 쓰기": {
     "v": "E-posta yaz",
     "src": "bf4e551833"
@@ -5101,6 +5137,10 @@
   "목록에서 제목 아래 내용이 한 줄 보이고, 민감한 값은 가려져요": {
     "v": "Listede başlığın altında bir satır içerik görünür, hassas değerler gizlenir",
     "src": "13e35b9625"
+  },
+  "목록으로": {
+    "v": "Listeye Dön",
+    "src": "bfc3e6a5f5"
   },
   "목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요": {
     "v": "Listeyi açıp düzenlerken başlık ile ifadeler arasındaki boşluk artık oynamıyor",
@@ -6852,6 +6892,10 @@
     "v": "Ayarlar'a 'Birlikte kullanılan uygulamalar' eklendi. Birlikte kullanmaya değer uygulamalar günlük sahnelerle tanıtılıyor",
     "src": "61b3d0a7b8"
   },
+  "설정에서 '키보드'를 누르세요": {
+    "v": "Ayarlar'da Klavyeler'e dokunun",
+    "src": "d4678e94b0"
+  },
   "설정에서 나에게 맞는 유형을 고르면 더 잘 맞는 것부터 보여드려요": {
     "v": "Ayarlar'dan size uyan türü seçin, en uygun olanları önce gösterelim",
     "src": "1dc96301dd"
@@ -6863,6 +6907,10 @@
   "설정에서 언어를 고를 수 있어요. 고르는 즉시 바뀌고, 키보드는 다음에 열 때부터 따라와요": {
     "v": "Dilinizi Ayarlar'dan seçebilirsiniz. Hemen değişir, klavye bir sonraki açılışta uyum sağlar",
     "src": "fbd49c84f0"
+  },
+  "설정에서 이렇게 하세요": {
+    "v": "Ayarlar'da şunları yapın",
+    "src": "e8291faee7"
   },
   "설정에서 키 컬러를 고를 수 있어요. 일곱 가지 중에 고르면 앱과 키보드가 함께 그 색으로 바뀌어요": {
     "v": "Ayarlar'a Tuş rengi eklendi. Yedi renkten birini seçin, uygulama ve klavye birlikte o renge geçer",
@@ -7070,6 +7118,10 @@
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "v": "Bir hane yanlış. Kartınızdaki numarayla karşılaştırın.",
     "src": "ecc28f1bca"
+  },
+  "스위치를 켜세요": {
+    "v": "Anahtarı açın",
+    "src": "0a7bf71081"
   },
   "스캔해서 글자 넣기": {
     "v": "Tarayarak metin ekle",
@@ -7460,6 +7512,10 @@
     "v": "Henüz hiçbir şey oluşturmayanlar",
     "src": "7ce4b55985"
   },
+  "아직 안 켜졌어요": {
+    "v": "Henüz açık değil",
+    "src": "d07b8317d6"
+  },
   "아직 없어요": {
     "v": "Henüz kaydedilmedi",
     "src": "265208ca21"
@@ -7829,6 +7885,10 @@
   "여기를 누르세요": {
     "v": "Buraya dokunun",
     "src": "fe481cd374"
+  },
+  "여기서 미리 눌러 볼 수 있어요": {
+    "v": "Önce burada deneyebilirsiniz",
+    "src": "e15d81f8d6"
   },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "v": "Burada yazmaya devam ettiğiniz için imleci buraya yerleştirdim. İfade düzenlemeden kapatabilirsiniz.",
@@ -8874,6 +8934,10 @@
     "v": "Daha önce satın aldığınız Pro'yu geri yükler",
     "src": "f4b89e1d93"
   },
+  "이제 다른 앱에서 써 볼까요?": {
+    "v": "Şimdi diğer uygulamalarda deneyelim mi?",
+    "src": "347da98733"
+  },
   "이제 다른 앱에서 써보세요": {
     "v": "Şimdi başka bir uygulamada deneyin",
     "src": "8320312516"
@@ -8881,6 +8945,10 @@
   "이제 막 써 보는 사람": {
     "v": "Yeni başlayanlar",
     "src": "8d2e17bfdc"
+  },
+  "이제 어느 앱에서든 이렇게 써요": {
+    "v": "Artık her uygulamada böyle kullanabilirsiniz",
+    "src": "48c804c73d"
   },
   "이제 직접 하나 만들어 보세요. 위의 + 를 누르면 돼요.": {
     "v": "Şimdi kendiniz bir tane oluşturun. Yukarıdaki + simgesine dokunun.",
@@ -9064,6 +9132,10 @@
   "입력하기": {
     "v": "Ekle",
     "src": "1223cfa191"
+  },
+  "입력하는 글은 어디로도 보내지 않아요": {
+    "v": "Yazdıklarınız hiçbir yere gönderilmez",
+    "src": "a1ce964e17"
   },
   "입력하세요": {
     "v": "Girin",
@@ -9664,6 +9736,10 @@
     "v": "Adres",
     "src": "cccba857c8"
   },
+  "주소 좀 보내 줄래?": {
+    "v": "Adresi bana gönderir misin?",
+    "src": "7ccd714465"
+  },
   "준비 완료": {
     "v": "Hazır",
     "src": "b2ace13d7c"
@@ -9786,6 +9862,10 @@
   "지구본을 길게 누르면 이모지 키보드로 바로 갈 수 있어요. 다른 키보드를 함께 써도 됩니다": {
     "v": "Emoji klavyesine geçmek için küre simgesine basılı tutun, başka klavyeler yüklü olsa bile",
     "src": "6bef60d0d6"
+  },
+  "지구본을 눌러 클립키보드로 바꾸고, 카드를 누르세요": {
+    "v": "Küre simgesine dokunup ClipKeyboard'a geçin, sonra bir karta dokunun",
+    "src": "b34e4b6be0"
   },
   "지금 Pro로 업그레이드하면 평생 사용": {
     "v": "Şimdi Pro'ya yükseltin, ömür boyu kullanın",
@@ -10562,6 +10642,10 @@
     "v": "Bir kategoriden eklediğinizde ifade o kategoriye kaydedilir",
     "src": "77c25f7781"
   },
+  "카톡 · 문자 · 메일 어디서든 지구본 한 번": {
+    "v": "Mesajlar, e-posta, her yerde. Küreye bir kez dokunun",
+    "src": "a387edb1ec"
+  },
   "칸 추가에 내신 값이 빠진 값이에요": {
     "v": "Bu tutar, alanlar için ödediğiniz bedeli zaten düşüyor",
     "src": "336ab872ee"
@@ -10624,6 +10708,10 @@
   "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
     "v": "Açtıysanız klavyeyi bir kez açın, durum hemen Açık olarak değişir. iOS yalnızca klavye açılırken bildiriyor.",
     "src": "a472d9b559"
+  },
+  "켜졌어요. 써 볼까요?": {
+    "v": "Açıldı. Denemek ister misiniz?",
+    "src": "00cded27a9"
   },
   "켜짐": {
     "v": "Açık",
@@ -10795,6 +10883,10 @@
   "클립키보드 추가": {
     "v": "ClipKeyboard Ekle",
     "src": "c536951952"
+  },
+  "클립키보드 켜기": {
+    "v": "ClipKeyboard'u Aç",
+    "src": "a21f37767e"
   },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "v": {
@@ -10979,6 +11071,10 @@
     "v": "Klavyeyi açın",
     "src": "f014241548"
   },
+  "키보드 켜러 가기": {
+    "v": "Klavyeyi Aç",
+    "src": "d1f714834a"
+  },
   "키보드 켜짐": {
     "v": "Klavye açık",
     "src": "a35cdd7ce2"
@@ -11055,6 +11151,10 @@
     "v": "Klavyeyi açma uyarısı artık yolu kapatmıyor. Klavye ekranının üstünde şerit olarak durur; başka bir uyarı o yeri kullanırken kenara çekilir, yer boşalınca geri gelir.",
     "src": "995c6c6937"
   },
+  "키보드를 켜면 어느 앱에서든 바로 넣을 수 있어요": {
+    "v": "Klavyeyi açın, ifadeleri her uygulamada ekleyin",
+    "src": "edb589de36"
+  },
   "키보드를 켜면 어디서든 이 화면이 올라와요": {
     "v": "Klavyeyi açtığınızda bu ekran her yerde karşınıza çıkar",
     "src": "2578359f7c"
@@ -11074,6 +11174,10 @@
   "키보드를 켠 사용자": {
     "v": "Klavyeyi açan kullanıcılar",
     "src": "a9f021b9e6"
+  },
+  "키보드를 한 번만 켜 두면 돼요": {
+    "v": "Klavyeyi bir kez açmanız yeterli",
+    "src": "fe70292c7c"
   },
   "키보드를 한 번에 설정해요": {
     "v": "Klavyeyi tek seferde kurun",

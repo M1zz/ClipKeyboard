@@ -872,6 +872,10 @@
     "v": "24hodinový",
     "src": "c340b5478c"
   },
+  "2번 '클립키보드 켜기'만 하면 돼요": {
+    "v": "Stačí krok 2: zapnout ClipKeyboard",
+    "src": "f4994e0a13"
+  },
   "2주 뒤": {
     "v": "Za 2 týdny",
     "src": "6e21a81d09"
@@ -3591,6 +3595,10 @@
     "v": "Později",
     "src": "a87f3586ca"
   },
+  "나중에 다시": {
+    "v": "Později",
+    "src": "5ac2f59d1d"
+  },
   "나중에 할게요": {
     "v": "Možná později",
     "src": "86123c6260"
@@ -3979,6 +3987,10 @@
     "v": "Přesně tak, jak vypadá v jiných aplikacích",
     "src": "4fc7fc8744"
   },
+  "다른 앱에서 보일 키보드를 여기서 미리": {
+    "v": "Vyzkoušejte si klávesnici, kterou uvidíte v jiných aplikacích",
+    "src": "c1b76984d5"
+  },
   "다른 앱에서 붙여넣기": {
     "v": "Vložení v jiných aplikacích",
     "src": "43186426db"
@@ -3986,6 +3998,10 @@
   "다른 앱에서 지구본 한 번": {
     "v": "V jakékoli aplikaci klepněte na zeměkouli",
     "src": "360d6cba38"
+  },
+  "다른 앱에서 지구본을 누르면 이 키보드가 떠요": {
+    "v": "Klepněte v jakékoli aplikaci na glóbus a klávesnice se objeví",
+    "src": "0da9272aca"
   },
   "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요": {
     "v": "Čas na dohledání hodnot v jiných aplikacích jsme upravili podle skutečného měření. Otevření bankovní aplikace netrvalo jen 28 sekund.",
@@ -4010,6 +4026,10 @@
   "다른 카테고리로 옮기기": {
     "v": "Přesunout do jiné kategorie",
     "src": "710255cf6a"
+  },
+  "다시 가기": {
+    "v": "Znovu do Nastavení",
+    "src": "d62091634c"
   },
   "다시 보지 않기": {
     "v": "Již nezobrazovat",
@@ -4559,6 +4579,10 @@
     "v": "Klepnutím na uloženou položku ji zkopírujete",
     "src": "6cc30a8f7d"
   },
+  "담아 둔 글을 키보드가 읽으려면 필요해요": {
+    "v": "Klávesnice to potřebuje, aby si přečetla uložené texty",
+    "src": "9bcf7460e5"
+  },
   "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
     "v": "Není co zachytit. Nejdřív zkopírujte nějaký text.",
     "src": "c44bc79ce2"
@@ -4830,6 +4854,10 @@
   "드래그하여 순서를 바꿉니다": {
     "v": "Přetažením změníte pořadí",
     "src": "c81ec081f6"
+  },
+  "들어갔어요. 보내 보세요": {
+    "v": "Vloženo. Teď to odešlete",
+    "src": "0fe34a8563"
   },
   "들어갔어요. 보내기를 눌러 올려보세요.": {
     "v": "Je tam. Klepnutím na odeslat to zveřejníte.",
@@ -5124,6 +5152,14 @@
     "v": "Odeslat zprávu",
     "src": "83aaab5a2b"
   },
+  "메시지를 쓰다가 지구본을 누르면": {
+    "v": "Při psaní zprávy klepněte na glóbus",
+    "src": "d9e4463eb3"
+  },
+  "메시지를 쓰다가 지구본을 누르면 담아 둔 단축어가 키보드에 서 있어요. 누르면 바로 들어가요.": {
+    "v": "Při psaní zprávy klepněte na glóbus a uložené fráze jsou hned na klávesnici. Klepnutím se vloží.",
+    "src": "2bcb827fc0"
+  },
   "메일 쓰기": {
     "v": "Napsat e-mail",
     "src": "bf4e551833"
@@ -5239,6 +5275,10 @@
   "목록에서 제목 아래 내용이 한 줄 보이고, 민감한 값은 가려져요": {
     "v": "Seznam zobrazuje pod názvem řádek obsahu, citlivé hodnoty jsou skryté",
     "src": "13e35b9625"
+  },
+  "목록으로": {
+    "v": "Zpět na seznam",
+    "src": "bfc3e6a5f5"
   },
   "목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요": {
     "v": "Mezera mezi názvem a frázemi už při otevření a úpravě seznamu neposkakuje",
@@ -7026,6 +7066,10 @@
     "v": "V Nastavení přibyla sekce Spolupracující aplikace. Aplikace, které stojí za společné použití, tam ukazujeme na běžných situacích.",
     "src": "61b3d0a7b8"
   },
+  "설정에서 '키보드'를 누르세요": {
+    "v": "V Nastavení klepněte na Klávesnice",
+    "src": "d4678e94b0"
+  },
   "설정에서 나에게 맞는 유형을 고르면 더 잘 맞는 것부터 보여드려요": {
     "v": "V Nastavení zvolte typ, který vám sedí, a nejvhodnější nabídky uvidíte jako první",
     "src": "1dc96301dd"
@@ -7037,6 +7081,10 @@
   "설정에서 언어를 고를 수 있어요. 고르는 즉시 바뀌고, 키보드는 다음에 열 때부터 따라와요": {
     "v": "Jazyk zvolíte v Nastavení. Změní se hned, klávesnice ho převezme při dalším otevření.",
     "src": "fbd49c84f0"
+  },
+  "설정에서 이렇게 하세요": {
+    "v": "V Nastavení postupujte takto",
+    "src": "e8291faee7"
   },
   "설정에서 키 컬러를 고를 수 있어요. 일곱 가지 중에 고르면 앱과 키보드가 함께 그 색으로 바뀌어요": {
     "v": "V Nastavení je nově Barva kláves. Vyberte z sedmi a aplikace i klávesnice se přebarví.",
@@ -7246,6 +7294,10 @@
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "v": "Jedna číslice nesedí. Porovnejte ji s číslem na kartě.",
     "src": "ecc28f1bca"
+  },
+  "스위치를 켜세요": {
+    "v": "Zapněte přepínač",
+    "src": "0a7bf71081"
   },
   "스캔해서 글자 넣기": {
     "v": "Vložit text skenem",
@@ -7642,6 +7694,10 @@
     "v": "Zatím nic nevytvořili",
     "src": "7ce4b55985"
   },
+  "아직 안 켜졌어요": {
+    "v": "Ještě není zapnutá",
+    "src": "d07b8317d6"
+  },
   "아직 없어요": {
     "v": "Zatím neuloženo",
     "src": "265208ca21"
@@ -8015,6 +8071,10 @@
   "여기를 누르세요": {
     "v": "Klepněte sem",
     "src": "fe481cd374"
+  },
+  "여기서 미리 눌러 볼 수 있어요": {
+    "v": "Můžete si to vyzkoušet tady",
+    "src": "e15d81f8d6"
   },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "v": "Zde obvykle pokračujete v psaní, proto je kurzor nyní tady. Vypnete to v úpravách fráze.",
@@ -9068,6 +9128,10 @@
     "v": "Obnoví dříve zakoupené Pro",
     "src": "f4b89e1d93"
   },
+  "이제 다른 앱에서 써 볼까요?": {
+    "v": "Chcete to použít i v jiných aplikacích?",
+    "src": "347da98733"
+  },
   "이제 다른 앱에서 써보세요": {
     "v": "Vyzkoušejte to v jiné aplikaci",
     "src": "8320312516"
@@ -9075,6 +9139,10 @@
   "이제 막 써 보는 사람": {
     "v": "Teprve začínáte",
     "src": "8d2e17bfdc"
+  },
+  "이제 어느 앱에서든 이렇게 써요": {
+    "v": "Teď to půjde v každé aplikaci",
+    "src": "48c804c73d"
   },
   "이제 직접 하나 만들어 보세요. 위의 + 를 누르면 돼요.": {
     "v": "Teď si vytvořte vlastní. Klepněte na + nahoře.",
@@ -9260,6 +9328,10 @@
   "입력하기": {
     "v": "Vložit",
     "src": "1223cfa191"
+  },
+  "입력하는 글은 어디로도 보내지 않아요": {
+    "v": "Co píšete, se nikam neodesílá",
+    "src": "a1ce964e17"
   },
   "입력하세요": {
     "v": "Zadejte",
@@ -9862,6 +9934,10 @@
     "v": "Adresa",
     "src": "cccba857c8"
   },
+  "주소 좀 보내 줄래?": {
+    "v": "Můžeš mi poslat adresu?",
+    "src": "7ccd714465"
+  },
   "준비 완료": {
     "v": "Připraveno",
     "src": "b2ace13d7c"
@@ -9986,6 +10062,10 @@
   "지구본을 길게 누르면 이모지 키보드로 바로 갈 수 있어요. 다른 키보드를 함께 써도 됩니다": {
     "v": "Podržením zeměkoule přejdete rovnou na klávesnici emoji, i když máte nainstalované další klávesnice",
     "src": "6bef60d0d6"
+  },
+  "지구본을 눌러 클립키보드로 바꾸고, 카드를 누르세요": {
+    "v": "Klepnutím na glóbus přepněte na ClipKeyboard a klepněte na kartu",
+    "src": "b34e4b6be0"
   },
   "지금 Pro로 업그레이드하면 평생 사용": {
     "v": "Upgradujte na Pro a používejte navždy",
@@ -10780,6 +10860,10 @@
     "v": "Přidání z kategorie se nyní uloží do této kategorie",
     "src": "77c25f7781"
   },
+  "카톡 · 문자 · 메일 어디서든 지구본 한 번": {
+    "v": "Zprávy, e-mail, kdekoli. Stačí klepnout na glóbus",
+    "src": "a387edb1ec"
+  },
   "칸 추가에 내신 값이 빠진 값이에요": {
     "v": "Z ceny je už odečteno, co jste zaplatili za přidaná místa",
     "src": "336ab872ee"
@@ -10844,6 +10928,10 @@
   "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
     "v": "Pokud jste to zapnuli, zobrazte klávesnici jednou a stav se změní na Zapnuto. iOS nám to oznámí, jen když se klávesnice otevře.",
     "src": "a472d9b559"
+  },
+  "켜졌어요. 써 볼까요?": {
+    "v": "Zapnuto. Chcete to zkusit?",
+    "src": "00cded27a9"
   },
   "켜짐": {
     "v": "Zapnuto",
@@ -11017,6 +11105,10 @@
   "클립키보드 추가": {
     "v": "Přidat ClipKeyboard",
     "src": "c536951952"
+  },
+  "클립키보드 켜기": {
+    "v": "Zapnout ClipKeyboard",
+    "src": "a21f37767e"
   },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "v": {
@@ -11203,6 +11295,10 @@
     "v": "Zapnout klávesnici",
     "src": "f014241548"
   },
+  "키보드 켜러 가기": {
+    "v": "Zapnout klávesnici",
+    "src": "d1f714834a"
+  },
   "키보드 켜짐": {
     "v": "Klávesnice zapnuta",
     "src": "a35cdd7ce2"
@@ -11279,6 +11375,10 @@
     "v": "Výzva k zapnutí klávesnice už nepřekáží. Zůstává jako pruh nahoře na klávesnici, ustoupí jiné zprávě a vrátí se, až bude místo volné",
     "src": "995c6c6937"
   },
+  "키보드를 켜면 어느 앱에서든 바로 넣을 수 있어요": {
+    "v": "Zapněte klávesnici a vložíte fráze v jakékoli aplikaci",
+    "src": "edb589de36"
+  },
   "키보드를 켜면 어디서든 이 화면이 올라와요": {
     "v": "Po zapnutí klávesnice se tato obrazovka objeví kdekoli",
     "src": "2578359f7c"
@@ -11298,6 +11398,10 @@
   "키보드를 켠 사용자": {
     "v": "Zapnuli klávesnici",
     "src": "a9f021b9e6"
+  },
+  "키보드를 한 번만 켜 두면 돼요": {
+    "v": "Klávesnici stačí zapnout jednou",
+    "src": "fe70292c7c"
   },
   "키보드를 한 번에 설정해요": {
     "v": "Nastavte klávesnici najednou",

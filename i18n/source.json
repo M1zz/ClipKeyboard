@@ -971,6 +971,12 @@
     "comment": "Time pattern chip: 24-hour",
     "h": "c340b5478c"
   },
+  "2번 '클립키보드 켜기'만 하면 돼요": {
+    "ko": "2번 '클립키보드 켜기'만 하면 돼요",
+    "en": "Just do step 2, turn on ClipKeyboard",
+    "comment": "Keyboard lesson: not on yet subline",
+    "h": "f4994e0a13"
+  },
   "2주 뒤": {
     "ko": "2주 뒤",
     "en": "In 2 weeks",
@@ -4955,6 +4961,12 @@
     "comment": "Free use card: later\nLater button\nRestore hint: dismiss",
     "h": "a87f3586ca"
   },
+  "나중에 다시": {
+    "ko": "나중에 다시",
+    "en": "Remind Me Later",
+    "comment": "Keyboard lesson: postpone",
+    "h": "5ac2f59d1d"
+  },
   "나중에 할게요": {
     "ko": "나중에 할게요",
     "en": "Maybe later",
@@ -5537,6 +5549,12 @@
     "comment": "In-app keyboard stage subtitle",
     "h": "4fc7fc8744"
   },
+  "다른 앱에서 보일 키보드를 여기서 미리": {
+    "ko": "다른 앱에서 보일 키보드를 여기서 미리",
+    "en": "Preview the keyboard you'll see in other apps",
+    "comment": "Lesson subtitle: keyboard preview",
+    "h": "c1b76984d5"
+  },
   "다른 앱에서 붙여넣기": {
     "ko": "다른 앱에서 붙여넣기",
     "en": "Paste in other apps",
@@ -5548,6 +5566,12 @@
     "en": "Tap the globe in any app",
     "comment": "Lesson subtitle: keyboard",
     "h": "360d6cba38"
+  },
+  "다른 앱에서 지구본을 누르면 이 키보드가 떠요": {
+    "ko": "다른 앱에서 지구본을 누르면 이 키보드가 떠요",
+    "en": "Tap the globe in any app and this keyboard appears",
+    "comment": "Keyboard stage intro: what this preview is",
+    "h": "0da9272aca"
   },
   "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요": {
     "ko": "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요",
@@ -5584,6 +5608,12 @@
     "en": "Move to another category",
     "comment": "Move all snippets to another category",
     "h": "710255cf6a"
+  },
+  "다시 가기": {
+    "ko": "다시 가기",
+    "en": "Go Again",
+    "comment": "Keyboard lesson: go to Settings again",
+    "h": "d62091634c"
   },
   "다시 보지 않기": {
     "ko": "다시 보지 않기",
@@ -6317,6 +6347,12 @@
     "comment": "Lesson subtitle: copy",
     "h": "6cc30a8f7d"
   },
+  "담아 둔 글을 키보드가 읽으려면 필요해요": {
+    "ko": "담아 둔 글을 키보드가 읽으려면 필요해요",
+    "en": "The keyboard needs this to read your saved text",
+    "comment": "Keyboard lesson step 3 detail",
+    "h": "9bcf7460e5"
+  },
   "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
     "ko": "담을 글이 없어요. 먼저 글을 복사해 주세요.",
     "en": "Nothing to capture. Copy some text first.",
@@ -6724,6 +6760,12 @@
     "en": "Drag to change the order",
     "comment": "Reorder cell a11y hint",
     "h": "c81ec081f6"
+  },
+  "들어갔어요. 보내 보세요": {
+    "ko": "들어갔어요. 보내 보세요",
+    "en": "It's in. Now send it",
+    "comment": "Keyboard lesson: practice, text inserted",
+    "h": "0fe34a8563"
   },
   "들어갔어요. 보내기를 눌러 올려보세요.": {
     "ko": "들어갔어요. 보내기를 눌러 올려보세요.",
@@ -7157,6 +7199,18 @@
     "comment": "Paste target action: send message",
     "h": "83aaab5a2b"
   },
+  "메시지를 쓰다가 지구본을 누르면": {
+    "ko": "메시지를 쓰다가 지구본을 누르면",
+    "en": "Tap the globe while typing a message",
+    "comment": "Keyboard lesson: demo subline",
+    "h": "d9e4463eb3"
+  },
+  "메시지를 쓰다가 지구본을 누르면 담아 둔 단축어가 키보드에 서 있어요. 누르면 바로 들어가요.": {
+    "ko": "메시지를 쓰다가 지구본을 누르면 담아 둔 단축어가 키보드에 서 있어요. 누르면 바로 들어가요.",
+    "en": "While typing a message, tap the globe and your saved snippets are right on the keyboard. Tap one and it goes in.",
+    "comment": "Keyboard lesson demo: whole animation for VoiceOver",
+    "h": "2bcb827fc0"
+  },
   "메일 쓰기": {
     "ko": "메일 쓰기",
     "en": "Compose Mail",
@@ -7330,6 +7384,12 @@
     "en": "The list shows a line of content under each title, with sensitive values masked",
     "comment": "Changelog 4.0.1 item 2",
     "h": "13e35b9625"
+  },
+  "목록으로": {
+    "ko": "목록으로",
+    "en": "Back to My List",
+    "comment": "Keyboard lesson: back to the list",
+    "h": "bfc3e6a5f5"
   },
   "목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요": {
     "ko": "목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요",
@@ -9875,6 +9935,12 @@
     "comment": "Changelog 5.0.9 family apps",
     "h": "61b3d0a7b8"
   },
+  "설정에서 '키보드'를 누르세요": {
+    "ko": "설정에서 '키보드'를 누르세요",
+    "en": "In Settings, tap Keyboards",
+    "comment": "Keyboard lesson step 1 detail",
+    "h": "d4678e94b0"
+  },
   "설정에서 나에게 맞는 유형을 고르면 더 잘 맞는 것부터 보여드려요": {
     "ko": "설정에서 나에게 맞는 유형을 고르면 더 잘 맞는 것부터 보여드려요",
     "en": "Pick the type that fits you in Settings and we'll show the best matches first",
@@ -9892,6 +9958,12 @@
     "en": "Pick your language in Settings. It changes right away, and the keyboard follows the next time you open it",
     "comment": "Changelog 5.0.5 language picker",
     "h": "fbd49c84f0"
+  },
+  "설정에서 이렇게 하세요": {
+    "ko": "설정에서 이렇게 하세요",
+    "en": "Here's what to do in Settings",
+    "comment": "Keyboard lesson: how-to subline",
+    "h": "e8291faee7"
   },
   "설정에서 키 컬러를 고를 수 있어요. 일곱 가지 중에 고르면 앱과 키보드가 함께 그 색으로 바뀌어요": {
     "ko": "설정에서 키 컬러를 고를 수 있어요. 일곱 가지 중에 고르면 앱과 키보드가 함께 그 색으로 바뀌어요",
@@ -10198,6 +10270,12 @@
     "en": "One digit is off. Compare it with the number on your card.",
     "comment": "Repair hint when card checksum fails",
     "h": "ecc28f1bca"
+  },
+  "스위치를 켜세요": {
+    "ko": "스위치를 켜세요",
+    "en": "Flip the switch on",
+    "comment": "Keyboard lesson step 2 detail",
+    "h": "0a7bf71081"
   },
   "스캔해서 글자 넣기": {
     "ko": "스캔해서 글자 넣기",
@@ -10769,6 +10847,12 @@
     "comment": "User segment: created nothing yet",
     "h": "7ce4b55985"
   },
+  "아직 안 켜졌어요": {
+    "ko": "아직 안 켜졌어요",
+    "en": "It's not on yet",
+    "comment": "Keyboard lesson: came back but keyboard is not on",
+    "h": "d07b8317d6"
+  },
   "아직 없어요": {
     "ko": "아직 없어요",
     "en": "Not saved yet",
@@ -11314,6 +11398,12 @@
     "en": "Tap here",
     "comment": "Blank start: placeholder of the practice input field",
     "h": "fe481cd374"
+  },
+  "여기서 미리 눌러 볼 수 있어요": {
+    "ko": "여기서 미리 눌러 볼 수 있어요",
+    "en": "You can try it out here first",
+    "comment": "Keyboard stage intro: you can try it here",
+    "h": "e15d81f8d6"
   },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "ko": "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.",
@@ -12863,6 +12953,12 @@
     "comment": "Restore purchases accessibility hint",
     "h": "f4b89e1d93"
   },
+  "이제 다른 앱에서 써 볼까요?": {
+    "ko": "이제 다른 앱에서 써 볼까요?",
+    "en": "Ready to use it in other apps?",
+    "comment": "Keyboard lesson: demo line",
+    "h": "347da98733"
+  },
   "이제 다른 앱에서 써보세요": {
     "ko": "이제 다른 앱에서 써보세요",
     "en": "Now try it in another app",
@@ -12874,6 +12970,12 @@
     "en": "Just getting started",
     "comment": "User segment: just getting started",
     "h": "8d2e17bfdc"
+  },
+  "이제 어느 앱에서든 이렇게 써요": {
+    "ko": "이제 어느 앱에서든 이렇게 써요",
+    "en": "Now you can do this in any app",
+    "comment": "Keyboard lesson: done",
+    "h": "48c804c73d"
   },
   "이제 직접 하나 만들어 보세요. 위의 + 를 누르면 돼요.": {
     "ko": "이제 직접 하나 만들어 보세요. 위의 + 를 누르면 돼요.",
@@ -13144,6 +13246,12 @@
     "en": "Insert",
     "comment": "Insert with template button",
     "h": "1223cfa191"
+  },
+  "입력하는 글은 어디로도 보내지 않아요": {
+    "ko": "입력하는 글은 어디로도 보내지 않아요",
+    "en": "What you type is never sent anywhere",
+    "comment": "Keyboard lesson: privacy line",
+    "h": "a1ce964e17"
   },
   "입력하세요": {
     "ko": "입력하세요",
@@ -14039,6 +14147,12 @@
     "comment": "Address\nAddress token button\nPhoto value picker: parsed address label",
     "h": "cccba857c8"
   },
+  "주소 좀 보내 줄래?": {
+    "ko": "주소 좀 보내 줄래?",
+    "en": "Can you send me the address?",
+    "comment": "Keyboard lesson demo: incoming chat message",
+    "h": "7ccd714465"
+  },
   "준비 완료": {
     "ko": "준비 완료",
     "en": "Ready",
@@ -14218,6 +14332,12 @@
     "en": "Press and hold the globe to go straight to the emoji keyboard, even with other keyboards installed",
     "comment": "Changelog 5.1.0 emoji keyboard",
     "h": "6bef60d0d6"
+  },
+  "지구본을 눌러 클립키보드로 바꾸고, 카드를 누르세요": {
+    "ko": "지구본을 눌러 클립키보드로 바꾸고, 카드를 누르세요",
+    "en": "Tap the globe to switch to ClipKeyboard, then tap a card",
+    "comment": "Keyboard lesson: practice subline",
+    "h": "b34e4b6be0"
   },
   "지금 Pro로 업그레이드하면 평생 사용": {
     "ko": "지금 Pro로 업그레이드하면 평생 사용",
@@ -15341,6 +15461,12 @@
     "comment": "Changelog 4.3.5 item 3",
     "h": "77c25f7781"
   },
+  "카톡 · 문자 · 메일 어디서든 지구본 한 번": {
+    "ko": "카톡 · 문자 · 메일 어디서든 지구본 한 번",
+    "en": "Messages, mail, anywhere. Just tap the globe",
+    "comment": "Keyboard lesson: done subline",
+    "h": "a387edb1ec"
+  },
   "칸 추가에 내신 값이 빠진 값이에요": {
     "ko": "칸 추가에 내신 값이 빠진 값이에요",
     "en": "This price already subtracts what you paid for slots",
@@ -15430,6 +15556,12 @@
     "en": "If you turned it on, bring up the keyboard once and this switches to On. iOS only tells us when the keyboard opens.",
     "comment": "Full Access check: explain why status is still being checked",
     "h": "a472d9b559"
+  },
+  "켜졌어요. 써 볼까요?": {
+    "ko": "켜졌어요. 써 볼까요?",
+    "en": "It's on. Want to try it?",
+    "comment": "Keyboard lesson: keyboard is on, try it",
+    "h": "00cded27a9"
   },
   "켜짐": {
     "ko": "켜짐",
@@ -15682,6 +15814,12 @@
     "en": "Add ClipKeyboard",
     "comment": "Setup step 1 label",
     "h": "c536951952"
+  },
+  "클립키보드 켜기": {
+    "ko": "클립키보드 켜기",
+    "en": "Turn on ClipKeyboard",
+    "comment": "Keyboard lesson step 2 title",
+    "h": "a21f37767e"
   },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "ko": "클립키보드로 벌써 %d시간을 아꼈어요",
@@ -15953,6 +16091,12 @@
     "comment": "Lesson title: turn on the keyboard",
     "h": "f014241548"
   },
+  "키보드 켜러 가기": {
+    "ko": "키보드 켜러 가기",
+    "en": "Turn On the Keyboard",
+    "comment": "Keyboard lesson: open Settings",
+    "h": "d1f714834a"
+  },
   "키보드 켜짐": {
     "ko": "키보드 켜짐",
     "en": "Keyboard on",
@@ -16067,6 +16211,12 @@
     "comment": "Changelog 5.0.3 setup banner",
     "h": "995c6c6937"
   },
+  "키보드를 켜면 어느 앱에서든 바로 넣을 수 있어요": {
+    "ko": "키보드를 켜면 어느 앱에서든 바로 넣을 수 있어요",
+    "en": "Turn on the keyboard to insert snippets in any app",
+    "comment": "Keyboard lesson banner on the list",
+    "h": "edb589de36"
+  },
   "키보드를 켜면 어디서든 이 화면이 올라와요": {
     "ko": "키보드를 켜면 어디서든 이 화면이 올라와요",
     "en": "Turn the keyboard on and this screen comes up anywhere",
@@ -16096,6 +16246,12 @@
     "en": "Enabled the keyboard",
     "comment": "Keyboard adoption",
     "h": "a9f021b9e6"
+  },
+  "키보드를 한 번만 켜 두면 돼요": {
+    "ko": "키보드를 한 번만 켜 두면 돼요",
+    "en": "Just turn on the keyboard once",
+    "comment": "Keyboard lesson: how-to line",
+    "h": "fe70292c7c"
   },
   "키보드를 한 번에 설정해요": {
     "ko": "키보드를 한 번에 설정해요",

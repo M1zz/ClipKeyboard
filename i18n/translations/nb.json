@@ -782,6 +782,10 @@
     "v": "24-timers",
     "src": "c340b5478c"
   },
+  "2번 '클립키보드 켜기'만 하면 돼요": {
+    "v": "Du trenger bare steg 2: Slå på ClipKeyboard",
+    "src": "f4994e0a13"
+  },
   "2주 뒤": {
     "v": "Om 2 uker",
     "src": "6e21a81d09"
@@ -3479,6 +3483,10 @@
     "v": "Senere",
     "src": "a87f3586ca"
   },
+  "나중에 다시": {
+    "v": "Senere",
+    "src": "5ac2f59d1d"
+  },
   "나중에 할게요": {
     "v": "Kanskje senere",
     "src": "86123c6260"
@@ -3867,6 +3875,10 @@
     "v": "Akkurat slik det ser ut i andre apper",
     "src": "4fc7fc8744"
   },
+  "다른 앱에서 보일 키보드를 여기서 미리": {
+    "v": "Forhåndsvis tastaturet du ser i andre apper",
+    "src": "c1b76984d5"
+  },
   "다른 앱에서 붙여넣기": {
     "v": "Lim inn i andre apper",
     "src": "43186426db"
@@ -3874,6 +3886,10 @@
   "다른 앱에서 지구본 한 번": {
     "v": "Trykk på kloden i en hvilken som helst app",
     "src": "360d6cba38"
+  },
+  "다른 앱에서 지구본을 누르면 이 키보드가 떠요": {
+    "v": "Trykk på globusen i en app, så dukker dette tastaturet opp",
+    "src": "0da9272aca"
   },
   "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요": {
     "v": "Tiden det tar å hente verdier fra andre apper, er nå satt til det vi faktisk har målt. Å åpne en bankapp tok aldri bare 28 sekunder.",
@@ -3898,6 +3914,10 @@
   "다른 카테고리로 옮기기": {
     "v": "Flytt til en annen kategori",
     "src": "710255cf6a"
+  },
+  "다시 가기": {
+    "v": "Gå dit igjen",
+    "src": "d62091634c"
   },
   "다시 보지 않기": {
     "v": "Ikke vis igjen",
@@ -4423,6 +4443,10 @@
     "v": "Trykk på en lagret frase for å kopiere",
     "src": "6cc30a8f7d"
   },
+  "담아 둔 글을 키보드가 읽으려면 필요해요": {
+    "v": "Tastaturet trenger dette for å lese tekstene du har lagret",
+    "src": "9bcf7460e5"
+  },
   "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
     "v": "Ingenting å hente. Kopier litt tekst først.",
     "src": "c44bc79ce2"
@@ -4694,6 +4718,10 @@
   "드래그하여 순서를 바꿉니다": {
     "v": "Dra for å endre rekkefølgen",
     "src": "c81ec081f6"
+  },
+  "들어갔어요. 보내 보세요": {
+    "v": "Den er limt inn. Send den nå",
+    "src": "0fe34a8563"
   },
   "들어갔어요. 보내기를 눌러 올려보세요.": {
     "v": "Den er inne. Trykk på send for å legge den ut.",
@@ -4986,6 +5014,14 @@
     "v": "Send melding",
     "src": "83aaab5a2b"
   },
+  "메시지를 쓰다가 지구본을 누르면": {
+    "v": "Trykk på globusen mens du skriver en melding",
+    "src": "d9e4463eb3"
+  },
+  "메시지를 쓰다가 지구본을 누르면 담아 둔 단축어가 키보드에 서 있어요. 누르면 바로 들어가요.": {
+    "v": "Når du skriver en melding og trykker på globusen, ligger frasene dine klare på tastaturet. Trykk på en, så settes den inn.",
+    "src": "2bcb827fc0"
+  },
   "메일 쓰기": {
     "v": "Skriv e-post",
     "src": "bf4e551833"
@@ -5101,6 +5137,10 @@
   "목록에서 제목 아래 내용이 한 줄 보이고, 민감한 값은 가려져요": {
     "v": "Listen viser en linje med innhold under hver tittel, og sensitive verdier skjules",
     "src": "13e35b9625"
+  },
+  "목록으로": {
+    "v": "Tilbake til listen",
+    "src": "bfc3e6a5f5"
   },
   "목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요": {
     "v": "Mellomrommet mellom tittelen og frasene står stille når du åpner og redigerer listen",
@@ -6852,6 +6892,10 @@
     "v": "Innstillinger har fått «Apper som passer sammen». Her vises apper som er gode å bruke sammen, som hverdagsscener",
     "src": "61b3d0a7b8"
   },
+  "설정에서 '키보드'를 누르세요": {
+    "v": "Trykk på Tastaturer i Innstillinger",
+    "src": "d4678e94b0"
+  },
   "설정에서 나에게 맞는 유형을 고르면 더 잘 맞는 것부터 보여드려요": {
     "v": "Velg typen som passer deg i Innstillinger, så viser vi de beste treffene først",
     "src": "1dc96301dd"
@@ -6863,6 +6907,10 @@
   "설정에서 언어를 고를 수 있어요. 고르는 즉시 바뀌고, 키보드는 다음에 열 때부터 따라와요": {
     "v": "Velg språk i Innstillinger. Det byttes med en gang, og tastaturet følger med neste gang du åpner det",
     "src": "fbd49c84f0"
+  },
+  "설정에서 이렇게 하세요": {
+    "v": "Slik gjør du det i Innstillinger",
+    "src": "e8291faee7"
   },
   "설정에서 키 컬러를 고를 수 있어요. 일곱 가지 중에 고르면 앱과 키보드가 함께 그 색으로 바뀌어요": {
     "v": "Innstillinger har fått Tastfarge. Velg blant sju, så skifter både appen og tastaturet til den fargen",
@@ -7070,6 +7118,10 @@
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "v": "Ett siffer er feil. Sammenlign med nummeret på kortet.",
     "src": "ecc28f1bca"
+  },
+  "스위치를 켜세요": {
+    "v": "Slå på bryteren",
+    "src": "0a7bf71081"
   },
   "스캔해서 글자 넣기": {
     "v": "Skann inn tekst",
@@ -7460,6 +7512,10 @@
     "v": "Har ikke laget noe ennå",
     "src": "7ce4b55985"
   },
+  "아직 안 켜졌어요": {
+    "v": "Det er ikke slått på ennå",
+    "src": "d07b8317d6"
+  },
   "아직 없어요": {
     "v": "Ikke lagret ennå",
     "src": "265208ca21"
@@ -7829,6 +7885,10 @@
   "여기를 누르세요": {
     "v": "Trykk her",
     "src": "fe481cd374"
+  },
+  "여기서 미리 눌러 볼 수 있어요": {
+    "v": "Du kan prøve det her først",
+    "src": "e15d81f8d6"
   },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "v": "Du skriver ofte videre her, så markøren starter nå her. Du kan slå det av i redigering av frasen.",
@@ -8874,6 +8934,10 @@
     "v": "Gjenoppretter Pro-kjøpet du har gjort tidligere",
     "src": "f4b89e1d93"
   },
+  "이제 다른 앱에서 써 볼까요?": {
+    "v": "Klar til å bruke det i andre apper?",
+    "src": "347da98733"
+  },
   "이제 다른 앱에서 써보세요": {
     "v": "Prøv den nå i en annen app",
     "src": "8320312516"
@@ -8881,6 +8945,10 @@
   "이제 막 써 보는 사람": {
     "v": "Nybegynner",
     "src": "8d2e17bfdc"
+  },
+  "이제 어느 앱에서든 이렇게 써요": {
+    "v": "Nå kan du bruke det slik i alle apper",
+    "src": "48c804c73d"
   },
   "이제 직접 하나 만들어 보세요. 위의 + 를 누르면 돼요.": {
     "v": "Lag en egen nå. Trykk på + ovenfor.",
@@ -9064,6 +9132,10 @@
   "입력하기": {
     "v": "Sett inn",
     "src": "1223cfa191"
+  },
+  "입력하는 글은 어디로도 보내지 않아요": {
+    "v": "Det du skriver, sendes aldri noe sted",
+    "src": "a1ce964e17"
   },
   "입력하세요": {
     "v": "Skriv inn",
@@ -9664,6 +9736,10 @@
     "v": "Adresse",
     "src": "cccba857c8"
   },
+  "주소 좀 보내 줄래?": {
+    "v": "Kan du sende meg adressen?",
+    "src": "7ccd714465"
+  },
   "준비 완료": {
     "v": "Klar",
     "src": "b2ace13d7c"
@@ -9786,6 +9862,10 @@
   "지구본을 길게 누르면 이모지 키보드로 바로 갈 수 있어요. 다른 키보드를 함께 써도 됩니다": {
     "v": "Hold inne globusen for å gå rett til emoji-tastaturet, også med andre tastaturer installert",
     "src": "6bef60d0d6"
+  },
+  "지구본을 눌러 클립키보드로 바꾸고, 카드를 누르세요": {
+    "v": "Trykk på globusen for å bytte til ClipKeyboard, og trykk på et kort",
+    "src": "b34e4b6be0"
   },
   "지금 Pro로 업그레이드하면 평생 사용": {
     "v": "Oppgrader til Pro nå og bruk det for alltid",
@@ -10562,6 +10642,10 @@
     "v": "Når du legger til fra en kategori, lagres det nå i den kategorien",
     "src": "77c25f7781"
   },
+  "카톡 · 문자 · 메일 어디서든 지구본 한 번": {
+    "v": "Meldinger, e-post, overalt. Bare trykk på globusen",
+    "src": "a387edb1ec"
+  },
   "칸 추가에 내신 값이 빠진 값이에요": {
     "v": "Prisen er allerede trukket fra det du har betalt for plasser",
     "src": "336ab872ee"
@@ -10624,6 +10708,10 @@
   "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
     "v": "Har du slått det på, åpner du tastaturet én gang, så bytter dette til På. iOS varsler oss bare når tastaturet åpnes.",
     "src": "a472d9b559"
+  },
+  "켜졌어요. 써 볼까요?": {
+    "v": "Det er slått på. Vil du prøve det?",
+    "src": "00cded27a9"
   },
   "켜짐": {
     "v": "På",
@@ -10795,6 +10883,10 @@
   "클립키보드 추가": {
     "v": "Legg til ClipKeyboard",
     "src": "c536951952"
+  },
+  "클립키보드 켜기": {
+    "v": "Slå på ClipKeyboard",
+    "src": "a21f37767e"
   },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "v": {
@@ -10979,6 +11071,10 @@
     "v": "Slå på tastaturet",
     "src": "f014241548"
   },
+  "키보드 켜러 가기": {
+    "v": "Slå på tastaturet",
+    "src": "d1f714834a"
+  },
   "키보드 켜짐": {
     "v": "Tastatur på",
     "src": "a35cdd7ce2"
@@ -11055,6 +11151,10 @@
     "v": "Påminnelsen om å slå på tastaturet blokkerer ikke lenger veien. Den vises som et bånd øverst på tastaturskjermen, viker mens en annen melding bruker plassen, og tar den når den er ledig.",
     "src": "995c6c6937"
   },
+  "키보드를 켜면 어느 앱에서든 바로 넣을 수 있어요": {
+    "v": "Slå på tastaturet for å sette inn fraser i alle apper",
+    "src": "edb589de36"
+  },
   "키보드를 켜면 어디서든 이 화면이 올라와요": {
     "v": "Slå på tastaturet, så vises denne skjermen overalt",
     "src": "2578359f7c"
@@ -11074,6 +11174,10 @@
   "키보드를 켠 사용자": {
     "v": "Slo på tastaturet",
     "src": "a9f021b9e6"
+  },
+  "키보드를 한 번만 켜 두면 돼요": {
+    "v": "Du trenger bare å slå på tastaturet én gang",
+    "src": "fe70292c7c"
   },
   "키보드를 한 번에 설정해요": {
     "v": "Sett opp tastaturet i ett grep",

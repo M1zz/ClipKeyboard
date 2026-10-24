@@ -503,6 +503,8 @@ enum DefaultsKey {
     static let lessonLedger = "lessonLedger.v1"
     /// 기능 스위치(App Group). 뒤에 `AppFeature.rawValue` 를 붙인다. 백지 사용자에게만 뜻이 있다(`FeatureSet`).
     static let featureOnPrefix = "feature.on.v1."
+    /// 키보드 켜기 수업에서 "나중에 다시" 를 골랐는가. 켤 때까지 목록 위에 한 줄이 남는다.
+    static let keyboardLessonDeferred = "keyboardLesson.deferred.v1"
     /// 준비된 단축어를 한 번 눌러 봤는지(또는 가리킬 것이 없어 건너뛰었는지).
     static let tutorialSnippetDone = "tutorial.snippet.done.v1"
     /// 준비된 템플릿을 한 번 써 봤는지.

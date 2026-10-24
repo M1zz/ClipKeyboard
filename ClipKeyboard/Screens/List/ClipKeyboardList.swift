@@ -24,6 +24,11 @@ struct ClipKeyboardList: View {
     /// 큰 제목 '기본', + 하나, 카드 격자. 안내 띠 · 팁 · 카테고리 · 최근 · 화면 전환 버튼이 없다.
     /// (`FeatureSet.isPlain` · docs/design/blank-start-onboarding.html)
     @State private var plain = FeatureSet.isPlain()
+    /// 키보드 켜기 수업(첫 단축어를 V 로 저장한 직후 · 목록 위 한 줄에서).
+    @State private var showKeyboardLesson = false
+    @State private var pendingKeyboardLesson = false
+    /// 키보드를 켜고 써 봤다. 그때부터 단순한 목록에도 키보드 미리보기 단추가 선다.
+    @State private var keyboardLearned = LessonLedger.hasLearned(.keyboard)
 
     // MARK: - View-only State
 
@@ -374,7 +379,13 @@ struct ClipKeyboardList: View {
 
     private func pageHeader(for tab: CategoryTab) -> AnyView {
         // 처음은 미니멀하게. 이 자리의 안내 띠 · 카드(가장 자주 다시 치는 세 가지 등)를 통째로 비운다
-        if plain { return AnyView(EmptyView()) }
+        if plain {
+            // 하나만 예외: "나중에 다시" 를 고른 사람에게 키보드를 켜자는 한 줄. 켤 때까지만
+            if KeyboardLessonBanner.isDue {
+                return AnyView(KeyboardLessonBanner { showKeyboardLesson = true })
+            }
+            return AnyView(EmptyView())
+        }
         // 앱이 깔아 준 카테고리에 처음 오면 이름을 정하게 한다. 고르기 전에는 늘 선다.
         // (`defaultNameDecisions` 를 읽어 두어야 고른 순간 카드가 걷힌다)
         _ = defaultNameDecisions
@@ -1360,6 +1371,24 @@ struct ClipKeyboardList: View {
                 // 기능을 켜면 그 자리가 바로 생긴다(설정 ▸ 기능 더하기 · 넛지)
                 .onReceive(NotificationCenter.default.publisher(for: .featureSetChanged)) { _ in
                     plain = FeatureSet.isPlain()
+                }
+                // 백지 사용자가 자기 단축어를 처음 담았다 → 장부에 적고, 키보드가 아직이면 수업을 잡아 둔다
+                .onReceive(NotificationCenter.default.publisher(for: .memoSaved)) { _ in
+                    guard FeatureSet.isBlankStartUser(), !LessonLedger.hasLearned(.makeOwn) else { return }
+                    LessonLedger.learn(.makeOwn)
+                    if !LessonLedger.hasLearned(.keyboard) && !KeyboardInstallState.isUsable {
+                        pendingKeyboardLesson = true
+                    }
+                }
+                #if DEBUG
+                // 개발 빌드에서 수업 화면을 곧장 연다(명령줄 시뮬레이터는 누를 수 없어서): -PreviewKeyboardLesson YES
+                .onAppear { if UserDefaults.standard.bool(forKey: "PreviewKeyboardLesson") { showKeyboardLesson = true } }
+                #endif
+                .fullScreenCover(isPresented: $showKeyboardLesson) {
+                    KeyboardLessonView {
+                        showKeyboardLesson = false
+                        keyboardLearned = LessonLedger.hasLearned(.keyboard)
+                    }
                 }
                 // 새 배경 기능 1회 제안 - 아니요면 예전 모습 그대로, 써보면 기본 배경 적용.
                 .alert(
@@ -2736,7 +2765,13 @@ struct ClipKeyboardList: View {
             // ⚠️ 간격은 무대 머리말과 **같은 값**을 쓴다. 예전엔 여기만 -8이라
             //    44pt 유리 서클끼리 겹쳐 두 버튼이 한 덩어리로 보였다.
             GlassCircleCluster {
-                if plain { plainAddButton } else { toolbarButtons }
+                if plain {
+                    // 키보드를 켜고 써 본 뒤에야 미리보기로 건너가는 단추가 선다
+                    if keyboardLearned { SnippetsStyleSwitchButton(styleRaw: $snippetsTabStyleRaw) }
+                    plainAddButton
+                } else {
+                    toolbarButtons
+                }
             }
         }
         .sharedBackgroundVisibility(.hidden)
@@ -2873,7 +2908,14 @@ struct ClipKeyboardList: View {
             }
             .presentationDetents([.large])
         }
-        .sheet(isPresented: $showAddMemoSheet, onDismiss: { viewModel.loadMemos(); clearPendingSlot() }) {
+        .sheet(isPresented: $showAddMemoSheet, onDismiss: {
+            viewModel.loadMemos(); clearPendingSlot()
+            // 첫 단축어를 담은 바로 그때 키보드를 켜자고 한다. 가장 의욕이 있을 때다
+            if pendingKeyboardLesson {
+                pendingKeyboardLesson = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { showKeyboardLesson = true }
+            }
+        }) {
             NavigationStack {
                 MemoAdd(insertedCategory: addMemoSheetCategory.isEmpty ? "텍스트" : addMemoSheetCategory)
                     .toolbar {

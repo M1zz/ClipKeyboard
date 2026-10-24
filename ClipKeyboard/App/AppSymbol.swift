@@ -16,6 +16,7 @@ enum AppSymbol {
     static let arrowDownDocFill = "arrow.down.doc.fill"
     static let arrowLeftCircleFill = "arrow.left.circle.fill"
     static let arrowTriangle2CirclepathCircle = "arrow.triangle.2.circlepath.circle"
+    static let arrowDown = "arrow.down"
     static let arrowUp = "arrow.up"
     static let arrowUpAndDown = "arrow.up.and.down"
     static let arrowUpAndDownAndArrowLeftAndRight = "arrow.up.and.down.and.arrow.left.and.right"

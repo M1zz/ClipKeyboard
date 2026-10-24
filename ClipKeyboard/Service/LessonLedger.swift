@@ -25,6 +25,8 @@ enum Lesson: String, CaseIterable, Identifiable {
     case makeOwn
     // 필요한 순간에 배우는 것
     case keyboard, template, stack, secure, category, recent
+    /// 키보드를 켠 뒤 생기는 미리보기 단추를 처음 눌렀다.
+    case stage
 
     var id: String { rawValue }
 

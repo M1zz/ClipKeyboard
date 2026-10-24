@@ -472,6 +472,8 @@ struct SnippetsTab: View {
                     // 뒤로 숨어서 **아무것도 안 움직이는 것처럼** 보인다.
                     if style == .keyboard {
                         stage
+                            // 백지 사용자가 처음 건너왔을 때 한 번: "다른 앱에서 지구본을 누르면 이 키보드가 떠요"
+                            .overlay(alignment: .top) { AnyView(KeyboardStageIntro()) }
                             .transition(stageTransition)
                             .zIndex(1)
                     }
