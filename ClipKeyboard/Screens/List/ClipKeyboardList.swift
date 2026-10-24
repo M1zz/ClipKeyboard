@@ -2802,7 +2802,7 @@ struct ClipKeyboardList: View {
         ToolbarItem(placement: .topBarTrailing) {
             // ⚠️ 간격은 무대 머리말과 **같은 값**을 쓴다. 예전엔 여기만 -8이라
             //    44pt 유리 서클끼리 겹쳐 두 버튼이 한 덩어리로 보였다.
-            GlassCircleCluster {
+            toolbarSheets(GlassCircleCluster {
                 if blank {
                     // 키보드를 켜고 써 본 뒤에야 미리보기로 건너가는 단추가 선다
                     if keyboardLearned { SnippetsStyleSwitchButton(styleRaw: $snippetsTabStyleRaw) }
@@ -2810,15 +2810,111 @@ struct ClipKeyboardList: View {
                 } else {
                     toolbarButtons
                 }
-            }
+            })
+            // ⚠️ 만들기 · 정리 시트는 **+ 메뉴가 아니라 이 묶음에** 단다. 처음 사용자의 + 는 메뉴가 아니라
+            //    단추라서, 메뉴에 매달아 두면 시트도 같이 사라져 + 를 눌러도 빈 자리만 서고 아무것도 안 떴다.
         }
         .sharedBackgroundVisibility(.hidden)
         #else
         ToolbarItemGroup(placement: .automatic) {
             vaultEntrance
-            toolbarButtons
+            toolbarSheets(toolbarButtons)
         }
         #endif
+    }
+
+    /// 툴바에서 여는 만들기 · 정리 시트들. + 가 메뉴든 단추든 같이 달린다.
+    private func toolbarSheets<Content: View>(_ content: Content) -> some View {
+        content
+            .sheet(isPresented: $showBulkImport) {
+                BulkImportView()
+            }
+            .sheet(isPresented: $showShortcutMart) {
+                // 담을 때마다 목록이 갱신되도록 - 마트는 여러 개를 이어서 담을 수 있다.
+                ShortcutMartView { _ in viewModel.loadMemos() }
+            }
+            .sheet(isPresented: $showDraftList) {
+                NavigationStack {
+                    DraftListView()
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button(NSLocalizedString("완료", comment: "Done")) { showDraftList = false }
+                            }
+                        }
+                }
+            }
+            .sheet(isPresented: $showQuickNoteAdd) {
+                QuickNoteEditSheet(note: QuickNote()) { newNote in
+                    guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+                    QuickNoteStore.shared.add(newNote)
+                    // 담긴 위치를 바로 알려준다 - 상단 Inbox 배너도 함께 나타나 뷰어로 안내.
+                    viewModel.showPlainToast(NSLocalizedString("메모를 보관함에 담았어요", comment: "Toast after quick note saved to inbox"))
+                } onPromote: { newNote in
+                    guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+                    QuickNoteStore.shared.add(newNote)
+                    QuickNoteStore.shared.promoteToMemo(newNote)
+                    viewModel.loadMemos()
+                    viewModel.showPlainToast(NSLocalizedString("단축어로 저장했어요", comment: "Toast after quick note promoted to memo"))
+                }
+            }
+            // 설정 > 카테고리 관리와 동일한 단일 화면(CategorySettings)을 시트로 재사용
+            // 진입점만 두 곳, 편집 UI는 하나로 통일. 닫을 때 뷰모델을 리로드해 탭에 즉시 반영.
+            .sheet(isPresented: $showCategoryManagement, onDismiss: {
+                viewModel.loadCustomCategories()
+                viewModel.applyFilters()
+            }) {
+                NavigationStack {
+                    CategorySettings()
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button(NSLocalizedString("닫기", comment: "Close sheet")) {
+                                    showCategoryManagement = false
+                                }
+                            }
+                        }
+                }
+                .presentationDetents([.large])
+            }
+            .sheet(isPresented: $showAddMemoSheet, onDismiss: {
+                viewModel.loadMemos(); clearPendingSlot()
+                // 첫 단축어를 담은 바로 그때 키보드를 켜자고 한다. 가장 의욕이 있을 때다
+                if pendingKeyboardLesson {
+                    pendingKeyboardLesson = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { showKeyboardLesson = true }
+                }
+            }) {
+                NavigationStack {
+                    MemoAdd(insertedCategory: addMemoSheetCategory.isEmpty ? "텍스트" : addMemoSheetCategory)
+                        .toolbar {
+                            // 단순한 새 단축어에는 V 하나만. 내리려면 시트를 끌어 내린다
+                            if !blank {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button(NSLocalizedString("취소", comment: "Cancel")) { showAddMemoSheet = false }
+                            }
+                            }
+                        }
+                }
+            }
+            .sheet(isPresented: $showAddTemplateSheet, onDismiss: { viewModel.loadMemos() }) {
+                NavigationStack {
+                    MemoAdd(insertedIsTemplate: true)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button(NSLocalizedString("취소", comment: "Cancel")) { showAddTemplateSheet = false }
+                            }
+                        }
+                }
+            }
+            .sheet(isPresented: $showAddStackSheet, onDismiss: { viewModel.loadMemos() }) {
+                NavigationStack {
+                    MemoAdd(insertedIsStack: true)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button(NSLocalizedString("취소", comment: "Cancel")) { showAddStackSheet = false }
+                            }
+                        }
+                }
+            }
     }
 
     /// 단순한 목록의 + . 메뉴 없이 바로 새 단축어를 연다.
@@ -2897,95 +2993,6 @@ struct ClipKeyboardList: View {
         .accessibilityLabel(NSLocalizedString("단축어 추가", comment: "Add memo menu label"))
         .accessibilityHint(NSLocalizedString("새 단축어를 작성하거나 텍스트를 가져옵니다", comment: "Add memo menu hint"))
         .popoverTip(addMemoTip)
-        .sheet(isPresented: $showBulkImport) {
-            BulkImportView()
-        }
-        .sheet(isPresented: $showShortcutMart) {
-            // 담을 때마다 목록이 갱신되도록 - 마트는 여러 개를 이어서 담을 수 있다.
-            ShortcutMartView { _ in viewModel.loadMemos() }
-        }
-        .sheet(isPresented: $showDraftList) {
-            NavigationStack {
-                DraftListView()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button(NSLocalizedString("완료", comment: "Done")) { showDraftList = false }
-                        }
-                    }
-            }
-        }
-        .sheet(isPresented: $showQuickNoteAdd) {
-            QuickNoteEditSheet(note: QuickNote()) { newNote in
-                guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-                QuickNoteStore.shared.add(newNote)
-                // 담긴 위치를 바로 알려준다 - 상단 Inbox 배너도 함께 나타나 뷰어로 안내.
-                viewModel.showPlainToast(NSLocalizedString("메모를 보관함에 담았어요", comment: "Toast after quick note saved to inbox"))
-            } onPromote: { newNote in
-                guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-                QuickNoteStore.shared.add(newNote)
-                QuickNoteStore.shared.promoteToMemo(newNote)
-                viewModel.loadMemos()
-                viewModel.showPlainToast(NSLocalizedString("단축어로 저장했어요", comment: "Toast after quick note promoted to memo"))
-            }
-        }
-        // 설정 > 카테고리 관리와 동일한 단일 화면(CategorySettings)을 시트로 재사용
-        // 진입점만 두 곳, 편집 UI는 하나로 통일. 닫을 때 뷰모델을 리로드해 탭에 즉시 반영.
-        .sheet(isPresented: $showCategoryManagement, onDismiss: {
-            viewModel.loadCustomCategories()
-            viewModel.applyFilters()
-        }) {
-            NavigationStack {
-                CategorySettings()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button(NSLocalizedString("닫기", comment: "Close sheet")) {
-                                showCategoryManagement = false
-                            }
-                        }
-                    }
-            }
-            .presentationDetents([.large])
-        }
-        .sheet(isPresented: $showAddMemoSheet, onDismiss: {
-            viewModel.loadMemos(); clearPendingSlot()
-            // 첫 단축어를 담은 바로 그때 키보드를 켜자고 한다. 가장 의욕이 있을 때다
-            if pendingKeyboardLesson {
-                pendingKeyboardLesson = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { showKeyboardLesson = true }
-            }
-        }) {
-            NavigationStack {
-                MemoAdd(insertedCategory: addMemoSheetCategory.isEmpty ? "텍스트" : addMemoSheetCategory)
-                    .toolbar {
-                        // 단순한 새 단축어에는 V 하나만. 내리려면 시트를 끌어 내린다
-                        if !blank {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(NSLocalizedString("취소", comment: "Cancel")) { showAddMemoSheet = false }
-                        }
-                        }
-                    }
-            }
-        }
-        .sheet(isPresented: $showAddTemplateSheet, onDismiss: { viewModel.loadMemos() }) {
-            NavigationStack {
-                MemoAdd(insertedIsTemplate: true)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(NSLocalizedString("취소", comment: "Cancel")) { showAddTemplateSheet = false }
-                        }
-                    }
-            }
-        }
-        .sheet(isPresented: $showAddStackSheet, onDismiss: { viewModel.loadMemos() }) {
-            NavigationStack {
-                MemoAdd(insertedIsStack: true)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(NSLocalizedString("취소", comment: "Cancel")) { showAddStackSheet = false }
-                        }
-                    }
-            }
-        }
     }
 
     /// Toast 오버레이
