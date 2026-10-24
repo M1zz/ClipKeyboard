@@ -10,7 +10,7 @@
 //
 //  ⚠️ 옛 튜토리얼(단축어 · 템플릿 · 스택 · 크기)을 대신한다. 기존 사용자는 이 화면을 보지 않는다
 //     (`DefaultsKey.blankStartV1` 은 새 설치에서만 켜진다).
-//  ⚠️ 어디까지 했는지는 `LessonLedger` 에 적는다. 중간에 앱을 끄면 안 배운 첫 칸부터 잇는다.
+//  ⚠️ 어디까지 했는지는 `LessonLedger` 에 적는다. 끝내기 전에 앱이 꺼지면 처음부터 다시 한다(맥락이 날아가서).
 //  ⚠️ 시안: docs/design/blank-start-onboarding.html
 //
 
@@ -110,16 +110,19 @@ struct BlankStartView: View {
         onFinish()
     }
 
-    // MARK: - 이어 하기
+    // MARK: - 다시 켰을 때
 
-    /// 다시 켜면 안 배운 첫 칸부터. 붙여넣기 · 보내기는 복사부터 다시 한다(클립보드가 비었을 수 있다).
+    /// 첫 실행을 **끝내기 전에** 앱이 꺼졌으면 처음(그림)부터 다시 한다.
+    ///
+    /// ⚠️ 중간부터 잇지 않는다. "이번엔 버튼만 눌러 보세요" 는 앞에서 복사 · 붙여넣기를 해 본
+    ///    사람에게만 뜻이 있다. 그 맥락이 날아간 채 중간에서 시작하면 무엇과 무엇을 견주는지 모른다.
+    ///    다 끝냈으면(바로 넣기까지) 고르기 화면에서 연다.
     static func resumeStage() -> Stage {
-        switch LessonLedger.nextFirstRunLesson() {
-        case .intro?: return .intro
-        case .copy?, .paste?, .send?: return .practice(.copy)
-        case .insert?: return .practice(.insert)
-        default: return .choose
+        guard LessonLedger.nextFirstRunLesson() == nil else {
+            LessonLedger.forget(Lesson.firstRun)
+            return .intro
         }
+        return .choose
     }
 }
 

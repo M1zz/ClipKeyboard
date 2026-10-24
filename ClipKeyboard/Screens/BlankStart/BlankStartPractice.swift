@@ -101,7 +101,7 @@ struct BlankStartPractice: View {
             .padding(.horizontal, 30).padding(.vertical, 16)
             .background(buttonUsed ? Color.accentColor.opacity(0.14) : Color(.secondarySystemFill),
                         in: RoundedRectangle(cornerRadius: 20, style: .continuous))
-            .overlay(BlankStartPulse(active: step == .copy || step == .insert, cornerRadius: 20))
+            .overlay(BlankStartPulse(active: sampleIsNext, cornerRadius: 20))
         }
         .buttonStyle(.plain)
         .disabled(!(step == .copy || step == .insert) || typing)
@@ -124,7 +124,7 @@ struct BlankStartPractice: View {
                     .foregroundStyle(.white)
                     .frame(width: 44, height: 44)
                     .background(canSend ? Color.accentColor : Color(.systemGray4), in: Circle())
-                    .overlay(BlankStartPulse(active: canSend && (step == .send || step == .sendAgain), cornerRadius: 22))
+                    .overlay(BlankStartPulse(active: canSend && step == .send, cornerRadius: 22))
             }
             .disabled(!canSend)
             .accessibilityLabel(NSLocalizedString("보내기", comment: "Blank start: send button"))
@@ -142,6 +142,15 @@ struct BlankStartPractice: View {
                 .padding(.top, 8)
                 .transition(.move(edge: .top).combined(with: .opacity))
         }
+    }
+
+    /// 지금 물결로 짚어 줄 곳이 이 버튼인가. 누르고 난 뒤(흐려진 동안)에는 물결을 거둔다.
+    /// 다 했는데 계속 물결치면 시선만 끌고, 또 누르라는 말로 읽힌다.
+    ///
+    /// ⚠️ 물결은 처음 두 번(복사 버튼 · 첫 보내기)에만 쓴다. "이번엔 버튼만 눌러 보세요" 부터는
+    ///    이미 어디를 누르는지 안다. 그때부터 물결은 길잡이가 아니라 소음이다.
+    private var sampleIsNext: Bool {
+        step == .copy && !buttonUsed
     }
 
     private var canSend: Bool {
@@ -245,23 +254,32 @@ struct BlankStartPractice: View {
 struct BlankStartPulse: View {
     let active: Bool
     let cornerRadius: CGFloat
-    @State private var on = false
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
-        RoundedRectangle(cornerRadius: cornerRadius + 6, style: .continuous)
-            .stroke(Color.accentColor, lineWidth: 3)
-            .padding(-6)
-            .scaleEffect(on ? 1.1 : 0.97)
-            .opacity(active ? (on ? 0 : 0.9) : 0)
-            .onAppear { restart() }
-            .onChange(of: active) { _, _ in restart() }
-            .allowsHitTesting(false)
+        // ⚠️ 꺼지면 물결을 **통째로 걷는다.** 투명도만 0 으로 두면 끝없이 도는 애니메이션이
+        //    살아 남아, 다른 값이 바뀔 때 다시 비쳐 보였다(버튼이 흐려진 뒤에도 물결이 남던 것).
+        if active {
+            Ring(cornerRadius: cornerRadius)
+                .transition(.opacity)
+        }
     }
 
-    private func restart() {
-        on = false
-        guard active, !reduceMotion else { return }
-        withAnimation(.easeOut(duration: 1.4).repeatForever(autoreverses: false)) { on = true }
+    private struct Ring: View {
+        let cornerRadius: CGFloat
+        @State private var on = false
+        @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+        var body: some View {
+            RoundedRectangle(cornerRadius: cornerRadius + 6, style: .continuous)
+                .stroke(Color.accentColor, lineWidth: 3)
+                .padding(-6)
+                .scaleEffect(on ? 1.1 : 0.97)
+                .opacity(on ? 0 : 0.9)
+                .allowsHitTesting(false)
+                .onAppear {
+                    guard !reduceMotion else { return }
+                    withAnimation(.easeOut(duration: 1.4).repeatForever(autoreverses: false)) { on = true }
+                }
+        }
     }
 }

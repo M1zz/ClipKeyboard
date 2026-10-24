@@ -6,8 +6,8 @@
 //
 //  첫 실행에서 배우는 칸(그림 → 복사 → 붙여넣기 → 보내기 → 바로 넣기)과, 그 기능을 처음
 //  만나는 순간에 배우는 칸(키보드 켜기 · 템플릿 · 스택 · 보안 · 분류 · 최근)이 같은 장부에 있다.
-//  다시 켜면 첫 실행은 아직 안 배운 첫 칸부터 이어 가고, 설정의 가이드북은 이 장부를 보고
-//  "봤어요" 를 붙인다.
+//  설정의 가이드북은 이 장부를 보고 "봤어요" 를 붙인다.
+//  첫 실행을 끝내기 전에 꺼졌으면 첫 실행 칸을 지우고 처음부터 한다.
 //
 //  ⚠️ App Group 에 둔다. 키보드에서 처음 쓴 순간도 여기 적어야 하기 때문이다.
 //  ⚠️ 시안: docs/design/blank-start-onboarding.html
@@ -66,6 +66,13 @@ enum LessonLedger {
     /// 여러 칸을 한 번에 배운 것으로 적는다(기존 사용자처럼 이미 다 아는 사람).
     static func learnAll(_ lessons: [Lesson], defaults: UserDefaults? = AppGroup.defaults) {
         lessons.forEach { learn($0, defaults: defaults) }
+    }
+
+    /// 적어 둔 칸을 지운다. 첫 실행을 끝내기 전에 꺼졌을 때 처음부터 다시 하려고 쓴다.
+    static func forget(_ lessons: [Lesson], defaults: UserDefaults? = AppGroup.defaults) {
+        var t = table(defaults)
+        lessons.forEach { t[$0.rawValue] = nil }
+        defaults?.set(t, forKey: DefaultsKey.lessonLedger)
     }
 
     // MARK: - Private Helpers

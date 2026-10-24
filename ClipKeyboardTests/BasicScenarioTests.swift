@@ -467,9 +467,9 @@ final class BasicScenarioTests: XCTestCase {
     }
 
     /// 저장 파일의 원문. 평문이 새어 있는지 글자로 확인한다.
-    // MARK: - 시나리오 11: 백지 첫 실행은 새 설치에만, 끄면 이어서, 끝나면 예시 하나
+    // MARK: - 시나리오 11: 백지 첫 실행은 새 설치에만, 끝내기 전에 끄면 처음부터, 끝나면 예시 하나
 
-    func test_백지_첫_실행은_새_설치에만_뜨고_껐다_켜면_이어서_끝나면_예시_하나가_남는다() throws {
+    func test_백지_첫_실행은_새_설치에만_뜨고_끝내기_전에_끄면_처음부터_끝나면_예시_하나가_남는다() throws {
         let std = UserDefaults.standard
         let keys = [DefaultsKey.skinSeededV444, DefaultsKey.appLaunchCount, DefaultsKey.blankStartV1,
                     DefaultsKey.startedFreshV444, DefaultsKey.snippetsTabStyle]
@@ -493,16 +493,15 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertFalse(std.bool(forKey: DefaultsKey.startedFreshV444), "옛 튜토리얼까지 켜지면 첫 실행이 둘이 된다")
         XCTAssertEqual(std.string(forKey: DefaultsKey.snippetsTabStyle), SnippetsTabStyle.list.rawValue)
 
-        // 3. 중간에 끄면 안 배운 첫 칸부터 잇는다. 붙여넣기 전에 껐으면 복사부터 다시(클립보드가 비었을 수 있다)
+        // 3. 끝내기 전에 꺼졌으면 처음(그림)부터 다시 한다. 중간부터 이으면 맥락이 날아간다
         groupDefaults?.removeObject(forKey: DefaultsKey.lessonLedger)
         XCTAssertEqual(BlankStartView.resumeStage(), .intro)
-        LessonLedger.learn(.intro)
-        LessonLedger.learn(.copy)
-        XCTAssertEqual(LessonLedger.nextFirstRunLesson(), .paste)
-        XCTAssertEqual(BlankStartView.resumeStage(), .practice(.copy))
-        LessonLedger.learnAll([.paste, .send])
-        XCTAssertEqual(BlankStartView.resumeStage(), .practice(.insert))
-        LessonLedger.learn(.insert)
+        LessonLedger.learnAll([.intro, .copy, .paste])
+        XCTAssertEqual(LessonLedger.nextFirstRunLesson(), .send)
+        XCTAssertEqual(BlankStartView.resumeStage(), .intro)
+        XCTAssertNil(LessonLedger.learnedAt(.copy), "처음부터 다시 하면 앞에 배운 칸도 지운다")
+        // 다 끝냈으면 고르기 화면에서 연다
+        LessonLedger.learnAll(Lesson.firstRun)
         XCTAssertEqual(BlankStartView.resumeStage(), .choose)
 
         // 처음 배운 시각은 다시 배워도 바뀌지 않는다
