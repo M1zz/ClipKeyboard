@@ -107,6 +107,12 @@ let db = await CloudKitContainer.publicDatabase(identifier)
 두 번 반복되면 **죄 없는 TipKit 이 격리되고 진짜 원인은 계속 숨는다.**
 `LaunchGuard.markFirstFrame()` 이 그 구간에 이름을 준다(essential 이라 격리 대상 아님).
 
+5.1.13 이후: 이 표식은 `init()` 이 아니라 `WindowGroup` 의 내용 클로저에서 적는다
+(`LaunchGuard.markFirstFrameIfNeeded()`). `init()` 끝에는 `awaiting-scene` 만 남긴다.
+화면 없이 깨어난 프로세스(백그라운드 새로고침 · 동기화 푸시 · 인텐트 · 프리워밍)가 `first-frame`
+을 남긴 채 정리되면, 다음 런치가 죽은 적 없이 세이프 모드로 열리고 `launch_incomplete:first-frame`
+을 보냈기 때문이다(5.1.13 릴리즈 건강 빨강). `awaiting-scene` 은 멈춘 런치로 읽지 않는다.
+
 ### 6. 다시 들어오지 못하게
 
 `scripts/check_main_thread_cloudkit.sh` 가 관문 밖의 `CKContainer(identifier:` 를 잡는다.

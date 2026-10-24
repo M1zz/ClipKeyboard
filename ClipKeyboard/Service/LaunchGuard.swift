@@ -47,6 +47,9 @@ enum LaunchGuard {
         case backgroundTask = "background-task"
         /// TipKit 설정.
         case tips = "tips"
+        /// `init()` 은 끝났고 아직 창이 없다. 화면 없이 깨어난 프로세스(백그라운드 새로고침 ·
+        /// 동기화 푸시 · 인텐트 · 프리워밍)는 여기서 멈춘 채 정리된다. **멈춘 런치로 읽지 않는다.**
+        case awaitingScene = "awaiting-scene"
         /// 첫 화면(SwiftUI 가 `body` 를 처음 평가하는 구간).
         case firstFrame = "first-frame"
         /// 결제 권한·그랜드파더 판정.
@@ -96,6 +99,9 @@ enum LaunchGuard {
     /// 이 프로세스에 화면(씬)이 붙어 첫 화면 뒤의 런치 작업이 시작됐는가(`markSceneStarted`).
     private(set) static var sceneStarted = false
 
+    /// 이 프로세스에서 첫 창의 내용을 만들기 시작했는가(`markFirstFrameIfNeeded`).
+    private static var firstFrameMarked = false
+
     private static var defaults: UserDefaults { AppGroup.defaults ?? .standard }
 
     private static var appVersion: String {
@@ -116,7 +122,14 @@ enum LaunchGuard {
         }
         quarantined = Set(d.stringArray(forKey: DefaultsKey.launchQuarantinedStages) ?? [])
 
-        if let marker = d.string(forKey: DefaultsKey.launchStageInFlight) {
+        if let marker = d.string(forKey: DefaultsKey.launchStageInFlight), !readsAsStall(marker) {
+            // 직전 프로세스는 창 없이 끝났다(백그라운드로 깨어났다가 정리됨). 죽은 것이 아니다.
+            d.removeObject(forKey: DefaultsKey.launchStageInFlight)
+            d.set(0, forKey: DefaultsKey.launchFailStreak)
+            isSafeMode = false
+            failStreak = 0
+            AppLog.info(.launch, "🌙 [LaunchGuard.begin] 직전 프로세스는 화면 없이 끝났다. 정상 런치")
+        } else if let marker = d.string(forKey: DefaultsKey.launchStageInFlight) {
             let (tier, stage) = parse(marker)
             stalledStage = stage
             isSafeMode = true
@@ -157,7 +170,19 @@ enum LaunchGuard {
         AppLog.info(.launch, "✅ [LaunchGuard.finish] 런치 완료\(isSafeMode ? " (세이프 모드로 끝냄)" : "")")
     }
 
-    /// 첫 화면을 그리기 시작한다는 표식. `init()` 맨 끝에서 1회.
+    /// `init()` 은 끝났고 창을 기다린다는 표식. `init()` 맨 끝에서 1회.
+    ///
+    /// 화면 없이 깨어난 프로세스는 이 표식을 남긴 채 멈췄다가(정지 상태에서는 타이머도 안 돈다)
+    /// 메모리 정리로 사라진다. 다음 런치는 이 표식을 멈춘 런치로 읽지 않는다(`readsAsStall`).
+    /// 5.1.13 에서 멈춘 기록을 세이프 모드에서도 보내기 시작하자, 예전에 여기 남던 `first-frame`
+    /// 이 허브의 `launch_incomplete` 로 세였다.
+    static func markAwaitingScene() {
+        mark(.awaitingScene, tier: .essential)
+    }
+
+    /// 첫 창의 내용을 만들기 시작한다는 표식. `WindowGroup` 의 내용 클로저 맨 앞에서 부른다.
+    /// 그 클로저는 창이 붙을 때 불리므로, 화면 없이 깨어난 프로세스에서는 불리지 않는다.
+    /// 앱 `body` 는 상태가 바뀔 때마다 다시 평가되므로 **프로세스당 한 번만** 적는다.
     ///
     /// 여기서부터 `runLaunchSequence()` 의 첫 단계까지가 SwiftUI 가 `body` 를 처음
     /// 평가하는 구간이고, **워치독의 `scene-create` 창이 정확히 이 구간이다.**
@@ -167,8 +192,15 @@ enum LaunchGuard {
     /// 사고에서 TipKit 이 격리되고 - 죄 없는 단계가 꺼지고, 진짜 원인은 계속 숨는다.
     ///
     /// ⚠️ essential 이다. 건너뛸 수 있는 일이 아니라 **구간 이름**이므로 격리 대상이 아니다.
-    static func markFirstFrame() {
+    static func markFirstFrameIfNeeded() {
+        guard !firstFrameMarked, !sceneStarted else { return }
+        firstFrameMarked = true
         mark(.firstFrame, tier: .essential)
+    }
+
+    /// 남은 표식이 "그 단계에서 멈췄다" 는 뜻인가. 창을 기다리던 표식만 아니다.
+    static func readsAsStall(_ marker: String) -> Bool {
+        parse(marker).stage != Stage.awaitingScene.rawValue
     }
 
     // MARK: - 화면 없는 런치(백그라운드)

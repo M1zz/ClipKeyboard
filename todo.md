@@ -1,3 +1,11 @@
+## 🩺 5.1.13 릴리즈 건강 빨강: 크래시 없는 설치 80% (2026-10-24)
+- [x] 원인(대부분 셈법): 5.1.13 부터 앱 쪽 `launch_incomplete` 가 처음 나간다(ee2064c4). 5.1.12 의 불안정 10대는 키보드 것뿐이었다. 크래시 보고는 34건에서 6건으로 줄었다
+- [x] 고침: 화면 없이 깨어났다 3초 안에 멈춘 프로세스가 `first-frame` 을 남겨 다음 런치가 세이프 모드 + `launch_incomplete:first-frame`. init 끝은 `awaiting-scene`, `first-frame` 은 WindowGroup 클로저에서 적는다. `awaiting-scene` 은 멈춘 런치로 읽지 않는다
+- [x] 시험 `testAwaitingSceneMarkerIsNotAStall`, 여정 시험 통과
+- [ ] 허브에서 5.1.13 의 `launch_incomplete:<단계>` 를 단계별로 나눠 보기 (first-frame · keyboard · 그 밖). 고친 빌드가 나가면 first-frame 이 줄었는지
+- [ ] 워치독 4건 기호화: 5.1.13 은 다른 맥(hyunholee)의 fastlane 이 빌드했다. 그 맥의 아카이브 dSYM 으로 +3862420 · +392476 · +1386808 · +3662580 을 atos
+- [x] 허브 카드 · 부탁문에 불안정 갈래별 설치 + 앞 버전에 없던 갈래 (FeedbackHubViewer, 커밋 안 함)
+
 ## ⌨️ 보내기 키를 서랍 밖에 (사용자 의견 "发送按钮不要放到二级菜单里面", 2026-10-22)
 - [x] 기본 모양은 그대로(서랍 안). 설정 ▸ 키보드 레이아웃 ▸ 표시 옵션에 "보내기 키 늘 보이기"(기본 끔)
 - [x] 켜면 접힌 줄 맨 오른쪽에 늘 서고 서랍 안의 것은 걷는다. 23개 언어

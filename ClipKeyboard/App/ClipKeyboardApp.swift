@@ -217,14 +217,13 @@ struct ClipKeyboardApp: App {
         setupMacCatalystCommands()
         #endif
 
-        // 여기서부터 SwiftUI 가 `body` 를 처음 평가한다 - 워치독의 `scene-create` 창이다.
-        // 이 표식이 없으면 첫 화면을 그리다 죽은 사고가 직전 단계(`tips`) 것으로 기록된다.
-        LaunchGuard.markFirstFrame()
+        // init 은 끝났다. 창이 붙으면 `body` 의 `WindowGroup` 이 `first-frame` 을 적는다
+        // (`LaunchGuard.markFirstFrameIfNeeded`). 화면 없이 깨어난 프로세스(백그라운드 새로고침 ·
+        // 인텐트 · 동기화 푸시 · 프리워밍)는 이 표식에서 끝나고, 다음 런치는 이것을 멈춘 런치로 읽지 않는다.
+        LaunchGuard.markAwaitingScene()
 
-        // 화면 없이 깨어난 프로세스(백그라운드 새로고침 · 인텐트 · 동기화 푸시)는 첫 화면이 오지 않는다.
-        // 그대로 두면 위 표식이 남아, 다음에 사용자가 열 때 죽은 적 없는 런치가 세이프 모드로 열린다.
+        // 그래도 화면 없이 3초를 넘겨 살아 있으면 런치를 닫아 둔다.
         // 씬이 붙었으면 아무것도 안 한다(`LaunchGuard.closeIfBackgroundLaunch` 주석).
-        // ⚠️ 3초 뒤에 본다. 앞으로 열리는 런치라면 그때는 씬이 이미 붙어 있다.
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             LaunchGuard.closeIfBackgroundLaunch("init+3s")
         }
@@ -1273,6 +1272,8 @@ struct ClipKeyboardApp: App {
 
     var body: some Scene {
         WindowGroup {
+            // 창이 붙었다. 여기서부터가 워치독의 `scene-create` 창이다(프로세스당 한 번 적는다).
+            let _ = LaunchGuard.markFirstFrameIfNeeded()
             // 테스트 호스트: 무거운 화면/onAppear 마이그레이션 없이 빈 뷰만 띄워
             // 테스트 러너가 즉시 연결되게 한다. (ViewBuilder 조건 분기)
             if ClipKeyboardApp.isRunningUnitTests {
