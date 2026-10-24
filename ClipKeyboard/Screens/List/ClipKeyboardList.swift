@@ -1413,6 +1413,11 @@ struct ClipKeyboardList: View {
                 #if DEBUG
                 // 개발 빌드에서 수업 화면을 곧장 연다(명령줄 시뮬레이터는 누를 수 없어서): -PreviewKeyboardLesson YES
                 .onAppear { if UserDefaults.standard.bool(forKey: "PreviewKeyboardLesson") { showKeyboardLesson = true } }
+                .onAppear {
+                    if UserDefaults.standard.bool(forKey: "PreviewAddSheet") {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { openAddMemoWithSlot() }
+                    }
+                }
                 #endif
                 .fullScreenCover(item: $featureLesson) { f in
                     FeatureLessonView(feature: f) { featureLesson = nil }

@@ -4,9 +4,11 @@
 //
 //  아이폰 듀오를 폈을 때 단축어 탭의 **결과 쪽**.
 //
-//  고르는 쪽(지금 목록 그대로)에서 카드를 누르면 복사된다. 무엇이 복사됐는지는 폰에서는
-//  카드 위 도장으로만 알았다. 펴면 결과 쪽이 그 값을 크게 보이고, 그 아래에 최근 복사한 글이
-//  서 있다. 잠깐 쓰는 것(최근)과 오래 두는 것(단축어)이 접힌 선을 사이에 두고 마주 본다.
+//  위에는 **다른 곳에서 방금 복사한 글**을 크게 보이고, 그 아래에 최근 복사한 글이 서 있다.
+//  잠깐 쓰는 것(최근)과 오래 두는 것(단축어)이 접힌 선을 사이에 두고 마주 본다.
+//
+//  ⚠️ 내 단축어 카드를 누른 것은 여기 띄우지 않는다. 이미 목록에 있는 값이라 다시 보여 줄 까닭이 없다
+//     (2026-10 사용자 요청). 그래서 '방금 복사함' 은 복사 기록에서 단축어와 같은 값을 뺀 맨 앞이다.
 //
 //  ⚠️ 보안 단축어는 여기서도 값을 보이지 않는다. 펼친 화면은 옆에서도 잘 보인다.
 //  ⚠️ 접으면 이 판은 사라진다. 바깥 화면은 고르는 쪽만 남는 지금 아이폰 화면이다.
@@ -48,8 +50,11 @@ struct FoldCopiedPane: View {
         .scrollEdgeEffectHidden(true, for: .all)
         .background(theme.surfaceAlt.opacity(0.45).ignoresSafeArea())
         .overlay(alignment: .bottom) { toastView }
-        .onReceive(NotificationCenter.default.publisher(for: .memoUsed)) { note in
-            remember(note)
+        .onAppear { refreshLatest() }
+        // 단축어를 눌러도 기록이 바뀐다(목록이 복사 기록에 남긴다). 그때 다시 읽되 단축어 값은 빼고 본다
+        .onReceive(NotificationCenter.default.publisher(for: .memoUsed)) { _ in
+            recentsToken += 1
+            refreshLatest()
         }
     }
 
@@ -71,8 +76,8 @@ struct FoldCopiedPane: View {
                     .lineLimit(6)
                     .textSelection(.enabled)
             } else {
-                Text(NSLocalizedString("카드를 누르면 복사한 값이 여기 보여요",
-                                       comment: "Fold result pane: hint before anything is copied"))
+                Text(NSLocalizedString("다른 앱에서 복사하면 여기 보여요",
+                                       comment: "Fold result pane: hint when nothing has been copied from outside"))
                     .font(.body)
                     .foregroundColor(theme.textMuted)
             }
@@ -126,15 +131,14 @@ struct FoldCopiedPane: View {
 
     // MARK: - 복사 신호
 
-    /// `.memoUsed` 는 앱 · 키보드 어느 길로 써도 `MemoStore.incrementClipCount` 한 곳에서 나간다.
-    private func remember(_ note: Notification) {
-        recentsToken += 1
-        let info = note.userInfo ?? [:]
-        guard let title = info[MemoUsedKey.title] as? String else { return }
-        let isSecure = info[MemoUsedKey.isSecure] as? Bool ?? true
-        copied = CopiedSnapshot(title: title,
-                                value: isSecure ? nil : info[MemoUsedKey.copiedText] as? String,
-                                isImage: info[MemoUsedKey.isImage] as? Bool ?? false)
-        print("📝 [FoldCopiedPane.remember] 결과 쪽에 방금 복사한 것 표시: \(title)")
+    /// 복사 기록의 맨 앞 중 **단축어에 없는 값**을 '방금 복사함' 에 세운다.
+    private func refreshLatest() {
+        let snippetValues = Set(((try? MemoStore.shared.load(type: .memo)) ?? []).map(\.value))
+        let latest = ((try? MemoStore.shared.loadSmartClipboardHistory()) ?? [])
+            .first { $0.contentType == .text && !snippetValues.contains($0.content) }
+        copied = latest.map {
+            CopiedSnapshot(title: NSLocalizedString("다른 곳에서 복사함", comment: "Fold result pane: title of text copied outside the app"),
+                           value: $0.content, isImage: false)
+        }
     }
 }

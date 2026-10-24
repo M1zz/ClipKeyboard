@@ -2826,7 +2826,7 @@
   },
   "개인": {
     "v": "Personnel",
-    "src": "aae44f95ed"
+    "src": "450ee13807"
   },
   "개인정보 처리방침": {
     "v": "Politique de confidentialité",
@@ -3915,6 +3915,10 @@
     "v": "Si vous tapez souvent le même texte ailleurs, copiez-le et gardez-le ici. Vous le retrouverez quand vous en aurez besoin.",
     "src": "b0f22e41a8"
   },
+  "다른 곳에서 복사함": {
+    "v": "Copié ailleurs",
+    "src": "591fc7bc1e"
+  },
   "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.": {
     "v": "Vos autres appareils seront identiques à celui-ci à la prochaine synchronisation.",
     "src": "0fcdae3b29"
@@ -3958,6 +3962,10 @@
   "다른 앱에서 보일 키보드를 여기서 미리": {
     "v": "Aperçu du clavier que vous verrez dans les autres apps",
     "src": "c1b76984d5"
+  },
+  "다른 앱에서 복사하면 여기 보여요": {
+    "v": "Copiez du texte dans une autre app, il s’affichera ici",
+    "src": "20d42fe0e7"
   },
   "다른 앱에서 붙여넣기": {
     "v": "Coller dans d’autres apps",
@@ -8044,7 +8052,7 @@
   },
   "업무": {
     "v": "Travail",
-    "src": "2dd4ba1fdc"
+    "src": "ae8c86df66"
   },
   "업무 · 개인처럼 나눠 담아요": {
     "v": "Classez en Travail, Perso et plus",
@@ -8911,7 +8919,7 @@
   },
   "이름": {
     "v": "Nom",
-    "src": "3469e286fc"
+    "src": "45b39eadcb"
   },
   "이름 바꾸기": {
     "v": "Renommer",
@@ -10292,7 +10300,7 @@
   },
   "집 주소": {
     "v": "Adresse du domicile",
-    "src": "9b017e391e"
+    "src": "be3eaa903b"
   },
   "짧게 누르면 입력, 길게 누르면 복사예요": {
     "v": "Un appui court saisit, un appui long copie",
@@ -10640,8 +10648,8 @@
     "src": "9391b722f8"
   },
   "추천": {
-    "v": "Meilleure offre",
-    "src": "101985eb52"
+    "v": "Recommandé",
+    "src": "6166dabea0"
   },
   "추천 단축어 %@": {
     "v": "Phrase suggérée %@",
@@ -10721,7 +10729,7 @@
   },
   "카드번호": {
     "v": "Numéro de carte",
-    "src": "9d3834d579"
+    "src": "3553458d65"
   },
   "카드번호 같아요. 잠가 둘까요?": {
     "v": "On dirait un numéro de carte. Le verrouiller ?",
@@ -12344,7 +12352,7 @@
   },
   "홍길동": {
     "v": "Jean Dupont",
-    "src": "4895061c04"
+    "src": "e2d3c0a9f3"
   },
   "화면": {
     "v": "Affichage",

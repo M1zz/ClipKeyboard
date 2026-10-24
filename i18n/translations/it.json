@@ -2826,7 +2826,7 @@
   },
   "개인": {
     "v": "Personale",
-    "src": "aae44f95ed"
+    "src": "450ee13807"
   },
   "개인정보 처리방침": {
     "v": "Informativa sulla privacy",
@@ -3915,6 +3915,10 @@
     "v": "Se scrivi spesso lo stesso testo altrove, copialo e tienilo qui. Lo userai quando ti serve.",
     "src": "b0f22e41a8"
   },
+  "다른 곳에서 복사함": {
+    "v": "Copiato altrove",
+    "src": "591fc7bc1e"
+  },
   "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.": {
     "v": "Gli altri dispositivi si allineeranno a questo alla prossima sincronizzazione.",
     "src": "0fcdae3b29"
@@ -3958,6 +3962,10 @@
   "다른 앱에서 보일 키보드를 여기서 미리": {
     "v": "Guarda qui la tastiera che vedrai nelle altre app",
     "src": "c1b76984d5"
+  },
+  "다른 앱에서 복사하면 여기 보여요": {
+    "v": "Copia qualcosa in un'altra app e comparirà qui",
+    "src": "20d42fe0e7"
   },
   "다른 앱에서 붙여넣기": {
     "v": "Incolla in altre app",
@@ -8044,7 +8052,7 @@
   },
   "업무": {
     "v": "Lavoro",
-    "src": "2dd4ba1fdc"
+    "src": "ae8c86df66"
   },
   "업무 · 개인처럼 나눠 담아요": {
     "v": "Dividi in Lavoro, Personale e altro",
@@ -8911,7 +8919,7 @@
   },
   "이름": {
     "v": "Nome",
-    "src": "3469e286fc"
+    "src": "45b39eadcb"
   },
   "이름 바꾸기": {
     "v": "Rinomina",
@@ -10292,7 +10300,7 @@
   },
   "집 주소": {
     "v": "Indirizzo di casa",
-    "src": "9b017e391e"
+    "src": "be3eaa903b"
   },
   "짧게 누르면 입력, 길게 누르면 복사예요": {
     "v": "Un tocco breve digita, uno lungo copia",
@@ -10640,8 +10648,8 @@
     "src": "9391b722f8"
   },
   "추천": {
-    "v": "Più conveniente",
-    "src": "101985eb52"
+    "v": "Consigliato",
+    "src": "6166dabea0"
   },
   "추천 단축어 %@": {
     "v": "Frase suggerita %@",
@@ -10721,7 +10729,7 @@
   },
   "카드번호": {
     "v": "Numero carta",
-    "src": "9d3834d579"
+    "src": "3553458d65"
   },
   "카드번호 같아요. 잠가 둘까요?": {
     "v": "Sembra un numero di carta. Bloccarlo?",
@@ -12344,7 +12352,7 @@
   },
   "홍길동": {
     "v": "Mario Rossi",
-    "src": "4895061c04"
+    "src": "e2d3c0a9f3"
   },
   "화면": {
     "v": "Schermo",

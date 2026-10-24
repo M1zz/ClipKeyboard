@@ -2928,7 +2928,7 @@
   },
   "개인": {
     "v": "Osobiste",
-    "src": "aae44f95ed"
+    "src": "450ee13807"
   },
   "개인정보 처리방침": {
     "v": "Polityka prywatności",
@@ -4027,6 +4027,10 @@
     "v": "Jeśli często wpisujesz gdzieś ten sam tekst, skopiuj go i zachowaj tutaj. Użyjesz go, kiedy będzie potrzebny.",
     "src": "b0f22e41a8"
   },
+  "다른 곳에서 복사함": {
+    "v": "Skopiowano gdzie indziej",
+    "src": "591fc7bc1e"
+  },
   "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.": {
     "v": "Przy następnej synchronizacji pozostałe urządzenia będą takie jak to.",
     "src": "0fcdae3b29"
@@ -4070,6 +4074,10 @@
   "다른 앱에서 보일 키보드를 여기서 미리": {
     "v": "Podgląd klawiatury, którą zobaczysz w innych aplikacjach",
     "src": "c1b76984d5"
+  },
+  "다른 앱에서 복사하면 여기 보여요": {
+    "v": "Skopiuj coś w innej aplikacji, a pojawi się tutaj",
+    "src": "20d42fe0e7"
   },
   "다른 앱에서 붙여넣기": {
     "v": "Wklejanie w innych aplikacjach",
@@ -8230,7 +8238,7 @@
   },
   "업무": {
     "v": "Praca",
-    "src": "2dd4ba1fdc"
+    "src": "ae8c86df66"
   },
   "업무 · 개인처럼 나눠 담아요": {
     "v": "Podziel na Praca, Osobiste i inne",
@@ -9099,7 +9107,7 @@
   },
   "이름": {
     "v": "Imię",
-    "src": "3469e286fc"
+    "src": "45b39eadcb"
   },
   "이름 바꾸기": {
     "v": "Zmień nazwę",
@@ -10507,7 +10515,7 @@
   },
   "집 주소": {
     "v": "Adres domowy",
-    "src": "9b017e391e"
+    "src": "be3eaa903b"
   },
   "짧게 누르면 입력, 길게 누르면 복사예요": {
     "v": "Krótkie dotknięcie wpisuje, długie kopiuje",
@@ -10861,8 +10869,8 @@
     "src": "9391b722f8"
   },
   "추천": {
-    "v": "Najlepsza oferta",
-    "src": "101985eb52"
+    "v": "Polecane",
+    "src": "6166dabea0"
   },
   "추천 단축어 %@": {
     "v": "Sugerowana fraza %@",
@@ -10942,7 +10950,7 @@
   },
   "카드번호": {
     "v": "Numer karty",
-    "src": "9d3834d579"
+    "src": "3553458d65"
   },
   "카드번호 같아요. 잠가 둘까요?": {
     "v": "Wygląda na numer karty. Zablokować?",
@@ -12575,7 +12583,7 @@
   },
   "홍길동": {
     "v": "Jan Kowalski",
-    "src": "4895061c04"
+    "src": "e2d3c0a9f3"
   },
   "화면": {
     "v": "Ekran",

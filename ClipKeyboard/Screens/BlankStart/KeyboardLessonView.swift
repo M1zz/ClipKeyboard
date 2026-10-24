@@ -52,6 +52,8 @@ struct KeyboardLessonView: View {
             .padding(.bottom, 20)
         }
         .onAppear { if reduceMotion { phase = .howto } }
+        // 펼친 듀오: 접힌 선 위에 글이 걸리지 않게 한쪽 판에만 선다
+        .foldConfined { Color(.systemBackground).ignoresSafeArea() }
         .onChange(of: scenePhase) { _, p in
             guard p == .active, waitingForReturn else { return }
             waitingForReturn = false

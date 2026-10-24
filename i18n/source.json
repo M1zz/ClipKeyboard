@@ -3998,8 +3998,8 @@
   "개인": {
     "ko": "개인",
     "en": "Personal",
-    "comment": "Default category created for new users: personal snippets. One short word",
-    "h": "aae44f95ed"
+    "comment": "Default category created for new users: personal snippets. One short word\nFeature lesson category: personal tab",
+    "h": "450ee13807"
   },
   "개인정보 처리방침": {
     "ko": "개인정보 처리방침",
@@ -5609,6 +5609,12 @@
     "comment": "Blank start intro: whole animation read as one sentence for VoiceOver",
     "h": "b0f22e41a8"
   },
+  "다른 곳에서 복사함": {
+    "ko": "다른 곳에서 복사함",
+    "en": "Copied elsewhere",
+    "comment": "Fold result pane: title of text copied outside the app",
+    "h": "591fc7bc1e"
+  },
   "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.": {
     "ko": "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.",
     "en": "Your other devices will match this one the next time they sync.",
@@ -5674,6 +5680,12 @@
     "en": "Preview the keyboard you'll see in other apps",
     "comment": "Lesson subtitle: keyboard preview",
     "h": "c1b76984d5"
+  },
+  "다른 앱에서 복사하면 여기 보여요": {
+    "ko": "다른 앱에서 복사하면 여기 보여요",
+    "en": "Copy something in another app and it shows here",
+    "comment": "Fold result pane: hint when nothing has been copied from outside",
+    "h": "20d42fe0e7"
   },
   "다른 앱에서 붙여넣기": {
     "ko": "다른 앱에서 붙여넣기",
@@ -11636,8 +11648,8 @@
   "업무": {
     "ko": "업무",
     "en": "Work",
-    "comment": "Default category created for new users: work snippets. One short word",
-    "h": "2dd4ba1fdc"
+    "comment": "Default category created for new users: work snippets. One short word\nFeature lesson category: work tab",
+    "h": "ae8c86df66"
   },
   "업무 · 개인처럼 나눠 담아요": {
     "ko": "업무 · 개인처럼 나눠 담아요",
@@ -12932,8 +12944,8 @@
   "이름": {
     "ko": "이름",
     "en": "Name",
-    "comment": "Name\nName token button",
-    "h": "3469e286fc"
+    "comment": "Feature lesson template: the blank's label\nName\nName token button",
+    "h": "45b39eadcb"
   },
   "이름 바꾸기": {
     "ko": "이름 바꾸기",
@@ -14954,8 +14966,8 @@
   "집 주소": {
     "ko": "집 주소",
     "en": "Home address",
-    "comment": "Essential snippet title: home address",
-    "h": "9b017e391e"
+    "comment": "Essential snippet title: home address\nFeature lesson category: sample home address",
+    "h": "be3eaa903b"
   },
   "짧게 누르면 입력, 길게 누르면 복사예요": {
     "ko": "짧게 누르면 입력, 길게 누르면 복사예요",
@@ -15464,8 +15476,8 @@
   "추천": {
     "ko": "추천",
     "en": "Best value",
-    "comment": "Paywall plan badge: recommended\nPlan: recommended badge",
-    "h": "101985eb52"
+    "comment": "Paywall plan badge: recommended\nPlan: recommended badge\nSettings: recommended preset badge",
+    "h": "6166dabea0"
   },
   "추천 단축어 %@": {
     "ko": "추천 단축어 %@",
@@ -15584,8 +15596,8 @@
   "카드번호": {
     "ko": "카드번호",
     "en": "Card Number",
-    "comment": "Bulk import: card number label\nCard Number\nChecksum subject: credit card number",
-    "h": "9d3834d579"
+    "comment": "Bulk import: card number label\nCard Number\nChecksum subject: credit card number\nFeature lesson secure: sample card title",
+    "h": "3553458d65"
   },
   "카드번호 같아요. 잠가 둘까요?": {
     "ko": "카드번호 같아요. 잠가 둘까요?",
@@ -17996,8 +18008,8 @@
   "홍길동": {
     "ko": "홍길동",
     "en": "John Doe",
-    "comment": "Name placeholder\nPlaceholder example: person name",
-    "h": "4895061c04"
+    "comment": "Feature lesson template: sample person name 3\nName placeholder\nPlaceholder example: person name",
+    "h": "e2d3c0a9f3"
   },
   "화면": {
     "ko": "화면",

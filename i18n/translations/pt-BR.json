@@ -2826,7 +2826,7 @@
   },
   "개인": {
     "v": "Pessoal",
-    "src": "aae44f95ed"
+    "src": "450ee13807"
   },
   "개인정보 처리방침": {
     "v": "Política de Privacidade",
@@ -3915,6 +3915,10 @@
     "v": "Se você costuma digitar o mesmo texto em outro lugar, copie e guarde aqui. Use quando precisar.",
     "src": "b0f22e41a8"
   },
+  "다른 곳에서 복사함": {
+    "v": "Copiado em outro lugar",
+    "src": "591fc7bc1e"
+  },
   "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.": {
     "v": "Seus outros dispositivos ficarão iguais a este na próxima sincronização.",
     "src": "0fcdae3b29"
@@ -3958,6 +3962,10 @@
   "다른 앱에서 보일 키보드를 여기서 미리": {
     "v": "Veja aqui o teclado que vai aparecer em outros apps",
     "src": "c1b76984d5"
+  },
+  "다른 앱에서 복사하면 여기 보여요": {
+    "v": "Copie algo em outro app e aparecerá aqui",
+    "src": "20d42fe0e7"
   },
   "다른 앱에서 붙여넣기": {
     "v": "Colar em outros apps",
@@ -8041,7 +8049,7 @@
   },
   "업무": {
     "v": "Trabalho",
-    "src": "2dd4ba1fdc"
+    "src": "ae8c86df66"
   },
   "업무 · 개인처럼 나눠 담아요": {
     "v": "Separe em Trabalho, Pessoal e mais",
@@ -8908,7 +8916,7 @@
   },
   "이름": {
     "v": "Nome",
-    "src": "3469e286fc"
+    "src": "45b39eadcb"
   },
   "이름 바꾸기": {
     "v": "Renomear",
@@ -10289,7 +10297,7 @@
   },
   "집 주소": {
     "v": "Endereço de casa",
-    "src": "9b017e391e"
+    "src": "be3eaa903b"
   },
   "짧게 누르면 입력, 길게 누르면 복사예요": {
     "v": "Toque rápido digita, toque longo copia",
@@ -10638,7 +10646,7 @@
   },
   "추천": {
     "v": "Melhor valor",
-    "src": "101985eb52"
+    "src": "6166dabea0"
   },
   "추천 단축어 %@": {
     "v": "Frase sugerida %@",
@@ -10718,7 +10726,7 @@
   },
   "카드번호": {
     "v": "Número do cartão",
-    "src": "9d3834d579"
+    "src": "3553458d65"
   },
   "카드번호 같아요. 잠가 둘까요?": {
     "v": "Parece número de cartão. Quer bloquear?",
@@ -12340,8 +12348,8 @@
     "src": "c3caf331b7"
   },
   "홍길동": {
-    "v": "Maria Silva",
-    "src": "4895061c04"
+    "v": "João Silva",
+    "src": "e2d3c0a9f3"
   },
   "화면": {
     "v": "Tela",

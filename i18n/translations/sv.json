@@ -2825,8 +2825,8 @@
     "src": "ae39e115e3"
   },
   "개인": {
-    "v": "Privat",
-    "src": "aae44f95ed"
+    "v": "Personligt",
+    "src": "450ee13807"
   },
   "개인정보 처리방침": {
     "v": "Integritetspolicy",
@@ -3915,6 +3915,10 @@
     "v": "Om du ofta skriver samma text någonstans kan du kopiera den och spara den här. Använd den när du behöver den.",
     "src": "b0f22e41a8"
   },
+  "다른 곳에서 복사함": {
+    "v": "Kopierat någon annanstans",
+    "src": "591fc7bc1e"
+  },
   "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.": {
     "v": "Dina andra enheter matchar den här nästa gång de synkar.",
     "src": "0fcdae3b29"
@@ -3958,6 +3962,10 @@
   "다른 앱에서 보일 키보드를 여기서 미리": {
     "v": "Förhandsgranska tangentbordet som du ser i andra appar",
     "src": "c1b76984d5"
+  },
+  "다른 앱에서 복사하면 여기 보여요": {
+    "v": "Kopiera något i en annan app så visas det här",
+    "src": "20d42fe0e7"
   },
   "다른 앱에서 붙여넣기": {
     "v": "Klistra in i andra appar",
@@ -8044,7 +8052,7 @@
   },
   "업무": {
     "v": "Jobb",
-    "src": "2dd4ba1fdc"
+    "src": "ae8c86df66"
   },
   "업무 · 개인처럼 나눠 담아요": {
     "v": "Sortera i Jobb, Privat och mer",
@@ -8911,7 +8919,7 @@
   },
   "이름": {
     "v": "Namn",
-    "src": "3469e286fc"
+    "src": "45b39eadcb"
   },
   "이름 바꾸기": {
     "v": "Byt namn",
@@ -10295,7 +10303,7 @@
   },
   "집 주소": {
     "v": "Hemadress",
-    "src": "9b017e391e"
+    "src": "be3eaa903b"
   },
   "짧게 누르면 입력, 길게 누르면 복사예요": {
     "v": "Kort tryck skriver, långt tryck kopierar",
@@ -10644,7 +10652,7 @@
   },
   "추천": {
     "v": "Bäst värde",
-    "src": "101985eb52"
+    "src": "6166dabea0"
   },
   "추천 단축어 %@": {
     "v": "Föreslagen fras %@",
@@ -10724,7 +10732,7 @@
   },
   "카드번호": {
     "v": "Kortnummer",
-    "src": "9d3834d579"
+    "src": "3553458d65"
   },
   "카드번호 같아요. 잠가 둘까요?": {
     "v": "Ser ut som ett kortnummer. Låsa det?",
@@ -12347,7 +12355,7 @@
   },
   "홍길동": {
     "v": "Anna Svensson",
-    "src": "4895061c04"
+    "src": "e2d3c0a9f3"
   },
   "화면": {
     "v": "Skärm",
