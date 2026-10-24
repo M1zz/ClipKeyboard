@@ -1309,7 +1309,10 @@ final class ClipKeyboardListViewModel: ObservableObject {
         #endif
 
         do {
-            try MemoStore.shared.incrementClipCount(for: memo.id)
+            // 채운 글을 넘긴다. 템플릿 원문이 듀오 "방금 복사함" 에 중괄호째 보이지 않게
+            try MemoStore.shared.incrementClipCount(
+                for: memo.id,
+                copiedText: memo.contentType == .image ? nil : processedValue)
 
             if memo.contentType != .image {
                 try MemoStore.shared.addToSmartClipboardHistory(content: processedValue)

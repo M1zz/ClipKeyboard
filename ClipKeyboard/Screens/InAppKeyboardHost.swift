@@ -281,13 +281,16 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
     ///
     /// ⚠️ **값이 입력칸에 들어가는 길은 여기 하나뿐이다.** 그냥 누른 것도, 템플릿 빈칸을
     ///    채우고 온 것도, 잠긴 것을 풀고 온 것도 마지막엔 전부 여기로 모인다.
-    private func insertResolved(_ processed: String) {
+    /// - Returns: 실제로 들어간 글(커서 토큰을 뺀 것). 듀오 결과 쪽 "방금 복사함" 이 이것을 보인다.
+    @discardableResult
+    private func insertResolved(_ processed: String) -> String {
         let placement = TemplateVariableProcessor.resolveCursor(in: processed)
         typeOut(placement.text) { [weak self] in
             guard let self, placement.needsCursorMove else { return }
             self.caret = max(0, self.caret - placement.offsetFromEnd)
         }
         KeyboardHaptics.stamp()
+        return placement.text
     }
 
     // MARK: - 치는 것처럼 넣기
@@ -391,8 +394,8 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
 
         let custom = customPlaceholders(in: raw)
         if custom.isEmpty {
-            insertResolved(processVariables(in: raw))
-            trackUse(memoId: memoId)
+            let inserted = insertResolved(processVariables(in: raw))
+            trackUse(memoId: memoId, copiedText: inserted)
         } else {
             // 값을 물어봐야 한다 - 오버레이는 KeyboardView가 띄우고,
             // 다 채우면 `.templateInputComplete` 로 돌아온다.
@@ -434,11 +437,11 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
         // 템플릿을 문구에 붙여 쓴 경우(base + 템플릿) - 본문 뒤에 이어 붙인다.
         if let baseId = info["baseMemoId"] as? UUID,
            let base = (try? MemoStore.shared.load(type: .memo))?.first(where: { $0.id == baseId }) {
-            insertResolved(base.value.isEmpty ? processed : "\(base.value)\n\(processed)")
-            trackUse(memoId: baseId)
+            let inserted = insertResolved(base.value.isEmpty ? processed : "\(base.value)\n\(processed)")
+            trackUse(memoId: baseId, copiedText: inserted)
         } else {
-            insertResolved(processed)
-            trackUse(memoId: info["memoId"] as? UUID)
+            let inserted = insertResolved(processed)
+            trackUse(memoId: info["memoId"] as? UUID, copiedText: inserted)
         }
     }
 
@@ -498,10 +501,13 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
     }
 
     /// 문구를 실제로 썼다 - 사용 횟수만 올린다(`.memoUsed` 알림도 여기서 나간다).
-    private func trackUse(memoId: UUID?) {
+    ///
+    /// ⚠️ 템플릿은 `copiedText` 에 **채운 글**을 넘긴다. 안 넘기면 알림에 원문이 실려
+    ///    듀오 결과 쪽 "방금 복사함" 에 `{이름}` 같은 중괄호가 그대로 보인다.
+    private func trackUse(memoId: UUID?, copiedText: String? = nil) {
         guard let memoId else { return }
         do {
-            try MemoStore.shared.incrementClipCount(for: memoId)
+            try MemoStore.shared.incrementClipCount(for: memoId, copiedText: copiedText)
         } catch {
             print("⚠️ [InAppKeyboardHost.trackUse] 사용량 업데이트 실패: \(error)")
         }

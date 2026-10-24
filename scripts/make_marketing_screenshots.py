@@ -10,7 +10,7 @@
 """
 import shutil, subprocess, sys, pathlib, tempfile
 
-# 사용법: python3 scripts/make_marketing_screenshots.py <언어> [iphone|ipad|duo] [파일 하나만]
+# 사용법: python3 scripts/make_marketing_screenshots.py <언어> [iphone|ipad|duo|duo-inner] [파일 하나만]
 #
 # 자리는 DeployBar 와의 계약이다(docs/screenshots/README.md):
 #   docs/screenshots/raw/<기기>/<언어>/01-....png   원본 캡처 (올라가지 않는다)
@@ -50,9 +50,12 @@ def _chrome_shot(cmd, out_png, limit=180):
 
 # ⚠️ 이 앱의 App Store Connect 제출 규격은 아이폰 **1242x2688**, 아이패드 **2064x2752** 다.
 #    시뮬레이터 원본(1320x2868 · 2064x2752)은 raw 이고, 여기서 바로 제출 규격으로 그린다.
-#    아이폰 듀오는 바깥 화면 **1398x2034** 다(시뮬레이터 원본과 같은 크기).
-W, H = {"ipad": (2064, 2752), "duo": (1398, 2034)}.get(DEVICE, (1242, 2688))
-PREFIX = {"ipad": "ipad-", "duo": "duo-"}.get(DEVICE, "")
+#    아이폰 듀오는 바깥 화면 **1398x2034**, 펼친 안쪽 화면은 가로로 **2853x2007** 이다(둘 다 시뮬레이터 원본과 같은 크기).
+# ⚠️ 모르는 기기 이름은 멈춘다. 아이폰으로 떨어지면 접두어가 없어 아이폰 제출본을 덮어쓴다
+if DEVICE not in ("iphone", "ipad", "duo", "duo-inner"):
+    raise SystemExit(f"모르는 기기: {DEVICE} (iphone · ipad · duo · duo-inner)")
+W, H = {"ipad": (2064, 2752), "duo": (1398, 2034), "duo-inner": (2853, 2007)}.get(DEVICE, (1242, 2688))
+PREFIX = {"ipad": "ipad-", "duo": "duo-", "duo-inner": "duo-inner-"}.get(DEVICE, "")
 
 # 슬라이드 배치는 언어와 무관하게 같고, 글만 언어별로 고른다.
 # ⚠️ 기계번역하지 않는다. 각 언어권에서 자연스럽게 읽히는 말로 따로 쓴다.
@@ -240,6 +243,9 @@ if LANG not in COPY:
     raise SystemExit(f"모르는 언어: {LANG} (아는 것: {', '.join(COPY)})")
 SHOTS = [(f, l, e, h, s) for (f, l), (e, h, s) in zip(LAYOUT_ORDER, COPY[LANG])]
 HEAD_PX, SUB_PX = TYPE_SCALE[LANG]
+if DEVICE == "duo-inner":
+    # 글은 왼쪽 좁은 기둥에 선다
+    HEAD_PX, SUB_PX = int(HEAD_PX * 1.15), int(SUB_PX * 1.15)
 if DEVICE == "ipad":
     # 캔버스가 아이폰보다 1.66배 넓다. 글은 1.3배만 키운다(더 키우면 헤드라인이 판을 가린다).
     HEAD_PX, SUB_PX = int(HEAD_PX * 1.3), int(SUB_PX * 1.3)
@@ -333,6 +339,24 @@ DUO_LAYOUTS = {
              ".phone { width:1020px; transform:rotateY(-10deg) rotateX(2deg); }",
 }
 
+# 아이폰 듀오(펼친 안쪽 화면): 가로로 넓다. 글은 왼쪽 기둥, 기기는 오른쪽에 크게 세운다.
+DUO_INNER_CSS = """
+body { display:flex; align-items:center; padding:0 0 0 120px; gap:90px; }
+.text { width:880px; flex:none; }
+.eyebrow { font-size:54px; }
+.headline { margin-top:30px; }
+.sub { margin-top:44px; }
+.wrap { flex:none; }
+.phone { border-radius:84px; padding:24px; }
+.phone img { border-radius:62px; }
+"""
+DUO_INNER_LAYOUTS = {
+    "front": ".phone { width:1760px; }",
+    "tilt":  ".wrap { perspective:3600px; } .phone { width:1700px; transform:rotateY(-12deg) rotateX(2deg); }",
+}
+BODY_SIDE = ('<div class="text"><div class="eyebrow">{eyebrow}</div><div class="headline">{headline}</div>'
+             '<div class="sub">{sub}</div></div><div class="wrap"><div class="phone"><img src="{img}"></div></div>')
+
 # text-bottom 은 폰이 먼저 오는 DOM 순서
 # 눈썹글(파란 한 줄)이 헤드라인 위에 선다. 기존 마케팅 이미지가 그 모양이다.
 BODY_TEXT_FIRST = ('<div class="eyebrow">{eyebrow}</div><div class="headline">{headline}</div>'
@@ -349,7 +373,11 @@ def main(only=None):
     for i, (fname, layout, eyebrow, headline, sub) in enumerate(SHOTS):
         if only and fname != only:
             continue
-        if DEVICE in ("ipad", "duo"):
+        if DEVICE == "duo-inner":
+            body_tpl, layout_css = BODY_SIDE, DUO_INNER_CSS + DUO_INNER_LAYOUTS[IPAD_ORDER[i]]
+            if layout == "dark":
+                layout_css += LAYOUTS["dark"].split(".eyebrow")[0]
+        elif DEVICE in ("ipad", "duo"):
             css, layouts = (IPAD_CSS, IPAD_LAYOUTS) if DEVICE == "ipad" else (DUO_CSS, DUO_LAYOUTS)
             body_tpl, layout_css = BODY_TEXT_FIRST, css + layouts[IPAD_ORDER[i]]
             if layout == "dark":
@@ -385,5 +413,5 @@ def main(only=None):
             shutil.copyfile(out_png, gb / out_png.name)
 
 if __name__ == "__main__":
-    # python3 scripts/make_marketing_screenshots.py [언어] [iphone|ipad|duo] [파일 하나만]
+    # python3 scripts/make_marketing_screenshots.py [언어] [iphone|ipad|duo|duo-inner] [파일 하나만]
     main(sys.argv[3] if len(sys.argv) > 3 else None)
