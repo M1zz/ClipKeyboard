@@ -1,3 +1,10 @@
+## 📸 아이폰 듀오 스크린샷 (2026-10-24)
+- [x] 규격 확인: 바깥 1398x2034 · 안쪽 2007x2853. 넣으면 상품 페이지에 듀오 뱃지, 2027년 4월부터 27.1 SDK 앱은 필수
+- [x] `take_screenshots.sh` 에 `duo`(바깥 화면 `--display=1`), `make_marketing_screenshots.py` 에 듀오 배치(글 위 · 기기 아래)
+- [x] 23개 언어 바깥 화면 원본 · 제출본(`marketing/<로케일>/duo-0N-....png`)
+- [ ] 안쪽 화면(2007x2853): 시뮬레이터를 명령줄로 못 편다. 펼칠 수 있는 Simulator 나 실기기에서
+- [ ] DeployBar 가 1398x2034 를 듀오 칸으로 올리는지 확인 (`DeployBar --shotplan 클립키보드`)
+
 ## 🩺 5.1.13 릴리즈 건강 빨강: 크래시 없는 설치 80% (2026-10-24)
 - [x] 원인(대부분 셈법): 5.1.13 부터 앱 쪽 `launch_incomplete` 가 처음 나간다(ee2064c4). 5.1.12 의 불안정 10대는 키보드 것뿐이었다. 크래시 보고는 34건에서 6건으로 줄었다
 - [x] 고침: 화면 없이 깨어났다 3초 안에 멈춘 프로세스가 `first-frame` 을 남겨 다음 런치가 세이프 모드 + `launch_incomplete:first-frame`. init 끝은 `awaiting-scene`, `first-frame` 은 WindowGroup 클로저에서 적는다. `awaiting-scene` 은 멈춘 런치로 읽지 않는다

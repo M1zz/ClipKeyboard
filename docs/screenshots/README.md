@@ -3,9 +3,10 @@
 DeployBar 가 배포할 때 이 폴더를 읽어 App Store Connect 에 그대로 올린다. 자리는 취향이 아니라 계약이다.
 
 ```
-raw/<iphone|ipad>/<언어>/01-....png    원본 캡처. 올라가지 않는다
+raw/<iphone|ipad|duo>/<언어>/01-....png 원본 캡처. 올라가지 않는다
 marketing/<스토어 로케일>/01-....png      아이폰 제출본 1242x2688
 marketing/<스토어 로케일>/ipad-01-....png 아이패드 제출본 2064x2752
+marketing/<스토어 로케일>/duo-01-....png  아이폰 듀오 바깥 화면 제출본 1398x2034
 ```
 
 - 아이폰과 아이패드가 한 언어 폴더에 같이 있다. DeployBar 가 픽셀로 기기를 가른다.
@@ -37,6 +38,30 @@ done
 ```
 
 시뮬레이터: iPhone 17 Pro Max(6.9"), iPad Pro 13-inch(M5).
+
+### 아이폰 듀오
+
+App Store Connect 에는 듀오 칸이 둘이다: 바깥 화면 1398x2034, 안쪽 화면 2007x2853(가로는 뒤집은 크기).
+넣으면 상품 페이지에 "iPhone Duo 에 맞춘 앱" 뱃지가 붙는다. 지금은 선택이고, 2027년 4월부터 iOS 27.1 SDK
+이상으로 빌드한 앱은 필수다. 바깥 · 안쪽 중 하나만 넣어도 뱃지가 붙는지, 없을 때 다른 기기 그림으로
+대신하는지는 문서에 없다(Apple 스크린샷 규격 문서, 2026-10-24 확인).
+
+- **바깥 화면만 만든다.** 시뮬레이터는 접힌 채로 뜨고 명령줄로는 펼 수 없다(Simulator 창 앱도 없다).
+  안쪽 화면 그림은 펼칠 수 있는 Simulator 나 실기기가 생기면 찍는다.
+- **Xcode 27.1 로 빌드해 깐다.** 27.0 으로 빌드하면 바깥 화면에서 호환 틀로 떠서 옆이 검게 남는다.
+- 듀오 시뮬레이터에는 화면이 둘이라 `take_screenshots.sh` 가 `--display=1`(바깥)을 찍는다.
+- 바깥 화면에서는 시계 · 탭바가 오른쪽 세로줄에 선다. 기기 모양 그대로다.
+
+```sh
+DEVELOPER_DIR=~/Downloads/Xcode.app/Contents/Developer xcodebuild -project ClipKeyboard.xcodeproj \
+  -scheme ClipKeyboard -configuration Debug -destination 'platform=iOS Simulator,id=<듀오 UDID>' \
+  -derivedDataPath build/duo-derived build
+xcrun simctl install <듀오 UDID> build/duo-derived/Build/Products/Debug-iphonesimulator/ClipKeyboard.app
+sh scripts/take_screenshots.sh <듀오 UDID> duo ko en ...
+python3 scripts/make_marketing_screenshots.py ko duo
+```
+
+⚠️ DeployBar 가 1398x2034 를 듀오 칸으로 가르는지는 아직 확인하지 않았다. 모르면 올릴 때 빠지거나 거절된다.
 데모 데이터는 `scripts/demo_seed.py`, 헤드라인은 `scripts/make_marketing_screenshots.py` 의 `COPY` 에 언어별로 있다.
 헤드라인은 기계번역하지 않는다.
 

@@ -10,7 +10,7 @@
 """
 import shutil, subprocess, sys, pathlib, tempfile
 
-# 사용법: python3 scripts/make_marketing_screenshots.py <언어> [iphone|ipad] [파일 하나만]
+# 사용법: python3 scripts/make_marketing_screenshots.py <언어> [iphone|ipad|duo] [파일 하나만]
 #
 # 자리는 DeployBar 와의 계약이다(docs/screenshots/README.md):
 #   docs/screenshots/raw/<기기>/<언어>/01-....png   원본 캡처 (올라가지 않는다)
@@ -50,8 +50,9 @@ def _chrome_shot(cmd, out_png, limit=180):
 
 # ⚠️ 이 앱의 App Store Connect 제출 규격은 아이폰 **1242x2688**, 아이패드 **2064x2752** 다.
 #    시뮬레이터 원본(1320x2868 · 2064x2752)은 raw 이고, 여기서 바로 제출 규격으로 그린다.
-W, H = (2064, 2752) if DEVICE == "ipad" else (1242, 2688)
-PREFIX = "ipad-" if DEVICE == "ipad" else ""
+#    아이폰 듀오는 바깥 화면 **1398x2034** 다(시뮬레이터 원본과 같은 크기).
+W, H = {"ipad": (2064, 2752), "duo": (1398, 2034)}.get(DEVICE, (1242, 2688))
+PREFIX = {"ipad": "ipad-", "duo": "duo-"}.get(DEVICE, "")
 
 # 슬라이드 배치는 언어와 무관하게 같고, 글만 언어별로 고른다.
 # ⚠️ 기계번역하지 않는다. 각 언어권에서 자연스럽게 읽히는 말로 따로 쓴다.
@@ -317,6 +318,21 @@ IPAD_LAYOUTS = {
 }
 IPAD_ORDER = ["front", "tilt", "front", "tilt", "front"]
 
+# 아이폰 듀오(바깥 화면): 아이폰보다 넓고 낮다. 아이패드처럼 글은 위, 기기는 아래로 걸친다.
+# 바깥 화면은 모서리가 덜 둥글다.
+DUO_CSS = """
+.eyebrow { text-align:center; margin-top:150px; }
+.headline { text-align:center; margin-top:28px; padding:0 90px; }
+.sub { text-align:center; margin-top:40px; padding:0 110px; }
+.phone { border-radius:80px; padding:22px; }
+.phone img { border-radius:58px; }
+"""
+DUO_LAYOUTS = {
+    "front": ".wrap { display:flex; justify-content:center; margin-top:110px; } .phone { width:1060px; }",
+    "tilt":  ".wrap { perspective:3000px; display:flex; justify-content:center; margin-top:110px; } "
+             ".phone { width:1020px; transform:rotateY(-10deg) rotateX(2deg); }",
+}
+
 # text-bottom 은 폰이 먼저 오는 DOM 순서
 # 눈썹글(파란 한 줄)이 헤드라인 위에 선다. 기존 마케팅 이미지가 그 모양이다.
 BODY_TEXT_FIRST = ('<div class="eyebrow">{eyebrow}</div><div class="headline">{headline}</div>'
@@ -333,8 +349,9 @@ def main(only=None):
     for i, (fname, layout, eyebrow, headline, sub) in enumerate(SHOTS):
         if only and fname != only:
             continue
-        if DEVICE == "ipad":
-            body_tpl, layout_css = BODY_TEXT_FIRST, IPAD_CSS + IPAD_LAYOUTS[IPAD_ORDER[i]]
+        if DEVICE in ("ipad", "duo"):
+            css, layouts = (IPAD_CSS, IPAD_LAYOUTS) if DEVICE == "ipad" else (DUO_CSS, DUO_LAYOUTS)
+            body_tpl, layout_css = BODY_TEXT_FIRST, css + layouts[IPAD_ORDER[i]]
             if layout == "dark":
                 layout_css += LAYOUTS["dark"].split(".eyebrow")[0]
         else:
@@ -368,5 +385,5 @@ def main(only=None):
             shutil.copyfile(out_png, gb / out_png.name)
 
 if __name__ == "__main__":
-    # python3 scripts/make_marketing_screenshots.py [언어] [iphone|ipad] [파일 하나만]
+    # python3 scripts/make_marketing_screenshots.py [언어] [iphone|ipad|duo] [파일 하나만]
     main(sys.argv[3] if len(sys.argv) > 3 else None)

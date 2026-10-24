@@ -1,7 +1,8 @@
 #!/bin/sh
 # 스토어 스크린샷 원본을 찍는다. 손으로 몰지 않는다.
 #
-#   sh scripts/take_screenshots.sh <기기 UDID> <iphone|ipad> <언어...>
+#   sh scripts/take_screenshots.sh <기기 UDID> <iphone|ipad|duo> <언어...>
+#   duo: 아이폰 듀오 시뮬레이터(접힌 채, 바깥 화면). Xcode 27.1 로 빌드해 깔아야 호환 틀 없이 뜬다
 #   예) sh scripts/take_screenshots.sh 27D95C0F-7136-4813-B4A8-71B22249B3BA iphone ko en ja
 #
 # 앞서 디버그 빌드를 깔아 둔다. 화면은 DEBUG 전용 실행 인자 `-ScreenshotScene` 로 연다
@@ -59,9 +60,14 @@ for L in "$@"; do
       -defaultSamplesInserted_v1 YES -demoSampleOfferResolved_v1 YES \
       -AppleKeyboards '("com.Ysoup.TokenMemo.ClipKeyboardExtension")' >/dev/null
     sleep 9
-    xcrun simctl io "$D" screenshot --type=png "$OUT/tmp.png" >/dev/null 2>&1
+    # 듀오는 화면이 둘이다. 1번이 바깥 화면(1398x2034), 3번이 안쪽(접혀 있으면 검다)
+    DISPLAY_ARG=""; [ "$DEVICE" = duo ] && DISPLAY_ARG="--display=1"
+    xcrun simctl io "$D" screenshot --type=png $DISPLAY_ARG "$OUT/tmp.png" >/dev/null 2>&1
     if [ "$DEVICE" = iphone ]; then
       ffmpeg -loglevel error -y -i "$OUT/tmp.png" -vf "scale=1242:2699,crop=1242:2688" "$OUT/$1"
+    elif [ "$DEVICE" = duo ]; then
+      # 아이폰 듀오 바깥 화면은 시뮬레이터 그대로가 제출 규격(1398x2034)이다. 줄이지 않는다
+      mv "$OUT/tmp.png" "$OUT/$1"
     else
       ffmpeg -loglevel error -y -i "$OUT/tmp.png" -vf "scale=2064:2752" "$OUT/$1"
     fi
