@@ -1753,6 +1753,10 @@
     "v": "Puoi usare di nuovo le funzioni Plus.",
     "src": "994f772158"
   },
+  "Plus 쓰는 중": {
+    "v": "Plus attivo",
+    "src": "e7f96634c8"
+  },
   "Plus 에서 Pro 로 오르는 값 · 한 번 결제": {
     "v": "Prezzo per passare da Plus · pagamento unico",
     "src": "34a4d7e13e"
@@ -4074,6 +4078,14 @@
   "다음에": {
     "v": "Più tardi",
     "src": "d13b4dfc00"
+  },
+  "다음은 Plus": {
+    "v": "Poi: Plus",
+    "src": "5b64840fc2"
+  },
+  "다음은 Pro · iCloud 백업 · 생체인증 잠금": {
+    "v": "Poi: Pro · backup iCloud · blocco biometrico",
+    "src": "3bddfed218"
   },
   "다크": {
     "v": "Scuro",

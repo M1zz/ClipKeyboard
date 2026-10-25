@@ -5,7 +5,9 @@
 //  **앞으로 만들 것**의 원본. 설정 ▸ 앞으로 만들 기능(`LeeoRoadmapView`)이 이 목록을 그대로 보여 준다.
 //
 //  ⚠️ 개발하다 "이건 다음에" 가 생기면 **여기에 한 줄을 더한다.** 코드의 TODO 주석으로만 남기지 않는다.
-//     - 새 항목: `.planned`. 손대기 시작하면 `.building`. 내보내면 `.shipped("5.2.0")`.
+//     - 새 항목: `.planned`. 손대기 시작하면 `.building`. **내보내면 목록에서 뺀다.**
+//       이 화면은 '앞으로 만들 기능' 이라 이미 나온 것이 남으면 안 만든 것처럼 읽힌다(2026-10 사용자).
+//       무엇이 언제 나왔는지는 릴리즈 노트(RELEASE_NOTES.md · docs/release-notes/)가 기록한다.
 //     - id 는 한 번 정하면 바꾸지 않는다(문구는 바꿔도 된다).
 //     - 문구는 사용자 말로 쓴다(내부 이름 · 기술 용어 금지). 번역은 `scripts/i18n.py` 가 한다.
 //     - 사용자에게 보일 만한 것만 적는다. 리팩터링 · 시험 · 빌드 설정은 `.sprintcommander/tasks.json` 의 몫이다.
@@ -18,16 +20,10 @@ import LeeoKit
 extension ClipKeyboardSpec {
     static var roadmap: [LeeoRoadmapItem] {[
         // MARK: 만들고 있어요
-        .init(id: "gift.pro", status: .building,
-              title: NSLocalizedString("Pro 선물하기", comment: "Roadmap item: gift Pro"),
-              detail: NSLocalizedString("결제는 보내는 분이 하고, Pro는 받는 분이 써요.", comment: "Roadmap item detail: gift Pro")),
         .init(id: "a11y.contrast", status: .building,
               title: NSLocalizedString("보기 편한 색과 대비", comment: "Roadmap item: better colors and contrast"),
               detail: NSLocalizedString("대비를 높이거나 색을 구별하기 어려워도 내용을 알아볼 수 있어요.", comment: "Roadmap item detail: colors and contrast")),
 
-        .init(id: "keyboard.typing", status: .building,
-              title: NSLocalizedString("키보드 하나로 글까지", comment: "Roadmap item: type everything with this keyboard"),
-              detail: NSLocalizedString("쓰던 키보드 없이 이 키보드로 23개 언어를 치고, 단축어도 같이 써요.", comment: "Roadmap item detail: typing keyboard in 23 languages")),
 
         // MARK: 다음에 만들어요
         .init(id: "keyboard.autocorrect", status: .planned,
@@ -52,10 +48,6 @@ extension ClipKeyboardSpec {
               title: NSLocalizedString("큰 글씨에 맞춘 화면", comment: "Roadmap item: layouts that fit large text sizes"),
               detail: NSLocalizedString("글자 크기를 키워도 잘리지 않고 보기 좋게 다시 배치돼요.", comment: "Roadmap item detail: large text layouts")),
 
-        // MARK: 최근에 나왔어요 (최신 것부터)
-        .init(id: "capture.button", status: .shipped("5.1.12"),
-              title: NSLocalizedString("복사하고 버튼 한 번으로 담기", comment: "Roadmap item: capture clipboard with the Action Button"),
-              detail: NSLocalizedString("동작 버튼이나 제어 센터를 누르면 방금 복사한 글이 키보드 '최근'에 담겨요.", comment: "Roadmap item detail: capture clipboard")),
     ]}
 }
 

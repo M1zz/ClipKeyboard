@@ -1615,6 +1615,10 @@
     "v": "Bạn có thể dùng lại các tính năng Plus.",
     "src": "994f772158"
   },
+  "Plus 쓰는 중": {
+    "v": "Đang dùng Plus",
+    "src": "e7f96634c8"
+  },
   "Plus 에서 Pro 로 오르는 값 · 한 번 결제": {
     "v": "Giá nâng cấp từ Plus · thanh toán một lần",
     "src": "34a4d7e13e"
@@ -3906,6 +3910,14 @@
   "다음에": {
     "v": "Để sau",
     "src": "d13b4dfc00"
+  },
+  "다음은 Plus": {
+    "v": "Tiếp theo: Plus",
+    "src": "5b64840fc2"
+  },
+  "다음은 Pro · iCloud 백업 · 생체인증 잠금": {
+    "v": "Tiếp theo: Pro · Sao lưu iCloud · Khóa sinh trắc học",
+    "src": "3bddfed218"
   },
   "다크": {
     "v": "Tối",

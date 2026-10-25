@@ -20,6 +20,8 @@ struct ClipKeyboardList: View {
     @ObservedObject private var suggestionManager = SuggestionManager.shared
     /// 지금 이 사람이 어디쯤인가(`docs/product/USER_STATE_MODEL.md`). 빈 화면이 이걸 보고 갈린다.
     @ObservedObject private var userState = UserStateStore.shared
+    /// 임시 저장이 있을 때만 + 메뉴에 '임시 저장' 을 세운다.
+    @ObservedObject private var draftStore = DraftStore.shared
     /// 백지로 시작한 사람(새 설치). 목록이 가장 단순해진다: 큰 제목 '기본', + 하나, 카드 격자.
     /// 안내 띠 · 카드 · 팁 · 고스트 제안 · 화면 전환 버튼이 없다. 분류 · 최근 · 템플릿 · 스택 · 보안은
     /// 그 기능을 켜면(설정 ▸ 기능 더하기 · 넛지) 그 자리만 생긴다. 기존 사용자는 그대로다.
@@ -2993,11 +2995,14 @@ struct ClipKeyboardList: View {
                 Label(NSLocalizedString("새 단축어 만들기", comment: "Menu: new memo"), systemImage: AppSymbol.squareAndPencil)
             }
             // 임시 저장 - 만들다 저장하지 않고 나간 미완성 메모를 이어서 작성.
-            Button {
-                HapticManager.shared.light()
-                showDraftList = true
-            } label: {
-                Label(draftMenuTitle, systemImage: "clock.arrow.circlepath")
+            // ⚠️ 이어 쓸 것이 없으면 세우지 않는다. 빈 목록을 여는 줄은 쓸모없이 메뉴만 길게 한다(2026-10 사용자)
+            if !draftStore.drafts.isEmpty {
+                Button {
+                    HapticManager.shared.light()
+                    showDraftList = true
+                } label: {
+                    Label(draftMenuTitle, systemImage: "clock.arrow.circlepath")
+                }
             }
             Divider()
             // 빈 화면 앞에서 "뭘 만들지"부터 떠올리지 않아도 되게 - 차려 둔 것에서 골라 온다.

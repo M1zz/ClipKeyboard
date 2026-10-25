@@ -57,7 +57,7 @@ struct SettingView: View {
                     .accessibilityLabel(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
                 }
             }
-        } else if FreeUse.isActive {
+        } else if FreeUse.isActive && ProFeatureManager.purchasedTier < .plus {   // Plus 를 샀으면 아래 Plus 줄
             // 무료로 쓰는 기간 - 칸 수 대신 **몇 번 남았는지**를 말한다. 이 동안은 칸이 무제한이라
             // 아래 `remainingSlotsRow` 를 그리면 한도 숫자 대신 Int.max 가 찍힌다.
             Section {
@@ -69,17 +69,49 @@ struct SettingView: View {
                             .font(.title2)
                             .foregroundColor(theme.accent)
                             .accessibilityHidden(true)
-                        VStack(alignment: .leading, spacing: 2) {
+                        VStack(alignment: .leading, spacing: 6) {
                             Text(NSLocalizedString("무료로 쓰는 중", comment: "Settings: free use period row title"))
                                 .font(.headline).foregroundColor(theme.text)
                             Text(String(format: NSLocalizedString("%1$d번 중 %2$d번 썼어요", comment: "Free use progress, VoiceOver"), FreeUse.threshold, FreeUse.uses))
                                 .font(.body).foregroundColor(theme.textMuted)
+                            // 다음 요금제(Plus)로 가는 길. 무료 기간을 다 쓰면 그다음이 Plus 다
+                            ProgressView(value: Double(min(FreeUse.uses, FreeUse.threshold)), total: Double(FreeUse.threshold))
+                                .tint(theme.accent)
+                                .accessibilityHidden(true)
+                            HStack {
+                                Text(NSLocalizedString("무료", comment: "Settings: free plan label at the start of the progress bar"))
+                                Spacer()
+                                Text(NSLocalizedString("다음은 Plus", comment: "Settings: next plan label at the end of the free use progress bar"))
+                                    .foregroundColor(theme.accent)
+                            }
+                            .font(.body.weight(.semibold))
+                            .foregroundColor(theme.textMuted)
                         }
                         Spacer()
                     }
                 }
                 .accessibilityHint(NSLocalizedString("무료로 쓰는 방법을 봅니다", comment: "Settings: open free use guide hint"))
 
+                restorePurchasesButton
+            }
+        } else if ProFeatureManager.purchasedTier == .plus {
+            // Plus 를 쓰는 사람: 지금 칸과 **다음 칸(Pro)** 을 함께 말한다
+            Section {
+                FoldLink(destination: PaywallView(embedded: true)) {
+                    HStack(spacing: 12) {
+                        Image(systemName: AppSymbol.checkmarkSealFill)
+                            .font(.title2)
+                            .foregroundColor(.green)
+                            .accessibilityHidden(true)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(NSLocalizedString("Plus 쓰는 중", comment: "Settings: Plus plan active row title"))
+                                .font(.headline).foregroundColor(theme.text)
+                            Text(NSLocalizedString("다음은 Pro · iCloud 백업 · 생체인증 잠금", comment: "Settings: next plan after Plus"))
+                                .font(.body).foregroundColor(theme.textMuted)
+                        }
+                        Spacer()
+                    }
+                }
                 restorePurchasesButton
             }
         } else if ProFeatureManager.isInTrial {
@@ -202,10 +234,14 @@ struct SettingView: View {
            gift.isAvailable || gift.pendingCount > 0 || !gift.sentGifts.isEmpty || gift.redeemed != nil {
             Section {
                 // 선물이 안 되면 결제 번호 · 코드를 붙여 문의하게 한다(아직 다듬는 중인 기능이라 막힌 사람을 놓치지 않게).
+                // ⚠️ 처음 사용자에게는 '선물하기' 를 졸업 뒤에 보인다. 써 보기도 전에 남에게 줄 일은 없다.
+                //    이미 보낸 선물이 있으면 늘 보인다. '선물 코드 입력' 은 받은 사람이 있을 수 있어 그대로 둔다
+                if showsAdvancedRows || !gift.sentGifts.isEmpty {
                 FoldLink(destination: LeeoGiftView<ClipKeyboardSpec>(gift: gift, showsRedeemLink: false,
                                                                       onContactSupport: { showGiftSupport = true })
                     .leeoStyle(theme.leeoStyle)) {
                     Label(LeeoGiftText.sendEntry, systemImage: AppSymbol.giftFill)
+                }
                 }
                 if !ProFeatureManager.hasPermanentPro || gift.redeemed != nil {
                     FoldLink(destination: LeeoGiftRedeemView<ClipKeyboardSpec>(gift: gift,
@@ -222,11 +258,17 @@ struct SettingView: View {
         }
     }
 
+    /// 처음 사용자(백지)가 아직 볼 일이 없는 줄(선물하기 · 응원)을 보일 때인가. 기존 사용자 · 졸업한 사람은 늘 보인다.
+    private var showsAdvancedRows: Bool {
+        !FeatureSet.isBlankStartUser() || FeatureSet.hasGraduated(level: userState.state.level)
+    }
+
     /// 팁(응원) - 이미 다 가진 사람이 더 내고 싶을 때. 팁 상품이 App Store 에서 와야 보인다.
     /// ⚠️ 문구는 LeeoKit 카탈로그에 있다(`LeeoTipText`).
     @ViewBuilder
     private var tipSection: some View {
-        if let tipJar = proManager.tipJar, tipJar.isAvailable {
+        // 처음 사용자에게는 졸업 뒤에 보인다. 응원은 앱이 손에 붙은 다음의 일이다
+        if let tipJar = proManager.tipJar, tipJar.isAvailable, showsAdvancedRows {
             Section {
                 FoldLink(destination: LeeoTipJarView<ClipKeyboardSpec>(tipJar: tipJar)
                     .leeoStyle(theme.leeoStyle)) {
@@ -365,9 +407,11 @@ struct SettingView: View {
 
     var body: some View {
         List {
+            proSection
             // 백지로 시작한 사람만: 기능 더하기 · 가이드북. 기존 사용자에게는 없다.
             // ⚠️ 다른 갈래처럼 **이름 한 줄**만 세우고 안으로 들어간다. 줄 여덟 개를 첫 화면에 펼치면
             //    아래 갈래가 다 밀려 내려간다(이 화면의 원칙, 아래 `갈래` 머리말).
+            // ⚠️ 요금제 칸(proSection)이 맨 위다. 무료 · Plus · Pro 중 어디인지가 설정에서 가장 먼저 보인다
             if FeatureSet.isBlankStartUser() {
                 Section {
                     categoryRow(NSLocalizedString("기능 더하기", comment: "Settings: add features section header"),
@@ -376,7 +420,6 @@ struct SettingView: View {
                                 systemImage: AppSymbol.bookPagesFill) { GuideBookView() }
                 }
             }
-            proSection
             giftSection
             tipSection
             everydaySection

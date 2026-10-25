@@ -2411,6 +2411,12 @@
     "comment": "Restore result message: Plus restored",
     "h": "994f772158"
   },
+  "Plus 쓰는 중": {
+    "ko": "Plus 쓰는 중",
+    "en": "Using Plus",
+    "comment": "Settings: Plus plan active row title",
+    "h": "e7f96634c8"
+  },
   "Plus 에서 Pro 로 오르는 값 · 한 번 결제": {
     "ko": "Plus 에서 Pro 로 오르는 값 · 한 번 결제",
     "en": "Upgrade price from Plus · one-time payment",
@@ -5848,6 +5854,18 @@
     "en": "Later",
     "comment": "Feedback nudge: later",
     "h": "d13b4dfc00"
+  },
+  "다음은 Plus": {
+    "ko": "다음은 Plus",
+    "en": "Next: Plus",
+    "comment": "Settings: next plan label at the end of the free use progress bar",
+    "h": "5b64840fc2"
+  },
+  "다음은 Pro · iCloud 백업 · 생체인증 잠금": {
+    "ko": "다음은 Pro · iCloud 백업 · 생체인증 잠금",
+    "en": "Next: Pro · iCloud backup · biometric lock",
+    "comment": "Settings: next plan after Plus",
+    "h": "3bddfed218"
   },
   "다크": {
     "ko": "다크",

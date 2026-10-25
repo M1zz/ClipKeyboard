@@ -1617,6 +1617,10 @@
     "v": "Fitur Plus bisa Anda pakai lagi.",
     "src": "994f772158"
   },
+  "Plus 쓰는 중": {
+    "v": "Memakai Plus",
+    "src": "e7f96634c8"
+  },
   "Plus 에서 Pro 로 오르는 값 · 한 번 결제": {
     "v": "Harga upgrade dari Plus · sekali bayar",
     "src": "34a4d7e13e"
@@ -3908,6 +3912,14 @@
   "다음에": {
     "v": "Nanti saja",
     "src": "d13b4dfc00"
+  },
+  "다음은 Plus": {
+    "v": "Berikutnya: Plus",
+    "src": "5b64840fc2"
+  },
+  "다음은 Pro · iCloud 백업 · 생체인증 잠금": {
+    "v": "Berikutnya: Pro · Cadangan iCloud · Kunci biometrik",
+    "src": "3bddfed218"
   },
   "다크": {
     "v": "Gelap",

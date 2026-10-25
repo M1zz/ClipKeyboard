@@ -1753,6 +1753,10 @@
     "v": "Vous pouvez de nouveau utiliser les fonctions Plus.",
     "src": "994f772158"
   },
+  "Plus 쓰는 중": {
+    "v": "Plus activé",
+    "src": "e7f96634c8"
+  },
   "Plus 에서 Pro 로 오르는 값 · 한 번 결제": {
     "v": "Tarif de passage depuis Plus · paiement unique",
     "src": "34a4d7e13e"
@@ -4074,6 +4078,14 @@
   "다음에": {
     "v": "Plus tard",
     "src": "d13b4dfc00"
+  },
+  "다음은 Plus": {
+    "v": "Ensuite : Plus",
+    "src": "5b64840fc2"
+  },
+  "다음은 Pro · iCloud 백업 · 생체인증 잠금": {
+    "v": "Ensuite : Pro · sauvegarde iCloud · verrouillage biométrique",
+    "src": "3bddfed218"
   },
   "다크": {
     "v": "Sombre",
