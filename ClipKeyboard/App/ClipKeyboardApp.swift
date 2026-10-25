@@ -25,6 +25,18 @@ struct ClipKeyboardApp: App {
     /// ⚠️ 복원 안내는 **새 기기 첫 실행에만** 뜬다(그때만 기기가 비어 있다). 다른 창에 자리를
     ///    내주면 다음 실행에는 샘플이 깔려 있어 영영 못 뜬다.
     @State private var restoreCheckInFlight = false
+    /// 백지 첫 실행이 끝나기를 기다리는 복원 안내. 값은 그 실행의 `localWasEmpty` 다.
+    ///
+    /// ⚠️ 백지 첫 실행은 `MainTabView` 가 덮개로 띄운다. 그 위(여기)에서 시트를 올리면
+    ///    SwiftUI 가 덮개를 내려 버린다. 재설치한 폰에서는 iCloud 백업이 있어 복원 안내가 뜨고,
+    ///    하얀 화면이 뜨자마자 아래로 내려가 사라졌다(2026-10 사용자 신고).
+    ///    그래서 끝날 때까지 미뤘다가 끝나는 순간 같은 실행 안에서 띄운다.
+    ///    복원 안내만 그렇게 한다(다음 실행에는 샘플이 있어 못 뜬다). 반값 제안 같은 나머지는
+    ///    다음 실행으로 넘긴다. 막 배운 사람에게 곧바로 다른 창을 얹으면 배운 것이 묻힌다.
+    @State private var launchPromptsAwaitingBlankStart: Bool?
+    /// 이번 실행에 백지 첫 실행을 했다. 그러면 이번 실행에는 실행 창을 고르지 않는다.
+    @State private var blankStartRanThisLaunch = false
+    @AppStorage(DefaultsKey.blankStartFinished) private var blankStartFinished = false
     /// 그거 아세요? - 지금 보여 줄 이야기. **이 값이 곧 시트의 상태다.**
     ///
     /// ⚠️ `isPresented` 로 띄우지 않는다. 켜는 값과 그릴 값이 둘로 나뉘어 있으면,
@@ -477,7 +489,6 @@ struct ClipKeyboardApp: App {
             if UserDefaults.standard.string(forKey: "ScreenshotScene") != nil { return }
             #endif
             offerDemoSamplesToExistingUserIfNeeded()
-            offerRestoreHintIfNeeded(localWasEmpty: localWasEmpty)
 
             // 마스터 모드(개발자): 새 피드백 푸시 구독을 위해 APNs 재등록.
             // 프롬프트 없이 조용히 동작 - 알림 권한은 인박스 토글에서 요청한다.
@@ -485,11 +496,14 @@ struct ClipKeyboardApp: App {
                 UIApplication.shared.registerForRemoteNotifications()
             }
 
-            // 실행 때 저절로 뜨는 창은 **하나**다. 1초 뒤 한 번 후보를 모아 고른다.
-            // 예전에는 1.0초에서 4.5초까지 시간차 계단으로 서로를 확인했다(`runLaunchPrompt`).
             noteShortcutCountForDiscountOffer()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                runLaunchPrompt()
+            // 백지 첫 실행 중이면 그 위에 아무것도 얹지 않는다(`launchPromptsAwaitingBlankStart`).
+            if ClipKeyboardApp.isBlankStartInProgress {
+                print("🤍 [runLaunchSequence] 백지 첫 실행 중, 실행 창은 끝난 뒤로 미룬다")
+                launchPromptsAwaitingBlankStart = localWasEmpty
+                blankStartRanThisLaunch = true
+            } else {
+                startLaunchPrompts(localWasEmpty: localWasEmpty)
             }
         }
 
@@ -538,7 +552,11 @@ struct ClipKeyboardApp: App {
             lastSeenWhatsNewVersion: defaults.string(forKey: DefaultsKey.lastSeenWhatsNewVersion),
             currentWhatsNewVersion: current)
 
-        if audience.marksWhatsNewSeenSilently {
+        // 백지로 시작한 사람은 새 단장 전을 모른다. 첫 실행에 다른 창이 자리를 쥐어 위의 판단까지
+        // 못 왔으면, 두 번째 실행에 "쓰던 사람" 으로 보여 온보딩 바로 뒤에 안내가 떴다(2026-10 사용자).
+        let blankNewcomer = defaults.bool(forKey: DefaultsKey.blankStartV1)
+            && defaults.string(forKey: DefaultsKey.lastSeenWhatsNewVersion) == nil
+        if audience.marksWhatsNewSeenSilently || blankNewcomer {
             defaults.set(current, forKey: DefaultsKey.lastSeenWhatsNewVersion)
             print("🎉 [WhatsNew] 처음 온 사람 - 안내 대신 온보딩이 맞이한다")
             return false
@@ -729,11 +747,27 @@ struct ClipKeyboardApp: App {
     ///    무엇을 하라는 건지 보기도 전에 값부터 보게 된다.
     private var isMidFirstShortcut: Bool {
         let d = UserDefaults.standard
+        if ClipKeyboardApp.isBlankStartInProgress { return true }
         return d.bool(forKey: DefaultsKey.startedFreshV444)
             && !d.bool(forKey: DefaultsKey.tutorialWelcomeDone)
     }
 
     // MARK: - 실행 때 뜨는 창 하나
+
+    /// 백지 첫 실행 덮개가 아직 떠 있는가(새 설치에서 끝내기 전까지).
+    static var isBlankStartInProgress: Bool {
+        let d = UserDefaults.standard
+        return d.bool(forKey: DefaultsKey.blankStartV1) && !d.bool(forKey: DefaultsKey.blankStartFinished)
+    }
+
+    /// 복원 안내를 묻고, 1초 뒤 실행 창 하나를 고른다.
+    /// 예전에는 1.0초에서 4.5초까지 시간차 계단으로 서로를 확인했다(`runLaunchPrompt`).
+    private func startLaunchPrompts(localWasEmpty: Bool) {
+        offerRestoreHintIfNeeded(localWasEmpty: localWasEmpty)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            runLaunchPrompt()
+        }
+    }
 
     /// 앱을 열고 1초 뒤 한 번. 할 말이 있는 쪽을 모아 **하나**를 고른다.
     ///
@@ -746,6 +780,7 @@ struct ClipKeyboardApp: App {
     /// 설계: docs/design/PROGRESSIVE_DISCLOSURE.md 4.1절
     private func runLaunchPrompt() {
         guard !ClipKeyboardApp.isRunningUnitTests else { return }
+        guard !ClipKeyboardApp.isBlankStartInProgress, !blankStartRanThisLaunch else { return }
         guard noOtherModalIsUp, !LaunchSheetGate.isTaken else { return }
         // 복원 안내를 기다리는 중이면 비킨다. 답이 오면 그쪽이 다시 부른다.
         guard !restoreCheckInFlight else { return }
@@ -1321,6 +1356,14 @@ struct ClipKeyboardApp: App {
                 // 화면이 실제로 붙은 다음에 돌기 시작하고, 중간에 기다릴(await) 수 있어서다.
                 .task {
                     await runLaunchSequence()
+                }
+                // 백지 첫 실행을 끝냈다. 미뤄 둔 복원 안내만 묻는다(목록을 한숨 보고 난 뒤에).
+                .onChange(of: blankStartFinished) { _, finished in
+                    guard finished, let localWasEmpty = launchPromptsAwaitingBlankStart else { return }
+                    launchPromptsAwaitingBlankStart = nil
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                        offerRestoreHintIfNeeded(localWasEmpty: localWasEmpty)
+                    }
                 }
                 #if DEBUG
                 // 스토어 스크린샷: `-ScreenshotScene layout` 이면 키보드 레이아웃 화면을 연다.

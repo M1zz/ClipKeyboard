@@ -52,6 +52,11 @@ struct BlankStartPractice: View {
             .offset(y: lineShown ? 0 : 8)
             .padding(.vertical, 18)
             sampleButton
+                // 누른 그 버튼 바로 밑에 뜬다. 화면 맨 위에 띄우면 시선이 멀리 튀었다(2026-10 사용자).
+                .overlay(alignment: .bottom) {
+                    toast.alignmentGuide(.bottom) { d in d[.top] - 12 }
+                }
+                .zIndex(1)
             if step == .paste {
                 pasteCallout
                     .padding(.top, 18)
@@ -66,7 +71,6 @@ struct BlankStartPractice: View {
         }
         .padding(.horizontal, 22)
         .padding(.bottom, 16)
-        .overlay(alignment: .top) { toast }
         .onAppear { enter(step) }
         .onChange(of: text) { _, new in pasted(new) }
     }
@@ -173,8 +177,9 @@ struct BlankStartPractice: View {
                 .foregroundStyle(.white)
                 .padding(.horizontal, 16).padding(.vertical, 10)
                 .background(Color.black.opacity(0.85), in: Capsule())
-                .padding(.top, 8)
-                .transition(.move(edge: .top).combined(with: .opacity))
+                .fixedSize()
+                .allowsHitTesting(false)
+                .transition(.scale(scale: 0.85, anchor: .top).combined(with: .opacity))
         }
     }
 
@@ -232,9 +237,10 @@ struct BlankStartPractice: View {
             UIPasteboard.general.string = BlankStartSample.value
             HapticManager.shared.success()
             withAnimation(.spring(duration: 0.3)) { showToast = true }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) { withAnimation { showToast = false } }
+            // 알림이 걷힌 뒤에 붙여넣기 말풍선이 같은 자리에 선다. 둘이 겹치지 않게
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) { withAnimation { showToast = false } }
             LessonLedger.learn(.copy)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) { enter(.paste) }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.3) { enter(.paste) }
         } else if step == .insert {
             typeIn(BlankStartSample.value)
         }

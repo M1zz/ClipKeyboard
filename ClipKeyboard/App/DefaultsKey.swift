@@ -511,6 +511,8 @@ enum DefaultsKey {
     static let featureNudges = "featureNudges.v1"
     /// 새 단축어를 붙여넣어 채우고 저장한 횟수(App Group). 쌓이면 '최근' 넛지(`FeatureNudge`).
     static let featureNudgePastedSaves = "featureNudges.pastedSaves.v1"
+    /// 앱이 뒤로 갈 때의 클립보드 변경 번호. 앞으로 왔을 때 달라졌으면 밖에서 복사해 온 것이다(`FeatureNudge.broughtCopy`).
+    static let featureNudgePasteboardMark = "featureNudges.pasteboardMark.v1"
     /// 준비된 단축어를 한 번 눌러 봤는지(또는 가리킬 것이 없어 건너뛰었는지).
     static let tutorialSnippetDone = "tutorial.snippet.done.v1"
     /// 준비된 템플릿을 한 번 써 봤는지.

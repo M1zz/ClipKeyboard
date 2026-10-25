@@ -9,6 +9,8 @@
 //  "다른 곳에 자주 쓰는 글이 있으면" → "복사해서 여기 담아 두세요" → "필요할 때 꺼내 쓰면 돼요"
 //
 //  ⚠️ 햅틱은 두 번뿐이다: 상자가 받아 삼킬 때(soft), 입력칸에 들어갈 때(light).
+//  ⚠️ 그림이 끝나도 저절로 넘어가지 않는다. 끝나면 "다음" 이 나오고, 사람이 눌러야 해 보기로 간다.
+//     저절로 넘기던 때는 무슨 일이 있었는지 알아채기도 전에 "눌러 보세요" 가 와 있었다(2026-10 사용자 신고).
 //
 
 import SwiftUI
@@ -27,26 +29,53 @@ struct BlankStartIntro: View {
     @State private var chip: ChipSpot = .hidden
     @State private var showChat = false
     @State private var chatFilled = false
+    /// 그림이 다 돌았다. 이제 "다음" 을 보여 준다.
+    @State private var finished = false
 
     /// 날아다니는 글 조각이 어디 있는가.
     private enum ChipSpot { case hidden, memo, box, chat }
 
     var body: some View {
-        VStack(spacing: 28) {
-            Text(caption)
-                .font(.title2.weight(.bold))
-                .multilineTextAlignment(.center)
-                .opacity(showCaption ? 1 : 0)
-                .offset(y: showCaption ? 0 : 8)
-                .frame(minHeight: 64)
-            stage
-                .frame(height: 360)
+        VStack(spacing: 0) {
+            Spacer()
+            VStack(spacing: 28) {
+                Text(caption)
+                    .font(.title2.weight(.bold))
+                    .multilineTextAlignment(.center)
+                    .opacity(showCaption ? 1 : 0)
+                    .offset(y: showCaption ? 0 : 8)
+                    .frame(minHeight: 64)
+                stage
+                    .frame(height: 360)
+            }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(NSLocalizedString("다른 곳에 자주 쓰는 글이 있으면 복사해서 여기 담아 두세요. 필요할 때 꺼내 쓰면 돼요.",
+                                                  comment: "Blank start intro: whole animation read as one sentence for VoiceOver"))
+            Spacer()
+            nextButton
         }
         .padding(.horizontal, 28)
+        .padding(.bottom, 24)
         .task { await run() }
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(NSLocalizedString("다른 곳에 자주 쓰는 글이 있으면 복사해서 여기 담아 두세요. 필요할 때 꺼내 쓰면 돼요.",
-                                              comment: "Blank start intro: whole animation read as one sentence for VoiceOver"))
+    }
+
+    /// 그림이 끝나야 나온다. 자리는 처음부터 잡아 둬서 나올 때 그림이 밀려 올라가지 않는다.
+    private var nextButton: some View {
+        Button {
+            HapticManager.shared.selection()
+            onDone()
+        } label: {
+            Text(NSLocalizedString("다음", comment: "Next button"))
+                .font(.body.weight(.bold))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 17)
+                .foregroundStyle(Color(.systemBackground))
+                .background(Color.primary, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        }
+        .opacity(finished ? 1 : 0)
+        .offset(y: finished ? 0 : 8)
+        .disabled(!finished)
+        .accessibilityHidden(!finished)
     }
 
     // MARK: - 무대
@@ -185,8 +214,8 @@ struct BlankStartIntro: View {
         chip = .hidden
         HapticManager.shared.light()
         withAnimation(.easeOut(duration: 0.2)) { chatFilled = true }
-        await wait(1800)
+        await wait(600)
         guard !Task.isCancelled else { return }
-        onDone()
+        withAnimation(.easeOut(duration: 0.35)) { finished = true }
     }
 }

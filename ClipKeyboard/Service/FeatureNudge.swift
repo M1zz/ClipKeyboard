@@ -11,6 +11,7 @@
 //  | 번호만 다른 이름이 생김(출근 보고 1 · 2) | 스택 |
 //  | 단축어가 6개를 넘음 | 분류 |
 //  | 붙여넣어 담는 일이 잦음 | 최근 |
+//  | 무언가를 복사한 채로 앱에 들어옴 | 최근 (묻지 않고 수업을 바로 연다) |
 //
 //  ⚠️ 지나치지 않게: 기능마다 한 번, "괜찮아요" 면 다시 묻지 않는다, 하루에 하나까지.
 //     백지 사용자만 대상이다(기존 사용자는 이미 다 켜져 있다).
@@ -108,6 +109,22 @@ enum FeatureNudge {
     /// 입력칸 글이 한 번에 이만큼 늘었으면 손으로 친 것이 아니라 붙여넣은 것으로 본다.
     static func looksPasted(old: String, new: String) -> Bool {
         new.count - old.count >= 6
+    }
+
+    // MARK: - 복사해 들고 왔다 ('최근' 수업을 연다)
+
+    /// 앱이 뒤로 간다. 지금 클립보드의 변경 번호를 적어 둔다.
+    ///
+    /// ⚠️ 내용은 읽지 않는다(`changeCount` 만 본다). 읽으면 '붙여넣기 허용' 창이 뜬다.
+    ///    번호는 기기 전체에서 하나라, 앱 안에서 복사한 것(첫 실행의 예시 등)은 여기서 같이 적혀 걸리지 않는다.
+    static func noteLeaving(pasteboardChangeCount: Int, defaults: UserDefaults = .standard) {
+        defaults.set(pasteboardChangeCount, forKey: DefaultsKey.featureNudgePasteboardMark)
+    }
+
+    /// 밖에서 무언가를 복사한 채로 들어왔는가. 한 번도 뒤로 간 적이 없으면(적힌 번호가 없으면) 아니다.
+    static func broughtCopy(pasteboardChangeCount: Int, hasStrings: Bool, defaults: UserDefaults = .standard) -> Bool {
+        guard hasStrings, let mark = defaults.object(forKey: DefaultsKey.featureNudgePasteboardMark) as? Int else { return false }
+        return mark != pasteboardChangeCount
     }
 
     // MARK: - 추천 조합

@@ -36,6 +36,8 @@ struct ClipKeyboardList: View {
     @State private var nudge: AppFeature?
     /// "켜고 해 보기" 로 여는 기능 수업.
     @State private var featureLesson: AppFeature?
+    /// 앞뒤로 오갈 때 클립보드를 본다. 복사해 들고 왔으면 '최근' 수업을 연다(`openRecentLessonIfBroughtCopy`).
+    @Environment(\.scenePhase) private var scenePhase
 
     // MARK: - View-only State
 
@@ -387,11 +389,22 @@ struct ClipKeyboardList: View {
     }
 
     private func pageHeader(for tab: CategoryTab) -> AnyView {
+        // 앱이 깔아 준 카테고리에 처음 오면 이름을 정하게 한다. 고르기 전에는 늘 선다.
+        // ⚠️ 백지 사용자에게도 선다. 업무 · 개인을 받았으면 그 이름을 정하는 일은 미니멀과 상관없다
+        //    (예전에는 아래 백지 갈래가 먼저 돌아가 카드가 아예 안 섰다. 2026-10 사용자 신고).
+        // (`defaultNameDecisions` 를 읽어 두어야 고른 순간 카드가 걷힌다)
+        _ = defaultNameDecisions
+        var namePrompt: AnyView?
+        if case .custom(let name) = tab, CategoryStore.needsNameDecision(name) {
+            namePrompt = AnyView(defaultNamePrompt(name))
+        }
+
         // 처음은 미니멀하게. 이 자리의 안내 띠 · 카드(가장 자주 다시 치는 세 가지 등)를 통째로 비운다
         if blank {
+            var rest = AnyView(EmptyView())
             // 하나만 예외: "나중에 다시" 를 고른 사람에게 키보드를 켜자는 한 줄. 켤 때까지만
             if let nudge {
-                return AnyView(FeatureNudgeCard(feature: nudge, onYes: {
+                rest = AnyView(FeatureNudgeCard(feature: nudge, onYes: {
                     FeatureNudge.record(nudge, .yes)
                     FeatureSet.set(nudge, on: true)
                     self.nudge = nil
@@ -400,37 +413,52 @@ struct ClipKeyboardList: View {
                     FeatureNudge.record(nudge, .no)
                     self.nudge = nil
                 }))
+            } else if KeyboardLessonBanner.isDue {
+                rest = AnyView(KeyboardLessonBanner { showKeyboardLesson = true })
             }
-            if KeyboardLessonBanner.isDue {
-                return AnyView(KeyboardLessonBanner { showKeyboardLesson = true })
+            guard let namePrompt else { return rest }
+            return AnyView(VStack(spacing: 0) { namePrompt; rest })
+        }
+        guard let namePrompt else { return AnyView(topBanners) }
+        return AnyView(VStack(spacing: 0) { namePrompt; topBanners })
+    }
+
+    private func defaultNamePrompt(_ name: String) -> some View {
+        DefaultCategoryNamePrompt(
+            name: name,
+            onKept: {
+                CategoryStore.markNameDecided(name)
+                defaultNameDecisions += 1
+            },
+            onRenamed: { newName in
+                defaultNameDecisions += 1
+                viewModel.loadCustomCategories()
+                viewModel.loadMemos()
+                viewModel.selectCategoryTab(.custom(newName), animated: false)
             }
-            return AnyView(EmptyView())
-        }
-        // 앱이 깔아 준 카테고리에 처음 오면 이름을 정하게 한다. 고르기 전에는 늘 선다.
-        // (`defaultNameDecisions` 를 읽어 두어야 고른 순간 카드가 걷힌다)
-        _ = defaultNameDecisions
-        if case .custom(let name) = tab, CategoryStore.needsNameDecision(name) {
-            return AnyView(VStack(spacing: 0) {
-                DefaultCategoryNamePrompt(
-                    name: name,
-                    onKept: {
-                        CategoryStore.markNameDecided(name)
-                        defaultNameDecisions += 1
-                    },
-                    onRenamed: { newName in
-                        defaultNameDecisions += 1
-                        viewModel.loadCustomCategories()
-                        viewModel.loadMemos()
-                        viewModel.selectCategoryTab(.custom(newName), animated: false)
-                    }
-                )
-                .padding(.horizontal, 16)
-                .padding(.top, 8)
-                .padding(.bottom, 4)
-                topBanners
-            })
-        }
-        return AnyView(topBanners)
+        )
+        .padding(.horizontal, 16)
+        .padding(.top, 8)
+        .padding(.bottom, 4)
+    }
+
+    /// 복사해 들고 들어온 백지 사용자에게 '최근' 을 처음 한 번 소개한다(묻지 않고 수업을 연다).
+    ///
+    /// ⚠️ 첫 실행이 끝나지 않았거나 다른 수업이 떠 있으면 비킨다. 실행 창 자리(`LaunchSheetGate`)도
+    ///    같이 쥔다. 맨 위 화면이 창을 띄우면 이 덮개가 밀려 내려가기 때문이다.
+    private func openRecentLessonIfBroughtCopy() {
+        let board = UIPasteboard.general
+        guard FeatureNudge.broughtCopy(pasteboardChangeCount: board.changeCount, hasStrings: board.hasStrings) else { return }
+        guard !ClipKeyboardApp.isBlankStartInProgress,
+              featureLesson == nil, !showKeyboardLesson,
+              FeatureNudge.mayAsk(.recent) else { return }
+        guard LaunchSheetGate.claim("recentLesson") else { return }
+        // 같은 복사로 다시 열리지 않게 지금 번호를 적어 둔다
+        FeatureNudge.noteLeaving(pasteboardChangeCount: board.changeCount)
+        FeatureNudge.record(.recent, .yes)
+        FeatureSet.set(.recent, on: true)
+        print("📋 [ClipKeyboardList] 복사해 들고 왔다, '최근' 수업을 연다")
+        featureLesson = .recent
     }
 
     /// 기본 카테고리 이름을 정할 때마다 오른다 - 카드를 다시 그리게 하는 값.
@@ -1390,6 +1418,20 @@ struct ClipKeyboardList: View {
                     }
                 }
                 #endif
+                // 무언가를 복사한 채로 들어왔다 → 처음 한 번 '최근' 을 소개한다
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { openRecentLessonIfBroughtCopy() }
+                }
+                .onChange(of: scenePhase) { _, phase in
+                    switch phase {
+                    case .active:
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { openRecentLessonIfBroughtCopy() }
+                    case .background:
+                        FeatureNudge.noteLeaving(pasteboardChangeCount: UIPasteboard.general.changeCount)
+                    default:
+                        break
+                    }
+                }
                 .fullScreenCover(item: $featureLesson) { f in
                     FeatureLessonView(feature: f) { featureLesson = nil }
                 }
