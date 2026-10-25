@@ -1331,6 +1331,8 @@ struct ClipKeyboardList: View {
     var body: some View {
         NavigationStack {
             screenL8
+                // 펼친 듀오: 접힌 선 띠의 고르는 쪽 절반을 지금 페이지의 갈래 색으로(`FoldSplitView.hinge`)
+                .preference(key: FoldBandLeadFillKey.self, value: pageTint(for: viewModel.displayedCategoryTab))
                 // 기능을 켜면 그 자리가 바로 생긴다(설정 ▸ 기능 더하기 · 넛지)
                 .onReceive(NotificationCenter.default.publisher(for: .featureSetChanged)) { _ in
                     blank = FeatureSet.isBlankStartUser()

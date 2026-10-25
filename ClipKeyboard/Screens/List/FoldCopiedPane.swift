@@ -49,6 +49,8 @@ struct FoldCopiedPane: View {
         }
         .scrollEdgeEffectHidden(true, for: .all)
         .background(theme.surfaceAlt.opacity(0.45).ignoresSafeArea())
+        // 접힌 선 띠의 결과 쪽 절반도 이 색으로(`FoldSplitView.hinge`)
+        .preference(key: FoldBandTrailFillKey.self, value: theme.surfaceAlt.opacity(0.45))
         .overlay(alignment: .bottom) { toastView }
         .onAppear { refreshLatest() }
         // 단축어를 눌러도 기록이 바뀐다(목록이 복사 기록에 남긴다). 그때 다시 읽되 단축어 값은 빼고 본다

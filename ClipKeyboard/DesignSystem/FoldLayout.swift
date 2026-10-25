@@ -160,6 +160,10 @@ extension EnvironmentValues {
 ///    돌아간다. 그래서 틀은 `AnyLayout` 하나로 바꾸고, 고르는 쪽은 늘 같은 칸(가운데)에 둔다.
 struct FoldSplitView<Choose: View, Result: View>: View {
     @Environment(\.foldLayout) private var fold
+    @Environment(\.appTheme) private var theme
+    /// 두 판의 바탕 물(판이 알려 준다). 접힌 선 띠의 절반씩을 이 색으로 칠한다.
+    @State private var leadFill: Color = .clear
+    @State private var trailFill: Color = .clear
     private let choose: Choose
     private let result: Result
 
@@ -198,17 +202,47 @@ struct FoldSplitView<Choose: View, Result: View>: View {
                     result.frame(width: sizes.trail, height: frame.height)
                 }
             }
+            .onPreferenceChange(FoldBandLeadFillKey.self) { leadFill = $0 }
+            .onPreferenceChange(FoldBandTrailFillKey.self) { trailFill = $0 }
         }
     }
 
     /// 접힌 선 자리. 비워 두되, 세로일 때 위아래 크기를 맞추려고 판 하나를 앉힌다.
+    ///
+    /// ⚠️ 누를 것은 두지 않되 **바탕색은** 접힌 선 가운데까지 각 판의 색으로 칠한다. 투명하게 두면
+    ///    시스템이 알려 준 띠(시뮬레이터 27.1 에서 110pt 쯤)만큼 회색이 비쳐, 갈래 색이 선 한참 앞에서
+    ///    끊기고 두 판이 반반이 아니라 이상한 비율로 보였다(2026-10 사용자 신고).
     @ViewBuilder
     private var hinge: some View {
-        Color.clear
-            .frame(width: fold.posture == .innerLandscape ? fold.band : nil,
-                   height: fold.posture == .innerPortrait ? fold.band : nil)
-            .accessibilityHidden(true)
+        let lead = ZStack { theme.bg; leadFill }
+        let trail = ZStack { theme.bg; trailFill }
+        Group {
+            if fold.posture == .innerLandscape {
+                HStack(spacing: 0) { lead; trail }
+                    .frame(width: fold.band)
+            } else {
+                // 세로: 결과 쪽이 위
+                VStack(spacing: 0) { trail; lead }
+                    .frame(height: fold.band)
+            }
+        }
+        .ignoresSafeArea()
+        .accessibilityHidden(true)
     }
+}
+
+// MARK: - 접힌 선 띠의 바탕
+
+/// 고르는 쪽 판의 바탕 물(갈래 색 등). 띠의 고르는 쪽 절반이 이 색이 된다.
+struct FoldBandLeadFillKey: PreferenceKey {
+    static let defaultValue: Color = .clear
+    static func reduce(value: inout Color, nextValue: () -> Color) { value = nextValue() }
+}
+
+/// 결과 쪽 판의 바탕 물. 띠의 결과 쪽 절반이 이 색이 된다.
+struct FoldBandTrailFillKey: PreferenceKey {
+    static let defaultValue: Color = .clear
+    static func reduce(value: inout Color, nextValue: () -> Color) { value = nextValue() }
 }
 
 // MARK: - 창 가득 덮는 화면은 고르는 쪽에
