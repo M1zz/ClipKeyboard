@@ -20,6 +20,20 @@ struct ClipKeyboardList: View {
     @ObservedObject private var suggestionManager = SuggestionManager.shared
     /// 지금 이 사람이 어디쯤인가(`docs/product/USER_STATE_MODEL.md`). 빈 화면이 이걸 보고 갈린다.
     @ObservedObject private var userState = UserStateStore.shared
+    /// 백지로 시작한 사람(새 설치). 목록이 가장 단순해진다: 큰 제목 '기본', + 하나, 카드 격자.
+    /// 안내 띠 · 카드 · 팁 · 고스트 제안 · 화면 전환 버튼이 없다. 분류 · 최근 · 템플릿 · 스택 · 보안은
+    /// 그 기능을 켜면(설정 ▸ 기능 더하기 · 넛지) 그 자리만 생긴다. 기존 사용자는 그대로다.
+    /// (`FeatureSet` · docs/design/blank-start-onboarding.html)
+    @State private var blank = FeatureSet.isBlankStartUser()
+    /// 키보드 켜기 수업(첫 단축어를 V 로 저장한 직후 · 목록 위 한 줄에서).
+    @State private var showKeyboardLesson = false
+    @State private var pendingKeyboardLesson = false
+    /// 키보드를 켜고 써 봤다. 그때부터 단순한 목록에도 키보드 미리보기 단추가 선다.
+    @State private var keyboardLearned = LessonLedger.hasLearned(.keyboard)
+    /// 저장 직후 쓰는 모습을 보고 고른 넛지(`FeatureNudge`). 목록 위에 한 번 뜬다.
+    @State private var nudge: AppFeature?
+    /// "켜고 해 보기" 로 여는 기능 수업.
+    @State private var featureLesson: AppFeature?
 
     // MARK: - View-only State
 
@@ -369,6 +383,25 @@ struct ClipKeyboardList: View {
     }
 
     private func pageHeader(for tab: CategoryTab) -> AnyView {
+        // 처음은 미니멀하게. 이 자리의 안내 띠 · 카드(가장 자주 다시 치는 세 가지 등)를 통째로 비운다
+        if blank {
+            // 하나만 예외: "나중에 다시" 를 고른 사람에게 키보드를 켜자는 한 줄. 켤 때까지만
+            if let nudge {
+                return AnyView(FeatureNudgeCard(feature: nudge, onYes: {
+                    FeatureNudge.record(nudge, .yes)
+                    FeatureSet.set(nudge, on: true)
+                    self.nudge = nil
+                    featureLesson = nudge
+                }, onNo: {
+                    FeatureNudge.record(nudge, .no)
+                    self.nudge = nil
+                }))
+            }
+            if KeyboardLessonBanner.isDue {
+                return AnyView(KeyboardLessonBanner { showKeyboardLesson = true })
+            }
+            return AnyView(EmptyView())
+        }
         // 앱이 깔아 준 카테고리에 처음 오면 이름을 정하게 한다. 고르기 전에는 늘 선다.
         // (`defaultNameDecisions` 를 읽어 두어야 고른 순간 카드가 걷힌다)
         _ = defaultNameDecisions
@@ -401,7 +434,8 @@ struct ClipKeyboardList: View {
 
     /// 네비게이션 바 인라인 타이틀 - 현재 카테고리 이름(스와이프 시 갱신).
     private var currentCategoryTitle: String {
-        usesCategoryPager ? viewModel.displayedCategoryTab.displayName : CategoryTab.all.displayName
+        if blank && !usesCategoryPager { return CategoryTab.basic.displayName }
+        return usesCategoryPager ? viewModel.displayedCategoryTab.displayName : CategoryTab.all.displayName
     }
 
     /// 페이지를 넘기는 화면인가. 카테고리 기능이 꺼져 있어도 '최근' 이 서면 '최근' · '전체' 두 장이다.
@@ -958,60 +992,7 @@ struct ClipKeyboardList: View {
             // SwiftUI race 회피: sheet dismiss 후 0.35s 뒤에 memoToEdit/memoToDelete set.
             .sheet(isPresented: $showMemoActions) {
                 if let memo = memoForActions {
-                    MemoActionSheet(
-                        memo: memo,
-                        categories: viewModel.customCategories,
-                        onCopy: {
-                            HapticManager.shared.selection()
-                            viewModel.copyMemo(memo: memo)
-                        },
-                        onToggleFavorite: {
-                            HapticManager.shared.selection()
-                            viewModel.toggleFavorite(memoId: memo.id)
-                        },
-                        onEdit: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                memoToEdit = memo
-                            }
-                        },
-                        onDelete: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                memoToDelete = memo
-                            }
-                        },
-                        onMoveToCategory: { category in
-                            HapticManager.shared.selection()
-                            viewModel.moveMemo(memo, toCategory: category)
-                        },
-                        onCreateNewCategory: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                memoForCategoryAssign = memo
-                                newCategoryForMemo = ""
-                                showNewCategoryForMemoAlert = true
-                            }
-                        },
-                        onReorder: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                viewModel.enterReorderMode()
-                            }
-                        },
-                        // 꾹 눌러 들어온 카드는 미리 골라 둔다 - 누른 것이 안 골라진 채
-                        // 열리면 왜 눌렀는지가 사라진다.
-                        onSelectMultiple: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                viewModel.enterSelectionMode(preselect: memo.id)
-                            }
-                        },
-                        onMakeTemplate: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                makeTemplateSource = memo
-                            }
-                        },
-                        onToggleSecure: {
-                            HapticManager.shared.selection()
-                            viewModel.toggleSecure(memoId: memo.id)
-                        }
-                    )
+                    memoActions(memo)
                 }
             }
             // 순서 바꾸기 - 전체 메모 흔들기/드래그 재정렬 (전체화면)
@@ -1350,6 +1331,70 @@ struct ClipKeyboardList: View {
     var body: some View {
         NavigationStack {
             screenL8
+                // 펼친 듀오: 접힌 선 띠의 고르는 쪽 절반을 지금 페이지의 갈래 색으로(`FoldSplitView.hinge`)
+                .preference(key: FoldBandLeadFillKey.self, value: pageTint(for: viewModel.displayedCategoryTab))
+                // 기능을 켜면 그 자리가 바로 생긴다(설정 ▸ 기능 더하기 · 넛지)
+                .onReceive(NotificationCenter.default.publisher(for: .featureSetChanged)) { _ in
+                    blank = FeatureSet.isBlankStartUser()
+                }
+                // 결과 쪽 판의 새 단축어가 닫혔다 = 시트가 닫힌 것과 같다(목록 다시 읽기 · 키보드 수업)
+                .onReceive(FoldComposeRouter.shared.$request.dropFirst()) { request in
+                    guard request == nil else { return }
+                    viewModel.loadMemos()
+                    if pendingKeyboardLesson {
+                        pendingKeyboardLesson = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { showKeyboardLesson = true }
+                    }
+                }
+                // 백지 사용자가 자기 단축어를 처음 담았다 → 장부에 적고, 키보드가 아직이면 수업을 잡아 둔다
+                .onReceive(NotificationCenter.default.publisher(for: .memoSaved)) { _ in
+                    guard FeatureSet.isBlankStartUser() else { return }
+                    // 처음이 아니면 방금 저장한 것을 보고 넛지를 하나 고른다(하루 하나 · 기능마다 한 번)
+                    if LessonLedger.hasLearned(.makeOwn) {
+                        let memos = ((try? MemoStore.shared.load(type: .memo)) ?? []).sorted { $0.lastEdited > $1.lastEdited }
+                        guard let saved = memos.first else { return }
+                        let others = memos.dropFirst().map { (title: $0.title, value: $0.value) }
+                        if let f = FeatureNudge.suggestion(saved: (saved.title, saved.value), others: others,
+                                                           recentPastes: FeatureNudge.pastedSaves()),
+                           FeatureNudge.mayAsk(f) {
+                            FeatureNudge.record(f, .shown)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                                withAnimation(.spring(duration: 0.45)) { nudge = f }
+                            }
+                        }
+                        return
+                    }
+                    LessonLedger.learn(.makeOwn)
+                    if !LessonLedger.hasLearned(.keyboard) && !KeyboardInstallState.isUsable {
+                        pendingKeyboardLesson = true
+                    }
+                }
+                #if DEBUG
+                // 개발 빌드에서 수업 화면을 곧장 연다(명령줄 시뮬레이터는 누를 수 없어서): -PreviewKeyboardLesson YES
+                .onAppear { if UserDefaults.standard.bool(forKey: "PreviewKeyboardLesson") { showKeyboardLesson = true } }
+                .onAppear {
+                    if UserDefaults.standard.bool(forKey: "PreviewAddSheet") {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { openAddMemoWithSlot() }
+                    }
+                    if UserDefaults.standard.bool(forKey: "PreviewMemoActions") {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            guard let memo = viewModel.memos.first else { return }
+                            memoForActions = memo
+                            if foldLayout.isUnfolded { FoldComposeRouter.shared.open(pane: AnyView(memoActions(memo))) }
+                            else { showMemoActions = true }
+                        }
+                    }
+                }
+                #endif
+                .fullScreenCover(item: $featureLesson) { f in
+                    FeatureLessonView(feature: f) { featureLesson = nil }
+                }
+                .fullScreenCover(isPresented: $showKeyboardLesson) {
+                    KeyboardLessonView {
+                        showKeyboardLesson = false
+                        keyboardLearned = LessonLedger.hasLearned(.keyboard)
+                    }
+                }
                 // 새 배경 기능 1회 제안 - 아니요면 예전 모습 그대로, 써보면 기본 배경 적용.
                 .alert(
                     NSLocalizedString("새로운 배경을 써보시겠어요?", comment: "Background offer alert title"),
@@ -1568,7 +1613,7 @@ struct ClipKeyboardList: View {
         }
         // 복사됨 도장. 테두리와 같은 이유로 끼웠다 빼지 않고 불투명도만 바꾼다.
         .overlay {
-            CopiedStamp(cornerRadius: theme.radiusXl)
+            CopiedStamp(cornerRadius: theme.radiusXl, green: blank)
                 .opacity(copiedStampMemoID == memo.id ? 1 : 0)
                 .scaleEffect(copiedStampMemoID == memo.id || reduceMotion ? 1 : 0.92)
                 .allowsHitTesting(false)
@@ -1623,7 +1668,12 @@ struct ClipKeyboardList: View {
             longPressActiveMemo = nil
             longPressProgress = 0
             memoForActions = memo
-            showMemoActions = true
+            // 펼친 듀오: 시트 대신 결과 쪽 판에(시트는 27.1 에서 접힌 선 한가운데에 선다)
+            if foldLayout.isUnfolded {
+                FoldComposeRouter.shared.open(pane: AnyView(memoActions(memo)))
+            } else {
+                showMemoActions = true
+            }
         } onPressingChanged: { isPressing in
             pressedMemoID = isPressing ? memo.id : nil
             if isPressing {
@@ -2358,7 +2408,7 @@ struct ClipKeyboardList: View {
                 .padding(.horizontal, 16)
 
                 // Grace 배너
-                if shouldShowGraceBanner {
+                if shouldShowGraceBanner && !blank {
                     GraceQuotaBannerView {
                         ProFeatureManager.markGraceBannerDismissed()
                         graceBannerVisible = false
@@ -2368,7 +2418,7 @@ struct ClipKeyboardList: View {
                 }
 
                 // 카테고리 배지 끄기 넛지
-                if showCategoryBadgeNudge {
+                if showCategoryBadgeNudge && !blank {
                     categoryBadgeNudgeBanner
                         .padding(.horizontal, 16)
                         .padding(.top, 8)
@@ -2386,7 +2436,7 @@ struct ClipKeyboardList: View {
                         if pendingSlot { pendingSlotCell }
                         // 고스트(가상) 메모 - 실제 메모 셀과 같은 모양, 흐릿하게.
                         // 한 번 눌러보고 채워서 추가할지 판단하게 한다.
-                        if let ghost = ghostSuggestion {
+                        if let ghost = ghostSuggestion, !blank {
                             ghostMemoCell(pattern: ghost)
                         }
                         ForEach(allMemos) { memo in
@@ -2466,6 +2516,11 @@ struct ClipKeyboardList: View {
     /// ⚠️ 움직임 줄이기를 켠 사람에게는 기다리게 하지 않는다. 그쪽에는 자리가 자라는
     ///    것을 안 보여 주므로 기다릴 이유도 없다.
     private func openAddMemoWithSlot() {
+        // 펼친 듀오: 시트 대신 결과 쪽 판에 연다. 시트는 27.1 에서 접힌 선 한가운데에 선다
+        if foldLayout.isUnfolded {
+            FoldComposeRouter.shared.open(category: addMemoSheetCategory)
+            return
+        }
         withAnimation(reduceMotion ? nil : .spring(response: 0.32, dampingFraction: 0.72)) {
             pendingSlot = true
         }
@@ -2724,17 +2779,192 @@ struct ClipKeyboardList: View {
         ToolbarItem(placement: .topBarTrailing) {
             // ⚠️ 간격은 무대 머리말과 **같은 값**을 쓴다. 예전엔 여기만 -8이라
             //    44pt 유리 서클끼리 겹쳐 두 버튼이 한 덩어리로 보였다.
-            GlassCircleCluster {
-                toolbarButtons
-            }
+            toolbarSheets(GlassCircleCluster {
+                if blank && !FeatureSet.hasGraduated(level: userState.state.level) {
+                    // 키보드를 켜고 써 본 뒤에야 미리보기로 건너가는 단추가 선다
+                    if keyboardLearned { SnippetsStyleSwitchButton(styleRaw: $snippetsTabStyleRaw) }
+                    plainAddButton
+                } else {
+                    toolbarButtons
+                }
+            })
+            // ⚠️ 만들기 · 정리 시트는 **+ 메뉴가 아니라 이 묶음에** 단다. 처음 사용자의 + 는 메뉴가 아니라
+            //    단추라서, 메뉴에 매달아 두면 시트도 같이 사라져 + 를 눌러도 빈 자리만 서고 아무것도 안 떴다.
         }
         .sharedBackgroundVisibility(.hidden)
         #else
         ToolbarItemGroup(placement: .automatic) {
             vaultEntrance
-            toolbarButtons
+            toolbarSheets(toolbarButtons)
         }
         #endif
+    }
+
+    /// 카드를 길게 눌렀을 때의 할 일. 접혀 있으면 시트, 펼친 듀오에서는 결과 쪽 판에 선다.
+    private func memoActions(_ memo: Memo) -> MemoActionSheet {
+        MemoActionSheet(
+        memo: memo,
+        categories: viewModel.customCategories,
+        onCopy: {
+            HapticManager.shared.selection()
+            viewModel.copyMemo(memo: memo)
+        },
+        onToggleFavorite: {
+            HapticManager.shared.selection()
+            viewModel.toggleFavorite(memoId: memo.id)
+        },
+        onEdit: {
+            // 펼친 듀오: 고치는 화면도 결과 쪽 판에(메뉴가 서 있던 그 자리)
+            if foldLayout.isUnfolded {
+                FoldComposeRouter.shared.open(edit: memo)
+                return
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                memoToEdit = memo
+            }
+        },
+        onDelete: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                memoToDelete = memo
+            }
+        },
+        onMoveToCategory: blank && !FeatureSet.isOn(.category) ? nil : { category in
+            HapticManager.shared.selection()
+            viewModel.moveMemo(memo, toCategory: category)
+        },
+        onCreateNewCategory: blank && !FeatureSet.isOn(.category) ? nil : {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                memoForCategoryAssign = memo
+                newCategoryForMemo = ""
+                showNewCategoryForMemoAlert = true
+            }
+        },
+        onReorder: blank ? nil : {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                viewModel.enterReorderMode()
+            }
+        },
+        // 꾹 눌러 들어온 카드는 미리 골라 둔다 - 누른 것이 안 골라진 채
+        // 열리면 왜 눌렀는지가 사라진다.
+        onSelectMultiple: blank ? nil : {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                viewModel.enterSelectionMode(preselect: memo.id)
+            }
+        },
+        onMakeTemplate: blank && !FeatureSet.isOn(.template) ? nil : {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                makeTemplateSource = memo
+            }
+        },
+        onToggleSecure: blank && !FeatureSet.isOn(.secure) ? nil : {
+            HapticManager.shared.selection()
+            viewModel.toggleSecure(memoId: memo.id)
+        }
+    )
+    }
+
+    /// 툴바에서 여는 만들기 · 정리 시트들. + 가 메뉴든 단추든 같이 달린다.
+    private func toolbarSheets<Content: View>(_ content: Content) -> some View {
+        content
+            .sheet(isPresented: $showBulkImport) {
+                BulkImportView()
+            }
+            .sheet(isPresented: $showShortcutMart) {
+                // 담을 때마다 목록이 갱신되도록 - 마트는 여러 개를 이어서 담을 수 있다.
+                ShortcutMartView { _ in viewModel.loadMemos() }
+            }
+            .sheet(isPresented: $showDraftList) {
+                NavigationStack {
+                    DraftListView()
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button(NSLocalizedString("완료", comment: "Done")) { showDraftList = false }
+                            }
+                        }
+                }
+            }
+            .sheet(isPresented: $showQuickNoteAdd) {
+                QuickNoteEditSheet(note: QuickNote()) { newNote in
+                    guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+                    QuickNoteStore.shared.add(newNote)
+                    // 담긴 위치를 바로 알려준다 - 상단 Inbox 배너도 함께 나타나 뷰어로 안내.
+                    viewModel.showPlainToast(NSLocalizedString("메모를 보관함에 담았어요", comment: "Toast after quick note saved to inbox"))
+                } onPromote: { newNote in
+                    guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+                    QuickNoteStore.shared.add(newNote)
+                    QuickNoteStore.shared.promoteToMemo(newNote)
+                    viewModel.loadMemos()
+                    viewModel.showPlainToast(NSLocalizedString("단축어로 저장했어요", comment: "Toast after quick note promoted to memo"))
+                }
+            }
+            // 설정 > 카테고리 관리와 동일한 단일 화면(CategorySettings)을 시트로 재사용
+            // 진입점만 두 곳, 편집 UI는 하나로 통일. 닫을 때 뷰모델을 리로드해 탭에 즉시 반영.
+            .sheet(isPresented: $showCategoryManagement, onDismiss: {
+                viewModel.loadCustomCategories()
+                viewModel.applyFilters()
+            }) {
+                NavigationStack {
+                    CategorySettings()
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button(NSLocalizedString("닫기", comment: "Close sheet")) {
+                                    showCategoryManagement = false
+                                }
+                            }
+                        }
+                }
+                .presentationDetents([.large])
+            }
+            .sheet(isPresented: $showAddMemoSheet, onDismiss: {
+                viewModel.loadMemos(); clearPendingSlot()
+                // 첫 단축어를 담은 바로 그때 키보드를 켜자고 한다. 가장 의욕이 있을 때다
+                if pendingKeyboardLesson {
+                    pendingKeyboardLesson = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { showKeyboardLesson = true }
+                }
+            }) {
+                NavigationStack {
+                    MemoAdd(insertedCategory: addMemoSheetCategory.isEmpty ? "텍스트" : addMemoSheetCategory)
+                        .toolbar {
+                            // 단순한 새 단축어에는 V 하나만. 내리려면 시트를 끌어 내린다
+                            if !blank {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button(NSLocalizedString("취소", comment: "Cancel")) { showAddMemoSheet = false }
+                            }
+                            }
+                        }
+                }
+            }
+            .sheet(isPresented: $showAddTemplateSheet, onDismiss: { viewModel.loadMemos() }) {
+                NavigationStack {
+                    MemoAdd(insertedIsTemplate: true)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button(NSLocalizedString("취소", comment: "Cancel")) { showAddTemplateSheet = false }
+                            }
+                        }
+                }
+            }
+            .sheet(isPresented: $showAddStackSheet, onDismiss: { viewModel.loadMemos() }) {
+                NavigationStack {
+                    MemoAdd(insertedIsStack: true)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button(NSLocalizedString("취소", comment: "Cancel")) { showAddStackSheet = false }
+                            }
+                        }
+                }
+            }
+    }
+
+    /// 단순한 목록의 + . 메뉴 없이 바로 새 단축어를 연다.
+    private var plainAddButton: some View {
+        GlassCircleButton(AppSymbol.plus, role: .primary,
+                          label: NSLocalizedString("단축어 추가", comment: "Add memo menu label")) {
+            HapticManager.shared.light()
+            addMemoSheetCategory = ""
+            openAddMemoWithSlot()
+        }
     }
 
     /// Toolbar 버튼들 (iOS/macOS 공통)
@@ -2803,85 +3033,6 @@ struct ClipKeyboardList: View {
         .accessibilityLabel(NSLocalizedString("단축어 추가", comment: "Add memo menu label"))
         .accessibilityHint(NSLocalizedString("새 단축어를 작성하거나 텍스트를 가져옵니다", comment: "Add memo menu hint"))
         .popoverTip(addMemoTip)
-        .sheet(isPresented: $showBulkImport) {
-            BulkImportView()
-        }
-        .sheet(isPresented: $showShortcutMart) {
-            // 담을 때마다 목록이 갱신되도록 - 마트는 여러 개를 이어서 담을 수 있다.
-            ShortcutMartView { _ in viewModel.loadMemos() }
-        }
-        .sheet(isPresented: $showDraftList) {
-            NavigationStack {
-                DraftListView()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button(NSLocalizedString("완료", comment: "Done")) { showDraftList = false }
-                        }
-                    }
-            }
-        }
-        .sheet(isPresented: $showQuickNoteAdd) {
-            QuickNoteEditSheet(note: QuickNote()) { newNote in
-                guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-                QuickNoteStore.shared.add(newNote)
-                // 담긴 위치를 바로 알려준다 - 상단 Inbox 배너도 함께 나타나 뷰어로 안내.
-                viewModel.showPlainToast(NSLocalizedString("메모를 보관함에 담았어요", comment: "Toast after quick note saved to inbox"))
-            } onPromote: { newNote in
-                guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-                QuickNoteStore.shared.add(newNote)
-                QuickNoteStore.shared.promoteToMemo(newNote)
-                viewModel.loadMemos()
-                viewModel.showPlainToast(NSLocalizedString("단축어로 저장했어요", comment: "Toast after quick note promoted to memo"))
-            }
-        }
-        // 설정 > 카테고리 관리와 동일한 단일 화면(CategorySettings)을 시트로 재사용
-        // 진입점만 두 곳, 편집 UI는 하나로 통일. 닫을 때 뷰모델을 리로드해 탭에 즉시 반영.
-        .sheet(isPresented: $showCategoryManagement, onDismiss: {
-            viewModel.loadCustomCategories()
-            viewModel.applyFilters()
-        }) {
-            NavigationStack {
-                CategorySettings()
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button(NSLocalizedString("닫기", comment: "Close sheet")) {
-                                showCategoryManagement = false
-                            }
-                        }
-                    }
-            }
-            .presentationDetents([.large])
-        }
-        .sheet(isPresented: $showAddMemoSheet, onDismiss: { viewModel.loadMemos(); clearPendingSlot() }) {
-            NavigationStack {
-                MemoAdd(insertedCategory: addMemoSheetCategory.isEmpty ? "텍스트" : addMemoSheetCategory)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(NSLocalizedString("취소", comment: "Cancel")) { showAddMemoSheet = false }
-                        }
-                    }
-            }
-        }
-        .sheet(isPresented: $showAddTemplateSheet, onDismiss: { viewModel.loadMemos() }) {
-            NavigationStack {
-                MemoAdd(insertedIsTemplate: true)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(NSLocalizedString("취소", comment: "Cancel")) { showAddTemplateSheet = false }
-                        }
-                    }
-            }
-        }
-        .sheet(isPresented: $showAddStackSheet, onDismiss: { viewModel.loadMemos() }) {
-            NavigationStack {
-                MemoAdd(insertedIsStack: true)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(NSLocalizedString("취소", comment: "Cancel")) { showAddStackSheet = false }
-                        }
-                    }
-            }
-        }
     }
 
     /// Toast 오버레이
@@ -2986,7 +3137,7 @@ struct ClipKeyboardList: View {
             //    빈 칸에서 무엇부터 적을지 떠올리는 것이 첫 단축어를 막는 가장 큰 벽이라,
             //    그 사람에게는 빈 종이가 아니라 **고를 것**이 있어야 한다.
             //    한 번이라도 만든 사람에게는 이 말이 참견이 된다(`UserSurface.exampleMart`).
-            if userState.isVisible(.exampleMart) {
+            if userState.isVisible(.exampleMart) && !blank {
                 Button {
                     showShortcutMart = true
                 } label: {

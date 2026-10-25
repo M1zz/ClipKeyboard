@@ -467,6 +467,161 @@ final class BasicScenarioTests: XCTestCase {
     }
 
     /// 저장 파일의 원문. 평문이 새어 있는지 글자로 확인한다.
+    // MARK: - 시나리오 11: 백지 첫 실행은 새 설치에만, 끝내기 전에 끄면 처음부터, 끝나면 예시 하나
+
+    func test_백지_첫_실행은_새_설치에만_뜨고_끝내기_전에_끄면_처음부터_끝나면_예시_하나가_남는다() throws {
+        let std = UserDefaults.standard
+        let keys = [DefaultsKey.skinSeededV444, DefaultsKey.appLaunchCount, DefaultsKey.blankStartV1,
+                    DefaultsKey.startedFreshV444, DefaultsKey.snippetsTabStyle]
+        let saved = keys.map { std.object(forKey: $0) }
+        let savedLedger = groupDefaults?.object(forKey: DefaultsKey.lessonLedger)
+        let savedGroupFlag = groupDefaults?.object(forKey: DefaultsKey.blankStartV1)
+        defer {
+            for (k, v) in zip(keys, saved) { std.set(v, forKey: k) }
+            groupDefaults?.set(savedLedger, forKey: DefaultsKey.lessonLedger)
+            // ⚠️ 그룹 표식이 남으면 다른 시험이 '백지 사용자(기능 다 꺼짐)' 로 돈다
+            groupDefaults?.set(savedGroupFlag, forKey: DefaultsKey.blankStartV1)
+        }
+
+        // 1. 쓰던 사람(실행 횟수가 이미 있다)에게는 아무것도 켜지지 않는다. 화면이 그대로다
+        keys.forEach { std.removeObject(forKey: $0) }
+        groupDefaults?.removeObject(forKey: DefaultsKey.blankStartV1)
+        std.set(12, forKey: DefaultsKey.appLaunchCount)
+        ClipKeyboardApp.seedDefaultSkinForNewInstalls()
+        XCTAssertFalse(std.bool(forKey: DefaultsKey.blankStartV1), "기존 사용자에게 새 첫 실행이 뜨면 안 된다")
+        XCTAssertTrue(FeatureSet.isOn(.template) && FeatureSet.isOn(.recent), "기존 사용자는 기능이 다 켜져 있다")
+        XCTAssertFalse(FeatureSet.isPlain())
+
+        // 2. 새 설치는 백지 첫 실행으로 열리고, 옛 튜토리얼은 켜지지 않는다(둘이 겹치면 안 된다)
+        keys.forEach { std.removeObject(forKey: $0) }
+        ClipKeyboardApp.seedDefaultSkinForNewInstalls()
+        XCTAssertTrue(std.bool(forKey: DefaultsKey.blankStartV1))
+        XCTAssertFalse(std.bool(forKey: DefaultsKey.startedFreshV444), "옛 튜토리얼까지 켜지면 첫 실행이 둘이 된다")
+        XCTAssertEqual(std.string(forKey: DefaultsKey.snippetsTabStyle), SnippetsTabStyle.list.rawValue)
+        XCTAssertTrue(FeatureSet.isPlain(), "새 사용자는 기능이 다 꺼진 가장 단순한 모양으로 시작한다")
+
+        // 3. 끝내기 전에 꺼졌으면 처음(그림)부터 다시 한다. 중간부터 이으면 맥락이 날아간다
+        groupDefaults?.removeObject(forKey: DefaultsKey.lessonLedger)
+        XCTAssertEqual(BlankStartView.resumeStage(), .intro)
+        LessonLedger.learnAll([.intro, .copy, .paste])
+        XCTAssertEqual(LessonLedger.nextFirstRunLesson(), .send)
+        XCTAssertEqual(BlankStartView.resumeStage(), .intro)
+        XCTAssertNil(LessonLedger.learnedAt(.copy), "처음부터 다시 하면 앞에 배운 칸도 지운다")
+        // 다 끝냈으면 고르기 화면에서 연다
+        LessonLedger.learnAll(Lesson.firstRun)
+        XCTAssertEqual(BlankStartView.resumeStage(), .choose)
+
+        // 처음 배운 시각은 다시 배워도 바뀌지 않는다
+        let first = LessonLedger.learnedAt(.copy)
+        LessonLedger.learn(.copy, at: Date().addingTimeInterval(3600))
+        XCTAssertEqual(LessonLedger.learnedAt(.copy), first)
+
+        // 4. "내 단축어 만들러 가기" 를 누르면 방금 써 본 예시 하나가 목록에 남는다. 두 번 눌러도 하나다
+        BlankStartSample.insertIfNeeded()
+        BlankStartSample.insertIfNeeded()
+        let memos = try MemoStore.shared.load(type: .memo)
+        XCTAssertEqual(memos.filter { $0.title == BlankStartSample.title }.count, 1)
+        XCTAssertEqual(memos.first?.value, BlankStartSample.value)
+    }
+
+    // MARK: - 시나리오 12: 키보드 켜기를 미루면 목록 위에 남고, 켜면 걷힌다
+
+    func test_키보드_켜기를_미루면_켤_때까지만_목록_위에_남는다() {
+        let std = UserDefaults.standard
+        let savedDeferred = std.object(forKey: DefaultsKey.keyboardLessonDeferred)
+        let savedKeyboards = std.object(forKey: "AppleKeyboards")
+        let savedLedger = groupDefaults?.object(forKey: DefaultsKey.lessonLedger)
+        defer {
+            std.set(savedDeferred, forKey: DefaultsKey.keyboardLessonDeferred)
+            std.set(savedKeyboards, forKey: "AppleKeyboards")
+            groupDefaults?.set(savedLedger, forKey: DefaultsKey.lessonLedger)
+        }
+        groupDefaults?.removeObject(forKey: DefaultsKey.lessonLedger)
+        std.set(["ko_KR@sw=Korean;hw=Automatic"], forKey: "AppleKeyboards")
+
+        // 미루지 않았으면 띄우지 않는다(수업은 첫 단축어 직후 한 번 떴다)
+        std.set(false, forKey: DefaultsKey.keyboardLessonDeferred)
+        XCTAssertFalse(KeyboardLessonBanner.isDue)
+
+        // "나중에 다시" → 한 줄이 선다
+        std.set(true, forKey: DefaultsKey.keyboardLessonDeferred)
+        XCTAssertTrue(KeyboardLessonBanner.isDue, "미뤘으면 켤 때까지 다시 알려 줘야 한다")
+
+        // 설정에서 켰으면 걷힌다(수업을 다시 안 거쳐도)
+        std.set([KeyboardInstallState.extensionBundleID], forKey: "AppleKeyboards")
+        XCTAssertFalse(KeyboardLessonBanner.isDue, "켰는데 켜라는 줄이 남으면 안 된다")
+
+        // 실습까지 마쳤으면 걷힌다
+        std.set(["ko_KR@sw=Korean;hw=Automatic"], forKey: "AppleKeyboards")
+        LessonLedger.learn(.keyboard)
+        XCTAssertFalse(KeyboardLessonBanner.isDue)
+    }
+
+    // MARK: - 시나리오 13: 쓰는 모습이 기능을 부르면 한 번만 권한다 · 조합 · 켜면 그 자리가 생긴다
+
+    func test_쓰는_모습이_부를_때_기능을_한_번만_권하고_켜면_그_자리가_생기고_손에_붙으면_졸업한다() {
+        let std = UserDefaults.standard
+        let keys = [DefaultsKey.featureNudges, DefaultsKey.blankStartV1, KeyboardPrefs.showRecentClipsTab.key,
+                    DefaultsKey.blankStartGraduated]
+            + AppFeature.allCases.map { DefaultsKey.featureOnPrefix + $0.rawValue }
+        let saved = keys.map { groupDefaults?.object(forKey: $0) }
+        let savedStd = std.object(forKey: DefaultsKey.blankStartV1)
+        // ⚠️ 분류 기능은 원래 상태로 되돌린다. 끄고 끝내면 뒤에 도는 시험(여러 개 고르기)이
+        //    분류가 꺼진 채로 돌아 '지금 탭' 범위가 무너졌다(2026-10 전체 시험에서 6건)
+        let categoryWasOn = CategoryStore.shared.isFeatureEnabled
+        defer {
+            for (k, v) in zip(keys, saved) { groupDefaults?.set(v, forKey: k) }
+            std.set(savedStd, forKey: DefaultsKey.blankStartV1)
+            if categoryWasOn { CategoryStore.shared.enableFeature() } else { CategoryStore.shared.disableFeature() }
+        }
+        keys.forEach { groupDefaults?.removeObject(forKey: $0) }
+        groupDefaults?.set(true, forKey: DefaultsKey.blankStartV1)
+
+        // 1. 무엇을 권하나
+        XCTAssertEqual(FeatureNudge.suggestion(saved: ("카드", "1234-5678-9012-3456"), others: []), .secure)
+        XCTAssertEqual(FeatureNudge.suggestion(saved: ("인사 박", "박님 안녕하세요 문의 감사합니다"),
+                                               others: [("인사 김", "김님 안녕하세요 문의 감사합니다")]), .template)
+        XCTAssertEqual(FeatureNudge.suggestion(saved: ("출근 보고 2", "개발팀"), others: [("출근 보고 1", "홍길동")]), .stack)
+        XCTAssertEqual(FeatureNudge.suggestion(saved: ("메일", "a@b.com"),
+                                               others: (1...5).map { ("이름\($0)", "값\($0)") }), .category)
+        XCTAssertNil(FeatureNudge.suggestion(saved: ("메일", "a@b.com"), others: [("집", "서울")]),
+                     "부를 까닭이 없으면 아무것도 권하지 않는다")
+        XCTAssertEqual(FeatureNudge.suggestion(saved: ("메일", "a@b.com"), others: [("집", "서울")], recentPastes: 3), .recent,
+                       "붙여넣어 담는 일이 잦으면 '최근' 을 권한다")
+        XCTAssertTrue(FeatureNudge.looksPasted(old: "", new: "서울 마포구 월드컵북로 396"))
+        XCTAssertFalse(FeatureNudge.looksPasted(old: "서울", new: "서울 마"), "한두 글자씩 친 것은 붙여넣기가 아니다")
+
+        // 2. 한 번만 · 하루에 하나
+        let day = Date()
+        XCTAssertTrue(FeatureNudge.mayAsk(.secure, now: day))
+        FeatureNudge.record(.secure, .no, now: day)
+        XCTAssertFalse(FeatureNudge.mayAsk(.secure, now: day.addingTimeInterval(86_400 * 3)), "괜찮아요 했으면 다시 묻지 않는다")
+        XCTAssertFalse(FeatureNudge.mayAsk(.template, now: day), "하루에 하나까지")
+        XCTAssertTrue(FeatureNudge.mayAsk(.template, now: day.addingTimeInterval(86_400)))
+
+        // 3. 켜면 그 자리가 생긴다: 최근은 목록 · 키보드의 '최근' 스위치를, 분류는 분류 기능을 같이 켠다
+        XCTAssertFalse(FeatureSet.isOn(.recent))
+        FeatureSet.set(.recent, on: true)
+        XCTAssertTrue(KeyboardPrefs.showRecentClipsTab.value())
+        FeatureSet.set(.category, on: true)
+        XCTAssertTrue(CategoryStore.shared.isFeatureEnabled)
+        XCTAssertFalse(FeatureNudge.mayAsk(.recent, now: day.addingTimeInterval(86_400 * 9)), "이미 켠 기능은 권하지 않는다")
+
+        // 5. 졸업: 손에 붙기 전에는 단순한 화면, 손에 붙거나 다섯을 다 켜면 원래 메뉴 · 탭 · 팁. 한 번 졸업하면 그대로
+        XCTAssertFalse(FeatureSet.hasGraduated(level: .used), "처음 쓰는 사람은 아직 단순한 화면이다")
+        XCTAssertTrue(FeatureSet.hasGraduated(level: .fluent), "손에 붙으면 숨겨 둔 메뉴가 열린다")
+        XCTAssertTrue(FeatureSet.hasGraduated(level: .browsing), "한 번 졸업하면 다시 숨지 않는다")
+        groupDefaults?.removeObject(forKey: DefaultsKey.blankStartGraduated)
+        AppFeature.allCases.forEach { FeatureSet.set($0, on: true) }
+        XCTAssertTrue(FeatureSet.hasGraduated(level: .browsing), "다섯을 다 켜면(전부 쓸래요) 졸업이다")
+
+        // 4. 조합: 켠 것이 조합과 같으면 그 조합, 하나씩 바꾸면 어느 조합도 아니다
+        XCTAssertNil(FeaturePreset.matching([.recent, .category]))
+        XCTAssertEqual(FeaturePreset.matching([.template, .recent]), .reply)
+        XCTAssertEqual(FeatureNudge.recommendedPreset(memos: [("문의 답장", "{이름}님 안녕하세요")]), .reply)
+        XCTAssertEqual(FeatureNudge.recommendedPreset(memos: [("집", "서울")]), .simple)
+    }
+
     private func rawMemoFile() -> String {
         guard let url = FileManager.default
             .containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier)?

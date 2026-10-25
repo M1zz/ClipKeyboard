@@ -234,28 +234,58 @@ struct FreeUseKeepsList: View {
 /// 첫날에도 열 수 있고, 여기서 바로 Pro 를 볼 수 있다. 처음부터 사려는 사람의 마음을
 /// 100번 뒤로 미루지 않는다(설치 첫날 결제 의도가 가장 크다).
 struct FreeUseGuideView: View {
+    /// 설정 줄에서 **화면으로 넘어와** 열렸는가. 그러면 제 NavigationStack · 닫기 단추를 두지 않는다
+    /// (설정의 다른 줄과 같이 밀려 들어오고, 펼친 듀오에서는 오른쪽 판에 선다). 이정표 카드에서는 시트로 연다.
+    var embedded = false
+
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
     @State private var showsPlans = false
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    status
-                    VStack(alignment: .leading, spacing: 14) {
-                        Text(NSLocalizedString("이렇게 운영해요", comment: "Free use guide: how it works"))
-                            .font(.title3.weight(.bold))
-                            .foregroundColor(theme.text)
-                        point(String(format: NSLocalizedString("단축어를 %d번 넣을 때까지는 모든 기능이 무료예요.", comment: "Free use guide: all free until threshold"), FreeUse.threshold))
-                        point(NSLocalizedString("그 뒤에도 만든 단축어는 전부 계속 쓸 수 있어요.", comment: "Free use guide: made snippets keep working"))
-                        point(String(format: NSLocalizedString("새로 만들기는 무료로 단축어 %1$d개, 템플릿 %2$d개, 스택 %3$d개, 이미지 단축어 %4$d개까지예요.", comment: "Free use guide: free creation quotas after threshold"),
-                                     ProFeatureManager.freeMemoLimit, ProFeatureManager.freeTemplateLimit,
-                                     ProFeatureManager.freeStackLimit, ProFeatureManager.freeImageMemoLimit))
-                        point(NSLocalizedString("Pro는 개수 제한 없이 만들고, iCloud 백업과 기기 사이 동기화, 생체인증 잠금을 열어요.", comment: "Free use guide: what Pro opens"))
-                        point(NSLocalizedString("평생 한 번 결제와 연 구독 중에 고를 수 있어요.", comment: "Free use guide: lifetime or yearly"))
+        if embedded {
+            page
+        } else {
+            NavigationStack {
+                page
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button(NSLocalizedString("닫기", comment: "Close / dismiss")) { dismiss() }
+                        }
                     }
-                    if !ProFeatureManager.hasPermanentPro {
+            }
+        }
+    }
+
+    private var page: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                status
+                VStack(alignment: .leading, spacing: 14) {
+                    Text(NSLocalizedString("이렇게 운영해요", comment: "Free use guide: how it works"))
+                        .font(.title3.weight(.bold))
+                        .foregroundColor(theme.text)
+                    point(String(format: NSLocalizedString("단축어를 %d번 넣을 때까지는 모든 기능이 무료예요.", comment: "Free use guide: all free until threshold"), FreeUse.threshold))
+                    point(NSLocalizedString("그 뒤에도 만든 단축어는 전부 계속 쓸 수 있어요.", comment: "Free use guide: made snippets keep working"))
+                    point(String(format: NSLocalizedString("새로 만들기는 무료로 단축어 %1$d개, 템플릿 %2$d개, 스택 %3$d개, 이미지 단축어 %4$d개까지예요.", comment: "Free use guide: free creation quotas after threshold"),
+                                 ProFeatureManager.freeMemoLimit, ProFeatureManager.freeTemplateLimit,
+                                 ProFeatureManager.freeStackLimit, ProFeatureManager.freeImageMemoLimit))
+                    point(NSLocalizedString("Pro는 개수 제한 없이 만들고, iCloud 백업과 기기 사이 동기화, 생체인증 잠금을 열어요.", comment: "Free use guide: what Pro opens"))
+                    point(NSLocalizedString("평생 한 번 결제와 연 구독 중에 고를 수 있어요.", comment: "Free use guide: lifetime or yearly"))
+                }
+                if !ProFeatureManager.hasPermanentPro {
+                    if embedded {
+                        // 설정에서 넘어와 열렸으면 Pro 도 **다음 화면으로** 넘어간다(펼친 듀오에서는 오른쪽 판).
+                        // 시트로 띄우면 이 화면만 다시 접힌 선 한가운데에 선다
+                        FoldLink(destination: PaywallView(embedded: true)) {
+                            Label(NSLocalizedString("Pro 보기", comment: "Pro nudge CTA"), systemImage: AppSymbol.starCircleFill)
+                                .font(.headline)
+                                .foregroundColor(theme.accent)
+                        }
+                        .padding(.vertical, 14)
+                        .padding(.horizontal, 16)
+                        .background(theme.surface, in: RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                    } else {
                         Button { showsPlans = true } label: {
                             Text(NSLocalizedString("Pro 보기", comment: "Pro nudge CTA"))
                                 .font(.headline)
@@ -267,19 +297,14 @@ struct FreeUseGuideView: View {
                         .buttonStyle(.squish)
                     }
                 }
-                .padding(20)
             }
-            .background(theme.bg.ignoresSafeArea())
-            .navigationTitle(NSLocalizedString("무료로 쓰는 방법", comment: "Free use guide title"))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(NSLocalizedString("닫기", comment: "Close / dismiss")) { dismiss() }
-                }
-            }
-            .sheet(isPresented: $showsPlans) {
-                FreeUsePaywallView()
-            }
+            .padding(20)
+        }
+        .background(theme.bg.ignoresSafeArea())
+        .navigationTitle(NSLocalizedString("무료로 쓰는 방법", comment: "Free use guide title"))
+        .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showsPlans) {
+            FreeUsePaywallView()
         }
     }
 

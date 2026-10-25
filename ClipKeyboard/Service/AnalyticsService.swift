@@ -160,6 +160,17 @@ enum AnalyticsEvent: String {
     ///    이것만으로도 알고 싶던 것은 답이 나온다 - 몇 %가 1분을 넘고, 몇 %가 한 시간을
     ///    넘는가. 반대로 초를 보내면 그건 개인의 사용량 그 자체라 수집 항목이 늘어난다.
     case timeSavedMilestone = "time_saved_milestone"
+    /// 배운 것 장부에 처음 적힌 칸 - `source` 에 칸 이름(intro · copy · paste · send · insert · makeOwn ·
+    /// keyboard · template …). 백지 첫 실행의 **어느 걸음에서 떠나는지**를 본다(intro 대비 insert).
+    case lessonLearned = "lesson_learned"
+    /// 넛지 - `source` 에 "기능.답"(secure.shown · secure.yes · secure.no …). 받아들이는 비율을 본다.
+    case featureNudge = "feature_nudge"
+    /// 설정 ▸ 기능 더하기에서 기능을 켰다 - `source` 에 기능 이름.
+    case featureOn = "feature_on"
+    /// 설정 ▸ 기능 더하기에서 조합을 골랐다 - `source` 에 조합 이름(simple · reply · all).
+    case featurePreset = "feature_preset"
+    /// 키보드 켜기 수업에서 "나중에 다시" 를 골랐다.
+    case keyboardLessonDeferred = "keyboard_lesson_deferred"
 }
 
 /// 이벤트 파라미터 키 - 분석 시 슬라이싱용

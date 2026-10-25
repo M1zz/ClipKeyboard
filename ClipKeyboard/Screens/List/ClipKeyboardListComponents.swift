@@ -357,6 +357,9 @@ struct MemoActionSheet: View {
     /// 자세한 설계: docs/design/PROGRESSIVE_DISCLOSURE.md 2절
     @ObservedObject private var userState = UserStateStore.shared
     @Environment(\.dismiss) private var dismiss
+    /// 펼친 듀오의 결과 쪽 판에 섰으면 판을 거둔다(`FoldComposePane`). 시트면 시트를 닫는다.
+    @Environment(\.foldPaneDismiss) private var paneDismiss
+    private func close() { if let paneDismiss { paneDismiss() } else { dismiss() } }
     @Environment(\.appTheme) private var theme
     /// 시트 높이 - 내용 실측으로 갱신. 고정 높이는 행 개수·Dynamic Type에 따라
     /// 하단 행(보안 설정/삭제)이 잘려 보이지 않는 문제가 있었다.
@@ -399,7 +402,7 @@ struct MemoActionSheet: View {
                     systemImage: AppSymbol.docOnDoc
                 ) {
                     onCopy()
-                    dismiss()
+                    close()
                 }
                 // ⚠️ 이미 즐겨찾기인 것은 층과 무관하게 풀 수 있어야 한다.
                 if memo.isFavorite || userState.isVisible(.favorites) {
@@ -411,7 +414,7 @@ struct MemoActionSheet: View {
                     systemImage: memo.isFavorite ? "heart.slash" : "heart"
                 ) {
                     onToggleFavorite()
-                    dismiss()
+                    close()
                 }
                 }
                 // 카테고리 지정 - 미분류(흰 배경) 메모는 "추가", 이미 카테고리가 있으면 "이동".
@@ -423,7 +426,7 @@ struct MemoActionSheet: View {
                         // 즐겨찾기 - '전체' 탭은 지정 대상이 아니지만 즐겨찾기는 카테고리처럼 지정 가능.
                         Button {
                             onToggleFavorite()
-                            dismiss()
+                            close()
                         } label: {
                             Label(NSLocalizedString("즐겨찾기", comment: "Favorites"),
                                   systemImage: memo.isFavorite ? "checkmark" : "heart")
@@ -432,7 +435,7 @@ struct MemoActionSheet: View {
                         ForEach(categories, id: \.self) { cat in
                             Button {
                                 onMoveToCategory(cat)
-                                dismiss()
+                                close()
                             } label: {
                                 // 각 카테고리에 그 카테고리 심볼을 붙여 표시(현재 카테고리는 체크).
                                 Label(cat, systemImage: memo.category == cat ? "checkmark" : categoryIcon(cat))
@@ -441,7 +444,7 @@ struct MemoActionSheet: View {
                         if let onCreateNewCategory {
                             Divider()
                             Button {
-                                dismiss()
+                                close()
                                 onCreateNewCategory()
                             } label: {
                                 Label(NSLocalizedString("새 카테고리에 추가", comment: "Create new category and assign memo"), systemImage: AppSymbol.folderBadgePlus)
@@ -451,7 +454,7 @@ struct MemoActionSheet: View {
                             Divider()
                             Button {
                                 onMoveToCategory("기본")
-                                dismiss()
+                                close()
                             } label: {
                                 Label(NSLocalizedString("카테고리에서 빼기", comment: "Action: remove memo from its category"), systemImage: AppSymbol.tray)
                             }
@@ -471,7 +474,7 @@ struct MemoActionSheet: View {
                         label: NSLocalizedString("여러 개 고르기", comment: "Action: select multiple memos"),
                         systemImage: AppSymbol.checkmarkCircle
                     ) {
-                        dismiss()
+                        close()
                         onSelectMultiple()
                     }
                 }
@@ -481,7 +484,7 @@ struct MemoActionSheet: View {
                         label: NSLocalizedString("순서 바꾸기", comment: "Action: reorder memos"),
                         systemImage: AppSymbol.arrowUpArrowDown
                     ) {
-                        dismiss()
+                        close()
                         onReorder()
                     }
                 }
@@ -490,7 +493,7 @@ struct MemoActionSheet: View {
                     label: NSLocalizedString("수정", comment: "Action: edit"),
                     systemImage: AppSymbol.pencil
                 ) {
-                    dismiss()
+                    close()
                     onEdit()
                 }
                 // 템플릿으로 만들기 - 아직 템플릿/콤보가 아닌 일반 텍스트 메모에서만 노출
@@ -503,7 +506,7 @@ struct MemoActionSheet: View {
                         label: NSLocalizedString("템플릿으로 만들기", comment: "Action: turn memo into a template"),
                         systemImage: AppSymbol.wandAndSparkles
                     ) {
-                        dismiss()
+                        close()
                         onMakeTemplate()
                     }
                     .background(highlightsMakeTemplate ? Color.accentColor.opacity(0.12) : .clear)
@@ -528,7 +531,7 @@ struct MemoActionSheet: View {
                             : NSLocalizedString("보안 단축어로 설정", comment: "Action: make memo secure"),
                         systemImage: memo.isSecure ? "lock.open" : "lock"
                     ) {
-                        dismiss()
+                        close()
                         onToggleSecure()
                     }
                 }
@@ -538,7 +541,7 @@ struct MemoActionSheet: View {
                     systemImage: AppSymbol.trash,
                     isDestructive: true
                 ) {
-                    dismiss()
+                    close()
                     onDelete()
                 }
             }
@@ -550,7 +553,7 @@ struct MemoActionSheet: View {
 
             // 취소
             Button {
-                dismiss()
+                close()
             } label: {
                 Text(NSLocalizedString("취소", comment: "Cancel"))
                     .font(.body)
@@ -685,12 +688,15 @@ struct SwipePageIndicator: View {
 ///    묻혔고, 내용과 겹치면 둘 다 안 읽힌다. 같은 자리를 잠깐 빌렸다 돌려준다(동전과 같은 원칙).
 struct CopiedStamp: View {
     let cornerRadius: CGFloat
+    /// 단순한 목록(백지 사용자)에서는 초록 체크. 복사됨 = 잘 됐다는 뜻이 색으로도 읽히게.
+    /// 기존 사용자는 그대로 강조색이다(화면이 달라지지 않게).
+    var green: Bool = false
 
     @Environment(\.appTheme) private var theme
 
     var body: some View {
         RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-            .fill(theme.accent)
+            .fill(green ? Color.green : theme.accent)
             .overlay {
                 VStack(spacing: 6) {
                     Image(systemName: AppSymbol.checkmarkCircleFill)
@@ -698,7 +704,7 @@ struct CopiedStamp: View {
                     Text(NSLocalizedString("복사됨", comment: "Widget: copied confirmation"))
                         .font(.headline)
                 }
-                .foregroundStyle(Color.accentForeground)
+                .foregroundStyle(green ? Color.white : Color.accentForeground)
             }
             // 소리 내 읽는 것은 `finalizeCopy` 의 안내가 한다. 여기까지 읽으면 두 번 말한다.
             .accessibilityHidden(true)

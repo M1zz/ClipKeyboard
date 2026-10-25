@@ -71,7 +71,8 @@ struct ClipKeyboardApp: App {
     static let isRunningUnitTests: Bool =
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
-    /// 4.4.4 부터 **새로 시작하는 사람만** 금고 스킨으로 연다.
+    /// **새로 시작하는 사람만** 백지 첫 실행으로 연다. (4.4.4 ~ 5.1.13 에는 여기서 금고 스킨 · 키보드 무대 ·
+    /// 옛 튜토리얼을 켰다. 지금은 하얀 화면 하나다.)
     ///
     /// ⚠️ 쓰던 사람의 화면은 건드리지 않는다. 업데이트했다는 이유로 남의 카드에 갑자기
     ///    다이얼이 생기고 툴바에 금고가 서 있으면, 고른 적 없는 것이 얹힌 셈이다.
@@ -98,27 +99,22 @@ struct ClipKeyboardApp: App {
             return
         }
 
-        // 이 기기가 4.4.4 에서 처음 시작했다는 사실을 남긴다.
-        // 스킨 기본값과 튜토리얼이 **같은 판단**을 근거로 움직여야 서로 어긋나지 않는다.
-        standard.set(true, forKey: DefaultsKey.startedFreshV444)
-
-        // 처음 쓰는 사람은 **키보드가 쓰이는 장면**부터 본다 - 이 앱의 값어치가 거기 있다.
-        // ⚠️ 쓰던 사람에게는 뿌리지 않는다. 값이 없으면 목록이고, 그쪽에는 1회 제안이 따로 간다
-        //    (SnippetsTab.offerKeyboardStageIfNeeded).
-        standard.set(SnippetsTabStyle.keyboard.rawValue, forKey: DefaultsKey.snippetsTabStyle)
-        // 이미 무대로 시작하므로 다시 권할 일이 없다.
+        // 새 설치는 **백지 첫 실행**으로 연다(docs/design/blank-start-onboarding.html).
+        //
+        // ⚠️ 옛 첫 실행(키보드 무대 · 샘플 네 벌 · 단축어 → 템플릿 → 스택 → 크기 튜토리얼 · 금고 스킨)은
+        //    여기서 더 켜지 않는다. 하얀 화면 하나에서 시작해, 필요한 기능은 필요한 순간에 배운다.
+        //    `startedFreshV444` 를 켜지 않는 것이 옛 튜토리얼을 끄는 스위치다.
+        standard.set(true, forKey: DefaultsKey.blankStartV1)
+        // 키보드도 같은 판단을 보게 그룹에도 적는다(`FeatureSet.isBlankStartUser`)
+        AppGroup.defaults?.set(true, forKey: DefaultsKey.blankStartV1)
+        // '최근' 은 켤 수 있는 기능 중 하나다. 백지는 꺼진 채로(목록 · 키보드 둘 다)
+        AppGroup.defaults?.set(false, forKey: KeyboardPrefs.showRecentClipsTab.key)
+        standard.set(SnippetsTabStyle.list.rawValue, forKey: DefaultsKey.snippetsTabStyle)
         standard.set(true, forKey: DefaultsKey.keyboardStageOffered)
-        print("🎬 [APP INIT] 새 설치, 키보드 화면으로 시작")
-
-        // 생활 레이어가 꺼져 있는 동안에는 아무것도 뿌리지 않는다 - 고를 수 없는 것을
-        // 미리 켜 두면 나중에 되살렸을 때 "고른 적 없는 것"이 이미 얹혀 있게 된다.
-        guard LivingSkin.isEnabled else { return }
-
-        guard let group = AppGroup.defaults,
-              group.string(forKey: DefaultsKey.livingSkin) == nil else { return }
-
-        group.set(LivingSkin.vault.rawValue, forKey: DefaultsKey.livingSkin)
-        print("🎨 [APP INIT] 새 설치, 금고 스킨으로 시작")
+        // 샘플 네 벌도, 기존 사용자용 "체험해 볼래요?" 도 없다. 첫 실행이 예시 하나만 남긴다(`BlankStartSample`).
+        standard.set(true, forKey: "defaultSamplesInserted_v1")
+        standard.set(true, forKey: "demoSampleOfferResolved_v1")
+        print("🤍 [APP INIT] 새 설치, 백지 첫 실행으로 시작")
     }
 
     /// ⚠️ **여기에는 "앱이 뜨기 전에 반드시 끝나야 하는 것"만 둔다.**
@@ -207,6 +203,14 @@ struct ClipKeyboardApp: App {
             // 스토어 스크린샷에는 팁 띠가 찍히면 안 된다(scripts/take_screenshots.sh).
             if UserDefaults.standard.string(forKey: "ScreenshotScene") != nil { Tips.hideAllTipsForTesting() }
             #endif
+            // 백지 사용자에게는 **졸업할 때까지** 팁을 하나도 띄우지 않는다(`FeatureSet.hasGraduated`).
+            // 처음 화면은 미니멀해야 하고, 배울 것은 장부 · 넛지 · 가이드북이 그 순간에 가르친다.
+            // ⚠️ 예전에는 '아무 기능도 안 켬' 이 조건이라, 기능 하나만 켜도 옛 첫 실행용 팁이 한꺼번에 돌아왔다.
+            // ⚠️ 여기는 런치 길이라 단계를 새로 세지 않는다(.browsing 을 넘겨 저장된 졸업 표식만 본다).
+            // (이름에 ForTesting 이 붙었지만 실행 중 모든 팁을 감추는 공개 API 다. 졸업하면 다음 실행부터 돌아온다)
+            if FeatureSet.isBlankStartUser(), !FeatureSet.hasGraduated(level: .browsing) {
+                Tips.hideAllTipsForTesting()
+            }
             try? Tips.configure([
                 .displayFrequency(.daily),
                 .datastoreLocation(.applicationDefault)
@@ -368,6 +372,12 @@ struct ClipKeyboardApp: App {
             }
 
             // 키보드 익스텐션이 App Group에 기록한 사용 비콘을 flush (콘솔 + 허브 이벤트)
+            // 다른 앱에서 키보드를 실제로 썼다 = 키보드 켜기를 배운 것이다. 수업을 건너뛰고 혼자 켠
+            // 백지 사용자에게 다시 켜라고 권하지 않게 장부에 적는다(비콘을 비우기 전에 본다)
+            if FeatureSet.isBlankStartUser(),
+               (AppGroup.defaults?.integer(forKey: DefaultsKey.kbBeaconPendingCount) ?? 0) > 0 {
+                LessonLedger.learn(.keyboard)
+            }
             AnalyticsService.flushKeyboardBeacon()
 
             // 세그먼트 유저 속성 - 모든 퍼널을 Pro 여부·페르소나·키보드 활성으로 쪼갤 수 있게.
@@ -1723,6 +1733,9 @@ struct MainTabView: View {
     /// 사용 기록 · 검색 탭은 층에 걸려 있다. 첫날 사람에게는 단축어와 설정 두 칸이면 된다.
     /// 자세한 설계: docs/design/PROGRESSIVE_DISCLOSURE.md 2절
     @ObservedObject private var userState = UserStateStore.shared
+    /// 백지 첫 실행(새 설치만). 끝내기 전까지 탭 화면 위를 하얗게 덮는다.
+    @AppStorage(DefaultsKey.blankStartV1) private var blankStart = false
+    @AppStorage(DefaultsKey.blankStartFinished) private var blankStartFinished = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.foldLayout) private var fold
 
@@ -1756,7 +1769,8 @@ struct MainTabView: View {
         Binding {
             selection
         } set: { tapped in
-            if tapped == .snippets, selection == .snippets {
+            // 단순한 목록에는 키보드 미리보기로 건너가는 길이 없다. 다시 눌러도 목록 그대로
+            if tapped == .snippets, selection == .snippets, !blank {
                 HapticManager.shared.light()
                 // 값만 바꾼다 - 연출은 `SnippetsTab.content` 가 건다.
                 snippetsStyleRaw = snippetsStyle.toggled.rawValue
@@ -1784,9 +1798,15 @@ struct MainTabView: View {
     }
 
     /// 사용 기록은 쓴 것이 쌓여야 볼 것이 있다. 감춰도 설정 ▸ 사용 통계에는 늘 있다.
-    private var showsUsageTab: Bool { userState.isVisible(.statsPassport) }
+    /// 처음 사용자는 졸업한 뒤에 원래 조건을 따른다(`FeatureSet.hasGraduated`).
+    private var showsUsageTab: Bool {
+        (!blank || FeatureSet.hasGraduated(level: userState.state.level)) && userState.isVisible(.statsPassport)
+    }
     /// 찾을 만큼 쌓이기 전에는 목록이 곧 검색이다.
-    private var showsSearchTab: Bool { userState.isVisible(.searchAndReorder) }
+    /// ⚠️ 백지 사용자는 처음부터 목록 · 설정 · 검색 셋이다(시안). 사용 기록은 아직 없다.
+    private var showsSearchTab: Bool { blank || userState.isVisible(.searchAndReorder) }
+    /// 백지로 시작한 사람(`FeatureSet.isBlankStartUser`). 탭은 목록 · 설정 · 검색.
+    @State private var blank = FeatureSet.isBlankStartUser()
 
     /// 보던 탭이 감춰지면(설정에서 "모든 기능 바로 보기" 를 끈 때) 단축어 탭으로 돌아온다.
     private func leaveHiddenTab() {
@@ -1918,6 +1938,15 @@ struct MainTabView: View {
         }
         .sheet(isPresented: $showUsageSheet) {
             NavigationStack { UsagePassportView() }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .featureSetChanged)) { _ in
+            blank = FeatureSet.isBlankStartUser()
+        }
+        .fullScreenCover(isPresented: Binding(get: { blankStart && !blankStartFinished }, set: { _ in })) {
+            BlankStartView {
+                selection = .snippets
+                blankStartFinished = true
+            }
         }
         // [디자인 불변식] 하단(탭바) 배경 언제나 투명 - 스크롤 엣지 이펙트는 하단만 숨김.
         // 상단은 시스템 기본(맨 위 투명 → 스크롤 시 glass 베일)에 맡긴다. 상단까지 숨기면

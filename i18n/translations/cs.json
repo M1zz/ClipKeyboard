@@ -771,6 +771,14 @@
     "v": "Klepnutím na '+' přidáte fráze nebo prostý text, které budete mít po ruce v iMessage, Mail a dalších aplikacích.",
     "src": "17ce5e4733"
   },
+  "'개인'도 눌러 보세요": {
+    "v": "Klepněte i na Osobní",
+    "src": "31c5c4bc09"
+  },
+  "'업무'를 눌러 보세요": {
+    "v": "Klepněte na Pracovní",
+    "src": "58a17831fb"
+  },
   "'전체 접근 허용' 토글 켜기 ✓": {
     "v": "Zapněte 'Povolit plný přístup' ✓",
     "src": "8f11e92ee4"
@@ -782,6 +790,10 @@
   "'전체 접근 허용'을 켜주세요": {
     "v": "Zapněte 'Povolit plný přístup'",
     "src": "ced0ad12fc"
+  },
+  "'최근' 탭에 30일 동안 있어요": {
+    "v": "V záložce Nedávné zůstane 30 dní",
+    "src": "02989c7ab8"
   },
   "'클립보드 담기'를 찾아 골라요": {
     "v": "Najděte a vyberte Zachytit schránku",
@@ -844,6 +856,10 @@
     "v": "12hodinový",
     "src": "4bf7b6e570"
   },
+  "15분 전": {
+    "v": "před 15 min",
+    "src": "d88aa7408c"
+  },
   "15분을 벌었어요": {
     "v": "Získali jste patnáct minut",
     "src": "de99815961"
@@ -860,6 +876,10 @@
     "v": "Získali jste minutu",
     "src": "7207ccf498"
   },
+  "1시간 전": {
+    "v": "před 1 hod",
+    "src": "0a1d1144db"
+  },
   "1초": {
     "v": "1 sekunda",
     "src": "1f1aa88771"
@@ -871,6 +891,10 @@
   "24시간": {
     "v": "24hodinový",
     "src": "c340b5478c"
+  },
+  "2번 '클립키보드 켜기'만 하면 돼요": {
+    "v": "Stačí krok 2: zapnout ClipKeyboard",
+    "src": "f4994e0a13"
   },
   "2주 뒤": {
     "v": "Za 2 týdny",
@@ -1331,6 +1355,14 @@
   "Explaining your time, once.": {
     "v": "Vysvětlete svůj čas jednou provždy",
     "src": "4d98ebe6d6"
+  },
+  "Face ID 뒤에 잠가 둬요": {
+    "v": "Zamkněte to za Face ID",
+    "src": "d31b55848f"
+  },
+  "Face ID 로 확인해야 꺼낼 수 있어요": {
+    "v": "Zobrazí se až po ověření Face ID",
+    "src": "b69be503b2"
   },
   "Face ID로 보호": {
     "v": "Chránit pomocí Face ID",
@@ -2663,6 +2695,14 @@
     "v": "Zkrátit uprostřed",
     "src": "3d21906a36"
   },
+  "가이드북": {
+    "v": "Průvodce",
+    "src": "878fe2fbac"
+  },
+  "가이드북으로 돌아가기": {
+    "v": "Zpět na Průvodce",
+    "src": "f12c0338c9"
+  },
   "가장 많이 쓴 것": {
     "v": "Nejpoužívanější",
     "src": "b95c9ac6a5"
@@ -2817,6 +2857,10 @@
     "v": "I když je fráze s více hodnotami zamčená, vyberte šipkou vpravo hodnotu, klepnutím vlevo se ověřte a vloží se jen ta jedna.",
     "src": "d95c9353c6"
   },
+  "값이 여럿인 키예요": {
+    "v": "Tento klíč má více hodnot",
+    "src": "62d46883e7"
+  },
   "강조된 칸만 채우면 나머지 문장은 그대로 완성돼요. 자주 쓰는 양식을 빠르게 입력하세요.": {
     "v": "Vyplňte jen zvýrazněná pole a zbytek textu se dokončí sám. Rychle zadávejte své časté formuláře.",
     "src": "3e6e29e035"
@@ -2861,6 +2905,10 @@
     "v": "Vývojářský režim je zapnutý",
     "src": "021ba88e86"
   },
+  "개발팀": {
+    "v": "Vývoj",
+    "src": "90fa7467ad"
+  },
   "개수": {
     "v": "Počet",
     "src": "4a944c61f9"
@@ -2880,7 +2928,7 @@
   },
   "개인": {
     "v": "Osobní",
-    "src": "aae44f95ed"
+    "src": "450ee13807"
   },
   "개인정보 처리방침": {
     "v": "Zásady ochrany osobních údajů",
@@ -2905,6 +2953,10 @@
   "거부": {
     "v": "Zamítnout",
     "src": "da3f4e8df6"
+  },
+  "건너뛰기": {
+    "v": "Přeskočit",
+    "src": "dbca331a34"
   },
   "걸을 수 있는 시간이에요": {
     "v": "dost času na procházku",
@@ -3003,6 +3055,10 @@
     "v": "Banka",
     "src": "a10e3fdccb"
   },
+  "계좌 알려 주실래요?": {
+    "v": "Můžete mi poslat číslo svého účtu?",
+    "src": "e82e7161da"
+  },
   "계좌·주소는 한 번만 맞춰 두세요": {
     "v": "Účet a adresu nastavte jednou provždy",
     "src": "e77b80bdf9"
@@ -3017,7 +3073,7 @@
   },
   "계좌번호": {
     "v": "Číslo účtu",
-    "src": "592baec91d"
+    "src": "5d3df7e20d"
   },
   "계좌번호 좀 보내줄래?": {
     "v": "Můžeš mi poslat číslo účtu?",
@@ -3395,6 +3451,10 @@
     "v": "Funkce",
     "src": "95a5536727"
   },
+  "기능 더하기": {
+    "v": "Přidat funkce",
+    "src": "fbf3b61782"
+  },
   "기능 열린 비율": {
     "v": "Podíl odemčených funkcí",
     "src": "b886b4aa01"
@@ -3505,7 +3565,7 @@
   },
   "기호": {
     "v": "Symboly",
-    "src": "912b120400"
+    "src": "812dafa9b1"
   },
   "긴 이름": {
     "v": "Dlouhé názvy",
@@ -3530,6 +3590,10 @@
   "김민수": {
     "v": "Jan Novák",
     "src": "3104c902cf"
+  },
+  "김서연": {
+    "v": "Alice Kim",
+    "src": "a2e2efa57b"
   },
   "깊은 초록이에요. 어두운 화면에서 눈이 편합니다.": {
     "v": "Hluboká zelená. Příjemná pro oči na tmavé obrazovce.",
@@ -3575,6 +3639,10 @@
     "v": "Rozdělit",
     "src": "d8d771b857"
   },
+  "나눠 담을 수 있어요": {
+    "v": "Můžete je roztřídit",
+    "src": "a74243d83f"
+  },
   "나에게 맞추기": {
     "v": "Přizpůsobit mně",
     "src": "51ddf66355"
@@ -3582,6 +3650,10 @@
   "나중에": {
     "v": "Později",
     "src": "a87f3586ca"
+  },
+  "나중에 다시": {
+    "v": "Později",
+    "src": "5ac2f59d1d"
   },
   "나중에 할게요": {
     "v": "Možná později",
@@ -3634,6 +3706,14 @@
   "내 것을 저장해보세요": {
     "v": "Uložte si vlastní",
     "src": "7c40449eba"
+  },
+  "내 단축어 만들기": {
+    "v": "Vytvořte si vlastní frázi",
+    "src": "966e73db02"
+  },
+  "내 단축어 만들러 가기": {
+    "v": "Vytvořit vlastní fráze",
+    "src": "5f0c7533c3"
   },
   "내 데이터": {
     "v": "Moje data",
@@ -3735,6 +3815,10 @@
     "v": "Zítra",
     "src": "c85ae14422"
   },
+  "내일 7시 강남역 2번 출구": {
+    "v": "Zítra v 19:00 u severního vchodu",
+    "src": "cbfd880c6e"
+  },
   "내일부터 무료 플랜이에요": {
     "v": "Od zítřka platí bezplatný plán",
     "src": "2ba88210c5"
@@ -3774,6 +3858,10 @@
   "넣은 뒤 커서 자리 기억": {
     "v": "Pamatovat polohu kurzoru",
     "src": "b66e02b4d0"
+  },
+  "넣을 이름을 눌러 보세요": {
+    "v": "Klepnutím na jméno ho doplníte",
+    "src": "157d99cd71"
   },
   "네, 켰어요": {
     "v": "Ano, je zapnuto",
@@ -3819,6 +3907,14 @@
     "v": "Při každém stisku se zobrazí „Povolit vložení?“",
     "src": "4c8bae2eca"
   },
+  "누를 때마다 다음 값이 들어가는 키 하나로 묶을 수 있어요": {
+    "v": "Spojte je do jednoho klíče, který při každém klepnutí zadá další hodnotu",
+    "src": "99f9835f3b"
+  },
+  "누를 때마다 다음 값이 들어가요": {
+    "v": "Každé klepnutí vloží další hodnotu",
+    "src": "d46f9752bc"
+  },
   "누적 사용 횟수": {
     "v": "Celkem použití",
     "src": "42b316f9e8"
@@ -3839,6 +3935,10 @@
     "v": "Opraveno: mizející vložený text, přerušený průvodce a chybějící barvy pozadí kategorií",
     "src": "57acf2e671"
   },
+  "눌러 보세요": {
+    "v": "Klepněte na to",
+    "src": "10c0451083"
+  },
   "눌러서 그대로 입력하는 단축어": {
     "v": "Fráze, kterou klepnutím zadáte beze změny",
     "src": "62c8adf23a"
@@ -3850,6 +3950,10 @@
   "눌러서 바로 넘어가기": {
     "v": "Klepnutím přeskočíte",
     "src": "96266d8ee9"
+  },
+  "눌러서 복사": {
+    "v": "Klepnutím zkopírovat",
+    "src": "9e45c8e926"
   },
   "눌러서 이 빈칸을 펼칩니다": {
     "v": "Klepnutím otevřete toto pole",
@@ -3891,6 +3995,18 @@
     "v": "Zkušený uživatel",
     "src": "eb70f5144b"
   },
+  "님 안녕하세요": {
+    "v": ", dobrý den",
+    "src": "f5317a4697"
+  },
+  "님 안녕하세요, 문의 주셔서 감사합니다.": {
+    "v": ", dobrý den, děkujeme za Váš dotaz.",
+    "src": "f3407ccb2f"
+  },
+  "다 넣었어요": {
+    "v": "Vše zadáno",
+    "src": "2cddb33f51"
+  },
   "다 됐어요. 저장하면 키보드에 바로 올라가요.": {
     "v": "Hotovo. Po uložení se fráze rovnou objeví na klávesnici.",
     "src": "8abeb46ded"
@@ -3902,6 +4018,18 @@
   "다른 걸로": {
     "v": "Jiná možnost",
     "src": "24fb297dfa"
+  },
+  "다른 곳에 자주 쓰는 글이 있으면": {
+    "v": "Máte text, který píšete pořád dokola?",
+    "src": "a8067a390a"
+  },
+  "다른 곳에 자주 쓰는 글이 있으면 복사해서 여기 담아 두세요. 필요할 때 꺼내 쓰면 돼요.": {
+    "v": "Pokud někde často píšete stejný text, zkopírujte ho a uložte sem. Až ho budete potřebovat, použijte ho.",
+    "src": "b0f22e41a8"
+  },
+  "다른 곳에서 복사함": {
+    "v": "Zkopírováno jinde",
+    "src": "591fc7bc1e"
   },
   "다른 기기가 다음에 동기화할 때 이 기기와 같아져요.": {
     "v": "Ostatní zařízení se při příští synchronizaci sjednotí s tímto.",
@@ -3943,9 +4071,25 @@
     "v": "Přesně tak, jak vypadá v jiných aplikacích",
     "src": "4fc7fc8744"
   },
+  "다른 앱에서 보일 키보드를 여기서 미리": {
+    "v": "Vyzkoušejte si klávesnici, kterou uvidíte v jiných aplikacích",
+    "src": "c1b76984d5"
+  },
+  "다른 앱에서 복사하면 여기 보여요": {
+    "v": "Zkopírujte něco v jiné aplikaci a zobrazí se to tady",
+    "src": "20d42fe0e7"
+  },
   "다른 앱에서 붙여넣기": {
     "v": "Vložení v jiných aplikacích",
     "src": "43186426db"
+  },
+  "다른 앱에서 지구본 한 번": {
+    "v": "V jakékoli aplikaci klepněte na zeměkouli",
+    "src": "360d6cba38"
+  },
+  "다른 앱에서 지구본을 누르면 이 키보드가 떠요": {
+    "v": "Klepněte v jakékoli aplikaci na glóbus a klávesnice se objeví",
+    "src": "0da9272aca"
   },
   "다른 앱에서 찾아오던 시간을 실제로 재 본 크기로 올렸어요. 은행 앱을 여는 건 28초에 끝나는 일이 아니었어요": {
     "v": "Čas na dohledání hodnot v jiných aplikacích jsme upravili podle skutečného měření. Otevření bankovní aplikace netrvalo jen 28 sekund.",
@@ -3959,6 +4103,10 @@
     "v": "Přesně tak, jak vypadá klávesnice v jiných aplikacích. Klepnutím si ji hned vyzkoušíte.",
     "src": "8a71491838"
   },
+  "다른 이름도 눌러 보세요": {
+    "v": "Zkuste i další jméno",
+    "src": "9ff10303e4"
+  },
   "다른 카테고리 탭에서 다시 열어 보세요": {
     "v": "Zkuste ji otevřít na jiné kartě kategorie",
     "src": "e45062201b"
@@ -3970,6 +4118,18 @@
   "다른 카테고리로 옮기기": {
     "v": "Přesunout do jiné kategorie",
     "src": "710255cf6a"
+  },
+  "다섯 가지 모두": {
+    "v": "Všech pět",
+    "src": "ff1b04bb97"
+  },
+  "다시 가기": {
+    "v": "Znovu do Nastavení",
+    "src": "d62091634c"
+  },
+  "다시 보기": {
+    "v": "Znovu přehrát",
+    "src": "a9a5b0c590"
   },
   "다시 보지 않기": {
     "v": "Již nezobrazovat",
@@ -3998,6 +4158,10 @@
   "다음 %@": {
     "v": "Další %@",
     "src": "c1f6f40ce6"
+  },
+  "다음 값이 차례로 들어가요": {
+    "v": "zadá další hodnoty popořadě",
+    "src": "e6b8efa203"
   },
   "다음 글자": {
     "v": "Další písmeno",
@@ -4046,6 +4210,10 @@
   "단계별 키보드 설정 가이드를 엽니다": {
     "v": "Otevře průvodce nastavením klávesnice krok za krokem",
     "src": "17823e323d"
+  },
+  "단순하게": {
+    "v": "Jednoduše",
+    "src": "9deebce454"
   },
   "단어": {
     "v": "Slovo",
@@ -4368,6 +4536,10 @@
     "v": "Frází přibývá",
     "src": "154f7241cd"
   },
+  "단축어가 많아졌어요": {
+    "v": "Máte uložených hodně frází",
+    "src": "2a894e1c99"
+  },
   "단축어가 삭제된 게 아니라, 저장 파일을 읽지 못한 상태예요. 원본은 그대로 보관해 두었습니다.": {
     "v": "Fráze nebyly smazány, jen se nepodařilo přečíst soubor. Originál je v bezpečí.",
     "src": "c5bf559b67"
@@ -4515,6 +4687,22 @@
     "v": "dost času na běhání",
     "src": "94a0c9b109"
   },
+  "담아 두지 않은 것도 다시 꺼내 써요": {
+    "v": "Použijte znovu i to, co jste neuložili",
+    "src": "b35dc3afe6"
+  },
+  "담아 둔 것을 누르면 복사돼요": {
+    "v": "Klepnutím na uloženou položku ji zkopírujete",
+    "src": "6cc30a8f7d"
+  },
+  "담아 둔 것이 많아서": {
+    "v": "Protože máte hodně uloženého",
+    "src": "8bb3da6e11"
+  },
+  "담아 둔 글을 키보드가 읽으려면 필요해요": {
+    "v": "Klávesnice to potřebuje, aby si přečetla uložené texty",
+    "src": "9bcf7460e5"
+  },
   "담을 글이 없어요. 먼저 글을 복사해 주세요.": {
     "v": "Není co zachytit. Nejdřív zkopírujte nějaký text.",
     "src": "c44bc79ce2"
@@ -4522,6 +4710,14 @@
   "담지 못했어요. 잠시 뒤 다시 해 주세요.": {
     "v": "Zachycení se nezdařilo. Zkuste to za chvíli znovu.",
     "src": "d0ca351c51"
+  },
+  "답장 글을 담아 둬서": {
+    "v": "Protože máte uložené odpovědi",
+    "src": "26285766a7"
+  },
+  "답장이 많아요": {
+    "v": "Hodně odpovídám",
+    "src": "85d4616b44"
   },
   "당신과 닮은 누군가는, 이 순간들에서 매일 몇 분을 되찾고 있어요. 마음에 드는 예시는 탭 한 번으로 내 단축어가 됩니다.": {
     "v": "Někdo podobný vám v těchto chvílích každý den získává zpět pár minut. Příklad, který se vám líbí, se jedním klepnutím stane vaší frází.",
@@ -4761,7 +4957,7 @@
   },
   "두벌식": {
     "v": "Dubeolsik",
-    "src": "ff66d88372"
+    "src": "6b281885aa"
   },
   "둥글고 부드럽게, 느리게 돌아와요.": {
     "v": "Oblé a jemné, vrací se pomalu.",
@@ -4786,6 +4982,14 @@
   "드래그하여 순서를 바꿉니다": {
     "v": "Přetažením změníte pořadí",
     "src": "c81ec081f6"
+  },
+  "들어갔어요": {
+    "v": "Doplněno",
+    "src": "9f868a21de"
+  },
+  "들어갔어요. 보내 보세요": {
+    "v": "Vloženo. Teď to odešlete",
+    "src": "0fe34a8563"
   },
   "들어갔어요. 보내기를 눌러 올려보세요.": {
     "v": "Je tam. Klepnutím na odeslat to zveřejníte.",
@@ -4968,6 +5172,10 @@
     "v": "Vytvořeno",
     "src": "759e04c013"
   },
+  "많아지면 탭으로 찾아요": {
+    "v": "Až jich přibude, hledejte podle záložek",
+    "src": "e9812a3b39"
+  },
   "많이 쓰는 사람": {
     "v": "Časté používání",
     "src": "7767a2261e"
@@ -5046,7 +5254,7 @@
   },
   "메모": {
     "v": "Poznámka",
-    "src": "7dead95b66"
+    "src": "db504a131e"
   },
   "메모 구분 표시를 꺼도 남아있던 카드 테두리까지 완전히 숨김": {
     "v": "Po vypnutí označení poznámek se nyní skryjí i zbylé okraje karet",
@@ -5068,13 +5276,29 @@
     "v": "Poznámka uložena do Doručených",
     "src": "4245c137e4"
   },
+  "메모의 '복사'를 눌러 보세요": {
+    "v": "Klepněte na Kopírovat v poznámce",
+    "src": "2559d34f02"
+  },
   "메모장에 모아 둔 걸 통째로 붙여넣으면 알아서 한 줄씩 나눠 담아요. 사진에서 읽어 올 수도 있고, 비밀번호처럼 보이는 값은 잠긴 단축어로 들어갑니다. 단축어 목록의 + 안에 있어요.": {
     "v": "Vložte celý seznam z aplikace Poznámky a rozdělíme ho na jednotlivé fráze. Lze ho načíst i z fotky a vše, co vypadá jako heslo, se uloží zamčené. Najdete to pod + v seznamu frází.",
     "src": "d96f9a2420"
   },
+  "메시지": {
+    "v": "Zpráva",
+    "src": "b955bd7602"
+  },
   "메시지 보내기": {
     "v": "Odeslat zprávu",
     "src": "83aaab5a2b"
+  },
+  "메시지를 쓰다가 지구본을 누르면": {
+    "v": "Při psaní zprávy klepněte na glóbus",
+    "src": "d9e4463eb3"
+  },
+  "메시지를 쓰다가 지구본을 누르면 담아 둔 단축어가 키보드에 서 있어요. 누르면 바로 들어가요.": {
+    "v": "Při psaní zprávy klepněte na glóbus a uložené fráze jsou hned na klávesnici. Klepnutím se vloží.",
+    "src": "2bcb827fc0"
   },
   "메일 쓰기": {
     "v": "Napsat e-mail",
@@ -5188,9 +5412,17 @@
     "v": "Klepnutí dvěma prsty na seznam otevře výběr. Stejná cesta je i v panelu po dlouhém stisku karty",
     "src": "524c7319e5"
   },
+  "목록에서 옆으로 넘기면 분류가 바뀌어요": {
+    "v": "Přejetím do strany v seznamu změníte kategorii",
+    "src": "126bbfce33"
+  },
   "목록에서 제목 아래 내용이 한 줄 보이고, 민감한 값은 가려져요": {
     "v": "Seznam zobrazuje pod názvem řádek obsahu, citlivé hodnoty jsou skryté",
     "src": "13e35b9625"
+  },
+  "목록으로": {
+    "v": "Zpět na seznam",
+    "src": "bfc3e6a5f5"
   },
   "목록을 열고 편집할 때 제목과 단축어 사이 여백이 덜컹이지 않아요": {
     "v": "Mezera mezi názvem a frázemi už při otevření a úpravě seznamu neposkakuje",
@@ -5437,6 +5669,10 @@
     "v": "Nezahrnuto",
     "src": "a94b695289"
   },
+  "민감한 글은 잠가 둬요": {
+    "v": "Citlivé texty si zamkněte",
+    "src": "3699890fa7"
+  },
   "바꾸기": {
     "v": "Změnit",
     "src": "476e98573d"
@@ -5453,6 +5689,10 @@
     "v": "Hotovo. V aplikaci to můžete dál upravit.",
     "src": "5877132c73"
   },
+  "바로 넣기": {
+    "v": "Vložit jedním klepnutím",
+    "src": "3fc74f6418"
+  },
   "바로 써 볼 수 있게 준비해 뒀어요": {
     "v": "Připravili jsme pár věcí k vyzkoušení",
     "src": "295214406d"
@@ -5465,6 +5705,10 @@
     "v": "Objeví se rovnou na klávesnici a hned ji použijete v jakékoli aplikaci.",
     "src": "24a6b860e4"
   },
+  "박도윤": {
+    "v": "Sam Patel",
+    "src": "3f1b4d82f8"
+  },
   "박서연": {
     "v": "Jana Nováková",
     "src": "c8810d8f41"
@@ -5476,6 +5720,10 @@
   "반값으로 평생 쓰실래요?": {
     "v": "Chcete ji navždy za poloviční cenu?",
     "src": "6395bf8804"
+  },
+  "방금": {
+    "v": "Právě teď",
+    "src": "54f8277af2"
   },
   "방금 가려야 할 것을 저장하셨어요. Face ID로 잠글 수 있어요": {
     "v": "Právě jste uložili něco soukromého. Můžete to zamknout pomocí Face ID",
@@ -5517,6 +5765,14 @@
   "배달앱 주소칸이 비어 있을 때": {
     "v": "Když doručovací aplikace chce vaši adresu",
     "src": "5111a2020a"
+  },
+  "배웠어요": {
+    "v": "Naučeno",
+    "src": "8b425034bf"
+  },
+  "배포 점검": {
+    "v": "Kontrola vydání",
+    "src": "8167fdcd5b"
   },
   "백업 건너뜀": {
     "v": "Záloha přeskočena",
@@ -5658,6 +5914,10 @@
     "v": "Čísla, která se zvyšují, nyní nabídnou další číslo, aby se nepoužilo to minulé.",
     "src": "30fafa6081"
   },
+  "번호만 다른 단축어가 생겼어요": {
+    "v": "Máte fráze lišící se jen číslem",
+    "src": "3cabca5b87"
+  },
   "변경": {
     "v": "Změnit",
     "src": "611c1906a6"
@@ -5722,13 +5982,21 @@
     "v": "Uložíme to do Doručených. Později se můžete rozhodnout, zda z toho vytvoříte frázi.",
     "src": "4a86c5f66b"
   },
+  "보기": {
+    "v": "Přehrát",
+    "src": "28f0a900e2"
+  },
   "보기 편한 색과 대비": {
     "v": "Lépe čitelné barvy a kontrast",
     "src": "adfef7f3f0"
   },
+  "보내 볼까요?": {
+    "v": "Odeslat?",
+    "src": "6ed75e40a0"
+  },
   "보내기": {
     "v": "Odeslat",
-    "src": "99d64fa263"
+    "src": "b47ad9123e"
   },
   "보내기 키": {
     "v": "Klávesa Odeslat",
@@ -5746,6 +6014,14 @@
     "v": "Název této klávesy určuje každá aplikace. V aplikacích pro zprávy se zobrazí Odeslat, ve vyhledávacím poli Hledat. V některých aplikacích pouze vloží nový řádek.",
     "src": "aa598dca64"
   },
+  "보내기까지 눌러 보세요": {
+    "v": "Teď klepněte na odeslat",
+    "src": "8205e1634c"
+  },
+  "보내면 말풍선이 돼요": {
+    "v": "Po odeslání se z toho stane bublina",
+    "src": "5f14ef8141"
+  },
   "보낸 곳: %@": {
     "v": "Odesláno z: %@",
     "src": "9c893a5ccb"
@@ -5753,6 +6029,10 @@
   "보낸 이미지": {
     "v": "Odeslaný obrázek",
     "src": "3cdec7e3e6"
+  },
+  "보냄": {
+    "v": "Odesláno",
+    "src": "8cc53faa15"
   },
   "보안 PIN": {
     "v": "Zabezpečený PIN",
@@ -5776,7 +6056,7 @@
   },
   "보안 단축어": {
     "v": "Zabezpečená fráze",
-    "src": "d2a8de662d"
+    "src": "d66d121067"
   },
   "보안 단축어 PIN": {
     "v": "PIN zabezpečených frází",
@@ -5876,7 +6156,11 @@
   },
   "복사": {
     "v": "Kopírovat",
-    "src": "615c9aad58"
+    "src": "a64a3c5bb3"
+  },
+  "복사 · 붙여넣기 · 바로 넣기": {
+    "v": "Kopírovat, vložit, hned zadat",
+    "src": "ecb7c12601"
   },
   "복사 될 값": {
     "v": "Hodnota ke zkopírování",
@@ -5955,9 +6239,21 @@
     },
     "src": "37f7490481"
   },
+  "복사한 글이 30일 동안 남아요": {
+    "v": "Zkopírovaný text zůstane 30 dní",
+    "src": "006c8040e7"
+  },
+  "복사한 글이 30일 동안 저절로 남게 할 수 있어요": {
+    "v": "Zkopírovaný text si můžete nechat automaticky 30 dní",
+    "src": "cf783fc537"
+  },
   "복사한 글이 7일이 아니라 30일 동안 남아요": {
     "v": "Zkopírovaný text zůstává 30 dní místo 7",
     "src": "3a3d50e79e"
+  },
+  "복사한 글이 저절로 남아요": {
+    "v": "Zkopírovaný text se uchová sám",
+    "src": "d5dcd686c0"
   },
   "복사한 내용을 자동으로 저장하고 관리": {
     "v": "Automaticky ukládejte a spravujte zkopírované",
@@ -6001,6 +6297,10 @@
     "v": "Kopírování už neukládá hodnoty samo, takže se seznam nezaplňuje jednorázovými hodnotami",
     "src": "03998369ee"
   },
+  "복사해 두고 꺼내 쓰는 것, 이게 전부예요": {
+    "v": "Zkopírovat, uložit, použít. To je vše",
+    "src": "dfadb743c5"
+  },
   "복사해 둔 것을 문장 안에 끼울 수 있어요": {
     "v": "Zkopírované můžete vložit do věty",
     "src": "571baf7c00"
@@ -6022,6 +6322,22 @@
     },
     "src": "2c57cfc2e7"
   },
+  "복사해서 담아 두고 꺼내 쓰기": {
+    "v": "Zkopírovat, uložit a později použít",
+    "src": "1b601f7340"
+  },
+  "복사해서 여기 담아 두세요": {
+    "v": "Zkopírujte to a uložte sem",
+    "src": "4b8fd041aa"
+  },
+  "복사해요": {
+    "v": "Zkopíruje to",
+    "src": "224639c8d4"
+  },
+  "복사했어요": {
+    "v": "Zkopírováno",
+    "src": "5f587d67aa"
+  },
   "복원": {
     "v": "Obnovit",
     "src": "c98674684a"
@@ -6038,6 +6354,10 @@
     "v": "Žádné nákupy k obnovení",
     "src": "64b6d39340"
   },
+  "본인만 꺼낼 수 있어요": {
+    "v": "Zobrazit ho můžete jen vy",
+    "src": "7d77eba9fa"
+  },
   "봉인됨": {
     "v": "Zapečetěno",
     "src": "a4c4f50b6b"
@@ -6050,6 +6370,10 @@
     "v": "Zapečetěno",
     "src": "72780a26c3"
   },
+  "봤어요": {
+    "v": "Viděno",
+    "src": "269601366d"
+  },
   "부분만 고르기": {
     "v": "Vybrat část",
     "src": "6224d19424"
@@ -6061,6 +6385,10 @@
   "분류": {
     "v": "Kategorie",
     "src": "d311748ec5"
+  },
+  "분류 탭": {
+    "v": "Karty kategorií",
+    "src": "8960084754"
   },
   "불러오기": {
     "v": "Obnovit",
@@ -6084,7 +6412,7 @@
   },
   "붙여넣기": {
     "v": "Vložit",
-    "src": "e2803c8693"
+    "src": "399e74789b"
   },
   "붙여넣기 알림 설정": {
     "v": "Nastavení oznámení o vložení",
@@ -6142,6 +6470,10 @@
     "v": "Pro zachycení povolte vkládání.",
     "src": "d420129e41"
   },
+  "붙여넣어 담는 일이 잦네요": {
+    "v": "Často vkládáte text",
+    "src": "6587f7f508"
+  },
   "붙여넣을 내용": {
     "v": "Obsah k vložení",
     "src": "c66132ba38"
@@ -6157,6 +6489,14 @@
   "붙여넣을 내용의 단추를 둘로 갈랐어요. 스캔해서 글자 넣기는 사진 속 글자만 가져오고, 이미지 붙이기는 사진을 그대로 담아요": {
     "v": "Tlačítka obsahu jsou nově dvě samostatná. Naskenovat text převezme jen text z fotky, Přidat obrázek ponechá fotku celou",
     "src": "646026a637"
+  },
+  "붙여넣지 않아도 바로 들어가요": {
+    "v": "Vloží se i bez vkládání",
+    "src": "6965edda85"
+  },
+  "붙여넣지 않아도 버튼이 바로 넣어요": {
+    "v": "Tlačítko to napíše samo, bez vkládání",
+    "src": "711467619d"
   },
   "브라우저에서 열기": {
     "v": "Otevřít v prohlížeči",
@@ -6248,6 +6588,10 @@
     "v": "Přidat pole",
     "src": "c4b41951af"
   },
+  "빈칸 하나로 두면 단축어 하나로 여러 사람에게 써요": {
+    "v": "Ponechte pole pro jméno a jedna fráze poslouží pro každého",
+    "src": "2bc36b4c01"
+  },
   "빈칸 한 칸씩 채우기": {
     "v": "Vyplňovat pole po jednom",
     "src": "3ecae2d040"
@@ -6291,6 +6635,10 @@
   "빈칸이 여럿이어도 굴리지 않아요": {
     "v": "Více polí bez posouvání",
     "src": "52d81595f3"
+  },
+  "빈칸이 있는 글이에요": {
+    "v": "Tento text má pole k vyplnění",
+    "src": "6b6a1334d8"
   },
   "빗대는 줄을 누르면 다른 것으로 바뀌어요. 영화 한 편이 안 와닿으면 30km 달리기, 드라마 4편, 커피 7잔으로요": {
     "v": "Klepnutím na srovnání ho změníte. Když vám film nic neříká, zkuste 30 km běhu, 4 epizody seriálu nebo 7 káv",
@@ -6564,6 +6912,10 @@
     "v": "Nová fráze",
     "src": "5edec876a0"
   },
+  "새 단축어 내용에 {이름} 처럼 쓰면 빈칸이 돼요": {
+    "v": "Napište do nové fráze {jméno} a vznikne pole k vyplnění",
+    "src": "7fd3c028bc"
+  },
   "새 단축어 만들기": {
     "v": "Vytvořit novou frázi",
     "src": "03db17b938"
@@ -6591,6 +6943,10 @@
   "새 단축어를 작성하거나 텍스트를 가져옵니다": {
     "v": "Napište novou frázi nebo importujte text.",
     "src": "8c374ebb1d"
+  },
+  "새 단축어에서 내용을 더하면 스택이 돼요": {
+    "v": "Přidejte do nové fráze další text a vznikne zásobník",
+    "src": "72f9538eed"
   },
   "새 스택": {
     "v": "Nový zásobník",
@@ -6752,6 +7108,10 @@
   "서식": {
     "v": "Formát",
     "src": "35e1bab14d"
+  },
+  "서울 마포구 월드컵북로 396": {
+    "v": "Václavské náměstí 1, Praha",
+    "src": "078fd9af15"
   },
   "서울시 강남구 …": {
     "v": "Ulice 123…",
@@ -6918,6 +7278,10 @@
     "v": "V Nastavení přibyla sekce Spolupracující aplikace. Aplikace, které stojí za společné použití, tam ukazujeme na běžných situacích.",
     "src": "61b3d0a7b8"
   },
+  "설정에서 '키보드'를 누르세요": {
+    "v": "V Nastavení klepněte na Klávesnice",
+    "src": "d4678e94b0"
+  },
   "설정에서 나에게 맞는 유형을 고르면 더 잘 맞는 것부터 보여드려요": {
     "v": "V Nastavení zvolte typ, který vám sedí, a nejvhodnější nabídky uvidíte jako první",
     "src": "1dc96301dd"
@@ -6929,6 +7293,10 @@
   "설정에서 언어를 고를 수 있어요. 고르는 즉시 바뀌고, 키보드는 다음에 열 때부터 따라와요": {
     "v": "Jazyk zvolíte v Nastavení. Změní se hned, klávesnice ho převezme při dalším otevření.",
     "src": "fbd49c84f0"
+  },
+  "설정에서 이렇게 하세요": {
+    "v": "V Nastavení postupujte takto",
+    "src": "e8291faee7"
   },
   "설정에서 키 컬러를 고를 수 있어요. 일곱 가지 중에 고르면 앱과 키보드가 함께 그 색으로 바뀌어요": {
     "v": "V Nastavení je nově Barva kláves. Vyberte z sedmi a aplikace i klávesnice se přebarví.",
@@ -7132,12 +7500,16 @@
     "src": "da15387b89"
   },
   "숫자 판, 지우기, 전체 삭제 키를 펼칩니다": {
-    "v": "Rozbalí klávesy Číselník, Smazat a Smazat vše",
-    "src": "d735dcc2cd"
+    "v": "Zobrazí číselnou klávesnici, mazání a smazání všeho",
+    "src": "fc5aa3822b"
   },
   "숫자 하나가 어긋났어요. 카드에 적힌 번호와 다시 맞춰보세요.": {
     "v": "Jedna číslice nesedí. Porovnejte ji s číslem na kartě.",
     "src": "ecc28f1bca"
+  },
+  "스위치를 켜세요": {
+    "v": "Zapněte přepínač",
+    "src": "0a7bf71081"
   },
   "스캔해서 글자 넣기": {
     "v": "Vložit text skenem",
@@ -7185,7 +7557,7 @@
   },
   "스페이스": {
     "v": "mezerník",
-    "src": "ec89ecd97a"
+    "src": "f0aab83939"
   },
   "시각·운동·청각 보조 기능을 함께 지원합니다. 아래 기능들은 iPhone 설정 → 손쉬운 사용에서 켤 수 있습니다.": {
     "v": "Podporujeme pomocné funkce pro zrak, motoriku i sluch. Zapnout je můžete v Nastavení iPhone → Zpřístupnění.",
@@ -7246,6 +7618,10 @@
   "신원 확인": {
     "v": "Ověření totožnosti",
     "src": "098ff54eac"
+  },
+  "신한 110-123-456789": {
+    "v": "Česká spořitelna 110-123-456789",
+    "src": "fd23b6f361"
   },
   "신한 계좌번호 예금주": {
     "v": "Chase č. účtu majitel",
@@ -7334,6 +7710,10 @@
     "v": "Smazat všechna nepoužitá pole?",
     "src": "74de95db83"
   },
+  "쓸 때 알려 줘요": {
+    "v": "Ukáže se, až bude potřeba",
+    "src": "e2b42b737c"
+  },
   "쓸 때 채우는 칸": {
     "v": "Pole k vyplnění",
     "src": "41f27192a0"
@@ -7353,6 +7733,10 @@
   "쓸수록 카드 위에 싹이 트고 나무와 집이 들어서요.": {
     "v": "Čím víc kartu používáte, tím víc z ní vyrůstá stromů a domů.",
     "src": "4e0db59246"
+  },
+  "아, 이렇게 보내는 거예요": {
+    "v": "Takhle se to odesílá",
+    "src": "5d1a1fdd24"
   },
   "아까와 다른 값이에요. 한 번 더 보내볼까요?": {
     "v": "Tentokrát je hodnota jiná. Odeslat ji ještě jednou?",
@@ -7522,6 +7906,10 @@
     "v": "Zatím nic nevytvořili",
     "src": "7ce4b55985"
   },
+  "아직 안 켜졌어요": {
+    "v": "Ještě není zapnutá",
+    "src": "d07b8317d6"
+  },
   "아직 없어요": {
     "v": "Zatím neuloženo",
     "src": "265208ca21"
@@ -7609,7 +7997,7 @@
   },
   "알겠어요": {
     "v": "Rozumím",
-    "src": "f6ae636405"
+    "src": "005423f0d6"
   },
   "알려 주기": {
     "v": "Dát vědět",
@@ -7626,6 +8014,10 @@
   "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.": {
     "v": "Zkontrolujte první 4 znaky (kód země + kontrolní číslice). Zbytek je v pořádku.",
     "src": "ffe99c9acb"
+  },
+  "앞 글과 이름만 다르네요": {
+    "v": "Od předchozího se liší jen jméno",
+    "src": "0d04c1485c"
   },
   "앞뒤를 남기고 가운데만 줄여요. 앞이 비슷한 이름끼리도 구분돼요.": {
     "v": "Zachová začátek i konec a zkrátí prostředek, takže jména se stejným začátkem zůstanou rozlišitelná.",
@@ -7764,6 +8156,10 @@
     },
     "src": "77bc369908"
   },
+  "양식 칸을 차례로 채울 때 좋아요": {
+    "v": "Hodí se k vyplňování polí formuláře popořadě",
+    "src": "2d42bff07c"
+  },
   "어느 걸 넣을까요?": {
     "v": "Kterou vložit?",
     "src": "728d55302a"
@@ -7842,7 +8238,19 @@
   },
   "업무": {
     "v": "Práce",
-    "src": "2dd4ba1fdc"
+    "src": "ae8c86df66"
+  },
+  "업무 · 개인처럼 나눠 담아요": {
+    "v": "Rozdělte na Práci, Osobní a další",
+    "src": "62d1489990"
+  },
+  "업무 · 개인처럼 나눠 담으면 찾기 쉬워요": {
+    "v": "Když fráze rozdělíte na pracovní a osobní, snáz je najdete",
+    "src": "d4832f5763"
+  },
+  "업무 것만 남았어요": {
+    "v": "Zbyly jen pracovní",
+    "src": "db356c3bd0"
   },
   "없는 날짜예요. 다시 확인해 주세요": {
     "v": "Toto datum neexistuje. Zkontrolujte ho prosím znovu",
@@ -7888,6 +8296,14 @@
     "v": "Klepněte sem a klávesou se zeměkoulí vyberte ClipKeyboard",
     "src": "eb37f448da"
   },
+  "여기를 누르세요": {
+    "v": "Klepněte sem",
+    "src": "fe481cd374"
+  },
+  "여기서 미리 눌러 볼 수 있어요": {
+    "v": "Můžete si to vyzkoušet tady",
+    "src": "e15d81f8d6"
+  },
   "여기서 이어 쓰시길래 커서를 여기 세워 뒀어요. 단축어 편집에서 끌 수 있어요.": {
     "v": "Zde obvykle pokračujete v psaní, proto je kurzor nyní tady. Vypnete to v úpravách fráze.",
     "src": "f03e1fd1f1"
@@ -7896,6 +8312,10 @@
     "v": "Často zde pokračujete v psaní, proto kurzor začíná tam",
     "src": "442f975e8b"
   },
+  "여기에 붙여넣어 보세요": {
+    "v": "Teď to vložte sem",
+    "src": "35f987d4ae"
+  },
   "여기에 입력돼요": {
     "v": "Váš text se zadá sem",
     "src": "5dc6b62d0c"
@@ -7903,6 +8323,10 @@
   "여기예요": {
     "v": "Tady",
     "src": "6b83f5788f"
+  },
+  "여러 값 스택": {
+    "v": "Zásobník hodnot",
+    "src": "e668b70d6a"
   },
   "여러 값을 담은 단축어가 단축어 스택이 됐어요. 칸마다 이름을 붙여 지금 무엇이 들어갈지 보여요": {
     "v": "Fráze s více hodnotami jsou nyní zásobníky frází. Každé pole má jméno, takže vidíte, co se zadá dál.",
@@ -8060,6 +8484,10 @@
     "v": "Vystačí na celý film a ještě zbude čas.",
     "src": "84a182f6d6"
   },
+  "옆 사람 화면에도 값이 보이지 않아요": {
+    "v": "Hodnotu neuvidí nikdo, kdo se dívá přes rameno",
+    "src": "757bca9ace"
+  },
   "옆으로 넘겨 '제어 항목'에 두고, '제어 항목 선택'을 눌러요": {
     "v": "Přejeďte na Ovládací prvky a klepněte na Vybrat ovládací prvek",
     "src": "75a6fb80a0"
@@ -8156,6 +8584,10 @@
     "v": "Např. d. M. yyyy",
     "src": "53da35c592"
   },
+  "예: 서울 마포구 월드컵북로 396": {
+    "v": "Např. Václavské náměstí 1, Praha",
+    "src": "aeb4e3a4a8"
+  },
   "예: 회사 이메일, 송금 계좌": {
     "v": "Např. Pracovní e-mail, Bankovní účet",
     "src": "73426e48fc"
@@ -8207,6 +8639,10 @@
   "오랜만에 다시 열었다. 튜토리얼도 리뷰도 다시 묻지 않는다.": {
     "v": "Aplikace byla znovu otevřena po delší pauze. Bez návodu a bez výzvy k hodnocení.",
     "src": "7058e1663f"
+  },
+  "오른쪽 파란 화살표를 누르세요": {
+    "v": "Klepněte na modrou šipku vpravo",
+    "src": "22b28ee01a"
   },
   "오른쪽 화살표로 값을 고르고, 왼쪽을 누르면 PIN 인증 후 넣어요": {
     "v": "Šipkou vyberte hodnotu, klepnutím vlevo zadáte PIN a vložíte ji",
@@ -8493,6 +8929,14 @@
     "v": "Tato aplikace nemá server. Čísla účtů ani rodná čísla jsou jen v tomto telefonu a ani my je neuvidíme. Není server, který by šlo napadnout, takže není co napadnout.",
     "src": "748fd3e528"
   },
+  "이 앱으로 할 수 있는 일": {
+    "v": "Co všechno můžete dělat",
+    "src": "9d4c540c29"
+  },
+  "이 앱으로 할 수 있는 일 더 알아보기": {
+    "v": "Co dalšího umím",
+    "src": "259ccf35b2"
+  },
   "이 앱은 아이폰 키보드에서 쓰는 앱이라 Mac에서는 단축어를 넣을 수 없어요. Mac용 탭클립키보드는 메뉴 막대와 단축키로 어느 앱에서나 바로 붙여넣어요.": {
     "v": "Tato aplikace funguje přes klávesnici na iPhonu, takže na Macu do ní fráze vložit nelze. ClipKeyboard pro Mac je vloží do libovolné aplikace z řádku nabídek nebo klávesovou zkratkou.",
     "src": "2e5ad98226"
@@ -8593,6 +9037,10 @@
     "v": "Tohle chci",
     "src": "c2e9755ca1"
   },
+  "이게 클립키보드예요": {
+    "v": "To je ClipKeyboard",
+    "src": "7e6e4b6e18"
+  },
   "이대로 할게요": {
     "v": "Vypadá dobře",
     "src": "88890b4e87"
@@ -8659,7 +9107,7 @@
   },
   "이름": {
     "v": "Jméno",
-    "src": "3469e286fc"
+    "src": "45b39eadcb"
   },
   "이름 바꾸기": {
     "v": "Přejmenovat",
@@ -8676,6 +9124,14 @@
   "이름·날짜처럼 쓸 때마다 달라지는 자리": {
     "v": "Místa jako jméno nebo datum, která se pokaždé mění",
     "src": "235bfbed70"
+  },
+  "이름과 내용만. 지금 그대로": {
+    "v": "Jen název a text, jako teď",
+    "src": "19b73ede6e"
+  },
+  "이름만 바꿔 여러 사람에게": {
+    "v": "Změňte jen jméno pro každého",
+    "src": "be86093563"
   },
   "이름만 없던 버튼들에 이름을 붙여 보이스오버와 음성 제어로 부를 수 있어요": {
     "v": "Tlačítka bez popisku mají nově názvy pro VoiceOver a Ovládání hlasem",
@@ -8868,6 +9324,10 @@
     },
     "src": "2258e4149d"
   },
+  "이번엔 버튼만 눌러 보세요": {
+    "v": "Tentokrát jen klepněte na tlačítko",
+    "src": "ac9339c7b4"
+  },
   "이번엔 셈을 고쳤어요": {
     "v": "Tentokrát jsme opravili počítání",
     "src": "fa8769e8dd"
@@ -8904,6 +9364,10 @@
     "v": "Obnoví dříve zakoupené Pro",
     "src": "f4b89e1d93"
   },
+  "이제 다른 앱에서 써 볼까요?": {
+    "v": "Chcete to použít i v jiných aplikacích?",
+    "src": "347da98733"
+  },
   "이제 다른 앱에서 써보세요": {
     "v": "Vyzkoušejte to v jiné aplikaci",
     "src": "8320312516"
@@ -8911,6 +9375,10 @@
   "이제 막 써 보는 사람": {
     "v": "Teprve začínáte",
     "src": "8d2e17bfdc"
+  },
+  "이제 어느 앱에서든 이렇게 써요": {
+    "v": "Teď to půjde v každé aplikaci",
+    "src": "48c804c73d"
   },
   "이제 직접 하나 만들어 보세요. 위의 + 를 누르면 돼요.": {
     "v": "Teď si vytvořte vlastní. Klepněte na + nahoře.",
@@ -9033,6 +9501,10 @@
     "v": "Účet pro příjem plateb",
     "src": "cf8af22a18"
   },
+  "입금은 여기로": {
+    "v": "Platbu pošlete sem",
+    "src": "95923ae33d"
+  },
   "입력": {
     "v": "Vložit",
     "src": "4083992b75"
@@ -9077,9 +9549,29 @@
     "v": "Vloží zalomení řádku. V některých aplikacích zprávu odešle",
     "src": "23be16ca8e"
   },
+  "입력칸 위 '붙여넣기'를 누르세요": {
+    "v": "Klepněte nad polem na Vložit",
+    "src": "5a2c8b144f"
+  },
+  "입력칸에 바로 넣어요": {
+    "v": "Vloží text rovnou do pole",
+    "src": "e7bc4669af"
+  },
+  "입력칸을 누르고, 한 번 더 눌러 '붙여넣기'를 고르세요": {
+    "v": "Klepněte na pole, znovu klepněte a vyberte Vložit",
+    "src": "5f83a06eb9"
+  },
+  "입력칸을 눌러 붙여넣어요": {
+    "v": "Klepněte na textové pole a vložte",
+    "src": "086305aea3"
+  },
   "입력하기": {
     "v": "Vložit",
     "src": "1223cfa191"
+  },
+  "입력하는 글은 어디로도 보내지 않아요": {
+    "v": "Co píšete, se nikam neodesílá",
+    "src": "a1ce964e17"
   },
   "입력하세요": {
     "v": "Zadejte",
@@ -9184,6 +9676,14 @@
   "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기": {
     "v": "Ukládejte si často používané texty a rychle je vkládejte",
     "src": "e7cd511f5b"
+  },
+  "자주 쓰는 계좌번호를 담아 뒀어요": {
+    "v": "Uložili jsme číslo účtu, které možná často používáte",
+    "src": "31526a880a"
+  },
+  "자주 쓰는 내 글을 담아요": {
+    "v": "Uložte si text, který často píšete",
+    "src": "c9e544c801"
   },
   "자주 쓰는 단축어를 위로 옮길 수 있어요": {
     "v": "Nejpoužívanější fráze můžete přesunout nahoru",
@@ -9389,6 +9889,10 @@
   "전부 다": {
     "v": "Všechny typy",
     "src": "397495d433"
+  },
+  "전부 쓸래요": {
+    "v": "Chci všechno",
+    "src": "ba51f4e817"
   },
   "전에 직접 고르신 유형": {
     "v": "Typ, který jste vybrali dříve",
@@ -9674,6 +10178,10 @@
     "v": "Adresa",
     "src": "cccba857c8"
   },
+  "주소 좀 보내 줄래?": {
+    "v": "Můžeš mi poslat adresu?",
+    "src": "7ccd714465"
+  },
   "준비 완료": {
     "v": "Připraveno",
     "src": "b2ace13d7c"
@@ -9799,6 +10307,10 @@
     "v": "Podržením zeměkoule přejdete rovnou na klávesnici emoji, i když máte nainstalované další klávesnice",
     "src": "6bef60d0d6"
   },
+  "지구본을 눌러 클립키보드로 바꾸고, 카드를 누르세요": {
+    "v": "Klepnutím na glóbus přepněte na ClipKeyboard a klepněte na kartu",
+    "src": "b34e4b6be0"
+  },
   "지금 Pro로 업그레이드하면 평생 사용": {
     "v": "Upgradujte na Pro a používejte navždy",
     "src": "5d3b360a39"
@@ -9828,6 +10340,10 @@
   "지금 내 단축어 %1$d / %2$d칸": {
     "v": "Využito %1$d z %2$d míst",
     "src": "d35800976d"
+  },
+  "지금 다 외우지 않아도 돼요. 쓸 때가 오면 그 자리에서 보여 드려요.": {
+    "v": "Nemusíte si všechno pamatovat hned. Ukážeme vám to, až to budete potřebovat.",
+    "src": "fd36aa996d"
   },
   "지금 로그인한 Apple ID 로 Pro 를 구매한 기록을 찾지 못했어요. 구매할 때 쓴 Apple ID 로 로그인했는지 확인해 주세요.": {
     "v": "Nenašli jsme nákup Pro pro přihlášené Apple ID. Zkontrolujte, zda jste přihlášeni s Apple ID, kterým jste nákup provedli.",
@@ -9898,6 +10414,10 @@
   "지금은 베타예요. 더 안정되게 다듬어 정식으로 열어요.": {
     "v": "Zatím je to beta. Doladíme stabilitu a pak ji plně spustíme.",
     "src": "b286f8633e"
+  },
+  "지금은 이걸로 충분해요": {
+    "v": "Zatím vám to stačí",
+    "src": "3193dd9df0"
   },
   "지난 %d일 동안": {
     "v": {
@@ -9998,8 +10518,8 @@
     "src": "06b2db15ef"
   },
   "집 주소": {
-    "v": "Adresa domů",
-    "src": "9b017e391e"
+    "v": "Adresa bydliště",
+    "src": "be3eaa903b"
   },
   "짧게 누르면 입력, 길게 누르면 복사예요": {
     "v": "Krátké stisknutí vloží, dlouhé zkopíruje",
@@ -10102,6 +10622,10 @@
     "v": "Když se někdo nový zeptá na váš kontakt",
     "src": "c93545a1f7"
   },
+  "처음 보는 그림": {
+    "v": "První pohled",
+    "src": "ca609c628d"
+  },
   "처음 시작할 때 키보드 크기를 한 번 정하고 넘어가요": {
     "v": "Při prvním spuštění zvolte velikost klávesnice",
     "src": "b571655d26"
@@ -10130,13 +10654,17 @@
     "v": "Úvod dokončen",
     "src": "8342ee7eeb"
   },
+  "처음에 본 그림과 해 보기를 언제든 다시 볼 수 있어요.": {
+    "v": "První spuštění a ukázky si můžete znovu prohlédnout kdykoli.",
+    "src": "c16db54e42"
+  },
   "처음으로": {
     "v": "Od začátku",
     "src": "807655c831"
   },
   "천지인": {
     "v": "Cheonjiin",
-    "src": "3298959b92"
+    "src": "db2c902cda"
   },
   "천지인 키보드의 한글 조합을 바로잡았어요": {
     "v": "Opravili jsme skládání korejštiny na klávesnici Cheonjiin",
@@ -10272,6 +10800,10 @@
     "v": "Nedávné fráze se zapnou samy, jakmile jich přibude. Pokud je zapnete nebo vypnete sami, zůstane to tak.",
     "src": "557f5a46ce"
   },
+  "최근 복사한 것": {
+    "v": "Naposledy zkopírované",
+    "src": "ab4103cf14"
+  },
   "최근 사용": {
     "v": "Nedávno použité",
     "src": "9f04573967"
@@ -10341,8 +10873,8 @@
     "src": "9391b722f8"
   },
   "추천": {
-    "v": "Nejvýhodnější",
-    "src": "101985eb52"
+    "v": "Doporučeno",
+    "src": "6166dabea0"
   },
   "추천 단축어 %@": {
     "v": "Navrhovaná fráze %@",
@@ -10351,6 +10883,10 @@
   "추천 카테고리가 추가돼요. 처음엔 꺼져 있으니 카테고리 관리에서 원하는 것만 켜세요.": {
     "v": "Doporučené kategorie se přidají. Nejdřív jsou vypnuté, v části Správa kategorií zapněte jen ty, které chcete.",
     "src": "afdb286a98"
+  },
+  "출근 보고": {
+    "v": "Ranní hlášení",
+    "src": "ebbdafaa53"
   },
   "출력 예시": {
     "v": "Náhled výstupu",
@@ -10408,13 +10944,21 @@
     "src": "b8ed4c2d5c",
     "v": "Klepněte na kartu a zkopírovaná hodnota se zobrazí tady"
   },
+  "카드를 눌러 보세요": {
+    "v": "Klepněte na kartu",
+    "src": "53eb6f1218"
+  },
   "카드만 깔끔하게 보여요.": {
     "v": "Jen karty, nic víc.",
     "src": "fb5ad40d55"
   },
   "카드번호": {
     "v": "Číslo karty",
-    "src": "9d3834d579"
+    "src": "3553458d65"
+  },
+  "카드번호 같아요. 잠가 둘까요?": {
+    "v": "Vypadá to jako číslo karty. Zamknout?",
+    "src": "28daf579e7"
   },
   "카드번호·IBAN·사업자등록번호는 검사식이 있어요. 한 자리를 잘못 적었으면 저장하기 전에 짚어 드립니다.": {
     "v": "Čísla karet, IBAN a IČO mají kontrolní součet. Pokud se v jedné číslici spletete, upozorníme vás před uložením.",
@@ -10580,6 +11124,10 @@
     "v": "Přidání z kategorie se nyní uloží do této kategorie",
     "src": "77c25f7781"
   },
+  "카톡 · 문자 · 메일 어디서든 지구본 한 번": {
+    "v": "Zprávy, e-mail, kdekoli. Stačí klepnout na glóbus",
+    "src": "a387edb1ec"
+  },
   "칸 추가에 내신 값이 빠진 값이에요": {
     "v": "Z ceny je už odečteno, co jste zaplatili za přidaná místa",
     "src": "336ab872ee"
@@ -10629,9 +11177,13 @@
     "v": "Zapnuté jazyky",
     "src": "d1c1be1375"
   },
+  "켜고 해 보기": {
+    "v": "Zapnout a vyzkoušet",
+    "src": "54cd98b2e1"
+  },
   "켜기": {
     "v": "Zapnout",
-    "src": "408e7ef1df"
+    "src": "55cd856c4b"
   },
   "켜는 법": {
     "v": "Jak zapnout",
@@ -10644,6 +11196,10 @@
   "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
     "v": "Pokud jste to zapnuli, zobrazte klávesnici jednou a stav se změní na Zapnuto. iOS nám to oznámí, jen když se klávesnice otevře.",
     "src": "a472d9b559"
+  },
+  "켜졌어요. 써 볼까요?": {
+    "v": "Zapnuto. Chcete to zkusit?",
+    "src": "00cded27a9"
   },
   "켜짐": {
     "v": "Zapnuto",
@@ -10818,6 +11374,10 @@
     "v": "Přidat ClipKeyboard",
     "src": "c536951952"
   },
+  "클립키보드 켜기": {
+    "v": "Zapnout ClipKeyboard",
+    "src": "a21f37767e"
+  },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "v": {
       "one": "ClipKeyboard vám už ušetřil %d hodinu",
@@ -10855,13 +11415,17 @@
     "v": "Vibrace při klepnutí na klávesy",
     "src": "2f64cfa90c"
   },
+  "키를 세 번 눌러 보세요": {
+    "v": "Klepněte na klávesu třikrát",
+    "src": "b00997831c"
+  },
   "키마다 복사 버튼": {
     "v": "Tlačítko kopírování na každé klávese",
     "src": "eba3df6cf2"
   },
   "키보드": {
     "v": "Klávesnice",
-    "src": "451b4be966"
+    "src": "678ee7da4c"
   },
   "키보드 '최근'에 담았어요: %@": {
     "v": "Přidáno do Nedávných na klávesnici: %@",
@@ -10929,7 +11493,7 @@
   },
   "키보드 미리보기": {
     "v": "Náhled klávesnice",
-    "src": "8b52ec4dbd"
+    "src": "2c86ceca60"
   },
   "키보드 미리보기가 한 번에 부드럽게 오르내리고, 입력창 캐럿이 깜빡여요": {
     "v": "Náhled klávesnice se plynule posouvá nahoru a dolů jako celek a kurzor bliká",
@@ -11001,7 +11565,11 @@
   },
   "키보드 켜기": {
     "v": "Zapnout klávesnici",
-    "src": "1d5c88ebac"
+    "src": "f014241548"
+  },
+  "키보드 켜러 가기": {
+    "v": "Zapnout klávesnici",
+    "src": "d1f714834a"
   },
   "키보드 켜짐": {
     "v": "Klávesnice zapnuta",
@@ -11079,6 +11647,10 @@
     "v": "Výzva k zapnutí klávesnice už nepřekáží. Zůstává jako pruh nahoře na klávesnici, ustoupí jiné zprávě a vrátí se, až bude místo volné",
     "src": "995c6c6937"
   },
+  "키보드를 켜면 어느 앱에서든 바로 넣을 수 있어요": {
+    "v": "Zapněte klávesnici a vložíte fráze v jakékoli aplikaci",
+    "src": "edb589de36"
+  },
   "키보드를 켜면 어디서든 이 화면이 올라와요": {
     "v": "Po zapnutí klávesnice se tato obrazovka objeví kdekoli",
     "src": "2578359f7c"
@@ -11099,6 +11671,10 @@
     "v": "Zapnuli klávesnici",
     "src": "a9f021b9e6"
   },
+  "키보드를 한 번만 켜 두면 돼요": {
+    "v": "Klávesnici stačí zapnout jednou",
+    "src": "fe70292c7c"
+  },
   "키보드를 한 번에 설정해요": {
     "v": "Nastavte klávesnici najednou",
     "src": "741d40232a"
@@ -11110,6 +11686,10 @@
   "키보드에 보내기 키가 생겼어요. 단축어를 넣고 키보드를 바꾸지 않고 그 자리에서 보냅니다": {
     "v": "Klávesnice má klávesu odeslat. Vložte frázi a odešlete ji hned, bez přepínání klávesnice",
     "src": "2d6c797474"
+  },
+  "키보드에 이 버튼들이 서 있어서, 어느 앱에서든 한 번에 넣어요": {
+    "v": "Tlačítka jsou přímo na klávesnici, takže je vložíte v každé aplikaci jedním klepnutím",
+    "src": "ff00a43929"
   },
   "키보드에 지우기 키가 생겼어요. 오타 하나를 고치려고 다른 키보드로 건너갈 일이 없어요": {
     "v": "Klávesnice má klávesu pro mazání. Kvůli překlepu už nemusíte přepínat na jinou klávesnici",
@@ -11449,6 +12029,14 @@
     "v": "Načítání šablony...",
     "src": "9720630b35"
   },
+  "템플릿 빈칸": {
+    "v": "Pole šablony",
+    "src": "3bc037961c"
+  },
+  "템플릿 빈칸 · 최근 복사한 것": {
+    "v": "Pole k vyplnění a nedávno zkopírované",
+    "src": "1052160cf3"
+  },
   "템플릿 수": {
     "v": "Šablony",
     "src": "37fe876ba9"
@@ -11705,6 +12293,10 @@
     "v": "Nepotřebujete-li to, vypněte to",
     "src": "9eeff236a8"
   },
+  "필요한 것만 켜세요. 켜면 그 자리에 바로 생겨요.": {
+    "v": "Zapněte jen to, co potřebujete. Objeví se hned tam, kde to použijete.",
+    "src": "bb01adbc3a"
+  },
   "필요한 글자만 손가락으로 문질러 담아요": {
     "v": "Přejeďte prstem jen přes text, který potřebujete",
     "src": "c5b36d635e"
@@ -11712,6 +12304,10 @@
   "필요한 기능이나 불편했던 점을 남겨주시면 개발자가 직접 읽고 반드시 해결해 드릴게요.": {
     "v": "Napište nám, co potřebujete nebo co vám vadí: vývojář každou zprávu čte a postará se o nápravu.",
     "src": "eec7b2e40c"
+  },
+  "필요할 때 꺼내 쓰면 돼요": {
+    "v": "Použijte to, kdykoli budete potřebovat",
+    "src": "bea3af3281"
   },
   "필터 초기화": {
     "v": "Obnovit filtr",
@@ -11793,6 +12389,10 @@
     "v": "Používají ji jen k jedné věci. Ukažte jim druhé využití a vyroste.",
     "src": "8990a614a8"
   },
+  "한 글로 여러 사람에게": {
+    "v": "Jeden text pro více lidí",
+    "src": "ac5c91eb2a"
+  },
   "한 글자씩 지웁니다. 누르고 있으면 이어서 지웁니다": {
     "v": "Smaže jeden znak. Podržením mažete dál.",
     "src": "7812c8bf1d"
@@ -11825,9 +12425,17 @@
     "v": "Každé použití se počítá jako úspora alespoň 2 minut. Hodnoty, které nelze zařadit, třeba git token, se dřív zapisovaly jako 10 sekund.",
     "src": "129fad03f3"
   },
+  "한 번 누를 때마다": {
+    "v": "Při každém klepnutí",
+    "src": "51639c9032"
+  },
   "한 번에 200건씩 나눠 받아요. 지금 숫자는 중간 집계라 계속 올라가요.": {
     "v": "Načítají se po 200. Číslo stále roste, protože je to průběžný součet.",
     "src": "1e9ec1ad59"
+  },
+  "한 번에 들어갔죠?": {
+    "v": "Vložilo se to jedním klepnutím, že?",
+    "src": "6c7148618a"
   },
   "한 번에 옮기기": {
     "v": "Přenést najednou",
@@ -11867,7 +12475,7 @@
   },
   "한국어": {
     "v": "Korejština",
-    "src": "dd4d21dcaa"
+    "src": "aff645339d"
   },
   "한국어 레이아웃": {
     "v": "Korejské rozložení",
@@ -11979,7 +12587,7 @@
   },
   "홍길동": {
     "v": "Jan Novák",
-    "src": "4895061c04"
+    "src": "e2d3c0a9f3"
   },
   "화면": {
     "v": "Zobrazení",

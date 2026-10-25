@@ -15,14 +15,11 @@ struct SettingView: View {
     @ObservedObject private var proManager = StoreManager.shared
     /// 감춘 사용 기록 탭의 대신 문을 낼지 본다.
     @ObservedObject private var userState = UserStateStore.shared
-    @State private var showPaywall = false
     /// 복원을 누른 결과. 값이 들어오면 알림이 뜬다.
     @State private var restoreOutcome: StoreManager.RestoreOutcome?
     /// 지금 가진 단축어 개수 - 화면에 들어올 때와 데이터가 바뀔 때만 다시 센다.
     /// ⚠️ 그릴 때마다 세면 설정을 스크롤하는 내내 저장 파일을 읽는다.
     @State private var memoCountState = 0
-    /// 무료로 쓰는 방법 안내(FreeUseGuideView).
-    @State private var showFreeUseGuide = false
     /// 선물이 안 될 때의 문의 창(결제 번호 · 코드가 붙는다).
     @State private var showGiftSupport = false
     /// 마스터(개발자) 모드 - 앱 정보의 버전 행을 7번 탭하면 토글. 피드백 인박스 진입점 노출.
@@ -64,7 +61,9 @@ struct SettingView: View {
             // 무료로 쓰는 기간 - 칸 수 대신 **몇 번 남았는지**를 말한다. 이 동안은 칸이 무제한이라
             // 아래 `remainingSlotsRow` 를 그리면 한도 숫자 대신 Int.max 가 찍힌다.
             Section {
-                Button { showFreeUseGuide = true } label: {
+                // ⚠️ 설정의 다른 줄처럼 **화면으로 넘어간다**(FoldLink). 예전에는 꺾쇠만 그린 단추가 시트를 띄워,
+                //    펼친 듀오에서 이 줄만 접힌 선 한가운데에 떴다(2026-10 사용자 신고).
+                FoldLink(destination: FreeUseGuideView(embedded: true)) {
                     HStack(spacing: 12) {
                         Image(systemName: AppSymbol.sparkles)
                             .font(.title2)
@@ -77,8 +76,6 @@ struct SettingView: View {
                                 .font(.body).foregroundColor(theme.textMuted)
                         }
                         Spacer()
-                        Image(systemName: AppSymbol.chevronRight).font(.body)
-                            .foregroundColor(theme.textMuted).accessibilityHidden(true)
                     }
                 }
                 .accessibilityHint(NSLocalizedString("무료로 쓰는 방법을 봅니다", comment: "Settings: open free use guide hint"))
@@ -87,7 +84,7 @@ struct SettingView: View {
             }
         } else if ProFeatureManager.isInTrial {
             Section {
-                Button { showPaywall = true } label: {
+                FoldLink(destination: PaywallView(embedded: true)) {
                     HStack {
                         Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
                             .font(.title2)
@@ -100,8 +97,6 @@ struct SettingView: View {
                                 .font(.body).foregroundColor(theme.textMuted)
                         }
                         Spacer()
-                        Image(systemName: AppSymbol.chevronRight).font(.body)
-                            .foregroundColor(theme.textMuted).accessibilityHidden(true)
                     }
                 }
                 .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
@@ -111,7 +106,7 @@ struct SettingView: View {
         } else {
             Section {
                 remainingSlotsRow
-                Button { showPaywall = true } label: {
+                FoldLink(destination: PaywallView(embedded: true)) {
                     HStack {
                         Image(systemName: AppSymbol.starCircleFill)
                             .font(.title2)
@@ -126,8 +121,6 @@ struct SettingView: View {
                                 .font(.body).foregroundColor(theme.textMuted)
                         }
                         Spacer()
-                        Image(systemName: AppSymbol.chevronRight).font(.body)
-                            .foregroundColor(theme.textMuted).accessibilityHidden(true)
                     }
                 }
                 .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
@@ -372,6 +365,17 @@ struct SettingView: View {
 
     var body: some View {
         List {
+            // 백지로 시작한 사람만: 기능 더하기 · 가이드북. 기존 사용자에게는 없다.
+            // ⚠️ 다른 갈래처럼 **이름 한 줄**만 세우고 안으로 들어간다. 줄 여덟 개를 첫 화면에 펼치면
+            //    아래 갈래가 다 밀려 내려간다(이 화면의 원칙, 아래 `갈래` 머리말).
+            if FeatureSet.isBlankStartUser() {
+                Section {
+                    categoryRow(NSLocalizedString("기능 더하기", comment: "Settings: add features section header"),
+                                systemImage: AppSymbol.plusSquareOnSquare) { FeatureSettingsView() }
+                    categoryRow(NSLocalizedString("가이드북", comment: "Guidebook title"),
+                                systemImage: AppSymbol.bookPagesFill) { GuideBookView() }
+                }
+            }
             proSection
             giftSection
             tipSection
@@ -400,8 +404,6 @@ struct SettingView: View {
         .contentMargins(.top, 16, for: .scrollContent)
         .contentMargins(.bottom, 24, for: .scrollContent)
         .solidNavBar(theme.bg)
-        .sheet(isPresented: $showPaywall) { PaywallView() }
-        .sheet(isPresented: $showFreeUseGuide) { FreeUseGuideView() }
         .restoreOutcomeAlert($restoreOutcome)
     }
 }

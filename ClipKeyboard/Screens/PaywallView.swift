@@ -19,6 +19,9 @@ struct PaywallView: View {
 
     /// 어떤 제한 때문에 보여주는지 (nil이면 일반 업그레이드)
     var triggeredBy: ProFeatureManager.LimitType?
+    /// 설정 줄에서 **화면으로 넘어와** 열렸는가. 그러면 제 NavigationView · 닫기 단추를 두지 않는다
+    /// (설정의 다른 줄과 같이 밀려 들어오고, 펼친 듀오에서는 오른쪽 판에 선다). 한도에 걸렸을 때는 시트로 연다.
+    var embedded = false
 
     @State private var showSuccessAnimation = false
     /// trial 상태가 바뀌었음을 알려 view를 다시 그리게 하는 tick (ProFeatureManager가 struct라 직접 observe 불가)
@@ -35,44 +38,22 @@ struct PaywallView: View {
     var body: some View {
         // 권한은 그릴 때 한 번만 읽는다(`PaywallAccess`).
         let access = PaywallAccess.current
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 24) {
-                    headerSection(access)
-
-                    // 제한에 걸려 열렸을 때만
-                    if let trigger = triggeredBy {
-                        limitBanner(trigger)
-                    }
-
-                    // 개인화 증거(이미 아낀 시간). 칸마다 무엇이 들어 있는지는 칸 카드가 말한다.
-                    if !access.hasPermanentPro, let proof = timeSavedProof {
-                        timeSavedBanner(proof)
-                    }
-
-                    // 구매 버튼은 가치 직후, 비교표 위
-                    purchaseSection(access)
-
-                    PaywallComparisonTable()
-
-                    if !access.hasPermanentPro {
-                        Text(NSLocalizedString("일회성 결제 · 구독 없음 · 환불 가능", comment: "Purchase info"))
-                            .font(.caption2)
-                            .foregroundStyle(.tertiary)
-                            .padding(.bottom, 20)
-                    }
+        Group {
+            if embedded {
+                scroll(access)
+            } else {
+                NavigationView {
+                    scroll(access)
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                GlassCircleButton(AppSymbol.xmark, role: .secondary,
+                                                  label: NSLocalizedString("닫기", comment: "Close paywall")) {
+                                    dismiss()
+                                }
+                            }
+                            .sharedBackgroundVisibility(.hidden)
+                        }
                 }
-                .padding()
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    GlassCircleButton(AppSymbol.xmark, role: .secondary,
-                                      label: NSLocalizedString("닫기", comment: "Close paywall")) {
-                        dismiss()
-                    }
-                }
-                .sharedBackgroundVisibility(.hidden)
             }
         }
         .overlay {
@@ -391,6 +372,39 @@ struct PaywallView: View {
             #endif
             celebrateAndDismiss()
         }
+    }
+
+    /// 결제 화면 본문. 시트든 밀려 들어온 화면이든 같다.
+    private func scroll(_ access: PaywallAccess) -> some View {
+        ScrollView {
+            VStack(spacing: 24) {
+                headerSection(access)
+
+                // 제한에 걸려 열렸을 때만
+                if let trigger = triggeredBy {
+                    limitBanner(trigger)
+                }
+
+                // 개인화 증거(이미 아낀 시간). 칸마다 무엇이 들어 있는지는 칸 카드가 말한다.
+                if !access.hasPermanentPro, let proof = timeSavedProof {
+                    timeSavedBanner(proof)
+                }
+
+                // 구매 버튼은 가치 직후, 비교표 위
+                purchaseSection(access)
+
+                PaywallComparisonTable()
+
+                if !access.hasPermanentPro {
+                    Text(NSLocalizedString("일회성 결제 · 구독 없음 · 환불 가능", comment: "Purchase info"))
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                        .padding(.bottom, 20)
+                }
+            }
+            .padding()
+        }
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     /// 성공 표시를 띄우고 1.5초 뒤 닫는다. 체험 시작과 구매가 같이 쓴다.
