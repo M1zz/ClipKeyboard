@@ -9549,6 +9549,10 @@
     "v": "Vloží zalomení řádku. V některých aplikacích zprávu odešle",
     "src": "23be16ca8e"
   },
+  "입력칸 위 '붙여넣기'를 누르세요": {
+    "v": "Klepněte nad polem na Vložit",
+    "src": "5a2c8b144f"
+  },
   "입력칸에 바로 넣어요": {
     "v": "Vloží text rovnou do pole",
     "src": "e7bc4669af"

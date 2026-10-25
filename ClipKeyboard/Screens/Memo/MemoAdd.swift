@@ -462,10 +462,12 @@ struct MemoAdd: View {
                         if simple {
                             simpleContentSection
                                 .id("contentField")
-                            if FeatureSet.isOn(.stack) { continuationsSection }
+                            // 기능을 켰거나, **이 단축어가 이미 그 기능을 쓰고 있으면** 그 칸을 보인다.
+                            // 껐다고 숨기면 스택 값 · 보안 · 빈칸이 있는지조차 모른 채 고치게 된다(값은 저장 때 남는다)
+                            if FeatureSet.isOn(.stack) || !viewModel.continuations.isEmpty { continuationsSection }
                             if FeatureSet.isOn(.category) { categoryPickerSection }
-                            if FeatureSet.isOn(.secure) { additionalOptionsSection }
-                            if FeatureSet.isOn(.template) { templateSection }
+                            if FeatureSet.isOn(.secure) || viewModel.isSecure { additionalOptionsSection }
+                            if FeatureSet.isOn(.template) || !viewModel.detectedPlaceholders.isEmpty { templateSection }
                         } else {
                         // 📌 붙여넣을 내용
                         ContentInputSection(

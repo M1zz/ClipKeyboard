@@ -25,6 +25,8 @@ struct KeyboardLessonView: View {
     @State private var waitingForReturn = false
     @State private var text = ""
     @State private var bubbles: [String] = []
+    /// 담아 둔 카드 값이 키보드로 실제로 들어왔는가. 이때만 '키보드 켜기' 를 배운 것으로 적는다.
+    @State private var insertedByKeyboard = false
     @FocusState private var fieldFocused: Bool
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -180,7 +182,10 @@ struct KeyboardLessonView: View {
                     .overlay(Capsule().stroke(Color.accentColor, lineWidth: 1.5))
                     .onChange(of: text) { _, new in
                         // 담아 둔 값이 통째로 들어왔으면 키보드로 넣은 것이다
-                        if snippets.contains(where: { new.contains($0.value) }) { HapticManager.shared.success() }
+                        if !insertedByKeyboard, snippets.contains(where: { new.contains($0.value) }) {
+                            insertedByKeyboard = true
+                            HapticManager.shared.success()
+                        }
                     }
                 Button(action: send) {
                     Image(systemName: AppSymbol.arrowUp)
@@ -199,25 +204,19 @@ struct KeyboardLessonView: View {
     @ViewBuilder
     private var footer: some View {
         switch phase {
-        case .demo, .practice:
+        case .demo:
             EmptyView()
+        case .practice:
+            // ⚠️ 실습에도 나갈 길을 둔다. 전체 접근이 꺼져 있거나 키보드가 잘 안 뜨면 카드를 못 넣는데,
+            //    예전에는 단추가 하나도 없어 그대로 갇혔다(설계 검토, 2026-10).
+            laterButton
         case .howto, .notYet:
             VStack(spacing: 8) {
                 primaryButton(phase == .notYet
                               ? NSLocalizedString("다시 가기", comment: "Keyboard lesson: go to Settings again")
                               : NSLocalizedString("키보드 켜러 가기", comment: "Keyboard lesson: open Settings"),
                               action: openSettings)
-                Button {
-                    HapticManager.shared.selection()
-                    UserDefaults.standard.set(true, forKey: DefaultsKey.keyboardLessonDeferred)
-                    AnalyticsService.log(.keyboardLessonDeferred)
-                    onClose()
-                } label: {
-                    Text(NSLocalizedString("나중에 다시", comment: "Keyboard lesson: postpone"))
-                        .font(.body).foregroundStyle(.secondary)
-                        .padding(8)
-                }
-                .buttonStyle(.plain)
+                laterButton
                 Text(NSLocalizedString("입력하는 글은 어디로도 보내지 않아요", comment: "Keyboard lesson: privacy line"))
                     .font(.body).foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -225,6 +224,20 @@ struct KeyboardLessonView: View {
         case .sent:
             primaryButton(NSLocalizedString("목록으로", comment: "Keyboard lesson: back to the list"), action: onClose)
         }
+    }
+
+    private var laterButton: some View {
+        Button {
+            HapticManager.shared.selection()
+            UserDefaults.standard.set(true, forKey: DefaultsKey.keyboardLessonDeferred)
+            AnalyticsService.log(.keyboardLessonDeferred)
+            onClose()
+        } label: {
+            Text(NSLocalizedString("나중에 다시", comment: "Keyboard lesson: postpone"))
+                .font(.body).foregroundStyle(.secondary)
+                .padding(8)
+        }
+        .buttonStyle(.plain)
     }
 
     private func primaryButton(_ title: String, action: @escaping () -> Void) -> some View {
@@ -257,6 +270,8 @@ struct KeyboardLessonView: View {
         withAnimation(.spring(duration: 0.45, bounce: 0.35)) { bubbles.append(t) }
         text = ""
         fieldFocused = false
+        // 손으로 친 글을 보낸 것은 키보드를 배운 것이 아니다. 카드가 들어와야 배운 것이다
+        guard insertedByKeyboard else { return }
         LessonLedger.learn(.keyboard)
         UserDefaults.standard.set(false, forKey: DefaultsKey.keyboardLessonDeferred)
         withAnimation(.easeInOut(duration: 0.3)) { phase = .sent }

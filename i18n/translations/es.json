@@ -9353,6 +9353,10 @@
     "v": "Inserta un salto de línea. En algunas apps se envía el mensaje",
     "src": "23be16ca8e"
   },
+  "입력칸 위 '붙여넣기'를 누르세요": {
+    "v": "Toca Pegar sobre el campo",
+    "src": "5a2c8b144f"
+  },
   "입력칸에 바로 넣어요": {
     "v": "Se escribe directo en el campo",
     "src": "e7bc4669af"

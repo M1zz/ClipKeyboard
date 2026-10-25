@@ -52,9 +52,14 @@ struct BlankStartPractice: View {
             .offset(y: lineShown ? 0 : 8)
             .padding(.vertical, 18)
             sampleButton
+            if step == .paste {
+                pasteCallout
+                    .padding(.top, 18)
+                    .transition(.scale(scale: 0.8, anchor: .bottomLeading).combined(with: .opacity))
+            }
             if step != .copy {
                 inputRow
-                    .padding(.top, 22)
+                    .padding(.top, step == .paste ? 8 : 22)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
             }
             if step == .copy { Spacer(minLength: 0) }
@@ -118,8 +123,6 @@ struct BlankStartPractice: View {
                 .padding(.horizontal, 16).padding(.vertical, 14)
                 .overlay(Capsule().stroke(fieldFocused || step == .paste ? Color.accentColor : Color(.separator),
                                           lineWidth: step == .paste ? 2.5 : 1.5))
-                // "여기에 붙여넣어 보세요" 의 '여기' 가 어딘지 보이게 입력칸이 물결친다. 붙여넣으면 거둔다
-                .overlay(BlankStartPulse(active: step == .paste && text.isEmpty, cornerRadius: 26))
                 .disabled(step == .insert)
             Button(action: send) {
                 Image(systemName: AppSymbol.arrowUp)
@@ -132,6 +135,34 @@ struct BlankStartPractice: View {
             .disabled(!canSend)
             .accessibilityLabel(NSLocalizedString("보내기", comment: "Blank start: send button"))
         }
+    }
+
+    /// 입력칸 바로 위에 서는 '붙여넣기' 말풍선. iOS 가 입력칸에 띄우는 그 말풍선 모양이다.
+    ///
+    /// ⚠️ 입력칸을 누르고 한 번 더 눌러야 뜨는 iOS 의 말풍선만 두면, 바로 안 뜰 때 "내가 맞게 하고 있나?"
+    ///    싶어졌다(2026-10 사용자). 그래서 **시스템 붙여넣기 단추**(`PasteButton`)를 미리 세워 둔다.
+    ///    누르면 한 번에 들어가고, 사용자가 누른 것이라 '붙여넣기 허용' 창도 뜨지 않는다.
+    ///    입력칸을 직접 눌러 붙여넣는 길도 그대로 있다.
+    private var pasteCallout: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            PasteButton(payloadType: String.self) { strings in
+                let pastedText = strings.first ?? ""
+                DispatchQueue.main.async { acceptPaste(pastedText) }
+            }
+            .labelStyle(.titleAndIcon)
+            .buttonBorderShape(.capsule)
+            .tint(.black)
+            .overlay(BlankStartPulse(active: text.isEmpty, cornerRadius: 22))
+            // 아래 입력칸을 가리키는 꼬리
+            Image(systemName: AppSymbol.arrowtriangleDownFill)
+                .font(.body)
+                .foregroundStyle(Color.black)
+                .padding(.leading, 26)
+                .offset(y: -4)
+                .accessibilityHidden(true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.leading, 6)
     }
 
     @ViewBuilder
@@ -179,7 +210,7 @@ struct BlankStartPractice: View {
                 NSLocalizedString("자주 쓰는 계좌번호를 담아 뒀어요", comment: "Blank start: copy step subline"))
         case .paste:
             say(NSLocalizedString("여기에 붙여넣어 보세요", comment: "Blank start: paste step line"),
-                NSLocalizedString("입력칸을 누르고, 한 번 더 눌러 '붙여넣기'를 고르세요", comment: "Blank start: paste step subline, how to paste on iOS"))
+                NSLocalizedString("입력칸 위 '붙여넣기'를 누르세요", comment: "Blank start: paste step subline, tap the paste bubble above the field"))
         case .send:
             fieldFocused = false
             say(NSLocalizedString("보내 볼까요?", comment: "Blank start: send step line"),
@@ -209,9 +240,24 @@ struct BlankStartPractice: View {
         }
     }
 
-    /// 붙여넣기가 들어왔는가. 직접 쳐서 같은 글을 만들어도 된다.
+    /// 붙여넣기 말풍선(`PasteButton`)을 눌렀다. 클립보드가 그 사이 다른 글로 바뀌었어도
+    /// 붙여넣기는 한 것이니 다음 걸음으로 간다(예전에는 같은 글이 아니면 그대로 멈춰 있었다).
+    private func acceptPaste(_ pastedText: String) {
+        guard step == .paste else { return }
+        let trimmed = pastedText.trimmingCharacters(in: .whitespacesAndNewlines)
+        text = trimmed.isEmpty ? BlankStartSample.value : trimmed
+        advanceAfterPaste()
+    }
+
+    /// 입력칸에 직접 붙여넣었는가. 담아 둔 글이거나, 한 번에 여러 글자가 들어왔으면 붙여넣은 것으로 본다.
     private func pasted(_ new: String) {
-        guard step == .paste, new.contains(BlankStartSample.value) else { return }
+        guard step == .paste else { return }
+        guard new.contains(BlankStartSample.value) || new.count >= 6 else { return }
+        advanceAfterPaste()
+    }
+
+    private func advanceAfterPaste() {
+        guard step == .paste else { return }
         HapticManager.shared.light()
         LessonLedger.learn(.paste)
         enter(.send)

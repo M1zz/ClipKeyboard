@@ -9353,6 +9353,10 @@
     "v": "Voegt een regeleinde in. In sommige apps verstuurt dit het bericht",
     "src": "23be16ca8e"
   },
+  "입력칸 위 '붙여넣기'를 누르세요": {
+    "v": "Tik boven het veld op Plak",
+    "src": "5a2c8b144f"
+  },
   "입력칸에 바로 넣어요": {
     "v": "Voert het direct in het veld in",
     "src": "e7bc4669af"

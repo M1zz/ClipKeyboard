@@ -64,6 +64,31 @@ enum FeatureSet {
         NotificationCenter.postOnMain(name: .featureSetChanged, object: nil)
     }
 
+    // MARK: - 졸업
+
+    /// 백지 사용자가 단순한 화면을 **졸업**했는가. 졸업하면 + 가 원래 메뉴(임시 저장 · 단축어 마트 ·
+    /// 한번에 정리 · 빈칸 관리)가 되고, 사용 기록 탭이 원래 조건대로 서고, 팁이 돌아온다.
+    /// 안내 띠 · 카드는 졸업해도 숨긴 채다.
+    ///
+    /// 언제: 기능 다섯을 다 켰다('전부 쓸래요'), 또는 손에 붙었다(`UserLevel.fluent` 이상:
+    /// 10번 넘게 쓰고, 키보드로 넣어 봤고, 3일 넘게 썼다). 기존 사용자는 처음부터 졸업한 것과 같다.
+    ///
+    /// ⚠️ 졸업 길이 없으면 처음 사용자는 1년을 써도 + 메뉴 · 사용 기록을 영영 못 본다(설계 검토, 2026-10).
+    /// - Parameter level: 사용자 단계. 앱이 `UserStateStore` 에서 넘긴다(시험이 값을 넣어 볼 수 있게).
+    static func hasGraduated(level: UserLevel,
+                             standard: UserDefaults = .standard,
+                             group: UserDefaults? = AppGroup.defaults) -> Bool {
+        guard isBlankStartUser(standard: standard, group: group) else { return true }
+        // 한 번 졸업하면 그대로다(기능을 하나 꺼도 메뉴가 다시 숨지 않는다). 앱이 켜질 때는 이 값만 읽는다
+        if group?.bool(forKey: DefaultsKey.blankStartGraduated) == true { return true }
+        let now = AppFeature.allCases.allSatisfy({ isOn($0, standard: standard, group: group) }) || level >= .fluent
+        if now {
+            group?.set(true, forKey: DefaultsKey.blankStartGraduated)
+            print("🎓 [FeatureSet.hasGraduated] 단순한 화면을 졸업")
+        }
+        return now
+    }
+
     /// 아무 기능도 안 켠 백지 사용자. 목록 · 새 단축어가 가장 단순한 모양이 된다.
     static func isPlain(standard: UserDefaults = .standard, group: UserDefaults? = AppGroup.defaults) -> Bool {
         isBlankStartUser(standard: standard, group: group)

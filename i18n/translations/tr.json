@@ -9353,6 +9353,10 @@
     "v": "Satır sonu ekler. Bazı uygulamalarda mesajı gönderir",
     "src": "23be16ca8e"
   },
+  "입력칸 위 '붙여넣기'를 누르세요": {
+    "v": "Alanın üstündeki Yapıştır'a dokunun",
+    "src": "5a2c8b144f"
+  },
   "입력칸에 바로 넣어요": {
     "v": "Doğrudan alana yazar",
     "src": "e7bc4669af"

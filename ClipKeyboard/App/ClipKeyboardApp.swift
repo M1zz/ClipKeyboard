@@ -203,10 +203,14 @@ struct ClipKeyboardApp: App {
             // 스토어 스크린샷에는 팁 띠가 찍히면 안 된다(scripts/take_screenshots.sh).
             if UserDefaults.standard.string(forKey: "ScreenshotScene") != nil { Tips.hideAllTipsForTesting() }
             #endif
-            // 백지로 시작해 아직 아무 기능도 안 켠 사람에게는 팁을 하나도 띄우지 않는다.
-            // 처음 화면은 미니멀해야 한다. 이 사람이 배울 것은 장부 · 넛지 · 가이드북이 그 순간에 가르친다.
-            // (이름에 ForTesting 이 붙었지만 실행 중 모든 팁을 감추는 공개 API 다. 기능을 켜면 다음 실행부터 돌아온다)
-            if FeatureSet.isPlain() { Tips.hideAllTipsForTesting() }
+            // 백지 사용자에게는 **졸업할 때까지** 팁을 하나도 띄우지 않는다(`FeatureSet.hasGraduated`).
+            // 처음 화면은 미니멀해야 하고, 배울 것은 장부 · 넛지 · 가이드북이 그 순간에 가르친다.
+            // ⚠️ 예전에는 '아무 기능도 안 켬' 이 조건이라, 기능 하나만 켜도 옛 첫 실행용 팁이 한꺼번에 돌아왔다.
+            // ⚠️ 여기는 런치 길이라 단계를 새로 세지 않는다(.browsing 을 넘겨 저장된 졸업 표식만 본다).
+            // (이름에 ForTesting 이 붙었지만 실행 중 모든 팁을 감추는 공개 API 다. 졸업하면 다음 실행부터 돌아온다)
+            if FeatureSet.isBlankStartUser(), !FeatureSet.hasGraduated(level: .browsing) {
+                Tips.hideAllTipsForTesting()
+            }
             try? Tips.configure([
                 .displayFrequency(.daily),
                 .datastoreLocation(.applicationDefault)
@@ -1794,7 +1798,10 @@ struct MainTabView: View {
     }
 
     /// 사용 기록은 쓴 것이 쌓여야 볼 것이 있다. 감춰도 설정 ▸ 사용 통계에는 늘 있다.
-    private var showsUsageTab: Bool { !blank && userState.isVisible(.statsPassport) }
+    /// 처음 사용자는 졸업한 뒤에 원래 조건을 따른다(`FeatureSet.hasGraduated`).
+    private var showsUsageTab: Bool {
+        (!blank || FeatureSet.hasGraduated(level: userState.state.level)) && userState.isVisible(.statsPassport)
+    }
     /// 찾을 만큼 쌓이기 전에는 목록이 곧 검색이다.
     /// ⚠️ 백지 사용자는 처음부터 목록 · 설정 · 검색 셋이다(시안). 사용 기록은 아직 없다.
     private var showsSearchTab: Bool { blank || userState.isVisible(.searchAndReorder) }

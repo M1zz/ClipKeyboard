@@ -9350,6 +9350,10 @@
     "v": "Insere uma quebra de linha. Em alguns apps, isso envia a mensagem",
     "src": "23be16ca8e"
   },
+  "입력칸 위 '붙여넣기'를 누르세요": {
+    "v": "Toque em Colar acima do campo",
+    "src": "5a2c8b144f"
+  },
   "입력칸에 바로 넣어요": {
     "v": "Digita direto no campo",
     "src": "e7bc4669af"

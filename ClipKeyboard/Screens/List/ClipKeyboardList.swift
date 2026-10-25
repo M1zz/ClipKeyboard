@@ -2780,7 +2780,7 @@ struct ClipKeyboardList: View {
             // ⚠️ 간격은 무대 머리말과 **같은 값**을 쓴다. 예전엔 여기만 -8이라
             //    44pt 유리 서클끼리 겹쳐 두 버튼이 한 덩어리로 보였다.
             toolbarSheets(GlassCircleCluster {
-                if blank {
+                if blank && !FeatureSet.hasGraduated(level: userState.state.level) {
                     // 키보드를 켜고 써 본 뒤에야 미리보기로 건너가는 단추가 선다
                     if keyboardLearned { SnippetsStyleSwitchButton(styleRaw: $snippetsTabStyleRaw) }
                     plainAddButton

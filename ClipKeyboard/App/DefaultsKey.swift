@@ -498,6 +498,8 @@ enum DefaultsKey {
     static let blankStartV1 = "blankStart.v1"
     /// 백지 첫 실행을 끝냈는지(마지막 고르기에서 무엇을 골랐든).
     static let blankStartFinished = "blankStart.finished.v1"
+    /// 백지 사용자가 단순한 화면을 졸업했는가(App Group, `FeatureSet.hasGraduated`). 한 번 켜지면 그대로다.
+    static let blankStartGraduated = "blankStart.graduated.v1"
     /// 배운 것 장부. App Group 에 `[lesson rawValue: 배운 시각(1970 기준 초)]` 로 둔다.
     /// 키보드에서 처음 쓴 순간도 같은 장부에 적어야 해서 그룹에 산다(`LessonLedger`).
     static let lessonLedger = "lessonLedger.v1"

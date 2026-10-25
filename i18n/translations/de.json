@@ -9350,6 +9350,10 @@
     "v": "Fügt einen Zeilenumbruch ein. In manchen Apps wird dadurch gesendet",
     "src": "23be16ca8e"
   },
+  "입력칸 위 '붙여넣기'를 누르세요": {
+    "v": "Tippe oben im Feld auf Einfügen",
+    "src": "5a2c8b144f"
+  },
   "입력칸에 바로 넣어요": {
     "v": "Wird direkt ins Feld eingefügt",
     "src": "e7bc4669af"

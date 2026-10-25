@@ -9353,6 +9353,10 @@
     "v": "Inserisce un'interruzione di riga. In alcune app invia il messaggio",
     "src": "23be16ca8e"
   },
+  "입력칸 위 '붙여넣기'를 누르세요": {
+    "v": "Tocca Incolla sopra il campo",
+    "src": "5a2c8b144f"
+  },
   "입력칸에 바로 넣어요": {
     "v": "Lo inserisce subito nel campo",
     "src": "e7bc4669af"

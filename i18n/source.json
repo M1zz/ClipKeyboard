@@ -13577,6 +13577,12 @@
     "comment": "Return key hint",
     "h": "23be16ca8e"
   },
+  "입력칸 위 '붙여넣기'를 누르세요": {
+    "ko": "입력칸 위 '붙여넣기'를 누르세요",
+    "en": "Tap Paste above the field",
+    "comment": "Blank start: paste step subline, tap the paste bubble above the field",
+    "h": "5a2c8b144f"
+  },
   "입력칸에 바로 넣어요": {
     "ko": "입력칸에 바로 넣어요",
     "en": "Types it straight into the field",

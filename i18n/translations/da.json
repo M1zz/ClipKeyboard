@@ -9353,6 +9353,10 @@
     "v": "Indsætter et linjeskift. I nogle apps sender det beskeden",
     "src": "23be16ca8e"
   },
+  "입력칸 위 '붙여넣기'를 누르세요": {
+    "v": "Tryk på Sæt ind over feltet",
+    "src": "5a2c8b144f"
+  },
   "입력칸에 바로 넣어요": {
     "v": "Skriver det direkte i feltet",
     "src": "e7bc4669af"

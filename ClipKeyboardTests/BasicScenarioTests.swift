@@ -559,16 +559,20 @@ final class BasicScenarioTests: XCTestCase {
 
     // MARK: - 시나리오 13: 쓰는 모습이 기능을 부르면 한 번만 권한다 · 조합 · 켜면 그 자리가 생긴다
 
-    func test_쓰는_모습이_부를_때_기능을_한_번만_권하고_켜면_그_자리가_생긴다() {
+    func test_쓰는_모습이_부를_때_기능을_한_번만_권하고_켜면_그_자리가_생기고_손에_붙으면_졸업한다() {
         let std = UserDefaults.standard
-        let keys = [DefaultsKey.featureNudges, DefaultsKey.blankStartV1, KeyboardPrefs.showRecentClipsTab.key]
+        let keys = [DefaultsKey.featureNudges, DefaultsKey.blankStartV1, KeyboardPrefs.showRecentClipsTab.key,
+                    DefaultsKey.blankStartGraduated]
             + AppFeature.allCases.map { DefaultsKey.featureOnPrefix + $0.rawValue }
         let saved = keys.map { groupDefaults?.object(forKey: $0) }
         let savedStd = std.object(forKey: DefaultsKey.blankStartV1)
+        // ⚠️ 분류 기능은 원래 상태로 되돌린다. 끄고 끝내면 뒤에 도는 시험(여러 개 고르기)이
+        //    분류가 꺼진 채로 돌아 '지금 탭' 범위가 무너졌다(2026-10 전체 시험에서 6건)
+        let categoryWasOn = CategoryStore.shared.isFeatureEnabled
         defer {
             for (k, v) in zip(keys, saved) { groupDefaults?.set(v, forKey: k) }
             std.set(savedStd, forKey: DefaultsKey.blankStartV1)
-            CategoryStore.shared.disableFeature()
+            if categoryWasOn { CategoryStore.shared.enableFeature() } else { CategoryStore.shared.disableFeature() }
         }
         keys.forEach { groupDefaults?.removeObject(forKey: $0) }
         groupDefaults?.set(true, forKey: DefaultsKey.blankStartV1)
@@ -602,6 +606,14 @@ final class BasicScenarioTests: XCTestCase {
         FeatureSet.set(.category, on: true)
         XCTAssertTrue(CategoryStore.shared.isFeatureEnabled)
         XCTAssertFalse(FeatureNudge.mayAsk(.recent, now: day.addingTimeInterval(86_400 * 9)), "이미 켠 기능은 권하지 않는다")
+
+        // 5. 졸업: 손에 붙기 전에는 단순한 화면, 손에 붙거나 다섯을 다 켜면 원래 메뉴 · 탭 · 팁. 한 번 졸업하면 그대로
+        XCTAssertFalse(FeatureSet.hasGraduated(level: .used), "처음 쓰는 사람은 아직 단순한 화면이다")
+        XCTAssertTrue(FeatureSet.hasGraduated(level: .fluent), "손에 붙으면 숨겨 둔 메뉴가 열린다")
+        XCTAssertTrue(FeatureSet.hasGraduated(level: .browsing), "한 번 졸업하면 다시 숨지 않는다")
+        groupDefaults?.removeObject(forKey: DefaultsKey.blankStartGraduated)
+        AppFeature.allCases.forEach { FeatureSet.set($0, on: true) }
+        XCTAssertTrue(FeatureSet.hasGraduated(level: .browsing), "다섯을 다 켜면(전부 쓸래요) 졸업이다")
 
         // 4. 조합: 켠 것이 조합과 같으면 그 조합, 하나씩 바꾸면 어느 조합도 아니다
         XCTAssertNil(FeaturePreset.matching([.recent, .category]))
