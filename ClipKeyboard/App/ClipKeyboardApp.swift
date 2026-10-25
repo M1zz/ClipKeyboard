@@ -1291,6 +1291,13 @@ struct ClipKeyboardApp: App {
             } else if MacOnlyGuideView.isRunningOnMac {
                 // Mac 에서 열면 Mac 앱(탭클립키보드)을 받으라는 안내 하나만. 키보드가 안 붙는 곳이다.
                 AppThemedContainer { MacOnlyGuideView() }
+                    // 맥에는 돌릴 런치 작업이 없다. 안내가 떴으면 런치는 끝난 것이다.
+                    // ⚠️ 닫지 않으면 맥에서 열 때마다 `first-frame` 표식이 남아, 다음 실행이 죽은 적 없는
+                    //    런치를 세이프 모드로 열고 `launch_incomplete:first-frame` 을 보냈다(5.1.13).
+                    .task {
+                        LaunchGuard.markSceneStarted()
+                        LaunchGuard.finish()
+                    }
             } else {
             AppThemedContainer {
             MainTabView()

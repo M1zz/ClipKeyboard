@@ -102,6 +102,16 @@ enum LaunchGuard {
     /// 이 프로세스에서 첫 창의 내용을 만들기 시작했는가(`markFirstFrameIfNeeded`).
     private static var firstFrameMarked = false
 
+    /// 이번 런치는 이미 닫혔다(`finish`). 닫힌 뒤에는 단계 표식을 남기지 않는다.
+    ///
+    /// ⚠️ 앱을 열고 1~2초 안에 떠나면 뒤로 갈 때 `finish()` 가 불리지만, 런치 작업(`runLaunchSequence`)은
+    ///    뒤에서 계속 돌며 다음 단계 표식을 **다시** 남겼다. 마지막 단계(`prompts`) 뒤의 4초 대기는 앱이
+    ///    멈추면 같이 멈추므로, 나중에 메모리 정리로 사라지면 `prompts` 표식만 남아 다음 런치가 멈춘 런치로
+    ///    읽었다. 5.1.13 의 `launch_incomplete:prompts` 19대가 이것이다(죽은 적이 없다).
+    /// ⚠️ 첫 화면 표식과 씬 시작이 다시 연다. 화면 없이 깨어나 닫힌 프로세스에 나중에 창이 붙으면
+    ///    그때부터는 진짜 런치라 다시 지켜봐야 한다.
+    static var isClosed = false
+
     private static var defaults: UserDefaults { AppGroup.defaults ?? .standard }
 
     private static var appVersion: String {
@@ -163,6 +173,7 @@ enum LaunchGuard {
 
     /// 런치 마지막에 1회. 여기까지 왔다는 것은 이번 런치가 온전했다는 뜻이다.
     static func finish() {
+        isClosed = true
         let d = defaults
         d.removeObject(forKey: DefaultsKey.launchStageInFlight)
         d.set(0, forKey: DefaultsKey.launchFailStreak)
@@ -195,6 +206,7 @@ enum LaunchGuard {
     static func markFirstFrameIfNeeded() {
         guard !firstFrameMarked, !sceneStarted else { return }
         firstFrameMarked = true
+        isClosed = false
         mark(.firstFrame, tier: .essential)
     }
 
@@ -208,6 +220,7 @@ enum LaunchGuard {
     /// 화면이 붙어 `runLaunchSequence()` 가 돌기 시작했다. 그 맨 앞에서 1회.
     static func markSceneStarted() {
         sceneStarted = true
+        isClosed = false
     }
 
     /// 이 프로세스가 **화면 없이** 깨어난 것이면 런치를 닫는다.
@@ -280,6 +293,7 @@ enum LaunchGuard {
     // MARK: - 내부
 
     private static func mark(_ stage: Stage, tier: Tier) {
+        guard !isClosed else { return }
         let d = defaults
         d.set("\(tier.rawValue):\(stage.rawValue)", forKey: DefaultsKey.launchStageInFlight)
         // ⚠️ 여기서 디스크까지 밀어 넣는다. 바로 다음 줄에서 죽을 수도 있는 값이라,
