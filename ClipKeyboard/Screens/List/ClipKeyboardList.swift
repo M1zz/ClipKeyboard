@@ -87,9 +87,11 @@ struct ClipKeyboardList: View {
     private var showVisualCues: Bool = KeyboardPrefs.showVisualCues.fallback
     @State private var showCategoryBadgeNudge: Bool = false
 
-    /// 메모 구분 장치(아이콘/배지/테두리/심볼/색) 노출 여부.
-    /// 오직 설정 "메모 구분 표시" 토글만 따른다 - iOS "색상 없이 구별"(접근성)이 켜져 있어도
-    /// 토글이 꺼져 있으면 표시하지 않는다(토글을 단일 스위치로).
+    /// 메모 구분 장치(아이콘/배지/테두리/심볼/색) 노출 여부. 설정 "단축어 구분 표시" 토글을 따른다.
+    ///
+    /// ⚠️ 예외 하나: iOS "색상 없이 구별"(접근성)이 켜져 있으면, 토글이 꺼져 있어도 **색에 뜻이 있는 카드**
+    ///    (즐겨찾기 · 내가 만든 분류)에는 카드가 윗줄(하트 · 분류 심볼)을 세운다(`MemoCardSurface.showsCueRow`).
+    ///    색을 구별하기 어려운 사람에게 분류를 색만으로 알릴 수 없어서다. 토글 설명이 이 예외를 말한다.
     private var visualCuesVisible: Bool {
         showVisualCues
     }

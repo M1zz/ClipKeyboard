@@ -2423,6 +2423,10 @@
     "v": "Agrega el teclado ClipKeyboard en los Ajustes del iPhone. Solo tienes que hacerlo una vez.",
     "src": "ca029e8c22"
   },
+  "iPhone의 '색상 없이 구별'이 켜져 있어서, 이 설정을 꺼도 즐겨찾기와 분류에 든 단축어에는 하트와 분류 심볼이 보여요. 색만으로는 구별하기 어렵기 때문이에요.": {
+    "v": "Tu iPhone tiene activado «Diferenciar sin color», así que, aunque lo desactives aquí, las frases favoritas y las de un tema seguirán mostrando un corazón y un símbolo de tema. Solo con el color puede ser difícil distinguirlas.",
+    "src": "ea60faf8a6"
+  },
   "macOS 전용 단축어 앱": {
     "v": "App de frases para macOS",
     "src": "00d512e1b7"

@@ -488,6 +488,7 @@ struct DisplaySettingsView: View {
     /// App Group에 저장해 키보드 익스텐션도 동일 설정을 읽는다.
     @AppStorage(KeyboardPrefs.showVisualCues.key, store: AppGroup.defaults)
     private var visible: Bool = KeyboardPrefs.showVisualCues.fallback
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
     /// 메모 셀 높이 - 작게 110 / 보통 140 / 크게 180.
     @AppStorage(AppPrefs.memoCardHeight.key) private var memoCardHeight: Double = AppPrefs.memoCardHeight.fallback
     /// 카드 내용 힌트 - 카드가 화면에 2초쯤 머물면 한 번 살며시 나타났다 사라지는 미리보기.
@@ -553,8 +554,15 @@ struct DisplaySettingsView: View {
             } header: {
                 Text(NSLocalizedString("단축어 구분 표시", comment: "Visual cues section"))
             } footer: {
-                Text(NSLocalizedString("기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·스택·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.", comment: "Visual cues explanation v3"))
-                    .font(.body)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(NSLocalizedString("기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·스택·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.", comment: "Visual cues explanation v3"))
+                        .font(.body)
+                    // 꺼 두었는데 심볼이 보이는 까닭(iOS '색상 없이 구별'). 그 설정이 켜진 사람에게만 말한다
+                    if differentiateWithoutColor {
+                        Text(NSLocalizedString("iPhone의 '색상 없이 구별'이 켜져 있어서, 이 설정을 꺼도 즐겨찾기와 분류에 든 단축어에는 하트와 분류 심볼이 보여요. 색만으로는 구별하기 어렵기 때문이에요.", comment: "Visual cues: why symbols still show when Differentiate Without Color is on"))
+                            .font(.body)
+                    }
+                }
             }
 
             // 메모 내용 힌트 (카드가 화면에 2초 머물면 한 번 살며시 나타나는 미리보기)

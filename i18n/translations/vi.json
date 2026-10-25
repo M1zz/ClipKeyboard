@@ -2279,6 +2279,10 @@
     "v": "Hãy thêm bàn phím ClipKeyboard trong Cài đặt iPhone. Bạn chỉ cần làm một lần.",
     "src": "ca029e8c22"
   },
+  "iPhone의 '색상 없이 구별'이 켜져 있어서, 이 설정을 꺼도 즐겨찾기와 분류에 든 단축어에는 하트와 분류 심볼이 보여요. 색만으로는 구별하기 어렵기 때문이에요.": {
+    "v": "iPhone đang bật \"Phân biệt không dựa vào màu\", nên dù bạn tắt cài đặt này, mục ưa thích và cụm từ trong chủ đề vẫn hiện biểu tượng trái tim và biểu tượng chủ đề. Chỉ dựa vào màu thì khó phân biệt.",
+    "src": "ea60faf8a6"
+  },
   "macOS 전용 단축어 앱": {
     "v": "Ứng dụng Cụm từ dành riêng cho macOS",
     "src": "00d512e1b7"

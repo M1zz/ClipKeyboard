@@ -2423,6 +2423,10 @@
     "v": "Tilføj tastaturet ClipKeyboard i iPhone-indstillinger. Du skal kun gøre det én gang.",
     "src": "ca029e8c22"
   },
+  "iPhone의 '색상 없이 구별'이 켜져 있어서, 이 설정을 꺼도 즐겨찾기와 분류에 든 단축어에는 하트와 분류 심볼이 보여요. 색만으로는 구별하기 어렵기 때문이에요.": {
+    "v": "Da 'Skelnen uden farve' er slået til på din iPhone, vises hjerte og kategorisymbol stadig ved favoritter og fraser i et tema, selv når denne indstilling er slået fra. Farve alene kan være svær at skelne.",
+    "src": "ea60faf8a6"
+  },
   "macOS 전용 단축어 앱": {
     "v": "Frase-app til macOS",
     "src": "00d512e1b7"

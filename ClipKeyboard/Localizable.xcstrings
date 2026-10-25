@@ -463824,6 +463824,143 @@
           }
         }
       }
+    },
+    "iPhone의 '색상 없이 구별'이 켜져 있어서, 이 설정을 꺼도 즐겨찾기와 분류에 든 단축어에는 하트와 분류 심볼이 보여요. 색만으로는 구별하기 어렵기 때문이에요." : {
+      "comment" : "Visual cues: why symbols still show when Differentiate Without Color is on",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Máte v iPhonu zapnuté „Rozlišovat bez barev“, takže i po vypnutí tohoto nastavení uvidíte u oblíbených frází a frází v tématu srdce a symbol tématu. Jen podle barvy je totiž těžké je od sebe odlišit."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da 'Skelnen uden farve' er slået til på din iPhone, vises hjerte og kategorisymbol stadig ved favoritter og fraser i et tema, selv når denne indstilling er slået fra. Farve alene kan være svær at skelne."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf deinem iPhone ist „Ohne Farbe unterscheiden“ aktiv. Darum zeigen Favoriten und Textbausteine in einem Thema weiterhin ein Herz und ein Themensymbol, auch wenn du diese Einstellung ausschaltest. Farbe allein ist schwer zu unterscheiden."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Η επιλογή «Διάκριση χωρίς χρώμα» του iPhone είναι ενεργή, οπότε ακόμη και με αυτή τη ρύθμιση ανενεργή, οι φράσεις στα αγαπημένα και στις κατηγορίες εμφανίζουν καρδιά και σύμβολο κατηγορίας. Μόνο με το χρώμα, η διάκριση δεν είναι εύκολη."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Differentiate Without Color is on, so favorites and snippets in a category still show a heart and category symbol even with this off. Color alone can be hard to tell apart."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu iPhone tiene activado «Diferenciar sin color», así que, aunque lo desactives aquí, las frases favoritas y las de un tema seguirán mostrando un corazón y un símbolo de tema. Solo con el color puede ser difícil distinguirlas."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhonen Värisokean tila -asetus on päällä, joten suosikkien ja ryhmiin kuuluvien fraasien vieressä näkyy sydän ja ryhmän symboli, vaikka tämän asetuksen kytkisi pois. Pelkän värin perusteella niitä voi olla vaikea erottaa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« Différencier sans couleur » est activé sur votre iPhone. Même si vous désactivez ce réglage, les Snippets favoris et ceux d’une catégorie gardent donc un cœur et un symbole de catégorie. La couleur seule est parfois difficile à distinguer."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "'Bedakan Tanpa Warna' di iPhone sedang aktif, jadi meski pengaturan ini dimatikan, Frasa di Favorit dan di Tema tetap menampilkan simbol hati dan simbol tema. Warna saja sulit untuk membedakannya."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con «Differenzia senza colore» attivo su iPhone, i preferiti e le frasi in un tema mostrano comunque un cuore e un simbolo del tema, anche con questa opzione disattivata. Il solo colore può essere difficile da distinguere."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhoneの「色の区別なし」がオンのため、この設定をオフにしても、お気に入りやテーマ内の定型文にはハートとテーマのシンボルが表示されます。色だけでは区別しにくいためです。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siden «Differensier uten farge» er på på iPhone, vises hjerte og kategorisymbol fortsatt for favoritter og fraser i en kategori, selv om denne er av. Farge alene kan være vanskelig å skille."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je iPhone heeft 'Onderscheid zonder kleur' aan staan. Ook als je deze instelling uitzet, zie je daarom bij favorieten en fragmenten in een categorie een hart en een categoriesymbool. Alleen op kleur is lastig te onderscheiden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masz włączone w iPhonie „Rozróżnianie bez użycia koloru”, więc ulubione i frazy w temacie nadal mają serce i symbol tematu, nawet gdy to wyłączysz. Same kolory bywają trudne do odróżnienia."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como o iPhone está com \"Diferenciar sem cor\" ativado, os Favoritos e as frases de um tema continuam mostrando um coração e um símbolo de tema, mesmo com esta opção desligada. Só a cor pode dificultar a distinção."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В настройках iPhone включена функция «Различать без цвета», поэтому у фраз в избранном и в темах сердечко и символ темы остаются, даже если выключить этот параметр. Только по цвету их бывает трудно различить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eftersom iPhones inställning Differentiera utan färg är på visas hjärta och kategorisymbol på favoriter och fraser i en kategori även om du stänger av det här. Det är svårt att skilja på enbart färg."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone ตั้งค่า \"แยกโดยไม่ใช้สี\" ไว้ จึงแม้ปิดตัวเลือกนี้ ข้อความด่วนในรายการโปรดและหมวดหมู่ก็ยังแสดงหัวใจและสัญลักษณ์หมวดหมู่ เพราะใช้สีอย่างเดียวอาจแยกได้ยาก"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone'daki 'Renge Bağımlı Olmadan Ayırt Et' açık olduğundan, bu ayar kapalı olsa bile favorilerdeki ve temalardaki ifadelerde kalp ve tema simgesi görünür. Yalnızca renkle ayırt etmek zor olabilir."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone đang bật \"Phân biệt không dựa vào màu\", nên dù bạn tắt cài đặt này, mục ưa thích và cụm từ trong chủ đề vẫn hiện biểu tượng trái tim và biểu tượng chủ đề. Chỉ dựa vào màu thì khó phân biệt."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone 的“不以颜色区分”已开启，所以即使关闭此设置，收藏和分类中的短语仍会显示爱心和分类图标。仅靠颜色较难区分。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone 的「不以顏色區分」已開啓，所以即使關閉此設定，收藏和分類中的短語仍會顯示愛心和分類圖標。僅靠顏色較難區分。"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"
