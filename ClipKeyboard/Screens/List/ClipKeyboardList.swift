@@ -1388,6 +1388,15 @@ struct ClipKeyboardList: View {
                 .onReceive(NotificationCenter.default.publisher(for: .featureSetChanged)) { _ in
                     blank = FeatureSet.isBlankStartUser()
                 }
+                // 결과 쪽 판의 새 단축어가 닫혔다 = 시트가 닫힌 것과 같다(목록 다시 읽기 · 키보드 수업)
+                .onReceive(FoldComposeRouter.shared.$request.dropFirst()) { request in
+                    guard request == nil else { return }
+                    viewModel.loadMemos()
+                    if pendingKeyboardLesson {
+                        pendingKeyboardLesson = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { showKeyboardLesson = true }
+                    }
+                }
                 // 백지 사용자가 자기 단축어를 처음 담았다 → 장부에 적고, 키보드가 아직이면 수업을 잡아 둔다
                 .onReceive(NotificationCenter.default.publisher(for: .memoSaved)) { _ in
                     guard FeatureSet.isBlankStartUser() else { return }
@@ -2544,6 +2553,11 @@ struct ClipKeyboardList: View {
     /// ⚠️ 움직임 줄이기를 켠 사람에게는 기다리게 하지 않는다. 그쪽에는 자리가 자라는
     ///    것을 안 보여 주므로 기다릴 이유도 없다.
     private func openAddMemoWithSlot() {
+        // 펼친 듀오: 시트 대신 결과 쪽 판에 연다. 시트는 27.1 에서 접힌 선 한가운데에 선다
+        if foldLayout.isUnfolded {
+            FoldComposeRouter.shared.open(category: addMemoSheetCategory)
+            return
+        }
         withAnimation(reduceMotion ? nil : .spring(response: 0.32, dampingFraction: 0.72)) {
             pendingSlot = true
         }

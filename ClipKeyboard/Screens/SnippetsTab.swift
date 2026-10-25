@@ -238,6 +238,8 @@ struct SnippetsTab: View {
     @AppStorage(DefaultsKey.tutorialWelcomeDone) private var welcomeDone: Bool = false
     /// 이 기기가 4.4.4 이후로 처음 시작했는가 - 쓰던 사람에게 튜토리얼을 다시 깔지 않기 위한 표식.
     @AppStorage(DefaultsKey.startedFreshV444) private var startedFresh: Bool = false
+    /// 펼친 화면에서 새 단축어를 결과 쪽 판에 세운다(`FoldComposePane`).
+    @ObservedObject private var composeRouter = FoldComposeRouter.shared
     /// 튜토리얼이 끝난 시각·실행 횟수 - 무대의 키보드 켜기 띠가 이 둘을 본다.
     @AppStorage(DefaultsKey.tutorialFinishedAt) private var tutorialFinishedAt: Double = 0
     @AppStorage(DefaultsKey.tutorialFinishedAtLaunch) private var tutorialFinishedAtLaunch: Int = 0
@@ -401,7 +403,11 @@ struct SnippetsTab: View {
             } result: {
                 // 환영 화면에서는 아직 복사한 것이 없다. 그 자리에 환영의 머리를 세운다
                 // (아래 판에는 다 안 들어간다 · `TutorialWelcomeHeader`).
-                if onboardingStep == .welcome {
+                if let compose = composeRouter.request {
+                    // + 로 연 새 단축어. 펼친 화면에서는 시트 대신 이 판에 선다(`FoldComposePane`)
+                    FoldComposePane(request: compose)
+                        .transition(.opacity)
+                } else if onboardingStep == .welcome {
                     TutorialWelcomeHeader()
                         .padding(.horizontal, 26)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)

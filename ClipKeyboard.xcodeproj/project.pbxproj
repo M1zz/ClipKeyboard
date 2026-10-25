@@ -248,6 +248,7 @@
 		C09F146774868650F62B4FB8 /* TypingSpeedMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033ABFB89F872AE078A1FC22 /* TypingSpeedMeter.swift */; };
 		C0AE3312846EEEF99DA6724E /* MemoReorderDropDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C970386B61BF7C8C53F03C /* MemoReorderDropDelegates.swift */; };
 		C0DD5A687D1374950DEF38B4 /* TutorialFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B352BD33E4C1A3A117C0015D /* TutorialFlow.swift */; };
+		C0F9D240BF594AD670F9557D /* FoldComposePane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C9EBF409C09DCF38F9AB64 /* FoldComposePane.swift */; };
 		C1A0B0012F80000000A1100C /* SolidUnderReducedTransparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A0B0012F80000000A1100D /* SolidUnderReducedTransparency.swift */; };
 		C35C2FED6C9F7F5E527BDBC6 /* BlankStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71619CD502EE6A05C30C1C0A /* BlankStartView.swift */; };
 		C8294EE61242F95B02F19F2B /* FeatureNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBFCC8893079044F94A9942 /* FeatureNudge.swift */; };
@@ -601,6 +602,7 @@
 		63C7CC7878D04F4491D10BC2 /* ProBenefitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProBenefitsView.swift; sourceTree = "<group>"; };
 		6517634F9E56C31222172460 /* BulkImportNudge.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BulkImportNudge.swift; sourceTree = "<group>"; };
 		69AA823053E3EC4DCC11ADF1 /* SavedDraft.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SavedDraft.swift; sourceTree = "<group>"; };
+		69C9EBF409C09DCF38F9AB64 /* FoldComposePane.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FoldComposePane.swift; sourceTree = "<group>"; };
 		6A875E559BF8538E7E299AB9 /* DraftStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DraftStore.swift; sourceTree = "<group>"; };
 		6B7E101B8CE355450097AEE9 /* KeyboardStageIntro.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeyboardStageIntro.swift; sourceTree = "<group>"; };
 		6C457EA7B9496AEC923BA562 /* TypingLayouts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TypingLayouts.swift; sourceTree = "<group>"; };
@@ -1344,6 +1346,7 @@
 				BULK00SEL0000000000000001 /* TwoFingerTap.swift */,
 				E8C970386B61BF7C8C53F03C /* MemoReorderDropDelegates.swift */,
 				D6B8DA5DE589A8AD6F7F0604 /* CardSurfaceEffects.swift */,
+				69C9EBF409C09DCF38F9AB64 /* FoldComposePane.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -2072,6 +2075,7 @@
 				BA1DA1992E4456DE5887A0E3 /* FeatureSettingsSection.swift in Sources */,
 				3CFFC3F45D26EFBCF64FA16E /* GuideBookView.swift in Sources */,
 				C8294EE61242F95B02F19F2B /* FeatureNudge.swift in Sources */,
+				C0F9D240BF594AD670F9557D /* FoldComposePane.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
