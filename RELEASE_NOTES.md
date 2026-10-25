@@ -14,6 +14,238 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.14
+
+### 앱스토어 (한국어)
+
+```
+새로 설치하면 하얀 화면에서 하나씩 해 보며 시작해요.
+필요한 기능은 쓸 때가 오면 그 자리에서 알려 드려요.
+펼친 iPhone Duo에서 새 단축어와 수정이 오른쪽 화면에 열려요.
+설정의 무료 안내와 Pro 화면이 다른 메뉴처럼 열려요.
+지금 쓰시던 화면과 단축어는 그대로예요.
+```
+
+### App Store (English)
+
+```
+New installs start on a clean, simple screen you try step by step.
+Features show up right when you need them.
+On an unfolded iPhone Duo, new and edited snippets open on the right side.
+The free plan and Pro screens in Settings open like every other menu.
+Your current screens and snippets stay exactly as they are.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+新安装时从简洁的空白界面开始，一步步试着用。
+需要的功能会在用到时当场告诉你。
+在展开的 iPhone Duo 上，新建和编辑短语会在右侧打开。
+设置里的免费说明和 Pro 页面像其他菜单一样打开。
+你现在的界面和短语都保持不变。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+新安裝時從簡潔的空白畫面開始，一步步試著用。
+需要的功能會在用到時當場告訴你。
+在展開的 iPhone Duo 上，新增和編輯短語會在右側打開。
+設定裡的免費說明和 Pro 頁面像其他選單一樣打開。
+你現在的畫面和短語都保持不變。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Новая установка начинается с чистого экрана, где всё пробуется по шагам.
+Нужные функции появляются, когда они действительно нужны.
+На развёрнутом iPhone Duo новые и изменяемые фразы открываются справа.
+Экраны бесплатного режима и Pro в настройках открываются как обычные меню.
+Ваши экраны и фразы остаются как были.
+```
+
+### App Store (Japanese, ja)
+
+```
+新しくインストールすると、まっさらな画面でひとつずつ試しながら始まります。
+必要な機能は、使うときにその場でお知らせします。
+開いた iPhone Duo では、定型文の作成と編集が右側に開きます。
+設定の無料案内と Pro の画面がほかのメニューと同じように開きます。
+今お使いの画面と定型文はそのままです。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Las instalaciones nuevas empiezan en una pantalla limpia que pruebas paso a paso.
+Las funciones aparecen justo cuando las necesitas.
+En un iPhone Duo abierto, crear y editar frases se abre en el lado derecho.
+Las pantallas del plan gratis y de Pro en Ajustes se abren como cualquier otro menú.
+Tus pantallas y frases actuales siguen igual.
+```
+
+### App Store (German, de-DE)
+
+```
+Neuinstallationen beginnen auf einem leeren, schlichten Bildschirm, Schritt für Schritt.
+Funktionen erscheinen genau dann, wenn du sie brauchst.
+Auf einem aufgeklappten iPhone Duo öffnen sich neue und bearbeitete Textbausteine rechts.
+Die Seiten zur kostenlosen Nutzung und zu Pro in den Einstellungen öffnen sich wie jedes andere Menü.
+Deine bisherigen Ansichten und Textbausteine bleiben, wie sie sind.
+```
+
+### App Store (Thai, th)
+
+```
+ติดตั้งใหม่จะเริ่มจากหน้าจอโล่ง ๆ ให้ลองทีละขั้น
+ฟีเจอร์ที่ต้องใช้จะบอกตรงนั้นเมื่อถึงเวลาใช้
+บน iPhone Duo ที่กางออก การสร้างและแก้ไขข้อความด่วนจะเปิดทางขวา
+หน้าการใช้ฟรีและ Pro ในการตั้งค่าเปิดเหมือนเมนูอื่น
+หน้าจอและข้อความด่วนที่ใช้อยู่ยังเหมือนเดิม
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Cài mới sẽ bắt đầu từ màn hình trống, thử từng bước một.
+Tính năng cần thiết sẽ được giới thiệu đúng lúc bạn cần.
+Trên iPhone Duo mở ra, tạo và sửa cụm từ mở ở bên phải.
+Màn hình dùng miễn phí và Pro trong Cài đặt mở như các menu khác.
+Màn hình và cụm từ bạn đang dùng vẫn giữ nguyên.
+```
+
+### App Store (French, fr-FR)
+
+```
+Une nouvelle installation commence sur un écran vierge, à essayer pas à pas.
+Les fonctions apparaissent au moment où vous en avez besoin.
+Sur un iPhone Duo déplié, créer et modifier une phrase s’ouvre à droite.
+Les écrans de l’usage gratuit et de Pro dans Réglages s’ouvrent comme les autres menus.
+Vos écrans et vos phrases restent tels quels.
+```
+
+### App Store (Italian, it)
+
+```
+Le nuove installazioni partono da uno schermo pulito da provare passo dopo passo.
+Le funzioni compaiono proprio quando ti servono.
+Su un iPhone Duo aperto, creare e modificare frasi si apre a destra.
+Le schermate dell’uso gratuito e di Pro in Impostazioni si aprono come gli altri menu.
+Le tue schermate e frasi restano come sono.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+Instalações novas começam em uma tela limpa, para testar passo a passo.
+Os recursos aparecem bem na hora em que você precisa.
+Em um iPhone Duo aberto, criar e editar frases abre do lado direito.
+As telas do uso grátis e do Pro em Ajustes abrem como qualquer outro menu.
+Suas telas e frases atuais continuam iguais.
+```
+
+### App Store (Czech, cs)
+
+```
+Nová instalace začíná na čisté obrazovce, kde si vše vyzkoušíte krok za krokem.
+Funkce se objeví právě ve chvíli, kdy je potřebujete.
+Na rozloženém iPhonu Duo se nové a upravované fráze otevírají vpravo.
+Obrazovky bezplatného používání a Pro v Nastavení se otevírají jako ostatní nabídky.
+Vaše obrazovky a fráze zůstávají beze změny.
+```
+
+### App Store (Danish, da)
+
+```
+Nye installationer starter på en ren skærm, du prøver trin for trin.
+Funktioner dukker op, lige når du har brug for dem.
+På en udfoldet iPhone Duo åbner nye og redigerede fraser i højre side.
+Skærmene for gratis brug og Pro i Indstillinger åbner som alle andre menuer.
+Dine nuværende skærme og fraser er uændrede.
+```
+
+### App Store (Greek, el)
+
+```
+Οι νέες εγκαταστάσεις ξεκινούν από μια καθαρή οθόνη που δοκιμάζετε βήμα βήμα.
+Οι λειτουργίες εμφανίζονται τη στιγμή που τις χρειάζεστε.
+Σε ανοιχτό iPhone Duo, η δημιουργία και η επεξεργασία φράσεων ανοίγει δεξιά.
+Οι οθόνες δωρεάν χρήσης και Pro στις Ρυθμίσεις ανοίγουν όπως τα άλλα μενού.
+Οι οθόνες και οι φράσεις σας μένουν όπως ήταν.
+```
+
+### App Store (Finnish, fi)
+
+```
+Uusi asennus alkaa tyhjältä näytöltä, jolla kokeilet asiat askel kerrallaan.
+Toiminnot tulevat esiin juuri silloin, kun tarvitset niitä.
+Avatussa iPhone Duossa fraasin luonti ja muokkaus avautuvat oikealle.
+Ilmaisen käytön ja Pron näkymät avautuvat asetuksissa kuten muutkin valikot.
+Nykyiset näkymäsi ja fraasisi pysyvät ennallaan.
+```
+
+### App Store (Indonesian, id)
+
+```
+Instalasi baru dimulai dari layar bersih yang dicoba langkah demi langkah.
+Fitur muncul tepat saat Anda membutuhkannya.
+Di iPhone Duo yang dibuka, membuat dan mengedit frasa terbuka di sisi kanan.
+Layar penggunaan gratis dan Pro di Pengaturan terbuka seperti menu lainnya.
+Layar dan frasa yang Anda pakai sekarang tetap sama.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Nye installasjoner starter på en ren skjerm du prøver steg for steg.
+Funksjoner dukker opp akkurat når du trenger dem.
+På en utbrettet iPhone Duo åpnes nye og redigerte fraser på høyre side.
+Skjermene for gratis bruk og Pro i Innstillinger åpnes som andre menyer.
+Skjermene og frasene du bruker nå, er som før.
+```
+
+### App Store (Dutch, nl)
+
+```
+Nieuwe installaties beginnen op een leeg scherm dat je stap voor stap probeert.
+Functies verschijnen precies wanneer je ze nodig hebt.
+Op een opengevouwen iPhone Duo openen nieuwe en bewerkte fragmenten aan de rechterkant.
+De schermen voor gratis gebruik en Pro in Instellingen openen zoals elk ander menu.
+Je huidige schermen en fragmenten blijven zoals ze zijn.
+```
+
+### App Store (Polish, pl)
+
+```
+Nowa instalacja zaczyna się od czystego ekranu, który poznajesz krok po kroku.
+Funkcje pojawiają się wtedy, gdy ich potrzebujesz.
+Na rozłożonym iPhonie Duo tworzenie i edycja fraz otwiera się po prawej.
+Ekrany darmowego korzystania i Pro w Ustawieniach otwierają się jak inne menu.
+Twoje obecne ekrany i frazy zostają bez zmian.
+```
+
+### App Store (Swedish, sv)
+
+```
+Nya installationer börjar på en ren skärm som du provar steg för steg.
+Funktioner dyker upp precis när du behöver dem.
+På en utfälld iPhone Duo öppnas nya och redigerade fraser till höger.
+Skärmarna för gratis användning och Pro i Inställningar öppnas som andra menyer.
+Dina nuvarande skärmar och fraser är oförändrade.
+```
+
+### App Store (Turkish, tr)
+
+```
+Yeni kurulumlar, adım adım denediğiniz sade bir ekranla başlar.
+Özellikler tam ihtiyaç duyduğunuz anda karşınıza çıkar.
+Açık bir iPhone Duo’da ifade oluşturma ve düzenleme sağ tarafta açılır.
+Ayarlar’daki ücretsiz kullanım ve Pro ekranları diğer menüler gibi açılır.
+Şu anki ekranlarınız ve ifadeleriniz olduğu gibi kalır.
+```
+
 ## 5.1.13
 
 ### 앱스토어 (한국어)
