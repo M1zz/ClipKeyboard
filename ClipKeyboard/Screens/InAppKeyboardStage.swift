@@ -280,7 +280,7 @@ struct InAppKeyboardStage: View {
         }
         .fullScreenCover(isPresented: $showsKeyboardSetup, onDismiss: refreshKeyboardReady) {
             KeyboardSetupOnboardingView { showsKeyboardSetup = false }
-                .foldConfined { FoldKeyboardSetupCompanion() }
+                .appFoldConfined { FoldKeyboardSetupCompanion() }
         }
         // 목록에서 문구를 만들거나 고치면 무대의 키보드도 따라와야 한다.
         .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in

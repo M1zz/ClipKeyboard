@@ -1483,7 +1483,7 @@ struct ClipKeyboardApp: App {
             // ⚠️ 앱 맨 바깥에 건다. 시트는 그 `.sheet` 가 걸린 자리의 환경을 물려받으므로,
             //    탭 화면에만 걸면 앱 루트에서 띄우는 시트(새 기능 · 의견 · 결제)는 접힌 줄 모르고
             //    창 가득 올라와 접힌 선을 덮는다(실측).
-            .foldAware()
+            .appFoldAware()
             } // else (비테스트 실행)
 
         }
@@ -1838,7 +1838,7 @@ struct MainTabView: View {
                 systemImage: snippetsStyle.symbolName,
                 value: MainTab.snippets, role: nil) {
                 SnippetsTab()
-                    .foldTabBarRoom()
+                    .appFoldTabBarRoom()
             }
             // ⚠️ 예전에는 이 자리가 **클립보드**였고 사용 기록은 설정 안에 있었다. 둘을 맞바꾼다.
             //    클립보드는 키보드 안에서 꺼내 쓰는 것이지 탭을 열어 들여다보는 것이 아니었고,
@@ -1854,7 +1854,7 @@ struct MainTabView: View {
                 } result: {
                     UsagePassportStampPane()
                 }
-                .foldTabBarRoom()
+                .appFoldTabBarRoom()
             }
             }
             Tab(NSLocalizedString("설정", comment: "Menu: settings"),
@@ -1865,7 +1865,7 @@ struct MainTabView: View {
                 FoldNavigation {
                     SettingView().alwaysTransparentBars()
                 }
-                .foldTabBarRoom()
+                .appFoldTabBarRoom()
             }
             if showsSearchTab {
             Tab(NSLocalizedString("검색", comment: "Search"),
@@ -1877,7 +1877,7 @@ struct MainTabView: View {
                 } result: {
                     FoldCopiedPane()
                 }
-                .foldTabBarRoom()
+                .appFoldTabBarRoom()
             }
             }
         }

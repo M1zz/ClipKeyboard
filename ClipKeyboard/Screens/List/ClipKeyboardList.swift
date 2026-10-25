@@ -1008,14 +1008,14 @@ struct ClipKeyboardList: View {
                 MemoReorderScreen(viewModel: viewModel,
                                   style: cardStyle,
                                   columnCount: gridColumnCount)
-                    .foldConfined()
+                    .appFoldConfined()
             }
             // 여러 개 고르기 - 지금 탭의 카드를 체크로 골라 한꺼번에 옮기거나 지운다.
             .fullScreenCover(isPresented: $viewModel.isSelectionMode) {
                 MemoSelectionScreen(viewModel: viewModel,
                                     style: cardStyle,
                                     columnCount: gridColumnCount)
-                    .foldConfined()
+                    .appFoldConfined()
             }
             // 즐겨찾기 탭 + 버튼 - 즐겨찾기로 바로 저장
             .sheet(isPresented: $showAddFavoriteMemoSheet, onDismiss: { viewModel.loadMemos() }) {

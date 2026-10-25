@@ -88,7 +88,7 @@ struct FoldTabBar<Value: Hashable>: View {
 extension View {
     /// 펼친 화면에서 이 탭의 시스템 탭바를 숨기고, 바닥에 `FoldTabBar` 가 설 자리를 비운다.
     /// 각 탭의 맨 바깥에 건다. 접혀 있으면 아무것도 하지 않는다.
-    func foldTabBarRoom() -> some View {
+    func appFoldTabBarRoom() -> some View {
         modifier(FoldTabBarRoomModifier())
     }
 }

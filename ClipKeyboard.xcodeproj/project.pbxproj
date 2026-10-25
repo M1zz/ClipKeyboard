@@ -2851,7 +2851,7 @@
 			repositoryURL = "https://github.com/M1zz/LeeoKit.git";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 3.20.2;
+				minimumVersion = 3.22.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

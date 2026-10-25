@@ -252,12 +252,16 @@ extension View {
     /// 다른 쪽은 비워 둔다. 접혀 있으면 지금 그대로다.
     ///
     /// 안쪽에는 접히지 않은 화면이라고 알린다. 바깥 화면에서 보던 그 모양 그대로 선다.
-    func foldConfined() -> some View {
+    ///
+    /// ⚠️ LeeoKit 3.21 부터 같은 부품(`foldConfined` · `foldAware` · `foldTabBarRoom`)이 LeeoKit 에도 있다.
+    ///    이 앱의 것은 접힌 선 띠를 판 색으로 칠하는 등 더 앞서 있어 그대로 두고, 이름 앞에 `app` 을 붙여
+    ///    부딪히지 않게 한다. 둘은 환경 값(`foldLayout`)도 따로라 섞어 쓰면 안 된다.
+    func appFoldConfined() -> some View {
         modifier(FoldConfinedModifier(result: nil))
     }
 
     /// 위와 같고, 비어 있던 다른 쪽 판에 `result` 를 세운다(안내 | 따라 하기).
-    func foldConfined<Result: View>(@ViewBuilder result: () -> Result) -> some View {
+    func appFoldConfined<Result: View>(@ViewBuilder result: () -> Result) -> some View {
         modifier(FoldConfinedModifier(result: AnyView(result())))
     }
 }
@@ -289,7 +293,7 @@ private struct FoldConfinedModifier: ViewModifier {
 
 extension View {
     /// 창 크기로 접힘을 재서 아래로 흘린다. 앱 루트에 한 번 건다.
-    func foldAware() -> some View {
+    func appFoldAware() -> some View {
         modifier(FoldAwareModifier())
     }
 }

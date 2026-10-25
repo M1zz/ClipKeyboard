@@ -68,7 +68,7 @@ struct KeyboardSetupRequiredBanner: View {
         }
         .fullScreenCover(isPresented: $showsSetup, onDismiss: refresh) {
             KeyboardSetupOnboardingView(exitAction: { showsSetup = false })
-                .foldConfined { FoldKeyboardSetupCompanion() }
+                .appFoldConfined { FoldKeyboardSetupCompanion() }
         }
     }
 

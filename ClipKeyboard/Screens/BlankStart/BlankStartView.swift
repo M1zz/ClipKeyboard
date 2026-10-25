@@ -68,7 +68,7 @@ struct BlankStartView: View {
         }
         .sheet(isPresented: $showLearnMore) { BlankStartLearnMoreSheet() }
         // 펼친 듀오: 접힌 선 위에 글이 걸리지 않게 한쪽 판에만 선다. 다른 쪽은 하얗게 비운다
-        .foldConfined { Color(.systemBackground).ignoresSafeArea() }
+        .appFoldConfined { Color(.systemBackground).ignoresSafeArea() }
         .onAppear {
             // 움직임 줄이기를 켠 사람에게 10초짜리 그림을 돌리지 않는다. 같은 말을 글로 하고 바로 해 본다.
             if reduceMotion, stage == .intro {

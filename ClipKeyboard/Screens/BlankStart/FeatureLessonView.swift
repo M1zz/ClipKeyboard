@@ -64,7 +64,7 @@ struct FeatureLessonView: View {
             .padding(.bottom, 20)
         }
         // 펼친 듀오: 접힌 선 위에 글이 걸리지 않게 한쪽 판에만 선다
-        .foldConfined { Color(.systemBackground).ignoresSafeArea() }
+        .appFoldConfined { Color(.systemBackground).ignoresSafeArea() }
     }
 
     private func say(_ a: String, _ b: String) {
