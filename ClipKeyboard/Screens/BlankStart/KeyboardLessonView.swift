@@ -210,6 +210,7 @@ struct KeyboardLessonView: View {
                 Button {
                     HapticManager.shared.selection()
                     UserDefaults.standard.set(true, forKey: DefaultsKey.keyboardLessonDeferred)
+                    AnalyticsService.log(.keyboardLessonDeferred)
                     onClose()
                 } label: {
                     Text(NSLocalizedString("나중에 다시", comment: "Keyboard lesson: postpone"))

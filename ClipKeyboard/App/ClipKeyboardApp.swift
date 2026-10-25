@@ -368,6 +368,12 @@ struct ClipKeyboardApp: App {
             }
 
             // 키보드 익스텐션이 App Group에 기록한 사용 비콘을 flush (콘솔 + 허브 이벤트)
+            // 다른 앱에서 키보드를 실제로 썼다 = 키보드 켜기를 배운 것이다. 수업을 건너뛰고 혼자 켠
+            // 백지 사용자에게 다시 켜라고 권하지 않게 장부에 적는다(비콘을 비우기 전에 본다)
+            if FeatureSet.isBlankStartUser(),
+               (AppGroup.defaults?.integer(forKey: DefaultsKey.kbBeaconPendingCount) ?? 0) > 0 {
+                LessonLedger.learn(.keyboard)
+            }
             AnalyticsService.flushKeyboardBeacon()
 
             // 세그먼트 유저 속성 - 모든 퍼널을 Pro 여부·페르소나·키보드 활성으로 쪼갤 수 있게.

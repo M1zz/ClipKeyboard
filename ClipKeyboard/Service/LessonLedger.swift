@@ -63,6 +63,8 @@ enum LessonLedger {
         t[lesson.rawValue] = date.timeIntervalSince1970
         defaults?.set(t, forKey: DefaultsKey.lessonLedger)
         print("📝 [LessonLedger.learn] \(lesson.rawValue) 배움")
+        // 처음 적힐 때 한 번만 허브로. 이름만 보낸다(시각 · 내용은 보내지 않는다)
+        AnalyticsService.log(.lessonLearned, parameters: [.source: lesson.rawValue])
     }
 
     /// 여러 칸을 한 번에 배운 것으로 적는다(기존 사용자처럼 이미 다 아는 사람).

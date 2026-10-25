@@ -45,6 +45,7 @@ struct FeatureSettingsSection: View {
         return Button {
             HapticManager.shared.selection()
             for f in AppFeature.allCases { FeatureSet.set(f, on: preset.features.contains(f)) }
+            AnalyticsService.log(.featurePreset, parameters: [.source: preset.rawValue])
         } label: {
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 3) {
@@ -88,6 +89,7 @@ struct FeatureSettingsSection: View {
                 get: { on.contains(feature) },
                 set: { newValue in
                     FeatureSet.set(feature, on: newValue)
+                    if newValue { AnalyticsService.log(.featureOn, parameters: [.source: feature.rawValue]) }
                     // 처음 켤 때 그 자리에서 그림으로 한 번 해 본다
                     if newValue && !LessonLedger.hasLearned(feature.lesson) {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { lesson = feature }

@@ -274,15 +274,28 @@ struct FreeUseGuideView: View {
                     point(NSLocalizedString("평생 한 번 결제와 연 구독 중에 고를 수 있어요.", comment: "Free use guide: lifetime or yearly"))
                 }
                 if !ProFeatureManager.hasPermanentPro {
-                    Button { showsPlans = true } label: {
-                        Text(NSLocalizedString("Pro 보기", comment: "Pro nudge CTA"))
-                            .font(.headline)
-                            .frame(maxWidth: .infinity, minHeight: 50)
-                            .background(theme.accent)
-                            .foregroundColor(theme.accentFg)
-                            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                    if embedded {
+                        // 설정에서 넘어와 열렸으면 Pro 도 **다음 화면으로** 넘어간다(펼친 듀오에서는 오른쪽 판).
+                        // 시트로 띄우면 이 화면만 다시 접힌 선 한가운데에 선다
+                        FoldLink(destination: PaywallView(embedded: true)) {
+                            Label(NSLocalizedString("Pro 보기", comment: "Pro nudge CTA"), systemImage: AppSymbol.starCircleFill)
+                                .font(.headline)
+                                .foregroundColor(theme.accent)
+                        }
+                        .padding(.vertical, 14)
+                        .padding(.horizontal, 16)
+                        .background(theme.surface, in: RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                    } else {
+                        Button { showsPlans = true } label: {
+                            Text(NSLocalizedString("Pro 보기", comment: "Pro nudge CTA"))
+                                .font(.headline)
+                                .frame(maxWidth: .infinity, minHeight: 50)
+                                .background(theme.accent)
+                                .foregroundColor(theme.accentFg)
+                                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                        }
+                        .buttonStyle(.squish)
                     }
-                    .buttonStyle(.squish)
                 }
             }
             .padding(20)

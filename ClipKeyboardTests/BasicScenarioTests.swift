@@ -582,6 +582,10 @@ final class BasicScenarioTests: XCTestCase {
                                                others: (1...5).map { ("이름\($0)", "값\($0)") }), .category)
         XCTAssertNil(FeatureNudge.suggestion(saved: ("메일", "a@b.com"), others: [("집", "서울")]),
                      "부를 까닭이 없으면 아무것도 권하지 않는다")
+        XCTAssertEqual(FeatureNudge.suggestion(saved: ("메일", "a@b.com"), others: [("집", "서울")], recentPastes: 3), .recent,
+                       "붙여넣어 담는 일이 잦으면 '최근' 을 권한다")
+        XCTAssertTrue(FeatureNudge.looksPasted(old: "", new: "서울 마포구 월드컵북로 396"))
+        XCTAssertFalse(FeatureNudge.looksPasted(old: "서울", new: "서울 마"), "한두 글자씩 친 것은 붙여넣기가 아니다")
 
         // 2. 한 번만 · 하루에 하나
         let day = Date()

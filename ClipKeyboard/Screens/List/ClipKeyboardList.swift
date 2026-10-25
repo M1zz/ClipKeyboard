@@ -992,60 +992,7 @@ struct ClipKeyboardList: View {
             // SwiftUI race 회피: sheet dismiss 후 0.35s 뒤에 memoToEdit/memoToDelete set.
             .sheet(isPresented: $showMemoActions) {
                 if let memo = memoForActions {
-                    MemoActionSheet(
-                        memo: memo,
-                        categories: viewModel.customCategories,
-                        onCopy: {
-                            HapticManager.shared.selection()
-                            viewModel.copyMemo(memo: memo)
-                        },
-                        onToggleFavorite: {
-                            HapticManager.shared.selection()
-                            viewModel.toggleFavorite(memoId: memo.id)
-                        },
-                        onEdit: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                memoToEdit = memo
-                            }
-                        },
-                        onDelete: {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                memoToDelete = memo
-                            }
-                        },
-                        onMoveToCategory: blank && !FeatureSet.isOn(.category) ? nil : { category in
-                            HapticManager.shared.selection()
-                            viewModel.moveMemo(memo, toCategory: category)
-                        },
-                        onCreateNewCategory: blank && !FeatureSet.isOn(.category) ? nil : {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                memoForCategoryAssign = memo
-                                newCategoryForMemo = ""
-                                showNewCategoryForMemoAlert = true
-                            }
-                        },
-                        onReorder: blank ? nil : {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                viewModel.enterReorderMode()
-                            }
-                        },
-                        // 꾹 눌러 들어온 카드는 미리 골라 둔다 - 누른 것이 안 골라진 채
-                        // 열리면 왜 눌렀는지가 사라진다.
-                        onSelectMultiple: blank ? nil : {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                viewModel.enterSelectionMode(preselect: memo.id)
-                            }
-                        },
-                        onMakeTemplate: blank && !FeatureSet.isOn(.template) ? nil : {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                makeTemplateSource = memo
-                            }
-                        },
-                        onToggleSecure: blank && !FeatureSet.isOn(.secure) ? nil : {
-                            HapticManager.shared.selection()
-                            viewModel.toggleSecure(memoId: memo.id)
-                        }
-                    )
+                    memoActions(memo)
                 }
             }
             // 순서 바꾸기 - 전체 메모 흔들기/드래그 재정렬 (전체화면)
@@ -1405,7 +1352,8 @@ struct ClipKeyboardList: View {
                         let memos = ((try? MemoStore.shared.load(type: .memo)) ?? []).sorted { $0.lastEdited > $1.lastEdited }
                         guard let saved = memos.first else { return }
                         let others = memos.dropFirst().map { (title: $0.title, value: $0.value) }
-                        if let f = FeatureNudge.suggestion(saved: (saved.title, saved.value), others: others),
+                        if let f = FeatureNudge.suggestion(saved: (saved.title, saved.value), others: others,
+                                                           recentPastes: FeatureNudge.pastedSaves()),
                            FeatureNudge.mayAsk(f) {
                             FeatureNudge.record(f, .shown)
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
@@ -1425,6 +1373,14 @@ struct ClipKeyboardList: View {
                 .onAppear {
                     if UserDefaults.standard.bool(forKey: "PreviewAddSheet") {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { openAddMemoWithSlot() }
+                    }
+                    if UserDefaults.standard.bool(forKey: "PreviewMemoActions") {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                            guard let memo = viewModel.memos.first else { return }
+                            memoForActions = memo
+                            if foldLayout.isUnfolded { FoldComposeRouter.shared.open(pane: AnyView(memoActions(memo))) }
+                            else { showMemoActions = true }
+                        }
                     }
                 }
                 #endif
@@ -1710,7 +1666,12 @@ struct ClipKeyboardList: View {
             longPressActiveMemo = nil
             longPressProgress = 0
             memoForActions = memo
-            showMemoActions = true
+            // 펼친 듀오: 시트 대신 결과 쪽 판에(시트는 27.1 에서 접힌 선 한가운데에 선다)
+            if foldLayout.isUnfolded {
+                FoldComposeRouter.shared.open(pane: AnyView(memoActions(memo)))
+            } else {
+                showMemoActions = true
+            }
         } onPressingChanged: { isPressing in
             pressedMemoID = isPressing ? memo.id : nil
             if isPressing {
@@ -2835,6 +2796,69 @@ struct ClipKeyboardList: View {
             toolbarSheets(toolbarButtons)
         }
         #endif
+    }
+
+    /// 카드를 길게 눌렀을 때의 할 일. 접혀 있으면 시트, 펼친 듀오에서는 결과 쪽 판에 선다.
+    private func memoActions(_ memo: Memo) -> MemoActionSheet {
+        MemoActionSheet(
+        memo: memo,
+        categories: viewModel.customCategories,
+        onCopy: {
+            HapticManager.shared.selection()
+            viewModel.copyMemo(memo: memo)
+        },
+        onToggleFavorite: {
+            HapticManager.shared.selection()
+            viewModel.toggleFavorite(memoId: memo.id)
+        },
+        onEdit: {
+            // 펼친 듀오: 고치는 화면도 결과 쪽 판에(메뉴가 서 있던 그 자리)
+            if foldLayout.isUnfolded {
+                FoldComposeRouter.shared.open(edit: memo)
+                return
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                memoToEdit = memo
+            }
+        },
+        onDelete: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                memoToDelete = memo
+            }
+        },
+        onMoveToCategory: blank && !FeatureSet.isOn(.category) ? nil : { category in
+            HapticManager.shared.selection()
+            viewModel.moveMemo(memo, toCategory: category)
+        },
+        onCreateNewCategory: blank && !FeatureSet.isOn(.category) ? nil : {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                memoForCategoryAssign = memo
+                newCategoryForMemo = ""
+                showNewCategoryForMemoAlert = true
+            }
+        },
+        onReorder: blank ? nil : {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                viewModel.enterReorderMode()
+            }
+        },
+        // 꾹 눌러 들어온 카드는 미리 골라 둔다 - 누른 것이 안 골라진 채
+        // 열리면 왜 눌렀는지가 사라진다.
+        onSelectMultiple: blank ? nil : {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                viewModel.enterSelectionMode(preselect: memo.id)
+            }
+        },
+        onMakeTemplate: blank && !FeatureSet.isOn(.template) ? nil : {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                makeTemplateSource = memo
+            }
+        },
+        onToggleSecure: blank && !FeatureSet.isOn(.secure) ? nil : {
+            HapticManager.shared.selection()
+            viewModel.toggleSecure(memoId: memo.id)
+        }
+    )
     }
 
     /// 툴바에서 여는 만들기 · 정리 시트들. + 가 메뉴든 단추든 같이 달린다.

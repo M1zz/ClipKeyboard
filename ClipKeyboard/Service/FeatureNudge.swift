@@ -89,6 +89,25 @@ enum FeatureNudge {
         t["__day"] = dayStamp(now)
         group?.set(t, forKey: DefaultsKey.featureNudges)
         print("📝 [FeatureNudge.record] \(feature.rawValue) \(answer.rawValue)")
+        AnalyticsService.log(.featureNudge, parameters: [.source: "\(feature.rawValue).\(answer.rawValue)"])
+    }
+
+    // MARK: - 붙여넣어 담기 횟수 ('최근' 을 부른다)
+
+    /// 새 단축어 내용을 붙여넣어 채우고 저장했다. 이런 저장이 쌓이면 '최근' 을 권한다.
+    static func notePastedSave(group: UserDefaults? = AppGroup.defaults) {
+        let n = pastedSaves(group: group) + 1
+        group?.set(n, forKey: DefaultsKey.featureNudgePastedSaves)
+        print("📝 [FeatureNudge.notePastedSave] 붙여넣어 담기 \(n)번째")
+    }
+
+    static func pastedSaves(group: UserDefaults? = AppGroup.defaults) -> Int {
+        group?.integer(forKey: DefaultsKey.featureNudgePastedSaves) ?? 0
+    }
+
+    /// 입력칸 글이 한 번에 이만큼 늘었으면 손으로 친 것이 아니라 붙여넣은 것으로 본다.
+    static func looksPasted(old: String, new: String) -> Bool {
+        new.count - old.count >= 6
     }
 
     // MARK: - 추천 조합

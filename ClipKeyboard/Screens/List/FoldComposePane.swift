@@ -23,15 +23,36 @@ final class FoldComposeRouter: ObservableObject {
 
     struct Request: Equatable, Identifiable {
         let id = UUID()
-        /// 넣을 분류. 비었으면 기본.
-        let category: String
+        let kind: Kind
+
+        enum Kind {
+            /// 새 단축어. 넣을 분류(비었으면 기본)
+            case compose(category: String)
+            /// 고치기
+            case edit(Memo)
+            /// 그 밖의 판(카드를 길게 눌렀을 때의 할 일 등)
+            case pane(AnyView)
+        }
+
+        static func == (a: Request, b: Request) -> Bool { a.id == b.id }
     }
 
     @Published private(set) var request: Request?
 
     func open(category: String) {
-        request = Request(category: category)
+        request = Request(kind: .compose(category: category))
         print("🔀 [FoldComposeRouter.open] 새 단축어를 결과 쪽 판에")
+    }
+
+    func open(edit memo: Memo) {
+        request = Request(kind: .edit(memo))
+        print("🔀 [FoldComposeRouter.open] 고치기를 결과 쪽 판에")
+    }
+
+    /// 시트로 띄우던 다른 화면을 결과 쪽 판에. 그 화면은 `foldPaneDismiss` 로 닫는다.
+    func open(pane: AnyView) {
+        request = Request(kind: .pane(pane))
+        print("🔀 [FoldComposeRouter.open] 판을 결과 쪽에")
     }
 
     func close() {
@@ -44,8 +65,28 @@ struct FoldComposePane: View {
     let request: FoldComposeRouter.Request
 
     var body: some View {
+        Group {
+            switch request.kind {
+            case .compose(let category):
+                editor(MemoAdd(insertedCategory: category.isEmpty ? "텍스트" : category))
+            case .edit(let memo):
+                editor(MemoAdd(memoId: memo.id,
+                               insertedKeyword: memo.title,
+                               insertedValue: memo.value,
+                               insertedCategory: memo.category,
+                               insertedIsTemplate: memo.isTemplate,
+                               insertedIsSecure: memo.isSecure))
+            case .pane(let view):
+                view
+                    .environment(\.foldPaneDismiss, FoldPaneDismiss { FoldComposeRouter.shared.close() })
+            }
+        }
+        .id(request.id)
+    }
+
+    private func editor(_ memoAdd: MemoAdd) -> some View {
         NavigationStack {
-            MemoAdd(insertedCategory: request.category.isEmpty ? "텍스트" : request.category)
+            memoAdd
                 .environment(\.foldPaneDismiss, FoldPaneDismiss { FoldComposeRouter.shared.close() })
                 .toolbar {
                     // 시트처럼 끌어 내릴 수 없으니 닫는 단추를 둔다
@@ -58,7 +99,6 @@ struct FoldComposePane: View {
                     .sharedBackgroundVisibility(.hidden)
                 }
         }
-        .id(request.id)
     }
 }
 
