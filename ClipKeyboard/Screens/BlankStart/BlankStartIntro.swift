@@ -88,9 +88,10 @@ struct BlankStartIntro: View {
                 .opacity(showChat ? 0 : 1)
             Text(NSLocalizedString("복사", comment: "Blank start intro: the system copy bubble"))
                 .font(.body.weight(.semibold))
-                .foregroundStyle(.white)
+                // 검은 바탕에 검은 말풍선이면 다크 모드에서 사라진다. 바탕과 늘 반대 색으로
+                .foregroundStyle(Color(.systemBackground))
                 .padding(.horizontal, 12).padding(.vertical, 7)
-                .background(Color.black.opacity(0.88), in: RoundedRectangle(cornerRadius: 10))
+                .background(Color(.label), in: RoundedRectangle(cornerRadius: 10))
                 .offset(y: -170)
                 .opacity(showCopyPill ? 1 : 0)
                 .scaleEffect(showCopyPill ? 1 : 0.8)
@@ -137,7 +138,7 @@ struct BlankStartIntro: View {
             Text(NSLocalizedString("계좌 알려 주실래요?", comment: "Blank start intro: a chat message asking for the account number"))
                 .font(.body)
                 .padding(.horizontal, 13).padding(.vertical, 9)
-                .background(Color(.systemGray5), in: RoundedRectangle(cornerRadius: 18))
+                .background(Color(.systemGray4), in: RoundedRectangle(cornerRadius: 18))
             Text(chatFilled ? BlankStartSample.value
                  : NSLocalizedString("메시지", comment: "Blank start intro: placeholder of the chat input"))
                 .font(.body)
@@ -145,7 +146,8 @@ struct BlankStartIntro: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 14)
                 .frame(height: 40)
-                .overlay(Capsule().stroke(Color(.separator)))
+                .background(Color(.secondarySystemBackground), in: Capsule())
+                .overlay(Capsule().stroke(Color(.systemGray3), lineWidth: 1.5))
         }
         .frame(width: 280)
     }
@@ -155,7 +157,8 @@ struct BlankStartIntro: View {
             .font(.body.weight(.semibold))
             .padding(.horizontal, 10).padding(.vertical, 6)
             .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 10))
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(.separator)))
+            // 테두리를 강조색으로. 다크 모드에서는 바탕과 조각의 회색이 거의 같아 날아가는 것이 안 보였다
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.accentColor, lineWidth: 1.5))
             .scaleEffect(chip == .box ? 0.5 : 1)
             .offset(y: chipY)
             .opacity(chip == .hidden ? 0 : 1)
