@@ -208,6 +208,7 @@ struct FeatureNudgeCard: View {
         .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).stroke(Color.accentColor, lineWidth: 1.5))
         .padding(.horizontal, 16)
         .padding(.top, 8)
+        .padding(.bottom, 12)
     }
 
     private func button(_ t: String, primary: Bool, action: @escaping () -> Void) -> some View {

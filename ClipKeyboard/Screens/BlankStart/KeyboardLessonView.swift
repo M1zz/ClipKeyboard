@@ -304,6 +304,7 @@ struct KeyboardLessonBanner: View {
         .background(Color.accentColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
         .padding(.horizontal, 16)
         .padding(.top, 8)
+        .padding(.bottom, 12)
     }
 
     /// 지금 띄울 때인가: 미뤄 뒀고, 아직 안 배웠고, 아직 안 켰다.
