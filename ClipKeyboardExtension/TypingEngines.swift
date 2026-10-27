@@ -156,8 +156,9 @@ final class DirectTypingEngine: TypingEngine {
 
 /// 두벌식은 `HangulComposer`, 천지인은 `CheonjiinInput` 이 그 위에서 돈다.
 ///
-/// ⚠️ 조합기는 입력칸이 아니라 **짓고 있는 낱말**(`HangulWordBuffer`)에 쓴다. 키 하나가 끝나면
-///    그 낱말을 밑줄 친 글로 한 번에 보인다. 낱말은 스페이스 · 부호 · 리턴 · 판 바꾸기에서 끝난다.
+/// ⚠️ 조합기는 입력칸이 아니라 짓는 글자 버퍼(`HangulWordBuffer`)에 쓴다. 키 하나가 끝나면
+///    **아직 바뀔 수 있는 음절만** 밑줄 친 글로 보이고, 그 앞은 확정한다(`settle`). 기본 키보드처럼
+///    밑줄은 한 글자 아래에만 선다(2026-10 사용자: "한 글자 아래에서만 밑줄이 쳐져야지").
 ///    조합기가 입력칸에 바로 지우고 쓰던 때는 키 하나에 입력칸을 두세 번 건드려서
 ///    빨리 치면 늦게 따라왔고, 짓는 글자에 밑줄도 없었다(2026-10 사용자 신고).
 final class HangulTypingEngine: TypingEngine {
@@ -204,7 +205,7 @@ final class HangulTypingEngine: TypingEngine {
             }
             cheonjiin.tap(key)
         }
-        text.show(word.text, on: proxy)
+        settle(on: proxy)
     }
 
     func backspace() {
@@ -218,8 +219,7 @@ final class HangulTypingEngine: TypingEngine {
         case .dubeolsik: composer.backspace()
         case .cheonjiin: cheonjiin.backspace()
         }
-        text.show(word.text, on: proxy)
-        if word.text.isEmpty { finishWord(on: proxy) }
+        settle(on: proxy)
     }
 
     func commit() {
@@ -237,7 +237,23 @@ final class HangulTypingEngine: TypingEngine {
         text.drop()
     }
 
-    /// 낱말을 확정하고 다음 낱말을 새로 짓는다.
+    /// 아직 바뀔 수 있는 꼬리(짓는 음절 · 모음이 못 된 점)만 밑줄로 두고, 그 앞은 확정한다.
+    ///
+    /// 꼬리 앞의 글자는 조합기가 다시 고칠 일이 없다(받침을 옮기는 것도 짓는 음절에서만 일어난다).
+    private func settle(on proxy: TypingInputProxy) {
+        let tailLength = (composer.isComposing ? 1 : 0) + (layout == .cheonjiin ? cheonjiin.pendingLength : 0)
+        let tail = String(word.text.suffix(tailLength))
+        let head = String(word.text.dropLast(tail.count))
+        if !head.isEmpty {
+            text.show(head, on: proxy)
+            text.commit(on: proxy)
+            word.text = tail
+        }
+        text.show(tail, on: proxy)
+        if tail.isEmpty { finishWord(on: proxy) }
+    }
+
+    /// 짓던 글자를 확정하고 다음 글자를 새로 짓는다.
     private func finishWord(on proxy: TypingInputProxy) {
         text.commit(on: proxy)
         word.text = ""

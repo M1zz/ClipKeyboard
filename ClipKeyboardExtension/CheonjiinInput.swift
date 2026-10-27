@@ -77,6 +77,12 @@ final class CheonjiinInput {
 
     // MARK: - Public API
 
+    /// 조합기 음절 밖에 홀로 보이는, 아직 바뀔 수 있는 글자 수(모음이 못 된 점 · 초성 없는 모음).
+    var pendingLength: Int {
+        guard let vowel, vowel.place != .medial else { return 0 }
+        return 1
+    }
+
     /// → 키. 기본 10키의 '다음 글자' 키와 같다.
     static let advanceKey = "→"
 
