@@ -10,7 +10,7 @@
 //
 //  판정을 순수 함수로 떼어 둔 이유가 이것이라, 그 계약을 여기서 고정한다.
 //  (상태를 읽는 `dueMomentNow` 는 App Group 에 남은 값에 흔들리므로 시험하지 않는다.
-//   반값 제안에서 실제로 그랬다. `DiscountOfferManagerTests` 의 같은 자리 참고.)
+//   예전 반값 제안에서 실제로 그랬다.)
 //
 
 import Testing

@@ -33,7 +33,6 @@
 		2574A4532CE38FCE6B309E62 /* RefundLedger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D6A773619BB7884CEA27B8 /* RefundLedger.swift */; };
 		27535210011E26B3E5844B92 /* SavedDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AA823053E3EC4DCC11ADF1 /* SavedDraft.swift */; };
 		290D3770EE73A9E4FBE110AE /* KeyboardLessonDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946AFC988733CDF9F6E52043 /* KeyboardLessonDemo.swift */; };
-		29187FD9B8AD5C0639E7FEDE /* DiscountOfferManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBC5FEBE64BF6B998A4F173 /* DiscountOfferManager.swift */; };
 		29286DCE58A54049B2D11C5B /* AppInfoSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3649F2CC2F3B4033A66504C0 /* AppInfoSettingsView.swift */; };
 		29BE4575384D68C69FCFB9A1 /* KeyboardBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */; };
 		29BE5E003315D45F00DE3974 /* CursorMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308AA33ECDA9323BA548C0CD /* CursorMemory.swift */; };
@@ -306,7 +305,7 @@
 		FBS0BUILD000000000000002 /* ClipKeyboardSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBS0FILE0000000000000002 /* ClipKeyboardSpec.swift */; };
 		FCD2BA0589515519BB3C32B7 /* LanguageSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5407569C00E3E8AE6EDCDB20 /* LanguageSettingsView.swift */; };
 		FD6F5DCD2186DB284543C323 /* PersonaEdition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF2BBA875E5DD8B5DB1456D /* PersonaEdition.swift */; };
-		FDCD2C3B73296667EB269CE4 /* DiscountOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331E4A08FC0262575AAFF22A /* DiscountOfferView.swift */; };
+		FDCD2C3B73296667EB269CE4 /* PaywallLadder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331E4A08FC0262575AAFF22A /* PaywallLadder.swift */; };
 		FE88BF9076D96D3BA4383172 /* BulkImportNudgeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D263F93D9CCA08817D2C32 /* BulkImportNudgeBanner.swift */; };
 		FE99DDC8F7FA1B08EBECAEC3 /* CrashReportsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B7F28AC88AE2E44D301FA7 /* CrashReportsView.swift */; };
 		FOLDC0012F0000000000000001 /* FoldCompanions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FOLDC0022F0000000000000002 /* FoldCompanions.swift */; };
@@ -479,7 +478,7 @@
 		321859E6D51EF831D6CABAB1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		32BB185963826FE2C488F978 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3318F59B862C85F419B001EA /* GeodeSkin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GeodeSkin.swift; sourceTree = "<group>"; };
-		331E4A08FC0262575AAFF22A /* DiscountOfferView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DiscountOfferView.swift; sourceTree = "<group>"; };
+		331E4A08FC0262575AAFF22A /* PaywallLadder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PaywallLadder.swift; sourceTree = "<group>"; };
 		33A48A315EBCE9B2823C1C19 /* UsageRhythm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageRhythm.swift; sourceTree = "<group>"; };
 		3649F2CC2F3B4033A66504C0 /* AppInfoSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInfoSettingsView.swift; sourceTree = "<group>"; };
 		3877F54D058455927CBAA013 /* PlaceholderSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderSequence.swift; sourceTree = "<group>"; };
@@ -666,7 +665,6 @@
 		AA0000A100000001F3B00020 /* KeyboardHeightBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHeightBook.swift; sourceTree = "<group>"; };
 		AA0000B100000001F3B00030 /* CategoryCleanupNotice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCleanupNotice.swift; sourceTree = "<group>"; };
 		AAAF45D7591497565C76C707 /* ShareVideoSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShareVideoSheet.swift; sourceTree = "<group>"; };
-		ABBC5FEBE64BF6B998A4F173 /* DiscountOfferManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DiscountOfferManager.swift; sourceTree = "<group>"; };
 		AC0110000000000000000001 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		AIC0FILE0000000000000004 /* AIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIComponents.swift; sourceTree = "<group>"; };
 		AIS0FILE0000000000000001 /* AppleIntelligenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceService.swift; sourceTree = "<group>"; };
@@ -1206,7 +1204,6 @@
 				58PA00022F0000000000000006 /* PromptLedger.swift */,
 				58US00012F0000000000000006 /* UserState.swift */,
 				79D6A773619BB7884CEA27B8 /* RefundLedger.swift */,
-				ABBC5FEBE64BF6B998A4F173 /* DiscountOfferManager.swift */,
 				7650FEB679BD5AE8B3A7DD30 /* SlotPack.swift */,
 				9A29C214B56C5162247ACD82 /* LaunchGuard.swift */,
 				C46587B73A823222D84C1399 /* CloudKitContainerGate.swift */,
@@ -1285,7 +1282,7 @@
 				0ADD191793C12DD7704034B4 /* VaultScreen.swift */,
 				B352BD33E4C1A3A117C0015D /* TutorialFlow.swift */,
 				6F37D408E1783A0877821F5A /* ListBackgroundSettings.swift */,
-				331E4A08FC0262575AAFF22A /* DiscountOfferView.swift */,
+				331E4A08FC0262575AAFF22A /* PaywallLadder.swift */,
 				AAAF45D7591497565C76C707 /* ShareVideoSheet.swift */,
 				230E072A7482C2EC0667D4E2 /* FreeUseScreens.swift */,
 				6E5C73DC3A80EC7D0FE2B2BC /* FreeUsePaywallView.swift */,
@@ -2032,8 +2029,7 @@
 				48DD416DAF0F7DBCD48A34D0 /* GeodeSkin.swift in Sources */,
 				38BF62766FADBC51A0C66266 /* ListBackgroundSettings.swift in Sources */,
 				CAF1B3E88B0D503417882A0B /* KeyLabelTruncation.swift in Sources */,
-				29187FD9B8AD5C0639E7FEDE /* DiscountOfferManager.swift in Sources */,
-				FDCD2C3B73296667EB269CE4 /* DiscountOfferView.swift in Sources */,
+				FDCD2C3B73296667EB269CE4 /* PaywallLadder.swift in Sources */,
 				7C7DDB7363009522CB12EFAA /* CategoryBucketRule.swift in Sources */,
 				356482ED6EB077DAF5974F21 /* SlotPack.swift in Sources */,
 				E69B18A37AAA2B4412892FFE /* KeyboardMemoPeek.swift in Sources */,
@@ -2850,8 +2846,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/M1zz/LeeoKit.git";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 3.22.2;
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.23.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

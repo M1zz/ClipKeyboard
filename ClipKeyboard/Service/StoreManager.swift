@@ -17,6 +17,7 @@
 import Foundation
 import Combine
 import StoreKit
+import SwiftUI
 import LeeoKit
 
 /// StoreKit 2 기반 인앱 구매 관리 (LeeoStore 파사드)
@@ -29,12 +30,8 @@ class StoreManager: ObservableObject {
     /// ⚠️ App Store Connect·기존 사용자 영수증과의 계약 - 변경 금지.
     /// `nonisolated`: 불변 String 상수라 격리가 필요 없고, `ClipKeyboardSpec.paywall`(nonisolated static let)이
     /// 이 값을 참조한다. 격리된 채로 두면 Swift 6 언어 모드에서 에러가 된다.
-    nonisolated static let proProductID = "com.Ysoup.TokenMemo.pro"
-
-    /// 연 구독 - 평생 Pro 와 **같은 권한**을 기간으로 판다(5.2). 첫 부담을 낮춘 입구다.
-    /// ⚠️ App Store Connect 에 자동 갱신 구독으로 만들어야 뜬다. 없으면 이 상품만 안 보이고
-    ///    평생 Pro 는 그대로 팔린다(`FreeUsePaywallView` 가 없는 칸을 숨긴다).
-    nonisolated static let yearlyProductID = "com.Ysoup.TokenMemo.pro.yearly"
+    /// 칸마다의 상품(평생 · 연 구독 · 올리기 · 졸업)은 `AccessTier` 한 곳에 적는다.
+    nonisolated static let proProductID = AccessTier.proProductID
 
     /// Pro 선물 (소모성). 산 사람이 아니라 **코드를 받은 사람**에게 정가 Pro 를 연다(`LeeoGiftStore`).
     /// ⚠️ App Store Connect 에 소모성 상품으로 만들어야 뜬다. 없으면 설정의 선물 행이 숨는다.
@@ -52,6 +49,16 @@ class StoreManager: ObservableObject {
 
     private let store: LeeoStore
     private var cancellables = Set<AnyCancellable>()
+
+    /// 언제나 평생 패스. 열려 있으면 프로다(`AccessTier.purchased(from:foreverPass:)`).
+    ///
+    /// ⚠️ 캐시를 App Group 에 둔다. 키보드는 이 객체를 만들지 않고, 앱이 새긴 트림(`AccessTier.mirror`)을 본다.
+    /// ⚠️ 패스 상품은 위 판매 · 권한 목록에 없다. 결제와 iCloud 기록은 이 객체가 따로 본다.
+    let foreverPass = LeeoForeverPass(containerIdentifier: "iCloud.com.Ysoup.FeedbackHub",
+                                      defaults: AppGroup.defaults ?? .standard)
+
+    /// 지금 살아 있는 연 구독(Plus · Pro). 없으면 nil. 구독 졸업 제안과 설정의 '평생으로 바꾸기' 가 본다.
+    @Published private(set) var subscription: LeeoGraduation.Subscription?
 
     // MARK: - 공개 상태 (기존 API 유지 - 내부 LeeoStore 로 위임)
 
@@ -72,29 +79,18 @@ class StoreManager: ObservableObject {
         set { store.lastError = newValue }
     }
 
-    var proProduct: Product? {
-        store.products.first { $0.id == Self.proProductID }
+    /// 불러온 상품 하나. 아직 못 불러왔거나 App Store Connect 에 없으면 nil.
+    func product(_ id: String) -> Product? {
+        store.products.first { $0.id == id }
     }
 
-    /// 반값 상품 - App Store Connect 에 등록·승인되기 전에는 nil 이다.
-    /// 반값 제안 화면은 이 값이 있을 때만 뜬다(없는 할인을 광고하지 않는다).
-    var yearlyProduct: Product? {
-        store.products.first { $0.id == Self.yearlyProductID }
-    }
+    /// 구독 졸업 상품(구독 중인 사람의 Pro 평생).
+    var graduateProduct: Product? { product(AccessTier.proGraduateProductID) }
 
-    var discountedProProduct: Product? {
-        store.products.first { $0.id == DiscountOfferManager.discountedProProductID }
-    }
-
-    /// 업그레이드 상품 - **칸을 산 사람에게만** 보여 준다(`ProUpgrade.isEligible`).
-    /// 정가·반값과 같은 권한을 주는 세 번째 물건이다.
-    var upgradeProProduct: Product? {
-        store.products.first { $0.id == ProUpgrade.productID }
-    }
-
-    /// Plus 트림 상품(`AccessTier.plusProductID` = 예전 `slots5`). 페이월의 가운데 칸이 판다.
-    var plusProduct: Product? {
-        store.products.first { $0.id == AccessTier.plusProductID }
+    /// 지금 구독 졸업을 제안할 때인가(6개월째 · 갱신 7일 전, 창마다 한 번).
+    var graduationIsDue: Bool {
+        guard let subscription else { return false }
+        return LeeoGraduation.isDue(subscription, lastOffered: LeeoGraduation.lastOffered())
     }
 
     /// 두 대째 상품 - 동기화만 여는 별도의 문. **Pro 가 아니다.**
@@ -127,6 +123,10 @@ class StoreManager: ObservableObject {
         store.gift?.objectWillChange
             .sink { [weak self] in self?.objectWillChange.send() }
             .store(in: &cancellables)
+        // 언제나 평생 패스가 열리거나 닫히면 페이월 · 설정도 다시 그린다.
+        foreverPass.objectWillChange
+            .sink { [weak self] in self?.objectWillChange.send() }
+            .store(in: &cancellables)
         // 팁 상품도 같다(설정의 응원 행).
         store.tipJar?.objectWillChange
             .sink { [weak self] in self?.objectWillChange.send() }
@@ -142,8 +142,12 @@ class StoreManager: ObservableObject {
         // ⚠️ 정가 ID 하나가 아니라 **권한 상품 전체**(`grantsPro`)로 본다. 예전에는
         //    `contains(proProductID)` 였고, 그래서 반값·업그레이드로 산 사람은 돈을 내고도
         //    `clipkeyboard_is_pro` 가 false 였다 - 기능도 안 열리고, 통계에는 무료로 올라갔다.
-        store.$purchasedProductIDs
-            .map(Self.grantsPro)
+        //
+        // ⚠️ 언제나 평생 패스도 같이 본다. 패스는 권한 목록에 없는 상품이라, 여기서 합치지 않으면
+        //    패스를 산 사람의 키보드는 무료로 남는다.
+        let entitlement = Publishers.CombineLatest(store.$purchasedProductIDs, foreverPass.$isActive)
+        entitlement
+            .map { owned, pass in Self.grantsPro(owned) || pass }
             .removeDuplicates()
             .sink { [weak self] isProNow in
                 Task { @MainActor in self?.mirrorProStatus(isPro: isProNow) }
@@ -151,8 +155,8 @@ class StoreManager: ObservableObject {
             .store(in: &cancellables)
 
         // 산 트림(플러스 · 프로 · 마스터)도 미러링한다. Pro 키 하나로는 플러스와 마스터를 못 가른다.
-        store.$purchasedProductIDs
-            .map(AccessTier.purchased(from:))
+        entitlement
+            .map { owned, pass in AccessTier.purchased(from: owned, foreverPass: pass) }
             .removeDuplicates()
             .sink { tier in
                 Task { @MainActor in
@@ -189,9 +193,18 @@ class StoreManager: ObservableObject {
             }
             .store(in: &cancellables)
 
+        // 구독이 바뀌면(새로 · 갱신 · 끝남) 졸업 제안의 기준도 다시 읽는다.
+        store.$purchasedProductIDs
+            .map { !$0.isDisjoint(with: AccessTier.subscriptionProductIDs) }
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                Task { @MainActor in await self?.refreshSubscription() }
+            }
+            .store(in: &cancellables)
+
         // 초기(캐시) 상태 즉시 미러링.
-        mirrorProStatus(isPro: Self.grantsPro(store.purchasedProductIDs))
-        AccessTier.mirror(AccessTier.purchased(from: store.purchasedProductIDs))
+        mirrorProStatus(isPro: Self.grantsPro(store.purchasedProductIDs) || foreverPass.isActive)
+        AccessTier.mirror(AccessTier.purchased(from: store.purchasedProductIDs, foreverPass: foreverPass.isActive))
         SlotPack.mirror(purchased: store.purchasedProductIDs.contains(SlotPack.productID))
         TwoDevicePack.mirror(purchased: store.purchasedProductIDs.contains(TwoDevicePack.productID))
         // 소모성이라 애플이 돌려주지 않는 칸수를 iCloud 에서 회수한다(둘 중 큰 값).
@@ -211,42 +224,6 @@ class StoreManager: ObservableObject {
     /// 상품 목록 로드
     func loadProducts() async {
         await store.loadProducts()
-    }
-
-    /// Pro 구매
-    /// - Parameter triggeredBy: 어떤 한도/진입점이 paywall을 띄웠는지 (analytics 슬라이싱용)
-    func purchasePro(triggeredBy: String? = nil) async -> Bool {
-        if store.products.isEmpty { await store.loadProducts() }
-        guard let product = proProduct else {
-            print("❌ [StoreManager] Pro 상품을 찾을 수 없음")
-            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
-            return false
-        }
-        return await purchase(product, triggeredBy: triggeredBy)
-    }
-
-    /// 연 구독 시작. 상품이 없으면 **평생으로 대신 결제하지 않는다**(고른 것과 다른 값이 빠져나간다).
-    func purchaseYearly(triggeredBy: String? = nil) async -> Bool {
-        if store.products.isEmpty { await store.loadProducts() }
-        guard let product = yearlyProduct else {
-            print("❌ [StoreManager] 연 구독 상품을 찾을 수 없음: \(Self.yearlyProductID)")
-            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
-            return false
-        }
-        return await purchase(product, triggeredBy: triggeredBy)
-    }
-
-    /// 반값 Pro 구매 - 반값 제안 화면 전용.
-    /// ⚠️ 상품이 없으면 **정가로 대신 결제하지 않는다.** 반값이라 말한 화면에서 정가가
-    ///    빠져나가는 것은 사고다. 여기서는 실패로 끝내고, 화면은 애초에 뜨지도 않는다.
-    func purchaseDiscountedPro(triggeredBy: String? = nil) async -> Bool {
-        if store.products.isEmpty { await store.loadProducts() }
-        guard let product = discountedProProduct else {
-            print("❌ [StoreManager] 반값 상품을 찾을 수 없음: \(DiscountOfferManager.discountedProProductID)")
-            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
-            return false
-        }
-        return await purchase(product, triggeredBy: triggeredBy)
     }
 
     /// 칸 추가 상품 - **지금 파는 쪽**(소모성).
@@ -279,31 +256,6 @@ class StoreManager: ObservableObject {
         return bought
     }
 
-    /// 업그레이드 구매 - 칸에 낸 돈이 빠진 평생 값.
-    /// ⚠️ 상품이 없으면 **정가로 대신 결제하지 않는다.** 깎아 준다고 말한 화면에서
-    ///    정가가 빠져나가는 것은 사고다(반값과 같은 규칙).
-    func purchaseUpgradePro(triggeredBy: String? = nil) async -> Bool {
-        if store.products.isEmpty { await store.loadProducts() }
-        guard let product = upgradeProProduct else {
-            print("❌ [StoreManager] 업그레이드 상품을 찾을 수 없음: \(ProUpgrade.productID)")
-            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
-            return false
-        }
-        return await purchase(product, triggeredBy: triggeredBy)
-    }
-
-    /// Plus 구매 - 개수 한도만 푼다(백업 · 잠금 · 동기화는 Pro).
-    /// ⚠️ 상품이 없으면 **다른 상품으로 대신 결제하지 않는다.** 고른 칸과 다른 값이 빠져나간다.
-    func purchasePlus(triggeredBy: String? = nil) async -> Bool {
-        if store.products.isEmpty { await store.loadProducts() }
-        guard let product = plusProduct else {
-            print("❌ [StoreManager] Plus 상품을 찾을 수 없음: \(AccessTier.plusProductID)")
-            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
-            return false
-        }
-        return await purchase(product, triggeredBy: triggeredBy)
-    }
-
     /// 두 대째 구매 - 동기화만 여는 문.
     func purchaseTwoDevice(triggeredBy: String? = nil) async -> Bool {
         if store.products.isEmpty { await store.loadProducts() }
@@ -316,14 +268,26 @@ class StoreManager: ObservableObject {
     }
 
     /// 상품 구매 (StoreKit 실행은 LeeoStore 에 위임하고, 애널리틱스만 여기서 유지)
-    func purchase(_ product: Product, triggeredBy: String? = nil) async -> Bool {
+    ///
+    /// - Parameter action: 화면의 `@Environment(\.purchase)`. 넘기면 결제 시트가 그 창에 뜬다
+    ///   (아이패드에서 창을 잘못 짚어 결제가 오류로 끝나는 일을 막는다). 없으면 StoreKit 이 짐작한다.
+    ///
+    /// ⚠️ 성공은 **결제가 확인됐는가**로 본다. LeeoStore 는 "Pro 권한이 생겼는가" 로 답해서,
+    ///    Plus 를 산 사람에게는 늘 실패라고 했다(돈은 나갔는데 화면이 그대로였다).
+    func purchase(_ product: Product, using action: PurchaseAction? = nil, triggeredBy: String? = nil) async -> Bool {
         errorMessage = nil
 
         // ⚠️ **결제 전에** 찍는다. 이 결제가 끝나면 상태가 바뀌어서, 나중에 물으면
         //    전부 "이미 뭔가 산 사람" 이 된다. 업그레이드 가설을 검증할 유일한 값이다.
         let prior = PriorPurchase.current
 
-        let success = await store.purchase(product)
+        var verified = false
+        let entitled = await store.purchase(product) { product in
+            let result = if let action { try await action(product) } else { try await product.purchase() }
+            if case .success(.verified) = result { verified = true }
+            return result
+        }
+        let success = entitled || verified
 
         if success {
             print("✅ [StoreManager] 구매 성공: \(product.id)")
@@ -389,6 +353,8 @@ class StoreManager: ObservableObject {
     @discardableResult
     func restorePurchases() async -> RestoreOutcome {
         await store.restore()
+        // 다른 앱에서 산 언제나 평생 패스도 복원할 때 다시 찾는다.
+        await foreverPass.refresh()
         // v4.0 이전 유료 앱 구매자도 "이전 구매 복원"으로 즉시 Pro 해제되도록
         // AppTransaction(최초 구매일) 재검증. (신규 Pro IAP 영수증이 없어도 부여됨)
         // 복원은 사용자가 누른 것이라 영수증을 App Store 에서 새로 받아 온다(재설치 직후 대비).
@@ -397,7 +363,7 @@ class StoreManager: ObservableObject {
 
         let outcome: RestoreOutcome
         // ⚠️ Plus 도 산 것이다. Pro 만 보면 Plus 를 산 사람이 복원을 눌렀을 때 "구매 없음" 을 듣는다.
-        if Self.grantsPro(store.purchasedProductIDs) || ProFeatureManager.hasPermanentPro
+        if Self.grantsPro(store.purchasedProductIDs) || ProFeatureManager.hasPermanentPro || foreverPass.isActive
             || AccessTier.purchased(from: store.purchasedProductIDs) >= .plus {
             outcome = .restored
         } else if let error = store.lastError ?? receiptError {
@@ -409,6 +375,18 @@ class StoreManager: ObservableObject {
         }
         print("✅ [StoreManager] 구매 복원 완료: \(outcome.id) (owned=\(store.purchasedProductIDs.sorted()))")
         return outcome
+    }
+
+    /// 화면 밖에서 결제가 끝났을 때(구독 졸업 시트 · 패스 화면) 권한을 다시 읽는다.
+    func refreshEntitlements() async {
+        await store.refreshEntitlements()
+        await refreshSubscription()
+    }
+
+    /// 지금 살아 있는 연 구독을 다시 읽는다.
+    func refreshSubscription() async {
+        let current = await LeeoGraduation.currentSubscription(among: AccessTier.subscriptionProductIDs)
+        if current != subscription { subscription = current }
     }
 
     // MARK: - Private

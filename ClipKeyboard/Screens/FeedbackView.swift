@@ -172,3 +172,13 @@ extension AppTheme {
         )
     }
 }
+
+/// LeeoKit 화면에 지금 앱 테마를 입힌다. 시트처럼 `theme` 을 손에 쥐지 않은 자리에서 쓴다.
+private struct LeeoThemed: ViewModifier {
+    @Environment(\.appTheme) private var theme
+    func body(content: Content) -> some View { content.leeoStyle(theme.leeoStyle) }
+}
+
+extension View {
+    func leeoThemed() -> some View { modifier(LeeoThemed()) }
+}

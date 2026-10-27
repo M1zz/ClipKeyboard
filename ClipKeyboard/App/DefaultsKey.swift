@@ -82,13 +82,6 @@ enum DefaultsKey {
     static let repeatCopyLedger = "repeat.copy.ledger.v1"
     /// 친구에게 알리기를 이미 권했는가 (App Group, Bool). 평생 한 번.
     static let shareMomentShown = "feature.fit.shareMomentShown.v1"
-    /// 단축어가 무료 한도 한 칸 앞(9개)에 **처음** 닿은 시각 (App Group, epoch 초).
-    /// 반값 제안은 이 시각에서 일주일이 지난 뒤에 뜬다 - 닿자마자 들이밀면 한도를
-    /// 미끼로 쓴 것처럼 보이고, 아직 이 앱이 자기에게 필요한지도 모르는 때다.
-    static let discountOfferReachedLimitEdgeAt = "discount.offer.reachedLimitEdgeAt"
-    /// 반값 제안을 이미 띄운 **기회들**(App Group, `DiscountOfferManager.Occasion.rawValue` 배열).
-    /// 기회는 둘뿐이고(설치 직후·한도 한 칸 앞), 각각 한 번씩만 뜬다.
-    static let discountOfferShownOccasions = "discount.offer.shownOccasions"
 
     // MARK: - 네 가지 판 (5.1.5)
 

@@ -30,8 +30,6 @@ struct PaywallView: View {
     @State private var didConvert = false
     /// 복원을 누른 결과. 값이 들어오면 알림이 뜬다.
     @State private var restoreOutcome: StoreManager.RestoreOutcome?
-    /// 고른 칸(Plus · Pro). 처음에는 살 수 있는 칸 중 위의 것(`PaywallAccess.initialSelection`).
-    @State private var selectedPlan: PaywallPlan?
     /// 방금 산 칸 - 성공 문구가 산 것을 말하게.
     @State private var boughtPlan: PaywallPlan?
 
@@ -63,7 +61,6 @@ struct PaywallView: View {
         }
         .restoreOutcomeAlert($restoreOutcome)
         .onAppear {
-            if selectedPlan == nil { selectedPlan = access.initialSelection }
             // ⚠️ 산 사람이 기능을 보러 연 것은 결제 화면 노출로 세지 않는다. 세면 전환율이 깎인다.
             if !access.hasPermanentPro {
                 AnalyticsService.logPaywallView(triggeredBy: triggeredBy?.analyticsKey)
@@ -137,9 +134,9 @@ struct PaywallView: View {
             return NSLocalizedString("모든 Pro 기능이 열려 있어요", comment: "Paywall subtitle for users who already have Pro")
         }
         if ProFeatureManager.canStartTrial {
-            return String(format: NSLocalizedString("%d일 무료 체험 · 한번 구매, 평생 사용", comment: "Trial subtitle"), ProFeatureManager.trialDurationDays)
+            return String(format: NSLocalizedString("%d일 무료 체험 · 연 구독이나 평생 중에 골라요", comment: "Paywall subtitle with trial: free trial days, then choose yearly or lifetime"), ProFeatureManager.trialDurationDays)
         }
-        return NSLocalizedString("한번 구매, 평생 사용", comment: "One-time purchase")
+        return NSLocalizedString("연 구독이나 평생 중에 골라요", comment: "Paywall subtitle: choose a yearly subscription or a lifetime purchase")
     }
 
     // MARK: - 이미 아낀 시간
@@ -195,6 +192,11 @@ struct PaywallView: View {
                     .font(.headline)
                     .foregroundStyle(.green)
                     .padding()
+                // 이 앱을 넘어 모든 앱을 평생으로. 이 앱의 Pro 평생을 가진 사람은 올리기 값으로 본다.
+                LeeoForeverPassLine(pass: store.foreverPass,
+                                    ownsLifetimePro: AccessTier.ownsLifetimePro(store.purchasedProductIDs)
+                                        || ProFeatureManager.isGrandfathered)
+                    .leeoThemed()
                 // 다 가진 사람이 더 내고 싶을 때 갈 곳(팁). 팁 상품이 와 있을 때만.
                 if let tipJar = store.tipJar, tipJar.isAvailable {
                     NavigationLink {
@@ -214,8 +216,14 @@ struct PaywallView: View {
                     trialStartButton
                 }
 
-                planCards(access)
-                buyButton(access)
+                PaywallLadder(access: access, source: triggeredBy?.analyticsKey) { plan in
+                    didConvert = true
+                    boughtPlan = plan
+                    #if os(iOS)
+                    UIAccessibility.post(notification: .announcement, argument: successText)
+                    #endif
+                    celebrateAndDismiss()
+                }
 
                 Button {
                     Task {
@@ -280,100 +288,6 @@ struct PaywallView: View {
         .accessibilityElement(children: .combine)
     }
 
-    // MARK: - Plans
-
-    /// 이 칸을 고르면 결제할 상품. **카드에 적은 값과 결제하는 상품은 반드시 같다.**
-    private func product(for plan: PaywallPlan, _ state: PaywallPlanState) -> Product? {
-        switch state {
-        case .buy:      return plan == .plus ? store.plusProduct : store.proProduct
-        case .upgrade:  return store.upgradeProProduct
-        case .owned, .included: return nil
-        }
-    }
-
-    /// Plus · Pro 두 장. Pro 를 위에 둔다(위 칸이 기준이고, Plus 는 그보다 가벼운 길이다).
-    private func planCards(_ access: PaywallAccess) -> some View {
-        VStack(spacing: 10) {
-            ForEach(PaywallPlan.allCases.reversed()) { plan in
-                let state = access[plan]
-                PaywallPlanCard(plan: plan,
-                                state: state,
-                                price: product(for: plan, state)?.displayPrice,
-                                isSelected: selectedPlan == plan,
-                                isRecommended: plan == .pro,
-                                onSelect: {
-                                    HapticManager.shared.light()
-                                    selectedPlan = plan
-                                })
-            }
-        }
-    }
-
-    /// 고른 칸을 사는 버튼. 고른 칸을 살 수 없으면(이미 가짐) 서지 않는다.
-    @ViewBuilder
-    private func buyButton(_ access: PaywallAccess) -> some View {
-        if let plan = selectedPlan, case let state = access[plan], state.isPurchasable {
-            let product = product(for: plan, state)
-            let title = buyButtonTitle(plan, state, price: product?.displayPrice)
-            Button {
-                buy(plan, state)
-            } label: {
-                Group {
-                    if store.isLoading {
-                        ProgressView().tint(.white)
-                    } else {
-                        Text(title).fontWeight(.bold)
-                    }
-                }
-                .font(.headline)
-                .foregroundStyle(.white)
-                .frame(height: 54)
-                .frame(maxWidth: .infinity)
-                .background(.orange.gradient, in: RoundedRectangle(cornerRadius: theme.radiusMd))
-            }
-            // 상품을 못 읽었으면 누를 수 없다. 누른 뒤에 "상품 없음" 을 듣는 것보다 낫다.
-            .disabled(store.isLoading || product == nil)
-            .accessibilityLabel(store.isLoading
-                ? NSLocalizedString("처리 중", comment: "Purchase loading state")
-                : title)
-        }
-    }
-
-    private func buyButtonTitle(_ plan: PaywallPlan, _ state: PaywallPlanState, price: String?) -> String {
-        switch (state, price) {
-        case (.upgrade, let price?):
-            return String(format: NSLocalizedString("%@ 로 Pro 로 올리기", comment: "Paywall CTA: upgrade Plus to Pro, %@ is price"), price)
-        case (.upgrade, nil):
-            return NSLocalizedString("Pro 로 올리기", comment: "Paywall CTA: upgrade to Pro without price")
-        case (_, let price?):
-            return String(format: NSLocalizedString("%1$@ 시작하기 · %2$@", comment: "Paywall CTA: start plan, %1$@ plan name, %2$@ price"), plan.name, price)
-        case (_, nil):
-            return String(format: NSLocalizedString("%@ 시작하기", comment: "Paywall CTA: start plan without price"), plan.name)
-        }
-    }
-
-    private func buy(_ plan: PaywallPlan, _ state: PaywallPlanState) {
-        let source = triggeredBy?.analyticsKey
-        AnalyticsService.logPaywallCtaTapped(triggeredBy: source ?? "plan_\(plan.rawValue)", isTrial: false)
-        Task {
-            // ⚠️ 카드에 적은 상품만 결제한다. 업그레이드 칸에서 정가가 빠져나가면 사고다.
-            let success: Bool
-            switch (plan, state) {
-            case (.plus, .buy):     success = await store.purchasePlus(triggeredBy: source)
-            case (.pro, .buy):      success = await store.purchasePro(triggeredBy: source)
-            case (.pro, .upgrade):  success = await store.purchaseUpgradePro(triggeredBy: source)
-            default:                return
-            }
-            guard success else { return }
-            didConvert = true
-            boughtPlan = plan
-            #if os(iOS)
-            UIAccessibility.post(notification: .announcement, argument: successText)
-            #endif
-            celebrateAndDismiss()
-        }
-    }
-
     /// 결제 화면 본문. 시트든 밀려 들어온 화면이든 같다.
     private func scroll(_ access: PaywallAccess) -> some View {
         ScrollView {
@@ -394,13 +308,7 @@ struct PaywallView: View {
                 purchaseSection(access)
 
                 PaywallComparisonTable()
-
-                if !access.hasPermanentPro {
-                    Text(NSLocalizedString("일회성 결제 · 구독 없음 · 환불 가능", comment: "Purchase info"))
-                        .font(.caption2)
-                        .foregroundStyle(.tertiary)
-                        .padding(.bottom, 20)
-                }
+                    .padding(.bottom, 20)
             }
             .padding()
         }

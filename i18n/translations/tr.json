@@ -518,6 +518,13 @@
     },
     "src": "0ddbceb5e7"
   },
+  "%d일 무료 체험 · 연 구독이나 평생 중에 골라요": {
+    "v": {
+      "one": "%d günlük ücretsiz deneme · Sonra yıllık veya ömür boyu seçin",
+      "other": "%d günlük ücretsiz deneme · Sonra yıllık veya ömür boyu seçin"
+    },
+    "src": "3c796a3160"
+  },
   "%d일 무료 체험 · 한번 구매, 평생 사용": {
     "v": {
       "one": "%d gün ücretsiz deneme · Bir kez satın alın, sürekli kullanın",
@@ -2944,6 +2951,13 @@
     "v": "Satın almayı iptal etti",
     "src": "6637e4fbd2"
   },
+  "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Plus는 마음껏 새로 만들고, Pro는 백업과 동기화까지 열어요.": {
+    "v": {
+      "one": "Ödeme yapmasanız da oluşturduğunuz %d İfade çalışmaya devam eder. Plus ile istediğiniz kadar oluşturabilir, Pro ile yedekleme ve senkronizasyon ekleyebilirsiniz.",
+      "other": "Ödeme yapmasanız da oluşturduğunuz %d İfade çalışmaya devam eder. Plus ile istediğiniz kadar oluşturabilir, Pro ile yedekleme ve senkronizasyon ekleyebilirsiniz."
+    },
+    "src": "6ab380bf65"
+  },
   "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Pro는 새로 만들고, 백업과 동기화를 여는 것이에요.": {
     "v": {
       "one": "Satın almasanız da oluşturduğunuz %d ifade kullanılmaya devam eder. Pro, yeni ifade oluşturmak, yedekleme ve senkronizasyon içindir.",
@@ -4146,6 +4160,10 @@
   "단축어": {
     "v": "İfade",
     "src": "8c10487a02"
+  },
+  "단축어 %1$d개 · 템플릿 %2$d개": {
+    "v": "%1$d İfade · %2$d Şablon",
+    "src": "b55f3b83e8"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "%1$d ifade eklendi, %2$d güncellendi (toplam %3$d).\n%4$d yığın, %5$d görsel, %6$d kategori alındı.",
@@ -8262,6 +8280,10 @@
     "v": "Yıllık planı başlat",
     "src": "dfe2938054"
   },
+  "연 구독이나 평생 중에 골라요": {
+    "v": "Yıllık veya ömür boyu seçin",
+    "src": "a9cef1c845"
+  },
   "연간": {
     "v": "Yıllık",
     "src": "88db2c9d21"
@@ -10211,6 +10233,10 @@
     "v": "Şimdi Pro'ya yükseltin, ömür boyu kullanın",
     "src": "5d3b360a39"
   },
+  "지금 그대로": {
+    "v": "Olduğu gibi kalsın",
+    "src": "711e8de16c"
+  },
   "지금 기본 키보드보다 %dpt 낮아요.": {
     "v": {
       "one": "Şu an standart klavyeden %dpt daha kısa.",
@@ -11629,6 +11655,10 @@
   "키보드에서 꺼내기": {
     "v": "Klavyeden kullanın",
     "src": "0baef71bc4"
+  },
+  "키보드에서 단축어 넣기": {
+    "v": "Klavyeden İfade ekleyin",
+    "src": "f08b39c57e"
   },
   "키보드에서 단축어를 %d번 꺼내 쓰셨어요": {
     "v": {

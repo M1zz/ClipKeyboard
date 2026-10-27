@@ -23599,6 +23599,359 @@
         }
       }
     },
+    "%d일 무료 체험 · 연 구독이나 평생 중에 골라요" : {
+      "comment" : "Paywall subtitle with trial: free trial days, then choose yearly or lifetime",
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dny zdarma · Pak roční předplatné nebo doživotně"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dne zdarma · Pak roční předplatné nebo doživotně"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d den zdarma · Pak roční předplatné nebo doživotně"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dní zdarma · Pak roční předplatné nebo doživotně"
+                }
+              }
+            }
+          }
+        },
+        "da" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dages gratis prøveperiode · Vælg derefter årligt eller livstid"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dages gratis prøveperiode · Vælg derefter årligt eller livstid"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d Tag kostenlos testen · Danach Jahresabo oder einmalig kaufen"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d Tage kostenlos testen · Danach Jahresabo oder einmalig kaufen"
+                }
+              }
+            }
+          }
+        },
+        "el" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d ημέρα δωρεάν δοκιμή · Μετά επιλέξτε ετήσια ή εφάπαξ"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d ημέρες δωρεάν δοκιμή · Μετά επιλέξτε ετήσια ή εφάπαξ"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d-day free trial · Then choose yearly or lifetime"
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d día de prueba gratis · Luego elige plan anual o de por vida"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d días de prueba gratis · Luego elige plan anual o de por vida"
+                }
+              }
+            }
+          }
+        },
+        "fi" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d päivän ilmainen kokeilu · Valitse sitten vuosi- tai kertaosto"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d päivän ilmainen kokeilu · Valitse sitten vuosi- tai kertaosto"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d jour d'essai gratuit · Choisissez ensuite l'abonnement annuel ou à vie"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d jours d'essai gratuit · Choisissez ensuite l'abonnement annuel ou à vie"
+                }
+              }
+            }
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uji coba gratis %d hari · Lalu pilih langganan tahunan atau seumur hidup"
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d giorno di prova gratuita · Poi scegli tra annuale o a vita"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d giorni di prova gratuita · Poi scegli tra annuale o a vita"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d日間の無料体験 · 年間か買い切りからお選びください"
+          }
+        },
+        "nb" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dag gratis prøveperiode · Velg deretter årlig eller livslang"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dager gratis prøveperiode · Velg deretter årlig eller livslang"
+                }
+              }
+            }
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dag gratis proberen · Kies daarna jaarlijks of levenslang"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dagen gratis proberen · Kies daarna jaarlijks of levenslang"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dni za darmo · potem plan roczny lub dożywotni"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dni za darmo · potem plan roczny lub dożywotni"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dzień za darmo · potem plan roczny lub dożywotni"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dnia za darmo · potem plan roczny lub dożywotni"
+                }
+              }
+            }
+          }
+        },
+        "pt-BR" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dia grátis · Depois, escolha anual ou vitalício"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dias grátis · Depois, escolha anual ou vitalício"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d дня бесплатно · затем год или навсегда"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d дней бесплатно · затем год или навсегда"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d день бесплатно · затем год или навсегда"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d дня бесплатно · затем год или навсегда"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dags gratis prov · Välj sedan år eller livstid"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dagars gratis prov · Välj sedan år eller livstid"
+                }
+              }
+            }
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ทดลองใช้ฟรี %d วัน · จากนั้นเลือกรายปีหรือแบบซื้อขาด"
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d günlük ücretsiz deneme · Sonra yıllık veya ömür boyu seçin"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d günlük ücretsiz deneme · Sonra yıllık veya ömür boyu seçin"
+                }
+              }
+            }
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dùng thử miễn phí %d ngày · Sau đó chọn gói năm hoặc trọn đời"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 天免费试用 · 之后可选年订阅或终身买断"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d 天免費試用 · 之後可選年訂閱或終身買斷"
+          }
+        }
+      }
+    },
     "%d일 무료 체험 + 무제한 단축어, iCloud 백업" : {
       "comment" : "Pro features w/ trial",
       "localizations" : {
@@ -115007,6 +115360,359 @@
         }
       }
     },
+    "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Plus는 마음껏 새로 만들고, Pro는 백업과 동기화까지 열어요." : {
+      "comment" : "Free use paywall: what stays free, what Plus and Pro add",
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "I bez platby vám zůstanou vytvořené %d fráze. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "I bez platby vám zůstane vytvořených %d frází. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "I bez platby vám zůstane vytvořená %d fráze. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "I bez platby vám zůstane vytvořených %d frází. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci."
+                }
+              }
+            }
+          }
+        },
+        "da" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Også uden betaling kan du fortsat bruge den %d frase, du har lavet. Plus lader dig lave så mange, du vil, og Pro tilføjer backup og synkronisering."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Også uden betaling kan du fortsat bruge de %d fraser, du har lavet. Plus lader dig lave så mange, du vil, og Pro tilføjer backup og synkronisering."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Auch ohne Kauf bleibt dein %d Textbaustein nutzbar. Mit Plus erstellst du beliebig viele, Pro bringt Backup und Sync dazu."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Auch ohne Kauf bleiben deine %d Textbausteine nutzbar. Mit Plus erstellst du beliebig viele, Pro bringt Backup und Sync dazu."
+                }
+              }
+            }
+          }
+        },
+        "el" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ακόμη και χωρίς πληρωμή, η %d φράση που φτιάξατε συνεχίζει να λειτουργεί. Το Plus σάς επιτρέπει να φτιάχνετε όσες θέλετε και το Pro προσθέτει αντίγραφα ασφαλείας και συγχρονισμό."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ακόμη και χωρίς πληρωμή, οι %d φράσεις που φτιάξατε συνεχίζουν να λειτουργούν. Το Plus σάς επιτρέπει να φτιάχνετε όσες θέλετε και το Pro προσθέτει αντίγραφα ασφαλείας και συγχρονισμό."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Even without paying, the %d snippets you made keep working. Plus lets you make as many as you like, and Pro adds backup and sync."
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aunque no pagues, la frase que creaste (%d) seguirá funcionando. Plus te deja crear todas las que quieras, y Pro suma respaldo y sincronización."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aunque no pagues, las %d frases que creaste seguirán funcionando. Plus te deja crear todas las que quieras, y Pro suma respaldo y sincronización."
+                }
+              }
+            }
+          }
+        },
+        "fi" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vaikka et maksaisi, tekemäsi %d fraasi toimii edelleen. Plus antaa luoda niitä rajattomasti, ja Pro lisää varmuuskopioinnin ja synkronoinnin."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Vaikka et maksaisi, tekemäsi %d fraasia toimivat edelleen. Plus antaa luoda niitä rajattomasti, ja Pro lisää varmuuskopioinnin ja synkronoinnin."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Même sans payer, la Phrase que vous avez créée (%d) reste utilisable. Plus permet d'en créer autant que vous voulez, et Pro ajoute la sauvegarde et la synchronisation."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Même sans payer, les %d Phrases que vous avez créées restent utilisables. Plus permet d'en créer autant que vous voulez, et Pro ajoute la sauvegarde et la synchronisation."
+                }
+              }
+            }
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanpa membayar pun, %d frasa yang sudah Anda buat tetap bisa dipakai. Plus membuat Anda bebas membuat frasa baru, dan Pro menambah cadangan serta sinkronisasi."
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Anche senza pagare, %d frase che hai creato continua a funzionare. Plus ti permette di crearne quante vuoi, Pro aggiunge backup e sincronizzazione."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Anche senza pagare, le %d frasi che hai creato continuano a funzionare. Plus ti permette di crearne quante vuoi, Pro aggiunge backup e sincronizzazione."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お支払いなしでも、作成済みの%d件の定型文はそのままお使いいただけます。Plusでは無制限に作成でき、Proではバックアップと同期も使えます。"
+          }
+        },
+        "nb" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Selv uten betaling fungerer den %d frasen du har laget fortsatt. Med Plus kan du lage så mange du vil, og Pro gir deg også sikkerhetskopi og synkronisering."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Selv uten betaling fungerer de %d frasene du har laget fortsatt. Med Plus kan du lage så mange du vil, og Pro gir deg også sikkerhetskopi og synkronisering."
+                }
+              }
+            }
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ook zonder betalen blijft %d fragment dat je maakte gewoon werken. Met Plus maak je er zoveel je wilt, en Pro voegt back-up en synchronisatie toe."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ook zonder betalen blijven de %d fragmenten die je maakte gewoon werken. Met Plus maak je er zoveel je wilt, en Pro voegt back-up en synchronisatie toe."
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nawet bez płatności %d frazy nadal działają. Plus pozwala tworzyć bez limitu, a Pro dodaje kopię zapasową i synchronizację."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nawet bez płatności %d fraz nadal działa. Plus pozwala tworzyć bez limitu, a Pro dodaje kopię zapasową i synchronizację."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nawet bez płatności %d fraza nadal działa. Plus pozwala tworzyć bez limitu, a Pro dodaje kopię zapasową i synchronizację."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nawet bez płatności %d frazy nadal działa. Plus pozwala tworzyć bez limitu, a Pro dodaje kopię zapasową i synchronizację."
+                }
+              }
+            }
+          }
+        },
+        "pt-BR" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Mesmo sem pagar, a %d frase que você criou continua funcionando. O Plus permite criar quantas quiser, e o Pro inclui backup e sincronização."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Mesmo sem pagar, as %d frases que você criou continuam funcionando. O Plus permite criar quantas quiser, e o Pro inclui backup e sincronização."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Даже без оплаты %d созданные фразы продолжат работать. Plus позволяет создавать сколько угодно, а Pro добавляет резервные копии и синхронизацию."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Даже без оплаты %d созданных фраз продолжат работать. Plus позволяет создавать сколько угодно, а Pro добавляет резервные копии и синхронизацию."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Даже без оплаты %d созданная фраза продолжит работать. Plus позволяет создавать сколько угодно, а Pro добавляет резервные копии и синхронизацию."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Даже без оплаты %d созданной фразы продолжат работать. Plus позволяет создавать сколько угодно, а Pro добавляет резервные копии и синхронизацию."
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Även utan betalning fortsätter din %d fras att fungera. Plus låter dig skapa hur många du vill, och Pro lägger till backup och synk."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Även utan betalning fortsätter dina %d fraser att fungera. Plus låter dig skapa hur många du vill, och Pro lägger till backup och synk."
+                }
+              }
+            }
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แม้ไม่ชำระเงิน ข้อความด่วน %d รายการที่สร้างไว้ก็ยังใช้ต่อได้ Plus สร้างเพิ่มได้ไม่จำกัด ส่วน Pro เพิ่มการสำรองข้อมูลและการซิงค์"
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ödeme yapmasanız da oluşturduğunuz %d İfade çalışmaya devam eder. Plus ile istediğiniz kadar oluşturabilir, Pro ile yedekleme ve senkronizasyon ekleyebilirsiniz."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ödeme yapmasanız da oluşturduğunuz %d İfade çalışmaya devam eder. Plus ile istediğiniz kadar oluşturabilir, Pro ile yedekleme ve senkronizasyon ekleyebilirsiniz."
+                }
+              }
+            }
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dù không thanh toán, %d cụm từ bạn đã tạo vẫn dùng được. Plus cho bạn tạo thoải mái, Pro mở thêm sao lưu và đồng bộ."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即使不付款，你创建的 %d 个短语也能继续使用。Plus 让你随心创建，Pro 还会开启备份与同步。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即使不付款，你建立的 %d 個短語也能繼續使用。Plus 讓你隨心建立，Pro 還會開啓備份與同步。"
+          }
+        }
+      }
+    },
     "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Pro는 새로 만들고, 백업과 동기화를 여는 것이에요." : {
       "comment" : "Free use paywall: what stays free",
       "localizations" : {
@@ -160646,6 +161352,143 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "短語和範本不限數量"
+          }
+        }
+      }
+    },
+    "단축어 %1$d개 · 템플릿 %2$d개" : {
+      "comment" : "Paywall Free highlight: free snippet and template counts",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frází: %1$d · Šablon: %2$d"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d fraser · %2$d skabeloner"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d Textbausteine · %2$d Vorlagen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d φράσεις · %2$d πρότυπα"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d snippets · %2$d templates"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d frases · %2$d plantillas"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d fraasia · %2$d pohjaa"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d Phrases · %2$d Modèles"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d frasa · %2$d templat"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d frasi · %2$d modelli"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定型文 %1$d件 · テンプレート %2$d件"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d fraser · %2$d maler"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d fragmenten · %2$d sjablonen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frazy: %1$d · szablony: %2$d"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d frases · %2$d modelos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фраз: %1$d · шаблонов: %2$d"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d fraser · %2$d mallar"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ข้อความด่วน %1$d รายการ · เทมเพลต %2$d รายการ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d İfade · %2$d Şablon"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d cụm từ · %2$d mẫu"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d 个短语 · %2$d 个模板"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$d 個短語 · %2$d 個範本"
           }
         }
       }
@@ -305110,6 +305953,143 @@
         }
       }
     },
+    "연 구독이나 평생 중에 골라요" : {
+      "comment" : "Paywall subtitle: choose a yearly subscription or a lifetime purchase",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyberte roční předplatné nebo doživotní"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vælg årligt eller livstid"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jahresabo oder einmalig kaufen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Επιλέξτε ετήσια ή εφάπαξ"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose yearly or lifetime"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige plan anual o de por vida"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valitse vuosi- tai kertaosto"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez l'abonnement annuel ou à vie"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih langganan tahunan atau seumur hidup"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli tra annuale o a vita"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年間か買い切りからお選びください"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velg årlig eller livslang"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies jaarlijks of levenslang"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wybierz plan roczny lub dożywotni"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha anual ou vitalício"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите: год или навсегда"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Välj år eller livstid"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เลือกรายปีหรือแบบซื้อขาด"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yıllık veya ömür boyu seçin"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chọn gói năm hoặc trọn đời"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年订阅或终身买断，任你选择"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年訂閱或終身買斷，任你選擇"
+          }
+        }
+      }
+    },
     "연간" : {
       "comment" : "Chart bucket: yearly",
       "localizations" : {
@@ -373777,6 +374757,143 @@
         }
       }
     },
+    "지금 그대로" : {
+      "comment" : "Paywall plan tagline: Free, keep using it as it is now",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beze změny"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Som det er nu"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bleibt, wie es ist"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Όπως είναι τώρα"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep it as is"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se queda como está"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kuten nyt"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tel quel"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tetap seperti sekarang"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Come adesso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今のまま"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Som det er nå"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zoals het nu is"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tak jak teraz"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do jeito que está"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Всё как сейчас"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Som det är nu"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ใช้ต่อได้เหมือนเดิม"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Olduğu gibi kalsın"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giữ nguyên như hiện tại"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持现在这样"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持現在這樣"
+          }
+        }
+      }
+    },
     "지금 기본 키보드보다 %dpt 낮아요." : {
       "comment" : "Keyboard height comparison: shorter",
       "localizations" : {
@@ -424104,6 +425221,143 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在鍵盤上取用"
+          }
+        }
+      }
+    },
+    "키보드에서 단축어 넣기" : {
+      "comment" : "Paywall Free highlight: insert snippets from the keyboard",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vkládání frází z klávesnice"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indsæt fraser fra tastaturet"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Textbausteine über die Tastatur einfügen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Εισαγωγή φράσεων από το πληκτρολόγιο"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insert snippets from the keyboard"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa frases desde el teclado"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lisää fraaseja näppäimistöltä"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insérer des Phrases depuis le clavier"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masukkan frasa dari keyboard"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inserisci frasi dalla tastiera"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キーボードから定型文を入力"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sett inn fraser fra tastaturet"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fragmenten invoegen vanaf het toetsenbord"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wstawiaj frazy z klawiatury"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inserir frases pelo teclado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вставка фраз с клавиатуры"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Infoga fraser från tangentbordet"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แทรกข้อความด่วนจากคีย์บอร์ด"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klavyeden İfade ekleyin"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chèn cụm từ từ bàn phím"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在键盘上输入短语"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在鍵盤上輸入短語"
           }
         }
       }

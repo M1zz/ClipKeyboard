@@ -117,13 +117,16 @@ struct SlotPackTests {
         }
     }
 
-    @Test("칸을 산 사람에게만 업그레이드 값을 보여 준다")
-    func onlySlotBuyersSeeTheUpgrade() {
+    @Test("플러스 평생을 산 사람에게만 업그레이드 값을 보여 준다(칸 팩은 아니다)")
+    func onlyPlusLifetimeOwnersSeeTheUpgrade() {
         guard !ProFeatureManager.hasPermanentPro else { return }
         withPacks(legacy: false, packs: 0) {
             #expect(ProUpgrade.isEligible == false, "안 산 사람에게 싼 값을 보이면 정가를 기다리기 시작한다")
         }
         withPacks(legacy: false, packs: 1) {
+            #expect(ProUpgrade.isEligible == false, "칸 팩 값으로 프로 평생을 싸게 사는 뒷문이 되면 안 된다")
+        }
+        withPacks(legacy: true, packs: 0) {
             #expect(ProUpgrade.isEligible)
         }
     }
@@ -133,17 +136,6 @@ struct SlotPackTests {
         let syncBefore = ProFeatureManager.isSyncAvailable
         withPacks(legacy: false, packs: 2) {
             #expect(ProFeatureManager.isSyncAvailable == syncBefore)
-        }
-    }
-
-    @Test("반값 제안이 겨냥하는 자리도 늘어난 한도를 따라간다")
-    func offerEdgeFollowsTheLimit() {
-        guard !ProFeatureManager.hasFullAccess else { return }
-        withSlots(false) {
-            #expect(DiscountOfferManager.limitEdgeCount == ProFeatureManager.freeMemoLimit - 1)
-        }
-        withSlots(true) {
-            #expect(DiscountOfferManager.limitEdgeCount == ProFeatureManager.freeMemoLimit + 4)
         }
     }
 }

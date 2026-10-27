@@ -49,12 +49,13 @@
 | 키보드에서 빈칸 값 더하기 | 고를 값이 없는데 키보드에서 더할 길이 없다 · 앱 안에서 앱을 다시 열려 한다 (2026-10 사용자 요청) | `KeyboardAppLinkTests/addValueOpensAppOnlyInExtension` |
 | 전체 접근이 꺼져 있다는 안내 | 진동·복사한 글이 말없이 안 돼 고장인 줄 안다 · 앱 안에서 엉뚱하게 켜라고 한다 | `KeyboardAppLinkTests/fullAccessNoticeOnlyInExtensionWhenOff` |
 | 페이월 세 칸 (무료 · Plus · Pro) | Plus 를 살 길이 없다 · 아무것도 안 산 사람에게 업그레이드 값이 보인다 · 이미 Pro 인 사람에게 다시 판다 | `PaywallPlansTests/plusOwnerUpgrades` |
+| 연 구독 · 평생 · 구독 졸업 · 언제나 평생 패스 (2026-10 요금제) | 연 구독을 샀는데 키보드는 무료다 · 졸업했더니 구독이 끝나며 Pro 가 닫혔다 · 다른 앱에서 산 패스로 안 열린다 · 판매를 멈춘 반값으로 산 Pro 가 사라졌다 | `BasicScenarioTests/test_연_구독과_평생은_같은_칸을_열고_졸업과_패스는_Pro_를_열며_산_것은_그대로다` |
 | 단축어 넣고 쓰던 키보드로 | 단축어를 넣을 때마다 지구본을 눌러 쓰던 키보드로 돌아가야 한다 · 끈 사람도 넘어간다 · 스택 중간에 넘어가 남은 값이 엉뚱한 데로 간다 (2026-10 사용자 요청) | `SnippetReturnPolicyTests/test_단축어를_다_넣으면_쓰던_키보드로_돌아가고_끄면_그대로다` |
-| 칸에 맞는 단축어 먼저 | 카드번호 칸에서 카드 단축어를 목록에서 찾아 넘겨야 한다 · 아무 칸에서나 엉뚱한 단축어가 앞에 선다 (2026-10 사용자 요청) | `FieldFitTests/fitsComeFirstInQuickRow` |
-| 치면 떠오르는 단축어 | 자판으로 치다가 단축어를 쓰려면 판을 바꿔 찾아야 한다 · 아이폰에 넣어 둔 텍스트 대치가 우리 자판에서는 안 된다 (2026-10 사용자 요청) | `TypedShortcutTests/typedNameSuggestsShortcut` |
+| 칸에 맞는 단축어 먼저 | 카드번호 칸에서 카드 단축어를 목록에서 찾아 넘겨야 한다 · 아무 칸에서나 엉뚱한 단축어가 앞에 선다 (2026-10 사용자 요청) | `KeyboardSessionLedgerTests/fitsComeFirstInQuickRow` |
+| 치면 떠오르는 단축어 | 자판으로 치다가 단축어를 쓰려면 판을 바꿔 찾아야 한다 · 아이폰에 넣어 둔 텍스트 대치가 우리 자판에서는 안 된다 (2026-10 사용자 요청) | `KeyboardSessionLedgerTests/typedNameSuggestsShortcut` |
 | 천지인 꾹 눌러 숫자 | 천지인으로 치다가 숫자 하나를 넣으려면 숫자 판으로 갔다 와야 한다 (2026-10 사용자 요청) | `CheonjiinInputTests/testLongPressDigitsFollowPhonePad` |
 | 천지인 오 + ㆍ = 요 | 보이는 모음에 획을 더해도 모음이 바뀌지 않고, 조금만 늦게 쳐도 모음이 끊긴다 (2026-10 사용자 신고) | `CheonjiinInputTests/testStrokeAddsToShownVowel` |
-| 짓는 낱말 밑줄 | 한글을 짓는 동안 밑줄이 없고, 키 하나에 입력칸을 여러 번 건드려 빨리 치면 늦게 따라온다 (2026-10 사용자 신고) | `TypingEnginesTests/testHangulWordIsShownAsOneMarkedText` |
+| 짓는 글자 밑줄 | 한글을 짓는 동안 밑줄이 없거나 낱말 전체에 서고, 키 하나에 입력칸을 여러 번 건드려 빨리 치면 늦게 따라온다 (2026-10 사용자 신고) | `TypingEnginesTests/testOnlyComposingSyllableIsMarked` |
 | 백지 첫 실행 (새 설치) | 쓰던 사람에게 새 첫 실행이 뜬다 · 옛 튜토리얼과 겹쳐 둘이 뜬다 · 중간에 꺼진 뒤 맥락 없이 중간부터 시작한다 · 끝냈는데 목록이 비어 있다 | `BasicScenarioTests/test_백지_첫_실행은_새_설치에만_뜨고_끝내기_전에_끄면_처음부터_끝나면_예시_하나가_남는다` |
 | 키보드 켜기 수업 (새 설치) | 첫 단축어를 담았는데 키보드를 켜라는 말이 없다 · 나중에 다시를 골랐더니 다시는 안 알려 준다 · 켰는데도 켜라는 줄이 남는다 | `BasicScenarioTests/test_키보드_켜기를_미루면_켤_때까지만_목록_위에_남는다` |
 | 기능 넛지 · 기능 더하기 · 졸업 (새 설치) | 단순하게 쓰던 사람이 스택 · 템플릿을 끝내 모른다 · 같은 권유가 계속 뜬다 · 켰는데 목록 · 키보드에 그 자리가 없다 · 1년을 써도 + 메뉴 · 사용 기록을 못 본다 | `BasicScenarioTests/test_쓰는_모습이_부를_때_기능을_한_번만_권하고_켜면_그_자리가_생기고_손에_붙으면_졸업한다` |

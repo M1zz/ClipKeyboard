@@ -35,8 +35,8 @@ final class LaunchPromptTests: XCTestCase {
     // MARK: - 차례
 
     func testWhatsNewComesBeforeMoneyAndAsks() {
-        XCTAssertEqual(pick([.didYouKnow, .reviewRequest, .discountOffer, .whatsNew])?.id, "whatsNew",
-                       "새 버전 첫 실행에는 반값 제안·리뷰보다 새 소식이 먼저다")
+        XCTAssertEqual(pick([.didYouKnow, .reviewRequest, .graduationOffer, .whatsNew])?.id, "whatsNew",
+                       "새 버전 첫 실행에는 졸업 제안·리뷰보다 새 소식이 먼저다")
     }
 
     func testAccessibilityGuideComesFirst() {
@@ -44,9 +44,9 @@ final class LaunchPromptTests: XCTestCase {
     }
 
     func testReturningUserGetsNoMoneyOrAsk() {
-        XCTAssertNil(pick([.discountOffer, .reviewRequest, .feedbackNudge, .didYouKnow], activity: .returning),
+        XCTAssertNil(pick([.graduationOffer, .reviewRequest, .feedbackNudge, .didYouKnow], activity: .returning),
                      "돌아온 첫 화면에 결제·부탁·소식을 꺼내지 않는다")
-        XCTAssertEqual(pick([.discountOffer, .whatsNew], activity: .returning)?.id, "whatsNew")
+        XCTAssertEqual(pick([.graduationOffer, .whatsNew], activity: .returning)?.id, "whatsNew")
     }
 
     func testReviewWaitsForItsFloor() {

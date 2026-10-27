@@ -453,6 +453,61 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertFalse(LeeoPreflight.audit(ClipKeyboardSpec.self).contains { $0.code.hasPrefix("tip.") })
     }
 
+    /// 요금제 사다리(2026-10): 연 구독과 평생은 같은 칸을 열고, 졸업 · 올리기 · 패스는 Pro 를 연다.
+    /// 그리고 **예전에 산 것은 그대로다.** 키보드가 보는 트림(App Group)까지 같은 답을 내는지 본다.
+    func test_연_구독과_평생은_같은_칸을_열고_졸업과_패스는_Pro_를_열며_산_것은_그대로다() throws {
+        let before = AccessTier.mirrored
+        defer {
+            if let before { AccessTier.mirror(before) } else { AccessTier.resetForTesting() }
+        }
+        func keyboardTier(_ owned: Set<String>, pass: Bool = false) -> AccessTier? {
+            AccessTier.mirror(AccessTier.purchased(from: owned, foreverPass: pass))
+            return AccessTier.mirrored
+        }
+
+        // Plus 를 연 구독으로 시작한다: 쌓기는 열리고 백업 · 잠금은 닫혀 있다. Pro 평생은 정가다.
+        let plusSubscriber: Set<String> = [AccessTier.plusYearlyProductID]
+        XCTAssertEqual(keyboardTier(plusSubscriber), .plus)
+        XCTAssertFalse(StoreManager.grantsPro(plusSubscriber), "Plus 구독에 Pro 키가 켜지면 안 된다")
+        XCTAssertEqual(PaywallAccess(purchased: .plus, hasPermanentPro: false, upgradeEligible: false).pro, .buy)
+
+        // Pro 연 구독으로 옮긴다: Pro 다.
+        let proSubscriber: Set<String> = [AccessTier.proYearlyProductID]
+        XCTAssertEqual(keyboardTier(proSubscriber), .pro)
+        XCTAssertTrue(StoreManager.grantsPro(proSubscriber))
+
+        // 6개월째에 졸업가를 한 번 본다. 본 뒤에는 같은 창에서 다시 안 뜬다.
+        let calendar = Calendar(identifier: .gregorian)
+        let since = Date(timeIntervalSince1970: 1_767_225_600) // 2026-01-01
+        let sixMonths = try XCTUnwrap(calendar.date(byAdding: .month, value: 6, to: since))
+        let sub = LeeoGraduation.Subscription(productID: AccessTier.proYearlyProductID, since: since,
+                                              renewsAt: calendar.date(byAdding: .year, value: 1, to: since), willRenew: true)
+        XCTAssertTrue(LeeoGraduation.isDue(sub, now: sixMonths.addingTimeInterval(60), lastOffered: nil, calendar: calendar))
+        XCTAssertFalse(LeeoGraduation.isDue(sub, now: sixMonths.addingTimeInterval(120),
+                                            lastOffered: sixMonths.addingTimeInterval(60), calendar: calendar))
+
+        // 졸업했다: 구독이 끝나도 평생 Pro 로 남는다.
+        let graduated: Set<String> = [AccessTier.proGraduateProductID]
+        XCTAssertEqual(keyboardTier(graduated.union(proSubscriber)), .pro)
+        XCTAssertEqual(keyboardTier(graduated), .pro, "구독이 끝나도 졸업한 Pro 는 그대로다")
+        XCTAssertTrue(AccessTier.ownsLifetimePro(graduated))
+
+        // Plus 평생에서 올렸다: Pro 평생.
+        XCTAssertEqual(keyboardTier([AccessTier.plusProductID, AccessTier.plusToProProductID]), .pro)
+
+        // 다른 앱에서 산 언제나 평생 패스: 아무것도 안 산 이 앱에서도 Pro, 키보드도 Pro.
+        XCTAssertEqual(keyboardTier([], pass: true), .pro)
+
+        // 예전에 산 것은 그대로다: 반값 Pro · 정가 Pro · 예전 칸 상품(이제 Plus 평생).
+        XCTAssertEqual(keyboardTier(["com.Ysoup.TokenMemo.pro.halfoff"]), .pro, "판매를 멈춘 반값도 권한은 그대로다")
+        XCTAssertTrue(ClipKeyboardSpec.paywall?.entitlementIDs.contains("com.Ysoup.TokenMemo.pro.halfoff") ?? false)
+        XCTAssertEqual(keyboardTier([StoreManager.proProductID]), .pro)
+        XCTAssertEqual(keyboardTier([SlotPack.productID]), .plus)
+
+        // 구독이 끝나고 아무것도 없으면 무료로 돌아간다.
+        XCTAssertEqual(keyboardTier([]), .free)
+    }
+
     // MARK: - Helpers
 
     private func makeAddViewModel(editing memo: Memo? = nil) -> MemoAddViewModel {

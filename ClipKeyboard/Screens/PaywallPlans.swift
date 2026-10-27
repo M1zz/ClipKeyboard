@@ -2,11 +2,14 @@
 //  PaywallPlans.swift
 //  ClipKeyboard
 //
-//  페이월의 **세 칸**: 무료 · Plus · Pro (`AccessTier`).
+//  페이월의 **세 칸**: 무료 · Plus · Pro (`AccessTier`). 유료 칸마다 연 구독과 평생을 나란히 판다.
 //
-//    무료   처음        단축어 10개까지
-//    Plus   쌓기        단축어 · 템플릿 · 스택 · 이미지 무제한       (`slots5`)
-//    Pro    지키기      Plus 전부 + iCloud 백업 · 생체 잠금 · 동기화(베타)  (`pro`, Plus 에서는 `pro.upgrade`)
+//    무료   지금 그대로  단축어 · 템플릿 몇 개, 클립보드 기록 50개
+//    Plus   쌓기        단축어 · 템플릿 · 스택 · 이미지 무제한       (`plus.yearly` · 평생 `slots5`)
+//    Pro    지키기      Plus 전부 + iCloud 백업 · 생체 잠금 · 동기화(베타)
+//                       (`pro.yearly` · 평생 `pro`, Plus 평생을 산 사람의 평생은 `pro.upgrade`)
+//
+//  칸을 늘어놓고 사는 일은 `PaywallLadder` 가 한다. 여기는 칸 하나의 규칙과 모양이다.
 //
 //  ⚠️ 마스터는 여기 세우지 않는다. 마스터에만 있는 기능이 아직 없고, 상품도 App Store Connect 에 없다.
 //     생기면 `PaywallPlan` 에 한 칸을 더한다.
@@ -16,6 +19,7 @@
 
 import SwiftUI
 import StoreKit
+import LeeoKit
 
 // MARK: - 칸
 
@@ -66,7 +70,7 @@ enum PaywallPlan: String, CaseIterable, Identifiable {
 enum PaywallPlanState: Equatable {
     /// 산다(정가).
     case buy
-    /// Plus(또는 칸)를 가진 사람이 Pro 로 오른다(`pro.upgrade`).
+    /// Plus 평생을 가진 사람이 Pro 로 오른다(평생은 `pro.upgrade`).
     case upgrade
     /// 이미 가졌다.
     case owned
@@ -80,7 +84,7 @@ enum PaywallPlanRules {
     /// - Parameters:
     ///   - purchased: 산 트림(`ProFeatureManager.purchasedTier`). 체험 · 무료 기간은 넣지 않는다.
     ///   - hasPermanentPro: 산 Pro · v3.x 그랜드파더 · TestFlight.
-    ///   - upgradeEligible: 칸(예전 `slots5` 포함)을 산 적이 있다(`ProUpgrade.isEligible`).
+    ///   - upgradeEligible: Plus 평생(`slots5`)을 샀다(`ProUpgrade.isEligible`).
     static func state(of plan: PaywallPlan,
                       purchased: AccessTier,
                       hasPermanentPro: Bool,
@@ -92,19 +96,31 @@ enum PaywallPlanRules {
             return purchased >= .plus ? .owned : .buy
         case .pro:
             if hasPro { return .owned }
-            // ⚠️ 업그레이드 값은 Plus(또는 칸)에 **이미 낸 사람**에게만. 아무것도 안 산 사람에게 보이면
-            //    정가보다 싼 값으로 Pro 를 사는 뒷문이 된다.
-            return (purchased >= .plus || upgradeEligible) ? .upgrade : .buy
+            // ⚠️ 업그레이드 값은 Plus **평생**에 이미 낸 사람에게만. Plus 연 구독 · 칸 팩에 낸 사람이나
+            //    아무것도 안 산 사람에게 보이면 정가보다 싼 값으로 Pro 평생을 사는 뒷문이 된다.
+            return upgradeEligible ? .upgrade : .buy
         }
     }
 
-    /// 처음 골라 둘 칸. 살 수 있는 칸 중 **위의 것**.
-    /// 둘 다 못 사면(이미 Pro) nil.
-    static func initialSelection(purchased: AccessTier,
-                                 hasPermanentPro: Bool,
-                                 upgradeEligible: Bool) -> PaywallPlan? {
-        PaywallAccess(purchased: purchased, hasPermanentPro: hasPermanentPro,
-                      upgradeEligible: upgradeEligible).initialSelection
+    /// 이 칸에서 이 길(연 구독 · 평생)을 고르면 결제할 상품. 살 수 없는 칸이면 nil.
+    ///
+    /// ⚠️ **카드에 적은 값과 결제하는 상품은 반드시 같다.** 이 표 하나가 그 약속이다.
+    static func productID(for plan: PaywallPlan, _ state: PaywallPlanState, term: LeeoPlanTerm) -> String? {
+        switch (plan, state, term) {
+        case (.plus, .buy, .yearly):     return AccessTier.plusYearlyProductID
+        case (.plus, .buy, .lifetime):   return AccessTier.plusProductID
+        case (.pro, .buy, .yearly),
+             (.pro, .upgrade, .yearly):  return AccessTier.proYearlyProductID
+        case (.pro, .buy, .lifetime):    return AccessTier.proProductID
+        case (.pro, .upgrade, .lifetime): return AccessTier.plusToProProductID
+        default:                         return nil
+        }
+    }
+
+    /// 처음 골라 둘 길. 올리기는 평생(올리기 값이 그 사람만의 값이다), 나머지는 연 구독
+    /// (처음 보는 사람에게 첫 해 할인이 그 자리에 보인다).
+    static func initialTerm(_ state: PaywallPlanState) -> LeeoPlanTerm {
+        state == .upgrade ? .lifetime : .yearly
     }
 }
 
@@ -138,31 +154,23 @@ struct PaywallAccess: Equatable {
         case .pro:  return pro
         }
     }
-
-    /// 처음 골라 둘 칸. 살 수 있는 칸 중 **위의 것**. 둘 다 못 사면(이미 Pro) nil.
-    var initialSelection: PaywallPlan? {
-        PaywallPlan.allCases.reversed().first { self[$0].isPurchasable }
-    }
 }
 
 // MARK: - 카드
 
-/// 칸 하나. 누르면 고른다. 고른 칸은 강조색 테두리.
-struct PaywallPlanCard: View {
+/// 유료 칸 하나. 살 수 있으면 안에 길 고르기와 구매 버튼(`purchase`)을 품는다.
+struct PaywallPlanCard<Purchase: View>: View {
     let plan: PaywallPlan
     let state: PaywallPlanState
-    /// 이 사람이 낼 값(업그레이드면 업그레이드 값). 상품을 아직 못 읽었으면 nil.
-    let price: String?
-    let isSelected: Bool
     let isRecommended: Bool
-    let onSelect: () -> Void
+    @ViewBuilder let purchase: () -> Purchase
 
     @Environment(\.appTheme) private var theme
 
     // ⚠️ 글자 · 바탕은 **시스템 색**이다. 페이월의 나머지(머리말 · 체험 버튼)가 시스템 색이라,
     //    테마 색(`theme.surface` · `theme.text`)을 쓰면 다크 모드에서 흰 카드 위에 흰 글자가 된다.
     var body: some View {
-        Button(action: onSelect) {
+        PaywallCardSurface(highlighted: isRecommended && state.isPurchasable) {
             VStack(alignment: .leading, spacing: 10) {
                 HStack(alignment: .firstTextBaseline) {
                     Text(plan.name)
@@ -174,76 +182,114 @@ struct PaywallPlanCard: View {
                     Spacer(minLength: 4)
                     badge
                 }
-                VStack(alignment: .leading, spacing: 6) {
-                    ForEach(plan.highlights, id: \.self) { line in
-                        Label {
-                            Text(line)
-                                .font(.subheadline)
-                                .foregroundStyle(.primary)
-                                .fixedSize(horizontal: false, vertical: true)
-                        } icon: {
-                            Image(systemName: AppSymbol.checkmark)
-                                .font(.caption.weight(.bold))
-                                .foregroundStyle(Color.orange)
-                        }
-                    }
-                }
-                priceLine
+                .accessibilityElement(children: .combine)
+                .accessibilityAddTraits(.isHeader)
+                PaywallHighlights(lines: plan.highlights)
+                if state.isPurchasable { purchase() }
             }
-            .padding(16)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color(uiColor: .secondarySystemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
-                    .stroke(isSelected ? Color.orange : Color(uiColor: .separator), lineWidth: isSelected ? 2 : 1)
-            )
         }
-        .buttonStyle(.squish)
-        .disabled(!state.isPurchasable)
-        .accessibilityElement(children: .combine)
-        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
 
     @ViewBuilder
     private var badge: some View {
         switch state {
         case .owned:
-            tag(NSLocalizedString("사용 중", comment: "Paywall plan badge: already owned"), color: .green)
+            PaywallTag(text: NSLocalizedString("사용 중", comment: "Paywall plan badge: already owned"), color: .green)
         case .included:
-            tag(NSLocalizedString("Pro 에 포함", comment: "Paywall plan badge: included in Pro"), color: .green)
+            PaywallTag(text: NSLocalizedString("Pro 에 포함", comment: "Paywall plan badge: included in Pro"), color: .green)
         case .buy, .upgrade:
             if isRecommended {
-                tag(NSLocalizedString("추천", comment: "Paywall plan badge: recommended"), color: .orange)
+                PaywallTag(text: NSLocalizedString("추천", comment: "Paywall plan badge: recommended"), color: .orange)
+            }
+        }
+    }
+}
+
+/// 무료 칸. 지금 무료로 되는 것을 적는다. 버튼은 없다.
+struct PaywallFreeCard: View {
+    var body: some View {
+        PaywallCardSurface(highlighted: false) {
+            VStack(alignment: .leading, spacing: 10) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text(NSLocalizedString("무료", comment: "Free"))
+                        .font(.title3.weight(.bold))
+                        .foregroundStyle(.primary)
+                    Text(NSLocalizedString("지금 그대로", comment: "Paywall plan tagline: Free, keep using it as it is now"))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    Spacer(minLength: 0)
+                }
+                .accessibilityElement(children: .combine)
+                .accessibilityAddTraits(.isHeader)
+                PaywallHighlights(lines: Self.highlights)
             }
         }
     }
 
-    private func tag(_ text: String, color: Color) -> some View {
+    /// 숫자는 `ProFeatureManager` 의 한도에서 읽는다(여기 따로 적지 않는다).
+    static var highlights: [String] {
+        [
+            NSLocalizedString("키보드에서 단축어 넣기", comment: "Paywall Free highlight: insert snippets from the keyboard"),
+            String(format: NSLocalizedString("단축어 %1$d개 · 템플릿 %2$d개", comment: "Paywall Free highlight: free snippet and template counts"),
+                   ProFeatureManager.freeMemoLimit, ProFeatureManager.freeTemplateLimit),
+            String(format: NSLocalizedString("클립보드 기록 %d개", comment: "Paywall highlight: clipboard history count"),
+                   ProFeatureManager.freeClipboardHistoryLimit)
+        ]
+    }
+}
+
+// MARK: - 카드 부품
+
+private struct PaywallCardSurface<Content: View>: View {
+    let highlighted: Bool
+    @ViewBuilder let content: () -> Content
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        content()
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color(uiColor: .secondarySystemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous)
+                    .stroke(highlighted ? Color.orange : Color(uiColor: .separator), lineWidth: highlighted ? 2 : 1)
+            )
+    }
+}
+
+private struct PaywallHighlights: View {
+    let lines: [String]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            ForEach(lines, id: \.self) { line in
+                Label {
+                    Text(line)
+                        .font(.subheadline)
+                        .foregroundStyle(.primary)
+                        .fixedSize(horizontal: false, vertical: true)
+                } icon: {
+                    Image(systemName: AppSymbol.checkmark)
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(Color.orange)
+                }
+            }
+        }
+    }
+}
+
+private struct PaywallTag: View {
+    let text: String
+    let color: Color
+
+    var body: some View {
         Text(text)
             .font(.caption.weight(.semibold))
             .foregroundStyle(color)
             .padding(.horizontal, 8)
             .padding(.vertical, 3)
             .background(color.opacity(0.14), in: Capsule())
-    }
-
-    @ViewBuilder
-    private var priceLine: some View {
-        if state.isPurchasable {
-            VStack(alignment: .leading, spacing: 2) {
-                if let price {
-                    Text(price)
-                        .font(.headline)
-                        .foregroundStyle(.primary)
-                }
-                Text(state == .upgrade
-                     ? NSLocalizedString("Plus 에서 Pro 로 오르는 값 · 한 번 결제", comment: "Paywall price caption: upgrade from Plus")
-                     : NSLocalizedString("한 번 결제 · 평생 사용", comment: "Paywall price caption: one-time"))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-        }
     }
 }
 

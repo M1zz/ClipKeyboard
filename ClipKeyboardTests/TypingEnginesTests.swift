@@ -196,20 +196,38 @@ final class TypingEnginesTests: XCTestCase {
         XCTAssertEqual(proxy.text, "")
     }
 
-    /// 짓는 낱말은 밑줄 친 글 하나로 보이고, 스페이스 앞에서 확정된다. 키 하나에 입력칸을 한 번만 건드린다.
-    func testHangulWordIsShownAsOneMarkedText() {
+    /// 밑줄은 짓는 음절 하나에만 선다. 앞 글자는 바로 확정된다(기본 키보드와 같다).
+    func testOnlyComposingSyllableIsMarked() {
         let proxy = MarkedTextProxy()
         let engine = HangulTypingEngine(proxy: proxy, layout: .cheonjiin)
         type(["ㅇㅁ", "ㆍ", "ㅡ", "ㆍ"], into: engine)
         XCTAssertEqual(proxy.marked, "요")
-        XCTAssertEqual(proxy.edits, 4, "키 하나에 한 번")
-        type(["ㄱㅋ", "ㅣ", "ㆍ"], into: engine)
-        XCTAssertEqual(proxy.marked, "요가")
+        XCTAssertEqual(proxy.committed, "")
+        type(["ㄱㅋ", "ㅣ", "ㆍ", "ㄴㄹ"], into: engine)
+        XCTAssertEqual(proxy.committed, "요")
+        XCTAssertEqual(proxy.marked, "간")
+        type(["ㅣ"], into: engine)
+        XCTAssertEqual(proxy.text, "요가니", "받침이 다음 음절로 옮겨 가도 글은 그대로")
+        XCTAssertEqual(proxy.marked, "니")
         engine.commit()
-        XCTAssertEqual(proxy.text, "요가")
+        XCTAssertEqual(proxy.text, "요가니")
         XCTAssertEqual(proxy.marked, "")
         engine.backspace()
-        XCTAssertEqual(proxy.text, "요", "확정한 뒤 지우기는 입력칸의 글자를 지운다")
+        XCTAssertEqual(proxy.text, "요가", "확정한 뒤 지우기는 입력칸의 글자를 지운다")
+    }
+
+    /// 두벌식도 같다. 모음이 못 된 천지인 점도 밑줄 안에 있다.
+    func testMarkedTailIncludesPendingDots() {
+        let proxy = MarkedTextProxy()
+        let engine = HangulTypingEngine(proxy: proxy, layout: .cheonjiin)
+        type(["ㄱㅋ", "ㆍ", "ㅣ", "ㆍ"], into: engine)
+        XCTAssertEqual(proxy.text, "거ㆍ")
+        XCTAssertEqual(proxy.marked, "거ㆍ")
+        let dubeol = MarkedTextProxy()
+        let engine2 = HangulTypingEngine(proxy: dubeol, layout: .dubeolsik)
+        type(["ㅎ", "ㅏ", "ㄴ", "ㄱ", "ㅡ", "ㄹ"], into: engine2)
+        XCTAssertEqual(dubeol.committed, "한")
+        XCTAssertEqual(dubeol.marked, "글")
     }
 
     // MARK: - 저절로 대문자

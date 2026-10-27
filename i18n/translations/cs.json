@@ -584,6 +584,15 @@
     },
     "src": "0ddbceb5e7"
   },
+  "%d일 무료 체험 · 연 구독이나 평생 중에 골라요": {
+    "v": {
+      "one": "%d den zdarma · Pak roční předplatné nebo doživotně",
+      "few": "%d dny zdarma · Pak roční předplatné nebo doživotně",
+      "many": "%d dne zdarma · Pak roční předplatné nebo doživotně",
+      "other": "%d dní zdarma · Pak roční předplatné nebo doživotně"
+    },
+    "src": "3c796a3160"
+  },
   "%d일 무료 체험 · 한번 구매, 평생 사용": {
     "v": {
       "one": "%d den zdarma · Koupíte jednou, platí navždy",
@@ -3046,6 +3055,15 @@
     "v": "Platba byla zrušena",
     "src": "6637e4fbd2"
   },
+  "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Plus는 마음껏 새로 만들고, Pro는 백업과 동기화까지 열어요.": {
+    "v": {
+      "one": "I bez platby vám zůstane vytvořená %d fráze. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci.",
+      "few": "I bez platby vám zůstanou vytvořené %d fráze. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci.",
+      "many": "I bez platby vám zůstane vytvořených %d frází. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci.",
+      "other": "I bez platby vám zůstane vytvořených %d frází. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci."
+    },
+    "src": "6ab380bf65"
+  },
   "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Pro는 새로 만들고, 백업과 동기화를 여는 것이에요.": {
     "v": {
       "one": "I bez platby vám zůstává %d vytvořená fráze. Pro slouží k tvorbě dalších a k zálohování a synchronizaci.",
@@ -4258,6 +4276,10 @@
   "단축어": {
     "v": "Fráze",
     "src": "8c10487a02"
+  },
+  "단축어 %1$d개 · 템플릿 %2$d개": {
+    "v": "Frází: %1$d · Šablon: %2$d",
+    "src": "b55f3b83e8"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "Přidáno frází: %1$d, aktualizováno: %2$d (celkem %3$d).\nNačteno zásobníků: %4$d, obrázků: %5$d a kategorií: %6$d.",
@@ -8448,6 +8470,10 @@
     "v": "Zahájit roční předplatné",
     "src": "dfe2938054"
   },
+  "연 구독이나 평생 중에 골라요": {
+    "v": "Vyberte roční předplatné nebo doživotní",
+    "src": "a9cef1c845"
+  },
   "연간": {
     "v": "Roční",
     "src": "88db2c9d21"
@@ -10411,6 +10437,10 @@
     "v": "Upgradujte na Pro a používejte navždy",
     "src": "5d3b360a39"
   },
+  "지금 그대로": {
+    "v": "Beze změny",
+    "src": "711e8de16c"
+  },
   "지금 기본 키보드보다 %dpt 낮아요.": {
     "v": {
       "one": "Právě teď je o %dpt nižší než standardní klávesnice.",
@@ -11855,6 +11885,10 @@
   "키보드에서 꺼내기": {
     "v": "Použít z klávesnice",
     "src": "0baef71bc4"
+  },
+  "키보드에서 단축어 넣기": {
+    "v": "Vkládání frází z klávesnice",
+    "src": "f08b39c57e"
   },
   "키보드에서 단축어를 %d번 꺼내 쓰셨어요": {
     "v": {

@@ -7,11 +7,8 @@
 //  왜 영수증이 먼저인가: 결제할까 망설이는 까닭은 이 앱이 그만한 값을 하는지 확신이 없어서다.
 //  100번 넣은 사람에게는 그 증거가 이미 있다. 보여 주기만 하면 된다.
 //
-//  요금제는 둘뿐이다(평생 · 연 구독). 같은 Pro 를 기간으로만 나눈다. 기능을 쪼갠 요금제는
-//  무엇이 빠지는지 사용자가 따져야 하고, 따지는 순간 "나중에"로 끝난다.
-//
-//  ⚠️ 연 구독 상품이 App Store Connect 에 아직 없으면 그 칸만 숨기고 평생만 판다.
-//  ⚠️ 구독을 고르면 갱신 조건과 약관 · 개인정보 링크를 보인다(심사 기준 3.1.2).
+//  영수증 아래 요금제는 다른 결제 화면과 같은 사다리다(`PaywallLadder`): 무료 · Plus · Pro 세 칸,
+//  칸마다 연 구독과 평생, 그 아래 언제나 평생 패스 한 줄. 갱신 조건과 약관 링크도 사다리가 보인다.
 //
 
 import SwiftUI
@@ -23,14 +20,10 @@ struct FreeUsePaywallView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appTheme) private var theme
-    @Environment(\.openURL) private var openURL
     @ObservedObject private var store = StoreManager.shared
 
-    enum Plan { case lifetime, yearly }
-    @State private var plan: Plan = .lifetime
     @State private var receipt = FreeUseReceipt.current()
     @State private var restoreOutcome: StoreManager.RestoreOutcome?
-    @State private var isPurchasing = false
 
     var body: some View {
         NavigationStack {
@@ -39,9 +32,10 @@ struct FreeUsePaywallView: View {
                     header
                     if receipt.uses > 0 { receiptCard }
                     FreeUseStaysRow(ownCount: receipt.ownCount)
-                    plans
-                    purchaseButton
-                    if plan == .yearly, let yearly = store.yearlyProduct { subscriptionTerms(yearly) }
+                    PaywallLadder(access: .current,
+                                  source: isThresholdMoment ? "free_use_threshold" : "free_use_guide") { _ in
+                        dismiss()
+                    }
                     footer
                 }
                 .padding(20)
@@ -78,7 +72,7 @@ struct FreeUsePaywallView: View {
                     .foregroundColor(theme.text)
                     .fixedSize(horizontal: false, vertical: true)
             } else {
-                Text("ClipKeyboard Pro")
+                Text("ClipKeyboard Plus · Pro")
                     .font(.title.weight(.bold))
                     .foregroundColor(theme.text)
             }
@@ -121,107 +115,7 @@ struct FreeUsePaywallView: View {
         .accessibilityElement(children: .combine)
     }
 
-    // MARK: - 요금제
-
-    private var plans: some View {
-        VStack(spacing: 10) {
-            planButton(.lifetime,
-                       title: NSLocalizedString("평생 Pro", comment: "Plan: lifetime"),
-                       caption: NSLocalizedString("한 번 결제하고 계속", comment: "Plan: lifetime caption"),
-                       price: store.proProduct?.displayPrice,
-                       badge: NSLocalizedString("추천", comment: "Plan: recommended badge"))
-            if store.yearlyProduct != nil {
-                planButton(.yearly,
-                           title: NSLocalizedString("연 구독", comment: "Plan: yearly"),
-                           caption: NSLocalizedString("매년 갱신, 언제든 해지", comment: "Plan: yearly caption"),
-                           price: store.yearlyProduct?.displayPrice,
-                           badge: nil)
-            }
-        }
-        .accessibilityElement(children: .contain)
-        .accessibilityLabel(NSLocalizedString("요금제", comment: "Plans group"))
-    }
-
-    private func planButton(_ value: Plan, title: String, caption: String, price: String?, badge: String?) -> some View {
-        let selected = plan == value
-        return Button { plan = value } label: {
-            HStack(alignment: .center, spacing: 12) {
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack(spacing: 8) {
-                        Text(title).font(.headline).foregroundColor(theme.text)
-                        if let badge {
-                            Text(badge)
-                                .font(.body.weight(.bold))
-                                .foregroundColor(theme.accentFg)
-                                .padding(.horizontal, 8)
-                                .background(theme.accent)
-                                .clipShape(Capsule())
-                        }
-                    }
-                    Text(caption).font(.body).foregroundColor(theme.textMuted)
-                }
-                Spacer(minLength: 8)
-                if let price {
-                    Text(price).font(.headline).foregroundColor(theme.text)
-                } else {
-                    ProgressView()
-                }
-            }
-            .padding(16)
-            .frame(maxWidth: .infinity, minHeight: 76)
-            .background(selected ? theme.accentSoft : theme.surface)
-            .overlay(
-                RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous)
-                    .strokeBorder(selected ? theme.accent : theme.textFaint.opacity(0.5), lineWidth: 2)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: theme.radiusLg, style: .continuous))
-        }
-        .buttonStyle(.squish)
-        .accessibilityAddTraits(selected ? [.isSelected] : [])
-    }
-
-    // MARK: - 결제
-
-    private var purchaseButton: some View {
-        Button {
-            Task { await buy() }
-        } label: {
-            ZStack {
-                if isPurchasing {
-                    ProgressView().tint(theme.accentFg)
-                } else {
-                    Text(plan == .lifetime
-                         ? NSLocalizedString("평생 Pro로 계속하기", comment: "Buy lifetime CTA")
-                         : NSLocalizedString("연 구독 시작하기", comment: "Buy yearly CTA"))
-                        .font(.headline)
-                }
-            }
-            .frame(maxWidth: .infinity, minHeight: 54)
-            .background(theme.accent)
-            .foregroundColor(theme.accentFg)
-            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
-        }
-        .buttonStyle(.squish)
-        .disabled(isPurchasing)
-    }
-
-    private func buy() async {
-        isPurchasing = true
-        defer { isPurchasing = false }
-        let source = isThresholdMoment ? "free_use_threshold" : "free_use_guide"
-        let bought = plan == .lifetime
-            ? await store.purchasePro(triggeredBy: source)
-            : await store.purchaseYearly(triggeredBy: source)
-        if bought { dismiss() }
-    }
-
-    /// 구독 조건. 무엇을 · 얼마에 · 언제 갱신되고 · 어떻게 끊는지를 결제 버튼 바로 아래에.
-    private func subscriptionTerms(_ product: Product) -> some View {
-        Text(String(format: NSLocalizedString("1년마다 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.", comment: "Yearly subscription terms"), product.displayPrice))
-            .font(.body)
-            .foregroundColor(theme.textMuted)
-            .fixedSize(horizontal: false, vertical: true)
-    }
+    // MARK: - 복원
 
     private var footer: some View {
         VStack(spacing: 12) {
@@ -232,24 +126,11 @@ struct FreeUsePaywallView: View {
                     .font(.body)
                     .frame(minHeight: 44)
             }
-            HStack(spacing: 20) {
-                link(NSLocalizedString("이용약관", comment: "Terms of use link"), Constants.termsOfUseURL)
-                link(NSLocalizedString("개인정보 처리방침", comment: "Privacy policy link"), Constants.privacyPolicyURL)
-            }
             if let error = store.errorMessage {
                 Text(error).font(.body).foregroundColor(.red)
             }
         }
         .frame(maxWidth: .infinity)
-    }
-
-    private func link(_ title: String, _ address: String) -> some View {
-        Button {
-            if let url = URL(string: address) { openURL(url) }
-        } label: {
-            Text(title).font(.body).foregroundColor(theme.textMuted).underline()
-                .frame(minHeight: 44)
-        }
     }
 }
 
@@ -264,7 +145,7 @@ private struct FreeUseStaysRow: View {
                 .font(.body.weight(.bold))
                 .foregroundColor(theme.success)
                 .accessibilityHidden(true)
-            Text(String(format: NSLocalizedString("결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Pro는 새로 만들고, 백업과 동기화를 여는 것이에요.", comment: "Free use paywall: what stays free"), ownCount))
+            Text(String(format: NSLocalizedString("결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Plus는 마음껏 새로 만들고, Pro는 백업과 동기화까지 열어요.", comment: "Free use paywall: what stays free, what Plus and Pro add"), ownCount))
                 .font(.body)
                 .foregroundColor(theme.text)
                 .fixedSize(horizontal: false, vertical: true)

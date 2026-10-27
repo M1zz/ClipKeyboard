@@ -69,10 +69,8 @@ struct ClipKeyboardApp: App {
     @State private var placeholderValueAddToken: PlaceholderValueAddRequest?
     /// 키보드 '최근' 줄의 + 에서 왔다 → 그 글을 단축어로 저장(`clipkeyboard://saveclip?id=`).
     @State private var clipToSave: SmartClipboardHistory?
-    /// 반값 제안 시트 - 설치 직후·한도 한 칸 앞 두 자리에서 각각 1회 노출한다.
-    @State private var showDiscountOffer = false
-    /// 지금 띄운 제안이 어느 자리에서 온 것인가(문구·애널리틱스가 이 값을 따라간다).
-    @State private var discountOccasion: DiscountOfferManager.Occasion = .limitEdge
+    /// 구독 졸업 시트 - 구독 중인 사람에게 6개월째 · 갱신 7일 전에 한 번씩(`LeeoGraduation`).
+    @State private var showGraduationOffer = false
     /// 언어를 바꿀 때마다 하나씩 올린다. 이 값이 곧 화면 트리의 `id` 라, 바뀌면 통째로 새로 그려진다.
     @State private var languageRefreshToken = 0
 
@@ -354,6 +352,9 @@ struct ClipKeyboardApp: App {
             // 기존 구매자도 다음 실행에서 자동 복구된다. (이미 부여됐으면 즉시 no-op)
             if readsReceipt { Task { await ProFeatureManager.grandfatherPaidUserIfNeeded() } }
 
+            // 언제나 평생 패스(다른 앱에서 산 것 포함)를 다시 본다. 열려 있으면 프로다.
+            if readsReceipt { Task { await StoreManager.shared.foreverPass.refresh() } }
+
             // DEBUG 빌드에서만 계정/구매 상태 진단 덤프 (Xcode 콘솔에서 "🩺 [Diag]"로 검색)
             #if DEBUG
             if readsReceipt { Task {
@@ -496,7 +497,6 @@ struct ClipKeyboardApp: App {
                 UIApplication.shared.registerForRemoteNotifications()
             }
 
-            noteShortcutCountForDiscountOffer()
             // 백지 첫 실행 중이면 그 위에 아무것도 얹지 않는다(`launchPromptsAwaitingBlankStart`).
             if ClipKeyboardApp.isBlankStartInProgress {
                 print("🤍 [runLaunchSequence] 백지 첫 실행 중, 실행 창은 끝난 뒤로 미룬다")
@@ -696,49 +696,27 @@ struct ClipKeyboardApp: App {
         categoryCleanup = request
     }
 
-    // MARK: - 반값 제안 (한도 한 칸 앞에서 일주일)
+    // MARK: - 구독 졸업 (구독 중인 사람에게 평생으로 가는 길)
 
-    /// 지금 단축어가 몇 개인지 세어 "한 칸 앞에 닿은 시각"을 기록한다.
-    /// (판정과 저장은 `DiscountOfferManager` 가 한다 - 여기서는 개수만 넘긴다)
-    private func noteShortcutCountForDiscountOffer() {
-        // 한도와 같은 개수를 센다. 전체를 세면 자기 걸 5개 만든 사람에게
-        // "한 칸 남았다" 며 할인이 나간다.
-        let count = ProFeatureManager.ownMemoCount(((try? MemoStore.shared.load(type: .memo)) ?? []))
-        DiscountOfferManager.noteShortcutCount(count)
+    /// 구독 중이고 졸업가를 보일 창(6개월째 · 갱신 7일 전)에 들었는가.
+    /// 구독은 앱이 열릴 때 StoreKit 에서 읽어 둔 값을 본다(`StoreManager.subscription`).
+    private func graduationOfferDue() -> Bool {
+        storeManager.graduationIsDue
     }
 
-    /// 조건이 다 맞으면 반값 제안을 띄운다. 기회는 둘뿐이고 각각 한 번씩이다.
+    /// 실행 시트 자리를 이미 쥔 뒤에 부른다. 졸업 상품이 안 오면 이번 실행은 조용히 지나간다.
     ///
-    /// ⚠️ 상품이 아직 안 왔으면 그냥 넘어간다 - **다음 실행에 다시 물어본다.** 여기서
-    ///    본 것으로 표시해 버리면, 네트워크가 느렸다는 이유만으로 제안을 영영 잃는다.
-    /// 때가 됐는지만 본다 - 아닌 사람에게 스토어를 두드리지 않기 위해서다.
-    private func discountOfferDue() -> Bool {
-        DiscountOfferManager.isDueIgnoringProduct(isMidFirstShortcut: isMidFirstShortcut)
-    }
-
-    /// 실행 시트 자리를 이미 쥔 뒤에 부른다. 상품이 안 오면 이번 실행은 조용히 지나간다.
-    private func presentDiscountOffer() {
+    /// ⚠️ 상품이 안 왔을 때는 본 것으로 적지 않는다. 네트워크가 느렸다는 이유로 그 창을 잃지 않게.
+    private func presentGraduationOffer() {
         Task { @MainActor in
-            // ⚠️ 상품을 **여기서** 부른다. 이 앱은 런치에 상품을 미리 읽지 않아서
-            //    (페이월 화면이 필요할 때 읽는다) 미리 확인하면 언제나 "없음"이 된다.
-            if storeManager.discountedProProduct == nil {
-                await storeManager.loadProducts()
-            }
-            // 상품이 온 뒤에 다시 판정한다 - 기다리는 동안 조건이 바뀌었을 수 있다.
-            guard let occasion = DiscountOfferManager.dueOccasionNow(
-                discountAvailable: storeManager.discountedProProduct != nil,
-                isMidFirstShortcut: isMidFirstShortcut
-            ) else {
-                print("ℹ️ [DiscountOffer] 지금은 띄우지 않는다(상품 없음이면 다음 실행에 다시 본다)")
+            if storeManager.graduateProduct == nil { await storeManager.loadProducts() }
+            guard storeManager.graduateProduct != nil, storeManager.graduationIsDue else {
+                print("ℹ️ [Graduation] 지금은 띄우지 않는다(상품 없음이면 다음 실행에 다시 본다)")
                 return
             }
-            // 기다리는 동안 다른 안내가 떴을 수 있다.
             guard noOtherModalIsUp else { return }
-
-            // 여는 그 자리에서 못박는다 - 어떻게 닫든 그 기회는 다시 오지 않는다.
-            DiscountOfferManager.markShown(occasion)
-            discountOccasion = occasion
-            showDiscountOffer = true
+            LeeoGraduation.markOffered()
+            showGraduationOffer = true
         }
     }
 
@@ -791,7 +769,7 @@ struct ClipKeyboardApp: App {
         if accessibilityGuideDue() { due.append(.accessibilityGuide) }
         if cleanup != nil { due.append(.categoryCleanup) }
         if whatsNewIsDue() { due.append(.whatsNew) }
-        if discountOfferDue() { due.append(.discountOffer) }
+        if graduationOfferDue() { due.append(.graduationOffer) }
         if ReviewManager.shared.shouldShowReview() { due.append(.reviewRequest) }
         if feedbackNudgeDue() { due.append(.feedbackNudge) }
         if didYouKnow != nil { due.append(.didYouKnow) }
@@ -808,7 +786,7 @@ struct ClipKeyboardApp: App {
         case .accessibilityGuide: presentAccessibilityGuide()
         case .categoryCleanup: if let cleanup { presentCategoryCleanup(cleanup) }
         case .whatsNew: presentWhatsNew()
-        case .discountOffer: presentDiscountOffer()
+        case .graduationOffer: presentGraduationOffer()
         case .reviewRequest: showReviewRequest = true
         case .feedbackNudge: presentFeedbackNudge()
         case .didYouKnow: if let didYouKnow { presentDidYouKnow(didYouKnow) }
@@ -820,7 +798,7 @@ struct ClipKeyboardApp: App {
     /// (결제 창이 남의 위에 올라타면 가장 나쁘다)
     private var noOtherModalIsUp: Bool {
         !showDemoSampleOffer && !showRestoreHint && !showReviewRequest
-            && !showWhatsNew && !showFeedbackNudge && !showDataRecovery && !showDiscountOffer
+            && !showWhatsNew && !showFeedbackNudge && !showDataRecovery && !showGraduationOffer
             && didYouKnowItem == nil
     }
 
@@ -1375,10 +1353,6 @@ struct ClipKeyboardApp: App {
                     }
                 }
                 #endif
-                // 단축어를 만들거나 지울 때마다 개수를 다시 센다 - 9개에 닿는 순간이 시계의 시작이다.
-                .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
-                    noteShortcutCountForDiscountOffer()
-                }
                 .onReceive(
                     NotificationCenter.default.publisher(
                         for: UIAccessibility.voiceOverStatusDidChangeNotification
@@ -1446,10 +1420,12 @@ struct ClipKeyboardApp: App {
                 .sheet(isPresented: $showCloudBackupSheet) {
                     NavigationStack { CloudBackupView() }
                 }
-                // 반값 제안 - 조건은 discountOfferDue · presentDiscountOffer 가 다 본다.
-                .sheet(isPresented: $showDiscountOffer) {
-                    DiscountOfferView(occasion: discountOccasion)
-                        .presentationDetents([.large])
+                // 구독 졸업 - 조건은 graduationOfferDue · presentGraduationOffer 가 다 본다.
+                .sheet(isPresented: $showGraduationOffer) {
+                    LeeoGraduationOfferView(graduate: storeManager.graduateProduct) {
+                        await storeManager.refreshEntitlements()
+                    }
+                    .leeoThemed()
                 }
                 .alert(
                     NSLocalizedString("혹시 불편한 점이 있으세요?", comment: "Feedback nudge title"),

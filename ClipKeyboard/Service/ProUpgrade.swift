@@ -16,10 +16,9 @@
 //     칸 + 업그레이드가 정가보다 싸지면 정가는 아무 뜻이 없어지고, 모두가 칸부터 산다.
 //     (정가 $9.99 · 칸 $2.99 · 업그레이드 $7.99 = 합계 $10.98)
 //
-//  ⚠️ 5.x 부터 이 상품은 **플러스 → 프로** 업그레이드다(`AccessTier.plusToProProductID`).
-//     플러스가 예전 칸 상품(`slots5`)이라 "칸을 산 사람" 조건(`SlotPack.isPurchased`)이 그대로 맞다.
-//     값은 **플러스 + 업그레이드 > 프로 정가**, **칸 팩 + 업그레이드 > 프로 정가** 둘 다 지켜야 한다
-//     (₩9,900 + ₩13,000 · ₩4,400 + ₩13,000 > ₩17,000).
+//  ⚠️ 5.x 부터 이 상품은 **플러스 평생 → 프로 평생** 업그레이드다(`AccessTier.plusToProProductID`).
+//     2026-10 요금제 개편부터는 **플러스 평생(`slots5`)을 산 사람만** 이 값을 본다. 칸 팩 · 연 구독에
+//     낸 값으로 프로 평생을 싸게 사는 뒷문이 되지 않게 한다(플러스 평생 + 업그레이드 = 프로 평생).
 //
 //  ⚠️ 이 상품은 **Pro 다.** `ClipKeyboardSpec.entitlementIDs` 에 반드시 들어가야 한다.
 //     빠지면 돈을 받고 아무것도 안 열어 주는 상품이 된다.
@@ -35,10 +34,11 @@ enum ProUpgrade {
 
     /// 이 사람에게 업그레이드 값을 보여 줄 것인가.
     ///
-    /// 조건은 둘뿐이다: 칸을 샀고, 아직 Pro 가 아니다.
-    /// ⚠️ 칸을 안 산 사람에게는 **존재 자체를 알리지 않는다.** 싼 값이 보이면
-    ///    정가를 낼 사람이 기다리기 시작한다.
+    /// 조건은 둘뿐이다: 플러스 평생을 샀고, 아직 Pro 가 아니다.
+    /// ⚠️ 플러스 평생은 `slots5` 라, 앱이 App Group 에 새긴 그 권한(`SlotPack.legacySlots`)을 본다.
+    ///    소모성 칸 팩(`purchasedPacks`)은 세지 않는다.
+    /// ⚠️ 안 산 사람에게는 **존재 자체를 알리지 않는다.** 싼 값이 보이면 정가를 낼 사람이 기다리기 시작한다.
     static var isEligible: Bool {
-        SlotPack.isPurchased && !ProFeatureManager.hasPermanentPro
+        SlotPack.legacySlots > 0 && !ProFeatureManager.hasPermanentPro
     }
 }

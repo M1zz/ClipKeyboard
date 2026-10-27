@@ -79,38 +79,41 @@ final class ClipKeyboardSpecTests: XCTestCase {
     func testPaywallIsDerivedFromMonetization() {
         XCTAssertNotNil(ClipKeyboardSpec.paywall)
         XCTAssertTrue(ClipKeyboardSpec.monetization.requiresPaywall)
-        XCTAssertTrue(ClipKeyboardSpec.monetization.requiresRestore, "비소모성 판매 - 복원 경로는 심사 필수")
+        XCTAssertTrue(ClipKeyboardSpec.monetization.requiresRestore, "비소모성 · 구독 판매 - 복원 경로는 심사 필수")
     }
 
-    /// 파는 물건은 여섯(정가·반값·업그레이드·칸 추가 둘·두 대째),
-    /// **Pro 권한은 평생을 여는 셋뿐**이다.
+    /// 지금 파는 물건(Plus · Pro 의 평생과 연 구독, 올리기, 졸업, 칸 팩, 두 대째)과
+    /// **Pro 권한**(프로 이상을 여는 상품, 판매를 멈춘 반값 포함)을 못박는다.
     ///
     /// ⚠️ 이 테스트가 이 저장소에서 가장 비싼 사고를 막는다. LeeoKit 은 `entitlementIDs` 를
-    ///    안 주면 파는 상품 전체를 권한으로 보므로, 칸 추가나 두 대째가 권한에 섞이면
+    ///    안 주면 파는 상품 전체를 권한으로 보므로, Plus · 칸 추가 · 두 대째가 권한에 섞이면
     ///    작은 결제로 평생 Pro 가 열린다. 그리고 한 번 준 권한은 되돌릴 방법이 없다.
     func testSmallProductsNeverGrantPro() {
         let paywall = ClipKeyboardSpec.paywall
-        XCTAssertEqual(paywall?.productIDs, [StoreManager.proProductID,
-                                             StoreManager.yearlyProductID,
-                                             DiscountOfferManager.discountedProProductID,
+        XCTAssertEqual(paywall?.productIDs, [AccessTier.plusProductID,
+                                             AccessTier.plusYearlyProductID,
+                                             AccessTier.proProductID,
+                                             AccessTier.proYearlyProductID,
                                              ProUpgrade.productID,
-                                             SlotPack.productID,
+                                             AccessTier.proGraduateProductID,
                                              SlotPack.consumableProductID,
-                                             TwoDevicePack.productID,
-                                             AccessTier.masterProductID,
-                                             AccessTier.proToMasterProductID])
-        // 연 구독은 평생 Pro 와 같은 권한을 기간으로 판다(5.2). 프로 이상 트림을 여는 상품이 전부 권한이다.
-        XCTAssertEqual(paywall?.entitlementIDs, [StoreManager.proProductID,
-                                                 StoreManager.yearlyProductID,
-                                                 DiscountOfferManager.discountedProProductID,
+                                             TwoDevicePack.productID])
+        XCTAssertEqual(paywall?.entitlementIDs, [AccessTier.proProductID,
+                                                 AccessTier.proYearlyProductID,
+                                                 "com.Ysoup.TokenMemo.pro.halfoff",
                                                  ProUpgrade.productID,
+                                                 AccessTier.proGraduateProductID,
                                                  AccessTier.masterProductID,
                                                  AccessTier.proToMasterProductID])
-        // ⚠️ 플러스(`slots5`)는 Pro 가 아니다. 들어가면 플러스 값에 백업 · 잠금 · 동기화가 열린다.
-        for small in [SlotPack.productID, SlotPack.consumableProductID, TwoDevicePack.productID] {
+        // ⚠️ 플러스(평생 · 연 구독)는 Pro 가 아니다. 들어가면 플러스 값에 백업 · 잠금 · 동기화가 열린다.
+        for small in [AccessTier.plusProductID, AccessTier.plusYearlyProductID,
+                      SlotPack.consumableProductID, TwoDevicePack.productID] {
             XCTAssertFalse(paywall?.entitlementIDs.contains(small) ?? true,
                            "\(small) 가 Pro 권한이 되면 안 된다")
         }
+        // 연 구독을 파므로 약관 링크가 계약에 있어야 한다(심사 기준 3.1.2).
+        XCTAssertTrue(ClipKeyboardSpec.monetization.sellsSubscription)
+        XCTAssertEqual(ClipKeyboardSpec.monetization.subscriptionTermsURL?.absoluteString, Constants.termsOfUseURL)
     }
 
     /// 업그레이드는 **반드시** 권한이어야 한다.
@@ -125,10 +128,11 @@ final class ClipKeyboardSpecTests: XCTestCase {
     /// 한때 이 판정은 정가 ID 하나만 봤다. 스펙의 권한 목록은 맞았는데 새기는 쪽이
     /// 달라서, 반값·업그레이드로 산 사람은 `clipkeyboard_is_pro` 가 false 로 남았다.
     func testEveryEntitlementProductIsMirroredAsPro() {
-        for id in [StoreManager.proProductID, DiscountOfferManager.discountedProProductID, ProUpgrade.productID] {
+        for id in [StoreManager.proProductID, "com.Ysoup.TokenMemo.pro.halfoff", ProUpgrade.productID,
+                   AccessTier.proYearlyProductID, AccessTier.proGraduateProductID] {
             XCTAssertTrue(StoreManager.grantsPro([id]), "\(id) 를 사면 Pro 키가 켜져야 한다")
         }
-        for small in [SlotPack.productID, SlotPack.consumableProductID, TwoDevicePack.productID] {
+        for small in [SlotPack.productID, AccessTier.plusYearlyProductID, SlotPack.consumableProductID, TwoDevicePack.productID] {
             XCTAssertFalse(StoreManager.grantsPro([small]), "\(small) 로 Pro 키가 켜지면 안 된다")
         }
         XCTAssertFalse(StoreManager.grantsPro([]))

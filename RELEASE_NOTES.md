@@ -14,6 +14,215 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.15
+
+### 앱스토어 (한국어)
+
+```
+요금제가 무료, Plus, Pro 세 가지로 정리됐어요.
+Plus와 Pro는 연 구독과 평생 중에 고를 수 있어요.
+구독 중이면 언제든 평생으로 바꿀 수 있어요.
+모든 앱을 평생 여는 언제나 평생 패스가 생겼어요.
+```
+
+### App Store (English)
+
+```
+Plans are now simply Free, Plus and Pro.
+Choose yearly or lifetime for Plus and Pro.
+Subscribers can switch to lifetime anytime.
+A new Forever Pass unlocks all our apps for life.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+方案整理为免费、Plus 和 Pro 三种。
+Plus 和 Pro 可选年订阅或终身买断。
+订阅中也能随时改为终身买断。
+新增永久通行证，所有应用终身解锁。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+方案整理為免費、Plus 和 Pro 三種。
+Plus 和 Pro 可選年訂閱或終身買斷。
+訂閱中也能隨時改為終身買斷。
+新增永久通行證，所有 App 終身解鎖。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Тарифы теперь простые: Free, Plus и Pro.
+Plus и Pro можно взять на год или навсегда.
+Подписку легко заменить покупкой навсегда.
+Новый вечный пропуск открывает все наши приложения.
+```
+
+### App Store (Japanese, ja)
+
+```
+プランが無料、Plus、Proの3つになりました。
+PlusとProは年額か買い切りを選べます。
+サブスク中でもいつでも買い切りに切り替えられます。
+すべてのアプリがずっと使える永久パスが登場しました。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Los planes ahora son Gratis, Plus y Pro.
+Elige Plus o Pro anual o de por vida.
+Si tienes suscripción, cámbiate a de por vida cuando quieras.
+Nuevo pase de por vida para todas nuestras apps.
+```
+
+### App Store (German, de-DE)
+
+```
+Die Tarife heißen jetzt Kostenlos, Plus und Pro.
+Plus und Pro gibt es als Jahresabo oder einmalig.
+Im Abo kannst du jederzeit auf einmalig wechseln.
+Ein neuer Pass schaltet alle unsere Apps dauerhaft frei.
+```
+
+### App Store (Thai, th)
+
+```
+แพ็กเกจจัดใหม่เป็น ฟรี Plus และ Pro
+เลือก Plus และ Pro แบบรายปีหรือซื้อขาดได้
+สมาชิกรายปีเปลี่ยนเป็นแบบซื้อขาดได้ทุกเมื่อ
+มีบัตรผ่านตลอดชีพใหม่ ปลดล็อกทุกแอปของเรา
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Các gói nay gọn lại thành Miễn phí, Plus và Pro.
+Plus và Pro có gói năm hoặc trọn đời.
+Đang đăng ký vẫn chuyển sang trọn đời lúc nào cũng được.
+Thẻ trọn đời mới mở khóa mọi ứng dụng của chúng tôi.
+```
+
+### App Store (French, fr-FR)
+
+```
+Les formules sont désormais Gratuit, Plus et Pro.
+Plus et Pro existent en annuel ou à vie.
+Abonné, vous pouvez passer à vie à tout moment.
+Nouveau pass à vie pour toutes nos apps.
+```
+
+### App Store (Italian, it)
+
+```
+I piani ora sono Gratis, Plus e Pro.
+Scegli Plus o Pro annuale oppure a vita.
+Se sei abbonato puoi passare a vita quando vuoi.
+Nuovo pass a vita per tutte le nostre app.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+Os planos agora são Grátis, Plus e Pro.
+Escolha Plus ou Pro anual ou vitalício.
+Assinantes podem mudar para vitalício quando quiserem.
+Novo passe vitalício para todos os nossos apps.
+```
+
+### App Store (Czech, cs)
+
+```
+Tarify jsou nově Zdarma, Plus a Pro.
+Plus i Pro můžete mít na rok nebo navždy.
+Předplatné můžete kdykoli změnit na doživotní.
+Nová doživotní propustka odemkne všechny naše aplikace.
+```
+
+### App Store (Danish, da)
+
+```
+Abonnementerne er nu Gratis, Plus og Pro.
+Vælg Plus eller Pro årligt eller for livet.
+Abonnenter kan skifte til livstid når som helst.
+Nyt livstidspas åbner alle vores apps.
+```
+
+### App Store (Greek, el)
+
+```
+Τα πακέτα είναι πλέον Δωρεάν, Plus και Pro.
+Επιλέξτε Plus ή Pro ετήσια ή εφάπαξ.
+Οι συνδρομητές περνούν σε εφάπαξ όποτε θέλουν.
+Νέο ισόβιο πάσο για όλες τις εφαρμογές μας.
+```
+
+### App Store (Finnish, fi)
+
+```
+Tilaukset ovat nyt Ilmainen, Plus ja Pro.
+Plus ja Pro ovat saatavilla vuodeksi tai pysyvästi.
+Tilaajana voit vaihtaa pysyvään milloin vain.
+Uusi ikuinen passi avaa kaikki sovelluksemme.
+```
+
+### App Store (Indonesian, id)
+
+```
+Paket kini jadi Gratis, Plus, dan Pro.
+Pilih Plus atau Pro tahunan atau seumur hidup.
+Pelanggan bisa beralih ke seumur hidup kapan saja.
+Pass seumur hidup baru membuka semua aplikasi kami.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Abonnementene heter nå Gratis, Plus og Pro.
+Velg Plus eller Pro årlig eller for livet.
+Abonnenter kan bytte til livstid når som helst.
+Nytt livstidspass åpner alle appene våre.
+```
+
+### App Store (Dutch, nl)
+
+```
+De abonnementen zijn nu Gratis, Plus en Pro.
+Kies Plus of Pro per jaar of levenslang.
+Abonnees kunnen altijd overstappen naar levenslang.
+Nieuwe levenslange pas opent al onze apps.
+```
+
+### App Store (Polish, pl)
+
+```
+Plany to teraz Darmowy, Plus i Pro.
+Plus i Pro kupisz na rok lub na zawsze.
+Subskrypcję możesz w każdej chwili zamienić na dożywotnią.
+Nowa dożywotnia przepustka otwiera wszystkie nasze aplikacje.
+```
+
+### App Store (Swedish, sv)
+
+```
+Planerna heter nu Gratis, Plus och Pro.
+Välj Plus eller Pro per år eller för alltid.
+Prenumeranter kan byta till livstid när som helst.
+Nytt livstidspass öppnar alla våra appar.
+```
+
+### App Store (Turkish, tr)
+
+```
+Planlar artık Ücretsiz, Plus ve Pro.
+Plus ve Pro yıllık ya da ömür boyu alınabilir.
+Abonelikten istediğiniz an ömür boyuna geçebilirsiniz.
+Yeni ömür boyu geçiş tüm uygulamalarımızı açar.
+```
+
 ## 5.1.14
 
 ### 앱스토어 (한국어)

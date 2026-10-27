@@ -16,7 +16,7 @@
 //
 //  ⚠️ 판단은 **순수 함수**(`dueMoment(now:context:)`)로 두고, 기기 상태를 읽는 일은
 //     `dueMomentNow()` 가 한다. 그래야 시험이 주변에 남은 App Group 값에 흔들리지 않는다
-//     (반값 제안에서 실제로 그랬다. `DiscountOfferManager` 의 같은 자리 참고).
+//     (예전 반값 제안에서 실제로 그랬다).
 //
 
 import Foundation

@@ -518,6 +518,13 @@
     },
     "src": "0ddbceb5e7"
   },
+  "%d일 무료 체험 · 연 구독이나 평생 중에 골라요": {
+    "v": {
+      "one": "%d dag gratis prøveperiode · Velg deretter årlig eller livslang",
+      "other": "%d dager gratis prøveperiode · Velg deretter årlig eller livslang"
+    },
+    "src": "3c796a3160"
+  },
   "%d일 무료 체험 · 한번 구매, 평생 사용": {
     "v": {
       "one": "%d dags gratis prøveperiode · Kjøp én gang, bruk for alltid",
@@ -2944,6 +2951,13 @@
     "v": "Avbrøt kjøpet",
     "src": "6637e4fbd2"
   },
+  "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Plus는 마음껏 새로 만들고, Pro는 백업과 동기화까지 열어요.": {
+    "v": {
+      "one": "Selv uten betaling fungerer den %d frasen du har laget fortsatt. Med Plus kan du lage så mange du vil, og Pro gir deg også sikkerhetskopi og synkronisering.",
+      "other": "Selv uten betaling fungerer de %d frasene du har laget fortsatt. Med Plus kan du lage så mange du vil, og Pro gir deg også sikkerhetskopi og synkronisering."
+    },
+    "src": "6ab380bf65"
+  },
   "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Pro는 새로 만들고, 백업과 동기화를 여는 것이에요.": {
     "v": {
       "one": "Selv uten å betale beholder du %d frase du har laget. Pro gir deg flere, pluss sikkerhetskopi og synkronisering.",
@@ -4146,6 +4160,10 @@
   "단축어": {
     "v": "Frase",
     "src": "8c10487a02"
+  },
+  "단축어 %1$d개 · 템플릿 %2$d개": {
+    "v": "%1$d fraser · %2$d maler",
+    "src": "b55f3b83e8"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "La til %1$d fraser, oppdaterte %2$d (%3$d totalt).\nImporterte %4$d stabler, %5$d bilder og %6$d kategorier.",
@@ -8262,6 +8280,10 @@
     "v": "Start årsabonnement",
     "src": "dfe2938054"
   },
+  "연 구독이나 평생 중에 골라요": {
+    "v": "Velg årlig eller livslang",
+    "src": "a9cef1c845"
+  },
   "연간": {
     "v": "Årlig",
     "src": "88db2c9d21"
@@ -10211,6 +10233,10 @@
     "v": "Oppgrader til Pro nå og bruk det for alltid",
     "src": "5d3b360a39"
   },
+  "지금 그대로": {
+    "v": "Som det er nå",
+    "src": "711e8de16c"
+  },
   "지금 기본 키보드보다 %dpt 낮아요.": {
     "v": {
       "one": "Akkurat nå er det %dpt lavere enn standardtastaturet.",
@@ -11629,6 +11655,10 @@
   "키보드에서 꺼내기": {
     "v": "Bruk fra tastaturet",
     "src": "0baef71bc4"
+  },
+  "키보드에서 단축어 넣기": {
+    "v": "Sett inn fraser fra tastaturet",
+    "src": "f08b39c57e"
   },
   "키보드에서 단축어를 %d번 꺼내 쓰셨어요": {
     "v": {

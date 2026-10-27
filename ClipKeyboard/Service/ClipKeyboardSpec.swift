@@ -44,45 +44,33 @@ enum ClipKeyboardSpec: LeeoAppSpec {
         marketingURL: URL(string: Constants.supportURL)!
     )
 
-    /// 수익모델 - 무료로 쓰다가 **한 번 사면 평생**(구독 아님).
+    /// 수익모델 - 무료로 쓰다가 **Plus · Pro 를 연 구독이나 평생으로** 산다(2026-10 요금제 개편).
     ///
-    /// 이 한 줄에서 페이월 필요 여부·복원 의무·게이트 정책이 따라 나온다.
+    /// 이 한 줄에서 페이월 필요 여부 · 복원 의무 · 약관 고지 · 게이트 정책이 따라 나온다.
     /// `paywall` 을 따로 선언하지 않는 이유가 그것이다(선언하면 이 값과 어긋날 수 있고,
     /// 어긋나면 LeeoKit 프리플라이트가 `paywall.contradiction` 으로 잡는다).
     ///
-    /// ⚠️ productID 는 App Store Connect·기존 사용자 영수증과의 계약이다 - 변경 금지.
-    /// ⚠️ 반값 상품(`discountedProProductID`)도 **같이** 싣는다. 파는 물건은 둘이지만
-    ///    주는 권한은 하나라, 어느 쪽을 샀든 Pro 로 인정돼야 한다(entitlementIDs 기본값이
-    ///    productIDs 전체라 따로 적지 않아도 둘 다 권한으로 잡힌다).
-    ///    반값 상품이 App Store Connect 에 아직 없으면 그 ID만 로드되지 않고 정가 상품은 그대로 뜬다.
-    /// ⚠️ **업그레이드 상품(`ProUpgrade`)도 Pro 다.** 정가·반값과 같은 권한을 주는 세 번째 물건이라
-    ///    `entitlementIDs` 에 반드시 들어간다. 빠지면 돈을 받고 아무것도 안 열어 주는 상품이 된다.
-    /// ⚠️ 거꾸로 **칸 추가 둘과 두 대째는 절대 넣지 않는다.** 칸 추가는 개수만, 두 대째는
-    ///    동기화만 연다(`SlotPack` · `TwoDevicePack`). 여기 한 줄 잘못 들어가면 작은 결제가
-    ///    평생 Pro 를 열어 버리고, 한 번 준 권한은 도로 뺏을 방법이 없다.
+    /// ⚠️ productID 는 App Store Connect · 기존 사용자 영수증과의 계약이다. 변경 금지.
+    /// ⚠️ `productIDs` 는 **지금 파는 것**만이다. 판매를 멈춘 반값 Pro · 체험용 마스터는 여기 없지만
+    ///    `entitlementIDs` 에는 남는다. 산 사람의 권한은 판매 목록이 아니라 권한 목록이 지킨다.
+    /// ⚠️ **Pro 로 인정할 상품을 손으로 못박는다**(`AccessTier.proOrHigherProductIDs`). 기본값이
+    ///    "파는 상품 전체" 라, 그대로 두면 Plus · 칸 팩 · 두 대째 결제가 평생 Pro 를 열어 버린다.
+    ///    그 사고는 되돌릴 수도 없다(이미 권한을 받은 사람에게서 도로 뺏을 방법이 없다).
+    ///    **플러스는 Pro 가 아니다.** 플러스가 들어가면 백업 · 잠금 · 동기화가 열린다.
+    /// ⚠️ 언제나 평생 패스 상품(`<번들>.forever` …)은 여기 넣지 않는다. `LeeoForeverPass` 가 따로 판정한다.
     /// ⚠️ cacheSuiteName 을 앱 그룹으로 둬야 권한 캐시(leeo.paywall.owned/grandfathered)가
-    ///    공유 그룹에 저장된다. (키보드 익스텐션이 읽는 Pro 키 `clipkeyboard_is_pro` 는
-    ///    이와 별개로 StoreManager 가 store.hasPro 를 계속 미러링한다.)
-    static let monetization = LeeoMonetization.freemium(
-        LeeoPurchaseConfig(
-            productIDs: [StoreManager.proProductID,
-                         StoreManager.yearlyProductID,
-                         DiscountOfferManager.discountedProProductID,
+    ///    공유 그룹에 저장된다. (키보드 익스텐션이 읽는 트림 · Pro 키는 StoreManager 가 따로 새긴다.)
+    static let monetization = LeeoMonetization.freemiumSubscription(
+        LeeoSubscriptionConfig(
+            productIDs: [AccessTier.plusProductID,
+                         AccessTier.plusYearlyProductID,
+                         AccessTier.proProductID,
+                         AccessTier.proYearlyProductID,
                          ProUpgrade.productID,
-                         SlotPack.productID,
+                         AccessTier.proGraduateProductID,
                          SlotPack.consumableProductID,
-                         TwoDevicePack.productID,
-                         // 마스터(`AccessTier`). 플러스 · 플러스→프로는 위의 `slots5` · `pro.upgrade` 다.
-                         // App Store Connect 에 아직 없으면 그 상품만 안 뜬다.
-                         AccessTier.masterProductID,
-                         AccessTier.proToMasterProductID],
-            // ⚠️ **Pro 로 인정할 상품을 손으로 못박는다.** 기본값이 "파는 상품 전체"라,
-            //    나중에 칸 추가 상품(`SlotPack.productID`)을 productIDs 에 한 줄 넣는 순간
-            //    $3 결제가 평생 Pro 를 열어 버린다. 그 사고는 되돌릴 수도 없다
-            //    (이미 권한을 받은 사람에게서 도로 뺏을 방법이 없다).
-            //    연 구독도 Pro 다. 구독이 끝나면 StoreKit 의 권한 목록에서 빠져 저절로 닫힌다.
-            //    **플러스는 Pro 가 아니다.** 프로 이상 트림을 여는 상품만 여기 선다(`AccessTier`).
-            //    플러스가 들어가면 플러스를 산 사람에게 백업 · 잠금 · 동기화가 열린다.
+                         TwoDevicePack.productID],
+            termsURL: URL(string: Constants.termsOfUseURL)!,
             entitlementIDs: AccessTier.proOrHigherProductIDs,
             gate: LeeoGatePolicy(
                 freeLimits: ["shortcut": ProFeatureManager.freeMemoLimit],

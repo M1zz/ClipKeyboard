@@ -22,6 +22,10 @@ struct SettingView: View {
     @State private var memoCountState = 0
     /// 선물이 안 될 때의 문의 창(결제 번호 · 코드가 붙는다).
     @State private var showGiftSupport = false
+    /// App Store 의 구독 관리 시트.
+    @State private var showManageSubscriptions = false
+    /// 구독을 평생으로 바꾸는 졸업 시트(`LeeoGraduationOfferView`).
+    @State private var showGraduation = false
     /// 마스터(개발자) 모드 - 앱 정보의 버전 행을 7번 탭하면 토글. 피드백 인박스 진입점 노출.
     @AppStorage(DefaultsKey.masterModeEnabled) private var masterModeEnabled: Bool = false
 
@@ -56,6 +60,7 @@ struct SettingView: View {
                     .accessibilityElement(children: .combine)
                     .accessibilityLabel(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
                 }
+                subscriptionRows
             }
         } else if FreeUse.isActive && ProFeatureManager.purchasedTier < .plus {   // Plus 를 샀으면 아래 Plus 줄
             // 무료로 쓰는 기간 - 칸 수 대신 **몇 번 남았는지**를 말한다. 이 동안은 칸이 무제한이라
@@ -112,6 +117,7 @@ struct SettingView: View {
                         Spacer()
                     }
                 }
+                subscriptionRows
                 restorePurchasesButton
             }
         } else if ProFeatureManager.isInTrial {
@@ -207,6 +213,22 @@ struct SettingView: View {
     /// 지금 가진 단축어 개수 - 설정을 열 때와 데이터가 바뀔 때만 센다.
     /// (계산 프로퍼티로 두면 화면을 그릴 때마다 파일을 읽는다)
     private var memoCount: Int { memoCountState }
+
+    /// **구독 중일 때만**: 구독 관리와 '평생으로 바꾸기'. 구독에 묶였다고 느끼는 사람이 늘 나갈 길이다.
+    /// 문구는 LeeoKit 카탈로그에 있다(`LeeoLadderText`).
+    @ViewBuilder
+    private var subscriptionRows: some View {
+        if proManager.subscription != nil {
+            Button { showManageSubscriptions = true } label: {
+                Label(LeeoLadderText.manageSubscription, systemImage: AppSymbol.calendarBadgeClock)
+                    .foregroundStyle(theme.text)
+            }
+            Button { showGraduation = true } label: {
+                Label(LeeoLadderText.switchToLifetimeEntry, systemImage: AppSymbol.infinity)
+                    .foregroundStyle(theme.accent)
+            }
+        }
+    }
 
     /// 체험 중일 때와 아닐 때 같은 버튼이 필요하다 - 한 곳에서만 고치도록 빼 둔다.
     private var restorePurchasesButton: some View {
@@ -448,6 +470,20 @@ struct SettingView: View {
         .contentMargins(.bottom, 24, for: .scrollContent)
         .solidNavBar(theme.bg)
         .restoreOutcomeAlert($restoreOutcome)
+        .manageSubscriptionsSheet(isPresented: $showManageSubscriptions)
+        .sheet(isPresented: $showGraduation) {
+            LeeoGraduationOfferView(graduate: proManager.graduateProduct) {
+                await proManager.refreshEntitlements()
+            }
+            .leeoThemed()
+        }
+        .task {
+            // 구독 중이면 졸업 상품을 미리 읽어 둔다. '평생으로 바꾸기' 를 누르자마자 값이 보이게.
+            await proManager.refreshSubscription()
+            if proManager.subscription != nil, proManager.graduateProduct == nil {
+                await proManager.loadProducts()
+            }
+        }
     }
 }
 

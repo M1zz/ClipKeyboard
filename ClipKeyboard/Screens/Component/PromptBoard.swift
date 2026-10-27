@@ -156,10 +156,11 @@ extension PromptCandidate {
     static let accessibilityGuide = PromptCandidate(id: "accessibilityGuide", slot: .launchSheet, kind: .status)
     static let categoryCleanup = PromptCandidate(id: "categoryCleanup", slot: .launchSheet, kind: .unblock)
     // ⚠️ 새 소식은 **방금 일어난 일(업데이트)에 대한 답**으로 친다. 소식으로 두면 같은 실행의
-    //    반값 제안·리뷰에 밀려, 정작 새 버전 첫 실행에 말하지 못한다. 평생 한 번이라 예산도 안 쓴다.
+    //    구독 졸업 제안·리뷰에 밀려, 정작 새 버전 첫 실행에 말하지 못한다. 평생 한 번이라 예산도 안 쓴다.
     static let whatsNew = PromptCandidate(id: "whatsNew", slot: .launchSheet, kind: .moment,
                                           bypassesBudget: true, allowedWhenReturning: true)
-    static let discountOffer = PromptCandidate(id: "discountOffer", slot: .launchSheet, kind: .money)
+    /// 구독 중인 사람에게 평생으로 가는 졸업가(`LeeoGraduation`). 반값 제안(2026-10 판매 중지)이 있던 자리다.
+    static let graduationOffer = PromptCandidate(id: "graduationOffer", slot: .launchSheet, kind: .money)
     static let reviewRequest = PromptCandidate(id: "reviewRequest", slot: .launchSheet, kind: .ask,
                                                surface: .reviewRequest)
     static let feedbackNudge = PromptCandidate(id: "feedbackNudge", slot: .launchSheet, kind: .ask)
@@ -170,7 +171,7 @@ extension PromptCandidate {
 
     /// 앱을 열 때 고르는 차례. 같은 종류 안에서는 이 순서다.
     static let launchOrder: [PromptCandidate] = [
-        .accessibilityGuide, .categoryCleanup, .whatsNew, .discountOffer,
+        .accessibilityGuide, .categoryCleanup, .whatsNew, .graduationOffer,
         .reviewRequest, .feedbackNudge, .didYouKnow,
     ]
 }
