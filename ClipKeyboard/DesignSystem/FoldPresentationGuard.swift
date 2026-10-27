@@ -9,7 +9,10 @@
 //  곧 접힌 선 위에 선다. 그래서 띄우는 길 자체를 여기 한 곳에서 붙잡는다.
 //
 //  ⚠️ 접혀 있으면(바깥 화면 · 보통 아이폰 · 아이패드) 아무것도 바꾸지 않는다.
-//  ⚠️ ObjC 런타임으로 UIKit 메서드를 바꿔 끼운다. 바꿔 끼운 이름(`fold_…`)은 **원래 구현**을 부른다.
+//  ⚠️ ObjC 런타임으로 UIKit 메서드를 바꿔 끼운다. 바꿔 끼운 이름(`appFold_…`)은 **원래 구현**을 부른다.
+//  ⚠️ 이름에 app 을 붙인 까닭: LeeoKit 의 같은 부품이 `fold_…` 를 쓴다. ObjC 셀렉터는 모듈을 가리지 않아
+//     이름이 같으면 한쪽 구현만 남고, 앱이 바꿔 끼운 present 가 LeeoKit 쪽으로 가서 앱의 접힘 상태를
+//     보지 못했다(펼친 듀오에서 알림창이 접힌 선 위에 뜸, FoldPresentationGuardTests 가 잡음).
 //
 
 import SwiftUI
@@ -45,13 +48,13 @@ enum FoldSheetGuard {
         installed = true
         swap(UISheetPresentationController.self,
              #selector(setter: UISheetPresentationController.detents),
-             #selector(UISheetPresentationController.fold_setDetents(_:)))
+             #selector(UISheetPresentationController.appFold_setDetents(_:)))
         swap(UISheetPresentationController.self,
              #selector(UISheetPresentationController.presentationTransitionWillBegin),
-             #selector(UISheetPresentationController.fold_presentationTransitionWillBegin))
+             #selector(UISheetPresentationController.appFold_presentationTransitionWillBegin))
         swap(UIViewController.self,
              #selector(UIViewController.present(_:animated:completion:)),
-             #selector(UIViewController.fold_present(_:animated:completion:)))
+             #selector(UIViewController.appFold_present(_:animated:completion:)))
     }
 
     /// 이 클래스가 직접 갖지 않은 메서드면 먼저 더해서, 부모 클래스(모든 표시 방식)는 건드리지 않는다.
@@ -102,14 +105,14 @@ enum FoldSheetGuard {
 
 extension UISheetPresentationController {
     // 바꿔 끼운 뒤에는 이 이름이 **원래 구현**을 부른다.
-    @objc fileprivate func fold_setDetents(_ detents: [UISheetPresentationController.Detent]) {
+    @objc fileprivate func appFold_setDetents(_ detents: [UISheetPresentationController.Detent]) {
         let filtered = MainActor.assumeIsolated { FoldSheetGuard.detents(for: self, requested: detents) }
-        fold_setDetents(filtered)
+        appFold_setDetents(filtered)
     }
 
-    @objc fileprivate func fold_presentationTransitionWillBegin() {
+    @objc fileprivate func appFold_presentationTransitionWillBegin() {
         MainActor.assumeIsolated { FoldSheetGuard.prepare(self) }
-        fold_presentationTransitionWillBegin()
+        appFold_presentationTransitionWillBegin()
     }
 }
 
@@ -137,7 +140,7 @@ enum FoldAlertRouter {
     static func route(_ alert: UIViewController, from presenter: UIViewController,
                       animated: Bool, completion: (() -> Void)?) {
         guard let host = presenter.view.window, let scene = host.windowScene else {
-            presenter.fold_present(alert, animated: animated, completion: completion)
+            presenter.appFold_present(alert, animated: animated, completion: completion)
             return
         }
         let window = paneWindow ?? FoldPaneWindow(windowScene: scene)
@@ -149,7 +152,7 @@ enum FoldAlertRouter {
         window.isHidden = false
         paneWindow = window
         print("🔀 [FoldAlertRouter.route] 알림창을 고르는 쪽 판(\(window.frame))에 띄움")
-        root.fold_present(alert, animated: animated, completion: completion)
+        root.appFold_present(alert, animated: animated, completion: completion)
     }
 
     /// 알림창이 내려가면 판 창도 거둔다.
@@ -207,14 +210,14 @@ final class FoldPaneRootController: UIViewController {
 }
 
 extension UIViewController {
-    @objc fileprivate func fold_present(_ presented: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    @objc fileprivate func appFold_present(_ presented: UIViewController, animated: Bool, completion: (() -> Void)?) {
         let routes = MainActor.assumeIsolated { FoldAlertRouter.shouldRoute(presented, from: self) }
         if routes {
             MainActor.assumeIsolated {
                 FoldAlertRouter.route(presented, from: self, animated: animated, completion: completion)
             }
         } else {
-            fold_present(presented, animated: animated, completion: completion)
+            appFold_present(presented, animated: animated, completion: completion)
         }
     }
 }
