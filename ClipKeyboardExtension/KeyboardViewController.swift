@@ -916,7 +916,9 @@ class KeyboardViewController: UIInputViewController {
         // 캐럿 앞이 밑줄 글로 끝나거나(밑줄을 앞 글에 넣어 주는 앱), 밑줄을 그을 때와 같으면(넣지 않는 앱) 그대로다.
         // ⚠️ 둘째를 빼면 밑줄을 앞 글에 넣지 않는 앱에서 키마다 조합이 끊겨 글자가 쪼개진다.
         guard !before.hasSuffix(composingShown), before != contextBeforeComposing else { return }
-        finishComposingText()
+        // 입력칸이 이미 그 자리에 확정했다. 다시 넣지 않고 밑줄만 푼다.
+        textDocumentProxy.unmarkText()
+        composingShown = ""
         documentState.composingInterrupted &+= 1
     }
 
@@ -1316,7 +1318,7 @@ extension KeyboardViewController: TypingInputProxy {
             //    다음 확정 때 튀어나왔다. 확정한 뒤 그 글자 수만큼 지운다(어느 앱에서나 같은 결과).
             if !composingShown.isEmpty {
                 let count = composingShown.count
-                textDocumentProxy.unmarkText()
+                finishComposingText()
                 for _ in 0..<count { textDocumentProxy.deleteBackward() }
             }
         } else {
@@ -1328,8 +1330,13 @@ extension KeyboardViewController: TypingInputProxy {
         if caretCheckTimer != nil { scheduleCaretCheck() }
         updateHasTextState()
     }
+    /// 밑줄 친 글을 그 글 그대로 넣어 확정한다.
+    ///
+    /// ⚠️ `unmarkText` 로 확정하지 않는다. 바로 뒤에 오는 다음 밑줄(`setMarkedText`)이나 글자가
+    ///    밑줄이 풀리기 전에 닿아 확정한 글자를 덮어썼다("아니" 를 치면 "니" 만 남음, 2026-10 사용자 신고).
+    ///    밑줄 자리에 글을 넣으면 그 자리가 바뀌며 확정된다(기본 입력기가 하는 방식).
     func finishComposingText() {
-        textDocumentProxy.unmarkText()
+        if !composingShown.isEmpty { textDocumentProxy.insertText(composingShown) }
         composingShown = ""
     }
     /// 엔터 입력
