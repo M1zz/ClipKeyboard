@@ -26,6 +26,8 @@ class KeyboardViewController: UIInputViewController {
     /// 자판이 밑줄 친 글로 보여 둔 낱말(`setComposingText`). 사람이 캐럿을 옮겨 입력칸이 그 밑줄을
     /// 확정해 버렸는지 가릴 때 본다.
     private var composingShown = ""
+    /// 밑줄을 그을 때 캐럿 앞에 있던, 밑줄 밖의 글.
+    private var contextBeforeComposing = ""
 
     /// 넣은 직후 "사용자가 캐럿을 앞으로 옮겨 거기서 쓰는지" 지켜보는 동안의 메모지.
     /// 여기 담긴 것을 `CursorMemory` 가 배운다. 자세한 이유는 그 파일 머리말.
@@ -891,7 +893,9 @@ class KeyboardViewController: UIInputViewController {
     private func composingLostIfCaretMoved() {
         guard !composingShown.isEmpty else { return }
         let before = textDocumentProxy.documentContextBeforeInput ?? ""
-        guard !before.hasSuffix(composingShown) else { return }
+        // 캐럿 앞이 밑줄 글로 끝나거나(밑줄을 앞 글에 넣어 주는 앱), 밑줄을 그을 때와 같으면(넣지 않는 앱) 그대로다.
+        // ⚠️ 둘째를 빼면 밑줄을 앞 글에 넣지 않는 앱에서 키마다 조합이 끊겨 글자가 쪼개진다.
+        guard !before.hasSuffix(composingShown), before != contextBeforeComposing else { return }
         finishComposingText()
         documentState.composingInterrupted &+= 1
     }
@@ -1284,10 +1288,23 @@ extension KeyboardViewController: TypingInputProxy {
     /// 짓는 낱말을 밑줄 친 글로 보인다. 기본 키보드처럼 낱말 아래에 밑줄이 생기고,
     /// 키 하나에 입력칸을 한 번만 건드린다.
     func setComposingText(_ text: String, replacing shown: String) {
-        textDocumentProxy.setMarkedText(text, selectedRange: NSRange(location: (text as NSString).length, length: 0))
+        // 밑줄 밖에 있던 글(캐럿 앞). 캐럿을 옮겼는지 가릴 때 쓴다(`composingLostIfCaretMoved`).
+        let before = textDocumentProxy.documentContextBeforeInput ?? ""
+        contextBeforeComposing = before.hasSuffix(composingShown) ? String(before.dropLast(composingShown.count)) : before
+        if text.isEmpty {
+            // ⚠️ 빈 밑줄 글로 지우지 않는다. 앱에 따라 빈 값을 무시해 옛 글자가 밑줄째 남았다가,
+            //    다음 확정 때 튀어나왔다. 확정한 뒤 그 글자 수만큼 지운다(어느 앱에서나 같은 결과).
+            if !composingShown.isEmpty {
+                let count = composingShown.count
+                textDocumentProxy.unmarkText()
+                for _ in 0..<count { textDocumentProxy.deleteBackward() }
+            }
+        } else {
+            textDocumentProxy.setMarkedText(text, selectedRange: NSRange(location: (text as NSString).length, length: 0))
+            noteTypedOnTypingPanel()
+        }
         composingShown = text
         updateHasTextState()
-        if !text.isEmpty { noteTypedOnTypingPanel() }
     }
     func finishComposingText() {
         textDocumentProxy.unmarkText()

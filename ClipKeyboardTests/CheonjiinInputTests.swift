@@ -131,7 +131,7 @@ final class CheonjiinInputTests: XCTestCase {
         XCTAssertEqual(proxy.text, "아")
     }
 
-    /// 두 점 다음 획: ᆢ + ㅣ = ㅕ, ᆢ + ㅡ = ㅛ. 겹모음도 보이는 모음에서 간다(외 + ㆍ = 와).
+    /// 두 점 다음 획: ‥ + ㅣ = ㅕ, ‥ + ㅡ = ㅛ. 겹모음도 보이는 모음에서 간다(외 + ㆍ = 와).
     func testDotsAndCompoundVowels() {
         cheonjiin.tap("ㄱㅋ")
         cheonjiin.tap("ㆍ")

@@ -242,12 +242,16 @@ final class HangulTypingEngine: TypingEngine {
     /// 꼬리 앞의 글자는 조합기가 다시 고칠 일이 없다(받침을 옮기는 것도 짓는 음절에서만 일어난다).
     private func settle(on proxy: TypingInputProxy) {
         let tailLength = (composer.isComposing ? 1 : 0) + (layout == .cheonjiin ? cheonjiin.pendingLength : 0)
-        let tail = String(word.text.suffix(tailLength))
-        let head = String(word.text.dropLast(tail.count))
+        var headLength = max(0, word.text.count - tailLength)
+        // 천지인이 되돌아갈 모습을 들고 있으면 그 음절부터는 아직 확정하지 않는다(간 + ㅅ → ㅎ 이 갆 이 되게).
+        if layout == .cheonjiin, let stable = cheonjiin.stableLength { headLength = min(headLength, max(0, stable)) }
+        let head = String(word.text.prefix(headLength))
+        let tail = String(word.text.dropFirst(headLength))
         if !head.isEmpty {
             text.show(head, on: proxy)
             text.commit(on: proxy)
             word.text = tail
+            cheonjiin.didCommitPrefix(head.count)
         }
         text.show(tail, on: proxy)
         if tail.isEmpty { finishWord(on: proxy) }

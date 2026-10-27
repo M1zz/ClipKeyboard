@@ -4030,6 +4030,10 @@ final class HangulSearchController: HangulInputProxy {
     // MARK: HangulInputProxy
     func insertText(_ text: String) { buffer.append(text) }
     func deleteBackward() { if !buffer.isEmpty { buffer.removeLast() } }
+    var text: String {
+        get { buffer }
+        set { buffer = newValue }
+    }
 }
 
 // MARK: - 순서 바꾸기: 키마다의 자리

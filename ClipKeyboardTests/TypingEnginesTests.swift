@@ -366,3 +366,248 @@ final class MarkedTextProxy: TypingInputProxy {
     func cursorRight() {}
     func clearAll() {}
 }
+
+// MARK: - 한글 자판을 끝까지 쳐 보기
+
+/// 모든 음절 · 받침 두 개 · 무작위 치고 지우기로 한글 자판을 훑는다(2026-10 사용자: "특정 글자가 안 써지고,
+/// 요를 쓰고 지우면 쓰레기 글자가 튀어나온다"). 진짜 키보드처럼 밑줄 친 글을 받는 입력칸(`MarkedTextProxy`)으로 친다.
+final class HangulKeyboardSweepTests: XCTestCase {
+
+    private static let initials: [Character] = Array("ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ")
+    private static let medials: [Character] = Array("ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ")
+    private static let finals: [Character?] = [nil] + Array("ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ").map { Optional($0) }
+
+    private static func syllable(_ i: Int, _ m: Int, _ f: Int) -> String {
+        String(Character(UnicodeScalar(0xAC00 + i * 21 * 28 + m * 28 + f)!))
+    }
+
+    // MARK: 천지인 키
+
+    /// 자음 하나 → 천지인 키 누름들.
+    private static func cheonjiinKeys(consonant c: Character) -> [String] {
+        let table: [(String, [Character])] = [
+            ("ㄱㅋ", ["ㄱ", "ㅋ", "ㄲ"]), ("ㄴㄹ", ["ㄴ", "ㄹ"]), ("ㄷㅌ", ["ㄷ", "ㅌ", "ㄸ"]),
+            ("ㅂㅍ", ["ㅂ", "ㅍ", "ㅃ"]), ("ㅅㅎ", ["ㅅ", "ㅎ", "ㅆ"]), ("ㅈㅊ", ["ㅈ", "ㅊ", "ㅉ"]), ("ㅇㅁ", ["ㅇ", "ㅁ"]),
+        ]
+        for (key, cycle) in table {
+            if let n = cycle.firstIndex(of: c) { return Array(repeating: key, count: n + 1) }
+        }
+        fatalError("천지인 키에 없는 자음 \(c)")
+    }
+
+    private static let compoundFinals: [Character: (Character, Character)] = [
+        "ㄳ": ("ㄱ", "ㅅ"), "ㄵ": ("ㄴ", "ㅈ"), "ㄶ": ("ㄴ", "ㅎ"), "ㄺ": ("ㄹ", "ㄱ"), "ㄻ": ("ㄹ", "ㅁ"),
+        "ㄼ": ("ㄹ", "ㅂ"), "ㄽ": ("ㄹ", "ㅅ"), "ㄾ": ("ㄹ", "ㅌ"), "ㄿ": ("ㄹ", "ㅍ"), "ㅀ": ("ㄹ", "ㅎ"), "ㅄ": ("ㅂ", "ㅅ"),
+    ]
+
+    private static let cheonjiinVowels: [Character: String] = [
+        "ㅏ": "ㅣㆍ", "ㅐ": "ㅣㆍㅣ", "ㅑ": "ㅣㆍㆍ", "ㅒ": "ㅣㆍㆍㅣ", "ㅓ": "ㆍㅣ", "ㅔ": "ㆍㅣㅣ", "ㅕ": "ㆍㆍㅣ",
+        "ㅖ": "ㆍㆍㅣㅣ", "ㅗ": "ㆍㅡ", "ㅘ": "ㆍㅡㅣㆍ", "ㅙ": "ㆍㅡㅣㆍㅣ", "ㅚ": "ㆍㅡㅣ", "ㅛ": "ㆍㆍㅡ", "ㅜ": "ㅡㆍ",
+        "ㅝ": "ㅡㆍㆍㅣ", "ㅞ": "ㅡㆍㆍㅣㅣ", "ㅟ": "ㅡㆍㅣ", "ㅠ": "ㅡㆍㆍ", "ㅡ": "ㅡ", "ㅢ": "ㅡㅣ", "ㅣ": "ㅣ",
+    ]
+
+    private static func cheonjiinKeys(i: Int, m: Int, f: Int) -> [String] {
+        var keys = cheonjiinKeys(consonant: initials[i])
+        keys += cheonjiinVowels[medials[m]]!.map(String.init)
+        if let fin = finals[f] {
+            if let (a, b) = compoundFinals[fin] {
+                keys += cheonjiinKeys(consonant: a) + cheonjiinKeys(consonant: b)
+            } else {
+                keys += cheonjiinKeys(consonant: fin)
+            }
+        }
+        return keys
+    }
+
+    // MARK: 두벌식 키
+
+    private static let dubeolsikVowels: [Character: String] = [
+        "ㅘ": "ㅗㅏ", "ㅙ": "ㅗㅐ", "ㅚ": "ㅗㅣ", "ㅝ": "ㅜㅓ", "ㅞ": "ㅜㅔ", "ㅟ": "ㅜㅣ", "ㅢ": "ㅡㅣ",
+    ]
+
+    private static func dubeolsikKeys(i: Int, m: Int, f: Int) -> [String] {
+        var keys = [String(initials[i])]
+        keys += (dubeolsikVowels[medials[m]] ?? String(medials[m])).map(String.init)
+        if let fin = finals[f] {
+            if let (a, b) = compoundFinals[fin] { keys += [String(a), String(b)] } else { keys.append(String(fin)) }
+        }
+        return keys
+    }
+
+    private func typed(_ keys: [String], layout: KoreanTypingLayout, after prefix: [String] = []) -> String {
+        let proxy = MarkedTextProxy()
+        let engine = HangulTypingEngine(proxy: proxy, layout: layout)
+        for key in prefix { engine.input(key) }
+        if !prefix.isEmpty { engine.commit() }
+        for key in keys { engine.input(key) }
+        engine.commit()
+        return proxy.text
+    }
+
+    // MARK: 모든 음절
+
+    /// 초성 19 × 중성 21 × 종성 28 = 11,172 음절을 천지인으로 하나씩 쳐서 그 글자가 되는지.
+    func testEverySyllableTypesOnCheonjiin() {
+        var wrong: [String] = []
+        for i in 0..<19 { for m in 0..<21 { for f in 0..<28 {
+            let want = Self.syllable(i, m, f)
+            let got = typed(Self.cheonjiinKeys(i: i, m: m, f: f), layout: .cheonjiin)
+            if got != want { wrong.append("\(want)→\(got)") }
+        } } }
+        XCTAssertTrue(wrong.isEmpty, "천지인으로 못 치는 음절 \(wrong.count)개: \(wrong.prefix(30))")
+    }
+
+    func testEverySyllableTypesOnDubeolsik() {
+        var wrong: [String] = []
+        for i in 0..<19 { for m in 0..<21 { for f in 0..<28 {
+            let want = Self.syllable(i, m, f)
+            let got = typed(Self.dubeolsikKeys(i: i, m: m, f: f), layout: .dubeolsik)
+            if got != want { wrong.append("\(want)→\(got)") }
+        } } }
+        XCTAssertTrue(wrong.isEmpty, "두벌식으로 못 치는 음절 \(wrong.count)개: \(wrong.prefix(30))")
+    }
+
+    /// 앞 음절 뒤에 이어 칠 때(받침이 될 뻔한 자음, 옮겨 가는 받침)도 맞는지. 앞 글자 "아" 를 확정하지 않고 바로 잇는다.
+    func testSyllablesAfterAnOpenSyllable() {
+        var wrong: [String] = []
+        let a = ["ㅇㅁ", "ㅣ", "ㆍ"]
+        for i in 0..<19 { for m in stride(from: 0, to: 21, by: 4) { for f in [0, 1, 4, 6, 8, 10, 15, 21] {
+            let want = "아" + Self.syllable(i, m, f)
+            // 같은 키가 이어지면 → 로 끊는다(기본 10키와 같다).
+            var keys = a
+            let next = Self.cheonjiinKeys(i: i, m: m, f: f)
+            keys += next
+            let proxy = MarkedTextProxy()
+            let engine = HangulTypingEngine(proxy: proxy, layout: .cheonjiin)
+            for key in keys { engine.input(key) }
+            engine.commit()
+            if proxy.text != want { wrong.append("\(want)→\(proxy.text)") }
+        } } }
+        XCTAssertTrue(wrong.isEmpty, "이어 치면 틀리는 것 \(wrong.count)개: \(wrong.prefix(30))")
+    }
+
+    /// 받침 두 개 낱말. ㄶ · ㄻ · ㄾ 는 같은 키를 돌리는 사이 앞 글자에서 떨어져 나가 칠 수 없었다.
+    func testDoubleFinalWords() {
+        let words: [(String, [String])] = [
+            ("않", ["ㅇㅁ", "ㅣ", "ㆍ", "ㄴㄹ", "ㅅㅎ", "ㅅㅎ"]),
+            ("많", ["ㅇㅁ", "ㅇㅁ", "ㅣ", "ㆍ", "ㄴㄹ", "ㅅㅎ", "ㅅㅎ"]),
+            ("삶", ["ㅅㅎ", "ㅣ", "ㆍ", "ㄴㄹ", "ㄴㄹ", "ㅇㅁ", "ㅇㅁ"]),
+            ("핥", ["ㅅㅎ", "ㅅㅎ", "ㅣ", "ㆍ", "ㄴㄹ", "ㄴㄹ", "ㄷㅌ", "ㄷㅌ"]),
+            ("닭", ["ㄷㅌ", "ㅣ", "ㆍ", "ㄴㄹ", "ㄴㄹ", "ㄱㅋ"]),
+            ("값", ["ㄱㅋ", "ㅣ", "ㆍ", "ㅂㅍ", "ㅅㅎ"]),
+            ("싫어", ["ㅅㅎ", "ㅣ", "ㄴㄹ", "ㄴㄹ", "ㅅㅎ", "ㅅㅎ", CheonjiinInput.advanceKey, "ㅇㅁ", "ㆍ", "ㅣ"]),
+            ("많이", ["ㅇㅁ", "ㅇㅁ", "ㅣ", "ㆍ", "ㄴㄹ", "ㅅㅎ", "ㅅㅎ", "ㅣ"]),
+        ]
+        for (want, keys) in words {
+            XCTAssertEqual(typed(keys, layout: .cheonjiin), want == "많이" ? "만히" : want, want)
+        }
+    }
+
+    // MARK: 지우기
+
+    /// 요를 쓰고 지우면 요 → 오 → ㅇ → 빈칸. 지운 점(ㆍ)이 다시 튀어나오지 않는다(2026-10 사용자 신고).
+    func testDeletingYoNeverRevivesDots() {
+        let proxy = MarkedTextProxy()
+        let engine = HangulTypingEngine(proxy: proxy, layout: .cheonjiin)
+        for key in ["ㅇㅁ", "ㆍ", "ㅡ", "ㆍ"] { engine.input(key) }
+        XCTAssertEqual(proxy.text, "요")
+        var seen: [String] = []
+        for _ in 0..<5 { engine.backspace(); seen.append(proxy.text) }
+        XCTAssertEqual(seen, ["오", "ㅇ", "", "", ""])
+    }
+
+    /// 받침이 옮겨 간 모음을 지우면 옮겨 간 자음이 남는다(가니 → 가ㄴ). 두벌식 · 기본 키보드와 같고,
+    /// 앞 글자는 이미 확정돼 밑줄은 한 글자에만 선다.
+    func testDeletingVowelAfterMovedFinal() {
+        let proxy = MarkedTextProxy()
+        let engine = HangulTypingEngine(proxy: proxy, layout: .cheonjiin)
+        for key in ["ㄱㅋ", "ㅣ", "ㆍ", "ㄴㄹ", "ㅣ"] { engine.input(key) }
+        XCTAssertEqual(proxy.text, "가니")
+        XCTAssertEqual(proxy.marked, "니")
+        engine.backspace()
+        XCTAssertEqual(proxy.text, "가ㄴ")
+        engine.input("ㅣ")
+        XCTAssertEqual(proxy.text, "가니")
+    }
+
+    /// 점 두 개는 앞 음절과 한 글자로 합쳐지지 않는다. 옛한글 ᆢ 를 쓰던 때는 "븨" + ᆢ 가 한 글자가 되어
+    /// 점을 지우면 븨 까지 지워지거나, 지운 글자가 다시 튀어나왔다(2026-10 사용자 신고).
+    func testDoubleDotNeverMergesWithSyllable() {
+        XCTAssertEqual(("븨" + String(CheonjiinInput.doubleDot)).count, 2)
+        XCTAssertEqual(("가" + String(CheonjiinInput.doubleDot)).count, 2)
+        let proxy = MarkedTextProxy()
+        let engine = HangulTypingEngine(proxy: proxy, layout: .cheonjiin)
+        for key in ["ㅂㅍ", "ㅡ", "ㅣ", CheonjiinInput.advanceKey, "ㆍ", "ㆍ"] { engine.input(key) }
+        XCTAssertEqual(proxy.text, "븨" + String(CheonjiinInput.doubleDot))
+        engine.backspace()
+        XCTAssertEqual(proxy.text, "븨")
+        for key in ["ㅇㅁ", "ㆍ", "ㆍ", "ㅣ"] { engine.input(key) }
+        XCTAssertEqual(proxy.text, "븨여")
+    }
+
+    // MARK: 무작위
+
+    private struct Seeded: RandomNumberGenerator {
+        var state: UInt64
+        mutating func next() -> UInt64 {
+            state = state &* 6364136223846793005 &+ 1442695040888963407
+            return state
+        }
+    }
+
+    private static func allowed(_ text: String) -> Bool {
+        text.unicodeScalars.allSatisfy { s in
+            (0xAC00...0xD7A3).contains(s.value) || (0x3131...0x318E).contains(s.value) || s == "\u{2025}" || s == " " || s == "."
+        }
+    }
+
+    /// 아무렇게나 치고 지워도: 지우기는 글을 늘리지 않고 앞 글자를 바꾸지 않는다, 확정하면 점이 남지 않는다,
+    /// 밑줄은 두 글자를 넘지 않는다, 밑줄 방식과 지우고 쓰는 방식이 같은 글이 된다.
+    func testRandomCheonjiinKeepsInvariants() {
+        fuzz(.cheonjiin, keys: ["ㄱㅋ", "ㄴㄹ", "ㄷㅌ", "ㅂㅍ", "ㅅㅎ", "ㅈㅊ", "ㅇㅁ", "ㅣ", "ㆍ", "ㅡ", "ㅣ", "ㆍ", "ㅡ",
+                                CheonjiinInput.advanceKey, "⌫", "⌫", "␣", "."])
+    }
+
+    func testRandomDubeolsikKeepsInvariants() {
+        fuzz(.dubeolsik, keys: Array("ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㄲㅆㅏㅓㅗㅜㅡㅣㅐㅔㅑㅕㅛㅠ").map(String.init) + ["⌫", "⌫", "␣", "."])
+    }
+
+    private func fuzz(_ layout: KoreanTypingLayout, keys: [String]) {
+        for seed in 1...1000 {
+            var rng = Seeded(state: UInt64(seed))
+            let marked = MarkedTextProxy()
+            let plain = FakeTypingProxy()
+            let a = HangulTypingEngine(proxy: marked, layout: layout)
+            let b = HangulTypingEngine(proxy: plain, layout: layout)
+            var log: [String] = []
+            for _ in 0..<80 {
+                let key = keys.randomElement(using: &rng)!
+                log.append(key)
+                let before = marked.text
+                for (engine, proxy) in [(a, marked as TypingInputProxy), (b, plain as TypingInputProxy)] {
+                    switch key {
+                    case "⌫": engine.backspace()
+                    case "␣": engine.commit(); proxy.insertText(" ")
+                    default: engine.input(key)
+                    }
+                }
+                let where_ = "seed \(seed): \(log.joined(separator: " "))"
+                XCTAssertTrue(Self.allowed(marked.text), "엉뚱한 글자 \(marked.text) · \(where_)")
+                XCTAssertLessThanOrEqual(marked.marked.count, 2, "밑줄이 길다 \(marked.marked) · \(where_)")
+                XCTAssertEqual(marked.text, plain.text, "밑줄 방식과 결과가 다르다 · \(where_)")
+                if key == "⌫" {
+                    XCTAssertLessThanOrEqual(marked.text.count, before.count, "지웠는데 글이 늘었다 \(before)→\(marked.text) · \(where_)")
+                    XCTAssertTrue(marked.text.hasPrefix(String(before.dropLast(2))), "지웠는데 앞 글이 바뀌었다 \(before)→\(marked.text) · \(where_)")
+                }
+                if key == "␣" {
+                    XCTAssertFalse(marked.text.contains("ㆍ") || marked.text.contains(CheonjiinInput.doubleDot), "확정했는데 점이 남았다 · \(where_)")
+                    XCTAssertEqual(marked.marked, "")
+                }
+                if marked.text != plain.text || !Self.allowed(marked.text) { return }
+            }
+            // 끝까지 지우면 빈칸이 된다(지우기가 멈추지 않는다).
+            for _ in 0..<(marked.text.count * 3 + 10) { a.backspace() }
+            XCTAssertEqual(marked.text, "", "끝까지 지워지지 않는다 · seed \(seed)")
+        }
+    }
+}

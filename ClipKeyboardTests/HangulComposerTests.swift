@@ -15,7 +15,7 @@ import XCTest
 
 /// textDocumentProxy 대역 - insertText/deleteBackward를 텍스트 버퍼로 재현.
 final class FakeHangulProxy: HangulInputProxy {
-    private(set) var text = ""
+    var text = ""
     func insertText(_ t: String) { text += t }
     func deleteBackward() { if !text.isEmpty { text.removeLast() } }
 }

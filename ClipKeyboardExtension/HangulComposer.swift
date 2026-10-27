@@ -14,6 +14,8 @@ import Foundation
 protocol HangulInputProxy: AnyObject {
     func insertText(_ text: String)
     func deleteBackward()
+    /// 지금 보이는 글 전체. 천지인이 자음을 돌리기 전 모습으로 되돌릴 때 쓴다(`Snapshot`).
+    var text: String { get set }
 }
 
 final class HangulComposer {
@@ -153,6 +155,33 @@ final class HangulComposer {
             medial = nil
             renderCurrent(insertNew: true)
         }
+    }
+
+    /// 키 하나를 누르기 전의 모습(조합 상태 + 보이던 글). 천지인이 같은 키를 다시 누르거나 모음을 지울 때
+    /// 그 전으로 돌아간다.
+    ///
+    /// ⚠️ "지우고 다음 자모를 넣는" 식으로 되돌리면 앞 음절이 이미 확정된 뒤라 다시 붙지 못한다.
+    ///    간 + ㅅ 은 받침이 못 돼 "간ㅅ" 이 되는데, 거기서 ㅅ → ㅎ 으로 돌리면 "간ㅎ" 이 되어
+    ///    않 · 많 · 삶 · 핥(ㄶ ㄻ ㄾ)을 칠 수 없었다(2026-10 사용자 신고 "특정 글자들이 안 써진다").
+    struct Snapshot {
+        fileprivate let initial: Int?
+        fileprivate let medial: Int?
+        fileprivate let final: Int?
+        var text: String
+        /// 그때 짓던 음절이 있었는가. 있었다면 그 음절은 되돌린 뒤 다시 바뀔 수 있다.
+        var wasComposing: Bool { initial != nil }
+    }
+
+    func snapshot() -> Snapshot? {
+        guard let proxy else { return nil }
+        return Snapshot(initial: initial, medial: medial, final: final, text: proxy.text)
+    }
+
+    func restore(_ snapshot: Snapshot) {
+        proxy?.text = snapshot.text
+        initial = snapshot.initial
+        medial = snapshot.medial
+        final = snapshot.final
     }
 
     /// 조합 중인 음절이 있는가.

@@ -24,13 +24,16 @@ final class CheonjiinInput {
 
     /// 지금 짓는 모음이 어디에 보이는가.
     private enum Place {
-        /// 아직 모음이 못 된 점(ㆍ · ᆢ). 입력칸에 그 글자 그대로 보인다.
+        /// 아직 모음이 못 된 점(ㆍ · ‥). 입력칸에 그 글자 그대로 보인다.
         case dots
         /// 조합기의 음절 안(오).
         case medial
         /// 초성 없이 홀로(ㅗ).
         case raw
     }
+
+    /// 자음 키를 처음 누르기 전의 모습. 같은 키를 다시 누르면 여기로 돌아가 다음 자모를 넣는다.
+    private var beforeConsonant: HangulComposer.Snapshot?
 
     /// 지금 짓는 모음. 모음 키가 아닌 키를 누르면 비운다.
     private var vowel: (char: Character, place: Place)?
@@ -56,8 +59,8 @@ final class CheonjiinInput {
     ///    "오" 를 치고 ㆍ 를 더하면(ㆍㅡㆍ) 표에 없어 요가 되지 않았고, 조금만 늦어도 모음이 끊겼다
     ///    (2026-10 사용자 신고). 기본 10키는 보이는 모음에 획을 더한다: 오 + ㆍ = 요.
     private static let transitions: [Character: [Character: Character]] = [
-        "ㆍ": ["ㆍ": "ᆢ", "ㅣ": "ㅓ", "ㅡ": "ㅗ"],
-        "ᆢ": ["ㆍ": "ㆍ", "ㅣ": "ㅕ", "ㅡ": "ㅛ"],
+        "ㆍ": ["ㆍ": doubleDot, "ㅣ": "ㅓ", "ㅡ": "ㅗ"],
+        doubleDot: ["ㆍ": "ㆍ", "ㅣ": "ㅕ", "ㅡ": "ㅛ"],
         "ㅣ": ["ㆍ": "ㅏ"],
         "ㅏ": ["ㆍ": "ㅑ", "ㅣ": "ㅐ"],
         "ㅑ": ["ㅣ": "ㅒ"],
@@ -72,8 +75,15 @@ final class CheonjiinInput {
         "ㅘ": ["ㅣ": "ㅙ"]
     ]
 
+    /// 점 두 개. 앞 글자와 합쳐지지 않는 글자(U+2025)를 쓴다.
+    ///
+    /// ⚠️ 예전에는 옛한글 모음 ᆢ(U+11A2)를 썼다. 이 글자는 앞 음절에 붙는 조합용 모음이라
+    ///    "븨" 뒤에 오면 둘이 한 글자로 합쳐졌고, 점을 지울 때 앞 음절까지 지워지거나
+    ///    지운 글자가 다시 튀어나왔다(2026-10 사용자 신고 "요를 쓰고 지우면 쓰레기 값").
+    static let doubleDot: Character = "\u{2025}"
+
     /// 아직 모음이 아닌 점.
-    private static func isDots(_ ch: Character) -> Bool { ch == "ㆍ" || ch == "ᆢ" }
+    private static func isDots(_ ch: Character) -> Bool { ch == "ㆍ" || ch == doubleDot }
 
     // MARK: - Public API
 
@@ -106,6 +116,7 @@ final class CheonjiinInput {
         guard lastConsonantKey != nil else { return false }
         lastConsonantKey = nil
         consonantTapIndex = 0
+        beforeConsonant = nil
         return true
     }
 
@@ -128,16 +139,21 @@ final class CheonjiinInput {
     /// 지우기: 짓던 모음은 획 하나씩(야 → 아), 자음 돌림 중이면 그 자음째, 아니면 조합기에 맡긴다.
     func backspace() {
         if let current = vowel {
-            if let previous = history.popLast() {
+            // 획 하나씩 되돌리되(야 → 아) 모음이 못 된 점으로는 돌아가지 않는다. 그때는 모음을 통째로 지운다.
+            // 예전에는 요 → 오 → ㅇㆍ 처럼 지운 줄 알았던 점이 다시 튀어나왔다(2026-10 사용자 신고).
+            if let previous = history.last, !Self.isDots(previous), current.place != .dots {
+                history.removeLast()
                 show(previous, replacing: current)
             } else {
                 show(nil, replacing: current)
                 vowel = nil
+                history.removeAll()
             }
             return
         }
         lastConsonantKey = nil
         consonantTapIndex = 0
+        beforeConsonant = nil
         composer?.backspace()
     }
 
@@ -146,6 +162,23 @@ final class CheonjiinInput {
         consonantTapIndex = 0
         vowel = nil
         history.removeAll()
+        beforeConsonant = nil
+    }
+
+    // MARK: - 확정해도 되는 곳
+
+    /// 앞에서부터 이만큼은 다시 바뀌지 않는다. nil 이면 짓는 음절 앞이 모두 그렇다.
+    ///
+    /// 자음을 돌리는 동안에는 그 자음을 누르기 전 짓던 음절부터가 다시 바뀔 수 있다(간ㅅ → 갆).
+    var stableLength: Int? {
+        beforeConsonant.map { $0.text.count - ($0.wasComposing ? 1 : 0) }
+    }
+
+    /// 앞의 `count` 글자가 입력칸에 확정되어 버퍼에서 빠졌다. 들고 있는 모습에서도 뺀다.
+    func didCommitPrefix(_ count: Int) {
+        guard count > 0, var before = beforeConsonant else { return }
+        before.text = String(before.text.dropFirst(count))
+        beforeConsonant = before
     }
 
     // MARK: - Handlers
@@ -156,13 +189,14 @@ final class CheonjiinInput {
         vowel = nil
         history.removeAll()
 
-        if lastConsonantKey == key {
-            // 같은 키를 다시 → 다음 자모
+        if lastConsonantKey == key, let before = beforeConsonant {
+            // 같은 키를 다시 → 누르기 전으로 돌아가 다음 자모를 넣는다(간 + ㅅ → ㅎ = 갆).
             consonantTapIndex = (consonantTapIndex + 1) % cycle.count
-            composer?.backspace()
+            composer?.restore(before)
             composer?.input(cycle[consonantTapIndex])
         } else {
             consonantTapIndex = 0
+            beforeConsonant = composer?.snapshot()
             composer?.input(cycle[0])
         }
         lastConsonantKey = key
@@ -171,6 +205,7 @@ final class CheonjiinInput {
     private func handleVowelStroke(_ stroke: Character) {
         lastConsonantKey = nil
         consonantTapIndex = 0
+        beforeConsonant = nil
 
         // 받침 없는 음절의 모음은 방금 친 것이 아니어도 이어 짓는다(받침을 지운 뒤 가 + ㆍ = 갸).
         let current = vowel ?? composer?.openMedial.map { ($0, Place.medial) }
