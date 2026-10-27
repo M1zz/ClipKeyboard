@@ -28,6 +28,8 @@ class KeyboardViewController: UIInputViewController {
     private var composingShown = ""
     /// 밑줄을 그을 때 캐럿 앞에 있던, 밑줄 밖의 글.
     private var contextBeforeComposing = ""
+    /// 캐럿을 옮겼는지는 손이 멎은 뒤에 본다(`composingLostIfCaretMoved`).
+    private var caretCheckTimer: Timer?
 
     /// 넣은 직후 "사용자가 캐럿을 앞으로 옮겨 거기서 쓰는지" 지켜보는 동안의 메모지.
     /// 여기 담긴 것을 `CursorMemory` 가 배운다. 자세한 이유는 그 파일 머리말.
@@ -771,6 +773,7 @@ class KeyboardViewController: UIInputViewController {
 
     deinit {
         deleteTimer?.invalidate()
+        caretCheckTimer?.invalidate()
         notificationTokens.forEach { NotificationCenter.default.removeObserver($0) }
     }
 
@@ -878,12 +881,29 @@ class KeyboardViewController: UIInputViewController {
 
     override func selectionDidChange(_ textInput: UITextInput?) {
         super.selectionDidChange(textInput)
-        composingLostIfCaretMoved()
+        scheduleCaretCheck()
         // 커서 이동 시에도 텍스트 존재 여부가 바뀔 수 있어 다시 확인
         updateHasTextState()
         // 넣은 글 안쪽으로 캐럿이 갔는지 적어 둔다(아직 배우지는 않는다).
         noteCaretMove()
     }
+
+    /// 캐럿이 옮겨졌는지 보는 검사(`composingLostIfCaretMoved`)를 손이 멎은 뒤로 미룬다.
+    ///
+    /// ⚠️ 알림이 온 그 자리에서 보지 않는다. 자판이 쓴 글도 이 알림을 부르는데, 빨리 치면 그때 읽는
+    ///    캐럿 앞 글이 한두 키 전 모습이다. 그걸 캐럿 이동으로 읽어 짓던 글자를 확정해서, 천지인처럼
+    ///    한 글자에 키를 여러 번 누르면 글자가 잘렸다(ㅅ ㅎ 가 ㅆ 이 못 되고, 가 ㄴ 이 간 이 못 됨.
+    ///    2026-10 사용자 신고 "10키입력시 자꾸 글자가 잘려나가"). 키가 멎고 입력칸이 따라온 뒤에 본다.
+    private func scheduleCaretCheck() {
+        caretCheckTimer?.invalidate()
+        guard !composingShown.isEmpty else { caretCheckTimer = nil; return }
+        caretCheckTimer = Timer.scheduledTimer(withTimeInterval: caretCheckDelay, repeats: false) { [weak self] _ in
+            self?.caretCheckTimer = nil
+            self?.composingLostIfCaretMoved()
+        }
+    }
+
+    private let caretCheckDelay: TimeInterval = 0.3
 
     /// 낱말을 짓는 중에 사람이 캐럿을 다른 데로 옮기면, 입력칸이 밑줄 친 낱말을 그 자리에 확정한다.
     /// 자판은 그 낱말을 아직 짓는 줄 알아서, 다음 키가 옮긴 자리에 낱말을 통째로 다시 쓴다.
@@ -1304,6 +1324,8 @@ extension KeyboardViewController: TypingInputProxy {
             noteTypedOnTypingPanel()
         }
         composingShown = text
+        // 기다리던 검사는 키가 멎을 때까지 다시 미룬다.
+        if caretCheckTimer != nil { scheduleCaretCheck() }
         updateHasTextState()
     }
     func finishComposingText() {
