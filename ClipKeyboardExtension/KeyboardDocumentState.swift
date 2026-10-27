@@ -143,6 +143,18 @@ final class KeyboardDocumentState: ObservableObject {
     /// 참 · 거짓이 바뀔 때만 알린다. 글자마다 판 전체를 다시 그리지 않게.
     @Published var startsSentence: Bool = false
 
+    /// 지금 입력칸이 무엇을 받는 칸이라고 말했는가(카드번호 · 이메일 · 주소). 말이 없으면 nil.
+    /// 빠른 줄이 이 값을 보고 맞는 단축어를 맨 앞에 세운다(`FieldFit`). 앱 안 무대에서는 늘 nil 이다.
+    @Published var fieldKind: FieldFit.Kind?
+
+    /// 아이폰 설정 ▸ 키보드 ▸ 텍스트 대치에 사람이 넣어 둔 것. 자판 위 칩이 단축어와 함께 본다(`TypedShortcut`).
+    /// 키보드가 뜰 때 한 번 받는다. 앱 안 무대에서는 비어 있다.
+    @Published var textReplacements: [TypedShortcut.Replacement] = []
+
+    /// 사람이 캐럿을 옮겨 짓던 낱말이 입력칸에서 확정됐다. 오를 때마다 자판이 조합을 새로 시작한다.
+    /// 낱말을 짓는 중에 캐럿을 옮길 때만 오르므로 글자마다 판을 다시 그리지 않는다.
+    @Published var composingInterrupted = 0
+
     /// 지금 리턴 키를 눌러도 소용없는가. **판정은 여기 하나뿐이다.**
     ///
     /// 앱 안의 무대는 그 트레잇을 켜지 않으므로 늘 거짓이고, 거기서는 줄바꿈이 제 일을 한다.

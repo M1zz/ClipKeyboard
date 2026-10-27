@@ -135,6 +135,26 @@ final class HangulComposer {
         commitAndReset()
     }
 
+    /// 음절이 모음으로 끝나 있으면 그 모음(받침이 없을 때만). 천지인이 획을 더해 모음을 바꿀 때 본다.
+    var openMedial: Character? {
+        guard initial != nil, let m = medial, final == nil else { return nil }
+        return Self.medials[m]
+    }
+
+    /// 받침 없는 음절의 모음을 바꾼다(오 → 요). nil 이면 모음을 빼 초성만 남긴다.
+    func replaceOpenMedial(with vowel: Character?) {
+        guard initial != nil, medial != nil, final == nil else { return }
+        if let vowel {
+            guard let idx = Self.medials.firstIndex(of: vowel) else { return }
+            medial = idx
+            rerenderCurrent()
+        } else {
+            proxy?.deleteBackward()
+            medial = nil
+            renderCurrent(insertNew: true)
+        }
+    }
+
     /// 조합 중인 음절이 있는가.
     var isComposing: Bool { initial != nil || medial != nil || final != nil }
 

@@ -196,6 +196,12 @@ struct ClipKeyboardList: View {
     @State private var pendingSlot: Bool = false
     /// 자리가 서고 시트가 뜨기까지의 사이. 이만큼은 있어야 자리가 서는 것이 보인다.
     private static let pendingSlotBeat: TimeInterval = 0.3
+    /// 만들기를 열 때 있던 단축어. 닫혔을 때 새로 생긴 카드를 이것으로 알아본다.
+    @State private var memoIDsBeforeAdd: Set<UUID> = []
+    /// 방금 그 자리에 생긴 카드. 한 번 통 튄다(`celebrateBirth`).
+    @State private var poppingMemoID: UUID?
+    /// 이어 쓰는 중인 임시 저장. 그동안은 그 임시 카드 대신 빈 자리가 같은 곳에 선다.
+    @State private var resumingDraft: SavedDraft?
 
     // Sheet modals for MemoAdd
     @State private var showAddMemoSheet: Bool = false
@@ -1648,6 +1654,8 @@ struct ClipKeyboardList: View {
         // 일반 View + onTapGesture + onLongPressGesture 패턴으로 분리. 시각 affordance는
         // 그대로 유지 (button trait 명시 + tap 햅틱).
         return memoCardSurface(memo: memo)
+        // 방금 생긴 카드가 그 자리에서 한 번 통 튄다(`celebrateBirth`). 투명도는 건드리지 않는다(유리가 잿빛이 된다)
+        .scaleEffect(poppingMemoID == memo.id ? 1.07 : 1)
         // 방금 쓴 카드에 잠깐 켜지는 테두리.
         // ⚠️ 조건부로 뷰를 끼웠다 빼지 않고 **불투명도만** 바꾼다
         //    끼웠다 빼면 나타날 때 끊겨 보이고, 사라질 때 애니메이션이 안 걸린다.
@@ -1876,12 +1884,13 @@ struct ClipKeyboardList: View {
     /// 왜 바로가 아니라 1초 뒤인가: 누른 순간에는 이미 눌림·햅틱·동전이 한꺼번에 일어난다.
     /// 거기 테두리까지 겹치면 무엇 하나 안 읽힌다. 동전이 금고에 닿을 즈음 뒤늦게 켜져야
     /// **"방금 그 카드가 일했다"**가 따로 읽힌다.
-    private func lightUpCard(_ memoID: UUID) {
+    /// - Parameter delay: 새 카드가 생길 때는 기다리지 않는다(`celebrateBirth`). 그때는 겹칠 다른 연출이 없다.
+    private func lightUpCard(_ memoID: UUID, after delay: Double = 1.0) {
         guard Delight.isEnabled else { return }
         let fadeIn: Animation? = reduceMotion ? nil : .easeOut(duration: 0.25)
         let fadeOut: Animation? = reduceMotion ? nil : .easeIn(duration: 0.6)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             withAnimation(fadeIn) { glowMemoID = memoID }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 // 그 사이 다른 카드를 눌렀으면 그쪽이 주인이다 - 뺏지 않는다.
@@ -2477,15 +2486,15 @@ struct ClipKeyboardList: View {
                 // 외워서 찾기 때문에 사용할 때마다 카드가 점프하면 안 됨.
                 if !allMemos.isEmpty {
                     LazyVGrid(columns: gridColumns, spacing: 12) {
-                        // 만들기 시트가 열려 있는 동안 서는 빈 자리. 맨 앞에 둔다 -
-                        // 눈이 가야 할 곳이고, 시트가 아래에서 올라오는 동안에도 안 가린다.
-                        if pendingSlot { pendingSlotCell }
                         // 고스트(가상) 메모 - 실제 메모 셀과 같은 모양, 흐릿하게.
                         // 한 번 눌러보고 채워서 추가할지 판단하게 한다.
                         if let ghost = ghostSuggestion, !blank {
                             ghostMemoCell(pattern: ghost)
                         }
+                        let anchor = slotAnchorID(in: allMemos)
                         ForEach(allMemos) { memo in
+                            // 만들기 자리 · 임시 저장은 **새 카드가 앉을 바로 그 칸**에 선다(`slotAnchorID`).
+                            if memo.id == anchor { slotCells(showsDrafts: true) }
                             // ⚠️ 카드가 목록에 **끼워질 때 아무 연출도 하지 않는다.**
                             //    기본값은 페이드인데, 투명도가 걸린 뷰는 화면 밖에서 한 장으로
                             //    합쳐 그려지고 그 안의 유리(`glassEffect`)는 뒤를 못 봐서
@@ -2494,6 +2503,7 @@ struct ClipKeyboardList: View {
                             memoGridCell(memo: memo)
                                 .transition(.identity)
                         }
+                        if anchor == nil { slotCells(showsDrafts: true) }
                         // 그리드 끝 "추가" 카드는 두지 않는다 - 우상단 툴바 + 버튼이 있으므로
                         // 추가 카드는 빈 상태 화면(emptyStateWithAddCard 등)에서만 노출.
                     }
@@ -2529,12 +2539,14 @@ struct ClipKeyboardList: View {
                 // 위 여백 - `allTabScrollView` 의 같은 빈 칸과 같은 값을 쓴다.
                 Color.clear.frame(height: 0)
                 LazyVGrid(columns: gridColumns, spacing: 12) {
-                    if pendingSlot { pendingSlotCell }
+                    let anchor = slotAnchorID(in: memos)
                     ForEach(memos) { memo in
+                        if memo.id == anchor { slotCells(showsDrafts: false) }
                         // 끼워질 때 연출 없음 - 이유는 위 `allTabScrollView` 의 주석 참고.
                         memoGridCell(memo: memo)
                             .transition(.identity)
                     }
+                    if anchor == nil { slotCells(showsDrafts: false) }
                     // 그리드 끝 "추가" 카드 없음 - 우상단 툴바 + 버튼으로 충분.
                     // 추가 카드는 빈 상태(favoritesEmptyStateView·emptyStateWithAddCard)에서만.
                 }
@@ -2562,6 +2574,8 @@ struct ClipKeyboardList: View {
     /// ⚠️ 움직임 줄이기를 켠 사람에게는 기다리게 하지 않는다. 그쪽에는 자리가 자라는
     ///    것을 안 보여 주므로 기다릴 이유도 없다.
     private func openAddMemoWithSlot() {
+        memoIDsBeforeAdd = Set(viewModel.memos.map(\.id))
+        resumingDraft = nil
         // 펼친 듀오: 시트 대신 결과 쪽 판에 연다. 시트는 27.1 에서 접힌 선 한가운데에 선다
         if foldLayout.isUnfolded {
             FoldComposeRouter.shared.open(category: addMemoSheetCategory)
@@ -2576,10 +2590,116 @@ struct ClipKeyboardList: View {
         }
     }
 
-    /// 시트가 닫히면 자리를 거둔다. 저장했으면 그 자리에 진짜 카드가 이미 들어와 있다
-    /// (`loadMemos`), 취소했으면 자리만 사라진다.
+    /// 시트가 닫히면 자리를 거둔다. 취소했으면 자리만 사라진다(만들던 것이 있으면 임시 카드가 그 자리에 남는다).
     private func clearPendingSlot() {
         withAnimation(reduceMotion ? nil : .easeOut(duration: 0.2)) { pendingSlot = false }
+    }
+
+    /// 만들기가 닫혔다. 새 카드가 생겼으면 **자리를 연출 없이 걷고 그 자리에서 카드를 튀게 한다.**
+    ///
+    /// ⚠️ 예전에는 자리가 줄어들며 사라지는 동안 카드가 맨 앞에 그냥 끼워졌다. 즐겨찾기가 있으면
+    ///    자리는 맨 앞, 카드는 즐겨찾기 뒤라 서로 다른 데서 지워지고 생겼다(2026-10 사용자: 부자연스럽다).
+    ///    이제 자리는 새 카드가 앉을 칸에 서고(`slotAnchorID`), 그 칸에서 바로 카드가 된다.
+    private func settlePendingSlot() {
+        viewModel.loadMemos()
+        let born = viewModel.memos
+            .filter { !memoIDsBeforeAdd.contains($0.id) }
+            .max { $0.lastEdited < $1.lastEdited }
+        memoIDsBeforeAdd = []
+        resumingDraft = nil
+        guard let born else { clearPendingSlot(); return }
+        var still = Transaction()
+        still.disablesAnimations = true
+        withTransaction(still) { pendingSlot = false }
+        celebrateBirth(born.id)
+    }
+
+    /// 새 카드가 그 자리에서 한 번 통 튀고 테두리가 반짝인다. 움직임 줄이기면 반짝임만.
+    private func celebrateBirth(_ id: UUID) {
+        HapticManager.shared.success()
+        lightUpCard(id, after: 0)
+        guard !reduceMotion else { return }
+        // 카드가 한 장 그려진 다음 튄다. 같은 순간에 걸면 끼워지는 것과 섞여 안 보인다
+        DispatchQueue.main.async {
+            withAnimation(.spring(response: 0.16, dampingFraction: 0.9)) { poppingMemoID = id }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.14) {
+                withAnimation(.spring(response: 0.38, dampingFraction: 0.45)) { poppingMemoID = nil }
+            }
+        }
+    }
+
+    /// 새 카드가 앉을 칸: 즐겨찾기 바로 뒤. 목록은 즐겨찾기 → 최근에 고친 순이라 새 카드는 늘 거기 온다.
+    /// nil 이면 맨 끝(전부 즐겨찾기이거나 비어 있다).
+    private func slotAnchorID(in memos: [Memo]) -> UUID? {
+        memos.first { !$0.isFavorite }?.id
+    }
+
+    /// 새 카드가 앉을 칸에 서는 것들: 만들기 자리, 그리고 만들다 떠난 임시 저장.
+    /// 임시 저장은 첫 화면(기본 · 전체)에만 세운다. 카테고리 페이지마다 같은 카드가 서면 남의 것처럼 보인다.
+    @ViewBuilder
+    private func slotCells(showsDrafts: Bool) -> some View {
+        if pendingSlot { pendingSlotCell }
+        if showsDrafts {
+            ForEach(draftStore.drafts.filter { $0.id != resumingDraft?.id }.sorted { $0.savedAt > $1.savedAt }) { draft in
+                draftCell(draft)
+            }
+        }
+    }
+
+    /// 만들다 떠난 단축어. 진짜 카드와 같은 크기에 점선 테두리라 **아직 아닌 것**으로 읽힌다. 누르면 이어 쓴다.
+    private func draftCell(_ draft: SavedDraft) -> some View {
+        Button { resumeDraft(draft) } label: {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(NSLocalizedString("임시 저장", comment: "Drafts screen title"))
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(theme.accent)
+                Text(draft.displayTitle)
+                    .font(.body.weight(.semibold))
+                    .foregroundColor(theme.text)
+                    .lineLimit(1)
+                // 잠근 단축어는 본문을 내보이지 않는다
+                if !draft.isSecure, !draft.keyword.isEmpty, !draft.previewLine.isEmpty {
+                    Text(draft.previewLine)
+                        .font(.caption)
+                        .foregroundColor(theme.textMuted)
+                        .lineLimit(2)
+                }
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
+            .background(
+                RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
+                    .fill(theme.accent.opacity(0.05))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
+                    .strokeBorder(theme.accent.opacity(0.45), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
+            )
+        }
+        .buttonStyle(.plain)
+        .contextMenu {
+            Button(role: .destructive) {
+                withAnimation(reduceMotion ? nil : .easeOut(duration: 0.2)) { DraftStore.shared.remove(draft.id) }
+            } label: {
+                Label(NSLocalizedString("삭제", comment: "Delete button"), systemImage: AppSymbol.trash)
+            }
+        }
+        .transition(.scale(scale: 0.86).combined(with: .opacity))
+        .accessibilityLabel(String(format: NSLocalizedString("임시 저장: %@", comment: "VoiceOver label of a draft card in the list: an unfinished snippet. %@ is its title"), draft.displayTitle))
+        .accessibilityHint(NSLocalizedString("이어서 쓰려면 두 번 누르세요", comment: "VoiceOver hint of a draft card: double tap to continue writing"))
+    }
+
+    /// 임시 카드를 눌렀다. 그 자리는 빈 자리로 바뀌고, 저장하면 그 자리에서 카드가 된다.
+    private func resumeDraft(_ draft: SavedDraft) {
+        HapticManager.shared.light()
+        memoIDsBeforeAdd = Set(viewModel.memos.map(\.id))
+        var still = Transaction()
+        still.disablesAnimations = true
+        withTransaction(still) {
+            resumingDraft = draft
+            pendingSlot = true
+        }
+        showAddMemoSheet = true
     }
 
     /// 만들기 시트가 열려 있는 동안 격자 맨 앞에 서는 빈 자리.
@@ -2962,7 +3082,7 @@ struct ClipKeyboardList: View {
                 .presentationDetents([.large])
             }
             .sheet(isPresented: $showAddMemoSheet, onDismiss: {
-                viewModel.loadMemos(); clearPendingSlot()
+                settlePendingSlot()
                 // 첫 단축어를 담은 바로 그때 키보드를 켜자고 한다. 가장 의욕이 있을 때다
                 if pendingKeyboardLesson {
                     pendingKeyboardLesson = false
@@ -2970,7 +3090,7 @@ struct ClipKeyboardList: View {
                 }
             }) {
                 NavigationStack {
-                    MemoAdd(insertedCategory: addMemoSheetCategory.isEmpty ? "텍스트" : addMemoSheetCategory)
+                    addMemoSheetContent
                         .toolbar {
                             // 단순한 새 단축어에는 V 하나만. 내리려면 시트를 끌어 내린다
                             if !blank {
@@ -3001,6 +3121,24 @@ struct ClipKeyboardList: View {
                         }
                 }
             }
+    }
+
+    /// 만들기 시트의 내용. 임시 카드에서 왔으면 그 글로 이어 쓴다.
+    @ViewBuilder
+    private var addMemoSheetContent: some View {
+        if let draft = resumingDraft {
+            MemoAdd(
+                insertedKeyword: draft.keyword,
+                insertedValue: draft.value,
+                insertedCategory: draft.category,
+                insertedIsSecure: draft.isSecure,
+                insertedHint: draft.hint,
+                insertedIsFavorite: draft.isFavorite,
+                resumeDraftId: draft.id
+            )
+        } else {
+            MemoAdd(insertedCategory: addMemoSheetCategory.isEmpty ? "텍스트" : addMemoSheetCategory)
+        }
     }
 
     /// 단순한 목록의 + . 메뉴 없이 바로 새 단축어를 연다.

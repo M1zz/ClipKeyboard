@@ -2876,6 +2876,10 @@
     "v": "Inga resultat",
     "src": "24b20b269c"
   },
+  "검색 닫기": {
+    "v": "Stäng sökning",
+    "src": "83babf66d2"
+  },
   "검색 중": {
     "v": "Söker…",
     "src": "07616c5508"
@@ -3215,6 +3219,10 @@
     "v": "Åtgärdade att bilden försvann när man kopierade en fras med både text och foto",
     "src": "dd2c538bc8"
   },
+  "글은 자판으로 치고, 자주 쓰는 글은 단축어로 꺼내요. 다른 키보드로 오갈 일이 없어져요.": {
+    "v": "Skriv med tangenterna och hämta ofta använd text från fraser. Då slipper du byta mellan tangentbord.",
+    "src": "bdebc6cf46"
+  },
   "글자": {
     "v": "Bokstäver",
     "src": "1947165158"
@@ -3246,6 +3254,10 @@
   "글자를 치는 자판으로 바꿉니다": {
     "v": "Byter till tangentbordet för att skriva",
     "src": "e45844aee1"
+  },
+  "글자를 칠 때도 맞는 단축어": {
+    "v": "Rätt fras även när du skriver",
+    "src": "92c9afe9a6"
   },
   "금고": {
     "v": "Valv",
@@ -3526,6 +3538,10 @@
   "끄면 저장할 때 원본 단축어가 삭제돼요": {
     "v": "Stäng av för att radera originalfrasen när du sparar",
     "src": "b643c858e1"
+  },
+  "끄면 키보드 아래의 마이크가 사라져요. 말로 받아쓰기를 쓴다면 켜 두세요.": {
+    "v": "Om du stänger av det försvinner mikrofonen under tangentbordet. Låt det vara på om du använder diktering.",
+    "src": "8bedfb30fb"
   },
   "끔": {
     "v": "Av",
@@ -4015,6 +4031,10 @@
     "v": "Flytta till en annan kategori",
     "src": "710255cf6a"
   },
+  "다른 키보드 빼기": {
+    "v": "Ta bort andra tangentbord",
+    "src": "bdfb505c26"
+  },
   "다섯 가지 모두": {
     "v": "Alla fem",
     "src": "ff1b04bb97"
@@ -4351,6 +4371,10 @@
     "v": "Inga fraser",
     "src": "2749d94a6b"
   },
+  "단축어 이름이나 아이폰 텍스트 대치를 치면 자판 위에 띄워요. 누르면 바로 들어가요.": {
+    "v": "Skriv namnet på en fras eller en textersättning på iPhone, så visas den ovanför tangenterna. Tryck för att infoga.",
+    "src": "6f6b43f251"
+  },
   "단축어 저장": {
     "v": "Fraslagring",
     "src": "94713f0171"
@@ -4386,6 +4410,10 @@
   "단축어 탭을 열었을 때 보이는 화면이에요. 어느 쪽을 골라도 저장한 단축어는 그대로예요.": {
     "v": "Det du ser när du öppnar fliken Fraser. Dina sparade fraser är kvar oavsett vilket du väljer.",
     "src": "c6404813d9"
+  },
+  "단축어 판의 키보드 키를 누르면 자판으로 돌아와요": {
+    "v": "Tryck på tangentbordstangenten i frasvyn för att gå tillbaka till att skriva",
+    "src": "0c803b9128"
   },
   "단축어 표시": {
     "v": "Visning av fraser",
@@ -5581,6 +5609,10 @@
     "v": "Vill du ha den för alltid, till halva priset?",
     "src": "6395bf8804"
   },
+  "받아쓰기 끄기": {
+    "v": "Stäng av diktering",
+    "src": "5fcc22c951"
+  },
   "방금": {
     "v": "Nyss",
     "src": "54f8277af2"
@@ -6356,6 +6388,10 @@
     "v": "Lösenord",
     "src": "40bddd0601"
   },
+  "비밀번호 칸에서는 iOS 가 잠깐 기본 키보드를 띄워요. 앱이 바꿀 수 없는 일이에요.": {
+    "v": "I lösenordsfält visar iOS tillfälligt sitt eget tangentbord. Appar kan inte ändra det.",
+    "src": "ebb42c2e9d"
+  },
   "비밀번호·PIN·인증서는 가져올 때부터 자동으로 암호화되는 보안 단축어로": {
     "v": "Lösenord, PIN-koder och certifikat importeras som krypterade säkra fraser från början",
     "src": "b9021309d7"
@@ -7092,6 +7128,14 @@
     "v": "Öppna ”Åtgärdsknapp” i appen Inställningar",
     "src": "05f9b57848"
   },
+  "설정 앱에서 일반 ▸ 키보드 ▸ 키보드를 열어요": {
+    "v": "Öppna Inställningar och gå till Allmänt ▸ Tangentbord ▸ Tangentbord",
+    "src": "494359b21e"
+  },
+  "설정 앱에서 일반 ▸ 키보드를 열어요": {
+    "v": "Öppna Inställningar och gå till Allmänt ▸ Tangentbord",
+    "src": "d144e8a8bd"
+  },
   "설정 열기": {
     "v": "Öppna Inställningar",
     "src": "639b7a69db"
@@ -7655,6 +7699,10 @@
   "아래에서 조각을 눌러 보세요": {
     "v": "Tryck på en bit nedan",
     "src": "ac45af4a2b"
+  },
+  "아래쪽의 '받아쓰기 활성화'를 꺼요": {
+    "v": "Stäng av Aktivera diktering längst ned",
+    "src": "058b8804c2"
   },
   "아무 텍스트 필드 탭 → 🌐 눌러 전환 → 단축어 탭": {
     "v": "Tryck i ett textfält → tryck på 🌐 → tryck på en fras",
@@ -8470,6 +8518,10 @@
     "v": "Öppnades igen efter en lång paus. Ingen introduktion, ingen recensionsfråga.",
     "src": "7058e1663f"
   },
+  "오른쪽 위 '편집'을 눌러요": {
+    "v": "Tryck på Redigera uppe till höger",
+    "src": "994adb83f9"
+  },
   "오른쪽 파란 화살표를 누르세요": {
     "v": "Tryck på den blå pilen till höger",
     "src": "22b28ee01a"
@@ -8808,6 +8860,10 @@
   "이 카테고리에는 순서를 바꿀 단축어가 없어요": {
     "v": "Det finns inga fraser att ordna i den här kategorin",
     "src": "59a4a83a0e"
+  },
+  "이 칸에 맞음: %@": {
+    "v": "Passar fältet: %@",
+    "src": "f4ea75c19d"
   },
   "이 칸은 따로 입력하지 않아도 돼요. 복사할 때 오늘 날짜·현재 시각 등 현재 값으로 자동 입력됩니다.": {
     "v": "Du behöver inte fylla i det här. Det ersätts med aktuellt värde (dagens datum, klockslag m.m.) när du kopierar.",
@@ -9166,6 +9222,10 @@
     "v": "Skärm som ser fel ut",
     "src": "46b4000f7f"
   },
+  "이어서 쓰려면 두 번 누르세요": {
+    "v": "Tryck två gånger för att fortsätta skriva",
+    "src": "f4f83fec85"
+  },
   "이어서 입력할 내용": {
     "v": "Innehåll för nästa steg",
     "src": "829d0abf7d"
@@ -9308,6 +9368,10 @@
   "임시 저장 보기": {
     "v": "Visa utkast",
     "src": "b2a913fea1"
+  },
+  "임시 저장: %@": {
+    "v": "Utkast: %@",
+    "src": "ceec3837d7"
   },
   "임시 저장된 항목이 없어요": {
     "v": "Inga utkast ännu",
@@ -9532,6 +9596,22 @@
   "자판": {
     "v": "Tangenter",
     "src": "7bb07c5f0b"
+  },
+  "자판 위의 '단축어'를 누르면 단축어 판이 나와요": {
+    "v": "Tryck på Fraser ovanför tangenterna för att öppna dina fraser",
+    "src": "2c4e7c6539"
+  },
+  "자판과 단축어 오가기": {
+    "v": "Växla mellan att skriva och fraser",
+    "src": "80cbaa2c43"
+  },
+  "자판으로 치는 중에도 카드번호 칸이면 카드 단축어를 위에 띄워요.": {
+    "v": "Även när du skriver med bokstavstangenterna visas din kortfras ovanför om fältet gäller kortnummer.",
+    "src": "00c157a5f2"
+  },
+  "자판의 언어 키로 언어를 바꿔요. 순서는 입력 언어에서 정해요": {
+    "v": "Byt språk med språktangenten. Ordningen väljer du under Inmatningsspråk",
+    "src": "87f235ee07"
   },
   "작게": {
     "v": "Liten",
@@ -10702,6 +10782,10 @@
     "v": "Förut räknade vi bara tiden det tog att skriva. Nu räknas även tiden för värden du fick hämta i en annan app, som ett kontonummer. Vi visar också hur vi räknade.",
     "src": "d12c64b04d"
   },
+  "치면 떠오르는 단축어": {
+    "v": "Fraser som dyker upp medan du skriver",
+    "src": "7e1c1dc708"
+  },
   "치우기": {
     "v": "Städa bort",
     "src": "3cf7fd4f13"
@@ -10709,6 +10793,10 @@
   "치지 않아도 된 시간": {
     "v": "Tid du slapp skriva",
     "src": "a3f59128f5"
+  },
+  "친 글자를 이 단축어로 바꿉니다": {
+    "v": "Ersätter det du skrev med den här frasen",
+    "src": "b770248eda"
   },
   "친구들에게 알리기": {
     "v": "Berätta för vänner",
@@ -10754,6 +10842,10 @@
     "v": "Kortnummer",
     "src": "3553458d65"
   },
+  "카드번호 · 이메일 · 주소 칸처럼 무엇을 넣는지 알려 주는 칸에서, 맞는 단축어를 맨 앞에 보여 줍니다. 칸에 쓴 글은 읽지 않아요.": {
+    "v": "I fält som anger vad de vill ha, som kortnummer, e-post eller adress, visas passande fraser först. Det du skriver läses aldrig.",
+    "src": "0c9f208aec"
+  },
   "카드번호 같아요. 잠가 둘까요?": {
     "v": "Ser ut som ett kortnummer. Låsa det?",
     "src": "28daf579e7"
@@ -10761,6 +10853,10 @@
   "카드번호·IBAN·사업자등록번호는 검사식이 있어요. 한 자리를 잘못 적었으면 저장하기 전에 짚어 드립니다.": {
     "v": "Kortnummer, IBAN och organisationsnummer har kontrollsiffror. Skriver du en siffra fel säger vi till innan du sparar.",
     "src": "f295fae985"
+  },
+  "카드번호·이메일·주소 칸에 들어가면 그 단축어를 맨 앞에 보여 줘요.": {
+    "v": "Tryck i ett fält för kortnummer, e-post eller adress så visas den frasen först.",
+    "src": "d665942763"
   },
   "카드번호나 금액처럼 숫자 몇 자만 넣을 때는 숫자 판을 여세요. 붙여넣기 키는 쓰는 분만 켜면 돼요.": {
     "v": "Öppna sifferpanelen när du bara ska skriva några siffror, som ett kortnummer eller ett belopp. Slå på klistra in-tangenten bara om du använder den.",
@@ -10936,6 +11032,10 @@
       "other": "Varje steg räknas för sig. Påslagen men aldrig visad betyder att den inte har tagits fram än, eller att den användes utan full åtkomst så inga spår finns. Använt en fras räknar alla som faktiskt använt en, via tangentbordet eller genom att kopiera i appen. %d äldre poster utan de nya måtten är utelämnade."
     },
     "src": "b626346872"
+  },
+  "칸에 맞는 단축어 먼저": {
+    "v": "Passande fraser först",
+    "src": "53936d6a6c"
   },
   "캘린더 열기": {
     "v": "Öppna Kalender",
@@ -11172,12 +11272,24 @@
     "v": "Slå på ClipKeyboard",
     "src": "a21f37767e"
   },
+  "클립키보드 하나로 써요": {
+    "v": "Använd bara ClipKeyboard",
+    "src": "06e6daa9bb"
+  },
+  "클립키보드 하나로 쓰기": {
+    "v": "Använd bara ClipKeyboard",
+    "src": "dbb33b166d"
+  },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "v": {
       "one": "ClipKeyboard har redan sparat dig %d timme",
       "other": "ClipKeyboard har redan sparat dig %d timmar"
     },
     "src": "c6b77aeac7"
+  },
+  "클립키보드만 남기고 나머지를 빼요": {
+    "v": "Ta bort allt utom ClipKeyboard",
+    "src": "a0a9a38d77"
   },
   "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.": {
     "v": "Antal tangenter, höjd, textstorlek och färger kan du ställa in som du vill. Vissa får plats med åtta tangenter på en skärm.",
@@ -11386,6 +11498,10 @@
   "키보드가 떠 봄": {
     "v": "Tangentbordet visades",
     "src": "c28b3a4f50"
+  },
+  "키보드가 클립키보드 하나만 남으면 아래의 지구본이 사라져요. 이모지를 쓰려면 이모지 키보드는 남겨 두세요. 그러면 지구본도 남아요.": {
+    "v": "När ClipKeyboard är det enda tangentbordet som finns kvar försvinner jordklotet längst ned. Vill du fortsätta använda emoji, behåll Emoji-tangentbordet. Då finns jordklotet kvar också.",
+    "src": "ea7cbdddf0"
   },
   "키보드가 화면을 넓게 쓰고, 키보드 안에서 바로 칠 수 있어요": {
     "v": "Tangentbordet använder hela skärmen, och du kan skriva direkt i det",
@@ -12092,6 +12208,10 @@
   "필요한 기능이나 불편했던 점을 남겨주시면 개발자가 직접 읽고 반드시 해결해 드릴게요.": {
     "v": "Berätta vad du behöver eller vad som känns besvärligt: utvecklaren läser allt och löser det.",
     "src": "eec7b2e40c"
+  },
+  "필요한 칸에서 맞는 단축어 먼저": {
+    "v": "Rätt fras för varje fält",
+    "src": "ae75167797"
   },
   "필요할 때 꺼내 쓰면 돼요": {
     "v": "Använd den när du behöver",

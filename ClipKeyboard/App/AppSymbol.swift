@@ -107,6 +107,7 @@ enum AppSymbol {
     static let infoCircleFill = "info.circle.fill"
     static let keyFill = "key.fill"
     static let keyboard = "keyboard"
+    static let keyboardChevronCompactDown = "keyboard.chevron.compact.down"
     static let keyboardBadgeEye = "keyboard.badge.eye"
     static let keyboardBadgeEllipsis = "keyboard.badge.ellipsis"
     static let lightbulb = "lightbulb"

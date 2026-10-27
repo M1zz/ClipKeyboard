@@ -270,6 +270,9 @@ enum DefaultsKey {
     /// 잠깐 쓸 글을 담아 두는 사람에게는 이 탭이 가장 자주 열리는 자리라, 있는 줄 알아야 쓴다.
     /// 단축어만 쓰는 사람은 설정 > 키보드 > 키보드 레이아웃 > 표시 옵션에서 끈다.
     static let keyboardShowRecentClipsTab = "keyboardShowRecentClipsTab.v1"
+    /// 입력칸이 무엇을 받는 칸인지 알려 주면(카드번호 · 이메일 · 주소) 맞는 단축어를 빠른 줄 맨 앞에 세울지.
+    /// App Group. **기본 켬.** 칸이 말해 줄 때만 서므로 그 밖의 자리에서는 아무것도 달라지지 않는다(`FieldFit`).
+    static let keyboardSuggestForField = "keyboardSuggestForField.v1"
     /// 위줄에 **숫자 판으로 건너가는 키**를 세울지 (App Group). 값이 없으면 켜짐.
     ///
     /// 숫자만 몇 자 넣으려고 다른 키보드로 건너갔다 오는 일을 없애려고 둔 키다.
@@ -686,6 +689,7 @@ enum KeyboardPrefs {
     static let showNumberPad = Pref(key: DefaultsKey.keyboardShowNumberPad, fallback: true)
     static let showClipboardKey = Pref(key: DefaultsKey.keyboardShowClipboardKey, fallback: false)
     static let showRecentClipsTab = Pref(key: DefaultsKey.keyboardShowRecentClipsTab, fallback: true)
+    static let suggestForField = Pref(key: DefaultsKey.keyboardSuggestForField, fallback: true)
 
     // 입력
     static let koreanEnabled = Pref(key: DefaultsKey.keyboardKoreanEnabled, fallback: false)

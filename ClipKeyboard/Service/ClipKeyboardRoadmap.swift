@@ -23,9 +23,18 @@ extension ClipKeyboardSpec {
         .init(id: "a11y.contrast", status: .building,
               title: NSLocalizedString("보기 편한 색과 대비", comment: "Roadmap item: better colors and contrast"),
               detail: NSLocalizedString("대비를 높이거나 색을 구별하기 어려워도 내용을 알아볼 수 있어요.", comment: "Roadmap item detail: colors and contrast")),
+        .init(id: "keyboard.fieldfit", status: .building,
+              title: NSLocalizedString("필요한 칸에서 맞는 단축어 먼저", comment: "Roadmap item: suggest the matching shortcut in card number, email, address fields"),
+              detail: NSLocalizedString("카드번호·이메일·주소 칸에 들어가면 그 단축어를 맨 앞에 보여 줘요.", comment: "Roadmap item detail: field-aware shortcut suggestions")),
+        .init(id: "keyboard.typed", status: .building,
+              title: NSLocalizedString("치면 떠오르는 단축어", comment: "Roadmap item: shortcut suggestions above the keys while typing its name"),
+              detail: NSLocalizedString("단축어 이름이나 아이폰 텍스트 대치를 치면 자판 위에 띄워요. 누르면 바로 들어가요.", comment: "Roadmap item detail: typed-name shortcut suggestions")),
 
 
         // MARK: 다음에 만들어요
+        .init(id: "keyboard.fieldfit.typing", status: .planned,
+              title: NSLocalizedString("글자를 칠 때도 맞는 단축어", comment: "Roadmap item: field-aware suggestions also while typing on the letter keys"),
+              detail: NSLocalizedString("자판으로 치는 중에도 카드번호 칸이면 카드 단축어를 위에 띄워요.", comment: "Roadmap item detail: field-aware suggestions above the letter keys")),
         .init(id: "keyboard.autocorrect", status: .planned,
               title: NSLocalizedString("자동 고침과 낱말 추천", comment: "Roadmap item: autocorrect and word suggestions"),
               detail: NSLocalizedString("틀린 글자를 고쳐 주고, 칠 낱말을 미리 보여 줘요.", comment: "Roadmap item detail: autocorrect and suggestions")),

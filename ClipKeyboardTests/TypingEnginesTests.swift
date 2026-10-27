@@ -196,6 +196,22 @@ final class TypingEnginesTests: XCTestCase {
         XCTAssertEqual(proxy.text, "")
     }
 
+    /// 짓는 낱말은 밑줄 친 글 하나로 보이고, 스페이스 앞에서 확정된다. 키 하나에 입력칸을 한 번만 건드린다.
+    func testHangulWordIsShownAsOneMarkedText() {
+        let proxy = MarkedTextProxy()
+        let engine = HangulTypingEngine(proxy: proxy, layout: .cheonjiin)
+        type(["ㅇㅁ", "ㆍ", "ㅡ", "ㆍ"], into: engine)
+        XCTAssertEqual(proxy.marked, "요")
+        XCTAssertEqual(proxy.edits, 4, "키 하나에 한 번")
+        type(["ㄱㅋ", "ㅣ", "ㆍ"], into: engine)
+        XCTAssertEqual(proxy.marked, "요가")
+        engine.commit()
+        XCTAssertEqual(proxy.text, "요가")
+        XCTAssertEqual(proxy.marked, "")
+        engine.backspace()
+        XCTAssertEqual(proxy.text, "요", "확정한 뒤 지우기는 입력칸의 글자를 지운다")
+    }
+
     // MARK: - 저절로 대문자
 
     /// 기본 키보드처럼 빈 칸 · 문장 끝 뒤에서만 대문자를 켠다.
@@ -314,4 +330,21 @@ final class TypingEnginesTests: XCTestCase {
         XCTAssertEqual(proxy.text, "呢")
         XCTAssertFalse(engine.isComposing)
     }
+}
+
+/// 밑줄 친 글을 받는 가짜 입력칸(진짜 키보드처럼).
+final class MarkedTextProxy: TypingInputProxy {
+    private(set) var committed = ""
+    private(set) var marked = ""
+    private(set) var edits = 0
+    var text: String { committed + marked }
+    func insertText(_ t: String) { committed += marked + t; marked = "" }
+    func deleteBackward() { if !committed.isEmpty { committed.removeLast() } }
+    func setComposingText(_ text: String, replacing shown: String) { marked = text; edits += 1 }
+    func finishComposingText() { committed += marked; marked = "" }
+    func insertNewline() {}
+    func advanceToNextInputMode() {}
+    func attachInputModeSwitch(to button: UIButton) {}
+    func cursorRight() {}
+    func clearAll() {}
 }

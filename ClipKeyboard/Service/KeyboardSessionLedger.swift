@@ -20,6 +20,9 @@
 //
 
 import Foundation
+#if canImport(UIKit)
+import UIKit
+#endif
 
 enum KeyboardSessionLedger {
 
@@ -112,6 +115,7 @@ enum KeyboardSessionLedger {
 ///
 /// | 순서 | 갈래 | 왜 |
 /// | --- | --- | --- |
+/// | 0 | 이 칸에 맞는 것 (`FieldFit`) | 칸이 카드번호를 받는다고 말했으면 그게 지금 필요한 것이다 |
 /// | 1 | 지금 쓸 차례 (`UsageRhythm`) | 달력이 정한 순간은 미리 알 수 있다 |
 /// | 2 | 붙박이 (`PersonaEdition.anchors`, 5.1.5) | 요청이 와야 생기는 순간은 언제 올지 몰라, 늘 같은 자리에 둔다 |
 /// | 3 | 많이 쓴 것 (찾다 포기하는 사람에게만) | 못 찾는 사람에게 필요한 건 최근이 아니라 늘 쓰던 것이다 |
@@ -121,6 +125,8 @@ enum KeyboardSessionLedger {
 enum QuickRowPlanner {
 
     enum Reason: Equatable {
+        /// 입력칸이 받는 것과 종류가 맞는 단축어(`FieldFit`)
+        case fits
         case due
         /// 판이 붙박아 둔 것(계좌·송금 정보·명함·학번). `PersonaEdition.anchors`
         case anchor
@@ -144,7 +150,8 @@ enum QuickRowPlanner {
     ///   - dueIDs: 지금 쓸 차례인 단축어(`UsageRhythm.dueMemoIDs`).
     ///   - anchorIDs: 판이 붙박아 둔 단축어(`QuickRowAnchors.load`).
     ///   - struggling: 요즘 찾다가 포기하는가(`KeyboardSessionLedger.isStruggling`).
-    static func plan(memos: [Memo], dueIDs: [UUID], anchorIDs: [UUID] = [],
+    ///   - fitIDs: 지금 입력칸에 맞는 단축어(`FieldFit.matchingIDs`). 맨 앞에 선다.
+    static func plan(memos: [Memo], dueIDs: [UUID], anchorIDs: [UUID] = [], fitIDs: [UUID] = [],
                      struggling: Bool, now: Date) -> [Item] {
         let ids: Set<UUID> = Set(memos.map(\.id))
         var seen = Set<UUID>()
@@ -155,6 +162,7 @@ enum QuickRowPlanner {
             items.append(Item(memoID: id, reason: reason))
         }
 
+        fitIDs.forEach { push($0, .fits) }
         dueIDs.forEach { push($0, .due) }
         anchorIDs.forEach { push($0, .anchor) }
 
@@ -199,5 +207,131 @@ enum QuickRowAnchors {
 
     static func save(_ ids: [UUID]) {
         defaults?.set(ids.map(\.uuidString), forKey: DefaultsKey.quickRowAnchors)
+    }
+}
+
+// MARK: - 이 칸에 맞는 단축어
+
+/// 입력칸이 **무엇을 받는 칸인지** 알려 줄 때, 그 종류의 단축어를 고른다.
+///
+/// 키보드는 화면도, 상대가 보낸 글도 못 본다. 대신 iOS 가 입력칸의 꼬리표(`textContentType`,
+/// 웹 폼의 `autocomplete` 도 여기로 온다)와 자판 종류(`keyboardType`)를 건넨다.
+/// 그 둘이 말해 주는 칸에서만 움직인다. 말해 주지 않는 칸에서는 아무것도 하지 않는다.
+///
+/// ⚠️ 칸에 쓴 글은 보지 않는다. 판정은 꼬리표와 단축어 쪽 종류(`Memo.autoDetectedType`)만 쓴다.
+/// ⚠️ 종류가 비어 있는 옛 단축어만 그 자리에서 분류한다. 결과는 키보드가 들고 있다가 다시 쓴다.
+enum FieldFit {
+
+    enum Kind: String, Equatable {
+        case creditCard, email, phone, address, postalCode, url, name
+
+        /// 이 칸에 넣을 만한 단축어 종류.
+        var itemTypes: Set<ClipboardItemType> {
+            switch self {
+            case .creditCard: return [.creditCard]
+            case .email: return [.email]
+            case .phone: return [.phone]
+            case .address: return [.address]
+            case .postalCode: return [.postalCode]
+            case .url: return [.url]
+            case .name: return [.name]
+            }
+        }
+    }
+
+    #if canImport(UIKit)
+    /// 꼬리표가 먼저, 없으면 자판 종류. 둘 다 말이 없으면 nil - **모르는 칸에서는 짐작하지 않는다.**
+    ///
+    /// ⚠️ 숫자 자판(`numberPad`)은 보지 않는다. 카드번호 · 인증번호 · 금액이 다 그 자판이라
+    ///    카드를 띄우면 셋 중 둘은 틀린다. 전화 자판은 iOS 가 다른 키보드를 쓰게 하지 않아 올 일이 없다.
+    static func kind(contentType: UITextContentType?, keyboardType: UIKeyboardType?) -> Kind? {
+        if let contentType {
+            switch contentType {
+            case .creditCardNumber: return .creditCard
+            case .emailAddress: return .email
+            case .telephoneNumber: return .phone
+            case .fullStreetAddress, .streetAddressLine1: return .address
+            case .postalCode: return .postalCode
+            case .URL: return .url
+            case .name: return .name
+            default: break
+            }
+        }
+        switch keyboardType {
+        case .emailAddress?: return .email
+        case .URL?: return .url
+        default: return nil
+        }
+    }
+    #endif
+
+    /// 이 칸에 맞는 단축어의 id. 많이 쓴 것이 앞이다.
+    ///
+    /// 템플릿 · 스택 · 그림 단축어는 뺀다(칸 하나에 값 하나를 넣는 자리다).
+    /// - Parameter typeOf: 종류가 비어 있는 단축어를 분류하는 길. 키보드가 결과를 들고 있게 밖에서 준다.
+    static func matchingIDs(memos: [Memo], kind: Kind,
+                            typeOf: (Memo) -> ClipboardItemType? = { $0.autoDetectedType }) -> [UUID] {
+        memos
+            .filter { !$0.isTemplate && !$0.isStack && $0.contentType == .text }
+            .filter { memo in typeOf(memo).map(kind.itemTypes.contains) ?? false }
+            .sorted { $0.clipCount != $1.clipCount ? $0.clipCount > $1.clipCount : $0.title < $1.title }
+            .map(\.id)
+    }
+}
+
+// MARK: - 치면 떠오르는 단축어
+
+/// 자판으로 친 마지막 낱말이 단축어 이름이나 아이폰 텍스트 대치와 맞으면 맨 위 띠에 칩으로 세운다.
+///
+/// ⚠️ **바꿔 넣지 않고 제안만 한다.** 단축어 이름은 "주소" 같은 평범한 낱말이 많아서,
+///    스페이스에 저절로 바꾸면 그냥 그 낱말을 쓰려던 사람이 놀란다. 칩은 무시하면 그만이다.
+/// ⚠️ 잠근 · 템플릿 · 스택 · 그림 단축어는 세우지 않는다. 그 단축어는 PIN · 빈칸 창을 거치는데,
+///    친 낱말을 먼저 지운 뒤 창을 닫으면 낱말만 사라진다.
+enum TypedShortcut {
+
+    /// 아이폰 설정 ▸ 키보드 ▸ 텍스트 대치의 한 줄(`UILexicon`).
+    struct Replacement: Equatable {
+        let shortcut: String
+        let phrase: String
+    }
+
+    struct Pick: Equatable {
+        /// 지울 낱말(친 그대로).
+        let typed: String
+        /// 칩에 보일 이름.
+        let title: String
+        /// 넣을 글.
+        let text: String
+        /// 단축어면 그 id(사용 횟수를 센다), 텍스트 대치면 nil.
+        let memoID: UUID?
+    }
+
+    /// 커서 바로 앞의 낱말. 띄어쓰기 · 줄바꿈 뒤면 빈 문자열이다.
+    static func lastWord(in context: String?) -> String {
+        guard let context else { return "" }
+        let word = context.reversed().prefix { !$0.isWhitespace && !$0.isNewline }
+        return word.count > 24 ? "" : String(word.reversed())
+    }
+
+    /// 낱말에 맞는 칩들. 이름과 똑같은 것이 먼저, 이름이 그 낱말로 시작하는 것(두 글자부터)이 다음이다.
+    static func picks(for word: String, memos: [Memo], replacements: [Replacement], limit: Int = 3) -> [Pick] {
+        guard !word.isEmpty else { return [] }
+        let options: String.CompareOptions = [.caseInsensitive, .widthInsensitive]
+        func same(_ a: String) -> Bool { a.compare(word, options: options) == .orderedSame }
+        func starts(_ a: String) -> Bool { word.count >= 2 && a.range(of: word, options: options.union(.anchored)) != nil }
+
+        let usable = memos
+            .filter { !$0.isSecure && !$0.isTemplate && !$0.isStack && $0.contentType == .text && !$0.title.isEmpty }
+            .sorted { $0.clipCount > $1.clipCount }
+        let exact = replacements.filter { same($0.shortcut) }.map { Pick(typed: word, title: $0.phrase, text: $0.phrase, memoID: nil) }
+            + usable.filter { same($0.title) }.map { Pick(typed: word, title: $0.title, text: $0.value, memoID: $0.id) }
+        let prefixed = usable.filter { !same($0.title) && starts($0.title) }
+            .map { Pick(typed: word, title: $0.title, text: $0.value, memoID: $0.id) }
+
+        var seen = Set<String>()
+        return (exact + prefixed)
+            .filter { $0.text != word && seen.insert($0.text).inserted }
+            .prefix(limit)
+            .map { $0 }
     }
 }

@@ -7,6 +7,7 @@
 
 import Testing
 import Foundation
+import UIKit
 @testable import ClipKeyboard
 
 struct KeyboardSessionLedgerTests {
@@ -110,5 +111,90 @@ struct KeyboardSessionLedgerTests {
         #expect(Set(plan.map(\.memoID)).count == plan.count)
         #expect(!plan.map(\.memoID).contains(hidden))
         #expect(plan.first?.memoID == memos[3].id)
+    }
+}
+
+// MARK: - 이 칸에 맞는 단축어
+
+struct FieldFitTests {
+
+    private let now = Date(timeIntervalSince1970: 1_790_000_000)
+
+    @Test("꼬리표가 말한 칸만 알아본다. 숫자 자판만으로는 짐작하지 않는다")
+    func kindComesFromTheFieldOnly() {
+        #expect(FieldFit.kind(contentType: .creditCardNumber, keyboardType: .numberPad) == .creditCard)
+        #expect(FieldFit.kind(contentType: .emailAddress, keyboardType: nil) == .email)
+        #expect(FieldFit.kind(contentType: .fullStreetAddress, keyboardType: nil) == .address)
+        #expect(FieldFit.kind(contentType: nil, keyboardType: .emailAddress) == .email)
+        #expect(FieldFit.kind(contentType: nil, keyboardType: .numberPad) == nil)
+        #expect(FieldFit.kind(contentType: nil, keyboardType: .default) == nil)
+        #expect(FieldFit.kind(contentType: .oneTimeCode, keyboardType: .numberPad) == nil)
+    }
+
+    @Test("카드번호 칸에는 카드 단축어만, 많이 쓴 것부터")
+    func matchesByKindMostUsedFirst() {
+        var card = Memo(title: "신한카드", value: "1234-5678-9012-3456", autoDetectedType: .creditCard)
+        card.clipCount = 1
+        var card2 = Memo(title: "국민카드", value: "9876-5432-1098-7654", autoDetectedType: .creditCard)
+        card2.clipCount = 5
+        let mail = Memo(title: "회사 메일", value: "me@example.com", autoDetectedType: .email)
+        let template = Memo(title: "카드 안내", value: "{이름}님 카드", templateVariables: ["이름"], autoDetectedType: .creditCard)
+
+        let ids = FieldFit.matchingIDs(memos: [card, mail, template, card2], kind: .creditCard)
+        #expect(ids == [card2.id, card.id])
+    }
+
+    @Test("종류가 비어 있는 옛 단축어는 주어진 분류로 판정한다")
+    func untypedMemosUseTheClassifier() {
+        let old = Memo(title: "메일", value: "old@example.com")
+        let ids = FieldFit.matchingIDs(memos: [old], kind: .email) { _ in .email }
+        #expect(ids == [old.id])
+    }
+
+    @Test("칸에 맞는 단축어가 빠른 줄 맨 앞에 선다")
+    func fitsComeFirstInQuickRow() {
+        let due = Memo(title: "보고", value: "주간 보고")
+        let card = Memo(title: "카드", value: "1234-5678-9012-3456", autoDetectedType: .creditCard)
+        let plan = QuickRowPlanner.plan(memos: [due, card], dueIDs: [due.id], fitIDs: [card.id],
+                                        struggling: false, now: now)
+        #expect(plan.first == .init(memoID: card.id, reason: .fits))
+        #expect(plan.count == 2)
+    }
+}
+
+struct TypedShortcutTests {
+
+    @Test("커서 바로 앞의 낱말만 본다. 띄어 쓴 뒤면 없다")
+    func lastWordIsRightBeforeCursor() {
+        #expect(TypedShortcut.lastWord(in: "안녕하세요 주소") == "주소")
+        #expect(TypedShortcut.lastWord(in: "주소 ") == "")
+        #expect(TypedShortcut.lastWord(in: "첫 줄\nㅈㅅ") == "ㅈㅅ")
+        #expect(TypedShortcut.lastWord(in: nil) == "")
+    }
+
+    @Test("단축어 이름이나 텍스트 대치를 치면 칩이 선다. 이름과 같은 것이 먼저")
+    func typedNameSuggestsShortcut() {
+        var home = Memo(title: "주소지", value: "서울시 중구 세종대로 110")
+        home.clipCount = 9
+        let office = Memo(title: "주소", value: "서울시 강남구 테헤란로 1")
+        let sorry = TypedShortcut.Replacement(shortcut: "ㅈㅅ", phrase: "죄송합니다")
+
+        let picks = TypedShortcut.picks(for: "주소", memos: [home, office], replacements: [sorry])
+        #expect(picks.map(\.memoID) == [office.id, home.id])
+        #expect(picks.first?.typed == "주소")
+
+        let replaced = TypedShortcut.picks(for: "ㅈㅅ", memos: [], replacements: [sorry])
+        #expect(replaced == [.init(typed: "ㅈㅅ", title: "죄송합니다", text: "죄송합니다", memoID: nil)])
+    }
+
+    @Test("한 글자로는 앞부분을 맞추지 않고, 잠근 · 템플릿 단축어는 세우지 않는다")
+    func quietWhenUnsure() {
+        let home = Memo(title: "주소", value: "서울시 중구")
+        var locked = Memo(title: "카드", value: "1234")
+        locked.isSecure = true
+        let template = Memo(title: "카드 안내", value: "{이름}님", templateVariables: ["이름"])
+
+        #expect(TypedShortcut.picks(for: "주", memos: [home], replacements: []).isEmpty)
+        #expect(TypedShortcut.picks(for: "카드", memos: [locked, template], replacements: []).isEmpty)
     }
 }

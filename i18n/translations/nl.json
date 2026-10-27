@@ -2876,6 +2876,10 @@
     "v": "Geen resultaten",
     "src": "24b20b269c"
   },
+  "검색 닫기": {
+    "v": "Sluit zoeken",
+    "src": "83babf66d2"
+  },
   "검색 중": {
     "v": "Zoeken",
     "src": "07616c5508"
@@ -3215,6 +3219,10 @@
     "v": "Opgelost: de afbeelding ging verloren bij het kopiëren van een fragment met tekst en foto",
     "src": "dd2c538bc8"
   },
+  "글은 자판으로 치고, 자주 쓰는 글은 단축어로 꺼내요. 다른 키보드로 오갈 일이 없어져요.": {
+    "v": "Typ met de toetsen en haal vaak gebruikte tekst uit je snippets. Je hoeft niet meer te wisselen tussen toetsenborden.",
+    "src": "bdebc6cf46"
+  },
   "글자": {
     "v": "Letters",
     "src": "1947165158"
@@ -3246,6 +3254,10 @@
   "글자를 치는 자판으로 바꿉니다": {
     "v": "Schakelt naar het toetsenbord om te typen",
     "src": "e45844aee1"
+  },
+  "글자를 칠 때도 맞는 단축어": {
+    "v": "Passende snippets ook tijdens het typen",
+    "src": "92c9afe9a6"
   },
   "금고": {
     "v": "Kluis",
@@ -3526,6 +3538,10 @@
   "끄면 저장할 때 원본 단축어가 삭제돼요": {
     "v": "Zet uit om het originele fragment bij het bewaren te verwijderen",
     "src": "b643c858e1"
+  },
+  "끄면 키보드 아래의 마이크가 사라져요. 말로 받아쓰기를 쓴다면 켜 두세요.": {
+    "v": "Als je dit uitzet, verdwijnt de microfoon onder het toetsenbord. Laat het aan als je dicteert.",
+    "src": "8bedfb30fb"
   },
   "끔": {
     "v": "Uit",
@@ -4015,6 +4031,10 @@
     "v": "Verplaats naar een andere categorie",
     "src": "710255cf6a"
   },
+  "다른 키보드 빼기": {
+    "v": "Andere toetsenborden verwijderen",
+    "src": "bdfb505c26"
+  },
   "다섯 가지 모두": {
     "v": "Alle vijf",
     "src": "ff1b04bb97"
@@ -4351,6 +4371,10 @@
     "v": "Geen fragmenten",
     "src": "2749d94a6b"
   },
+  "단축어 이름이나 아이폰 텍스트 대치를 치면 자판 위에 띄워요. 누르면 바로 들어가요.": {
+    "v": "Typ de naam van een fragment of een tekstvervanging van je iPhone, dan verschijnt die boven de toetsen. Tik erop om in te voegen.",
+    "src": "6f6b43f251"
+  },
   "단축어 저장": {
     "v": "Fragmentopslag",
     "src": "94713f0171"
@@ -4386,6 +4410,10 @@
   "단축어 탭을 열었을 때 보이는 화면이에요. 어느 쪽을 골라도 저장한 단축어는 그대로예요.": {
     "v": "Dit zie je als je het tabblad Fragmenten opent. Je opgeslagen fragmenten blijven hoe dan ook behouden.",
     "src": "c6404813d9"
+  },
+  "단축어 판의 키보드 키를 누르면 자판으로 돌아와요": {
+    "v": "Tik op de toetsenbordtoets in het snippetpaneel om terug te gaan naar typen",
+    "src": "0c803b9128"
   },
   "단축어 표시": {
     "v": "Weergave van fragmenten",
@@ -5581,6 +5609,10 @@
     "v": "Voor altijd, tegen halve prijs?",
     "src": "6395bf8804"
   },
+  "받아쓰기 끄기": {
+    "v": "Dicteren uitzetten",
+    "src": "5fcc22c951"
+  },
   "방금": {
     "v": "Zojuist",
     "src": "54f8277af2"
@@ -6356,6 +6388,10 @@
     "v": "Wachtwoord",
     "src": "40bddd0601"
   },
+  "비밀번호 칸에서는 iOS 가 잠깐 기본 키보드를 띄워요. 앱이 바꿀 수 없는 일이에요.": {
+    "v": "In wachtwoordvelden toont iOS even het eigen toetsenbord. Apps kunnen dit niet wijzigen.",
+    "src": "ebb42c2e9d"
+  },
   "비밀번호·PIN·인증서는 가져올 때부터 자동으로 암호화되는 보안 단축어로": {
     "v": "Wachtwoorden, pincodes en certificaten worden vanaf het importeren als versleutelde beveiligde fragmenten opgeslagen",
     "src": "b9021309d7"
@@ -7092,6 +7128,14 @@
     "v": "Open Actieknop in de Instellingen-app",
     "src": "05f9b57848"
   },
+  "설정 앱에서 일반 ▸ 키보드 ▸ 키보드를 열어요": {
+    "v": "Open in Instellingen Algemeen ▸ Toetsenbord ▸ Toetsenborden",
+    "src": "494359b21e"
+  },
+  "설정 앱에서 일반 ▸ 키보드를 열어요": {
+    "v": "Open in Instellingen Algemeen ▸ Toetsenbord",
+    "src": "d144e8a8bd"
+  },
   "설정 열기": {
     "v": "Open Instellingen",
     "src": "639b7a69db"
@@ -7655,6 +7699,10 @@
   "아래에서 조각을 눌러 보세요": {
     "v": "Tik hieronder op een onderdeel",
     "src": "ac45af4a2b"
+  },
+  "아래쪽의 '받아쓰기 활성화'를 꺼요": {
+    "v": "Zet onderaan 'Activeer dicteren' uit",
+    "src": "058b8804c2"
   },
   "아무 텍스트 필드 탭 → 🌐 눌러 전환 → 단축어 탭": {
     "v": "Tik op een tekstveld → tik op 🌐 om te wisselen → tik op een fragment",
@@ -8470,6 +8518,10 @@
     "v": "Na een lange pauze weer geopend. Geen uitleg, geen vraag om een beoordeling.",
     "src": "7058e1663f"
   },
+  "오른쪽 위 '편집'을 눌러요": {
+    "v": "Tik rechtsboven op 'Wijzig'",
+    "src": "994adb83f9"
+  },
   "오른쪽 파란 화살표를 누르세요": {
     "v": "Tik op de blauwe pijl rechts",
     "src": "22b28ee01a"
@@ -8808,6 +8860,10 @@
   "이 카테고리에는 순서를 바꿀 단축어가 없어요": {
     "v": "Geen fragmenten om te ordenen in deze categorie",
     "src": "59a4a83a0e"
+  },
+  "이 칸에 맞음: %@": {
+    "v": "Past bij dit veld: %@",
+    "src": "f4ea75c19d"
   },
   "이 칸은 따로 입력하지 않아도 돼요. 복사할 때 오늘 날짜·현재 시각 등 현재 값으로 자동 입력됩니다.": {
     "v": "Je hoeft dit niet in te vullen. Bij het kopiëren wordt het vervangen door de huidige waarde (datum van vandaag, huidige tijd, enzovoort).",
@@ -9166,6 +9222,10 @@
     "v": "Scherm dat er raar uitziet",
     "src": "46b4000f7f"
   },
+  "이어서 쓰려면 두 번 누르세요": {
+    "v": "Tik twee keer om verder te schrijven",
+    "src": "f4f83fec85"
+  },
   "이어서 입력할 내용": {
     "v": "Inhoud van de volgende stap",
     "src": "829d0abf7d"
@@ -9308,6 +9368,10 @@
   "임시 저장 보기": {
     "v": "Concepten bekijken",
     "src": "b2a913fea1"
+  },
+  "임시 저장: %@": {
+    "v": "Concept: %@",
+    "src": "ceec3837d7"
   },
   "임시 저장된 항목이 없어요": {
     "v": "Nog geen concepten",
@@ -9532,6 +9596,22 @@
   "자판": {
     "v": "Toetsenbord",
     "src": "7bb07c5f0b"
+  },
+  "자판 위의 '단축어'를 누르면 단축어 판이 나와요": {
+    "v": "Tik boven de toetsen op 'Snippets' om je snippets te openen",
+    "src": "2c4e7c6539"
+  },
+  "자판과 단축어 오가기": {
+    "v": "Wisselen tussen typen en snippets",
+    "src": "80cbaa2c43"
+  },
+  "자판으로 치는 중에도 카드번호 칸이면 카드 단축어를 위에 띄워요.": {
+    "v": "Ook tijdens het typen op de lettertoetsen toont een veld voor een kaartnummer uw kaartfragment bovenaan.",
+    "src": "00c157a5f2"
+  },
+  "자판의 언어 키로 언어를 바꿔요. 순서는 입력 언어에서 정해요": {
+    "v": "Wissel van taal met de taaltoets. Stel de volgorde in bij Invoertalen",
+    "src": "87f235ee07"
   },
   "작게": {
     "v": "Klein",
@@ -10702,6 +10782,10 @@
     "v": "Voorheen telden we alleen de typetijd. Waarden die je in een andere app moest opzoeken, zoals een rekeningnummer, tellen nu ook de zoektijd mee. We laten ook zien hoe we hebben geteld.",
     "src": "d12c64b04d"
   },
+  "치면 떠오르는 단축어": {
+    "v": "Fragmenten die verschijnen tijdens het typen",
+    "src": "7e1c1dc708"
+  },
   "치우기": {
     "v": "Ruim op",
     "src": "3cf7fd4f13"
@@ -10709,6 +10793,10 @@
   "치지 않아도 된 시간": {
     "v": "Tijd die je niet aan typen kwijt was",
     "src": "a3f59128f5"
+  },
+  "친 글자를 이 단축어로 바꿉니다": {
+    "v": "Vervangt wat je typte door dit fragment",
+    "src": "b770248eda"
   },
   "친구들에게 알리기": {
     "v": "Vertel het je vrienden",
@@ -10754,6 +10842,10 @@
     "v": "Kaartnummer",
     "src": "3553458d65"
   },
+  "카드번호 · 이메일 · 주소 칸처럼 무엇을 넣는지 알려 주는 칸에서, 맞는 단축어를 맨 앞에 보여 줍니다. 칸에 쓴 글은 읽지 않아요.": {
+    "v": "In velden die aangeven wat ze verwachten, zoals kaartnummer, e-mail of adres, staan de passende snippets vooraan. Wat je typt, wordt nooit gelezen.",
+    "src": "0c9f208aec"
+  },
   "카드번호 같아요. 잠가 둘까요?": {
     "v": "Lijkt op een kaartnummer. Vergrendelen?",
     "src": "28daf579e7"
@@ -10761,6 +10853,10 @@
   "카드번호·IBAN·사업자등록번호는 검사식이 있어요. 한 자리를 잘못 적었으면 저장하기 전에 짚어 드립니다.": {
     "v": "Kaartnummers, IBAN's en btw-nummers hebben een controlecijfer. Typ je één cijfer fout, dan zeggen we het vóór je bewaart.",
     "src": "f295fae985"
+  },
+  "카드번호·이메일·주소 칸에 들어가면 그 단축어를 맨 앞에 보여 줘요.": {
+    "v": "Tik op een veld voor kaartnummer, e-mail of adres en dat snippet staat vooraan.",
+    "src": "d665942763"
   },
   "카드번호나 금액처럼 숫자 몇 자만 넣을 때는 숫자 판을 여세요. 붙여넣기 키는 쓰는 분만 켜면 돼요.": {
     "v": "Open het cijferpaneel als je maar een paar cijfers nodig hebt, zoals een kaartnummer of bedrag. Zet de plaktoets alleen aan als je die gebruikt.",
@@ -10936,6 +11032,10 @@
       "other": "Elke stap wordt apart geteld. Aan, maar nooit verschenen betekent dat het nog niet is opgeroepen, of dat het zonder Volledige toegang is gebruikt en er geen spoor is. Fragment gebruikt telt iedereen die er echt een gebruikte, via het toetsenbord of door te kopiëren in de app. %d oudere records zonder de nieuwe meetwaarden zijn niet meegeteld."
     },
     "src": "b626346872"
+  },
+  "칸에 맞는 단축어 먼저": {
+    "v": "Passende snippets eerst",
+    "src": "53936d6a6c"
   },
   "캘린더 열기": {
     "v": "Open Agenda",
@@ -11172,12 +11272,24 @@
     "v": "Zet ClipKeyboard aan",
     "src": "a21f37767e"
   },
+  "클립키보드 하나로 써요": {
+    "v": "Gebruik ClipKeyboard op zichzelf",
+    "src": "06e6daa9bb"
+  },
+  "클립키보드 하나로 쓰기": {
+    "v": "Alleen ClipKeyboard gebruiken",
+    "src": "dbb33b166d"
+  },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "v": {
       "one": "ClipKeyboard heeft je al %d uur bespaard",
       "other": "ClipKeyboard heeft je al %d uur bespaard"
     },
     "src": "c6b77aeac7"
+  },
+  "클립키보드만 남기고 나머지를 빼요": {
+    "v": "Verwijder alles behalve ClipKeyboard",
+    "src": "a0a9a38d77"
   },
   "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.": {
     "v": "Aantal toetsen, hoogte, tekstgrootte en kleuren stel je zelf in. Sommigen zetten acht toetsen op één scherm.",
@@ -11386,6 +11498,10 @@
   "키보드가 떠 봄": {
     "v": "Toetsenbord verschenen",
     "src": "c28b3a4f50"
+  },
+  "키보드가 클립키보드 하나만 남으면 아래의 지구본이 사라져요. 이모지를 쓰려면 이모지 키보드는 남겨 두세요. 그러면 지구본도 남아요.": {
+    "v": "Als ClipKeyboard het enige toetsenbord is, verdwijnt de wereldbol onderaan. Wil je emoji blijven gebruiken, laat dan het emoji-toetsenbord staan. Dan blijft de wereldbol ook.",
+    "src": "ea7cbdddf0"
   },
   "키보드가 화면을 넓게 쓰고, 키보드 안에서 바로 칠 수 있어요": {
     "v": "Het toetsenbord gebruikt het hele scherm en je kunt er direct in typen",
@@ -12092,6 +12208,10 @@
   "필요한 기능이나 불편했던 점을 남겨주시면 개발자가 직접 읽고 반드시 해결해 드릴게요.": {
     "v": "Laat weten wat je nodig hebt of wat niet fijn werkte: de ontwikkelaar leest elk bericht en lost het op.",
     "src": "eec7b2e40c"
+  },
+  "필요한 칸에서 맞는 단축어 먼저": {
+    "v": "Het juiste snippet voor elk veld",
+    "src": "ae75167797"
   },
   "필요할 때 꺼내 쓰면 돼요": {
     "v": "Gebruik het wanneer je het nodig hebt",

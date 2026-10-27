@@ -53,12 +53,12 @@ final class CheonjiinInputTests: XCTestCase {
         XCTAssertEqual(proxy.text, "ㄱ", "사이클은 한 바퀴 돌면 처음으로")
     }
 
-    func testConsonantKey_TimeoutStartsNewCharacter() {
-        // 타임아웃(0.5초) 지나면 순환이 아니라 새 글자
+    func testConsonantKey_SlowTapsStillCycle() {
+        // 시간이 아니라 → 키가 끊는다. 천천히 쳐도 ㄱ ㄱ 은 ㅋ (기본 10키와 같다)
         cheonjiin.tap("ㄱㅋ")
         Thread.sleep(forTimeInterval: 0.6)
         cheonjiin.tap("ㄱㅋ")
-        XCTAssertEqual(proxy.text, "ㄱㄱ")
+        XCTAssertEqual(proxy.text, "ㅋ")
     }
 
     func testDifferentConsonantKey_BreaksCycle() {
@@ -103,6 +103,62 @@ final class CheonjiinInputTests: XCTestCase {
         XCTAssertEqual(proxy.text, "ㆍ")
         cheonjiin.tap("ㅣ")
         XCTAssertEqual(proxy.text, "ㅓ")
+    }
+
+    /// 보이는 모음에 획을 더한다: 오 + ㆍ = 요, 우 + ㆍ = 유 (2026-10 사용자 신고).
+    func testStrokeAddsToShownVowel() {
+        cheonjiin.tap("ㅇㅁ")
+        cheonjiin.tap("ㆍ")
+        cheonjiin.tap("ㅡ")
+        XCTAssertEqual(proxy.text, "오")
+        cheonjiin.tap("ㆍ")
+        XCTAssertEqual(proxy.text, "요")
+
+        cheonjiin.commit()
+        cheonjiin.tap("ㅇㅁ")
+        cheonjiin.tap("ㅡ")
+        cheonjiin.tap("ㆍ")
+        cheonjiin.tap("ㆍ")
+        XCTAssertEqual(proxy.text, "요유")
+    }
+
+    /// 늦게 쳐도 모음이 끊기지 않는다.
+    func testSlowStrokesStillCompose() {
+        cheonjiin.tap("ㅇㅁ")
+        cheonjiin.tap("ㅣ")
+        Thread.sleep(forTimeInterval: 0.7)
+        cheonjiin.tap("ㆍ")
+        XCTAssertEqual(proxy.text, "아")
+    }
+
+    /// 두 점 다음 획: ᆢ + ㅣ = ㅕ, ᆢ + ㅡ = ㅛ. 겹모음도 보이는 모음에서 간다(외 + ㆍ = 와).
+    func testDotsAndCompoundVowels() {
+        cheonjiin.tap("ㄱㅋ")
+        cheonjiin.tap("ㆍ")
+        cheonjiin.tap("ㆍ")
+        cheonjiin.tap("ㅣ")
+        XCTAssertEqual(proxy.text, "겨")
+        cheonjiin.commit()
+        cheonjiin.tap("ㄱㅋ")
+        cheonjiin.tap("ㆍ")
+        cheonjiin.tap("ㅡ")
+        cheonjiin.tap("ㅣ")
+        cheonjiin.tap("ㆍ")
+        XCTAssertEqual(proxy.text, "겨과")
+        cheonjiin.commit()
+        cheonjiin.tap("ㅇㅁ")
+        cheonjiin.tap("ㅡ")
+        cheonjiin.tap("ㆍ")
+        cheonjiin.tap("ㆍ")
+        cheonjiin.tap("ㅣ")
+        XCTAssertEqual(proxy.text, "겨과워")
+    }
+
+    /// 홀로 친 모음도 획을 더하면 바뀐다(ㅣ + ㆍ = ㅏ, 앞에 ㅣ 가 남지 않는다).
+    func testLoneVowelEvolves() {
+        cheonjiin.tap("ㅣ")
+        cheonjiin.tap("ㆍ")
+        XCTAssertEqual(proxy.text, "ㅏ")
     }
 
     // MARK: - 음절 완성 (자음+모음+받침)
@@ -180,5 +236,14 @@ final class CheonjiinInputTests: XCTestCase {
         cheonjiin.tap("ㆍ")     // 임시 ㆍ
         cheonjiin.commit()
         XCTAssertEqual(proxy.text, "가")
+    }
+
+    /// 꾹 누르면 전화 자판 자리의 숫자(2026-10 사용자 요청).
+    func testLongPressDigitsFollowPhonePad() {
+        XCTAssertEqual(CheonjiinInput.digit(for: "ㅣ"), "1")
+        XCTAssertEqual(CheonjiinInput.digit(for: "ㄱㅋ"), "4")
+        XCTAssertEqual(CheonjiinInput.digit(for: "ㅈㅊ"), "9")
+        XCTAssertEqual(CheonjiinInput.digit(for: "ㅇㅁ"), "0")
+        XCTAssertNil(CheonjiinInput.digit(for: CheonjiinInput.advanceKey))
     }
 }

@@ -97,6 +97,10 @@ struct KeyboardSettingsView: View {
                 Label(NSLocalizedString("입력 언어", comment: "Settings: typing languages screen title"),
                       systemImage: AppSymbol.globe)
             }
+            FoldLink(destination: OnlyThisKeyboardGuideView()) {
+                Label(NSLocalizedString("클립키보드 하나로 쓰기", comment: "Only-this-keyboard guide title"),
+                      systemImage: AppSymbol.keyboard)
+            }
             FoldLink(destination: KeyboardLayoutSettings()) {
                 Label(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"),
                       systemImage: AppSymbol.rectangle3Group)

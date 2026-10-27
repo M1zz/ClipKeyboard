@@ -125,11 +125,17 @@ struct TypingKeyboardPanel: View {
     let returnLocked: Bool
     /// 커서가 문장 첫머리인가(`KeyboardDocumentState.startsSentence`). 바뀌면 Shift 를 다시 정한다.
     let startsSentence: Bool
+    /// 캐럿을 옮겨 짓던 낱말이 확정됐다(`KeyboardDocumentState.composingInterrupted`). 바뀌면 조합을 비운다.
+    var composingInterrupted: Int = 0
     /// 시스템 지구본(다음 키보드)을 받는 투명 단추. iOS 가 요구하는 기기에서만 받는다.
     /// 키 모양은 여기서 그리고, 손가락은 이 단추가 받는다(`handleInputModeList`).
     let globeOverlay: AnyView?
     /// 단축어 판으로.
     let onShowSnippets: () -> Void
+    /// 친 낱말에 맞는 단축어들(`TypedShortcut.picks`). 띠의 단축어 키 오른쪽에 선다.
+    var shortcutPicks: (String) -> [TypedShortcut.Pick] = { _ in [] }
+    /// 칩을 눌렀다. 친 낱말은 여기서 지웠고, 넣는 일만 남았다.
+    var onPickShortcut: (TypedShortcut.Pick) -> Void = { _ in }
 
     @Environment(\.colorScheme) private var colorScheme
 
@@ -203,6 +209,10 @@ struct TypingKeyboardPanel: View {
         .onChange(of: languagesRaw) { _, _ in languageDidChange() }
         .onChange(of: koreanLayoutRaw) { _, _ in languageDidChange() }
         .onChange(of: startsSentence) { _, _ in updateAutoShift() }
+        .onChange(of: composingInterrupted) { _, _ in
+            session.engine?.reset()
+            session.refresh()
+        }
     }
 
     // MARK: - 맨 위 띠
@@ -235,16 +245,61 @@ struct TypingKeyboardPanel: View {
                 }
                 .buttonStyle(.squish)
                 .accessibilityHint(NSLocalizedString("단축어 키 판으로 바꿉니다", comment: "Typing keyboard: snippets button hint"))
-                Spacer(minLength: 0)
-                if language.needsConversionDictionary && session.dictionaryMissing {
-                    Text(NSLocalizedString("한자 사전은 앱의 키보드 설정에서 받아요", comment: "Typing keyboard: CJK dictionary not downloaded yet"))
-                        .font(.system(size: 11))
-                        .foregroundColor(theme.textMuted)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.7)
+                TypedShortcutRow(word: session.typedWord, picks: shortcutPicks) { picks in
+                    shortcutChips(picks, metrics: metrics)
+                } fallback: {
+                    Spacer(minLength: 0)
+                    if language.needsConversionDictionary && session.dictionaryMissing {
+                        Text(NSLocalizedString("한자 사전은 앱의 키보드 설정에서 받아요", comment: "Typing keyboard: CJK dictionary not downloaded yet"))
+                            .font(.system(size: 11))
+                            .foregroundColor(theme.textMuted)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
+                    }
                 }
             }
         }
+    }
+
+    /// 친 낱말을 지우고 단축어를 넣는 칩들. 넘치면 옆으로 민다.
+    private func shortcutChips(_ picks: [TypedShortcut.Pick], metrics: NativeKeyMetrics) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 6) {
+                ForEach(Array(picks.enumerated()), id: \.offset) { _, pick in
+                    Button {
+                        KeyboardHaptics.tap()
+                        session.engine?.commit()
+                        for _ in 0..<pick.typed.count { proxy.deleteBackward() }
+                        onPickShortcut(pick)
+                        session.refresh()
+                    } label: {
+                        HStack(spacing: 6) {
+                            Text(pick.title)
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundColor(style.label)
+                            if pick.text != pick.title {
+                                Text(pick.text.replacingOccurrences(of: "\n", with: " "))
+                                    .font(.system(size: 13))
+                                    .foregroundColor(theme.textMuted)
+                            }
+                        }
+                        .lineLimit(1)
+                        .frame(maxWidth: 200)
+                        .padding(.horizontal, 12)
+                        .frame(height: min(32, metrics.stripHeight - 10))
+                        .background(style.fill(.letter, pressed: false))
+                        .clipShape(Capsule())
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.squish)
+                    .accessibilityLabel(pick.title)
+                    .accessibilityHint(NSLocalizedString("친 글자를 이 단축어로 바꿉니다", comment: "Typing keyboard: hint of a suggested shortcut chip above the keys"))
+                }
+            }
+        }
+        .scrollEdgeEffectHidden(true, for: .all)
+        .transition(.opacity)
     }
 
     private var candidateStrip: some View {
@@ -699,7 +754,8 @@ struct TypingKeyboardPanel: View {
 
     /// 자모 키. 기본 10키처럼 두 자모 사이를 띄워 적고, 누르면 풍선 대신 키 색이 바뀐다.
     private func cheonjiinKey(_ key: String, metrics: NativeKeyMetrics, width: CGFloat) -> some View {
-        PressableKey(action: { type(key) }) { pressed in
+        PressableKey(onLongPress: CheonjiinInput.digit(for: key).map { digit in { typeDigit(digit) } },
+                     action: { type(key) }) { pressed in
             cell(width: width, height: metrics.rowPitch, metrics: metrics) {
                 // ⚠️ 글꼴의 ㅡ 는 글자 칸 아래쪽에 앉아 키 가운데보다 4pt 쯤 낮게 보인다.
                 //    기본 10키는 획을 키 한가운데에 둔다.
@@ -716,6 +772,11 @@ struct TypingKeyboardPanel: View {
     private func cheonjiinAdvanceKey(metrics: NativeKeyMetrics, width: CGFloat) -> some View {
         PressableKey(action: {
             KeyboardHaptics.tap()
+            // 문장 부호를 돌리던 중이면 → 는 그 부호를 확정만 한다. 다음 . 은 새 부호다(". → ." 로 ".." 을 친다).
+            if punctuationCycle != nil {
+                punctuationCycle = nil
+                return
+            }
             session.engine?.input(CheonjiinInput.advanceKey)
             session.refresh()
         }) { pressed in
@@ -753,9 +814,19 @@ struct TypingKeyboardPanel: View {
 
     // MARK: - 넣기
 
+    /// 천지인 키를 꾹 눌렀다. 짓던 글자를 마치고 그 키의 숫자를 넣는다.
+    private func typeDigit(_ digit: String) {
+        KeyboardHaptics.tap()
+        if punctuationCycle != nil { punctuationCycle = nil }
+        session.engine?.commit()
+        proxy.insertText(digit)
+        session.refresh()
+    }
+
     private func type(_ key: String) {
         KeyboardHaptics.tap()
-        punctuationCycle = nil
+        // 바뀔 때만 적는다. 글자마다 판 전체를 다시 그리지 않게.
+        if punctuationCycle != nil { punctuationCycle = nil }
         session.engine?.input(key)
         session.refresh()
         if shift == .once { shift = .off }
@@ -822,17 +893,43 @@ struct NativeReturnGlyph {
         }
     }
 }
+// MARK: - 치면 떠오르는 단축어
+
+/// 커서 앞 낱말. 이것만 지켜보는 띠 한 칸이 다시 그려진다.
+final class TypedWord: ObservableObject {
+    @Published private(set) var value = ""
+    func update(_ next: String) { if next != value { value = next } }
+}
+
+/// 띠의 단축어 키 오른쪽 칸. 맞는 단축어가 있으면 칩, 없으면 `fallback`.
+private struct TypedShortcutRow<Chips: View, Fallback: View>: View {
+    @ObservedObject var word: TypedWord
+    let picks: (String) -> [TypedShortcut.Pick]
+    @ViewBuilder let chips: ([TypedShortcut.Pick]) -> Chips
+    @ViewBuilder let fallback: () -> Fallback
+
+    var body: some View {
+        let found = word.value.isEmpty ? [] : picks(word.value)
+        if found.isEmpty { fallback() } else { chips(found) }
+    }
+}
+
 // MARK: - 엔진을 들고 있는 것
 
 /// 엔진은 언어가 바뀔 때만 새로 만든다. 그리기마다 만들면 조합 중이던 글자가 끊긴다.
 final class TypingSession: ObservableObject {
     private(set) var engine: TypingEngine?
     private var key: String = ""
+    private weak var proxy: TypingInputProxy?
     @Published private(set) var candidates: [String] = []
+    /// 커서 바로 앞의 낱말. 치면 떠오르는 단축어(`TypedShortcut`)를 찾는 열쇠다.
+    /// ⚠️ 따로 떼어 둔 관찰 대상이다. 여기 `@Published` 로 두면 글자마다 자판 전체를 다시 그린다.
+    let typedWord = TypedWord()
     @Published private(set) var dictionaryMissing = false
 
     func prepare(language: TypingLanguage, proxy: TypingInputProxy, koreanLayout: KoreanTypingLayout) {
         let next = "\(language.rawValue)|\(koreanLayout.rawValue)"
+        self.proxy = proxy
         guard next != key || engine == nil else { return }
         key = next
         let dictionary = ConversionDictionaryStore.dictionary(for: language)
@@ -845,6 +942,7 @@ final class TypingSession: ObservableObject {
     func refresh() {
         let next = engine?.candidates ?? []
         if next != candidates { candidates = next }
+        typedWord.update(TypedShortcut.lastWord(in: proxy?.typingContextBefore))
     }
 }
 
@@ -974,39 +1072,141 @@ struct NativeKeyStyle {
 
 /// 조작 키 · 천지인 키. 누르고 있는 동안 키 색이 바뀐다(기본 키보드는 줄어들지 않는다).
 ///
-/// ⚠️ 손가락은 `DragGesture` 로 받으므로 보이스오버에는 따로 동작을 단다.
+/// ⚠️ 손가락은 `KeyTouchSurface` 로 받으므로 보이스오버에는 따로 동작을 단다.
 private struct PressableKey<Face: View>: View {
     /// 누르는 순간 일한다(Shift · 지우기). 아니면 뗄 때(기본 키보드의 나머지 키).
     var firesOnTouchDown = false
     /// 누르고 있으면 되풀이한다(지우기).
     var repeats = false
+    /// 꾹 누르면 이것을 하고, 뗄 때의 `action` 은 하지 않는다(천지인 숫자).
+    var onLongPress: (() -> Void)? = nil
     let action: () -> Void
     @ViewBuilder let face: (_ pressed: Bool) -> Face
 
     @State private var pressed = false
     @State private var repeater = KeyRepeater()
+    @State private var longPressWork: DispatchWorkItem?
+    @State private var longPressFired = false
 
     var body: some View {
         face(pressed)
             .contentShape(Rectangle())
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { _ in
-                        guard !pressed else { return }
-                        pressed = true
-                        if firesOnTouchDown { action() }
-                        if repeats { repeater.start(action) }
-                    }
-                    .onEnded { _ in
-                        pressed = false
-                        repeater.stop()
-                        if !firesOnTouchDown { action() }
-                    }
-            )
-            .onDisappear { repeater.stop() }
+            .overlay(KeyTouchSurface(onBegan: began,
+                                     onEnded: { ended(fire: true) },
+                                     onCancelled: { ended(fire: false) }))
+            .onDisappear { repeater.stop(); longPressWork?.cancel() }
             .accessibilityElement(children: .ignore)
             .accessibilityAddTraits(.isButton)
             .accessibilityAction { action() }
+    }
+
+    private func began() {
+        pressed = true
+        if firesOnTouchDown { action() }
+        if repeats { repeater.start(action) }
+        if let onLongPress {
+            longPressFired = false
+            let work = DispatchWorkItem {
+                longPressFired = true
+                onLongPress()
+            }
+            longPressWork = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.45, execute: work)
+        }
+    }
+
+    private func ended(fire: Bool) {
+        pressed = false
+        repeater.stop()
+        longPressWork?.cancel()
+        longPressWork = nil
+        if longPressFired { longPressFired = false; return }
+        if fire && !firesOnTouchDown { action() }
+    }
+}
+
+// MARK: - 손가락 받기
+
+/// 키 하나가 손가락을 받는 자리. SwiftUI 제스처 대신 UIKit 터치를 바로 받는다.
+///
+/// ⚠️ 왜 UIKit 인가: SwiftUI `DragGesture` 는 키 하나에 손가락 하나만 받는다. 같은 키를 두 엄지로
+///    번갈아 빨리 누르면(천지인의 ㆍ ㆍ, ㄱ ㄱ) 앞 손가락을 떼기 전에 닿은 뒤 손가락이 통째로
+///    버려졌다(2026-10 "연타하면 입력이 안 된다" 사용자 신고). 제스처를 가리는 단계가 없어 더 빨리 닿기도 한다.
+/// ⚠️ **새 손가락이 닿으면 앞 손가락의 누름을 그 자리에서 끝낸다**(기본 키보드와 같다).
+///    다른 키를 누르던 손가락도 마찬가지라, 겹쳐 쳐도 누른 순서대로 들어간다.
+struct KeyTouchSurface: UIViewRepresentable {
+    var onBegan: () -> Void
+    /// 누른 자리에서 손가락이 얼마나 갔는가(길게 눌러 고르는 글자).
+    var onMoved: (CGSize) -> Void = { _ in }
+    var onEnded: () -> Void
+    /// 시스템이 손가락을 가져갔다(가장자리 몸짓 등). 글자는 넣지 않는다.
+    var onCancelled: () -> Void
+
+    func makeUIView(context: Context) -> KeyTouchView {
+        let view = KeyTouchView()
+        view.surface = self
+        return view
+    }
+
+    func updateUIView(_ view: KeyTouchView, context: Context) {
+        view.surface = self
+    }
+}
+
+final class KeyTouchView: UIView {
+    var surface: KeyTouchSurface?
+    /// 지금 누름이 살아 있는 키. 새 손가락이 어디든 닿으면 이 키의 누름부터 끝낸다.
+    private static weak var live: KeyTouchView?
+    private var touch: UITouch?
+    private var start: CGPoint = .zero
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .clear
+        isMultipleTouchEnabled = true
+        isAccessibilityElement = false
+        accessibilityElementsHidden = true
+    }
+
+    required init?(coder: NSCoder) { fatalError("init(coder:) is not used") }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for next in touches {
+            Self.live?.finish()
+            touch = next
+            start = next.location(in: self)
+            Self.live = self
+            surface?.onBegan()
+        }
+    }
+
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch, touches.contains(touch) else { return }
+        let point = touch.location(in: self)
+        surface?.onMoved(CGSize(width: point.x - start.x, height: point.y - start.y))
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch, touches.contains(touch) else { return }
+        finish()
+    }
+
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch, touches.contains(touch) else { return }
+        release()
+        surface?.onCancelled()
+    }
+
+    /// 누름을 끝내고 그 키의 일을 한다.
+    fileprivate func finish() {
+        guard touch != nil else { return }
+        release()
+        surface?.onEnded()
+    }
+
+    private func release() {
+        touch = nil
+        if Self.live === self { Self.live = nil }
     }
 }
 
@@ -1080,23 +1280,10 @@ private struct TypingLetterKey: View {
         .frame(width: cellWidth + leadExtra + trailExtra, height: metrics.rowPitch)
         .contentShape(Rectangle())
         .zIndex(showsPopup ? 1 : 0)
-        .gesture(
-            DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                .onChanged { value in
-                    if pressStarted == nil { began(alignLeading: isLeadingHalf) }
-                    if showingAlternates {
-                        let step = metrics.keyWidth + 4
-                        let raw = Int((value.translation.width / step).rounded())
-                        let options = options
-                        let index = min(max(raw, 0), options.count - 1)
-                        if index != highlighted {
-                            highlighted = index
-                            onAlternatesMoved(index)
-                        }
-                    }
-                }
-                .onEnded { _ in ended() }
-        )
+        .overlay(KeyTouchSurface(onBegan: { if pressStarted == nil { began(alignLeading: isLeadingHalf) } },
+                                 onMoved: moved,
+                                 onEnded: ended,
+                                 onCancelled: cancelled))
         .accessibilityElement(children: .ignore)
         .accessibilityAddTraits(.isKeyboardKey)
         .accessibilityAction { onTap() }
@@ -1147,6 +1334,25 @@ private struct TypingLetterKey: View {
         }
         longPressWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.longPressDelay, execute: work)
+    }
+
+    private func moved(_ translation: CGSize) {
+        guard showingAlternates else { return }
+        let step = metrics.keyWidth + 4
+        let raw = Int((translation.width / step).rounded())
+        let index = min(max(raw, 0), options.count - 1)
+        if index != highlighted {
+            highlighted = index
+            onAlternatesMoved(index)
+        }
+    }
+
+    private func cancelled() {
+        longPressWork?.cancel()
+        longPressWork = nil
+        if showingAlternates { onAlternatesEnded(-1) }
+        showingAlternates = false
+        pressStarted = nil
     }
 
     private func ended() {

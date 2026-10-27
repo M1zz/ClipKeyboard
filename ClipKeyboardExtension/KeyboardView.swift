@@ -263,6 +263,9 @@ struct KeyboardView: View {
     /// `KeyboardDisplayDefaults` 에 맡기고, 이 프로퍼티는 **값이 바뀌면 다시 그리게**
     /// 하는 용도로만 둔다. 없으면 설정에서 켜도 키보드가 그대로 있다.
     @AppStorage(DefaultsKey.keyboardShowRecent, store: AppGroup.defaults) private var showRecentRaw: Bool = false
+    /// 칸이 무엇을 받는지 말해 주면 맞는 단축어를 빠른 줄 맨 앞에 세운다(`FieldFit`).
+    @AppStorage(KeyboardPrefs.suggestForField.key, store: AppGroup.defaults)
+    private var suggestForField: Bool = KeyboardPrefs.suggestForField.fallback
 
     /// '최근 사용' 줄을 세울지. 사람이 정했으면 그대로, 아직 안 정했으면 단축어 수가 정한다.
     private var showRecentSection: Bool {
@@ -681,6 +684,7 @@ struct KeyboardView: View {
         renderCache.filteredKey = nil
         renderCache.quickRowKey = nil
         renderCache.hints.removeAll(keepingCapacity: true)
+        renderCache.fieldTypes.removeAll(keepingCapacity: true)
     }
 
     private func computeCategoryPages() -> [String] {
@@ -732,11 +736,13 @@ struct KeyboardView: View {
     private var quickRowItems: [(memo: Memo, reason: QuickRowPlanner.Reason)] {
         refreshRenderCacheIfNeeded()
         let now = Date()
-        let key = "\(rhythmDueIDs)\(anchorIDs)\(searchStruggling)\(Int(now.timeIntervalSince1970 / 60))"
+        let fieldKind = suggestForField ? documentState.fieldKind : nil
+        let key = "\(rhythmDueIDs)\(anchorIDs)\(searchStruggling)\(fieldKind?.rawValue ?? "")\(Int(now.timeIntervalSince1970 / 60))"
         if renderCache.quickRowKey == key { return renderCache.quickRow }
         let plan = QuickRowPlanner.plan(memos: allMemos,
                                         dueIDs: rhythmDueIDs,
                                         anchorIDs: anchorIDs,
+                                        fitIDs: fieldKind.map(fieldFitIDs) ?? [],
                                         struggling: searchStruggling,
                                         now: now)
         let byID = Dictionary(allMemos.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
@@ -744,6 +750,19 @@ struct KeyboardView: View {
         renderCache.quickRowKey = key
         renderCache.quickRow = items
         return items
+    }
+
+    /// 이 칸에 맞는 단축어. 종류가 비어 있는 옛 단축어는 여기서 한 번 분류하고 기억한다
+    /// (목록이 바뀌면 `refreshRenderCacheIfNeeded` 가 비운다). 잠근 단축어는 본문을 분류하지 않는다.
+    private func fieldFitIDs(_ kind: FieldFit.Kind) -> [UUID] {
+        FieldFit.matchingIDs(memos: allMemos, kind: kind) { memo in
+            if let type = memo.autoDetectedType { return type }
+            guard !memo.isSecure else { return nil }
+            if let known = renderCache.fieldTypes[memo.id] { return known }
+            let type = ClipboardClassificationService.shared.classify(content: memo.value).type
+            renderCache.fieldTypes[memo.id] = type
+            return type
+        }
     }
 
     /// 빠른 줄 노출 조건 - 검색 비활성일 때만
@@ -758,6 +777,8 @@ struct KeyboardView: View {
     ///    꺼 달라고 한 사람에게는 세우지 않는다.
     private var showsQuickRow: Bool {
         if showRecentSection { return true }
+        // 칸에 맞는 단축어는 최근 줄을 끈 사람에게도 선다. 그 칸에서만, 따로 끌 수 있다(설정 ▸ 표시 옵션).
+        if quickRowItems.contains(where: { $0.reason == .fits }) { return true }
         return !KeyboardDisplayDefaults.hasChosenRecentSection && !rhythmDueIDs.isEmpty
     }
 
@@ -1860,15 +1881,16 @@ struct KeyboardView: View {
                 }
             }
             HStack(spacing: 3) {
-                if koreanInputEnabled { langToggleKey }   // 한국어 미사용 시 토글 숨김
+                if searchHasKorean { langToggleKey }   // 한국어 미사용 시 토글 숨김
                 spaceKey
                 backspaceKey
+                closeSearchKey
             }
         }
         .padding(.horizontal, 3)
         .onAppear {
             // 한국어 미사용이면 항상 영어 자판. 사용 중이면 기본 언어 설정을 시작값으로.
-            searchKeyboardLang = (koreanInputEnabled && defaultTypingLang == "korean") ? .korean : .english
+            searchKeyboardLang = searchStartsKorean ? .korean : .english
         }
         .padding(.vertical, 4)
         .background(theme.surfaceAlt)
@@ -1926,6 +1948,39 @@ struct KeyboardView: View {
         .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace key"))
     }
 
+    /// 검색 자판에 한글을 둘지. 자판(`TypingPrefs`)에 한국어를 켜 둔 사람도 포함한다.
+    ///
+    /// ⚠️ 예전에는 옛 설정 "한국어 입력"(`koreanEnabled`) 만 봤다. 자판에서 한국어로 치던 사람이
+    ///    검색을 누르면 영어 자판에 "한" 키도 없이 갇혔다(2026-10 사용자 신고).
+    private var searchHasKorean: Bool {
+        koreanInputEnabled || TypingPrefs.languages(from: typingLanguagesRaw).contains(.ko)
+    }
+
+    /// 검색 자판의 처음 언어. 자판에서 치던 언어가 한국어면 한글로 연다.
+    private var searchStartsKorean: Bool {
+        guard searchHasKorean else { return false }
+        if let current = TypingLanguage(rawValue: typingCurrentRaw) { return current == .ko }
+        return defaultTypingLang == "korean"
+    }
+
+    /// 검색을 닫는 키. 검색 칸 끝의 작은 X 만으로는 나가는 길이 안 보였다.
+    private var closeSearchKey: some View {
+        Button {
+            KeyboardHaptics.softTap()
+            hangul.reset()
+            searchQuery = ""
+            isSearching = false
+        } label: {
+            Image(systemName: AppSymbol.keyboardChevronCompactDown)
+                .font(.footnote.weight(.semibold))
+                .foregroundColor(theme.text)
+                .frame(width: 44, height: 28)
+                .background(theme.divider)
+                .cornerRadius(theme.radiusXs)
+        }
+        .accessibilityLabel(NSLocalizedString("검색 닫기", comment: "Keyboard: close the snippet search keyboard"))
+    }
+
     private var langToggleKey: some View {
         Button {
             KeyboardHaptics.softTap()
@@ -1944,7 +1999,7 @@ struct KeyboardView: View {
 
     private var currentRows: [[String]] {
         // 한국어 미사용이면 무조건 영어 자판 (한글 노출 방지 방어)
-        switch koreanInputEnabled ? searchKeyboardLang : .english {
+        switch searchHasKorean ? searchKeyboardLang : .english {
         case .english:
             return [
                 ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
@@ -2085,11 +2140,23 @@ struct KeyboardView: View {
                 returnKeyType: documentState.returnKeyType,
                 returnLocked: documentState.returnKeyIsLocked,
                 startsSentence: documentState.startsSentence,
+                composingInterrupted: documentState.composingInterrupted,
                 globeOverlay: KeyboardCapability.needsInputModeSwitchKey ? AnyView(InputModeSwitchOverlay(proxy: proxy)) : nil,
-                onShowSnippets: { setInputMode(.snippets) }
+                onShowSnippets: { setInputMode(.snippets) },
+                shortcutPicks: { TypedShortcut.picks(for: $0, memos: allMemos, replacements: documentState.textReplacements) },
+                onPickShortcut: pickTypedShortcut
             )
         } else {
             memoModeContent
+        }
+    }
+
+    /// 자판 위 칩을 눌렀다(친 낱말은 자판이 지웠다). 단축어는 늘 넣던 길로 넣어 횟수를 센다.
+    private func pickTypedShortcut(_ pick: TypedShortcut.Pick) {
+        if let id = pick.memoID, let memo = allMemos.first(where: { $0.id == id }) {
+            insertMemo(memo)
+        } else {
+            typingProxy?.insertText(pick.text)
         }
     }
 
@@ -2355,6 +2422,10 @@ struct KeyboardView: View {
                 // 지금 쓸 차례·많이 쓴 것은 **왜 여기 섰는지**를 아이콘이 말한다.
                 // 최근 것은 예전처럼 카테고리 아이콘 그대로.
                 switch reason {
+                case .fits:
+                    Image(systemName: AppSymbol.textCursor)
+                        .font(.caption2)
+                        .foregroundColor(theme.accent)
                 case .due:
                     Image(systemName: AppSymbol.calendarBadgeClock)
                         .font(.caption2)
@@ -2398,6 +2469,8 @@ struct KeyboardView: View {
 
     private func quickRowAccessibilityLabel(_ memo: Memo, reason: QuickRowPlanner.Reason) -> String {
         switch reason {
+        case .fits:
+            return String(format: NSLocalizedString("이 칸에 맞음: %@", comment: "Keyboard quick row chip label: shortcut whose kind matches what the text field asks for (card number, email, address)"), memo.title)
         case .due:
             return String(format: NSLocalizedString("지금 쓸 차례: %@", comment: "Keyboard quick row chip label: shortcut usually used around this time"), memo.title)
         case .anchor:
@@ -4019,6 +4092,8 @@ final class KeyboardRenderCache {
     var quickRow: [(memo: Memo, reason: QuickRowPlanner.Reason)] = []
     /// 키 아래 미리보기. 값이 nil 인 것(미리보기 없음)도 기억한다.
     var hints: [UUID: String?] = [:]
+    /// 종류가 비어 있던 단축어를 키보드가 분류한 결과(`FieldFit`).
+    var fieldTypes: [UUID: ClipboardItemType] = [:]
 }
 
 // MARK: - 아이폰 듀오: 접힌 선

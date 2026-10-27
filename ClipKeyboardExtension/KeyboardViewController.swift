@@ -23,6 +23,9 @@ class KeyboardViewController: UIInputViewController {
     /// 이번 판에서 **우리 자판으로** 글을 쳤는가. 쳤다면 우리가 '쓰던 키보드' 이므로
     /// 단축어를 넣은 뒤에도 다른 키보드로 넘기지 않는다(`returnToPreviousKeyboardIfWanted`).
     private var typedOnTypingPanel = false
+    /// 자판이 밑줄 친 글로 보여 둔 낱말(`setComposingText`). 사람이 캐럿을 옮겨 입력칸이 그 밑줄을
+    /// 확정해 버렸는지 가릴 때 본다.
+    private var composingShown = ""
 
     /// 넣은 직후 "사용자가 캐럿을 앞으로 옮겨 거기서 쓰는지" 지켜보는 동안의 메모지.
     /// 여기 담긴 것을 `CursorMemory` 가 배운다. 자세한 이유는 그 파일 머리말.
@@ -171,11 +174,23 @@ class KeyboardViewController: UIInputViewController {
         loadMemos()
         setupNotificationObservers()
         setupHostingController()  // 화면 전체에 SwiftUI 키보드만 표시
+        loadTextReplacements()
 
         AppGroup.defaults?
             .set(true, forKey: DefaultsKey.keyboardExtensionDidLoad)
 
         print("✅ viewDidLoad 완료, fullscreen SwiftUI keyboard")
+    }
+
+    /// 사람이 아이폰에 넣어 둔 텍스트 대치를 받아 둔다. 사전에는 연락처 이름도 섞여 오는데,
+    /// 그것은 친 것과 넣을 것이 같아서 걸러진다.
+    private func loadTextReplacements() {
+        requestSupplementaryLexicon { [weak self] lexicon in
+            let replacements = lexicon.entries
+                .filter { $0.userInput != $0.documentText }
+                .map { TypedShortcut.Replacement(shortcut: $0.userInput, phrase: $0.documentText) }
+            DispatchQueue.main.async { self?.documentState.textReplacements = replacements }
+        }
     }
 
     /// 키보드 익스텐션 잠금 오버레이.
@@ -444,6 +459,10 @@ class KeyboardViewController: UIInputViewController {
         myKeyboardView.translatesAutoresizingMaskIntoConstraints = false
         myKeyboardView.backgroundColor = .clear
         myKeyboardView.clipsToBounds = true
+        // ⚠️ UIView 는 기본으로 손가락 하나만 받는다. 그대로 두면 앞 키를 떼기 전에 다음 키를 누르는
+        //    빠른 타자에서 뒤 입력이 통째로 버려진다(2026-10 "내 속도로 치면 씹힌다" 사용자 신고).
+        view.isMultipleTouchEnabled = true
+        myKeyboardView.isMultipleTouchEnabled = true
         view.addSubview(myKeyboardView)
         hostingVC.didMove(toParent: self)
         view.backgroundColor = .clear
@@ -810,6 +829,9 @@ class KeyboardViewController: UIInputViewController {
         typedOnTypingPanel = false
         // 햅틱 엔진 사전 깨우기 - 첫 키 입력 지연 제거 (빠른 타이핑 시 버벅임 방지)
         KeyboardHaptics.prepare()
+        // iOS 는 화면 가장자리 몸짓(아래에서 올리기 · 왼쪽에서 밀기)을 가리려고 키보드 창의 터치를
+        // 잠깐 붙잡아 둔다. 그래서 맨 아랫줄 · 양 끝 키만 늦게 눌렸다. 붙잡지 않게 한다.
+        view.window?.gestureRecognizers?.forEach { $0.delaysTouchesBegan = false }
         // 뜨고 몇 초 버티면 "끝까지 떴다" 로 적는다. 그리는 도중에 죽으면 표식이 남는다.
         crashGuard.markLaunchSucceededAfterSurvivalDelay()
     }
@@ -854,10 +876,24 @@ class KeyboardViewController: UIInputViewController {
 
     override func selectionDidChange(_ textInput: UITextInput?) {
         super.selectionDidChange(textInput)
+        composingLostIfCaretMoved()
         // 커서 이동 시에도 텍스트 존재 여부가 바뀔 수 있어 다시 확인
         updateHasTextState()
         // 넣은 글 안쪽으로 캐럿이 갔는지 적어 둔다(아직 배우지는 않는다).
         noteCaretMove()
+    }
+
+    /// 낱말을 짓는 중에 사람이 캐럿을 다른 데로 옮기면, 입력칸이 밑줄 친 낱말을 그 자리에 확정한다.
+    /// 자판은 그 낱말을 아직 짓는 줄 알아서, 다음 키가 옮긴 자리에 낱말을 통째로 다시 쓴다.
+    /// 캐럿 앞이 보여 둔 낱말로 끝나지 않으면 확정하고 자판에 새로 짓게 알린다.
+    ///
+    /// ⚠️ 확정(`unmarkText`)부터 한다. 잘못 알아챘을 때도 글이 사라지지 않고 낱말이 끊길 뿐이다.
+    private func composingLostIfCaretMoved() {
+        guard !composingShown.isEmpty else { return }
+        let before = textDocumentProxy.documentContextBeforeInput ?? ""
+        guard !before.hasSuffix(composingShown) else { return }
+        finishComposingText()
+        documentState.composingInterrupted &+= 1
     }
 
     private func updateHasTextState() {
@@ -876,6 +912,8 @@ class KeyboardViewController: UIInputViewController {
         let startsSentence = TypingKeyboardPanel.wantsCapital(
             before: proxy.documentContextBeforeInput,
             rule: proxy.autocapitalizationType ?? .sentences)
+        // 무엇을 받는 칸인지. 칸이 바뀔 때마다 여기서 다시 읽는다(빠른 줄의 '이 칸에 맞음').
+        let fieldKind = FieldFit.kind(contentType: proxy.textContentType ?? nil, keyboardType: proxy.keyboardType)
         // @Published 갱신은 메인 스레드에서
         let apply = { [weak self] in
             guard let self else { return }
@@ -883,6 +921,7 @@ class KeyboardViewController: UIInputViewController {
             if self.documentState.returnKeyType != wantedReturn { self.documentState.returnKeyType = wantedReturn }
             if self.documentState.returnNeedsText != needsText { self.documentState.returnNeedsText = needsText }
             if self.documentState.startsSentence != startsSentence { self.documentState.startsSentence = startsSentence }
+            if self.documentState.fieldKind != fieldKind { self.documentState.fieldKind = fieldKind }
         }
         if Thread.isMainThread {
             apply()
@@ -1217,9 +1256,14 @@ extension KeyboardViewController: TypingInputProxy {
     /// 키보드 host 앱 텍스트 필드에 문자 입력
     /// 자체 입력은 host의 textDidChange를 거치지 않으므로 hasText를 명시적으로 갱신.
     func insertText(_ text: String) {
-        print("⌨️ [TypingProxy.insertText] '\(text)': hasInput=\(textDocumentProxy.hasText)")
+        // ⚠️ 키마다 불리는 길이라 로그를 남기지 않는다(빨리 칠 때 그만큼 늦는다).
+        if !composingShown.isEmpty { finishComposingText() }
         textDocumentProxy.insertText(text)
         updateHasTextState()
+        noteTypedOnTypingPanel()
+    }
+
+    private func noteTypedOnTypingPanel() {
         // 자판이 떠 있는 동안 들어온 글은 우리 자판으로 친 것이다(단축어 판의 붙여넣기 키는 단축어 판에서만 보인다).
         if !typedOnTypingPanel,
            AppGroup.defaults?.string(forKey: TypingPrefs.modeKey) == KeyboardInputMode.typing.rawValue {
@@ -1233,9 +1277,21 @@ extension KeyboardViewController: TypingInputProxy {
     }
     /// 한 글자 삭제
     func deleteBackward() {
-        print("⌨️ [TypingProxy.deleteBackward]")
+        if !composingShown.isEmpty { finishComposingText() }
         textDocumentProxy.deleteBackward()
         updateHasTextState()
+    }
+    /// 짓는 낱말을 밑줄 친 글로 보인다. 기본 키보드처럼 낱말 아래에 밑줄이 생기고,
+    /// 키 하나에 입력칸을 한 번만 건드린다.
+    func setComposingText(_ text: String, replacing shown: String) {
+        textDocumentProxy.setMarkedText(text, selectedRange: NSRange(location: (text as NSString).length, length: 0))
+        composingShown = text
+        updateHasTextState()
+        if !text.isEmpty { noteTypedOnTypingPanel() }
+    }
+    func finishComposingText() {
+        textDocumentProxy.unmarkText()
+        composingShown = ""
     }
     /// 엔터 입력
     func insertNewline() {

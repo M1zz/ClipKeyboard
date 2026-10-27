@@ -463961,6 +463961,4116 @@
           }
         }
       }
+    },
+    "칸에 맞는 단축어 먼저" : {
+      "comment" : "Keyboard setting toggle: put shortcuts that match the text field first",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odpovídající fráze nejdřív"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passende fraser først"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passende Textbausteine zuerst"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πρώτα οι φράσεις που ταιριάζουν"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matching snippets first"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frases del campo primero"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sopivat fraasit ensin"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phrases adaptées au champ en premier"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frasa yang cocok lebih dulu"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prima le frasi adatte al campo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力欄に合う定型文を先頭に"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passende fraser først"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passende snippets eerst"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Najpierw pasujące frazy"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frases do campo primeiro"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сначала подходящие фразы"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passande fraser först"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แสดงข้อความด่วนที่ตรงกับช่องก่อน"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uyan ifadeler önce"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cụm từ hợp ô lên trước"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先显示适合这一栏的短语"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先顯示適合這一欄的短語"
+          }
+        }
+      }
+    },
+    "카드번호 · 이메일 · 주소 칸처럼 무엇을 넣는지 알려 주는 칸에서, 맞는 단축어를 맨 앞에 보여 줍니다. 칸에 쓴 글은 읽지 않아요." : {
+      "comment" : "Keyboard setting description: field-aware suggestions only work where the field says what it wants; typed text is not read",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V polích, která říkají, co chtějí, třeba číslo karty, e-mail nebo adresa, se nejdřív zobrazí odpovídající fráze. Text, který píšete, se nečte."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I felter, der angiver, hvad de vil have, som kortnummer, e-mail eller adresse, kommer de passende fraser først. Det, du skriver, bliver aldrig læst."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Feldern, die angeben, was sie erwarten, etwa Kartennummer, E-Mail oder Adresse, stehen die passenden Textbausteine vorn. Was du eingibst, wird nicht gelesen."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Σε πεδία που δηλώνουν τι ζητούν, όπως αριθμός κάρτας, email ή διεύθυνση, οι κατάλληλες φράσεις εμφανίζονται πρώτες. Το κείμενο που γράφετε δεν διαβάζεται."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In fields that say what they want, like card number, email or address, the matching snippets come first. What you type is never read."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En campos que indican qué piden, como número de tarjeta, correo o dirección, las frases que coinciden aparecen primero. Lo que escribes no se lee."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kentissä, jotka kertovat mitä haluavat, kuten kortinnumero, sähköposti tai osoite, sopivat fraasit tulevat ensin. Kirjoittamaasi ei lueta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans les champs qui indiquent ce qu'ils attendent, comme un numéro de carte, un e-mail ou une adresse, les phrases correspondantes passent en premier. Ce que vous saisissez n'est jamais lu."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di kolom yang menyebutkan isinya, seperti nomor kartu, email, atau alamat, frasa yang cocok tampil lebih dulu. Teks yang Anda ketik tidak dibaca."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nei campi che indicano cosa vogliono, come numero di carta, email o indirizzo, le frasi adatte vengono per prime. Il testo che scrivi non viene letto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カード番号、メール、住所など、入れる内容がわかる入力欄では、合う定型文を先頭に表示します。入力した文字は読み取りません。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I felt som sier hva de vil ha, som kortnummer, e-post eller adresse, kommer de passende frasene først. Det du skriver, blir aldri lest."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In velden die aangeven wat ze verwachten, zoals kaartnummer, e-mail of adres, staan de passende snippets vooraan. Wat je typt, wordt nooit gelezen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W polach, które podają, czego oczekują (numer karty, e-mail, adres), najpierw pokazujemy pasujące frazy. Tego, co wpisujesz, nie czytamy."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em campos que indicam o que esperam, como número de cartão, e-mail ou endereço, as frases correspondentes aparecem primeiro. O que você digita nunca é lido."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В полях, которые сообщают, что нужно ввести (номер карты, почта, адрес), подходящие фразы идут первыми. Набранный вами текст не читается."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I fält som anger vad de vill ha, som kortnummer, e-post eller adress, visas passande fraser först. Det du skriver läses aldrig."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ในช่องที่ระบุว่าต้องการข้อมูลอะไร เช่น เลขบัตร อีเมล หรือที่อยู่ ข้อความด่วนที่ตรงกันจะแสดงก่อน ข้อความที่พิมพ์จะไม่ถูกอ่าน"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kart numarası, e-posta veya adres gibi ne istediğini belirten alanlarda uygun ifadeler en başta gelir. Yazdıklarınız okunmaz."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ở những ô cho biết cần nhập gì, như số thẻ, email hay địa chỉ, các cụm từ phù hợp sẽ hiện trước. CrocoClip không đọc nội dung bạn gõ."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在注明要填什么的栏位（如卡号、邮箱、地址）中，把对应的短语放在最前面。不会读取你输入的内容。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在注明要填什麼的欄位（如卡號、信箱、地址）中，把對應的短語放在最前面。不會讀取你輸入的內容。"
+          }
+        }
+      }
+    },
+    "필요한 칸에서 맞는 단축어 먼저" : {
+      "comment" : "Roadmap item: suggest the matching shortcut in card number, email, address fields",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Správná fráze pro každé pole"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den rigtige frase til hvert felt"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der passende Textbaustein für jedes Feld"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Η σωστή φράση για κάθε πεδίο"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The right snippet for each field"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La frase justa para cada campo"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oikea fraasi jokaiseen kenttään"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La bonne phrase pour chaque champ"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frasa yang tepat untuk tiap kolom"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La frase giusta per ogni campo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力欄ごとに合う定型文を"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riktig frase for hvert felt"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het juiste snippet voor elk veld"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pasująca fraza w każdym polu"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A frase certa para cada campo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нужная фраза для каждого поля"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rätt fras för varje fält"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ข้อความด่วนที่ใช่สำหรับแต่ละช่อง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her alan için doğru ifade"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đúng cụm từ cho từng ô"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在需要的栏位先给出合适的短语"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在需要的欄位先給出合適的短語"
+          }
+        }
+      }
+    },
+    "카드번호·이메일·주소 칸에 들어가면 그 단축어를 맨 앞에 보여 줘요." : {
+      "comment" : "Roadmap item detail: field-aware shortcut suggestions",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klepněte do pole pro číslo karty, e-mail nebo adresu a příslušná fráze bude první."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryk i et felt til kortnummer, e-mail eller adresse, så kommer den frase først."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe in ein Feld für Kartennummer, E-Mail oder Adresse, und dieser Textbaustein steht vorn."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πατήστε σε πεδίο αριθμού κάρτας, email ή διεύθυνσης και η φράση αυτή εμφανίζεται πρώτη."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap into a card number, email or address field and that snippet comes first."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entra a un campo de número de tarjeta, correo o dirección y esa frase aparece primero."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Napauta kortinnumero-, sähköposti- tai osoitekenttää, niin sopiva fraasi tulee ensin."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touchez un champ de numéro de carte, d'e-mail ou d'adresse, et cette phrase passe en premier."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk kolom nomor kartu, email, atau alamat, dan frasa itu tampil lebih dulu."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca un campo per numero di carta, email o indirizzo e quella frase appare per prima."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カード番号、メール、住所の入力欄を開くと、その定型文が先頭に出ます。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trykk i et felt for kortnummer, e-post eller adresse, så kommer den frasen først."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik op een veld voor kaartnummer, e-mail of adres en dat snippet staat vooraan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dotknij pola numeru karty, e-maila lub adresu, a ta fraza pojawi się pierwsza."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque em um campo de número de cartão, e-mail ou endereço e essa frase aparece primeiro."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Откройте поле номера карты, почты или адреса, и нужная фраза будет первой."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryck i ett fält för kortnummer, e-post eller adress så visas den frasen först."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แตะช่องเลขบัตร อีเมล หรือที่อยู่ ข้อความด่วนนั้นจะขึ้นก่อน"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kart numarası, e-posta veya adres alanına dokunun, o ifade en başta görünsün."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chạm vào ô số thẻ, email hoặc địa chỉ, cụm từ phù hợp sẽ hiện đầu tiên."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "进入卡号、邮箱或地址栏时，对应的短语会排在最前面。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "進入卡號、信箱或地址欄時，對應的短語會排在最前面。"
+          }
+        }
+      }
+    },
+    "글자를 칠 때도 맞는 단축어" : {
+      "comment" : "Roadmap item: field-aware suggestions also while typing on the letter keys",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fráze i při psaní na klávesnici"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passende fraser, også mens du skriver"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passende Textbausteine auch beim Tippen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Φράσεις που ταιριάζουν και την ώρα της πληκτρολόγησης"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matching snippets while typing too"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frases que coinciden también al escribir"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sopivat fraasit myös kirjoittaessa"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggestions adaptées aussi à la saisie au clavier"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frasa yang cocok saat mengetik juga"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frasi adatte anche mentre scrivi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文字入力中も合う定型文"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passende fraser også mens du skriver"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passende snippets ook tijdens het typen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podpowiedzi fraz także podczas pisania"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frases certas também ao digitar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подсказки и при наборе букв"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rätt fras även när du skriver"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ข้อความด่วนที่ตรงกัน แม้ขณะพิมพ์ตัวอักษร"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Harf yazarken de uyan ifadeler"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cụm từ phù hợp cả khi bạn gõ chữ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打字时也给出合适的短语"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打字時也給出合適的短語"
+          }
+        }
+      }
+    },
+    "자판으로 치는 중에도 카드번호 칸이면 카드 단축어를 위에 띄워요." : {
+      "comment" : "Roadmap item detail: field-aware suggestions above the letter keys",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I při psaní na klávesnici s písmeny se v poli pro číslo karty nahoře zobrazí vaše fráze s kartou."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selv når du skriver på bogstavtasterne, viser et kortnummerfelt din kortfrase øverst."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auch beim Tippen auf der Tastatur zeigt ein Kartennummernfeld deinen Karten-Textbaustein oben an."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ακόμη και όταν πληκτρολογείτε, σε πεδίο αριθμού κάρτας εμφανίζεται από πάνω η φράση της κάρτας σας."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Even while you type on the letter keys, a card number field shows your card snippet above."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aunque escribas con el teclado de letras, si el campo es de número de tarjeta, verás tu frase de tarjeta arriba."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Myös kirjoittaessa kortinnumerokenttä näyttää korttifraasisi ylhäällä."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Même en tapant sur le clavier, un champ de numéro de carte affiche votre phrase de carte au-dessus."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saat mengetik di keyboard huruf pun, kolom nomor kartu akan menampilkan frasa kartu Anda di atas."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anche mentre scrivi con la tastiera, in un campo per il numero di carta vedi la tua frase della carta in alto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キーボードで文字を入力中でも、カード番号の欄ならカードの定型文を上に表示します。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Også når du skriver med bokstavtastene, viser et kortnummerfelt kortfrasen din øverst."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ook tijdens het typen op de lettertoetsen toont een veld voor een kaartnummer uw kaartfragment bovenaan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nawet podczas pisania na klawiszach liter pole numeru karty pokaże u góry Twoją frazę z kartą."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mesmo ao digitar no teclado de letras, um campo de número de cartão mostra sua frase de cartão acima."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Даже при наборе на буквенной клавиатуре в поле номера карты выше появится ваша фраза с картой."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Även när du skriver med bokstavstangenterna visas din kortfras ovanför om fältet gäller kortnummer."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แม้ขณะพิมพ์บนแป้นตัวอักษร ถ้าเป็นช่องเลขบัตร ข้อความด่วนของบัตรจะขึ้นอยู่ด้านบน"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Harf tuşlarıyla yazarken bile kart numarası alanında kart ifadeniz üstte görünür."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ngay cả khi bạn gõ trên bàn phím chữ, ô số thẻ sẽ hiện cụm từ thẻ ở phía trên."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即使在用字母键打字，只要是卡号栏，也会在上方显示你的卡号短语。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "即使在用字母鍵打字，只要是卡號欄，也會在上方顯示你的卡號短語。"
+          }
+        }
+      }
+    },
+    "이 칸에 맞음: %@" : {
+      "comment" : "Keyboard quick row chip label: shortcut whose kind matches what the text field asks for (card number, email, address)",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sedí do pole: %@"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passer til feltet: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passt hierher: %@"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ταιριάζει στο πεδίο: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fits this field: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Va con este campo: %@"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sopii tähän kenttään: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adapté à ce champ : %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cocok untuk kolom ini: %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adatta a questo campo: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この入力欄に合う: %@"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passer her: %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Past bij dit veld: %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pasuje do pola: %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combina com este campo: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подходит для поля: %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passar fältet: %@"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ตรงกับช่องนี้: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bu alana uyan: %@"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hợp với ô này: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "适合这一栏：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "適合這一欄：%@"
+          }
+        }
+      }
+    },
+    "임시 저장: %@" : {
+      "comment" : "VoiceOver label of a draft card in the list: an unfinished snippet. %@ is its title",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Koncept: %@"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kladde: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entwurf: %@"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πρόχειρο: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Draft: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrador: %@"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luonnos: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brouillon : %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Draf: %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bozza: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下書き: %@"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kladd: %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concept: %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wersja robocza: %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rascunho: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Черновик: %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utkast: %@"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ฉบับร่าง: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Taslak: %@"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bản nháp: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "草稿：%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "草稿：%@"
+          }
+        }
+      }
+    },
+    "이어서 쓰려면 두 번 누르세요" : {
+      "comment" : "VoiceOver hint of a draft card: double tap to continue writing",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dvakrát klepněte a pokračujte v psaní"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryk to gange for at skrive videre"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zweimal tippen, um weiterzuschreiben"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πατήστε δύο φορές για να συνεχίσετε τη γραφή"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Double-tap to keep writing"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca dos veces para seguir escribiendo"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jatka kirjoittamista kaksoisnapauttamalla"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appuyez deux fois pour continuer à écrire"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk dua kali untuk lanjut menulis"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca due volte per continuare a scrivere"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ダブルタップして続きを書く"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trykk to ganger for å skrive videre"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik twee keer om verder te schrijven"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dotknij dwa razy, aby pisać dalej"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque duas vezes para continuar escrevendo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите дважды, чтобы продолжить писать"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryck två gånger för att fortsätta skriva"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แตะสองครั้งเพื่อเขียนต่อ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazmaya devam etmek için çift dokunun"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nhấn đúp để viết tiếp"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点两下继续编写"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輕點兩下繼續編寫"
+          }
+        }
+      }
+    },
+    "치면 떠오르는 단축어" : {
+      "comment" : "Roadmap item: shortcut suggestions above the keys while typing its name",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fráze, které se nabídnou při psaní"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fraser, der dukker op, mens du skriver"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Textbausteine, die beim Tippen erscheinen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Φράσεις που εμφανίζονται καθώς πληκτρολογείτε"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Snippets that pop up as you type"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frases que aparecen mientras escribes"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kirjoittaessa esiin nousevat fraasit"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Des phrases qui apparaissent pendant la saisie"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frasa yang muncul saat Anda mengetik"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frasi che compaiono mentre scrivi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力すると出てくる定型文"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fraser som dukker opp mens du skriver"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fragmenten die verschijnen tijdens het typen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frazy podpowiadane podczas pisania"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frases que aparecem enquanto você digita"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фразы, которые появляются при вводе"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fraser som dyker upp medan du skriver"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ข้อความด่วนที่เด้งขึ้นขณะพิมพ์"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazarken beliren ifadeler"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cụm từ hiện ra khi bạn gõ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入时浮现的短语"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入時浮現的短語"
+          }
+        }
+      }
+    },
+    "단축어 이름이나 아이폰 텍스트 대치를 치면 자판 위에 띄워요. 누르면 바로 들어가요." : {
+      "comment" : "Roadmap item detail: typed-name shortcut suggestions",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte název fráze nebo textovou zkratku z iPhonu a nad klávesami se zobrazí. Klepnutím ji vložíte."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv navnet på en frase eller en teksterstatning fra iPhone, så vises den over tastaturet. Tryk for at indsætte den."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gib den Namen eines Textbausteins oder eine iPhone-Textersetzung ein, und er erscheint über den Tasten. Tippen zum Einfügen."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πληκτρολογήστε το όνομα μιας φράσης ή μια αντικατάσταση κειμένου του iPhone και εμφανίζεται πάνω από τα πλήκτρα. Πατήστε για να την εισαγάγετε."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type a snippet's name or an iPhone text replacement and it appears above the keys. Tap to insert it."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe el nombre de una frase o un reemplazo de texto del iPhone y aparece sobre las teclas. Tócala para insertarla."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kirjoita fraasin nimi tai iPhonen tekstikorvaus, niin se ilmestyy näppäinten päälle. Lisää napauttamalla."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tapez le nom d’une phrase ou un remplacement de texte de l’iPhone, il apparaît au-dessus des touches. Touchez-le pour l’insérer."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketik nama frasa atau penggantian teks iPhone, lalu frasa muncul di atas keyboard. Ketuk untuk langsung memasukkannya."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scrivi il nome di una frase o una sostituzione testo di iPhone e comparirà sopra la tastiera. Tocca per inserirla."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定型文の名前やiPhoneのテキスト置換を入力すると、キーの上に表示されます。タップでそのまま入力できます。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv navnet på en frase eller en teksterstatning fra iPhone, så vises den over tastene. Trykk for å sette den inn."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typ de naam van een fragment of een tekstvervanging van je iPhone, dan verschijnt die boven de toetsen. Tik erop om in te voegen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wpisz nazwę frazy lub zamiennik tekstu z iPhone'a, a pojawi się nad klawiszami. Stuknij, aby wstawić."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite o nome de uma frase ou uma substituição de texto do iPhone e ela aparece acima das teclas. Toque para inserir."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите название фразы или замену текста с iPhone, и она появится над клавишами. Нажмите, чтобы вставить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv namnet på en fras eller en textersättning på iPhone, så visas den ovanför tangenterna. Tryck för att infoga."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "พิมพ์ชื่อข้อความด่วนหรือการแทนที่ข้อความของ iPhone แล้วจะแสดงเหนือแป้นพิมพ์ แตะเพื่อใส่ได้ทันที"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir ifadenin adını ya da iPhone metin değiştirmesini yazın, tuşların üstünde belirsin. Dokununca hemen eklenir."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gõ tên một cụm từ hoặc văn bản thay thế của iPhone, cụm từ sẽ hiện phía trên bàn phím. Chạm để chèn ngay."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入短语的名称或 iPhone 文本替换，它就会出现在按键上方。轻点即可输入。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入短語的名稱或 iPhone 文字替換，它就會出現在按鍵上方。輕點即可輸入。"
+          }
+        }
+      }
+    },
+    "친 글자를 이 단축어로 바꿉니다" : {
+      "comment" : "Typing keyboard: hint of a suggested shortcut chip above the keys",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Napsaný text nahradí touto frází"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erstatter det, du skrev, med denne frase"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ersetzt deine Eingabe durch diesen Textbaustein"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Αντικαθιστά ό,τι πληκτρολογήσατε με αυτή τη φράση"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replaces what you typed with this snippet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reemplaza lo que escribiste con esta frase"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Korvaa kirjoittamasi tällä fraasilla"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remplace ce que vous avez tapé par cette phrase"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ganti teks yang Anda ketik dengan frasa ini"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sostituisce quello che hai scritto con questa frase"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力した文字をこの定型文に置き換えます"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erstatter det du skrev med denne frasen"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vervangt wat je typte door dit fragment"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zastępuje wpisany tekst tą frazą"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Substitui o que você digitou por esta frase"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заменяет набранный текст этой фразой"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ersätter det du skrev med den här frasen"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แทนที่ข้อความที่พิมพ์ด้วยข้อความด่วนนี้"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazdığınız metni bu ifadeyle değiştirir"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thay chữ bạn vừa gõ bằng cụm từ này"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将刚输入的文字替换为这条短语"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "將剛輸入的文字替換為這條短語"
+          }
+        }
+      }
+    },
+    "클립키보드 하나로 써요" : {
+      "comment" : "Only-this-keyboard guide headline",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používejte jen ClipKeyboard"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brug kun ClipKeyboard"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nutze nur ClipKeyboard"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Χρησιμοποιήστε μόνο το ClipKeyboard"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use ClipKeyboard on its own"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa solo ClipKeyboard"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Käytä pelkkää ClipKeyboardia"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilisez ClipKeyboard seul"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pakai ClipKeyboard saja"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa solo ClipKeyboard"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard だけで使う"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bruk bare ClipKeyboard"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gebruik ClipKeyboard op zichzelf"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Używaj samego ClipKeyboard"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use só o ClipKeyboard"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пользуйтесь только ClipKeyboard"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Använd bara ClipKeyboard"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ใช้ ClipKeyboard เพียงอย่างเดียว"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard'u tek başına kullanın"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dùng riêng ClipKeyboard"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只用剪贴键盘"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只用剪貼鍵盤"
+          }
+        }
+      }
+    },
+    "글은 자판으로 치고, 자주 쓰는 글은 단축어로 꺼내요. 다른 키보드로 오갈 일이 없어져요." : {
+      "comment" : "Only-this-keyboard guide subtitle",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pište na klávesnici a často používané texty vkládejte z frází. Přepínání mezi klávesnicemi už nebude potřeba."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv med tasterne, og hent ofte brugt tekst fra dine fraser. Du behøver ikke skifte mellem tastaturer mere."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe mit der Tastatur und hole oft genutzten Text aus den Textbausteinen. Du musst nicht mehr zwischen Tastaturen wechseln."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πληκτρολογήστε με τα πλήκτρα και βρείτε τα συχνά κείμενα στις φράσεις σας. Δεν θα χρειάζεται να αλλάζετε πληκτρολόγιο."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type with the keys and pull frequent text from snippets. No more switching between keyboards."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe con las teclas y saca tus frases de uso frecuente. Ya no tendrás que cambiar de teclado."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kirjoita näppäimillä ja hae usein käytetty teksti fraaseista. Ei enää vaihtelua näppäimistöjen välillä."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tapez avec les touches et insérez vos textes fréquents depuis les phrases. Plus besoin de changer de clavier."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketik dengan tombol, dan ambil teks yang sering dipakai dari Frasa. Tidak perlu lagi berpindah-pindah keyboard."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scrivi con i tasti e richiama i testi più usati dalle frasi. Non dovrai più passare da una tastiera all'altra."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文字はキーで入力して、よく使う文は定型文から呼び出せます。ほかのキーボードに切り替える必要はなくなります。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv med tastene og hent ofte brukt tekst fra fraser. Du slipper å bytte mellom tastaturer."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typ met de toetsen en haal vaak gebruikte tekst uit je snippets. Je hoeft niet meer te wisselen tussen toetsenborden."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pisz na klawiaturze, a częste teksty wstawiaj z fraz. Nie musisz już przełączać się między klawiaturami."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite com as teclas e use suas frases para os textos frequentes. Você não precisa mais alternar entre teclados."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Печатайте на клавиатуре, а частые тексты вызывайте из фраз. Переключаться между клавиатурами больше не придётся."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv med tangenterna och hämta ofta använd text från fraser. Då slipper du byta mellan tangentbord."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "พิมพ์ด้วยแป้นพิมพ์ แล้วเรียกข้อความที่ใช้บ่อยจากข้อความด่วน ไม่ต้องสลับไปมาระหว่างคีย์บอร์ดอีก"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazıyı tuşlarla yazın, sık kullandığınız metinleri İfadelerden çıkarın. Artık başka klavyelere geçmeniz gerekmez."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gõ bằng bàn phím và lấy các đoạn hay dùng từ Cụm từ. Bạn không cần chuyển qua lại giữa các bàn phím nữa."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用按键打字，常用的文字从短语里取。不必再在键盘之间来回切换。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用按鍵打字，常用的文字從短語裡取。不必再在鍵盤之間來回切換。"
+          }
+        }
+      }
+    },
+    "다른 키보드 빼기" : {
+      "comment" : "Only-this-keyboard guide: remove other keyboards section",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odebrání ostatních klávesnic"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fjern andre tastaturer"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere Tastaturen entfernen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Αφαίρεση άλλων πληκτρολογίων"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove other keyboards"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar otros teclados"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poista muut näppäimistöt"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirer les autres claviers"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hapus keyboard lain"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi le altre tastiere"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ほかのキーボードを削除"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fjern andre tastaturer"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Andere toetsenborden verwijderen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń inne klawiatury"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remover outros teclados"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уберите другие клавиатуры"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort andra tangentbord"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "นำคีย์บอร์ดอื่นออก"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diğer klavyeleri kaldırın"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gỡ các bàn phím khác"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除其他键盘"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除其他鍵盤"
+          }
+        }
+      }
+    },
+    "키보드가 클립키보드 하나만 남으면 아래의 지구본이 사라져요. 이모지를 쓰려면 이모지 키보드는 남겨 두세요. 그러면 지구본도 남아요." : {
+      "comment" : "Only-this-keyboard guide: the globe disappears when only this keyboard is left",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když zůstane jen ClipKeyboard, dole zmizí glóbus. Chcete-li používat emoji, ponechte klávesnici Emoji. Glóbus pak zůstane také."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Når ClipKeyboard er det eneste tastatur, forsvinder globussen nederst. Vil du bruge emoji, så behold emoji-tastaturet. Så bliver globussen også."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn ClipKeyboard als einzige Tastatur übrig ist, verschwindet der Globus unten. Willst du weiter Emojis nutzen, behalte die Emoji-Tastatur. Dann bleibt auch der Globus."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Όταν το ClipKeyboard είναι το μοναδικό πληκτρολόγιο, η υδρόγειος στο κάτω μέρος εξαφανίζεται. Για να συνεχίσετε να χρησιμοποιείτε emoji, κρατήστε το πληκτρολόγιο Emoji. Έτσι θα μείνει και η υδρόγειος."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When ClipKeyboard is the only keyboard left, the globe at the bottom goes away. To keep using emoji, keep the Emoji keyboard. The globe stays too."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si ClipKeyboard es el único teclado, el globo de abajo desaparece. Para seguir usando emoji, conserva el teclado Emoji. Así el globo también se queda."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kun ClipKeyboard on ainoa näppäimistö, alareunan maapallo poistuu. Jos haluat käyttää emojeita, jätä Emoji-näppäimistö. Silloin myös maapallo säilyy."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quand ClipKeyboard est le seul clavier, le globe en bas disparaît. Pour garder les emoji, conservez le clavier Emoji. Le globe reste alors aussi."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jika ClipKeyboard menjadi satu-satunya keyboard, ikon globe di bawah akan hilang. Untuk tetap memakai emoji, biarkan keyboard Emoji. Ikon globe pun tetap ada."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando ClipKeyboard è l'unica tastiera rimasta, il globo in basso scompare. Per continuare a usare le emoji, tieni la tastiera Emoji. Il globo resta anche lui."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キーボードが ClipKeyboard だけになると、下の地球儀アイコンが消えます。絵文字を使う場合は、絵文字キーボードを残してください。地球儀アイコンも残ります。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Når ClipKeyboard er det eneste tastaturet, forsvinner globusen nederst. Vil du bruke emoji, beholder du Emoji-tastaturet. Da blir globusen værende."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als ClipKeyboard het enige toetsenbord is, verdwijnt de wereldbol onderaan. Wil je emoji blijven gebruiken, laat dan het emoji-toetsenbord staan. Dan blijft de wereldbol ook."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy ClipKeyboard jest jedyną klawiaturą, globus na dole znika. Aby nadal używać emoji, zostaw klawiaturę Emoji. Globus też zostanie."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando o ClipKeyboard é o único teclado, o globo abaixo some. Para continuar usando emoji, mantenha o teclado de Emoji. O globo também fica."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда остаётся только ClipKeyboard, глобус внизу пропадает. Чтобы пользоваться эмодзи, оставьте клавиатуру «Эмодзи». Тогда глобус тоже останется."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När ClipKeyboard är det enda tangentbordet som finns kvar försvinner jordklotet längst ned. Vill du fortsätta använda emoji, behåll Emoji-tangentbordet. Då finns jordklotet kvar också."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เมื่อเหลือ ClipKeyboard เพียงอย่างเดียว ไอคอนลูกโลกด้านล่างจะหายไป หากต้องการใช้อีโมจิ ให้เก็บคีย์บอร์ดอีโมจิไว้ ลูกโลกก็จะอยู่ด้วย"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard tek klavye olarak kaldığında alttaki küre simgesi kaybolur. Emoji kullanmaya devam etmek için Emoji klavyesini bırakın. Küre de kalır."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khi ClipKeyboard là bàn phím duy nhất, biểu tượng quả địa cầu bên dưới sẽ biến mất. Nếu muốn dùng emoji, hãy giữ lại bàn phím Emoji. Quả địa cầu cũng sẽ còn."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只剩剪贴键盘时，底部的地球图标就会消失。如果还要用表情符号，请保留表情键盘，地球图标也会保留。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只剩剪貼鍵盤時，底部的地球圖標就會消失。如果還要用表情符號，請保留表情鍵盤，地球圖標也會保留。"
+          }
+        }
+      }
+    },
+    "설정 앱에서 일반 ▸ 키보드 ▸ 키보드를 열어요" : {
+      "comment" : "Only-this-keyboard guide: open the keyboard list",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V Nastavení otevřete Obecné ▸ Klávesnice ▸ Klávesnice"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åbn Indstillinger, og gå til Generelt ▸ Tastatur ▸ Tastaturer"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne in den Einstellungen Allgemein ▸ Tastatur ▸ Tastaturen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Στις Ρυθμίσεις, ανοίξτε Γενικά ▸ Πληκτρολόγιο ▸ Πληκτρολόγια"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Settings, open General ▸ Keyboard ▸ Keyboards"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En Ajustes, abre General ▸ Teclado ▸ Teclados"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaa Asetukset-apissa Yleiset ▸ Näppäimistö ▸ Näppäimistöt"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans Réglages, ouvrez Général ▸ Clavier ▸ Claviers"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di Pengaturan, buka Umum ▸ Papan Ketik ▸ Papan Ketik"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Impostazioni, apri Generali ▸ Tastiera ▸ Tastiere"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定アプリで「一般」▸「キーボード」▸「キーボード」を開きます"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åpne Innstillinger og velg Generelt ▸ Tastatur ▸ Tastaturer"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open in Instellingen Algemeen ▸ Toetsenbord ▸ Toetsenborden"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W Ustawieniach otwórz Ogólne ▸ Klawiatura ▸ Klawiatury"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em Ajustes, abra Geral ▸ Teclado ▸ Teclados"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Настройках откройте Основные ▸ Клавиатура ▸ Клавиатуры"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna Inställningar och gå till Allmänt ▸ Tangentbord ▸ Tangentbord"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ในแอปการตั้งค่า เปิด ทั่วไป ▸ แป้นพิมพ์ ▸ แป้นพิมพ์"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarlar uygulamasında Genel ▸ Klavye ▸ Klavyeler'i açın"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trong Cài đặt, mở Cài đặt chung ▸ Bàn phím ▸ Bàn phím"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“设置”中打开“通用 ▸ 键盘 ▸ 键盘”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「設定」中開啟「通用 ▸ 鍵盤 ▸ 鍵盤」"
+          }
+        }
+      }
+    },
+    "오른쪽 위 '편집'을 눌러요" : {
+      "comment" : "Only-this-keyboard guide: tap Edit",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vpravo nahoře klepněte na Upravit"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryk på Rediger øverst til højre"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe oben rechts auf „Bearbeiten“"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πατήστε Επεξεργασία πάνω δεξιά"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap Edit at the top right"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca Editar, arriba a la derecha"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Napauta Muokkaa oikeasta yläkulmasta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touchez « Modifier » en haut à droite"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk Edit di kanan atas"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca Modifica in alto a destra"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "右上の「編集」を押します"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trykk på Rediger øverst til høyre"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik rechtsboven op 'Wijzig'"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stuknij Edycja w prawym górnym rogu"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque em Editar, no canto superior direito"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите «Изменить» в правом верхнем углу"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryck på Redigera uppe till höger"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แตะ \"แก้ไข\" ที่มุมขวาบน"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sağ üstteki \"Düzenle\"ye dokunun"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nhấn Sửa ở góc trên bên phải"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点右上角的“编辑”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輕點右上角的「編輯」"
+          }
+        }
+      }
+    },
+    "클립키보드만 남기고 나머지를 빼요" : {
+      "comment" : "Only-this-keyboard guide: remove the other keyboards",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Odeberte vše kromě ClipKeyboard"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fjern alt undtagen ClipKeyboard"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle außer ClipKeyboard entfernen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Αφαιρέστε ό,τι άλλο εκτός από το ClipKeyboard"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove everything except ClipKeyboard"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quita todo excepto ClipKeyboard"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poista kaikki paitsi ClipKeyboard"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retirez tous les claviers sauf ClipKeyboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hapus semuanya kecuali ClipKeyboard"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi tutto tranne ClipKeyboard"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard 以外を削除します"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fjern alt unntatt ClipKeyboard"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder alles behalve ClipKeyboard"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń wszystko oprócz ClipKeyboard"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remova tudo, exceto o ClipKeyboard"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оставьте только ClipKeyboard, остальное уберите"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort allt utom ClipKeyboard"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "นำคีย์บอร์ดอื่นออก เหลือเฉพาะ ClipKeyboard"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard dışındaki her şeyi kaldırın"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gỡ mọi bàn phím khác, chỉ giữ ClipKeyboard"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "除剪贴键盘外，其余全部移除"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "除剪貼鍵盤外，其餘全部移除"
+          }
+        }
+      }
+    },
+    "받아쓰기 끄기" : {
+      "comment" : "Only-this-keyboard guide: turn off dictation section",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vypnutí diktování"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slå diktering fra"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diktierfunktion ausschalten"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Απενεργοποίηση υπαγόρευσης"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn off dictation"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactivar dictado"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poista sanelu käytöstä"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactiver la dictée"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matikan dikte"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disattiva la dettatura"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音声入力をオフにする"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slå av diktering"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dicteren uitzetten"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wyłącz dyktowanie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desativar ditado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выключите диктовку"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stäng av diktering"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ปิดการป้อนด้วยเสียง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dikteyi kapatın"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tắt đọc chính tả"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭听写"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關閉聽寫"
+          }
+        }
+      }
+    },
+    "끄면 키보드 아래의 마이크가 사라져요. 말로 받아쓰기를 쓴다면 켜 두세요." : {
+      "comment" : "Only-this-keyboard guide: turning off dictation hides the microphone",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po vypnutí zmizí mikrofon pod klávesnicí. Pokud diktujete, nechte diktování zapnuté."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hvis du slår den fra, forsvinder mikrofonen under tastaturet. Lad den stå tændt, hvis du bruger diktering."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn du es ausschaltest, verschwindet das Mikrofon unter der Tastatur. Lass es an, wenn du diktierst."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Αν την απενεργοποιήσετε, το μικρόφωνο κάτω από το πληκτρολόγιο θα εξαφανιστεί. Αν χρησιμοποιείτε υπαγόρευση, αφήστε την ενεργή."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turning it off removes the microphone below the keyboard. Leave it on if you dictate."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si lo desactivas, el micrófono bajo el teclado desaparece. Déjalo activado si usas dictado."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jos sanelu on pois päältä, näppäimistön alla oleva mikrofoni poistuu. Jätä se päälle, jos käytät sanelua."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si vous la désactivez, le micro sous le clavier disparaît. Laissez-la activée si vous dictez."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jika dimatikan, mikrofon di bawah keyboard akan hilang. Biarkan menyala jika Anda mendikte."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se lo disattivi, il microfono sotto la tastiera scompare. Lascialo attivo se usi la dettatura."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オフにすると、キーボード下のマイクが消えます。音声入力を使う場合はオンのままにしてください。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hvis du slår den av, forsvinner mikrofonen under tastaturet. La den være på hvis du bruker diktering."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als je dit uitzet, verdwijnt de microfoon onder het toetsenbord. Laat het aan als je dicteert."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po wyłączeniu mikrofon pod klawiaturą zniknie. Jeśli dyktujesz, zostaw włączone."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao desativar, o microfone abaixo do teclado some. Mantenha ativado se você usa ditado."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если выключить, микрофон под клавиатурой пропадёт. Если вы диктуете, оставьте его включённым."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du stänger av det försvinner mikrofonen under tangentbordet. Låt det vara på om du använder diktering."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ถ้าปิด ไมโครโฟนใต้คีย์บอร์ดจะหายไป หากใช้การเสียงเป็นข้อความ ให้เปิดไว้"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kapatırsanız klavyenin altındaki mikrofon kalkar. Dikte kullanıyorsanız açık bırakın."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khi tắt, micro bên dưới bàn phím sẽ biến mất. Nếu bạn dùng đọc chính tả, hãy để bật."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭后，键盘下方的麦克风就会消失。如果你用语音听写，请保持开启。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關閉後，鍵盤下方的麥克風就會消失。如果你用語音聽寫，請保持開啓。"
+          }
+        }
+      }
+    },
+    "설정 앱에서 일반 ▸ 키보드를 열어요" : {
+      "comment" : "Only-this-keyboard guide: open keyboard settings",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V Nastavení otevřete Obecné ▸ Klávesnice"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åbn Indstillinger, og gå til Generelt ▸ Tastatur"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffne in den Einstellungen Allgemein ▸ Tastatur"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Στις Ρυθμίσεις, ανοίξτε Γενικά ▸ Πληκτρολόγιο"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Settings, open General ▸ Keyboard"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En Ajustes, abre General ▸ Teclado"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaa Asetukset-apissa Yleiset ▸ Näppäimistö"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans Réglages, ouvrez Général ▸ Clavier"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di Pengaturan, buka Umum ▸ Papan Ketik"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Impostazioni, apri Generali ▸ Tastiera"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定アプリで「一般」▸「キーボード」を開きます"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åpne Innstillinger og velg Generelt ▸ Tastatur"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open in Instellingen Algemeen ▸ Toetsenbord"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W Ustawieniach otwórz Ogólne ▸ Klawiatura"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em Ajustes, abra Geral ▸ Teclado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Настройках откройте Основные ▸ Клавиатура"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öppna Inställningar och gå till Allmänt ▸ Tangentbord"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ในแอปการตั้งค่า เปิด ทั่วไป ▸ แป้นพิมพ์"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarlar uygulamasında Genel ▸ Klavye'yi açın"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trong Cài đặt, mở Cài đặt chung ▸ Bàn phím"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“设置”中打开“通用 ▸ 键盘”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「設定」中開啟「通用 ▸ 鍵盤」"
+          }
+        }
+      }
+    },
+    "아래쪽의 '받아쓰기 활성화'를 꺼요" : {
+      "comment" : "Only-this-keyboard guide: turn off Enable Dictation",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dole vypněte Zapnout diktování"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slå Aktivér diktering fra nederst på siden"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schalte unten „Diktierfunktion aktivieren“ aus"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Απενεργοποιήστε την Ενεργοποίηση υπαγόρευσης κοντά στο κάτω μέρος"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turn off Enable Dictation near the bottom"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactiva Activar dictado, cerca del final"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poista Ota sanelu käyttöön -asetus käytöstä alhaalta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désactivez « Activer la dictée » en bas"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matikan Aktifkan Dikte di bagian bawah"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disattiva \"Abilita dettatura\" in basso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下のほうにある「音声入力を有効にする」をオフにします"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slå av Aktiver diktering nederst"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zet onderaan 'Activeer dicteren' uit"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na dole wyłącz Włącz dyktowanie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desative Ativar Ditado, perto do fim da tela"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Внизу выключите «Включить диктовку»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stäng av Aktivera diktering längst ned"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ปิด \"เปิดใช้การป้อนด้วยเสียง\" ใกล้ด้านล่าง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alttaki \"Dikteyi Etkinleştir\" seçeneğini kapatın"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tắt Bật đọc chính tả ở gần cuối trang"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭下方的“启用听写”"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關閉下方的「啓用聽寫」"
+          }
+        }
+      }
+    },
+    "자판과 단축어 오가기" : {
+      "comment" : "Only-this-keyboard guide: switching between typing and snippets",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Přepínání mezi psaním a frázemi"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skift mellem tastatur og fraser"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwischen Tippen und Textbausteinen wechseln"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Εναλλαγή πληκτρολόγησης και φράσεων"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Switch between typing and snippets"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternar entre escribir y frases"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vaihda kirjoittamisen ja fraasien välillä"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passer de la saisie aux phrases"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beralih antara mengetik dan Frasa"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passare dalla tastiera alle frasi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力と定型文を切り替える"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bytt mellom skriving og fraser"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wisselen tussen typen en snippets"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Przełączaj między pisaniem a frazami"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alternar entre digitar e frases"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переключение между набором и фразами"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Växla mellan att skriva och fraser"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "สลับระหว่างการพิมพ์กับข้อความด่วน"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yazma ile ifadeler arasında geçiş yapın"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chuyển qua lại giữa gõ phím và Cụm từ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在打字和短语之间切换"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在打字和短語之間切換"
+          }
+        }
+      }
+    },
+    "자판 위의 '단축어'를 누르면 단축어 판이 나와요" : {
+      "comment" : "Only-this-keyboard guide: open snippets from the typing keyboard",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klepnutím na Fráze nad klávesami otevřete své fráze"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryk på Fraser over tasterne for at åbne dine fraser"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe über den Tasten auf „Textbausteine“, um sie zu öffnen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πατήστε Φράσεις πάνω από τα πλήκτρα για να τις ανοίξετε"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap Snippets above the keys to open your snippets"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca Frases sobre las teclas para abrir tus frases"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaa fraasit napauttamalla Fraasit näppäinten yläpuolella"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touchez « Phrases » au-dessus des touches pour ouvrir vos phrases"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk Frasa di atas tombol untuk membuka frasa Anda"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca Frasi sopra i tasti per aprire le tue frasi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キーの上にある「定型文」を押すと、定型文パネルが開きます"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trykk på Fraser over tastene for å åpne frasene dine"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik boven de toetsen op 'Snippets' om je snippets te openen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stuknij Frazy nad klawiszami, aby otworzyć swoje frazy"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque em Frases acima das teclas para abrir suas frases"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите «Фразы» над клавишами, чтобы открыть свои фразы"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryck på Fraser ovanför tangenterna för att öppna dina fraser"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แตะ \"ข้อความด่วน\" เหนือแป้นพิมพ์เพื่อเปิดข้อความด่วน"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tuşların üstündeki \"İfadeler\"e dokunursanız ifadeleriniz açılır"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nhấn Cụm từ phía trên bàn phím để mở bảng Cụm từ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻点按键上方的“短语”即可打开短语"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輕點一下鍵上方的「短語」即可開啟短語"
+          }
+        }
+      }
+    },
+    "단축어 판의 키보드 키를 누르면 자판으로 돌아와요" : {
+      "comment" : "Only-this-keyboard guide: back to typing from snippets",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klepnutím na klávesu klávesnice na panelu frází se vrátíte k psaní"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryk på tastaturtasten i frasepanelet for at gå tilbage til tastaturet"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe im Textbaustein-Feld auf die Tastaturtaste, um zurück zum Tippen zu kommen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πατήστε το πλήκτρο πληκτρολογίου στις φράσεις για να γυρίσετε στην πληκτρολόγηση"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap the keyboard key on the snippets panel to go back to typing"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca la tecla de teclado en el panel de frases para volver a escribir"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Palaa kirjoittamiseen napauttamalla fraasipaneelin näppäimistö-painiketta"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touchez la touche clavier du panneau de phrases pour revenir à la saisie"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk tombol keyboard di panel Frasa untuk kembali mengetik"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca il tasto della tastiera nel pannello delle frasi per tornare a scrivere"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定型文パネルのキーボードキーを押すと、入力に戻ります"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trykk på tastaturtasten i frasepanelet for å gå tilbake til skriving"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik op de toetsenbordtoets in het snippetpaneel om terug te gaan naar typen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stuknij klawisz klawiatury w panelu fraz, aby wrócić do pisania"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque na tecla de teclado no painel de frases para voltar a digitar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите клавишу клавиатуры на панели фраз, чтобы вернуться к набору"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryck på tangentbordstangenten i frasvyn för att gå tillbaka till att skriva"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แตะปุ่มคีย์บอร์ดบนแผงข้อความด่วนเพื่อกลับไปพิมพ์"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "İfade panelindeki klavye tuşuna dokunursanız yazmaya geri dönersiniz"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nhấn phím bàn phím trên bảng Cụm từ để quay lại gõ phím"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在短语面板上轻点键盘键即可回到打字"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在短語面板上輕點鍵盤鍵即可回到打字"
+          }
+        }
+      }
+    },
+    "비밀번호 칸에서는 iOS 가 잠깐 기본 키보드를 띄워요. 앱이 바꿀 수 없는 일이에요." : {
+      "comment" : "Only-this-keyboard guide: password fields always use the system keyboard",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V polích pro heslo iOS nakrátko zobrazí vlastní klávesnici. Aplikace to změnit nemůže."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I adgangskodefelter viser iOS kort sit eget tastatur. Det kan appen ikke ændre."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Passwortfeldern zeigt iOS kurz die eigene Tastatur. Das kann die App nicht ändern."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Στα πεδία κωδικού πρόσβασης, το iOS εμφανίζει για λίγο το δικό του πληκτρολόγιο. Η εφαρμογή δεν μπορεί να το αλλάξει."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In password fields, iOS briefly shows its own keyboard. Apps can't change this."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En campos de contraseña, iOS muestra un momento su propio teclado. La app no puede cambiarlo."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salasanakentissä iOS näyttää hetken oman näppäimistönsä. Sovellus ei voi muuttaa tätä."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans les champs de mot de passe, iOS affiche brièvement son propre clavier. Une app ne peut pas le changer."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di kolom kata sandi, iOS sesaat menampilkan keyboard bawaannya. Aplikasi tidak bisa mengubahnya."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nei campi password, iOS mostra per un attimo la propria tastiera. L'app non può cambiare questo comportamento."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "パスワード欄では、iOS が一時的に標準のキーボードを表示します。アプリでは変更できません。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I passordfelt viser iOS kort sitt eget tastatur. Appen kan ikke endre dette."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In wachtwoordvelden toont iOS even het eigen toetsenbord. Apps kunnen dit niet wijzigen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W polach hasła iOS na chwilę pokazuje własną klawiaturę. Aplikacja nie może tego zmienić."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em campos de senha, o iOS mostra o teclado padrão por um instante. O app não pode mudar isso."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В полях пароля iOS ненадолго показывает свою клавиатуру. Приложение этого изменить не может."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I lösenordsfält visar iOS tillfälligt sitt eget tangentbord. Appar kan inte ändra det."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ในช่องรหัสผ่าน iOS จะแสดงคีย์บอร์ดมาตรฐานชั่วครู่ แอปเปลี่ยนเรื่องนี้ไม่ได้"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parola alanlarında iOS kısa süreliğine kendi klavyesini gösterir. Uygulamalar bunu değiştiremez."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ở ô mật khẩu, iOS sẽ tạm hiện bàn phím mặc định. Ứng dụng không thể thay đổi điều này."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在密码栏中，iOS 会暂时显示系统键盘。这是应用无法更改的。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在密碼欄中，iOS 會暫時顯示系統鍵盤。這是應用無法更改的。"
+          }
+        }
+      }
+    },
+    "클립키보드 하나로 쓰기" : {
+      "comment" : "Only-this-keyboard guide title",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Používat jen ClipKeyboard"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brug kun ClipKeyboard"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur ClipKeyboard nutzen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Χρήση μόνο του ClipKeyboard"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use Only ClipKeyboard"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar solo ClipKeyboard"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Käytä vain ClipKeyboardia"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser seulement ClipKeyboard"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pakai Hanya ClipKeyboard"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usare solo ClipKeyboard"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard だけで使う"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bruk bare ClipKeyboard"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alleen ClipKeyboard gebruiken"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko ClipKeyboard"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar só o ClipKeyboard"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только ClipKeyboard"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Använd bara ClipKeyboard"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ใช้เฉพาะ ClipKeyboard"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca ClipKeyboard Kullanın"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chỉ dùng ClipKeyboard"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只用剪贴键盘"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只用剪貼鍵盤"
+          }
+        }
+      }
+    },
+    "검색 닫기" : {
+      "comment" : "Keyboard: close the snippet search keyboard",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zavřít hledání"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Luk søgning"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suche schließen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Κλείσιμο αναζήτησης"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close search"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar búsqueda"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sulje haku"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer la recherche"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutup pencarian"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiudi ricerca"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検索を閉じる"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lukk søk"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sluit zoeken"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zamknij wyszukiwanie"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fechar busca"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрыть поиск"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stäng sökning"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ปิดการค้นหา"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aramayı kapat"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đóng tìm kiếm"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "关闭搜索"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "關閉搜尋"
+          }
+        }
+      }
+    },
+    "자판의 언어 키로 언어를 바꿔요. 순서는 입력 언어에서 정해요" : {
+      "comment" : "Only-this-keyboard guide: language key and order",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jazyk přepnete klávesou jazyka. Pořadí nastavíte v Jazycích psaní"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skift sprog med sprogtasten. Rækkefølgen vælger du under Skrivesprog"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wechsle die Sprache mit der Sprachtaste. Die Reihenfolge legst du unter Eingabesprachen fest"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Αλλάξτε γλώσσα με το πλήκτρο γλώσσας. Ορίστε τη σειρά στις Γλώσσες πληκτρολόγησης"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change language with the language key. Set the order in Typing Languages"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambia de idioma con la tecla de idioma. El orden se define en Idiomas de escritura"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vaihda kieltä kielinäppäimellä. Järjestyksen voit asettaa kohdassa Kirjoituskielet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Changez de langue avec la touche de langue. Définissez l'ordre dans Langues de saisie"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ganti bahasa dengan tombol bahasa. Atur urutannya di Bahasa Pengetikan"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambia lingua con il tasto lingua. Imposti l'ordine in Lingue di scrittura"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キーボードの言語キーで言語を切り替えます。順番は「入力言語」で設定できます"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bytt språk med språktasten. Rekkefølgen angir du under Inndataspråk"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wissel van taal met de taaltoets. Stel de volgorde in bij Invoertalen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zmień język klawiszem języka. Kolejność ustawisz w Językach pisania"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Troque o idioma com a tecla de idioma. Defina a ordem em Idiomas de Digitação"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Язык переключается клавишей языка. Порядок задаётся в разделе «Языки ввода»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Byt språk med språktangenten. Ordningen väljer du under Inmatningsspråk"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เปลี่ยนภาษาด้วยปุ่มภาษาบนแป้นพิมพ์ ตั้งลำดับได้ที่ภาษาที่ใช้พิมพ์"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dil tuşuyla dili değiştirin. Sırayı Yazı Dilleri'nden ayarlayın"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đổi ngôn ngữ bằng phím ngôn ngữ. Thứ tự được đặt trong Ngôn ngữ nhập"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用语言键切换语言。顺序在“输入语言”中设置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用語言鍵切換語言。順序在「輸入語言」中設定"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

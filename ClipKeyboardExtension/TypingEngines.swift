@@ -6,8 +6,8 @@
 //
 //  ⚠️ 언어가 무엇을 쓰는지는 `TypingLanguage.engine` 이 정한다. 화면(`TypingKeyboardView`)은
 //     어느 엔진인지 모른 채 `input` · `backspace` · `commit` 만 부른다.
-//  ⚠️ 조합 중인 글자는 **지웠다 다시 쓰는 방식**으로 보인다(한글 조합기와 같은 길).
-//     키보드 탭의 무대도 같은 `TypingInputProxy` 를 받으므로 진짜 키보드와 똑같이 움직인다.
+//  ⚠️ 조합 중인 낱말은 **밑줄 친 글**(marked text)로 보인다(`ComposingText`). 밑줄을 못 그리는
+//     입력칸(키보드 탭의 무대 · 시험)은 같은 길로 지웠다 다시 쓴다(`TypingInputProxy` 기본 구현).
 //
 
 import UIKit
@@ -35,6 +35,12 @@ protocol TypingInputProxy: AnyObject {
     func cursorRight()
     func clearAll()
 
+    /// 조합 중인 글을 `shown` 에서 `text` 로 바꿔 보인다. 진짜 키보드는 밑줄 친 글(marked text)로 보이고,
+    /// 밑줄을 못 그리는 입력칸(무대 · 시험)은 기본 구현처럼 지웠다 다시 쓴다.
+    func setComposingText(_ text: String, replacing shown: String)
+    /// 조합을 끝낸다. 밑줄 친 글을 그대로 확정한다.
+    func finishComposingText()
+
     /// 커서 앞 글. 자판이 문장 첫 글자에서 Shift 를 저절로 켤지 가를 때 본다. 모르면 nil.
     var typingContextBefore: String? { get }
     /// 입력칸이 바라는 대문자 규칙(기본 키보드가 문장 첫 글자를 대문자로 올리는 근거).
@@ -42,6 +48,18 @@ protocol TypingInputProxy: AnyObject {
 }
 
 extension TypingInputProxy {
+    /// 밑줄이 없는 입력칸: 앞부분이 같으면 다른 부분만 지우고 쓴다.
+    func setComposingText(_ text: String, replacing shown: String) {
+        let old = Array(shown)
+        let new = Array(text)
+        var same = 0
+        while same < old.count, same < new.count, old[same] == new[same] { same += 1 }
+        for _ in same..<old.count { deleteBackward() }
+        if same < new.count { insertText(String(new[same...])) }
+    }
+
+    func finishComposingText() {}
+
     /// 모르는 입력칸에서는 저절로 대문자를 켜지 않는다(시험용 가짜 입력칸 등).
     var typingContextBefore: String? { nil }
     var typingAutocapitalization: UITextAutocapitalizationType { .none }
@@ -98,23 +116,27 @@ enum KoreanTypingLayout: String, CaseIterable {
     case dubeolsik, cheonjiin
 }
 
-/// 지웠다 다시 쓰는 조합 글자. 지금 입력칸에 몇 글자를 써 두었는지 기억한다.
+/// 조합 중인 글자. 지금 입력칸에 무엇을 보여 두었는지 기억한다.
+///
+/// ⚠️ 진짜 키보드에서는 밑줄 친 글(marked text)로 보인다. 기본 키보드처럼 짓고 있는 낱말 아래에
+///    밑줄이 생기고, 키 하나에 입력칸을 한 번만 건드린다(예전에는 지우기 + 쓰기로 두 번).
 private struct ComposingText {
     private(set) var shown: String = ""
 
-    /// `next` 를 보이게 한다. 앞부분이 같으면 다른 부분만 지우고 쓴다.
     mutating func show(_ next: String, on proxy: TypingInputProxy) {
-        let old = Array(shown)
-        let new = Array(next)
-        var same = 0
-        while same < old.count, same < new.count, old[same] == new[same] { same += 1 }
-        for _ in same..<old.count { proxy.deleteBackward() }
-        if same < new.count { proxy.insertText(String(new[same...])) }
+        guard next != shown else { return }
+        proxy.setComposingText(next, replacing: shown)
         shown = next
     }
 
-    /// 보이던 것을 그대로 두고 잊는다(확정).
-    mutating func forget() { shown = "" }
+    /// 보이던 것을 그대로 확정한다.
+    mutating func commit(on proxy: TypingInputProxy) {
+        if !shown.isEmpty { proxy.finishComposingText() }
+        shown = ""
+    }
+
+    /// 새 입력칸으로 왔다. 입력칸에는 손대지 않고 잊는다.
+    mutating func drop() { shown = "" }
 }
 
 // MARK: - 바로 넣기
@@ -133,9 +155,16 @@ final class DirectTypingEngine: TypingEngine {
 // MARK: - 한글
 
 /// 두벌식은 `HangulComposer`, 천지인은 `CheonjiinInput` 이 그 위에서 돈다.
+///
+/// ⚠️ 조합기는 입력칸이 아니라 **짓고 있는 낱말**(`HangulWordBuffer`)에 쓴다. 키 하나가 끝나면
+///    그 낱말을 밑줄 친 글로 한 번에 보인다. 낱말은 스페이스 · 부호 · 리턴 · 판 바꾸기에서 끝난다.
+///    조합기가 입력칸에 바로 지우고 쓰던 때는 키 하나에 입력칸을 두세 번 건드려서
+///    빨리 치면 늦게 따라왔고, 짓는 글자에 밑줄도 없었다(2026-10 사용자 신고).
 final class HangulTypingEngine: TypingEngine {
     private let composer = HangulComposer()
     private let cheonjiin = CheonjiinInput()
+    private let word = HangulWordBuffer()
+    private var text = ComposingText()
     private let layout: KoreanTypingLayout
 
     private weak var proxyTyping: TypingInputProxy?
@@ -143,18 +172,19 @@ final class HangulTypingEngine: TypingEngine {
     init(proxy: TypingInputProxy, layout: KoreanTypingLayout) {
         self.layout = layout
         self.proxyTyping = proxy
-        composer.proxy = HangulProxyAdapter(typing: proxy)
+        composer.proxy = word
         cheonjiin.composer = composer
     }
 
-    var isComposing: Bool { composer.isComposing }
+    var isComposing: Bool { !word.text.isEmpty }
 
     func input(_ key: String) {
+        guard let proxy = proxyTyping else { return }
         switch layout {
         case .dubeolsik:
-            guard let jamo = key.first, key.count == 1 else {
-                composer.commit()
-                composer.proxy?.insertText(key)
+            guard key.count == 1, let jamo = key.first, HangulWordBuffer.isJamo(jamo) else {
+                commit()
+                proxy.insertText(key)
                 return
             }
             composer.input(jamo)
@@ -162,44 +192,69 @@ final class HangulTypingEngine: TypingEngine {
             if key == CheonjiinInput.advanceKey {
                 // 끊을 자음 돌림이 없으면 기본 10키처럼 커서를 한 칸 옮긴다.
                 if !cheonjiin.advance() {
-                    cheonjiin.commit()
-                    proxyTyping?.cursorRight()
+                    commit()
+                    proxy.cursorRight()
                 }
                 return
             }
-            if CheonjiinInput.handles(key) {
-                cheonjiin.tap(key)
-            } else {
-                cheonjiin.commit()
-                composer.proxy?.insertText(key)
+            guard CheonjiinInput.handles(key) else {
+                commit()
+                proxy.insertText(key)
+                return
             }
+            cheonjiin.tap(key)
         }
+        text.show(word.text, on: proxy)
     }
 
     func backspace() {
+        guard let proxy = proxyTyping else { return }
+        guard isComposing else {
+            cheonjiin.reset()
+            proxy.deleteBackward()
+            return
+        }
         switch layout {
         case .dubeolsik: composer.backspace()
         case .cheonjiin: cheonjiin.backspace()
         }
+        text.show(word.text, on: proxy)
+        if word.text.isEmpty { finishWord(on: proxy) }
     }
 
     func commit() {
         if layout == .cheonjiin { cheonjiin.commit() }
         composer.commit()
+        guard let proxy = proxyTyping else { return }
+        text.show(word.text, on: proxy)
+        finishWord(on: proxy)
     }
 
     func reset() {
         cheonjiin.reset()
         composer.reset()
+        word.text = ""
+        text.drop()
+    }
+
+    /// 낱말을 확정하고 다음 낱말을 새로 짓는다.
+    private func finishWord(on proxy: TypingInputProxy) {
+        text.commit(on: proxy)
+        word.text = ""
     }
 }
 
-/// 한글 조합기는 제 프록시를 쓴다. 자판 프록시를 그 모양으로 잇는다.
-final class HangulProxyAdapter: HangulInputProxy {
-    let typing: TypingInputProxy
-    init(typing: TypingInputProxy) { self.typing = typing }
-    func insertText(_ text: String) { typing.insertText(text) }
-    func deleteBackward() { typing.deleteBackward() }
+/// 짓고 있는 한 낱말. 조합기가 입력칸 대신 여기에 쓰고 지운다.
+final class HangulWordBuffer: HangulInputProxy {
+    var text = ""
+    func insertText(_ text: String) { self.text += text }
+    func deleteBackward() { if !text.isEmpty { text.removeLast() } }
+
+    /// 한글 자모인가(ㄱ ~ ㆎ, 천지인의 ㆍ 포함). 아니면 낱말을 끝내고 그대로 넣는다.
+    static func isJamo(_ ch: Character) -> Bool {
+        guard let scalar = ch.unicodeScalars.first, ch.unicodeScalars.count == 1 else { return false }
+        return (0x3131...0x318E).contains(scalar.value)
+    }
 }
 
 // MARK: - 베트남어 Telex
@@ -239,16 +294,20 @@ final class TelexTypingEngine: TypingEngine {
         letters.removeLast()
         if letters.isEmpty { tone = .none }
         text.show(VietSyllable.render(letters: letters, tone: tone), on: proxy)
-        if letters.isEmpty { text.forget() }
+        if letters.isEmpty { text.commit(on: proxy) }
     }
 
     func commit() {
         letters.removeAll()
         tone = .none
-        text.forget()
+        text.commit(on: proxy)
     }
 
-    func reset() { commit() }
+    func reset() {
+        letters.removeAll()
+        tone = .none
+        text.drop()
+    }
 
     /// 키 하나를 규칙에 맞춰 반영한다. 시험에서 바로 부를 수 있게 남긴다.
     func apply(_ ch: Character) {
@@ -464,7 +523,7 @@ final class KanaTypingEngine: TypingEngine {
             return
         }
         render()
-        if !isComposing { text.forget() }
+        if !isComposing { text.commit(on: proxy) }
     }
 
     func commit() {
@@ -472,13 +531,13 @@ final class KanaTypingEngine: TypingEngine {
         render()
         kana = ""
         pending = ""
-        text.forget()
+        text.commit(on: proxy)
     }
 
     func reset() {
         kana = ""
         pending = ""
-        text.forget()
+        text.drop()
     }
 
     func selectCandidate(at index: Int) {
@@ -488,7 +547,7 @@ final class KanaTypingEngine: TypingEngine {
         dictionary?.noteChosen(list[index], for: kana)
         kana = ""
         pending = ""
-        text.forget()
+        text.commit(on: proxy)
     }
 
     /// 끝에 남은 n 은 ん 으로, 나머지 로마자는 그대로 둔다.
@@ -644,7 +703,7 @@ final class ReadingTypingEngine: TypingEngine {
         }
         reading.removeLast()
         text.show(reading, on: proxy)
-        if reading.isEmpty { text.forget() }
+        if reading.isEmpty { text.commit(on: proxy) }
     }
 
     /// 고르지 않고 끝내면 첫 후보로, 후보가 없으면 읽기 그대로 둔다.
@@ -654,12 +713,12 @@ final class ReadingTypingEngine: TypingEngine {
             return
         }
         reading = ""
-        text.forget()
+        text.commit(on: proxy)
     }
 
     func reset() {
         reading = ""
-        text.forget()
+        text.drop()
     }
 
     func selectCandidate(at index: Int) {
@@ -668,7 +727,7 @@ final class ReadingTypingEngine: TypingEngine {
         text.show(list[index], on: proxy)
         dictionary?.noteChosen(list[index], for: reading)
         reading = ""
-        text.forget()
+        text.commit(on: proxy)
     }
 }
 
