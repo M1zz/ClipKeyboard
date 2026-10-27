@@ -23,6 +23,7 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 Plus와 Pro는 연 구독과 평생 중에 고를 수 있어요.
 구독 중이면 언제든 평생으로 바꿀 수 있어요.
 모든 앱을 평생 여는 언제나 평생 패스가 생겼어요.
+펼친 iPhone Duo에서 새 단축어와 수정이 오른쪽 화면에 열려요.
 ```
 
 ### App Store (English)
@@ -32,6 +33,7 @@ Plans are now simply Free, Plus and Pro.
 Choose yearly or lifetime for Plus and Pro.
 Subscribers can switch to lifetime anytime.
 A new Forever Pass unlocks all our apps for life.
+On an unfolded iPhone Duo, new and edited snippets open on the right side.
 ```
 
 ### 앱스토어 (중국어 간체)
@@ -41,6 +43,7 @@ A new Forever Pass unlocks all our apps for life.
 Plus 和 Pro 可选年订阅或终身买断。
 订阅中也能随时改为终身买断。
 新增永久通行证，所有应用终身解锁。
+在展开的 iPhone Duo 上，新建和编辑短语会在右侧打开。
 ```
 
 ### 앱스토어 (중국어 번체)
@@ -50,6 +53,7 @@ Plus 和 Pro 可选年订阅或终身买断。
 Plus 和 Pro 可選年訂閱或終身買斷。
 訂閱中也能隨時改為終身買斷。
 新增永久通行證，所有 App 終身解鎖。
+在展開的 iPhone Duo 上，新增和編輯短語會在右側打開。
 ```
 
 ### 앱스토어 (러시아어)
@@ -59,6 +63,7 @@ Plus 和 Pro 可選年訂閱或終身買斷。
 Plus и Pro можно взять на год или навсегда.
 Подписку легко заменить покупкой навсегда.
 Новый вечный пропуск открывает все наши приложения.
+На развёрнутом iPhone Duo новые и изменяемые фразы открываются справа.
 ```
 
 ### App Store (Japanese, ja)
@@ -68,6 +73,7 @@ Plus и Pro можно взять на год или навсегда.
 PlusとProは年額か買い切りを選べます。
 サブスク中でもいつでも買い切りに切り替えられます。
 すべてのアプリがずっと使える永久パスが登場しました。
+開いた iPhone Duo では、定型文の作成と編集が右側に開きます。
 ```
 
 ### App Store (Spanish, es-MX)
@@ -77,6 +83,7 @@ Los planes ahora son Gratis, Plus y Pro.
 Elige Plus o Pro anual o de por vida.
 Si tienes suscripción, cámbiate a de por vida cuando quieras.
 Nuevo pase de por vida para todas nuestras apps.
+En un iPhone Duo abierto, crear y editar frases se abre en el lado derecho.
 ```
 
 ### App Store (German, de-DE)
@@ -86,6 +93,7 @@ Die Tarife heißen jetzt Kostenlos, Plus und Pro.
 Plus und Pro gibt es als Jahresabo oder einmalig.
 Im Abo kannst du jederzeit auf einmalig wechseln.
 Ein neuer Pass schaltet alle unsere Apps dauerhaft frei.
+Auf einem aufgeklappten iPhone Duo öffnen sich neue und bearbeitete Textbausteine rechts.
 ```
 
 ### App Store (Thai, th)
@@ -95,6 +103,7 @@ Ein neuer Pass schaltet alle unsere Apps dauerhaft frei.
 เลือก Plus และ Pro แบบรายปีหรือซื้อขาดได้
 สมาชิกรายปีเปลี่ยนเป็นแบบซื้อขาดได้ทุกเมื่อ
 มีบัตรผ่านตลอดชีพใหม่ ปลดล็อกทุกแอปของเรา
+บน iPhone Duo ที่กางออก การสร้างและแก้ไขข้อความด่วนจะเปิดทางขวา
 ```
 
 ### App Store (Vietnamese, vi)
@@ -104,6 +113,7 @@ Các gói nay gọn lại thành Miễn phí, Plus và Pro.
 Plus và Pro có gói năm hoặc trọn đời.
 Đang đăng ký vẫn chuyển sang trọn đời lúc nào cũng được.
 Thẻ trọn đời mới mở khóa mọi ứng dụng của chúng tôi.
+Trên iPhone Duo mở ra, tạo và sửa cụm từ mở ở bên phải.
 ```
 
 ### App Store (French, fr-FR)
@@ -113,6 +123,7 @@ Les formules sont désormais Gratuit, Plus et Pro.
 Plus et Pro existent en annuel ou à vie.
 Abonné, vous pouvez passer à vie à tout moment.
 Nouveau pass à vie pour toutes nos apps.
+Sur un iPhone Duo déplié, créer et modifier une phrase s’ouvre à droite.
 ```
 
 ### App Store (Italian, it)
@@ -122,6 +133,7 @@ I piani ora sono Gratis, Plus e Pro.
 Scegli Plus o Pro annuale oppure a vita.
 Se sei abbonato puoi passare a vita quando vuoi.
 Nuovo pass a vita per tutte le nostre app.
+Su un iPhone Duo aperto, creare e modificare frasi si apre a destra.
 ```
 
 ### App Store (Portuguese, pt-BR)
@@ -131,6 +143,7 @@ Os planos agora são Grátis, Plus e Pro.
 Escolha Plus ou Pro anual ou vitalício.
 Assinantes podem mudar para vitalício quando quiserem.
 Novo passe vitalício para todos os nossos apps.
+Em um iPhone Duo aberto, criar e editar frases abre do lado direito.
 ```
 
 ### App Store (Czech, cs)
@@ -140,6 +153,7 @@ Tarify jsou nově Zdarma, Plus a Pro.
 Plus i Pro můžete mít na rok nebo navždy.
 Předplatné můžete kdykoli změnit na doživotní.
 Nová doživotní propustka odemkne všechny naše aplikace.
+Na rozloženém iPhonu Duo se nové a upravované fráze otevírají vpravo.
 ```
 
 ### App Store (Danish, da)
@@ -149,6 +163,7 @@ Abonnementerne er nu Gratis, Plus og Pro.
 Vælg Plus eller Pro årligt eller for livet.
 Abonnenter kan skifte til livstid når som helst.
 Nyt livstidspas åbner alle vores apps.
+På en udfoldet iPhone Duo åbner nye og redigerede fraser i højre side.
 ```
 
 ### App Store (Greek, el)
@@ -158,6 +173,7 @@ Nyt livstidspas åbner alle vores apps.
 Επιλέξτε Plus ή Pro ετήσια ή εφάπαξ.
 Οι συνδρομητές περνούν σε εφάπαξ όποτε θέλουν.
 Νέο ισόβιο πάσο για όλες τις εφαρμογές μας.
+Σε ανοιχτό iPhone Duo, η δημιουργία και η επεξεργασία φράσεων ανοίγει δεξιά.
 ```
 
 ### App Store (Finnish, fi)
@@ -167,6 +183,7 @@ Tilaukset ovat nyt Ilmainen, Plus ja Pro.
 Plus ja Pro ovat saatavilla vuodeksi tai pysyvästi.
 Tilaajana voit vaihtaa pysyvään milloin vain.
 Uusi ikuinen passi avaa kaikki sovelluksemme.
+Avatussa iPhone Duossa fraasin luonti ja muokkaus avautuvat oikealle.
 ```
 
 ### App Store (Indonesian, id)
@@ -176,6 +193,7 @@ Paket kini jadi Gratis, Plus, dan Pro.
 Pilih Plus atau Pro tahunan atau seumur hidup.
 Pelanggan bisa beralih ke seumur hidup kapan saja.
 Pass seumur hidup baru membuka semua aplikasi kami.
+Di iPhone Duo yang dibuka, membuat dan mengedit frasa terbuka di sisi kanan.
 ```
 
 ### App Store (Norsk bokmål, nb)
@@ -185,6 +203,7 @@ Abonnementene heter nå Gratis, Plus og Pro.
 Velg Plus eller Pro årlig eller for livet.
 Abonnenter kan bytte til livstid når som helst.
 Nytt livstidspass åpner alle appene våre.
+På en utbrettet iPhone Duo åpnes nye og redigerte fraser på høyre side.
 ```
 
 ### App Store (Dutch, nl)
@@ -194,6 +213,7 @@ De abonnementen zijn nu Gratis, Plus en Pro.
 Kies Plus of Pro per jaar of levenslang.
 Abonnees kunnen altijd overstappen naar levenslang.
 Nieuwe levenslange pas opent al onze apps.
+Op een opengevouwen iPhone Duo openen nieuwe en bewerkte fragmenten aan de rechterkant.
 ```
 
 ### App Store (Polish, pl)
@@ -203,6 +223,7 @@ Plany to teraz Darmowy, Plus i Pro.
 Plus i Pro kupisz na rok lub na zawsze.
 Subskrypcję możesz w każdej chwili zamienić na dożywotnią.
 Nowa dożywotnia przepustka otwiera wszystkie nasze aplikacje.
+Na rozłożonym iPhonie Duo tworzenie i edycja fraz otwiera się po prawej.
 ```
 
 ### App Store (Swedish, sv)
@@ -212,6 +233,7 @@ Planerna heter nu Gratis, Plus och Pro.
 Välj Plus eller Pro per år eller för alltid.
 Prenumeranter kan byta till livstid när som helst.
 Nytt livstidspass öppnar alla våra appar.
+På en utfälld iPhone Duo öppnas nya och redigerade fraser till höger.
 ```
 
 ### App Store (Turkish, tr)
@@ -221,6 +243,7 @@ Planlar artık Ücretsiz, Plus ve Pro.
 Plus ve Pro yıllık ya da ömür boyu alınabilir.
 Abonelikten istediğiniz an ömür boyuna geçebilirsiniz.
 Yeni ömür boyu geçiş tüm uygulamalarımızı açar.
+Açık bir iPhone Duo’da ifade oluşturma ve düzenleme sağ tarafta açılır.
 ```
 
 ## 5.1.14

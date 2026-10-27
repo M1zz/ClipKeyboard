@@ -9,6 +9,12 @@ App Store Connect ▸ 앱 내 구입 ▸ 상품 ▸ **심사 정보 ▸ 스크�
 | `com.Ysoup.TokenMemo.tip.small.png` | 팁 작은 것 (소모성) | 설정 ▸ 개발자 응원하기 (`LeeoTipJarView`) |
 | `com.Ysoup.TokenMemo.tip.medium.png` | 팁 중간 (소모성) | 같은 화면 |
 | `com.Ysoup.TokenMemo.tip.large.png` | 팁 큰 것 (소모성) | 같은 화면 |
+| `com.Ysoup.TokenMemo.pro.graduate.png` | 구독 졸업 Pro 평생 (비소모성) | 구독자에게만 뜨는 졸업 제안 (`LeeoGraduationOfferView`) |
+| `com.Ysoup.TokenMemo.forever.png` | 언제나 평생 패스 (비소모성) | 페이월 아래 한 줄 ▸ 패스 화면 (`LeeoForeverPassView`) |
+| `com.Ysoup.TokenMemo.forever.upgrade.png` | 패스, 평생 Pro 보유자 값 (비소모성) | 같은 화면, 평생 Pro 를 가진 사람 |
+
+졸업 · 패스 그림은 샌드박스의 진짜 상품 값으로 그렸다(상품을 ASC 에 만든 뒤 시험 대상 앱 안에서
+`UIWindow(windowScene:)` 에 얹어 찍음. 장면 없이 만든 창은 검게 찍힌다).
 
 규격 1242x2688 (스토어 스크린샷과 같다). 가격은 그림을 그릴 때 넣은 예시값이다(실제 가격은 App Store Connect 가 정한다).
 
