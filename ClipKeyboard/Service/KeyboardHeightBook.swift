@@ -150,11 +150,18 @@ enum KeyboardHeightBook {
 
     /// 우리 판이 이보다 높아지지는 않는다.
     ///
-    /// 키보드가 화면을 덮으면 무엇에 입력하고 있는지가 안 보인다. 세로에서는 화면의 55%,
+    /// 키보드가 화면을 덮으면 무엇에 입력하고 있는지가 안 보인다. 세로에서는 화면의 41%,
     /// 가로에서는 62% 까지만 쓴다(가로는 화면이 낮아 같은 비율로는 키가 안 들어간다).
+    ///
+    /// ⚠️ 세로 41% 는 시스템 키보드가 가장 높을 때(iPhone 13 mini, 아래 `fallbackHeight` 표)와 같다.
+    ///    우리 키보드도 그보다 더 가리지 않는다(2026-10 사용자: "상한을 41%로 해줘 우리도").
+    ///    예전에는 55% 였다.
+    static let portraitShare: CGFloat = 0.41
+    static let landscapeShare: CGFloat = 0.62
+
     static func maximumContentHeight(for size: CGSize) -> CGFloat {
         let isLandscape = size.width > size.height
-        let share: CGFloat = isLandscape ? 0.62 : 0.55
+        let share: CGFloat = isLandscape ? landscapeShare : portraitShare
         let room = size.height * share - systemChrome(for: size)
         return max(room, minimumContentHeight)
     }

@@ -97,7 +97,8 @@ struct KeyboardSettingsShareTests {
     /// 무대가 예전처럼 굳어 있으면 이 시험이 깨진다.
     @Test("키를 크게 잡으면 판도 높아진다")
     func heightFollowsTheSettings() {
-        let screen = CGSize(width: 393, height: 852)
+        // 아이폰 세로는 상한(41%)에 닿아 설정이 높이를 못 바꾼다. 닿지 않는 화면에서 본다.
+        let screen = CGSize(width: 834, height: 1194)
 
         var small: CGFloat = 0
         withDefaults([DefaultsKey.keyboardButtonHeight: 40.0,
