@@ -571,10 +571,10 @@ final class HangulKeyboardSweepTests: XCTestCase {
 
     // MARK: 밀어서 넣기
 
-    /// ㅣ 키를 누른 채 밀면 기본 10키처럼 ← ㅓ · → ㅏ · ↑ ㅕ · ↓ ㅑ, ㅡ 키는 ↑ ㅗ · ↓ ㅜ.
+    /// ㅣ 키를 누른 채 밀면 기본 10키처럼 ← ㅓ · → ㅏ · ↑ ㅕ · ↓ ㅑ, ㅡ 키는 ← ㅓ · → ㅏ · ↑ ㅗ · ↓ ㅜ.
     func testFlickTable() {
         XCTAssertEqual(CheonjiinInput.flicks(for: "ㅣ"), [.left: "ㅓ", .right: "ㅏ", .up: "ㅕ", .down: "ㅑ"])
-        XCTAssertEqual(CheonjiinInput.flicks(for: "ㅡ"), [.up: "ㅗ", .down: "ㅜ"])
+        XCTAssertEqual(CheonjiinInput.flicks(for: "ㅡ"), [.left: "ㅓ", .right: "ㅏ", .up: "ㅗ", .down: "ㅜ"])
         XCTAssertTrue(CheonjiinInput.flicks(for: "ㆍ").isEmpty)
     }
 
@@ -586,7 +586,8 @@ final class HangulKeyboardSweepTests: XCTestCase {
         XCTAssertEqual(CheonjiinInput.flick(for: CGSize(width: 25, height: 3), in: i), .right)
         XCTAssertEqual(CheonjiinInput.flick(for: CGSize(width: 4, height: -40), in: i), .up)
         XCTAssertEqual(CheonjiinInput.flick(for: CGSize(width: -6, height: 22), in: i), .down)
-        XCTAssertNil(CheonjiinInput.flick(for: CGSize(width: 30, height: 0), in: eu))
+        XCTAssertEqual(CheonjiinInput.flick(for: CGSize(width: 30, height: 0), in: eu), .right)
+        XCTAssertNil(CheonjiinInput.flick(for: CGSize(width: 30, height: 0), in: CheonjiinInput.flicks(for: "ㆍ")))
         XCTAssertEqual(CheonjiinInput.flick(for: CGSize(width: 3, height: -30), in: eu), .up)
     }
 

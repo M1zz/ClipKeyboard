@@ -116,11 +116,11 @@ final class CheonjiinInput {
     enum Flick: CaseIterable { case up, down, left, right }
 
     /// 키를 누른 채 밀면 들어가는 모음. 기본 10키와 같다(ㅣ 키: ← ㅓ · → ㅏ · ↑ ㅕ · ↓ ㅑ).
-    /// 획이 붙는 쪽으로 민다. ㅡ 키는 위가 ㅗ, 아래가 ㅜ.
+    /// 획이 붙는 쪽으로 민다. ㅡ 키는 위가 ㅗ, 아래가 ㅜ, 옆은 ㅣ 키와 같다(← ㅓ · → ㅏ).
     static func flicks(for key: String) -> [Flick: String] {
         switch key {
         case "ㅣ": return [.left: "ㅓ", .right: "ㅏ", .up: "ㅕ", .down: "ㅑ"]
-        case "ㅡ": return [.up: "ㅗ", .down: "ㅜ"]
+        case "ㅡ": return [.left: "ㅓ", .right: "ㅏ", .up: "ㅗ", .down: "ㅜ"]
         default: return [:]
         }
     }
