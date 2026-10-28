@@ -23605,6 +23605,12 @@
         "cs" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d den zdarma · Pak roční předplatné nebo doživotně"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -23615,12 +23621,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d dne zdarma · Pak roční předplatné nebo doživotně"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d den zdarma · Pak roční předplatné nebo doživotně"
                 }
               },
               "other" : {
@@ -23815,6 +23815,12 @@
         "pl" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d dzień za darmo · potem plan roczny lub dożywotni"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -23825,12 +23831,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d dni za darmo · potem plan roczny lub dożywotni"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d dzień za darmo · potem plan roczny lub dożywotni"
                 }
               },
               "other" : {
@@ -23863,6 +23863,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d день бесплатно · затем год или навсегда"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -23873,12 +23879,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d дней бесплатно · затем год или навсегда"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d день бесплатно · затем год или навсегда"
                 }
               },
               "other" : {
@@ -115366,6 +115366,12 @@
         "cs" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "I bez platby vám zůstane vytvořená %d fráze. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -115376,12 +115382,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "I bez platby vám zůstane vytvořených %d frází. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "I bez platby vám zůstane vytvořená %d fráze. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci."
                 }
               },
               "other" : {
@@ -115576,6 +115576,12 @@
         "pl" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nawet bez płatności %d fraza nadal działa. Plus pozwala tworzyć bez limitu, a Pro dodaje kopię zapasową i synchronizację."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -115586,12 +115592,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Nawet bez płatności %d fraz nadal działa. Plus pozwala tworzyć bez limitu, a Pro dodaje kopię zapasową i synchronizację."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Nawet bez płatności %d fraza nadal działa. Plus pozwala tworzyć bez limitu, a Pro dodaje kopię zapasową i synchronizację."
                 }
               },
               "other" : {
@@ -115624,6 +115624,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Даже без оплаты %d созданная фраза продолжит работать. Plus позволяет создавать сколько угодно, а Pro добавляет резервные копии и синхронизацию."
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -115634,12 +115640,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Даже без оплаты %d созданных фраз продолжат работать. Plus позволяет создавать сколько угодно, а Pro добавляет резервные копии и синхронизацию."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Даже без оплаты %d созданная фраза продолжит работать. Plus позволяет создавать сколько угодно, а Pro добавляет резервные копии и синхронизацию."
                 }
               },
               "other" : {
@@ -469322,6 +469322,828 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "用語言鍵切換語言。順序在「輸入語言」中設定"
+          }
+        }
+      }
+    },
+    "클립키보드 하나만 남기면 지구본은 빠지지만, 맨 아래 띠는 남아요. 이모지를 쓰려면 이모티콘 키보드는 남겨 두세요." : {
+      "comment" : "Only-this-keyboard guide: removing other keyboards hides the globe key, but the bottom strip stays",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když ponecháte jen ClipKeyboard, glóbus zmizí, ale pruh úplně dole zůstane. Chcete-li používat emoji, ponechte klávesnici Emoji."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Når kun ClipKeyboard er tilbage, forsvinder globussen, men striben nederst bliver. Behold Emoji-tastaturet, hvis du vil bruge emojis."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bleibt nur ClipKeyboard übrig, verschwindet der Globus, die Leiste ganz unten aber bleibt. Für Emoji lass die Emoji-Tastatur drin."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Αν μείνει μόνο το ClipKeyboard, το υδρόγειο εξαφανίζεται, αλλά η κάτω λωρίδα παραμένει. Για να χρησιμοποιείτε emoji, κρατήστε το πληκτρολόγιο Emoji."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With only ClipKeyboard left, the globe goes away, but the strip at the very bottom stays. To use emoji, keep the Emoji keyboard."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si dejas solo ClipKeyboard, el globo desaparece, pero la franja de abajo se queda. Para usar emoji, deja el teclado Emoji."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kun jäljellä on vain ClipKeyboard, maapallo poistuu, mutta alareunan palkki jää. Jos haluat käyttää emojeita, jätä Emoji-näppäimistö."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si ClipKeyboard est le seul clavier, le globe disparaît, mais la bande du bas reste. Pour utiliser les emoji, gardez le clavier Emoji."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jika hanya ClipKeyboard yang tersisa, globe akan hilang, tetapi bilah di paling bawah tetap ada. Untuk memakai emoji, biarkan papan ketik Emoji tetap ada."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se lasci solo ClipKeyboard, il globo scompare, ma la barra in fondo resta. Per usare le emoji, tieni la tastiera Emoji."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboard だけにすると地球儀は消えますが、最下部の帯は残ります。絵文字を使うなら、絵文字キーボードは残しておいてください。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Med bare ClipKeyboard igjen forsvinner globusen, men stripen nederst blir værende. Behold Emoji-tastaturet hvis du vil bruke emojier."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als alleen ClipKeyboard overblijft, verdwijnt de wereldbol, maar de strook onderaan blijft. Houd het Emoji-toetsenbord om emoji te gebruiken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy zostanie tylko ClipKeyboard, globus zniknie, ale dolny pasek zostanie. Aby używać emoji, zostaw klawiaturę Emoji."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com apenas o ClipKeyboard, o globo some, mas a faixa na parte de baixo continua. Para usar emoji, mantenha o teclado Emoji."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если оставить только ClipKeyboard, глобус пропадёт, а нижняя полоса останется. Чтобы пользоваться эмодзи, оставьте клавиатуру «Эмодзи»."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Med bara ClipKeyboard kvar försvinner globen, men remsan längst ner finns kvar. Behåll Emoji-tangentbordet om du vill använda emoji."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ถ้าเหลือ ClipKeyboard เพียงอันเดียว ปุ่มรูปโลกจะหายไป แต่แถบด้านล่างสุดยังอยู่ หากต้องการใช้อีโมจิ ให้เก็บแป้นพิมพ์อีโมจิไว้"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yalnızca ClipKeyboard kalırsa küre simgesi kaybolur, ama en alttaki şerit yerinde durur. Emoji kullanmak için Emoji klavyesini bırakın."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chỉ còn ClipKeyboard thì quả địa cầu sẽ biến mất, nhưng dải dưới cùng vẫn còn. Muốn dùng emoji, bạn hãy giữ lại bàn phím Emoji."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只留下剪贴键盘时，地球键会消失，但最下方那一栏仍会保留。想用表情符号，就把表情符号键盘留着。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只留下剪貼鍵盤時，地球鍵會消失，但最下方那一欄仍會保留。想用表情符號，就把表情符號鍵盤留著。"
+          }
+        }
+      }
+    },
+    "맨 아래 띠 쓰기" : {
+      "comment" : "Only-this-keyboard guide: using the bottom strip section",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Použití spodního pruhu"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brug striben nederst"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die untere Leiste nutzen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Χρήση της κάτω λωρίδας"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the bottom strip"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar la franja inferior"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Käytä alareunan palkkia"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser la bande du bas"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pakai bilah bawah"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usare la barra in basso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最下部の帯を使う"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bruk stripen nederst"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De onderste strook gebruiken"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Korzystanie z dolnego paska"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar a faixa inferior"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нижняя полоса"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Använd remsan längst ner"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ใช้แถบด้านล่าง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alt şeridi kullanma"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dùng dải dưới cùng"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用好底部的那一栏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用好底部的那一欄"
+          }
+        }
+      }
+    },
+    "홈 버튼이 없는 iPhone에서는 홈 막대와 겹치지 않게 iOS가 키보드 아래에 늘 띠를 비워 둬요. 키보드를 하나만 남기고 받아쓰기를 꺼도 남고, 접는 설정은 없어요. 어느 키보드든 이 띠 위에 올라가요. 그래서 이 자리를 쓰게 두는 편이 나아요." : {
+      "comment" : "Only-this-keyboard guide: why the bottom strip under the keyboard can never be removed on Face ID iPhones",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na iPhonu bez tlačítka Plocha iOS pod klávesnicí vždy ponechává pruh, aby se klávesnice nepřekrývala s indikátorem domovské obrazovky. Zůstane i s jedinou klávesnicí a vypnutým diktováním a nelze ho skrýt. Každá klávesnice je nad ním, proto je lepší toto místo využít."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "På en iPhone uden hjemmeknap holder iOS altid en stribe fri under tastaturet, så det ikke overlapper hjemmelinjen. Den bliver, selv med ét tastatur og diktering slået fra, og den kan ikke skjules. Alle tastaturer sidder oven på den, så det er bedre at bruge pladsen."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf einem iPhone ohne Home-Taste lässt iOS unter der Tastatur immer eine Leiste frei, damit sie die Home-Leiste nicht überdeckt. Sie bleibt auch mit nur einer Tastatur und ohne Diktieren, und ausblenden lässt sie sich nicht. Jede Tastatur sitzt auf dieser Leiste, also nutze den Platz lieber."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Στο iPhone χωρίς κουμπί Αρχικής, το iOS αφήνει πάντα μια λωρίδα κάτω από το πληκτρολόγιο, ώστε να μην επικαλύπτεται με τη γραμμή Αρχικής. Παραμένει ακόμη και με ένα πληκτρολόγιο και απενεργοποιημένη υπαγόρευση, και δεν υπάρχει ρύθμιση για να κρυφτεί. Κάθε πληκτρολόγιο τοποθετείται πάνω της, οπότε είναι καλύτερο να αξιοποιήσετε αυτό το χώρο."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On an iPhone without a Home button, iOS always keeps a strip under the keyboard so it doesn't overlap the Home bar. It stays even with one keyboard and dictation off, and there's no setting to hide it. Every keyboard sits on top of it, so it's better to put that space to use."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En un iPhone sin botón de inicio, iOS siempre deja una franja bajo el teclado para que no se encime con la barra de inicio. Se queda aunque tengas un solo teclado y el dictado apagado, y no hay ajuste para ocultarla. Todos los teclados se apoyan sobre ella, así que es mejor aprovechar ese espacio."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhonessa, jossa ei ole Koti-painiketta, iOS jättää näppäimistön alle aina tyhjän palkin, ettei se mene Koti-palkin päälle. Se jää, vaikka näppäimistöjä olisi vain yksi ja sanelu pois päältä, eikä sen piilottamiseen ole asetusta. Jokainen näppäimistö on tämän palkin päällä, joten tilan voi käyttää hyödyksi."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur un iPhone sans bouton principal, iOS laisse toujours une bande sous le clavier pour qu'il ne chevauche pas la barre d'accueil. Elle reste même avec un seul clavier et la dictée désactivée, et aucun réglage ne permet de la masquer. Tous les claviers s'affichent au-dessus. Autant donc profiter de cet espace."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di iPhone tanpa tombol Home, iOS selalu menyisakan bilah di bawah papan ketik agar tidak tumpang tindih dengan bilah Home. Bilah ini tetap ada meski hanya satu papan ketik dan dikte dimatikan, dan tidak ada pengaturan untuk menyembunyikannya. Semua papan ketik berada di atasnya, jadi lebih baik ruang itu dimanfaatkan."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Su un iPhone senza tasto Home, iOS lascia sempre una barra sotto la tastiera per non sovrapporsi alla barra Home. Resta anche con una sola tastiera e il dettato disattivato, e non c'è un'impostazione per nasconderla. Ogni tastiera ci sta sopra, quindi conviene usare questo spazio."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホームボタンのない iPhone では、ホームバーと重ならないよう、iOS がキーボードの下に常に帯を空けています。キーボードを1つだけにして音声入力をオフにしても残り、非表示にする設定はありません。どのキーボードもこの帯の上に表示されます。この場所は使うほうがおすすめです。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "På en iPhone uten hjem-knapp holder iOS alltid av en stripe under tastaturet, så den ikke overlapper hjem-linjen. Den blir stående selv med bare ett tastatur og diktering av, og det finnes ingen innstilling for å skjule den. Alle tastaturer ligger oppå den, så det er bedre å bruke plassen."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Op een iPhone zonder thuisknop houdt iOS onder het toetsenbord altijd een strook vrij, zodat die niet overlapt met de thuisbalk. Ze blijft ook met één toetsenbord en dicteren uit, en je kunt ze niet verbergen. Elk toetsenbord staat erboven, dus je gebruikt die ruimte beter."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W iPhonie bez przycisku Home system iOS zawsze zostawia pod klawiaturą pasek, by nie nachodziła na wskaźnik Home. Pasek zostaje nawet przy jednej klawiaturze i wyłączonym dyktowaniu, a ukryć go się nie da. Każda klawiatura jest nad nim, więc lepiej wykorzystać to miejsce."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em um iPhone sem botão Home, o iOS sempre mantém uma faixa sob o teclado para não sobrepor a barra Home. Ela continua mesmo com um só teclado e o ditado desativado, e não há ajuste para ocultá-la. Todo teclado fica sobre essa faixa, então é melhor aproveitar esse espaço."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На iPhone без кнопки «Домой» iOS всегда оставляет под клавиатурой полосу, чтобы она не накладывалась на индикатор «Домой». Она остаётся, даже если клавиатура одна и диктовка выключена. Скрыть её в настройках нельзя. Любая клавиатура расположена над этой полосой, так что лучше использовать это место с пользой."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "På en iPhone utan hemknapp lämnar iOS alltid en remsa under tangentbordet så att det inte överlappar hemlisten. Den finns kvar även med ett tangentbord och diktering av, och det går inte att dölja den. Alla tangentbord ligger ovanpå den, så det är bättre att låta platsen komma till användning."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "บน iPhone ที่ไม่มีปุ่มโฮม iOS จะเว้นแถบใต้แป้นพิมพ์ไว้เสมอ เพื่อไม่ให้ซ้อนกับแถบโฮม แถบนี้ยังอยู่แม้เหลือแป้นพิมพ์เดียวและปิดการป้อนด้วยเสียงแล้ว และไม่มีการตั้งค่าให้ซ่อน แป้นพิมพ์ทุกแบบจะอยู่เหนือแถบนี้ จึงควรใช้พื้นที่ตรงนี้ให้เป็นประโยชน์"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ana Ekran düğmesi olmayan iPhone'larda iOS, Ana Ekran çubuğuyla çakışmasın diye klavyenin altında hep bir şerit bırakır. Tek klavye kalsa ve dikte kapalı olsa da şerit durur, gizleme ayarı da yoktur. Her klavye bu şeridin üstünde yer alır. Bu yüzden bu alanı kullanmak daha iyi olur."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trên iPhone không có nút Home, iOS luôn chừa một dải dưới bàn phím để không chồng lên thanh Home. Dải này vẫn còn dù chỉ có một bàn phím và đã tắt chính tả bằng giọng nói, và không có tùy chọn nào để ẩn. Bàn phím nào cũng nằm phía trên dải này, nên tận dụng khoảng trống đó sẽ hợp lý hơn."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在没有主屏幕按钮的 iPhone 上，iOS 会一直在键盘下方留出一栏，避免和主屏幕指示条重叠。即使只留一个键盘、关掉听写，它也还在，而且没有能收起它的设置。所有键盘都放在这一栏上方，所以不如把这块地方用起来。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在沒有主畫面按鈕的 iPhone 上，iOS 會一直在鍵盤下方留出一欄，避免和主畫面指示條重疊。即使只留一個鍵盤、關掉聽寫，它也還在，而且沒有能收起它的設定。所有鍵盤都放在這一欄上方，所以不如把這塊地方用起來。"
+          }
+        }
+      }
+    },
+    "설정 앱에서 일반 ▸ 키보드 ▸ 키보드 ▸ 새로운 키보드 추가를 눌러요" : {
+      "comment" : "Only-this-keyboard guide: open Add New Keyboard",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V Nastavení klepněte na Obecné ▸ Klávesnice ▸ Klávesnice ▸ Přidat novou klávesnici"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I Indstillinger skal du trykke på Generelt ▸ Tastatur ▸ Tastaturer ▸ Tilføj nyt tastatur"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe in den Einstellungen auf Allgemein ▸ Tastatur ▸ Tastaturen ▸ Neue Tastatur hinzufügen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Στις Ρυθμίσεις, πατήστε Γενικά ▸ Πληκτρολόγιο ▸ Πληκτρολόγια ▸ Προσθήκη νέου πληκτρολογίου"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Settings, tap General ▸ Keyboard ▸ Keyboards ▸ Add New Keyboard"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En Ajustes, toca General ▸ Teclado ▸ Teclados ▸ Agregar teclado nuevo"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avaa Asetukset ja napauta Yleiset ▸ Näppäimistö ▸ Näppäimistöt ▸ Lisää uusi näppäimistö"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans Réglages, touchez Général ▸ Clavier ▸ Claviers ▸ Ajouter un clavier"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di Pengaturan, ketuk Umum ▸ Papan Ketik ▸ Papan Ketik ▸ Tambah Papan Ketik Baru"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Impostazioni, tocca Generali ▸ Tastiera ▸ Tastiere ▸ Aggiungi nuova tastiera"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定アプリで 一般 ▸ キーボード ▸ キーボード ▸ 新しいキーボードを追加 をタップします"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Åpne Innstillinger og trykk Generelt ▸ Tastatur ▸ Tastaturer ▸ Legg til nytt tastatur"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik in Instellingen op Algemeen ▸ Toetsenbord ▸ Toetsenborden ▸ Nieuw toetsenbord toevoegen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "W Ustawieniach stuknij Ogólne ▸ Klawiatura ▸ Klawiatury ▸ Dodaj nową klawiaturę"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em Ajustes, toque em Geral ▸ Teclado ▸ Teclados ▸ Adicionar Novo Teclado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Настройках нажмите «Основные» ▸ «Клавиатура» ▸ «Клавиатуры» ▸ «Новые клавиатуры»"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryck i Inställningar på Allmänt ▸ Tangentbord ▸ Tangentbord ▸ Lägg till tangentbord"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ในแอปการตั้งค่า แตะ ทั่วไป ▸ แป้นพิมพ์ ▸ แป้นพิมพ์ ▸ เพิ่มแป้นพิมพ์ใหม่"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarlar'da Genel ▸ Klavye ▸ Klavyeler ▸ Yeni Klavye Ekle'ye dokunun"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trong Cài đặt, chạm Cài đặt chung ▸ Bàn phím ▸ Bàn phím ▸ Thêm bàn phím mới"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“设置”中轻点 通用 ▸ 键盘 ▸ 键盘 ▸ 添加新键盘"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「設定」中輕點 通用 ▸ 鍵盤 ▸ 鍵盤 ▸ 新增新鍵盤"
+          }
+        }
+      }
+    },
+    "'이모티콘'을 골라요. 지구본 대신 😀 키가 왼쪽에 서요" : {
+      "comment" : "Only-this-keyboard guide: add the Emoji keyboard so the globe becomes an emoji key",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vyberte Emoji. Klávesa 😀 nahradí vlevo glóbus"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vælg Emoji. En 😀-tast kommer i stedet for globussen til venstre"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle „Emoji“. Dann ersetzt eine 😀-Taste links den Globus"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Επιλέξτε Emoji. Ένα πλήκτρο 😀 παίρνει τη θέση του υδρογείου αριστερά"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose Emoji. A 😀 key takes the globe's place on the left"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige Emoji. Una tecla 😀 ocupa el lugar del globo a la izquierda"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valitse Emoji. 😀-näppäin korvaa maapallon vasemmalla"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez Emoji. Une touche 😀 remplace le globe à gauche"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pilih Emoji. Tombol 😀 menggantikan globe di sisi kiri"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli Emoji. Un tasto 😀 prende il posto del globo a sinistra"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「絵文字」を選びます。地球儀の代わりに 😀 キーが左に並びます"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velg Emoji. En 😀-tast tar globusens plass til venstre"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kies Emoji. Een 😀-toets komt links in plaats van de wereldbol"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wybierz Emoji. Klawisz 😀 zajmie po lewej miejsce globusa"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha Emoji. Uma tecla 😀 ocupa o lugar do globo, à esquerda"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите «Эмодзи». Клавиша 😀 встанет слева вместо глобуса"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Välj Emoji. En 😀-tangent tar globens plats till vänster"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เลือก \"อีโมจิ\" แล้วปุ่ม 😀 จะมาอยู่ฝั่งซ้ายแทนปุ่มรูปโลก"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"Emoji\" seçeneğini seçin. Küre simgesinin yerine sol tarafta 😀 tuşu görünür"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chọn Emoji. Phím 😀 sẽ thế chỗ quả địa cầu ở bên trái"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择“表情符号”。左侧的地球键会变成 😀 键"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選擇「表情符號」。左側的地球鍵會變成 😀 鍵"
+          }
+        }
+      }
+    },
+    "받아쓰기를 켜 두면 오른쪽에 마이크가 서요" : {
+      "comment" : "Only-this-keyboard guide: keep dictation on to put the microphone on the right",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když ponecháte diktování zapnuté, vpravo se objeví mikrofon"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hold diktering slået til, så kommer der en mikrofon til højre"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lass das Diktieren an, dann erscheint rechts ein Mikrofon"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Αφήστε ενεργή την υπαγόρευση για να εμφανιστεί μικρόφωνο στα δεξιά"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep dictation on to get a microphone on the right"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deja el dictado activado para tener un micrófono a la derecha"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pidä sanelu päällä, niin oikealle tulee mikrofoni"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissez la dictée activée pour avoir un micro à droite"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Biarkan dikte tetap aktif agar mikrofon muncul di sisi kanan"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lascia attivo il dettato per avere il microfono a destra"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音声入力をオンにしておくと、右側にマイクが出ます"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La diktering være på, så får du en mikrofon til høyre"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laat dicteren aan staan voor een microfoon rechts"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zostaw włączone dyktowanie, a po prawej pojawi się mikrofon"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixe o ditado ativado para ter um microfone à direita"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оставьте диктовку включённой, и справа появится микрофон"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Låt diktering vara på så får du en mikrofon till höger"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เปิดการป้อนด้วยเสียงไว้ จะมีไมโครโฟนอยู่ฝั่งขวา"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dikte açık kalırsa sağ tarafta mikrofon görünür"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bật chính tả bằng giọng nói để có micro ở bên phải"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开听写后，右侧会出现麦克风"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟聽寫後，右側會出現麥克風"
           }
         }
       }

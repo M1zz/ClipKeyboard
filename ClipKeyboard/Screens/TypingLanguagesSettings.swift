@@ -131,6 +131,9 @@ struct TypingLanguagesSettings: View {
 ///
 /// 지구본과 마이크는 iOS 가 우리 판 **밖에** 그린다(`docs/postmortem/KEYBOARD_SYSTEM_CHROME_5_0_6.md`).
 /// 앱이 끌 수 없어서, 앱이 할 수 있는 것은 **어디를 누르는지 말하는 것**뿐이다.
+///
+/// ⚠️ 그 띠는 키보드를 하나만 남기고 받아쓰기를 꺼도 남는다. 홈 버튼 없는 iPhone 에서 홈 막대와
+///    겹치지 않게 iOS 가 늘 비워 두는 자리다. 그래서 "빼면 사라진다" 고 하지 않고 그 자리를 쓰는 법을 알린다.
 struct OnlyThisKeyboardGuideView: View {
     @Environment(\.appTheme) private var theme
 
@@ -150,8 +153,8 @@ struct OnlyThisKeyboardGuideView: View {
                 }
                 stepGroup(
                     title: NSLocalizedString("다른 키보드 빼기", comment: "Only-this-keyboard guide: remove other keyboards section"),
-                    note: NSLocalizedString("키보드가 클립키보드 하나만 남으면 아래의 지구본이 사라져요. 이모지를 쓰려면 이모지 키보드는 남겨 두세요. 그러면 지구본도 남아요.",
-                                            comment: "Only-this-keyboard guide: the globe disappears when only this keyboard is left"),
+                    note: NSLocalizedString("클립키보드 하나만 남기면 지구본은 빠지지만, 맨 아래 띠는 남아요. 이모지를 쓰려면 이모티콘 키보드는 남겨 두세요.",
+                                            comment: "Only-this-keyboard guide: removing other keyboards hides the globe key, but the bottom strip stays"),
                     steps: [
                         NSLocalizedString("설정 앱에서 일반 ▸ 키보드 ▸ 키보드를 열어요", comment: "Only-this-keyboard guide: open the keyboard list"),
                         NSLocalizedString("오른쪽 위 '편집'을 눌러요", comment: "Only-this-keyboard guide: tap Edit"),
@@ -164,6 +167,15 @@ struct OnlyThisKeyboardGuideView: View {
                     steps: [
                         NSLocalizedString("설정 앱에서 일반 ▸ 키보드를 열어요", comment: "Only-this-keyboard guide: open keyboard settings"),
                         NSLocalizedString("아래쪽의 '받아쓰기 활성화'를 꺼요", comment: "Only-this-keyboard guide: turn off Enable Dictation")
+                    ])
+                stepGroup(
+                    title: NSLocalizedString("맨 아래 띠 쓰기", comment: "Only-this-keyboard guide: using the bottom strip section"),
+                    note: NSLocalizedString("홈 버튼이 없는 iPhone에서는 홈 막대와 겹치지 않게 iOS가 키보드 아래에 늘 띠를 비워 둬요. 키보드를 하나만 남기고 받아쓰기를 꺼도 남고, 접는 설정은 없어요. 어느 키보드든 이 띠 위에 올라가요. 그래서 이 자리를 쓰게 두는 편이 나아요.",
+                                            comment: "Only-this-keyboard guide: why the bottom strip under the keyboard can never be removed on Face ID iPhones"),
+                    steps: [
+                        NSLocalizedString("설정 앱에서 일반 ▸ 키보드 ▸ 키보드 ▸ 새로운 키보드 추가를 눌러요", comment: "Only-this-keyboard guide: open Add New Keyboard"),
+                        NSLocalizedString("'이모티콘'을 골라요. 지구본 대신 😀 키가 왼쪽에 서요", comment: "Only-this-keyboard guide: add the Emoji keyboard so the globe becomes an emoji key"),
+                        NSLocalizedString("받아쓰기를 켜 두면 오른쪽에 마이크가 서요", comment: "Only-this-keyboard guide: keep dictation on to put the microphone on the right")
                     ])
                 stepGroup(
                     title: NSLocalizedString("자판과 단축어 오가기", comment: "Only-this-keyboard guide: switching between typing and snippets"),

@@ -698,6 +698,10 @@
     "v": "Toque em Trabalho",
     "src": "58a17831fb"
   },
+  "'이모티콘'을 골라요. 지구본 대신 😀 키가 왼쪽에 서요": {
+    "v": "Escolha Emoji. Uma tecla 😀 ocupa o lugar do globo, à esquerda",
+    "src": "14ee490ed6"
+  },
   "'전체 접근 허용' 토글 켜기 ✓": {
     "v": "Ative 'Permitir Acesso Total' ✓",
     "src": "8f11e92ee4"
@@ -5148,6 +5152,10 @@
     "v": "Corrigimos as abas de categoria que sumiam no Mac e as categorias que faltavam após uma restauração",
     "src": "6969f511e5"
   },
+  "맨 아래 띠 쓰기": {
+    "v": "Usar a faixa inferior",
+    "src": "cb8821af76"
+  },
   "먹": {
     "v": "Nanquim",
     "src": "afee208738"
@@ -5627,6 +5635,10 @@
   "받아쓰기 끄기": {
     "v": "Desativar ditado",
     "src": "5fcc22c951"
+  },
+  "받아쓰기를 켜 두면 오른쪽에 마이크가 서요": {
+    "v": "Deixe o ditado ativado para ter um microfone à direita",
+    "src": "7f396a172e"
   },
   "방금": {
     "v": "Agora há pouco",
@@ -7142,6 +7154,10 @@
   "설정 앱에서 '동작 버튼'을 열어요": {
     "v": "Abra Botão de Ação no app Ajustes",
     "src": "05f9b57848"
+  },
+  "설정 앱에서 일반 ▸ 키보드 ▸ 키보드 ▸ 새로운 키보드 추가를 눌러요": {
+    "v": "Em Ajustes, toque em Geral ▸ Teclado ▸ Teclados ▸ Adicionar Novo Teclado",
+    "src": "24d8a25a5b"
   },
   "설정 앱에서 일반 ▸ 키보드 ▸ 키보드를 열어요": {
     "v": "Em Ajustes, abra Geral ▸ Teclado ▸ Teclados",
@@ -11300,6 +11316,10 @@
     "v": "Usar só o ClipKeyboard",
     "src": "dbb33b166d"
   },
+  "클립키보드 하나만 남기면 지구본은 빠지지만, 맨 아래 띠는 남아요. 이모지를 쓰려면 이모티콘 키보드는 남겨 두세요.": {
+    "v": "Com apenas o ClipKeyboard, o globo some, mas a faixa na parte de baixo continua. Para usar emoji, mantenha o teclado Emoji.",
+    "src": "5148e9e15c"
+  },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "v": {
       "one": "O ClipKeyboard já economizou %d hora para você",
@@ -12508,6 +12528,10 @@
   "혹시 이런 분이신가요?": {
     "v": "Você se encaixa nisto?",
     "src": "a6ec53d055"
+  },
+  "홈 버튼이 없는 iPhone에서는 홈 막대와 겹치지 않게 iOS가 키보드 아래에 늘 띠를 비워 둬요. 키보드를 하나만 남기고 받아쓰기를 꺼도 남고, 접는 설정은 없어요. 어느 키보드든 이 띠 위에 올라가요. 그래서 이 자리를 쓰게 두는 편이 나아요.": {
+    "v": "Em um iPhone sem botão Home, o iOS sempre mantém uma faixa sob o teclado para não sobrepor a barra Home. Ela continua mesmo com um só teclado e o ditado desativado, e não há ajuste para ocultá-la. Todo teclado fica sobre essa faixa, então é melhor aproveitar esse espaço.",
+    "src": "a8a5c40b7b"
   },
   "홈 화면 앱 이름과 아이콘을 바로잡았어요": {
     "v": "Corrigimos o nome e o ícone do app na tela de início",

@@ -23,12 +23,6 @@
     "comment": "DYK body: persona picks",
     "h": "b18267b195"
   },
-  "%1$@ 로 %2$d칸만 더 늘리기": {
-    "ko": "%1$@ 로 %2$d칸만 더 늘리기",
-    "en": "Add just %2$d more slots for %1$@",
-    "comment": "Slot pack button",
-    "h": "ec5ccf1a49"
-  },
   "%1$@ 시작하기 · %2$@": {
     "ko": "%1$@ 시작하기 · %2$@",
     "en": "Get %1$@ · %2$@",
@@ -203,12 +197,6 @@
     "comment": "Paywall CTA: upgrade Plus to Pro, %@ is price",
     "h": "563b603e6a"
   },
-  "%@ 로 두 기기에서 같이 쓰기": {
-    "ko": "%@ 로 두 기기에서 같이 쓰기",
-    "en": "Use on two devices for %@",
-    "comment": "Two device button",
-    "h": "a4f4e1fceb"
-  },
   "%@ 로 평생 사용": {
     "ko": "%@ 로 평생 사용",
     "en": "Buy for life at %@",
@@ -341,12 +329,6 @@
     "comment": "Placeholder row header label",
     "h": "2c8602f7f6"
   },
-  "%@, 무료: %@, Pro: %@": {
-    "ko": "%1$@, 무료: %2$@, Pro: %3$@",
-    "en": "%1$@, Free: %2$@, Pro: %3$@",
-    "comment": "Feature row: name, free plan value, pro plan value",
-    "h": "79bd720f23"
-  },
   "%@, 스택 %d단계": {
     "ko": "%@, 스택 %d단계",
     "en": "%@, stack with %d steps",
@@ -364,12 +346,6 @@
     "en": "%@, %d blanks to fill",
     "comment": "Shortcut mart row a11y",
     "h": "4c77bc814c"
-  },
-  "%@, 콤보 %d단계": {
-    "ko": "%@, 콤보 %d단계",
-    "en": "%@, combo with %d steps",
-    "comment": "Bulk import key preview: combo a11y label",
-    "h": "16131516cf"
   },
   "%@km": {
     "ko": "%@km",
@@ -563,12 +539,6 @@
     "comment": "Step X of Y",
     "h": "c314b5ab3b"
   },
-  "%d단계: %@": {
-    "ko": "%d단계: %@",
-    "en": "Step %d: %@",
-    "comment": "Combo preview step: order and value",
-    "h": "923a771d25"
-  },
   "%d번": {
     "ko": "%d번",
     "en": "%d",
@@ -616,12 +586,6 @@
     "en": "%d Columns",
     "comment": "Column count value",
     "h": "7c5988a701"
-  },
-  "%d일 동안 여기서 바로 꺼내 쓸 수 있어요": {
-    "ko": "%d일 동안 여기서 바로 꺼내 쓸 수 있어요",
-    "en": "Ready to use here for %d days",
-    "comment": "Keyboard recent tab: second line of the save button. %d is the number of days items are kept",
-    "h": "6bdcea31f7"
   },
   "%d일 무료 체험 + 무제한 단축어, iCloud 백업": {
     "ko": "%d일 무료 체험 + 무제한 단축어, iCloud 백업",
@@ -845,6 +809,12 @@
     "comment": "Feature lesson category: subline",
     "h": "58a17831fb"
   },
+  "'이모티콘'을 골라요. 지구본 대신 😀 키가 왼쪽에 서요": {
+    "ko": "'이모티콘'을 골라요. 지구본 대신 😀 키가 왼쪽에 서요",
+    "en": "Choose Emoji. A 😀 key takes the globe's place on the left",
+    "comment": "Only-this-keyboard guide: add the Emoji keyboard so the globe becomes an emoji key",
+    "h": "14ee490ed6"
+  },
   "'전체 접근 허용' 토글 켜기 ✓": {
     "ko": "'전체 접근 허용' 토글 켜기 ✓",
     "en": "Turn on 'Allow Full Access' ✓",
@@ -1030,12 +1000,6 @@
     "en": "30 non-native-speaker-friendly templates.",
     "comment": "Usage category description: pro english",
     "h": "5fa8b9ad17"
-  },
-  "3×3 키패드 스타일": {
-    "ko": "3×3 키패드 스타일",
-    "en": "3×3 keypad style",
-    "comment": "Cheonjiin subtitle",
-    "h": "c1ff202603"
   },
   "3초": {
     "ko": "3초",
@@ -1403,12 +1367,6 @@
     "comment": "Auto-registered",
     "h": "0248a71c60"
   },
-  "ClipKeyboard 키보드를 활성화하면 어디서든 바로 입력돼요.": {
-    "ko": "ClipKeyboard 키보드를 활성화하면 어디서든 바로 입력돼요.",
-    "en": "Once you enable the ClipKeyboard keyboard, you can type anywhere.",
-    "comment": "Keyboard tip message",
-    "h": "957ac57c8a"
-  },
   "ClipKeyboard가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다.": {
     "ko": "ClipKeyboard가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다.",
     "en": "Did you like ClipKeyboard? Your review greatly helps improve the app.",
@@ -1486,12 +1444,6 @@
     "en": "Combo Info",
     "comment": "Combo info section header",
     "h": "3c436df22e"
-  },
-  "Combo는 이렇게 동작해요": {
-    "ko": "Combo는 이렇게 동작해요",
-    "en": "How a Combo works",
-    "comment": "Combo info tip title",
-    "h": "96c3d17a01"
   },
   "Content": {
     "ko": "내용",
@@ -1871,23 +1823,11 @@
     "comment": "Changelog 4.0.1 item 3",
     "h": "7d8e39b973"
   },
-  "IBAN·타임존·계좌 응대를 무제한 저장, 어떤 앱에서든 탭 한 번": {
-    "ko": "IBAN·타임존·계좌 응대를 무제한 저장, 어떤 앱에서든 탭 한 번",
-    "en": "Save IBAN, timezone replies & account info without limits: one tap in any app",
-    "comment": "Paywall value: unlimited save",
-    "h": "df0fa794a3"
-  },
   "IP주소": {
     "ko": "IP주소",
     "en": "IP Address",
     "comment": "IP Address",
     "h": "b1b111b731"
-  },
-  "If you've purchased Pro on iOS, it works on Mac automatically: no extra payment.": {
-    "ko": "iOS에서 Pro를 구매했다면 Mac에서도 추가 결제 없이 그대로 사용됩니다.",
-    "en": "If you've purchased Pro on iOS, it works on Mac automatically: no extra payment.",
-    "comment": "Universal purchase description",
-    "h": "b36c32fa3f"
   },
   "Image": {
     "ko": "이미지",
@@ -1960,12 +1900,6 @@
     "en": "Key",
     "comment": "Color picker: keyboard key",
     "h": "b2adb5793f"
-  },
-  "Korean keyboard": {
-    "ko": "한글 키보드",
-    "en": "Korean keyboard",
-    "comment": "Section: Korean keyboard",
-    "h": "2dc16dbacc"
   },
   "Korean layout": {
     "ko": "한글 자판",
@@ -2549,23 +2483,11 @@
     "comment": "Open paywall hint",
     "h": "80c53e824e"
   },
-  "Pro 업그레이드: %@": {
-    "ko": "Pro 업그레이드: %@",
-    "en": "Upgrade to Pro: %@",
-    "comment": "Price",
-    "h": "29f6aba6e5"
-  },
   "Pro 에 포함": {
     "ko": "Pro 에 포함",
     "en": "Included in Pro",
     "comment": "Paywall plan badge: included in Pro",
     "h": "44a2dcdd86"
-  },
-  "Pro 전환율": {
-    "ko": "Pro 전환율",
-    "en": "Pro conversion",
-    "comment": "Marketing: pro conversion",
-    "h": "d5ae1874d3"
   },
   "Pro 활성화 완료!": {
     "ko": "Pro 활성화 완료!",
@@ -2614,12 +2536,6 @@
     "en": "You're using Pro",
     "comment": "Free use guide: already Pro",
     "h": "a5b97d7277"
-  },
-  "QWERTY 스타일 (표준)": {
-    "ko": "QWERTY 스타일 (표준)",
-    "en": "QWERTY style (standard)",
-    "comment": "Dubeolsik subtitle",
-    "h": "13d00a6baa"
   },
   "Quick Note": {
     "ko": "메모",
@@ -3197,12 +3113,6 @@
     "comment": "",
     "h": "785aac141f"
   },
-  "[%@] 이 복사되었습니다.": {
-    "ko": "[%@] 이 복사되었습니다.",
-    "en": "[%@] copied",
-    "comment": "Copied toast message",
-    "h": "5a4000542f"
-  },
   "[{과제}] 회의\n{회의 날짜} {회의 시간} @ {장소}\n준비: {준비물}\n확인하면 👍": {
     "ko": "[{과제}] 회의\n{회의 날짜} {회의 시간} @ {장소}\n준비: {준비물}\n확인하면 👍",
     "en": "[{Project}] Meeting\n{Meeting date} {Meeting time} @ {Place}\nBring: {What to bring}\nReact 👍 when you've seen this",
@@ -3250,18 +3160,6 @@
     "en": "iCloud Backup & Restore",
     "comment": "Auto-registered",
     "h": "47a32d8169"
-  },
-  "iCloud 백업·스택·보안 단축어·macOS 앱까지 전부": {
-    "ko": "iCloud 백업·스택·보안 단축어·macOS 앱까지 전부",
-    "en": "iCloud backup, Stacks, secure snippets & the macOS app: all included",
-    "comment": "Paywall value: pro extras",
-    "h": "8072dbdb6f"
-  },
-  "iCloud 백업·콤보·보안 단축어·macOS 앱까지 전부": {
-    "ko": "iCloud 백업·콤보·보안 단축어·macOS 앱까지 전부",
-    "en": "iCloud backup, Combos, secure snippets & the macOS app: all included",
-    "comment": "Paywall value: pro extras",
-    "h": "c68aef1f6e"
   },
   "iCloud 백업에 첨부 사진까지 담겨요": {
     "ko": "iCloud 백업에 첨부 사진까지 담겨요",
@@ -3587,12 +3485,6 @@
     "comment": "Auto backup info",
     "h": "20a2b813eb"
   },
-  "• 자동 백업이 활성화되면 단축어, 클립보드, 콤보 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다": {
-    "ko": "• 자동 백업이 활성화되면 단축어, 클립보드, 콤보 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다",
-    "en": "• When auto-backup is on, snippets, clipboard, and combos are backed up whenever they change\n• A backup also runs every 5 minutes",
-    "comment": "Auto backup info",
-    "h": "fb3508abe6"
-  },
   "⌃⌥K로 어디서나 빠르게 접근": {
     "ko": "⌃⌥K로 어디서나 빠르게 접근",
     "en": "Quick access anywhere with ⌃⌥K",
@@ -3617,23 +3509,11 @@
     "comment": "Auto-registered",
     "h": "d6639bb385"
   },
-  "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?": {
-    "ko": "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?",
-    "en": "⚠️ This device already has data.\n\nRestoring deletes all current snippets, clipboard items, and stacks and replaces them with the backup.\n\nThis cannot be undone. Continue?",
-    "comment": "Restore with data warning message",
-    "h": "80775225d0"
-  },
   "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택이 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?": {
     "ko": "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택이 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?",
     "en": "⚠️ This device already has data.\n\nRestoring deletes all current snippets, clipboard items, and stacks and replaces them with the backup.\n\nThis cannot be undone. Continue?",
     "comment": "Restore with data warning message",
     "h": "3eb9c184e4"
-  },
-  "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?": {
-    "ko": "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?",
-    "en": "⚠️ This device already has data.\n\nRestoring deletes all current snippets, clipboard items, and combos and replaces them with the backup.\n\nThis cannot be undone. Continue?",
-    "comment": "Restore with data warning message",
-    "h": "49ae9b2d1a"
   },
   "✈️ 비자": {
     "ko": "✈️ 비자",
@@ -3935,12 +3815,6 @@
     "comment": "Cross-device sync explanation",
     "h": "62def30970"
   },
-  "같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 전용이며 실험적 기능이라, 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.": {
-    "ko": "같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 전용이며 실험적 기능이라, 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.",
-    "en": "Automatically syncs snippets between an iPhone and Mac signed in to the same iCloud account. Pro only, and experimental: please verify it works across both devices first. Secure snippets stay encrypted while syncing.",
-    "comment": "Cross-device sync explanation",
-    "h": "8cb02ded1f"
-  },
   "같은 iCloud 계정의 다른 기기에서도 같은 단축어를 쓸 수 있습니다.": {
     "ko": "같은 iCloud 계정의 다른 기기에서도 같은 단축어를 쓸 수 있습니다.",
     "en": "Use the same snippets on your other devices signed in to the same iCloud account.",
@@ -4000,18 +3874,6 @@
     "en": "Count",
     "comment": "Chart value: count",
     "h": "4a944c61f9"
-  },
-  "개수만 늘어요. 다른 Pro 기능은 열리지 않아요": {
-    "ko": "개수만 늘어요. 다른 Pro 기능은 열리지 않아요",
-    "en": "Slots only. Other Pro features stay locked.",
-    "comment": "Slot pack button caption",
-    "h": "db36742cb1"
-  },
-  "개수만 늘어요. 다른 Pro 기능은 열리지 않아요 (최대 %d칸)": {
-    "ko": "개수만 늘어요. 다른 Pro 기능은 열리지 않아요 (최대 %d칸)",
-    "en": "Slots only. Other Pro features stay locked (up to %d slots)",
-    "comment": "Slot pack button caption",
-    "h": "ae39e115e3"
   },
   "개인": {
     "ko": "개인",
@@ -4324,12 +4186,6 @@
     "en": "Tap \"Save as Shortcut\" in the share sheet's action list and it's saved in one go, no screen",
     "comment": "Changelog 4.4.5 item 7",
     "h": "ff8f17e855"
-  },
-  "공유 시트·단축어·제어 센터로 담은 항목은 ⋯ 메뉴의 보관함에 모여요. 나중에 키보드 단축어로 저장하면 돼요.": {
-    "ko": "공유 시트·단축어·제어 센터로 담은 항목은 ⋯ 메뉴의 보관함에 모여요. 나중에 키보드 단축어로 저장하면 돼요.",
-    "en": "Items captured via the Share Sheet, Shortcuts, or Control Center collect in the inbox under the ⋯ menu. Save them as keyboard snippets later.",
-    "comment": "Quick note inbox tip message",
-    "h": "474e4a0506"
   },
   "공유하기": {
     "ko": "공유하기",
@@ -4889,12 +4745,6 @@
     "comment": "Visual cues explanation v3",
     "h": "65b0f782ba"
   },
-  "기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·콤보·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.": {
-    "ko": "기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·콤보·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.",
-    "en": "By default, cards show just the title: no symbols or borders. Turn this on to show snippet type icons (template, combo, secure), symbols, and the separating borders on cards and keyboard cells.",
-    "comment": "Visual cues explanation v3",
-    "h": "607d8228e5"
-  },
   "기존 단축어 가져오기": {
     "ko": "기존 단축어 가져오기",
     "en": "Import from existing snippets",
@@ -5297,35 +5147,17 @@
     "comment": "Add content button hint",
     "h": "a8a6ae3908"
   },
-  "내용을 더 추가하면 콤보 단축어가 됩니다": {
-    "ko": "내용을 더 추가하면 콤보 단축어가 됩니다",
-    "en": "Add more content to turn this into a combo snippet",
-    "comment": "Add content button hint",
-    "h": "0ba992def1"
-  },
   "내용을 수정 후 완료를 눌러 저장합니다": {
     "ko": "내용을 수정 후 완료를 눌러 저장합니다",
     "en": "Edit content and tap Done to save.",
     "comment": "Template editor hint",
     "h": "b2bcf3c9a9"
   },
-  "내용을 이어 더하면 스택가 돼요. 키보드에서 순서대로 입력됩니다.": {
-    "ko": "내용을 이어 더하면 스택가 돼요. 키보드에서 순서대로 입력됩니다.",
-    "en": "Add more steps to make it a stack, they're entered in order from the keyboard.",
-    "comment": "Continuation/combo explanation",
-    "h": "7f5f16ef2a"
-  },
   "내용을 이어 더하면 스택이 돼요. 키보드에서 순서대로 입력됩니다.": {
     "ko": "내용을 이어 더하면 스택이 돼요. 키보드에서 순서대로 입력됩니다.",
     "en": "Add more steps to make it a stack, they're entered in order from the keyboard.",
     "comment": "Continuation/combo explanation",
     "h": "cbede5816d"
-  },
-  "내용을 이어 더하면 콤보가 돼요. 키보드에서 순서대로 입력됩니다.": {
-    "ko": "내용을 이어 더하면 콤보가 돼요. 키보드에서 순서대로 입력됩니다.",
-    "en": "Add more steps to make it a combo, they're entered in order from the keyboard.",
-    "comment": "Continuation/combo explanation",
-    "h": "6b7f6a73ce"
   },
   "내용을 입력하세요": {
     "ko": "내용을 입력하세요",
@@ -5981,12 +5813,6 @@
     "comment": "Import summary message",
     "h": "b57c527f8f"
   },
-  "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
-    "ko": "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.",
-    "en": "Added %1$d snippets, updated %2$d (%3$d total).\nImported %4$d combos, %5$d images and %6$d categories.",
-    "comment": "Import summary message",
-    "h": "743ca36675"
-  },
   "단축어 %1$d곳에서 씀, 값 %2$d개": {
     "ko": "단축어 %1$d곳에서 씀, 값 %2$d개",
     "en": "Used in %1$d snippets, %2$d values",
@@ -6239,12 +6065,6 @@
     "comment": "Edit combo navigation title",
     "h": "ae9b474fe6"
   },
-  "단축어 수정 타이틀_콤보": {
-    "ko": "단축어 수정 타이틀_콤보",
-    "en": "Edit Combo",
-    "comment": "Edit combo navigation title",
-    "h": "6a5d58b0ec"
-  },
   "단축어 수정 타이틀_템플릿": {
     "ko": "단축어 수정 타이틀_템플릿",
     "en": "Edit Template",
@@ -6371,12 +6191,6 @@
     "comment": "Wipe all data confirm message",
     "h": "1cf03b5d6c"
   },
-  "단축어·클립보드 기록·콤보·이미지·임시 저장본이 이 기기에서 모두 지워집니다. 되돌릴 수 없어요.\n\nPro 구매 권한과 iCloud 백업은 그대로 남습니다.": {
-    "ko": "단축어·클립보드 기록·콤보·이미지·임시 저장본이 이 기기에서 모두 지워집니다. 되돌릴 수 없어요.\n\nPro 구매 권한과 iCloud 백업은 그대로 남습니다.",
-    "en": "Your snippets, clipboard history, combos, images, and drafts will all be erased from this device. This can't be undone.\n\nYour Pro purchase and iCloud backup are kept.",
-    "comment": "Wipe all data confirm message",
-    "h": "f1976645cf"
-  },
   "단축어가 늘어나면 최근 쓴 것을 위에 모아 보여드려요": {
     "ko": "단축어가 늘어나면 최근 쓴 것을 위에 모아 보여드려요",
     "en": "As your snippets grow, the ones you used recently gather at the top",
@@ -6472,12 +6286,6 @@
     "en": "Drag snippets to reorder them",
     "comment": "Changelog 4.3.0 item 1",
     "h": "0c5a7d535d"
-  },
-  "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.": {
-    "ko": "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.",
-    "en": "Keep it on to send right after inserting a snippet. Turn it off if you want more room.",
-    "comment": "What's new 5.1.3 return key detail",
-    "h": "8607b208c0"
   },
   "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
     "ko": "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.",
@@ -6875,12 +6683,6 @@
     "comment": "Roadmap item: sync conflict picker",
     "h": "bc772ff1e6"
   },
-  "동기화만 열려요. 단축어 개수는 그대로예요": {
-    "ko": "동기화만 열려요. 단축어 개수는 그대로예요",
-    "en": "Sync only. Your snippet count stays the same",
-    "comment": "Two device button caption",
-    "h": "0b87282fc9"
-  },
   "동물": {
     "ko": "동물",
     "en": "Animals",
@@ -7109,12 +6911,6 @@
     "comment": "Changelog 5.0.8 russian",
     "h": "6015bd85cb"
   },
-  "레이아웃 미리보기": {
-    "ko": "레이아웃 미리보기",
-    "en": "Layout preview",
-    "comment": "Layout preview label",
-    "h": "cad0ec44f2"
-  },
   "리뷰 남기기": {
     "ko": "리뷰 남기기",
     "en": "Leave a Review",
@@ -7205,18 +7001,6 @@
     "comment": "Coach line: choose the keyboard size",
     "h": "6d05f875c9"
   },
-  "마지막은 스택예요. 여러 개가 순서대로 들어가요.": {
-    "ko": "마지막은 스택예요. 여러 개가 순서대로 들어가요.",
-    "en": "Last one is a stack. Several values go in, one after another.",
-    "comment": "Coach line: try the prepared combo",
-    "h": "c9b55f4fe7"
-  },
-  "마지막은 스택예요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.": {
-    "ko": "마지막은 스택예요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.",
-    "en": "Last up: stacks. Tap the left side of the key to insert the first value.",
-    "comment": "Combo step: insert the first value",
-    "h": "4fd0078ac5"
-  },
   "마지막은 스택이에요. 여러 개가 순서대로 들어가요.": {
     "ko": "마지막은 스택이에요. 여러 개가 순서대로 들어가요.",
     "en": "Last one is a stack. Several values go in, one after another.",
@@ -7228,18 +7012,6 @@
     "en": "Last up: stacks. Tap the left side of the key to insert the first value.",
     "comment": "Combo step: insert the first value",
     "h": "91dc8bcd4f"
-  },
-  "마지막은 콤보예요. 여러 개가 순서대로 들어가요.": {
-    "ko": "마지막은 콤보예요. 여러 개가 순서대로 들어가요.",
-    "en": "Last one is a combo. Several values go in, one after another.",
-    "comment": "Coach line: try the prepared combo",
-    "h": "f6fa26e332"
-  },
-  "마지막은 콤보예요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.": {
-    "ko": "마지막은 콤보예요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.",
-    "en": "Last up: combos. Tap the left side of the key to insert the first value.",
-    "comment": "Combo step: insert the first value",
-    "h": "b790547c94"
   },
   "마케팅 지표": {
     "ko": "마케팅 지표",
@@ -7390,6 +7162,12 @@
     "en": "Fixed category tabs disappearing on the Mac and categories missing after a restore",
     "comment": "Changelog 5.0.6 category sync",
     "h": "6969f511e5"
+  },
+  "맨 아래 띠 쓰기": {
+    "ko": "맨 아래 띠 쓰기",
+    "en": "Use the bottom strip",
+    "comment": "Only-this-keyboard guide: using the bottom strip section",
+    "h": "cb8821af76"
   },
   "먹": {
     "ko": "먹",
@@ -7733,12 +7511,6 @@
     "comment": "Memo limit desc",
     "h": "0a910c350f"
   },
-  "무료 버전에서는 최대 %d개의 스택를 만들 수 있습니다.": {
-    "ko": "무료 버전에서는 최대 %d개의 스택를 만들 수 있습니다.",
-    "en": "Free version allows up to %d stacks.",
-    "comment": "Combo limit desc",
-    "h": "a4ea9b3ade"
-  },
   "무료 버전에서는 최대 %d개의 스택을 만들 수 있습니다.": {
     "ko": "무료 버전에서는 최대 %d개의 스택을 만들 수 있습니다.",
     "en": "Free version allows up to %d stacks.",
@@ -7750,12 +7522,6 @@
     "en": "The free version allows up to %d image snippets.",
     "comment": "Image memo limit desc",
     "h": "b3315d0041"
-  },
-  "무료 버전에서는 최대 %d개의 콤보를 만들 수 있습니다.": {
-    "ko": "무료 버전에서는 최대 %d개의 콤보를 만들 수 있습니다.",
-    "en": "Free version allows up to %d combos.",
-    "comment": "Combo limit desc",
-    "h": "e066065ac8"
   },
   "무료 버전에서는 최대 %d개의 템플릿을 사용할 수 있습니다.": {
     "ko": "무료 버전에서는 최대 %d개의 템플릿을 사용할 수 있습니다.",
@@ -8003,12 +7769,6 @@
     "comment": "Accept the edit-pattern suggestion",
     "h": "476e98573d"
   },
-  "바꾸는 대로 진짜 키보드에서 보여요": {
-    "ko": "바꾸는 대로 진짜 키보드에서 보여요",
-    "en": "See every change on the real keyboard",
-    "comment": "What's new 5.1.3 live preview title",
-    "h": "01f3e27444"
-  },
   "바꾼 순서는 앱에도 그대로 반영돼요": {
     "ko": "바꾼 순서는 앱에도 그대로 반영돼요",
     "en": "The new order shows up in the app too",
@@ -8074,6 +7834,12 @@
     "en": "Turn off dictation",
     "comment": "Only-this-keyboard guide: turn off dictation section",
     "h": "5fcc22c951"
+  },
+  "받아쓰기를 켜 두면 오른쪽에 마이크가 서요": {
+    "ko": "받아쓰기를 켜 두면 오른쪽에 마이크가 서요",
+    "en": "Keep dictation on to get a microphone on the right",
+    "comment": "Only-this-keyboard guide: keep dictation on to put the microphone on the right",
+    "h": "7f396a172e"
   },
   "방금": {
     "ko": "방금",
@@ -8495,12 +8261,6 @@
     "comment": "Keep the return/send key outside the … drawer so it is always visible toggle",
     "h": "59476ed389"
   },
-  "보내기 키를 켜고 끌 수 있어요": {
-    "ko": "보내기 키를 켜고 끌 수 있어요",
-    "en": "Turn the send key on or off",
-    "comment": "What's new 5.1.3 return key title",
-    "h": "917918a5e6"
-  },
   "보내기 키의 이름은 앱이 정합니다. 메시지 앱에서는 보내기, 검색창에서는 검색으로 보여요. 줄바꿈만 되는 앱도 있습니다.": {
     "ko": "보내기 키의 이름은 앱이 정합니다. 메시지 앱에서는 보내기, 검색창에서는 검색으로 보여요. 줄바꿈만 되는 앱도 있습니다.",
     "en": "Each app decides what this key is called. It reads Send in messaging apps and Search in a search field. In some apps it only inserts a line break.",
@@ -8872,18 +8632,6 @@
     "en": "What you copy is saved here automatically\n(up to 100 items, kept for %d days)",
     "comment": "Clipboard history empty description. %d is the number of days items are kept",
     "h": "7534e7952e"
-  },
-  "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)": {
-    "ko": "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)",
-    "en": "What you copy is saved here automatically\n(up to 100 items, kept for 7 days)",
-    "comment": "Clipboard history empty description",
-    "h": "06ccbd6d20"
-  },
-  "복사한 뒤 위의 버튼을 누르면 여기에 %d일 동안 남아요": {
-    "ko": "복사한 뒤 위의 버튼을 누르면 여기에 %d일 동안 남아요",
-    "en": "Copy something, then tap the button above. It stays here for %d days.",
-    "comment": "Keyboard recent tab: empty hint. %d is the number of days items are kept",
-    "h": "6eb7c42d8e"
   },
   "복사한 이미지 붙여넣기": {
     "ko": "복사한 이미지 붙여넣기",
@@ -10013,12 +9761,6 @@
     "comment": "Differentiate Without Color feature description v2",
     "h": "807fe45653"
   },
-  "색에만 의존하지 않고 단축어를 구분하고 싶다면, 앱 설정 → 디스플레이 → 단축어 표시에서 '단축어 구분 표시'를 켜세요. 단축어 타입(템플릿·콤보·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 함께 표시됩니다.": {
-    "ko": "색에만 의존하지 않고 단축어를 구분하고 싶다면, 앱 설정 → 디스플레이 → 단축어 표시에서 '단축어 구분 표시'를 켜세요. 단축어 타입(템플릿·콤보·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 함께 표시됩니다.",
-    "en": "To tell snippets apart without relying on color alone, turn on 'Show visual cues' in app Settings → Display → Snippet display. Snippet type (Template/Combo/Secure) icons and borders plus favorite and category symbols will appear.",
-    "comment": "Differentiate Without Color feature description v2",
-    "h": "af03df6152"
-  },
   "색이 없어서 어디를 눌러야 하는지가 오히려 또렷해요. 갈래 색과 헷갈리지 않습니다.": {
     "ko": "색이 없어서 어디를 눌러야 하는지가 오히려 또렷해요. 갈래 색과 헷갈리지 않습니다.",
     "en": "No color at all, so what you can tap reads even more clearly. Never confused with category colors.",
@@ -10307,6 +10049,12 @@
     "comment": "Action Button setup step 1",
     "h": "05f9b57848"
   },
+  "설정 앱에서 일반 ▸ 키보드 ▸ 키보드 ▸ 새로운 키보드 추가를 눌러요": {
+    "ko": "설정 앱에서 일반 ▸ 키보드 ▸ 키보드 ▸ 새로운 키보드 추가를 눌러요",
+    "en": "In Settings, tap General ▸ Keyboard ▸ Keyboards ▸ Add New Keyboard",
+    "comment": "Only-this-keyboard guide: open Add New Keyboard",
+    "h": "24d8a25a5b"
+  },
   "설정 앱에서 일반 ▸ 키보드 ▸ 키보드를 열어요": {
     "ko": "설정 앱에서 일반 ▸ 키보드 ▸ 키보드를 열어요",
     "en": "In Settings, open General ▸ Keyboard ▸ Keyboards",
@@ -10330,12 +10078,6 @@
     "en": "Setup Done",
     "comment": "Setup done button",
     "h": "c7592b5a0c"
-  },
-  "설정 위쪽 미리보기가 실제 키보드 그대로예요. 키 크기와 높이를 바꾸면 바로 달라져요.": {
-    "ko": "설정 위쪽 미리보기가 실제 키보드 그대로예요. 키 크기와 높이를 바꾸면 바로 달라져요.",
-    "en": "The preview at the top of Settings is the actual keyboard. Change the key size or height and it updates right away.",
-    "comment": "What's new 5.1.3 live preview detail",
-    "h": "d150ac30e6"
   },
   "설정 화면": {
     "ko": "설정 화면",
@@ -10366,12 +10108,6 @@
     "en": "In Settings, tap Keyboards",
     "comment": "Keyboard lesson step 1 detail",
     "h": "d4678e94b0"
-  },
-  "설정에서 나에게 맞는 유형을 고르면 더 잘 맞는 것부터 보여드려요": {
-    "ko": "설정에서 나에게 맞는 유형을 고르면 더 잘 맞는 것부터 보여드려요",
-    "en": "Pick the type that fits you in Settings and we'll show the best matches first",
-    "comment": "Shortcut mart: no persona hint",
-    "h": "1dc96301dd"
   },
   "설정에서 보기": {
     "ko": "설정에서 보기",
@@ -10673,12 +10409,6 @@
     "comment": "Show number pad key toggle",
     "h": "e3c5a426b4"
   },
-  "숫자 판 키와 붙여넣기 키도 골라요": {
-    "ko": "숫자 판 키와 붙여넣기 키도 골라요",
-    "en": "Choose the number pad and paste keys too",
-    "comment": "What's new 5.1.3 number pad paste title",
-    "h": "1d99e052db"
-  },
   "숫자 판, 보내기, 지우기, 전체 삭제 키를 펼칩니다": {
     "ko": "숫자 판, 보내기, 지우기, 전체 삭제 키를 펼칩니다",
     "en": "Shows the number pad, return, delete, and clear all keys",
@@ -10756,12 +10486,6 @@
     "en": "One stack holds several values, and the → on the right picks between them. Handy when you use several bank accounts, or send the same message with a different name.",
     "comment": "Combo step: confirmation body",
     "h": "f5bdeb15ff"
-  },
-  "스택로 묶기": {
-    "ko": "스택로 묶기",
-    "en": "Bundle into a stack",
-    "comment": "Bulk import: bundle selected into one combo",
-    "h": "e72e11e4d8"
   },
   "스택으로 묶기": {
     "ko": "스택으로 묶기",
@@ -11051,23 +10775,11 @@
     "comment": "Changelog 5.0.0 item 6",
     "h": "3e095f46c9"
   },
-  "아낀 시간을 3초짜리 세로 영상으로 뽑아요. 스토리에 그대로 올릴 수 있어요.": {
-    "ko": "아낀 시간을 3초짜리 세로 영상으로 뽑아요. 스토리에 그대로 올릴 수 있어요.",
-    "en": "Turn your saved time into a 3-second vertical clip, ready for your story.",
-    "comment": "What's new 5.0 feature 3 detail",
-    "h": "5d7256acec"
-  },
   "아낀 시간을 다른 것에 빗대어 보여줍니다": {
     "ko": "아낀 시간을 다른 것에 빗대어 보여줍니다",
     "en": "Shows the saved time compared to something else",
     "comment": "Reroll button hint",
     "h": "251d4d47e0"
-  },
-  "아낀 시간을 다시 셌고, 그 시간을 자랑할 영상도 만들 수 있어요.": {
-    "ko": "아낀 시간을 다시 셌고, 그 시간을 자랑할 영상도 만들 수 있어요.",
-    "en": "Time saved is counted properly now, and you can turn it into a video.",
-    "comment": "What's new subtitle 5.0",
-    "h": "99b7ea4c01"
   },
   "아낀 시간을 다시 셌어요. 치는 시간만 세던 걸 고쳐서, 다른 앱에서 찾아와야 했던 값은 찾는 시간까지 셉니다": {
     "ko": "아낀 시간을 다시 셌어요. 치는 시간만 세던 걸 고쳐서, 다른 앱에서 찾아와야 했던 값은 찾는 시간까지 셉니다",
@@ -11080,12 +10792,6 @@
     "en": "Preview of the video showing the time you saved",
     "comment": "Share video preview accessibility label",
     "h": "4bea49daa9"
-  },
-  "아낀 시간을 제대로 세기 시작했어요": {
-    "ko": "아낀 시간을 제대로 세기 시작했어요",
-    "en": "We started counting saved time properly",
-    "comment": "What's new 5.0 feature 2 title",
-    "h": "1d8d58c1c5"
   },
   "아낀 시간이 동전으로 쌓여요. 오래 쓴 문구일수록 금괴가 늘어나요.": {
     "ko": "아낀 시간이 동전으로 쌓여요. 오래 쓴 문구일수록 금괴가 늘어나요.",
@@ -11675,12 +11381,6 @@
     "comment": "Key color note: plum",
     "h": "164250874e"
   },
-  "어디서든 빠르게 담으세요": {
-    "ko": "어디서든 빠르게 담으세요",
-    "en": "Capture anything, anywhere",
-    "comment": "Quick note inbox tip title",
-    "h": "16a9de82ae"
-  },
   "어디에 담을까요?": {
     "ko": "어디에 담을까요?",
     "en": "Where should it go?",
@@ -11908,12 +11608,6 @@
     "en": "A stack that types several values in order",
     "comment": "Welcome: what a combo is",
     "h": "c2f72cf682"
-  },
-  "여러 값을 순서대로 넣는 콤보": {
-    "ko": "여러 값을 순서대로 넣는 콤보",
-    "en": "A combo that types several values in order",
-    "comment": "Welcome: what a combo is",
-    "h": "b094d8b5d7"
   },
   "여러 개 고르기": {
     "ko": "여러 개 고르기",
@@ -12575,12 +12269,6 @@
     "comment": "Paste target action: web search",
     "h": "5f6a17e8ee"
   },
-  "위 항목과 스택로 묶기": {
-    "ko": "위 항목과 스택로 묶기",
-    "en": "Merge into Stack with Item Above",
-    "comment": "Bulk import: merge with previous item into combo",
-    "h": "856a14c068"
-  },
   "위 항목과 스택으로 묶기": {
     "ko": "위 항목과 스택으로 묶기",
     "en": "Merge into Stack with Item Above",
@@ -12622,12 +12310,6 @@
     "en": "The widget or keyboard doesn’t work",
     "comment": "",
     "h": "550a8b0ffd"
-  },
-  "위줄에 둘 키와 크기를 설정에서 직접 골라요.": {
-    "ko": "위줄에 둘 키와 크기를 설정에서 직접 골라요.",
-    "en": "Pick the keys on the top row and their size in Settings.",
-    "comment": "What's new subtitle 5.1.3",
-    "h": "6e22eb19a9"
   },
   "유지": {
     "ko": "유지",
@@ -12772,12 +12454,6 @@
     "en": "No snippet uses this blank. Only the saved values move to the new name.",
     "comment": "Rename footer for orphan placeholder",
     "h": "3bf7121c46"
-  },
-  "이 설정을 켜면 키보드에 한/EN 전환 버튼이 추가됩니다.": {
-    "ko": "이 설정을 켜면 키보드에 한/EN 전환 버튼이 추가됩니다.",
-    "en": "Turning this on adds a Korean/English toggle button to the keyboard.",
-    "comment": "Language section footer when Korean off",
-    "h": "0c0094b708"
   },
   "이 숫자는 기기 안에서만 계산돼요. 어디에도 보내지 않아요.": {
     "ko": "이 숫자는 기기 안에서만 계산돼요. 어디에도 보내지 않아요.",
@@ -12964,12 +12640,6 @@
     "en": "Doing this by hand",
     "comment": "Share video: caption above the number",
     "h": "94636b1f8b"
-  },
-  "이걸로 할게요": {
-    "ko": "이걸로 할게요",
-    "en": "This one",
-    "comment": "Persona prompt apply button",
-    "h": "c2e9755ca1"
   },
   "이게 클립키보드예요": {
     "ko": "이게 클립키보드예요",
@@ -13175,12 +12845,6 @@
     "comment": "Changelog 4.4.1 item 2",
     "h": "4fc5d1a307"
   },
-  "이미 목록 맨 위에 있어요": {
-    "ko": "이미 목록 맨 위에 있어요",
-    "en": "Already at the top of the list",
-    "comment": "Keyboard recent tab: save button second line when the copied text is already the newest item in the list",
-    "h": "fd23639e6a"
-  },
   "이미 쓰는 빈칸": {
     "ko": "이미 쓰는 빈칸",
     "en": "Blanks you already use",
@@ -13307,12 +12971,6 @@
     "comment": "Add image button on memo add screen",
     "h": "c448813138"
   },
-  "이미지가 복사되었습니다": {
-    "ko": "이미지가 복사되었습니다",
-    "en": "Image copied",
-    "comment": "Image copied toast",
-    "h": "2eb50418a0"
-  },
   "이미지가 붙었어요. 보내면 올라가요": {
     "ko": "이미지가 붙었어요. 보내면 올라가요",
     "en": "Image attached. Send it to post.",
@@ -13384,12 +13042,6 @@
     "en": "This time, just tap the button",
     "comment": "Blank start: insert step line",
     "h": "ac9339c7b4"
-  },
-  "이번엔 셈을 고쳤어요": {
-    "ko": "이번엔 셈을 고쳤어요",
-    "en": "We fixed the math",
-    "comment": "What's new title 5.0",
-    "h": "fa8769e8dd"
   },
   "이번엔 템플릿이에요. 눌러서 빈칸만 채워보세요.": {
     "ko": "이번엔 템플릿이에요. 눌러서 빈칸만 채워보세요.",
@@ -13865,12 +13517,6 @@
     "comment": "Key color: plum",
     "h": "2bb6977e7e"
   },
-  "자랑할 영상을 만들 수 있어요": {
-    "ko": "자랑할 영상을 만들 수 있어요",
-    "en": "Make a video worth bragging about",
-    "comment": "What's new 5.0 feature 3 title",
-    "h": "d0a44f4df1"
-  },
   "자리를 잡았어요. 한도에 닿으면 결제로 이어지는 무리예요.": {
     "ko": "자리를 잡았어요. 한도에 닿으면 결제로 이어지는 무리예요.",
     "en": "They've settled in. This is the group that converts when they hit the limit.",
@@ -13883,23 +13529,11 @@
     "comment": "Bulk import: secure footer",
     "h": "79ce831bf6"
   },
-  "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택로 묶거나 풀 수 있어요.": {
-    "ko": "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택로 묶거나 풀 수 있어요.",
-    "en": "Items with the lock on are encrypted and saved as secure snippets. Long-press an item to merge it into a stack with the item above, or split a stack apart.",
-    "comment": "Bulk import: secure + combo merge footer",
-    "h": "8043acda82"
-  },
   "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택으로 묶거나 풀 수 있어요.": {
     "ko": "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택으로 묶거나 풀 수 있어요.",
     "en": "Items with the lock on are encrypted and saved as secure snippets. Long-press an item to merge it into a stack with the item above, or split a stack apart.",
     "comment": "Bulk import: secure + combo merge footer",
     "h": "32c8576a89"
-  },
-  "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 콤보로 묶거나 풀 수 있어요.": {
-    "ko": "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 콤보로 묶거나 풀 수 있어요.",
-    "en": "Items with the lock on are encrypted and saved as secure snippets. Long-press an item to merge it into a combo with the item above, or split a combo apart.",
-    "comment": "Bulk import: secure + combo merge footer",
-    "h": "f2f0c10bca"
   },
   "자세히": {
     "ko": "자세히",
@@ -14705,23 +14339,11 @@
     "comment": "Tutorial welcome: start",
     "h": "05e79cb930"
   },
-  "준비된 단축어·템플릿·스택를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.": {
-    "ko": "준비된 단축어·템플릿·스택를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.",
-    "en": "We'll walk you through tapping the prepared snippet, template, and stack again. Nothing in your list is removed.",
-    "comment": "Restart tutorial alert message",
-    "h": "b104d88a19"
-  },
   "준비된 단축어·템플릿·스택을 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.": {
     "ko": "준비된 단축어·템플릿·스택을 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.",
     "en": "We'll walk you through tapping the prepared snippet, template, and stack again. Nothing in your list is removed.",
     "comment": "Restart tutorial alert message",
     "h": "d6f3ea52cf"
-  },
-  "준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.": {
-    "ko": "준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.",
-    "en": "We'll walk you through tapping the prepared snippet, template, and combo again. Nothing in your list is removed.",
-    "comment": "Restart tutorial alert message",
-    "h": "6e5ea29c66"
   },
   "준비된 모양": {
     "ko": "준비된 모양",
@@ -14939,12 +14561,6 @@
     "comment": "Button subtitle: refund receipt",
     "h": "8b6f0a40d8"
   },
-  "지금 복사돼 있는 것을 이 목록에 넣습니다. %d일 동안 남습니다": {
-    "ko": "지금 복사돼 있는 것을 이 목록에 넣습니다. %d일 동안 남습니다",
-    "en": "Adds what you copied to this list. It stays for %d days.",
-    "comment": "Keyboard recent tab: capture button hint. %d is the number of days items are kept",
-    "h": "1be979b366"
-  },
   "지금 쓸 차례: %@": {
     "ko": "지금 쓸 차례: %@",
     "en": "Due now: %@",
@@ -14974,12 +14590,6 @@
     "en": "It's on. You can use every keyboard feature.",
     "comment": "Full Access guide: already on",
     "h": "3047c51e76"
-  },
-  "지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요.": {
-    "ko": "지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요.",
-    "en": "Asking because of what you have made so far. Picking one only tunes the suggestions. It is fine to skip.",
-    "comment": "Persona prompt subtitle",
-    "h": "d8095d1827"
   },
   "지금까지 쌓인 시간": {
     "ko": "지금까지 쌓인 시간",
@@ -15581,12 +15191,6 @@
     "comment": "Show the Recent tab (saved copied text) at the front of the keyboard toggle",
     "h": "737a6ca70e"
   },
-  "최근 탭에 담았어요": {
-    "ko": "최근 탭에 담았어요",
-    "en": "Saved to Recent",
-    "comment": "Keyboard toast: current clipboard saved to the recent tab",
-    "h": "0bd1286402"
-  },
   "최근: %@": {
     "ko": "최근: %@",
     "en": "Recent: %@",
@@ -15665,12 +15269,6 @@
     "comment": "VoiceOver: suggested memo",
     "h": "e583e5f3b5"
   },
-  "추천 카테고리가 추가돼요. 처음엔 꺼져 있으니 카테고리 관리에서 원하는 것만 켜세요.": {
-    "ko": "추천 카테고리가 추가돼요. 처음엔 꺼져 있으니 카테고리 관리에서 원하는 것만 켜세요.",
-    "en": "Recommended categories are added: off at first, so turn on only the ones you want in Manage Categories.",
-    "comment": "Persona settings subtitle",
-    "h": "afdb286a98"
-  },
   "출근 보고": {
     "ko": "출근 보고",
     "en": "Morning check in",
@@ -15694,12 +15292,6 @@
     "en": "Cancel",
     "comment": "Cancel\nCancel button\nCancel combo selection",
     "h": "578d75b423"
-  },
-  "치는 시간만 세던 걸 고쳤어요. 계좌번호처럼 다른 앱에서 찾아와야 했던 값은 찾는 시간까지 셉니다. 어떻게 셌는지도 적어 뒀어요.": {
-    "ko": "치는 시간만 세던 걸 고쳤어요. 계좌번호처럼 다른 앱에서 찾아와야 했던 값은 찾는 시간까지 셉니다. 어떻게 셌는지도 적어 뒀어요.",
-    "en": "We used to count only typing time. Now values you had to fetch from another app, like an account number, include the time spent finding them. We also show how we counted.",
-    "comment": "What's new 5.0 feature 2 detail",
-    "h": "d12c64b04d"
   },
   "치면 떠오르는 단축어": {
     "ko": "치면 떠오르는 단축어",
@@ -15767,12 +15359,6 @@
     "comment": "Reorder mode hint",
     "h": "b1666e29c5"
   },
-  "카드를 누르면 복사한 값이 여기 보여요": {
-    "ko": "카드를 누르면 복사한 값이 여기 보여요",
-    "en": "Tap a card and what you copied shows up here",
-    "comment": "Fold result pane: hint before anything is copied",
-    "h": "b8ed4c2d5c"
-  },
   "카드를 눌러 보세요": {
     "ko": "카드를 눌러 보세요",
     "en": "Tap the card",
@@ -15814,12 +15400,6 @@
     "en": "Tap into a card number, email or address field and that snippet comes first.",
     "comment": "Roadmap item detail: field-aware shortcut suggestions",
     "h": "d665942763"
-  },
-  "카드번호나 금액처럼 숫자 몇 자만 넣을 때는 숫자 판을 여세요. 붙여넣기 키는 쓰는 분만 켜면 돼요.": {
-    "ko": "카드번호나 금액처럼 숫자 몇 자만 넣을 때는 숫자 판을 여세요. 붙여넣기 키는 쓰는 분만 켜면 돼요.",
-    "en": "Open the number pad when you only need a few digits, like a card number or an amount. Turn on the paste key only if you use it.",
-    "comment": "What's new 5.1.3 number pad paste detail",
-    "h": "035f627d2e"
   },
   "카드에 살며시 보여줄 한 줄, 비우면 자동 요약": {
     "ko": "카드에 살며시 보여줄 한 줄, 비우면 자동 요약",
@@ -16061,12 +15641,6 @@
     "comment": "Keyboard lesson: done subline",
     "h": "a387edb1ec"
   },
-  "칸 추가에 내신 값이 빠진 값이에요": {
-    "ko": "칸 추가에 내신 값이 빠진 값이에요",
-    "en": "This price already subtracts what you paid for slots",
-    "comment": "Upgrade price caption",
-    "h": "336ab872ee"
-  },
   "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.": {
     "ko": "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.",
     "en": "Each step is counted on its own. Enabled but never appeared means it hasn't been brought up yet, or it was used without Full Access so no trace was left. Used a snippet counts anyone who actually used one, by keyboard or by copying in the app. %d older records without the new metrics are left out.",
@@ -16151,12 +15725,6 @@
     "comment": "Keyboard banner: how to turn on Full Access",
     "h": "17fa569c64"
   },
-  "켜면 키보드에서 한국어도 입력할 수 있어요": {
-    "ko": "켜면 키보드에서 한국어도 입력할 수 있어요",
-    "en": "Turn on to also type Korean on the keyboard",
-    "comment": "Enable Korean input subtitle",
-    "h": "17b1b19e2d"
-  },
   "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
     "ko": "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.",
     "en": "If you turned it on, bring up the keyboard once and this switches to On. iOS only tells us when the keyboard opens.",
@@ -16205,12 +15773,6 @@
     "comment": "Built-in category: combos only\nCombo\nShortcut type: combo\nVoiceOver: combo badge",
     "h": "68f52dc0a2"
   },
-  "콤보 개수 제한": {
-    "ko": "콤보 개수 제한",
-    "en": "Combo Limit",
-    "comment": "Combo limit",
-    "h": "582ce63f20"
-  },
   "콤보 수": {
     "ko": "콤보 수",
     "en": "Combos",
@@ -16228,12 +15790,6 @@
     "en": "Split Combo",
     "comment": "Bulk import: split combo back into items",
     "h": "750d93f803"
-  },
-  "콤보 하나에 값을 여러 개 담아 두고, 오른쪽 → 로 골라 쓰는 거예요. 계좌를 여러 개 쓰거나, 같은 안내를 이름만 바꿔 보낼 때 편합니다.": {
-    "ko": "콤보 하나에 값을 여러 개 담아 두고, 오른쪽 → 로 골라 쓰는 거예요. 계좌를 여러 개 쓰거나, 같은 안내를 이름만 바꿔 보낼 때 편합니다.",
-    "en": "One combo holds several values, and the → on the right picks between them. Handy when you use several bank accounts, or send the same message with a different name.",
-    "comment": "Combo step: confirmation body",
-    "h": "d05bf36755"
   },
   "콤보가 쉬워졌어요. 값을 이어 붙이고 보안 콤보로 암호화 저장까지": {
     "ko": "콤보가 쉬워졌어요. 값을 이어 붙이고 보안 콤보로 암호화 저장까지",
@@ -16439,6 +15995,12 @@
     "comment": "Only-this-keyboard guide title",
     "h": "dbb33b166d"
   },
+  "클립키보드 하나만 남기면 지구본은 빠지지만, 맨 아래 띠는 남아요. 이모지를 쓰려면 이모티콘 키보드는 남겨 두세요.": {
+    "ko": "클립키보드 하나만 남기면 지구본은 빠지지만, 맨 아래 띠는 남아요. 이모지를 쓰려면 이모티콘 키보드는 남겨 두세요.",
+    "en": "With only ClipKeyboard left, the globe goes away, but the strip at the very bottom stays. To use emoji, keep the Emoji keyboard.",
+    "comment": "Only-this-keyboard guide: removing other keyboards hides the globe key, but the bottom strip stays",
+    "h": "5148e9e15c"
+  },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "ko": "클립키보드로 벌써 %d시간을 아꼈어요",
     "en": "ClipKeyboard has already saved you %d hours",
@@ -16601,12 +16163,6 @@
     "comment": "Setup step 3 description: why Full Access is needed and reassurance that typed text never leaves the device",
     "h": "c58bbb62f3"
   },
-  "키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 단축어에 접근하기 위해 꼭 필요합니다.": {
-    "ko": "키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 단축어에 접근하기 위해 꼭 필요합니다.",
-    "en": "Tap ClipKeyboard in the keyboard list, then turn on 'Allow Full Access'.\nThis is required to access your saved snippets.",
-    "comment": "Setup step 3 description",
-    "h": "c8e1834214"
-  },
   "키보드 미리보기": {
     "ko": "키보드 미리보기",
     "en": "Keyboard preview",
@@ -16660,12 +16216,6 @@
     "en": "Keyboard setup, step 1 of 2",
     "comment": "Onboarding page 2 title for VoiceOver",
     "h": "e0268e2ed3"
-  },
-  "키보드 설정하기": {
-    "ko": "키보드 설정하기",
-    "en": "Set up keyboard",
-    "comment": "Tip action: set up keyboard",
-    "h": "dcfa90f9ea"
   },
   "키보드 안에서 문구 순서를 바꿔요. 순서를 고치려고 앱까지 다녀와야 하면 대개 안 고치니까요": {
     "ko": "키보드 안에서 문구 순서를 바꿔요. 순서를 고치려고 앱까지 다녀와야 하면 대개 안 고치니까요",
@@ -16792,12 +16342,6 @@
     "en": "Typed with the keyboard",
     "comment": "Event label: keyboard used",
     "h": "27b76de9dc"
-  },
-  "키보드를 내 손에 맞게 고쳐요": {
-    "ko": "키보드를 내 손에 맞게 고쳐요",
-    "en": "Make the keyboard fit your hands",
-    "comment": "What's new title 5.1.3",
-    "h": "7ac51aaefe"
   },
   "키보드를 다시 열면 보던 갈래가 그대로 열려요. 매번 처음으로 돌아가지 않아요": {
     "ko": "키보드를 다시 열면 보던 갈래가 그대로 열려요. 매번 처음으로 돌아가지 않아요",
@@ -17051,12 +16595,6 @@
     "comment": "Feedback origin: keyboard template blanks",
     "h": "0b3bfc5872"
   },
-  "키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.": {
-    "ko": "키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.",
-    "en": "Use the Korean/English toggle on the keyboard to switch languages. The default language applies when the keyboard first opens.",
-    "comment": "Language section footer",
-    "h": "0cfe769018"
-  },
   "키의 두께와 눌리는 느낌만 바뀌어요. 색은 아래에서 따로 고를 수 있어요.": {
     "ko": "키의 두께와 눌리는 느낌만 바뀌어요. 색은 아래에서 따로 고를 수 있어요.",
     "en": "Only the depth and the press change. Pick colors separately below.",
@@ -17134,12 +16672,6 @@
     "en": "Tap to see the Pro upgrade",
     "comment": "VoiceOver: open paywall",
     "h": "5408cf2cb1"
-  },
-  "탭하면 Pro를 구매합니다": {
-    "ko": "탭하면 Pro를 구매합니다",
-    "en": "Tap to purchase Pro",
-    "comment": "Purchase button hint",
-    "h": "97b52fe5ad"
   },
   "탭하면 값 목록을 접습니다": {
     "ko": "탭하면 값 목록을 접습니다",
@@ -17290,12 +16822,6 @@
     "en": "Tap to filter by this type",
     "comment": "Filter chip: tap to filter",
     "h": "944f935b1a"
-  },
-  "탭할 때마다 저장된 값이 순서대로 하나씩 입력돼요. 키보드에서 이어서 다음 값을 넣을 수 있어요.": {
-    "ko": "탭할 때마다 저장된 값이 순서대로 하나씩 입력돼요. 키보드에서 이어서 다음 값을 넣을 수 있어요.",
-    "en": "Each tap inserts your saved values one at a time, in order. Keep going with the next value right from the keyboard.",
-    "comment": "Combo info tip message",
-    "h": "8e6cbdde9f"
   },
   "테라코타": {
     "ko": "테라코타",
@@ -17465,12 +16991,6 @@
     "comment": "Demo samples offer message",
     "h": "cec2a2c7d7"
   },
-  "템플릿·콤보·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.": {
-    "ko": "템플릿·콤보·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.",
-    "en": "Add 4 examples (template, combo, and snippet + template) to try them out. Your existing snippets stay untouched.",
-    "comment": "Demo samples offer message",
-    "h": "c0d6965cae"
-  },
   "템플릿과 콤보와 잠긴 단축어를 테두리 무늬로 구분해요": {
     "ko": "템플릿과 콤보와 잠긴 단축어를 테두리 무늬로 구분해요",
     "en": "Templates, combos and locked snippets are told apart by their border pattern",
@@ -17525,23 +17045,11 @@
     "comment": "Restart the tutorial",
     "h": "917e71cf6b"
   },
-  "튜토리얼에서 눌러 본 단축어·템플릿·스택예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.": {
-    "ko": "튜토리얼에서 눌러 본 단축어·템플릿·스택예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.",
-    "en": "These are the snippet, template, and stack you tried in the tutorial. You've made your own now, so you can clear them out or keep them and edit them to suit you.",
-    "comment": "Sample cleanup message",
-    "h": "5d1342f259"
-  },
   "튜토리얼에서 눌러 본 단축어·템플릿·스택이에요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.": {
     "ko": "튜토리얼에서 눌러 본 단축어·템플릿·스택이에요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.",
     "en": "These are the snippet, template, and stack you tried in the tutorial. You've made your own now, so you can clear them out or keep them and edit them to suit you.",
     "comment": "Sample cleanup message",
     "h": "78cebde2c2"
-  },
-  "튜토리얼에서 눌러 본 단축어·템플릿·콤보예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.": {
-    "ko": "튜토리얼에서 눌러 본 단축어·템플릿·콤보예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.",
-    "en": "These are the snippet, template, and combo you tried in the tutorial. You've made your own now, so you can clear them out or keep them and edit them to suit you.",
-    "comment": "Sample cleanup message",
-    "h": "1687a24997"
   },
   "튜토리얼을 다시 할까요?": {
     "ko": "튜토리얼을 다시 할까요?",
@@ -17614,12 +17122,6 @@
     "en": "Persona changed",
     "comment": "Persona changed toast",
     "h": "73e5429e64"
-  },
-  "페르소나를 골라도 단축어가 추가되지 않아요. 여러분에게 맞는 추천(이런 단축어 어때요? · 카테고리 이름)만 바뀝니다.": {
-    "ko": "페르소나를 골라도 단축어가 추가되지 않아요. 여러분에게 맞는 추천(이런 단축어 어때요? · 카테고리 이름)만 바뀝니다.",
-    "en": "Choosing a persona doesn't add any snippets. It only changes the recommendations you see (suggested snippets · category names).",
-    "comment": "Persona is recommendation-only note",
-    "h": "f916a52db6"
   },
   "페르소나를 처음이 아니라 써 보고 나서 여쭤봐요. 단축어를 두 개 만드셨거나 카테고리를 하나 만드셨을 때 한 번만요": {
     "ko": "페르소나를 처음이 아니라 써 보고 나서 여쭤봐요. 단축어를 두 개 만드셨거나 카테고리를 하나 만드셨을 때 한 번만요",
@@ -17734,12 +17236,6 @@
     "en": "Standard",
     "comment": "Keyboard height preset name: standard",
     "h": "997ec1db42"
-  },
-  "프로페셔널 영어 템플릿을 마음껏: 비원어민도 유창하게": {
-    "ko": "프로페셔널 영어 템플릿을 마음껏: 비원어민도 유창하게",
-    "en": "Unlimited professional English templates: sound fluent, even as a non-native",
-    "comment": "Paywall value: english templates",
-    "h": "40a20258cf"
   },
   "프리랜서": {
     "ko": "프리랜서",
@@ -17974,12 +17470,6 @@
     "en": "Each snippet counts as exactly one type (stack > template > image > text). Text counts start with 4.4.3, so older records mixed in can make text look lower than it is.",
     "comment": "Type breakdown footer",
     "h": "94e2032acf"
-  },
-  "한 단축어는 한 종류로만 세요(콤보 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요.": {
-    "ko": "한 단축어는 한 종류로만 세요(콤보 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요.",
-    "en": "Each snippet counts as exactly one type (combo > template > image > text). Text counts start with 4.4.3, so older records mixed in can make text look lower than it is.",
-    "comment": "Type breakdown footer",
-    "h": "a5d87f903e"
   },
   "한 단축어에 여러 값: \"내용 더 넣기\"로 담고, 기존 단축어에서 값 가져오기도 가능": {
     "ko": "한 단축어에 여러 값: \"내용 더 넣기\"로 담고, 기존 단축어에서 값 가져오기도 가능",
@@ -18233,11 +17723,11 @@
     "comment": "Feedback nudge title",
     "h": "6006a50459"
   },
-  "혹시 이런 분이신가요?": {
-    "ko": "혹시 이런 분이신가요?",
-    "en": "Does this sound like you?",
-    "comment": "Persona prompt title",
-    "h": "a6ec53d055"
+  "홈 버튼이 없는 iPhone에서는 홈 막대와 겹치지 않게 iOS가 키보드 아래에 늘 띠를 비워 둬요. 키보드를 하나만 남기고 받아쓰기를 꺼도 남고, 접는 설정은 없어요. 어느 키보드든 이 띠 위에 올라가요. 그래서 이 자리를 쓰게 두는 편이 나아요.": {
+    "ko": "홈 버튼이 없는 iPhone에서는 홈 막대와 겹치지 않게 iOS가 키보드 아래에 늘 띠를 비워 둬요. 키보드를 하나만 남기고 받아쓰기를 꺼도 남고, 접는 설정은 없어요. 어느 키보드든 이 띠 위에 올라가요. 그래서 이 자리를 쓰게 두는 편이 나아요.",
+    "en": "On an iPhone without a Home button, iOS always keeps a strip under the keyboard so it doesn't overlap the Home bar. It stays even with one keyboard and dictation off, and there's no setting to hide it. Every keyboard sits on top of it, so it's better to put that space to use.",
+    "comment": "Only-this-keyboard guide: why the bottom strip under the keyboard can never be removed on Face ID iPhones",
+    "h": "a8a5c40b7b"
   },
   "홈 화면 앱 이름과 아이콘을 바로잡았어요": {
     "ko": "홈 화면 앱 이름과 아이콘을 바로잡았어요",

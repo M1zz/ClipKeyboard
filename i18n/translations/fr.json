@@ -698,6 +698,10 @@
     "v": "Appuyez sur Travail",
     "src": "58a17831fb"
   },
+  "'이모티콘'을 골라요. 지구본 대신 😀 키가 왼쪽에 서요": {
+    "v": "Choisissez Emoji. Une touche 😀 remplace le globe à gauche",
+    "src": "14ee490ed6"
+  },
   "'전체 접근 허용' 토글 켜기 ✓": {
     "v": "Activez « Autoriser l'accès complet » ✓",
     "src": "8f11e92ee4"
@@ -5148,6 +5152,10 @@
     "v": "Correction des onglets de catégories qui disparaissaient sur Mac et des catégories manquantes après une restauration",
     "src": "6969f511e5"
   },
+  "맨 아래 띠 쓰기": {
+    "v": "Utiliser la bande du bas",
+    "src": "cb8821af76"
+  },
   "먹": {
     "v": "Encre",
     "src": "afee208738"
@@ -5630,6 +5638,10 @@
   "받아쓰기 끄기": {
     "v": "Désactiver la dictée",
     "src": "5fcc22c951"
+  },
+  "받아쓰기를 켜 두면 오른쪽에 마이크가 서요": {
+    "v": "Laissez la dictée activée pour avoir un micro à droite",
+    "src": "7f396a172e"
   },
   "방금": {
     "v": "À l'instant",
@@ -7145,6 +7157,10 @@
   "설정 앱에서 '동작 버튼'을 열어요": {
     "v": "Ouvrez « Bouton Action » dans Réglages",
     "src": "05f9b57848"
+  },
+  "설정 앱에서 일반 ▸ 키보드 ▸ 키보드 ▸ 새로운 키보드 추가를 눌러요": {
+    "v": "Dans Réglages, touchez Général ▸ Clavier ▸ Claviers ▸ Ajouter un clavier",
+    "src": "24d8a25a5b"
   },
   "설정 앱에서 일반 ▸ 키보드 ▸ 키보드를 열어요": {
     "v": "Dans Réglages, ouvrez Général ▸ Clavier ▸ Claviers",
@@ -11303,6 +11319,10 @@
     "v": "Utiliser seulement ClipKeyboard",
     "src": "dbb33b166d"
   },
+  "클립키보드 하나만 남기면 지구본은 빠지지만, 맨 아래 띠는 남아요. 이모지를 쓰려면 이모티콘 키보드는 남겨 두세요.": {
+    "v": "Si ClipKeyboard est le seul clavier, le globe disparaît, mais la bande du bas reste. Pour utiliser les emoji, gardez le clavier Emoji.",
+    "src": "5148e9e15c"
+  },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "v": {
       "one": "ClipKeyboard vous a déjà fait gagner %d heure",
@@ -12511,6 +12531,10 @@
   "혹시 이런 분이신가요?": {
     "v": "Cela vous ressemble-t-il ?",
     "src": "a6ec53d055"
+  },
+  "홈 버튼이 없는 iPhone에서는 홈 막대와 겹치지 않게 iOS가 키보드 아래에 늘 띠를 비워 둬요. 키보드를 하나만 남기고 받아쓰기를 꺼도 남고, 접는 설정은 없어요. 어느 키보드든 이 띠 위에 올라가요. 그래서 이 자리를 쓰게 두는 편이 나아요.": {
+    "v": "Sur un iPhone sans bouton principal, iOS laisse toujours une bande sous le clavier pour qu'il ne chevauche pas la barre d'accueil. Elle reste même avec un seul clavier et la dictée désactivée, et aucun réglage ne permet de la masquer. Tous les claviers s'affichent au-dessus. Autant donc profiter de cet espace.",
+    "src": "a8a5c40b7b"
   },
   "홈 화면 앱 이름과 아이콘을 바로잡았어요": {
     "v": "Le nom et l'icône de l'app sur l'écran d'accueil sont corrigés",

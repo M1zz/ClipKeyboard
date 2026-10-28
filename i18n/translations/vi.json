@@ -563,6 +563,10 @@
     "v": "Bạn thử nhấn Công việc nhé",
     "src": "58a17831fb"
   },
+  "'이모티콘'을 골라요. 지구본 대신 😀 키가 왼쪽에 서요": {
+    "v": "Chọn Emoji. Phím 😀 sẽ thế chỗ quả địa cầu ở bên trái",
+    "src": "14ee490ed6"
+  },
   "'전체 접근 허용' 토글 켜기 ✓": {
     "v": "Bật 'Cho phép truy cập đầy đủ' ✓",
     "src": "8f11e92ee4"
@@ -4935,6 +4939,10 @@
     "v": "Đã sửa lỗi tab danh mục biến mất trên Mac và danh mục bị mất sau khi khôi phục",
     "src": "6969f511e5"
   },
+  "맨 아래 띠 쓰기": {
+    "v": "Dùng dải dưới cùng",
+    "src": "cb8821af76"
+  },
   "먹": {
     "v": "Mực",
     "src": "afee208738"
@@ -5390,6 +5398,10 @@
   "받아쓰기 끄기": {
     "v": "Tắt đọc chính tả",
     "src": "5fcc22c951"
+  },
+  "받아쓰기를 켜 두면 오른쪽에 마이크가 서요": {
+    "v": "Bật chính tả bằng giọng nói để có micro ở bên phải",
+    "src": "7f396a172e"
   },
   "방금": {
     "v": "Vừa xong",
@@ -6878,6 +6890,10 @@
   "설정 앱에서 '동작 버튼'을 열어요": {
     "v": "Mở “Nút Tác vụ” trong ứng dụng Cài đặt",
     "src": "05f9b57848"
+  },
+  "설정 앱에서 일반 ▸ 키보드 ▸ 키보드 ▸ 새로운 키보드 추가를 눌러요": {
+    "v": "Trong Cài đặt, chạm Cài đặt chung ▸ Bàn phím ▸ Bàn phím ▸ Thêm bàn phím mới",
+    "src": "24d8a25a5b"
   },
   "설정 앱에서 일반 ▸ 키보드 ▸ 키보드를 열어요": {
     "v": "Trong Cài đặt, mở Cài đặt chung ▸ Bàn phím ▸ Bàn phím",
@@ -10967,6 +10983,10 @@
     "v": "Chỉ dùng ClipKeyboard",
     "src": "dbb33b166d"
   },
+  "클립키보드 하나만 남기면 지구본은 빠지지만, 맨 아래 띠는 남아요. 이모지를 쓰려면 이모티콘 키보드는 남겨 두세요.": {
+    "v": "Chỉ còn ClipKeyboard thì quả địa cầu sẽ biến mất, nhưng dải dưới cùng vẫn còn. Muốn dùng emoji, bạn hãy giữ lại bàn phím Emoji.",
+    "src": "5148e9e15c"
+  },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "v": "ClipKeyboard đã giúp bạn tiết kiệm %d giờ",
     "src": "c6b77aeac7"
@@ -12166,6 +12186,10 @@
   "혹시 이런 분이신가요?": {
     "v": "Bạn có giống như vậy không?",
     "src": "a6ec53d055"
+  },
+  "홈 버튼이 없는 iPhone에서는 홈 막대와 겹치지 않게 iOS가 키보드 아래에 늘 띠를 비워 둬요. 키보드를 하나만 남기고 받아쓰기를 꺼도 남고, 접는 설정은 없어요. 어느 키보드든 이 띠 위에 올라가요. 그래서 이 자리를 쓰게 두는 편이 나아요.": {
+    "v": "Trên iPhone không có nút Home, iOS luôn chừa một dải dưới bàn phím để không chồng lên thanh Home. Dải này vẫn còn dù chỉ có một bàn phím và đã tắt chính tả bằng giọng nói, và không có tùy chọn nào để ẩn. Bàn phím nào cũng nằm phía trên dải này, nên tận dụng khoảng trống đó sẽ hợp lý hơn.",
+    "src": "a8a5c40b7b"
   },
   "홈 화면 앱 이름과 아이콘을 바로잡았어요": {
     "v": "Đã sửa tên và biểu tượng ứng dụng trên màn hình chính",

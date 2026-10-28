@@ -695,6 +695,10 @@
     "v": "Tippe auf Arbeit",
     "src": "58a17831fb"
   },
+  "'이모티콘'을 골라요. 지구본 대신 😀 키가 왼쪽에 서요": {
+    "v": "Wähle „Emoji“. Dann ersetzt eine 😀-Taste links den Globus",
+    "src": "14ee490ed6"
+  },
   "'전체 접근 허용' 토글 켜기 ✓": {
     "v": "'Vollzugriff erlauben' einschalten ✓",
     "src": "8f11e92ee4"
@@ -5145,6 +5149,10 @@
     "v": "Behoben: Kategorie-Tabs verschwanden am Mac, und beim Wiederherstellen fehlten Kategorien",
     "src": "6969f511e5"
   },
+  "맨 아래 띠 쓰기": {
+    "v": "Die untere Leiste nutzen",
+    "src": "cb8821af76"
+  },
   "먹": {
     "v": "Tusche",
     "src": "afee208738"
@@ -5627,6 +5635,10 @@
   "받아쓰기 끄기": {
     "v": "Diktierfunktion ausschalten",
     "src": "5fcc22c951"
+  },
+  "받아쓰기를 켜 두면 오른쪽에 마이크가 서요": {
+    "v": "Lass das Diktieren an, dann erscheint rechts ein Mikrofon",
+    "src": "7f396a172e"
   },
   "방금": {
     "v": "Gerade eben",
@@ -7142,6 +7154,10 @@
   "설정 앱에서 '동작 버튼'을 열어요": {
     "v": "Öffne in der Einstellungen-App „Action Button“",
     "src": "05f9b57848"
+  },
+  "설정 앱에서 일반 ▸ 키보드 ▸ 키보드 ▸ 새로운 키보드 추가를 눌러요": {
+    "v": "Tippe in den Einstellungen auf Allgemein ▸ Tastatur ▸ Tastaturen ▸ Neue Tastatur hinzufügen",
+    "src": "24d8a25a5b"
   },
   "설정 앱에서 일반 ▸ 키보드 ▸ 키보드를 열어요": {
     "v": "Öffne in den Einstellungen Allgemein ▸ Tastatur ▸ Tastaturen",
@@ -11303,6 +11319,10 @@
     "v": "Nur ClipKeyboard nutzen",
     "src": "dbb33b166d"
   },
+  "클립키보드 하나만 남기면 지구본은 빠지지만, 맨 아래 띠는 남아요. 이모지를 쓰려면 이모티콘 키보드는 남겨 두세요.": {
+    "v": "Bleibt nur ClipKeyboard übrig, verschwindet der Globus, die Leiste ganz unten aber bleibt. Für Emoji lass die Emoji-Tastatur drin.",
+    "src": "5148e9e15c"
+  },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "v": {
       "one": "ClipKeyboard hat dir schon %d Stunde gespart",
@@ -12511,6 +12531,10 @@
   "혹시 이런 분이신가요?": {
     "v": "Erkennst du dich wieder?",
     "src": "a6ec53d055"
+  },
+  "홈 버튼이 없는 iPhone에서는 홈 막대와 겹치지 않게 iOS가 키보드 아래에 늘 띠를 비워 둬요. 키보드를 하나만 남기고 받아쓰기를 꺼도 남고, 접는 설정은 없어요. 어느 키보드든 이 띠 위에 올라가요. 그래서 이 자리를 쓰게 두는 편이 나아요.": {
+    "v": "Auf einem iPhone ohne Home-Taste lässt iOS unter der Tastatur immer eine Leiste frei, damit sie die Home-Leiste nicht überdeckt. Sie bleibt auch mit nur einer Tastatur und ohne Diktieren, und ausblenden lässt sie sich nicht. Jede Tastatur sitzt auf dieser Leiste, also nutze den Platz lieber.",
+    "src": "a8a5c40b7b"
   },
   "홈 화면 앱 이름과 아이콘을 바로잡았어요": {
     "v": "App-Name und Symbol auf dem Home-Bildschirm korrigiert",
