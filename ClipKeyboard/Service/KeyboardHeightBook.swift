@@ -53,10 +53,25 @@ enum KeyboardHeightBook {
 
     // MARK: - 읽기
 
-    /// 앱이 실제로 잰 값. 잰 적이 없으면 nil.
+    /// 앱이 실제로 잰 값. 잰 적이 없거나 시스템 키보드로 볼 수 없는 값이면 nil.
+    ///
+    /// ⚠️ 읽을 때도 거른다. 예전 앱이 우리 키보드 높이를 시스템 높이로 잘못 적어 둔 장부가
+    ///    남아 있다(`isOwnKeyboard` 머리말). 그 값을 그대로 쓰면 키보드가 계속 높다.
     static func measuredHeight(for size: CGSize) -> CGFloat? {
-        guard let value = book[key(for: size)], value > 0 else { return nil }
+        guard let value = book[key(for: size)], value > 0,
+              isBelievableSystemHeight(CGFloat(value), for: size) else { return nil }
         return CGFloat(value)
+    }
+
+    /// 시스템 키보드가 이 화면에서 가질 수 있는 높이인가.
+    ///
+    /// 세로 아이폰의 시스템 키보드는 화면의 41% 를 넘은 적이 없다(아래 `fallbackHeight` 표).
+    /// 넉넉히 45% 까지 믿는다. 가로는 화면이 낮아 60% 까지.
+    static func isBelievableSystemHeight(_ height: CGFloat, for size: CGSize) -> Bool {
+        guard size.height > 0 else { return false }
+        let ratio = height / size.height
+        let ceiling: CGFloat = size.width > size.height ? 0.6 : 0.45
+        return ratio > 0.2 && ratio < ceiling
     }
 
     /// 시스템 키보드가 화면에서 차지하는 **전체** 높이. 잰 값이 있으면 그것, 없으면 어림값.
@@ -348,9 +363,13 @@ enum KeyboardHeightBook {
         // ② 아이패드의 떠 있는 키보드(floating)는 화면 너비를 다 안 쓴다.
         //    폭이 화면과 크게 다르면 그 상황으로 본다.
         let coversWidth = abs(frame.width - screenSize.width) < 1
-        let ratio = frame.height / screenSize.height
-        guard coversWidth, ratio > 0.2, ratio < 0.6 else {
+        guard coversWidth, isBelievableSystemHeight(frame.height, for: screenSize) else {
             print("📐 [KeyboardHeightBook] 믿을 수 없는 프레임 무시: \(frame) (화면 \(screenSize))")
+            return
+        }
+        // ③ 앱에서 올라온 키보드가 우리 키보드면 적지 않는다(`isOwnKeyboard`).
+        guard !isOwnKeyboard(height: frame.height, for: screenSize) else {
+            print("📐 [KeyboardHeightBook] 우리 키보드라 적지 않음: \(frame.height)")
             return
         }
 
@@ -358,6 +377,16 @@ enum KeyboardHeightBook {
     }
 
     #endif
+
+    /// 이 높이가 우리 키보드가 화면에 서는 높이인가.
+    ///
+    /// ⚠️ 앱에서도 사람은 우리 키보드로 친다. 다른 키보드(예: 한국어)를 켜 두지 않은 사람은
+    ///    앱에서 올라오는 키보드가 늘 우리 키보드다. 그 높이(시스템 높이 + 머리 줄)를 시스템 높이로
+    ///    적으면, 다음에 우리 키보드가 그 위에 머리 줄을 또 얹어 키보드를 띄울 때마다 불어났다.
+    ///    한국어 키보드가 있을 때와 없을 때 높이가 달랐던 까닭이다(2026-10 사용자 신고).
+    static func isOwnKeyboard(height: CGFloat, for size: CGSize) -> Bool {
+        abs(height - (currentHeight(for: size) + systemChrome(for: size))) < 2
+    }
 }
 
 // MARK: - 사용자가 고르는 높이

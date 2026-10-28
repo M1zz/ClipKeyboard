@@ -269,6 +269,57 @@ final class KeyboardHeightBookTests: XCTestCase {
         XCTAssertEqual(KeyboardHeightBook.measuredHeight(for: screen), 301)
     }
 
+    /// 앱에서 올라온 키보드가 우리 키보드면 적지 않는다. 적으면 띄울 때마다 머리 줄만큼 불어난다.
+    func test_우리_키보드의_높이는_시스템_높이로_적지_않는다() {
+        let screen = CGSize(width: 393, height: 852)
+        KeyboardHeightBook.record(height: 301, for: screen)
+        let ours = KeyboardHeightBook.currentHeight(for: screen) + KeyboardHeightBook.systemChrome(for: screen)
+
+        KeyboardHeightBook.consider(frame: CGRect(x: 0, y: 852 - ours, width: 393, height: ours), screen: screen)
+
+        XCTAssertEqual(KeyboardHeightBook.measuredHeight(for: screen), 301)
+    }
+
+    /// 다른 키보드가 있든 없든 같은 높이: 우리 키보드만 쓰는 사람이 키보드를 여러 번 띄워도 높이가 그대로다.
+    func test_우리_키보드만_써도_띄울_때마다_높아지지_않는다() {
+        let screen = CGSize(width: 393, height: 852)
+        KeyboardHeightBook.record(height: 301, for: screen)
+        let first = KeyboardHeightBook.currentHeight(for: screen)
+        for _ in 0..<5 {
+            let ours = KeyboardHeightBook.currentHeight(for: screen) + KeyboardHeightBook.systemChrome(for: screen)
+            KeyboardHeightBook.consider(frame: CGRect(x: 0, y: 852 - ours, width: 393, height: ours), screen: screen)
+        }
+        XCTAssertEqual(KeyboardHeightBook.currentHeight(for: screen), first)
+    }
+
+    /// 예전 앱이 부풀려 적어 둔 값은 읽을 때 버리고 어림값으로 돌아간다.
+    func test_부풀려_적힌_옛_값은_쓰지_않는다() {
+        let screen = CGSize(width: 393, height: 852)
+        KeyboardHeightBook.record(height: 480, for: screen)
+
+        XCTAssertNil(KeyboardHeightBook.measuredHeight(for: screen))
+        XCTAssertEqual(KeyboardHeightBook.totalHeight(for: screen), KeyboardHeightBook.fallbackHeight(for: screen))
+    }
+
+    /// 키보드 전체(우리 판 + 시스템이 그리는 아래 띠)는 어떤 설정 · 어떤 장부로도 세로 화면의 55% 를 넘지 않는다.
+    func test_키보드_전체는_세로_화면의_55퍼센트를_넘지_않는다() {
+        var greedy = KeyboardHeightBook.ContentMetrics()
+        greedy.columns = 1
+        greedy.buttonHeight = 100
+        greedy.controlKeySize = KeyboardHeightBook.maximumControlKeySize
+        for size in [CGSize(width: 375, height: 667), CGSize(width: 393, height: 852), CGSize(width: 440, height: 956)] {
+            for stored in [0.0, Double(size.height * 0.44)] {
+                AppGroup.defaults?.removeObject(forKey: DefaultsKey.systemKeyboardHeights)
+                if stored > 0 { KeyboardHeightBook.record(height: CGFloat(stored), for: size) }
+                for preset in KeyboardHeightPreset.allCases {
+                    let total = KeyboardHeightBook.height(for: size, content: greedy, preset: preset)
+                        + KeyboardHeightBook.systemChrome(for: size)
+                    XCTAssertLessThanOrEqual(total, size.height * 0.55 + 0.5, "\(size) \(preset) \(stored)")
+                }
+            }
+        }
+    }
+
     // MARK: - ⑥ 사용자가 고른 높이
 
     /// 이 설정이 생긴 이유. 리뷰: "keyboard size is too big, make it the same size as normal keyboard".
