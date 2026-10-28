@@ -565,7 +565,61 @@ final class HangulKeyboardSweepTests: XCTestCase {
     /// 밑줄은 두 글자를 넘지 않는다, 밑줄 방식과 지우고 쓰는 방식이 같은 글이 된다.
     func testRandomCheonjiinKeepsInvariants() {
         fuzz(.cheonjiin, keys: ["ㄱㅋ", "ㄴㄹ", "ㄷㅌ", "ㅂㅍ", "ㅅㅎ", "ㅈㅊ", "ㅇㅁ", "ㅣ", "ㆍ", "ㅡ", "ㅣ", "ㆍ", "ㅡ",
+                                "ㅏ", "ㅓ", "ㅑ", "ㅕ", "ㅗ", "ㅜ",
                                 CheonjiinInput.advanceKey, "⌫", "⌫", "␣", "."])
+    }
+
+    // MARK: 밀어서 넣기
+
+    /// ㅣ 키를 누른 채 밀면 기본 10키처럼 ← ㅓ · → ㅏ · ↑ ㅕ · ↓ ㅑ, ㅡ 키는 ↑ ㅗ · ↓ ㅜ.
+    func testFlickTable() {
+        XCTAssertEqual(CheonjiinInput.flicks(for: "ㅣ"), [.left: "ㅓ", .right: "ㅏ", .up: "ㅕ", .down: "ㅑ"])
+        XCTAssertEqual(CheonjiinInput.flicks(for: "ㅡ"), [.up: "ㅗ", .down: "ㅜ"])
+        XCTAssertTrue(CheonjiinInput.flicks(for: "ㆍ").isEmpty)
+    }
+
+    /// 덜 밀면 탭, 많이 간 쪽이 고른 쪽, 모음이 없는 쪽은 고르지 않는다.
+    func testFlickDirection() {
+        let i = CheonjiinInput.flicks(for: "ㅣ"), eu = CheonjiinInput.flicks(for: "ㅡ")
+        XCTAssertNil(CheonjiinInput.flick(for: CGSize(width: 10, height: -5), in: i))
+        XCTAssertEqual(CheonjiinInput.flick(for: CGSize(width: -30, height: 8), in: i), .left)
+        XCTAssertEqual(CheonjiinInput.flick(for: CGSize(width: 25, height: 3), in: i), .right)
+        XCTAssertEqual(CheonjiinInput.flick(for: CGSize(width: 4, height: -40), in: i), .up)
+        XCTAssertEqual(CheonjiinInput.flick(for: CGSize(width: -6, height: 22), in: i), .down)
+        XCTAssertNil(CheonjiinInput.flick(for: CGSize(width: 30, height: 0), in: eu))
+        XCTAssertEqual(CheonjiinInput.flick(for: CGSize(width: 3, height: -30), in: eu), .up)
+    }
+
+    /// 밀어서 넣은 모음은 앞 자음과 음절이 되고, 받침도 다음 음절로 넘어가고, 뒤의 획이 더해진다.
+    func testFlickVowelsCompose() {
+        XCTAssertEqual(typed(["ㄱㅋ", "ㅏ"], layout: .cheonjiin), "가")
+        XCTAssertEqual(typed(["ㅇㅁ", "ㅏ", "ㄴㄹ", "ㅣ"], layout: .cheonjiin), "아니")
+        XCTAssertEqual(typed(["ㅇㅁ", "ㅏ", "ㄴㄹ", "ㄴㄹ", "ㅕ"], layout: .cheonjiin), "아려")
+        XCTAssertEqual(typed(["ㅅㅎ", "ㅅㅎ", "ㅏ", "ㄴㄹ", "ㄱㅋ", "ㅜ", "ㄱㅋ"], layout: .cheonjiin), "한국")
+        XCTAssertEqual(typed(["ㄱㅋ", "ㅏ", "ㅣ"], layout: .cheonjiin), "개")
+        XCTAssertEqual(typed(["ㄱㅋ", "ㅗ", "ㅏ"], layout: .cheonjiin), "과")
+        XCTAssertEqual(typed(["ㅇㅁ", "ㅑ"], layout: .cheonjiin), "야")
+        XCTAssertEqual(typed(["ㅇㅁ", "ㅕ", "ㅇㅁ", CheonjiinInput.advanceKey, "ㅇㅁ", "ㅓ"], layout: .cheonjiin), "영어")
+        // 점을 찍다 밀어 넣으면 점은 버린다.
+        XCTAssertEqual(typed(["ㄱㅋ", "ㆍ", "ㅏ"], layout: .cheonjiin), "가")
+    }
+
+    /// 자음을 돌리던 중 밀어 넣으면 돌림이 끊긴다(다음 ㄱ 은 ㅋ 이 아니라 새 ㄱ).
+    func testFlickBreaksConsonantCycle() {
+        XCTAssertEqual(typed(["ㄱㅋ", "ㅏ", "ㄱㅋ", "ㅏ"], layout: .cheonjiin), "가가")
+        XCTAssertEqual(typed(["ㄱㅋ", "ㄱㅋ", "ㅗ"], layout: .cheonjiin), "코")
+    }
+
+    /// 지우면 밀어 넣은 모음이 통째로 지워진다(점이나 획으로 돌아가지 않는다).
+    func testDeletingFlickVowel() {
+        let proxy = MarkedTextProxy()
+        let engine = HangulTypingEngine(proxy: proxy, layout: .cheonjiin)
+        for key in ["ㄱㅋ", "ㅑ"] { engine.input(key) }
+        XCTAssertEqual(proxy.text, "갸")
+        engine.backspace()
+        XCTAssertEqual(proxy.text, "ㄱ")
+        engine.input("ㅕ")
+        XCTAssertEqual(proxy.text, "겨")
     }
 
     func testRandomDubeolsikKeepsInvariants() {

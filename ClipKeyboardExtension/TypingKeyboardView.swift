@@ -681,12 +681,14 @@ struct TypingKeyboardPanel: View {
                 cheonjiinLanguageKey(metrics: metrics, width: w, height: h)
                 cheonjiinTallKey(metrics: metrics, width: w, height: h * 2)
             }
+            // 밀어 넣기 십자가 옆 칸을 덮도록 ㅣ · ㅡ 의 줄을 위에 둔다.
             VStack(spacing: 0) {
                 cheonjiinKey("ㅣ", metrics: metrics, width: w)
                 cheonjiinKey("ㄱㅋ", metrics: metrics, width: w)
                 cheonjiinKey("ㅂㅍ", metrics: metrics, width: w)
                 cheonjiinAdvanceKey(metrics: metrics, width: w)
             }
+            .zIndex(1)
             VStack(spacing: 0) {
                 cheonjiinKey("ㆍ", metrics: metrics, width: w)
                 cheonjiinKey("ㄴㄹ", metrics: metrics, width: w)
@@ -699,6 +701,7 @@ struct TypingKeyboardPanel: View {
                 cheonjiinKey("ㅈㅊ", metrics: metrics, width: w)
                 cheonjiinPunctuationKey(metrics: metrics, width: w)
             }
+            .zIndex(1)
             VStack(spacing: 0) {
                 backspaceKey(metrics: metrics, width: w)
                 returnKey(metrics: metrics, width: w, height: h * 2)
@@ -753,18 +756,41 @@ struct TypingKeyboardPanel: View {
     }
 
     /// 자모 키. 기본 10키처럼 두 자모 사이를 띄워 적고, 누르면 풍선 대신 키 색이 바뀐다.
+    /// 밀어서 넣는 모음이 있는 키(ㅣ · ㅡ)는 누른 채 밀면 그 모음이 들어간다(`CheonjiinFlickKey`).
+    @ViewBuilder
     private func cheonjiinKey(_ key: String, metrics: NativeKeyMetrics, width: CGFloat) -> some View {
-        PressableKey(onLongPress: CheonjiinInput.digit(for: key).map { digit in { typeDigit(digit) } },
-                     action: { type(key) }) { pressed in
-            cell(width: width, height: metrics.rowPitch, metrics: metrics) {
-                // ⚠️ 글꼴의 ㅡ 는 글자 칸 아래쪽에 앉아 키 가운데보다 4pt 쯤 낮게 보인다.
-                //    기본 10키는 획을 키 한가운데에 둔다.
-                keyFace(textLabel(key.map(String.init).joined(separator: " "), size: metrics.letterFontSize)
-                            .offset(y: key == "ㅡ" ? -metrics.keyHeight * 0.1 : 0),
-                        kind: .letter, pressed: pressed)
+        let flicks = CheonjiinInput.flicks(for: key)
+        if flicks.isEmpty {
+            PressableKey(onLongPress: CheonjiinInput.digit(for: key).map { digit in { typeDigit(digit) } },
+                         action: { type(key) }) { pressed in
+                cheonjiinFace(key, metrics: metrics, width: width, pressed: pressed)
             }
+            .accessibilityLabel(key)
+        } else {
+            CheonjiinFlickKey(flicks: flicks,
+                              digit: CheonjiinInput.digit(for: key),
+                              popupCell: CGSize(width: width, height: metrics.rowPitch),
+                              keySize: CGSize(width: width - metrics.gapX, height: metrics.keyHeight),
+                              fontSize: metrics.letterFontSize,
+                              style: style,
+                              onTap: { type(key) },
+                              onFlick: { type($0) },
+                              onDigit: { typeDigit($0) }) { pressed in
+                cheonjiinFace(key, metrics: metrics, width: width, pressed: pressed)
+            }
+            .zIndex(1)
+            .accessibilityLabel(key)
         }
-        .accessibilityLabel(key)
+    }
+
+    private func cheonjiinFace(_ key: String, metrics: NativeKeyMetrics, width: CGFloat, pressed: Bool) -> some View {
+        cell(width: width, height: metrics.rowPitch, metrics: metrics) {
+            // ⚠️ 글꼴의 ㅡ 는 글자 칸 아래쪽에 앉아 키 가운데보다 4pt 쯤 낮게 보인다.
+            //    기본 10키는 획을 키 한가운데에 둔다.
+            keyFace(textLabel(key.map(String.init).joined(separator: " "), size: metrics.letterFontSize)
+                        .offset(y: key == "ㅡ" ? -metrics.keyHeight * 0.1 : 0),
+                    kind: .letter, pressed: pressed)
+        }
     }
 
     /// → 키: 같은 자음 키를 이어서 칠 때 앞 글자를 끊는다(ㄱ → ㄱ 이 ㅋ 이 되지 않게).
@@ -1122,6 +1148,100 @@ private struct PressableKey<Face: View>: View {
         longPressWork = nil
         if longPressFired { longPressFired = false; return }
         if fire && !firesOnTouchDown { action() }
+    }
+}
+
+// MARK: - 밀어서 넣기
+
+/// 천지인 ㅣ · ㅡ 키. 누른 채 밀면 그쪽 모음이, 꾹 누르고 그대로 떼면 숫자가 들어간다(기본 10키와 같다).
+/// 밀거나 꾹 누르는 동안 키 둘레에 십자가로 고를 글자를 띄운다.
+private struct CheonjiinFlickKey<Face: View>: View {
+    let flicks: [CheonjiinInput.Flick: String]
+    let digit: String?
+    /// 십자가 한 칸 크기(키 한 칸)와 그 안에 보이는 판 크기.
+    let popupCell: CGSize
+    let keySize: CGSize
+    let fontSize: CGFloat
+    let style: NativeKeyStyle
+    let onTap: () -> Void
+    let onFlick: (String) -> Void
+    let onDigit: (String) -> Void
+    @ViewBuilder let face: (_ pressed: Bool) -> Face
+
+    @State private var pressed = false
+    @State private var direction: CheonjiinInput.Flick?
+    @State private var showsPopup = false
+    @State private var holdWork: DispatchWorkItem?
+
+    var body: some View {
+        face(pressed && !showsPopup)
+            .contentShape(Rectangle())
+            .overlay(KeyTouchSurface(onBegan: began, onMoved: moved,
+                                     onEnded: { ended(fire: true) },
+                                     onCancelled: { ended(fire: false) }))
+            .overlay { if showsPopup { popup.allowsHitTesting(false) } }
+            .onDisappear { holdWork?.cancel() }
+            .accessibilityElement(children: .ignore)
+            .accessibilityAddTraits(.isButton)
+            .accessibilityAction { onTap() }
+    }
+
+    private var popup: some View {
+        ZStack {
+            popupKey(digit ?? "", highlighted: direction == nil)
+            ForEach(CheonjiinInput.Flick.allCases, id: \.self) { flick in
+                if let vowel = flicks[flick] {
+                    popupKey(vowel, highlighted: direction == flick).offset(Self.offset(flick, in: popupCell))
+                }
+            }
+        }
+    }
+
+    private func popupKey(_ text: String, highlighted: Bool) -> some View {
+        Text(text)
+            .font(.system(size: fontSize * 1.2))
+            .foregroundColor(highlighted ? .white : style.label)
+            .frame(width: keySize.width, height: keySize.height)
+            .background(RoundedRectangle(cornerRadius: style.cornerRadius, style: .continuous)
+                .fill(highlighted ? Color.accentColor : style.fill(.letter, pressed: false))
+                .shadow(color: .black.opacity(0.25), radius: 4, x: 0, y: 1))
+    }
+
+    private static func offset(_ flick: CheonjiinInput.Flick, in cell: CGSize) -> CGSize {
+        switch flick {
+        case .up: return CGSize(width: 0, height: -cell.height)
+        case .down: return CGSize(width: 0, height: cell.height)
+        case .left: return CGSize(width: -cell.width, height: 0)
+        case .right: return CGSize(width: cell.width, height: 0)
+        }
+    }
+
+    private func began() {
+        pressed = true
+        direction = nil
+        showsPopup = false
+        let work = DispatchWorkItem { showsPopup = true }
+        holdWork = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: work)
+    }
+
+    private func moved(_ translation: CGSize) {
+        direction = CheonjiinInput.flick(for: translation, in: flicks)
+        if direction != nil { showsPopup = true }
+    }
+
+    private func ended(fire: Bool) {
+        holdWork?.cancel()
+        holdWork = nil
+        defer { pressed = false; direction = nil; showsPopup = false }
+        guard fire else { return }
+        if let direction, let vowel = flicks[direction] {
+            onFlick(vowel)
+        } else if showsPopup {
+            if let digit { onDigit(digit) }
+        } else {
+            onTap()
+        }
     }
 }
 

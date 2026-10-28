@@ -6,6 +6,7 @@
 //  HangulComposer를 통해 syllable 합성.
 //
 
+import CoreGraphics
 import Foundation
 
 final class CheonjiinInput {
@@ -104,10 +105,38 @@ final class CheonjiinInput {
          "ㅇㅁ": "0"][key]
     }
 
-    /// 천지인 키인가(자음 묶음 키 · ㅣ ㆍ ㅡ). 아니면 자판이 그대로 넣는다.
+    /// 천지인 키인가(자음 묶음 키 · ㅣ ㆍ ㅡ · 밀어서 넣은 모음). 아니면 자판이 그대로 넣는다.
     static func handles(_ key: String) -> Bool {
-        consonantCycles[key] != nil || key == "ㅣ" || key == "ㆍ" || key == "ㅡ"
+        consonantCycles[key] != nil || key == "ㅣ" || key == "ㆍ" || key == "ㅡ" || flickVowels.contains(key)
     }
+
+    // MARK: - 밀어서 넣기
+
+    /// 키를 누른 채 미는 쪽.
+    enum Flick: CaseIterable { case up, down, left, right }
+
+    /// 키를 누른 채 밀면 들어가는 모음. 기본 10키와 같다(ㅣ 키: ← ㅓ · → ㅏ · ↑ ㅕ · ↓ ㅑ).
+    /// 획이 붙는 쪽으로 민다. ㅡ 키는 위가 ㅗ, 아래가 ㅜ.
+    static func flicks(for key: String) -> [Flick: String] {
+        switch key {
+        case "ㅣ": return [.left: "ㅓ", .right: "ㅏ", .up: "ㅕ", .down: "ㅑ"]
+        case "ㅡ": return [.up: "ㅗ", .down: "ㅜ"]
+        default: return [:]
+        }
+    }
+
+    /// 이만큼 밀면 민 것으로 본다(pt).
+    static let flickThreshold: CGFloat = 18
+
+    /// 민 거리에서 쪽을 고른다. 덜 밀었거나 이 키에 그쪽 모음이 없으면 nil(그대로 떼면 탭이다).
+    static func flick(for translation: CGSize, in flicks: [Flick: String]) -> Flick? {
+        let dx = translation.width, dy = translation.height
+        guard max(abs(dx), abs(dy)) >= flickThreshold else { return nil }
+        let flick: Flick = abs(dx) > abs(dy) ? (dx < 0 ? .left : .right) : (dy < 0 ? .up : .down)
+        return flicks[flick] == nil ? nil : flick
+    }
+
+    private static let flickVowels: Set<String> = Set(["ㅣ", "ㅡ"].flatMap { flicks(for: $0).values })
 
     /// → 키: 자음 돌림을 끊는다. 같은 자음 키를 다시 누르면 다음 자모(ㅋ)가 아니라 새 자음(ㄱ)이 된다.
     /// - Returns: 끊을 돌림이 있었으면 true. 없으면 부르는 쪽이 커서를 한 칸 옮긴다.
@@ -126,6 +155,8 @@ final class CheonjiinInput {
             handleConsonant(key: key, cycle: cycle)
         } else if key == "ㅣ" || key == "ㆍ" || key == "ㅡ" {
             handleVowelStroke(Character(key))
+        } else if Self.flickVowels.contains(key), let vowel = key.first {
+            handleFlickVowel(vowel)
         }
     }
 
@@ -217,6 +248,17 @@ final class CheonjiinInput {
             vowel = nil
             show(stroke, replacing: nil)
         }
+    }
+
+    /// 밀어서 넣은 모음. 다 된 모음 하나를 새로 넣고, 그 뒤의 획은 이 모음에 더한다(ㅏ + ㅣ = ㅐ).
+    private func handleFlickVowel(_ next: Character) {
+        dropDots()
+        lastConsonantKey = nil
+        consonantTapIndex = 0
+        beforeConsonant = nil
+        vowel = nil
+        history.removeAll()
+        show(next, replacing: nil)
     }
 
     /// 모음 `next` 를 `old` 자리에 보인다. nil 이면 지우기만 한다.
