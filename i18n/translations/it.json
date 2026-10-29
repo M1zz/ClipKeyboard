@@ -12771,5 +12771,17 @@
   "🪪 명함": {
     "v": "🪪 Biglietto da visita",
     "src": "9becff2df0"
+  },
+  "지구본": {
+    "v": "Globo",
+    "src": "5dd4005834"
+  },
+  "다음 값": {
+    "v": "Valore successivo",
+    "src": "1ee9b298a2"
+  },
+  "%@ 다음 값": {
+    "v": "Valore successivo di %@",
+    "src": "574de73435"
   }
 }

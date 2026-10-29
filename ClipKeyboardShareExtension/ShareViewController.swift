@@ -212,7 +212,7 @@ private struct ShareSaveView: View {
                         imagePreview
                     } else {
                         Text(text)
-                            .font(.system(size: 13))
+                            .font(.footnote)
                             .foregroundColor(.secondary)
                             .lineLimit(8)
                     }
@@ -230,6 +230,7 @@ private struct ShareSaveView: View {
                     HStack {
                         Image(systemName: destination == .shortcut ? "keyboard" : "tray.and.arrow.down.fill")
                             .foregroundColor(.secondary)
+                            .accessibilityHidden(true)
                         Text(destination.explanation)
                             .font(.footnote)
                             .foregroundColor(.secondary)
@@ -243,6 +244,8 @@ private struct ShareSaveView: View {
                         Text(category)
                             .foregroundColor(.primary)
                     }
+                    // '분류' 와 그 값을 한 줄로 읽는다.
+                    .accessibilityElement(children: .combine)
                 }
             }
             .navigationTitle(NSLocalizedString("ClipKeyboard에 담기", comment: "Share extension title"))

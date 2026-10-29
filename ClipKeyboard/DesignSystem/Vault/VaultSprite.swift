@@ -424,6 +424,7 @@ struct VaultCardBadge: View {
     let savedSeconds: Double
     /// 카드 배경이 진할 때 숫자가 묻히지 않게.
     var onColor: Bool = false
+    @ScaledMetric(relativeTo: .caption2) private var countSize: CGFloat = 11
 
     var body: some View {
         if let headline = VaultLedger.headline(savedSeconds: savedSeconds) {
@@ -431,7 +432,7 @@ struct VaultCardBadge: View {
                 VaultSpriteStrip(sprites: [headline.sprite], pixel: 2, gap: 0)
                 if headline.count > 1 {
                     Text("\(headline.count)")
-                        .font(.system(size: 11, weight: .bold, design: .rounded))
+                        .font(.system(size: countSize, weight: .bold, design: .rounded))
                         .monospacedDigit()
                         .foregroundColor(onColor ? .white.opacity(0.9)
                                                  : Color(red: 0.55, green: 0.44, blue: 0.10))

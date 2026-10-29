@@ -12774,5 +12774,17 @@
   "🪪 명함": {
     "v": "🪪 Visitekaartje",
     "src": "9becff2df0"
+  },
+  "지구본": {
+    "v": "Wereldbol",
+    "src": "5dd4005834"
+  },
+  "다음 값": {
+    "v": "Volgende waarde",
+    "src": "1ee9b298a2"
+  },
+  "%@ 다음 값": {
+    "v": "Volgende waarde voor %@",
+    "src": "574de73435"
   }
 }

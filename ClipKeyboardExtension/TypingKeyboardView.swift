@@ -554,6 +554,13 @@ struct TypingKeyboardPanel: View {
         .accessibilityLabel(layer == .numbers
                             ? NSLocalizedString("기호", comment: "Typing keyboard: switch to symbols")
                             : NSLocalizedString("숫자", comment: "Typing keyboard: switch to numbers"))
+        // 음성 명령: 이름과 키에 적힌 글자 어느 쪽으로 불러도 눌린다.
+        .accessibilityInputLabels([
+            Text(layer == .numbers
+                 ? NSLocalizedString("기호", comment: "Typing keyboard: switch to symbols")
+                 : NSLocalizedString("숫자", comment: "Typing keyboard: switch to numbers")),
+            Text(verbatim: layer == .numbers ? "#+=" : "123")
+        ])
     }
 
     private func layerKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat? = nil, label: String? = nil) -> some View {
@@ -573,6 +580,12 @@ struct TypingKeyboardPanel: View {
         .accessibilityLabel(layer == .letters
                             ? NSLocalizedString("숫자", comment: "Typing keyboard: switch to numbers")
                             : NSLocalizedString("글자", comment: "Typing keyboard: switch to letters"))
+        .accessibilityInputLabels([
+            Text(layer == .letters
+                 ? NSLocalizedString("숫자", comment: "Typing keyboard: switch to numbers")
+                 : NSLocalizedString("글자", comment: "Typing keyboard: switch to letters")),
+            Text(verbatim: label ?? (layer == .letters ? "123" : lettersLabel))
+        ])
     }
 
     /// 숫자 층에서 글자로 돌아가는 키의 이름(그 언어 글자로). 기본 키보드와 같은 낱말이다.
@@ -603,6 +616,11 @@ struct TypingKeyboardPanel: View {
         }
         .accessibilityLabel(next.nativeName)
         .accessibilityHint(NSLocalizedString("입력 언어를 바꿉니다", comment: "Typing keyboard: language key hint"))
+        .accessibilityInputLabels([
+            Text(verbatim: next.nativeName),
+            Text(verbatim: next == .en ? "ABC" : next.shortLabel),
+            Text(NSLocalizedString("언어", comment: "Language"))
+        ])
     }
 
     /// 지구본. 모양은 우리가 그리고 손가락은 위에 얹은 시스템 단추가 받는다.
@@ -728,6 +746,10 @@ struct TypingKeyboardPanel: View {
                 }
             }
             .accessibilityLabel(NSLocalizedString("기호", comment: "Typing keyboard: switch to symbols"))
+            .accessibilityInputLabels([
+                Text(NSLocalizedString("기호", comment: "Typing keyboard: switch to symbols")),
+                Text(verbatim: "#+=")
+            ])
         }
     }
 

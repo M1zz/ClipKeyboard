@@ -50,10 +50,10 @@ extension ClipKeyboardSpec {
         .init(id: "link.preview", status: .planned,
               title: NSLocalizedString("링크 단축어 미리보기", comment: "Roadmap item: link previews"),
               detail: NSLocalizedString("저장한 링크의 제목과 그림을 목록에서 바로 보여 줘요.", comment: "Roadmap item detail: link previews")),
-        .init(id: "a11y.voiceover", status: .planned,
+        .init(id: "a11y.voiceover", status: .building,
               title: NSLocalizedString("VoiceOver로 더 편하게", comment: "Roadmap item: better VoiceOver support"),
               detail: NSLocalizedString("화면 읽기 기능이 단추와 내용을 빠짐없이, 알맞은 순서로 읽어 줘요.", comment: "Roadmap item detail: better VoiceOver support")),
-        .init(id: "a11y.largetext", status: .planned,
+        .init(id: "a11y.largetext", status: .building,
               title: NSLocalizedString("큰 글씨에 맞춘 화면", comment: "Roadmap item: layouts that fit large text sizes"),
               detail: NSLocalizedString("글자 크기를 키워도 잘리지 않고 보기 좋게 다시 배치돼요.", comment: "Roadmap item detail: large text layouts")),
 

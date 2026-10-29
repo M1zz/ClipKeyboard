@@ -12426,5 +12426,17 @@
   "🪪 명함": {
     "v": "🪪 Danh thiếp",
     "src": "9becff2df0"
+  },
+  "지구본": {
+    "v": "Quả địa cầu",
+    "src": "5dd4005834"
+  },
+  "다음 값": {
+    "v": "Giá trị tiếp theo",
+    "src": "1ee9b298a2"
+  },
+  "%@ 다음 값": {
+    "v": "Giá trị tiếp theo của %@",
+    "src": "574de73435"
   }
 }

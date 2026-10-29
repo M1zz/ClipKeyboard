@@ -37,6 +37,11 @@ private struct InputModeSwitchOverlay: UIViewRepresentable {
         button.accessibilityHint = NSLocalizedString(
             "길게 누르면 이모지를 포함한 키보드 목록이 열립니다",
             comment: "Hint for the globe key: long press opens the keyboard list including emoji")
+        // 음성 명령: 보이는 것은 지구본 그림이라 그 이름으로도 부른다.
+        button.accessibilityUserInputLabels = [
+            NSLocalizedString("다음 키보드", comment: "Next keyboard button"),
+            NSLocalizedString("지구본", comment: "Voice Control name for the globe (next keyboard) key")
+        ]
         proxy.attachInputModeSwitch(to: button)
         // 햅틱은 우리 몫이다. 시스템은 전환만 하고 손맛은 주지 않는다.
         // 다른 키캡과 같은 순간(누르는 순간)에 울려야 줄이 따로 놀지 않는다.
@@ -1147,6 +1152,11 @@ struct KeyboardView: View {
         .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
         .contentShape(Rectangle())
         .accessibilityLabel(NSLocalizedString("조작 키 펼치기", comment: "Keyboard: expand control keys"))
+        // 음성 명령: 보이는 것은 … 하나라 짧은 이름으로도 부른다.
+        .accessibilityInputLabels([
+            Text(NSLocalizedString("더 보기", comment: "Show more")),
+            Text(NSLocalizedString("조작 키 펼치기", comment: "Keyboard: expand control keys"))
+        ])
         .accessibilityHint(returnKeyPinned
             ? NSLocalizedString("숫자 판, 지우기, 전체 삭제 키를 펼칩니다", comment: "Keyboard: expand control keys hint")
             : NSLocalizedString("숫자 판, 보내기, 지우기, 전체 삭제 키를 펼칩니다", comment: "Keyboard: expand control keys hint"))
@@ -1171,6 +1181,10 @@ struct KeyboardView: View {
         .frame(minWidth: controlKeyTapTarget, minHeight: controlKeyTapTarget)
         .contentShape(Rectangle())
         .accessibilityLabel(NSLocalizedString("조작 키 접기", comment: "Keyboard: collapse control keys"))
+        .accessibilityInputLabels([
+            Text(NSLocalizedString("접기", comment: "Collapse")),
+            Text(NSLocalizedString("조작 키 접기", comment: "Keyboard: collapse control keys"))
+        ])
     }
 
     private var expandedControlKeyCluster: some View {
@@ -1995,6 +2009,11 @@ struct KeyboardView: View {
                 .cornerRadius(theme.radiusXs)
         }
         .accessibilityLabel(NSLocalizedString("입력 언어 전환", comment: "Toggle input language key"))
+        // 음성 명령: 키에 적힌 '한' · 'EN' 으로도 부를 수 있게.
+        .accessibilityInputLabels([
+            Text(NSLocalizedString("언어", comment: "Language")),
+            Text(verbatim: searchKeyboardLang == .english ? "한" : "EN")
+        ])
     }
 
     private var currentRows: [[String]] {
@@ -2516,12 +2535,9 @@ struct KeyboardView: View {
             //    그러면 잠긴 콤보는 아래 통짜 키로 떨어져 **1번 값만** 나가고 2번부터는
             //    키보드에서 꺼낼 길이 아예 없었다(사용자 요청: "잠금 푼 뒤에 고를 수가 없다").
             //    고르는 일에는 값이 필요 없다 - 값이 나가는 왼쪽만 인증을 받으면 된다.
+            // 이름은 좌·우 단추가 따로 단다(`stackSplitButton`). 바깥에 달면 두 단추가 같은 이름이 된다.
             stackSplitButton(for: memo, catColor: catColor)
                 .modifier(MemoPeekOnLongPress(memo: memo, enabled: !hostKind.longPressCopies, onPeek: showPeek))
-                .accessibilityLabel(memoAccessibilityLabel(for: memo))
-                .accessibilityHint(memo.isSecure
-                    ? NSLocalizedString("오른쪽 화살표로 값을 고르고, 왼쪽을 누르면 PIN 인증 후 넣어요", comment: "Secure combo split button hint")
-                    : NSLocalizedString("왼쪽을 누르면 현재 값을, 오른쪽 화살표로 다음 값을 넣어요", comment: "Combo split button hint"))
         } else {
             Button {
                 memoButtonAction(for: memo, bypassTemplate: bypass)
@@ -2621,6 +2637,10 @@ struct KeyboardView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(KeycapPressReporter(pressed: pressedBinding))
+            .accessibilityLabel(memoAccessibilityLabel(for: memo))
+            .accessibilityHint(memo.isSecure
+                ? NSLocalizedString("오른쪽 화살표로 값을 고르고, 왼쪽을 누르면 PIN 인증 후 넣어요", comment: "Secure combo split button hint")
+                : NSLocalizedString("왼쪽을 누르면 현재 값을, 오른쪽 화살표로 다음 값을 넣어요", comment: "Combo split button hint"))
 
             // 두 키 사이의 '틈'이 아니라 하나의 캡에 파인 '홈'으로 읽히도록 옅게.
             Rectangle()
@@ -2645,6 +2665,13 @@ struct KeyboardView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(KeycapPressReporter(pressed: pressedBinding))
+            // 화살표와 '2/3' 만 보이는 단추. 무엇을 하는지와 몇 번째인지를 말로 준다.
+            .accessibilityLabel(String(format: NSLocalizedString("%@ 다음 값", comment: "Combo key: switch to the next value, %@ is the snippet title"), memo.title))
+            .accessibilityValue(String(idx + 1) + "/" + String(values.count))
+            .accessibilityInputLabels([
+                Text(String(format: NSLocalizedString("%@ 다음 값", comment: "Combo key: switch to the next value, %@ is the snippet title"), memo.title)),
+                Text(NSLocalizedString("다음 값", comment: "Voice Control name: next value of a combo key"))
+            ])
         }
         .background(
             keycapShape

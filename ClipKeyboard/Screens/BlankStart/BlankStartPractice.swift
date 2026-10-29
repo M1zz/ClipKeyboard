@@ -39,6 +39,10 @@ struct BlankStartPractice: View {
         _step = State(initialValue: startAt)
     }
 
+    /// 시스템 '붙여넣기' 말풍선의 색. 밝을 때는 검정, 어두울 때는 진회색이다.
+    /// 다크 모드에서 검정을 그대로 쓰면 바탕에 묻혀 버튼이 사라진다.
+    static let calloutInk = Color(UIColor { $0.userInterfaceStyle == .dark ? UIColor(white: 0.30, alpha: 1) : .black })
+
     var body: some View {
         VStack(spacing: 0) {
             // 말풍선이 생기기 전에는 하얀 화면 가운데에 버튼 하나만 선다
@@ -155,12 +159,12 @@ struct BlankStartPractice: View {
             }
             .labelStyle(.titleAndIcon)
             .buttonBorderShape(.capsule)
-            .tint(.black)
+            .tint(Self.calloutInk)
             .overlay(BlankStartPulse(active: text.isEmpty, cornerRadius: 22))
             // 아래 입력칸을 가리키는 꼬리
             Image(systemName: AppSymbol.arrowtriangleDownFill)
                 .font(.body)
-                .foregroundStyle(Color.black)
+                .foregroundStyle(Self.calloutInk)
                 .padding(.leading, 26)
                 .offset(y: -4)
                 .accessibilityHidden(true)
@@ -176,7 +180,7 @@ struct BlankStartPractice: View {
                 .font(.body.weight(.semibold))
                 .foregroundStyle(.white)
                 .padding(.horizontal, 16).padding(.vertical, 10)
-                .background(Color.black.opacity(0.85), in: Capsule())
+                .background(Self.calloutInk.opacity(0.85), in: Capsule())
                 .fixedSize()
                 .allowsHitTesting(false)
                 .transition(.scale(scale: 0.85, anchor: .top).combined(with: .opacity))

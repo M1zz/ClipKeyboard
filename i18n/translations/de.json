@@ -12771,5 +12771,17 @@
   "🪪 명함": {
     "v": "🪪 Visitenkarte",
     "src": "9becff2df0"
+  },
+  "지구본": {
+    "v": "Globus",
+    "src": "5dd4005834"
+  },
+  "다음 값": {
+    "v": "Nächster Wert",
+    "src": "1ee9b298a2"
+  },
+  "%@ 다음 값": {
+    "v": "Nächster Wert für %@",
+    "src": "574de73435"
   }
 }

@@ -522,6 +522,8 @@ struct DisplaySettingsView: View {
                         Text("\(Int(memoCardHeight))pt").foregroundColor(.secondary)
                     }
                     Slider(value: $memoCardHeight, in: 90...220, step: 2).tint(theme.accent)
+                        .accessibilityLabel(NSLocalizedString("단축어 높이", comment: "Memo cell height"))
+                        .accessibilityValue(String(Int(memoCardHeight)) + "pt")
                     HStack {
                         Text(NSLocalizedString("작게", comment: "Small")).font(.caption).foregroundColor(.secondary)
                         Spacer()

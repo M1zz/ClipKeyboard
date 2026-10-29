@@ -276,6 +276,10 @@ struct RefundReceiptView: View {
     /// 그대로 나가야 자기 앱에서 뽑은 종이로 읽힌다.
     private var brand: Color { AppAccent.current.accent(isDark: isDark) }
 
+    /// 작은 글씨도 '더 큰 텍스트'를 따라 커진다. 기본 크기에서는 종이 모양 그대로다.
+    @ScaledMetric(relativeTo: .caption2) private var finePrintSize: CGFloat = 9
+    @ScaledMetric(relativeTo: .title) private var totalSize: CGFloat = 27
+
     var body: some View {
         VStack(spacing: 0) {
             header
@@ -384,7 +388,7 @@ struct RefundReceiptView: View {
                 Spacer(minLength: 0)
                 Text(String(format: NSLocalizedString("%d번", comment: "Usage passport: times count"),
                             receipt.totalUses))
-                    .font(.system(size: 27, weight: .heavy, design: .monospaced))
+                    .font(.system(size: totalSize, weight: .heavy, design: .monospaced))
                     .foregroundColor(brand)
                     .monospacedDigit()
             }
@@ -412,16 +416,16 @@ struct RefundReceiptView: View {
             if let started = receipt.coverageStartedAt {
                 Text(String(format: NSLocalizedString("%@부터 센 금액이에요.", comment: "Receipt: partial coverage note"),
                             coverageText(started)))
-                    .font(.system(size: 9, design: .monospaced))
+                    .font(.system(size: finePrintSize, design: .monospaced))
                     .foregroundColor(inkFaint)
             }
             // ⚠️ 횟수는 센 것이고 시간은 어림한 것이다. 한 종이에 나란히 찍히므로
             //    어느 쪽이 어느 쪽인지 종이가 스스로 밝혀야 한다.
             Text(NSLocalizedString("횟수는 실제로 센 값이고, 시간은 어림한 값이에요.", comment: "Receipt: estimate footnote"))
-                .font(.system(size: 9, design: .monospaced))
+                .font(.system(size: finePrintSize, design: .monospaced))
                 .foregroundColor(inkFaint)
             Text(NSLocalizedString("기기 안에서만 계산했어요. 어디에도 보내지 않았어요.", comment: "Receipt: privacy footnote"))
-                .font(.system(size: 9, design: .monospaced))
+                .font(.system(size: finePrintSize, design: .monospaced))
                 .foregroundColor(inkFaint)
 
             // 영수증의 끝은 바코드다. 없으면 종이 모양의 카드일 뿐이다.
@@ -432,7 +436,7 @@ struct RefundReceiptView: View {
                 .accessibilityHidden(true)
 
             Text(barcodeNumber)
-                .font(.system(size: 9, design: .monospaced))
+                .font(.system(size: finePrintSize, design: .monospaced))
                 .kerning(2)
                 .foregroundColor(inkFaint)
                 .accessibilityHidden(true)

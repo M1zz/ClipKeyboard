@@ -83,6 +83,7 @@ struct QuickNoteInboxView: View {
                     QuickNoteRow(note: note)
                         .contentShape(Rectangle())
                         .onTapGesture { noteToEdit = note }
+                        .accessibilityAddTraits(.isButton)
                         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                             Button(role: .destructive) {
                                 noteToDelete = note
@@ -147,6 +148,7 @@ private struct QuickNoteRow: View {
                 QuickNoteThumbnail(fileName: first, maxPixel: 132, fill: true)
                     .frame(width: 44, height: 44)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .accessibilityHidden(true)
             } else {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(Color.secondary.opacity(0.12))
@@ -154,6 +156,7 @@ private struct QuickNoteRow: View {
                     .overlay(
                         Image(systemName: note.hasImages ? AppSymbol.photo : AppSymbol.docText)
                             .foregroundColor(.secondary)
+                            .accessibilityHidden(true)
                     )
             }
 
@@ -174,6 +177,8 @@ private struct QuickNoteRow: View {
             Spacer(minLength: 0)
         }
         .padding(.vertical, 4)
+        // 미리보기 그림은 꾸밈이다. 제목·내용·시각을 한 줄로 읽는다.
+        .accessibilityElement(children: .combine)
     }
 
     private func relativeTime(_ date: Date) -> String {
@@ -231,6 +236,9 @@ struct QuickNoteInboxBanner: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
+            // 배너 전체가 눌리는 자리다. 글 두 줄을 한 단추로 읽게 한다.
+            .accessibilityElement(children: .combine)
+            .accessibilityAddTraits(.isButton)
             Spacer(minLength: 8)
             Image(systemName: AppSymbol.chevronRight)
                 .font(.caption.weight(.semibold))
@@ -241,6 +249,7 @@ struct QuickNoteInboxBanner: View {
                 .contentShape(Rectangle())
                 .onTapGesture { onDismiss() }
                 .accessibilityLabel(NSLocalizedString("Dismiss", comment: "Dismiss banner"))
+                .accessibilityAddTraits(.isButton)
         }
         .padding(.vertical, 12)
         .padding(.horizontal, 14)

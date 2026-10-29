@@ -123,7 +123,16 @@ struct FavoriteMemoWidgetView: View {
                         .font(.title3)
                 }
             }
+            // 그림만 있는 칸이라 VoiceOver 에는 무엇이 복사되는지 말로 알린다.
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(circularAccessibilityLabel)
         }
+    }
+
+    private var circularAccessibilityLabel: String {
+        if entry.justCopied { return NSLocalizedString("복사됨", comment: "Widget: copied confirmation") }
+        if let memo = entry.memo { return memo.title }
+        return NSLocalizedString("즐겨찾기 없음", comment: "No favorites widget")
     }
 
     // MARK: - 잠금화면: 직사각형
@@ -137,6 +146,7 @@ struct FavoriteMemoWidgetView: View {
                 HStack(spacing: 4) {
                     Image(systemName: entry.justCopied ? "checkmark.circle.fill" : "heart.fill")
                         .font(.caption2)
+                        .accessibilityHidden(true)
                     Text(memo.title.widgetTemplateAttributed(font: .headline))
                         .font(.headline)
                         .lineLimit(1)
@@ -151,6 +161,7 @@ struct FavoriteMemoWidgetView: View {
                 HStack(spacing: 4) {
                     Image(systemName: "heart.slash")
                         .font(.caption2)
+                        .accessibilityHidden(true)
                     Text(NSLocalizedString("즐겨찾기 없음", comment: "No favorites widget"))
                         .font(.headline)
                 }
@@ -190,6 +201,7 @@ struct FavoriteMemoWidgetView: View {
                         Image(systemName: "heart.fill")
                             .font(.caption)
                             .foregroundStyle(.pink)
+                            .accessibilityHidden(true)
                         Text(memo.title.widgetTemplateAttributed(font: .subheadline.weight(.semibold)))
                             .font(.subheadline)
                             .fontWeight(.semibold)
@@ -222,6 +234,7 @@ struct FavoriteMemoWidgetView: View {
                     Image(systemName: "heart.slash")
                         .font(.title2)
                         .foregroundStyle(.secondary)
+                        .accessibilityHidden(true)
                     Text(NSLocalizedString("즐겨찾기 없음", comment: "No favorites widget"))
                         .font(.caption)
                         .foregroundStyle(.secondary)

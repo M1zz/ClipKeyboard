@@ -623,6 +623,8 @@ struct TutorialLayoutCard: View {
                     Text("\(Int(buttonHeight))pt").font(.footnote)
                 }
                 Slider(value: $buttonHeight, in: 32...120, step: 1)
+                    .accessibilityLabel(NSLocalizedString("단축어 높이", comment: "Memo cell height"))
+                    .accessibilityValue(String(Int(buttonHeight)) + "pt")
             }
 
             Button(action: onDone) {

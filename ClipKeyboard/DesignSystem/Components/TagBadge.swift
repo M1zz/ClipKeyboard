@@ -13,12 +13,14 @@ struct TagBadge: View {
     var tint: Color?
 
     @Environment(\.appTheme) private var theme
+    /// 작은 배지도 '더 큰 텍스트'를 따라 커진다.
+    @ScaledMetric(relativeTo: .caption2) private var fontSize: CGFloat = 10
 
     var body: some View {
         let fg = tint ?? theme.accent
         let bg = tint?.opacity(0.15) ?? theme.accentSoft
         Text(label.uppercased())
-            .font(.system(size: 10, weight: .semibold))
+            .font(.system(size: fontSize, weight: .semibold))
             .kerning(0.4)
             .foregroundColor(fg)
             .padding(.horizontal, 6)

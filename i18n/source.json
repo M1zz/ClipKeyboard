@@ -179,6 +179,12 @@
     "comment": "Inline equivalent: whole books",
     "h": "db11c98007"
   },
+  "%@ 다음 값": {
+    "ko": "%@ 다음 값",
+    "en": "Next value for %@",
+    "comment": "Combo key: switch to the next value, %@ is the snippet title",
+    "h": "574de73435"
+  },
   "%@ 단축어로 저장": {
     "ko": "%@ 단축어로 저장",
     "en": "Save as %@ snippet",
@@ -5692,6 +5698,12 @@
     "en": "Next %@",
     "comment": "Placeholder chip: next value in a sequence, e.g. next invoice number",
     "h": "c1f6f40ce6"
+  },
+  "다음 값": {
+    "ko": "다음 값",
+    "en": "Next value",
+    "comment": "Voice Control name: next value of a combo key",
+    "h": "1ee9b298a2"
   },
   "다음 값이 차례로 들어가요": {
     "ko": "다음 값이 차례로 들어가요",
@@ -14482,6 +14494,12 @@
     "en": "No favorite snippets yet.\nLong-press a snippet to add it to favorites.",
     "comment": "Favorites tab empty state with hint",
     "h": "85e08dc3f4"
+  },
+  "지구본": {
+    "ko": "지구본",
+    "en": "Globe",
+    "comment": "Voice Control name for the globe (next keyboard) key",
+    "h": "5dd4005834"
   },
   "지구본을 길게 누르면 이모지 키보드로 바로 갈 수 있어요. 다른 키보드를 함께 써도 됩니다": {
     "ko": "지구본을 길게 누르면 이모지 키보드로 바로 갈 수 있어요. 다른 키보드를 함께 써도 됩니다",

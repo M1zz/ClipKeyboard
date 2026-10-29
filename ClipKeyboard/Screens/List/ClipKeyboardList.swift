@@ -220,6 +220,7 @@ struct ClipKeyboardList: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     /// 카드 열 수 결정용 - 아이패드·맥에서 `.regular` 가 된다.
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     /// 아이폰 듀오: 펴졌는가, 이 목록이 선 판의 위 끝은 어디인가(DesignSystem/FoldLayout.swift).
     @Environment(\.foldLayout) private var foldLayout
     @Environment(\.foldPaneTop) private var foldPaneTop
@@ -1549,7 +1550,12 @@ struct ClipKeyboardList: View {
             let paneWidth = foldLayout.posture == .innerPortrait
                 ? foldLayout.windowSize.width
                 : foldLayout.leadEnd
-            return max(2, min(4, Int((paneWidth - 32 + 12) / 162)))
+            let fit = max(2, min(4, Int((paneWidth - 32 + 12) / 162)))
+            return dynamicTypeSize.isAccessibilitySize ? max(1, fit / 2) : fit
+        }
+        // 손쉬운 사용의 큰 글씨에서는 열을 반으로 줄인다. 두 열 그대로면 제목이 한두 글자씩 끊긴다.
+        if dynamicTypeSize.isAccessibilitySize {
+            return horizontalSizeClass == .regular ? 2 : 1
         }
         return horizontalSizeClass == .regular ? 4 : 2
     }
@@ -1721,13 +1727,7 @@ struct ClipKeyboardList: View {
             HapticManager.shared.heavy()
             longPressActiveMemo = nil
             longPressProgress = 0
-            memoForActions = memo
-            // 펼친 듀오: 시트 대신 결과 쪽 판에(시트는 27.1 에서 접힌 선 한가운데에 선다)
-            if foldLayout.isUnfolded {
-                FoldComposeRouter.shared.open(pane: AnyView(memoActions(memo)))
-            } else {
-                showMemoActions = true
-            }
+            openMemoActions(memo)
         } onPressingChanged: { isPressing in
             pressedMemoID = isPressing ? memo.id : nil
             if isPressing {
@@ -1763,6 +1763,21 @@ struct ClipKeyboardList: View {
                      bounce: tapBounceMemoID == memo.id ? tapBounceCount : 0)
         .accessibilityLabel(MemoCardSurface.accessibilityLabel(for: memo, categories: viewModel.customCategories))
         .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사, 꾹 누르면 추가 옵션", comment: "Memo card hint"))
+        // 꾹 누르기를 모르는 사람도, 손이 불편한 사람도 같은 메뉴에 닿게.
+        .accessibilityAction(named: Text(NSLocalizedString("더 보기", comment: "VoiceOver action: open memo actions"))) {
+            openMemoActions(memo)
+        }
+    }
+
+    /// 카드의 추가 옵션을 연다. 꾹 누르기와 VoiceOver 동작이 같은 길을 쓴다.
+    private func openMemoActions(_ memo: Memo) {
+        memoForActions = memo
+        // 펼친 듀오: 시트 대신 결과 쪽 판에(시트는 27.1 에서 접힌 선 한가운데에 선다)
+        if foldLayout.isUnfolded {
+            FoldComposeRouter.shared.open(pane: AnyView(memoActions(memo)))
+        } else {
+            showMemoActions = true
+        }
     }
 
     /// 카드가 어떻게 보일지. 이 화면이 쥔 설정을 한 곳에서 모아 건넨다 - 화면의 상태가

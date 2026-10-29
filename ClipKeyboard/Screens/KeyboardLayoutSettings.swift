@@ -225,6 +225,8 @@ struct KeyboardLayoutSettings: View {
                         Text("\(Int(buttonHeight))pt").foregroundColor(.secondary)
                     }
                     Slider(value: $buttonHeight, in: 32...120, step: 1).tint(theme.accent)
+                        .accessibilityLabel(NSLocalizedString("단축어 높이", comment: "Memo cell height"))
+                        .accessibilityValue(String(Int(buttonHeight)) + "pt")
                     HStack {
                         Text(NSLocalizedString("작게", comment: "Small")).font(.caption).foregroundColor(.secondary)
                         Spacer()
@@ -247,6 +249,8 @@ struct KeyboardLayoutSettings: View {
                            in: Double(KeyboardHeightBook.minimumControlKeySize)...Double(KeyboardHeightBook.maximumControlKeySize),
                            step: 1)
                         .tint(theme.accent)
+                        .accessibilityLabel(NSLocalizedString("조작 키 크기", comment: "Control key size label"))
+                        .accessibilityValue(String(Int(controlKeySize)) + "pt")
                     HStack {
                         Text(NSLocalizedString("작게", comment: "Small")).font(.caption).foregroundColor(.secondary)
                         Spacer()
@@ -262,6 +266,8 @@ struct KeyboardLayoutSettings: View {
                         Text("\(Int(buttonFontSize))pt").foregroundColor(.secondary)
                     }
                     Slider(value: $buttonFontSize, in: 10...36, step: 1).tint(theme.accent)
+                        .accessibilityLabel(NSLocalizedString("글자 크기", comment: "Font size label"))
+                        .accessibilityValue(String(Int(buttonFontSize)) + "pt")
                     HStack {
                         Text(NSLocalizedString("작게", comment: "Small")).font(.caption).foregroundColor(.secondary)
                         Spacer()

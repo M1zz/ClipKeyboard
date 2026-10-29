@@ -254,6 +254,7 @@ struct ClipboardList: View {
                                 .foregroundColor(.white.opacity(0.7))
                                 .font(.body)
                         }
+                        .accessibilityLabel(NSLocalizedString("닫기", comment: "Close"))
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 12)

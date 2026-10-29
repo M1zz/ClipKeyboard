@@ -12774,5 +12774,17 @@
   "🪪 명함": {
     "v": "🪪 Visitkort",
     "src": "9becff2df0"
+  },
+  "지구본": {
+    "v": "Jordglob",
+    "src": "5dd4005834"
+  },
+  "다음 값": {
+    "v": "Nästa värde",
+    "src": "1ee9b298a2"
+  },
+  "%@ 다음 값": {
+    "v": "Nästa värde för %@",
+    "src": "574de73435"
   }
 }

@@ -45,7 +45,10 @@ struct BlankStartIntro: View {
                     .opacity(showCaption ? 1 : 0)
                     .offset(y: showCaption ? 0 : 8)
                     .frame(minHeight: 64)
+                // 무대는 자리를 박아 둔 그림이라 손쉬운 사용의 큰 글씨에서는 조각끼리 겹친다.
+                // 그림 속 글만 크기 상한을 둔다. 위 문장과 VoiceOver 문장은 그대로 커진다.
                 stage
+                    .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
                     .frame(height: 360)
             }
             .accessibilityElement(children: .ignore)
