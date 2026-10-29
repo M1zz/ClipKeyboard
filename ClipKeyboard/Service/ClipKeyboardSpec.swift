@@ -77,15 +77,8 @@ enum ClipKeyboardSpec: LeeoAppSpec {
                 warnWhenRemaining: 3
             ),
             cacheSuiteName: AppGroup.identifier,
-            // Pro 선물하기. 보내는 사람은 소모성 선물 상품을 사고, 받는 사람은 정가 Pro 를 산 것과 같아진다
-            // (`AccessTier` 가 `com.Ysoup.TokenMemo.pro` 를 보고 프로 트림을 연다).
-            // 선물 기록은 피드백과 같은 허브 컨테이너의 공개 DB 에 둔다. entitlements 에 이미 있다.
-            // ⚠️ 선물 상품은 productIDs · entitlementIDs 에 넣지 않는다. 넣으면 선물을 산 사람이 Pro 가 된다.
-            gift: LeeoGiftConfig(
-                productID: StoreManager.giftProductID,
-                grantsProductID: StoreManager.proProductID,
-                containerIdentifier: "iCloud.com.Ysoup.FeedbackHub"
-            ),
+            // ⚠️ 선물 코드(`gift:`)는 다시 넣지 않는다. 코드로 Pro 를 여는 것은 App Store 결제가 아니라서
+            //    5.1.16 이 지침 3.1.1 로 거절됐다. 할인 · 무료로 주려면 App Store 오퍼 코드를 쓴다.
             // 팁(응원). 이미 다 가진 사람이 더 내고 싶을 때. 아무것도 열지 않는 소모성 상품이다.
             // ⚠️ 이것도 productIDs · entitlementIDs 에 넣지 않는다(사전 점검 `tip.sellsPro`).
             tipJar: LeeoTipJarConfig(productIDs: StoreManager.tipProductIDs)

@@ -20,8 +20,6 @@ struct SettingView: View {
     /// 지금 가진 단축어 개수 - 화면에 들어올 때와 데이터가 바뀔 때만 다시 센다.
     /// ⚠️ 그릴 때마다 세면 설정을 스크롤하는 내내 저장 파일을 읽는다.
     @State private var memoCountState = 0
-    /// 선물이 안 될 때의 문의 창(결제 번호 · 코드가 붙는다).
-    @State private var showGiftSupport = false
     /// App Store 의 구독 관리 시트.
     @State private var showManageSubscriptions = false
     /// 구독을 평생으로 바꾸는 졸업 시트(`LeeoGraduationOfferView`).
@@ -243,44 +241,7 @@ struct SettingView: View {
         .accessibilityHint(NSLocalizedString("이전에 구매한 Pro를 복원합니다", comment: "Restore purchases accessibility hint"))
     }
 
-    /// Pro 선물하기 - Pro 자리 바로 아래. 선물 상품이 App Store 에서 와야 보인다.
-    ///
-    /// 보내는 쪽은 누구나(산 사람이 가장 많이 보낸다). 받는 쪽 행은 아직 Pro 가 아닌 사람에게만 둔다.
-    /// 이미 Pro 인 사람이 코드를 넣으면 "다른 분께 보내 주세요" 만 듣는다.
-    /// ⚠️ 문구는 LeeoKit 카탈로그에 있다(`LeeoGiftText`). 앱 카탈로그에 다시 적지 않는다.
-    @ViewBuilder
-    private var giftSection: some View {
-        // 상품이 와야 보이지만, 이미 결제했거나 주고받은 선물이 있는 사람에게는 늘 보인다.
-        // (상품을 못 불러온 날에도 그 사람이 문의 줄까지 갈 길이 있어야 한다)
-        if let gift = proManager.gift,
-           gift.isAvailable || gift.pendingCount > 0 || !gift.sentGifts.isEmpty || gift.redeemed != nil {
-            Section {
-                // 선물이 안 되면 결제 번호 · 코드를 붙여 문의하게 한다(아직 다듬는 중인 기능이라 막힌 사람을 놓치지 않게).
-                // ⚠️ 처음 사용자에게는 '선물하기' 를 졸업 뒤에 보인다. 써 보기도 전에 남에게 줄 일은 없다.
-                //    이미 보낸 선물이 있으면 늘 보인다. '선물 코드 입력' 은 받은 사람이 있을 수 있어 그대로 둔다
-                if showsAdvancedRows || !gift.sentGifts.isEmpty {
-                FoldLink(destination: LeeoGiftView<ClipKeyboardSpec>(gift: gift, showsRedeemLink: false,
-                                                                      onContactSupport: { showGiftSupport = true })
-                    .leeoStyle(theme.leeoStyle)) {
-                    Label(LeeoGiftText.sendEntry, systemImage: AppSymbol.giftFill)
-                }
-                }
-                if !ProFeatureManager.hasPermanentPro || gift.redeemed != nil {
-                    FoldLink(destination: LeeoGiftRedeemView<ClipKeyboardSpec>(gift: gift,
-                                                                             onContactSupport: { showGiftSupport = true })
-                        .leeoStyle(theme.leeoStyle)) {
-                        Label(LeeoGiftText.redeemEntry, systemImage: AppSymbol.giftcard)
-                    }
-                }
-            }
-            .sheet(isPresented: $showGiftSupport) {
-                FeedbackView(origin: .gift, initialType: .bug, initialCategory: .purchase,
-                             extraLines: gift.supportLines)
-            }
-        }
-    }
-
-    /// 처음 사용자(백지)가 아직 볼 일이 없는 줄(선물하기 · 응원)을 보일 때인가. 기존 사용자 · 졸업한 사람은 늘 보인다.
+    /// 처음 사용자(백지)가 아직 볼 일이 없는 줄(응원)을 보일 때인가. 기존 사용자 · 졸업한 사람은 늘 보인다.
     private var showsAdvancedRows: Bool {
         !FeatureSet.isBlankStartUser() || FeatureSet.hasGraduated(level: userState.state.level)
     }
@@ -411,13 +372,6 @@ struct SettingView: View {
                 Label(NSLocalizedString("안정성 (개발자)", comment: "Stability settings entry (developer)"),
                       systemImage: AppSymbol.exclamationmarkTriangleFill)
             }
-            // 출시 빌드에서 선물을 돈 없이 끝까지 주고받아 본다. 시험 코드는 Pro 를 열지 않는다.
-            if let gift = proManager.gift {
-                FoldLink(destination: GiftDeveloperTestView(gift: gift)) {
-                    Label(NSLocalizedString("선물 시험 (개발자)", comment: "Developer gift test settings entry"),
-                          systemImage: AppSymbol.giftFill)
-                }
-            }
             FoldLink(destination: UserStageSimulatorView()) {
                 Label(NSLocalizedString("사용 단계 흉내 (개발자)", comment: "Stage simulator settings entry (developer)"),
                       systemImage: AppSymbol.personCropCircleBadgeCheckmark)
@@ -442,7 +396,6 @@ struct SettingView: View {
                                 systemImage: AppSymbol.bookPagesFill) { GuideBookView() }
                 }
             }
-            giftSection
             tipSection
             everydaySection
             aboutSection

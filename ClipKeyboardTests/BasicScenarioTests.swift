@@ -411,33 +411,21 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertEqual(SmartClipboardHistory.keyboardRecents(history, now: Date()).first?.content, copied)
     }
 
-    /// 선물받은 사람은 정가 Pro 를 산 사람과 같다: 프로 트림이 열리고(백업 · 잠금 · 동기화),
-    /// 앱을 다시 켜도(StoreKit 응답 전) 그대로다. 선물을 산 사람 자신은 Pro 가 되지 않는다.
-    ///
-    /// ⚠️ 선물은 StoreKit 권한 목록에 없다. LeeoStore 가 받은 선물을 정가 Pro ID 로 합쳐 주기 때문에
-    ///    `AccessTier` · 익스텐션 미러가 따로 고칠 것 없이 따라온다. 그 이음매를 여기서 지킨다.
-    func test_선물받은_Pro_는_산_Pro_와_같고_선물을_산_사람은_Pro_가_아니다() throws {
-        let spec = try XCTUnwrap(ClipKeyboardSpec.paywall)
-        let gift = try XCTUnwrap(spec.gift, "계약에 선물이 선언돼 있어야 한다")
-        let suite = "clipkeyboard.test.gift.\(UUID().uuidString)"
-        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
-        defer { defaults.removePersistentDomain(forName: suite) }
+    /// 선물 코드는 앱에서 뺐다(지침 3.1.1). 코드를 넣는 길은 없고, 예전에 받아 둔 사람의 Pro 는 그대로다.
+    func test_선물_코드는_없고_예전에_받은_Pro_는_남는다() throws {
+        XCTAssertNil(ClipKeyboardSpec.paywall?.gift, "코드로 Pro 를 여는 길이 다시 생기면 안 된다")
 
-        // 받아 둔 선물이 있는 기기를 다시 켠다
-        let redeemed = LeeoRedeemedGift(code: "7KQ2M9XA", transactionID: "2000000123456789", redeemedAt: Date())
-        defaults.set(try JSONEncoder().encode(redeemed), forKey: "leeo.gift.redeemed." + gift.productID)
-        let config = LeeoPaywallConfig(productIDs: spec.productIDs, entitlementIDs: spec.entitlementIDs,
-                                       autoLoad: false, cacheSuiteName: suite, gate: spec.gate, gift: gift)
-        let store = LeeoStore(config: config)
+        let defaults = try XCTUnwrap(AppGroup.defaults)
+        let saved = defaults.data(forKey: DefaultsKey.legacyGiftRedeemed)
+        defer { defaults.set(saved, forKey: DefaultsKey.legacyGiftRedeemed) }
 
-        XCTAssertTrue(store.isGifted)
-        XCTAssertTrue(store.hasPro, "선물받은 사람에게 Pro 가 열려야 한다")
-        XCTAssertEqual(AccessTier.purchased(from: store.purchasedProductIDs), .pro, "정가 Pro 와 같은 트림이어야 한다")
-        XCTAssertTrue(StoreManager.grantsPro(store.purchasedProductIDs), "익스텐션 Pro 키도 켜져야 한다")
+        defaults.removeObject(forKey: DefaultsKey.legacyGiftRedeemed)
+        XCTAssertFalse(ProFeatureManager.hasLegacyGiftPro)
 
-        // 선물을 산 것만으로는 아무것도 열리지 않는다 (받는 사람 몫이다)
-        XCTAssertFalse(StoreManager.grantsPro([gift.productID]))
-        XCTAssertEqual(AccessTier.purchased(from: [gift.productID]), .free)
+        // 예전 LeeoKit 이 남긴 기록이 있는 기기
+        defaults.set(Data("{}".utf8), forKey: DefaultsKey.legacyGiftRedeemed)
+        XCTAssertTrue(ProFeatureManager.hasLegacyGiftPro)
+        XCTAssertTrue(ProFeatureManager.isGrandfathered, "받아 둔 선물은 평생 Pro 로 남아야 한다")
     }
 
     /// 다 가진 사람이 더 내는 팁(응원)은 **아무것도 열지 않는다.** 무료 사용자가 팁을 내도 Pro 가 아니고,

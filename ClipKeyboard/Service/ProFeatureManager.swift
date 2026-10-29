@@ -414,6 +414,12 @@ struct ProFeatureManager {
         return groupDefaults?.bool(forKey: proStatusKey) ?? false
     }
 
+    /// 예전 선물 코드로 이미 Pro 를 받은 사람. 선물 코드는 5.1.16 (빌드 42) 에서 뺐다(지침 3.1.1).
+    /// 받은 사람의 Pro 는 그대로 둔다. 코드를 넣는 길은 없어서 새로 생기지 않는다.
+    static var hasLegacyGiftPro: Bool {
+        groupDefaults?.data(forKey: DefaultsKey.legacyGiftRedeemed) != nil
+    }
+
     /// v3.x에서 Pro 구매 이력이 있는 유저 여부. v4.0 첫 실행 시 영수증 검증으로 설정되며, 이후 영구 유지.
     static var hasGrandfatheredPurchase: Bool {
         groupDefaults?.bool(forKey: grandfatheredPurchaseKey) ?? false
@@ -427,7 +433,7 @@ struct ProFeatureManager {
     /// 업그레이드 그랜드파더 상태 - v4.0 이전에 앱을 산 사람(Apple 영수증 날짜).
     /// 신규 제한을 적용하지 않아야 하는 경우 true.
     static var isGrandfathered: Bool {
-        isGrandfathered(hasPurchase: hasGrandfatheredPurchase,
+        isGrandfathered(hasPurchase: hasGrandfatheredPurchase || hasLegacyGiftPro,
                         wasExistingFreeUser: wasExistingFreeUser,
                         existingFreeUserVerified: groupDefaults?.bool(forKey: existingFreeUserRevalidatedKey) ?? false)
     }

@@ -1,6 +1,6 @@
 {
   "_": "Xcode 가 stale 로 표시했고 .swift 어디에도 문자열이 없는 키. 번역 대상에서 뺀다. 카탈로그에는 남아 있으니 되살리려면 코드에서 다시 쓰기만 하면 된다.",
-  "scannedSwiftFiles": 405,
+  "scannedSwiftFiles": 403,
   "keys": [
     "%1$@ 로 %2$d칸만 더 늘리기",
     "%@\n%@",

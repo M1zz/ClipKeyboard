@@ -390,6 +390,8 @@ enum DefaultsKey {
     // MARK: - Pro / 그랜드파더링 / 템플릿 (iOS·macOS 공유 - 이전엔 타겟별 중복 정의)
     static let proStatus = "clipkeyboard_is_pro"
     static let wasProAtV3 = "clipkeyboard_was_pro_at_v3"
+    /// 예전 선물 코드로 받은 Pro 의 기록(LeeoKit 이 앱 그룹에 남긴 것). 지금은 새로 생기지 않는다.
+    static let legacyGiftRedeemed = "leeo.gift.redeemed.com.Ysoup.TokenMemo.gift.pro"
     static let existingFreeUser = "clipkeyboard_existing_free_user"
     /// Pro 권한이 가족 공유로만 들어왔는가 (App Group). 기능 판정에는 안 쓴다 - 통계에서 결제와 가르는 데만.
     static let proViaFamilySharing = "clipkeyboard_pro_via_family_sharing"
