@@ -19,185 +19,208 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 ### 앱스토어 (한국어)
 
 ```
-키보드가 화면을 덜 가려요.
+키보드가 조금 더 높아져 누르기 편해요.
 다른 키보드를 켜 두지 않아도 키보드 높이가 늘 같아요.
 키보드 아래 띠를 쓰는 법을 설정에서 알려 드려요.
+글자가 한 번 더 들어가던 문제를 고쳤어요.
 ```
 
 ### App Store (English)
 
 ```
-The keyboard now covers less of the screen.
+The keyboard is a bit taller and easier to tap.
 Its height stays the same, with or without other keyboards.
 Settings now explain how to use the strip below the keyboard.
+Fixed a letter sometimes being typed twice.
 ```
 
 ### 앱스토어 (중국어 간체)
 
 ```
-键盘遮挡的屏幕更少了。
+键盘稍微变高了，按起来更顺手。
 无论是否添加其他键盘，键盘高度都保持一致。
 设置里新增了用好键盘下方那一栏的方法。
+修复了偶尔多输入一个字的问题。
 ```
 
 ### 앱스토어 (중국어 번체)
 
 ```
-鍵盤遮住的畫面更少了。
+鍵盤稍微變高了，按起來更順手。
 無論是否加入其他鍵盤，鍵盤高度都保持一致。
 設定裡新增了善用鍵盤下方那一欄的方法。
+修正了偶爾多輸入一個字的問題。
 ```
 
 ### 앱스토어 (러시아어)
 
 ```
-Клавиатура теперь занимает меньше места на экране.
+Клавиатура стала чуть выше, по клавишам легче попадать.
 Её высота не меняется, есть ли другие клавиатуры или нет.
 В настройках появилась подсказка о нижней полосе клавиатуры.
+Исправлено повторное появление последней буквы.
 ```
 
 ### App Store (Japanese, ja)
 
 ```
-キーボードが画面をふさぐ範囲が小さくなりました。
+キーボードが少し高くなり、押しやすくなりました。
 ほかのキーボードの有無に関係なく、高さがいつも同じです。
 キーボード下の帯の使い方を設定で案内します。
+文字が二重に入力されることがある問題を直しました。
 ```
 
 ### App Store (Spanish, es-MX)
 
 ```
-El teclado ahora tapa menos la pantalla.
+El teclado es un poco más alto y más cómodo.
 Su altura es la misma, tengas o no otros teclados.
 Ajustes ahora explica cómo usar la franja inferior.
+Corregimos una letra que a veces se escribía dos veces.
 ```
 
 ### App Store (German, de-DE)
 
 ```
-Die Tastatur verdeckt jetzt weniger vom Bildschirm.
+Die Tastatur ist etwas höher und leichter zu treffen.
 Ihre Höhe bleibt gleich, mit oder ohne andere Tastaturen.
 Die Einstellungen erklären jetzt die Leiste darunter.
+Ein Buchstabe wird nicht mehr doppelt eingegeben.
 ```
 
 ### App Store (Thai, th)
 
 ```
-คีย์บอร์ดบังหน้าจอน้อยลง
+คีย์บอร์ดสูงขึ้นเล็กน้อย กดง่ายขึ้น
 ความสูงคงเดิมเสมอ ไม่ว่าจะมีคีย์บอร์ดอื่นหรือไม่
 ในการตั้งค่ามีวิธีใช้แถบใต้คีย์บอร์ดแล้ว
+แก้ปัญหาตัวอักษรถูกพิมพ์ซ้ำ
 ```
 
 ### App Store (Vietnamese, vi)
 
 ```
-Bàn phím giờ che ít màn hình hơn.
+Bàn phím cao hơn một chút, dễ bấm hơn.
 Chiều cao luôn như nhau, dù có bàn phím khác hay không.
 Cài đặt nay hướng dẫn cách dùng dải bên dưới bàn phím.
+Đã sửa lỗi đôi khi một chữ bị gõ hai lần.
 ```
 
 ### App Store (French, fr-FR)
 
 ```
-Le clavier masque désormais moins l’écran.
+Le clavier est un peu plus haut et plus facile à taper.
 Sa hauteur reste la même, avec ou sans autres claviers.
 Les réglages expliquent la bande sous le clavier.
+Une lettre n’est plus saisie deux fois.
 ```
 
 ### App Store (Italian, it)
 
 ```
-La tastiera ora copre meno lo schermo.
+La tastiera è un po’ più alta e più comoda.
 L’altezza resta uguale, con o senza altre tastiere.
 Le impostazioni spiegano come usare la striscia in basso.
+Risolto il problema di una lettera inserita due volte.
 ```
 
 ### App Store (Portuguese, pt-BR)
 
 ```
-O teclado agora cobre menos a tela.
+O teclado ficou um pouco mais alto e fácil de tocar.
 A altura é sempre a mesma, com ou sem outros teclados.
 Os ajustes explicam como usar a faixa abaixo do teclado.
+Corrigimos uma letra que às vezes saía duas vezes.
 ```
 
 ### App Store (Czech, cs)
 
 ```
-Klávesnice nyní zakrývá méně obrazovky.
+Klávesnice je o něco vyšší a lépe se na ní píše.
 Její výška je stejná, ať máte jiné klávesnice, nebo ne.
 Nastavení vysvětluje, jak využít pruh pod klávesnicí.
+Opravili jsme občasné zdvojení písmene.
 ```
 
 ### App Store (Danish, da)
 
 ```
-Tastaturet dækker nu mindre af skærmen.
+Tastaturet er lidt højere og nemmere at ramme.
 Højden er den samme, med eller uden andre tastaturer.
 Indstillinger forklarer, hvordan du bruger bjælken nederst.
+Et bogstav bliver ikke længere skrevet to gange.
 ```
 
 ### App Store (Greek, el)
 
 ```
-Το πληκτρολόγιο καλύπτει πλέον λιγότερη οθόνη.
+Το πληκτρολόγιο είναι λίγο ψηλότερο και πιο άνετο.
 Το ύψος μένει ίδιο, με ή χωρίς άλλα πληκτρολόγια.
 Οι ρυθμίσεις εξηγούν τη λωρίδα κάτω από το πληκτρολόγιο.
+Διορθώθηκε ένα γράμμα που γραφόταν δύο φορές.
 ```
 
 ### App Store (Finnish, fi)
 
 ```
-Näppäimistö peittää nyt vähemmän näytöstä.
+Näppäimistö on hieman korkeampi ja helpompi käyttää.
 Korkeus pysyy samana, oli muita näppäimistöjä tai ei.
 Asetukset kertovat, miten alapalkkia voi käyttää.
+Korjattu kirjain, joka joskus tuli kahdesti.
 ```
 
 ### App Store (Indonesian, id)
 
 ```
-Keyboard kini menutupi layar lebih sedikit.
+Keyboard sedikit lebih tinggi dan lebih mudah diketuk.
 Tingginya selalu sama, ada atau tidak keyboard lain.
 Pengaturan kini menjelaskan cara memakai strip di bawahnya.
+Memperbaiki huruf yang kadang terketik dua kali.
 ```
 
 ### App Store (Norsk bokmål, nb)
 
 ```
-Tastaturet dekker nå mindre av skjermen.
+Tastaturet er litt høyere og lettere å treffe.
 Høyden er den samme, med eller uten andre tastaturer.
 Innstillinger forklarer hvordan du bruker feltet nederst.
+En bokstav blir ikke lenger skrevet to ganger.
 ```
 
 ### App Store (Dutch, nl)
 
 ```
-Het toetsenbord bedekt nu minder van het scherm.
+Het toetsenbord is iets hoger en makkelijker te raken.
 De hoogte blijft gelijk, met of zonder andere toetsenborden.
 Instellingen leggen uit hoe je de balk eronder gebruikt.
+Een letter wordt niet meer dubbel getypt.
 ```
 
 ### App Store (Polish, pl)
 
 ```
-Klawiatura zasłania teraz mniej ekranu.
+Klawiatura jest nieco wyższa i wygodniejsza.
 Jej wysokość jest stała, z innymi klawiaturami lub bez.
 Ustawienia wyjaśniają, jak używać paska pod klawiaturą.
+Naprawiono podwójne wpisywanie litery.
 ```
 
 ### App Store (Swedish, sv)
 
 ```
-Tangentbordet täcker nu mindre av skärmen.
+Tangentbordet är lite högre och lättare att träffa.
 Höjden är densamma, med eller utan andra tangentbord.
 Inställningar förklarar hur du använder fältet längst ned.
+En bokstav skrivs inte längre två gånger.
 ```
 
 ### App Store (Turkish, tr)
 
 ```
-Klavye artık ekranı daha az kaplıyor.
+Klavye biraz daha uzun ve basması daha kolay.
 Başka klavye olsa da olmasa da yüksekliği hep aynı.
 Ayarlar, klavyenin altındaki şeridin kullanımını anlatıyor.
+Bir harfin bazen iki kez yazılması düzeltildi.
 ```
 
 ## 5.1.15
