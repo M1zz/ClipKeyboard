@@ -14,6 +14,192 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.16
+
+### 앱스토어 (한국어)
+
+```
+키보드가 화면을 덜 가려요.
+다른 키보드를 켜 두지 않아도 키보드 높이가 늘 같아요.
+키보드 아래 띠를 쓰는 법을 설정에서 알려 드려요.
+```
+
+### App Store (English)
+
+```
+The keyboard now covers less of the screen.
+Its height stays the same, with or without other keyboards.
+Settings now explain how to use the strip below the keyboard.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+键盘遮挡的屏幕更少了。
+无论是否添加其他键盘，键盘高度都保持一致。
+设置里新增了用好键盘下方那一栏的方法。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+鍵盤遮住的畫面更少了。
+無論是否加入其他鍵盤，鍵盤高度都保持一致。
+設定裡新增了善用鍵盤下方那一欄的方法。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Клавиатура теперь занимает меньше места на экране.
+Её высота не меняется, есть ли другие клавиатуры или нет.
+В настройках появилась подсказка о нижней полосе клавиатуры.
+```
+
+### App Store (Japanese, ja)
+
+```
+キーボードが画面をふさぐ範囲が小さくなりました。
+ほかのキーボードの有無に関係なく、高さがいつも同じです。
+キーボード下の帯の使い方を設定で案内します。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+El teclado ahora tapa menos la pantalla.
+Su altura es la misma, tengas o no otros teclados.
+Ajustes ahora explica cómo usar la franja inferior.
+```
+
+### App Store (German, de-DE)
+
+```
+Die Tastatur verdeckt jetzt weniger vom Bildschirm.
+Ihre Höhe bleibt gleich, mit oder ohne andere Tastaturen.
+Die Einstellungen erklären jetzt die Leiste darunter.
+```
+
+### App Store (Thai, th)
+
+```
+คีย์บอร์ดบังหน้าจอน้อยลง
+ความสูงคงเดิมเสมอ ไม่ว่าจะมีคีย์บอร์ดอื่นหรือไม่
+ในการตั้งค่ามีวิธีใช้แถบใต้คีย์บอร์ดแล้ว
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Bàn phím giờ che ít màn hình hơn.
+Chiều cao luôn như nhau, dù có bàn phím khác hay không.
+Cài đặt nay hướng dẫn cách dùng dải bên dưới bàn phím.
+```
+
+### App Store (French, fr-FR)
+
+```
+Le clavier masque désormais moins l’écran.
+Sa hauteur reste la même, avec ou sans autres claviers.
+Les réglages expliquent la bande sous le clavier.
+```
+
+### App Store (Italian, it)
+
+```
+La tastiera ora copre meno lo schermo.
+L’altezza resta uguale, con o senza altre tastiere.
+Le impostazioni spiegano come usare la striscia in basso.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+O teclado agora cobre menos a tela.
+A altura é sempre a mesma, com ou sem outros teclados.
+Os ajustes explicam como usar a faixa abaixo do teclado.
+```
+
+### App Store (Czech, cs)
+
+```
+Klávesnice nyní zakrývá méně obrazovky.
+Její výška je stejná, ať máte jiné klávesnice, nebo ne.
+Nastavení vysvětluje, jak využít pruh pod klávesnicí.
+```
+
+### App Store (Danish, da)
+
+```
+Tastaturet dækker nu mindre af skærmen.
+Højden er den samme, med eller uden andre tastaturer.
+Indstillinger forklarer, hvordan du bruger bjælken nederst.
+```
+
+### App Store (Greek, el)
+
+```
+Το πληκτρολόγιο καλύπτει πλέον λιγότερη οθόνη.
+Το ύψος μένει ίδιο, με ή χωρίς άλλα πληκτρολόγια.
+Οι ρυθμίσεις εξηγούν τη λωρίδα κάτω από το πληκτρολόγιο.
+```
+
+### App Store (Finnish, fi)
+
+```
+Näppäimistö peittää nyt vähemmän näytöstä.
+Korkeus pysyy samana, oli muita näppäimistöjä tai ei.
+Asetukset kertovat, miten alapalkkia voi käyttää.
+```
+
+### App Store (Indonesian, id)
+
+```
+Keyboard kini menutupi layar lebih sedikit.
+Tingginya selalu sama, ada atau tidak keyboard lain.
+Pengaturan kini menjelaskan cara memakai strip di bawahnya.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Tastaturet dekker nå mindre av skjermen.
+Høyden er den samme, med eller uten andre tastaturer.
+Innstillinger forklarer hvordan du bruker feltet nederst.
+```
+
+### App Store (Dutch, nl)
+
+```
+Het toetsenbord bedekt nu minder van het scherm.
+De hoogte blijft gelijk, met of zonder andere toetsenborden.
+Instellingen leggen uit hoe je de balk eronder gebruikt.
+```
+
+### App Store (Polish, pl)
+
+```
+Klawiatura zasłania teraz mniej ekranu.
+Jej wysokość jest stała, z innymi klawiaturami lub bez.
+Ustawienia wyjaśniają, jak używać paska pod klawiaturą.
+```
+
+### App Store (Swedish, sv)
+
+```
+Tangentbordet täcker nu mindre av skärmen.
+Höjden är densamma, med eller utan andra tangentbord.
+Inställningar förklarar hur du använder fältet längst ned.
+```
+
+### App Store (Turkish, tr)
+
+```
+Klavye artık ekranı daha az kaplıyor.
+Başka klavye olsa da olmasa da yüksekliği hep aynı.
+Ayarlar, klavyenin altındaki şeridin kullanımını anlatıyor.
+```
+
 ## 5.1.15
 
 ### 앱스토어 (한국어)
