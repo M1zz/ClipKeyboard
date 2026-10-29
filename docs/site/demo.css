@@ -1,0 +1,55 @@
+/* 클립키보드 웹 체험. 앱의 키보드 미리보기처럼: 회색 받침 위 흰 키 두 줄, 보낸 말은 파란 말풍선. */
+.demo-card { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: var(--s5); align-items: center; }
+.ck-phone { --tray: color-mix(in srgb, var(--text) 13%, var(--bg)); background: var(--bg);
+            border-radius: var(--r-inner); overflow: hidden; display: flex; flex-direction: column; }
+.ck-convo { height: 170px; overflow-y: auto; padding: var(--s4); display: flex; flex-direction: column;
+            gap: var(--s2); scroll-behavior: smooth; }
+.ck-bubble { max-width: 82%; padding: var(--s2) var(--s3); border-radius: 18px; white-space: pre-line;
+             line-height: 1.4; font-size: .9375rem; }
+.ck-bubble.them { align-self: flex-start; background: var(--surface); }
+.ck-bubble.me { align-self: flex-end; background: #007AFF; color: #fff; }
+
+.ck-compose { display: flex; gap: var(--s2); align-items: center; padding: var(--s2) var(--s3); }
+.ck-field { flex: 1; min-height: 40px; padding: var(--s2) var(--s4); border-radius: 20px; background: var(--surface);
+            line-height: 1.4; font-size: .9375rem; white-space: pre-line; overflow-wrap: anywhere; }
+.ck-field.empty { color: var(--muted); }
+.ck-send { width: 44px; height: 44px; flex: none; border: 0; border-radius: 50%; cursor: pointer;
+           background: #007AFF; color: #fff; font: inherit; font-size: 1.25rem; font-weight: 700; }
+.ck-send:disabled { background: var(--line); color: var(--muted); cursor: default; }
+
+.ck-kb { position: relative; background: var(--tray); padding: var(--s3); min-height: 168px; }
+.ck-keys { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }
+.ck-key, .ck-stack button { font: inherit; font-weight: 600; color: var(--text); background: var(--surface);
+                            border: 0; border-radius: 12px; min-height: 48px; padding: var(--s2) var(--s3);
+                            cursor: pointer; box-shadow: 0 1px 0 rgb(0 0 0 / .18);
+                            transition: transform .12s var(--ease); }
+.ck-key:active, .ck-stack button:active { transform: scale(.96); }
+.ck-stack { display: flex; padding: 0; background: none; box-shadow: none; gap: 2px; }
+.ck-stack button:first-child { flex: 1; border-radius: 12px 4px 4px 12px; min-width: 0; }
+.ck-stack small { display: block; font-size: .75rem; color: var(--muted); font-weight: 500; }
+.ck-next { flex: none; width: 44px; border-radius: 4px 12px 12px 4px !important; font-size: 1.25rem !important; }
+.ck-keys.hint .ck-key:first-child { animation: ck-hint 1.6s var(--ease) infinite; }
+@keyframes ck-hint { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 30%, transparent); } }
+
+.ck-sheet { position: absolute; inset: 0; background: var(--surface); padding: var(--s4);
+            display: flex; flex-direction: column; gap: var(--s3); }
+.ck-sheet[hidden] { display: none; }
+.ck-slot { display: flex; align-items: center; gap: var(--s3); }
+.ck-slot span { font-weight: 600; color: #AF52DE; }
+.ck-slot input { flex: 1; min-width: 0; font: inherit; min-height: 44px; padding: 0 var(--s3);
+                 border: 2px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--text); }
+.ck-slot input:focus { outline: none; border-color: var(--accent); }
+.ck-row { display: flex; gap: var(--s2); justify-content: flex-end; }
+.ck-row button { font: inherit; font-weight: 600; min-height: 44px; padding: 0 var(--s5); border-radius: 999px;
+                 border: 0; cursor: pointer; }
+.ck-no { background: var(--bg); color: var(--text); }
+.ck-go { background: var(--accent); color: var(--on-accent); }
+
+.ck-coach { font-size: 1.125rem; font-weight: 600; min-height: 3em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ck-keys.hint .ck-key:first-child { animation: none; box-shadow: 0 0 0 3px var(--accent); }
+  .ck-convo { scroll-behavior: auto; }
+  .ck-key, .ck-stack button { transition: none; }
+}
+@media (max-width: 760px) { .demo-card { grid-template-columns: 1fr; } .ck-side { order: -1; } }

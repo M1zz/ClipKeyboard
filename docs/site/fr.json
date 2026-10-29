@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard : vos phrases enregistrées, à un toucher sur le clavier",
+  "description": "RIB, adresse, formule d’e-mail : enregistrez-les une fois, insérez-les d’un toucher dans n’importe quelle app. Tout est gratuit pour 100 insertions.",
+  "hero": {
+    "headline": "Ne tapez plus\ndeux fois la même chose",
+    "lead": "Coordonnées bancaires, adresse, formule d’ouverture de vos e-mails : enregistrez-les une seule fois. Dans Messages, Mail, Safari et partout où vous écrivez, elles sont à un toucher sur le clavier.",
+    "cta": "Gratuit sur l’App Store",
+    "note": "Toutes les fonctions sont gratuites pour vos 100 premières insertions."
+  },
+  "demo": {
+    "title": "Essayez ici même",
+    "lead": "Voici l’Aperçu du clavier de l’app elle-même. Sur votre iPhone, ce clavier apparaît partout où vous pouvez écrire.",
+    "send": "Envoyer",
+    "note": "Le numéro de compte et les noms sont fictifs. Cette démo n’enregistre et n’envoie rien.",
+    "them": "Je te rembourse aujourd’hui ! Tu m’envoies ton RIB ?",
+    "field": "Votre texte s’affiche ici",
+    "coachStart": "Touchez n’importe quelle touche, et le texte s’insère dans le champ au-dessus.",
+    "coachSend": "Voilà. Touchez la flèche pour l’envoyer.",
+    "coachStack": "Celle-ci est une pile. Chaque emplacement a son propre nom, et la flèche à droite passe au suivant.",
+    "coachDone": "C’est tout : essayez les autres touches",
+    "fillTitle": "Remplissez le blanc",
+    "fillGo": "Insérer",
+    "fillCancel": "Annuler",
+    "bankKey": "RIB",
+    "bankVal": "FR76 3000 4000 0312 3456 7890 143 Camille Martin",
+    "lateKey": "En retard",
+    "lateVal": "Désolée, j’aurai environ 10 minutes de retard.",
+    "helloKey": "Réponse à une demande",
+    "helloVal": "Bonjour {nom}, merci pour votre message.",
+    "stackKey": "Point du jour",
+    "stack": [
+      {
+        "key": "Nom",
+        "value": "Camille Martin"
+      },
+      {
+        "key": "Équipe",
+        "value": "Développement"
+      },
+      {
+        "key": "Aujourd’hui",
+        "value": "Vérification de la version"
+      }
+    ]
+  },
+  "problem": {
+    "title": "Combien de fois avez-vous tapé votre numéro de compte aujourd’hui ?",
+    "text": "Un ami vous demande où virer sa part, et vous rouvrez l’app de votre banque pour copier le numéro. Puis vous retapez votre adresse de livraison lettre par lettre, et vous écrivez la même formule d’accueil à chaque client. ClipKeyboard garde ces lignes sur le clavier, prêtes à s’insérer d’un toucher."
+  },
+  "features": [
+    {
+      "title": "Ne remplissez que ce qui change",
+      "text": "Les modèles laissent en blanc les parties qui changent, comme {nom} ou {date}.\nÀ l’insertion, seuls ces blancs vous sont demandés, et vous pouvez choisir une valeur déjà utilisée.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Plusieurs valeurs, dans l’ordre",
+      "text": "Une pile range plusieurs valeurs sur une seule touche, par exemple votre nom, votre équipe et la tâche du jour.\nTouchez-la pour insérer la valeur en cours, puis passez à la suivante avec la flèche à côté.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "Ce que vous copiez est aussi sur le clavier",
+      "text": "Le numéro de suivi, l’adresse ou le téléphone que vous venez de copier arrive dans l’onglet Récents du clavier.\nE-mails, numéros de téléphone, adresses, numéros de carte et IBAN sont reconnus et classés, pour les retrouver en une seconde.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "Le sensible, sous clé",
+      "text": "Faites de vos numéros de passeport ou de carte des phrases sécurisées, verrouillées par Face ID.\nUn numéro de compte sur papier ? Prenez-le en photo et passez le doigt uniquement sur les caractères utiles.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "Trois étapes pour commencer",
+    "items": [
+      {
+        "title": "Ajoutez le clavier",
+        "text": "Réglages > Général > Clavier > Claviers > Ajouter un clavier, puis choisissez ClipKeyboard."
+      },
+      {
+        "title": "Autorisez l’accès complet",
+        "text": "Le clavier en a besoin pour lire les phrases enregistrées dans l’app. Ce que vous tapez ne quitte jamais votre appareil."
+      },
+      {
+        "title": "Maintenez le globe",
+        "text": "Dans n’importe quelle app, maintenez le doigt sur 🌐, choisissez ClipKeyboard et touchez une touche."
+      }
+    ]
+  },
+  "reference": {
+    "title": "Ce que vous pouvez mettre sur le clavier",
+    "rows": [
+      [
+        "Phrase",
+        "S’insère exactement comme vous l’avez enregistrée, retours à la ligne et emoji compris."
+      ],
+      [
+        "Modèle",
+        "Les blancs entre accolades, comme {nom}, se remplissent à chaque insertion."
+      ],
+      [
+        "Pile",
+        "Plusieurs valeurs sur une touche. La flèche passe à la suivante."
+      ],
+      [
+        "Phrase sécurisée",
+        "Ne s’insère qu’après Face ID ou Touch ID. (Pro)"
+      ],
+      [
+        "Phrase image",
+        "Touchez pour copier l’image, puis collez-la dans votre message."
+      ],
+      [
+        "Historique du presse-papiers",
+        "Garde ce que vous copiez, classé par type, prêt à resservir."
+      ],
+      [
+        "Scanner du texte",
+        "Passez le doigt sur le texte d’une photo pour n’en prendre que ce passage. La photo n’est pas conservée."
+      ]
+    ],
+    "note": "Le guide complet se trouve sur m1zz.github.io/ClipKeyboard/fr/tutorial.html."
+  },
+  "pricing": {
+    "title": "100 insertions pour vous décider",
+    "free": {
+      "name": "Gratuit",
+      "items": [
+        "Toutes les fonctions jusqu’à 100 insertions de phrases",
+        "Tout ce que vous avez créé continue de fonctionner ensuite",
+        "Nouveaux éléments : jusqu’à 10 phrases, 3 modèles, 3 piles et 5 images",
+        "50 éléments dans l’historique du presse-papiers"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus : phrases, modèles, piles et images illimités, 100 éléments dans l’historique du presse-papiers",
+        "Pro : tout Plus, avec en plus la sauvegarde iCloud, le verrouillage Face ID et la synchronisation entre appareils (bêta)"
+      ],
+      "note": "Chacun existe en abonnement annuel ou en achat unique à vie."
+    },
+    "note": "Vos phrases ne sont jamais supprimées, même si vous ne payez pas ou si l’abonnement prend fin. Sans publicité."
+  },
+  "faq": {
+    "title": "Questions",
+    "items": [
+      {
+        "q": "Mes phrases n’apparaissent pas sur le clavier.",
+        "a": "L’accès complet est sans doute désactivé. Allez dans Réglages > Général > Clavier > Claviers > ClipKeyboard et activez Autoriser l’accès complet."
+      },
+      {
+        "q": "Puis-je garder mon clavier habituel ?",
+        "a": "Oui. Une fois la phrase insérée, ClipKeyboard revient au clavier que vous utilisiez, et vous pouvez désactiver ce comportement dans les réglages. Vous pouvez aussi écrire directement avec ClipKeyboard : il propose des touches comme sur l’iPhone en 23 langues."
+      },
+      {
+        "q": "Puis-je écrire en japonais ou en chinois ?",
+        "a": "Le japonais jusqu’aux kana, le chinois jusqu’au pinyin et au zhuyin. La conversion en kanji et en hanzi n’est pas encore disponible."
+      },
+      {
+        "q": "Ce que je copie n’apparaît pas dans l’historique.",
+        "a": "iOS empêche les autres apps de lire le presse-papiers d’elles-mêmes. Ouvrez l’app une fois, puis utilisez le clavier : tout apparaîtra."
+      },
+      {
+        "q": "Comment supprimer les valeurs enregistrées d’un modèle ?",
+        "a": "Dans l’éditeur de modèle, touchez un blanc pour voir ses valeurs enregistrées. Balayez-en une pour la supprimer."
+      },
+      {
+        "q": "Que se passe-t-il après 100 insertions ?",
+        "a": "Toutes les phrases, tous les modèles et toutes les piles que vous avez créés continuent de fonctionner. Les limites gratuites ne concernent que les nouveaux éléments. Pour les lever, choisissez Plus ou Pro."
+      },
+      {
+        "q": "Mes phrases sont-elles envoyées quelque part ?",
+        "a": "Non. Elles restent sur cet appareil et nous n’en collectons pas le contenu. Avec la sauvegarde iCloud, elles sont chiffrées dans votre propre iCloud. Nous ne recueillons que des statistiques d’utilisation anonymes pour améliorer l’app, sans aucun outil d’analyse tiers."
+      },
+      {
+        "q": "Et si je change de téléphone ?",
+        "a": "Activez la sauvegarde iCloud de Pro, puis restaurez sur le nouvel appareil avec le même compte Apple. Les phrases image suivent aussi. La restauration remplace les phrases déjà présentes sur cet appareil."
+      },
+      {
+        "q": "Ça marche sur iPad ?",
+        "a": "Oui, sur iPhone comme sur iPad."
+      },
+      {
+        "q": "Mon problème n’est pas dans la liste.",
+        "a": "Écrivez-nous à l’adresse ci-dessous et racontez-nous ce qui s’est passé. Nous répondons en général dans la journée."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Tapez-le une fois aujourd’hui,\nd’un toucher dès demain",
+    "cta": "Gratuit sur l’App Store"
+  },
+  "ui": {
+    "skip": "Aller au contenu",
+    "languages": "Langue",
+    "privacy": "Politique de confidentialité",
+    "contact": "Une question, une remarque ? Écrivez à {email}.",
+    "links": [
+      [
+        "Guide",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

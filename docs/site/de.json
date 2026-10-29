@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard: deine Textbausteine mit einem Tipp auf der Tastatur",
+  "description": "IBAN, Adresse, E-Mail-Anrede: einmal speichern, in jeder App mit einem Tipp einfügen. Für die ersten 100 Eingaben ist alles gratis.",
+  "hero": {
+    "headline": "Nie wieder\ndasselbe zweimal tippen",
+    "lead": "Bankverbindung, Lieferadresse oder deine übliche E-Mail-Anrede speicherst du einmal. In Nachrichten, Mail, Safari und überall, wo du schreibst, sind sie dann nur einen Tipp entfernt.",
+    "cta": "Gratis im App Store laden",
+    "note": "Für deine ersten 100 Eingaben sind alle Funktionen gratis."
+  },
+  "demo": {
+    "title": "Probier es gleich hier aus",
+    "lead": "Das ist die Tastaturvorschau aus der App selbst. Auf deinem iPhone erscheint diese Tastatur überall, wo du tippen kannst.",
+    "send": "Senden",
+    "note": "Kontonummer und Namen sind frei erfunden. Diese Demo speichert und sendet nichts.",
+    "them": "Ich überweise dir heute meinen Anteil! Wie ist deine IBAN?",
+    "field": "Hier landet dein Text",
+    "coachStart": "Tippe auf eine beliebige Taste, und der Text landet im Feld oben.",
+    "coachSend": "Da ist er. Tippe auf den Pfeil, um ihn zu senden.",
+    "coachStack": "Das ist ein Stapel. Jedes Feld hat einen eigenen Namen, und der Pfeil rechts springt zum nächsten.",
+    "coachDone": "Das war schon alles: Probier die anderen Tasten aus",
+    "fillTitle": "Lücke ausfüllen",
+    "fillGo": "Einfügen",
+    "fillCancel": "Abbrechen",
+    "bankKey": "Bankverbindung",
+    "bankVal": "Sparkasse DE12 5001 0517 0648 4898 90 Max Mustermann",
+    "lateKey": "Komme später",
+    "lateVal": "Sorry, ich bin ungefähr 10 Minuten später da.",
+    "helloKey": "Antwort auf Anfrage",
+    "helloVal": "Hallo {Name}, vielen Dank für Ihre Nachricht.",
+    "stackKey": "Tägliches Check-in",
+    "stack": [
+      {
+        "key": "Name",
+        "value": "Max Mustermann"
+      },
+      {
+        "key": "Team",
+        "value": "Entwicklung"
+      },
+      {
+        "key": "Heute",
+        "value": "Release-Check"
+      }
+    ]
+  },
+  "problem": {
+    "title": "Wie oft hast du heute schon deine IBAN getippt?",
+    "text": "Ein Freund fragt, wohin er seinen Anteil überweisen soll, also öffnest du wieder die Banking-App und kopierst die Nummer. Dann tippst du deine Lieferadresse zum x-ten Mal Buchstabe für Buchstabe und schreibst jedem Kunden dieselbe Begrüßung. ClipKeyboard legt diese Zeilen auf die Tastatur, mit einem Tipp sind sie drin."
+  },
+  "features": [
+    {
+      "title": "Nur ausfüllen, was sich ändert",
+      "text": "Vorlagen lassen die wechselnden Stellen wie {Name} oder {Datum} als Lücken frei.\nBeim Einfügen fragt ClipKeyboard nur nach diesen Lücken, und du kannst einen Wert wählen, den du schon einmal benutzt hast.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Mehrere Werte, der Reihe nach",
+      "text": "Ein Stapel legt mehrere Werte auf eine einzige Taste, etwa Name, Team und die Aufgabe des Tages.\nEin Tipp fügt den aktuellen Wert ein, mit dem Pfeil daneben geht es zum nächsten.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "Was du kopierst, liegt auch auf der Tastatur",
+      "text": "Die Sendungsnummer, Adresse oder Telefonnummer, die du gerade kopiert hast, landet im Tab Zuletzt der Tastatur.\nE-Mail-Adressen, Telefonnummern, Adressen, Kartennummern und IBANs werden erkannt und sortiert, so findest du sie in einer Sekunde wieder.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "Sensibles bleibt verschlossen",
+      "text": "Mach Pass- oder Kartennummern zu geschützten Textbausteinen, die sich nur mit Face ID öffnen.\nDie IBAN steht nur auf Papier? Fotografiere sie und wisch mit dem Finger nur über die Zeichen, die du brauchst.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "In drei Schritten startklar",
+    "items": [
+      {
+        "title": "Tastatur hinzufügen",
+        "text": "Einstellungen > Allgemein > Tastatur > Tastaturen > Tastatur hinzufügen, dann ClipKeyboard wählen."
+      },
+      {
+        "title": "Vollzugriff erlauben",
+        "text": "Nur so kann die Tastatur die Textbausteine lesen, die du in der App gespeichert hast. Was du tippst, verlässt nie dein Gerät."
+      },
+      {
+        "title": "Globus gedrückt halten",
+        "text": "Halte in einer beliebigen App 🌐 auf der Tastatur gedrückt, wähle ClipKeyboard und tippe auf eine Taste."
+      }
+    ]
+  },
+  "reference": {
+    "title": "Was alles auf die Tastatur passt",
+    "rows": [
+      [
+        "Textbaustein",
+        "Fügt genau das ein, was du gespeichert hast, samt Zeilenumbrüchen und Emoji."
+      ],
+      [
+        "Vorlage",
+        "Lücken in geschweiften Klammern wie {Name} füllst du bei jedem Einfügen neu aus."
+      ],
+      [
+        "Stapel",
+        "Mehrere Werte auf einer Taste. Der Pfeil springt zum nächsten."
+      ],
+      [
+        "Geschützter Textbaustein",
+        "Wird erst nach Face ID oder Touch ID eingefügt. (Pro)"
+      ],
+      [
+        "Bild-Textbaustein",
+        "Ein Tipp kopiert das Bild, dann fügst du es in deine Nachricht ein."
+      ],
+      [
+        "Zwischenablage-Verlauf",
+        "Bewahrt auf, was du kopierst, nach Art sortiert und bereit zur Wiederverwendung."
+      ],
+      [
+        "Text scannen",
+        "Wisch über den Text auf einem Foto und übernimm nur diesen Teil. Das Foto wird nicht gespeichert."
+      ]
+    ],
+    "note": "Die vollständige Anleitung findest du unter m1zz.github.io/ClipKeyboard/de/tutorial.html."
+  },
+  "pricing": {
+    "title": "Erst 100 Mal nutzen, dann entscheiden",
+    "free": {
+      "name": "Gratis",
+      "items": [
+        "Alle Funktionen, bis du 100 Mal Textbausteine eingefügt hast",
+        "Alles, was du erstellt hast, funktioniert danach weiter",
+        "Neue Elemente: bis zu 10 Textbausteine, 3 Vorlagen, 3 Stapel und 5 Bilder",
+        "50 Einträge im Zwischenablage-Verlauf"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus: unbegrenzt Textbausteine, Vorlagen, Stapel und Bilder, 100 Einträge im Zwischenablage-Verlauf",
+        "Pro: alles aus Plus, dazu iCloud-Backup, Sperre mit Face ID und Sync zwischen Geräten (Beta)"
+      ],
+      "note": "Beides gibt es als Jahresabo oder als einmaligen Kauf auf Lebenszeit."
+    },
+    "note": "Deine Textbausteine werden nie gelöscht, auch wenn du nicht zahlst oder ein Abo endet. Keine Werbung."
+  },
+  "faq": {
+    "title": "Fragen",
+    "items": [
+      {
+        "q": "Meine Textbausteine erscheinen nicht auf der Tastatur.",
+        "a": "Wahrscheinlich ist der Vollzugriff aus. Öffne Einstellungen > Allgemein > Tastatur > Tastaturen > ClipKeyboard und schalte Vollzugriff erlauben ein."
+      },
+      {
+        "q": "Kann ich meine gewohnte Tastatur behalten?",
+        "a": "Ja. Nach dem Einfügen eines Textbausteins wechselt ClipKeyboard zurück zu der Tastatur, die du vorher benutzt hast. Das lässt sich in den Einstellungen abschalten. Du kannst aber auch direkt mit ClipKeyboard tippen: Es hat Tasten wie auf dem iPhone in 23 Sprachen."
+      },
+      {
+        "q": "Kann ich Japanisch oder Chinesisch tippen?",
+        "a": "Japanisch bis Kana, Chinesisch bis Pinyin und Zhuyin. Die Umwandlung in Kanji und Hanzi gibt es noch nicht."
+      },
+      {
+        "q": "Was ich kopiere, taucht nicht im Verlauf auf.",
+        "a": "iOS verhindert, dass andere Apps die Zwischenablage von sich aus lesen. Öffne die App einmal und nutze dann die Tastatur, dann erscheint es."
+      },
+      {
+        "q": "Wie lösche ich gespeicherte Werte einer Vorlage?",
+        "a": "Tippe im Vorlagen-Editor auf eine Lücke, um ihre gespeicherten Werte zu sehen. Wisch über einen Wert, um ihn zu löschen."
+      },
+      {
+        "q": "Was passiert nach 100 Eingaben?",
+        "a": "Alle Textbausteine, Vorlagen und Stapel, die du erstellt hast, funktionieren weiter. Die Gratis-Limits gelten nur für neue Elemente. Mit Plus oder Pro hebst du sie auf."
+      },
+      {
+        "q": "Werden meine Textbausteine irgendwohin gesendet?",
+        "a": "Nein. Sie liegen auf diesem Gerät, und wir sammeln ihre Inhalte nicht. Mit iCloud-Backup werden sie verschlüsselt in deiner eigenen iCloud gespeichert. Wir erheben nur anonyme Nutzungsstatistiken, um die App zu verbessern, und nutzen keine Analysedienste von Drittanbietern."
+      },
+      {
+        "q": "Und wenn ich ein neues iPhone bekomme?",
+        "a": "Schalte das iCloud-Backup von Pro ein und stelle auf dem neuen Gerät mit demselben Apple Account wieder her. Bild-Textbausteine kommen mit. Beim Wiederherstellen werden die Textbausteine ersetzt, die schon auf dem Gerät sind."
+      },
+      {
+        "q": "Funktioniert es auf dem iPad?",
+        "a": "Ja, auf iPhone und iPad."
+      },
+      {
+        "q": "Mein Problem ist nicht dabei.",
+        "a": "Schreib uns an die E-Mail-Adresse unten und erzähl uns, was passiert ist. Meist antworten wir innerhalb eines Tages."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Heute einmal tippen,\nab morgen nur noch antippen",
+    "cta": "Gratis im App Store laden"
+  },
+  "ui": {
+    "skip": "Zum Inhalt springen",
+    "languages": "Sprache",
+    "privacy": "Datenschutzerklärung",
+    "contact": "Fragen oder Feedback? Schreib an {email}.",
+    "links": [
+      [
+        "Anleitung",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

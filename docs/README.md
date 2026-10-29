@@ -11,18 +11,23 @@
 
 | 루트에 남는 것 | 주소 |
 | --- | --- |
-| `index.html` | 랜딩 페이지 |
+| `index.html` | 소개 페이지 (영어). **만든 파일이다** (`docs/site/` 의 글을 DeployBar `sitegen` 이 페이지로) |
 | `tutorial.html` | 사용 가이드 (앱 안에서 연다) |
 | `privacy.html` · `terms.html` | 개인정보 처리방침 · 이용약관 (App Store 에 등록된 주소) |
 | `accessibility.html` | 접근성 안내 |
 | `screens.html` · `media/screens/` | 화면 지도 (기능별 위계와 캡처, 만드는 사람용) |
 | `acquisition.html` | 유입 경로 지도 (앱에 닿는 길 전부와 재는 법, 소개 페이지에서 링크 없음) |
 | `favicon.png` · `app-icon.png` · `media/` | 위 페이지가 쓰는 자산 |
-| `<언어>/index.html` · `privacy.html` · `tutorial.html` | 언어별 소개 · 개인정보 처리방침 · 사용 가이드 (App Store 언어별 URL). **만든 파일이다** (`i18n/build.mjs`) |
+| `<언어>/index.html` | 언어별 소개 (App Store 언어별 마케팅 URL). **만든 파일이다** (`sitegen`). `en/index.html` 만은 루트로 넘기는 페이지 |
+| `<언어>/privacy.html` · `tutorial.html` | 언어별 개인정보 처리방침 · 사용 가이드. **만든 파일이다** (`i18n/build.mjs`) |
 
-언어 폴더(`ko/` `en/` `ja/` …)는 손으로 고치지 않습니다. 루트의 `index.html` · `privacy.html` · `tutorial.html` 이
-원본이고(루트 사전에 없는 언어의 글은 `i18n/<언어>/*.json`), `node docs/i18n/build.mjs` 가 언어마다 고정된 페이지를 만듭니다.
-루트 페이지를 고쳤으면 이 명령을 다시 돌려 함께 커밋합니다. 루트 주소는 x-default 로 그대로 둡니다.
+언어 폴더(`ko/` `en/` `ja/` …)는 손으로 고치지 않습니다.
+
+- 소개 페이지(`index.html` · `<언어>/index.html`)의 원본은 `site/` 입니다(`site.json` 과 언어마다 `<언어>.json`, 체험 `demo.js` · `demo.css`).
+  고쳤으면 `python3 ~/Documents/workspace/Auto/DeployBar/scripts/sitegen/sitegen.py .` 을 다시 돌려 함께 커밋합니다.
+  `sitegen.css` · `img/` · `demo.*` 도 그때 만들어집니다.
+- 개인정보 처리방침 · 사용 가이드는 루트의 `privacy.html` · `tutorial.html` 이 원본이고(루트 사전에 없는 언어의 글은
+  `i18n/<언어>/*.json`), `node docs/i18n/build.mjs` 가 언어마다 고정된 페이지를 만듭니다. 루트 주소는 x-default 로 그대로 둡니다.
 
 새 글은 아래 폴더 중 하나에 넣습니다. 웹으로 나갈 페이지가 아니라면 루트에 두지 않습니다.
 

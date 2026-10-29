@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard: dina sparade texter ett tryck bort på tangentbordet",
+  "description": "Spara kontonummer, adresser och mejlinledningar en gång och infoga dem med ett tryck från tangentbordet i alla appar. Gratis de första 100 gångerna.",
+  "hero": {
+    "headline": "Sluta skriva\nsamma sak om igen",
+    "lead": "Spara ditt kontonummer, din adress eller din vanliga mejlinledning en gång. I Meddelanden, Mail, Safari och överallt där du skriver finns de ett tryck bort på tangentbordet.",
+    "cta": "Hämta gratis på App Store",
+    "note": "Alla funktioner är gratis för de första 100 infogningarna."
+  },
+  "demo": {
+    "title": "Testa direkt här",
+    "lead": "Det här är appens egen skärm Förhandsvisning av tangentbord. På din iPhone dyker tangentbordet upp överallt där du kan skriva.",
+    "send": "Skicka",
+    "note": "Kontonumret och namnen här är påhittade. Demon sparar och skickar ingenting.",
+    "them": "Jag swishar min andel idag! Vilket konto har du?",
+    "field": "Din text hamnar här",
+    "coachStart": "Tryck på valfri tangent så hamnar texten i fältet ovanför.",
+    "coachSend": "Där satt den. Tryck på pilen för att skicka.",
+    "coachStack": "Det här är en stapel. Varje plats har ett eget namn, och pilen till höger går vidare till nästa.",
+    "coachDone": "Så enkelt är det: testa de andra knapparna",
+    "fillTitle": "Fyll i ifyllnadsfältet",
+    "fillGo": "Infoga",
+    "fillCancel": "Avbryt",
+    "bankKey": "Bankuppgifter",
+    "bankVal": "Swedbank 8327-9 123 456 789-1 Anna Svensson",
+    "lateKey": "Jag är sen",
+    "lateVal": "Förlåt, jag blir ungefär 10 minuter sen.",
+    "helloKey": "Svar på förfrågan",
+    "helloVal": "Hej {namn}, tack för att du hörde av dig.",
+    "stackKey": "Daglig avstämning",
+    "stack": [
+      {
+        "key": "Namn",
+        "value": "Anna Svensson"
+      },
+      {
+        "key": "Team",
+        "value": "Utveckling"
+      },
+      {
+        "key": "Idag",
+        "value": "Releasekontroll"
+      }
+    ]
+  },
+  "problem": {
+    "title": "Hur många gånger har du skrivit ditt kontonummer i dag?",
+    "text": "En kompis undrar vart hen ska skicka sin del, så du öppnar bankappen och kopierar numret. Sedan knappar du in leveransadressen bokstav för bokstav, igen, och skriver samma hälsning i varje kundmejl. ClipKeyboard håller de raderna redo på tangentbordet, ett tryck bort."
+  },
+  "features": [
+    {
+      "title": "Fyll bara i det som ändras",
+      "text": "Mallar lämnar delarna som ändras, som {namn} eller {datum}, som tomma fält.\nNär du infogar en mall frågar den bara efter fälten, och du kan välja ett värde du har använt tidigare.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Flera värden i tur och ordning",
+      "text": "En stapel samlar flera värden, till exempel namn, team och dagens uppgift, på en enda tangent.\nTryck för att infoga den aktuella platsen och gå vidare till nästa med pilen bredvid.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "Det du kopierar finns också på tangentbordet",
+      "text": "Spårningsnumret, adressen eller telefonnumret du just kopierade hamnar på fliken Senaste i tangentbordet.\nMejladresser, telefonnummer, adresser, kortnummer och IBAN känns igen och sorteras, så att du hittar dem igen på en sekund.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "Lås in det känsliga",
+      "text": "Gör pass- och kortnummer till säkra fraser som låses med Face ID.\nHar du ett kontonummer på papper? Ta ett foto och dra fingret över just de tecken du behöver.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "Kom igång i tre steg",
+    "items": [
+      {
+        "title": "Lägg till tangentbordet",
+        "text": "Inställningar > Allmänt > Tangentbord > Tangentbord > Lägg till tangentbord och välj ClipKeyboard."
+      },
+      {
+        "title": "Tillåt full åtkomst",
+        "text": "Tangentbordet behöver det för att kunna läsa fraserna du har sparat i appen. Det du skriver lämnar aldrig din enhet."
+      },
+      {
+        "title": "Håll in jordgloben för att byta",
+        "text": "Håll in 🌐 på tangentbordet i valfri app, välj ClipKeyboard och tryck på en tangent."
+      }
+    ]
+  },
+  "reference": {
+    "title": "Det här kan du ha på tangentbordet",
+    "rows": [
+      [
+        "Fras",
+        "Infogar exakt det du sparat, radbrytningar och emoji inräknade."
+      ],
+      [
+        "Mall",
+        "Fält inom klammerparenteser, som {namn}, fylls i varje gång du infogar den."
+      ],
+      [
+        "Stapel",
+        "Flera värden på en tangent. Pilen går vidare till nästa plats."
+      ],
+      [
+        "Säker fras",
+        "Infogas först efter Face ID eller Touch ID. (Pro)"
+      ],
+      [
+        "Bildfras",
+        "Tryck för att kopiera bilden och klistra sedan in den i meddelandet."
+      ],
+      [
+        "Urklippshistorik",
+        "Sparar det du kopierar, sorterat efter typ och redo att användas igen."
+      ],
+      [
+        "Skanna in text",
+        "Svep över text i ett foto för att bara ta med den delen. Fotot sparas inte."
+      ]
+    ],
+    "note": "Hela användarguiden finns på m1zz.github.io/ClipKeyboard/sv/tutorial.html."
+  },
+  "pricing": {
+    "title": "Använd den 100 gånger, bestäm dig sedan",
+    "free": {
+      "name": "Gratis",
+      "items": [
+        "Alla funktioner tills du har infogat fraser 100 gånger",
+        "Allt du har skapat fortsätter att fungera efter det",
+        "Nya objekt: upp till 10 fraser, 3 mallar, 3 staplar och 5 bilder",
+        "50 objekt i urklippshistoriken"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus: obegränsat med fraser, mallar, staplar och bilder, 100 objekt i urklippshistoriken",
+        "Pro: allt i Plus samt iCloud-säkerhetskopia, Face ID-lås och synkronisering mellan enheter (beta)"
+      ],
+      "note": "Båda finns som årsprenumeration eller som ett engångsköp som gäller för alltid."
+    },
+    "note": "Dina fraser raderas aldrig, inte ens om du inte betalar eller en prenumeration löper ut. Ingen reklam."
+  },
+  "faq": {
+    "title": "Frågor",
+    "items": [
+      {
+        "q": "Mina fraser syns inte på tangentbordet.",
+        "a": "Full åtkomst är förmodligen avstängd. Gå till Inställningar > Allmänt > Tangentbord > Tangentbord > ClipKeyboard och slå på Tillåt full åtkomst."
+      },
+      {
+        "q": "Kan jag behålla mitt vanliga tangentbord?",
+        "a": "Ja. När en fras har infogats byter ClipKeyboard tillbaka till tangentbordet du använde, och det går att stänga av i inställningarna. Du kan också skriva med ClipKeyboard: det har tangenter som på iPhone på 23 språk."
+      },
+      {
+        "q": "Kan jag skriva japanska eller kinesiska?",
+        "a": "Japanska upp till kana och kinesiska upp till pinyin och zhuyin. Omvandling till kanji och hanzi finns inte än."
+      },
+      {
+        "q": "Det jag kopierar syns inte i historiken.",
+        "a": "iOS hindrar andra appar från att läsa urklippet på egen hand. Öppna appen en gång och använd sedan tangentbordet, så dyker det upp."
+      },
+      {
+        "q": "Hur raderar jag värden som sparats för en mall?",
+        "a": "Tryck på ett fält i mallredigeraren för att se dess sparade värden. Svep på ett värde för att radera det."
+      },
+      {
+        "q": "Vad händer efter 100 infogningar?",
+        "a": "Alla fraser, mallar och staplar du har skapat fortsätter att fungera. Gratisgränserna gäller bara nya objekt. Välj Plus eller Pro om du vill ta bort dem."
+      },
+      {
+        "q": "Skickas mina fraser någonstans?",
+        "a": "Nej. De lagras på den här enheten och vi samlar inte in innehållet. Med iCloud-säkerhetskopia påslagen sparas de krypterat i din egen iCloud. Vi samlar bara in anonym användningsstatistik för att förbättra appen och använder inga analysverktyg från tredje part."
+      },
+      {
+        "q": "Hur gör jag när jag byter telefon?",
+        "a": "Med iCloud-säkerhetskopian i Pro påslagen återställer du på den nya enheten med samma Apple-konto. Bildfraser följer med. Återställningen ersätter de fraser som redan finns på enheten."
+      },
+      {
+        "q": "Fungerar det på iPad?",
+        "a": "Ja, på både iPhone och iPad."
+      },
+      {
+        "q": "Mitt problem finns inte med här.",
+        "a": "Mejla oss nedan och berätta vad som hände. Vi svarar oftast inom ett dygn."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Skriv det en gång i dag,\nett tryck från i morgon",
+    "cta": "Hämta gratis på App Store"
+  },
+  "ui": {
+    "skip": "Hoppa till innehåll",
+    "languages": "Språk",
+    "privacy": "Integritetspolicy",
+    "contact": "Frågor eller synpunkter? Skriv till {email}.",
+    "links": [
+      [
+        "Handledning",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

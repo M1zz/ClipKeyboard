@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard: le tue frasi salvate, a un tocco dalla tastiera",
+  "description": "IBAN, indirizzo, saluti per le email: salvali una volta e inseriscili con un tocco in qualsiasi app. Tutto gratis per i primi 100 inserimenti.",
+  "hero": {
+    "headline": "Basta scrivere\nsempre le stesse cose",
+    "lead": "Coordinate bancarie, indirizzo, il saluto con cui apri ogni email: salvali una volta sola. In Messaggi, Mail, Safari e ovunque scrivi, sono a un tocco dalla tastiera.",
+    "cta": "Gratis sull’App Store",
+    "note": "Tutte le funzioni sono gratis per i primi 100 inserimenti."
+  },
+  "demo": {
+    "title": "Provala qui",
+    "lead": "Questa è l’Anteprima tastiera dell’app. Sul tuo iPhone, questa tastiera compare ovunque tu possa scrivere.",
+    "send": "Invia",
+    "note": "Il numero di conto e i nomi sono inventati. Questa demo non salva e non invia nulla.",
+    "them": "Oggi ti mando la mia parte! Qual è il tuo IBAN?",
+    "field": "Il testo arriva qui",
+    "coachStart": "Tocca un tasto qualsiasi e il testo finisce nel campo qui sopra.",
+    "coachSend": "Eccolo. Tocca la freccia per inviarlo.",
+    "coachStack": "Questa è una pila. Ogni posizione ha un suo nome e la freccia a destra passa alla successiva.",
+    "coachDone": "È tutto qui: prova gli altri tasti",
+    "fillTitle": "Compila lo spazio vuoto",
+    "fillGo": "Inserisci",
+    "fillCancel": "Annulla",
+    "bankKey": "Dati bancari",
+    "bankVal": "IBAN IT60 X054 2811 1010 0000 0123 456 Mario Rossi",
+    "lateKey": "Sono in ritardo",
+    "lateVal": "Scusa, arrivo con una decina di minuti di ritardo.",
+    "helloKey": "Risposta a una richiesta",
+    "helloVal": "Buongiorno {nome}, grazie per averci contattato.",
+    "stackKey": "Aggiornamento del giorno",
+    "stack": [
+      {
+        "key": "Nome",
+        "value": "Mario Rossi"
+      },
+      {
+        "key": "Team",
+        "value": "Sviluppo"
+      },
+      {
+        "key": "Oggi",
+        "value": "Verifica del rilascio"
+      }
+    ]
+  },
+  "problem": {
+    "title": "Quante volte hai scritto il tuo IBAN oggi?",
+    "text": "Un amico ti chiede dove mandarti la sua quota, e tu riapri l’app della banca per copiare il numero. Poi riscrivi l’indirizzo di consegna lettera per lettera, di nuovo, e ripeti lo stesso saluto in ogni email ai clienti. ClipKeyboard tiene queste righe sulla tastiera, pronte da inserire con un tocco."
+  },
+  "features": [
+    {
+      "title": "Compila solo ciò che cambia",
+      "text": "I modelli lasciano vuote le parti che cambiano, come {nome} o {data}.\nQuando lo inserisci, ti chiede solo quei campi, e puoi scegliere un valore che hai già usato.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Più valori, uno dopo l’altro",
+      "text": "Una pila tiene più valori su un solo tasto, per esempio nome, team e attività del giorno.\nToccala per inserire quello attuale, poi usa la freccia accanto per passare al successivo.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "Anche ciò che copi è sulla tastiera",
+      "text": "Il numero di spedizione, l’indirizzo o il telefono che hai appena copiato finisce nella scheda Recenti della tastiera.\nRiconosce email, numeri di telefono, indirizzi, numeri di carta e IBAN e li ordina, così li ritrovi in un attimo.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "I dati sensibili, sotto chiave",
+      "text": "Trasforma il numero di passaporto o della carta in una frase protetta, bloccata con Face ID.\nHai un IBAN su carta? Scatta una foto e passa il dito solo sui caratteri che ti servono.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "Tre passi per iniziare",
+    "items": [
+      {
+        "title": "Aggiungi la tastiera",
+        "text": "Impostazioni > Generali > Tastiera > Tastiere > Aggiungi nuova tastiera, poi scegli ClipKeyboard."
+      },
+      {
+        "title": "Consenti accesso completo",
+        "text": "Serve alla tastiera per leggere le frasi salvate nell’app. Quello che scrivi non lascia mai il tuo dispositivo."
+      },
+      {
+        "title": "Tieni premuto il globo",
+        "text": "In qualsiasi app, tieni premuto 🌐 sulla tastiera, scegli ClipKeyboard e tocca un tasto."
+      }
+    ]
+  },
+  "reference": {
+    "title": "Cosa puoi tenere sulla tastiera",
+    "rows": [
+      [
+        "Frase",
+        "Inserisce esattamente ciò che hai salvato, a capo ed emoji compresi."
+      ],
+      [
+        "Modello",
+        "I campi tra parentesi graffe, come {nome}, si compilano a ogni inserimento."
+      ],
+      [
+        "Pila",
+        "Più valori su un tasto. La freccia passa al successivo."
+      ],
+      [
+        "Frase protetta",
+        "Si inserisce solo dopo Face ID o Touch ID. (Pro)"
+      ],
+      [
+        "Frase immagine",
+        "Toccala per copiare l’immagine, poi incollala nel messaggio."
+      ],
+      [
+        "Cronologia appunti",
+        "Conserva ciò che copi, ordinato per tipo, pronto da riusare."
+      ],
+      [
+        "Scansiona il testo",
+        "Passa il dito sul testo di una foto e prendi solo quella parte. La foto non viene conservata."
+      ]
+    ],
+    "note": "La guida completa è su m1zz.github.io/ClipKeyboard/it/tutorial.html."
+  },
+  "pricing": {
+    "title": "Usala 100 volte, poi decidi",
+    "free": {
+      "name": "Gratis",
+      "items": [
+        "Tutte le funzioni finché non hai inserito frasi 100 volte",
+        "Tutto ciò che hai creato continua a funzionare anche dopo",
+        "Nuovi elementi: fino a 10 frasi, 3 modelli, 3 pile e 5 immagini",
+        "50 elementi nella cronologia appunti"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus: frasi, modelli, pile e immagini illimitati, 100 elementi nella cronologia appunti",
+        "Pro: tutto di Plus, più backup iCloud, blocco con Face ID e sincronizzazione tra dispositivi (beta)"
+      ],
+      "note": "Ognuno è disponibile con abbonamento annuale o con acquisto una tantum a vita."
+    },
+    "note": "Le tue frasi non vengono mai cancellate, anche se non paghi o l’abbonamento scade. Niente pubblicità."
+  },
+  "faq": {
+    "title": "Domande",
+    "items": [
+      {
+        "q": "Le mie frasi non compaiono sulla tastiera.",
+        "a": "Probabilmente l’accesso completo è disattivato. Vai in Impostazioni > Generali > Tastiera > Tastiere > ClipKeyboard e attiva Consenti accesso completo."
+      },
+      {
+        "q": "Posso tenere la mia solita tastiera?",
+        "a": "Sì. Dopo aver inserito una frase, ClipKeyboard torna alla tastiera che stavi usando, e puoi disattivarlo nelle impostazioni. Puoi anche scrivere direttamente con ClipKeyboard: ha tasti come quelli dell’iPhone in 23 lingue."
+      },
+      {
+        "q": "Posso scrivere in giapponese o in cinese?",
+        "a": "Il giapponese fino ai kana, il cinese fino al pinyin e allo zhuyin. La conversione in kanji e hanzi non è ancora disponibile."
+      },
+      {
+        "q": "Ciò che copio non compare nella cronologia.",
+        "a": "iOS impedisce alle altre app di leggere gli appunti da sole. Apri l’app una volta, poi usa la tastiera, e comparirà."
+      },
+      {
+        "q": "Come cancello i valori salvati di un modello?",
+        "a": "Nell’editor del modello, tocca un campo per vedere i valori salvati. Scorri su uno per cancellarlo."
+      },
+      {
+        "q": "Cosa succede dopo 100 inserimenti?",
+        "a": "Tutte le frasi, i modelli e le pile che hai creato continuano a funzionare. I limiti gratuiti valgono solo per i nuovi elementi. Per toglierli, scegli Plus o Pro."
+      },
+      {
+        "q": "Le mie frasi vengono inviate da qualche parte?",
+        "a": "No. Restano su questo dispositivo e non ne raccogliamo il contenuto. Con il backup iCloud attivo, sono conservate cifrate nel tuo iCloud. Raccogliamo solo statistiche d’uso anonime per migliorare l’app, e non usiamo strumenti di analisi di terze parti."
+      },
+      {
+        "q": "E quando cambio telefono?",
+        "a": "Con il backup iCloud di Pro attivo, ripristina sul nuovo dispositivo con lo stesso Account Apple. Arrivano anche le frasi immagine. Il ripristino sostituisce le frasi già presenti su quel dispositivo."
+      },
+      {
+        "q": "Funziona su iPad?",
+        "a": "Sì, sia su iPhone che su iPad."
+      },
+      {
+        "q": "Il mio problema non è qui.",
+        "a": "Scrivici all’email qui sotto e raccontaci cosa è successo. Di solito rispondiamo entro un giorno."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Scrivilo una volta oggi,\nda domani basta un tocco",
+    "cta": "Gratis sull’App Store"
+  },
+  "ui": {
+    "skip": "Vai al contenuto",
+    "languages": "Lingua",
+    "privacy": "Informativa sulla privacy",
+    "contact": "Domande o suggerimenti? Scrivi a {email}.",
+    "links": [
+      [
+        "Guida",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard: sık kullandığınız metinler, klavyede tek dokunuşla",
+  "description": "IBAN, adres ve e-posta girişlerinizi bir kez kaydedin, her uygulamada klavyeden tek dokunuşla ekleyin. İlk 100 eklemede tüm özellikler ücretsiz.",
+  "hero": {
+    "headline": "Aynı şeyi\nbir daha yazmayın",
+    "lead": "IBAN'ınızı, adresinizi ya da hep kullandığınız e-posta girişini bir kez kaydedin. WhatsApp, Mail, Safari ya da yazı yazdığınız her yerde klavyeden tek dokunuşla eklensin.",
+    "cta": "App Store'dan ücretsiz al",
+    "note": "İlk 100 eklemede tüm özellikler ücretsiz."
+  },
+  "demo": {
+    "title": "Hemen burada deneyin",
+    "lead": "Bu, uygulamadaki Klavye önizlemesi ekranının ta kendisi. iPhone'unuzda bu klavye, yazı yazabildiğiniz her yerde açılır.",
+    "send": "Gönder",
+    "note": "Buradaki hesap numarası ve isimler uydurmadır. Bu deneme hiçbir şeyi kaydetmez ya da göndermez.",
+    "them": "Payımı bugün gönderiyorum! Hesap numaran nedir?",
+    "field": "Metniniz buraya yazılır",
+    "coachStart": "Herhangi bir tuşa dokunun, yukarıdaki alana yazılsın.",
+    "coachSend": "İşte oldu. Göndermek için oka basın.",
+    "coachStack": "Bu bir yığın. Her bölmenin kendi adı var, sağdaki ok ise sıradakine geçirir.",
+    "coachDone": "Hepsi bu kadar: diğer tuşları da deneyin",
+    "fillTitle": "Doldurulacak alanı doldurun",
+    "fillGo": "Ekle",
+    "fillCancel": "Vazgeç",
+    "bankKey": "Banka bilgileri",
+    "bankVal": "Garanti BBVA TR12 0006 2000 1234 0006 1234 56 Ahmet Yılmaz",
+    "lateKey": "Geç kalıyorum",
+    "lateVal": "Kusura bakmayın, yaklaşık 10 dakika geç kalacağım.",
+    "helloKey": "Talebe yanıt",
+    "helloVal": "Merhaba {ad}, bize ulaştığınız için teşekkür ederiz.",
+    "stackKey": "Günlük durum",
+    "stack": [
+      {
+        "key": "Ad",
+        "value": "Ahmet Yılmaz"
+      },
+      {
+        "key": "Ekip",
+        "value": "Mühendislik"
+      },
+      {
+        "key": "Bugün",
+        "value": "Sürüm kontrolü"
+      }
+    ]
+  },
+  "problem": {
+    "title": "Bugün IBAN'ınızı kaç kez yazdınız?",
+    "text": "Arkadaşınız hesabı bölüşmek için parayı nereye göndereceğini soruyor, siz de banka uygulamasını açıp numarayı kopyalıyorsunuz. Sonra teslimat adresinizi yine harf harf yazıyor, her müşteri e-postasına aynı selamı baştan yazıyorsunuz. ClipKeyboard bu metinleri klavyede tutar, tek dokunuşla eklemeye hazır."
+  },
+  "features": [
+    {
+      "title": "Yalnızca değişen yeri doldurun",
+      "text": "Şablonlar, {ad} ya da {tarih} gibi değişen kısımları boş bırakır.\nEklerken yalnızca boşlukları sorar, daha önce kullandığınız bir değeri de seçebilirsiniz.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Birkaç değer, sırayla",
+      "text": "Yığın; ad, ekip ve bugünkü görev gibi birkaç değeri tek tuşta tutar.\nDokununca o anki değer eklenir, yanındaki okla bir sonrakine geçersiniz.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "Kopyaladıklarınız da klavyede",
+      "text": "Az önce kopyaladığınız kargo takip numarası, adres ya da telefon numarası klavyenin Son sekmesine düşer.\nE-posta, telefon numarası, adres, kart numarası ve IBAN'ı tanıyıp türüne göre ayırır, böylece bir saniyede yeniden bulursunuz.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "Hassas olanları kilitleyin",
+      "text": "Pasaport ya da kart numaralarını Face ID ile kilitli güvenli ifadelere dönüştürün.\nKâğıtta yazılı bir hesap numarası mı var? Fotoğrafını çekin, yalnızca gereken karakterlerin üzerinden parmağınızı kaydırın.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "Üç adımda başlayın",
+    "items": [
+      {
+        "title": "Klavyeyi ekleyin",
+        "text": "Ayarlar > Genel > Klavye > Klavyeler > Yeni Klavye Ekle'ye gidip ClipKeyboard'u seçin."
+      },
+      {
+        "title": "Tam Erişime İzin Verin",
+        "text": "Klavyenin, uygulamada kaydettiğiniz ifadeleri okuyabilmesi için gereklidir. Yazdıklarınız cihazınızdan asla çıkmaz."
+      },
+      {
+        "title": "Dünya simgesine basılı tutun",
+        "text": "Herhangi bir uygulamada klavyedeki 🌐 simgesine basılı tutun, ClipKeyboard'u seçin ve bir tuşa dokunun."
+      }
+    ]
+  },
+  "reference": {
+    "title": "Klavyeye neler koyabilirsiniz",
+    "rows": [
+      [
+        "İfade",
+        "Kaydettiğiniz metni satır sonları ve emojiler dahil olduğu gibi ekler."
+      ],
+      [
+        "Şablon",
+        "{ad} gibi süslü parantez içindeki boşluklar her eklemede doldurulur."
+      ],
+      [
+        "Yığın",
+        "Tek tuşta birkaç değer. Ok, bir sonraki değere geçer."
+      ],
+      [
+        "Güvenli İfade",
+        "Yalnızca Face ID ya da Touch ID onayından sonra eklenir. (Pro)"
+      ],
+      [
+        "Görsel İfade",
+        "Dokununca görsel kopyalanır, mesajınıza yapıştırırsınız."
+      ],
+      [
+        "Pano Geçmişi",
+        "Kopyaladıklarınızı türüne göre ayırıp yeniden kullanıma hazır tutar."
+      ],
+      [
+        "Tarayarak metin ekle",
+        "Fotoğraftaki metnin üzerinden geçerek yalnızca o kısmı alın. Fotoğraf saklanmaz."
+      ]
+    ],
+    "note": "Kullanım kılavuzunun tamamı: m1zz.github.io/ClipKeyboard/tr/tutorial.html"
+  },
+  "pricing": {
+    "title": "100 kez kullanın, sonra karar verin",
+    "free": {
+      "name": "Ücretsiz",
+      "items": [
+        "İfadeleri 100 kez ekleyene kadar tüm özellikler",
+        "Sonrasında oluşturduğunuz her şey çalışmaya devam eder",
+        "Yeni öğeler: en fazla 10 ifade, 3 şablon, 3 yığın ve 5 görsel",
+        "50 öğelik pano geçmişi"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus: sınırsız ifade, şablon, yığın ve görsel, 100 öğelik pano geçmişi",
+        "Pro: Plus'taki her şeye ek olarak iCloud yedekleme, Face ID kilidi ve cihazlar arası eşzamanlama (beta)"
+      ],
+      "note": "İkisi de yıllık abonelik ya da tek seferlik ömür boyu satın alma olarak sunulur."
+    },
+    "note": "Ödeme yapmasanız ya da aboneliğiniz bitse bile ifadeleriniz asla silinmez. Reklam yok."
+  },
+  "faq": {
+    "title": "Sorular",
+    "items": [
+      {
+        "q": "İfadelerim klavyede görünmüyor.",
+        "a": "Büyük olasılıkla tam erişim kapalı. Ayarlar > Genel > Klavye > Klavyeler > ClipKeyboard'a gidip Tam Erişime İzin Ver'i açın."
+      },
+      {
+        "q": "Alıştığım klavyeyi kullanmaya devam edebilir miyim?",
+        "a": "Evet. Bir ifade eklendikten sonra ClipKeyboard kullandığınız klavyeye geri döner; bunu ayarlardan kapatabilirsiniz. Dilerseniz doğrudan ClipKeyboard ile de yazabilirsiniz: 23 dilde iPhone'daki gibi tuşları var."
+      },
+      {
+        "q": "Japonca ya da Çince yazabilir miyim?",
+        "a": "Japoncada kanaya, Çincede pinyin ve zhuyine kadar. Kanji ve hanzi dönüştürme henüz yok."
+      },
+      {
+        "q": "Kopyaladıklarım geçmişte görünmüyor.",
+        "a": "iOS, diğer uygulamaların panoyu kendiliğinden okumasına izin vermez. Uygulamayı bir kez açın, sonra klavyeyi kullanın; kopyaladıklarınız görünecektir."
+      },
+      {
+        "q": "Bir şablon için kaydedilen değerleri nasıl silerim?",
+        "a": "Şablon düzenleyicide bir boşluğa dokunarak kayıtlı değerleri görün. Silmek istediğinizi kaydırın."
+      },
+      {
+        "q": "100 eklemeden sonra ne olur?",
+        "a": "Oluşturduğunuz tüm ifadeler, şablonlar ve yığınlar çalışmaya devam eder. Ücretsiz sınırlar yalnızca yeni öğeler için geçerlidir. Sınırları kaldırmak isterseniz Plus ya da Pro'yu seçin."
+      },
+      {
+        "q": "İfadelerim bir yere gönderiliyor mu?",
+        "a": "Hayır. Bu cihazda saklanırlar ve içeriklerini toplamayız. iCloud yedekleme açıksa kendi iCloud hesabınızda şifreli olarak saklanırlar. Uygulamayı geliştirmek için yalnızca anonim kullanım istatistikleri topluyoruz ve üçüncü taraf analiz araçları kullanmıyoruz."
+      },
+      {
+        "q": "Yeni bir telefona geçince ne olacak?",
+        "a": "Pro'nun iCloud yedeklemesi açıksa yeni cihazda aynı Apple Hesabı ile geri yükleyin. Görsel ifadeler de birlikte gelir. Geri yükleme, o cihazda zaten bulunan ifadelerin yerini alır."
+      },
+      {
+        "q": "iPad'de çalışıyor mu?",
+        "a": "Evet, hem iPhone'da hem iPad'de."
+      },
+      {
+        "q": "Sorunum burada yok.",
+        "a": "Aşağıdaki adrese e-posta gönderip ne olduğunu anlatın. Genellikle bir gün içinde yanıt veriyoruz."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Bugün bir kez yazın,\nyarından itibaren dokunun",
+    "cta": "App Store'dan ücretsiz al"
+  },
+  "ui": {
+    "skip": "İçeriğe geç",
+    "languages": "Dil",
+    "privacy": "Gizlilik Politikası",
+    "contact": "Soru ya da önerileriniz için {email} adresine yazın.",
+    "links": [
+      [
+        "Kılavuz",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

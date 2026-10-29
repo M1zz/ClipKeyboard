@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard: zapisane teksty jednym stuknięciem z klawiatury",
+  "description": "Zapisz raz numer konta, adres czy początek maila i wstawiaj je jednym stuknięciem z klawiatury w każdej aplikacji. Pierwsze 100 wstawień za darmo.",
+  "hero": {
+    "headline": "Przestań pisać\nw kółko to samo",
+    "lead": "Numer konta, adres albo ulubiony początek maila zapisz tylko raz. W Wiadomościach, Mailu, Safari i wszędzie, gdzie piszesz, masz je na klawiaturze pod jednym stuknięciem.",
+    "cta": "Za darmo w App Store",
+    "note": "Przez pierwsze 100 wstawień wszystkie funkcje są za darmo."
+  },
+  "demo": {
+    "title": "Wypróbuj tutaj",
+    "lead": "To ekran Podgląd klawiatury prosto z aplikacji. Na iPhonie ta klawiatura pojawia się wszędzie, gdzie można pisać.",
+    "send": "Wyślij",
+    "note": "Numer konta i imiona są zmyślone. Ta wersja demonstracyjna niczego nie zapisuje ani nie wysyła.",
+    "them": "Wysyłam dziś swoją część! Jaki masz numer konta?",
+    "field": "Tutaj pojawi się twój tekst",
+    "coachStart": "Stuknij dowolny klawisz, a jego treść trafi do pola powyżej.",
+    "coachSend": "Gotowe. Naciśnij strzałkę, żeby wysłać.",
+    "coachStack": "To jest stos. Każde miejsce ma własną nazwę, a strzałka po prawej przechodzi do następnego.",
+    "coachDone": "To wszystko: wypróbuj pozostałe klawisze",
+    "fillTitle": "Wypełnij pole",
+    "fillGo": "Wstaw",
+    "fillCancel": "Anuluj",
+    "bankKey": "Dane do przelewu",
+    "bankVal": "PKO BP 12 1020 1156 0000 7102 0123 4567 Jan Kowalski",
+    "lateKey": "Spóźniam się",
+    "lateVal": "Przepraszam, spóźnię się około 10 minut.",
+    "helloKey": "Odpowiedź na zapytanie",
+    "helloVal": "Dzień dobry {imię}, dziękuję za wiadomość.",
+    "stackKey": "Codzienny raport",
+    "stack": [
+      {
+        "key": "Imię i nazwisko",
+        "value": "Jan Kowalski"
+      },
+      {
+        "key": "Zespół",
+        "value": "Programiści"
+      },
+      {
+        "key": "Dziś",
+        "value": "Przegląd wydania"
+      }
+    ]
+  },
+  "problem": {
+    "title": "Ile razy dziś trzeba było wpisać numer konta?",
+    "text": "Znajomy pyta, gdzie przelać swoją część, więc otwierasz aplikację banku i kopiujesz numer. Potem znowu wystukujesz adres dostawy litera po literze i w każdym mailu do klienta piszesz to samo powitanie. ClipKeyboard trzyma te teksty na klawiaturze, gotowe do wstawienia jednym stuknięciem."
+  },
+  "features": [
+    {
+      "title": "Uzupełniasz tylko to, co się zmienia",
+      "text": "W szablonie zmienne części, jak {imię} czy {data}, zostają pustymi polami.\nPrzy wstawianiu pyta tylko o nie, a wartość możesz wybrać spośród użytych wcześniej.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Kilka wartości po kolei",
+      "text": "Stos mieści na jednym klawiszu kilka wartości, na przykład imię, zespół i dzisiejsze zadanie.\nStuknij, by wstawić bieżącą pozycję, a strzałką obok przejdź do następnej.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "To, co skopiujesz, jest też na klawiaturze",
+      "text": "Skopiowany przed chwilą numer przesyłki, adres czy telefon trafia na kartę Ostatnie w klawiaturze.\nAdresy e-mail, numery telefonów, adresy, numery kart i IBAN są rozpoznawane i porządkowane, więc znajdziesz je w sekundę.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "Wrażliwe dane pod kluczem",
+      "text": "Numery paszportu i kart zamień w bezpieczne frazy chronione przez Face ID.\nNumer konta masz tylko na papierze? Zrób zdjęcie i przesuń palcem po tych znakach, których potrzebujesz.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "Trzy kroki na start",
+    "items": [
+      {
+        "title": "Dodaj klawiaturę",
+        "text": "Ustawienia > Ogólne > Klawiatura > Klawiatury > Dodaj nową klawiaturę i wybierz ClipKeyboard."
+      },
+      {
+        "title": "Zezwól na pełny dostęp",
+        "text": "Klawiatura potrzebuje go, by odczytać frazy zapisane w aplikacji. To, co piszesz, nigdy nie opuszcza Twojego urządzenia."
+      },
+      {
+        "title": "Przytrzymaj globus, by przełączyć",
+        "text": "W dowolnej aplikacji przytrzymaj 🌐 na klawiaturze, wybierz ClipKeyboard i stuknij klawisz."
+      }
+    ]
+  },
+  "reference": {
+    "title": "Co możesz mieć na klawiaturze",
+    "rows": [
+      [
+        "Fraza",
+        "Wstawia dokładnie to, co zapisano, łącznie z podziałami wierszy i emoji."
+      ],
+      [
+        "Szablon",
+        "Pola w nawiasach klamrowych, jak {imię}, uzupełniasz przy każdym wstawieniu."
+      ],
+      [
+        "Stos",
+        "Kilka wartości na jednym klawiszu. Strzałka przechodzi do następnej pozycji."
+      ],
+      [
+        "Bezpieczna fraza",
+        "Wstawia się dopiero po Face ID lub Touch ID. (Pro)"
+      ],
+      [
+        "Fraza z obrazem",
+        "Stuknij, by skopiować obrazek, i wklej go do wiadomości."
+      ],
+      [
+        "Historia schowka",
+        "Przechowuje to, co kopiujesz, uporządkowane według typu i gotowe do ponownego użycia."
+      ],
+      [
+        "Wstaw tekst ze skanu",
+        "Przesuń palcem po tekście na zdjęciu, by wziąć tylko ten fragment. Zdjęcie nie jest zachowywane."
+      ]
+    ],
+    "note": "Pełny poradnik znajdziesz na m1zz.github.io/ClipKeyboard/pl/tutorial.html."
+  },
+  "pricing": {
+    "title": "Użyj 100 razy, potem zdecyduj",
+    "free": {
+      "name": "Za darmo",
+      "items": [
+        "Wszystkie funkcje, dopóki nie wstawisz fraz 100 razy",
+        "Wszystko, co utworzysz, działa także potem",
+        "Nowe elementy: do 10 fraz, 3 szablonów, 3 stosów i 5 obrazów",
+        "50 elementów w historii schowka"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus: bez limitu fraz, szablonów, stosów i obrazów, 100 elementów w historii schowka",
+        "Pro: wszystko z Plus, a do tego kopia iCloud, blokada Face ID i synchronizacja między urządzeniami (beta)"
+      ],
+      "note": "Każdy z nich jako subskrypcja roczna lub jednorazowy zakup na zawsze."
+    },
+    "note": "Twoje frazy nigdy nie zostaną usunięte, nawet jeśli nie zapłacisz albo subskrypcja wygaśnie. Bez reklam."
+  },
+  "faq": {
+    "title": "Pytania",
+    "items": [
+      {
+        "q": "Moje frazy nie pojawiają się na klawiaturze.",
+        "a": "Najpewniej pełny dostęp jest wyłączony. Wejdź w Ustawienia > Ogólne > Klawiatura > Klawiatury > ClipKeyboard i włącz opcję Zezwalaj na pełny dostęp."
+      },
+      {
+        "q": "Czy mogę zostać przy swojej klawiaturze?",
+        "a": "Tak. Po wstawieniu frazy ClipKeyboard wraca do klawiatury, której używasz, a w ustawieniach można to wyłączyć. Możesz też pisać na samej ClipKeyboard: ma klawisze jak na iPhonie w 23 językach."
+      },
+      {
+        "q": "Czy mogę pisać po japońsku albo chińsku?",
+        "a": "Po japońsku do etapu kany, po chińsku do pinyinu i zhuyinu. Zamiany na kanji i hanzi jeszcze nie ma."
+      },
+      {
+        "q": "To, co kopiuję, nie pojawia się w historii.",
+        "a": "iOS nie pozwala innym aplikacjom samodzielnie odczytywać schowka. Otwórz raz aplikację, a potem użyj klawiatury, i wszystko się pojawi."
+      },
+      {
+        "q": "Jak usunąć wartości zapisane w szablonie?",
+        "a": "W edytorze szablonu stuknij pole, aby zobaczyć zapisane wartości. Przesuń palcem po wartości, by ją usunąć."
+      },
+      {
+        "q": "Co się dzieje po 100 wstawieniach?",
+        "a": "Wszystkie utworzone frazy, szablony i stosy nadal działają. Darmowe limity dotyczą tylko nowych elementów. Jeśli chcesz je znieść, wybierz Plus albo Pro."
+      },
+      {
+        "q": "Czy moje frazy są gdzieś wysyłane?",
+        "a": "Nie. Są zapisane na tym urządzeniu i nie zbieramy ich treści. Po włączeniu kopii iCloud są przechowywane w postaci zaszyfrowanej w Twoim własnym iCloud. Zbieramy tylko anonimowe statystyki użycia, by ulepszać aplikację, i nie korzystamy z narzędzi analitycznych firm trzecich."
+      },
+      {
+        "q": "A co przy zmianie telefonu?",
+        "a": "Z włączoną kopią iCloud w Pro przywrócisz dane na nowym urządzeniu zalogowanym na to samo konto Apple. Frazy z obrazem też się przeniosą. Przywrócenie zastępuje frazy, które już są na tym urządzeniu."
+      },
+      {
+        "q": "Czy działa na iPadzie?",
+        "a": "Tak, na iPhonie i na iPadzie."
+      },
+      {
+        "q": "Mojego problemu tu nie ma.",
+        "a": "Napisz do nas maila poniżej i opisz, co się stało. Zwykle odpowiadamy w ciągu doby."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Wpisz raz dziś,\nod jutra tylko stuknij",
+    "cta": "Za darmo w App Store"
+  },
+  "ui": {
+    "skip": "Przejdź do treści",
+    "languages": "Język",
+    "privacy": "Polityka prywatności",
+    "contact": "Pytania lub uwagi? Napisz na {email}.",
+    "links": [
+      [
+        "Samouczek",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

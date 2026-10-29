@@ -1,5 +1,8 @@
 #!/usr/bin/env node
-// docs/<lang>/{index,privacy,tutorial}.html 을 만든다.
+// docs/<lang>/{privacy,tutorial}.html 을 만든다.
+//
+// ⚠️ 소개 페이지(docs/index.html · docs/<lang>/index.html)는 여기서 만들지 않는다.
+//    공용 생성기(DeployBar/scripts/sitegen)가 docs/site/ 의 글로 만든다. docs/en/index.html 은 루트(영어)로 넘기는 페이지다.
 //
 // 왜 있나: App Store 는 언어마다 개인정보처리방침 · 마케팅 · 지원 URL 을 따로 받는다.
 // 루트 페이지(docs/index.html 등)는 JS 로 언어를 바꾸는 한 장짜리라 "그 언어로 된 주소" 가 없다.
@@ -35,7 +38,6 @@ const NAMES = {
 
 // 페이지마다 언어를 타는 데이터 상수. 처음 것이 translations(제목 · 본문)다.
 const PAGES = {
-    'index.html': ['translations', 'PERSONA_META', 'BADGE_LABEL', 'PERSONA_DATA', 'DEMO_SCENARIOS'],
     'privacy.html': ['translations'],
     'tutorial.html': ['translations'],
 };

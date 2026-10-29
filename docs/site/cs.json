@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard: uložené texty na jedno klepnutí z klávesnice",
+  "description": "Číslo účtu, adresu nebo úvod e-mailu uložte jednou a vkládejte je jedním klepnutím z klávesnice v každé aplikaci. Prvních 100 vložení zdarma.",
+  "hero": {
+    "headline": "Nepište pořád\nto samé dokola",
+    "lead": "Číslo účtu, adresu nebo oblíbený úvod e-mailu si uložte jednou. Ve Zprávách, Mailu, Safari a všude, kde píšete, je pak máte na klávesnici na jedno klepnutí.",
+    "cta": "Zdarma v App Store",
+    "note": "Prvních 100 vložení máte všechny funkce zdarma."
+  },
+  "demo": {
+    "title": "Vyzkoušejte si to tady",
+    "lead": "Tohle je obrazovka Náhled klávesnice přímo z aplikace. Na iPhonu se tahle klávesnice objeví všude, kde se dá psát.",
+    "send": "Odeslat",
+    "note": "Číslo účtu a jména jsou smyšlené. Ukázka nic neukládá ani neodesílá.",
+    "them": "Dnes posílám svůj podíl! Na jaký účet?",
+    "field": "Tady se objeví váš text",
+    "coachStart": "Klepněte na libovolnou klávesu a text se objeví v poli nahoře.",
+    "coachSend": "Hotovo. Odešlete ho šipkou.",
+    "coachStack": "Tohle je zásobník. Každá pozice má svůj název a šipka vpravo přejde na další.",
+    "coachDone": "To je celé: zkuste i další klávesy",
+    "fillTitle": "Vyplňte pole",
+    "fillGo": "Vložit",
+    "fillCancel": "Zrušit",
+    "bankKey": "Bankovní spojení",
+    "bankVal": "Česká spořitelna 123456789/0800 Jan Novák",
+    "lateKey": "Zpoždění",
+    "lateVal": "Omlouvám se, přijdu asi o 10 minut později.",
+    "helloKey": "Odpověď na dotaz",
+    "helloVal": "Dobrý den, {jméno}, děkuji za Váš zájem.",
+    "stackKey": "Denní hlášení",
+    "stack": [
+      {
+        "key": "Jméno",
+        "value": "Jan Novák"
+      },
+      {
+        "key": "Tým",
+        "value": "Vývoj"
+      },
+      {
+        "key": "Dnes",
+        "value": "Kontrola vydání"
+      }
+    ]
+  },
+  "problem": {
+    "title": "Kolikrát jste dnes psali číslo účtu?",
+    "text": "Kamarád se ptá, kam vám má poslat svůj podíl, a vy otevíráte bankovní aplikaci a kopírujete číslo. Pak zase ručně vyťukáváte doručovací adresu a každému zákazníkovi píšete stejný pozdrav. ClipKeyboard má tyhle texty přímo na klávesnici, připravené na jedno klepnutí."
+  },
+  "features": [
+    {
+      "title": "Vyplníte jen to, co se mění",
+      "text": "Šablona nechá proměnlivé části, třeba {jméno} nebo {datum}, jako prázdná pole.\nPři vložení se zeptá jen na ně a můžete vybrat hodnotu, kterou jste už použili.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Více hodnot, jedna po druhé",
+      "text": "Zásobník uloží na jednu klávesu několik hodnot, například jméno, tým a dnešní úkol.\nKlepnutím vložíte aktuální pozici, šipkou vedle přejdete na další.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "Co zkopírujete, máte i na klávesnici",
+      "text": "Číslo zásilky, adresa nebo telefon, které jste právě zkopírovali, se objeví na kartě Nedávné v klávesnici.\nE-maily, telefonní čísla, adresy, čísla karet a IBAN rozpozná a roztřídí, takže je za vteřinu najdete znovu.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "Citlivé údaje pod zámkem",
+      "text": "Číslo pasu nebo karty uložte jako zabezpečenou frázi chráněnou Face ID.\nMáte číslo účtu jen na papíře? Vyfoťte ho a přejeďte prstem jen přes znaky, které potřebujete.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "Začnete ve třech krocích",
+    "items": [
+      {
+        "title": "Přidejte klávesnici",
+        "text": "Nastavení > Obecné > Klávesnice > Klávesnice > Přidat novou klávesnici a vyberte ClipKeyboard."
+      },
+      {
+        "title": "Povolte úplný přístup",
+        "text": "Klávesnice ho potřebuje, aby mohla číst fráze uložené v aplikaci. Co napíšete, nikdy neopustí vaše zařízení."
+      },
+      {
+        "title": "Přepínejte podržením glóbu",
+        "text": "V libovolné aplikaci podržte na klávesnici 🌐, vyberte ClipKeyboard a klepněte na klávesu."
+      }
+    ]
+  },
+  "reference": {
+    "title": "Co všechno můžete mít na klávesnici",
+    "rows": [
+      [
+        "Fráze",
+        "Vloží přesně to, co jste uložili, včetně zalomení řádků a emoji."
+      ],
+      [
+        "Šablona",
+        "Pole ve složených závorkách, třeba {jméno}, vyplníte při každém vložení."
+      ],
+      [
+        "Zásobník",
+        "Několik hodnot na jedné klávese. Šipka přejde na další pozici."
+      ],
+      [
+        "Zabezpečená fráze",
+        "Vloží se až po ověření přes Face ID nebo Touch ID. (Pro)"
+      ],
+      [
+        "Obrázková fráze",
+        "Klepnutím zkopírujete obrázek a pak ho vložíte do zprávy."
+      ],
+      [
+        "Historie schránky",
+        "Uchová, co zkopírujete, roztříděné podle typu a připravené k dalšímu použití."
+      ],
+      [
+        "Vložit text skenem",
+        "Přejeďte prstem přes text na fotce a vezměte jen tu část. Fotka se neukládá."
+      ]
+    ],
+    "note": "Celý návod najdete na m1zz.github.io/ClipKeyboard/cs/tutorial.html."
+  },
+  "pricing": {
+    "title": "Stokrát vyzkoušejte, pak se rozhodněte",
+    "free": {
+      "name": "Zdarma",
+      "items": [
+        "Všechny funkce, dokud frázi nevložíte stokrát",
+        "Vše, co vytvoříte, potom dál funguje",
+        "Nové položky: až 10 frází, 3 šablony, 3 zásobníky a 5 obrázků",
+        "Historie schránky: 50 položek"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus: neomezeně frází, šablon, zásobníků a obrázků, historie schránky 100 položek",
+        "Pro: vše z Plus a navíc záloha na iCloud, zámek Face ID a synchronizace mezi zařízeními (beta)"
+      ],
+      "note": "Obojí jako roční předplatné nebo jednorázový doživotní nákup."
+    },
+    "note": "Vaše fráze se nikdy nesmažou, ani když nezaplatíte nebo předplatné skončí. Žádné reklamy."
+  },
+  "faq": {
+    "title": "Časté otázky",
+    "items": [
+      {
+        "q": "Na klávesnici nevidím své fráze.",
+        "a": "Nejspíš je vypnutý úplný přístup. Otevřete Nastavení > Obecné > Klávesnice > Klávesnice > ClipKeyboard a zapněte Povolit úplný přístup."
+      },
+      {
+        "q": "Můžu dál používat svou klávesnici?",
+        "a": "Ano. Po vložení fráze se ClipKeyboard přepne zpět na klávesnici, kterou jste používali, a v nastavení to jde vypnout. Psát můžete i přímo v ClipKeyboard: má klávesy jako na iPhonu ve 23 jazycích."
+      },
+      {
+        "q": "Dá se psát japonsky nebo čínsky?",
+        "a": "Japonsky zatím jen v kaně, čínsky v pinyinu a zhuyinu. Převod na znaky kanji a hanzi ještě chybí."
+      },
+      {
+        "q": "Co zkopíruji, se v historii neobjeví.",
+        "a": "iOS nedovolí ostatním aplikacím číst schránku samy od sebe. Jednou otevřete aplikaci, pak použijte klávesnici a položky se objeví."
+      },
+      {
+        "q": "Jak smažu hodnoty uložené k šabloně?",
+        "a": "V editoru šablony klepněte na pole a uvidíte jeho uložené hodnoty. Přejetím prstem hodnotu smažete."
+      },
+      {
+        "q": "Co se stane po 100 vloženích?",
+        "a": "Všechny fráze, šablony a zásobníky, které jste vytvořili, dál fungují. Bezplatné limity platí jen pro nové položky. Chcete-li je zrušit, zvolte Plus nebo Pro."
+      },
+      {
+        "q": "Posílají se mé fráze někam?",
+        "a": "Ne. Jsou uložené v tomto zařízení a jejich obsah neshromažďujeme. Se zapnutou zálohou na iCloud se ukládají šifrovaně do vašeho vlastního iCloudu. Pro vylepšování aplikace sbíráme jen anonymní statistiky používání a nepoužíváme analytické nástroje třetích stran."
+      },
+      {
+        "q": "A když si pořídím nový telefon?",
+        "a": "Se zapnutou zálohou na iCloud z Pro obnovíte vše na novém zařízení se stejným Apple účtem. Přenesou se i obrázkové fráze. Obnovení nahradí fráze, které už na tom zařízení jsou."
+      },
+      {
+        "q": "Funguje i na iPadu?",
+        "a": "Ano, na iPhonu i na iPadu."
+      },
+      {
+        "q": "Můj problém tu není.",
+        "a": "Napište nám e-mail níže a popište, co se stalo. Obvykle odpovídáme do druhého dne."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Dnes napíšete jednou,\nzítra už jen klepnete",
+    "cta": "Zdarma v App Store"
+  },
+  "ui": {
+    "skip": "Přejít na obsah",
+    "languages": "Jazyk",
+    "privacy": "Zásady ochrany osobních údajů",
+    "contact": "Dotazy nebo připomínky? Pište na {email}.",
+    "links": [
+      [
+        "Návod",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

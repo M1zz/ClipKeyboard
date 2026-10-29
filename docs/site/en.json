@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard: your saved phrases, one tap away on the keyboard",
+  "description": "Save account numbers, addresses and email openers once, then insert them with one tap from the keyboard in any app. Free for your first 100 inserts.",
+  "hero": {
+    "headline": "Stop typing\nthe same thing twice",
+    "lead": "Save your bank details, address or go-to email opener once. In Messages, Mail, Safari or anywhere you type, it's one tap from the keyboard.",
+    "cta": "Get it free on the App Store",
+    "note": "Every feature is free for your first 100 inserts."
+  },
+  "demo": {
+    "title": "Try it right here",
+    "lead": "This is the app's own Keyboard preview screen. On your iPhone, this keyboard comes up anywhere you can type.",
+    "send": "Send",
+    "note": "The account number and names here are made up. This demo doesn't save or send anything.",
+    "them": "Sending my share today! What is your account?",
+    "field": "Your text lands here",
+    "coachStart": "Tap any key and it lands in the field above.",
+    "coachSend": "There it is. Hit the arrow to send it.",
+    "coachStack": "This one is a stack. Each slot has its own name, and the arrow on the right moves to the next one.",
+    "coachDone": "That's the whole thing: try the other keys",
+    "fillTitle": "Fill in the blank",
+    "fillGo": "Insert",
+    "fillCancel": "Cancel",
+    "bankKey": "Bank details",
+    "bankVal": "Chase 110-123-456789 John Doe",
+    "lateKey": "Running late",
+    "lateVal": "Sorry, I am going to be about 10 minutes late.",
+    "helloKey": "Reply to inquiry",
+    "helloVal": "Hello {name}, thank you for reaching out.",
+    "stackKey": "Daily check-in",
+    "stack": [
+      {
+        "key": "Name",
+        "value": "John Doe"
+      },
+      {
+        "key": "Team",
+        "value": "Engineering"
+      },
+      {
+        "key": "Today",
+        "value": "Release check"
+      }
+    ]
+  },
+  "problem": {
+    "title": "How many times did you type your account number today?",
+    "text": "A friend asks where to send their share, so you open the bank app and copy the number. Then you type your delivery address letter by letter, again, and write the same greeting for every customer email. ClipKeyboard keeps those lines on the keyboard, ready to drop in with one tap."
+  },
+  "features": [
+    {
+      "title": "Fill in only what changes",
+      "text": "Templates leave the changing parts, like {name} or {date}, as blanks.\nWhen you insert one, it asks for just the blanks, and you can pick a value you've used before.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Several values, in order",
+      "text": "A stack keeps several values, like name, team and today's task, on a single key.\nTap it to insert the current slot, then use the arrow beside it to move to the next.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "What you copy is on the keyboard too",
+      "text": "The tracking number, address or phone number you just copied lands in the keyboard's Recent tab.\nIt recognizes emails, phone numbers, addresses, card numbers and IBANs and sorts them, so you find them again in a second.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "Lock away the sensitive ones",
+      "text": "Turn passport or card numbers into secure snippets locked behind Face ID.\nGot an account number on paper? Snap a photo and swipe your finger over just the characters you need.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "Three steps to start",
+    "items": [
+      {
+        "title": "Add the keyboard",
+        "text": "Settings > General > Keyboard > Keyboards > Add New Keyboard, then pick ClipKeyboard."
+      },
+      {
+        "title": "Allow Full Access",
+        "text": "The keyboard needs it to read the snippets you saved in the app. What you type never leaves your device."
+      },
+      {
+        "title": "Hold the globe to switch",
+        "text": "In any app, touch and hold 🌐 on the keyboard, choose ClipKeyboard and tap a key."
+      }
+    ]
+  },
+  "reference": {
+    "title": "What you can put on the keyboard",
+    "rows": [
+      [
+        "Snippet",
+        "Inserts exactly what you saved, line breaks and emoji included."
+      ],
+      [
+        "Template",
+        "Blanks in curly braces, like {name}, get filled each time you insert it."
+      ],
+      [
+        "Stack",
+        "Several values on one key. The arrow moves to the next slot."
+      ],
+      [
+        "Secure snippet",
+        "Goes in only after Face ID or Touch ID. (Pro)"
+      ],
+      [
+        "Image snippet",
+        "Tap to copy the picture, then paste it into your message."
+      ],
+      [
+        "Clipboard history",
+        "Keeps what you copy, sorted by type, ready to use again."
+      ],
+      [
+        "Scan text in",
+        "Swipe over text in a photo to grab just that part. The photo isn't kept."
+      ]
+    ],
+    "note": "The full user guide is at m1zz.github.io/ClipKeyboard/en/tutorial.html."
+  },
+  "pricing": {
+    "title": "Use it 100 times, then decide",
+    "free": {
+      "name": "Free",
+      "items": [
+        "Every feature until you've inserted snippets 100 times",
+        "Everything you made keeps working after that",
+        "New items: up to 10 snippets, 3 templates, 3 stacks and 5 images",
+        "50 clipboard history items"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus: unlimited snippets, templates, stacks and images, 100 clipboard history items",
+        "Pro: everything in Plus, plus iCloud backup, Face ID lock and sync across devices (beta)"
+      ],
+      "note": "Each comes as a yearly subscription or a one-time lifetime purchase."
+    },
+    "note": "Your snippets are never deleted, even if you don't pay or a subscription ends. No ads."
+  },
+  "faq": {
+    "title": "Questions",
+    "items": [
+      {
+        "q": "My snippets don't show up on the keyboard.",
+        "a": "Full Access is probably off. Go to Settings > General > Keyboard > Keyboards > ClipKeyboard and turn on Allow Full Access."
+      },
+      {
+        "q": "Can I keep my usual keyboard?",
+        "a": "Yes. After a snippet goes in, ClipKeyboard switches back to the keyboard you were using, and you can turn that off in settings. You can also type with ClipKeyboard itself: it has iPhone-style keys in 23 languages."
+      },
+      {
+        "q": "Can I type Japanese or Chinese?",
+        "a": "Japanese up to kana, and Chinese up to pinyin and zhuyin. Conversion to kanji and hanzi isn't available yet."
+      },
+      {
+        "q": "Things I copy don't show up in the history.",
+        "a": "iOS stops other apps from reading the clipboard on their own. Open the app once, then use the keyboard, and they'll appear."
+      },
+      {
+        "q": "How do I delete values saved for a template?",
+        "a": "In the template editor, tap a blank to see its saved values. Swipe one to delete it."
+      },
+      {
+        "q": "What happens after 100 inserts?",
+        "a": "Every snippet, template and stack you made keeps working. The free limits only apply to new items. Choose Plus or Pro if you want to lift them."
+      },
+      {
+        "q": "Are my snippets sent anywhere?",
+        "a": "No. They're stored on this device and we don't collect their contents. With iCloud backup on, they're stored encrypted in your own iCloud. We collect only anonymous usage statistics to improve the app, and use no third-party analytics."
+      },
+      {
+        "q": "What about when I get a new phone?",
+        "a": "With Pro's iCloud backup on, restore on the new device with the same Apple Account. Image snippets come along too. Restoring replaces whatever snippets are already on that device."
+      },
+      {
+        "q": "Does it work on iPad?",
+        "a": "Yes, on both iPhone and iPad."
+      },
+      {
+        "q": "My problem isn't listed here.",
+        "a": "Email us below and tell us what happened. We usually reply within a day."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Type it once today,\ntap it from tomorrow",
+    "cta": "Get it free on the App Store"
+  },
+  "ui": {
+    "skip": "Skip to content",
+    "languages": "Language",
+    "privacy": "Privacy Policy",
+    "contact": "Questions or feedback? Write to {email}.",
+    "links": [
+      [
+        "Tutorial",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

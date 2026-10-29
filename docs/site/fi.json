@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard: tallennetut tekstit yhden napautuksen päässä",
+  "description": "Tallenna tilinumerot, osoitteet ja viestien aloitukset kerran ja lisää ne näppäimistöltä yhdellä napautuksella. 100 kertaa kaikki on ilmaista.",
+  "hero": {
+    "headline": "Lopeta saman tekstin\nnäpyttely",
+    "lead": "Tallenna tilinumerosi, osoitteesi tai vakiintunut sähköpostin aloituksesi kerran. Viesteissä, Mailissa, Safarissa ja kaikkialla, missä kirjoitat, se on näppäimistöllä yhden napautuksen päässä.",
+    "cta": "Ilmaiseksi App Storesta",
+    "note": "Kaikki ominaisuudet ovat ilmaisia 100 ensimmäiseen lisäykseen asti."
+  },
+  "demo": {
+    "title": "Kokeile heti tässä",
+    "lead": "Tämä on sovelluksen oma näkymä Näppäimistön esikatselu. iPhonessa tämä näppäimistö tulee esiin kaikkialla, missä voit kirjoittaa.",
+    "send": "Lähetä",
+    "note": "Tilinumero ja nimet ovat keksittyjä. Esittely ei tallenna eikä lähetä mitään.",
+    "them": "Maksan osuuteni tänään! Mikä on tilinumerosi?",
+    "field": "Tekstisi ilmestyy tähän",
+    "coachStart": "Napauta mitä tahansa näppäintä, niin teksti ilmestyy yllä olevaan kenttään.",
+    "coachSend": "Siinä se on. Lähetä painamalla nuolta.",
+    "coachStack": "Tämä on pino. Jokaisella kohdalla on oma nimensä, ja oikealla oleva nuoli siirtyy seuraavaan.",
+    "coachDone": "Siinä kaikki: kokeile muita näppäimiä",
+    "fillTitle": "Täytä kenttä",
+    "fillGo": "Lisää",
+    "fillCancel": "Peruuta",
+    "bankKey": "Tilitiedot",
+    "bankVal": "Nordea FI21 1234 5600 0007 85 Matti Meikäläinen",
+    "lateKey": "Myöhässä",
+    "lateVal": "Anteeksi, olen noin 10 minuuttia myöhässä.",
+    "helloKey": "Vastaus tiedusteluun",
+    "helloVal": "Hei {nimi}, kiitos yhteydenotostasi.",
+    "stackKey": "Päivittäinen kuulumiskierros",
+    "stack": [
+      {
+        "key": "Nimi",
+        "value": "Matti Meikäläinen"
+      },
+      {
+        "key": "Tiimi",
+        "value": "Kehitys"
+      },
+      {
+        "key": "Tänään",
+        "value": "Julkaisutarkistus"
+      }
+    ]
+  },
+  "problem": {
+    "title": "Montako kertaa kirjoitit tänään tilinumerosi?",
+    "text": "Kaveri kysyy, mihin hän maksaa osuutensa, joten avaat pankkisovelluksen ja kopioit numeron. Sitten näppäilet toimitusosoitteesi taas kirjain kirjaimelta ja kirjoitat saman tervehdyksen jokaiseen asiakasviestiin. ClipKeyboard pitää nämä rivit valmiina näppäimistöllä, yhden napautuksen päässä."
+  },
+  "features": [
+    {
+      "title": "Täytä vain se, mikä vaihtuu",
+      "text": "Pohjassa vaihtuvat kohdat, kuten {nimi} tai {päivä}, jäävät tyhjiksi kentiksi.\nKun lisäät pohjan, se kysyy vain nämä kentät, ja voit valita aiemmin käyttämäsi arvon.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Monta arvoa järjestyksessä",
+      "text": "Pino kokoaa yhteen näppäimeen useita arvoja, kuten nimen, tiimin ja päivän tehtävän.\nNapauttamalla lisäät nykyisen kohdan, ja viereinen nuoli siirtää seuraavaan.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "Kopioimasi löytyy myös näppäimistöltä",
+      "text": "Juuri kopioimasi seurantanumero, osoite tai puhelinnumero ilmestyy näppäimistön Viimeisimmät-välilehdelle.\nSähköpostiosoitteet, puhelinnumerot, osoitteet, korttinumerot ja IBAN-numerot tunnistetaan ja lajitellaan, joten löydät ne sekunnissa.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "Arkaluonteiset lukon taakse",
+      "text": "Tee passin ja korttien numeroista suojattuja fraaseja, jotka aukeavat vain Face ID:llä.\nOnko tilinumero paperilla? Ota kuva ja pyyhkäise sormella vain tarvitsemiesi merkkien yli.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "Aloita kolmessa vaiheessa",
+    "items": [
+      {
+        "title": "Lisää näppäimistö",
+        "text": "Asetukset > Yleiset > Näppäimistö > Näppäimistöt > Lisää uusi näppäimistö ja valitse ClipKeyboard."
+      },
+      {
+        "title": "Salli täysi pääsy",
+        "text": "Näppäimistö tarvitsee sen lukeakseen sovellukseen tallentamasi fraasit. Kirjoittamasi teksti ei koskaan lähde laitteeltasi."
+      },
+      {
+        "title": "Vaihda pitämällä maapalloa",
+        "text": "Paina missä tahansa sovelluksessa pitkään näppäimistön 🌐-kuvaketta, valitse ClipKeyboard ja napauta näppäintä."
+      }
+    ]
+  },
+  "reference": {
+    "title": "Mitä näppäimistölle voi tallentaa",
+    "rows": [
+      [
+        "Fraasi",
+        "Lisää juuri sen, minkä tallensit, rivinvaihdot ja emojit mukaan lukien."
+      ],
+      [
+        "Pohja",
+        "Aaltosulkeissa olevat kentät, kuten {nimi}, täytetään joka lisäyskerralla."
+      ],
+      [
+        "Pino",
+        "Useita arvoja yhdessä näppäimessä. Nuoli siirtää seuraavaan kohtaan."
+      ],
+      [
+        "Suojattu fraasi",
+        "Lisätään vasta Face ID:n tai Touch ID:n jälkeen. (Pro)"
+      ],
+      [
+        "Kuvafraasi",
+        "Napauta kopioidaksesi kuvan ja liitä se viestiisi."
+      ],
+      [
+        "Leikepöydän historia",
+        "Säilyttää kopioimasi lajiteltuna tyypin mukaan ja valmiina uudelleenkäyttöön."
+      ],
+      [
+        "Skannaa teksti",
+        "Pyyhkäise kuvassa olevan tekstin yli ja ota vain se osa. Kuvaa ei säilytetä."
+      ]
+    ],
+    "note": "Koko käyttöopas on osoitteessa m1zz.github.io/ClipKeyboard/fi/tutorial.html."
+  },
+  "pricing": {
+    "title": "Käytä sata kertaa ja päätä sitten",
+    "free": {
+      "name": "Ilmainen",
+      "items": [
+        "Kaikki ominaisuudet, kunnes olet lisännyt fraaseja 100 kertaa",
+        "Kaikki tekemäsi toimii senkin jälkeen",
+        "Uudet kohteet: enintään 10 fraasia, 3 pohjaa, 3 pinoa ja 5 kuvaa",
+        "Leikepöydän historiassa 50 kohdetta"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus: rajattomasti fraaseja, pohjia, pinoja ja kuvia, leikepöydän historiassa 100 kohdetta",
+        "Pro: kaikki Plusin ominaisuudet sekä iCloud-varmuuskopio, Face ID -lukitus ja synkronointi laitteiden välillä (beta)"
+      ],
+      "note": "Kumpikin on saatavilla vuositilauksena tai kertaostona, joka on voimassa pysyvästi."
+    },
+    "note": "Fraasejasi ei koskaan poisteta, vaikka et maksaisi tai tilaus päättyisi. Ei mainoksia."
+  },
+  "faq": {
+    "title": "Kysymyksiä",
+    "items": [
+      {
+        "q": "Fraasini eivät näy näppäimistöllä.",
+        "a": "Täysi pääsy on todennäköisesti pois päältä. Avaa Asetukset > Yleiset > Näppäimistö > Näppäimistöt > ClipKeyboard ja laita Salli täysi pääsy päälle."
+      },
+      {
+        "q": "Voinko pitää tutun näppäimistöni?",
+        "a": "Voit. Kun fraasi on lisätty, ClipKeyboard vaihtaa takaisin näppäimistöön, jota käytit, ja tämän voi kytkeä pois asetuksista. Voit myös kirjoittaa itse ClipKeyboardilla: siinä on iPhonen kaltaiset näppäimet 23 kielellä."
+      },
+      {
+        "q": "Voiko sillä kirjoittaa japania tai kiinaa?",
+        "a": "Japania kanaan asti ja kiinaa pinyiniin ja zhuyiniin asti. Muunnosta kanji- ja hanzi-merkeiksi ei vielä ole."
+      },
+      {
+        "q": "Kopioimani asiat eivät näy historiassa.",
+        "a": "iOS estää muita sovelluksia lukemasta leikepöytää omin päin. Avaa sovellus kerran ja käytä sitten näppäimistöä, niin ne tulevat näkyviin."
+      },
+      {
+        "q": "Miten poistan pohjaan tallennettuja arvoja?",
+        "a": "Napauta pohjan muokkausnäkymässä kenttää, niin näet sen tallennetut arvot. Poista arvo pyyhkäisemällä."
+      },
+      {
+        "q": "Mitä tapahtuu 100 lisäyksen jälkeen?",
+        "a": "Kaikki tekemäsi fraasit, pohjat ja pinot toimivat edelleen. Ilmaisversion rajat koskevat vain uusia kohteita. Valitse Plus tai Pro, jos haluat eroon rajoista."
+      },
+      {
+        "q": "Lähetetäänkö fraasejani jonnekin?",
+        "a": "Ei. Ne tallennetaan tälle laitteelle, emmekä kerää niiden sisältöä. Kun iCloud-varmuuskopio on päällä, ne tallennetaan salattuina omaan iCloudiisi. Keräämme vain nimetöntä käyttötilastoa sovelluksen parantamiseksi emmekä käytä kolmansien osapuolten analytiikkaa."
+      },
+      {
+        "q": "Entä kun vaihdan puhelinta?",
+        "a": "Kun Pron iCloud-varmuuskopio on päällä, palauta tiedot uudelle laitteelle samalla Apple-tilillä. Myös kuvafraasit siirtyvät. Palautus korvaa laitteella jo olevat fraasit."
+      },
+      {
+        "q": "Toimiiko se iPadilla?",
+        "a": "Toimii, sekä iPhonessa että iPadissa."
+      },
+      {
+        "q": "Ongelmaani ei löydy tästä.",
+        "a": "Lähetä meille sähköpostia alta ja kerro, mitä tapahtui. Vastaamme yleensä vuorokauden sisällä."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Kirjoita kerran tänään,\nhuomenna riittää napautus",
+    "cta": "Ilmaiseksi App Storesta"
+  },
+  "ui": {
+    "skip": "Siirry sisältöön",
+    "languages": "Kieli",
+    "privacy": "Tietosuojakäytäntö",
+    "contact": "Kysyttävää tai palautetta? Kirjoita osoitteeseen {email}.",
+    "links": [
+      [
+        "Opas",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard: je vaste teksten met één tik op het toetsenbord",
+  "description": "Bewaar rekeningnummers, adressen en e-mailopeningen één keer en voeg ze in elke app met één tik in via het toetsenbord. 100 keer alles gratis.",
+  "hero": {
+    "headline": "Typ nooit meer\ntwee keer hetzelfde",
+    "lead": "Bewaar je rekeningnummer, adres of vaste e-mailopening één keer. In Berichten, Mail, Safari en overal waar je typt, staat het met één tik klaar op het toetsenbord.",
+    "cta": "Gratis in de App Store",
+    "note": "De eerste 100 keer invoegen zijn alle functies gratis."
+  },
+  "demo": {
+    "title": "Probeer het hier",
+    "lead": "Dit is het scherm Voorbeeld toetsenbord uit de app zelf. Op je iPhone verschijnt dit toetsenbord overal waar je kunt typen.",
+    "send": "Verstuur",
+    "note": "Het rekeningnummer en de namen zijn verzonnen. Deze demo bewaart en verstuurt niets.",
+    "them": "Ik stuur mijn deel vandaag door! Wat is jouw rekeningnummer?",
+    "field": "Je tekst verschijnt hier",
+    "coachStart": "Tik op een toets en de tekst verschijnt in het veld hierboven.",
+    "coachSend": "Daar staat het. Tik op de pijl om het te versturen.",
+    "coachStack": "Dit is een stapel. Elk onderdeel heeft een eigen naam en met de pijl rechts ga je naar het volgende.",
+    "coachDone": "Zo simpel is het: probeer ook de andere toetsen",
+    "fillTitle": "Vul het invulveld in",
+    "fillGo": "Invoegen",
+    "fillCancel": "Annuleren",
+    "bankKey": "Bankgegevens",
+    "bankVal": "ABN AMRO NL91 ABNA 0417 1643 00 Jan de Vries",
+    "lateKey": "Ik ben iets later",
+    "lateVal": "Sorry, ik ben ongeveer 10 minuten te laat.",
+    "helloKey": "Antwoord op vraag",
+    "helloVal": "Hallo {naam}, bedankt voor je bericht.",
+    "stackKey": "Dagelijkse check-in",
+    "stack": [
+      {
+        "key": "Naam",
+        "value": "Jan de Vries"
+      },
+      {
+        "key": "Team",
+        "value": "Ontwikkeling"
+      },
+      {
+        "key": "Vandaag",
+        "value": "Releasecontrole"
+      }
+    ]
+  },
+  "problem": {
+    "title": "Hoe vaak heb je vandaag je rekeningnummer getypt?",
+    "text": "Een vriend vraagt waar hij zijn deel naartoe kan overmaken, dus open je de bankapp en kopieer je het nummer. Daarna tik je je bezorgadres weer letter voor letter in en zet je dezelfde begroeting boven elke klantmail. ClipKeyboard houdt die regels op het toetsenbord, klaar voor één tik."
+  },
+  "features": [
+    {
+      "title": "Vul alleen in wat verandert",
+      "text": "Sjablonen laten de delen die veranderen, zoals {naam} of {datum}, open als invulveld.\nBij het invoegen vraagt het sjabloon alleen naar die velden, en je kunt een waarde kiezen die je eerder hebt gebruikt.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Meerdere waarden, op volgorde",
+      "text": "Een stapel zet meerdere waarden, zoals naam, team en de taak van vandaag, onder één toets.\nTik om de huidige plek in te voegen en ga met de pijl ernaast naar de volgende.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "Wat je kopieert, staat ook op je toetsenbord",
+      "text": "Het trackingnummer, adres of telefoonnummer dat je net hebt gekopieerd, komt in het tabblad Recent van het toetsenbord.\nE-mailadressen, telefoonnummers, adressen, kaartnummers en IBAN's worden herkend en gesorteerd, zodat je ze binnen een seconde terugvindt.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "Gevoelige gegevens achter slot",
+      "text": "Maak van paspoort- en kaartnummers beveiligde fragmenten die met Face ID vergrendeld zijn.\nStaat een rekeningnummer op papier? Maak een foto en veeg met je vinger over precies de tekens die je nodig hebt.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "In drie stappen aan de slag",
+    "items": [
+      {
+        "title": "Voeg het toetsenbord toe",
+        "text": "Instellingen > Algemeen > Toetsenbord > Toetsenborden > Nieuw toetsenbord en kies ClipKeyboard."
+      },
+      {
+        "title": "Sta volledige toegang toe",
+        "text": "Het toetsenbord heeft dit nodig om de fragmenten te lezen die je in de app hebt bewaard. Wat je typt, verlaat je apparaat nooit."
+      },
+      {
+        "title": "Houd de wereldbol vast om te wisselen",
+        "text": "Houd in elke app 🌐 op het toetsenbord ingedrukt, kies ClipKeyboard en tik op een toets."
+      }
+    ]
+  },
+  "reference": {
+    "title": "Dit kun je op je toetsenbord zetten",
+    "rows": [
+      [
+        "Fragment",
+        "Voegt precies in wat je hebt bewaard, inclusief regeleinden en emoji."
+      ],
+      [
+        "Sjabloon",
+        "Velden tussen accolades, zoals {naam}, vul je bij elk gebruik in."
+      ],
+      [
+        "Stapel",
+        "Meerdere waarden onder één toets. De pijl gaat naar de volgende plek."
+      ],
+      [
+        "Beveiligd fragment",
+        "Wordt pas ingevoegd na Face ID of Touch ID. (Pro)"
+      ],
+      [
+        "Afbeeldingsfragment",
+        "Tik om de afbeelding te kopiëren en plak hem in je bericht."
+      ],
+      [
+        "Klembordgeschiedenis",
+        "Bewaart wat je kopieert, gesorteerd op soort en klaar voor hergebruik."
+      ],
+      [
+        "Tekst scannen",
+        "Veeg over tekst in een foto om alleen dat stuk te pakken. De foto wordt niet bewaard."
+      ]
+    ],
+    "note": "De volledige handleiding staat op m1zz.github.io/ClipKeyboard/nl/tutorial.html."
+  },
+  "pricing": {
+    "title": "Gebruik het 100 keer en beslis dan",
+    "free": {
+      "name": "Gratis",
+      "items": [
+        "Alle functies tot je 100 keer een fragment hebt ingevoegd",
+        "Alles wat je hebt gemaakt, blijft daarna werken",
+        "Nieuwe items: tot 10 fragmenten, 3 sjablonen, 3 stapels en 5 afbeeldingen",
+        "50 items in de klembordgeschiedenis"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus: onbeperkt fragmenten, sjablonen, stapels en afbeeldingen, 100 items in de klembordgeschiedenis",
+        "Pro: alles van Plus, plus iCloud-back-up, Face ID-vergrendeling en synchronisatie tussen apparaten (bèta)"
+      ],
+      "note": "Allebei als jaarabonnement of als eenmalige aankoop voor altijd."
+    },
+    "note": "Je fragmenten worden nooit verwijderd, ook niet als je niet betaalt of je abonnement afloopt. Geen advertenties."
+  },
+  "faq": {
+    "title": "Vragen",
+    "items": [
+      {
+        "q": "Mijn fragmenten verschijnen niet op het toetsenbord.",
+        "a": "Waarschijnlijk staat volledige toegang uit. Ga naar Instellingen > Algemeen > Toetsenbord > Toetsenborden > ClipKeyboard en zet Sta volledige toegang toe aan."
+      },
+      {
+        "q": "Kan ik mijn eigen toetsenbord blijven gebruiken?",
+        "a": "Ja. Na het invoegen van een fragment schakelt ClipKeyboard terug naar het toetsenbord dat je gebruikte, en dat kun je uitzetten in de instellingen. Je kunt ook met ClipKeyboard zelf typen: het heeft toetsen zoals op de iPhone in 23 talen."
+      },
+      {
+        "q": "Kan ik Japans of Chinees typen?",
+        "a": "Japans tot en met kana, Chinees tot en met pinyin en zhuyin. Omzetten naar kanji en hanzi kan nog niet."
+      },
+      {
+        "q": "Wat ik kopieer, verschijnt niet in de geschiedenis.",
+        "a": "iOS voorkomt dat andere apps zelf het klembord lezen. Open de app één keer en gebruik daarna het toetsenbord, dan verschijnt het."
+      },
+      {
+        "q": "Hoe verwijder ik waarden die bij een sjabloon zijn bewaard?",
+        "a": "Tik in de sjablooneditor op een invulveld om de bewaarde waarden te zien. Veeg over een waarde om hem te verwijderen."
+      },
+      {
+        "q": "Wat gebeurt er na 100 keer invoegen?",
+        "a": "Alle fragmenten, sjablonen en stapels die je hebt gemaakt, blijven werken. De gratis limieten gelden alleen voor nieuwe items. Kies Plus of Pro als je ze wilt opheffen."
+      },
+      {
+        "q": "Worden mijn fragmenten ergens naartoe gestuurd?",
+        "a": "Nee. Ze staan op dit apparaat en we verzamelen de inhoud niet. Met iCloud-back-up aan worden ze versleuteld in je eigen iCloud bewaard. We verzamelen alleen anonieme gebruiksstatistieken om de app te verbeteren en gebruiken geen analysetools van derden."
+      },
+      {
+        "q": "En als ik een nieuwe telefoon krijg?",
+        "a": "Zet de iCloud-back-up van Pro aan en zet alles terug op het nieuwe apparaat met dezelfde Apple Account. Afbeeldingsfragmenten gaan ook mee. Terugzetten vervangt de fragmenten die al op dat apparaat staan."
+      },
+      {
+        "q": "Werkt het op de iPad?",
+        "a": "Ja, op zowel iPhone als iPad."
+      },
+      {
+        "q": "Mijn probleem staat er niet tussen.",
+        "a": "Mail ons hieronder en vertel wat er gebeurde. Meestal antwoorden we binnen een dag."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Vandaag één keer typen,\nvanaf morgen één tik",
+    "cta": "Gratis in de App Store"
+  },
+  "ui": {
+    "skip": "Naar inhoud",
+    "languages": "Taal",
+    "privacy": "Privacybeleid",
+    "contact": "Vragen of feedback? Mail naar {email}.",
+    "links": [
+      [
+        "Handleiding",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard: frasa andalan Anda, satu ketukan dari keyboard",
+  "description": "Simpan nomor rekening, alamat, dan pembuka email sekali, lalu masukkan dengan satu ketukan dari keyboard. Semua fitur gratis untuk 100 kali pertama.",
+  "hero": {
+    "headline": "Berhenti mengetik\nhal yang sama",
+    "lead": "Nomor rekening, alamat pengiriman, atau kalimat pembuka email andalan Anda cukup disimpan sekali. Di WhatsApp, Mail, Safari, atau di mana pun Anda mengetik, tinggal satu ketukan dari keyboard.",
+    "cta": "Unduh gratis di App Store",
+    "note": "Semua fitur gratis sampai Anda memasukkan frasa 100 kali."
+  },
+  "demo": {
+    "title": "Coba langsung di sini",
+    "lead": "Ini adalah layar Pratinjau keyboard dari aplikasinya. Di iPhone, keyboard ini muncul di mana pun Anda bisa mengetik.",
+    "send": "Kirim",
+    "note": "Nomor rekening dan nama di sini hanya contoh. Demo ini tidak menyimpan atau mengirim apa pun.",
+    "them": "Hari ini aku transfer bagianku ya! Nomor rekeningmu berapa?",
+    "field": "Teks Anda muncul di sini",
+    "coachStart": "Ketuk tombol mana saja dan teksnya langsung muncul di kolom di atas.",
+    "coachSend": "Nah, sudah masuk. Tekan tanda panah untuk mengirimnya.",
+    "coachStack": "Yang ini adalah tumpukan. Setiap slot punya nama sendiri, dan tanda panah di kanan akan pindah ke slot berikutnya.",
+    "coachDone": "Begitu saja caranya: coba tombol lainnya",
+    "fillTitle": "Isi kolom isian",
+    "fillGo": "Sisipkan",
+    "fillCancel": "Batal",
+    "bankKey": "Rekening bank",
+    "bankVal": "BCA 123-456-7890 Budi Santoso",
+    "lateKey": "Terlambat",
+    "lateVal": "Maaf, saya akan terlambat sekitar 10 menit.",
+    "helloKey": "Balasan pertanyaan",
+    "helloVal": "Halo {nama}, terima kasih sudah menghubungi kami.",
+    "stackKey": "Laporan harian",
+    "stack": [
+      {
+        "key": "Nama",
+        "value": "Budi Santoso"
+      },
+      {
+        "key": "Tim",
+        "value": "Rekayasa"
+      },
+      {
+        "key": "Hari ini",
+        "value": "Pengecekan rilis"
+      }
+    ]
+  },
+  "problem": {
+    "title": "Sudah berapa kali Anda mengetik nomor rekening hari ini?",
+    "text": "Teman bertanya harus transfer patungan ke mana, jadi Anda membuka aplikasi bank dan menyalin nomornya. Lalu mengetik alamat pengiriman huruf demi huruf, lagi, dan menulis salam yang sama di setiap email untuk pelanggan. ClipKeyboard menaruh kalimat-kalimat itu di keyboard, siap dimasukkan dengan satu ketukan."
+  },
+  "features": [
+    {
+      "title": "Isi bagian yang berubah saja",
+      "text": "Templat membiarkan bagian yang berubah, seperti {nama} atau {tanggal}, tetap kosong.\nSaat dimasukkan, hanya bagian kosong yang ditanyakan, dan Anda bisa memilih nilai yang pernah dipakai.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Beberapa nilai, berurutan",
+      "text": "Tumpukan menyimpan beberapa nilai, seperti nama, tim, dan tugas hari ini, dalam satu tombol.\nKetuk untuk memasukkan slot saat ini, lalu gunakan panah di sebelahnya untuk pindah ke slot berikutnya.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "Yang Anda salin juga ada di keyboard",
+      "text": "Nomor resi, alamat, atau nomor telepon yang baru Anda salin masuk ke tab Terbaru di keyboard.\nEmail, nomor telepon, alamat, nomor kartu, dan IBAN dikenali lalu dikelompokkan, jadi bisa ditemukan lagi dalam sedetik.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "Kunci yang sensitif",
+      "text": "Jadikan nomor paspor atau kartu sebagai frasa aman yang terkunci dengan Face ID.\nNomor rekening tertulis di kertas? Foto saja, lalu usap jari di atas karakter yang Anda perlukan.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "Mulai dalam tiga langkah",
+    "items": [
+      {
+        "title": "Tambahkan keyboard",
+        "text": "Pengaturan > Umum > Papan Ketik > Papan Ketik > Tambah Papan Ketik Baru, lalu pilih ClipKeyboard."
+      },
+      {
+        "title": "Izinkan Akses Penuh",
+        "text": "Keyboard memerlukannya untuk membaca frasa yang Anda simpan di aplikasi. Apa yang Anda ketik tidak pernah keluar dari perangkat."
+      },
+      {
+        "title": "Tekan lama ikon bola dunia",
+        "text": "Di aplikasi apa pun, tekan lama 🌐 di keyboard, pilih ClipKeyboard, lalu ketuk tombolnya."
+      }
+    ]
+  },
+  "reference": {
+    "title": "Yang bisa Anda taruh di keyboard",
+    "rows": [
+      [
+        "Frasa",
+        "Dimasukkan persis seperti yang disimpan, termasuk baris baru dan emoji."
+      ],
+      [
+        "Templat",
+        "Bagian kosong dalam kurung kurawal, seperti {nama}, diisi setiap kali dimasukkan."
+      ],
+      [
+        "Tumpukan",
+        "Beberapa nilai dalam satu tombol. Panah berpindah ke slot berikutnya."
+      ],
+      [
+        "Frasa Aman",
+        "Baru masuk setelah Face ID atau Touch ID. (Pro)"
+      ],
+      [
+        "Frasa Gambar",
+        "Ketuk untuk menyalin gambar, lalu tempel di pesan Anda."
+      ],
+      [
+        "Riwayat Papan Klip",
+        "Menyimpan yang Anda salin, dikelompokkan per jenis, siap dipakai lagi."
+      ],
+      [
+        "Pindai teks",
+        "Usap teks di foto untuk mengambil bagian itu saja. Fotonya tidak disimpan."
+      ]
+    ],
+    "note": "Panduan lengkapnya ada di m1zz.github.io/ClipKeyboard/id/tutorial.html."
+  },
+  "pricing": {
+    "title": "Pakai 100 kali dulu, baru putuskan",
+    "free": {
+      "name": "Gratis",
+      "items": [
+        "Semua fitur sampai Anda memasukkan frasa 100 kali",
+        "Semua yang sudah dibuat tetap berfungsi setelahnya",
+        "Item baru: hingga 10 frasa, 3 templat, 3 tumpukan, dan 5 gambar",
+        "50 item riwayat papan klip"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus: frasa, templat, tumpukan, dan gambar tanpa batas, 100 item riwayat papan klip",
+        "Pro: semua yang ada di Plus, ditambah cadangan iCloud, kunci Face ID, dan sinkronisasi antarperangkat (beta)"
+      ],
+      "note": "Masing-masing tersedia sebagai langganan tahunan atau pembelian sekali untuk seumur hidup."
+    },
+    "note": "Frasa Anda tidak akan pernah dihapus, meski Anda tidak membayar atau langganan berakhir. Tanpa iklan."
+  },
+  "faq": {
+    "title": "Pertanyaan umum",
+    "items": [
+      {
+        "q": "Frasa saya tidak muncul di keyboard.",
+        "a": "Kemungkinan Akses Penuh belum aktif. Buka Pengaturan > Umum > Papan Ketik > Papan Ketik > ClipKeyboard, lalu aktifkan Izinkan Akses Penuh."
+      },
+      {
+        "q": "Bisakah saya tetap memakai keyboard yang biasa?",
+        "a": "Bisa. Setelah frasa dimasukkan, ClipKeyboard kembali ke keyboard yang sedang Anda pakai, dan ini bisa dimatikan di pengaturan. Anda juga bisa mengetik dengan ClipKeyboard sendiri: tombolnya seperti keyboard iPhone, dalam 23 bahasa."
+      },
+      {
+        "q": "Bisakah mengetik bahasa Jepang atau Mandarin?",
+        "a": "Bahasa Jepang sampai kana, dan Mandarin sampai pinyin dan zhuyin. Konversi ke kanji dan hanzi belum tersedia."
+      },
+      {
+        "q": "Yang saya salin tidak muncul di riwayat.",
+        "a": "iOS tidak mengizinkan aplikasi lain membaca papan klip sendiri. Buka aplikasinya sekali, lalu gunakan keyboard, dan salinan Anda akan muncul."
+      },
+      {
+        "q": "Bagaimana cara menghapus nilai yang tersimpan di templat?",
+        "a": "Di editor templat, ketuk bagian kosong untuk melihat nilai yang tersimpan. Geser salah satunya untuk menghapus."
+      },
+      {
+        "q": "Apa yang terjadi setelah 100 kali?",
+        "a": "Semua frasa, templat, dan tumpukan yang Anda buat tetap berfungsi. Batas gratis hanya berlaku untuk item baru. Pilih Plus atau Pro jika ingin membuka batas itu."
+      },
+      {
+        "q": "Apakah frasa saya dikirim ke suatu tempat?",
+        "a": "Tidak. Frasa disimpan di perangkat ini dan kami tidak mengumpulkan isinya. Jika cadangan iCloud aktif, frasa disimpan terenkripsi di iCloud milik Anda sendiri. Kami hanya mengumpulkan statistik penggunaan anonim untuk menyempurnakan aplikasi, dan tidak memakai alat analitik pihak ketiga."
+      },
+      {
+        "q": "Bagaimana kalau saya ganti ponsel?",
+        "a": "Jika cadangan iCloud dari Pro aktif, pulihkan di perangkat baru dengan Akun Apple yang sama. Frasa gambar ikut pindah. Pemulihan akan menggantikan frasa yang sudah ada di perangkat itu."
+      },
+      {
+        "q": "Apakah bisa dipakai di iPad?",
+        "a": "Bisa, di iPhone maupun iPad."
+      },
+      {
+        "q": "Masalah saya tidak ada di sini.",
+        "a": "Kirim email ke alamat di bawah dan ceritakan apa yang terjadi. Biasanya kami membalas dalam sehari."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Ketik sekali hari ini,\nbesok cukup satu ketukan",
+    "cta": "Unduh gratis di App Store"
+  },
+  "ui": {
+    "skip": "Langsung ke konten",
+    "languages": "Bahasa",
+    "privacy": "Kebijakan Privasi",
+    "contact": "Ada pertanyaan atau masukan? Kirim ke {email}.",
+    "links": [
+      [
+        "Tutorial",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

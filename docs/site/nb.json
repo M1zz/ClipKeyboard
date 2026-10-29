@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard: lagrede tekster ett trykk unna på tastaturet",
+  "description": "Lagre kontonumre, adresser og e-postinnledninger én gang, og sett dem inn med ett trykk fra tastaturet i alle apper. Gratis de 100 første gangene.",
+  "hero": {
+    "headline": "Slutt å skrive\ndet samme om igjen",
+    "lead": "Lagre kontonummeret, adressen eller den faste e-postinnledningen din én gang. I Meldinger, Mail, Safari og overalt ellers der du skriver, er de ett trykk unna på tastaturet.",
+    "cta": "Hent gratis i App Store",
+    "note": "Alle funksjoner er gratis de 100 første innsettingene."
+  },
+  "demo": {
+    "title": "Prøv det her",
+    "lead": "Dette er appens egen Tastaturforhåndsvisning. På iPhonen dukker dette tastaturet opp overalt der du kan skrive.",
+    "send": "Send",
+    "note": "Kontonummeret og navnene her er oppdiktet. Demoen lagrer og sender ingenting.",
+    "them": "Jeg sender min del i dag! Hva er kontonummeret ditt?",
+    "field": "Teksten din havner her",
+    "coachStart": "Trykk på en tast, så havner teksten i feltet over.",
+    "coachSend": "Der ble den satt inn. Trykk på pilen for å sende.",
+    "coachStack": "Dette er en stabel. Hver plass har sitt eget navn, og pilen til høyre går videre til neste.",
+    "coachDone": "Slik enkelt er det: prøv de andre tastene",
+    "fillTitle": "Fyll ut utfyllingsfeltet",
+    "fillGo": "Sett inn",
+    "fillCancel": "Avbryt",
+    "bankKey": "Bankopplysninger",
+    "bankVal": "DNB 1234.56.78901 Ola Nordmann",
+    "lateKey": "Jeg er forsinket",
+    "lateVal": "Beklager, jeg kommer ca. 10 minutter for sent.",
+    "helloKey": "Svar på henvendelse",
+    "helloVal": "Hei {navn}, takk for at du tok kontakt.",
+    "stackKey": "Daglig innsjekk",
+    "stack": [
+      {
+        "key": "Navn",
+        "value": "Ola Nordmann"
+      },
+      {
+        "key": "Team",
+        "value": "Utvikling"
+      },
+      {
+        "key": "I dag",
+        "value": "Utgivelseskontroll"
+      }
+    ]
+  },
+  "problem": {
+    "title": "Hvor mange ganger har du skrevet kontonummeret ditt i dag?",
+    "text": "En venn lurer på hvor de skal sende sin del, så du åpner bankappen og kopierer nummeret. Etterpå taster du leveringsadressen bokstav for bokstav, nok en gang, og skriver den samme hilsenen i hver e-post til kunder. ClipKeyboard holder disse linjene klare på tastaturet, ett trykk unna."
+  },
+  "features": [
+    {
+      "title": "Fyll bare inn det som endres",
+      "text": "Maler lar delene som endrer seg, som {navn} eller {dato}, stå som tomme felt.\nNår du setter inn en mal, spør den bare etter feltene, og du kan velge en verdi du har brukt før.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Flere verdier, i rekkefølge",
+      "text": "En stabel samler flere verdier, for eksempel navn, team og dagens oppgave, på én tast.\nTrykk for å sette inn gjeldende plass, og gå til neste med pilen ved siden av.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "Det du kopierer, ligger også på tastaturet",
+      "text": "Sporingsnummeret, adressen eller telefonnummeret du nettopp kopierte, havner i Nylig-fanen på tastaturet.\nE-postadresser, telefonnumre, adresser, kortnumre og IBAN blir gjenkjent og sortert, så du finner dem igjen på et sekund.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "Lås inne det sensitive",
+      "text": "Gjør pass- og kortnumre om til sikre fraser som er låst med Face ID.\nHar du et kontonummer på papir? Ta et bilde og dra fingeren over akkurat de tegnene du trenger.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "Kom i gang i tre steg",
+    "items": [
+      {
+        "title": "Legg til tastaturet",
+        "text": "Innstillinger > Generelt > Tastatur > Tastaturer > Legg til nytt tastatur, og velg ClipKeyboard."
+      },
+      {
+        "title": "Tillat full tilgang",
+        "text": "Tastaturet trenger det for å lese frasene du har lagret i appen. Det du skriver, forlater aldri enheten din."
+      },
+      {
+        "title": "Hold på kloden for å bytte",
+        "text": "Hold inne 🌐 på tastaturet i en hvilken som helst app, velg ClipKeyboard og trykk på en tast."
+      }
+    ]
+  },
+  "reference": {
+    "title": "Dette kan du ha på tastaturet",
+    "rows": [
+      [
+        "Frase",
+        "Setter inn akkurat det du har lagret, også linjeskift og emoji."
+      ],
+      [
+        "Mal",
+        "Felt i klammeparenteser, som {navn}, fylles ut hver gang du setter den inn."
+      ],
+      [
+        "Stabel",
+        "Flere verdier på én tast. Pilen går videre til neste plass."
+      ],
+      [
+        "Sikker frase",
+        "Settes inn først etter Face ID eller Touch ID. (Pro)"
+      ],
+      [
+        "Bildefrase",
+        "Trykk for å kopiere bildet, og lim det inn i meldingen."
+      ],
+      [
+        "Utklippstavle-logg",
+        "Tar vare på det du kopierer, sortert etter type og klart til bruk igjen."
+      ],
+      [
+        "Skann inn tekst",
+        "Sveip over tekst i et bilde for å hente bare den delen. Bildet lagres ikke."
+      ]
+    ],
+    "note": "Hele brukerveiledningen finner du på m1zz.github.io/ClipKeyboard/nb/tutorial.html."
+  },
+  "pricing": {
+    "title": "Bruk den 100 ganger, og bestem deg etterpå",
+    "free": {
+      "name": "Gratis",
+      "items": [
+        "Alle funksjoner til du har satt inn fraser 100 ganger",
+        "Alt du har laget, fungerer fortsatt etterpå",
+        "Nye elementer: opptil 10 fraser, 3 maler, 3 stabler og 5 bilder",
+        "50 elementer i utklippstavle-loggen"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus: ubegrenset med fraser, maler, stabler og bilder, 100 elementer i utklippstavle-loggen",
+        "Pro: alt i Plus, i tillegg til iCloud-sikkerhetskopi, Face ID-lås og synkronisering mellom enheter (beta)"
+      ],
+      "note": "Begge fås som årsabonnement eller som et engangskjøp som gjelder for alltid."
+    },
+    "note": "Frasene dine slettes aldri, heller ikke om du ikke betaler eller et abonnement utløper. Ingen reklame."
+  },
+  "faq": {
+    "title": "Spørsmål",
+    "items": [
+      {
+        "q": "Frasene mine vises ikke på tastaturet.",
+        "a": "Full tilgang er trolig slått av. Gå til Innstillinger > Generelt > Tastatur > Tastaturer > ClipKeyboard og slå på Tillat full tilgang."
+      },
+      {
+        "q": "Kan jeg beholde tastaturet jeg bruker nå?",
+        "a": "Ja. Når en frase er satt inn, bytter ClipKeyboard tilbake til tastaturet du brukte, og det kan slås av i innstillingene. Du kan også skrive med selve ClipKeyboard: det har taster som på iPhone på 23 språk."
+      },
+      {
+        "q": "Kan jeg skrive japansk eller kinesisk?",
+        "a": "Japansk opp til kana og kinesisk opp til pinyin og zhuyin. Omgjøring til kanji og hanzi finnes ikke ennå."
+      },
+      {
+        "q": "Det jeg kopierer, dukker ikke opp i loggen.",
+        "a": "iOS hindrer andre apper i å lese utklippstavlen på egen hånd. Åpne appen én gang og bruk deretter tastaturet, så dukker det opp."
+      },
+      {
+        "q": "Hvordan sletter jeg verdier som er lagret for en mal?",
+        "a": "Trykk på et felt i malredigeringen for å se de lagrede verdiene. Sveip på en verdi for å slette den."
+      },
+      {
+        "q": "Hva skjer etter 100 innsettinger?",
+        "a": "Alle frasene, malene og stablene du har laget, fungerer fortsatt. Gratisgrensene gjelder bare nye elementer. Velg Plus eller Pro hvis du vil fjerne dem."
+      },
+      {
+        "q": "Blir frasene mine sendt noe sted?",
+        "a": "Nei. De lagres på denne enheten, og vi samler ikke inn innholdet. Med iCloud-sikkerhetskopi slått på lagres de kryptert i din egen iCloud. Vi samler bare inn anonym bruksstatistikk for å forbedre appen og bruker ingen analyseverktøy fra tredjeparter."
+      },
+      {
+        "q": "Hva gjør jeg når jeg får ny telefon?",
+        "a": "Med iCloud-sikkerhetskopi fra Pro slått på gjenoppretter du på den nye enheten med samme Apple-konto. Bildefraser blir også med. Gjenopprettingen erstatter frasene som allerede ligger på enheten."
+      },
+      {
+        "q": "Fungerer det på iPad?",
+        "a": "Ja, både på iPhone og iPad."
+      },
+      {
+        "q": "Problemet mitt står ikke her.",
+        "a": "Send oss en e-post nedenfor og fortell hva som skjedde. Vi svarer som regel innen et døgn."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Skriv det én gang i dag,\ntrykk på det fra i morgen",
+    "cta": "Hent gratis i App Store"
+  },
+  "ui": {
+    "skip": "Hopp til innhold",
+    "languages": "Språk",
+    "privacy": "Personvernerklæring",
+    "contact": "Spørsmål eller tilbakemeldinger? Skriv til {email}.",
+    "links": [
+      [
+        "Veiledning",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

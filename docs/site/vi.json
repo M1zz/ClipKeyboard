@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard: câu hay dùng, chỉ một chạm trên bàn phím",
+  "description": "Lưu số tài khoản, địa chỉ, câu mở đầu email một lần, rồi chèn bằng một chạm trong mọi ứng dụng. Miễn phí mọi tính năng cho 100 lần chèn đầu.",
+  "hero": {
+    "headline": "Đừng gõ lại\nnhững gì đã gõ",
+    "lead": "Số tài khoản, địa chỉ nhận hàng, câu chào mở đầu email quen thuộc: lưu một lần là xong. Trong Zalo, Mail, Safari hay bất cứ đâu bạn gõ chữ, chỉ cần một chạm trên bàn phím.",
+    "cta": "Tải miễn phí tại App Store",
+    "note": "Mọi tính năng đều miễn phí cho 100 lần chèn đầu tiên."
+  },
+  "demo": {
+    "title": "Thử ngay tại đây",
+    "lead": "Đây chính là màn hình Xem trước bàn phím trong ứng dụng. Trên iPhone, bàn phím này hiện lên ở bất cứ đâu bạn gõ được chữ.",
+    "send": "Gửi",
+    "note": "Số tài khoản và tên ở đây đều là giả. Bản thử này không lưu hay gửi đi bất cứ thứ gì.",
+    "them": "Hôm nay mình chuyển phần của mình nhé! Số tài khoản bạn là gì?",
+    "field": "Chữ sẽ hiện ở đây",
+    "coachStart": "Chạm vào phím bất kỳ, chữ sẽ vào ô phía trên.",
+    "coachSend": "Xong rồi. Chạm mũi tên để gửi.",
+    "coachStack": "Phím này là một ngăn xếp. Mỗi ô có tên riêng, mũi tên bên phải sẽ chuyển sang ô tiếp theo.",
+    "coachDone": "Chỉ đơn giản vậy thôi: thử các phím khác nhé",
+    "fillTitle": "Điền vào chỗ trống",
+    "fillGo": "Chèn",
+    "fillCancel": "Hủy",
+    "bankKey": "Số tài khoản",
+    "bankVal": "Vietcombank 0123456789 Nguyễn Văn An",
+    "lateKey": "Đến trễ",
+    "lateVal": "Xin lỗi nha, mình sẽ trễ khoảng 10 phút.",
+    "helloKey": "Trả lời khách hỏi",
+    "helloVal": "Chào {tên}, cảm ơn bạn đã liên hệ.",
+    "stackKey": "Điểm danh hằng ngày",
+    "stack": [
+      {
+        "key": "Tên",
+        "value": "Nguyễn Văn An"
+      },
+      {
+        "key": "Nhóm",
+        "value": "Kỹ thuật"
+      },
+      {
+        "key": "Hôm nay",
+        "value": "Kiểm tra bản phát hành"
+      }
+    ]
+  },
+  "problem": {
+    "title": "Hôm nay bạn đã gõ số tài khoản bao nhiêu lần?",
+    "text": "Bạn bè hỏi chuyển tiền góp vào đâu, thế là bạn lại mở ứng dụng ngân hàng để sao chép số. Rồi gõ lại từng chữ địa chỉ nhận hàng, và viết cùng một lời chào cho mọi email gửi khách. ClipKeyboard đặt sẵn những câu đó trên bàn phím, cần là có ngay sau một chạm."
+  },
+  "features": [
+    {
+      "title": "Chỉ điền phần thay đổi",
+      "text": "Mẫu để trống những phần hay thay đổi như {tên} hay {ngày}.\nKhi chèn, nó chỉ hỏi phần trống, và bạn có thể chọn lại giá trị đã dùng trước đó.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Nhiều giá trị, lần lượt từng cái",
+      "text": "Ngăn xếp giữ nhiều giá trị như tên, phòng ban, việc cần làm hôm nay trên cùng một phím.\nChạm để chèn ô hiện tại, rồi dùng mũi tên bên cạnh để sang ô tiếp theo.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "Thứ bạn sao chép cũng nằm trên bàn phím",
+      "text": "Mã vận đơn, địa chỉ hay số điện thoại vừa sao chép sẽ có trong tab Gần đây của bàn phím.\nEmail, số điện thoại, địa chỉ, số thẻ và IBAN được nhận ra và phân loại, nên bạn tìm lại chỉ trong một giây.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "Khóa lại những gì nhạy cảm",
+      "text": "Biến số hộ chiếu hay số thẻ thành cụm từ bảo mật, khóa bằng Face ID.\nSố tài khoản ghi trên giấy? Chụp ảnh rồi vuốt ngón tay qua đúng những ký tự bạn cần.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "Bắt đầu trong ba bước",
+    "items": [
+      {
+        "title": "Thêm bàn phím",
+        "text": "Cài đặt > Cài đặt chung > Bàn phím > Bàn phím > Thêm bàn phím mới, rồi chọn ClipKeyboard."
+      },
+      {
+        "title": "Cho phép truy cập đầy đủ",
+        "text": "Bàn phím cần quyền này để đọc các cụm từ bạn đã lưu trong ứng dụng. Những gì bạn gõ không bao giờ rời khỏi thiết bị."
+      },
+      {
+        "title": "Chạm giữ quả địa cầu để chuyển",
+        "text": "Trong bất kỳ ứng dụng nào, chạm giữ 🌐 trên bàn phím, chọn ClipKeyboard rồi chạm vào phím."
+      }
+    ]
+  },
+  "reference": {
+    "title": "Những gì bạn có thể đặt lên bàn phím",
+    "rows": [
+      [
+        "Cụm từ",
+        "Chèn nguyên văn những gì bạn đã lưu, kể cả xuống dòng và emoji."
+      ],
+      [
+        "Mẫu",
+        "Ô trống trong dấu ngoặc nhọn, như {tên}, được điền mỗi lần chèn."
+      ],
+      [
+        "Ngăn xếp",
+        "Nhiều giá trị trên một phím. Mũi tên chuyển sang ô tiếp theo."
+      ],
+      [
+        "Cụm từ bảo mật",
+        "Chỉ được chèn sau khi xác thực bằng Face ID hoặc Touch ID. (Pro)"
+      ],
+      [
+        "Cụm từ hình ảnh",
+        "Chạm để sao chép ảnh, rồi dán vào tin nhắn."
+      ],
+      [
+        "Lịch sử bảng tạm",
+        "Giữ lại những gì bạn sao chép, phân theo loại, sẵn sàng dùng lại."
+      ],
+      [
+        "Quét để nhập chữ",
+        "Vuốt qua chữ trong ảnh để lấy đúng phần đó. Ảnh không được lưu lại."
+      ]
+    ],
+    "note": "Hướng dẫn sử dụng đầy đủ có tại m1zz.github.io/ClipKeyboard/vi/tutorial.html."
+  },
+  "pricing": {
+    "title": "Dùng thử 100 lần rồi hãy quyết định",
+    "free": {
+      "name": "Miễn phí",
+      "items": [
+        "Mọi tính năng cho đến khi bạn chèn cụm từ 100 lần",
+        "Sau đó, mọi thứ đã tạo vẫn dùng như cũ",
+        "Tạo mới: tối đa 10 cụm từ, 3 mẫu, 3 ngăn xếp và 5 hình ảnh",
+        "50 mục lịch sử bảng tạm"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus: không giới hạn cụm từ, mẫu, ngăn xếp và hình ảnh, 100 mục lịch sử bảng tạm",
+        "Pro: mọi thứ của Plus, thêm sao lưu iCloud, khóa Face ID và đồng bộ giữa các thiết bị (beta)"
+      ],
+      "note": "Mỗi gói đều có thể đăng ký theo năm hoặc mua một lần dùng trọn đời."
+    },
+    "note": "Cụm từ của bạn không bao giờ bị xóa, kể cả khi bạn không trả tiền hay gói đăng ký hết hạn. Không có quảng cáo."
+  },
+  "faq": {
+    "title": "Câu hỏi thường gặp",
+    "items": [
+      {
+        "q": "Cụm từ không hiện trên bàn phím.",
+        "a": "Có lẽ quyền truy cập đầy đủ đang tắt. Vào Cài đặt > Cài đặt chung > Bàn phím > Bàn phím > ClipKeyboard và bật Cho phép truy cập đầy đủ."
+      },
+      {
+        "q": "Tôi vẫn dùng bàn phím quen thuộc được chứ?",
+        "a": "Được. Sau khi chèn cụm từ, ClipKeyboard tự chuyển về bàn phím bạn đang dùng, và bạn có thể tắt việc này trong cài đặt. Bạn cũng có thể gõ bằng chính ClipKeyboard: phím bố trí như bàn phím iPhone, hỗ trợ 23 ngôn ngữ."
+      },
+      {
+        "q": "Có gõ được tiếng Nhật hoặc tiếng Trung không?",
+        "a": "Tiếng Nhật gõ được đến kana, tiếng Trung đến bính âm và chú âm. Hiện chưa chuyển được sang chữ Hán."
+      },
+      {
+        "q": "Những gì tôi sao chép không có trong lịch sử.",
+        "a": "iOS không cho ứng dụng khác tự đọc bảng tạm. Hãy mở ứng dụng một lần rồi dùng bàn phím, chúng sẽ xuất hiện."
+      },
+      {
+        "q": "Làm sao xóa giá trị đã lưu cho mẫu?",
+        "a": "Trong màn hình sửa mẫu, chạm vào một ô trống để xem các giá trị đã lưu. Vuốt một giá trị để xóa."
+      },
+      {
+        "q": "Sau 100 lần chèn thì sao?",
+        "a": "Mọi cụm từ, mẫu và ngăn xếp bạn đã tạo vẫn dùng bình thường. Giới hạn miễn phí chỉ áp dụng cho mục mới. Nếu muốn bỏ giới hạn, hãy chọn Plus hoặc Pro."
+      },
+      {
+        "q": "Cụm từ của tôi có bị gửi đi đâu không?",
+        "a": "Không. Chúng được lưu trên thiết bị này và chúng tôi không thu thập nội dung. Khi bật sao lưu iCloud, dữ liệu được mã hóa và lưu trong iCloud của chính bạn. Chúng tôi chỉ thu thập thống kê sử dụng ẩn danh để cải thiện ứng dụng và không dùng công cụ phân tích bên thứ ba."
+      },
+      {
+        "q": "Đổi điện thoại mới thì sao?",
+        "a": "Nếu đã bật sao lưu iCloud của Pro, hãy khôi phục trên thiết bị mới bằng cùng Tài khoản Apple. Cụm từ hình ảnh cũng được chuyển theo. Việc khôi phục sẽ thay thế các cụm từ đang có trên thiết bị đó."
+      },
+      {
+        "q": "Có dùng được trên iPad không?",
+        "a": "Có, cả trên iPhone và iPad."
+      },
+      {
+        "q": "Vấn đề của tôi không có ở đây.",
+        "a": "Hãy gửi email theo địa chỉ bên dưới và kể cho chúng tôi chuyện gì đã xảy ra. Chúng tôi thường trả lời trong vòng một ngày."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Hôm nay gõ một lần,\nngày mai chỉ một chạm",
+    "cta": "Tải miễn phí tại App Store"
+  },
+  "ui": {
+    "skip": "Chuyển đến nội dung",
+    "languages": "Ngôn ngữ",
+    "privacy": "Chính sách quyền riêng tư",
+    "contact": "Có câu hỏi hay góp ý? Hãy viết cho chúng tôi tại {email}.",
+    "links": [
+      [
+        "Hướng dẫn",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

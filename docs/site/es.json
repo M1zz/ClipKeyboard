@@ -1,0 +1,205 @@
+{
+  "title": "ClipKeyboard: tus frases guardadas a un toque desde el teclado",
+  "description": "Guarda una vez tu cuenta, tu dirección o el saludo de tus correos e insértalos con un toque en cualquier app. Gratis en tus primeras 100 inserciones.",
+  "hero": {
+    "headline": "Deja de escribir\nlo mismo una y otra vez",
+    "lead": "Tus datos bancarios, tu dirección o ese saludo que usas en cada correo: guárdalos una sola vez. En Mensajes, Mail, Safari o donde sea que escribas, están a un toque en el teclado.",
+    "cta": "Gratis en el App Store",
+    "note": "Todas las funciones son gratis en tus primeras 100 inserciones."
+  },
+  "demo": {
+    "title": "Pruébalo aquí mismo",
+    "lead": "Esta es la Vista previa del teclado de la propia app. En tu iPhone, este teclado aparece en cualquier lugar donde puedas escribir.",
+    "send": "Enviar",
+    "note": "El número de cuenta y los nombres son inventados. Esta demo no guarda ni envía nada.",
+    "them": "¡Hoy te paso mi parte! ¿A qué cuenta te deposito?",
+    "field": "Aquí aparece tu texto",
+    "coachStart": "Toca cualquier tecla y el texto aparece en el campo de arriba.",
+    "coachSend": "Ahí está. Toca la flecha para enviarlo.",
+    "coachStack": "Esta es una pila. Cada espacio tiene su propio nombre, y la flecha de la derecha pasa al siguiente.",
+    "coachDone": "Eso es todo: prueba las otras teclas",
+    "fillTitle": "Llena el campo",
+    "fillGo": "Insertar",
+    "fillCancel": "Cancelar",
+    "bankKey": "Datos bancarios",
+    "bankVal": "BBVA CLABE 012180001234567891 Juan Pérez",
+    "lateKey": "Voy tarde",
+    "lateVal": "Perdón, voy a llegar como 10 minutos tarde.",
+    "helloKey": "Respuesta a consulta",
+    "helloVal": "Hola, {nombre}, gracias por escribirnos.",
+    "stackKey": "Reporte del día",
+    "stack": [
+      {
+        "key": "Nombre",
+        "value": "Juan Pérez"
+      },
+      {
+        "key": "Equipo",
+        "value": "Desarrollo"
+      },
+      {
+        "key": "Hoy",
+        "value": "Revisión del lanzamiento"
+      }
+    ]
+  },
+  "problem": {
+    "title": "¿Cuántas veces escribiste hoy tu número de cuenta?",
+    "text": "Un amigo te pregunta a dónde mandarte su parte y otra vez abres la app del banco para copiar el número. Luego escribes tu dirección letra por letra, de nuevo, y repites el mismo saludo en cada correo a tus clientes. ClipKeyboard deja esas líneas en el teclado, listas para entrar con un toque."
+  },
+  "features": [
+    {
+      "title": "Llena solo lo que cambia",
+      "text": "Las plantillas dejan como espacios en blanco lo que cambia, como {nombre} o {fecha}.\nAl insertarla, solo te pide esos espacios, y puedes elegir un valor que ya usaste antes.",
+      "shot": "03-template-fill"
+    },
+    {
+      "title": "Varios valores, en orden",
+      "text": "Una pila guarda varios valores en una sola tecla, como tu nombre, tu equipo y la tarea del día.\nTócala para insertar el valor actual y usa la flecha de al lado para pasar al siguiente.",
+      "shot": "04-snippet-stack"
+    },
+    {
+      "title": "Lo que copias también está en el teclado",
+      "text": "El número de rastreo, la dirección o el teléfono que acabas de copiar aparece en la pestaña Recientes del teclado.\nReconoce correos, teléfonos, direcciones, números de tarjeta e IBAN y los ordena, así los encuentras en un segundo.",
+      "shot": "02-recent-clips"
+    },
+    {
+      "title": "Lo delicado, bajo llave",
+      "text": "Convierte tu número de pasaporte o de tarjeta en una frase segura que solo se abre con Face ID.\n¿Tienes un número de cuenta en papel? Tómale una foto y desliza el dedo solo sobre los caracteres que necesitas.",
+      "shot": "05-all-snippets"
+    }
+  ],
+  "steps": {
+    "title": "Empieza en tres pasos",
+    "items": [
+      {
+        "title": "Agrega el teclado",
+        "text": "Configuración > General > Teclado > Teclados > Agregar teclado nuevo, y elige ClipKeyboard."
+      },
+      {
+        "title": "Permite el acceso total",
+        "text": "El teclado lo necesita para leer las frases que guardaste en la app. Lo que escribes nunca sale de tu dispositivo."
+      },
+      {
+        "title": "Mantén presionado el globo",
+        "text": "En cualquier app, mantén presionado 🌐 en el teclado, elige ClipKeyboard y toca una tecla."
+      }
+    ]
+  },
+  "reference": {
+    "title": "Lo que puedes tener en el teclado",
+    "rows": [
+      [
+        "Frase",
+        "Se escribe tal cual la guardaste, con saltos de línea y emojis incluidos."
+      ],
+      [
+        "Plantilla",
+        "Los espacios entre llaves, como {nombre}, se llenan cada vez que la insertas."
+      ],
+      [
+        "Pila",
+        "Varios valores en una tecla. La flecha pasa al siguiente."
+      ],
+      [
+        "Frase segura",
+        "Solo se inserta después de Face ID o Touch ID. (Pro)"
+      ],
+      [
+        "Frase con imagen",
+        "Tócala para copiar la imagen y pégala en tu mensaje."
+      ],
+      [
+        "Historial del portapapeles",
+        "Guarda lo que copias, ordenado por tipo, para volver a usarlo."
+      ],
+      [
+        "Escanear texto",
+        "Desliza el dedo sobre el texto de una foto y toma solo esa parte. La foto no se guarda."
+      ]
+    ],
+    "note": "La guía completa está en m1zz.github.io/ClipKeyboard/es/tutorial.html."
+  },
+  "pricing": {
+    "title": "Úsala 100 veces y luego decide",
+    "free": {
+      "name": "Gratis",
+      "items": [
+        "Todas las funciones hasta que insertes frases 100 veces",
+        "Todo lo que creaste sigue funcionando después",
+        "Elementos nuevos: hasta 10 frases, 3 plantillas, 3 pilas y 5 imágenes",
+        "50 elementos en el historial del portapapeles"
+      ]
+    },
+    "pro": {
+      "name": "Plus · Pro",
+      "items": [
+        "Plus: frases, plantillas, pilas e imágenes ilimitadas, 100 elementos en el historial del portapapeles",
+        "Pro: todo lo de Plus, más respaldo de iCloud, bloqueo con Face ID y sincronización entre dispositivos (beta)"
+      ],
+      "note": "Cada uno está disponible como suscripción anual o como compra única de por vida."
+    },
+    "note": "Tus frases nunca se borran, aunque no pagues o termine tu suscripción. Sin anuncios."
+  },
+  "faq": {
+    "title": "Preguntas",
+    "items": [
+      {
+        "q": "Mis frases no aparecen en el teclado.",
+        "a": "Lo más probable es que el acceso total esté desactivado. Ve a Configuración > General > Teclado > Teclados > ClipKeyboard y activa Permitir acceso total."
+      },
+      {
+        "q": "¿Puedo seguir usando mi teclado de siempre?",
+        "a": "Sí. Después de insertar una frase, ClipKeyboard regresa al teclado que estabas usando, y puedes desactivarlo en la configuración. También puedes escribir con ClipKeyboard: tiene teclas como las del iPhone en 23 idiomas."
+      },
+      {
+        "q": "¿Puedo escribir en japonés o chino?",
+        "a": "En japonés hasta kana, y en chino hasta pinyin y zhuyin. La conversión a kanji y hanzi todavía no está disponible."
+      },
+      {
+        "q": "Lo que copio no aparece en el historial.",
+        "a": "iOS no deja que otras apps lean el portapapeles por su cuenta. Abre la app una vez y luego usa el teclado, y aparecerá."
+      },
+      {
+        "q": "¿Cómo borro los valores guardados de una plantilla?",
+        "a": "En el editor de plantillas, toca un espacio en blanco para ver sus valores guardados. Desliza uno para borrarlo."
+      },
+      {
+        "q": "¿Qué pasa después de 100 inserciones?",
+        "a": "Todas las frases, plantillas y pilas que creaste siguen funcionando. Los límites gratuitos solo aplican a lo nuevo. Si quieres quitarlos, elige Plus o Pro."
+      },
+      {
+        "q": "¿Mis frases se envían a algún lado?",
+        "a": "No. Se guardan en este dispositivo y no recopilamos su contenido. Si activas el respaldo de iCloud, se guardan cifradas en tu propio iCloud. Solo recopilamos estadísticas de uso anónimas para mejorar la app, y no usamos herramientas de análisis de terceros."
+      },
+      {
+        "q": "¿Y si cambio de teléfono?",
+        "a": "Con el respaldo de iCloud de Pro activado, restaura en el dispositivo nuevo con la misma Cuenta de Apple. Las frases con imagen también se pasan. Al restaurar se reemplazan las frases que ya haya en ese dispositivo."
+      },
+      {
+        "q": "¿Funciona en iPad?",
+        "a": "Sí, en iPhone y en iPad."
+      },
+      {
+        "q": "Mi problema no está aquí.",
+        "a": "Escríbenos al correo de abajo y cuéntanos qué pasó. Normalmente respondemos en menos de un día."
+      }
+    ]
+  },
+  "closing": {
+    "headline": "Escríbelo hoy una vez,\ny desde mañana, un toque",
+    "cta": "Gratis en el App Store"
+  },
+  "ui": {
+    "skip": "Ir al contenido",
+    "languages": "Idioma",
+    "privacy": "Política de privacidad",
+    "contact": "¿Dudas o comentarios? Escríbenos a {email}.",
+    "links": [
+      [
+        "Tutorial",
+        "tutorial.html"
+      ]
+    ]
+  }
+}

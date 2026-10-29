@@ -1,0 +1,62 @@
+{
+  "name": {
+    "en": "ClipKeyboard",
+    "ko": "클립키보드",
+    "zh-Hans": "剪贴键盘",
+    "zh-Hant": "剪貼鍵盤"
+  },
+  "url": "https://m1zz.github.io/ClipKeyboard/",
+  "appStoreId": "1543660502",
+  "email": "leeo@kakao.com",
+  "copyright": "Leeo",
+  "year": 2026,
+  "color": {
+    "light": "#007AFF",
+    "dark": "#0A84FF",
+    "darkBg": "#0a0d0f"
+  },
+  "shots": ["01-reply", "03-template-fill", "04-snippet-stack", "02-recent-clips", "05-all-snippets"],
+  "shotsFrom": "raw/iphone",
+  "shotsFallback": "en",
+  "frame": "phone",
+  "video": {
+    "en": "screenshots/preview/en-US/app-preview.mp4",
+    "ko": "screenshots/preview/ko/app-preview.mp4",
+    "zh-Hans": "screenshots/preview/zh-Hans/app-preview.mp4",
+    "zh-Hant": "screenshots/preview/zh-Hant/app-preview.mp4",
+    "ru": "screenshots/preview/ru/app-preview.mp4",
+    "ja": "screenshots/preview/ja/app-preview.mp4",
+    "es": "screenshots/preview/es-MX/app-preview.mp4",
+    "de": "screenshots/preview/de-DE/app-preview.mp4",
+    "fr": "screenshots/preview/fr-FR/app-preview.mp4",
+    "it": "screenshots/preview/it/app-preview.mp4",
+    "pt-BR": "screenshots/preview/pt-BR/app-preview.mp4",
+    "th": "screenshots/preview/th/app-preview.mp4",
+    "vi": "screenshots/preview/vi/app-preview.mp4"
+  },
+  "locales": [
+    {"code": "en", "path": "", "name": "English"},
+    {"code": "ko", "path": "ko/", "name": "한국어"},
+    {"code": "zh-Hans", "path": "zh-Hans/", "name": "简体中文"},
+    {"code": "zh-Hant", "path": "zh-Hant/", "name": "繁體中文"},
+    {"code": "ru", "path": "ru/", "name": "Русский"},
+    {"code": "ja", "path": "ja/", "name": "日本語"},
+    {"code": "es", "path": "es/", "name": "Español"},
+    {"code": "de", "path": "de/", "name": "Deutsch"},
+    {"code": "fr", "path": "fr/", "name": "Français"},
+    {"code": "it", "path": "it/", "name": "Italiano"},
+    {"code": "pt-BR", "path": "pt-BR/", "name": "Português (Brasil)"},
+    {"code": "th", "path": "th/", "name": "ไทย"},
+    {"code": "vi", "path": "vi/", "name": "Tiếng Việt"},
+    {"code": "cs", "path": "cs/", "name": "Čeština"},
+    {"code": "da", "path": "da/", "name": "Dansk"},
+    {"code": "el", "path": "el/", "name": "Ελληνικά"},
+    {"code": "fi", "path": "fi/", "name": "Suomi"},
+    {"code": "id", "path": "id/", "name": "Bahasa Indonesia"},
+    {"code": "nb", "path": "nb/", "name": "Norsk bokmål"},
+    {"code": "nl", "path": "nl/", "name": "Nederlands"},
+    {"code": "pl", "path": "pl/", "name": "Polski"},
+    {"code": "sv", "path": "sv/", "name": "Svenska"},
+    {"code": "tr", "path": "tr/", "name": "Türkçe"}
+  ]
+}
