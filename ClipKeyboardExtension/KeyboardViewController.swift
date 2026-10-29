@@ -845,6 +845,8 @@ class KeyboardViewController: UIInputViewController {
         super.viewWillDisappear(animated)
         // 몇 초 안에 내린 사람을 죽은 것으로 세지 않는다.
         crashGuard.markLaunchSucceeded()
+        // 키보드가 내려가면 입력칸이 밑줄 글을 확정한다. 들고 있으면 다음에 뜰 때 다시 넣는다.
+        dropComposing()
     }
 
     /// 호스트 앱이 비활성 · 백그라운드로 간다. 여기까지 왔으면 이 판은 뜨다가 죽은 것이 아니다.
@@ -877,6 +879,13 @@ class KeyboardViewController: UIInputViewController {
         commitCaretWatchIfTyped()
         // 손이 멎으면 넣은 글이 어떤 모양이 됐는지 본다.
         restartEditSettleTimer()
+        // 앱이 입력칸을 바꿨으면(보내고 비우기 등) 밑줄 글은 이미 확정됐다.
+        // 칸이 텅 비었으면 바로 놓는다. 한 글자만 쳐서 보내면 아래 검사로는 앞 글이 같아 보여 못 가린다.
+        if !proxy.hasText, (proxy.documentContextBeforeInput ?? "").isEmpty, (proxy.documentContextAfterInput ?? "").isEmpty {
+            dropComposing()
+        } else {
+            scheduleCaretCheck()
+        }
     }
 
     override func selectionDidChange(_ textInput: UITextInput?) {
@@ -917,6 +926,17 @@ class KeyboardViewController: UIInputViewController {
         // ⚠️ 둘째를 빼면 밑줄을 앞 글에 넣지 않는 앱에서 키마다 조합이 끊겨 글자가 쪼개진다.
         guard !before.hasSuffix(composingShown), before != contextBeforeComposing else { return }
         // 입력칸이 이미 그 자리에 확정했다. 다시 넣지 않고 밑줄만 푼다.
+        dropComposing()
+    }
+
+    /// 짓던 글자를 입력칸에 둔 채 자판에서 놓는다. 입력칸이 이미 확정한 글을 다시 넣지 않게 한다.
+    ///
+    /// ⚠️ 이게 없으면 "안녕" 을 치고 키보드를 내렸다 올리면, 다음 키에 "녕" 이 한 번 더 들어갔다
+    ///    (2026-10 사용자 신고 "버퍼에 한 글자 남는 것 같은").
+    private func dropComposing() {
+        caretCheckTimer?.invalidate()
+        caretCheckTimer = nil
+        guard !composingShown.isEmpty else { return }
         textDocumentProxy.unmarkText()
         composingShown = ""
         documentState.composingInterrupted &+= 1
