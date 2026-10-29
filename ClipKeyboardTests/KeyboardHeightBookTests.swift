@@ -20,7 +20,7 @@ import UIKit
 
 final class KeyboardHeightBookTests: XCTestCase {
 
-    /// 상한(세로 41%)에 닿지 않는 화면. 아이폰 세로는 시스템 키보드가 이미 39~41% 라 늘 상한에 닿아,
+    /// 바닥(아이폰 세로 46%)에 걸리지 않는 화면. 아이폰 세로는 시스템 키보드가 39~41% 라 늘 바닥에 닿아,
     /// 머리 줄 · 넉넉하게 · 조작 키 같은 계산은 여기서 본다(아이패드 세로).
     static let uncappedScreen = CGSize(width: 834, height: 1194)
 
@@ -167,14 +167,20 @@ final class KeyboardHeightBookTests: XCTestCase {
 
     // MARK: - 버튼 여섯은 보인다
 
-    /// 작은 화면에서는 상한(세로 41%)이 버튼 여섯 바닥보다 먼저다. 화면을 덜 가리는 것이 약속이고,
-    /// 다 안 보이는 단축어는 굴려서 본다(2026-10 사용자: "상한을 41%로 해줘 우리도").
-    /// 그래도 판이 최소치 아래로 무너지지는 않는다.
-    func test_작은_화면에서는_상한이_바닥보다_먼저다() {
-        let small = CGSize(width: 320, height: 568)
-        let panel = KeyboardHeightBook.height(for: small, content: KeyboardHeightBook.ContentMetrics())
-        XCTAssertEqual(panel, KeyboardHeightBook.maximumContentHeight(for: small), accuracy: 0.01)
-        XCTAssertGreaterThanOrEqual(panel, KeyboardHeightBook.minimumContentHeight)
+    /// 아이폰 세로에서는 어떤 높이를 골라도 키보드 전체가 화면의 46% 아래로 내려가지 않는다
+    /// (2026-10 사용자: "46%를 최소선으로 하자").
+    func test_아이폰_세로에서_키보드_전체는_화면의_46퍼센트_아래로_내려가지_않는다() {
+        var slim = KeyboardHeightBook.ContentMetrics()
+        slim.buttonHeight = 1
+        for size in [CGSize(width: 320, height: 568), CGSize(width: 375, height: 667),
+                     CGSize(width: 393, height: 852), CGSize(width: 440, height: 956)] {
+            AppGroup.defaults?.removeObject(forKey: DefaultsKey.systemKeyboardHeights)
+            for preset in KeyboardHeightPreset.allCases {
+                let total = KeyboardHeightBook.height(for: size, content: slim, preset: preset)
+                    + KeyboardHeightBook.systemChrome(for: size)
+                XCTAssertGreaterThanOrEqual(total, size.height * 0.46 - 0.5, "\(size) \(preset)")
+            }
+        }
     }
 
     /// 키를 크게 쓰는 사람의 격자가 그만큼 잘리면 안 된다. 바닥은 **설정을 따라** 움직인다.
@@ -302,8 +308,8 @@ final class KeyboardHeightBookTests: XCTestCase {
         XCTAssertEqual(KeyboardHeightBook.totalHeight(for: screen), KeyboardHeightBook.fallbackHeight(for: screen))
     }
 
-    /// 키보드 전체(우리 판 + 시스템이 그리는 아래 띠)는 어떤 설정 · 어떤 장부로도 세로 화면의 41% 를 넘지 않는다.
-    func test_키보드_전체는_세로_화면의_41퍼센트를_넘지_않는다() {
+    /// 키보드 전체(우리 판 + 시스템이 그리는 아래 띠)는 어떤 설정 · 어떤 장부로도 세로 화면의 55% 를 넘지 않는다.
+    func test_키보드_전체는_세로_화면의_55퍼센트를_넘지_않는다() {
         var greedy = KeyboardHeightBook.ContentMetrics()
         greedy.columns = 1
         greedy.buttonHeight = 100
@@ -315,7 +321,7 @@ final class KeyboardHeightBookTests: XCTestCase {
                 for preset in KeyboardHeightPreset.allCases {
                     let total = KeyboardHeightBook.height(for: size, content: greedy, preset: preset)
                         + KeyboardHeightBook.systemChrome(for: size)
-                    XCTAssertLessThanOrEqual(total, size.height * 0.41 + 0.5, "\(size) \(preset) \(stored)")
+                    XCTAssertLessThanOrEqual(total, size.height * 0.55 + 0.5, "\(size) \(preset) \(stored)")
                 }
             }
         }
@@ -326,7 +332,7 @@ final class KeyboardHeightBookTests: XCTestCase {
     /// 이 설정이 생긴 이유. 리뷰: "keyboard size is too big, make it the same size as normal keyboard".
     /// `.compact` 은 그 말을 그대로 지킨다. 한 줄이라도 어긋나면 전환할 때 눈에 보인다.
     func test_시스템과_같게를_고르면_높이가_정확히_같다() {
-        let size = CGSize(width: 393, height: 852)
+        let size = Self.uncappedScreen  // 아이폰 세로는 46% 바닥이 먼저다
         KeyboardHeightBook.record(height: 336, for: size)
 
         let total = KeyboardHeightBook.height(for: size,
@@ -341,7 +347,7 @@ final class KeyboardHeightBookTests: XCTestCase {
     /// **이 변경의 핵심.** 예전 `버튼 높이` 슬라이더는 바닥 계산에만 들어가서, 키를 크게
     /// 쓰는 사람이 끝까지 내려도 키보드가 안 낮아졌다. 고른 값은 바닥에 막히면 안 된다.
     func test_시스템과_같게는_키를_크게_쓰는_사람에게도_낮아진다() {
-        let size = CGSize(width: 393, height: 852)
+        let size = Self.uncappedScreen  // 아이폰 세로는 46% 바닥이 먼저다
         KeyboardHeightBook.record(height: 336, for: size)
 
         // 바닥이 기본 높이를 넘어서는 설정(한 칸씩 · 큰 키)을 고른 사람.
@@ -462,7 +468,7 @@ final class KeyboardHeightBookTests: XCTestCase {
     /// `.compact` 은 머리 줄을 안 얹으므로 조작 키를 키워도 총 높이가 그대로다.
     /// "시스템 키보드와 같게" 라는 약속이 다른 설정에 흔들리면 안 된다.
     func test_시스템과_같게는_조작_키를_키워도_높이가_그대로다() {
-        let size = CGSize(width: 393, height: 852)
+        let size = Self.uncappedScreen  // 아이폰 세로는 46% 바닥이 먼저다
         KeyboardHeightBook.record(height: 336, for: size)
 
         var large = KeyboardHeightBook.ContentMetrics()

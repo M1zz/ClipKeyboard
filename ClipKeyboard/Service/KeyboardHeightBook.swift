@@ -117,9 +117,11 @@ enum KeyboardHeightBook {
         //      답한 것이다. 여기서 바닥을 대면 키를 크게 쓰는 사람에게는 고른 것이
         //      **아무 일도 안 하는 것처럼** 보인다(예전 `버튼 높이` 슬라이더가 그랬다).
         //      그래도 판이 통째로 사라지지는 않게 `minimumContentHeight` 는 남긴다.
-        let floor = preset == .compact
+        let buttonFloor = preset == .compact
             ? minimumContentHeight
             : max(content.floorHeight, minimumContentHeight)
+        // 아이폰 세로에서는 어떤 높이를 골라도 키보드 전체가 화면의 46% 아래로 내려가지 않는다.
+        let floor = max(buttonFloor, minimumShareHeight(for: size))
 
         // ③ 그러나 화면을 통째로 먹지는 않는다. 가로에서 ② 를 그대로 쓰면 본문이 사라진다.
         let ceiling = maximumContentHeight(for: size)
@@ -150,14 +152,24 @@ enum KeyboardHeightBook {
 
     /// 우리 판이 이보다 높아지지는 않는다.
     ///
-    /// 키보드가 화면을 덮으면 무엇에 입력하고 있는지가 안 보인다. 세로에서는 화면의 41%,
+    /// 키보드가 화면을 덮으면 무엇에 입력하고 있는지가 안 보인다. 세로에서는 화면의 55%,
     /// 가로에서는 62% 까지만 쓴다(가로는 화면이 낮아 같은 비율로는 키가 안 들어간다).
     ///
-    /// ⚠️ 세로 41% 는 시스템 키보드가 가장 높을 때(iPhone 13 mini, 아래 `fallbackHeight` 표)와 같다.
-    ///    우리 키보드도 그보다 더 가리지 않는다(2026-10 사용자: "상한을 41%로 해줘 우리도").
-    ///    예전에는 55% 였다.
-    static let portraitShare: CGFloat = 0.41
+    /// ⚠️ 한때 41% 였다(시스템 키보드가 가장 높을 때와 같게). 키가 너무 낮아져서 바닥 46% 를 두고
+    ///    상한은 55% 로 되돌렸다(2026-10 사용자: "46%를 최소선으로 하자 지금은 너무 높이가 낮다").
+    static let portraitShare: CGFloat = 0.55
     static let landscapeShare: CGFloat = 0.62
+    /// 아이폰 세로에서 키보드 전체가 화면에서 차지하는 가장 낮은 몫.
+    static let portraitMinimumShare: CGFloat = 0.46
+
+    /// 아이폰 세로에서 우리 판이 이보다 낮아지지는 않는다(키보드 전체가 화면의 46%).
+    /// 가로 · 아이패드는 화면 모양이 달라 같은 몫을 대지 않는다.
+    static func minimumShareHeight(for size: CGSize) -> CGFloat {
+        let isLandscape = size.width > size.height
+        let isPad = min(size.width, size.height) >= 600
+        guard !isLandscape, !isPad else { return 0 }
+        return size.height * portraitMinimumShare - systemChrome(for: size)
+    }
 
     static func maximumContentHeight(for size: CGSize) -> CGFloat {
         let isLandscape = size.width > size.height
