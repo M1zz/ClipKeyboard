@@ -81,7 +81,8 @@ enum ClipKeyboardSpec: LeeoAppSpec {
             //    5.1.16 이 지침 3.1.1 로 거절됐다. 할인 · 무료로 주려면 App Store 오퍼 코드를 쓴다.
             // 팁(응원). 이미 다 가진 사람이 더 내고 싶을 때. 아무것도 열지 않는 소모성 상품이다.
             // ⚠️ 이것도 productIDs · entitlementIDs 에 넣지 않는다(사전 점검 `tip.sellsPro`).
-            tipJar: LeeoTipJarConfig(productIDs: StoreManager.tipProductIDs)
+            tipJar: LeeoTipJarConfig(productIDs: StoreManager.tipProductIDs,
+                                     thanksPage: URL(string: "https://m1zz.github.io/ClipKeyboard/#leeo-thanks"))
         )
     )
 }
