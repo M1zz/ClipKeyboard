@@ -908,7 +908,7 @@ struct ClipKeyboardList: View {
     }
 
     private var screenBody2: some View {
-        screenBody
+        toolbarSheets(screenBody)
             .sheet(item: $ghostAddPattern, onDismiss: {
                 viewModel.loadMemos()
                 refreshGhostSuggestion()
@@ -2960,7 +2960,7 @@ struct ClipKeyboardList: View {
         ToolbarItem(placement: .topBarTrailing) {
             // ⚠️ 간격은 무대 머리말과 **같은 값**을 쓴다. 예전엔 여기만 -8이라
             //    44pt 유리 서클끼리 겹쳐 두 버튼이 한 덩어리로 보였다.
-            toolbarSheets(GlassCircleCluster {
+            GlassCircleCluster {
                 if blank && !FeatureSet.hasGraduated(level: userState.state.level) {
                     // 키보드를 켜고 써 본 뒤에야 미리보기로 건너가는 단추가 선다
                     if keyboardLearned { SnippetsStyleSwitchButton(styleRaw: $snippetsTabStyleRaw) }
@@ -2968,15 +2968,13 @@ struct ClipKeyboardList: View {
                 } else {
                     toolbarButtons
                 }
-            })
-            // ⚠️ 만들기 · 정리 시트는 **+ 메뉴가 아니라 이 묶음에** 단다. 처음 사용자의 + 는 메뉴가 아니라
-            //    단추라서, 메뉴에 매달아 두면 시트도 같이 사라져 + 를 눌러도 빈 자리만 서고 아무것도 안 떴다.
+            }
         }
         .sharedBackgroundVisibility(.hidden)
         #else
         ToolbarItemGroup(placement: .automatic) {
             vaultEntrance
-            toolbarSheets(toolbarButtons)
+            toolbarButtons
         }
         #endif
     }
@@ -3044,7 +3042,11 @@ struct ClipKeyboardList: View {
     )
     }
 
-    /// 툴바에서 여는 만들기 · 정리 시트들. + 가 메뉴든 단추든 같이 달린다.
+    /// 툴바에서 여는 만들기 · 정리 시트들.
+    ///
+    /// ⚠️ 툴바 안에 달지 않고 **화면 본체에** 단다. 툴바 항목은 시스템이 다시 만들 수 있고, 그러면
+    ///    시트가 뜨지 못하거나 닫혔다는 소식(onDismiss)이 오지 않는다. 그러면 파란 빈 자리가 격자에
+    ///    남고 + 도 먹지 않는다(`ea863880` · 2026-10 사용자 보고).
     private func toolbarSheets<Content: View>(_ content: Content) -> some View {
         content
             .sheet(isPresented: $showBulkImport) {
