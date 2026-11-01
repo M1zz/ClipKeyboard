@@ -346,7 +346,6 @@ struct InAppKeyboardStage: View {
         ClipboardCaptureCard(
             value: offer.value,
             detectedType: offer.detectedType,
-            confidence: offer.confidence,
             suggestedTitle: offer.suggestedTitle,
             repeatCopies: offer.repeatCopies,
             onDismiss: { withAnimation(.easeOut(duration: 0.25)) { freshClipboard.dismiss() } },

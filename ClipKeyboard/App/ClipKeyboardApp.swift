@@ -165,6 +165,7 @@ struct ClipKeyboardApp: App {
 
         // 키보드를 띄운 적 있는 사람은 쓰던 자판 목록을 그대로 둔다(처음 목록을 고르는 규칙이 바뀌었다).
         TypingPrefs.keepLegacyDefaultIfNeeded()
+        TypingPrefs.followSettingLanguage()
         // iOS 에 켜 둔 키보드의 언어를 키보드에게 알려 둔다. 처음 자판 언어를 고를 때 쓴다.
         TypingPrefs.noteEnabledKeyboards()
 
@@ -1554,7 +1555,7 @@ struct ClipKeyboardApp: App {
 
             CommandGroup(replacing: .help) {
                 Button(NSLocalizedString("ClipKeyboard Help", comment: "Menu: help")) {
-                    if let url = URL(string: "https://m1zz.github.io/ClipKeyboard/tutorial.html") {
+                    if let url = URL(string: Constants.tutorialURL) {
                         #if targetEnvironment(macCatalyst)
                         UIApplication.shared.open(url)
                         #endif

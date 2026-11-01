@@ -159,6 +159,38 @@ final class SaveIntoCategoryTests: XCTestCase {
         XCTAssertTrue(vm.userCategory.isEmpty, "여기서 고른 것은 내용과 함께 지워지는 게 맞다")
     }
 
+    /// 신고: 카테고리 페이지 오른쪽 위 + 로 만들면 기본으로 가 버린다.
+    /// + 가 건네는 칸으로 만들어 저장하면 그 페이지에 바로 보이고, 화면은 그대로여야 한다.
+    func test_카테고리_페이지_위쪽_플러스로_만들면_그_페이지에_바로_보인다() {
+        seed(categories: ["업무"], memos: [Memo(title: "있던 것", value: "값", category: "업무")])
+        CategoryStore.shared.reload()
+        viewModel.selectCategoryTab(.custom("업무"), animated: false)
+
+        let add = makeAddViewModel(insertedCategory: viewModel.newSnippetCategory)
+        add.keyword = "새 단축어"
+        add.value = "leeo@kakao.com"
+        add.saveMemo(dismiss: {})
+
+        let saved = savedMemo(titled: "새 단축어")
+        XCTAssertEqual(saved?.category, "업무", "자동 분류나 기본으로 새면 안 된다")
+        viewModel.loadMemos()
+        viewModel.revealSavedMemo(id: saved?.id ?? UUID())
+        XCTAssertEqual(viewModel.selectedCategoryTab, .custom("업무"))
+        XCTAssertTrue(viewModel.memos(for: .custom("업무")).contains { $0.title == "새 단축어" })
+    }
+
+    func test_카테고리가_아닌_페이지의_플러스는_칸을_정하지_않는다() {
+        let basic = Memo(title: "기본 것", value: "값", category: "텍스트")
+        var favorite = Memo(title: "별 단 것", value: "값", category: "텍스트")
+        favorite.isFavorite = true
+        seed(categories: ["업무"], memos: [basic, favorite])
+
+        viewModel.selectCategoryTab(.basic, animated: false)
+        XCTAssertEqual(viewModel.newSnippetCategory, "")
+        viewModel.selectCategoryTab(.favorites, animated: false)
+        XCTAssertEqual(viewModel.newSnippetCategory, "")
+    }
+
     // MARK: - ③④ 저장한 것이 보이는 자리로 데려간다
 
     func test_기본_탭에서_업무로_저장하면_업무_탭으로_옮겨_간다() {

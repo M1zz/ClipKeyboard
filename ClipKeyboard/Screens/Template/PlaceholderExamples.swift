@@ -39,7 +39,7 @@ enum PlaceholderExamples {
             (["금액", "가격", "원", "price", "amount", "비용"],
              ["10,000", "50,000"]),
             (["전화", "연락", "휴대", "phone", "tel"],
-             ["010-1234-5678"]),
+             [AppLanguage.contentLanguageCode == "ko" ? "010-1234-5678" : "+1 555 123 4567"]),
             (["메일", "email", "mail"],
              ["me@example.com"]),
             (["주소", "address"],

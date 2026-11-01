@@ -2846,7 +2846,7 @@ struct KeyboardView: View {
     private func authenticateAndInsert(memo: Memo, bypassTemplate: Bool = false, stackIndex: Int? = nil) {
         let storedHash = AppGroup.defaults?.string(forKey: DefaultsKey.keyboardSecurePinHash) ?? ""
         guard !storedHash.isEmpty else {
-            UINotificationFeedbackGenerator().notificationOccurred(.warning)
+            KeyboardHaptics.notify(.warning)
             withAnimation { showPinNotSetToast = true }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) {
                 withAnimation { showPinNotSetToast = false }
@@ -2898,7 +2898,7 @@ struct KeyboardView: View {
             pinEntryWrong = false
             pendingBypassTemplate = false
         } else {
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            KeyboardHaptics.notify(.error)
             enteredPIN = ""
             pinEntryWrong = true
         }
@@ -2924,7 +2924,7 @@ struct KeyboardView: View {
             return
         }
         UIPasteboard.general.setData(data, forPasteboardType: MemoStore.shared.imagePasteboardType(fileName: fileName))
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
+        KeyboardHaptics.notify(.success)
         print("✅ [KeyboardView] 이미지 클립보드 복사 완료: \(memo.title) (\(data.count) bytes)")
 
         // 앱 무대에서는 복사에서 끝내지 않는다 - 입력창이 우리 것이라 붙여넣은 모습까지
@@ -3050,7 +3050,7 @@ struct KeyboardView: View {
     ///    입력은 PIN 을 받고 나서만 되는데 복사만 무료 통행이던 구멍을 막는다.
     private func copyMemoInApp(_ memo: Memo) {
         guard !memo.isSecure else {
-            UINotificationFeedbackGenerator().notificationOccurred(.warning)
+            KeyboardHaptics.notify(.warning)
             withAnimation { showSecureCopyBlockedToast = true }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) {
                 withAnimation { showSecureCopyBlockedToast = false }

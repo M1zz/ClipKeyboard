@@ -40,6 +40,8 @@ protocol TypingInputProxy: AnyObject {
     func setComposingText(_ text: String, replacing shown: String)
     /// 조합을 끝낸다. 밑줄 친 글을 그대로 확정한다.
     func finishComposingText()
+    /// 조합을 끝내되 `text` 로 확정한다. 밑줄 글 `shown` 이 그 글로 바뀐다.
+    func finishComposingText(with text: String, replacing shown: String)
 
     /// 커서 앞 글. 자판이 문장 첫 글자에서 Shift 를 저절로 켤지 가를 때 본다. 모르면 nil.
     var typingContextBefore: String? { get }
@@ -59,6 +61,11 @@ extension TypingInputProxy {
     }
 
     func finishComposingText() {}
+
+    func finishComposingText(with text: String, replacing shown: String) {
+        setComposingText(text, replacing: shown)
+        finishComposingText()
+    }
 
     /// 모르는 입력칸에서는 저절로 대문자를 켜지 않는다(시험용 가짜 입력칸 등).
     var typingContextBefore: String? { nil }
@@ -132,6 +139,20 @@ private struct ComposingText {
     /// 보이던 것을 그대로 확정한다.
     mutating func commit(on proxy: TypingInputProxy) {
         if !shown.isEmpty { proxy.finishComposingText() }
+        shown = ""
+    }
+
+    /// `final` 로 확정한다. 비었으면 보이던 글을 지우기만 한다.
+    ///
+    /// ⚠️ 밑줄을 먼저 고치고(`show`) 확정하면 안 된다. 진짜 입력칸에는 고친 밑줄이 남고 확정한 글이 또 들어가,
+    ///    천지인으로 "어떤" + ㄱ 을 치고 지우면 "어떤떤" 이 됐다(2026-11 사용자 신고, 실제 키보드로 재현).
+    ///    밑줄 자리에 한 번에 넣는다. 일본어 · 중국어 후보를 고르는 길도 같은 이유로 여기를 지난다.
+    mutating func commit(_ final: String, on proxy: TypingInputProxy) {
+        guard !final.isEmpty else {
+            show("", on: proxy)
+            return
+        }
+        proxy.finishComposingText(with: final, replacing: shown)
         shown = ""
     }
 
@@ -226,8 +247,8 @@ final class HangulTypingEngine: TypingEngine {
         if layout == .cheonjiin { cheonjiin.commit() }
         composer.commit()
         guard let proxy = proxyTyping else { return }
-        text.show(word.text, on: proxy)
-        finishWord(on: proxy)
+        text.commit(word.text, on: proxy)
+        word.text = ""
     }
 
     func reset() {
@@ -248,8 +269,7 @@ final class HangulTypingEngine: TypingEngine {
         let head = String(word.text.prefix(headLength))
         let tail = String(word.text.dropFirst(headLength))
         if !head.isEmpty {
-            text.show(head, on: proxy)
-            text.commit(on: proxy)
+            text.commit(head, on: proxy)
             word.text = tail
             cheonjiin.didCommitPrefix(head.count)
         }
@@ -548,10 +568,9 @@ final class KanaTypingEngine: TypingEngine {
 
     func commit() {
         flushPending()
-        render()
+        text.commit(kana + pending, on: proxy)
         kana = ""
         pending = ""
-        text.commit(on: proxy)
     }
 
     func reset() {
@@ -563,11 +582,10 @@ final class KanaTypingEngine: TypingEngine {
     func selectCandidate(at index: Int) {
         let list = candidates
         guard list.indices.contains(index) else { return }
-        text.show(list[index], on: proxy)
+        text.commit(list[index], on: proxy)
         dictionary?.noteChosen(list[index], for: kana)
         kana = ""
         pending = ""
-        text.commit(on: proxy)
     }
 
     /// 끝에 남은 n 은 ん 으로, 나머지 로마자는 그대로 둔다.
@@ -744,10 +762,9 @@ final class ReadingTypingEngine: TypingEngine {
     func selectCandidate(at index: Int) {
         let list = candidates
         guard list.indices.contains(index) else { return }
-        text.show(list[index], on: proxy)
+        text.commit(list[index], on: proxy)
         dictionary?.noteChosen(list[index], for: reading)
         reading = ""
-        text.commit(on: proxy)
     }
 }
 

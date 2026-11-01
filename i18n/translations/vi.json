@@ -496,8 +496,8 @@
     "src": "3c6f711025"
   },
   "'%@' 이름을 바꿀까요?": {
-    "src": "45b5da2213",
-    "v": "Đổi tên '%@'?"
+    "v": "Đổi tên '%@'?",
+    "src": "45b5da2213"
   },
   "'%@' 추가": {
     "v": "Thêm vào '%@'",
@@ -2852,8 +2852,8 @@
     "src": "e678de395f"
   },
   "고르면 여기에 열려요": {
-    "src": "83a577dde6",
-    "v": "Chọn một mục, nó sẽ mở ở đây"
+    "v": "Chọn một mục, nó sẽ mở ở đây",
+    "src": "83a577dde6"
   },
   "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요": {
     "v": "Chúng tôi gợi ý nhóm và câu phù hợp với cách bạn dùng ứng dụng",
@@ -2996,8 +2996,8 @@
     "src": "02f171ea75"
   },
   "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
-    "src": "bb24d4c594",
-    "v": "Không dùng được tên này. Tên đã có hoặc trùng với một thẻ mặc định."
+    "v": "Không dùng được tên này. Tên đã có hoặc trùng với một thẻ mặc định.",
+    "src": "bb24d4c594"
   },
   "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
     "v": "Bạn hãy chụp màn hình đó nguyên trạng. Nếu bản dịch nghe chưa tự nhiên, bạn cho chúng tôi biết nên sửa thế nào. Chúng tôi sẽ dùng đúng cách diễn đạt của bạn.",
@@ -3024,8 +3024,8 @@
     "src": "45d6f793e5"
   },
   "그대로 쓰기": {
-    "src": "905a5c069e",
-    "v": "Giữ nguyên"
+    "v": "Giữ nguyên",
+    "src": "905a5c069e"
   },
   "그동안 모든 기능이 무료로 열려 있었어요. %d일 뒤부터 무료 플랜이 적용돼요. 저장한 단축어는 지워지지 않아요.": {
     "v": "Suốt thời gian qua, mọi tính năng đều mở miễn phí. Gói miễn phí sẽ áp dụng sau %d ngày. Cụm từ đã lưu sẽ không bị xóa.",
@@ -3048,8 +3048,8 @@
     "src": "0200132a0a"
   },
   "그림 단축어": {
-    "src": "eaa36fcde2",
-    "v": "Cụm từ hình ảnh"
+    "v": "Cụm từ hình ảnh",
+    "src": "eaa36fcde2"
   },
   "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요": {
     "v": "Cho đến lúc đó, ứng dụng để ở chế độ Chung. Mặc định cũ là Digital Nomad, đó là nơi ứng dụng bắt đầu, không phải nơi bạn đang đứng",
@@ -3128,8 +3128,8 @@
     "src": "23b5bde554"
   },
   "금융": {
-    "src": "c887f518e4",
-    "v": "Tài chính"
+    "v": "Tài chính",
+    "src": "c887f518e4"
   },
   "기간": {
     "v": "Khoảng thời gian",
@@ -3344,7 +3344,7 @@
     "src": "3104c902cf"
   },
   "김서연": {
-    "v": "Kim Seo-yeon",
+    "v": "Tran Thu Ha",
     "src": "a2e2efa57b"
   },
   "깊은 초록이에요. 어두운 화면에서 눈이 편합니다.": {
@@ -3572,7 +3572,7 @@
     "src": "c85ae14422"
   },
   "내일 7시 강남역 2번 출구": {
-    "v": "Ngày mai 7 giờ tối, cửa ra số 2 ga Gangnam",
+    "v": "Ngày mai 7 giờ tối, cửa phía bắc",
     "src": "cbfd880c6e"
   },
   "내일부터 무료 플랜이에요": {
@@ -5420,8 +5420,8 @@
     "src": "b7c7ded4bc"
   },
   "방금 복사함": {
-    "src": "02d7e18ccc",
-    "v": "Vừa sao chép"
+    "v": "Vừa sao chép",
+    "src": "02d7e18ccc"
   },
   "배경 없음": {
     "v": "Không có nền",
@@ -5752,8 +5752,8 @@
     "src": "5263aaf2b9"
   },
   "보안 단축어라 값은 보이지 않아요": {
-    "src": "9b105a42a7",
-    "v": "Đây là cụm từ bảo mật nên giá trị được ẩn"
+    "v": "Đây là cụm từ bảo mật nên giá trị được ẩn",
+    "src": "9b105a42a7"
   },
   "보안 단축어로 설정": {
     "v": "Đặt làm cụm từ bảo mật",
@@ -7776,8 +7776,8 @@
     "src": "6a76be78a0"
   },
   "앱이 처음에 만들어 둔 카테고리예요. 쓰시는 대로 이름을 정해 주세요.": {
-    "src": "00f79a61d8",
-    "v": "Ứng dụng đã tạo sẵn danh mục này. Hãy đặt tên theo cách bạn dùng."
+    "v": "Ứng dụng đã tạo sẵn danh mục này. Hãy đặt tên theo cách bạn dùng.",
+    "src": "00f79a61d8"
   },
   "약 %d분": {
     "v": "Khoảng %d phút",
@@ -8000,8 +8000,8 @@
     "src": "41784ce31a"
   },
   "여행": {
-    "src": "9685ff0913",
-    "v": "Du lịch"
+    "v": "Du lịch",
+    "src": "9685ff0913"
   },
   "연 구독": {
     "v": "Hằng năm",
@@ -10376,8 +10376,8 @@
     "src": "b70be55387"
   },
   "최근 · %d일": {
-    "src": "b46b18195e",
-    "v": "Gần đây · %d ngày"
+    "v": "Gần đây · %d ngày",
+    "src": "b46b18195e"
   },
   "최근 단축어": {
     "v": "Cụm từ gần đây",
@@ -10536,8 +10536,8 @@
     "src": "b1666e29c5"
   },
   "카드를 누르면 복사한 값이 여기 보여요": {
-    "src": "b8ed4c2d5c",
-    "v": "Chạm vào thẻ để xem giá trị bạn vừa sao chép ở đây"
+    "v": "Chạm vào thẻ để xem giá trị bạn vừa sao chép ở đây",
+    "src": "b8ed4c2d5c"
   },
   "카드를 눌러 보세요": {
     "v": "Hãy chạm vào thẻ",
@@ -12438,5 +12438,45 @@
   "%@ 다음 값": {
     "v": "Giá trị tiếp theo của %@",
     "src": "574de73435"
+  },
+  "'%1$@' 뒤에 '%2$@' 묶기": {
+    "v": "Thêm “%2$@” sau “%1$@”",
+    "src": "4a961d65e7"
+  },
+  "끄면 키를 눌러도 진동이 울리지 않아요. 키 소리는 iOS 설정을 따라요.": {
+    "v": "Khi tắt, các phím sẽ không rung khi bạn nhấn. Âm thanh phím theo cài đặt iOS.",
+    "src": "9c29fdfaad"
+  },
+  "끌어서 스택 만들기": {
+    "v": "Kéo để xếp chồng",
+    "src": "417bafd89e"
+  },
+  "끌어온 카드는 스택의 다음 칸이 되고 목록에서 사라져요.": {
+    "v": "Thẻ được kéo sẽ thành bước tiếp theo của ngăn xếp và rời khỏi danh sách.",
+    "src": "c71da8dab9"
+  },
+  "묶을 수 있는 단축어가 두 개 이상 필요해요": {
+    "v": "Cần ít nhất hai cụm từ có thể xếp chồng",
+    "src": "a32c595259"
+  },
+  "묶지 못했습니다": {
+    "v": "Không thể xếp chồng",
+    "src": "bd36f5f5ff"
+  },
+  "카드를 다른 카드 위에 놓으면 그 뒤에 묶여요": {
+    "v": "Thả một thẻ lên thẻ khác để đặt nó ngay sau thẻ đó",
+    "src": "7a1d55b248"
+  },
+  "키보드 진동": {
+    "v": "Rung bàn phím",
+    "src": "40fbf8be97"
+  },
+  "지금은 iCloud를 쓸 수 없어요": {
+    "v": "Hiện không dùng được iCloud",
+    "src": "99300cf929"
+  },
+  "보내기를 누르면 메일 앱이 열려요. 메일에서 한 번 더 보내야 전달돼요. iCloud에 로그인하면 앱에서 바로 보내져요.": {
+    "v": "Khi chạm Gửi, ứng dụng Mail sẽ mở và bạn cần gửi thêm lần nữa từ đó. Đăng nhập iCloud để gửi ngay trong ứng dụng.",
+    "src": "ade455e417"
   }
 }

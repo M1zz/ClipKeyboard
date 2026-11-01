@@ -97,9 +97,19 @@ enum KeyboardHaptics {
 
     /// 키보드 진입 시 한 번 호출 - 햅틱 엔진을 사전 깨워 첫 입력 지연 제거.
     static func prepare() {
+        guard vibrates else { return }
         light.prepare()
         soft.prepare()
         medium.prepare()
+    }
+
+    /// 설정 ▸ 키보드 ▸ 키보드 진동. 키보드의 진동은 전부 이 파일을 지나므로 여기 한 곳에서 막는다.
+    static var vibrates: Bool { KeyboardPrefs.vibrates.value() }
+
+    /// 잘못 눌렀거나 끝났음을 알리는 진동.
+    static func notify(_ type: UINotificationFeedbackGenerator.FeedbackType) {
+        guard vibrates else { return }
+        UINotificationFeedbackGenerator().notificationOccurred(type)
     }
 
     // MARK: - 키 클릭음
@@ -123,18 +133,21 @@ enum KeyboardHaptics {
     @inline(__always)
     static func tap() {
         click()
+        guard vibrates else { return }
         light.impactOccurred()
         light.prepare()
     }
 
     @inline(__always)
     static func softTap() {
+        guard vibrates else { return }
         soft.impactOccurred()
         soft.prepare()
     }
 
     @inline(__always)
     static func mediumTap() {
+        guard vibrates else { return }
         medium.impactOccurred()
         medium.prepare()
     }
@@ -158,6 +171,7 @@ enum KeyboardHaptics {
     static func stamp() {
         guard delightEnabled else { return }
         UIDevice.current.playInputClick()
+        guard vibrates else { return }
         medium.impactOccurred()
         medium.prepare()
     }

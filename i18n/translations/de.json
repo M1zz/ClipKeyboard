@@ -628,8 +628,8 @@
     "src": "3c6f711025"
   },
   "'%@' 이름을 바꿀까요?": {
-    "src": "45b5da2213",
-    "v": "„%@“ umbenennen?"
+    "v": "„%@“ umbenennen?",
+    "src": "45b5da2213"
   },
   "'%@' 추가": {
     "v": "Zu '%@' hinzufügen",
@@ -3011,8 +3011,8 @@
     "src": "e678de395f"
   },
   "고르면 여기에 열려요": {
-    "src": "83a577dde6",
-    "v": "Wähle etwas aus, dann öffnet es sich hier"
+    "v": "Wähle etwas aus, dann öffnet es sich hier",
+    "src": "83a577dde6"
   },
   "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요": {
     "v": "Wir zeigen dir passende Gruppen und Formulierungen für deine Art der Nutzung",
@@ -3164,8 +3164,8 @@
     "src": "02f171ea75"
   },
   "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
-    "src": "bb24d4c594",
-    "v": "Diesen Namen kannst du nicht verwenden. Er existiert schon oder entspricht einem festen Tab."
+    "v": "Diesen Namen kannst du nicht verwenden. Er existiert schon oder entspricht einem festen Tab.",
+    "src": "bb24d4c594"
   },
   "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
     "v": "Mache einen Screenshot genau dieses Bildschirms. Falls eine Übersetzung holprig klingt, schreib uns, wie es natürlicher wäre. Wir übernehmen deine Formulierung.",
@@ -3192,8 +3192,8 @@
     "src": "45d6f793e5"
   },
   "그대로 쓰기": {
-    "src": "905a5c069e",
-    "v": "Behalten"
+    "v": "Behalten",
+    "src": "905a5c069e"
   },
   "그동안 모든 기능이 무료로 열려 있었어요. %d일 뒤부터 무료 플랜이 적용돼요. 저장한 단축어는 지워지지 않아요.": {
     "v": {
@@ -3219,8 +3219,8 @@
     "src": "0200132a0a"
   },
   "그림 단축어": {
-    "src": "eaa36fcde2",
-    "v": "Bild-Textbaustein"
+    "v": "Bild-Textbaustein",
+    "src": "eaa36fcde2"
   },
   "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요": {
     "v": "Bis dahin bleibt es auf Allgemein. Der frühere Standard, Digital Nomad, war der Startpunkt dieser App, nicht dein Platz",
@@ -3299,8 +3299,8 @@
     "src": "23b5bde554"
   },
   "금융": {
-    "src": "c887f518e4",
-    "v": "Finanzen"
+    "v": "Finanzen",
+    "src": "c887f518e4"
   },
   "기간": {
     "v": "Zeitraum",
@@ -3515,7 +3515,7 @@
     "src": "3104c902cf"
   },
   "김서연": {
-    "v": "Lena Kim",
+    "v": "Lena Müller",
     "src": "a2e2efa57b"
   },
   "깊은 초록이에요. 어두운 화면에서 눈이 편합니다.": {
@@ -5660,8 +5660,8 @@
     "src": "b7c7ded4bc"
   },
   "방금 복사함": {
-    "src": "02d7e18ccc",
-    "v": "Gerade kopiert"
+    "v": "Gerade kopiert",
+    "src": "02d7e18ccc"
   },
   "배경 없음": {
     "v": "Kein Hintergrund",
@@ -5992,8 +5992,8 @@
     "src": "5263aaf2b9"
   },
   "보안 단축어라 값은 보이지 않아요": {
-    "src": "9b105a42a7",
-    "v": "Geschützter Textbaustein, der Wert bleibt verborgen"
+    "v": "Geschützter Textbaustein, der Wert bleibt verborgen",
+    "src": "9b105a42a7"
   },
   "보안 단축어로 설정": {
     "v": "Als geschützt festlegen",
@@ -8055,8 +8055,8 @@
     "src": "6a76be78a0"
   },
   "앱이 처음에 만들어 둔 카테고리예요. 쓰시는 대로 이름을 정해 주세요.": {
-    "src": "00f79a61d8",
-    "v": "Diese Kategorie hat die App angelegt. Gib ihr einen Namen, der zu dir passt."
+    "v": "Diese Kategorie hat die App angelegt. Gib ihr einen Namen, der zu dir passt.",
+    "src": "00f79a61d8"
   },
   "약 %d분": {
     "v": {
@@ -8282,8 +8282,8 @@
     "src": "41784ce31a"
   },
   "여행": {
-    "src": "9685ff0913",
-    "v": "Reisen"
+    "v": "Reisen",
+    "src": "9685ff0913"
   },
   "연 구독": {
     "v": "Jährlich",
@@ -10703,11 +10703,11 @@
     "src": "b70be55387"
   },
   "최근 · %d일": {
-    "src": "b46b18195e",
     "v": {
       "one": "Zuletzt · %d Tag",
       "other": "Zuletzt · %d Tage"
-    }
+    },
+    "src": "b46b18195e"
   },
   "최근 단축어": {
     "v": "Letzte Textbausteine",
@@ -10866,8 +10866,8 @@
     "src": "b1666e29c5"
   },
   "카드를 누르면 복사한 값이 여기 보여요": {
-    "src": "b8ed4c2d5c",
-    "v": "Tippe auf eine Karte, dann erscheint hier, was du kopiert hast"
+    "v": "Tippe auf eine Karte, dann erscheint hier, was du kopiert hast",
+    "src": "b8ed4c2d5c"
   },
   "카드를 눌러 보세요": {
     "v": "Tippe auf die Karte",
@@ -12783,5 +12783,45 @@
   "%@ 다음 값": {
     "v": "Nächster Wert für %@",
     "src": "574de73435"
+  },
+  "'%1$@' 뒤에 '%2$@' 묶기": {
+    "v": "„%2$@“ nach „%1$@“ einreihen",
+    "src": "4a961d65e7"
+  },
+  "끄면 키를 눌러도 진동이 울리지 않아요. 키 소리는 iOS 설정을 따라요.": {
+    "v": "Wenn aus, vibrieren die Tasten beim Tippen nicht. Der Tastenton folgt den iOS-Einstellungen.",
+    "src": "9c29fdfaad"
+  },
+  "끌어서 스택 만들기": {
+    "v": "Zum Stapeln ziehen",
+    "src": "417bafd89e"
+  },
+  "끌어온 카드는 스택의 다음 칸이 되고 목록에서 사라져요.": {
+    "v": "Die gezogene Karte wird zum nächsten Schritt des Stapels und verschwindet aus der Liste.",
+    "src": "c71da8dab9"
+  },
+  "묶을 수 있는 단축어가 두 개 이상 필요해요": {
+    "v": "Du brauchst mindestens zwei Textbausteine, die sich stapeln lassen",
+    "src": "a32c595259"
+  },
+  "묶지 못했습니다": {
+    "v": "Stapeln nicht möglich",
+    "src": "bd36f5f5ff"
+  },
+  "카드를 다른 카드 위에 놓으면 그 뒤에 묶여요": {
+    "v": "Lege eine Karte auf eine andere, um sie dahinter einzureihen",
+    "src": "7a1d55b248"
+  },
+  "키보드 진동": {
+    "v": "Tastaturvibration",
+    "src": "40fbf8be97"
+  },
+  "지금은 iCloud를 쓸 수 없어요": {
+    "v": "iCloud ist gerade nicht verfügbar",
+    "src": "99300cf929"
+  },
+  "보내기를 누르면 메일 앱이 열려요. 메일에서 한 번 더 보내야 전달돼요. iCloud에 로그인하면 앱에서 바로 보내져요.": {
+    "v": "Beim Tippen auf „Senden“ öffnet sich die Mail-App. Dort musst du noch einmal senden. Melde dich bei iCloud an, um direkt aus der App zu senden.",
+    "src": "ade455e417"
   }
 }

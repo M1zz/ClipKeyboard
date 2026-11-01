@@ -624,6 +624,9 @@
                 setLanguage(asked);
                 return;
             }
+            // 앱이 언어를 정해 열었는데 이 페이지에 그 언어가 없으면 영어(기본)로 둔다.
+            // 브라우저 언어로 넘어가면 한국어 기기에서 한국어 약관이 열린다.
+            if (new URLSearchParams(window.location.search).has('lang')) return;
             // 예전에 'zh' 로 저장된 사람은 간체로 옮겨 준다(간체·번체가 갈리기 전 값).
             var saved = normalizeLang(localStorage.getItem('clipkb-lang') || '');
             if (saved) {

@@ -860,6 +860,17 @@ def cmd_check(args):
     retired = set((jload(RETIRED, {}) or {}).get("keys", []))
     hard, soft = collect_issues(cfg, cat)
 
+    # 번역이 되어 있어도 예시가 한국을 말하면 "한국 사람이 만들었네" 가 된다.
+    korea_trace = re.compile(r"\b(Seoul|Gangnam|Teheran|Kakao|Gildong)\b")
+    for key, entry in cat["strings"].items():
+        for code, meta in cfg["languages"].items():
+            if code == cfg["source"] or not meta.get("enabled"):
+                continue
+            value = unit_value(entry, code) or ""
+            if korea_trace.search(value):
+                hard.append(collections.OrderedDict(
+                    [("lang", code), ("key", key), ("why", "예시에 한국 지명·이름"), ("value", value)]))
+
     # 커버리지: 켠 언어는 100% 여야 한다. id 처럼 반쯤 하다 만 언어를 다시는 만들지 않는다.
     coverage_fail, coverage_warn = [], []
     for code, meta in cfg["languages"].items():

@@ -130,6 +130,62 @@ final class TypingEnginesTests: XCTestCase {
         return d
     }
 
+    /// 설정 언어를 바꾸면 자판이 그 언어로 열리고, 바뀌지 않으면 사용자가 고른 것을 건드리지 않는다.
+    /// ⚠️ 이 시험 이름은 docs/engineering/USER_JOURNEYS.md 의 표에 걸려 있다.
+    func test_설정_언어를_바꾸면_자판이_그_언어로_열린다() {
+        let d = freshDefaults()
+        d.set("ko,en", forKey: TypingPrefs.languagesKey)
+
+        // 처음 한 번은 기준만 적는다. 기기 언어를 일부러 뺀 사람의 목록도 그대로다.
+        TypingPrefs.followSettingLanguage(defaults: d, preferred: ["ja-JP"])
+        XCTAssertEqual(d.string(forKey: TypingPrefs.languagesKey), "ko,en")
+        XCTAssertNil(d.string(forKey: TypingPrefs.currentKey))
+
+        // 기기 언어가 바뀌었다. 목록에 없으면 맨 앞에 더하고 그 언어로 연다.
+        TypingPrefs.followSettingLanguage(defaults: d, preferred: ["de-DE"])
+        XCTAssertEqual(d.string(forKey: TypingPrefs.languagesKey), "de,ko,en")
+        XCTAssertEqual(d.string(forKey: TypingPrefs.currentKey), "de")
+
+        // 언어 키로 다른 언어를 골랐다. 설정 언어가 그대로면 되돌리지 않는다.
+        d.set("en", forKey: TypingPrefs.currentKey)
+        TypingPrefs.followSettingLanguage(defaults: d, preferred: ["de-DE"])
+        XCTAssertEqual(d.string(forKey: TypingPrefs.currentKey), "en")
+
+        // 앱에서 고른 언어가 기기 언어보다 먼저다. 이미 목록에 있으면 순서는 그대로다.
+        d.set("ko", forKey: DefaultsKey.appLanguage)
+        TypingPrefs.followSettingLanguage(defaults: d, preferred: ["de-DE"])
+        XCTAssertEqual(d.string(forKey: TypingPrefs.languagesKey), "de,ko,en")
+        XCTAssertEqual(d.string(forKey: TypingPrefs.currentKey), "ko")
+    }
+
+    /// 업데이트로 처음 돌 때: 앱에서 직접 고른 언어가 목록에 없으면 맞춘다. 있으면 건드리지 않는다.
+    func testFirstRunOnlyFixesMissingChosenAppLanguage() {
+        let missing = freshDefaults()
+        missing.set("ko,en", forKey: TypingPrefs.languagesKey)
+        missing.set("ja", forKey: DefaultsKey.appLanguage)
+        TypingPrefs.followSettingLanguage(defaults: missing, preferred: ["ko-KR"])
+        XCTAssertEqual(missing.string(forKey: TypingPrefs.languagesKey), "ja,ko,en")
+        XCTAssertEqual(missing.string(forKey: TypingPrefs.currentKey), "ja")
+
+        let present = freshDefaults()
+        present.set("ko,en", forKey: TypingPrefs.languagesKey)
+        present.set("en", forKey: TypingPrefs.currentKey)
+        present.set("ko", forKey: DefaultsKey.appLanguage)
+        TypingPrefs.followSettingLanguage(defaults: present, preferred: ["ko-KR"])
+        XCTAssertEqual(present.string(forKey: TypingPrefs.currentKey), "en")
+    }
+
+    /// 목록을 만진 적 없는 사람은 계속 계산으로 따라가도록 저장하지 않는다. 모르는 언어는 지나간다.
+    func testUntouchedListStaysComputedAndUnknownLanguageIsIgnored() {
+        let d = freshDefaults()
+        TypingPrefs.followSettingLanguage(defaults: d, preferred: ["ko-KR"])
+        TypingPrefs.followSettingLanguage(defaults: d, preferred: ["ja-JP"])
+        XCTAssertNil(d.string(forKey: TypingPrefs.languagesKey))
+        XCTAssertEqual(d.string(forKey: TypingPrefs.currentKey), "ja")
+        TypingPrefs.followSettingLanguage(defaults: d, preferred: ["xx-XX"])
+        XCTAssertEqual(d.string(forKey: TypingPrefs.currentKey), "ja")
+    }
+
     /// 키보드를 띄운 적 있는 사람은 업데이트해도 쓰던 자판(기기 언어 + 영어)이 그대로다.
     func testExistingKeyboardUserKeepsDeviceLanguages() {
         let d = freshDefaults()
@@ -351,7 +407,7 @@ final class TypingEnginesTests: XCTestCase {
 }
 
 /// 밑줄 친 글을 받는 가짜 입력칸(진짜 키보드처럼).
-final class MarkedTextProxy: TypingInputProxy {
+class MarkedTextProxy: TypingInputProxy {
     private(set) var committed = ""
     private(set) var marked = ""
     private(set) var edits = 0
@@ -360,6 +416,7 @@ final class MarkedTextProxy: TypingInputProxy {
     func deleteBackward() { if !committed.isEmpty { committed.removeLast() } }
     func setComposingText(_ text: String, replacing shown: String) { marked = text; edits += 1 }
     func finishComposingText() { committed += marked; marked = "" }
+    func finishComposingText(with text: String, replacing shown: String) { marked = text; finishComposingText() }
     func insertNewline() {}
     func advanceToNextInputMode() {}
     func attachInputModeSwitch(to button: UIButton) {}
@@ -543,6 +600,38 @@ final class HangulKeyboardSweepTests: XCTestCase {
         XCTAssertEqual(proxy.text, "븨")
         for key in ["ㅇㅁ", "ㆍ", "ㆍ", "ㅣ"] { engine.input(key) }
         XCTAssertEqual(proxy.text, "븨여")
+    }
+
+    /// 신고: 천지인으로 어떤 + ㄱ 을 치고 지우면 어떤떤. 밑줄을 줄인 뒤 확정하면 진짜 입력칸에 글이 두 번 남는다.
+    /// 그래서 줄이는 밑줄 없이 한 번에 확정하는지 본다. 스페이스로 점을 버리는 확정도 같은 길이다.
+    func testCommittingNeverShrinksMarkedTextFirst() {
+        final class Recording: MarkedTextProxy {
+            var marks: [String] = []
+            var finals: [String] = []
+            override func setComposingText(_ text: String, replacing shown: String) {
+                marks.append(text); super.setComposingText(text, replacing: shown)
+            }
+            override func finishComposingText(with text: String, replacing shown: String) {
+                finals.append(text); super.finishComposingText(with: text, replacing: shown)
+            }
+        }
+        let proxy = Recording()
+        let engine = HangulTypingEngine(proxy: proxy, layout: .cheonjiin)
+        for key in ["ㅇㅁ", "ㆍ", "ㅣ", "ㄷㅌ", "ㆍ", "ㅣ", "ㄴㄹ", "ㄱㅋ"] { engine.input(key) }
+        XCTAssertEqual(proxy.text, "어던ㄱ")
+        XCTAssertEqual(proxy.marked, "던ㄱ")
+        proxy.marks = []
+        engine.backspace()
+        XCTAssertEqual(proxy.text, "어던")
+        XCTAssertEqual(proxy.marks, [], "확정 전에 밑줄을 고치면 글이 두 번 남는다")
+        XCTAssertEqual(proxy.finals.last, "던")
+
+        engine.input("ㅅㅎ")
+        engine.input("ㆍ")
+        proxy.marks = []
+        engine.commit()
+        XCTAssertEqual(proxy.marks, [], "점을 버리는 확정도 밑줄을 줄이지 않는다")
+        XCTAssertEqual(proxy.text, "어던ㅅ")
     }
 
     // MARK: 무작위

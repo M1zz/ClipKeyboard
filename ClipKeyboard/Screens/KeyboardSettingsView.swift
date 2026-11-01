@@ -23,6 +23,9 @@ struct KeyboardSettingsView: View {
     /// 단축어를 넣은 뒤 쓰던 키보드로 돌아갈지. App Group - 키보드가 같은 값을 읽는다.
     @AppStorage(KeyboardPrefs.returnAfterSnippet.key, store: AppGroup.defaults)
     private var returnAfterSnippet: Bool = KeyboardPrefs.returnAfterSnippet.fallback
+    /// 키보드에서 진동을 울릴지. App Group - 키보드가 같은 값을 읽는다.
+    @AppStorage(KeyboardPrefs.vibrates.key, store: AppGroup.defaults)
+    private var vibrates: Bool = KeyboardPrefs.vibrates.fallback
 
     var body: some View {
         List {
@@ -123,6 +126,20 @@ struct KeyboardSettingsView: View {
     /// 키보드로 입력하는 동안 일어나는 일.
     private var typingSection: some View {
         Section {
+            // 사용자 요청에서 왔다: "입력 시 진동없도록 설정했으면 좋겠어서."
+            Toggle(isOn: $vibrates) {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("키보드 진동", comment: "Toggle: vibrate when using the keyboard"))
+                        Text(NSLocalizedString("끄면 키를 눌러도 진동이 울리지 않아요. 키 소리는 iOS 설정을 따라요.", comment: "Footer for the keyboard vibration toggle. Key click sound follows the iOS system setting."))
+                            .font(.caption)
+                            .foregroundColor(theme.textMuted)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                } icon: {
+                    Image(systemName: AppSymbol.iphoneRadiowaves)
+                }
+            }
             // 사용자 요청에서 왔다: "단축어 입력하면 쓰던 키보드로 돌아오게 해줘. 누구는 다시 안 돌아가고 싶을 수 있으니까."
             // ⚠️ iOS 는 '앞 키보드' 로 가는 길을 주지 않는다. 목록의 다음 키보드로 간다는 것을 그대로 적는다.
             Toggle(isOn: $returnAfterSnippet) {

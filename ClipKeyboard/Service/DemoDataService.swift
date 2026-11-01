@@ -223,7 +223,7 @@ extension DemoDataService {
             : [("brief@agency.com", .email, 0.95, 10),
                ("+1 415-555-2342", .phone, 0.9, 40),
                ("https://www.notion.so/leeo/brief-0721", .url, 0.9, 130),
-               ("427 Teheran-ro, Gangnam-gu, Seoul", .address, 0.85, 200),
+               ("350 Fifth Avenue, New York", .address, 0.85, 200),
                ("DE89 3704 0044 0532 0130 00", .iban, 0.9, 1500),
                ("597231650123", .trackingNumber, 0.8, 1700)]
 

@@ -31,9 +31,29 @@ struct ChangelogEntry: Identifiable {
 
 enum ChangelogData {
 
+    /// 한국어를 쓰는 사람에게만 뜻이 있는 소식(한글 조합, 한국어 지원).
+    private static let koreanOnlyKeys = [
+        "키보드 검색창에 한글을 칠 때 글자가 깨지던 것을 고쳤어요",
+        "키보드 검색에서 한글이 흩어지던 문제 수정, 이제 정확히 조합돼 찾아져요",
+        "천지인 키보드의 한글 조합을 바로잡았어요",
+        "모든 화면이 한국어와 영어로 제공돼요",
+    ]
+
+    /// 지금 언어의 사람에게 보여 줄 기록. 소식이 하나도 남지 않은 버전은 뺀다.
+    static var visibleEntries: [ChangelogEntry] {
+        guard AppLanguage.contentLanguageCode != "ko" else { return entries }
+        let hidden = Set(koreanOnlyKeys.map { NSLocalizedString($0, comment: "") })
+        return entries.compactMap { entry in
+            let highlights = entry.highlights.filter { !hidden.contains($0) }
+            guard !highlights.isEmpty else { return nil }
+            return ChangelogEntry(version: entry.version, released: entry.released, highlights: highlights)
+        }
+    }
+
     /// 최신 버전이 위로 온다.
     /// ⚠️ 사용자에게 보이는 문장이므로 전부 NSLocalizedString 을 거친다.
-    static let entries: [ChangelogEntry] = [
+    /// ⚠️ `let` 으로 굳히지 않는다. 앱 안에서 언어를 바꾸면 다음에 열 때 새 언어로 나와야 한다.
+    static var entries: [ChangelogEntry] { [
         ChangelogEntry(
             version: "5.1.8",
             released: nil,
@@ -680,7 +700,7 @@ enum ChangelogData {
                 NSLocalizedString("적절한 때에만 리뷰를 여쭤봐요", comment: "Changelog 3.0.4 item 2")
             ]
         )
-    ]
+    ] }
 
     /// 현재 실행 중인 앱 버전 - 목록에서 강조하는 데 쓴다.
     static var currentVersion: String {
@@ -694,7 +714,7 @@ struct ChangelogView: View {
 
     var body: some View {
         List {
-            ForEach(ChangelogData.entries) { entry in
+            ForEach(ChangelogData.visibleEntries) { entry in
                 Section {
                     ForEach(Array(entry.highlights.enumerated()), id: \.offset) { _, item in
                         HStack(alignment: .top, spacing: 10) {

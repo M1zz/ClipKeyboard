@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import CloudKit
 import LeeoKit
 @testable import ClipKeyboard
 
@@ -39,12 +40,31 @@ final class ClipKeyboardSpecTests: XCTestCase {
     }
 
     func testFeedbackContextCarriesOriginAndStateOnly() {
-        let lines = FeedbackContext.lines(origin: .keyboardTemplate, isPro: false, keyboardEnabled: true)
+        let lines = FeedbackContext.lines(origin: .keyboardTemplate, plan: .free, keyboardEnabled: true)
         XCTAssertEqual(lines.count, 2)
         XCTAssertTrue(lines[0].contains(FeedbackOrigin.keyboardTemplate.localizedName))
         // 모르면 적지 않는다. "안 켰다" 와 "모른다" 를 섞지 않는다.
-        let unknown = FeedbackContext.lines(origin: .settings, isPro: true, keyboardEnabled: nil)
+        let unknown = FeedbackContext.lines(origin: .settings, plan: .pro, keyboardEnabled: nil)
         XCTAssertEqual(unknown[1], "Pro")
+    }
+
+    /// 신고: "Pro 활성화인데 무료 키보드 켜짐". 설정이 Pro 라고 말하는 사람은 의견 창에서도 Pro 다.
+    func testFeedbackPlanMatchesSettingsProRow() {
+        XCTAssertEqual(FeedbackContext.plan(purchased: .free, grandfathered: true), .pro,
+                       "예전에 산 사람은 결제 키가 꺼져 있어도 Pro 다")
+        XCTAssertEqual(FeedbackContext.plan(purchased: .master, grandfathered: true), .master)
+        XCTAssertEqual(FeedbackContext.plan(purchased: .plus, grandfathered: false), .plus)
+        XCTAssertEqual(FeedbackContext.plan(purchased: .free, grandfathered: false), .free)
+        XCTAssertEqual(FeedbackContext.lines(origin: .settings, plan: .plus, keyboardEnabled: nil)[1], "Plus")
+    }
+
+    /// 사용자: "메일 앱은 왜 열리는건지 어떤 상황인지 알려줘". 메일로 넘어갈 때만 안내가 선다.
+    func test_iCloud를_쓸_수_없으면_메일로_넘어간다고_말한다() {
+        XCTAssertFalse(FeedbackContext.opensMail(iCloud: .available))
+        XCTAssertFalse(FeedbackContext.opensMail(iCloud: nil), "아직 모르면 말하지 않는다")
+        for status in [CKAccountStatus.noAccount, .restricted, .temporarilyUnavailable, .couldNotDetermine] {
+            XCTAssertTrue(FeedbackContext.opensMail(iCloud: status))
+        }
     }
 
     func testKeyboardFeedbackOriginRawValueIsStable() {

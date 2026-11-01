@@ -2854,8 +2854,8 @@
     "src": "e678de395f"
   },
   "고르면 여기에 열려요": {
-    "src": "83a577dde6",
-    "v": "Pilih sesuatu dan akan terbuka di sini"
+    "v": "Pilih sesuatu dan akan terbuka di sini",
+    "src": "83a577dde6"
   },
   "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요": {
     "v": "Kami tunjukkan kelompok dan kalimat yang cocok dengan cara Anda memakai aplikasi",
@@ -3050,8 +3050,8 @@
     "src": "0200132a0a"
   },
   "그림 단축어": {
-    "src": "eaa36fcde2",
-    "v": "Frasa gambar"
+    "v": "Frasa gambar",
+    "src": "eaa36fcde2"
   },
   "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요": {
     "v": "Sebelum itu diatur ke Umum. Bawaan lama, Digital Nomad, adalah tempat aplikasi ini bermula, bukan tempat Anda berada",
@@ -3346,7 +3346,7 @@
     "src": "3104c902cf"
   },
   "김서연": {
-    "v": "Kim Seo-yeon",
+    "v": "Tran Thu Ha",
     "src": "a2e2efa57b"
   },
   "깊은 초록이에요. 어두운 화면에서 눈이 편합니다.": {
@@ -5388,7 +5388,7 @@
     "src": "3f1b4d82f8"
   },
   "박서연": {
-    "v": "Alex Kim",
+    "v": "Alex Smith",
     "src": "c8810d8f41"
   },
   "반값으로 평생 사용": {
@@ -5424,8 +5424,8 @@
     "src": "b7c7ded4bc"
   },
   "방금 복사함": {
-    "src": "02d7e18ccc",
-    "v": "Baru saja disalin"
+    "v": "Baru saja disalin",
+    "src": "02d7e18ccc"
   },
   "배경 없음": {
     "v": "Tanpa latar belakang",
@@ -5756,8 +5756,8 @@
     "src": "5263aaf2b9"
   },
   "보안 단축어라 값은 보이지 않아요": {
-    "src": "9b105a42a7",
-    "v": "Frasa aman, jadi nilainya tetap tersembunyi"
+    "v": "Frasa aman, jadi nilainya tetap tersembunyi",
+    "src": "9b105a42a7"
   },
   "보안 단축어로 설정": {
     "v": "Jadikan Aman",
@@ -10382,8 +10382,8 @@
     "src": "b70be55387"
   },
   "최근 · %d일": {
-    "src": "b46b18195e",
-    "v": "Terbaru · %d hari"
+    "v": "Terbaru · %d hari",
+    "src": "b46b18195e"
   },
   "최근 단축어": {
     "v": "Frasa terbaru",
@@ -10542,8 +10542,8 @@
     "src": "b1666e29c5"
   },
   "카드를 누르면 복사한 값이 여기 보여요": {
-    "src": "b8ed4c2d5c",
-    "v": "Ketuk kartu dan hasil salinan Anda muncul di sini"
+    "v": "Ketuk kartu dan hasil salinan Anda muncul di sini",
+    "src": "b8ed4c2d5c"
   },
   "카드를 눌러 보세요": {
     "v": "Ketuk kartunya",
@@ -12444,5 +12444,45 @@
   "%@ 다음 값": {
     "v": "Nilai berikutnya untuk %@",
     "src": "574de73435"
+  },
+  "'%1$@' 뒤에 '%2$@' 묶기": {
+    "v": "Tambahkan '%2$@' setelah '%1$@'",
+    "src": "4a961d65e7"
+  },
+  "끄면 키를 눌러도 진동이 울리지 않아요. 키 소리는 iOS 설정을 따라요.": {
+    "v": "Jika dimatikan, tombol tidak bergetar saat ditekan. Suara tombol mengikuti pengaturan iOS.",
+    "src": "9c29fdfaad"
+  },
+  "끌어서 스택 만들기": {
+    "v": "Seret untuk menumpuk",
+    "src": "417bafd89e"
+  },
+  "끌어온 카드는 스택의 다음 칸이 되고 목록에서 사라져요.": {
+    "v": "Kartu yang diseret menjadi langkah berikutnya dalam tumpukan dan hilang dari daftar.",
+    "src": "c71da8dab9"
+  },
+  "묶을 수 있는 단축어가 두 개 이상 필요해요": {
+    "v": "Perlu setidaknya dua frasa yang bisa ditumpuk",
+    "src": "a32c595259"
+  },
+  "묶지 못했습니다": {
+    "v": "Gagal menumpuk",
+    "src": "bd36f5f5ff"
+  },
+  "카드를 다른 카드 위에 놓으면 그 뒤에 묶여요": {
+    "v": "Letakkan kartu di atas kartu lain agar berada setelahnya",
+    "src": "7a1d55b248"
+  },
+  "키보드 진동": {
+    "v": "Getaran keyboard",
+    "src": "40fbf8be97"
+  },
+  "지금은 iCloud를 쓸 수 없어요": {
+    "v": "iCloud tidak tersedia saat ini",
+    "src": "99300cf929"
+  },
+  "보내기를 누르면 메일 앱이 열려요. 메일에서 한 번 더 보내야 전달돼요. iCloud에 로그인하면 앱에서 바로 보내져요.": {
+    "v": "Mengetuk Kirim akan membuka app Mail, dan kamu perlu mengirim lagi dari sana. Masuk ke iCloud untuk mengirim langsung dari app.",
+    "src": "ade455e417"
   }
 }

@@ -45,3 +45,42 @@ struct ReorderResetDropDelegate: DropDelegate {
         return true
     }
 }
+
+/// 목록의 카드를 다른 카드 위에 놓으면 묶자고 묻는다(`MemoStacking`).
+///
+/// ⚠️ 끄는 것이 앱의 카드일 때만 받는다. 다른 앱에서 끌어온 글은 이 카드와 묶을 것이 아니다.
+struct MemoStackDropDelegate: DropDelegate {
+    let target: Memo
+    @Binding var dragging: Memo?
+    @Binding var targetedID: UUID?
+    let onDrop: (_ dragged: Memo, _ target: Memo) -> Void
+
+    private var isOwnCard: Bool {
+        guard let dragging else { return false }
+        return dragging.id != target.id
+    }
+
+    func validateDrop(info: DropInfo) -> Bool { isOwnCard }
+
+    func dropEntered(info: DropInfo) {
+        guard isOwnCard else { return }
+        targetedID = target.id
+        HapticManager.shared.light()
+    }
+
+    func dropExited(info: DropInfo) {
+        if targetedID == target.id { targetedID = nil }
+    }
+
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        isOwnCard ? DropProposal(operation: .copy) : DropProposal(operation: .forbidden)
+    }
+
+    func performDrop(info: DropInfo) -> Bool {
+        targetedID = nil
+        defer { dragging = nil }
+        guard isOwnCard, let dragging else { return false }
+        onDrop(dragging, target)
+        return true
+    }
+}

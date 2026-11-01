@@ -99,7 +99,10 @@ enum AppLanguage: String, CaseIterable, Identifiable {
     /// 번역이 아직 안 붙은 언어를 목록에 세워두면 골랐을 때 아무것도 안 바뀐다.
     static var available: [AppLanguage] {
         let inBundle = Set(Bundle.main.localizations)
-        return allCases.filter { $0 == .system || inBundle.contains($0.rawValue) }
+        let languages = allCases.filter { $0 != .system && inBundle.contains($0.rawValue) }
+            .sorted { $0.displayName.localizedStandardCompare($1.displayName) == .orderedAscending }
+        // 글자 순서로 세운다. 만든 사람의 언어가 맨 앞에 서지 않게.
+        return [.system] + languages
     }
 
     // MARK: - 저장과 적용
@@ -233,6 +236,12 @@ private final class LocalizedBundle: Bundle, @unchecked Sendable {
     static func install() {
         guard !installed else { return }
         object_setClass(Bundle.main, LocalizedBundle.self)
+        // LeeoKit 화면의 글자는 자기 번들에서 온다. 여기도 끼우지 않으면 한국어 기기에서
+        // 앱을 영어로 바꿔도 피드백·로드맵 같은 화면만 한국어로 남는다.
+        if let url = Bundle.main.url(forResource: "LeeoKit_LeeoKit", withExtension: "bundle"),
+           let kit = Bundle(url: url) {
+            object_setClass(kit, PackageLocalizedBundle.self)
+        }
         installed = true
     }
 
@@ -255,6 +264,18 @@ private final class LocalizedBundle: Bundle, @unchecked Sendable {
         Self.cache[cacheKey] = resolved
         Self.cacheLock.unlock()
         return resolved
+    }
+}
+
+/// 패키지 번들용. 고른 언어의 폴더를 **자기 안에서** 찾는다(앱의 폴더에는 패키지 글자가 없다).
+private final class PackageLocalizedBundle: Bundle, @unchecked Sendable {
+    override func localizedString(forKey key: String, value: String?, table tableName: String?) -> String {
+        if let code = AppLanguage.current.bundleCode,
+           let path = path(forResource: code, ofType: "lproj"),
+           let bundle = Bundle(path: path) {
+            return bundle.localizedString(forKey: key, value: value, table: tableName)
+        }
+        return super.localizedString(forKey: key, value: value, table: tableName)
     }
 }
 

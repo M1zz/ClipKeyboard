@@ -273,45 +273,45 @@
   },
   "%d categories": {
     "v": {
-      "one": "%d kategorie",
       "few": "%d kategorie",
       "many": "%d kategorie",
+      "one": "%d kategorie",
       "other": "%d kategorií"
     },
     "src": "8ffbe2368e"
   },
   "%d image(s)": {
     "v": {
-      "one": "%d obrázek",
       "few": "%d obrázky",
       "many": "%d obrázku",
+      "one": "%d obrázek",
       "other": "%d obrázků"
     },
     "src": "6c0267de68"
   },
   "%d images": {
     "v": {
-      "one": "%d obrázek",
       "few": "%d obrázky",
       "many": "%d obrázku",
+      "one": "%d obrázek",
       "other": "%d obrázků"
     },
     "src": "04e763e427"
   },
   "%d items": {
     "v": {
-      "one": "%d položka",
       "few": "%d položky",
       "many": "%d položky",
+      "one": "%d položka",
       "other": "%d položek"
     },
     "src": "1a072b9b67"
   },
   "%d memos detected": {
     "v": {
-      "one": "Zjištěna %d fráze",
       "few": "Zjištěny %d fráze",
       "many": "Zjištěno %d frází",
+      "one": "Zjištěna %d fráze",
       "other": "Zjištěno %d frází"
     },
     "src": "35b6f04c52"
@@ -322,171 +322,171 @@
   },
   "%d saved · find what you need": {
     "v": {
-      "one": "%d uložená · najděte, co potřebujete",
       "few": "%d uložené · najděte, co potřebujete",
       "many": "%d uložené · najděte, co potřebujete",
+      "one": "%d uložená · najděte, co potřebujete",
       "other": "%d uložených · najděte, co potřebujete"
     },
     "src": "c3d7eb173f"
   },
   "%d variables": {
     "v": {
-      "one": "%d pole",
       "few": "%d pole",
       "many": "%d pole",
+      "one": "%d pole",
       "other": "%d polí"
     },
     "src": "67db1d1b8a"
   },
   "%d waiting to be sorted": {
     "v": {
-      "one": "Čeká na roztřídění: %d",
       "few": "Čeká na roztřídění: %d",
       "many": "Čeká na roztřídění: %d",
+      "one": "Čeká na roztřídění: %d",
       "other": "Čeká na roztřídění: %d"
     },
     "src": "65a3d4881f"
   },
   "%d%% 확신": {
     "v": {
-      "one": "Jistota %d%%",
       "few": "Jistota %d%%",
       "many": "Jistota %d%%",
+      "one": "Jistota %d%%",
       "other": "Jistota %d%%"
     },
     "src": "8611d4b6be"
   },
   "%d가지 활용법": {
     "v": {
-      "one": "%d způsob použití",
       "few": "%d způsoby použití",
       "many": "%d způsobu použití",
+      "one": "%d způsob použití",
       "other": "%d způsobů použití"
     },
     "src": "f4f914f83d"
   },
   "%d개": {
     "v": {
-      "one": "%d",
       "few": "%d",
       "many": "%d",
+      "one": "%d",
       "other": "%d"
     },
     "src": "54bd2e5b76"
   },
   "%d개 단축어 더 보기 → Pro 업그레이드": {
     "v": {
-      "one": "Další fráze: %d → Přejít na Pro",
       "few": "Další fráze: %d → Přejít na Pro",
       "many": "Další fráze: %d → Přejít na Pro",
+      "one": "Další fráze: %d → Přejít na Pro",
       "other": "Další fráze: %d → Přejít na Pro"
     },
     "src": "373744da41"
   },
   "%d개 단축어 잠김, iOS에서 Pro 구매 시 동기화됩니다": {
     "v": {
-      "one": "Zamčené fráze: %d. Odemknou se po koupi Pro na iOS",
       "few": "Zamčené fráze: %d. Odemknou se po koupi Pro na iOS",
       "many": "Zamčené fráze: %d. Odemknou se po koupi Pro na iOS",
+      "one": "Zamčené fráze: %d. Odemknou se po koupi Pro na iOS",
       "other": "Zamčené fráze: %d. Odemknou se po koupi Pro na iOS"
     },
     "src": "f8c6a3fbf4"
   },
   "%d개 선택": {
     "v": {
-      "one": "Vybráno: %d",
       "few": "Vybráno: %d",
       "many": "Vybráno: %d",
+      "one": "Vybráno: %d",
       "other": "Vybráno: %d"
     },
     "src": "b3d13f4dd5"
   },
   "%d개 선택됨": {
     "v": {
-      "one": "Vybráno: %d",
       "few": "Vybráno: %d",
       "many": "Vybráno: %d",
+      "one": "Vybráno: %d",
       "other": "Vybráno: %d"
     },
     "src": "7b47442909"
   },
   "%d개 카테고리 더 보기": {
     "v": {
-      "one": "Zobrazit %d další kategorii",
       "few": "Zobrazit %d další kategorie",
       "many": "Zobrazit %d další kategorie",
+      "one": "Zobrazit %d další kategorii",
       "other": "Zobrazit dalších %d kategorií"
     },
     "src": "336f77788d"
   },
   "%d개 항목": {
     "v": {
-      "one": "%d položka",
       "few": "%d položky",
       "many": "%d položky",
+      "one": "%d položka",
       "other": "%d položek"
     },
     "src": "073f734307"
   },
   "%d개 항목이 순서대로 실행됩니다": {
     "v": {
-      "one": "%d položka se spustí popořadě",
       "few": "%d položky se spustí popořadě",
       "many": "%d položky se spustí popořadě",
+      "one": "%d položka se spustí popořadě",
       "other": "%d položek se spustí popořadě"
     },
     "src": "ceaf241997"
   },
   "%d개를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.": {
     "v": {
-      "one": "Smazat %d položku? Tuto akci nelze vrátit zpět.",
       "few": "Smazat %d položky? Tuto akci nelze vrátit zpět.",
       "many": "Smazat %d položky? Tuto akci nelze vrátit zpět.",
+      "one": "Smazat %d položku? Tuto akci nelze vrátit zpět.",
       "other": "Smazat %d položek? Tuto akci nelze vrátit zpět."
     },
     "src": "b7b7f19f5b"
   },
   "%d개를 삭제했어요": {
     "v": {
-      "one": "Smazáno: %d",
       "few": "Smazáno: %d",
       "many": "Smazáno: %d",
+      "one": "Smazáno: %d",
       "other": "Smazáno: %d"
     },
     "src": "f209c3686c"
   },
   "%d개의 항목": {
     "v": {
-      "one": "%d položka",
       "few": "%d položky",
       "many": "%d položky",
+      "one": "%d položka",
       "other": "%d položek"
     },
     "src": "13aac7c134"
   },
   "%d건": {
     "v": {
-      "one": "%d hlášení",
       "few": "%d hlášení",
       "many": "%d hlášení",
+      "one": "%d hlášení",
       "other": "%d hlášení"
     },
     "src": "e655f2564e"
   },
   "%d곡": {
     "v": {
-      "one": "%d skladba",
       "few": "%d skladby",
       "many": "%d skladby",
+      "one": "%d skladba",
       "other": "%d skladeb"
     },
     "src": "0a99f40fba"
   },
   "%d단계": {
     "v": {
-      "one": "Krok %d",
       "few": "Krok %d",
       "many": "Krok %d",
+      "one": "Krok %d",
       "other": "Krok %d"
     },
     "src": "0b72fb0796"
@@ -501,54 +501,54 @@
   },
   "%d번": {
     "v": {
-      "one": "%d×",
       "few": "%d×",
       "many": "%d×",
+      "one": "%d×",
       "other": "%d×"
     },
     "src": "a0d2e57d01"
   },
   "%d번 남았어요": {
     "v": {
-      "one": "Zbývá %d použití",
       "few": "Zbývají %d použití",
       "many": "Zbývá %d použití",
+      "one": "Zbývá %d použití",
       "other": "Zbývá %d použití"
     },
     "src": "bfb033df11"
   },
   "%d번까지는 지금처럼 모두 무료예요.": {
     "v": {
-      "one": "Do %d použití zůstává vše zdarma.",
       "few": "Do %d použití zůstává vše zdarma.",
       "many": "Do %d použití zůstává vše zdarma.",
+      "one": "Do %d použití zůstává vše zdarma.",
       "other": "Do %d použití zůstává vše zdarma."
     },
     "src": "eb8861434f"
   },
   "%d번부터는 새로 만들 때 Pro가 필요해요.": {
     "v": {
-      "one": "Od %d použití potřebujete k vytváření nových položek Pro.",
       "few": "Od %d použití potřebujete k vytváření nových položek Pro.",
       "many": "Od %d použití potřebujete k vytváření nových položek Pro.",
+      "one": "Od %d použití potřebujete k vytváření nových položek Pro.",
       "other": "Od %d použití potřebujete k vytváření nových položek Pro."
     },
     "src": "a59e72208f"
   },
   "%d봉지": {
     "v": {
-      "one": "%d balení",
       "few": "%d balení",
       "many": "%d balení",
+      "one": "%d balení",
       "other": "%d balení"
     },
     "src": "adcfd0735c"
   },
   "%d분": {
     "v": {
-      "one": "%d min",
       "few": "%d min",
       "many": "%d min",
+      "one": "%d min",
       "other": "%d min"
     },
     "src": "9ba936f449"
@@ -559,135 +559,135 @@
   },
   "%d열": {
     "v": {
-      "one": "%d sloupec",
       "few": "%d sloupce",
       "many": "%d sloupce",
+      "one": "%d sloupec",
       "other": "%d sloupců"
     },
     "src": "7c5988a701"
   },
   "%d일 동안 여기서 바로 꺼내 쓸 수 있어요": {
     "v": {
-      "one": "Odsud je můžete použít %d den",
       "few": "Odsud je můžete použít %d dny",
       "many": "Odsud je můžete použít %d dne",
+      "one": "Odsud je můžete použít %d den",
       "other": "Odsud je můžete použít %d dní"
     },
     "src": "6bdcea31f7"
   },
   "%d일 무료 체험 + 무제한 단축어, iCloud 백업": {
     "v": {
-      "one": "%d den zdarma + neomezené fráze, záloha na iCloud",
       "few": "%d dny zdarma + neomezené fráze, záloha na iCloud",
       "many": "%d dne zdarma + neomezené fráze, záloha na iCloud",
+      "one": "%d den zdarma + neomezené fráze, záloha na iCloud",
       "other": "%d dní zdarma + neomezené fráze, záloha na iCloud"
     },
     "src": "0ddbceb5e7"
   },
   "%d일 무료 체험 · 연 구독이나 평생 중에 골라요": {
     "v": {
-      "one": "%d den zdarma · Pak roční předplatné nebo doživotně",
       "few": "%d dny zdarma · Pak roční předplatné nebo doživotně",
       "many": "%d dne zdarma · Pak roční předplatné nebo doživotně",
+      "one": "%d den zdarma · Pak roční předplatné nebo doživotně",
       "other": "%d dní zdarma · Pak roční předplatné nebo doživotně"
     },
     "src": "3c796a3160"
   },
   "%d일 무료 체험 · 한번 구매, 평생 사용": {
     "v": {
-      "one": "%d den zdarma · Koupíte jednou, platí navždy",
       "few": "%d dny zdarma · Koupíte jednou, platí navždy",
       "many": "%d dne zdarma · Koupíte jednou, platí navždy",
+      "one": "%d den zdarma · Koupíte jednou, platí navždy",
       "other": "%d dní zdarma · Koupíte jednou, platí navždy"
     },
     "src": "9ee946fcdf"
   },
   "%d일 무료 체험 시작": {
     "v": {
-      "one": "Vyzkoušet %d den zdarma",
       "few": "Vyzkoušet %d dny zdarma",
       "many": "Vyzkoušet %d dne zdarma",
+      "one": "Vyzkoušet %d den zdarma",
       "other": "Vyzkoušet %d dní zdarma"
     },
     "src": "c5ed166700"
   },
   "%d잔": {
     "v": {
-      "one": "%d šálek",
       "few": "%d šálky",
       "many": "%d šálku",
+      "one": "%d šálek",
       "other": "%d šálků"
     },
     "src": "d189c46839"
   },
   "%d정거장": {
     "v": {
-      "one": "%d zastávka",
       "few": "%d zastávky",
       "many": "%d zastávky",
+      "one": "%d zastávka",
       "other": "%d zastávek"
     },
     "src": "3d814ae015"
   },
   "%d쪽": {
     "v": {
-      "one": "%d strana",
       "few": "%d strany",
       "many": "%d strany",
+      "one": "%d strana",
       "other": "%d stran"
     },
     "src": "fad3f0a85b"
   },
   "%d초": {
     "v": {
-      "one": "%d s",
       "few": "%d s",
       "many": "%d s",
+      "one": "%d s",
       "other": "%d s"
     },
     "src": "eb71f069ff"
   },
   "%d편": {
     "v": {
-      "one": "%d epizoda",
       "few": "%d epizody",
       "many": "%d epizody",
+      "one": "%d epizoda",
       "other": "%d epizod"
     },
     "src": "c1fbf958c3"
   },
   "%d회": {
     "v": {
-      "one": "%d×",
       "few": "%d×",
       "many": "%d×",
+      "one": "%d×",
       "other": "%d×"
     },
     "src": "8323973e66"
   },
   "%d회 사용": {
     "v": {
-      "one": "Použito %d krát",
       "few": "Použito %d krát",
       "many": "Použito %d krát",
+      "one": "Použito %d krát",
       "other": "Použito %d krát"
     },
     "src": "7f164c7f54"
   },
   "%lldpt": {
     "v": {
-      "one": "%lldpt",
       "few": "%lldpt",
       "many": "%lldpt",
+      "one": "%lldpt",
       "other": "%lldpt"
     },
     "src": "3393f2e2c8"
   },
   "%lld개 더 보기": {
     "v": {
-      "one": "Zobrazit %lld další",
       "few": "Zobrazit %lld další",
       "many": "Zobrazit %lld další",
+      "one": "Zobrazit %lld další",
       "other": "Zobrazit dalších %lld"
     },
     "src": "cf22b4198e"
@@ -834,9 +834,9 @@
   },
   "+%d개": {
     "v": {
-      "one": "+%d další",
       "few": "+%d další",
       "many": "+%d dalšího",
+      "one": "+%d další",
       "other": "+%d dalších"
     },
     "src": "610ffea924"
@@ -1507,9 +1507,9 @@
   },
   "Imported %d memos": {
     "v": {
-      "one": "Importována %d fráze",
       "few": "Importovány %d fráze",
       "many": "Importováno %d fráze",
+      "one": "Importována %d fráze",
       "other": "Importováno %d frází"
     },
     "src": "3233b5e936"
@@ -2072,9 +2072,9 @@
   },
   "Save %d": {
     "v": {
-      "one": "Uložit %d",
       "few": "Uložit %d",
       "many": "Uložit %d",
+      "one": "Uložit %d",
       "other": "Uložit %d"
     },
     "src": "b52539b30e"
@@ -2097,9 +2097,9 @@
   },
   "Saved %dm so far": {
     "v": {
-      "one": "Dosud ušetřeno %d min",
       "few": "Dosud ušetřeno %d min",
       "many": "Dosud ušetřeno %d min",
+      "one": "Dosud ušetřeno %d min",
       "other": "Dosud ušetřeno %d min"
     },
     "src": "294b6d1f8a"
@@ -2774,18 +2774,18 @@
   },
   "값 %d": {
     "v": {
-      "one": "Hodnota %d",
       "few": "Hodnota %d",
       "many": "Hodnota %d",
+      "one": "Hodnota %d",
       "other": "Hodnota %d"
     },
     "src": "c1438e8eb2"
   },
   "값 %d개": {
     "v": {
-      "one": "%d hodnota",
       "few": "%d hodnoty",
       "many": "%d hodnoty",
+      "one": "%d hodnota",
       "other": "%d hodnot"
     },
     "src": "c8497a8893"
@@ -2940,9 +2940,9 @@
   },
   "개수만 늘어요. 다른 Pro 기능은 열리지 않아요 (최대 %d칸)": {
     "v": {
-      "one": "Zvýší jen počet. Ostatní funkce Pro zůstanou zamčené (max. %d pozice)",
       "few": "Zvýší jen počet. Ostatní funkce Pro zůstanou zamčené (max. %d pozice)",
       "many": "Zvýší jen počet. Ostatní funkce Pro zůstanou zamčené (max. %d pozice)",
+      "one": "Zvýší jen počet. Ostatní funkce Pro zůstanou zamčené (max. %d pozice)",
       "other": "Zvýší jen počet. Ostatní funkce Pro zůstanou zamčené (max. %d pozic)"
     },
     "src": "ae39e115e3"
@@ -3061,18 +3061,18 @@
   },
   "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Plus는 마음껏 새로 만들고, Pro는 백업과 동기화까지 열어요.": {
     "v": {
-      "one": "I bez platby vám zůstane vytvořená %d fráze. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci.",
       "few": "I bez platby vám zůstanou vytvořené %d fráze. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci.",
       "many": "I bez platby vám zůstane vytvořených %d frází. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci.",
+      "one": "I bez platby vám zůstane vytvořená %d fráze. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci.",
       "other": "I bez platby vám zůstane vytvořených %d frází. Plus umožní vytvářet bez omezení, Pro přidá zálohu a synchronizaci."
     },
     "src": "6ab380bf65"
   },
   "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Pro는 새로 만들고, 백업과 동기화를 여는 것이에요.": {
     "v": {
-      "one": "I bez platby vám zůstává %d vytvořená fráze. Pro slouží k tvorbě dalších a k zálohování a synchronizaci.",
       "few": "I bez platby vám zůstávají %d vytvořené fráze. Pro slouží k tvorbě dalších a k zálohování a synchronizaci.",
       "many": "I bez platby vám zůstává %d vytvořené fráze. Pro slouží k tvorbě dalších a k zálohování a synchronizaci.",
+      "one": "I bez platby vám zůstává %d vytvořená fráze. Pro slouží k tvorbě dalších a k zálohování a synchronizaci.",
       "other": "I bez platby vám zůstává %d vytvořených frází. Pro slouží k tvorbě dalších a k zálohování a synchronizaci."
     },
     "src": "1b65bca054"
@@ -3122,8 +3122,8 @@
     "src": "e678de395f"
   },
   "고르면 여기에 열려요": {
-    "src": "83a577dde6",
-    "v": "Vyberte položku a otevře se tady"
+    "v": "Vyberte položku a otevře se tady",
+    "src": "83a577dde6"
   },
   "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요": {
     "v": "Podle toho, jak aplikaci používáte, vybereme a ukážeme vhodné skupiny a texty",
@@ -3215,9 +3215,9 @@
   },
   "구버전 기록 %d개는 이 개수를 안 보내서 빠졌어요.": {
     "v": {
-      "one": "%d starší záznam je vynechán: neuvádí tento počet.",
       "few": "%d starší záznamy jsou vynechány: neuvádějí tento počet.",
       "many": "%d staršího záznamu je vynecháno: neuvádějí tento počet.",
+      "one": "%d starší záznam je vynechán: neuvádí tento počet.",
       "other": "%d starších záznamů je vynecháno: neuvádějí tento počet."
     },
     "src": "9d2aeb2105"
@@ -3260,18 +3260,18 @@
   },
   "그 밖에 %d개": {
     "v": {
-      "one": "%d další",
       "few": "%d další",
       "many": "%d dalšího",
+      "one": "%d další",
       "other": "%d dalších"
     },
     "src": "b72f7e982e"
   },
   "그 밖에 문구 %d개": {
     "v": {
-      "one": "A %d další fráze",
       "few": "A %d další fráze",
       "many": "A %d další fráze",
+      "one": "A %d další fráze",
       "other": "A %d dalších frází"
     },
     "src": "4f976d759d"
@@ -3314,9 +3314,9 @@
   },
   "그동안 모든 기능이 무료로 열려 있었어요. %d일 뒤부터 무료 플랜이 적용돼요. 저장한 단축어는 지워지지 않아요.": {
     "v": {
-      "one": "Dosud byly všechny funkce zdarma. Za %d den se použije bezplatný plán. Uložené fráze se nesmažou.",
       "few": "Dosud byly všechny funkce zdarma. Za %d dny se použije bezplatný plán. Uložené fráze se nesmažou.",
       "many": "Dosud byly všechny funkce zdarma. Za %d dne se použije bezplatný plán. Uložené fráze se nesmažou.",
+      "one": "Dosud byly všechny funkce zdarma. Za %d den se použije bezplatný plán. Uložené fráze se nesmažou.",
       "other": "Dosud byly všechny funkce zdarma. Za %d dní se použije bezplatný plán. Uložené fráze se nesmažou."
     },
     "src": "aa46575d6b"
@@ -3338,8 +3338,8 @@
     "src": "0200132a0a"
   },
   "그림 단축어": {
-    "src": "eaa36fcde2",
-    "v": "Obrázková fráze"
+    "v": "Obrázková fráze",
+    "src": "eaa36fcde2"
   },
   "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요": {
     "v": "Do té doby je nastaveno Obecné. Dřívější výchozí Digitální nomád byl místem, kde aplikace začínala, ne místem, kde jste vy",
@@ -3634,7 +3634,7 @@
     "src": "3104c902cf"
   },
   "김서연": {
-    "v": "Alice Kim",
+    "v": "Alice Smith",
     "src": "a2e2efa57b"
   },
   "깊은 초록이에요. 어두운 화면에서 눈이 편합니다.": {
@@ -4299,72 +4299,72 @@
   },
   "단축어 %1$d칸 남았어요": {
     "v": {
-      "one": "Zbývá %1$d místo pro frázi",
       "few": "Zbývají %1$d místa pro fráze",
       "many": "Zbývá %1$d místa pro fráze",
+      "one": "Zbývá %1$d místo pro frázi",
       "other": "Zbývá %1$d míst pro fráze"
     },
     "src": "479a6c5d83"
   },
   "단축어 %d개": {
     "v": {
-      "one": "%d fráze",
       "few": "%d fráze",
       "many": "%d fráze",
+      "one": "%d fráze",
       "other": "%d frází"
     },
     "src": "8a04f521b8"
   },
   "단축어 %d개 백업됨": {
     "v": {
-      "one": "%d fráze zálohována",
       "few": "%d fráze zálohovány",
       "many": "%d fráze zálohováno",
+      "one": "%d fráze zálohována",
       "other": "%d frází zálohováno"
     },
     "src": "5df377e6ad"
   },
   "단축어 %d개를 iCloud에 백업했습니다.": {
     "v": {
-      "one": "Do iCloud byla zálohována %d fráze.",
       "few": "Do iCloud byly zálohovány %d fráze.",
       "many": "Do iCloud bylo zálohováno %d fráze.",
+      "one": "Do iCloud byla zálohována %d fráze.",
       "other": "Do iCloud bylo zálohováno %d frází."
     },
     "src": "e817bb7e9c"
   },
   "단축어 %d개를 만드셨어요. 지금 이 기기에만 있어요": {
     "v": {
-      "one": "Vytvořili jste %d frázi. Je jen v tomto zařízení",
       "few": "Vytvořili jste %d fráze. Jsou jen v tomto zařízení",
       "many": "Vytvořili jste %d fráze. Jsou jen v tomto zařízení",
+      "one": "Vytvořili jste %d frázi. Je jen v tomto zařízení",
       "other": "Vytvořili jste %d frází. Jsou jen v tomto zařízení"
     },
     "src": "d55d11f71b"
   },
   "단축어 %d개를 일주일 넘게 쓰고 계세요. 이 창에서만 반값이에요.": {
     "v": {
-      "one": "Používáte %d frázi už přes týden. Poloviční cena jen v tomto okně.",
       "few": "Používáte %d fráze už přes týden. Poloviční cena jen v tomto okně.",
       "many": "Používáte %d fráze už přes týden. Poloviční cena jen v tomto okně.",
+      "one": "Používáte %d frázi už přes týden. Poloviční cena jen v tomto okně.",
       "other": "Používáte %d frází už přes týden. Poloviční cena jen v tomto okně."
     },
     "src": "0cdb9771a5"
   },
   "단축어 %d개의 내용에서 이 이름이 함께 바뀝니다.": {
     "v": {
-      "one": "Toto jméno se změní i v %d frázi.",
       "few": "Toto jméno se změní i v %d frázích.",
       "many": "Toto jméno se změní i v %d frázích.",
+      "one": "Toto jméno se změní i v %d frázi.",
       "other": "Toto jméno se změní i v %d frázích."
     },
     "src": "6c8ff84032"
   },
   "단축어 %d곳에서 씀": {
     "v": {
-      "one": "Použito v %d frázi",
       "few": "Použito v %d frázích",
       "many": "Použito v %d frázích",
+      "one": "Použito v %d frázi",
       "other": "Použito v %d frázích"
     },
     "src": "42af4cbcd3"
@@ -4579,9 +4579,9 @@
   },
   "단축어 한도까지 %d개 남음 → Pro 업그레이드": {
     "v": {
-      "one": "Do limitu zbývá %d fráze → Přejděte na Pro",
       "few": "Do limitu zbývají %d fráze → Přejděte na Pro",
       "many": "Do limitu zbývá %d fráze → Přejděte na Pro",
+      "one": "Do limitu zbývá %d fráze → Přejděte na Pro",
       "other": "Do limitu zbývá %d frází → Přejděte na Pro"
     },
     "src": "b7df7d70b9"
@@ -4636,27 +4636,27 @@
   },
   "단축어를 %d번 넣었어요": {
     "v": {
-      "one": "Frázi jste vložili %d×",
       "few": "Frázi jste vložili %d×",
       "many": "Frázi jste vložili %d×",
+      "one": "Frázi jste vložili %d×",
       "other": "Frázi jste vložili %d×"
     },
     "src": "a27e706fd2"
   },
   "단축어를 %d번 넣을 때까지는 모든 기능이 무료예요.": {
     "v": {
-      "one": "Všechny funkce jsou zdarma, dokud nevložíte frázi %d×.",
       "few": "Všechny funkce jsou zdarma, dokud nevložíte frázi %d×.",
       "many": "Všechny funkce jsou zdarma, dokud nevložíte frázi %d×.",
+      "one": "Všechny funkce jsou zdarma, dokud nevložíte frázi %d×.",
       "other": "Všechny funkce jsou zdarma, dokud nevložíte frázi %d×."
     },
     "src": "2fe098e264"
   },
   "단축어를 %d번 썼어요": {
     "v": {
-      "one": "Frázi jste použili %d×",
       "few": "Frázi jste použili %d×",
       "many": "Frázi jste použili %d×",
+      "one": "Frázi jste použili %d×",
       "other": "Frázi jste použili %d×"
     },
     "src": "d8289d814c"
@@ -5143,9 +5143,9 @@
   },
   "마라톤 %d번": {
     "v": {
-      "one": "%d maraton",
       "few": "%d maratony",
       "many": "%d maratonu",
+      "one": "%d maraton",
       "other": "%d maratonů"
     },
     "src": "874656ebde"
@@ -5516,72 +5516,72 @@
   },
   "무료 단축어 %d칸 남았어요. Pro로 무제한": {
     "v": {
-      "one": "Zbývá %d místo pro frázi zdarma. S Pro bez omezení",
       "few": "Zbývají %d místa pro fráze zdarma. S Pro bez omezení",
       "many": "Zbývá %d místa pro fráze zdarma. S Pro bez omezení",
+      "one": "Zbývá %d místo pro frázi zdarma. S Pro bez omezení",
       "other": "Zbývá %d míst pro fráze zdarma. S Pro bez omezení"
     },
     "src": "d879333325"
   },
   "무료 버전에서는 최근 %d개의 클립보드 기록만 저장됩니다.": {
     "v": {
-      "one": "Verze zdarma ukládá jen poslední %d záznam ze schránky.",
       "few": "Verze zdarma ukládá jen poslední %d záznamy ze schránky.",
       "many": "Verze zdarma ukládá jen posledních %d záznamu ze schránky.",
+      "one": "Verze zdarma ukládá jen poslední %d záznam ze schránky.",
       "other": "Verze zdarma ukládá jen posledních %d záznamů ze schránky."
     },
     "src": "81051e846d"
   },
   "무료 버전에서는 최대 %d개의 단축어를 저장할 수 있습니다.": {
     "v": {
-      "one": "Verze zdarma umožňuje uložit nejvýše %d frázi.",
       "few": "Verze zdarma umožňuje uložit nejvýše %d fráze.",
       "many": "Verze zdarma umožňuje uložit nejvýše %d fráze.",
+      "one": "Verze zdarma umožňuje uložit nejvýše %d frázi.",
       "other": "Verze zdarma umožňuje uložit nejvýše %d frází."
     },
     "src": "0a910c350f"
   },
   "무료 버전에서는 최대 %d개의 스택를 만들 수 있습니다.": {
     "v": {
-      "one": "Verze zdarma umožňuje vytvořit nejvýše %d zásobník.",
       "few": "Verze zdarma umožňuje vytvořit nejvýše %d zásobníky.",
       "many": "Verze zdarma umožňuje vytvořit nejvýše %d zásobníku.",
+      "one": "Verze zdarma umožňuje vytvořit nejvýše %d zásobník.",
       "other": "Verze zdarma umožňuje vytvořit nejvýše %d zásobníků."
     },
     "src": "a4ea9b3ade"
   },
   "무료 버전에서는 최대 %d개의 스택을 만들 수 있습니다.": {
     "v": {
-      "one": "Verze zdarma umožňuje vytvořit nejvýše %d zásobník.",
       "few": "Verze zdarma umožňuje vytvořit nejvýše %d zásobníky.",
       "many": "Verze zdarma umožňuje vytvořit nejvýše %d zásobníku.",
+      "one": "Verze zdarma umožňuje vytvořit nejvýše %d zásobník.",
       "other": "Verze zdarma umožňuje vytvořit nejvýše %d zásobníků."
     },
     "src": "a35af64b83"
   },
   "무료 버전에서는 최대 %d개의 이미지 단축어를 저장할 수 있습니다.": {
     "v": {
-      "one": "Verze zdarma umožňuje uložit nejvýše %d obrázkovou frázi.",
       "few": "Verze zdarma umožňuje uložit nejvýše %d obrázkové fráze.",
       "many": "Verze zdarma umožňuje uložit nejvýše %d obrázkové fráze.",
+      "one": "Verze zdarma umožňuje uložit nejvýše %d obrázkovou frázi.",
       "other": "Verze zdarma umožňuje uložit nejvýše %d obrázkových frází."
     },
     "src": "b3315d0041"
   },
   "무료 버전에서는 최대 %d개의 콤보를 만들 수 있습니다.": {
     "v": {
-      "one": "Verze zdarma umožňuje vytvořit nejvýše %d kombo.",
       "few": "Verze zdarma umožňuje vytvořit nejvýše %d kombo.",
       "many": "Verze zdarma umožňuje vytvořit nejvýše %d kombo.",
+      "one": "Verze zdarma umožňuje vytvořit nejvýše %d kombo.",
       "other": "Verze zdarma umožňuje vytvořit nejvýše %d kombo."
     },
     "src": "e066065ac8"
   },
   "무료 버전에서는 최대 %d개의 템플릿을 사용할 수 있습니다.": {
     "v": {
-      "one": "Verze zdarma umožňuje použít nejvýše %d šablonu.",
       "few": "Verze zdarma umožňuje použít nejvýše %d šablony.",
       "many": "Verze zdarma umožňuje použít nejvýše %d šablony.",
+      "one": "Verze zdarma umožňuje použít nejvýše %d šablonu.",
       "other": "Verze zdarma umožňuje použít nejvýše %d šablon."
     },
     "src": "43c41be27a"
@@ -5592,9 +5592,9 @@
   },
   "무료 한도를 넘어 %d개를 더 쓰고 있어요": {
     "v": {
-      "one": "Překračujete limit zdarma o %d položku",
       "few": "Překračujete limit zdarma o %d položky",
       "many": "Překračujete limit zdarma o %d položky",
+      "one": "Překračujete limit zdarma o %d položku",
       "other": "Překračujete limit zdarma o %d položek"
     },
     "src": "b82d821ad5"
@@ -5817,16 +5817,16 @@
   },
   "방금 복사한 글이 키보드 '최근'에 바로 담겨요. 저장할지 묻지 않고, 담긴 글은 %d일 뒤 저절로 지워져요.": {
     "v": {
-      "one": "Právě zkopírovaný text se hned uloží do Nedávných na klávesnici. Nic nepotvrzujete a po %d dni se sám smaže.",
       "few": "Právě zkopírovaný text se hned uloží do Nedávných na klávesnici. Nic nepotvrzujete a po %d dnech se sám smaže.",
       "many": "Právě zkopírovaný text se hned uloží do Nedávných na klávesnici. Nic nepotvrzujete a po %d dne se sám smaže.",
+      "one": "Právě zkopírovaný text se hned uloží do Nedávných na klávesnici. Nic nepotvrzujete a po %d dni se sám smaže.",
       "other": "Právě zkopírovaný text se hned uloží do Nedávných na klávesnici. Nic nepotvrzujete a po %d dnech se sám smaže."
     },
     "src": "b7c7ded4bc"
   },
   "방금 복사함": {
-    "src": "02d7e18ccc",
-    "v": "Právě zkopírováno"
+    "v": "Právě zkopírováno",
+    "src": "02d7e18ccc"
   },
   "배경 없음": {
     "v": "Bez pozadí",
@@ -6157,8 +6157,8 @@
     "src": "5263aaf2b9"
   },
   "보안 단축어라 값은 보이지 않아요": {
-    "src": "9b105a42a7",
-    "v": "Zabezpečená fráze, hodnota zůstává skrytá"
+    "v": "Zabezpečená fráze, hodnota zůstává skrytá",
+    "src": "9b105a42a7"
   },
   "보안 단축어로 설정": {
     "v": "Zabezpečit",
@@ -6314,9 +6314,9 @@
   },
   "복사한 글이 %d일 동안 남아요": {
     "v": {
-      "one": "Zkopírovaný text zůstane po dobu %d dne",
       "few": "Zkopírovaný text zůstane po dobu %d dnů",
       "many": "Zkopírovaný text zůstane po dobu %d dne",
+      "one": "Zkopírovaný text zůstane po dobu %d dne",
       "other": "Zkopírovaný text zůstane po dobu %d dnů"
     },
     "src": "37f7490481"
@@ -6343,9 +6343,9 @@
   },
   "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, %d일간 유지)": {
     "v": {
-      "one": "Zkopírované se sem ukládá automaticky\n(až 100 položek, po dobu %d dne)",
       "few": "Zkopírované se sem ukládá automaticky\n(až 100 položek, po dobu %d dnů)",
       "many": "Zkopírované se sem ukládá automaticky\n(až 100 položek, po dobu %d dne)",
+      "one": "Zkopírované se sem ukládá automaticky\n(až 100 položek, po dobu %d dne)",
       "other": "Zkopírované se sem ukládá automaticky\n(až 100 položek, po dobu %d dnů)"
     },
     "src": "7534e7952e"
@@ -6356,9 +6356,9 @@
   },
   "복사한 뒤 위의 버튼을 누르면 여기에 %d일 동안 남아요": {
     "v": {
-      "one": "Zkopírujte a klepněte na tlačítko výše. Zůstane tu po dobu %d dne.",
       "few": "Zkopírujte a klepněte na tlačítko výše. Zůstane tu po dobu %d dnů.",
       "many": "Zkopírujte a klepněte na tlačítko výše. Zůstane tu po dobu %d dne.",
+      "one": "Zkopírujte a klepněte na tlačítko výše. Zůstane tu po dobu %d dne.",
       "other": "Zkopírujte a klepněte na tlačítko výše. Zůstane tu po dobu %d dnů."
     },
     "src": "6eb7c42d8e"
@@ -6397,9 +6397,9 @@
   },
   "복사해 둔 글을 키보드 맨 앞 탭에 모아 둡니다. %d일 동안 남아요": {
     "v": {
-      "one": "Zkopírovaný text najdete na první kartě klávesnice, po dobu %d dne",
       "few": "Zkopírovaný text najdete na první kartě klávesnice, po dobu %d dnů",
       "many": "Zkopírovaný text najdete na první kartě klávesnice, po dobu %d dne",
+      "one": "Zkopírovaný text najdete na první kartě klávesnice, po dobu %d dne",
       "other": "Zkopírovaný text najdete na první kartě klávesnice, po dobu %d dnů"
     },
     "src": "2c57cfc2e7"
@@ -6630,18 +6630,18 @@
   },
   "빈칸 %d": {
     "v": {
-      "one": "%d pole",
       "few": "%d pole",
       "many": "%d pole",
+      "one": "%d pole",
       "other": "%d polí"
     },
     "src": "ddb009187d"
   },
   "빈칸 %d개": {
     "v": {
-      "one": "%d pole",
       "few": "%d pole",
       "many": "%d pole",
+      "one": "%d pole",
       "other": "%d polí"
     },
     "src": "931d7644c6"
@@ -7164,9 +7164,9 @@
   },
   "생성 (%d)": {
     "v": {
-      "one": "Vytvořit (%d)",
       "few": "Vytvořit (%d)",
       "many": "Vytvořit (%d)",
+      "one": "Vytvořit (%d)",
       "other": "Vytvořit (%d)"
     },
     "src": "2cceec28f7"
@@ -7241,9 +7241,9 @@
   },
   "선택한 %d줄 담기": {
     "v": {
-      "one": "Přidat %d vybraný řádek",
       "few": "Přidat %d vybrané řádky",
       "many": "Přidat %d vybraného řádku",
+      "one": "Přidat %d vybraný řádek",
       "other": "Přidat %d vybraných řádků"
     },
     "src": "8cbbd63aa7"
@@ -7446,9 +7446,9 @@
   },
   "설치 %d곳": {
     "v": {
-      "one": "%d instalace",
       "few": "%d instalace",
       "many": "%d instalace",
+      "one": "%d instalace",
       "other": "%d instalací"
     },
     "src": "b2f0dd8599"
@@ -7735,9 +7735,9 @@
   },
   "실제로는 단축어 %d번": {
     "v": {
-      "one": "Ve skutečnosti %d klepnutí",
       "few": "Ve skutečnosti %d klepnutí",
       "many": "Ve skutečnosti %d klepnutí",
+      "one": "Ve skutečnosti %d klepnutí",
       "other": "Ve skutečnosti %d klepnutí"
     },
     "src": "ae593b5366"
@@ -7772,9 +7772,9 @@
   },
   "쓰는 단축어 없음, 값 %d개": {
     "v": {
-      "one": "Nepoužívá žádná fráze, %d hodnota",
       "few": "Nepoužívá žádná fráze, %d hodnoty",
       "many": "Nepoužívá žádná fráze, %d hodnoty",
+      "one": "Nepoužívá žádná fráze, %d hodnota",
       "other": "Nepoužívá žádná fráze, %d hodnot"
     },
     "src": "658d1f84be"
@@ -7797,9 +7797,9 @@
   },
   "쓰지 않는 빈칸 %d개 지우기": {
     "v": {
-      "one": "Smazat %d nepoužité pole",
       "few": "Smazat %d nepoužitá pole",
       "many": "Smazat %d nepoužitého pole",
+      "one": "Smazat %d nepoužité pole",
       "other": "Smazat %d nepoužitých polí"
     },
     "src": "ace3643959"
@@ -8042,9 +8042,9 @@
   },
   "아직 한 번도 안 쓴 문구가 %d개 있어요.": {
     "v": {
-      "one": "%d fráze zatím nebyla použita.",
       "few": "%d fráze zatím nebyly použity.",
       "many": "%d fráze zatím nebylo použito.",
+      "one": "%d fráze zatím nebyla použita.",
       "other": "%d frází zatím nebylo použito."
     },
     "src": "feb77f66e5"
@@ -8251,9 +8251,9 @@
   },
   "약 %d분": {
     "v": {
-      "one": "Asi %d min",
       "few": "Asi %d min",
       "many": "Asi %d min",
+      "one": "Asi %d min",
       "other": "Asi %d min"
     },
     "src": "77bc369908"
@@ -8972,9 +8972,9 @@
   },
   "이 글자 담기 (%d자)": {
     "v": {
-      "one": "Použít tento text (%d znak)",
       "few": "Použít tento text (%d znaky)",
       "many": "Použít tento text (%d znaku)",
+      "one": "Použít tento text (%d znak)",
       "other": "Použít tento text (%d znaků)"
     },
     "src": "5744fa0f7a"
@@ -9269,18 +9269,18 @@
   },
   "이미 %d분을 아꼈어요. Pro로 무제한으로 계속": {
     "v": {
-      "one": "Už jste ušetřili %d minutu, s Pro bez omezení",
       "few": "Už jste ušetřili %d minuty, s Pro bez omezení",
       "many": "Už jste ušetřili %d minuty, s Pro bez omezení",
+      "one": "Už jste ušetřili %d minutu, s Pro bez omezení",
       "other": "Už jste ušetřili %d minut, s Pro bez omezení"
     },
     "src": "e36e909b40"
   },
   "이미 ClipKeyboard로 %d분을 아꼈어요. Pro로 무제한으로 계속 아끼세요.": {
     "v": {
-      "one": "S ClipKeyboard jste už ušetřili %d minutu. S Pro šetřete bez omezení.",
       "few": "S ClipKeyboard jste už ušetřili %d minuty. S Pro šetřete bez omezení.",
       "many": "S ClipKeyboard jste už ušetřili %d minuty. S Pro šetřete bez omezení.",
+      "one": "S ClipKeyboard jste už ušetřili %d minutu. S Pro šetřete bez omezení.",
       "other": "S ClipKeyboard jste už ušetřili %d minut. S Pro šetřete bez omezení."
     },
     "src": "8433e22ca2"
@@ -9431,9 +9431,9 @@
   },
   "이번 주에 %d번째 복사한 글이에요": {
     "v": {
-      "one": "Tento týden zkopírováno %d×",
       "few": "Tento týden zkopírováno %d×",
       "many": "Tento týden zkopírováno %d×",
+      "one": "Tento týden zkopírováno %d×",
       "other": "Tento týden zkopírováno %d×"
     },
     "src": "2258e4149d"
@@ -9596,9 +9596,9 @@
   },
   "임시 저장 (%d)": {
     "v": {
-      "one": "Koncepty (%d)",
       "few": "Koncepty (%d)",
       "many": "Koncepty (%d)",
+      "one": "Koncepty (%d)",
       "other": "Koncepty (%d)"
     },
     "src": "03996cba20"
@@ -10005,9 +10005,9 @@
   },
   "저장해 둔 값 %d개가 함께 사라져요. 이 빈칸을 쓰는 단축어는 없습니다.": {
     "v": {
-      "one": "Zmizí také uložené hodnoty: %d. Toto pole nepoužívá žádná fráze.",
       "few": "Zmizí také uložené hodnoty: %d. Toto pole nepoužívá žádná fráze.",
       "many": "Zmizí také uložené hodnoty: %d. Toto pole nepoužívá žádná fráze.",
+      "one": "Zmizí také uložené hodnoty: %d. Toto pole nepoužívá žádná fráze.",
       "other": "Zmizí také uložené hodnoty: %d. Toto pole nepoužívá žádná fráze."
     },
     "src": "dedc992f07"
@@ -10366,9 +10366,9 @@
   },
   "줄이 %d개네요. 하나씩 나눠 담을까요?": {
     "v": {
-      "one": "Je to %d řádek. Rozdělit na samostatné fráze?",
       "few": "Jsou to %d řádky. Rozdělit na samostatné fráze?",
       "many": "Je to %d řádku. Rozdělit na samostatné fráze?",
+      "one": "Je to %d řádek. Rozdělit na samostatné fráze?",
       "other": "Je to %d řádků. Rozdělit na samostatné fráze?"
     },
     "src": "31e6835aaa"
@@ -10459,18 +10459,18 @@
   },
   "지금 기본 키보드보다 %dpt 낮아요.": {
     "v": {
-      "one": "Právě teď je o %dpt nižší než standardní klávesnice.",
       "few": "Právě teď je o %dpt nižší než standardní klávesnice.",
       "many": "Právě teď je o %dpt nižší než standardní klávesnice.",
+      "one": "Právě teď je o %dpt nižší než standardní klávesnice.",
       "other": "Právě teď je o %dpt nižší než standardní klávesnice."
     },
     "src": "888832d0ef"
   },
   "지금 기본 키보드보다 %dpt 높아요.": {
     "v": {
-      "one": "Právě teď je o %dpt vyšší než standardní klávesnice.",
       "few": "Právě teď je o %dpt vyšší než standardní klávesnice.",
       "many": "Právě teď je o %dpt vyšší než standardní klávesnice.",
+      "one": "Právě teď je o %dpt vyšší než standardní klávesnice.",
       "other": "Právě teď je o %dpt vyšší než standardní klávesnice."
     },
     "src": "732fa02323"
@@ -10505,9 +10505,9 @@
   },
   "지금 복사돼 있는 것을 이 목록에 넣습니다. %d일 동안 남습니다": {
     "v": {
-      "one": "Vloží do seznamu, co máte zkopírováno. Zůstane tu %d den",
       "few": "Vloží do seznamu, co máte zkopírováno. Zůstane tu %d dny",
       "many": "Vloží do seznamu, co máte zkopírováno. Zůstane tu %d dne",
+      "one": "Vloží do seznamu, co máte zkopírováno. Zůstane tu %d den",
       "other": "Vloží do seznamu, co máte zkopírováno. Zůstane tu %d dní"
     },
     "src": "1be979b366"
@@ -10546,9 +10546,9 @@
   },
   "지금은 모든 기능이 무료예요. %d번 남았어요": {
     "v": {
-      "one": "Nyní je vše zdarma. Zbývá %d použití",
       "few": "Nyní je vše zdarma. Zbývají %d použití",
       "many": "Nyní je vše zdarma. Zbývá %d použití",
+      "one": "Nyní je vše zdarma. Zbývá %d použití",
       "other": "Nyní je vše zdarma. Zbývá %d použití"
     },
     "src": "1262cac757"
@@ -10563,9 +10563,9 @@
   },
   "지난 %d일 동안": {
     "v": {
-      "one": "Za poslední %d den",
       "few": "Za poslední %d dny",
       "many": "Za posledních %d dne",
+      "one": "Za poslední %d den",
       "other": "Za posledních %d dní"
     },
     "src": "f0812e8cfe"
@@ -10632,9 +10632,9 @@
   },
   "직접 쳤다면 약 %d분이 걸렸을 거예요.": {
     "v": {
-      "one": "Ručně by to trvalo asi %d min.",
       "few": "Ručně by to trvalo asi %d min.",
       "many": "Ručně by to trvalo asi %d min.",
+      "one": "Ručně by to trvalo asi %d min.",
       "other": "Ručně by to trvalo asi %d min."
     },
     "src": "b890c8c4d5"
@@ -10745,9 +10745,9 @@
   },
   "책 %d권": {
     "v": {
-      "one": "%d kniha",
       "few": "%d knihy",
       "many": "%d knihy",
+      "one": "%d kniha",
       "other": "%d knih"
     },
     "src": "6025214882"
@@ -10878,9 +10878,9 @@
   },
   "체험 활성: %d일 남음": {
     "v": {
-      "one": "Zkušební verze aktivní: zbývá %d den",
       "few": "Zkušební verze aktivní: zbývají %d dny",
       "many": "Zkušební verze aktivní: zbývá %d dne",
+      "one": "Zkušební verze aktivní: zbývá %d den",
       "other": "Zkušební verze aktivní: zbývá %d dnů"
     },
     "src": "de2a1f5c6a"
@@ -10926,13 +10926,13 @@
     "src": "b70be55387"
   },
   "최근 · %d일": {
-    "src": "b46b18195e",
     "v": {
       "few": "Nedávné · %d dny",
       "many": "Nedávné · %d dne",
       "one": "Nedávné · %d den",
       "other": "Nedávné · %d dní"
-    }
+    },
+    "src": "b46b18195e"
   },
   "최근 단축어": {
     "v": "Nedávné fráze",
@@ -11091,8 +11091,8 @@
     "src": "b1666e29c5"
   },
   "카드를 누르면 복사한 값이 여기 보여요": {
-    "src": "b8ed4c2d5c",
-    "v": "Klepněte na kartu a zkopírovaná hodnota se zobrazí tady"
+    "v": "Klepněte na kartu a zkopírovaná hodnota se zobrazí tady",
+    "src": "b8ed4c2d5c"
   },
   "카드를 눌러 보세요": {
     "v": "Klepněte na kartu",
@@ -11292,9 +11292,9 @@
   },
   "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.": {
     "v": {
-      "one": "Každý krok se počítá zvlášť. Zapnuto, ale nezobrazilo se znamená, že se zatím nevyvolalo, nebo se používalo bez plného přístupu a nezůstala stopa. Použitá fráze zahrnuje každého, kdo nějakou skutečně použil, přes klávesnici nebo kopírováním v aplikaci. %d starší záznam bez nových metrik je vynechán.",
       "few": "Každý krok se počítá zvlášť. Zapnuto, ale nezobrazilo se znamená, že se zatím nevyvolalo, nebo se používalo bez plného přístupu a nezůstala stopa. Použitá fráze zahrnuje každého, kdo nějakou skutečně použil, přes klávesnici nebo kopírováním v aplikaci. %d starší záznamy bez nových metrik jsou vynechány.",
       "many": "Každý krok se počítá zvlášť. Zapnuto, ale nezobrazilo se znamená, že se zatím nevyvolalo, nebo se používalo bez plného přístupu a nezůstala stopa. Použitá fráze zahrnuje každého, kdo nějakou skutečně použil, přes klávesnici nebo kopírováním v aplikaci. %d staršího záznamu bez nových metrik je vynecháno.",
+      "one": "Každý krok se počítá zvlášť. Zapnuto, ale nezobrazilo se znamená, že se zatím nevyvolalo, nebo se používalo bez plného přístupu a nezůstala stopa. Použitá fráze zahrnuje každého, kdo nějakou skutečně použil, přes klávesnici nebo kopírováním v aplikaci. %d starší záznam bez nových metrik je vynechán.",
       "other": "Každý krok se počítá zvlášť. Zapnuto, ale nezobrazilo se znamená, že se zatím nevyvolalo, nebo se používalo bez plného přístupu a nezůstala stopa. Použitá fráze zahrnuje každého, kdo nějakou skutečně použil, přes klávesnici nebo kopírováním v aplikaci. %d starších záznamů bez nových metrik je vynecháno."
     },
     "src": "b626346872"
@@ -11473,9 +11473,9 @@
   },
   "클립보드 기록 %d개": {
     "v": {
-      "one": "%d položka historie schránky",
       "few": "%d položky historie schránky",
       "many": "%d položky historie schránky",
+      "one": "%d položka historie schránky",
       "other": "%d položek historie schránky"
     },
     "src": "d1a278e8d7"
@@ -11554,9 +11554,9 @@
   },
   "클립키보드로 벌써 %d시간을 아꼈어요": {
     "v": {
-      "one": "ClipKeyboard vám už ušetřil %d hodinu",
       "few": "ClipKeyboard vám už ušetřil %d hodiny",
       "many": "ClipKeyboard vám už ušetřil %d hodiny",
+      "one": "ClipKeyboard vám už ušetřil %d hodinu",
       "other": "ClipKeyboard vám už ušetřil %d hodin"
     },
     "src": "c6b77aeac7"
@@ -11887,9 +11887,9 @@
   },
   "키보드에는 단축어가 %d개까지만 보여요. 나머지는 지워지지 않고 가려져요. 모두 계속 쓰려면 Pro로 바꿔 주세요.": {
     "v": {
-      "one": "Klávesnice zobrazí nejvýše %d frázi. Ostatní jsou skryté, ne smazané. Chcete-li používat všechny, přejděte na Pro.",
       "few": "Klávesnice zobrazí nejvýše %d fráze. Ostatní jsou skryté, ne smazané. Chcete-li používat všechny, přejděte na Pro.",
       "many": "Klávesnice zobrazí nejvýše %d frází. Ostatní jsou skryté, ne smazané. Chcete-li používat všechny, přejděte na Pro.",
+      "one": "Klávesnice zobrazí nejvýše %d frázi. Ostatní jsou skryté, ne smazané. Chcete-li používat všechny, přejděte na Pro.",
       "other": "Klávesnice zobrazí nejvýše %d frází. Ostatní jsou skryté, ne smazané. Chcete-li používat všechny, přejděte na Pro."
     },
     "src": "bf082cce41"
@@ -11912,9 +11912,9 @@
   },
   "키보드에서 단축어를 %d번 꺼내 쓰셨어요": {
     "v": {
-      "one": "Fráze jste z klávesnice použili %d krát",
       "few": "Fráze jste z klávesnice použili %d krát",
       "many": "Fráze jste z klávesnice použili %d krát",
+      "one": "Fráze jste z klávesnice použili %d krát",
       "other": "Fráze jste z klávesnice použili %d krát"
     },
     "src": "8256026cbb"
@@ -13018,5 +13018,45 @@
   "%@ 다음 값": {
     "v": "Další hodnota: %@",
     "src": "574de73435"
+  },
+  "'%1$@' 뒤에 '%2$@' 묶기": {
+    "v": "Přidat „%2$@“ za „%1$@“",
+    "src": "4a961d65e7"
+  },
+  "끄면 키를 눌러도 진동이 울리지 않아요. 키 소리는 iOS 설정을 따라요.": {
+    "v": "Po vypnutí klávesy při stisknutí nevibrují. Zvuk kláves se řídí nastavením iOS.",
+    "src": "9c29fdfaad"
+  },
+  "끌어서 스택 만들기": {
+    "v": "Přetažením vytvořit zásobník",
+    "src": "417bafd89e"
+  },
+  "끌어온 카드는 스택의 다음 칸이 되고 목록에서 사라져요.": {
+    "v": "Přetažená karta se stane dalším krokem zásobníku a zmizí ze seznamu.",
+    "src": "c71da8dab9"
+  },
+  "묶을 수 있는 단축어가 두 개 이상 필요해요": {
+    "v": "Potřebujete alespoň dvě fráze, které lze spojit",
+    "src": "a32c595259"
+  },
+  "묶지 못했습니다": {
+    "v": "Spojení se nezdařilo",
+    "src": "bd36f5f5ff"
+  },
+  "카드를 다른 카드 위에 놓으면 그 뒤에 묶여요": {
+    "v": "Pusťte kartu na jinou a zařadí se za ni",
+    "src": "7a1d55b248"
+  },
+  "키보드 진동": {
+    "v": "Vibrace klávesnice",
+    "src": "40fbf8be97"
+  },
+  "지금은 iCloud를 쓸 수 없어요": {
+    "v": "iCloud teď není k dispozici",
+    "src": "99300cf929"
+  },
+  "보내기를 누르면 메일 앱이 열려요. 메일에서 한 번 더 보내야 전달돼요. iCloud에 로그인하면 앱에서 바로 보내져요.": {
+    "v": "Klepnutím na Odeslat se otevře aplikace Mail a odtud je potřeba odeslat ještě jednou. Přihlaste se k iCloudu, abyste mohli odesílat přímo z aplikace.",
+    "src": "ade455e417"
   }
 }

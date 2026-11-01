@@ -67,7 +67,7 @@ struct Constants {
     ///    바꿀 수 있으므로 `let` 으로 굳히지 않고 부를 때마다 만든다.
     private static var sampleValuesByRawType: [String: String] { [
         ClipboardItemType.email.rawValue: "example@email.com",
-        ClipboardItemType.phone.rawValue: "010-0000-0000",
+        ClipboardItemType.phone.rawValue: AppLanguage.contentLanguageCode == "ko" ? "010-0000-0000" : "+1 555 000 0000",
         ClipboardItemType.address.rawValue: NSLocalizedString("서울특별시 종로구 청와대로 1",
                                                               comment: "Sample value for a new Address snippet. Use a well-known, obviously fake street address in the user's country"),
         ClipboardItemType.url.rawValue: "https://example.com",
@@ -159,10 +159,26 @@ struct Constants {
     /// 개발자 이메일
     static let developerEmail = "leeo@kakao.com"
 
-    /// 튜토리얼 URL
-    static let tutorialURL = "https://m1zz.github.io/ClipKeyboard/tutorial.html"
+    /// 지금 앱 언어의 사용법 페이지(`docs/<언어>/tutorial.html`).
+    ///
+    /// ⚠️ 언어 없는 주소(`/tutorial.html`)를 열지 않는다. 그 페이지는 **브라우저 언어**를 보고 고르므로,
+    ///    앱만 다른 언어로 쓰는 사람에게 기기 언어(대개 한국어) 페이지가 열렸다(사용자 피드백 2026-11).
+    static var tutorialURL: String {
+        tutorialURL(language: AppLanguage.current.bundleCode ?? Bundle.main.preferredLocalizations.first ?? "en")
+    }
+
+    static func tutorialURL(language: String) -> String {
+        "https://m1zz.github.io/ClipKeyboard/\(language)/tutorial.html"
+    }
 
     /// 개인정보 처리방침 - App Store Connect 에 등록한 것과 **같은 주소여야 한다**.
+    /// 앱에서 여는 처리방침·약관 주소. 브라우저 언어가 아니라 앱 언어로 열리게 한다.
+    /// 등록용 주소(`privacyPolicyURL` 등)는 App Store Connect 와 같아야 하므로 그대로 둔다.
+    static func inAppWebURL(_ address: String) -> String {
+        guard let code = AppLanguage.current.bundleCode else { return address }
+        return "\(address)?lang=\(code)"
+    }
+
     static let privacyPolicyURL = "https://m1zz.github.io/ClipKeyboard/privacy.html"
 
     /// 지원(문의) 페이지 - App Store Connect 등록 필수 항목이자 LeeoKit 계약(`legal`)의 필수값.

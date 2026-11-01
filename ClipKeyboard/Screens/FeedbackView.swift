@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import CloudKit
 import LeeoKit
 
 struct FeedbackView: View {
@@ -19,26 +20,49 @@ struct FeedbackView: View {
     var initialCategory: LeeoBugCategory? = nil
     /// 자동 첨부 정보에 더할 줄들.
     var extraLines: [String] = []
+    /// iCloud 를 쓸 수 없어 보내면 메일 앱이 열리는 상황인가.
+    @State private var opensMail = false
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         // 회신 정보(이름·이메일)는 선택 입력이다. 남기면 CloudKit 레코드와 메일 본문에 함께 실려
         // 답장할 곳이 생기고, 비워두면 예전처럼 익명 제출 그대로다.
         // 이메일이 없어도 답장은 설정 > 보낸 의견으로 닿는다(LeeoFeedbackReplies).
+        //
+        // ⚠️ 메일 길은 LeeoKit 내장 작성 창에 맡긴다. 예전 `emailFallback` 은 창을 띄우자마자 "보냄" 으로 처리해
+        //    메일을 보내기 전에 완료 표시가 떴고, 붙인 사진도 빠졌다.
         LeeoFeedbackView<ClipKeyboardSpec>(initialType: initialType,
                                            showsContactFields: true,
                                            extraInfo: FeedbackContext.lines(origin: origin) + extraLines,
                                            categoryInfo: { await FeedbackContext.lines(for: $0) },
-                                           initialCategory: initialCategory,
-                                           emailFallback: { subject, body in
-            #if os(iOS)
-            if EmailController.canSendMail {
-                EmailController.shared.sendEmail(subject: subject, body: body, to: Constants.developerEmail)
-                return true
-            }
-            #endif
-            return false
-        })
+                                           initialCategory: initialCategory)
         .leeoStyle(theme.leeoStyle)
+        .safeAreaInset(edge: .top, spacing: 0) {
+            if opensMail { mailNotice }
+        }
+        // 설정에서 iCloud 에 로그인하고 돌아오면 안내가 사라지게 다시 본다.
+        .task(id: scenePhase) {
+            let container = await CloudKitContainer.resolve(ClipKeyboardSpec.feedback.containerIdentifier)
+            let status = try? await container.accountStatus()
+            opensMail = FeedbackContext.opensMail(iCloud: status)
+        }
+    }
+
+    /// 왜 메일 앱이 열리는지 누르기 전에 말한다. 사용자: "메일 앱은 왜 열리는건지 어떤 상황인지 알려줘".
+    private var mailNotice: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(NSLocalizedString("지금은 iCloud를 쓸 수 없어요", comment: "Feedback notice title: iCloud is not available, so feedback goes through Mail"))
+                .font(.subheadline.weight(.semibold))
+            Text(NSLocalizedString("보내기를 누르면 메일 앱이 열려요. 메일에서 한 번 더 보내야 전달돼요. iCloud에 로그인하면 앱에서 바로 보내져요.", comment: "Feedback notice body: why the Mail app opens when sending feedback, and how to avoid it"))
+                .font(.caption)
+                .foregroundColor(theme.textMuted)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+        .background(theme.bg)
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -82,12 +106,19 @@ enum FeedbackOrigin: String {
 /// ⚠️ **사용자가 적은 내용은 넣지 않는다.** 단축어 본문, 빈칸 값, 카테고리 이름 같은 것.
 ///    묻지 않고 붙는 정보라서, 상태(켜짐·꺼짐·Pro)와 자리만 싣는다.
 enum FeedbackContext {
+    /// 보내기가 메일 앱으로 넘어가는가. LeeoKit 은 iCloud 계정이 쓸 수 있는 상태가 아니면 메일로 넘긴다.
+    /// 상태를 아직 모르면(nil) 묻지 않은 것이라 말하지 않는다.
+    static func opensMail(iCloud status: CKAccountStatus?) -> Bool {
+        guard let status else { return false }
+        return status != .available
+    }
+
     static func lines(origin: FeedbackOrigin,
-                      isPro: Bool = ProFeatureManager.isPro,
+                      plan: AccessTier = currentPlan,
                       keyboardEnabled: Bool? = KeyboardInstallState.enabledInSettingsIfKnown) -> [String] {
         var lines = [String(format: NSLocalizedString("보낸 곳: %@", comment: "Feedback auto info: origin"),
                             origin.localizedName)]
-        var state = [isPro ? "Pro" : NSLocalizedString("무료", comment: "Feedback auto info: free plan")]
+        var state = [planName(plan)]
         switch keyboardEnabled {
         case .some(true):
             state.append(NSLocalizedString("키보드 켜짐", comment: "Feedback auto info: keyboard enabled"))
@@ -98,6 +129,27 @@ enum FeedbackContext {
         }
         lines.append(state.joined(separator: " · "))
         return lines
+    }
+
+    /// 이 사람이 가진 요금제. 설정의 요금제 칸과 같은 답을 낸다.
+    ///
+    /// ⚠️ 사용자 신고: "Pro 활성화인데 무료 키보드 켜짐". 예전 줄은 결제 키(`isPro`)만 봐서,
+    ///    설정이 "Pro 활성화됨" 으로 보여 주는 예전 구매자도 무료로 적혔다.
+    ///    무료 사용 기간과 체험은 가진 요금제가 아니므로 여기서 올리지 않는다(`accessLine` 이 따로 적는다).
+    static var currentPlan: AccessTier {
+        plan(purchased: ProFeatureManager.purchasedTier, grandfathered: ProFeatureManager.isGrandfathered)
+    }
+
+    static func plan(purchased: AccessTier, grandfathered: Bool) -> AccessTier {
+        grandfathered ? max(purchased, .pro) : purchased
+    }
+
+    private static func planName(_ plan: AccessTier) -> String {
+        switch plan {
+        case .free:        return NSLocalizedString("무료", comment: "Feedback auto info: free plan")
+        case .plus:        return "Plus"
+        case .pro, .master: return "Pro"
+        }
     }
 
     /// 버그 분류를 고르면 덧붙이는 줄. LeeoKit 이 모르는 **이 앱의 권한 길**을 싣는다.

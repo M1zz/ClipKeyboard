@@ -162,6 +162,8 @@ struct ClipKeyboardList: View {
     @State private var longPressProgress: CGFloat = 0
     @State private var memoForActions: Memo?
     @State private var showMemoActions: Bool = false
+    /// 끌어서 스택 만들기 화면(`MemoStackScreen`).
+    @State private var showStackScreen: Bool = false
 
 
     // 탭 누름 바운스 - 카드별 트리거. 탭하면 해당 카드만 들어갔다(0.92)→1.05배로 튀었다→원래 크기.
@@ -537,16 +539,6 @@ struct ClipKeyboardList: View {
                 // 키보드를 켜지 않았으면 선다. 닫는 단추가 없다 - 켜면 걷힌다.
                 // 아직 자기 단축어가 없는 사람에게는 서지 않는다(꺼낼 것이 없다, `UserSurface.keyboardSetupBanner`).
                 KeyboardSetupRequiredBanner()
-
-                // 방금 복사한 글을 단축어로 - 앱에 들어오면 클립보드를 보고 권한다.
-                // ⚠️ 2026-05 목록을 갈래 격자로 바꿀 때(`8d4347f5`) 이 카드를 담던 묶음이 옮겨지지 않아
-                //    다섯 달 동안 안 보였다. 클립보드는 그동안에도 읽고 있었다(사용자 신고 2026-10-18).
-                PromptRow(.freshClipboard, wants: viewModel.hasFreshClipboard) {
-                    freshClipboardCard
-                        .padding(.horizontal, 16)
-                        .padding(.top, 8)
-                        .padding(.bottom, 4)
-                }
 
                 // 붙여넣기 허용 안내 - 앱 진입 시 클립보드를 읽어 팝업이 뜨는 바로 그 지점.
                 // 한 번 설정을 바꾸면 팝업이 사라지므로, 최상단에서 설정으로 바로 안내한다.
@@ -1043,6 +1035,12 @@ struct ClipKeyboardList: View {
                 MemoReorderScreen(viewModel: viewModel,
                                   style: cardStyle,
                                   columnCount: gridColumnCount)
+                    .appFoldConfined()
+            }
+            .fullScreenCover(isPresented: $showStackScreen) {
+                MemoStackScreen(viewModel: viewModel,
+                                style: cardStyle,
+                                columnCount: gridColumnCount)
                     .appFoldConfined()
             }
             // 여러 개 고르기 - 지금 탭의 카드를 체크로 골라 한꺼번에 옮기거나 지운다.
@@ -2352,6 +2350,12 @@ struct ClipKeyboardList: View {
         return trackPageScroll(ScrollView {
             VStack(spacing: 0) {
                 pageHeader(for: tab)
+                // 빈 페이지에서는 이 타일이 첫 단축어를 만드는 길이다.
+                if showsFreshClipboard(on: tab) {
+                    LazyVGrid(columns: gridColumns, spacing: 12) { freshClipboardCell(on: tab) }
+                        .padding(.horizontal, 16)
+                        .padding(.top, 2)
+                }
                 content()
             }
             .containerRelativeFrame(.vertical, alignment: .top) { height, _ in
@@ -2501,6 +2505,7 @@ struct ClipKeyboardList: View {
                 // 외워서 찾기 때문에 사용할 때마다 카드가 점프하면 안 됨.
                 if !allMemos.isEmpty {
                     LazyVGrid(columns: gridColumns, spacing: 12) {
+                        freshClipboardCell(on: tab)
                         // 고스트(가상) 메모 - 실제 메모 셀과 같은 모양, 흐릿하게.
                         // 한 번 눌러보고 채워서 추가할지 판단하게 한다.
                         if let ghost = ghostSuggestion, !blank {
@@ -2554,6 +2559,7 @@ struct ClipKeyboardList: View {
                 // 위 여백 - `allTabScrollView` 의 같은 빈 칸과 같은 값을 쓴다.
                 Color.clear.frame(height: 0)
                 LazyVGrid(columns: gridColumns, spacing: 12) {
+                    freshClipboardCell(on: tab)
                     let anchor = slotAnchorID(in: memos)
                     ForEach(memos) { memo in
                         if memo.id == anchor { slotCells(showsDrafts: false) }
@@ -2825,12 +2831,30 @@ struct ClipKeyboardList: View {
         return String(format: NSLocalizedString("Saved %dm so far", comment: "Time saved badge minutes"), minutes)
     }
 
-    /// 방금 복사한 글을 단축어로 저장하자는 카드.
+    /// 보고 있는 페이지에만 선다. 옆 페이지도 미리 지어지므로, 조건이 없으면 안 보이는 곳에서도 초를 센다.
+    private func showsFreshClipboard(on tab: CategoryTab) -> Bool {
+        viewModel.hasFreshClipboard && tab == viewModel.selectedCategoryTab
+    }
+
+    /// 방금 복사한 글이 격자 첫 칸에 만들어질 타일로 선다.
+    ///
+    /// ⚠️ 2026-05 목록을 갈래 격자로 바꿀 때(`8d4347f5`) 이 카드를 담던 묶음이 옮겨지지 않아
+    ///    다섯 달 동안 안 보였다. 클립보드는 그동안에도 읽고 있었다(사용자 신고 2026-10-18).
+    ///    격자가 없는 빈 페이지도 `emptyPage` 가 이 칸을 세운다.
+    @ViewBuilder
+    private func freshClipboardCell(on tab: CategoryTab) -> some View {
+        if showsFreshClipboard(on: tab) {
+            PromptRow(.freshClipboard, wants: true) {
+                freshClipboardCard
+            }
+        }
+    }
+
+    /// 방금 복사한 글을 단축어로 저장하자는 타일.
     private var freshClipboardCard: some View {
         ClipboardCaptureCard(
             value: viewModel.value,
             detectedType: viewModel.clipboardDetectedType,
-            confidence: viewModel.clipboardConfidence,
             suggestedTitle: viewModel.suggestedClipboardTitle,
             repeatCopies: viewModel.clipboardRepeatCopies,
             onDismiss: {
@@ -2850,7 +2874,8 @@ struct ClipKeyboardList: View {
                 withAnimation(reduceMotion ? nil : .easeOut(duration: 0.3)) {
                     viewModel.dismissClipboardCapture()
                 }
-            }
+            },
+            cardHeight: memoCardHeight
         )
     }
 
@@ -3030,6 +3055,12 @@ struct ClipKeyboardList: View {
                 viewModel.enterSelectionMode(preselect: memo.id)
             }
         },
+        // 이 카드를 묶을 수 없으면 줄을 내지 않는다(잠금 · 이미지 · 템플릿).
+        onStack: (blank && !FeatureSet.isOn(.stack)) || !MemoStacking.canStack(memo) ? nil : {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                showStackScreen = true
+            }
+        },
         onMakeTemplate: blank && !FeatureSet.isOn(.template) ? nil : {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                 makeTemplateSource = memo
@@ -3163,7 +3194,7 @@ struct ClipKeyboardList: View {
         GlassCircleButton(AppSymbol.plus, role: .primary,
                           label: NSLocalizedString("단축어 추가", comment: "Add memo menu label")) {
             HapticManager.shared.light()
-            addMemoSheetCategory = ""
+            addMemoSheetCategory = viewModel.newSnippetCategory
             openAddMemoWithSlot()
         }
     }
@@ -3188,7 +3219,7 @@ struct ClipKeyboardList: View {
             // 통합 모델: 사용자는 "메모"만 만든다. 변수({…})를 넣으면 템플릿, 이어지는 메모를 더하면 콤보가 된다.
             Button {
                 HapticManager.shared.light()
-                if case .custom(let name) = viewModel.selectedCategoryTab { addMemoSheetCategory = name } else { addMemoSheetCategory = "" }
+                addMemoSheetCategory = viewModel.newSnippetCategory
                 openAddMemoWithSlot()
             } label: {
                 Label(NSLocalizedString("새 단축어 만들기", comment: "Menu: new memo"), systemImage: AppSymbol.squareAndPencil)

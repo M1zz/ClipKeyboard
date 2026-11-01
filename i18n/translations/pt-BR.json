@@ -3014,8 +3014,8 @@
     "src": "e678de395f"
   },
   "고르면 여기에 열려요": {
-    "src": "83a577dde6",
-    "v": "Escolha algo e abre aqui"
+    "v": "Escolha algo e abre aqui",
+    "src": "83a577dde6"
   },
   "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요": {
     "v": "Indicamos os grupos e as frases que combinam com o seu uso",
@@ -3222,8 +3222,8 @@
     "src": "0200132a0a"
   },
   "그림 단축어": {
-    "src": "eaa36fcde2",
-    "v": "Frase de imagem"
+    "v": "Frase de imagem",
+    "src": "eaa36fcde2"
   },
   "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요": {
     "v": "Até lá, fica em Geral. O padrão antigo, Nômade digital, era de onde o app partiu, não onde você está",
@@ -5660,8 +5660,8 @@
     "src": "b7c7ded4bc"
   },
   "방금 복사함": {
-    "src": "02d7e18ccc",
-    "v": "Acabou de copiar"
+    "v": "Acabou de copiar",
+    "src": "02d7e18ccc"
   },
   "배경 없음": {
     "v": "Sem fundo",
@@ -5992,8 +5992,8 @@
     "src": "5263aaf2b9"
   },
   "보안 단축어라 값은 보이지 않아요": {
-    "src": "9b105a42a7",
-    "v": "É uma frase protegida, então o valor fica oculto"
+    "v": "É uma frase protegida, então o valor fica oculto",
+    "src": "9b105a42a7"
   },
   "보안 단축어로 설정": {
     "v": "Proteger frase",
@@ -10700,11 +10700,11 @@
     "src": "b70be55387"
   },
   "최근 · %d일": {
-    "src": "b46b18195e",
     "v": {
       "one": "Recentes · %d dia",
       "other": "Recentes · %d dias"
-    }
+    },
+    "src": "b46b18195e"
   },
   "최근 단축어": {
     "v": "Frases recentes",
@@ -10863,8 +10863,8 @@
     "src": "b1666e29c5"
   },
   "카드를 누르면 복사한 값이 여기 보여요": {
-    "src": "b8ed4c2d5c",
-    "v": "Toque em um card e o que você copiou aparece aqui"
+    "v": "Toque em um card e o que você copiou aparece aqui",
+    "src": "b8ed4c2d5c"
   },
   "카드를 눌러 보세요": {
     "v": "Toque no cartão",
@@ -12780,5 +12780,45 @@
   "%@ 다음 값": {
     "v": "Próximo valor de %@",
     "src": "574de73435"
+  },
+  "'%1$@' 뒤에 '%2$@' 묶기": {
+    "v": "Adicionar \"%2$@\" depois de \"%1$@\"",
+    "src": "4a961d65e7"
+  },
+  "끄면 키를 눌러도 진동이 울리지 않아요. 키 소리는 iOS 설정을 따라요.": {
+    "v": "Ao desativar, as teclas não vibram quando você toca nelas. O som das teclas segue os ajustes do iOS.",
+    "src": "9c29fdfaad"
+  },
+  "끌어서 스택 만들기": {
+    "v": "Arrastar para empilhar",
+    "src": "417bafd89e"
+  },
+  "끌어온 카드는 스택의 다음 칸이 되고 목록에서 사라져요.": {
+    "v": "O cartão arrastado vira a próxima etapa da pilha e sai da lista.",
+    "src": "c71da8dab9"
+  },
+  "묶을 수 있는 단축어가 두 개 이상 필요해요": {
+    "v": "Você precisa de pelo menos duas frases que possam ser empilhadas",
+    "src": "a32c595259"
+  },
+  "묶지 못했습니다": {
+    "v": "Não foi possível empilhar",
+    "src": "bd36f5f5ff"
+  },
+  "카드를 다른 카드 위에 놓으면 그 뒤에 묶여요": {
+    "v": "Solte um cartão sobre outro para colocá-lo depois dele",
+    "src": "7a1d55b248"
+  },
+  "키보드 진동": {
+    "v": "Vibração do teclado",
+    "src": "40fbf8be97"
+  },
+  "지금은 iCloud를 쓸 수 없어요": {
+    "v": "O iCloud não está disponível agora",
+    "src": "99300cf929"
+  },
+  "보내기를 누르면 메일 앱이 열려요. 메일에서 한 번 더 보내야 전달돼요. iCloud에 로그인하면 앱에서 바로 보내져요.": {
+    "v": "Ao tocar em Enviar, o app Mail será aberto e você precisará enviar por lá também. Entre no iCloud para enviar direto pelo app.",
+    "src": "ade455e417"
   }
 }
