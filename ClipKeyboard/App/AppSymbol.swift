@@ -26,6 +26,7 @@ enum AppSymbol {
     static let arrowUpForwardApp = "arrow.up.forward.app"
     static let arrowUpForwardAppFill = "arrow.up.forward.app.fill"
     static let arrowUturnBackward = "arrow.uturn.backward"
+    static let iphoneRadiowaves = "iphone.radiowaves.left.and.right"
     static let birdFill = "bird.fill"
     static let bookClosed = "book.closed"
     static let bookPagesFill = "book.pages.fill"

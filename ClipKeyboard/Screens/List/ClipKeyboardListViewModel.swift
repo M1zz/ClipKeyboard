@@ -473,6 +473,15 @@ final class ClipKeyboardListViewModel: ObservableObject {
         return tabs.contains(selectedCategoryTab) ? selectedCategoryTab : landingTab(in: tabs)
     }
 
+    /// 오른쪽 위 + 로 만드는 단축어가 들어갈 칸. 지금 보는 페이지가 사용자 카테고리면 그 이름, 아니면 "".
+    ///
+    /// ⚠️ 사용자 신고: 카테고리 페이지의 + 로 만들었는데 기본으로 간다. 툴바 + 가 둘(단순 · 메뉴)인데
+    ///    단순한 쪽만 칸을 비웠다. 두 + 가 어긋나지 않게 이 값 하나를 함께 읽는다.
+    var newSnippetCategory: String {
+        if case .custom(let name) = displayedCategoryTab { return name }
+        return ""
+    }
+
     /// 고른 탭이 없을 때 설 자리. **'최근' 은 고르지 않는다.**
     ///
     /// '최근' 이 맨 앞이라 그냥 첫 장으로 보내면, 기능을 끈 사람이나 즐겨찾기 페이지가 접힌 사람이
@@ -1340,6 +1349,32 @@ final class ClipKeyboardListViewModel: ObservableObject {
     }
 
     // MARK: - Toast
+
+    /// `draggedID` 를 `targetID` 뒤에 묶고 끌어온 카드는 없앤다(`MemoStacking`). 저장에 실패하면 되돌린다.
+    /// - Returns: 묶었으면 true.
+    @discardableResult
+    func stackMemo(_ draggedID: UUID, onto targetID: UUID) -> Bool {
+        guard let dragged = loadedData.first(where: { $0.id == draggedID }),
+              let targetIndex = loadedData.firstIndex(where: { $0.id == targetID }) else { return false }
+        guard let merged = MemoStacking.stacked(loadedData[targetIndex], adding: dragged) else {
+            showPlainToast(NSLocalizedString("묶지 못했습니다", comment: "Toast: dragged snippets could not be stacked"))
+            return false
+        }
+        let backup = loadedData
+        loadedData[targetIndex] = merged
+        loadedData.removeAll { $0.id == draggedID }
+        do {
+            try MemoStore.shared.save(memos: loadedData, type: .memo)
+            applyFilters()
+            return true
+        } catch {
+            print("❌ [ClipKeyboardListViewModel.stackMemo] 저장 실패: \(error)")
+            loadedData = backup
+            applyFilters()
+            showPlainToast(NSLocalizedString("묶지 못했습니다", comment: "Toast: dragged snippets could not be stacked"))
+            return false
+        }
+    }
 
     /// 포맷 없이 메시지를 그대로 토스트로 표시(예: 이미지 복사 안내).
     func showPlainToast(_ message: String) {

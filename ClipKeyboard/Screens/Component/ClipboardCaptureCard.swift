@@ -23,7 +23,8 @@ extension ClipboardItemType {
     }
 }
 
-/// 상단 인라인 캡처 카드: 방금 복사한 클립보드를 한 탭으로 메모로 저장.
+/// 방금 복사한 글이 **만들어질 타일**의 모습으로 격자 첫 칸에 선다. 한 탭으로 메모로 저장.
+/// 점선은 아직 안 만든 것이라는 뜻이고, 저장하면 이 자리에 진짜 타일이 앉는다.
 /// 제목(키)은 감지 타입에서 자동 제안되어, 별도 입력 없이 바로 저장된다.
 struct ClipboardCaptureCard: View {
 
@@ -31,7 +32,6 @@ struct ClipboardCaptureCard: View {
 
     let value: String
     let detectedType: ClipboardItemType
-    let confidence: Double
     /// 자동 제안된 제목(키) - 원탭 저장 시 그대로 사용.
     let suggestedTitle: String
     /// 최근 7일 안에 이 글을 복사한 횟수(`RepeatCopyLedger`). 2 이상이면 한 줄로 짚어 준다.
@@ -47,12 +47,15 @@ struct ClipboardCaptureCard: View {
     var lifetime: TimeInterval = ClipboardCaptureCard.defaultLifetime
     /// 시간이 다 됐다. 부르는 쪽이 "닫기" 와 같게 처리한다.
     var onTimeout: () -> Void = {}
+    /// 격자 안이면 옆 타일과 같은 높이. 격자 밖(키보드 탭의 무대)은 nil 이라 내용만큼 선다.
+    var cardHeight: CGFloat? = nil
 
     /// 떠 있는 시간(사용자 요청 2026-10-18: 10초 지나면 그냥 사라지게).
     static let defaultLifetime: TimeInterval = 10
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverOn
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     /// 세기 시작한 때. 테두리 선의 길이는 여기서 지난 시간으로 매 프레임 계산한다.
     ///
     /// ⚠️ `withAnimation` 으로 1 → 0 을 걸지 않는다. 카드가 화면에 그려지기 전에 걸린 애니메이션은
@@ -60,34 +63,30 @@ struct ClipboardCaptureCard: View {
     @State private var startedAt: Date?
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            typeIcon
-
-            VStack(alignment: .leading, spacing: 6) {
-                headerRow
-                if repeatCopies >= RepeatCopyLedger.Threshold.repeatCopies {
-                    repeatRow
-                }
-                preview
-                suggestedTitleRow
-                actionRow
-            }
-
+        VStack(alignment: .leading, spacing: 6) {
+            headerRow
+            preview
             Spacer(minLength: 0)
+            saveButton
         }
-        .padding(12)
-        .background(theme.surface)
-        .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd))
+        .padding(14)
+        // 옆 타일과 높이를 맞춘다. 줄이 모자라면 미리보기가 먼저 줄어든다.
+        // 손쉬운 사용의 큰 글씨는 격자가 한 열이라, 그때는 글이 잘리지 않게 늘어나게 둔다.
+        .frame(maxWidth: .infinity,
+               minHeight: cardHeight,
+               maxHeight: dynamicTypeSize.isAccessibilitySize ? nil : cardHeight,
+               alignment: .topLeading)
+        .background(cardShape.fill(theme.surface))
         .overlay(
-            RoundedRectangle(cornerRadius: theme.radiusMd)
-                .stroke(Color.accentColor.opacity(0.18), lineWidth: 1)
+            cardShape.strokeBorder(Color.accentColor.opacity(0.35),
+                                   style: StrokeStyle(lineWidth: 1.5, dash: [5, 4]))
         )
         // 남은 시간. 테두리를 따라 은은한 선이 줄어든다. 시계처럼 읽히지 않게 숫자는 두지 않는다.
         .overlay {
             if counts && !reduceMotion, let startedAt {
                 TimelineView(.animation) { context in
                     let elapsed = context.date.timeIntervalSince(startedAt)
-                    RoundedRectangle(cornerRadius: theme.radiusMd)
+                    cardShape
                         .trim(from: 0, to: max(0, 1 - elapsed / lifetime))
                         .stroke(Color.accentColor.opacity(0.55),
                                 style: StrokeStyle(lineWidth: 1.5, lineCap: .round))
@@ -96,9 +95,14 @@ struct ClipboardCaptureCard: View {
                 .accessibilityHidden(true)
             }
         }
-        .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
+        .shadow(color: .black.opacity(0.04), radius: 4, x: 0, y: 2)
         // 글이 바뀌면(새로 복사하고 왔으면) 처음부터 다시 센다.
         .task(id: value) { await countDown() }
+    }
+
+    /// 옆 단축어 타일과 같은 모서리.
+    private var cardShape: RoundedRectangle {
+        RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
     }
 
     /// 저절로 사라지는가. VoiceOver 를 켠 사람에게는 카드가 읽는 도중에 없어지면 안 된다.
@@ -114,137 +118,96 @@ struct ClipboardCaptureCard: View {
 
     // MARK: - Subviews
 
-    private var typeIcon: some View {
-        Image(systemName: detectedType.icon)
-            .font(.system(.body, weight: .semibold))
-            .foregroundColor(Color.fromName(detectedType.color))
-            .frame(width: 40, height: 40)
-            .background(Color.fromName(detectedType.color).opacity(0.15))
-            .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
-            .accessibilityHidden(true)
-    }
-
+    /// 종류는 아이콘으로, 반복 복사는 횟수로. 타일 폭에 문장이 들어가지 않는다.
     private var headerRow: some View {
-        HStack(spacing: 6) {
-            Text(NSLocalizedString("Just copied", comment: "Inline capture card: just copied hint"))
-                .font(.body.weight(.semibold))
-                .foregroundColor(theme.textMuted)
-
-            Text(detectedType.localizedName)
-                .font(.body.weight(.semibold))
-                .foregroundColor(Color.fromName(detectedType.color))
-                .padding(.horizontal, 6)
-                .padding(.vertical, 2)
-                .background(Color.fromName(detectedType.color).opacity(0.15))
-                .clipShape(Capsule())
-
-            if confidence > 0.8 {
-                Image(systemName: AppSymbol.sparkles)
-                    .font(.system(.caption2))
-                    .foregroundColor(.yellow)
-                    .accessibilityHidden(true)
-            }
-
-            Spacer(minLength: 0)
-        }
-    }
-
-    /// "이번 주에 n번째 복사한 글이에요" - 한 번 보고 말 글과 저장할 글을 가른다.
-    private var repeatRow: some View {
-        Label(String(format: NSLocalizedString("이번 주에 %d번째 복사한 글이에요",
-                                               comment: "Clipboard capture card: the same text was copied N times within 7 days"),
-                     repeatCopies),
-              systemImage: AppSymbol.clockArrowCirclepath)
-            .font(.footnote.weight(.semibold))
-            .foregroundColor(theme.accent)
-    }
-
-    private var preview: some View {
-        Text(value)
-            .font(.body)
-            .foregroundColor(theme.text)
-            .lineLimit(2)
-            .fixedSize(horizontal: false, vertical: true)
-    }
-
-    /// 자동 제안된 제목(키)을 칩으로 노출 - 무엇으로 저장될지 미리 보여준다.
-    private var suggestedTitleRow: some View {
-        HStack(spacing: 6) {
-            Text(NSLocalizedString("제목", comment: "Label: memo title (key)"))
-                .font(.caption.weight(.medium))
-                .foregroundColor(theme.textFaint)
-
+        HStack(spacing: 4) {
             HStack(spacing: 4) {
-                Image(systemName: AppSymbol.keyFill)
-                    .font(.system(.caption2))
-                    .accessibilityHidden(true)
-                Text(suggestedTitle)
-                    .font(.caption.weight(.semibold))
+                Image(systemName: detectedType.icon)
+                    .foregroundColor(Color.fromName(detectedType.color))
+                Text(NSLocalizedString("Just copied", comment: "Inline capture card: just copied hint"))
+                    .foregroundColor(theme.textMuted)
                     .lineLimit(1)
+                    .minimumScaleFactor(0.8)
             }
-            .foregroundColor(.accentColor)
-            .padding(.horizontal, 7)
-            .padding(.vertical, 2)
-            .background(Color.accentColor.opacity(0.10))
-            .clipShape(Capsule())
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(NSLocalizedString("Just copied", comment: "Inline capture card: just copied hint")
+                                + ", " + detectedType.localizedName)
+
+            if repeatCopies >= RepeatCopyLedger.Threshold.repeatCopies {
+                Label("\(repeatCopies)", systemImage: AppSymbol.clockArrowCirclepath)
+                    .labelStyle(.titleAndIcon)
+                    .foregroundColor(theme.accent)
+                    .lineLimit(1)
+                    .accessibilityLabel(String(format: NSLocalizedString("이번 주에 %d번째 복사한 글이에요",
+                                                                         comment: "Clipboard capture card: the same text was copied N times within 7 days"),
+                                               repeatCopies))
+            }
 
             Spacer(minLength: 0)
-        }
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel(
-            String(format: NSLocalizedString("제안된 제목 %@", comment: "VoiceOver: suggested title"), suggestedTitle)
-        )
-    }
 
-    private var actionRow: some View {
-        HStack(spacing: 10) {
-            // 한 탭 즉시 저장 - 제안된 제목으로 바로 메모 생성.
-            Button(action: onSaveDirect) {
-                HStack(spacing: 4) {
-                    Image(systemName: AppSymbol.plusCircleFill)
-                        .font(.body)
-                        .accessibilityHidden(true)
-                    Text(NSLocalizedString("단축어로 저장", comment: "Inline capture card: save as memo (one tap)"))
-                        .font(.body.weight(.semibold))
-                }
-                .foregroundColor(Color.accentForeground)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 7)
-                .background(Color.accentColor)
-                .clipShape(Capsule())
+            // 내용의 일부인 작은 닫기. 누르는 자리만 넉넉히 잡고 줄 높이는 늘리지 않는다.
+            Button(action: onDismiss) {
+                Image(systemName: AppSymbol.xmark)
+                    .foregroundColor(theme.textFaint)
+                    .frame(width: 44, height: 44)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.squish)
-            .accessibilityHint(
-                String(format: NSLocalizedString("%@ 제목으로 바로 저장", comment: "VoiceOver hint: save with suggested title"), suggestedTitle)
-            )
+            .padding(-14)
+            .accessibilityLabel(NSLocalizedString("Dismiss", comment: "Inline capture card: dismiss button"))
+        }
+        .font(.caption.weight(.semibold))
+    }
 
-            // 제목을 바꾸고 싶을 때만 - 편집 화면으로.
-            if showsEdit {
+    /// 글을 누르면 제목을 고쳐 저장하는 화면으로. 갈 곳이 없는 무대에서는 글만 보인다.
+    @ViewBuilder
+    private var preview: some View {
+        if showsEdit {
             FoldLink {
                 MemoAdd(insertedKeyword: suggestedTitle, insertedValue: value)
             } label: {
-                Text(NSLocalizedString("편집", comment: "Inline capture card: edit before saving"))
-                    .font(.body)
-                    .foregroundColor(.accentColor)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 7)
+                previewText
             }
             .buttonStyle(.squish)
             .simultaneousGesture(TapGesture().onEnded { onEditTap() })
-            }
-
-            Button(action: onDismiss) {
-                Text(NSLocalizedString("Dismiss", comment: "Inline capture card: dismiss button"))
-                    .font(.body)
-                    .foregroundColor(theme.textMuted)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 7)
-            }
-            .buttonStyle(.squish)
-
-            Spacer(minLength: 0)
+            .accessibilityHint(NSLocalizedString("편집", comment: "Inline capture card: edit before saving"))
+        } else {
+            previewText
         }
-        .padding(.top, 2)
+    }
+
+    private var previewText: some View {
+        Text(value)
+            .font(.subheadline.weight(.medium))
+            .foregroundColor(theme.text)
+            .lineLimit(3)
+            .multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// 한 탭 즉시 저장 - 제안된 제목으로 바로 메모 생성.
+    /// ⚠️ 줄바꿈을 허용하지 않는다. 글자를 키운 화면에서 세 줄로 접혀 단추가 원이 됐었다.
+    private var saveButton: some View {
+        Button(action: onSaveDirect) {
+            HStack(spacing: 4) {
+                Image(systemName: AppSymbol.plus)
+                    .font(.caption2.weight(.bold))
+                    .accessibilityHidden(true)
+                Text(NSLocalizedString("단축어로 저장", comment: "Inline capture card: save as memo (one tap)"))
+                    .font(.footnote.weight(.semibold))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+            }
+            .foregroundColor(Color.accentForeground)
+            .frame(maxWidth: .infinity, minHeight: 34)
+            .background(Color.accentColor)
+            .clipShape(Capsule())
+            .contentShape(Rectangle().inset(by: -5))
+        }
+        .buttonStyle(.squish)
+        .accessibilityHint(
+            String(format: NSLocalizedString("%@ 제목으로 바로 저장", comment: "VoiceOver hint: save with suggested title"), suggestedTitle)
+        )
     }
 }
 
@@ -264,7 +227,6 @@ final class FreshClipboardOffer: ObservableObject {
     struct Snapshot: Equatable {
         let value: String
         let detectedType: ClipboardItemType
-        let confidence: Double
         let suggestedTitle: String
         let repeatCopies: Int
     }
@@ -277,7 +239,6 @@ final class FreshClipboardOffer: ObservableObject {
         let next: Snapshot? = viewModel.hasFreshClipboard ? Snapshot(
             value: viewModel.value,
             detectedType: viewModel.clipboardDetectedType,
-            confidence: viewModel.clipboardConfidence,
             suggestedTitle: viewModel.suggestedClipboardTitle,
             repeatCopies: viewModel.clipboardRepeatCopies) : nil
         if next != snapshot { snapshot = next }
@@ -294,7 +255,6 @@ struct ClipboardCaptureCard_Previews: PreviewProvider {
             ClipboardCaptureCard(
                 value: "example@test.com",
                 detectedType: .email,
-                confidence: 0.95,
                 suggestedTitle: "내 이메일",
                 onDismiss: {},
                 onSaveDirect: {},

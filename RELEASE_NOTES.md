@@ -14,6 +14,238 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.17
+
+### 앱스토어 (한국어)
+
+```
+단축어 카드를 끌어다 놓아 스택으로 묶을 수 있어요.
+키보드 진동을 끌 수 있어요.
+키보드와 사용법이 앱에서 고른 언어를 따라요.
+카테고리에서 만든 단축어가 그 자리에 바로 보여요.
+천지인으로 쓰다 지울 때 글자가 겹치던 문제를 고쳤어요.
+```
+
+### App Store (English)
+
+```
+Drag one snippet onto another to make a stack.
+You can now turn off keyboard vibration.
+The keyboard and guide follow your app language.
+New snippets stay in the category you added them to.
+Fixed doubled letters when deleting on the 10-key layout.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+拖动短语卡片即可组成短语堆。
+现在可以关闭键盘振动。
+键盘和使用指南会跟随 App 语言。
+在分类中新建的短语会直接显示在该分类里。
+修复了十键输入删除时文字重复的问题。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+拖動短語卡片即可組成短語堆。
+現在可以關閉鍵盤震動。
+鍵盤和使用指南會跟隨 App 語言。
+在分類中新增的短語會直接顯示在該分類裡。
+修正了十鍵輸入刪除時文字重複的問題。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Перетащите фразу на другую, чтобы собрать стопку.
+Вибрацию клавиатуры теперь можно отключить.
+Клавиатура и справка следуют языку приложения.
+Новые фразы сразу видны в своей категории.
+Исправлено удвоение букв при удалении на 10 клавишах.
+```
+
+### App Store (Japanese, ja)
+
+```
+定型文カードをドラッグしてスタックにまとめられます。
+キーボードの振動をオフにできます。
+キーボードと使い方がアプリの言語に合わせて表示されます。
+カテゴリで作った定型文がその場ですぐ表示されます。
+10キーで削除すると文字が重なる問題を修正しました。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Arrastra una frase sobre otra para crear una pila.
+Ya puedes desactivar la vibración del teclado.
+El teclado y la guía siguen el idioma de la app.
+Las frases nuevas aparecen en su categoría al instante.
+Corregidas letras dobles al borrar en el teclado de 10 teclas.
+```
+
+### App Store (German, de-DE)
+
+```
+Ziehe Textbausteine aufeinander, um Stapel zu bilden.
+Die Tastaturvibration lässt sich jetzt ausschalten.
+Tastatur und Anleitung folgen der App-Sprache.
+Neue Textbausteine erscheinen direkt in ihrer Kategorie.
+Doppelte Buchstaben beim Löschen auf der 10er-Tastatur behoben.
+```
+
+### App Store (Thai, th)
+
+```
+ลากข้อความด่วนมาวางซ้อนกันเพื่อสร้างสแตกได้
+ปิดการสั่นของแป้นพิมพ์ได้แล้ว
+แป้นพิมพ์และคู่มือใช้ภาษาตามที่ตั้งในแอป
+ข้อความด่วนใหม่แสดงในหมวดหมู่นั้นทันที
+แก้ตัวอักษรซ้ำเมื่อลบบนแป้น 10 ปุ่ม
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Kéo cụm từ này lên cụm từ khác để tạo ngăn xếp.
+Giờ bạn có thể tắt rung bàn phím.
+Bàn phím và hướng dẫn theo ngôn ngữ của ứng dụng.
+Cụm từ mới hiện ngay trong danh mục đã tạo.
+Sửa lỗi lặp chữ khi xóa trên bàn phím 10 phím.
+```
+
+### App Store (French, fr-FR)
+
+```
+Glissez une phrase sur une autre pour créer une pile.
+Vous pouvez désactiver la vibration du clavier.
+Le clavier et le guide suivent la langue de l’app.
+Les nouvelles phrases s’affichent dans leur catégorie.
+Lettres doublées corrigées à l’effacement sur le pavé à 10 touches.
+```
+
+### App Store (Italian, it)
+
+```
+Trascina una frase su un’altra per creare una pila.
+Ora puoi disattivare la vibrazione della tastiera.
+Tastiera e guida seguono la lingua dell’app.
+Le nuove frasi appaiono subito nella loro categoria.
+Risolte le lettere doppie cancellando sul tastierino a 10 tasti.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+Arraste uma frase sobre outra para criar uma pilha.
+Agora dá para desligar a vibração do teclado.
+O teclado e o guia seguem o idioma do app.
+Frases novas aparecem direto na categoria certa.
+Corrigidas letras duplicadas ao apagar no teclado de 10 teclas.
+```
+
+### App Store (Czech, cs)
+
+```
+Přetažením fráze na jinou vytvoříte zásobník.
+Vibrace klávesnice teď jde vypnout.
+Klávesnice a návod se řídí jazykem aplikace.
+Nové fráze se hned zobrazí ve své kategorii.
+Opraveno zdvojení písmen při mazání na 10 klávesách.
+```
+
+### App Store (Danish, da)
+
+```
+Træk en frase hen på en anden for at lave en stak.
+Nu kan du slå tastaturets vibration fra.
+Tastatur og vejledning følger appens sprog.
+Nye fraser vises straks i deres kategori.
+Rettet dobbelte bogstaver ved sletning på 10-tastaturet.
+```
+
+### App Store (Greek, el)
+
+```
+Σύρετε μια φράση πάνω σε άλλη για να φτιάξετε στοίβα.
+Μπορείτε πλέον να κλείσετε τη δόνηση πληκτρολογίου.
+Πληκτρολόγιο και οδηγός ακολουθούν τη γλώσσα της εφαρμογής.
+Οι νέες φράσεις εμφανίζονται αμέσως στην κατηγορία τους.
+Διορθώθηκαν διπλά γράμματα στη διαγραφή με 10 πλήκτρα.
+```
+
+### App Store (Finnish, fi)
+
+```
+Vedä fraasi toisen päälle, niin syntyy pino.
+Näppäimistön värinän voi nyt laittaa pois.
+Näppäimistö ja ohje seuraavat apin kieltä.
+Uudet fraasit näkyvät heti omassa kategoriassaan.
+Korjattu kaksoiskirjaimet poistettaessa 10-näppäimistöllä.
+```
+
+### App Store (Indonesian, id)
+
+```
+Seret satu frasa ke frasa lain untuk membuat tumpukan.
+Kini getaran keyboard bisa dimatikan.
+Keyboard dan panduan mengikuti bahasa app.
+Frasa baru langsung muncul di kategorinya.
+Memperbaiki huruf ganda saat menghapus di keyboard 10 tombol.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Dra en frase over på en annen for å lage en stabel.
+Nå kan du slå av tastaturvibrering.
+Tastatur og veiledning følger appspråket.
+Nye fraser vises straks i kategorien sin.
+Rettet doble bokstaver ved sletting på 10-tastaturet.
+```
+
+### App Store (Dutch, nl)
+
+```
+Sleep een fragment op een ander om een stapel te maken.
+Je kunt de toetsenbordtril nu uitzetten.
+Toetsenbord en uitleg volgen de taal van de app.
+Nieuwe fragmenten staan meteen in hun categorie.
+Dubbele letters bij wissen op het 10-toetsenbord opgelost.
+```
+
+### App Store (Polish, pl)
+
+```
+Przeciągnij frazę na inną, aby utworzyć stos.
+Wibracje klawiatury można już wyłączyć.
+Klawiatura i poradnik używają języka aplikacji.
+Nowe frazy od razu widać w ich kategorii.
+Naprawiono podwójne litery przy usuwaniu na 10 klawiszach.
+```
+
+### App Store (Swedish, sv)
+
+```
+Dra en fras till en annan för att skapa en stapel.
+Nu kan du stänga av tangentbordets vibration.
+Tangentbord och guide följer appens språk.
+Nya fraser syns direkt i sin kategori.
+Åtgärdat dubbla bokstäver vid radering på 10-tangentbordet.
+```
+
+### App Store (Turkish, tr)
+
+```
+Bir ifadeyi diğerinin üzerine sürükleyip yığın yapın.
+Klavye titreşimi artık kapatılabiliyor.
+Klavye ve kılavuz uygulama dilini izliyor.
+Yeni ifadeler hemen kendi kategorisinde görünüyor.
+10 tuşlu klavyede silerken çift harf sorunu düzeltildi.
+```
+
 ## 5.1.16
 
 ### 앱스토어 (한국어)

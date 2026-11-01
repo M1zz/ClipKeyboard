@@ -165,6 +165,8 @@ class KeyboardViewController: UIInputViewController {
         // 처음 자판 언어를 고르는 규칙이 바뀌었다. 예전에 띄운 적 있는 사람은 쓰던 목록을 그대로 둔다.
         // ⚠️ 아래에서 `keyboardExtensionDidLoad` 를 적기 전이어야 한다.
         TypingPrefs.keepLegacyDefaultIfNeeded()
+        // 앱이나 iOS 에서 언어를 바꾸고 왔으면 그 언어로 연다. 화면을 만들기 전이어야 한다.
+        TypingPrefs.followSettingLanguage()
 
         // ⚠️ 무거운 준비(단축어 읽기 · SwiftUI 판)보다 **먼저** 묻는다. 죽는 자리가 그 안이다.
         if crashGuard.beginLaunch() {
@@ -1358,6 +1360,13 @@ extension KeyboardViewController: TypingInputProxy {
     func finishComposingText() {
         if !composingShown.isEmpty { textDocumentProxy.insertText(composingShown) }
         composingShown = ""
+    }
+    /// 밑줄 자리에 `text` 를 넣어 한 번에 확정한다. 밑줄을 먼저 줄이지 않는다(`ComposingText.commit`).
+    func finishComposingText(with text: String, replacing shown: String) {
+        textDocumentProxy.insertText(text)
+        composingShown = ""
+        noteTypedOnTypingPanel()
+        updateHasTextState()
     }
     /// 엔터 입력
     func insertNewline() {

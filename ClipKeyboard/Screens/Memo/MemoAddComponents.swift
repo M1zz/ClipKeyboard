@@ -845,7 +845,7 @@ struct ContentInputSection: View {
 
         switch type {
         case .email: return "example@email.com"
-        case .phone: return "010-1234-5678"
+        case .phone: return AppLanguage.contentLanguageCode == "ko" ? "010-1234-5678" : "+1 555 123 4567"
         case .address: return NSLocalizedString("서울시 강남구 테헤란로 123", comment: "Address placeholder")
         case .url: return "https://example.com"
         case .creditCard: return "1234-5678-9012-3456"

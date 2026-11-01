@@ -677,6 +677,12 @@
     "comment": "Usage profile evidence: N snippets contain a word",
     "h": "f6dbc64bba"
   },
+  "'%1$@' 뒤에 '%2$@' 묶기": {
+    "ko": "'%1$@' 뒤에 '%2$@' 묶기",
+    "en": "Add '%2$@' after '%1$@'",
+    "comment": "Dialog title after dropping a snippet card on another. %1$@ is the card it was dropped on, %2$@ the dragged card",
+    "h": "4a961d65e7"
+  },
   "'%@' 값을 수정하세요.": {
     "ko": "'%@' 값을 수정하세요.",
     "en": "Edit '%@' value.",
@@ -2498,8 +2504,8 @@
   "Pro 활성화 완료!": {
     "ko": "Pro 활성화 완료!",
     "en": "Pro Activated!",
-    "comment": "Pro activated\nPro activated announcement",
-    "h": "1aca27c396"
+    "comment": "Pro activated",
+    "h": "f22289f620"
   },
   "Pro 활성화됨": {
     "ko": "Pro 활성화됨",
@@ -4855,9 +4861,9 @@
   },
   "김서연": {
     "ko": "김서연",
-    "en": "Alice Kim",
+    "en": "Alice Smith",
     "comment": "Feature lesson template: sample person name 1",
-    "h": "a2e2efa57b"
+    "h": "5b99ad3c20"
   },
   "깊은 초록이에요. 어두운 화면에서 눈이 편합니다.": {
     "ko": "깊은 초록이에요. 어두운 화면에서 눈이 편합니다.",
@@ -4913,11 +4919,29 @@
     "comment": "Keep original snippet toggle description",
     "h": "b643c858e1"
   },
+  "끄면 키를 눌러도 진동이 울리지 않아요. 키 소리는 iOS 설정을 따라요.": {
+    "ko": "끄면 키를 눌러도 진동이 울리지 않아요. 키 소리는 iOS 설정을 따라요.",
+    "en": "When off, keys won't vibrate when you press them. Key sounds follow your iOS settings.",
+    "comment": "Footer for the keyboard vibration toggle. Key click sound follows the iOS system setting.",
+    "h": "9c29fdfaad"
+  },
   "끄면 키보드 아래의 마이크가 사라져요. 말로 받아쓰기를 쓴다면 켜 두세요.": {
     "ko": "끄면 키보드 아래의 마이크가 사라져요. 말로 받아쓰기를 쓴다면 켜 두세요.",
     "en": "Turning it off removes the microphone below the keyboard. Leave it on if you dictate.",
     "comment": "Only-this-keyboard guide: turning off dictation hides the microphone",
     "h": "8bedfb30fb"
+  },
+  "끌어서 스택 만들기": {
+    "ko": "끌어서 스택 만들기",
+    "en": "Drag to Stack",
+    "comment": "Drag to stack screen title and menu row",
+    "h": "417bafd89e"
+  },
+  "끌어온 카드는 스택의 다음 칸이 되고 목록에서 사라져요.": {
+    "ko": "끌어온 카드는 스택의 다음 칸이 되고 목록에서 사라져요.",
+    "en": "The dragged card becomes the next step of the stack and leaves the list.",
+    "comment": "Dialog message: the dragged card becomes the next step of the stack and leaves the list",
+    "h": "c71da8dab9"
   },
   "끔": {
     "ko": "끔",
@@ -6488,8 +6512,8 @@
   "더 보기": {
     "ko": "더 보기",
     "en": "More",
-    "comment": "More options menu label",
-    "h": "fdeec8e241"
+    "comment": "Show more\nVoiceOver action: open memo actions",
+    "h": "ca08eeb7e9"
   },
   "더 설정하기": {
     "ko": "더 설정하기",
@@ -7496,8 +7520,8 @@
   "무료": {
     "ko": "무료",
     "en": "Free",
-    "comment": "Feedback auto info: free plan\nFree",
-    "h": "3e4da5bf1a"
+    "comment": "Feedback auto info: free plan\nFree\nSettings: free plan label at the start of the progress bar",
+    "h": "7fb9506f11"
   },
   "무료 %1$d개 · 지금 %2$d개": {
     "ko": "무료 %1$d개 · 지금 %2$d개",
@@ -7673,6 +7697,18 @@
     "comment": "Bulk import: enter combo bundling mode",
     "h": "da00ec5aa8"
   },
+  "묶을 수 있는 단축어가 두 개 이상 필요해요": {
+    "ko": "묶을 수 있는 단축어가 두 개 이상 필요해요",
+    "en": "You need at least two snippets that can be stacked",
+    "comment": "Drag to stack screen: fewer than two snippets can be stacked",
+    "h": "a32c595259"
+  },
+  "묶지 못했습니다": {
+    "ko": "묶지 못했습니다",
+    "en": "Couldn't stack these",
+    "comment": "Toast: dragged snippets could not be stacked",
+    "h": "bd36f5f5ff"
+  },
   "문구를 만드실 때 실제로 치는 속도를 재 두었다가 그 속도로 셈해요. 어림하던 것을 하나 줄였어요": {
     "ko": "문구를 만드실 때 실제로 치는 속도를 재 두었다가 그 속도로 셈해요. 어림하던 것을 하나 줄였어요",
     "en": "We measure how fast you actually type while you create a snippet, and count with that. One assumption fewer.",
@@ -7825,9 +7861,9 @@
   },
   "박서연": {
     "ko": "박서연",
-    "en": "Alex Kim",
+    "en": "Alex Smith",
     "comment": "Template tutorial: alternate example name",
-    "h": "c8810d8f41"
+    "h": "5115597db0"
   },
   "반값으로 평생 사용": {
     "ko": "반값으로 평생 사용",
@@ -8284,6 +8320,12 @@
     "en": "Now tap send",
     "comment": "Blank start: send again subline",
     "h": "8205e1634c"
+  },
+  "보내기를 누르면 메일 앱이 열려요. 메일에서 한 번 더 보내야 전달돼요. iCloud에 로그인하면 앱에서 바로 보내져요.": {
+    "ko": "보내기를 누르면 메일 앱이 열려요. 메일에서 한 번 더 보내야 전달돼요. iCloud에 로그인하면 앱에서 바로 보내져요.",
+    "en": "Tapping Send opens the Mail app, and you'll need to send it from there too. Sign in to iCloud to send directly from the app.",
+    "comment": "Feedback notice body: why the Mail app opens when sending feedback, and how to avoid it",
+    "h": "ade455e417"
   },
   "보내면 말풍선이 돼요": {
     "ko": "보내면 말풍선이 돼요",
@@ -9871,9 +9913,9 @@
   },
   "서울시 강남구 테헤란로 123": {
     "ko": "서울시 강남구 테헤란로 123",
-    "en": "123 Teheran-ro, Gangnam-gu, Seoul",
+    "en": "123 Main Street, Springfield",
     "comment": "Address placeholder",
-    "h": "febc08f491"
+    "h": "fb98b97277"
   },
   "서울특별시 종로구 청와대로 1": {
     "ko": "서울특별시 종로구 청와대로 1",
@@ -11450,8 +11492,8 @@
   "언어": {
     "ko": "언어",
     "en": "Language",
-    "comment": "Section: language\nSettings: app language",
-    "h": "d9a6ac3cd1"
+    "comment": "Language\nSection: language\nSettings: app language",
+    "h": "a13fcc7d26"
   },
   "언제, 어느 기기에서 샀나요? (선택)": {
     "ko": "언제, 어느 기기에서 샀나요? (선택)",
@@ -14072,8 +14114,8 @@
   "접기": {
     "ko": "접기",
     "en": "Collapse",
-    "comment": "Collapse filter bar\nPlaceholder value list: collapse",
-    "h": "629f11d4ce"
+    "comment": "Collapse\nCollapse filter bar\nPlaceholder value list: collapse",
+    "h": "06815fb61b"
   },
   "접수된 피드백": {
     "ko": "접수된 피드백",
@@ -14615,11 +14657,17 @@
     "comment": "Vault: balance label",
     "h": "7d01833b23"
   },
+  "지금은 iCloud를 쓸 수 없어요": {
+    "ko": "지금은 iCloud를 쓸 수 없어요",
+    "en": "iCloud isn't available right now",
+    "comment": "Feedback notice title: iCloud is not available, so feedback goes through Mail",
+    "h": "99300cf929"
+  },
   "지금은 괜찮아요": {
     "ko": "지금은 괜찮아요",
     "en": "Not now",
-    "comment": "Category cleanup dismiss\nDiscount offer decline",
-    "h": "544d163fe7"
+    "comment": "Category cleanup dismiss",
+    "h": "cfd4f1f935"
   },
   "지금은 모든 기능이 무료예요. %d번 남았어요": {
     "ko": "지금은 모든 기능이 무료예요. %d번 남았어요",
@@ -15278,8 +15326,8 @@
   "추천": {
     "ko": "추천",
     "en": "Best value",
-    "comment": "Paywall plan badge: recommended\nPlan: recommended badge\nSettings: recommended preset badge",
-    "h": "6166dabea0"
+    "comment": "Paywall plan badge: recommended\nSettings: recommended preset badge",
+    "h": "9190a625fe"
   },
   "추천 단축어 %@": {
     "ko": "추천 단축어 %@",
@@ -15382,6 +15430,12 @@
     "en": "Tap the card",
     "comment": "Feature lesson secure: subline",
     "h": "53eb6f1218"
+  },
+  "카드를 다른 카드 위에 놓으면 그 뒤에 묶여요": {
+    "ko": "카드를 다른 카드 위에 놓으면 그 뒤에 묶여요",
+    "en": "Drop a card on another to add it after that card",
+    "comment": "Drag to stack screen hint",
+    "h": "7a1d55b248"
   },
   "카드만 깔끔하게 보여요.": {
     "ko": "카드만 깔끔하게 보여요.",
@@ -16270,6 +16324,12 @@
     "en": "Keyboard insertions",
     "comment": "Keyboard total uses",
     "h": "7564fef1b3"
+  },
+  "키보드 진동": {
+    "ko": "키보드 진동",
+    "en": "Keyboard vibration",
+    "comment": "Toggle: vibrate when using the keyboard",
+    "h": "40fbf8be97"
   },
   "키보드 추가": {
     "ko": "키보드 추가",

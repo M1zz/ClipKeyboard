@@ -89,6 +89,38 @@ enum TypingPrefs {
         print("🔄 [TypingPrefs.keepLegacyDefaultIfNeeded] 기존 사용자의 입력 언어를 그대로 둔다: \(raw(from: legacy))")
     }
 
+    /// 설정 언어(앱에서 고른 언어, 없으면 기기 언어)가 바뀌면 자판이 그 언어로 열린다.
+    ///
+    /// 왜: 입력 언어 목록은 한 번 저장되면 그대로라, 언어를 바꿔도 키보드만 옛 언어로 남았다
+    /// (사용자 피드백 2026-11: "키보드는 설정 언어기준으로 나와야해").
+    ///
+    /// ⚠️ **바뀔 때만** 따라간다. 뜰 때마다 맞추면 언어 키로 고른 언어와 설정에서 뺀 언어가 매번 되돌아온다.
+    /// ⚠️ 처음 한 번은 기준만 적는다. 기기 언어를 일부러 뺀 사람의 목록을 업데이트가 건드리지 않게.
+    ///    다만 앱에서 직접 고른 언어가 목록에 없으면 그때 맞춘다. 고른 언어를 일부러 빼는 일은 드물다.
+    static func followSettingLanguage(defaults: UserDefaults? = AppGroup.defaults,
+                                      preferred: [String] = Locale.preferredLanguages) {
+        guard let defaults else { return }
+        let app = defaults.string(forKey: DefaultsKey.appLanguage).flatMap(TypingLanguage.match)
+        guard let setting = app ?? preferred.first.flatMap(TypingLanguage.match) else { return }
+
+        let previous = defaults.string(forKey: DefaultsKey.keyboardFollowedLanguage)
+        guard previous != setting.rawValue else { return }
+        defaults.set(setting.rawValue, forKey: DefaultsKey.keyboardFollowedLanguage)
+
+        let stored = defaults.string(forKey: languagesKey) ?? ""
+        let list = languages(from: stored, koreanWasEnabled: defaults.bool(forKey: DefaultsKey.keyboardKoreanEnabled))
+        if previous == nil && (app == nil || list.contains(setting)) { return }
+
+        // 비어 있는 목록은 뜰 때마다 계산되어 이미 이 언어를 담는다. 저장하면 앞으로 따라가지 못한다.
+        if !stored.isEmpty && !list.contains(setting) {
+            defaults.set(raw(from: [setting] + list), forKey: languagesKey)
+            // 검색칸 자판의 한/EN 키가 보는 값(`TypingLanguagesSettings.save`).
+            if setting == .ko { defaults.set(true, forKey: KeyboardPrefs.koreanEnabled.key) }
+        }
+        defaults.set(setting.rawValue, forKey: currentKey)
+        print("🔄 [TypingPrefs.followSettingLanguage] 자판을 설정 언어로: \(setting.rawValue)")
+    }
+
     static func raw(from languages: [TypingLanguage]) -> String {
         languages.map(\.rawValue).joined(separator: ",")
     }

@@ -3014,8 +3014,8 @@
     "src": "e678de395f"
   },
   "고르면 여기에 열려요": {
-    "src": "83a577dde6",
-    "v": "Velg noe, så åpnes det her"
+    "v": "Velg noe, så åpnes det her",
+    "src": "83a577dde6"
   },
   "고르신 쓰임새에 맞는 갈래와 문구를 골라 알려드려요": {
     "v": "Vi viser kategoriene og frasene som passer til hvordan du bruker appen",
@@ -3222,8 +3222,8 @@
     "src": "0200132a0a"
   },
   "그림 단축어": {
-    "src": "eaa36fcde2",
-    "v": "Bildefrase"
+    "v": "Bildefrase",
+    "src": "eaa36fcde2"
   },
   "그전까지는 일반으로 둬요. 예전 기본값이던 디지털 노마드는 앱이 출발한 자리지 쓰시는 분의 자리가 아니었어요": {
     "v": "Frem til da er det satt til Generelt. Den gamle standarden, Digital nomade, var der appen startet, ikke der du er",
@@ -3518,7 +3518,7 @@
     "src": "3104c902cf"
   },
   "김서연": {
-    "v": "Alice Kim",
+    "v": "Alice Smith",
     "src": "a2e2efa57b"
   },
   "깊은 초록이에요. 어두운 화면에서 눈이 편합니다.": {
@@ -5663,8 +5663,8 @@
     "src": "b7c7ded4bc"
   },
   "방금 복사함": {
-    "src": "02d7e18ccc",
-    "v": "Nettopp kopiert"
+    "v": "Nettopp kopiert",
+    "src": "02d7e18ccc"
   },
   "배경 없음": {
     "v": "Ingen bakgrunn",
@@ -5995,8 +5995,8 @@
     "src": "5263aaf2b9"
   },
   "보안 단축어라 값은 보이지 않아요": {
-    "src": "9b105a42a7",
-    "v": "Sikker frase, så verdien holdes skjult"
+    "v": "Sikker frase, så verdien holdes skjult",
+    "src": "9b105a42a7"
   },
   "보안 단축어로 설정": {
     "v": "Gjør sikker",
@@ -10706,11 +10706,11 @@
     "src": "b70be55387"
   },
   "최근 · %d일": {
-    "src": "b46b18195e",
     "v": {
       "one": "Nylig · %d dag",
       "other": "Nylig · %d dager"
-    }
+    },
+    "src": "b46b18195e"
   },
   "최근 단축어": {
     "v": "Nylige fraser",
@@ -10869,8 +10869,8 @@
     "src": "b1666e29c5"
   },
   "카드를 누르면 복사한 값이 여기 보여요": {
-    "src": "b8ed4c2d5c",
-    "v": "Trykk på et kort, så vises det du kopierte her"
+    "v": "Trykk på et kort, så vises det du kopierte her",
+    "src": "b8ed4c2d5c"
   },
   "카드를 눌러 보세요": {
     "v": "Trykk på kortet",
@@ -12786,5 +12786,45 @@
   "%@ 다음 값": {
     "v": "Neste verdi for %@",
     "src": "574de73435"
+  },
+  "'%1$@' 뒤에 '%2$@' 묶기": {
+    "v": "Legg til «%2$@» etter «%1$@»",
+    "src": "4a961d65e7"
+  },
+  "끄면 키를 눌러도 진동이 울리지 않아요. 키 소리는 iOS 설정을 따라요.": {
+    "v": "Når den er av, vibrerer ikke tastene når du trykker på dem. Tastelyden følger innstillingene i iOS.",
+    "src": "9c29fdfaad"
+  },
+  "끌어서 스택 만들기": {
+    "v": "Dra for å stable",
+    "src": "417bafd89e"
+  },
+  "끌어온 카드는 스택의 다음 칸이 되고 목록에서 사라져요.": {
+    "v": "Kortet du drar blir neste trinn i stabelen og forsvinner fra listen.",
+    "src": "c71da8dab9"
+  },
+  "묶을 수 있는 단축어가 두 개 이상 필요해요": {
+    "v": "Du trenger minst to fraser som kan stables",
+    "src": "a32c595259"
+  },
+  "묶지 못했습니다": {
+    "v": "Kunne ikke stable",
+    "src": "bd36f5f5ff"
+  },
+  "카드를 다른 카드 위에 놓으면 그 뒤에 묶여요": {
+    "v": "Slipp et kort på et annet for å legge det etter det",
+    "src": "7a1d55b248"
+  },
+  "키보드 진동": {
+    "v": "Tastaturvibrering",
+    "src": "40fbf8be97"
+  },
+  "지금은 iCloud를 쓸 수 없어요": {
+    "v": "iCloud er ikke tilgjengelig akkurat nå",
+    "src": "99300cf929"
+  },
+  "보내기를 누르면 메일 앱이 열려요. 메일에서 한 번 더 보내야 전달돼요. iCloud에 로그인하면 앱에서 바로 보내져요.": {
+    "v": "Når du trykker på Send, åpnes Mail-appen, og du må sende derfra også. Logg på iCloud for å sende direkte fra appen.",
+    "src": "ade455e417"
   }
 }

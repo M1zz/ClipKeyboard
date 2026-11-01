@@ -317,6 +317,8 @@ enum DefaultsKey {
     static let keyboardTypingLanguages = "keyboardTypingLanguages.v1"
     /// 기존 사용자의 입력 언어를 저장해 두는 일을 마쳤는가(App Group, Bool). `TypingPrefs.keepLegacyDefaultIfNeeded`.
     static let keyboardTypingDefaultsSettled = "keyboardTypingDefaultsSettled.v1"
+    /// 자판이 마지막으로 따라간 설정 언어(`TypingLanguage.rawValue`). `TypingPrefs.followSettingLanguage`.
+    static let keyboardFollowedLanguage = "keyboardFollowedLanguage.v1"
     /// iOS 에 켜 둔 키보드의 언어 코드들(App Group, [String]). 앱이 `AppleKeyboards` 에서 뽑아 적고,
     /// 키보드가 처음 자판 언어를 고를 때 본다(`TypingPrefs.userLanguageCodes`).
     static let keyboardUserKeyboardLanguages = "keyboardUserKeyboardLanguages.v1"
@@ -331,6 +333,11 @@ enum DefaultsKey {
     /// 사용자 요청에서 왔다: "단축어 입력하면 쓰던 키보드로 돌아오게 해줘. 누구는 다시 안 돌아가고 싶을 수 있으니까 설정으로."
     /// ⚠️ iOS 에는 '앞 키보드로' 가는 API 가 없다. 목록의 **다음** 키보드로 간다(대개 쓰던 키보드).
     static let keyboardReturnAfterSnippet = "keyboardReturnAfterSnippet.v1"
+    /// 키보드에서 진동을 울릴지. App Group. **기본 켬**(`KeyboardPrefs.vibrates`).
+    ///
+    /// 사용자 요청에서 왔다: "기본 키보드 사용할 때 입력반응 없이 사용했어서 입력 시 진동없도록."
+    /// ⚠️ `delightEffectsEnabled` 와 따로 둔다. 그쪽은 앱 전체의 연출까지 끄는 스위치다.
+    static let keyboardVibrates = "keyboardVibrates.v1"
     /// 목록 카드의 최소 높이(pt). 표준 UserDefaults (앱 전용).
     static let memoCardHeight = "memoCardHeight"
     static let koreanEnabledMigratedV1 = "koreanEnabledMigrated_v1"
@@ -692,6 +699,8 @@ enum KeyboardPrefs {
     static let koreanLayout = Pref(key: DefaultsKey.keyboardKoreanLayout, fallback: "dubeolsik")
     /// 단축어를 넣으면 쓰던 키보드로 돌아간다. 기본 켬(앱 주인이 바란 동작). 이유는 `DefaultsKey` 에.
     static let returnAfterSnippet = Pref(key: DefaultsKey.keyboardReturnAfterSnippet, fallback: true)
+    /// 키보드 진동. 기본 켬(지금까지의 동작). 이유는 `DefaultsKey` 에.
+    static let vibrates = Pref(key: DefaultsKey.keyboardVibrates, fallback: true)
 
     // 앱과 같이 쓰는 표시 (기본값이 다르면 앱에서는 안 보이고 키보드에서만 보인다)
     static let showVisualCues = Pref(key: DefaultsKey.showVisualCues, fallback: false)

@@ -112,13 +112,13 @@ struct HelpSettingsView: View {
     /// 처리방침 주소는 App Store Connect 에 등록한 것과 같아야 한다.
     private var legalSection: some View {
         Section {
-            if let url = URL(string: Constants.privacyPolicyURL) {
+            if let url = URL(string: Constants.inAppWebURL(Constants.privacyPolicyURL)) {
                 Link(destination: url) {
                     Label(NSLocalizedString("개인정보 처리방침", comment: "Privacy policy settings entry"),
                           systemImage: AppSymbol.lockShield)
                 }
             }
-            if let url = URL(string: Constants.termsOfUseURL) {
+            if let url = URL(string: Constants.inAppWebURL(Constants.termsOfUseURL)) {
                 Link(destination: url) {
                     Label(NSLocalizedString("이용약관", comment: "Terms of use settings entry"),
                           systemImage: AppSymbol.docText)

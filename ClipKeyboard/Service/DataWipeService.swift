@@ -78,7 +78,7 @@ enum DataWipeService {
         guard let containerURL = fm.containerURL(
             forSecurityApplicationGroupIdentifier: AppGroup.identifier
         ) else {
-            result.failures.append("App Group 컨테이너 접근 실패")
+            result.failures.append("App Group")
             AppLog.error(.wipe, "❌ [DataWipeService.wipeAll] App Group 컨테이너를 찾을 수 없음")
             return result
         }

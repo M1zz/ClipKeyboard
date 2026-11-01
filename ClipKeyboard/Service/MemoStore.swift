@@ -604,7 +604,7 @@ class MemoStore: ObservableObject {
     /// 그림을 저장하고 파일 이름을 돌려준다. 이름의 확장자가 형식을 말한다(붙여 넣을 때 그 형식으로 얹는다).
     func saveImage(_ image: UIImage) throws -> String {
         guard let encoded = Self.storageEncoding(for: image) else {
-            throw NSError(domain: "MemoStore", code: 2, userInfo: [NSLocalizedDescriptionKey: "이미지를 저장 형식으로 바꿀 수 없음"])
+            throw NSError(domain: "MemoStore", code: 2, userInfo: [NSLocalizedDescriptionKey: "Could not encode the image"])
         }
         let fileName = "\(UUID().uuidString).\(encoded.fileExtension)"
         try writeImageData(encoded.data, fileName: fileName)
@@ -615,7 +615,7 @@ class MemoStore: ObservableObject {
         guard let containerURL = FileManager.default.containerURL(
             forSecurityApplicationGroupIdentifier: AppGroup.identifier
         ) else {
-            throw NSError(domain: "MemoStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "App Group 컨테이너를 찾을 수 없음"])
+            throw NSError(domain: "MemoStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "App Group container not found"])
         }
         let imagesDirectory = containerURL.appendingPathComponent("Images")
         if !FileManager.default.fileExists(atPath: imagesDirectory.path) {
@@ -630,7 +630,7 @@ class MemoStore: ObservableObject {
         guard let containerURL = FileManager.default.containerURL(
             forSecurityApplicationGroupIdentifier: AppGroup.identifier
         ) else {
-            throw NSError(domain: "MemoStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "App Group 컨테이너를 찾을 수 없음"])
+            throw NSError(domain: "MemoStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "App Group container not found"])
         }
 
         let imagesDirectory = containerURL.appendingPathComponent("Images")
@@ -639,7 +639,7 @@ class MemoStore: ObservableObject {
         }
 
         guard let imageData = image.pngData() else {
-            throw NSError(domain: "MemoStore", code: 2, userInfo: [NSLocalizedDescriptionKey: "이미지를 PNG로 변환할 수 없음"])
+            throw NSError(domain: "MemoStore", code: 2, userInfo: [NSLocalizedDescriptionKey: "Could not convert the image to PNG"])
         }
         try imageData.write(to: imagesDirectory.appendingPathComponent(fileName), options: .atomic)
     }
@@ -708,7 +708,7 @@ class MemoStore: ObservableObject {
         guard let containerURL = FileManager.default.containerURL(
             forSecurityApplicationGroupIdentifier: AppGroup.identifier
         ) else {
-            throw NSError(domain: "MemoStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "App Group 컨테이너를 찾을 수 없음"])
+            throw NSError(domain: "MemoStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "App Group container not found"])
         }
 
         let fileURL = containerURL.appendingPathComponent("Images").appendingPathComponent(fileName)

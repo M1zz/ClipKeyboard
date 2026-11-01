@@ -53,5 +53,14 @@ protocol MemoSelectionModel: ObservableObject {
     func showPlainToast(_ message: String)
 }
 
+/// 끌어서 스택 만들기 화면이 저장소에 바라는 것.
+@MainActor
+protocol MemoStackModel: ObservableObject {
+    /// 지금 탭의 단축어.
+    func scopedMemosForCurrentTab() -> [Memo]
+    /// - Returns: 묶었으면 true.
+    @discardableResult func stackMemo(_ draggedID: UUID, onto targetID: UUID) -> Bool
+}
+
 // ClipKeyboardListViewModel 이 이미 이 모양을 갖추고 있다. 여기서는 약속만 맺는다.
-extension ClipKeyboardListViewModel: MemoReorderModel, MemoSelectionModel {}
+extension ClipKeyboardListViewModel: MemoReorderModel, MemoSelectionModel, MemoStackModel {}

@@ -128,8 +128,8 @@ struct PaywallLadder: View {
 
     private var legalLinks: some View {
         HStack(spacing: 20) {
-            link(NSLocalizedString("이용약관", comment: "Terms of use link"), Constants.termsOfUseURL)
-            link(NSLocalizedString("개인정보 처리방침", comment: "Privacy policy link"), Constants.privacyPolicyURL)
+            link(NSLocalizedString("이용약관", comment: "Terms of use link"), Constants.inAppWebURL(Constants.termsOfUseURL))
+            link(NSLocalizedString("개인정보 처리방침", comment: "Privacy policy link"), Constants.inAppWebURL(Constants.privacyPolicyURL))
         }
         .frame(maxWidth: .infinity)
     }
