@@ -120,8 +120,8 @@ enum KeyboardHeightBook {
         let buttonFloor = preset == .compact
             ? minimumContentHeight
             : max(content.floorHeight, minimumContentHeight)
-        // 아이폰 세로에서는 어떤 높이를 골라도 키보드 전체가 화면의 46% 아래로 내려가지 않는다.
-        let floor = max(buttonFloor, minimumShareHeight(for: size))
+        // 아이폰 세로에서는 어떤 높이를 골라도 키보드 전체가 언어별 바닥(43% · 46%) 아래로 내려가지 않는다.
+        let floor = max(buttonFloor, minimumShareHeight(for: size, typingRows: content.typingRowCount))
 
         // ③ 그러나 화면을 통째로 먹지는 않는다. 가로에서 ② 를 그대로 쓰면 본문이 사라진다.
         let ceiling = maximumContentHeight(for: size)
@@ -155,20 +155,32 @@ enum KeyboardHeightBook {
     /// 키보드가 화면을 덮으면 무엇에 입력하고 있는지가 안 보인다. 세로에서는 화면의 55%,
     /// 가로에서는 62% 까지만 쓴다(가로는 화면이 낮아 같은 비율로는 키가 안 들어간다).
     ///
-    /// ⚠️ 한때 41% 였다(시스템 키보드가 가장 높을 때와 같게). 키가 너무 낮아져서 바닥 46% 를 두고
+    /// ⚠️ 한때 41% 였다(시스템 키보드가 가장 높을 때와 같게). 키가 너무 낮아져서 바닥을 두고
     ///    상한은 55% 로 되돌렸다(2026-10 사용자: "46%를 최소선으로 하자 지금은 너무 높이가 낮다").
+    ///    바닥은 자판 줄 수에 따라 다르다(`minimumShareHeight`).
     static let portraitShare: CGFloat = 0.55
     static let landscapeShare: CGFloat = 0.62
-    /// 아이폰 세로에서 키보드 전체가 화면에서 차지하는 가장 낮은 몫.
-    static let portraitMinimumShare: CGFloat = 0.46
+    /// 아이폰 세로에서 키보드 전체가 화면에서 차지하는 가장 낮은 몫. 자판이 4줄인 언어.
+    /// 46% 를 그대로 쓰면 키가 54~62pt 로 기본 키보드(42~46pt)보다 너무 커진다.
+    static let portraitMinimumShare: CGFloat = 0.43
+    /// 자판이 5줄인 언어(태국어 · 번체 주음) · 작은 화면. 줄이 많거나 화면이 낮아 키가 먼저 모자란다.
+    static let portraitRoomyMinimumShare: CGFloat = 0.46
+    /// 이보다 낮은 화면(iPhone SE)은 4줄 언어도 43% 로는 키가 36pt 아래로 줄어든다.
+    static let smallPhoneHeight: CGFloat = 700
 
-    /// 아이폰 세로에서 우리 판이 이보다 낮아지지는 않는다(키보드 전체가 화면의 46%).
+    /// 아이폰 세로에서 우리 판이 이보다 낮아지지는 않는다.
     /// 가로 · 아이패드는 화면 모양이 달라 같은 몫을 대지 않는다.
-    static func minimumShareHeight(for size: CGSize) -> CGFloat {
+    ///
+    /// - Parameter typingRows: 지금 언어의 자판 줄 수(맨 아랫줄 포함). 단축어 판도 같은 값을 써서,
+    ///   자판과 단축어 판을 오갈 때 높이가 튀지 않는다.
+    static func minimumShareHeight(for size: CGSize, typingRows: Int = 4) -> CGFloat {
         let isLandscape = size.width > size.height
         let isPad = min(size.width, size.height) >= 600
         guard !isLandscape, !isPad else { return 0 }
-        return size.height * portraitMinimumShare - systemChrome(for: size)
+        let share = typingRows >= 5 || size.height < smallPhoneHeight
+            ? portraitRoomyMinimumShare
+            : portraitMinimumShare
+        return size.height * share - systemChrome(for: size)
     }
 
     static func maximumContentHeight(for size: CGSize) -> CGFloat {
@@ -207,6 +219,8 @@ enum KeyboardHeightBook {
         var buttonHeight: CGFloat = CGFloat(KeyboardPrefs.buttonHeight.fallback)
         /// 한 줄에 서는 키 개수. 설정에서 1~5.
         var columns: Int = KeyboardPrefs.columnCount.fallback
+        /// 지금 언어의 자판 줄 수(맨 아랫줄 포함). 아이폰 세로의 높이 바닥이 여기서 갈린다.
+        var typingRowCount: Int = 4
         /// 적어도 이만큼은 보인다. 셋만 보이면 목록이 아니라 조각으로 읽힌다.
         var minimumVisibleButtons: Int = 6
 
@@ -246,6 +260,7 @@ enum KeyboardHeightBook {
         // 머리 줄 높이가 여기서 나온다. 안 읽으면 조작 키를 키운 만큼 첫 줄이 잘린다.
         let rawControl = KeyboardPrefs.controlKeySize.value(in: defaults)
         metrics.controlKeySize = resolvedControlKeySize(rawControl)
+        metrics.typingRowCount = TypingPrefs.currentLanguage().typingRowCount
         return metrics
     }
 

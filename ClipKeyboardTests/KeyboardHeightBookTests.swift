@@ -20,7 +20,7 @@ import UIKit
 
 final class KeyboardHeightBookTests: XCTestCase {
 
-    /// 바닥(아이폰 세로 46%)에 걸리지 않는 화면. 아이폰 세로는 시스템 키보드가 39~41% 라 늘 바닥에 닿아,
+    /// 바닥(아이폰 세로 43%)에 걸리지 않는 화면. 아이폰 세로는 시스템 키보드가 39~41% 라 늘 바닥에 닿아,
     /// 머리 줄 · 넉넉하게 · 조작 키 같은 계산은 여기서 본다(아이패드 세로).
     static let uncappedScreen = CGSize(width: 834, height: 1194)
 
@@ -167,9 +167,9 @@ final class KeyboardHeightBookTests: XCTestCase {
 
     // MARK: - 버튼 여섯은 보인다
 
-    /// 아이폰 세로에서는 어떤 높이를 골라도 키보드 전체가 화면의 46% 아래로 내려가지 않는다
-    /// (2026-10 사용자: "46%를 최소선으로 하자").
-    func test_아이폰_세로에서_키보드_전체는_화면의_46퍼센트_아래로_내려가지_않는다() {
+    /// 아이폰 세로에서는 어떤 높이를 골라도 키보드 전체가 화면의 43% 아래로 내려가지 않는다
+    /// (2026-10-31 사용자 결정: 4줄 언어 43%, 5줄 언어 46%).
+    func test_아이폰_세로에서_키보드_전체는_화면의_43퍼센트_아래로_내려가지_않는다() {
         var slim = KeyboardHeightBook.ContentMetrics()
         slim.buttonHeight = 1
         for size in [CGSize(width: 320, height: 568), CGSize(width: 375, height: 667),
@@ -178,7 +178,7 @@ final class KeyboardHeightBookTests: XCTestCase {
             for preset in KeyboardHeightPreset.allCases {
                 let total = KeyboardHeightBook.height(for: size, content: slim, preset: preset)
                     + KeyboardHeightBook.systemChrome(for: size)
-                XCTAssertGreaterThanOrEqual(total, size.height * 0.46 - 0.5, "\(size) \(preset)")
+                XCTAssertGreaterThanOrEqual(total, size.height * 0.43 - 0.5, "\(size) \(preset)")
             }
         }
     }
@@ -332,7 +332,7 @@ final class KeyboardHeightBookTests: XCTestCase {
     /// 이 설정이 생긴 이유. 리뷰: "keyboard size is too big, make it the same size as normal keyboard".
     /// `.compact` 은 그 말을 그대로 지킨다. 한 줄이라도 어긋나면 전환할 때 눈에 보인다.
     func test_시스템과_같게를_고르면_높이가_정확히_같다() {
-        let size = Self.uncappedScreen  // 아이폰 세로는 46% 바닥이 먼저다
+        let size = Self.uncappedScreen  // 아이폰 세로는 높이 바닥이 먼저다
         KeyboardHeightBook.record(height: 336, for: size)
 
         let total = KeyboardHeightBook.height(for: size,
@@ -347,7 +347,7 @@ final class KeyboardHeightBookTests: XCTestCase {
     /// **이 변경의 핵심.** 예전 `버튼 높이` 슬라이더는 바닥 계산에만 들어가서, 키를 크게
     /// 쓰는 사람이 끝까지 내려도 키보드가 안 낮아졌다. 고른 값은 바닥에 막히면 안 된다.
     func test_시스템과_같게는_키를_크게_쓰는_사람에게도_낮아진다() {
-        let size = Self.uncappedScreen  // 아이폰 세로는 46% 바닥이 먼저다
+        let size = Self.uncappedScreen  // 아이폰 세로는 높이 바닥이 먼저다
         KeyboardHeightBook.record(height: 336, for: size)
 
         // 바닥이 기본 높이를 넘어서는 설정(한 칸씩 · 큰 키)을 고른 사람.
@@ -468,7 +468,7 @@ final class KeyboardHeightBookTests: XCTestCase {
     /// `.compact` 은 머리 줄을 안 얹으므로 조작 키를 키워도 총 높이가 그대로다.
     /// "시스템 키보드와 같게" 라는 약속이 다른 설정에 흔들리면 안 된다.
     func test_시스템과_같게는_조작_키를_키워도_높이가_그대로다() {
-        let size = Self.uncappedScreen  // 아이폰 세로는 46% 바닥이 먼저다
+        let size = Self.uncappedScreen  // 아이폰 세로는 높이 바닥이 먼저다
         KeyboardHeightBook.record(height: 336, for: size)
 
         var large = KeyboardHeightBook.ContentMetrics()
@@ -491,5 +491,71 @@ final class KeyboardHeightBookTests: XCTestCase {
         XCTAssertEqual(KeyboardHeightBook.resolvedControlKeySize(999),
                        KeyboardHeightBook.maximumControlKeySize)
         XCTAssertEqual(KeyboardHeightBook.resolvedControlKeySize(36), 36)
+    }
+
+    // MARK: - 자판 키가 남는 높이를 받는다
+
+    /// 아이폰 세로 바닥(언어별)에서 우리 판이 받는 높이.
+    private func typingMetrics(screenHeight: CGFloat, width: CGFloat, rows: Int) -> NativeKeyMetrics {
+        let size = CGSize(width: width, height: screenHeight)
+        return NativeKeyMetrics(size: CGSize(width: width, height: KeyboardHeightBook.minimumShareHeight(for: size, typingRows: rows)),
+                                rowCount: rows,
+                                columns: 10)
+    }
+
+    /// 사용자 신고(2026-10-31): 영어 자판의 단축어 칩 위아래로 빈 자리가 크게 남았다.
+    func testTypingStripDoesNotHoardSpareHeight() {
+        for (width, height) in [(CGFloat(402), CGFloat(874)), (440, 956)] {
+            let metrics = typingMetrics(screenHeight: height, width: width, rows: 4)
+            XCTAssertLessThanOrEqual(metrics.stripHeight, metrics.rowPitch, "띠가 줄 하나보다 높아지면 빈 자리로 보인다")
+            XCTAssertGreaterThan(metrics.keyHeight, 46.3, "바닥까지 높인 몫은 키가 받아야 한다")
+            XCTAssertEqual(metrics.stripHeight + metrics.rowPitch * 4, metrics.size.height, accuracy: 0.01)
+        }
+    }
+
+    /// 키가 커져도 맨 윗줄 풍선은 판 안에서 끝난다(키보드 확장은 제 영역 밖에 못 그린다).
+    func testTopRowPopupStaysInsidePanel() {
+        for (width, height) in [(CGFloat(402), CGFloat(874)), (440, 956), (375, 667)] {
+            for rows in [4, 5] where !(height == 667 && rows == 5) {
+                let metrics = typingMetrics(screenHeight: height, width: width, rows: rows)
+                let rise = metrics.stripHeight + metrics.gapY / 2 - 2
+                XCTAssertLessThanOrEqual(metrics.keyHeight + 3, rise + 0.01, "\(height)pt · \(rows)줄")
+            }
+        }
+    }
+
+    // MARK: - 언어마다 다른 높이 바닥
+
+    /// 사용자 결정(2026-10-31): 4줄 언어 43%, 5줄 언어 46%.
+    func testPortraitFloorDependsOnTypingRows() {
+        let screen = CGSize(width: 402, height: 874)
+        var fourRows = KeyboardHeightBook.ContentMetrics()
+        fourRows.typingRowCount = 4
+        var fiveRows = KeyboardHeightBook.ContentMetrics()
+        fiveRows.typingRowCount = 5
+        let chrome = KeyboardHeightBook.systemChrome(for: screen)
+        // 바닥만 보려고 가장 낮은 높이를 고른다. 기본 높이는 머리 줄만큼 바닥을 넘을 수 있다.
+        AppGroup.defaults?.removeObject(forKey: DefaultsKey.systemKeyboardHeights)
+        XCTAssertEqual(KeyboardHeightBook.height(for: screen, content: fourRows, preset: .compact) + chrome, 874 * 0.43, accuracy: 0.5)
+        XCTAssertEqual(KeyboardHeightBook.height(for: screen, content: fiveRows, preset: .compact) + chrome, 874 * 0.46, accuracy: 0.5)
+    }
+
+    func testOnlyThaiAndZhuyinHaveFiveTypingRows() {
+        let five = TypingLanguage.allCases.filter { $0.typingRowCount == 5 }
+        XCTAssertEqual(Set(five), [.th, .zhHant])
+        XCTAssertTrue(TypingLanguage.allCases.allSatisfy { $0.typingRowCount == 4 || $0.typingRowCount == 5 })
+    }
+
+    /// 작은 화면은 4줄 언어도 46% 를 쓴다. 43% 면 키가 너무 낮아진다.
+    func testSmallPhoneKeepsRoomyFloor() {
+        let screen = CGSize(width: 375, height: 667)
+        XCTAssertEqual(KeyboardHeightBook.minimumShareHeight(for: screen, typingRows: 4),
+                       667 * 0.46 - KeyboardHeightBook.systemChrome(for: screen), accuracy: 0.01)
+    }
+
+    /// 저장된 언어가 켜 둔 목록에 없으면 목록의 첫 언어로 본다. 자판 판과 높이 계산이 같은 답을 낸다.
+    func testCurrentLanguageFallsBackToFirstEnabled() {
+        XCTAssertEqual(TypingPrefs.currentLanguage(currentRaw: "th", languagesRaw: "en,th"), .th)
+        XCTAssertEqual(TypingPrefs.currentLanguage(currentRaw: "th", languagesRaw: "en,ko"), .en)
     }
 }

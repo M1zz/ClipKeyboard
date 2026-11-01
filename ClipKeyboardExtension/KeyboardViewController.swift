@@ -527,7 +527,11 @@ class KeyboardViewController: UIInputViewController {
             guard let id = note.object as? String else { return }
             self?.openMainAppSaveClip(id: id)
         }
-        notificationTokens = [t1, t2, t3, t4, t5, t6, t7]
+        // 언어를 바꾸면 자판 줄 수에 따라 높이 바닥이 달라진다(4줄 43%, 5줄 46%). 값이 그대로면 `applyHeight` 가 바로 돌아 나온다.
+        let t8 = NotificationCenter.default.addObserver(forName: UserDefaults.didChangeNotification, object: AppGroup.defaults, queue: .main) { [weak self] _ in
+            self?.applyHeight()
+        }
+        notificationTokens = [t1, t2, t3, t4, t5, t6, t7, t8]
     }
 
     private func handleAddTextEntry(_ notification: Notification) {
