@@ -45,7 +45,11 @@ final class DraftStore: ObservableObject {
 
     static func loadFromDisk() -> [SavedDraft] {
         guard let url = fileURL(), let data = try? Data(contentsOf: url) else { return [] }
-        let items = (try? JSONDecoder().decode([SavedDraft].self, from: data)) ?? []
+        guard let items = try? JSONDecoder().decode([SavedDraft].self, from: data) else {
+            // 못 읽은 원본을 옆에 남긴다 - 빈 목록으로 시작해 다음 저장이 덮어써도 되찾을 수 있게
+            try? FileManager.default.copyItem(at: url, to: url.appendingPathExtension("unreadable"))
+            return []
+        }
         return items.sorted { $0.savedAt > $1.savedAt }
     }
 

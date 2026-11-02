@@ -1058,7 +1058,11 @@ class MemoStore: ObservableObject {
     func loadCombos() throws -> [Combo] {
         guard let fileURL = try Self.fileURL(type: .stack) else { return [] }
         guard let data = try? Data(contentsOf: fileURL) else { return [] }
-        guard let combos = try? JSONDecoder().decode([Combo].self, from: data) else { return [] }
+        guard let combos = try? JSONDecoder().decode([Combo].self, from: data) else {
+            // 메모와 같은 이유로 원본을 격리 보존한다 - 빈 목록 뒤의 저장이 덮어쓰지 못하게
+            Self.quarantineCorruptFile(at: fileURL, type: .stack)
+            return []
+        }
         DispatchQueue.main.async { [weak self] in self?.combos = combos }
         return combos
     }
