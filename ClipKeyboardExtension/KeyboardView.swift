@@ -308,8 +308,12 @@ struct KeyboardView: View {
     /// (iOS "색상 없이 구별"과 무관, 앱과 동일 정책).
     private var visualCuesVisible: Bool { showVisualCues }
 
-    /// KeyboardViewController가 init으로 주입 (let - SwiftUI 재렌더에도 유지)
-    let typingProxy: TypingInputProxy?
+    /// KeyboardViewController가 init으로 주입.
+    ///
+    /// ⚠️ weak 다. 컨트롤러가 이 뷰를 들고 있으므로 강하게 잡으면 서로 붙잡아
+    ///    키보드를 열 때마다 컨트롤러가 한 벌씩 남는다(메모리 한도로 키보드가 죽는다).
+    ///    주인(컨트롤러 · 앱 안의 @StateObject host)은 따로 살아 있다.
+    weak var typingProxy: TypingInputProxy?
 
     /// 호스트 텍스트 필드 상태 - clearAll(X) 버튼은 hasText일 때만 노출.
     /// nil이면 (preview 등) 항상 표시.

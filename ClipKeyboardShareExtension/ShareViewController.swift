@@ -44,36 +44,35 @@ class ShareViewController: UIViewController {
         for provider in providers {
             if provider.hasItemConformingToTypeIdentifier(imageType) {
                 group.enter()
+                // ⚠️ 콜백은 **여러 백그라운드 스레드에서 동시에** 온다. 그림은 그 자리에서 줄이고,
+                //    배열에 담는 것은 메인에서만 한다(같은 배열에 동시에 쓰면 메모리가 깨져 죽는다).
                 provider.loadItem(forTypeIdentifier: imageType, options: nil) { [weak self] item, error in
-                    defer { group.leave() }
-                    if let image = item as? UIImage {
-                        self?.sharedImages.append(image)
-                    } else if let url = item as? URL,
-                              let data = try? Data(contentsOf: url),
-                              let image = UIImage(data: data) {
-                        self?.sharedImages.append(image)
-                    } else if let data = item as? Data,
-                              let image = UIImage(data: data) {
-                        // 일부 앱(스크린샷 공유 등)은 이미지를 Data로 넘긴다.
-                        self?.sharedImages.append(image)
-                    } else {
+                    // UIImage · 파일 URL · Data(스크린샷 공유 등) 어느 것이 와도 줄인 그림이 된다.
+                    let image = QuickShortcutSave.downsampledImage(from: item)
+                    if image == nil {
                         shareLog.error("📤 [Share] 이미지 로드 실패: item=\(String(describing: type(of: item))), error=\(String(describing: error))")
+                    }
+                    DispatchQueue.main.async {
+                        if let image { self?.sharedImages.append(image) }
+                        group.leave()
                     }
                 }
             } else if provider.hasItemConformingToTypeIdentifier(textType) {
                 group.enter()
                 provider.loadItem(forTypeIdentifier: textType, options: nil) { [weak self] item, _ in
-                    defer { group.leave() }
-                    if let str = item as? String {
-                        self?.sharedText = str
+                    let str = item as? String
+                    DispatchQueue.main.async {
+                        if let str { self?.sharedText = str }
+                        group.leave()
                     }
                 }
             } else if provider.hasItemConformingToTypeIdentifier(urlType) {
                 group.enter()
                 provider.loadItem(forTypeIdentifier: urlType, options: nil) { [weak self] item, _ in
-                    defer { group.leave() }
-                    if let url = item as? URL {
-                        self?.sharedText = url.absoluteString
+                    let str = (item as? URL)?.absoluteString
+                    DispatchQueue.main.async {
+                        if let str { self?.sharedText = str }
+                        group.leave()
                     }
                 }
             }

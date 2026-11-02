@@ -50,29 +50,32 @@ class ActionViewController: UIViewController {
         for provider in providers {
             if provider.hasItemConformingToTypeIdentifier(imageType) {
                 group.enter()
+                // ⚠️ 콜백은 여러 백그라운드 스레드에서 동시에 온다. 줄이는 것은 그 자리에서,
+                //    배열에 담는 것은 메인에서만 한다(공유 확장과 같은 이유).
                 provider.loadItem(forTypeIdentifier: imageType, options: nil) { [weak self] item, _ in
-                    defer { group.leave() }
-                    if let image = item as? UIImage {
-                        self?.images.append(image)
-                    } else if let url = item as? URL,
-                              let data = try? Data(contentsOf: url),
-                              let image = UIImage(data: data) {
-                        self?.images.append(image)
-                    } else if let data = item as? Data, let image = UIImage(data: data) {
-                        self?.images.append(image)
+                    let image = QuickShortcutSave.downsampledImage(from: item)
+                    DispatchQueue.main.async {
+                        if let image { self?.images.append(image) }
+                        group.leave()
                     }
                 }
             } else if provider.hasItemConformingToTypeIdentifier(textType) {
                 group.enter()
                 provider.loadItem(forTypeIdentifier: textType, options: nil) { [weak self] item, _ in
-                    defer { group.leave() }
-                    if let str = item as? String { self?.text = str }
+                    let str = item as? String
+                    DispatchQueue.main.async {
+                        if let str { self?.text = str }
+                        group.leave()
+                    }
                 }
             } else if provider.hasItemConformingToTypeIdentifier(urlType) {
                 group.enter()
                 provider.loadItem(forTypeIdentifier: urlType, options: nil) { [weak self] item, _ in
-                    defer { group.leave() }
-                    if let url = item as? URL { self?.text = url.absoluteString }
+                    let str = (item as? URL)?.absoluteString
+                    DispatchQueue.main.async {
+                        if let str { self?.text = str }
+                        group.leave()
+                    }
                 }
             }
         }

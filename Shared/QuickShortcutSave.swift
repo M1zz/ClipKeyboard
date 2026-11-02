@@ -20,6 +20,7 @@
 
 import Foundation
 import UIKit
+import ImageIO
 import os
 
 private let saveLog = Logger(subsystem: "com.Ysoup.TokenMemo.share", category: "quicksave")
@@ -196,8 +197,44 @@ enum QuickShortcutSave {
         guard size.width > maxDimension || size.height > maxDimension else { return image }
         let ratio = min(maxDimension / size.width, maxDimension / size.height)
         let newSize = CGSize(width: size.width * ratio, height: size.height * ratio)
-        return UIGraphicsImageRenderer(size: newSize).image { _ in
+        // ⚠️ scale 을 1 로 둔다. 기본값은 화면 배율(3x)이라 1024 가 아니라 3072 픽셀로 그려진다.
+        let format = UIGraphicsImageRendererFormat.default()
+        format.scale = 1
+        return UIGraphicsImageRenderer(size: newSize, format: format).image { _ in
             image.draw(in: CGRect(origin: .zero, size: newSize))
         }
+    }
+
+    // MARK: - 받은 그림 읽기
+
+    /// 저장하는 그림의 가장 긴 변. 받을 때부터 이 크기로 줄여 둔다.
+    static let maxImageDimension: CGFloat = 1024
+
+    /// `loadItem` 이 넘긴 것(UIImage · 파일 URL · Data)을 **줄인 그림**으로 바꾼다.
+    ///
+    /// ⚠️ 원본을 펼치지 않는다. 1200만 화소 사진 한 장이 펼치면 약 48MB 라,
+    ///    여러 장이면 확장의 메모리 한도를 넘어 죽는다. 파일·Data 는 ImageIO 로
+    ///    줄인 크기로만 풀어낸다. 백그라운드에서 부른다.
+    static func downsampledImage(from item: Any?) -> UIImage? {
+        if let image = item as? UIImage {
+            return resized(image, maxDimension: maxImageDimension)
+        }
+        let source: CGImageSource?
+        if let url = item as? URL {
+            source = CGImageSourceCreateWithURL(url as CFURL, [kCGImageSourceShouldCache: false] as CFDictionary)
+        } else if let data = item as? Data {
+            source = CGImageSourceCreateWithData(data as CFData, [kCGImageSourceShouldCache: false] as CFDictionary)
+        } else {
+            return nil
+        }
+        guard let source else { return nil }
+        let options: [CFString: Any] = [
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceShouldCacheImmediately: true,
+            kCGImageSourceThumbnailMaxPixelSize: maxImageDimension
+        ]
+        guard let cgImage = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary) else { return nil }
+        return UIImage(cgImage: cgImage)
     }
 }

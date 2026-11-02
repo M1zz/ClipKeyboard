@@ -550,7 +550,14 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     // 값 필드는 담기지 않으므로(암호화된 payload 포함) 여기 저장해도 내용이 새지 않는다.
 
     private static let recordMetaKey = "memo.sync.recordMeta"
-    /// serverRecordChanged 재시도 횟수 - 서버와 계속 어긋날 때 무한 재전송을 막는다.
+    /// `recordMetaCache` · `conflictRetries` 를 지키는 잠금.
+    ///
+    /// ⚠️ 두 값은 CKSyncEngine 콜백(엔진의 스레드)과 "이 기기를 정본으로"(협력 스레드풀)가
+    ///    **동시에** 고친다. 잠금 없이 사전을 함께 고치면 메모리가 깨져 앱이 죽는다.
+    ///    `loadRecordMeta` · `saveRecordMeta` 는 이 잠금을 쥔 채로만 부른다.
+    private let metaLock = NSLock()
+
+    /// serverRecordChanged 재시도 횟수 - 서버와 계속 어긋날 때 무한 재전송을 막는다. `metaLock` 안에서만.
     nonisolated(unsafe) private var conflictRetries: [String: Int] = [:]
     private static let maxConflictRetries = 3
 
@@ -584,25 +591,31 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     /// 여러 건을 한 번에 - 첫 동기화처럼 수백 건이 몰릴 때 건건이 전체 사전을 다시 쓰지 않도록.
     private func cacheRecordMetas(_ records: [CKRecord]) {
         guard !records.isEmpty else { return }
-        var meta = loadRecordMeta()
+        var encoded: [String: Data] = [:]
         for record in records {
             let coder = NSKeyedArchiver(requiringSecureCoding: true)
             record.encodeSystemFields(with: coder)
             coder.finishEncoding()
-            meta[record.recordID.recordName] = coder.encodedData
+            encoded[record.recordID.recordName] = coder.encodedData
         }
-        saveRecordMeta(meta)
+        metaLock.withLock {
+            var meta = loadRecordMeta()
+            meta.merge(encoded) { _, new in new }
+            saveRecordMeta(meta)
+        }
     }
 
     private func forgetRecordMeta(_ recordID: CKRecord.ID) {
-        var meta = loadRecordMeta()
-        guard meta.removeValue(forKey: recordID.recordName) != nil else { return }
-        saveRecordMeta(meta)
+        metaLock.withLock {
+            var meta = loadRecordMeta()
+            guard meta.removeValue(forKey: recordID.recordName) != nil else { return }
+            saveRecordMeta(meta)
+        }
     }
 
     /// 캐시된 시스템 필드로 되살린 빈 레코드(값 필드는 비어 있다).
     private func cachedRecord(for recordID: CKRecord.ID) -> CKRecord? {
-        guard let data = loadRecordMeta()[recordID.recordName],
+        guard let data = metaLock.withLock({ loadRecordMeta()[recordID.recordName] }),
               let coder = try? NSKeyedUnarchiver(forReadingFrom: data) else { return nil }
         coder.requiresSecureCoding = true
         let record = CKRecord(coder: coder)
@@ -633,16 +646,18 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
                 let serverEdited = Self.editedDate(of: serverRecord)
                 let mineEdited = Self.editedDate(of: failure.record)
                 guard mineEdited >= serverEdited else {
-                    conflictRetries[name] = nil
+                    metaLock.withLock { conflictRetries[name] = nil }
                     continue
                 }
-                let count = (conflictRetries[name] ?? 0) + 1
+                let count = metaLock.withLock {
+                    let next = (conflictRetries[name] ?? 0) + 1
+                    conflictRetries[name] = next > Self.maxConflictRetries ? nil : next
+                    return next
+                }
                 guard count <= Self.maxConflictRetries else {
                     log.error("conflict retry limit reached: \(name, privacy: .public)")
-                    conflictRetries[name] = nil
                     continue
                 }
-                conflictRetries[name] = count
                 retry.append(.saveRecord(recordID))
             case .unknownItem:
                 // 들고 있던 태그가 가리키는 레코드가 서버에 없다(존 삭제·계정 전환 등).
@@ -772,11 +787,14 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     private func resetBaseline(reason: String) {
         defaults?.removeObject(forKey: DefaultsKey.syncEngineState)
         defaults?.removeObject(forKey: DefaultsKey.syncShadow)
-        defaults?.removeObject(forKey: Self.recordMetaKey)
         defaults?.removeObject(forKey: Self.categoryShadowKey)
         // 카테고리 항목은 남기고 "올린 것"만 비운다 - 새 데이터베이스에 전부(지운 것 포함) 다시 올라간다.
         defaults?.removeObject(forKey: CategoryItemStore.shadowKey)
-        recordMetaCache = nil
+        // 디스크와 메모리 사본을 **한 번에** 비운다. 사이가 벌어지면 낡은 태그가 다시 쓰인다.
+        metaLock.withLock {
+            defaults?.removeObject(forKey: Self.recordMetaKey)
+            recordMetaCache = nil
+        }
         log.info("sync baseline reset: \(reason, privacy: .public)")
     }
 
