@@ -133,8 +133,9 @@ struct CategorySettings: View {
                     store.move(from: source, to: destination)
                 }
                 .onDelete { indices in
-                    for idx in indices {
-                        let name = store.allCategories[idx]
+                    // 이름을 먼저 다 뽑는다. 지우면서 읽으면 줄어든 배열을 옛 인덱스로 읽어 범위를 넘는다.
+                    let names = indices.compactMap { store.allCategories.indices.contains($0) ? store.allCategories[$0] : nil }
+                    for name in names {
                         if !store.remove(name) {
                             UINotificationFeedbackGenerator().notificationOccurred(.warning)
                         }
