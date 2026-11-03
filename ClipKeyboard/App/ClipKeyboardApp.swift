@@ -1331,6 +1331,13 @@ struct ClipKeyboardApp: App {
                 .onOpenURL { url in
                     handleOpenURL(url)
                 }
+                // Siri · Spotlight 가 아는 단축어 목록을 지금 것에 맞춘다 (→ ClipMemoIntents.swift).
+                // 쓴 횟수만 바뀐 저장은 이름 · 목록이 그대로라 건너뛴다.
+                .task { await ClipMemoEntity.reindex() }
+                .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { note in
+                    guard !MemoStore.isUsageOnly(note) else { return }
+                    Task { await ClipMemoEntity.reindex() }
+                }
                 // 런치 작업 전부를 **첫 화면 뒤로** 미룬다. `onAppear` 가 아니라 `task` 인 이유는
                 // 화면이 실제로 붙은 다음에 돌기 시작하고, 중간에 기다릴(await) 수 있어서다.
                 .task {

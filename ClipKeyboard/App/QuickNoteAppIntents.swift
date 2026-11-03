@@ -78,6 +78,16 @@ struct ClipKeyboardAppShortcuts: AppShortcutsProvider {
             systemImageName: "doc.on.clipboard"
         )
         AppShortcut(
+            intent: CopyClipMemoIntent(),
+            phrases: [
+                "Copy \(\.$memo) from \(.applicationName)",
+                "Copy \(\.$memo) with \(.applicationName)",
+                "Copy a snippet from \(.applicationName)"
+            ],
+            shortTitle: "Copy Snippet",
+            systemImageName: "doc.on.doc"
+        )
+        AppShortcut(
             intent: OpenQuickNoteInboxIntent(),
             phrases: [
                 "Open \(.applicationName) inbox"

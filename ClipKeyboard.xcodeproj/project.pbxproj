@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C1D2E3F4A5B6172839405C6D /* MemoStackScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3A4B5C6172839405D6E /* MemoStackScreen.swift */; };
-		A1B2C3D4E5F6071829304A5B /* MemoStacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C2D3E4F5A6172839405B6C /* MemoStacking.swift */; };
 		0400F328680C4EA8C66511B2 /* UsageBreakdownCharts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A5192FEC743DF68940A67D /* UsageBreakdownCharts.swift */; };
 		05C742C8DA4BB6F16A1F9C48 /* BlankStartIntro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489BE3306371B7B9BCB13F5D /* BlankStartIntro.swift */; };
 		06B3FF70D58722B3CBDDA128 /* DefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */; };
@@ -39,6 +37,7 @@
 		29BE4575384D68C69FCFB9A1 /* KeyboardBeacon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2732597E9C8A36A1E875CD5 /* KeyboardBeacon.swift */; };
 		29BE5E003315D45F00DE3974 /* CursorMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308AA33ECDA9323BA548C0CD /* CursorMemory.swift */; };
 		2B647294E78814DF398CF307 /* CategoryBucketRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA441421EE0E26B58684C63F /* CategoryBucketRule.swift */; };
+		2BDDF07F089933B0F5410848 /* AppShortcuts.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B3025CF64AC87F2A4F69F60D /* AppShortcuts.xcstrings */; };
 		2BFAE403E90D4B4EAE9DC1DF /* MyDataSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8789BB34EE8F45ECB57252A8 /* MyDataSettingsView.swift */; };
 		2DECE05C81C009F6FE7B1D49 /* UsageStatsCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926575C98D0A0BDDB6B6BA4D /* UsageStatsCache.swift */; };
 		2EF77556F0984981010A4760 /* TypingSpeedMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033ABFB89F872AE078A1FC22 /* TypingSpeedMeter.swift */; };
@@ -166,6 +165,7 @@
 		61864F395C2773BF9C2498DF /* CategorySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BFD7118CEB30C3953DADC1 /* CategorySettings.swift */; };
 		6458A8E49F277CF662FA4424 /* SlotPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7650FEB679BD5AE8B3A7DD30 /* SlotPack.swift */; };
 		6972347EDFF8F477DC389772 /* BulkImportNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6517634F9E56C31222172460 /* BulkImportNudge.swift */; };
+		69C09418E79FAC61BBEE24FD /* ClipMemoIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B64230F7D10B68780ED0930 /* ClipMemoIntents.swift */; };
 		6B027BD2B54D0EA86FB83EE4 /* StorageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716D2F3FE56C8A81348A2686 /* StorageFile.swift */; };
 		6CDDE934BAFAF8B62D1A0532 /* KeyboardSetupRequiredBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3908A3470250356F78E6D22A /* KeyboardSetupRequiredBanner.swift */; };
 		71169FEF7AFE438A9D148359 /* SaveMemoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71169FEF7AFE438A9D148358 /* SaveMemoUseCase.swift */; };
@@ -197,6 +197,7 @@
 		A0F086A5561B436AEBBC4E62 /* ShareVideoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAF45D7591497565C76C707 /* ShareVideoSheet.swift */; };
 		A11Y00012F0000000000000001 /* AccessibilityGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11Y00012F0000000000000000 /* AccessibilityGuideView.swift */; };
 		A167A2509A17EB507E7F67B3 /* StackExecutionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256F32EF1054402BBEBAA073 /* StackExecutionService.swift */; };
+		A1B2C3D4E5F6071829304A5B /* MemoStacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C2D3E4F5A6172839405B6C /* MemoStacking.swift */; };
 		A30C59B8DC51235598880EBC /* DefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */; };
 		A54E9621A9472F1221D993BC /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F80AD4C015115FE0308071A /* ActionViewController.swift */; };
 		A5E8C8FB800717382C9A5C0C /* PersonaResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56306F8B546CA1258ECD8CD0 /* PersonaResolver.swift */; };
@@ -250,6 +251,7 @@
 		C0DD5A687D1374950DEF38B4 /* TutorialFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B352BD33E4C1A3A117C0015D /* TutorialFlow.swift */; };
 		C0F9D240BF594AD670F9557D /* FoldComposePane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C9EBF409C09DCF38F9AB64 /* FoldComposePane.swift */; };
 		C1A0B0012F80000000A1100C /* SolidUnderReducedTransparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A0B0012F80000000A1100D /* SolidUnderReducedTransparency.swift */; };
+		C1D2E3F4A5B6172839405C6D /* MemoStackScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F3A4B5C6172839405D6E /* MemoStackScreen.swift */; };
 		C35C2FED6C9F7F5E527BDBC6 /* BlankStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71619CD502EE6A05C30C1C0A /* BlankStartView.swift */; };
 		C8294EE61242F95B02F19F2B /* FeatureNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBFCC8893079044F94A9942 /* FeatureNudge.swift */; };
 		CAF1B3E88B0D503417882A0B /* KeyLabelTruncation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7D374184C74DA684E7CC89 /* KeyLabelTruncation.swift */; };
@@ -433,8 +435,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D1E2F3A4B5C6172839405D6E /* MemoStackScreen.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoStackScreen.swift; sourceTree = "<group>"; };
-		B1C2D3E4F5A6172839405B6C /* MemoStacking.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoStacking.swift; sourceTree = "<group>"; };
 		00088770840B929117A6A9FE /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		011AD653870EBB794C83148A /* FeatureLessonView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FeatureLessonView.swift; sourceTree = "<group>"; };
 		01D562A947E84E2EF0858B33 /* FreeUse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FreeUse.swift; sourceTree = "<group>"; };
@@ -588,6 +588,7 @@
 		5AE1C2D30002SMEAR0000000 /* SmearTextPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmearTextPickerView.swift; sourceTree = "<group>"; };
 		5AE1C2D30004PASTE0000002 /* PasteboardReader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PasteboardReader.swift; sourceTree = "<group>"; };
 		5AE1C2D30007PHCAT0000002 /* PlaceholderCatalog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceholderCatalog.swift; sourceTree = "<group>"; };
+		5B64230F7D10B68780ED0930 /* ClipMemoIntents.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ClipMemoIntents.swift; sourceTree = "<group>"; };
 		5C0A15B00000000000000001 /* SquishPress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquishPress.swift; sourceTree = "<group>"; };
 		5EEBAF38DC67BB4307790210 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5F3FC1EC36F759AA644D2DAB /* SecurePINSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurePINSettings.swift; sourceTree = "<group>"; };
@@ -672,7 +673,9 @@
 		AIS0FILE0000000000000001 /* AppleIntelligenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceService.swift; sourceTree = "<group>"; };
 		AIV0FILE0000000000000003 /* AISettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISettingsView.swift; sourceTree = "<group>"; };
 		B0E46DF1EF10901BFD918815 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B1C2D3E4F5A6172839405B6C /* MemoStacking.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoStacking.swift; sourceTree = "<group>"; };
 		B22C185C179501DDC5DF2F2C /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		B3025CF64AC87F2A4F69F60D /* AppShortcuts.xcstrings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json.xcstrings; path = AppShortcuts.xcstrings; sourceTree = "<group>"; };
 		B331A8D65FD5D4A86094FE3A /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B352BD33E4C1A3A117C0015D /* TutorialFlow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TutorialFlow.swift; sourceTree = "<group>"; };
 		B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListViewModel.swift; sourceTree = "<group>"; };
@@ -710,6 +713,7 @@
 		CLIPPICK0FILE00000000001 /* KeyboardClipboardPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardClipboardPicker.swift; sourceTree = "<group>"; };
 		CO00022F0000000000000002 /* MemoAddCoach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAddCoach.swift; sourceTree = "<group>"; };
 		CONTRACTS0000000000HH1 /* MemoScreenContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoScreenContracts.swift; sourceTree = "<group>"; };
+		D1E2F3A4B5C6172839405D6E /* MemoStackScreen.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MemoStackScreen.swift; sourceTree = "<group>"; };
 		D4FBC824006A33AB722B82C5 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D663A47B0F30561381AFD709 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		D6B8DA5DE589A8AD6F7F0604 /* CardSurfaceEffects.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CardSurfaceEffects.swift; sourceTree = "<group>"; };
@@ -1061,6 +1065,7 @@
 				E35F7AD602EB409DA9ED0332 /* Data */,
 				1B870C9374FF4EF98817D4B5 /* Domain */,
 				A7C39DB74D62055606CA7077 /* PrivacyInfo.xcprivacy */,
+				B3025CF64AC87F2A4F69F60D /* AppShortcuts.xcstrings */,
 			);
 			path = ClipKeyboard;
 			sourceTree = "<group>";
@@ -1390,6 +1395,7 @@
 				CAPF08121046781592177660 /* CaptureClipboardIntent.swift */,
 				716D2F3FE56C8A81348A2686 /* StorageFile.swift */,
 				TPS0001A2F0000000000000001 /* Tips.swift */,
+				5B64230F7D10B68780ED0930 /* ClipMemoIntents.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -1608,7 +1614,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 58C473332A109F0C009D87BC /* Build configuration list for PBXProject "ClipKeyboard" */;
+			buildConfigurationList = 58C473332A109F0C009D87BC /* Build configuration list for PBXProject "Token memo" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1687,6 +1693,7 @@
 				581550602AD52D6800A6115B /* Localizable.xcstrings in Resources */,
 				INFOPLISTBF1 /* InfoPlist.strings in Resources */,
 				8DC34C94DFB6A0B59259AEE6 /* PrivacyInfo.xcprivacy in Resources */,
+				2BDDF07F089933B0F5410848 /* AppShortcuts.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2076,6 +2083,7 @@
 				3CFFC3F45D26EFBCF64FA16E /* GuideBookView.swift in Sources */,
 				C8294EE61242F95B02F19F2B /* FeatureNudge.swift in Sources */,
 				C0F9D240BF594AD670F9557D /* FoldComposePane.swift in Sources */,
+				69C09418E79FAC61BBEE24FD /* ClipMemoIntents.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2789,7 +2797,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		58C473332A109F0C009D87BC /* Build configuration list for PBXProject "ClipKeyboard" */ = {
+		58C473332A109F0C009D87BC /* Build configuration list for PBXProject "Token memo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				58C4735A2A109F0E009D87BC /* Debug */,
