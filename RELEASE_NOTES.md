@@ -14,6 +14,215 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.18
+
+### 앱스토어 (한국어)
+
+```
+단축어가 매일, 그리고 업데이트 직전에 자동으로 백업돼요.
+백업은 iCloud나 파일에서 언제든 되살릴 수 있어요.
+Siri에게 단축어 이름을 말하면 바로 복사해요. Spotlight에서도 찾아요.
+배경 사진을 쓸 때 목록 양옆이 잘리던 문제를 고쳤어요.
+```
+
+### App Store (English)
+
+```
+Your snippets now back up daily and right before updates.
+Restore a backup from iCloud or a file anytime.
+Tell Siri a snippet’s name to copy it, or find it in Spotlight.
+Fixed list edges being cut off with a background photo.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+短语每天以及更新前都会自动备份。
+可随时从 iCloud 或文件恢复备份。
+对 Siri 说出短语名称即可复制，也能在 Spotlight 中找到。
+修复了设置背景图片后列表左右两侧被截断的问题。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+短語每天以及更新前都會自動備份。
+可隨時從 iCloud 或檔案還原備份。
+對 Siri 說出短語名稱即可拷貝，也能在 Spotlight 中找到。
+修正了設定背景圖片後列表左右兩側被截斷的問題。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Фразы теперь сохраняются каждый день и перед обновлением.
+Копию можно восстановить из iCloud или из файла.
+Назовите фразу Siri, и она скопируется. Ищите её и в Spotlight.
+Исправлено: с фоновым фото края списка обрезались.
+```
+
+### App Store (Japanese, ja)
+
+```
+定型文が毎日とアップデート直前に自動でバックアップされます。
+バックアップはiCloudやファイルからいつでも復元できます。
+Siriに名前を言うだけで定型文をコピー。Spotlightでも探せます。
+背景写真を使うとリストの左右が切れる問題を修正しました。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Tus frases se respaldan cada día y justo antes de actualizar.
+Restaura un respaldo desde iCloud o un archivo cuando quieras.
+Dile a Siri el nombre de una frase para copiarla o búscala en Spotlight.
+Corregimos los bordes de la lista cortados con foto de fondo.
+```
+
+### App Store (German, de-DE)
+
+```
+Textbausteine werden täglich und vor jedem Update gesichert.
+Sicherungen lassen sich aus iCloud oder einer Datei wiederherstellen.
+Nenne Siri den Namen eines Bausteins zum Kopieren, auch in Spotlight.
+Mit Hintergrundfoto waren die Listenränder abgeschnitten. Behoben.
+```
+
+### App Store (Thai, th)
+
+```
+ข้อความด่วนสำรองอัตโนมัติทุกวันและก่อนอัปเดต
+กู้คืนข้อมูลสำรองจาก iCloud หรือไฟล์ได้ทุกเมื่อ
+บอกชื่อข้อความด่วนกับ Siri เพื่อคัดลอก หรือค้นหาใน Spotlight
+แก้ปัญหาขอบรายการถูกตัดเมื่อใช้รูปพื้นหลัง
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Cụm từ được sao lưu tự động mỗi ngày và trước khi cập nhật.
+Khôi phục bản sao lưu từ iCloud hoặc tệp bất cứ lúc nào.
+Nói tên cụm từ với Siri để sao chép, hoặc tìm trong Spotlight.
+Đã sửa lỗi hai bên danh sách bị cắt khi dùng ảnh nền.
+```
+
+### App Store (French, fr-FR)
+
+```
+Vos phrases sont sauvegardées chaque jour et avant chaque mise à jour.
+Restaurez une sauvegarde depuis iCloud ou un fichier.
+Dites le nom d’une phrase à Siri pour la copier, ou trouvez-la dans Spotlight.
+Les bords de la liste ne sont plus coupés avec une photo de fond.
+```
+
+### App Store (Italian, it)
+
+```
+Le frasi vengono salvate ogni giorno e prima di ogni aggiornamento.
+Ripristina un backup da iCloud o da un file quando vuoi.
+Di’ a Siri il nome di una frase per copiarla, o cercala in Spotlight.
+Risolti i bordi dell’elenco tagliati con una foto di sfondo.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+Suas frases ganham backup todo dia e antes de cada atualização.
+Restaure um backup do iCloud ou de um arquivo quando quiser.
+Diga à Siri o nome de uma frase para copiá-la, ou ache no Spotlight.
+Corrigimos as bordas da lista cortadas com foto de fundo.
+```
+
+### App Store (Czech, cs)
+
+```
+Fráze se zálohují každý den a těsně před aktualizací.
+Zálohu obnovíte z iCloudu nebo ze souboru.
+Řekněte Siri název fráze a zkopíruje ji. Najdete ji i ve Spotlightu.
+Opraveno ořezávání okrajů seznamu s fotkou na pozadí.
+```
+
+### App Store (Danish, da)
+
+```
+Dine fraser sikkerhedskopieres hver dag og lige før opdateringer.
+Gendan en sikkerhedskopi fra iCloud eller en fil.
+Sig navnet på en frase til Siri for at kopiere den, eller find den i Spotlight.
+Rettet afskårne kanter på listen med baggrundsfoto.
+```
+
+### App Store (Greek, el)
+
+```
+Οι φράσεις σας αποθηκεύονται κάθε μέρα και πριν από κάθε ενημέρωση.
+Επαναφέρετε αντίγραφο από το iCloud ή από αρχείο.
+Πείτε στη Siri το όνομα μιας φράσης για αντιγραφή ή βρείτε τη στο Spotlight.
+Διορθώθηκαν οι κομμένες άκρες της λίστας με φωτογραφία φόντου.
+```
+
+### App Store (Finnish, fi)
+
+```
+Fraasit varmuuskopioidaan joka päivä ja juuri ennen päivitystä.
+Palauta varmuuskopio iCloudista tai tiedostosta.
+Kerro Sirille fraasin nimi, niin se kopioidaan. Löydät sen myös Spotlightista.
+Korjattu listan reunojen leikkautuminen taustakuvan kanssa.
+```
+
+### App Store (Indonesian, id)
+
+```
+Frasa dicadangkan otomatis setiap hari dan sebelum pembaruan.
+Pulihkan cadangan dari iCloud atau file kapan saja.
+Sebut nama frasa ke Siri untuk menyalinnya, atau cari di Spotlight.
+Memperbaiki tepi daftar yang terpotong saat memakai foto latar.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Frasene sikkerhetskopieres hver dag og rett før oppdateringer.
+Gjenopprett en sikkerhetskopi fra iCloud eller en fil.
+Si navnet på en frase til Siri for å kopiere den, eller finn den i Spotlight.
+Rettet avkuttede kanter i listen med bakgrunnsbilde.
+```
+
+### App Store (Dutch, nl)
+
+```
+Je fragmenten krijgen elke dag en vlak voor een update een back-up.
+Zet een back-up terug vanuit iCloud of een bestand.
+Noem de naam van een fragment tegen Siri om het te kopiëren, of zoek in Spotlight.
+Afgesneden lijstranden bij een achtergrondfoto opgelost.
+```
+
+### App Store (Polish, pl)
+
+```
+Frazy są kopiowane zapasowo codziennie i tuż przed aktualizacją.
+Przywróć kopię z iCloud lub z pliku.
+Powiedz Siri nazwę frazy, by ją skopiować, albo znajdź ją w Spotlight.
+Naprawiono ucięte brzegi listy przy zdjęciu w tle.
+```
+
+### App Store (Swedish, sv)
+
+```
+Dina fraser säkerhetskopieras varje dag och strax före uppdateringar.
+Återställ en säkerhetskopia från iCloud eller en fil.
+Säg en fras namn till Siri för att kopiera den, eller hitta den i Spotlight.
+Åtgärdat avklippta kanter i listan med bakgrundsbild.
+```
+
+### App Store (Turkish, tr)
+
+```
+İfadeleriniz her gün ve güncellemeden hemen önce yedekleniyor.
+Yedeği iCloud’dan veya bir dosyadan geri yükleyin.
+Kopyalamak için Siri’ye ifadenin adını söyleyin ya da Spotlight’ta bulun.
+Arka plan fotoğrafıyla liste kenarlarının kesilmesi düzeltildi.
+```
+
 ## 5.1.17
 
 ### 앱스토어 (한국어)
