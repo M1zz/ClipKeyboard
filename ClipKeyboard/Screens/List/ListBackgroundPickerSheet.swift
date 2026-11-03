@@ -171,9 +171,7 @@ struct ListBackgroundPickerSheet: View {
 
     private func thumbnail(name: String) -> some View {
         BackgroundImageView(name: name)
-            .scaledToFill()
             .frame(height: 150)
-            .frame(maxWidth: .infinity)
             .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
             .overlay(selectionBadge(selected: isSelected(name)))
     }

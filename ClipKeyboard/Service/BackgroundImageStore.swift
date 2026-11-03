@@ -160,10 +160,24 @@ enum BackgroundImageStore {
 ///
 /// ⚠️ 부르는 쪽이 둘을 구분하게 두지 않는다. 구분이 여러 곳으로 퍼지면 한 곳이
 ///    빠져서 "고르면 적용은 되는데 어떤 화면에서만 안 보이는" 배경이 생긴다.
+///
+/// ⚠️ **받은 칸을 꽉 채우고, 칸보다 커지지 않는다.** 사진은 비율을 지킨 채 칸을 덮고 넘친 만큼
+///    잘린다. 예전에는 부르는 쪽마다 `scaledToFill` 을 걸었는데, 그러면 사진이 제 비율대로
+///    칸보다 넓어져 둘레를 밀어냈다. 목록에서는 화면이 넓어져 카드 좌우가 잘렸고
+///    (중국어 사용자 신고 2026-11), 썸네일은 이웃 칸을 덮고 남의 탭까지 받았다.
+///    그래서 크기는 빈 칸(`Color.clear`)이 정하고, 사진은 그 위에 얹기만 한다.
 struct BackgroundImageView: View {
     let name: String
 
     var body: some View {
+        Color.clear
+            .overlay { image.scaledToFill() }
+            .clipped()
+            .contentShape(Rectangle())
+    }
+
+    @ViewBuilder
+    private var image: some View {
         if BackgroundImageStore.isUserImage(name) {
             if let ui = BackgroundImageStore.image(for: name) {
                 Image(uiImage: ui).resizable()

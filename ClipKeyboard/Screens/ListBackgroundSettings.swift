@@ -129,7 +129,6 @@ struct ListBackgroundSettings: View {
                     // ⚠️ `Image(name)` 이 아니라 이것을 쓴다. 내 사진은 에셋에 없어서
                     //    `Image(name)` 으로는 **빈 칸**이 나온다(이름만 맞고 그림이 없다).
                     BackgroundImageView(name: name)
-                        .scaledToFill()
                 }
             }
             .frame(height: 120)

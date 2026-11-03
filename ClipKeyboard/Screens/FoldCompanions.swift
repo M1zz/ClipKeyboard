@@ -400,13 +400,8 @@ struct FoldListBackgroundCompanion: View {
     var body: some View {
         ZStack {
             if !shown.isEmpty {
-                GeometryReader { proxy in
-                    BackgroundImageView(name: shown)
-                        .scaledToFill()
-                        .frame(width: proxy.size.width, height: proxy.size.height)
-                        .clipped()
-                }
-                .ignoresSafeArea()
+                BackgroundImageView(name: shown)
+                    .ignoresSafeArea()
             }
             FoldCardsCompanion()
                 .background(Color.clear)
