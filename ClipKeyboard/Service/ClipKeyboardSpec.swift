@@ -44,6 +44,9 @@ enum ClipKeyboardSpec: LeeoAppSpec {
         marketingURL: URL(string: Constants.supportURL)!
     )
 
+    /// 백업 금고가 함께 떠 두는 공유 저장소. 단축어 · 클립보드 기록 · 키보드 설정이 여기 있다.
+    static let appGroups = [AppGroup.identifier]
+
     /// 수익모델 - 무료로 쓰다가 **Plus · Pro 를 연 구독이나 평생으로** 산다(2026-10 요금제 개편).
     ///
     /// 이 한 줄에서 페이월 필요 여부 · 복원 의무 · 약관 고지 · 게이트 정책이 따라 나온다.

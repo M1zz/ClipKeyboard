@@ -144,6 +144,11 @@ struct ClipKeyboardApp: App {
             return
         }
 
+        // 백업 금고(LeeoKit). 예약된 복원을 적용하고 매일 · 업데이트 직전 상태를 떠 둔다.
+        // ⚠️ 저장 파일 · 설정을 읽는 그 무엇보다 먼저. 복원이 언어 · LaunchGuard 표식까지 되돌리므로
+        //    그것들을 읽기 전이어야 한다. 손상 파일 격리(quarantineCorruptFile)와는 따로 돈다.
+        LeeoVault.start(ClipKeyboardSpec.self)
+
         // 키보드 탭(무대)의 '최근' 이 클립보드를 알아서 읽어도 되는지는 앱의 관문이 정한다.
         KeyboardHostKind.appMayAutoReadClipboard = { PastePermissionGuidance.mayAutoReadClipboard }
 

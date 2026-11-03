@@ -147,6 +147,12 @@ struct MyDataSettingsView: View {
                 Label(NSLocalizedString("백업 및 복원", comment: "Backup and restore"),
                       systemImage: AppSymbol.icloudAndArrowUp)
             }
+            // 백업 금고(LeeoKit). 이 기기에 매일 · 업데이트 직전 자동으로 떠 둔 백업에서 되살린다. 누구나 쓴다.
+            // 위 줄과 같은 "백업 및 복원" 이 둘 서지 않게 '자동 백업' 으로 부른다.
+            FoldLink(destination: LeeoVaultView(appName: ClipKeyboardSpec.displayName)) {
+                Label(NSLocalizedString("자동 백업", comment: "Auto backup label"),
+                      systemImage: "externaldrive.badge.timemachine")
+            }
             // 기기 간 동기화(실험적, Pro 전용). 설명은 행 안에 둔다 - 예전에는 이 토글
             // 하나만을 위한 섹션이 따로 있었다.
             Toggle(isOn: Binding(
