@@ -812,9 +812,18 @@ struct ClipKeyboardList: View {
                 //
                 // ⚠️ 그렇다고 바닥을 걷어내면 안 된다. 사진이 아직 안 그려진 첫 프레임에
                 //    창의 검정이 그대로 비친다 - 위 주석의 그 사고다. 바닥은 두고 덮는다.
+                //
+                // ⚠️ **사진은 자리를 차지하지 않게 깐다.** `scaledToFill` 만 걸면 사진이 제 비율대로
+                //    화면보다 넓어지고, 이 ZStack 이 그 폭을 따라 넓어져 목록이 가운데 정렬된 채
+                //    좌우가 화면 밖으로 잘렸다(중국어 사용자 신고 2026-11: "맨 왼쪽·오른쪽이 안 보인다").
+                //    빈 칸(`Color.clear`)이 화면 크기를 잡고, 사진은 그 위에 얹어 넘친 만큼 잘라 낸다.
                 if !resolvedBackgroundImage.isEmpty {
-                    BackgroundImageView(name: resolvedBackgroundImage)
-                        .scaledToFill()
+                    Color.clear
+                        .overlay {
+                            BackgroundImageView(name: resolvedBackgroundImage)
+                                .scaledToFill()
+                        }
+                        .clipped()
                         .ignoresSafeArea()
                         .transition(.opacity)
                         .id(resolvedBackgroundImage)
