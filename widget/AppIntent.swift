@@ -85,6 +85,7 @@ struct SelectMemoIntent: WidgetConfigurationIntent {
 
     @Parameter(
         title: LocalizedStringResource("복사 될 값", comment: "Value to copy parameter"),
+        description: LocalizedStringResource("위젯에 보여 줄 즐겨찾기 단축어", comment: "Value to copy parameter description"),
         optionsProvider: MemoOptionsProvider()
     )
     var memo: MemoEntity?

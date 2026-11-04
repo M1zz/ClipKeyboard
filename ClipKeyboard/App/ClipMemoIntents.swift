@@ -105,6 +105,7 @@ struct CopyClipMemoIntent: AppIntent {
     static let authenticationPolicy = IntentAuthenticationPolicy.requiresAuthentication
 
     @Parameter(title: LocalizedStringResource("단축어", comment: "Siri: snippet parameter"),
+               description: LocalizedStringResource("값을 복사할 단축어", comment: "Siri: snippet parameter description"),
                requestValueDialog: IntentDialog(LocalizedStringResource("어떤 단축어를 복사할까요?", comment: "Siri: ask which snippet")))
     var memo: ClipMemoEntity
 
@@ -124,8 +125,12 @@ struct CopyClipMemoIntent: AppIntent {
 /// Spotlight 에서 단축어를 누르면 앱이 열리며 복사된다. 위젯을 누른 것과 같다.
 struct OpenClipMemoIntent: OpenIntent {
     static let title = LocalizedStringResource("단축어 열기", comment: "Siri/Spotlight: open a snippet")
+    static let description = IntentDescription(
+        LocalizedStringResource("앱을 열고 고른 단축어의 값을 복사합니다.", comment: "Siri: open snippet description")
+    )
 
-    @Parameter(title: LocalizedStringResource("단축어", comment: "Siri: snippet parameter"))
+    @Parameter(title: LocalizedStringResource("단축어", comment: "Siri: snippet parameter"),
+               description: LocalizedStringResource("값을 복사할 단축어", comment: "Siri: snippet parameter description"))
     var target: ClipMemoEntity
 
     init() {}

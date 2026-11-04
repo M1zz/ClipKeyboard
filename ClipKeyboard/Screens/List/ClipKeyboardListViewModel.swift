@@ -3,6 +3,7 @@
 //  ClipKeyboard
 //
 
+import AppIntents
 import SwiftUI
 import LocalAuthentication
 import TipKit
@@ -1332,6 +1333,11 @@ final class ClipKeyboardListViewModel: ObservableObject {
             applyFilters()
         } catch {
             print("❌ [finalizeCopy] 오류: \(error)")
+        }
+
+        // Siri 가 "이 단축어를 자주 꺼낸다" 를 배운다. Siri 에 실어도 되는 단축어만 (`ClipMemoEntity.isOffered`).
+        if ClipMemoEntity.isOffered(memo) {
+            IntentDonationManager.shared.donate(intent: CopyClipMemoIntent(memo: ClipMemoEntity(memo)))
         }
 
 

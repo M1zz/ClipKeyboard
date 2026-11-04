@@ -47,7 +47,8 @@ struct CopyMemoValueIntent: AppIntent {
 
     /// 단축어 식별자(UUID 문자열). 값을 그대로 들고 다니지 않는 이유:
     /// 앱에서 내용을 고치면 위젯이 낡은 값을 복사하게 된다. 누를 때 다시 읽는다.
-    @Parameter(title: LocalizedStringResource("단축어", comment: "Copy value intent: memo parameter"))
+    @Parameter(title: LocalizedStringResource("단축어", comment: "Copy value intent: memo parameter"),
+               description: LocalizedStringResource("값을 복사할 단축어", comment: "Siri: snippet parameter description"))
     var memoID: String
 
     init() { self.memoID = "" }
@@ -109,6 +110,7 @@ struct CopyValueControlConfiguration: ControlConfigurationIntent {
 
     /// 즐겨찾기만 고를 수 있다(`MemoOptionsProvider`) - "미리 정해 둔 값"이 곧 즐겨찾기다.
     @Parameter(title: LocalizedStringResource("단축어", comment: "Copy value control: memo parameter"),
+               description: LocalizedStringResource("제어 센터 버튼이 복사할 즐겨찾기 단축어", comment: "Copy value control: memo parameter description"),
                optionsProvider: MemoOptionsProvider())
     var memo: MemoEntity?
 }

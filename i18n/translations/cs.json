@@ -13058,5 +13058,57 @@
   "보내기를 누르면 메일 앱이 열려요. 메일에서 한 번 더 보내야 전달돼요. iCloud에 로그인하면 앱에서 바로 보내져요.": {
     "v": "Klepnutím na Odeslat se otevře aplikace Mail a odtud je potřeba odeslat ještě jednou. Přihlaste se k iCloudu, abyste mohli odesílat přímo z aplikace.",
     "src": "ade455e417"
+  },
+  "Copy Snippet": {
+    "v": "Kopírovat frázi",
+    "src": "0ddaca3179"
+  },
+  "Siri에게 앱 이름을 말하지 않아도 단축어를 찾아 바로 복사해요.": {
+    "v": "Siri najde a zkopíruje vaše fráze, i když neřeknete název aplikace.",
+    "src": "b0da3e3b4f"
+  },
+  "‘%@’을 복사했어요.": {
+    "v": "Zkopírováno: „%@“.",
+    "src": "1a9c1ad1e4"
+  },
+  "값을 복사할 단축어": {
+    "v": "Fráze, jejíž hodnotu chcete zkopírovat",
+    "src": "dcfc222558"
+  },
+  "그 단축어를 찾지 못했어요.": {
+    "v": "Tu frázi jsem nenašel.",
+    "src": "7f1f7b50cd"
+  },
+  "단축어 복사": {
+    "v": "Kopírovat frázi",
+    "src": "efd103bf63"
+  },
+  "단축어 열기": {
+    "v": "Otevřít frázi",
+    "src": "005f9c796b"
+  },
+  "앱 이름 없이 Siri에게": {
+    "v": "Siri bez názvu aplikace",
+    "src": "ea23c16175"
+  },
+  "앱을 열고 고른 단축어의 값을 복사합니다.": {
+    "v": "Otevře aplikaci a zkopíruje hodnotu vybrané fráze.",
+    "src": "0e182bf08a"
+  },
+  "어떤 단축어를 복사할까요?": {
+    "v": "Kterou frázi mám zkopírovat?",
+    "src": "261fb9621c"
+  },
+  "위젯에 보여 줄 즐겨찾기 단축어": {
+    "v": "Oblíbená fráze, která se zobrazí ve widgetu",
+    "src": "d1c6e95a27"
+  },
+  "저장한 단축어의 값을 클립보드에 복사합니다.": {
+    "v": "Zkopíruje uloženou frázi do schránky.",
+    "src": "31dde03bfe"
+  },
+  "제어 센터 버튼이 복사할 즐겨찾기 단축어": {
+    "v": "Oblíbená fráze, kterou tlačítko v Ovládacím centru zkopíruje",
+    "src": "a8a1c831e6"
   }
 }

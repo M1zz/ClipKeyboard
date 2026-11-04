@@ -12820,5 +12820,57 @@
   "보내기를 누르면 메일 앱이 열려요. 메일에서 한 번 더 보내야 전달돼요. iCloud에 로그인하면 앱에서 바로 보내져요.": {
     "v": "Ao tocar em Enviar, o app Mail será aberto e você precisará enviar por lá também. Entre no iCloud para enviar direto pelo app.",
     "src": "ade455e417"
+  },
+  "Copy Snippet": {
+    "v": "Copiar frase",
+    "src": "0ddaca3179"
+  },
+  "Siri에게 앱 이름을 말하지 않아도 단축어를 찾아 바로 복사해요.": {
+    "v": "A Siri encontra e copia suas frases mesmo sem você dizer o nome do app.",
+    "src": "b0da3e3b4f"
+  },
+  "‘%@’을 복사했어요.": {
+    "v": "“%@” copiado.",
+    "src": "1a9c1ad1e4"
+  },
+  "값을 복사할 단축어": {
+    "v": "A frase cujo valor você quer copiar",
+    "src": "dcfc222558"
+  },
+  "그 단축어를 찾지 못했어요.": {
+    "v": "Não encontrei essa frase.",
+    "src": "7f1f7b50cd"
+  },
+  "단축어 복사": {
+    "v": "Copiar frase",
+    "src": "efd103bf63"
+  },
+  "단축어 열기": {
+    "v": "Abrir frase",
+    "src": "005f9c796b"
+  },
+  "앱 이름 없이 Siri에게": {
+    "v": "Peça à Siri sem dizer o nome do app",
+    "src": "ea23c16175"
+  },
+  "앱을 열고 고른 단축어의 값을 복사합니다.": {
+    "v": "Abre o app e copia o valor da frase escolhida.",
+    "src": "0e182bf08a"
+  },
+  "어떤 단축어를 복사할까요?": {
+    "v": "Qual frase devo copiar?",
+    "src": "261fb9621c"
+  },
+  "위젯에 보여 줄 즐겨찾기 단축어": {
+    "v": "A frase favorita que aparece no widget",
+    "src": "d1c6e95a27"
+  },
+  "저장한 단축어의 값을 클립보드에 복사합니다.": {
+    "v": "Copia uma frase salva para a área de transferência.",
+    "src": "31dde03bfe"
+  },
+  "제어 센터 버튼이 복사할 즐겨찾기 단축어": {
+    "v": "A frase favorita que o botão da Central de Controle copia",
+    "src": "a8a1c831e6"
   }
 }
