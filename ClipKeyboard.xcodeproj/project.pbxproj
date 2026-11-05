@@ -1646,7 +1646,7 @@
 			);
 			mainGroup = 58C4732F2A109F0C009D87BC;
 			packageReferences = (
-				588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "../LeeoKit" */,
+				588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */,
 			);
 			productRefGroup = 58C473392A109F0D009D87BC /* Products */;
 			projectDirPath = "";
@@ -2853,22 +2853,26 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "../LeeoKit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../LeeoKit;
+/* Begin XCRemoteSwiftPackageReference section */
+		588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/M1zz/LeeoKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.31.0;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		200BEA660FD1597D062B0754 /* LeeoKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "../LeeoKit" */;
+			package = 588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */;
 			productName = LeeoKit;
 		};
 		AFE2EA82E9F770F198C9B228 /* LeeoKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 588844507F0507779E5ACD8E /* XCLocalSwiftPackageReference "../LeeoKit" */;
+			package = 588844507F0507779E5ACD8E /* XCRemoteSwiftPackageReference "LeeoKit" */;
 			productName = LeeoKit;
 		};
 /* End XCSwiftPackageProductDependency section */
