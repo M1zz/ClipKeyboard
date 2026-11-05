@@ -202,6 +202,9 @@ struct TypingLayout {
 
 extension TypingLanguage {
 
+    /// 글자 줄에 맨 아랫줄(123 · 스페이스 · 리턴)을 더한 줄 수.
+    var typingRowCount: Int { layout.rows.count + 1 }
+
     /// 글자 판. 각 나라 iOS 기본 자판 배열이다.
     var layout: TypingLayout {
         switch self {

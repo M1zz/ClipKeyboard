@@ -121,6 +121,14 @@ enum TypingPrefs {
         print("🔄 [TypingPrefs.followSettingLanguage] 자판을 설정 언어로: \(setting.rawValue)")
     }
 
+    /// 지금 치는 언어. 저장된 값이 켜 둔 목록에 없으면 목록의 첫 언어다.
+    static func currentLanguage(currentRaw: String? = AppGroup.defaults?.string(forKey: currentKey),
+                                languagesRaw: String? = AppGroup.defaults?.string(forKey: languagesKey)) -> TypingLanguage {
+        let languages = Self.languages(from: languagesRaw ?? "")
+        if let currentRaw, let current = TypingLanguage(rawValue: currentRaw), languages.contains(current) { return current }
+        return languages.first ?? .en
+    }
+
     static func raw(from languages: [TypingLanguage]) -> String {
         languages.map(\.rawValue).joined(separator: ",")
     }
@@ -196,8 +204,7 @@ struct TypingKeyboardPanel: View {
     private var languages: [TypingLanguage] { TypingPrefs.languages(from: languagesRaw) }
 
     private var language: TypingLanguage {
-        if let current = TypingLanguage(rawValue: currentRaw), languages.contains(current) { return current }
-        return languages.first ?? .en
+        TypingPrefs.currentLanguage(currentRaw: currentRaw, languagesRaw: languagesRaw)
     }
 
     private var koreanLayout: KoreanTypingLayout {
@@ -1041,16 +1048,19 @@ enum ConversionDictionaryStore {
 ///     맨 아랫줄 123 : 스페이스 : 리턴 = 2.5 : 5 : 2.5 칸, 셋째 줄 Shift · 지우기 = 1.31 칸
 ///
 /// ⚠️ 판 높이는 단축어 판과 같이 쓴다(`KeyboardHeightBook`). 그래서 줄 간격을 그대로 박지 않고
-///    남는 높이로 나누되, 키가 기본 키보드보다 지나치게 커지지 않게 줄 간격에 상한을 두고
-///    나머지는 맨 위 띠(예측 막대 자리)에 준다.
+///    남는 높이로 나눈다. 아이폰 세로의 판은 바닥(화면의 43% · 46%)이 있어 기본 키보드보다 높다.
+///    남는 높이는 키가 먼저 받고, 띠는 맨 윗줄 풍선이 들어갈 만큼만 받는다.
+///    (예전에는 줄 간격 상한이 58pt 라 남는 높이가 전부 띠로 가서, Pro Max 에서 띠가 123pt 가 됐다)
 struct NativeKeyMetrics {
     static let sideInset: CGFloat = 3.67
     static let bottomInset: CGFloat = 0
-    /// 줄 간격의 상한. 기본 10키 판의 키(46pt)보다 커지지 않게.
-    static let maxRowPitch: CGFloat = 58
-    /// 맨 위 띠의 최소 높이. 단축어 키(32pt)가 들어가고, 남는 높이는 키 줄이 먼저 가져간다.
-    /// (우리 판은 기본 키보드보다 15pt 쯤 낮게 잡힌다. 띠를 줄여야 키가 기본 키보드 크기에 가까워진다)
+    /// 줄 간격의 상한. 아이폰 세로 바닥에서는 닿지 않고, 높이를 크게 고른 사람의 키가 끝없이 커지는 것만 막는다.
+    static let maxRowPitch: CGFloat = 80
+    /// 맨 위 띠의 최소 높이. 단축어 키(32pt)가 들어가는 높이다.
     static let minStripHeight: CGFloat = 38
+    /// 띠가 줄 하나보다 이만큼 낮아도 맨 윗줄 풍선(키 높이 + 3pt)이 판 안에 들어간다.
+    /// 풍선이 솟을 수 있는 높이는 띠 + 줄 틈의 절반 - 2 다(`maxRise`).
+    static let stripShortfall: CGFloat = 12.5
 
     let size: CGSize
     let rowCount: Int
@@ -1072,11 +1082,16 @@ struct NativeKeyMetrics {
 
     /// 줄 하나의 높이(손가락이 받는 높이).
     var rowPitch: CGFloat {
-        let usable = size.height - Self.minStripHeight - Self.bottomInset
-        return max(34, min(usable / CGFloat(max(rowCount, 1)), Self.maxRowPitch))
+        let rows = CGFloat(max(rowCount, 1))
+        let height = size.height - Self.bottomInset
+        // 띠를 가장 얇게 했을 때의 줄 높이.
+        let tightest = (height - Self.minStripHeight) / rows
+        // 띠까지 줄 하나처럼 나눈 줄 높이. 풍선이 들어갈 자리를 띠에 남긴다.
+        let balanced = (height + Self.stripShortfall) / (rows + 1)
+        return max(34, min(tightest, balanced, Self.maxRowPitch))
     }
 
-    /// 남는 높이는 맨 위 띠로.
+    /// 줄이 가져가고 남은 높이가 맨 위 띠다.
     var stripHeight: CGFloat {
         max(Self.minStripHeight, size.height - Self.bottomInset - rowPitch * CGFloat(rowCount))
     }
