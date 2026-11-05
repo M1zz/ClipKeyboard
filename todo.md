@@ -14,6 +14,17 @@
   - [x] 5a. 듀오: 첫 실행 · 수업은 한쪽 판에만, 방금 복사함에 내 단축어 안 띄움, 단순한 새 단축어의 늘어난 미리보기 없앰
   - [ ] 5b. 듀오 가로로 폈을 때 **모든 시트**가 접힌 선 한가운데에 선다(앱 전체, 27.1). preferredPlacement · preferredContentSize · formSheet 다 무시됨. sourceView 를 오른쪽 판에 두면 오른쪽에 붙지만 폭 650pt 그대로라 선을 덮음. containerViewDidLayoutSubviews 에서 frame 을 바꾸면 시트마다 결과가 달라(한쪽은 왼쪽이 검게 빔) 되돌림
 
+## 선물: App Store 오퍼 코드 링크로 다시 (브랜치 feat/gift-offer-link, 2026-11-05)
+> 5.1.16 이 "LeeoKit 코드로 Pro 를 연다" 로 3.1.1 거절된 뒤의 다시 넣기. Pro 를 여는 것은 App Store 다.
+- [x] 계약에 `gift: LeeoGiftConfig(..., sellsGifts: true)`: 소모성 `com.Ysoup.TokenMemo.gift.pro` 를 사면 허브 공개 DB 묶음에서 오퍼 코드 한 장, App Store 사용 링크로 공유
+- [x] 설정 선물 칸: 보내기(상품이 오면 누구나), App Store 코드 넣기(아직 Pro 가 아닌 사람), 막히면 결제 번호를 붙여 문의
+- [x] 시험: 계약이 오퍼 코드 판매이고 선물 상품이 Pro 권한이 아님(37개 통과)
+- [x] ⚠️ 이 브랜치는 LeeoKit 을 **로컬 경로(../LeeoKit)** 로 본다. LeeoKit 태그 뒤 원격 패키지로 되돌릴 것
+- [ ] ASC: Pro(`com.Ysoup.TokenMemo.pro`) 일회용 오퍼 코드 만들기 → FeedbackHub > 클립키보드 > 인앱 구입 > 선물 코드 묶음에 파일 넣기
+- [ ] Xcode 로 기기에서 보내기 확인(개발 CloudKit, 허브도 Xcode 로 띄워 개발 환경에 채우기). 처음 채운 뒤 Dashboard 에서 두 타입 bundleId Queryable
+- [ ] 받기(링크 → 사용 → Pro)는 App Store 판 앱에서만 끝까지 확인된다. Xcode · TestFlight 판은 App Store 의 실제 구매를 보지 않는다
+- [ ] Apple 약관: 오퍼 코드를 돈 받고 건네도 되는지
+
 ## 📸 아이폰 듀오 스크린샷 (2026-10-24)
 - [x] 규격 확인: 바깥 1398x2034 · 안쪽 2007x2853. 넣으면 상품 페이지에 듀오 뱃지, 2027년 4월부터 27.1 SDK 앱은 필수
 - [x] `take_screenshots.sh` 에 `duo`(바깥 화면 `--display=1`), `make_marketing_screenshots.py` 에 듀오 배치(글 위 · 기기 아래)

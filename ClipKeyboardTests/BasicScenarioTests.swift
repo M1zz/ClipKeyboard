@@ -411,9 +411,11 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertEqual(SmartClipboardHistory.keyboardRecents(history, now: Date()).first?.content, copied)
     }
 
-    /// 선물 코드는 앱에서 뺐다(지침 3.1.1). 코드를 넣는 길은 없고, 예전에 받아 둔 사람의 Pro 는 그대로다.
+    /// LeeoKit 선물 코드로 Pro 를 여는 길은 없다(지침 3.1.1). 선물은 App Store 오퍼 코드 링크로 가고, 예전에 받아 둔 사람의 Pro 는 그대로다.
     func test_선물_코드는_없고_예전에_받은_Pro_는_남는다() throws {
-        XCTAssertNil(ClipKeyboardSpec.paywall?.gift, "코드로 Pro 를 여는 길이 다시 생기면 안 된다")
+        // 선물 상품은 Pro 권한이 아니다. 산 사람이 Pro 가 되면 안 된다. 받는 사람은 App Store 오퍼 코드로 연다.
+        let gift = try XCTUnwrap(ClipKeyboardSpec.paywall?.gift)
+        XCTAssertFalse(AccessTier.proOrHigherProductIDs.contains(gift.productID), "선물을 산 사람이 Pro 가 되면 안 된다")
 
         let defaults = try XCTUnwrap(AppGroup.defaults)
         let saved = defaults.data(forKey: DefaultsKey.legacyGiftRedeemed)

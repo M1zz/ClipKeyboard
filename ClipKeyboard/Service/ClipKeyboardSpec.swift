@@ -80,8 +80,18 @@ enum ClipKeyboardSpec: LeeoAppSpec {
                 warnWhenRemaining: 3
             ),
             cacheSuiteName: AppGroup.identifier,
-            // ⚠️ 선물 코드(`gift:`)는 다시 넣지 않는다. 코드로 Pro 를 여는 것은 App Store 결제가 아니라서
-            //    5.1.16 이 지침 3.1.1 로 거절됐다. 할인 · 무료로 주려면 App Store 오퍼 코드를 쓴다.
+            // Pro 선물하기 - App Store 오퍼 코드 링크로(LeeoKit `LeeoOfferCodePool`).
+            // 보내는 사람이 소모성 선물 상품을 사면, 허브 컨테이너 공개 DB 의 오퍼 코드 묶음에서 한 장을 가져와
+            // App Store 사용 링크로 공유한다. 받는 사람은 링크를 누르고 "사용" 한 번 - Pro 를 여는 것은 App Store 다.
+            // ⚠️ 예전처럼 LeeoKit 코드로 Pro 를 열지 않는다(5.1.16 이 3.1.1 로 거절됐다).
+            // ⚠️ 선물 상품은 productIDs · entitlementIDs 에 넣지 않는다. 넣으면 선물을 산 사람이 Pro 가 된다.
+            // ⚠️ 묶음은 FeedbackHub > 인앱 구입 > 선물 코드 묶음에서 채운다. 비어 있으면 산 사람이 "준비 중" 에서 기다린다.
+            gift: LeeoGiftConfig(
+                productID: StoreManager.giftProductID,
+                grantsProductID: StoreManager.proProductID,
+                containerIdentifier: "iCloud.com.Ysoup.FeedbackHub",
+                sellsGifts: true
+            ),
             // 팁(응원). 이미 다 가진 사람이 더 내고 싶을 때. 아무것도 열지 않는 소모성 상품이다.
             // ⚠️ 이것도 productIDs · entitlementIDs 에 넣지 않는다(사전 점검 `tip.sellsPro`).
             tipJar: LeeoTipJarConfig(productIDs: StoreManager.tipProductIDs,

@@ -22,6 +22,8 @@ struct SettingView: View {
     @State private var memoCountState = 0
     /// App Store 의 구독 관리 시트.
     @State private var showManageSubscriptions = false
+    /// 선물이 안 될 때의 문의 창(결제 번호 · 코드가 붙는다).
+    @State private var showGiftSupport = false
     /// 구독을 평생으로 바꾸는 졸업 시트(`LeeoGraduationOfferView`).
     @State private var showGraduation = false
     /// 마스터(개발자) 모드 - 앱 정보의 버전 행을 7번 탭하면 토글. 피드백 인박스 진입점 노출.
@@ -241,6 +243,43 @@ struct SettingView: View {
         .accessibilityHint(NSLocalizedString("이전에 구매한 Pro를 복원합니다", comment: "Restore purchases accessibility hint"))
     }
 
+    /// Pro 선물하기. 소모성 선물을 사면 App Store 오퍼 코드 링크가 나오고, 그 링크로 받은 사람은
+    /// App Store 에서 "사용" 한 번으로 Pro 가 열린다(LeeoKit `LeeoOfferCodePool`). 지침 3.1.1 에 맞다:
+    /// Pro 를 여는 것은 우리 코드가 아니라 App Store 다.
+    ///
+    /// 보내기 줄은 상품이 App Store 에서 오면 누구에게나 보인다(이미 보낸 선물 · 준비 중인 결제가 있으면 늘).
+    /// 받기 줄(App Store 코드 넣기)은 아직 Pro 가 아닌 사람에게만. 링크 없이 코드만 받은 사람을 위한 자리다.
+    /// ⚠️ 문구는 LeeoKit 카탈로그에 있다(`LeeoGiftText`). 앱 카탈로그에 다시 적지 않는다.
+    @ViewBuilder
+    private var giftSection: some View {
+        if let gift = proManager.gift {
+            let showsSend = gift.isAvailable || gift.pendingCount > 0 || !gift.sentGifts.isEmpty
+            let showsRedeem = gift.canRedeem && !ProFeatureManager.hasPermanentPro
+            if showsSend || showsRedeem {
+                Section {
+                    if showsSend {
+                        FoldLink(destination: LeeoGiftView<ClipKeyboardSpec>(gift: gift, showsRedeemLink: false,
+                                                                              onContactSupport: { showGiftSupport = true })
+                            .leeoStyle(theme.leeoStyle)) {
+                            Label(LeeoGiftText.sendEntry, systemImage: AppSymbol.giftFill)
+                        }
+                    }
+                    if showsRedeem {
+                        FoldLink(destination: LeeoGiftRedeemView<ClipKeyboardSpec>(gift: gift,
+                                                                                 onContactSupport: { showGiftSupport = true })
+                            .leeoStyle(theme.leeoStyle)) {
+                            Label(LeeoGiftText.redeemEntry, systemImage: AppSymbol.giftcard)
+                        }
+                    }
+                }
+                .sheet(isPresented: $showGiftSupport) {
+                    FeedbackView(origin: .settings, initialType: .bug, initialCategory: .purchase,
+                                 extraLines: gift.supportLines)
+                }
+            }
+        }
+    }
+
     /// 처음 사용자(백지)가 아직 볼 일이 없는 줄(응원)을 보일 때인가. 기존 사용자 · 졸업한 사람은 늘 보인다.
     private var showsAdvancedRows: Bool {
         !FeatureSet.isBlankStartUser() || FeatureSet.hasGraduated(level: userState.state.level)
@@ -396,6 +435,7 @@ struct SettingView: View {
                                 systemImage: AppSymbol.bookPagesFill) { GuideBookView() }
                 }
             }
+            giftSection
             tipSection
             everydaySection
             aboutSection

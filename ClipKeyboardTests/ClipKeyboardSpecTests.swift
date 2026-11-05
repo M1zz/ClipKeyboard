@@ -75,7 +75,9 @@ final class ClipKeyboardSpecTests: XCTestCase {
 
     func testNoGiftCodes() {
         // 코드로 Pro 를 여는 것은 App Store 결제가 아니다(지침 3.1.1, 5.1.16 거절). 다시 넣지 않는다.
-        XCTAssertNil(ClipKeyboardSpec.paywall?.gift)
+        // 선물은 App Store 오퍼 코드 링크로만. LeeoKit 코드로 Pro 를 여는 길(3.1.1 거절)은 없다.
+        XCTAssertEqual(ClipKeyboardSpec.paywall?.gift?.sellsGifts, true)
+        XCTAssertEqual(ClipKeyboardSpec.paywall?.gift?.grantsProductID, StoreManager.proProductID)
     }
 
     func testAppNameAndDeveloperEmail() {

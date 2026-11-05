@@ -33,6 +33,10 @@ class StoreManager: ObservableObject {
     /// 칸마다의 상품(평생 · 연 구독 · 올리기 · 졸업)은 `AccessTier` 한 곳에 적는다.
     nonisolated static let proProductID = AccessTier.proProductID
 
+    /// Pro 선물 (소모성). 산 사람이 아니라 **링크를 받은 사람**에게 정가 Pro 가 열린다, App Store 오퍼 코드로.
+    /// ⚠️ App Store Connect 에 소모성 상품으로 있어야 뜬다. 없으면 설정의 선물 행이 숨는다.
+    nonisolated static let giftProductID = "com.Ysoup.TokenMemo.gift.pro"
+
 
     /// 팁(응원), 작은 것부터. 소모성이고 아무것도 열지 않는다(`LeeoTipJar`).
     /// ⚠️ App Store Connect 에 소모성 상품으로 만들어야 뜬다. 없으면 설정의 응원 행이 숨는다.
@@ -99,6 +103,9 @@ class StoreManager: ObservableObject {
     /// (그랜드파더 / TestFlight / 체험은 ProFeatureManager 가 별도로 판단한다.)
     var isPro: Bool { store.hasPro }
 
+    /// Pro 선물하기. 받는 사람의 Pro 는 App Store 오퍼 코드로 정식 구매가 되어 `purchasedProductIDs` 에 들어온다.
+    var gift: LeeoGiftStore? { store.gift }
+
     /// 팁(응원). 권한과 상관없다.
     var tipJar: LeeoTipJar? { store.tipJar }
 
@@ -120,6 +127,12 @@ class StoreManager: ObservableObject {
         store.tipJar?.objectWillChange
             .sink { [weak self] in self?.objectWillChange.send() }
             .store(in: &cancellables)
+        // 선물 상품이 불러와지거나 링크가 준비되면 설정 · 선물 화면도 다시 그린다.
+        store.gift?.objectWillChange
+            .sink { [weak self] in self?.objectWillChange.send() }
+            .store(in: &cancellables)
+        // 이미 Pro 인 사람(앱이 따로 판정하는 v3 그랜드파더 포함)은 받기 줄을 보지 않는다.
+        store.gift?.alreadyEntitled = { ProFeatureManager.hasPermanentPro }
 
         // 결제 권한을 익스텐션이 읽는 App Group Pro 키에 미러링한다.
         //
