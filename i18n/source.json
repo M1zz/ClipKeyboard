@@ -11861,11 +11861,23 @@
     "comment": "Sample cleanup title",
     "h": "8187a7feb3"
   },
+  "연습용으로 만든 가짜 계좌번호예요": {
+    "ko": "연습용으로 만든 가짜 계좌번호예요",
+    "en": "A made-up account number, just for practice",
+    "comment": "Blank start: copy step subline. Make clear the number is made up by the app for practice, not the user's real account found on the device",
+    "h": "6af81dad92"
+  },
   "연습으로 만든 단축어는 끝나고 지울지 한 번만 물어봐요(설정에서 다시 볼 수도 있어요)": {
     "ko": "연습으로 만든 단축어는 끝나고 지울지 한 번만 물어봐요(설정에서 다시 볼 수도 있어요)",
     "en": "We ask once whether to delete what you made for practice (and you can replay it from Settings)",
     "comment": "Changelog 4.4.4 item 10",
     "h": "59f3e99c6d"
+  },
+  "연습이라 어디에도 보내지지 않아요": {
+    "ko": "연습이라 어디에도 보내지지 않아요",
+    "en": "It's just practice. Nothing is sent anywhere",
+    "comment": "Blank start: send step subline. Reassure that this is a practice chat and nothing is actually sent anywhere",
+    "h": "98f5e5a0ea"
   },
   "열 가지 중에서 열 때마다 다른 것이 뽑혀요. 마음에 안 들면 다른 걸로 버튼으로 굴려 볼 수 있어요": {
     "ko": "열 가지 중에서 열 때마다 다른 것이 뽑혀요. 마음에 안 들면 다른 걸로 버튼으로 굴려 볼 수 있어요",

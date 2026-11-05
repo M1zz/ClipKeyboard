@@ -216,14 +216,17 @@ struct BlankStartPractice: View {
         case .copy:
             buttonUsed = false
             say(NSLocalizedString("눌러 보세요", comment: "Blank start: copy step line"),
-                NSLocalizedString("자주 쓰는 계좌번호를 담아 뒀어요", comment: "Blank start: copy step subline"))
+                // 내 계좌를 찾아냈다는 말로 읽히면 안 된다. 앱이 만든 가짜 번호임을 첫 줄에서 밝힌다.
+                // "자주 쓰는 계좌번호를 담아 뒀어요" 가 피싱처럼 읽혔다(2026-11 사용자 피드백).
+                NSLocalizedString("연습용으로 만든 가짜 계좌번호예요", comment: "Blank start: copy step subline. Make clear the number is made up by the app for practice, not the user's real account found on the device"))
         case .paste:
             say(NSLocalizedString("여기에 붙여넣어 보세요", comment: "Blank start: paste step line"),
                 NSLocalizedString("입력칸 위 '붙여넣기'를 누르세요", comment: "Blank start: paste step subline, tap the paste bubble above the field"))
         case .send:
             fieldFocused = false
             say(NSLocalizedString("보내 볼까요?", comment: "Blank start: send step line"),
-                NSLocalizedString("오른쪽 파란 화살표를 누르세요", comment: "Blank start: send step subline"))
+                // 보내는 곳이 없다는 것을 말한다. 계좌번호를 보내라는 말이 불안하게 읽히지 않게. 화살표는 물결이 짚는다.
+                NSLocalizedString("연습이라 어디에도 보내지지 않아요", comment: "Blank start: send step subline. Reassure that this is a practice chat and nothing is actually sent anywhere"))
         case .insert:
             buttonUsed = false
             text = ""

@@ -12878,5 +12878,13 @@
   "제어 센터 버튼이 복사할 즐겨찾기 단축어": {
     "v": "Favorittfrasen som knappen i Kontrollsenter kopierer",
     "src": "a8a1c831e6"
+  },
+  "연습용으로 만든 가짜 계좌번호예요": {
+    "v": "Et oppdiktet kontonummer, bare for å øve",
+    "src": "6af81dad92"
+  },
+  "연습이라 어디에도 보내지지 않아요": {
+    "v": "Det er bare øving. Ingenting blir sendt noe sted",
+    "src": "98f5e5a0ea"
   }
 }
