@@ -223,7 +223,7 @@ struct PaywallComparisonTable: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 header(NSLocalizedString("무료", comment: "Free"))
                 header(PaywallPlan.plus.name)
-                header(PaywallPlan.pro.name).foregroundStyle(.orange)
+                header(PaywallPlan.pro.name).foregroundStyle(theme.accent)
             }
             .font(.subheadline.weight(.semibold))
             .padding(.horizontal, 14)
@@ -237,7 +237,7 @@ struct PaywallComparisonTable: View {
                         .fixedSize(horizontal: false, vertical: true)
                     cell(row.free, tint: .secondary)
                     cell(row.plus, tint: .primary)
-                    cell(row.pro, tint: .orange)
+                    cell(row.pro, tint: theme.accent)
                 }
                 .font(.subheadline)
                 .padding(.horizontal, 14)

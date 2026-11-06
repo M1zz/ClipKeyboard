@@ -21,6 +21,7 @@
 //  ⚠️ 무엇을 결제하는지는 `PaywallPlanRules.productID` 한 곳이 정한다. 화면에 적은 값과 결제하는 상품은 같다.
 //  ⚠️ 결제는 화면의 `@Environment(\.purchase)` 로 한다. 아이패드에서 결제 시트가 엉뚱한 창에 뜨지 않게.
 //  ⚠️ 글자 · 바탕은 시스템 색이다. 테마 색을 쓰면 다크 모드에서 흰 바탕에 흰 글자가 됐다.
+//     강조(선택 테두리 · 배지 · 구매 단추)만 앱의 키 색(`theme.accent`)이다.
 //
 
 import SwiftUI
@@ -51,7 +52,9 @@ struct PaywallTemplate<Hero: View>: View {
     @State private var restoreOutcome: StoreManager.RestoreOutcome?
     @State private var showsComparison = false
 
-    private static var accent: Color { .orange }
+    @Environment(\.appTheme) private var theme
+    /// 앱의 키 색. 예전 페이월은 주황을 박아 두어 이 화면만 색이 달랐다(2026-11).
+    private var accent: Color { theme.accent }
 
     var body: some View {
         ScrollView {
@@ -97,8 +100,8 @@ struct PaywallTemplate<Hero: View>: View {
                             Text(NSLocalizedString("추천", comment: "Paywall plan badge: recommended"))
                                 .font(.caption2.weight(.bold))
                                 .padding(.horizontal, 6).padding(.vertical, 2)
-                                .background(Self.accent.opacity(selected ? 0.18 : 0.12), in: Capsule())
-                                .foregroundStyle(Self.accent)
+                                .background(accent.opacity(selected ? 0.18 : 0.12), in: Capsule())
+                                .foregroundStyle(accent)
                         }
                     }
                     .font(.body)
@@ -130,7 +133,7 @@ struct PaywallTemplate<Hero: View>: View {
                 } icon: {
                     Image(systemName: AppSymbol.checkmark)
                         .font(.callout.weight(.bold))
-                        .foregroundStyle(Self.accent)
+                        .foregroundStyle(accent)
                 }
                 .font(.body)
             }
@@ -166,7 +169,7 @@ struct PaywallTemplate<Hero: View>: View {
             HStack(spacing: 12) {
                 Image(systemName: selected ? AppSymbol.checkmarkCircleFill : AppSymbol.circle)
                     .font(.title3)
-                    .foregroundStyle(selected ? Self.accent : Color(uiColor: .tertiaryLabel))
+                    .foregroundStyle(selected ? accent : Color(uiColor: .tertiaryLabel))
                 VStack(alignment: .leading, spacing: 2) {
                     HStack(spacing: 6) {
                         Text(title(t)).font(.body.weight(.semibold))
@@ -174,8 +177,8 @@ struct PaywallTemplate<Hero: View>: View {
                             Text(badge)
                                 .font(.caption2.weight(.bold))
                                 .padding(.horizontal, 6).padding(.vertical, 2)
-                                .background(Self.accent, in: Capsule())
-                                .foregroundStyle(.white)
+                                .background(accent, in: Capsule())
+                                .foregroundStyle(theme.accentFg)
                         }
                     }
                     if let caption = caption(t) {
@@ -198,7 +201,7 @@ struct PaywallTemplate<Hero: View>: View {
             .background(Color(uiColor: .secondarySystemBackground), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
             .overlay(
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .strokeBorder(selected ? Self.accent : .clear, lineWidth: 2)
+                    .strokeBorder(selected ? accent : .clear, lineWidth: 2)
             )
             .contentShape(Rectangle())
         }
@@ -268,12 +271,12 @@ struct PaywallTemplate<Hero: View>: View {
                 Task { await buy(item) }
             } label: {
                 Group {
-                    if buying { ProgressView().tint(.white) } else { Text(ctaTitle).fontWeight(.bold) }
+                    if buying { ProgressView().tint(theme.accentFg) } else { Text(ctaTitle).fontWeight(.bold) }
                 }
                 .font(.headline)
-                .foregroundStyle(.white)
+                .foregroundStyle(theme.accentFg)
                 .frame(maxWidth: .infinity, minHeight: 54)
-                .background(Self.accent.gradient, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .background(accent, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
             }
             .buttonStyle(.squish)
             // 상품을 못 읽었으면 누를 수 없다. 누른 뒤에 "상품 없음" 을 듣는 것보다 낫다.
@@ -326,7 +329,7 @@ struct PaywallTemplate<Hero: View>: View {
                     startTrial()
                 }
                 .fontWeight(.semibold)
-                .foregroundStyle(Self.accent)
+                .foregroundStyle(accent)
             }
             Button(NSLocalizedString("복원", comment: "Paywall footer: restore purchases, short")) {
                 Task { restoreOutcome = await store.restorePurchases() }

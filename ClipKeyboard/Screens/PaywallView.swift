@@ -86,13 +86,10 @@ struct PaywallView: View {
     /// 템플릿 맨 위. 제목 한 줄과 **이 사람의** 한 줄만 둔다.
     /// 이 사람의 한 줄은 하나만 고른다: 걸린 한도 > 체험 중 > 이미 아낀 시간 > 지금 쓰는 칸 수.
     private var hero: some View {
+        // 그림은 두지 않는다. 왕관은 뜻이 없고 촌스럽다는 말을 들었다(2026-11). 제목이 먼저 읽힌다.
         VStack(spacing: 10) {
-            Image(systemName: AppSymbol.crownFill)
-                .font(.system(size: 40))
-                .foregroundStyle(.yellow.gradient)
-                .accessibilityHidden(true)
             Text(NSLocalizedString("자주 쓰는 글, 마음껏 담고 지키세요", comment: "Paywall headline: save as many snippets as you like and keep them safe"))
-                .font(.title2.weight(.bold))
+                .font(.title.weight(.bold))
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
             Text(personalLine)
@@ -101,7 +98,7 @@ struct PaywallView: View {
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(.top, 8)
+        .padding(.top, 16)
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(.isHeader)
     }
@@ -171,7 +168,7 @@ struct PaywallView: View {
                     } label: {
                         Label(LeeoTipText.entry, systemImage: AppSymbol.heartFill)
                             .font(.body.weight(.semibold))
-                            .foregroundStyle(.orange)
+                            .foregroundStyle(theme.accent)
                     }
                 }
                 PaywallComparisonTable()
