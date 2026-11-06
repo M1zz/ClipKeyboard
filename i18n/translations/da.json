@@ -12933,5 +12933,25 @@
   "붙여넣을 내용에 넣어요": {
     "v": "Sætter det ind som indhold, der skal indsættes",
     "src": "34065327b3"
+  },
+  "배송지": {
+    "v": "Leveringsadresse",
+    "src": "318a439a09"
+  },
+  "서울시 선물로 12": {
+    "v": "Gavegade 12",
+    "src": "3760ce1d8b"
+  },
+  "선물 받을 곳": {
+    "v": "Her kommer gaver",
+    "src": "69cdb846c6"
+  },
+  "어디로 배송하면 좋을까요?": {
+    "v": "Hvor skal jeg sende den hen?",
+    "src": "2607915950"
+  },
+  "연습용으로 만든 예시 주소예요": {
+    "v": "En eksempeladresse, kun til øvelse",
+    "src": "7e7ff89f3f"
   }
 }

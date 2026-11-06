@@ -12927,5 +12927,25 @@
   "붙여넣을 내용에 넣어요": {
     "v": "Coloca no conteúdo para colar",
     "src": "34065327b3"
+  },
+  "배송지": {
+    "v": "Endereço de entrega",
+    "src": "318a439a09"
+  },
+  "서울시 선물로 12": {
+    "v": "Rua dos Presentes, 12",
+    "src": "3760ce1d8b"
+  },
+  "선물 받을 곳": {
+    "v": "Para receber presentes",
+    "src": "69cdb846c6"
+  },
+  "어디로 배송하면 좋을까요?": {
+    "v": "Para onde eu envio?",
+    "src": "2607915950"
+  },
+  "연습용으로 만든 예시 주소예요": {
+    "v": "É um endereço de exemplo para praticar",
+    "src": "7e7ff89f3f"
   }
 }

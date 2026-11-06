@@ -4,7 +4,7 @@
 //
 //  백지 첫 실행의 **그림.** 10초쯤 혼자 돈다.
 //
-//  메모에 있는 계좌번호가 선택되고 복사되어 → 이 앱의 상자로 날아 들어가고 →
+//  메모에 있는 배송지가 선택되고 복사되어 → 이 앱의 상자로 날아 들어가고 →
 //  채팅 입력칸으로 꺼내져 들어간다. 위의 한 줄이 장면마다 바뀐다:
 //  "다른 곳에 자주 쓰는 글이 있으면" → "복사해서 여기 담아 두세요" → "필요할 때 꺼내 쓰면 돼요"
 //
@@ -115,7 +115,7 @@ struct BlankStartIntro: View {
             Text(NSLocalizedString("메모", comment: "Blank start intro: title of the notes card the text is copied from"))
                 .font(.body.weight(.bold))
                 .foregroundStyle(Color(red: 0.55, green: 0.48, blue: 0.18))
-            Text(NSLocalizedString("입금은 여기로", comment: "Blank start intro: a line in the notes card before the account number"))
+            Text(NSLocalizedString("선물 받을 곳", comment: "Blank start intro: a line in the notes card before the delivery address"))
                 .font(.body)
             Text(BlankStartSample.value)
                 .font(.body)
@@ -138,7 +138,7 @@ struct BlankStartIntro: View {
 
     private var chatCard: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(NSLocalizedString("계좌 알려 주실래요?", comment: "Blank start intro: a chat message asking for the account number"))
+            Text(NSLocalizedString("어디로 배송하면 좋을까요?", comment: "Blank start intro: a chat message from someone sending a gift, asking where to deliver it"))
                 .font(.body)
                 .padding(.horizontal, 13).padding(.vertical, 9)
                 .background(Color(.systemGray4), in: RoundedRectangle(cornerRadius: 18))

@@ -162,10 +162,11 @@ struct BlankStartView: View {
 /// 첫 실행에서 눌러 보는 예시. 끝나면 이것 하나가 목록에 덩그러니 남는다.
 enum BlankStartSample {
     static var title: String {
-        NSLocalizedString("계좌번호", comment: "Blank start: example snippet title (bank account)")
+        // 예시는 선물 받을 배송지다. 계좌번호였을 때 "앱이 내 계좌를 찾아 보내라고 한다" 로 읽혔다(2026-11 사용자 피드백).
+        NSLocalizedString("배송지", comment: "Blank start: example snippet title (delivery address for a gift)")
     }
     static var value: String {
-        NSLocalizedString("신한 110-123-456789", comment: "Blank start: example bank account value. Use a bank name common in the locale and keep the made-up number format")
+        NSLocalizedString("서울시 선물로 12", comment: "Blank start: example delivery address value. A short, clearly made-up address on a street named after gifts, in the locale's usual address format. Must not be a real address")
     }
 
     /// 목록에 예시 하나를 남긴다. 이미 같은 것이 있으면 넣지 않는다.

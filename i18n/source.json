@@ -8009,6 +8009,12 @@
     "comment": "Essential snippet moment: a delivery app asks for your address",
     "h": "5111a2020a"
   },
+  "배송지": {
+    "ko": "배송지",
+    "en": "Delivery address",
+    "comment": "Blank start: example snippet title (delivery address for a gift)",
+    "h": "318a439a09"
+  },
   "배웠어요": {
     "ko": "배웠어요",
     "en": "Learned",
@@ -9983,11 +9989,23 @@
     "comment": "Address placeholder",
     "h": "fb98b97277"
   },
+  "서울시 선물로 12": {
+    "ko": "서울시 선물로 12",
+    "en": "12 Gift Street",
+    "comment": "Blank start: example delivery address value. A short, clearly made-up address on a street named after gifts, in the locale's usual address format. Must not be a real address",
+    "h": "3760ce1d8b"
+  },
   "서울특별시 종로구 청와대로 1": {
     "ko": "서울특별시 종로구 청와대로 1",
     "en": "1 Main Street, Springfield",
     "comment": "Sample value for a new Address snippet. Use a well-known, obviously fake street address in the user's country",
     "h": "67969d6959"
+  },
+  "선물 받을 곳": {
+    "ko": "선물 받을 곳",
+    "en": "Where gifts go",
+    "comment": "Blank start intro: a line in the notes card before the delivery address",
+    "h": "69cdb846c6"
   },
   "선물 시험 (개발자)": {
     "ko": "선물 시험 (개발자)",
@@ -11519,6 +11537,12 @@
     "comment": "Key color note: plum",
     "h": "164250874e"
   },
+  "어디로 배송하면 좋을까요?": {
+    "ko": "어디로 배송하면 좋을까요?",
+    "en": "Where should I send it?",
+    "comment": "Blank start intro: a chat message from someone sending a gift, asking where to deliver it",
+    "h": "2607915950"
+  },
   "어디에 담을까요?": {
     "ko": "어디에 담을까요?",
     "en": "Where should it go?",
@@ -11902,6 +11926,12 @@
     "en": "A made-up account number, just for practice",
     "comment": "Blank start: copy step subline. Make clear the number is made up by the app for practice, not the user's real account found on the device",
     "h": "6af81dad92"
+  },
+  "연습용으로 만든 예시 주소예요": {
+    "ko": "연습용으로 만든 예시 주소예요",
+    "en": "A sample address, just for practice",
+    "comment": "Blank start: copy step subline. Make clear the address is made up by the app for practice, not the user's real address found on the device",
+    "h": "7e7ff89f3f"
   },
   "연습으로 만든 단축어는 끝나고 지울지 한 번만 물어봐요(설정에서 다시 볼 수도 있어요)": {
     "ko": "연습으로 만든 단축어는 끝나고 지울지 한 번만 물어봐요(설정에서 다시 볼 수도 있어요)",
