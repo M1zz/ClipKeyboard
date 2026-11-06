@@ -78,6 +78,13 @@ final class ClipKeyboardSpecTests: XCTestCase {
         // 선물은 App Store 오퍼 코드 링크로만. LeeoKit 코드로 Pro 를 여는 길(3.1.1 거절)은 없다.
         XCTAssertEqual(ClipKeyboardSpec.paywall?.gift?.sellsGifts, true)
         XCTAssertEqual(ClipKeyboardSpec.paywall?.gift?.grantsProductID, StoreManager.proProductID)
+        // Plus 선물: Plus 평생을 열고, 묶음은 Pro 와 따로다. 선물 상품은 판매 · 권한 목록에 없다.
+        let plusGift = ClipKeyboardSpec.paywall?.moreGifts.first
+        XCTAssertEqual(plusGift?.productID, StoreManager.plusGiftProductID)
+        XCTAssertEqual(plusGift?.grantsProductID, AccessTier.plusProductID)
+        XCTAssertEqual(plusGift?.poolKey, StoreManager.plusGiftPoolKey)
+        XCTAssertFalse(ClipKeyboardSpec.paywall?.productIDs.contains(StoreManager.plusGiftProductID) ?? true)
+        XCTAssertFalse(ClipKeyboardSpec.paywall?.entitlementIDs.contains(StoreManager.plusGiftProductID) ?? true)
     }
 
     func testAppNameAndDeveloperEmail() {

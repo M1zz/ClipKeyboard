@@ -252,20 +252,22 @@ struct SettingView: View {
     /// ⚠️ 문구는 LeeoKit 카탈로그에 있다(`LeeoGiftText`). 앱 카탈로그에 다시 적지 않는다.
     @ViewBuilder
     private var giftSection: some View {
-        if let gift = proManager.gift {
-            let showsSend = gift.isAvailable || gift.pendingCount > 0 || !gift.sentGifts.isEmpty
-            let showsRedeem = gift.canRedeem && !ProFeatureManager.hasPermanentPro
-            if showsSend || showsRedeem {
+        // 선물은 등급마다 하나씩(Plus · Pro). 받기 줄은 하나면 된다(오퍼 코드는 App Store 가 받는다).
+        let senders = proManager.gifts.filter { $0.isAvailable || $0.pendingCount > 0 || !$0.sentGifts.isEmpty }
+        if let first = proManager.gift {
+            let showsRedeem = first.canRedeem && !ProFeatureManager.hasPermanentPro
+            if !senders.isEmpty || showsRedeem {
                 Section {
-                    if showsSend {
+                    // 싼 것(Plus)부터. 설정 목록은 사다리 순서를 따른다.
+                    ForEach(senders.reversed(), id: \.config.productID) { gift in
                         FoldLink(destination: LeeoGiftView<ClipKeyboardSpec>(gift: gift, showsRedeemLink: false,
                                                                               onContactSupport: { showGiftSupport = true })
                             .leeoStyle(theme.leeoStyle)) {
-                            Label(LeeoGiftText.sendEntry, systemImage: AppSymbol.giftFill)
+                            Label(LeeoGiftText.sendEntry(tier: gift.config.tierName), systemImage: AppSymbol.giftFill)
                         }
                     }
                     if showsRedeem {
-                        FoldLink(destination: LeeoGiftRedeemView<ClipKeyboardSpec>(gift: gift,
+                        FoldLink(destination: LeeoGiftRedeemView<ClipKeyboardSpec>(gift: first,
                                                                                  onContactSupport: { showGiftSupport = true })
                             .leeoStyle(theme.leeoStyle)) {
                             Label(LeeoGiftText.redeemEntry, systemImage: AppSymbol.giftcard)
@@ -274,7 +276,7 @@ struct SettingView: View {
                 }
                 .sheet(isPresented: $showGiftSupport) {
                     FeedbackView(origin: .settings, initialType: .bug, initialCategory: .purchase,
-                                 extraLines: gift.supportLines)
+                                 extraLines: proManager.gifts.flatMap(\.supportLines))
                 }
             }
         }

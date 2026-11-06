@@ -221,6 +221,26 @@
       "productID": "com.Ysoup.TokenMemo.tip.large",
       "referenceName": "Tip large (consumable)",
       "type": "Consumable"
+    },
+    {
+      "displayPrice": "5.99",
+      "familyShareable": false,
+      "internalID": "gift_plus",
+      "localizations": [
+        {
+          "description": "A one-time code that unlocks ClipKeyboard Plus for someone else.",
+          "displayName": "Gift ClipKeyboard Plus",
+          "locale": "en_US"
+        },
+        {
+          "description": "다른 사람의 ClipKeyboard Plus를 여는 일회용 선물 코드",
+          "displayName": "ClipKeyboard Plus 선물",
+          "locale": "ko"
+        }
+      ],
+      "productID": "com.Ysoup.TokenMemo.gift.plus",
+      "referenceName": "Plus Gift",
+      "type": "Consumable"
     }
   ],
   "settings": {

@@ -6,6 +6,7 @@ App Store Connect ▸ 앱 내 구입 ▸ 상품 ▸ **심사 정보 ▸ 스크�
 | 파일 | 상품 | 화면 |
 | --- | --- | --- |
 | `com.Ysoup.TokenMemo.gift.pro.png` | Pro 선물 (소모성) | 설정 ▸ Pro 선물하기 (`LeeoGiftView`) |
+| `com.Ysoup.TokenMemo.gift.plus.png` | Plus 선물 (소모성) | 설정 ▸ Plus 선물하기 (`LeeoGiftView`, 실제 화면을 UI 시험으로 찍음) |
 | `com.Ysoup.TokenMemo.tip.small.png` | 팁 작은 것 (소모성) | 설정 ▸ 개발자 응원하기 (`LeeoTipJarView`) |
 | `com.Ysoup.TokenMemo.tip.medium.png` | 팁 중간 (소모성) | 같은 화면 |
 | `com.Ysoup.TokenMemo.tip.large.png` | 팁 큰 것 (소모성) | 같은 화면 |
