@@ -13187,5 +13187,29 @@
   "연습용으로 만든 예시 주소예요": {
     "v": "Ukázková adresa jen na procvičení",
     "src": "7e7ff89f3f"
+  },
+  "자주 쓰는 글, 마음껏 담고 지키세요": {
+    "v": "Ukládejte bez omezení, co často píšete, a v bezpečí",
+    "src": "ad4b6cdb2c"
+  },
+  "%@ 절약": {
+    "v": "Ušetříte %@",
+    "src": "8a8d959c0e"
+  },
+  "한 번만 결제해요. 자동 갱신은 없어요.": {
+    "v": "Jednorázová platba. Bez automatického obnovení.",
+    "src": "e09f45eb0f"
+  },
+  "모든 기능 비교": {
+    "v": "Porovnat všechny funkce",
+    "src": "5dd8a02dba"
+  },
+  "만든 단축어는 결제하지 않아도 계속 써요": {
+    "v": "Vytvořené zkratky fungují i bez placení",
+    "src": "0c7057a722"
+  },
+  "%1$@ 아꼈어요 · %2$@": {
+    "v": "Ušetřeno %1$@ · %2$@",
+    "src": "cf19dcbd6f"
   }
 }

@@ -28,8 +28,6 @@ struct PaywallView: View {
     @State private var trialTick: Int = 0
     /// 전환 완료 여부 - 닫기율(paywall_dismissed) 분리용 (구매/체험 시작이면 닫기로 안 침)
     @State private var didConvert = false
-    /// 복원을 누른 결과. 값이 들어오면 알림이 뜬다.
-    @State private var restoreOutcome: StoreManager.RestoreOutcome?
     /// 방금 산 칸 - 성공 문구가 산 것을 말하게.
     @State private var boughtPlan: PaywallPlan?
 
@@ -38,10 +36,12 @@ struct PaywallView: View {
         let access = PaywallAccess.current
         Group {
             if embedded {
-                scroll(access)
+                content(access)
+                    .navigationBarTitleDisplayMode(.inline)
             } else {
                 NavigationView {
-                    scroll(access)
+                    content(access)
+                        .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 GlassCircleButton(AppSymbol.xmark, role: .secondary,
@@ -59,7 +59,6 @@ struct PaywallView: View {
                 successOverlay
             }
         }
-        .restoreOutcomeAlert($restoreOutcome)
         .onAppear {
             // ⚠️ 산 사람이 기능을 보러 연 것은 결제 화면 노출로 세지 않는다. 세면 전환율이 깎인다.
             if !access.hasPermanentPro {
@@ -82,116 +81,82 @@ struct PaywallView: View {
         }
     }
 
-    // MARK: - Header
+    // MARK: - 머리말
 
-    private func headerSection(_ access: PaywallAccess) -> some View {
-        VStack(spacing: 12) {
+    /// 템플릿 맨 위. 제목 한 줄과 **이 사람의** 한 줄만 둔다.
+    /// 이 사람의 한 줄은 하나만 고른다: 걸린 한도 > 체험 중 > 이미 아낀 시간 > 지금 쓰는 칸 수.
+    private var hero: some View {
+        VStack(spacing: 10) {
             Image(systemName: AppSymbol.crownFill)
-                .font(.system(size: 48))
+                .font(.system(size: 40))
                 .foregroundStyle(.yellow.gradient)
                 .accessibilityHidden(true)
-
-            // 이미 Pro 인 사람에게는 그 이름 그대로. 아니면 고를 칸 둘을 다 말한다.
-            Text(access.hasPermanentPro ? "ClipKeyboard Pro" : "ClipKeyboard Plus · Pro")
-                .font(.title)
-                .fontWeight(.bold)
-
-            Text(headerSubtitle(access))
-                .font(.body)
+            Text(NSLocalizedString("자주 쓰는 글, 마음껏 담고 지키세요", comment: "Paywall headline: save as many snippets as you like and keep them safe"))
+                .font(.title2.weight(.bold))
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+            Text(personalLine)
+                .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-
-            // 지금 이 사람의 자리. 값을 말하기 전에 **지금 어디에 서 있는지**부터 말한다.
-            // 이 줄이 없으면 "무제한" 이 무엇에서 풀려나는 말인지 알 수 없다.
-            if !access.hasPermanentPro {
-                limitStatusRow
-            }
+                .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(.top, 20)
+        .padding(.top, 8)
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isHeader)
     }
 
-    /// "내 단축어 7 / 10칸" - 산 칸까지 더한 **지금 이 사람의** 한도를 말한다.
-    ///
-    /// ⚠️ 세는 것은 자기 것뿐이다(`ownMemoCount`). 온보딩이 심어 준 샘플까지 세면
-    ///    아무것도 안 만든 사람이 4/10 에서 시작한다.
-    private var limitStatusRow: some View {
+    private var personalLine: String {
+        if let trigger = triggeredBy { return trigger.localizedDescription }
+        if ProFeatureManager.isInTrial {
+            return String(format: NSLocalizedString("체험 활성: %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining)
+        }
+        let seconds = KeyboardUsageTracker.totalTimeSavedSeconds()
+        if seconds >= 300 {
+            return String(format: NSLocalizedString("이미 ClipKeyboard로 %d분을 아꼈어요. Pro로 무제한으로 계속 아끼세요.", comment: "Paywall personalized time-saved proof"), Int(seconds / 60))
+        }
+        // ⚠️ 세는 것은 자기 것뿐이다(`ownMemoCount`). 온보딩이 심어 준 샘플까지 세면 아무것도 안 만든 사람이 4/10 에서 시작한다.
         let limit = ProFeatureManager.memoLimit
-        let text = limit == Int.max
+        return limit == Int.max
             ? NSLocalizedString("단축어 무제한", comment: "Paywall: unlimited slots")
             : String(format: NSLocalizedString("지금 내 단축어 %1$d / %2$d칸", comment: "Paywall: current slot usage"),
                      ProFeatureManager.ownMemoCount(MemoStore.shared.memos), limit)
-        return Text(text)
-            .font(.subheadline.weight(.medium))
-            .foregroundStyle(.orange)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
-            .background(.orange.opacity(0.12), in: Capsule())
     }
 
-    private func headerSubtitle(_ access: PaywallAccess) -> String {
-        // 이미 산 사람도 "무엇이 열려 있는지" 보러 온다(`ProBenefitsView` 의 전체 보기). 파는 말은 하지 않는다.
+    // MARK: - 본문
+
+    /// 결제 화면 본문. 시트든 밀려 들어온 화면이든 같다.
+    @ViewBuilder
+    private func content(_ access: PaywallAccess) -> some View {
         if access.hasPermanentPro {
-            return NSLocalizedString("모든 Pro 기능이 열려 있어요", comment: "Paywall subtitle for users who already have Pro")
+            ownedContent
+        } else {
+            PaywallTemplate(access: access,
+                            source: triggeredBy?.analyticsKey,
+                            startTrial: ProFeatureManager.canStartTrial ? startTrial : nil,
+                            onPurchased: { plan in
+                                didConvert = true
+                                boughtPlan = plan
+                                #if os(iOS)
+                                UIAccessibility.post(notification: .announcement, argument: successText)
+                                #endif
+                                celebrateAndDismiss()
+                            }) { hero }
+                .id(trialTick) // 체험을 시작하면 다시 그린다
         }
-        if ProFeatureManager.canStartTrial {
-            return String(format: NSLocalizedString("%d일 무료 체험 · 월 · 연 구독이나 평생 중에 골라요", comment: "Paywall subtitle with trial: free trial days, then choose monthly, yearly or lifetime"), ProFeatureManager.trialDurationDays)
-        }
-        return NSLocalizedString("월 · 연 구독이나 평생 중에 골라요", comment: "Paywall subtitle: choose a monthly or yearly subscription, or a lifetime purchase")
     }
 
-    // MARK: - 이미 아낀 시간
-
-    private func timeSavedBanner(_ proof: String) -> some View {
-        HStack(spacing: 10) {
-            Image(systemName: AppSymbol.clockArrowCirclepath)
-                .font(.title3)
-                .foregroundStyle(.green)
-                .accessibilityHidden(true)
-            Text(proof)
-                .font(.callout.weight(.semibold))
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .padding(14)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.green.opacity(0.12), in: RoundedRectangle(cornerRadius: theme.radiusMd))
-        .accessibilityElement(children: .combine)
-    }
-
-    /// 이미 절약한 시간을 증거로 - 5분 이상일 때만. "Pro로 계속 아끼세요" 는 산 사람에게 하지 않는다(부르는 쪽이 거른다).
-    private var timeSavedProof: String? {
-        let seconds = KeyboardUsageTracker.totalTimeSavedSeconds()
-        guard seconds >= 300 else { return nil }
-        return String(format: NSLocalizedString("이미 ClipKeyboard로 %d분을 아꼈어요. Pro로 무제한으로 계속 아끼세요.", comment: "Paywall personalized time-saved proof"), Int(seconds / 60))
-    }
-
-    // MARK: - Limit Banner
-
-    private func limitBanner(_ limit: ProFeatureManager.LimitType) -> some View {
-        HStack(spacing: 12) {
-            Image(systemName: AppSymbol.infoCircleFill)
-                .foregroundStyle(.orange)
-                .accessibilityHidden(true)
-
-            Text(limit.localizedDescription)
-                .font(.body)
-                .multilineTextAlignment(.leading)
-        }
-        .padding()
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.orange.opacity(0.1), in: RoundedRectangle(cornerRadius: theme.radiusMd))
-    }
-
-    // MARK: - Purchase
-
-    private func purchaseSection(_ access: PaywallAccess) -> some View {
-        VStack(spacing: 12) {
-            if access.hasPermanentPro {
-                // 이미 Pro (구매 / 그랜드파더 / TestFlight) - store.isPro만 보면 그랜드파더 누락
+    /// 이미 Pro 인 사람(산 것 · 그랜드파더 · TestFlight)이 "무엇이 열려 있나" 보러 왔다. 파는 말은 하지 않는다.
+    private var ownedContent: some View {
+        ScrollView {
+            VStack(spacing: 20) {
                 Label(NSLocalizedString("Pro 활성화됨", comment: "Pro active"),
                       systemImage: AppSymbol.checkmarkSealFill)
-                    .font(.headline)
+                    .font(.title3.weight(.bold))
                     .foregroundStyle(.green)
-                    .padding()
+                    .padding(.top, 12)
+                Text(NSLocalizedString("모든 Pro 기능이 열려 있어요", comment: "Paywall subtitle for users who already have Pro"))
+                    .foregroundStyle(.secondary)
                 // 이 앱을 넘어 모든 앱을 평생으로. 이 앱의 Pro 평생을 가진 사람은 올리기 값으로 본다.
                 if StoreManager.sellsForeverPass {
                     LeeoForeverPassLine(pass: store.foreverPass,
@@ -209,112 +174,18 @@ struct PaywallView: View {
                             .foregroundStyle(.orange)
                     }
                 }
-            } else {
-                if ProFeatureManager.isInTrial {
-                    trialActiveBadge
-                }
-                // 무료 체험 시작 버튼 (1회 한정, 자격 있을 때만)
-                if ProFeatureManager.canStartTrial {
-                    trialStartButton
-                }
-
-                PaywallLadder(access: access, source: triggeredBy?.analyticsKey) { plan in
-                    didConvert = true
-                    boughtPlan = plan
-                    #if os(iOS)
-                    UIAccessibility.post(notification: .announcement, argument: successText)
-                    #endif
-                    celebrateAndDismiss()
-                }
-
-                Button {
-                    Task {
-                        let outcome = await store.restorePurchases()
-                        if outcome == .restored { didConvert = true }
-                        restoreOutcome = outcome
-                    }
-                } label: {
-                    Text(NSLocalizedString("이전 구매 복원", comment: "Restore"))
-                        .font(.body)
-                        .foregroundStyle(.secondary)
-                }
-
-                if let error = store.errorMessage {
-                    Text(error)
-                        .font(.body)
-                        .foregroundStyle(.red)
-                }
-            }
-        }
-        .id(trialTick) // trial 시작 시 강제 redraw
-    }
-
-    /// "7일 무료 체험 시작" 버튼
-    private var trialStartButton: some View {
-        Button {
-            AnalyticsService.logPaywallCtaTapped(triggeredBy: triggeredBy?.analyticsKey, isTrial: true)
-            guard ProFeatureManager.startTrial() else { return }
-            didConvert = true
-            AnalyticsService.logTrialStarted(triggeredBy: triggeredBy?.analyticsKey)
-            trialTick &+= 1
-            celebrateAndDismiss()
-        } label: {
-            Label(String(format: NSLocalizedString("%d일 무료 체험 시작", comment: "Start free trial button"), ProFeatureManager.trialDurationDays),
-                  systemImage: AppSymbol.giftFill)
-                .font(.headline)
-                .foregroundStyle(.orange)
-                .frame(height: 54)
-                .frame(maxWidth: .infinity)
-                .background(.orange.opacity(0.12), in: RoundedRectangle(cornerRadius: theme.radiusMd))
-                .overlay(
-                    RoundedRectangle(cornerRadius: theme.radiusMd)
-                        .stroke(.orange.opacity(0.4), lineWidth: 1.5)
-                )
-        }
-    }
-
-    /// 활성 trial 상태 배지
-    private var trialActiveBadge: some View {
-        HStack(spacing: 8) {
-            Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
-                .foregroundStyle(.green)
-                .accessibilityHidden(true)
-            Text(String(format: NSLocalizedString("체험 활성: %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
-                .font(.body)
-                .fontWeight(.medium)
-            Spacer()
-        }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 10)
-        .background(.green.opacity(0.1), in: RoundedRectangle(cornerRadius: theme.radiusSm))
-        .accessibilityElement(children: .combine)
-    }
-
-    /// 결제 화면 본문. 시트든 밀려 들어온 화면이든 같다.
-    private func scroll(_ access: PaywallAccess) -> some View {
-        ScrollView {
-            VStack(spacing: 24) {
-                headerSection(access)
-
-                // 제한에 걸려 열렸을 때만
-                if let trigger = triggeredBy {
-                    limitBanner(trigger)
-                }
-
-                // 개인화 증거(이미 아낀 시간). 칸마다 무엇이 들어 있는지는 칸 카드가 말한다.
-                if !access.hasPermanentPro, let proof = timeSavedProof {
-                    timeSavedBanner(proof)
-                }
-
-                // 구매 버튼은 가치 직후, 비교표 위
-                purchaseSection(access)
-
                 PaywallComparisonTable()
-                    .padding(.bottom, 20)
             }
-            .padding()
+            .padding(20)
         }
-        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func startTrial() {
+        guard ProFeatureManager.startTrial() else { return }
+        didConvert = true
+        AnalyticsService.logTrialStarted(triggeredBy: triggeredBy?.analyticsKey)
+        trialTick &+= 1
+        celebrateAndDismiss()
     }
 
     /// 성공 표시를 띄우고 1.5초 뒤 닫는다. 체험 시작과 구매가 같이 쓴다.

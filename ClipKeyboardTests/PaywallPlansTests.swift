@@ -74,6 +74,14 @@ struct PaywallPlansTests {
         }
     }
 
+    @Test("연 구독 배지는 월 열두 달보다 10% 넘게 쌀 때만, 그 몫을 말한다")
+    func yearlySavingBadge() {
+        #expect(PaywallPricing.yearlySaving(monthly: 1100, yearly: 6600) == 0.5)
+        #expect(PaywallPricing.yearlySaving(monthly: 1000, yearly: 11500) == nil)
+        #expect(PaywallPricing.yearlySaving(monthly: nil, yearly: 6600) == nil)
+        #expect(PaywallPricing.yearlySaving(monthly: 0, yearly: 6600) == nil)
+    }
+
     @Test("Pro(산 것 · 구독 · 그랜드파더)는 아무것도 팔지 않는다")
     func proOwnerBuysNothing() {
         for s in [states(.pro), states(.free, permanentPro: true), states(.master)] {

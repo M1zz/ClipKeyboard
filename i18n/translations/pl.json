@@ -13187,5 +13187,29 @@
   "연습용으로 만든 예시 주소예요": {
     "v": "To przykładowy adres do ćwiczeń",
     "src": "7e7ff89f3f"
+  },
+  "자주 쓰는 글, 마음껏 담고 지키세요": {
+    "v": "Zapisuj bez limitu to, co często piszesz, bezpiecznie",
+    "src": "ad4b6cdb2c"
+  },
+  "%@ 절약": {
+    "v": "Oszczędzasz %@",
+    "src": "8a8d959c0e"
+  },
+  "한 번만 결제해요. 자동 갱신은 없어요.": {
+    "v": "Płatność jednorazowa. Bez automatycznego odnawiania.",
+    "src": "e09f45eb0f"
+  },
+  "모든 기능 비교": {
+    "v": "Porównaj wszystkie funkcje",
+    "src": "5dd8a02dba"
+  },
+  "만든 단축어는 결제하지 않아도 계속 써요": {
+    "v": "Utworzone skróty działają bez płacenia",
+    "src": "0c7057a722"
+  },
+  "%1$@ 아꼈어요 · %2$@": {
+    "v": "Zaoszczędzono %1$@ · %2$@",
+    "src": "cf19dcbd6f"
   }
 }

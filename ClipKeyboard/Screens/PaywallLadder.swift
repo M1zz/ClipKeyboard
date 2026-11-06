@@ -2,246 +2,384 @@
 //  PaywallLadder.swift
 //  ClipKeyboard
 //
-//  **요금제 사다리**: 무료 · Plus · Pro 세 칸과 그 아래 언제나 평생 패스 한 줄.
-//  두 결제 화면(`PaywallView` · 100번째 사용의 `FreeUsePaywallView`)이 같은 사다리를 쓴다.
+//  **페이월 템플릿.** 두 결제 화면(`PaywallView` · 100번째 사용의 `FreeUsePaywallView`)이 같은 틀을 쓴다.
+//  화면마다 다른 것은 맨 위 머리말(`hero`) 하나뿐이다.
 //
-//   · 유료 칸마다 월 구독 · 연 구독 · 평생을 나란히 둔다(`PaywallTermPicker`). 처음엔 연 구독이 골라져 있고,
-//     처음 보는 사람에게는 첫 해 할인이, 월을 고르면 "연 구독이면 한 달에 얼마", 평생을 고르면 "연 구독 N년치" 가 보인다.
-//   · 무엇을 결제하는지는 `PaywallPlanRules.productID` 한 곳이 정한다. Plus 평생을 산 사람의 Pro 평생은
-//     올리기 상품이다.
-//   · 구독을 고르면 갱신 조건을 버튼 바로 아래에, 약관 · 개인정보 링크를 사다리 끝에 둔다(심사 기준 3.1.2).
+//    머리말            화면이 넣는다(제목 한 줄 + 이 사람의 한 줄)
+//    Plus | Pro        칸 고르기. Pro 가 처음 골라져 있다(추천)
+//    혜택 세 줄        고른 칸의 것만
+//    월 · 연 · 평생     세로 목록. 줄마다 **전체 가격과 청구 기간**, 연에는 "N% 절약"
+//    ─── 아래 고정 ───
+//    구매 단추         고른 칸 · 고른 길 그대로
+//    갱신 조건 한 줄    고른 길의 것만
+//    체험 · 복원 · 약관  한 줄
 //
+//  2026-11 개편: 칸 카드 세 장(무료 · Plus · Pro)에 카드마다 길 고르기와 구매 단추가 따로 있어
+//  "조잡하고 복잡하다" 는 말을 들었다. 혜택은 3~5개, 고를 것은 한 번에 하나, 가격은 숨기지 않고,
+//  구매 단추는 하나(adapty 의 iOS 페이월 정리를 따랐다). 비교표는 접어 둔다.
+//
+//  ⚠️ 무엇을 결제하는지는 `PaywallPlanRules.productID` 한 곳이 정한다. 화면에 적은 값과 결제하는 상품은 같다.
 //  ⚠️ 결제는 화면의 `@Environment(\.purchase)` 로 한다. 아이패드에서 결제 시트가 엉뚱한 창에 뜨지 않게.
+//  ⚠️ 글자 · 바탕은 시스템 색이다. 테마 색을 쓰면 다크 모드에서 흰 바탕에 흰 글자가 됐다.
 //
 
 import SwiftUI
 import StoreKit
 import LeeoKit
 
-struct PaywallLadder: View {
+struct PaywallTemplate<Hero: View>: View {
     /// 이 사람의 권한을 한 번 읽어 둔 것(`PaywallAccess.current`).
     let access: PaywallAccess
     /// 애널리틱스에 남길 진입점. nil 이면 칸 이름으로 남긴다.
     let source: String?
+    /// 무료 체험을 시작한다. 체험을 줄 수 없으면 nil(단추가 서지 않는다).
+    var startTrial: (() -> Void)?
     /// 결제가 확인됐다. 어느 칸을 샀는지 알려 준다.
     let onPurchased: (PaywallPlan) -> Void
+    @ViewBuilder let hero: () -> Hero
 
     @ObservedObject private var store = StoreManager.shared
     @Environment(\.purchase) private var purchaseAction
     @Environment(\.openURL) private var openURL
-    @Environment(\.appTheme) private var theme
+
+    /// 고른 칸. 이미 가진 칸은 고를 수 없다.
+    @State private var plan: PaywallPlan = .pro
     /// 칸마다 고른 길. 고르기 전에는 `PaywallPlanRules.initialTerm`.
     @State private var terms: [PaywallPlan: PaywallTerm] = [:]
-    @State private var buying: PaywallPlan?
+    @State private var buying = false
+    @State private var introEligible = false
+    @State private var restoreOutcome: StoreManager.RestoreOutcome?
+    @State private var showsComparison = false
+
+    private static var accent: Color { .orange }
 
     var body: some View {
-        VStack(spacing: 10) {
-            PaywallFreeCard()
-            ForEach(PaywallPlan.allCases) { plan in
-                let state = access[plan]
-                PaywallPlanCard(plan: plan, state: state, isRecommended: plan == .pro) {
-                    purchaseArea(plan, state)
-                }
+        ScrollView {
+            VStack(spacing: 24) {
+                hero()
+                if purchasablePlans.count > 1 { planSwitch }
+                benefits
+                options
+                comparison
             }
-            if StoreManager.sellsForeverPass {
-                LeeoForeverPassLine(pass: store.foreverPass, ownsLifetimePro: ownsLifetimePro)
-            }
-            LeeoLifetimePriceNotice()
-                .frame(maxWidth: .infinity, alignment: .leading)
-            legalLinks
+            .padding(.horizontal, 20)
+            .padding(.top, 8)
+            .padding(.bottom, 24)
         }
-        .leeoThemed()
+        .safeAreaInset(edge: .bottom, spacing: 0) { purchaseBar }
+        .restoreOutcomeAlert($restoreOutcome)
+        .onAppear { if !purchasablePlans.contains(plan), let first = purchasablePlans.first { plan = first } }
+        .task(id: product(.yearly)?.id) {
+            introEligible = await product(.yearly)?.subscription?.isEligibleForIntroOffer ?? false
+        }
     }
 
-    /// 이 앱의 Pro 를 평생으로 가졌는가. 그러면 패스 화면이 올리기 값을 보인다.
-    private var ownsLifetimePro: Bool {
-        AccessTier.ownsLifetimePro(store.purchasedProductIDs) || ProFeatureManager.isGrandfathered
+    // MARK: - 칸
+
+    /// 살 수 있는 칸. Plus 를 가진 사람에게는 Pro 하나뿐이라 고르는 줄이 서지 않는다.
+    private var purchasablePlans: [PaywallPlan] {
+        PaywallPlan.allCases.filter { access[$0].isPurchasable }
     }
 
-    // MARK: - 칸 안
+    private var state: PaywallPlanState { access[plan] }
 
-    private func term(_ plan: PaywallPlan, _ state: PaywallPlanState) -> PaywallTerm {
-        terms[plan] ?? PaywallPlanRules.initialTerm(state)
+    private var planSwitch: some View {
+        HStack(spacing: 4) {
+            ForEach(purchasablePlans) { p in
+                let selected = p == plan
+                Button {
+                    HapticManager.shared.light()
+                    withAnimation(.snappy(duration: 0.25)) { plan = p }
+                } label: {
+                    HStack(spacing: 6) {
+                        Text(p.name).fontWeight(.bold)
+                        if p == .pro {
+                            Text(NSLocalizedString("추천", comment: "Paywall plan badge: recommended"))
+                                .font(.caption2.weight(.bold))
+                                .padding(.horizontal, 6).padding(.vertical, 2)
+                                .background(Self.accent.opacity(selected ? 0.18 : 0.12), in: Capsule())
+                                .foregroundStyle(Self.accent)
+                        }
+                    }
+                    .font(.body)
+                    .foregroundStyle(selected ? Color.primary : Color.secondary)
+                    .frame(maxWidth: .infinity, minHeight: 40)
+                    .background {
+                        if selected {
+                            Capsule().fill(Color(uiColor: .systemBackground))
+                                .shadow(color: .black.opacity(0.08), radius: 3, y: 1)
+                        }
+                    }
+                    .contentShape(Capsule())
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(selected ? .isSelected : [])
+            }
+        }
+        .padding(4)
+        .background(Color(uiColor: .secondarySystemBackground), in: Capsule())
     }
 
-    private func product(_ plan: PaywallPlan, _ state: PaywallPlanState, _ term: PaywallTerm) -> Product? {
+    private var benefits: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(plan.tagline)
+                .font(.headline)
+            ForEach(plan.highlights, id: \.self) { line in
+                Label {
+                    Text(line).fixedSize(horizontal: false, vertical: true)
+                } icon: {
+                    Image(systemName: AppSymbol.checkmark)
+                        .font(.callout.weight(.bold))
+                        .foregroundStyle(Self.accent)
+                }
+                .font(.body)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .combine)
+    }
+
+    // MARK: - 길
+
+    private var term: PaywallTerm { terms[plan] ?? PaywallPlanRules.initialTerm(state) }
+
+    private func product(_ term: PaywallTerm) -> Product? {
         PaywallPlanRules.productID(for: plan, state, term: term).flatMap(store.product)
     }
 
-    @ViewBuilder
-    private func purchaseArea(_ plan: PaywallPlan, _ state: PaywallPlanState) -> some View {
-        let chosen = term(plan, state)
-        let monthly = product(plan, state, .monthly)
-        let yearly = product(plan, state, .yearly)
-        let lifetime = product(plan, state, .lifetime)
-        let selected = [PaywallTerm.monthly: monthly, .yearly: yearly, .lifetime: lifetime][chosen] ?? nil
-        VStack(alignment: .leading, spacing: 10) {
-            PaywallTermPicker(term: Binding(get: { term(plan, state) }, set: { terms[plan] = $0 }),
-                              monthly: monthly, yearly: yearly, lifetime: lifetime)
-            if state == .upgrade && chosen == .lifetime {
-                Text(NSLocalizedString("Plus 에서 Pro 로 오르는 값 · 한 번 결제", comment: "Paywall price caption: upgrade from Plus"))
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
+    private var options: some View {
+        VStack(spacing: 10) {
+            ForEach(PaywallTerm.allCases, id: \.self) { t in
+                optionRow(t)
             }
-            buyButton(plan, state, selected)
-            if chosen == .monthly, let monthly {
-                Text(String(format: NSLocalizedString("매달 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.", comment: "Monthly subscription terms"), monthly.displayPrice))
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            if chosen == .yearly, let yearly {
-                Text(String(format: NSLocalizedString("1년마다 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.", comment: "Yearly subscription terms"), yearly.displayPrice))
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
+            if term == .lifetime { LeeoLifetimePriceNotice().leeoThemed() }
         }
     }
 
-    private func buyButton(_ plan: PaywallPlan, _ state: PaywallPlanState, _ product: Product?) -> some View {
-        let title = state == .upgrade
-            ? NSLocalizedString("Pro 로 올리기", comment: "Paywall CTA: upgrade to Pro without price")
-            : String(format: NSLocalizedString("%@ 시작하기", comment: "Paywall CTA: start plan without price"), plan.name)
+    private func optionRow(_ t: PaywallTerm) -> some View {
+        let item = product(t)
+        let selected = t == term
         return Button {
-            guard let product else { return }
-            Task { await buy(plan, product) }
+            HapticManager.shared.light()
+            terms[plan] = t
         } label: {
-            Group {
-                if buying == plan {
-                    ProgressView().tint(.white)
-                } else {
-                    Text(title).fontWeight(.bold)
+            HStack(spacing: 12) {
+                Image(systemName: selected ? AppSymbol.checkmarkCircleFill : AppSymbol.circle)
+                    .font(.title3)
+                    .foregroundStyle(selected ? Self.accent : Color(uiColor: .tertiaryLabel))
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: 6) {
+                        Text(title(t)).font(.body.weight(.semibold))
+                        if let badge = badge(t) {
+                            Text(badge)
+                                .font(.caption2.weight(.bold))
+                                .padding(.horizontal, 6).padding(.vertical, 2)
+                                .background(Self.accent, in: Capsule())
+                                .foregroundStyle(.white)
+                        }
+                    }
+                    if let caption = caption(t) {
+                        Text(caption)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
+                Spacer(minLength: 8)
+                Text(price(t, item) ?? " ")
+                    .font(.body.weight(.semibold))
+                    .monospacedDigit()
+                    .multilineTextAlignment(.trailing)
             }
-            .font(.headline)
-            .foregroundStyle(.white)
-            .frame(maxWidth: .infinity, minHeight: 54)
-            .background(.orange.gradient, in: RoundedRectangle(cornerRadius: theme.radiusMd))
+            .foregroundStyle(Color.primary)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
+            .frame(maxWidth: .infinity, minHeight: 60)
+            .background(Color(uiColor: .secondarySystemBackground), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .strokeBorder(selected ? Self.accent : .clear, lineWidth: 2)
+            )
+            .contentShape(Rectangle())
         }
-        .buttonStyle(.squish)
-        // 상품을 못 읽었으면 누를 수 없다. 누른 뒤에 "상품 없음" 을 듣는 것보다 낫다.
-        .disabled(buying != nil || product == nil)
-        .accessibilityLabel(buying == plan ? NSLocalizedString("처리 중", comment: "Purchase loading state") : title)
+        .buttonStyle(.plain)
+        .disabled(item == nil)
+        .opacity(item == nil ? 0.5 : 1)
+        .accessibilityAddTraits(selected ? .isSelected : [])
     }
 
-    private func buy(_ plan: PaywallPlan, _ product: Product) async {
-        AnalyticsService.logPaywallCtaTapped(triggeredBy: source ?? "plan_\(plan.rawValue)", isTrial: false)
-        buying = plan
-        let bought = await store.purchase(product, using: purchaseAction, triggeredBy: source)
-        buying = nil
-        if bought { onPurchased(plan) }
-    }
-
-    // MARK: - 약관
-
-    private var legalLinks: some View {
-        HStack(spacing: 20) {
-            link(NSLocalizedString("이용약관", comment: "Terms of use link"), Constants.inAppWebURL(Constants.termsOfUseURL))
-            link(NSLocalizedString("개인정보 처리방침", comment: "Privacy policy link"), Constants.inAppWebURL(Constants.privacyPolicyURL))
-        }
-        .frame(maxWidth: .infinity)
-    }
-
-    private func link(_ title: String, _ address: String) -> some View {
-        Button {
-            if let url = URL(string: address) { openURL(url) }
-        } label: {
-            Text(title)
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .underline()
-                .frame(minHeight: 44)
-        }
-    }
-}
-
-// MARK: - 월 · 연 · 평생 고르기
-
-/// 유료 칸 하나의 세 길. 모양과 말은 LeeoKit `LeeoTermPicker` 와 같고 월 구독 하나가 더 있다.
-///
-/// 아래 한 줄: 월이면 "연 구독이면 한 달에 얼마", 연이면 처음 보는 사람에게 첫 해 할인, 평생이면 "연 구독 N년치".
-private struct PaywallTermPicker: View {
-    @Binding var term: PaywallTerm
-    let monthly: Product?
-    let yearly: Product?
-    let lifetime: Product?
-
-    @Environment(\.leeoStyle) private var theme
-    @Environment(\.dynamicTypeSize) private var typeSize
-    @State private var introEligible = false
-
-    var body: some View {
-        // 아주 큰 글자에서는 세 길을 위아래로 세운다. 나란히 두면 가격이 몇 줄로 꺾인다.
-        let options = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 8)) : AnyLayout(HStackLayout(spacing: 8))
-        VStack(alignment: .leading, spacing: 8) {
-            options {
-                option(.monthly, title: NSLocalizedString("월 구독", comment: "Paywall term option: monthly subscription"),
-                       price: monthly.map { String(format: NSLocalizedString("%@ / 월", comment: "Paywall term option: monthly price. %@ = price"), $0.displayPrice) })
-                option(.yearly, title: LeeoLadderText.yearly,
-                       price: yearly.map { String(format: LeeoLadderText.perYearFormat, $0.displayPrice) })
-                option(.lifetime, title: LeeoLadderText.lifetime, price: lifetime?.displayPrice)
-            }
-            if let note {
-                Text(note)
-                    .font(.footnote)
-                    .foregroundStyle(theme.textMuted)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-        }
-        .task(id: yearly?.id) {
-            introEligible = await yearly?.subscription?.isEligibleForIntroOffer ?? false
+    private func title(_ t: PaywallTerm) -> String {
+        switch t {
+        case .monthly:  return NSLocalizedString("월 구독", comment: "Paywall term option: monthly subscription")
+        case .yearly:   return LeeoLadderText.yearly
+        case .lifetime: return LeeoLadderText.lifetime
         }
     }
 
-    private var note: String? {
-        switch term {
+    /// 줄 오른쪽: 실제로 내는 값과 그 기간. 월 환산값을 크게 쓰지 않는다(청구 주기가 흐려진다).
+    private func price(_ t: PaywallTerm, _ item: Product?) -> String? {
+        guard let item else { return nil }
+        switch t {
+        case .monthly:  return String(format: NSLocalizedString("%@ / 월", comment: "Paywall term option: monthly price. %@ = price"), item.displayPrice)
+        case .yearly:   return String(format: LeeoLadderText.perYearFormat, item.displayPrice)
+        case .lifetime: return item.displayPrice
+        }
+    }
+
+    /// 줄 아래 작은 글. 연은 첫 해 할인(받을 수 있는 사람만), 평생은 올리기 값이거나 연 구독 몇 년치.
+    private func caption(_ t: PaywallTerm) -> String? {
+        switch t {
         case .monthly:
-            // 연 구독을 열두 달로 나눈 값. 월 구독보다 쌀 때만 말한다.
-            guard let yearly, let monthly, yearly.price / 12 < monthly.price else { return nil }
-            let perMonth = (yearly.price / 12).formatted(yearly.priceFormatStyle)
-            return String(format: NSLocalizedString("연 구독이면 한 달에 %@", comment: "Paywall note under monthly: the yearly plan works out to this price per month. %@ = price"), perMonth)
+            return nil
         case .yearly:
-            guard introEligible, let offer = yearly?.subscription?.introductoryOffer,
-                  offer.paymentMode == .payUpFront || offer.paymentMode == .payAsYouGo else { return nil }
-            return String(format: LeeoLadderText.introFormat, offer.displayPrice)
+            if introEligible, let offer = product(.yearly)?.subscription?.introductoryOffer,
+               offer.paymentMode == .payUpFront || offer.paymentMode == .payAsYouGo {
+                return String(format: LeeoLadderText.introFormat, offer.displayPrice)
+            }
+            guard let yearly = product(.yearly) else { return nil }
+            return String(format: NSLocalizedString("연 구독이면 한 달에 %@", comment: "Paywall note under monthly: the yearly plan works out to this price per month. %@ = price"),
+                          (yearly.price / 12).formatted(yearly.priceFormatStyle))
         case .lifetime:
-            // 평생 값이 연 구독 몇 년치인가(내림). 2년치가 안 되면 말하지 않는다.
+            if state == .upgrade {
+                return NSLocalizedString("Plus 에서 Pro 로 오르는 값 · 한 번 결제", comment: "Paywall price caption: upgrade from Plus")
+            }
+            guard let yearly = product(.yearly), let lifetime = product(.lifetime), yearly.price > 0 else { return nil }
             // ⚠️ `NSDecimalNumber.intValue` 는 자릿수가 긴 몫에서 엉뚱한 값을 낸다. double 로 내린다.
-            guard let yearly, let lifetime, yearly.price > 0 else { return nil }
             let years = Int(NSDecimalNumber(decimal: lifetime.price / yearly.price).doubleValue.rounded(.down))
             return years >= 2 ? String(format: LeeoLadderText.lifetimeWorthFormat, years) : nil
         }
     }
 
-    private func option(_ value: PaywallTerm, title: String, price: String?) -> some View {
-        let selected = term == value
-        return Button {
-            term = value
-        } label: {
-            VStack(spacing: 2) {
-                Text(title)
-                    .font(.subheadline.weight(.semibold))
-                Text(price ?? " ")
-                    .font(.footnote)
-                    .monospacedDigit()
+    /// 연 구독이 월 구독 열두 달보다 얼마나 싼가. 10% 넘게 쌀 때만 붙인다.
+    private func badge(_ t: PaywallTerm) -> String? {
+        guard t == .yearly, let saving = PaywallPricing.yearlySaving(monthly: product(.monthly)?.price,
+                                                                     yearly: product(.yearly)?.price) else { return nil }
+        return String(format: NSLocalizedString("%@ 절약", comment: "Paywall badge on the yearly option: how much cheaper than 12 months of monthly. %@ = percent, e.g. 50%"),
+                      saving.formatted(.percent.precision(.fractionLength(0))))
+    }
+
+    // MARK: - 아래 고정
+
+    private var purchaseBar: some View {
+        let item = product(term)
+        return VStack(spacing: 10) {
+            Button {
+                guard let item else { return }
+                Task { await buy(item) }
+            } label: {
+                Group {
+                    if buying { ProgressView().tint(.white) } else { Text(ctaTitle).fontWeight(.bold) }
+                }
+                .font(.headline)
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity, minHeight: 54)
+                .background(Self.accent.gradient, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
             }
-            .foregroundStyle(selected ? theme.accent : theme.text)
-            .frame(maxWidth: .infinity, minHeight: 44)
-            .padding(.vertical, 6)
-            .background(
-                RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
-                    .fill(selected ? theme.accent.opacity(0.12) : theme.surfaceAlt)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
-                    .strokeBorder(selected ? theme.accent : .clear, lineWidth: 1.5)
-            )
-            .contentShape(Rectangle())
+            .buttonStyle(.squish)
+            // 상품을 못 읽었으면 누를 수 없다. 누른 뒤에 "상품 없음" 을 듣는 것보다 낫다.
+            .disabled(buying || item == nil)
+            .accessibilityLabel(buying ? NSLocalizedString("처리 중", comment: "Purchase loading state") : ctaTitle)
+
+            if let terms = renewalTerms(item) {
+                Text(terms)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            if let error = store.errorMessage {
+                Text(error).font(.caption).foregroundStyle(.red)
+            }
+            footerLinks
         }
+        .padding(.horizontal, 20)
+        .padding(.top, 12)
+        .padding(.bottom, 8)
+        .background(.bar)
+    }
+
+    private var ctaTitle: String {
+        state == .upgrade
+            ? NSLocalizedString("Pro 로 올리기", comment: "Paywall CTA: upgrade to Pro without price")
+            : String(format: NSLocalizedString("%@ 시작하기", comment: "Paywall CTA: start plan without price"), plan.name)
+    }
+
+    /// 고른 길의 갱신 조건(심사 기준 3.1.2). 평생은 갱신이 없다고 말한다.
+    private func renewalTerms(_ item: Product?) -> String? {
+        guard let item else { return nil }
+        switch term {
+        case .monthly:
+            return String(format: NSLocalizedString("매달 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.", comment: "Monthly subscription terms"), item.displayPrice)
+        case .yearly:
+            return String(format: NSLocalizedString("1년마다 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.", comment: "Yearly subscription terms"), item.displayPrice)
+        case .lifetime:
+            return NSLocalizedString("한 번만 결제해요. 자동 갱신은 없어요.", comment: "Paywall terms under the button when lifetime is selected")
+        }
+    }
+
+    /// 체험 · 복원 · 약관 · 개인정보. 늘 같은 자리에 있다.
+    private var footerLinks: some View {
+        let links = HStack(spacing: 14) {
+            if let startTrial {
+                Button(String(format: NSLocalizedString("%d일 무료 체험 시작", comment: "Start free trial button"), ProFeatureManager.trialDurationDays)) {
+                    AnalyticsService.logPaywallCtaTapped(triggeredBy: source, isTrial: true)
+                    startTrial()
+                }
+                .fontWeight(.semibold)
+                .foregroundStyle(Self.accent)
+            }
+            Button(NSLocalizedString("복원", comment: "Paywall footer: restore purchases, short")) {
+                Task { restoreOutcome = await store.restorePurchases() }
+            }
+            Button(NSLocalizedString("이용약관", comment: "Terms of use link")) {
+                if let url = URL(string: Constants.inAppWebURL(Constants.termsOfUseURL)) { openURL(url) }
+            }
+            Button(NSLocalizedString("개인정보 처리방침", comment: "Privacy policy link")) {
+                if let url = URL(string: Constants.inAppWebURL(Constants.privacyPolicyURL)) { openURL(url) }
+            }
+        }
+        return ViewThatFits {
+            links
+            VStack(spacing: 6) { links.fixedSize() }
+        }
+        .font(.caption)
+        .foregroundStyle(.secondary)
         .buttonStyle(.plain)
-        .disabled(price == nil)
-        .accessibilityAddTraits(selected ? .isSelected : [])
-        .accessibilityInputLabels([Text(title)])
+        .lineLimit(1)
+        .minimumScaleFactor(0.8)
+    }
+
+    // MARK: - 비교표
+
+    private var comparison: some View {
+        DisclosureGroup(isExpanded: $showsComparison) {
+            PaywallComparisonTable().padding(.top, 12)
+        } label: {
+            Text(NSLocalizedString("모든 기능 비교", comment: "Paywall: expand the full feature comparison table"))
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(.secondary)
+        }
+        .tint(.secondary)
+    }
+
+    // MARK: - 결제
+
+    private func buy(_ item: Product) async {
+        AnalyticsService.logPaywallCtaTapped(triggeredBy: source ?? "plan_\(plan.rawValue)", isTrial: false)
+        buying = true
+        let bought = await store.purchase(item, using: purchaseAction, triggeredBy: source)
+        buying = false
+        if bought { onPurchased(plan) }
+    }
+}
+
+// MARK: - 값 계산
+
+enum PaywallPricing {
+    /// 연 구독이 월 구독 열두 달보다 싼 몫(0.5 = 50%). 10% 넘게 쌀 때만, 모르면 nil. **순수 함수.**
+    static func yearlySaving(monthly: Decimal?, yearly: Decimal?) -> Double? {
+        guard let monthly, let yearly, monthly > 0 else { return nil }
+        let saving = 1 - NSDecimalNumber(decimal: yearly / (monthly * 12)).doubleValue
+        return saving > 0.1 ? saving : nil
     }
 }

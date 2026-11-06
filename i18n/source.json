@@ -29,6 +29,12 @@
     "comment": "Paywall CTA: start plan, %1$@ plan name, %2$@ price",
     "h": "3b20a4b734"
   },
+  "%1$@ 아꼈어요 · %2$@": {
+    "ko": "%1$@ 아꼈어요 · %2$@",
+    "en": "Saved %1$@ · %2$@",
+    "comment": "Free use paywall: time saved, then that made snippets stay free. %1$@ = about N minutes",
+    "h": "cf19dcbd6f"
+  },
   "%1$@, %2$d회 사용": {
     "ko": "%1$@, %2$d회 사용",
     "en": "%1$@, used %2$d times",
@@ -280,6 +286,12 @@
     "en": "Enter %@",
     "comment": "Template fill title for a single placeholder, e.g. 금액 입력",
     "h": "0a8352d4ae"
+  },
+  "%@ 절약": {
+    "ko": "%@ 절약",
+    "en": "Save %@",
+    "comment": "Paywall badge on the yearly option: how much cheaper than 12 months of monthly. %@ = percent, e.g. 50%",
+    "h": "8a8d959c0e"
   },
   "%@ 제목으로 바로 저장": {
     "ko": "%@ 제목으로 바로 저장",
@@ -7121,6 +7133,12 @@
     "comment": "Tutorial welcome: body",
     "h": "235cae7e81"
   },
+  "만든 단축어는 결제하지 않아도 계속 써요": {
+    "ko": "만든 단축어는 결제하지 않아도 계속 써요",
+    "en": "Snippets you made keep working without paying",
+    "comment": "Free use paywall: snippets you made keep working without paying",
+    "h": "0c7057a722"
+  },
   "만든 단축어는 계속 무료로 넣을 수 있어요": {
     "ko": "만든 단축어는 계속 무료로 넣을 수 있어요",
     "en": "Snippets you made keep working for free",
@@ -7456,6 +7474,12 @@
     "en": "Show All Features Now",
     "comment": "Settings toggle: show every feature on the main screens right away",
     "h": "879adde95e"
+  },
+  "모든 기능 비교": {
+    "ko": "모든 기능 비교",
+    "en": "Compare all features",
+    "comment": "Paywall: expand the full feature comparison table",
+    "h": "5dd8a02dba"
   },
   "모든 기능 사용": {
     "ko": "모든 기능 사용",
@@ -13763,6 +13787,12 @@
     "comment": "Blank start: copy step subline",
     "h": "31526a880a"
   },
+  "자주 쓰는 글, 마음껏 담고 지키세요": {
+    "ko": "자주 쓰는 글, 마음껏 담고 지키세요",
+    "en": "Save what you type often. Keep it safe.",
+    "comment": "Paywall headline: save as many snippets as you like and keep them safe",
+    "h": "ad4b6cdb2c"
+  },
   "자주 쓰는 내 글을 담아요": {
     "ko": "자주 쓰는 내 글을 담아요",
     "en": "Save text you type often",
@@ -17770,6 +17800,12 @@
     "en": "Every tap",
     "comment": "Feature lesson stack: after first tap",
     "h": "51639c9032"
+  },
+  "한 번만 결제해요. 자동 갱신은 없어요.": {
+    "ko": "한 번만 결제해요. 자동 갱신은 없어요.",
+    "en": "One-time payment. No auto-renewal.",
+    "comment": "Paywall terms under the button when lifetime is selected",
+    "h": "e09f45eb0f"
   },
   "한 번에 200건씩 나눠 받아요. 지금 숫자는 중간 집계라 계속 올라가요.": {
     "ko": "한 번에 200건씩 나눠 받아요. 지금 숫자는 중간 집계라 계속 올라가요.",

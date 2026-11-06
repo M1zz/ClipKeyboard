@@ -12950,5 +12950,29 @@
   "연습용으로 만든 예시 주소예요": {
     "v": "Une adresse d'exemple, juste pour s'entraîner",
     "src": "7e7ff89f3f"
+  },
+  "자주 쓰는 글, 마음껏 담고 지키세요": {
+    "v": "Enregistrez sans limite ce que vous tapez souvent, en sécurité",
+    "src": "ad4b6cdb2c"
+  },
+  "%@ 절약": {
+    "v": "Économisez %@",
+    "src": "8a8d959c0e"
+  },
+  "한 번만 결제해요. 자동 갱신은 없어요.": {
+    "v": "Paiement unique. Pas de renouvellement automatique.",
+    "src": "e09f45eb0f"
+  },
+  "모든 기능 비교": {
+    "v": "Comparer toutes les fonctions",
+    "src": "5dd8a02dba"
+  },
+  "만든 단축어는 결제하지 않아도 계속 써요": {
+    "v": "Vos raccourcis continuent de fonctionner sans payer",
+    "src": "0c7057a722"
+  },
+  "%1$@ 아꼈어요 · %2$@": {
+    "v": "%1$@ gagnées · %2$@",
+    "src": "cf19dcbd6f"
   }
 }
