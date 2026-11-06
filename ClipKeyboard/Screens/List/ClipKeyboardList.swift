@@ -626,9 +626,6 @@ struct ClipKeyboardList: View {
                     }
                 }
 
-                // 다 가진 사람에게 드물게 "계속 만들 수 있게 힘을 보태 주세요" - 컨테이너가 스스로 정한다.
-                TipAskBannerContainer()
-
                 // 한 번에 정리하기 권유 - 보여줄지는 컨테이너가 스스로 정한다.
                 // (mainColumn 타입 복잡도에 영향이 없도록 자식 하나로 유지)
                 BulkImportNudgeBannerContainer(memoCount: viewModel.memos.count,
@@ -1368,6 +1365,8 @@ struct ClipKeyboardList: View {
     var body: some View {
         NavigationStack {
             screenL8
+                // 다 가진 사람에게 드물게 "혼자 만드는 앱이에요" 창(`TipAskSheetAnchor`). 화면 맨 바깥 한 곳에만.
+                .background(TipAskSheetAnchor())
                 // 펼친 듀오: 접힌 선 띠의 고르는 쪽 절반을 지금 페이지의 갈래 색으로(`FoldSplitView.hinge`)
                 .preference(key: FoldBandLeadFillKey.self, value: pageTint(for: viewModel.displayedCategoryTab))
                 // 기능을 켜면 그 자리가 바로 생긴다(설정 ▸ 기능 더하기 · 넛지)

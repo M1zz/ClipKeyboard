@@ -46,7 +46,6 @@ extension PromptCandidate {
                                                        surface: .categories)
     static let freeUseMilestone = PromptCandidate(id: "freeUseMilestone", slot: .suggestionCard, kind: .money)
     static let proValue = PromptCandidate(id: "proValue", slot: .suggestionCard, kind: .money)
-    static let tipAsk = PromptCandidate(id: "tipAsk", slot: .suggestionCard, kind: .ask)
 
     /// 같은 종류 안의 차례. **이 배열 순서가 곧 차례다.**
     static let listOrder: [PromptCandidate] = [
@@ -55,7 +54,6 @@ extension PromptCandidate {
         .personaEssentials,
         .pasteTip, .bulkImport, .categoryActivation, .personaCategoryTip, .categorySuggestionTip,
         .freeUseMilestone, .proValue,
-        .tipAsk,
     ]
 }
 
