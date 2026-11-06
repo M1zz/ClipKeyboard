@@ -58,6 +58,10 @@ class StoreManager: ObservableObject {
     let foreverPass = LeeoForeverPass(containerIdentifier: "iCloud.com.Ysoup.FeedbackHub",
                                       defaults: AppGroup.defaults ?? .standard)
 
+    /// 페이월에 언제나 평생 패스 판매 줄을 보이는가. 2026-11 잠시 내렸다.
+    /// 파는 줄만 감춘다. 이미 산 사람의 판정(`foreverPass.isActive`)은 그대로 프로다.
+    static let sellsForeverPass = false
+
     /// 지금 살아 있는 연 구독(Plus · Pro). 없으면 nil. 구독 졸업 제안과 설정의 '평생으로 바꾸기' 가 본다.
     @Published private(set) var subscription: LeeoGraduation.Subscription?
 

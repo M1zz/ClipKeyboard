@@ -193,10 +193,12 @@ struct PaywallView: View {
                     .foregroundStyle(.green)
                     .padding()
                 // 이 앱을 넘어 모든 앱을 평생으로. 이 앱의 Pro 평생을 가진 사람은 올리기 값으로 본다.
-                LeeoForeverPassLine(pass: store.foreverPass,
-                                    ownsLifetimePro: AccessTier.ownsLifetimePro(store.purchasedProductIDs)
-                                        || ProFeatureManager.isGrandfathered)
-                    .leeoThemed()
+                if StoreManager.sellsForeverPass {
+                    LeeoForeverPassLine(pass: store.foreverPass,
+                                        ownsLifetimePro: AccessTier.ownsLifetimePro(store.purchasedProductIDs)
+                                            || ProFeatureManager.isGrandfathered)
+                        .leeoThemed()
+                }
                 // 다 가진 사람이 더 내고 싶을 때 갈 곳(팁). 팁 상품이 와 있을 때만.
                 if let tipJar = store.tipJar, tipJar.isAvailable {
                     NavigationLink {

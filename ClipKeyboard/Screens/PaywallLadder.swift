@@ -43,7 +43,9 @@ struct PaywallLadder: View {
                     purchaseArea(plan, state)
                 }
             }
-            LeeoForeverPassLine(pass: store.foreverPass, ownsLifetimePro: ownsLifetimePro)
+            if StoreManager.sellsForeverPass {
+                LeeoForeverPassLine(pass: store.foreverPass, ownsLifetimePro: ownsLifetimePro)
+            }
             LeeoLifetimePriceNotice()
                 .frame(maxWidth: .infinity, alignment: .leading)
             legalLinks
