@@ -63,6 +63,7 @@
 | 치면 떠오르는 단축어 | 자판으로 치다가 단축어를 쓰려면 판을 바꿔 찾아야 한다 · 아이폰에 넣어 둔 텍스트 대치가 우리 자판에서는 안 된다 (2026-10 사용자 요청) | `KeyboardSessionLedgerTests/typedNameSuggestsShortcut` |
 | 텍스트 대치를 우리 자판에서 | 아이폰 텍스트 대치의 단축을 쳐도 스페이스에서 안 바뀐다 · 연락처 이름이나 앞부분만 친 낱말이 바뀐다 (2026-11 사용자 요청) | `KeyboardSessionLedgerTests/textReplacementOnSpace` |
 | 이름을 적으면 내용을 짐작한다 | "회사 이메일" 이라고 적어도 방금 복사한 이메일을 다시 찾아 붙여야 한다 · 엉뚱한 종류가 뜬다 (2026-11 사용자 요청) | `ClipboardClassificationSwiftTests/suggestsRecentCopiesOfThatKind` |
+| 키보드가 배워서 꺼내 준다 | "주소는" 까지 치고 매번 단축어 판을 열어 배송지를 찾는다 · 한 번 넣은 것이 계속 뜬다 · 잠근 단축어가 띠에 뜬다 (2026-11 사용자 요청) | `KeyboardSessionLedgerTests/suggestsAfterRepeats` |
 | 천지인 꾹 눌러 숫자 | 천지인으로 치다가 숫자 하나를 넣으려면 숫자 판으로 갔다 와야 한다 (2026-10 사용자 요청) | `CheonjiinInputTests/testLongPressDigitsFollowPhonePad` |
 | 천지인 오 + ㆍ = 요 | 보이는 모음에 획을 더해도 모음이 바뀌지 않고, 조금만 늦게 쳐도 모음이 끊긴다 (2026-10 사용자 신고) | `CheonjiinInputTests/testStrokeAddsToShownVowel` |
 | 짓는 글자 밑줄 | 한글을 짓는 동안 밑줄이 없거나 낱말 전체에 서고, 키 하나에 입력칸을 여러 번 건드려 빨리 치면 늦게 따라온다 (2026-10 사용자 신고) | `TypingEnginesTests/testOnlyComposingSyllableIsMarked` |

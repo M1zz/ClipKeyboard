@@ -176,6 +176,8 @@ struct TypingKeyboardPanel: View {
     var shortcutPicks: (String) -> [TypedShortcut.Pick] = { _ in [] }
     /// 칩을 눌렀다. 친 낱말은 여기서 지웠고, 넣는 일만 남았다.
     var onPickShortcut: (TypedShortcut.Pick) -> Void = { _ in }
+    /// 띄어 쓴 뒤의 낱말에 배운 단축어들(`ShortcutLearning`). 칩은 지울 낱말이 없다.
+    var learnedPicks: (String) -> [TypedShortcut.Pick] = { _ in [] }
     /// 스페이스를 누를 때 커서 앞 낱말을 바꿀 문구(아이폰 텍스트 대치). 바꾸지 않으면 nil.
     var textReplacement: (String) -> String? = { _ in nil }
 
@@ -288,7 +290,7 @@ struct TypingKeyboardPanel: View {
                 }
                 .buttonStyle(.squish)
                 .accessibilityHint(NSLocalizedString("단축어 키 판으로 바꿉니다", comment: "Typing keyboard: snippets button hint"))
-                TypedShortcutRow(word: session.typedWord, picks: shortcutPicks) { picks in
+                TypedShortcutRow(word: session.typedWord, picks: shortcutPicks, learned: learnedPicks) { picks in
                     shortcutChips(picks, metrics: metrics)
                 } fallback: {
                     Spacer(minLength: 0)
@@ -1017,18 +1019,28 @@ struct NativeReturnGlyph {
 /// 커서 앞 낱말. 이것만 지켜보는 띠 한 칸이 다시 그려진다.
 final class TypedWord: ObservableObject {
     @Published private(set) var value = ""
+    /// 치는 낱말이 없을 때, 띄어 쓰기 전 낱말(`ShortcutLearning.key`). 배운 단축어를 꺼내는 열쇠다.
+    @Published private(set) var previous = ""
     func update(_ next: String) { if next != value { value = next } }
+    func update(context: String?) {
+        update(TypedShortcut.lastWord(in: context))
+        let prev = value.isEmpty ? (ShortcutLearning.key(before: context) ?? "") : ""
+        if prev != previous { previous = prev }
+    }
 }
 
 /// 띠의 단축어 키 오른쪽 칸. 맞는 단축어가 있으면 칩, 없으면 `fallback`.
 private struct TypedShortcutRow<Chips: View, Fallback: View>: View {
     @ObservedObject var word: TypedWord
     let picks: (String) -> [TypedShortcut.Pick]
+    /// 띄어 쓴 뒤 칸이 비었을 때 배운 단축어(지울 낱말이 없다).
+    let learned: (String) -> [TypedShortcut.Pick]
     @ViewBuilder let chips: ([TypedShortcut.Pick]) -> Chips
     @ViewBuilder let fallback: () -> Fallback
 
     var body: some View {
-        let found = word.value.isEmpty ? [] : picks(word.value)
+        let found = !word.value.isEmpty ? picks(word.value)
+            : (word.previous.isEmpty ? [] : learned(word.previous))
         if found.isEmpty { fallback() } else { chips(found) }
     }
 }
@@ -1061,7 +1073,7 @@ final class TypingSession: ObservableObject {
     func refresh() {
         let next = engine?.candidates ?? []
         if next != candidates { candidates = next }
-        typedWord.update(TypedShortcut.lastWord(in: proxy?.typingContextBefore))
+        typedWord.update(context: proxy?.typingContextBefore)
     }
 }
 

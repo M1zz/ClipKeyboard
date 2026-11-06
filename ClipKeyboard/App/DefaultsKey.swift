@@ -343,6 +343,13 @@ enum DefaultsKey {
     /// 사용자 요청에서 왔다: "키보드 익스텐션에 애플의 텍스트 대치도 구현해 줄 수 있어?"
     /// 기본 키보드가 하는 일이라 켜 두는 것이 기대에 맞다. 끄면 예전처럼 띠의 칩으로만 제안한다.
     static let keyboardAutoTextReplacement = "keyboardAutoTextReplacement.v1"
+    /// 키보드가 배운 것: 어떤 낱말 뒤에 어떤 단축어를 넣었는가(`ShortcutLearning`). App Group, `[낱말: [단축어 id: 횟수]]`.
+    ///
+    /// 사용자 요청에서 왔다: "자주 쓰는 키값을 키보드에서 학습해서 적절하게 단축어를 꺼내 주고 싶다."
+    /// ⚠️ 친 글은 남기지 않는다. 단축어를 넣은 바로 그 자리의 **낱말 하나**와 단축어 id 만 센다.
+    static let keyboardLearnedPicks = "keyboardLearnedPicks.v1"
+    /// 키보드가 배워서 띠에 꺼내 줄지. App Group. **기본 켬**. 끄면 배운 것도 지운다.
+    static let keyboardLearnsPicks = "keyboardLearnsPicks.v1"
     /// 목록 카드의 최소 높이(pt). 표준 UserDefaults (앱 전용).
     static let memoCardHeight = "memoCardHeight"
     static let koreanEnabledMigratedV1 = "koreanEnabledMigrated_v1"
@@ -708,6 +715,8 @@ enum KeyboardPrefs {
     static let vibrates = Pref(key: DefaultsKey.keyboardVibrates, fallback: true)
     /// 텍스트 대치를 스페이스에서 바로 바꾼다. 기본 켬(기본 키보드와 같다). 이유는 `DefaultsKey` 에.
     static let autoTextReplacement = Pref(key: DefaultsKey.keyboardAutoTextReplacement, fallback: true)
+    /// 자주 넣는 단축어를 배워 띠에 꺼낸다. 기본 켬. 이유는 `DefaultsKey` 에.
+    static let learnsPicks = Pref(key: DefaultsKey.keyboardLearnsPicks, fallback: true)
 
     // 앱과 같이 쓰는 표시 (기본값이 다르면 앱에서는 안 보이고 키보드에서만 보인다)
     static let showVisualCues = Pref(key: DefaultsKey.showVisualCues, fallback: false)

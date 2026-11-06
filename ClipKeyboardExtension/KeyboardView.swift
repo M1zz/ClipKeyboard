@@ -2166,8 +2166,16 @@ struct KeyboardView: View {
                 composingInterrupted: documentState.composingInterrupted,
                 globeOverlay: KeyboardCapability.needsInputModeSwitchKey ? AnyView(InputModeSwitchOverlay(proxy: proxy)) : nil,
                 onShowSnippets: { setInputMode(.snippets) },
-                shortcutPicks: { TypedShortcut.picks(for: $0, memos: allMemos, replacements: documentState.textReplacements) },
+                shortcutPicks: { word in
+                    let learned = TypedShortcut.learnedPicks(ids: ShortcutLearning.memoIDs(for: word.lowercased()),
+                                                             typed: word, memos: allMemos)
+                    let named = TypedShortcut.picks(for: word, memos: allMemos, replacements: documentState.textReplacements)
+                    // 배운 것이 먼저. 같은 글은 한 번만.
+                    var seen = Set<String>()
+                    return (learned + named).filter { seen.insert($0.text).inserted }.prefix(3).map { $0 }
+                },
                 onPickShortcut: pickTypedShortcut,
+                learnedPicks: { TypedShortcut.learnedPicks(ids: ShortcutLearning.memoIDs(for: $0), typed: "", memos: allMemos) },
                 textReplacement: { word in
                     guard KeyboardPrefs.autoTextReplacement.value() else { return nil }
                     return TypedShortcut.replacement(for: word, in: documentState.textReplacements)?.phrase
@@ -2181,7 +2189,9 @@ struct KeyboardView: View {
     /// 자판 위 칩을 눌렀다(친 낱말은 자판이 지웠다). 단축어는 늘 넣던 길로 넣어 횟수를 센다.
     private func pickTypedShortcut(_ pick: TypedShortcut.Pick) {
         if let id = pick.memoID, let memo = allMemos.first(where: { $0.id == id }) {
-            insertMemo(memo)
+            // 친 낱말은 이미 지웠다. 그 낱말로 배운다(지운 뒤의 앞 글로 배우지 않게).
+            if !pick.typed.isEmpty { ShortcutLearning.note(pick.typed.lowercased(), memoID: memo.id) }
+            insertMemo(memo, learns: pick.typed.isEmpty)
         } else {
             typingProxy?.insertText(pick.text)
         }
@@ -2830,7 +2840,11 @@ struct KeyboardView: View {
         proceed()
     }
 
-    private func insertMemo(_ memo: Memo, bypassTemplate: Bool = false) {
+    /// - Parameter learns: 커서 앞 낱말과 이 단축어의 짝을 배운다(`ShortcutLearning`). 잠근 단축어는 배우지 않는다.
+    private func insertMemo(_ memo: Memo, bypassTemplate: Bool = false, learns: Bool = true) {
+        if learns, !memo.isSecure, let key = ShortcutLearning.key(before: typingProxy?.typingContextBefore) {
+            ShortcutLearning.note(key, memoID: memo.id)
+        }
         // 보안 메모면 복호화한 값을 넣는다(PIN 인증 후 호출됨). 키 미동기화로 복호화 불가면 중단.
         let valueToInsert: String
         if SecureMemoCrypto.isEncrypted(memo.value) {

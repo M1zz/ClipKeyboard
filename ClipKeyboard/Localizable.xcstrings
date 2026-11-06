@@ -477292,6 +477292,280 @@
           }
         }
       }
+    },
+    "자주 넣는 단축어 꺼내 주기" : {
+      "comment" : "Toggle: the keyboard learns which snippet you insert after a word and suggests it",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navrhovat často používané zkratky"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foreslå genveje, du ofte bruger"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Häufige Textbausteine vorschlagen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πρόταση συχνών συντομεύσεων"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggest snippets you use often"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sugerir atajos que usas seguido"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ehdota usein käytettyjä pikatekstejä"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggérer les raccourcis fréquents"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sarankan pintasan yang sering dipakai"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggerisci le scorciatoie frequenti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "よく使うフレーズを出す"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foreslå snarveier du ofte bruker"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vaak gebruikte snelkoppelingen voorstellen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podpowiadaj częste skróty"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sugerir atalhos que você usa sempre"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подсказывать частые фразы"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Föreslå kortkommandon du ofta använder"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แนะนำข้อความลัดที่ใช้บ่อย"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sık kullanılan kısayolları öner"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gợi ý phím tắt hay dùng"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "推荐常用短语"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "推薦常用短語"
+          }
+        }
+      }
+    },
+    "어떤 말 뒤에 어떤 단축어를 넣는지 기기 안에서만 세어, 다음에 그 말을 치면 단축어 버튼 옆에 먼저 띄워요. 친 글은 남기지 않아요. 끄면 배운 것도 지워요." : {
+      "comment" : "Footer for the learned snippet suggestions toggle",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jen na tomto zařízení počítá, kterou zkratku vkládáte po určitém slově, a ukáže ji vedle tlačítka zkratek, když to slovo napíšete znovu. Psaný text se neukládá. Vypnutím se naučené smaže."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tæller kun på denne enhed, hvilken genvej du indsætter efter et ord, og viser den ved siden af genvejsknappen, når du skriver ordet igen. Det, du skriver, gemmes ikke. Slår du det fra, slettes det lærte."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zählt nur auf diesem Gerät, welchen Textbaustein du nach einem Wort einfügst, und zeigt ihn neben der Bausteintaste, wenn du das Wort wieder tippst. Getippter Text wird nicht gespeichert. Beim Ausschalten wird das Gelernte gelöscht."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Μετρά, μόνο σε αυτή τη συσκευή, ποια συντόμευση εισάγετε μετά από μια λέξη και τη δείχνει δίπλα στο κουμπί συντομεύσεων όταν ξαναγράφετε τη λέξη. Όσα γράφετε δεν αποθηκεύονται. Αν το απενεργοποιήσετε, διαγράφονται όσα έμαθε."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Counts, on this device only, which snippet you insert after a word, then shows it next to the snippets button when you type that word again. What you type is not kept. Turning this off erases what it learned."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuenta, solo en este dispositivo, qué atajo insertas después de una palabra y lo muestra junto al botón de atajos cuando vuelves a escribirla. No guarda lo que escribes. Si lo desactivas, se borra lo aprendido."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laskee vain tällä laitteella, minkä pikatekstin lisäät sanan jälkeen, ja näyttää sen pikatekstipainikkeen vieressä, kun kirjoitat sanan uudelleen. Kirjoittamaasi ei tallenneta. Pois päältä kytkeminen poistaa opitun."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compte, uniquement sur cet appareil, quel raccourci vous insérez après un mot, puis l'affiche à côté du bouton des raccourcis quand vous retapez ce mot. Ce que vous tapez n'est pas conservé. Désactiver efface ce qui a été appris."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menghitung, hanya di perangkat ini, pintasan mana yang Anda masukkan setelah sebuah kata, lalu menampilkannya di samping tombol pintasan saat Anda mengetik kata itu lagi. Ketikan tidak disimpan. Jika dimatikan, yang sudah dipelajari dihapus."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conta, solo su questo dispositivo, quale scorciatoia inserisci dopo una parola e la mostra accanto al pulsante delle scorciatoie quando riscrivi quella parola. Ciò che scrivi non viene salvato. Disattivando, ciò che ha imparato viene cancellato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "どの言葉のあとにどのフレーズを入れたかをこの端末の中だけで数え、次にその言葉を打つとフレーズボタンの横に先に出します。打った文は残しません。オフにすると覚えた内容も消えます。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teller bare på denne enheten hvilken snarvei du setter inn etter et ord, og viser den ved siden av snarveiknappen når du skriver ordet igjen. Det du skriver lagres ikke. Slår du det av, slettes det som er lært."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telt alleen op dit apparaat welke snelkoppeling je na een woord invoegt en toont die naast de snelkoppelingsknop als je dat woord weer typt. Wat je typt wordt niet bewaard. Uitzetten wist wat er geleerd is."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tylko na tym urządzeniu liczy, jaki skrót wstawiasz po danym słowie, i pokazuje go obok przycisku skrótów, gdy znów wpiszesz to słowo. Wpisany tekst nie jest zapisywany. Wyłączenie usuwa to, czego się nauczyła."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conta, só neste aparelho, qual atalho você insere depois de uma palavra e o mostra ao lado do botão de atalhos quando você digita essa palavra de novo. O que você digita não é guardado. Ao desativar, o que foi aprendido é apagado."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только на этом устройстве считает, какую фразу вы вставляете после слова, и показывает её у кнопки фраз, когда вы снова набираете это слово. Набранный текст не сохраняется. Если выключить, выученное удалится."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Räknar, bara på den här enheten, vilket kortkommando du infogar efter ett ord och visar det bredvid kortkommandoknappen när du skriver ordet igen. Det du skriver sparas inte. Stänger du av raderas det inlärda."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "นับเฉพาะในอุปกรณ์นี้ว่าคุณใส่ข้อความลัดใดหลังคำไหน แล้วแสดงข้างปุ่มข้อความลัดเมื่อคุณพิมพ์คำนั้นอีก ไม่เก็บสิ่งที่คุณพิมพ์ ปิดแล้วสิ่งที่เรียนรู้จะถูกลบด้วย"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bir kelimeden sonra hangi kısayolu eklediğinizi yalnızca bu cihazda sayar ve o kelimeyi tekrar yazınca kısayol düğmesinin yanında önce gösterir. Yazdıklarınız saklanmaz. Kapatırsanız öğrenilenler silinir."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chỉ trên thiết bị này, đếm phím tắt nào bạn chèn sau một từ, rồi hiện nó cạnh nút phím tắt khi bạn gõ lại từ đó. Không lưu những gì bạn gõ. Tắt đi thì những gì đã học cũng bị xóa."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "仅在本机记录你在某个词后插入了哪条短语，下次输入这个词时，在短语按钮旁优先显示。不会保存你输入的文字。关闭后已学内容也会删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "僅在本機記錄你在某個詞後插入了哪條短語，下次輸入這個詞時，在短語按鈕旁優先顯示。不會儲存你輸入的文字。關閉後已學內容也會刪除。"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

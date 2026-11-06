@@ -29,6 +29,9 @@ struct KeyboardSettingsView: View {
     /// 텍스트 대치를 스페이스에서 바꿀지. App Group - 키보드가 같은 값을 읽는다.
     @AppStorage(KeyboardPrefs.autoTextReplacement.key, store: AppGroup.defaults)
     private var autoTextReplacement: Bool = KeyboardPrefs.autoTextReplacement.fallback
+    /// 자주 넣는 단축어를 배워 띠에 꺼낼지. App Group - 키보드가 같은 값을 읽는다.
+    @AppStorage(KeyboardPrefs.learnsPicks.key, store: AppGroup.defaults)
+    private var learnsPicks: Bool = KeyboardPrefs.learnsPicks.fallback
 
     var body: some View {
         List {
@@ -172,6 +175,22 @@ struct KeyboardSettingsView: View {
                     Image(systemName: AppSymbol.textCursor)
                 }
             }
+            // 사용자 요청에서 왔다: "자주 쓰는 키값을 키보드에서 학습해서 적절하게 단축어를 꺼내 주고 싶다."
+            // 끄면 배운 것도 지운다. 끈 사람의 기기에 남겨 둘 까닭이 없다.
+            Toggle(isOn: $learnsPicks) {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("자주 넣는 단축어 꺼내 주기", comment: "Toggle: the keyboard learns which snippet you insert after a word and suggests it"))
+                        Text(NSLocalizedString("어떤 말 뒤에 어떤 단축어를 넣는지 기기 안에서만 세어, 다음에 그 말을 치면 단축어 버튼 옆에 먼저 띄워요. 친 글은 남기지 않아요. 끄면 배운 것도 지워요.", comment: "Footer for the learned snippet suggestions toggle"))
+                            .font(.caption)
+                            .foregroundColor(theme.textMuted)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                } icon: {
+                    Image(systemName: AppSymbol.sparkles)
+                }
+            }
+            .onChange(of: learnsPicks) { _, on in if !on { ShortcutLearning.forgetAll() } }
             // 빈칸이 여럿인 단축어를 키보드에서 채울 때의 모양.
             // 사용자 요청에서 왔다: "빈칸이 여러 개일 때 스크롤이 번거로워서요."
             Toggle(isOn: $compactPlaceholders) {

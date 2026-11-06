@@ -324,6 +324,15 @@ enum TypedShortcut {
         }
     }
 
+    /// 배운 단축어들을 칩으로(`ShortcutLearning`). 칩을 눌러도 지울 낱말이 없으면 `typed` 는 빈 글이다.
+    static func learnedPicks(ids: [UUID], typed: String, memos: [Memo], limit: Int = 3) -> [Pick] {
+        let byID = Dictionary(memos.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
+        return ids.compactMap { byID[$0] }
+            .filter { !$0.isSecure && !$0.isTemplate && !$0.isStack && $0.contentType == .text }
+            .prefix(limit)
+            .map { Pick(typed: typed, title: $0.title, text: $0.value, memoID: $0.id) }
+    }
+
     /// 낱말에 맞는 칩들. 이름과 똑같은 것이 먼저, 이름이 그 낱말로 시작하는 것(두 글자부터)이 다음이다.
     static func picks(for word: String, memos: [Memo], replacements: [Replacement], limit: Int = 3) -> [Pick] {
         guard !word.isEmpty else { return [] }
@@ -344,5 +353,78 @@ enum TypedShortcut {
             .filter { $0.text != word && seen.insert($0.text).inserted }
             .prefix(limit)
             .map { $0 }
+    }
+}
+
+// MARK: - 키보드가 배우기
+
+/// 어떤 낱말 뒤에 어떤 단축어를 넣었는지 세어 두었다가, 다음에 그 낱말을 치면 그 단축어를 띠에 먼저 꺼낸다.
+///
+/// 예: "주소는 " 까지 치고 '배송지' 를 두 번 넣었으면, 다음에 "주소는 " 을 치는 순간 띠에 '배송지' 가 선다.
+///
+/// ⚠️ 친 글은 남기지 않는다. 단축어를 넣은 그 자리의 **낱말 하나**(소문자로)와 단축어 id 횟수만 센다.
+///    숫자만인 낱말(카드번호 · 전화번호 조각)은 배우지 않는다.
+/// ⚠️ 두 번 넘게 같은 짝이 나와야 꺼낸다. 한 번은 우연이다.
+/// ⚠️ 낱말은 300개까지. 넘치면 가장 적게 쓴 낱말부터 잊는다.
+enum ShortcutLearning {
+    typealias Table = [String: [String: Int]]
+
+    static let minimumCount = 2
+    static let maxKeys = 300
+
+    /// 커서 앞에서 배울 낱말: 치는 중인 낱말, 없으면 띄어 쓰기 전 낱말. 줄을 바꿨으면 없다.
+    static func key(before context: String?) -> String? {
+        guard let context, context.last != "\n" else { return nil }
+        var word = TypedShortcut.lastWord(in: context)
+        if word.isEmpty {
+            let trimmed = String(context.reversed().drop { $0 == " " }.reversed())
+            guard trimmed.count < context.count else { return nil }
+            word = TypedShortcut.lastWord(in: trimmed)
+        }
+        let key = word.lowercased()
+        guard !key.isEmpty, key.count <= 24, !key.allSatisfy({ $0.isNumber || $0.isPunctuation }) else { return nil }
+        return key
+    }
+
+    /// 짝 하나를 센다. **순수 함수.**
+    static func noting(_ table: Table, key: String, memoID: UUID) -> Table {
+        var next = table
+        next[key, default: [:]][memoID.uuidString, default: 0] += 1
+        if next.count > maxKeys,
+           let weakest = next.min(by: { $0.value.values.reduce(0, +) < $1.value.values.reduce(0, +) })?.key,
+           weakest != key {
+            next[weakest] = nil
+        }
+        return next
+    }
+
+    /// 이 낱말 뒤에 자주 넣은 단축어들. 많이 넣은 것부터. **순수 함수.**
+    static func memoIDs(for key: String, in table: Table) -> [UUID] {
+        (table[key] ?? [:])
+            .filter { $0.value >= minimumCount }
+            .sorted { $0.value > $1.value }
+            .compactMap { UUID(uuidString: $0.key) }
+    }
+
+    // MARK: 저장 (App Group)
+
+    private static var defaults: UserDefaults? { AppGroup.defaults }
+
+    static var table: Table {
+        defaults?.dictionary(forKey: DefaultsKey.keyboardLearnedPicks) as? Table ?? [:]
+    }
+
+    static func note(_ key: String, memoID: UUID) {
+        guard KeyboardPrefs.learnsPicks.value() else { return }
+        defaults?.set(noting(table, key: key, memoID: memoID), forKey: DefaultsKey.keyboardLearnedPicks)
+    }
+
+    static func memoIDs(for key: String) -> [UUID] {
+        guard KeyboardPrefs.learnsPicks.value() else { return [] }
+        return memoIDs(for: key, in: table)
+    }
+
+    static func forgetAll() {
+        defaults?.removeObject(forKey: DefaultsKey.keyboardLearnedPicks)
     }
 }

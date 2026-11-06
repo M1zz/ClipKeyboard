@@ -13211,5 +13211,13 @@
   "%1$@ 아꼈어요 · %2$@": {
     "v": "Ušetřeno %1$@ · %2$@",
     "src": "cf19dcbd6f"
+  },
+  "자주 넣는 단축어 꺼내 주기": {
+    "v": "Navrhovat často používané zkratky",
+    "src": "40ce387124"
+  },
+  "어떤 말 뒤에 어떤 단축어를 넣는지 기기 안에서만 세어, 다음에 그 말을 치면 단축어 버튼 옆에 먼저 띄워요. 친 글은 남기지 않아요. 끄면 배운 것도 지워요.": {
+    "v": "Jen na tomto zařízení počítá, kterou zkratku vkládáte po určitém slově, a ukáže ji vedle tlačítka zkratek, když to slovo napíšete znovu. Psaný text se neukládá. Vypnutím se naučené smaže.",
+    "src": "aa1f5813cb"
   }
 }

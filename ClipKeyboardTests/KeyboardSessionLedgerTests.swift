@@ -213,3 +213,37 @@ struct TypedShortcutTests {
         #expect(TypedShortcut.picks(for: "카드", memos: [locked, template], replacements: []).isEmpty)
     }
 }
+
+struct ShortcutLearningTests {
+
+    @Test("배울 낱말은 치는 낱말, 없으면 띄어 쓰기 전 낱말. 줄 바꿈 뒤 · 숫자만은 배우지 않는다")
+    func learnsTheWordBeforeTheSnippet() {
+        #expect(ShortcutLearning.key(before: "택배 주소는") == "주소는")
+        #expect(ShortcutLearning.key(before: "택배 주소는 ") == "주소는")
+        #expect(ShortcutLearning.key(before: "Address ") == "address")
+        #expect(ShortcutLearning.key(before: "주소는\n") == nil)
+        #expect(ShortcutLearning.key(before: "번호 1234 ") == nil)
+        #expect(ShortcutLearning.key(before: nil) == nil)
+    }
+
+    @Test("같은 짝이 두 번 넘게 나와야 꺼내고, 많이 넣은 것이 먼저다")
+    func suggestsAfterRepeats() {
+        let home = UUID(), office = UUID()
+        var table = ShortcutLearning.Table()
+        table = ShortcutLearning.noting(table, key: "주소는", memoID: home)
+        #expect(ShortcutLearning.memoIDs(for: "주소는", in: table).isEmpty)
+        table = ShortcutLearning.noting(table, key: "주소는", memoID: home)
+        for _ in 0..<3 { table = ShortcutLearning.noting(table, key: "주소는", memoID: office) }
+        #expect(ShortcutLearning.memoIDs(for: "주소는", in: table) == [office, home])
+    }
+
+    @Test("배운 칩은 잠근 · 템플릿 단축어를 세우지 않는다")
+    func learnedPicksSkipLocked() {
+        let home = Memo(title: "배송지", value: "서울시 선물로 12")
+        var locked = Memo(title: "카드", value: "1234")
+        locked.isSecure = true
+        let picks = TypedShortcut.learnedPicks(ids: [locked.id, home.id], typed: "", memos: [home, locked])
+        #expect(picks.map(\.memoID) == [home.id])
+        #expect(picks.first?.typed == "")
+    }
+}
