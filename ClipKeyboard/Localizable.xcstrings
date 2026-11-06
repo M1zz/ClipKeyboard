@@ -475237,6 +475237,554 @@
           }
         }
       }
+    },
+    "텍스트 대치" : {
+      "comment" : "Toggle: apply the iPhone's Text Replacement while typing on this keyboard",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nahrazování textu"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teksterstatning"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Textersetzung"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Αντικατάσταση κειμένου"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text Replacement"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sustitución de texto"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekstinkorvaus"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remplacement de texte"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Penggantian Teks"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sostituzione testo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ユーザ辞書"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teksterstatning"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tekstvervanging"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zastępowanie tekstu"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Substituição de Texto"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Замена текста"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Textersättning"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "การแทนที่ข้อความ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metin Değiştirme"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thay thế văn bản"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文本替换"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "替代文字"
+          }
+        }
+      }
+    },
+    "설정 > 일반 > 키보드 > 텍스트 대치에 넣어 둔 단축을 치고 스페이스를 누르면 문구로 바꿔요. 바로 지우기를 누르면 되돌려요." : {
+      "comment" : "Footer for the text replacement toggle",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Napište zkratku z Nastavení > Obecné > Klávesnice > Nahrazování textu a stiskněte mezerník, změní se na frázi. Hned potom stiskněte Smazat a vrátíte to zpět."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv en genvej fra Indstillinger > Generelt > Tastatur > Teksterstatning, og tryk på mellemrum for at skifte til sætningen. Tryk på slet lige efter for at fortryde."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe ein Kürzel aus Einstellungen > Allgemein > Tastatur > Textersetzung und drück die Leertaste, um es durch den Text zu ersetzen. Drück direkt danach Löschen, um es rückgängig zu machen."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πληκτρολογήστε μια συντόμευση από Ρυθμίσεις > Γενικά > Πληκτρολόγιο > Αντικατάσταση κειμένου και πατήστε διάστημα για να γίνει η φράση. Πατήστε διαγραφή αμέσως μετά για αναίρεση."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type a shortcut from Settings > General > Keyboard > Text Replacement and press space to turn it into the phrase. Press delete right after to undo."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe un atajo de Ajustes > General > Teclado > Sustitución de texto y pulsa espacio para cambiarlo por la frase. Pulsa borrar justo después para deshacerlo."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kirjoita oikotie kohdasta Asetukset > Yleiset > Näppäimistö > Tekstinkorvaus ja paina välilyöntiä, niin se vaihtuu fraasiksi. Peru painamalla poistoa heti perään."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tapez un raccourci de Réglages > Général > Clavier > Remplacement de texte puis espace pour le changer en expression. Touchez Effacer juste après pour annuler."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketik pintasan dari Pengaturan > Umum > Papan Ketik > Penggantian Teks lalu tekan spasi untuk menggantinya dengan frasa. Tekan hapus tepat setelahnya untuk membatalkan."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digita un'abbreviazione di Impostazioni > Generali > Tastiera > Sostituzione testo e premi spazio per trasformarla nella frase. Premi Elimina subito dopo per annullare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「設定 > 一般 > キーボード > ユーザ辞書」の読みを入力してスペースを押すと、単語に置き換わります。すぐに削除キーを押すと元に戻ります。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv en snarvei fra Innstillinger > Generelt > Tastatur > Teksterstatning og trykk på mellomrom for å bytte til frasen. Trykk på slett rett etterpå for å angre."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typ een afkorting uit Instellingen > Algemeen > Toetsenbord > Tekstvervanging en druk op spatie om de zin te krijgen. Druk direct daarna op wissen om het ongedaan te maken."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wpisz skrót z Ustawienia > Ogólne > Klawiatura > Zastępowanie tekstu i naciśnij spację, aby zamienić go na frazę. Naciśnij usuń zaraz potem, aby cofnąć."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite um atalho de Ajustes > Geral > Teclado > Substituição de Texto e toque em espaço para trocar pela frase. Toque em apagar logo depois para desfazer."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Наберите сокращение из «Настройки > Основные > Клавиатура > Замена текста» и нажмите пробел, чтобы получить фразу. Сразу нажмите «Удалить», чтобы отменить."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv en kortkod från Inställningar > Allmänt > Tangentbord > Textersättning och tryck på mellanslag för att byta till frasen. Tryck på radera direkt efteråt för att ångra."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "พิมพ์คำย่อจาก การตั้งค่า > ทั่วไป > แป้นพิมพ์ > การแทนที่ข้อความ แล้วกดเว้นวรรคเพื่อเปลี่ยนเป็นวลี กดลบทันทีเพื่อเลิกทำ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarlar > Genel > Klavye > Metin Değiştirme'deki bir kısayolu yazıp boşluğa basın, ifadeye dönüşsün. Hemen ardından silmeye basarak geri alabilirsiniz."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gõ một phím tắt trong Cài đặt > Cài đặt chung > Bàn phím > Thay thế văn bản rồi nhấn dấu cách để đổi thành cụm từ. Nhấn xóa ngay sau đó để hoàn tác."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入“设置 > 通用 > 键盘 > 文本替换”里的输入码并按空格，即可换成对应短语。紧接着按删除键可撤销。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入「設定 > 一般 > 鍵盤 > 替代文字」裡的快捷鍵並按空白鍵，即可換成對應字詞。緊接著按刪除鍵可復原。"
+          }
+        }
+      }
+    },
+    "최근 복사한 %@" : {
+      "comment" : "Memo add: label above suggested values copied recently. %@ = kind of value, e.g. Email",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nedávno zkopírováno: %@"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopieret for nylig: %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zuletzt kopiert: %@"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πρόσφατη αντιγραφή: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recently copied: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiado hace poco: %@"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kopioitu äskettäin: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copié récemment : %@"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baru disalin: %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiato di recente: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近コピーした%@"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nylig kopiert: %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onlangs gekopieerd: %@"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ostatnio skopiowane: %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiado recentemente: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Недавно скопировано: %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nyss kopierat: %@"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "คัดลอกล่าสุด: %@"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Son kopyalanan: %@"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vừa sao chép: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近复制的%@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最近複製的%@"
+          }
+        }
+      }
+    },
+    "붙여넣을 내용에 넣어요" : {
+      "comment" : "Memo add: hint for a suggested recent copy chip",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vloží to do obsahu k vložení"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sætter det ind som indhold, der skal indsættes"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setzt es als Inhalt zum Einfügen ein"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το βάζει στο περιεχόμενο για επικόλληση"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puts it in the content to paste"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo pone en el contenido para pegar"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lisää sen liitettäväksi sisällöksi"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le place dans le contenu à coller"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Memasukkannya ke konten yang akan ditempel"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo inserisce nel contenuto da incollare"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "貼り付ける内容に入れます"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Legger det inn som innhold som skal limes inn"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zet het in de inhoud om te plakken"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wstawia to do treści do wklejenia"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coloca no conteúdo para colar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вставит это в текст для вставки"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lägger in det som innehåll att klistra in"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ใส่ลงในเนื้อหาที่จะวาง"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yapıştırılacak içeriğe ekler"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đưa vào nội dung để dán"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "填入要粘贴的内容"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "填入要貼上的內容"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

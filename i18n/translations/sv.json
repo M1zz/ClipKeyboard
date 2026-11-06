@@ -12917,5 +12917,21 @@
   "평생 한 번 결제와 월 · 연 구독 중에 고를 수 있어요.": {
     "v": "Välj ett engångsköp för livet eller en månads- eller årsprenumeration.",
     "src": "730e571533"
+  },
+  "텍스트 대치": {
+    "v": "Textersättning",
+    "src": "f3ade67284"
+  },
+  "설정 > 일반 > 키보드 > 텍스트 대치에 넣어 둔 단축을 치고 스페이스를 누르면 문구로 바꿔요. 바로 지우기를 누르면 되돌려요.": {
+    "v": "Skriv en kortkod från Inställningar > Allmänt > Tangentbord > Textersättning och tryck på mellanslag för att byta till frasen. Tryck på radera direkt efteråt för att ångra.",
+    "src": "fa2ec82dee"
+  },
+  "최근 복사한 %@": {
+    "v": "Nyss kopierat: %@",
+    "src": "cfed65c557"
+  },
+  "붙여넣을 내용에 넣어요": {
+    "v": "Lägger in det som innehåll att klistra in",
+    "src": "34065327b3"
   }
 }

@@ -26,6 +26,9 @@ struct KeyboardSettingsView: View {
     /// 키보드에서 진동을 울릴지. App Group - 키보드가 같은 값을 읽는다.
     @AppStorage(KeyboardPrefs.vibrates.key, store: AppGroup.defaults)
     private var vibrates: Bool = KeyboardPrefs.vibrates.fallback
+    /// 텍스트 대치를 스페이스에서 바꿀지. App Group - 키보드가 같은 값을 읽는다.
+    @AppStorage(KeyboardPrefs.autoTextReplacement.key, store: AppGroup.defaults)
+    private var autoTextReplacement: Bool = KeyboardPrefs.autoTextReplacement.fallback
 
     var body: some View {
         List {
@@ -153,6 +156,20 @@ struct KeyboardSettingsView: View {
                     }
                 } icon: {
                     Image(systemName: AppSymbol.arrowUturnBackward)
+                }
+            }
+            // 사용자 요청에서 왔다: "키보드 익스텐션에 애플의 텍스트 대치도 구현해 줄 수 있어?"
+            Toggle(isOn: $autoTextReplacement) {
+                Label {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("텍스트 대치", comment: "Toggle: apply the iPhone's Text Replacement while typing on this keyboard"))
+                        Text(NSLocalizedString("설정 > 일반 > 키보드 > 텍스트 대치에 넣어 둔 단축을 치고 스페이스를 누르면 문구로 바꿔요. 바로 지우기를 누르면 되돌려요.", comment: "Footer for the text replacement toggle"))
+                            .font(.caption)
+                            .foregroundColor(theme.textMuted)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                } icon: {
+                    Image(systemName: AppSymbol.textCursor)
                 }
             }
             // 빈칸이 여럿인 단축어를 키보드에서 채울 때의 모양.

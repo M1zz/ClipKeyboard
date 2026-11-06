@@ -176,6 +176,8 @@ struct TypingKeyboardPanel: View {
     var shortcutPicks: (String) -> [TypedShortcut.Pick] = { _ in [] }
     /// 칩을 눌렀다. 친 낱말은 여기서 지웠고, 넣는 일만 남았다.
     var onPickShortcut: (TypedShortcut.Pick) -> Void = { _ in }
+    /// 스페이스를 누를 때 커서 앞 낱말을 바꿀 문구(아이폰 텍스트 대치). 바꾸지 않으면 nil.
+    var textReplacement: (String) -> String? = { _ in nil }
 
     @Environment(\.colorScheme) private var colorScheme
 
@@ -195,6 +197,8 @@ struct TypingKeyboardPanel: View {
     @State private var panelWidth: CGFloat = 0
     /// 천지인 문장부호 키(.,?!)를 이어 누르는 중인가. 같은 키를 빨리 누르면 다음 부호로 바뀐다.
     @State private var punctuationCycle: (index: Int, at: Date)?
+    /// 바로 전 스페이스에서 텍스트 대치로 바꾼 것. 곧바로 지우기를 누르면 친 낱말로 되돌린다(기본 키보드와 같다).
+    @State private var lastReplacement: (typed: String, phrase: String)?
 
     enum Layer { case letters, numbers, symbols }
     enum ShiftState { case off, once, locked }
@@ -569,6 +573,7 @@ struct TypingKeyboardPanel: View {
     private func backspaceKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat? = nil) -> some View {
         PressableKey(firesOnTouchDown: true, repeats: true, action: {
             KeyboardHaptics.tap()
+            if undoReplacement() { return }
             session.engine?.backspace()
             session.refresh()
             updateAutoShift()
@@ -682,8 +687,9 @@ struct TypingKeyboardPanel: View {
             if let engine = session.engine, engine.isComposing {
                 engine.commit()
                 // 가나 · 병음은 스페이스가 조합만 끝낸다(일본 · 중국 입력기와 같다).
-                if !language.needsConversionDictionary { proxy.insertText(" ") }
+                if !language.needsConversionDictionary { replaceTypedWord(); proxy.insertText(" ") }
             } else {
+                replaceTypedWord()
                 proxy.insertText(" ")
             }
             session.refresh()
@@ -910,8 +916,34 @@ struct TypingKeyboardPanel: View {
         session.refresh()
     }
 
+    // MARK: - 텍스트 대치
+
+    /// 커서 앞 낱말이 텍스트 대치의 단축이면 문구로 바꾼다. 스페이스를 넣기 **전에** 부른다.
+    private func replaceTypedWord() {
+        lastReplacement = nil
+        let word = TypedShortcut.lastWord(in: proxy.typingContextBefore)
+        guard let phrase = textReplacement(word) else { return }
+        for _ in 0..<word.count { proxy.deleteBackward() }
+        proxy.insertText(phrase)
+        lastReplacement = (word, phrase)
+    }
+
+    /// 바꾼 바로 뒤의 지우기는 바꾼 것을 무른다. 문구와 스페이스를 지우고 친 낱말을 돌려놓는다.
+    /// - Returns: 물렀으면 true(이번 지우기는 그걸로 끝).
+    private func undoReplacement() -> Bool {
+        guard let last = lastReplacement else { return false }
+        lastReplacement = nil
+        // 그 사이 캐럿을 옮겼거나 다른 글이 붙었으면 무르지 않는다.
+        guard proxy.typingContextBefore?.hasSuffix(last.phrase + " ") == true else { return false }
+        for _ in 0..<(last.phrase.count + 1) { proxy.deleteBackward() }
+        proxy.insertText(last.typed)
+        session.refresh()
+        return true
+    }
+
     private func type(_ key: String) {
         KeyboardHaptics.tap()
+        lastReplacement = nil
         // 바뀔 때만 적는다. 글자마다 판 전체를 다시 그리지 않게.
         if punctuationCycle != nil { punctuationCycle = nil }
         session.engine?.input(key)

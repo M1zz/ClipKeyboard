@@ -187,6 +187,21 @@ struct TypedShortcutTests {
         #expect(replaced == [.init(typed: "ㅈㅅ", title: "죄송합니다", text: "죄송합니다", memoID: nil)])
     }
 
+    @Test("텍스트 대치는 단축과 똑같이 친 낱말만 스페이스에서 바꾼다. 연락처 이름 · 앞부분은 안 바꾼다")
+    func textReplacementOnSpace() {
+        let omw = TypedShortcut.Replacement(shortcut: "omw", phrase: "On my way!")
+        let sorry = TypedShortcut.Replacement(shortcut: "ㅈㅅ", phrase: "죄송합니다")
+        let contact = TypedShortcut.Replacement(shortcut: "김서연", phrase: "김서연")
+        let all = [omw, sorry, contact]
+
+        #expect(TypedShortcut.replacement(for: "omw", in: all) == omw)
+        #expect(TypedShortcut.replacement(for: "OMW", in: all) == omw)
+        #expect(TypedShortcut.replacement(for: "ㅈㅅ", in: all) == sorry)
+        #expect(TypedShortcut.replacement(for: "om", in: all) == nil)
+        #expect(TypedShortcut.replacement(for: "김서연", in: all) == nil)
+        #expect(TypedShortcut.replacement(for: "", in: all) == nil)
+    }
+
     @Test("한 글자로는 앞부분을 맞추지 않고, 잠근 · 템플릿 단축어는 세우지 않는다")
     func quietWhenUnsure() {
         let home = Memo(title: "주소", value: "서울시 중구")

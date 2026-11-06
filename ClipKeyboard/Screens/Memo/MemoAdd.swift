@@ -462,6 +462,9 @@ struct MemoAdd: View {
                         if simple {
                             simpleContentSection
                                 .id("contentField")
+                            // 이름으로 짐작한 최근 복사 글(이메일 · 계좌 …). 내용이 비어 있을 때만.
+                            ContentPredictionRow(title: viewModel.keyword, value: $viewModel.value)
+                                .padding(.top, -16)
                             // 기능을 켰거나, **이 단축어가 이미 그 기능을 쓰고 있으면** 그 칸을 보인다.
                             // 껐다고 숨기면 스택 값 · 보안 · 빈칸이 있는지조차 모른 채 고치게 된다(값은 저장 때 남는다)
                             if FeatureSet.isOn(.stack) || !viewModel.continuations.isEmpty { continuationsSection }
@@ -488,6 +491,10 @@ struct MemoAdd: View {
                             onValueFromPhoto: { viewModel.noteValueFromPhoto($0) }
                         )
                         .id("contentField")
+
+                        // 이름으로 짐작한 최근 복사 글(이메일 · 계좌 …). 내용이 비어 있을 때만.
+                        ContentPredictionRow(title: viewModel.keyword, value: $viewModel.value)
+                            .padding(.top, -16)
 
                         // 모양이 정해진 값(카드·전화·생년월일·여권·IBAN)은 적는 동안 상태를 한 줄로 말한다.
                         // 예시 값에는 말하지 않는다 - 0000-0000-0000-0000 도 체크섬은 통과한다.

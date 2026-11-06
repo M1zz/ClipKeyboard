@@ -98,3 +98,50 @@ struct ClipboardClassificationSwiftTests {
         }
     }
 }
+
+// MARK: - 이름으로 내용 짐작하기 (`ContentPrediction`)
+
+@Suite("이름으로 붙여넣을 내용 짐작하기")
+struct ContentPredictionTests {
+
+    private func clip(_ content: String, _ type: ClipboardItemType, minutesAgo: Double) -> SmartClipboardHistory {
+        var item = SmartClipboardHistory(content: content)
+        item.detectedType = type
+        item.copiedAt = Date().addingTimeInterval(-minutesAgo * 60)
+        return item
+    }
+
+    @Test("이름이 말하는 종류를 읽는다. 긴 말이 먼저고, 로마자는 낱말째만")
+    func readsTheKindFromTheName() {
+        #expect(ContentPrediction.type(forTitle: "회사 이메일") == .email)
+        #expect(ContentPrediction.type(forTitle: "회사메일") == .email)
+        #expect(ContentPrediction.type(forTitle: "송금 계좌") == .bankAccount)
+        #expect(ContentPrediction.type(forTitle: "우편번호") == .postalCode)
+        #expect(ContentPrediction.type(forTitle: "Work email") == .email)
+        #expect(ContentPrediction.type(forTitle: "Hotel") == nil)
+        #expect(ContentPrediction.type(forTitle: "Hotel address") == .address)
+        #expect(ContentPrediction.type(forTitle: "인사말") == nil)
+        #expect(ContentPrediction.type(forTitle: "메") == nil)
+    }
+
+    @Test("같은 종류의 최근 복사 글만 새것부터, 같은 글은 한 번")
+    func suggestsRecentCopiesOfThatKind() {
+        let history = [
+            clip("old@ex.com", .email, minutesAgo: 60),
+            clip("new@ex.com", .email, minutesAgo: 1),
+            clip("new@ex.com", .email, minutesAgo: 5),
+            clip("010-1234-5678", .phone, minutesAgo: 2),
+        ]
+        #expect(ContentPrediction.candidates(forTitle: "회사 이메일", history: history) == ["new@ex.com", "old@ex.com"])
+        #expect(ContentPrediction.candidates(forTitle: "인사말", history: history).isEmpty)
+    }
+
+    @Test("사람이 고친 종류를 따르고, 카드 · 계좌는 칩에 끝 네 자리만")
+    func respectsCorrectionsAndMasksSensitive() {
+        var fixed = clip("110-123-456789", .phone, minutesAgo: 1)
+        fixed.userCorrectedType = .bankAccount
+        #expect(ContentPrediction.candidates(forTitle: "계좌", history: [fixed]) == ["110-123-456789"])
+        #expect(ContentPrediction.preview("110-123-456789", type: .bankAccount) == "•••• 6789")
+        #expect(ContentPrediction.preview("a@b.com", type: .email) == "a@b.com")
+    }
+}

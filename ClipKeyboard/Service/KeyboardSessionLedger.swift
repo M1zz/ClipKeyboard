@@ -283,8 +283,10 @@ enum FieldFit {
 
 /// 자판으로 친 마지막 낱말이 단축어 이름이나 아이폰 텍스트 대치와 맞으면 맨 위 띠에 칩으로 세운다.
 ///
-/// ⚠️ **바꿔 넣지 않고 제안만 한다.** 단축어 이름은 "주소" 같은 평범한 낱말이 많아서,
+/// ⚠️ **단축어는 바꿔 넣지 않고 제안만 한다.** 단축어 이름은 "주소" 같은 평범한 낱말이 많아서,
 ///    스페이스에 저절로 바꾸면 그냥 그 낱말을 쓰려던 사람이 놀란다. 칩은 무시하면 그만이다.
+///    아이폰 텍스트 대치는 사람이 "이렇게 치면 바꿔 달라" 고 넣어 둔 것이라 스페이스에서 바꾼다
+///    (`replacement(for:in:)`, 기본 키보드와 같다. 설정에서 끌 수 있다).
 /// ⚠️ 잠근 · 템플릿 · 스택 · 그림 단축어는 세우지 않는다. 그 단축어는 PIN · 빈칸 창을 거치는데,
 ///    친 낱말을 먼저 지운 뒤 창을 닫으면 낱말만 사라진다.
 enum TypedShortcut {
@@ -311,6 +313,15 @@ enum TypedShortcut {
         guard let context else { return "" }
         let word = context.reversed().prefix { !$0.isWhitespace && !$0.isNewline }
         return word.count > 24 ? "" : String(word.reversed())
+    }
+
+    /// 스페이스에서 바꿀 텍스트 대치. 단축과 **똑같이** 친 낱말만(대소문자 · 전각 반각은 가리지 않는다).
+    /// 단축과 문구가 같은 줄(연락처 이름)은 바꿀 것이 없어 고르지 않는다.
+    static func replacement(for word: String, in replacements: [Replacement]) -> Replacement? {
+        guard !word.isEmpty else { return nil }
+        return replacements.first {
+            $0.phrase != word && $0.shortcut.compare(word, options: [.caseInsensitive, .widthInsensitive]) == .orderedSame
+        }
     }
 
     /// 낱말에 맞는 칩들. 이름과 똑같은 것이 먼저, 이름이 그 낱말로 시작하는 것(두 글자부터)이 다음이다.

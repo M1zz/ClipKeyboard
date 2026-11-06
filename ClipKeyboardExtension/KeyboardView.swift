@@ -2167,7 +2167,11 @@ struct KeyboardView: View {
                 globeOverlay: KeyboardCapability.needsInputModeSwitchKey ? AnyView(InputModeSwitchOverlay(proxy: proxy)) : nil,
                 onShowSnippets: { setInputMode(.snippets) },
                 shortcutPicks: { TypedShortcut.picks(for: $0, memos: allMemos, replacements: documentState.textReplacements) },
-                onPickShortcut: pickTypedShortcut
+                onPickShortcut: pickTypedShortcut,
+                textReplacement: { word in
+                    guard KeyboardPrefs.autoTextReplacement.value() else { return nil }
+                    return TypedShortcut.replacement(for: word, in: documentState.textReplacements)?.phrase
+                }
             )
         } else {
             memoModeContent

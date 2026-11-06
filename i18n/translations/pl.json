@@ -13151,5 +13151,21 @@
   "평생 한 번 결제와 월 · 연 구독 중에 고를 수 있어요.": {
     "v": "Wybierz jednorazową płatność na zawsze lub plan miesięczny albo roczny.",
     "src": "730e571533"
+  },
+  "텍스트 대치": {
+    "v": "Zastępowanie tekstu",
+    "src": "f3ade67284"
+  },
+  "설정 > 일반 > 키보드 > 텍스트 대치에 넣어 둔 단축을 치고 스페이스를 누르면 문구로 바꿔요. 바로 지우기를 누르면 되돌려요.": {
+    "v": "Wpisz skrót z Ustawienia > Ogólne > Klawiatura > Zastępowanie tekstu i naciśnij spację, aby zamienić go na frazę. Naciśnij usuń zaraz potem, aby cofnąć.",
+    "src": "fa2ec82dee"
+  },
+  "최근 복사한 %@": {
+    "v": "Ostatnio skopiowane: %@",
+    "src": "cfed65c557"
+  },
+  "붙여넣을 내용에 넣어요": {
+    "v": "Wstawia to do treści do wklejenia",
+    "src": "34065327b3"
   }
 }

@@ -12911,5 +12911,21 @@
   "평생 한 번 결제와 월 · 연 구독 중에 고를 수 있어요.": {
     "v": "Escolha entre um pagamento único vitalício ou um plano mensal ou anual.",
     "src": "730e571533"
+  },
+  "텍스트 대치": {
+    "v": "Substituição de Texto",
+    "src": "f3ade67284"
+  },
+  "설정 > 일반 > 키보드 > 텍스트 대치에 넣어 둔 단축을 치고 스페이스를 누르면 문구로 바꿔요. 바로 지우기를 누르면 되돌려요.": {
+    "v": "Digite um atalho de Ajustes > Geral > Teclado > Substituição de Texto e toque em espaço para trocar pela frase. Toque em apagar logo depois para desfazer.",
+    "src": "fa2ec82dee"
+  },
+  "최근 복사한 %@": {
+    "v": "Copiado recentemente: %@",
+    "src": "cfed65c557"
+  },
+  "붙여넣을 내용에 넣어요": {
+    "v": "Coloca no conteúdo para colar",
+    "src": "34065327b3"
   }
 }

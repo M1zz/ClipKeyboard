@@ -9035,6 +9035,12 @@
     "comment": "Content label: what gets pasted when user taps the memo",
     "h": "c66132ba38"
   },
+  "붙여넣을 내용에 넣어요": {
+    "ko": "붙여넣을 내용에 넣어요",
+    "en": "Puts it in the content to paste",
+    "comment": "Memo add: hint for a suggested recent copy chip",
+    "h": "34065327b3"
+  },
   "붙여넣을 내용을 입력하세요. 나중에 채울 자리는 빈칸 이름을 중괄호로 감싸서 만들어요. 예: 이름": {
     "ko": "붙여넣을 내용을 입력하세요. 나중에 채울 자리는 빈칸 이름을 중괄호로 감싸서 만들어요. 예: 이름",
     "en": "Enter the content to paste. To make a spot you fill in later, wrap a blank name in curly braces, e.g. name.",
@@ -10054,6 +10060,12 @@
     "en": "You can sign in from Settings > [User Name] > iCloud.",
     "comment": "iCloud login instruction",
     "h": "cafc41d516"
+  },
+  "설정 > 일반 > 키보드 > 텍스트 대치에 넣어 둔 단축을 치고 스페이스를 누르면 문구로 바꿔요. 바로 지우기를 누르면 되돌려요.": {
+    "ko": "설정 > 일반 > 키보드 > 텍스트 대치에 넣어 둔 단축을 치고 스페이스를 누르면 문구로 바꿔요. 바로 지우기를 누르면 되돌려요.",
+    "en": "Type a shortcut from Settings > General > Keyboard > Text Replacement and press space to turn it into the phrase. Press delete right after to undo.",
+    "comment": "Footer for the text replacement toggle",
+    "h": "fa2ec82dee"
   },
   "설정 > 첫 화면에서 단축어 목록과 키보드 화면 중 고를 수 있어요(툴바 버튼으로 바로 전환)": {
     "ko": "설정 > 첫 화면에서 단축어 목록과 키보드 화면 중 고를 수 있어요(툴바 버튼으로 바로 전환)",
@@ -15347,6 +15359,12 @@
     "comment": "Recent snippets auto default footer",
     "h": "557f5a46ce"
   },
+  "최근 복사한 %@": {
+    "ko": "최근 복사한 %@",
+    "en": "Recently copied: %@",
+    "comment": "Memo add: label above suggested values copied recently. %@ = kind of value, e.g. Email",
+    "h": "cfed65c557"
+  },
   "최근 복사한 것": {
     "ko": "최근 복사한 것",
     "en": "Recently Copied",
@@ -17068,6 +17086,12 @@
     "en": "Text",
     "comment": "Shortcut type: plain text\nText",
     "h": "b00fe9e12f"
+  },
+  "텍스트 대치": {
+    "ko": "텍스트 대치",
+    "en": "Text Replacement",
+    "comment": "Toggle: apply the iPhone's Text Replacement while typing on this keyboard",
+    "h": "f3ade67284"
   },
   "텍스트 인식 중...": {
     "ko": "텍스트 인식 중...",
