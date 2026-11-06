@@ -12,6 +12,8 @@ App Store Connect ▸ 앱 내 구입 ▸ 상품 ▸ **심사 정보 ▸ 스크�
 | `com.Ysoup.TokenMemo.pro.graduate.png` | 구독 졸업 Pro 평생 (비소모성) | 구독자에게만 뜨는 졸업 제안 (`LeeoGraduationOfferView`) |
 | `com.Ysoup.TokenMemo.forever.png` | 언제나 평생 패스 (비소모성) | 페이월 아래 한 줄 ▸ 패스 화면 (`LeeoForeverPassView`) |
 | `com.Ysoup.TokenMemo.forever.upgrade.png` | 패스, 평생 Pro 보유자 값 (비소모성) | 같은 화면, 평생 Pro 를 가진 사람 |
+| `com.Ysoup.TokenMemo.plus.monthly.png` | Plus 월 구독 (자동 갱신) | 설정 ▸ 무료로 쓰는 중 ▸ Pro 보기, Plus 칸에서 월 구독을 고른 화면 |
+| `com.Ysoup.TokenMemo.pro.monthly.png` | Pro 월 구독 (자동 갱신) | 같은 화면, Pro 칸에서 월 구독 |
 
 졸업 · 패스 그림은 샌드박스의 진짜 상품 값으로 그렸다(상품을 ASC 에 만든 뒤 시험 대상 앱 안에서
 `UIWindow(windowScene:)` 에 얹어 찍음. 장면 없이 만든 창은 검게 찍힌다).
@@ -27,3 +29,11 @@ StoreKit 상품 없이 그린다. 두 화면에 **결제하지 않는 미리보�
 
 ⚠️ 단위 시험의 `SKTestSession` 으로는 로컬 .storekit 상품이 불러와지지 않았다(진짜 App Store 의 Pro 하나만 왔다).
 그래서 미리보기 입구를 만들었다.
+
+## 월 구독 두 장 (2026-11)
+
+실제 페이월을 UI 시험으로 찍었다. 스킴 `ClipKeyboardUITests` 의 LaunchAction 에 잠시
+`Config/Products.storekit` 를 붙이면 앱이 로컬 상품을 읽는다(평생 가격은 그 파일의 예시값이다).
+시험은 `-blankStart.finished.v1 YES` 를 더해 첫 실행을 건너뛰고, 설정 ▸ 무료로 쓰는 중 ▸ Pro 보기로 간다.
+`clipkeyboard://paywall` 은 시험에서 열리지 않았다. 찍은 뒤 스킴과 시험은 되돌렸다.
+
