@@ -137,6 +137,12 @@
     "comment": "Reorder position: current index of total",
     "h": "e25d3ecfe6"
   },
+  "%@ / 월": {
+    "ko": "%@ / 월",
+    "en": "%@ / month",
+    "comment": "Paywall term option: monthly price. %@ = price",
+    "h": "1167c658a4"
+  },
   "%@ · iOS %@": {
     "ko": "%1$@ · iOS %2$@",
     "en": "%1$@ · iOS %2$@",
@@ -604,6 +610,12 @@
     "en": "%d-day free trial · Then choose yearly or lifetime",
     "comment": "Paywall subtitle with trial: free trial days, then choose yearly or lifetime",
     "h": "3c796a3160"
+  },
+  "%d일 무료 체험 · 월 · 연 구독이나 평생 중에 골라요": {
+    "ko": "%d일 무료 체험 · 월 · 연 구독이나 평생 중에 골라요",
+    "en": "%d-day free trial · Then choose monthly, yearly or lifetime",
+    "comment": "Paywall subtitle with trial: free trial days, then choose monthly, yearly or lifetime",
+    "h": "1d1c9b1de5"
   },
   "%d일 무료 체험 · 한번 구매, 평생 사용": {
     "ko": "%d일 무료 체험 · 한번 구매, 평생 사용",
@@ -7217,6 +7229,12 @@
     "comment": "Plan: yearly caption",
     "h": "f4f8177bfb"
   },
+  "매달 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.": {
+    "ko": "매달 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.",
+    "en": "Renews automatically at %@ per month. Cancel at least 24 hours before renewal in Settings > Apple Account > Subscriptions.",
+    "comment": "Monthly subscription terms",
+    "h": "0132f370b1"
+  },
   "매번 그런가요? 껐다 켜도 그런가요? (선택)": {
     "ko": "매번 그런가요? 껐다 켜도 그런가요? (선택)",
     "en": "Does it happen every time? Even after restarting? (optional)",
@@ -11795,6 +11813,12 @@
     "comment": "Paywall subtitle: choose a yearly subscription or a lifetime purchase",
     "h": "a9cef1c845"
   },
+  "연 구독이면 한 달에 %@": {
+    "ko": "연 구독이면 한 달에 %@",
+    "en": "Yearly works out to %@ a month",
+    "comment": "Paywall note under monthly: the yearly plan works out to this price per month. %@ = price",
+    "h": "d695023e74"
+  },
   "연간": {
     "ko": "연간",
     "en": "Yearly",
@@ -12364,6 +12388,18 @@
     "en": "Month",
     "comment": "Date pattern chip: month",
     "h": "c05b9e2584"
+  },
+  "월 · 연 구독이나 평생 중에 골라요": {
+    "ko": "월 · 연 구독이나 평생 중에 골라요",
+    "en": "Choose monthly, yearly or lifetime",
+    "comment": "Paywall subtitle: choose a monthly or yearly subscription, or a lifetime purchase",
+    "h": "f58d75b184"
+  },
+  "월 구독": {
+    "ko": "월 구독",
+    "en": "Monthly",
+    "comment": "Paywall term option: monthly subscription",
+    "h": "c910f61338"
   },
   "월 이름": {
     "ko": "월 이름",
@@ -17362,6 +17398,12 @@
     "en": "Choose a one-time lifetime purchase or a yearly plan.",
     "comment": "Free use guide: lifetime or yearly",
     "h": "e21a8783de"
+  },
+  "평생 한 번 결제와 월 · 연 구독 중에 고를 수 있어요.": {
+    "ko": "평생 한 번 결제와 월 · 연 구독 중에 고를 수 있어요.",
+    "en": "Choose a one-time lifetime purchase or a monthly or yearly plan.",
+    "comment": "Free use guide: lifetime, monthly or yearly",
+    "h": "730e571533"
   },
   "평평한 기본 모습이에요. 카드가 푹신하게 반응해요.": {
     "ko": "평평한 기본 모습이에요. 카드가 푹신하게 반응해요.",

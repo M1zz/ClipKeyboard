@@ -42,8 +42,10 @@ final class AccessTierTests: XCTestCase {
 
     // MARK: - 2026-10 요금제 사다리
 
-    /// 연 구독은 같은 칸의 평생과 같은 권한이다.
+    /// 월 · 연 구독은 같은 칸의 평생과 같은 권한이다.
     func testYearly_OpensTheSamePlanAsLifetime() {
+        XCTAssertEqual(AccessTier.purchased(from: [AccessTier.plusMonthlyProductID]), .plus)
+        XCTAssertEqual(AccessTier.purchased(from: [AccessTier.proMonthlyProductID]), .pro)
         XCTAssertEqual(AccessTier.purchased(from: [AccessTier.plusYearlyProductID]), .plus)
         XCTAssertEqual(AccessTier.purchased(from: [AccessTier.plusProductID]), .plus)
         XCTAssertEqual(AccessTier.purchased(from: [AccessTier.proYearlyProductID]), .pro)
@@ -54,7 +56,8 @@ final class AccessTierTests: XCTestCase {
     func testPlusAndProSubscriptions_HighestWins() {
         XCTAssertEqual(AccessTier.purchased(from: AccessTier.subscriptionProductIDs), .pro)
         XCTAssertEqual(AccessTier.subscriptionProductIDs,
-                       [AccessTier.plusYearlyProductID, AccessTier.proYearlyProductID])
+                       [AccessTier.plusMonthlyProductID, AccessTier.plusYearlyProductID,
+                        AccessTier.proMonthlyProductID, AccessTier.proYearlyProductID])
     }
 
     /// 구독 졸업 상품은 Pro 평생이다.
@@ -125,6 +128,8 @@ final class AccessTierTests: XCTestCase {
         XCTAssertEqual(AccessTier.proProductID, "com.Ysoup.TokenMemo.pro")
         XCTAssertEqual(AccessTier.proYearlyProductID, "com.Ysoup.TokenMemo.pro.yearly")
         XCTAssertEqual(AccessTier.proGraduateProductID, "com.Ysoup.TokenMemo.pro.graduate")
+        XCTAssertEqual(AccessTier.plusMonthlyProductID, "com.Ysoup.TokenMemo.plus.monthly")
+        XCTAssertEqual(AccessTier.proMonthlyProductID, "com.Ysoup.TokenMemo.pro.monthly")
         XCTAssertEqual(AccessTier.retiredProProductIDs, ["com.Ysoup.TokenMemo.pro.halfoff"])
     }
 }

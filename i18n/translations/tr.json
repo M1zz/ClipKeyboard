@@ -12886,5 +12886,36 @@
   "연습이라 어디에도 보내지지 않아요": {
     "v": "Bu sadece bir alıştırma. Hiçbir yere gönderilmez",
     "src": "98f5e5a0ea"
+  },
+  "월 구독": {
+    "v": "Aylık",
+    "src": "c910f61338"
+  },
+  "%@ / 월": {
+    "v": "%@ / ay",
+    "src": "1167c658a4"
+  },
+  "연 구독이면 한 달에 %@": {
+    "v": "Yıllık planda aylık %@",
+    "src": "d695023e74"
+  },
+  "매달 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.": {
+    "v": "Ayda %@ tutarıyla otomatik yenilenir. Yenilemeden en az 24 saat önce Ayarlar > Apple Hesabı > Abonelikler bölümünden iptal edebilirsiniz.",
+    "src": "0132f370b1"
+  },
+  "월 · 연 구독이나 평생 중에 골라요": {
+    "v": "Aylık, yıllık veya ömür boyu seçin",
+    "src": "f58d75b184"
+  },
+  "%d일 무료 체험 · 월 · 연 구독이나 평생 중에 골라요": {
+    "v": {
+      "one": "%d günlük ücretsiz deneme · Sonra aylık, yıllık veya ömür boyu seçin",
+      "other": "%d günlük ücretsiz deneme · Sonra aylık, yıllık veya ömür boyu seçin"
+    },
+    "src": "1d1c9b1de5"
+  },
+  "평생 한 번 결제와 월 · 연 구독 중에 고를 수 있어요.": {
+    "v": "Tek seferlik ömür boyu ödeme ile aylık veya yıllık abonelik arasında seçim yapabilirsiniz.",
+    "src": "730e571533"
   }
 }

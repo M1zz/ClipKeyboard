@@ -349,6 +349,60 @@
           "subscriptionGroupID": "21600001",
           "type": "RecurringSubscription",
           "winbackOffers": []
+        },
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "1.99",
+          "familyShareable": true,
+          "groupNumber": 1,
+          "internalID": "pro_monthly",
+          "introductoryOffer": null,
+          "localizations": [
+            {
+              "description": "Everything in Plus, plus iCloud backup, biometric lock and sync.",
+              "displayName": "ClipKeyboard Pro (Monthly)",
+              "locale": "en_US"
+            },
+            {
+              "description": "Plus 전부와 iCloud 백업 · 생체인증 잠금 · 동기화.",
+              "displayName": "ClipKeyboard Pro 월 구독",
+              "locale": "ko"
+            }
+          ],
+          "productID": "com.Ysoup.TokenMemo.pro.monthly",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "Pro Monthly",
+          "subscriptionGroupID": "21600001",
+          "type": "RecurringSubscription",
+          "winbackOffers": []
+        },
+        {
+          "adHocOffers": [],
+          "codeOffers": [],
+          "displayPrice": "0.99",
+          "familyShareable": true,
+          "groupNumber": 2,
+          "internalID": "plus_monthly",
+          "introductoryOffer": null,
+          "localizations": [
+            {
+              "description": "Unlimited snippets, templates, stacks and images.",
+              "displayName": "ClipKeyboard Plus (Monthly)",
+              "locale": "en_US"
+            },
+            {
+              "description": "단축어 · 템플릿 · 스택 · 이미지를 마음껏 만들어요.",
+              "displayName": "ClipKeyboard Plus 월 구독",
+              "locale": "ko"
+            }
+          ],
+          "productID": "com.Ysoup.TokenMemo.plus.monthly",
+          "recurringSubscriptionPeriod": "P1M",
+          "referenceName": "Plus Monthly",
+          "subscriptionGroupID": "21600001",
+          "type": "RecurringSubscription",
+          "winbackOffers": []
         }
       ]
     }

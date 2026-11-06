@@ -13118,5 +13118,38 @@
   "연습이라 어디에도 보내지지 않아요": {
     "v": "Je to jen cvičení. Nic se nikam neodešle",
     "src": "98f5e5a0ea"
+  },
+  "월 구독": {
+    "v": "Měsíčně",
+    "src": "c910f61338"
+  },
+  "%@ / 월": {
+    "v": "%@ / měsíc",
+    "src": "1167c658a4"
+  },
+  "연 구독이면 한 달에 %@": {
+    "v": "S ročním předplatným vychází %@ měsíčně",
+    "src": "d695023e74"
+  },
+  "매달 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.": {
+    "v": "Obnovuje se automaticky za %@ měsíčně. Zrušit lze nejpozději 24 hodin před obnovením v Nastavení > Účet Apple > Předplatná.",
+    "src": "0132f370b1"
+  },
+  "월 · 연 구독이나 평생 중에 골라요": {
+    "v": "Vyberte měsíční, roční předplatné nebo doživotní",
+    "src": "f58d75b184"
+  },
+  "%d일 무료 체험 · 월 · 연 구독이나 평생 중에 골라요": {
+    "v": {
+      "few": "%d dny zdarma · Pak měsíční, roční předplatné nebo doživotně",
+      "many": "%d dne zdarma · Pak měsíční, roční předplatné nebo doživotně",
+      "one": "%d den zdarma · Pak měsíční, roční předplatné nebo doživotně",
+      "other": "%d dní zdarma · Pak měsíční, roční předplatné nebo doživotně"
+    },
+    "src": "1d1c9b1de5"
+  },
+  "평생 한 번 결제와 월 · 연 구독 중에 고를 수 있어요.": {
+    "v": "Vyberte jednorázovou platbu na doživotí, nebo měsíční či roční předplatné.",
+    "src": "730e571533"
   }
 }

@@ -2,12 +2,12 @@
 //  PaywallPlans.swift
 //  ClipKeyboard
 //
-//  페이월의 **세 칸**: 무료 · Plus · Pro (`AccessTier`). 유료 칸마다 연 구독과 평생을 나란히 판다.
+//  페이월의 **세 칸**: 무료 · Plus · Pro (`AccessTier`). 유료 칸마다 월 구독 · 연 구독 · 평생을 나란히 판다.
 //
 //    무료   지금 그대로  단축어 · 템플릿 몇 개, 클립보드 기록 50개
-//    Plus   쌓기        단축어 · 템플릿 · 스택 · 이미지 무제한       (`plus.yearly` · 평생 `slots5`)
+//    Plus   쌓기        단축어 · 템플릿 · 스택 · 이미지 무제한       (`plus.monthly` · `plus.yearly` · 평생 `slots5`)
 //    Pro    지키기      Plus 전부 + iCloud 백업 · 생체 잠금 · 동기화(베타)
-//                       (`pro.yearly` · 평생 `pro`, Plus 평생을 산 사람의 평생은 `pro.upgrade`)
+//                       (`pro.monthly` · `pro.yearly` · 평생 `pro`, Plus 평생을 산 사람의 평생은 `pro.upgrade`)
 //
 //  칸을 늘어놓고 사는 일은 `PaywallLadder` 가 한다. 여기는 칸 하나의 규칙과 모양이다.
 //
@@ -64,6 +64,16 @@ enum PaywallPlan: String, CaseIterable, Identifiable {
     }
 }
 
+// MARK: - 길
+
+/// 칸 하나를 사는 세 가지 길.
+///
+/// ⚠️ LeeoKit 의 `LeeoPlanTerm`(연 · 평생 둘)을 넓히지 않고 여기 따로 둔다. 그 enum 을 switch 하는
+///    다른 앱 네 개가 LeeoKit 을 올리는 순간 깨지기 때문이다. 월 구독은 이 앱만 판다(2026-11).
+enum PaywallTerm: String, CaseIterable {
+    case monthly, yearly, lifetime
+}
+
 // MARK: - 이 사람에게 각 칸이 어떤 상태인가
 
 /// 각 칸 카드가 무엇을 말하고 무엇을 파는가. **순수 값**이라 시험으로 고정한다(`PaywallPlansTests`).
@@ -102,13 +112,16 @@ enum PaywallPlanRules {
         }
     }
 
-    /// 이 칸에서 이 길(연 구독 · 평생)을 고르면 결제할 상품. 살 수 없는 칸이면 nil.
+    /// 이 칸에서 이 길(월 · 연 구독 · 평생)을 고르면 결제할 상품. 살 수 없는 칸이면 nil.
     ///
     /// ⚠️ **카드에 적은 값과 결제하는 상품은 반드시 같다.** 이 표 하나가 그 약속이다.
-    static func productID(for plan: PaywallPlan, _ state: PaywallPlanState, term: LeeoPlanTerm) -> String? {
+    static func productID(for plan: PaywallPlan, _ state: PaywallPlanState, term: PaywallTerm) -> String? {
         switch (plan, state, term) {
+        case (.plus, .buy, .monthly):    return AccessTier.plusMonthlyProductID
         case (.plus, .buy, .yearly):     return AccessTier.plusYearlyProductID
         case (.plus, .buy, .lifetime):   return AccessTier.plusProductID
+        case (.pro, .buy, .monthly),
+             (.pro, .upgrade, .monthly): return AccessTier.proMonthlyProductID
         case (.pro, .buy, .yearly),
              (.pro, .upgrade, .yearly):  return AccessTier.proYearlyProductID
         case (.pro, .buy, .lifetime):    return AccessTier.proProductID
@@ -118,8 +131,8 @@ enum PaywallPlanRules {
     }
 
     /// 처음 골라 둘 길. 올리기는 평생(올리기 값이 그 사람만의 값이다), 나머지는 연 구독
-    /// (처음 보는 사람에게 첫 해 할인이 그 자리에 보인다).
-    static func initialTerm(_ state: PaywallPlanState) -> LeeoPlanTerm {
+    /// (처음 보는 사람에게 첫 해 할인이 그 자리에 보인다). 월은 고르는 사람만 고른다.
+    static func initialTerm(_ state: PaywallPlanState) -> PaywallTerm {
         state == .upgrade ? .lifetime : .yearly
     }
 }

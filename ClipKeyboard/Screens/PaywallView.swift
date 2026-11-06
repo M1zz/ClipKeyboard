@@ -134,9 +134,9 @@ struct PaywallView: View {
             return NSLocalizedString("모든 Pro 기능이 열려 있어요", comment: "Paywall subtitle for users who already have Pro")
         }
         if ProFeatureManager.canStartTrial {
-            return String(format: NSLocalizedString("%d일 무료 체험 · 연 구독이나 평생 중에 골라요", comment: "Paywall subtitle with trial: free trial days, then choose yearly or lifetime"), ProFeatureManager.trialDurationDays)
+            return String(format: NSLocalizedString("%d일 무료 체험 · 월 · 연 구독이나 평생 중에 골라요", comment: "Paywall subtitle with trial: free trial days, then choose monthly, yearly or lifetime"), ProFeatureManager.trialDurationDays)
         }
-        return NSLocalizedString("연 구독이나 평생 중에 골라요", comment: "Paywall subtitle: choose a yearly subscription or a lifetime purchase")
+        return NSLocalizedString("월 · 연 구독이나 평생 중에 골라요", comment: "Paywall subtitle: choose a monthly or yearly subscription, or a lifetime purchase")
     }
 
     // MARK: - 이미 아낀 시간

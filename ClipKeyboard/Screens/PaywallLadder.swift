@@ -5,11 +5,11 @@
 //  **요금제 사다리**: 무료 · Plus · Pro 세 칸과 그 아래 언제나 평생 패스 한 줄.
 //  두 결제 화면(`PaywallView` · 100번째 사용의 `FreeUsePaywallView`)이 같은 사다리를 쓴다.
 //
-//   · 유료 칸마다 연 구독과 평생을 나란히 둔다(`LeeoTermPicker`). 처음 보는 사람에게는 연 구독 첫 해
-//     할인이, 평생을 고르면 "연 구독 N년치" 가 그 자리에 보인다(LeeoKit 이 알아서 한다).
+//   · 유료 칸마다 월 구독 · 연 구독 · 평생을 나란히 둔다(`PaywallTermPicker`). 처음엔 연 구독이 골라져 있고,
+//     처음 보는 사람에게는 첫 해 할인이, 월을 고르면 "연 구독이면 한 달에 얼마", 평생을 고르면 "연 구독 N년치" 가 보인다.
 //   · 무엇을 결제하는지는 `PaywallPlanRules.productID` 한 곳이 정한다. Plus 평생을 산 사람의 Pro 평생은
 //     올리기 상품이다.
-//   · 연 구독을 고르면 갱신 조건을 버튼 바로 아래에, 약관 · 개인정보 링크를 사다리 끝에 둔다(심사 기준 3.1.2).
+//   · 구독을 고르면 갱신 조건을 버튼 바로 아래에, 약관 · 개인정보 링크를 사다리 끝에 둔다(심사 기준 3.1.2).
 //
 //  ⚠️ 결제는 화면의 `@Environment(\.purchase)` 로 한다. 아이패드에서 결제 시트가 엉뚱한 창에 뜨지 않게.
 //
@@ -31,7 +31,7 @@ struct PaywallLadder: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.appTheme) private var theme
     /// 칸마다 고른 길. 고르기 전에는 `PaywallPlanRules.initialTerm`.
-    @State private var terms: [PaywallPlan: LeeoPlanTerm] = [:]
+    @State private var terms: [PaywallPlan: PaywallTerm] = [:]
     @State private var buying: PaywallPlan?
 
     var body: some View {
@@ -60,29 +60,36 @@ struct PaywallLadder: View {
 
     // MARK: - 칸 안
 
-    private func term(_ plan: PaywallPlan, _ state: PaywallPlanState) -> LeeoPlanTerm {
+    private func term(_ plan: PaywallPlan, _ state: PaywallPlanState) -> PaywallTerm {
         terms[plan] ?? PaywallPlanRules.initialTerm(state)
     }
 
-    private func product(_ plan: PaywallPlan, _ state: PaywallPlanState, _ term: LeeoPlanTerm) -> Product? {
+    private func product(_ plan: PaywallPlan, _ state: PaywallPlanState, _ term: PaywallTerm) -> Product? {
         PaywallPlanRules.productID(for: plan, state, term: term).flatMap(store.product)
     }
 
     @ViewBuilder
     private func purchaseArea(_ plan: PaywallPlan, _ state: PaywallPlanState) -> some View {
         let chosen = term(plan, state)
+        let monthly = product(plan, state, .monthly)
         let yearly = product(plan, state, .yearly)
         let lifetime = product(plan, state, .lifetime)
-        let selected = chosen == .yearly ? yearly : lifetime
+        let selected = [PaywallTerm.monthly: monthly, .yearly: yearly, .lifetime: lifetime][chosen] ?? nil
         VStack(alignment: .leading, spacing: 10) {
-            LeeoTermPicker(term: Binding(get: { term(plan, state) }, set: { terms[plan] = $0 }),
-                           yearly: yearly, lifetime: lifetime)
+            PaywallTermPicker(term: Binding(get: { term(plan, state) }, set: { terms[plan] = $0 }),
+                              monthly: monthly, yearly: yearly, lifetime: lifetime)
             if state == .upgrade && chosen == .lifetime {
                 Text(NSLocalizedString("Plus 에서 Pro 로 오르는 값 · 한 번 결제", comment: "Paywall price caption: upgrade from Plus"))
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
             buyButton(plan, state, selected)
+            if chosen == .monthly, let monthly {
+                Text(String(format: NSLocalizedString("매달 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.", comment: "Monthly subscription terms"), monthly.displayPrice))
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
             if chosen == .yearly, let yearly {
                 Text(String(format: NSLocalizedString("1년마다 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.", comment: "Yearly subscription terms"), yearly.displayPrice))
                     .font(.footnote)
@@ -146,5 +153,95 @@ struct PaywallLadder: View {
                 .underline()
                 .frame(minHeight: 44)
         }
+    }
+}
+
+// MARK: - 월 · 연 · 평생 고르기
+
+/// 유료 칸 하나의 세 길. 모양과 말은 LeeoKit `LeeoTermPicker` 와 같고 월 구독 하나가 더 있다.
+///
+/// 아래 한 줄: 월이면 "연 구독이면 한 달에 얼마", 연이면 처음 보는 사람에게 첫 해 할인, 평생이면 "연 구독 N년치".
+private struct PaywallTermPicker: View {
+    @Binding var term: PaywallTerm
+    let monthly: Product?
+    let yearly: Product?
+    let lifetime: Product?
+
+    @Environment(\.leeoStyle) private var theme
+    @Environment(\.dynamicTypeSize) private var typeSize
+    @State private var introEligible = false
+
+    var body: some View {
+        // 아주 큰 글자에서는 세 길을 위아래로 세운다. 나란히 두면 가격이 몇 줄로 꺾인다.
+        let options = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 8)) : AnyLayout(HStackLayout(spacing: 8))
+        VStack(alignment: .leading, spacing: 8) {
+            options {
+                option(.monthly, title: NSLocalizedString("월 구독", comment: "Paywall term option: monthly subscription"),
+                       price: monthly.map { String(format: NSLocalizedString("%@ / 월", comment: "Paywall term option: monthly price. %@ = price"), $0.displayPrice) })
+                option(.yearly, title: LeeoLadderText.yearly,
+                       price: yearly.map { String(format: LeeoLadderText.perYearFormat, $0.displayPrice) })
+                option(.lifetime, title: LeeoLadderText.lifetime, price: lifetime?.displayPrice)
+            }
+            if let note {
+                Text(note)
+                    .font(.footnote)
+                    .foregroundStyle(theme.textMuted)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .task(id: yearly?.id) {
+            introEligible = await yearly?.subscription?.isEligibleForIntroOffer ?? false
+        }
+    }
+
+    private var note: String? {
+        switch term {
+        case .monthly:
+            // 연 구독을 열두 달로 나눈 값. 월 구독보다 쌀 때만 말한다.
+            guard let yearly, let monthly, yearly.price / 12 < monthly.price else { return nil }
+            let perMonth = (yearly.price / 12).formatted(yearly.priceFormatStyle)
+            return String(format: NSLocalizedString("연 구독이면 한 달에 %@", comment: "Paywall note under monthly: the yearly plan works out to this price per month. %@ = price"), perMonth)
+        case .yearly:
+            guard introEligible, let offer = yearly?.subscription?.introductoryOffer,
+                  offer.paymentMode == .payUpFront || offer.paymentMode == .payAsYouGo else { return nil }
+            return String(format: LeeoLadderText.introFormat, offer.displayPrice)
+        case .lifetime:
+            // 평생 값이 연 구독 몇 년치인가(내림). 2년치가 안 되면 말하지 않는다.
+            // ⚠️ `NSDecimalNumber.intValue` 는 자릿수가 긴 몫에서 엉뚱한 값을 낸다. double 로 내린다.
+            guard let yearly, let lifetime, yearly.price > 0 else { return nil }
+            let years = Int(NSDecimalNumber(decimal: lifetime.price / yearly.price).doubleValue.rounded(.down))
+            return years >= 2 ? String(format: LeeoLadderText.lifetimeWorthFormat, years) : nil
+        }
+    }
+
+    private func option(_ value: PaywallTerm, title: String, price: String?) -> some View {
+        let selected = term == value
+        return Button {
+            term = value
+        } label: {
+            VStack(spacing: 2) {
+                Text(title)
+                    .font(.subheadline.weight(.semibold))
+                Text(price ?? " ")
+                    .font(.footnote)
+                    .monospacedDigit()
+            }
+            .foregroundStyle(selected ? theme.accent : theme.text)
+            .frame(maxWidth: .infinity, minHeight: 44)
+            .padding(.vertical, 6)
+            .background(
+                RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
+                    .fill(selected ? theme.accent.opacity(0.12) : theme.surfaceAlt)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: theme.radiusSm, style: .continuous)
+                    .strokeBorder(selected ? theme.accent : .clear, lineWidth: 1.5)
+            )
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .disabled(price == nil)
+        .accessibilityAddTraits(selected ? .isSelected : [])
+        .accessibilityInputLabels([Text(title)])
     }
 }

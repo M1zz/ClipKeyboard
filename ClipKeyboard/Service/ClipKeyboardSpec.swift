@@ -66,8 +66,10 @@ enum ClipKeyboardSpec: LeeoAppSpec {
     static let monetization = LeeoMonetization.freemiumSubscription(
         LeeoSubscriptionConfig(
             productIDs: [AccessTier.plusProductID,
+                         AccessTier.plusMonthlyProductID,
                          AccessTier.plusYearlyProductID,
                          AccessTier.proProductID,
+                         AccessTier.proMonthlyProductID,
                          AccessTier.proYearlyProductID,
                          ProUpgrade.productID,
                          AccessTier.proGraduateProductID,

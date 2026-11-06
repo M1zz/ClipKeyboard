@@ -271,7 +271,7 @@ struct FreeUseGuideView: View {
                                  ProFeatureManager.freeMemoLimit, ProFeatureManager.freeTemplateLimit,
                                  ProFeatureManager.freeStackLimit, ProFeatureManager.freeImageMemoLimit))
                     point(NSLocalizedString("Pro는 개수 제한 없이 만들고, iCloud 백업과 기기 사이 동기화, 생체인증 잠금을 열어요.", comment: "Free use guide: what Pro opens"))
-                    point(NSLocalizedString("평생 한 번 결제와 연 구독 중에 고를 수 있어요.", comment: "Free use guide: lifetime or yearly"))
+                    point(NSLocalizedString("평생 한 번 결제와 월 · 연 구독 중에 고를 수 있어요.", comment: "Free use guide: lifetime, monthly or yearly"))
                 }
                 if !ProFeatureManager.hasPermanentPro {
                     if embedded {

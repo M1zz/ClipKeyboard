@@ -12538,5 +12538,33 @@
   "연습이라 어디에도 보내지지 않아요": {
     "v": "Chỉ là luyện tập. Không có gì được gửi đi đâu cả",
     "src": "98f5e5a0ea"
+  },
+  "월 구독": {
+    "v": "Theo tháng",
+    "src": "c910f61338"
+  },
+  "%@ / 월": {
+    "v": "%@ / tháng",
+    "src": "1167c658a4"
+  },
+  "연 구독이면 한 달에 %@": {
+    "v": "Gói năm chỉ %@ mỗi tháng",
+    "src": "d695023e74"
+  },
+  "매달 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.": {
+    "v": "Tự động gia hạn với giá %@ mỗi tháng. Hủy ít nhất 24 giờ trước khi gia hạn trong Cài đặt > Tài khoản Apple > Đăng ký.",
+    "src": "0132f370b1"
+  },
+  "월 · 연 구독이나 평생 중에 골라요": {
+    "v": "Chọn gói tháng, gói năm hoặc trọn đời",
+    "src": "f58d75b184"
+  },
+  "%d일 무료 체험 · 월 · 연 구독이나 평생 중에 골라요": {
+    "v": "Dùng thử miễn phí %d ngày · Sau đó chọn gói tháng, gói năm hoặc trọn đời",
+    "src": "1d1c9b1de5"
+  },
+  "평생 한 번 결제와 월 · 연 구독 중에 고를 수 있어요.": {
+    "v": "Bạn có thể chọn thanh toán một lần trọn đời hoặc gói theo tháng, theo năm.",
+    "src": "730e571533"
   }
 }

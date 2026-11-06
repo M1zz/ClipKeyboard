@@ -50,21 +50,24 @@ struct PaywallPlansTests {
         #expect(states(.free, upgrade: false).pro == .buy)
     }
 
-    @Test("칸마다 연 구독과 평생이 결제할 상품")
+    @Test("칸마다 월 · 연 구독과 평생이 결제할 상품")
     func termsMapToProducts() {
+        #expect(PaywallPlanRules.productID(for: .plus, .buy, term: .monthly) == AccessTier.plusMonthlyProductID)
+        #expect(PaywallPlanRules.productID(for: .pro, .buy, term: .monthly) == AccessTier.proMonthlyProductID)
+        #expect(PaywallPlanRules.productID(for: .pro, .upgrade, term: .monthly) == AccessTier.proMonthlyProductID)
         #expect(PaywallPlanRules.productID(for: .plus, .buy, term: .yearly) == AccessTier.plusYearlyProductID)
         #expect(PaywallPlanRules.productID(for: .plus, .buy, term: .lifetime) == AccessTier.plusProductID)
         #expect(PaywallPlanRules.productID(for: .pro, .buy, term: .yearly) == AccessTier.proYearlyProductID)
         #expect(PaywallPlanRules.productID(for: .pro, .buy, term: .lifetime) == AccessTier.proProductID)
         // 가진 칸은 아무것도 팔지 않는다.
-        for term in LeeoPlanTerm.allCases {
+        for term in PaywallTerm.allCases {
             #expect(PaywallPlanRules.productID(for: .plus, .owned, term: term) == nil)
             #expect(PaywallPlanRules.productID(for: .pro, .owned, term: term) == nil)
             #expect(PaywallPlanRules.productID(for: .plus, .included, term: term) == nil)
         }
         // 판 상품은 산 칸을 그대로 연다(카드에 적은 칸과 결제하는 칸이 같다).
         for plan in PaywallPlan.allCases {
-            for term in LeeoPlanTerm.allCases {
+            for term in PaywallTerm.allCases {
                 let id = PaywallPlanRules.productID(for: plan, .buy, term: term)!
                 #expect(AccessTier.purchased(from: [id]) == (plan == .plus ? .plus : .pro))
             }

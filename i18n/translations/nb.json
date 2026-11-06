@@ -12886,5 +12886,36 @@
   "연습이라 어디에도 보내지지 않아요": {
     "v": "Det er bare øving. Ingenting blir sendt noe sted",
     "src": "98f5e5a0ea"
+  },
+  "월 구독": {
+    "v": "Månedlig",
+    "src": "c910f61338"
+  },
+  "%@ / 월": {
+    "v": "%@ / md.",
+    "src": "1167c658a4"
+  },
+  "연 구독이면 한 달에 %@": {
+    "v": "Med årlig blir det %@ i måneden",
+    "src": "d695023e74"
+  },
+  "매달 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.": {
+    "v": "Fornyes automatisk hver måned til %@. Du kan si opp i Innstillinger > Apple-konto > Abonnementer senest 24 timer før fornyelsen.",
+    "src": "0132f370b1"
+  },
+  "월 · 연 구독이나 평생 중에 골라요": {
+    "v": "Velg månedlig, årlig eller livslang",
+    "src": "f58d75b184"
+  },
+  "%d일 무료 체험 · 월 · 연 구독이나 평생 중에 골라요": {
+    "v": {
+      "one": "%d dag gratis prøveperiode · Velg deretter månedlig, årlig eller livslang",
+      "other": "%d dager gratis prøveperiode · Velg deretter månedlig, årlig eller livslang"
+    },
+    "src": "1d1c9b1de5"
+  },
+  "평생 한 번 결제와 월 · 연 구독 중에 고를 수 있어요.": {
+    "v": "Velg engangskjøp for livstid eller månedlig eller årlig abonnement.",
+    "src": "730e571533"
   }
 }

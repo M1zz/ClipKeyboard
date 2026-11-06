@@ -9,7 +9,8 @@
 //    프로     몇 달: 지키기 + iCloud 백업 · 생체 잠금 · 기기 간 동기화 (예전의 평생 Pro 그대로)
 //    마스터   1년: 다스리기 + 오래 쓴 사람에게만 뜻이 있는 기능(아직 없다, 생기면 연다)
 //
-//  2026-10 요금제 개편: 유료 칸(플러스 · 프로)마다 **연 구독과 평생**을 나란히 판다. 연 구독은 같은
+//  2026-10 요금제 개편: 유료 칸(플러스 · 프로)마다 **연 구독과 평생**을 나란히 판다. 2026-11 부터 월 구독도
+//  더했다(연 구독이 월 6개월치라 기본은 연이고, 월은 망설이는 사람의 입구다). 구독은 같은
 //  칸의 평생과 같은 권한이다. 구독 중인 사람은 졸업가(`proGraduateProductID`)로 프로 평생에 옮겨 갈 수 있고,
 //  언제나 평생 패스(LeeoKit `LeeoForeverPass`)가 열려 있으면 프로다. 마스터는 체험용으로만 남는다.
 //
@@ -56,10 +57,14 @@ enum AccessTier: Int, Comparable, CaseIterable {
     static let plusProductID = "com.Ysoup.TokenMemo.slots5"
     /// 플러스 연 구독 (자동 갱신). 플러스 평생과 **같은 권한**을 기간으로 판다.
     static let plusYearlyProductID = "com.Ysoup.TokenMemo.plus.yearly"
+    /// 플러스 월 구독 (자동 갱신, 연 구독과 같은 그룹 · 같은 단계). 권한은 플러스 평생과 같다.
+    static let plusMonthlyProductID = "com.Ysoup.TokenMemo.plus.monthly"
     /// 프로 평생 (비소모성). 예전부터 판 바로 그 Pro 다.
     static let proProductID = "com.Ysoup.TokenMemo.pro"
     /// 프로 연 구독 (자동 갱신). 프로 평생과 같은 권한.
     static let proYearlyProductID = "com.Ysoup.TokenMemo.pro.yearly"
+    /// 프로 월 구독 (자동 갱신). 권한은 프로 평생과 같다.
+    static let proMonthlyProductID = "com.Ysoup.TokenMemo.pro.monthly"
     /// 플러스 평생을 산 사람이 프로 평생으로 오르는 값 = 예전 `pro.upgrade`.
     static let plusToProProductID = "com.Ysoup.TokenMemo.pro.upgrade"
     /// 구독 졸업 = 구독 중인 사람이 사는 프로 평생(`LeeoGraduation`). 권한은 프로 평생과 같다.
@@ -74,15 +79,16 @@ enum AccessTier: Int, Comparable, CaseIterable {
     static let retiredProProductIDs: Set<String> = ["com.Ysoup.TokenMemo.pro.halfoff"]
 
     /// 자동 갱신 구독 상품. 구독 졸업을 묻는 곳(`LeeoGraduation`)이 이 목록을 본다.
-    static let subscriptionProductIDs: Set<String> = [plusYearlyProductID, proYearlyProductID]
+    static let subscriptionProductIDs: Set<String> = [plusMonthlyProductID, plusYearlyProductID,
+                                                      proMonthlyProductID, proYearlyProductID]
 
     /// 이 트림을 여는 상품들. **위 트림의 상품은 아래 트림도 연다**(`purchased` 가 가장 높은 것을 고른다).
     /// 연 구독은 같은 칸의 평생과 같은 권한이다. 구독이 끝나면 StoreKit 권한 목록에서 빠져 저절로 닫힌다.
     static func productIDs(opening tier: AccessTier) -> Set<String> {
         switch tier {
         case .free:   return []
-        case .plus:   return [plusProductID, plusYearlyProductID]
-        case .pro:    return retiredProProductIDs.union([proProductID, proYearlyProductID,
+        case .plus:   return [plusProductID, plusMonthlyProductID, plusYearlyProductID]
+        case .pro:    return retiredProProductIDs.union([proProductID, proMonthlyProductID, proYearlyProductID,
                                                          plusToProProductID, proGraduateProductID])
         case .master: return [masterProductID, proToMasterProductID]
         }

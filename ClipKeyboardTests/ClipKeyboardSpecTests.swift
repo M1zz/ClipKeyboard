@@ -105,22 +105,25 @@ final class ClipKeyboardSpecTests: XCTestCase {
     func testSmallProductsNeverGrantPro() {
         let paywall = ClipKeyboardSpec.paywall
         XCTAssertEqual(paywall?.productIDs, [AccessTier.plusProductID,
+                                             AccessTier.plusMonthlyProductID,
                                              AccessTier.plusYearlyProductID,
                                              AccessTier.proProductID,
+                                             AccessTier.proMonthlyProductID,
                                              AccessTier.proYearlyProductID,
                                              ProUpgrade.productID,
                                              AccessTier.proGraduateProductID,
                                              SlotPack.consumableProductID,
                                              TwoDevicePack.productID])
         XCTAssertEqual(paywall?.entitlementIDs, [AccessTier.proProductID,
+                                                 AccessTier.proMonthlyProductID,
                                                  AccessTier.proYearlyProductID,
                                                  "com.Ysoup.TokenMemo.pro.halfoff",
                                                  ProUpgrade.productID,
                                                  AccessTier.proGraduateProductID,
                                                  AccessTier.masterProductID,
                                                  AccessTier.proToMasterProductID])
-        // ⚠️ 플러스(평생 · 연 구독)는 Pro 가 아니다. 들어가면 플러스 값에 백업 · 잠금 · 동기화가 열린다.
-        for small in [AccessTier.plusProductID, AccessTier.plusYearlyProductID,
+        // ⚠️ 플러스(평생 · 월 · 연 구독)는 Pro 가 아니다. 들어가면 플러스 값에 백업 · 잠금 · 동기화가 열린다.
+        for small in [AccessTier.plusProductID, AccessTier.plusMonthlyProductID, AccessTier.plusYearlyProductID,
                       SlotPack.consumableProductID, TwoDevicePack.productID] {
             XCTAssertFalse(paywall?.entitlementIDs.contains(small) ?? true,
                            "\(small) 가 Pro 권한이 되면 안 된다")
@@ -143,10 +146,10 @@ final class ClipKeyboardSpecTests: XCTestCase {
     /// 달라서, 반값·업그레이드로 산 사람은 `clipkeyboard_is_pro` 가 false 로 남았다.
     func testEveryEntitlementProductIsMirroredAsPro() {
         for id in [StoreManager.proProductID, "com.Ysoup.TokenMemo.pro.halfoff", ProUpgrade.productID,
-                   AccessTier.proYearlyProductID, AccessTier.proGraduateProductID] {
+                   AccessTier.proMonthlyProductID, AccessTier.proYearlyProductID, AccessTier.proGraduateProductID] {
             XCTAssertTrue(StoreManager.grantsPro([id]), "\(id) 를 사면 Pro 키가 켜져야 한다")
         }
-        for small in [SlotPack.productID, AccessTier.plusYearlyProductID, SlotPack.consumableProductID, TwoDevicePack.productID] {
+        for small in [SlotPack.productID, AccessTier.plusMonthlyProductID, AccessTier.plusYearlyProductID, SlotPack.consumableProductID, TwoDevicePack.productID] {
             XCTAssertFalse(StoreManager.grantsPro([small]), "\(small) 로 Pro 키가 켜지면 안 된다")
         }
         XCTAssertFalse(StoreManager.grantsPro([]))
