@@ -70,7 +70,10 @@ struct ShortcutsSettingsView: View {
             // ⚠️ **단추가 아니라 `NavigationLink` 다.** 단추로 두면 옆줄들과 달리 오른쪽
             //    화살표가 없어서, 들어가는 줄인지 그 자리에서 무엇이 일어나는 줄인지
             //    모양만으로는 알 수 없었다.
-            FoldLink(destination: PlaceholderManagementView(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])) {
+            // ⚠️ 단축어 목록은 들어간 뒤에 메인 밖에서 읽는다. 여기서 읽으면 이 화면을 그릴 때마다 파일을 푼다.
+            FoldLink(destination: LoadedPage(load: { (try? MemoStore.shared.load(type: .memo)) ?? [] }) {
+                PlaceholderManagementView(allMemos: $0)
+            }) {
                 Label(NSLocalizedString("빈칸 관리", comment: "Placeholder management title (by name)"),
                       systemImage: AppSymbol.listBullet)
             }

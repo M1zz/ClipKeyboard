@@ -27,10 +27,12 @@ struct FeatureSettingsSection: View {
             Text(NSLocalizedString("필요한 것만 켜세요. 켜면 그 자리에 바로 생겨요.", comment: "Settings: add features section footer"))
                 .font(.body)
         }
-        .onAppear {
-            on = Self.currentlyOn()
-            let memos = ((try? MemoStore.shared.load(type: .memo)) ?? []).map { ($0.title, $0.value) }
-            recommended = FeatureNudge.recommendedPreset(memos: memos)
+        .onAppear { on = Self.currentlyOn() }
+        // 추천은 단축어를 다 읽어야 나온다. 메인 밖에서 읽고, 오면 그때 짚는다.
+        .task {
+            recommended = await Task.detached(priority: .userInitiated) {
+                FeatureNudge.recommendedPreset(memos: ((try? MemoStore.shared.load(type: .memo)) ?? []).map { ($0.title, $0.value) })
+            }.value
         }
         .onReceive(NotificationCenter.default.publisher(for: .featureSetChanged)) { _ in on = Self.currentlyOn() }
         .fullScreenCover(item: $lesson) { f in

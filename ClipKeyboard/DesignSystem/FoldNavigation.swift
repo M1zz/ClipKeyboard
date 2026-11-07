@@ -312,3 +312,30 @@ struct FoldCompanionPane<Content: View>: View {
         .background(theme.surfaceAlt.opacity(0.45).ignoresSafeArea())
     }
 }
+
+// MARK: - 먼저 넘어가고 나중에 읽는 화면
+
+/// 파일을 읽어야 그릴 수 있는 화면. **화면은 먼저 넘어오고**, 읽기는 메인 밖에서 한다.
+///
+/// 왜: 읽기를 화면을 만드는 자리(목록의 줄 · `onAppear`)에서 하면, 누른 뒤 넘어가기 전에
+/// 메인이 그만큼 멈춘다. 사람에게는 앱이 언 것으로 보인다. 잠깐 도는 표시가 그보다 낫다.
+struct LoadedPage<Value, Content: View>: View {
+    let load: @Sendable () -> Value
+    @ViewBuilder let content: (Value) -> Content
+    @State private var value: Value?
+
+    var body: some View {
+        Group {
+            if let value {
+                content(value)
+            } else {
+                ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+        }
+        .task {
+            guard value == nil else { return }
+            let load = load
+            value = await Task.detached(priority: .userInitiated) { load() }.value
+        }
+    }
+}

@@ -35,7 +35,8 @@ struct ProBenefitsView: View {
         .settingsCategoryChrome(title: NSLocalizedString("내 Pro 혜택", comment: "Pro benefits screen title"))
         .sheet(isPresented: $showAllFeatures) { PaywallView() }
         // 들어올 때 한 번 센다 - 그릴 때마다 저장 파일을 읽지 않도록.
-        .onAppear { usage = Usage.load() }
+        // ⚠️ 메인 밖에서 읽는다. 메인에서 읽으면 설정에서 누른 뒤 화면이 넘어가기 전에 굳는다.
+        .task { usage = await Task.detached(priority: .userInitiated) { Usage.load() }.value }
     }
 
     // MARK: - 세는 것

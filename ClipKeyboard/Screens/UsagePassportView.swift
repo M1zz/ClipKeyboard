@@ -63,7 +63,12 @@ struct UsagePassportView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                if let summary, summary.totalUses > 0 {
+                if summary == nil {
+                    // 처음 읽는 동안. 화면은 먼저 넘어오고 셈은 메인 밖에서 한다(`reload`).
+                    ProgressView()
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 80)
+                } else if let summary, summary.totalUses > 0 {
                     // ⚠️ 축하 카드가 따로 없다. 머리말이 축하를 겸한다 - 둘로 나눠 두었더니
                     //    "세 시간을 벌었어요" 와 "대략 3시간을 아꼈어요" 가 위아래로 나란히
                     //    서서 **같은 말을 두 번** 했다.
@@ -477,10 +482,24 @@ struct UsagePassportView: View {
         String(format: NSLocalizedString("%d번", comment: "Usage passport: times count"), count)
     }
 
+    /// 단축어 파일을 읽고 기간을 세는 일은 **메인 밖에서** 한다. 메인에서 하면 화면을 누른 뒤
+    /// 넘어가기 전에 앱이 멈춘 것처럼 굳는다(설정에서 들어올 때 실제로 겪었다).
     private func reload() {
-        let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
-        let saved = KeyboardUsageTracker.totalTimeSavedSeconds()
-        summary = UsagePassport.summary(memos: memos, period: period, timeSavedSeconds: saved)
+        let period = period
+        Task {
+            let result = await Task.detached(priority: .userInitiated) {
+                let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
+                let saved = KeyboardUsageTracker.totalTimeSavedSeconds()
+                return (UsagePassport.summary(memos: memos, period: period, timeSavedSeconds: saved), saved)
+            }.value
+            // 세는 사이 기간을 또 바꿨으면 낡은 답이다. 다음 답이 온다.
+            guard period == self.period else { return }
+            apply(result.0, saved: result.1)
+        }
+    }
+
+    private func apply(_ newSummary: UsagePassport.Summary, saved: Double) {
+        summary = newSummary
         // ⚠️ 셈의 내역은 **평생 것만** 남아 있다(합계만 쌓고 달별로 안 나눠 뒀다).
         //    그래서 기간을 좁혔을 때는 펼치지 않는다 - 위 숫자와 아래 내역이
         //    다른 기간을 말하면 그 화면은 거짓말이 된다.
