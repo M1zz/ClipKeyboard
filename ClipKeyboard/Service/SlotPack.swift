@@ -2,10 +2,10 @@
 //  SlotPack.swift
 //  ClipKeyboard
 //
-//  **칸 추가** - 무료 한도에 다섯 칸을 더하는 작은 상품. 페이월에 늘 서 있다.
+//  **칸 추가** - 무료 한도에 다섯 칸을 더하던 작은 상품.
 //
-//  ⚠️ 2026-10 요금제 개편부터 칸 팩은 페이월에서 팔지 않는다(Plus 가 대신한다).
-//     이미 산 사람의 칸은 그대로 남는다.
+//  ⚠️ 2026-10 요금제 개편부터 칸 팩은 팔지 않는다(Plus 가 대신한다). 남은 것은
+//     이미 산 사람의 칸을 지키는 코드뿐이다.
 //
 //  ⚠️ **칸을 샀다고 Pro 가 되는 것은 아니다.** `ClipKeyboardSpec` 의 `entitlementIDs` 에
 //     이 상품을 넣지 않는 이유다(기본값이 "파는 상품 전체"라 가만두면 Pro 가 되어 버린다).
@@ -45,20 +45,12 @@ enum SlotPack {
     ///    아니라 개수 무제한을 받는다. 아래 칸 계산에도 여전히 한 팩으로 세지만, 플러스라 한도가 없어 뜻이 없다.
     static let productID = "com.Ysoup.TokenMemo.slots5"
 
-    /// 다시 살 수 있는 칸 추가 상품 (**소모성**).
-    /// ⚠️ App Store Connect 에 **소모성**으로 새로 등록한다. 기존 `slots5` 의 종류를
-    ///    바꾸는 것이 아니라 별도 상품이다.
-    static let consumableProductID = "com.Ysoup.TokenMemo.slots5.pack"
-
     /// 이 상품이 한 번에 더해 주는 칸수.
     static let slotsPerPack = 5
 
     /// 살 수 있는 팩의 최대 개수. 예전 비소모성 상품도 한 팩으로 센다.
     /// 여기서 멈추는 이유: 15칸을 넘겨 필요한 사람에게 팔 물건은 칸이 아니라 평생이다.
     static let maxPacks = 3
-
-    /// 칸 추가로 열 수 있는 최대 칸수.
-    static var maxExtraSlots: Int { maxPacks * slotsPerPack }
 
     // MARK: - 가진 것
 
@@ -76,7 +68,7 @@ enum SlotPack {
         defaults?.integer(forKey: DefaultsKey.purchasedSlotPacks) ?? 0
     }
 
-    /// 예전 상품까지 합쳐 **가진 팩 수**. 한도 계산과 "더 살 수 있나" 판단의 단일 출처다.
+    /// 예전 상품까지 합쳐 **가진 팩 수**. 한도 계산의 단일 출처다.
     static var ownedPacks: Int {
         min(maxPacks, (legacySlots / slotsPerPack) + purchasedPacks)
     }
@@ -90,12 +82,6 @@ enum SlotPack {
     /// ⚠️ 업그레이드 값(`ProUpgrade`)은 이 값이 아니라 플러스 평생(`legacySlots`)을 본다(2026-10).
     static var isPurchased: Bool { ownedPacks > 0 }
 
-    /// 아직 더 살 수 있는가.
-    static var canBuyMore: Bool { ownedPacks < maxPacks }
-
-    /// 앞으로 더 살 수 있는 칸수 (버튼에 적는다).
-    static var remainingPurchasableSlots: Int { (maxPacks - ownedPacks) * slotsPerPack }
-
     // MARK: - 새기기
 
     /// 결제 권한(비소모성 `slots5`)에서 읽은 값을 App Group 에 새긴다.
@@ -105,24 +91,6 @@ enum SlotPack {
         guard slots != legacySlots else { return }
         defaults?.set(slots, forKey: DefaultsKey.purchasedExtraSlots)
         print("🔧 [SlotPack.mirror] 예전 칸 추가 = \(slots)")
-    }
-
-    /// 소모성 팩을 하나 샀다 - 결제가 끝난 자리에서 부른다.
-    ///
-    /// ⚠️ 소모성 트랜잭션은 `finish` 하면 사라진다. **여기서 못 세면 돈만 받은 것이 된다.**
-    ///    그래서 구매 성공 직후, 다른 일보다 먼저 부른다.
-    /// - Returns: 실제로 늘어났으면 true. 이미 최대면 false(그런 경우 애초에 버튼이 없다).
-    @discardableResult
-    static func recordPackPurchase() -> Bool {
-        guard canBuyMore else {
-            print("ℹ️ [SlotPack] 이미 최대 칸수, 기록하지 않는다")
-            return false
-        }
-        let next = purchasedPacks + 1
-        defaults?.set(next, forKey: DefaultsKey.purchasedSlotPacks)
-        writeToCloud(next)
-        print("🔧 [SlotPack] 칸 추가 팩 \(next)개 (총 \(purchasedSlots)칸)")
-        return true
     }
 
     // MARK: - iCloud 로 따라오게
@@ -155,11 +123,4 @@ enum SlotPack {
         NSUbiquitousKeyValueStore.default.synchronize()
     }
 
-    // MARK: - 진단
-
-    /// 개발 중에 되돌린다(설정 > 개발자 화면).
-    static func resetForTesting() {
-        defaults?.removeObject(forKey: DefaultsKey.purchasedSlotPacks)
-        defaults?.removeObject(forKey: DefaultsKey.purchasedExtraSlots)
-    }
 }

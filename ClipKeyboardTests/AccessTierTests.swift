@@ -17,7 +17,7 @@ final class AccessTierTests: XCTestCase {
 
     /// 옵션(칸 팩 · 두 대째)은 트림이 아니다.
     func testOptions_DoNotOpenATier() {
-        XCTAssertEqual(AccessTier.purchased(from: [SlotPack.consumableProductID, TwoDevicePack.productID]), .free)
+        XCTAssertEqual(AccessTier.purchased(from: ["com.Ysoup.TokenMemo.slots5.pack", TwoDevicePack.productID]), .free)
     }
 
     /// 플러스는 예전 칸 상품 `slots5` 다. 그걸 산 사람은 플러스를 받는다.

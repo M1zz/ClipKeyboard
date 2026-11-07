@@ -2,7 +2,7 @@
 //  TwoDevicePack.swift
 //  ClipKeyboard
 //
-//  **두 대째** - 기기 사이 동기화만 여는 상품. 평생 Pro 와 나란히 서는 다른 문이다.
+//  **두 대째** - 기기 사이 동기화만 열던 상품. 이제 팔지 않고, 산 사람의 권한만 지킨다.
 //
 //  왜 따로 파는가: 이건 칸 개수 문제가 아니라 **기기 개수** 문제다.
 //  아이폰 하나로 쓰는 사람에게는 있어도 그만인 기능이고, 아이폰과 맥을 같이 쓰는 사람에게는
@@ -42,10 +42,5 @@ enum TwoDevicePack {
         guard purchased != isPurchased else { return }
         defaults?.set(purchased, forKey: DefaultsKey.twoDevicePurchased)
         print("🔧 [TwoDevicePack.mirror] 두 대째 = \(purchased)")
-    }
-
-    /// 개발 중에 되돌린다.
-    static func resetForTesting() {
-        defaults?.removeObject(forKey: DefaultsKey.twoDevicePurchased)
     }
 }

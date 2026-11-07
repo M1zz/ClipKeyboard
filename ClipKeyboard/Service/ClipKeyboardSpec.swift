@@ -73,7 +73,6 @@ enum ClipKeyboardSpec: LeeoAppSpec {
                          AccessTier.proYearlyProductID,
                          ProUpgrade.productID,
                          AccessTier.proGraduateProductID,
-                         SlotPack.consumableProductID,
                          TwoDevicePack.productID],
             termsURL: URL(string: Constants.termsOfUseURL)!,
             entitlementIDs: AccessTier.proOrHigherProductIDs,

@@ -82,38 +82,32 @@ struct SlotPackTests {
     func packsAccumulate() {
         withPacks(legacy: false, packs: 0) {
             #expect(SlotPack.purchasedSlots == 0)
-            #expect(SlotPack.canBuyMore)
         }
         withPacks(legacy: false, packs: 1) { #expect(SlotPack.purchasedSlots == 5) }
         withPacks(legacy: false, packs: 2) { #expect(SlotPack.purchasedSlots == 10) }
         withPacks(legacy: false, packs: 3) { #expect(SlotPack.purchasedSlots == 15) }
     }
 
-    @Test("15칸에서 멈춘다. 그 위가 필요한 사람에게 팔 물건은 칸이 아니라 평생이다")
+    @Test("15칸에서 멈춘다. iCloud 에서 이상한 값이 와도 넘지 않는다")
     func stopsAtTheCap() {
         withPacks(legacy: false, packs: 3) {
-            #expect(SlotPack.canBuyMore == false)
-            #expect(SlotPack.remainingPurchasableSlots == 0)
-            #expect(SlotPack.purchasedSlots == SlotPack.maxExtraSlots)
+            #expect(SlotPack.purchasedSlots == 15)
         }
         // 어떤 이유로 기록이 더 커져도 한도는 넘지 않는다(iCloud 에서 이상한 값이 와도).
         withPacks(legacy: true, packs: 9) {
-            #expect(SlotPack.purchasedSlots == SlotPack.maxExtraSlots)
+            #expect(SlotPack.purchasedSlots == 15)
         }
     }
 
-    @Test("예전 상품을 산 사람의 다섯 칸은 그대로 남고, 두 칸을 더 살 수 있다")
+    @Test("예전 상품을 산 사람의 다섯 칸은 그대로 남는다")
     func legacyBuyerKeepsSlotsAndCanBuyTwoMore() {
         withPacks(legacy: true, packs: 0) {
             #expect(SlotPack.purchasedSlots == 5)
             #expect(SlotPack.isPurchased)
-            #expect(SlotPack.canBuyMore)
-            #expect(SlotPack.remainingPurchasableSlots == 10)
         }
         // 예전 것 + 새 팩 하나 = 열 칸.
         withPacks(legacy: true, packs: 1) {
             #expect(SlotPack.purchasedSlots == 10)
-            #expect(SlotPack.remainingPurchasableSlots == 5)
         }
     }
 

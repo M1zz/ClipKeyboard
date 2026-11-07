@@ -102,11 +102,6 @@ class StoreManager: ObservableObject {
         return LeeoGraduation.isDue(subscription, lastOffered: LeeoGraduation.lastOffered())
     }
 
-    /// 두 대째 상품 - 동기화만 여는 별도의 문. **Pro 가 아니다.**
-    var twoDeviceProduct: Product? {
-        store.products.first { $0.id == TwoDevicePack.productID }
-    }
-
     /// 결제 entitlement 기반 Pro 여부.
     /// (그랜드파더 / TestFlight / 체험은 ProFeatureManager 가 별도로 판단한다.)
     var isPro: Bool { store.hasPro }
@@ -179,9 +174,8 @@ class StoreManager: ObservableObject {
         // 칸 추가 상품도 같은 방식으로 미러링한다 - 익스텐션은 StoreKit 을 못 보므로
         // 이 값이 없으면 앱에서는 15칸, 키보드에서는 10칸으로 갈린다.
         //
-        // ⚠️ 여기서 보는 것은 **예전 비소모성 상품**뿐이다. 새로 파는 팩은 소모성이라
-        //    권한 목록에 아예 나타나지 않는다. 그쪽은 결제 직후 `recordPackPurchase()` 가
-        //    직접 센다(`purchaseSlotPack`).
+        // ⚠️ 여기서 보는 것은 **예전 비소모성 상품**뿐이다. 예전에 판 소모성 팩은
+        //    권한 목록에 나타나지 않아, 산 수를 iCloud 에서 회수한다(`SlotPack.syncFromCloud`).
         store.$purchasedProductIDs
             .map { $0.contains(SlotPack.productID) }
             .removeDuplicates()
@@ -233,47 +227,6 @@ class StoreManager: ObservableObject {
     /// 상품 목록 로드
     func loadProducts() async {
         await store.loadProducts()
-    }
-
-    /// 칸 추가 상품 - **지금 파는 쪽**(소모성).
-    ///
-    /// ⚠️ 예전 비소모성 `slots5` 는 여기서 안 판다. 이미 산 사람의 권한으로만 남는다.
-    ///    한 번밖에 못 사는 물건을 계속 진열하면 두 번째로 필요한 사람 앞에서 사다리가 끊긴다.
-    ///    (App Store Connect 에 올린 상품의 종류는 바꿀 수 없어서 상품이 둘이다.
-    ///     자세한 이유: Service/SlotPack.swift)
-    var slotPackProduct: Product? {
-        store.products.first { $0.id == SlotPack.consumableProductID }
-    }
-
-    /// 칸 추가 구매 - 페이월의 작은 계단. 최대 세 번까지.
-    ///
-    /// ⚠️ 소모성이라 애플이 기억해 주지 않는다. 성공한 자리에서 **먼저** 세고,
-    ///    그 다음에 다른 일을 한다. 여기서 못 세면 돈만 받은 것이 된다.
-    func purchaseSlotPack(triggeredBy: String? = nil) async -> Bool {
-        guard SlotPack.canBuyMore else {
-            print("ℹ️ [StoreManager] 칸이 이미 최대라 사지 않는다")
-            return false
-        }
-        if store.products.isEmpty { await store.loadProducts() }
-        guard let product = slotPackProduct else {
-            print("❌ [StoreManager] 칸 추가 상품을 찾을 수 없음: \(SlotPack.consumableProductID)")
-            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
-            return false
-        }
-        let bought = await purchase(product, triggeredBy: triggeredBy)
-        if bought { SlotPack.recordPackPurchase() }
-        return bought
-    }
-
-    /// 두 대째 구매 - 동기화만 여는 문.
-    func purchaseTwoDevice(triggeredBy: String? = nil) async -> Bool {
-        if store.products.isEmpty { await store.loadProducts() }
-        guard let product = twoDeviceProduct else {
-            print("❌ [StoreManager] 두 대째 상품을 찾을 수 없음: \(TwoDevicePack.productID)")
-            errorMessage = NSLocalizedString("상품을 찾을 수 없습니다", comment: "Product not found")
-            return false
-        }
-        return await purchase(product, triggeredBy: triggeredBy)
     }
 
     /// 상품 구매 (StoreKit 실행은 LeeoStore 에 위임하고, 애널리틱스만 여기서 유지)

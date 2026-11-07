@@ -119,7 +119,6 @@ final class ClipKeyboardSpecTests: XCTestCase {
                                              AccessTier.proYearlyProductID,
                                              ProUpgrade.productID,
                                              AccessTier.proGraduateProductID,
-                                             SlotPack.consumableProductID,
                                              TwoDevicePack.productID])
         XCTAssertEqual(paywall?.entitlementIDs, [AccessTier.proProductID,
                                                  AccessTier.proMonthlyProductID,
@@ -131,7 +130,7 @@ final class ClipKeyboardSpecTests: XCTestCase {
                                                  AccessTier.proToMasterProductID])
         // ⚠️ 플러스(평생 · 월 · 연 구독)는 Pro 가 아니다. 들어가면 플러스 값에 백업 · 잠금 · 동기화가 열린다.
         for small in [AccessTier.plusProductID, AccessTier.plusMonthlyProductID, AccessTier.plusYearlyProductID,
-                      SlotPack.consumableProductID, TwoDevicePack.productID] {
+                      "com.Ysoup.TokenMemo.slots5.pack", TwoDevicePack.productID] {
             XCTAssertFalse(paywall?.entitlementIDs.contains(small) ?? true,
                            "\(small) 가 Pro 권한이 되면 안 된다")
         }
@@ -156,7 +155,7 @@ final class ClipKeyboardSpecTests: XCTestCase {
                    AccessTier.proMonthlyProductID, AccessTier.proYearlyProductID, AccessTier.proGraduateProductID] {
             XCTAssertTrue(StoreManager.grantsPro([id]), "\(id) 를 사면 Pro 키가 켜져야 한다")
         }
-        for small in [SlotPack.productID, AccessTier.plusMonthlyProductID, AccessTier.plusYearlyProductID, SlotPack.consumableProductID, TwoDevicePack.productID] {
+        for small in [SlotPack.productID, AccessTier.plusMonthlyProductID, AccessTier.plusYearlyProductID, "com.Ysoup.TokenMemo.slots5.pack", TwoDevicePack.productID] {
             XCTAssertFalse(StoreManager.grantsPro([small]), "\(small) 로 Pro 키가 켜지면 안 된다")
         }
         XCTAssertFalse(StoreManager.grantsPro([]))
