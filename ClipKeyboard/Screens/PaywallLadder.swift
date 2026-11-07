@@ -321,35 +321,40 @@ struct PaywallTemplate<Hero: View>: View {
     }
 
     /// 체험 · 복원 · 약관 · 개인정보. 늘 같은 자리에 있다.
+    ///
+    /// ⚠️ 한 줄에 다 안 들어가면 **세로로** 쌓는다. 예전에는 대신 그린 것이 같은 가로줄에 `fixedSize` 를
+    ///    건 것이라 화면보다 넓어졌고, 페이월 전체가 그 폭으로 벌어져 양옆이 잘렸다(2026-11).
     private var footerLinks: some View {
-        let links = HStack(spacing: 14) {
-            if let startTrial {
-                Button(String(format: NSLocalizedString("%d일 무료 체험 시작", comment: "Start free trial button"), ProFeatureManager.trialDurationDays)) {
-                    AnalyticsService.logPaywallCtaTapped(triggeredBy: source, isTrial: true)
-                    startTrial()
-                }
-                .fontWeight(.semibold)
-                .foregroundStyle(accent)
-            }
-            Button(NSLocalizedString("복원", comment: "Paywall footer: restore purchases, short")) {
-                Task { restoreOutcome = await store.restorePurchases() }
-            }
-            Button(NSLocalizedString("이용약관", comment: "Terms of use link")) {
-                if let url = URL(string: Constants.inAppWebURL(Constants.termsOfUseURL)) { openURL(url) }
-            }
-            Button(NSLocalizedString("개인정보 처리방침", comment: "Privacy policy link")) {
-                if let url = URL(string: Constants.inAppWebURL(Constants.privacyPolicyURL)) { openURL(url) }
-            }
-        }
-        return ViewThatFits {
-            links
-            VStack(spacing: 6) { links.fixedSize() }
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 14) { footerButtons }
+            VStack(spacing: 6) { footerButtons }
         }
         .font(.caption)
         .foregroundStyle(.secondary)
         .buttonStyle(.plain)
         .lineLimit(1)
         .minimumScaleFactor(0.8)
+    }
+
+    @ViewBuilder
+    private var footerButtons: some View {
+        if let startTrial {
+            Button(String(format: NSLocalizedString("%d일 무료 체험 시작", comment: "Start free trial button"), ProFeatureManager.trialDurationDays)) {
+                AnalyticsService.logPaywallCtaTapped(triggeredBy: source, isTrial: true)
+                startTrial()
+            }
+            .fontWeight(.semibold)
+            .foregroundStyle(accent)
+        }
+        Button(NSLocalizedString("복원", comment: "Paywall footer: restore purchases, short")) {
+            Task { restoreOutcome = await store.restorePurchases() }
+        }
+        Button(NSLocalizedString("이용약관", comment: "Terms of use link")) {
+            if let url = URL(string: Constants.inAppWebURL(Constants.termsOfUseURL)) { openURL(url) }
+        }
+        Button(NSLocalizedString("개인정보 처리방침", comment: "Privacy policy link")) {
+            if let url = URL(string: Constants.inAppWebURL(Constants.privacyPolicyURL)) { openURL(url) }
+        }
     }
 
     // MARK: - 비교표
