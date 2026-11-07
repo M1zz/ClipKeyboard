@@ -1553,6 +1553,12 @@
     "comment": "Context menu: copy",
     "h": "cd5bc8395c"
   },
+  "Couldn't save. Unlock your iPhone and try again.": {
+    "ko": "저장하지 못했어요. iPhone 잠금을 풀고 다시 해 주세요.",
+    "en": "Couldn't save. Unlock your iPhone and try again.",
+    "comment": "Quick note intent failure dialog: could not save, unlock and retry",
+    "h": "2c62438b63"
+  },
   "Cross-border invoicing notice": {
     "ko": "국제 인보이스 안내",
     "en": "Cross-border invoicing notice",
@@ -12646,6 +12652,12 @@
     "en": "This device doesn't support Apple Intelligence",
     "comment": "AI availability: device not eligible",
     "h": "2b7a68d640"
+  },
+  "이 기기의 단축어를 읽지 못했어요. 잠시 뒤 다시 해 주세요.": {
+    "ko": "이 기기의 단축어를 읽지 못했어요. 잠시 뒤 다시 해 주세요.",
+    "en": "Couldn't read the snippets on this device. Please try again in a moment.",
+    "comment": "Make-authoritative error: could not read this device's snippets, try again later",
+    "h": "333395cf79"
   },
   "이 단계 삭제": {
     "ko": "이 단계 삭제",

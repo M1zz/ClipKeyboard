@@ -1042,7 +1042,9 @@ struct ClipKeyboardApp: App {
             }
 
             // 3) 플랫 Combo(combos.data) → comboValues를 가진 콤보 Memo (기존 Combo 타입으로 디코드)
-            let combos = (try? MemoStore.shared.loadCombos()) ?? []
+            // ⚠️ `try?` 로 두지 않는다. 못 읽은 것을 빈 목록으로 치면 아래 4) 가 옛 스택 파일을 지운다.
+            //    던지면 이번 옮기기는 멈추고 다음 실행에 다시 한다(플래그를 세우지 않는다).
+            let combos = try MemoStore.shared.loadCombos()
             for c in combos where !memos.contains(where: { $0.id == c.id }) {
                 var steps: [String] = []
                 for item in c.items.sorted(by: { $0.order < $1.order }) {

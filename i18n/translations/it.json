@@ -12982,5 +12982,13 @@
   "어떤 말 뒤에 어떤 단축어를 넣는지 기기 안에서만 세어, 다음에 그 말을 치면 단축어 버튼 옆에 먼저 띄워요. 친 글은 남기지 않아요. 끄면 배운 것도 지워요.": {
     "v": "Conta, solo su questo dispositivo, quale scorciatoia inserisci dopo una parola e la mostra accanto al pulsante delle scorciatoie quando riscrivi quella parola. Ciò che scrivi non viene salvato. Disattivando, ciò che ha imparato viene cancellato.",
     "src": "aa1f5813cb"
+  },
+  "이 기기의 단축어를 읽지 못했어요. 잠시 뒤 다시 해 주세요.": {
+    "v": "Impossibile leggere le frasi su questo dispositivo. Riprova tra poco.",
+    "src": "333395cf79"
+  },
+  "Couldn't save. Unlock your iPhone and try again.": {
+    "v": "Impossibile salvare. Sblocca l’iPhone e riprova.",
+    "src": "2c62438b63"
   }
 }

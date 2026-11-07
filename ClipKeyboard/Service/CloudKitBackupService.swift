@@ -724,8 +724,9 @@ class CloudKitBackupService: ObservableObject {
 
             return totalCount > 0
         } catch {
-            AppLog.warning(.backup, "⚠️ [CloudKit] 로컬 데이터 확인 실패: \(error)")
-            return false
+            // 확인하지 못했으면 **있다고 친다.** 없다고 치면 "덮어써도 잃을 것이 없다" 는 안내로 복원이 진행된다.
+            AppLog.warning(.backup, "⚠️ [CloudKit] 로컬 데이터 확인 실패, 있다고 보고 경고한다: \(error)")
+            return true
         }
     }
 
@@ -735,7 +736,7 @@ class CloudKitBackupService: ObservableObject {
 
     /// 보관 중인 버전 스냅샷 목록(최신순). 복원 화면의 날짜별 목록에 사용.
     func listSnapshots() async -> [BackupSnapshotInfo] {
-        await loadSnapshotIndex()
+        (try? await loadSnapshotIndex()) ?? []
     }
 
     /// 현재 iCloud 백업(최신 레코드)에 들어있는 메모 개수 - "무엇이 백업돼 있는지" 한눈에 확인용.
@@ -767,7 +768,15 @@ class CloudKitBackupService: ObservableObject {
         _ = try await saveRecordWithRetry(snap, maxRetries: 2)
 
         // 인덱스 갱신 + 오래된 스냅샷 정리(최신 maxSnapshots개 유지).
-        var infos = await loadSnapshotIndex()
+        // ⚠️ 색인을 못 받았으면 고쳐 쓰지 않는다. 빈 색인에 이번 것만 더해 쓰면 옛 버전들이
+        //    iCloud 에 남아 있어도 복원 목록에서 사라진다. 이번 스냅샷만 색인에 빠진 채로 둔다.
+        var infos: [BackupSnapshotInfo]
+        do {
+            infos = try await loadSnapshotIndex()
+        } catch {
+            AppLog.warning(.backup, "⚠️ [CloudKit] 스냅샷 색인을 받지 못해 이번에는 고치지 않는다: \(error.localizedDescription)")
+            return
+        }
         infos.append(BackupSnapshotInfo(recordName: snapName, date: date, memoCount: memoCount))
         infos.sort { $0.date > $1.date }
         let keep = Array(infos.prefix(maxSnapshots))
@@ -784,9 +793,15 @@ class CloudKitBackupService: ObservableObject {
         AppLog.info(.backup, "📚 [CloudKit] 버전 스냅샷 저장(메모 \(memoCount)개) · 보관 \(keep.count)개")
     }
 
-    private func loadSnapshotIndex() async -> [BackupSnapshotInfo] {
-        guard let record = try? await backend.database.record(for: snapshotIndexRecordID),
-              let data = record["snapshots"] as? Data,
+    /// 색인. 아직 없으면 빈 목록, 받지 못했으면 던진다(둘을 섞으면 위의 덮어쓰기가 일어난다).
+    private func loadSnapshotIndex() async throws -> [BackupSnapshotInfo] {
+        let record: CKRecord
+        do {
+            record = try await backend.database.record(for: snapshotIndexRecordID)
+        } catch let error as CKError where error.code == .unknownItem {
+            return []
+        }
+        guard let data = record["snapshots"] as? Data,
               let infos = try? JSONDecoder().decode([BackupSnapshotInfo].self, from: data) else {
             return []
         }

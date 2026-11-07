@@ -87,4 +87,71 @@ final class DataCorruptionDetectionTests: XCTestCase {
 
         XCTAssertEqual(decoded.count, 1)
     }
+
+    // MARK: - 없음 vs 못 읽음
+
+    /// 파일이 없으면 nil(새 사용자), 있는데 못 읽으면 던진다. 못 읽은 것을 빈 목록으로 돌려주면
+    /// 다음 저장이 멀쩡한 메모 파일을 덮는다.
+    func testUnreadableFileThrowsInsteadOfLookingEmpty() throws {
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: dir) }
+
+        let missing = dir.appendingPathComponent("missing.data")
+        XCTAssertNil(try MemoStore.readIfPresent(missing), "없는 파일은 비어 있는 것이다")
+
+        let locked = dir.appendingPathComponent("memos.data")
+        try Data("[]".utf8).write(to: locked)
+        try FileManager.default.setAttributes([.posixPermissions: 0o000], ofItemAtPath: locked.path)
+        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: locked.path) }
+        XCTAssertThrowsError(try MemoStore.readIfPresent(locked), "있는데 못 읽은 파일을 빈 것으로 치면 안 된다")
+    }
+
+    // MARK: - 목록 파일(빠른 메모 · 임시 저장)
+
+    private struct Row: Codable, Equatable { let n: Int }
+
+    private func scratchFile() throws -> (AppGroupListFile<Row>, URL) {
+        let name = "test-\(UUID().uuidString).data"
+        let container = try XCTUnwrap(FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier))
+        return (AppGroupListFile<Row>(fileName: name), container.appendingPathComponent(name))
+    }
+
+    func testListFileReadsMissingAsEmptyAndModifies() throws {
+        let (file, url) = try scratchFile()
+        defer { try? FileManager.default.removeItem(at: url) }
+        XCTAssertEqual(try file.read(), [], "없는 파일은 빈 목록")
+        try file.modify { $0.append(Row(n: 1)) }
+        try file.modify { $0.append(Row(n: 2)) }
+        XCTAssertEqual(try file.read(), [Row(n: 1), Row(n: 2)])
+    }
+
+    /// 못 읽은 파일에는 쓰지 않는다. 빈 목록에 한 줄을 더해 쓰면 보관함이 통째로 덮인다.
+    func testListFileRefusesToModifyUnreadableFile() throws {
+        let (file, url) = try scratchFile()
+        defer {
+            try? FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: url.path)
+            try? FileManager.default.removeItem(at: url)
+        }
+        try file.write([Row(n: 1), Row(n: 2), Row(n: 3)])
+        try FileManager.default.setAttributes([.posixPermissions: 0o000], ofItemAtPath: url.path)
+        XCTAssertThrowsError(try file.modify { $0.append(Row(n: 4)) })
+        XCTAssertEqual(file.readForDisplay(), [], "화면에는 빈 목록으로 보일 뿐이다")
+        try FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: url.path)
+        XCTAssertEqual(try file.read().count, 3, "원본은 그대로다")
+    }
+
+    /// 깨진 파일은 사본을 남기고 빈 목록으로 시작한다.
+    func testListFileKeepsCopyOfCorruptFile() throws {
+        let (file, url) = try scratchFile()
+        let copy = url.appendingPathExtension("unreadable")
+        defer {
+            try? FileManager.default.removeItem(at: url)
+            try? FileManager.default.removeItem(at: copy)
+        }
+        try Data("not json".utf8).write(to: url)
+        XCTAssertEqual(try file.read(), [])
+        XCTAssertTrue(FileManager.default.fileExists(atPath: copy.path), "깨진 원본의 사본이 남는다")
+    }
 }

@@ -12985,5 +12985,13 @@
   "어떤 말 뒤에 어떤 단축어를 넣는지 기기 안에서만 세어, 다음에 그 말을 치면 단축어 버튼 옆에 먼저 띄워요. 친 글은 남기지 않아요. 끄면 배운 것도 지워요.": {
     "v": "Telt alleen op dit apparaat welke snelkoppeling je na een woord invoegt en toont die naast de snelkoppelingsknop als je dat woord weer typt. Wat je typt wordt niet bewaard. Uitzetten wist wat er geleerd is.",
     "src": "aa1f5813cb"
+  },
+  "이 기기의 단축어를 읽지 못했어요. 잠시 뒤 다시 해 주세요.": {
+    "v": "Kan de fragmenten op dit apparaat niet lezen. Probeer het zo opnieuw.",
+    "src": "333395cf79"
+  },
+  "Couldn't save. Unlock your iPhone and try again.": {
+    "v": "Bewaren mislukt. Ontgrendel je iPhone en probeer het opnieuw.",
+    "src": "2c62438b63"
   }
 }

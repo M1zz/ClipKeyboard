@@ -27,12 +27,8 @@ final class DraftStore: ObservableObject {
 
     // MARK: - File
 
-    private static func fileURL() -> URL? {
-        guard let containerURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: AppGroup.identifier
-        ) else { return nil }
-        return containerURL.appendingPathComponent(StorageFile.drafts)
-    }
+    /// 임시 저장 파일. 없음 · 못 읽음 · 깨짐을 가르는 규칙은 그쪽에 있다.
+    private static let file = AppGroupListFile<SavedDraft>(fileName: StorageFile.drafts)
 
     // MARK: - Load / Save
 
@@ -43,53 +39,42 @@ final class DraftStore: ObservableObject {
         }
     }
 
+    /// 화면에 보일 목록. 고칠 때는 이것을 쓰지 않는다(`change`).
     static func loadFromDisk() -> [SavedDraft] {
-        guard let url = fileURL(), let data = try? Data(contentsOf: url) else { return [] }
-        guard let items = try? JSONDecoder().decode([SavedDraft].self, from: data) else {
-            // 못 읽은 원본을 옆에 남긴다 - 빈 목록으로 시작해 다음 저장이 덮어써도 되찾을 수 있게
-            try? FileManager.default.copyItem(at: url, to: url.appendingPathExtension("unreadable"))
-            return []
-        }
-        return items.sorted { $0.savedAt > $1.savedAt }
+        file.readForDisplay().sorted { $0.savedAt > $1.savedAt }
     }
 
-    private func persist(_ items: [SavedDraft]) {
-        let sorted = items.sorted { $0.savedAt > $1.savedAt }
-        // 임시 저장본이 조용히 안 써지면 사용자는 작성 중이던 내용을 잃는다
-        // 실패를 로그로 남겨야 나중에 원인을 찾을 수 있다.
-        if let url = Self.fileURL() {
-            do {
-                let data = try JSONEncoder().encode(sorted)
-                try data.write(to: url, options: .atomic)
-            } catch {
-                AppLog.error(.store, "❌ [DraftStore.persist] 임시 저장 실패: \(error.localizedDescription)")
+    /// 읽고 · 바꾸고 · 쓴다. 읽기에 실패하면 쓰지 않는다(다른 임시 저장본을 덮지 않게).
+    private func change(_ edit: (inout [SavedDraft]) -> Void) {
+        do {
+            let items = try Self.file.modify { items in
+                edit(&items)
+                items.sort { $0.savedAt > $1.savedAt }
             }
+            DispatchQueue.main.async { [weak self] in
+                self?.drafts = items
+            }
+            NotificationCenter.postOnMain(name: .draftsChanged, object: nil)
+        } catch {
+            AppLog.error(.store, "❌ [DraftStore] 임시 저장을 고치지 못했다(덮지 않음): \(error.localizedDescription)")
         }
-        DispatchQueue.main.async { [weak self] in
-            self?.drafts = sorted
-        }
-        NotificationCenter.postOnMain(name: .draftsChanged, object: nil)
     }
 
     // MARK: - Mutations
 
     /// 드래프트를 추가하거나(같은 id 없으면) 갱신한다(이어쓰기 저장).
     func save(_ draft: SavedDraft) {
-        var items = Self.loadFromDisk()
-        if let idx = items.firstIndex(where: { $0.id == draft.id }) {
-            items[idx] = draft
-        } else {
-            items.insert(draft, at: 0)
+        change { items in
+            if let idx = items.firstIndex(where: { $0.id == draft.id }) {
+                items[idx] = draft
+            } else {
+                items.insert(draft, at: 0)
+            }
         }
-        persist(items)
-        print("✅ [DraftStore.save] 임시 저장 (총 \(items.count)개)")
     }
 
     func remove(_ id: UUID) {
-        var items = Self.loadFromDisk()
-        guard let idx = items.firstIndex(where: { $0.id == id }) else { return }
-        items.remove(at: idx)
-        persist(items)
+        change { $0.removeAll { $0.id == id } }
     }
 
     var count: Int { drafts.count }

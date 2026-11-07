@@ -33,12 +33,8 @@ final class QuickNoteStore: ObservableObject {
 
     // MARK: - File
 
-    private static func fileURL() -> URL? {
-        guard let containerURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: AppGroup.identifier
-        ) else { return nil }
-        return containerURL.appendingPathComponent(StorageFile.quickNotes)
-    }
+    /// 보관함 파일. 없음 · 못 읽음 · 깨짐을 가르는 규칙은 그쪽에 있다.
+    private static let file = AppGroupListFile<QuickNote>(fileName: StorageFile.quickNotes)
 
     // MARK: - Load / Save
 
@@ -50,65 +46,58 @@ final class QuickNoteStore: ObservableObject {
         }
     }
 
+    /// 화면에 보일 목록. 고칠 때는 이것을 쓰지 않는다(`change`).
     static func loadFromDisk() -> [QuickNote] {
-        guard let url = fileURL(), let data = try? Data(contentsOf: url) else { return [] }
-        guard let notes = try? JSONDecoder().decode([QuickNote].self, from: data) else {
-            // 못 읽은 원본을 옆에 남긴다 - 빈 목록으로 시작해 다음 저장이 덮어써도 되찾을 수 있게
-            try? FileManager.default.copyItem(at: url, to: url.appendingPathExtension("unreadable"))
-            return []
-        }
-        return notes.sorted { $0.createdAt > $1.createdAt }
+        file.readForDisplay().sorted { $0.createdAt > $1.createdAt }
     }
 
-    /// 보관함 전체를 디스크에 저장하고 변경 알림을 보낸다(observer 가 reload).
-    private func persist(_ notes: [QuickNote]) {
-        let sorted = notes.sorted { $0.createdAt > $1.createdAt }
-        // 빠른 메모는 공유 시트·제어센터에서 들어온 "잃으면 안 되는 캡처"다.
-        // 저장 실패를 삼키면 사용자는 저장된 줄 알고 원본을 지운다.
-        if let url = Self.fileURL() {
-            do {
-                let data = try JSONEncoder().encode(sorted)
-                try data.write(to: url, options: .atomic)
-            } catch {
-                AppLog.error(.store, "❌ [QuickNoteStore.persist] 빠른 메모 저장 실패: \(error.localizedDescription)")
+    /// 읽고 · 바꾸고 · 쓴다. 읽기에 실패하면 쓰지 않는다(빈 목록에 더해 쓰면 보관함이 통째로 덮인다).
+    /// 빠른 메모는 공유 시트 · 제어센터에서 들어온 "잃으면 안 되는 캡처" 라 실패를 돌려준다.
+    @discardableResult
+    private func change(_ edit: (inout [QuickNote]) -> Void) -> Bool {
+        do {
+            let notes = try Self.file.modify { notes in
+                edit(&notes)
+                notes.sort { $0.createdAt > $1.createdAt }
             }
+            DispatchQueue.main.async { [weak self] in
+                self?.quickNotes = notes
+            }
+            NotificationCenter.postOnMain(name: .quickNotesChanged, object: nil)
+            return true
+        } catch {
+            AppLog.error(.store, "❌ [QuickNoteStore] 보관함을 고치지 못했다(덮지 않음): \(error.localizedDescription)")
+            return false
         }
-        DispatchQueue.main.async { [weak self] in
-            self?.quickNotes = sorted
-        }
-        NotificationCenter.postOnMain(name: .quickNotesChanged, object: nil)
     }
 
     // MARK: - Mutations
 
-    /// 보관함에 빠른 메모를 추가(가장 위로).
-    func add(_ note: QuickNote) {
-        var notes = Self.loadFromDisk()
-        notes.insert(note, at: 0)
-        persist(notes)
-        print("✅ [QuickNoteStore.add] 빠른 메모 추가 (총 \(notes.count)개, source: \(note.source))")
+    /// 보관함에 빠른 메모를 추가(가장 위로). 담지 못했으면 false - 부르는 쪽이 "담았어요" 라고 말하지 않게.
+    @discardableResult
+    func add(_ note: QuickNote) -> Bool {
+        let ok = change { $0.insert(note, at: 0) }
+        print("\(ok ? "✅" : "❌") [QuickNoteStore.add] 빠른 메모 추가 (source: \(note.source))")
+        return ok
     }
 
     /// 보관함 항목을 갱신(편집 저장).
     func update(_ note: QuickNote) {
-        var notes = Self.loadFromDisk()
-        if let idx = notes.firstIndex(where: { $0.id == note.id }) {
-            notes[idx] = note
-            persist(notes)
+        change { notes in
+            if let idx = notes.firstIndex(where: { $0.id == note.id }) { notes[idx] = note }
         }
     }
 
     /// 보관함에서 항목을 삭제. deleteImages == true 면 해당 이미지 파일도 정리(완전 삭제 시).
     func remove(_ id: UUID, deleteImages: Bool) {
-        var notes = Self.loadFromDisk()
-        guard let idx = notes.firstIndex(where: { $0.id == id }) else { return }
-        let removed = notes.remove(at: idx)
-        if deleteImages {
-            for fileName in removed.imageFileNames {
-                try? MemoStore.shared.deleteImage(fileName: fileName)
-            }
+        var removed: QuickNote?
+        guard change({ notes in
+            if let idx = notes.firstIndex(where: { $0.id == id }) { removed = notes.remove(at: idx) }
+        }), deleteImages, let removed else { return }
+        // 이미지는 목록에서 빠진 것이 확정된 뒤에 지운다
+        for fileName in removed.imageFileNames {
+            try? MemoStore.shared.deleteImage(fileName: fileName)
         }
-        persist(notes)
     }
 
     /// 보류 항목을 정식 Memo 로 승격한다. 이미지 파일은 그대로 두고 Memo 가 승계하므로 삭제하지 않는다.

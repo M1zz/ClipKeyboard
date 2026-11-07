@@ -29,10 +29,12 @@ struct AddQuickNoteIntent: AppIntent {
         guard !trimmed.isEmpty else {
             return .result(dialog: "Nothing to save.")
         }
-        QuickNoteStore.shared.add(QuickNote(text: trimmed, source: "shortcut"))
+        let saved = QuickNoteStore.shared.add(QuickNote(text: trimmed, source: "shortcut"))
         // 앱을 띄우지 않는 인텐트라 화면 없이 깨어났을 수 있다. 그 런치를 여기서 닫는다
         // (`LaunchGuard.closeIfBackgroundLaunch`). 메인에서 본다.
         await MainActor.run { LaunchGuard.closeIfBackgroundLaunch("add-quick-note-intent") }
+        // 담지 못했으면 "저장했어요" 라고 말하지 않는다. 사용자가 믿고 원본을 지운다.
+        guard saved else { return .result(dialog: "Couldn't save. Unlock your iPhone and try again.") }
         return .result(dialog: "Saved to your ClipKeyboard inbox.")
     }
 }

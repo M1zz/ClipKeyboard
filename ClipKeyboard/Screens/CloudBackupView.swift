@@ -723,17 +723,10 @@ enum DataPortability {
         FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier)
     }
 
-    private static func read<T: Decodable>(_ file: String, as type: T.Type) -> T? {
-        guard let url = container()?.appendingPathComponent(file),
-              let data = try? Data(contentsOf: url) else { return nil }
-        return try? JSONDecoder().decode(T.self, from: data)
-    }
-
-    private static func write<T: Encodable>(_ value: T, to file: String) throws {
-        guard let url = container()?.appendingPathComponent(file) else { throw PortabilityError.noContainer }
-        let data = try JSONEncoder().encode(value)
-        try data.write(to: url, options: .atomic)
-    }
+    // ⚠️ 읽기 · 쓰기는 **저장소(`MemoStore`)를 거친다.** 파일을 직접 다루던 때는 못 읽은 파일을
+    //    빈 목록으로 쳐서, 가져오기가 지금 단축어를 파일 속 단축어로 덮었고 내보내기는 빈 백업을 만들었다.
+    //    저장소는 못 읽으면 던지고, 옛 형식도 풀고, 덮기 전에 되돌리기 스냅샷을 남긴다.
+    private static var store: MemoStore { MemoStore.shared }
 
     static var appVersionString: String {
         (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "?"
@@ -748,9 +741,9 @@ enum DataPortability {
 
     /// 현재 App Group의 모든 데이터를 JSON 번들로 직렬화(이미지 동봉).
     static func makeBundleData() throws -> Data {
-        let memos = read(StorageFile.memos, as: [Memo].self) ?? []
-        let smart = read(StorageFile.smartClipboardHistory, as: [SmartClipboardHistory].self) ?? []
-        let combos = read(StorageFile.combos, as: [Combo].self) ?? []
+        let memos = try store.load(type: .memo)
+        let smart = try store.loadSmartClipboardHistory()
+        let combos = try store.loadCombos()
 
         var images: [String: Data] = [:]
         if let imagesDir = container()?.appendingPathComponent("Images", isDirectory: true) {
@@ -800,7 +793,7 @@ enum DataPortability {
         }
 
         // 2) 메모 병합 (순서 보존, id 충돌 시 최신 lastEdited 우선)
-        var memos = read(StorageFile.memos, as: [Memo].self) ?? []
+        var memos = try store.load(type: .memo)
         var indexById = [UUID: Int]()
         for (i, m) in memos.enumerated() { indexById[m.id] = i }
         var added = 0, updated = 0
@@ -813,25 +806,26 @@ enum DataPortability {
                 added += 1
             }
         }
-        try write(memos, to: StorageFile.memos)
+        if added + updated > 0 { try store.save(memos: memos, type: .memo) }
 
         // 3) 콤보 병합 (union by id)
-        var combos = read(StorageFile.combos, as: [Combo].self) ?? []
+        var combos = try store.loadCombos()
         var stackIds = Set(combos.map { $0.id })
         var addedStacks = 0
         for c in bundle.combos where !stackIds.contains(c.id) {
             combos.append(c); stackIds.insert(c.id); addedStacks += 1
         }
-        try write(combos, to: StorageFile.combos)
+        // 더한 것이 없으면 쓰지 않는다. 빈 파일을 만들면 실행마다 옛 스택 옮기기가 깨어난다.
+        if addedStacks > 0 { try store.saveCombos(combos) }
 
         // 4) 스마트 클립보드 병합 (union by id)
-        var clips = read(StorageFile.smartClipboardHistory, as: [SmartClipboardHistory].self) ?? []
+        var clips = try store.loadSmartClipboardHistory()
         var clipIds = Set(clips.map { $0.id })
         var addedClips = 0
         for c in bundle.smartClipboard where !clipIds.contains(c.id) {
             clips.append(c); clipIds.insert(c.id); addedClips += 1
         }
-        try write(clips, to: StorageFile.smartClipboardHistory)
+        if addedClips > 0 { try store.saveSmartClipboardHistory(history: clips) }
 
         // 5) 카테고리 설정
         //    ⚠️ `.merge` 다. 가져오기는 "합친다"는 뜻이라(단축어도 지우지 않고 합친다)

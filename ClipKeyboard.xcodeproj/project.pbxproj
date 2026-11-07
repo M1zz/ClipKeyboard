@@ -23,7 +23,7 @@
 		12CBEB9291D41B92F0BB6704 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9F42D0C02B6FA782BA3DD1 /* AppLanguage.swift */; };
 		13751AEB6DC51F2B561EC231 /* FreeUsePaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5C73DC3A80EC7D0FE2B2BC /* FreeUsePaywallView.swift */; };
 		16F7C5C7630A0D471C602C41 /* TwoDevicePack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F53C7333B96F49495FC908C3 /* TwoDevicePack.swift */; };
-		1752832F621F4C72961F0FA1 /* AppGroupStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752832F621F4C72961F0FD4 /* AppGroupStorage.swift */; };
+		1752832F621F4C72961F0FA1 /* AppGroupListFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752832F621F4C72961F0FD4 /* AppGroupListFile.swift */; };
 		1761A00B1625C4C0128A8D95 /* CategorySnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CD8B81F083063C5634B606 /* CategorySnapshot.swift */; };
 		1790654130678580C2F5E595 /* KeyboardLessonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF85A43C7ACA52D30AA74FD1 /* KeyboardLessonView.swift */; };
 		1A4B59D6EC7B8B25D8776E00 /* ProUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DCFDFE29BDC68D1BD2437DF /* ProUpgrade.swift */; };
@@ -453,7 +453,7 @@
 		155207159BAB0913906509F4 /* ChangelogView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ChangelogView.swift; sourceTree = "<group>"; };
 		15BFA8199D1562BBBBCD88C4 /* PlaceholderExamples.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlaceholderExamples.swift; sourceTree = "<group>"; };
 		15D7D4AA8AF653CC8A273A16 /* TypingLanguagesSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TypingLanguagesSettings.swift; sourceTree = "<group>"; };
-		1752832F621F4C72961F0FD4 /* AppGroupStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupStorage.swift; sourceTree = "<group>"; };
+		1752832F621F4C72961F0FD4 /* AppGroupListFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupListFile.swift; sourceTree = "<group>"; };
 		17AE19FF790D3F67BC82A8D4 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		184192F63D91F7DBFA89F776 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1918BE258EB10A3CD937D48F /* UUIDExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UUIDExtension.swift; sourceTree = "<group>"; };
@@ -1422,7 +1422,7 @@
 		E35F7AD602EB409DA9ED0332 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				1752832F621F4C72961F0FD4 /* AppGroupStorage.swift */,
+				1752832F621F4C72961F0FD4 /* AppGroupListFile.swift */,
 				11527193B51F40B39A530C1C /* MemoRepository.swift */,
 				87DF6ECF50B643AF9675F588 /* Repository */,
 			);
@@ -1969,7 +1969,7 @@
 				581D8A962F49B4DD00F2F032 /* StoreManager.swift in Sources */,
 				256F32EF1054402BBEBAA072 /* StackExecutionService.swift in Sources */,
 				D879B4601DD1A12745791C7A /* StackEditSheet.swift in Sources */,
-				1752832F621F4C72961F0FA1 /* AppGroupStorage.swift in Sources */,
+				1752832F621F4C72961F0FA1 /* AppGroupListFile.swift in Sources */,
 				82DB8CDD2D0F443CAE408631 /* MemoRepositoryProtocol.swift in Sources */,
 				11527193B51F40B39A530C1D /* MemoRepository.swift in Sources */,
 				71169FEF7AFE438A9D148359 /* SaveMemoUseCase.swift in Sources */,

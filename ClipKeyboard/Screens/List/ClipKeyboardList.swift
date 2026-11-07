@@ -3099,7 +3099,10 @@ struct ClipKeyboardList: View {
             .sheet(isPresented: $showQuickNoteAdd) {
                 QuickNoteEditSheet(note: QuickNote()) { newNote in
                     guard !newNote.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
-                    QuickNoteStore.shared.add(newNote)
+                    guard QuickNoteStore.shared.add(newNote) else {
+                        viewModel.showPlainToast(NSLocalizedString("변경 사항을 저장하지 못했습니다", comment: "Save failed toast"))
+                        return
+                    }
                     // 담긴 위치를 바로 알려준다 - 상단 Inbox 배너도 함께 나타나 뷰어로 안내.
                     viewModel.showPlainToast(NSLocalizedString("메모를 보관함에 담았어요", comment: "Toast after quick note saved to inbox"))
                 } onPromote: { newNote in

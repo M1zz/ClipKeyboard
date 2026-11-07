@@ -6,12 +6,6 @@
 import Foundation
 
 final class MemoRepository: MemoRepositoryProtocol {
-    private let storage: AppGroupStorage
-
-    init(storage: AppGroupStorage = .shared) {
-        self.storage = storage
-    }
-
     func fetchAll() throws -> [Memo] {
         try MemoStore.shared.load(type: .memo)
     }

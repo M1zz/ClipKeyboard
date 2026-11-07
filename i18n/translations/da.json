@@ -12985,5 +12985,13 @@
   "어떤 말 뒤에 어떤 단축어를 넣는지 기기 안에서만 세어, 다음에 그 말을 치면 단축어 버튼 옆에 먼저 띄워요. 친 글은 남기지 않아요. 끄면 배운 것도 지워요.": {
     "v": "Tæller kun på denne enhed, hvilken genvej du indsætter efter et ord, og viser den ved siden af genvejsknappen, når du skriver ordet igen. Det, du skriver, gemmes ikke. Slår du det fra, slettes det lærte.",
     "src": "aa1f5813cb"
+  },
+  "이 기기의 단축어를 읽지 못했어요. 잠시 뒤 다시 해 주세요.": {
+    "v": "Kunne ikke læse fraserne på denne enhed. Prøv igen om lidt.",
+    "src": "333395cf79"
+  },
+  "Couldn't save. Unlock your iPhone and try again.": {
+    "v": "Kunne ikke gemme. Lås din iPhone op, og prøv igen.",
+    "src": "2c62438b63"
   }
 }

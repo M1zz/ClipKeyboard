@@ -14,6 +14,21 @@ import ImageIO
 import UniformTypeIdentifiers
 #endif
 
+/// 저장소가 던지는 오류. 화면에 그대로 보이지 않고, 부르는 쪽이 저장을 멈추는 신호로 쓴다.
+enum MemoStoreError: Error, LocalizedError {
+    /// 파일이 있는데 읽지 못했다.
+    case unreadable(String, Error)
+    /// 읽지 못한 채로 저장하려 했다. 덮어쓰면 그 파일의 내용이 사라진다.
+    case unreadBeforeSave(MemoType)
+
+    var errorDescription: String? {
+        switch self {
+        case .unreadable(let name, let error): return "\(name): \(error.localizedDescription)"
+        case .unreadBeforeSave(let type): return "refused to overwrite unread \(type)"
+        }
+    }
+}
+
 enum MemoType: Hashable {
     case memo
     case clipboardHistory
@@ -70,6 +85,55 @@ class MemoStore: ObservableObject {
     ///    남의 변경이 조용히 지워진다.** `stat` 은 누가 썼든 알아챈다.
     private var loadCache: [MemoType: (stamp: FileStamp, memos: [Memo])] = [:]
     private let loadCacheLock = NSLock()
+
+    // MARK: - 읽기 실패 막이
+
+    /// 파일이 **있는데 못 읽은** 종류. 다시 제대로 읽기 전까지 그 종류의 저장을 거절한다.
+    ///
+    /// 왜 필요한가: 못 읽은 자리에서 빈 목록을 돌려주면, 부르는 쪽은 그 빈 목록에 한 줄을 더해
+    /// 저장한다. 그러면 **멀쩡한 메모 파일이 한 줄짜리로 덮인다.** 기기가 잠겨 파일 보호가 걸렸을 때
+    /// 키보드가 읽거나, 다른 프로세스가 파일을 갈아끼우는 찰나에 읽으면 실제로 일어난다.
+    /// 깨진 파일(디코딩 실패)은 격리 사본이 있어 이 막이에 넣지 않는다(`quarantineCorruptFile`).
+    private var unreadable: Set<MemoType> = []
+
+    private func noteRead(_ type: MemoType, ok: Bool) {
+        loadCacheLock.lock()
+        if ok { unreadable.remove(type) } else { unreadable.insert(type) }
+        loadCacheLock.unlock()
+    }
+
+    private func refuseIfUnread(_ type: MemoType) throws {
+        loadCacheLock.lock()
+        let blocked = unreadable.contains(type)
+        loadCacheLock.unlock()
+        guard !blocked else {
+            AppLog.error(.store, "🛑 [MemoStore.save] \(type) 을 읽지 못한 채라 저장을 거절한다(덮어쓰기 막이)")
+            throw MemoStoreError.unreadBeforeSave(type)
+        }
+    }
+
+    /// 파일을 읽는다. **없으면 nil, 있는데 못 읽으면 던진다.** 두 경우를 섞지 않는 것이 요점이다.
+    static func readIfPresent(_ url: URL, options: Data.ReadingOptions = []) throws -> Data? {
+        guard FileManager.default.fileExists(atPath: url.path) else { return nil }
+        do {
+            return try Data(contentsOf: url, options: options)
+        } catch {
+            AppLog.error(.store, "❌ [MemoStore.read] \(url.lastPathComponent) 를 읽지 못했다: \(error.localizedDescription)")
+            throw MemoStoreError.unreadable(url.lastPathComponent, error)
+        }
+    }
+
+    /// 읽고, 성공 · 실패를 막이에 적는다.
+    private func read(_ url: URL, type: MemoType, options: Data.ReadingOptions = []) throws -> Data? {
+        do {
+            let data = try Self.readIfPresent(url, options: options)
+            noteRead(type, ok: true)
+            return data
+        } catch {
+            noteRead(type, ok: false)
+            throw error
+        }
+    }
 
     private func cachedMemos(for type: MemoType, stamp: FileStamp?) -> [Memo]? {
         guard let stamp else { return nil }
@@ -162,6 +226,7 @@ class MemoStore: ObservableObject {
     }
 
     func save(memos: [Memo], type: MemoType, recordHistory: Bool = true, change: Change = .content) throws {
+        try refuseIfUnread(type)
         // 타임머신: 메모를 덮어쓰기 직전, 의미 있는 변경이면 "이전 상태"를 스냅샷으로 보관.
         // (대량 삭제·편집·마이그레이션 사고를 되돌릴 수 있는 로컬 안전망. 최근 10개 유지.)
         // 사용량만 바뀐 저장은 이력 비교 자체를 하지 않는다 - 비교해 봐야 같다.
@@ -183,6 +248,7 @@ class MemoStore: ObservableObject {
     }
 
     func saveClipboardHistory(history: [ClipboardHistory]) throws {
+        try refuseIfUnread(.clipboardHistory)
         let data = try JSONEncoder().encode(history)
         guard let outfile = try Self.fileURL(type: .clipboardHistory) else { return }
         try data.write(to: outfile, options: .atomic)
@@ -196,7 +262,7 @@ class MemoStore: ObservableObject {
         let stamp = FileStamp.of(fileURL)
         if let cached = cachedMemos(for: type, stamp: stamp) { return cached }
 
-        guard let data = try? Data(contentsOf: fileURL) else { return [] }
+        guard let data = try read(fileURL, type: type) else { return [] }
 
         // ⚠️ 손상 감지: 예전에는 디코딩이 실패해도 빈 배열을 돌려줘서 "메모가 전부 사라진 것처럼"
         //    보였다. 더 나쁜 건 그 뒤 아무 저장이나 일어나면 빈 배열이 파일에 덮여 **진짜로**
@@ -329,7 +395,7 @@ class MemoStore: ObservableObject {
 
     func loadClipboardHistory() throws -> [ClipboardHistory] {
         guard let fileURL = try Self.fileURL(type: .clipboardHistory) else { return [] }
-        guard let data = try? Data(contentsOf: fileURL) else { return [] }
+        guard let data = try read(fileURL, type: .clipboardHistory) else { return [] }
         return (try? JSONDecoder().decode([ClipboardHistory].self, from: data)) ?? []
     }
 
@@ -400,6 +466,7 @@ class MemoStore: ObservableObject {
     // MARK: - Smart Clipboard History
 
     func saveSmartClipboardHistory(history: [SmartClipboardHistory]) throws {
+        try refuseIfUnread(.smartClipboardHistory)
         let data = try JSONEncoder().encode(history)
         guard let outfile = try Self.fileURL(type: .smartClipboardHistory) else { return }
         try data.write(to: outfile, options: .atomic)
@@ -415,7 +482,7 @@ class MemoStore: ObservableObject {
     ///    남는 것은 "이미지 (1024x768)" 라는 글자뿐이었다. 넣으면 그 글자가 들어갔다.
     func loadSmartClipboardHistory() throws -> [SmartClipboardHistory] {
         guard let fileURL = try Self.fileURL(type: .smartClipboardHistory) else { return [] }
-        guard let data = try? Data(contentsOf: fileURL, options: .mappedIfSafe) else {
+        guard let data = try read(fileURL, type: .smartClipboardHistory, options: .mappedIfSafe) else {
             return try migrateFromLegacyClipboard()
         }
         let history = (try? JSONDecoder().decode([SmartClipboardHistory].self, from: data)) ?? []
@@ -1048,6 +1115,7 @@ class MemoStore: ObservableObject {
     // MARK: - Combo
 
     func saveCombos(_ combos: [Combo]) throws {
+        try refuseIfUnread(.stack)
         let data = try JSONEncoder().encode(combos)
         guard let outfile = try Self.fileURL(type: .stack) else { return }
         try data.write(to: outfile, options: .atomic)
@@ -1057,7 +1125,7 @@ class MemoStore: ObservableObject {
 
     func loadCombos() throws -> [Combo] {
         guard let fileURL = try Self.fileURL(type: .stack) else { return [] }
-        guard let data = try? Data(contentsOf: fileURL) else { return [] }
+        guard let data = try read(fileURL, type: .stack) else { return [] }
         guard let combos = try? JSONDecoder().decode([Combo].self, from: data) else {
             // 메모와 같은 이유로 원본을 격리 보존한다 - 빈 목록 뒤의 저장이 덮어쓰지 못하게
             Self.quarantineCorruptFile(at: fileURL, type: .stack)

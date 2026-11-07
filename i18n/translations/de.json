@@ -12982,5 +12982,13 @@
   "어떤 말 뒤에 어떤 단축어를 넣는지 기기 안에서만 세어, 다음에 그 말을 치면 단축어 버튼 옆에 먼저 띄워요. 친 글은 남기지 않아요. 끄면 배운 것도 지워요.": {
     "v": "Zählt nur auf diesem Gerät, welchen Textbaustein du nach einem Wort einfügst, und zeigt ihn neben der Bausteintaste, wenn du das Wort wieder tippst. Getippter Text wird nicht gespeichert. Beim Ausschalten wird das Gelernte gelöscht.",
     "src": "aa1f5813cb"
+  },
+  "이 기기의 단축어를 읽지 못했어요. 잠시 뒤 다시 해 주세요.": {
+    "v": "Die Textbausteine auf diesem Gerät konnten nicht gelesen werden. Versuche es gleich noch einmal.",
+    "src": "333395cf79"
+  },
+  "Couldn't save. Unlock your iPhone and try again.": {
+    "v": "Speichern fehlgeschlagen. Entsperre dein iPhone und versuche es erneut.",
+    "src": "2c62438b63"
   }
 }
