@@ -80,18 +80,6 @@ extension Color {
     ///    라이트 연두(4.9:1) 와 다크 연두(12.9:1) 양쪽에서 다 읽힌다.
     static let checkOnGreen = Color(red: 0x10/255, green: 0x14/255, blue: 0x0A/255)
 
-    /// 브랜드 주황 - 키컬러(#E8501C).
-    /// 라이트/다크로 뒤집히는 `Color.accentColor` 와 달리 **항상 같은 값**이라,
-    /// 흰 글자를 얹는 그라데이션 버튼처럼 대비가 고정돼야 하는 곳에 쓴다.
-    static let clipBrand = Color(red: 0xE8/255, green: 0x50/255, blue: 0x1C/255)
-
-    /// 브랜드 짙은 주황(#B83A0F).
-    /// 키컬러와 짝을 이뤄 그라데이션의 어두운 쪽을 맡는다.
-    static let clipBrandDeep = Color(red: 0xB8/255, green: 0x3A/255, blue: 0x0F/255)
-
-    /// 브랜드 노랑(#F0A93A). 강조 배지·하이라이트용 - 키컬러와 같은 따뜻한 줄에 선다.
-    static let clipBrandYellow = Color(red: 0xF0/255, green: 0xA9/255, blue: 0x3A/255)
-
     /// 두 색을 섞는다. `amount` 는 **받는 쪽(self)** 의 비율.
     ///
     /// 대비 증가에서 흐린 글자를 본문 색 쪽으로 당길 때 쓴다. 회색을 더 진하게 만드는 것이
@@ -117,24 +105,5 @@ extension Color {
     /// Toast background color
     static var toastBackground: Color {
         Color(UIColor(red: 28/255, green: 28/255, blue: 30/255, alpha: 0.9))
-    }
-
-    /// Toast text color
-    static let toastText = Color.white
-
-    /// Secure/Lock icon color
-    static let appSecureIcon = Color.orange
-
-    /// Template icon color
-    static let appTemplateIcon = Color.purple
-
-    /// Button background (light overlay)
-    static var appButtonBackground: Color {
-        Color(UIColor.systemGray5)
-    }
-
-    /// Onboarding overlay background
-    static var appOnboardingOverlay: Color {
-        Color.white.opacity(0.15)
     }
 }

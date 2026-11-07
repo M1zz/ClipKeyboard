@@ -477,7 +477,6 @@ struct NextChapterCountdown: View {
     var onSkip: () -> Void = {}
 
     @Environment(\.appTheme) private var theme
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     private let ring: CGFloat = 46
 

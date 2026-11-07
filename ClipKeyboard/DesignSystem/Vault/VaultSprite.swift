@@ -155,24 +155,6 @@ struct VaultSprite: Equatable, Identifiable {
         "...Y...."
     ], id: "spark")
 
-    // MARK: 카드 철물
-
-    /// 카드 오른쪽에 박히는 황동 다이얼. **카드에 놓는 철물은 이것 하나뿐이다.**
-    ///
-    /// 처음에는 경첩 둘 + 다이얼을 10pt 크기로 흩어 놨는데, 흰 유리 카드 위에서
-    /// 작은 회색 덩어리들이 하드웨어가 아니라 **때처럼** 보였다.
-    /// 작은 것 여럿보다 잘 그린 것 하나가 낫다 - 여럿은 노이즈고 하나는 의도다.
-    static let dial = VaultSprite(rows: [
-        "..aaaa..",
-        ".aBBBBa.",
-        "aBBaaBBa",
-        "aBaaaaBa",
-        "aBaaaaBa",
-        "aBBaaBBa",
-        ".abbbba.",
-        "..aaaa.."
-    ], id: "dial")
-
     // MARK: 동전 회전 3프레임 - 붙여넣을 때 *툭* 떨어지는 모션용
 
     static let spin: [VaultSprite] = [gold, spinTilted, spinEdge]

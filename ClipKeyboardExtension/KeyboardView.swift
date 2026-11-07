@@ -637,17 +637,6 @@ struct KeyboardView: View {
         }
     }
 
-    /// 앱 BuiltInCategory.icon과 동일.
-    private func builtInIcon(_ raw: String) -> String {
-        switch raw {
-        case "templates": return "wand.and.stars"
-        case "textMemos": return "doc.text.fill"
-        case "images":    return "photo.fill"
-        case "combos":    return "square.stack.3d.up.fill"
-        default:          return "folder.fill"
-        }
-    }
-
     /// 앱 BuiltInCategory.tint와 동일.
     private func builtInTint(_ raw: String) -> Color {
         switch raw {
@@ -3525,8 +3514,6 @@ struct KeyboardView: View {
         !ProFeatureManager.hasFullAccess
     }
 
-    private var totalMemoCount: Int { clipMemos.count }
-
     /// 한도가 세는 개수 - **자기 것만.** 온보딩이 심어 준 샘플은 칸을 차지하지 않는다.
     /// 앱의 설정 화면·저장 관문과 같은 값을 봐야 한 화면이 두 말을 하지 않는다.
     private var ownMemoCount: Int { ProFeatureManager.ownMemoCount(clipMemos) }
@@ -3694,32 +3681,10 @@ struct KeyboardView: View {
         return "doc.text"
     }
 
-    /// 카테고리 페이지 키(★all/★favorites/이름)에 대응되는 SF Symbol.
-    /// 사용자 커스텀 아이콘 - userCategoryIcons_v1 에서 로드
-    private var customCategoryIcons: [String: String] {
-        AppGroup.defaults?
-            .dictionary(forKey: DefaultsKey.userCategoryIconsV1) as? [String: String] ?? [:]
-    }
-
     /// 사용자가 지정한 카테고리 색 - userCategoryColors_v1 에서 로드(앱과 동일 키).
     private var customCategoryColors: [String: String] {
         AppGroup.defaults?
             .dictionary(forKey: DefaultsKey.userCategoryColorsV1) as? [String: String] ?? [:]
-    }
-
-    /// 커스텀 > 인덱스 팔레트 순으로 폴백 (iOS 앱과 동일)
-    private func iconForCategoryKey(_ key: String) -> String {
-        if key == "★basic" { return "tray.full.fill" }
-        if key == "★all" { return "square.grid.2x2.fill" }
-        if key == "★favorites" { return "heart.fill" }
-        if key.hasPrefix(Self.builtInPrefix) {
-            return builtInIcon(String(key.dropFirst(Self.builtInPrefix.count)))
-        }
-        if let custom = customCategoryIcons[key] { return custom }
-        let icons = ["folder.fill", "bookmark.fill", "tag.fill", "briefcase.fill",
-                     "star.fill", "heart.circle.fill", "person.fill", "house.fill"]
-        let idx = sharedUserCategories.firstIndex(of: key) ?? 0
-        return icons[idx % icons.count]
     }
 
     /// iOS 앱 ClipKeyboardList.customCategoryColor과 동일한 팔레트 + 인덱스 기반

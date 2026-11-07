@@ -12,12 +12,9 @@ import UniformTypeIdentifiers
 import PhotosUI
 import LeeoKit
 
-var fontSize: CGFloat = 20
-
 struct ClipKeyboardList: View {
 
     @StateObject private var viewModel = ClipKeyboardListViewModel()
-    @ObservedObject private var suggestionManager = SuggestionManager.shared
     /// 지금 이 사람이 어디쯤인가(`docs/product/USER_STATE_MODEL.md`). 빈 화면이 이걸 보고 갈린다.
     @ObservedObject private var userState = UserStateStore.shared
     /// 임시 저장이 있을 때만 + 메뉴에 '임시 저장' 을 세운다.
@@ -41,7 +38,6 @@ struct ClipKeyboardList: View {
 
     // MARK: - View-only State
 
-    @State private var isSearchBarVisible = false
     @State private var showDraftList = false
     // 붙여넣기 허용 안내 팁 - 앱을 열 때마다 "붙여넣기 허용" 팝업이 뜨는 사용자를 설정으로 안내.
     // 클립보드 화면 배너와 dismiss 키(pasteTipDismissed)를 공유해, 어느 쪽에서 닫든 함께 사라진다.
@@ -75,7 +71,6 @@ struct ClipKeyboardList: View {
     @State private var showInboxFromIntent: Bool = false
     /// Inbox 배너를 닫은 시점의 항목 수. 이보다 더 쌓이면(=새 캡처) 배너가 다시 나타난다.
     @State private var inboxBannerDismissCount: Int = 0
-    @State private var scrollOffset: CGFloat = 0
 
     // 메모 구분 표시 마스터 토글 - 기본 OFF(제목만, 가장 심플).
     // 켜면 타입 아이콘·배지·테두리·우상단 심볼·카테고리/즐겨찾기 색을 모두 표시.
@@ -1148,7 +1143,6 @@ struct ClipKeyboardList: View {
                 //    정하면 격자가 한 번 그려진 뒤 맨 앞에 카드가 끼어들어, 모든 카드가 한 칸씩
                 //    밀리며 앱을 켤 때마다 덜컹했다(실측). 단축어는 뷰모델이 이미 읽어 두었다.
                 refreshGhostSuggestion()
-                fontSize = UserDefaults.standard.object(forKey: DefaultsKey.fontSize) as? CGFloat ?? 20.0
                 // v4.1.0: 카테고리 기능 마이그레이션 - 기존 사용자 자동 활성
                 CategoryStore.shared.migrateFeatureEnabledIfNeeded(
                     existingMemoCategories: viewModel.memos.map { $0.category }
@@ -2031,15 +2025,6 @@ struct ClipKeyboardList: View {
         categoryTint(for: name, in: viewModel.customCategories)
     }
 
-    /// 커스텀 카테고리마다 고정 SF Symbol 반환 (색상 팔레트와 1:1 매핑)
-    private func customCategoryIcon(_ name: String) -> String {
-        // 색맹 사용자가 색 대신 심볼로 카테고리를 구분할 수 있게 한다(공유 헬퍼).
-        categorySymbol(for: name, in: viewModel.customCategories)
-    }
-
-    // MARK: - Category Tab Bar
-
-
     // MARK: - Persona Category Suggestion (TipKit)
 
     /// 선택한 페르소나에 맞는, 아직 안 만든 카테고리 이름 후보.
@@ -2104,51 +2089,6 @@ struct ClipKeyboardList: View {
                 }
             }
         }
-    }
-
-    private func categoryTabChip(tab: CategoryTab, proxy: ScrollViewProxy) -> some View {
-        let isSelected = viewModel.selectedCategoryTab == tab
-        return Button {
-            HapticManager.shared.selection()
-            viewModel.selectCategoryTab(tab)
-        } label: {
-            HStack(spacing: 5) {
-                Image(systemName: tab.icon)
-                    .font(.caption2.weight(.semibold))
-                Text(tab.displayName)
-                    .font(.subheadline.weight(isSelected ? .semibold : .regular))
-                if !tab.isBuiltIn {
-                    Button {
-                        HapticManager.shared.light()
-                        categoryToDelete = tab.displayName
-                    } label: {
-                        Image(systemName: AppSymbol.xmark)
-                            .font(.caption2.weight(.bold))
-                            .foregroundColor(isSelected ? .white.opacity(0.7) : theme.textFaint)
-                    }
-                    .buttonStyle(.squish)
-                    .accessibilityLabel(String(format: NSLocalizedString("'%@' 카테고리 삭제", comment: "Delete category chip"), tab.displayName))
-                }
-            }
-            .foregroundColor(isSelected ? .white : theme.textMuted)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 7)
-            .background {
-                if isSelected {
-                    Capsule().fill(Color.accentColor)
-                } else {
-                    // 비선택 칩: glass 환경에서 자연스럽게 녹아드는 반투명
-                    if #available(iOS 26, *) {
-                        TranslucentFill(.thinMaterial, in: Capsule())
-                    } else {
-                        Capsule().fill(theme.surfaceAlt)
-                    }
-                }
-            }
-        }
-        .buttonStyle(.squish)
-        .id(tab)
-        .accessibilityAddTraits(isSelected ? [.isSelected] : [])
     }
 
     // MARK: - Category Tab View (Page Swipe)
@@ -2792,44 +2732,6 @@ struct ClipKeyboardList: View {
         viewModel.enterSelectionMode()
     }
 
-    // MARK: - Ambient Top Block
-
-
-    /// 시간대 인사말 + 상태 한 줄 통계.
-    private var greetingHeader: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(timeGreeting)
-                .font(.system(.title, design: .serif, weight: .black))
-                .foregroundColor(theme.text)
-            Text(contextLine)
-                .font(.body)
-                .foregroundColor(theme.textMuted)
-            if let savedText = timeSavedBadgeText {
-                HStack(spacing: 4) {
-                    Image(systemName: AppSymbol.clockArrowCirclepath)
-                        .font(.caption2)
-                        .accessibilityHidden(true)
-                    Text(savedText)
-                        .font(.caption.weight(.medium))
-                }
-                .foregroundColor(.green)
-                .padding(.top, 2)
-            }
-        }
-    }
-
-    /// 평생 누적 절약 시간 배지 - 10분 미만이면 숨김.
-    private var timeSavedBadgeText: String? {
-        let total = KeyboardUsageTracker.totalTimeSavedSeconds()
-        guard total >= 600 else { return nil }
-        let hours = Int(total) / 3600
-        let minutes = (Int(total) % 3600) / 60
-        if hours > 0 {
-            return String(format: NSLocalizedString("Saved %dh %dm so far", comment: "Time saved badge h+m"), hours, minutes)
-        }
-        return String(format: NSLocalizedString("Saved %dm so far", comment: "Time saved badge minutes"), minutes)
-    }
-
     /// 보고 있는 페이지에만 선다. 옆 페이지도 미리 지어지므로, 조건이 없으면 안 보이는 곳에서도 초를 센다.
     private func showsFreshClipboard(on tab: CategoryTab) -> Bool {
         viewModel.hasFreshClipboard && tab == viewModel.selectedCategoryTab
@@ -2877,91 +2779,6 @@ struct ClipKeyboardList: View {
             cardHeight: memoCardHeight
         )
     }
-
-    /// 시간대 기반 인사말 + 이모지 - 아침/낮/저녁/밤.
-    /// 이모지는 일출·낮·일몰·밤을 근사 (실제 일출/일몰 시간은 위치 권한 피하려 시간대로 근사).
-    private var timeGreeting: String {
-        let hour = Calendar.current.component(.hour, from: Date())
-        let emoji: String
-        let phrase: String
-        switch hour {
-        case 5..<8:
-            emoji = "🌅"
-            phrase = NSLocalizedString("Good morning", comment: "Greeting: morning")
-        case 8..<12:
-            emoji = "☀️"
-            phrase = NSLocalizedString("Good morning", comment: "Greeting: morning")
-        case 12..<17:
-            emoji = "🌤"
-            phrase = NSLocalizedString("Good afternoon", comment: "Greeting: afternoon")
-        case 17..<20:
-            emoji = "🌅"
-            phrase = NSLocalizedString("Good evening", comment: "Greeting: evening")
-        case 20..<24:
-            emoji = "🌙"
-            phrase = NSLocalizedString("Good evening", comment: "Greeting: evening")
-        default:
-            emoji = "🌙"
-            phrase = NSLocalizedString("Still up?", comment: "Greeting: late night")
-        }
-        return "\(emoji)  \(phrase)"
-    }
-
-    // MARK: - Scroll Fade (Notes-style)
-
-
-
-    /// 그리팅 아래 한 줄 - 상황 기반 스마트 문구.
-    /// 우선순위: 오늘 사용 횟수 표시 → 최근 1시간 사용한 메모 → 기본 개수 표시
-    /// 일일 카운트는 KeyboardUsageTracker (사용자 로컬 자정 기준 자연 초기화).
-    private var contextLine: String {
-        let memos = viewModel.memos
-        let todayTaps = KeyboardUsageTracker.dailyUsageCount()
-
-        if todayTaps > 0 {
-            let format = NSLocalizedString("%d saved · %d taps today", comment: "Stats with today usage")
-            return String(format: format, memos.count, todayTaps)
-        }
-
-        let hourAgo = Date().addingTimeInterval(-60 * 60)
-        if let recent = memos.first(where: { ($0.lastUsedAt ?? .distantPast) >= hourAgo }) {
-            let format = NSLocalizedString("Just used %@", comment: "Context: recently used memo")
-            return String(format: format, recent.title)
-        }
-
-        let format = NSLocalizedString("%d saved · find what you need", comment: "Stats default")
-        return String(format: format, memos.count)
-    }
-
-    // MARK: - Recency Fade
-
-
-    // MARK: - Context Menu Preview (Mail-style)
-
-
-    // MARK: - Time Divider (day boundary)
-
-
-
-    /// 캘린더 기준 상대적 날짜 라벨.
-    private func relativeDateLabel(_ date: Date) -> String {
-        let cal = Calendar.current
-        if cal.isDateInToday(date) {
-            return NSLocalizedString("Today", comment: "Divider label: today")
-        }
-        if cal.isDateInYesterday(date) {
-            return NSLocalizedString("Yesterday", comment: "Divider label: yesterday")
-        }
-        let daysDiff = cal.dateComponents([.day], from: date, to: Date()).day ?? 0
-        if daysDiff < 7 {
-            return NSLocalizedString("This week", comment: "Divider label: earlier this week")
-        }
-        if daysDiff < 30 {
-            return NSLocalizedString("This month", comment: "Divider label: earlier this month")
-        }
-        return NSLocalizedString("Earlier", comment: "Divider label: earlier than a month")
-    }
-
 
     /// 우클릭(Mac) / 롱프레스(iOS) 컨텍스트 메뉴.
     /// Toolbar 컨텐츠
@@ -3415,24 +3232,6 @@ struct ClipKeyboardList: View {
         if !dismissed.contains(pattern.title) {
             dismissed.append(pattern.title)
             UserDefaults.standard.set(dismissed, forKey: dismissedGhostPatternsKey)
-        }
-    }
-
-    /// feature 태그에 맞게 MemoAdd를 구성한다.
-    /// .template → 템플릿 토글 ON, .combo → 콤보 토글 ON, 나머지 → 일반 메모.
-    private func deleteSampleMemos() {
-        let sampleIds = SampleMemoStorage.load()
-        guard !sampleIds.isEmpty else { return }
-        do {
-            let allMemos = try MemoStore.shared.load(type: .memo)
-            let remaining = allMemos.filter { !sampleIds.contains($0.id) }
-            try MemoStore.shared.save(memos: remaining, type: .memo)
-            SampleMemoStorage.clear()
-            viewModel.loadMemos()
-            print("🗑️ [ClipKeyboardList] 샘플 메모 \(sampleIds.count)개 삭제 완료")
-        } catch {
-            print("❌ [ClipKeyboardList.deleteSampleMemos] 샘플 메모 삭제 실패: \(error)")
-            viewModel.showPlainToast(NSLocalizedString("샘플 단축어를 삭제하지 못했습니다", comment: "Sample memo delete failed toast"))
         }
     }
 

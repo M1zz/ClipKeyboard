@@ -19,7 +19,6 @@ import UIKit
 struct BlankStartPractice: View {
     enum Step: Equatable { case copy, paste, send, insert, sendAgain }
 
-    let startAt: Step
     let onDone: () -> Void
 
     @State private var step: Step
@@ -34,7 +33,6 @@ struct BlankStartPractice: View {
     @FocusState private var fieldFocused: Bool
 
     init(startAt: Step, onDone: @escaping () -> Void) {
-        self.startAt = startAt
         self.onDone = onDone
         _step = State(initialValue: startAt)
     }

@@ -14,19 +14,6 @@ final class MemoRepository: MemoRepositoryProtocol {
         try MemoStore.shared.save(memos: memos, type: .memo)
     }
 
-    func add(_ memo: Memo) throws {
-        var memos = try fetchAll()
-        memos.insert(memo, at: 0)
-        try save(memos)
-    }
-
-    func update(_ memo: Memo) throws {
-        var memos = try fetchAll()
-        guard let index = memos.firstIndex(where: { $0.id == memo.id }) else { return }
-        memos[index] = memo
-        try save(memos)
-    }
-
     func delete(id: UUID) throws {
         var memos = try fetchAll()
         memos.removeAll { $0.id == id }

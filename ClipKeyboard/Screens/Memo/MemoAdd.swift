@@ -22,7 +22,6 @@ struct MemoAdd: View {
     // MARK: - ViewModel
 
     @StateObject private var viewModel = MemoAddViewModel(
-        saveMemoUseCase: SaveMemoUseCase(),
         memoRepository: MemoRepository()
     )
 
@@ -480,11 +479,6 @@ struct MemoAdd: View {
                             autoDetectedType: $viewModel.autoDetectedType,
                             autoDetectedConfidence: $viewModel.autoDetectedConfidence,
                             attachedImages: $viewModel.attachedImages,
-                            onNext: { isFocused = false },   // 이름이 위로 가서 "다음" 필드 없음 - 입력 종료
-                            onAddContent: {
-                                HapticManager.shared.light()
-                                viewModel.addContinuation()
-                            },
                             forceTextKeyboard: startInTemplateMode,
                             // 이 칸은 둘로 나뉜다(값 가져오는 줄 · 실제 내용). 안내도 따로 짚는다.
                             coachStep: coachStep,
@@ -1015,14 +1009,6 @@ struct MemoAdd: View {
                 .cornerRadius(theme.radiusMd)
             }
         }
-    }
-
-    // MARK: - Attached Template (v4.0.8)
-
-    /// 사용자가 만든 템플릿 메모 목록. 본 메모(`isTemplate=false`)는 자연스레 제외됨.
-    private var availableTemplates: [Memo] {
-        let memos = (try? MemoStore.shared.load(type: .memo)) ?? []
-        return memos.filter { $0.isTemplate }
     }
 
     // MARK: - 쓸 때 채우는 칸 (서랍)

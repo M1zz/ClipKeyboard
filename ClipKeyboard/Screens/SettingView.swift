@@ -913,7 +913,6 @@ struct ReviewWriteView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.requestReview) var requestReview
     @Environment(\.appTheme) private var theme
-    @State private var showingOptions = false
 
     var body: some View {
         List {
@@ -1022,50 +1021,6 @@ struct TutorialView: View {
         }
     }
 }
-
-#if canImport(MessageUI)
-import MessageUI
-import LeeoKit
-
-class EmailController: NSObject, MFMailComposeViewControllerDelegate {
-    public static let shared = EmailController()
-    private override init() { }
-
-    static var canSendMail: Bool { MFMailComposeViewController.canSendMail() }
-
-    func sendEmail(subject: String, body: String, to: String) {
-        guard MFMailComposeViewController.canSendMail() else {
-            print("⚠️ [EmailController.sendEmail] 이 기기는 메일 발송을 지원하지 않음")
-            return
-        }
-        let mailComposer = MFMailComposeViewController()
-        mailComposer.mailComposeDelegate = self
-        mailComposer.setToRecipients([to])
-        mailComposer.setSubject(subject)
-        mailComposer.setMessageBody(body, isHTML: false)
-        EmailController.getRootViewController()?.present(mailComposer, animated: true, completion: nil)
-    }
-
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        EmailController.getRootViewController()?.dismiss(animated: true, completion: nil)
-    }
-
-    static func getRootViewController() -> UIViewController? {
-        UIApplication.shared.connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .flatMap { $0.windows }
-            .first(where: { $0.isKeyWindow })?.rootViewController
-    }
-}
-#else
-class EmailController: NSObject {
-    public static let shared = EmailController()
-    private override init() { }
-    static var canSendMail: Bool { false }
-
-    func sendEmail(subject: String, body: String, to: String) {}
-}
-#endif
 
 struct SettingView_Previews: PreviewProvider {
     static var previews: some View {

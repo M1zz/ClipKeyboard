@@ -726,16 +726,6 @@ struct ClipKeyboardApp: App {
         }
     }
 
-    /// 튜토리얼의 환영 화면을 아직 지나지 않았는가.
-    /// ⚠️ 이때는 튜토리얼이 화면을 잡고 있다. 그 위에 결제 창을 얹으면 처음 쓰는 사람이
-    ///    무엇을 하라는 건지 보기도 전에 값부터 보게 된다.
-    private var isMidFirstShortcut: Bool {
-        let d = UserDefaults.standard
-        if ClipKeyboardApp.isBlankStartInProgress { return true }
-        return d.bool(forKey: DefaultsKey.startedFreshV444)
-            && !d.bool(forKey: DefaultsKey.tutorialWelcomeDone)
-    }
-
     // MARK: - 실행 때 뜨는 창 하나
 
     /// 백지 첫 실행 덮개가 아직 떠 있는가(새 설치에서 끝내기 전까지).

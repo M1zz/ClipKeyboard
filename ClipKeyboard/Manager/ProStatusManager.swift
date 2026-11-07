@@ -12,15 +12,6 @@ import Foundation
 class ProStatusManager: ObservableObject {
     static let shared = ProStatusManager()
 
-    // MARK: - 무료 제한 상수
-    // Note: Source of truth는 ProFeatureManager.freeMemoLimit 등. 이 struct는 레거시 참조용.
-
-    struct FreeLimits {
-        static var maxMemos: Int { ProFeatureManager.memoLimit }
-        static var maxClipboardHistory: Int { ProFeatureManager.freeClipboardHistoryLimit }
-        static var maxTemplates: Int { ProFeatureManager.freeTemplateLimit }
-    }
-
     // MARK: - Published Properties
 
     @Published var isPro: Bool = false
@@ -90,35 +81,9 @@ class ProStatusManager: ObservableObject {
         return ProFeatureManager.canAddMemo(currentCount: currentCount)
     }
 
-    /// 클립보드 히스토리를 더 저장할 수 있는지 확인
-    func canAddClipboardHistory(currentCount: Int) -> Bool {
-        return ProFeatureManager.hasFullAccess || currentCount < FreeLimits.maxClipboardHistory
-    }
-
     /// 템플릿을 더 추가할 수 있는지 확인
     func canAddTemplate(currentCount: Int) -> Bool {
         return ProFeatureManager.canAddTemplate(currentCount: currentCount)
-    }
-
-    /// iCloud 백업 사용 가능 여부 (구매 / 그랜드파더 / 활성 trial)
-    var canUseCloudBackup: Bool {
-        return ProFeatureManager.hasFullAccess
-    }
-
-    /// Combo 기능 사용 가능 여부
-    var canUseStack: Bool {
-        return ProFeatureManager.hasFullAccess
-    }
-
-    /// 보안 메모 사용 가능 여부
-    var canUseSecureMemo: Bool {
-        return ProFeatureManager.hasFullAccess
-    }
-
-    /// 남은 무료 메모 개수
-    func remainingFreeMemos(currentCount: Int) -> Int {
-        if ProFeatureManager.hasFullAccess { return Int.max }
-        return max(0, FreeLimits.maxMemos - currentCount)
     }
 
     /// Pro 상태 설정 (StoreManager에서 호출)
@@ -128,12 +93,6 @@ class ProStatusManager: ObservableObject {
         print("✅ [ProStatusManager] IAP 구매 권한 변경: \(isPro)")
         // 결제 외 경로(TestFlight/그랜드파더/체험)까지 합친 실제 접근권한을 함께 찍어 혼동 제거.
         ProFeatureManager.logAccessResolution("구매 권한 변경 후")
-    }
-
-    /// Pro 상태 복원 (앱 시작 시 또는 구매 복원 시)
-    func restoreProStatus() {
-        // StoreManager에서 구매 복원 후 호출됨
-        loadProStatus()
     }
 
     // MARK: - Private Methods

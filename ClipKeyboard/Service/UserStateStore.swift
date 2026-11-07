@@ -94,14 +94,8 @@ final class UserStateStore: ObservableObject {
 
     // MARK: - 기기에서 값 긁기
 
-    /// 지금 이 기기의 값들. 전부 이미 쌓여 있던 것이라 새로 수집하는 것은 없다.
-    static func currentFacts(now: Date = Date()) -> UserStateFacts {
-        currentFacts(now: now,
-                     memos: (try? MemoStore.shared.load(type: .memo)) ?? [],
-                     sampleIds: SampleMemoStorage.load())
-    }
-
     /// 이미 읽어 둔 목록으로 값을 모은다. `refresh` 가 목록을 한 번만 읽으려고 쓴다.
+    /// 전부 이미 쌓여 있던 것이라 새로 수집하는 것은 없다.
     static func currentFacts(now: Date, memos: [Memo], sampleIds: Set<UUID>) -> UserStateFacts {
         // 앱이 심어 준 샘플은 자기 것이 아니다. 이걸 세면 아무것도 안 만든 사람이
         // 만든 사람으로 올라가고, 첫 단축어에서 막힌 사람이 지도에서 사라진다.
@@ -185,53 +179,10 @@ final class UserStateStore: ObservableObject {
 
     // MARK: - 화면이 묻는 것
 
-    func visibility(of surface: UserSurface) -> SurfaceVisibility {
-        state.visibility(of: surface)
-    }
-
     func isVisible(_ surface: UserSurface) -> Bool {
         state.visibility(of: surface).isVisible
     }
 
     /// 지금 화면에서 앞에 세울 안내 하나. 없으면 nil.
     var leadingSurface: UserSurface? { state.leadingSurface }
-}
-
-// MARK: - 화면에서 쓰기
-
-extension View {
-
-    /// 이 상태에서 낼 자리가 아니면 통째로 빼고, 조용히 낼 자리면 흐리게 둔다.
-    ///
-    /// ```swift
-    /// KeyboardSetupBanner()
-    ///     .userSurface(.keyboardSetupBanner)
-    /// ```
-    ///
-    /// ⚠️ 설정 화면처럼 **사람이 찾아간 자리** 에는 쓰지 말 것. 감춘다는 것은 없앤다는
-    ///    뜻이 아니라 앞에 안 낸다는 뜻이고, 찾아간 사람에게까지 없으면 그건 고장이다.
-    ///
-    /// ⚠️ 기본 인자로 `.shared` 를 받지 않는다. 기본 인자는 메인 액터 밖에서 값이 매겨져서
-    ///    Swift 6 에서는 오류가 된다. 몸통 안에서 집어 오면 그 자리는 이미 메인 액터다.
-    @MainActor
-    func userSurface(_ surface: UserSurface) -> some View {
-        modifier(UserSurfaceGate(surface: surface, store: .shared))
-    }
-}
-
-private struct UserSurfaceGate: ViewModifier {
-    let surface: UserSurface
-    @ObservedObject var store: UserStateStore
-
-    func body(content: Content) -> some View {
-        switch store.visibility(of: surface) {
-        case .lead:
-            content
-        case .quiet:
-            // 있지만 주인공은 아니다. 자리는 지키되 눈을 먼저 끌지 않는다.
-            content.opacity(0.72)
-        case .hidden:
-            EmptyView()
-        }
-    }
 }

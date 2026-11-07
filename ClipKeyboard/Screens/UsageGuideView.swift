@@ -20,7 +20,7 @@ struct UsageScenario: Identifiable {
     let exampleKey: String     // 보낼 내용 예시 (단축어 저장 시 value로 사용)
     let feature: ScenarioFeature
     /// v4.1.0: 어느 페르소나에 적합한지. 비어있으면 universal (모든 페르소나에 노출).
-    /// SuggestionManager가 페르소나 선택 시 이 set 매칭만 풀에 포함.
+    /// 단축어 마트(`ShortcutMartView`)가 페르소나에 맞는 것만 골라 보여 준다.
     let personas: Set<Persona>
 
     init(
@@ -77,7 +77,6 @@ struct UsageCategory: Identifiable {
     let scenarios: [UsageScenario]
 
     var title: String { NSLocalizedString(titleKey, comment: "Usage category title") }
-    var desc: String { NSLocalizedString(descKey, comment: "Usage category description") }
 }
 
 // MARK: - Locale-aware Data

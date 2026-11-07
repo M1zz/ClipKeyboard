@@ -81,12 +81,6 @@ extension String {
 
     /// 중괄호를 뗀 평문. 읽어 주기·검색용 (화면에 그릴 때는 칩으로).
     var strippingTemplateBraces: String { TemplatePlaceholder.strip(self) }
-
-    /// 이 문자열 안의 토큰들(중괄호 포함, 중복 제거).
-    var templatePlaceholderTokens: [String] { TemplatePlaceholder.tokens(in: self) }
-
-    /// 이 문자열 안의 이름들(중괄호 제외, 중복 제거).
-    var templatePlaceholderNames: [String] { TemplatePlaceholder.names(in: self) }
 }
 
 // MARK: - 칩으로 그리기

@@ -61,7 +61,7 @@ final class SaveIntoCategoryTests: XCTestCase {
     }
 
     private func makeAddViewModel(insertedCategory: String = "텍스트") -> MemoAddViewModel {
-        let vm = MemoAddViewModel(saveMemoUseCase: SaveMemoUseCase(), memoRepository: MemoRepository())
+        let vm = MemoAddViewModel(memoRepository: MemoRepository())
         vm.onAppear(memoId: nil,
                     insertedKeyword: "",
                     insertedValue: "",

@@ -108,15 +108,6 @@ enum ActiveDayLedger {
     static func dayCount() -> Int {
         (AppGroup.defaults?.stringArray(forKey: DefaultsKey.userStateActiveDays))?.count ?? 0
     }
-
-    /// 최근 `days` 일 안에 쓴 날이 며칠인가. 추이를 보는 화면이 쓴다.
-    static func dayCount(within days: Int, now: Date = Date()) -> Int {
-        guard let stored = AppGroup.defaults?.stringArray(forKey: DefaultsKey.userStateActiveDays) else { return 0 }
-        let cutoff = now.addingTimeInterval(-Double(days) * 86_400)
-        return stored.compactMap { KeyboardDayLedger.date(fromDayKey: $0) }
-            .filter { $0 >= cutoff }
-            .count
-    }
 }
 
 /// 추적할 이벤트 이름 - 표준 이름 (snake_case, 40자 이내)
@@ -226,11 +217,6 @@ enum AnalyticsService {
         guard let eventSink else { return }
         let slice = (parameters[.triggeredBy] as? String) ?? (parameters[.source] as? String)
         eventSink(slice.map { "\(event.rawValue):\($0)" } ?? event.rawValue)
-    }
-
-    /// 사용자가 의도적으로 분석 거부 - UserDefaults 토글로 제어 가능 (향후 옵션)
-    static func setCollectionEnabled(_ enabled: Bool) {
-        print("📊 [Analytics] setCollectionEnabled=\(enabled)")
     }
 
     // MARK: - Convenience

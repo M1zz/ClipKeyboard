@@ -403,20 +403,6 @@ enum TimeSavedModel {
                 return NSLocalizedString("짧게 자주 쓰는 것", comment: "Saving kind: quick")
             }
         }
-
-        var localizedExplanation: String {
-            switch self {
-            case .lookup:
-                return NSLocalizedString("원래는 다른 앱을 열어 찾고, 선택해서 복사하고, 돌아와서 붙여넣어야 했던 값이에요. 아낀 시간의 대부분이 여기서 나와요.",
-                                         comment: "Saving kind explanation: lookup")
-            case .longText:
-                return NSLocalizedString("찾을 필요는 없지만 손으로 옮겨 적기엔 긴 글이에요.",
-                                         comment: "Saving kind explanation: long text")
-            case .quick:
-                return NSLocalizedString("짧아서 아끼는 시간은 작지만, 자주 쓰면 쌓여요.",
-                                         comment: "Saving kind explanation: quick")
-            }
-        }
     }
 
     /// ⚠️ 문턱은 `fromAnotherApp` 이다. `fromRecall`(이메일·전화)까지 "찾아와야 했던 것"으로

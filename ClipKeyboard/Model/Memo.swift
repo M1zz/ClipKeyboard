@@ -7,12 +7,6 @@
 
 import Foundation
 
-let dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-    return formatter
-}()
-
 // MARK: - Clipboard Item Type (자동 분류)
 enum ClipboardItemType: String, Codable, CaseIterable {
     case email = "이메일"
@@ -591,21 +585,6 @@ struct Memo: Identifiable, Codable {
         try legacy.encode(isStack, forKey: .isStack)   // 글자는 옛 이름, 값은 지금 것
         try legacy.encode(0, forKey: .currentComboIndex)
     }
-
-    static var dummyData: [Memo] = {
-        let date = dateFormatter.date(from: "2023-08-31 10:00:00") ?? Date()
-        return [
-            Memo(title: "계좌번호",
-                 value: "123412341234123412341234123412341234123412341234",
-                 lastEdited: date),
-            Memo(title: "부모님 댁 주소",
-                 value: "거기 어딘가",
-                 lastEdited: date),
-            Memo(title: "통관번호",
-                 value: "p12341234",
-                 lastEdited: date)
-        ]
-    }()
 }
 
 // MARK: - Combo System (Phase 2)

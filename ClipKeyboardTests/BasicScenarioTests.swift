@@ -501,8 +501,7 @@ final class BasicScenarioTests: XCTestCase {
     // MARK: - Helpers
 
     private func makeAddViewModel(editing memo: Memo? = nil) -> MemoAddViewModel {
-        let vm = MemoAddViewModel(saveMemoUseCase: SaveMemoUseCase(),
-                                  memoRepository: MemoRepository(),
+        let vm = MemoAddViewModel(memoRepository: MemoRepository(),
                                   editingMemo: memo)
         vm.onAppear(memoId: memo?.id,
                     insertedKeyword: memo?.title ?? "",

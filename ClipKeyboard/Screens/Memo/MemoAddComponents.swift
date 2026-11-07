@@ -318,12 +318,6 @@ struct ContentInputSection: View {
     @Binding var autoDetectedType: ClipboardItemType?
     @Binding var autoDetectedConfidence: Double
     @Binding var attachedImages: [ImageWrapper]
-    /// v4.0.8: 키보드 toolbar "다음" 버튼 - 다음 필드(제목)로 focus 이동.
-    /// nil이면 버튼 숨김.
-    var onNext: (() -> Void)?
-    /// "+" 칩 - 내용(값)을 하나 더 추가. 값이 여러 개면 콤보가 된다는 걸
-    /// 입력 전부터 알려주는 힌트 버튼. nil이면 숨김.
-    var onAddContent: (() -> Void)?
     /// 템플릿 작성 모드 - 숫자형 카테고리여도 글자/{변수}를 칠 수 있게 기본 키보드를 강제한다.
     var forceTextKeyboard: Bool = false
     /// 처음 만드는 사람을 짚어 주는 중이면 지금 걸음(`MemoAddCoach.swift`).
@@ -818,14 +812,6 @@ struct ContentInputSection: View {
             }
             smearSource = SmearSource(image: image, layout: layout)
         }
-    }
-
-    // 이미지 클립보드에 복사
-    private func copyImageToClipboard(_ image: UIImage) {
-        #if os(iOS)
-        UIPasteboard.general.image = image
-        showToastMessage(NSLocalizedString("이미지를 복사했습니다", comment: ""))
-        #endif
     }
 
     // Toast 메시지 표시

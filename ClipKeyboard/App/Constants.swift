@@ -8,12 +8,6 @@
 import Foundation
 
 struct Constants {
-    static var emptyDescription: String {
-        NSLocalizedString("'+' 버튼을 탭하면 iMessage, Mail 또는 기타 앱에서 쉽게 접근할 수 있는 문구나 일반 텍스트를 추가할 수 있습니다.", comment: "Empty state description")
-    }
-    static var removeAll: String {
-        NSLocalizedString("전체 삭제", comment: "Remove all")
-    }
     static var save: String {
         NSLocalizedString("키보드 추가", comment: "Add keyboard")
     }

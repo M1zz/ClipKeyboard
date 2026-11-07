@@ -28,7 +28,6 @@ final class MemoAddViewModel: ObservableObject {
 
     // MARK: - Dependencies
 
-    private let saveMemoUseCase: SaveMemoUseCase
     private let memoRepository: MemoRepositoryProtocol
 
     // MARK: - Editing Context
@@ -102,8 +101,6 @@ final class MemoAddViewModel: ObservableObject {
 
     @Published var detectedPlaceholders: [String] = []
     @Published var placeholderValues: [String: [String]] = [:]
-    @Published var showingPlaceholderEditor: String?
-    @Published var newPlaceholderValue: String = ""
 
     // MARK: - 자동 분류 관련
 
@@ -160,11 +157,9 @@ final class MemoAddViewModel: ObservableObject {
     // MARK: - Init
 
     init(
-        saveMemoUseCase: SaveMemoUseCase,
         memoRepository: MemoRepositoryProtocol,
         editingMemo: Memo? = nil
     ) {
-        self.saveMemoUseCase = saveMemoUseCase
         self.memoRepository = memoRepository
         self.editingMemo = editingMemo
     }
@@ -202,18 +197,11 @@ final class MemoAddViewModel: ObservableObject {
         return added
     }
 
-    func selectCategory(_ theme: String) {
-        let previousCategory = selectedCategory
-        selectedCategory = theme
-        updateRecentlyUsedCategories(theme)
-        applySampleIfAppropriate(newCategory: theme, previousCategory: previousCategory)
-    }
-
     /// v4.0.8: 백지 부담 줄이기 - 카테고리에 맞는 샘플 자동 채움 (value + keyword).
     /// 1) value/keyword가 비어있거나
     /// 2) 이전 카테고리의 샘플 그대로(=사용자가 수정 안 함)일 때만 갱신.
     /// 사용자가 직접 입력한 값은 절대 덮어쓰지 않는다.
-    /// selectCategory + setupView 양쪽에서 호출 (직접 set하는 경로도 자동 채움 trigger).
+    /// onAppear 에서 카테고리를 정할 때 호출한다.
     private func applySampleIfAppropriate(newCategory: String, previousCategory: String) {
         // 1) 붙여넣을 내용 (value)
         if let sample = Constants.sampleValue(for: newCategory) {
@@ -235,14 +223,6 @@ final class MemoAddViewModel: ObservableObject {
     /// 현재 value가 카테고리 샘플과 동일한지 (= 사용자가 아직 수정 안 함).
     /// View에서 바인딩의 set 콜백에서 갱신해야 사용자 수정 즉시 false로 바뀜.
     @Published var isSampleValue: Bool = false
-
-    /// value 변경 시 호출 - 사용자가 입력하면 isSampleValue를 자동으로 false 처리.
-    /// View에서 TextEditor onChange에서 호출.
-    func didChangeValue() {
-        if isSampleValue && !Constants.isSampleValue(value, forCategory: selectedCategory) {
-            isSampleValue = false
-        }
-    }
 
     // MARK: - onAppear 초기화
 
@@ -348,7 +328,7 @@ final class MemoAddViewModel: ObservableObject {
         }
 
         // 보안 메모 편집: 저장된 값이 암호문이면 평문으로 풀어 보여준다.
-        // (편집 후 저장 시 SaveMemoUseCase가 다시 암호화)
+        // (편집 후 저장 시 applyMemoToList 가 다시 암호화)
         if SecureMemoCrypto.isEncrypted(value) {
             value = SecureMemoCrypto.decrypt(value) ?? value
         }
@@ -544,14 +524,6 @@ final class MemoAddViewModel: ObservableObject {
     /// 값 편집기에서 지금 치고 있는 한 판. 저장할 때 표본으로 넘긴다.
     /// ⚠️ 실패해도 아무 일도 안 일어난다 - 재는 일이 저장을 방해하면 안 된다.
     private var typingRun = TypingRun()
-
-    func onIsTemplateChanged() {
-        if isTemplate {
-            detectPlaceholders()
-        } else {
-            detectedPlaceholders = []
-        }
-    }
 
     // MARK: - OCR
 

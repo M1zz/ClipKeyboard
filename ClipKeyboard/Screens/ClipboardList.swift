@@ -580,10 +580,6 @@ struct ClipboardList: View {
             showToast(message: String(format: NSLocalizedString("Combo 생성 실패: %@", comment: ""), error.localizedDescription))
         }
     }
-
-    private func formatDate(_ date: Date) -> String {
-        ClipboardDateText.string(date)
-    }
 }
 
 // MARK: - Type Filter Bar

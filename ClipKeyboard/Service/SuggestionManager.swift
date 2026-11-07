@@ -27,7 +27,6 @@ final class SuggestionManager: ObservableObject {
     // MARK: - Locale-aware suggestion list
 
     /// 기존 UsageGuideView의 시나리오 풀 + v4.0.8 페르소나별 친화 seed.
-    /// empty state에서 random 3개로 노출되어 사용자가 진입할 때마다 다양한 영감을 얻음.
     var allSuggestions: [SuggestionTemplate] {
         let fromUsageGuide = usageCategories.flatMap { category in
             category.scenarios.map { scenario in
@@ -52,59 +51,6 @@ final class SuggestionManager: ObservableObject {
             )
         }
         return fromUsageGuide + fromPersonaSeeds
-    }
-
-    /// empty state에 노출할 random 3개. 매 호출마다 새 shuffle.
-    /// 페르소나가 선택되어 있으면 그 페르소나 + general seed에 가중치를 둠.
-    var emptyStateSuggestions: [SuggestionTemplate] {
-        let pool = personaWeightedPool()
-        return Array(pool.shuffled().prefix(3))
-    }
-
-    /// v4.1.0: 페르소나 매칭 풀.
-    /// 선택된 페르소나가 있으면 usageCategories 시나리오 + personaSeed에서 매칭만 필터.
-    /// 매칭 풀이 3개 미만이면 fallback으로 전체 풀 사용 (empty state 보장).
-    private func personaWeightedPool() -> [SuggestionTemplate] {
-        // 페르소나 출처는 `PersonaResolver` 하나다. 확신이 없으면 좁히지 않는다.
-        guard let selected = PersonaResolver.confident else {
-            return allSuggestions
-        }
-
-        // 1) usageCategories 시나리오 - personas set이 매칭하거나 비어있으면(universal) 포함
-        let fromUsageGuide = usageCategories.flatMap { category in
-            category.scenarios
-                .filter { scenario in
-                    scenario.personas.isEmpty || scenario.personas.contains(selected)
-                }
-                .map { scenario in
-                    SuggestionTemplate(
-                        stableID: abs(scenario.exampleKey.hashValue),
-                        emoji: category.emoji,
-                        title: scenario.title,
-                        content: scenario.example,
-                        feature: scenario.feature,
-                        categoryTitle: category.title
-                    )
-                }
-        }
-
-        // 2) personaSeed - 선택된 페르소나 + general
-        let fromPersonaSeeds = Self.personaSeedSuggestions
-            .filter { $0.persona == selected || $0.persona == .general }
-            .map { seed in
-                SuggestionTemplate(
-                    stableID: seed.stableID,
-                    emoji: seed.emoji,
-                    title: NSLocalizedString(seed.titleKey, comment: "Empty state seed title"),
-                    content: seed.content,
-                    feature: seed.feature,
-                    categoryTitle: NSLocalizedString(seed.categoryKey, comment: "Empty state seed category")
-                )
-            }
-
-        let filtered = fromUsageGuide + fromPersonaSeeds
-        // 3개 미만이면 fallback (사용자에게 empty state로 안 보이도록)
-        return filtered.count >= 3 ? filtered : allSuggestions
     }
 
     // MARK: - 페르소나가 무엇을 받게 되는가

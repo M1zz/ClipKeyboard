@@ -445,24 +445,6 @@ class MemoStore: ObservableObject {
         }
     }
 
-    // MARK: - Legacy Clipboard History
-
-    func addToClipboardHistory(content: String) throws {
-        var history = try loadClipboardHistory()
-
-        history.removeAll { $0.content == content }
-        history.insert(ClipboardHistory(content: content), at: 0)
-
-        if history.count > 100 {
-            history = Array(history.prefix(100))
-        }
-
-        let cutoff = Calendar.current.date(byAdding: .day, value: -SmartClipboardHistory.retentionDays, to: Date()) ?? Date()
-        history.removeAll { $0.isTemporary && $0.copiedAt < cutoff }
-
-        try saveClipboardHistory(history: history)
-    }
-
     // MARK: - Smart Clipboard History
 
     func saveSmartClipboardHistory(history: [SmartClipboardHistory]) throws {
@@ -616,11 +598,6 @@ class MemoStore: ObservableObject {
         }
 
         return smartHistory
-    }
-
-    private func removeDuplicate(_ array: [Memo]) -> [Memo] {
-        var seen = Set<String>()
-        return array.filter { seen.insert($0.title).inserted }
     }
 
     // MARK: - Favorite
@@ -1093,25 +1070,6 @@ class MemoStore: ObservableObject {
         return tokens.sorted()
     }
 
-    func deletePlaceholderValues(fromMemoId memoId: UUID) {
-        let allMemos = (try? load(type: .memo)) ?? []
-        var allPlaceholders: Set<String> = []
-
-        for memo in allMemos where memo.isTemplate {
-            allPlaceholders.formUnion(extractPlaceholders(from: memo.value))
-        }
-
-        for placeholder in allPlaceholders {
-            var values = loadPlaceholderValues(for: placeholder)
-            values.removeAll { $0.sourceMemoId == memoId }
-            savePlaceholderValues(values, for: placeholder)
-        }
-    }
-
-    private func extractPlaceholders(from text: String) -> [String] {
-        TemplatePlaceholder.customTokens(in: text)
-    }
-
     // MARK: - Combo
 
     func saveCombos(_ combos: [Combo]) throws {
@@ -1138,20 +1096,6 @@ class MemoStore: ObservableObject {
     func addStack(_ stack: Combo) throws {
         var combos = try loadCombos()
         combos.insert(stack, at: 0)
-        try saveCombos(combos)
-    }
-
-    func updateStack(_ stack: Combo) throws {
-        var combos = try loadCombos()
-        if let index = combos.firstIndex(where: { $0.id == stack.id }) {
-            combos[index] = stack
-            try saveCombos(combos)
-        }
-    }
-
-    func deleteStack(id: UUID) throws {
-        var combos = try loadCombos()
-        combos.removeAll { $0.id == id }
         try saveCombos(combos)
     }
 

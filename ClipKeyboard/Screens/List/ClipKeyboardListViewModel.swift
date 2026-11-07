@@ -176,7 +176,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     @Published var searchQueryString = "" { didSet { invalidateTabCache() } }
     @Published var selectedTypeFilter: ClipboardItemType?
-    @Published var selectedCategoryFilter: String?
     @Published var showFavoritesFilter: Bool = false
 
     // MARK: - Reorder (수동 순서 바꾸기)
@@ -635,30 +634,10 @@ final class ClipKeyboardListViewModel: ObservableObject {
         }
     }
 
-    func navigateToNextCategory() {
-        let tabs = allCategoryTabs
-        selectCategoryTab(tabs[(selectedCategoryIndex + 1) % tabs.count])
-    }
-
-    func navigateToPreviousCategory() {
-        let tabs = allCategoryTabs
-        let count = tabs.count
-        selectCategoryTab(tabs[(selectedCategoryIndex - 1 + count) % count])
-    }
-
-    func memosForCurrentTab() -> [Memo] {
-        memos(for: selectedCategoryTab)
-    }
-
     /// 지금 탭 바에 **실제로 서 있는** 사용자 카테고리.
     ///
     /// ⚠️ `customCategories` 와 다르다. 저쪽은 만들어 둔 것 전부고, 이쪽은 갈 수 있는 것만이다.
     ///    기본 버킷의 기준은 반드시 이쪽이어야 한다(`CategoryBucketRule` 참고).
-    /// 즐겨찾기 탭이 지금 서 있는가 - 숨겼으면 즐겨찾기 단축어도 기본 칸이 받아야 한다.
-    var favoritesTabVisible: Bool {
-        !hiddenCategoryTabs.contains(CategoryBucketRule.favoritesTabKey)
-    }
-
     var visibleCustomCategories: Set<String> {
         CategoryBucketRule.visibleCategories(all: customCategories, hidden: hiddenCategoryTabs)
     }
@@ -804,31 +783,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
         CategorySnapshotStore.notifyChanged()
     }
 
-    func setCategoryVisible(_ key: String, visible: Bool) {
-        if visible {
-            hiddenCategoryTabs.remove(key)
-        } else {
-            hiddenCategoryTabs.insert(key)
-            if key == "__favorites__", case .favorites = selectedCategoryTab {
-                selectedCategoryTab = .basic
-            } else if case .custom(let cur) = selectedCategoryTab, cur == key {
-                selectedCategoryTab = .basic
-            }
-        }
-        AppGroup.defaults?
-            .set(Array(hiddenCategoryTabs), forKey: DefaultsKey.hiddenCategoryTabsV1)
-        CategorySnapshotStore.notifyChanged()
-    }
-
-    func isCategoryVisible(_ key: String) -> Bool {
-        !hiddenCategoryTabs.contains(key)
-    }
-
-    func reorderCustomCategories(from: IndexSet, to: Int) {
-        customCategories.move(fromOffsets: from, toOffset: to)
-        saveCustomCategories()
-    }
-
     // MARK: - Clipboard Capture State
 
     @Published var keyword: String = ""
@@ -944,29 +898,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) { [weak self] in
             self?.showToast = false
         }
-    }
-
-    // MARK: - Section Helpers (ADHD 친화 섹션 분리)
-
-    /// 고정(즐겨찾기)된 메모
-    var pinnedMemos: [Memo] {
-        memos.filter { $0.isFavorite }
-    }
-
-    /// 최근 사용한 메모 (비고정, lastUsedAt 있는 것 중 상위 3개)
-    var recentlyUsedMemos: [Memo] {
-        let pinnedIds = Set(pinnedMemos.map { $0.id })
-        return memos
-            .filter { !$0.isFavorite && !pinnedIds.contains($0.id) && $0.lastUsedAt != nil }
-            .sorted { ($0.lastUsedAt ?? .distantPast) > ($1.lastUsedAt ?? .distantPast) }
-            .prefix(3)
-            .map { $0 }
-    }
-
-    /// 고정·최근 사용 제외한 나머지 전체 메모
-    var remainingMemos: [Memo] {
-        let excludeIds = Set((pinnedMemos + recentlyUsedMemos).map { $0.id })
-        return memos.filter { !excludeIds.contains($0.id) }
     }
 
     // MARK: - Data Loading
@@ -1271,17 +1202,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
         } else {
             finalizeCopy(memo: memo, processedValue: processedTemplate)
         }
-        showTemplateInputSheet = false
-    }
-
-    /// v4.0.8: attachedTemplate 입력 스킵 - 본 메모 단독 출력 (사용자가 시트에서 "템플릿 없이").
-    func skipAttachedTemplate() {
-        guard let base = attachedTemplateBaseMemo else { return }
-        guard let baseValue = usableValue(of: base) else { showAuthAlert = true; return }
-        finalizeCopy(memo: base, processedValue: baseValue)
-        attachedTemplateBaseMemo = nil
-        currentTemplateMemo = nil
-        templateInputs = [:]
         showTemplateInputSheet = false
     }
 

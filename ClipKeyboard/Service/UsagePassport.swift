@@ -56,7 +56,6 @@ enum UsagePassport {
         /// 보여줄 만한 기록이 쌓였는지. 텅 빈 여권을 자랑처럼 띄우지 않기 위한 문턱.
         var isWorthShowing: Bool { totalUses >= 20 }
 
-        var timeSavedMinutes: Int { Int(timeSavedSeconds) / 60 }
         var timeSavedHours: Int { Int(timeSavedSeconds) / 3600 }
     }
 

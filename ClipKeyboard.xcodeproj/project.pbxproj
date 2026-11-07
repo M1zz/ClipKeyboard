@@ -121,8 +121,6 @@
 		58DM00042FAA1B0100000004 /* DemoDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DM00012FAA1B0100000001 /* DemoDataService.swift */; };
 		58DS00012F0000000000000001 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00022F0000000000000002 /* AppTheme.swift */; };
 		58DS00032F0000000000000003 /* AppThemePreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00042F0000000000000004 /* AppThemePreference.swift */; };
-		58DS00052F0000000000000005 /* CatIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00062F0000000000000006 /* CatIcon.swift */; };
-		58DS00132F0000000000000013 /* TagBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00142F0000000000000014 /* TagBadge.swift */; };
 		58F8FBBD2A127B3000F5446E /* MemoAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBC2A127B3000F5446E /* MemoAdd.swift */; };
 		58F8FBBF2A127D3C00F5446E /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
 		58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
@@ -168,7 +166,6 @@
 		69C09418E79FAC61BBEE24FD /* ClipMemoIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B64230F7D10B68780ED0930 /* ClipMemoIntents.swift */; };
 		6B027BD2B54D0EA86FB83EE4 /* StorageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716D2F3FE56C8A81348A2686 /* StorageFile.swift */; };
 		6CDDE934BAFAF8B62D1A0532 /* KeyboardSetupRequiredBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3908A3470250356F78E6D22A /* KeyboardSetupRequiredBanner.swift */; };
-		71169FEF7AFE438A9D148359 /* SaveMemoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71169FEF7AFE438A9D148358 /* SaveMemoUseCase.swift */; };
 		7555A77DDD320163098A7DF4 /* UsageInsights.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52306EEE06035B083C937FF4 /* UsageInsights.swift */; };
 		762753F97148CCE8FC3D44EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 955F81E295CFFE537F6C5EB9 /* Foundation.framework */; };
 		77878F9F433DEDEF41AF32DB /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734374AB16A70898D2F69F48 /* AppGroup.swift */; };
@@ -187,7 +184,6 @@
 		973397FF455AC125E01E0BC5 /* DefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A571D8B97E70A6AD7D982AA9 /* DefaultsKey.swift */; };
 		97FD4A77F218DB973B272634 /* TypingLayouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C457EA7B9496AEC923BA562 /* TypingLayouts.swift */; };
 		9B4A257EDE83903F48AB5399 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5815505F2AD52D6800A6115B /* Localizable.xcstrings */; };
-		9C994B032EEAA81500FBC8F6 /* MemoRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */; };
 		9C994B082EEAA87600FBC8F6 /* TemplateEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */; };
 		9C994B0A2EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */; };
 		9D0BB0BE6D68341619045BC3 /* StorageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716D2F3FE56C8A81348A2686 /* StorageFile.swift */; };
@@ -559,8 +555,6 @@
 		58DM00012FAA1B0100000001 /* DemoDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoDataService.swift; sourceTree = "<group>"; };
 		58DS00022F0000000000000002 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
 		58DS00042F0000000000000004 /* AppThemePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemePreference.swift; sourceTree = "<group>"; };
-		58DS00062F0000000000000006 /* CatIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatIcon.swift; sourceTree = "<group>"; };
-		58DS00142F0000000000000014 /* TagBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBadge.swift; sourceTree = "<group>"; };
 		58F8FBBC2A127B3000F5446E /* MemoAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAdd.swift; sourceTree = "<group>"; };
 		58F8FBBE2A127D3C00F5446E /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		58F8FBC02A13C9A400F5446E /* MemoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStore.swift; sourceTree = "<group>"; };
@@ -612,7 +606,6 @@
 		6E5C73DC3A80EC7D0FE2B2BC /* FreeUsePaywallView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FreeUsePaywallView.swift; sourceTree = "<group>"; };
 		6F37D408E1783A0877821F5A /* ListBackgroundSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ListBackgroundSettings.swift; sourceTree = "<group>"; };
 		70C5D27B89E932611F525A9D /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		71169FEF7AFE438A9D148358 /* SaveMemoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveMemoUseCase.swift; sourceTree = "<group>"; };
 		71619CD502EE6A05C30C1C0A /* BlankStartView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BlankStartView.swift; sourceTree = "<group>"; };
 		716D2F3FE56C8A81348A2686 /* StorageFile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StorageFile.swift; sourceTree = "<group>"; };
 		73424036BB1B576F6A52ECD8 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -646,7 +639,6 @@
 		9A29C214B56C5162247ACD82 /* LaunchGuard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LaunchGuard.swift; sourceTree = "<group>"; };
 		9BD66F261DF7D58538B7DEC3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9C69399B0C55B65843F4EF1F /* ClipKeyboardActionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ClipKeyboardActionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoRowView.swift; sourceTree = "<group>"; };
 		9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateEditSheet.swift; sourceTree = "<group>"; };
 		9C994B092EEAA8BF00FBC8F6 /* PlaceholderSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderSelectorView.swift; sourceTree = "<group>"; };
 		9CA0A4032F19D9B3004ABF40 /* ClipKeyboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClipKeyboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -916,7 +908,6 @@
 		1B870C9374FF4EF98817D4B5 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				71169FEF7AFE438A9D148358 /* SaveMemoUseCase.swift */,
 				82DB8CDD2D0F443CAE408630 /* MemoRepositoryProtocol.swift */,
 			);
 			path = Domain;
@@ -1138,9 +1129,7 @@
 		58DS00122F0000000000000012 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				58DS00062F0000000000000006 /* CatIcon.swift */,
 				CHOICEROW0000000000GG1 /* ChoiceRow.swift */,
-				58DS00142F0000000000000014 /* TagBadge.swift */,
 				58GC00022F0000000000000002 /* GlassCircleButton.swift */,
 				C1A0B0012F80000000A1100D /* SolidUnderReducedTransparency.swift */,
 			);
@@ -1339,7 +1328,6 @@
 				DCN00022F0000000000000002 /* DefaultCategoryNamePrompt.swift */,
 				RCP00022F0000000000000002 /* RecentClipsPage.swift */,
 				FOLDP0022F0000000000000002 /* FoldCopiedPane.swift */,
-				9C994B022EEAA81500FBC8F6 /* MemoRowView.swift */,
 				CONTRACTS0000000000HH1 /* MemoScreenContracts.swift */,
 				SEARCHNORESULT000000FF1 /* SearchNoResultsView.swift */,
 				EMPTYSTATES00000000EE1 /* MemoListEmptyStates.swift */,
@@ -1904,7 +1892,6 @@
 				AA0000B200000001F3B00031 /* CategoryCleanupNotice.swift in Sources */,
 				B2C3D4E5F6A1B2C3D4E5F6A1 /* CategoryIconSettings.swift in Sources */,
 				A11Y00012F0000000000000001 /* AccessibilityGuideView.swift in Sources */,
-				9C994B032EEAA81500FBC8F6 /* MemoRowView.swift in Sources */,
 				CONTRACTS0000000000HH2 /* MemoScreenContracts.swift in Sources */,
 				SEARCHNORESULT000000FF2 /* SearchNoResultsView.swift in Sources */,
 				EMPTYSTATES00000000EE2 /* MemoListEmptyStates.swift in Sources */,
@@ -1951,9 +1938,7 @@
 				SMC00012F0000000000000001 /* SecureMemoCrypto.swift in Sources */,
 				58DS00012F0000000000000001 /* AppTheme.swift in Sources */,
 				58DS00032F0000000000000003 /* AppThemePreference.swift in Sources */,
-				58DS00052F0000000000000005 /* CatIcon.swift in Sources */,
 				CHOICEROW0000000000GG2 /* ChoiceRow.swift in Sources */,
-				58DS00132F0000000000000013 /* TagBadge.swift in Sources */,
 				58GC00012F0000000000000001 /* GlassCircleButton.swift in Sources */,
 				C1A0B0012F80000000A1100C /* SolidUnderReducedTransparency.swift in Sources */,
 				58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */,
@@ -1972,7 +1957,6 @@
 				1752832F621F4C72961F0FA1 /* AppGroupListFile.swift in Sources */,
 				82DB8CDD2D0F443CAE408631 /* MemoRepositoryProtocol.swift in Sources */,
 				11527193B51F40B39A530C1D /* MemoRepository.swift in Sources */,
-				71169FEF7AFE438A9D148359 /* SaveMemoUseCase.swift in Sources */,
 				DA76D71209A54B77AB57B638 /* MemoAddViewModel.swift in Sources */,
 				B3C4D5E6F7A8B9C0D1E2F302 /* ClipKeyboardListViewModel.swift in Sources */,
 				TIPBBB9BEBE37E767FF37A77 /* TipAskBanner.swift in Sources */,

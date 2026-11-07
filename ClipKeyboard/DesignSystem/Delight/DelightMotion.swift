@@ -65,12 +65,6 @@ enum Delight {
         return value
     }
 
-    static func setEnabled(_ enabled: Bool) {
-        AppGroup.defaults?
-            .set(enabled, forKey: DefaultsKey.delightEffectsEnabled)
-        AppLog.info(.usage, "🔖 [Delight.setEnabled] 연출 \(enabled ? "켬" : "끔")")
-    }
-
     // MARK: - 햅틱 (동작별 명명 - 세기를 부르지 않는다)
 
     /// 날인 - 문구가 입력된 순간. 도장은 가벼운 물건이 아니므로 medium 한 번.
@@ -79,22 +73,10 @@ enum Delight {
         HapticManager.shared.medium()
     }
 
-    /// 편철 - 복사한 것이 제 칸에 꽂힌 순간.
-    static func filed() {
-        guard isEnabled else { return }
-        HapticManager.shared.selection()
-    }
-
     /// 검증 통과 - 체크섬이 맞았다.
     static func verified() {
         guard isEnabled else { return }
         HapticManager.shared.success()
-    }
-
-    /// 검증 실패 - 나무라지 않는다. error가 아니라 soft로 알린다.
-    static func rejected() {
-        guard isEnabled else { return }
-        HapticManager.shared.soft()
     }
 
     /// 봉함 - 보안 메모를 잠갔다.

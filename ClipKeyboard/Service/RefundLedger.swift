@@ -324,8 +324,6 @@ enum RefundLedger {
 
     // MARK: - 키
 
-    static func monthKey(for date: Date) -> String { monthKeyPrefix + monthString(date) }
-
     /// 날짜 → "yyyy-MM". `KeyboardUsageTracker` 와 같은 고정 로캘을 쓴다
     /// 사용자 달력이 바뀌어도 키가 흔들리면 안 된다.
     private static func monthString(_ date: Date) -> String { formatted(date, "yyyy-MM") }

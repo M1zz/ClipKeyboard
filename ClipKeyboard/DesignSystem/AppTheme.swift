@@ -192,13 +192,6 @@ enum AppThemeKind: String, CaseIterable, Identifiable {
     case paper
 
     var id: String { rawValue }
-
-    var displayName: String {
-        switch self {
-        case .dusk: return NSLocalizedString("Dusk", comment: "Theme name")
-        case .paper: return NSLocalizedString("Paper", comment: "Theme name")
-        }
-    }
 }
 
 enum AppThemeMode: String, CaseIterable, Identifiable {
@@ -207,14 +200,6 @@ enum AppThemeMode: String, CaseIterable, Identifiable {
     case dark
 
     var id: String { rawValue }
-
-    var displayName: String {
-        switch self {
-        case .system: return NSLocalizedString("System", comment: "Theme mode: follow system")
-        case .light: return NSLocalizedString("Light", comment: "Theme mode: light")
-        case .dark: return NSLocalizedString("Dark", comment: "Theme mode: dark")
-        }
-    }
 }
 
 // MARK: - Theme struct
@@ -453,19 +438,6 @@ struct AppTheme: Equatable {
         )
     }
 
-    // MARK: Gradient helper
-
-    var heroGradient: LinearGradient {
-        let radians = heroGradientAngle * .pi / 180
-        let dx = cos(radians)
-        let dy = sin(radians)
-        return LinearGradient(
-            gradient: Gradient(colors: heroGradientStops),
-            startPoint: UnitPoint(x: 0.5 - dx * 0.5, y: 0.5 - dy * 0.5),
-            endPoint: UnitPoint(x: 0.5 + dx * 0.5, y: 0.5 + dy * 0.5)
-        )
-    }
-
     // MARK: Font helpers
 
     /// Dynamic Type 시맨틱 스타일 기반 폰트.
@@ -494,10 +466,6 @@ extension EnvironmentValues {
 }
 
 extension View {
-    func appTheme(_ theme: AppTheme) -> some View {
-        environment(\.appTheme, theme)
-    }
-
     /// 앱 공통의 둥근 입력 필드 스타일. 시스템 `.roundedBorder`(작은 시스템 라운딩) 대신
     /// 테마 radius·색을 써 다른 둥근 박스들과 일관되게 한다. TextField에 적용.
     func clipRoundedField() -> some View {

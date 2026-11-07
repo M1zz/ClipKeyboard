@@ -192,12 +192,6 @@ class StackExecutionService: ObservableObject {
         guard currentValues.count > 0 else { return 0 }
         return Double(currentItemIndex) / Double(currentValues.count)
     }
-
-    /// 현재 실행 중인 항목 값
-    var currentValue: String? {
-        guard currentItemIndex < currentValues.count else { return nil }
-        return currentValues[currentItemIndex]
-    }
 }
 
 // MARK: - Notification Names
