@@ -437,6 +437,13 @@ final class ClipKeyboardListViewModel: ObservableObject {
     ///    집합을 만들고 두 번 훑는다), 페이지를 미리 다 만들면서 페이지마다 `memos(for:)` 로
     ///    단축어 전부를 걸렀다. 카드 하나를 눌러도 화면 전체가 다시 계산되므로 그때마다 반복됐다.
     private var cachedTabs: [CategoryTab]?
+    /// 이번 실행에 목록에서 **방금 만든** 카테고리. 비어 있어도 페이지로 선다.
+    ///
+    /// 왜: 사용자 카테고리는 단축어가 있어야 페이지가 선다(아래 `computeAllCategoryTabs`).
+    /// 그래서 페이지 끝에서 새 카테고리를 만들면 저장은 됐는데 아무 페이지도 생기지 않아,
+    /// 만들기가 안 되는 것처럼 보였다(2026-11 사용자). 만든 자리에서는 그 페이지로 데려간다.
+    /// 다음 실행부터는 다른 빈 카테고리와 같은 규칙을 따른다.
+    private var justCreatedCategories: Set<String> = []
     private var cachedPageMemos: [CategoryTab: [Memo]] = [:]
 
     private func invalidateTabCache() {
@@ -509,7 +516,9 @@ final class ClipKeyboardListViewModel: ObservableObject {
         //
         // ⚠️ 예외: 앱이 기본으로 깔아 준 카테고리는 비어도 선다. 그 빈 페이지의 "여기에 추가"
         //    카드가 카테고리를 쓰는 입구다(`CategoryStore.defaultCategoriesKey`).
-        let usedCategories = Set(loadedData.map(\.category)).union(CategoryStore.defaultCategories)
+        let usedCategories = Set(loadedData.map(\.category))
+            .union(CategoryStore.defaultCategories)
+            .union(justCreatedCategories)
         for cat in customCategories where !hiddenCategoryTabs.contains(cat) && usedCategories.contains(cat) {
             tabs.append(.custom(cat))
         }
@@ -707,7 +716,10 @@ final class ClipKeyboardListViewModel: ObservableObject {
         // 들고 있는 목록이 낡아, 다음 화면(새 단축어)이 이 카테고리를 모른다.
         CategoryStore.shared.reload()
         guard CategoryStore.shared.add(trimmed) else { return }
+        justCreatedCategories.insert(trimmed)
         loadCustomCategories()
+        invalidateTabCache()
+        selectCategoryTab(.custom(trimmed))
     }
 
     func deleteCustomCategory(_ name: String) {

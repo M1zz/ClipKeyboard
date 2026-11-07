@@ -126,6 +126,20 @@ final class SaveIntoCategoryTests: XCTestCase {
         XCTAssertTrue(viewModel.customCategories.contains("목록에서 만든 칸"))
     }
 
+    /// 페이지 끝에서 만든 카테고리는 비어 있어도 **페이지가 서고 그리로 간다.**
+    /// 사용자 카테고리는 단축어가 있어야 페이지가 서서, 만들어도 아무 일이 없는 것처럼 보였다(2026-11 사용자).
+    /// 두 번째로 만들어도 똑같아야 한다.
+    func test_목록에서_만든_빈_카테고리는_바로_페이지가_서고_그리로_간다() {
+        seedCategories([])
+        viewModel.loadCustomCategories()
+        for name in ["첫 칸", "둘째 칸"] {
+            viewModel.addCustomCategory(name)
+            XCTAssertTrue(viewModel.allCategoryTabs.contains(.custom(name)), "\(name) 페이지가 서지 않았다")
+            XCTAssertEqual(viewModel.selectedCategoryTab, .custom(name), "\(name) 페이지로 가지 않았다")
+        }
+        XCTAssertEqual(viewModel.allCategoryTabs.last, .custom("둘째 칸"), "새 칸은 맨 끝에 선다(다음 끝 넘기기의 자리)")
+    }
+
     func test_카테고리를_안_고르면_예전처럼_자동_분류한다() {
         let vm = makeAddViewModel()
         vm.keyword = "메일주소"

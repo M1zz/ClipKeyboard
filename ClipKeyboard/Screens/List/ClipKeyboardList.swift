@@ -2098,16 +2098,34 @@ struct ClipKeyboardList: View {
     /// 마지막 탭에서 왼쪽으로 더 스와이프(없는 페이지 방향) → 새 카테고리 생성 제안.
     private var categoryTabView: some View {
         let tabs = viewModel.allCategoryTabs
-        let binding = Binding<CategoryTab>(
+        // 첫 페이지 왼쪽에 **마지막 페이지의 그림자**를 하나 둔다. 첫 페이지에서 오른쪽으로 밀면
+        // 옆 페이지로 넘어가듯 한 장만 미끄러져 그림자에 닿고, 닿는 순간 소리 없이 진짜 마지막
+        // 페이지로 바꿔 앉힌다. 그림자는 마지막 페이지와 똑같이 그려서 바뀌는 것이 보이지 않는다.
+        // ⚠️ 예전에는 손을 뗄 때 마지막 페이지로 애니메이션해서, 사이 페이지를 전부 훑으며 날아갔다.
+        let wraps = tabs.count > 1
+        let binding = Binding<PagerSlot>(
             // ⚠️ **페이저에는 지금 있는 페이지만 건넨다.** 마지막 즐겨찾기를 지우면 즐겨찾기
             //    페이지가 접히는데, 고른 탭을 바로잡는 일(`normalizeSelectedCategoryTabIfNeeded`)은
             //    목록을 다시 거른 **뒤**에 돈다. 그 사이 페이저가 없는 페이지를 고른 채로 한 번
             //    그려진다. 그 틈을 여기서 닫는다(2026-09-26, 샘플 즐겨찾기를 지운 뒤 크래시 문의).
             get: {
                 let selected = viewModel.selectedCategoryTab
-                return tabs.contains(selected) ? selected : viewModel.landingTab(in: tabs)
+                return .page(tabs.contains(selected) ? selected : viewModel.landingTab(in: tabs))
             },
-            set: { newTab in
+            set: { slot in
+                let newTab: CategoryTab
+                switch slot {
+                case .page(let tab):
+                    newTab = tab
+                case .wrapToLast:
+                    // 그림자에 닿았다. 애니메이션 없이 진짜 마지막 페이지로 바꿔 앉힌다.
+                    guard let last = tabs.last else { return }
+                    HapticManager.shared.selection()
+                    var still = Transaction()
+                    still.disablesAnimations = true
+                    withTransaction(still) { viewModel.selectCategoryTab(last, animated: false) }
+                    return
+                }
                 // 같은 페이지로 다시 들어오는 호출은 넘긴 것이 아니다 - 톡 하지 않는다.
                 guard newTab != viewModel.selectedCategoryTab else { return }
                 // ⚠️ **손으로 페이지를 옮기면 언제나 같은 톡 하나.** 칩을 눌러도, 옆으로
@@ -2123,6 +2141,14 @@ struct ClipKeyboardList: View {
             }
         )
         return TabView(selection: binding) {
+            if wraps, let last = tabs.last {
+                tabPageView(for: last)
+                    .ignoresSafeArea(.container, edges: .vertical)
+                    .background { pageTint(for: last).padding(.vertical, -120).ignoresSafeArea() }
+                    .overlay(alignment: .bottom) { pageVeil(for: last) }
+                    .background(PagerVerticalPin())
+                    .tag(PagerSlot.wrapToLast)
+            }
             // ⚠️ **페이지를 골라 짓지 않는다.** 그냥 다 짓는다.
             //
             //    한때 "지금 페이지와 좌우 몇 장" 만 짓는 창을 손으로 만들었다. 그때는
@@ -2163,14 +2189,13 @@ struct ClipKeyboardList: View {
                     .background { pageTint(for: tab).padding(.vertical, -120).ignoresSafeArea() }
                     .overlay(alignment: .bottom) { pageVeil(for: tab) }
                     .background(PagerVerticalPin())
-                    .tag(tab)
+                    .tag(PagerSlot.page(tab))
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
         .id(viewModel.customCategories)
-        // 경계 스와이프 감지: 없는 페이지 방향으로 스와이프할 때만 동작.
-        // 첫 탭에서 오른쪽 → 마지막 탭으로 순환,
-        // 마지막 탭에서 왼쪽(더 이상 없는 방향) → 카테고리 생성 제안.
+        // 경계 스와이프 감지: 마지막 탭에서 왼쪽(더 이상 없는 방향) → 카테고리 생성 제안.
+        // (첫 탭에서 오른쪽은 위의 그림자 페이지가 맡는다.)
         .simultaneousGesture(
             DragGesture(minimumDistance: 60)
                 .onChanged { value in
@@ -2191,12 +2216,7 @@ struct ClipKeyboardList: View {
                     guard abs(h) > abs(v) * 1.5, abs(h) > 80 else { return }
                     let tabs = viewModel.allCategoryTabs
                     let idx = started ?? viewModel.selectedCategoryIndex
-                    if h > 0, idx == 0 {
-                        // 첫 탭에서 오른쪽 스와이프 → 마지막 탭으로
-                        // 페이지를 옮기는 톡은 어느 길로 가든 `selection` 하나다(위 binding 참고).
-                        HapticManager.shared.selection()
-                        viewModel.selectCategoryTab(tabs[tabs.count - 1])
-                    } else if h < 0, idx == tabs.count - 1 {
+                    if h < 0, idx == tabs.count - 1 {
                         // 마지막 탭에서 더 왼쪽(없는 페이지 방향) → 카테고리 생성 제안
                         HapticManager.shared.light()
                         showSwipeCategoryDialog = true
@@ -3380,4 +3400,10 @@ private struct StaleScrollOffsetReset: ViewModifier {
                 onReset()
             }
     }
+}
+
+/// 갈래 페이저의 칸. 진짜 페이지와, 첫 페이지 왼쪽에 세운 마지막 페이지의 그림자(`categoryTabView`).
+private enum PagerSlot: Hashable {
+    case page(CategoryTab)
+    case wrapToLast
 }
