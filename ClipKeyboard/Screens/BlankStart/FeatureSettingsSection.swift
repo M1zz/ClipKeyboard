@@ -150,6 +150,17 @@ extension FeaturePreset {
 
 // MARK: - 미리보기 조각
 
+extension Text {
+    /// 템플릿 빈칸 한 줄: 색을 입힌 굵은 빈칸 뒤에 이어지는 글.
+    /// ⚠️ `Text + Text` 는 iOS 26 에서 낡았다. 문자열 끼워 넣기는 카탈로그에 `%@%@` 키를 만들어서 쓰지 않는다.
+    init(blank: String, color: Color, then rest: String) {
+        var styled = AttributedString(blank)
+        styled.foregroundColor = color
+        styled.inlinePresentationIntent = .stronglyEmphasized
+        self.init(styled + AttributedString(rest))
+    }
+}
+
 /// 기능마다 켜면 생기는 모양을 손톱만 하게 보여 준다. 설정 행 · 넛지가 같이 쓴다.
 struct FeaturePreviewTile: View {
     let feature: AppFeature
@@ -158,8 +169,9 @@ struct FeaturePreviewTile: View {
         Group {
             switch feature {
             case .template:
-                (Text(NSLocalizedString("이름", comment: "Feature lesson template: the blank's label")).foregroundColor(.accentColor).bold()
-                 + Text(NSLocalizedString("님 안녕하세요", comment: "Feature preview: template greeting")))
+                Text(blank: NSLocalizedString("이름", comment: "Feature lesson template: the blank's label"),
+                     color: .accentColor,
+                     then: NSLocalizedString("님 안녕하세요", comment: "Feature preview: template greeting"))
             case .stack:
                 Text("1/3 →").foregroundColor(.accentColor).bold()
             case .secure:

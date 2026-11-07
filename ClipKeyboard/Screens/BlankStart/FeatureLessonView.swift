@@ -140,10 +140,9 @@ private struct FeatureLessonStage: View {
     private var template: some View {
         VStack(spacing: 18) {
             card {
-                (Text(name ?? NSLocalizedString("이름", comment: "Feature lesson template: the blank's label"))
-                    .foregroundColor(name == nil ? .accentColor : .green)
-                    .fontWeight(.bold)
-                 + Text(NSLocalizedString("님 안녕하세요, 문의 주셔서 감사합니다.", comment: "Feature lesson template: text after the name blank")))
+                Text(blank: name ?? NSLocalizedString("이름", comment: "Feature lesson template: the blank's label"),
+                     color: name == nil ? .accentColor : .green,
+                     then: NSLocalizedString("님 안녕하세요, 문의 주셔서 감사합니다.", comment: "Feature lesson template: text after the name blank"))
                     .font(.body)
             }
             HStack(spacing: 8) {
