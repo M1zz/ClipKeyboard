@@ -240,7 +240,7 @@ struct SettingView: View {
         }
     }
 
-    /// 선물하기 한 줄. 누르면 선물 화면(`SettingsGiftView`)으로 들어간다.
+    /// 선물하기 한 줄. 누르면 바로 등급을 고르고 선물하는 화면(`SettingsGiftView`)으로 들어간다.
     /// 보낼 선물이 있거나(상품이 왔거나 보낸 · 준비 중인 선물이 있을 때) 받을 코드를 넣을 수 있을 때만 보인다.
     @ViewBuilder
     private var giftRow: some View {
