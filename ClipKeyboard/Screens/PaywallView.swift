@@ -83,41 +83,17 @@ struct PaywallView: View {
 
     // MARK: - 머리말
 
-    /// 템플릿 맨 위. 제목 한 줄과 **이 사람의** 한 줄만 둔다.
-    /// 이 사람의 한 줄은 하나만 고른다: 걸린 한도 > 체험 중 > 이미 아낀 시간 > 지금 쓰는 칸 수.
+    /// 템플릿 맨 위. 머리말(제목 · 미사여구)은 두지 않는다 - 결제 화면에 와 있는 줄은 안다.
+    /// 한도에 걸려 저절로 뜬 때만 **왜 떴는지** 한 줄.
+    @ViewBuilder
     private var hero: some View {
-        // 그림은 두지 않는다. 왕관은 뜻이 없고 촌스럽다는 말을 들었다(2026-11). 제목이 먼저 읽힌다.
-        VStack(spacing: 10) {
-            Text(NSLocalizedString("자주 쓰는 글, 마음껏 담고 지키세요", comment: "Paywall headline: save as many snippets as you like and keep them safe"))
-                .font(.title.weight(.bold))
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-            Text(personalLine)
-                .font(.subheadline)
+        if let trigger = triggeredBy {
+            Text(trigger.localizedDescription)
+                .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(.top, 16)
-        .accessibilityElement(children: .combine)
-        .accessibilityAddTraits(.isHeader)
-    }
-
-    private var personalLine: String {
-        if let trigger = triggeredBy { return trigger.localizedDescription }
-        if ProFeatureManager.isInTrial {
-            return String(format: NSLocalizedString("체험 활성: %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining)
-        }
-        let seconds = KeyboardUsageTracker.totalTimeSavedSeconds()
-        if seconds >= 300 {
-            return String(format: NSLocalizedString("이미 ClipKeyboard로 %d분을 아꼈어요. Pro로 무제한으로 계속 아끼세요.", comment: "Paywall personalized time-saved proof"), Int(seconds / 60))
-        }
-        // ⚠️ 세는 것은 자기 것뿐이다(`ownMemoCount`). 온보딩이 심어 준 샘플까지 세면 아무것도 안 만든 사람이 4/10 에서 시작한다.
-        let limit = ProFeatureManager.memoLimit
-        return limit == Int.max
-            ? NSLocalizedString("단축어 무제한", comment: "Paywall: unlimited slots")
-            : String(format: NSLocalizedString("지금 내 단축어 %1$d / %2$d칸", comment: "Paywall: current slot usage"),
-                     ProFeatureManager.ownMemoCount(MemoStore.shared.memos), limit)
     }
 
     // MARK: - 본문

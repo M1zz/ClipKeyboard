@@ -37,14 +37,6 @@ enum PaywallPlan: String, CaseIterable, Identifiable {
         }
     }
 
-    /// 한 줄 요약 - 이 칸이 **무엇을 위한 것인지**.
-    var tagline: String {
-        switch self {
-        case .plus: return NSLocalizedString("마음껏 쌓기", comment: "Paywall plan tagline: Plus")
-        case .pro:  return NSLocalizedString("쌓은 것을 지키기", comment: "Paywall plan tagline: Pro")
-        }
-    }
-
     /// 카드에 적는 것. Pro 는 Plus 를 다시 늘어놓지 않고 "Plus 전부" 한 줄로 시작한다.
     var highlights: [String] {
         switch self {
@@ -296,5 +288,229 @@ struct PaywallComparisonTable: View {
         case .included:     return NSLocalizedString("포함", comment: "Feature included")
         case .excluded:     return NSLocalizedString("미포함", comment: "Feature not included")
         }
+    }
+}
+
+// MARK: - 그림 장 (LeeoKit `LeeoShowcase`)
+
+/// 페이월에서 옆으로 넘겨 보는 장 - 그 기능이 적용된 화면을 SwiftUI 로 줄여 그린다.
+/// 스크린샷이 아니라 그림이라 언어 · 다크 모드 · 키 색을 따라가고 앱 용량이 늘지 않는다.
+/// ⚠️ 그림 속 글자는 꼭 필요한 것만(숫자 · 기호). 문장은 그림 아래 한 줄 설명이 맡는다.
+extension PaywallPlan {
+    var showcases: [LeeoShowcase] {
+        switch self {
+        case .plus:
+            return [
+                LeeoShowcase(id: "snippets", title: highlights[0],
+                             detail: NSLocalizedString("자주 쓰는 글을 칸 걱정 없이 얼마든지 담아요", comment: "Paywall showcase detail: unlimited snippets")) { SnippetsArt() },
+                LeeoShowcase(id: "stacks", title: highlights[1],
+                             detail: NSLocalizedString("여러 값을 묶은 스택과 이미지도 마음껏 만들어요", comment: "Paywall showcase detail: unlimited stacks and images")) { StacksArt() },
+                LeeoShowcase(id: "history", title: highlights[2],
+                             detail: NSLocalizedString("복사한 것을 100개까지 기억해 두었다가 다시 붙여요", comment: "Paywall showcase detail: clipboard history 100")) { HistoryArt() },
+            ]
+        case .pro:
+            return [
+                LeeoShowcase(id: "backup", title: highlights[1],
+                             detail: NSLocalizedString("쌓은 단축어를 iCloud 에 백업하고 Face ID 로 잠가요", comment: "Paywall showcase detail: iCloud backup and biometric lock")) { BackupLockArt() },
+                LeeoShowcase(id: "sync", title: highlights[2],
+                             detail: NSLocalizedString("아이폰 · 아이패드 · Mac 에서 같은 단축어를 써요", comment: "Paywall showcase detail: cross-device sync")) { SyncArt() },
+                LeeoShowcase(id: "plus", title: highlights[0],
+                             detail: NSLocalizedString("Plus 에서 열리는 것을 모두 그대로 써요", comment: "Paywall showcase detail: everything in Plus")) { EverythingInPlusArt() },
+            ]
+        }
+    }
+}
+
+/// 그림 속 단축어 한 줄 - 기호와 글자 자리(막대)
+private struct ArtSnippetRow: View {
+    let symbol: String
+    let width: CGFloat
+    @Environment(\.appTheme) private var theme
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: symbol)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(theme.accent)
+                .frame(width: 30, height: 30)
+                .background(theme.accent.opacity(0.14), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+            VStack(alignment: .leading, spacing: 5) {
+                Capsule().fill(Color.primary.opacity(0.75)).frame(width: width * 0.45, height: 7)
+                Capsule().fill(Color.secondary.opacity(0.35)).frame(width: width, height: 6)
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(10)
+        .background(Color(uiColor: .systemBackground), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .shadow(color: .black.opacity(0.06), radius: 5, y: 2)
+    }
+}
+
+/// 단축어 무제한: 단축어가 줄줄이, 모서리에 ∞
+private struct SnippetsArt: View {
+    @Environment(\.appTheme) private var theme
+    var body: some View {
+        VStack(spacing: 8) {
+            ArtSnippetRow(symbol: "envelope.fill", width: 150)
+            ArtSnippetRow(symbol: "phone.fill", width: 110)
+            ArtSnippetRow(symbol: "house.fill", width: 170)
+            ArtSnippetRow(symbol: "creditcard.fill", width: 130)
+        }
+        .padding(16)
+        .overlay(alignment: .topTrailing) {
+            Image(systemName: "infinity")
+                .font(.title2.weight(.bold))
+                .foregroundStyle(.white)
+                .frame(width: 48, height: 48)
+                .background(theme.accent, in: Circle())
+                .shadow(color: theme.accent.opacity(0.4), radius: 6, y: 2)
+                .padding(8)
+        }
+    }
+}
+
+/// 스택 · 이미지: 값 여러 개가 겹친 카드와 사진 단축어
+private struct StacksArt: View {
+    @Environment(\.appTheme) private var theme
+    var body: some View {
+        HStack(spacing: 18) {
+            ZStack {
+                ForEach(0..<3, id: \.self) { i in
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .fill(Color(uiColor: .systemBackground))
+                        .frame(width: 120, height: 84)
+                        .overlay(alignment: .topLeading) {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Capsule().fill(Color.primary.opacity(0.7)).frame(width: 60, height: 7)
+                                Capsule().fill(Color.secondary.opacity(0.35)).frame(width: 84, height: 6)
+                            }
+                            .padding(12)
+                        }
+                        .overlay(alignment: .bottomTrailing) {
+                            if i == 2 {
+                                Text(verbatim: "1/3")
+                                    .font(.caption.weight(.bold))
+                                    .foregroundStyle(.white)
+                                    .padding(.horizontal, 8).padding(.vertical, 3)
+                                    .background(theme.accent, in: Capsule())
+                                    .padding(8)
+                            }
+                        }
+                        .shadow(color: .black.opacity(0.08), radius: 4, y: 2)
+                        .offset(x: CGFloat(i - 1) * 8, y: CGFloat(i - 1) * -10)
+                }
+            }
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(LinearGradient(colors: [theme.accent.opacity(0.85), .purple.opacity(0.6)],
+                                     startPoint: .topLeading, endPoint: .bottomTrailing))
+                .frame(width: 84, height: 100)
+                .overlay {
+                    Image(systemName: "photo.fill").font(.title).foregroundStyle(.white)
+                }
+                .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
+        }
+        .padding(16)
+    }
+}
+
+/// 클립보드 기록: 복사한 것이 차례로, 위에 100
+private struct HistoryArt: View {
+    @Environment(\.appTheme) private var theme
+    var body: some View {
+        VStack(spacing: 8) {
+            HStack {
+                Image(systemName: "doc.on.clipboard.fill").foregroundStyle(theme.accent)
+                Spacer()
+                Text(verbatim: "100").font(.headline.weight(.heavy)).foregroundStyle(theme.accent)
+            }
+            .padding(.horizontal, 4)
+            ForEach([140, 100, 160, 120], id: \.self) { width in
+                HStack(spacing: 10) {
+                    Image(systemName: "clock").font(.caption).foregroundStyle(.secondary)
+                    Capsule().fill(Color.primary.opacity(0.6)).frame(width: CGFloat(width), height: 7)
+                    Spacer(minLength: 0)
+                    Image(systemName: "arrow.uturn.left").font(.caption.weight(.bold)).foregroundStyle(theme.accent)
+                }
+                .padding(10)
+                .background(Color(uiColor: .systemBackground), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .shadow(color: .black.opacity(0.05), radius: 4, y: 1)
+            }
+        }
+        .padding(16)
+    }
+}
+
+/// iCloud 백업 · 생체 잠금: 구름으로 올라가고, 얼굴로 연다
+private struct BackupLockArt: View {
+    @Environment(\.appTheme) private var theme
+    var body: some View {
+        HStack(spacing: 22) {
+            ZStack {
+                Image(systemName: "icloud.fill")
+                    .font(.system(size: 76))
+                    .foregroundStyle(LinearGradient(colors: [.cyan, .blue], startPoint: .top, endPoint: .bottom))
+                Image(systemName: "arrow.up").font(.title2.weight(.heavy)).foregroundStyle(.white).offset(y: 6)
+            }
+            ZStack {
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .fill(Color(uiColor: .systemBackground))
+                    .frame(width: 100, height: 100)
+                    .shadow(color: .black.opacity(0.08), radius: 6, y: 2)
+                Image(systemName: "faceid").font(.system(size: 50)).foregroundStyle(theme.accent)
+            }
+            .overlay(alignment: .bottomTrailing) {
+                Image(systemName: "lock.fill")
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                    .frame(width: 34, height: 34)
+                    .background(Color.green, in: Circle())
+                    .offset(x: 8, y: 8)
+            }
+        }
+        .padding(16)
+    }
+}
+
+/// 기기 간 동기화: 아이폰 · 아이패드 · Mac 이 같은 단축어를
+private struct SyncArt: View {
+    @Environment(\.appTheme) private var theme
+    var body: some View {
+        ZStack {
+            Image(systemName: "arrow.triangle.2.circlepath")
+                .font(.system(size: 120, weight: .ultraLight))
+                .foregroundStyle(theme.accent.opacity(0.25))
+            HStack(alignment: .bottom, spacing: 18) {
+                Image(systemName: "iphone").font(.system(size: 50))
+                Image(systemName: "ipad.landscape").font(.system(size: 64))
+                Image(systemName: "laptopcomputer").font(.system(size: 70))
+            }
+            .foregroundStyle(theme.accent)
+        }
+        .padding(16)
+    }
+}
+
+/// Plus 의 모든 것: Plus 에서 열리는 셋을 한데
+private struct EverythingInPlusArt: View {
+    @Environment(\.appTheme) private var theme
+    var body: some View {
+        VStack(spacing: 14) {
+            Text(verbatim: "Plus")
+                .font(.headline.weight(.heavy))
+                .foregroundStyle(theme.accent)
+                .padding(.horizontal, 14).padding(.vertical, 5)
+                .background(theme.accent.opacity(0.14), in: Capsule())
+            HStack(spacing: 16) {
+                ForEach(["text.badge.plus", "square.stack.3d.up.fill", "doc.on.clipboard.fill"], id: \.self) { symbol in
+                    Image(systemName: symbol)
+                        .font(.title2.weight(.semibold))
+                        .foregroundStyle(theme.accent)
+                        .frame(width: 64, height: 64)
+                        .background(Color(uiColor: .systemBackground), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .shadow(color: .black.opacity(0.06), radius: 5, y: 2)
+                }
+            }
+            Image(systemName: "checkmark.seal.fill").font(.title).foregroundStyle(.green)
+        }
+        .padding(16)
     }
 }

@@ -57,20 +57,23 @@ struct PaywallTemplate<Hero: View>: View {
     private var accent: Color { theme.accent }
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 24) {
+        // 그림으로 파는 틀(LeeoKit `LeeoShowcasePaywall`): 칸 고르기 · 기능 그림 · 요금이 첫 화면에, 구매 단추는 늘 떠 있다.
+        LeeoShowcasePaywall(showcases: plan.showcases) {
+            VStack(spacing: 16) {
                 hero()
                 if purchasablePlans.count > 1 { planSwitch }
-                benefits
-                options
-                comparison
-                fineprint
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 8)
-            .padding(.bottom, 24)
+        } plans: {
+            options
+        } button: {
+            purchaseBar
+        } details: {
+            VStack(spacing: 20) {
+                fineprint
+                comparison
+            }
         }
-        .safeAreaInset(edge: .bottom, spacing: 0) { purchaseBar }
+        .leeoStyle(theme.leeoStyle)
         .restoreOutcomeAlert($restoreOutcome)
         .onAppear { if !purchasablePlans.contains(plan), let first = purchasablePlans.first { plan = first } }
         .task(id: product(.yearly)?.id) {
@@ -122,25 +125,6 @@ struct PaywallTemplate<Hero: View>: View {
         }
         .padding(4)
         .background(Color(uiColor: .secondarySystemBackground), in: Capsule())
-    }
-
-    private var benefits: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(plan.tagline)
-                .font(.headline)
-            ForEach(plan.highlights, id: \.self) { line in
-                Label {
-                    Text(line).fixedSize(horizontal: false, vertical: true)
-                } icon: {
-                    Image(systemName: AppSymbol.checkmark)
-                        .font(.callout.weight(.bold))
-                        .foregroundStyle(accent)
-                }
-                .font(.body)
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .accessibilityElement(children: .combine)
     }
 
     // MARK: - 길
@@ -288,10 +272,6 @@ struct PaywallTemplate<Hero: View>: View {
                 Text(error).font(.caption).foregroundStyle(.red)
             }
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 12)
-        .padding(.bottom, 8)
-        .background(.bar)
     }
 
     private var ctaTitle: String {
