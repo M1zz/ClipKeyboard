@@ -3,10 +3,6 @@
     "v": "Jawaban untuk \"Anda tinggal di mana?\"",
     "src": "78e9bf2648"
   },
-  "%1$@ · %2$d번": {
-    "v": "%1$@ · %2$d kali",
-    "src": "2e74b6dcc1"
-  },
   "%1$@ 값이 든 단축어 %2$d개": {
     "v": "%2$d frasa berisi %1$@",
     "src": "217119b545"
@@ -14,14 +10,6 @@
   "%1$@ 같은 갈래로 나눠 두었고, %2$@ 처럼 바로 쓸 수 있는 문구가 들어 있어요. 마음에 드는 것만 골라 담으면 됩니다.": {
     "v": "Dibagi dalam kelompok seperti %1$@, dengan kalimat siap pakai seperti %2$@. Pilih saja yang Anda suka.",
     "src": "b18267b195"
-  },
-  "%1$@ 로 %2$d칸만 더 늘리기": {
-    "v": "Tambah %2$d slot lagi dengan %1$@",
-    "src": "ec5ccf1a49"
-  },
-  "%1$@ 시작하기 · %2$@": {
-    "v": "Mulai %1$@ · %2$@",
-    "src": "3b20a4b734"
   },
   "%1$@, %2$d회 사용": {
     "v": "%1$@, dipakai %2$d kali",
@@ -131,18 +119,6 @@
     "v": "Cukup waktu untuk berlari %@",
     "src": "67d6283fac"
   },
-  "%@ 로 Pro 로 올리기": {
-    "v": "Upgrade ke Pro seharga %@",
-    "src": "563b603e6a"
-  },
-  "%@ 로 두 기기에서 같이 쓰기": {
-    "v": "Pakai di dua perangkat seharga %@",
-    "src": "a4f4e1fceb"
-  },
-  "%@ 로 평생 사용": {
-    "v": "Beli seumur hidup seharga %@",
-    "src": "817c581ffd"
-  },
   "%@ 복사됨": {
     "v": "%@ disalin",
     "src": "6642fa5dea"
@@ -227,10 +203,6 @@
     "v": "%1$@, %2$d nilai",
     "src": "2c8602f7f6"
   },
-  "%@, 무료: %@, Pro: %@": {
-    "v": "%1$@, Gratis: %2$@, Pro: %3$@",
-    "src": "79bd720f23"
-  },
   "%@, 스택 %d단계": {
     "v": "%@, tumpukan %d langkah",
     "src": "70ef11d44b"
@@ -242,10 +214,6 @@
   "%@, 채울 빈칸 %d개": {
     "v": "%@, %d kolom isian",
     "src": "4c77bc814c"
-  },
-  "%@, 콤보 %d단계": {
-    "v": "%@, kombo %d langkah",
-    "src": "16131516cf"
   },
   "%@km": {
     "v": "%@ km",
@@ -375,10 +343,6 @@
     "v": "Langkah %2$d dari %1$d",
     "src": "c314b5ab3b"
   },
-  "%d단계: %@": {
-    "v": "Langkah %d: %@",
-    "src": "923a771d25"
-  },
   "%d번": {
     "v": "%d kali",
     "src": "a0d2e57d01"
@@ -411,21 +375,9 @@
     "v": "%d kolom",
     "src": "7c5988a701"
   },
-  "%d일 동안 여기서 바로 꺼내 쓸 수 있어요": {
-    "v": "Siap dipakai di sini selama %d hari",
-    "src": "6bdcea31f7"
-  },
   "%d일 무료 체험 + 무제한 단축어, iCloud 백업": {
     "v": "Uji coba gratis %d hari + frasa tanpa batas, cadangan iCloud",
     "src": "0ddbceb5e7"
-  },
-  "%d일 무료 체험 · 연 구독이나 평생 중에 골라요": {
-    "v": "Uji coba gratis %d hari · Lalu pilih langganan tahunan atau seumur hidup",
-    "src": "3c796a3160"
-  },
-  "%d일 무료 체험 · 한번 구매, 평생 사용": {
-    "v": "Uji coba gratis %d hari · Beli sekali, pakai selamanya",
-    "src": "9ee946fcdf"
   },
   "%d일 무료 체험 시작": {
     "v": "Mulai uji coba gratis %d hari",
@@ -691,10 +643,6 @@
     "v": "30 templat bahasa Inggris yang terdengar wajar bagi non-penutur asli",
     "src": "5fa8b9ad17"
   },
-  "3×3 키패드 스타일": {
-    "v": "Gaya keypad 3×3",
-    "src": "c1ff202603"
-  },
   "3초": {
     "v": "3 detik",
     "src": "56da54ebe9"
@@ -710,10 +658,6 @@
   "4자리 보안 PIN을 새로 설정합니다": {
     "v": "Atur PIN keamanan 4 digit yang baru",
     "src": "a50f582bdc"
-  },
-  "50% 할인": {
-    "v": "Diskon 50%",
-    "src": "b960bfac32"
   },
   "5분을 벌었어요": {
     "v": "Anda menghemat lima menit",
@@ -931,14 +875,6 @@
     "v": "Bantuan ClipKeyboard",
     "src": "48281bffb6"
   },
-  "ClipKeyboard Plus · Pro": {
-    "v": "ClipKeyboard Plus · Pro",
-    "src": "47f47387a2"
-  },
-  "ClipKeyboard Pro": {
-    "v": "ClipKeyboard Pro",
-    "src": "9585a3fe01"
-  },
   "ClipKeyboard for Mac": {
     "v": "ClipKeyboard untuk Mac",
     "src": "a757307740"
@@ -946,10 +882,6 @@
   "ClipKeyboard needs Accessibility permission to register global shortcuts. Grant access in System Settings → Privacy & Security → Accessibility.": {
     "v": "ClipKeyboard memerlukan izin Aksesibilitas untuk mendaftarkan pintasan global. Berikan akses di Pengaturan Sistem → Privasi & Keamanan → Aksesibilitas.",
     "src": "0248a71c60"
-  },
-  "ClipKeyboard 키보드를 활성화하면 어디서든 바로 입력돼요.": {
-    "v": "Setelah keyboard ClipKeyboard diaktifkan, Anda bisa mengetik di mana saja.",
-    "src": "957ac57c8a"
   },
   "ClipKeyboard가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다.": {
     "v": "Suka dengan ClipKeyboard? Ulasan Anda sangat membantu mengembangkan aplikasi ini.",
@@ -1002,10 +934,6 @@
   "Combo 정보": {
     "v": "Info Kombo",
     "src": "3c436df22e"
-  },
-  "Combo는 이렇게 동작해요": {
-    "v": "Cara kerja Kombo",
-    "src": "96c3d17a01"
   },
   "Content": {
     "v": "Isi",
@@ -1259,17 +1187,9 @@
     "v": "Nomor IBAN, SWIFT, dan VAT juga dikenali",
     "src": "7d8e39b973"
   },
-  "IBAN·타임존·계좌 응대를 무제한 저장, 어떤 앱에서든 탭 한 번": {
-    "v": "Simpan IBAN, balasan zona waktu, dan info rekening tanpa batas, cukup sekali ketuk di aplikasi mana pun",
-    "src": "df0fa794a3"
-  },
   "IP주소": {
     "v": "Alamat IP",
     "src": "b1b111b731"
-  },
-  "If you've purchased Pro on iOS, it works on Mac automatically: no extra payment.": {
-    "v": "Jika Anda membeli Pro di iOS, Pro otomatis berlaku di Mac tanpa biaya tambahan.",
-    "src": "b36c32fa3f"
   },
   "Image": {
     "v": "Gambar",
@@ -1320,10 +1240,6 @@
   "Key": {
     "v": "Tombol",
     "src": "b2adb5793f"
-  },
-  "Korean keyboard": {
-    "v": "Keyboard Korea",
-    "src": "2dc16dbacc"
   },
   "Korean layout": {
     "v": "Tata letak Korea",
@@ -1713,18 +1629,6 @@
     "v": "Buka layar upgrade Pro",
     "src": "80c53e824e"
   },
-  "Pro 업그레이드: %@": {
-    "v": "Upgrade ke Pro: %@",
-    "src": "29f6aba6e5"
-  },
-  "Pro 에 포함": {
-    "v": "Termasuk di Pro",
-    "src": "44a2dcdd86"
-  },
-  "Pro 전환율": {
-    "v": "Konversi Pro",
-    "src": "d5ae1874d3"
-  },
   "Pro 활성화 완료!": {
     "v": "Pro Aktif!",
     "src": "1aca27c396"
@@ -1756,10 +1660,6 @@
   "Pro를 쓰고 있어요": {
     "v": "Anda memakai Pro",
     "src": "a5b97d7277"
-  },
-  "QWERTY 스타일 (표준)": {
-    "v": "Gaya QWERTY (standar)",
-    "src": "13d00a6baa"
   },
   "Quick Note": {
     "v": "Catatan",
@@ -2145,10 +2045,6 @@
     "v": "[%@] Disalin",
     "src": "785aac141f"
   },
-  "[%@] 이 복사되었습니다.": {
-    "v": "[%@] disalin",
-    "src": "5a4000542f"
-  },
   "[{과제}] 회의\n{회의 날짜} {회의 시간} @ {장소}\n준비: {준비물}\n확인하면 👍": {
     "v": "[{proyek}] Rapat\n{tanggal rapat} {waktu rapat} @ {tempat}\nPersiapan: {perlengkapan}\nBeri 👍 jika sudah membaca",
     "src": "a2bc031f03"
@@ -2181,14 +2077,6 @@
     "v": "Cadangan & Pemulihan iCloud",
     "src": "47a32d8169"
   },
-  "iCloud 백업·스택·보안 단축어·macOS 앱까지 전부": {
-    "v": "Cadangan iCloud, Tumpukan, frasa aman & app macOS: semuanya termasuk",
-    "src": "8072dbdb6f"
-  },
-  "iCloud 백업·콤보·보안 단축어·macOS 앱까지 전부": {
-    "v": "Cadangan iCloud, Kombo, frasa aman & app macOS: semuanya termasuk",
-    "src": "c68aef1f6e"
-  },
   "iCloud 백업에 첨부 사진까지 담겨요": {
     "v": "Cadangan iCloud kini menyertakan foto lampiran",
     "src": "4fe71d8687"
@@ -2216,10 +2104,6 @@
   "iCloud 서버에 일시적인 문제가 있습니다. 잠시 후 다시 시도해주세요.": {
     "v": "Server iCloud sedang bermasalah sementara. Coba lagi nanti.",
     "src": "c581e54a3d"
-  },
-  "iCloud 설정 화면": {
-    "v": "Layar pengaturan iCloud",
-    "src": "9b9552fa70"
   },
   "iCloud 저장 공간이 부족합니다. 설정 > [사용자 이름] > iCloud > 저장 공간 관리에서 확인해주세요.": {
     "v": "Penyimpanan iCloud penuh. Periksa di Pengaturan > [Nama Anda] > iCloud > Kelola Penyimpanan.",
@@ -2405,10 +2289,6 @@
     "v": "• Saat pencadangan otomatis aktif, frasa, papan klip, dan tumpukan dicadangkan setiap kali berubah\n• Pencadangan juga berjalan setiap 5 menit",
     "src": "20a2b813eb"
   },
-  "• 자동 백업이 활성화되면 단축어, 클립보드, 콤보 변경 시 자동으로 백업됩니다\n• 5분마다 정기적으로 백업이 실행됩니다": {
-    "v": "• Saat pencadangan otomatis aktif, frasa, papan klip, dan kombo dicadangkan setiap kali berubah\n• Pencadangan juga berjalan setiap 5 menit",
-    "src": "fb3508abe6"
-  },
   "⌃⌥K로 어디서나 빠르게 접근": {
     "v": "Akses cepat di mana saja dengan ⌃⌥K",
     "src": "29686aa8be"
@@ -2425,17 +2305,9 @@
     "v": "⚠️ Pemulihan mengganti data Anda saat ini dengan data cadangan",
     "src": "d6639bb385"
   },
-  "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?": {
-    "v": "⚠️ Perangkat ini sudah berisi data.\n\nPemulihan akan menghapus semua frasa, papan klip, dan tumpukan saat ini, lalu menggantinya dengan data cadangan.\n\nTindakan ini tidak dapat dibatalkan. Lanjutkan?",
-    "src": "80775225d0"
-  },
   "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 스택이 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?": {
     "v": "⚠️ Perangkat ini sudah berisi data.\n\nPemulihan akan menghapus semua frasa, papan klip, dan tumpukan saat ini, lalu menggantinya dengan data cadangan.\n\nTindakan ini tidak dapat dibatalkan. Lanjutkan?",
     "src": "3eb9c184e4"
-  },
-  "⚠️ 현재 기기에 데이터가 있습니다.\n\n복구하면 현재의 모든 단축어, 클립보드, 콤보가 삭제되고 백업 데이터로 교체됩니다.\n\n이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?": {
-    "v": "⚠️ Perangkat ini sudah berisi data.\n\nPemulihan akan menghapus semua frasa, papan klip, dan kombo saat ini, lalu menggantinya dengan data cadangan.\n\nTindakan ini tidak dapat dibatalkan. Lanjutkan?",
-    "src": "49ae9b2d1a"
   },
   "✈️ 비자": {
     "v": "✈️ Visa",
@@ -2637,10 +2509,6 @@
     "v": "Menyinkronkan frasa secara otomatis antara iPhone dan Mac dengan akun iCloud yang sama. Terbuka dengan Pro atau paket Dua perangkat. Fitur ini masih eksperimental, jadi coba dulu di kedua perangkat. Frasa aman tetap terenkripsi saat disinkronkan.",
     "src": "62def30970"
   },
-  "같은 iCloud 계정의 iPhone과 Mac 사이에서 단축어를 자동으로 동기화합니다. Pro 전용이며 실험적 기능이라, 먼저 두 기기에서 잘 맞는지 확인해 보세요. 보안 단축어는 암호화된 채로 동기화됩니다.": {
-    "v": "Menyinkronkan frasa secara otomatis antara iPhone dan Mac dengan akun iCloud yang sama. Khusus Pro dan masih eksperimental, jadi coba dulu di kedua perangkat. Frasa aman tetap terenkripsi saat disinkronkan.",
-    "src": "8cb02ded1f"
-  },
   "같은 iCloud 계정의 다른 기기에서도 같은 단축어를 쓸 수 있습니다.": {
     "v": "Gunakan frasa yang sama di perangkat lain dengan akun iCloud yang sama.",
     "src": "cf6e218e91"
@@ -2680,14 +2548,6 @@
   "개수": {
     "v": "Jumlah",
     "src": "4a944c61f9"
-  },
-  "개수만 늘어요. 다른 Pro 기능은 열리지 않아요": {
-    "v": "Hanya menambah kapasitas. Fitur Pro lainnya tetap terkunci.",
-    "src": "db36742cb1"
-  },
-  "개수만 늘어요. 다른 Pro 기능은 열리지 않아요 (최대 %d칸)": {
-    "v": "Hanya menambah kapasitas. Fitur Pro lainnya tetap terkunci (maks. %d slot)",
-    "src": "ae39e115e3"
   },
   "개인": {
     "v": "Pribadi",
@@ -2761,17 +2621,9 @@
     "v": "Pola",
     "src": "eb3e6a1ba8"
   },
-  "결제 · 구매 복원": {
-    "v": "Pembayaran · Pulihkan Pembelian",
-    "src": "6ca05a2625"
-  },
   "결제 실패": {
     "v": "Pembelian gagal",
     "src": "1797865192"
-  },
-  "결제 없이 시험 코드를 만들어 지금 빌드의 iCloud 환경에 올려요. 받아도 Pro는 열리지 않아요.": {
-    "v": "Membuat kode uji tanpa pembayaran dan mengunggahnya ke lingkungan iCloud build ini. Kode ini tidak akan membuka Pro meski ditebus.",
-    "src": "f0eae4ba30"
   },
   "결제 전환 퍼널": {
     "v": "Corong pembelian",
@@ -2793,21 +2645,9 @@
     "v": "Pembelian gagal",
     "src": "8d0f2f043b"
   },
-  "결제는 보내는 분이 하고, Pro는 받는 분이 써요.": {
-    "v": "Anda yang membayar, dia yang memakai Pro.",
-    "src": "3717a19b70"
-  },
   "결제를 취소함": {
     "v": "Membatalkan pembelian",
     "src": "6637e4fbd2"
-  },
-  "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Plus는 마음껏 새로 만들고, Pro는 백업과 동기화까지 열어요.": {
-    "v": "Tanpa membayar pun, %d frasa yang sudah Anda buat tetap bisa dipakai. Plus membuat Anda bebas membuat frasa baru, dan Pro menambah cadangan serta sinkronisasi.",
-    "src": "6ab380bf65"
-  },
-  "결제하지 않아도 만든 %d개는 계속 넣을 수 있어요. Pro는 새로 만들고, 백업과 동기화를 여는 것이에요.": {
-    "v": "Meski tidak membayar, %d frasa yang sudah Anda buat tetap bisa dipakai. Pro untuk membuat yang baru, serta membuka pencadangan dan sinkronisasi.",
-    "src": "1b65bca054"
   },
   "결제한 사용자": {
     "v": "Pengguna berbayar",
@@ -2820,10 +2660,6 @@
   "계좌": {
     "v": "Bank",
     "src": "a10e3fdccb"
-  },
-  "계좌 알려 주실래요?": {
-    "v": "Bisa kirim nomor rekening Anda?",
-    "src": "e82e7161da"
   },
   "계좌·주소는 한 번만 맞춰 두세요": {
     "v": "Cukup atur rekening dan alamat sekali saja",
@@ -2897,10 +2733,6 @@
     "v": "Ketuk \"Simpan sebagai Pintasan\" di daftar aksi lembar bagikan, dan langsung tersimpan tanpa membuka layar",
     "src": "ff8f17e855"
   },
-  "공유 시트·단축어·제어 센터로 담은 항목은 ⋯ 메뉴의 보관함에 모여요. 나중에 키보드 단축어로 저장하면 돼요.": {
-    "v": "Item yang disimpan lewat Lembar Bagikan, Pintasan, atau Pusat Kontrol terkumpul di kotak masuk pada menu ⋯. Simpan sebagai frasa keyboard nanti saja.",
-    "src": "474e4a0506"
-  },
   "공유하기": {
     "v": "Bagikan",
     "src": "d41a8ed041"
@@ -2949,22 +2781,6 @@
     "v": "%d data lama tidak disertakan: data itu tidak melaporkan jumlah ini.",
     "src": "9d2aeb2105"
   },
-  "구입 내역": {
-    "v": "Riwayat pembelian",
-    "src": "dc11d074af"
-  },
-  "구입 복원을 누른 뒤 나온 화면": {
-    "v": "Layar setelah mengetuk Pulihkan Pembelian",
-    "src": "68759becea"
-  },
-  "구입 복원을 한 번 더 누르고, 나온 안내를 찍어 주세요.": {
-    "v": "Ketuk Pulihkan Pembelian sekali lagi, lalu ambil tangkapan layar pesan yang muncul.",
-    "src": "710c8daa64"
-  },
-  "구입할 때 쓴 Apple 계정으로 로그인해 있는지 먼저 봐 주세요. 결제는 그 계정에 묶여 있어요.": {
-    "v": "Pertama, pastikan Anda masuk dengan akun Apple yang dipakai untuk membeli. Pembelian terhubung ke akun itu.",
-    "src": "9486e90c00"
-  },
   "국가 코드부터 끝까지 입력해 주세요": {
     "v": "Masukkan lengkap, mulai dari kode negara",
     "src": "909e701e72"
@@ -2993,17 +2809,9 @@
     "v": "Dan %d frasa lainnya",
     "src": "4f976d759d"
   },
-  "그 밖의 문제": {
-    "v": "Masalah lain",
-    "src": "02f171ea75"
-  },
   "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
     "v": "Nama itu tidak bisa dipakai. Sudah ada atau sama dengan tab bawaan.",
     "src": "bb24d4c594"
-  },
-  "그 화면을 그대로 찍어 주세요. 번역이 어색하다면 어떻게 고치면 자연스러운지도 적어 주세요. 그대로 반영할게요.": {
-    "v": "Ambil tangkapan layar apa adanya. Jika terjemahannya terasa janggal, tulis juga bagaimana agar terdengar alami. Kami akan memakai kata-kata Anda.",
-    "src": "a6067d252a"
   },
   "그거 아세요?": {
     "v": "Tahukah Anda?",
@@ -3036,10 +2844,6 @@
   "그동안 모든 기능이 무료로 열려 있었어요. 이제 무료 플랜이 적용돼요. 저장한 단축어는 지워지지 않아요.": {
     "v": "Selama ini semua fitur terbuka gratis. Kini paket gratis berlaku. Frasa yang tersimpan tidak akan terhapus.",
     "src": "4d7e9923fb"
-  },
-  "그때 집중 모드나 무음 모드였나요? (선택)": {
-    "v": "Apakah mode Fokus atau Senyap sedang aktif saat itu? (opsional)",
-    "src": "0548daa9e3"
   },
   "그래도 백업": {
     "v": "Tetap cadangkan",
@@ -3273,10 +3077,6 @@
     "v": "Secara bawaan, kartu hanya menampilkan judul: tanpa simbol atau garis tepi. Aktifkan untuk menampilkan ikon jenis Frasa (templat, tumpukan, aman), simbol, dan garis pemisah pada kartu dan kolom keyboard.",
     "src": "65b0f782ba"
   },
-  "기본은 심볼·테두리 없이 제목만 깔끔하게 보여요. 이 설정을 켜면 단축어 타입(템플릿·콤보·보안) 아이콘과 심볼, 카드·키보드 칸의 구분 테두리까지 함께 표시돼요.": {
-    "v": "Secara bawaan, kartu hanya menampilkan judul: tanpa simbol atau garis tepi. Aktifkan untuk menampilkan ikon jenis Frasa (templat, kombo, aman), simbol, dan garis pemisah pada kartu dan kolom keyboard.",
-    "src": "607d8228e5"
-  },
   "기존 단축어 가져오기": {
     "v": "Impor dari Frasa yang ada",
     "src": "a0510ec880"
@@ -3312,10 +3112,6 @@
   "기존에 쓰던 단축어를 불러오는 방법이 있습니다. iCloud 백업에서 복원할 수 있어요.": {
     "v": "Ada cara untuk memulihkan Frasa yang pernah Anda pakai. Anda bisa memulihkannya dari cadangan iCloud.",
     "src": "25858c7c0b"
-  },
-  "기타": {
-    "v": "Lainnya",
-    "src": "4823d26f06"
   },
   "기호": {
     "v": "Simbol",
@@ -3360,10 +3156,6 @@
   "꺼냄": {
     "v": "Dipakai",
     "src": "949812949e"
-  },
-  "꺼지거나 열리지 않아요": {
-    "v": "Aplikasi tertutup atau tidak bisa dibuka",
-    "src": "bc87d0bf1b"
   },
   "꺼짐": {
     "v": "Mati",
@@ -3545,25 +3337,13 @@
     "v": "Tambah isi lagi untuk menjadikannya frasa tumpukan",
     "src": "a8a6ae3908"
   },
-  "내용을 더 추가하면 콤보 단축어가 됩니다": {
-    "v": "Tambah isi lagi untuk menjadikannya frasa kombo",
-    "src": "0ba992def1"
-  },
   "내용을 수정 후 완료를 눌러 저장합니다": {
     "v": "Ubah isi lalu ketuk Selesai untuk menyimpan.",
     "src": "b2bcf3c9a9"
   },
-  "내용을 이어 더하면 스택가 돼요. 키보드에서 순서대로 입력됩니다.": {
-    "v": "Tambah langkah lagi agar menjadi tumpukan. Langkahnya diketik berurutan dari keyboard.",
-    "src": "7f5f16ef2a"
-  },
   "내용을 이어 더하면 스택이 돼요. 키보드에서 순서대로 입력됩니다.": {
     "v": "Tambah langkah lagi agar menjadi tumpukan. Langkahnya diketik berurutan dari keyboard.",
     "src": "cbede5816d"
-  },
-  "내용을 이어 더하면 콤보가 돼요. 키보드에서 순서대로 입력됩니다.": {
-    "v": "Tambah langkah lagi agar menjadi kombo. Langkahnya diketik berurutan dari keyboard.",
-    "src": "6b7f6a73ce"
   },
   "내용을 입력하세요": {
     "v": "Masukkan isi",
@@ -3732,14 +3512,6 @@
   "눌러서 추가해보기": {
     "v": "Ketuk untuk mencoba menambah",
     "src": "41585900fd"
-  },
-  "느려지는 화면": {
-    "v": "Layar yang melambat",
-    "src": "b9d49c6e77"
-  },
-  "느리거나 버벅여요": {
-    "v": "Lambat atau tersendat",
-    "src": "44bedc6b6a"
   },
   "늘 이 자리: %@": {
     "v": "Selalu di sini: %@",
@@ -3993,17 +3765,9 @@
     "v": "Frasa",
     "src": "8c10487a02"
   },
-  "단축어 %1$d개 · 템플릿 %2$d개": {
-    "v": "%1$d frasa · %2$d templat",
-    "src": "b55f3b83e8"
-  },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "Menambahkan %1$d frasa, memperbarui %2$d (total %3$d).\nMengimpor %4$d tumpukan, %5$d gambar, dan %6$d kategori.",
     "src": "b57c527f8f"
-  },
-  "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n콤보 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
-    "v": "Menambahkan %1$d frasa, memperbarui %2$d (total %3$d).\nMengimpor %4$d kombo, %5$d gambar, dan %6$d kategori.",
-    "src": "743ca36675"
   },
   "단축어 %1$d곳에서 씀, 값 %2$d개": {
     "v": "Dipakai di %1$d frasa, %2$d nilai",
@@ -4028,10 +3792,6 @@
   "단축어 %d개를 만드셨어요. 지금 이 기기에만 있어요": {
     "v": "Anda sudah membuat %d frasa. Saat ini hanya ada di perangkat ini",
     "src": "d55d11f71b"
-  },
-  "단축어 %d개를 일주일 넘게 쓰고 계세요. 이 창에서만 반값이에요.": {
-    "v": "Anda sudah memakai %d frasa lebih dari seminggu. Setengah harga, hanya dari layar ini.",
-    "src": "0cdb9771a5"
   },
   "단축어 %d개의 내용에서 이 이름이 함께 바뀝니다.": {
     "v": "Nama ini juga akan berubah di isi %d frasa.",
@@ -4064,10 +3824,6 @@
   "단축어 개수 제한": {
     "v": "Batas Frasa",
     "src": "f982c22967"
-  },
-  "단축어 개수 제한이 사라져요": {
-    "v": "Tidak ada lagi batas jumlah frasa",
-    "src": "d68cba8047"
   },
   "단축어 개수별 사용자 분포": {
     "v": "Pengguna menurut jumlah frasa",
@@ -4173,10 +3929,6 @@
     "v": "Ubah Tumpukan",
     "src": "ae9b474fe6"
   },
-  "단축어 수정 타이틀_콤보": {
-    "v": "Ubah Kombo",
-    "src": "6a5d58b0ec"
-  },
   "단축어 수정 타이틀_템플릿": {
     "v": "Ubah Templat",
     "src": "111475f1ff"
@@ -4261,10 +4013,6 @@
     "v": "Frasa, riwayat papan klip, tumpukan, gambar, dan draf akan dihapus semua dari perangkat ini. Tindakan ini tidak bisa dibatalkan.\n\nPembelian Pro dan cadangan iCloud tetap tersimpan.",
     "src": "1cf03b5d6c"
   },
-  "단축어·클립보드 기록·콤보·이미지·임시 저장본이 이 기기에서 모두 지워집니다. 되돌릴 수 없어요.\n\nPro 구매 권한과 iCloud 백업은 그대로 남습니다.": {
-    "v": "Frasa, riwayat papan klip, kombo, gambar, dan draf akan dihapus semua dari perangkat ini. Tindakan ini tidak bisa dibatalkan.\n\nPembelian Pro dan cadangan iCloud tetap tersimpan.",
-    "src": "f1976645cf"
-  },
   "단축어가 늘어나면 최근 쓴 것을 위에 모아 보여드려요": {
     "v": "Saat frasa bertambah, yang baru dipakai dikumpulkan di atas",
     "src": "7e41b3ecbb"
@@ -4328,10 +4076,6 @@
   "단축어를 끌어서 순서를 바꿀 수 있어요": {
     "v": "Seret frasa untuk mengubah urutannya",
     "src": "0c5a7d535d"
-  },
-  "단축어를 넣고 그 자리에서 보내고 싶다면 켜 두세요. 필요 없으면 꺼서 자리를 넓게 써요.": {
-    "v": "Biarkan menyala untuk langsung mengirim setelah memasukkan frasa. Matikan jika Anda ingin ruang lebih luas.",
-    "src": "8607b208c0"
   },
   "단축어를 넣으면 키보드 목록의 다음 키보드로 넘어가요. 보통 쓰던 키보드예요. 이 키보드로 글을 친 뒤에는 넘어가지 않아요.": {
     "v": "Setelah frasa dimasukkan, keyboard beralih ke keyboard berikutnya di daftar Anda, biasanya yang tadi Anda pakai. Tidak beralih jika Anda mengetik dengan keyboard ini.",
@@ -4521,10 +4265,6 @@
     "v": "Data Anda berhasil dicadangkan ke iCloud.",
     "src": "b029663445"
   },
-  "데이터가 사라졌어요": {
-    "v": "Data saya hilang",
-    "src": "09995527de"
-  },
   "데이터가 성공적으로 복구되었습니다. 앱을 재시작하여 변경사항을 확인하세요.": {
     "v": "Data berhasil dipulihkan. Mulai ulang app untuk melihat perubahannya.",
     "src": "38f657018b"
@@ -4597,10 +4337,6 @@
     "v": "Pilih versi saat sinkronisasi berselisih",
     "src": "bc772ff1e6"
   },
-  "동기화만 열려요. 단축어 개수는 그대로예요": {
-    "v": "Hanya sinkronisasi yang dibuka. Jumlah frasa tetap sama",
-    "src": "0b87282fc9"
-  },
   "동물": {
     "v": "Hewan",
     "src": "ebda61cca4"
@@ -4612,10 +4348,6 @@
   "동작 버튼에 걸기": {
     "v": "Atur Tombol Aksi",
     "src": "1a855ca800"
-  },
-  "동작 버튼이나 제어 센터를 누르면 방금 복사한 글이 키보드 '최근'에 담겨요.": {
-    "v": "Tekan Tombol Aksi atau kontrol Pusat Kontrol, lalu teks yang baru Anda salin masuk ke Terbaru di keyboard.",
-    "src": "30f83bd075"
   },
   "동작 줄이기": {
     "v": "Kurangi Gerakan",
@@ -4753,10 +4485,6 @@
     "v": "Bahasa Rusia kini didukung.",
     "src": "6015bd85cb"
   },
-  "레이아웃 미리보기": {
-    "v": "Pratinjau tata letak",
-    "src": "cad0ec44f2"
-  },
   "리뷰 남기기": {
     "v": "Tulis Ulasan",
     "src": "f0d2b9ba53"
@@ -4819,14 +4547,6 @@
     "v": "Terakhir, pilih ukuran keyboard.",
     "src": "6d05f875c9"
   },
-  "마지막은 스택예요. 여러 개가 순서대로 들어가요.": {
-    "v": "Terakhir adalah tumpukan. Beberapa nilai masuk berurutan.",
-    "src": "c9b55f4fe7"
-  },
-  "마지막은 스택예요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.": {
-    "v": "Terakhir adalah tumpukan. Ketuk sisi kiri tombol untuk memasukkan nilai pertama.",
-    "src": "4fd0078ac5"
-  },
   "마지막은 스택이에요. 여러 개가 순서대로 들어가요.": {
     "v": "Terakhir adalah tumpukan. Beberapa nilai masuk berurutan.",
     "src": "b5d4e6b183"
@@ -4834,14 +4554,6 @@
   "마지막은 스택이에요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.": {
     "v": "Terakhir adalah tumpukan. Ketuk sisi kiri tombol untuk memasukkan nilai pertama.",
     "src": "91dc8bcd4f"
-  },
-  "마지막은 콤보예요. 여러 개가 순서대로 들어가요.": {
-    "v": "Terakhir adalah kombo. Beberapa nilai masuk berurutan.",
-    "src": "f6fa26e332"
-  },
-  "마지막은 콤보예요. 키의 왼쪽을 눌러 첫 번째 값을 넣어보세요.": {
-    "v": "Terakhir adalah kombo. Ketuk sisi kiri tombol untuk memasukkan nilai pertama.",
-    "src": "b790547c94"
   },
   "마케팅 지표": {
     "v": "Sinyal pemasaran",
@@ -4923,14 +4635,6 @@
     "v": "Perangkat Disamakan",
     "src": "0f58b7a209"
   },
-  "매년 갱신, 언제든 해지": {
-    "v": "Diperpanjang tiap tahun, batalkan kapan saja",
-    "src": "f4f8177bfb"
-  },
-  "매번 그런가요? 껐다 켜도 그런가요? (선택)": {
-    "v": "Apakah terjadi setiap kali? Tetap terjadi setelah dimulai ulang? (opsional)",
-    "src": "240874ecc6"
-  },
   "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
     "v": "Frasa yang Anda pakai pada waktu yang sama tiap minggu atau bulan akan pindah ke depan keyboard saat waktunya tiba",
     "src": "3b3ef667b1"
@@ -4959,17 +4663,9 @@
     "v": "Tiga hal yang kami siapkan lebih dulu",
     "src": "674b4e32dc"
   },
-  "멈추거나 꺼지기 직전 화면": {
-    "v": "Layar sesaat sebelum macet atau tertutup",
-    "src": "99ab12df74"
-  },
   "멈춤": {
     "v": "Macet",
     "src": "bdaf65bee7"
-  },
-  "멈칫하는 화면 한 장이면 충분해요. 무엇이 얼마나 많이 들어 있는지가 보이면 원인을 빨리 찾을 수 있어요.": {
-    "v": "Satu tangkapan layar saat tersendat sudah cukup. Jika terlihat isi layar dan jumlahnya, kami bisa menemukan penyebabnya lebih cepat.",
-    "src": "e15a2fb4d2"
   },
   "메뉴바 아이콘: 🛶": {
     "v": "Ikon bilah menu: 🛶",
@@ -5175,10 +4871,6 @@
     "v": "Versi gratis memungkinkan hingga %d frasa.",
     "src": "0a910c350f"
   },
-  "무료 버전에서는 최대 %d개의 스택를 만들 수 있습니다.": {
-    "v": "Versi gratis memungkinkan hingga %d tumpukan.",
-    "src": "a4ea9b3ade"
-  },
   "무료 버전에서는 최대 %d개의 스택을 만들 수 있습니다.": {
     "v": "Versi gratis memungkinkan hingga %d tumpukan.",
     "src": "a35af64b83"
@@ -5186,10 +4878,6 @@
   "무료 버전에서는 최대 %d개의 이미지 단축어를 저장할 수 있습니다.": {
     "v": "Versi gratis memungkinkan hingga %d frasa gambar.",
     "src": "b3315d0041"
-  },
-  "무료 버전에서는 최대 %d개의 콤보를 만들 수 있습니다.": {
-    "v": "Versi gratis memungkinkan hingga %d kombo.",
-    "src": "e066065ac8"
   },
   "무료 버전에서는 최대 %d개의 템플릿을 사용할 수 있습니다.": {
     "v": "Versi gratis memungkinkan hingga %d templat.",
@@ -5247,10 +4935,6 @@
     "v": "Apa yang paling sering Anda ketik?",
     "src": "1b2227aee3"
   },
-  "무엇을 샀고, 지금 어떻게 보이나요?": {
-    "v": "Apa yang Anda beli, dan apa yang terlihat sekarang?",
-    "src": "e45434a7f1"
-  },
   "무엇을 저장할지부터 묻고, 제목은 그 다음에 물어요": {
     "v": "Ditanya dulu apa yang disimpan, baru judulnya",
     "src": "4f222ae127"
@@ -5259,17 +4943,9 @@
     "v": "Lihat apa yang berubah",
     "src": "4c27c1bb42"
   },
-  "무엇이 어떻게 안 되나요?": {
-    "v": "Apa yang tidak berfungsi, dan bagaimana?",
-    "src": "bab272ba3d"
-  },
   "무엇이 저장될지 누르기 전에 보여요": {
     "v": "Lihat apa yang akan disimpan sebelum Anda mengetuk",
     "src": "5f3b9f1f59"
-  },
-  "무엇이, 얼마나 사라졌나요?": {
-    "v": "Apa yang hilang, dan berapa banyak?",
-    "src": "e8bee7e094"
   },
   "무제한": {
     "v": "Tanpa batas",
@@ -5294,10 +4970,6 @@
   "문장 부호": {
     "v": "Tanda baca",
     "src": "9d60a84665"
-  },
-  "문제 종류": {
-    "v": "Jenis masalah",
-    "src": "3700193079"
   },
   "문제가 발생했습니다. 네트워크 연결과 iCloud 상태를 확인하고 다시 시도해주세요.": {
     "v": "Terjadi kesalahan. Periksa koneksi jaringan dan status iCloud, lalu coba lagi.",
@@ -5355,10 +5027,6 @@
     "v": "Ubah",
     "src": "476e98573d"
   },
-  "바꾸는 대로 진짜 키보드에서 보여요": {
-    "v": "Lihat setiap perubahan di keyboard yang asli",
-    "src": "01f3e27444"
-  },
   "바꾼 순서는 앱에도 그대로 반영돼요": {
     "v": "Urutan baru juga tampil di aplikasi",
     "src": "42c05abaaa"
@@ -5390,14 +5058,6 @@
   "박서연": {
     "v": "Alex Smith",
     "src": "c8810d8f41"
-  },
-  "반값으로 평생 사용": {
-    "v": "Beli seumur hidup dengan setengah harga",
-    "src": "633d9a906d"
-  },
-  "반값으로 평생 쓰실래요?": {
-    "v": "Mau seumur hidup dengan setengah harga?",
-    "src": "6395bf8804"
   },
   "받아쓰기 끄기": {
     "v": "Matikan dikte",
@@ -5687,10 +5347,6 @@
     "v": "Selalu Tampilkan Tombol Kirim",
     "src": "59476ed389"
   },
-  "보내기 키를 켜고 끌 수 있어요": {
-    "v": "Tombol Kirim bisa dinyalakan atau dimatikan",
-    "src": "917918a5e6"
-  },
   "보내기 키의 이름은 앱이 정합니다. 메시지 앱에서는 보내기, 검색창에서는 검색으로 보여요. 줄바꿈만 되는 앱도 있습니다.": {
     "v": "Nama tombol ini ditentukan oleh aplikasinya. Di aplikasi pesan tampil Kirim, di kolom pencarian tampil Cari. Di sebagian aplikasi, tombol ini hanya membuat baris baru.",
     "src": "aa598dca64"
@@ -5867,10 +5523,6 @@
     "v": "Disalin!",
     "src": "1c579141b4"
   },
-  "복사하고 버튼 한 번으로 담기": {
-    "v": "Salin, lalu simpan dengan satu tekan",
-    "src": "9fc2426ec8"
-  },
   "복사하고 버튼을 누르면 키보드에서 꺼내 쓸 수 있어요": {
     "v": "Salin, tekan tombol, lalu pakai dari keyboard",
     "src": "ebdbd77c51"
@@ -5938,14 +5590,6 @@
   "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, %d일간 유지)": {
     "v": "Yang Anda salin tersimpan di sini secara otomatis\n(maksimal 100 item, disimpan %d hari)",
     "src": "7534e7952e"
-  },
-  "복사한 내용이 자동으로 여기에 저장됩니다\n(최대 100개, 7일간 유지)": {
-    "v": "Yang Anda salin tersimpan di sini secara otomatis\n(maksimal 100 item, disimpan 7 hari)",
-    "src": "06ccbd6d20"
-  },
-  "복사한 뒤 위의 버튼을 누르면 여기에 %d일 동안 남아요": {
-    "v": "Salin sesuatu, lalu ketuk tombol di atas. Tersimpan di sini selama %d hari.",
-    "src": "6eb7c42d8e"
   },
   "복사한 이미지 붙여넣기": {
     "v": "Tempel gambar yang disalin",
@@ -6318,10 +5962,6 @@
   "빨리 칠 때 첫 입력이 끊기던 것을 고쳤어요": {
     "v": "Memperbaiki ketukan pertama yang tersendat saat mengetik cepat",
     "src": "e1e2b47f34"
-  },
-  "사라지기 전에 무엇을 했나요?": {
-    "v": "Apa yang Anda lakukan sebelum hilang?",
-    "src": "4fd4efcd55"
   },
   "사번/학번": {
     "v": "ID Pegawai/Siswa",
@@ -6699,10 +6339,6 @@
     "v": "Untuk membedakan frasa tanpa bergantung pada warna saja, aktifkan 'Tampilkan penanda visual' di Pengaturan app → Tampilan → Tampilan frasa. Ikon dan bingkai tipe frasa (Templat/Tumpukan/Aman) serta simbol favorit dan kategori akan muncul.",
     "src": "807fe45653"
   },
-  "색에만 의존하지 않고 단축어를 구분하고 싶다면, 앱 설정 → 디스플레이 → 단축어 표시에서 '단축어 구분 표시'를 켜세요. 단축어 타입(템플릿·콤보·보안) 아이콘·테두리와 즐겨찾기·카테고리 심볼이 함께 표시됩니다.": {
-    "v": "Untuk membedakan frasa tanpa bergantung pada warna saja, aktifkan 'Tampilkan penanda visual' di Pengaturan app → Tampilan → Tampilan frasa. Ikon dan bingkai tipe frasa (Templat/Kombo/Aman) serta simbol favorit dan kategori akan muncul.",
-    "src": "af03df6152"
-  },
   "색이 없어서 어디를 눌러야 하는지가 오히려 또렷해요. 갈래 색과 헷갈리지 않습니다.": {
     "v": "Tanpa warna sama sekali, jadi bagian yang bisa diketuk terlihat lebih jelas. Tidak tertukar dengan warna kategori.",
     "src": "36ac829492"
@@ -6774,10 +6410,6 @@
   "서울특별시 종로구 청와대로 1": {
     "v": "Jl. Jenderal Sudirman No. 1, Jakarta",
     "src": "67969d6959"
-  },
-  "선물 시험 (개발자)": {
-    "v": "Uji Hadiah (Pengembang)",
-    "src": "1d2ea3a9db"
   },
   "선물하기": {
     "v": "Hadiah",
@@ -6879,18 +6511,6 @@
     "v": "Jalur Pengaturan",
     "src": "64252656f2"
   },
-  "설정 앱 > 알림 > 이 앱 화면을 찍어 주세요. 알림 허용, 잠금 화면, 배너, 사운드가 다 보이게요.": {
-    "v": "Ambil tangkapan layar Pengaturan > Notifikasi > aplikasi ini, dengan Izinkan Notifikasi, Layar Kunci, Banner, dan Suara terlihat semua.",
-    "src": "bde90d0212"
-  },
-  "설정 앱 맨 위의 내 이름 > iCloud > 모두 보기에서 이 앱이 켜져 있는지 보이게 찍어 주세요. 두 기기에서 모두 찍어 주시면 더 좋아요.": {
-    "v": "Di Pengaturan, ketuk nama Anda di bagian atas > iCloud > Tampilkan Semua, lalu ambil tangkapan layar yang menunjukkan apakah aplikasi ini aktif. Tangkapan layar dari kedua perangkat akan lebih baik.",
-    "src": "f6734b03c2"
-  },
-  "설정 앱 맨 위의 내 이름 > 미디어 및 구입 항목 > 계정 보기 > 구입 내역에서 이 앱의 결제를 찾아 찍어 주세요. 날짜와 금액만 보이면 돼요. 결제 수단은 가려도 괜찮아요.": {
-    "v": "Di Pengaturan, ketuk nama Anda di bagian atas > Media & Pembelian > Lihat Akun > Riwayat Pembelian, cari pembayaran aplikasi ini, lalu ambil tangkapan layar. Cukup tanggal dan jumlahnya saja. Metode pembayaran boleh ditutupi.",
-    "src": "2c4dd5890d"
-  },
   "설정 앱에서 '동작 버튼'을 열어요": {
     "v": "Buka Tombol Aksi di app Pengaturan",
     "src": "05f9b57848"
@@ -6915,10 +6535,6 @@
     "v": "Selesai",
     "src": "c7592b5a0c"
   },
-  "설정 위쪽 미리보기가 실제 키보드 그대로예요. 키 크기와 높이를 바꾸면 바로 달라져요.": {
-    "v": "Pratinjau di bagian atas Pengaturan adalah papan ketik yang sebenarnya. Ubah ukuran atau tinggi tombol dan langsung berubah.",
-    "src": "d150ac30e6"
-  },
   "설정 화면": {
     "v": "Layar pengaturan",
     "src": "d5192660bf"
@@ -6938,10 +6554,6 @@
   "설정에서 '키보드'를 누르세요": {
     "v": "Di Pengaturan, ketuk Keyboard",
     "src": "d4678e94b0"
-  },
-  "설정에서 나에게 맞는 유형을 고르면 더 잘 맞는 것부터 보여드려요": {
-    "v": "Pilih tipe yang cocok dengan Anda di Pengaturan, dan kami tampilkan yang paling sesuai lebih dulu",
-    "src": "1dc96301dd"
   },
   "설정에서 보기": {
     "v": "Tunjukkan di Pengaturan",
@@ -7143,10 +6755,6 @@
     "v": "Tombol numpad",
     "src": "e3c5a426b4"
   },
-  "숫자 판 키와 붙여넣기 키도 골라요": {
-    "v": "Pilih juga tombol numpad dan tempel",
-    "src": "1d99e052db"
-  },
   "숫자 판, 보내기, 지우기, 전체 삭제 키를 펼칩니다": {
     "v": "Menampilkan tombol numpad, kirim, hapus, dan hapus semua",
     "src": "da15387b89"
@@ -7199,10 +6807,6 @@
     "v": "Satu tumpukan menyimpan beberapa nilai, dan → di kanan untuk memilihnya. Praktis jika Anda punya beberapa rekening, atau mengirim pesan yang sama dengan nama berbeda.",
     "src": "f5bdeb15ff"
   },
-  "스택로 묶기": {
-    "v": "Gabung jadi tumpukan",
-    "src": "e72e11e4d8"
-  },
   "스택으로 묶기": {
     "v": "Gabung jadi tumpukan",
     "src": "9edb9e9bc2"
@@ -7243,10 +6847,6 @@
     "v": "Mulai",
     "src": "82103648f9"
   },
-  "시작하는 김에, 반값으로 열어 둘래요?": {
-    "v": "Sekalian mulai, buka dengan harga setengah?",
-    "src": "d413979fdb"
-  },
   "시작하다 문제가 생겨도 다음 실행은 열려요": {
     "v": "Jika ada masalah saat memulai, peluncuran berikutnya tetap terbuka",
     "src": "2f119a762d"
@@ -7259,10 +6859,6 @@
     "v": "Info zona waktu",
     "src": "2e566d5370"
   },
-  "시험 코드 만들기": {
-    "v": "Buat Kode Uji",
-    "src": "53e670eceb"
-  },
   "신규 사용자": {
     "v": "Pengguna baru",
     "src": "14cced0c33"
@@ -7270,10 +6866,6 @@
   "신원 확인": {
     "v": "Identitas",
     "src": "098ff54eac"
-  },
-  "신한 110-123-456789": {
-    "v": "BCA 110-123-456789",
-    "src": "fd23b6f361"
   },
   "신한 계좌번호 예금주": {
     "v": "Rek. Chase pemilik",
@@ -7326,10 +6918,6 @@
   "쓰는 단축어가 없는 빈칸은 지울 수 있어요. 쓰는 곳이 있는 빈칸은 지워도 되살아나서 삭제를 내놓지 않아요": {
     "v": "Kolom isian yang tidak dipakai frasa mana pun bisa dihapus. Yang masih dipakai akan muncul lagi, jadi tidak ada opsi hapus",
     "src": "a94dd6a191"
-  },
-  "쓰던 키보드 없이 이 키보드로 23개 언어를 치고, 단축어도 같이 써요.": {
-    "v": "Ketik dalam 23 bahasa tanpa berganti keyboard, dan gunakan Frasa Anda di sana juga.",
-    "src": "edf8053353"
   },
   "쓰임새를 묻지 않아요. 저장하신 단축어를 보고 앱이 알아서 맞춰요": {
     "v": "Tidak perlu memilih kegunaan lagi. Aplikasi menyesuaikan diri dengan frasa yang Anda simpan",
@@ -7395,17 +6983,9 @@
     "v": "Ubah waktu terhemat jadi video vertikal 3 detik untuk dibagikan ke story Anda",
     "src": "3e095f46c9"
   },
-  "아낀 시간을 3초짜리 세로 영상으로 뽑아요. 스토리에 그대로 올릴 수 있어요.": {
-    "v": "Ubah waktu terhemat jadi video vertikal 3 detik. Langsung bisa diunggah ke story.",
-    "src": "5d7256acec"
-  },
   "아낀 시간을 다른 것에 빗대어 보여줍니다": {
     "v": "Menampilkan waktu terhemat dengan perbandingan lain",
     "src": "251d4d47e0"
-  },
-  "아낀 시간을 다시 셌고, 그 시간을 자랑할 영상도 만들 수 있어요.": {
-    "v": "Waktu terhemat kini dihitung ulang, dan bisa dijadikan video.",
-    "src": "99b7ea4c01"
   },
   "아낀 시간을 다시 셌어요. 치는 시간만 세던 걸 고쳐서, 다른 앱에서 찾아와야 했던 값은 찾는 시간까지 셉니다": {
     "v": "Waktu terhemat dihitung ulang. Nilai yang harus dicari dari aplikasi lain kini termasuk waktu mencarinya",
@@ -7414,10 +6994,6 @@
   "아낀 시간을 담은 영상 미리보기": {
     "v": "Pratinjau video waktu yang Anda hemat",
     "src": "4bea49daa9"
-  },
-  "아낀 시간을 제대로 세기 시작했어요": {
-    "v": "Waktu terhemat kini dihitung dengan benar",
-    "src": "1d8d58c1c5"
   },
   "아낀 시간이 동전으로 쌓여요. 오래 쓴 문구일수록 금괴가 늘어나요.": {
     "v": "Waktu terhemat menumpuk jadi koin. Makin lama frasa dipakai, makin banyak emas batangan.",
@@ -7587,10 +7163,6 @@
     "v": "Belum ada pengembalian dana",
     "src": "cfc40de398"
   },
-  "안 되는 곳": {
-    "v": "Tempat yang bermasalah",
-    "src": "3ec599cf33"
-  },
   "안 쓰는 단축어": {
     "v": "Frasa yang tidak dipakai",
     "src": "b6d486afad"
@@ -7638,14 +7210,6 @@
   "알려 주기": {
     "v": "Beri Tahu",
     "src": "4d885eaa68"
-  },
-  "알림 권한이 꺼져 있어요. iOS 설정 > %@ > 알림에서 허용해 주세요.": {
-    "v": "Notifikasi mati. Aktifkan di Pengaturan iOS > %@ > Notifikasi.",
-    "src": "ee0ec98e32"
-  },
-  "알림이 안 오거나 늦어요": {
-    "v": "Notifikasi tidak masuk atau terlambat",
-    "src": "132f374923"
   },
   "앞 4자리(국가코드+검증번호)를 다시 확인해 주세요. 나머지는 형식이 맞습니다.": {
     "v": "Periksa lagi 4 karakter pertama (kode negara + angka pemeriksa). Sisanya sudah benar.",
@@ -7751,10 +7315,6 @@
     "v": "Membuka app untuk menunjukkan cara mengaktifkan Akses Penuh",
     "src": "17a89c693d"
   },
-  "앱을 지우고 다시 깔기 전에 먼저 보내 주세요. 지우면 이 기기에만 있던 데이터가 함께 사라져 되살릴 수 없어요.": {
-    "v": "Kirimkan ini sebelum menghapus dan memasang ulang aplikasi. Menghapusnya juga menghilangkan data yang hanya ada di perangkat ini, dan tidak bisa dipulihkan.",
-    "src": "6c47aed7d4"
-  },
   "앱을 켤 때 단축어가 위에서 내려오거나 흔들리던 것을 없앴어요": {
     "v": "Frasa tidak lagi turun atau bergoyang saat app dibuka",
     "src": "3e208a2bde"
@@ -7795,49 +7355,21 @@
     "v": "Yang mana?",
     "src": "728d55302a"
   },
-  "어느 기기 사이에서, 무엇이 안 맞나요?": {
-    "v": "Di antara perangkat mana, dan apa yang tidak sama?",
-    "src": "7faff7af57"
-  },
-  "어느 화면에서, 얼마나 걸리나요?": {
-    "v": "Di layar mana, dan berapa lama?",
-    "src": "dbd64ff7c0"
-  },
-  "어느 화면의 무엇이 이상한가요?": {
-    "v": "Apa yang terlihat janggal, dan di layar mana?",
-    "src": "bcccf8a8a5"
-  },
   "어두운 바탕에서 가장 잘 읽히는 색이에요.": {
     "v": "Warna yang paling mudah terbaca di latar gelap.",
     "src": "164250874e"
-  },
-  "어디서든 빠르게 담으세요": {
-    "v": "Catat apa saja, di mana saja",
-    "src": "16a9de82ae"
   },
   "어디에 담을까요?": {
     "v": "Simpan ke mana?",
     "src": "311a548ea9"
   },
-  "어떤 문제인가요?": {
-    "v": "Apa masalahnya?",
-    "src": "cb4d89f7b8"
-  },
   "어떤 상황인가요?": {
     "v": "Situasinya seperti apa?",
     "src": "a26f1a2ba4"
   },
-  "어떤 알림이, 언제 오기로 돼 있었나요?": {
-    "v": "Notifikasi apa, dan kapan seharusnya masuk?",
-    "src": "00a1a78353"
-  },
   "어떤 앱에서든 글을 고르고 공유에서 ClipKeyboard 를 누르면 단축어가 됩니다. 앱을 열지 않아도 돼요.": {
     "v": "Pilih teks di app mana pun, ketuk Bagikan, pilih ClipKeyboard, dan teks itu menjadi frasa. Tidak perlu membuka app.",
     "src": "dab67cc7cb"
-  },
-  "어떻게 되나요?": {
-    "v": "Apa yang terjadi?",
-    "src": "187e8341ac"
   },
   "어떻게 사용하실 예정인가요?": {
     "v": "Bagaimana Anda akan memakai ClipKeyboard?",
@@ -7855,17 +7387,9 @@
     "v": "Bahasa",
     "src": "d9a6ac3cd1"
   },
-  "언제, 어느 기기에서 샀나요? (선택)": {
-    "v": "Kapan dan di perangkat apa Anda membelinya? (opsional)",
-    "src": "231181af2a"
-  },
   "언제든지 접근 가능": {
     "v": "Selalu dapat diakses",
     "src": "c1f88829b5"
-  },
-  "언제부터 그랬나요? (선택)": {
-    "v": "Sejak kapan hal ini terjadi? (opsional)",
-    "src": "482f56e353"
   },
   "업무": {
     "v": "Kerja",
@@ -7967,10 +7491,6 @@
     "v": "Tumpukan yang mengetik beberapa nilai berurutan",
     "src": "c2f72cf682"
   },
-  "여러 값을 순서대로 넣는 콤보": {
-    "v": "Kombo yang mengetik beberapa nilai berurutan",
-    "src": "b094d8b5d7"
-  },
   "여러 개 고르기": {
     "v": "Pilih Beberapa",
     "src": "fcd90d1f1d"
@@ -8010,14 +7530,6 @@
   "연 구독": {
     "v": "Tahunan",
     "src": "51f6ac9317"
-  },
-  "연 구독 시작하기": {
-    "v": "Mulai langganan tahunan",
-    "src": "dfe2938054"
-  },
-  "연 구독이나 평생 중에 골라요": {
-    "v": "Pilih langganan tahunan atau seumur hidup",
-    "src": "a9cef1c845"
   },
   "연간": {
     "v": "Tahunan",
@@ -8131,58 +7643,6 @@
     "v": "mis. “Setoran {jumlah}” → pakai ulang frasa dengan jumlah baru setiap kali. Teks biasa seperti ‘jumlah’ tetap apa adanya.",
     "src": "e8fcf11de2"
   },
-  "예) 만들어 둔 것 20개 중 절반쯤 없어졌어요.": {
-    "v": "mis. Sekitar separuh dari 20 yang sudah saya buat hilang.",
-    "src": "c0a5a82c2c"
-  },
-  "예) 매번요. 기기를 껐다 켜도 같아요.": {
-    "v": "mis. Setiap kali. Sama saja setelah perangkat dimulai ulang.",
-    "src": "c952ed962c"
-  },
-  "예) 목록을 내릴 때마다 1초쯤 멈칫해요.": {
-    "v": "mis. Layar tersendat sekitar satu detik setiap kali saya menggulir daftar.",
-    "src": "5d25eabe10"
-  },
-  "예) 설정 화면의 버튼 글자가 잘려요. 이 문장 번역이 어색해요.": {
-    "v": "mis. Teks tombol di layar pengaturan terpotong. Terjemahan kalimat ini terasa janggal.",
-    "src": "e32a425323"
-  },
-  "예) 수면 모드가 켜져 있었어요.": {
-    "v": "mis. Fokus Tidur sedang aktif.",
-    "src": "e444a75fad"
-  },
-  "예) 아이폰에서 만든 것이 아이패드에 안 보여요.": {
-    "v": "mis. Yang saya buat di iPhone tidak muncul di iPad.",
-    "src": "e193e298fe"
-  },
-  "예) 앱을 업데이트했어요. 새 아이폰으로 옮겼어요. 앱을 지웠다 다시 깔았어요.": {
-    "v": "mis. Saya memperbarui aplikasi. Saya pindah ke iPhone baru. Saya menghapus lalu memasang ulang aplikasi.",
-    "src": "190007f2af"
-  },
-  "예) 열면 흰 화면에서 멈춰요. 저장을 누르면 앱이 꺼져요.": {
-    "v": "mis. Macet di layar putih saat dibuka. Aplikasi menutup sendiri saat saya ketuk Simpan.",
-    "src": "7fd7282c7d"
-  },
-  "예) 오전 9시 알림이 안 왔어요. 5분 늦게 왔어요.": {
-    "v": "mis. Notifikasi jam 9 pagi tidak muncul. Notifikasi terlambat 5 menit.",
-    "src": "b7aa5cb55e"
-  },
-  "예) 올해 3월쯤, 예전 아이폰에서요.": {
-    "v": "mis. Sekitar Maret tahun ini, di iPhone lama saya.",
-    "src": "1ef384c00a"
-  },
-  "예) 지난주 업데이트 뒤부터요.": {
-    "v": "mis. Sejak pembaruan minggu lalu.",
-    "src": "5b7fbdbe2b"
-  },
-  "예) 평생 이용권을 샀는데, 앱을 다시 깔고 나니 잠겨 있어요. 복원을 눌러도 없다고 나와요.": {
-    "v": "mis. Saya membeli akses seumur hidup, tetapi setelah aplikasi dipasang ulang, aksesnya terkunci. Saat saya ketuk Pulihkan, muncul pesan tidak ada yang bisa dipulihkan.",
-    "src": "c935df2f4a"
-  },
-  "예) 홈 화면 위젯이 어제 값에서 멈춰 있어요. 키보드 목록에 이 앱이 안 보여요.": {
-    "v": "mis. Widget di Layar Utama macet di nilai kemarin. Aplikasi ini tidak muncul di daftar keyboard.",
-    "src": "9713f82101"
-  },
   "예: 010-1234-5678": {
     "v": "mis. 010-1234-5678",
     "src": "f30386ca19"
@@ -8278,10 +7738,6 @@
   "오른쪽 위 '편집'을 눌러요": {
     "v": "Ketuk Edit di kanan atas",
     "src": "994adb83f9"
-  },
-  "오른쪽 파란 화살표를 누르세요": {
-    "v": "Ketuk panah biru di kanan",
-    "src": "22b28ee01a"
   },
   "오른쪽 화살표로 값을 고르고, 왼쪽을 누르면 PIN 인증 후 넣어요": {
     "v": "Pilih nilai dengan panah, lalu ketuk sisi kiri untuk memasukkan PIN dan menempelkannya",
@@ -8411,10 +7867,6 @@
     "v": "Cari di Web",
     "src": "5f6a17e8ee"
   },
-  "위 항목과 스택로 묶기": {
-    "v": "Gabung ke Tumpukan dengan Item di Atas",
-    "src": "856a14c068"
-  },
   "위 항목과 스택으로 묶기": {
     "v": "Gabung ke Tumpukan dengan Item di Atas",
     "src": "fc20620c03"
@@ -8434,18 +7886,6 @@
   "위젯에 표시할 즐겨찾기 단축어를 선택합니다": {
     "v": "Pilih frasa favorit untuk ditampilkan di Widget",
     "src": "13d40b4407"
-  },
-  "위젯이 놓인 홈 화면이나 키보드가 떠 있는 화면을 찍어 주세요. 키보드라면 설정 앱 > 일반 > 키보드 > 키보드 화면도 함께 붙여 주세요.": {
-    "v": "Ambil tangkapan layar Layar Utama yang berisi Widget, atau layar saat keyboard tampil. Untuk keyboard, sertakan juga Pengaturan > Umum > Keyboard > Keyboard.",
-    "src": "bd66902936"
-  },
-  "위젯이나 키보드가 안 돼요": {
-    "v": "Widget atau keyboard tidak berfungsi",
-    "src": "550a8b0ffd"
-  },
-  "위줄에 둘 키와 크기를 설정에서 직접 골라요.": {
-    "v": "Pilih tombol di baris atas dan ukurannya di Pengaturan.",
-    "src": "6e22eb19a9"
   },
   "유지": {
     "v": "Pertahankan",
@@ -8543,10 +7983,6 @@
     "v": "Tidak ada frasa yang memakai kolom isian ini. Hanya nilai tersimpan yang ikut ke nama baru.",
     "src": "3bf7121c46"
   },
-  "이 설정을 켜면 키보드에 한/EN 전환 버튼이 추가됩니다.": {
-    "v": "Jika diaktifkan, tombol pengalih Korea/EN ditambahkan ke keyboard.",
-    "src": "0c0094b708"
-  },
   "이 숫자는 기기 안에서만 계산돼요. 어디에도 보내지 않아요.": {
     "v": "Dihitung hanya di perangkat Anda. Tidak dikirim ke mana pun.",
     "src": "dcbbe847fc"
@@ -8578,10 +8014,6 @@
   "이 앱을 쓰느라 든 시간": {
     "v": "Waktu yang terpakai untuk aplikasi ini",
     "src": "a12038db6b"
-  },
-  "이 앱의 알림 설정": {
-    "v": "Pengaturan notifikasi aplikasi ini",
-    "src": "89060849e9"
   },
   "이 앱이 하루에 박혀 있는 사람들이에요. 리뷰와 입소문이 여기서 나와요.": {
     "v": "Aplikasi ini bagian dari keseharian mereka. Ulasan dan rekomendasi dari mulut ke mulut datang dari sini.",
@@ -8670,10 +8102,6 @@
   "이걸 손으로 했다면": {
     "v": "Jika ini dikerjakan manual",
     "src": "94636b1f8b"
-  },
-  "이걸로 할게요": {
-    "v": "Pilih ini",
-    "src": "c2e9755ca1"
   },
   "이게 클립키보드예요": {
     "v": "Inilah ClipKeyboard",
@@ -8803,17 +8231,9 @@
     "v": "Sudah Sama",
     "src": "a67c067d8d"
   },
-  "이미 만든 단축어는 그대로 있어요": {
-    "v": "Semua yang sudah Anda buat tetap ada",
-    "src": "858350c8d7"
-  },
   "이미 만들어 둔 단축어를 골라 콤보로 묶을 수 있어요": {
     "v": "Gabungkan frasa yang sudah ada menjadi kombo",
     "src": "4fc5d1a307"
-  },
-  "이미 목록 맨 위에 있어요": {
-    "v": "Sudah di paling atas daftar",
-    "src": "fd23639e6a"
   },
   "이미 쓰는 빈칸": {
     "v": "Kolom isian yang sudah dipakai",
@@ -8899,10 +8319,6 @@
     "v": "Tambah Gambar",
     "src": "c448813138"
   },
-  "이미지가 복사되었습니다": {
-    "v": "Gambar disalin",
-    "src": "2eb50418a0"
-  },
   "이미지가 붙었어요. 보내면 올라가요": {
     "v": "Gambar terpasang. Kirim untuk mengunggah.",
     "src": "aec8aac6a0"
@@ -8953,10 +8369,6 @@
     "v": "Kali ini, cukup ketuk tombolnya",
     "src": "ac9339c7b4"
   },
-  "이번엔 셈을 고쳤어요": {
-    "v": "Kali ini hitungannya sudah diperbaiki",
-    "src": "fa8769e8dd"
-  },
   "이번엔 템플릿이에요. 눌러서 빈칸만 채워보세요.": {
     "v": "Kali ini templat. Ketuk dan isi kolom isiannya saja.",
     "src": "77ae594109"
@@ -8964,10 +8376,6 @@
   "이벤트": {
     "v": "Acara",
     "src": "15fd035e42"
-  },
-  "이상한 화면": {
-    "v": "Tampilan layar yang janggal",
-    "src": "46b4000f7f"
   },
   "이어서 쓰려면 두 번 누르세요": {
     "v": "Ketuk dua kali untuk lanjut menulis",
@@ -9085,10 +8493,6 @@
     "v": "Seminggu berlalu, belum ada yang dibuat. Layar pilihan contoh akan muncul.",
     "src": "25bfa27073"
   },
-  "일회성 결제 · 구독 없음 · 환불 가능": {
-    "v": "Sekali bayar · Tanpa langganan · Bisa dikembalikan dananya",
-    "src": "56df55f2c2"
-  },
   "읽은 글자": {
     "v": "Teks yang terbaca",
     "src": "5e63793cb3"
@@ -9128,10 +8532,6 @@
   "입금 계좌": {
     "v": "Rekening bank",
     "src": "cf8af22a18"
-  },
-  "입금은 여기로": {
-    "v": "Transfer ke rekening ini",
-    "src": "95923ae33d"
   },
   "입력": {
     "v": "Masukkan",
@@ -9184,10 +8584,6 @@
   "입력칸에 바로 넣어요": {
     "v": "Langsung diketik ke kolom isian",
     "src": "e7bc4669af"
-  },
-  "입력칸을 누르고, 한 번 더 눌러 '붙여넣기'를 고르세요": {
-    "v": "Ketuk kolom teks, ketuk lagi, lalu pilih Tempel",
-    "src": "5f83a06eb9"
   },
   "입력칸을 눌러 붙여넣어요": {
     "v": "Ketuk kolom teks lalu tempel",
@@ -9273,10 +8669,6 @@
     "v": "Plum",
     "src": "2bb6977e7e"
   },
-  "자랑할 영상을 만들 수 있어요": {
-    "v": "Buat video yang layak dipamerkan",
-    "src": "d0a44f4df1"
-  },
   "자리를 잡았어요. 한도에 닿으면 결제로 이어지는 무리예요.": {
     "v": "Mereka sudah mapan. Kelompok ini yang beralih ke berbayar saat mencapai batas.",
     "src": "e35ce33f54"
@@ -9285,17 +8677,9 @@
     "v": "Item yang kuncinya aktif dienkripsi dan disimpan sebagai frasa aman.",
     "src": "79ce831bf6"
   },
-  "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택로 묶거나 풀 수 있어요.": {
-    "v": "Item yang kuncinya aktif dienkripsi dan disimpan sebagai frasa aman. Tekan lama sebuah item untuk menggabungkannya ke Tumpukan dengan item di atasnya, atau memisahkannya.",
-    "src": "8043acda82"
-  },
   "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 스택으로 묶거나 풀 수 있어요.": {
     "v": "Item yang kuncinya aktif dienkripsi dan disimpan sebagai frasa aman. Tekan lama sebuah item untuk menggabungkannya ke Tumpukan dengan item di atasnya, atau memisahkannya.",
     "src": "32c8576a89"
-  },
-  "자물쇠가 켜진 항목은 보안 단축어로 암호화되어 저장됩니다. 항목을 길게 누르면 위 항목과 콤보로 묶거나 풀 수 있어요.": {
-    "v": "Item yang kuncinya aktif dienkripsi dan disimpan sebagai frasa aman. Tekan lama sebuah item untuk menggabungkannya ke Kombo dengan item di atasnya, atau memisahkannya.",
-    "src": "f2f0c10bca"
   },
   "자세히": {
     "v": "Selengkapnya",
@@ -9665,10 +9049,6 @@
     "v": "Diciutkan",
     "src": "5229621c8b"
   },
-  "정가 %1$@, 지금은 50%% 할인된 %2$@": {
-    "v": "Harga normal %1$@, kini %2$@ dengan diskon 50%%",
-    "src": "5b48cefa42"
-  },
   "정규식으로 알아보기 어렵던 것을 기기 안의 AI가 다시 분류해요": {
     "v": "AI di perangkat mengklasifikasikan ulang hal yang sulit dikenali dengan pola teks",
     "src": "02e192b468"
@@ -9732,10 +9112,6 @@
   "제목이나 내용으로 저장한 단축어를 찾아보세요.": {
     "v": "Cari Frasa tersimpan berdasarkan judul atau isi.",
     "src": "d210265d2f"
-  },
-  "제안된 제목 %@": {
-    "v": "Judul yang disarankan: %@",
-    "src": "270c49e953"
   },
   "제어 센터에 두기": {
     "v": "Tambahkan ke Pusat Kontrol",
@@ -9833,17 +9209,9 @@
     "v": "Saya siap",
     "src": "05e79cb930"
   },
-  "준비된 단축어·템플릿·스택를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.": {
-    "v": "Kami akan memandu Anda mengetuk Frasa, Templat, dan Tumpukan yang sudah disiapkan satu per satu lagi. Frasa di daftar Anda tetap ada.",
-    "src": "b104d88a19"
-  },
   "준비된 단축어·템플릿·스택을 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.": {
     "v": "Kami akan memandu Anda mengetuk Frasa, Templat, dan Tumpukan yang sudah disiapkan satu per satu lagi. Frasa di daftar Anda tetap ada.",
     "src": "d6f3ea52cf"
-  },
-  "준비된 단축어·템플릿·콤보를 다시 하나씩 눌러보며 안내해요. 목록의 단축어는 그대로 남아요.": {
-    "v": "Kami akan memandu Anda mengetuk Frasa, Templat, dan Kombo yang sudah disiapkan satu per satu lagi. Frasa di daftar Anda tetap ada.",
-    "src": "6e5ea29c66"
   },
   "준비된 모양": {
     "v": "Format bawaan",
@@ -9961,10 +9329,6 @@
     "v": "Saat ini %dpt lebih tinggi dari keyboard standar.",
     "src": "732fa02323"
   },
-  "지금 남아 있는 화면": {
-    "v": "Yang tersisa sekarang",
-    "src": "3fa1a883bf"
-  },
   "지금 내 단축어 %1$d / %2$d칸": {
     "v": "%1$d dari %2$d slot terpakai",
     "src": "d35800976d"
@@ -9981,25 +9345,13 @@
     "v": "Nanti saja",
     "src": "0660df0f16"
   },
-  "지금 목록이 보이는 화면을 찍어 주세요. 사진 앱에 예전 화면을 찍어 둔 것이 있으면 함께 붙여 주세요. 무엇이 빠졌는지 견줘 볼 수 있어요.": {
-    "v": "Ambil tangkapan layar daftar seperti saat ini. Jika Anda punya tangkapan layar lama di Foto, sertakan juga agar kami bisa membandingkan apa yang hilang.",
-    "src": "ff5f634480"
-  },
   "지금 보고 있는 기간을 한 장으로 뽑아요.": {
     "v": "Mencetak periode yang sedang Anda lihat menjadi satu struk.",
     "src": "8b6f0a40d8"
   },
-  "지금 복사돼 있는 것을 이 목록에 넣습니다. %d일 동안 남습니다": {
-    "v": "Menambahkan yang Anda salin ke daftar ini. Tersimpan selama %d hari.",
-    "src": "1be979b366"
-  },
   "지금 쓸 차례: %@": {
     "v": "Saatnya dipakai: %@",
     "src": "4b08bcd053"
-  },
-  "지금 안 하셔도 괜찮아요. 나중에 설정에서 구매할 수 있어요.": {
-    "v": "Tidak perlu terburu-buru. Anda bisa membeli nanti di Pengaturan.",
-    "src": "dd7c1cdc39"
   },
   "지금 앱이 보는 나": {
     "v": "Gambaran aplikasi tentang Anda saat ini",
@@ -10012,10 +9364,6 @@
   "지금 켜져 있어요. 키보드의 모든 기능을 쓸 수 있어요.": {
     "v": "Sudah aktif. Anda bisa memakai semua fitur keyboard.",
     "src": "3047c51e76"
-  },
-  "지금까지 만드신 걸 보고 여쭤봐요. 고르시면 추천만 그쪽으로 맞춰져요. 지금 안 고르셔도 괜찮아요.": {
-    "v": "Kami bertanya berdasarkan yang sudah Anda buat. Pilihan Anda hanya menyesuaikan rekomendasi. Boleh dilewati.",
-    "src": "d8095d1827"
   },
   "지금까지 쌓인 시간": {
     "v": "Waktu yang terkumpul sejauh ini",
@@ -10108,10 +9456,6 @@
   "진단 스키마가 아직 허브에 배포되지 않았어요. CloudKit Console 에서 CrashReport 레코드 타입과 인덱스를 배포하면 여기에 쌓입니다.": {
     "v": "Skema diagnostik belum diterapkan di hub. Terapkan tipe record CrashReport beserta indeksnya di CloudKit Console, lalu laporan akan muncul di sini.",
     "src": "35c5b2e73c"
-  },
-  "진단 정보를 모으는 중…": {
-    "v": "Mengumpulkan info diagnostik…",
-    "src": "cb69319857"
   },
   "진동과 복사한 글 꺼내기가 꺼져 있어요": {
     "v": "Getaran dan teks yang disalin nonaktif",
@@ -10417,10 +9761,6 @@
     "v": "Tab Terbaru",
     "src": "737a6ca70e"
   },
-  "최근 탭에 담았어요": {
-    "v": "Tersimpan di Terbaru",
-    "src": "0bd1286402"
-  },
   "최근: %@": {
     "v": "Terbaru: %@",
     "src": "43198b365d"
@@ -10473,10 +9813,6 @@
     "v": "Frasa yang disarankan %@",
     "src": "e583e5f3b5"
   },
-  "추천 카테고리가 추가돼요. 처음엔 꺼져 있으니 카테고리 관리에서 원하는 것만 켜세요.": {
-    "v": "Kategori yang disarankan akan ditambahkan. Awalnya nonaktif, jadi aktifkan saja yang Anda mau di Kelola Kategori.",
-    "src": "afdb286a98"
-  },
   "출근 보고": {
     "v": "Laporan pagi",
     "src": "ebbdafaa53"
@@ -10492,10 +9828,6 @@
   "취소": {
     "v": "Batal",
     "src": "578d75b423"
-  },
-  "치는 시간만 세던 걸 고쳤어요. 계좌번호처럼 다른 앱에서 찾아와야 했던 값은 찾는 시간까지 셉니다. 어떻게 셌는지도 적어 뒀어요.": {
-    "v": "Dulu yang dihitung hanya waktu mengetik. Kini nilai yang harus dicari di app lain, seperti nomor rekening, ikut menghitung waktu pencariannya. Cara menghitungnya juga kami tuliskan.",
-    "src": "d12c64b04d"
   },
   "치면 떠오르는 단축어": {
     "v": "Frasa yang muncul saat Anda mengetik",
@@ -10541,10 +9873,6 @@
     "v": "Seret kartu untuk mengubah urutan",
     "src": "b1666e29c5"
   },
-  "카드를 누르면 복사한 값이 여기 보여요": {
-    "v": "Ketuk kartu dan hasil salinan Anda muncul di sini",
-    "src": "b8ed4c2d5c"
-  },
   "카드를 눌러 보세요": {
     "v": "Ketuk kartunya",
     "src": "53eb6f1218"
@@ -10572,10 +9900,6 @@
   "카드번호·이메일·주소 칸에 들어가면 그 단축어를 맨 앞에 보여 줘요.": {
     "v": "Ketuk kolom nomor kartu, email, atau alamat, dan frasa itu tampil lebih dulu.",
     "src": "d665942763"
-  },
-  "카드번호나 금액처럼 숫자 몇 자만 넣을 때는 숫자 판을 여세요. 붙여넣기 키는 쓰는 분만 켜면 돼요.": {
-    "v": "Buka papan angka jika Anda hanya perlu beberapa digit, seperti nomor kartu atau jumlah. Aktifkan tombol tempel hanya jika Anda memakainya.",
-    "src": "035f627d2e"
   },
   "카드에 살며시 보여줄 한 줄, 비우면 자동 요약": {
     "v": "Satu baris yang tampil halus di kartu, kosongkan untuk ringkasan otomatis",
@@ -10737,10 +10061,6 @@
     "v": "Pesan, email, di mana saja. Cukup ketuk globe",
     "src": "a387edb1ec"
   },
-  "칸 추가에 내신 값이 빠진 값이에요": {
-    "v": "Harga ini sudah dikurangi yang pernah Anda bayar untuk slot",
-    "src": "336ab872ee"
-  },
   "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.": {
     "v": "Setiap langkah dihitung sendiri. Jika diaktifkan tapi tidak muncul, berarti belum ditampilkan, atau dipakai tanpa Akses Penuh sehingga tidak ada jejak. Frasa terpakai mencakup siapa pun yang benar-benar memakainya, lewat keyboard atau salin di app. %d catatan lama tanpa metrik baru tidak disertakan.",
     "src": "b626346872"
@@ -10797,10 +10117,6 @@
     "v": "Cara mengaktifkan",
     "src": "17fa569c64"
   },
-  "켜면 키보드에서 한국어도 입력할 수 있어요": {
-    "v": "Aktifkan agar keyboard juga bisa mengetik bahasa Korea",
-    "src": "17b1b19e2d"
-  },
   "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
     "v": "Jika sudah Anda aktifkan, munculkan keyboard sekali dan status berubah jadi Aktif. iOS hanya memberi tahu saat keyboard terbuka.",
     "src": "a472d9b559"
@@ -10821,10 +10137,6 @@
     "v": "Aktif",
     "src": "b16a83f0a4"
   },
-  "코드를 넣으면 끝까지 처리됐다고 나와야 해요. 같은 코드를 한 번 더 넣으면 이미 받은 선물로 나와야 맞아요.": {
-    "v": "Setelah kode dimasukkan, akan muncul keterangan bahwa prosesnya selesai. Jika kode yang sama dimasukkan lagi, akan muncul keterangan bahwa hadiah sudah ditukarkan.",
-    "src": "755c71b1ac"
-  },
   "콜스택": {
     "v": "Call stack",
     "src": "cce0bf3663"
@@ -10832,10 +10144,6 @@
   "콤보": {
     "v": "Kombo",
     "src": "68f52dc0a2"
-  },
-  "콤보 개수 제한": {
-    "v": "Batas Kombo",
-    "src": "582ce63f20"
   },
   "콤보 수": {
     "v": "Jumlah kombo",
@@ -10848,10 +10156,6 @@
   "콤보 풀기": {
     "v": "Pisahkan Kombo",
     "src": "750d93f803"
-  },
-  "콤보 하나에 값을 여러 개 담아 두고, 오른쪽 → 로 골라 쓰는 거예요. 계좌를 여러 개 쓰거나, 같은 안내를 이름만 바꿔 보낼 때 편합니다.": {
-    "v": "Satu kombo bisa menyimpan beberapa nilai, dan → di kanan untuk memilihnya. Praktis jika Anda punya beberapa rekening, atau mengirim pesan yang sama dengan nama berbeda.",
-    "src": "d05bf36755"
   },
   "콤보가 쉬워졌어요. 값을 이어 붙이고 보안 콤보로 암호화 저장까지": {
     "v": "Kombo makin mudah: rangkai nilai, dan simpan terenkripsi dengan kombo aman",
@@ -11101,10 +10405,6 @@
     "v": "Ketuk ClipKeyboard di daftar keyboard, lalu aktifkan 'Izinkan Akses Penuh'.\nIni diperlukan agar keyboard bisa mengambil frasa yang tersimpan di app. Apa yang Anda ketik tidak pernah keluar dari perangkat.",
     "src": "c58bbb62f3"
   },
-  "키보드 목록에서 ClipKeyboard를 탭한 후, '전체 접근 허용'을 켜주세요.\n저장된 단축어에 접근하기 위해 꼭 필요합니다.": {
-    "v": "Ketuk ClipKeyboard di daftar keyboard, lalu aktifkan 'Izinkan Akses Penuh'.\nIni diperlukan untuk mengakses frasa yang Anda simpan.",
-    "src": "c8e1834214"
-  },
   "키보드 미리보기": {
     "v": "Pratinjau keyboard",
     "src": "2c86ceca60"
@@ -11140,10 +10440,6 @@
   "키보드 설정, 2단계 중 1단계": {
     "v": "Pengaturan keyboard, langkah 1 dari 2",
     "src": "e0268e2ed3"
-  },
-  "키보드 설정하기": {
-    "v": "Atur keyboard",
-    "src": "dcfa90f9ea"
   },
   "키보드 안에서 문구 순서를 바꿔요. 순서를 고치려고 앱까지 다녀와야 하면 대개 안 고치니까요": {
     "v": "Ubah urutan frasa langsung dari keyboard. Kalau mengubah urutan harus kembali ke app dulu, kebanyakan orang tidak akan mengubahnya",
@@ -11193,10 +10489,6 @@
     "v": "Yuk pilih ukuran keyboard Anda",
     "src": "1faac4c86e"
   },
-  "키보드 하나로 글까지": {
-    "v": "Mengetik semuanya dengan satu keyboard",
-    "src": "4577177520"
-  },
   "키보드 화면": {
     "v": "Tampilan keyboard",
     "src": "46ddc5fa8c"
@@ -11208,10 +10500,6 @@
   "키보드가 떠 봄": {
     "v": "Keyboard muncul",
     "src": "c28b3a4f50"
-  },
-  "키보드가 클립키보드 하나만 남으면 아래의 지구본이 사라져요. 이모지를 쓰려면 이모지 키보드는 남겨 두세요. 그러면 지구본도 남아요.": {
-    "v": "Jika ClipKeyboard menjadi satu-satunya keyboard, ikon globe di bawah akan hilang. Untuk tetap memakai emoji, biarkan keyboard Emoji. Ikon globe pun tetap ada.",
-    "src": "ea7cbdddf0"
   },
   "키보드가 화면을 넓게 쓰고, 키보드 안에서 바로 칠 수 있어요": {
     "v": "Keyboard memakai seluruh layar, dan Anda bisa mengetik langsung di dalamnya",
@@ -11228,10 +10516,6 @@
   "키보드로 입력함": {
     "v": "Diketik dengan keyboard",
     "src": "27b76de9dc"
-  },
-  "키보드를 내 손에 맞게 고쳐요": {
-    "v": "Sesuaikan keyboard dengan tangan Anda",
-    "src": "7ac51aaefe"
   },
   "키보드를 다시 열면 보던 갈래가 그대로 열려요. 매번 처음으로 돌아가지 않아요": {
     "v": "Saat dibuka lagi, keyboard menampilkan kategori yang terakhir Anda pakai, tidak mulai dari awal",
@@ -11337,10 +10621,6 @@
     "v": "Pakai dari keyboard",
     "src": "0baef71bc4"
   },
-  "키보드에서 단축어 넣기": {
-    "v": "Masukkan frasa dari keyboard",
-    "src": "f08b39c57e"
-  },
   "키보드에서 단축어를 %d번 꺼내 쓰셨어요": {
     "v": "Anda sudah memakai frasa dari keyboard sebanyak %d kali",
     "src": "8256026cbb"
@@ -11401,10 +10681,6 @@
     "v": "Kolom isian templat di keyboard",
     "src": "0b3bfc5872"
   },
-  "키보드의 한/EN 버튼으로 언어를 전환할 수 있습니다. 기본 언어는 키보드를 처음 열었을 때 적용됩니다.": {
-    "v": "Gunakan tombol ID/EN di keyboard untuk berganti bahasa. Bahasa default berlaku saat keyboard pertama kali dibuka.",
-    "src": "0cfe769018"
-  },
   "키의 두께와 눌리는 느낌만 바뀌어요. 색은 아래에서 따로 고를 수 있어요.": {
     "v": "Hanya ketebalan dan rasa tekan tombol yang berubah. Warna bisa dipilih terpisah di bawah.",
     "src": "14b83cdf7d"
@@ -11456,10 +10732,6 @@
   "탭하면 Pro 업그레이드 보기": {
     "v": "Ketuk untuk melihat upgrade Pro",
     "src": "5408cf2cb1"
-  },
-  "탭하면 Pro를 구매합니다": {
-    "v": "Ketuk untuk membeli Pro",
-    "src": "97b52fe5ad"
   },
   "탭하면 값 목록을 접습니다": {
     "v": "Ketuk untuk menciutkan daftar nilai.",
@@ -11560,10 +10832,6 @@
   "탭하여 이 유형으로 필터링": {
     "v": "Ketuk untuk memfilter menurut jenis ini",
     "src": "944f935b1a"
-  },
-  "탭할 때마다 저장된 값이 순서대로 하나씩 입력돼요. 키보드에서 이어서 다음 값을 넣을 수 있어요.": {
-    "v": "Setiap ketukan memasukkan nilai tersimpan satu per satu, berurutan. Lanjutkan ke nilai berikutnya langsung dari keyboard.",
-    "src": "8e6cbdde9f"
   },
   "테라코타": {
     "v": "Terakota",
@@ -11677,10 +10945,6 @@
     "v": "Tambahkan 4 contoh (templat, tumpukan, dan frasa + templat) untuk dicoba. Frasa Anda yang sudah ada tetap aman.",
     "src": "cec2a2c7d7"
   },
-  "템플릿·콤보·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.": {
-    "v": "Tambahkan 4 contoh (templat, kombo, dan frasa + templat) untuk dicoba. Frasa Anda yang sudah ada tetap aman.",
-    "src": "c0d6965cae"
-  },
   "템플릿과 콤보와 잠긴 단축어를 테두리 무늬로 구분해요": {
     "v": "Templat, kombo, dan frasa terkunci dibedakan lewat pola bingkainya",
     "src": "37e8294eb8"
@@ -11717,17 +10981,9 @@
     "v": "Ulangi tutorial",
     "src": "917e71cf6b"
   },
-  "튜토리얼에서 눌러 본 단축어·템플릿·스택예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.": {
-    "v": "Ini frasa, templat, dan tumpukan yang Anda coba di tutorial. Anda sudah membuat sendiri, jadi boleh dihapus atau dibiarkan dan diubah sesuai kebutuhan.",
-    "src": "5d1342f259"
-  },
   "튜토리얼에서 눌러 본 단축어·템플릿·스택이에요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.": {
     "v": "Ini frasa, templat, dan tumpukan yang Anda coba di tutorial. Anda sudah membuat sendiri, jadi boleh dihapus atau dibiarkan dan diubah sesuai kebutuhan.",
     "src": "78cebde2c2"
-  },
-  "튜토리얼에서 눌러 본 단축어·템플릿·콤보예요. 이제 직접 만드셨으니 치워도 되고, 그대로 두고 고쳐 쓰셔도 돼요.": {
-    "v": "Ini frasa, templat, dan kombo yang Anda coba di tutorial. Anda sudah membuat sendiri, jadi boleh dihapus atau dibiarkan dan diubah sesuai kebutuhan.",
-    "src": "1687a24997"
   },
   "튜토리얼을 다시 할까요?": {
     "v": "Ulangi tutorial?",
@@ -11777,10 +11033,6 @@
     "v": "Persona diubah",
     "src": "73e5429e64"
   },
-  "페르소나를 골라도 단축어가 추가되지 않아요. 여러분에게 맞는 추천(이런 단축어 어때요? · 카테고리 이름)만 바뀝니다.": {
-    "v": "Memilih persona tidak menambah frasa apa pun. Hanya rekomendasi yang Anda lihat yang berubah (frasa yang disarankan, nama kategori).",
-    "src": "f916a52db6"
-  },
   "페르소나를 처음이 아니라 써 보고 나서 여쭤봐요. 단축어를 두 개 만드셨거나 카테고리를 하나 만드셨을 때 한 번만요": {
     "v": "Kami menanyakan persona setelah Anda mencoba aplikasinya, bukan di layar pertama. Hanya sekali, setelah dua frasa atau satu tema dibuat",
     "src": "6f8d643d93"
@@ -11821,14 +11073,6 @@
     "v": "Pro Seumur Hidup",
     "src": "82b76e83ce"
   },
-  "평생 Pro로 계속하기": {
-    "v": "Lanjutkan dengan Pro Seumur Hidup",
-    "src": "79ff21c044"
-  },
-  "평생 한 번 결제와 연 구독 중에 고를 수 있어요.": {
-    "v": "Pilih sekali bayar seumur hidup atau langganan tahunan.",
-    "src": "e21a8783de"
-  },
   "평평한 기본 모습이에요. 카드가 푹신하게 반응해요.": {
     "v": "Tampilan dasar yang polos. Kartu merespons dengan empuk.",
     "src": "d09b5a218e"
@@ -11856,10 +11100,6 @@
   "표준": {
     "v": "Standar",
     "src": "997ec1db42"
-  },
-  "프로페셔널 영어 템플릿을 마음껏: 비원어민도 유창하게": {
-    "v": "Templat bahasa Inggris profesional sepuasnya: lancar meski bukan penutur asli",
-    "src": "40a20258cf"
   },
   "프리랜서": {
     "v": "Freelance",
@@ -12017,10 +11257,6 @@
     "v": "Setiap frasa dihitung sebagai satu jenis saja (tumpukan > templat > gambar > teks). Hitungan teks dimulai sejak 4.4.3, jadi catatan lama yang tercampur bisa membuat teks tampak lebih rendah dari sebenarnya.",
     "src": "94e2032acf"
   },
-  "한 단축어는 한 종류로만 세요(콤보 > 템플릿 > 이미지 > 텍스트 순). 텍스트 수치는 4.4.3부터 모여서, 그 전 기록이 섞이면 실제보다 낮게 보일 수 있어요.": {
-    "v": "Setiap frasa dihitung sebagai satu jenis saja (kombo > templat > gambar > teks). Hitungan teks dimulai sejak 4.4.3, jadi catatan lama yang tercampur bisa membuat teks tampak lebih rendah dari sebenarnya.",
-    "src": "a5d87f903e"
-  },
   "한 단축어에 여러 값: \"내용 더 넣기\"로 담고, 기존 단축어에서 값 가져오기도 가능": {
     "v": "Banyak nilai dalam satu frasa: simpan lewat \"Tambah isi\", atau ambil nilai dari frasa yang sudah ada",
     "src": "0321cda730"
@@ -12028,14 +11264,6 @@
   "한 달 동안 안 썼다. 먼저 말을 거는 자리가 전부 꺼진다.": {
     "v": "Sebulan tidak dipakai. Semua yang menyapa lebih dulu dimatikan.",
     "src": "0502dd1f78"
-  },
-  "한 번 결제 · 평생 사용": {
-    "v": "Sekali bayar · milik Anda selamanya",
-    "src": "3adc0c2eca"
-  },
-  "한 번 결제하고 계속": {
-    "v": "Bayar sekali, selamanya",
-    "src": "9f6c860083"
   },
   "한 번 꺼내 쓸 때마다 적어도 2분은 아낀 것으로 세요. 깃 토큰처럼 갈래를 못 알아보는 값이 10초로 적히던 걸 고쳤어요": {
     "v": "Setiap pemakaian kini dihitung hemat minimal 2 menit. Nilai yang tidak bisa dikategorikan, seperti token git, dulu tercatat 10 detik.",
@@ -12109,18 +11337,6 @@
     "v": "Diimpor sekaligus",
     "src": "95c82753ca"
   },
-  "한번 결제하면 평생, 구독 아니에요": {
-    "v": "Bayar sekali, selamanya. Bukan langganan",
-    "src": "5a73b49a3c"
-  },
-  "한번 결제하면 평생이에요. 지금 안 하셔도 앱은 그대로 다 쓰실 수 있어요.": {
-    "v": "Bayar sekali, berlaku selamanya. Jika dilewati, aplikasi tetap berfungsi seperti sekarang.",
-    "src": "561f1d33d4"
-  },
-  "한번 구매, 평생 사용": {
-    "v": "Beli sekali, pakai selamanya",
-    "src": "64186f3b06"
-  },
   "한번 구매로 데이터를 안전하게 백업하세요": {
     "v": "Cadangkan data Anda dengan aman lewat sekali beli",
     "src": "5ee76c9a25"
@@ -12189,10 +11405,6 @@
     "v": "Ada yang kurang nyaman?",
     "src": "6006a50459"
   },
-  "혹시 이런 분이신가요?": {
-    "v": "Apakah ini seperti Anda?",
-    "src": "a6ec53d055"
-  },
   "홈 버튼이 없는 iPhone에서는 홈 막대와 겹치지 않게 iOS가 키보드 아래에 늘 띠를 비워 둬요. 키보드를 하나만 남기고 받아쓰기를 꺼도 남고, 접는 설정은 없어요. 어느 키보드든 이 띠 위에 올라가요. 그래서 이 자리를 쓰게 두는 편이 나아요.": {
     "v": "Di iPhone tanpa tombol Home, iOS selalu menyisakan bilah di bawah papan ketik agar tidak tumpang tindih dengan bilah Home. Bilah ini tetap ada meski hanya satu papan ketik dan dikte dimatikan, dan tidak ada pengaturan untuk menyembunyikannya. Semua papan ketik berada di atasnya, jadi lebih baik ruang itu dimanfaatkan.",
     "src": "a8a5c40b7b"
@@ -12236,10 +11448,6 @@
   "화면이 둘이라고 알려 드릴 때 위의 버튼과 아래 탭이 함께 빛나요. 콤보 키에서 잘려 나가던 물결도 고쳤어요": {
     "v": "Saat kami memberi tahu bahwa ada dua layar, tombol di atas dan tab di bawah menyala bersamaan. Riak pada tombol Kombo yang terpotong juga sudah diperbaiki",
     "src": "459064740b"
-  },
-  "화면이나 글자가 이상해요": {
-    "v": "Layar atau teks tampak janggal",
-    "src": "77ad812308"
   },
   "확인": {
     "v": "OK",
@@ -12348,10 +11556,6 @@
   "휴면": {
     "v": "Tidak aktif",
     "src": "1f2314554b"
-  },
-  "흰 화면이어도 괜찮아요. 옆 버튼과 볼륨 올리기 버튼을 함께 누르면 찍혀요.": {
-    "v": "Layar putih juga tidak apa-apa. Tekan tombol samping dan tombol naikkan volume bersamaan untuk mengambil tangkapan layar.",
-    "src": "5bc1d83572"
   },
   "힌트 (선택)": {
     "v": "Petunjuk (opsional)",
@@ -12537,10 +11741,6 @@
     "v": "Frasa favorit yang disalin oleh tombol di Pusat Kontrol",
     "src": "a8a1c831e6"
   },
-  "연습용으로 만든 가짜 계좌번호예요": {
-    "v": "Nomor rekening palsu, hanya untuk latihan",
-    "src": "6af81dad92"
-  },
   "연습이라 어디에도 보내지지 않아요": {
     "v": "Ini hanya latihan. Tidak ada yang dikirim ke mana pun",
     "src": "98f5e5a0ea"
@@ -12560,14 +11760,6 @@
   "매달 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.": {
     "v": "Diperpanjang otomatis dengan biaya %@ per bulan. Batalkan paling lambat 24 jam sebelum perpanjangan di Pengaturan > Akun Apple > Langganan.",
     "src": "0132f370b1"
-  },
-  "월 · 연 구독이나 평생 중에 골라요": {
-    "v": "Pilih langganan bulanan, tahunan, atau seumur hidup",
-    "src": "f58d75b184"
-  },
-  "%d일 무료 체험 · 월 · 연 구독이나 평생 중에 골라요": {
-    "v": "Uji coba gratis %d hari · Lalu pilih bulanan, tahunan, atau seumur hidup",
-    "src": "1d1c9b1de5"
   },
   "평생 한 번 결제와 월 · 연 구독 중에 고를 수 있어요.": {
     "v": "Pilih sekali bayar seumur hidup atau langganan bulanan atau tahunan.",
