@@ -282,17 +282,12 @@ struct SettingView: View {
         }
     }
 
-    /// 처음 사용자(백지)가 아직 볼 일이 없는 줄(응원)을 보일 때인가. 기존 사용자 · 졸업한 사람은 늘 보인다.
-    private var showsAdvancedRows: Bool {
-        !FeatureSet.isBlankStartUser() || FeatureSet.hasGraduated(level: userState.state.level)
-    }
-
     /// 팁(응원) - 이미 다 가진 사람이 더 내고 싶을 때. 팁 상품이 App Store 에서 와야 보인다.
+    /// 요금제 칸 바로 아래, 누구에게나 보인다. 응원한 사람에게는 지금 단계(배지)가 줄 안에 선다.
     /// ⚠️ 문구는 LeeoKit 카탈로그에 있다(`LeeoTipText`).
     @ViewBuilder
     private var tipSection: some View {
-        // 처음 사용자에게는 졸업 뒤에 보인다. 응원은 앱이 손에 붙은 다음의 일이다
-        if let tipJar = proManager.tipJar, tipJar.isAvailable, showsAdvancedRows {
+        if let tipJar = proManager.tipJar, tipJar.isAvailable {
             Section {
                 FoldLink(destination: LeeoTipJarView<ClipKeyboardSpec>(tipJar: tipJar)
                     .leeoStyle(theme.leeoStyle)) {
@@ -302,6 +297,9 @@ struct SettingView: View {
                             Text(LeeoTipText.entrySubtitle)
                                 .font(.footnote)
                                 .foregroundColor(theme.textMuted)
+                            LeeoSupporterBadge(tipJar: tipJar)
+                                .leeoStyle(theme.leeoStyle)
+                                .padding(.top, 4)
                         }
                     } icon: {
                         Image(systemName: AppSymbol.heartFill)
@@ -424,7 +422,10 @@ struct SettingView: View {
 
     var body: some View {
         List {
+            // 위에서부터 요금제 · 응원(내 후원 단계) · 선물. 돈 이야기는 이 세 칸에 모여 있다.
             proSection
+            tipSection
+            giftSection
             // 백지로 시작한 사람만: 기능 더하기 · 가이드북. 기존 사용자에게는 없다.
             // ⚠️ 다른 갈래처럼 **이름 한 줄**만 세우고 안으로 들어간다. 줄 여덟 개를 첫 화면에 펼치면
             //    아래 갈래가 다 밀려 내려간다(이 화면의 원칙, 아래 `갈래` 머리말).
@@ -437,8 +438,6 @@ struct SettingView: View {
                                 systemImage: AppSymbol.bookPagesFill) { GuideBookView() }
                 }
             }
-            giftSection
-            tipSection
             everydaySection
             aboutSection
             // 사용자가 보는 설정의 **맨 끝**. 아래 개발자 섹션은 마스터 모드에서만 보인다.
