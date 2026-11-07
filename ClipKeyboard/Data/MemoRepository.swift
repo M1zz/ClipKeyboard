@@ -17,11 +17,7 @@ final class MemoRepository: MemoRepositoryProtocol {
     func delete(id: UUID) throws {
         var memos = try fetchAll()
         memos.removeAll { $0.id == id }
-        try save(memos)
-        // 단축어가 사라지면 그 단축어에 대해 배운 캐럿 자리도 같이 지운다.
-        // 안 지우면 새 단축어가 같은 id 를 받을 일은 없어도 값이 계속 쌓인다.
-        CursorMemory.forget(for: id)
-        EditPattern.forget(for: id)
+        try save(memos)   // 배운 것(커서 자리 · 편집 습관)은 저장소가 같이 지운다
     }
 
     func incrementClipCount(for id: UUID) throws {

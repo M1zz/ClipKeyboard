@@ -68,64 +68,31 @@ var selectedTheme: String?  // 선택된 테마 필터
 class PredefinedValuesStore {
     static let shared = PredefinedValuesStore()
 
-    // PlaceholderValue 모델 (키보드 전용 - 메인 앱의 PlaceholderValue와 같은 구조)
-    private struct KeyboardPlaceholderValue: Codable {
-        var id: UUID
-        var value: String
-        var sourceMemoId: UUID
-        var sourceMemoTitle: String
-        var addedAt: Date
-    }
+    // ⚠️ 값의 자리와 형식은 앱과 같은 `PlaceholderValueBook` 이 정한다. 여기서 따로 정의하지 않는다.
 
     // UserDefaults에서 불러오기 (새로운 구조)
     func getValues(for placeholder: String) -> [String] {
-        let key = "placeholder_values_\(placeholder)"
-
-        // 새로운 형식으로 로드 시도
         // ⚠️ 여기서 값을 로그로 찍지 않는다. 빈칸 값은 사용자가 적은 내용(주소 · 계좌)이고,
         //    릴리즈에서 print 가 없어져도 넘긴 글자는 만들어진다.
-        if let data = AppGroup.defaults?.data(forKey: key),
-           let placeholderValues = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) {
-            return placeholderValues.map { $0.value }
-        }
+        let values = PlaceholderValueBook.values(placeholder)
+        if !values.isEmpty { return values.map(\.value) }
 
         // 이전 형식 호환성 (마이그레이션)
         let oldKey = "predefined_\(placeholder)"
         return AppGroup.defaults?.stringArray(forKey: oldKey) ?? []
     }
 
-    /// 값을 하나 **적어 넣는다.** 앱 쪽 `MemoStore.addPlaceholderValue` 와 같은 자리·같은 형식.
-    ///
-    /// ⚠️ 두 타깃이 같은 파일을 보므로 여기 하나만 있으면 된다. 형식이 갈리면 한쪽이 쓴 값을
-    ///    다른 쪽이 못 읽는다 - `KeyboardPlaceholderValue` 는 앱의 `PlaceholderValue` 와
-    ///    필드 이름까지 같아야 한다(그래서 같은 JSON 을 주고받는다).
-    ///
-    /// ⚠️ 같은 값이 이미 있으면 **맨 앞으로 끌어올린다.** 두 번 적히면 고를 때 같은 칩이
-    ///    두 개 보인다.
+    /// 값을 하나 **적어 넣는다.** 앱 쪽 `MemoStore.addPlaceholderValue` 와 같은 장부(`PlaceholderValueBook`)다.
+    /// 같은 값이 이미 있으면 맨 앞으로 끌어올린다. 풀지 못한 값 위에는 쓰지 않는다.
     @discardableResult
     func addValue(_ value: String,
                   for placeholder: String,
                   sourceMemoId: UUID?,
                   sourceMemoTitle: String) -> Bool {
         let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty, let defaults = AppGroup.defaults else { return false }
-
-        let key = "placeholder_values_\(placeholder)"
-        var values: [KeyboardPlaceholderValue] = []
-        if let data = defaults.data(forKey: key),
-           let decoded = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) {
-            values = decoded
-        }
-        values.removeAll { $0.value == trimmed }
-        values.insert(KeyboardPlaceholderValue(id: UUID(),
-                                               value: trimmed,
-                                               sourceMemoId: sourceMemoId ?? UUID(),
-                                               sourceMemoTitle: sourceMemoTitle,
-                                               addedAt: Date()),
-                      at: 0)
-        guard let data = try? JSONEncoder().encode(values) else { return false }
-        defaults.set(data, forKey: key)
-        return true
+        guard !trimmed.isEmpty else { return false }
+        return PlaceholderValueBook.add(trimmed, for: placeholder,
+                                        sourceMemoId: sourceMemoId ?? UUID(), sourceMemoTitle: sourceMemoTitle)
     }
 
     // 특정 템플릿에서 쓸 값
@@ -166,12 +133,7 @@ class PredefinedValuesStore {
 
     /// UserDefaults에서 플레이스홀더 값 조회
     private func getValuesFromUserDefaults(placeholder: String, templateId: UUID?) -> [String] {
-        let key = "placeholder_values_\(placeholder)"
-        guard let userDefaults = AppGroup.defaults,
-              let data = userDefaults.data(forKey: key),
-              let placeholderValues = try? JSONDecoder().decode([KeyboardPlaceholderValue].self, from: data) else {
-            return []
-        }
+        let placeholderValues = PlaceholderValueBook.values(placeholder)
         if let templateId {
             let filtered = placeholderValues.filter { $0.sourceMemoId == templateId }
             if !filtered.isEmpty { return filtered.map { $0.value } }

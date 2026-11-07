@@ -235,7 +235,10 @@ class MemoStore: ObservableObject {
         }
         let data = try JSONEncoder().encode(memos)
         guard let outfile = try Self.fileURL(type: type) else { return }
+        // 덮기 직전의 목록(캐시가 디스크와 같을 때만). 사라진 단축어를 알아보는 데 쓴다.
+        let previous = type == .memo && change == .content ? cachedMemos(for: type, stamp: FileStamp.of(outfile)) : nil
         try data.write(to: outfile, options: .atomic)
+        if let previous { Self.forgetRemoved(from: previous, keeping: memos) }
         // 방금 쓴 내용이 곧 진실이다. 알림을 받은 화면들이 바로 다시 읽으므로
         // 여기서 캐시를 채워두면 그 재로드가 디코딩 없이 끝난다.
         rememberMemos(memos, for: type, at: outfile)
@@ -245,6 +248,19 @@ class MemoStore: ObservableObject {
             Self.writeCategorySidecar(memos)
         }
         Self.postDataChanged(change)
+    }
+
+    /// 사라진 단축어에 대해 배운 것(커서 자리 · 편집 습관)을 지운다.
+    ///
+    /// 왜 여기인가: 단축어가 지워지는 길은 목록 · 키보드 · 일괄 선택 · 기기 간 동기화로 여럿이다.
+    /// 그 길마다 지우기를 붙이면 하나는 빠진다(실제로 지우는 함수에만 붙어 있었고 그 함수는 불리지 않았다).
+    /// 모든 길이 이 저장을 지나므로 여기서 한 번 본다.
+    private static func forgetRemoved(from previous: [Memo], keeping memos: [Memo]) {
+        let removed = Set(previous.map(\.id)).subtracting(memos.map(\.id))
+        for id in removed {
+            CursorMemory.forget(for: id)
+            EditPattern.forget(for: id)
+        }
     }
 
     func saveClipboardHistory(history: [ClipboardHistory]) throws {
@@ -764,19 +780,15 @@ class MemoStore: ObservableObject {
 
     // MARK: - Placeholder Values
 
+    // ⚠️ 빈칸 값의 자리와 형식은 `PlaceholderValueBook` 한 곳에 있다(키보드도 그것을 쓴다).
+    //    여기서 고치는 일은 전부 `modify` 를 거친다. 풀지 못한 값 위에 덮어쓰지 않기 위해서다.
+
     func loadPlaceholderValues(for placeholder: String) -> [PlaceholderValue] {
-        let key = "placeholder_values_\(placeholder)"
-        guard let data = AppGroup.defaults?.data(forKey: key) else {
-            return []
-        }
-        return (try? JSONDecoder().decode([PlaceholderValue].self, from: data)) ?? []
+        PlaceholderValueBook.values(placeholder)
     }
 
     func savePlaceholderValues(_ values: [PlaceholderValue], for placeholder: String) {
-        let key = "placeholder_values_\(placeholder)"
-        guard let data = try? JSONEncoder().encode(values) else { return }
-        AppGroup.defaults?.set(data, forKey: key)
-        AppGroup.defaults?.synchronize()
+        PlaceholderValueBook.write(values, for: placeholder)
     }
 
     /// 값 **하나**를 맨 앞에 올린다. 최근에 쓴 것이 앞에 오는 목록이라 이게 맞다.
@@ -785,10 +797,7 @@ class MemoStore: ObservableObject {
     ///    넣은 순서가 통째로 뒤집힌다(`["A","B","C"]` → `["C","B","A"]`).
     ///    목록을 통째로 넣을 때는 아래 `mergePlaceholderValues(_:for:...)` 를 쓴다.
     func addPlaceholderValue(_ value: String, for placeholder: String, sourceMemoId: UUID, sourceMemoTitle: String) {
-        var values = loadPlaceholderValues(for: placeholder)
-        values.removeAll { $0.value == value }
-        values.insert(PlaceholderValue(value: value, sourceMemoId: sourceMemoId, sourceMemoTitle: sourceMemoTitle), at: 0)
-        savePlaceholderValues(values, for: placeholder)
+        PlaceholderValueBook.add(value, for: placeholder, sourceMemoId: sourceMemoId, sourceMemoTitle: sourceMemoTitle)
     }
 
     /// 넣기를 마친 빈칸 값 가운데 **다음 번호**만 새로 적는다. 안 적으면 다음번에도 같은 번호가 나온다.
@@ -825,12 +834,13 @@ class MemoStore: ObservableObject {
         guard !incoming.isEmpty else { return }
 
         // 이 단축어가 말하는 값들은 앞으로, 다른 데서 온 값들은 그 뒤로.
-        var rest = loadPlaceholderValues(for: placeholder)
-        rest.removeAll { incoming.contains($0.value) }
         let fresh = incoming.map {
             PlaceholderValue(value: $0, sourceMemoId: sourceMemoId, sourceMemoTitle: sourceMemoTitle)
         }
-        savePlaceholderValues(fresh + rest, for: placeholder)
+        PlaceholderValueBook.modify(placeholder) { values in
+            values.removeAll { incoming.contains($0.value) }
+            values = fresh + values
+        }
     }
 
     /// 값 하나를 지운다.
@@ -840,10 +850,11 @@ class MemoStore: ObservableObject {
     ///    키보드에서는 그대로 나오는 일이 생긴다. 지운 것이 다시 나오면 사용자는 지웠다는 것을
     ///    믿지 못하게 된다.
     func deletePlaceholderValue(valueId: UUID, for placeholder: String) {
-        var values = loadPlaceholderValues(for: placeholder)
-        let removed = values.first { $0.id == valueId }?.value
-        values.removeAll { $0.id == valueId }
-        savePlaceholderValues(values, for: placeholder)
+        var removed: String?
+        PlaceholderValueBook.modify(placeholder) { values in
+            removed = values.first { $0.id == valueId }?.value
+            values.removeAll { $0.id == valueId }
+        }
 
         if let removed {
             removeValueFromMemoCopies(removed, for: placeholder)
@@ -920,12 +931,11 @@ class MemoStore: ObservableObject {
         guard !taken.contains(new) else { return .nameTaken }
 
         // 1) 값 - 새 이름으로 옮기고 옛 자리는 비운다(App Group + 표준 UserDefaults 의 옛 값).
-        let values = loadPlaceholderValues(for: old)
-        if !values.isEmpty { savePlaceholderValues(values, for: new) }
-        let oldKey = "placeholder_values_\(old)"
-        AppGroup.defaults?.removeObject(forKey: oldKey)
-        AppGroup.defaults?.synchronize()
-        UserDefaults.standard.removeObject(forKey: oldKey)
+        // 풀지 못한 값은 옮기지도 지우지도 않는다(옛 자리에 남겨 두어야 되찾을 수 있다).
+        if let values = PlaceholderValueBook.stored(old) {
+            if !values.isEmpty { PlaceholderValueBook.write(values, for: new) }
+            PlaceholderValueBook.remove(old)
+        }
 
         // 2) 본문·변수 목록·사본 - 셋 다 옛 이름을 들고 있다.
         var touched = 0
@@ -1025,10 +1035,7 @@ class MemoStore: ObservableObject {
     ///    그래서 아직 쓰는 단축어가 있는 빈칸은 지워도 다음에 다시 나타난다.
     ///    부르는 쪽이 "쓰는 단축어 없음"(`PlaceholderSummary.isOrphan`)만 지우게 할 것.
     func deletePlaceholder(_ placeholder: String) {
-        let key = "placeholder_values_\(placeholder)"
-        AppGroup.defaults?.removeObject(forKey: key)
-        AppGroup.defaults?.synchronize()
-        UserDefaults.standard.removeObject(forKey: key)
+        PlaceholderValueBook.remove(placeholder)
         removePlaceholderFromMemoCopies(placeholder)
         print("🗑️ [MemoStore.deletePlaceholder] 빈칸을 지웠다: \(placeholder)")
     }
@@ -1060,14 +1067,7 @@ class MemoStore: ObservableObject {
     ///
     /// ⚠️ 값은 **App Group** 에 저장된다. 예전에 표준 UserDefaults 로 쓰던 것도 있어 양쪽을 훑는다.
     func storedPlaceholderTokens() -> [String] {
-        let prefix = "placeholder_values_"
-        var tokens: Set<String> = []
-        for defaults in [AppGroup.defaults, UserDefaults.standard].compactMap({ $0 }) {
-            for key in defaults.dictionaryRepresentation().keys where key.hasPrefix(prefix) {
-                tokens.insert(String(key.dropFirst(prefix.count)))
-            }
-        }
-        return tokens.sorted()
+        PlaceholderValueBook.storedTokens()
     }
 
     // MARK: - Combo

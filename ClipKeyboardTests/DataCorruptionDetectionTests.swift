@@ -154,4 +154,31 @@ final class DataCorruptionDetectionTests: XCTestCase {
         XCTAssertEqual(try file.read(), [])
         XCTAssertTrue(FileManager.default.fileExists(atPath: copy.path), "깨진 원본의 사본이 남는다")
     }
+
+    // MARK: - 빈칸 값 장부
+
+    /// 풀지 못한 빈칸 값 위에 하나를 더해 쓰면 그 빈칸의 값이 통째로 사라진다. 쓰지 않아야 한다.
+    func testPlaceholderBookDoesNotOverwriteUndecodableValues() throws {
+        let token = "{test-\(UUID().uuidString)}"
+        let key = PlaceholderValueBook.key(for: token)
+        defer { PlaceholderValueBook.remove(token) }
+        let garbage = Data("not json".utf8)
+        defaults.set(garbage, forKey: key)
+
+        XCTAssertNil(PlaceholderValueBook.stored(token), "풀지 못한 것은 빈 목록이 아니다")
+        XCTAssertFalse(PlaceholderValueBook.add("서울", for: token, sourceMemoId: UUID(), sourceMemoTitle: "t"))
+        XCTAssertEqual(defaults.data(forKey: key), garbage, "원본은 그대로다")
+    }
+
+    /// 앱(MemoStore)이 적은 값을 장부가 그대로 읽고, 같은 값은 맨 앞으로 끌어올린다.
+    func testPlaceholderBookIsSharedAndDeduplicates() throws {
+        let token = "{test-\(UUID().uuidString)}"
+        defer { PlaceholderValueBook.remove(token) }
+        let memo = UUID()
+        MemoStore.shared.addPlaceholderValue("A", for: token, sourceMemoId: memo, sourceMemoTitle: "t")
+        MemoStore.shared.addPlaceholderValue("B", for: token, sourceMemoId: memo, sourceMemoTitle: "t")
+        XCTAssertTrue(PlaceholderValueBook.add("A", for: token, sourceMemoId: memo, sourceMemoTitle: "t"))
+        XCTAssertEqual(PlaceholderValueBook.values(token).map(\.value), ["A", "B"])
+        XCTAssertTrue(PlaceholderValueBook.storedTokens().contains(token))
+    }
 }

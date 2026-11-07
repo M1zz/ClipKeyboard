@@ -303,6 +303,86 @@ struct PlaceholderValue: Identifiable, Codable {
     }
 }
 
+// MARK: - 빈칸 값 장부
+
+/// **빈칸 값이 사는 곳 하나.** 앱과 키보드가 같은 열쇠(`placeholder_values_{이름}`) · 같은 형식으로 읽고 쓴다.
+///
+/// 왜 한 곳인가: 예전에는 열쇠 문자열이 여러 파일에 흩어져 있었고, 키보드는 같은 모양의 타입을
+/// 따로 정의해 읽었다. 둘이 어긋나면 한쪽이 쓴 값을 다른 쪽이 못 읽고, 못 읽은 채로 값을 하나
+/// 더하면 **그 빈칸의 값이 통째로 덮였다.**
+///
+/// ⚠️ 값은 App Group 에 있다. 아주 옛날에는 표준 UserDefaults 에 썼으므로 지울 때와 훑을 때는 양쪽을 본다.
+enum PlaceholderValueBook {
+    static let keyPrefix = "placeholder_values_"
+
+    static func key(for placeholder: String) -> String { keyPrefix + placeholder }
+
+    /// 저장된 값. 아직 없으면 빈 목록, **풀지 못하면 nil**(그 위에 쓰면 안 된다).
+    static func stored(_ placeholder: String) -> [PlaceholderValue]? {
+        guard let data = AppGroup.defaults?.data(forKey: key(for: placeholder)) else { return [] }
+        do {
+            return try JSONDecoder().decode([PlaceholderValue].self, from: data)
+        } catch {
+            // 값은 사용자가 적은 내용(주소 · 계좌)이라 찍지 않는다.
+            print("❌ [PlaceholderValueBook.stored] 빈칸 값을 풀지 못했다: \(error.localizedDescription)")
+            return nil
+        }
+    }
+
+    /// 보여 줄 값. 풀지 못했으면 빈 목록이다(보여 주기만 하므로 덮을 일이 없다).
+    static func values(_ placeholder: String) -> [PlaceholderValue] {
+        stored(placeholder) ?? []
+    }
+
+    /// 통째로 쓴다. 고칠 때는 `modify` 를 쓴다.
+    @discardableResult
+    static func write(_ values: [PlaceholderValue], for placeholder: String) -> Bool {
+        guard let defaults = AppGroup.defaults, let data = try? JSONEncoder().encode(values) else { return false }
+        defaults.set(data, forKey: key(for: placeholder))
+        return true
+    }
+
+    /// 읽고, 바꾸고, 쓴다. **풀지 못한 값 위에는 쓰지 않는다.**
+    @discardableResult
+    static func modify(_ placeholder: String, _ change: (inout [PlaceholderValue]) -> Void) -> Bool {
+        guard var values = stored(placeholder) else { return false }
+        change(&values)
+        return write(values, for: placeholder)
+    }
+
+    /// 값을 하나 맨 앞에 올린다. 같은 값이 있으면 끌어올린다(같은 칩이 두 개 보이지 않게).
+    @discardableResult
+    static func add(_ value: String, for placeholder: String, sourceMemoId: UUID, sourceMemoTitle: String) -> Bool {
+        modify(placeholder) { values in
+            values.removeAll { $0.value == value }
+            values.insert(PlaceholderValue(value: value, sourceMemoId: sourceMemoId, sourceMemoTitle: sourceMemoTitle), at: 0)
+        }
+    }
+
+    /// 이 빈칸의 값을 없앤다(App Group 과 옛 표준 저장소 둘 다).
+    static func remove(_ placeholder: String) {
+        let key = key(for: placeholder)
+        AppGroup.defaults?.removeObject(forKey: key)
+        UserDefaults.standard.removeObject(forKey: key)
+    }
+
+    /// 값이 저장돼 있는 빈칸 이름 전부(양쪽 저장소).
+    static func storedTokens() -> [String] {
+        var tokens: Set<String> = []
+        for defaults in [AppGroup.defaults, UserDefaults.standard].compactMap({ $0 }) {
+            for key in defaults.dictionaryRepresentation().keys where key.hasPrefix(keyPrefix) {
+                tokens.insert(String(key.dropFirst(keyPrefix.count)))
+            }
+        }
+        return tokens.sorted()
+    }
+
+    /// 모든 빈칸의 값을 없앤다("전부 지우기").
+    static func removeAll() {
+        for token in storedTokens() { remove(token) }
+    }
+}
+
 
 // MARK: - 스택의 한 칸
 

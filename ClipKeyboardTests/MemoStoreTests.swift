@@ -93,6 +93,26 @@ final class MemoStoreTests: XCTestCase {
         XCTAssertEqual(finalMemos[1].title, "테스트3")
     }
 
+    /// 어느 길로 지웠든 저장을 지나면, 그 단축어에 대해 배운 커서 자리도 같이 지워진다.
+    func testDeletingMemoForgetsWhatWasLearnedAboutIt() throws {
+        try sut.save(memos: testMemos, type: .memo)
+        _ = try sut.load(type: .memo)   // 캐시가 디스크와 같아진다(덮기 직전 목록을 여기서 본다)
+        let gone = testMemos[1].id, kept = testMemos[0].id
+        for _ in 0..<3 {
+            _ = CursorMemory.observe(memoId: gone, offsetFromEnd: 2, textLength: 10)
+            _ = CursorMemory.observe(memoId: kept, offsetFromEnd: 2, textLength: 10)
+        }
+        XCTAssertNotNil(CursorMemory.learned(for: gone))
+
+        var memos = try sut.load(type: .memo)
+        memos.removeAll { $0.id == gone }
+        try sut.save(memos: memos, type: .memo)
+
+        XCTAssertNil(CursorMemory.learned(for: gone), "지운 단축어에 대해 배운 것은 남지 않는다")
+        XCTAssertNotNil(CursorMemory.learned(for: kept), "남은 단축어의 것은 그대로다")
+        CursorMemory.forget(for: kept)
+    }
+
     // MARK: - SmartClipboardHistory Tests
 
     func testSaveAndLoadSmartClipboardHistory() throws {
