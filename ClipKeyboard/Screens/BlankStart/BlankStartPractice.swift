@@ -4,6 +4,8 @@
 //
 //  백지 첫 실행의 **직접 해 보기.**
 //
+//  대화는 상대가 보낸 부탁 하나로 시작한다(선물 보낼 주소를 알려 달라는 말). 연습이 "답장하기" 로 읽힌다.
+//
 //  ① 버튼을 눌러 복사 → ② 입력칸에 붙여넣기 → ③ 보내기(말풍선이 생긴다) →
 //  ④ 이번엔 버튼만 눌러 입력칸에 바로 넣기 → ⑤ 한 번 더 보내기.
 //  ②와 ④의 대비가 이 앱이 하는 일이다. 복사해서 붙여넣던 것을 버튼 한 번으로.
@@ -24,6 +26,8 @@ struct BlankStartPractice: View {
     @State private var step: Step
     @State private var text = ""
     @State private var bubbles: [String] = []
+    /// 상대가 보낸 부탁이 떴는가. 화면이 열리고 한 박자 뒤에 도착한다.
+    @State private var requestShown = false
     @State private var line = ""
     @State private var subline = ""
     @State private var lineShown = true
@@ -43,8 +47,7 @@ struct BlankStartPractice: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // 말풍선이 생기기 전에는 하얀 화면 가운데에 버튼 하나만 선다
-            if bubbles.isEmpty { Spacer(minLength: 0) } else { chat }
+            chat
             VStack(spacing: 8) {
                 Text(line).font(.title2.weight(.bold))
                 Text(subline).font(.body).foregroundStyle(.secondary)
@@ -73,29 +76,46 @@ struct BlankStartPractice: View {
         }
         .padding(.horizontal, 22)
         .padding(.bottom, 16)
-        .onAppear { enter(step) }
+        .onAppear {
+            enter(step)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                withAnimation(.spring(duration: 0.45, bounce: 0.3)) { requestShown = true }
+            }
+        }
         .onChange(of: text) { _, new in pasted(new) }
     }
 
     // MARK: - 조각
 
+    /// 메시지 앱처럼: 받은 말은 왼쪽 회색, 보낸 말은 오른쪽 강조색.
     private var chat: some View {
         ScrollView {
-            VStack(alignment: .trailing, spacing: 8) {
+            VStack(spacing: 8) {
+                if requestShown {
+                    Text(NSLocalizedString("선물 보내려고요! 받을 주소 알려 줄래요?", comment: "Blank start: incoming chat message from a friend asking for the delivery address. The practice is answering it with the example address"))
+                        .font(.body)
+                        .foregroundStyle(Color.primary)
+                        .padding(.horizontal, 14).padding(.vertical, 9)
+                        .background(Color(.systemGray5), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .frame(maxWidth: 300, alignment: .leading)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .transition(.scale(scale: 0.6, anchor: .bottomLeading).combined(with: .opacity))
+                }
                 ForEach(Array(bubbles.enumerated()), id: \.offset) { _, b in
                     Text(b)
                         .font(.body)
                         .foregroundStyle(.white)
                         .padding(.horizontal, 14).padding(.vertical, 9)
                         .background(Color.accentColor, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                         .transition(.scale(scale: 0.6, anchor: .bottomTrailing).combined(with: .opacity))
                 }
                 if !bubbles.isEmpty {
                     Text(NSLocalizedString("보냄", comment: "Blank start: small 'sent' mark under the last chat bubble"))
                         .font(.body).foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .trailing)
             .padding(.top, 24)
         }
         .defaultScrollAnchor(.bottom)

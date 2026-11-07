@@ -22,8 +22,6 @@ struct SettingView: View {
     @State private var memoCountState = 0
     /// App Store 의 구독 관리 시트.
     @State private var showManageSubscriptions = false
-    /// 선물이 안 될 때의 문의 창(결제 번호 · 코드가 붙는다).
-    @State private var showGiftSupport = false
     /// 구독을 평생으로 바꾸는 졸업 시트(`LeeoGraduationOfferView`).
     @State private var showGraduation = false
     /// 마스터(개발자) 모드 - 앱 정보의 버전 행을 7번 탭하면 토글. 피드백 인박스 진입점 노출.
@@ -42,129 +40,115 @@ struct SettingView: View {
     /// Pro 상태 - 결제 entitlement 만 보는 StoreManager.isPro 가 아니라 hasPermanentPro 를 본다.
     /// → 그랜드파더/TestFlight 유저도 "Pro 활성화됨"으로 올바르게 표시(업그레이드 안내 X)
     @ViewBuilder
-    private var proSection: some View {
+    private var proRows: some View {
         if ProFeatureManager.hasPermanentPro {
-            Section {
-                // 누르면 **지금 누리는 혜택과 그 양**을 본다(ProBenefitsView).
-                // 산 사람에게 "활성화됨" 한 줄은 영수증일 뿐이다. 무엇을 얼마나 쓰고 있는지가 보여야 산 값이 보인다.
-                FoldLink(destination: ProBenefitsView()) {
-                    HStack {
-                        Image(systemName: AppSymbol.checkmarkSealFill)
-                            .font(.title2)
-                            .foregroundColor(.green)
-                            .accessibilityHidden(true)
-                        Text(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
-                            .font(.headline)
-                        Spacer()
-                    }
-                    .accessibilityElement(children: .combine)
-                    .accessibilityLabel(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
+            // 누르면 **지금 누리는 혜택과 그 양**을 본다(ProBenefitsView).
+            // 산 사람에게 "활성화됨" 한 줄은 영수증일 뿐이다. 무엇을 얼마나 쓰고 있는지가 보여야 산 값이 보인다.
+            FoldLink(destination: ProBenefitsView()) {
+                HStack {
+                    Image(systemName: AppSymbol.checkmarkSealFill)
+                        .font(.title2)
+                        .foregroundColor(.green)
+                        .accessibilityHidden(true)
+                    Text(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
+                        .font(.headline)
+                    Spacer()
                 }
-                subscriptionRows
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(NSLocalizedString("Pro 활성화됨", comment: "Pro activated"))
             }
+            subscriptionRows
         } else if FreeUse.isActive && ProFeatureManager.purchasedTier < .plus {   // Plus 를 샀으면 아래 Plus 줄
             // 무료로 쓰는 기간 - 칸 수 대신 **몇 번 남았는지**를 말한다. 이 동안은 칸이 무제한이라
             // 아래 `remainingSlotsRow` 를 그리면 한도 숫자 대신 Int.max 가 찍힌다.
-            Section {
-                // ⚠️ 설정의 다른 줄처럼 **화면으로 넘어간다**(FoldLink). 예전에는 꺾쇠만 그린 단추가 시트를 띄워,
-                //    펼친 듀오에서 이 줄만 접힌 선 한가운데에 떴다(2026-10 사용자 신고).
-                FoldLink(destination: FreeUseGuideView(embedded: true)) {
-                    HStack(spacing: 12) {
-                        Image(systemName: AppSymbol.sparkles)
-                            .font(.title2)
-                            .foregroundColor(theme.accent)
+            // ⚠️ 설정의 다른 줄처럼 **화면으로 넘어간다**(FoldLink). 예전에는 꺾쇠만 그린 단추가 시트를 띄워,
+            //    펼친 듀오에서 이 줄만 접힌 선 한가운데에 떴다(2026-10 사용자 신고).
+            FoldLink(destination: FreeUseGuideView(embedded: true)) {
+                HStack(spacing: 12) {
+                    Image(systemName: AppSymbol.sparkles)
+                        .font(.title2)
+                        .foregroundColor(theme.accent)
+                        .accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(NSLocalizedString("무료로 쓰는 중", comment: "Settings: free use period row title"))
+                            .font(.headline).foregroundColor(theme.text)
+                        Text(String(format: NSLocalizedString("%1$d번 중 %2$d번 썼어요", comment: "Free use progress, VoiceOver"), FreeUse.threshold, FreeUse.uses))
+                            .font(.body).foregroundColor(theme.textMuted)
+                        // 다음 요금제(Plus)로 가는 길. 무료 기간을 다 쓰면 그다음이 Plus 다
+                        ProgressView(value: Double(min(FreeUse.uses, FreeUse.threshold)), total: Double(FreeUse.threshold))
+                            .tint(theme.accent)
                             .accessibilityHidden(true)
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(NSLocalizedString("무료로 쓰는 중", comment: "Settings: free use period row title"))
-                                .font(.headline).foregroundColor(theme.text)
-                            Text(String(format: NSLocalizedString("%1$d번 중 %2$d번 썼어요", comment: "Free use progress, VoiceOver"), FreeUse.threshold, FreeUse.uses))
-                                .font(.body).foregroundColor(theme.textMuted)
-                            // 다음 요금제(Plus)로 가는 길. 무료 기간을 다 쓰면 그다음이 Plus 다
-                            ProgressView(value: Double(min(FreeUse.uses, FreeUse.threshold)), total: Double(FreeUse.threshold))
-                                .tint(theme.accent)
-                                .accessibilityHidden(true)
-                            HStack {
-                                Text(NSLocalizedString("무료", comment: "Settings: free plan label at the start of the progress bar"))
-                                Spacer()
-                                Text(NSLocalizedString("다음은 Plus", comment: "Settings: next plan label at the end of the free use progress bar"))
-                                    .foregroundColor(theme.accent)
-                            }
-                            .font(.body.weight(.semibold))
-                            .foregroundColor(theme.textMuted)
+                        HStack {
+                            Text(NSLocalizedString("무료", comment: "Settings: free plan label at the start of the progress bar"))
+                            Spacer()
+                            Text(NSLocalizedString("다음은 Plus", comment: "Settings: next plan label at the end of the free use progress bar"))
+                                .foregroundColor(theme.accent)
                         }
-                        Spacer()
+                        .font(.body.weight(.semibold))
+                        .foregroundColor(theme.textMuted)
                     }
+                    Spacer()
                 }
-                .accessibilityHint(NSLocalizedString("무료로 쓰는 방법을 봅니다", comment: "Settings: open free use guide hint"))
-
-                restorePurchasesButton
             }
+            .accessibilityHint(NSLocalizedString("무료로 쓰는 방법을 봅니다", comment: "Settings: open free use guide hint"))
+
         } else if ProFeatureManager.purchasedTier == .plus {
             // Plus 를 쓰는 사람: 지금 칸과 **다음 칸(Pro)** 을 함께 말한다
-            Section {
-                FoldLink(destination: PaywallView(embedded: true)) {
-                    HStack(spacing: 12) {
-                        Image(systemName: AppSymbol.checkmarkSealFill)
-                            .font(.title2)
-                            .foregroundColor(.green)
-                            .accessibilityHidden(true)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(NSLocalizedString("Plus 쓰는 중", comment: "Settings: Plus plan active row title"))
-                                .font(.headline).foregroundColor(theme.text)
-                            Text(NSLocalizedString("다음은 Pro · iCloud 백업 · 생체인증 잠금", comment: "Settings: next plan after Plus"))
-                                .font(.body).foregroundColor(theme.textMuted)
-                        }
-                        Spacer()
+            FoldLink(destination: PaywallView(embedded: true)) {
+                HStack(spacing: 12) {
+                    Image(systemName: AppSymbol.checkmarkSealFill)
+                        .font(.title2)
+                        .foregroundColor(.green)
+                        .accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("Plus 쓰는 중", comment: "Settings: Plus plan active row title"))
+                            .font(.headline).foregroundColor(theme.text)
+                        Text(NSLocalizedString("다음은 Pro · iCloud 백업 · 생체인증 잠금", comment: "Settings: next plan after Plus"))
+                            .font(.body).foregroundColor(theme.textMuted)
                     }
+                    Spacer()
                 }
-                subscriptionRows
-                restorePurchasesButton
             }
+            subscriptionRows
         } else if ProFeatureManager.isInTrial {
-            Section {
-                FoldLink(destination: PaywallView(embedded: true)) {
-                    HStack {
-                        Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
-                            .font(.title2)
-                            .foregroundStyle(.green.gradient)
-                            .accessibilityHidden(true)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(String(format: NSLocalizedString("체험 활성: %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
-                                .font(.headline).foregroundColor(.primary)
-                            Text(NSLocalizedString("지금 Pro로 업그레이드하면 평생 사용", comment: "Trial upsell"))
-                                .font(.body).foregroundColor(theme.textMuted)
-                        }
-                        Spacer()
+            FoldLink(destination: PaywallView(embedded: true)) {
+                HStack {
+                    Image(systemName: AppSymbol.clockBadgeCheckmarkFill)
+                        .font(.title2)
+                        .foregroundStyle(.green.gradient)
+                        .accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(String(format: NSLocalizedString("체험 활성: %d일 남음", comment: "Trial active days remaining"), ProFeatureManager.trialDaysRemaining))
+                            .font(.headline).foregroundColor(.primary)
+                        Text(NSLocalizedString("지금 Pro로 업그레이드하면 평생 사용", comment: "Trial upsell"))
+                            .font(.body).foregroundColor(theme.textMuted)
                     }
+                    Spacer()
                 }
-                .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
-
-                restorePurchasesButton
             }
+            .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
+
         } else {
-            Section {
-                remainingSlotsRow
-                FoldLink(destination: PaywallView(embedded: true)) {
-                    HStack {
-                        Image(systemName: AppSymbol.starCircleFill)
-                            .font(.title2)
-                            .foregroundStyle(LinearGradient(colors: [.yellow, .orange], startPoint: .topLeading, endPoint: .bottomTrailing))
-                            .accessibilityHidden(true)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(NSLocalizedString("Pro 업그레이드", comment: "Pro upgrade"))
-                                .font(.headline).foregroundColor(.primary)
-                            Text(ProFeatureManager.canStartTrial
-                                 ? String(format: NSLocalizedString("%d일 무료 체험 + 무제한 단축어, iCloud 백업", comment: "Pro features w/ trial"), ProFeatureManager.trialDurationDays)
-                                 : NSLocalizedString("무제한 단축어, iCloud 백업 등", comment: "Pro features"))
-                                .font(.body).foregroundColor(theme.textMuted)
-                        }
-                        Spacer()
+            remainingSlotsRow
+            FoldLink(destination: PaywallView(embedded: true)) {
+                HStack {
+                    Image(systemName: AppSymbol.starCircleFill)
+                        .font(.title2)
+                        .foregroundStyle(LinearGradient(colors: [.yellow, .orange], startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(NSLocalizedString("Pro 업그레이드", comment: "Pro upgrade"))
+                            .font(.headline).foregroundColor(.primary)
+                        Text(ProFeatureManager.canStartTrial
+                             ? String(format: NSLocalizedString("%d일 무료 체험 + 무제한 단축어, iCloud 백업", comment: "Pro features w/ trial"), ProFeatureManager.trialDurationDays)
+                             : NSLocalizedString("무제한 단축어, iCloud 백업 등", comment: "Pro features"))
+                            .font(.body).foregroundColor(theme.textMuted)
                     }
+                    Spacer()
                 }
-                .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
-
-                restorePurchasesButton
             }
+            .accessibilityHint(NSLocalizedString("Pro 업그레이드 화면을 엽니다", comment: "Open paywall hint"))
+
         }
     }
 
@@ -243,41 +227,27 @@ struct SettingView: View {
         .accessibilityHint(NSLocalizedString("이전에 구매한 Pro를 복원합니다", comment: "Restore purchases accessibility hint"))
     }
 
-    /// Pro 선물하기. 소모성 선물을 사면 App Store 오퍼 코드 링크가 나오고, 그 링크로 받은 사람은
-    /// App Store 에서 "사용" 한 번으로 Pro 가 열린다(LeeoKit `LeeoOfferCodePool`). 지침 3.1.1 에 맞다:
-    /// Pro 를 여는 것은 우리 코드가 아니라 App Store 다.
-    ///
-    /// 보내기 줄은 상품이 App Store 에서 오면 누구에게나 보인다(이미 보낸 선물 · 준비 중인 결제가 있으면 늘).
-    /// 받기 줄(App Store 코드 넣기)은 아직 Pro 가 아닌 사람에게만. 링크 없이 코드만 받은 사람을 위한 자리다.
-    /// ⚠️ 문구는 LeeoKit 카탈로그에 있다(`LeeoGiftText`). 앱 카탈로그에 다시 적지 않는다.
+    /// 요금제 · 응원 · 선물을 한 칸에. 돈 이야기는 여기 모여 있다.
+    private var planSection: some View {
+        Section {
+            proRows
+            tipRow
+            giftRow
+            // 평생 Pro 는 되돌릴 구매가 없다. 나머지는 칸 끝에 복원을 둔다.
+            if !ProFeatureManager.hasPermanentPro { restorePurchasesButton }
+        } header: {
+            Text(NSLocalizedString("요금제와 응원", comment: "Settings section header: plan, tip and gifts"))
+        }
+    }
+
+    /// 선물하기 한 줄. 누르면 선물 화면(`SettingsGiftView`)으로 들어간다.
+    /// 보낼 선물이 있거나(상품이 왔거나 보낸 · 준비 중인 선물이 있을 때) 받을 코드를 넣을 수 있을 때만 보인다.
     @ViewBuilder
-    private var giftSection: some View {
-        // 선물은 등급마다 하나씩(Plus · Pro). 받기 줄은 하나면 된다(오퍼 코드는 App Store 가 받는다).
-        let senders = proManager.gifts.filter { $0.isAvailable || $0.pendingCount > 0 || !$0.sentGifts.isEmpty }
-        if let first = proManager.gift {
-            let showsRedeem = first.canRedeem && !ProFeatureManager.hasPermanentPro
-            if !senders.isEmpty || showsRedeem {
-                Section {
-                    // 싼 것(Plus)부터. 설정 목록은 사다리 순서를 따른다.
-                    ForEach(senders.reversed(), id: \.config.productID) { gift in
-                        FoldLink(destination: LeeoGiftView<ClipKeyboardSpec>(gift: gift, showsRedeemLink: false,
-                                                                              onContactSupport: { showGiftSupport = true })
-                            .leeoStyle(theme.leeoStyle)) {
-                            Label(LeeoGiftText.sendEntry(tier: gift.config.tierName), systemImage: AppSymbol.giftFill)
-                        }
-                    }
-                    if showsRedeem {
-                        FoldLink(destination: LeeoGiftRedeemView<ClipKeyboardSpec>(gift: first,
-                                                                                 onContactSupport: { showGiftSupport = true })
-                            .leeoStyle(theme.leeoStyle)) {
-                            Label(LeeoGiftText.redeemEntry, systemImage: AppSymbol.giftcard)
-                        }
-                    }
-                }
-                .sheet(isPresented: $showGiftSupport) {
-                    FeedbackView(origin: .settings, initialType: .bug, initialCategory: .purchase,
-                                 extraLines: proManager.gifts.flatMap(\.supportLines))
-                }
+    private var giftRow: some View {
+        if SettingsGiftView.hasContent(proManager) {
+            FoldLink(destination: SettingsGiftView()) {
+                Label(NSLocalizedString("선물하기", comment: "Settings: gift entry opening the gift page"),
+                      systemImage: AppSymbol.giftFill)
             }
         }
     }
@@ -286,9 +256,8 @@ struct SettingView: View {
     /// 요금제 칸 바로 아래, 누구에게나 보인다. 응원한 사람에게는 지금 단계(배지)가 줄 안에 선다.
     /// ⚠️ 문구는 LeeoKit 카탈로그에 있다(`LeeoTipText`).
     @ViewBuilder
-    private var tipSection: some View {
+    private var tipRow: some View {
         if let tipJar = proManager.tipJar, tipJar.isAvailable {
-            Section {
                 FoldLink(destination: LeeoTipJarView<ClipKeyboardSpec>(tipJar: tipJar)
                     .leeoStyle(theme.leeoStyle)) {
                     Label {
@@ -305,7 +274,6 @@ struct SettingView: View {
                         Image(systemName: AppSymbol.heartFill)
                     }
                 }
-            }
         }
     }
 
@@ -330,6 +298,8 @@ struct SettingView: View {
             FoldLink(destination: RoadmapScreen()) {
                 Label(LeeoRoadmapText.entry, systemImage: AppSymbol.calendar)
             }
+        } header: {
+            Text(NSLocalizedString("의견 보내기", comment: "Settings section header: feedback, review, roadmap"))
         } footer: {
             // 버전은 첫 화면 맨 끝에 늘 보인다. 예전에는 "앱 정보" 안쪽에만 있어서
             // "설정에서 앱 버전이 왜 안 보이지"가 됐다. 문의할 때 빌드 번호까지 말할 수 있게 같이 적는다.
@@ -365,6 +335,8 @@ struct SettingView: View {
                         systemImage: AppSymbol.textQuote) { ShortcutsSettingsView() }
             categoryRow(NSLocalizedString("화면과 표시", comment: "Settings section: appearance"),
                         systemImage: AppSymbol.paintbrush) { AppearanceSettingsView() }
+        } header: {
+            Text(NSLocalizedString("매일 쓰는 것", comment: "Settings section header: keyboard, shortcuts, appearance"))
         }
     }
 
@@ -382,6 +354,8 @@ struct SettingView: View {
                         systemImage: AppSymbol.questionmarkCircle) { HelpSettingsView() }
             categoryRow(NSLocalizedString("함께 쓰면 좋은 앱", comment: "Settings section: other apps by the same developer that pair well with this one"),
                         systemImage: AppSymbol.squareGrid2x2) { AppInfoSettingsView() }
+        } header: {
+            Text(NSLocalizedString("데이터와 도움말", comment: "Settings section header: my data, help, other apps"))
         }
     }
 
@@ -422,20 +396,20 @@ struct SettingView: View {
 
     var body: some View {
         List {
-            // 위에서부터 요금제 · 응원(내 후원 단계) · 선물. 돈 이야기는 이 세 칸에 모여 있다.
-            proSection
-            tipSection
-            giftSection
+            // 위에서부터 요금제 · 응원(내 후원 단계) · 선물. 돈 이야기는 이 한 칸에 모여 있다.
+            planSection
             // 백지로 시작한 사람만: 기능 더하기 · 가이드북. 기존 사용자에게는 없다.
             // ⚠️ 다른 갈래처럼 **이름 한 줄**만 세우고 안으로 들어간다. 줄 여덟 개를 첫 화면에 펼치면
             //    아래 갈래가 다 밀려 내려간다(이 화면의 원칙, 아래 `갈래` 머리말).
-            // ⚠️ 요금제 칸(proSection)이 맨 위다. 무료 · Plus · Pro 중 어디인지가 설정에서 가장 먼저 보인다
+            // ⚠️ 요금제 칸(planSection)이 맨 위다. 무료 · Plus · Pro 중 어디인지가 설정에서 가장 먼저 보인다
             if FeatureSet.isBlankStartUser() {
                 Section {
                     categoryRow(NSLocalizedString("기능 더하기", comment: "Settings: add features section header"),
                                 systemImage: AppSymbol.plusSquareOnSquare) { FeatureSettingsView() }
                     categoryRow(NSLocalizedString("가이드북", comment: "Guidebook title"),
                                 systemImage: AppSymbol.bookPagesFill) { GuideBookView() }
+                } header: {
+                    Text(NSLocalizedString("시작하기", comment: "Settings section header: features to add and the guidebook"))
                 }
             }
             everydaySection

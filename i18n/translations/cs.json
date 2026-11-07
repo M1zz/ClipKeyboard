@@ -12359,5 +12359,25 @@
   "Couldn't save. Unlock your iPhone and try again.": {
     "v": "Uložení se nezdařilo. Odemkněte iPhone a zkuste to znovu.",
     "src": "2c62438b63"
+  },
+  "요금제와 응원": {
+    "v": "Tarif a podpora",
+    "src": "5dba5e34ea"
+  },
+  "매일 쓰는 것": {
+    "v": "Každodenní",
+    "src": "d2733ef1f0"
+  },
+  "데이터와 도움말": {
+    "v": "Data a nápověda",
+    "src": "77b9738c81"
+  },
+  "의견 보내기": {
+    "v": "Zpětná vazba",
+    "src": "f9a8da683b"
+  },
+  "선물 보내려고요! 받을 주소 알려 줄래요?": {
+    "v": "Chci ti poslat dárek! Jakou máš adresu?",
+    "src": "13a05925fa"
   }
 }

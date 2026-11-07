@@ -11840,5 +11840,25 @@
   "Couldn't save. Unlock your iPhone and try again.": {
     "v": "Tidak dapat menyimpan. Buka kunci iPhone dan coba lagi.",
     "src": "2c62438b63"
+  },
+  "요금제와 응원": {
+    "v": "Paket & Dukungan",
+    "src": "5dba5e34ea"
+  },
+  "매일 쓰는 것": {
+    "v": "Sehari-hari",
+    "src": "d2733ef1f0"
+  },
+  "데이터와 도움말": {
+    "v": "Data & Bantuan",
+    "src": "77b9738c81"
+  },
+  "의견 보내기": {
+    "v": "Masukan",
+    "src": "f9a8da683b"
+  },
+  "선물 보내려고요! 받을 주소 알려 줄래요?": {
+    "v": "Aku mau kirim hadiah! Alamatmu di mana?",
+    "src": "13a05925fa"
   }
 }

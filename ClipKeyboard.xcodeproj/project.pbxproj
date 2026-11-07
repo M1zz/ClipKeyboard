@@ -96,6 +96,7 @@
 		58C473402A109F0E009D87BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C473422A109F0E009D87BC /* Preview Assets.xcassets */; };
 		58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */; };
+		CDA57A28ABDA46EA85C4524D /* SettingsGiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E0170CFECE46BCB60A0370 /* SettingsGiftView.swift */; };
 		58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7ACB42A2CF1A3003F791F /* SettingView.swift */; };
 		58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */; };
 		58CK00032B5E1A2100000002 /* CloudBackupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00022B5E1A2100000002 /* CloudBackupView.swift */; };
@@ -536,6 +537,7 @@
 		58C4733F2A109F0E009D87BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58C473422A109F0E009D87BC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardList.swift; sourceTree = "<group>"; };
+		64E0170CFECE46BCB60A0370 /* SettingsGiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsGiftView.swift; sourceTree = "<group>"; };
 		58C7ACB42A2CF1A3003F791F /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitBackupService.swift; sourceTree = "<group>"; };
 		58CK00022B5E1A2100000002 /* CloudBackupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupView.swift; sourceTree = "<group>"; };
@@ -1260,6 +1262,7 @@
 				AIV0FILE0000000000000003 /* AISettingsView.swift */,
 				TOKENFMT0FILE00000000001 /* TokenFormatSettingsView.swift */,
 				58C7ACB42A2CF1A3003F791F /* SettingView.swift */,
+				64E0170CFECE46BCB60A0370 /* SettingsGiftView.swift */,
 				63C7CC7878D04F4491D10BC2 /* ProBenefitsView.swift */,
 				4CCD344C5E0F419B90144643 /* KeyboardSettingsView.swift */,
 				58FA00022F0000000000000002 /* FullAccessGuideView.swift */,
@@ -1875,6 +1878,7 @@
 				US00002B2F0000000000000004 /* UsageReportingService.swift in Sources */,
 				FB00002A2F0000000000000002 /* FeedbackView.swift in Sources */,
 				58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */,
+				CDA57A28ABDA46EA85C4524D /* SettingsGiftView.swift in Sources */,
 				5AAE55B3A09146619D7A38A7 /* ProBenefitsView.swift in Sources */,
 				7B2B6CBDF5BB46AB8A6A9926 /* KeyboardSettingsView.swift in Sources */,
 				58FA00012F0000000000000001 /* FullAccessGuideView.swift in Sources */,

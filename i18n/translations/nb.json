@@ -12149,5 +12149,25 @@
   "Couldn't save. Unlock your iPhone and try again.": {
     "v": "Kunne ikke lagre. Lås opp iPhonen og prøv igjen.",
     "src": "2c62438b63"
+  },
+  "요금제와 응원": {
+    "v": "Abonnement og støtte",
+    "src": "5dba5e34ea"
+  },
+  "매일 쓰는 것": {
+    "v": "Hverdag",
+    "src": "d2733ef1f0"
+  },
+  "데이터와 도움말": {
+    "v": "Data og hjelp",
+    "src": "77b9738c81"
+  },
+  "의견 보내기": {
+    "v": "Tilbakemelding",
+    "src": "f9a8da683b"
+  },
+  "선물 보내려고요! 받을 주소 알려 줄래요?": {
+    "v": "Jeg vil sende deg en gave! Hva er adressen din?",
+    "src": "13a05925fa"
   }
 }

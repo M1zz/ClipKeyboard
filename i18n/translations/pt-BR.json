@@ -12143,5 +12143,25 @@
   "Couldn't save. Unlock your iPhone and try again.": {
     "v": "Não foi possível salvar. Desbloqueie o iPhone e tente de novo.",
     "src": "2c62438b63"
+  },
+  "요금제와 응원": {
+    "v": "Plano e apoio",
+    "src": "5dba5e34ea"
+  },
+  "매일 쓰는 것": {
+    "v": "Uso diário",
+    "src": "d2733ef1f0"
+  },
+  "데이터와 도움말": {
+    "v": "Dados e ajuda",
+    "src": "77b9738c81"
+  },
+  "의견 보내기": {
+    "v": "Feedback",
+    "src": "f9a8da683b"
+  },
+  "선물 보내려고요! 받을 주소 알려 줄래요?": {
+    "v": "Quero te mandar um presente! Qual é o seu endereço?",
+    "src": "13a05925fa"
   }
 }

@@ -12149,5 +12149,25 @@
   "Couldn't save. Unlock your iPhone and try again.": {
     "v": "Kaydedilemedi. iPhone’unun kilidini açıp tekrar dene.",
     "src": "2c62438b63"
+  },
+  "요금제와 응원": {
+    "v": "Plan ve Destek",
+    "src": "5dba5e34ea"
+  },
+  "매일 쓰는 것": {
+    "v": "Günlük kullanım",
+    "src": "d2733ef1f0"
+  },
+  "데이터와 도움말": {
+    "v": "Veriler ve Yardım",
+    "src": "77b9738c81"
+  },
+  "의견 보내기": {
+    "v": "Geri Bildirim",
+    "src": "f9a8da683b"
+  },
+  "선물 보내려고요! 받을 주소 알려 줄래요?": {
+    "v": "Sana bir hediye göndermek istiyorum! Adresin ne?",
+    "src": "13a05925fa"
   }
 }

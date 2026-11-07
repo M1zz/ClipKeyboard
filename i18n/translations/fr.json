@@ -12146,5 +12146,25 @@
   "Couldn't save. Unlock your iPhone and try again.": {
     "v": "Impossible d’enregistrer. Déverrouillez votre iPhone et réessayez.",
     "src": "2c62438b63"
+  },
+  "요금제와 응원": {
+    "v": "Forfait et soutien",
+    "src": "5dba5e34ea"
+  },
+  "매일 쓰는 것": {
+    "v": "Au quotidien",
+    "src": "d2733ef1f0"
+  },
+  "데이터와 도움말": {
+    "v": "Données et aide",
+    "src": "77b9738c81"
+  },
+  "의견 보내기": {
+    "v": "Votre avis",
+    "src": "f9a8da683b"
+  },
+  "선물 보내려고요! 받을 주소 알려 줄래요?": {
+    "v": "Je veux t'envoyer un cadeau ! C'est quoi ton adresse ?",
+    "src": "13a05925fa"
   }
 }

@@ -6527,6 +6527,12 @@
     "comment": "Export success message",
     "h": "ddbe9e514e"
   },
+  "데이터와 도움말": {
+    "ko": "데이터와 도움말",
+    "en": "Data & Help",
+    "comment": "Settings section header: my data, help, other apps",
+    "h": "77b9738c81"
+  },
   "도서관 책 요청\n도서명: \nISBN: \n요청일: {날짜}": {
     "ko": "도서관 책 요청\n도서명: \nISBN: \n요청일: {날짜}",
     "en": "Library book request\nTitle: \nISBN: \nRequested on: {date}",
@@ -7048,6 +7054,12 @@
     "en": "Renews automatically at %@ per month. Cancel at least 24 hours before renewal in Settings > Apple Account > Subscriptions.",
     "comment": "Monthly subscription terms",
     "h": "0132f370b1"
+  },
+  "매일 쓰는 것": {
+    "ko": "매일 쓰는 것",
+    "en": "Everyday",
+    "comment": "Settings section header: keyboard, shortcuts, appearance",
+    "h": "d2733ef1f0"
   },
   "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
     "ko": "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요",
@@ -9761,6 +9773,12 @@
     "comment": "Blank start intro: a line in the notes card before the delivery address",
     "h": "69cdb846c6"
   },
+  "선물 보내려고요! 받을 주소 알려 줄래요?": {
+    "ko": "선물 보내려고요! 받을 주소 알려 줄래요?",
+    "en": "I want to send you a gift! What's your address?",
+    "comment": "Blank start: incoming chat message from a friend asking for the delivery address. The practice is answering it with the example address",
+    "h": "13a05925fa"
+  },
   "선물하기": {
     "ko": "선물하기",
     "en": "Gifts",
@@ -11909,6 +11927,12 @@
     "comment": "Plans group",
     "h": "4cdbb06e2c"
   },
+  "요금제와 응원": {
+    "ko": "요금제와 응원",
+    "en": "Plan & Support",
+    "comment": "Settings section header: plan, tip and gifts",
+    "h": "5dba5e34ea"
+  },
   "요일": {
     "ko": "요일",
     "en": "Weekday",
@@ -12088,6 +12112,12 @@
     "en": "Feedback prompt",
     "comment": "Feedback origin: nudge alert",
     "h": "f631271ffe"
+  },
+  "의견 보내기": {
+    "ko": "의견 보내기",
+    "en": "Feedback",
+    "comment": "Settings section header: feedback, review, roadmap",
+    "h": "f9a8da683b"
   },
   "의견을 보내실 때 답장 받을 이름과 이메일을 적을 수 있어요. 적어 두면 다음에 자동으로 채워드려요": {
     "ko": "의견을 보내실 때 답장 받을 이름과 이메일을 적을 수 있어요. 적어 두면 다음에 자동으로 채워드려요",
