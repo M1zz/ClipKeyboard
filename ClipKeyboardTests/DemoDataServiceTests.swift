@@ -45,7 +45,7 @@ final class DemoDataServiceTests: XCTestCase {
         groupDefaults?.removeObject(forKey: DefaultsKey.demoDataActive)
         if let url = backupURL { try? FileManager.default.removeItem(at: url) }
         try? store.save(memos: [], type: .memo, recordHistory: false)
-        try? store.saveSmartClipboardHistory(history: [])
+        try? ClipboardHistoryStore.shared.save([])
     }
 
     /// 테스트용 "내 원본 데이터".
@@ -58,7 +58,7 @@ final class DemoDataServiceTests: XCTestCase {
             SmartClipboardHistory(content: "hello@example.com", detectedType: .email, confidence: 0.9)
         ]
         try? store.save(memos: memos, type: .memo, recordHistory: false)
-        try? store.saveSmartClipboardHistory(history: clips)
+        try? ClipboardHistoryStore.shared.save(clips)
         return (memos, clips)
     }
 
@@ -87,7 +87,7 @@ final class DemoDataServiceTests: XCTestCase {
         XCTAssertEqual(restored.first { $0.title == "내 메일" }?.isFavorite, true,
                        "즐겨찾기 같은 부가 필드도 보존돼야 한다")
 
-        let restoredClips = (try? store.loadSmartClipboardHistory()) ?? []
+        let restoredClips = (try? ClipboardHistoryStore.shared.load()) ?? []
         XCTAssertEqual(restoredClips.map(\.content), original.clips.map(\.content))
     }
 

@@ -355,7 +355,7 @@ struct QuickNoteEditSheet: View {
 /// 빠른 메모의 그림을 **보일 크기로만** 읽는다.
 ///
 /// ⚠️ 예전에는 줄마다 그릴 때마다 원본을 통째로 읽었다(44pt 자리에 1200만 화소). 메인에서,
-///    캐시 없이, 다시 그릴 때마다. 지금은 ImageIO 가 디코드 단계에서 줄이고(`loadThumbnail`),
+///    캐시 없이, 다시 그릴 때마다. 지금은 ImageIO 가 디코드 단계에서 줄이고(`ImageStore.thumbnail`),
 ///    메인 밖에서 읽어 캐시에 둔다.
 private struct QuickNoteThumbnail: View {
     let fileName: String
@@ -395,7 +395,7 @@ private struct QuickNoteThumbnail: View {
         }
         let key = cacheKey
         DispatchQueue.global(qos: .userInitiated).async {
-            guard let loaded = MemoStore.shared.loadThumbnail(fileName: fileName, maxPixel: maxPixel) else { return }
+            guard let loaded = ImageStore.thumbnail(fileName: fileName, maxPixel: maxPixel) else { return }
             let cost = Int(loaded.size.width * loaded.scale * loaded.size.height * loaded.scale * 4)
             Self.cache.setObject(loaded, forKey: key, cost: cost)
             DispatchQueue.main.async { image = loaded }

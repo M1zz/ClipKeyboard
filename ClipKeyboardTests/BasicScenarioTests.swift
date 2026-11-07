@@ -253,11 +253,11 @@ final class BasicScenarioTests: XCTestCase {
     // MARK: - 시나리오 7: 복사한 것 → 분류 → 단축어로 저장 → 키보드
 
     func test_복사한_것을_단축어로_저장하면_키보드에_실린다() async throws {
-        try? MemoStore.shared.saveSmartClipboardHistory(history: [])
-        defer { try? MemoStore.shared.saveSmartClipboardHistory(history: []) }
+        try? ClipboardHistoryStore.shared.save([])
+        defer { try? ClipboardHistoryStore.shared.save([]) }
 
-        try MemoStore.shared.addToSmartClipboardHistory(content: "leeo@kakao.com")
-        let copied = try XCTUnwrap(MemoStore.shared.loadSmartClipboardHistory().first)
+        try ClipboardHistoryStore.shared.add(content: "leeo@kakao.com")
+        let copied = try XCTUnwrap(ClipboardHistoryStore.shared.load().first)
         XCTAssertEqual(copied.detectedType, .email, "복사한 이메일은 이메일로 분류돼야 한다")
 
         var memos = try MemoStore.shared.load(type: .memo)
@@ -337,8 +337,8 @@ final class BasicScenarioTests: XCTestCase {
     /// 사용자 요청: 잠깐 쓸 것을 한 주에서 한 달 담아 두고, 키보드 첫 탭에서 바로 꺼내 쓴다.
     /// 키보드의 담기 버튼과 앱의 자동 수집은 같은 파일에 쓰고, '최근' 탭은 그 파일을 읽는다.
     func test_담아_둔_것은_키보드_최근_탭에_30일_남는다() throws {
-        try MemoStore.shared.saveSmartClipboardHistory(history: [])
-        defer { try? MemoStore.shared.saveSmartClipboardHistory(history: []) }
+        try ClipboardHistoryStore.shared.save([])
+        defer { try? ClipboardHistoryStore.shared.save([]) }
 
         let now = Date()
         let day: TimeInterval = 24 * 60 * 60
@@ -346,12 +346,12 @@ final class BasicScenarioTests: XCTestCase {
                                                copiedAt: now.addingTimeInterval(-21 * day))
         let tooOld = SmartClipboardHistory(content: "한 달 넘은 것",
                                            copiedAt: now.addingTimeInterval(-31 * day))
-        try MemoStore.shared.saveSmartClipboardHistory(history: [threeWeeks, tooOld])
+        try ClipboardHistoryStore.shared.save([threeWeeks, tooOld])
 
         // 키보드에서 담기를 누른 것과 같은 길
-        try MemoStore.shared.addToSmartClipboardHistory(content: "방금 담은 송장번호")
+        try ClipboardHistoryStore.shared.add(content: "방금 담은 송장번호")
 
-        let recents = SmartClipboardHistory.keyboardRecents(try MemoStore.shared.loadSmartClipboardHistory(),
+        let recents = SmartClipboardHistory.keyboardRecents(try ClipboardHistoryStore.shared.load(),
                                                             now: now)
         XCTAssertEqual(recents.first?.content, "방금 담은 송장번호", "방금 담은 것이 맨 위에 서야 한다")
         XCTAssertTrue(recents.contains { $0.content == "3주 전에 담은 주소" }, "한 달 안의 것은 남아야 한다")
@@ -381,9 +381,9 @@ final class BasicScenarioTests: XCTestCase {
     /// 방금 복사한 글이 키보드 '최근' 맨 위에 **임시 항목**으로 담긴다. 저장할지 묻지 않는다.
     /// 버튼이 앱을 여는 순간 목록의 자동 읽기는 쉰다(같이 읽으면 붙여넣기 팝업이 두 번 뜬다).
     func test_복사하고_버튼을_누르면_키보드_최근에_담긴다() async throws {
-        try MemoStore.shared.saveSmartClipboardHistory(history: [])
+        try ClipboardHistoryStore.shared.save([])
         defer {
-            try? MemoStore.shared.saveSmartClipboardHistory(history: [])
+            try? ClipboardHistoryStore.shared.save([])
             groupDefaults?.removeObject(forKey: DefaultsKey.pendingClipboardCapture)
         }
         let copied = "CJ대한통운 6543 2109 8765"
@@ -404,7 +404,7 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertFalse(list.hasFreshClipboard, "담은 글로 '저장할까요?' 카드를 또 띄우지 않는다")
 
         // 3. 키보드 '최근' 맨 위에 선다
-        let history = try MemoStore.shared.loadSmartClipboardHistory()
+        let history = try ClipboardHistoryStore.shared.load()
         let first = try XCTUnwrap(history.first)
         XCTAssertEqual(first.content, copied)
         XCTAssertTrue(first.isTemporary, "버튼으로 담은 것은 보관 기간 뒤 지워지는 임시 항목이다")

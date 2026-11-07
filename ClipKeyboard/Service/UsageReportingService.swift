@@ -193,7 +193,7 @@ enum UsageReportingService {
         // 가장 많이 쓴 단축어의 사용 횟수 → 헤비 유저의 사용 깊이.
         metrics["topUses"] = Double(memos.map(\.clipCount).max() ?? 0)
         // 클립보드 기록 보유량 → 클립보드 기능을 실제로 쓰는지.
-        metrics["clips"] = Double((try? MemoStore.shared.loadSmartClipboardHistory().count) ?? 0)
+        metrics["clips"] = Double((try? ClipboardHistoryStore.shared.load().count) ?? 0)
 
         let group = AppGroup.defaults
         metrics["keyboardUses"] = Double(group?.integer(forKey: DefaultsKey.kbBeaconTotalCount) ?? 0)

@@ -34,7 +34,7 @@ struct AppGroupListFile<Item: Codable> {
     /// 읽는다. 없으면 빈 목록, 있는데 못 읽으면 던진다, 깨졌으면 사본을 남기고 빈 목록.
     func read() throws -> [Item] {
         let url = try url
-        guard let data = try MemoStore.readIfPresent(url) else { return [] }
+        guard let data = try Data.readIfPresent(url) else { return [] }
         do {
             return try JSONDecoder().decode([Item].self, from: data)
         } catch {

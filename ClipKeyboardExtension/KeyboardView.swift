@@ -2184,7 +2184,7 @@ struct KeyboardView: View {
 
     /// '최근' 탭에 세울 것을 다시 읽는다. 앱이 모은 것과 키보드에서 담은 것이 같은 파일에 있다.
     private func reloadRecentClips() {
-        let history = (try? MemoStore.shared.loadSmartClipboardHistory()) ?? []
+        let history = (try? ClipboardHistoryStore.shared.load()) ?? []
         recentClips = SmartClipboardHistory.keyboardRecents(history)
     }
 
@@ -2207,10 +2207,10 @@ struct KeyboardView: View {
                 AppGroup.defaults?.set(readCount, forKey: DefaultsKey.keyboardRecentsCollectedChangeCount)
                 guard let text else { return }
                 do {
-                    let history = try MemoStore.shared.loadSmartClipboardHistory()
+                    let history = try ClipboardHistoryStore.shared.load()
                     // 이미 맨 위에 있으면 다시 쓰지 않는다(복사한 시각만 바뀌는 것을 막는다).
                     guard history.first?.content != text else { return }
-                    try MemoStore.shared.addToSmartClipboardHistory(content: text)
+                    try ClipboardHistoryStore.shared.add(content: text)
                     print("✅ [KeyboardView.collectCopiedTextIntoRecents] 복사한 글을 최근에 담음")
                 } catch {
                     print("❌ [KeyboardView.collectCopiedTextIntoRecents] 담기 실패: \(error)")
@@ -2224,7 +2224,7 @@ struct KeyboardView: View {
     /// '최근' 의 한 줄을 지운다(왼쪽으로 밀어서).
     private func deleteRecentClip(_ clip: SmartClipboardHistory) {
         do {
-            try MemoStore.shared.deleteSmartClipboardItem(id: clip.id)
+            try ClipboardHistoryStore.shared.delete(id: clip.id)
         } catch {
             print("❌ [KeyboardView.deleteRecentClip] 삭제 실패: \(error)")
             KeyboardHaptics.softTap()
@@ -2892,11 +2892,11 @@ struct KeyboardView: View {
         guard requireFullAccess() else { return }
         let fileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
         guard !fileName.isEmpty,
-              let data = MemoStore.shared.imageData(fileName: fileName) else {
+              let data = ImageStore.data(fileName: fileName) else {
             print("⚠️ [KeyboardView] 이미지 로드 실패: \(memo.title)")
             return
         }
-        UIPasteboard.general.setData(data, forPasteboardType: MemoStore.shared.imagePasteboardType(fileName: fileName))
+        UIPasteboard.general.setData(data, forPasteboardType: ImageStore.pasteboardType(fileName: fileName))
         KeyboardHaptics.notify(.success)
         print("✅ [KeyboardView] 이미지 클립보드 복사 완료: \(memo.title) (\(data.count) bytes)")
 

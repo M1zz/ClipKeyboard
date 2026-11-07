@@ -1106,7 +1106,7 @@ extension InAppKeyboardStage {
         let plain = memos.first { !$0.isTemplate && !$0.isStack && !$0.value.isEmpty }
         let template = memos.first { $0.isTemplate }
         let clip = SmartClipboardHistory.keyboardRecents(
-            (try? MemoStore.shared.loadSmartClipboardHistory()) ?? []).first
+            (try? ClipboardHistoryStore.shared.load()) ?? []).first
 
         func tap(_ memo: Memo?) -> () -> Void {
             { if let memo { insertDemo(memo.value, memoId: memo.id) } }

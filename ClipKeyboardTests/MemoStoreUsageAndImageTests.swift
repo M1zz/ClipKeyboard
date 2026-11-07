@@ -97,19 +97,19 @@ final class MemoStoreUsageAndImageTests: XCTestCase {
         let image = makeTestImage()
         let fileName = "xctest_image_\(UUID().uuidString).png"
 
-        try sut.saveImage(image, fileName: fileName)
-        defer { try? sut.deleteImage(fileName: fileName) }
+        try ImageStore.save(image, fileName: fileName)
+        defer { try? ImageStore.delete(fileName: fileName) }
 
         // size는 디바이스 scale(2x/3x)로 PNG가 저장된 후 로드 시 1x로 해석되어 달라지므로
         // round-trip은 데이터가 디스크에 존재하고 디코딩 가능한지로 검증한다.
-        let loaded = sut.loadImage(fileName: fileName)
+        let loaded = ImageStore.load(fileName: fileName)
         XCTAssertNotNil(loaded)
         XCTAssertGreaterThan(loaded?.size.width ?? 0, 0)
         XCTAssertGreaterThan(loaded?.size.height ?? 0, 0)
     }
 
     func testLoadImage_NonexistentFile_ReturnsNil() {
-        let loaded = sut.loadImage(fileName: "_xctest_does_not_exist_\(UUID().uuidString).png")
+        let loaded = ImageStore.load(fileName: "_xctest_does_not_exist_\(UUID().uuidString).png")
         XCTAssertNil(loaded)
     }
 
@@ -117,30 +117,30 @@ final class MemoStoreUsageAndImageTests: XCTestCase {
         let image = makeTestImage()
         let fileName = "xctest_delete_\(UUID().uuidString).png"
 
-        try sut.saveImage(image, fileName: fileName)
-        XCTAssertNotNil(sut.loadImage(fileName: fileName))
+        try ImageStore.save(image, fileName: fileName)
+        XCTAssertNotNil(ImageStore.load(fileName: fileName))
 
-        try sut.deleteImage(fileName: fileName)
-        XCTAssertNil(sut.loadImage(fileName: fileName))
+        try ImageStore.delete(fileName: fileName)
+        XCTAssertNil(ImageStore.load(fileName: fileName))
     }
 
     func testDeleteImage_NonexistentFile_NoThrow() {
         // 이미 없는 파일을 삭제해도 에러를 던지지 않아야 함 (UI 정리 시 idempotent)
-        XCTAssertNoThrow(try sut.deleteImage(fileName: "_xctest_phantom.png"))
+        XCTAssertNoThrow(try ImageStore.delete(fileName: "_xctest_phantom.png"))
     }
 
     func testSaveImage_OverwritesExisting() throws {
         let fileName = "xctest_overwrite_\(UUID().uuidString).png"
-        defer { try? sut.deleteImage(fileName: fileName) }
+        defer { try? ImageStore.delete(fileName: fileName) }
 
         let small = makeTestImage(size: CGSize(width: 10, height: 10))
-        try sut.saveImage(small, fileName: fileName)
-        let smallLoaded = try XCTUnwrap(sut.loadImage(fileName: fileName))
+        try ImageStore.save(small, fileName: fileName)
+        let smallLoaded = try XCTUnwrap(ImageStore.load(fileName: fileName))
         let smallWidth = smallLoaded.size.width
 
         let large = makeTestImage(size: CGSize(width: 100, height: 100))
-        try sut.saveImage(large, fileName: fileName)
-        let largeLoaded = try XCTUnwrap(sut.loadImage(fileName: fileName))
+        try ImageStore.save(large, fileName: fileName)
+        let largeLoaded = try XCTUnwrap(ImageStore.load(fileName: fileName))
         // 절대 사이즈는 디바이스 scale 의존이라, 큰 이미지가 작은 이미지보다 큰지로 비교
         XCTAssertGreaterThan(largeLoaded.size.width, smallWidth)
     }

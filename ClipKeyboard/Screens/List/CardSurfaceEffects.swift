@@ -121,7 +121,7 @@ struct MemoImageBackground: View {
         DispatchQueue.global(qos: .userInitiated).async {
             // ⚠️ 원본을 펼치지 않는다. 예전에는 원본을 통째로 읽고(1200만 화소면 48MB) 나서 줄였다.
             //    ImageIO 는 디코드 단계에서 줄여 원본 크기 버퍼가 아예 안 생긴다.
-            guard let loaded = MemoStore.shared.loadThumbnail(fileName: fileName, maxPixel: Self.thumbnailMaxPixel) else {
+            guard let loaded = ImageStore.thumbnail(fileName: fileName, maxPixel: Self.thumbnailMaxPixel) else {
                 DispatchQueue.main.async { image = nil }
                 return
             }

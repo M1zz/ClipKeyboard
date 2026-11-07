@@ -608,7 +608,7 @@ class CloudKitBackupService: ObservableObject {
 
     private func loadDataForBackup() throws -> (memos: [Memo], smartClipboard: [SmartClipboardHistory], combos: [Combo]) {
         let memos = try MemoStore.shared.load(type: .memo)
-        let smartClipboard = try MemoStore.shared.loadSmartClipboardHistory()
+        let smartClipboard = try ClipboardHistoryStore.shared.load()
         let combos = try MemoStore.shared.loadCombos()
         AppLog.info(.backup, "📦 [CloudKit] 백업할 메모: \(memos.count)개")
         AppLog.info(.backup, "📦 [CloudKit] 백업할 스마트 클립보드: \(smartClipboard.count)개")
@@ -716,7 +716,7 @@ class CloudKitBackupService: ObservableObject {
     func hasLocalData() -> Bool {
         do {
             let memos = try MemoStore.shared.load(type: .memo)
-            let smartClipboard = try MemoStore.shared.loadSmartClipboardHistory()
+            let smartClipboard = try ClipboardHistoryStore.shared.load()
             let combos = try MemoStore.shared.loadCombos()
 
             let totalCount = memos.count + smartClipboard.count + combos.count
@@ -959,7 +959,7 @@ class CloudKitBackupService: ObservableObject {
         AppLog.info(.backup, "✅ [CloudKit] 메모 \(memos.count)개 저장 완료")
 
         if !smartClipboard.isEmpty {
-            try MemoStore.shared.saveSmartClipboardHistory(history: smartClipboard)
+            try ClipboardHistoryStore.shared.save(smartClipboard)
             AppLog.info(.backup, "✅ [CloudKit] 스마트 클립보드 \(smartClipboard.count)개 저장 완료")
         }
         if !combos.isEmpty {

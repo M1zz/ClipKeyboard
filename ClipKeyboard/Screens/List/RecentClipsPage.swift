@@ -172,7 +172,7 @@ struct RecentClipsPage: View {
 
     private func load() {
         do {
-            history = try MemoStore.shared.loadSmartClipboardHistory()
+            history = try ClipboardHistoryStore.shared.load()
         } catch {
             print("❌ [RecentClipsPage.load] \(error)")
         }
@@ -188,7 +188,7 @@ struct RecentClipsPage: View {
         let before = history
         history.removeAll { $0.id == clip.id }
         do {
-            try MemoStore.shared.saveSmartClipboardHistory(history: history)
+            try ClipboardHistoryStore.shared.save(history)
         } catch {
             // 화면과 디스크가 어긋나지 않게 되돌리고 알린다.
             print("❌ [RecentClipsPage.delete] 삭제 저장 실패: \(error)")

@@ -82,14 +82,14 @@ ClipKeyboard/
 
 ## 데이터 저장 방식
 
-### 1. MemoStore (JSONEncoder/Decoder + App Group)
+### 1. 파일 저장소 (JSONEncoder/Decoder + App Group)
 - **위치**: `group.com.Ysoup.TokenMemo` 컨테이너
-- **파일**:
-  - `memos.data`: 메모 목록
-  - `clipboard.history.data`: 레거시 클립보드 (하위 호환용)
-  - `smart.clipboard.history.data`: 스마트 클립보드 히스토리
-  - `combos.data`: Combo 목록
-  - `Images/`: 이미지 파일 저장 폴더
+- **파일과 그 문**:
+  - `memos.data`, `combos.data`: 메모 · Combo 목록 (`MemoStore`)
+  - `smart.clipboard.history.data`: 복사 기록 (`ClipboardHistoryStore`)
+  - `clipboard.history.data`: 예전 복사 기록. 새 파일이 없을 때 한 번 옮긴다
+  - `Images/`: 단축어에 붙인 그림 (`ImageStore`)
+- **못 읽은 파일 위에 저장하지 않는다**: 읽기는 `Data.readIfPresent`(없으면 nil, 못 읽으면 던짐), 저장 막이는 `UnreadFileGuard`
 
 ### 2. UserDefaults
 - **App Group UserDefaults**: 키보드와 메인 앱 간 공유

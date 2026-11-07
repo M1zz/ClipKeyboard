@@ -58,7 +58,7 @@ struct ProBenefitsView: View {
             u.combos = all.filter(\.isStack).count
             u.images = all.filter { !$0.imageFileNames.isEmpty || !($0.imageFileName ?? "").isEmpty }.count
             u.secure = all.filter(\.isSecure).count
-            u.clipboard = ((try? MemoStore.shared.loadSmartClipboardHistory()) ?? []).count
+            u.clipboard = ((try? ClipboardHistoryStore.shared.load()) ?? []).count
             u.lastBackup = UserDefaults.standard.object(forKey: DefaultsKey.lastBackupDate) as? Date
             u.savedSeconds = KeyboardUsageTracker.totalTimeSavedSeconds()
             return u

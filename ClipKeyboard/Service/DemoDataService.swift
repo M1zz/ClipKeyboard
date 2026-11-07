@@ -53,7 +53,7 @@ final class DemoDataService {
         }
         do {
             try MemoStore.shared.save(memos: memos, type: .memo, recordHistory: false)
-            try MemoStore.shared.saveSmartClipboardHistory(history: clipboard)
+            try ClipboardHistoryStore.shared.save(clipboard)
             setActive(true)
             print("✅ [DemoDataService.apply] 데모 데이터 \(memos.count)개 적용 완료")
             return true
@@ -93,7 +93,7 @@ final class DemoDataService {
         do {
             let payload = BackupPayload(
                 memos: (try? MemoStore.shared.load(type: .memo)) ?? [],
-                clipboard: (try? MemoStore.shared.loadSmartClipboardHistory()) ?? []
+                clipboard: (try? ClipboardHistoryStore.shared.load()) ?? []
             )
             let data = try JSONEncoder().encode(payload)
             // atomic - 쓰다 중단돼도 이전 백업/원본이 깨지지 않는다.
@@ -112,12 +112,12 @@ final class DemoDataService {
               let data = try? Data(contentsOf: url),
               let payload = try? JSONDecoder().decode(BackupPayload.self, from: data) else {
             try? MemoStore.shared.save(memos: [], type: .memo, recordHistory: false)
-            try? MemoStore.shared.saveSmartClipboardHistory(history: [])
+            try? ClipboardHistoryStore.shared.save([])
             return false
         }
         do {
             try MemoStore.shared.save(memos: payload.memos, type: .memo, recordHistory: false)
-            try MemoStore.shared.saveSmartClipboardHistory(history: payload.clipboard)
+            try ClipboardHistoryStore.shared.save(payload.clipboard)
             try? FileManager.default.removeItem(at: url)
             return true
         } catch {

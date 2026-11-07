@@ -127,8 +127,6 @@ enum DataWipeService {
         let store = MemoStore.shared
         DispatchQueue.main.async {
             store.memos = []
-            store.clipboardHistory = []
-            store.smartClipboardHistory = []
             store.combos = []
         }
 

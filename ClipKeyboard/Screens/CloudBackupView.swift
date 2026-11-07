@@ -742,7 +742,7 @@ enum DataPortability {
     /// 현재 App Group의 모든 데이터를 JSON 번들로 직렬화(이미지 동봉).
     static func makeBundleData() throws -> Data {
         let memos = try store.load(type: .memo)
-        let smart = try store.loadSmartClipboardHistory()
+        let smart = try ClipboardHistoryStore.shared.load()
         let combos = try store.loadCombos()
 
         var images: [String: Data] = [:]
@@ -819,13 +819,13 @@ enum DataPortability {
         if addedStacks > 0 { try store.saveCombos(combos) }
 
         // 4) 스마트 클립보드 병합 (union by id)
-        var clips = try store.loadSmartClipboardHistory()
+        var clips = try ClipboardHistoryStore.shared.load()
         var clipIds = Set(clips.map { $0.id })
         var addedClips = 0
         for c in bundle.smartClipboard where !clipIds.contains(c.id) {
             clips.append(c); clipIds.insert(c.id); addedClips += 1
         }
-        if addedClips > 0 { try store.saveSmartClipboardHistory(history: clips) }
+        if addedClips > 0 { try ClipboardHistoryStore.shared.save(clips) }
 
         // 5) 카테고리 설정
         //    ⚠️ `.merge` 다. 가져오기는 "합친다"는 뜻이라(단축어도 지우지 않고 합친다)

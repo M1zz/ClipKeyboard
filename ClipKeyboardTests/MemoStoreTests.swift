@@ -27,7 +27,7 @@ final class MemoStoreTests: XCTestCase {
     override func tearDown() {
         // 테스트 후 데이터 정리
         try? sut.save(memos: [], type: .memo)
-        try? sut.saveSmartClipboardHistory(history: [])
+        try? ClipboardHistoryStore.shared.save([])
         try? sut.saveCombos([])
         testMemos = nil
         sut = nil
@@ -123,8 +123,8 @@ final class MemoStoreTests: XCTestCase {
         ]
 
         // When
-        try sut.saveSmartClipboardHistory(history: history)
-        let loadedHistory = try sut.loadSmartClipboardHistory()
+        try ClipboardHistoryStore.shared.save(history)
+        let loadedHistory = try ClipboardHistoryStore.shared.load()
 
         // Then
         XCTAssertEqual(loadedHistory.count, 2)
@@ -135,10 +135,10 @@ final class MemoStoreTests: XCTestCase {
 
     func testLoadEmptySmartClipboardHistory() throws {
         // Given
-        try sut.saveSmartClipboardHistory(history: [])
+        try ClipboardHistoryStore.shared.save([])
 
         // When
-        let loadedHistory = try sut.loadSmartClipboardHistory()
+        let loadedHistory = try ClipboardHistoryStore.shared.load()
 
         // Then
         XCTAssertTrue(loadedHistory.isEmpty)
@@ -298,7 +298,7 @@ final class MemoStoreTests: XCTestCase {
         let history = [
             SmartClipboardHistory(content: "복사된 텍스트", detectedType: .text)
         ]
-        try sut.saveSmartClipboardHistory(history: history)
+        try ClipboardHistoryStore.shared.save(history)
         let item = ComboItem(type: .clipboardHistory, referenceId: history[0].id, order: 0)
 
         // When

@@ -136,7 +136,7 @@ struct FoldCopiedPane: View {
     /// 복사 기록의 맨 앞 중 **단축어에 없는 값**을 '방금 복사함' 에 세운다.
     private func refreshLatest() {
         let snippetValues = Set(((try? MemoStore.shared.load(type: .memo)) ?? []).map(\.value))
-        let latest = ((try? MemoStore.shared.loadSmartClipboardHistory()) ?? [])
+        let latest = ((try? ClipboardHistoryStore.shared.load()) ?? [])
             .first { $0.contentType == .text && !snippetValues.contains($0.content) }
         copied = latest.map {
             CopiedSnapshot(title: NSLocalizedString("다른 곳에서 복사함", comment: "Fold result pane: title of text copied outside the app"),

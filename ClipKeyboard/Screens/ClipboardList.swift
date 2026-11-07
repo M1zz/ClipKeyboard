@@ -382,14 +382,14 @@ struct ClipboardList: View {
             guard let currentClipboard, !currentClipboard.isEmpty else { return }
 
             do {
-                let history = try MemoStore.shared.loadSmartClipboardHistory()
+                let history = try ClipboardHistoryStore.shared.load()
                 guard !isAlreadyLatestItem(currentClipboard, in: history) else { return }
 
-                try MemoStore.shared.addToSmartClipboardHistory(content: currentClipboard)
+                try ClipboardHistoryStore.shared.add(content: currentClipboard)
                 print("✅ [ClipboardList] 클립보드 자동 추가: \(currentClipboard.prefix(30))...")
                 loadHistory()
 
-                let updatedHistory = try MemoStore.shared.loadSmartClipboardHistory()
+                let updatedHistory = try ClipboardHistoryStore.shared.load()
                 if let newItem = updatedHistory.first {
                     highlightNewlyAdded(newItem)
                 }
@@ -427,7 +427,7 @@ struct ClipboardList: View {
 
     private func updateItemType(item: SmartClipboardHistory, newType: ClipboardItemType) {
         do {
-            try MemoStore.shared.updateClipboardItemType(id: item.id, correctedType: newType)
+            try ClipboardHistoryStore.shared.correctType(id: item.id, to: newType)
             loadHistory()
             showToast(message: String(format: NSLocalizedString("타입이 %@로 변경되었습니다", comment: ""), newType.localizedName))
         } catch {
@@ -449,7 +449,7 @@ struct ClipboardList: View {
 
     private func loadHistory() {
         do {
-            clipboardHistory = try MemoStore.shared.loadSmartClipboardHistory()
+            clipboardHistory = try ClipboardHistoryStore.shared.load()
         } catch {
             print("❌ [ClipboardList.loadHistory] \(error)")
         }
@@ -477,7 +477,7 @@ struct ClipboardList: View {
             for item in candidates {
                 guard let result = await AppleIntelligenceService.shared.classify(item.content),
                       result.type != item.detectedType else { continue }
-                try? MemoStore.shared.updateClipboardItemClassification(
+                try? ClipboardHistoryStore.shared.updateClassification(
                     id: item.id, type: result.type, confidence: result.confidence)
             }
             await MainActor.run { loadHistory() }
@@ -510,7 +510,7 @@ struct ClipboardList: View {
         clipboardHistory.removeAll { item in idsToDelete.contains(item.id) }
 
         do {
-            try MemoStore.shared.saveSmartClipboardHistory(history: clipboardHistory)
+            try ClipboardHistoryStore.shared.save(clipboardHistory)
         } catch {
             // 저장 실패 시 화면과 디스크가 어긋나므로 디스크 상태로 되돌리고 알린다.
             print("❌ [ClipboardList.deleteItems] 삭제 저장 실패: \(error)")
@@ -522,7 +522,7 @@ struct ClipboardList: View {
     private func clearAll() {
         clipboardHistory.removeAll()
         do {
-            try MemoStore.shared.saveSmartClipboardHistory(history: [])
+            try ClipboardHistoryStore.shared.save([])
         } catch {
             // 저장 실패 시 디스크 상태로 되돌리고 알린다.
             print("❌ [ClipboardList.clearAll] 전체 삭제 저장 실패: \(error)")

@@ -24,7 +24,7 @@ final class CloudKitBackupServiceTests: XCTestCase {
     override func tearDown() {
         // 테스트 후 데이터 정리
         try? memoStore.save(memos: [], type: .memo)
-        try? memoStore.saveSmartClipboardHistory(history: [])
+        try? ClipboardHistoryStore.shared.save([])
         try? memoStore.saveCombos([])
         memoStore = nil
         sut = nil
@@ -78,7 +78,7 @@ final class CloudKitBackupServiceTests: XCTestCase {
         ]
 
         try memoStore.save(memos: testMemos, type: .memo)
-        try memoStore.saveSmartClipboardHistory(history: testHistory)
+        try ClipboardHistoryStore.shared.save(testHistory)
         try memoStore.saveCombos(testStacks)
 
         // When - 백업 시도 (실제 iCloud 연결 필요)
@@ -86,7 +86,7 @@ final class CloudKitBackupServiceTests: XCTestCase {
 
         // Then
         let loadedMemos = try memoStore.load(type: .memo)
-        let loadedHistory = try memoStore.loadSmartClipboardHistory()
+        let loadedHistory = try ClipboardHistoryStore.shared.load()
         let loadedStacks = try memoStore.loadCombos()
 
         XCTAssertEqual(loadedMemos.count, 2)

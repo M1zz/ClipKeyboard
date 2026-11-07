@@ -24,7 +24,7 @@ final class ImageStorageEncodingTests: XCTestCase {
 
     func test_큰_사진은_긴_변_2048_JPEG() throws {
         let photo = image(width: 4000, height: 3000, opaque: true)
-        let encoded = try XCTUnwrap(MemoStore.storageEncoding(for: photo))
+        let encoded = try XCTUnwrap(ImageStore.storageEncoding(for: photo))
         XCTAssertEqual(encoded.fileExtension, "jpg")
         let decoded = try XCTUnwrap(UIImage(data: encoded.data))
         XCTAssertEqual(max(decoded.size.width * decoded.scale, decoded.size.height * decoded.scale), 2048, accuracy: 1)
@@ -33,24 +33,24 @@ final class ImageStorageEncodingTests: XCTestCase {
 
     func test_투명한_그림은_PNG_로_둔다() throws {
         let sticker = image(width: 600, height: 600, opaque: false)
-        let encoded = try XCTUnwrap(MemoStore.storageEncoding(for: sticker))
+        let encoded = try XCTUnwrap(ImageStore.storageEncoding(for: sticker))
         XCTAssertEqual(encoded.fileExtension, "png", "JPEG 는 투명을 검게 메운다")
     }
 
     func test_작은_그림은_키우지_않는다() throws {
         let small = image(width: 300, height: 200, opaque: true)
-        let encoded = try XCTUnwrap(MemoStore.storageEncoding(for: small))
+        let encoded = try XCTUnwrap(ImageStore.storageEncoding(for: small))
         let decoded = try XCTUnwrap(UIImage(data: encoded.data))
         XCTAssertEqual(decoded.size.width * decoded.scale, 300, accuracy: 1)
     }
 
     func test_저장한_이름의_확장자로_붙여넣기_형식이_정해진다() throws {
-        let fileName = try MemoStore.shared.saveImage(image(width: 3000, height: 2000, opaque: true))
+        let fileName = try ImageStore.save(image(width: 3000, height: 2000, opaque: true))
         defer {
-            if let url = MemoStore.shared.imageURL(fileName: fileName) { try? FileManager.default.removeItem(at: url) }
+            if let url = ImageStore.url(fileName: fileName) { try? FileManager.default.removeItem(at: url) }
         }
         XCTAssertTrue(fileName.hasSuffix(".jpg"))
-        XCTAssertEqual(MemoStore.shared.imagePasteboardType(fileName: fileName), "public.jpeg")
-        XCTAssertNotNil(MemoStore.shared.loadThumbnail(fileName: fileName, maxPixel: 400), "키보드 썸네일도 그대로 읽힌다")
+        XCTAssertEqual(ImageStore.pasteboardType(fileName: fileName), "public.jpeg")
+        XCTAssertNotNil(ImageStore.thumbnail(fileName: fileName, maxPixel: 400), "키보드 썸네일도 그대로 읽힌다")
     }
 }

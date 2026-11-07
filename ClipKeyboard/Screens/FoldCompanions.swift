@@ -364,7 +364,7 @@ struct FoldAIClassificationCompanion: View {
             .animation(.easeOut(duration: 0.2), value: classificationOn)
         }
         .onAppear {
-            let history = (try? MemoStore.shared.loadSmartClipboardHistory()) ?? []
+            let history = (try? ClipboardHistoryStore.shared.load()) ?? []
             clips = Array(history.filter { $0.contentType == .text }.prefix(10))
         }
     }

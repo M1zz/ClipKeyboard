@@ -178,7 +178,7 @@ struct ContentPredictionRow: View {
                 }
             }
         }
-        .task { history = (try? MemoStore.shared.loadSmartClipboardHistory()) ?? [] }
+        .task { history = (try? ClipboardHistoryStore.shared.load()) ?? [] }
     }
 
     private func chip(_ pick: String, type: ClipboardItemType) -> some View {

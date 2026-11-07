@@ -413,7 +413,7 @@ final class InAppKeyboardHost: ObservableObject, TypingInputProxy {
         #if os(iOS)
         // 입력창에 보여 줄 만큼만 읽는다(원본을 펼치지 않는다).
         guard let fileName = note.object as? String,
-              let image = MemoStore.shared.loadThumbnail(fileName: fileName, maxPixel: 1200) else {
+              let image = ImageStore.thumbnail(fileName: fileName, maxPixel: 1200) else {
             print("⚠️ [InAppKeyboardHost.handleAddImageEntry] 이미지 로드 실패")
             return
         }

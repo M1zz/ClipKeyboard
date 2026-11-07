@@ -1211,13 +1211,13 @@ final class ClipKeyboardListViewModel: ObservableObject {
             ? (memo.imageFileNames.first ?? memo.imageFileName)
             : nil
         if let imageFileName {
-            if let data = MemoStore.shared.imageData(fileName: imageFileName) {
+            if let data = ImageStore.data(fileName: imageFileName) {
                 // ⚠️ 사진과 글을 **한 항목에 함께** 얹는다. 예전에는 `.image` 를 넣고 나서
                 //    `.string` 을 넣었는데, 클립보드는 새로 얹을 때마다 앞의 것을 버린다.
                 //    그래서 글+사진 단축어는 **글을 넣는 순간 사진이 사라졌다.**
                 //    한 항목에 두 표현을 담으면 받는 앱이 자기가 받을 수 있는 쪽을 가져간다.
                 var item: [String: Any] = [
-                    MemoStore.shared.imagePasteboardType(fileName: imageFileName): data
+                    ImageStore.pasteboardType(fileName: imageFileName): data
                 ]
                 if memo.contentType == .mixed, !processedValue.isEmpty {
                     item[UTType.utf8PlainText.identifier] = processedValue
@@ -1245,7 +1245,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
                 copiedText: memo.contentType == .image ? nil : processedValue)
 
             if memo.contentType != .image {
-                try MemoStore.shared.addToSmartClipboardHistory(content: processedValue)
+                try ClipboardHistoryStore.shared.add(content: processedValue)
             }
 
             let allMemos = try MemoStore.shared.load(type: .memo)

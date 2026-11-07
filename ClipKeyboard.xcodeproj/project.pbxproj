@@ -85,6 +85,8 @@
 		587384982F2E7AD50042ECA4 /* widgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 587384822F2E7AD40042ECA4 /* widgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		587BDC4E2A1D0D40001464E4 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587BDC4D2A1D0D40001464E4 /* KeyboardViewController.swift */; };
 		587BDC522A1D0D40001464E4 /* ClipKeyboardExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 587BDC4B2A1D0D40001464E4 /* ClipKeyboardExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A74A7E0C60DC47C1A9ED63D3 /* ImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450819E64ABC44D590D6E3BC /* ImageStore.swift */; };
+		6D288424F5794474BEB3D39C /* ClipboardHistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEBF8F82F784128BD3AF5AB /* ClipboardHistoryStore.swift */; };
 		587BDC582A1FC852001464E4 /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		587BDC592A1FC8BB001464E4 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
 		58AA11112B4D1A2100000006 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AA11112B4D1A2100000005 /* ColorExtension.swift */; };
@@ -123,6 +125,8 @@
 		58DS00032F0000000000000003 /* AppThemePreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58DS00042F0000000000000004 /* AppThemePreference.swift */; };
 		58F8FBBD2A127B3000F5446E /* MemoAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBC2A127B3000F5446E /* MemoAdd.swift */; };
 		58F8FBBF2A127D3C00F5446E /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBBE2A127D3C00F5446E /* Memo.swift */; };
+		BFD4C936CAC5495AB3F2BF49 /* ImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450819E64ABC44D590D6E3BC /* ImageStore.swift */; };
+		BA166052AEEC409DA5D7E3FA /* ClipboardHistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEBF8F82F784128BD3AF5AB /* ClipboardHistoryStore.swift */; };
 		58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8FBC02A13C9A400F5446E /* MemoStore.swift */; };
 		58FA00012F0000000000000001 /* FullAccessGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FA00022F0000000000000002 /* FullAccessGuideView.swift */; };
 		58GB00012F0000000000000001 /* GraceQuotaBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */; };
@@ -557,6 +561,8 @@
 		58DS00042F0000000000000004 /* AppThemePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppThemePreference.swift; sourceTree = "<group>"; };
 		58F8FBBC2A127B3000F5446E /* MemoAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoAdd.swift; sourceTree = "<group>"; };
 		58F8FBBE2A127D3C00F5446E /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
+		450819E64ABC44D590D6E3BC /* ImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStore.swift; sourceTree = "<group>"; };
+		BDEBF8F82F784128BD3AF5AB /* ClipboardHistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardHistoryStore.swift; sourceTree = "<group>"; };
 		58F8FBC02A13C9A400F5446E /* MemoStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoStore.swift; sourceTree = "<group>"; };
 		58FA00022F0000000000000002 /* FullAccessGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullAccessGuideView.swift; sourceTree = "<group>"; };
 		58GB00022F0000000000000002 /* GraceQuotaBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraceQuotaBannerView.swift; sourceTree = "<group>"; };
@@ -1161,6 +1167,8 @@
 				581D8A932F49B4DD00F2F032 /* ProFeatureManager.swift */,
 				581D8A942F49B4DD00F2F032 /* StoreManager.swift */,
 				58F8FBC02A13C9A400F5446E /* MemoStore.swift */,
+				BDEBF8F82F784128BD3AF5AB /* ClipboardHistoryStore.swift */,
+				450819E64ABC44D590D6E3BC /* ImageStore.swift */,
 				TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */,
 				TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */,
 				SHAREVIDEOFILE000000001 /* ShareVideoRenderer.swift */,
@@ -1760,6 +1768,8 @@
 				58AT00012F0000000000000201 /* AccessTier.swift in Sources */,
 				587BDC4E2A1D0D40001464E4 /* KeyboardViewController.swift in Sources */,
 				587BDC582A1FC852001464E4 /* MemoStore.swift in Sources */,
+				6D288424F5794474BEB3D39C /* ClipboardHistoryStore.swift in Sources */,
+				A74A7E0C60DC47C1A9ED63D3 /* ImageStore.swift in Sources */,
 				TIMESAVEDBUILDEXT0000001 /* TimeSavedModel.swift in Sources */,
 				58MP00032F0000000000000003 /* MemoPreviewFormatter.swift in Sources */,
 				581550642AD5321F00A6115B /* Constants.swift in Sources */,
@@ -1880,6 +1890,8 @@
 				58MA00012F0000000000000001 /* MacAppIntroView.swift in Sources */,
 				58KS00012B6F1B3200000001 /* KeyboardSetupOnboardingView.swift in Sources */,
 				58F8FBC12A13C9A400F5446E /* MemoStore.swift in Sources */,
+				BA166052AEEC409DA5D7E3FA /* ClipboardHistoryStore.swift in Sources */,
+				BFD4C936CAC5495AB3F2BF49 /* ImageStore.swift in Sources */,
 				TIMESAVEDBUILDAPP0000001 /* TimeSavedModel.swift in Sources */,
 				TIMEEQUIVBUILDAPP0000001 /* TimeEquivalent.swift in Sources */,
 				SHAREVIDEOBUILDAPP000001 /* ShareVideoRenderer.swift in Sources */,

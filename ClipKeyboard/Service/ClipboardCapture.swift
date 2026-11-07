@@ -53,7 +53,7 @@ enum ClipboardCapture {
                     return
                 }
                 do {
-                    try MemoStore.shared.addToSmartClipboardHistory(content: text)
+                    try ClipboardHistoryStore.shared.add(content: text)
                     print("✅ [ClipboardCapture.capture] 버튼으로 담음: \(text.prefix(30))")
                     completion(.captured(text))
                 } catch {

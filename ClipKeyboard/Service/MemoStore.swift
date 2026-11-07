@@ -6,33 +6,24 @@
 //
 
 import Foundation
-#if os(iOS)
-import UIKit
-import Vision
-import VisionKit
-import ImageIO
-import UniformTypeIdentifiers
-#endif
 
 /// 저장소가 던지는 오류. 화면에 그대로 보이지 않고, 부르는 쪽이 저장을 멈추는 신호로 쓴다.
 enum MemoStoreError: Error, LocalizedError {
     /// 파일이 있는데 읽지 못했다.
     case unreadable(String, Error)
     /// 읽지 못한 채로 저장하려 했다. 덮어쓰면 그 파일의 내용이 사라진다.
-    case unreadBeforeSave(MemoType)
+    case unreadBeforeSave(String)
 
     var errorDescription: String? {
         switch self {
         case .unreadable(let name, let error): return "\(name): \(error.localizedDescription)"
-        case .unreadBeforeSave(let type): return "refused to overwrite unread \(type)"
+        case .unreadBeforeSave(let name): return "refused to overwrite unread \(name)"
         }
     }
 }
 
 enum MemoType: Hashable {
     case memo
-    case clipboardHistory
-    case smartClipboardHistory
     case stack
 }
 
@@ -59,12 +50,64 @@ struct FileStamp: Equatable {
     }
 }
 
+// MARK: - 읽기 실패 막이
+
+extension Data {
+    /// 파일을 읽는다. **없으면 nil, 있는데 못 읽으면 던진다.** 두 경우를 섞지 않는 것이 요점이다.
+    static func readIfPresent(_ url: URL, options: Data.ReadingOptions = []) throws -> Data? {
+        guard FileManager.default.fileExists(atPath: url.path) else { return nil }
+        do {
+            return try Data(contentsOf: url, options: options)
+        } catch {
+            AppLog.error(.store, "❌ [Data.readIfPresent] \(url.lastPathComponent) 를 읽지 못했다: \(error.localizedDescription)")
+            throw MemoStoreError.unreadable(url.lastPathComponent, error)
+        }
+    }
+}
+
+/// 파일이 **있는데 못 읽은** 것을 기억하고, 다시 제대로 읽기 전까지 그 파일의 저장을 거절한다.
+///
+/// 왜 필요한가: 못 읽은 자리에서 빈 목록을 돌려주면, 부르는 쪽은 그 빈 목록에 한 줄을 더해
+/// 저장한다. 그러면 **멀쩡한 파일이 한 줄짜리로 덮인다.** 기기가 잠겨 파일 보호가 걸렸을 때
+/// 키보드가 읽거나, 다른 프로세스가 파일을 갈아끼우는 찰나에 읽으면 실제로 일어난다.
+/// 깨진 파일(디코딩 실패)은 격리 사본이 있어 이 막이에 넣지 않는다(`MemoStore.quarantineCorruptFile`).
+final class UnreadFileGuard<Key: Hashable> {
+    private var unreadable: Set<Key> = []
+    private let lock = NSLock()
+
+    /// 읽고, 성공 · 실패를 적는다.
+    func read(_ url: URL, as key: Key, options: Data.ReadingOptions = []) throws -> Data? {
+        do {
+            let data = try Data.readIfPresent(url, options: options)
+            mark(key, readable: true)
+            return data
+        } catch {
+            mark(key, readable: false)
+            throw error
+        }
+    }
+
+    func refuseIfUnread(_ key: Key) throws {
+        lock.lock()
+        let blocked = unreadable.contains(key)
+        lock.unlock()
+        guard !blocked else {
+            AppLog.error(.store, "🛑 [UnreadFileGuard] \(key) 를 읽지 못한 채라 저장을 거절한다(덮어쓰기 막이)")
+            throw MemoStoreError.unreadBeforeSave("\(key)")
+        }
+    }
+
+    private func mark(_ key: Key, readable: Bool) {
+        lock.lock()
+        if readable { unreadable.remove(key) } else { unreadable.insert(key) }
+        lock.unlock()
+    }
+}
+
 class MemoStore: ObservableObject {
     static let shared = MemoStore()
 
     @Published var memos: [Memo] = []
-    @Published var clipboardHistory: [ClipboardHistory] = []
-    @Published var smartClipboardHistory: [SmartClipboardHistory] = []
     @Published var combos: [Combo] = []
 
     // MARK: - 로드 캐시
@@ -88,52 +131,8 @@ class MemoStore: ObservableObject {
 
     // MARK: - 읽기 실패 막이
 
-    /// 파일이 **있는데 못 읽은** 종류. 다시 제대로 읽기 전까지 그 종류의 저장을 거절한다.
-    ///
-    /// 왜 필요한가: 못 읽은 자리에서 빈 목록을 돌려주면, 부르는 쪽은 그 빈 목록에 한 줄을 더해
-    /// 저장한다. 그러면 **멀쩡한 메모 파일이 한 줄짜리로 덮인다.** 기기가 잠겨 파일 보호가 걸렸을 때
-    /// 키보드가 읽거나, 다른 프로세스가 파일을 갈아끼우는 찰나에 읽으면 실제로 일어난다.
-    /// 깨진 파일(디코딩 실패)은 격리 사본이 있어 이 막이에 넣지 않는다(`quarantineCorruptFile`).
-    private var unreadable: Set<MemoType> = []
-
-    private func noteRead(_ type: MemoType, ok: Bool) {
-        loadCacheLock.lock()
-        if ok { unreadable.remove(type) } else { unreadable.insert(type) }
-        loadCacheLock.unlock()
-    }
-
-    private func refuseIfUnread(_ type: MemoType) throws {
-        loadCacheLock.lock()
-        let blocked = unreadable.contains(type)
-        loadCacheLock.unlock()
-        guard !blocked else {
-            AppLog.error(.store, "🛑 [MemoStore.save] \(type) 을 읽지 못한 채라 저장을 거절한다(덮어쓰기 막이)")
-            throw MemoStoreError.unreadBeforeSave(type)
-        }
-    }
-
-    /// 파일을 읽는다. **없으면 nil, 있는데 못 읽으면 던진다.** 두 경우를 섞지 않는 것이 요점이다.
-    static func readIfPresent(_ url: URL, options: Data.ReadingOptions = []) throws -> Data? {
-        guard FileManager.default.fileExists(atPath: url.path) else { return nil }
-        do {
-            return try Data(contentsOf: url, options: options)
-        } catch {
-            AppLog.error(.store, "❌ [MemoStore.read] \(url.lastPathComponent) 를 읽지 못했다: \(error.localizedDescription)")
-            throw MemoStoreError.unreadable(url.lastPathComponent, error)
-        }
-    }
-
-    /// 읽고, 성공 · 실패를 막이에 적는다.
-    private func read(_ url: URL, type: MemoType, options: Data.ReadingOptions = []) throws -> Data? {
-        do {
-            let data = try Self.readIfPresent(url, options: options)
-            noteRead(type, ok: true)
-            return data
-        } catch {
-            noteRead(type, ok: false)
-            throw error
-        }
-    }
+    /// 못 읽은 파일 위에 저장하지 않는다(`UnreadFileGuard`).
+    private let unread = UnreadFileGuard<MemoType>()
 
     private func cachedMemos(for type: MemoType, stamp: FileStamp?) -> [Memo]? {
         guard let stamp else { return nil }
@@ -161,10 +160,6 @@ class MemoStore: ObservableObject {
         switch type {
         case .memo:
             return containerURL.appendingPathComponent(StorageFile.memos)
-        case .clipboardHistory:
-            return containerURL.appendingPathComponent(StorageFile.clipboardHistory)
-        case .smartClipboardHistory:
-            return containerURL.appendingPathComponent(StorageFile.smartClipboardHistory)
         case .stack:
             return containerURL.appendingPathComponent(StorageFile.combos)
         }
@@ -226,7 +221,7 @@ class MemoStore: ObservableObject {
     }
 
     func save(memos: [Memo], type: MemoType, recordHistory: Bool = true, change: Change = .content) throws {
-        try refuseIfUnread(type)
+        try unread.refuseIfUnread(type)
         // 타임머신: 메모를 덮어쓰기 직전, 의미 있는 변경이면 "이전 상태"를 스냅샷으로 보관.
         // (대량 삭제·편집·마이그레이션 사고를 되돌릴 수 있는 로컬 안전망. 최근 10개 유지.)
         // 사용량만 바뀐 저장은 이력 비교 자체를 하지 않는다 - 비교해 봐야 같다.
@@ -263,14 +258,6 @@ class MemoStore: ObservableObject {
         }
     }
 
-    func saveClipboardHistory(history: [ClipboardHistory]) throws {
-        try refuseIfUnread(.clipboardHistory)
-        let data = try JSONEncoder().encode(history)
-        guard let outfile = try Self.fileURL(type: .clipboardHistory) else { return }
-        try data.write(to: outfile, options: .atomic)
-        Self.postDataChanged()
-    }
-
     func load(type: MemoType) throws -> [Memo] {
         guard let fileURL = try Self.fileURL(type: type) else { return [] }
 
@@ -278,7 +265,7 @@ class MemoStore: ObservableObject {
         let stamp = FileStamp.of(fileURL)
         if let cached = cachedMemos(for: type, stamp: stamp) { return cached }
 
-        guard let data = try read(fileURL, type: type) else { return [] }
+        guard let data = try unread.read(fileURL, as: type) else { return [] }
 
         // ⚠️ 손상 감지: 예전에는 디코딩이 실패해도 빈 배열을 돌려줘서 "메모가 전부 사라진 것처럼"
         //    보였다. 더 나쁜 건 그 뒤 아무 저장이나 일어나면 빈 배열이 파일에 덮여 **진짜로**
@@ -409,12 +396,6 @@ class MemoStore: ObservableObject {
         return changed
     }
 
-    func loadClipboardHistory() throws -> [ClipboardHistory] {
-        guard let fileURL = try Self.fileURL(type: .clipboardHistory) else { return [] }
-        guard let data = try read(fileURL, type: .clipboardHistory) else { return [] }
-        return (try? JSONDecoder().decode([ClipboardHistory].self, from: data)) ?? []
-    }
-
     // MARK: - Clip Count
 
     /// - Parameter copiedText: 실제로 클립보드에 들어간 글. 콤보처럼 **여러 값 중 하나**를
@@ -461,322 +442,12 @@ class MemoStore: ObservableObject {
         }
     }
 
-    // MARK: - Smart Clipboard History
-
-    func saveSmartClipboardHistory(history: [SmartClipboardHistory]) throws {
-        try refuseIfUnread(.smartClipboardHistory)
-        let data = try JSONEncoder().encode(history)
-        guard let outfile = try Self.fileURL(type: .smartClipboardHistory) else { return }
-        try data.write(to: outfile, options: .atomic)
-        Self.postDataChanged()
-    }
-
-    /// 복사 기록을 읽는다. **키보드도 뜰 때마다 부른다**('최근' 탭).
-    ///
-    /// ⚠️ 파일을 메모리로 복사하지 않고 **매핑**해서 읽는다(`.mappedIfSafe`). 예전 판이 남긴
-    ///    그림 글자(base64)가 수 MB 붙어 있어도 키보드의 메모리 한도에 그만큼 잡히지 않는다.
-    ///    그림 자체는 디코더가 읽지 않는다(`SmartClipboardHistory.init(from:)`).
-    /// ⚠️ 그림 줄(`.image`)은 버린다. 담겨 있던 그림을 보여 주거나 붙여 넣는 화면이 없어서,
-    ///    남는 것은 "이미지 (1024x768)" 라는 글자뿐이었다. 넣으면 그 글자가 들어갔다.
-    func loadSmartClipboardHistory() throws -> [SmartClipboardHistory] {
-        guard let fileURL = try Self.fileURL(type: .smartClipboardHistory) else { return [] }
-        guard let data = try read(fileURL, type: .smartClipboardHistory, options: .mappedIfSafe) else {
-            return try migrateFromLegacyClipboard()
-        }
-        let history = (try? JSONDecoder().decode([SmartClipboardHistory].self, from: data)) ?? []
-        return history.filter { $0.contentType != .image }
-    }
-
-    /// 예전 판이 복사 기록 파일에 남긴 그림 글자를 걷어 파일을 줄인다. **앱만** 부른다.
-    ///
-    /// 키보드는 매핑 덕에 큰 파일도 버티지만, 파일이 작아야 키보드가 저장할 때(최근 탭에 담기)도
-    /// 가볍다. 그림 글자가 없으면 아무것도 하지 않는다 - 매번 다시 쓰지 않는다.
-    /// - Returns: 줄였으면 true.
-    @discardableResult
-    func compactSmartClipboardHistoryIfNeeded() -> Bool {
-        guard let fileURL = try? Self.fileURL(type: .smartClipboardHistory),
-              let data = try? Data(contentsOf: fileURL, options: .mappedIfSafe),
-              Self.containsLegacyClipboardImages(data) else { return false }
-        do {
-            let before = data.count
-            let history = try loadSmartClipboardHistory()
-            try saveSmartClipboardHistory(history: history)
-            let after = (try? Data(contentsOf: fileURL))?.count ?? 0
-            print("🔄 [MemoStore.compactSmartClipboardHistoryIfNeeded] 복사 기록의 옛 그림을 걷음: \(before) → \(after) 바이트")
-            return true
-        } catch {
-            print("❌ [MemoStore.compactSmartClipboardHistoryIfNeeded] 실패: \(error)")
-            return false
-        }
-    }
-
-    /// 파일에 예전 그림 칸(`"imageData"`) 이 남아 있는가. 해석하지 않고 바이트로만 찾는다.
-    static func containsLegacyClipboardImages(_ data: Data) -> Bool {
-        data.range(of: Data("\"imageData\"".utf8)) != nil
-            || data.range(of: Data("\"contentType\":\"image\"".utf8)) != nil
-    }
-
-    func addToSmartClipboardHistory(content: String) throws {
-        var history = try loadSmartClipboardHistory()
-
-        let (detectedType, confidence) = ClipboardClassificationService.shared.classify(content: content)
-
-        history.removeAll { $0.content == content }
-        history.insert(
-            SmartClipboardHistory(content: content, detectedType: detectedType, confidence: confidence),
-            at: 0
-        )
-
-        let maxHistory = ProFeatureManager.clipboardHistoryLimit()
-        if history.count > maxHistory {
-            history = Array(history.prefix(maxHistory))
-        }
-
-        // 보관 기간은 `SmartClipboardHistory.retentionDays` 한 곳에서 정한다(키보드 '최근' 탭과 같은 값).
-        let now = Date()
-        history.removeAll { !$0.isRetained(now: now) }
-
-        try saveSmartClipboardHistory(history: history)
-
-        NotificationCenter.postOnMain(name: .reviewTriggerClipSaved, object: nil)
-
-        DispatchQueue.main.async { [weak self] in
-            self?.smartClipboardHistory = history
-        }
-    }
-
-    /// 복사 기록에서 한 줄을 지운다. 키보드 '최근' 탭에서 밀어서 지울 때 부른다.
-    func deleteSmartClipboardItem(id: UUID) throws {
-        var history = try loadSmartClipboardHistory()
-        history.removeAll { $0.id == id }
-        try saveSmartClipboardHistory(history: history)
-        DispatchQueue.main.async { [weak self] in
-            self?.smartClipboardHistory = history
-        }
-        print("🗑️ [MemoStore.deleteSmartClipboardItem] 복사 기록 1개 삭제")
-    }
-
-    /// AI 재분류 결과를 반영한다. 사용자가 수동으로 타입을 고친 항목은 건드리지 않는다.
-    /// tags에 "ai"를 남겨 앱 재시작 후 같은 항목을 다시 분류하지 않도록 한다.
-    func updateClipboardItemClassification(id: UUID, type: ClipboardItemType, confidence: Double) throws {
-        var history = try loadSmartClipboardHistory()
-
-        guard let index = history.firstIndex(where: { $0.id == id }),
-              history[index].userCorrectedType == nil else { return }
-
-        history[index].detectedType = type
-        history[index].confidence = confidence
-        if !history[index].tags.contains("ai") {
-            history[index].tags.append("ai")
-        }
-        try saveSmartClipboardHistory(history: history)
-        DispatchQueue.main.async { [weak self] in
-            self?.smartClipboardHistory = history
-        }
-        AppLog.info(.store, "🤖 [MemoStore.updateClipboardItemClassification] AI 재분류 반영: \(type.rawValue)")
-    }
-
-    func updateClipboardItemType(id: UUID, correctedType: ClipboardItemType) throws {
-        var history = try loadSmartClipboardHistory()
-
-        if let index = history.firstIndex(where: { $0.id == id }) {
-            history[index].userCorrectedType = correctedType
-            ClipboardClassificationService.shared.updateClassificationModel(
-                content: history[index].content,
-                correctedType: correctedType
-            )
-            try saveSmartClipboardHistory(history: history)
-            DispatchQueue.main.async { [weak self] in
-                self?.smartClipboardHistory = history
-            }
-        }
-    }
-
-    // MARK: - Migration
-
-    private func migrateFromLegacyClipboard() throws -> [SmartClipboardHistory] {
-        let legacyHistory = try loadClipboardHistory()
-
-        let smartHistory = legacyHistory.map { item -> SmartClipboardHistory in
-            let (type, confidence) = ClipboardClassificationService.shared.classify(content: item.content)
-            return SmartClipboardHistory(
-                id: item.id,
-                content: item.content,
-                copiedAt: item.copiedAt,
-                isTemporary: item.isTemporary,
-                detectedType: type,
-                confidence: confidence
-            )
-        }
-
-        if !smartHistory.isEmpty {
-            try saveSmartClipboardHistory(history: smartHistory)
-        }
-
-        return smartHistory
-    }
-
     // MARK: - Favorite
 
     func hasFavoriteMemo() -> Bool {
         guard let memos = try? load(type: .memo) else { return false }
         return memos.contains(where: { $0.isFavorite })
     }
-
-    // MARK: - Image Management
-
-    #if os(iOS)
-    /// 단축어에 붙인 그림을 저장할 모양으로 만든다. 긴 변 2048px, 투명한 곳이 없으면 JPEG.
-    ///
-    /// ⚠️ 예전에는 원본 크기 PNG 였다. 1200만 화소 사진 한 장이 15~25MB 가 되고, 그 인코딩만
-    ///    저장 버튼을 누른 메인에서 0.5~1초 걸렸다. 그 크기가 iCloud 백업 · 동기화 · 키보드에서
-    ///    붙여 넣을 때까지 그대로 따라다녔다. 붙여 넣는 곳(메신저 · 메일)은 어차피 다시 줄인다.
-    /// ⚠️ 투명한 곳이 있는 그림(스티커 · 로고)은 PNG 로 둔다. JPEG 는 투명을 검게 메운다.
-    static let storedImageMaxPixel: CGFloat = 2048
-
-    static func storageEncoding(for image: UIImage) -> (data: Data, fileExtension: String)? {
-        let pixelSize = CGSize(width: image.size.width * image.scale, height: image.size.height * image.scale)
-        let longest = max(pixelSize.width, pixelSize.height)
-        var output = image
-        if longest > storedImageMaxPixel {
-            let ratio = storedImageMaxPixel / longest
-            let target = CGSize(width: (pixelSize.width * ratio).rounded(), height: (pixelSize.height * ratio).rounded())
-            let format = UIGraphicsImageRendererFormat.default()
-            format.scale = 1
-            format.opaque = !hasAlpha(image)
-            output = UIGraphicsImageRenderer(size: target, format: format).image { _ in
-                image.draw(in: CGRect(origin: .zero, size: target))
-            }
-        }
-        if hasAlpha(image) {
-            return output.pngData().map { ($0, "png") }
-        }
-        return output.jpegData(compressionQuality: 0.82).map { ($0, "jpg") }
-    }
-
-    private static func hasAlpha(_ image: UIImage) -> Bool {
-        switch image.cgImage?.alphaInfo {
-        case .first?, .last?, .premultipliedFirst?, .premultipliedLast?, .alphaOnly?: return true
-        default: return false
-        }
-    }
-
-    /// 그림을 저장하고 파일 이름을 돌려준다. 이름의 확장자가 형식을 말한다(붙여 넣을 때 그 형식으로 얹는다).
-    func saveImage(_ image: UIImage) throws -> String {
-        guard let encoded = Self.storageEncoding(for: image) else {
-            throw NSError(domain: "MemoStore", code: 2, userInfo: [NSLocalizedDescriptionKey: "Could not encode the image"])
-        }
-        let fileName = "\(UUID().uuidString).\(encoded.fileExtension)"
-        try writeImageData(encoded.data, fileName: fileName)
-        return fileName
-    }
-
-    private func writeImageData(_ data: Data, fileName: String) throws {
-        guard let containerURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: AppGroup.identifier
-        ) else {
-            throw NSError(domain: "MemoStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "App Group container not found"])
-        }
-        let imagesDirectory = containerURL.appendingPathComponent("Images")
-        if !FileManager.default.fileExists(atPath: imagesDirectory.path) {
-            try FileManager.default.createDirectory(at: imagesDirectory, withIntermediateDirectories: true)
-        }
-        try data.write(to: imagesDirectory.appendingPathComponent(fileName), options: .atomic)
-    }
-
-    /// 이름을 정해 **원본 그대로 PNG** 로 저장한다. 시험처럼 이름이 미리 정해져야 하는 곳만 쓴다.
-    /// 단축어에 붙이는 그림은 `saveImage(_:)` (줄여서 저장)를 쓴다.
-    func saveImage(_ image: UIImage, fileName: String) throws {
-        guard let containerURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: AppGroup.identifier
-        ) else {
-            throw NSError(domain: "MemoStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "App Group container not found"])
-        }
-
-        let imagesDirectory = containerURL.appendingPathComponent("Images")
-        if !FileManager.default.fileExists(atPath: imagesDirectory.path) {
-            try FileManager.default.createDirectory(at: imagesDirectory, withIntermediateDirectories: true)
-        }
-
-        guard let imageData = image.pngData() else {
-            throw NSError(domain: "MemoStore", code: 2, userInfo: [NSLocalizedDescriptionKey: "Could not convert the image to PNG"])
-        }
-        try imageData.write(to: imagesDirectory.appendingPathComponent(fileName), options: .atomic)
-    }
-
-    /// ⚠️ **원본을 통째로 펼친다.** 3000x2000 사진 한 장이 메모리에서 24MB 다.
-    ///    앱에서는 괜찮지만 **키보드 익스텐션에서는 이 한 장이 프로세스를 죽인다**
-    ///    (익스텐션 메모리 한도는 앱의 몇십 분의 일이다). 익스텐션에서는
-    ///    `loadThumbnail(fileName:maxPixel:)`(그리기) 과 `imageData(fileName:)`(클립보드)
-    ///    을 쓴다. 자세한 것은 `docs/postmortem/KEYBOARD_IMAGE_MEMORY.md`.
-    func loadImage(fileName: String) -> UIImage? {
-        guard let fileURL = imageURL(fileName: fileName) else { return nil }
-        return UIImage(contentsOfFile: fileURL.path)
-    }
-
-    /// App Group 안의 이미지 파일 자리. 없으면 nil.
-    func imageURL(fileName: String) -> URL? {
-        guard !fileName.isEmpty,
-              let containerURL = FileManager.default.containerURL(
-                forSecurityApplicationGroupIdentifier: AppGroup.identifier
-              ) else { return nil }
-        let fileURL = containerURL.appendingPathComponent("Images").appendingPathComponent(fileName)
-        guard FileManager.default.fileExists(atPath: fileURL.path) else { return nil }
-        return fileURL
-    }
-
-    /// 파일 바이트 그대로. **펼치지 않는다.**
-    ///
-    /// 클립보드에 사진을 얹을 때 `UIImage` 를 거치면 원본을 한 번 펼치고(24MB) 다시
-    /// 인코딩해서(또 한 벌) 두 벌이 동시에 잡힌다. 바이트를 그대로 건네면 그 둘이 다 없다.
-    /// 메모리 매핑이라 실제로 읽는 만큼만 올라온다.
-    func imageData(fileName: String) -> Data? {
-        guard let fileURL = imageURL(fileName: fileName) else { return nil }
-        return try? Data(contentsOf: fileURL, options: .mappedIfSafe)
-    }
-
-    /// 파일 이름에서 클립보드용 타입을 고른다. 모르는 것은 png 로 본다(저장이 png 라서).
-    func imagePasteboardType(fileName: String) -> String {
-        let ext = (fileName as NSString).pathExtension.lowercased()
-        guard !ext.isEmpty, let type = UTType(filenameExtension: ext), type.conforms(to: .image) else {
-            return UTType.png.identifier
-        }
-        return type.identifier
-    }
-
-    /// 긴 변이 `maxPixel` 이 되도록 **파일에서 바로** 줄여 읽는다.
-    ///
-    /// `UIImage(contentsOfFile:)` 로 읽고 나서 줄이면 이미 원본만큼 펼친 뒤다. ImageIO 는
-    /// 디코드 단계에서 줄여 주므로 원본 크기의 버퍼가 아예 안 생긴다.
-    func loadThumbnail(fileName: String, maxPixel: CGFloat) -> UIImage? {
-        guard let fileURL = imageURL(fileName: fileName),
-              let source = CGImageSourceCreateWithURL(fileURL as CFURL, nil) else { return nil }
-        let options: [CFString: Any] = [
-            kCGImageSourceCreateThumbnailFromImageAlways: true,
-            // 사진의 회전 정보를 반영해서 만든다. 안 그러면 세로 사진이 눕는다.
-            kCGImageSourceCreateThumbnailWithTransform: true,
-            kCGImageSourceShouldCacheImmediately: true,
-            kCGImageSourceThumbnailMaxPixelSize: maxPixel,
-        ]
-        guard let cgImage = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary) else {
-            return nil
-        }
-        return UIImage(cgImage: cgImage)
-    }
-
-    func deleteImage(fileName: String) throws {
-        guard let containerURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: AppGroup.identifier
-        ) else {
-            throw NSError(domain: "MemoStore", code: 1, userInfo: [NSLocalizedDescriptionKey: "App Group container not found"])
-        }
-
-        let fileURL = containerURL.appendingPathComponent("Images").appendingPathComponent(fileName)
-        if FileManager.default.fileExists(atPath: fileURL.path) {
-            try FileManager.default.removeItem(at: fileURL)
-        }
-    }
-    #endif
 
     // MARK: - Placeholder Values
 
@@ -1073,7 +744,7 @@ class MemoStore: ObservableObject {
     // MARK: - Combo
 
     func saveCombos(_ combos: [Combo]) throws {
-        try refuseIfUnread(.stack)
+        try unread.refuseIfUnread(.stack)
         let data = try JSONEncoder().encode(combos)
         guard let outfile = try Self.fileURL(type: .stack) else { return }
         try data.write(to: outfile, options: .atomic)
@@ -1083,7 +754,7 @@ class MemoStore: ObservableObject {
 
     func loadCombos() throws -> [Combo] {
         guard let fileURL = try Self.fileURL(type: .stack) else { return [] }
-        guard let data = try read(fileURL, type: .stack) else { return [] }
+        guard let data = try unread.read(fileURL, as: .stack) else { return [] }
         guard let combos = try? JSONDecoder().decode([Combo].self, from: data) else {
             // 메모와 같은 이유로 원본을 격리 보존한다 - 빈 목록 뒤의 저장이 덮어쓰지 못하게
             Self.quarantineCorruptFile(at: fileURL, type: .stack)
@@ -1113,7 +784,7 @@ class MemoStore: ObservableObject {
         case .memo:
             return try load(type: .memo).first(where: { $0.id == item.referenceId })?.value
         case .clipboardHistory:
-            return try loadSmartClipboardHistory().first(where: { $0.id == item.referenceId })?.content
+            return try ClipboardHistoryStore.shared.load().first(where: { $0.id == item.referenceId })?.content
         case .template:
             if let displayValue = item.displayValue, !displayValue.isEmpty { return displayValue }
             return try load(type: .memo).first(where: { $0.id == item.referenceId })?.value
@@ -1125,7 +796,7 @@ class MemoStore: ObservableObject {
         case .memo:
             return try load(type: .memo).contains(where: { $0.id == item.referenceId && !$0.isTemplate })
         case .clipboardHistory:
-            return try loadSmartClipboardHistory().contains(where: { $0.id == item.referenceId })
+            return try ClipboardHistoryStore.shared.load().contains(where: { $0.id == item.referenceId })
         case .template:
             return try load(type: .memo).contains(where: { $0.id == item.referenceId && $0.isTemplate })
         }

@@ -96,7 +96,7 @@ final class QuickNoteStore: ObservableObject {
         }), deleteImages, let removed else { return }
         // 이미지는 목록에서 빠진 것이 확정된 뒤에 지운다
         for fileName in removed.imageFileNames {
-            try? MemoStore.shared.deleteImage(fileName: fileName)
+            try? ImageStore.delete(fileName: fileName)
         }
     }
 

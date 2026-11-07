@@ -177,8 +177,8 @@ struct InAppKeyboardHostTests {
 
         // 실제 경로 그대로: 파일로 저장된 이미지를 이름으로 부른다(KeyboardView가 하는 것과 같다).
         let fileName = "test-stage-\(UUID().uuidString).jpg"
-        try MemoStore.shared.saveImage(Self.solidImage(), fileName: fileName)
-        defer { try? MemoStore.shared.deleteImage(fileName: fileName) }
+        try ImageStore.save(Self.solidImage(), fileName: fileName)
+        defer { try? ImageStore.delete(fileName: fileName) }
 
         NotificationCenter.default.post(name: .addImageEntry, object: fileName,
                                         userInfo: ["memoId": UUID()])
@@ -197,8 +197,8 @@ struct InAppKeyboardHostTests {
     func detachingImageClearsSendState() async throws {
         let host = InAppKeyboardHost()
         let fileName = "test-stage-\(UUID().uuidString).jpg"
-        try MemoStore.shared.saveImage(Self.solidImage(), fileName: fileName)
-        defer { try? MemoStore.shared.deleteImage(fileName: fileName) }
+        try ImageStore.save(Self.solidImage(), fileName: fileName)
+        defer { try? ImageStore.delete(fileName: fileName) }
 
         NotificationCenter.default.post(name: .addImageEntry, object: fileName,
                                         userInfo: ["memoId": UUID()])

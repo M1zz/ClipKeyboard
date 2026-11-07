@@ -98,13 +98,13 @@ final class DataCorruptionDetectionTests: XCTestCase {
         defer { try? FileManager.default.removeItem(at: dir) }
 
         let missing = dir.appendingPathComponent("missing.data")
-        XCTAssertNil(try MemoStore.readIfPresent(missing), "없는 파일은 비어 있는 것이다")
+        XCTAssertNil(try Data.readIfPresent(missing), "없는 파일은 비어 있는 것이다")
 
         let locked = dir.appendingPathComponent("memos.data")
         try Data("[]".utf8).write(to: locked)
         try FileManager.default.setAttributes([.posixPermissions: 0o000], ofItemAtPath: locked.path)
         defer { try? FileManager.default.setAttributes([.posixPermissions: 0o644], ofItemAtPath: locked.path) }
-        XCTAssertThrowsError(try MemoStore.readIfPresent(locked), "있는데 못 읽은 파일을 빈 것으로 치면 안 된다")
+        XCTAssertThrowsError(try Data.readIfPresent(locked), "있는데 못 읽은 파일을 빈 것으로 치면 안 된다")
     }
 
     // MARK: - 목록 파일(빠른 메모 · 임시 저장)

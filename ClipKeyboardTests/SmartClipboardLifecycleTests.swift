@@ -36,18 +36,18 @@ final class SmartClipboardLifecycleTests: XCTestCase {
     }
 
     private func clearAll() {
-        try? sut.saveSmartClipboardHistory(history: [])
-        try? sut.saveClipboardHistory(history: [])
+        try? ClipboardHistoryStore.shared.save([])
+        try? ClipboardHistoryStore.shared.saveLegacy([])
     }
 
     // MARK: - 추가 + 자동 분류
 
     func testAdd_ClassifiesContentAutomatically() throws {
         // When
-        try sut.addToSmartClipboardHistory(content: "test@example.com")
+        try ClipboardHistoryStore.shared.add(content: "test@example.com")
 
         // Then - 이메일로 자동 분류 + 맨 앞 삽입
-        let history = try sut.loadSmartClipboardHistory()
+        let history = try ClipboardHistoryStore.shared.load()
         XCTAssertEqual(history.count, 1)
         XCTAssertEqual(history[0].content, "test@example.com")
         XCTAssertEqual(history[0].detectedType, .email)
@@ -57,25 +57,25 @@ final class SmartClipboardLifecycleTests: XCTestCase {
     // MARK: - 삭제 (키보드 '최근' 탭에서 밀어서 지우기)
 
     func testDelete_RemovesOnlyThatItem() throws {
-        try sut.addToSmartClipboardHistory(content: "남길 것")
-        try sut.addToSmartClipboardHistory(content: "지울 것")
-        let target = try XCTUnwrap(try sut.loadSmartClipboardHistory().first { $0.content == "지울 것" })
+        try ClipboardHistoryStore.shared.add(content: "남길 것")
+        try ClipboardHistoryStore.shared.add(content: "지울 것")
+        let target = try XCTUnwrap(try ClipboardHistoryStore.shared.load().first { $0.content == "지울 것" })
 
-        try sut.deleteSmartClipboardItem(id: target.id)
+        try ClipboardHistoryStore.shared.delete(id: target.id)
 
-        XCTAssertEqual(try sut.loadSmartClipboardHistory().map(\.content), ["남길 것"])
+        XCTAssertEqual(try ClipboardHistoryStore.shared.load().map(\.content), ["남길 것"])
     }
 
     func testAdd_DuplicateContent_MovesToFrontWithoutDuplicating() throws {
         // Given
-        try sut.addToSmartClipboardHistory(content: "첫 번째")
-        try sut.addToSmartClipboardHistory(content: "두 번째")
+        try ClipboardHistoryStore.shared.add(content: "첫 번째")
+        try ClipboardHistoryStore.shared.add(content: "두 번째")
 
         // When - 같은 내용을 다시 복사
-        try sut.addToSmartClipboardHistory(content: "첫 번째")
+        try ClipboardHistoryStore.shared.add(content: "첫 번째")
 
         // Then - 중복 없이 맨 앞으로
-        let history = try sut.loadSmartClipboardHistory()
+        let history = try ClipboardHistoryStore.shared.load()
         XCTAssertEqual(history.count, 2)
         XCTAssertEqual(history[0].content, "첫 번째")
         XCTAssertEqual(history[1].content, "두 번째")
@@ -89,13 +89,13 @@ final class SmartClipboardLifecycleTests: XCTestCase {
         let seed = (0..<limit).map {
             SmartClipboardHistory(content: "항목 \($0)", detectedType: .text)
         }
-        try sut.saveSmartClipboardHistory(history: seed)
+        try ClipboardHistoryStore.shared.save(seed)
 
         // When - 제한을 넘는 추가
-        try sut.addToSmartClipboardHistory(content: "새 항목")
+        try ClipboardHistoryStore.shared.add(content: "새 항목")
 
         // Then - 가장 오래된 항목이 밀려나고 제한 유지
-        let history = try sut.loadSmartClipboardHistory()
+        let history = try ClipboardHistoryStore.shared.load()
         XCTAssertEqual(history.count, limit)
         XCTAssertEqual(history[0].content, "새 항목")
         XCTAssertFalse(history.contains { $0.content == "항목 \(limit - 1)" }, "가장 오래된 항목은 제거")
@@ -112,13 +112,13 @@ final class SmartClipboardLifecycleTests: XCTestCase {
             content: "오래된 보관", copiedAt: pastRetention, isTemporary: false, detectedType: .text)
         let weekOld = SmartClipboardHistory(
             content: "8일 된 임시", copiedAt: eightDaysAgo, isTemporary: true, detectedType: .text)
-        try sut.saveSmartClipboardHistory(history: [oldTemporary, oldKept, weekOld])
+        try ClipboardHistoryStore.shared.save([oldTemporary, oldKept, weekOld])
 
         // When - 새 복사가 일어나면 정리 트리거
-        try sut.addToSmartClipboardHistory(content: "새 항목")
+        try ClipboardHistoryStore.shared.add(content: "새 항목")
 
         // Then - 기간 지난 임시만 삭제. 보관 항목과 한 주 넘은 임시 항목은 유지(예전 7일 규칙이면 사라졌다)
-        let history = try sut.loadSmartClipboardHistory()
+        let history = try ClipboardHistoryStore.shared.load()
         XCTAssertFalse(history.contains { $0.content == "오래된 임시" })
         XCTAssertTrue(history.contains { $0.content == "오래된 보관" })
         XCTAssertTrue(history.contains { $0.content == "8일 된 임시" })
@@ -150,14 +150,14 @@ final class SmartClipboardLifecycleTests: XCTestCase {
 
     func testUpdateClipboardItemType_StoresUserCorrection() throws {
         // Given - 잘못 분류된 항목
-        try sut.addToSmartClipboardHistory(content: "12345678")
-        let item = try XCTUnwrap(sut.loadSmartClipboardHistory().first)
+        try ClipboardHistoryStore.shared.add(content: "12345678")
+        let item = try XCTUnwrap(ClipboardHistoryStore.shared.load().first)
 
         // When - 사용자가 직접 타입을 수정
-        try sut.updateClipboardItemType(id: item.id, correctedType: .membershipNumber)
+        try ClipboardHistoryStore.shared.correctType(id: item.id, to: .membershipNumber)
 
         // Then - 수정값이 영구 저장
-        let updated = try XCTUnwrap(sut.loadSmartClipboardHistory().first)
+        let updated = try XCTUnwrap(ClipboardHistoryStore.shared.load().first)
         XCTAssertEqual(updated.userCorrectedType, .membershipNumber)
     }
 
@@ -169,19 +169,19 @@ final class SmartClipboardLifecycleTests: XCTestCase {
             ClipboardHistory(content: "legacy@example.com"),
             ClipboardHistory(content: "그냥 텍스트")
         ]
-        try sut.saveClipboardHistory(history: legacy)
+        try ClipboardHistoryStore.shared.saveLegacy(legacy)
         let smartURL = try XCTUnwrap(containerURL).appendingPathComponent("smart.clipboard.history.data")
         try? FileManager.default.removeItem(at: smartURL)
 
         // When - 신버전 첫 로드
-        let migrated = try sut.loadSmartClipboardHistory()
+        let migrated = try ClipboardHistoryStore.shared.load()
 
         // Then - id 보존 + 자동 분류 적용 + 영구 저장(재로드에도 유지)
         XCTAssertEqual(migrated.count, 2)
         XCTAssertEqual(migrated.map(\.id), legacy.map(\.id))
         XCTAssertEqual(migrated[0].detectedType, .email)
 
-        let reloaded = try sut.loadSmartClipboardHistory()
+        let reloaded = try ClipboardHistoryStore.shared.load()
         XCTAssertEqual(reloaded.count, 2)
     }
 
@@ -201,7 +201,7 @@ final class SmartClipboardLifecycleTests: XCTestCase {
     }
 
     private func writeLegacyHistory(_ rows: [[String: Any]]) throws -> URL {
-        let url = try XCTUnwrap(try MemoStore.fileURL(type: .smartClipboardHistory))
+        let url = try XCTUnwrap(ClipboardHistoryStore.fileURL)
         try JSONSerialization.data(withJSONObject: rows).write(to: url, options: .atomic)
         return url
     }
@@ -213,7 +213,7 @@ final class SmartClipboardLifecycleTests: XCTestCase {
         rows.insert(legacyRow(content: "서울시 마포구"), at: 0)
         _ = try writeLegacyHistory(rows)
 
-        let history = try sut.loadSmartClipboardHistory()
+        let history = try ClipboardHistoryStore.shared.load()
 
         XCTAssertEqual(history.map(\.content), ["서울시 마포구"], "그림 줄은 버리고 글은 남는다")
         XCTAssertEqual(SmartClipboardHistory.keyboardRecents(history).map(\.content), ["서울시 마포구"])
@@ -227,23 +227,23 @@ final class SmartClipboardLifecycleTests: XCTestCase {
         ])
         let before = try Data(contentsOf: url).count
 
-        XCTAssertTrue(sut.compactSmartClipboardHistoryIfNeeded())
+        XCTAssertTrue(ClipboardHistoryStore.shared.compactIfNeeded())
 
         let after = try Data(contentsOf: url)
         XCTAssertLessThan(after.count, before / 100)
-        XCTAssertFalse(MemoStore.containsLegacyClipboardImages(after))
-        XCTAssertEqual(try sut.loadSmartClipboardHistory().map(\.content), ["남길 글"])
-        XCTAssertFalse(sut.compactSmartClipboardHistoryIfNeeded(), "한 번 줄였으면 다시 쓰지 않는다")
+        XCTAssertFalse(ClipboardHistoryStore.containsLegacyImages(after))
+        XCTAssertEqual(try ClipboardHistoryStore.shared.load().map(\.content), ["남길 글"])
+        XCTAssertFalse(ClipboardHistoryStore.shared.compactIfNeeded(), "한 번 줄였으면 다시 쓰지 않는다")
     }
 
     /// 칸 하나가 빠졌다고 기록 전체가 사라지면 안 된다(예전 판·다른 기기 백업).
     func testDecode_MissingFieldsKeepsHistory() throws {
-        let url = try XCTUnwrap(try MemoStore.fileURL(type: .smartClipboardHistory))
+        let url = try XCTUnwrap(ClipboardHistoryStore.fileURL)
         let rows: [[String: Any]] = [["content": "칸이 적은 줄",
                                       "copiedAt": Date().timeIntervalSinceReferenceDate]]
         try JSONSerialization.data(withJSONObject: rows).write(to: url, options: .atomic)
 
-        let history = try sut.loadSmartClipboardHistory()
+        let history = try ClipboardHistoryStore.shared.load()
         XCTAssertEqual(history.map(\.content), ["칸이 적은 줄"])
         XCTAssertEqual(history.first?.contentType, .text)
     }

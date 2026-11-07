@@ -80,7 +80,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
 
     private func clearLocalData() {
         try? memoStore.save(memos: [], type: .memo, recordHistory: false)
-        try? memoStore.saveSmartClipboardHistory(history: [])
+        try? ClipboardHistoryStore.shared.save([])
         try? memoStore.saveCombos([])
     }
 
@@ -114,7 +114,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
     func testBackup_RecordContainsAssetsAndMetadata() async throws {
         // Given
         try memoStore.save(memos: [makeRichMemo()], type: .memo)
-        try memoStore.saveSmartClipboardHistory(history: [
+        try ClipboardHistoryStore.shared.save([
             SmartClipboardHistory(content: "test@example.com", detectedType: .email, confidence: 0.95)
         ])
 
@@ -293,7 +293,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         ], interval: 3.0)
 
         try memoStore.save(memos: [original], type: .memo)
-        try memoStore.saveSmartClipboardHistory(history: [clipboard])
+        try ClipboardHistoryStore.shared.save([clipboard])
         try memoStore.saveCombos([stack])
 
         // When - 백업 → 로컬 전체 삭제(기기 변경 시나리오) → 복원
@@ -332,7 +332,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
                        try XCTUnwrap(original.lastUsedAt).timeIntervalSince1970, accuracy: 0.001)
 
         // 클립보드/콤보도 보존
-        let restoredClipboard = try memoStore.loadSmartClipboardHistory()
+        let restoredClipboard = try ClipboardHistoryStore.shared.load()
         XCTAssertEqual(restoredClipboard.count, 1)
         XCTAssertEqual(restoredClipboard[0].content, clipboard.content)
         XCTAssertEqual(restoredClipboard[0].detectedType, .phone)
@@ -435,7 +435,7 @@ final class CloudKitBackupIntegrityTests: XCTestCase {
         XCTAssertEqual(memos[0].title, "옛 백업 메모")
         XCTAssertEqual(memos[0].category, "여행")
 
-        let clipboard = try memoStore.loadSmartClipboardHistory()
+        let clipboard = try ClipboardHistoryStore.shared.load()
         XCTAssertEqual(clipboard.count, 1)
         XCTAssertEqual(clipboard[0].content, "legacy@example.com")
     }

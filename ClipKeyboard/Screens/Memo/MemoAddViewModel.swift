@@ -630,7 +630,7 @@ final class MemoAddViewModel: ObservableObject {
         #if os(iOS)
         for wrapper in attachedImages {
             // 줄여서 저장한다(긴 변 2048px, 투명한 곳이 없으면 JPEG). 확장자는 형식에 따라 정해진다.
-            fileNames.append(try MemoStore.shared.saveImage(wrapper.image))
+            fileNames.append(try ImageStore.save(wrapper.image))
         }
         #endif
         return fileNames

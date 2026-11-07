@@ -76,7 +76,7 @@ struct ImageMemoButton: View {
 
     /// 키에 그릴 만큼만 줄여서 읽고, 읽은 것은 담아 둔다.
     ///
-    /// ⚠️ 예전에는 `MemoStore.loadImage()` 로 **원본을 통째로** 그것도 `onAppear` 마다 읽었다.
+    /// ⚠️ 예전에는 `UIImage(contentsOfFile:)` 로 **원본을 통째로** 그것도 `onAppear` 마다 읽었다.
     ///    사진 한 장이 펼쳐서 24MB 인데 키에 그려지는 것은 60pt 짜리다. 이미지 단축어가
     ///    몇 개만 보여도 익스텐션의 메모리 한도를 넘고, 넘으면 iOS 가 조용히 죽인다.
     ///    앱 목록(`CardSurfaceEffects`)은 처음부터 줄여서 담고 있었다 - 키보드만 안 하고 있었다.
@@ -88,7 +88,7 @@ struct ImageMemoButton: View {
             return
         }
         DispatchQueue.global(qos: .userInitiated).async {
-            guard let loaded = MemoStore.shared.loadThumbnail(fileName: fileName,
+            guard let loaded = ImageStore.thumbnail(fileName: fileName,
                                                               maxPixel: Self.thumbnailMaxPixel) else { return }
             Self.cache.setObject(loaded, forKey: fileName as NSString, cost: Self.byteCost(loaded))
             DispatchQueue.main.async { image = loaded }
