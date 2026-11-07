@@ -245682,133 +245682,133 @@
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dárky"
+            "value" : "Darovat"
           }
         },
         "da" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gaver"
+            "value" : "Giv en gave"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Geschenke"
+            "value" : "Verschenken"
           }
         },
         "el" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Δώρα"
+            "value" : "Στείλτε δώρο"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gifts"
+            "value" : "Send a Gift"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Regalos"
+            "value" : "Enviar un regalo"
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lahjat"
+            "value" : "Lähetä lahja"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cadeaux"
+            "value" : "Offrir un cadeau"
           }
         },
         "id" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hadiah"
+            "value" : "Kirim hadiah"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Regali"
+            "value" : "Fai un regalo"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ギフト"
+            "value" : "ギフトを贈る"
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gaver"
+            "value" : "Send en gave"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cadeaus"
+            "value" : "Cadeau geven"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prezenty"
+            "value" : "Wyślij prezent"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Presentes"
+            "value" : "Enviar um presente"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Подарки"
+            "value" : "Подарить"
           }
         },
         "sv" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Presenter"
+            "value" : "Skicka en present"
           }
         },
         "th" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ของขวัญ"
+            "value" : "ส่งของขวัญ"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hediyeler"
+            "value" : "Hediye gönder"
           }
         },
         "vi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quà tặng"
+            "value" : "Gửi quà tặng"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "赠送"
+            "value" : "送礼物"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "贈送"
+            "value" : "送禮物"
           }
         }
       }
