@@ -14,6 +14,248 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.19
+
+### 앱스토어 (한국어)
+
+```
+키가 커지고 키보드의 빈 공간이 줄었어요.
+자주 복사하는 단축어를 Siri가 제안해 줘요.
+첫 연습의 계좌번호가 가짜 예시라고 알려 줘요.
+배경 사진이 다른 곳을 가리던 문제를 고쳤어요.
+설정과 결제 화면이 더 깔끔해졌어요.
+```
+
+### App Store (English)
+
+```
+Bigger keys, less empty space on the keyboard.
+Siri now suggests snippets you often copy.
+Practice now says its account number is fake.
+Fixed background photos covering other parts.
+Settings and the upgrade screen look cleaner.
+```
+
+### App Store (en-GB)
+
+```
+Bigger keys, less empty space on the keyboard.
+Siri now suggests snippets you often copy.
+Practice now says its account number is fake.
+Fixed background photos covering other parts.
+Settings and the upgrade screen look cleaner.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+按键变大了，键盘上的空白更少。
+Siri 会推荐你常复制的短语。
+新手练习会说明其中的账号是虚构的。
+修复了背景图片遮挡其他内容的问题。
+设置和购买页面更简洁了。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+按鍵變大了，鍵盤上的空白更少。
+Siri 會建議你常拷貝的短語。
+新手練習會說明其中的帳號是虛構的。
+修正了背景圖片遮擋其他內容的問題。
+設定和購買頁面更簡潔了。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Клавиши стали крупнее, а пустого места меньше.
+Siri предложит фразы, которые вы часто копируете.
+В обучении видно, что номер счёта ненастоящий.
+Исправлено: фоновое фото закрывало другие элементы.
+Настройки и экран покупки стали проще.
+```
+
+### App Store (Japanese, ja)
+
+```
+キーが大きくなり、キーボードの余白が減りました。
+よくコピーする定型文をSiriが提案します。
+最初の練習の口座番号が架空だと明記しました。
+背景写真がほかの部分を覆う問題を修正しました。
+設定と購入画面がすっきりしました。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Teclas más grandes y menos espacio vacío.
+Siri te sugiere las frases que copias seguido.
+La práctica inicial aclara que la cuenta es ficticia.
+La foto de fondo ya no tapa otras partes de la pantalla.
+Ajustes y pantalla de compra más claros.
+```
+
+### App Store (German, de-DE)
+
+```
+Größere Tasten, weniger leerer Platz.
+Siri schlägt oft kopierte Textbausteine vor.
+Die Übung zeigt klar, dass die Kontonummer erfunden ist.
+Das Hintergrundfoto verdeckt keine anderen Bereiche mehr.
+Einstellungen und Kaufseite sind übersichtlicher.
+```
+
+### App Store (Thai, th)
+
+```
+ปุ่มใหญ่ขึ้น และพื้นที่ว่างบนแป้นพิมพ์น้อยลง
+Siri แนะนำข้อความด่วนที่คุณคัดลอกบ่อย
+แบบฝึกตอนเริ่มใช้บอกชัดว่าเลขบัญชีเป็นของปลอม
+แก้ปัญหารูปพื้นหลังบังส่วนอื่นของหน้าจอ
+หน้าการตั้งค่าและหน้าซื้อดูเรียบง่ายขึ้น
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Phím to hơn, bàn phím ít khoảng trống hơn.
+Siri gợi ý các cụm từ bạn hay sao chép.
+Phần tập dùng ghi rõ số tài khoản chỉ là giả.
+Đã sửa lỗi ảnh nền che các phần khác.
+Cài đặt và màn hình mua gọn gàng hơn.
+```
+
+### App Store (French, fr-FR)
+
+```
+Touches plus grandes, moins d’espace vide.
+Siri suggère les phrases que vous copiez souvent.
+L’entraînement précise que le numéro de compte est fictif.
+L’image de fond ne masque plus le reste de l’écran.
+Réglages et écran d’achat plus clairs.
+```
+
+### App Store (Italian, it)
+
+```
+Tasti più grandi e meno spazio vuoto.
+Siri suggerisce le frasi che copi più spesso.
+La prova iniziale chiarisce che il conto è finto.
+La foto di sfondo non copre più il resto dello schermo.
+Impostazioni e acquisto più ordinati.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+Teclas maiores e menos espaço vazio.
+A Siri sugere as frases que você mais copia.
+O treino inicial avisa que o número da conta é fictício.
+A foto de fundo não cobre mais o resto da tela.
+Ajustes e tela de compra mais limpos.
+```
+
+### App Store (Czech, cs)
+
+```
+Větší klávesy a méně prázdného místa.
+Siri navrhne fráze, které často kopírujete.
+Úvodní cvičení jasně říká, že číslo účtu je smyšlené.
+Fotka na pozadí už nezakrývá zbytek obrazovky.
+Přehlednější nastavení i obrazovka nákupu.
+```
+
+### App Store (Danish, da)
+
+```
+Større taster og mindre tom plads.
+Siri foreslår fraser, du ofte kopierer.
+Øvelsen viser tydeligt, at kontonummeret er opdigtet.
+Baggrundsfotoet dækker ikke længere resten af skærmen.
+Indstillinger og købsskærm er mere enkle.
+```
+
+### App Store (Greek, el)
+
+```
+Μεγαλύτερα πλήκτρα, λιγότερος κενός χώρος.
+Η Siri προτείνει φράσεις που αντιγράφετε συχνά.
+Η εξάσκηση λέει καθαρά ότι ο λογαριασμός είναι φανταστικός.
+Η φωτογραφία φόντου δεν καλύπτει πια την υπόλοιπη οθόνη.
+Πιο απλές ρυθμίσεις και οθόνη αγοράς.
+```
+
+### App Store (Finnish, fi)
+
+```
+Isommat näppäimet ja vähemmän tyhjää tilaa.
+Siri ehdottaa usein kopioimiasi fraaseja.
+Harjoitus kertoo selvästi, että tilinumero on keksitty.
+Taustakuva ei enää peitä muuta näkymää.
+Asetukset ja ostonäkymä ovat selkeämpiä.
+```
+
+### App Store (Indonesian, id)
+
+```
+Tombol lebih besar, ruang kosong lebih sedikit.
+Siri menyarankan frasa yang sering Anda salin.
+Latihan awal menegaskan nomor rekeningnya palsu.
+Foto latar tidak lagi menutupi bagian lain layar.
+Pengaturan dan layar pembelian lebih rapi.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Større taster og mindre tom plass.
+Siri foreslår fraser du ofte kopierer.
+Øvelsen sier tydelig at kontonummeret er oppdiktet.
+Bakgrunnsbildet dekker ikke lenger resten av skjermen.
+Innstillinger og kjøpsskjerm er enklere.
+```
+
+### App Store (Dutch, nl)
+
+```
+Grotere toetsen en minder lege ruimte.
+Siri stelt fragmenten voor die je vaak kopieert.
+De oefening zegt duidelijk dat het rekeningnummer nep is.
+De achtergrondfoto bedekt de rest van het scherm niet meer.
+Instellingen en aankoopscherm zijn overzichtelijker.
+```
+
+### App Store (Polish, pl)
+
+```
+Większe klawisze i mniej pustego miejsca.
+Siri podpowie frazy, które często kopiujesz.
+Ćwiczenie jasno mówi, że numer konta jest fikcyjny.
+Zdjęcie w tle nie zasłania już reszty ekranu.
+Prostsze ustawienia i ekran zakupu.
+```
+
+### App Store (Swedish, sv)
+
+```
+Större tangenter och mindre tomt utrymme.
+Siri föreslår fraser du ofta kopierar.
+Övningen visar tydligt att kontonumret är påhittat.
+Bakgrundsbilden täcker inte längre resten av skärmen.
+Inställningar och köpskärm är tydligare.
+```
+
+### App Store (Turkish, tr)
+
+```
+Tuşlar büyüdü, boş alan azaldı.
+Siri sık kopyaladığınız ifadeleri önerir.
+Alıştırma, hesap numarasının sahte olduğunu belirtir.
+Arka plan fotoğrafı artık ekranın kalanını kapatmıyor.
+Ayarlar ve satın alma ekranı sadeleşti.
+```
+
 ## 5.1.18
 
 ### 앱스토어 (한국어)
