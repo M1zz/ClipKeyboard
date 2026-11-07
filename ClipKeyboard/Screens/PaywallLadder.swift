@@ -9,10 +9,10 @@
 //    Plus | Pro        칸 고르기. Pro 가 처음 골라져 있다(추천)
 //    혜택 세 줄        고른 칸의 것만
 //    월 · 연 · 평생     세로 목록. 줄마다 **전체 가격과 청구 기간**, 연에는 "N% 절약"
+//    갱신 조건 한 줄    고른 길의 것만(본문 맨 아래)
+//    체험 · 복원 · 약관  한 줄(본문 맨 아래)
 //    ─── 아래 고정 ───
-//    구매 단추         고른 칸 · 고른 길 그대로
-//    갱신 조건 한 줄    고른 길의 것만
-//    체험 · 복원 · 약관  한 줄
+//    구매 단추         고른 칸 · 고른 길 그대로. 아래에는 단추 하나만 둔다(2026-11, 글이 많다는 말을 들었다)
 //
 //  2026-11 개편: 칸 카드 세 장(무료 · Plus · Pro)에 카드마다 길 고르기와 구매 단추가 따로 있어
 //  "조잡하고 복잡하다" 는 말을 들었다. 혜택은 3~5개, 고를 것은 한 번에 하나, 가격은 숨기지 않고,
@@ -64,6 +64,7 @@ struct PaywallTemplate<Hero: View>: View {
                 benefits
                 options
                 comparison
+                fineprint
             }
             .padding(.horizontal, 20)
             .padding(.top, 8)
@@ -283,17 +284,9 @@ struct PaywallTemplate<Hero: View>: View {
             .disabled(buying || item == nil)
             .accessibilityLabel(buying ? NSLocalizedString("처리 중", comment: "Purchase loading state") : ctaTitle)
 
-            if let terms = renewalTerms(item) {
-                Text(terms)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
             if let error = store.errorMessage {
                 Text(error).font(.caption).foregroundStyle(.red)
             }
-            footerLinks
         }
         .padding(.horizontal, 20)
         .padding(.top, 12)
@@ -305,6 +298,21 @@ struct PaywallTemplate<Hero: View>: View {
         state == .upgrade
             ? NSLocalizedString("Pro 로 올리기", comment: "Paywall CTA: upgrade to Pro without price")
             : String(format: NSLocalizedString("%@ 시작하기", comment: "Paywall CTA: start plan without price"), plan.name)
+    }
+
+    /// 본문 맨 아래: 고른 길의 갱신 조건과 체험 · 복원 · 약관. 고정 띠에는 구매 단추만 둔다.
+    private var fineprint: some View {
+        VStack(spacing: 12) {
+            if let terms = renewalTerms(product(term)) {
+                Text(terms)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            footerLinks
+        }
+        .frame(maxWidth: .infinity)
     }
 
     /// 고른 길의 갱신 조건(심사 기준 3.1.2). 평생은 갱신이 없다고 말한다.

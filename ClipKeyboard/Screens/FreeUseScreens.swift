@@ -257,6 +257,17 @@ struct FreeUseGuideView: View {
         }
     }
 
+    /// "Pro 보기" 단추. 키 색으로 꽉 채운 넓은 단추라 이 화면에서 할 일이 바로 보인다.
+    private var seeProLabel: some View {
+        Label(NSLocalizedString("Pro 보기", comment: "Pro nudge CTA"), systemImage: AppSymbol.starCircleFill)
+            .font(.headline)
+            .frame(maxWidth: .infinity, minHeight: 54)
+            .background(theme.accent)
+            .foregroundColor(theme.accentFg)
+            .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+            .contentShape(Rectangle())
+    }
+
     private var page: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
@@ -277,24 +288,12 @@ struct FreeUseGuideView: View {
                     if embedded {
                         // 설정에서 넘어와 열렸으면 Pro 도 **다음 화면으로** 넘어간다(펼친 듀오에서는 오른쪽 판).
                         // 시트로 띄우면 이 화면만 다시 접힌 선 한가운데에 선다
-                        FoldLink(destination: PaywallView(embedded: true)) {
-                            Label(NSLocalizedString("Pro 보기", comment: "Pro nudge CTA"), systemImage: AppSymbol.starCircleFill)
-                                .font(.headline)
-                                .foregroundColor(theme.accent)
-                        }
-                        .padding(.vertical, 14)
-                        .padding(.horizontal, 16)
-                        .background(theme.surface, in: RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
+                        // 모양은 시트로 여는 단추와 같다. 흐린 바탕의 글자 한 줄은 단추로 읽히지 않았다(2026-11).
+                        FoldLink(destination: PaywallView(embedded: true)) { seeProLabel }
+                            .buttonStyle(.squish)
                     } else {
-                        Button { showsPlans = true } label: {
-                            Text(NSLocalizedString("Pro 보기", comment: "Pro nudge CTA"))
-                                .font(.headline)
-                                .frame(maxWidth: .infinity, minHeight: 50)
-                                .background(theme.accent)
-                                .foregroundColor(theme.accentFg)
-                                .clipShape(RoundedRectangle(cornerRadius: theme.radiusMd, style: .continuous))
-                        }
-                        .buttonStyle(.squish)
+                        Button { showsPlans = true } label: { seeProLabel }
+                            .buttonStyle(.squish)
                     }
                 }
             }
