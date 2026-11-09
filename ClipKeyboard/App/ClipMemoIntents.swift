@@ -149,9 +149,12 @@ enum ClipMemoCopier {
     static func copy(_ id: UUID) -> String? {
         guard let memo = ((try? MemoStore.shared.load(type: .memo)) ?? []).first(where: { $0.id == id }),
               ClipMemoEntity.isOffered(memo) else { return nil }
+        let text = memo.textToUse()
         #if os(iOS)
-        UIPasteboard.general.string = memo.value
+        UIPasteboard.general.string = text
         #endif
+        // 쓰면 지우기 코드는 Siri 로 줬어도 준 것이다. 그 줄을 지운다.
+        MemoStore.shared.consumeIfNeeded(memo, copiedText: text)
         return memo.title
     }
 }

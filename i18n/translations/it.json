@@ -336,6 +336,13 @@
     },
     "src": "ee109f06f2"
   },
+  "%d개 남음": {
+    "v": {
+      "one": "%d rimasta",
+      "other": "%d rimaste"
+    },
+    "src": "020c48aa4e"
+  },
   "%d개 단축어 더 보기 → Pro 업그레이드": {
     "v": {
       "one": "Vedi %d Frase in più → Passa a Pro",
@@ -3678,6 +3685,10 @@
   "누를 때마다 다음 값이 들어가요": {
     "v": "A ogni tocco entra il valore successivo",
     "src": "d46f9752bc"
+  },
+  "누를 때마다 윗줄 하나가 들어가고 지워져요. 교환 코드를 나눠 줄 때 좋아요.": {
+    "v": "A ogni tocco viene inserita la prima riga e poi eliminata. Utile per distribuire codici di riscatto.",
+    "src": "930bbc93ab"
   },
   "누적 사용 횟수": {
     "v": "Utilizzi totali",
@@ -7328,6 +7339,10 @@
   "쓰는 단축어가 없는 빈칸은 지울 수 있어요. 쓰는 곳이 있는 빈칸은 지워도 되살아나서 삭제를 내놓지 않아요": {
     "v": "I campi che nessuna frase usa si possono eliminare. Quelli ancora in uso tornerebbero, quindi non offriamo l'eliminazione.",
     "src": "a94dd6a191"
+  },
+  "쓰면 지우기": {
+    "v": "Elimina dopo l'uso",
+    "src": "3b0b491d6e"
   },
   "쓰임새를 묻지 않아요. 저장하신 단축어를 보고 앱이 알아서 맞춰요": {
     "v": "Non serve più indicare come usi l'app. Si adatta alle frasi che salvi.",

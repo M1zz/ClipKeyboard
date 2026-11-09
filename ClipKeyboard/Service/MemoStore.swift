@@ -406,10 +406,24 @@ class MemoStore: ObservableObject {
         if let index = memos.firstIndex(where: { $0.id == memoId }) {
             memos[index].clipCount += 1
             memos[index].lastUsedAt = Date()
-            try save(memos: memos, type: .memo, change: .usage)
+            let used = memos[index]
+            if used.isConsumable {
+                // 쓰면 지우기: 방금 나간 윗줄을 지운다. 마지막 줄이었으면 단축어째 지운다.
+                // 넣는 자리마다 지우기를 붙이면 하나는 빠진다(키보드 · 앱 목록 · Siri · 길게 눌러 복사).
+                // 모든 길이 여기를 지나므로 여기 한 곳이면 된다. 내용이 바뀐 저장이라 동기화도 따라간다.
+                if let rest = Self.valueAfterConsuming(used) {
+                    memos[index].value = rest
+                    memos[index].lastEdited = Date()
+                } else {
+                    memos.remove(at: index)
+                }
+                try save(memos: memos, type: .memo, change: .content)
+            } else {
+                try save(memos: memos, type: .memo, change: .usage)
+            }
             // 일일 카운트 + 평생 절약 시간 + 월 원장 갱신 (메모 길이 기반)
-            KeyboardUsageTracker.recordMemoUse(value: memos[index].value,
-                                               type: memos[index].autoDetectedType,
+            KeyboardUsageTracker.recordMemoUse(value: used.value,
+                                               type: used.autoDetectedType,
                                                memoID: memoId)
 
             // 무료로 쓰는 기간을 센다. 줄지 않는 값이라 단축어를 지워도 남는다(FreeUse).
@@ -431,15 +445,33 @@ class MemoStore: ObservableObject {
                 object: nil,
                 userInfo: [MemoUsedKey.memoID: memoId,
                            MemoUsedKey.earnedSeconds: KeyboardUsageTracker.earnedSeconds(
-                            value: memos[index].value,
-                            type: memos[index].autoDetectedType,
+                            value: used.value,
+                            type: used.autoDetectedType,
                             useCount: 1),
-                           MemoUsedKey.copiedText: copiedText ?? memos[index].value,
-                           MemoUsedKey.title: memos[index].title,
-                           MemoUsedKey.isSecure: memos[index].isSecure,
-                           MemoUsedKey.isImage: memos[index].contentType == .image]
+                           MemoUsedKey.copiedText: copiedText ?? used.textToUse(),
+                           MemoUsedKey.title: used.title,
+                           MemoUsedKey.isSecure: used.isSecure,
+                           MemoUsedKey.isImage: used.contentType == .image]
             )
         }
+    }
+
+    /// 쓰면 지우기 단축어를 **넣지 않고 복사만** 한 길(길게 눌러 복사 · Siri · 메뉴)에서 부른다.
+    /// 복사도 한 번 준 것이다. 그 줄을 지우지 않으면 같은 코드가 두 사람에게 간다.
+    func consumeIfNeeded(_ memo: Memo, copiedText: String) {
+        guard memo.isConsumable else { return }
+        do { try incrementClipCount(for: memo.id, copiedText: copiedText) }
+        catch { print("⚠️ [MemoStore.consumeIfNeeded] 지우지 못함: \(error)") }
+    }
+
+    /// 쓰면 지우기 단축어에서 첫 줄을 뺀 본문. 남은 줄이 없으면 nil.
+    /// 잠근 단축어는 풀어서 빼고 다시 잠근다. 열쇠가 없어 못 풀면 그대로 둔다
+    /// (지우지 못한 것이지, 잘못 지운 것은 아니다. 키보드도 그때는 넣지 않는다).
+    private static func valueAfterConsuming(_ memo: Memo) -> String? {
+        guard SecureMemoCrypto.isEncrypted(memo.value) else { return ConsumableLines.remainder(after: memo.value) }
+        guard let plain = SecureMemoCrypto.decrypt(memo.value) else { return memo.value }
+        guard let rest = ConsumableLines.remainder(after: plain) else { return nil }
+        return SecureMemoCrypto.encrypt(rest) ?? memo.value
     }
 
     // MARK: - Favorite

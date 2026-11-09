@@ -2142,8 +2142,10 @@ struct MemoSearchView: View {
 
     /// 비보안 메모만 복사(보안 메모는 버튼 자체가 비활성).
     private func copy(_ memo: Memo) {
+        let text = memo.textToUse()
         #if os(iOS)
-        UIPasteboard.general.string = memo.value
+        UIPasteboard.general.string = text
+        MemoStore.shared.consumeIfNeeded(memo, copiedText: text)
         HapticManager.shared.success()
         withAnimation { copiedMemoId = memo.id }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {

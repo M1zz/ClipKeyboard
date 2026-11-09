@@ -468,7 +468,7 @@ struct MemoAdd: View {
                             // 껐다고 숨기면 스택 값 · 보안 · 빈칸이 있는지조차 모른 채 고치게 된다(값은 저장 때 남는다)
                             if FeatureSet.isOn(.stack) || !viewModel.continuations.isEmpty { continuationsSection }
                             if FeatureSet.isOn(.category) { categoryPickerSection }
-                            if FeatureSet.isOn(.secure) || viewModel.isSecure { additionalOptionsSection }
+                            if FeatureSet.isOn(.secure) || viewModel.isSecure { additionalOptionsSection } else { consumeOnUseRow }
                             if FeatureSet.isOn(.template) || !viewModel.detectedPlaceholders.isEmpty { templateSection }
                         } else {
                         // 📌 붙여넣을 내용
@@ -754,6 +754,8 @@ struct MemoAdd: View {
                 )
             )
 
+            consumeOnUseRow
+
             // 키보드가 스스로 배운 캐럿 자리. **배운 게 있을 때만** 나타난다.
             // 아무것도 안 배웠을 때도 자리를 차지하면, 조용히 해 주려던 것이
             // 설정 항목 하나로 바뀐다.
@@ -774,6 +776,23 @@ struct MemoAdd: View {
         }
     }
 
+    /// 쓰면 지우기 - 교환 코드처럼 한 사람에게 하나씩만 줄 것. 줄마다 하나다.
+    /// 스택(이어지는 칸)에는 두지 않는다 - 스택은 칸이 곧 순서라 겹친다.
+    @ViewBuilder
+    private var consumeOnUseRow: some View {
+        if viewModel.continuations.isEmpty || viewModel.consumesOnUse {
+            ToggleOptionRow(
+                activeIcon: AppSymbol.ticketFill,
+                inactiveIcon: AppSymbol.ticket,
+                title: NSLocalizedString("쓰면 지우기", comment: "Toggle: each use inserts the top line and deletes it"),
+                description: NSLocalizedString("누를 때마다 윗줄 하나가 들어가고 지워져요. 교환 코드를 나눠 줄 때 좋아요.",
+                                               comment: "Toggle description: one line per use, good for handing out redeem codes one at a time"),
+                activeColor: .accentColor,
+                isOn: $viewModel.consumesOnUse
+            )
+        }
+    }
+
     /// 알림 제목 - 줄 수를 그대로 말한다. "여러 개"보다 "12개"가 훨씬 잘 와닿는다.
     private var splitOfferTitle: String {
         String(format: NSLocalizedString("줄이 %d개네요. 하나씩 나눠 담을까요?",
@@ -788,6 +807,8 @@ struct MemoAdd: View {
     ///    (있던 글을 나누자고 하는 건 다른 이야기다).
     private func offerSplitIfPastedList(from oldValue: String, to newValue: String) {
         guard !didOfferSplit, viewModel.editingMemo == nil else { return }
+        // 쓰면 지우기면 줄이 여럿인 것이 **의도**다(코드 하나가 한 줄). 나누자고 묻지 않는다.
+        guard !viewModel.consumesOnUse else { return }
         guard newValue.count - oldValue.count >= 20 else { return }
         guard let lines = BulkImportNudge.splittableLineCount(in: newValue) else { return }
         didOfferSplit = true

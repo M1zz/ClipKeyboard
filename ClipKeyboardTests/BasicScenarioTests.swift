@@ -104,6 +104,76 @@ final class BasicScenarioTests: XCTestCase {
         host.stop()
     }
 
+    // MARK: - 시나리오 1-1: 쓰면 지우기 - 교환 코드는 윗줄부터 하나씩 나가고, 다 쓰면 사라진다
+
+    func test_쓰면_지우기_단축어는_윗줄부터_하나씩_나가고_다_쓰면_사라진다() async throws {
+        // 1. 코드 두 개를 줄바꿈으로 넣고 쓰면 지우기를 켠다
+        let add = makeAddViewModel()
+        add.keyword = "교환 코드"
+        add.value = "AAAA-1111\n\n BBBB-2222 \nCCCC-3333"
+        add.consumesOnUse = true
+        add.saveMemo {}
+
+        let saved = try XCTUnwrap(stored(titled: "교환 코드"))
+        XCTAssertTrue(saved.consumesOnUse)
+        XCTAssertEqual(saved.remainingUses, 3, "빈 줄은 세지 않는다")
+        XCTAssertEqual(KeyboardMemoFeed.reload(), 1)
+
+        // 2. 키보드에서 누르면 첫 줄 하나만 들어가고, 그 줄은 지워진다
+        let host = InAppKeyboardHost(typesOut: false)
+        tapOnKeyboard(clipMemos[0])
+        await settle()
+        XCTAssertEqual(host.text, "AAAA-1111", "윗줄 하나만 들어가야 한다. 코드 전부가 나가면 안 된다")
+
+        let afterOne = try XCTUnwrap(stored(titled: "교환 코드"), "두 줄 남았으니 아직 있어야 한다")
+        XCTAssertEqual(afterOne.value, "BBBB-2222\nCCCC-3333", "나간 줄은 지워지고 공백도 걷혀야 한다")
+        XCTAssertEqual(afterOne.clipCount, 1, "쓴 횟수는 그대로 센다")
+        XCTAssertEqual(afterOne.remainingUses, 2)
+
+        // 3. Siri 로 복사해 준 것도 준 것이다 - 그 줄도 지워진다
+        XCTAssertEqual(ClipMemoCopier.copy(saved.id), "교환 코드")
+        let afterSiri = try XCTUnwrap(stored(titled: "교환 코드"))
+        XCTAssertEqual(afterSiri.value, "CCCC-3333", "Siri 가 복사한 코드가 남아 있으면 같은 코드가 두 사람에게 간다")
+
+        // 4. 마지막 줄을 쓰면 단축어가 사라진다 - 키보드에서도
+        host.clearAll()
+        KeyboardMemoFeed.reload()
+        tapOnKeyboard(clipMemos[0])
+        await settle()
+        XCTAssertEqual(host.text, "CCCC-3333")
+        XCTAssertNil(stored(titled: "교환 코드"), "마지막 줄까지 쓰면 단축어가 사라져야 한다")
+        XCTAssertEqual(KeyboardMemoFeed.reload(), 0, "사라진 단축어가 키보드에 남으면 안 된다")
+        host.stop()
+    }
+
+    func test_잠근_쓰면_지우기_단축어도_한_줄씩_풀어_넣고_파일에는_평문이_없다() async throws {
+        let add = makeAddViewModel()
+        add.keyword = "선물 코드"
+        add.value = "GIFT-0001\nGIFT-0002"
+        add.isSecure = true
+        add.consumesOnUse = true
+        add.saveMemo {}
+
+        let saved = try XCTUnwrap(stored(titled: "선물 코드"))
+        XCTAssertTrue(SecureMemoCrypto.isEncrypted(saved.value))
+        XCTAssertFalse(rawMemoFile().contains("GIFT-000"), "파일 어디에도 평문이 있으면 안 된다")
+        XCTAssertEqual(saved.remainingUses, 2, "잠근 것도 풀어서 센다")
+
+        // 키보드는 PIN 뒤 푼 값의 윗줄 하나를 쏜다(`KeyboardView.insertMemo`)
+        let host = InAppKeyboardHost(typesOut: false)
+        let opened = try XCTUnwrap(SecureMemoCrypto.decrypt(saved.value))
+        NotificationCenter.default.post(name: .addTextEntry, object: saved.textToUse(plain: opened), userInfo: ["memoId": saved.id])
+        await settle()
+        XCTAssertEqual(host.text, "GIFT-0001")
+
+        let afterOne = try XCTUnwrap(stored(titled: "선물 코드"))
+        XCTAssertTrue(SecureMemoCrypto.isEncrypted(afterOne.value), "지운 뒤에도 잠겨 있어야 한다")
+        XCTAssertEqual(SecureMemoCrypto.decrypt(afterOne.value), "GIFT-0002")
+        XCTAssertFalse(rawMemoFile().contains("GIFT-000"))
+        XCTAssertEqual(afterOne.remainingUses, 1)
+        host.stop()
+    }
+
     // MARK: - 시나리오 2: 즐겨찾기한 것이 키보드 맨 앞에 선다
 
     func test_즐겨찾기한_단축어가_키보드_맨_앞에_선다() throws {
@@ -679,9 +749,10 @@ final class BasicScenarioTests: XCTestCase {
     }
 
     /// 키보드의 단축어 키를 누른 것과 같다(`KeyboardView.insertMemo` 가 쏘는 알림 그대로).
+    /// 쓰면 지우기면 그쪽과 똑같이 윗줄 하나만 쏜다.
     private func tapOnKeyboard(_ memo: Memo) {
         NotificationCenter.default.post(name: .addTextEntry,
-                                        object: memo.value,
+                                        object: memo.textToUse(),
                                         userInfo: ["memoId": memo.id])
     }
 

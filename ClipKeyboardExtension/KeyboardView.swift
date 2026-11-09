@@ -788,7 +788,9 @@ struct KeyboardView: View {
                     memo: memo,
                     theme: theme,
                     onCopy: {
-                        copyTextToClipboard(memo.stackValues.first ?? memo.value)
+                        let text = memo.stackValues.first ?? memo.textToUse()
+                        copyTextToClipboard(text)
+                        MemoStore.shared.consumeIfNeeded(memo, copiedText: text)
                         peekMemo = nil
                     },
                     // 하나뿐이면 바꿀 순서가 없다 - 버튼도 두지 않는다.
@@ -2803,9 +2805,10 @@ struct KeyboardView: View {
                 print("🔒 [insertMemo] 보안 키 미동기화 - 복호화 불가, 삽입 중단")
                 return
             }
-            valueToInsert = decrypted
+            valueToInsert = memo.textToUse(plain: decrypted)
         } else {
-            valueToInsert = memo.value
+            // 쓰면 지우기면 윗줄 하나만. 지우는 일은 쓴 횟수를 올리는 곳이 한다(`MemoStore.incrementClipCount`).
+            valueToInsert = memo.textToUse()
         }
         let userInfo: [String: Any] = ["memoId": memo.id]
         NotificationCenter.postOnMain(
@@ -3036,7 +3039,9 @@ struct KeyboardView: View {
             return
         }
         guard requireFullAccess() else { return }
-        UIPasteboard.general.string = memo.value
+        let text = memo.textToUse()
+        UIPasteboard.general.string = text
+        MemoStore.shared.consumeIfNeeded(memo, copiedText: text)
         KeyboardHaptics.tap()
         withAnimation { showCopiedToast = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

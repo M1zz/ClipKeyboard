@@ -19,6 +19,8 @@ struct WidgetMemo: Identifiable, Codable {
     var lastEdited: Date
     var category: String
     var isSecure: Bool
+    /// 쓰면 지우기. 위젯은 줄을 지우지 못하므로 이런 단축어는 위젯에 올리지 않는다(같은 코드가 두 번 나간다).
+    var consumesOnUse: Bool = false
 
     // 위젯에서 불필요한 필드는 기본값으로 디코딩
     var isChecked: Bool = false
@@ -33,7 +35,7 @@ struct WidgetMemo: Identifiable, Codable {
     var imageFileNames: [String] = []
 
     enum CodingKeys: String, CodingKey {
-        case id, title, value, isFavorite, lastEdited, category, isSecure
+        case id, title, value, isFavorite, lastEdited, category, isSecure, consumesOnUse
         case isChecked, clipCount, isTemplate, templateVariables, placeholderValues
         // ⚠️ **JSON 의 글자는 옛 이름 그대로다.** 앱이 스택으로 이름을 바꾼 뒤에도
         //    파일에는 `isCombo`·`comboValues` 로 적힌다(되돌아간 앱과 이 위젯을 위해).
@@ -53,6 +55,7 @@ struct WidgetMemo: Identifiable, Codable {
         lastEdited = try container.decodeIfPresent(Date.self, forKey: .lastEdited) ?? Date()
         category = try container.decodeIfPresent(String.self, forKey: .category) ?? "기본"
         isSecure = try container.decodeIfPresent(Bool.self, forKey: .isSecure) ?? false
+        consumesOnUse = try container.decodeIfPresent(Bool.self, forKey: .consumesOnUse) ?? false
         isChecked = try container.decodeIfPresent(Bool.self, forKey: .isChecked) ?? false
         clipCount = try container.decodeIfPresent(Int.self, forKey: .clipCount) ?? 0
         isTemplate = try container.decodeIfPresent(Bool.self, forKey: .isTemplate) ?? false
@@ -99,7 +102,7 @@ struct SharedMemoLoader {
 
     /// 즐겨찾기 메모만 로드 (보안 메모 제외)
     static func loadFavoriteMemos() -> [WidgetMemo] {
-        return loadAllMemos().filter { $0.isFavorite && !$0.isSecure }
+        return loadAllMemos().filter { $0.isFavorite && !$0.isSecure && !$0.consumesOnUse }
     }
 
     /// 특정 ID의 메모 로드

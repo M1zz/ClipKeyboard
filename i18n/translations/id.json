@@ -305,6 +305,12 @@
     },
     "src": "ee109f06f2"
   },
+  "%d개 남음": {
+    "v": {
+      "other": "Sisa %d"
+    },
+    "src": "020c48aa4e"
+  },
   "%d개 단축어 더 보기 → Pro 업그레이드": {
     "v": "Lihat %d Frasa lagi → Upgrade ke Pro",
     "src": "373744da41"
@@ -3526,6 +3532,10 @@
   "누를 때마다 다음 값이 들어가요": {
     "v": "Setiap ketukan memasukkan nilai berikutnya",
     "src": "d46f9752bc"
+  },
+  "누를 때마다 윗줄 하나가 들어가고 지워져요. 교환 코드를 나눠 줄 때 좋아요.": {
+    "v": "Setiap kali diketuk, baris teratas dimasukkan lalu dihapus. Cocok untuk membagikan kode penukaran.",
+    "src": "930bbc93ab"
   },
   "누적 사용 횟수": {
     "v": "Total pemakaian",
@@ -7088,6 +7098,10 @@
   "쓰는 단축어가 없는 빈칸은 지울 수 있어요. 쓰는 곳이 있는 빈칸은 지워도 되살아나서 삭제를 내놓지 않아요": {
     "v": "Kolom isian yang tidak dipakai frasa mana pun bisa dihapus. Yang masih dipakai akan muncul lagi, jadi tidak ada opsi hapus",
     "src": "a94dd6a191"
+  },
+  "쓰면 지우기": {
+    "v": "Hapus setelah dipakai",
+    "src": "3b0b491d6e"
   },
   "쓰임새를 묻지 않아요. 저장하신 단축어를 보고 앱이 알아서 맞춰요": {
     "v": "Tidak perlu memilih kegunaan lagi. Aplikasi menyesuaikan diri dengan frasa yang Anda simpan",

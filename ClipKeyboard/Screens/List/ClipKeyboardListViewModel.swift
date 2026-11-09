@@ -1192,8 +1192,9 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
     /// 보안 메모면 복호화한 값을 반환. 평문/비보안은 그대로. 복호화 불가(키 미동기화)면 nil.
     private func usableValue(of memo: Memo) -> String? {
-        guard SecureMemoCrypto.isEncrypted(memo.value) else { return memo.value }
-        return SecureMemoCrypto.decrypt(memo.value)
+        guard SecureMemoCrypto.isEncrypted(memo.value) else { return memo.textToUse() }
+        // 쓰면 지우기면 푼 값의 윗줄 하나만(지우는 일은 `finalizeCopy` 가 부르는 incrementClipCount 가 한다).
+        return SecureMemoCrypto.decrypt(memo.value).map { memo.textToUse(plain: $0) }
     }
 
     func confirmTemplateInput() {

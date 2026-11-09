@@ -58,6 +58,7 @@ struct CopyMemoValueIntent: AppIntent {
         guard let uuid = UUID(uuidString: memoID),
               let memo = SharedMemoLoader.loadMemo(id: uuid),
               !memo.isSecure,
+              !memo.consumesOnUse,
               !memo.value.isEmpty else {
             copyLog.info("📋 [CopyValue] 복사할 값을 찾지 못함 (id=\(memoID, privacy: .public))")
             return .result()

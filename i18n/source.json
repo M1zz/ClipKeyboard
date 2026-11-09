@@ -455,6 +455,12 @@
     "comment": "count unit",
     "h": "ee109f06f2"
   },
+  "%d개 남음": {
+    "ko": "%d개 남음",
+    "en": "%d left",
+    "comment": "Badge: lines left on a consume-on-use snippet",
+    "h": "020c48aa4e"
+  },
   "%d개 단축어 더 보기 → Pro 업그레이드": {
     "ko": "%d개 단축어 더 보기 → Pro 업그레이드",
     "en": "See %d more snippets → Upgrade to Pro",
@@ -5272,6 +5278,12 @@
     "en": "Each tap enters the next value",
     "comment": "Lesson subtitle: stack",
     "h": "d46f9752bc"
+  },
+  "누를 때마다 윗줄 하나가 들어가고 지워져요. 교환 코드를 나눠 줄 때 좋아요.": {
+    "ko": "누를 때마다 윗줄 하나가 들어가고 지워져요. 교환 코드를 나눠 줄 때 좋아요.",
+    "en": "Each tap inserts the top line and deletes it. Great for handing out redeem codes.",
+    "comment": "Toggle description: one line per use, good for handing out redeem codes one at a time",
+    "h": "930bbc93ab"
   },
   "누적 사용 횟수": {
     "ko": "누적 사용 횟수",
@@ -10612,6 +10624,12 @@
     "en": "Blanks no snippet uses can be deleted. Ones still in use would come back, so we do not offer delete on them",
     "comment": "Changelog 5.0.5 delete blank",
     "h": "a94dd6a191"
+  },
+  "쓰면 지우기": {
+    "ko": "쓰면 지우기",
+    "en": "Delete after use",
+    "comment": "Toggle: each use inserts the top line and deletes it",
+    "h": "3b0b491d6e"
   },
   "쓰임새를 묻지 않아요. 저장하신 단축어를 보고 앱이 알아서 맞춰요": {
     "ko": "쓰임새를 묻지 않아요. 저장하신 단축어를 보고 앱이 알아서 맞춰요",

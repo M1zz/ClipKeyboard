@@ -521,8 +521,13 @@ struct Memo: Identifiable, Codable {
     /// 힌트를 키보드에서도 표시할지 - ON이면 키보드 셀의 "표시할 이름"이 잠시 힌트로
     /// 바뀌었다 돌아온다(동기화). hint가 비어있으면 무의미. 기본 ON.
     var hintShownOnKeyboard: Bool = true
+    /// **쓰면 지우기.** 켜 두면 한 번 쓸 때마다 본문의 윗줄 하나가 들어가고 그 줄은 지워진다.
+    /// 마지막 줄까지 쓰면 단축어가 사라진다. 교환 코드 · 초대 코드처럼 한 사람에게 하나씩만
+    /// 줘야 하는 것을 위한 것이다(같은 코드를 두 사람에게 보내는 실수를 막는다).
+    /// 지우는 일은 `MemoStore.incrementClipCount` 한 곳이 한다. 파일에 없으면 false (하위 호환).
+    var consumesOnUse: Bool = false
 
-    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], stackValues: [String] = [], stackInterval: TimeInterval = 2.0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, lastUsedAt: Date? = nil, hint: String? = nil, hintShownOnKeyboard: Bool = true) {
+    init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], stackValues: [String] = [], stackInterval: TimeInterval = 2.0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, lastUsedAt: Date? = nil, hint: String? = nil, hintShownOnKeyboard: Bool = true, consumesOnUse: Bool = false) {
         self.id = id
         self.title = title
         self.value = value
@@ -542,6 +547,7 @@ struct Memo: Identifiable, Codable {
         self.lastUsedAt = lastUsedAt
         self.hint = hint
         self.hintShownOnKeyboard = hintShownOnKeyboard
+        self.consumesOnUse = consumesOnUse
     }
 
     init(from oldMemo: OldMemo) {
@@ -590,6 +596,7 @@ struct Memo: Identifiable, Codable {
         self.contentType = try c.decodeIfPresent(ClipboardContentType.self, forKey: .contentType) ?? .text
         self.hint = try c.decodeIfPresent(String.self, forKey: .hint)
         self.hintShownOnKeyboard = try c.decodeIfPresent(Bool.self, forKey: .hintShownOnKeyboard) ?? true
+        self.consumesOnUse = try c.decodeIfPresent(Bool.self, forKey: .consumesOnUse) ?? false
     }
 
     enum CodingKeys: String, CodingKey {
@@ -618,6 +625,7 @@ struct Memo: Identifiable, Codable {
         case lastUsedAt
         case hint
         case hintShownOnKeyboard
+        case consumesOnUse
     }
 
     /// ⚠️ 하위호환(다운그레이드 안전): 구버전(4.3.0 이하)의 **합성** Codable 디코더는
@@ -658,6 +666,7 @@ struct Memo: Identifiable, Codable {
         try c.encodeIfPresent(lastUsedAt, forKey: .lastUsedAt)
         try c.encodeIfPresent(hint, forKey: .hint)
         try c.encode(hintShownOnKeyboard, forKey: .hintShownOnKeyboard)
+        try c.encode(consumesOnUse, forKey: .consumesOnUse)
 
         // 레거시 키도 함께 기록 - 구버전 디코더가 필수로 요구하는 키.
         var legacy = encoder.container(keyedBy: LegacyCompatKeys.self)
@@ -734,5 +743,48 @@ struct Combo: Identifiable, Codable {
     // 항목을 순서대로 정렬
     mutating func sortItems() {
         items.sort(by: { $0.order < $1.order })
+    }
+}
+
+// MARK: - 쓰면 지우기 (한 줄씩 나가는 본문)
+
+/// 한 번 쓸 때마다 한 줄씩 나가는 본문을 다루는 순수 함수. 지우는 곳(`MemoStore.incrementClipCount`)과
+/// 넣는 곳(키보드 · 앱 목록 · Siri · 길게 눌러 복사)이 **같은 규칙**으로 첫 줄을 고르도록 한 곳에 둔다.
+enum ConsumableLines {
+    /// 비어 있지 않은 줄들. 줄마다 앞뒤 공백을 걷는다(코드 뒤에 붙은 공백이 함께 나가지 않게).
+    static func lines(in text: String) -> [String] {
+        text.split(omittingEmptySubsequences: true, whereSeparator: \.isNewline)
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter { !$0.isEmpty }
+    }
+
+    /// 이번에 나갈 줄. 줄이 하나도 없으면 nil.
+    static func next(in text: String) -> String? { lines(in: text).first }
+
+    /// 첫 줄을 뺀 나머지 본문. 남은 줄이 없으면 nil(단축어를 지워야 한다는 뜻).
+    static func remainder(after text: String) -> String? {
+        let rest = lines(in: text).dropFirst()
+        return rest.isEmpty ? nil : rest.joined(separator: "\n")
+    }
+}
+
+extension Memo {
+    /// 쓰면 지우기가 실제로 작동하는 단축어인가. 스택은 칸이 곧 순서라 여기 끼지 않는다.
+    var isConsumable: Bool { consumesOnUse && !isStack }
+
+    /// 남은 줄 수. 쓰면 지우기가 아니면 nil(카드에 개수를 보이지 않는다).
+    /// 잠근 단축어는 풀어서 센다. 열쇠가 아직 없으면 모른다(nil).
+    var remainingUses: Int? {
+        guard isConsumable else { return nil }
+        let plain = SecureMemoCrypto.isEncrypted(value) ? SecureMemoCrypto.decrypt(value) : value
+        return plain.map { ConsumableLines.lines(in: $0).count }
+    }
+
+    /// 이번에 넣을 글. 쓰면 지우기면 첫 줄, 아니면 본문 전체.
+    /// - Parameter plain: 잠근 단축어를 푼 값. 넘기지 않으면 저장된 본문을 쓴다.
+    func textToUse(plain: String? = nil) -> String {
+        let source = plain ?? value
+        guard isConsumable else { return source }
+        return ConsumableLines.next(in: source) ?? source
     }
 }

@@ -2786,7 +2786,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已拷貝「%@」。"
+            "value" : "已複製「%@」。"
           }
         }
       }
@@ -22854,6 +22854,365 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d 個"
+          }
+        }
+      }
+    },
+    "%d개 남음" : {
+      "comment" : "Badge: lines left on a consume-on-use snippet",
+      "localizations" : {
+        "cs" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zbývá %d"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zbývají %d"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zbývá %d"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zbývá %d"
+                }
+              }
+            }
+          }
+        },
+        "da" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d tilbage"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d tilbage"
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d übrig"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d übrig"
+                }
+              }
+            }
+          }
+        },
+        "el" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d απομένει"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d απομένουν"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d left"
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Queda %d"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Quedan %d"
+                }
+              }
+            }
+          }
+        },
+        "fi" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d jäljellä"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d jäljellä"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d restant"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d restants"
+                }
+              }
+            }
+          }
+        },
+        "id" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Sisa %d"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d rimasta"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d rimaste"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "残り%d件"
+          }
+        },
+        "nb" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d igjen"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d igjen"
+                }
+              }
+            }
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d over"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d over"
+                }
+              }
+            }
+          }
+        },
+        "pl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zostaje %d"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zostają %d"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zostaje %d"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Zostaje %d"
+                }
+              }
+            }
+          }
+        },
+        "pt-BR" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d restante"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d restantes"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Остался %d"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Осталось %d"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Осталось %d"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Осталось %d"
+                }
+              }
+            }
+          }
+        },
+        "sv" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d kvar"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d kvar"
+                }
+              }
+            }
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เหลือ %d"
+          }
+        },
+        "tr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d kaldı"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d kaldı"
+                }
+              }
+            }
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Còn %d"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩 %d 个"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩 %d 個"
           }
         }
       }
@@ -54779,7 +55138,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "拷貝短語"
+            "value" : "複製短語"
           }
         }
       }
@@ -90344,7 +90703,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "即使不說 App 名稱，Siri 也能找到並拷貝你的短語。"
+            "value" : "即使不說 App 名稱，Siri 也能找到並複製你的短語。"
           }
         }
       }
@@ -104215,7 +104574,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "要拷貝其內容的短語"
+            "value" : "要複製其內容的短語"
           }
         }
       }
@@ -116082,7 +116441,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "找不到這條短語。"
+            "value" : "沒有找到這條短語。"
           }
         }
       }
@@ -139837,6 +140196,143 @@
         }
       }
     },
+    "누를 때마다 윗줄 하나가 들어가고 지워져요. 교환 코드를 나눠 줄 때 좋아요." : {
+      "comment" : "Toggle description: one line per use, good for handing out redeem codes one at a time",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Každé klepnutí vloží horní řádek a smaže ho. Hodí se při rozdávání kódů k uplatnění."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hver gang du trykker, indsættes den øverste linje og slettes. Praktisk til at dele indløsningskoder ud."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei jedem Tippen wird die oberste Zeile eingefügt und gelöscht. Praktisch, um Einlösecodes zu verteilen."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Σε κάθε πάτημα εισάγεται η πάνω γραμμή και διαγράφεται. Ιδανικό για διανομή κωδικών εξαργύρωσης."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each tap inserts the top line and deletes it. Great for handing out redeem codes."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada vez que lo toques, se inserta la línea de arriba y se borra. Útil para repartir códigos de canje."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jokainen napautus lisää ylimmän rivin ja poistaa sen. Sopii lunastuskoodien jakamiseen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À chaque appui, la première ligne est insérée puis supprimée. Pratique pour distribuer des codes d’échange."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Setiap kali diketuk, baris teratas dimasukkan lalu dihapus. Cocok untuk membagikan kode penukaran."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A ogni tocco viene inserita la prima riga e poi eliminata. Utile per distribuire codici di riscatto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タップするたびに一番上の行が入力され、削除されます。引き換えコードを配るときに便利です。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hvert trykk setter inn øverste linje og sletter den. Praktisk når du deler ut innløsningskoder."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bij elke tik wordt de bovenste regel ingevoegd en verwijderd. Handig om inwisselcodes uit te delen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Każde stuknięcie wstawia górny wiersz i go usuwa. Dobre do rozdawania kodów."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A cada toque, a primeira linha é inserida e apagada. Útil para distribuir códigos de resgate."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Каждое нажатие вставляет верхнюю строку и удаляет её. Удобно, чтобы раздавать коды активации."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varje tryck infogar översta raden och tar bort den. Bra när du delar ut inlösenkoder."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แตะแต่ละครั้งจะใส่บรรทัดบนสุดแล้วลบออก เหมาะกับการแจกโค้ดแลกรับ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Her dokunuşta en üst satır girilir ve silinir. Kod dağıtırken işe yarar."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mỗi lần nhấn, dòng đầu tiên được nhập vào rồi bị xóa. Hợp để phát mã đổi quà."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每次点击只输入最上面一行并将其删除。适合分发兑换码。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每次點一下只輸入最上面一行並將其刪除。適合分發兌換碼。"
+          }
+        }
+      }
+    },
     "누적 사용 횟수" : {
       "comment" : "Usage metric: total uses",
       "localizations" : {
@@ -157529,7 +158025,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "拷貝短語"
+            "value" : "複製短語"
           }
         }
       }
@@ -202782,7 +203278,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "收件地址"
+            "value" : "收貨地址"
           }
         }
       }
@@ -217944,7 +218440,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記住最多 100 筆複製內容，隨時再次貼上"
+            "value" : "記住最多 100 條複製內容，隨時再次貼上"
           }
         }
       }
@@ -249860,7 +250356,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "想寄份禮物給你！你的地址是？"
+            "value" : "想給你寄份禮物！你的地址是？"
           }
         }
       }
@@ -253117,7 +253613,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "輸入「設定 > 一般 > 鍵盤 > 替代文字」裡的快捷鍵並按空白鍵，即可換成對應字詞。緊接著按刪除鍵可復原。"
+            "value" : "輸入「設定 > 一般 > 鍵盤 > 文字替換」裡的輸入碼並按空格，即可換成對應短語。緊接著按刪除鍵可復原。"
           }
         }
       }
@@ -267795,7 +268291,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "備份到 iCloud，並用 Face ID 上鎖"
+            "value" : "備份到 iCloud，並用面容 ID 上鎖"
           }
         }
       }
@@ -268567,6 +269063,143 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "沒有短語在用的空位可以刪掉。還在用的刪了也會回來，所以不提供刪除"
+          }
+        }
+      }
+    },
+    "쓰면 지우기" : {
+      "comment" : "Toggle: each use inserts the top line and deletes it",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smazat po použití"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slet efter brug"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nach Gebrauch löschen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Διαγραφή μετά τη χρήση"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete after use"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar al usar"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poista käytön jälkeen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer après usage"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hapus setelah dipakai"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina dopo l'uso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使ったら削除"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slett etter bruk"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwijder na gebruik"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuń po użyciu"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apagar após o uso"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалять после использования"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ta bort efter användning"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ลบหลังใช้"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kullanınca sil"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xóa sau khi dùng"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用一次删一行"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用一次刪一行"
           }
         }
       }
@@ -280943,7 +281576,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "不說 App 名稱也能用 Siri"
+            "value" : "不說 App 名也能用 Siri"
           }
         }
       }
@@ -282464,7 +283097,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打開 App 並拷貝所選短語的內容。"
+            "value" : "開啟 App 並複製所選短語的內容。"
           }
         }
       }
@@ -285307,7 +285940,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "要拷貝哪條短語？"
+            "value" : "要複製哪條短語？"
           }
         }
       }
@@ -289894,7 +290527,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "多值堆疊和圖片也能隨意建立"
+            "value" : "多值堆棧和圖片也能隨意建立"
           }
         }
       }
@@ -293198,7 +293831,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這是練習用的範例地址"
+            "value" : "這是練習用的示例地址"
           }
         }
       }
@@ -293472,7 +294105,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這只是練習，不會傳送到任何地方"
+            "value" : "這只是練習，不會發送到任何地方"
           }
         }
       }
@@ -301521,7 +302154,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "方案與支持"
+            "value" : "方案與支援"
           }
         }
       }
@@ -305791,7 +306424,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "意見回饋"
+            "value" : "意見意見回饋"
           }
         }
       }
@@ -340632,7 +341265,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "將已儲存的短語拷貝到剪貼簿。"
+            "value" : "將已儲存的短語複製到剪貼簿。"
           }
         }
       }
@@ -349141,7 +349774,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "控制中心按鈕要拷貝的收藏短語"
+            "value" : "控制中心按鈕要複製的收藏短語"
           }
         }
       }
@@ -413320,7 +413953,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "替代文字"
+            "value" : "文字替換"
           }
         }
       }

@@ -125,6 +125,9 @@ enum AppSymbol {
     static let lockOpenFill = "lock.open.fill"
     static let lockShield = "lock.shield"
     static let lockShieldFill = "lock.shield.fill"
+    /// 쓰면 지우기(한 장씩 뜯어 주는 표)
+    static let ticket = "ticket"
+    static let ticketFill = "ticket.fill"
     static let macbook = "macbook"
     static let magnifyingglass = "magnifyingglass"
     static let menubarRectangle = "menubar.rectangle"   // 맥 메뉴바 앱 안내

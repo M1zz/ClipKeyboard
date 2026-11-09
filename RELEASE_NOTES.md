@@ -14,6 +14,224 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.20
+
+### 앱스토어 (한국어)
+
+```
+단축어에 쓰면 지우기를 켤 수 있어요.
+누를 때마다 윗줄 하나가 들어가고 지워져요.
+교환 코드를 한 번에 하나씩 나눠 줄 때 좋아요.
+설정에서 답장 5개 세트를 한 번에 넣을 수 있어요.
+```
+
+### App Store (English)
+
+```
+Snippets can now delete themselves as you use them.
+Each tap inserts the top line and removes it.
+Great for handing out redeem codes one at a time.
+Add a set of five seller replies from Settings.
+```
+
+### App Store (en-GB)
+
+```
+Snippets can now delete themselves as you use them.
+Each tap inserts the top line and removes it.
+Great for handing out redeem codes one at a time.
+Add a set of five seller replies from Settings.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+短语新增“用一次删一行”选项。
+每次点击只输入最上面一行，然后自动删除。
+给别人发兑换码时，一次只发一个。
+可在设置中一键添加 5 条卖家常用回复。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+短語新增「用一次刪一行」選項。
+每次點一下只輸入最上面一行，然後自動刪除。
+分送兌換碼時，一次只送出一組。
+可在設定中一鍵加入 5 則賣家常用回覆。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Фразу можно настроить так, чтобы она удалялась по мере использования.
+Каждое нажатие вставляет верхнюю строку и убирает её.
+Удобно раздавать промокоды по одному.
+В настройках можно добавить набор из пяти ответов для продавцов.
+```
+
+### App Store (Japanese, ja)
+
+```
+使うたびに消える定型文を作れるようになりました。
+タップするたびに一番上の行だけが入力され、消えます。
+引き換えコードを一つずつ配るときに便利です。
+設定から販売者向けの返信5つをまとめて追加できます。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Ahora un atajo puede borrarse a medida que lo usas.
+Cada toque inserta la primera línea y la elimina.
+Ideal para repartir códigos canjeables de uno en uno.
+Agrega cinco respuestas para vendedores desde Ajustes.
+```
+
+### App Store (German, de-DE)
+
+```
+Textbausteine können sich jetzt beim Benutzen selbst löschen.
+Jedes Tippen fügt die oberste Zeile ein und entfernt sie.
+Praktisch, um Einlösecodes einzeln weiterzugeben.
+In den Einstellungen gibt es ein Set mit fünf Verkäufer-Antworten.
+```
+
+### App Store (Thai, th)
+
+```
+ตั้งค่าให้ข้อความลัดลบตัวเองเมื่อใช้แล้วได้
+แตะแต่ละครั้งจะใส่บรรทัดบนสุดแล้วลบออก
+เหมาะกับการแจกโค้ดแลกของทีละโค้ด
+เพิ่มชุดคำตอบสำหรับผู้ขาย 5 ข้อความได้จากการตั้งค่า
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Cụm từ tắt giờ có thể tự xóa sau mỗi lần dùng.
+Mỗi lần chạm sẽ chèn dòng trên cùng rồi xóa dòng đó.
+Tiện khi phát mã đổi thưởng cho từng người.
+Thêm bộ 5 câu trả lời cho người bán trong Cài đặt.
+```
+
+### App Store (French, fr-FR)
+
+```
+Un raccourci peut maintenant s'effacer au fil de son utilisation.
+Chaque appui insère la première ligne puis la supprime.
+Pratique pour distribuer des codes promo un par un.
+Ajoutez cinq réponses pour vendeurs depuis les Réglages.
+```
+
+### App Store (Italian, it)
+
+```
+Ora una frase rapida può cancellarsi man mano che la usi.
+Ogni tocco inserisce la prima riga e la elimina.
+Comodo per distribuire codici promozionali uno alla volta.
+Aggiungi cinque risposte per venditori dalle Impostazioni.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+Agora um atalho pode se apagar conforme você o usa.
+Cada toque insere a primeira linha e a remove.
+Ótimo para distribuir códigos de resgate um por vez.
+Adicione cinco respostas para vendedores nos Ajustes.
+```
+
+### App Store (Czech, cs)
+
+```
+Zkratku lze nastavit tak, aby se při používání mazala.
+Každé klepnutí vloží horní řádek a odstraní ho.
+Hodí se k rozdávání slevových kódů po jednom.
+V Nastavení přidáte sadu pěti odpovědí pro prodejce.
+```
+
+### App Store (Danish, da)
+
+```
+En genvej kan nu slette sig selv, efterhånden som du bruger den.
+Hvert tryk indsætter den øverste linje og fjerner den.
+Praktisk til at dele indløsningskoder ud én ad gangen.
+Tilføj et sæt med fem sælgersvar fra Indstillinger.
+```
+
+### App Store (Greek, el)
+
+```
+Μια συντόμευση μπορεί πλέον να διαγράφεται καθώς τη χρησιμοποιείς.
+Κάθε πάτημα εισάγει την πρώτη γραμμή και την αφαιρεί.
+Βολικό για να μοιράζεις κωδικούς εξαργύρωσης έναν έναν.
+Πρόσθεσε πέντε απαντήσεις για πωλητές από τις Ρυθμίσεις.
+```
+
+### App Store (Finnish, fi)
+
+```
+Pikafraasi voi nyt poistaa itsensä käytön myötä.
+Jokainen napautus lisää ylimmän rivin ja poistaa sen.
+Kätevä, kun jaat lunastuskoodeja yksi kerrallaan.
+Lisää viiden myyjävastauksen sarja asetuksista.
+```
+
+### App Store (Indonesian, id)
+
+```
+Pintasan kini bisa terhapus sendiri saat dipakai.
+Setiap ketukan memasukkan baris teratas lalu menghapusnya.
+Cocok untuk membagikan kode penukaran satu per satu.
+Tambahkan lima balasan untuk penjual dari Pengaturan.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+En snarvei kan nå slette seg selv etter hvert som du bruker den.
+Hvert trykk setter inn den øverste linjen og fjerner den.
+Praktisk for å dele ut innløsningskoder én om gangen.
+Legg til et sett med fem selgersvar fra Innstillinger.
+```
+
+### App Store (Dutch, nl)
+
+```
+Een snelkoppeling kan zichzelf nu wissen terwijl je hem gebruikt.
+Elke tik voegt de bovenste regel in en verwijdert die.
+Handig om inwisselcodes één voor één uit te delen.
+Voeg vijf antwoorden voor verkopers toe via Instellingen.
+```
+
+### App Store (Polish, pl)
+
+```
+Skrót może teraz usuwać się w miarę używania.
+Każde stuknięcie wstawia górny wiersz i go usuwa.
+Przydatne przy rozdawaniu kodów promocyjnych pojedynczo.
+W Ustawieniach dodasz zestaw pięciu odpowiedzi dla sprzedawców.
+```
+
+### App Store (Swedish, sv)
+
+```
+En genväg kan nu radera sig själv allt eftersom du använder den.
+Varje tryck infogar översta raden och tar bort den.
+Praktiskt för att dela ut inlösningskoder en i taget.
+Lägg till fem säljarsvar från Inställningar.
+```
+
+### App Store (Turkish, tr)
+
+```
+Kısayollar artık kullandıkça kendini silebiliyor.
+Her dokunuş en üstteki satırı ekler ve siler.
+Hediye kodlarını tek tek dağıtmak için ideal.
+Ayarlar'dan satıcılar için beş yanıtlık set ekleyin.
+```
+
 ## 5.1.19
 
 ### 앱스토어 (한국어)

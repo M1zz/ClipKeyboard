@@ -249,6 +249,10 @@ struct MemoCardSurface: View {
                 .foregroundColor(onColor ? .white : theme.text)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
+            // 쓰면 지우기 단축어는 몇 장 남았는지가 곧 내용이다.
+            if let remaining = memo.remainingUses {
+                RemainingUsesBadge(count: remaining, onColor: onColor)
+            }
         }
     }
 
@@ -351,6 +355,7 @@ struct MemoCardSurface: View {
         if memo.isSecure { parts.append(NSLocalizedString("보안 단축어", comment: "VoiceOver: secure memo badge")) }
         if memo.isTemplate { parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge")) }
         if memo.isStack { parts.append(NSLocalizedString("스택", comment: "VoiceOver: combo badge")) }
+        if let remaining = memo.remainingUses { parts.append(RemainingUsesBadge.text(remaining)) }
         if CategoryStore.shared.isFeatureEnabled, categories.contains(memo.category) {
             parts.append(NSLocalizedString(memo.category, comment: "Category name"))
         }
@@ -384,5 +389,29 @@ struct MemoCardStyle {
             showsCoin: showsCoin,
             lightweight: lightweight
         )
+    }
+}
+
+// MARK: - 남은 장 수
+
+/// 쓰면 지우기 단축어에 몇 줄이 남았는지. 카드 제목 옆 작은 알약.
+struct RemainingUsesBadge: View {
+    let count: Int
+    let onColor: Bool
+    @Environment(\.appTheme) private var theme
+
+    static func text(_ count: Int) -> String {
+        String(format: NSLocalizedString("%d개 남음", comment: "Badge: lines left on a consume-on-use snippet"), count)
+    }
+
+    var body: some View {
+        Text(Self.text(count))
+            .font(.caption.weight(.semibold))
+            .monospacedDigit()
+            .foregroundColor(onColor ? .white : theme.accent)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 3)
+            .background(Capsule().fill(onColor ? Color.white.opacity(0.22) : theme.accent.opacity(0.12)))
+            .accessibilityHidden(true)
     }
 }
