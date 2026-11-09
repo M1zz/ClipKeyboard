@@ -1319,6 +1319,8 @@ struct ClipKeyboardApp: App {
                 // 값을 읽으므로, 다시 그리기만 하면 앱을 껐다 켤 필요가 없다.
                 .id(languageRefreshToken)
                 .environment(\.locale, AppLanguage.locale)
+                // 개발자가 보낸 의견에 답장하면, 앱이 앞으로 올 때 답장을 시트로 보여 준다 (LeeoKit).
+                .leeoFeedbackReplyNotice(ClipKeyboardSpec.self)
                 .onReceive(NotificationCenter.default.publisher(for: .appLanguageChanged)) { _ in
                     languageRefreshToken += 1
                 }
