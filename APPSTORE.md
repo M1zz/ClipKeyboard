@@ -52,6 +52,7 @@ iPhone과 iPad에서 쓸 수 있습니다. 한국어, 영어, 일본어, 중국�
 문의: leeo@kakao.com
 사용 가이드: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=ko
 이용약관: https://m1zz.github.io/ClipKeyboard/terms.html?lang=ko
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -126,6 +127,7 @@ Works on iPhone and iPad. Available in English, Korean, Japanese, Chinese (Simpl
 Contact: leeo@kakao.com
 User guide: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
 Terms of Use: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -200,6 +202,7 @@ Works on iPhone and iPad. Available in English, Korean, Japanese, Chinese (Simpl
 Contact: leeo@kakao.com
 User guide: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
 Terms of Use: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -274,6 +277,7 @@ Clip Keyboard: буфер обмена
 Связаться: leeo@kakao.com
 Руководство: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=ru
 Условия использования: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -345,6 +349,7 @@ iCloud 备份：换手机也不会丢，图片短语也一起带走。
 支持 iPhone 和 iPad。界面提供简体中文、繁体中文、韩语、英语、俄语、日语、西班牙语、德语、法语、意大利语、葡萄牙语（巴西）、荷兰语、波兰语、捷克语、希腊语、土耳其语、印尼语、瑞典语、丹麦语、挪威语、芬兰语、泰语和越南语。
 
 使用条款: https://m1zz.github.io/ClipKeyboard/terms.html?lang=zh-Hans
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -416,6 +421,7 @@ iCloud 備份：換手機也不會丟，圖片短語也一起帶走。
 支援 iPhone 和 iPad。介面提供簡體中文、繁體中文、韓語、英語、俄語、日語、西班牙語、德語、法語、義大利語、葡萄牙語（巴西）、荷蘭文、波蘭文、捷克文、希臘文、土耳其文、印尼文、瑞典文、丹麥文、挪威文、芬蘭文、泰語和越南語。
 
 使用條款: https://m1zz.github.io/ClipKeyboard/terms.html?lang=zh-Hant
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -491,6 +497,7 @@ iPhoneとiPadで使えます。日本語、韓国語、英語、中国語（簡�
 使い方ガイド：https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
 
 利用規約: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -566,6 +573,7 @@ Contacto: leeo@kakao.com
 Guía de uso: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
 
 Términos de uso: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -641,6 +649,7 @@ Kontakt: leeo@kakao.com
 Anleitung: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
 
 Nutzungsbedingungen: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -716,6 +725,7 @@ Clip Keyboard ข้อความด่วน
 คู่มือการใช้งาน: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
 
 ข้อกำหนดการใช้งาน: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -791,6 +801,7 @@ Liên hệ: leeo@kakao.com
 Hướng dẫn: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
 
 Điều khoản sử dụng: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -865,6 +876,7 @@ Pour iPhone et iPad. En français, anglais, coréen, japonais, chinois (simplifi
 Contact : leeo@kakao.com
 Guide : https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
 Conditions d’utilisation : https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -939,6 +951,7 @@ Per iPhone e iPad. In italiano, inglese, coreano, giapponese, cinese (semplifica
 Contatto: leeo@kakao.com
 Guida: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
 Termini di utilizzo: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -1013,6 +1026,7 @@ Para iPhone e iPad. Em português (Brasil), inglês, coreano, japonês, chinês 
 Contato: leeo@kakao.com
 Guia: https://m1zz.github.io/ClipKeyboard/tutorial.html?lang=en
 Termos de uso: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -1087,6 +1101,7 @@ Pro iPhone a iPad. Ve 23 jazycích, mimo jiné v češtině, polštině, němči
 Kontakt: leeo@kakao.com
 Návod: https://m1zz.github.io/ClipKeyboard/cs/tutorial.html
 Podmínky použití: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -1161,6 +1176,7 @@ Til iPhone og iPad. På 23 sprog, blandt andet dansk, svensk, norsk, tysk og eng
 Kontakt: leeo@kakao.com
 Vejledning: https://m1zz.github.io/ClipKeyboard/da/tutorial.html
 Vilkår for brug: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -1235,6 +1251,7 @@ Clip Keyboard: Πρόχειρο
 Επικοινωνία: leeo@kakao.com
 Οδηγός: https://m1zz.github.io/ClipKeyboard/el/tutorial.html
 Όροι χρήσης: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -1309,6 +1326,7 @@ iPhonelle ja iPadille. 23 kielellä, muun muassa suomeksi, ruotsiksi ja englanni
 Yhteystiedot: leeo@kakao.com
 Opas: https://m1zz.github.io/ClipKeyboard/fi/tutorial.html
 Käyttöehdot: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -1383,6 +1401,7 @@ Untuk iPhone dan iPad. Tersedia dalam 23 bahasa, termasuk bahasa Indonesia, Ingg
 Kontak: leeo@kakao.com
 Panduan: https://m1zz.github.io/ClipKeyboard/id/tutorial.html
 Ketentuan Penggunaan: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -1457,6 +1476,7 @@ For iPhone og iPad. På 23 språk, blant annet norsk, dansk, svensk og engelsk.
 Kontakt: leeo@kakao.com
 Veiledning: https://m1zz.github.io/ClipKeyboard/nb/tutorial.html
 Vilkår for bruk: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -1531,6 +1551,7 @@ Voor iPhone en iPad. In 23 talen, waaronder Nederlands, Engels, Duits en Frans.
 Contact: leeo@kakao.com
 Handleiding: https://m1zz.github.io/ClipKeyboard/nl/tutorial.html
 Gebruiksvoorwaarden: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -1605,6 +1626,7 @@ Na iPhone'a i iPada. W 23 językach, w tym po polsku, angielsku, niemiecku i cze
 Kontakt: leeo@kakao.com
 Poradnik: https://m1zz.github.io/ClipKeyboard/pl/tutorial.html
 Warunki korzystania: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -1679,6 +1701,7 @@ För iPhone och iPad. På 23 språk, bland annat svenska, norska, danska och eng
 Kontakt: leeo@kakao.com
 Guide: https://m1zz.github.io/ClipKeyboard/sv/tutorial.html
 Användarvillkor: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
@@ -1753,6 +1776,7 @@ iPhone ve iPad için. Türkçe, İngilizce, Almanca ve Rusça dahil 23 dilde.
 İletişim: leeo@kakao.com
 Kılavuz: https://m1zz.github.io/ClipKeyboard/tr/tutorial.html
 Kullanım Koşulları: https://m1zz.github.io/ClipKeyboard/terms.html?lang=en
+EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ### 키워드
