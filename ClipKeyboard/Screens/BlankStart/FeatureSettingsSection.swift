@@ -16,10 +16,14 @@ struct FeatureSettingsSection: View {
     @State private var on: Set<AppFeature> = Self.currentlyOn()
     @State private var lesson: AppFeature?
     @State private var recommended: FeaturePreset = .simple
+    @State private var starterAdded = ReplyStarterPack.isAdded
+    /// 이번에 넣었다. 넣자마자 줄이 사라지면 눌렀는지 알 수 없어서, 이 화면에 있는 동안은 "넣었어요" 로 남긴다.
+    @State private var starterJustAdded = false
 
     var body: some View {
         Section {
             ForEach(FeaturePreset.allCases) { preset in presetRow(preset) }
+            if on.contains(.template) && (!starterAdded || starterJustAdded) { replyStarterRow }
             ForEach(AppFeature.allCases) { feature in featureRow(feature) }
         } header: {
             Text(NSLocalizedString("기능 더하기", comment: "Settings: add features section header"))
@@ -75,6 +79,46 @@ struct FeatureSettingsSection: View {
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(selected ? .isSelected : [])
+    }
+
+    // MARK: - 답장 시작 세트
+
+    /// 템플릿이 켜져 있을 때 한 줄. 같은 답장을 하루 수십 번 보내는 사람(셀러 · 고객 응대)이 빈 목록에서
+    /// 시작하지 않게 다섯 개를 넣어 준다. 묻지 않고 넣지는 않는다(내 단축어는 내 것이다).
+    private var replyStarterRow: some View {
+        Button {
+            guard !starterAdded else { return }
+            HapticManager.shared.medium()
+            do {
+                try ReplyStarterPack.add()
+                starterAdded = true
+                starterJustAdded = true
+                AnalyticsService.log(.featureOn, parameters: [.source: "replyStarter"])
+            } catch {
+                print("❌ [FeatureSettingsSection] 답장 시작 세트 추가 실패: \(error)")
+            }
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: starterAdded ? AppSymbol.checkmarkCircleFill : AppSymbol.trayAndArrowDown)
+                    .font(.title3)
+                    .foregroundStyle(starterAdded ? Color.green : Color.accentColor)
+                    .frame(width: 28)
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(starterAdded
+                         ? NSLocalizedString("답장 5개를 넣었어요", comment: "Settings: reply starter pack added")
+                         : NSLocalizedString("답장 5개 넣어 두기", comment: "Settings: add reply starter pack"))
+                        .font(.body.weight(.semibold))
+                    Text(starterAdded
+                         ? NSLocalizedString("내 단축어 맨 아래에 있어요. 말투는 마음대로 고치세요", comment: "Settings: where the reply starter pack went")
+                         : NSLocalizedString("첫 인사 · 배송 · 품절 · 교환 · 후기 감사. 빈칸은 보낼 때 채워요", comment: "Settings: what the reply starter pack contains"))
+                        .font(.body).foregroundStyle(.secondary)
+                }
+                Spacer(minLength: 8)
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .disabled(starterAdded)
     }
 
     // MARK: - 하나씩

@@ -452,8 +452,8 @@
   "%d개": {
     "ko": "%d개",
     "en": "%d",
-    "comment": "Free use receipt: N items\ncount unit",
-    "h": "54bd2e5b76"
+    "comment": "count unit",
+    "h": "ee109f06f2"
   },
   "%d개 단축어 더 보기 → Pro 업그레이드": {
     "ko": "%d개 단축어 더 보기 → Pro 업그레이드",
@@ -1700,8 +1700,8 @@
   "Good evening": {
     "ko": "좋은 저녁이에요",
     "en": "Good evening",
-    "comment": "Greeting: evening\nGreeting: evening/night",
-    "h": "c985debe8d"
+    "comment": "Greeting: evening/night",
+    "h": "be606a5781"
   },
   "Good morning": {
     "ko": "좋은 아침이에요",
@@ -2351,6 +2351,12 @@
     "comment": "Paywall price caption: upgrade from Plus",
     "h": "34a4d7e13e"
   },
+  "Plus 에서 열리는 것을 모두 그대로 써요": {
+    "ko": "Plus 에서 열리는 것을 모두 그대로 써요",
+    "en": "Everything Plus unlocks comes along",
+    "comment": "Paywall showcase detail: everything in Plus",
+    "h": "a79877edc2"
+  },
   "Plus 의 모든 것": {
     "ko": "Plus 의 모든 것",
     "en": "Everything in Plus",
@@ -2822,8 +2828,8 @@
   "Template": {
     "ko": "템플릿",
     "en": "Template",
-    "comment": "Feature tag: template\nTag: template",
-    "h": "dac4104447"
+    "comment": "Feature tag: template",
+    "h": "d437039072"
   },
   "Text": {
     "ko": "텍스트",
@@ -3329,6 +3335,12 @@
     "comment": "Price token variable",
     "h": "46728dca4f"
   },
+  "{고객명}님, 주문하신 상품이 오늘 발송되었습니다. 송장번호는 {송장번호}이고, 보통 1~2일 안에 도착합니다. 감사합니다.": {
+    "ko": "{고객명}님, 주문하신 상품이 오늘 발송되었습니다. 송장번호는 {송장번호}이고, 보통 1~2일 안에 도착합니다. 감사합니다.",
+    "en": "Hi {Customer name}, your order shipped today. The tracking number is {Tracking number}, and it usually arrives within 1~2 days. Thank you.",
+    "comment": "Reply starter pack: body of the shipping notice template. Keep the {placeholders}",
+    "h": "dcd1318a37"
+  },
   "{금액}": {
     "ko": "{금액}",
     "en": "{amount}",
@@ -3440,8 +3452,8 @@
   "‘%@’을 복사했어요.": {
     "ko": "‘%@’을 복사했어요.",
     "en": "Copied “%@”.",
-    "comment": "",
-    "h": "1a9c1ad1e4"
+    "comment": "Siri: snippet copied. Argument is the snippet name",
+    "h": "4c7eb35030"
   },
   "• iCloud와 별개로, 데이터를 파일로 직접 보관하는 가장 확실한 방법입니다\n• 가져오기는 현재 데이터를 지우지 않고 합칩니다(같은 항목은 최신본 유지)": {
     "ko": "• iCloud와 별개로, 데이터를 파일로 직접 보관하는 가장 확실한 방법입니다\n• 가져오기는 현재 데이터를 지우지 않고 합칩니다(같은 항목은 최신본 유지)",
@@ -4169,6 +4181,12 @@
     "comment": "Essential snippet title: email to a professor",
     "h": "16d0ff3f47"
   },
+  "교환 · 환불 안내": {
+    "ko": "교환 · 환불 안내",
+    "en": "Exchange or refund",
+    "comment": "Reply starter pack: title of the exchange/refund template",
+    "h": "b67f00a70f"
+  },
   "구경": {
     "ko": "구경",
     "en": "Browsing",
@@ -4244,8 +4262,8 @@
   "그 단축어를 찾지 못했어요.": {
     "ko": "그 단축어를 찾지 못했어요.",
     "en": "I couldn't find that snippet.",
-    "comment": "",
-    "h": "7f1f7b50cd"
+    "comment": "Siri: snippet not found",
+    "h": "d7895e5ec2"
   },
   "그 뒤에도 만든 단축어는 전부 계속 쓸 수 있어요.": {
     "ko": "그 뒤에도 만든 단축어는 전부 계속 쓸 수 있어요.",
@@ -4966,6 +4984,12 @@
     "en": "Make My Own Snippets",
     "comment": "Blank start: go to my snippet list",
     "h": "5f0c7533c3"
+  },
+  "내 단축어 맨 아래에 있어요. 말투는 마음대로 고치세요": {
+    "ko": "내 단축어 맨 아래에 있어요. 말투는 마음대로 고치세요",
+    "en": "They're at the bottom of your snippets. Edit the wording as you like",
+    "comment": "Settings: where the reply starter pack went",
+    "h": "fe9ae132cb"
   },
   "내 데이터": {
     "ko": "내 데이터",
@@ -5720,8 +5744,8 @@
   "단축어": {
     "ko": "단축어",
     "en": "Snippet",
-    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter",
-    "h": "8c10487a02"
+    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSiri/Spotlight: the kind of item ClipKeyboard stores (a saved snippet)\nSiri: snippet parameter\nSnippet (saved key-value item) display name\nTyping keyboard: switch to the snippet keys",
+    "h": "f54defa1ae"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "ko": "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.",
@@ -5948,8 +5972,8 @@
   "단축어 복사": {
     "ko": "단축어 복사",
     "en": "Copy Snippet",
-    "comment": "",
-    "h": "efd103bf63"
+    "comment": "Siri: copy a saved snippet's value",
+    "h": "34dc898073"
   },
   "단축어 삭제": {
     "ko": "단축어 삭제",
@@ -6008,8 +6032,8 @@
   "단축어 열기": {
     "ko": "단축어 열기",
     "en": "Open Snippet",
-    "comment": "",
-    "h": "005f9c796b"
+    "comment": "Siri/Spotlight: open a snippet",
+    "h": "36249b32c4"
   },
   "단축어 이름이나 아이폰 텍스트 대치를 치면 자판 위에 띄워요. 누르면 바로 들어가요.": {
     "ko": "단축어 이름이나 아이폰 텍스트 대치를 치면 자판 위에 띄워요. 누르면 바로 들어가요.",
@@ -6352,6 +6376,18 @@
     "en": "Couldn't capture it. Try again in a moment.",
     "comment": "Toast when saving the captured clipboard failed",
     "h": "d0ca351c51"
+  },
+  "답장 5개 넣어 두기": {
+    "ko": "답장 5개 넣어 두기",
+    "en": "Add 5 ready replies",
+    "comment": "Settings: add reply starter pack",
+    "h": "dfa22ef6ce"
+  },
+  "답장 5개를 넣었어요": {
+    "ko": "답장 5개를 넣었어요",
+    "en": "5 replies added",
+    "comment": "Settings: reply starter pack added",
+    "h": "0c8f0c6e89"
   },
   "답장 글을 담아 둬서": {
     "ko": "답장 글을 담아 둬서",
@@ -7571,6 +7607,12 @@
     "comment": "Changelog 5.0.1 measured typing",
     "h": "1515d3653b"
   },
+  "문의 첫 인사": {
+    "ko": "문의 첫 인사",
+    "en": "First reply",
+    "comment": "Reply starter pack: title of the first-response memo",
+    "h": "851e5371eb"
+  },
   "문장": {
     "ko": "문장",
     "en": "Sentence",
@@ -7786,6 +7828,12 @@
     "en": "When a delivery app asks for your address",
     "comment": "Essential snippet moment: a delivery app asks for your address",
     "h": "5111a2020a"
+  },
+  "배송 안내": {
+    "ko": "배송 안내",
+    "en": "Shipping notice",
+    "comment": "Reply starter pack: title of the shipping notice template",
+    "h": "5541356aef"
   },
   "배송지": {
     "ko": "배송지",
@@ -8447,6 +8495,12 @@
     "comment": "Changelog 4.3.6 item 2",
     "h": "674cba0866"
   },
+  "복사한 것을 100개까지 기억해 두었다가 다시 붙여요": {
+    "ko": "복사한 것을 100개까지 기억해 두었다가 다시 붙여요",
+    "en": "Remembers up to 100 things you copied, ready to paste again",
+    "comment": "Paywall showcase detail: clipboard history 100",
+    "h": "7e9c587668"
+  },
   "복사한 것을 넣는 키를 위줄에 세웁니다. 길게 누르면 필요한 부분만 고를 수 있어요": {
     "ko": "복사한 것을 넣는 키를 위줄에 세웁니다. 길게 누르면 필요한 부분만 고를 수 있어요",
     "en": "Puts the paste key in the top row. Press and hold to pick just the part you need.",
@@ -8606,8 +8660,8 @@
   "복원": {
     "ko": "복원",
     "en": "Restore",
-    "comment": "Restore",
-    "h": "c98674684a"
+    "comment": "Paywall footer: restore purchases, short\nRestore",
+    "h": "2a3afa7d6a"
   },
   "복원 방법": {
     "ko": "복원 방법",
@@ -9170,8 +9224,8 @@
   "사용 중": {
     "ko": "사용 중",
     "en": "Installed",
-    "comment": "Changelog: currently installed version badge\nPaywall plan badge: already owned",
-    "h": "6f1eb87d1f"
+    "comment": "Changelog: currently installed version badge",
+    "h": "1e13a95386"
   },
   "사용 중인 사람 (설치)": {
     "ko": "사용 중인 사람 (설치)",
@@ -9380,8 +9434,8 @@
   "삭제": {
     "ko": "삭제",
     "en": "Delete",
-    "comment": "Action: delete\nConfirm delete\nDelete\nDelete button\nDelete confirm\nVoiceOver action: delete memo",
-    "h": "e1c9cffcfa"
+    "comment": "Action: delete\nConfirm delete\nDelete\nDelete button\nDelete confirm",
+    "h": "663b87504f"
   },
   "삭제 실패": {
     "ko": "삭제 실패",
@@ -9782,8 +9836,8 @@
   "선물하기": {
     "ko": "선물하기",
     "en": "Send a Gift",
-    "comment": "Feedback origin: gift screens",
-    "h": "9a2d3788c7"
+    "comment": "Settings: gift entry opening the gift page",
+    "h": "1a40659b48"
   },
   "선택 안 됨": {
     "ko": "선택 안 됨",
@@ -10169,6 +10223,12 @@
     "comment": "Template tutorial: suggested blank name",
     "h": "3cc1fbc449"
   },
+  "소중한 후기 감사합니다. 다음에도 만족하실 수 있도록 더 신경 쓰겠습니다. 좋은 하루 보내세요!": {
+    "ko": "소중한 후기 감사합니다. 다음에도 만족하실 수 있도록 더 신경 쓰겠습니다. 좋은 하루 보내세요!",
+    "en": "Thank you for your kind review. I'll keep working to make your next order just as good. Have a great day!",
+    "comment": "Reply starter pack: body of the review thank-you memo",
+    "h": "2ea8ca9c8f"
+  },
   "손가락으로 문질러 고릅니다. 문지르기 어려우면 오른쪽 위 줄로 고르기를 쓰세요.": {
     "ko": "손가락으로 문질러 고릅니다. 문지르기 어려우면 오른쪽 위 줄로 고르기를 쓰세요.",
     "en": "Swipe with your finger to pick. If swiping is hard, use Pick by line at the top right.",
@@ -10436,8 +10496,8 @@
   "시작하기": {
     "ko": "시작하기",
     "en": "Get Started",
-    "comment": "Get started button",
-    "h": "82103648f9"
+    "comment": "Get started button\nSettings section header: features to add and the guidebook",
+    "h": "563875b777"
   },
   "시작하다 문제가 생겨도 다음 실행은 열려요": {
     "ko": "시작하다 문제가 생겨도 다음 실행은 열려요",
@@ -10522,6 +10582,12 @@
     "en": "Keep what you saved safe",
     "comment": "Paywall plan tagline: Pro",
     "h": "7b87dec0b6"
+  },
+  "쌓은 단축어를 iCloud 에 백업하고 Face ID 로 잠가요": {
+    "ko": "쌓은 단축어를 iCloud 에 백업하고 Face ID 로 잠가요",
+    "en": "Back up your snippets to iCloud and lock them with Face ID",
+    "comment": "Paywall showcase detail: iCloud backup and biometric lock",
+    "h": "4aca0039d0"
   },
   "써볼게요": {
     "ko": "써볼게요",
@@ -10622,8 +10688,8 @@
   "아낀 시간": {
     "ko": "아낀 시간",
     "en": "Time saved",
-    "comment": "Free use receipt: time saved\nUsage stats section: time saved",
-    "h": "d949d8e608"
+    "comment": "Usage stats section: time saved",
+    "h": "a00105cce9"
   },
   "아낀 시간과 실제 횟수는 아래에 작게 남아요. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라서요": {
     "ko": "아낀 시간과 실제 횟수는 아래에 작게 남아요. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라서요",
@@ -10738,6 +10804,12 @@
     "en": "Username",
     "comment": "Bulk import: inferred label for login id",
     "h": "692479e28f"
+  },
+  "아이폰 · 아이패드 · Mac 에서 같은 단축어를 써요": {
+    "ko": "아이폰 · 아이패드 · Mac 에서 같은 단축어를 써요",
+    "en": "The same snippets on iPhone, iPad and Mac",
+    "comment": "Paywall showcase detail: cross-device sync",
+    "h": "2de72ece27"
   },
   "아이폰과 맥에서 단축어를 함께 써요 (베타)": {
     "ko": "아이폰과 맥에서 단축어를 함께 써요 (베타)",
@@ -10943,6 +11015,12 @@
     "comment": "Essential snippet body: polite email to a professor. Keep every {…} blank with its braces; translate only the words inside",
     "h": "82575412e5"
   },
+  "안녕하세요, {고객명}님. 주문번호 {주문번호} 교환 · 환불 요청 확인했습니다. 상품을 받은 뒤 2~3일 안에 처리해 드릴게요. 불편을 드려 죄송합니다.": {
+    "ko": "안녕하세요, {고객명}님. 주문번호 {주문번호} 교환 · 환불 요청 확인했습니다. 상품을 받은 뒤 2~3일 안에 처리해 드릴게요. 불편을 드려 죄송합니다.",
+    "en": "Hello {Customer name}, I've received your exchange or refund request for order {Order number}. It will be processed within 2~3 days of the item arriving back. Sorry for the inconvenience.",
+    "comment": "Reply starter pack: body of the exchange/refund template. Keep the {placeholders}",
+    "h": "cf8985c17c"
+  },
   "안녕하세요, {수업명} 과제 제출합니다.\n학번: {학번}\n이름: {이름}\n첨부 파일 확인 부탁드립니다.": {
     "ko": "안녕하세요, {수업명} 과제 제출합니다.\n학번: {학번}\n이름: {이름}\n첨부 파일 확인 부탁드립니다.",
     "en": "Hello, I'm submitting my assignment for {course}.\nStudent ID: {student_id}\nName: {name}\nPlease find the file attached.",
@@ -10954,6 +11032,18 @@
     "en": "Hello, this is {Name} from {Company}.\n{Email} / {Phone}",
     "comment": "Essential snippet body: business intro with contact. Keep every {…} blank with its braces; translate only the words inside",
     "h": "248872bcec"
+  },
+  "안녕하세요, 문의 감사합니다. 확인 후 빠르게 답변드리겠습니다. 잠시만 기다려 주세요.": {
+    "ko": "안녕하세요, 문의 감사합니다. 확인 후 빠르게 답변드리겠습니다. 잠시만 기다려 주세요.",
+    "en": "Hello, thank you for reaching out. I'll check and get back to you shortly. Please hold on a moment.",
+    "comment": "Reply starter pack: body of the first-response memo",
+    "h": "504491235f"
+  },
+  "안녕하세요. 문의하신 {상품명}은 현재 품절입니다. 재입고되면 바로 알려 드릴까요? 기다려 주셔서 감사합니다.": {
+    "ko": "안녕하세요. 문의하신 {상품명}은 현재 품절입니다. 재입고되면 바로 알려 드릴까요? 기다려 주셔서 감사합니다.",
+    "en": "Hello. {Product name} is currently out of stock. Would you like me to let you know as soon as it's back? Thank you for your patience.",
+    "comment": "Reply starter pack: body of the out-of-stock template. Keep the {placeholders}",
+    "h": "48ce1dc2c1"
   },
   "안정성": {
     "ko": "안정성",
@@ -11234,8 +11324,8 @@
   "어떤 단축어를 복사할까요?": {
     "ko": "어떤 단축어를 복사할까요?",
     "en": "Which snippet should I copy?",
-    "comment": "",
-    "h": "261fb9621c"
+    "comment": "Siri: ask which snippet",
+    "h": "3950396e54"
   },
   "어떤 말 뒤에 어떤 단축어를 넣는지 기기 안에서만 세어, 다음에 그 말을 치면 단축어 버튼 옆에 먼저 띄워요. 친 글은 남기지 않아요. 끄면 배운 것도 지워요.": {
     "ko": "어떤 말 뒤에 어떤 단축어를 넣는지 기기 안에서만 세어, 다음에 그 말을 치면 단축어 버튼 옆에 먼저 띄워요. 친 글은 남기지 않아요. 끄면 배운 것도 지워요.",
@@ -11428,6 +11518,12 @@
     "en": "Snippets holding several values are now snippet stacks. Each slot gets a name, so you can see what goes in next.",
     "comment": "Changelog 5.1.2 snippet stack",
     "h": "e54c92d1e1"
+  },
+  "여러 값을 묶은 스택과 이미지도 마음껏 만들어요": {
+    "ko": "여러 값을 묶은 스택과 이미지도 마음껏 만들어요",
+    "en": "Make as many multi-value stacks and image snippets as you like",
+    "comment": "Paywall showcase detail: unlimited stacks and images",
+    "h": "1769c7caa3"
   },
   "여러 값을 순서대로 넣는 스택": {
     "ko": "여러 값을 순서대로 넣는 스택",
@@ -13295,6 +13391,12 @@
     "comment": "Paywall headline: save as many snippets as you like and keep them safe",
     "h": "ad4b6cdb2c"
   },
+  "자주 쓰는 글을 칸 걱정 없이 얼마든지 담아요": {
+    "ko": "자주 쓰는 글을 칸 걱정 없이 얼마든지 담아요",
+    "en": "Save the text you type often, with no slot limit",
+    "comment": "Paywall showcase detail: unlimited snippets",
+    "h": "f5fe5968c7"
+  },
   "자주 쓰는 내 글을 담아요": {
     "ko": "자주 쓰는 내 글을 담아요",
     "en": "Save text you type often",
@@ -13568,8 +13670,8 @@
   "저장한 단축어의 값을 클립보드에 복사합니다.": {
     "ko": "저장한 단축어의 값을 클립보드에 복사합니다.",
     "en": "Copies a saved snippet to the clipboard.",
-    "comment": "",
-    "h": "31dde03bfe"
+    "comment": "Siri: copy snippet description",
+    "h": "cbe77a7010"
   },
   "저장한 뒤에는 그 단축어가 보이는 자리로 데려가요. 이미 보이고 있으면 화면을 옮기지 않아요": {
     "ko": "저장한 뒤에는 그 단축어가 보이는 자리로 데려가요. 이미 보이고 있으면 화면을 옮기지 않아요",
@@ -13808,8 +13910,8 @@
   "접기": {
     "ko": "접기",
     "en": "Collapse",
-    "comment": "Collapse\nCollapse filter bar\nPlaceholder value list: collapse",
-    "h": "06815fb61b"
+    "comment": "Collapse\nPlaceholder value list: collapse",
+    "h": "8ee19421c4"
   },
   "접수된 피드백": {
     "ko": "접수된 피드백",
@@ -13910,8 +14012,8 @@
   "제목": {
     "ko": "제목",
     "en": "Title",
-    "comment": "Label: memo title (key)\nTitle field placeholder",
-    "h": "25157992d2"
+    "comment": "Title field placeholder",
+    "h": "6440676cf4"
   },
   "제목 없음": {
     "ko": "제목 없음",
@@ -14150,8 +14252,8 @@
   "즐겨찾기": {
     "ko": "즐겨찾기",
     "en": "Favorites",
-    "comment": "Category tab: favorites\nCategory: favorites\nFavorites\nVoiceOver: favorite badge",
-    "h": "e7fbb3c3a7"
+    "comment": "Category tab: favorites\nCategory: favorites\nFavorites",
+    "h": "085be86aad"
   },
   "즐겨찾기 단축어": {
     "ko": "즐겨찾기 단축어",
@@ -14198,8 +14300,8 @@
   "즐겨찾기 추가": {
     "ko": "즐겨찾기 추가",
     "en": "Add to favorites",
-    "comment": "Action: add favorite\nAdd memo to favorites card\nVoiceOver action: add favorite",
-    "h": "f8f32aa128"
+    "comment": "Action: add favorite\nAdd memo to favorites card",
+    "h": "9733c6d9bf"
   },
   "즐겨찾기 추가 시 나타나는 하트 애니메이션이 '동작 줄이기' 설정을 자동으로 따릅니다. 켜져 있으면 이동·스케일 없이 페이드만 사용합니다.": {
     "ko": "즐겨찾기 추가 시 나타나는 하트 애니메이션이 '동작 줄이기' 설정을 자동으로 따릅니다. 켜져 있으면 이동·스케일 없이 페이드만 사용합니다.",
@@ -14216,8 +14318,8 @@
   "즐겨찾기 해제": {
     "ko": "즐겨찾기 해제",
     "en": "Remove from Favorites",
-    "comment": "Action: remove favorite\nVoiceOver action: remove favorite",
-    "h": "dd80a3524f"
+    "comment": "Action: remove favorite",
+    "h": "f455f400d9"
   },
   "즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요": {
     "ko": "즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요",
@@ -14740,6 +14842,12 @@
     "en": "First run now tells you where to start",
     "comment": "Changelog 3.1.2 item 1",
     "h": "3ecad3e1fe"
+  },
+  "첫 인사 · 배송 · 품절 · 교환 · 후기 감사. 빈칸은 보낼 때 채워요": {
+    "ko": "첫 인사 · 배송 · 품절 · 교환 · 후기 감사. 빈칸은 보낼 때 채워요",
+    "en": "First reply, shipping, out of stock, exchange, review thanks. Fill in the blanks as you send",
+    "comment": "Settings: what the reply starter pack contains",
+    "h": "22b78c2ef8"
   },
   "첫 주": {
     "ko": "첫 주",
@@ -16514,8 +16622,8 @@
   "탭하면 클립보드에 복사됩니다": {
     "ko": "탭하면 클립보드에 복사됩니다",
     "en": "Tap to copy to clipboard",
-    "comment": "Clipboard item copy hint\nMemo row accessibility hint",
-    "h": "e035978aef"
+    "comment": "Clipboard item copy hint",
+    "h": "294fd5c4f7"
   },
   "탭하면 한 번에 정리하기 열기": {
     "ko": "탭하면 한 번에 정리하기 열기",
@@ -16960,6 +17068,12 @@
     "en": "Standard",
     "comment": "Keyboard height preset name: standard",
     "h": "997ec1db42"
+  },
+  "품절 안내": {
+    "ko": "품절 안내",
+    "en": "Out of stock",
+    "comment": "Reply starter pack: title of the out-of-stock template",
+    "h": "5ececa9c98"
   },
   "프리랜서": {
     "ko": "프리랜서",
@@ -17638,6 +17752,12 @@
     "en": "The count is measured. The time is an estimate.",
     "comment": "Receipt: estimate footnote",
     "h": "340231d8bf"
+  },
+  "후기 감사": {
+    "ko": "후기 감사",
+    "en": "Thanks for the review",
+    "comment": "Reply starter pack: title of the review thank-you memo",
+    "h": "d09bcb77d4"
   },
   "휴대폰 번호": {
     "ko": "휴대폰 번호",

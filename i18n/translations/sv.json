@@ -11,6 +11,10 @@
     "v": "De är sorterade i grupper som %1$@, med färdiga fraser som %2$@. Välj bara dem du gillar.",
     "src": "b18267b195"
   },
+  "%1$@ 아꼈어요 · %2$@": {
+    "v": "Sparat %1$@ · %2$@",
+    "src": "cf19dcbd6f"
+  },
   "%1$@, %2$d회 사용": {
     "v": "%1$@, använd %2$d gånger",
     "src": "a6d8daeeb4"
@@ -83,6 +87,10 @@
     "v": "%1$d av %2$d",
     "src": "e25d3ecfe6"
   },
+  "%@ / 월": {
+    "v": "%@ / mån",
+    "src": "1167c658a4"
+  },
   "%@ · iOS %@": {
     "v": "%1$@ · iOS %2$@",
     "src": "daccb926e9"
@@ -110,6 +118,10 @@
   "%@ 다 읽을 수 있는 시간이에요": {
     "v": "tillräckligt för att läsa %@ från pärm till pärm",
     "src": "db11c98007"
+  },
+  "%@ 다음 값": {
+    "v": "Nästa värde för %@",
+    "src": "574de73435"
   },
   "%@ 단축어로 저장": {
     "v": "Spara som %@-fras",
@@ -162,6 +174,10 @@
   "%@ 입력": {
     "v": "Ange %@",
     "src": "0a8352d4ae"
+  },
+  "%@ 절약": {
+    "v": "Spara %@",
+    "src": "8a8d959c0e"
   },
   "%@ 제목으로 바로 저장": {
     "v": "Spara direkt med titeln %@",
@@ -318,7 +334,7 @@
       "one": "%d",
       "other": "%d"
     },
-    "src": "54bd2e5b76"
+    "src": "ee109f06f2"
   },
   "%d개 단축어 더 보기 → Pro 업그레이드": {
     "v": {
@@ -548,6 +564,10 @@
   "'%1$@' 낱말이 든 단축어 %2$d개": {
     "v": "%2$d fraser med ordet '%1$@'",
     "src": "f6dbc64bba"
+  },
+  "'%1$@' 뒤에 '%2$@' 묶기": {
+    "v": "Lägg till ”%2$@” efter ”%1$@”",
+    "src": "4a961d65e7"
   },
   "'%@' 값을 수정하세요.": {
     "v": "Redigera värdet '%@'.",
@@ -1084,6 +1104,10 @@
     "v": "Kopiera IBAN från Wise / Revolut",
     "src": "9f89a8ecdc"
   },
+  "Copy Snippet": {
+    "v": "Kopiera fras",
+    "src": "0ddaca3179"
+  },
   "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \"VAT / Tax ID\" and masks on display.": {
     "v": "Kopierar du ett VAT-nummer i formatet PT123456789 eller EU123456789 känner appen igen det som \"VAT / Skattenummer\" och maskerar det på skärmen.",
     "src": "fae339688d"
@@ -1107,6 +1131,10 @@
   "Copy to clipboard": {
     "v": "Kopiera till urklipp",
     "src": "cd5bc8395c"
+  },
+  "Couldn't save. Unlock your iPhone and try again.": {
+    "v": "Det gick inte att spara. Lås upp din iPhone och försök igen.",
+    "src": "2c62438b63"
   },
   "Cross-border invoicing notice": {
     "v": "Info om internationell fakturering",
@@ -1242,7 +1270,7 @@
   },
   "Good evening": {
     "v": "God kväll",
-    "src": "c985debe8d"
+    "src": "be606a5781"
   },
   "Good morning": {
     "v": "God morgon",
@@ -1679,6 +1707,10 @@
     "v": "Uppgraderingspris från Plus · engångsbetalning",
     "src": "34a4d7e13e"
   },
+  "Plus 에서 열리는 것을 모두 그대로 써요": {
+    "v": "Allt som ingår i Plus följer med",
+    "src": "a79877edc2"
+  },
   "Plus 의 모든 것": {
     "v": "Allt i Plus",
     "src": "0880a5de5e"
@@ -1760,8 +1792,8 @@
     "src": "80c53e824e"
   },
   "Pro 활성화 완료!": {
-    "v": "Pro aktiverat!",
-    "src": "1aca27c396"
+    "v": "Pro är aktiverat!",
+    "src": "f22289f620"
   },
   "Pro 활성화됨": {
     "v": "Pro aktiverat",
@@ -1957,6 +1989,10 @@
     "v": "Avslutar för kvällen",
     "src": "5c57764444"
   },
+  "Siri에게 앱 이름을 말하지 않아도 단축어를 찾아 바로 복사해요.": {
+    "v": "Siri hittar och kopierar dina fraser, även om du inte säger appens namn.",
+    "src": "b0da3e3b4f"
+  },
   "Smart Clipboard": {
     "v": "Smart urklipp",
     "src": "a04682599b"
@@ -1995,7 +2031,7 @@
   },
   "Template": {
     "v": "Mall",
-    "src": "dac4104447"
+    "src": "d437039072"
   },
   "Text": {
     "v": "Text",
@@ -2333,6 +2369,10 @@
     "v": "{pris}",
     "src": "46728dca4f"
   },
+  "{고객명}님, 주문하신 상품이 오늘 발송되었습니다. 송장번호는 {송장번호}이고, 보통 1~2일 안에 도착합니다. 감사합니다.": {
+    "v": "Hej {Customer name}, din beställning skickades idag. Spårningsnumret är {Tracking number} och paketet brukar komma fram inom 1~2 dagar. Tack.",
+    "src": "dcd1318a37"
+  },
   "{금액}": {
     "v": "{belopp}",
     "src": "0073facf0f"
@@ -2404,6 +2444,10 @@
   "{회사명} 인사 담당자님께,\n안녕하세요, {학교/전공}의 {이름}입니다. {역할} 인턴십에 관심이 있어 문의드립니다.": {
     "v": "Hej HR-teamet på {företag},\njag heter {namn} och studerar på {skola/program}. Jag är intresserad av praktikplatsen som {roll} och vill gärna veta mer.",
     "src": "7f951fa167"
+  },
+  "‘%@’을 복사했어요.": {
+    "v": "Kopierade ”%@”.",
+    "src": "4c7eb35030"
   },
   "• iCloud와 별개로, 데이터를 파일로 직접 보관하는 가장 확실한 방법입니다\n• 가져오기는 현재 데이터를 지우지 않고 합칩니다(같은 항목은 최신본 유지)": {
     "v": "• Det säkraste sättet att spara dina data som en fil, oberoende av iCloud\n• Import slår ihop med dina nuvarande data utan att radera dem (den nyaste versionen behålls för matchande poster)",
@@ -2606,6 +2650,10 @@
   "값을 눌러 복사하세요": {
     "v": "Tryck på ett värde för att kopiera",
     "src": "b8364de4c8"
+  },
+  "값을 복사할 단축어": {
+    "v": "Frasen vars värde ska kopieras",
+    "src": "dcfc222558"
   },
   "값을 사진에서 가져올 수도 있어요. 직접 칠 거면 그냥 넘어가세요.": {
     "v": "Du kan också hämta värdet från ett foto. Vill du hellre skriva det själv, hoppa bara över det.",
@@ -2891,6 +2939,10 @@
     "v": "E-post till en professor",
     "src": "16d0ff3f47"
   },
+  "교환 · 환불 안내": {
+    "v": "Byte eller återbetalning",
+    "src": "b67f00a70f"
+  },
   "구경": {
     "v": "Tittar",
     "src": "68c62cd8c3"
@@ -2941,6 +2993,10 @@
   "국제 송금, 비자, 여행 정보를 자주 입력하는 분께 추천": {
     "v": "För dig som ofta anger utlandsöverföringar, visum och reseinfo",
     "src": "dceb7d146e"
+  },
+  "그 단축어를 찾지 못했어요.": {
+    "v": "Jag hittade inte den frasen.",
+    "src": "d7895e5ec2"
   },
   "그 뒤에도 만든 단축어는 전부 계속 쓸 수 있어요.": {
     "v": "Alla fraser du har skapat fungerar fortfarande efter det.",
@@ -3297,7 +3353,7 @@
   },
   "김서연": {
     "v": "Alice Smith",
-    "src": "a2e2efa57b"
+    "src": "5b99ad3c20"
   },
   "깊은 초록이에요. 어두운 화면에서 눈이 편합니다.": {
     "v": "Ett djupt grönt. Skonsamt för ögonen i mörkt läge.",
@@ -3331,9 +3387,21 @@
     "v": "Stäng av för att radera originalfrasen när du sparar",
     "src": "b643c858e1"
   },
+  "끄면 키를 눌러도 진동이 울리지 않아요. 키 소리는 iOS 설정을 따라요.": {
+    "v": "När det är av vibrerar inte tangenterna när du trycker på dem. Tangentljudet följer inställningarna i iOS.",
+    "src": "9c29fdfaad"
+  },
   "끄면 키보드 아래의 마이크가 사라져요. 말로 받아쓰기를 쓴다면 켜 두세요.": {
     "v": "Om du stänger av det försvinner mikrofonen under tangentbordet. Låt det vara på om du använder diktering.",
     "src": "8bedfb30fb"
+  },
+  "끌어서 스택 만들기": {
+    "v": "Dra för att stapla",
+    "src": "417bafd89e"
+  },
+  "끌어온 카드는 스택의 다음 칸이 되고 목록에서 사라져요.": {
+    "v": "Kortet du drar blir nästa steg i stapeln och försvinner från listan.",
+    "src": "c71da8dab9"
   },
   "끔": {
     "v": "Av",
@@ -3418,6 +3486,10 @@
   "내 단축어 만들러 가기": {
     "v": "Skapa egna fraser",
     "src": "5f0c7533c3"
+  },
+  "내 단축어 맨 아래에 있어요. 말투는 마음대로 고치세요": {
+    "v": "De ligger längst ned bland dina fraser. Ändra formuleringarna som du vill",
+    "src": "fe9ae132cb"
   },
   "내 데이터": {
     "v": "Mina data",
@@ -3847,6 +3919,10 @@
     "v": "Nästa %@",
     "src": "c1f6f40ce6"
   },
+  "다음 값": {
+    "v": "Nästa värde",
+    "src": "1ee9b298a2"
+  },
   "다음 값이 차례로 들어가요": {
     "v": "skriver nästa värde i ordning",
     "src": "e6b8efa203"
@@ -3917,7 +3993,7 @@
   },
   "단축어": {
     "v": "Fras",
-    "src": "8c10487a02"
+    "src": "f54defa1ae"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "La till %1$d fraser, uppdaterade %2$d (totalt %3$d).\nImporterade %4$d staplar, %5$d bilder och %6$d kategorier.",
@@ -4088,6 +4164,10 @@
     "v": "Obegränsat med fraser",
     "src": "2f32f85c37"
   },
+  "단축어 복사": {
+    "v": "Kopiera fras",
+    "src": "34dc898073"
+  },
   "단축어 삭제": {
     "v": "Radera fras",
     "src": "627091a54b"
@@ -4123,6 +4203,10 @@
   "단축어 없음": {
     "v": "Inga fraser",
     "src": "2749d94a6b"
+  },
+  "단축어 열기": {
+    "v": "Öppna fras",
+    "src": "36249b32c4"
   },
   "단축어 이름이나 아이폰 텍스트 대치를 치면 자판 위에 띄워요. 누르면 바로 들어가요.": {
     "v": "Skriv namnet på en fras eller en textersättning på iPhone, så visas den ovanför tangenterna. Tryck för att infoga.",
@@ -4364,6 +4448,14 @@
     "v": "Det gick inte att spara. Försök igen om en stund.",
     "src": "d0ca351c51"
   },
+  "답장 5개 넣어 두기": {
+    "v": "Lägg till 5 färdiga svar",
+    "src": "dfa22ef6ce"
+  },
+  "답장 5개를 넣었어요": {
+    "v": "5 svar har lagts till",
+    "src": "0c8f0c6e89"
+  },
   "답장 글을 담아 둬서": {
     "v": "För att du sparat svarstext",
     "src": "26285766a7"
@@ -4390,7 +4482,7 @@
   },
   "더 보기": {
     "v": "Mer",
-    "src": "fdeec8e241"
+    "src": "ca08eeb7e9"
   },
   "더 설정하기": {
     "v": "Fler inställningar",
@@ -4479,6 +4571,10 @@
   "데이터를 파일로 저장했습니다. 안전한 곳에 보관하세요.": {
     "v": "Dina data har sparats som en fil. Förvara den på ett säkert ställe.",
     "src": "ddbe9e514e"
+  },
+  "데이터와 도움말": {
+    "v": "Data och hjälp",
+    "src": "77b9738c81"
   },
   "도서관 책 요청\n도서명: \nISBN: \n요청일: {날짜}": {
     "v": "Bokförfrågan till biblioteket\nTitel: \nISBN: \nBegärd: {datum}",
@@ -4755,6 +4851,10 @@
     "v": "Hur man skapar egna kan vänta. Tryck på en först och se vad den gör.",
     "src": "235cae7e81"
   },
+  "만든 단축어는 결제하지 않아도 계속 써요": {
+    "v": "Kortkommandon du skapat fungerar även utan att betala",
+    "src": "0c7057a722"
+  },
   "만든 단축어는 계속 무료로 넣을 수 있어요": {
     "v": "Fraser du har skapat kan du fortsätta använda gratis",
     "src": "18c37bba20"
@@ -4822,6 +4922,14 @@
   "맞췄어요": {
     "v": "Enheterna matchades",
     "src": "0f58b7a209"
+  },
+  "매달 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.": {
+    "v": "Förnyas automatiskt för %@ per månad. Avsluta senast 24 timmar före förnyelsen i Inställningar > Apple-konto > Prenumerationer.",
+    "src": "0132f370b1"
+  },
+  "매일 쓰는 것": {
+    "v": "Vardag",
+    "src": "d2733ef1f0"
   },
   "매주·매달 같은 때 쓰는 단축어는 그때가 오면 키보드 맨 앞에 서요": {
     "v": "Fraser du använder vid samma tid varje vecka eller månad flyttas längst fram på tangentbordet när det är dags",
@@ -4959,6 +5067,10 @@
     "v": "Visa alla funktioner direkt",
     "src": "879adde95e"
   },
+  "모든 기능 비교": {
+    "v": "Jämför alla funktioner",
+    "src": "5dd8a02dba"
+  },
   "모든 기능 사용": {
     "v": "Alla funktioner tillgängliga",
     "src": "063c9b4dc1"
@@ -5041,7 +5153,7 @@
   },
   "무료": {
     "v": "Gratis",
-    "src": "3e4da5bf1a"
+    "src": "7fb9506f11"
   },
   "무료 %1$d개 · 지금 %2$d개": {
     "v": "Gratis: %1$d · Nu: %2$d",
@@ -5168,9 +5280,21 @@
     "v": "Samla",
     "src": "da00ec5aa8"
   },
+  "묶을 수 있는 단축어가 두 개 이상 필요해요": {
+    "v": "Du behöver minst två fraser som kan staplas",
+    "src": "a32c595259"
+  },
+  "묶지 못했습니다": {
+    "v": "Det gick inte att stapla",
+    "src": "bd36f5f5ff"
+  },
   "문구를 만드실 때 실제로 치는 속도를 재 두었다가 그 속도로 셈해요. 어림하던 것을 하나 줄였어요": {
     "v": "Medan du skapar en fras mäter vi hur snabbt du faktiskt skriver och räknar med det. En gissning mindre.",
     "src": "1515d3653b"
+  },
+  "문의 첫 인사": {
+    "v": "Första svar",
+    "src": "851e5371eb"
   },
   "문장": {
     "v": "Mening",
@@ -5266,7 +5390,7 @@
   },
   "박서연": {
     "v": "Alex Smith",
-    "src": "c8810d8f41"
+    "src": "5115597db0"
   },
   "받아쓰기 끄기": {
     "v": "Stäng av diktering",
@@ -5318,6 +5442,14 @@
   "배달앱 주소칸이 비어 있을 때": {
     "v": "När en matleveransapp frågar efter din adress",
     "src": "5111a2020a"
+  },
+  "배송 안내": {
+    "v": "Leveransinfo",
+    "src": "5541356aef"
+  },
+  "배송지": {
+    "v": "Leveransadress",
+    "src": "318a439a09"
   },
   "배웠어요": {
     "v": "Lärd",
@@ -5567,6 +5699,10 @@
     "v": "Tryck nu på skicka",
     "src": "8205e1634c"
   },
+  "보내기를 누르면 메일 앱이 열려요. 메일에서 한 번 더 보내야 전달돼요. iCloud에 로그인하면 앱에서 바로 보내져요.": {
+    "v": "När du trycker på Skicka öppnas Mail-appen och du behöver skicka därifrån också. Logga in på iCloud för att skicka direkt från appen.",
+    "src": "ade455e417"
+  },
   "보내면 말풍선이 돼요": {
     "v": "När du skickar blir det en pratbubbla",
     "src": "5f14ef8141"
@@ -5751,6 +5887,10 @@
     "v": "Det du kopierar får passande genvägsknappar: URL:er öppnas i webbläsaren, adresser i Kartor",
     "src": "674cba0866"
   },
+  "복사한 것을 100개까지 기억해 두었다가 다시 붙여요": {
+    "v": "Kommer ihåg upp till 100 saker du kopierat, redo att klistras in igen",
+    "src": "7e9c587668"
+  },
   "복사한 것을 넣는 키를 위줄에 세웁니다. 길게 누르면 필요한 부분만 고를 수 있어요": {
     "v": "Lägger urklippsknappen i översta raden. Håll nedtryckt för att välja bara den del du behöver.",
     "src": "9d21e1a941"
@@ -5866,7 +6006,7 @@
   },
   "복원": {
     "v": "Återställ",
-    "src": "c98674684a"
+    "src": "2a3afa7d6a"
   },
   "복원 방법": {
     "v": "Så återställer du",
@@ -6003,6 +6143,10 @@
   "붙여넣을 내용": {
     "v": "Innehåll att klistra in",
     "src": "c66132ba38"
+  },
+  "붙여넣을 내용에 넣어요": {
+    "v": "Lägger in det som innehåll att klistra in",
+    "src": "34065327b3"
   },
   "붙여넣을 내용을 입력하세요. 나중에 채울 자리는 빈칸 이름을 중괄호로 감싸서 만들어요. 예: 이름": {
     "v": "Skriv innehållet som ska klistras in. För ett ifyllnadsfält som du fyller i senare, sätt namnet inom klammerparenteser, t.ex. namn.",
@@ -6243,8 +6387,8 @@
     "src": "e23935ee57"
   },
   "사용 중": {
-    "v": "Aktiv",
-    "src": "6f1eb87d1f"
+    "v": "Används",
+    "src": "1e13a95386"
   },
   "사용 중인 사람 (설치)": {
     "v": "Personer som använder den (installationer)",
@@ -6384,7 +6528,7 @@
   },
   "삭제": {
     "v": "Radera",
-    "src": "e1c9cffcfa"
+    "src": "663b87504f"
   },
   "삭제 실패": {
     "v": "Det gick inte att radera",
@@ -6634,16 +6778,28 @@
     "src": "117bd54751"
   },
   "서울시 강남구 테헤란로 123": {
-    "v": "Storgatan 123, Stockholm",
-    "src": "febc08f491"
+    "v": "Storgatan 123, Springfield",
+    "src": "fb98b97277"
+  },
+  "서울시 선물로 12": {
+    "v": "Presentgatan 12",
+    "src": "3760ce1d8b"
   },
   "서울특별시 종로구 청와대로 1": {
     "v": "Storgatan 1, 111 22 Stockholm",
     "src": "67969d6959"
   },
+  "선물 받을 곳": {
+    "v": "Hit kommer presenter",
+    "src": "69cdb846c6"
+  },
+  "선물 보내려고요! 받을 주소 알려 줄래요?": {
+    "v": "Jag vill skicka en present till dig! Vad har du för adress?",
+    "src": "13a05925fa"
+  },
   "선물하기": {
-    "v": "Skicka en present",
-    "src": "9a2d3788c7"
+    "v": "Ge som present",
+    "src": "1a40659b48"
   },
   "선택 안 됨": {
     "v": "Inte vald",
@@ -6687,6 +6843,10 @@
   "설정 > [사용자 이름] > iCloud에서 로그인할 수 있습니다.": {
     "v": "Du kan logga in under Inställningar > [Användarnamn] > iCloud.",
     "src": "cafc41d516"
+  },
+  "설정 > 일반 > 키보드 > 텍스트 대치에 넣어 둔 단축을 치고 스페이스를 누르면 문구로 바꿔요. 바로 지우기를 누르면 되돌려요.": {
+    "v": "Skriv en kortkod från Inställningar > Allmänt > Tangentbord > Textersättning och tryck på mellanslag för att byta till frasen. Tryck på radera direkt efteråt för att ångra.",
+    "src": "fa2ec82dee"
   },
   "설정 > 첫 화면에서 단축어 목록과 키보드 화면 중 고를 수 있어요(툴바 버튼으로 바로 전환)": {
     "v": "Välj startskärm (fraslista eller tangentbord) under Inställningar > Startskärm, eller växla direkt i verktygsfältet",
@@ -6903,6 +7063,10 @@
     "v": "Namn som jag presenterar",
     "src": "3cc1fbc449"
   },
+  "소중한 후기 감사합니다. 다음에도 만족하실 수 있도록 더 신경 쓰겠습니다. 좋은 하루 보내세요!": {
+    "v": "Tack för din fina recension. Jag fortsätter göra mitt bästa så att nästa beställning blir lika bra. Ha en fin dag!",
+    "src": "2ea8ca9c8f"
+  },
   "손가락으로 문질러 고릅니다. 문지르기 어려우면 오른쪽 위 줄로 고르기를 쓰세요.": {
     "v": "Svep med fingret för att välja. Om det är svårt att svepa, använd Välj med linje uppe till höger.",
     "src": "b4daa83b6a"
@@ -7081,7 +7245,7 @@
   },
   "시작하기": {
     "v": "Kom igång",
-    "src": "82103648f9"
+    "src": "563875b777"
   },
   "시작하다 문제가 생겨도 다음 실행은 열려요": {
     "v": "Om något går fel vid start öppnas appen ändå nästa gång",
@@ -7141,6 +7305,10 @@
   "쌓은 것을 지키기": {
     "v": "Skydda det du sparat",
     "src": "7b87dec0b6"
+  },
+  "쌓은 단축어를 iCloud 에 백업하고 Face ID 로 잠가요": {
+    "v": "Säkerhetskopiera dina fraser till iCloud och lås dem med Face ID",
+    "src": "4aca0039d0"
   },
   "써볼게요": {
     "v": "Prova",
@@ -7214,7 +7382,7 @@
   },
   "아낀 시간": {
     "v": "Sparad tid",
-    "src": "d949d8e608"
+    "src": "a00105cce9"
   },
   "아낀 시간과 실제 횟수는 아래에 작게 남아요. 큰 글씨는 어림한 것이고 그 줄만 실제로 센 것이라서요": {
     "v": "Sparad tid och verkligt antal visas smått under. Den stora siffran är en uppskattning, och bara den raden är faktiskt räknad",
@@ -7291,6 +7459,10 @@
   "아이디": {
     "v": "Användarnamn",
     "src": "692479e28f"
+  },
+  "아이폰 · 아이패드 · Mac 에서 같은 단축어를 써요": {
+    "v": "Samma fraser på iPhone, iPad och Mac",
+    "src": "2de72ece27"
   },
   "아이폰과 맥에서 단축어를 함께 써요 (베타)": {
     "v": "Fraser hålls synkade mellan iPhone och Mac (beta)",
@@ -7431,6 +7603,10 @@
     "v": "Hej professorn, jag heter {namn} ({program}, {studentnummer}).\nHär kommer min {uppgift} i {kurs}.",
     "src": "82575412e5"
   },
+  "안녕하세요, {고객명}님. 주문번호 {주문번호} 교환 · 환불 요청 확인했습니다. 상품을 받은 뒤 2~3일 안에 처리해 드릴게요. 불편을 드려 죄송합니다.": {
+    "v": "Hej {Customer name}, jag har tagit emot din begäran om byte eller återbetalning för beställning {Order number}. Den hanteras inom 2~3 dagar efter att varan har kommit tillbaka. Ursäkta besväret.",
+    "src": "cf8985c17c"
+  },
   "안녕하세요, {수업명} 과제 제출합니다.\n학번: {학번}\n이름: {이름}\n첨부 파일 확인 부탁드립니다.": {
     "v": "Hej! Här kommer min inlämning i {kurs}.\nStudent-ID: {student-id}\nNamn: {namn}\nFilen finns bifogad.",
     "src": "457758eea2"
@@ -7438,6 +7614,14 @@
   "안녕하세요, {회사} {이름}입니다.\n{이메일} / {전화번호}": {
     "v": "Hej, jag heter {namn} och jobbar på {företag}.\n{e-post} / {telefon}",
     "src": "248872bcec"
+  },
+  "안녕하세요, 문의 감사합니다. 확인 후 빠르게 답변드리겠습니다. 잠시만 기다려 주세요.": {
+    "v": "Hej, tack för att du hörde av dig. Jag kollar och återkommer inom kort. Vänta ett ögonblick.",
+    "src": "504491235f"
+  },
+  "안녕하세요. 문의하신 {상품명}은 현재 품절입니다. 재입고되면 바로 알려 드릴까요? 기다려 주셔서 감사합니다.": {
+    "v": "Hej. {Produktnamn} är slut i lager just nu. Vill du att jag hör av mig så fort den är tillbaka? Tack för ditt tålamod.",
+    "src": "48ce1dc2c1"
   },
   "안정성": {
     "v": "Stabilitet",
@@ -7503,6 +7687,10 @@
     "v": "I appen öppnas den med Face ID. Tangentbordet frågar efter en kod eftersom iOS inte låter tangentbord använda Face ID.",
     "src": "77a7fc6b11"
   },
+  "앱 이름 없이 Siri에게": {
+    "v": "Fråga Siri utan appens namn",
+    "src": "ea23c16175"
+  },
   "앱 정보": {
     "v": "Appinfo",
     "src": "d2f2fec867"
@@ -7542,6 +7730,10 @@
   "앱을 연 횟수": {
     "v": "Antal appöppningar",
     "src": "a2144ee186"
+  },
+  "앱을 열고 고른 단축어의 값을 복사합니다.": {
+    "v": "Öppnar appen och kopierar värdet för den valda frasen.",
+    "src": "0e182bf08a"
   },
   "앱을 열다가 멈추던 것을 고쳤어요. iCloud 준비가 첫 화면을 그리는 일과 같은 줄에 서 있었어요": {
     "v": "Vi har lagat att appen fastnade vid start. Att förbereda iCloud står inte längre i samma kö som att rita första skärmen",
@@ -7610,9 +7802,21 @@
     "v": "Den av dessa som syns bäst mot mörk bakgrund.",
     "src": "164250874e"
   },
+  "어디로 배송하면 좋을까요?": {
+    "v": "Vart ska jag skicka det?",
+    "src": "2607915950"
+  },
   "어디에 담을까요?": {
     "v": "Var ska den hamna?",
     "src": "311a548ea9"
+  },
+  "어떤 단축어를 복사할까요?": {
+    "v": "Vilken fras ska jag kopiera?",
+    "src": "3950396e54"
+  },
+  "어떤 말 뒤에 어떤 단축어를 넣는지 기기 안에서만 세어, 다음에 그 말을 치면 단축어 버튼 옆에 먼저 띄워요. 친 글은 남기지 않아요. 끄면 배운 것도 지워요.": {
+    "v": "Räknar, bara på den här enheten, vilket kortkommando du infogar efter ett ord och visar det bredvid kortkommandoknappen när du skriver ordet igen. Det du skriver sparas inte. Stänger du av raderas det inlärda.",
+    "src": "aa1f5813cb"
   },
   "어떤 상황인가요?": {
     "v": "Vad gäller det?",
@@ -7636,7 +7840,7 @@
   },
   "언어": {
     "v": "Språk",
-    "src": "d9a6ac3cd1"
+    "src": "a13fcc7d26"
   },
   "언제든지 접근 가능": {
     "v": "Alltid tillgänglig",
@@ -7738,6 +7942,10 @@
     "v": "Fraser med flera värden är nu frasstaplar. Varje fält får ett namn, så du ser vad som skrivs in härnäst.",
     "src": "e54c92d1e1"
   },
+  "여러 값을 묶은 스택과 이미지도 마음껏 만들어요": {
+    "v": "Skapa hur många staplar med flera värden och bildfraser du vill",
+    "src": "1769c7caa3"
+  },
   "여러 값을 순서대로 넣는 스택": {
     "v": "En stapel som skriver flera värden i ordning",
     "src": "c2f72cf682"
@@ -7781,6 +7989,10 @@
   "연 구독": {
     "v": "Årsvis",
     "src": "51f6ac9317"
+  },
+  "연 구독이면 한 달에 %@": {
+    "v": "Med årsplan blir det %@ i månaden",
+    "src": "d695023e74"
   },
   "연간": {
     "v": "Årligen",
@@ -7826,9 +8038,17 @@
     "v": "Ta bort övningsfraserna?",
     "src": "8187a7feb3"
   },
+  "연습용으로 만든 예시 주소예요": {
+    "v": "En exempeladress, bara för att öva",
+    "src": "7e7ff89f3f"
+  },
   "연습으로 만든 단축어는 끝나고 지울지 한 번만 물어봐요(설정에서 다시 볼 수도 있어요)": {
     "v": "Vi frågar en gång om du vill radera det du skapade som övning (du kan spela upp det igen i Inställningar)",
     "src": "59f3e99c6d"
+  },
+  "연습이라 어디에도 보내지지 않아요": {
+    "v": "Det är bara övning. Inget skickas någonstans",
+    "src": "98f5e5a0ea"
   },
   "열 가지 중에서 열 때마다 다른 것이 뽑혀요. 마음에 안 들면 다른 걸로 버튼으로 굴려 볼 수 있어요": {
     "v": "En av tio, slumpad varje gång du öppnar den. Tryck på Prova en annan för att slumpa igen",
@@ -8058,6 +8278,10 @@
     "v": "Abonnemang",
     "src": "4cdbb06e2c"
   },
+  "요금제와 응원": {
+    "v": "Abonnemang och stöd",
+    "src": "5dba5e34ea"
+  },
   "요일": {
     "v": "Veckodag",
     "src": "b39561a71e"
@@ -8098,6 +8322,10 @@
     "v": "Månad",
     "src": "c05b9e2584"
   },
+  "월 구독": {
+    "v": "Månadsvis",
+    "src": "c910f61338"
+  },
   "월 이름": {
     "v": "Månadsnamn",
     "src": "6015bc1ea1"
@@ -8133,6 +8361,10 @@
   "위의 조각을 다 더해도 2분이 안 되면 2분으로 봐요. 재서 나온 값이 아니라 저희가 정한 최소치예요. 하던 일을 멈추고 값을 찾아 넣고 확인하는 데 그보다 덜 드는 경우가 드물어서요.": {
     "v": "Om raderna ovan sammanlagt blir mindre än 2 minuter räknar vi 2 minuter. Det är ett lägsta värde vi har valt, inte något vi har mätt. Att avbryta, hämta ett värde, skriva in det och kontrollera det går sällan snabbare.",
     "src": "7337d649c4"
+  },
+  "위젯에 보여 줄 즐겨찾기 단축어": {
+    "v": "Favoritfrasen som visas i widgeten",
+    "src": "d1c6e95a27"
   },
   "위젯에 표시할 즐겨찾기 단축어를 선택합니다": {
     "v": "Välj en favoritfras att visa i widgeten",
@@ -8170,6 +8402,10 @@
     "v": "Feedbackfråga",
     "src": "f631271ffe"
   },
+  "의견 보내기": {
+    "v": "Feedback",
+    "src": "f9a8da683b"
+  },
   "의견을 보내실 때 답장 받을 이름과 이메일을 적을 수 있어요. 적어 두면 다음에 자동으로 채워드려요": {
     "v": "När du skickar feedback kan du ange namn och e-postadress för svar. Fyller du i dem en gång fyller vi i dem åt dig nästa gång",
     "src": "259e5cb9d3"
@@ -8204,6 +8440,10 @@
   "이 기기는 Apple Intelligence를 지원하지 않아요": {
     "v": "Den här enheten stöder inte Apple Intelligence",
     "src": "2b7a68d640"
+  },
+  "이 기기의 단축어를 읽지 못했어요. 잠시 뒤 다시 해 주세요.": {
+    "v": "Det gick inte att läsa fraserna på den här enheten. Försök igen om en stund.",
+    "src": "333395cf79"
   },
   "이 단계 삭제": {
     "v": "Ta bort steget",
@@ -8949,6 +9189,10 @@
     "v": "Läs mer",
     "src": "1b151032ee"
   },
+  "자주 넣는 단축어 꺼내 주기": {
+    "v": "Föreslå kortkommandon du ofta använder",
+    "src": "40ce387124"
+  },
   "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기": {
     "v": "Spara text du ofta använder och klistra in den snabbt",
     "src": "e7cd511f5b"
@@ -8956,6 +9200,14 @@
   "자주 쓰는 계좌번호를 담아 뒀어요": {
     "v": "Vi har sparat ett kontonummer som du kanske använder ofta",
     "src": "31526a880a"
+  },
+  "자주 쓰는 글, 마음껏 담고 지키세요": {
+    "v": "Spara obegränsat det du ofta skriver, tryggt",
+    "src": "ad4b6cdb2c"
+  },
+  "자주 쓰는 글을 칸 걱정 없이 얼마든지 담아요": {
+    "v": "Spara texten du skriver ofta, utan gräns för antal platser",
+    "src": "f5fe5968c7"
   },
   "자주 쓰는 내 글을 담아요": {
     "v": "Spara text som du skriver ofta",
@@ -9137,6 +9389,10 @@
     "v": "Tryck på ditt sparade IBAN eller pass för att fylla i formulär direkt",
     "src": "4a1aaf8fe6"
   },
+  "저장한 단축어의 값을 클립보드에 복사합니다.": {
+    "v": "Kopierar en sparad fras till urklipp.",
+    "src": "cbe77a7010"
+  },
   "저장한 뒤에는 그 단축어가 보이는 자리로 데려가요. 이미 보이고 있으면 화면을 옮기지 않아요": {
     "v": "Efter sparandet visas frasen i listan. Om den redan syns flyttas ingenting",
     "src": "082ee3b7cf"
@@ -9298,7 +9554,7 @@
   },
   "접기": {
     "v": "Fäll ihop",
-    "src": "629f11d4ce"
+    "src": "8ee19421c4"
   },
   "접수된 피드백": {
     "v": "Mottagen feedback",
@@ -9366,7 +9622,7 @@
   },
   "제목": {
     "v": "Rubrik",
-    "src": "25157992d2"
+    "src": "6440676cf4"
   },
   "제목 없음": {
     "v": "Utan rubrik",
@@ -9379,6 +9635,10 @@
   "제목이나 내용으로 저장한 단축어를 찾아보세요.": {
     "v": "Hitta sparade fraser via rubrik eller innehåll.",
     "src": "d210265d2f"
+  },
+  "제어 센터 버튼이 복사할 즐겨찾기 단축어": {
+    "v": "Favoritfrasen som knappen i Kontrollcenter kopierar",
+    "src": "a8a1c831e6"
   },
   "제어 센터에 두기": {
     "v": "Lägg till i Kontrollcenter",
@@ -9525,7 +9785,7 @@
   },
   "즐겨찾기": {
     "v": "Favoriter",
-    "src": "e7fbb3c3a7"
+    "src": "085be86aad"
   },
   "즐겨찾기 단축어": {
     "v": "Favoritfraser",
@@ -9557,7 +9817,7 @@
   },
   "즐겨찾기 추가": {
     "v": "Lägg till i favoriter",
-    "src": "f8f32aa128"
+    "src": "9733c6d9bf"
   },
   "즐겨찾기 추가 시 나타나는 하트 애니메이션이 '동작 줄이기' 설정을 자동으로 따릅니다. 켜져 있으면 이동·스케일 없이 페이드만 사용합니다.": {
     "v": "Hjärtanimationen när du lägger till i favoriter följer inställningen 'Minska rörelse'. När den är på används bara en toning, utan rörelse eller skalning.",
@@ -9569,11 +9829,15 @@
   },
   "즐겨찾기 해제": {
     "v": "Ta bort från favoriter",
-    "src": "dd80a3524f"
+    "src": "f455f400d9"
   },
   "즐겨찾기한 단축어가 없습니다.\n단축어를 꾹 눌러 즐겨찾기에 추가해보세요": {
     "v": "Inga favoritfraser än.\nHåll in en fras för att lägga till den i favoriter.",
     "src": "85e08dc3f4"
+  },
+  "지구본": {
+    "v": "Jordglob",
+    "src": "5dd4005834"
   },
   "지구본을 길게 누르면 이모지 키보드로 바로 갈 수 있어요. 다른 키보드를 함께 써도 됩니다": {
     "v": "Håll in jordklotet för att gå direkt till emojitangentbordet, även med andra tangentbord installerade",
@@ -9645,9 +9909,13 @@
     "v": "Tid som samlats hittills",
     "src": "7d01833b23"
   },
+  "지금은 iCloud를 쓸 수 없어요": {
+    "v": "iCloud är inte tillgängligt just nu",
+    "src": "99300cf929"
+  },
   "지금은 괜찮아요": {
     "v": "Inte nu",
-    "src": "544d163fe7"
+    "src": "cfd4f1f935"
   },
   "지금은 모든 기능이 무료예요. %d번 남았어요": {
     "v": {
@@ -9929,6 +10197,10 @@
     "v": "Första starten visar nu var du kan börja",
     "src": "3ecad3e1fe"
   },
+  "첫 인사 · 배송 · 품절 · 교환 · 후기 감사. 빈칸은 보낼 때 채워요": {
+    "v": "Första svar, frakt, slutsålt, byte, tack för omdöme. Fyll i ifyllnadsfälten när du skickar",
+    "src": "22b78c2ef8"
+  },
   "첫 주": {
     "v": "Första veckan",
     "src": "72f36c87fc"
@@ -10031,6 +10303,10 @@
     "v": "Senaste fraser slås på av sig självt när du får fler fraser. Ändrar du det själv ligger valet kvar.",
     "src": "557f5a46ce"
   },
+  "최근 복사한 %@": {
+    "v": "Nyss kopierat: %@",
+    "src": "cfed65c557"
+  },
   "최근 복사한 것": {
     "v": "Nyligen kopierat",
     "src": "ab4103cf14"
@@ -10101,7 +10377,7 @@
   },
   "추천": {
     "v": "Bäst värde",
-    "src": "6166dabea0"
+    "src": "9190a625fe"
   },
   "추천 단축어 %@": {
     "v": "Föreslagen fras %@",
@@ -10170,6 +10446,10 @@
   "카드를 눌러 보세요": {
     "v": "Tryck på kortet",
     "src": "53eb6f1218"
+  },
+  "카드를 다른 카드 위에 놓으면 그 뒤에 묶여요": {
+    "v": "Släpp ett kort på ett annat för att lägga det efter det",
+    "src": "7a1d55b248"
   },
   "카드만 깔끔하게 보여요.": {
     "v": "Bara korten, inget annat.",
@@ -10768,6 +11048,10 @@
     "v": "Tangentbordsinfogningar",
     "src": "7564fef1b3"
   },
+  "키보드 진동": {
+    "v": "Tangentbordsvibration",
+    "src": "40fbf8be97"
+  },
   "키보드 추가": {
     "v": "Lägg till tangentbord",
     "src": "657d24eb5d"
@@ -11120,7 +11404,7 @@
   },
   "탭하면 클립보드에 복사됩니다": {
     "v": "Tryck för att kopiera till urklipp",
-    "src": "e035978aef"
+    "src": "294fd5c4f7"
   },
   "탭하면 한 번에 정리하기 열기": {
     "v": "Öppnar massimport",
@@ -11169,6 +11453,10 @@
   "텍스트": {
     "v": "Text",
     "src": "b00fe9e12f"
+  },
+  "텍스트 대치": {
+    "v": "Textersättning",
+    "src": "f3ade67284"
   },
   "텍스트 인식 중...": {
     "v": "Identifierar text...",
@@ -11382,6 +11670,10 @@
     "v": "Livstids-Pro",
     "src": "82b76e83ce"
   },
+  "평생 한 번 결제와 월 · 연 구독 중에 고를 수 있어요.": {
+    "v": "Välj ett engångsköp för livet eller en månads- eller årsprenumeration.",
+    "src": "730e571533"
+  },
   "평평한 기본 모습이에요. 카드가 푹신하게 반응해요.": {
     "v": "Platt och enkel. Korten svarar med en mjuk studs.",
     "src": "d09b5a218e"
@@ -11409,6 +11701,10 @@
   "표준": {
     "v": "Standard",
     "src": "997ec1db42"
+  },
+  "품절 안내": {
+    "v": "Slutsålt",
+    "src": "5ececa9c98"
   },
   "프리랜서": {
     "v": "Frilans",
@@ -11581,6 +11877,10 @@
   "한 번 누를 때마다": {
     "v": "Varje tryck",
     "src": "51639c9032"
+  },
+  "한 번만 결제해요. 자동 갱신은 없어요.": {
+    "v": "Engångsbetalning. Ingen automatisk förnyelse.",
+    "src": "e09f45eb0f"
   },
   "한 번에 200건씩 나눠 받아요. 지금 숫자는 중간 집계라 계속 올라가요.": {
     "v": "De hämtas 200 åt gången. Siffran fortsätter öka eftersom det är en delsumma.",
@@ -11858,6 +12158,10 @@
     "v": "Antalet är räknat. Tiden är uppskattad.",
     "src": "340231d8bf"
   },
+  "후기 감사": {
+    "v": "Tack för omdömet",
+    "src": "d09bcb77d4"
+  },
   "휴대폰 번호": {
     "v": "Telefonnummer",
     "src": "1447351842"
@@ -11945,229 +12249,5 @@
   "🪪 명함": {
     "v": "🪪 Visitkort",
     "src": "9becff2df0"
-  },
-  "지구본": {
-    "v": "Jordglob",
-    "src": "5dd4005834"
-  },
-  "다음 값": {
-    "v": "Nästa värde",
-    "src": "1ee9b298a2"
-  },
-  "%@ 다음 값": {
-    "v": "Nästa värde för %@",
-    "src": "574de73435"
-  },
-  "'%1$@' 뒤에 '%2$@' 묶기": {
-    "v": "Lägg till ”%2$@” efter ”%1$@”",
-    "src": "4a961d65e7"
-  },
-  "끄면 키를 눌러도 진동이 울리지 않아요. 키 소리는 iOS 설정을 따라요.": {
-    "v": "När det är av vibrerar inte tangenterna när du trycker på dem. Tangentljudet följer inställningarna i iOS.",
-    "src": "9c29fdfaad"
-  },
-  "끌어서 스택 만들기": {
-    "v": "Dra för att stapla",
-    "src": "417bafd89e"
-  },
-  "끌어온 카드는 스택의 다음 칸이 되고 목록에서 사라져요.": {
-    "v": "Kortet du drar blir nästa steg i stapeln och försvinner från listan.",
-    "src": "c71da8dab9"
-  },
-  "묶을 수 있는 단축어가 두 개 이상 필요해요": {
-    "v": "Du behöver minst två fraser som kan staplas",
-    "src": "a32c595259"
-  },
-  "묶지 못했습니다": {
-    "v": "Det gick inte att stapla",
-    "src": "bd36f5f5ff"
-  },
-  "카드를 다른 카드 위에 놓으면 그 뒤에 묶여요": {
-    "v": "Släpp ett kort på ett annat för att lägga det efter det",
-    "src": "7a1d55b248"
-  },
-  "키보드 진동": {
-    "v": "Tangentbordsvibration",
-    "src": "40fbf8be97"
-  },
-  "지금은 iCloud를 쓸 수 없어요": {
-    "v": "iCloud är inte tillgängligt just nu",
-    "src": "99300cf929"
-  },
-  "보내기를 누르면 메일 앱이 열려요. 메일에서 한 번 더 보내야 전달돼요. iCloud에 로그인하면 앱에서 바로 보내져요.": {
-    "v": "När du trycker på Skicka öppnas Mail-appen och du behöver skicka därifrån också. Logga in på iCloud för att skicka direkt från appen.",
-    "src": "ade455e417"
-  },
-  "Copy Snippet": {
-    "v": "Kopiera fras",
-    "src": "0ddaca3179"
-  },
-  "Siri에게 앱 이름을 말하지 않아도 단축어를 찾아 바로 복사해요.": {
-    "v": "Siri hittar och kopierar dina fraser, även om du inte säger appens namn.",
-    "src": "b0da3e3b4f"
-  },
-  "‘%@’을 복사했어요.": {
-    "v": "Kopierade ”%@”.",
-    "src": "1a9c1ad1e4"
-  },
-  "값을 복사할 단축어": {
-    "v": "Frasen vars värde ska kopieras",
-    "src": "dcfc222558"
-  },
-  "그 단축어를 찾지 못했어요.": {
-    "v": "Jag hittade inte den frasen.",
-    "src": "7f1f7b50cd"
-  },
-  "단축어 복사": {
-    "v": "Kopiera fras",
-    "src": "efd103bf63"
-  },
-  "단축어 열기": {
-    "v": "Öppna fras",
-    "src": "005f9c796b"
-  },
-  "앱 이름 없이 Siri에게": {
-    "v": "Fråga Siri utan appens namn",
-    "src": "ea23c16175"
-  },
-  "앱을 열고 고른 단축어의 값을 복사합니다.": {
-    "v": "Öppnar appen och kopierar värdet för den valda frasen.",
-    "src": "0e182bf08a"
-  },
-  "어떤 단축어를 복사할까요?": {
-    "v": "Vilken fras ska jag kopiera?",
-    "src": "261fb9621c"
-  },
-  "위젯에 보여 줄 즐겨찾기 단축어": {
-    "v": "Favoritfrasen som visas i widgeten",
-    "src": "d1c6e95a27"
-  },
-  "저장한 단축어의 값을 클립보드에 복사합니다.": {
-    "v": "Kopierar en sparad fras till urklipp.",
-    "src": "31dde03bfe"
-  },
-  "제어 센터 버튼이 복사할 즐겨찾기 단축어": {
-    "v": "Favoritfrasen som knappen i Kontrollcenter kopierar",
-    "src": "a8a1c831e6"
-  },
-  "연습이라 어디에도 보내지지 않아요": {
-    "v": "Det är bara övning. Inget skickas någonstans",
-    "src": "98f5e5a0ea"
-  },
-  "월 구독": {
-    "v": "Månadsvis",
-    "src": "c910f61338"
-  },
-  "%@ / 월": {
-    "v": "%@ / mån",
-    "src": "1167c658a4"
-  },
-  "연 구독이면 한 달에 %@": {
-    "v": "Med årsplan blir det %@ i månaden",
-    "src": "d695023e74"
-  },
-  "매달 %@씩 자동으로 갱신돼요. 갱신 24시간 전까지 설정 > Apple 계정 > 구독에서 해지할 수 있어요.": {
-    "v": "Förnyas automatiskt för %@ per månad. Avsluta senast 24 timmar före förnyelsen i Inställningar > Apple-konto > Prenumerationer.",
-    "src": "0132f370b1"
-  },
-  "평생 한 번 결제와 월 · 연 구독 중에 고를 수 있어요.": {
-    "v": "Välj ett engångsköp för livet eller en månads- eller årsprenumeration.",
-    "src": "730e571533"
-  },
-  "텍스트 대치": {
-    "v": "Textersättning",
-    "src": "f3ade67284"
-  },
-  "설정 > 일반 > 키보드 > 텍스트 대치에 넣어 둔 단축을 치고 스페이스를 누르면 문구로 바꿔요. 바로 지우기를 누르면 되돌려요.": {
-    "v": "Skriv en kortkod från Inställningar > Allmänt > Tangentbord > Textersättning och tryck på mellanslag för att byta till frasen. Tryck på radera direkt efteråt för att ångra.",
-    "src": "fa2ec82dee"
-  },
-  "최근 복사한 %@": {
-    "v": "Nyss kopierat: %@",
-    "src": "cfed65c557"
-  },
-  "붙여넣을 내용에 넣어요": {
-    "v": "Lägger in det som innehåll att klistra in",
-    "src": "34065327b3"
-  },
-  "배송지": {
-    "v": "Leveransadress",
-    "src": "318a439a09"
-  },
-  "서울시 선물로 12": {
-    "v": "Presentgatan 12",
-    "src": "3760ce1d8b"
-  },
-  "선물 받을 곳": {
-    "v": "Hit kommer presenter",
-    "src": "69cdb846c6"
-  },
-  "어디로 배송하면 좋을까요?": {
-    "v": "Vart ska jag skicka det?",
-    "src": "2607915950"
-  },
-  "연습용으로 만든 예시 주소예요": {
-    "v": "En exempeladress, bara för att öva",
-    "src": "7e7ff89f3f"
-  },
-  "자주 쓰는 글, 마음껏 담고 지키세요": {
-    "v": "Spara obegränsat det du ofta skriver, tryggt",
-    "src": "ad4b6cdb2c"
-  },
-  "%@ 절약": {
-    "v": "Spara %@",
-    "src": "8a8d959c0e"
-  },
-  "한 번만 결제해요. 자동 갱신은 없어요.": {
-    "v": "Engångsbetalning. Ingen automatisk förnyelse.",
-    "src": "e09f45eb0f"
-  },
-  "모든 기능 비교": {
-    "v": "Jämför alla funktioner",
-    "src": "5dd8a02dba"
-  },
-  "만든 단축어는 결제하지 않아도 계속 써요": {
-    "v": "Kortkommandon du skapat fungerar även utan att betala",
-    "src": "0c7057a722"
-  },
-  "%1$@ 아꼈어요 · %2$@": {
-    "v": "Sparat %1$@ · %2$@",
-    "src": "cf19dcbd6f"
-  },
-  "자주 넣는 단축어 꺼내 주기": {
-    "v": "Föreslå kortkommandon du ofta använder",
-    "src": "40ce387124"
-  },
-  "어떤 말 뒤에 어떤 단축어를 넣는지 기기 안에서만 세어, 다음에 그 말을 치면 단축어 버튼 옆에 먼저 띄워요. 친 글은 남기지 않아요. 끄면 배운 것도 지워요.": {
-    "v": "Räknar, bara på den här enheten, vilket kortkommando du infogar efter ett ord och visar det bredvid kortkommandoknappen när du skriver ordet igen. Det du skriver sparas inte. Stänger du av raderas det inlärda.",
-    "src": "aa1f5813cb"
-  },
-  "이 기기의 단축어를 읽지 못했어요. 잠시 뒤 다시 해 주세요.": {
-    "v": "Det gick inte att läsa fraserna på den här enheten. Försök igen om en stund.",
-    "src": "333395cf79"
-  },
-  "Couldn't save. Unlock your iPhone and try again.": {
-    "v": "Det gick inte att spara. Lås upp din iPhone och försök igen.",
-    "src": "2c62438b63"
-  },
-  "요금제와 응원": {
-    "v": "Abonnemang och stöd",
-    "src": "5dba5e34ea"
-  },
-  "매일 쓰는 것": {
-    "v": "Vardag",
-    "src": "d2733ef1f0"
-  },
-  "데이터와 도움말": {
-    "v": "Data och hjälp",
-    "src": "77b9738c81"
-  },
-  "의견 보내기": {
-    "v": "Feedback",
-    "src": "f9a8da683b"
-  },
-  "선물 보내려고요! 받을 주소 알려 줄래요?": {
-    "v": "Jag vill skicka en present till dig! Vad har du för adress?",
-    "src": "13a05925fa"
   }
 }

@@ -179,6 +179,7 @@ enum AppSymbol {
     static let trashCircleFill = "trash.circle.fill"
     static let trashFill = "trash.fill"
     static let tray = "tray"
+    static let trayAndArrowDown = "tray.and.arrow.down"
     static let trayFull = "tray.full"
     static let trayFill = "tray.fill"
     static let wandAndSparkles = "wand.and.sparkles"
