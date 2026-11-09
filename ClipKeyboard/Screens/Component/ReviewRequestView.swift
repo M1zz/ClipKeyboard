@@ -57,7 +57,7 @@ struct ReviewRequestView: View {
                 Button {
                     HapticManager.shared.medium()
                     requestReview()
-                    ReviewManager.shared.markReviewResponded()
+                    ReviewManager.shared.markReviewResponded(leftReview: true)
                     // Dismiss after a short delay
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         dismiss()

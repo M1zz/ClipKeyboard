@@ -14,6 +14,12 @@ import UIKit
 
 /// 앱 리뷰 요청을 관리하는 매니저
 /// Apple의 리뷰 요청 정책을 준수하여 적절한 타이밍에 리뷰를 요청합니다.
+///
+/// 묻는 때는 넷이다. 첫 붙여넣기 · 콤보 완료 · 파워유저 · (실행 창) 실행 5회 + 단축어 3개.
+/// 2026-11 에 다섯째를 더했다: **결제한 다음 실행.** 돈을 낸 사람이 가장 만족한 사람인데
+/// 그 순간을 쓰지 않고 있었다(리뷰 13개, docs/marketing/MARKETING_PLAN_2026-07.md).
+/// 결제한 바로 그 실행에는 묻지 않는다(결제 시트 위에 또 창을 얹지 않으려고). 다음에 열 때 실행 창으로 한 번.
+/// "나중에" 라고 했던 사람에게도 결제 뒤에는 한 번 더 묻는다. 별점을 남긴 사람에게는 묻지 않는다.
 class ReviewManager {
 
     static let shared = ReviewManager()
@@ -25,6 +31,13 @@ class ReviewManager {
     private let memoCreatedCountKey = "memoCreatedCountForReview"
     private let hasRequestedReviewKey = "hasRequestedReview"
     private let hasRespondedToReviewKey = "hasRespondedToReview"
+
+    // MARK: - UserDefaults Keys (결제 뒤)
+
+    /// 결제한 순간의 앱 실행 횟수. 이 값보다 실행 횟수가 커지면(= 다음 실행) 묻는다. 없으면 결제한 적 없음 또는 이미 물었음.
+    private let keyPurchaseLaunchCount = "review.purchase.launchCount"
+    /// "별점 남기기" 를 실제로 누른 적이 있다. `hasRespondedToReview` 는 "나중에" 도 포함해서 구분이 안 됐다.
+    private let keyHasLeftReview = "hasLeftReview"
 
     // MARK: - UserDefaults Keys (새 트리거)
 
@@ -111,6 +124,12 @@ class ReviewManager {
             return false
         }
 
+        // 결제한 다음 실행이면 실행 횟수 · 단축어 개수 · "나중에" 와 상관없이 묻는다
+        if purchaseReviewDue {
+            print("⭐️ [ReviewManager] 결제한 다음 실행, 리뷰 요청")
+            return true
+        }
+
         // 사용자가 이미 응답했으면 다시 표시하지 않음
         let hasResponded = UserDefaults.standard.bool(forKey: hasRespondedToReviewKey)
         guard !hasResponded else {
@@ -137,9 +156,40 @@ class ReviewManager {
     }
 
     /// 사용자가 리뷰 요청에 응답했음을 표시 (나중에/별점 남기기 모두 해당)
-    func markReviewResponded() {
+    /// - Parameter leftReview: "별점 남기기" 를 눌렀으면 true. 이 사람에게는 결제 뒤에도 다시 묻지 않는다.
+    func markReviewResponded(leftReview: Bool = false) {
         UserDefaults.standard.set(true, forKey: hasRespondedToReviewKey)
-        print("✅ [ReviewManager] 리뷰 응답 완료 표시")
+        if leftReview { UserDefaults.standard.set(true, forKey: keyHasLeftReview) }
+        print("✅ [ReviewManager] 리뷰 응답 완료 표시\(leftReview ? " (별점 남김)" : "")")
+    }
+
+    // MARK: - 결제 뒤
+
+    /// 결제가 확인된 직후 `StoreManager` 가 부른다. 지금 실행 횟수를 적어 두고, 다음 실행에 묻는다.
+    /// 상품 종류는 가리지 않는다(등급 · 팁 · 선물 · 팩 전부). 돈을 낸 사람은 다 만족한 사람이다.
+    func trackPurchase(productID: String) {
+        guard !UserDefaults.standard.bool(forKey: keyHasLeftReview) else {
+            print("⏭️ [ReviewManager] 이미 별점을 남긴 사람, 결제 트리거 안 세움: \(productID)")
+            return
+        }
+        // 먼저 산 것이 있으면 그 실행 번호를 지킨다(두 번 사도 한 번만 묻는다)
+        guard UserDefaults.standard.object(forKey: keyPurchaseLaunchCount) == nil else { return }
+        let launch = UserDefaults.standard.integer(forKey: appLaunchCountKey)
+        UserDefaults.standard.set(launch, forKey: keyPurchaseLaunchCount)
+        print("📊 [ReviewManager] 결제 기록, 다음 실행에 별점 묻기: \(productID) (실행 \(launch))")
+    }
+
+    /// 결제한 다음 실행인가. 붙여넣기 경험은 `shouldShowReview` 가 먼저 본다.
+    var purchaseReviewDue: Bool {
+        guard let at = UserDefaults.standard.object(forKey: keyPurchaseLaunchCount) as? Int else { return false }
+        guard !UserDefaults.standard.bool(forKey: keyHasLeftReview) else { return false }
+        return UserDefaults.standard.integer(forKey: appLaunchCountKey) > at
+    }
+
+    /// 실행 창이 리뷰 시트를 실제로 띄울 때 부른다. 결제 트리거는 한 번만 쓴다.
+    /// ("나중에" 를 눌러도 다음 실행마다 또 뜨지 않게)
+    func noteReviewSheetShown() {
+        UserDefaults.standard.removeObject(forKey: keyPurchaseLaunchCount)
     }
 
     /// 리뷰 요청 조건을 확인하고, 조건이 충족되면 리뷰를 요청합니다.
@@ -322,6 +372,8 @@ class ReviewManager {
         - 클립 저장 횟수: \(clipSaveCount)
         - 리뷰 요청 여부: \(hasRequested ? "예" : "아니오")
         - 붙여넣기 경험: \(hasPastedFromKeyboard ? "있음(요청 가능)" : "없음(모든 요청 보류)")
+        - 결제 뒤 묻기: \(purchaseReviewDue ? "다음 실행 창에서" : (UserDefaults.standard.object(forKey: keyPurchaseLaunchCount) == nil ? "없음" : "이번 실행은 아님"))
+        - 별점 남김: \(UserDefaults.standard.bool(forKey: keyHasLeftReview) ? "예" : "아니오")
         """
 
         if let lastDate = lastRequestDate {
@@ -347,6 +399,8 @@ class ReviewManager {
         UserDefaults.standard.removeObject(forKey: keyClipSaveCount)
         UserDefaults.standard.removeObject(forKey: DefaultsKey.reviewBannerDismissed)
         UserDefaults.standard.removeObject(forKey: DefaultsKey.reviewBannerLaterDate)
+        UserDefaults.standard.removeObject(forKey: keyPurchaseLaunchCount)
+        UserDefaults.standard.removeObject(forKey: keyHasLeftReview)
         print("🔄 [ReviewManager] 리뷰 요청 데이터 초기화 완료")
     }
 }

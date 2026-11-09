@@ -160,5 +160,71 @@ final class ReviewManagerTests: XCTestCase {
         XCTAssertFalse(UserDefaults.standard.bool(forKey: "hasRequestedReview_firstPaste"))
         XCTAssertFalse(UserDefaults.standard.bool(forKey: "hasRequestedReview_combo"))
         XCTAssertFalse(UserDefaults.standard.bool(forKey: "hasRequestedReview_powerUser"))
+        XCTAssertNil(UserDefaults.standard.object(forKey: "review.purchase.launchCount"))
+        XCTAssertFalse(UserDefaults.standard.bool(forKey: "hasLeftReview"))
+    }
+
+    // MARK: - 결제 뒤 (2026-11)
+
+    /// 돈을 낸 사람에게 별점을 안 묻고 있었다. 결제한 **다음** 실행에 한 번 묻는다.
+    func test_결제한_다음_실행에_별점을_묻는다() {
+        sut.trackKeyboardPaste()                       // 붙여넣기 경험은 있어야 한다
+        sut.incrementAppLaunchCount()                  // 실행 1회, 단축어 0개: 기존 조건은 못 채운다
+        XCTAssertFalse(sut.shouldShowReview(), "결제 전에는 기존 조건대로 안 묻는다")
+
+        sut.trackPurchase(productID: "com.Ysoup.TokenMemo.pro")
+        XCTAssertFalse(sut.shouldShowReview(), "결제한 바로 그 실행에는 묻지 않는다")
+
+        sut.incrementAppLaunchCount()                  // 다음 실행
+        XCTAssertTrue(sut.shouldShowReview(), "실행 횟수 · 단축어 개수와 상관없이 묻는다")
+    }
+
+    func test_결제했어도_붙여넣기_경험이_없으면_안_묻는다() {
+        AppGroup.defaults?.removeObject(forKey: DefaultsKey.keyboardPasteCount)
+        sut.incrementAppLaunchCount()
+        sut.trackPurchase(productID: "com.Ysoup.TokenMemo.plus.yearly")
+        sut.incrementAppLaunchCount()
+        XCTAssertFalse(sut.shouldShowReview())
+    }
+
+    func test_나중에_라고_했던_사람에게도_결제_뒤에는_한_번_더_묻는다() {
+        sut.trackKeyboardPaste()
+        sut.markReviewResponded()                      // "나중에"
+        sut.incrementAppLaunchCount()
+        sut.trackPurchase(productID: "com.Ysoup.TokenMemo.pro")
+        sut.incrementAppLaunchCount()
+        XCTAssertTrue(sut.shouldShowReview())
+    }
+
+    func test_별점을_남긴_사람에게는_결제_뒤에도_안_묻는다() {
+        sut.trackKeyboardPaste()
+        sut.markReviewResponded(leftReview: true)
+        sut.incrementAppLaunchCount()
+        sut.trackPurchase(productID: "com.Ysoup.TokenMemo.pro")
+        sut.incrementAppLaunchCount()
+        XCTAssertFalse(sut.shouldShowReview())
+        XCTAssertNil(UserDefaults.standard.object(forKey: "review.purchase.launchCount"), "트리거 자체를 세우지 않는다")
+    }
+
+    func test_결제_트리거는_시트를_띄우면_한_번으로_끝난다() {
+        sut.trackKeyboardPaste()
+        sut.incrementAppLaunchCount()
+        sut.trackPurchase(productID: "com.Ysoup.TokenMemo.pro")
+        sut.incrementAppLaunchCount()
+        XCTAssertTrue(sut.shouldShowReview())
+
+        sut.noteReviewSheetShown()                     // 실행 창이 띄웠다
+        sut.markReviewResponded()                      // "나중에"
+        sut.incrementAppLaunchCount()
+        XCTAssertFalse(sut.shouldShowReview(), "다음 실행마다 또 뜨지 않는다")
+    }
+
+    func test_두_번_사도_한_번만_묻는다() {
+        sut.trackKeyboardPaste()
+        sut.incrementAppLaunchCount()
+        sut.trackPurchase(productID: "com.Ysoup.TokenMemo.slots5")
+        sut.incrementAppLaunchCount()
+        sut.trackPurchase(productID: "com.Ysoup.TokenMemo.pro.upgrade")  // 같은 실행에 하나 더 샀다
+        XCTAssertTrue(sut.shouldShowReview(), "첫 결제 기준으로 이미 다음 실행이다. 둘째 결제가 미루지 않는다")
     }
 }

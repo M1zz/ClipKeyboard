@@ -783,7 +783,9 @@ struct ClipKeyboardApp: App {
         case .categoryCleanup: if let cleanup { presentCategoryCleanup(cleanup) }
         case .whatsNew: presentWhatsNew()
         case .graduationOffer: presentGraduationOffer()
-        case .reviewRequest: showReviewRequest = true
+        case .reviewRequest:
+            ReviewManager.shared.noteReviewSheetShown()
+            showReviewRequest = true
         case .feedbackNudge: presentFeedbackNudge()
         case .didYouKnow: if let didYouKnow { presentDidYouKnow(didYouKnow) }
         default: break

@@ -253,6 +253,8 @@ class StoreManager: ObservableObject {
 
         if success {
             print("✅ [StoreManager] 구매 성공: \(product.id)")
+            // 돈을 낸 사람이 가장 만족한 사람이다. 다음 실행에 별점을 한 번 묻는다(이 실행에는 안 묻는다).
+            ReviewManager.shared.trackPurchase(productID: product.id)
 
             // Analytics - Offer Code 여부 판별 (iOS 17.2+에서만 direct 검출 가능).
             // LeeoStore 가 트랜잭션을 finish 하므로, 방금 완료된 트랜잭션은 latest 로 조회한다.
