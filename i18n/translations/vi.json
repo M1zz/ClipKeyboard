@@ -10155,6 +10155,10 @@
     "v": "Kéo thẻ để đổi thứ tự",
     "src": "b1666e29c5"
   },
+  "카드를 누르면 메뉴 열기": {
+    "v": "Nhấn vào thẻ để mở menu",
+    "src": "daa054bb95"
+  },
   "카드를 눌러 보세요": {
     "v": "Hãy chạm vào thẻ",
     "src": "53eb6f1218"
@@ -10402,6 +10406,10 @@
   "켜는 법": {
     "v": "Cách bật",
     "src": "17fa569c64"
+  },
+  "켜면 앱에서 단축어를 눌렀을 때 복사하지 않고 편집 · 삭제 메뉴를 열어요. 복사는 길게 눌러서 해요. 키보드는 그대로예요.": {
+    "v": "Khi bật, nhấn vào một Cụm từ trong ứng dụng sẽ không sao chép mà mở menu sửa và xóa. Nhấn giữ để sao chép. Bàn phím vẫn như cũ.",
+    "src": "2ed3bdc2e7"
   },
   "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
     "v": "Nếu bạn đã bật, hãy mở bàn phím một lần, trạng thái sẽ chuyển sang Bật. iOS chỉ báo cho chúng tôi khi bàn phím mở.",
@@ -11090,6 +11098,10 @@
   "탭하면 이 빈칸이 들어가고, 저장해 둔 값도 함께 따라옵니다": {
     "v": "Nhấn để chèn ô cần điền này cùng các giá trị đã lưu",
     "src": "ca8843e4e4"
+  },
+  "탭하면 추가 옵션, 꾹 누르면 클립보드에 복사": {
+    "v": "Nhấn để xem thêm tùy chọn, nhấn giữ để sao chép vào bảng tạm",
+    "src": "34afd26aa2"
   },
   "탭하면 커서 자리에 빈칸이 들어갑니다": {
     "v": "Nhấn để chèn ô cần điền tại con trỏ",

@@ -24,9 +24,14 @@ struct ShortcutsSettingsView: View {
     @AppStorage(DefaultsKey.templateTimeFormat, store: AppGroup.defaults)
     private var timeTokenFormatRaw: String = TimeTokenFormat.automatic.rawValue
 
+    /// 목록 카드의 누르기와 꾹 누르기를 뒤집는다. 앱 안에서만 쓰므로 표준 UserDefaults.
+    @AppStorage(AppPrefs.cardTapOpensMenu.key)
+    private var cardTapOpensMenu: Bool = AppPrefs.cardTapOpensMenu.fallback
+
     var body: some View {
         List {
             usageSection
+            cardTapSection
             organizeSection
         }
         .settingsCategoryChrome(title: NSLocalizedString("단축어", comment: "Settings section: shortcuts"))
@@ -58,6 +63,23 @@ struct ShortcutsSettingsView: View {
                     Image(systemName: AppSymbol.personCropCircleBadgeCheckmark)
                 }
             }
+        }
+    }
+
+    /// 목록에서 카드를 눌렀을 때의 일.
+    ///
+    /// ⚠️ 기본은 꺼짐이다(누르면 복사). 쓰던 사람의 손이 업데이트로 바뀌면 안 된다.
+    ///    켜는 사람은 쓰는 일을 키보드에서 하고 앱에는 고치러 들어오는 사람이다(2026-11 사용자 요청).
+    private var cardTapSection: some View {
+        Section {
+            Toggle(isOn: $cardTapOpensMenu) {
+                Label(NSLocalizedString("카드를 누르면 메뉴 열기", comment: "Settings toggle: in the app's list, tapping a Phrase card opens its menu (edit, delete...) instead of copying it"),
+                      systemImage: AppSymbol.handTap)
+            }
+        } footer: {
+            Text(NSLocalizedString("켜면 앱에서 단축어를 눌렀을 때 복사하지 않고 편집 · 삭제 메뉴를 열어요. 복사는 길게 눌러서 해요. 키보드는 그대로예요.",
+                                   comment: "Footer for the tap-opens-menu toggle: with it on, tapping a Phrase in the app opens the edit/delete menu instead of copying, long press copies, and the keyboard is unchanged"))
+                .font(.body)
         }
     }
 

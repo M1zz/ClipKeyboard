@@ -94,6 +94,8 @@ struct ClipKeyboardList: View {
     }
     /// 디스플레이 설정 - 메모 셀 높이(작게 110 / 보통 140 / 크게 180).
     @AppStorage(AppPrefs.memoCardHeight.key) private var memoCardHeight: Double = AppPrefs.memoCardHeight.fallback
+    /// 카드를 누르면 복사 대신 메뉴가 열리게 뒤집는 설정(설정 ▸ 단축어). 기본은 꺼짐.
+    @AppStorage(AppPrefs.cardTapOpensMenu.key) private var cardTapOpensMenu: Bool = AppPrefs.cardTapOpensMenu.fallback
     /// 단축어 스킨 프리셋 - 카드 위에 얹히는 것(없음/금고/마을/눈/새/고양이).
     @AppStorage(DefaultsKey.livingSkin, store: AppGroup.defaults)
     private var livingSkinRaw: String = LivingSkin.none.rawValue
@@ -1693,10 +1695,11 @@ struct ClipKeyboardList: View {
             // 동전은 여기서 날리지 않는다. 콤보·템플릿은 아직 **쓴 게 아니라** 시트가 뜰 뿐이라,
             // 실제 사용이 확정될 때(.memoUsed) 날린다. 자리만 기억해 둔다.
             lastTapPoint = location
-            viewModel.copyMemo(memo: memo)
-            checkCategoryBadgeNudge()
-            // VoiceOver 안내는 복사가 **확정될 때** 한다(`finalizeCopy`). 여기서 하면
-            // 템플릿·스택처럼 시트만 뜨는 경로에서도 "복사됨" 이라고 말해 버린다.
+            // 누르면 복사가 기본이다. 설정에서 뒤집은 사람에게는 누르면 메뉴다(`MemoCardGesture`).
+            switch MemoCardGesture.tap.action(tapOpensMenu: cardTapOpensMenu) {
+            case .copy: copyFromCard(memo)
+            case .menu: openMemoActions(memo)
+            }
         }
         .accessibilityElement(children: .ignore)
         .accessibilityAddTraits(.isButton)
@@ -1714,11 +1717,14 @@ struct ClipKeyboardList: View {
                 .allowsHitTesting(false)
         }
         .onLongPressGesture(minimumDuration: holdDuration, maximumDistance: 20) {
-            // 완료 - 진행 완료 햅틱 후 액션 메뉴 표시
+            // 완료 - 진행 완료 햅틱 후 액션 메뉴 표시(뒤집은 사람에게는 복사)
             HapticManager.shared.heavy()
             longPressActiveMemo = nil
             longPressProgress = 0
-            openMemoActions(memo)
+            switch MemoCardGesture.longPress.action(tapOpensMenu: cardTapOpensMenu) {
+            case .copy: copyFromCard(memo)
+            case .menu: openMemoActions(memo)
+            }
         } onPressingChanged: { isPressing in
             pressedMemoID = isPressing ? memo.id : nil
             if isPressing {
@@ -1753,11 +1759,27 @@ struct ClipKeyboardList: View {
         .squishPress(pressedMemoID == memo.id, scale: 0.94,
                      bounce: tapBounceMemoID == memo.id ? tapBounceCount : 0)
         .accessibilityLabel(MemoCardSurface.accessibilityLabel(for: memo, categories: viewModel.customCategories))
-        .accessibilityHint(NSLocalizedString("탭하면 클립보드에 복사, 꾹 누르면 추가 옵션", comment: "Memo card hint"))
-        // 꾹 누르기를 모르는 사람도, 손이 불편한 사람도 같은 메뉴에 닿게.
-        .accessibilityAction(named: Text(NSLocalizedString("더 보기", comment: "VoiceOver action: open memo actions"))) {
-            openMemoActions(memo)
+        .accessibilityHint(cardTapOpensMenu
+            ? NSLocalizedString("탭하면 추가 옵션, 꾹 누르면 클립보드에 복사", comment: "Memo card hint when the tap and long-press actions are swapped in Settings: tap opens the menu, long press copies")
+            : NSLocalizedString("탭하면 클립보드에 복사, 꾹 누르면 추가 옵션", comment: "Memo card hint"))
+        // 꾹 누르기를 모르는 사람도, 손이 불편한 사람도 **꾹 눌러야 닿는 쪽**에 닿게.
+        // 기본은 메뉴가, 뒤집은 사람에게는 복사가 꾹 누르기 뒤에 있다.
+        .accessibilityAction(named: Text(cardTapOpensMenu
+            ? NSLocalizedString("복사", comment: "Copy")
+            : NSLocalizedString("더 보기", comment: "VoiceOver action: open memo actions"))) {
+            switch MemoCardGesture.longPress.action(tapOpensMenu: cardTapOpensMenu) {
+            case .copy: copyFromCard(memo)
+            case .menu: openMemoActions(memo)
+            }
         }
+    }
+
+    /// 카드에서 바로 복사한다. 누르기와 꾹 누르기 가운데 설정이 복사로 정해 둔 쪽이 부른다.
+    private func copyFromCard(_ memo: Memo) {
+        viewModel.copyMemo(memo: memo)
+        checkCategoryBadgeNudge()
+        // VoiceOver 안내는 복사가 **확정될 때** 한다(`finalizeCopy`). 여기서 하면
+        // 템플릿·스택처럼 시트만 뜨는 경로에서도 "복사됨" 이라고 말해 버린다.
     }
 
     /// 카드의 추가 옵션을 연다. 꾹 누르기와 VoiceOver 동작이 같은 길을 쓴다.

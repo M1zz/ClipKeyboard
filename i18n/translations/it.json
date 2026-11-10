@@ -10455,6 +10455,10 @@
     "v": "Trascina le schede per riordinarle",
     "src": "b1666e29c5"
   },
+  "카드를 누르면 메뉴 열기": {
+    "v": "Toccare una scheda apre il menu",
+    "src": "daa054bb95"
+  },
   "카드를 눌러 보세요": {
     "v": "Tocca la scheda",
     "src": "53eb6f1218"
@@ -10705,6 +10709,10 @@
   "켜는 법": {
     "v": "Come attivarlo",
     "src": "17fa569c64"
+  },
+  "켜면 앱에서 단축어를 눌렀을 때 복사하지 않고 편집 · 삭제 메뉴를 열어요. 복사는 길게 눌러서 해요. 키보드는 그대로예요.": {
+    "v": "Se attivo, toccando una Frase nell'app si apre il menu per modificarla o eliminarla invece di copiarla. Tieni premuto per copiare. La tastiera resta uguale.",
+    "src": "2ed3bdc2e7"
   },
   "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
     "v": "Se l'hai attivato, apri una volta la tastiera e qui passerà subito a Attivo. iOS ce lo comunica solo quando la tastiera si apre.",
@@ -11405,6 +11413,10 @@
   "탭하면 이 빈칸이 들어가고, 저장해 둔 값도 함께 따라옵니다": {
     "v": "Inserisce questo campo da compilare insieme ai valori salvati per esso",
     "src": "ca8843e4e4"
+  },
+  "탭하면 추가 옵션, 꾹 누르면 클립보드에 복사": {
+    "v": "Tocca per altre opzioni, tieni premuto per copiare negli appunti",
+    "src": "34afd26aa2"
   },
   "탭하면 커서 자리에 빈칸이 들어갑니다": {
     "v": "Tocca per inserire un campo da compilare nella posizione del cursore",

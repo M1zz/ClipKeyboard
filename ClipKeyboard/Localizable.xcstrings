@@ -440396,6 +440396,417 @@
           }
         }
       }
+    },
+    "카드를 누르면 메뉴 열기" : {
+      "comment" : "Settings toggle: in the app's list, tapping a Phrase card opens its menu (edit, delete...) instead of copying it",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klepnutí na kartu otevře nabídku"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryk på kort åbner menuen"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippen auf Karte öffnet Menü"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Το πάτημα στην κάρτα ανοίγει το μενού"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap a card to open its menu"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocar una tarjeta abre el menú"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kortin napautus avaa valikon"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toucher une carte ouvre le menu"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk kartu untuk membuka menu"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toccare una scheda apre il menu"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カードをタップでメニューを開く"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trykk på kort åpner menyen"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik op kaart opent menu"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dotknięcie karty otwiera menu"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocar no cartão abre o menu"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажатие на карточку открывает меню"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryck på kort öppnar menyn"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แตะการ์ดเพื่อเปิดเมนู"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karta dokununca menüyü aç"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nhấn vào thẻ để mở menu"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点一下卡片打开菜单"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點一下卡片開啟菜單"
+          }
+        }
+      }
+    },
+    "켜면 앱에서 단축어를 눌렀을 때 복사하지 않고 편집 · 삭제 메뉴를 열어요. 복사는 길게 눌러서 해요. 키보드는 그대로예요." : {
+      "comment" : "Footer for the tap-opens-menu toggle: with it on, tapping a Phrase in the app opens the edit/delete menu instead of copying, long press copies, and the keyboard is unchanged",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Když je zapnuto, klepnutí na Frázi v aplikaci ji nezkopíruje, ale otevře nabídku pro úpravu a smazání. Kopírujte dlouhým stisknutím. Klávesnice zůstává stejná."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Når dette er slået til, åbner et tryk på en Frase i appen menuen til at redigere og slette i stedet for at kopiere. Tryk og hold for at kopiere. Tastaturet er som før."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn aktiviert, öffnet Tippen auf einen Textbaustein in der App das Menü zum Bearbeiten und Löschen, statt ihn zu kopieren. Zum Kopieren gedrückt halten. Die Tastatur bleibt unverändert."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Όταν είναι ενεργό, το πάτημα σε μια Φράση στην εφαρμογή δεν την αντιγράφει, αλλά ανοίγει το μενού επεξεργασίας και διαγραφής. Πατήστε παρατεταμένα για αντιγραφή. Το πληκτρολόγιο μένει ίδιο."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When on, tapping a Snippet in the app opens its edit and delete menu instead of copying it. Long-press to copy. The keyboard stays the same."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si lo activas, al tocar una Frase en la app no se copia, se abre el menú para editar y eliminar. Mantén presionado para copiar. El teclado sigue igual."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kun tämä on päällä, Fraasin napautus apissa ei kopioi sitä vaan avaa muokkaus- ja poistovalikon. Kopioi painamalla pitkään. Näppäimistö toimii kuten ennen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si cette option est activée, toucher une Phrase dans l'app ouvre le menu pour la modifier ou la supprimer au lieu de la copier. Appuyez longuement pour copier. Le clavier ne change pas."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jika aktif, mengetuk Frasa di aplikasi tidak menyalinnya, tetapi membuka menu ubah dan hapus. Tekan lama untuk menyalin. Papan ketik tetap sama."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se attivo, toccando una Frase nell'app si apre il menu per modificarla o eliminarla invece di copiarla. Tieni premuto per copiare. La tastiera resta uguale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オンにすると、アプリで定型文をタップしたときにコピーせず、編集・削除のメニューを開きます。コピーは長押しです。キーボードはそのままです。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Når dette er på, åpner et trykk på en Frase i appen menyen for å redigere og slette i stedet for å kopiere. Trykk og hold for å kopiere. Tastaturet er som før."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als dit aanstaat, opent een tik op een Fragment in de app het menu om te wijzigen of te verwijderen in plaats van te kopiëren. Houd ingedrukt om te kopiëren. Het toetsenbord blijft hetzelfde."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gdy włączone, dotknięcie Frazy w aplikacji nie kopiuje jej, tylko otwiera menu edycji i usuwania. Przytrzymaj, aby skopiować. Klawiatura działa bez zmian."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando ativado, tocar em uma Frase no app não copia, abre o menu de editar e excluir. Mantenha pressionado para copiar. O teclado continua igual."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если включено, нажатие на Фразу в приложении не копирует её, а открывает меню с изменением и удалением. Чтобы скопировать, удерживайте. В клавиатуре всё по-прежнему."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "När det här är på öppnar ett tryck på en Fras i appen menyn för att redigera och radera i stället för att kopiera. Tryck länge för att kopiera. Tangentbordet är som vanligt."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "เมื่อเปิด การแตะข้อความด่วนในแอปจะไม่คัดลอก แต่จะเปิดเมนูแก้ไขและลบ กดค้างเพื่อคัดลอก แป้นพิมพ์ยังเหมือนเดิม"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Açıkken, uygulamada bir İfadeye dokunmak onu kopyalamaz, düzenleme ve silme menüsünü açar. Kopyalamak için basılı tutun. Klavye aynı kalır."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khi bật, nhấn vào một Cụm từ trong ứng dụng sẽ không sao chép mà mở menu sửa và xóa. Nhấn giữ để sao chép. Bàn phím vẫn như cũ."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开后，在 App 里点一下短语不会复制，而是打开编辑、删除菜单。长按才复制。键盘保持不变。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開啟後，在 App 裡點一下短語不會複製，而是開啟編輯、刪除菜單。長按才複製。鍵盤保持不變。"
+          }
+        }
+      }
+    },
+    "탭하면 추가 옵션, 꾹 누르면 클립보드에 복사" : {
+      "comment" : "Memo card hint when the tap and long-press actions are swapped in Settings: tap opens the menu, long press copies",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klepnutím zobrazíte další volby, dlouhým stisknutím zkopírujete do schránky"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryk for flere valg, tryk og hold for at kopiere til udklipsholderen"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippen für mehr Optionen, gedrückt halten zum Kopieren in die Zwischenablage"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πατήστε για περισσότερες επιλογές, παρατεταμένο πάτημα για αντιγραφή στο πρόχειρο"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap for more options, long-press to copy to the clipboard"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca para más opciones, mantén presionado para copiar al portapapeles"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Napauta nähdäksesi lisäasetukset, paina pitkään kopioidaksesi leikepöydälle"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appuyez pour plus d'options, appuyez longuement pour copier dans le presse-papiers"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketuk untuk opsi lainnya, tekan lama untuk menyalin ke papan klip"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca per altre opzioni, tieni premuto per copiare negli appunti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タップでその他のオプション、長押しでクリップボードにコピー"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trykk for flere valg, trykk og hold for å kopiere til utklippstavlen"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tik voor meer opties, houd ingedrukt om naar het klembord te kopiëren"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dotknij, aby zobaczyć więcej opcji, przytrzymaj, aby skopiować do schowka"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque para mais opções, mantenha pressionado para copiar para a área de transferência"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите для дополнительных параметров, удерживайте, чтобы скопировать в буфер обмена"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tryck för fler val, tryck länge för att kopiera till urklipp"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แตะเพื่อดูตัวเลือกเพิ่มเติม กดค้างเพื่อคัดลอกไปยังคลิปบอร์ด"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daha fazla seçenek için dokunun, panoya kopyalamak için basılı tutun"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nhấn để xem thêm tùy chọn, nhấn giữ để sao chép vào bảng tạm"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点一下有更多选项，长按复制到剪贴板"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "點一下有更多選項，長按複製到剪貼簿"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

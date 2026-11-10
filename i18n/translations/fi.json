@@ -10458,6 +10458,10 @@
     "v": "Järjestä vetämällä kortteja",
     "src": "b1666e29c5"
   },
+  "카드를 누르면 메뉴 열기": {
+    "v": "Kortin napautus avaa valikon",
+    "src": "daa054bb95"
+  },
   "카드를 눌러 보세요": {
     "v": "Napauta korttia",
     "src": "53eb6f1218"
@@ -10708,6 +10712,10 @@
   "켜는 법": {
     "v": "Näin laitat päälle",
     "src": "17fa569c64"
+  },
+  "켜면 앱에서 단축어를 눌렀을 때 복사하지 않고 편집 · 삭제 메뉴를 열어요. 복사는 길게 눌러서 해요. 키보드는 그대로예요.": {
+    "v": "Kun tämä on päällä, Fraasin napautus apissa ei kopioi sitä vaan avaa muokkaus- ja poistovalikon. Kopioi painamalla pitkään. Näppäimistö toimii kuten ennen.",
+    "src": "2ed3bdc2e7"
   },
   "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
     "v": "Jos otit sen käyttöön, avaa näppäimistö kerran, niin tila vaihtuu heti arvoon Päällä. iOS kertoo meille vain, kun näppäimistö avautuu.",
@@ -11408,6 +11416,10 @@
   "탭하면 이 빈칸이 들어가고, 저장해 둔 값도 함께 따라옵니다": {
     "v": "Lisää tämän kentän ja sille tallennetut arvot",
     "src": "ca8843e4e4"
+  },
+  "탭하면 추가 옵션, 꾹 누르면 클립보드에 복사": {
+    "v": "Napauta nähdäksesi lisäasetukset, paina pitkään kopioidaksesi leikepöydälle",
+    "src": "34afd26aa2"
   },
   "탭하면 커서 자리에 빈칸이 들어갑니다": {
     "v": "Napauta lisätäksesi täytettävän kentän kohdistimen kohtaan",

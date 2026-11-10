@@ -101,6 +101,8 @@ enum DefaultsKey {
     /// ⚠️ 읽기만 하는 자리에서 값을 쓰지 말 것 - 남의 초기화를 조용히 되돌린다.
     static let appInstallDate = "app_install_date"
     static let appLaunchCount = "appLaunchCount"
+    /// 목록 카드의 누르기와 꾹 누르기를 뒤집는다 (standard UD, Bool). 값과 기본은 `AppPrefs.cardTapOpensMenu`.
+    static let cardTapOpensMenu = "list.cardTapOpensMenu.v1"
     /// 설정 ▸ 화면의 "모든 기능 바로 보기" (standard UD, Bool). 켜면 감춘 기능이 조용히 보인다.
     static let showsAllFeatures = "userState.showsAllFeatures.v1"
     /// 사용자가 고른 앱 언어 (App Group, `AppLanguage.rawValue`). 값이 없으면 기기 설정을 따른다.
@@ -749,4 +751,7 @@ enum SnippetReturnPolicy {
 enum AppPrefs {
     /// 목록 카드 최소 높이. 설정 미리보기와 목록이 같은 값을 쓴다.
     static let memoCardHeight = Pref(key: DefaultsKey.memoCardHeight, fallback: 140.0)
+    /// 목록 카드를 누르면 메뉴, 꾹 누르면 복사로 뒤집는다(표준 UD, 앱 안에서만 쓴다). 기본은 누르면 복사.
+    /// 앱은 고치러 들어오는 곳이고 쓰는 일은 키보드에서 한다는 사람을 위한 것(2026-11 사용자 요청).
+    static let cardTapOpensMenu = Pref(key: DefaultsKey.cardTapOpensMenu, fallback: false)
 }

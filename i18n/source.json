@@ -15221,6 +15221,12 @@
     "comment": "Reorder mode hint",
     "h": "b1666e29c5"
   },
+  "카드를 누르면 메뉴 열기": {
+    "ko": "카드를 누르면 메뉴 열기",
+    "en": "Tap a card to open its menu",
+    "comment": "Settings toggle: in the app's list, tapping a Phrase card opens its menu (edit, delete...) instead of copying it",
+    "h": "daa054bb95"
+  },
   "카드를 눌러 보세요": {
     "ko": "카드를 눌러 보세요",
     "en": "Tap the card",
@@ -15592,6 +15598,12 @@
     "en": "How to turn on",
     "comment": "Keyboard banner: how to turn on Full Access",
     "h": "17fa569c64"
+  },
+  "켜면 앱에서 단축어를 눌렀을 때 복사하지 않고 편집 · 삭제 메뉴를 열어요. 복사는 길게 눌러서 해요. 키보드는 그대로예요.": {
+    "ko": "켜면 앱에서 단축어를 눌렀을 때 복사하지 않고 편집 · 삭제 메뉴를 열어요. 복사는 길게 눌러서 해요. 키보드는 그대로예요.",
+    "en": "When on, tapping a Snippet in the app opens its edit and delete menu instead of copying it. Long-press to copy. The keyboard stays the same.",
+    "comment": "Footer for the tap-opens-menu toggle: with it on, tapping a Phrase in the app opens the edit/delete menu instead of copying, long press copies, and the keyboard is unchanged",
+    "h": "2ed3bdc2e7"
   },
   "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.": {
     "ko": "켜셨다면 키보드를 한 번 띄우면 바로 '켜짐'으로 바뀌어요. iOS가 키보드가 뜰 때만 알려 줘서요.",
@@ -16624,6 +16636,12 @@
     "en": "Inserts this blank along with the values saved for it",
     "comment": "Insert existing placeholder hint",
     "h": "ca8843e4e4"
+  },
+  "탭하면 추가 옵션, 꾹 누르면 클립보드에 복사": {
+    "ko": "탭하면 추가 옵션, 꾹 누르면 클립보드에 복사",
+    "en": "Tap for more options, long-press to copy to the clipboard",
+    "comment": "Memo card hint when the tap and long-press actions are swapped in Settings: tap opens the menu, long press copies",
+    "h": "34afd26aa2"
   },
   "탭하면 커서 자리에 빈칸이 들어갑니다": {
     "ko": "탭하면 커서 자리에 빈칸이 들어갑니다",

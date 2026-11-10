@@ -174,6 +174,30 @@ final class BasicScenarioTests: XCTestCase {
         host.stop()
     }
 
+    // MARK: - 시나리오 1-2: 앱에는 고치러 들어온다 - 설정에서 뒤집으면 누르면 메뉴, 꾹 누르면 복사
+
+    func test_설정에서_뒤집으면_카드를_누르면_메뉴가_열리고_꾹_눌러야_복사된다() {
+        // 기본은 꺼짐이다. 쓰던 사람의 손이 업데이트로 바뀌면 안 된다
+        XCTAssertFalse(AppPrefs.cardTapOpensMenu.fallback, "기본은 누르면 복사여야 한다")
+        XCTAssertEqual(MemoCardGesture.tap.action(tapOpensMenu: false), .copy)
+        XCTAssertEqual(MemoCardGesture.longPress.action(tapOpensMenu: false), .menu)
+
+        // 켜면 뒤집힌다. 고치려고 누른 한 번에 쓰면 지우기의 윗줄이 지워지면 안 된다
+        XCTAssertEqual(MemoCardGesture.tap.action(tapOpensMenu: true), .menu,
+                       "뒤집었는데 누르면 복사되면 쓰면 지우기 단축어의 윗줄이 지워진다")
+        XCTAssertEqual(MemoCardGesture.longPress.action(tapOpensMenu: true), .copy,
+                       "뒤집어도 복사에 닿는 길은 남아야 한다")
+
+        // 설정 화면과 목록이 같은 키를 본다(앱 안에서만 쓰므로 표준 UserDefaults)
+        let std = UserDefaults.standard
+        let before = std.object(forKey: AppPrefs.cardTapOpensMenu.key)
+        defer { std.set(before, forKey: AppPrefs.cardTapOpensMenu.key) }
+        std.removeObject(forKey: AppPrefs.cardTapOpensMenu.key)
+        XCTAssertFalse(AppPrefs.cardTapOpensMenu.value(in: std))
+        std.set(true, forKey: AppPrefs.cardTapOpensMenu.key)
+        XCTAssertTrue(AppPrefs.cardTapOpensMenu.value(in: std))
+    }
+
     // MARK: - 시나리오 2: 즐겨찾기한 것이 키보드 맨 앞에 선다
 
     func test_즐겨찾기한_단축어가_키보드_맨_앞에_선다() throws {

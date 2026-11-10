@@ -415,3 +415,29 @@ struct RemainingUsesBadge: View {
             .accessibilityHidden(true)
     }
 }
+
+// MARK: - 카드를 누르면 무엇이 일어나나
+
+/// 목록 카드의 손짓과 그 결과. 화면(`ClipKeyboardList.memoGridCell`)은 여기에 묻기만 한다.
+///
+/// 기본은 누르면 복사, 꾹 누르면 메뉴다. 설정 ▸ 단축어의 "카드를 누르면 메뉴 열기" 를 켜면 뒤집힌다.
+/// 왜 뒤집을 수 있게 했나: 쓰는 일은 키보드에서 하고 앱에는 고치러 들어오는 사람이 있다.
+/// 그 사람에게 누르면 복사는 매번 헛손질이고, 쓰면 지우기 단축어에서는 고치려던 한 번에
+/// 윗줄이 지워진다(2026-11 사용자 요청).
+enum MemoCardGesture {
+    case tap
+    case longPress
+
+    enum Action: Equatable {
+        case copy
+        case menu
+    }
+
+    /// 두 손짓은 늘 서로 다른 일을 한다. 어느 쪽으로 두어도 복사와 메뉴에 모두 닿는다.
+    func action(tapOpensMenu: Bool) -> Action {
+        switch self {
+        case .tap: return tapOpensMenu ? .menu : .copy
+        case .longPress: return tapOpensMenu ? .copy : .menu
+        }
+    }
+}
