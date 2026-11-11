@@ -534,10 +534,42 @@ final class KeyboardHeightBookTests: XCTestCase {
         var fiveRows = KeyboardHeightBook.ContentMetrics()
         fiveRows.typingRowCount = 5
         let chrome = KeyboardHeightBook.systemChrome(for: screen)
-        // 바닥만 보려고 가장 낮은 높이를 고른다. 기본 높이는 머리 줄만큼 바닥을 넘을 수 있다.
-        AppGroup.defaults?.removeObject(forKey: DefaultsKey.systemKeyboardHeights)
-        XCTAssertEqual(KeyboardHeightBook.height(for: screen, content: fourRows, preset: .compact) + chrome, 874 * 0.43, accuracy: 0.5)
-        XCTAssertEqual(KeyboardHeightBook.height(for: screen, content: fiveRows, preset: .compact) + chrome, 874 * 0.46, accuracy: 0.5)
+        // 바닥만 보려고 시스템 키보드를 아주 낮게 적어 둔다. 기본 높이가 바닥에 닿는다.
+        KeyboardHeightBook.record(height: 874 * 0.25, for: screen)
+        XCTAssertEqual(KeyboardHeightBook.height(for: screen, content: fourRows, preset: .standard) + chrome, 874 * 0.43, accuracy: 0.5)
+        XCTAssertEqual(KeyboardHeightBook.height(for: screen, content: fiveRows, preset: .standard) + chrome, 874 * 0.46, accuracy: 0.5)
+    }
+
+    /// 사용자 의견(2026-11): "키보드 높이가 제일 낮은 거로 해도 높던데".
+    /// 가장 낮은 높이는 아이폰 세로에서도 기본 키보드와 같다. 43% 바닥에 막히지 않는다.
+    func testCompactMatchesSystemKeyboardOnPortraitPhone() {
+        let screen = CGSize(width: 402, height: 874)
+        KeyboardHeightBook.record(height: 311, for: screen)
+        let total = KeyboardHeightBook.height(for: screen,
+                                              content: KeyboardHeightBook.ContentMetrics(),
+                                              preset: .compact)
+            + KeyboardHeightBook.systemChrome(for: screen)
+        XCTAssertEqual(total, 311, accuracy: 0.01)
+        XCTAssertLessThan(total, 874 * 0.43)
+    }
+
+    /// 낮춘 판에서도 자판 줄은 판 안에 다 들어간다(작은 화면 · 5줄 언어까지).
+    func testCompactNeverClipsTypingRows() {
+        XCTAssertEqual(KeyboardHeightBook.minimumTypingHeight(rows: 4),
+                       NativeKeyMetrics.minStripHeight + 4 * NativeKeyMetrics.minRowPitch)
+        for (screen, system) in [(CGSize(width: 375, height: 667), CGFloat(260)),
+                                 (CGSize(width: 402, height: 874), 311)] {
+            KeyboardHeightBook.record(height: system, for: screen)
+            for rows in [4, 5] {
+                var content = KeyboardHeightBook.ContentMetrics()
+                content.typingRowCount = rows
+                let panel = KeyboardHeightBook.height(for: screen, content: content, preset: .compact)
+                let metrics = NativeKeyMetrics(size: CGSize(width: screen.width, height: panel),
+                                               rowCount: rows, columns: 10)
+                XCTAssertLessThanOrEqual(metrics.stripHeight + metrics.rowPitch * CGFloat(rows), panel + 0.01,
+                                         "\(screen.height)pt · \(rows)줄")
+            }
+        }
     }
 
     func testOnlyThaiAndZhuyinHaveFiveTypingRows() {

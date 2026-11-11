@@ -117,11 +117,14 @@ enum KeyboardHeightBook {
         //      답한 것이다. 여기서 바닥을 대면 키를 크게 쓰는 사람에게는 고른 것이
         //      **아무 일도 안 하는 것처럼** 보인다(예전 `버튼 높이` 슬라이더가 그랬다).
         //      그래도 판이 통째로 사라지지는 않게 `minimumContentHeight` 는 남긴다.
-        let buttonFloor = preset == .compact
-            ? minimumContentHeight
-            : max(content.floorHeight, minimumContentHeight)
-        // 아이폰 세로에서는 어떤 높이를 골라도 키보드 전체가 언어별 바닥(43% · 46%) 아래로 내려가지 않는다.
-        let floor = max(buttonFloor, minimumShareHeight(for: size, typingRows: content.typingRowCount))
+        //
+        //   ⚠️ 아이폰 세로의 언어별 바닥(43% · 46%)도 `.compact` 에는 대지 않는다. 그 바닥을 대면
+        //      가장 낮은 것을 골라도 기본 키보드보다 높다(2026-11 사용자 의견: "제일 낮은 거로
+        //      해도 높던데"). 대신 자판 줄이 판 밖으로 밀려나지 않을 만큼만 지킨다.
+        let floor = preset == .compact
+            ? max(minimumContentHeight, minimumTypingHeight(rows: content.typingRowCount))
+            : max(content.floorHeight, minimumContentHeight,
+                  minimumShareHeight(for: size, typingRows: content.typingRowCount))
 
         // ③ 그러나 화면을 통째로 먹지는 않는다. 가로에서 ② 를 그대로 쓰면 본문이 사라진다.
         let ceiling = maximumContentHeight(for: size)
@@ -131,6 +134,15 @@ enum KeyboardHeightBook {
 
     /// 우리 판이 이보다 낮아지지는 않는다. 카테고리 줄 + 키 한 줄이 겨우 들어가는 높이.
     static let minimumContentHeight: CGFloat = 150
+
+    /// 자판이 잘리지 않고 서는 가장 낮은 높이. 띠 하나 + 줄마다 가장 낮은 줄 높이다.
+    ///
+    /// ⚠️ 두 숫자는 `NativeKeyMetrics` 의 `minStripHeight` · `minRowPitch` 와 같아야 한다.
+    ///    자판은 줄을 이보다 낮게 그리지 않으므로, 판이 이보다 낮으면 아랫줄이 잘린다.
+    ///    (그 타입은 익스텐션에만 있어 여기서 못 읽는다. 시험이 둘을 묶어 둔다)
+    static func minimumTypingHeight(rows: Int) -> CGFloat {
+        38 + CGFloat(rows) * 34
+    }
 
     // MARK: - 조작 키
 

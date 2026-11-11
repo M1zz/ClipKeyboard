@@ -1092,7 +1092,8 @@ enum ConversionDictionaryStore {
 ///     맨 아랫줄 123 : 스페이스 : 리턴 = 2.5 : 5 : 2.5 칸, 셋째 줄 Shift · 지우기 = 1.31 칸
 ///
 /// ⚠️ 판 높이는 단축어 판과 같이 쓴다(`KeyboardHeightBook`). 그래서 줄 간격을 그대로 박지 않고
-///    남는 높이로 나눈다. 아이폰 세로의 판은 바닥(화면의 43% · 46%)이 있어 기본 키보드보다 높다.
+///    남는 높이로 나눈다. 아이폰 세로의 판은 바닥(화면의 43% · 46%)이 있어 기본 키보드보다 높다
+///    (높이를 '시스템과 같게' 로 고른 사람만 그 바닥 없이 기본 키보드와 같다).
 ///    남는 높이는 키가 먼저 받고, 띠는 맨 윗줄 풍선이 들어갈 만큼만 받는다.
 ///    (예전에는 줄 간격 상한이 58pt 라 남는 높이가 전부 띠로 가서, Pro Max 에서 띠가 123pt 가 됐다)
 struct NativeKeyMetrics {
@@ -1102,6 +1103,8 @@ struct NativeKeyMetrics {
     static let maxRowPitch: CGFloat = 80
     /// 맨 위 띠의 최소 높이. 단축어 키(32pt)가 들어가는 높이다.
     static let minStripHeight: CGFloat = 38
+    /// 줄을 이보다 낮게는 그리지 않는다. 판 높이의 바닥(`KeyboardHeightBook.minimumTypingHeight`)이 이 값으로 선다.
+    static let minRowPitch: CGFloat = 34
     /// 띠가 줄 하나보다 이만큼 낮아도 맨 윗줄 풍선(키 높이 + 3pt)이 판 안에 들어간다.
     /// 풍선이 솟을 수 있는 높이는 띠 + 줄 틈의 절반 - 2 다(`maxRise`).
     static let stripShortfall: CGFloat = 12.5
@@ -1132,7 +1135,7 @@ struct NativeKeyMetrics {
         let tightest = (height - Self.minStripHeight) / rows
         // 띠까지 줄 하나처럼 나눈 줄 높이. 풍선이 들어갈 자리를 띠에 남긴다.
         let balanced = (height + Self.stripShortfall) / (rows + 1)
-        return max(34, min(tightest, balanced, Self.maxRowPitch))
+        return max(Self.minRowPitch, min(tightest, balanced, Self.maxRowPitch))
     }
 
     /// 줄이 가져가고 남은 높이가 맨 위 띠다.
