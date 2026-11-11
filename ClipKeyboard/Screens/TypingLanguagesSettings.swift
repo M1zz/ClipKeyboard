@@ -16,6 +16,8 @@ struct TypingLanguagesSettings: View {
     @AppStorage(TypingPrefs.currentKey, store: AppGroup.defaults) private var currentRaw: String = ""
     @AppStorage(KeyboardPrefs.koreanLayout.key, store: AppGroup.defaults)
     private var koreanLayoutRaw: String = KeyboardPrefs.koreanLayout.fallback
+    @AppStorage(KeyboardPrefs.japaneseLayout.key, store: AppGroup.defaults)
+    private var japaneseLayoutRaw: String = KeyboardPrefs.japaneseLayout.fallback
 
     @State private var languages: [TypingLanguage] = []
 
@@ -52,6 +54,15 @@ struct TypingLanguagesSettings: View {
                     Picker(NSLocalizedString("한국어 레이아웃", comment: "Korean layout picker label"), selection: $koreanLayoutRaw) {
                         Text(NSLocalizedString("두벌식", comment: "Korean layout: dubeolsik")).tag(KoreanTypingLayout.dubeolsik.rawValue)
                         Text(NSLocalizedString("천지인", comment: "Korean layout: cheonjiin")).tag(KoreanTypingLayout.cheonjiin.rawValue)
+                    }
+                }
+            }
+
+            if languages.contains(.ja) {
+                Section {
+                    Picker(NSLocalizedString("일본어 레이아웃", comment: "Japanese layout picker label"), selection: $japaneseLayoutRaw) {
+                        Text(NSLocalizedString("로마자", comment: "Japanese layout: romaji typing on a QWERTY board")).tag(JapaneseTypingLayout.romaji.rawValue)
+                        Text(NSLocalizedString("플릭", comment: "Japanese layout: kana flick pad (12 keys, swipe for other vowels)")).tag(JapaneseTypingLayout.flick.rawValue)
                     }
                 }
             }

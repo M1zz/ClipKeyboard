@@ -514,6 +514,7 @@ enum VietSyllable {
 // MARK: - 일본어(로마자 → 가나)
 
 /// 로마자를 치면 히라가나로 바꾼다. 사전이 있으면 그 읽기로 한자 후보를 낸다.
+/// 플릭 자판(`KanaFlickInput`)은 가나를 바로 넣는다. 읽기와 후보는 두 자판이 같이 쓴다.
 ///
 /// ⚠️ 사전은 앱이 필요할 때 받아 App Group 에 둔다(`ConversionDictionary`). 없으면 가나까지만 친다.
 final class KanaTypingEngine: TypingEngine {
@@ -537,7 +538,17 @@ final class KanaTypingEngine: TypingEngine {
     }
 
     func input(_ key: String) {
-        if key == "-" && isComposing {
+        if key == KanaFlickInput.modifierKey {
+            // 플릭 자판의 탁점 · 작은 글자 키. 짓고 있는 마지막 가나만 돌린다(확정한 글자는 건드리지 않는다).
+            flushPending()
+            guard let last = kana.last, let next = KanaFlickInput.modified(last) else { return }
+            kana.removeLast()
+            kana.append(next)
+        } else if KanaFlickInput.isKana(key) {
+            // 플릭 자판은 가나를 바로 준다.
+            flushPending()
+            kana += key
+        } else if key == "-" && isComposing {
             flushPending()
             kana += "ー"
         } else if key.count == 1, let ch = key.first, ch.isASCII, ch.isLetter {

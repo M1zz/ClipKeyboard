@@ -6869,6 +6869,12 @@
     "comment": "Changelog 5.0.8 russian",
     "h": "6015bd85cb"
   },
+  "로마자": {
+    "ko": "로마자",
+    "en": "Romaji",
+    "comment": "Japanese layout: romaji typing on a QWERTY board",
+    "h": "deac789fe7"
+  },
   "리뷰 남기기": {
     "ko": "리뷰 남기기",
     "en": "Leave a Review",
@@ -13067,6 +13073,12 @@
     "comment": "Persona: General title",
     "h": "c3201a4a84"
   },
+  "일본어 레이아웃": {
+    "ko": "일본어 레이아웃",
+    "en": "Japanese layout",
+    "comment": "Japanese layout picker label",
+    "h": "c3be305322"
+  },
   "일본어·중국어 한자 변환": {
     "ko": "일본어·중국어 한자 변환",
     "en": "Kanji and hanzi conversion",
@@ -16505,6 +16517,12 @@
     "comment": "",
     "h": "e6067d8c7d"
   },
+  "탁점과 작은 글자": {
+    "ko": "탁점과 작은 글자",
+    "en": "Dakuten and small kana",
+    "comment": "Japanese flick keyboard: key that cycles the last kana through voiced, semi-voiced and small forms",
+    "h": "f221747a0d"
+  },
   "택배 메모\n부재 시 경비실에 맡겨주세요.\n공동현관 비밀번호: [번호]": {
     "ko": "택배 메모\n부재 시 경비실에 맡겨주세요.\n공동현관 비밀번호: [번호]",
     "en": "Delivery note\nIf I'm not home, please leave it with the front desk.\nBuilding door code: [code]",
@@ -17146,6 +17164,12 @@
     "en": "Placeholder and variable are one word now: blank",
     "comment": "Changelog 5.0.7 terminology",
     "h": "22dae6bac0"
+  },
+  "플릭": {
+    "ko": "플릭",
+    "en": "Flick",
+    "comment": "Japanese layout: kana flick pad (12 keys, swipe for other vowels)",
+    "h": "22489a16fe"
   },
   "피드백": {
     "ko": "피드백",

@@ -315,6 +315,8 @@ enum DefaultsKey {
     static let keyboardCustomBgHex = "keyboardCustomBgHex"
     static let keyboardCustomKeyHex = "keyboardCustomKeyHex"
     static let keyboardKoreanLayout = "keyboardKoreanLayout"
+    /// 일본어 자판 모양(`JapaneseTypingLayout.rawValue`: romaji · flick). 없으면 로마자(지금까지의 자판).
+    static let keyboardJapaneseLayout = "keyboardJapaneseLayout"
     /// 자판에 켜 둔 언어들(순서대로, 쉼표로 이은 `TypingLanguage.rawValue`). 비어 있으면 그 사람의 언어 + 영어.
     static let keyboardTypingLanguages = "keyboardTypingLanguages.v1"
     /// 기존 사용자의 입력 언어를 저장해 두는 일을 마쳤는가(App Group, Bool). `TypingPrefs.keepLegacyDefaultIfNeeded`.
@@ -711,6 +713,7 @@ enum KeyboardPrefs {
     static let koreanEnabled = Pref(key: DefaultsKey.keyboardKoreanEnabled, fallback: false)
     static let typingLang = Pref(key: DefaultsKey.keyboardTypingLang, fallback: "english")
     static let koreanLayout = Pref(key: DefaultsKey.keyboardKoreanLayout, fallback: "dubeolsik")
+    static let japaneseLayout = Pref(key: DefaultsKey.keyboardJapaneseLayout, fallback: "romaji")
     /// 단축어를 넣으면 쓰던 키보드로 돌아간다. 기본 켬(앱 주인이 바란 동작). 이유는 `DefaultsKey` 에.
     static let returnAfterSnippet = Pref(key: DefaultsKey.keyboardReturnAfterSnippet, fallback: true)
     /// 키보드 진동. 기본 켬(지금까지의 동작). 이유는 `DefaultsKey` 에.

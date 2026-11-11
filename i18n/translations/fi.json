@@ -4779,6 +4779,10 @@
     "v": "Venäjä on nyt tuettu.",
     "src": "6015bd85cb"
   },
+  "로마자": {
+    "v": "Romaji",
+    "src": "deac789fe7"
+  },
   "리뷰 남기기": {
     "v": "Jätä arvostelu",
     "src": "f0d2b9ba53"
@@ -8989,6 +8993,10 @@
     "v": "Yleinen / henkilökohtainen",
     "src": "c3201a4a84"
   },
+  "일본어 레이아웃": {
+    "v": "Japanin asettelu",
+    "src": "c3be305322"
+  },
   "일본어·중국어 한자 변환": {
     "v": "Kanji- ja hanzi-muunnos",
     "src": "1fa50ccb8e"
@@ -11329,6 +11337,10 @@
     "v": "Tyypiksi vaihdettiin %@",
     "src": "e6067d8c7d"
   },
+  "탁점과 작은 글자": {
+    "v": "Dakuten ja pienet kana",
+    "src": "f221747a0d"
+  },
   "택배 메모\n부재 시 경비실에 맡겨주세요.\n공동현관 비밀번호: [번호]": {
     "v": "Toimitusohje\nJos en ole kotona, jätä paketti naapurille.\nOvikoodi: [koodi]",
     "src": "dae48e35e6"
@@ -11756,6 +11768,10 @@
   "플레이스홀더와 변수로 갈려 있던 말을 빈칸 하나로 맞췄어요": {
     "v": "Paikkamerkki ja muuttuja ovat nyt yksi sana: täytettävä kenttä",
     "src": "22dae6bac0"
+  },
+  "플릭": {
+    "v": "Flick",
+    "src": "22489a16fe"
   },
   "피드백": {
     "v": "Palaute",

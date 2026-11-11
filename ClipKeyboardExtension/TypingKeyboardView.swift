@@ -26,6 +26,8 @@ enum TypingPrefs {
     static let currentKey = DefaultsKey.keyboardTypingCurrent
     /// 한국어 자판 모양(dubeolsik · cheonjiin).
     static let koreanLayoutKey = DefaultsKey.keyboardKoreanLayout
+    /// 일본어 자판 모양(romaji · flick).
+    static let japaneseLayoutKey = DefaultsKey.keyboardJapaneseLayout
     /// 키보드를 열면 어느 판이 먼저인가(typing · snippets).
     static let modeKey = DefaultsKey.keyboardInputMode
 
@@ -187,6 +189,8 @@ struct TypingKeyboardPanel: View {
     @AppStorage(TypingPrefs.currentKey, store: AppGroup.defaults) private var currentRaw: String = ""
     @AppStorage(TypingPrefs.koreanLayoutKey, store: AppGroup.defaults)
     private var koreanLayoutRaw: String = KoreanTypingLayout.dubeolsik.rawValue
+    @AppStorage(TypingPrefs.japaneseLayoutKey, store: AppGroup.defaults)
+    private var japaneseLayoutRaw: String = JapaneseTypingLayout.romaji.rawValue
 
     @StateObject private var session = TypingSession()
     @State private var layer: Layer = .letters
@@ -199,6 +203,8 @@ struct TypingKeyboardPanel: View {
     @State private var panelWidth: CGFloat = 0
     /// 천지인 문장부호 키(.,?!)를 이어 누르는 중인가. 같은 키를 빨리 누르면 다음 부호로 바뀐다.
     @State private var punctuationCycle: (index: Int, at: Date)?
+    /// 플릭 자판에서 지금 누르고 있는 키. 그 키의 십자가가 옆 키 위에 그려지게 맨 앞으로 올린다.
+    @State private var pressedKanaKey: String?
     /// 바로 전 스페이스에서 텍스트 대치로 바꾼 것. 곧바로 지우기를 누르면 친 낱말로 되돌린다(기본 키보드와 같다).
     @State private var lastReplacement: (typed: String, phrase: String)?
 
@@ -219,6 +225,13 @@ struct TypingKeyboardPanel: View {
 
     private var usesCheonjiin: Bool { language == .ko && koreanLayout == .cheonjiin && layer == .letters }
 
+    private var usesKanaFlick: Bool {
+        language == .ja && japaneseLayoutRaw == JapaneseTypingLayout.flick.rawValue && layer == .letters
+    }
+
+    /// 5칸 4줄 판(천지인 · 일본어 플릭)인가. 키 치수를 그 칸 수로 잡는다.
+    private var usesPad: Bool { usesCheonjiin || usesKanaFlick }
+
     /// 한 줄에 놓는 칸 수. 보통 10칸, 11 · 12칸 언어(독일어 · 태국어 …)는 그만큼 좁힌다.
     private var columns: Int {
         let rows = letterRows
@@ -228,14 +241,16 @@ struct TypingKeyboardPanel: View {
     var body: some View {
         GeometryReader { geo in
             let metrics = NativeKeyMetrics(size: geo.size,
-                                           rowCount: usesCheonjiin ? 4 : letterRows.count + 1,
-                                           columns: usesCheonjiin ? 5 : columns)
+                                           rowCount: usesPad ? 4 : letterRows.count + 1,
+                                           columns: usesPad ? 5 : columns)
             VStack(spacing: 0) {
                 topStrip(metrics: metrics)
                     .frame(height: metrics.stripHeight)
                     .padding(.horizontal, NativeKeyMetrics.sideInset + metrics.gapX / 2)
                 if usesCheonjiin {
                     cheonjiinGrid(metrics: metrics)
+                } else if usesKanaFlick {
+                    kanaFlickGrid(metrics: metrics)
                 } else {
                     keyRows(metrics: metrics)
                 }
@@ -724,6 +739,78 @@ struct TypingKeyboardPanel: View {
         .opacity(returnLocked ? 0.4 : 1)
         .disabled(returnLocked)
         .accessibilityLabel(returnKeyName ?? NSLocalizedString("리턴 키", comment: "Return key accessibility label"))
+    }
+
+    // MARK: - 일본어 플릭
+
+    /// 일본어 플릭 판. 기본 키보드의 가나 10키처럼 5칸 4줄이고, 양옆 조작 키는 천지인 판과 같은 자리다.
+    ///
+    ///     #123 | あ    | か | さ   | 지우기
+    ///     ABC  | た    | な | は   | 리턴(두 줄)
+    ///     지구본| ま    | や | ら   |
+    ///     (두 줄)| 小゛゜ | わ | 、。?! | 스페이스
+    ///
+    /// ⚠️ 가나 키 열둘은 한 겹(ZStack)에 놓는다. 누른 키의 십자가는 옆 키 위에 그려져야 하는데,
+    ///    줄이나 칸으로 묶으면 뒤에 오는 묶음이 십자가를 덮는다.
+    private func kanaFlickGrid(metrics: NativeKeyMetrics) -> some View {
+        let w = metrics.usableWidth / 5
+        let h = metrics.rowPitch
+        return HStack(spacing: 0) {
+            VStack(spacing: 0) {
+                layerKey(metrics: metrics, width: w, height: h, label: "#123")
+                cheonjiinLanguageKey(metrics: metrics, width: w, height: h)
+                cheonjiinTallKey(metrics: metrics, width: w, height: h * 2)
+            }
+            ZStack(alignment: .topLeading) {
+                ForEach(Array(KanaFlickInput.rows.enumerated()), id: \.offset) { row, keys in
+                    ForEach(Array(keys.enumerated()), id: \.element) { column, key in
+                        kanaKey(key, metrics: metrics, width: w)
+                            .offset(x: CGFloat(column) * w, y: CGFloat(row) * h)
+                            .zIndex(pressedKanaKey == key ? 1 : 0)
+                    }
+                }
+            }
+            .frame(width: w * 3, height: h * 4, alignment: .topLeading)
+            .zIndex(1)
+            VStack(spacing: 0) {
+                backspaceKey(metrics: metrics, width: w)
+                returnKey(metrics: metrics, width: w, height: h * 2)
+                spaceKey(metrics: metrics, width: w, label: "空白")
+            }
+        }
+        .frame(width: metrics.usableWidth, height: h * 4)
+    }
+
+    /// 가나 키. 누르면 그 행의 첫 글자, 누른 채 밀면 그쪽 글자가 들어간다. 꾹 누르면 십자가로 다 보인다.
+    @ViewBuilder
+    private func kanaKey(_ key: String, metrics: NativeKeyMetrics, width: CGFloat) -> some View {
+        if key == KanaFlickInput.modifierKey {
+            PressableKey(action: { type(key) }) { pressed in
+                cell(width: width, height: metrics.rowPitch, metrics: metrics) {
+                    keyFace(textLabel(key, size: metrics.controlFontSize), kind: .letter, pressed: pressed)
+                }
+            }
+            .accessibilityLabel(NSLocalizedString("탁점과 작은 글자", comment: "Japanese flick keyboard: key that cycles the last kana through voiced, semi-voiced and small forms"))
+        } else {
+            CheonjiinFlickKey(flicks: KanaFlickInput.flicks(for: key),
+                              digit: key,
+                              popupCell: CGSize(width: width, height: metrics.rowPitch),
+                              keySize: CGSize(width: width - metrics.gapX, height: metrics.keyHeight),
+                              fontSize: metrics.letterFontSize,
+                              style: style,
+                              onTap: { type(key) },
+                              onFlick: { type($0) },
+                              onDigit: { type($0) },
+                              onPressChange: { down in
+                                  // 두 엄지로 겹쳐 치면 앞 키의 끝이 뒤 키의 시작보다 늦게 올 수 있다. 제 것만 내린다.
+                                  if down { pressedKanaKey = key } else if pressedKanaKey == key { pressedKanaKey = nil }
+                              }) { pressed in
+                cell(width: width, height: metrics.rowPitch, metrics: metrics) {
+                    keyFace(textLabel(key, size: metrics.letterFontSize), kind: .letter, pressed: pressed)
+                }
+            }
+            .accessibilityLabel(key)
+        }
     }
 
     // MARK: - 천지인
@@ -1271,6 +1358,7 @@ private struct PressableKey<Face: View>: View {
 
 /// 천지인 ㅣ · ㅡ 키. 누른 채 밀면 그쪽 모음이, 꾹 누르고 그대로 떼면 숫자가 들어간다(기본 10키와 같다).
 /// 밀거나 꾹 누르는 동안 키 둘레에 십자가로 고를 글자를 띄운다.
+/// 일본어 플릭 판의 가나 키도 이 키다. 그때 `digit` 은 십자가 가운데에 서는 그 행의 첫 글자다.
 private struct CheonjiinFlickKey<Face: View>: View {
     let flicks: [CheonjiinInput.Flick: String]
     let digit: String?
@@ -1282,6 +1370,8 @@ private struct CheonjiinFlickKey<Face: View>: View {
     let onTap: () -> Void
     let onFlick: (String) -> Void
     let onDigit: (String) -> Void
+    /// 누르기 시작하고 끝날 때. 부르는 쪽이 이 키를 옆 키보다 앞에 그릴 때 쓴다.
+    var onPressChange: (Bool) -> Void = { _ in }
     @ViewBuilder let face: (_ pressed: Bool) -> Face
 
     @State private var pressed = false
@@ -1334,6 +1424,7 @@ private struct CheonjiinFlickKey<Face: View>: View {
 
     private func began() {
         pressed = true
+        onPressChange(true)
         direction = nil
         showsPopup = false
         let work = DispatchWorkItem { showsPopup = true }
@@ -1349,7 +1440,7 @@ private struct CheonjiinFlickKey<Face: View>: View {
     private func ended(fire: Bool) {
         holdWork?.cancel()
         holdWork = nil
-        defer { pressed = false; direction = nil; showsPopup = false }
+        defer { pressed = false; direction = nil; showsPopup = false; onPressChange(false) }
         guard fire else { return }
         if let direction, let vowel = flicks[direction] {
             onFlick(vowel)

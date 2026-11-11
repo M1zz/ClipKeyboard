@@ -4907,6 +4907,10 @@
     "v": "Obsługujemy już rosyjski.",
     "src": "6015bd85cb"
   },
+  "로마자": {
+    "v": "Romaji",
+    "src": "deac789fe7"
+  },
   "리뷰 남기기": {
     "v": "Napisz opinię",
     "src": "f0d2b9ba53"
@@ -9169,6 +9173,10 @@
     "v": "Ogólne / Osobiste",
     "src": "c3201a4a84"
   },
+  "일본어 레이아웃": {
+    "v": "Układ japoński",
+    "src": "c3be305322"
+  },
   "일본어·중국어 한자 변환": {
     "v": "Konwersja kanji i hanzi",
     "src": "1fa50ccb8e"
@@ -11541,6 +11549,10 @@
     "v": "Typ zmieniono na %@",
     "src": "e6067d8c7d"
   },
+  "탁점과 작은 글자": {
+    "v": "Dakuten i małe kana",
+    "src": "f221747a0d"
+  },
   "택배 메모\n부재 시 경비실에 맡겨주세요.\n공동현관 비밀번호: [번호]": {
     "v": "Uwagi dla kuriera\nJeśli mnie nie będzie, proszę zostawić u portiera.\nKod do domofonu: [kod]",
     "src": "dae48e35e6"
@@ -11968,6 +11980,10 @@
   "플레이스홀더와 변수로 갈려 있던 말을 빈칸 하나로 맞췄어요": {
     "v": "Zamiast placeholdera i zmiennej mamy teraz jedno słowo: pole do wypełnienia",
     "src": "22dae6bac0"
+  },
+  "플릭": {
+    "v": "Flick",
+    "src": "22489a16fe"
   },
   "피드백": {
     "v": "Opinie",

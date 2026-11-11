@@ -70,6 +70,7 @@
 | 키보드가 배워서 꺼내 준다 | "주소는" 까지 치고 매번 단축어 판을 열어 배송지를 찾는다 · 한 번 넣은 것이 계속 뜬다 · 잠근 단축어가 띠에 뜬다 (2026-11 사용자 요청) | `KeyboardSessionLedgerTests/suggestsAfterRepeats` |
 | 천지인 꾹 눌러 숫자 | 천지인으로 치다가 숫자 하나를 넣으려면 숫자 판으로 갔다 와야 한다 (2026-10 사용자 요청) | `CheonjiinInputTests/testLongPressDigitsFollowPhonePad` |
 | 천지인 오 + ㆍ = 요 | 보이는 모음에 획을 더해도 모음이 바뀌지 않고, 조금만 늦게 쳐도 모음이 끊긴다 (2026-10 사용자 신고) | `CheonjiinInputTests/testStrokeAddsToShownVowel` |
+| 일본어를 플릭으로 친다 | 일본어는 로마자 자판뿐이라 플릭으로 치는 사람은 우리 키보드로 글을 못 친다 (2026-11 사용자 요청) | `KanaFlickInputTests/testFlickTypesKanaDirectly` |
 | 짓는 글자 밑줄 | 한글을 짓는 동안 밑줄이 없거나 낱말 전체에 서고, 키 하나에 입력칸을 여러 번 건드려 빨리 치면 늦게 따라온다 (2026-10 사용자 신고) | `TypingEnginesTests/testOnlyComposingSyllableIsMarked` |
 | 백지 첫 실행 (새 설치) | 쓰던 사람에게 새 첫 실행이 뜬다 · 옛 튜토리얼과 겹쳐 둘이 뜬다 · 중간에 꺼진 뒤 맥락 없이 중간부터 시작한다 · 끝냈는데 목록이 비어 있다 | `BasicScenarioTests/test_백지_첫_실행은_새_설치에만_뜨고_끝내기_전에_끄면_처음부터_끝나면_예시_하나가_남는다` |
 | 키보드 켜기 수업 (새 설치) | 첫 단축어를 담았는데 키보드를 켜라는 말이 없다 · 나중에 다시를 골랐더니 다시는 안 알려 준다 · 켰는데도 켜라는 줄이 남는다 | `BasicScenarioTests/test_키보드_켜기를_미루면_켤_때까지만_목록_위에_남는다` |

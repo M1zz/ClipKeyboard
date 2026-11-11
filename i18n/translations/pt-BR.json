@@ -4779,6 +4779,10 @@
     "v": "Agora há suporte para russo.",
     "src": "6015bd85cb"
   },
+  "로마자": {
+    "v": "Romaji",
+    "src": "deac789fe7"
+  },
   "리뷰 남기기": {
     "v": "Deixar uma avaliação",
     "src": "f0d2b9ba53"
@@ -8986,6 +8990,10 @@
     "v": "Geral / Pessoal",
     "src": "c3201a4a84"
   },
+  "일본어 레이아웃": {
+    "v": "Layout japonês",
+    "src": "c3be305322"
+  },
   "일본어·중국어 한자 변환": {
     "v": "Conversão de kanji e hanzi",
     "src": "1fa50ccb8e"
@@ -11323,6 +11331,10 @@
     "v": "Tipo alterado para %@",
     "src": "e6067d8c7d"
   },
+  "탁점과 작은 글자": {
+    "v": "Dakuten e kana pequeno",
+    "src": "f221747a0d"
+  },
   "택배 메모\n부재 시 경비실에 맡겨주세요.\n공동현관 비밀번호: [번호]": {
     "v": "Recado para entrega\nSe eu não estiver, deixe na portaria.\nSenha do portão: [senha]",
     "src": "dae48e35e6"
@@ -11750,6 +11762,10 @@
   "플레이스홀더와 변수로 갈려 있던 말을 빈칸 하나로 맞췄어요": {
     "v": "Placeholder e variável agora são uma coisa só: campo para preencher",
     "src": "22dae6bac0"
+  },
+  "플릭": {
+    "v": "Flick",
+    "src": "22489a16fe"
   },
   "피드백": {
     "v": "Feedback",
