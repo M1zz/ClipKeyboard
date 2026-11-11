@@ -290,9 +290,26 @@ struct SettingView: View {
             }
             // 보낸 적이 있을 때만 보인다. 답장이 오면 숫자가 붙는다.
             LeeoSentFeedbackRow<ClipKeyboardSpec>()
-            FoldLink(destination: ReviewWriteView()) {
-                Label(NSLocalizedString("리뷰 남기기", comment: "Leave review"),
-                      systemImage: AppSymbol.star)
+            // 누르면 App Store 의 리뷰 쓰기 화면이 바로 열린다.
+            // ⚠️ 여기서 `requestReview()` 를 부르지 않는다. 그 창은 시스템이 띄울지 말지 정해서
+            //    (1년에 세 번, 이미 쓴 사람·TestFlight 는 안 뜸) 눌러도 아무 일이 없을 수 있다.
+            //    사람이 직접 누르는 문은 늘 열리는 `action=write-review` 주소로 간다.
+            if let url = URL(string: Constants.appStoreReviewURL) {
+                Link(destination: url) {
+                    HStack {
+                        Label {
+                            Text(NSLocalizedString("리뷰 남기기", comment: "Leave review"))
+                                .foregroundColor(.primary)
+                        } icon: {
+                            Image(systemName: AppSymbol.star)
+                        }
+                        Spacer(minLength: 8)
+                        Image(systemName: AppSymbol.arrowUpForwardApp)
+                            .foregroundStyle(.tertiary)
+                            .accessibilityHidden(true)
+                    }
+                }
+                .accessibilityHint(NSLocalizedString("App Store 페이지로 이동합니다", comment: "Open App Store hint"))
             }
             // 앞으로 만들 것. 원본은 `ClipKeyboardRoadmap.swift`.
             FoldLink(destination: RoadmapScreen()) {
@@ -878,100 +895,6 @@ struct CopyPasteView: View {
         }
         .navigationTitle(NSLocalizedString("붙여넣기 알림 허용 끄기", comment: "Paste notification settings title"))
         .navigationBarTitleDisplayMode(.inline)
-        .solidNavBar(theme.bg)
-    }
-}
-
-struct ReviewWriteView: View {
-
-    @Environment(\.dismiss) var dismiss
-    @Environment(\.requestReview) var requestReview
-    @Environment(\.appTheme) private var theme
-
-    var body: some View {
-        List {
-            Section {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text(NSLocalizedString("⭐️ 리뷰 및 평점 매기기", comment: "Review and rating header"))
-                        .font(.headline)
-                        .padding(.bottom, 4)
-
-                    Text(NSLocalizedString("ClipKeyboard가 마음에 드셨나요? 여러분의 리뷰는 앱을 더 발전시키는 데 큰 도움이 됩니다.", comment: "Review description"))
-                        .font(.body)
-                        .foregroundColor(theme.textMuted)
-                }
-                .padding(.vertical, 8)
-            }
-
-            Section {
-                Button(action: {
-                    requestReview()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        dismiss()
-                    }
-                }) {
-                    HStack {
-                        Image(systemName: AppSymbol.starFill)
-                            .foregroundColor(.yellow)
-                            .accessibilityHidden(true)
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(NSLocalizedString("앱 내에서 리뷰 작성", comment: "In-app review button"))
-                                .font(.headline)
-                                .foregroundColor(.primary)
-                            Text(NSLocalizedString("빠르고 간편하게 리뷰를 남길 수 있습니다 (권장)", comment: "In-app review description"))
-                                .font(.body)
-                                .foregroundColor(theme.textMuted)
-                        }
-                        Spacer()
-                        Image(systemName: AppSymbol.chevronRight)
-                            .font(.body)
-                            .foregroundColor(theme.textMuted)
-                            .accessibilityHidden(true)
-                    }
-                    .padding(.vertical, 4)
-                }
-
-                Button(action: {
-                    dismiss()
-                    if let url = URL(string: Constants.appStoreReviewURL) {
-                        #if os(iOS)
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                        #elseif os(macOS)
-                        NSWorkspace.shared.open(url)
-                        #endif
-                    }
-                }) {
-                    HStack {
-                        Image(systemName: AppSymbol.link)
-                            .foregroundColor(.accentColor)
-                            .accessibilityHidden(true)
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(NSLocalizedString("App Store에서 리뷰 작성", comment: "App Store review button"))
-                                .font(.headline)
-                                .foregroundColor(.primary)
-                            Text(NSLocalizedString("App Store 페이지에서 직접 작성합니다", comment: "App Store review description"))
-                                .font(.body)
-                                .foregroundColor(theme.textMuted)
-                        }
-                        Spacer()
-                        Image(systemName: AppSymbol.arrowUpForwardApp)
-                            .font(.body)
-                            .foregroundColor(theme.textMuted)
-                            .accessibilityHidden(true)
-                    }
-                    .padding(.vertical, 4)
-                }
-                .accessibilityHint(NSLocalizedString("App Store 페이지로 이동합니다", comment: "Open App Store hint"))
-            } footer: {
-                Text(NSLocalizedString("리뷰는 다른 사용자에게 앱을 추천하는 데 도움이 되며, 개발자에게는 큰 힘이 됩니다.", comment: "Review footer message"))
-                    .font(.body)
-                    .foregroundColor(theme.textMuted)
-            }
-        }
-        .navigationTitle(NSLocalizedString("리뷰 남기기", comment: "Leave review"))
-        #if os(iOS)
-        .navigationBarTitleDisplayMode(.inline)
-        #endif
         .solidNavBar(theme.bg)
     }
 }
