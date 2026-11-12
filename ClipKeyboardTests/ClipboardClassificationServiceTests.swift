@@ -77,6 +77,13 @@ final class ClipboardClassificationServiceTests: XCTestCase {
         XCTAssertEqual(result.type, .swift)
     }
 
+    /// 여덟 글자 영어 낱말은 은행 코드가 아니다 - "pokermon" 이 민감한 번호로 잡혀 목록에서 가려졌다.
+    func testClassify_EightLetterWord_IsNotSWIFT() {
+        for word in ["pokermon", "Pokermon", "POKERMON", "password", "homework"] {
+            XCTAssertNotEqual(sut.classify(content: word).type, .swift, word)
+        }
+    }
+
     // MARK: - VAT
 
     func testClassify_ValidVAT_DE() {

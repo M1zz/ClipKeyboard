@@ -382,14 +382,24 @@ class ClipboardClassificationService {
     }
 
     /// SWIFT/BIC 코드 - 8자 또는 11자 (AAAA BB CC [DDD])
+    ///
+    /// ⚠️ 글자 수와 모양만 보면 여덟 글자 영어 낱말이 전부 은행 코드가 된다. "pokermon" 을 저장했더니
+    ///    민감한 번호로 잡혀 최근 화면에 끝 네 글자만 보였다. 그래서 둘을 더 본다.
+    ///    1) 대문자로 적혀 있다 - 은행 코드는 늘 대문자로 쓰고, 낱말은 소문자가 섞인다.
+    ///    2) 다섯 · 여섯째 글자가 실제 나라 코드다 - 코드의 그 자리는 은행이 있는 나라다.
     private func detectSWIFT(_ text: String) -> (ClipboardItemType, Double)? {
-        let normalized = text.trimmingCharacters(in: .whitespaces).uppercased()
+        let code = text.trimmingCharacters(in: .whitespaces)
         let pattern = "^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$"
-        if Self.matches(pattern, in: normalized) {
-            return (.swift, 0.9)
-        }
-        return nil
+        guard Self.matches(pattern, in: code) else { return nil }
+        let country = String(code.dropFirst(4).prefix(2))
+        guard Self.isoRegionCodes.contains(country) else { return nil }
+        return (.swift, 0.9)
     }
+
+    /// 두 글자 나라 코드 (KR · US · DE …). SWIFT 코드의 나라 자리를 확인할 때 쓴다.
+    private static let isoRegionCodes: Set<String> = Set(
+        Locale.Region.isoRegions.map(\.identifier).filter { $0.count == 2 }
+    )
 
     /// VAT 번호 (EU + UK). 국가 prefix + 숫자/영숫자 8~12자.
     private func detectVAT(_ text: String) -> (ClipboardItemType, Double)? {
