@@ -167,15 +167,18 @@ final class KeyboardHeightBookTests: XCTestCase {
 
     // MARK: - 버튼 여섯은 보인다
 
-    /// 아이폰 세로에서는 어떤 높이를 골라도 키보드 전체가 화면의 43% 아래로 내려가지 않는다
+    /// 아이폰 세로에서는 표준 · 넉넉하게를 골랐을 때 키보드 전체가 화면의 43% 아래로 내려가지 않는다
     /// (2026-10-31 사용자 결정: 4줄 언어 43%, 5줄 언어 46%).
+    ///
+    /// ⚠️ 가장 낮은 높이(`.compact`, 시스템과 같게)는 뺀다. 2026-11 에 그 바닥을 일부러 풀었다
+    ///    (사용자: 제일 낮은 것으로 해도 높다). 그쪽은 `testCompactMatchesSystemKeyboardOnPortraitPhone` 이 지킨다.
     func test_아이폰_세로에서_키보드_전체는_화면의_43퍼센트_아래로_내려가지_않는다() {
         var slim = KeyboardHeightBook.ContentMetrics()
         slim.buttonHeight = 1
         for size in [CGSize(width: 320, height: 568), CGSize(width: 375, height: 667),
                      CGSize(width: 393, height: 852), CGSize(width: 440, height: 956)] {
             AppGroup.defaults?.removeObject(forKey: DefaultsKey.systemKeyboardHeights)
-            for preset in KeyboardHeightPreset.allCases {
+            for preset in KeyboardHeightPreset.allCases where preset != .compact {
                 let total = KeyboardHeightBook.height(for: size, content: slim, preset: preset)
                     + KeyboardHeightBook.systemChrome(for: size)
                 XCTAssertGreaterThanOrEqual(total, size.height * 0.43 - 0.5, "\(size) \(preset)")

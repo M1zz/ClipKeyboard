@@ -14,6 +14,248 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.21
+
+### 앱스토어 (한국어)
+
+```
+카테고리를 한 화면에 모아 보고 눌러서 들어가요.
+단축어 칸에서 내용을 미리 볼 수 있어요.
+목록을 격자나 리스트로 골라 볼 수 있어요.
+일본어 플릭 자판을 쓸 수 있어요.
+사용 기록은 설정 안으로 옮겼어요.
+```
+
+### App Store (English)
+
+```
+Browse all categories on one screen.
+Preview snippet content on each card.
+View your snippets as a grid or a list.
+Type Japanese with a flick keyboard.
+Your record has moved into Settings.
+```
+
+### App Store (en-GB)
+
+```
+Browse all categories on one screen.
+Preview snippet content on each card.
+View your snippets as a grid or a list.
+Type Japanese with a flick keyboard.
+Your record has moved into Settings.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+所有分类排在同一页，点一下即可进入。
+短语卡片上可以预览内容。
+列表可在网格和列表之间切换。
+新增日语滑动输入键盘。
+使用记录移到了设置里。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+所有分類排在同一頁，點一下即可進入。
+短語卡片上可以預覽內容。
+列表可在網格和列表之間切換。
+新增日語滑動輸入鍵盤。
+使用記錄移到了設定裡。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Все категории теперь на одном экране.
+Текст фразы виден прямо на карточке.
+Фразы можно показать сеткой или списком.
+Появилась японская клавиатура с флик-вводом.
+История использования теперь в Настройках.
+```
+
+### App Store (Japanese, ja)
+
+```
+カテゴリを1画面にまとめ、タップで開けます。
+定型文のカードで内容をプレビューできます。
+一覧をグリッドとリストで切り替えられます。
+日本語のフリック入力に対応しました。
+利用記録は設定の中に移動しました。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Todas tus categorías en una sola pantalla.
+Mira el contenido de cada frase en su tarjeta.
+Elige ver tus frases en cuadrícula o lista.
+Escribe en japonés con el teclado flick.
+Tu historial ahora está en Ajustes.
+```
+
+### App Store (German, de-DE)
+
+```
+Alle Kategorien auf einem Bildschirm.
+Der Inhalt steht direkt auf der Karte.
+Textbausteine als Raster oder Liste zeigen.
+Schreib Japanisch mit der Flick-Tastatur.
+Nutzungsverlauf jetzt in den Einstellungen.
+```
+
+### App Store (Thai, th)
+
+```
+ดูทุกหมวดหมู่ได้ในหน้าจอเดียว
+ดูตัวอย่างเนื้อหาบนการ์ดข้อความด่วนได้
+เลือกดูรายการแบบตารางหรือแบบรายการได้
+พิมพ์ภาษาญี่ปุ่นด้วยแป้นแบบปัดได้แล้ว
+บันทึกการใช้งานย้ายไปอยู่ในการตั้งค่า
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Xem mọi danh mục trên một màn hình.
+Xem trước nội dung ngay trên thẻ cụm từ.
+Chọn xem danh sách dạng lưới hoặc danh sách.
+Gõ tiếng Nhật bằng bàn phím vuốt.
+Lịch sử dùng đã chuyển vào Cài đặt.
+```
+
+### App Store (French, fr-FR)
+
+```
+Toutes vos catégories sur un seul écran.
+Aperçu du contenu sur chaque carte.
+Affichez vos phrases en grille ou en liste.
+Écrivez en japonais avec le clavier flick.
+Votre historique se trouve dans Réglages.
+```
+
+### App Store (Italian, it)
+
+```
+Tutte le categorie in un'unica schermata.
+Anteprima del contenuto su ogni scheda.
+Mostra le frasi in griglia o in elenco.
+Scrivi in giapponese con la tastiera flick.
+Il tuo storico ora è in Impostazioni.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+Todas as categorias em uma só tela.
+Veja o conteúdo de cada frase no cartão.
+Mostre suas frases em grade ou em lista.
+Escreva em japonês com o teclado flick.
+Seu histórico agora fica em Ajustes.
+```
+
+### App Store (Czech, cs)
+
+```
+Všechny kategorie na jedné obrazovce.
+Náhled obsahu přímo na kartě fráze.
+Zobrazte fráze jako mřížku nebo seznam.
+Pište japonsky na klávesnici s tahy.
+Váš záznam najdete nově v Nastavení.
+```
+
+### App Store (Danish, da)
+
+```
+Se alle kategorier på én skærm.
+Se indholdet direkte på hvert kort.
+Vis dine fraser som gitter eller liste.
+Skriv japansk med flick-tastaturet.
+Din historik ligger nu i Indstillinger.
+```
+
+### App Store (Greek, el)
+
+```
+Όλες οι κατηγορίες σε μία οθόνη.
+Προεπισκόπηση περιεχομένου σε κάθε κάρτα.
+Δείτε τις φράσεις σε πλέγμα ή λίστα.
+Γράψτε ιαπωνικά με πληκτρολόγιο flick.
+Το ιστορικό σας είναι πλέον στις Ρυθμίσεις.
+```
+
+### App Store (Finnish, fi)
+
+```
+Kaikki kategoriat yhdellä näytöllä.
+Esikatsele sisältöä suoraan kortista.
+Näytä fraasit ruudukkona tai luettelona.
+Kirjoita japania pyyhkäisynäppäimistöllä.
+Käyttöhistoria on nyt Asetuksissa.
+```
+
+### App Store (Indonesian, id)
+
+```
+Semua kategori dalam satu layar.
+Lihat pratinjau isi langsung di kartu.
+Tampilkan frasa sebagai kisi atau daftar.
+Ketik bahasa Jepang dengan papan ketik flick.
+Riwayat pemakaian kini ada di Pengaturan.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Se alle kategorier på én skjerm.
+Se innholdet rett på hvert kort.
+Vis frasene som rutenett eller liste.
+Skriv japansk med flick-tastaturet.
+Bruksloggen din ligger nå i Innstillinger.
+```
+
+### App Store (Dutch, nl)
+
+```
+Al je categorieën op één scherm.
+Bekijk de inhoud direct op elke kaart.
+Toon je snippets als raster of lijst.
+Typ Japans met het flick-toetsenbord.
+Je gebruiksoverzicht staat nu in Instellingen.
+```
+
+### App Store (Polish, pl)
+
+```
+Wszystkie kategorie na jednym ekranie.
+Podgląd treści bezpośrednio na karcie.
+Pokaż frazy jako siatkę lub listę.
+Pisz po japońsku na klawiaturze flick.
+Twoja historia jest teraz w Ustawieniach.
+```
+
+### App Store (Swedish, sv)
+
+```
+Se alla kategorier på en skärm.
+Förhandsvisa innehållet direkt på kortet.
+Visa dina fraser som rutnät eller lista.
+Skriv japanska med flick-tangentbordet.
+Din historik finns nu i Inställningar.
+```
+
+### App Store (Turkish, tr)
+
+```
+Tüm kategoriler tek ekranda.
+İçeriği doğrudan kartın üzerinde gör.
+İfadelerini ızgara veya liste olarak göster.
+Japoncayı kaydırmalı klavyeyle yaz.
+Kaydınız artık Ayarlar'da.
+```
+
 ## 5.1.20
 
 ### 앱스토어 (한국어)
