@@ -29,6 +29,8 @@ enum DefaultsKey {
     static let contentPreviewMode = "content.preview.mode.v1"
     /// 앱 목록을 격자로 볼지 리스트로 볼지(`MemoListLayout` 의 rawValue). 표준 UserDefaults (앱 전용).
     static let memoListLayout = "memoListLayout.v1"
+    /// 홈의 카테고리 칸에 그 안의 단축어 이름 두 줄을 보일지. 표준 UserDefaults (앱 전용). 기본 끔.
+    static let categoryTilePreview = "categoryTilePreview.v1"
     /// 단축어별로 배운 "넣은 뒤 캐럿이 설 자리"(App Group, `[UUID문자열: CursorMemory.Learned]` JSON).
     /// ⚠️ 사용자의 본문에는 아무것도 안 쓴다. 배운 값은 전부 여기 따로 있다.
     ///    자세한 이유: ClipKeyboard/Service/CursorMemory.swift
@@ -808,6 +810,8 @@ enum AppPrefs {
     static let memoCardHeight = Pref(key: DefaultsKey.memoCardHeight, fallback: 140.0)
     /// 목록 모양(`MemoListLayout`). 기본은 격자.
     static let memoListLayout = Pref(key: DefaultsKey.memoListLayout, fallback: MemoListLayout.grid.rawValue)
+    /// 홈의 카테고리 칸에 안에 든 것을 두 줄 보일지. 기본 끔(앱 주인: 이름과 개수면 된다).
+    static let categoryTilePreview = Pref(key: DefaultsKey.categoryTilePreview, fallback: false)
     /// 목록 카드를 누르면 메뉴, 꾹 누르면 복사로 뒤집는다(표준 UD, 앱 안에서만 쓴다). 기본은 누르면 복사.
     /// 앱은 고치러 들어오는 곳이고 쓰는 일은 키보드에서 한다는 사람을 위한 것(2026-11 사용자 요청).
     static let cardTapOpensMenu = Pref(key: DefaultsKey.cardTapOpensMenu, fallback: false)

@@ -528,6 +528,8 @@ struct DisplaySettingsView: View {
     /// 목록 모양 - 격자 · 리스트.
     @AppStorage(AppPrefs.memoListLayout.key) private var listLayoutRaw: String = AppPrefs.memoListLayout.fallback
     private var isListLayout: Bool { listLayoutRaw == MemoListLayout.list.rawValue }
+    /// 홈의 카테고리 칸에 안에 든 단축어 이름을 보일지.
+    @AppStorage(AppPrefs.categoryTilePreview.key) private var categoryTilePreview: Bool = AppPrefs.categoryTilePreview.fallback
 
     var body: some View {
         List {
@@ -633,6 +635,13 @@ struct DisplaySettingsView: View {
             } footer: {
                 Text(NSLocalizedString("리스트는 한 줄에 하나씩 보여 줘요. 줄 높이는 내용에 맞춰지고, 위의 단축어 높이는 격자에만 적용돼요.", comment: "List layout explanation"))
                     .font(.body)
+            }
+
+            // 홈의 카테고리 칸에 안에 든 것 두 줄. 기본은 이름과 개수만.
+            Section {
+                Toggle(isOn: $categoryTilePreview) {
+                    Label(NSLocalizedString("카테고리 칸에 내용 미리보기", comment: "Setting toggle: show the first two snippet names inside each category tile on the home screen"), systemImage: AppSymbol.folder)
+                }
             }
         }
         .navigationTitle(NSLocalizedString("단축어 표시", comment: "Memo display settings entry"))

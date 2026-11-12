@@ -30,6 +30,10 @@ struct CategoryHomeView<Header: View>: View {
     /// '최근' 칸에 보일 복사 기록. 최근은 카테고리가 아니지만(카테고리 관리에는 안 나온다)
     /// 홈에서는 다른 칸과 **같은 모양**으로 선다. 칸이 두 종류면 어느 쪽이 무엇인지부터 읽어야 한다.
     @State private var recentClips: [SmartClipboardHistory] = []
+    /// 칸에 안에 든 것 두 줄을 보일지 (설정 ▸ 단축어 표시).
+    @AppStorage(AppPrefs.categoryTilePreview.key) private var showsPreview: Bool = AppPrefs.categoryTilePreview.fallback
+    /// 칸의 최소 높이. 새 카테고리 칸도 같은 값을 써서 줄이 맞는다.
+    private var tileMinHeight: CGFloat { showsPreview ? 92 : 56 }
 
     private var columns: [GridItem] {
         let count = horizontalSizeClass == .regular ? 4 : 2
@@ -90,27 +94,39 @@ struct CategoryHomeView<Header: View>: View {
         let (count, preview) = summary(for: tab)
         return Button { open(tab) } label: {
             VStack(alignment: .leading, spacing: 8) {
-                HStack(alignment: .top) {
-                    badge(style, size: 34)
+                HStack(alignment: .firstTextBaseline) {
+                    Text(tab.displayName)
+                        .font(.headline)
+                        .foregroundStyle(theme.text)
+                        .lineLimit(1)
                     Spacer(minLength: 4)
                     Text("\(count)")
-                        .font(.title2.weight(.bold).monospacedDigit())
+                        .font(.title3.weight(.bold).monospacedDigit())
                         .foregroundStyle(theme.text)
                 }
-                Text(tab.displayName)
-                    .font(.headline)
-                    .foregroundStyle(theme.text)
-                    .lineLimit(1)
-                Text(preview)
-                    .font(.caption)
-                    .foregroundStyle(theme.textMuted)
-                    .lineLimit(2, reservesSpace: true)
-                    .multilineTextAlignment(.leading)
-                    .accessibilityHidden(true)
+                if showsPreview {
+                    Text(preview)
+                        .font(.caption)
+                        .foregroundStyle(theme.textMuted)
+                        .lineLimit(2, reservesSpace: true)
+                        .multilineTextAlignment(.leading)
+                        .accessibilityHidden(true)
+                }
             }
             .padding(14)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(theme.surface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+            .frame(maxWidth: .infinity, minHeight: tileMinHeight, alignment: .leading)
+            // 칸은 **색으로만** 구별한다. 심볼 배지는 뺐다(사용자: 심볼이 왜 필요한지 모르겠다).
+            // 흰 면 위에 카테고리 색을 옅게 얹는다 - 키보드 칸과 같은 농도라 글자가 묻히지 않는다.
+            .background {
+                RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    .fill(theme.surface)
+                    .overlay {
+                        if let tint = style.tint {
+                            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                                .fill(tint.opacity(theme.isDark ? 0.22 : 0.14))
+                        }
+                    }
+            }
             .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
         }
         .buttonStyle(.plain)
@@ -123,14 +139,14 @@ struct CategoryHomeView<Header: View>: View {
             HapticManager.shared.light()
             onAddCategory()
         } label: {
-            VStack(spacing: 6) {
+            VStack(spacing: showsPreview ? 6 : 2) {
                 Image(systemName: AppSymbol.plus)
                     .font(.title3.weight(.semibold))
                 Text(NSLocalizedString("새 카테고리", comment: "Category home: add category tile"))
                     .font(.subheadline)
             }
             .foregroundStyle(theme.textMuted)
-            .frame(maxWidth: .infinity, minHeight: 118)
+            .frame(maxWidth: .infinity, minHeight: tileMinHeight)
             .overlay {
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
                     .strokeBorder(theme.textFaint, style: StrokeStyle(lineWidth: 1.5, dash: [5, 4]))
@@ -138,15 +154,6 @@ struct CategoryHomeView<Header: View>: View {
             .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
         }
         .buttonStyle(.plain)
-    }
-
-    private func badge(_ style: TileStyle, size: CGFloat) -> some View {
-        Image(systemName: style.symbol)
-            .font(.system(size: size * 0.48, weight: .semibold))
-            .foregroundStyle(.white)
-            .frame(width: size, height: size)
-            .background(style.tint, in: RoundedRectangle(cornerRadius: size * 0.28, style: .continuous))
-            .accessibilityHidden(true)
     }
 
     // MARK: - Helpers
@@ -161,20 +168,19 @@ struct CategoryHomeView<Header: View>: View {
     }
 
     struct TileStyle {
-        let tint: Color
-        let symbol: String
+        /// nil 이면 색 없는 흰 칸이다(최근 · 기본). 회색을 얹으면 바탕과 섞여 칸이 안 보인다.
+        let tint: Color?
     }
 
-    /// 칸의 색과 그림. 사용자 카테고리는 카드 · 메뉴 · 키보드와 같은 규칙(`categoryTint` · `categorySymbol`)을 쓴다.
+    /// 칸의 색. 사용자 카테고리는 카드 · 메뉴 · 키보드와 같은 규칙(`categoryTint`)을 쓴다.
     static func style(for tab: CategoryTab, in customCategories: [String]) -> TileStyle {
         switch tab {
-        case .recent:          return TileStyle(tint: .gray, symbol: AppSymbol.clock)
-        case .favorites:       return TileStyle(tint: .orange, symbol: AppSymbol.starFill)
-        case .basic, .all:     return TileStyle(tint: .gray, symbol: AppSymbol.folder)
-        case .builtIn(let b):  return TileStyle(tint: b.tint, symbol: b.icon)
+        case .recent:          return TileStyle(tint: nil)
+        case .favorites:       return TileStyle(tint: .orange)
+        case .basic, .all:     return TileStyle(tint: nil)
+        case .builtIn(let b):  return TileStyle(tint: b.tint)
         case .custom(let name):
-            return TileStyle(tint: categoryTint(for: name, in: customCategories),
-                             symbol: categorySymbol(for: name, in: customCategories))
+            return TileStyle(tint: categoryTint(for: name, in: customCategories))
         }
     }
 }

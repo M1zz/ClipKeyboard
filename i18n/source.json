@@ -15455,6 +15455,12 @@
     "comment": "Add category accessibility label",
     "h": "8cfc65c32a"
   },
+  "카테고리 칸에 내용 미리보기": {
+    "ko": "카테고리 칸에 내용 미리보기",
+    "en": "Preview in Category Tiles",
+    "comment": "Setting toggle: show the first two snippet names inside each category tile on the home screen",
+    "h": "e4a1701714"
+  },
   "카테고리 탭과 좌우 넘기기가 처음부터 보여요": {
     "ko": "카테고리 탭과 좌우 넘기기가 처음부터 보여요",
     "en": "Category tabs and swipe paging are there from the start",

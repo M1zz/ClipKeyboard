@@ -4008,7 +4008,7 @@
   },
   "단축어": {
     "v": "Frase",
-    "src": "8c10487a02"
+    "src": "f54defa1ae"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "Aggiunte %1$d frasi, aggiornate %2$d (%3$d in totale).\nImportate %4$d pile, %5$d immagini e %6$d categorie.",
@@ -10610,6 +10610,10 @@
   "카테고리 추가": {
     "v": "Aggiungi categoria",
     "src": "8cfc65c32a"
+  },
+  "카테고리 칸에 내용 미리보기": {
+    "v": "Anteprima nelle categorie",
+    "src": "e4a1701714"
   },
   "카테고리 탭과 좌우 넘기기가 처음부터 보여요": {
     "v": "Le schede delle categorie e lo scorrimento laterale ci sono fin dall'inizio",

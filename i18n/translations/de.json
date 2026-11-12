@@ -4005,7 +4005,7 @@
   },
   "단축어": {
     "v": "Textbaustein",
-    "src": "8c10487a02"
+    "src": "f54defa1ae"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "%1$d Textbausteine hinzugefügt, %2$d aktualisiert (insgesamt %3$d).\n%4$d Stapel, %5$d Bilder und %6$d Kategorien importiert.",
@@ -10610,6 +10610,10 @@
   "카테고리 추가": {
     "v": "Kategorie hinzufügen",
     "src": "8cfc65c32a"
+  },
+  "카테고리 칸에 내용 미리보기": {
+    "v": "Vorschau in Kategorie-Kacheln",
+    "src": "e4a1701714"
   },
   "카테고리 탭과 좌우 넘기기가 처음부터 보여요": {
     "v": "Kategorie-Tabs und Wischen zwischen Kategorien gibt es von Anfang an",
