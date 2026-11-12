@@ -13,8 +13,6 @@ struct SettingView: View {
 
     @Environment(\.appTheme) private var theme
     @ObservedObject private var proManager = StoreManager.shared
-    /// 감춘 사용 기록 탭의 대신 문을 낼지 본다.
-    @ObservedObject private var userState = UserStateStore.shared
     /// 복원을 누른 결과. 값이 들어오면 알림이 뜬다.
     @State private var restoreOutcome: StoreManager.RestoreOutcome?
     /// 지금 가진 단축어 개수 - 화면에 들어올 때와 데이터가 바뀔 때만 다시 센다.
@@ -360,11 +358,9 @@ struct SettingView: View {
     /// 가끔 여는 것 - 내 데이터, 사용법, 함께 쓰면 좋은 앱.
     private var aboutSection: some View {
         Section {
-            // 사용 기록 탭이 아직 감춰져 있으면 여기서 닿는다. 감춘 기능도 설정에는 늘 있다.
-            if !userState.isVisible(.statsPassport) {
-                categoryRow(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
-                            systemImage: AppSymbol.checkmarkSealFill) { UsagePassportView() }
-            }
+            // 사용 기록은 여기에만 있다. 예전에는 아래 탭이었다(탭은 목록 · 설정 · 검색).
+            categoryRow(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
+                        systemImage: AppSymbol.checkmarkSealFill) { UsagePassportView() }
             categoryRow(NSLocalizedString("내 데이터", comment: "Settings section: my data"),
                         systemImage: AppSymbol.externaldrive) { MyDataSettingsView() }
             categoryRow(NSLocalizedString("사용법과 문의", comment: "Settings section: how to use the app, tips and contact"),

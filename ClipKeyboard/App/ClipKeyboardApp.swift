@@ -1738,7 +1738,7 @@ struct MainTabView: View {
 
     /// 클립보드 기록 시트(맥 메뉴·딥링크에서 열린다).
     @State private var showClipboardSheet = false
-    /// 사용 기록 탭이 감춰져 있을 때 "사용 기록 보기" 를 받으면 여는 시트.
+    /// "사용 기록 보기" 를 받으면 여는 시트. 사용 기록은 탭이 아니라 설정 안에 있다.
     @State private var showUsageSheet = false
 
     /// 지금 어느 탭인가. 이미 선택된 탭을 **한 번 더** 누른 것을 잡아내려면 선택 값이 필요하다.
@@ -1749,7 +1749,6 @@ struct MainTabView: View {
     private static var initialTab: MainTab {
         #if DEBUG
         switch UserDefaults.standard.string(forKey: "FoldPreviewTab") {
-        case "usage": return .usage
         case "settings": return .settings
         case "search": return .search
         default: return .snippets
@@ -1783,7 +1782,7 @@ struct MainTabView: View {
     }
 
     private enum MainTab: Hashable {
-        case snippets, usage, settings, search
+        case snippets, settings, search
     }
 
     private var snippetsStyle: SnippetsTabStyle {
@@ -1819,10 +1818,6 @@ struct MainTabView: View {
         var items: [FoldTabBar<MainTab>.Item] = [
             .init(value: .snippets, title: snippetsStyle.tabName, symbol: snippetsStyle.symbolName),
         ]
-        if showsUsageTab {
-            items.append(.init(value: .usage, title: NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
-                               symbol: AppSymbol.checkmarkSealFill))
-        }
         items.append(.init(value: .settings, title: NSLocalizedString("설정", comment: "Menu: settings"),
                            symbol: AppSymbol.gearshape))
         if showsSearchTab {
@@ -1832,11 +1827,10 @@ struct MainTabView: View {
         return items
     }
 
-    /// 사용 기록은 쓴 것이 쌓여야 볼 것이 있다. 감춰도 설정 ▸ 사용 통계에는 늘 있다.
-    /// 처음 사용자는 졸업한 뒤에 원래 조건을 따른다(`FeatureSet.hasGraduated`).
-    private var showsUsageTab: Bool {
-        (!blank || FeatureSet.hasGraduated(level: userState.state.level)) && userState.isVisible(.statsPassport)
-    }
+    // 사용 기록은 탭이 아니라 설정 안에 있다(설정 ▸ 사용 기록).
+    //
+    // 사용자 피드백(2026-11, 중국어): 아래 탭 자리는 가장 좋은 자리인데, "얼마나 아꼈나" 는
+    // 가끔 들여다보는 것이라 거기 서 있는 것이 어울리지 않는다. 탭은 목록 · 설정 · 검색 셋이다.
     /// 찾을 만큼 쌓이기 전에는 목록이 곧 검색이다.
     /// ⚠️ 백지 사용자는 처음부터 목록 · 설정 · 검색 셋이다(시안). 사용 기록은 아직 없다.
     private var showsSearchTab: Bool { blank || userState.isVisible(.searchAndReorder) }
@@ -1845,7 +1839,7 @@ struct MainTabView: View {
 
     /// 보던 탭이 감춰지면(설정에서 "모든 기능 바로 보기" 를 끈 때) 단축어 탭으로 돌아온다.
     private func leaveHiddenTab() {
-        if (selection == .usage && !showsUsageTab) || (selection == .search && !showsSearchTab) {
+        if selection == .search && !showsSearchTab {
             selection = .snippets
         }
     }
@@ -1874,23 +1868,6 @@ struct MainTabView: View {
                 value: MainTab.snippets, role: nil) {
                 SnippetsTab()
                     .appFoldTabBarRoom()
-            }
-            // ⚠️ 예전에는 이 자리가 **클립보드**였고 사용 기록은 설정 안에 있었다. 둘을 맞바꾼다.
-            //    클립보드는 키보드 안에서 꺼내 쓰는 것이지 탭을 열어 들여다보는 것이 아니었고,
-            //    사용 기록(내가 얼마나 아꼈나)은 오히려 가끔 열어 보는 자리라 탭이 어울린다.
-            //    클립보드는 설정 > 내 데이터에 있고, 맥 메뉴/딥링크는 아래 시트로 계속 닿는다.
-            if showsUsageTab {
-            Tab(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
-                systemImage: AppSymbol.checkmarkSealFill,
-                value: MainTab.usage, role: nil) {
-                // 듀오를 펴면 여권 옆(세로면 위)에 고른 도장 하나가 크게 선다.
-                FoldSplitView {
-                    NavigationStack { UsagePassportView().alwaysTransparentBars() }
-                } result: {
-                    UsagePassportStampPane()
-                }
-                .appFoldTabBarRoom()
-            }
             }
             Tab(NSLocalizedString("설정", comment: "Menu: settings"),
                 systemImage: AppSymbol.gearshape,
@@ -1961,15 +1938,10 @@ struct MainTabView: View {
         .onReceive(NotificationCenter.default.publisher(for: .showClipboardHistory)) { _ in
             showClipboardSheet = true
         }
-        // 새 단장 안내에서 "내가 아낀 시간 보기"를 누르면 그 탭으로 데려간다.
+        // 새 단장 안내에서 "내가 아낀 시간 보기"를 누르면 사용 기록을 시트로 연다.
         // ⚠️ 안내는 **보여주는 데서 끝나면 안 된다** - 읽고 닫으면 아무것도 안 달라진다.
         .onReceive(NotificationCenter.default.publisher(for: .openUsageTab)) { _ in
-            // 탭이 아직 감춰져 있으면 시트로 연다. 없는 탭을 고르면 아무 일도 안 일어난다.
-            if showsUsageTab {
-                withAnimation(.easeInOut(duration: 0.2)) { selection = .usage }
-            } else {
-                showUsageSheet = true
-            }
+            showUsageSheet = true
         }
         .sheet(isPresented: $showUsageSheet) {
             NavigationStack { UsagePassportView() }
