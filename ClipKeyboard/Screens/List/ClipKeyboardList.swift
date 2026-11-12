@@ -813,7 +813,7 @@ struct ClipKeyboardList: View {
     }
 
     private var screenBody2: some View {
-        toolbarSheets(screenBody)
+        toolbarSheets(AnyView(screenBody))
             .sheet(item: $ghostAddPattern, onDismiss: {
                 viewModel.loadMemos()
                 refreshGhostSuggestion()
@@ -886,8 +886,15 @@ struct ClipKeyboardList: View {
             .accessibilityLabel(NSLocalizedString("Saved items", comment: "Screen: main memo list"))
     }
 
+    // ⚠️ 아래 단계들은 안쪽 화면을 **AnyView 로 감싸서** 받는다. 떼지 말 것.
+    //
+    //    수식어를 붙일 때마다 화면 값이 통째로 한 번 더 복사되는데, 그 값이 단계를 지날수록 커져서
+    //    (맨 바깥이 13KB) Debug 빌드에서 이 체인만 스택을 850KB 썼다. 기기의 메인 스레드 스택은 1MB 라
+    //    `screenL3` 의 `screenBody2` 줄에서 EXC_BAD_ACCESS (code=2) 로 죽었다. 시뮬레이터는 스택이 8MB 라 멀쩡하다.
+    //    AnyView 는 값을 힙에 두고 참조만 넘기므로 단계마다 크기가 다시 작아진다 (850KB → 190KB).
+    //    docs/postmortem/LIST_VIEW_STACK_OVERFLOW.md
     private var screenL3: some View {
-        screenBody2
+        AnyView(screenBody2)
             .onChange(of: viewModel.searchQueryString) { _, _ in viewModel.applyFilters() }
             .onChange(of: viewModel.selectedTypeFilter) { _, _ in
                 viewModel.applyFilters()
@@ -898,7 +905,7 @@ struct ClipKeyboardList: View {
     }
 
     private var screenL4: some View {
-        screenL3
+        AnyView(screenL3)
             .alert(NSLocalizedString("인증 실패", comment: "Auth failed"), isPresented: $viewModel.showAuthAlert) {
                 Button(NSLocalizedString("확인", comment: "Confirm"), role: .cancel) {}
             } message: {
@@ -942,7 +949,7 @@ struct ClipKeyboardList: View {
     }
 
     private var screenL5: some View {
-        screenL4
+        AnyView(screenL4)
             .fullScreenCover(isPresented: $viewModel.isReorderMode) {
                 MemoReorderScreen(viewModel: viewModel,
                                   style: cardStyle,
@@ -976,7 +983,7 @@ struct ClipKeyboardList: View {
     }
 
     private var screenL6: some View {
-        screenL5
+        AnyView(screenL5)
             .sheet(item: $memoToEdit, onDismiss: { viewModel.loadMemos() }) { memo in
                 NavigationStack {
                     MemoAdd(
@@ -1056,7 +1063,7 @@ struct ClipKeyboardList: View {
     }
 
     private var screenL7: some View {
-        screenL6
+        AnyView(screenL6)
             .paywall(isPresented: $showPaywallFromKeyboard, triggeredBy: paywallTrigger)
             // 문턱에 닿았으면 앱을 열 때 영수증 화면을 한 번 띄운다(FreeUseScreens.swift).
             .freeUseMoments()
@@ -1089,7 +1096,7 @@ struct ClipKeyboardList: View {
     }
 
     private var screenL8: some View {
-        screenL7
+        AnyView(screenL7)
             .onAppear { syncCoachTarget() }
             .onChange(of: tutorialTargetRaw) { _, _ in syncCoachTarget() }
             // ⚠️ 목록은 무대 뒤에 **깔린 채로 살아 있다**(`SnippetsTab.content`).
