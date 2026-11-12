@@ -25,6 +25,10 @@ enum DefaultsKey {
     /// ⚠️ 기본값은 **꺼짐**이다. 목록을 훑는 동안 카드마다 글이 맺혔다 흩어지면 눈이 쉴 곳이
     ///    없다. 보고 싶은 사람은 설정 > 화면과 표시에서 켠다.
     static let contentHintEnabled = "contentHintEnabled"
+    /// 칸 안에 내용을 어떻게 보일지(`ContentPreviewMode` 의 rawValue, App Group). 비어 있으면 위 옛 값에서 읽는다.
+    static let contentPreviewMode = "content.preview.mode.v1"
+    /// 앱 목록을 격자로 볼지 리스트로 볼지(`MemoListLayout` 의 rawValue). 표준 UserDefaults (앱 전용).
+    static let memoListLayout = "memoListLayout.v1"
     /// 단축어별로 배운 "넣은 뒤 캐럿이 설 자리"(App Group, `[UUID문자열: CursorMemory.Learned]` JSON).
     /// ⚠️ 사용자의 본문에는 아무것도 안 쓴다. 배운 값은 전부 여기 따로 있다.
     ///    자세한 이유: ClipKeyboard/Service/CursorMemory.swift
@@ -726,6 +730,54 @@ enum KeyboardPrefs {
     // 앱과 같이 쓰는 표시 (기본값이 다르면 앱에서는 안 보이고 키보드에서만 보인다)
     static let showVisualCues = Pref(key: DefaultsKey.showVisualCues, fallback: false)
     static let contentHintEnabled = Pref(key: DefaultsKey.contentHintEnabled, fallback: false)
+    /// 칸 안에 내용을 어떻게 보일지. 비어 있으면 아직 고른 적이 없는 것이라 옛 켬/끔을 따른다(`ContentPreviewMode.resolve`).
+    static let contentPreviewMode = Pref(key: DefaultsKey.contentPreviewMode, fallback: "")
+}
+
+/// 단축어 칸 안에 내용을 어떻게 보일지. 앱 카드와 키보드 칸이 같은 값을 읽는다.
+///
+/// 사용자 요청(2026-11): 제목만으로는 찾는 내용이 맞는지 모를 때가 있다.
+/// 예전에는 "잠깐 보였다 사라지기"를 켜고 끄는 것뿐이었다.
+enum ContentPreviewMode: String, CaseIterable, Identifiable {
+    /// 제목 아래에 늘 보인다.
+    case always
+    /// 잠깐 보였다 사라진다(예전의 내용 힌트).
+    case hint
+    /// 제목만 보인다.
+    case off
+
+    var id: String { rawValue }
+
+    /// 고른 적이 없으면(`raw` 가 비었으면) 예전 켬/끔 설정을 그대로 따른다.
+    static func resolve(raw: String, legacyHintEnabled: Bool) -> ContentPreviewMode {
+        ContentPreviewMode(rawValue: raw) ?? (legacyHintEnabled ? .hint : .off)
+    }
+
+    var localizedName: String {
+        switch self {
+        case .always: return NSLocalizedString("항상 보이기", comment: "Content preview mode: the content is always shown under the title")
+        case .hint: return NSLocalizedString("보였다 사라지기", comment: "Content preview mode: the content appears briefly, then fades away")
+        case .off: return NSLocalizedString("안 보이기", comment: "Content preview mode: only the title is shown")
+        }
+    }
+}
+
+/// 앱 목록의 모양.
+enum MemoListLayout: String, CaseIterable, Identifiable {
+    case grid
+    case list
+
+    var id: String { rawValue }
+
+    /// 리스트 줄의 최소 높이. 격자 카드 높이(90~220)를 그대로 쓰면 한 줄이 너무 높다.
+    static let listRowHeight: CGFloat = 72
+
+    var localizedName: String {
+        switch self {
+        case .grid: return NSLocalizedString("격자", comment: "List layout option: cards in a grid")
+        case .list: return NSLocalizedString("리스트", comment: "List layout option: one row per snippet")
+        }
+    }
 }
 
 /// 단축어를 넣은 뒤 쓰던 키보드로 넘길지 가르는 곳. 키보드(`KeyboardViewController`)가 부르고 시험이 지킨다.
@@ -754,6 +806,8 @@ enum SnippetReturnPolicy {
 enum AppPrefs {
     /// 목록 카드 최소 높이. 설정 미리보기와 목록이 같은 값을 쓴다.
     static let memoCardHeight = Pref(key: DefaultsKey.memoCardHeight, fallback: 140.0)
+    /// 목록 모양(`MemoListLayout`). 기본은 격자.
+    static let memoListLayout = Pref(key: DefaultsKey.memoListLayout, fallback: MemoListLayout.grid.rawValue)
     /// 목록 카드를 누르면 메뉴, 꾹 누르면 복사로 뒤집는다(표준 UD, 앱 안에서만 쓴다). 기본은 누르면 복사.
     /// 앱은 고치러 들어오는 곳이고 쓰는 일은 키보드에서 한다는 사람을 위한 것(2026-11 사용자 요청).
     static let cardTapOpensMenu = Pref(key: DefaultsKey.cardTapOpensMenu, fallback: false)

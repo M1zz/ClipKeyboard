@@ -516,6 +516,18 @@ struct DisplaySettingsView: View {
     /// App Group에 저장해 키보드 익스텐션(제목↔내용 스왑)도 동일 설정을 따른다.
     @AppStorage(KeyboardPrefs.contentHintEnabled.key, store: AppGroup.defaults)
     private var contentHintEnabled: Bool = KeyboardPrefs.contentHintEnabled.fallback
+    /// 칸 안에 내용 보이기 - 항상 · 보였다 사라지기 · 안 보이기. 고른 적이 없으면 위 옛 값을 따른다.
+    @AppStorage(KeyboardPrefs.contentPreviewMode.key, store: AppGroup.defaults)
+    private var contentPreviewRaw: String = KeyboardPrefs.contentPreviewMode.fallback
+    private var contentPreview: Binding<ContentPreviewMode> {
+        Binding(
+            get: { .resolve(raw: contentPreviewRaw, legacyHintEnabled: contentHintEnabled) },
+            set: { contentPreviewRaw = $0.rawValue }
+        )
+    }
+    /// 목록 모양 - 격자 · 리스트.
+    @AppStorage(AppPrefs.memoListLayout.key) private var listLayoutRaw: String = AppPrefs.memoListLayout.fallback
+    private var isListLayout: Bool { listLayoutRaw == MemoListLayout.list.rawValue }
 
     var body: some View {
         List {
@@ -588,15 +600,38 @@ struct DisplaySettingsView: View {
                 }
             }
 
-            // 메모 내용 힌트 (카드가 화면에 2초 머물면 한 번 살며시 나타나는 미리보기)
+            // 칸 안에 내용 보이기 (사용자 요청: 제목만으로는 찾는 내용이 맞는지 모를 때가 있다)
             Section {
-                Toggle(isOn: $contentHintEnabled) {
-                    Label(NSLocalizedString("단축어 내용 힌트", comment: "Content hint toggle"), systemImage: AppSymbol.sparkles)
+                Picker(selection: contentPreview) {
+                    ForEach(ContentPreviewMode.allCases) { mode in
+                        Text(mode.localizedName).tag(mode)
+                    }
+                } label: {
+                    Label(NSLocalizedString("칸 안에 내용 보이기", comment: "Setting: how the snippet's content is previewed inside its card or key"), systemImage: AppSymbol.sparkles)
                 }
             } header: {
-                Text(NSLocalizedString("단축어 내용 힌트", comment: "Content hint toggle"))
+                Text(NSLocalizedString("칸 안에 내용 보이기", comment: "Setting: how the snippet's content is previewed inside its card or key"))
             } footer: {
-                Text(NSLocalizedString("단축어 카드가 화면에 2초쯤 머물면 제목 아래에 내용이 한 번 살며시 나타났다 사라져요. 키보드에서는 제목이 잠시 내용으로 바뀌었다가 돌아와요. 보안 단축어의 내용은 표시되지 않아요.", comment: "Content hint explanation"))
+                Text(NSLocalizedString("목록 카드와 키보드 칸에 함께 적용돼요. '항상 보이기'는 제목 아래에 내용 한 줄을 늘 보여 주고, '보였다 사라지기'는 잠깐 나타났다 사라져요. 보안 단축어의 내용은 표시되지 않아요.", comment: "Content preview setting explanation. Keep the two option names consistent with the picker options"))
+                    .font(.body)
+            }
+
+            // 목록 모양 (격자 · 리스트). 키보드는 키보드 설정의 열 수로 고른다.
+            Section {
+                Picker(selection: $listLayoutRaw) {
+                    ForEach(MemoListLayout.allCases) { layout in
+                        Label(layout.localizedName,
+                              systemImage: layout == .grid ? AppSymbol.squareGrid2x2 : AppSymbol.listBullet)
+                            .tag(layout.rawValue)
+                    }
+                } label: {
+                    Text(NSLocalizedString("목록 모양", comment: "Setting: show the snippet list as a grid or as a list"))
+                }
+                .pickerStyle(.segmented)
+            } header: {
+                Text(NSLocalizedString("목록 모양", comment: "Setting: show the snippet list as a grid or as a list"))
+            } footer: {
+                Text(NSLocalizedString("리스트는 한 줄에 하나씩 보여 줘요. 줄 높이는 내용에 맞춰지고, 위의 단축어 높이는 격자에만 적용돼요.", comment: "List layout explanation"))
                     .font(.body)
             }
         }

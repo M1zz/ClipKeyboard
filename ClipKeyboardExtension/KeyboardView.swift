@@ -265,6 +265,11 @@ struct KeyboardView: View {
     /// ⚠️ 기본값은 앱과 **같아야** 한다(꺼짐). 같은 App Group 키인데 기본값이 다르면
     ///    토글을 만진 적 없는 사람에게 앱에서는 안 보이고 키보드에서만 보인다.
     @AppStorage(KeyboardPrefs.contentHintEnabled.key, store: AppGroup.defaults) private var contentHintEnabled: Bool = KeyboardPrefs.contentHintEnabled.fallback
+    /// 칸 안에 내용 보이기(항상 · 보였다 사라지기 · 안 보이기). 비어 있으면 위 옛 값을 따른다.
+    @AppStorage(KeyboardPrefs.contentPreviewMode.key, store: AppGroup.defaults) private var contentPreviewRaw: String = KeyboardPrefs.contentPreviewMode.fallback
+    private var contentPreview: ContentPreviewMode {
+        .resolve(raw: contentPreviewRaw, legacyHintEnabled: contentHintEnabled)
+    }
 
     /// 메모 구분 장치 노출 여부 - 오직 설정 "메모 구분 표시" 토글만 따른다
     /// (iOS "색상 없이 구별"과 무관, 앱과 동일 정책).
@@ -3095,6 +3100,7 @@ struct KeyboardView: View {
                 }
                 MemoTitleHintSwap(title: memo.title,
                                   hint: keyboardHintText(for: memo),
+                                  alwaysVisible: contentPreview == .always,
                                   seed: memo.id.hashValue,
                                   fontSize: buttonFontSize,
                                   titleColor: theme.text,
@@ -3126,7 +3132,7 @@ struct KeyboardView: View {
     /// ⚠️ 키마다 그릴 때 불린다. 미리보기는 본문 전체를 한 줄로 펴는 일이라(템플릿은 정규식까지)
     ///    목록이 그대로면 단축어마다 한 번만 만든다.
     private func keyboardHintText(for memo: Memo) -> String? {
-        guard contentHintEnabled else { return nil }
+        guard contentPreview != .off else { return nil }
         refreshRenderCacheIfNeeded()
         if let cached = renderCache.hints[memo.id] { return cached }
         let hint = computeKeyboardHintText(for: memo)
@@ -3821,6 +3827,8 @@ struct MemoTitleHintSwap: View {
     let title: String
     /// nil이면(설정 OFF·보안 메모·빈 내용) 스왑 없이 제목만 표시한다.
     let hint: String?
+    /// 내용을 제목 아래에 늘 보인다(설정 ▸ 칸 안에 내용 보이기 ▸ 항상 보이기). 바뀌었다 돌아오는 연출은 없다.
+    var alwaysVisible: Bool = false
     /// 셀별 위상 시드(메모 id 해시) - 스왑 시점·머묾 시간에 결정적 편차를 준다.
     let seed: Int
     let fontSize: Double
@@ -3853,6 +3861,33 @@ struct MemoTitleHintSwap: View {
     }
 
     var body: some View {
+        if alwaysVisible, let hint {
+            stacked(hint: hint)
+        } else {
+            swapping
+        }
+    }
+
+    /// 제목 한 줄, 그 아래 작은 글씨로 내용 한 줄.
+    private func stacked(hint: String) -> some View {
+        VStack(spacing: 1) {
+            Text(title.templateAwareAttributed(accent: accent, accentSoft: accentSoft,
+                                               font: .system(size: fontSize, weight: .semibold)))
+                .font(.system(size: fontSize, weight: .semibold))
+                .foregroundColor(titleColor)
+            Text(hint.templateAwareAttributed(accent: accent, accentSoft: accentSoft,
+                                              font: .system(size: fontSize * 0.72)))
+                .font(.system(size: fontSize * 0.72))
+                .foregroundColor(hintColor)
+        }
+        .lineLimit(1)
+        .truncationMode(.tail)
+        .multilineTextAlignment(.center)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(title)
+    }
+
+    private var swapping: some View {
         ZStack {
             Text(title.templateAwareAttributed(accent: accent, accentSoft: accentSoft,
                                                font: .system(size: fontSize, weight: .semibold)))

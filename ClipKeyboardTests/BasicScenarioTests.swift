@@ -772,6 +772,18 @@ final class BasicScenarioTests: XCTestCase {
         (try? MemoStore.shared.load(type: .memo))?.first { $0.title == title }
     }
 
+    // MARK: - 칸 안에 내용 보이기
+
+    /// 설정 ▸ 단축어 표시 ▸ 칸 안에 내용 보이기. 고른 적이 없는 사람은 예전 켬/끔 그대로여야 한다.
+    func test_칸_안에_내용_보이기는_고르기_전에는_예전_설정을_따르고_고르면_그대로다() {
+        XCTAssertEqual(ContentPreviewMode.resolve(raw: "", legacyHintEnabled: false), .off)
+        XCTAssertEqual(ContentPreviewMode.resolve(raw: "", legacyHintEnabled: true), .hint)
+        XCTAssertEqual(ContentPreviewMode.resolve(raw: "always", legacyHintEnabled: false), .always)
+        XCTAssertEqual(ContentPreviewMode.resolve(raw: "off", legacyHintEnabled: true), .off)
+        // 모르는 값(다음 버전이 쓴 값)을 만나도 죽지 않고 예전 설정으로 돌아간다.
+        XCTAssertEqual(ContentPreviewMode.resolve(raw: "someday", legacyHintEnabled: true), .hint)
+    }
+
     /// 키보드의 단축어 키를 누른 것과 같다(`KeyboardView.insertMemo` 가 쏘는 알림 그대로).
     /// 쓰면 지우기면 그쪽과 똑같이 윗줄 하나만 쏜다.
     private func tapOnKeyboard(_ memo: Memo) {

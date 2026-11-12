@@ -33,6 +33,9 @@ struct MemoCardSurface: View {
     /// (카드마다 높이가 들쭉날쭉하면 격자가 흔들린다).
     let showsContentHint: Bool
 
+    /// 내용을 늘 보일지. false 면 잠깐 맺혔다 사라진다.
+    let contentAlwaysVisible: Bool
+
     /// 목록 뒤에 사진이 깔려 있는가 - 글자 뒤 할로를 깔지 정하는 데만 쓴다.
     let hasListBackground: Bool
 
@@ -52,6 +55,7 @@ struct MemoCardSurface: View {
          cardHeight: CGFloat,
          showsVisualCues: Bool,
          showsContentHint: Bool,
+         contentAlwaysVisible: Bool = false,
          hasListBackground: Bool,
          showsCoin: Bool = false,
          lightweight: Bool = false) {
@@ -60,6 +64,7 @@ struct MemoCardSurface: View {
         self.cardHeight = cardHeight
         self.showsVisualCues = showsVisualCues
         self.showsContentHint = showsContentHint
+        self.contentAlwaysVisible = contentAlwaysVisible
         self.hasListBackground = hasListBackground
         self.showsCoin = showsCoin
         self.lightweight = lightweight
@@ -270,7 +275,8 @@ struct MemoCardSurface: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .transition(.opacity.combined(with: .scale(scale: 0.7, anchor: .leading)))
         } else if !lightweight, let hint = Self.fishbowlText(for: memo) {
-            ContentHintPreview(text: hint, seed: memo.id.hashValue, onColor: onColor)
+            ContentHintPreview(text: hint, seed: memo.id.hashValue, onColor: onColor,
+                               alwaysVisible: contentAlwaysVisible)
         } else {
             Color.clear.frame(height: ContentHintPreview.zoneHeight)
         }
@@ -374,6 +380,7 @@ struct MemoCardStyle {
     var cardHeight: CGFloat
     var showsVisualCues: Bool
     var showsContentHint: Bool
+    var contentAlwaysVisible: Bool = false
     var hasListBackground: Bool
 
     func surface(for memo: Memo,
@@ -385,6 +392,7 @@ struct MemoCardStyle {
             cardHeight: cardHeight,
             showsVisualCues: showsVisualCues,
             showsContentHint: showsContentHint,
+            contentAlwaysVisible: contentAlwaysVisible,
             hasListBackground: hasListBackground,
             showsCoin: showsCoin,
             lightweight: lightweight

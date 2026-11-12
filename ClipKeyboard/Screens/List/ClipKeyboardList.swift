@@ -135,6 +135,19 @@ struct ClipKeyboardList: View {
     /// 카드 내용 힌트 - 설정(메모 표시)에서 켜기/끄기. 키보드도 함께 따르도록 App Group에 저장.
     @AppStorage(KeyboardPrefs.contentHintEnabled.key, store: AppGroup.defaults)
     private var contentHintEnabled: Bool = KeyboardPrefs.contentHintEnabled.fallback
+    /// 칸 안에 내용 보이기(항상 · 보였다 사라지기 · 안 보이기). 비어 있으면 위 옛 값을 따른다.
+    @AppStorage(KeyboardPrefs.contentPreviewMode.key, store: AppGroup.defaults)
+    private var contentPreviewRaw: String = KeyboardPrefs.contentPreviewMode.fallback
+    private var contentPreview: ContentPreviewMode {
+        .resolve(raw: contentPreviewRaw, legacyHintEnabled: contentHintEnabled)
+    }
+    /// 목록 모양(격자 · 리스트).
+    @AppStorage(AppPrefs.memoListLayout.key) private var listLayoutRaw: String = AppPrefs.memoListLayout.fallback
+    private var isListLayout: Bool { listLayoutRaw == MemoListLayout.list.rawValue }
+    /// 카드 한 장의 최소 높이. 리스트는 줄이 낮아야 리스트로 읽힌다.
+    private var cardMinHeight: CGFloat {
+        isListLayout ? MemoListLayout.listRowHeight : memoCardHeight
+    }
 
     // Category
     @State private var showCategoryManagement: Bool = false
@@ -1448,6 +1461,8 @@ struct ClipKeyboardList: View {
     ///    `.flexible()` 은 폭 측정 없이 "가용 공간을 n등분"이라 이 문제가 없다.
     ///    그래서 열 수는 **측정이 아니라 size class 로** 정한다.
     private var gridColumnCount: Int {
+        // 리스트로 고르면 한 줄에 하나.
+        if isListLayout { return 1 }
         // 듀오를 폈을 때는 이 목록이 선 판의 **폭**으로 정한다(크기 등급은 판을 모른다).
         // 가로로 펴면 판 폭이 바깥 화면과 같아(약 463pt) 2열 그대로 - 펴도 카드 자리가 안 바뀐다.
         // 세로로 펴면 접힌 선 아래 판이 창 폭(669pt)이라, 카드 150pt 이상이 들어가는 만큼 세운다.
@@ -1525,7 +1540,7 @@ struct ClipKeyboardList: View {
             .padding(.top, 8)
         }
         .padding(16)
-        .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
+        .frame(maxWidth: .infinity, minHeight: cardMinHeight, alignment: .topLeading)
         // ⚠️ 반투명 위에 또 반투명을 얹지 않는다. 예전에는 surface 0.5 에 opacity 0.85 까지
         //    겹쳐서 두 번 흐려졌고, 옅은 회색 점선까지 더해져 **만들다 만 카드**로 보였다.
         //    제안은 흐릿한 게 아니라 **아직 안 만든 것**이다 - 또렷하되 색으로 구분한다.
@@ -1710,9 +1725,10 @@ struct ClipKeyboardList: View {
     private var cardStyle: MemoCardStyle {
         MemoCardStyle(
             categories: viewModel.customCategories,
-            cardHeight: memoCardHeight,
+            cardHeight: cardMinHeight,
             showsVisualCues: visualCuesVisible,
-            showsContentHint: contentHintEnabled,
+            showsContentHint: contentPreview != .off,
+            contentAlwaysVisible: contentPreview == .always,
             hasListBackground: !resolvedBackgroundImage.isEmpty
         )
     }
@@ -2157,7 +2173,7 @@ struct ClipKeyboardList: View {
         SearchNoResultsView(
             query: viewModel.searchQueryString.trimmingCharacters(in: .whitespacesAndNewlines),
             columns: gridColumns,
-            cardHeight: memoCardHeight
+            cardHeight: cardMinHeight
         ) { query in
             ghostAddPattern = QuickPattern(icon: AppSymbol.magnifyingglass, title: query, scaffold: "")
         }
@@ -2413,7 +2429,7 @@ struct ClipKeyboardList: View {
                 }
             }
             .padding(14)
-            .frame(maxWidth: .infinity, minHeight: memoCardHeight, alignment: .topLeading)
+            .frame(maxWidth: .infinity, minHeight: cardMinHeight, alignment: .topLeading)
             .background(
                 RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
                     .fill(theme.accent.opacity(0.05))
@@ -2454,7 +2470,7 @@ struct ClipKeyboardList: View {
     private var pendingSlotCell: some View {
         RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
             .fill(theme.accent.opacity(0.07))
-            .frame(maxWidth: .infinity, minHeight: memoCardHeight)
+            .frame(maxWidth: .infinity, minHeight: cardMinHeight)
             .overlay(
                 RoundedRectangle(cornerRadius: theme.radiusXl, style: .continuous)
                     .strokeBorder(theme.accent.opacity(0.28), lineWidth: 1.5)
@@ -2489,7 +2505,7 @@ struct ClipKeyboardList: View {
         EmptyStateWithAddCard(message: message,
                               tab: tab,
                               columns: gridColumns,
-                              cardHeight: memoCardHeight,
+                              cardHeight: cardMinHeight,
                               hasListBackground: !resolvedBackgroundImage.isEmpty,
                               onAdd: openAddFlow)
     }
@@ -2563,7 +2579,7 @@ struct ClipKeyboardList: View {
                     viewModel.dismissClipboardCapture()
                 }
             },
-            cardHeight: memoCardHeight
+            cardHeight: cardMinHeight
         )
     }
 

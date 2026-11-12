@@ -2814,6 +2814,10 @@
     "v": "Verificado",
     "src": "52f4d3f6e1"
   },
+  "격자": {
+    "v": "Cuadrícula",
+    "src": "9b8309e775"
+  },
   "결": {
     "v": "Textura",
     "src": "eb3e6a1ba8"
@@ -4004,7 +4008,7 @@
   },
   "단축어": {
     "v": "Frase",
-    "src": "f54defa1ae"
+    "src": "8c10487a02"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "Se agregaron %1$d frases y se actualizaron %2$d (%3$d en total).\nSe importaron %4$d pilas, %5$d imágenes y %6$d categorías.",
@@ -4795,9 +4799,17 @@
     "v": "Las reseñas ayudan a recomendar la app a otros usuarios y animan mucho al desarrollador.",
     "src": "d09c7ceef9"
   },
+  "리스트": {
+    "v": "Lista",
+    "src": "7d6ecf07a3"
+  },
   "리스트 뒤에 사진을 깔면 유리 카드가 살아나요. 언제든 오른쪽 위 ⋯ 메뉴 > 배경 이미지에서 바꾸거나 끌 수 있어요.": {
     "v": "Con una foto detrás de la lista, las tarjetas de cristal cobran vida. Puedes cambiarla o quitarla cuando quieras en el menú ⋯ arriba a la derecha > Imagen de fondo.",
     "src": "bc1987bfcd"
+  },
+  "리스트는 한 줄에 하나씩 보여 줘요. 줄 높이는 내용에 맞춰지고, 위의 단축어 높이는 격자에만 적용돼요.": {
+    "v": "La lista muestra una frase por fila. La altura de la fila se ajusta al contenido, y la altura de la frase de arriba solo se aplica a la cuadrícula.",
+    "src": "36ad615259"
   },
   "리스트에서 단축어 카드의 높이를 정해요. 한 화면에 더 많이 보려면 작게, 제목을 크게 보려면 크게로.": {
     "v": "Define la altura de las tarjetas de frase en la lista. Pequeña para ver más por pantalla, grande para títulos más grandes.",
@@ -5134,9 +5146,17 @@
     "v": "Llena los campos de la tarjeta al inicio de tu lista y se guardan. Si cambia cómo usas la app, las tres también cambian.",
     "src": "aad67e29f3"
   },
+  "목록 모양": {
+    "v": "Diseño de la lista",
+    "src": "5c6473b388"
+  },
   "목록 배경으로 내 사진을 쓸 수 있어요": {
     "v": "Puedes usar tu propia foto como fondo de la lista",
     "src": "52fd91c85b"
+  },
+  "목록 카드와 키보드 칸에 함께 적용돼요. '항상 보이기'는 제목 아래에 내용 한 줄을 늘 보여 주고, '보였다 사라지기'는 잠깐 나타났다 사라져요. 보안 단축어의 내용은 표시되지 않아요.": {
+    "v": "Se aplica a las tarjetas de la lista y a las teclas del teclado. \"Mostrar siempre\" deja una línea del contenido bajo el título, y \"Mostrar un momento\" hace que aparezca un instante y se desvanezca. El contenido de las frases protegidas nunca se muestra.",
+    "src": "a3cd474d1c"
   },
   "목록 탭에 들어갈 때 화면이 한 번 까매지던 것을 고쳤어요": {
     "v": "Corregimos el parpadeo negro al abrir la pestaña de lista",
@@ -5809,6 +5829,10 @@
   "보여줄 한 줄을 직접 정할 수 있어요": {
     "v": "Puedes escribir la línea que se muestra",
     "src": "8d9751a289"
+  },
+  "보였다 사라지기": {
+    "v": "Mostrar un momento",
+    "src": "cb75a91872"
   },
   "보이는 것 전체를 한 줄로 늘어놓고 옮겨요. 1번 페이지의 것을 2번 페이지 맨 위로 보낼 수 있어요": {
     "v": "Todo lo visible se pone en una sola línea mientras mueves, así que puedes pasar algo de la página 1 al inicio de la página 2",
@@ -7601,6 +7625,10 @@
   "아직 환급된 줄이 없어요": {
     "v": "Aún no hay reembolsos",
     "src": "cfc40de398"
+  },
+  "안 보이기": {
+    "v": "Ocultar",
+    "src": "932a231d12"
   },
   "안 쓰는 단축어": {
     "v": "Frases sin usar",
@@ -10662,6 +10690,10 @@
     "v": "WhatsApp, SMS, correo, donde sea. Solo toca el globo",
     "src": "a387edb1ec"
   },
+  "칸 안에 내용 보이기": {
+    "v": "Vista previa del contenido",
+    "src": "1e6e35cd9a"
+  },
   "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.": {
     "v": {
       "one": "Cada paso se cuenta por separado. Si lo activaste y no aparece, aún no se ha abierto o se usó sin acceso total y no quedó registro. Frase usada cuenta a quien realmente usó una, con el teclado o al copiar en la app. Se excluyó %d registro anterior sin las métricas nuevas.",
@@ -12024,6 +12056,10 @@
   "항목 (\\(selectedItems.count)개)": {
     "v": "Elementos (\\(selectedItems.count))",
     "src": "7b9346a3da"
+  },
+  "항상 보이기": {
+    "v": "Mostrar siempre",
+    "src": "c3ab16bafb"
   },
   "항상 표시": {
     "v": "Mostrar siempre",

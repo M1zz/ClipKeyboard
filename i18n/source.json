@@ -3989,6 +3989,12 @@
     "comment": "Stamp label: verified",
     "h": "52f4d3f6e1"
   },
+  "격자": {
+    "ko": "격자",
+    "en": "Grid",
+    "comment": "List layout option: cards in a grid",
+    "h": "9b8309e775"
+  },
   "결": {
     "ko": "결",
     "en": "Pattern",
@@ -6893,11 +6899,23 @@
     "comment": "Review footer message",
     "h": "d09c7ceef9"
   },
+  "리스트": {
+    "ko": "리스트",
+    "en": "List",
+    "comment": "List layout option: one row per snippet",
+    "h": "7d6ecf07a3"
+  },
   "리스트 뒤에 사진을 깔면 유리 카드가 살아나요. 언제든 오른쪽 위 ⋯ 메뉴 > 배경 이미지에서 바꾸거나 끌 수 있어요.": {
     "ko": "리스트 뒤에 사진을 깔면 유리 카드가 살아나요. 언제든 오른쪽 위 ⋯ 메뉴 > 배경 이미지에서 바꾸거나 끌 수 있어요.",
     "en": "A photo behind your list makes the glass cards come alive. You can change or turn it off anytime from the ⋯ menu > Background Image.",
     "comment": "Background offer alert message",
     "h": "bc1987bfcd"
+  },
+  "리스트는 한 줄에 하나씩 보여 줘요. 줄 높이는 내용에 맞춰지고, 위의 단축어 높이는 격자에만 적용돼요.": {
+    "ko": "리스트는 한 줄에 하나씩 보여 줘요. 줄 높이는 내용에 맞춰지고, 위의 단축어 높이는 격자에만 적용돼요.",
+    "en": "List shows one snippet per row. Row height follows the content, and Snippet Height above applies to the grid only.",
+    "comment": "List layout explanation",
+    "h": "36ad615259"
   },
   "리스트에서 단축어 카드의 높이를 정해요. 한 화면에 더 많이 보려면 작게, 제목을 크게 보려면 크게로.": {
     "ko": "리스트에서 단축어 카드의 높이를 정해요. 한 화면에 더 많이 보려면 작게, 제목을 크게 보려면 크게로.",
@@ -7397,11 +7415,23 @@
     "comment": "Usage profile: essentials section footer",
     "h": "aad67e29f3"
   },
+  "목록 모양": {
+    "ko": "목록 모양",
+    "en": "List Layout",
+    "comment": "Setting: show the snippet list as a grid or as a list",
+    "h": "5c6473b388"
+  },
   "목록 배경으로 내 사진을 쓸 수 있어요": {
     "ko": "목록 배경으로 내 사진을 쓸 수 있어요",
     "en": "Use your own photo as the list background",
     "comment": "Changelog 5.0.0 background",
     "h": "52fd91c85b"
+  },
+  "목록 카드와 키보드 칸에 함께 적용돼요. '항상 보이기'는 제목 아래에 내용 한 줄을 늘 보여 주고, '보였다 사라지기'는 잠깐 나타났다 사라져요. 보안 단축어의 내용은 표시되지 않아요.": {
+    "ko": "목록 카드와 키보드 칸에 함께 적용돼요. '항상 보이기'는 제목 아래에 내용 한 줄을 늘 보여 주고, '보였다 사라지기'는 잠깐 나타났다 사라져요. 보안 단축어의 내용은 표시되지 않아요.",
+    "en": "Applies to both list cards and keyboard keys. Always Show keeps one line of the content under the title, and Show Briefly lets it appear for a moment and fade away. The content of secure snippets is never shown.",
+    "comment": "Content preview setting explanation. Keep the two option names consistent with the picker options",
+    "h": "a3cd474d1c"
   },
   "목록 탭에 들어갈 때 화면이 한 번 까매지던 것을 고쳤어요": {
     "ko": "목록 탭에 들어갈 때 화면이 한 번 까매지던 것을 고쳤어요",
@@ -8374,6 +8404,12 @@
     "en": "You can write the one line it shows",
     "comment": "Changelog 4.3.2 item 2",
     "h": "8d9751a289"
+  },
+  "보였다 사라지기": {
+    "ko": "보였다 사라지기",
+    "en": "Show Briefly",
+    "comment": "Content preview mode: the content appears briefly, then fades away",
+    "h": "cb75a91872"
   },
   "보이는 것 전체를 한 줄로 늘어놓고 옮겨요. 1번 페이지의 것을 2번 페이지 맨 위로 보낼 수 있어요": {
     "ko": "보이는 것 전체를 한 줄로 늘어놓고 옮겨요. 1번 페이지의 것을 2번 페이지 맨 위로 보낼 수 있어요",
@@ -11008,6 +11044,12 @@
     "en": "No refunds yet",
     "comment": "Receipt: empty line items",
     "h": "cfc40de398"
+  },
+  "안 보이기": {
+    "ko": "안 보이기",
+    "en": "Hide",
+    "comment": "Content preview mode: only the title is shown",
+    "h": "932a231d12"
   },
   "안 쓰는 단축어": {
     "ko": "안 쓰는 단축어",
@@ -15527,6 +15569,12 @@
     "comment": "Keyboard lesson: done subline",
     "h": "a387edb1ec"
   },
+  "칸 안에 내용 보이기": {
+    "ko": "칸 안에 내용 보이기",
+    "en": "Content Preview",
+    "comment": "Setting: how the snippet's content is previewed inside its card or key",
+    "h": "1e6e35cd9a"
+  },
   "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.": {
     "ko": "칸마다 따로 셉니다. 켰는데 안 떴다면 아직 안 불러냈거나 전체 접근 없이 써서 흔적이 안 남은 거예요. 꺼내 쓴 설치는 키보드든 앱 안 복사든 실제로 쓴 사람이에요. 새 지표를 안 보낸 옛 기록 %d개는 뺐어요.",
     "en": "Each step is counted on its own. Enabled but never appeared means it hasn't been brought up yet, or it was used without Full Access so no trace was left. Used a snippet counts anyone who actually used one, by keyboard or by copying in the app. %d older records without the new metrics are left out.",
@@ -17548,6 +17596,12 @@
     "en": "Items selected",
     "comment": "Auto-registered",
     "h": "7b9346a3da"
+  },
+  "항상 보이기": {
+    "ko": "항상 보이기",
+    "en": "Always Show",
+    "comment": "Content preview mode: the content is always shown under the title",
+    "h": "c3ab16bafb"
   },
   "항상 표시": {
     "ko": "항상 표시",

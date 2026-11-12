@@ -145,6 +145,8 @@ struct ContentHintPreview: View {
     let seed: Int
     /// 컬러 카드(이미지·카테고리색) 위인지 - 텍스트 색 결정.
     let onColor: Bool
+    /// 늘 보인다(설정 ▸ 칸 안에 내용 보이기 ▸ 항상 보이기). 맺혔다 사라지는 연출을 돌리지 않는다.
+    var alwaysVisible: Bool = false
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -202,17 +204,17 @@ struct ContentHintPreview: View {
             .lineLimit(1)
             .truncationMode(.tail)
             .foregroundColor(onColor ? .white.opacity(0.85) : .secondary)
-            .opacity(stage == .shown ? 1 : 0)
-            .blur(radius: reduceMotion || stage == .shown ? 0 : 4)
-            .offset(y: reduceMotion ? 0 : rise)
+            .opacity(alwaysVisible || stage == .shown ? 1 : 0)
+            .blur(radius: alwaysVisible || reduceMotion || stage == .shown ? 0 : 4)
+            .offset(y: alwaysVisible || reduceMotion ? 0 : rise)
             .frame(maxWidth: .infinity, alignment: .leading)
             .frame(height: Self.zoneHeight)
             .allowsHitTesting(false)        // 탭은 카드로 통과
             .accessibilityHidden(true)      // VoiceOver는 카드 라벨이 안내 (일시 표시 요소 제외)
-            .task(id: isLive) {
+            .task(id: isLive && !alwaysVisible) {
                 // 카드가 화면을 벗어나거나 가려지면 task가 취소되고, 다시 보이면 처음부터 시작된다.
                 stage = .waiting
-                guard isLive else { return }
+                guard isLive, !alwaysVisible else { return }
                 do {
                     try await Task.sleep(for: .seconds(revealDelay))
                     while !Task.isCancelled {
