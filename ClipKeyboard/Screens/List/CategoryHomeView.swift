@@ -27,9 +27,9 @@ struct CategoryHomeView<Header: View>: View {
 
     // MARK: - Layout
 
-    /// 위의 작은 칸(최근 · 즐겨찾기)과 아래의 큰 칸(나머지)을 가른다.
-    private var pinnedTabs: [CategoryTab] { tabs.filter { $0 == .recent || $0 == .favorites } }
-    private var folderTabs: [CategoryTab] { tabs.filter { $0 != .recent && $0 != .favorites } }
+    /// '최근' 칸에 보일 복사 기록. 최근은 카테고리가 아니지만(카테고리 관리에는 안 나온다)
+    /// 홈에서는 다른 칸과 **같은 모양**으로 선다. 칸이 두 종류면 어느 쪽이 무엇인지부터 읽어야 한다.
+    @State private var recentClips: [SmartClipboardHistory] = []
 
     private var columns: [GridItem] {
         let count = horizontalSizeClass == .regular ? 4 : 2
@@ -41,22 +41,8 @@ struct CategoryHomeView<Header: View>: View {
             VStack(alignment: .leading, spacing: 14) {
                 header()
 
-                if !pinnedTabs.isEmpty {
-                    LazyVGrid(columns: columns, spacing: 10) {
-                        ForEach(pinnedTabs, id: \.self) { pinnedTile($0) }
-                    }
-                    .padding(.horizontal, 16)
-                }
-
-                Text(NSLocalizedString("카테고리", comment: "Category home: section title"))
-                    .font(.title3.weight(.bold))
-                    .foregroundStyle(theme.text)
-                    .padding(.horizontal, 20)
-                    .padding(.top, 4)
-                    .accessibilityAddTraits(.isHeader)
-
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(folderTabs, id: \.self) { folderTile($0) }
+                    ForEach(tabs, id: \.self) { folderTile($0) }
                     addTile
                 }
                 .padding(.horizontal, 16)
@@ -65,48 +51,49 @@ struct CategoryHomeView<Header: View>: View {
         }
         .scrollEdgeEffectHidden(true, for: .all)
         .contentMargins(.top, 8, for: .scrollContent)
+        .onAppear(perform: loadRecentClips)
+        // 키보드에서 담은 것은 다른 프로세스가 같은 파일에 쓴다. 앱으로 돌아올 때 다시 읽는다.
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            loadRecentClips()
+        }
+    }
+
+    private func loadRecentClips() {
+        guard tabs.contains(.recent) else { return }
+        do {
+            recentClips = SmartClipboardHistory.keyboardRecents(try ClipboardHistoryStore.shared.load())
+        } catch {
+            print("❌ [CategoryHomeView.loadRecentClips] \(error)")
+        }
+    }
+
+    /// 칸에 적을 개수와 첫 두 줄. 최근은 복사 기록에서, 나머지는 단축어에서 읽는다.
+    private func summary(for tab: CategoryTab) -> (count: Int, preview: String) {
+        if tab == .recent {
+            let lines = recentClips.prefix(2).map { clip -> String in
+                let text = clip.content.trimmingCharacters(in: .whitespacesAndNewlines)
+                    .replacingOccurrences(of: "\n", with: " ")
+                // 카드번호 · 계좌처럼 남이 보면 곤란한 것은 끝 네 자리만 (최근 화면과 같은 규칙).
+                guard (clip.userCorrectedType ?? clip.detectedType).isSensitive else { return text }
+                return "\u{2022}\u{2022}\u{2022}\u{2022} " + text.filter { !$0.isWhitespace }.suffix(4)
+            }
+            return (recentClips.count, lines.joined(separator: "\n"))
+        }
+        let list = memos(tab)
+        return (list.count, list.prefix(2).map(\.title).joined(separator: "\n"))
     }
 
     // MARK: - Tiles
 
-    private func pinnedTile(_ tab: CategoryTab) -> some View {
-        let style = Self.style(for: tab, in: customCategories)
-        let count = tab == .recent ? nil : memos(tab).count
-        return Button { open(tab) } label: {
-            HStack(spacing: 10) {
-                badge(style, size: 32)
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(tab.displayName)
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(theme.text)
-                    if let count {
-                        Text(countText(count))
-                            .font(.footnote)
-                            .foregroundStyle(theme.textMuted)
-                    }
-                }
-                Spacer(minLength: 0)
-            }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 12)
-            .frame(maxWidth: .infinity, minHeight: 56)
-            .background(theme.surface, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-            .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-        }
-        .buttonStyle(.plain)
-        .accessibilityElement(children: .combine)
-    }
-
     private func folderTile(_ tab: CategoryTab) -> some View {
         let style = Self.style(for: tab, in: customCategories)
-        let list = memos(tab)
-        let preview = list.prefix(2).map(\.title).joined(separator: "\n")
+        let (count, preview) = summary(for: tab)
         return Button { open(tab) } label: {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(alignment: .top) {
                     badge(style, size: 34)
                     Spacer(minLength: 4)
-                    Text("\(list.count)")
+                    Text("\(count)")
                         .font(.title2.weight(.bold).monospacedDigit())
                         .foregroundStyle(theme.text)
                 }
@@ -128,7 +115,7 @@ struct CategoryHomeView<Header: View>: View {
         }
         .buttonStyle(.plain)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(tab.displayName), \(countText(list.count))")
+        .accessibilityLabel("\(tab.displayName), \(countText(count))")
     }
 
     private var addTile: some View {
