@@ -354,6 +354,7 @@
 		RCP00012F0000000000000001 /* RecentClipsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = RCP00022F0000000000000002 /* RecentClipsPage.swift */; };
 		REORDERSCREEN0000000BB2 /* MemoReorderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = REORDERSCREEN0000000BB1 /* MemoReorderScreen.swift */; };
 		SEARCHNORESULT000000FF2 /* SearchNoResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = SEARCHNORESULT000000FF1 /* SearchNoResultsView.swift */; };
+		CATEGORYHOME0000000FF2 /* CategoryHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CATEGORYHOME0000000FF1 /* CategoryHomeView.swift */; };
 		SELECTSCREEN00000000CC2 /* MemoSelectionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = SELECTSCREEN00000000CC1 /* MemoSelectionScreen.swift */; };
 		SG00002A2F0000000000000002 /* SuggestionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = SG00001A2F0000000000000001 /* SuggestionManager.swift */; };
 		SHAREVIDEOBUILDAPP000001 /* ShareVideoRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = SHAREVIDEOFILE000000001 /* ShareVideoRenderer.swift */; };
@@ -784,6 +785,7 @@
 		RCP00022F0000000000000002 /* RecentClipsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentClipsPage.swift; sourceTree = "<group>"; };
 		REORDERSCREEN0000000BB1 /* MemoReorderScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoReorderScreen.swift; sourceTree = "<group>"; };
 		SEARCHNORESULT000000FF1 /* SearchNoResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchNoResultsView.swift; sourceTree = "<group>"; };
+		CATEGORYHOME0000000FF1 /* CategoryHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHomeView.swift; sourceTree = "<group>"; };
 		SELECTSCREEN00000000CC1 /* MemoSelectionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoSelectionScreen.swift; sourceTree = "<group>"; };
 		SG00001A2F0000000000000001 /* SuggestionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionManager.swift; sourceTree = "<group>"; };
 		SHAREVIDEOFILE000000001 /* ShareVideoRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareVideoRenderer.swift; sourceTree = "<group>"; };
@@ -1349,6 +1351,7 @@
 				FOLDP0022F0000000000000002 /* FoldCopiedPane.swift */,
 				CONTRACTS0000000000HH1 /* MemoScreenContracts.swift */,
 				SEARCHNORESULT000000FF1 /* SearchNoResultsView.swift */,
+				CATEGORYHOME0000000FF1 /* CategoryHomeView.swift */,
 				EMPTYSTATES00000000EE1 /* MemoListEmptyStates.swift */,
 				BGPICKERSHEET0000000DD1 /* ListBackgroundPickerSheet.swift */,
 				SELECTSCREEN00000000CC1 /* MemoSelectionScreen.swift */,
@@ -1920,6 +1923,7 @@
 				A11Y00012F0000000000000001 /* AccessibilityGuideView.swift in Sources */,
 				CONTRACTS0000000000HH2 /* MemoScreenContracts.swift in Sources */,
 				SEARCHNORESULT000000FF2 /* SearchNoResultsView.swift in Sources */,
+				CATEGORYHOME0000000FF2 /* CategoryHomeView.swift in Sources */,
 				EMPTYSTATES00000000EE2 /* MemoListEmptyStates.swift in Sources */,
 				BGPICKERSHEET0000000DD2 /* ListBackgroundPickerSheet.swift in Sources */,
 				SELECTSCREEN00000000CC2 /* MemoSelectionScreen.swift in Sources */,

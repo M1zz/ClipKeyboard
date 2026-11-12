@@ -169,7 +169,6 @@ struct ClipKeyboardList: View {
 
     // 즐겨찾기 탭 전용
     @State private var showAddFavoriteMemoSheet: Bool = false
-    @State private var showSwipeCategoryDialog: Bool = false
 
     // 스타터팩 - 추천 묶음 일괄 추가 시트
 
@@ -304,9 +303,6 @@ struct ClipKeyboardList: View {
     /// 사람이 지금 페이지를 굴리고 있는가. 제목 접기·펼치기는 **이때만** 스크롤을 따라간다.
     @State private var isPageScrolling = false
 
-    /// 갈래 스와이프를 **시작한 순간**의 자리와 그때의 갈래. 경계 순환 판단에 쓴다.
-    @State private var swipeStart: (location: CGPoint, index: Int)?
-
     /// 타이틀 표시 모드. **처음부터 inlineLarge 로 시작한다.**
     ///
     /// ⚠️ 예전에는 .large 로 시작해 등장 직후 .inlineLarge 로 바꿨다. inlineLarge 가 접힌 채
@@ -315,48 +311,6 @@ struct ClipKeyboardList: View {
     ///    격자가 있다. 그 상태에서 모드를 바꾸면 **바꾸는 순간 제목이 접혔다 펼쳐지며 카드가
     ///    위로 튀었다 내려왔다**(실측). 바꿀 일을 만들지 않는다.
     @State private var titleDisplayMode: ToolbarTitleDisplayMode = .inlineLarge
-
-    /// 등장 후 바가 자리를 잡았는지 - 이때부터만 상단 시작점을 측정한다.
-    /// (등장 도중의 바 높이가 측정되면 여백이 커짐, 실측)
-    @State private var titleBarSettled = false
-
-    /// 등장 직후 한 호흡 쉬고 측정을 연다.
-    private func expandTitleOnAppear() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-            titleBarSettled = true
-        }
-    }
-
-    /// 세이프에어리어 무시 전 페이저의 상단 y(=네비바 하단). categoryContent에서 실측.
-    @State private var pageTopInset: CGFloat = 113
-
-    /// 잰 값을 받아들이는 유일한 문.
-    ///
-    /// 예전에는 `minY` 가 바뀔 때마다 그대로 `min()` 으로 끌어내렸다. 굴리는 동안에도,
-    /// 1pt 차이에도 움직였다. 값이 내려갈 때마다 여백이 줄고 카드가 통째로 한 칸씩
-    /// 올라간다. 그게 사용자가 본 덜그럭거림이다
-    /// (신고: "목록뷰에서 단축어와 타이틀 사이에 여백이 덜그럭거린다").
-    ///
-    /// 두 가지만 더 본다.
-    ///  ① **손이 굴리는 동안에는 안 잰다.** 굴리는 중의 값은 고무줄처럼 튄다.
-    ///     예전 빗장이 오염되던 주된 경로이기도 하다.
-    ///  ② **1~2pt 차이로는 안 움직인다.** 눈에 보이는 개선은 없고 움직임만 남는다.
-    ///
-    /// ⚠️ 내려가기만 하는 규칙(`min`)은 **그대로 둔다.** 이 버그의 실패 방식은 언제나
-    ///    "너무 큼"이었고, 맨 위로 돌아올 때 다시 재어 스스로 고치는 길이 여기 있다.
-    ///    한 번만 재고 잠그면 그 고치는 길이 사라진다.
-    private static let topInsetDeadband: CGFloat = 2
-
-    private func considerTopInset(_ v: CGFloat) {
-        guard titleBarSettled, !showsInlineNavTitle, !isPageScrolling else { return }
-        guard v > 60, v < 160 else { return }
-        // 회전하면 상태 막대 높이가 바뀐다. 손을 뗀 뒤에만 여기 닿으므로 자주 돌지 않는다.
-        measureBarBottomFloor()
-        // 바는 아무리 접혀도 이보다 짧지 않다. 이 아래 값은 전환 도중의 쓰레기다.
-        guard v >= barBottomFloor else { return }
-        guard v < pageTopInset - Self.topInsetDeadband else { return }
-        pageTopInset = v
-    }
 
     /// 페이지 스크롤 오프셋으로 타이틀 모드 전환 - 페이저(UIKit 셀) 안 스크롤은
     /// 네비바가 자동 추적하지 못하고, preference도 셀 경계에서 업데이트가 끊겨(실측)
@@ -470,14 +424,16 @@ struct ClipKeyboardList: View {
     /// 기본 카테고리 이름을 정할 때마다 오른다 - 카드를 다시 그리게 하는 값.
     @State private var defaultNameDecisions = 0
 
-    /// 네비게이션 바 인라인 타이틀 - 현재 카테고리 이름(스와이프 시 갱신).
+    /// 네비게이션 바 타이틀 - 홈이면 "단축어", 카테고리에 들어가 있으면 그 이름.
     private var currentCategoryTitle: String {
-        if blank && !usesCategoryPager { return CategoryTab.basic.displayName }
-        return usesCategoryPager ? viewModel.displayedCategoryTab.displayName : CategoryTab.all.displayName
+        if blank && !usesCategoryHome { return CategoryTab.basic.displayName }
+        guard usesCategoryHome else { return CategoryTab.all.displayName }
+        return isInCategory ? viewModel.displayedCategoryTab.displayName
+                            : NSLocalizedString("단축어", comment: "Category home: navigation title")
     }
 
-    /// 페이지를 넘기는 화면인가. 카테고리 기능이 꺼져 있어도 '최근' 이 서면 '최근' · '전체' 두 장이다.
-    private var usesCategoryPager: Bool {
+    /// 카테고리 홈을 세우는가. 카테고리 기능이 꺼져 있어도 '최근' 이 서면 '최근' · '전체' 두 칸이다.
+    private var usesCategoryHome: Bool {
         CategoryStore.shared.isFeatureEnabled || showsRecentClipsTab
     }
 
@@ -691,101 +647,64 @@ struct ClipKeyboardList: View {
     /// 카테고리 탭/단일 페이지 - 가장 깊은 단일 요소라 AnyView로 타입 소거.
     /// GeometryReader: 세이프에어리어를 무시하기 전의 상단 오프셋(=네비바 하단)을 재서
     /// 각 페이지 스크롤 콘텐츠의 시작 위치(contentMargins)로 쓴다.
+    /// 카테고리 하나에 들어가 있는가. 홈이 없는 화면(카테고리 기능 꺼짐)에서는 늘 아니다.
+    private var isInCategory: Bool { usesCategoryHome && viewModel.isCategoryOpen }
+
+    /// 홈 · 카테고리 · 단일 페이지 가운데 하나. 옆으로 넘기는 페이저는 없다(`CategoryHomeView` 머리 주석).
+    @ViewBuilder
     private var categoryContent: some View {
-        AnyView(
-            GeometryReader { geo in
-                // 창 위 끝 기준. 듀오를 세로로 폈을 때 이 목록은 접힌 선 아래 판에 서므로
-                // 판의 위 끝(`foldPaneTop`)을 빼서 판 기준으로 잰다(DesignSystem/FoldLayout.swift).
-                let minY = geo.frame(in: .global).minY - foldLayout.windowOrigin.y - foldPaneTop
-                Group {
-                    // 넘길 페이지가 있을 때만 탭/swipe 뷰. 기능도 '최근' 도 꺼져 있으면 .all 페이지 하나.
-                    if usesCategoryPager {
-                        categoryTabView
-                    } else {
-                        tabPageView(for: .all)
-                    }
-                }
-                // 콘텐츠 시작점 = 확장(inlineLarge) 상태의 바 하단.
-                // - 유효 범위(60~160) 가드: onAppear 직후 프레임 확정 전의 쓰레기 값 차단.
-                //   상한을 200→160으로 좁힘 - .large→.inlineLarge 전환 중간의 과대값(~199)이
-                //   latch되면 그리드가 화면 중앙부터 시작하는 버그가 됨(실측: inlineLarge 바
-                //   하단은 100~130 언저리라 160이면 큰 글씨 설정까지 여유 있음).
-                // - 접힘(.inline) 동안은 갱신 안 함: 스크롤 중 콘텐츠 점프 방지
-                //
-                // ⚠️ **커지는 쪽으로는 절대 안 움직인다.** 이 버그의 실패 방식은 언제나
-                //    "너무 큼"이었다 - 큰 타이틀이 완전히 펼쳐진 순간의 값(150~160)이 latch되면
-                //    그리드가 화면 한복판에서 시작한다. 반대로 작아서 생기는 사고는 없었다
-                //    (바 하단에는 타이틀 쿠션이 넉넉해 몇 pt 붙어도 겹치지 않는다, 실측).
-                //    범위 가드만으로는 못 막는다 - 유효 범위 안의 값 중에서도 **가장 작은 것**이
-                //    우리가 원하는 상태(inlineLarge)의 바 하단이다.
-                // 재는 문은 넷이다. 어느 순간에 자리가 잡히는지가 기기와 설정에 따라 달라서,
-                // 먼저 닿는 문이 값을 정하고 나머지는 `considerTopInset` 안에서 걸러진다.
-                .onChange(of: minY, initial: true) { _, v in considerTopInset(v) }
-                .onChange(of: titleBarSettled) { _, _ in considerTopInset(minY) }
-                // 타이틀이 다시 펼쳐질 때(맨 위로 복귀) 재측정 - 오염된 값을 스스로 고치는 길.
-                .onChange(of: showsInlineNavTitle) { _, inline in
-                    if !inline { considerTopInset(minY) }
-                }
-                // 손을 뗀 **뒤에만** 잰다. 굴리는 동안의 값은 튄다.
-                .onChange(of: isPageScrolling) { _, scrolling in
-                    if !scrolling { considerTopInset(minY) }
-                }
-            }
+        if !usesCategoryHome {
+            tabPageView(for: .all)
+        } else if isInCategory {
+            openedCategoryPage
+        } else if isSearching {
+            // 홈에서 찾으면 모든 카테고리에서 찾은 결과를 한 장으로 보인다.
+            tabPageView(for: .all)
+        } else {
+            categoryHome
+        }
+    }
+
+    private var categoryHome: some View {
+        CategoryHomeView(
+            tabs: viewModel.allCategoryTabs,
+            customCategories: viewModel.customCategories,
+            memos: { viewModel.memos(for: $0) },
+            onOpen: { viewModel.selectCategoryTab($0) },
+            onAddCategory: {
+                newCategoryName = ""
+                showAddCategoryAlert = true
+            },
+            header: { pageHeader(for: .all) }
         )
     }
 
-    /// 페이지 스크롤 콘텐츠의 상단 시작점 - 네비바 하단에서 10pt 끌어올려 타이틀과의
-    /// 여백을 좁힌다(바 하단은 타이틀 아래 쿠션이 넉넉해 이 정도는 겹치지 않음, 실측).
-    /// 상한 150 클램프: 측정값이 어떤 경로로든 오염돼도(전환 중간값 latch 등)
-    /// 그리드가 화면 중앙부터 시작하는 최악의 표시는 막는다.
-    /// **스크롤 페이지의 위 여백 - 경로에 따라 다르다.**
-    ///
-    /// ⚠️ 여기에 두 가지 화면이 섞여 있었고, 둘의 사정이 **정반대**라 값 하나로는 못 맞춘다.
-    ///
-    ///  ① **카테고리 페이저(TabView)** - 시스템이 바 아래로 안 밀어 준다.
-    ///     우리가 잰 바 하단(100~130)을 그대로 줘야 한다. 안 주면 카드가 타이틀·툴바를 덮는다.
-    ///  ② **단일 페이지**(카테고리 기능이 꺼진 '전체' 한 장) - ScrollView 를 시스템이
-    ///     알아서 바 아래로 밀어 준다. 여기에 잰 값을 또 얹으면 여백이 **두 번** 들어가
-    ///     그리드가 화면 중앙쯤에서 시작한다(오래된 "그리드가 안 올라간다" 버그의 정체).
-    ///     실측: 0으로 두면 타이틀 아래 36pt 에 정확히 붙는다.
-    ///
-    /// 그래서 **어느 경로로 그려지는지**를 그대로 따라간다(categoryContent 의 분기와 같은 조건).
-    private var pageContentTopMargin: CGFloat {
-        usesCategoryPager ? measuredBarBottomMargin : 8
+    /// 들어간 카테고리 한 장. 사용자 카테고리는 그 색으로 옅게 물든다.
+    /// 왼쪽 끝에서 오른쪽으로 밀면 홈으로 돌아간다(시스템 뒤로 가기와 같은 손짓).
+    private var openedCategoryPage: some View {
+        let tab = viewModel.displayedCategoryTab
+        return tabPageView(for: tab)
+            .background { pageTint(for: tab).ignoresSafeArea() }
+            .overlay(alignment: .bottom) { pageVeil(for: tab) }
+            .overlay(alignment: .leading) {
+                Color.clear
+                    .frame(width: 20)
+                    .contentShape(Rectangle())
+                    .gesture(
+                        DragGesture(minimumDistance: 20)
+                            .onEnded { value in
+                                guard value.translation.width > 60,
+                                      abs(value.translation.height) < value.translation.width else { return }
+                                viewModel.closeCategory()
+                            }
+                    )
+            }
+            .id(tab)
     }
 
-    /// 잰 네비바 하단에서 10pt 끌어올린 값. 페이저·빈 화면처럼 **시스템이 안 밀어 주는**
-    /// 경로에서만 쓴다. 상한 130: 측정이 오염돼도 최악(화면 중앙 시작)은 막는다.
-    ///
-    /// ⚠️ **바닥은 접힌 바의 아랫단이다.** 예전 바닥은 60 이었다. 기기에서 그보다 조금 큰
-    ///    값(접히는 도중의 바)이 한 번 잡히자 여백이 접힌 바보다도 낮게 굳어서, 맨 위의
-    ///    키보드 켜기 띠가 제목줄 밑에 깔렸고 시스템은 내용이 바 밑에 있으니 제목을 접어
-    ///    버렸다(신고 화면: 작은 "General" 뒤로 흐릿한 띠). 바가 그보다 짧을 수는 없으므로
-    ///    이 바닥은 어떤 상태에서도 안전하다.
-    private var measuredBarBottomMargin: CGFloat {
-        min(max(pageTopInset, barBottomFloor) - 10, 130)
-    }
-
-    /// 상태 막대 + 접힌(inline) 네비게이션 바(44pt). 바의 아랫단은 이보다 위에 올 수 없다.
-    ///
-    /// ⚠️ **body 안에서 창을 읽지 말 것.** 예전에는 이 값이 계산 프로퍼티라 body 가 그릴
-    ///    때마다 `keyWindow.safeAreaInsets` 를 물었다. 그 질문은 UIKit 이 상태 막대를
-    ///    숨길지 SwiftUI 에 되묻는 길로 이어져, 그리는 도중에 선호값 그래프를 통째로 다시
-    ///    돌렸다(앱을 켤 때 45~70ms, Instruments 실측 2026-10-06). 그래서 그리기 **밖**
-    ///    (등장 · 재는 문)에서만 재어 `@State` 에 둔다.
-    @State private var barBottomFloor: CGFloat = Self.minimumBarBottomFloor
-
-    /// 재기 전의 바닥. 첫 프레임의 `pageTopInset`(113)보다 낮아 그 값을 가리지 않는다.
-    private static let minimumBarBottomFloor: CGFloat = 70
-
-    private func measureBarBottomFloor() {
-        // 접힌 선 아래 판에는 상태 막대가 없다.
-        let statusTop = foldPaneTop > 0 ? 0 : UIApplication.shared.connectedScenes
-            .compactMap { ($0 as? UIWindowScene)?.keyWindow?.safeAreaInsets.top }
-            .first ?? 0
-        let floor = max(statusTop + 44, Self.minimumBarBottomFloor)
-        if floor != barBottomFloor { barBottomFloor = floor }
-    }
+    /// 스크롤 페이지의 위 여백. 페이지가 이제 늘 바 아래에 서므로 시스템이 바 아래로 밀어 준다.
+    /// (예전에는 페이저가 그 일을 안 해서 바 하단을 직접 재어 넣었다.)
+    private let pageContentTopMargin: CGFloat = 8
 
     private var screenBody: some View {
             ZStack {
@@ -912,7 +831,6 @@ struct ClipKeyboardList: View {
                 viewModel.loadMemos()
                 refreshGhostSuggestion()
                 AnalyticsService.setMemoBucket(viewModel.memos.count)
-                expandTitleOnAppear()
                 vaultSeconds = KeyboardUsageTracker.totalTimeSavedSeconds()
             }
             .toolbar {
@@ -1055,20 +973,6 @@ struct ClipKeyboardList: View {
                         }
                 }
             }
-            // 즐겨찾기 탭 오른쪽 스와이프 → 새 카테고리 생성 제안
-            .confirmationDialog(
-                NSLocalizedString("새로운 카테고리를 만들까요?", comment: "Swipe right favorites: create category dialog title"),
-                isPresented: $showSwipeCategoryDialog,
-                titleVisibility: .visible
-            ) {
-                Button(NSLocalizedString("새 카테고리 만들기", comment: "Swipe right favorites: confirm create category")) {
-                    newCategoryName = ""
-                    showAddCategoryAlert = true
-                }
-                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {}
-            } message: {
-                Text(NSLocalizedString("즐겨찾기 단축어를 정리할 카테고리를 만들어볼까요?", comment: "Swipe right favorites: create category message"))
-            }
     }
 
     private var screenL6: some View {
@@ -1137,7 +1041,6 @@ struct ClipKeyboardList: View {
             ))
             .onAppear {
                 beginSettling()
-                measureBarBottomFloor()
                 viewModel.onAppear()
                 // 빈 화면이 사람에 따라 갈리므로 들어올 때마다 다시 잰다.
                 userState.refresh()
@@ -1293,7 +1196,9 @@ struct ClipKeyboardList: View {
 
     /// 현재 탭에 실제로 보여줄 배경 - 탭 덮어쓰기 우선, 없으면 전체 기본값.
     private var resolvedBackgroundImage: String {
-        perTabBackgrounds[viewModel.selectedCategoryTab.storageKey] ?? listBackgroundImage
+        // 홈은 어느 카테고리도 아니다 - 전체 배경만 깐다.
+        guard isInCategory else { return listBackgroundImage }
+        return perTabBackgrounds[viewModel.selectedCategoryTab.storageKey] ?? listBackgroundImage
     }
 
     private func loadPerTabBackgrounds() {
@@ -1980,20 +1885,6 @@ struct ClipKeyboardList: View {
 
     // MARK: - Tab Background Color
 
-    /// 하단 인디케이터 선택 dot 색상 - 탭 배경색과 시각적으로 매칭.
-    /// 즐겨찾기는 분홍, 커스텀 카테고리는 그 카테고리 색, 전체는 무채색.
-    private var tabIndicatorColor: Color {
-        switch viewModel.displayedCategoryTab {
-        case .recent:    return .accentColor
-        case .basic:     return .gray
-        case .all:       return .gray
-        case .favorites: return .clipFavorite
-        case .builtIn(let b): return b.tint
-        case .custom(let name): return customCategoryColor(name)
-        }
-    }
-
-
     /// 하단 베일이 **가라앉는 색.** 언제나 바닥색이다.
     ///
     /// ⚠️ `.clear` 로 사라지면 탭바 뒤가 투명해져 창의 검정이 비친다.
@@ -2109,158 +2000,6 @@ struct ClipKeyboardList: View {
                     HapticManager.shared.success()
                     tip.invalidate(reason: .actionPerformed)
                 }
-            }
-        }
-    }
-
-    // MARK: - Category Tab View (Page Swipe)
-
-
-    /// TabView.page 방식 - ScrollView 내부 제스처 충돌 없이 수평 스와이프 완벽 처리.
-    /// 마지막 탭에서 왼쪽으로 더 스와이프(없는 페이지 방향) → 새 카테고리 생성 제안.
-    private var categoryTabView: some View {
-        let tabs = viewModel.allCategoryTabs
-        // 첫 페이지 왼쪽에 **마지막 페이지의 그림자**를 하나 둔다. 첫 페이지에서 오른쪽으로 밀면
-        // 옆 페이지로 넘어가듯 한 장만 미끄러져 그림자에 닿고, 닿는 순간 소리 없이 진짜 마지막
-        // 페이지로 바꿔 앉힌다. 그림자는 마지막 페이지와 똑같이 그려서 바뀌는 것이 보이지 않는다.
-        // ⚠️ 예전에는 손을 뗄 때 마지막 페이지로 애니메이션해서, 사이 페이지를 전부 훑으며 날아갔다.
-        let wraps = tabs.count > 1
-        let binding = Binding<PagerSlot>(
-            // ⚠️ **페이저에는 지금 있는 페이지만 건넨다.** 마지막 즐겨찾기를 지우면 즐겨찾기
-            //    페이지가 접히는데, 고른 탭을 바로잡는 일(`normalizeSelectedCategoryTabIfNeeded`)은
-            //    목록을 다시 거른 **뒤**에 돈다. 그 사이 페이저가 없는 페이지를 고른 채로 한 번
-            //    그려진다. 그 틈을 여기서 닫는다(2026-09-26, 샘플 즐겨찾기를 지운 뒤 크래시 문의).
-            get: {
-                let selected = viewModel.selectedCategoryTab
-                return .page(tabs.contains(selected) ? selected : viewModel.landingTab(in: tabs))
-            },
-            set: { slot in
-                let newTab: CategoryTab
-                switch slot {
-                case .page(let tab):
-                    newTab = tab
-                case .wrapToLast:
-                    // 그림자에 닿았다. 애니메이션 없이 진짜 마지막 페이지로 바꿔 앉힌다.
-                    guard let last = tabs.last else { return }
-                    HapticManager.shared.selection()
-                    var still = Transaction()
-                    still.disablesAnimations = true
-                    withTransaction(still) { viewModel.selectCategoryTab(last, animated: false) }
-                    return
-                }
-                // 같은 페이지로 다시 들어오는 호출은 넘긴 것이 아니다 - 톡 하지 않는다.
-                guard newTab != viewModel.selectedCategoryTab else { return }
-                // ⚠️ **손으로 페이지를 옮기면 언제나 같은 톡 하나.** 칩을 눌러도, 옆으로
-                //    넘겨도, 끝에서 반대쪽 끝으로 돌아가도 `selection` 이다. 예전에는 칩만
-                //    톡 했고 넘기기는 조용해서, 페이지에 따라 햅틱이 있다 없다 했다.
-                //    앱이 스스로 옮기는 것(저장한 단축어 보여 주기 · 마지막 탭 복원)은
-                //    이 길을 안 지나므로 조용하다.
-                HapticManager.shared.selection()
-                // 손가락이 이미 페이지를 옮겨 놓았다. 여기서 또 애니메이션하면
-                // SwiftUI 가 전이를 한 번 더 걸어 카드가 흐려졌다 돌아온다.
-                // (자세한 이유와 실측: `selectCategoryTab(_:animated:)`)
-                viewModel.selectCategoryTab(newTab, animated: false)
-            }
-        )
-        return TabView(selection: binding) {
-            if wraps, let last = tabs.last {
-                tabPageView(for: last)
-                    .ignoresSafeArea(.container, edges: .vertical)
-                    .background { pageTint(for: last).padding(.vertical, -120).ignoresSafeArea() }
-                    .overlay(alignment: .bottom) { pageVeil(for: last) }
-                    .background(PagerVerticalPin())
-                    .tag(PagerSlot.wrapToLast)
-            }
-            // ⚠️ **페이지를 골라 짓지 않는다.** 그냥 다 짓는다.
-            //
-            //    한때 "지금 페이지와 좌우 몇 장" 만 짓는 창을 손으로 만들었다. 그때는
-            //    카드 한 장이 비쌌기 때문이다(유리 + 두께 + 그림자 + 테두리 + 생활 레이어).
-            //    메모 505개에서 722ms 행이 잡혔고, 유리만 2,799개였다(커밋 1f8aea8).
-            //
-            //    그 뒤 카드에서 그것들을 전부 걷어냈다. 지금 카드는 단색 둥근 사각형
-            //    하나다. 창이 필요했던 이유가 사라졌다.
-            //
-            //    그리고 창은 그 자체가 세 가지 사고를 냈다. 창이 늦게 따라와 빈 화면이
-            //    스쳤고(10689b3), 도착한 뒤에 페이지를 지어 "두근" 했고(e333a3e),
-            //    화면 밖 페이지만 줄여 지었더니 페이지가 1.5장씩 어긋났다(되돌림).
-            //    셋 다 "언제 지을지" 를 손으로 정하려다 생긴 것이다. 정하지 않으면 없다.
-            //
-            //    ⚠️ 카테고리가 아주 많고 메모도 아주 많은 사람에게는 다시 무거워질 수
-            //       있다. 그때는 창을 되살리지 말고 `ScrollView` + `LazyHStack` +
-            //       `.scrollTargetBehavior(.paging)` 으로 옮길 것. 게으름이 기본으로
-            //       제공되니 "언제 지을지" 를 우리가 정하지 않아도 된다.
-            ForEach(tabs, id: \.self) { tab in
-                tabPageView(for: tab)
-                    // ⚠️ **페이지는 시스템 여백을 받지 않는다.** 위 여백은 우리가 잰 값
-                    //    (`pageContentTopMargin`) 하나로만 잡는다.
-                    //
-                    //    페이저 전체에 `ignoresSafeArea` 를 걸어도 페이지 칸(UIKit 셀)은 자리를
-                    //    잡는 순간마다 바 높이만큼의 여백을 다시 받았다 놓았다 했다. 그때 스크롤의
-                    //    위 여백이 103 → 219(103 + 바 116) → 103 으로 출렁였고(실측), 카테고리를
-                    //    넘길 때마다 첫 줄이 한 번 내려앉았다. 빈 페이지는 110pt 가까이 튀었다.
-                    //    받을 여백을 아예 없애면 출렁일 값이 없다.
-                    //    빈 페이지도 스크롤 안에 그리므로(`emptyPage`) 모든 페이지에 똑같이 건다.
-                    .ignoresSafeArea(.container, edges: .vertical)
-                    // 사용자 카테고리 페이지는 그 색으로 옅게 물든다. **페이지에 붙어 있어서**
-                    // 옆으로 넘기면 카드와 같이 미끄러져 들어온다(`pageTint` 주석).
-                    //
-                    // ⚠️ 페이지 칸(시스템 페이저의 셀)은 화면 끝까지 닿지 않는다. 칸 크기로만 칠하면
-                    //    맨 위 상태 막대 쪽 17pt 와 탭바 아래 띠에 바닥색이 드러나 위아래가 잘려
-                    //    보였다(신고 화면). 칸은 그리기를 잘라 내지 않으므로 **위아래로만** 넉넉히
-                    //    키워 칠한다. 좌우를 키우면 옆 페이지 위로 번진다.
-                    .background { pageTint(for: tab).padding(.vertical, -120).ignoresSafeArea() }
-                    .overlay(alignment: .bottom) { pageVeil(for: tab) }
-                    .background(PagerVerticalPin())
-                    .tag(PagerSlot.page(tab))
-            }
-        }
-        .tabViewStyle(.page(indexDisplayMode: .never))
-        .id(viewModel.customCategories)
-        // 경계 스와이프 감지: 마지막 탭에서 왼쪽(더 이상 없는 방향) → 카테고리 생성 제안.
-        // (첫 탭에서 오른쪽은 위의 그림자 페이지가 맡는다.)
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 60)
-                .onChanged { value in
-                    // ⚠️ **손을 대던 순간의 갈래**를 쥐어 둔다. 손을 뗄 때 읽으면 페이저가 이미
-                    //    옆 갈래로 넘어가 있다. 즐겨찾기에서 기본으로 넘기면 손을 뗄 때는
-                    //    "첫 갈래에서 오른쪽으로 민 것" 으로 읽혀, 멀쩡히 도착한 기본을 두고
-                    //    마지막 갈래로 툭 튀었다(실측). 시작 자리로 짝을 맞춰, 끊긴 제스처가
-                    //    남긴 낡은 값을 다음 스와이프가 물려받지 않게 한다.
-                    if swipeStart?.location != value.startLocation {
-                        swipeStart = (value.startLocation, viewModel.selectedCategoryIndex)
-                    }
-                }
-                .onEnded { value in
-                    let started = swipeStart?.location == value.startLocation ? swipeStart?.index : nil
-                    swipeStart = nil
-                    let h = value.translation.width
-                    let v = value.translation.height
-                    guard abs(h) > abs(v) * 1.5, abs(h) > 80 else { return }
-                    let tabs = viewModel.allCategoryTabs
-                    let idx = started ?? viewModel.selectedCategoryIndex
-                    if h < 0, idx == tabs.count - 1 {
-                        // 마지막 탭에서 더 왼쪽(없는 페이지 방향) → 카테고리 생성 제안
-                        HapticManager.shared.light()
-                        showSwipeCategoryDialog = true
-                    }
-                }
-        )
-        // 하단 베일은 **페이지마다** 단다(`pageVeil`). 페이저 전체에 하나로 깔면 늘 무채색
-        // 바닥으로 바래서, 카테고리 색이 든 페이지의 아래쪽만 잘려 보였다. 예전에 여기 있던
-        // "기능이 꺼졌을 때" 베일은 '최근' 이 생기며 페이지 베일과 겹쳐서 걷었다.
-        // 콘텐츠가 상단 툴바·하단 탭바 뒤로 지나다니게 - 페이저를 화면 위아래 끝까지 확장.
-        // (기본값은 바 사이에 갇혀 콘텐츠가 바 밑으로 못 들어감)
-        // 콘텐츠 시작 위치는 각 ScrollView의 contentMargins(.top, pageContentTopMargin)가 잡는다.
-        .ignoresSafeArea(.container, edges: .vertical)
-        .overlay(alignment: .bottom) {
-            if viewModel.allCategoryTabs.count > 1 {
-                SwipePageIndicator(
-                    total: viewModel.allCategoryTabs.count,
-                    selectedIndex: viewModel.selectedCategoryIndex,
-                    accentColor: tabIndicatorColor
-                )
-                // 오버레이는 세이프에어리어(탭바 상단) 기준으로 정렬되므로 살짝만 띄운다.
-                .padding(.bottom, 8)
             }
         }
     }
@@ -2433,9 +2172,8 @@ struct ClipKeyboardList: View {
                 // ⚠️ 8 이었다. 제목 글자 아래끝에서 첫 카드 윗변까지 22pt 가 떠서 제목과
                 //    목록이 한 덩어리로 안 읽혔다. 제목 글꼴의 디센더가 이미 쿠션 노릇을
                 //    하므로 여기서 당겨도 붙지 않는다(iPhone 17 Pro Max 실측 22pt → 16pt).
-                // ⚠️ **위 여백을 여기 말고 다른 데서 찾지 말 것.** `pageContentTopMargin` 과
-                //    `measuredBarBottomMargin` 은 페이저가 네비바를 덮지 않게 하는 값이라,
-                //    그 둘을 6pt 씩 건드려 봐도 이 사이는 1pt 도 안 움직였다(실측).
+                // ⚠️ **위 여백을 여기 말고 다른 데서 찾지 말 것.** `pageContentTopMargin` 은
+                //    스크롤 내용이 바 아래에서 시작하는 자리일 뿐, 이 사이와는 따로 논다(실측).
                 // ⚠️ 아래 `filteredTabScrollView` 의 같은 빈 칸과 **같은 값**이어야 한다.
                 //    다르면 기본 탭과 카테고리 탭의 제목 아래가 달라 보인다.
                 // ⚠️ 8 → 2 로 줄이고도 기기에서 보면 여전히 떠 있었다. 아래 그리드가 자기
@@ -2525,9 +2263,9 @@ struct ClipKeyboardList: View {
         }
         // [디자인 불변식] 스크롤 엣지 이펙트는 전부 숨김 - ScrollView 자체에 직접.
         // (.top만 숨기면 스크롤 시 상단에 흰 배경 밴드가 생기는 회귀를 실측으로 확인)
-        // 하단 카드 걸침 문제는 categoryTabView의 그라데이션 베일이 처리.
+        // 하단 카드 걸침 문제는 `pageVeil` 의 그라데이션 베일이 처리.
         .scrollEdgeEffectHidden(true, for: .all)
-        // 페이저가 화면 끝까지 확장되므로 콘텐츠 시작점은 여기서 잡는다(고정 타이틀 아래).
+        // 콘텐츠 시작점(고정 타이틀 아래).
         .contentMargins(.top, pageContentTopMargin, for: .scrollContent))
     }
 
@@ -2840,6 +2578,17 @@ struct ClipKeyboardList: View {
         // ⚠️ 스킨이 금고가 아닐 때는 ToolbarItem 자체를 만들지 않는다. 안이 빈 아이템도
         //    자리는 차지해서, 시스템이 바가 넘친다고 보고 오른쪽에 ⋯ 오버플로 버튼을
         //    하나 더 만들어 버린다(⋯ 가 두 개로 보였던 원인).
+        // 카테고리에 들어가 있으면 왼쪽 위에 홈으로 돌아가는 단추.
+        if isInCategory {
+            ToolbarItem(placement: .topBarLeading) {
+                GlassCircleButton(AppSymbol.chevronBackward, role: .secondary,
+                                  label: NSLocalizedString("뒤로", comment: "Back")) {
+                    HapticManager.shared.selection()
+                    viewModel.closeCategory()
+                }
+            }
+            .sharedBackgroundVisibility(.hidden)
+        }
         ToolbarItem(placement: .topBarTrailing) {
             // ⚠️ 간격은 무대 머리말과 **같은 값**을 쓴다. 예전엔 여기만 -8이라
             //    44pt 유리 서클끼리 겹쳐 두 버튼이 한 덩어리로 보였다.
@@ -3340,58 +3089,6 @@ struct ClipKeyboardList_Previews: PreviewProvider {
     }
 }
 
-// MARK: - 갈래 페이저가 세로로 밀린 채 굳지 않게
-
-/// 갈래 페이저(`TabView(.page)`)는 옆으로만 넘긴다. 속의 UIKit 컬렉션 뷰가 **세로로 밀리면 제자리로 되돌린다.**
-///
-/// 왜 필요한가: 새 단축어 시트가 뜨면 바닥 안전 영역이 탭바만큼(83pt) 바뀐다. 속의 컬렉션 뷰가 그에 맞춰
-/// 여백을 다시 맞추며 세로 위치(`contentOffset.y`)를 옮기고, 시트가 닫혀도 돌아오지 않았다. 단축어를
-/// 하나 만들면 첫 화면이 통째로 약 115pt 올라가 키보드 켜기 띠가 제목줄 밑으로 들어가고 제목이 접혔다
-/// (사용자 신고 2026-10-18, UI 시험 실측: 띠 y 143 → 시트 중 69 → 닫힌 뒤 27, 페이지 안 스크롤은 그대로).
-///
-/// ⚠️ 여백 맞추기 자체를 끄지 않는다(`contentInsetAdjustmentBehavior = .never`). 그렇게 하면 페이지가
-///    16pt 올라가 띠 윗단이 제목줄에 걸렸다. 목록의 위 여백(`measuredBarBottomMargin`)이 그 자동 여백을
-///    딛고 맞춰져 있어서다. 그래서 여백은 시스템에 맡기고, 어긋난 세로 위치만 바로잡는다.
-private struct PagerVerticalPin: UIViewRepresentable {
-    func makeUIView(context: Context) -> Probe { Probe() }
-    func updateUIView(_ view: Probe, context: Context) { view.attach() }
-
-    final class Probe: UIView {
-        private weak var pager: UICollectionView?
-        private var observation: NSKeyValueObservation?
-
-        override func didMoveToWindow() {
-            super.didMoveToWindow()
-            attach()
-        }
-
-        /// 위로 올라가며 처음 만나는 페이저 컬렉션 뷰를 지켜본다.
-        func attach() {
-            guard pager == nil else { return }
-            var view = superview
-            while let current = view {
-                if let found = current as? UICollectionView, found.isPagingEnabled {
-                    pager = found
-                    observation = found.observe(\.contentOffset, options: [.new]) { collection, _ in
-                        DispatchQueue.main.async { Self.settle(collection) }
-                    }
-                    Self.settle(found)
-                    return
-                }
-                view = current.superview
-            }
-        }
-
-        /// 옆으로 넘기는 페이저의 세로 자리는 늘 맨 위(위 여백만큼 위)다.
-        private static func settle(_ pager: UICollectionView) {
-            let top = -pager.adjustedContentInset.top
-            guard abs(pager.contentOffset.y - top) > 0.5 else { return }
-            print("📐 [PagerVerticalPin.settle] 페이저 세로 자리 \(pager.contentOffset.y) → \(top)")
-            pager.contentOffset.y = top
-        }
-    }
-}
-
 // MARK: - 내용이 줄었는데 넘어간 자리에 멈춘 스크롤
 
 /// 페이지 내용이 줄어 **이미 끝을 넘어선 자리에 멈춘** 스크롤을 맨 위로 되돌린다.
@@ -3422,10 +3119,4 @@ private struct StaleScrollOffsetReset: ViewModifier {
                 onReset()
             }
     }
-}
-
-/// 갈래 페이저의 칸. 진짜 페이지와, 첫 페이지 왼쪽에 세운 마지막 페이지의 그림자(`categoryTabView`).
-private enum PagerSlot: Hashable {
-    case page(CategoryTab)
-    case wrapToLast
 }

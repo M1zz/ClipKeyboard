@@ -667,31 +667,6 @@ struct PersonaCategoryTip: Tip {
     }
 }
 
-struct SwipePageIndicator: View {
-    let total: Int
-    let selectedIndex: Int
-    var accentColor: Color = Color.accentColor
-
-    @Environment(\.appTheme) private var theme
-
-    var body: some View {
-        HStack(spacing: 6) {
-            ForEach(0..<total, id: \.self) { index in
-                Capsule()
-                    .fill(index == selectedIndex ? accentColor : theme.textFaint.opacity(0.35))
-                    .frame(width: index == selectedIndex ? 20 : 6, height: 6)
-            }
-        }
-        .animation(.spring(response: 0.28, dampingFraction: 0.72), value: selectedIndex)
-        .animation(.easeInOut(duration: 0.3), value: accentColor)
-        .padding(.horizontal, 14)
-        .padding(.vertical, 8)
-        // 콘텐츠 위에 떠 있는 인디케이터 - Liquid Glass 캡슐. (iOS 26)
-        .glassEffect(in: Capsule())
-    }
-}
-
-
 // MARK: - Copied Stamp
 
 /// 목록 카드 위에 잠깐 얹는 "복사됨". 토스트를 대신한다(`ClipKeyboardList.stampCopied`).

@@ -205,6 +205,37 @@ final class SaveIntoCategoryTests: XCTestCase {
         XCTAssertEqual(viewModel.newSnippetCategory, "")
     }
 
+    // MARK: - 카테고리 홈
+
+    /// 신고(2026-11, 중국어): 옆으로 넘기다 보면 원하는 것이 어디 있는지 못 찾는다.
+    /// 앱은 카테고리 홈에서 시작하고, 칸을 누르면 그 카테고리로 들어가고, 뒤로 가면 홈이다.
+    /// 홈에서 + 로 만든 것은 어느 카테고리도 미리 고르지 않는다(보고 있는 카테고리가 없다).
+    func test_카테고리_홈에서_칸을_누르면_들어가고_뒤로_가면_홈이다() {
+        seed(categories: ["업무"], memos: [Memo(title: "회의록", value: "값", category: "업무")])
+        XCTAssertFalse(viewModel.isCategoryOpen, "앱은 홈에서 시작한다")
+        XCTAssertEqual(viewModel.newSnippetCategory, "")
+
+        viewModel.selectCategoryTab(.custom("업무"), animated: false)
+        XCTAssertTrue(viewModel.isCategoryOpen)
+        XCTAssertEqual(viewModel.newSnippetCategory, "업무", "들어간 카테고리의 + 는 그 칸을 고른다")
+
+        viewModel.closeCategory()
+        XCTAssertFalse(viewModel.isCategoryOpen)
+        XCTAssertEqual(viewModel.newSnippetCategory, "", "홈의 + 는 지난번 카테고리를 끌고 오면 안 된다")
+    }
+
+    /// 홈에서 업무로 저장하면 업무로 들어가 방금 만든 것을 보여 준다(만든 것이 사라진 것처럼 보이지 않게).
+    func test_홈에서_저장하면_그_카테고리로_들어가_보여_준다() {
+        let saved = Memo(title: "회의록", value: "값", category: "업무")
+        seed(categories: ["업무"], memos: [saved])
+        XCTAssertFalse(viewModel.isCategoryOpen)
+
+        viewModel.revealSavedMemo(id: saved.id)
+
+        XCTAssertTrue(viewModel.isCategoryOpen)
+        XCTAssertEqual(viewModel.selectedCategoryTab, .custom("업무"))
+    }
+
     // MARK: - ③④ 저장한 것이 보이는 자리로 데려간다
 
     func test_기본_탭에서_업무로_저장하면_업무_탭으로_옮겨_간다() {
