@@ -423,9 +423,10 @@ final class ClipKeyboardListViewModel: ObservableObject {
     // MARK: - Category Tabs
 
     @Published var selectedCategoryTab: CategoryTab = .basic
-    /// 카테고리 하나에 들어가 있는가. 아니면 카테고리 홈(`CategoryHomeView`)이다.
-    /// 앱을 켜면 언제나 홈에서 시작한다 - 어디에 무엇이 있는지 먼저 보이게.
-    @Published var isCategoryOpen = false
+    /// 카테고리 고르기 시트(`CategoryHomeView`)가 떠 있는가.
+    /// 목록은 늘 카테고리 한 장을 보이고, 제목 옆 아래 화살표를 누르면 이 시트가 뜬다.
+    /// (5.1.21 에서는 이 화면이 목록 위 단계의 홈이었다. 들어가고 나오기가 번거롭다는 판단으로 시트로 내렸다.)
+    @Published var isCategoryPickerShown = false
     @Published var customCategories: [String] = [] { didSet { invalidateTabCache() } }
     /// 탭 바에서 숨길 카테고리 이름 집합. 즐겨찾기는 "__favorites__" 키 사용.
     @Published var hiddenCategoryTabs: Set<String> = [] { didSet { invalidateTabCache() } }
@@ -488,7 +489,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
     /// ⚠️ 사용자 신고: 카테고리 페이지의 + 로 만들었는데 기본으로 간다. 툴바 + 가 둘(단순 · 메뉴)인데
     ///    단순한 쪽만 칸을 비웠다. 두 + 가 어긋나지 않게 이 값 하나를 함께 읽는다.
     var newSnippetCategory: String {
-        guard isCategoryOpen else { return "" }
         if case .custom(let name) = displayedCategoryTab { return name }
         return ""
     }
@@ -579,18 +579,17 @@ final class ClipKeyboardListViewModel: ObservableObject {
     ///    그 사이 배경색은 전혀 변하지 않았다(카드만 흐려졌다는 뜻이다).
     ///
     ///    탭 바에서 눌러 건너뛸 때는 옮기는 연출이 필요하므로 그때만 켠다.
-    /// 그 카테고리로 **들어간다.** 홈의 칸을 눌렀을 때, 그리고 앱이 "여기를 보라" 고 데려갈 때
-    /// (저장한 단축어 보여 주기 · 새 카테고리 만들기) 모두 이 문을 지난다.
+    /// 그 카테고리를 보인다. 고르기 시트의 칸을 눌렀을 때, 그리고 앱이 "여기를 보라" 고 데려갈 때
+    /// (저장한 단축어 보여 주기 · 새 카테고리 만들기) 모두 이 문을 지난다. 시트가 떠 있으면 닫는다.
     func selectCategoryTab(_ tab: CategoryTab, animated: Bool = true) {
         if animated {
             withAnimation(.easeInOut(duration: 0.22)) {
                 selectedCategoryTab = tab
-                isCategoryOpen = true
             }
         } else {
             selectedCategoryTab = tab
-            isCategoryOpen = true
         }
+        isCategoryPickerShown = false
         // 마지막 본 탭 기억 - 다음 실행 시 이 화면에서 시작.
         UserDefaults.standard.set(tab.storageKey, forKey: Self.selectedCategoryTabKey)
     }
@@ -609,7 +608,7 @@ final class ClipKeyboardListViewModel: ObservableObject {
     ///    만든 흔한 경우가 여기다. 잘 보이는데 화면을 또 옮기면 그게 길을 헤매게 한다.
     func revealSavedMemo(id: UUID) {
         guard let saved = memos.first(where: { $0.id == id }) else { return }
-        if isCategoryOpen, memos(for: selectedCategoryTab).contains(where: { $0.id == id }) { return }
+        if memos(for: selectedCategoryTab).contains(where: { $0.id == id }) { return }
 
         func contains(_ tab: CategoryTab) -> Bool {
             memos(for: tab).contains { $0.id == id }
@@ -625,11 +624,6 @@ final class ClipKeyboardListViewModel: ObservableObject {
         }
         guard let destination = allCategoryTabs.first(where: contains) else { return }
         selectCategoryTab(destination)
-    }
-
-    /// 카테고리에서 나와 홈으로 돌아간다.
-    func closeCategory() {
-        withAnimation(.easeInOut(duration: 0.22)) { isCategoryOpen = false }
     }
 
     private static let selectedCategoryTabKey = "selectedCategoryTab_v1"

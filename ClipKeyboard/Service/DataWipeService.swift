@@ -109,6 +109,16 @@ enum DataWipeService {
             }
         }
 
+        // ②-1 아이콘으로 올린 그림 (`SnippetIconStore`). 사용자가 사진에서 고른 것이라 함께 지운다.
+        if let iconsURL = SnippetIconStore.directory, fm.fileExists(atPath: iconsURL.path) {
+            do {
+                try fm.removeItem(at: iconsURL)
+            } catch {
+                result.failures.append("Icons")
+                AppLog.error(.wipe, "❌ [DataWipeService.wipeAll] 아이콘 폴더 삭제 실패: \(error.localizedDescription)")
+            }
+        }
+
         // ③ App Group UserDefaults
         if let group = AppGroup.defaults {
             for key in groupKeys { group.removeObject(forKey: key) }

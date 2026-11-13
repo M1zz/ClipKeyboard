@@ -223,12 +223,17 @@ struct MemoCardSurface: View {
                     .foregroundColor(onColor ? .white.opacity(0.9) : .clipFavorite)
                     .accessibilityHidden(true)
             } else if hasCustomCategory {
-                Image(systemName: categorySymbol(for: memo.category, in: categories))
-                    .font(.title2)
-                    .foregroundColor(onColor
-                        ? .white.opacity(0.85)
-                        : categoryTint(for: memo.category, in: categories))
-                    .accessibilityHidden(true)
+                // 카테고리에 이모지 · 그림을 골랐으면 그것을, 아니면 카테고리 심볼.
+                if let icon = customCategoryIcon(for: memo.category), icon.symbolName == nil {
+                    SnippetIconView(icon: icon, size: 26)
+                } else {
+                    Image(systemName: categorySymbol(for: memo.category, in: categories))
+                        .font(.title2)
+                        .foregroundColor(onColor
+                            ? .white.opacity(0.85)
+                            : categoryTint(for: memo.category, in: categories))
+                        .accessibilityHidden(true)
+                }
             }
         }
     }
@@ -247,6 +252,11 @@ struct MemoCardSurface: View {
                     .font(.title3)
                     .foregroundColor(onColor ? .white.opacity(0.9) : theme.textMuted)
                     .accessibilityHidden(true)
+            }
+            // 사용자가 고른 아이콘 - 구분 표시 설정과 무관하게 **고른 사람에게는 늘** 보인다.
+            if let icon = SnippetIcon(raw: memo.icon) {
+                SnippetIconView(icon: icon, size: 26, tint: onColor ? .white : theme.text)
+                    .alignmentGuide(.firstTextBaseline) { $0[VerticalAlignment.center] + 8 }
             }
             // 템플릿 변수 {…}는 카드 제목에서도 원문이 아닌 칩(하이라이트)으로.
             Text(memo.title.templateAwareAttributed(theme: theme, font: .title2.weight(.semibold)))

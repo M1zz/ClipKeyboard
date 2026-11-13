@@ -205,35 +205,32 @@ final class SaveIntoCategoryTests: XCTestCase {
         XCTAssertEqual(viewModel.newSnippetCategory, "")
     }
 
-    // MARK: - 카테고리 홈
+    // MARK: - 카테고리 고르기 시트
 
     /// 신고(2026-11, 중국어): 옆으로 넘기다 보면 원하는 것이 어디 있는지 못 찾는다.
-    /// 앱은 카테고리 홈에서 시작하고, 칸을 누르면 그 카테고리로 들어가고, 뒤로 가면 홈이다.
-    /// 홈에서 + 로 만든 것은 어느 카테고리도 미리 고르지 않는다(보고 있는 카테고리가 없다).
-    func test_카테고리_홈에서_칸을_누르면_들어가고_뒤로_가면_홈이다() {
+    /// 목록은 늘 카테고리 한 장을 보이고, 제목 옆 아래 화살표로 고르기 시트를 연다.
+    /// 시트에서 칸을 누르면 시트가 닫히고 그 카테고리가 보이며, 그 화면의 + 는 그 칸을 고른다.
+    func test_고르기_시트에서_칸을_누르면_시트가_닫히고_그_카테고리를_보인다() {
         seed(categories: ["업무"], memos: [Memo(title: "회의록", value: "값", category: "업무")])
-        XCTAssertFalse(viewModel.isCategoryOpen, "앱은 홈에서 시작한다")
-        XCTAssertEqual(viewModel.newSnippetCategory, "")
+        XCTAssertFalse(viewModel.isCategoryPickerShown, "앱은 시트 없이 카테고리 한 장에서 시작한다")
 
+        viewModel.isCategoryPickerShown = true
         viewModel.selectCategoryTab(.custom("업무"), animated: false)
-        XCTAssertTrue(viewModel.isCategoryOpen)
-        XCTAssertEqual(viewModel.newSnippetCategory, "업무", "들어간 카테고리의 + 는 그 칸을 고른다")
 
-        viewModel.closeCategory()
-        XCTAssertFalse(viewModel.isCategoryOpen)
-        XCTAssertEqual(viewModel.newSnippetCategory, "", "홈의 + 는 지난번 카테고리를 끌고 오면 안 된다")
+        XCTAssertFalse(viewModel.isCategoryPickerShown, "칸을 고르면 시트가 닫힌다")
+        XCTAssertEqual(viewModel.displayedCategoryTab, .custom("업무"))
+        XCTAssertEqual(viewModel.newSnippetCategory, "업무", "보고 있는 카테고리의 + 는 그 칸을 고른다")
     }
 
-    /// 홈에서 업무로 저장하면 업무로 들어가 방금 만든 것을 보여 준다(만든 것이 사라진 것처럼 보이지 않게).
-    func test_홈에서_저장하면_그_카테고리로_들어가_보여_준다() {
-        let saved = Memo(title: "회의록", value: "값", category: "업무")
-        seed(categories: ["업무"], memos: [saved])
-        XCTAssertFalse(viewModel.isCategoryOpen)
+    /// 시트에서 새 카테고리를 만들면 그 카테고리로 옮겨 가며 시트가 닫힌다(비어 있어도 페이지로 선다).
+    func test_고르기_시트에서_새_카테고리를_만들면_그리로_옮겨_간다() {
+        seed(categories: [], memos: [])
+        viewModel.isCategoryPickerShown = true
 
-        viewModel.revealSavedMemo(id: saved.id)
+        viewModel.addCustomCategory("여행")
 
-        XCTAssertTrue(viewModel.isCategoryOpen)
-        XCTAssertEqual(viewModel.selectedCategoryTab, .custom("업무"))
+        XCTAssertFalse(viewModel.isCategoryPickerShown)
+        XCTAssertEqual(viewModel.displayedCategoryTab, .custom("여행"))
     }
 
     // MARK: - ③④ 저장한 것이 보이는 자리로 데려간다

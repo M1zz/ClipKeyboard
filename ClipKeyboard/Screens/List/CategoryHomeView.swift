@@ -2,7 +2,9 @@
 //  CategoryHomeView.swift
 //  ClipKeyboard
 //
-//  카테고리 홈 - 모든 카테고리를 한 화면에 늘어놓고, 누르면 그 카테고리로 한 단계 들어간다.
+//  카테고리 고르기 - 모든 카테고리를 한 화면에 늘어놓고, 누르면 그 카테고리를 보인다.
+//  목록 제목 옆 아래 화살표로 여는 시트(`CategoryPickerSheet`) 안에 선다.
+//  5.1.21 에서는 목록 위 단계의 홈이었다. 들어갔다 나오는 한 단계가 번거로워 시트로 내렸다.
 //
 //  왜: 사용자 피드백(2026-11, 중국어).
 //  > 좌우로 넘기다 보면 원하는 게 어디 있는지 못 찾는다. 개인 · 업무 · 생활 같은 분류를
@@ -18,12 +20,16 @@ struct CategoryHomeView<Header: View>: View {
     let tabs: [CategoryTab]
     let customCategories: [String]
     let memos: (CategoryTab) -> [Memo]
+    /// 지금 목록에 보이는 카테고리. 그 칸에 테두리를 둘러 어디서 왔는지 보이게 한다.
+    var selected: CategoryTab? = nil
     let onOpen: (CategoryTab) -> Void
     let onAddCategory: () -> Void
     @ViewBuilder let header: () -> Header
 
     @Environment(\.appTheme) private var theme
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    /// 설정 ▸ 손쉬운 사용 ▸ 색상 없이 구별. 켜져 있으면 아이콘을 안 고른 칸에도 기본 심볼을 세운다.
+    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
 
     // MARK: - Layout
 
@@ -94,7 +100,10 @@ struct CategoryHomeView<Header: View>: View {
         let (count, preview) = summary(for: tab)
         return Button { open(tab) } label: {
             VStack(alignment: .leading, spacing: 8) {
-                HStack(alignment: .firstTextBaseline) {
+                HStack(alignment: .center, spacing: 8) {
+                    if let icon = tileIcon(for: tab) {
+                        SnippetIconView(icon: icon, size: 24, tint: style.tint ?? theme.textMuted)
+                    }
                     Text(tab.displayName)
                         .font(.headline)
                         .foregroundStyle(theme.text)
@@ -127,10 +136,17 @@ struct CategoryHomeView<Header: View>: View {
                         }
                     }
             }
+            .overlay {
+                if tab == selected {
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                        .strokeBorder(theme.accent, lineWidth: 2)
+                }
+            }
             .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
         }
         .buttonStyle(.plain)
         .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(tab == selected ? .isSelected : [])
         .accessibilityLabel("\(tab.displayName), \(countText(count))")
     }
 
@@ -158,6 +174,20 @@ struct CategoryHomeView<Header: View>: View {
 
     // MARK: - Helpers
 
+    /// 칸에 세울 아이콘. 사용자가 고른 것이 있으면 늘, 없으면 '색상 없이 구별' 이 켜진 사람에게만
+    /// 기본 심볼을 세운다. 칸은 색으로 구별하므로(위 주석) 색이 안 통하는 사람에게 모양을 준다.
+    private func tileIcon(for tab: CategoryTab) -> SnippetIcon? {
+        if case .custom(let name) = tab, let picked = customCategoryIcon(for: name) { return picked }
+        guard differentiateWithoutColor else { return nil }
+        switch tab {
+        case .custom(let name): return .symbol(categorySymbol(for: name, in: customCategories))
+        case .builtIn(let b):   return .symbol(b.icon)
+        case .favorites:        return .symbol(AppSymbol.heartFill)
+        case .recent:           return .symbol("clock")
+        case .basic, .all:      return .symbol("tray")
+        }
+    }
+
     private func open(_ tab: CategoryTab) {
         HapticManager.shared.selection()
         onOpen(tab)
@@ -182,5 +212,66 @@ struct CategoryHomeView<Header: View>: View {
         case .custom(let name):
             return TileStyle(tint: categoryTint(for: name, in: customCategories))
         }
+    }
+}
+
+// MARK: - Category Picker Sheet
+
+/// 목록 제목 옆 아래 화살표로 여는 카테고리 고르기 시트.
+/// 칸을 누르면 `selectCategoryTab` 이 시트를 닫고 그 카테고리를 보인다.
+/// 새 카테고리 이름 묻기도 이 시트 안에 둔다. 시트가 떠 있는 동안 목록 쪽 알림은 뜨지 않는다.
+struct CategoryPickerSheet: View {
+    @ObservedObject var viewModel: ClipKeyboardListViewModel
+
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appTheme) private var theme
+    @State private var showAddCategoryAlert = false
+    @State private var newCategoryName = ""
+
+    var body: some View {
+        NavigationStack {
+            CategoryHomeView(
+                tabs: viewModel.allCategoryTabs,
+                customCategories: viewModel.customCategories,
+                memos: { viewModel.memos(for: $0) },
+                selected: viewModel.displayedCategoryTab,
+                onOpen: { viewModel.selectCategoryTab($0) },
+                onAddCategory: {
+                    newCategoryName = ""
+                    showAddCategoryAlert = true
+                },
+                header: { EmptyView() }
+            )
+            .background(theme.bg.ignoresSafeArea())
+            .navigationTitle(NSLocalizedString("단축어", comment: "Category home: navigation title"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    GlassCircleButton(AppSymbol.xmark, role: .secondary,
+                                      label: NSLocalizedString("닫기", comment: "Close")) {
+                        dismiss()
+                    }
+                }
+                .sharedBackgroundVisibility(.hidden)
+            }
+            .alert(
+                NSLocalizedString("새 카테고리", comment: "Add category alert title"),
+                isPresented: $showAddCategoryAlert
+            ) {
+                TextField(NSLocalizedString("카테고리 이름", comment: "Category name placeholder"), text: $newCategoryName)
+                Button(NSLocalizedString("추가", comment: "Add")) {
+                    // 만든 카테고리로 옮겨 가면서 시트도 닫힌다(`selectCategoryTab`).
+                    viewModel.addCustomCategory(newCategoryName)
+                    newCategoryName = ""
+                }
+                Button(NSLocalizedString("취소", comment: "Cancel"), role: .cancel) {
+                    newCategoryName = ""
+                }
+            } message: {
+                Text(NSLocalizedString("단축어를 분류할 카테고리 이름을 입력하세요.", comment: "Add category alert message"))
+            }
+        }
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
     }
 }

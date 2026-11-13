@@ -437,15 +437,14 @@ struct ClipKeyboardList: View {
     /// 기본 카테고리 이름을 정할 때마다 오른다 - 카드를 다시 그리게 하는 값.
     @State private var defaultNameDecisions = 0
 
-    /// 네비게이션 바 타이틀 - 홈이면 "단축어", 카테고리에 들어가 있으면 그 이름.
+    /// 네비게이션 바 타이틀 - 보고 있는 카테고리 이름. 찾는 중에는 모든 카테고리에서 찾으므로 '전체'.
     private var currentCategoryTitle: String {
         if blank && !usesCategoryHome { return CategoryTab.basic.displayName }
-        guard usesCategoryHome else { return CategoryTab.all.displayName }
-        return isInCategory ? viewModel.displayedCategoryTab.displayName
-                            : NSLocalizedString("단축어", comment: "Category home: navigation title")
+        return isInCategory ? viewModel.displayedCategoryTab.displayName : CategoryTab.all.displayName
     }
 
-    /// 카테고리 홈을 세우는가. 카테고리 기능이 꺼져 있어도 '최근' 이 서면 '최근' · '전체' 두 칸이다.
+    /// 카테고리 고르기(제목 옆 아래 화살표 · 시트)를 세우는가.
+    /// 카테고리 기능이 꺼져 있어도 '최근' 이 서면 '최근' · '전체' 두 칸이다.
     private var usesCategoryHome: Bool {
         CategoryStore.shared.isFeatureEnabled || showsRecentClipsTab
     }
@@ -660,59 +659,50 @@ struct ClipKeyboardList: View {
     /// 카테고리 탭/단일 페이지 - 가장 깊은 단일 요소라 AnyView로 타입 소거.
     /// GeometryReader: 세이프에어리어를 무시하기 전의 상단 오프셋(=네비바 하단)을 재서
     /// 각 페이지 스크롤 콘텐츠의 시작 위치(contentMargins)로 쓴다.
-    /// 카테고리 하나에 들어가 있는가. 홈이 없는 화면(카테고리 기능 꺼짐)에서는 늘 아니다.
-    private var isInCategory: Bool { usesCategoryHome && viewModel.isCategoryOpen }
+    /// 카테고리 한 장을 보이는가. 고르기가 없는 화면(카테고리 기능 꺼짐)과 찾는 중에는 아니다.
+    private var isInCategory: Bool { usesCategoryHome && !isSearching }
 
-    /// 홈 · 카테고리 · 단일 페이지 가운데 하나. 옆으로 넘기는 페이저는 없다(`CategoryHomeView` 머리 주석).
+    /// 카테고리 한 장 · 찾은 결과 · 단일 페이지 가운데 하나. 옆으로 넘기는 페이저는 없다.
+    /// 다른 카테고리로는 제목 옆 아래 화살표로 여는 시트(`CategoryPickerSheet`)에서 옮긴다.
     @ViewBuilder
     private var categoryContent: some View {
-        if !usesCategoryHome {
-            tabPageView(for: .all)
-        } else if isInCategory {
+        if isInCategory {
             openedCategoryPage
-        } else if isSearching {
-            // 홈에서 찾으면 모든 카테고리에서 찾은 결과를 한 장으로 보인다.
-            tabPageView(for: .all)
         } else {
-            categoryHome
+            // 찾는 중이면 모든 카테고리에서 찾은 결과를 한 장으로 보인다.
+            tabPageView(for: .all)
         }
     }
 
-    private var categoryHome: some View {
-        CategoryHomeView(
-            tabs: viewModel.allCategoryTabs,
-            customCategories: viewModel.customCategories,
-            memos: { viewModel.memos(for: $0) },
-            onOpen: { viewModel.selectCategoryTab($0) },
-            onAddCategory: {
-                newCategoryName = ""
-                showAddCategoryAlert = true
-            },
-            header: { pageHeader(for: .all) }
-        )
-    }
-
-    /// 들어간 카테고리 한 장. 사용자 카테고리는 그 색으로 옅게 물든다.
-    /// 왼쪽 끝에서 오른쪽으로 밀면 홈으로 돌아간다(시스템 뒤로 가기와 같은 손짓).
+    /// 보고 있는 카테고리 한 장. 사용자 카테고리는 그 색으로 옅게 물든다.
     private var openedCategoryPage: some View {
         let tab = viewModel.displayedCategoryTab
         return tabPageView(for: tab)
             .background { pageTint(for: tab).ignoresSafeArea() }
-            .overlay(alignment: .bottom) { pageVeil(for: tab) }
-            .overlay(alignment: .leading) {
-                Color.clear
-                    .frame(width: 20)
-                    .contentShape(Rectangle())
-                    .gesture(
-                        DragGesture(minimumDistance: 20)
-                            .onEnded { value in
-                                guard value.translation.width > 60,
-                                      abs(value.translation.height) < value.translation.width else { return }
-                                viewModel.closeCategory()
-                            }
-                    )
-            }
             .id(tab)
+    }
+
+    /// 제목과 그 오른쪽 아래 화살표. 누르면 카테고리 고르기 시트가 뜬다.
+    /// 큰 제목(맨 위)과 작은 제목(스크롤해 내려간 뒤) 두 자리에 같은 단추를 세운다.
+    private func categoryTitleButton(large: Bool) -> some View {
+        Button {
+            HapticManager.shared.selection()
+            viewModel.isCategoryPickerShown = true
+        } label: {
+            HStack(alignment: .firstTextBaseline, spacing: large ? 6 : 4) {
+                Text(currentCategoryTitle)
+                    .font(large ? .largeTitle.bold() : .headline)
+                    .lineLimit(1)
+                Image(systemName: AppSymbol.chevronDown)
+                    .font(large ? .title3.weight(.bold) : .body.weight(.semibold))
+                    .foregroundStyle(theme.textMuted)
+            }
+            .foregroundStyle(theme.text)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(currentCategoryTitle)
+        .accessibilityHint(NSLocalizedString("카테고리 고르기", comment: "List title: opens the category picker sheet"))
     }
 
     /// 스크롤 페이지의 위 여백. 페이지가 이제 늘 바 아래에 서므로 시스템이 바 아래로 밀어 준다.
@@ -1908,17 +1898,6 @@ struct ClipKeyboardList: View {
 
     // MARK: - Tab Background Color
 
-    /// 하단 베일이 **가라앉는 색.** 언제나 바닥색이다.
-    ///
-    /// ⚠️ `.clear` 로 사라지면 탭바 뒤가 투명해져 창의 검정이 비친다.
-    ///    베일의 일은 "카드가 탭바에 어중간하게 걸치지 않게 지우는 것"이라,
-    ///    지운 자리에 **무엇이 남는지**까지가 이 색의 몫이다.
-    ///
-    /// ⚠️ 예전에는 갈래마다 다른 색으로 가라앉았다. 화면 전체 틴트를 걷어낸 지금
-    ///    (`screenBody` 주석 참고) 여기만 갈래 색을 따라가면, 카테고리를 바꿀 때마다
-    ///    바닥 띠만 색이 바뀌어 오히려 더 눈에 띈다. 바닥은 한 색으로 가만히 둔다.
-    private var tabVeilColor: Color { theme.bg }
-
     /// 사용자 카테고리 페이지의 바탕 물. 기본 · 즐겨찾기 · 기본 제공 갈래는 물들이지 않는다.
     ///
     /// ⚠️ **화면 바닥이 아니라 페이지에 칠한다.** 예전에는 화면 전체 바닥 하나를 카테고리 색으로
@@ -1929,30 +1908,6 @@ struct ClipKeyboardList: View {
     private func pageTint(for tab: CategoryTab) -> Color {
         guard case .custom(let name) = tab, resolvedBackgroundImage.isEmpty else { return .clear }
         return customCategoryColor(name).opacity(theme.isDark ? 0.14 : 0.09)
-    }
-
-    /// 페이지 아래 베일 - 카드가 탭바 뒤로 지나갈 때 **그 페이지의 바닥색**(바탕 + 카테고리 물)으로
-    /// 서서히 지운다. 페이지에 붙어 있어 넘기면 같이 움직인다.
-    ///
-    /// ⚠️ 칸이 화면 아래 끝까지 닿지 않으므로 바탕 물처럼 아래로 넉넉히 내려 그린다.
-    private func pageVeil(for tab: CategoryTab) -> some View {
-        ZStack {
-            tabVeilColor
-            pageTint(for: tab)
-        }
-        .mask(
-            LinearGradient(
-                stops: [
-                    .init(color: .clear, location: 0),
-                    .init(color: .black.opacity(0.9), location: 0.45 * 130 / 250),
-                    .init(color: .black, location: 130.0 / 250)
-                ],
-                startPoint: .top, endPoint: .bottom
-            )
-        )
-        .frame(height: 250)
-        .padding(.bottom, -120)
-        .allowsHitTesting(false)
     }
 
     /// 커스텀 카테고리 색상. 사용자가 지정한 색(userCategoryColors_v1)이 있으면 우선,
@@ -2286,7 +2241,7 @@ struct ClipKeyboardList: View {
         }
         // [디자인 불변식] 스크롤 엣지 이펙트는 전부 숨김 - ScrollView 자체에 직접.
         // (.top만 숨기면 스크롤 시 상단에 흰 배경 밴드가 생기는 회귀를 실측으로 확인)
-        // 하단 카드 걸침 문제는 `pageVeil` 의 그라데이션 베일이 처리.
+        // 아래 끝을 흐리게 지우는 베일은 두지 않는다. 카드는 탭바 뒤로 그대로 지나간다(사용자 요청).
         .scrollEdgeEffectHidden(true, for: .all)
         // 콘텐츠 시작점(고정 타이틀 아래).
         .contentMargins(.top, pageContentTopMargin, for: .scrollContent))
@@ -2601,16 +2556,12 @@ struct ClipKeyboardList: View {
         // ⚠️ 스킨이 금고가 아닐 때는 ToolbarItem 자체를 만들지 않는다. 안이 빈 아이템도
         //    자리는 차지해서, 시스템이 바가 넘친다고 보고 오른쪽에 ⋯ 오버플로 버튼을
         //    하나 더 만들어 버린다(⋯ 가 두 개로 보였던 원인).
-        // 카테고리에 들어가 있으면 왼쪽 위에 홈으로 돌아가는 단추.
+        // 카테고리를 보고 있으면 제목 오른쪽에 아래 화살표. 누르면 카테고리 고르기 시트.
         if isInCategory {
-            ToolbarItem(placement: .topBarLeading) {
-                GlassCircleButton(AppSymbol.chevronBackward, role: .secondary,
-                                  label: NSLocalizedString("뒤로", comment: "Back")) {
-                    HapticManager.shared.selection()
-                    viewModel.closeCategory()
-                }
-            }
-            .sharedBackgroundVisibility(.hidden)
+            ToolbarItem(placement: .largeTitle) { categoryTitleButton(large: true) }
+                .sharedBackgroundVisibility(.hidden)
+            ToolbarItem(placement: .title) { categoryTitleButton(large: false) }
+                .sharedBackgroundVisibility(.hidden)
         }
         ToolbarItem(placement: .topBarTrailing) {
             // ⚠️ 간격은 무대 머리말과 **같은 값**을 쓴다. 예전엔 여기만 -8이라
@@ -2710,6 +2661,9 @@ struct ClipKeyboardList: View {
     ///    남고 + 도 먹지 않는다(`ea863880` · 2026-10 사용자 보고).
     private func toolbarSheets<Content: View>(_ content: Content) -> some View {
         content
+            .sheet(isPresented: $viewModel.isCategoryPickerShown) {
+                CategoryPickerSheet(viewModel: viewModel)
+            }
             .sheet(isPresented: $showBulkImport) {
                 BulkImportView()
             }

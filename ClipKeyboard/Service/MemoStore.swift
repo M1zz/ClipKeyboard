@@ -879,6 +879,7 @@ class MemoStore: ObservableObject {
             h.combine(m.childMemoIds)
             h.combine(m.imageFileNames)
             h.combine(m.hint)
+            h.combine(m.icon)
             acc.count += 1
             acc.sum &+= h.finalize()
         }.sum &+ memos.count

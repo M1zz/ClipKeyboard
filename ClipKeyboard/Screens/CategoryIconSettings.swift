@@ -2,8 +2,9 @@
 //  CategoryIconSettings.swift
 //  ClipKeyboard
 //
-//  키보드 카테고리 탭에 표시되는 SF Symbol을 사용자가 직접 고르는 설정 화면.
-//  선택값은 App Group UserDefaults(userCategoryIcons_v1)에 [카테고리명: 심볼명] 형태로 저장.
+//  카테고리 아이콘을 고르는 설정 화면. 심볼 · 이모지 · 내 그림 가운데서 고른다(`IconPickerSheet`).
+//  선택값은 App Group UserDefaults(userCategoryIcons_v1)에 [카테고리명: 아이콘 글자] 형태로 저장.
+//  아이콘 글자는 `SnippetIcon.raw` 다. 예전 값(심볼 이름)은 그대로 심볼로 읽힌다.
 //
 
 import SwiftUI
@@ -94,11 +95,9 @@ struct CategoryIconSettings: View {
                         pickingForCategory = cat
                     } label: {
                         HStack(spacing: 14) {
-                            Image(systemName: icons[cat] ?? defaultIcon(for: cat, in: categories))
-                                .font(.title3)
-                                .foregroundColor(defaultColor(for: cat, in: categories))
-                                .frame(width: 28)
-                                .accessibilityHidden(true)
+                            SnippetIconView(icon: SnippetIcon(raw: icons[cat]) ?? .symbol(defaultIcon(for: cat, in: categories)),
+                                            size: 28,
+                                            tint: categoryTint(for: cat, in: categories))
                             Text(cat)
                                 .foregroundColor(.primary)
                             Spacer()
@@ -111,7 +110,7 @@ struct CategoryIconSettings: View {
                     .accessibilityLabel(String(format: NSLocalizedString("%@, 아이콘 변경", comment: "Category row a11y: change icon"), cat))
                 }
             } footer: {
-                Text(NSLocalizedString("키보드에서 카테고리 탭에 표시되는 아이콘을 변경합니다.", comment: "Category icon settings footer"))
+                Text(NSLocalizedString("카테고리 칸과 단축어 카드에 보일 아이콘을 고릅니다. 이모지나 사진에서 올린 그림도 쓸 수 있어요.", comment: "Category icon settings footer"))
                     .font(.body)
             }
 
@@ -134,97 +133,11 @@ struct CategoryIconSettings: View {
             set: { if !$0 { pickingForCategory = nil } }
         )) {
             if let cat = pickingForCategory {
-                SymbolPickerSheet(
-                    category: cat,
-                    current: icons[cat]
-                ) { symbol in
-                    icons[cat] = symbol
+                IconPickerSheet(title: cat, current: SnippetIcon(raw: icons[cat])) { picked in
+                    icons[cat] = picked?.raw
                     saveCustomIcons(icons)
                     pickingForCategory = nil
                 }
-            }
-        }
-    }
-}
-
-// MARK: - Symbol Picker Sheet
-
-struct SymbolPickerSheet: View {
-    @Environment(\.appTheme) private var theme
-    let category: String
-    let current: String?
-    let onSelect: (String) -> Void
-
-    @State private var search = ""
-    @Environment(\.dismiss) private var dismiss
-
-    private var allSymbols: [String] { symbolCatalog.flatMap(\.symbols) }
-
-    private var filtered: [String] {
-        guard !search.isEmpty else { return [] }
-        return allSymbols.filter { $0.localizedCaseInsensitiveContains(search) }
-    }
-
-    private let columns = Array(repeating: GridItem(.flexible(), spacing: 12), count: 6)
-
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    // 검색 결과 또는 카탈로그 섹션
-                    if !search.isEmpty {
-                        if filtered.isEmpty {
-                            Text(NSLocalizedString("검색 결과 없음", comment: "No symbol search results"))
-                                .foregroundColor(.secondary)
-                                .frame(maxWidth: .infinity)
-                                .padding(.top, 40)
-                        } else {
-                            symbolGrid(symbols: filtered)
-                                .padding(.horizontal, 16)
-                                .padding(.top, 12)
-                        }
-                    } else {
-                        ForEach(symbolCatalog) { section in
-                            Text(section.id)
-                                .font(.caption.weight(.semibold))
-                                .foregroundColor(.secondary)
-                                .textCase(.uppercase)
-                                .padding(.horizontal, 16)
-                                .padding(.top, 20)
-                                .padding(.bottom, 6)
-                            symbolGrid(symbols: section.symbols)
-                                .padding(.horizontal, 16)
-                        }
-                    }
-                }
-                .padding(.bottom, 24)
-            }
-            .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .always), prompt: NSLocalizedString("심볼 이름 검색", comment: "Symbol name search prompt"))
-            .navigationTitle(category)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(NSLocalizedString("취소", comment: "Cancel")) { dismiss() }
-                }
-            }
-        }
-    }
-
-    private func symbolGrid(symbols: [String]) -> some View {
-        LazyVGrid(columns: columns, spacing: 12) {
-            ForEach(symbols, id: \.self) { symbol in
-                Button {
-                    onSelect(symbol)
-                } label: {
-                    Image(systemName: symbol)
-                        .font(.title2)
-                        .frame(width: 48, height: 48)
-                        .background(current == symbol ? Color.accentColor : Color(.systemGray5))
-                        .foregroundColor(current == symbol ? .white : .primary)
-                        .clipShape(RoundedRectangle(cornerRadius: theme.radiusSm))
-                }
-                .buttonStyle(.squish)
-                .accessibilityLabel(symbol)
             }
         }
     }
@@ -247,10 +160,10 @@ func defaultColor(for category: String, in list: [String]) -> Color {
 
 /// 카테고리 심볼 - 사용자 지정(userCategoryIcons_v1) 우선, 없으면 기본 팔레트.
 /// 카드·메뉴·키보드 프리뷰가 모두 이 한 가지 규칙을 공유한다.
+/// ⚠️ 심볼만 돌려준다. 이모지 · 그림을 고른 카테고리는 심볼만 그릴 수 있는 자리(메뉴 등)에서
+///    기본 심볼로 물러난다. 고른 아이콘 그대로 그리려면 `customCategoryIcon(for:)`.
 func categorySymbol(for category: String, in list: [String]) -> String {
-    if let custom = AppGroup.defaults?
-        .dictionary(forKey: DefaultsKey.userCategoryIconsV1) as? [String: String],
-       let symbol = custom[category] {
+    if let symbol = customCategoryIcon(for: category)?.symbolName {
         return symbol
     }
     return defaultIcon(for: category, in: list)

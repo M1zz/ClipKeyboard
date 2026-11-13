@@ -86,6 +86,8 @@ final class MemoAddViewModel: ObservableObject {
     @Published var isSecure: Bool = false
     /// 쓰면 지우기 - 한 번 쓸 때마다 윗줄 하나가 나가고 지워진다(`Memo.consumesOnUse`).
     @Published var consumesOnUse: Bool = false
+    /// 카드에 보일 아이콘(`Memo.icon`). 이모지 · 심볼 · 내 그림.
+    @Published var icon: SnippetIcon?
     @Published var isTemplate: Bool = false
     @Published var isFavorite: Bool = false
     /// "이어지는 메모" 단계들(본문 value=1단계, 이 배열=2..N단계). 비어있으면 일반 메모.
@@ -316,6 +318,7 @@ final class MemoAddViewModel: ObservableObject {
             hint = existing.hint ?? ""
             hintShownOnKeyboard = existing.hintShownOnKeyboard
             consumesOnUse = existing.consumesOnUse
+            icon = SnippetIcon(raw: existing.icon)
             if !existing.stackValues.isEmpty {
                 // 보안 콤보면 단계 값이 암호문 - 편집용으로 복호화해 보여준다.
                 let steps = SecureMemoCrypto.decryptSteps(existing.stackValues)
@@ -374,6 +377,7 @@ final class MemoAddViewModel: ObservableObject {
         userCategory = initialUserCategory
         isSecure = false
         consumesOnUse = false
+        icon = nil
         isTemplate = false
         continuations = []
         print("🔄 [MemoAddViewModel] 폼 초기화 완료")
@@ -698,6 +702,7 @@ final class MemoAddViewModel: ObservableObject {
             updatedMemo.hint = hint.isEmpty ? nil : hint
             updatedMemo.hintShownOnKeyboard = hintShownOnKeyboard
             updatedMemo.consumesOnUse = consumesOnUse
+            updatedMemo.icon = icon?.raw
             updatedMemo.lastEdited = Date()
             updatedMemo.category = finalCategory
             updatedMemo.isSecure = isSecure
@@ -715,7 +720,7 @@ final class MemoAddViewModel: ObservableObject {
                 throw CancellationError()
             }
             let newId = UUID()
-            let newMemo = Memo(
+            var newMemo = Memo(
                 id: newId,
                 title: keyword,
                 value: storedValue,
@@ -732,6 +737,7 @@ final class MemoAddViewModel: ObservableObject {
                 hintShownOnKeyboard: hintShownOnKeyboard,
                 consumesOnUse: consumesOnUse
             )
+            newMemo.icon = icon?.raw
             loadedMemos.append(newMemo)
             ReviewManager.shared.incrementMemoCreatedCount()
             return (newId, keyword)

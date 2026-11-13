@@ -12332,5 +12332,61 @@
   "🪪 명함": {
     "v": "🪪 Tarjeta de presentación",
     "src": "9becff2df0"
+  },
+  "카테고리 고르기": {
+    "v": "Elegir categoría",
+    "src": "473c9316cd"
+  },
+  "아이콘": {
+    "v": "Ícono",
+    "src": "67d7e5662e"
+  },
+  "이모지": {
+    "v": "Emoji",
+    "src": "5703ab8d31"
+  },
+  "심볼": {
+    "v": "Símbolos",
+    "src": "3c555564df"
+  },
+  "내 그림": {
+    "v": "Mis imágenes",
+    "src": "bc0a371301"
+  },
+  "아이콘 없애기": {
+    "v": "Quitar ícono",
+    "src": "e722fe281a"
+  },
+  "사진에서 올리기": {
+    "v": "Subir desde Fotos",
+    "src": "6a5f1525c8"
+  },
+  "올린 그림은 다른 단축어와 카테고리에서도 다시 고를 수 있어요. 길게 누르면 지울 수 있어요.": {
+    "v": "Las imágenes que subas también se pueden elegir para otras frases y categorías. Mantén presionada una para eliminarla.",
+    "src": "d594f5b5fa"
+  },
+  "단축어 카드에 보일 아이콘을 고릅니다": {
+    "v": "Elige el ícono que se muestra en la tarjeta de la frase",
+    "src": "f7cef21f7f"
+  },
+  "카테고리 칸과 단축어 카드에 보일 아이콘을 고릅니다. 이모지나 사진에서 올린 그림도 쓸 수 있어요.": {
+    "v": "Elige el ícono de las casillas de categoría y las tarjetas de frases. También puedes usar un emoji o una imagen de Fotos.",
+    "src": "33175ea015"
+  },
+  "얼마 전": {
+    "v": "Hace cuánto",
+    "src": "506e9c480c"
+  },
+  "날짜와 시간": {
+    "v": "Fecha y hora",
+    "src": "13a00e08d2"
+  },
+  "최근 복사한 때": {
+    "v": "Hora de copia en Recientes",
+    "src": "51f1a128f2"
+  },
+  "'최근' 에 복사한 때를 이렇게 보여 줘요: %@": {
+    "v": "Recientes muestra cuándo copiaste algo así: %@",
+    "src": "6d5b0dbd60"
   }
 }

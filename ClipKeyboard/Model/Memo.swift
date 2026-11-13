@@ -526,6 +526,9 @@ struct Memo: Identifiable, Codable {
     /// 줘야 하는 것을 위한 것이다(같은 코드를 두 사람에게 보내는 실수를 막는다).
     /// 지우는 일은 `MemoStore.incrementClipCount` 한 곳이 한다. 파일에 없으면 false (하위 호환).
     var consumesOnUse: Bool = false
+    /// 카드에 보일 아이콘. `SnippetIcon(raw:)` 로 읽는다(심볼 이름 · `emoji:` · `image:`).
+    /// 파일에 없으면 nil (하위 호환). 키보드는 아직 그리지 않는다.
+    var icon: String?
 
     init(id: UUID = UUID(), title: String, value: String, isChecked: Bool = false, lastEdited: Date = Date(), isFavorite: Bool = false, category: String = "기본", isSecure: Bool = false, templateVariables: [String] = [], placeholderValues: [String: [String]] = [:], stackValues: [String] = [], stackInterval: TimeInterval = 2.0, autoDetectedType: ClipboardItemType? = nil, imageFileName: String? = nil, imageFileNames: [String] = [], contentType: ClipboardContentType = .text, lastUsedAt: Date? = nil, hint: String? = nil, hintShownOnKeyboard: Bool = true, consumesOnUse: Bool = false) {
         self.id = id
@@ -597,6 +600,7 @@ struct Memo: Identifiable, Codable {
         self.hint = try c.decodeIfPresent(String.self, forKey: .hint)
         self.hintShownOnKeyboard = try c.decodeIfPresent(Bool.self, forKey: .hintShownOnKeyboard) ?? true
         self.consumesOnUse = try c.decodeIfPresent(Bool.self, forKey: .consumesOnUse) ?? false
+        self.icon = try c.decodeIfPresent(String.self, forKey: .icon)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -626,6 +630,7 @@ struct Memo: Identifiable, Codable {
         case hint
         case hintShownOnKeyboard
         case consumesOnUse
+        case icon
     }
 
     /// ⚠️ 하위호환(다운그레이드 안전): 구버전(4.3.0 이하)의 **합성** Codable 디코더는
@@ -667,6 +672,7 @@ struct Memo: Identifiable, Codable {
         try c.encodeIfPresent(hint, forKey: .hint)
         try c.encode(hintShownOnKeyboard, forKey: .hintShownOnKeyboard)
         try c.encode(consumesOnUse, forKey: .consumesOnUse)
+        try c.encodeIfPresent(icon, forKey: .icon)
 
         // 레거시 키도 함께 기록 - 구버전 디코더가 필수로 요구하는 키.
         var legacy = encoder.container(keyedBy: LegacyCompatKeys.self)

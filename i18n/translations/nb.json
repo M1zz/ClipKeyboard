@@ -12332,5 +12332,61 @@
   "🪪 명함": {
     "v": "🪪 Visittkort",
     "src": "9becff2df0"
+  },
+  "카테고리 고르기": {
+    "v": "Velg kategori",
+    "src": "473c9316cd"
+  },
+  "아이콘": {
+    "v": "Ikon",
+    "src": "67d7e5662e"
+  },
+  "이모지": {
+    "v": "Emoji",
+    "src": "5703ab8d31"
+  },
+  "심볼": {
+    "v": "Symboler",
+    "src": "3c555564df"
+  },
+  "내 그림": {
+    "v": "Mine bilder",
+    "src": "bc0a371301"
+  },
+  "아이콘 없애기": {
+    "v": "Fjern ikon",
+    "src": "e722fe281a"
+  },
+  "사진에서 올리기": {
+    "v": "Last opp fra Bilder",
+    "src": "6a5f1525c8"
+  },
+  "올린 그림은 다른 단축어와 카테고리에서도 다시 고를 수 있어요. 길게 누르면 지울 수 있어요.": {
+    "v": "Bilder du laster opp, kan velges igjen for andre fraser og kategorier. Hold inne et bilde for å slette det.",
+    "src": "d594f5b5fa"
+  },
+  "단축어 카드에 보일 아이콘을 고릅니다": {
+    "v": "Velger ikonet som vises på frasekortet",
+    "src": "f7cef21f7f"
+  },
+  "카테고리 칸과 단축어 카드에 보일 아이콘을 고릅니다. 이모지나 사진에서 올린 그림도 쓸 수 있어요.": {
+    "v": "Velg ikonet for kategorifelt og frasekort. Du kan også bruke en emoji eller et bilde fra Bilder.",
+    "src": "33175ea015"
+  },
+  "얼마 전": {
+    "v": "Hvor lenge siden",
+    "src": "506e9c480c"
+  },
+  "날짜와 시간": {
+    "v": "Dato og klokkeslett",
+    "src": "13a00e08d2"
+  },
+  "최근 복사한 때": {
+    "v": "Kopieringstid i Nylig",
+    "src": "51f1a128f2"
+  },
+  "'최근' 에 복사한 때를 이렇게 보여 줘요: %@": {
+    "v": "Nylig viser når du kopierte, slik: %@",
+    "src": "6d5b0dbd60"
   }
 }

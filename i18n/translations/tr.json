@@ -12332,5 +12332,61 @@
   "🪪 명함": {
     "v": "🪪 Kartvizit",
     "src": "9becff2df0"
+  },
+  "카테고리 고르기": {
+    "v": "Kategori seç",
+    "src": "473c9316cd"
+  },
+  "아이콘": {
+    "v": "Simge",
+    "src": "67d7e5662e"
+  },
+  "이모지": {
+    "v": "Emoji",
+    "src": "5703ab8d31"
+  },
+  "심볼": {
+    "v": "Semboller",
+    "src": "3c555564df"
+  },
+  "내 그림": {
+    "v": "Görsellerim",
+    "src": "bc0a371301"
+  },
+  "아이콘 없애기": {
+    "v": "Simgeyi kaldır",
+    "src": "e722fe281a"
+  },
+  "사진에서 올리기": {
+    "v": "Fotoğraflar’dan yükleyin",
+    "src": "6a5f1525c8"
+  },
+  "올린 그림은 다른 단축어와 카테고리에서도 다시 고를 수 있어요. 길게 누르면 지울 수 있어요.": {
+    "v": "Yüklediğiniz görselleri başka ifadeler ve kategoriler için de yeniden seçebilirsiniz. Silmek için görsele basılı tutun.",
+    "src": "d594f5b5fa"
+  },
+  "단축어 카드에 보일 아이콘을 고릅니다": {
+    "v": "İfade kartında görünecek simgeyi seçer",
+    "src": "f7cef21f7f"
+  },
+  "카테고리 칸과 단축어 카드에 보일 아이콘을 고릅니다. 이모지나 사진에서 올린 그림도 쓸 수 있어요.": {
+    "v": "Kategori kutularında ve ifade kartlarında görünecek simgeyi seçin. Emoji veya Fotoğraflar’dan bir görsel de kullanabilirsiniz.",
+    "src": "33175ea015"
+  },
+  "얼마 전": {
+    "v": "Ne kadar önce",
+    "src": "506e9c480c"
+  },
+  "날짜와 시간": {
+    "v": "Tarih ve saat",
+    "src": "13a00e08d2"
+  },
+  "최근 복사한 때": {
+    "v": "Son'da kopyalama zamanı",
+    "src": "51f1a128f2"
+  },
+  "'최근' 에 복사한 때를 이렇게 보여 줘요: %@": {
+    "v": "Son, kopyalama zamanını şöyle gösterir: %@",
+    "src": "6d5b0dbd60"
   }
 }

@@ -526,6 +526,8 @@ struct DisplaySettingsView: View {
     private var isListLayout: Bool { listLayoutRaw == MemoListLayout.list.rawValue }
     /// 홈의 카테고리 칸에 안에 든 단축어 이름을 보일지.
     @AppStorage(AppPrefs.categoryTilePreview.key) private var categoryTilePreview: Bool = AppPrefs.categoryTilePreview.fallback
+    /// '최근' 페이지의 복사한 때 - 얼마 전 · 날짜와 시간.
+    @AppStorage(AppPrefs.recentTimeStyle.key) private var recentTimeStyleRaw: String = AppPrefs.recentTimeStyle.fallback
 
     var body: some View {
         List {
@@ -638,6 +640,25 @@ struct DisplaySettingsView: View {
                 Toggle(isOn: $categoryTilePreview) {
                     Label(NSLocalizedString("카테고리 칸에 내용 미리보기", comment: "Setting toggle: show the first two snippet names inside each category tile on the home screen"), systemImage: AppSymbol.folder)
                 }
+            }
+
+            // '최근' 복사한 때 (사용자 요청: "며칠 전" 대신 시간으로)
+            Section {
+                Picker(selection: $recentTimeStyleRaw) {
+                    ForEach(RecentTimeStyle.allCases) { style in
+                        Text(style.localizedName).tag(style.rawValue)
+                    }
+                } label: {
+                    Label(NSLocalizedString("최근 복사한 때", comment: "Setting: how the copy time is shown on the Recent page"), systemImage: "clock")
+                }
+            } footer: {
+                // 지금 고른 방식으로 적은 예를 함께 보인다. 사흘 전 오후 3시 42분.
+                let sample = Calendar.current.date(byAdding: .day, value: -3, to: Date()).flatMap {
+                    Calendar.current.date(bySettingHour: 15, minute: 42, second: 0, of: $0)
+                } ?? Date()
+                let style = RecentTimeStyle(rawValue: recentTimeStyleRaw) ?? .relative
+                Text(String(format: NSLocalizedString("'최근' 에 복사한 때를 이렇게 보여 줘요: %@", comment: "Recent time style footer. %@ is an example time in the chosen style"), style.text(for: sample)))
+                    .font(.body)
             }
         }
         .navigationTitle(NSLocalizedString("단축어 표시", comment: "Memo display settings entry"))

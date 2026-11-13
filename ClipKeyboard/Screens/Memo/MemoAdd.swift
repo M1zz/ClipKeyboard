@@ -47,6 +47,8 @@ struct MemoAdd: View {
     // MARK: - View-only State
 
     @State private var isFocused: Bool = false
+    /// 아이콘 고르기 시트(`IconPickerSheet`).
+    @State private var showIconPicker = false
     /// "쓸 때 채우는 칸" 서랍이 펴져 있는가. **기본은 닫힘**(`DefaultsKey.contentTokenBarExpanded`).
     @AppStorage(DefaultsKey.contentTokenBarExpanded) private var tokenBarExpanded: Bool = false
     @FocusState private var isTitleFocused: Bool
@@ -147,6 +149,12 @@ struct MemoAdd: View {
                 UIAccessibility.post(notification: .announcement, argument: viewModel.toastMessage)
             }
             #endif
+        }
+        .sheet(isPresented: $showIconPicker) {
+            IconPickerSheet(title: viewModel.keyword.isEmpty
+                                ? NSLocalizedString("아이콘", comment: "Icon picker title")
+                                : viewModel.keyword,
+                            current: viewModel.icon) { viewModel.icon = $0 }
         }
         .sheet(isPresented: $viewModel.showEmojiPicker) {
             EmojiPicker { selectedEmoji in
@@ -604,6 +612,9 @@ struct MemoAdd: View {
                 .fontWeight(.medium)
                 .foregroundColor(theme.textMuted)
 
+            HStack(spacing: 10) {
+            // 백지 사용자는 이름 · 내용 · V 만 본다. 아이콘은 기존 사용자에게만.
+            if !simple { iconButton }
             TextField(NSLocalizedString("예: 회사 이메일, 송금 계좌", comment: "Memo title field placeholder"), text: $viewModel.keyword)
                 .font(.title3)
                 .fontWeight(.semibold)
@@ -624,7 +635,33 @@ struct MemoAdd: View {
                 .onTapGesture { isTitleFocused = true }
                 // VoiceOver가 placeholder 대신 필드의 의미("키보드에 표시할 이름")를 읽도록 명시.
                 .accessibilityLabel(NSLocalizedString("키보드에 표시할 이름", comment: "Memo title label: what user sees on the keyboard"))
+            }
         }
+    }
+
+    /// 이름 칸 왼쪽의 아이콘 단추. 고른 것이 없으면 흐린 웃는 얼굴 + 표시.
+    private var iconButton: some View {
+        Button {
+            isTitleFocused = false
+            showIconPicker = true
+        } label: {
+            Group {
+                if let icon = viewModel.icon {
+                    SnippetIconView(icon: icon, size: 30, tint: theme.text)
+                } else {
+                    Image(systemName: "face.smiling")
+                        .font(.title2)
+                        .foregroundStyle(theme.textFaint)
+                }
+            }
+            .frame(width: 52, height: 52)
+            .background(theme.surfaceAlt)
+            .cornerRadius(theme.radiusMd)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.squish)
+        .accessibilityLabel(NSLocalizedString("아이콘", comment: "Icon picker title"))
+        .accessibilityHint(NSLocalizedString("단축어 카드에 보일 아이콘을 고릅니다", comment: "Snippet editor: icon button hint"))
     }
 
     /// 내용 힌트(선택) - 카드 힌트·키보드 스왑에서 자동 요약 대신 보여줄 한 줄을 직접 정한다.

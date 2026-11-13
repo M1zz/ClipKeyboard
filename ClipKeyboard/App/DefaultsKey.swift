@@ -31,6 +31,8 @@ enum DefaultsKey {
     static let memoListLayout = "memoListLayout.v1"
     /// 홈의 카테고리 칸에 그 안의 단축어 이름 두 줄을 보일지. 표준 UserDefaults (앱 전용). 기본 끔.
     static let categoryTilePreview = "categoryTilePreview.v1"
+    /// '최근' 페이지에 복사한 때를 어떻게 적을지(`RecentTimeStyle`). 표준 UD, 앱에서만 쓴다.
+    static let recentTimeStyle = "recentTimeStyle.v1"
     /// 단축어별로 배운 "넣은 뒤 캐럿이 설 자리"(App Group, `[UUID문자열: CursorMemory.Learned]` JSON).
     /// ⚠️ 사용자의 본문에는 아무것도 안 쓴다. 배운 값은 전부 여기 따로 있다.
     ///    자세한 이유: ClipKeyboard/Service/CursorMemory.swift
@@ -764,6 +766,54 @@ enum ContentPreviewMode: String, CaseIterable, Identifiable {
     }
 }
 
+/// '최근' 페이지에 복사한 때를 적는 법.
+///
+/// 사용자 요청(2026-11, 중국어): "며칠 전" 은 별 뜻이 없다, 시간으로 보여 달라.
+/// 얼마 전인지가 편한 사람도 있어 고르게 한다. 기본은 예전 그대로 얼마 전.
+enum RecentTimeStyle: String, CaseIterable, Identifiable {
+    /// 3일 전 · 1주 전
+    case relative
+    /// 오늘이면 시각만, 올해면 월 · 일 · 시각, 그 전이면 연도까지.
+    case exact
+
+    var id: String { rawValue }
+
+    var localizedName: String {
+        switch self {
+        case .relative: return NSLocalizedString("얼마 전", comment: "Recent copy time style: relative, like '3 days ago'")
+        case .exact:    return NSLocalizedString("날짜와 시간", comment: "Recent copy time style: exact date and time")
+        }
+    }
+
+    private static let relativeFormatter: RelativeDateTimeFormatter = {
+        let f = RelativeDateTimeFormatter()
+        f.unitsStyle = .short
+        return f
+    }()
+
+    /// `date` 를 이 방식으로 적는다. 언어 · 12/24시간은 기기 설정을 따른다.
+    func text(for date: Date, now: Date = Date(),
+              calendar: Calendar = .current, locale: Locale = .current) -> String {
+        switch self {
+        case .relative:
+            let f = Self.relativeFormatter
+            f.locale = locale
+            f.calendar = calendar
+            return f.localizedString(for: date, relativeTo: now)
+        case .exact:
+            var style = Date.FormatStyle(locale: locale, calendar: calendar, timeZone: calendar.timeZone)
+            if calendar.isDate(date, inSameDayAs: now) {
+                style = style.hour().minute()
+            } else if calendar.isDate(date, equalTo: now, toGranularity: .year) {
+                style = style.month(.abbreviated).day().hour().minute()
+            } else {
+                style = style.year().month(.abbreviated).day().hour().minute()
+            }
+            return date.formatted(style)
+        }
+    }
+}
+
 /// 앱 목록의 모양.
 enum MemoListLayout: String, CaseIterable, Identifiable {
     case grid
@@ -812,6 +862,8 @@ enum AppPrefs {
     static let memoListLayout = Pref(key: DefaultsKey.memoListLayout, fallback: MemoListLayout.grid.rawValue)
     /// 홈의 카테고리 칸에 안에 든 것을 두 줄 보일지. 기본 끔(앱 주인: 이름과 개수면 된다).
     static let categoryTilePreview = Pref(key: DefaultsKey.categoryTilePreview, fallback: false)
+    /// '최근' 페이지의 복사한 때 표시(`RecentTimeStyle`). 기본은 얼마 전.
+    static let recentTimeStyle = Pref(key: DefaultsKey.recentTimeStyle, fallback: RecentTimeStyle.relative.rawValue)
     /// 목록 카드를 누르면 메뉴, 꾹 누르면 복사로 뒤집는다(표준 UD, 앱 안에서만 쓴다). 기본은 누르면 복사.
     /// 앱은 고치러 들어오는 곳이고 쓰는 일은 키보드에서 한다는 사람을 위한 것(2026-11 사용자 요청).
     static let cardTapOpensMenu = Pref(key: DefaultsKey.cardTapOpensMenu, fallback: false)

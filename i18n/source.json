@@ -452,8 +452,8 @@
   "%d개": {
     "ko": "%d개",
     "en": "%d",
-    "comment": "count unit",
-    "h": "ee109f06f2"
+    "comment": "Item count\ncount unit",
+    "h": "d8ff5f7a4b"
   },
   "%d개 남음": {
     "ko": "%d개 남음",
@@ -832,6 +832,12 @@
     "en": "Turn on 'Allow Full Access'",
     "comment": "Enable Full Access title",
     "h": "ced0ad12fc"
+  },
+  "'최근' 에 복사한 때를 이렇게 보여 줘요: %@": {
+    "ko": "'최근' 에 복사한 때를 이렇게 보여 줘요: %@",
+    "en": "The Recent page shows when you copied something like this: %@",
+    "comment": "Recent time style footer. %@ is an example time in the chosen style",
+    "h": "6d5b0dbd60"
   },
   "'최근' 탭에 30일 동안 있어요": {
     "ko": "'최근' 탭에 30일 동안 있어요",
@@ -4943,6 +4949,12 @@
     "comment": "Restore from dated snapshots description",
     "h": "467163b605"
   },
+  "날짜와 시간": {
+    "ko": "날짜와 시간",
+    "en": "Date and Time",
+    "comment": "Recent copy time style: exact date and time",
+    "h": "13a00e08d2"
+  },
   "날짜와 시간 서식을 직접 만들 수 있어요. 조각을 눌러 넣으면 오늘 날짜가 그 모양으로 바로 보여요": {
     "ko": "날짜와 시간 서식을 직접 만들 수 있어요. 조각을 눌러 넣으면 오늘 날짜가 그 모양으로 바로 보여요",
     "en": "Build your own date and time formats. Tap the pieces and today's date shows up in that shape right away.",
@@ -4984,6 +4996,12 @@
     "en": "Save your own",
     "comment": "Add memo tip title",
     "h": "7c40449eba"
+  },
+  "내 그림": {
+    "ko": "내 그림",
+    "en": "My Images",
+    "comment": "Icon picker tab: images the user uploaded",
+    "h": "bc0a371301"
   },
   "내 단축어 만들기": {
     "ko": "내 단축어 만들기",
@@ -5762,8 +5780,8 @@
   "단축어": {
     "ko": "단축어",
     "en": "Snippet",
-    "comment": "Copy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSiri/Spotlight: the kind of item ClipKeyboard stores (a saved snippet)\nSiri: snippet parameter\nSnippet (saved key-value item) display name\nTyping keyboard: switch to the snippet keys",
-    "h": "f54defa1ae"
+    "comment": "Category home: navigation title\nCopy value control: memo parameter\nCopy value intent: memo parameter\nDefault snippet title\nSettings section: shortcuts\nShare destination: save as a shortcut right away\nSiri/Spotlight: the kind of item ClipKeyboard stores (a saved snippet)\nSiri: snippet parameter\nSnippet (saved key-value item) display name\nTyping keyboard: switch to the snippet keys",
+    "h": "9a861d1035"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "ko": "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.",
@@ -6100,6 +6118,12 @@
     "en": "When a snippet card stays on screen for about two seconds, its content gently appears once below the title, then fades away. On the keyboard, the title briefly changes to the content and back. Secure snippet contents are never shown.",
     "comment": "Content hint explanation",
     "h": "b82098b42c"
+  },
+  "단축어 카드에 보일 아이콘을 고릅니다": {
+    "ko": "단축어 카드에 보일 아이콘을 고릅니다",
+    "en": "Chooses the icon shown on the snippet card",
+    "comment": "Snippet editor: icon button hint",
+    "h": "f7cef21f7f"
   },
   "단축어 키 판으로 바꿉니다": {
     "ko": "단축어 키 판으로 바꿉니다",
@@ -9425,6 +9449,12 @@
     "comment": "Photo value picker: parsed values footer",
     "h": "73b45ce77e"
   },
+  "사진에서 올리기": {
+    "ko": "사진에서 올리기",
+    "en": "Upload from Photos",
+    "comment": "Icon picker: upload an image from Photos",
+    "h": "6a5f1525c8"
+  },
   "사진에서 인식된 텍스트가 없습니다. 글자가 선명한 사진으로 다시 시도해주세요.": {
     "ko": "사진에서 인식된 텍스트가 없습니다. 글자가 선명한 사진으로 다시 시도해주세요.",
     "en": "No text was recognized in the photo. Try again with a clearer photo.",
@@ -9626,14 +9656,14 @@
   "새 카테고리": {
     "ko": "새 카테고리",
     "en": "New category",
-    "comment": "Add category alert title\nCreate a new category from the add screen",
-    "h": "1c04d4b256"
+    "comment": "Add category alert title\nCategory home: add category tile\nCreate a new category from the add screen",
+    "h": "02467960f0"
   },
   "새 카테고리 만들기": {
     "ko": "새 카테고리 만들기",
     "en": "Create new category",
-    "comment": "Create new category and assign alert title\nSwipe right favorites: confirm create category",
-    "h": "92b2e16405"
+    "comment": "Create new category and assign alert title",
+    "h": "e85457223a"
   },
   "새 카테고리 이름": {
     "ko": "새 카테고리 이름",
@@ -10613,6 +10643,12 @@
     "comment": "Execute combo action",
     "h": "d3fa3aa776"
   },
+  "심볼": {
+    "ko": "심볼",
+    "en": "Symbols",
+    "comment": "Icon picker tab: SF Symbols",
+    "h": "3c555564df"
+  },
   "심볼 이름 검색": {
     "ko": "심볼 이름 검색",
     "en": "Search symbol names",
@@ -10864,6 +10900,18 @@
     "en": "Username",
     "comment": "Bulk import: inferred label for login id",
     "h": "692479e28f"
+  },
+  "아이콘": {
+    "ko": "아이콘",
+    "en": "Icon",
+    "comment": "Icon picker title",
+    "h": "67d7e5662e"
+  },
+  "아이콘 없애기": {
+    "ko": "아이콘 없애기",
+    "en": "Remove Icon",
+    "comment": "Icon picker: remove the icon",
+    "h": "e722fe281a"
   },
   "아이폰 · 아이패드 · Mac 에서 같은 단축어를 써요": {
     "ko": "아이폰 · 아이패드 · Mac 에서 같은 단축어를 써요",
@@ -11441,6 +11489,12 @@
     "comment": "Always accessible label",
     "h": "c1f88829b5"
   },
+  "얼마 전": {
+    "ko": "얼마 전",
+    "en": "Time Ago",
+    "comment": "Recent copy time style: relative, like '3 days ago'",
+    "h": "506e9c480c"
+  },
   "업무": {
     "ko": "업무",
     "en": "Work",
@@ -12010,6 +12064,12 @@
     "en": "Online",
     "comment": "Placeholder example: place online",
     "h": "f52a8e0f83"
+  },
+  "올린 그림은 다른 단축어와 카테고리에서도 다시 고를 수 있어요. 길게 누르면 지울 수 있어요.": {
+    "ko": "올린 그림은 다른 단축어와 카테고리에서도 다시 고를 수 있어요. 길게 누르면 지울 수 있어요.",
+    "en": "Images you upload can be picked again for other snippets and categories. Touch and hold one to delete it.",
+    "comment": "Icon picker: uploaded images footer",
+    "h": "d594f5b5fa"
   },
   "옮겼어요": {
     "ko": "옮겼어요",
@@ -12724,6 +12784,12 @@
     "en": "Email",
     "comment": "Email",
     "h": "b0528097c1"
+  },
+  "이모지": {
+    "ko": "이모지",
+    "en": "Emoji",
+    "comment": "Icon picker tab: emoji",
+    "h": "5703ab8d31"
   },
   "이모지 선택": {
     "ko": "이모지 선택",
@@ -15077,6 +15143,12 @@
     "comment": "Lesson title: recently copied",
     "h": "ab4103cf14"
   },
+  "최근 복사한 때": {
+    "ko": "최근 복사한 때",
+    "en": "Copy Time in Recent",
+    "comment": "Setting: how the copy time is shown on the Recent page",
+    "h": "51f1a128f2"
+  },
   "최근 사용": {
     "ko": "최근 사용",
     "en": "Recent",
@@ -15371,6 +15443,12 @@
     "comment": "Usage profile evidence: a user category with this name",
     "h": "1bf4ebf5c3"
   },
+  "카테고리 고르기": {
+    "ko": "카테고리 고르기",
+    "en": "Choose category",
+    "comment": "List title: opens the category picker sheet",
+    "h": "473c9316cd"
+  },
   "카테고리 관리": {
     "ko": "카테고리 관리",
     "en": "Manage categories",
@@ -15454,6 +15532,12 @@
     "en": "Add category",
     "comment": "Add category accessibility label",
     "h": "8cfc65c32a"
+  },
+  "카테고리 칸과 단축어 카드에 보일 아이콘을 고릅니다. 이모지나 사진에서 올린 그림도 쓸 수 있어요.": {
+    "ko": "카테고리 칸과 단축어 카드에 보일 아이콘을 고릅니다. 이모지나 사진에서 올린 그림도 쓸 수 있어요.",
+    "en": "Choose the icon shown on category tiles and snippet cards. You can also use an emoji or an image from Photos.",
+    "comment": "Category icon settings footer",
+    "h": "33175ea015"
   },
   "카테고리 칸에 내용 미리보기": {
     "ko": "카테고리 칸에 내용 미리보기",

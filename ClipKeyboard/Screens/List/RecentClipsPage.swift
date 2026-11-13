@@ -29,11 +29,9 @@ struct RecentClipsPage: View {
     @State private var history: [SmartClipboardHistory] = []
     @State private var itemToSave: SmartClipboardHistory?
 
-    private static let relativeFormatter: RelativeDateTimeFormatter = {
-        let f = RelativeDateTimeFormatter()
-        f.unitsStyle = .short
-        return f
-    }()
+    /// 복사한 때를 얼마 전으로 적을지 날짜와 시간으로 적을지(설정 ▸ 단축어 표시).
+    @AppStorage(AppPrefs.recentTimeStyle.key) private var timeStyleRaw: String = AppPrefs.recentTimeStyle.fallback
+    private var timeStyle: RecentTimeStyle { RecentTimeStyle(rawValue: timeStyleRaw) ?? .relative }
 
     private var trimmedQuery: String {
         searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -98,7 +96,7 @@ struct RecentClipsPage: View {
                         .lineLimit(3)
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    Text(Self.relativeFormatter.localizedString(for: clip.copiedAt, relativeTo: Date()))
+                    Text(timeStyle.text(for: clip.copiedAt))
                         .font(.body)
                         .foregroundColor(theme.textFaint)
                         .lineLimit(1)
