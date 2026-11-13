@@ -12385,5 +12385,89 @@
   "'최근' 에 복사한 때를 이렇게 보여 줘요: %@": {
     "v": "Zuletzt zeigt die Kopierzeit so an: %@",
     "src": "6d5b0dbd60"
+  },
+  "설정 검색": {
+    "v": "Einstellungen durchsuchen",
+    "src": "5b5966d928"
+  },
+  "언어 추가, 자판, 한국어, 영어, 일본어, 중국어, 지구본, 키보드 추가": {
+    "v": "Sprache hinzufügen, Tastatursprache, Koreanisch, Englisch, Japanisch, Chinesisch, Globus, Tastatur hinzufügen",
+    "src": "0bca7012f1"
+  },
+  "키보드 높이, 키 크기, 글자 크기, 열 개수, 보내기 키, 붙여넣기 키, 숫자 판, 검색창": {
+    "v": "Tastaturhöhe, Tastengröße, Schriftgröße, Spalten, Return-Taste, Einfügen-Taste, Zahlenblock, Suchleiste",
+    "src": "0862a6df7a"
+  },
+  "햅틱, 소리, 키 소리": {
+    "v": "Haptik, Ton, Tastenklick, Vibration",
+    "src": "1677982d7a"
+  },
+  "키보드 켜기, 키보드 추가, 설치": {
+    "v": "Tastatur aktivieren, Tastatur hinzufügen, Installieren",
+    "src": "f7c5c8e97a"
+  },
+  "폴더, 분류, 아이콘, 색": {
+    "v": "Ordner, Gruppe, Symbol, Farbe, Kategorie",
+    "src": "2f1809e22a"
+  },
+  "템플릿, 변수": {
+    "v": "Vorlage, Variable, Ausfüllfeld, Platzhalter",
+    "src": "eff5be5846"
+  },
+  "색, 테마, 다크 모드": {
+    "v": "Farbe, Thema, Dunkelmodus",
+    "src": "e4b0b4cba3"
+  },
+  "배경, 사진, 벽지": {
+    "v": "Hintergrund, Foto, Hintergrundbild",
+    "src": "c1b4f28a29"
+  },
+  "앱 언어, 한국어, 영어": {
+    "v": "App-Sprache, Deutsch, Englisch, Koreanisch",
+    "src": "76ea65d8a3"
+  },
+  "미리보기, 내용": {
+    "v": "Vorschau, Inhalt",
+    "src": "0b710cd749"
+  },
+  "격자, 리스트": {
+    "v": "Raster, Liste, Ansicht, Layout",
+    "src": "bacd6cc05b"
+  },
+  "통계, 아낀 시간": {
+    "v": "Statistik, Gesparte Zeit",
+    "src": "371a7849a9"
+  },
+  "iCloud, 내보내기, 가져오기, 파일": {
+    "v": "iCloud, Export, Import, Datei, Backup, Sicherung",
+    "src": "7b9ba2ab0b"
+  },
+  "비밀번호, 잠금, Face ID": {
+    "v": "Passwort, Sperre, Face ID",
+    "src": "21779afac7"
+  },
+  "복사, 최근": {
+    "v": "Kopieren, Zuletzt, Zwischenablage",
+    "src": "fe0b870843"
+  },
+  "동기화, iCloud, Mac, iPad": {
+    "v": "Sync, Synchronisieren, iCloud, Mac, iPad",
+    "src": "3a1c207a07"
+  },
+  "되돌리기, 복구, 지운 단축어": {
+    "v": "Rückgängig, Wiederherstellen, Gelöschte Textbausteine",
+    "src": "81cc973e65"
+  },
+  "도움말, 사용법, 튜토리얼": {
+    "v": "Hilfe, Anleitung, Tutorial, Anwendung",
+    "src": "aafcc4b5d8"
+  },
+  "문의, 의견, 버그, 연락, 메일": {
+    "v": "Kontakt, Feedback, Fehler, Support, E-Mail",
+    "src": "65a9554f3f"
+  },
+  "맥, 메뉴 막대": {
+    "v": "Mac, Menüleiste",
+    "src": "dbf4f07cee"
   }
 }

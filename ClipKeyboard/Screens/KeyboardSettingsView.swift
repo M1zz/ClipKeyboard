@@ -37,6 +37,7 @@ struct KeyboardSettingsView: View {
         List {
             setupSection
             typingSection
+            helpSection
         }
         .settingsCategoryChrome(title: NSLocalizedString("키보드", comment: "Settings section: keyboard"))
         .sheet(isPresented: $showKeyboardGuide) {
@@ -52,8 +53,26 @@ struct KeyboardSettingsView: View {
 
     // MARK: - 섹션
 
-    /// 키보드를 붙이고 모양을 잡는 것들.
+    /// 키보드의 말과 모양. 가장 자주 찾는 것이라 맨 위다.
+    ///
+    /// ⚠️ 예전에는 이 줄들이 설정 가이드 · 전체 접근 같은 안내와 한 묶음이었고, 머리말이
+    ///    "iOS 설정 > 일반 > 키보드에서 추가할 수 있어요" 였다. 그래서 입력 언어를 iOS 설정에서
+    ///    더하는 줄로 읽혔다(사용자 의견, 2026-11). 고치는 것과 안내를 나눈다.
     private var setupSection: some View {
+        Section {
+            FoldLink(destination: TypingLanguagesSettings()) {
+                Label(NSLocalizedString("입력 언어", comment: "Settings: typing languages screen title"),
+                      systemImage: AppSymbol.globe)
+            }
+            FoldLink(destination: KeyboardLayoutSettings()) {
+                Label(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"),
+                      systemImage: AppSymbol.rectangle3Group)
+            }
+        }
+    }
+
+    /// 키보드를 켜고 다루는 법. 고치는 줄이 아니라 읽는 안내다.
+    private var helpSection: some View {
         Section {
             // 시트 버튼 - Label 텍스트에 .primary를 명시해 파란색 tint 방지
             Button {
@@ -102,17 +121,9 @@ struct KeyboardSettingsView: View {
             }
             .accessibilityHint(NSLocalizedString("전체 접근 허용이 무엇이고 어떻게 켜는지 봅니다", comment: "Full Access settings row hint"))
 
-            FoldLink(destination: TypingLanguagesSettings()) {
-                Label(NSLocalizedString("입력 언어", comment: "Settings: typing languages screen title"),
-                      systemImage: AppSymbol.globe)
-            }
             FoldLink(destination: OnlyThisKeyboardGuideView()) {
                 Label(NSLocalizedString("클립키보드 하나로 쓰기", comment: "Only-this-keyboard guide title"),
                       systemImage: AppSymbol.keyboard)
-            }
-            FoldLink(destination: KeyboardLayoutSettings()) {
-                Label(NSLocalizedString("키보드 레이아웃", comment: "Keyboard layout"),
-                      systemImage: AppSymbol.rectangle3Group)
             }
             FoldLink(destination: CopyPasteView()) {
                 Label(NSLocalizedString("붙여넣기 알림 허용 끄기", comment: "Paste notification settings title"),
@@ -124,8 +135,7 @@ struct KeyboardSettingsView: View {
                       systemImage: AppSymbol.buttonProgrammable)
             }
         } header: {
-            Text(NSLocalizedString("iOS 설정 > 일반 > 키보드에서 추가할 수 있어요", comment: "Keyboard optional section footer"))
-                .textCase(.none)
+            Text(NSLocalizedString("도움말", comment: "Help"))
         }
     }
 

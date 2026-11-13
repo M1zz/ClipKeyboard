@@ -167,6 +167,7 @@
 		6B027BD2B54D0EA86FB83EE4 /* StorageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716D2F3FE56C8A81348A2686 /* StorageFile.swift */; };
 		6CDDE934BAFAF8B62D1A0532 /* KeyboardSetupRequiredBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3908A3470250356F78E6D22A /* KeyboardSetupRequiredBanner.swift */; };
 		6D288424F5794474BEB3D39C /* ClipboardHistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDEBF8F82F784128BD3AF5AB /* ClipboardHistoryStore.swift */; };
+		6FA5A116155E49F899A4D13A /* SettingsDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA742FE263F64F3C85FEAEFC /* SettingsDirectory.swift */; };
 		7555A77DDD320163098A7DF4 /* UsageInsights.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52306EEE06035B083C937FF4 /* UsageInsights.swift */; };
 		762753F97148CCE8FC3D44EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 955F81E295CFFE537F6C5EB9 /* Foundation.framework */; };
 		77878F9F433DEDEF41AF32DB /* AppGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734374AB16A70898D2F69F48 /* AppGroup.swift */; };
@@ -754,6 +755,7 @@
 		F8F936D777AFE620DCC080C1 /* PurchaseMomentManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PurchaseMomentManager.swift; sourceTree = "<group>"; };
 		F91880EEA7FD5F9D2E977213 /* BlankStartLearnMoreSheet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BlankStartLearnMoreSheet.swift; sourceTree = "<group>"; };
 		FA000002000000000000AAA1 /* NavigationThemeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationThemeModifier.swift; sourceTree = "<group>"; };
+		FA742FE263F64F3C85FEAEFC /* SettingsDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDirectory.swift; sourceTree = "<group>"; };
 		FB00001A2F0000000000000001 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
 		FBS0FILE0000000000000002 /* ClipKeyboardSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardSpec.swift; sourceTree = "<group>"; };
 		FDC201306E1F4FE094DC76F4 /* ShortcutsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutsSettingsView.swift; sourceTree = "<group>"; };
@@ -1249,6 +1251,7 @@
 				64E0170CFECE46BCB60A0370 /* SettingsGiftView.swift */,
 				63C7CC7878D04F4491D10BC2 /* ProBenefitsView.swift */,
 				4CCD344C5E0F419B90144643 /* KeyboardSettingsView.swift */,
+				FA742FE263F64F3C85FEAEFC /* SettingsDirectory.swift */,
 				58FA00022F0000000000000002 /* FullAccessGuideView.swift */,
 				CAPF02124872219370368914 /* ActionButtonGuideView.swift */,
 				58PB00022F0000000000000002 /* PaywallPlans.swift */,
@@ -1868,6 +1871,7 @@
 				CDA57A28ABDA46EA85C4524D /* SettingsGiftView.swift in Sources */,
 				5AAE55B3A09146619D7A38A7 /* ProBenefitsView.swift in Sources */,
 				7B2B6CBDF5BB46AB8A6A9926 /* KeyboardSettingsView.swift in Sources */,
+				6FA5A116155E49F899A4D13A /* SettingsDirectory.swift in Sources */,
 				58FA00012F0000000000000001 /* FullAccessGuideView.swift in Sources */,
 				CAPT03344186028773257723 /* ActionButtonGuideView.swift in Sources */,
 				58PB00012F0000000000000001 /* PaywallPlans.swift in Sources */,

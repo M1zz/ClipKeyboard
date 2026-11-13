@@ -3215,6 +3215,12 @@
     "comment": "iCloud quota exceeded error message",
     "h": "fdf93be9b9"
   },
+  "iCloud, 내보내기, 가져오기, 파일": {
+    "ko": "iCloud, 내보내기, 가져오기, 파일",
+    "en": "iCloud, export, import, file",
+    "comment": "Settings search keywords for backup and restore. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "7b9ba2ab0b"
+  },
   "iCloud에 로그인되어 있지 않습니다. 설정 > [사용자 이름] > iCloud에서 로그인해주세요.": {
     "ko": "iCloud에 로그인되어 있지 않습니다. 설정 > [사용자 이름] > iCloud에서 로그인해주세요.",
     "en": "You are not signed in to iCloud. Please sign in at Settings > [Your Name] > iCloud.",
@@ -4000,6 +4006,12 @@
     "en": "Grid",
     "comment": "List layout option: cards in a grid",
     "h": "9b8309e775"
+  },
+  "격자, 리스트": {
+    "ko": "격자, 리스트",
+    "en": "grid, list",
+    "comment": "Settings search keywords for choosing grid or list layout. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "bacd6cc05b"
   },
   "결": {
     "ko": "결",
@@ -6629,6 +6641,12 @@
     "comment": "Help",
     "h": "61400fd9d2"
   },
+  "도움말, 사용법, 튜토리얼": {
+    "ko": "도움말, 사용법, 튜토리얼",
+    "en": "help, how to, tutorial",
+    "comment": "Settings search keywords for the user guide. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "aafcc4b5d8"
+  },
   "도움말과 문의": {
     "ko": "도움말과 문의",
     "en": "Help & contact",
@@ -6670,6 +6688,12 @@
     "en": "Users with sync on",
     "comment": "Usage metric: sync enabled users",
     "h": "71fcbb166f"
+  },
+  "동기화, iCloud, Mac, iPad": {
+    "ko": "동기화, iCloud, Mac, iPad",
+    "en": "sync, iCloud, Mac, iPad",
+    "comment": "Settings search keywords for cross-device sync. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "3a1c207a07"
   },
   "동기화가 엇갈릴 때 고르는 화면": {
     "ko": "동기화가 엇갈릴 때 고르는 화면",
@@ -6718,6 +6742,12 @@
     "en": "Restore",
     "comment": "Restore",
     "h": "095cf954f1"
+  },
+  "되돌리기, 복구, 지운 단축어": {
+    "ko": "되돌리기, 복구, 지운 단축어",
+    "en": "undo, restore, deleted phrases",
+    "comment": "Settings search keywords for the change history where edits and deletions can be undone. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "81cc973e65"
   },
   "되돌릴 시점": {
     "ko": "되돌릴 시점",
@@ -7162,6 +7192,12 @@
     "en": "Snippets you use at the same time each week or month move to the front of the keyboard when that time comes",
     "comment": "Changelog 5.1.4 rhythm quick row\nUsage profile effect: rhythm-based quick row",
     "h": "3b3ef667b1"
+  },
+  "맥, 메뉴 막대": {
+    "ko": "맥, 메뉴 막대",
+    "en": "Mac, menu bar",
+    "comment": "Settings search keywords for the Mac app. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "dbf4f07cee"
   },
   "맥에서 단축어 순서를 끌어다 바꾸고, 그 순서를 아이폰·키보드까지 동기화": {
     "ko": "맥에서 단축어 순서를 끌어다 바꾸고, 그 순서를 아이폰·키보드까지 동기화",
@@ -7685,6 +7721,12 @@
     "comment": "Reply starter pack: title of the first-response memo",
     "h": "851e5371eb"
   },
+  "문의, 의견, 버그, 연락, 메일": {
+    "ko": "문의, 의견, 버그, 연락, 메일",
+    "en": "contact, feedback, bug, support, email",
+    "comment": "Settings search keywords for sending feedback to the developer. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "65a9554f3f"
+  },
   "문장": {
     "ko": "문장",
     "en": "Sentence",
@@ -7750,6 +7792,12 @@
     "en": "Copies the preview text to the clipboard.",
     "comment": "Copy template button hint",
     "h": "c0a69cb5e3"
+  },
+  "미리보기, 내용": {
+    "ko": "미리보기, 내용",
+    "en": "preview, content",
+    "comment": "Settings search keywords for showing a snippet's content inside its card. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "0b710cd749"
   },
   "미팅 팔로업": {
     "ko": "미팅 팔로업",
@@ -7888,6 +7936,12 @@
     "en": "You can now add and delete your own background image from Settings. That was only in the list screen picker before",
     "comment": "Changelog 5.0.4 background in settings",
     "h": "4eba3c4664"
+  },
+  "배경, 사진, 벽지": {
+    "ko": "배경, 사진, 벽지",
+    "en": "background, photo, wallpaper",
+    "comment": "Settings search keywords for the list background image. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "c1b4f28a29"
   },
   "배경색": {
     "ko": "배경색",
@@ -8519,6 +8573,12 @@
     "comment": "Value to copy parameter",
     "h": "040300b50a"
   },
+  "복사, 최근": {
+    "ko": "복사, 최근",
+    "en": "copy, recent",
+    "comment": "Settings search keywords for clipboard history. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "fe0b870843"
+  },
   "복사/붙여넣기 시 매번 팝업이 표시됩니다.": {
     "ko": "복사/붙여넣기 시 매번 팝업이 표시됩니다.",
     "en": "A popup will appear every time you copy/paste.",
@@ -8998,6 +9058,12 @@
     "en": "In password fields, iOS briefly shows its own keyboard. Apps can't change this.",
     "comment": "Only-this-keyboard guide: password fields always use the system keyboard",
     "h": "ebb42c2e9d"
+  },
+  "비밀번호, 잠금, Face ID": {
+    "ko": "비밀번호, 잠금, Face ID",
+    "en": "password, lock, Face ID",
+    "comment": "Settings search keywords for the secure snippet PIN. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "21779afac7"
   },
   "비밀번호·PIN·인증서는 가져올 때부터 자동으로 암호화되는 보안 단축어로": {
     "ko": "비밀번호·PIN·인증서는 가져올 때부터 자동으로 암호화되는 보안 단축어로",
@@ -9761,6 +9827,12 @@
     "comment": "Add New Keyboard\niOS Settings: Add New Keyboard",
     "h": "f79ebdb6ec"
   },
+  "색, 테마, 다크 모드": {
+    "ko": "색, 테마, 다크 모드",
+    "en": "color, theme, dark mode",
+    "comment": "Settings search keywords for the key color screen. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "e4b0b4cba3"
+  },
   "색상": {
     "ko": "색상",
     "en": "Color",
@@ -10066,6 +10138,12 @@
     "en": "Settings → General → Keyboard → Keyboards",
     "comment": "Path: Settings General Keyboard",
     "h": "2da8424947"
+  },
+  "설정 검색": {
+    "ko": "설정 검색",
+    "en": "Search Settings",
+    "comment": "Search field placeholder in Settings: find a setting by name",
+    "h": "5b5966d928"
   },
   "설정 경로": {
     "ko": "설정 경로",
@@ -11255,6 +11333,12 @@
     "comment": "Secure PIN: why the keyboard asks for a number instead of Face ID",
     "h": "77a7fc6b11"
   },
+  "앱 언어, 한국어, 영어": {
+    "ko": "앱 언어, 한국어, 영어",
+    "en": "app language, English, Korean",
+    "comment": "Settings search keywords for the app's display language. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "76ea65d8a3"
+  },
   "앱 이름 없이 Siri에게": {
     "ko": "앱 이름 없이 Siri에게",
     "en": "Ask Siri without the app name",
@@ -11482,6 +11566,12 @@
     "en": "Language",
     "comment": "Language\nSection: language\nSettings: app language",
     "h": "a13fcc7d26"
+  },
+  "언어 추가, 자판, 한국어, 영어, 일본어, 중국어, 지구본, 키보드 추가": {
+    "ko": "언어 추가, 자판, 한국어, 영어, 일본어, 중국어, 지구본, 키보드 추가",
+    "en": "add language, keyboard language, Korean, English, Japanese, Chinese, globe, add keyboard",
+    "comment": "Settings search keywords for the keyboard's typing languages screen. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "0bca7012f1"
   },
   "언제든지 접근 가능": {
     "ko": "언제든지 접근 가능",
@@ -16139,6 +16229,12 @@
     "comment": "Keyboard height section title",
     "h": "077ebe5d55"
   },
+  "키보드 높이, 키 크기, 글자 크기, 열 개수, 보내기 키, 붙여넣기 키, 숫자 판, 검색창": {
+    "ko": "키보드 높이, 키 크기, 글자 크기, 열 개수, 보내기 키, 붙여넣기 키, 숫자 판, 검색창",
+    "en": "keyboard height, key size, font size, columns, return key, paste key, number pad, search bar",
+    "comment": "Settings search keywords for the keyboard layout screen. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "0862a6df7a"
+  },
   "키보드 높이를 기기의 기본 키보드에 맞췄어요. 올라올 때 높이가 튀던 것도 함께 없앴어요": {
     "ko": "키보드 높이를 기기의 기본 키보드에 맞췄어요. 올라올 때 높이가 튀던 것도 함께 없앴어요",
     "en": "The keyboard is the height of your device's default keyboard, and the jump as it comes up is gone",
@@ -16300,6 +16396,12 @@
     "en": "Turn on the keyboard",
     "comment": "Lesson title: turn on the keyboard",
     "h": "f014241548"
+  },
+  "키보드 켜기, 키보드 추가, 설치": {
+    "ko": "키보드 켜기, 키보드 추가, 설치",
+    "en": "turn on keyboard, add keyboard, install",
+    "comment": "Settings search keywords for the guide that shows how to turn on the keyboard in iOS Settings. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "f7c5c8e97a"
   },
   "키보드 켜러 가기": {
     "ko": "키보드 켜러 가기",
@@ -17015,6 +17117,12 @@
     "comment": "Dismiss template hint banner",
     "h": "c5559db1b1"
   },
+  "템플릿, 변수": {
+    "ko": "템플릿, 변수",
+    "en": "template, variable",
+    "comment": "Settings search keywords for managing template placeholders. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "eff5be5846"
+  },
   "템플릿·스택·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.": {
     "ko": "템플릿·스택·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.",
     "en": "Add 4 examples (template, stack, and snippet + template) to try them out. Your existing snippets stay untouched.",
@@ -17056,6 +17164,12 @@
     "en": "Fill clipboard blanks in templates",
     "comment": "Full Access benefit: clipboard placeholder",
     "h": "5621c63f18"
+  },
+  "통계, 아낀 시간": {
+    "ko": "통계, 아낀 시간",
+    "en": "stats, time saved",
+    "comment": "Settings search keywords for the usage record screen. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "371a7849a9"
   },
   "통관번호": {
     "ko": "통관번호",
@@ -17236,6 +17350,12 @@
     "en": "Lose the phone, keep the snippets",
     "comment": "DYK title: backup",
     "h": "dc83f971f2"
+  },
+  "폴더, 분류, 아이콘, 색": {
+    "ko": "폴더, 분류, 아이콘, 색",
+    "en": "folder, group, icon, color",
+    "comment": "Settings search keywords for managing categories. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "2f1809e22a"
   },
   "표시 옵션": {
     "ko": "표시 옵션",
@@ -17698,6 +17818,12 @@
     "en": "Always show",
     "comment": "Category always visible",
     "h": "a86965d16b"
+  },
+  "햅틱, 소리, 키 소리": {
+    "ko": "햅틱, 소리, 키 소리",
+    "en": "haptics, sound, key click",
+    "comment": "Settings search keywords for keyboard vibration. Comma-separated words a user of this language would type to find it; translate into natural search words, not literally",
+    "h": "1677982d7a"
   },
   "허용": {
     "ko": "허용",

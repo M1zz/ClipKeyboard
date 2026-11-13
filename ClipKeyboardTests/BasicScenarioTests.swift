@@ -784,6 +784,41 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertEqual(ContentPreviewMode.resolve(raw: "someday", legacyHintEnabled: true), .hint)
     }
 
+    // MARK: - 설정 찾기
+
+    /// 설정 맨 위 검색과 갈래 줄의 요약. 어디 있는지 몰라도 이름이나 비슷한 말로 찾아가야 한다.
+    func test_설정은_이름이나_비슷한_말로_찾고_갈래_줄에_안에_든_것이_보인다() throws {
+        // 시험 기기의 언어가 무엇이든 돌도록 글자는 표에서 꺼내 쓴다.
+        func entry(_ id: String) throws -> SettingsEntry {
+            try XCTUnwrap(SettingsDirectory.entries.first { $0.id == id }, id)
+        }
+        // "키보드 언어를 더하려면 어디로 가나" (2026-11 사용자 의견)
+        let languages = try entry("keyboard.languages")
+        XCTAssertEqual(SettingsDirectory.search(languages.title).first?.id, languages.id)
+        // 이름에 없는 말(숨은 말)로도 찾는다.
+        let hidden = try XCTUnwrap(languages.keywords.split(separator: ",").first).trimmingCharacters(in: .whitespaces)
+        XCTAssertTrue(SettingsDirectory.search(hidden).contains { $0.id == languages.id })
+        // 띄어쓰기 · 대소문자를 가리지 않는다.
+        let layout = try entry("keyboard.layout")
+        let squashed = layout.title.filter { !$0.isWhitespace }.uppercased()
+        XCTAssertEqual(SettingsDirectory.search(squashed).first?.id, layout.id)
+        // 이름이 맞는 것이 길(갈래 이름)만 맞는 것보다 앞에 선다.
+        let keyboardResults = SettingsDirectory.search(SettingsCategory.keyboard.title)
+        XCTAssertFalse(keyboardResults.isEmpty)
+        XCTAssertTrue(SettingsDirectory.search("").isEmpty)
+        XCTAssertTrue(SettingsDirectory.search("zzqqxx없는설정").isEmpty)
+
+        // 한 줄 한 줄이 따로 찾아져야 한다. 같은 id 가 둘이면 결과 목록이 엉킨다.
+        let ids = SettingsDirectory.entries.map(\.id)
+        XCTAssertEqual(ids.count, Set(ids).count)
+        // 갈래마다 검색에 걸릴 줄이 있고, 사용 기록(줄이 하나뿐)말고는 갈래 줄 아래 요약이 선다.
+        for category in SettingsCategory.allCases {
+            XCTAssertTrue(SettingsDirectory.entries.contains { $0.category == category }, category.rawValue)
+        }
+        XCTAssertEqual(SettingsCategory.keyboard.summary?.hasPrefix(languages.title), true)
+        XCTAssertNil(SettingsCategory.usage.summary)
+    }
+
     /// 키보드의 단축어 키를 누른 것과 같다(`KeyboardView.insertMemo` 가 쏘는 알림 그대로).
     /// 쓰면 지우기면 그쪽과 똑같이 윗줄 하나만 쏜다.
     private func tapOnKeyboard(_ memo: Memo) {

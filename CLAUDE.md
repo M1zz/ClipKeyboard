@@ -386,6 +386,11 @@ GlassCircleButton(AppSymbol.xmark, role: .secondary, label: NSLocalizedString("�
 - 툴바에 둘 때는 `.sharedBackgroundVisibility(.hidden)` 을 붙인다 (시스템 유리 알약과 두 겹이 되지 않게)
 - 배너 안 작은 닫기, 입력칸 지우기, 타일 위 지우기 단추는 내용의 일부라 서클을 쓰지 않는다
 
+### 12. 설정 줄을 더하면 설정 표에도 한 줄
+- 설정 화면에 줄(화면 · 토글 · 고르기)을 더하면 `ClipKeyboard/Screens/SettingsDirectory.swift` 에도 한 줄을 더한다
+- 이 표가 설정 맨 위 검색과 첫 화면 갈래 줄 아래 요약(앞의 셋)의 단일 출처다. 빠뜨리면 검색에 안 걸린다
+- 이름에 없지만 사람이 칠 말은 `keywords` 에 쉼표로 적는다(번역 파이프라인이 언어마다 옮긴다)
+
 ## 앞으로 만들 것 (로드맵)
 
 **개발하다 "이건 다음에" 가 생기면 `ClipKeyboard/Service/ClipKeyboardRoadmap.swift` 에 한 줄을 더한다.**

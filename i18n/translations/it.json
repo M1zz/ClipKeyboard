@@ -12385,5 +12385,89 @@
   "'최근' 에 복사한 때를 이렇게 보여 줘요: %@": {
     "v": "Recenti mostra quando hai copiato così: %@",
     "src": "6d5b0dbd60"
+  },
+  "설정 검색": {
+    "v": "Cerca nelle impostazioni",
+    "src": "5b5966d928"
+  },
+  "언어 추가, 자판, 한국어, 영어, 일본어, 중국어, 지구본, 키보드 추가": {
+    "v": "aggiungi lingua, lingua tastiera, coreano, inglese, giapponese, cinese, globo, aggiungi tastiera",
+    "src": "0bca7012f1"
+  },
+  "키보드 높이, 키 크기, 글자 크기, 열 개수, 보내기 키, 붙여넣기 키, 숫자 판, 검색창": {
+    "v": "altezza tastiera, dimensione tasti, dimensione testo, colonne, tasto invio, tasto incolla, tastierino numerico, barra di ricerca",
+    "src": "0862a6df7a"
+  },
+  "햅틱, 소리, 키 소리": {
+    "v": "feedback aptico, vibrazione, suono, suono tasti",
+    "src": "1677982d7a"
+  },
+  "키보드 켜기, 키보드 추가, 설치": {
+    "v": "attiva tastiera, aggiungi tastiera, installa",
+    "src": "f7c5c8e97a"
+  },
+  "폴더, 분류, 아이콘, 색": {
+    "v": "cartella, gruppo, icona, colore, categorie",
+    "src": "2f1809e22a"
+  },
+  "템플릿, 변수": {
+    "v": "modello, variabile, campo da compilare",
+    "src": "eff5be5846"
+  },
+  "색, 테마, 다크 모드": {
+    "v": "colore, tema, modalità scura, aspetto",
+    "src": "e4b0b4cba3"
+  },
+  "배경, 사진, 벽지": {
+    "v": "sfondo, foto, immagine, carta da parati",
+    "src": "c1b4f28a29"
+  },
+  "앱 언어, 한국어, 영어": {
+    "v": "lingua dell'app, italiano, inglese, coreano",
+    "src": "76ea65d8a3"
+  },
+  "미리보기, 내용": {
+    "v": "anteprima, contenuto",
+    "src": "0b710cd749"
+  },
+  "격자, 리스트": {
+    "v": "griglia, elenco, lista, layout",
+    "src": "bacd6cc05b"
+  },
+  "통계, 아낀 시간": {
+    "v": "statistiche, tempo risparmiato",
+    "src": "371a7849a9"
+  },
+  "iCloud, 내보내기, 가져오기, 파일": {
+    "v": "iCloud, esporta, importa, file, backup",
+    "src": "7b9ba2ab0b"
+  },
+  "비밀번호, 잠금, Face ID": {
+    "v": "password, codice, blocco, Face ID",
+    "src": "21779afac7"
+  },
+  "복사, 최근": {
+    "v": "copia, recenti, cronologia",
+    "src": "fe0b870843"
+  },
+  "동기화, iCloud, Mac, iPad": {
+    "v": "sincronizzazione, sincronizza, iCloud, Mac, iPad",
+    "src": "3a1c207a07"
+  },
+  "되돌리기, 복구, 지운 단축어": {
+    "v": "annulla, ripristina, recupera, frasi eliminate",
+    "src": "81cc973e65"
+  },
+  "도움말, 사용법, 튜토리얼": {
+    "v": "aiuto, guida, come si usa, tutorial",
+    "src": "aafcc4b5d8"
+  },
+  "문의, 의견, 버그, 연락, 메일": {
+    "v": "contatti, feedback, segnala, bug, supporto, email",
+    "src": "65a9554f3f"
+  },
+  "맥, 메뉴 막대": {
+    "v": "Mac, barra dei menu",
+    "src": "dbf4f07cee"
   }
 }

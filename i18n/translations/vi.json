@@ -12070,5 +12070,89 @@
   "'최근' 에 복사한 때를 이렇게 보여 줘요: %@": {
     "v": "Gần đây hiển thị thời điểm sao chép như sau: %@",
     "src": "6d5b0dbd60"
+  },
+  "설정 검색": {
+    "v": "Tìm trong Cài đặt",
+    "src": "5b5966d928"
+  },
+  "언어 추가, 자판, 한국어, 영어, 일본어, 중국어, 지구본, 키보드 추가": {
+    "v": "thêm ngôn ngữ, bàn phím, tiếng Hàn, tiếng Anh, tiếng Nhật, tiếng Trung, quả địa cầu, thêm bàn phím",
+    "src": "0bca7012f1"
+  },
+  "키보드 높이, 키 크기, 글자 크기, 열 개수, 보내기 키, 붙여넣기 키, 숫자 판, 검색창": {
+    "v": "chiều cao bàn phím, cỡ phím, cỡ chữ, số cột, phím gửi, phím dán, bàn phím số, thanh tìm kiếm",
+    "src": "0862a6df7a"
+  },
+  "햅틱, 소리, 키 소리": {
+    "v": "haptic, âm thanh, tiếng phím",
+    "src": "1677982d7a"
+  },
+  "키보드 켜기, 키보드 추가, 설치": {
+    "v": "bật bàn phím, thêm bàn phím, cài đặt",
+    "src": "f7c5c8e97a"
+  },
+  "폴더, 분류, 아이콘, 색": {
+    "v": "thư mục, phân loại, biểu tượng, màu",
+    "src": "2f1809e22a"
+  },
+  "템플릿, 변수": {
+    "v": "mẫu, biến",
+    "src": "eff5be5846"
+  },
+  "색, 테마, 다크 모드": {
+    "v": "màu, chủ đề, chế độ tối",
+    "src": "e4b0b4cba3"
+  },
+  "배경, 사진, 벽지": {
+    "v": "nền, ảnh, hình nền",
+    "src": "c1b4f28a29"
+  },
+  "앱 언어, 한국어, 영어": {
+    "v": "ngôn ngữ ứng dụng, tiếng Việt, tiếng Anh",
+    "src": "76ea65d8a3"
+  },
+  "미리보기, 내용": {
+    "v": "xem trước, nội dung",
+    "src": "0b710cd749"
+  },
+  "격자, 리스트": {
+    "v": "lưới, danh sách",
+    "src": "bacd6cc05b"
+  },
+  "통계, 아낀 시간": {
+    "v": "thống kê, thời gian tiết kiệm",
+    "src": "371a7849a9"
+  },
+  "iCloud, 내보내기, 가져오기, 파일": {
+    "v": "iCloud, xuất, nhập, tệp",
+    "src": "7b9ba2ab0b"
+  },
+  "비밀번호, 잠금, Face ID": {
+    "v": "mật khẩu, khóa, Face ID",
+    "src": "21779afac7"
+  },
+  "복사, 최근": {
+    "v": "sao chép, gần đây",
+    "src": "fe0b870843"
+  },
+  "동기화, iCloud, Mac, iPad": {
+    "v": "đồng bộ, iCloud, Mac, iPad",
+    "src": "3a1c207a07"
+  },
+  "되돌리기, 복구, 지운 단축어": {
+    "v": "hoàn tác, khôi phục, cụm từ đã xóa",
+    "src": "81cc973e65"
+  },
+  "도움말, 사용법, 튜토리얼": {
+    "v": "trợ giúp, hướng dẫn, cách dùng",
+    "src": "aafcc4b5d8"
+  },
+  "문의, 의견, 버그, 연락, 메일": {
+    "v": "liên hệ, góp ý, lỗi, hỗ trợ, email",
+    "src": "65a9554f3f"
+  },
+  "맥, 메뉴 막대": {
+    "v": "Mac, thanh menu",
+    "src": "dbf4f07cee"
   }
 }

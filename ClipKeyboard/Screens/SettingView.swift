@@ -10,6 +10,7 @@ import StoreKit
 import LeeoKit
 
 struct SettingView: View {
+    @State private var settingsQuery = ""
 
     @Environment(\.appTheme) private var theme
     @ObservedObject private var proManager = StoreManager.shared
@@ -344,12 +345,9 @@ struct SettingView: View {
     /// 매일 손대는 것 - 입력, 단축어, 모양.
     private var everydaySection: some View {
         Section {
-            categoryRow(NSLocalizedString("키보드", comment: "Settings section: keyboard"),
-                        systemImage: AppSymbol.keyboard) { KeyboardSettingsView() }
-            categoryRow(NSLocalizedString("단축어", comment: "Settings section: shortcuts"),
-                        systemImage: AppSymbol.textQuote) { ShortcutsSettingsView() }
-            categoryRow(NSLocalizedString("화면과 표시", comment: "Settings section: appearance"),
-                        systemImage: AppSymbol.paintbrush) { AppearanceSettingsView() }
+            categoryRow(.keyboard)
+            categoryRow(.shortcuts)
+            categoryRow(.appearance)
         } header: {
             Text(NSLocalizedString("매일 쓰는 것", comment: "Settings section header: keyboard, shortcuts, appearance"))
         }
@@ -359,16 +357,32 @@ struct SettingView: View {
     private var aboutSection: some View {
         Section {
             // 사용 기록은 여기에만 있다. 예전에는 아래 탭이었다(탭은 목록 · 설정 · 검색).
-            categoryRow(NSLocalizedString("사용 기록", comment: "Usage passport settings entry"),
-                        systemImage: AppSymbol.checkmarkSealFill) { UsagePassportView() }
-            categoryRow(NSLocalizedString("내 데이터", comment: "Settings section: my data"),
-                        systemImage: AppSymbol.externaldrive) { MyDataSettingsView() }
-            categoryRow(NSLocalizedString("사용법과 문의", comment: "Settings section: how to use the app, tips and contact"),
-                        systemImage: AppSymbol.questionmarkCircle) { HelpSettingsView() }
-            categoryRow(NSLocalizedString("함께 쓰면 좋은 앱", comment: "Settings section: other apps by the same developer that pair well with this one"),
-                        systemImage: AppSymbol.squareGrid2x2) { AppInfoSettingsView() }
+            categoryRow(.usage)
+            categoryRow(.data)
+            categoryRow(.help)
+            categoryRow(.apps)
         } header: {
             Text(NSLocalizedString("데이터와 도움말", comment: "Settings section header: my data, help, other apps"))
+        }
+    }
+
+    /// 갈래 줄. 이름 아래에 안에 든 것 셋을 흐리게 적어, 들어가 보기 전에 무엇이 있는지 보인다.
+    /// 무엇을 적을지는 `SettingsDirectory` 가 정한다.
+    private func categoryRow(_ category: SettingsCategory) -> some View {
+        FoldLink(destination: category.destination) {
+            Label {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(category.title)
+                    if let summary = category.summary {
+                        Text(summary)
+                            .font(.caption)
+                            .foregroundStyle(theme.textMuted)
+                            .lineLimit(1)
+                    }
+                }
+            } icon: {
+                Image(systemName: category.systemImage)
+            }
         }
     }
 
@@ -409,6 +423,10 @@ struct SettingView: View {
 
     var body: some View {
         List {
+            // 검색창에 글이 있으면 설정 목록 대신 찾은 것만 세운다(`SettingsDirectory`).
+            if !settingsQuery.trimmingCharacters(in: .whitespaces).isEmpty {
+                SettingsSearchResults(query: settingsQuery)
+            } else {
             // 위에서부터 요금제 · 응원(내 후원 단계) · 선물. 돈 이야기는 이 한 칸에 모여 있다.
             planSection
             // 백지로 시작한 사람만: 기능 더하기 · 가이드북. 기존 사용자에게는 없다.
@@ -430,7 +448,12 @@ struct SettingView: View {
             // 사용자가 보는 설정의 **맨 끝**. 아래 개발자 섹션은 마스터 모드에서만 보인다.
             feedbackSection
             if masterModeEnabled { developerSection }
+            }
         }
+        // 무엇이 어디 있는지 몰라도 이름으로 찾는다. 늘 펼쳐 둬야 있는 줄 안다.
+        .searchable(text: $settingsQuery,
+                    placement: .navigationBarDrawer(displayMode: .always),
+                    prompt: Text(NSLocalizedString("설정 검색", comment: "Search field placeholder in Settings: find a setting by name")))
         // ⚠️ 제목을 안 단다. 탭의 뿌리 화면이고 아래 탭바가 이미 "설정"이라고 적고 있다.
         //    안쪽 화면들(키보드·단축어 표시 …)은 그대로 제목을 단다 - 거기서는
         //    어디까지 들어왔는지를 제목이 말해 준다.
