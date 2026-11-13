@@ -14,6 +14,248 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.22
+
+### 앱스토어 (한국어)
+
+```
+제목 옆 화살표를 눌러 카테고리를 골라요.
+단축어와 카테고리에 아이콘을 붙일 수 있어요.
+설정 맨 위에서 원하는 항목을 찾을 수 있어요.
+VoiceOver를 켜면 앱을 소리로 안내해요.
+직접 고른 키 색이 키보드에 그대로 나와요.
+```
+
+### App Store (English)
+
+```
+Tap the arrow by the title to switch category.
+Add icons to your snippets and categories.
+Search Settings to find any option fast.
+VoiceOver now gives a short spoken tour.
+Your chosen key color now shows as is.
+```
+
+### App Store (en-GB)
+
+```
+Tap the arrow by the title to switch category.
+Add icons to your snippets and categories.
+Search Settings to find any option fast.
+VoiceOver now gives a short spoken tour.
+Your chosen key colour now shows as is.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+点标题旁的箭头即可选择分类。
+可以为短语和分类添加图标。
+在设置顶部搜索，快速找到所需选项。
+开启 VoiceOver 时会用语音简要介绍应用。
+自选的按键颜色会原样显示在键盘上。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+點標題旁的箭頭即可選擇分類。
+可以為短語和分類加上圖示。
+在設定頂端搜尋，快速找到所需選項。
+開啟 VoiceOver 時會以語音簡要介紹 App。
+自選的按鍵顏色會原樣顯示在鍵盤上。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Категорию выбирайте стрелкой у заголовка.
+Добавляйте значки к фразам и категориям.
+В Настройках появился поиск.
+С VoiceOver приложение кратко озвучит себя.
+Выбранный цвет клавиш теперь без примесей.
+```
+
+### App Store (Japanese, ja)
+
+```
+タイトル横の矢印からカテゴリを選べます。
+定型文とカテゴリにアイコンを付けられます。
+設定の一番上から項目を検索できます。
+VoiceOverでアプリを音声で短く案内します。
+選んだキーの色がそのまま表示されます。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Elige la categoría con la flecha del título.
+Agrega íconos a tus frases y categorías.
+Busca cualquier opción en Ajustes.
+Con VoiceOver, la app se presenta en voz.
+El color de tecla que elijas se ve tal cual.
+```
+
+### App Store (German, de-DE)
+
+```
+Kategorie über den Pfeil am Titel wählen.
+Symbole für Textbausteine und Kategorien.
+Einstellungen jetzt mit Suche.
+Mit VoiceOver gibt es eine kurze Sprachtour.
+Deine Tastenfarbe wird jetzt exakt gezeigt.
+```
+
+### App Store (Thai, th)
+
+```
+แตะลูกศรข้างชื่อเพื่อเลือกหมวดหมู่
+ใส่ไอคอนให้ข้อความด่วนและหมวดหมู่ได้
+ค้นหาตัวเลือกได้จากด้านบนของการตั้งค่า
+เปิด VoiceOver แล้วแอปจะแนะนำตัวด้วยเสียง
+สีปุ่มที่คุณเลือกจะแสดงตามนั้นเลย
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Chạm mũi tên cạnh tiêu đề để chọn danh mục.
+Thêm biểu tượng cho cụm từ và danh mục.
+Tìm nhanh mọi tùy chọn trong Cài đặt.
+Bật VoiceOver để nghe giới thiệu ngắn về app.
+Màu phím bạn chọn hiển thị đúng như vậy.
+```
+
+### App Store (French, fr-FR)
+
+```
+La flèche du titre change de catégorie.
+Ajoutez des icônes aux phrases et catégories.
+Une recherche en haut des Réglages.
+Avec VoiceOver, l'app se présente à voix.
+Vos touches gardent la couleur choisie.
+```
+
+### App Store (Italian, it)
+
+```
+Cambia categoria con la freccia del titolo.
+Aggiungi icone a frasi e categorie.
+Cerca qualsiasi opzione in Impostazioni.
+Con VoiceOver l'app si presenta a voce.
+Il colore tasti scelto appare così com'è.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+Escolha a categoria pela seta do título.
+Adicione ícones a frases e categorias.
+Busque qualquer opção nos Ajustes.
+Com o VoiceOver, o app se apresenta em voz.
+A cor das teclas escolhida aparece como é.
+```
+
+### App Store (Czech, cs)
+
+```
+Kategorii vyberete šipkou u nadpisu.
+Frázím a kategoriím můžete dát ikony.
+V Nastavení teď můžete vyhledávat.
+S VoiceOverem vás aplikace krátce provede.
+Vybraná barva kláves se zobrazí přesně.
+```
+
+### App Store (Danish, da)
+
+```
+Vælg kategori med pilen ved titlen.
+Giv dine fraser og kategorier ikoner.
+Søg efter indstillinger øverst.
+Med VoiceOver får du en kort talt rundtur.
+Din valgte tastfarve vises nu præcist.
+```
+
+### App Store (Greek, el)
+
+```
+Επιλέξτε κατηγορία με το βέλος του τίτλου.
+Εικονίδια για φράσεις και κατηγορίες.
+Αναζήτηση στις Ρυθμίσεις.
+Με το VoiceOver ακούτε μια σύντομη ξενάγηση.
+Τα πλήκτρα κρατούν το χρώμα που διαλέγετε.
+```
+
+### App Store (Finnish, fi)
+
+```
+Valitse kategoria otsikon nuolesta.
+Lisää kuvakkeita fraaseihin ja kategorioihin.
+Etsi asetuksia hakukentästä.
+VoiceOver esittelee apin lyhyesti ääneen.
+Valitsemasi näppäinväri näkyy sellaisenaan.
+```
+
+### App Store (Indonesian, id)
+
+```
+Pilih kategori lewat panah di samping judul.
+Beri ikon pada frasa dan kategori.
+Cari opsi apa pun di Pengaturan.
+Dengan VoiceOver, app memperkenalkan diri.
+Warna tombol pilihanmu tampil apa adanya.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Velg kategori med pilen ved tittelen.
+Gi frasene og kategoriene dine ikoner.
+Søk etter innstillinger øverst.
+Med VoiceOver får du en kort talt omvisning.
+Tastefargen du velger vises nå nøyaktig.
+```
+
+### App Store (Dutch, nl)
+
+```
+Kies een categorie via de pijl bij de titel.
+Geef je fragmenten en categorieën een icoon.
+Zoek snel in Instellingen.
+Met VoiceOver krijg je een korte rondleiding.
+Je gekozen toetskleur blijft precies zo.
+```
+
+### App Store (Polish, pl)
+
+```
+Kategorię wybierzesz strzałką przy tytule.
+Dodawaj ikony do fraz i kategorii.
+Szukaj opcji na górze Ustawień.
+Z VoiceOver aplikacja krótko się przedstawi.
+Wybrany kolor klawiszy widać bez zmian.
+```
+
+### App Store (Swedish, sv)
+
+```
+Välj kategori med pilen vid rubriken.
+Ge dina fraser och kategorier ikoner.
+Sök bland inställningarna högst upp.
+Med VoiceOver får du en kort talad rundtur.
+Tangentfärgen du väljer visas nu exakt.
+```
+
+### App Store (Turkish, tr)
+
+```
+Kategoriyi başlıktaki oktan seç.
+İfadelere ve kategorilere simge ekle.
+Ayarlar'da istediğin seçeneği ara.
+VoiceOver ile uygulama kendini sesle tanıtır.
+Seçtiğin tuş rengi artık aynen görünür.
+```
+
 ## 5.1.21
 
 ### 앱스토어 (한국어)
