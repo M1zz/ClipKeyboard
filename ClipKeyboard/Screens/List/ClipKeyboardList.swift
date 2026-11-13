@@ -683,7 +683,7 @@ struct ClipKeyboardList: View {
     }
 
     /// 제목과 그 오른쪽 아래 화살표. 누르면 카테고리 고르기 시트가 뜬다.
-    /// 왼쪽 위, 오른쪽 단추들과 같은 줄에 선다.
+    /// 왼쪽 위, 오른쪽 + 단추와 같은 줄에 선다.
     private func categoryTitleButton() -> some View {
         Button {
             HapticManager.shared.selection()
@@ -2557,12 +2557,11 @@ struct ClipKeyboardList: View {
         //    자리는 차지해서, 시스템이 바가 넘친다고 보고 오른쪽에 ⋯ 오버플로 버튼을
         //    하나 더 만들어 버린다(⋯ 가 두 개로 보였던 원인).
         // 카테고리를 보고 있으면 제목 오른쪽에 아래 화살표. 누르면 카테고리 고르기 시트.
-        // ⚠️ 제목 단추는 왼쪽 위 한 자리에만 세우고, 시스템 제목은 걷어 낸다(`hidesSystemTitle`).
-        //    `.largeTitle` · `.title` 자리에 세웠더니 iOS 버전마다 두 자리가 함께 보이거나
-        //    시스템 큰 제목과 겹쳐, 같은 제목이 두 번 섰다.
+        // ⚠️ 제목 단추는 `.largeTitle` 한 자리에만 세운다. `.title` 자리에도 세웠더니
+        //    기기에서 두 자리가 함께 보여 같은 제목이 두 번 섰다.
         if isInCategory {
             ToolbarItem(placement: .largeTitle) {
-                // 큰 제목 자리는 가운데로 모아 세운다. 시스템 큰 제목처럼 왼쪽에 붙인다.
+                // 이 자리는 그냥 두면 가운데에 선다. 시스템 큰 제목처럼 왼쪽에 붙인다.
                 categoryTitleButton().frame(maxWidth: .infinity, alignment: .leading)
             }
                 .sharedBackgroundVisibility(.hidden)
@@ -3101,4 +3100,3 @@ private struct StaleScrollOffsetReset: ViewModifier {
             }
     }
 }
-
