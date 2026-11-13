@@ -40,7 +40,7 @@ final class FullAccessStatus: ObservableObject {
     @Published private(set) var state: State = .off
 
     /// 설정을 열어 준 뒤 이만큼은 "확인 중" 으로 둔다. 그 안에 키보드를 안 띄웠으면 꺼진 것으로 돌아간다.
-    static let checkingWindow: TimeInterval = 10 * 60
+    nonisolated static let checkingWindow: TimeInterval = 10 * 60
 
     private init() {
         refresh()
