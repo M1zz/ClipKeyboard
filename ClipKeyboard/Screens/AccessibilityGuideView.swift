@@ -3,7 +3,7 @@
 //  ClipKeyboard
 //
 //  ClipKeyboard가 지원하는 손쉬운 사용 기능 안내.
-//  VoiceOver 감지 시 자동 표시, 설정에서도 언제든 진입 가능.
+//  설정 ▸ 사용법과 문의 ▸ 손쉬운 사용에서 연다. VoiceOver 를 켜고 처음 들어오면 화면 대신 소리로 짧게 안내한다(`VoiceOverWelcome`).
 //
 
 import SwiftUI

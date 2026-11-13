@@ -369,6 +369,7 @@
 		TIMESAVEDBUILDAPP0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
 		TIMESAVEDBUILDEXT0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
 		TIPB63195257997906A9F481 /* ClipKeyboardRoadmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIPF06A9F4812181311ACE3B /* ClipKeyboardRoadmap.swift */; };
+		6827FE693A7E439E96D2F3DF /* VoiceOverWelcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF25DE5FA302478983ED23BA /* VoiceOverWelcome.swift */; };
 		TIPBBB9BEBE37E767FF37A77 /* TipAskBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIPF7FF37A77792818434BB6 /* TipAskBanner.swift */; };
 		TOKENFMT0BUILD0000000001 /* TokenFormatSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TOKENFMT0FILE00000000001 /* TokenFormatSettingsView.swift */; };
 		TPH00012F0000000000000001 /* TemplatePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPH00022F0000000000000002 /* TemplatePlaceholder.swift */; };
@@ -801,6 +802,7 @@
 		TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEquivalent.swift; sourceTree = "<group>"; };
 		TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSavedModel.swift; sourceTree = "<group>"; };
 		TIPF06A9F4812181311ACE3B /* ClipKeyboardRoadmap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardRoadmap.swift; sourceTree = "<group>"; };
+		CF25DE5FA302478983ED23BA /* VoiceOverWelcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOverWelcome.swift; sourceTree = "<group>"; };
 		TIPF7FF37A77792818434BB6 /* TipAskBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipAskBanner.swift; sourceTree = "<group>"; };
 		TOKENFMT0FILE00000000001 /* TokenFormatSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenFormatSettingsView.swift; sourceTree = "<group>"; };
 		TPH00022F0000000000000002 /* TemplatePlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePlaceholder.swift; sourceTree = "<group>"; };
@@ -1175,6 +1177,7 @@
 				AIS0FILE0000000000000001 /* AppleIntelligenceService.swift */,
 				FBS0FILE0000000000000002 /* ClipKeyboardSpec.swift */,
 				TIPF06A9F4812181311ACE3B /* ClipKeyboardRoadmap.swift */,
+				CF25DE5FA302478983ED23BA /* VoiceOverWelcome.swift */,
 				6A875E559BF8538E7E299AB9 /* DraftStore.swift */,
 				4499B9EF970CED3D7A1C04AA /* DataWipeService.swift */,
 				555EC1F2E8D8CBD56CFD77FF /* RemoteFlagsService.swift */,
@@ -1981,6 +1984,7 @@
 				AIS0BUILD000000000000001 /* AppleIntelligenceService.swift in Sources */,
 				FBS0BUILD000000000000002 /* ClipKeyboardSpec.swift in Sources */,
 				TIPB63195257997906A9F481 /* ClipKeyboardRoadmap.swift in Sources */,
+				6827FE693A7E439E96D2F3DF /* VoiceOverWelcome.swift in Sources */,
 				AIV0BUILD000000000000003 /* AISettingsView.swift in Sources */,
 				TOKENFMT0BUILD0000000001 /* TokenFormatSettingsView.swift in Sources */,
 				AIC0BUILD000000000000004 /* AIComponents.swift in Sources */,

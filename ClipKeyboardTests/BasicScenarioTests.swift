@@ -819,6 +819,24 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertNil(SettingsCategory.usage.summary)
     }
 
+    // MARK: - VoiceOver 소리 안내
+
+    /// VoiceOver 를 켜고 들어온 사람에게만, 처음 한 번 저절로 읽는다. 다시 듣는 길을 안내 안에서 말한다.
+    func test_VoiceOver_를_켜고_들어오면_한_번만_소리로_안내하고_다시_듣는_길을_말한다() {
+        XCTAssertTrue(VoiceOverWelcome.isDue(voiceOverRunning: true, heard: false))
+        XCTAssertFalse(VoiceOverWelcome.isDue(voiceOverRunning: true, heard: true))
+        // 눈으로 보는 사람(VoiceOver 꺼짐)에게는 아무것도 하지 않는다.
+        XCTAssertFalse(VoiceOverWelcome.isDue(voiceOverRunning: false, heard: false))
+
+        let copyFirst = VoiceOverWelcome.message(cardTapOpensMenu: false)
+        let menuFirst = VoiceOverWelcome.message(cardTapOpensMenu: true)
+        // 안내 끝에서 다시 듣는 동작의 이름을 그대로 말해야 찾아간다.
+        XCTAssertTrue(copyFirst.contains(VoiceOverWelcome.replayActionName))
+        XCTAssertTrue(menuFirst.contains(VoiceOverWelcome.replayActionName))
+        // 카드를 두 번 탭하면 무엇이 되는지는 설정을 따른다.
+        XCTAssertNotEqual(copyFirst, menuFirst)
+    }
+
     /// 키보드의 단축어 키를 누른 것과 같다(`KeyboardView.insertMemo` 가 쏘는 알림 그대로).
     /// 쓰면 지우기면 그쪽과 똑같이 윗줄 하나만 쏜다.
     private func tapOnKeyboard(_ memo: Memo) {

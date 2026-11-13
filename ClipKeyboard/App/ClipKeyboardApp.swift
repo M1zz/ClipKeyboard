@@ -15,7 +15,6 @@ struct ClipKeyboardApp: App {
     @StateObject private var storeManager = StoreManager.shared
     @Environment(\.scenePhase) private var scenePhase
     @State private var showReviewRequest = false
-    @State private var showAccessibilityGuide = false
     /// 기존 사용자에게 데모 샘플 체험을 1회 물어보는 알림
     @State private var showDemoSampleOffer = false
     /// 새 기기 첫 실행에서 "기존 메모를 불러올 수 있어요"를 1회 안내
@@ -1397,9 +1396,6 @@ struct ClipKeyboardApp: App {
                     ReviewRequestView()
                         .presentationDetents([.medium])
                 }
-                .sheet(isPresented: $showAccessibilityGuide) {
-                    AccessibilityGuideView()
-                }
                 .alert(
                     NSLocalizedString("이런 기능도 있어요", comment: "Demo samples offer title"),
                     isPresented: $showDemoSampleOffer
@@ -1582,26 +1578,25 @@ struct ClipKeyboardApp: App {
     ///    지금 이 사람에게 가장 필요한 안내라서다.
     private func checkVoiceOverAndNudge() {
         guard accessibilityGuideDue() else { return }
-        // 리뷰 시트와 겹치지 않도록 약간 지연
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            presentAccessibilityGuide()
-        }
+        presentAccessibilityGuide()
     }
-
-    private static let accessibilityGuideShownKey = "a11y_guide_nudge_shown_v1"
 
     private func accessibilityGuideDue() -> Bool {
         #if os(iOS)
-        return UIAccessibility.isVoiceOverRunning
-            && !UserDefaults.standard.bool(forKey: Self.accessibilityGuideShownKey)
+        return VoiceOverWelcome.isDue(voiceOverRunning: UIAccessibility.isVoiceOverRunning,
+                                      heard: UserDefaults.standard.bool(forKey: VoiceOverWelcome.heardKey))
         #else
         return false
         #endif
     }
 
+    /// VoiceOver 로만 듣는 짧은 안내(`VoiceOverWelcome`). 화면에는 아무것도 띄우지 않는다.
+    /// 화면이 바뀌며 VoiceOver 가 첫 줄을 읽는 것과 겹치지 않게 조금 기다렸다가 그 뒤에 잇는다.
     private func presentAccessibilityGuide() {
-        UserDefaults.standard.set(true, forKey: Self.accessibilityGuideShownKey)
-        showAccessibilityGuide = true
+        UserDefaults.standard.set(true, forKey: VoiceOverWelcome.heardKey)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            VoiceOverWelcome.speakWithCurrentSettings()
+        }
     }
 
     // MARK: - 사용 통계 (사람이 앱을 앞으로 가져온 순간)

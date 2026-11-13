@@ -12469,5 +12469,29 @@
   "맥, 메뉴 막대": {
     "v": "Mac, Menüleiste",
     "src": "dbf4f07cee"
+  },
+  "앱 안내 다시 듣기": {
+    "v": "App-Anleitung erneut anhören",
+    "src": "c11d632622"
+  },
+  "클립키보드예요. 자주 쓰는 글을 단축어로 담아 두고 키보드에서 바로 넣는 앱이에요. 화면 맨 위에는 지금 보는 카테고리 이름이 있고, 두 번 탭하면 다른 카테고리를 고를 수 있어요. 오른쪽 위 추가 단추로 새 단축어를 만들어요.": {
+    "v": "Das ist ClipKeyboard. Speichere Text, den du oft brauchst, als Textbausteine und füge ihn direkt über die Tastatur ein. Oben auf dem Bildschirm steht der Name der Kategorie, die du gerade ansiehst. Tippe zweimal darauf, um eine andere Kategorie zu wählen. Mit der Taste Hinzufügen oben rechts legst du einen neuen Textbaustein an.",
+    "src": "7ca620198a"
+  },
+  "그 아래로 단축어가 이어져요. 두 번 탭하면 편집과 삭제 메뉴가 열리고, 위아래로 쓸어 복사를 고르면 복사돼요.": {
+    "v": "Darunter folgen deine Textbausteine. Tippe zweimal, um das Menü zum Bearbeiten und Löschen zu öffnen, oder wische nach oben oder unten und wähle Kopieren.",
+    "src": "315b62d8db"
+  },
+  "그 아래로 단축어가 이어져요. 두 번 탭하면 복사되고, 위아래로 쓸어 더 보기를 고르면 편집과 삭제를 할 수 있어요.": {
+    "v": "Darunter folgen deine Textbausteine. Tippe zweimal, um einen zu kopieren, oder wische nach oben oder unten und wähle Mehr, um ihn zu bearbeiten oder zu löschen.",
+    "src": "6e6877902e"
+  },
+  "맨 아래 탭에는 목록, 설정, 검색이 있어요.": {
+    "v": "Unten findest du die Tabs Liste, Einstellungen und Suche.",
+    "src": "dcf195b882"
+  },
+  "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요.": {
+    "v": "Um dies noch einmal zu hören, wische oben beim Namen der Kategorie nach oben oder unten und wähle %@.",
+    "src": "03b66505cf"
   }
 }

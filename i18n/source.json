@@ -4313,6 +4313,18 @@
     "comment": "Receipt: remaining shortcuts line",
     "h": "4f976d759d"
   },
+  "그 아래로 단축어가 이어져요. 두 번 탭하면 복사되고, 위아래로 쓸어 더 보기를 고르면 편집과 삭제를 할 수 있어요.": {
+    "ko": "그 아래로 단축어가 이어져요. 두 번 탭하면 복사되고, 위아래로 쓸어 더 보기를 고르면 편집과 삭제를 할 수 있어요.",
+    "en": "Your phrases are listed below. Double tap one to copy it, or swipe up or down to choose More to edit or delete it.",
+    "comment": "VoiceOver-only spoken app guide, part 2: double tap a phrase to copy it, the More action opens edit and delete",
+    "h": "6e6877902e"
+  },
+  "그 아래로 단축어가 이어져요. 두 번 탭하면 편집과 삭제 메뉴가 열리고, 위아래로 쓸어 복사를 고르면 복사돼요.": {
+    "ko": "그 아래로 단축어가 이어져요. 두 번 탭하면 편집과 삭제 메뉴가 열리고, 위아래로 쓸어 복사를 고르면 복사돼요.",
+    "en": "Your phrases are listed below. Double tap one to open the edit and delete menu, or swipe up or down to choose Copy.",
+    "comment": "VoiceOver-only spoken app guide, part 2 when the user swapped tap and long press: double tap opens the menu, the Copy action copies",
+    "h": "315b62d8db"
+  },
   "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
     "ko": "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.",
     "en": "You can't use that name. It already exists or matches a built-in tab.",
@@ -7216,6 +7228,12 @@
     "en": "Use the bottom strip",
     "comment": "Only-this-keyboard guide: using the bottom strip section",
     "h": "cb8821af76"
+  },
+  "맨 아래 탭에는 목록, 설정, 검색이 있어요.": {
+    "ko": "맨 아래 탭에는 목록, 설정, 검색이 있어요.",
+    "en": "The tabs at the bottom are List, Settings, and Search.",
+    "comment": "VoiceOver-only spoken app guide, part 3: the bottom tabs are List, Settings and Search",
+    "h": "dcf195b882"
   },
   "먹": {
     "ko": "먹",
@@ -11327,6 +11345,12 @@
     "comment": "Changelog 5.0.0 typing",
     "h": "af3721f47c"
   },
+  "앱 안내 다시 듣기": {
+    "ko": "앱 안내 다시 듣기",
+    "en": "Hear App Guide Again",
+    "comment": "VoiceOver custom action on the list title: hear the short spoken app guide again",
+    "h": "c11d632622"
+  },
   "앱 안에서는 Face ID로 열립니다. 키보드에서만 번호를 묻는 이유는, iOS가 키보드에 Face ID를 열어 주지 않기 때문이에요.": {
     "ko": "앱 안에서는 Face ID로 열립니다. 키보드에서만 번호를 묻는 이유는, iOS가 키보드에 Face ID를 열어 주지 않기 때문이에요.",
     "en": "Inside the app it opens with Face ID. The keyboard asks for a number because iOS doesn't give keyboards access to Face ID.",
@@ -12550,6 +12574,12 @@
     "en": "Restore to this point?",
     "comment": "Restore confirm title",
     "h": "a5d51c1ec0"
+  },
+  "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요.": {
+    "ko": "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요.",
+    "en": "To hear this again, swipe up or down on the category name at the top and choose %@.",
+    "comment": "VoiceOver-only spoken app guide, last part: how to hear it again. %@ is the action name 'Hear app guide again'",
+    "h": "03b66505cf"
   },
   "이 앱에는 서버가 없어요. 계좌번호도 주민등록번호도 이 폰 안에만 있고, 저희조차 볼 수 없습니다. 털릴 서버가 없으니 털릴 방법도 없어요.": {
     "ko": "이 앱에는 서버가 없어요. 계좌번호도 주민등록번호도 이 폰 안에만 있고, 저희조차 볼 수 없습니다. 털릴 서버가 없으니 털릴 방법도 없어요.",
@@ -16126,6 +16156,12 @@
     "en": "Remove everything except ClipKeyboard",
     "comment": "Only-this-keyboard guide: remove the other keyboards",
     "h": "a0a9a38d77"
+  },
+  "클립키보드예요. 자주 쓰는 글을 단축어로 담아 두고 키보드에서 바로 넣는 앱이에요. 화면 맨 위에는 지금 보는 카테고리 이름이 있고, 두 번 탭하면 다른 카테고리를 고를 수 있어요. 오른쪽 위 추가 단추로 새 단축어를 만들어요.": {
+    "ko": "클립키보드예요. 자주 쓰는 글을 단축어로 담아 두고 키보드에서 바로 넣는 앱이에요. 화면 맨 위에는 지금 보는 카테고리 이름이 있고, 두 번 탭하면 다른 카테고리를 고를 수 있어요. 오른쪽 위 추가 단추로 새 단축어를 만들어요.",
+    "en": "This is ClipKeyboard. Save text you use often as phrases, then insert them right from the keyboard. At the top of the screen is the name of the category you are viewing. Double tap it to choose another category. Use the Add button at the top right to make a new phrase.",
+    "comment": "VoiceOver-only spoken app guide, part 1: what the app is and the top of the list screen. Spoken, never shown. Keep it natural for listening",
+    "h": "7ca620198a"
   },
   "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.": {
     "ko": "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.",

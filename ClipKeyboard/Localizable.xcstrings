@@ -447744,6 +447744,828 @@
           }
         }
       }
+    },
+    "앱 안내 다시 듣기" : {
+      "comment" : "VoiceOver custom action on the list title: hear the short spoken app guide again",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hear App Guide Again"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再听一遍 App 介绍"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再聽一遍 App 介紹"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uygulama Rehberini Tekrar Dinle"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoor appuitleg opnieuw"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリの案内をもう一度聞く"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App-Anleitung erneut anhören"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прослушать подсказки снова"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posłuchaj przewodnika ponownie"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kuuntele opas uudelleen"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riascolta la guida"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réécouter le guide"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ακρόαση οδηγού ξανά"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvir o guia do app de novo"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nghe lại hướng dẫn"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Znovu přehrát průvodce"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dengarkan Panduan Aplikasi Lagi"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hør appguiden igen"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ฟังคำแนะนำแอปอีกครั้ง"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hör appguiden igen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escuchar la guía de nuevo"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hør appguiden igjen"
+          }
+        }
+      }
+    },
+    "클립키보드예요. 자주 쓰는 글을 단축어로 담아 두고 키보드에서 바로 넣는 앱이에요. 화면 맨 위에는 지금 보는 카테고리 이름이 있고, 두 번 탭하면 다른 카테고리를 고를 수 있어요. 오른쪽 위 추가 단추로 새 단축어를 만들어요." : {
+      "comment" : "VoiceOver-only spoken app guide, part 1: what the app is and the top of the list screen. Spoken, never shown. Keep it natural for listening",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is ClipKeyboard. Save text you use often as phrases, then insert them right from the keyboard. At the top of the screen is the name of the category you are viewing. Double tap it to choose another category. Use the Add button at the top right to make a new phrase."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "这里是剪贴键盘。把常用的文字存成短语，就能在键盘上直接输入。屏幕最上方是当前分类的名称，轻点两下可以换别的分类。右上角的添加按钮可以新建短语。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這裡是剪貼鍵盤。把常用的文字存成短語，就能在鍵盤上直接輸入。螢幕最上方是當前分類的名稱，輕點兩下可以換別的分類。右上角的新增按鈕可以新建短語。"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Burası ClipKeyboard. Sık kullandığınız metinleri ifade olarak kaydeder, klavyeden doğrudan eklersiniz. Ekranın en üstünde baktığınız kategorinin adı yer alır. Başka bir kategori seçmek için çift dokunun. Sağ üstteki Ekle düğmesiyle yeni bir ifade oluşturun."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit is ClipKeyboard. Bewaar tekst die je vaak gebruikt als fragmenten en voeg die direct in vanaf het toetsenbord. Bovenaan het scherm staat de naam van de categorie die je bekijkt. Tik twee keer erop om een andere categorie te kiezen. Met de knop Voeg toe rechtsboven maak je een nieuw fragment."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipKeyboardです。よく使う文を定型文として保存し、キーボードからすぐに入力できるアプリです。画面の一番上には、いま見ているカテゴリ名があり、ダブルタップすると別のカテゴリを選べます。右上の追加ボタンで、新しい定型文を作れます。"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das ist ClipKeyboard. Speichere Text, den du oft brauchst, als Textbausteine und füge ihn direkt über die Tastatur ein. Oben auf dem Bildschirm steht der Name der Kategorie, die du gerade ansiehst. Tippe zweimal darauf, um eine andere Kategorie zu wählen. Mit der Taste Hinzufügen oben rechts legst du einen neuen Textbaustein an."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это ClipKeyboard. Сохраняйте часто используемый текст как фразы и вставляйте их прямо с клавиатуры. Вверху экрана указано название категории, которую вы смотрите. Коснитесь его дважды, чтобы выбрать другую категорию. Кнопкой «Добавить» вверху справа создаются новые фразы."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To ClipKeyboard. Zapisuj często używane teksty jako frazy i wstawiaj je prosto z klawiatury. U góry ekranu jest nazwa oglądanej kategorii. Stuknij ją dwukrotnie, aby wybrać inną. Przyciskiem Dodaj w prawym górnym rogu utworzysz nową frazę."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tämä on ClipKeyboard. Tallenna usein käyttämäsi tekstit fraaseiksi ja lisää ne suoraan näppäimistöltä. Näytön ylälaidassa on kategorian nimi, jota katsot. Kaksoisnapauta sitä valitaksesi toisen kategorian. Luo uusi fraasi oikean yläkulman Lisää-painikkeella."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa è l'app ClipKeyboard. Salva i testi che usi spesso come frasi e inseriscili direttamente dalla tastiera. In alto nella schermata c'è il nome della categoria che stai guardando. Tocca due volte per sceglierne un'altra. Con il pulsante Aggiungi in alto a destra crei una nuova frase."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voici ClipKeyboard. Enregistrez vos textes fréquents comme phrases, puis insérez-les directement depuis le clavier. En haut de l’écran se trouve le nom de la catégorie affichée. Touchez deux fois pour en choisir une autre. Le bouton Ajouter, en haut à droite, crée une nouvelle phrase."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Αυτό είναι το ClipKeyboard. Αποθηκεύστε τα κείμενα που χρησιμοποιείτε συχνά ως φράσεις και εισαγάγετε τα απευθείας από το πληκτρολόγιο. Στην κορυφή της οθόνης βλέπετε το όνομα της κατηγορίας που προβάλλεται. Πατήστε το δύο φορές για να επιλέξετε άλλη κατηγορία. Με το κουμπί προσθήκης πάνω δεξιά δημιουργείτε μια νέα φράση."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este é o ClipKeyboard. Guarde como frases os textos que você usa com frequência e insira direto pelo teclado. No topo da tela fica o nome da categoria que você está vendo. Toque duas vezes nele para escolher outra categoria. Use o botão Adicionar, no canto superior direito, para criar uma nova frase."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đây là ClipKeyboard. Bạn lưu những đoạn văn hay dùng thành cụm từ, rồi chèn ngay từ bàn phím. Ở đầu màn hình là tên danh mục bạn đang xem. Nhấn đúp để chọn danh mục khác. Dùng nút Thêm ở phía trên bên phải để tạo cụm từ mới."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toto je ClipKeyboard. Často používané texty si uložte jako fráze a vkládejte je přímo z klávesnice. Nahoře na obrazovce je název kategorie, kterou právě máte otevřenou. Dvojitým klepnutím zvolíte jinou kategorii. Tlačítkem Přidat vpravo nahoře vytvoříte novou frázi."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ini ClipKeyboard. Simpan teks yang sering Anda pakai sebagai frasa, lalu sisipkan langsung dari keyboard. Di bagian atas layar ada nama kategori yang sedang Anda lihat. Ketuk dua kali untuk memilih kategori lain. Gunakan tombol Tambah di kanan atas untuk membuat frasa baru."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det er ClipKeyboard. Gem tekster, du bruger ofte, som fraser, og indsæt dem direkte fra tastaturet. Øverst på skærmen står navnet på den kategori, du ser på. Dobbelttryk på det for at vælge en anden kategori. Brug knappen Tilføj øverst til højre for at oprette en ny frase."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "นี่คือ ClipKeyboard เก็บข้อความที่ใช้บ่อยไว้เป็นข้อความด่วน แล้วใส่จากคีย์บอร์ดได้ทันที ด้านบนของหน้าจอคือชื่อหมวดหมู่ที่กำลังดู แตะสองครั้งเพื่อเลือกหมวดหมู่อื่น ปุ่มเพิ่มที่มุมขวาบนใช้สร้างข้อความด่วนใหม่"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det här är ClipKeyboard. Spara text du ofta använder som fraser och infoga dem direkt från tangentbordet. Högst upp på skärmen står namnet på kategorin du tittar på. Tryck två gånger på det för att välja en annan kategori. Använd knappen Lägg till uppe till höger för att skapa en ny fras."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto es ClipKeyboard. Guarda como frases el texto que usas seguido y escríbelo directo desde el teclado. Arriba en la pantalla está el nombre de la categoría que estás viendo. Toca dos veces para elegir otra categoría. Con el botón Agregar, arriba a la derecha, creas una frase nueva."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dette er ClipKeyboard. Lagre tekst du bruker ofte som fraser, og sett dem inn direkte fra tastaturet. Øverst på skjermen står navnet på kategorien du ser på. Dobbelttrykk på det for å velge en annen kategori. Bruk Legg til-knappen øverst til høyre for å lage en ny frase."
+          }
+        }
+      }
+    },
+    "그 아래로 단축어가 이어져요. 두 번 탭하면 편집과 삭제 메뉴가 열리고, 위아래로 쓸어 복사를 고르면 복사돼요." : {
+      "comment" : "VoiceOver-only spoken app guide, part 2 when the user swapped tap and long press: double tap opens the menu, the Copy action copies",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your phrases are listed below. Double tap one to open the edit and delete menu, or swipe up or down to choose Copy."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下面是你的短语。轻点两下会打开编辑和删除菜单，上下轻扫选择“复制”即可复制。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下面是你的短語。輕點兩下會開啟編輯和刪除菜單，上下輕掃選擇「複製」即可複製。"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altında ifadeler sıralanır. Düzenleme ve silme menüsü için çift dokunun. Kopyalamak için yukarı ya da aşağı kaydırıp Kopyala'yı seçin."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daaronder staan je fragmenten. Tik twee keer om het menu voor bewerken en verwijderen te openen, of veeg omhoog of omlaag en kies Kopieer."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "その下に定型文が並びます。ダブルタップで編集と削除のメニューが開きます。上下にスワイプして「コピー」を選ぶとコピーできます。"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Darunter folgen deine Textbausteine. Tippe zweimal, um das Menü zum Bearbeiten und Löschen zu öffnen, oder wische nach oben oder unten und wähle Kopieren."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ниже идут ваши фразы. Дважды коснитесь фразы, чтобы открыть меню изменения и удаления, или смахните вверх или вниз и выберите «Копировать»."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poniżej są Twoje frazy. Stuknij dwukrotnie, aby otworzyć menu edycji i usuwania. Przesuń w górę lub w dół i wybierz Kopiuj, aby skopiować."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fraasit näkyvät sen alla. Kaksoisnapauta avataksesi muokkaus- ja poistovalikon tai pyyhkäise ylös tai alas ja valitse Kopioi."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sotto trovi le tue frasi. Tocca due volte per aprire il menu di modifica ed eliminazione, oppure scorri in su o in giù e scegli Copia."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos phrases se trouvent en dessous. Touchez deux fois pour ouvrir le menu de modification et de suppression, ou balayez vers le haut ou le bas pour choisir Copier."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Οι φράσεις εμφανίζονται από κάτω. Πατήστε δύο φορές για να ανοίξει το μενού επεξεργασίας και διαγραφής ή σύρετε πάνω ή κάτω και επιλέξτε Αντιγραφή."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As frases ficam logo abaixo. Toque duas vezes em uma para abrir o menu de editar e excluir, ou deslize para cima ou para baixo e escolha Copiar."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Các cụm từ của bạn nằm bên dưới. Nhấn đúp để mở menu sửa và xóa, hoặc vuốt lên xuống rồi chọn Sao chép."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pod tím následují fráze. Dvojitým klepnutím otevřete nabídku úprav a mazání, přejetím nahoru nebo dolů zvolíte Kopírovat."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frasa Anda tersusun di bawahnya. Ketuk dua kali untuk membuka menu edit dan hapus, atau geser ke atas atau bawah lalu pilih Salin."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dine fraser er listet herunder. Dobbelttryk på en for at åbne menuen med redigering og sletning, eller stryg op eller ned og vælg Kopiér."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ข้อความด่วนจะเรียงต่อจากนี้ แตะสองครั้งเพื่อเปิดเมนูแก้ไขและลบ หรือปัดขึ้นลงแล้วเลือกคัดลอก"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dina fraser listas under. Tryck två gånger för att öppna menyn för redigering och radering, eller svep uppåt eller nedåt och välj Kopiera."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debajo están tus frases. Toca dos veces una para abrir el menú de editar y eliminar, o desliza hacia arriba o abajo y elige Copiar."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fraser vises nedenfor. Dobbelttrykk på en for å åpne menyen for redigering og sletting, eller sveip opp eller ned og velg Kopier."
+          }
+        }
+      }
+    },
+    "그 아래로 단축어가 이어져요. 두 번 탭하면 복사되고, 위아래로 쓸어 더 보기를 고르면 편집과 삭제를 할 수 있어요." : {
+      "comment" : "VoiceOver-only spoken app guide, part 2: double tap a phrase to copy it, the More action opens edit and delete",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your phrases are listed below. Double tap one to copy it, or swipe up or down to choose More to edit or delete it."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下面是你的短语。轻点两下即可复制，上下轻扫选择“更多”可以编辑或删除。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下面是你的短語。輕點兩下即可複製，上下輕掃選擇「更多」可以編輯或刪除。"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altında ifadeler sıralanır. Kopyalamak için çift dokunun. Düzenlemek veya silmek için yukarı ya da aşağı kaydırıp Daha Fazla'yı seçin."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daaronder staan je fragmenten. Tik twee keer om een fragment te kopiëren, of veeg omhoog of omlaag en kies Meer om te bewerken of te verwijderen."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "その下に定型文が並びます。ダブルタップでコピー、上下にスワイプして「その他」を選ぶと、編集と削除ができます。"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Darunter folgen deine Textbausteine. Tippe zweimal, um einen zu kopieren, oder wische nach oben oder unten und wähle Mehr, um ihn zu bearbeiten oder zu löschen."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ниже идут ваши фразы. Дважды коснитесь фразы, чтобы скопировать её, или смахните вверх или вниз и выберите «Ещё», чтобы изменить или удалить."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poniżej są Twoje frazy. Stuknij dwukrotnie, aby skopiować. Przesuń w górę lub w dół i wybierz Więcej, aby edytować lub usunąć."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fraasit näkyvät sen alla. Kopioi kaksoisnapauttamalla tai pyyhkäise ylös tai alas ja valitse Lisää, niin voit muokata tai poistaa."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sotto trovi le tue frasi. Tocca due volte per copiare, oppure scorri in su o in giù e scegli Altro per modificare o eliminare."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos phrases se trouvent en dessous. Touchez deux fois pour copier, ou balayez vers le haut ou le bas pour choisir Plus et modifier ou supprimer."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Οι φράσεις εμφανίζονται από κάτω. Πατήστε δύο φορές για αντιγραφή ή σύρετε πάνω ή κάτω και επιλέξτε Περισσότερα για επεξεργασία ή διαγραφή."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As frases ficam logo abaixo. Toque duas vezes em uma para copiar, ou deslize para cima ou para baixo e escolha Mais para editar ou excluir."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Các cụm từ của bạn nằm bên dưới. Nhấn đúp để sao chép, hoặc vuốt lên xuống rồi chọn Thêm để sửa hoặc xóa."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pod tím následují fráze. Dvojitým klepnutím frázi zkopírujete, přejetím nahoru nebo dolů zvolíte Více a můžete ji upravit nebo smazat."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frasa Anda tersusun di bawahnya. Ketuk dua kali untuk menyalin, atau geser ke atas atau bawah lalu pilih Lainnya untuk mengedit atau menghapus."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dine fraser er listet herunder. Dobbelttryk på en for at kopiere den, eller stryg op eller ned og vælg Mere for at redigere eller slette den."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ข้อความด่วนจะเรียงต่อจากนี้ แตะสองครั้งเพื่อคัดลอก หรือปัดขึ้นลงแล้วเลือกเพิ่มเติมเพื่อแก้ไขและลบ"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dina fraser listas under. Tryck två gånger för att kopiera, eller svep uppåt eller nedåt och välj Mer för att redigera eller radera."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debajo están tus frases. Toca dos veces una para copiarla, o desliza hacia arriba o abajo y elige Más para editarla o eliminarla."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fraser vises nedenfor. Dobbelttrykk på en for å kopiere den, eller sveip opp eller ned og velg Mer for å redigere eller slette den."
+          }
+        }
+      }
+    },
+    "맨 아래 탭에는 목록, 설정, 검색이 있어요." : {
+      "comment" : "VoiceOver-only spoken app guide, part 3: the bottom tabs are List, Settings and Search",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The tabs at the bottom are List, Settings, and Search."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最下方的标签是列表、设置和搜索。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最下方的標籤是列表、設定和搜尋。"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alttaki sekmeler Liste, Ayarlar ve Arama'dır."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De tabs onderaan zijn Lijst, Instellingen en Zoek."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一番下のタブは、リスト、設定、検索です。"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unten findest du die Tabs Liste, Einstellungen und Suche."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вкладки внизу: Список, Настройки и Поиск."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Na dole są karty: Lista, Ustawienia i Szukaj."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alareunan välilehdet ovat Lista, Asetukset ja Haku."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le schede in basso sono Elenco, Impostazioni e Cerca."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les onglets en bas sont Liste, Réglages et Recherche."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Οι καρτέλες στο κάτω μέρος είναι Λίστα, Ρυθμίσεις και Αναζήτηση."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As abas na parte de baixo são Lista, Ajustes e Busca."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Các tab ở dưới cùng gồm Danh sách, Cài đặt và Tìm kiếm."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dole jsou karty Seznam, Nastavení a Hledat."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tab paling bawah berisi Daftar, Pengaturan, dan Pencarian."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fanerne nederst er Liste, Indstillinger og Søgning."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แท็บด้านล่างมีรายการ การตั้งค่า และค้นหา"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Flikarna längst ned är Lista, Inställningar och Sök."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las pestañas de abajo son Lista, Ajustes y Búsqueda."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fanene nederst er Liste, Innstillinger og Søk."
+          }
+        }
+      }
+    },
+    "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요." : {
+      "comment" : "VoiceOver-only spoken app guide, last part: how to hear it again. %@ is the action name 'Hear app guide again'",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To hear this again, swipe up or down on the category name at the top and choose %@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "想再听一遍，在最上方的分类名称上上下轻扫，选择“%@”。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "想再聽一遍，在最上方的分類名稱上上下輕掃，選擇「%@」。"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bunu yeniden dinlemek için en üstteki kategori adında yukarı ya da aşağı kaydırıp %@ eylemini seçin."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wil je dit opnieuw horen? Veeg omhoog of omlaag op de categorienaam bovenaan en kies %@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この案内は、一番上のカテゴリ名の上で上下にスワイプして「%@」を選ぶと、もう一度聞けます。"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um dies noch einmal zu hören, wische oben beim Namen der Kategorie nach oben oder unten und wähle %@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы услышать это снова, смахните вверх или вниз на названии категории вверху и выберите «%@»."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aby posłuchać ponownie, przesuń w górę lub w dół na nazwie kategorii u góry i wybierz %@."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voit kuunnella tämän uudelleen pyyhkäisemällä ylös tai alas ylhäällä olevan kategorian nimen kohdalla ja valitsemalla %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per riascoltarla, scorri in su o in giù sul nome della categoria in alto e scegli %@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pour réécouter ce guide, balayez vers le haut ou le bas sur le nom de la catégorie en haut, puis choisissez %@."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Για να το ακούσετε ξανά, σύρετε πάνω ή κάτω στο όνομα της κατηγορίας στην κορυφή και επιλέξτε %@."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para ouvir este guia de novo, deslize para cima ou para baixo no nome da categoria no topo e escolha %@."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Để nghe lại, hãy vuốt lên xuống trên tên danh mục ở trên cùng rồi chọn %@."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Průvodce si můžete poslechnout znovu: přejeďte nahoru nebo dolů na názvu kategorie nahoře a zvolte %@."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Untuk mendengarnya lagi, geser ke atas atau bawah pada nama kategori di bagian atas, lalu pilih %@."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du kan høre den igen ved at stryge op eller ned på kategorinavnet øverst og vælge %@."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "หากต้องการฟังอีกครั้ง ให้ปัดขึ้นลงที่ชื่อหมวดหมู่ด้านบน แล้วเลือก %@"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om du vill höra det här igen sveper du uppåt eller nedåt på kategorinamnet högst upp och väljer %@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para escucharla otra vez, desliza hacia arriba o abajo sobre el nombre de la categoría en la parte superior y elige %@."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hvis du vil høre dette igjen, sveiper du opp eller ned på kategorinavnet øverst og velger %@."
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

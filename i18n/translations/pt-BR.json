@@ -12466,5 +12466,29 @@
   "맥, 메뉴 막대": {
     "v": "Mac, barra de menus",
     "src": "dbf4f07cee"
+  },
+  "앱 안내 다시 듣기": {
+    "v": "Ouvir o guia do app de novo",
+    "src": "c11d632622"
+  },
+  "클립키보드예요. 자주 쓰는 글을 단축어로 담아 두고 키보드에서 바로 넣는 앱이에요. 화면 맨 위에는 지금 보는 카테고리 이름이 있고, 두 번 탭하면 다른 카테고리를 고를 수 있어요. 오른쪽 위 추가 단추로 새 단축어를 만들어요.": {
+    "v": "Este é o ClipKeyboard. Guarde como frases os textos que você usa com frequência e insira direto pelo teclado. No topo da tela fica o nome da categoria que você está vendo. Toque duas vezes nele para escolher outra categoria. Use o botão Adicionar, no canto superior direito, para criar uma nova frase.",
+    "src": "7ca620198a"
+  },
+  "그 아래로 단축어가 이어져요. 두 번 탭하면 편집과 삭제 메뉴가 열리고, 위아래로 쓸어 복사를 고르면 복사돼요.": {
+    "v": "As frases ficam logo abaixo. Toque duas vezes em uma para abrir o menu de editar e excluir, ou deslize para cima ou para baixo e escolha Copiar.",
+    "src": "315b62d8db"
+  },
+  "그 아래로 단축어가 이어져요. 두 번 탭하면 복사되고, 위아래로 쓸어 더 보기를 고르면 편집과 삭제를 할 수 있어요.": {
+    "v": "As frases ficam logo abaixo. Toque duas vezes em uma para copiar, ou deslize para cima ou para baixo e escolha Mais para editar ou excluir.",
+    "src": "6e6877902e"
+  },
+  "맨 아래 탭에는 목록, 설정, 검색이 있어요.": {
+    "v": "As abas na parte de baixo são Lista, Ajustes e Busca.",
+    "src": "dcf195b882"
+  },
+  "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요.": {
+    "v": "Para ouvir este guia de novo, deslize para cima ou para baixo no nome da categoria no topo e escolha %@.",
+    "src": "03b66505cf"
   }
 }

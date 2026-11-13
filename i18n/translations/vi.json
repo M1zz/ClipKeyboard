@@ -12154,5 +12154,29 @@
   "맥, 메뉴 막대": {
     "v": "Mac, thanh menu",
     "src": "dbf4f07cee"
+  },
+  "앱 안내 다시 듣기": {
+    "v": "Nghe lại hướng dẫn",
+    "src": "c11d632622"
+  },
+  "클립키보드예요. 자주 쓰는 글을 단축어로 담아 두고 키보드에서 바로 넣는 앱이에요. 화면 맨 위에는 지금 보는 카테고리 이름이 있고, 두 번 탭하면 다른 카테고리를 고를 수 있어요. 오른쪽 위 추가 단추로 새 단축어를 만들어요.": {
+    "v": "Đây là ClipKeyboard. Bạn lưu những đoạn văn hay dùng thành cụm từ, rồi chèn ngay từ bàn phím. Ở đầu màn hình là tên danh mục bạn đang xem. Nhấn đúp để chọn danh mục khác. Dùng nút Thêm ở phía trên bên phải để tạo cụm từ mới.",
+    "src": "7ca620198a"
+  },
+  "그 아래로 단축어가 이어져요. 두 번 탭하면 편집과 삭제 메뉴가 열리고, 위아래로 쓸어 복사를 고르면 복사돼요.": {
+    "v": "Các cụm từ của bạn nằm bên dưới. Nhấn đúp để mở menu sửa và xóa, hoặc vuốt lên xuống rồi chọn Sao chép.",
+    "src": "315b62d8db"
+  },
+  "그 아래로 단축어가 이어져요. 두 번 탭하면 복사되고, 위아래로 쓸어 더 보기를 고르면 편집과 삭제를 할 수 있어요.": {
+    "v": "Các cụm từ của bạn nằm bên dưới. Nhấn đúp để sao chép, hoặc vuốt lên xuống rồi chọn Thêm để sửa hoặc xóa.",
+    "src": "6e6877902e"
+  },
+  "맨 아래 탭에는 목록, 설정, 검색이 있어요.": {
+    "v": "Các tab ở dưới cùng gồm Danh sách, Cài đặt và Tìm kiếm.",
+    "src": "dcf195b882"
+  },
+  "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요.": {
+    "v": "Để nghe lại, hãy vuốt lên xuống trên tên danh mục ở trên cùng rồi chọn %@.",
+    "src": "03b66505cf"
   }
 }

@@ -703,6 +703,10 @@ struct ClipKeyboardList: View {
         .buttonStyle(.plain)
         .accessibilityLabel(currentCategoryTitle)
         .accessibilityHint(NSLocalizedString("카테고리 고르기", comment: "List title: opens the category picker sheet"))
+        // VoiceOver 에서만 보이는 동작. 앱에 처음 들어왔을 때 들려준 안내를 다시 듣는다(`VoiceOverWelcome`).
+        .accessibilityAction(named: Text(VoiceOverWelcome.replayActionName)) {
+            VoiceOverWelcome.speak(cardTapOpensMenu: cardTapOpensMenu)
+        }
     }
 
     /// 스크롤 페이지의 위 여백. 페이지가 이제 늘 바 아래에 서므로 시스템이 바 아래로 밀어 준다.
