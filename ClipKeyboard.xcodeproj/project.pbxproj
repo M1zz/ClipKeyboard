@@ -162,6 +162,7 @@
 		5DE3A1C7A55720E4F6CDCF39 /* FeatureLessonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011AD653870EBB794C83148A /* FeatureLessonView.swift */; };
 		61864F395C2773BF9C2498DF /* CategorySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BFD7118CEB30C3953DADC1 /* CategorySettings.swift */; };
 		6458A8E49F277CF662FA4424 /* SlotPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7650FEB679BD5AE8B3A7DD30 /* SlotPack.swift */; };
+		6827FE693A7E439E96D2F3DF /* VoiceOverWelcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF25DE5FA302478983ED23BA /* VoiceOverWelcome.swift */; };
 		6972347EDFF8F477DC389772 /* BulkImportNudge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6517634F9E56C31222172460 /* BulkImportNudge.swift */; };
 		69C09418E79FAC61BBEE24FD /* ClipMemoIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B64230F7D10B68780ED0930 /* ClipMemoIntents.swift */; };
 		6B027BD2B54D0EA86FB83EE4 /* StorageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716D2F3FE56C8A81348A2686 /* StorageFile.swift */; };
@@ -369,7 +370,6 @@
 		TIMESAVEDBUILDAPP0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
 		TIMESAVEDBUILDEXT0000001 /* TimeSavedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */; };
 		TIPB63195257997906A9F481 /* ClipKeyboardRoadmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIPF06A9F4812181311ACE3B /* ClipKeyboardRoadmap.swift */; };
-		6827FE693A7E439E96D2F3DF /* VoiceOverWelcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF25DE5FA302478983ED23BA /* VoiceOverWelcome.swift */; };
 		TIPBBB9BEBE37E767FF37A77 /* TipAskBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = TIPF7FF37A77792818434BB6 /* TipAskBanner.swift */; };
 		TOKENFMT0BUILD0000000001 /* TokenFormatSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = TOKENFMT0FILE00000000001 /* TokenFormatSettingsView.swift */; };
 		TPH00012F0000000000000001 /* TemplatePlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPH00022F0000000000000002 /* TemplatePlaceholder.swift */; };
@@ -719,6 +719,7 @@
 		CATEGORYHOME0000000FF1 /* CategoryHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHomeView.swift; sourceTree = "<group>"; };
 		CCEF9C8EC24CEADCB04AEB65 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CE7340554588DBC6AB85710E /* AppLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
+		CF25DE5FA302478983ED23BA /* VoiceOverWelcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOverWelcome.swift; sourceTree = "<group>"; };
 		CF85A43C7ACA52D30AA74FD1 /* KeyboardLessonView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = KeyboardLessonView.swift; sourceTree = "<group>"; };
 		CHOICEROW0000000000GG1 /* ChoiceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoiceRow.swift; sourceTree = "<group>"; };
 		CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardListComponents.swift; sourceTree = "<group>"; };
@@ -802,7 +803,6 @@
 		TIMEEQUIVFILE00000000001 /* TimeEquivalent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEquivalent.swift; sourceTree = "<group>"; };
 		TIMESAVEDFILE00000000001 /* TimeSavedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSavedModel.swift; sourceTree = "<group>"; };
 		TIPF06A9F4812181311ACE3B /* ClipKeyboardRoadmap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardRoadmap.swift; sourceTree = "<group>"; };
-		CF25DE5FA302478983ED23BA /* VoiceOverWelcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceOverWelcome.swift; sourceTree = "<group>"; };
 		TIPF7FF37A77792818434BB6 /* TipAskBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipAskBanner.swift; sourceTree = "<group>"; };
 		TOKENFMT0FILE00000000001 /* TokenFormatSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenFormatSettingsView.swift; sourceTree = "<group>"; };
 		TPH00022F0000000000000002 /* TemplatePlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplatePlaceholder.swift; sourceTree = "<group>"; };

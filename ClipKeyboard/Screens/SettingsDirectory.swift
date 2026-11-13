@@ -415,3 +415,41 @@ struct SettingsSearchResults: View {
         }
     }
 }
+
+// MARK: - 검색창
+
+/// 설정 첫 줄의 검색창. 아이폰 설정 앱의 검색창 모양을 따른다.
+struct SettingsSearchField: View {
+    @Environment(\.appTheme) private var theme
+    @Binding var text: String
+    @FocusState private var focused: Bool
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Image(systemName: AppSymbol.magnifyingglass)
+                .foregroundStyle(theme.textMuted)
+                .accessibilityHidden(true)
+            TextField(NSLocalizedString("설정 검색", comment: "Search field placeholder in Settings: find a setting by name"),
+                      text: $text)
+                .focused($focused)
+                .submitLabel(.search)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+            if !text.isEmpty {
+                Button {
+                    text = ""
+                } label: {
+                    Image(systemName: AppSymbol.xmarkCircleFill)
+                        .foregroundStyle(theme.textMuted)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(NSLocalizedString("지우기", comment: "Clear"))
+            }
+        }
+        .padding(.horizontal, 12)
+        .frame(minHeight: 40)
+        .background(Color(uiColor: .tertiarySystemFill), in: Capsule())
+        .contentShape(Capsule())
+        .onTapGesture { focused = true }
+    }
+}

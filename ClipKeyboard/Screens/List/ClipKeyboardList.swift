@@ -689,12 +689,13 @@ struct ClipKeyboardList: View {
             HapticManager.shared.selection()
             viewModel.isCategoryPickerShown = true
         } label: {
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
+            // 화살표는 글자 높이의 가운데에 작게 붙인다. 바닥선에 맞추면 한글 옆에서 아래로 처져 보인다.
+            HStack(alignment: .center, spacing: 4) {
                 Text(currentCategoryTitle)
                     .font(.largeTitle.bold())
                     .lineLimit(1)
                 Image(systemName: AppSymbol.chevronDown)
-                    .font(.title3.weight(.bold))
+                    .font(.body.weight(.semibold))
                     .foregroundStyle(theme.textMuted)
             }
             .foregroundStyle(theme.text)

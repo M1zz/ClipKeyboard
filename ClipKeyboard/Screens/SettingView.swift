@@ -423,6 +423,13 @@ struct SettingView: View {
 
     var body: some View {
         List {
+            // 아이폰 설정 앱처럼 큰 제목 바로 아래 첫 줄에 검색창. 내려 읽으면 내용과 함께 올라간다.
+            // ⚠️ 시스템 `.searchable` 을 쓰지 않는다. `.always` 는 화면 맨 위를 늘 차지해 거슬렸고
+            //    (사용자 의견), `.automatic` 은 iOS 27 에서 맨 위에서도 숨어 끌어 내려야만 나왔다.
+            Section { SettingsSearchField(text: $settingsQuery) }
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.clear)
+                .listSectionSpacing(.compact)
             // 검색창에 글이 있으면 설정 목록 대신 찾은 것만 세운다(`SettingsDirectory`).
             if !settingsQuery.trimmingCharacters(in: .whitespaces).isEmpty {
                 SettingsSearchResults(query: settingsQuery)
@@ -450,14 +457,10 @@ struct SettingView: View {
             if masterModeEnabled { developerSection }
             }
         }
-        // 무엇이 어디 있는지 몰라도 이름으로 찾는다. 늘 펼쳐 둬야 있는 줄 안다.
-        .searchable(text: $settingsQuery,
-                    placement: .navigationBarDrawer(displayMode: .always),
-                    prompt: Text(NSLocalizedString("설정 검색", comment: "Search field placeholder in Settings: find a setting by name")))
-        // ⚠️ 제목을 안 단다. 탭의 뿌리 화면이고 아래 탭바가 이미 "설정"이라고 적고 있다.
-        //    안쪽 화면들(키보드·단축어 표시 …)은 그대로 제목을 단다 - 거기서는
-        //    어디까지 들어왔는지를 제목이 말해 준다.
-        .navigationBarTitleDisplayMode(.inline)
+        // 큰 제목 "설정" 을 단다. 예전에는 아래 탭바가 이미 "설정" 이라 제목을 비웠지만,
+        // 검색창이 설정 앱처럼 제목 아래에 서야 자리가 읽힌다.
+        .navigationTitle(NSLocalizedString("설정", comment: "Menu: settings"))
+        .navigationBarTitleDisplayMode(.large)
         .onAppear { refreshMemoCount() }
         // 다른 화면에서 만들거나 지우면 남은 칸도 따라와야 한다.
         .onReceive(NotificationCenter.default.publisher(for: .memoDataChanged)) { _ in
@@ -1104,15 +1107,16 @@ struct KeyColorSettingsView: View {
     /// ⚠️ 색이 늘어 한 줄에 다 안 들어간다(폰에서 첫 동그라미가 왼쪽으로 잘려 나갔다).
     ///    들어가면 고르게 펼치고, 안 들어가면 옆으로 민다.
     private var swatchRow: some View {
+        // 간격은 동그라미마다 고리 자리(양옆 4pt)를 뺀 값이다. 눈에 보이는 틈은 예전과 같다.
         ViewThatFits(in: .horizontal) {
-            HStack(spacing: 12) {
+            HStack(spacing: 4) {
                 ForEach(AppAccent.allCases) { candidate in
                     swatchButton(candidate)
                     if candidate != AppAccent.allCases.last { Spacer(minLength: 0) }
                 }
             }
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 14) {
+                HStack(spacing: 6) {
                     ForEach(AppAccent.allCases) { candidate in
                         swatchButton(candidate)
                     }
@@ -1151,6 +1155,9 @@ struct KeyColorSettingsView: View {
                                 .padding(-4)
                         }
                     }
+                    // 고리가 동그라미 밖으로 4pt 나간다. 그 자리를 칸 안에 잡아 두지 않으면
+                    // 가로 스크롤 칸의 위 · 아래 끝에서 고리가 잘린다(사용자 신고).
+                    .padding(4)
                 Text(candidate.localizedName)
                     .font(.caption2)
                     .foregroundColor(selected ? theme.text : theme.textFaint)
