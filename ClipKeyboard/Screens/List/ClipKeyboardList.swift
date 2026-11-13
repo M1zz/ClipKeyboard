@@ -691,10 +691,10 @@ struct ClipKeyboardList: View {
         } label: {
             HStack(alignment: .firstTextBaseline, spacing: 6) {
                 Text(currentCategoryTitle)
-                    .font(.title2.bold())
+                    .font(.largeTitle.bold())
                     .lineLimit(1)
                 Image(systemName: AppSymbol.chevronDown)
-                    .font(.body.weight(.bold))
+                    .font(.title3.weight(.bold))
                     .foregroundStyle(theme.textMuted)
             }
             .foregroundStyle(theme.text)
