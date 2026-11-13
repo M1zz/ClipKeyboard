@@ -683,18 +683,18 @@ struct ClipKeyboardList: View {
     }
 
     /// 제목과 그 오른쪽 아래 화살표. 누르면 카테고리 고르기 시트가 뜬다.
-    /// 큰 제목(맨 위)과 작은 제목(스크롤해 내려간 뒤) 두 자리에 같은 단추를 세운다.
-    private func categoryTitleButton(large: Bool) -> some View {
+    /// 왼쪽 위, 오른쪽 단추들과 같은 줄에 선다.
+    private func categoryTitleButton() -> some View {
         Button {
             HapticManager.shared.selection()
             viewModel.isCategoryPickerShown = true
         } label: {
-            HStack(alignment: .firstTextBaseline, spacing: large ? 6 : 4) {
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
                 Text(currentCategoryTitle)
-                    .font(large ? .largeTitle.bold() : .headline)
+                    .font(.title2.bold())
                     .lineLimit(1)
                 Image(systemName: AppSymbol.chevronDown)
-                    .font(large ? .title3.weight(.bold) : .body.weight(.semibold))
+                    .font(.body.weight(.bold))
                     .foregroundStyle(theme.textMuted)
             }
             .foregroundStyle(theme.text)
@@ -2557,10 +2557,14 @@ struct ClipKeyboardList: View {
         //    자리는 차지해서, 시스템이 바가 넘친다고 보고 오른쪽에 ⋯ 오버플로 버튼을
         //    하나 더 만들어 버린다(⋯ 가 두 개로 보였던 원인).
         // 카테고리를 보고 있으면 제목 오른쪽에 아래 화살표. 누르면 카테고리 고르기 시트.
+        // ⚠️ 제목 단추는 왼쪽 위 한 자리에만 세우고, 시스템 제목은 걷어 낸다(`hidesSystemTitle`).
+        //    `.largeTitle` · `.title` 자리에 세웠더니 iOS 버전마다 두 자리가 함께 보이거나
+        //    시스템 큰 제목과 겹쳐, 같은 제목이 두 번 섰다.
         if isInCategory {
-            ToolbarItem(placement: .largeTitle) { categoryTitleButton(large: true) }
-                .sharedBackgroundVisibility(.hidden)
-            ToolbarItem(placement: .title) { categoryTitleButton(large: false) }
+            ToolbarItem(placement: .largeTitle) {
+                // 큰 제목 자리는 가운데로 모아 세운다. 시스템 큰 제목처럼 왼쪽에 붙인다.
+                categoryTitleButton().frame(maxWidth: .infinity, alignment: .leading)
+            }
                 .sharedBackgroundVisibility(.hidden)
         }
         ToolbarItem(placement: .topBarTrailing) {
@@ -3097,3 +3101,4 @@ private struct StaleScrollOffsetReset: ViewModifier {
             }
     }
 }
+
