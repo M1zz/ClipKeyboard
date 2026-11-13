@@ -1988,7 +1988,21 @@ struct MemoSearchView: View {
     @State private var memos: [Memo] = []
     /// 방금 복사한 메모 id - 행 오른쪽 아이콘을 잠시 체크로 바꿔 복사 피드백.
     @State private var copiedMemoId: UUID?
+    /// 검색 탭을 누르면 곧바로 검색창에 커서가 선다.
+    @FocusState private var isQueryFocused: Bool
     @Environment(\.appTheme) private var theme
+
+    /// 검색창 자리.
+    ///
+    /// ⚠️ 사용자 신고(2026-11, 중국어): 검색을 눌러도 검색창이 안 나오고 아래로 한 번 끌어야 나온다.
+    ///    iOS 27 에서는 검색 탭을 막대 밖에 세우려고 역할을 `.prominent` 로 바꿨다(`searchTabRole`).
+    ///    그러면 탭바가 검색창으로 바뀌지 않고, 자리를 정하지 않은 `.searchable` 은 내비게이션 바
+    ///    서랍으로 가서 **끌어 내려야만** 보였다. 그래서 iOS 27 에서는 목록 맨 위에 늘 세운다.
+    ///    iOS 26 은 `.search` 역할이라 시스템이 탭바 자리에 검색창을 세우므로 그대로 둔다.
+    private var queryPlacement: SearchFieldPlacement {
+        if #available(iOS 27.0, *) { return .navigationBarDrawer(displayMode: .always) }
+        return .automatic
+    }
 
     private var results: [Memo] {
         let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -2032,7 +2046,8 @@ struct MemoSearchView: View {
         }
         .background(theme.bg.ignoresSafeArea())
         .navigationTitle(NSLocalizedString("검색", comment: "Search"))
-        .searchable(text: $query, prompt: NSLocalizedString("검색", comment: "Search"))
+        .searchable(text: $query, placement: queryPlacement, prompt: NSLocalizedString("검색", comment: "Search"))
+        .searchFocused($isQueryFocused)
         // ⚠️ **처음 한 번만** 읽는다. 예전에는 조건 없는 `onAppear` 였는데, `onAppear` 는
         //    이 뷰가 계층에 다시 들어올 때마다 다시 불린다. 그래서 목록을 스크롤하는
         //    도중에도 메모 파일 전체가 다시 디코딩됐다.
@@ -2045,6 +2060,8 @@ struct MemoSearchView: View {
         //    바뀐 내용은 `.memoDataChanged` 로 듣는다. 이 화면 밖에서 단축어를 고쳐도
         //    검색 결과가 낡지 않는다. (목록 화면이 쓰는 것과 같은 신호다)
         .onAppear {
+            // 탭을 누른 것이 곧 "찾겠다" 는 뜻이다. 검색창을 다시 눌러야 키보드가 뜨면 한 번 더 일이다.
+            isQueryFocused = true
             guard memos.isEmpty else { return }
             reloadMemos()
         }
