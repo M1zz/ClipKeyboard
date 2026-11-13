@@ -837,6 +837,17 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertNotEqual(copyFirst, menuFirst)
     }
 
+    // MARK: - 키 색
+
+    /// 키 색을 직접 골랐으면 키는 그 색 그대로다. 즐겨찾기 분홍 · 카테고리 색을 덧입히지 않는다.
+    func test_키_색을_직접_고르면_즐겨찾기_카테고리_색을_덧입히지_않는다() {
+        // "흰색으로 바꿔도 테두리가 분홍으로 남는다" (2026-11 사용자 신고)
+        XCTAssertNil(KeyboardView.keyTint(category: .clipFavorite, customKeyColorChosen: true))
+        // 고르지 않은 사람은 예전 그대로 즐겨찾기 · 카테고리 색이 보인다.
+        XCTAssertEqual(KeyboardView.keyTint(category: .clipFavorite, customKeyColorChosen: false), .clipFavorite)
+        XCTAssertNil(KeyboardView.keyTint(category: nil, customKeyColorChosen: false))
+    }
+
     /// 키보드의 단축어 키를 누른 것과 같다(`KeyboardView.insertMemo` 가 쏘는 알림 그대로).
     /// 쓰면 지우기면 그쪽과 똑같이 윗줄 하나만 쏜다.
     private func tapOnKeyboard(_ memo: Memo) {

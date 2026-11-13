@@ -2481,8 +2481,8 @@ struct KeyboardView: View {
 
     @ViewBuilder
     private func memoButton(for memo: Memo, useTemplate: Bool = false) -> some View {
-        // 카테고리 색 틴트는 카테고리 정체성이라 항상 표시(구분 표시 토글과 무관).
-        let catColor = categoryColorFor(memo)
+        // 카테고리 색 틴트는 카테고리 정체성이라 구분 표시 토글과 무관하다. 다만 키 색을 직접 골랐으면 입히지 않는다(`keyTint`).
+        let catColor = keyTint(for: memo)
         let isImageMemo = (memo.contentType == .image || memo.contentType == .mixed)
         let imageFileName = memo.imageFileNames.first ?? memo.imageFileName ?? ""
         let bypass = false
@@ -3306,7 +3306,7 @@ struct KeyboardView: View {
     /// 크기가 제각각이면 어디로 들어가는지가 오히려 안 읽힌다.
     private func reorderCell(for memo: Memo) -> some View {
         let isCarried = draggingMemoId == memo.id
-        return memoButtonLabel(for: memo, catColor: categoryColorFor(memo))
+        return memoButtonLabel(for: memo, catColor: keyTint(for: memo))
             // 들려 나간 자리는 빈 자리로 남는다 - 어디서 떠났는지가 보여야 한다.
             .opacity(isCarried ? 0.22 : 1)
             .background(
@@ -3340,7 +3340,7 @@ struct KeyboardView: View {
            let memo = reorderList.first(where: { $0.id == id }),
            let point = dragLocation,
            let width = reorderCellFrames[id]?.width {
-            memoButtonLabel(for: memo, catColor: categoryColorFor(memo))
+            memoButtonLabel(for: memo, catColor: keyTint(for: memo))
                 .frame(width: width)
                 .scaleEffect(1.06)
                 .shadow(color: Color.black.opacity(0.28), radius: 8, y: 4)
@@ -3636,6 +3636,19 @@ struct KeyboardView: View {
     /// 카테고리가 없으면(자동 분류값만 있는 경우 포함) nil → 색을 입히지 않는다.
     /// (이전엔 자동 분류 타입에도 색을 반환해, 사용자 카테고리가 없는데도 메모에 색이
     ///  칠해지는 버그가 있었음. 카테고리는 이제 사용자가 직접 만들어 쓰므로 그 색만 사용.)
+
+    /// 단축어 키 위에 옅게 입히는 색(즐겨찾기 분홍 · 카테고리 색).
+    ///
+    /// ⚠️ 키 색을 직접 골랐으면(`useCustomColors`) 입히지 않는다. 고른 색이 흰색이어도 즐겨찾기 키가
+    ///    분홍으로 남아, 키 테두리 색을 바꿀 길이 없다는 신고가 왔다(2026-11). 사람이 고른 색이 먼저다.
+    private func keyTint(for memo: Memo) -> Color? {
+        Self.keyTint(category: categoryColorFor(memo), customKeyColorChosen: useCustomColors && !customKeyHex.isEmpty)
+    }
+
+    /// 순수한 판정. 시험이 직접 부른다.
+    static func keyTint(category: Color?, customKeyColorChosen: Bool) -> Color? {
+        customKeyColorChosen ? nil : category
+    }
 
     private func categoryColorFor(_ memo: Memo) -> Color? {
         // 즐겨찾기는 카테고리처럼 분홍색 정체성을 갖는다 - 카테고리 색보다 우선(앱과 동일).
