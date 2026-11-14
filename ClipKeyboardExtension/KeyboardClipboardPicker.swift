@@ -96,9 +96,17 @@ struct CopiedPasteChipView: View {
     let muted: Color
     let height: CGFloat
     let action: () -> Void
+    /// 길게 누르면 필요한 부분만 고른다(붙여넣기 키와 같은 손짓). 없으면 길게 눌러도 그대로 넣는다.
+    var onPickPart: (() -> Void)? = nil
+
+    /// 길게 누른 손을 뗄 때 오는 누르기를 한 번 삼킨다.
+    @State private var longPressedAt: Date?
 
     var body: some View {
-        Button(action: action) {
+        Button {
+            if let at = longPressedAt, Date().timeIntervalSince(at) < 0.8 { return }
+            action()
+        } label: {
             HStack(spacing: 6) {
                 Image(systemName: "doc.on.clipboard")
                     .font(.body.weight(.semibold))
@@ -119,7 +127,16 @@ struct CopiedPasteChipView: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(.squish)
+        .onLongPressGesture(minimumDuration: 0.4) {
+            guard let onPickPart else { return }
+            longPressedAt = Date()
+            KeyboardHaptics.mediumTap()
+            onPickPart()
+        }
         .accessibilityLabel(String(format: NSLocalizedString("복사한 글 붙여넣기: %@", comment: "Keyboard chip above the keys that pastes the text just copied. %@ is a one-line preview"), chip.preview))
+        .accessibilityAction(named: Text(NSLocalizedString("부분만 고르기", comment: "Accessibility action: pick part of clipboard"))) {
+            onPickPart?()
+        }
         .transition(.opacity.combined(with: .scale(scale: 0.9, anchor: .leading)))
     }
 }

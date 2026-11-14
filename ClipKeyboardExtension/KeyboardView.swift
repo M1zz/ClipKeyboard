@@ -2150,7 +2150,8 @@ struct KeyboardView: View {
                     return TypedShortcut.replacement(for: word, in: documentState.textReplacements)?.phrase
                 },
                 copiedOffer: copiedOffer,
-                onPasteCopied: pasteCopiedText
+                onPasteCopied: pasteCopiedText,
+                onPickCopiedPart: { if let offer = copiedOffer { pickPartOfCopied(offer) } }
             )
         } else {
             memoModeContent
@@ -2278,7 +2279,9 @@ struct KeyboardView: View {
                 guard CopiedPasteOffer.shouldOffer(changeCount: readCount, text: text,
                                                    consumedCount: CopiedPasteOffer.consumedCount,
                                                    firstSeen: seen),
-                      let text else {
+                      let text,
+                      // 이미 단축어인 글은 그 키가 바로 아래에 있다(키보드 · 앱에서 단축어를 복사했을 때).
+                      !allMemos.contains(where: { $0.value == text }) else {
                     copiedOffer = nil
                     return
                 }
@@ -2304,6 +2307,15 @@ struct KeyboardView: View {
         withAnimation(.easeOut(duration: 0.18)) { copiedOffer = nil }
     }
 
+    /// 칩을 길게 눌렀다. 필요한 부분만 고르는 판을 연다. 고르러 갔으니 이 복사는 다시 세우지 않는다.
+    private func pickPartOfCopied(_ offer: CopiedPasteChip) {
+        CopiedPasteOffer.markConsumed(offer.changeCount)
+        withAnimation {
+            copiedOffer = nil
+            clipboardPickerText = offer.text
+        }
+    }
+
     /// 키보드가 스스로 클립보드에 썼다. 제가 복사한 글을 붙여넣으라고 다시 내밀지 않는다.
     private func noteKeyboardWroteClipboard() {
         PasteboardReader.changeCount { count in
@@ -2316,7 +2328,8 @@ struct KeyboardView: View {
     private func copiedOfferRow(_ offer: CopiedPasteChip) -> some View {
         HStack {
             CopiedPasteChipView(chip: offer, fill: theme.keycap, label: theme.text,
-                                muted: theme.textMuted, height: 32, action: pasteCopiedText)
+                                muted: theme.textMuted, height: 32, action: pasteCopiedText,
+                                onPickPart: { pickPartOfCopied(offer) })
             Spacer(minLength: 0)
         }
         .padding(.horizontal, 12)

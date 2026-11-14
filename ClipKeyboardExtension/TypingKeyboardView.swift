@@ -186,6 +186,8 @@ struct TypingKeyboardPanel: View {
     var copiedOffer: CopiedPasteChip? = nil
     /// 칩을 눌렀다. 짓던 글자는 여기서 확정했다.
     var onPasteCopied: () -> Void = {}
+    /// 칩을 길게 눌렀다. 필요한 부분만 고른다.
+    var onPickCopiedPart: () -> Void = {}
 
     @Environment(\.colorScheme) private var colorScheme
 
@@ -300,11 +302,17 @@ struct TypingKeyboardPanel: View {
                                             fill: style.fill(.letter, pressed: false),
                                             label: style.label,
                                             muted: theme.textMuted,
-                                            height: min(32, metrics.stripHeight - 10)) {
-                            session.engine?.commit()
-                            onPasteCopied()
-                            session.refresh()
-                        }
+                                            height: min(32, metrics.stripHeight - 10),
+                                            action: {
+                                                session.engine?.commit()
+                                                onPasteCopied()
+                                                session.refresh()
+                                            },
+                                            onPickPart: {
+                                                session.engine?.commit()
+                                                onPickCopiedPart()
+                                                session.refresh()
+                                            })
                     }
                     Spacer(minLength: 0)
                     if language.needsConversionDictionary && session.dictionaryMissing {
