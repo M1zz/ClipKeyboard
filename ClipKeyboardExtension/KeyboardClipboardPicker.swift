@@ -72,9 +72,10 @@ enum CopiedPasteOffer {
     static func firstSeen(for changeCount: Int, now: Date = Date()) -> Date {
         if let saved = AppGroup.defaults?.array(forKey: DefaultsKey.keyboardPasteOfferSeen) as? [Double],
            saved.count == 2, Int(saved[0]) == changeCount {
-            return Date(timeIntervalSince1970: saved[1])
+            return Date(timeIntervalSinceReferenceDate: saved[1])
         }
-        AppGroup.defaults?.set([Double(changeCount), now.timeIntervalSince1970], forKey: DefaultsKey.keyboardPasteOfferSeen)
+        // 기준일 초로 적는다. 1970 초로 바꾸면 소수 끝이 깎여 돌려받은 때가 처음 본 때와 어긋난다.
+        AppGroup.defaults?.set([Double(changeCount), now.timeIntervalSinceReferenceDate], forKey: DefaultsKey.keyboardPasteOfferSeen)
         return now
     }
 }
