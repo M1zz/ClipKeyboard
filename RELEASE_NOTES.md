@@ -14,6 +14,224 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.23
+
+### 앱스토어 (한국어)
+
+```
+방금 복사한 글이 키보드 위에 떠서 바로 넣어요.
+길게 누르면 필요한 부분만 골라 넣어요.
+단축어 내용 앞부분만 쳐도 바로 찾아 줘요.
+다 쓴 줄을 편집 화면에서 되살릴 수 있어요.
+```
+
+### App Store (English)
+
+```
+Text you just copied shows above the keys.
+Long-press it to paste only the part you need.
+Type the start of a snippet to find it fast.
+Bring back used lines from the edit screen.
+```
+
+### App Store (en-GB)
+
+```
+Text you just copied shows above the keys.
+Long-press it to paste only the part you need.
+Type the start of a snippet to find it fast.
+Bring back used lines from the edit screen.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+刚复制的文字会出现在键盘上方。
+长按即可只粘贴需要的部分。
+输入短语内容的开头就能快速找到。
+用过的行可在编辑页面恢复。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+剛複製的文字會出現在鍵盤上方。
+長按即可只貼上需要的部分。
+輸入短語內容的開頭就能快速找到。
+用過的行可在編輯頁面恢復。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Только что скопированный текст над клавишами.
+Удерживайте, чтобы вставить только нужное.
+Начните печатать фразу, и она найдется.
+Использованные строки можно вернуть.
+```
+
+### App Store (Japanese, ja)
+
+```
+コピーしたばかりの文がキーの上に出ます。
+長押しで必要な部分だけ選んで入力できます。
+定型文の書き出しを打つだけで見つかります。
+使い終えた行を編集画面で戻せます。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Lo que acabas de copiar aparece sobre el teclado.
+Mantén presionado para pegar solo una parte.
+Escribe el inicio de una frase para hallarla.
+Recupera las líneas usadas al editar.
+```
+
+### App Store (German, de-DE)
+
+```
+Gerade Kopiertes erscheint über den Tasten.
+Lange drücken, um nur einen Teil einzufügen.
+Baustein finden, indem du den Anfang tippst.
+Benutzte Zeilen beim Bearbeiten zurückholen.
+```
+
+### App Store (Thai, th)
+
+```
+ข้อความที่เพิ่งคัดลอกจะขึ้นเหนือแป้นพิมพ์
+แตะค้างเพื่อวางเฉพาะส่วนที่ต้องการ
+พิมพ์ต้นข้อความด่วนก็หาเจอทันที
+กู้บรรทัดที่ใช้แล้วคืนได้ในหน้าแก้ไข
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Văn bản vừa sao chép hiện ngay trên bàn phím.
+Nhấn giữ để chỉ dán phần bạn cần.
+Gõ phần đầu cụm từ là tìm thấy ngay.
+Khôi phục dòng đã dùng trong màn hình sửa.
+```
+
+### App Store (French, fr-FR)
+
+```
+Le texte copié s'affiche au-dessus des touches.
+Appui long pour n'en coller qu'une partie.
+Tapez le début d'une phrase pour la trouver.
+Récupérez les lignes utilisées en édition.
+```
+
+### App Store (Italian, it)
+
+```
+Il testo appena copiato appare sopra i tasti.
+Tieni premuto per incollarne solo una parte.
+Scrivi l'inizio di una frase per trovarla.
+Recupera le righe usate durante la modifica.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+O texto que você copiou aparece sobre as teclas.
+Toque e segure para colar só uma parte.
+Digite o início de uma frase para achá-la.
+Recupere linhas usadas ao editar.
+```
+
+### App Store (Czech, cs)
+
+```
+Právě zkopírovaný text se ukáže nad klávesami.
+Podržením vložíte jen potřebnou část.
+Frázi najdete, když napíšete její začátek.
+Použité řádky obnovíte při úpravách.
+```
+
+### App Store (Danish, da)
+
+```
+Tekst, du lige har kopieret, vises over tasterne.
+Hold fingeren nede for kun at indsætte en del.
+Skriv starten af en frase for at finde den.
+Hent brugte linjer tilbage, når du redigerer.
+```
+
+### App Store (Greek, el)
+
+```
+Ό,τι μόλις αντιγράψατε εμφανίζεται πάνω από τα πλήκτρα.
+Πατήστε παρατεταμένα για επικόλληση μέρους.
+Γράψτε την αρχή μιας φράσης για να τη βρείτε.
+Επαναφέρετε χρησιμοποιημένες γραμμές.
+```
+
+### App Store (Finnish, fi)
+
+```
+Juuri kopioimasi teksti näkyy näppäinten yllä.
+Pitkä painallus liittää vain tarvittavan osan.
+Löydä fraasi kirjoittamalla sen alku.
+Palauta käytetyt rivit muokatessa.
+```
+
+### App Store (Indonesian, id)
+
+```
+Teks yang baru disalin muncul di atas tombol.
+Tekan lama untuk menempel bagian yang perlu saja.
+Ketik awal frasa untuk langsung menemukannya.
+Pulihkan baris terpakai saat mengedit.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Tekst du nettopp kopierte, vises over tastene.
+Hold inne for å lime inn bare en del.
+Skriv starten på en frase for å finne den.
+Hent tilbake brukte linjer når du redigerer.
+```
+
+### App Store (Dutch, nl)
+
+```
+Net gekopieerde tekst staat boven de toetsen.
+Houd ingedrukt om maar een deel te plakken.
+Typ het begin van een fragment om het te vinden.
+Haal gebruikte regels terug bij bewerken.
+```
+
+### App Store (Polish, pl)
+
+```
+Skopiowany tekst pojawia się nad klawiszami.
+Przytrzymaj, by wkleić tylko potrzebną część.
+Wpisz początek frazy, by ją szybko znaleźć.
+Przywracaj użyte wiersze podczas edycji.
+```
+
+### App Store (Swedish, sv)
+
+```
+Text du nyss kopierat visas ovanför tangenterna.
+Håll nedtryckt för att klistra in en del.
+Skriv början av en fras för att hitta den.
+Ta tillbaka använda rader när du redigerar.
+```
+
+### App Store (Turkish, tr)
+
+```
+Az önce kopyaladığın metin tuşların üstünde.
+Basılı tutarak yalnızca gereken kısmı yapıştır.
+İfadenin başını yaz, hemen bulunsun.
+Kullanılan satırları düzenlerken geri getir.
+```
+
 ## 5.1.22
 
 ### 앱스토어 (한국어)
