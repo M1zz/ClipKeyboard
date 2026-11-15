@@ -490,12 +490,16 @@ struct ProFeatureManager {
     /// 시계 조작 방어용 "현재 시점" - 항상 단조 증가하도록 max(now, lastSeen) 적용.
     /// 사용자가 시계를 뒤로 돌려도 trial 잔여 시간이 늘어나지 않는다.
     /// 시계를 앞으로 돌리면 trial 만료가 빨라지지만, 그건 사용자가 손해 보는 방향이라 OK.
+    ///
+    /// ⚠️ lastSeen 은 **한 시간 넘게 앞섰을 때만** 쓴다. 이 값은 화면을 그릴 때마다(`tier`) 불리는데,
+    ///    매번 App Group 에 쓰면 앱 · 키보드가 같은 설정 파일을 두고 서로 기다리다 메인 스레드가 막혀
+    ///    워치독에 죽었다(5.1.11~5.1.21 진단, 몸통 그리는 중 `monotonicNow` · `PersonaResolver` 에서).
+    ///    시계를 한 시간 안쪽으로 되돌리는 것까지 막을 까닭은 없다.
     private static var monotonicNow: TimeInterval {
         let now = Date().timeIntervalSince1970
         let lastSeen = groupDefaults?.double(forKey: trialLastSeenKey) ?? 0
         let effective = max(now, lastSeen)
-        // 새 최댓값으로 lastSeen 갱신 (단조성 유지)
-        if effective > lastSeen {
+        if effective - lastSeen > 3600 {
             groupDefaults?.set(effective, forKey: trialLastSeenKey)
         }
         return effective
