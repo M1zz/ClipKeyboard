@@ -212,6 +212,19 @@ struct TypedShortcutTests {
         #expect(TypedShortcut.picks(for: "주", memos: [home], replacements: []).isEmpty)
         #expect(TypedShortcut.picks(for: "카드", memos: [locked, template], replacements: []).isEmpty)
     }
+
+    @Test("내용 앞부분을 세 글자부터 치면 그 단축어가 서고, 누르면 내용 전체가 들어간다. 잠근 것은 안 선다")
+    func typedValuePrefixSuggestsShortcut() {
+        let email = Memo(title: "이메일", value: "leeo@kakao.com")
+        var secret = Memo(title: "비밀", value: "leeo@secret.com")
+        secret.isSecure = true
+
+        let picks = TypedShortcut.picks(for: "leeo@", memos: [email, secret], replacements: [])
+        #expect(picks == [.init(typed: "leeo@", title: "이메일", text: "leeo@kakao.com", memoID: email.id)])
+        #expect(TypedShortcut.picks(for: "LEE", memos: [email], replacements: []).map(\.memoID) == [email.id])
+        #expect(TypedShortcut.picks(for: "le", memos: [email], replacements: []).isEmpty, "두 글자는 너무 짧다")
+        #expect(TypedShortcut.picks(for: "leeo@kakao.com", memos: [email], replacements: []).isEmpty, "다 친 것은 바꿀 것이 없다")
+    }
 }
 
 struct ShortcutLearningTests {

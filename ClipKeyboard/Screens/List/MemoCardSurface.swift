@@ -419,7 +419,8 @@ struct RemainingUsesBadge: View {
     @Environment(\.appTheme) private var theme
 
     static func text(_ count: Int) -> String {
-        String(format: NSLocalizedString("%d개 남음", comment: "Badge: lines left on a consume-on-use snippet"), count)
+        if count == 0 { return NSLocalizedString("다 씀", comment: "Badge: consume-on-use snippet with no lines left") }
+        return String(format: NSLocalizedString("%d개 남음", comment: "Badge: lines left on a consume-on-use snippet"), count)
     }
 
     var body: some View {

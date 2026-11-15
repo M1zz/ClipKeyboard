@@ -86,6 +86,9 @@ final class MemoAddViewModel: ObservableObject {
     @Published var isSecure: Bool = false
     /// 쓰면 지우기 - 한 번 쓸 때마다 윗줄 하나가 나가고 지워진다(`Memo.consumesOnUse`).
     @Published var consumesOnUse: Bool = false
+    /// 쓰면 지우기로 이미 나간 줄들(먼저 나간 것부터). 편집 화면에서 줄마다 · 한꺼번에 되살린다.
+    /// 잠근 단축어여도 여기서는 평문이다. 저장할 때 다시 잠근다(`Memo.usedLines`).
+    @Published var usedLines: [String] = []
     /// 카드에 보일 아이콘(`Memo.icon`). 이모지 · 심볼 · 내 그림.
     @Published var icon: SnippetIcon?
     @Published var isTemplate: Bool = false
@@ -318,6 +321,8 @@ final class MemoAddViewModel: ObservableObject {
             hint = existing.hint ?? ""
             hintShownOnKeyboard = existing.hintShownOnKeyboard
             consumesOnUse = existing.consumesOnUse
+            let usedPlain = existing.usedLines.flatMap { SecureMemoCrypto.isEncrypted($0) ? SecureMemoCrypto.decrypt($0) : $0 }
+            usedLines = ConsumableLines.lines(in: usedPlain ?? "")
             icon = SnippetIcon(raw: existing.icon)
             if !existing.stackValues.isEmpty {
                 // 보안 콤보면 단계 값이 암호문 - 편집용으로 복호화해 보여준다.
@@ -368,6 +373,23 @@ final class MemoAddViewModel: ObservableObject {
 
     // MARK: - 초기화 (리셋)
 
+    // MARK: - 쓴 줄 되살리기
+
+    /// 잘못 쓴 한 줄을 되살린다. 다음에 나갈 줄(본문 맨 위)로 돌아간다. 저장해야 남는다.
+    func restoreUsedLine(at index: Int) {
+        let after = ConsumableLines.restoring(at: index, value: value,
+                                              used: usedLines.isEmpty ? nil : usedLines.joined(separator: "\n"))
+        value = after.value
+        usedLines = ConsumableLines.lines(in: after.used ?? "")
+    }
+
+    /// 쓴 줄을 모두 되살린다. 처음 넣었던 차례로.
+    func restoreAllUsedLines() {
+        let after = ConsumableLines.restoringAll(value: value, used: usedLines.joined(separator: "\n"))
+        value = after.value
+        usedLines = []
+    }
+
     func reset() {
         keyword = ""
         value = ""
@@ -377,6 +399,7 @@ final class MemoAddViewModel: ObservableObject {
         userCategory = initialUserCategory
         isSecure = false
         consumesOnUse = false
+        usedLines = []
         icon = nil
         isTemplate = false
         continuations = []
@@ -694,6 +717,13 @@ final class MemoAddViewModel: ObservableObject {
             storedStackValues = SecureMemoCrypto.decryptSteps(resolvedStackValues)
         }
 
+        // 쓴 줄은 쓰면 지우기일 때만 뜻이 있다. 끄면 버린다. 잠근 것이면 본문처럼 잠근다.
+        let storedUsedLines: String? = {
+            guard consumesOnUse, !usedLines.isEmpty else { return nil }
+            let joined = usedLines.joined(separator: "\n")
+            return isSecure ? (SecureMemoCrypto.encrypt(joined) ?? joined) : joined
+        }()
+
         if let existing = editingMemo,
            let index = loadedMemos.firstIndex(where: { $0.id == existing.id }) {
             var updatedMemo = loadedMemos[index]
@@ -702,6 +732,7 @@ final class MemoAddViewModel: ObservableObject {
             updatedMemo.hint = hint.isEmpty ? nil : hint
             updatedMemo.hintShownOnKeyboard = hintShownOnKeyboard
             updatedMemo.consumesOnUse = consumesOnUse
+            updatedMemo.usedLines = storedUsedLines
             updatedMemo.icon = icon?.raw
             updatedMemo.lastEdited = Date()
             updatedMemo.category = finalCategory

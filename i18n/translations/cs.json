@@ -12708,5 +12708,41 @@
   "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요.": {
     "v": "Průvodce si můžete poslechnout znovu: přejeďte nahoru nebo dolů na názvu kategorie nahoře a zvolte %@.",
     "src": "03b66505cf"
+  },
+  "복사한 글 붙여넣기: %@": {
+    "v": "Vložit zkopírovaný text: %@",
+    "src": "6408a1d6bf"
+  },
+  "복사한 글 바로 붙여넣기": {
+    "v": "Rychle vložit zkopírovaný text",
+    "src": "7035810699"
+  },
+  "방금 복사한 글이 있으면 키보드 맨 위에 띄워, 누르면 바로 들어가요. 전체 접근을 켜야 보여요.": {
+    "v": "Když něco zkopírujete, zobrazí se to nahoře na klávesnici a klepnutím to vložíte. Vyžaduje plný přístup.",
+    "src": "9db195b10e"
+  },
+  "다 썼어요. 편집에서 쓴 줄을 되살릴 수 있어요": {
+    "v": "Vše je použité. Použité řádky můžete obnovit v úpravách",
+    "src": "27442e28cd"
+  },
+  "다 씀": {
+    "v": "Vyčerpáno",
+    "src": "a197efb9d6"
+  },
+  "쓴 줄 %d개": {
+    "v": "Použité řádky: %d",
+    "src": "27a7fb8221"
+  },
+  "모두 되살리기": {
+    "v": "Obnovit vše",
+    "src": "89ae17908c"
+  },
+  "%@ 되살리기": {
+    "v": "Obnovit %@",
+    "src": "abfb03169c"
+  },
+  "되살린 줄은 다음에 가장 먼저 들어가요. 저장해야 남아요.": {
+    "v": "Obnovený řádek se příště vloží jako první. Uložte, aby zůstal.",
+    "src": "6c040f5c99"
   }
 }

@@ -276,6 +276,15 @@ enum DefaultsKey {
     /// 입력칸이 무엇을 받는 칸인지 알려 주면(카드번호 · 이메일 · 주소) 맞는 단축어를 빠른 줄 맨 앞에 세울지.
     /// App Group. **기본 켬.** 칸이 말해 줄 때만 서므로 그 밖의 자리에서는 아무것도 달라지지 않는다(`FieldFit`).
     static let keyboardSuggestForField = "keyboardSuggestForField.v1"
+    /// 방금 복사한 글이 있으면 키보드 맨 위 띠에 붙여넣기 칩을 세울지. App Group. **기본 켬.**
+    /// 사용자 요청(2026-11): 복사해 왔으면 키보드 위에 떠 달라. 전체 접근이 있어야 읽을 수 있다.
+    static let keyboardPasteOfferEnabled = "keyboardPasteOfferEnabled.v1"
+    /// 붙여넣기 칩을 **이미 쓴** 복사 번호(`UIPasteboard.changeCount`). App Group.
+    /// 넣었거나 키보드가 스스로 복사한 번호면 칩을 다시 세우지 않는다. 키보드는 뜰 때마다 새로 만들어진다.
+    static let keyboardPasteOfferConsumedCount = "keyboardPasteOfferConsumedCount.v1"
+    /// 붙여넣기 칩이 처음 본 복사 번호와 그 시각(`[번호, 초]`). App Group.
+    /// 복사한 시각은 알 수 없어서, 키보드가 처음 본 때부터 잰다(`CopiedPasteOffer.lifetime`).
+    static let keyboardPasteOfferSeen = "keyboardPasteOfferSeen.v1"
     /// 위줄에 **숫자 판으로 건너가는 키**를 세울지 (App Group). 값이 없으면 켜짐.
     ///
     /// 숫자만 몇 자 넣으려고 다른 키보드로 건너갔다 오는 일을 없애려고 둔 키다.
@@ -716,6 +725,7 @@ enum KeyboardPrefs {
     static let showClipboardKey = Pref(key: DefaultsKey.keyboardShowClipboardKey, fallback: false)
     static let showRecentClipsTab = Pref(key: DefaultsKey.keyboardShowRecentClipsTab, fallback: true)
     static let suggestForField = Pref(key: DefaultsKey.keyboardSuggestForField, fallback: true)
+    static let pasteOffer = Pref(key: DefaultsKey.keyboardPasteOfferEnabled, fallback: true)
 
     // 입력
     static let koreanEnabled = Pref(key: DefaultsKey.keyboardKoreanEnabled, fallback: false)

@@ -1039,3 +1039,62 @@ struct CursorMemoryToggleRow: View {
         .onAppear { isOn = !(CursorMemory.learned(for: memoId)?.off ?? false) }
     }
 }
+
+// MARK: - 쓴 줄 (쓰면 지우기)
+
+/// 쓰면 지우기로 이미 나간 줄들. 줄마다 되살리기, 머리에 모두 되살리기.
+///
+/// 사용자 요청(2026-11, 중국어): 잘못 눌러 나간 코드를 되살리고, 다 쓴 목록을 처음으로 돌리고 싶다.
+/// 버튼 하나("처음으로")만 두지 않은 까닭: 쿠폰처럼 한 번 준 코드는 돌아오면 안 된다. 그래서 줄마다 고른다.
+struct UsedLinesSection: View {
+    let lines: [String]
+    let onRestore: (Int) -> Void
+    let onRestoreAll: () -> Void
+
+    @Environment(\.appTheme) private var theme
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(String(format: NSLocalizedString("쓴 줄 %d개", comment: "Header: lines already used on a consume-on-use snippet"),
+                            lines.count))
+                    .font(.body.weight(.medium))
+                Spacer()
+                Button(NSLocalizedString("모두 되살리기", comment: "Button: put every used line back")) {
+                    HapticManager.shared.success()
+                    onRestoreAll()
+                }
+                .font(.body)
+            }
+            ForEach(Array(lines.enumerated()), id: \.offset) { index, line in
+                HStack {
+                    Text(line)
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                        .strikethrough(true, color: theme.textMuted)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                    Spacer()
+                    Button {
+                        HapticManager.shared.success()
+                        onRestore(index)
+                    } label: {
+                        Image(systemName: "arrow.uturn.backward")
+                            .font(.body.weight(.semibold))
+                            .frame(width: 44, height: 44)
+                            .contentShape(Rectangle())
+                    }
+                    .accessibilityLabel(String(format: NSLocalizedString("%@ 되살리기", comment: "VoiceOver: put this used line back"), line))
+                }
+            }
+            Text(NSLocalizedString("되살린 줄은 다음에 가장 먼저 들어가요. 저장해야 남아요.",
+                                   comment: "Footer: restored line goes first next time, needs save"))
+                .font(.body)
+                .foregroundColor(theme.textMuted)
+        }
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
+        .background(theme.surfaceAlt)
+        .cornerRadius(theme.radiusMd)
+    }
+}

@@ -23,6 +23,107 @@
 import SwiftUI
 import NaturalLanguage
 
+// MARK: - 방금 복사한 글 붙여넣기 칩
+
+/// 방금 복사한 글이 있으면 키보드 맨 위 띠에 서는 칩. 누르면 그대로 들어간다.
+///
+/// 사용자 요청(2026-11): "복사한 값이 있으면 키보드 위에 떠 줘. 복사해 왔을 때 쓴다."
+/// 기본 키보드가 자동 완성 막대에 붙여넣기를 띄우는 것과 같은 자리다.
+///
+/// ⚠️ 읽기는 `PasteboardReader` 로만 한다(메인 밖, 글자만). 저절로 도는 읽기다
+///    (`docs/postmortem/HANG_PASTEBOARD_5_0_1.md`).
+/// ⚠️ 한 번 쓴 복사 번호는 다시 세우지 않는다. 넣은 뒤에도 칩이 남으면 두 번 넣게 되고,
+///    키보드가 스스로 복사한 글(최근 탭 길게 누르기)을 다시 붙이라고 하면 이상하다.
+/// ⚠️ 복사한 시각은 알 수 없다. 키보드가 처음 본 때부터 `lifetime` 이 지나면 내린다.
+///    그래야 몇 시간 전에 복사한 것이 하루 종일 띠를 차지하지 않는다.
+enum CopiedPasteOffer {
+
+    /// 처음 본 뒤 칩이 서 있는 시간.
+    static let lifetime: TimeInterval = 3 * 60
+
+    /// 칩에 보일 한 줄. 줄바꿈은 띄어쓰기로, 카드번호 · 계좌처럼 남이 보면 곤란한 것은 끝 네 자리만.
+    static func preview(_ text: String, isSensitive: Bool) -> String {
+        let line = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            .components(separatedBy: .newlines).joined(separator: " ")
+        guard isSensitive else { return line }
+        return "\u{2022}\u{2022}\u{2022}\u{2022} " + String(line.filter { !$0.isWhitespace }.suffix(4))
+    }
+
+    /// 이 복사 번호의 글을 칩으로 세울지.
+    static func shouldOffer(changeCount: Int, text: String?, consumedCount: Int?,
+                            firstSeen: Date, now: Date = Date()) -> Bool {
+        guard let text, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return false }
+        guard changeCount != consumedCount else { return false }
+        return now.timeIntervalSince(firstSeen) < lifetime
+    }
+
+    // MARK: 기억 (App Group)
+
+    static var consumedCount: Int? {
+        AppGroup.defaults?.object(forKey: DefaultsKey.keyboardPasteOfferConsumedCount) as? Int
+    }
+
+    /// 이 번호는 다 썼다. 넣었을 때와 키보드가 스스로 복사했을 때 부른다.
+    static func markConsumed(_ changeCount: Int) {
+        AppGroup.defaults?.set(changeCount, forKey: DefaultsKey.keyboardPasteOfferConsumedCount)
+    }
+
+    /// 이 번호를 처음 본 때. 처음이면 지금을 적어 두고 돌려준다.
+    static func firstSeen(for changeCount: Int, now: Date = Date()) -> Date {
+        if let saved = AppGroup.defaults?.array(forKey: DefaultsKey.keyboardPasteOfferSeen) as? [Double],
+           saved.count == 2, Int(saved[0]) == changeCount {
+            return Date(timeIntervalSince1970: saved[1])
+        }
+        AppGroup.defaults?.set([Double(changeCount), now.timeIntervalSince1970], forKey: DefaultsKey.keyboardPasteOfferSeen)
+        return now
+    }
+}
+
+/// 띠에 선 칩 하나의 값.
+struct CopiedPasteChip: Equatable {
+    let text: String
+    let preview: String
+    let changeCount: Int
+    /// 이때 내린다(처음 본 때 + `CopiedPasteOffer.lifetime`).
+    let expiresAt: Date
+}
+
+/// 붙여넣기 칩의 모양. 단축어 판과 글자 자판이 같은 것을 쓴다(색만 받는다).
+struct CopiedPasteChipView: View {
+    let chip: CopiedPasteChip
+    let fill: Color
+    let label: Color
+    let muted: Color
+    let height: CGFloat
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 6) {
+                Image(systemName: "doc.on.clipboard")
+                    .font(.body.weight(.semibold))
+                    .foregroundColor(muted)
+                    .accessibilityHidden(true)
+                Text(chip.preview)
+                    .font(.body.weight(.medium))
+                    .foregroundColor(label)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+            }
+            .frame(maxWidth: 260, alignment: .leading)
+            .padding(.horizontal, 12)
+            .frame(height: height)
+            .background(fill)
+            .clipShape(Capsule())
+            .frame(minHeight: 44)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.squish)
+        .accessibilityLabel(String(format: NSLocalizedString("복사한 글 붙여넣기: %@", comment: "Keyboard chip above the keys that pastes the text just copied. %@ is a one-line preview"), chip.preview))
+        .transition(.opacity.combined(with: .scale(scale: 0.9, anchor: .leading)))
+    }
+}
+
 // MARK: - 무엇 단위로 자를까
 
 enum ClipboardSplitUnit: String, CaseIterable, Identifiable {

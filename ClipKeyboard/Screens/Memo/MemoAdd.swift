@@ -827,6 +827,11 @@ struct MemoAdd: View {
                 activeColor: .accentColor,
                 isOn: $viewModel.consumesOnUse
             )
+            if viewModel.consumesOnUse && !viewModel.usedLines.isEmpty {
+                UsedLinesSection(lines: viewModel.usedLines,
+                                 onRestore: { index in withAnimation { viewModel.restoreUsedLine(at: index) } },
+                                 onRestoreAll: { withAnimation { viewModel.restoreAllUsedLines() } })
+            }
         }
     }
 

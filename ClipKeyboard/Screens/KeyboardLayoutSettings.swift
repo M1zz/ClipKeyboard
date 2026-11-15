@@ -53,6 +53,8 @@ struct KeyboardLayoutSettings: View {
     /// 키보드 맨 앞의 '최근'(복사해 담아 둔 것) 탭. **기본 켬.**
     @AppStorage(KeyboardPrefs.showRecentClipsTab.key, store: AppGroup.defaults) private var showRecentClipsTab: Bool = KeyboardPrefs.showRecentClipsTab.fallback
     @AppStorage(KeyboardPrefs.suggestForField.key, store: AppGroup.defaults) private var suggestForField: Bool = KeyboardPrefs.suggestForField.fallback
+    /// 방금 복사한 글 붙여넣기 칩(`CopiedPasteOffer`).
+    @AppStorage(KeyboardPrefs.pasteOffer.key, store: AppGroup.defaults) private var pasteOffer: Bool = KeyboardPrefs.pasteOffer.fallback
     @AppStorage(KeyboardPrefs.koreanLayout.key, store: AppGroup.defaults) private var koreanLayout: String = KeyboardPrefs.koreanLayout.fallback
     @AppStorage(KeyboardPrefs.typingLang.key, store: AppGroup.defaults) private var defaultLang: String = KeyboardPrefs.typingLang.fallback
 
@@ -328,6 +330,14 @@ struct KeyboardLayoutSettings: View {
                             .font(.caption).foregroundColor(.secondary)
                     }
                 }
+                Toggle(isOn: $pasteOffer) {
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(NSLocalizedString("복사한 글 바로 붙여넣기", comment: "Keyboard setting toggle: show a paste chip above the keys when something was just copied"))
+                        Text(NSLocalizedString("방금 복사한 글이 있으면 키보드 맨 위에 띄워, 누르면 바로 들어가요. 전체 접근을 켜야 보여요.",
+                                               comment: "Keyboard setting description: the paste chip needs Full Access"))
+                            .font(.body).foregroundColor(.secondary)
+                    }
+                }
                 Toggle(isOn: $showReturnKey) {
                     VStack(alignment: .leading, spacing: 1) {
                         Text(NSLocalizedString("보내기 키", comment: "Show return key toggle"))
@@ -480,6 +490,7 @@ struct KeyboardLayoutSettings: View {
         pinReturnKey = KeyboardPrefs.pinReturnKey.fallback
         showRecentClipsTab = KeyboardPrefs.showRecentClipsTab.fallback
         suggestForField = KeyboardPrefs.suggestForField.fallback
+        pasteOffer = KeyboardPrefs.pasteOffer.fallback
         // 최근 단축어는 false 로 박지 않는다. 그러면 "꺼 달라고 했다"가 되어
         // 개수로 정해 주는 길이 영영 막힌다. 값을 지워 "안 정했다"로 되돌린다.
         AppGroup.defaults?.removeObject(forKey: DefaultsKey.keyboardShowRecent)

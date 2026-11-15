@@ -104,9 +104,9 @@ final class BasicScenarioTests: XCTestCase {
         host.stop()
     }
 
-    // MARK: - 시나리오 1-1: 쓰면 지우기 - 교환 코드는 윗줄부터 하나씩 나가고, 다 쓰면 사라진다
+    // MARK: - 시나리오 1-1: 쓰면 지우기 - 교환 코드는 윗줄부터 하나씩 나가고, 다 쓰면 "다 씀" 으로 남아 되살린다
 
-    func test_쓰면_지우기_단축어는_윗줄부터_하나씩_나가고_다_쓰면_사라진다() async throws {
+    func test_쓰면_지우기_단축어는_윗줄부터_하나씩_나가고_다_쓰면_다_씀으로_남아_되살린다() async throws {
         // 1. 코드 두 개를 줄바꿈으로 넣고 쓰면 지우기를 켠다
         let add = makeAddViewModel()
         add.keyword = "교환 코드"
@@ -135,15 +135,36 @@ final class BasicScenarioTests: XCTestCase {
         let afterSiri = try XCTUnwrap(stored(titled: "교환 코드"))
         XCTAssertEqual(afterSiri.value, "CCCC-3333", "Siri 가 복사한 코드가 남아 있으면 같은 코드가 두 사람에게 간다")
 
-        // 4. 마지막 줄을 쓰면 단축어가 사라진다 - 키보드에서도
+        // 4. 마지막 줄을 써도 단축어는 "다 씀" 으로 남는다. 나간 줄은 쓴 줄에 차례로 쌓인다
         host.clearAll()
         KeyboardMemoFeed.reload()
         tapOnKeyboard(clipMemos[0])
         await settle()
         XCTAssertEqual(host.text, "CCCC-3333")
-        XCTAssertNil(stored(titled: "교환 코드"), "마지막 줄까지 쓰면 단축어가 사라져야 한다")
-        XCTAssertEqual(KeyboardMemoFeed.reload(), 0, "사라진 단축어가 키보드에 남으면 안 된다")
+        let usedUp = try XCTUnwrap(stored(titled: "교환 코드"), "다 써도 남아야 되살릴 수 있다")
+        XCTAssertTrue(usedUp.isUsedUp)
+        XCTAssertEqual(usedUp.remainingUses, 0)
+        XCTAssertEqual(usedUp.usedLines, "AAAA-1111\nBBBB-2222\nCCCC-3333")
+        XCTAssertNil(MemoStore.consumed(usedUp), "다 쓴 것은 더 뺄 줄이 없다")
+        XCTAssertTrue(TypedShortcut.picks(for: "교환 코드", memos: [usedUp], replacements: []).isEmpty,
+                      "다 쓴 단축어가 띠에 서면 빈 글이 들어간다")
         host.stop()
+
+        // 5. 편집에서 잘못 쓴 줄 하나(BBBB)를 되살리면 다음에 가장 먼저 나간다
+        let edit = makeAddViewModel(editing: usedUp)
+        XCTAssertEqual(edit.usedLines, ["AAAA-1111", "BBBB-2222", "CCCC-3333"])
+        edit.restoreUsedLine(at: 1)
+        XCTAssertEqual(edit.value, "BBBB-2222")
+        edit.saveMemo {}
+        let restored = try XCTUnwrap(stored(titled: "교환 코드"))
+        XCTAssertEqual(restored.remainingUses, 1)
+        XCTAssertEqual(restored.usedLines, "AAAA-1111\nCCCC-3333", "되살리지 않은 줄은 쓴 줄로 남는다(쿠폰이 두 번 안 나가게)")
+
+        // 6. 모두 되살리면 처음 넣었던 차례로 돌아온다
+        let again = makeAddViewModel(editing: restored)
+        again.restoreAllUsedLines()
+        XCTAssertEqual(again.value, "AAAA-1111\nCCCC-3333\nBBBB-2222")
+        XCTAssertTrue(again.usedLines.isEmpty)
     }
 
     func test_잠근_쓰면_지우기_단축어도_한_줄씩_풀어_넣고_파일에는_평문이_없다() async throws {
@@ -171,6 +192,7 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertEqual(SecureMemoCrypto.decrypt(afterOne.value), "GIFT-0002")
         XCTAssertFalse(rawMemoFile().contains("GIFT-000"))
         XCTAssertEqual(afterOne.remainingUses, 1)
+        XCTAssertTrue(afterOne.usedLines.map(SecureMemoCrypto.isEncrypted) ?? false, "쓴 줄도 잠겨 있어야 한다")
         host.stop()
     }
 

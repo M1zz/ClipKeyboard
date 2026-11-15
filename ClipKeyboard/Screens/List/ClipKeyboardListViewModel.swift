@@ -1186,6 +1186,13 @@ final class ClipKeyboardListViewModel: ObservableObject {
     func copyMemo(memo: Memo) {
         print("📝 [copyMemo] 메모 선택됨: \(memo.title), 템플릿: \(memo.isTemplate), 보안: \(memo.isSecure)")
 
+        // 쓰면 지우기를 다 썼다. 줄 것이 없으니 복사하지 않고, 되살리는 곳을 알려 준다.
+        if memo.isUsedUp {
+            showPlainToast(NSLocalizedString("다 썼어요. 편집에서 쓴 줄을 되살릴 수 있어요",
+                                             comment: "Toast: consume-on-use snippet has no lines left"))
+            return
+        }
+
         if memo.isSecure {
             print("🔐 [copyMemo] 보안 메모 - Face ID 인증 요청")
             authenticateWithBiometrics(memo: memo)

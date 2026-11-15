@@ -148,7 +148,7 @@ enum ClipMemoCopier {
     /// 값을 클립보드에 넣고 그 단축어 이름을 돌려준다. 못 찾거나 실어선 안 되는 단축어면 nil.
     static func copy(_ id: UUID) -> String? {
         guard let memo = ((try? MemoStore.shared.load(type: .memo)) ?? []).first(where: { $0.id == id }),
-              ClipMemoEntity.isOffered(memo) else { return nil }
+              ClipMemoEntity.isOffered(memo), !memo.isUsedUp else { return nil }
         let text = memo.textToUse()
         #if os(iOS)
         UIPasteboard.general.string = text

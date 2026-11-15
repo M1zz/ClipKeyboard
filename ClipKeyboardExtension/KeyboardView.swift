@@ -428,6 +428,10 @@ struct KeyboardView: View {
     private var isOnRecentClips: Bool { showsRecentClipsTab && showsRecentClips }
     /// '최근' 탭에 세울 것. 단축어와 같은 자리(`loadAllMemos`)에서 읽는다.
     @State private var recentClips: [SmartClipboardHistory] = []
+    /// 방금 복사한 글 붙여넣기 칩(`CopiedPasteOffer`). 없으면 띠에 아무것도 안 선다.
+    @State private var copiedOffer: CopiedPasteChip?
+    /// 붙여넣기 칩이 마지막으로 본 복사 번호. 번호가 그대로면 글을 다시 끌어오지 않는다.
+    @State private var pasteOfferSeenCount: Int?
     /// '최근' 의 한 줄을 옆으로 밀고 있는가. 그동안은 탭을 넘기지 않는다(`pageSwipeGesture`).
     @State private var isSwipingRecentRow = false
 
@@ -793,6 +797,7 @@ struct KeyboardView: View {
                     memo: memo,
                     theme: theme,
                     onCopy: {
+                        guard !memo.isUsedUp else { KeyboardHaptics.notify(.warning); return }
                         let text = memo.stackValues.first ?? memo.textToUse()
                         copyTextToClipboard(text)
                         MemoStore.shared.consumeIfNeeded(memo, copiedText: text)
@@ -1251,6 +1256,11 @@ struct KeyboardView: View {
             // 검색 바 - 사용자 토글 ON일 때만
             if showSearchBar && !isReorderMode {
                 searchBar
+            }
+
+            // 방금 복사한 글 붙여넣기 칩. 빠른 줄보다 위다 - 지금 막 가져온 것이라 가장 쓸 법하다.
+            if let offer = copiedOffer, !isReorderMode, !isSearching {
+                copiedOfferRow(offer)
             }
 
             // 최근 사용 섹션 - 사용자 토글 ON + 검색 비활성일 때만
@@ -2100,7 +2110,8 @@ struct KeyboardView: View {
                 }
             )
         }
-        return AnyView(primaryContent)
+        // 방금 복사한 글은 두 판 모두 맨 위 띠에 칩으로 세운다. 판이 내려가면 지켜보기도 멈춘다.
+        return AnyView(primaryContent.task { await watchCopiedText() })
     }
 
     // MARK: - 자판 ↔ 단축어 판
@@ -2137,7 +2148,9 @@ struct KeyboardView: View {
                 textReplacement: { word in
                     guard KeyboardPrefs.autoTextReplacement.value() else { return nil }
                     return TypedShortcut.replacement(for: word, in: documentState.textReplacements)?.phrase
-                }
+                },
+                copiedOffer: copiedOffer,
+                onPasteCopied: pasteCopiedText
             )
         } else {
             memoModeContent
@@ -2228,6 +2241,87 @@ struct KeyboardView: View {
         }
     }
 
+    // MARK: - 방금 복사한 글 칩
+
+    /// 칩을 세울 수 있는 자리인가. 읽어도 되는 자리(`autoCollectsClipboard`)여야 하고, 넣을 입력칸이 있어야 한다.
+    private var offersCopiedText: Bool {
+        hostKind.autoCollectsClipboard && typingProxy != nil && KeyboardPrefs.pasteOffer.value()
+    }
+
+    /// 키보드가 떠 있는 동안 복사 번호를 가끔 본다. 키보드를 띄운 채 그 앱에서 글을 복사할 수 있다.
+    private func watchCopiedText() async {
+        while !Task.isCancelled {
+            checkCopiedText()
+            try? await Task.sleep(for: .seconds(1.5))
+        }
+    }
+
+    /// 새로 복사했으면 글을 읽어 칩을 세운다. 번호가 그대로면 글은 끌어오지 않는다(`PasteboardReader.changeCount`).
+    private func checkCopiedText() {
+        guard offersCopiedText else {
+            if copiedOffer != nil { copiedOffer = nil }
+            return
+        }
+        if let offer = copiedOffer, Date() >= offer.expiresAt {
+            withAnimation(.easeOut(duration: 0.18)) { copiedOffer = nil }
+        }
+        PasteboardReader.changeCount { count in
+            guard count != pasteOfferSeenCount else { return }
+            pasteOfferSeenCount = count
+            let seen = CopiedPasteOffer.firstSeen(for: count)
+            guard count != CopiedPasteOffer.consumedCount,
+                  Date().timeIntervalSince(seen) < CopiedPasteOffer.lifetime else {
+                copiedOffer = nil
+                return
+            }
+            PasteboardReader.textOnly { text, readCount in
+                guard CopiedPasteOffer.shouldOffer(changeCount: readCount, text: text,
+                                                   consumedCount: CopiedPasteOffer.consumedCount,
+                                                   firstSeen: seen),
+                      let text else {
+                    copiedOffer = nil
+                    return
+                }
+                // 분류는 앞부분만 본다. 긴 글 전체에 정규식을 돌릴 까닭이 없다.
+                let sensitive = ClipboardClassificationService.shared
+                    .classify(content: String(text.prefix(200))).type.isSensitive
+                withAnimation(.easeOut(duration: 0.18)) {
+                    copiedOffer = CopiedPasteChip(text: text,
+                                                  preview: CopiedPasteOffer.preview(String(text.prefix(200)), isSensitive: sensitive),
+                                                  changeCount: readCount,
+                                                  expiresAt: seen.addingTimeInterval(CopiedPasteOffer.lifetime))
+                }
+            }
+        }
+    }
+
+    /// 칩을 눌렀다. 그대로 넣고, 이 복사 번호는 다시 세우지 않는다.
+    private func pasteCopiedText() {
+        guard let offer = copiedOffer, let proxy = typingProxy else { return }
+        KeyboardHaptics.tap()
+        proxy.insertText(offer.text)
+        CopiedPasteOffer.markConsumed(offer.changeCount)
+        withAnimation(.easeOut(duration: 0.18)) { copiedOffer = nil }
+    }
+
+    /// 키보드가 스스로 클립보드에 썼다. 제가 복사한 글을 붙여넣으라고 다시 내밀지 않는다.
+    private func noteKeyboardWroteClipboard() {
+        PasteboardReader.changeCount { count in
+            CopiedPasteOffer.markConsumed(count)
+            pasteOfferSeenCount = count
+            copiedOffer = nil
+        }
+    }
+
+    private func copiedOfferRow(_ offer: CopiedPasteChip) -> some View {
+        HStack {
+            CopiedPasteChipView(chip: offer, fill: theme.keycap, label: theme.text,
+                                muted: theme.textMuted, height: 32, action: pasteCopiedText)
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal, 12)
+    }
+
     /// '최근' 의 한 줄을 지운다(왼쪽으로 밀어서).
     private func deleteRecentClip(_ clip: SmartClipboardHistory) {
         do {
@@ -2256,6 +2350,7 @@ struct KeyboardView: View {
     private func copyClipToClipboard(_ text: String) {
         guard requireFullAccess() else { return }
         UIPasteboard.general.string = text
+        noteKeyboardWroteClipboard()
         KeyboardHaptics.mediumTap()
         withAnimation { showCopiedToast = true }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -2770,6 +2865,11 @@ struct KeyboardView: View {
             suppressTapAfterLongPress = nil
             return
         }
+        // 쓰면 지우기를 다 썼다. 넣을 줄이 없다(빈 글을 넣고 횟수만 오르면 안 된다). 앱에서 되살린다.
+        if memo.isUsedUp {
+            KeyboardHaptics.notify(.warning)
+            return
+        }
 
         // ⚠️ 여기서 햅틱을 울리지 않는다. 각 종착지가 자기 피드백을 갖고 있어서
         //    여기서도 울리면 한 번 눌렀는데 "또깍-또깍" 두 번 난다.
@@ -2800,6 +2900,7 @@ struct KeyboardView: View {
 
     /// - Parameter learns: 커서 앞 낱말과 이 단축어의 짝을 배운다(`ShortcutLearning`). 잠근 단축어는 배우지 않는다.
     private func insertMemo(_ memo: Memo, bypassTemplate: Bool = false, learns: Bool = true) {
+        guard !memo.isUsedUp else { KeyboardHaptics.notify(.warning); return }   // 다 쓴 쓰면 지우기
         if learns, !memo.isSecure, let key = ShortcutLearning.key(before: typingProxy?.typingContextBefore) {
             ShortcutLearning.note(key, memoID: memo.id)
         }
@@ -2905,6 +3006,7 @@ struct KeyboardView: View {
             return
         }
         UIPasteboard.general.setData(data, forPasteboardType: ImageStore.pasteboardType(fileName: fileName))
+        noteKeyboardWroteClipboard()
         KeyboardHaptics.notify(.success)
         print("✅ [KeyboardView] 이미지 클립보드 복사 완료: \(memo.title) (\(data.count) bytes)")
 
@@ -3044,8 +3146,10 @@ struct KeyboardView: View {
             return
         }
         guard requireFullAccess() else { return }
+        guard !memo.isUsedUp else { KeyboardHaptics.notify(.warning); return }
         let text = memo.textToUse()
         UIPasteboard.general.string = text
+        noteKeyboardWroteClipboard()
         MemoStore.shared.consumeIfNeeded(memo, copiedText: text)
         KeyboardHaptics.tap()
         withAnimation { showCopiedToast = true }
@@ -3058,6 +3162,7 @@ struct KeyboardView: View {
     private func copyTextToClipboard(_ text: String) {
         guard requireFullAccess() else { return }
         UIPasteboard.general.string = text
+        noteKeyboardWroteClipboard()
         KeyboardHaptics.tap()
     }
 

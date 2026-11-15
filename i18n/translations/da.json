@@ -12496,5 +12496,41 @@
   "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요.": {
     "v": "Du kan høre den igen ved at stryge op eller ned på kategorinavnet øverst og vælge %@.",
     "src": "03b66505cf"
+  },
+  "복사한 글 붙여넣기: %@": {
+    "v": "Indsæt kopieret tekst: %@",
+    "src": "6408a1d6bf"
+  },
+  "복사한 글 바로 붙여넣기": {
+    "v": "Indsæt kopieret tekst hurtigt",
+    "src": "7035810699"
+  },
+  "방금 복사한 글이 있으면 키보드 맨 위에 띄워, 누르면 바로 들어가요. 전체 접근을 켜야 보여요.": {
+    "v": "Når du lige har kopieret noget, vises det øverst på tastaturet. Tryk for at indsætte. Kræver fuld adgang.",
+    "src": "9db195b10e"
+  },
+  "다 썼어요. 편집에서 쓴 줄을 되살릴 수 있어요": {
+    "v": "Alt er brugt. Du kan gendanne brugte linjer under Rediger",
+    "src": "27442e28cd"
+  },
+  "다 씀": {
+    "v": "Opbrugt",
+    "src": "a197efb9d6"
+  },
+  "쓴 줄 %d개": {
+    "v": "%d brugte linjer",
+    "src": "27a7fb8221"
+  },
+  "모두 되살리기": {
+    "v": "Gendan alle",
+    "src": "89ae17908c"
+  },
+  "%@ 되살리기": {
+    "v": "Gendan %@",
+    "src": "abfb03169c"
+  },
+  "되살린 줄은 다음에 가장 먼저 들어가요. 저장해야 남아요.": {
+    "v": "En gendannet linje indsættes først næste gang. Gem for at beholde den.",
+    "src": "6c040f5c99"
   }
 }

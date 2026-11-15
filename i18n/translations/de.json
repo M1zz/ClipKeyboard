@@ -12493,5 +12493,41 @@
   "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요.": {
     "v": "Um dies noch einmal zu hören, wische oben beim Namen der Kategorie nach oben oder unten und wähle %@.",
     "src": "03b66505cf"
+  },
+  "복사한 글 붙여넣기: %@": {
+    "v": "Kopierten Text einsetzen: %@",
+    "src": "6408a1d6bf"
+  },
+  "복사한 글 바로 붙여넣기": {
+    "v": "Kopierten Text schnell einsetzen",
+    "src": "7035810699"
+  },
+  "방금 복사한 글이 있으면 키보드 맨 위에 띄워, 누르면 바로 들어가요. 전체 접근을 켜야 보여요.": {
+    "v": "Wenn du gerade etwas kopiert hast, erscheint es oben auf der Tastatur. Tippe darauf, um es einzusetzen. Erfordert vollen Zugriff.",
+    "src": "9db195b10e"
+  },
+  "다 썼어요. 편집에서 쓴 줄을 되살릴 수 있어요": {
+    "v": "Alles verbraucht. Du kannst benutzte Zeilen unter Bearbeiten zurückholen",
+    "src": "27442e28cd"
+  },
+  "다 씀": {
+    "v": "Verbraucht",
+    "src": "a197efb9d6"
+  },
+  "쓴 줄 %d개": {
+    "v": "%d benutzte Zeilen",
+    "src": "27a7fb8221"
+  },
+  "모두 되살리기": {
+    "v": "Alle zurückholen",
+    "src": "89ae17908c"
+  },
+  "%@ 되살리기": {
+    "v": "%@ zurückholen",
+    "src": "abfb03169c"
+  },
+  "되살린 줄은 다음에 가장 먼저 들어가요. 저장해야 남아요.": {
+    "v": "Eine zurückgeholte Zeile wird beim nächsten Mal zuerst eingefügt. Zum Behalten sichern.",
+    "src": "6c040f5c99"
   }
 }

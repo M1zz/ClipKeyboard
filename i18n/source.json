@@ -197,6 +197,12 @@
     "comment": "Inline equivalent: running",
     "h": "67d6283fac"
   },
+  "%@ 되살리기": {
+    "ko": "%@ 되살리기",
+    "en": "Restore %@",
+    "comment": "VoiceOver: put this used line back",
+    "h": "abfb03169c"
+  },
   "%@ 복사됨": {
     "ko": "%@ 복사됨",
     "en": "%@ copied",
@@ -5465,6 +5471,18 @@
     "comment": "New snippet coach: save button",
     "h": "8abeb46ded"
   },
+  "다 썼어요. 편집에서 쓴 줄을 되살릴 수 있어요": {
+    "ko": "다 썼어요. 편집에서 쓴 줄을 되살릴 수 있어요",
+    "en": "All used up. You can restore used lines in Edit",
+    "comment": "Toast: consume-on-use snippet has no lines left",
+    "h": "27442e28cd"
+  },
+  "다 씀": {
+    "ko": "다 씀",
+    "en": "Used up",
+    "comment": "Badge: consume-on-use snippet with no lines left",
+    "h": "a197efb9d6"
+  },
   "다 읽을 수 있는 시간이에요": {
     "ko": "다 읽을 수 있는 시간이에요",
     "en": "enough time to read them cover to cover",
@@ -6767,6 +6785,12 @@
     "comment": "Restore points header",
     "h": "32b3760f6a"
   },
+  "되살린 줄은 다음에 가장 먼저 들어가요. 저장해야 남아요.": {
+    "ko": "되살린 줄은 다음에 가장 먼저 들어가요. 저장해야 남아요.",
+    "en": "A restored line goes in first next time. Save to keep it.",
+    "comment": "Footer: restored line goes first next time, needs save",
+    "h": "6c040f5c99"
+  },
   "두 기기에서 같은 단축어를 고쳤을 때 어느 쪽을 남길지 직접 골라요.": {
     "ko": "두 기기에서 같은 단축어를 고쳤을 때 어느 쪽을 남길지 직접 골라요.",
     "en": "When the same snippet is edited on two devices, you pick which one to keep.",
@@ -7385,6 +7409,12 @@
     "comment": "OCR picker: select all",
     "h": "550a5f3778"
   },
+  "모두 되살리기": {
+    "ko": "모두 되살리기",
+    "en": "Restore All",
+    "comment": "Button: put every used line back",
+    "h": "89ae17908c"
+  },
   "모두 지우기": {
     "ko": "모두 지우기",
     "en": "Clear all",
@@ -7924,6 +7954,12 @@
     "en": "Puts what you just copied straight into Recent on the keyboard.",
     "comment": "Capture clipboard intent description",
     "h": "4ee1a6ee8e"
+  },
+  "방금 복사한 글이 있으면 키보드 맨 위에 띄워, 누르면 바로 들어가요. 전체 접근을 켜야 보여요.": {
+    "ko": "방금 복사한 글이 있으면 키보드 맨 위에 띄워, 누르면 바로 들어가요. 전체 접근을 켜야 보여요.",
+    "en": "When you've just copied something, it appears at the top of the keyboard. Tap it to paste. Requires Full Access.",
+    "comment": "Keyboard setting description: the paste chip needs Full Access",
+    "h": "9db195b10e"
   },
   "방금 복사한 글이 키보드 '최근'에 바로 담겨요. 저장할지 묻지 않고, 담긴 글은 %d일 뒤 저절로 지워져요.": {
     "ko": "방금 복사한 글이 키보드 '최근'에 바로 담겨요. 저장할지 묻지 않고, 담긴 글은 %d일 뒤 저절로 지워져요.",
@@ -8674,6 +8710,18 @@
     "en": "Copied things sort themselves",
     "comment": "DYK title: auto classify",
     "h": "5100523357"
+  },
+  "복사한 글 바로 붙여넣기": {
+    "ko": "복사한 글 바로 붙여넣기",
+    "en": "Quick Paste Copied Text",
+    "comment": "Keyboard setting toggle: show a paste chip above the keys when something was just copied",
+    "h": "7035810699"
+  },
+  "복사한 글 붙여넣기: %@": {
+    "ko": "복사한 글 붙여넣기: %@",
+    "en": "Paste copied text: %@",
+    "comment": "Keyboard chip above the keys that pastes the text just copied. %@ is a one-line preview",
+    "h": "6408a1d6bf"
   },
   "복사한 글을 이 목록에 저장": {
     "ko": "복사한 글을 이 목록에 저장",
@@ -10828,6 +10876,12 @@
     "en": "Delete every unused blank?",
     "comment": "Sweep orphan placeholders title",
     "h": "74de95db83"
+  },
+  "쓴 줄 %d개": {
+    "ko": "쓴 줄 %d개",
+    "en": "%d Used Lines",
+    "comment": "Header: lines already used on a consume-on-use snippet",
+    "h": "27a7fb8221"
   },
   "쓸 때 알려 줘요": {
     "ko": "쓸 때 알려 줘요",

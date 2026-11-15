@@ -4,7 +4,7 @@
 //
 //  **자판.** 시스템 키보드 없이 우리 키보드만으로 글을 치게 한다.
 //
-//  사용자는 쓰던 키보드를 지우고 이 키보드 하나로 친다. 단축어 판과 자판은 맨 위 띠의 키로 오간다.
+//  사용자는 쓰던 키보드를 지우고 이 키보드 하나로 친다. 단축어 판과 자판은 맨 아랫줄의 단축어 키로 오간다.
 //  배열은 `TypingLayouts`, 글자 넣기는 `TypingEngines`. 여기는 키를 그리고 손가락을 받는 일만 한다.
 //
 //  ⚠️ 키보드 확장은 제 영역 밖에 그릴 수 없다. 그래서 길게 눌러 나오는 글자, 한자 후보는
@@ -182,6 +182,10 @@ struct TypingKeyboardPanel: View {
     var learnedPicks: (String) -> [TypedShortcut.Pick] = { _ in [] }
     /// 스페이스를 누를 때 커서 앞 낱말을 바꿀 문구(아이폰 텍스트 대치). 바꾸지 않으면 nil.
     var textReplacement: (String) -> String? = { _ in nil }
+    /// 방금 복사한 글 붙여넣기 칩(`CopiedPasteOffer`). 친 낱말에 맞는 단축어가 없을 때 띠에 선다.
+    var copiedOffer: CopiedPasteChip? = nil
+    /// 칩을 눌렀다. 짓던 글자는 여기서 확정했다.
+    var onPasteCopied: () -> Void = {}
 
     @Environment(\.colorScheme) private var colorScheme
 
@@ -277,7 +281,8 @@ struct TypingKeyboardPanel: View {
 
     // MARK: - 맨 위 띠
 
-    /// 맨 위 띠: 길게 누르는 중이면 그 글자들, 후보가 있으면 후보, 아니면 단축어 판으로 가는 키.
+    /// 맨 위 띠: 길게 누르는 중이면 그 글자들, 후보가 있으면 후보, 아니면 친 낱말에 맞는 단축어 · 복사한 글.
+    /// 단축어 판으로 가는 키는 띠가 아니라 맨 아랫줄의 키 하나다(`snippetsKey`).
     /// 기본 키보드의 예측 막대 자리다. 맨 윗줄 키의 미리보기 풍선도 이 자리로 올라온다.
     @ViewBuilder
     private func topStrip(metrics: NativeKeyMetrics) -> some View {
@@ -287,27 +292,20 @@ struct TypingKeyboardPanel: View {
             candidateStrip
         } else {
             HStack(spacing: 8) {
-                Button {
-                    KeyboardHaptics.softTap()
-                    session.engine?.commit()
-                    onShowSnippets()
-                } label: {
-                    Label(NSLocalizedString("단축어", comment: "Typing keyboard: switch to the snippet keys"),
-                          systemImage: AppSymbol.squareGrid2x2)
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(style.label)
-                        .padding(.horizontal, 12)
-                        .frame(height: min(32, metrics.stripHeight - 10))
-                        .background(style.fill(.letter, pressed: false))
-                        .clipShape(Capsule())
-                        .frame(minHeight: 44)
-                        .contentShape(Rectangle())
-                }
-                .buttonStyle(.squish)
-                .accessibilityHint(NSLocalizedString("단축어 키 판으로 바꿉니다", comment: "Typing keyboard: snippets button hint"))
                 TypedShortcutRow(word: session.typedWord, picks: shortcutPicks, learned: learnedPicks) { picks in
                     shortcutChips(picks, metrics: metrics)
                 } fallback: {
+                    if let offer = copiedOffer {
+                        CopiedPasteChipView(chip: offer,
+                                            fill: style.fill(.letter, pressed: false),
+                                            label: style.label,
+                                            muted: theme.textMuted,
+                                            height: min(32, metrics.stripHeight - 10)) {
+                            session.engine?.commit()
+                            onPasteCopied()
+                            session.refresh()
+                        }
+                    }
                     Spacer(minLength: 0)
                     if language.needsConversionDictionary && session.dictionaryMissing {
                         Text(NSLocalizedString("한자 사전은 앱의 키보드 설정에서 받아요", comment: "Typing keyboard: CJK dictionary not downloaded yet"))
@@ -478,17 +476,19 @@ struct TypingKeyboardPanel: View {
         .frame(width: metrics.usableWidth, height: metrics.rowPitch)
     }
 
-    /// 맨 아랫줄: 123 · (지구본) · (언어) · 스페이스 · 리턴. 기본 키보드는 2.5 : 5 : 2.5 칸이다.
+    /// 맨 아랫줄: 123 · (지구본) · (언어) · 단축어 · 스페이스 · 리턴. 기본 키보드는 2.5 : 5 : 2.5 칸이다.
     private func bottomRow(metrics: NativeKeyMetrics) -> some View {
         let unit = metrics.usableWidth / 10
-        let sideKeys = (globeOverlay != nil ? 1 : 0) + (languages.count > 1 ? 1 : 0)
-        let layerWidth = sideKeys == 0 ? unit * 2.5 : unit * 1.25
-        let returnWidth = unit * 2.5
+        let sideKeys = (globeOverlay != nil ? 1 : 0) + (languages.count > 1 ? 1 : 0) + 1
+        let layerWidth = unit * 1.25
+        // 옆 키가 셋(지구본 · 언어 · 단축어)이면 스페이스가 너무 좁아지지 않게 리턴을 조금 줄인다.
+        let returnWidth = sideKeys >= 3 ? unit * 1.875 : unit * 2.5
         let spaceWidth = metrics.usableWidth - layerWidth - unit * 1.25 * CGFloat(sideKeys) - returnWidth
         return HStack(spacing: 0) {
             layerKey(metrics: metrics, width: layerWidth)
             if let globeOverlay { globeKey(globeOverlay, metrics: metrics, width: unit * 1.25, height: metrics.rowPitch) }
             if languages.count > 1 { languageKey(metrics: metrics, width: unit * 1.25, height: metrics.rowPitch) }
+            snippetsKey(metrics: metrics, width: unit * 1.25, height: metrics.rowPitch)
             spaceKey(metrics: metrics, width: spaceWidth, label: nil)
             returnKey(metrics: metrics, width: returnWidth, height: metrics.rowPitch)
         }
@@ -516,6 +516,16 @@ struct TypingKeyboardPanel: View {
         ZStack {
             RoundedRectangle(cornerRadius: style.cornerRadius, style: .continuous)
                 .fill(style.fill(kind, pressed: pressed))
+                .shadow(color: style.shadow, radius: 0, x: 0, y: 1)
+            label
+        }
+    }
+
+    /// 우리 키보드에만 있는 키(언어 · 단축어 판). 회색 기능키 사이에서 묻히지 않게 앱 강조색으로 칠한다.
+    private func accentKeyFace<Label: View>(_ label: Label, pressed: Bool) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: style.cornerRadius, style: .continuous)
+                .fill(theme.accent.opacity(pressed ? 0.7 : 1))
                 .shadow(color: style.shadow, radius: 0, x: 0, y: 1)
             label
         }
@@ -671,8 +681,9 @@ struct TypingKeyboardPanel: View {
             currentRaw = next.rawValue
         }) { pressed in
             cell(width: width, height: height, metrics: metrics) {
-                keyFace(textLabel(next == .en ? "ABC" : next.shortLabel, size: metrics.controlFontSize),
-                        kind: .control, pressed: pressed)
+                accentKeyFace(textLabel(next == .en ? "ABC" : next.shortLabel, size: metrics.controlFontSize,
+                                        color: .white),
+                              pressed: pressed)
             }
         }
         .accessibilityLabel(next.nativeName)
@@ -823,7 +834,7 @@ struct TypingKeyboardPanel: View {
     ///     (두 줄)| →  | ㅇㅁ | .,?! | 스페이스
     ///
     /// ⚠️ 왼쪽 아래 긴 키는 기본 키보드에서 다음 키보드로 가는 자리다. 지구본이 필요 없는 기기에서는
-    ///    그 자리에 단축어 판으로 가는 키를 세운다(우리 키보드의 '다음 판' 이다).
+    ///    그 자리에 단축어 판으로 가는 키를 세운다(우리 키보드의 '다음 판' 이다). 지구본이 있으면 반씩 나눈다.
     private func cheonjiinGrid(metrics: NativeKeyMetrics) -> some View {
         let w = metrics.usableWidth / 5
         let h = metrics.rowPitch
@@ -887,11 +898,14 @@ struct TypingKeyboardPanel: View {
         }
     }
 
-    /// 왼쪽 아래 긴 키: 지구본이 필요한 기기면 지구본, 아니면 단축어 판으로.
+    /// 왼쪽 아래 긴 키: 지구본이 필요한 기기면 지구본과 단축어 판 키를 반씩, 아니면 단축어 판 키 하나.
     @ViewBuilder
     private func cheonjiinTallKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat) -> some View {
         if let globeOverlay {
-            globeKey(globeOverlay, metrics: metrics, width: width, height: height)
+            VStack(spacing: 0) {
+                globeKey(globeOverlay, metrics: metrics, width: width, height: height / 2)
+                snippetsKey(metrics: metrics, width: width, height: height / 2)
+            }
         } else {
             snippetsKey(metrics: metrics, width: width, height: height)
         }
@@ -904,7 +918,8 @@ struct TypingKeyboardPanel: View {
             onShowSnippets()
         }) { pressed in
             cell(width: width, height: height, metrics: metrics) {
-                keyFace(symbolLabel(AppSymbol.squareGrid2x2, size: metrics.symbolFontSize), kind: .control, pressed: pressed)
+                accentKeyFace(symbolLabel(AppSymbol.squareGrid2x2, size: metrics.symbolFontSize, color: .white),
+                              pressed: pressed)
             }
         }
         .accessibilityLabel(NSLocalizedString("단축어", comment: "Typing keyboard: switch to the snippet keys"))

@@ -328,12 +328,19 @@ enum TypedShortcut {
     static func learnedPicks(ids: [UUID], typed: String, memos: [Memo], limit: Int = 3) -> [Pick] {
         let byID = Dictionary(memos.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
         return ids.compactMap { byID[$0] }
-            .filter { !$0.isSecure && !$0.isTemplate && !$0.isStack && $0.contentType == .text }
+            .filter { !$0.isSecure && !$0.isTemplate && !$0.isStack && !$0.isUsedUp && $0.contentType == .text }
             .prefix(limit)
             .map { Pick(typed: typed, title: $0.title, text: $0.value, memoID: $0.id) }
     }
 
-    /// 낱말에 맞는 칩들. 이름과 똑같은 것이 먼저, 이름이 그 낱말로 시작하는 것(두 글자부터)이 다음이다.
+    /// 내용 앞부분으로 맞추는 데 필요한 글자 수. "le" 처럼 짧으면 아무 글이나 걸린다.
+    static let valuePrefixMinimum = 3
+
+    /// 낱말에 맞는 칩들. 이름과 똑같은 것이 먼저, 이름이 그 낱말로 시작하는 것(두 글자부터)이 다음,
+    /// 내용이 그 낱말로 시작하는 것(세 글자부터)이 마지막이다.
+    ///
+    /// 내용으로 맞추기: 사용자 요청(2026-11). "leeo@" 까지 치면 단축어 내용 "leeo@kakao.com" 이 칩으로 서고,
+    /// 누르면 친 낱말을 지우고 내용 전체가 들어간다. 잠근 단축어는 이름처럼 내용으로도 꺼내지 않는다.
     static func picks(for word: String, memos: [Memo], replacements: [Replacement], limit: Int = 3) -> [Pick] {
         guard !word.isEmpty else { return [] }
         let options: String.CompareOptions = [.caseInsensitive, .widthInsensitive]
@@ -341,15 +348,20 @@ enum TypedShortcut {
         func starts(_ a: String) -> Bool { word.count >= 2 && a.range(of: word, options: options.union(.anchored)) != nil }
 
         let usable = memos
-            .filter { !$0.isSecure && !$0.isTemplate && !$0.isStack && $0.contentType == .text && !$0.title.isEmpty }
+            .filter { !$0.isSecure && !$0.isTemplate && !$0.isStack && !$0.isUsedUp && $0.contentType == .text && !$0.title.isEmpty }
             .sorted { $0.clipCount > $1.clipCount }
         let exact = replacements.filter { same($0.shortcut) }.map { Pick(typed: word, title: $0.phrase, text: $0.phrase, memoID: nil) }
             + usable.filter { same($0.title) }.map { Pick(typed: word, title: $0.title, text: $0.value, memoID: $0.id) }
         let prefixed = usable.filter { !same($0.title) && starts($0.title) }
             .map { Pick(typed: word, title: $0.title, text: $0.value, memoID: $0.id) }
+        let byValue = word.count < valuePrefixMinimum ? [] : memos
+            .filter { !$0.isSecure && !$0.isTemplate && !$0.isStack && !$0.isUsedUp && $0.contentType == .text }
+            .filter { $0.value.count > word.count && $0.value.range(of: word, options: options.union(.anchored)) != nil }
+            .sorted { $0.clipCount > $1.clipCount }
+            .map { Pick(typed: word, title: $0.title.isEmpty ? $0.value : $0.title, text: $0.value, memoID: $0.id) }
 
         var seen = Set<String>()
-        return (exact + prefixed)
+        return (exact + prefixed + byValue)
             .filter { $0.text != word && seen.insert($0.text).inserted }
             .prefix(limit)
             .map { $0 }

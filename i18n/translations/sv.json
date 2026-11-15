@@ -12496,5 +12496,41 @@
   "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요.": {
     "v": "Om du vill höra det här igen sveper du uppåt eller nedåt på kategorinamnet högst upp och väljer %@.",
     "src": "03b66505cf"
+  },
+  "복사한 글 붙여넣기: %@": {
+    "v": "Klistra in kopierad text: %@",
+    "src": "6408a1d6bf"
+  },
+  "복사한 글 바로 붙여넣기": {
+    "v": "Klistra in kopierad text snabbt",
+    "src": "7035810699"
+  },
+  "방금 복사한 글이 있으면 키보드 맨 위에 띄워, 누르면 바로 들어가요. 전체 접근을 켜야 보여요.": {
+    "v": "När du just har kopierat något visas det överst på tangentbordet. Tryck för att klistra in. Kräver full åtkomst.",
+    "src": "9db195b10e"
+  },
+  "다 썼어요. 편집에서 쓴 줄을 되살릴 수 있어요": {
+    "v": "Allt är använt. Du kan återställa använda rader under Redigera",
+    "src": "27442e28cd"
+  },
+  "다 씀": {
+    "v": "Slut",
+    "src": "a197efb9d6"
+  },
+  "쓴 줄 %d개": {
+    "v": "%d använda rader",
+    "src": "27a7fb8221"
+  },
+  "모두 되살리기": {
+    "v": "Återställ alla",
+    "src": "89ae17908c"
+  },
+  "%@ 되살리기": {
+    "v": "Återställ %@",
+    "src": "abfb03169c"
+  },
+  "되살린 줄은 다음에 가장 먼저 들어가요. 저장해야 남아요.": {
+    "v": "En återställd rad infogas först nästa gång. Spara för att behålla den.",
+    "src": "6c040f5c99"
   }
 }

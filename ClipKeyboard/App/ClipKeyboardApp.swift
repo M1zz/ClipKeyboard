@@ -2128,6 +2128,7 @@ struct MemoSearchView: View {
 
     /// 비보안 메모만 복사(보안 메모는 버튼 자체가 비활성).
     private func copy(_ memo: Memo) {
+        guard !memo.isUsedUp else { return }   // 쓰면 지우기를 다 썼다. 줄 것이 없다
         let text = memo.textToUse()
         #if os(iOS)
         UIPasteboard.general.string = text

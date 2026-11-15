@@ -522,10 +522,13 @@ struct Memo: Identifiable, Codable {
     /// 바뀌었다 돌아온다(동기화). hint가 비어있으면 무의미. 기본 ON.
     var hintShownOnKeyboard: Bool = true
     /// **쓰면 지우기.** 켜 두면 한 번 쓸 때마다 본문의 윗줄 하나가 들어가고 그 줄은 지워진다.
-    /// 마지막 줄까지 쓰면 단축어가 사라진다. 교환 코드 · 초대 코드처럼 한 사람에게 하나씩만
+    /// 마지막 줄까지 쓰면 본문이 비고 "다 씀" 으로 남는다(되살릴 수 있게). 교환 코드 · 초대 코드처럼 한 사람에게 하나씩만
     /// 줘야 하는 것을 위한 것이다(같은 코드를 두 사람에게 보내는 실수를 막는다).
     /// 지우는 일은 `MemoStore.incrementClipCount` 한 곳이 한다. 파일에 없으면 false (하위 호환).
     var consumesOnUse: Bool = false
+    /// 쓰면 지우기로 **이미 나간 줄들**. 먼저 나간 것부터 줄바꿈으로 잇는다. 편집 화면에서 줄마다 되살린다.
+    /// 잠근 단축어면 본문처럼 암호문이다. 파일에 없으면 nil (하위 호환). 사용자 요청(2026-11, 중국어).
+    var usedLines: String?
     /// 카드에 보일 아이콘. `SnippetIcon(raw:)` 로 읽는다(심볼 이름 · `emoji:` · `image:`).
     /// 파일에 없으면 nil (하위 호환). 키보드는 아직 그리지 않는다.
     var icon: String?
@@ -601,6 +604,7 @@ struct Memo: Identifiable, Codable {
         self.hintShownOnKeyboard = try c.decodeIfPresent(Bool.self, forKey: .hintShownOnKeyboard) ?? true
         self.consumesOnUse = try c.decodeIfPresent(Bool.self, forKey: .consumesOnUse) ?? false
         self.icon = try c.decodeIfPresent(String.self, forKey: .icon)
+        self.usedLines = try c.decodeIfPresent(String.self, forKey: .usedLines)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -631,6 +635,7 @@ struct Memo: Identifiable, Codable {
         case hintShownOnKeyboard
         case consumesOnUse
         case icon
+        case usedLines
     }
 
     /// ⚠️ 하위호환(다운그레이드 안전): 구버전(4.3.0 이하)의 **합성** Codable 디코더는
@@ -673,6 +678,7 @@ struct Memo: Identifiable, Codable {
         try c.encode(hintShownOnKeyboard, forKey: .hintShownOnKeyboard)
         try c.encode(consumesOnUse, forKey: .consumesOnUse)
         try c.encodeIfPresent(icon, forKey: .icon)
+        try c.encodeIfPresent(usedLines, forKey: .usedLines)
 
         // 레거시 키도 함께 기록 - 구버전 디코더가 필수로 요구하는 키.
         var legacy = encoder.container(keyedBy: LegacyCompatKeys.self)
@@ -767,12 +773,37 @@ enum ConsumableLines {
     /// 이번에 나갈 줄. 줄이 하나도 없으면 nil.
     static func next(in text: String) -> String? { lines(in: text).first }
 
-    /// 첫 줄을 뺀 나머지 본문. 남은 줄이 없으면 nil(단축어를 지워야 한다는 뜻).
+    /// 첫 줄을 뺀 나머지 본문. 남은 줄이 없으면 nil.
     static func remainder(after text: String) -> String? {
         let rest = lines(in: text).dropFirst()
         return rest.isEmpty ? nil : rest.joined(separator: "\n")
     }
+
+    /// 한 번 쓴 뒤: 첫 줄을 본문에서 빼서 쓴 줄 끝에 붙인다. 다 쓰면 본문은 빈 글이다(단축어는 남는다).
+    static func consuming(value: String, used: String?) -> (value: String, used: String?) {
+        let all = lines(in: value)
+        guard let first = all.first else { return (value, used) }
+        return (all.dropFirst().joined(separator: "\n"), join(lines(in: used ?? "") + [first]))
+    }
+
+    /// 쓴 줄 하나를 되살린다. 잘못 쓴 것이니 **다음에 나갈 줄**(맨 위)로 돌아간다.
+    static func restoring(at index: Int, value: String, used: String?) -> (value: String, used: String?) {
+        var usedList = lines(in: used ?? "")
+        guard usedList.indices.contains(index) else { return (value, used) }
+        let line = usedList.remove(at: index)
+        return (([line] + lines(in: value)).joined(separator: "\n"), join(usedList))
+    }
+
+    /// 쓴 줄을 모두 되살린다. 처음 넣었던 차례대로(먼저 쓴 것이 맨 위).
+    static func restoringAll(value: String, used: String?) -> (value: String, used: String?) {
+        ((lines(in: used ?? "") + lines(in: value)).joined(separator: "\n"), nil)
+    }
+
+    private static func join(_ list: [String]) -> String? {
+        list.isEmpty ? nil : list.joined(separator: "\n")
+    }
 }
+
 
 extension Memo {
     /// 쓰면 지우기가 실제로 작동하는 단축어인가. 스택은 칸이 곧 순서라 여기 끼지 않는다.
@@ -784,6 +815,15 @@ extension Memo {
         guard isConsumable else { return nil }
         let plain = SecureMemoCrypto.isEncrypted(value) ? SecureMemoCrypto.decrypt(value) : value
         return plain.map { ConsumableLines.lines(in: $0).count }
+    }
+
+    /// 쓰면 지우기를 마지막 줄까지 다 썼다. 넣을 것이 없으니 누르면 아무것도 넣지 않는다.
+    /// 단축어는 남아 있어 편집 화면에서 쓴 줄을 되살릴 수 있다.
+    var isUsedUp: Bool {
+        guard isConsumable else { return false }
+        // 잠근 것도 다 쓰면 본문을 평문 빈 글로 둔다(`MemoStore.consumed`). 그래서 풀지 않고 안다.
+        if SecureMemoCrypto.isEncrypted(value) { return false }
+        return ConsumableLines.lines(in: value).isEmpty
     }
 
     /// 이번에 넣을 글. 쓰면 지우기면 첫 줄, 아니면 본문 전체.
