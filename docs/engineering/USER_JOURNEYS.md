@@ -72,6 +72,7 @@
 | 사용법 페이지 언어 | 앱을 다른 언어로 쓰는데 사용법이 기기 언어(한국어)로 열린다 · 어떤 언어는 페이지가 없다 (2026-11 사용자 피드백) | `GuideLanguageTests/test_사용법_페이지는_앱_언어로_열리고_모든_언어에_있다` |
 | 한국 흔적 없음 | 한국어를 모르는 사람에게 한글, 010 번호, 서울 주소, 한글 수정 소식이 보이고 언어 목록 맨 앞이 한국어다 (2026-11) | `ForeignerTraceTests/test_다른_언어_사용자에게_한국_흔적이_보이지_않는다` |
 | 칸에 맞는 단축어 먼저 | 카드번호 칸에서 카드 단축어를 목록에서 찾아 넘겨야 한다 · 아무 칸에서나 엉뚱한 단축어가 앞에 선다 (2026-10 사용자 요청) | `KeyboardSessionLedgerTests/fitsComeFirstInQuickRow` |
+| 빈 띠는 접는다 | 자판 위에 아무것도 없는 빈칸이 늘 남는다 · 칩이 서는 동안 키 크기가 출렁인다 (2026-11 사용자 요청) | `KeyboardHeightBookTests/testEmptyStripFoldsKeyboardWithoutResizingKeys` |
 | 치면 떠오르는 단축어 | 자판으로 치다가 단축어를 쓰려면 판을 바꿔 찾아야 한다 · 아이폰에 넣어 둔 텍스트 대치가 우리 자판에서는 안 된다 (2026-10 사용자 요청) | `KeyboardSessionLedgerTests/typedNameSuggestsShortcut` |
 | 내용 앞부분을 치면 떠오르는 단축어 | 이름만 맞춰서 "leeo@" 까지 쳐도 이메일 단축어가 안 선다 · 잠근 단축어 내용이 띠에 보인다 (2026-11 사용자 요청) | `KeyboardSessionLedgerTests/typedValuePrefixSuggestsShortcut` |
 | 텍스트 대치를 우리 자판에서 | 아이폰 텍스트 대치의 단축을 쳐도 스페이스에서 안 바뀐다 · 연락처 이름이나 앞부분만 친 낱말이 바뀐다 (2026-11 사용자 요청) | `KeyboardSessionLedgerTests/textReplacementOnSpace` |

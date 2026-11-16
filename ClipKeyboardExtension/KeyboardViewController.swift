@@ -83,7 +83,10 @@ class KeyboardViewController: UIInputViewController {
 
     /// SwiftUI에서 관찰하는 호스트 텍스트 필드 상태 - textDidChange에서 갱신
     private let documentState = KeyboardDocumentState()
-    private lazy var keyboardView: KeyboardView = KeyboardView(typingProxy: self, documentState: documentState)
+    /// 자판 띠가 비면 그만큼 낮춘다(`KeyboardStripFold`).
+    private let stripFold = KeyboardStripFold()
+    private lazy var keyboardView: KeyboardView = KeyboardView(typingProxy: self, documentState: documentState,
+                                                               stripFold: stripFold)
     private var hostingController: UIHostingController<KeyboardView>?
     /// 연달아 끝까지 못 뜨면 다음부터 최소 화면으로 연다(`KeyboardCrashGuard`).
     private let crashGuard = KeyboardCrashGuard.make()
@@ -279,6 +282,13 @@ class KeyboardViewController: UIInputViewController {
         constraint.priority = UILayoutPriority(999)
         constraint.isActive = true
         heightConstraint = constraint
+        stripFold.fullHeight = desiredHeight
+        // 자판 띠가 비거나 차면 높이만 다시 건다. 칩이 서고 내리는 것이라 짧게 움직인다.
+        stripFold.onChange = { [weak self] in
+            UIView.animate(withDuration: 0.18, delay: 0, options: [.curveEaseOut, .beginFromCurrentState]) {
+                self?.applyHeight()
+            }
+        }
     }
 
     /// 지금 화면에서 우리 판이 가질 높이. 앱이 재 둔 시스템 키보드 값이 바탕이 된다.
@@ -306,7 +316,9 @@ class KeyboardViewController: UIInputViewController {
 
     /// 회전 등으로 화면이 바뀐 뒤 높이를 다시 맞춘다.
     private func applyHeight() {
-        let target = desiredHeight
+        let full = desiredHeight
+        if stripFold.fullHeight != full { stripFold.fullHeight = full }
+        let target = full - stripFold.requested
         guard let heightConstraint, heightConstraint.constant != target else { return }
         heightConstraint.constant = target
         view.layoutIfNeeded()

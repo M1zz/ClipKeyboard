@@ -285,6 +285,8 @@ struct KeyboardView: View {
     /// 호스트 텍스트 필드 상태 - clearAll(X) 버튼은 hasText일 때만 노출.
     /// nil이면 (preview 등) 항상 표시.
     @ObservedObject var documentState: KeyboardDocumentState
+    /// 자판 띠가 비면 키보드를 낮춘다. 진짜 키보드만 컨트롤러가 높이를 바꾼다(`KeyboardStripFold`).
+    let stripFold: KeyboardStripFold
 
     /// 누가 이 키보드를 띄우고 있는가 - 앱 안이면 키마다 복사 버튼이 하나 더 붙는다.
     let hostKind: KeyboardHostKind
@@ -310,11 +312,13 @@ struct KeyboardView: View {
 
     init(typingProxy: TypingInputProxy? = nil,
          documentState: KeyboardDocumentState = KeyboardDocumentState(),
+         stripFold: KeyboardStripFold = .inert,
          hostKind: KeyboardHostKind = .keyboardExtension,
          highlightedMemoId: UUID? = nil,
          highlightedStackPart: StackKeyPart? = nil) {
         self.typingProxy = typingProxy
         self.documentState = documentState
+        self.stripFold = stripFold
         self.hostKind = hostKind
         // 설정 미리보기는 서랍을 열어 둔 채 시작한다(`startsWithControlKeysExpanded`).
         _controlKeysExpanded = State(initialValue: hostKind.startsWithControlKeysExpanded)
@@ -2151,7 +2155,8 @@ struct KeyboardView: View {
                 },
                 copiedOffer: copiedOffer,
                 onPasteCopied: pasteCopiedText,
-                onPickCopiedPart: { if let offer = copiedOffer { pickPartOfCopied(offer) } }
+                onPickCopiedPart: { if let offer = copiedOffer { pickPartOfCopied(offer) } },
+                stripFold: stripFold
             )
         } else {
             memoModeContent

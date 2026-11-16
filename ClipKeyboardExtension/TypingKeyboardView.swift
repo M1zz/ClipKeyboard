@@ -144,6 +144,35 @@ enum KeyboardInputMode: String {
     case snippets
 }
 
+// MARK: - 비어 있는 띠 접기
+
+/// 자판 맨 위 띠가 비어 있으면 키보드를 그만큼 낮춘다. 칩 · 후보가 서면 다시 높인다.
+///
+/// 사용자(2026-11): "상단에 빈칸 왜 있어? 뭔가 넣을 게 생기면 키보드가 늘어나게 해 줘."
+/// 띠는 기본 키보드의 예측 막대 자리인데, 단축어 키가 맨 아랫줄로 내려간 뒤로는 대개 비어 있다.
+///
+/// ⚠️ 키보드 높이는 컨트롤러만 바꿀 수 있다. 자판은 접을 만큼을 말하고(`request`),
+///    컨트롤러는 판 전체 높이(`fullHeight`)를 알려 준다. 자판은 키 줄을 늘 전체 높이로 재고
+///    남는 자리만 띠로 쓴다. 그래야 높이가 바뀌는 동안 키 크기가 출렁이지 않는다.
+/// ⚠️ 앱 안의 키보드(키보드 탭 · 설정 미리보기)는 높이를 바꿀 주인이 없어 `inert` 를 쓴다.
+final class KeyboardStripFold: ObservableObject {
+    /// 접기 전 판 높이. nil 이면 주어진 자리 그대로 쓴다.
+    @Published var fullHeight: CGFloat?
+    /// 자판이 접어 달라고 한 높이. 0 이면 띠를 다 편다.
+    private(set) var requested: CGFloat = 0
+    /// 바뀌면 컨트롤러가 높이를 다시 건다.
+    var onChange: (() -> Void)?
+
+    static let inert = KeyboardStripFold()
+
+    func request(_ amount: CGFloat) {
+        let value = max(0, amount.rounded())
+        guard value != requested else { return }
+        requested = value
+        onChange?()
+    }
+}
+
 // MARK: - 자판 판
 
 
@@ -188,6 +217,8 @@ struct TypingKeyboardPanel: View {
     var onPasteCopied: () -> Void = {}
     /// 칩을 길게 눌렀다. 필요한 부분만 고른다.
     var onPickCopiedPart: () -> Void = {}
+    /// 띠가 비면 키보드를 낮춘다(`KeyboardStripFold`).
+    @ObservedObject var stripFold: KeyboardStripFold = .inert
 
     @Environment(\.colorScheme) private var colorScheme
 
@@ -211,6 +242,8 @@ struct TypingKeyboardPanel: View {
     @State private var punctuationCycle: (index: Int, at: Date)?
     /// 플릭 자판에서 지금 누르고 있는 키. 그 키의 십자가가 옆 키 위에 그려지게 맨 앞으로 올린다.
     @State private var pressedKanaKey: String?
+    /// 띠에 친 낱말의 단축어 칩이 서 있는가(`TypedShortcutRow` 가 알려 준다).
+    @State private var showsShortcutChips = false
     /// 바로 전 스페이스에서 텍스트 대치로 바꾼 것. 곧바로 지우기를 누르면 친 낱말로 되돌린다(기본 키보드와 같다).
     @State private var lastReplacement: (typed: String, phrase: String)?
 
@@ -246,12 +279,18 @@ struct TypingKeyboardPanel: View {
 
     var body: some View {
         GeometryReader { geo in
-            let metrics = NativeKeyMetrics(size: geo.size,
-                                           rowCount: usesPad ? 4 : letterRows.count + 1,
+            let rowCount = usesPad ? 4 : letterRows.count + 1
+            // 키 줄은 접기 전 높이로 잰다. 접으면 띠만 줄어든다.
+            let metrics = NativeKeyMetrics(size: CGSize(width: geo.size.width,
+                                                        height: stripFold.fullHeight ?? geo.size.height),
+                                           rowCount: rowCount,
                                            columns: usesPad ? 5 : columns)
+                .shown(in: geo.size.height)
+            let fold = stripIsEmpty ? max(0, metrics.stripHeight - NativeKeyMetrics.foldedStripHeight) : 0
             VStack(spacing: 0) {
                 topStrip(metrics: metrics)
-                    .frame(height: metrics.stripHeight)
+                    .frame(height: metrics.visibleStripHeight)
+                    .clipped()
                     .padding(.horizontal, NativeKeyMetrics.sideInset + metrics.gapX / 2)
                 if usesCheonjiin {
                     cheonjiinGrid(metrics: metrics)
@@ -265,8 +304,11 @@ struct TypingKeyboardPanel: View {
             .padding(.bottom, NativeKeyMetrics.bottomInset)
             .onAppear { panelWidth = geo.size.width }
             .onChange(of: geo.size.width) { _, width in panelWidth = width }
+            .onChange(of: fold, initial: true) { _, amount in stripFold.request(amount) }
         }
         .coordinateSpace(name: TypingLetterKeySpace.name)
+        // 단축어 판으로 넘어가면 그 판은 제 높이를 다 쓴다.
+        .onDisappear { stripFold.request(0) }
         .onAppear {
             session.prepare(language: language, proxy: proxy, koreanLayout: koreanLayout)
             updateAutoShift()
@@ -283,6 +325,17 @@ struct TypingKeyboardPanel: View {
 
     // MARK: - 맨 위 띠
 
+    /// 띠에 세울 것이 없는가. 없으면 키보드를 그만큼 낮춘다(`KeyboardStripFold`).
+    /// ⚠️ 플릭 자판은 위로 튕긴 글자가 띠 자리에 뜬다. 접으면 잘려서 접지 않는다.
+    private var stripIsEmpty: Bool {
+        !usesKanaFlick
+            && alternates == nil
+            && session.candidates.isEmpty
+            && !showsShortcutChips
+            && copiedOffer == nil
+            && !(language.needsConversionDictionary && session.dictionaryMissing)
+    }
+
     /// 맨 위 띠: 길게 누르는 중이면 그 글자들, 후보가 있으면 후보, 아니면 친 낱말에 맞는 단축어 · 복사한 글.
     /// 단축어 판으로 가는 키는 띠가 아니라 맨 아랫줄의 키 하나다(`snippetsKey`).
     /// 기본 키보드의 예측 막대 자리다. 맨 윗줄 키의 미리보기 풍선도 이 자리로 올라온다.
@@ -294,7 +347,8 @@ struct TypingKeyboardPanel: View {
             candidateStrip
         } else {
             HStack(spacing: 8) {
-                TypedShortcutRow(word: session.typedWord, picks: shortcutPicks, learned: learnedPicks) { picks in
+                TypedShortcutRow(word: session.typedWord, picks: shortcutPicks, learned: learnedPicks,
+                                 onShowingChips: { showsShortcutChips = $0 }) { picks in
                     shortcutChips(picks, metrics: metrics)
                 } fallback: {
                     if let offer = copiedOffer {
@@ -567,7 +621,7 @@ struct TypingKeyboardPanel: View {
             metrics: metrics,
             style: style,
             // 맨 윗줄 풍선은 띠 안에서 끝나야 한다(키보드 확장은 제 영역 밖에 못 그린다).
-            maxRise: rowIndex == 0 ? metrics.stripHeight + metrics.gapY / 2 - 2 : metrics.rowPitch * 1.4,
+            maxRise: rowIndex == 0 ? metrics.visibleStripHeight + metrics.gapY / 2 - 2 : metrics.rowPitch * 1.4,
             panelWidth: panelWidth,
             onTap: { type(key) },
             onAlternatesBegan: { options, alignLeading in
@@ -1145,13 +1199,18 @@ private struct TypedShortcutRow<Chips: View, Fallback: View>: View {
     let picks: (String) -> [TypedShortcut.Pick]
     /// 띄어 쓴 뒤 칸이 비었을 때 배운 단축어(지울 낱말이 없다).
     let learned: (String) -> [TypedShortcut.Pick]
+    /// 칩이 서고 내릴 때만 알린다(글자마다 자판을 다시 그리지 않게).
+    let onShowingChips: (Bool) -> Void
     @ViewBuilder let chips: ([TypedShortcut.Pick]) -> Chips
     @ViewBuilder let fallback: () -> Fallback
 
     var body: some View {
         let found = !word.value.isEmpty ? picks(word.value)
             : (word.previous.isEmpty ? [] : learned(word.previous))
-        if found.isEmpty { fallback() } else { chips(found) }
+        Group {
+            if found.isEmpty { fallback() } else { chips(found) }
+        }
+        .onChange(of: found.isEmpty, initial: true) { _, empty in onShowingChips(!empty) }
     }
 }
 
@@ -1219,9 +1278,23 @@ struct NativeKeyMetrics {
     /// 풍선이 솟을 수 있는 높이는 띠 + 줄 틈의 절반 - 2 다(`maxRise`).
     static let stripShortfall: CGFloat = 12.5
 
+    /// 띠가 비어 접혔을 때 남기는 높이. 기본 키보드에서 예측 막대를 껐을 때의 윗 여백과 비슷하다.
+    static let foldedStripHeight: CGFloat = 6
+
     let size: CGSize
     let rowCount: Int
     let columns: Int
+    /// 지금 실제로 보이는 띠 높이. 비어서 접혔으면 `stripHeight` 보다 낮다.
+    var shownStripHeight: CGFloat?
+
+    var visibleStripHeight: CGFloat { shownStripHeight ?? stripHeight }
+
+    /// 실제로 받은 높이가 `height` 일 때. 키 줄은 그대로 두고 남는 자리만 띠가 된다.
+    func shown(in height: CGFloat) -> NativeKeyMetrics {
+        var copy = self
+        copy.shownStripHeight = max(0, height - Self.bottomInset - rowPitch * CGFloat(rowCount))
+        return copy
+    }
 
     var usableWidth: CGFloat { max(0, size.width - Self.sideInset * 2) }
 
@@ -1664,7 +1737,8 @@ private struct TypingLetterKey: View {
                     .fill(style.fill(.letter, pressed: false))
                     .shadow(color: .black.opacity(style.isDark ? 0.45 : 0.18), radius: 3, x: 0, y: 1)
             )
-            .offset(x: dx, y: -(metrics.keyHeight + lift))
+            // 띠가 접혀 위가 모자라면 그만큼 키 쪽으로 내린다(판 밖은 잘린다).
+            .offset(x: dx, y: -(metrics.keyHeight + lift) + max(0, lift + height - maxRise))
             .allowsHitTesting(false)
             .accessibilityHidden(true)
     }

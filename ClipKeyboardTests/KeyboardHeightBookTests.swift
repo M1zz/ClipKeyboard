@@ -527,6 +527,26 @@ final class KeyboardHeightBookTests: XCTestCase {
         }
     }
 
+    /// 사용자(2026-11): "상단에 빈칸 왜 있어? 뭔가 넣을 게 생기면 키보드가 늘어나게."
+    /// 띠가 비면 그만큼 키보드를 낮추고, 키 크기는 그대로 둔다. 맨 윗줄 풍선은 판 밖으로 나가지 않는다.
+    func testEmptyStripFoldsKeyboardWithoutResizingKeys() {
+        for (width, height) in [(CGFloat(402), CGFloat(874)), (440, 956), (375, 667)] {
+            let full = typingMetrics(screenHeight: height, width: width, rows: 4)
+            let fold = full.stripHeight - NativeKeyMetrics.foldedStripHeight
+            XCTAssertGreaterThan(fold, 20, "\(height)pt: 접을 자리가 거의 없으면 빈칸이 그대로 보인다")
+
+            let folded = full.shown(in: full.size.height - fold)
+            XCTAssertEqual(folded.visibleStripHeight, NativeKeyMetrics.foldedStripHeight, accuracy: 0.01)
+            XCTAssertEqual(folded.rowPitch, full.rowPitch, "접는 동안 키가 출렁이면 안 된다")
+            XCTAssertEqual(full.shown(in: full.size.height).visibleStripHeight, full.stripHeight, accuracy: 0.01,
+                           "칩이 서면 띠를 다 편다")
+
+            // 접힌 판에서 맨 윗줄 풍선이 솟을 수 있는 높이. 풍선은 이 안에서 끝나게 내려 그린다.
+            let rise = folded.visibleStripHeight + folded.gapY / 2 - 2
+            XCTAssertGreaterThan(rise, 0, "\(height)pt: 풍선이 놓일 자리가 아예 없다")
+        }
+    }
+
     // MARK: - 언어마다 다른 높이 바닥
 
     /// 사용자 결정(2026-10-31): 4줄 언어 43%, 5줄 언어 46%.
