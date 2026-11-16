@@ -217,6 +217,8 @@ struct TypingKeyboardPanel: View {
     var onPasteCopied: () -> Void = {}
     /// 칩을 길게 눌렀다. 필요한 부분만 고른다.
     var onPickCopiedPart: () -> Void = {}
+    /// 칩의 X 를 눌렀다.
+    var onCloseCopied: () -> Void = {}
     /// 띠가 비면 키보드를 낮춘다(`KeyboardStripFold`).
     @ObservedObject var stripFold: KeyboardStripFold = .inert
 
@@ -366,7 +368,8 @@ struct TypingKeyboardPanel: View {
                                                 session.engine?.commit()
                                                 onPickCopiedPart()
                                                 session.refresh()
-                                            })
+                                            },
+                                            onClose: onCloseCopied)
                     }
                     Spacer(minLength: 0)
                     if language.needsConversionDictionary && session.dictionaryMissing {

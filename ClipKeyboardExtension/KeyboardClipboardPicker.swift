@@ -34,12 +34,10 @@ import NaturalLanguage
 ///    (`docs/postmortem/HANG_PASTEBOARD_5_0_1.md`).
 /// ⚠️ 한 번 쓴 복사 번호는 다시 세우지 않는다. 넣은 뒤에도 칩이 남으면 두 번 넣게 되고,
 ///    키보드가 스스로 복사한 글(최근 탭 길게 누르기)을 다시 붙이라고 하면 이상하다.
-/// ⚠️ 복사한 시각은 알 수 없다. 키보드가 처음 본 때부터 `lifetime` 이 지나면 내린다.
-///    그래야 몇 시간 전에 복사한 것이 하루 종일 띠를 차지하지 않는다.
+/// ⚠️ 클립보드에 글이 있는 동안 서 있다. 내리는 것은 사람이 정한다: 넣거나, X 로 닫거나
+///    (사용자 2026-11: "클립보드에 값이 있으면 상단에 떠 줘야 하는데 X 버튼과 함께").
+///    예전에는 처음 본 뒤 3분이 지나면 저절로 내려서, 조금 전에 복사한 글이 안 보였다.
 enum CopiedPasteOffer {
-
-    /// 처음 본 뒤 칩이 서 있는 시간.
-    static let lifetime: TimeInterval = 3 * 60
 
     /// 칩에 보일 한 줄. 줄바꿈은 띄어쓰기로, 카드번호 · 계좌처럼 남이 보면 곤란한 것은 끝 네 자리만.
     static func preview(_ text: String, isSensitive: Bool) -> String {
@@ -50,11 +48,9 @@ enum CopiedPasteOffer {
     }
 
     /// 이 복사 번호의 글을 칩으로 세울지.
-    static func shouldOffer(changeCount: Int, text: String?, consumedCount: Int?,
-                            firstSeen: Date, now: Date = Date()) -> Bool {
+    static func shouldOffer(changeCount: Int, text: String?, consumedCount: Int?) -> Bool {
         guard let text, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return false }
-        guard changeCount != consumedCount else { return false }
-        return now.timeIntervalSince(firstSeen) < lifetime
+        return changeCount != consumedCount
     }
 
     // MARK: 기억 (App Group)
@@ -63,20 +59,9 @@ enum CopiedPasteOffer {
         AppGroup.defaults?.object(forKey: DefaultsKey.keyboardPasteOfferConsumedCount) as? Int
     }
 
-    /// 이 번호는 다 썼다. 넣었을 때와 키보드가 스스로 복사했을 때 부른다.
+    /// 이 번호는 다 썼다. 넣었을 때 · X 로 닫았을 때 · 키보드가 스스로 복사했을 때 부른다.
     static func markConsumed(_ changeCount: Int) {
         AppGroup.defaults?.set(changeCount, forKey: DefaultsKey.keyboardPasteOfferConsumedCount)
-    }
-
-    /// 이 번호를 처음 본 때. 처음이면 지금을 적어 두고 돌려준다.
-    static func firstSeen(for changeCount: Int, now: Date = Date()) -> Date {
-        if let saved = AppGroup.defaults?.array(forKey: DefaultsKey.keyboardPasteOfferSeen) as? [Double],
-           saved.count == 2, Int(saved[0]) == changeCount {
-            return Date(timeIntervalSinceReferenceDate: saved[1])
-        }
-        // 기준일 초로 적는다. 1970 초로 바꾸면 소수 끝이 깎여 돌려받은 때가 처음 본 때와 어긋난다.
-        AppGroup.defaults?.set([Double(changeCount), now.timeIntervalSinceReferenceDate], forKey: DefaultsKey.keyboardPasteOfferSeen)
-        return now
     }
 }
 
@@ -85,8 +70,6 @@ struct CopiedPasteChip: Equatable {
     let text: String
     let preview: String
     let changeCount: Int
-    /// 이때 내린다(처음 본 때 + `CopiedPasteOffer.lifetime`).
-    let expiresAt: Date
 }
 
 /// 붙여넣기 칩의 모양. 단축어 판과 글자 자판이 같은 것을 쓴다(색만 받는다).
@@ -99,11 +82,21 @@ struct CopiedPasteChipView: View {
     let action: () -> Void
     /// 길게 누르면 필요한 부분만 고른다(붙여넣기 키와 같은 손짓). 없으면 길게 눌러도 그대로 넣는다.
     var onPickPart: (() -> Void)? = nil
+    /// X 를 눌렀다. 이 복사는 다시 세우지 않는다.
+    var onClose: (() -> Void)? = nil
 
     /// 길게 누른 손을 뗄 때 오는 누르기를 한 번 삼킨다.
     @State private var longPressedAt: Date?
 
     var body: some View {
+        HStack(spacing: 2) {
+            chipButton
+            if let onClose { closeButton(onClose) }
+        }
+        .transition(.opacity.combined(with: .scale(scale: 0.9, anchor: .leading)))
+    }
+
+    private var chipButton: some View {
         Button {
             if let at = longPressedAt, Date().timeIntervalSince(at) < 0.8 { return }
             action()
@@ -138,7 +131,22 @@ struct CopiedPasteChipView: View {
         .accessibilityAction(named: Text(NSLocalizedString("부분만 고르기", comment: "Accessibility action: pick part of clipboard"))) {
             onPickPart?()
         }
-        .transition(.opacity.combined(with: .scale(scale: 0.9, anchor: .leading)))
+    }
+
+    private func closeButton(_ onClose: @escaping () -> Void) -> some View {
+        Button {
+            KeyboardHaptics.softTap()
+            onClose()
+        } label: {
+            Image(systemName: AppSymbol.xmark)
+                .font(.footnote.weight(.bold))
+                .foregroundColor(muted)
+                .frame(width: 36, height: height)
+                .frame(minHeight: 44)
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.squish)
+        .accessibilityLabel(NSLocalizedString("닫기", comment: "Close / dismiss"))
     }
 }
 

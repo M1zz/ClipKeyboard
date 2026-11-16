@@ -2156,6 +2156,7 @@ struct KeyboardView: View {
                 copiedOffer: copiedOffer,
                 onPasteCopied: pasteCopiedText,
                 onPickCopiedPart: { if let offer = copiedOffer { pickPartOfCopied(offer) } },
+                onCloseCopied: closeCopiedOffer,
                 stripFold: stripFold
             )
         } else {
@@ -2268,22 +2269,16 @@ struct KeyboardView: View {
             if copiedOffer != nil { copiedOffer = nil }
             return
         }
-        if let offer = copiedOffer, Date() >= offer.expiresAt {
-            withAnimation(.easeOut(duration: 0.18)) { copiedOffer = nil }
-        }
         PasteboardReader.changeCount { count in
             guard count != pasteOfferSeenCount else { return }
             pasteOfferSeenCount = count
-            let seen = CopiedPasteOffer.firstSeen(for: count)
-            guard count != CopiedPasteOffer.consumedCount,
-                  Date().timeIntervalSince(seen) < CopiedPasteOffer.lifetime else {
+            guard count != CopiedPasteOffer.consumedCount else {
                 copiedOffer = nil
                 return
             }
             PasteboardReader.textOnly { text, readCount in
                 guard CopiedPasteOffer.shouldOffer(changeCount: readCount, text: text,
-                                                   consumedCount: CopiedPasteOffer.consumedCount,
-                                                   firstSeen: seen),
+                                                   consumedCount: CopiedPasteOffer.consumedCount),
                       let text,
                       // 이미 단축어인 글은 그 키가 바로 아래에 있다(키보드 · 앱에서 단축어를 복사했을 때).
                       !allMemos.contains(where: { $0.value == text }) else {
@@ -2296,8 +2291,7 @@ struct KeyboardView: View {
                 withAnimation(.easeOut(duration: 0.18)) {
                     copiedOffer = CopiedPasteChip(text: text,
                                                   preview: CopiedPasteOffer.preview(String(text.prefix(200)), isSensitive: sensitive),
-                                                  changeCount: readCount,
-                                                  expiresAt: seen.addingTimeInterval(CopiedPasteOffer.lifetime))
+                                                  changeCount: readCount)
                 }
             }
         }
@@ -2308,6 +2302,13 @@ struct KeyboardView: View {
         guard let offer = copiedOffer, let proxy = typingProxy else { return }
         KeyboardHaptics.tap()
         proxy.insertText(offer.text)
+        CopiedPasteOffer.markConsumed(offer.changeCount)
+        withAnimation(.easeOut(duration: 0.18)) { copiedOffer = nil }
+    }
+
+    /// X 를 눌렀다. 이 복사는 다시 세우지 않는다(새로 복사하면 다시 선다).
+    private func closeCopiedOffer() {
+        guard let offer = copiedOffer else { return }
         CopiedPasteOffer.markConsumed(offer.changeCount)
         withAnimation(.easeOut(duration: 0.18)) { copiedOffer = nil }
     }
@@ -2334,7 +2335,8 @@ struct KeyboardView: View {
         HStack {
             CopiedPasteChipView(chip: offer, fill: theme.keycap, label: theme.text,
                                 muted: theme.textMuted, height: 32, action: pasteCopiedText,
-                                onPickPart: { pickPartOfCopied(offer) })
+                                onPickPart: { pickPartOfCopied(offer) },
+                                onClose: closeCopiedOffer)
             Spacer(minLength: 0)
         }
         .padding(.horizontal, 12)
