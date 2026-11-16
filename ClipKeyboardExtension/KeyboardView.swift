@@ -3321,7 +3321,8 @@ struct KeyboardView: View {
     private func typeStyle(for memo: Memo, useTemplate: Bool) -> TypeVisualStyle {
         MemoTypeStyle.border(for: memo,
                              visualCuesVisible: visualCuesVisible,
-                             forceTemplate: useTemplate)
+                             forceTemplate: useTemplate,
+                             accent: theme.accent)
     }
 
     // MARK: - 순서 바꾸기

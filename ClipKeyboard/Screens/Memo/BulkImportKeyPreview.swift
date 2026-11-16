@@ -196,7 +196,7 @@ struct BulkImportKeyPreview: View {
 
     /// 타입 테두리는 "색상 없이 구별"(구분 표시)이 켜졌을 때만 그린다 - 키보드와 같은 기준.
     private func typeBorder(for memo: Memo) -> TypeVisualStyle {
-        MemoTypeStyle.border(for: memo, visualCuesVisible: showVisualCues)
+        MemoTypeStyle.border(for: memo, visualCuesVisible: showVisualCues, accent: theme.accent)
     }
 
     // MARK: - 키보드와 같은 값들

@@ -5,7 +5,7 @@
 //  단축어 타입(템플릿·콤보·보안·이미지)의 **시각 표현 단일 출처**.
 //  메인앱 카드와 키보드 익스텐션 키가 같은 파일을 본다.
 //
-//  왜 만들었나: 같은 규칙(템플릿 보라 실선 / 콤보 주황 dash / 보안 회색 dot)이
+//  왜 만들었나: 같은 규칙(템플릿 키컬러 실선 / 콤보 주황 dash / 보안 회색 dot)이
 //  `ClipKeyboardList.memoTypeBorder` 와 `KeyboardView.typeStyle` 두 곳에 복사돼 있었고,
 //  주석에 "정확히 동일"이라고 적어 두는 것으로 동기화를 사람 손에 맡기고 있었다.
 //  한쪽만 고치면 앱과 키보드의 생김새가 조용히 갈라진다.
@@ -37,13 +37,19 @@ enum MemoTypeStyle {
     ///
     /// - Parameter forceTemplate: 같은 메모가 attached template으로 한 칸 더 펼쳐진 경우,
     ///   그 칸은 원본이 템플릿이 아니어도 템플릿으로 보여야 한다(키보드 전용 사정).
+    /// - Parameter accent: 사용자가 고른 키컬러(`theme.accent`). 템플릿 테두리가 이 색을 따른다.
+    ///
+    /// ⚠️ 템플릿 테두리는 예전에 보라로 박혀 있었다. 키컬러를 파랑으로 바꿔도 키보드의 템플릿
+    ///    단축어 테두리가 분홍빛 보라로 남아 "어떤 색 설정으로도 안 바뀐다" 는 신고가 왔다(2026-11).
+    ///    구분은 색이 아니라 선 모양(템플릿 실선 / 콤보 파선 / 보안 점선)이 맡으므로 색은 고른 사람의 것이다.
     static func border(for memo: Memo,
                        visualCuesVisible: Bool,
-                       forceTemplate: Bool = false) -> TypeVisualStyle {
+                       forceTemplate: Bool = false,
+                       accent: Color) -> TypeVisualStyle {
         guard visualCuesVisible else { return .none }
 
         if forceTemplate || memo.isTemplate || !memo.templateVariables.isEmpty {
-            return TypeVisualStyle(color: .purple, lineWidth: 1.5, dash: [])
+            return TypeVisualStyle(color: accent, lineWidth: 1.5, dash: [])
         }
         if memo.isStack {
             return TypeVisualStyle(color: .orange, lineWidth: 1.5, dash: [5, 3])

@@ -26,6 +26,7 @@
 //
 
 import XCTest
+import SwiftUI
 import LeeoKit
 @testable import ClipKeyboard
 
@@ -868,6 +869,20 @@ final class BasicScenarioTests: XCTestCase {
         // 고르지 않은 사람은 예전 그대로 즐겨찾기 · 카테고리 색이 보인다.
         XCTAssertEqual(KeyboardView.keyTint(category: .clipFavorite, customKeyColorChosen: false), .clipFavorite)
         XCTAssertNil(KeyboardView.keyTint(category: nil, customKeyColorChosen: false))
+    }
+
+    /// 템플릿 단축어 테두리는 고른 키컬러를 따른다. 보라로 박혀 있지 않다.
+    func test_템플릿_테두리는_고른_키컬러를_따른다() {
+        // "Blue 로 바꿔도 단축어 테두리가 분홍으로 남는다" (2026-11 사용자 신고, 즐겨찾기 없이 모두 일반)
+        let template = Memo(title: "t", value: "Hello {name}", templateVariables: ["{name}"])
+        XCTAssertTrue(template.isTemplate)
+        let style = MemoTypeStyle.border(for: template, visualCuesVisible: true, accent: .blue)
+        XCTAssertEqual(style.color, .blue)
+        XCTAssertNotEqual(style.color, .purple)
+        // 구분은 선 모양이 맡는다. 템플릿은 실선.
+        XCTAssertTrue(style.dash.isEmpty)
+        // 구분 표시를 끄면 아무것도 그리지 않는다.
+        XCTAssertEqual(MemoTypeStyle.border(for: template, visualCuesVisible: false, accent: .blue).lineWidth, 0)
     }
 
     /// 키보드의 단축어 키를 누른 것과 같다(`KeyboardView.insertMemo` 가 쏘는 알림 그대로).
