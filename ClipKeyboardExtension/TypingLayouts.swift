@@ -98,6 +98,15 @@ enum TypingLanguage: String, CaseIterable, Identifiable, Codable {
         }
     }
 
+    /// Shift 로 영문 대문자를 치는가. 로마자로 읽기를 치는 자판(병음 · 일본어 로마자)이 그렇다.
+    /// 기본 키보드처럼 Shift 가 있고, 대문자는 읽기에 들어가지 않고 그대로 들어간다(ID · 영문 이름).
+    ///
+    /// ⚠️ `hasCase` 와 따로 둔다. 그쪽이 참이면 문장 첫 글자에서 Shift 가 저절로 켜지는데,
+    ///    여기서는 그러면 첫 글자가 한자가 못 된다.
+    var shiftTypesLatinCapitals: Bool {
+        engine == .pinyin || engine == .kana
+    }
+
     /// 대소문자가 있는 문자인가. 없으면 Shift 는 '다른 글자 줄' 로만 쓴다(한글 쌍자음 · 태국어 윗줄).
     var hasCase: Bool {
         switch self {

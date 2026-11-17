@@ -101,6 +101,10 @@ struct InAppKeyboardStage: View {
     }
 
     @StateObject private var host = InAppKeyboardHost()
+    /// 자판 맨 위 띠가 비면 진짜 키보드처럼 그만큼 낮춘다(`KeyboardStripFold`).
+    /// 진짜 키보드는 컨트롤러가 높이를 바꾸고, 여기서는 무대가 바꾼다.
+    @StateObject private var stripFold = KeyboardStripFold()
+    @State private var stripFolded: CGFloat = 0
     /// 방금 복사한 글을 단축어로 저장하자는 카드. 목록이 확인한 것을 같이 본다.
     @ObservedObject private var freshClipboard = FreshClipboardOffer.shared
     @Environment(\.appTheme) private var theme
@@ -223,13 +227,21 @@ struct InAppKeyboardStage: View {
                 //    멀어서 둘이 같은 이야기인 줄 몰랐다 - 눈이 글에서 키로 바로 건너가야 한다.
                 tutorialCue
                 // 진짜 키보드와 같은 뷰. 높이는 실제 키보드가 차지하는 만큼(화면의 절반쯤).
+                let fullKeyboardHeight = keyboardHeight(in: geo.size)
                 KeyboardView(typingProxy: host,
                              documentState: host.documentState,
+                             stripFold: stripFold,
                              hostKind: .inApp,
                              highlightedMemoId: highlightedMemoId,
                              highlightedStackPart: highlightedStackPart)
-                    .frame(height: keyboardHeight(in: geo.size))
+                    .frame(height: max(0, fullKeyboardHeight - stripFolded))
                     .id(feedToken)
+                    .onAppear {
+                        stripFold.fullHeight = fullKeyboardHeight
+                        stripFold.onChange = { stripFolded = stripFold.requested }
+                        stripFolded = stripFold.requested
+                    }
+                    .onChange(of: fullKeyboardHeight) { _, height in stripFold.fullHeight = height }
             }
         }
         .background(stageBackground.ignoresSafeArea())

@@ -154,7 +154,7 @@ enum KeyboardInputMode: String {
 /// ⚠️ 키보드 높이는 컨트롤러만 바꿀 수 있다. 자판은 접을 만큼을 말하고(`request`),
 ///    컨트롤러는 판 전체 높이(`fullHeight`)를 알려 준다. 자판은 키 줄을 늘 전체 높이로 재고
 ///    남는 자리만 띠로 쓴다. 그래야 높이가 바뀌는 동안 키 크기가 출렁이지 않는다.
-/// ⚠️ 앱 안의 키보드(키보드 탭 · 설정 미리보기)는 높이를 바꿀 주인이 없어 `inert` 를 쓴다.
+/// ⚠️ 앱 안 키보드 탭은 무대가 높이를 바꾼다(`InAppKeyboardStage`). 설정 미리보기는 주인이 없어 `inert` 를 쓴다.
 final class KeyboardStripFold: ObservableObject {
     /// 접기 전 판 높이. nil 이면 주어진 자리 그대로 쓴다.
     @Published var fullHeight: CGFloat?
@@ -310,7 +310,10 @@ struct TypingKeyboardPanel: View {
         }
         .coordinateSpace(name: TypingLetterKeySpace.name)
         // 단축어 판으로 넘어가면 그 판은 제 높이를 다 쓴다.
-        .onDisappear { stripFold.request(0) }
+        .onDisappear {
+            stripFold.request(0)
+            session.forgetConversion()
+        }
         .onAppear {
             session.prepare(language: language, proxy: proxy, koreanLayout: koreanLayout)
             updateAutoShift()
@@ -329,15 +332,16 @@ struct TypingKeyboardPanel: View {
 
     /// 띠에 세울 것이 없는가. 없으면 키보드를 그만큼 낮춘다(`KeyboardStripFold`).
     /// ⚠️ 플릭 자판은 위로 튕긴 글자가 띠 자리에 뜬다. 접으면 잘려서 접지 않는다.
-    /// ⚠️ 한자를 고르는 언어(중국어 · 일본어)도 접지 않는다. 후보가 낱말마다 섰다 사라져서,
-    ///    접으면 치는 내내 키보드가 오르내린다. 사전이 없을 때의 안내 글도 이 자리에 선다.
+    /// ⚠️ 한자를 고르는 언어(중국어)는 한 번 치기 시작하면 자판이 내려갈 때까지 접지 않는다. 후보가 낱말마다
+    ///    섰다 사라져서, 접으면 치는 내내 키보드가 오르내린다. 치기 전에는 다른 언어처럼 접혀 있다.
+    ///    사전이 없을 때의 안내 글(일본어)도 이 자리에 선다.
     private var stripIsEmpty: Bool {
         !usesKanaFlick
             && alternates == nil
             && session.candidates.isEmpty
             && !showsShortcutChips
             && copiedOffer == nil
-            && !language.needsConversionDictionary
+            && !(language.needsConversionDictionary && (session.dictionaryMissing || session.conversionStarted))
     }
 
     /// 맨 위 띠: 길게 누르는 중이면 그 글자들, 후보가 있으면 후보, 아니면 친 낱말에 맞는 단축어 · 복사한 글.
@@ -472,7 +476,8 @@ struct TypingKeyboardPanel: View {
     private var letterRows: [[String]] {
         switch layer {
         case .letters:
-            return language.layout.rows(shifted: shift != .off, locale: language.locale, hasCase: language.hasCase)
+            return language.layout.rows(shifted: shift != .off, locale: language.locale,
+                                        hasCase: language.hasCase || language.shiftTypesLatinCapitals)
         case .numbers:
             return TypingLayoutBook.numberRows(currency: language.currencySymbol)
         case .symbols:
@@ -480,9 +485,9 @@ struct TypingKeyboardPanel: View {
         }
     }
 
-    /// 이 언어에 Shift 가 쓸모 있는가(대소문자 · 두벌식 쌍자음 · 태국어 윗줄).
+    /// 이 언어에 Shift 가 쓸모 있는가(대소문자 · 두벌식 쌍자음 · 태국어 윗줄 · 병음과 로마자의 영문 대문자).
     private var hasShiftKey: Bool {
-        layer == .letters && (language.hasCase || language.layout.shiftedRows != nil)
+        layer == .letters && (language.hasCase || language.layout.shiftedRows != nil || language.shiftTypesLatinCapitals)
     }
 
     private func keyRows(metrics: NativeKeyMetrics) -> some View {
@@ -515,9 +520,13 @@ struct TypingKeyboardPanel: View {
     }
 
     /// 마지막 글자 줄: 왼쪽 끝 Shift(또는 #+= · 123), 오른쪽 끝 지우기, 글자는 그 사이 가운데.
+    ///
+    /// ⚠️ Shift 가 없는 판(주음)은 왼쪽 자리를 비워 두지 않는다. 비워 두면 줄이 오른쪽으로 쏠려
+    ///    판이 찌그러져 보인다(2026-11 사용자 의견 "这键盘布局有点畸形呀"). 글자가 그 자리까지 받는다.
     private func lastLetterRow(_ row: [String], rowIndex: Int, metrics: NativeKeyMetrics) -> some View {
         let edge = metrics.edgeKeyWidth
-        let between = metrics.usableWidth - edge * 2
+        let hasLeadingKey = layer != .letters || hasShiftKey
+        let between = metrics.usableWidth - edge * (hasLeadingKey ? 2 : 1)
         let preferred = row.count <= 5 ? metrics.pitch * 1.4 : metrics.pitch
         let pitch = min(preferred, between / CGFloat(max(row.count, 1)))
         let side = max(0, (between - pitch * CGFloat(row.count)) / 2)
@@ -526,8 +535,6 @@ struct TypingKeyboardPanel: View {
                 if layer == .letters {
                     if hasShiftKey {
                         shiftKey(metrics: metrics, width: edge)
-                    } else {
-                        Color.clear.frame(width: edge)
                     }
                 } else {
                     symbolsToggleKey(metrics: metrics, width: edge)
@@ -1231,6 +1238,8 @@ final class TypingSession: ObservableObject {
     /// ⚠️ 따로 떼어 둔 관찰 대상이다. 여기 `@Published` 로 두면 글자마다 자판 전체를 다시 그린다.
     let typedWord = TypedWord()
     @Published private(set) var dictionaryMissing = false
+    /// 자판이 뜬 뒤로 한자 후보가 선 적이 있는가. 있으면 맨 위 띠를 접지 않는다(`stripIsEmpty`).
+    @Published private(set) var conversionStarted = false
 
     func prepare(language: TypingLanguage, proxy: TypingInputProxy, koreanLayout: KoreanTypingLayout) {
         let next = "\(language.rawValue)|\(koreanLayout.rawValue)"
@@ -1239,6 +1248,7 @@ final class TypingSession: ObservableObject {
         key = next
         let dictionary = ConversionDictionaryStore.dictionary(for: language)
         dictionaryMissing = language.needsConversionDictionary && dictionary == nil
+        conversionStarted = false
         engine = TypingEngineFactory.make(for: language, proxy: proxy, koreanLayout: koreanLayout, dictionary: dictionary)
         refresh()
     }
@@ -1247,7 +1257,13 @@ final class TypingSession: ObservableObject {
     func refresh() {
         let next = engine?.candidates ?? []
         if next != candidates { candidates = next }
+        if !next.isEmpty, !conversionStarted { conversionStarted = true }
         typedWord.update(context: proxy?.typingContextBefore)
+    }
+
+    /// 자판이 화면에서 내려갔다. 다음에 뜰 때는 띠가 다시 접혀 있게 한다.
+    func forgetConversion() {
+        if conversionStarted { conversionStarted = false }
     }
 }
 

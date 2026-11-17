@@ -83,6 +83,30 @@ final class ChineseConversionTests: XCTestCase {
         XCTAssertEqual(proxy.text, "今天天气很好")
     }
 
+    /// 병음 판에도 Shift 가 있다(왼쪽 아래가 비어 판이 찌그러져 보였다, 2026-11 사용자 의견).
+    /// Shift 로 친 대문자는 읽기에 들어가지 않고 그대로 들어간다.
+    func testShiftTypesLatinCapitalInsteadOfReading() throws {
+        XCTAssertTrue(TypingLanguage.zhHans.shiftTypesLatinCapitals)
+        XCTAssertTrue(TypingLanguage.ja.shiftTypesLatinCapitals)
+        XCTAssertFalse(TypingLanguage.zhHant.shiftTypesLatinCapitals)
+        XCTAssertFalse(TypingLanguage.zhHans.hasCase, "문장 첫 글자에서 Shift 가 저절로 켜지면 첫 글자가 한자가 못 된다")
+        let shifted = TypingLanguage.zhHans.layout.rows(shifted: true, locale: TypingLanguage.zhHans.locale, hasCase: true)
+        XCTAssertEqual(shifted.first?.first, "Q")
+
+        let proxy = MarkedTextProxy()
+        let engine = ReadingTypingEngine(proxy: proxy, dictionary: try dictionary("zh-Hans"))
+        type("ni", into: engine)
+        engine.input("A")
+        XCTAssertEqual(proxy.text, "你A")
+        XCTAssertFalse(engine.isComposing)
+
+        let kanaProxy = MarkedTextProxy()
+        let kana = KanaTypingEngine(proxy: kanaProxy, dictionary: nil)
+        type("ka", into: kana)
+        kana.input("B")
+        XCTAssertEqual(kanaProxy.text, "かB")
+    }
+
     func testBackspaceShortensReading() throws {
         let proxy = MarkedTextProxy()
         let engine = ReadingTypingEngine(proxy: proxy, dictionary: try dictionary("zh-Hans"))

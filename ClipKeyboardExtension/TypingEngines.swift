@@ -551,6 +551,11 @@ final class KanaTypingEngine: TypingEngine {
         } else if key == "-" && isComposing {
             flushPending()
             kana += "ー"
+        } else if key.count == 1, let ch = key.first, ch.isASCII, ch.isUppercase {
+            // Shift 로 친 영문 대문자는 가나로 바꾸지 않고 그대로 넣는다(기본 키보드와 같다).
+            commit()
+            proxy.insertText(key)
+            return
         } else if key.count == 1, let ch = key.first, ch.isASCII, ch.isLetter {
             pending += ch.lowercased()
             let (out, rest) = Romaji.convert(pending)
@@ -751,12 +756,13 @@ final class ReadingTypingEngine: TypingEngine {
             proxy.insertText(key)
             return
         }
-        guard key.count == 1, let ch = key.first, ch.isLetter || Self.tones.contains(ch) else {
+        // Shift 로 친 영문 대문자는 읽기에 넣지 않고 그대로 넣는다(기본 키보드와 같다).
+        guard key.count == 1, let ch = key.first, ch.isLetter || Self.tones.contains(ch), !ch.isUppercase else {
             commit()
             proxy.insertText(key)
             return
         }
-        reading += ch.lowercased()
+        reading += String(ch)
         text.show(reading, on: proxy)
     }
 
