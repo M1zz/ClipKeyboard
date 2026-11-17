@@ -329,13 +329,15 @@ struct TypingKeyboardPanel: View {
 
     /// 띠에 세울 것이 없는가. 없으면 키보드를 그만큼 낮춘다(`KeyboardStripFold`).
     /// ⚠️ 플릭 자판은 위로 튕긴 글자가 띠 자리에 뜬다. 접으면 잘려서 접지 않는다.
+    /// ⚠️ 한자를 고르는 언어(중국어 · 일본어)도 접지 않는다. 후보가 낱말마다 섰다 사라져서,
+    ///    접으면 치는 내내 키보드가 오르내린다. 사전이 없을 때의 안내 글도 이 자리에 선다.
     private var stripIsEmpty: Bool {
         !usesKanaFlick
             && alternates == nil
             && session.candidates.isEmpty
             && !showsShortcutChips
             && copiedOffer == nil
-            && !(language.needsConversionDictionary && session.dictionaryMissing)
+            && !language.needsConversionDictionary
     }
 
     /// 맨 위 띠: 길게 누르는 중이면 그 글자들, 후보가 있으면 후보, 아니면 친 낱말에 맞는 단축어 · 복사한 글.
