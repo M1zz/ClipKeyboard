@@ -67,10 +67,11 @@ struct TypingLanguagesSettings: View {
                 }
             }
 
-            if languages.contains(where: \.needsConversionDictionary) {
+            // 중국어는 한자 사전이 키보드에 들어 있다. 일본어만 아직 가나까지다.
+            if languages.contains(.ja) {
                 Section {
-                    Text(NSLocalizedString("일본어는 가나, 중국어는 병음·주음까지 칠 수 있어요. 한자로 바꾸는 사전은 다음 업데이트에서 필요할 때 받아 쓰게 돼요.",
-                                           comment: "Typing languages: CJK conversion dictionary is coming later"))
+                    Text(NSLocalizedString("일본어는 가나까지 칠 수 있어요. 한자 변환은 준비 중이에요.",
+                                           comment: "Typing languages: Japanese types kana only for now, kanji conversion is not available yet"))
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }

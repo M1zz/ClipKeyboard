@@ -22911,6 +22911,12 @@
         "cs" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -22918,12 +22924,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d"
@@ -23022,13 +23022,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%d kpl"
+                  "value" : "%d"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%d kpl"
+                  "value" : "%d"
                 }
               }
             }
@@ -23040,28 +23040,22 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%d"
+                  "value" : "%d élément"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%d"
+                  "value" : "%d éléments"
                 }
               }
             }
           }
         },
         "id" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d"
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d"
           }
         },
         "it" : {
@@ -23085,7 +23079,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%d件"
+            "value" : "%d個"
           }
         },
         "nb" : {
@@ -23127,6 +23121,12 @@
         "pl" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -23134,12 +23134,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d"
@@ -23175,6 +23169,12 @@
         "ru" : {
           "variations" : {
             "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d"
+                }
+              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -23182,12 +23182,6 @@
                 }
               },
               "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d"
-                }
-              },
-              "one" : {
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%d"
@@ -23232,13 +23226,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%d"
+                  "value" : "%d öğe"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%d"
+                  "value" : "%d öğe"
                 }
               }
             }
@@ -152852,7 +152846,7 @@
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Snippet"
+            "value" : "Fragment"
           }
         },
         "pl" : {
@@ -248800,7 +248794,7 @@
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uusi kategoria"
+            "value" : "Uusi luokka"
           }
         },
         "fr" : {
@@ -248824,7 +248818,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新規カテゴリ"
+            "value" : "新しいカテゴリ"
           }
         },
         "nb" : {
@@ -248931,13 +248925,13 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Crear categoría nueva"
+            "value" : "Crear nueva categoría"
           }
         },
         "fi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Luo uusi kategoria"
+            "value" : "Luo uusi luokka"
           }
         },
         "fr" : {
@@ -248961,7 +248955,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新規カテゴリを作成"
+            "value" : "新しいカテゴリを作成"
           }
         },
         "nb" : {
@@ -248991,7 +248985,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Создать категорию"
+            "value" : "Создать новую категорию"
           }
         },
         "sv" : {
@@ -449850,6 +449844,828 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "還原的行下次會最先輸入。儲存後才會生效。"
+          }
+        }
+      }
+    },
+    "한자 변환은 준비 중이에요" : {
+      "comment" : "Typing keyboard, Japanese only: kana to kanji conversion is not available yet",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Převod na kandži se připravuje"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kanji-konvertering kommer snart"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kanji-Umwandlung kommt noch"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Η μετατροπή kanji έρχεται σύντομα"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kanji conversion is coming"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La conversión a kanji está en camino"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kanji-muunnos on tulossa"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La conversion en kanji arrive bientôt"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konversi kanji segera hadir"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La conversione in kanji è in arrivo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "漢字変換は準備中です"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kanji-konvertering kommer"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kanji-conversie komt eraan"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konwersja na kanji wkrótce"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A conversão de kanji está a caminho"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кандзи скоро появятся"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kanjikonvertering kommer"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "การแปลงคันจิกำลังจะมา"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kanji dönüştürme yolda"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chuyển đổi kanji sắp có"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "汉字转换正在准备中"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "漢字轉換正在準備中"
+          }
+        }
+      }
+    },
+    "일본어는 가나까지 칠 수 있어요. 한자 변환은 준비 중이에요." : {
+      "comment" : "Typing languages: Japanese types kana only for now, kanji conversion is not available yet",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V japonštině zatím jde psát kanu. Převod na kandži se připravuje."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japansk kan indtastes som kana for nu. Kanji-konvertering kommer snart."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japanisch geht vorerst nur mit Kana. Die Kanji-Umwandlung kommt noch."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Τα ιαπωνικά γράφονται προς το παρόν με kana. Η μετατροπή kanji έρχεται σύντομα."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japanese types kana for now. Kanji conversion is coming."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El japonés escribe en kana por ahora. La conversión a kanji está en camino."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japania voi toistaiseksi kirjoittaa kanalla. Kanji-muunnos on tulossa."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le japonais se saisit en kana pour l'instant. La conversion en kanji arrive bientôt."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Untuk saat ini bahasa Jepang baru bisa mengetik kana. Konversi kanji segera hadir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per ora il giapponese si scrive solo in kana. La conversione in kanji è in arrivo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日本語は今のところ、かなまで入力できます。漢字変換は準備中です。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "På japansk kan du skrive kana foreløpig. Kanji-konvertering kommer."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japans typt voorlopig kana. Kanji-conversie komt eraan."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Po japońsku na razie wpiszesz kanę. Konwersja na kanji wkrótce."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O japonês digita só kana por enquanto. A conversão de kanji está a caminho."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока можно вводить только кану. Кандзи скоро появятся."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japanska skrivs än så länge med kana. Kanjikonvertering kommer."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ตอนนี้พิมพ์คานะภาษาญี่ปุ่นได้ก่อน การแปลงคันจิกำลังจะมา"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japonca şimdilik kana olarak yazılır. Kanji dönüştürme yolda."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiếng Nhật hiện gõ được kana. Chuyển đổi kanji sắp có."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日语目前只能输入假名，汉字转换正在准备中。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日語目前只能輸入假名，漢字轉換正在準備中。"
+          }
+        }
+      }
+    },
+    "일본어 한자 변환" : {
+      "comment" : "Roadmap item: Japanese kana to kanji conversion on the typing keyboard",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Převod na kandži"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japansk kanji-konvertering"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kanji-Umwandlung für Japanisch"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Μετατροπή ιαπωνικών kanji"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japanese kanji conversion"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversión a kanji japonés"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japanin kanji-muunnos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversion en kanji japonais"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konversi kanji Jepang"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversione in kanji giapponese"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日本語の漢字変換"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japansk kanji-konvertering"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japanse kanji-conversie"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konwersja na kanji"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversão de kanji japonês"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Преобразование в кандзи"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japansk kanjikonvertering"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แปลงคันจิภาษาญี่ปุ่น"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japonca kanji dönüştürme"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chuyển đổi kanji tiếng Nhật"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日语汉字转换"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日語漢字轉換"
+          }
+        }
+      }
+    },
+    "가나를 치면 한자 후보를 보여 줘요." : {
+      "comment" : "Roadmap item detail: kana to kanji conversion candidates",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte kanu a vyberte z kandži kandidátů."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv kana, og vælg blandt kanji-forslag."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe Kana und wähle aus den Kanji-Vorschlägen."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πληκτρολογήστε kana και επιλέξτε από υποψήφια kanji."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type kana and pick from kanji candidates."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe en kana y elige entre los candidatos de kanji."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kirjoita kana ja valitse kanji-ehdotuksista."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saisissez des kana et choisissez parmi les candidats en kanji."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketik kana lalu pilih dari kandidat kanji."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scrivi in kana e scegli tra i candidati kanji."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "かなを入力すると、漢字の候補が表示されます。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv kana og velg blant kanji-forslag."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typ kana en kies uit kanji-suggesties."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wpisz kanę i wybierz kanji z podpowiedzi."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite kana e escolha entre os candidatos de kanji."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вводите кану, и появятся варианты кандзи."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv kana och välj bland kanjiförslag."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "พิมพ์คานะแล้วเลือกจากตัวเลือกคันจิได้"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kana yazın, kanji adayları arasından seçin."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gõ kana rồi chọn từ các gợi ý kanji."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入假名后显示候选汉字。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入假名後顯示候選漢字。"
+          }
+        }
+      }
+    },
+    "중국어 한자 입력" : {
+      "comment" : "Roadmap item: typing Chinese characters with Pinyin or Zhuyin on the typing keyboard",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadávání čínských znaků"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kinesisk tegnindtastning"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eingabe chinesischer Schriftzeichen"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Εισαγωγή κινεζικών χαρακτήρων"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chinese character input"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entrada de caracteres chinos"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kiinan merkkien syöttö"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saisie de caractères chinois"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input aksara Mandarin"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input dei caratteri cinesi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中国語の漢字入力"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kinesiske tegn"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chinese tekeninvoer"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wpisywanie znaków chińskich"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entrada de caracteres chineses"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ввод китайских иероглифов"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kinesisk teckeninmatning"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "การป้อนตัวอักษรจีน"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Çince karakter girişi"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nhập chữ Hán tiếng Trung"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中文汉字输入"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "中文漢字輸入"
+          }
+        }
+      }
+    },
+    "병음이나 주음을 치면 자판 위에 한자 후보가 떠요. 긴 문장도 한 번에 바꿔요." : {
+      "comment" : "Roadmap item detail: Pinyin and Zhuyin are the Chinese input methods; candidates appear above the keys",
+      "localizations" : {
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zadejte pinyin nebo čuyin a nad klávesami se objeví kandidáti znaků. Dlouhé věty převede najednou."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv pinyin eller zhuyin, så vises tegnforslag over tastaturet. Lange sætninger konverteres på én gang."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe Pinyin oder Zhuyin, und die Vorschläge erscheinen über den Tasten. Lange Sätze wandeln sich in einem Zug um."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πληκτρολογήστε Pinyin ή Zhuyin και οι προτάσεις εμφανίζονται πάνω από τα πλήκτρα. Και οι μεγάλες προτάσεις μετατρέπονται με μία κίνηση."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type Pinyin or Zhuyin and candidates appear above the keys. Long sentences convert in one go."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe en pinyin o zhuyin y los candidatos aparecen sobre las teclas. Las frases largas se convierten de una vez."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kirjoita pinyin tai zhuyin, niin ehdotukset näkyvät näppäinten yläpuolella. Pitkätkin lauseet muuntuvat kerralla."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saisissez du pinyin ou du zhuyin, et les candidats s'affichent au-dessus des touches. Les longues phrases se convertissent d'un coup."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ketik Pinyin atau Zhuyin, kandidat kanji muncul di atas tuts. Kalimat panjang pun bisa diubah sekaligus."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scrivi in pinyin o zhuyin e i candidati compaiono sopra i tasti. Anche le frasi lunghe si convertono in un colpo solo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ピンインや注音を入力すると、キーの上に漢字の候補が表示されます。長い文も一度に変換できます。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv pinyin eller zhuyin, så vises kanji-forslag over tastene. Lange setninger konverteres på én gang."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Typ Pinyin of Zhuyin en de suggesties verschijnen boven de toetsen. Lange zinnen zet je in één keer om."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wpisz pinyin lub zhuyin, a podpowiedzi pojawią się nad klawiszami. Długie zdania zamienisz za jednym razem."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite Pinyin ou Zhuyin e os candidatos aparecem acima das teclas. Frases longas são convertidas de uma vez."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вводите пиньинь или чжуинь, и над клавишами появятся варианты иероглифов. Длинные фразы заменяются сразу."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skriv pinyin eller zhuyin så visas teckenförslag ovanför tangenterna. Långa meningar konverteras på en gång."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "พิมพ์พินอินหรือจู้อิน ตัวเลือกตัวอักษรจีนจะขึ้นเหนือแป้นพิมพ์ ประโยคยาวก็แปลงได้ในครั้งเดียว"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinyin veya Zhuyin yazın, kanji adayları tuşların üstünde görünsün. Uzun cümleler tek seferde dönüşür."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gõ Pinyin hoặc Zhuyin, gợi ý chữ Hán sẽ hiện phía trên bàn phím. Câu dài cũng chuyển được trong một lần."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入拼音或注音，键盘上方会显示候选汉字，长句也能一次转换。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入拼音或注音，鍵盤上方會顯示候選漢字，長句也能一次轉換。"
           }
         }
       }

@@ -29,7 +29,9 @@ extension ClipKeyboardSpec {
         .init(id: "keyboard.typed", status: .building,
               title: NSLocalizedString("치면 떠오르는 단축어", comment: "Roadmap item: shortcut suggestions above the keys while typing its name"),
               detail: NSLocalizedString("단축어 이름이나 아이폰 텍스트 대치를 치면 자판 위에 띄워요. 누르면 바로 들어가요.", comment: "Roadmap item detail: typed-name shortcut suggestions")),
-
+        .init(id: "keyboard.hanzi", status: .building,
+              title: NSLocalizedString("중국어 한자 입력", comment: "Roadmap item: typing Chinese characters with Pinyin or Zhuyin on the typing keyboard"),
+              detail: NSLocalizedString("병음이나 주음을 치면 자판 위에 한자 후보가 떠요. 긴 문장도 한 번에 바꿔요.", comment: "Roadmap item detail: Pinyin and Zhuyin are the Chinese input methods; candidates appear above the keys")),
 
         // MARK: 다음에 만들어요
         .init(id: "keyboard.fieldfit.typing", status: .planned,
@@ -39,8 +41,8 @@ extension ClipKeyboardSpec {
               title: NSLocalizedString("자동 고침과 낱말 추천", comment: "Roadmap item: autocorrect and word suggestions"),
               detail: NSLocalizedString("틀린 글자를 고쳐 주고, 칠 낱말을 미리 보여 줘요.", comment: "Roadmap item detail: autocorrect and suggestions")),
         .init(id: "keyboard.kanji", status: .planned,
-              title: NSLocalizedString("일본어·중국어 한자 변환", comment: "Roadmap item: kanji and hanzi conversion"),
-              detail: NSLocalizedString("가나·병음·주음을 한자로 바꿔요. 사전은 필요할 때만 받아요.", comment: "Roadmap item detail: kanji conversion with on-demand dictionary")),
+              title: NSLocalizedString("일본어 한자 변환", comment: "Roadmap item: Japanese kana to kanji conversion on the typing keyboard"),
+              detail: NSLocalizedString("가나를 치면 한자 후보를 보여 줘요.", comment: "Roadmap item detail: kana to kanji conversion candidates")),
         .init(id: "sync.stable", status: .planned,
               title: NSLocalizedString("기기 간 동기화 정식판", comment: "Roadmap item: stable cross-device sync"),
               detail: NSLocalizedString("지금은 베타예요. 더 안정되게 다듬어 정식으로 열어요.", comment: "Roadmap item detail: stable sync")),

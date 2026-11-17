@@ -131,6 +131,10 @@
     "v": "Zeit genug, um %@ zu laufen",
     "src": "67d6283fac"
   },
+  "%@ 되살리기": {
+    "v": "%@ zurückholen",
+    "src": "abfb03169c"
+  },
   "%@ 복사됨": {
     "v": "%@ kopiert",
     "src": "6642fa5dea"
@@ -334,7 +338,7 @@
       "one": "%d",
       "other": "%d"
     },
-    "src": "ee109f06f2"
+    "src": "d8ff5f7a4b"
   },
   "%d개 남음": {
     "v": {
@@ -680,6 +684,10 @@
   "'전체 접근 허용'을 켜주세요": {
     "v": "Schalte 'Vollzugriff erlauben' ein",
     "src": "ced0ad12fc"
+  },
+  "'최근' 에 복사한 때를 이렇게 보여 줘요: %@": {
+    "v": "Zuletzt zeigt die Kopierzeit so an: %@",
+    "src": "6d5b0dbd60"
   },
   "'최근' 탭에 30일 동안 있어요": {
     "v": "Bleibt 30 Tage im Tab Zuletzt",
@@ -2285,6 +2293,10 @@
     "v": "Der iCloud-Speicher ist voll. Prüfe unter Einstellungen > [Dein Name] > iCloud > Speicher verwalten.",
     "src": "fdf93be9b9"
   },
+  "iCloud, 내보내기, 가져오기, 파일": {
+    "v": "iCloud, Export, Import, Datei, Backup, Sicherung",
+    "src": "7b9ba2ab0b"
+  },
   "iCloud에 로그인되어 있지 않습니다. 설정 > [사용자 이름] > iCloud에서 로그인해주세요.": {
     "v": "Du bist nicht bei iCloud angemeldet. Melde dich unter Einstellungen > [Dein Name] > iCloud an.",
     "src": "5e1eac8fe8"
@@ -2524,6 +2536,10 @@
   "가나·병음·주음을 한자로 바꿔요. 사전은 필요할 때만 받아요.": {
     "v": "Wandelt Kana, Pinyin und Zhuyin in Kanji und Hanzi um. Das Wörterbuch wird nur bei Bedarf geladen.",
     "src": "f1b25e257f"
+  },
+  "가나를 치면 한자 후보를 보여 줘요.": {
+    "v": "Tippe Kana und wähle aus den Kanji-Vorschlägen.",
+    "src": "b1d597c248"
   },
   "가운데 접기": {
     "v": "Mitte kürzen",
@@ -2815,6 +2831,10 @@
     "v": "Raster",
     "src": "9b8309e775"
   },
+  "격자, 리스트": {
+    "v": "Raster, Liste, Ansicht, Layout",
+    "src": "bacd6cc05b"
+  },
   "결": {
     "v": "Muster",
     "src": "eb3e6a1ba8"
@@ -3023,6 +3043,14 @@
       "other": "Und %d weitere Texte"
     },
     "src": "4f976d759d"
+  },
+  "그 아래로 단축어가 이어져요. 두 번 탭하면 복사되고, 위아래로 쓸어 더 보기를 고르면 편집과 삭제를 할 수 있어요.": {
+    "v": "Darunter folgen deine Textbausteine. Tippe zweimal, um einen zu kopieren, oder wische nach oben oder unten und wähle Mehr, um ihn zu bearbeiten oder zu löschen.",
+    "src": "6e6877902e"
+  },
+  "그 아래로 단축어가 이어져요. 두 번 탭하면 편집과 삭제 메뉴가 열리고, 위아래로 쓸어 복사를 고르면 복사돼요.": {
+    "v": "Darunter folgen deine Textbausteine. Tippe zweimal, um das Menü zum Bearbeiten und Löschen zu öffnen, oder wische nach oben oder unten und wähle Kopieren.",
+    "src": "315b62d8db"
   },
   "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
     "v": "Diesen Namen kannst du nicht verwenden. Er existiert schon oder entspricht einem festen Tab.",
@@ -3459,6 +3487,10 @@
     "v": "Wähle ein Backup nach Datum und stelle es wieder her",
     "src": "467163b605"
   },
+  "날짜와 시간": {
+    "v": "Datum und Uhrzeit",
+    "src": "13a00e08d2"
+  },
   "날짜와 시간 서식을 직접 만들 수 있어요. 조각을 눌러 넣으면 오늘 날짜가 그 모양으로 바로 보여요": {
     "v": "Erstelle eigene Datums- und Zeitformate. Tippe auf die Teile, und das heutige Datum erscheint sofort in dieser Form.",
     "src": "b0e4d08267"
@@ -3486,6 +3518,10 @@
   "내 것을 저장해보세요": {
     "v": "Speichere etwas Eigenes",
     "src": "7c40449eba"
+  },
+  "내 그림": {
+    "v": "Meine Bilder",
+    "src": "bc0a371301"
   },
   "내 단축어 만들기": {
     "v": "Eigenen Textbaustein erstellen",
@@ -3779,6 +3815,14 @@
     "v": "Fertig. Nach dem Speichern liegt er direkt auf deiner Tastatur.",
     "src": "8abeb46ded"
   },
+  "다 썼어요. 편집에서 쓴 줄을 되살릴 수 있어요": {
+    "v": "Alles verbraucht. Du kannst benutzte Zeilen unter Bearbeiten zurückholen",
+    "src": "27442e28cd"
+  },
+  "다 씀": {
+    "v": "Verbraucht",
+    "src": "a197efb9d6"
+  },
   "다 읽을 수 있는 시간이에요": {
     "v": "Zeit, sie von vorne bis hinten zu lesen",
     "src": "f826f9fcad"
@@ -4005,7 +4049,7 @@
   },
   "단축어": {
     "v": "Textbaustein",
-    "src": "f54defa1ae"
+    "src": "9a861d1035"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "%1$d Textbausteine hinzugefügt, %2$d aktualisiert (insgesamt %3$d).\n%4$d Stapel, %5$d Bilder und %6$d Kategorien importiert.",
@@ -4251,6 +4295,10 @@
   "단축어 카드가 화면에 2초쯤 머물면 제목 아래에 내용이 한 번 살며시 나타났다 사라져요. 키보드에서는 제목이 잠시 내용으로 바뀌었다가 돌아와요. 보안 단축어의 내용은 표시되지 않아요.": {
     "v": "Bleibt eine Textbaustein-Karte etwa 2 Sekunden auf dem Bildschirm, erscheint der Inhalt einmal dezent unter dem Titel und verschwindet wieder. Auf der Tastatur wechselt der Titel kurz zum Inhalt und zurück. Der Inhalt geschützter Textbausteine wird nie angezeigt.",
     "src": "b82098b42c"
+  },
+  "단축어 카드에 보일 아이콘을 고릅니다": {
+    "v": "Wählt das Symbol für die Karte des Textbausteins",
+    "src": "f7cef21f7f"
   },
   "단축어 키 판으로 바꿉니다": {
     "v": "Wechselt zu deinen Textbaustein-Tasten",
@@ -4600,6 +4648,10 @@
     "v": "Hilfe",
     "src": "61400fd9d2"
   },
+  "도움말, 사용법, 튜토리얼": {
+    "v": "Hilfe, Anleitung, Tutorial, Anwendung",
+    "src": "aafcc4b5d8"
+  },
   "도움말과 문의": {
     "v": "Hilfe & Kontakt",
     "src": "945c1acc3a"
@@ -4627,6 +4679,10 @@
   "동기화 켠 사용자": {
     "v": "Nutzer mit Synchronisierung",
     "src": "71fcbb166f"
+  },
+  "동기화, iCloud, Mac, iPad": {
+    "v": "Sync, Synchronisieren, iCloud, Mac, iPad",
+    "src": "3a1c207a07"
   },
   "동기화가 엇갈릴 때 고르는 화면": {
     "v": "Version wählen, wenn der Sync Konflikte hat",
@@ -4660,9 +4716,17 @@
     "v": "Wiederherstellen",
     "src": "095cf954f1"
   },
+  "되돌리기, 복구, 지운 단축어": {
+    "v": "Rückgängig, Wiederherstellen, Gelöschte Textbausteine",
+    "src": "81cc973e65"
+  },
   "되돌릴 시점": {
     "v": "Frühere Stände",
     "src": "32b3760f6a"
+  },
+  "되살린 줄은 다음에 가장 먼저 들어가요. 저장해야 남아요.": {
+    "v": "Eine zurückgeholte Zeile wird beim nächsten Mal zuerst eingefügt. Zum Behalten sichern.",
+    "src": "6c040f5c99"
   },
   "두 기기에서 같은 단축어를 고쳤을 때 어느 쪽을 남길지 직접 골라요.": {
     "v": "Wurde derselbe Textbaustein auf zwei Geräten geändert, wählst du selbst, welche Version bleibt.",
@@ -4959,6 +5023,10 @@
     "v": "Textbausteine, die du jede Woche oder jeden Monat zur gleichen Zeit nutzt, rücken dann an den Anfang der Tastatur",
     "src": "3b3ef667b1"
   },
+  "맥, 메뉴 막대": {
+    "v": "Mac, Menüleiste",
+    "src": "dbf4f07cee"
+  },
   "맥에서 단축어 순서를 끌어다 바꾸고, 그 순서를 아이폰·키보드까지 동기화": {
     "v": "Am Mac Textbausteine per Ziehen umsortieren und die Reihenfolge mit iPhone und Tastatur synchronisieren",
     "src": "12d610ed49"
@@ -4970,6 +5038,10 @@
   "맨 아래 띠 쓰기": {
     "v": "Die untere Leiste nutzen",
     "src": "cb8821af76"
+  },
+  "맨 아래 탭에는 목록, 설정, 검색이 있어요.": {
+    "v": "Unten findest du die Tabs Liste, Einstellungen und Suche.",
+    "src": "dcf195b882"
   },
   "먹": {
     "v": "Tusche",
@@ -5070,6 +5142,10 @@
   "모두": {
     "v": "Alle",
     "src": "550a5f3778"
+  },
+  "모두 되살리기": {
+    "v": "Alle zurückholen",
+    "src": "89ae17908c"
   },
   "모두 지우기": {
     "v": "Alle löschen",
@@ -5328,6 +5404,10 @@
     "v": "Erste Antwort",
     "src": "851e5371eb"
   },
+  "문의, 의견, 버그, 연락, 메일": {
+    "v": "Kontakt, Feedback, Fehler, Support, E-Mail",
+    "src": "65a9554f3f"
+  },
   "문장": {
     "v": "Satz",
     "src": "2a9c9c6e6c"
@@ -5371,6 +5451,10 @@
   "미리보기 텍스트를 클립보드에 복사합니다": {
     "v": "Kopiert den Vorschautext in die Zwischenablage",
     "src": "c0a69cb5e3"
+  },
+  "미리보기, 내용": {
+    "v": "Vorschau, Inhalt",
+    "src": "0b710cd749"
   },
   "미팅 팔로업": {
     "v": "Meeting-Nachfass",
@@ -5444,6 +5528,10 @@
     "v": "Legt den gerade kopierten Text direkt unter „Zuletzt“ auf der Tastatur ab.",
     "src": "4ee1a6ee8e"
   },
+  "방금 복사한 글이 있으면 키보드 맨 위에 띄워, 누르면 바로 들어가요. 전체 접근을 켜야 보여요.": {
+    "v": "Wenn du gerade etwas kopiert hast, erscheint es oben auf der Tastatur. Tippe darauf, um es einzusetzen. Erfordert vollen Zugriff.",
+    "src": "9db195b10e"
+  },
   "방금 복사한 글이 키보드 '최근'에 바로 담겨요. 저장할지 묻지 않고, 담긴 글은 %d일 뒤 저절로 지워져요.": {
     "v": {
       "one": "Der gerade kopierte Text landet direkt unter „Zuletzt“ auf der Tastatur. Du musst nichts bestätigen, und er wird nach %d Tag automatisch gelöscht.",
@@ -5466,6 +5554,10 @@
   "배경 이미지를 설정에서도 직접 넣고 지울 수 있어요. 그동안 목록 화면 선택기에만 있던 길이에요": {
     "v": "Du kannst dein Hintergrundbild jetzt auch in den Einstellungen hinzufügen und löschen. Bisher ging das nur über die Auswahl in der Listenansicht",
     "src": "4eba3c4664"
+  },
+  "배경, 사진, 벽지": {
+    "v": "Hintergrund, Foto, Hintergrundbild",
+    "src": "c1b4f28a29"
   },
   "배경색": {
     "v": "Hintergrundfarbe",
@@ -5679,6 +5771,10 @@
     "v": "Wir fragen erst nach einer Bewertung, wenn du einmal über die Tastatur eingefügt hast",
     "src": "e65679ed25"
   },
+  "병음이나 주음을 치면 자판 위에 한자 후보가 떠요. 긴 문장도 한 번에 바꿔요.": {
+    "v": "Tippe Pinyin oder Zhuyin, und die Vorschläge erscheinen über den Tasten. Lange Sätze wandeln sich in einem Zug um.",
+    "src": "0f85937d63"
+  },
   "보관된 원본": {
     "v": "Aufbewahrtes Original",
     "src": "fb8ba8a483"
@@ -5887,6 +5983,10 @@
     "v": "Zu kopierender Wert",
     "src": "040300b50a"
   },
+  "복사, 최근": {
+    "v": "Kopieren, Zuletzt, Zwischenablage",
+    "src": "fe0b870843"
+  },
   "복사/붙여넣기 시 매번 팝업이 표시됩니다.": {
     "v": "Beim Kopieren und Einsetzen erscheint jedes Mal ein Hinweis.",
     "src": "4e5542c177"
@@ -5938,6 +6038,14 @@
   "복사한 것이 알아서 갈래를 찾아가요": {
     "v": "Kopiertes sortiert sich von selbst ein",
     "src": "5100523357"
+  },
+  "복사한 글 바로 붙여넣기": {
+    "v": "Kopierten Text schnell einsetzen",
+    "src": "7035810699"
+  },
+  "복사한 글 붙여넣기: %@": {
+    "v": "Kopierten Text einsetzen: %@",
+    "src": "6408a1d6bf"
   },
   "복사한 글을 이 목록에 저장": {
     "v": "Kopierten Text in dieser Liste sichern",
@@ -6215,6 +6323,10 @@
   "비밀번호 칸에서는 iOS 가 잠깐 기본 키보드를 띄워요. 앱이 바꿀 수 없는 일이에요.": {
     "v": "In Passwortfeldern zeigt iOS kurz die eigene Tastatur. Das kann die App nicht ändern.",
     "src": "ebb42c2e9d"
+  },
+  "비밀번호, 잠금, Face ID": {
+    "v": "Passwort, Sperre, Face ID",
+    "src": "21779afac7"
   },
   "비밀번호·PIN·인증서는 가져올 때부터 자동으로 암호화되는 보안 단축어로": {
     "v": "Passwörter, PINs und Zertifikate werden beim Import automatisch als verschlüsselte, geschützte Textbausteine angelegt",
@@ -6522,6 +6634,10 @@
     "v": "Im Foto erkannte Werte. Du kannst unten auch selbst eine Zeile wählen.",
     "src": "73b45ce77e"
   },
+  "사진에서 올리기": {
+    "v": "Aus Fotos hochladen",
+    "src": "6a5f1525c8"
+  },
   "사진에서 인식된 텍스트가 없습니다. 글자가 선명한 사진으로 다시 시도해주세요.": {
     "v": "Im Foto wurde kein Text erkannt. Versuch es mit einem schärferen Foto noch einmal.",
     "src": "f8a901febc"
@@ -6656,11 +6772,11 @@
   },
   "새 카테고리": {
     "v": "Neue Kategorie",
-    "src": "1c04d4b256"
+    "src": "02467960f0"
   },
   "새 카테고리 만들기": {
     "v": "Neue Kategorie erstellen",
-    "src": "92b2e16405"
+    "src": "e85457223a"
   },
   "새 카테고리 이름": {
     "v": "Name der neuen Kategorie",
@@ -6725,6 +6841,10 @@
   "새로운 키보드 추가…": {
     "v": "Neue Tastatur hinzufügen …",
     "src": "f79ebdb6ec"
+  },
+  "색, 테마, 다크 모드": {
+    "v": "Farbe, Thema, Dunkelmodus",
+    "src": "e4b0b4cba3"
   },
   "색상": {
     "v": "Farbe",
@@ -6935,6 +7055,10 @@
   "설정 → 일반 → 키보드 → 키보드": {
     "v": "Einstellungen → Allgemein → Tastatur → Tastaturen",
     "src": "2da8424947"
+  },
+  "설정 검색": {
+    "v": "Einstellungen durchsuchen",
+    "src": "5b5966d928"
   },
   "설정 경로": {
     "v": "Einstellungspfad",
@@ -7326,6 +7450,10 @@
     "v": "Ausführen",
     "src": "d3fa3aa776"
   },
+  "심볼": {
+    "v": "Symbole",
+    "src": "3c555564df"
+  },
   "심볼 이름 검색": {
     "v": "Symbolnamen suchen",
     "src": "dfabe983f1"
@@ -7387,6 +7515,10 @@
   "쓰지 않는 빈칸을 모두 지울까요?": {
     "v": "Alle ungenutzten Ausfüllfelder löschen?",
     "src": "74de95db83"
+  },
+  "쓴 줄 %d개": {
+    "v": "%d benutzte Zeilen",
+    "src": "27a7fb8221"
   },
   "쓸 때 알려 줘요": {
     "v": "Wird bei Bedarf gezeigt",
@@ -7499,6 +7631,14 @@
   "아이디": {
     "v": "Benutzername",
     "src": "692479e28f"
+  },
+  "아이콘": {
+    "v": "Symbol",
+    "src": "67d7e5662e"
+  },
+  "아이콘 없애기": {
+    "v": "Symbol entfernen",
+    "src": "e722fe281a"
   },
   "아이폰 · 아이패드 · Mac 에서 같은 단축어를 써요": {
     "v": "Dieselben Textbausteine auf iPhone, iPad und Mac",
@@ -7727,9 +7867,17 @@
     "v": "In der Vorschau in der App tippt sich der Text Zeichen für Zeichen selbst ein",
     "src": "af3721f47c"
   },
+  "앱 안내 다시 듣기": {
+    "v": "App-Anleitung erneut anhören",
+    "src": "c11d632622"
+  },
   "앱 안에서는 Face ID로 열립니다. 키보드에서만 번호를 묻는 이유는, iOS가 키보드에 Face ID를 열어 주지 않기 때문이에요.": {
     "v": "In der App öffnest du mit Face ID. Nur die Tastatur fragt nach einer Nummer, weil iOS Tastaturen keinen Zugriff auf Face ID gibt.",
     "src": "77a7fc6b11"
+  },
+  "앱 언어, 한국어, 영어": {
+    "v": "App-Sprache, Deutsch, Englisch, Koreanisch",
+    "src": "76ea65d8a3"
   },
   "앱 이름 없이 Siri에게": {
     "v": "Siri ohne App-Namen fragen",
@@ -7886,9 +8034,17 @@
     "v": "Sprache",
     "src": "a13fcc7d26"
   },
+  "언어 추가, 자판, 한국어, 영어, 일본어, 중국어, 지구본, 키보드 추가": {
+    "v": "Sprache hinzufügen, Tastatursprache, Koreanisch, Englisch, Japanisch, Chinesisch, Globus, Tastatur hinzufügen",
+    "src": "0bca7012f1"
+  },
   "언제든지 접근 가능": {
     "v": "Immer verfügbar",
     "src": "c1f88829b5"
+  },
+  "얼마 전": {
+    "v": "Wie lange her",
+    "src": "506e9c480c"
   },
   "업무": {
     "v": "Arbeit",
@@ -8270,6 +8426,10 @@
     "v": "Online",
     "src": "f52a8e0f83"
   },
+  "올린 그림은 다른 단축어와 카테고리에서도 다시 고를 수 있어요. 길게 누르면 지울 수 있어요.": {
+    "v": "Hochgeladene Bilder kannst du auch für andere Textbausteine und Kategorien wieder auswählen. Halte ein Bild gedrückt, um es zu löschen.",
+    "src": "d594f5b5fa"
+  },
   "옮겼어요": {
     "v": "Verschoben",
     "src": "38f30ec0c7"
@@ -8533,6 +8693,10 @@
     "v": "Zu diesem Zeitpunkt zurückkehren?",
     "src": "a5d51c1ec0"
   },
+  "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요.": {
+    "v": "Um dies noch einmal zu hören, wische oben beim Namen der Kategorie nach oben oder unten und wähle %@.",
+    "src": "03b66505cf"
+  },
   "이 앱에는 서버가 없어요. 계좌번호도 주민등록번호도 이 폰 안에만 있고, 저희조차 볼 수 없습니다. 털릴 서버가 없으니 털릴 방법도 없어요.": {
     "v": "Diese App hat keinen Server. Deine Kontonummern und Ausweisnummern liegen nur auf diesem iPhone, und selbst wir können sie nicht sehen. Wo kein Server ist, gibt es nichts zu knacken.",
     "src": "748fd3e528"
@@ -8748,6 +8912,10 @@
   "이메일": {
     "v": "E-Mail",
     "src": "b0528097c1"
+  },
+  "이모지": {
+    "v": "Emoji",
+    "src": "5703ab8d31"
   },
   "이모지 선택": {
     "v": "Emoji wählen",
@@ -9022,6 +9190,10 @@
     "v": "Japanisches Layout",
     "src": "c3be305322"
   },
+  "일본어 한자 변환": {
+    "v": "Kanji-Umwandlung für Japanisch",
+    "src": "6266864795"
+  },
   "일본어·중국어 한자 변환": {
     "v": "Kanji- und Hanzi-Umwandlung",
     "src": "1fa50ccb8e"
@@ -9029,6 +9201,10 @@
   "일본어는 가나, 중국어는 병음·주음까지 칠 수 있어요. 한자로 바꾸는 사전은 다음 업데이트에서 필요할 때 받아 쓰게 돼요.": {
     "v": "Japanisch tippst du in Kana, Chinesisch in Pinyin oder Zhuyin. Das Wörterbuch für Kanji und Hanzi kommt mit einem späteren Update und wird nur bei Bedarf geladen.",
     "src": "5646a40242"
+  },
+  "일본어는 가나까지 칠 수 있어요. 한자 변환은 준비 중이에요.": {
+    "v": "Japanisch geht vorerst nur mit Kana. Die Kanji-Umwandlung kommt noch.",
+    "src": "d8f3db7758"
   },
   "일부 항목을 지우지 못했어요. 앱을 다시 실행한 뒤 시도해 주세요.": {
     "v": "Einige Einträge konnten nicht gelöscht werden. Starte die App neu und versuche es noch einmal.",
@@ -9823,6 +9999,10 @@
     "v": "Schreibe nur den Namen, ohne geschweifte Klammern. Steht {Name} in einem Textbaustein, wird dieses Ausfüllfeld eingesetzt.",
     "src": "edeab59b65"
   },
+  "중국어 한자 입력": {
+    "v": "Eingabe chinesischer Schriftzeichen",
+    "src": "4869368094"
+  },
   "중국어를 넣었어요. 간체와 번체 두 벌이고, 앱 이름도 함께 바뀌어요": {
     "v": "Chinesisch ist dabei, vereinfacht und traditionell, und der App-Name passt sich an",
     "src": "d089e954e3"
@@ -10359,6 +10539,10 @@
     "v": "Zuletzt kopiert",
     "src": "ab4103cf14"
   },
+  "최근 복사한 때": {
+    "v": "Kopierzeit in Zuletzt",
+    "src": "51f1a128f2"
+  },
   "최근 사용": {
     "v": "Zuletzt genutzt",
     "src": "9f04573967"
@@ -10555,6 +10739,10 @@
     "v": "Kategorie '%@'",
     "src": "1bf4ebf5c3"
   },
+  "카테고리 고르기": {
+    "v": "Kategorie wählen",
+    "src": "473c9316cd"
+  },
   "카테고리 관리": {
     "v": "Kategorien verwalten",
     "src": "bc6456a9cf"
@@ -10610,6 +10798,10 @@
   "카테고리 추가": {
     "v": "Kategorie hinzufügen",
     "src": "8cfc65c32a"
+  },
+  "카테고리 칸과 단축어 카드에 보일 아이콘을 고릅니다. 이모지나 사진에서 올린 그림도 쓸 수 있어요.": {
+    "v": "Wähle das Symbol für Kategoriekacheln und Karten. Du kannst auch ein Emoji oder ein Bild aus Fotos verwenden.",
+    "src": "33175ea015"
   },
   "카테고리 칸에 내용 미리보기": {
     "v": "Vorschau in Kategorie-Kacheln",
@@ -10952,6 +11144,10 @@
     "v": "Alle außer ClipKeyboard entfernen",
     "src": "a0a9a38d77"
   },
+  "클립키보드예요. 자주 쓰는 글을 단축어로 담아 두고 키보드에서 바로 넣는 앱이에요. 화면 맨 위에는 지금 보는 카테고리 이름이 있고, 두 번 탭하면 다른 카테고리를 고를 수 있어요. 오른쪽 위 추가 단추로 새 단축어를 만들어요.": {
+    "v": "Das ist ClipKeyboard. Speichere Text, den du oft brauchst, als Textbausteine und füge ihn direkt über die Tastatur ein. Oben auf dem Bildschirm steht der Name der Kategorie, die du gerade ansiehst. Tippe zweimal darauf, um eine andere Kategorie zu wählen. Mit der Taste Hinzufügen oben rechts legst du einen neuen Textbaustein an.",
+    "src": "7ca620198a"
+  },
   "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.": {
     "v": "Tastenanzahl, Höhe, Schriftgröße und Farben stellst du frei ein. Manche zeigen acht Tasten auf einem Bildschirm.",
     "src": "203f92f256"
@@ -11019,6 +11215,10 @@
   "키보드 높이": {
     "v": "Tastaturhöhe",
     "src": "077ebe5d55"
+  },
+  "키보드 높이, 키 크기, 글자 크기, 열 개수, 보내기 키, 붙여넣기 키, 숫자 판, 검색창": {
+    "v": "Tastaturhöhe, Tastengröße, Schriftgröße, Spalten, Return-Taste, Einfügen-Taste, Zahlenblock, Suchleiste",
+    "src": "0862a6df7a"
   },
   "키보드 높이를 기기의 기본 키보드에 맞췄어요. 올라올 때 높이가 튀던 것도 함께 없앴어요": {
     "v": "Die Tastatur hat jetzt die Höhe der Standardtastatur deines Geräts, und das Springen beim Einblenden ist weg",
@@ -11127,6 +11327,10 @@
   "키보드 켜기": {
     "v": "Tastatur aktivieren",
     "src": "f014241548"
+  },
+  "키보드 켜기, 키보드 추가, 설치": {
+    "v": "Tastatur aktivieren, Tastatur hinzufügen, Installieren",
+    "src": "f7c5c8e97a"
   },
   "키보드 켜러 가기": {
     "v": "Tastatur einschalten",
@@ -11610,6 +11814,10 @@
     "v": "Vorlagenhinweis schließen",
     "src": "c5559db1b1"
   },
+  "템플릿, 변수": {
+    "v": "Vorlage, Variable, Ausfüllfeld, Platzhalter",
+    "src": "eff5be5846"
+  },
   "템플릿·스택·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.": {
     "v": "Füge 4 Beispiele hinzu (Vorlage, Stapel und Textbaustein + Vorlage), um sie auszuprobieren. Deine vorhandenen Textbausteine bleiben unverändert.",
     "src": "cec2a2c7d7"
@@ -11637,6 +11845,10 @@
   "템플릿의 클립보드 빈칸 채우기": {
     "v": "Zwischenablage-Felder in Vorlagen ausfüllen",
     "src": "5621c63f18"
+  },
+  "통계, 아낀 시간": {
+    "v": "Statistik, Gesparte Zeit",
+    "src": "371a7849a9"
   },
   "통관번호": {
     "v": "Zollnummer",
@@ -11757,6 +11969,10 @@
   "폰을 잃어버려도 단축어는 남아요": {
     "v": "Handy weg, Textbausteine bleiben",
     "src": "dc83f971f2"
+  },
+  "폴더, 분류, 아이콘, 색": {
+    "v": "Ordner, Gruppe, Symbol, Farbe, Kategorie",
+    "src": "2f1809e22a"
   },
   "표시 옵션": {
     "v": "Anzeigeoptionen",
@@ -12034,6 +12250,10 @@
     "v": "Viele Textbausteine auf einmal ordnen",
     "src": "19c9fb1ad6"
   },
+  "한자 변환은 준비 중이에요": {
+    "v": "Kanji-Umwandlung kommt noch",
+    "src": "98b11404fa"
+  },
   "한자 사전은 앱의 키보드 설정에서 받아요": {
     "v": "Das Wörterbuch lädst du in den Tastatureinstellungen der App",
     "src": "a98b852c20"
@@ -12065,6 +12285,10 @@
   "항상 표시": {
     "v": "Immer anzeigen",
     "src": "a86965d16b"
+  },
+  "햅틱, 소리, 키 소리": {
+    "v": "Haptik, Ton, Tastenklick, Vibration",
+    "src": "1677982d7a"
   },
   "허용": {
     "v": "Erlauben",
@@ -12329,205 +12553,5 @@
   "🪪 명함": {
     "v": "🪪 Visitenkarte",
     "src": "9becff2df0"
-  },
-  "카테고리 고르기": {
-    "v": "Kategorie wählen",
-    "src": "473c9316cd"
-  },
-  "아이콘": {
-    "v": "Symbol",
-    "src": "67d7e5662e"
-  },
-  "이모지": {
-    "v": "Emoji",
-    "src": "5703ab8d31"
-  },
-  "심볼": {
-    "v": "Symbole",
-    "src": "3c555564df"
-  },
-  "내 그림": {
-    "v": "Meine Bilder",
-    "src": "bc0a371301"
-  },
-  "아이콘 없애기": {
-    "v": "Symbol entfernen",
-    "src": "e722fe281a"
-  },
-  "사진에서 올리기": {
-    "v": "Aus Fotos hochladen",
-    "src": "6a5f1525c8"
-  },
-  "올린 그림은 다른 단축어와 카테고리에서도 다시 고를 수 있어요. 길게 누르면 지울 수 있어요.": {
-    "v": "Hochgeladene Bilder kannst du auch für andere Textbausteine und Kategorien wieder auswählen. Halte ein Bild gedrückt, um es zu löschen.",
-    "src": "d594f5b5fa"
-  },
-  "단축어 카드에 보일 아이콘을 고릅니다": {
-    "v": "Wählt das Symbol für die Karte des Textbausteins",
-    "src": "f7cef21f7f"
-  },
-  "카테고리 칸과 단축어 카드에 보일 아이콘을 고릅니다. 이모지나 사진에서 올린 그림도 쓸 수 있어요.": {
-    "v": "Wähle das Symbol für Kategoriekacheln und Karten. Du kannst auch ein Emoji oder ein Bild aus Fotos verwenden.",
-    "src": "33175ea015"
-  },
-  "얼마 전": {
-    "v": "Wie lange her",
-    "src": "506e9c480c"
-  },
-  "날짜와 시간": {
-    "v": "Datum und Uhrzeit",
-    "src": "13a00e08d2"
-  },
-  "최근 복사한 때": {
-    "v": "Kopierzeit in Zuletzt",
-    "src": "51f1a128f2"
-  },
-  "'최근' 에 복사한 때를 이렇게 보여 줘요: %@": {
-    "v": "Zuletzt zeigt die Kopierzeit so an: %@",
-    "src": "6d5b0dbd60"
-  },
-  "설정 검색": {
-    "v": "Einstellungen durchsuchen",
-    "src": "5b5966d928"
-  },
-  "언어 추가, 자판, 한국어, 영어, 일본어, 중국어, 지구본, 키보드 추가": {
-    "v": "Sprache hinzufügen, Tastatursprache, Koreanisch, Englisch, Japanisch, Chinesisch, Globus, Tastatur hinzufügen",
-    "src": "0bca7012f1"
-  },
-  "키보드 높이, 키 크기, 글자 크기, 열 개수, 보내기 키, 붙여넣기 키, 숫자 판, 검색창": {
-    "v": "Tastaturhöhe, Tastengröße, Schriftgröße, Spalten, Return-Taste, Einfügen-Taste, Zahlenblock, Suchleiste",
-    "src": "0862a6df7a"
-  },
-  "햅틱, 소리, 키 소리": {
-    "v": "Haptik, Ton, Tastenklick, Vibration",
-    "src": "1677982d7a"
-  },
-  "키보드 켜기, 키보드 추가, 설치": {
-    "v": "Tastatur aktivieren, Tastatur hinzufügen, Installieren",
-    "src": "f7c5c8e97a"
-  },
-  "폴더, 분류, 아이콘, 색": {
-    "v": "Ordner, Gruppe, Symbol, Farbe, Kategorie",
-    "src": "2f1809e22a"
-  },
-  "템플릿, 변수": {
-    "v": "Vorlage, Variable, Ausfüllfeld, Platzhalter",
-    "src": "eff5be5846"
-  },
-  "색, 테마, 다크 모드": {
-    "v": "Farbe, Thema, Dunkelmodus",
-    "src": "e4b0b4cba3"
-  },
-  "배경, 사진, 벽지": {
-    "v": "Hintergrund, Foto, Hintergrundbild",
-    "src": "c1b4f28a29"
-  },
-  "앱 언어, 한국어, 영어": {
-    "v": "App-Sprache, Deutsch, Englisch, Koreanisch",
-    "src": "76ea65d8a3"
-  },
-  "미리보기, 내용": {
-    "v": "Vorschau, Inhalt",
-    "src": "0b710cd749"
-  },
-  "격자, 리스트": {
-    "v": "Raster, Liste, Ansicht, Layout",
-    "src": "bacd6cc05b"
-  },
-  "통계, 아낀 시간": {
-    "v": "Statistik, Gesparte Zeit",
-    "src": "371a7849a9"
-  },
-  "iCloud, 내보내기, 가져오기, 파일": {
-    "v": "iCloud, Export, Import, Datei, Backup, Sicherung",
-    "src": "7b9ba2ab0b"
-  },
-  "비밀번호, 잠금, Face ID": {
-    "v": "Passwort, Sperre, Face ID",
-    "src": "21779afac7"
-  },
-  "복사, 최근": {
-    "v": "Kopieren, Zuletzt, Zwischenablage",
-    "src": "fe0b870843"
-  },
-  "동기화, iCloud, Mac, iPad": {
-    "v": "Sync, Synchronisieren, iCloud, Mac, iPad",
-    "src": "3a1c207a07"
-  },
-  "되돌리기, 복구, 지운 단축어": {
-    "v": "Rückgängig, Wiederherstellen, Gelöschte Textbausteine",
-    "src": "81cc973e65"
-  },
-  "도움말, 사용법, 튜토리얼": {
-    "v": "Hilfe, Anleitung, Tutorial, Anwendung",
-    "src": "aafcc4b5d8"
-  },
-  "문의, 의견, 버그, 연락, 메일": {
-    "v": "Kontakt, Feedback, Fehler, Support, E-Mail",
-    "src": "65a9554f3f"
-  },
-  "맥, 메뉴 막대": {
-    "v": "Mac, Menüleiste",
-    "src": "dbf4f07cee"
-  },
-  "앱 안내 다시 듣기": {
-    "v": "App-Anleitung erneut anhören",
-    "src": "c11d632622"
-  },
-  "클립키보드예요. 자주 쓰는 글을 단축어로 담아 두고 키보드에서 바로 넣는 앱이에요. 화면 맨 위에는 지금 보는 카테고리 이름이 있고, 두 번 탭하면 다른 카테고리를 고를 수 있어요. 오른쪽 위 추가 단추로 새 단축어를 만들어요.": {
-    "v": "Das ist ClipKeyboard. Speichere Text, den du oft brauchst, als Textbausteine und füge ihn direkt über die Tastatur ein. Oben auf dem Bildschirm steht der Name der Kategorie, die du gerade ansiehst. Tippe zweimal darauf, um eine andere Kategorie zu wählen. Mit der Taste Hinzufügen oben rechts legst du einen neuen Textbaustein an.",
-    "src": "7ca620198a"
-  },
-  "그 아래로 단축어가 이어져요. 두 번 탭하면 편집과 삭제 메뉴가 열리고, 위아래로 쓸어 복사를 고르면 복사돼요.": {
-    "v": "Darunter folgen deine Textbausteine. Tippe zweimal, um das Menü zum Bearbeiten und Löschen zu öffnen, oder wische nach oben oder unten und wähle Kopieren.",
-    "src": "315b62d8db"
-  },
-  "그 아래로 단축어가 이어져요. 두 번 탭하면 복사되고, 위아래로 쓸어 더 보기를 고르면 편집과 삭제를 할 수 있어요.": {
-    "v": "Darunter folgen deine Textbausteine. Tippe zweimal, um einen zu kopieren, oder wische nach oben oder unten und wähle Mehr, um ihn zu bearbeiten oder zu löschen.",
-    "src": "6e6877902e"
-  },
-  "맨 아래 탭에는 목록, 설정, 검색이 있어요.": {
-    "v": "Unten findest du die Tabs Liste, Einstellungen und Suche.",
-    "src": "dcf195b882"
-  },
-  "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요.": {
-    "v": "Um dies noch einmal zu hören, wische oben beim Namen der Kategorie nach oben oder unten und wähle %@.",
-    "src": "03b66505cf"
-  },
-  "복사한 글 붙여넣기: %@": {
-    "v": "Kopierten Text einsetzen: %@",
-    "src": "6408a1d6bf"
-  },
-  "복사한 글 바로 붙여넣기": {
-    "v": "Kopierten Text schnell einsetzen",
-    "src": "7035810699"
-  },
-  "방금 복사한 글이 있으면 키보드 맨 위에 띄워, 누르면 바로 들어가요. 전체 접근을 켜야 보여요.": {
-    "v": "Wenn du gerade etwas kopiert hast, erscheint es oben auf der Tastatur. Tippe darauf, um es einzusetzen. Erfordert vollen Zugriff.",
-    "src": "9db195b10e"
-  },
-  "다 썼어요. 편집에서 쓴 줄을 되살릴 수 있어요": {
-    "v": "Alles verbraucht. Du kannst benutzte Zeilen unter Bearbeiten zurückholen",
-    "src": "27442e28cd"
-  },
-  "다 씀": {
-    "v": "Verbraucht",
-    "src": "a197efb9d6"
-  },
-  "쓴 줄 %d개": {
-    "v": "%d benutzte Zeilen",
-    "src": "27a7fb8221"
-  },
-  "모두 되살리기": {
-    "v": "Alle zurückholen",
-    "src": "89ae17908c"
-  },
-  "%@ 되살리기": {
-    "v": "%@ zurückholen",
-    "src": "abfb03169c"
-  },
-  "되살린 줄은 다음에 가장 먼저 들어가요. 저장해야 남아요.": {
-    "v": "Eine zurückgeholte Zeile wird beim nächsten Mal zuerst eingefügt. Zum Behalten sichern.",
-    "src": "6c040f5c99"
   }
 }

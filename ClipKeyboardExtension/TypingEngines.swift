@@ -713,11 +713,20 @@ enum Romaji {
 
 /// 읽기(병음 알파벳 · 주음 기호)를 모아 사전에서 한자 후보를 낸다.
 /// 사전이 없으면 읽기 그대로 넣는다.
+///
+/// 후보는 읽기의 앞부분만 바꿀 수도 있다("nihaoma" 에서 你好 를 고르면 "ma" 가 남는다).
+/// 남은 읽기는 밑줄 친 채로 다음 후보를 기다린다.
 final class ReadingTypingEngine: TypingEngine {
     private let proxy: TypingInputProxy
     private let dictionary: ConversionDictionary?
     private var text = ComposingText()
     private(set) var reading: String = ""
+    /// 같은 읽기로 사전을 두 번 뒤지지 않는다(그리기 · 고르기 · 끝내기가 모두 후보를 묻는다).
+    private var found: (reading: String, list: [ConversionMatch])?
+
+    /// 주음 성조 기호. 사전은 성조 없이 찾는다.
+    private static let tones: Set<Character> = ["ˊ", "ˇ", "ˋ", "˙"]
+    private static let candidateLimit = 50
 
     init(proxy: TypingInputProxy, dictionary: ConversionDictionary?) {
         self.proxy = proxy
@@ -726,9 +735,15 @@ final class ReadingTypingEngine: TypingEngine {
 
     var isComposing: Bool { dictionary != nil && !reading.isEmpty }
 
-    var candidates: [String] {
+    var candidates: [String] { matches.map(\.text) }
+
+    private var matches: [ConversionMatch] {
         guard let dictionary, !reading.isEmpty else { return [] }
-        return dictionary.candidates(for: reading, limit: 30)
+        if let found, found.reading == reading { return found.list }
+        let key = String(reading.filter { !Self.tones.contains($0) })
+        let list = dictionary.matches(for: key, limit: Self.candidateLimit)
+        found = (reading, list)
+        return list
     }
 
     func input(_ key: String) {
@@ -736,7 +751,7 @@ final class ReadingTypingEngine: TypingEngine {
             proxy.insertText(key)
             return
         }
-        guard key.count == 1, let ch = key.first, ch.isLetter || "ˊˇˋ˙".contains(ch) else {
+        guard key.count == 1, let ch = key.first, ch.isLetter || Self.tones.contains(ch) else {
             commit()
             proxy.insertText(key)
             return
@@ -757,35 +772,71 @@ final class ReadingTypingEngine: TypingEngine {
 
     /// 고르지 않고 끝내면 첫 후보로, 후보가 없으면 읽기 그대로 둔다.
     func commit() {
-        if !candidates.isEmpty {
+        // 첫 후보가 앞부분만 바꾸면 남은 읽기에서 또 첫 후보를 고른다. 읽기는 고를 때마다 줄어든다.
+        while !reading.isEmpty, !matches.isEmpty {
+            let before = reading.count
             selectCandidate(at: 0)
-            return
+            if reading.count >= before { break }
         }
         reading = ""
+        found = nil
         text.commit(on: proxy)
     }
 
     func reset() {
         reading = ""
+        found = nil
         text.drop()
     }
 
     func selectCandidate(at index: Int) {
-        let list = candidates
+        let list = matches
         guard list.indices.contains(index) else { return }
-        text.commit(list[index], on: proxy)
-        dictionary?.noteChosen(list[index], for: reading)
-        reading = ""
+        let match = list[index]
+        let (used, rest) = split(reading, afterKeyCount: match.consumed)
+        text.commit(match.text, on: proxy)
+        dictionary?.noteChosen(match.text, for: used)
+        reading = rest
+        found = nil
+        if !rest.isEmpty { text.show(rest, on: proxy) }
+    }
+
+    /// 읽기를 사전 글자 `count` 개(성조 빼고 센다)에서 자른다. 바로 뒤의 성조는 앞쪽에 붙는다.
+    /// 앞쪽은 성조를 뺀 것(사전의 읽기), 뒤쪽은 친 그대로.
+    private func split(_ reading: String, afterKeyCount count: Int) -> (used: String, rest: String) {
+        var used = ""
+        var index = reading.startIndex
+        while index < reading.endIndex {
+            let ch = reading[index]
+            let isTone = Self.tones.contains(ch)
+            if !isTone, used.count >= count { break }
+            if !isTone { used.append(ch) }
+            index = reading.index(after: index)
+        }
+        return (used, String(reading[index...]))
     }
 }
 
 // MARK: - 변환 사전(일본어 · 중국어)
 
-/// 읽기 → 후보 사전. 앱이 필요할 때 받아 App Group 에 둔 파일을 읽는다.
-///
-/// ⚠️ 이 단계에서는 자리만 둔다. 사전 파일 형식 · 받는 곳은 `docs/engineering/TYPING_KEYBOARD.md` 의 4단계.
+/// 후보 하나. `consumed` 는 이 후보가 바꾸는 읽기의 글자 수(앞에서부터).
+struct ConversionMatch: Equatable {
+    let text: String
+    let consumed: Int
+}
+
+/// 읽기 → 후보 사전. 중국어는 키보드에 든 파일을 읽는다(`MappedConversionDictionary`).
+/// 일본어는 아직 없다(`docs/engineering/TYPING_KEYBOARD.md` 의 4단계).
 protocol ConversionDictionary: AnyObject {
     func candidates(for reading: String, limit: Int) -> [String]
+    /// 읽기의 앞부분만 바꾸는 후보까지. 기본은 `candidates` 그대로(읽기 전체를 바꾼다).
+    func matches(for reading: String, limit: Int) -> [ConversionMatch]
     /// 사용자가 고른 것. 다음에 같은 읽기에서 앞에 세운다.
     func noteChosen(_ word: String, for reading: String)
+}
+
+extension ConversionDictionary {
+    func matches(for reading: String, limit: Int) -> [ConversionMatch] {
+        candidates(for: reading, limit: limit).map { ConversionMatch(text: $0, consumed: reading.count) }
+    }
 }

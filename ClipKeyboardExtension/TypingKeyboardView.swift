@@ -373,7 +373,7 @@ struct TypingKeyboardPanel: View {
                     }
                     Spacer(minLength: 0)
                     if language.needsConversionDictionary && session.dictionaryMissing {
-                        Text(NSLocalizedString("한자 사전은 앱의 키보드 설정에서 받아요", comment: "Typing keyboard: CJK dictionary not downloaded yet"))
+                        Text(NSLocalizedString("한자 변환은 준비 중이에요", comment: "Typing keyboard, Japanese only: kana to kanji conversion is not available yet"))
                             .font(.system(size: 11))
                             .foregroundColor(theme.textMuted)
                             .lineLimit(1)
@@ -1249,9 +1249,37 @@ final class TypingSession: ObservableObject {
     }
 }
 
-/// 받아 둔 변환 사전을 찾는 곳. 4단계에서 채운다(`docs/engineering/TYPING_KEYBOARD.md`).
+/// 변환 사전을 찾는 곳. 중국어 사전은 키보드 확장 번들에 들어 있다(`docs/engineering/TYPING_KEYBOARD.md` 4단계).
 enum ConversionDictionaryStore {
-    static func dictionary(for language: TypingLanguage) -> ConversionDictionary? { nil }
+    private static var opened: [TypingLanguage: MappedConversionDictionary] = [:]
+
+    static func dictionary(for language: TypingLanguage) -> ConversionDictionary? {
+        if let ready = opened[language] { return ready }
+        guard language.engine == .pinyin || language.engine == .zhuyin,
+              let url = fileURL(for: language) else { return nil }
+        let learned = LearnedConversions(defaults: AppGroup.defaults,
+                                         key: DefaultsKey.typingLearnedConversions(language.rawValue))
+        guard let dictionary = MappedConversionDictionary(url: url, learned: learned) else {
+            print("❌ [ConversionDictionaryStore.dictionary] 사전을 열지 못함: \(url.lastPathComponent)")
+            return nil
+        }
+        opened[language] = dictionary
+        return dictionary
+    }
+
+    /// 키보드에서는 제 번들, 앱(키보드 탭의 무대)에서는 안에 든 키보드 확장의 번들.
+    /// 파일을 한 벌만 싣기 위해서다.
+    private static func fileURL(for language: TypingLanguage) -> URL? {
+        let name = language.rawValue
+        if let own = Bundle.main.url(forResource: name, withExtension: "ckdict") { return own }
+        guard let plugins = Bundle.main.builtInPlugInsURL,
+              let bundles = try? FileManager.default.contentsOfDirectory(at: plugins, includingPropertiesForKeys: nil) else { return nil }
+        for bundle in bundles where bundle.pathExtension == "appex" {
+            let url = bundle.appendingPathComponent("\(name).ckdict")
+            if FileManager.default.fileExists(atPath: url.path) { return url }
+        }
+        return nil
+    }
 }
 
 

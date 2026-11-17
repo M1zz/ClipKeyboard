@@ -3587,6 +3587,12 @@
     "comment": "Roadmap item detail: kanji conversion with on-demand dictionary",
     "h": "f1b25e257f"
   },
+  "가나를 치면 한자 후보를 보여 줘요.": {
+    "ko": "가나를 치면 한자 후보를 보여 줘요.",
+    "en": "Type kana and pick from kanji candidates.",
+    "comment": "Roadmap item detail: kana to kanji conversion candidates",
+    "h": "b1d597c248"
+  },
   "가운데 접기": {
     "ko": "가운데 접기",
     "en": "Shorten the middle",
@@ -8314,6 +8320,12 @@
     "en": "We ask for a rating only after you have pasted from the keyboard at least once",
     "comment": "Changelog 5.0.5 review gate",
     "h": "e65679ed25"
+  },
+  "병음이나 주음을 치면 자판 위에 한자 후보가 떠요. 긴 문장도 한 번에 바꿔요.": {
+    "ko": "병음이나 주음을 치면 자판 위에 한자 후보가 떠요. 긴 문장도 한 번에 바꿔요.",
+    "en": "Type Pinyin or Zhuyin and candidates appear above the keys. Long sentences convert in one go.",
+    "comment": "Roadmap item detail: Pinyin and Zhuyin are the Chinese input methods; candidates appear above the keys",
+    "h": "0f85937d63"
   },
   "보관된 원본": {
     "ko": "보관된 원본",
@@ -13361,6 +13373,12 @@
     "comment": "Japanese layout picker label",
     "h": "c3be305322"
   },
+  "일본어 한자 변환": {
+    "ko": "일본어 한자 변환",
+    "en": "Japanese kanji conversion",
+    "comment": "Roadmap item: Japanese kana to kanji conversion on the typing keyboard",
+    "h": "6266864795"
+  },
   "일본어·중국어 한자 변환": {
     "ko": "일본어·중국어 한자 변환",
     "en": "Kanji and hanzi conversion",
@@ -13372,6 +13390,12 @@
     "en": "You can type Japanese in kana and Chinese in Pinyin or Zhuyin. Conversion to kanji and hanzi comes in a future update, with the dictionary downloaded only when you need it.",
     "comment": "Typing languages: CJK conversion dictionary is coming later",
     "h": "5646a40242"
+  },
+  "일본어는 가나까지 칠 수 있어요. 한자 변환은 준비 중이에요.": {
+    "ko": "일본어는 가나까지 칠 수 있어요. 한자 변환은 준비 중이에요.",
+    "en": "Japanese types kana for now. Kanji conversion is coming.",
+    "comment": "Typing languages: Japanese types kana only for now, kanji conversion is not available yet",
+    "h": "d8f3db7758"
   },
   "일부 항목을 지우지 못했어요. 앱을 다시 실행한 뒤 시도해 주세요.": {
     "ko": "일부 항목을 지우지 못했어요. 앱을 다시 실행한 뒤 시도해 주세요.",
@@ -14548,6 +14572,12 @@
     "en": "Type the name only, without braces. Writing {name} in a snippet calls this blank.",
     "comment": "Create placeholder footer",
     "h": "edeab59b65"
+  },
+  "중국어 한자 입력": {
+    "ko": "중국어 한자 입력",
+    "en": "Chinese character input",
+    "comment": "Roadmap item: typing Chinese characters with Pinyin or Zhuyin on the typing keyboard",
+    "h": "4869368094"
   },
   "중국어를 넣었어요. 간체와 번체 두 벌이고, 앱 이름도 함께 바뀌어요": {
     "ko": "중국어를 넣었어요. 간체와 번체 두 벌이고, 앱 이름도 함께 바뀌어요",
@@ -17860,6 +17890,12 @@
     "en": "Organize Many at Once",
     "comment": "Menu: bulk import",
     "h": "19c9fb1ad6"
+  },
+  "한자 변환은 준비 중이에요": {
+    "ko": "한자 변환은 준비 중이에요",
+    "en": "Kanji conversion is coming",
+    "comment": "Typing keyboard, Japanese only: kana to kanji conversion is not available yet",
+    "h": "98b11404fa"
   },
   "한자 사전은 앱의 키보드 설정에서 받아요": {
     "ko": "한자 사전은 앱의 키보드 설정에서 받아요",

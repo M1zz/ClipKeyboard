@@ -344,6 +344,8 @@ enum DefaultsKey {
     ///
     /// ⚠️ `keyboardTypingLang` 과 따로 둔다. 그쪽은 검색칸 자판이 "english" · "korean" 으로 쓰고 있다.
     static let keyboardTypingCurrent = "keyboardTypingCurrent.v1"
+    /// 한자 후보에서 고른 낱말(읽기별 최근 3개). 언어마다 하나. 다음에 같은 읽기를 치면 앞에 세운다.
+    static func typingLearnedConversions(_ language: String) -> String { "keyboardTypingLearned.\(language).v1" }
     /// 키보드를 열면 먼저 보일 판(`KeyboardInputMode`: typing · snippets). 마지막에 보던 판을 따른다.
     static let keyboardInputMode = "keyboardInputMode.v1"
     /// 단축어를 넣은 뒤 쓰던 키보드로 돌아갈지. App Group. **기본 켬**(`KeyboardPrefs.returnAfterSnippet`).

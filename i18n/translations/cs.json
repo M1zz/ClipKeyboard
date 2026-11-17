@@ -131,6 +131,10 @@
     "v": "Dost času na %@ běhu",
     "src": "67d6283fac"
   },
+  "%@ 되살리기": {
+    "v": "Obnovit %@",
+    "src": "abfb03169c"
+  },
   "%@ 복사됨": {
     "v": "%@ zkopírováno",
     "src": "6642fa5dea"
@@ -356,7 +360,7 @@
       "many": "%d",
       "other": "%d"
     },
-    "src": "ee109f06f2"
+    "src": "d8ff5f7a4b"
   },
   "%d개 남음": {
     "v": {
@@ -769,6 +773,10 @@
   "'전체 접근 허용'을 켜주세요": {
     "v": "Zapněte 'Povolit plný přístup'",
     "src": "ced0ad12fc"
+  },
+  "'최근' 에 복사한 때를 이렇게 보여 줘요: %@": {
+    "v": "Nedávné ukazuje čas kopírování takto: %@",
+    "src": "6d5b0dbd60"
   },
   "'최근' 탭에 30일 동안 있어요": {
     "v": "V záložce Nedávné zůstane 30 dní",
@@ -2382,6 +2390,10 @@
     "v": "Úložiště iCloud je plné. Zkontrolujte Nastavení > [vaše jméno] > iCloud > Spravovat úložiště.",
     "src": "fdf93be9b9"
   },
+  "iCloud, 내보내기, 가져오기, 파일": {
+    "v": "iCloud, export, import, soubor, záloha, obnovení",
+    "src": "7b9ba2ab0b"
+  },
   "iCloud에 로그인되어 있지 않습니다. 설정 > [사용자 이름] > iCloud에서 로그인해주세요.": {
     "v": "Nejste přihlášeni k iCloudu. Přihlaste se v Nastavení > [vaše jméno] > iCloud.",
     "src": "5e1eac8fe8"
@@ -2621,6 +2633,10 @@
   "가나·병음·주음을 한자로 바꿔요. 사전은 필요할 때만 받아요.": {
     "v": "Převádí kanu, pinyin a zhuyin na kandži a hanzi. Slovník se stáhne, až když ho budete potřebovat.",
     "src": "f1b25e257f"
+  },
+  "가나를 치면 한자 후보를 보여 줘요.": {
+    "v": "Zadejte kanu a vyberte z kandži kandidátů.",
+    "src": "b1d597c248"
   },
   "가운데 접기": {
     "v": "Zkrátit uprostřed",
@@ -2916,6 +2932,10 @@
     "v": "Mřížka",
     "src": "9b8309e775"
   },
+  "격자, 리스트": {
+    "v": "mřížka, seznam, rozložení",
+    "src": "bacd6cc05b"
+  },
   "결": {
     "v": "Vzor",
     "src": "eb3e6a1ba8"
@@ -3130,6 +3150,14 @@
       "other": "A %d dalších frází"
     },
     "src": "4f976d759d"
+  },
+  "그 아래로 단축어가 이어져요. 두 번 탭하면 복사되고, 위아래로 쓸어 더 보기를 고르면 편집과 삭제를 할 수 있어요.": {
+    "v": "Pod tím následují fráze. Dvojitým klepnutím frázi zkopírujete, přejetím nahoru nebo dolů zvolíte Více a můžete ji upravit nebo smazat.",
+    "src": "6e6877902e"
+  },
+  "그 아래로 단축어가 이어져요. 두 번 탭하면 편집과 삭제 메뉴가 열리고, 위아래로 쓸어 복사를 고르면 복사돼요.": {
+    "v": "Pod tím následují fráze. Dvojitým klepnutím otevřete nabídku úprav a mazání, přejetím nahoru nebo dolů zvolíte Kopírovat.",
+    "src": "315b62d8db"
   },
   "그 이름은 쓸 수 없어요. 이미 있거나 기본 탭과 같은 이름이에요.": {
     "v": "Toto jméno nelze použít. Už existuje nebo se shoduje s vestavěnou kartou.",
@@ -3568,6 +3596,10 @@
     "v": "Vyberte zálohu podle data a obnovte ji",
     "src": "467163b605"
   },
+  "날짜와 시간": {
+    "v": "Datum a čas",
+    "src": "13a00e08d2"
+  },
   "날짜와 시간 서식을 직접 만들 수 있어요. 조각을 눌러 넣으면 오늘 날짜가 그 모양으로 바로 보여요": {
     "v": "Vytvořte si vlastní formáty data a času. Klepněte na části a dnešní datum se hned zobrazí v daném tvaru.",
     "src": "b0e4d08267"
@@ -3595,6 +3627,10 @@
   "내 것을 저장해보세요": {
     "v": "Uložte si vlastní",
     "src": "7c40449eba"
+  },
+  "내 그림": {
+    "v": "Moje obrázky",
+    "src": "bc0a371301"
   },
   "내 단축어 만들기": {
     "v": "Vytvořte si vlastní frázi",
@@ -3888,6 +3924,14 @@
     "v": "Hotovo. Po uložení se fráze rovnou objeví na klávesnici.",
     "src": "8abeb46ded"
   },
+  "다 썼어요. 편집에서 쓴 줄을 되살릴 수 있어요": {
+    "v": "Vše je použité. Použité řádky můžete obnovit v úpravách",
+    "src": "27442e28cd"
+  },
+  "다 씀": {
+    "v": "Vyčerpáno",
+    "src": "a197efb9d6"
+  },
   "다 읽을 수 있는 시간이에요": {
     "v": "dost času na přečtení od první do poslední stránky",
     "src": "f826f9fcad"
@@ -4114,7 +4158,7 @@
   },
   "단축어": {
     "v": "Fráze",
-    "src": "f54defa1ae"
+    "src": "9a861d1035"
   },
   "단축어 %1$d개 추가, %2$d개 갱신 (총 %3$d개).\n스택 %4$d개, 이미지 %5$d개, 카테고리 %6$d개를 가져왔습니다.": {
     "v": "Přidáno frází: %1$d, aktualizováno: %2$d (celkem %3$d).\nNačteno zásobníků: %4$d, obrázků: %5$d a kategorií: %6$d.",
@@ -4374,6 +4418,10 @@
   "단축어 카드가 화면에 2초쯤 머물면 제목 아래에 내용이 한 번 살며시 나타났다 사라져요. 키보드에서는 제목이 잠시 내용으로 바뀌었다가 돌아와요. 보안 단축어의 내용은 표시되지 않아요.": {
     "v": "Když karta fráze zůstane na obrazovce asi dvě sekundy, pod názvem se jednou jemně objeví obsah a zase zmizí. Na klávesnici se název na chvíli změní na obsah a vrátí zpět. Obsah zabezpečených frází se nikdy nezobrazí.",
     "src": "b82098b42c"
+  },
+  "단축어 카드에 보일 아이콘을 고릅니다": {
+    "v": "Vybere ikonu zobrazenou na kartě fráze",
+    "src": "f7cef21f7f"
   },
   "단축어 키 판으로 바꿉니다": {
     "v": "Přepne na klávesy s frázemi",
@@ -4731,6 +4779,10 @@
     "v": "Nápověda",
     "src": "61400fd9d2"
   },
+  "도움말, 사용법, 튜토리얼": {
+    "v": "nápověda, návod, jak na to, tutoriál",
+    "src": "aafcc4b5d8"
+  },
   "도움말과 문의": {
     "v": "Nápověda a kontakt",
     "src": "945c1acc3a"
@@ -4758,6 +4810,10 @@
   "동기화 켠 사용자": {
     "v": "Uživatelé se zapnutou synchronizací",
     "src": "71fcbb166f"
+  },
+  "동기화, iCloud, Mac, iPad": {
+    "v": "synchronizace, iCloud, Mac, iPad",
+    "src": "3a1c207a07"
   },
   "동기화가 엇갈릴 때 고르는 화면": {
     "v": "Výběr verze při konfliktu synchronizace",
@@ -4791,9 +4847,17 @@
     "v": "Vrátit zpět",
     "src": "095cf954f1"
   },
+  "되돌리기, 복구, 지운 단축어": {
+    "v": "zpět, obnovit, smazané fráze, historie",
+    "src": "81cc973e65"
+  },
   "되돌릴 시점": {
     "v": "Body obnovení",
     "src": "32b3760f6a"
+  },
+  "되살린 줄은 다음에 가장 먼저 들어가요. 저장해야 남아요.": {
+    "v": "Obnovený řádek se příště vloží jako první. Uložte, aby zůstal.",
+    "src": "6c040f5c99"
   },
   "두 기기에서 같은 단축어를 고쳤을 때 어느 쪽을 남길지 직접 골라요.": {
     "v": "Když upravíte stejnou frázi na dvou zařízeních, sami vyberete, kterou verzi ponechat.",
@@ -5092,6 +5156,10 @@
     "v": "Fráze, které používáte pravidelně každý týden či měsíc, se v ten čas přesunou na začátek klávesnice",
     "src": "3b3ef667b1"
   },
+  "맥, 메뉴 막대": {
+    "v": "Mac, lišta nabídek",
+    "src": "dbf4f07cee"
+  },
   "맥에서 단축어 순서를 끌어다 바꾸고, 그 순서를 아이폰·키보드까지 동기화": {
     "v": "Přetažením změníte pořadí frází na Macu a pořadí se synchronizuje s iPhonem i klávesnicí",
     "src": "12d610ed49"
@@ -5103,6 +5171,10 @@
   "맨 아래 띠 쓰기": {
     "v": "Použití spodního pruhu",
     "src": "cb8821af76"
+  },
+  "맨 아래 탭에는 목록, 설정, 검색이 있어요.": {
+    "v": "Dole jsou karty Seznam, Nastavení a Hledat.",
+    "src": "dcf195b882"
   },
   "먹": {
     "v": "Tuš",
@@ -5203,6 +5275,10 @@
   "모두": {
     "v": "Vše",
     "src": "550a5f3778"
+  },
+  "모두 되살리기": {
+    "v": "Obnovit vše",
+    "src": "89ae17908c"
   },
   "모두 지우기": {
     "v": "Smazat vše",
@@ -5475,6 +5551,10 @@
     "v": "První odpověď",
     "src": "851e5371eb"
   },
+  "문의, 의견, 버그, 연락, 메일": {
+    "v": "kontakt, zpětná vazba, chyba, podpora, e-mail",
+    "src": "65a9554f3f"
+  },
   "문장": {
     "v": "Věta",
     "src": "2a9c9c6e6c"
@@ -5518,6 +5598,10 @@
   "미리보기 텍스트를 클립보드에 복사합니다": {
     "v": "Zkopíruje text náhledu do schránky",
     "src": "c0a69cb5e3"
+  },
+  "미리보기, 내용": {
+    "v": "náhled, obsah",
+    "src": "0b710cd749"
   },
   "미팅 팔로업": {
     "v": "Navázání po schůzce",
@@ -5591,6 +5675,10 @@
     "v": "Právě zkopírovaný text se hned uloží do Nedávných na klávesnici.",
     "src": "4ee1a6ee8e"
   },
+  "방금 복사한 글이 있으면 키보드 맨 위에 띄워, 누르면 바로 들어가요. 전체 접근을 켜야 보여요.": {
+    "v": "Když něco zkopírujete, zobrazí se to nahoře na klávesnici a klepnutím to vložíte. Vyžaduje plný přístup.",
+    "src": "9db195b10e"
+  },
   "방금 복사한 글이 키보드 '최근'에 바로 담겨요. 저장할지 묻지 않고, 담긴 글은 %d일 뒤 저절로 지워져요.": {
     "v": {
       "few": "Právě zkopírovaný text se hned uloží do Nedávných na klávesnici. Nic nepotvrzujete a po %d dnech se sám smaže.",
@@ -5615,6 +5703,10 @@
   "배경 이미지를 설정에서도 직접 넣고 지울 수 있어요. 그동안 목록 화면 선택기에만 있던 길이에요": {
     "v": "Obrázek na pozadí teď můžete přidat i smazat přímo v Nastavení. Dříve to šlo jen ve výběru na obrazovce seznamu",
     "src": "4eba3c4664"
+  },
+  "배경, 사진, 벽지": {
+    "v": "pozadí, fotka, tapeta",
+    "src": "c1b4f28a29"
   },
   "배경색": {
     "v": "Barva pozadí",
@@ -5828,6 +5920,10 @@
     "v": "O hodnocení se ptáme až poté, co jste alespoň jednou vložili text z klávesnice.",
     "src": "e65679ed25"
   },
+  "병음이나 주음을 치면 자판 위에 한자 후보가 떠요. 긴 문장도 한 번에 바꿔요.": {
+    "v": "Zadejte pinyin nebo čuyin a nad klávesami se objeví kandidáti znaků. Dlouhé věty převede najednou.",
+    "src": "0f85937d63"
+  },
   "보관된 원본": {
     "v": "Uschovaný originál",
     "src": "fb8ba8a483"
@@ -6036,6 +6132,10 @@
     "v": "Hodnota ke zkopírování",
     "src": "040300b50a"
   },
+  "복사, 최근": {
+    "v": "kopírovat, nedávné, schránka",
+    "src": "fe0b870843"
+  },
   "복사/붙여넣기 시 매번 팝업이 표시됩니다.": {
     "v": "Při každém kopírování a vkládání se zobrazí vyskakovací okno.",
     "src": "4e5542c177"
@@ -6087,6 +6187,14 @@
   "복사한 것이 알아서 갈래를 찾아가요": {
     "v": "Zkopírované se roztřídí samo",
     "src": "5100523357"
+  },
+  "복사한 글 바로 붙여넣기": {
+    "v": "Rychle vložit zkopírovaný text",
+    "src": "7035810699"
+  },
+  "복사한 글 붙여넣기: %@": {
+    "v": "Vložit zkopírovaný text: %@",
+    "src": "6408a1d6bf"
   },
   "복사한 글을 이 목록에 저장": {
     "v": "Uložit zkopírovaný text do tohoto seznamu",
@@ -6370,6 +6478,10 @@
   "비밀번호 칸에서는 iOS 가 잠깐 기본 키보드를 띄워요. 앱이 바꿀 수 없는 일이에요.": {
     "v": "V polích pro heslo iOS nakrátko zobrazí vlastní klávesnici. Aplikace to změnit nemůže.",
     "src": "ebb42c2e9d"
+  },
+  "비밀번호, 잠금, Face ID": {
+    "v": "heslo, zámek, Face ID",
+    "src": "21779afac7"
   },
   "비밀번호·PIN·인증서는 가져올 때부터 자동으로 암호화되는 보안 단축어로": {
     "v": "Hesla, PIN a certifikáty se při importu rovnou šifrují jako zabezpečené fráze",
@@ -6681,6 +6793,10 @@
     "v": "Hodnoty rozpoznané na fotce. Řádek můžete vybrat i sami níže.",
     "src": "73b45ce77e"
   },
+  "사진에서 올리기": {
+    "v": "Nahrát z Fotek",
+    "src": "6a5f1525c8"
+  },
   "사진에서 인식된 텍스트가 없습니다. 글자가 선명한 사진으로 다시 시도해주세요.": {
     "v": "Na fotce nebyl rozpoznán žádný text. Zkuste to znovu s ostřejší fotkou.",
     "src": "f8a901febc"
@@ -6815,11 +6931,11 @@
   },
   "새 카테고리": {
     "v": "Nová kategorie",
-    "src": "1c04d4b256"
+    "src": "02467960f0"
   },
   "새 카테고리 만들기": {
     "v": "Vytvořit novou kategorii",
-    "src": "92b2e16405"
+    "src": "e85457223a"
   },
   "새 카테고리 이름": {
     "v": "Název nové kategorie",
@@ -6884,6 +7000,10 @@
   "새로운 키보드 추가…": {
     "v": "Přidat novou klávesnici…",
     "src": "f79ebdb6ec"
+  },
+  "색, 테마, 다크 모드": {
+    "v": "barva, téma, tmavý režim",
+    "src": "e4b0b4cba3"
   },
   "색상": {
     "v": "Barva",
@@ -7098,6 +7218,10 @@
   "설정 → 일반 → 키보드 → 키보드": {
     "v": "Nastavení → Obecné → Klávesnice → Klávesnice",
     "src": "2da8424947"
+  },
+  "설정 검색": {
+    "v": "Hledat v nastavení",
+    "src": "5b5966d928"
   },
   "설정 경로": {
     "v": "Cesta v Nastavení",
@@ -7493,6 +7617,10 @@
     "v": "Spustit",
     "src": "d3fa3aa776"
   },
+  "심볼": {
+    "v": "Symboly",
+    "src": "3c555564df"
+  },
   "심볼 이름 검색": {
     "v": "Hledat názvy symbolů",
     "src": "dfabe983f1"
@@ -7558,6 +7686,10 @@
   "쓰지 않는 빈칸을 모두 지울까요?": {
     "v": "Smazat všechna nepoužitá pole?",
     "src": "74de95db83"
+  },
+  "쓴 줄 %d개": {
+    "v": "Použité řádky: %d",
+    "src": "27a7fb8221"
   },
   "쓸 때 알려 줘요": {
     "v": "Ukáže se, až bude potřeba",
@@ -7670,6 +7802,14 @@
   "아이디": {
     "v": "Uživatelské jméno",
     "src": "692479e28f"
+  },
+  "아이콘": {
+    "v": "Ikona",
+    "src": "67d7e5662e"
+  },
+  "아이콘 없애기": {
+    "v": "Odebrat ikonu",
+    "src": "e722fe281a"
   },
   "아이폰 · 아이패드 · Mac 에서 같은 단축어를 써요": {
     "v": "Stejné fráze na iPhone, iPad a Mac",
@@ -7900,9 +8040,17 @@
     "v": "V náhledu v aplikaci se text vpisuje znak po znaku",
     "src": "af3721f47c"
   },
+  "앱 안내 다시 듣기": {
+    "v": "Znovu přehrát průvodce",
+    "src": "c11d632622"
+  },
   "앱 안에서는 Face ID로 열립니다. 키보드에서만 번호를 묻는 이유는, iOS가 키보드에 Face ID를 열어 주지 않기 때문이에요.": {
     "v": "V aplikaci se otevře přes Face ID. Klávesnice se ptá na číslo, protože iOS klávesnicím přístup k Face ID nedává.",
     "src": "77a7fc6b11"
+  },
+  "앱 언어, 한국어, 영어": {
+    "v": "jazyk aplikace, čeština, angličtina",
+    "src": "76ea65d8a3"
   },
   "앱 이름 없이 Siri에게": {
     "v": "Siri bez názvu aplikace",
@@ -8061,9 +8209,17 @@
     "v": "Jazyk",
     "src": "a13fcc7d26"
   },
+  "언어 추가, 자판, 한국어, 영어, 일본어, 중국어, 지구본, 키보드 추가": {
+    "v": "přidat jazyk, jazyk klávesnice, korejština, angličtina, japonština, čínština, zeměkoule, přidat klávesnici",
+    "src": "0bca7012f1"
+  },
   "언제든지 접근 가능": {
     "v": "Vždy dostupné",
     "src": "c1f88829b5"
+  },
+  "얼마 전": {
+    "v": "Před jakou dobou",
+    "src": "506e9c480c"
   },
   "업무": {
     "v": "Práce",
@@ -8445,6 +8601,10 @@
     "v": "Online",
     "src": "f52a8e0f83"
   },
+  "올린 그림은 다른 단축어와 카테고리에서도 다시 고를 수 있어요. 길게 누르면 지울 수 있어요.": {
+    "v": "Nahrané obrázky můžete znovu vybrat i pro jiné fráze a kategorie. Podržením obrázek smažete.",
+    "src": "d594f5b5fa"
+  },
   "옮겼어요": {
     "v": "Přesunuto",
     "src": "38f30ec0c7"
@@ -8710,6 +8870,10 @@
     "v": "Vrátit se k tomuto bodu?",
     "src": "a5d51c1ec0"
   },
+  "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요.": {
+    "v": "Průvodce si můžete poslechnout znovu: přejeďte nahoru nebo dolů na názvu kategorie nahoře a zvolte %@.",
+    "src": "03b66505cf"
+  },
   "이 앱에는 서버가 없어요. 계좌번호도 주민등록번호도 이 폰 안에만 있고, 저희조차 볼 수 없습니다. 털릴 서버가 없으니 털릴 방법도 없어요.": {
     "v": "Tato aplikace nemá server. Čísla účtů ani rodná čísla jsou jen v tomto telefonu a ani my je neuvidíme. Není server, který by šlo napadnout, takže není co napadnout.",
     "src": "748fd3e528"
@@ -8925,6 +9089,10 @@
   "이메일": {
     "v": "E-mail",
     "src": "b0528097c1"
+  },
+  "이모지": {
+    "v": "Emoji",
+    "src": "5703ab8d31"
   },
   "이모지 선택": {
     "v": "Vybrat emoji",
@@ -9205,6 +9373,10 @@
     "v": "Japonské rozložení",
     "src": "c3be305322"
   },
+  "일본어 한자 변환": {
+    "v": "Převod na kandži",
+    "src": "6266864795"
+  },
   "일본어·중국어 한자 변환": {
     "v": "Převod kandži a hanzi",
     "src": "1fa50ccb8e"
@@ -9212,6 +9384,10 @@
   "일본어는 가나, 중국어는 병음·주음까지 칠 수 있어요. 한자로 바꾸는 사전은 다음 업데이트에서 필요할 때 받아 쓰게 돼요.": {
     "v": "Japonštinu lze psát v kaně a čínštinu v pinyinu nebo zhuyinu. Převod na kanji a hanzi přijde v další aktualizaci, slovník se stáhne jen v případě potřeby.",
     "src": "5646a40242"
+  },
+  "일본어는 가나까지 칠 수 있어요. 한자 변환은 준비 중이에요.": {
+    "v": "V japonštině zatím jde psát kanu. Převod na kandži se připravuje.",
+    "src": "d8f3db7758"
   },
   "일부 항목을 지우지 못했어요. 앱을 다시 실행한 뒤 시도해 주세요.": {
     "v": "Některé položky se nepodařilo smazat. Spusťte aplikaci znovu a zkuste to prosím znovu.",
@@ -10012,6 +10188,10 @@
     "v": "Zadejte jen název, bez složených závorek. Když do fráze napíšete {jméno}, vloží se toto pole k vyplnění.",
     "src": "edeab59b65"
   },
+  "중국어 한자 입력": {
+    "v": "Zadávání čínských znaků",
+    "src": "4869368094"
+  },
   "중국어를 넣었어요. 간체와 번체 두 벌이고, 앱 이름도 함께 바뀌어요": {
     "v": "Přidali jsme čínštinu, zjednodušenou i tradiční. Změní se s ní i název aplikace",
     "src": "d089e954e3"
@@ -10564,6 +10744,10 @@
     "v": "Naposledy zkopírované",
     "src": "ab4103cf14"
   },
+  "최근 복사한 때": {
+    "v": "Čas kopírování v Nedávných",
+    "src": "51f1a128f2"
+  },
   "최근 사용": {
     "v": "Nedávno použité",
     "src": "9f04573967"
@@ -10760,6 +10944,10 @@
     "v": "Kategorie '%@'",
     "src": "1bf4ebf5c3"
   },
+  "카테고리 고르기": {
+    "v": "Vybrat kategorii",
+    "src": "473c9316cd"
+  },
   "카테고리 관리": {
     "v": "Spravovat kategorie",
     "src": "bc6456a9cf"
@@ -10815,6 +11003,10 @@
   "카테고리 추가": {
     "v": "Přidat kategorii",
     "src": "8cfc65c32a"
+  },
+  "카테고리 칸과 단축어 카드에 보일 아이콘을 고릅니다. 이모지나 사진에서 올린 그림도 쓸 수 있어요.": {
+    "v": "Vyberte ikonu pro dlaždice kategorií a karty frází. Můžete použít i emoji nebo obrázek z Fotek.",
+    "src": "33175ea015"
   },
   "카테고리 칸에 내용 미리보기": {
     "v": "Náhled v dlaždicích kategorií",
@@ -11163,6 +11355,10 @@
     "v": "Odeberte vše kromě ClipKeyboard",
     "src": "a0a9a38d77"
   },
+  "클립키보드예요. 자주 쓰는 글을 단축어로 담아 두고 키보드에서 바로 넣는 앱이에요. 화면 맨 위에는 지금 보는 카테고리 이름이 있고, 두 번 탭하면 다른 카테고리를 고를 수 있어요. 오른쪽 위 추가 단추로 새 단축어를 만들어요.": {
+    "v": "Toto je ClipKeyboard. Často používané texty si uložte jako fráze a vkládejte je přímo z klávesnice. Nahoře na obrazovce je název kategorie, kterou právě máte otevřenou. Dvojitým klepnutím zvolíte jinou kategorii. Tlačítkem Přidat vpravo nahoře vytvoříte novou frázi.",
+    "src": "7ca620198a"
+  },
   "키 개수·높이·글자 크기·색을 취향대로 바꿀 수 있어요. 한 화면에 여덟 개를 띄우는 사람도 있습니다.": {
     "v": "Počet kláves, výšku, velikost písma i barvy nastavíte podle sebe. Někteří lidé mají na obrazovce osm kláves.",
     "src": "203f92f256"
@@ -11230,6 +11426,10 @@
   "키보드 높이": {
     "v": "Výška klávesnice",
     "src": "077ebe5d55"
+  },
+  "키보드 높이, 키 크기, 글자 크기, 열 개수, 보내기 키, 붙여넣기 키, 숫자 판, 검색창": {
+    "v": "výška klávesnice, velikost kláves, velikost písma, sloupce, klávesa Odeslat, klávesa Vložit, číselná klávesnice, vyhledávací pole",
+    "src": "0862a6df7a"
   },
   "키보드 높이를 기기의 기본 키보드에 맞췄어요. 올라올 때 높이가 튀던 것도 함께 없앴어요": {
     "v": "Klávesnice má výšku výchozí klávesnice zařízení a skok při jejím zobrazení zmizel",
@@ -11338,6 +11538,10 @@
   "키보드 켜기": {
     "v": "Zapnout klávesnici",
     "src": "f014241548"
+  },
+  "키보드 켜기, 키보드 추가, 설치": {
+    "v": "zapnout klávesnici, přidat klávesnici, instalace",
+    "src": "f7c5c8e97a"
   },
   "키보드 켜러 가기": {
     "v": "Zapnout klávesnici",
@@ -11825,6 +12029,10 @@
     "v": "Skrýt tip k šablonám",
     "src": "c5559db1b1"
   },
+  "템플릿, 변수": {
+    "v": "šablona, proměnná",
+    "src": "eff5be5846"
+  },
   "템플릿·스택·단축어+템플릿 예시 4개를 추가해 직접 써볼 수 있어요. 기존 단축어는 그대로 유지돼요.": {
     "v": "Přidejte 4 ukázky (šablonu, zásobník a frázi se šablonou) a vyzkoušejte je. Vaše stávající fráze zůstanou beze změny.",
     "src": "cec2a2c7d7"
@@ -11852,6 +12060,10 @@
   "템플릿의 클립보드 빈칸 채우기": {
     "v": "Vyplňování schránky v šablonách",
     "src": "5621c63f18"
+  },
+  "통계, 아낀 시간": {
+    "v": "statistiky, ušetřený čas",
+    "src": "371a7849a9"
   },
   "통관번호": {
     "v": "Číslo celního prohlášení",
@@ -11972,6 +12184,10 @@
   "폰을 잃어버려도 단축어는 남아요": {
     "v": "Ztratíte telefon, fráze zůstanou",
     "src": "dc83f971f2"
+  },
+  "폴더, 분류, 아이콘, 색": {
+    "v": "složka, skupina, ikona, barva",
+    "src": "2f1809e22a"
   },
   "표시 옵션": {
     "v": "Možnosti zobrazení",
@@ -12249,6 +12465,10 @@
     "v": "Uspořádat více frází najednou",
     "src": "19c9fb1ad6"
   },
+  "한자 변환은 준비 중이에요": {
+    "v": "Převod na kandži se připravuje",
+    "src": "98b11404fa"
+  },
   "한자 사전은 앱의 키보드 설정에서 받아요": {
     "v": "Slovník pro převod stáhnete v nastavení klávesnice v aplikaci",
     "src": "a98b852c20"
@@ -12280,6 +12500,10 @@
   "항상 표시": {
     "v": "Vždy zobrazit",
     "src": "a86965d16b"
+  },
+  "햅틱, 소리, 키 소리": {
+    "v": "haptika, zvuk, zvuk kláves",
+    "src": "1677982d7a"
   },
   "허용": {
     "v": "Povolit",
@@ -12544,205 +12768,5 @@
   "🪪 명함": {
     "v": "🪪 Vizitka",
     "src": "9becff2df0"
-  },
-  "카테고리 고르기": {
-    "v": "Vybrat kategorii",
-    "src": "473c9316cd"
-  },
-  "아이콘": {
-    "v": "Ikona",
-    "src": "67d7e5662e"
-  },
-  "이모지": {
-    "v": "Emoji",
-    "src": "5703ab8d31"
-  },
-  "심볼": {
-    "v": "Symboly",
-    "src": "3c555564df"
-  },
-  "내 그림": {
-    "v": "Moje obrázky",
-    "src": "bc0a371301"
-  },
-  "아이콘 없애기": {
-    "v": "Odebrat ikonu",
-    "src": "e722fe281a"
-  },
-  "사진에서 올리기": {
-    "v": "Nahrát z Fotek",
-    "src": "6a5f1525c8"
-  },
-  "올린 그림은 다른 단축어와 카테고리에서도 다시 고를 수 있어요. 길게 누르면 지울 수 있어요.": {
-    "v": "Nahrané obrázky můžete znovu vybrat i pro jiné fráze a kategorie. Podržením obrázek smažete.",
-    "src": "d594f5b5fa"
-  },
-  "단축어 카드에 보일 아이콘을 고릅니다": {
-    "v": "Vybere ikonu zobrazenou na kartě fráze",
-    "src": "f7cef21f7f"
-  },
-  "카테고리 칸과 단축어 카드에 보일 아이콘을 고릅니다. 이모지나 사진에서 올린 그림도 쓸 수 있어요.": {
-    "v": "Vyberte ikonu pro dlaždice kategorií a karty frází. Můžete použít i emoji nebo obrázek z Fotek.",
-    "src": "33175ea015"
-  },
-  "얼마 전": {
-    "v": "Před jakou dobou",
-    "src": "506e9c480c"
-  },
-  "날짜와 시간": {
-    "v": "Datum a čas",
-    "src": "13a00e08d2"
-  },
-  "최근 복사한 때": {
-    "v": "Čas kopírování v Nedávných",
-    "src": "51f1a128f2"
-  },
-  "'최근' 에 복사한 때를 이렇게 보여 줘요: %@": {
-    "v": "Nedávné ukazuje čas kopírování takto: %@",
-    "src": "6d5b0dbd60"
-  },
-  "설정 검색": {
-    "v": "Hledat v nastavení",
-    "src": "5b5966d928"
-  },
-  "언어 추가, 자판, 한국어, 영어, 일본어, 중국어, 지구본, 키보드 추가": {
-    "v": "přidat jazyk, jazyk klávesnice, korejština, angličtina, japonština, čínština, zeměkoule, přidat klávesnici",
-    "src": "0bca7012f1"
-  },
-  "키보드 높이, 키 크기, 글자 크기, 열 개수, 보내기 키, 붙여넣기 키, 숫자 판, 검색창": {
-    "v": "výška klávesnice, velikost kláves, velikost písma, sloupce, klávesa Odeslat, klávesa Vložit, číselná klávesnice, vyhledávací pole",
-    "src": "0862a6df7a"
-  },
-  "햅틱, 소리, 키 소리": {
-    "v": "haptika, zvuk, zvuk kláves",
-    "src": "1677982d7a"
-  },
-  "키보드 켜기, 키보드 추가, 설치": {
-    "v": "zapnout klávesnici, přidat klávesnici, instalace",
-    "src": "f7c5c8e97a"
-  },
-  "폴더, 분류, 아이콘, 색": {
-    "v": "složka, skupina, ikona, barva",
-    "src": "2f1809e22a"
-  },
-  "템플릿, 변수": {
-    "v": "šablona, proměnná",
-    "src": "eff5be5846"
-  },
-  "색, 테마, 다크 모드": {
-    "v": "barva, téma, tmavý režim",
-    "src": "e4b0b4cba3"
-  },
-  "배경, 사진, 벽지": {
-    "v": "pozadí, fotka, tapeta",
-    "src": "c1b4f28a29"
-  },
-  "앱 언어, 한국어, 영어": {
-    "v": "jazyk aplikace, čeština, angličtina",
-    "src": "76ea65d8a3"
-  },
-  "미리보기, 내용": {
-    "v": "náhled, obsah",
-    "src": "0b710cd749"
-  },
-  "격자, 리스트": {
-    "v": "mřížka, seznam, rozložení",
-    "src": "bacd6cc05b"
-  },
-  "통계, 아낀 시간": {
-    "v": "statistiky, ušetřený čas",
-    "src": "371a7849a9"
-  },
-  "iCloud, 내보내기, 가져오기, 파일": {
-    "v": "iCloud, export, import, soubor, záloha, obnovení",
-    "src": "7b9ba2ab0b"
-  },
-  "비밀번호, 잠금, Face ID": {
-    "v": "heslo, zámek, Face ID",
-    "src": "21779afac7"
-  },
-  "복사, 최근": {
-    "v": "kopírovat, nedávné, schránka",
-    "src": "fe0b870843"
-  },
-  "동기화, iCloud, Mac, iPad": {
-    "v": "synchronizace, iCloud, Mac, iPad",
-    "src": "3a1c207a07"
-  },
-  "되돌리기, 복구, 지운 단축어": {
-    "v": "zpět, obnovit, smazané fráze, historie",
-    "src": "81cc973e65"
-  },
-  "도움말, 사용법, 튜토리얼": {
-    "v": "nápověda, návod, jak na to, tutoriál",
-    "src": "aafcc4b5d8"
-  },
-  "문의, 의견, 버그, 연락, 메일": {
-    "v": "kontakt, zpětná vazba, chyba, podpora, e-mail",
-    "src": "65a9554f3f"
-  },
-  "맥, 메뉴 막대": {
-    "v": "Mac, lišta nabídek",
-    "src": "dbf4f07cee"
-  },
-  "앱 안내 다시 듣기": {
-    "v": "Znovu přehrát průvodce",
-    "src": "c11d632622"
-  },
-  "클립키보드예요. 자주 쓰는 글을 단축어로 담아 두고 키보드에서 바로 넣는 앱이에요. 화면 맨 위에는 지금 보는 카테고리 이름이 있고, 두 번 탭하면 다른 카테고리를 고를 수 있어요. 오른쪽 위 추가 단추로 새 단축어를 만들어요.": {
-    "v": "Toto je ClipKeyboard. Často používané texty si uložte jako fráze a vkládejte je přímo z klávesnice. Nahoře na obrazovce je název kategorie, kterou právě máte otevřenou. Dvojitým klepnutím zvolíte jinou kategorii. Tlačítkem Přidat vpravo nahoře vytvoříte novou frázi.",
-    "src": "7ca620198a"
-  },
-  "그 아래로 단축어가 이어져요. 두 번 탭하면 편집과 삭제 메뉴가 열리고, 위아래로 쓸어 복사를 고르면 복사돼요.": {
-    "v": "Pod tím následují fráze. Dvojitým klepnutím otevřete nabídku úprav a mazání, přejetím nahoru nebo dolů zvolíte Kopírovat.",
-    "src": "315b62d8db"
-  },
-  "그 아래로 단축어가 이어져요. 두 번 탭하면 복사되고, 위아래로 쓸어 더 보기를 고르면 편집과 삭제를 할 수 있어요.": {
-    "v": "Pod tím následují fráze. Dvojitým klepnutím frázi zkopírujete, přejetím nahoru nebo dolů zvolíte Více a můžete ji upravit nebo smazat.",
-    "src": "6e6877902e"
-  },
-  "맨 아래 탭에는 목록, 설정, 검색이 있어요.": {
-    "v": "Dole jsou karty Seznam, Nastavení a Hledat.",
-    "src": "dcf195b882"
-  },
-  "이 안내는 맨 위 카테고리 이름에서 위아래로 쓸어 %@를 고르면 다시 들을 수 있어요.": {
-    "v": "Průvodce si můžete poslechnout znovu: přejeďte nahoru nebo dolů na názvu kategorie nahoře a zvolte %@.",
-    "src": "03b66505cf"
-  },
-  "복사한 글 붙여넣기: %@": {
-    "v": "Vložit zkopírovaný text: %@",
-    "src": "6408a1d6bf"
-  },
-  "복사한 글 바로 붙여넣기": {
-    "v": "Rychle vložit zkopírovaný text",
-    "src": "7035810699"
-  },
-  "방금 복사한 글이 있으면 키보드 맨 위에 띄워, 누르면 바로 들어가요. 전체 접근을 켜야 보여요.": {
-    "v": "Když něco zkopírujete, zobrazí se to nahoře na klávesnici a klepnutím to vložíte. Vyžaduje plný přístup.",
-    "src": "9db195b10e"
-  },
-  "다 썼어요. 편집에서 쓴 줄을 되살릴 수 있어요": {
-    "v": "Vše je použité. Použité řádky můžete obnovit v úpravách",
-    "src": "27442e28cd"
-  },
-  "다 씀": {
-    "v": "Vyčerpáno",
-    "src": "a197efb9d6"
-  },
-  "쓴 줄 %d개": {
-    "v": "Použité řádky: %d",
-    "src": "27a7fb8221"
-  },
-  "모두 되살리기": {
-    "v": "Obnovit vše",
-    "src": "89ae17908c"
-  },
-  "%@ 되살리기": {
-    "v": "Obnovit %@",
-    "src": "abfb03169c"
-  },
-  "되살린 줄은 다음에 가장 먼저 들어가요. 저장해야 남아요.": {
-    "v": "Obnovený řádek se příště vloží jako první. Uložte, aby zůstal.",
-    "src": "6c040f5c99"
   }
 }
