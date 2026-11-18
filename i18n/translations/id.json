@@ -859,7 +859,7 @@
   },
   "Capture Clipboard": {
     "v": "Ambil Papan Klip",
-    "src": "29fdf05b52"
+    "src": "cbd286a598"
   },
   "Capture a quick note into ClipKeyboard.": {
     "v": "Simpan catatan cepat di ClipKeyboard.",
@@ -991,7 +991,7 @@
   },
   "Copy Snippet": {
     "v": "Salin Frasa",
-    "src": "0ddaca3179"
+    "src": "db83e51b77"
   },
   "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \"VAT / Tax ID\" and masks on display.": {
     "v": "Jika Anda menyalin nomor VAT berformat PT123456789 atau EU123456789, aplikasi mengenalinya sebagai \"VAT / Nomor Pajak\" dan menyamarkannya di layar.",

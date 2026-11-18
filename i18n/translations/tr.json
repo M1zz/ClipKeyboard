@@ -989,7 +989,7 @@
   },
   "Capture Clipboard": {
     "v": "Panoyu Yakala",
-    "src": "29fdf05b52"
+    "src": "cbd286a598"
   },
   "Capture a quick note into ClipKeyboard.": {
     "v": "ClipKeyboard'a hızlı bir not bırakın.",
@@ -1121,7 +1121,7 @@
   },
   "Copy Snippet": {
     "v": "İfadeyi Kopyala",
-    "src": "0ddaca3179"
+    "src": "db83e51b77"
   },
   "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \"VAT / Tax ID\" and masks on display.": {
     "v": "PT123456789 veya EU123456789 biçiminde bir VAT numarası kopyalarsanız uygulama bunu \"VAT / Vergi No\" olarak tanır ve ekranda gizler.",

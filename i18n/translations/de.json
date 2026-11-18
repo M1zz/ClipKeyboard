@@ -986,7 +986,7 @@
   },
   "Capture Clipboard": {
     "v": "Zwischenablage erfassen",
-    "src": "29fdf05b52"
+    "src": "cbd286a598"
   },
   "Capture a quick note into ClipKeyboard.": {
     "v": "Hält eine kurze Notiz in ClipKeyboard fest.",
@@ -1118,7 +1118,7 @@
   },
   "Copy Snippet": {
     "v": "Textbaustein kopieren",
-    "src": "0ddaca3179"
+    "src": "db83e51b77"
   },
   "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \"VAT / Tax ID\" and masks on display.": {
     "v": "Kopierst du eine VAT-Nummer im Format PT123456789 oder EU123456789, erkennt die App sie als \"VAT / Steuernummer\" und blendet sie in der Anzeige aus.",

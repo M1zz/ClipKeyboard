@@ -1077,7 +1077,7 @@
   },
   "Capture Clipboard": {
     "v": "Zachytit schránku",
-    "src": "29fdf05b52"
+    "src": "cbd286a598"
   },
   "Capture a quick note into ClipKeyboard.": {
     "v": "Rychle si zapište poznámku do ClipKeyboard.",
@@ -1209,7 +1209,7 @@
   },
   "Copy Snippet": {
     "v": "Kopírovat frázi",
-    "src": "0ddaca3179"
+    "src": "db83e51b77"
   },
   "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \"VAT / Tax ID\" and masks on display.": {
     "v": "Když zkopírujete DIČ ve tvaru PT123456789 nebo EU123456789, aplikace ho rozpozná jako \"VAT / daňové číslo\" a na obrazovce ho skryje.",

@@ -1272,10 +1272,10 @@
     "h": "587e1cf483"
   },
   "Capture Clipboard": {
-    "ko": "Capture Clipboard",
+    "ko": "클립보드 담기",
     "en": "Capture Clipboard",
-    "comment": "",
-    "h": "29fdf05b52"
+    "comment": "Siri shortcut title",
+    "h": "cbd286a598"
   },
   "Capture a quick note into ClipKeyboard.": {
     "ko": "ClipKeyboard에 빠른 메모를 남깁니다.",
@@ -1470,10 +1470,10 @@
     "h": "9f89a8ecdc"
   },
   "Copy Snippet": {
-    "ko": "Copy Snippet",
+    "ko": "단축어 복사",
     "en": "Copy Snippet",
-    "comment": "",
-    "h": "0ddaca3179"
+    "comment": "Siri shortcut title",
+    "h": "db83e51b77"
   },
   "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \"VAT / Tax ID\" and masks on display.": {
     "ko": "PT123456789 또는 EU123456789 형식의 VAT 번호를 복사하면 앱이 \"VAT / 세금번호\"로 인식하고 화면에서는 마스킹 처리합니다.",

@@ -857,7 +857,7 @@
   },
   "Capture Clipboard": {
     "v": "Chụp bảng tạm",
-    "src": "29fdf05b52"
+    "src": "cbd286a598"
   },
   "Capture a quick note into ClipKeyboard.": {
     "v": "Ghi nhanh một ghi chú vào ClipKeyboard.",
@@ -989,7 +989,7 @@
   },
   "Copy Snippet": {
     "v": "Sao chép cụm từ",
-    "src": "0ddaca3179"
+    "src": "db83e51b77"
   },
   "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \"VAT / Tax ID\" and masks on display.": {
     "v": "Khi bạn sao chép mã VAT dạng PT123456789 hoặc EU123456789, ứng dụng sẽ nhận ra đó là \"VAT / Mã số thuế\" và ẩn bớt khi hiển thị.",

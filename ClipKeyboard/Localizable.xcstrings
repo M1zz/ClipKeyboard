@@ -50238,6 +50238,12 @@
             "value" : "クリップボードを取り込む"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클립보드 담기"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -50304,7 +50310,8 @@
             "value" : "收錄剪貼簿"
           }
         }
-      }
+      },
+      "comment" : "Siri shortcut title"
     },
     "Card" : {
       "comment" : "Category: card",
@@ -55479,6 +55486,12 @@
             "value" : "定型文をコピー"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어 복사"
+          }
+        },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
@@ -55545,7 +55558,8 @@
             "value" : "複製短語"
           }
         }
-      }
+      },
+      "comment" : "Siri shortcut title"
     },
     "Copy to clipboard" : {
       "comment" : "Context menu: copy",

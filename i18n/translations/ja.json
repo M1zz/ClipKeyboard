@@ -857,7 +857,7 @@
   },
   "Capture Clipboard": {
     "v": "クリップボードを取り込む",
-    "src": "29fdf05b52"
+    "src": "cbd286a598"
   },
   "Capture a quick note into ClipKeyboard.": {
     "v": "ClipKeyboardにクイックメモを残します。",
@@ -989,7 +989,7 @@
   },
   "Copy Snippet": {
     "v": "定型文をコピー",
-    "src": "0ddaca3179"
+    "src": "db83e51b77"
   },
   "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \"VAT / Tax ID\" and masks on display.": {
     "v": "PT123456789またはEU123456789形式のVAT番号をコピーすると、「VAT / 税番号」と認識し、画面上ではマスク表示します。",

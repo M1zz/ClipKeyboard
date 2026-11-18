@@ -1067,7 +1067,7 @@
   },
   "Capture Clipboard": {
     "v": "Захватить буфер обмена",
-    "src": "29fdf05b52"
+    "src": "cbd286a598"
   },
   "Capture a quick note into ClipKeyboard.": {
     "v": "Быстро сохраняет заметку в ClipKeyboard.",
@@ -1199,7 +1199,7 @@
   },
   "Copy Snippet": {
     "v": "Скопировать фразу",
-    "src": "0ddaca3179"
+    "src": "db83e51b77"
   },
   "Copy a VAT number in format PT123456789 or EU123456789, the app recognizes it as \"VAT / Tax ID\" and masks on display.": {
     "v": "Если скопировать номер VAT в формате PT123456789 или EU123456789, приложение распознает его как «VAT / налоговый номер» и скроет его на экране.",
