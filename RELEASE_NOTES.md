@@ -14,6 +14,224 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.24
+
+### 앱스토어 (한국어)
+
+```
+복사한 글이 키보드 위에 떠 있고 X로 닫을 수 있어요.
+자판 위 빈칸을 없애 키보드가 더 깔끔해졌어요.
+중국어 자판으로 한자를 칠 수 있어요.
+템플릿 단축어 테두리가 고른 키 색을 따라요.
+```
+
+### App Store (English)
+
+```
+Copied text stays above the keys. Tap X to hide it.
+The empty bar above the keys is gone.
+Type Chinese characters on the Chinese keyboards.
+Template snippets now match your key color.
+```
+
+### App Store (en-GB)
+
+```
+Copied text stays above the keys. Tap X to hide it.
+The empty bar above the keys is gone.
+Type Chinese characters on the Chinese keyboards.
+Template snippets now match your key colour.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+复制的文字会留在键盘上方，点 X 即可关闭。
+去掉了按键上方的空白栏。
+中文键盘现在可以输入汉字。
+模板短语的边框会跟随所选按键颜色。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+複製的文字會留在鍵盤上方，點 X 即可關閉。
+移除了按鍵上方的空白列。
+中文鍵盤現在可以輸入漢字。
+範本短語的邊框會跟隨所選按鍵顏色。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Скопированный текст висит над клавишами, X скрывает.
+Пустая полоса над клавишами исчезла.
+На китайских раскладках можно вводить иероглифы.
+Рамка шаблонов теперь в цвет клавиш.
+```
+
+### App Store (Japanese, ja)
+
+```
+コピーした文がキーの上に出て、Xで閉じられます。
+キーの上の空いたすき間をなくしました。
+中国語キーボードで漢字を入力できます。
+テンプレート定型文の枠が選んだキーの色になります。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Lo copiado queda sobre el teclado; ciérralo con X.
+Quitamos la barra vacía sobre las teclas.
+Escribe caracteres chinos en los teclados chinos.
+Las plantillas usan el color de tecla que elijas.
+```
+
+### App Store (German, de-DE)
+
+```
+Kopierter Text bleibt über den Tasten, X blendet aus.
+Die leere Leiste über den Tasten ist weg.
+Auf chinesischen Tastaturen Schriftzeichen tippen.
+Vorlagen übernehmen deine Tastenfarbe.
+```
+
+### App Store (Thai, th)
+
+```
+ข้อความที่คัดลอกจะอยู่เหนือแป้น แตะ X เพื่อปิด
+เอาแถบว่างเหนือแป้นพิมพ์ออกแล้ว
+พิมพ์อักษรจีนบนแป้นพิมพ์ภาษาจีนได้แล้ว
+กรอบข้อความด่วนแบบแม่แบบใช้สีปุ่มที่เลือก
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Văn bản đã sao chép nằm trên bàn phím, chạm X để ẩn.
+Đã bỏ thanh trống phía trên các phím.
+Gõ được chữ Hán trên bàn phím tiếng Trung.
+Viền mẫu cụm từ theo màu phím bạn chọn.
+```
+
+### App Store (French, fr-FR)
+
+```
+Le texte copié reste au-dessus des touches, X le masque.
+La barre vide au-dessus des touches a disparu.
+Saisissez des caractères chinois sur les claviers chinois.
+Les modèles prennent la couleur de touche choisie.
+```
+
+### App Store (Italian, it)
+
+```
+Il testo copiato resta sopra i tasti, X lo chiude.
+Via la barra vuota sopra i tasti.
+Scrivi caratteri cinesi con le tastiere cinesi.
+I modelli seguono il colore tasti scelto.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+O texto copiado fica sobre as teclas; feche com X.
+A barra vazia sobre as teclas sumiu.
+Digite caracteres chineses nos teclados chineses.
+Os modelos seguem a cor de tecla escolhida.
+```
+
+### App Store (Czech, cs)
+
+```
+Zkopírovaný text zůstane nad klávesami, X ho skryje.
+Prázdný pruh nad klávesami zmizel.
+Na čínských klávesnicích teď napíšete znaky.
+Šablony mají barvu kláves, kterou zvolíte.
+```
+
+### App Store (Danish, da)
+
+```
+Kopieret tekst bliver over tasterne, X skjuler den.
+Den tomme bjælke over tasterne er væk.
+Skriv kinesiske tegn på de kinesiske tastaturer.
+Skabeloner følger din valgte tastfarve.
+```
+
+### App Store (Greek, el)
+
+```
+Το κείμενο που αντιγράψατε μένει πάνω από τα πλήκτρα.
+Η κενή γραμμή πάνω από τα πλήκτρα αφαιρέθηκε.
+Γράψτε κινεζικούς χαρακτήρες στα κινεζικά πληκτρολόγια.
+Τα πρότυπα παίρνουν το χρώμα πλήκτρων που διαλέγετε.
+```
+
+### App Store (Finnish, fi)
+
+```
+Kopioitu teksti pysyy näppäinten yllä, X piilottaa sen.
+Tyhjä palkki näppäinten yltä on poistettu.
+Kirjoita kiinan merkkejä kiinan näppäimistöillä.
+Mallipohjat saavat valitsemasi näppäinvärin.
+```
+
+### App Store (Indonesian, id)
+
+```
+Teks salinan tetap di atas tombol, ketuk X untuk tutup.
+Bilah kosong di atas tombol kini hilang.
+Ketik aksara Tionghoa di papan ketik Mandarin.
+Templat mengikuti warna tombol pilihanmu.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Kopiert tekst blir over tastene, X skjuler den.
+Den tomme linjen over tastene er borte.
+Skriv kinesiske tegn på de kinesiske tastaturene.
+Maler følger tastefargen du velger.
+```
+
+### App Store (Dutch, nl)
+
+```
+Gekopieerde tekst blijft boven de toetsen, X verbergt.
+De lege balk boven de toetsen is weg.
+Typ Chinese tekens op de Chinese toetsenborden.
+Sjablonen volgen je gekozen toetskleur.
+```
+
+### App Store (Polish, pl)
+
+```
+Skopiowany tekst zostaje nad klawiszami, X go ukrywa.
+Zniknął pusty pasek nad klawiszami.
+Pisz chińskie znaki na chińskich klawiaturach.
+Szablony mają wybrany przez ciebie kolor klawiszy.
+```
+
+### App Store (Swedish, sv)
+
+```
+Kopierad text ligger kvar ovanför tangenterna, X döljer.
+Den tomma raden ovanför tangenterna är borta.
+Skriv kinesiska tecken på de kinesiska tangentborden.
+Mallar följer tangentfärgen du väljer.
+```
+
+### App Store (Turkish, tr)
+
+```
+Kopyalanan metin tuşların üstünde kalır, X ile kapat.
+Tuşların üstündeki boş şerit kaldırıldı.
+Çince klavyelerde Çince karakter yazabilirsin.
+Şablonlar seçtiğin tuş rengini alır.
+```
+
 ## 5.1.23
 
 ### 앱스토어 (한국어)
