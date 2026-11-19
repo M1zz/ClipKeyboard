@@ -133,7 +133,7 @@ EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ### 키워드
 
 ```
-text,replacement,replies,autofill,canned,shortcuts,history,signature,boilerplate,expander,macro
+replies,canned,boilerplate,customer service,pasteboard,copy,copy paste,typing,replacement,autofill
 ```
 
 ### 프로모션 텍스트
@@ -355,7 +355,7 @@ EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ### 키워드
 
 ```
-剪切板,粘贴板,复制粘贴,输入法,剪贴板历史,文字替换,文本扩展,短语库,签名,自动填充,复制历史,收款账号,地址,邮箱,常用句,宏,备忘,效率,客服,模板,短语键盘,快捷输入,回复
+剪切板,粘贴板,剪贴板历史,文字替换,文本扩展,短语库,自动填充,复制历史,收款账号,常用句,短语键盘,快捷输入,复制,粘贴,自动回复,客服,复制粘贴,签名,宏,模板,邮箱,输入法,地址,备忘,效率
 ```
 
 ### 프로모션 텍스트
@@ -503,7 +503,7 @@ EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ### 키워드
 
 ```
-ユーザー辞書,単語登録,辞書,テンプレート,メモ,自動入力,署名,住所,口座番号,返信,スニペット,貼り付け,コピー,マクロ,ショートカット,入力補助,連絡先,メール,文章,挨拶
+口座番号,スニペット,定型文アプリ,コピペキーボード,辞書登録,キーボードアプリ,テンプレ,挨拶,住所,返信,ユーザー辞書,マクロ,署名,自動入力,入力補助,単語登録,文章,連絡先,辞書,メモ,メール
 ```
 
 ### 프로모션 텍스트
