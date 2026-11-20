@@ -173,6 +173,11 @@ struct ClipKeyboardApp: App {
         // iOS 에 켜 둔 키보드의 언어를 키보드에게 알려 둔다. 처음 자판 언어를 고를 때 쓴다.
         TypingPrefs.noteEnabledKeyboards()
 
+        #if DEBUG
+        // 멈춤 시험(`-HangProbe`): 메인 스레드가 멈춘 시간을 재고, 시험용 단축어를 깐다.
+        HangProbe.startIfRequested()
+        #endif
+
         // 콤보/attached 데이터 모델 통합 마이그레이션 - 다른 어떤 load/save보다 먼저 실행해
         // 레거시 키(isStack/stackValues/attachedTemplateId)가 신 모델 재저장으로 사라지기 전에 변환.
         LaunchGuard.essential(.comboMigration) {

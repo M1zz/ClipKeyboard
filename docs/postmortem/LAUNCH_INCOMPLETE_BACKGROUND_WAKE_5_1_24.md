@@ -101,6 +101,19 @@ _UIUpdateSequenceRunNext → _UIHostingView.layoutSubviews → GraphHost.flushTr
 `.sprintcommander/tasks.json` 에 적어 두었다. 볼 곳: `trackPageScroll` 의 제목 접기(상태가 바 높이를 바꾸고
 바 높이가 다시 판정을 바꾼다), `StaleScrollOffsetReset`, `CoachAnchorKey` 의 `onPreferenceChange`.
 
+### 멈춤을 재는 시험 (2026-11-20 추가)
+
+몽키 시험은 "죽었는가" 만 봐서 굳은 앱을 못 잡는다. 멈춘 시간 자체를 재는 길을 만들었다.
+
+- `ClipKeyboard/Service/HangProbe.swift`: 메인 스레드가 1초 넘게 대답하지 않으면 적는 탐침(개발 빌드, `-HangProbe`).
+- `ClipKeyboardUITests/ListHangUITests.swift`: 단축어 300개를 깔고 목록을 굴리며(문턱 근처 천천히 스크롤 ·
+  카테고리 전환 · 탭 오가기 · 회전 · 홈 나갔다 오기) 2.5초 넘는 멈춤이 있으면 직전 동작과 함께 실패한다.
+
+시뮬레이터에서 시드 셋(2026 · 7 · 99), 동작 620개를 돌린 결과 **쓰는 중 2.5초 넘는 멈춤은 없었다.**
+가장 긴 것은 홈에서 돌아오는 순간의 1.3초였다. 켤 때는 단축어 10개든 1000개든 1초 남짓이라 개수에 비례하지 않는다.
+즉 빌드 52 · 53 의 멈춤은 아직 재현하지 못했다. 시드와 동작 수를 늘려 더 돌리거나, 그 기기의 조건
+(큰 글씨 · 배너가 서 있는 상태 · 카테고리 색)을 시험 데이터에 더해 볼 것.
+
 ## 다음에 같은 숫자를 받으면
 
 1. `launch_incomplete` 는 **단계별로** 나눠 본다. `first-frame` 만 켜다가 멈춘 것이다.

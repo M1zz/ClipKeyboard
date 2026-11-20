@@ -196,6 +196,7 @@
 		9D1AB44C4CBEA72D910F89B0 /* TypingEngines.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13AB4D6A262B3B587B30778 /* TypingEngines.swift */; };
 		9D5AF22140BC574C2215FD13 /* CloudKitContainerGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46587B73A823222D84C1399 /* CloudKitContainerGate.swift */; };
 		9DD045D0A56912D65DCD3D88 /* LaunchGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A29C214B56C5162247ACD82 /* LaunchGuard.swift */; };
+		7A1C0DE5B0A54E1F9C3D2A12 /* HangProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1C0DE5B0A54E1F9C3D2A11 /* HangProbe.swift */; };
 		A0B843F8CA20472B879A0559 /* ConversionDictionaryFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBBF89BF05280384DFA22D47 /* ConversionDictionaryFile.swift */; };
 		A0F086A5561B436AEBBC4E62 /* ShareVideoSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAF45D7591497565C76C707 /* ShareVideoSheet.swift */; };
 		A11Y00012F0000000000000001 /* AccessibilityGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11Y00012F0000000000000000 /* AccessibilityGuideView.swift */; };
@@ -660,6 +661,7 @@
 		955F81E295CFFE537F6C5EB9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		98BFD7118CEB30C3953DADC1 /* CategorySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettings.swift; sourceTree = "<group>"; };
 		9A29C214B56C5162247ACD82 /* LaunchGuard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LaunchGuard.swift; sourceTree = "<group>"; };
+		7A1C0DE5B0A54E1F9C3D2A11 /* HangProbe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HangProbe.swift; sourceTree = "<group>"; };
 		9BD66F261DF7D58538B7DEC3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9C69399B0C55B65843F4EF1F /* ClipKeyboardActionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ClipKeyboardActionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C994B072EEAA87600FBC8F6 /* TemplateEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateEditSheet.swift; sourceTree = "<group>"; };
@@ -1243,6 +1245,7 @@
 				79D6A773619BB7884CEA27B8 /* RefundLedger.swift */,
 				7650FEB679BD5AE8B3A7DD30 /* SlotPack.swift */,
 				9A29C214B56C5162247ACD82 /* LaunchGuard.swift */,
+				7A1C0DE5B0A54E1F9C3D2A11 /* HangProbe.swift */,
 				C46587B73A823222D84C1399 /* CloudKitContainerGate.swift */,
 				5AE1C2D30007PHCAT0000002 /* PlaceholderCatalog.swift */,
 				5AE1C2D30004PASTE0000002 /* PasteboardReader.swift */,
@@ -2100,6 +2103,7 @@
 				E69B18A37AAA2B4412892FFE /* KeyboardMemoPeek.swift in Sources */,
 				CLIPPICK0BUILDAPP0000001 /* KeyboardClipboardPicker.swift in Sources */,
 				9DD045D0A56912D65DCD3D88 /* LaunchGuard.swift in Sources */,
+				7A1C0DE5B0A54E1F9C3D2A12 /* HangProbe.swift in Sources */,
 				9D5AF22140BC574C2215FD13 /* CloudKitContainerGate.swift in Sources */,
 				5AE1C2D30006PHCAT0000001 /* PlaceholderCatalog.swift in Sources */,
 				5AE1C2D30003PASTE0000001 /* PasteboardReader.swift in Sources */,
