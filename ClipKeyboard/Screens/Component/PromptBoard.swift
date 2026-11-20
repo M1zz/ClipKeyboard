@@ -78,12 +78,31 @@ final class PromptBoard: ObservableObject {
         picked[candidate.slot]?.id == candidate.id
     }
 
-    /// 손을 들거나 내린다.
+    /// 손을 들거나 내린다. 다시 고르는 일은 **이번 차례가 끝난 뒤 한 번만** 한다(`scheduleRecompute`).
     func set(_ candidate: PromptCandidate, wants: Bool, token: UUID) {
         var tokens = raised[candidate.id, default: []]
         let changed = wants ? tokens.insert(token).inserted : tokens.remove(token) != nil
         raised[candidate.id] = tokens
-        if changed { recompute() }
+        if changed { scheduleRecompute() }
+    }
+
+    private var recomputeScheduled = false
+
+    /// 손이 오르내린 것을 모아 다음 차례에 한 번 다시 고른다.
+    ///
+    /// ⚠️ 여기서 곧바로 고르지 않는다. 띠는 화면이 갱신되는 **도중에** 손을 들고 내린다
+    ///    (`PromptRow` 의 `onChange` · `onDisappear`). 그 자리에서 `picked` 를 바꾸면 갱신 도중에
+    ///    또 갱신이 걸리고, 고른 결과가 띠를 세우거나 걷어 다시 손이 오르내린다. 한 프레임 안에서
+    ///    그 고리가 돌면 화면이 끝나지 않는다(docs/postmortem/LAUNCH_INCOMPLETE_BACKGROUND_WAKE_5_1_24.md 4절).
+    ///    한 차례에 한 번만 고르면, 같은 차례에 내렸다 든 손은 없던 일이 되고 고리는 프레임을 넘지 못한다.
+    private func scheduleRecompute() {
+        guard !recomputeScheduled else { return }
+        recomputeScheduled = true
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            self.recomputeScheduled = false
+            self.recompute()
+        }
     }
 
     /// 사용자 상태나 원장이 바뀌었을 때 다시 고른다.

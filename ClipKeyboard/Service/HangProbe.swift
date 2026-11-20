@@ -12,6 +12,7 @@
 //
 //  어떻게: 뒤쪽 스레드가 메인 스레드에 공을 던지고 돌아올 때까지의 시간을 잰다.
 //  `threshold` 를 넘기면 멈춤으로 적고, 돌아오면 얼마나 멈췄는지 적는다.
+//  화면이 스스로 세는 다시 그리기 횟수(`noteRender`)도 받아, 1초에 200번을 넘으면 폭주로 적는다.
 //
 //  쓰는 곳: `ClipKeyboardUITests/ListHangUITests.swift` 가 단축어 수백 개를 깔고 목록을
 //  굴리며 이 기록을 읽는다. 기록 파일은 환경 변수 `HANG_PROBE_REPORT` 가 정한다.
@@ -97,6 +98,33 @@ enum HangProbe {
                 }
             }
         }
+    }
+
+    // MARK: - 다시 그리기 폭주
+
+    /// 1초에 이만큼 넘게 같은 화면의 몸통이 다시 계산되면 폭주로 적는다.
+    /// 손이 끄는 동안 프레임마다 한 번(초당 60~120번)까지는 있을 수 있는 일이다.
+    static let stormPerSecond = 200
+
+    private static let isOnCached = isOn
+    private static var renderCounts: [String: (windowStart: TimeInterval, count: Int, reported: Bool)] = [:]
+
+    /// 화면의 `body` 맨 앞에서 부른다. 꺼져 있으면 아무 일도 하지 않는다.
+    ///
+    /// 멈춤으로 번지기 전의 고리를 잡으려는 것이다. 한 프레임이 끝나지 않는 고리는 멈춤으로 잡히지만,
+    /// 프레임마다 한 번씩 도는 고리는 앱이 굼뜰 뿐 멈추지 않아 탐침의 공은 제때 돌아온다.
+    static func noteRender(_ name: String) {
+        guard isOnCached, Thread.isMainThread else { return }
+        let now = Date().timeIntervalSince1970
+        var entry = renderCounts[name] ?? (now, 0, false)
+        if now - entry.windowStart > 1 { entry = (now, 0, false) }
+        entry.count += 1
+        if entry.count > stormPerSecond, !entry.reported {
+            entry.reported = true
+            write("render-storm at=\(now) view=\(name)")
+            AppLog.error(.launch, "🌀 [HangProbe] '\(name)' 이(가) 1초에 \(stormPerSecond)번 넘게 다시 그려진다")
+        }
+        renderCounts[name] = entry
     }
 
     // MARK: - 기록

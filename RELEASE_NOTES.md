@@ -14,6 +14,200 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.25
+
+### 앱스토어 (한국어)
+
+```
+앱을 열 때 동기화와 백업이 쉬던 문제를 고쳤어요.
+목록 위 안내가 뜰 때 화면이 더 가벼워졌어요.
+앱을 여는 과정이 더 안정적이에요.
+```
+
+### App Store (English)
+
+```
+Sync and backup no longer skip at start.
+The list stays smooth when tips appear.
+Opening the app is more reliable.
+```
+
+### App Store (en-GB)
+
+```
+Sync and backup no longer skip at start.
+The list stays smooth when tips appear.
+Opening the app is more reliable.
+```
+
+### 앱스토어 (중국어 간체)
+
+```
+修复了打开应用时同步和备份偶尔暂停的问题。
+列表上方出现提示时，画面更流畅。
+打开应用更稳定。
+```
+
+### 앱스토어 (중국어 번체)
+
+```
+修正了開啟 App 時同步和備份偶爾暫停的問題。
+列表上方出現提示時，畫面更流暢。
+開啟 App 更穩定。
+```
+
+### 앱스토어 (러시아어)
+
+```
+Синхронизация и копия не пропускаются.
+Список плавный при появлении подсказок.
+Приложение открывается надёжнее.
+```
+
+### App Store (Japanese, ja)
+
+```
+起動時に同期とバックアップが休む問題を直しました。
+リストの上に案内が出ても画面が軽くなりました。
+アプリがより安定して開きます。
+```
+
+### App Store (Spanish, es-MX)
+
+```
+Ya no se omite la sincronización.
+La lista va fluida cuando salen avisos.
+La app abre de forma más estable.
+```
+
+### App Store (German, de-DE)
+
+```
+Sync und Backup setzen nicht mehr aus.
+Die Liste bleibt flüssig bei Hinweisen.
+Die App startet zuverlässiger.
+```
+
+### App Store (Thai, th)
+
+```
+แก้การซิงค์และสำรองข้อมูลที่หยุดตอนเปิด
+รายการลื่นขึ้นเมื่อมีคำแนะนำด้านบน
+เปิดแอปได้เสถียรขึ้น
+```
+
+### App Store (Vietnamese, vi)
+
+```
+Sửa lỗi đồng bộ và sao lưu bị bỏ qua.
+Danh sách mượt hơn khi có gợi ý ở trên.
+Mở ứng dụng ổn định hơn.
+```
+
+### App Store (French, fr-FR)
+
+```
+Synchro et sauvegarde ne sautent plus.
+La liste reste fluide avec les conseils.
+L’app s’ouvre de façon plus fiable.
+```
+
+### App Store (Italian, it)
+
+```
+Sync e backup non saltano più all’avvio.
+L’elenco resta fluido con i consigli.
+L’app si apre in modo più affidabile.
+```
+
+### App Store (Portuguese, pt-BR)
+
+```
+Sincronização e backup não pulam mais.
+A lista fica fluida quando surgem dicas.
+O app abre de forma mais estável.
+```
+
+### App Store (Czech, cs)
+
+```
+Synchronizace a záloha se nevynechají.
+Seznam je plynulý i s tipy nahoře.
+Aplikace se otevírá spolehlivěji.
+```
+
+### App Store (Danish, da)
+
+```
+Synk og backup springes ikke over mere.
+Listen er flydende, når der vises tips.
+Appen åbner mere stabilt.
+```
+
+### App Store (Greek, el)
+
+```
+Ο συγχρονισμός δεν παραλείπεται πια.
+Ομαλή λίστα όταν εμφανίζονται συμβουλές.
+Η εφαρμογή ανοίγει πιο σταθερά.
+```
+
+### App Store (Finnish, fi)
+
+```
+Synkronointi ei enää jää väliin.
+Luettelo on sulava, kun vinkkejä näkyy.
+Sovellus avautuu vakaammin.
+```
+
+### App Store (Indonesian, id)
+
+```
+Sinkron dan cadangan tak lagi terlewat.
+Daftar tetap lancar saat tips muncul.
+Aplikasi terbuka lebih stabil.
+```
+
+### App Store (Norsk bokmål, nb)
+
+```
+Synkronisering og kopi hoppes ikke over.
+Listen er jevn når tips vises øverst.
+Appen åpnes mer stabilt.
+```
+
+### App Store (Dutch, nl)
+
+```
+Sync en back-up slaan niet meer over.
+De lijst blijft soepel bij tips.
+De app opent betrouwbaarder.
+```
+
+### App Store (Polish, pl)
+
+```
+Synchronizacja i kopia nie są pomijane.
+Lista działa płynnie przy wskazówkach.
+Aplikacja otwiera się stabilniej.
+```
+
+### App Store (Swedish, sv)
+
+```
+Synk och kopia hoppas inte över.
+Listan är mjuk när tips visas högst upp.
+Appen öppnas mer stabilt.
+```
+
+### App Store (Turkish, tr)
+
+```
+Eşzamanlama ve yedek artık atlanmıyor.
+İpuçları çıkınca liste akıcı kalıyor.
+Uygulama daha kararlı açılıyor.
+```
+
 ## 5.1.24
 
 ### 앱스토어 (한국어)

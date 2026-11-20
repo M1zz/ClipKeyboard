@@ -205,6 +205,10 @@ final class ListHangUITests: XCTestCase {
             if let at = value("at", in: line), !ended.contains(at) { hangs.append((at, nil)) }
         }
 
+        // 멈추지는 않아도 같은 화면이 1초에 200번 넘게 다시 그려졌으면 고리다(`HangProbe.noteRender`).
+        let storms = report.split(separator: "\n").map(String.init).filter { $0.hasPrefix("render-storm") }
+        XCTAssertTrue(storms.isEmpty, "화면이 끝없이 다시 그려졌다:\n" + storms.joined(separator: "\n"))
+
         hangs.removeAll { $0.at < watchingSince }
         // 탐침은 1초부터 적지만, 실패로 치는 것은 `failSeconds` 를 넘긴 것과 끝까지 안 풀린 것이다.
         // 개발 빌드 · 시뮬레이터에서는 홈에서 돌아오는 순간처럼 1초 남짓 걸리는 자리가 있고(실측 1.3초),

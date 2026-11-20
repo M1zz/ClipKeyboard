@@ -114,6 +114,21 @@ _UIUpdateSequenceRunNext → _UIHostingView.layoutSubviews → GraphHost.flushTr
 즉 빌드 52 · 53 의 멈춤은 아직 재현하지 못했다. 시드와 동작 수를 늘려 더 돌리거나, 그 기기의 조건
 (큰 글씨 · 배너가 서 있는 상태 · 카테고리 색)을 시험 데이터에 더해 볼 것.
 
+### 고리의 재료를 걷었다 (5.1.25)
+
+재현은 못 했지만, 한 프레임 안에서 되돌 수 있는 구조 하나를 찾아 걷었다.
+
+- **배너 게시판이 화면 갱신 도중에 결과를 바꿨다.** 띠(`PromptRow`)는 갱신 도중에 손을 들고 내리고
+  (`onChange` · `onDisappear`), 게시판은 그 자리에서 곧바로 다시 골라 `picked` 를 바꿨다. 고른 결과가 띠를
+  세우거나 걷으면 다시 손이 오르내린다. 이제 한 차례에 한 번만 고른다(`PromptBoard.scheduleRecompute`).
+  같은 차례에 내렸다 든 손은 없던 일이 되고, 고리는 프레임을 넘지 못한다.
+  시험: `ClipKeyboardTests/PromptBoardDeferralTests.swift`.
+- **배너 묶음을 목록 화면에서 떼어 냈다**(`ListTopBanners`). 배너의 상태(결제 순간 · 닫은 기록 · 이용 기간 안내)가
+  바뀔 때 카드 격자까지 다시 그리던 것이 묶음 안에서 끝난다.
+- **다시 그리기 폭주를 센다**(`HangProbe.noteRender`). 같은 화면이 1초에 200번 넘게 다시 계산되면 멈춤 시험이 실패한다.
+
+⚠️ 이것이 빌드 52 · 53 멈춤의 원인이었는지는 모른다. 5.1.25 의 허브 기록(`process-exit` · `scene-update`)으로 본다.
+
 ## 다음에 같은 숫자를 받으면
 
 1. `launch_incomplete` 는 **단계별로** 나눠 본다. `first-frame` 만 켜다가 멈춘 것이다.
