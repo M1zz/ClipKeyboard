@@ -97,6 +97,10 @@
 		58C473402A109F0E009D87BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C4733F2A109F0E009D87BC /* Assets.xcassets */; };
 		58C473432A109F0E009D87BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58C473422A109F0E009D87BC /* Preview Assets.xcassets */; };
 		58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */; };
+		7A1C0DE5B0A54E1F9C3D2B08 /* ClipKeyboardList+Chrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1C0DE5B0A54E1F9C3D2B07 /* ClipKeyboardList+Chrome.swift */; };
+		7A1C0DE5B0A54E1F9C3D2B06 /* ClipKeyboardList+Pages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1C0DE5B0A54E1F9C3D2B05 /* ClipKeyboardList+Pages.swift */; };
+		7A1C0DE5B0A54E1F9C3D2B04 /* ClipKeyboardList+Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1C0DE5B0A54E1F9C3D2B03 /* ClipKeyboardList+Cards.swift */; };
+		7A1C0DE5B0A54E1F9C3D2B02 /* ClipKeyboardList+Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1C0DE5B0A54E1F9C3D2B01 /* ClipKeyboardList+Background.swift */; };
 		7A1C0DE5B0A54E1F9C3D2A22 /* ListTopBanners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1C0DE5B0A54E1F9C3D2A21 /* ListTopBanners.swift */; };
 		58C7ACB52A2CF1A3003F791F /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C7ACB42A2CF1A3003F791F /* SettingView.swift */; };
 		58CK00012B5E1A2100000001 /* CloudKitBackupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */; };
@@ -555,6 +559,10 @@
 		58C4733F2A109F0E009D87BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58C473422A109F0E009D87BC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipKeyboardList.swift; sourceTree = "<group>"; };
+		7A1C0DE5B0A54E1F9C3D2B07 /* ClipKeyboardList+Chrome.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "ClipKeyboardList+Chrome.swift"; sourceTree = "<group>"; };
+		7A1C0DE5B0A54E1F9C3D2B05 /* ClipKeyboardList+Pages.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "ClipKeyboardList+Pages.swift"; sourceTree = "<group>"; };
+		7A1C0DE5B0A54E1F9C3D2B03 /* ClipKeyboardList+Cards.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "ClipKeyboardList+Cards.swift"; sourceTree = "<group>"; };
+		7A1C0DE5B0A54E1F9C3D2B01 /* ClipKeyboardList+Background.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "ClipKeyboardList+Background.swift"; sourceTree = "<group>"; };
 		7A1C0DE5B0A54E1F9C3D2A21 /* ListTopBanners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTopBanners.swift; sourceTree = "<group>"; };
 		58C7ACB42A2CF1A3003F791F /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		58CK00002B5E1A2100000001 /* CloudKitBackupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitBackupService.swift; sourceTree = "<group>"; };
@@ -1372,6 +1380,10 @@
 				B3C4D5E6F7A8B9C0D1E2F301 /* ClipKeyboardListViewModel.swift */,
 				TIPF7FF37A77792818434BB6 /* TipAskBanner.swift */,
 				58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */,
+				7A1C0DE5B0A54E1F9C3D2B07 /* ClipKeyboardList+Chrome.swift */,
+				7A1C0DE5B0A54E1F9C3D2B05 /* ClipKeyboardList+Pages.swift */,
+				7A1C0DE5B0A54E1F9C3D2B03 /* ClipKeyboardList+Cards.swift */,
+				7A1C0DE5B0A54E1F9C3D2B01 /* ClipKeyboardList+Background.swift */,
 				7A1C0DE5B0A54E1F9C3D2A21 /* ListTopBanners.swift */,
 				QKN0FILE0000000000000003 /* QuickNoteInboxView.swift */,
 				CLC00022F0000000000000002 /* ClipKeyboardListComponents.swift */,
@@ -1983,6 +1995,10 @@
 				5802F4132A2B8E08002825D6 /* ClipboardCaptureCard.swift in Sources */,
 				581550632AD5321F00A6115B /* Constants.swift in Sources */,
 				58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */,
+				7A1C0DE5B0A54E1F9C3D2B08 /* ClipKeyboardList+Chrome.swift in Sources */,
+				7A1C0DE5B0A54E1F9C3D2B06 /* ClipKeyboardList+Pages.swift in Sources */,
+				7A1C0DE5B0A54E1F9C3D2B04 /* ClipKeyboardList+Cards.swift in Sources */,
+				7A1C0DE5B0A54E1F9C3D2B02 /* ClipKeyboardList+Background.swift in Sources */,
 				7A1C0DE5B0A54E1F9C3D2A22 /* ListTopBanners.swift in Sources */,
 				US00002C2F0000000000000006 /* UsageTrendChartView.swift in Sources */,
 				CLC00012F0000000000000001 /* ClipKeyboardListComponents.swift in Sources */,

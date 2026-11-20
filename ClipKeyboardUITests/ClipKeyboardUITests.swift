@@ -15,6 +15,11 @@ final class ClipKeyboardUITests: XCTestCase {
         continueAfterFailure = false
     }
 
+    /// 단축어 개수 한도를 끈다. 실행마다 단축어가 하나씩 쌓여, 열 개를 넘은 시뮬레이터에서는
+    /// 저장이 결제 화면으로 바뀌어 "만들면 첫 화면에 선다" 를 볼 수 없다(2026-11-21 실패 원인).
+    /// 실행 인자는 App Group 설정에도 보이므로 앱이 Pro 로 읽는다(`ProFeatureManager.purchasedTier`).
+    static let asPaidUser = ["-clipkeyboard_is_pro", "YES"]
+
     /// 첫 실행 안내 · 튜토리얼 · 제안 시트를 건너뛴 "쓰던 사람" 상태로 연다.
     /// 인자는 스토어 촬영(`scripts/take_screenshots.sh`)과 같다. 문구로 찾으므로 언어는 한국어로 고정한다.
     private func launchApp() -> XCUIApplication {
@@ -25,7 +30,7 @@ final class ClipKeyboardUITests: XCTestCase {
             "-tutorialChaptersDone.v1", "YES", "-keyboardStageOffered.v1", "YES",
             "-didYouKnow.optOut.v1", "YES", "-ghostSuggestionsOff_v1", "YES",
             "-defaultSamplesInserted_v1", "YES", "-demoSampleOfferResolved_v1", "YES",
-        ]
+        ] + Self.asPaidUser
         app.launch()
         return app
     }
@@ -34,8 +39,18 @@ final class ClipKeyboardUITests: XCTestCase {
         let add = app.buttons["단축어 추가"].firstMatch
         XCTAssertTrue(add.waitForExistence(timeout: 20), "첫 화면에 단축어 추가 단추가 없다")
         add.tap()
-        XCTAssertTrue(app.textFields["키보드에 표시할 이름"].waitForExistence(timeout: 10),
+        // 쓰던 사람에게 + 는 메뉴를 연다(새 단축어 만들기 · 단축어 마트 · 한번에 정리 · 빈칸 관리).
+        // 백지로 시작한 사람에게는 메뉴 없이 곧바로 만들기 화면이 뜬다. 두 경우를 다 받는다.
+        let create = app.buttons["새 단축어 만들기"].firstMatch
+        if create.waitForExistence(timeout: 5) { create.tap() }
+        XCTAssertTrue(app.textFields["키보드에 표시할 이름"].waitForExistence(timeout: 20),
                       "새 단축어 화면이 열리지 않았다")
+    }
+
+    /// 붙여넣을 내용 칸. 처음에는 한 줄 입력칸이고, 길어지면 여러 줄 편집기로 바뀐다. 있는 쪽을 쓴다.
+    private func bodyField(in app: XCUIApplication) -> XCUIElement {
+        let field = app.textFields["붙여넣을 내용"]
+        return field.exists ? field : app.textViews["붙여넣을 내용"]
     }
 
     // MARK: - 핵심 흐름
@@ -48,7 +63,7 @@ final class ClipKeyboardUITests: XCTestCase {
         // 실행마다 다른 이름 - 시뮬레이터에 지난 실행의 단축어가 남아 있어도 이번 것을 찾는다.
         let title = "UI시험 \(Int(Date().timeIntervalSince1970) % 100_000)"
         app.textFields["키보드에 표시할 이름"].typeText(title)
-        let body = app.textViews["붙여넣을 내용"]
+        let body = bodyField(in: app)
         body.tap()
         body.typeText("안녕하세요, 반갑습니다")
 
@@ -56,9 +71,17 @@ final class ClipKeyboardUITests: XCTestCase {
         XCTAssertTrue(save.isEnabled, "이름과 내용을 넣었는데 저장 단추가 꺼져 있다")
         save.tap()
 
-        XCTAssertTrue(app.buttons[title].firstMatch.waitForExistence(timeout: 10),
-                      "저장한 단축어가 첫 화면에 보이지 않는다")
-        XCTAssertFalse(app.textFields["키보드에 표시할 이름"].exists, "저장 뒤에도 새 단축어 화면이 남아 있다")
+        XCTAssertTrue(app.textFields["키보드에 표시할 이름"].waitForNonExistence(timeout: 10),
+                      "저장 뒤에도 새 단축어 화면이 남아 있다")
+        // 새 카드는 즐겨찾기 뒤에 앉는다. 단축어가 많은 시뮬레이터에서는 화면 아래에 있어서
+        // (격자가 게을러 아직 만들어지지 않았다) 보일 때까지 내려 본다.
+        let card = app.buttons[title].firstMatch
+        var found = card.waitForExistence(timeout: 10)
+        for _ in 0..<8 where !found {
+            app.swipeUp()
+            found = card.waitForExistence(timeout: 2)
+        }
+        XCTAssertTrue(found, "저장한 단축어가 첫 화면에 보이지 않는다")
     }
 
     /// 목록 화면에서 단축어를 만들어도 첫 화면이 **제자리에 있다.**
@@ -75,7 +98,7 @@ final class ClipKeyboardUITests: XCTestCase {
             "-didYouKnow.optOut.v1", "YES", "-ghostSuggestionsOff_v1", "YES",
             "-defaultSamplesInserted_v1", "YES", "-demoSampleOfferResolved_v1", "YES",
             "-snippetsTabStyle.v1", "list",
-        ]
+        ] + Self.asPaidUser
         app.launch()
 
         let banner = app.staticTexts["아직 다른 앱에서는 못 써요"].firstMatch
@@ -90,7 +113,7 @@ final class ClipKeyboardUITests: XCTestCase {
         XCTAssertTrue(name.waitForExistence(timeout: 10), "새 단축어 화면이 열리지 않았다")
         let title = "제자리 \(Int(Date().timeIntervalSince1970) % 100_000)"
         name.typeText(title)
-        let body = app.textViews["붙여넣을 내용"]
+        let body = bodyField(in: app)
         body.tap()
         body.typeText("안녕하세요")
         app.buttons["저장"].firstMatch.tap()
