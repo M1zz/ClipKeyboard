@@ -64,7 +64,7 @@ EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ### 프로모션 텍스트
 
 ```
-자주 쓰는 문구, 복사한 것, 계좌번호까지 키보드에서 탭 한 번에. 단축어를 100번 넣을 때까지 모든 기능이 무료예요. 이제 일본어, 스페인어, 독일어, 태국어, 베트남어도 지원해요.
+자주 쓰는 문구, 복사한 것, 계좌번호까지 키보드에서 탭 한 번에. 단축어를 100번 넣을 때까지 모든 기능이 무료예요. 연말 인사, 모임 회비 받을 계좌도 한 번만 저장해 두세요.
 ```
 
 ### 지원 URL
@@ -139,7 +139,7 @@ replies,canned,boilerplate,customer service,pasteboard,copy,copy paste,typing,re
 ### 프로모션 텍스트
 
 ```
-Saved phrases, copied text, account numbers: one tap from the keyboard. Every feature is free for your first 100 inserts. Now in Japanese, Spanish, German, Thai and more.
+Saved phrases, copied text, account numbers: one tap from the keyboard. Every feature is free for your first 100 inserts. Save your holiday greetings once, too.
 ```
 
 ### 지원 URL
@@ -214,7 +214,7 @@ copy,canned,saved,replies,text,expander,autofill,phrases,history,template,signat
 ### 프로모션 텍스트
 
 ```
-Saved phrases, copied text, account numbers: one tap from the keyboard. Every feature is free for your first 100 inserts. Now in Japanese, Spanish, German, Thai and more.
+Saved phrases, copied text, account numbers: one tap from the keyboard. Every feature is free for your first 100 inserts. Save your Christmas greetings once, too.
 ```
 
 ### 지원 URL
@@ -289,7 +289,7 @@ EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ### 프로모션 텍스트
 
 ```
-Сохранённые фразы, скопированный текст, номера счетов: одно касание на клавиатуре. Первые 100 вставок все функции бесплатны. Теперь и на японском, испанском и немецком.
+Сохранённые фразы, скопированный текст, номера счетов: одно касание на клавиатуре. Первые 100 вставок все функции бесплатны. Сохраните и новогодние поздравления.
 ```
 
 ### 지원 URL
@@ -361,7 +361,7 @@ EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ### 프로모션 텍스트
 
 ```
-常用语、复制过的内容、账号，在键盘上一点就输入。前 100 次输入，所有功能都免费。现在还支持日语、西班牙语、德语、泰语和越南语。
+常用语、复制过的内容、账号，在键盘上一点就输入。前 100 次输入，所有功能都免费。年底要发的祝福语，也存一次就好。
 ```
 
 ### 지원 URL
@@ -433,7 +433,7 @@ EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ### 프로모션 텍스트
 
 ```
-常用語、複製過的內容、帳號，在鍵盤上一點就輸入。前 100 次輸入，所有功能都免費。現在還支援日文、西班牙文、德文、泰文和越南文。
+常用語、複製過的內容、帳號，在鍵盤上一點就輸入。前 100 次輸入，所有功能都免費。年底要傳的祝福語，也存一次就好。
 ```
 
 ### 지원 URL
@@ -509,7 +509,7 @@ EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ### 프로모션 텍스트
 
 ```
-コピーしたもの、よく使う定型文、口座番号まで、キーボードからワンタップで入力。日本語に対応しました。アプリ内で言語を選ぶこともできます。
+コピーしたもの、よく使う定型文、口座番号まで、キーボードからワンタップで入力。年末年始のあいさつも、一度保存すればすぐ送れます。
 ```
 
 ### 지원 URL
@@ -585,7 +585,7 @@ teclado,plantilla,autocompletar,atajos,respuestas,firma,dirección,CLABE,cuenta,
 ### 프로모션 텍스트
 
 ```
-Lo que copiaste, tus frases de siempre y hasta tu CLABE, desde el teclado con un toque. Ahora en español, y puedes elegir el idioma dentro de la app.
+Lo que copiaste, tus frases de siempre y hasta tu CLABE, desde el teclado con un toque. Guarda una vez tus felicitaciones de fin de año y envíalas en segundos.
 ```
 
 ### 지원 URL
@@ -661,7 +661,7 @@ vorlage,autofill,kurzbefehl,schnellantwort,signatur,adresse,IBAN,makro,kopieren,
 ### 프로모션 텍스트
 
 ```
-Kopiertes, deine Standardtexte und sogar deine IBAN: ein Tipp auf der Tastatur und alles steht da. Jetzt auf Deutsch, die Sprache wählst du auch in der App.
+Kopiertes, deine Standardtexte und sogar deine IBAN: ein Tipp auf der Tastatur und alles steht da. Auch deine Weihnachtsgrüße speicherst du nur einmal.
 ```
 
 ### 지원 URL
@@ -737,7 +737,7 @@ EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ### 프로모션 텍스트
 
 ```
-สิ่งที่คัดลอก ข้อความที่ใช้บ่อย ไปจนถึงเลขบัญชี ใส่ได้จากคีย์บอร์ดในแตะเดียว ตอนนี้รองรับภาษาไทยแล้ว และเลือกภาษาในแอปได้
+สิ่งที่คัดลอก ข้อความที่ใช้บ่อย ไปจนถึงเลขบัญชี ใส่ได้จากคีย์บอร์ดในแตะเดียว คำอวยพรปีใหม่ก็บันทึกไว้ครั้งเดียว แล้วส่งได้ทันที
 ```
 
 ### 지원 URL
@@ -813,7 +813,7 @@ bảng,tạm,mẫu,tắt,số,tài,khoản,địa,chỉ,trả,lời,chữ,ký,gh
 ### 프로모션 텍스트
 
 ```
-Nội dung đã sao chép, câu hay dùng, cả số tài khoản: chèn từ bàn phím chỉ với một chạm. Nay đã có tiếng Việt, và bạn có thể chọn ngôn ngữ ngay trong ứng dụng.
+Nội dung đã sao chép, câu hay dùng, cả số tài khoản: chèn từ bàn phím chỉ với một chạm. Lời chúc cuối năm cũng chỉ cần lưu một lần là gửi ngay.
 ```
 
 ### 지원 URL
@@ -888,7 +888,7 @@ réponse,modèle,raccourci,signature,adresse,IBAN,macro,texte,remplir,phrases,hi
 ### 프로모션 텍스트
 
 ```
-Ce que vous copiez, vos textes habituels, même votre IBAN : un toucher sur le clavier et tout est là. Maintenant en français, et la langue se choisit aussi dans l’app.
+Ce que vous copiez, vos textes habituels, même votre IBAN : un toucher sur le clavier et tout est là. Vos vœux de fin d'année aussi, enregistrés une fois pour toutes.
 ```
 
 ### 지원 URL
@@ -963,7 +963,7 @@ risposte,rapide,frasi,modello,scorciatoia,firma,indirizzo,IBAN,note,macro,compil
 ### 프로모션 텍스트
 
 ```
-Quello che copi, i testi di sempre e perfino il tuo IBAN: un tocco sulla tastiera ed è tutto lì. Ora in italiano, e la lingua si sceglie anche nell’app.
+Quello che copi, i testi di sempre e perfino il tuo IBAN: un tocco sulla tastiera ed è tutto lì. Anche gli auguri di fine anno: salvali una volta e inviali al volo.
 ```
 
 ### 지원 URL
@@ -1038,7 +1038,7 @@ EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ### 프로모션 텍스트
 
 ```
-O que você copia, seus textos de sempre e até sua chave Pix: um toque no teclado e está tudo lá. Agora em português, e o idioma também se escolhe no app.
+O que você copia, seus textos de sempre e até sua chave Pix: um toque no teclado e está tudo lá. As mensagens de fim de ano também: salve uma vez e envie num toque.
 ```
 
 ### 지원 URL
@@ -1113,7 +1113,7 @@ kopírovat,vložit,šablona,fráze,podpis,adresa,IBAN,číslo,účtu,klávesnice
 ### 프로모션 텍스트
 
 ```
-Číslo účtu, adresa, odpovědi, které píšete pořád dokola: jedno ťuknutí na klávesnici. Prvních 100 vložení máte všechny funkce zdarma. Nově i v češtině.
+Číslo účtu, adresa, odpovědi, které píšete pořád dokola: jedno ťuknutí na klávesnici. Prvních 100 vložení máte všechny funkce zdarma. Vánoční přání uložte jen jednou.
 ```
 
 ### 지원 URL
@@ -1188,7 +1188,7 @@ skabelon,genvej,signatur,adresse,kontonummer,IBAN,autoudfyld,makro,fraser,histor
 ### 프로모션 텍스트
 
 ```
-Kontonummer, adresse og de svar, du skriver igen og igen: ét tryk fra tastaturet. Alle funktioner er gratis de første 100 indsættelser. Nu også på dansk.
+Kontonummer, adresse og de svar, du skriver igen og igen: ét tryk fra tastaturet. Alle funktioner er gratis de første 100 indsættelser. Gem også julehilsnerne én gang.
 ```
 
 ### 지원 URL
@@ -1338,7 +1338,7 @@ pikavastaus,pohja,allekirjoitus,osoite,tilinumero,IBAN,täyttö,makro,historia,n
 ### 프로모션 텍스트
 
 ```
-Tilinumero, osoite ja vastaukset, joita kirjoitat yhä uudelleen: yksi napautus näppäimistöltä. Kaikki ominaisuudet ilmaisia ensimmäiset 100 lisäystä. Nyt myös suomeksi.
+Tilinumero, osoite ja usein toistuvat vastaukset: yksi napautus näppäimistöltä. Kaikki ominaisuudet ilmaisia ensimmäiset 100 lisäystä. Joulutervehdykset talteen.
 ```
 
 ### 지원 URL
@@ -1488,7 +1488,7 @@ mal,snarvei,signatur,adresse,kontonummer,IBAN,autoutfyll,makro,fraser,historikk,
 ### 프로모션 텍스트
 
 ```
-Kontonummer, adresse og svarene du skriver om og om igjen: ett trykk fra tastaturet. Alle funksjoner er gratis de første 100 innsettingene. Nå også på norsk.
+Kontonummer, adresse og svarene du skriver om og om igjen: ett trykk fra tastaturet. Alle funksjoner er gratis de første 100 innsettingene. Lagre julehilsenene én gang.
 ```
 
 ### 지원 URL
@@ -1563,7 +1563,7 @@ sjabloon,tekst,standaardtekst,handtekening,adres,IBAN,rekeningnummer,invullen,ma
 ### 프로모션 텍스트
 
 ```
-Rekeningnummer, adres en antwoorden die je steeds opnieuw typt: één tik op het toetsenbord. De eerste 100 keer invoegen is alles gratis. Nu ook in het Nederlands.
+Rekeningnummer, adres en antwoorden die je steeds opnieuw typt: één tik op het toetsenbord. De eerste 100 keer invoegen is alles gratis. Bewaar ook je kerstwensen.
 ```
 
 ### 지원 URL
@@ -1638,7 +1638,7 @@ szablon,szybkie,odpowiedzi,podpis,adres,IBAN,numer,konta,makro,historia,klawiatu
 ### 프로모션 텍스트
 
 ```
-Numer konta, adres i odpowiedzi, które piszesz w kółko: jedno stuknięcie na klawiaturze. Wszystkie funkcje gratis przy pierwszych 100 wstawieniach. Teraz także po polsku.
+Numer konta, adres i odpowiedzi, które piszesz w kółko: jedno stuknięcie na klawiaturze. Wszystkie funkcje gratis przy pierwszych 100 wstawieniach. Zapisz też życzenia.
 ```
 
 ### 지원 URL
@@ -1713,7 +1713,7 @@ mall,snabbsvar,genväg,signatur,adress,kontonummer,IBAN,autofyll,makro,fraser,hi
 ### 프로모션 텍스트
 
 ```
-Kontonummer, adress och svaren du skriver om och om igen: ett tryck från tangentbordet. Alla funktioner är gratis de första 100 infogningarna. Nu även på svenska.
+Kontonummer, adress och svaren du skriver om och om igen: ett tryck från tangentbordet. Alla funktioner är gratis de första 100 infogningarna. Spara även julhälsningarna.
 ```
 
 ### 지원 URL
@@ -1788,7 +1788,7 @@ klavye,şablon,metin,ifade,imza,adres,IBAN,hesap,numarası,otomatik,doldurma,ge�
 ### 프로모션 텍스트
 
 ```
-IBAN, adres ve tekrar tekrar yazdığınız yanıtlar klavyeden tek dokunuşla. İlk 100 eklemede tüm özellikler ücretsiz. Artık Türkçe de kullanabilirsiniz.
+IBAN, adres ve tekrar tekrar yazdığınız yanıtlar klavyeden tek dokunuşla. İlk 100 eklemede tüm özellikler ücretsiz. Yılbaşı mesajlarınızı da bir kez kaydedin.
 ```
 
 ### 지원 URL
