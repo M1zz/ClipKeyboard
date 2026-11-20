@@ -2,15 +2,17 @@
 //  LaunchGuardBackgroundLaunchTests.swift
 //  ClipKeyboardTests
 //
-//  화면 없이 깨어난 런치를 닫는 길(`LaunchGuard.closeIfBackgroundLaunch`)이
-//  **첫 화면을 그리던 진짜 사고의 표식은 지우지 않는다**는 약속.
+//  보는 사람 없이 깨어난 런치를 닫는 길(`LaunchGuard.closeIfBackgroundLaunch`)이
+//  **앞에 있는 앱의 표식은 지우지 않는다**는 약속.
 //
-//   ① 씬이 붙어 있으면 표식을 그대로 둔다(첫 화면에서 멈춘 런치는 다음 런치가 알아봐야 한다)
+//   ① 앱이 앞에 있으면 표식을 그대로 둔다(첫 화면에서 멈춘 런치는 다음 런치가 알아봐야 한다)
 //   ② 표식이 없으면 아무것도 쓰지 않는다
 //   ③ 창을 기다리던 표식(`awaiting-scene`)은 멈춘 런치로 읽지 않는다. 나머지는 전부 멈춘 런치다
 //   ④ 뒤로 가서 닫힌 런치에는 뒤에서 도는 런치 작업이 표식을 다시 남기지 않는다(5.1.13 prompts)
+//   ⑤ 앱이 뒤에 있으면 **창이 붙어 있어도** 닫는다. iOS 는 뒤에서 깨울 때도 창을 붙이고, 그러면
+//      런치 작업이 `prompts` 까지 돌다 멈춰진다(5.1.24 까지 불안정 설치의 절반이 이것이었다)
 //
-//  시험 호스트는 빈 화면 하나(씬 하나)를 띄우므로 ① 의 조건이 그대로 선다.
+//  시험 호스트는 빈 화면 하나(씬 하나)를 띄운다. 앞 · 뒤는 `LaunchGuard.isInBackground` 를 갈아 끼워 정한다.
 //
 
 import XCTest
@@ -23,14 +25,17 @@ final class LaunchGuardBackgroundLaunchTests: XCTestCase {
     private var defaults: UserDefaults { AppGroup.defaults ?? .standard }
     private var savedMarker: String?
     private var savedStreak: Any?
+    private var savedIsInBackground: (() -> Bool)?
 
     override func setUp() async throws {
         savedMarker = defaults.string(forKey: DefaultsKey.launchStageInFlight)
         savedStreak = defaults.object(forKey: DefaultsKey.launchFailStreak)
+        savedIsInBackground = LaunchGuard.isInBackground
     }
 
     override func tearDown() async throws {
         LaunchGuard.isClosed = false
+        if let savedIsInBackground { LaunchGuard.isInBackground = savedIsInBackground }
         if let savedMarker {
             defaults.set(savedMarker, forKey: DefaultsKey.launchStageInFlight)
         } else {
@@ -43,14 +48,37 @@ final class LaunchGuardBackgroundLaunchTests: XCTestCase {
         }
     }
 
-    func testKeepsFirstFrameMarkerWhenSceneIsConnected() throws {
-        try XCTSkipIf(UIApplication.shared.connectedScenes.isEmpty, "시험 호스트에 씬이 없다")
+    func testKeepsFirstFrameMarkerWhenAppIsInForeground() {
+        LaunchGuard.isInBackground = { false }
         defaults.set("essential:first-frame", forKey: DefaultsKey.launchStageInFlight)
 
         LaunchGuard.closeIfBackgroundLaunch("test")
 
         XCTAssertEqual(defaults.string(forKey: DefaultsKey.launchStageInFlight), "essential:first-frame",
-                       "씬이 붙은 런치의 표식을 지우면 첫 화면에서 멈춘 사고를 다음 런치가 못 알아본다")
+                       "앞에 있는 런치의 표식을 지우면 첫 화면에서 멈춘 사고를 다음 런치가 못 알아본다")
+    }
+
+    func testClosesBackgroundLaunchEvenWithSceneConnected() throws {
+        try XCTSkipIf(UIApplication.shared.connectedScenes.isEmpty, "시험 호스트에 씬이 없다")
+        LaunchGuard.isInBackground = { true }
+        defaults.set("optional:prompts", forKey: DefaultsKey.launchStageInFlight)
+
+        LaunchGuard.closeIfBackgroundLaunch("test")
+
+        XCTAssertNil(defaults.string(forKey: DefaultsKey.launchStageInFlight),
+                     "뒤에서 깨어난 실행의 표식이 남으면 다음 실행이 세이프 모드로 열린다")
+    }
+
+    func testBackgroundLaunchLeavesNoMarkerFromLaterStages() {
+        LaunchGuard.isInBackground = { true }
+        defaults.removeObject(forKey: DefaultsKey.launchStageInFlight)
+        LaunchGuard.markSceneStarted()
+
+        LaunchGuard.closeIfBackgroundLaunch("test")
+        LaunchGuard.essential(.prompts) {}
+
+        XCTAssertNil(defaults.string(forKey: DefaultsKey.launchStageInFlight),
+                     "닫을 표식이 없던 뒤쪽 실행도, 뒤이어 도는 런치 작업이 표식을 남기면 안 된다")
     }
 
     func testClosedLaunchLeavesNoMarkerFromLaterStages() {
@@ -65,6 +93,7 @@ final class LaunchGuardBackgroundLaunchTests: XCTestCase {
     func testDoesNothingWithoutMarker() {
         defaults.removeObject(forKey: DefaultsKey.launchStageInFlight)
         defaults.set(5, forKey: DefaultsKey.launchFailStreak)
+        LaunchGuard.isInBackground = { true }
 
         LaunchGuard.closeIfBackgroundLaunch("test")
 

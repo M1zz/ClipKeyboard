@@ -241,8 +241,8 @@ struct ClipKeyboardApp: App {
         // 인텐트 · 동기화 푸시 · 프리워밍)는 이 표식에서 끝나고, 다음 런치는 이것을 멈춘 런치로 읽지 않는다.
         LaunchGuard.markAwaitingScene()
 
-        // 그래도 화면 없이 3초를 넘겨 살아 있으면 런치를 닫아 둔다.
-        // 씬이 붙었으면 아무것도 안 한다(`LaunchGuard.closeIfBackgroundLaunch` 주석).
+        // 그래도 3초 뒤에 앱이 뒤에 있으면 런치를 닫아 둔다.
+        // 앞에 있으면 아무것도 안 한다(`LaunchGuard.closeIfBackgroundLaunch` 주석).
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             LaunchGuard.closeIfBackgroundLaunch("init+3s")
         }
@@ -297,6 +297,10 @@ struct ClipKeyboardApp: App {
         // 첫 프레임을 먼저 내보낸다. 아래 일들이 메인 스레드를 쓰긴 하지만, 그때는 이미
         // 화면이 떠 있어서 "런치가 안 끝난 앱"으로 죽지 않는다.
         await Task.yield()
+
+        // iOS 가 뒤에서 깨운 실행에도 창이 붙어 여기까지 온다. 보는 사람이 없으면 런치를 닫고
+        // 아래 일만 한다. 안 닫으면 멈춰진 채 정리된 이 프로세스를 다음 실행이 멈춘 런치로 읽는다.
+        LaunchGuard.closeIfBackgroundLaunch("launch-sequence")
 
         #if DEBUG
         ClipKeyboardApp.auditLeeoContract()

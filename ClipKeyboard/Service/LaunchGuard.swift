@@ -208,6 +208,9 @@ enum LaunchGuard {
         firstFrameMarked = true
         isClosed = false
         mark(.firstFrame, tier: .essential)
+        // 뒤에서 깨어나며 붙은 창이면 다음 차례에 닫는다(`closeIfBackgroundLaunch`).
+        // 첫 화면을 그리다 멈춘 런치는 메인 스레드가 막혀 여기까지 오지 못하므로 표식이 남는다.
+        DispatchQueue.main.async { closeIfBackgroundLaunch("first-frame") }
     }
 
     /// 남은 표식이 "그 단계에서 멈췄다" 는 뜻인가. 창을 기다리던 표식만 아니다.
@@ -215,7 +218,7 @@ enum LaunchGuard {
         parse(marker).stage != Stage.awaitingScene.rawValue
     }
 
-    // MARK: - 화면 없는 런치(백그라운드)
+    // MARK: - 보는 사람 없는 런치(백그라운드)
 
     /// 화면이 붙어 `runLaunchSequence()` 가 돌기 시작했다. 그 맨 앞에서 1회.
     static func markSceneStarted() {
@@ -223,26 +226,38 @@ enum LaunchGuard {
         isClosed = false
     }
 
-    /// 이 프로세스가 **화면 없이** 깨어난 것이면 런치를 닫는다.
+    /// 앱이 뒤에 있는가(사용자가 이 실행을 보고 있지 않다). 시험이 갈아 끼운다.
+    static var isInBackground: () -> Bool = {
+        #if canImport(UIKit)
+        return UIApplication.shared.applicationState == .background
+        #else
+        return false
+        #endif
+    }
+
+    /// 이 프로세스가 **보는 사람 없이** 깨어난 것이면 런치를 닫는다.
     ///
     /// 왜: 백그라운드 새로고침(`BeaconBackgroundScheduler`), 앱을 띄우지 않는 인텐트
-    /// (`AddQuickNoteIntent`), iCloud 동기화 푸시는 앱을 뒤에서 깨운다. 그때도 `init()` 은
-    /// 그대로 돌아 `first-frame` 표식을 남기지만, 씬이 붙지 않으니 `.task` 도 `scenePhase` 도
-    /// 오지 않아 `finish()` 를 부를 사람이 없다. 그 프로세스가 나중에 시스템 정리로 조용히
-    /// 사라지면, 다음에 사용자가 앱을 열 때 "직전 런치가 첫 화면에서 멈췄다" 로 읽혀
+    /// (`AddQuickNoteIntent`), iCloud 동기화 푸시는 앱을 뒤에서 깨운다. 그 프로세스가 표식을 남긴 채
+    /// 멈췄다가 시스템 정리로 조용히 사라지면, 다음에 사용자가 앱을 열 때 "직전 런치가 멈췄다" 로 읽혀
     /// **세이프 모드로 열린다**(동기화 · 백업 · 통계 · 안내를 통째로 쉰다). 죽은 적이 없는데도.
     ///
-    /// ⚠️ 씬이 하나라도 붙어 있으면 아무것도 하지 않는다. 첫 화면을 그리다 멈춘 진짜 사고
-    ///    (`scene-create` 워치독)를 지우면 안 된다. 그때는 메인 스레드가 막혀 있어서 이 함수가
-    ///    불릴 일도 없다.
-    /// ⚠️ 같은 프로세스에 나중에 씬이 붙으면 `runLaunchSequence()` 의 단계들이 표식을 다시 남긴다.
+    /// ⚠️ 가르는 것은 **앱이 뒤에 있는가** 하나다. 씬이 붙었는지는 보지 않는다.
+    ///    5.1.23 까지는 씬이 하나라도 붙어 있으면 손대지 않았는데, iOS 는 뒤에서 깨울 때도 씬을
+    ///    붙인다. 그러면 `.task` 까지 돌아 런치 작업이 `prompts` 표식을 남기고, 마지막 4초 대기에서
+    ///    멈춘 채 정리됐다. 허브의 `launch_incomplete:prompts` 가 새벽에 앱을 연 흔적 없이 혼자
+    ///    찍힌 까닭이다(30일에 138건, 불안정 설치의 절반). 닫힌 뒤에는 단계 표식이 남지 않는다(`isClosed`).
+    /// ⚠️ 첫 화면을 그리다 멈춘 진짜 사고(`scene-create` 워치독)는 지워지지 않는다. 그때는 메인
+    ///    스레드가 막혀 있어서 이 함수가 불릴 일이 없다. 앞에 있는 앱의 표식도 그대로 둔다.
+    /// ⚠️ 닫힌 프로세스를 사용자가 나중에 앞으로 불러도 다시 열지 않는다. 첫 화면은 이미 그려져 있다.
     static func closeIfBackgroundLaunch(_ reason: String) {
-        guard !sceneStarted else { return }
-        #if canImport(UIKit)
-        guard UIApplication.shared.connectedScenes.isEmpty else { return }
-        #endif
-        guard defaults.string(forKey: DefaultsKey.launchStageInFlight) != nil else { return }
-        AppLog.info(.launch, "🌙 [LaunchGuard.closeIfBackgroundLaunch] 화면 없이 깨어남(\(reason)), 런치를 닫는다")
+        guard isInBackground() else { return }
+        guard defaults.string(forKey: DefaultsKey.launchStageInFlight) != nil else {
+            // 닫을 표식은 없지만, 뒤에서 도는 런치 작업이 새 표식을 남기지 않게 닫아 둔다.
+            isClosed = true
+            return
+        }
+        AppLog.info(.launch, "🌙 [LaunchGuard.closeIfBackgroundLaunch] 보는 사람 없이 깨어남(\(reason)), 런치를 닫는다")
         finish()
     }
 
