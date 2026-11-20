@@ -27,14 +27,37 @@ const DOCS = path.dirname(HERE);
 const BASE = 'https://m1zz.github.io/ClipKeyboard/';
 
 export const LANGS = ['ko', 'en', 'zh-Hans', 'zh-Hant', 'ru', 'ja', 'es', 'de', 'fr', 'it', 'pt-BR', 'th', 'vi',
-    'cs', 'da', 'el', 'fi', 'id', 'nb', 'nl', 'pl', 'sv', 'tr'];
+    'cs', 'da', 'el', 'fi', 'id', 'nb', 'nl', 'pl', 'sv', 'tr', 'ar'];
 const NAMES = {
     ko: '한국어', en: 'English', 'zh-Hans': '简体中文', 'zh-Hant': '繁體中文', ru: 'Русский',
     ja: '日本語', es: 'Español', de: 'Deutsch', fr: 'Français', it: 'Italiano',
     'pt-BR': 'Português (Brasil)', th: 'ไทย', vi: 'Tiếng Việt',
     cs: 'Čeština', da: 'Dansk', el: 'Ελληνικά', fi: 'Suomi', id: 'Bahasa Indonesia',
-    nb: 'Norsk bokmål', nl: 'Nederlands', pl: 'Polski', sv: 'Svenska', tr: 'Türkçe',
+    nb: 'Norsk bokmål', nl: 'Nederlands', pl: 'Polski', sv: 'Svenska', tr: 'Türkçe', ar: 'العربية',
 };
+
+// 오른쪽에서 왼쪽으로 쓰는 언어. <html dir="rtl"> 을 달고, 루트 페이지의 왼쪽 · 오른쪽 고정 값을 뒤집는다.
+// 루트 페이지(x-default)는 왼쪽에서 오른쪽이라 건드리지 않고, 이 언어의 페이지에만 덧붙인다.
+const RTL = new Set(['ar', 'he']);
+const RTL_CSS = `
+    <style>
+        [dir="rtl"] .lang-menu { right: auto; left: 1rem; }
+        [dir="rtl"] .lang-menu-list { right: auto; left: 0; }
+        [dir="rtl"] .lang-toggle { right: auto; left: 1rem; }
+        [dir="rtl"] th { text-align: right; }
+        [dir="rtl"] .tip { border-left: 0; border-right: 4px solid var(--accent-orange); }
+        [dir="rtl"] .note { border-left: 0; border-right: 4px solid var(--primary); }
+        [dir="rtl"] .warning { border-left: 0; border-right: 4px solid #FF3B30; }
+        [dir="rtl"] section.step ol.steps li { padding: 0.875rem 3rem 0.875rem 1rem; }
+        [dir="rtl"] section.step ol.steps li::before { left: auto; right: 0.875rem; }
+        [dir="rtl"] section.step ul.plain li { padding: 0.4rem 1.5rem 0.4rem 0; }
+        [dir="rtl"] section.step ul.plain li::before { left: auto; right: 0; }
+        [dir="rtl"] .play-key { text-align: right; }
+        [dir="rtl"] .play-key .pos { margin-left: 0; margin-right: auto; }
+        [dir="rtl"] .play-key .nx { border-left: 0; border-right: 1px solid var(--border); padding-left: 0; padding-right: 8px; margin-left: 0; margin-right: 6px; }
+        [dir="rtl"] .play-kbhint { padding-left: 0; padding-right: 3px; }
+        @media (max-width: 600px) { [dir="rtl"] .lang-menu { left: 0.5rem; right: auto; } }
+    </style>`;
 
 // 페이지마다 언어를 타는 데이터 상수. 처음 것이 translations(제목 · 본문)다.
 const PAGES = {
@@ -188,7 +211,8 @@ function build(page) {
         }
 
         // 머리
-        html = html.replace(/<html lang="[^"]*">/, `<html lang="${lang}">`);
+        html = html.replace(/<html lang="[^"]*">/, `<html lang="${lang}"${RTL.has(lang) ? ' dir="rtl"' : ''}>`);
+        if (RTL.has(lang)) html = html.replace(/<\/head>/, `${RTL_CSS}\n</head>`);
         html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(t.pageTitle)}</title>`);
         html = html.replace(/\n\s*<link rel="(canonical|alternate)"[^>]*>/g, '');
         html = html.replace(/(\n[^\n]*<meta name="viewport"[^\n]*\n)/,
