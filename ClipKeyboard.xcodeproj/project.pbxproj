@@ -825,6 +825,9 @@
 		US00001A2F0000000000000001 /* UsageStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageStatsView.swift; sourceTree = "<group>"; };
 		US00001B2F0000000000000003 /* UsageReportingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageReportingService.swift; sourceTree = "<group>"; };
 		US00001C2F0000000000000005 /* UsageTrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTrendChartView.swift; sourceTree = "<group>"; };
+		F6624CF434978EFF5D53BB17 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = "ar.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		49FDE3266BA9D27A42ADA1E7 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = "ar.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		A40A0E105FB139313591E088 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = "ar.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -1693,6 +1696,7 @@
 				fi,
 				cs,
 				el,
+				ar,
 			);
 			mainGroup = 58C4732F2A109F0C009D87BC;
 			packageReferences = (
@@ -2226,6 +2230,7 @@
 		FFEC102DB0D405F113AF6DC7 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				A40A0E105FB139313591E088 /* ar */,
 				78D6773A08C86AC98AC1F4E3 /* el */,
 				26092719AA59A486E96C53C5 /* cs */,
 				51E7D9DE8B9947CA481D08A9 /* fi */,
@@ -2256,6 +2261,7 @@
 		INFOPLISTVG1 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				49FDE3266BA9D27A42ADA1E7 /* ar */,
 				B5ADF4A5E62FF0B28FD006B1 /* el */,
 				EE76F9F62F84F8E55853411B /* cs */,
 				30B5ADEDAA18483FB1E54A66 /* fi */,
@@ -2286,6 +2292,7 @@
 		INFOPLISTVG2 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				F6624CF434978EFF5D53BB17 /* ar */,
 				73424036BB1B576F6A52ECD8 /* el */,
 				E1BA340117F892EC99CCD362 /* cs */,
 				00088770840B929117A6A9FE /* fi */,

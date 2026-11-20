@@ -77,7 +77,8 @@
     "lv":      { "native": "Latviešu",          "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "simple", "rtl": false },
     "lt":      { "native": "Lietuvių",          "tier": 3, "enabled": false, "mode": "machine", "expansion": 1.5, "plural": "slavic", "rtl": false },
 
-    "ar":      { "native": "العربية",             "tier": 9, "enabled": false, "mode": "machine", "expansion": 1.3, "plural": "arabic", "rtl": true },
+    "ar":      { "native": "العربية",             "tier": 9, "enabled": true,  "mode": "machine", "expansion": 1.3, "plural": "arabic", "rtl": true,
+                 "note": "Modern Standard Arabic as in Apple's Arabic UI for Saudi Arabia. Address the user directly with the short imperative Apple uses (اضغط، احفظ، انسخ). Natural and concise, never word-for-word from Korean. Keep digits, format specifiers, URLs, emails and Latin brand names exactly as in the source; do not add direction marks. Use Arabic punctuation (، ؟ ؛) in Arabic sentences." },
     "he":      { "native": "עברית",              "tier": 9, "enabled": false, "mode": "machine", "expansion": 1.2, "plural": "simple", "rtl": true }
   },
   "_tier": {

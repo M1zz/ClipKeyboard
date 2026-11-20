@@ -51,6 +51,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
     case fi = "fi"
     case cs = "cs"
     case el = "el"
+    case ar = "ar"
     // i18n:cases:end
 
     var id: String { rawValue }
@@ -92,6 +93,7 @@ enum AppLanguage: String, CaseIterable, Identifiable {
         "fi": "Suomi",
         "cs": "Čeština",
         "el": "Ελληνικά",
+        "ar": "العربية",
     ]
     // i18n:names:end
 
