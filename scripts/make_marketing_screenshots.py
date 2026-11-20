@@ -231,13 +231,20 @@ COPY = {
         ("Yığınlar", "Birçok değer,<br>tek tuş", "Her alanın bir adı var, sırada ne olduğunu bilirsiniz"),
         ("Hepsi tek yerde", "Tekrar tekrar<br>yazdıklarınız", "Gruplu ve aranabilir. Cihazınızda kalır"),
     ],
+    "ar": [
+        ("ردود جاهزة", "ردّ على الاستفسار<br>بلمسة واحدة", "عباراتك المتكررة على لوحة المفاتيح"),
+        ("الحافظة", "ما نسخته<br>تجده في لوحة المفاتيح", "يبقى ما تنسخه في «الأخيرة» 30 يومًا"),
+        ("القوالب", "املأ الخانة<br>وأرسل", "اكتبها مرة، وغيّر الاسم كل مرة"),
+        ("الحزم", "عدة قيم<br>في زر واحد", "لكل خانة اسم، فتعرف ما الذي يليها"),
+        ("كل شيء في مكان واحد", "كل ما تكرّر كتابته<br>تجده هنا", "مرتبة ويسهل البحث فيها. تبقى على جهازك"),
+    ],
 }
 
 # 키릴·한글은 같은 글자 수라도 더 넓게 퍼진다. 언어마다 글자 크기를 조금 줄인다.
 TYPE_SCALE = {"ru": (84, 40), "ko": (92, 44), "zh-Hans": (96, 46), "zh-Hant": (96, 46), "en": (96, 46),
               "ja": (88, 42), "es": (88, 42), "de": (84, 40), "th": (88, 42), "vi": (88, 42),
               "fr": (84, 40), "it": (88, 42), "pt-BR": (84, 40),
-              "cs": (84, 40), "da": (88, 42), "el": (84, 40), "fi": (84, 40), "id": (88, 42), "nb": (88, 42), "nl": (84, 40), "pl": (84, 40), "sv": (88, 42), "tr": (84, 40)}
+              "cs": (84, 40), "da": (88, 42), "el": (84, 40), "fi": (84, 40), "id": (88, 42), "nb": (88, 42), "nl": (84, 40), "pl": (84, 40), "sv": (88, 42), "tr": (84, 40), "ar": (88, 42)}
 
 if LANG not in COPY:
     raise SystemExit(f"모르는 언어: {LANG} (아는 것: {', '.join(COPY)})")
@@ -364,7 +371,25 @@ BODY_TEXT_FIRST = ('<div class="eyebrow">{eyebrow}</div><div class="headline">{h
 BODY_PHONE_FIRST = ('<div class="wrap"><div class="phone"><img src="{img}"></div></div>'
                     '<div class="eyebrow">{eyebrow}</div><div class="headline">{headline}</div><div class="sub">{sub}</div>')
 
-HTML = """<!doctype html><html><head><meta charset="utf-8"><style>
+# 오른쪽에서 왼쪽으로 쓰는 언어(아랍어): 글은 오른쪽에 붙이고, 기울인 판은 거울처럼 뒤집는다.
+# 글자 사이를 좁히면 이어 쓰는 글자가 끊긴다.
+RTL = LANG in ("ar", "he")
+RTL_CSS = """
+.eyebrow, .headline, .sub { letter-spacing:0; }
+"""
+RTL_LAYOUTS = {
+    "left-text": """
+.eyebrow { text-align:right; margin:250px 114px 0 0; }
+.headline { text-align:right; margin:30px 110px 0 0; }
+.sub { text-align:right; margin:48px 114px 0 0; }
+.wrap { left:auto; right:300px; perspective-origin:70% 30%; }
+.phone { transform:rotateY(-16deg) rotateX(2deg); }
+""",
+    "flat-rotate": ".wrap { left:auto; right:120px; } .phone { transform:rotate(6deg); }",
+    "text-bottom": ".phone { transform:rotateY(10deg) rotateX(2deg); }",
+}
+
+HTML = """<!doctype html><html{dir}><head><meta charset="utf-8"><style>
 {base}{layout}
 </style></head><body>{body}</body></html>"""
 
@@ -392,7 +417,12 @@ def main(only=None):
         # ⚠️ 중간 HTML 은 scripts/ 가 아니라 임시 폴더에 쓴다. 예전에는 여기 남아서
         #    산출물이 저장소에 같이 올라갔다.
         html_path = pathlib.Path(tempfile.gettempdir()) / ("clipkb-shot-" + PREFIX + fname.replace(".png", ".html"))
-        html_path.write_text(HTML.format(base=BASE_CSS, layout=layout_css, body=body), encoding="utf-8")
+        if RTL:
+            layout_css += RTL_CSS
+            if DEVICE == "iphone":
+                layout_css += RTL_LAYOUTS.get(layout, "")
+        html_path.write_text(HTML.format(dir=' dir="rtl"' if RTL else "", base=BASE_CSS, layout=layout_css, body=body),
+                             encoding="utf-8")
         out_png = OUT / (PREFIX + fname)
         # ⚠️ Chrome 은 가끔 아무것도 안 그리고 끝나거나(종료 코드 2) 멈춘다. 3분씩 다섯 번까지 한다.
         #    다른 일로 Chrome 이 함께 떠 있으면 같은 프로필을 두고 다투다 그대로 끝난다. 부를 때마다 빈 프로필을 쓴다

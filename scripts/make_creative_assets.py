@@ -105,6 +105,7 @@ SEARCH = {
     "pl": ("Szybkie odpowiedzi", "Odpowiedz<br>w sekundę", "Zapisane odpowiedzi prosto na klawiaturze"),
     "sv": ("Snabbsvar", "Svara med<br>ett tryck", "Sparade svar direkt på tangentbordet"),
     "tr": ("Hazır mesajlar", "Tek dokunuşla<br>yanıtlayın", "Kayıtlı yanıtlarınız klavyede"),
+    "ar": ("ردود جاهزة", "ردّ على الاستفسار<br>بلمسة واحدة", "عباراتك المتكررة على لوحة المفاتيح"),
 }
 
 # 헤더는 처음 온 사람에게 **한 가지 약속**만 한다(Apple: 단일한 생각, 빽빽하지 않게).
@@ -134,7 +135,11 @@ HEADER = {
     "pl": ("Szybkie odpowiedzi", "Napisz raz,<br>potem tylko stuknij"),
     "sv": ("Snabbsvar", "Skriv det en gång.<br>Sedan ett tryck."),
     "tr": ("Hazır mesajlar", "Bir kez yazın,<br>sonra sadece dokunun"),
+    "ar": ("ردود جاهزة", "اكتبها مرة واحدة،<br>ثم المسها فقط"),
 }
+
+# 오른쪽에서 왼쪽으로 쓰는 언어. 검색 결과 그림은 글과 기기 자리를 맞바꾼다.
+RTL = {"ar", "he"}
 
 # ⚠️ 바탕 · 글자색은 기존 스크린샷(make_marketing_screenshots.py)과 같다. 다르면 페이지에서
 #    헤더만 남의 앱처럼 보인다.
@@ -151,6 +156,9 @@ body { background:#0d0d0e; position:relative;
 :lang(th) .headline, :lang(th) .eyebrow, :lang(th) .sub,
 :lang(ja) .headline, :lang(zh) .headline { letter-spacing:0; }
 :lang(th) .headline { line-height:1.3; }
+/* 아랍어는 글자가 이어 쓰여서, 글자 사이를 좁히면 끊어진다. */
+:lang(ar) .headline, :lang(ar) .eyebrow, :lang(ar) .sub { letter-spacing:0; }
+:lang(ar) .headline { line-height:1.3; }
 /* 한국어는 낱말 중간에서 끊지 않는다("키 / 보드"). */
 :lang(ko) .headline, :lang(ko) .sub, :lang(ko) .eyebrow { word-break:keep-all; }
 .phone { position:absolute; background:#17171a; border:6px solid #3a3a3e; padding:40px; border-radius:190px;
@@ -201,12 +209,17 @@ def search_html(lang):
     # 기기는 안전 영역 오른쪽 몫에 서서, 위아래로 넘쳐 화면 밖까지 이어진다(기기 그림은 잘려도 된다).
     ph_w = 1040
     ph_left = l + col + int(sw * 0.04)
+    text_left = l
+    if lang in RTL:
+        # 거울처럼: 글은 안전 영역 오른쪽, 기기는 왼쪽
+        ph_left = W - ph_left - ph_w
+        text_left = r - col
     img = (RAW / lang / "01-reply.png").as_uri()
     return f"""
 <div class="glow" style="left:{ph_left - 300}px;top:500px;width:1700px;height:1700px;background:rgba(10,132,255,.20)"></div>
 <div class="glow" style="left:{l - 700}px;top:{t - 500}px;width:1400px;height:1000px;background:rgba(10,132,255,.07)"></div>
 {phone(img, ph_left, t - 360, ph_w, 0)}
-<div class="text" style="left:{l}px;top:{t}px;width:{col}px;height:{sh}px">
+<div class="text" style="left:{text_left}px;top:{t}px;width:{col}px;height:{sh}px">
   <div class="eyebrow" style="font-size:96px">{eyebrow}</div>
   <div class="headline" data-max="250" data-min="140" style="margin-top:36px">{headline}</div>
   <div class="sub" style="font-size:84px;margin-top:52px">{sub}</div>
@@ -243,7 +256,8 @@ def html_lang(lang):
 def render(lang, kind):
     W, H, _ = SPEC[kind]
     body = search_html(lang) if kind == "search" else header_html(lang)
-    page = (f'<!doctype html><html lang="{html_lang(lang)}"><head><meta charset="utf-8"><style>'
+    rtl = ' dir="rtl"' if lang in RTL else ""
+    page = (f'<!doctype html><html lang="{html_lang(lang)}"{rtl}><head><meta charset="utf-8"><style>'
             f'{BASE_CSS % {"W": W, "H": H}}</style></head><body>{body}{FIT_JS}</body></html>')
     html_path = pathlib.Path(tempfile.gettempdir()) / f"clipkb-creative-{lang}-{kind}.html"
     html_path.write_text(page, encoding="utf-8")
