@@ -402,7 +402,7 @@ private struct StepPageView: View {
                             )
                             .accessibilityHidden(true)
                     } else {
-                        Image(systemName: i == step.path.count - 1 ? "checkmark.circle.fill" : "arrow.right")
+                        Image(systemName: i == step.path.count - 1 ? "checkmark.circle.fill" : "arrow.forward")
                             .font(.caption.weight(.semibold))
                             .foregroundColor(i == step.path.count - 1 ? Color.checkGreen : theme.accent)
                             .accessibilityHidden(true)
@@ -509,7 +509,7 @@ private struct SettingsPathIllustration: View {
 
                     Spacer()
 
-                    Image(systemName: i < path.count - 1 ? "chevron.right" : "plus.circle.fill")
+                    Image(systemName: i < path.count - 1 ? AppSymbol.chevronForward : "plus.circle.fill")
                         .font(.body)
                         .foregroundColor(i == path.count - 1 ? theme.accent : theme.textFaint)
                         .accessibilityHidden(true)
@@ -555,7 +555,7 @@ private struct KeyboardListIllustration: View {
                         .font(.body)
                         .foregroundColor(theme.text)
                     Spacer()
-                    Image(systemName: AppSymbol.chevronRight)
+                    Image(systemName: AppSymbol.chevronForward)
                         .font(.body)
                         .foregroundColor(theme.textFaint)
                         .accessibilityHidden(true)
@@ -571,7 +571,7 @@ private struct KeyboardListIllustration: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundColor(theme.accent)
                 Spacer()
-                Image(systemName: AppSymbol.arrowLeftCircleFill)
+                Image(systemName: AppSymbol.arrowBackwardCircleFill)
                     .foregroundColor(theme.accent)
                     .accessibilityHidden(true)
             }

@@ -251,7 +251,7 @@ struct FoldLink<Label: View, Destination: View>: View {
                 HStack {
                     label
                     Spacer(minLength: 8)
-                    Image(systemName: AppSymbol.chevronRight)
+                    Image(systemName: AppSymbol.chevronForward)
                         .font(.body.weight(.semibold))
                         .foregroundStyle(.tertiary)
                 }

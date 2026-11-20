@@ -6,7 +6,7 @@
 //
 //  ⚠️ 키보드(익스텐션)와 앱(설정 화면 · 키보드 탭 미리보기)이 같은 표를 본다. 그래서 여기에는
 //     화면을 그리는 코드가 없다. 그리는 일은 `TypingKeyboardView`, 글자를 넣는 일은 `TypingEngines`.
-//  ⚠️ 언어는 앱이 켠 언어(`i18n/config.json` 의 enabled)와 같은 23개다. 앱 말을 켜면 자판도 같이 켠다.
+//  ⚠️ 언어는 앱이 켠 언어(`i18n/config.json` 의 enabled)와 같은 24개다. 앱 말을 켜면 자판도 같이 켠다.
 //  ⚠️ 배열은 각 나라 iOS 기본 자판을 따른다. 사람 손이 이미 그 자리를 안다.
 //
 
@@ -23,6 +23,7 @@ enum TypingLanguage: String, CaseIterable, Identifiable, Codable {
     case ptBR = "pt-BR"
     case de, fr, it, ru
     case id, tr, vi, th, pl, nl, sv, da, nb, fi, cs, el
+    case ar
 
     var id: String { rawValue }
 
@@ -55,6 +56,7 @@ enum TypingLanguage: String, CaseIterable, Identifiable, Codable {
         case .fi: return "Suomi"
         case .cs: return "Čeština"
         case .el: return "Ελληνικά"
+        case .ar: return "العربية"
         }
     }
 
@@ -71,6 +73,7 @@ enum TypingLanguage: String, CaseIterable, Identifiable, Codable {
         case .th: return "ไท"
         case .ptBR: return "PT"
         case .nb: return "NO"
+        case .ar: return "ع"
         default: return rawValue.uppercased()
         }
     }
@@ -110,7 +113,7 @@ enum TypingLanguage: String, CaseIterable, Identifiable, Codable {
     /// 대소문자가 있는 문자인가. 없으면 Shift 는 '다른 글자 줄' 로만 쓴다(한글 쌍자음 · 태국어 윗줄).
     var hasCase: Bool {
         switch self {
-        case .ko, .ja, .zhHans, .zhHant, .th: return false
+        case .ko, .ja, .zhHans, .zhHant, .th, .ar: return false
         default: return true
         }
     }
@@ -312,6 +315,14 @@ extension TypingLanguage {
                 ["ㄇ", "ㄋ", "ㄎ", "ㄑ", "ㄕ", "ㄘ", "ㄨ", "ㄜ", "ㄠ", "ㄤ"],
                 ["ㄈ", "ㄌ", "ㄏ", "ㄒ", "ㄖ", "ㄙ", "ㄩ", "ㄝ", "ㄡ", "ㄥ"],
             ], indentsMiddleRow: false)
+        case .ar:
+            // 아랍어(iOS 아랍어 자판). 글자 자리는 왼쪽부터 적는다. 판은 아랍어 화면에서도 뒤집지 않는다.
+            // 대소문자가 없어 Shift 를 두지 않는다. 함자가 붙은 글자는 길게 눌러 고른다.
+            return TypingLayout(rows: [
+                ["ض", "ص", "ث", "ق", "ف", "غ", "ع", "ه", "خ", "ح", "ج"],
+                ["ش", "س", "ي", "ب", "ل", "ا", "ت", "ن", "م", "ك", "ط"],
+                ["ذ", "ء", "ؤ", "ر", "ى", "ة", "و", "ز", "ظ", "د"],
+            ], indentsMiddleRow: false)
         }
     }
 
@@ -330,6 +341,9 @@ extension TypingLanguage {
             return [:]
         case .ru:
             return ["е": ["ё"], "ь": ["ъ"]]
+        case .ar:
+            return ["ا": ["أ", "إ", "آ", "ٱ"], "ي": ["ئ", "ى"], "و": ["ؤ"], "ه": ["ة"],
+                    "ء": ["أ", "إ", "ؤ", "ئ"], "ك": ["گ"]]
         case .el:
             return ["α": ["ά"], "ε": ["έ"], "η": ["ή"], "ι": ["ί", "ϊ", "ΐ"],
                     "ο": ["ό"], "υ": ["ύ", "ϋ", "ΰ"], "ω": ["ώ"]]
@@ -392,6 +406,7 @@ extension TypingLanguage {
         case .sv, .da, .nb: return "kr"
         case .de, .fr, .it, .es, .nl, .fi, .el: return "€"
         case .en: return "$"
+        case .ar: return "﷼"
         }
     }
 }
@@ -433,12 +448,12 @@ enum TypingLayoutBook {
         "z": ["ž", "ź", "ż"],
     ]
 
-    /// 숫자 층.
-    static func numberRows(currency: String) -> [[String]] {
+    /// 숫자 층. 아랍어는 아랍어 쉼표 · 물음표(، ؟)를 쓴다(iOS 아랍어 자판과 같다).
+    static func numberRows(currency: String, arabicPunctuation: Bool = false) -> [[String]] {
         [
             ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
-            ["-", "/", ":", ";", "(", ")", currency, "&", "@", "\""],
-            [".", ",", "?", "!", "'"],
+            ["-", "/", ":", arabicPunctuation ? "؛" : ";", "(", ")", currency, "&", "@", "\""],
+            arabicPunctuation ? [".", "،", "؟", "!", "'"] : [".", ",", "?", "!", "'"],
         ]
     }
 

@@ -101,7 +101,7 @@ struct CategoryIconSettings: View {
                             Text(cat)
                                 .foregroundColor(.primary)
                             Spacer()
-                            Image(systemName: AppSymbol.chevronRight)
+                            Image(systemName: AppSymbol.chevronForward)
                                 .font(.body)
                                 .foregroundColor(.secondary)
                                 .accessibilityHidden(true)

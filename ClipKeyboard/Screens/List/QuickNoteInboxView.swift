@@ -240,7 +240,7 @@ struct QuickNoteInboxBanner: View {
             .accessibilityElement(children: .combine)
             .accessibilityAddTraits(.isButton)
             Spacer(minLength: 8)
-            Image(systemName: AppSymbol.chevronRight)
+            Image(systemName: AppSymbol.chevronForward)
                 .font(.caption.weight(.semibold))
                 .foregroundColor(.secondary)
             // 닫기 - 행 탭과 분리된 단일 버튼(중첩 버튼 회피)

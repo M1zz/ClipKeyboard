@@ -125,7 +125,7 @@ struct UsagePassportView: View {
                         .foregroundColor(theme.textMuted)
                 }
                 Spacer(minLength: 0)
-                Image(systemName: AppSymbol.chevronRight)
+                Image(systemName: AppSymbol.chevronForward)
                     .font(.caption.weight(.semibold))
                     .foregroundColor(theme.textFaint)
             }

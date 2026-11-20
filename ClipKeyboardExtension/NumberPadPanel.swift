@@ -158,6 +158,8 @@ struct NumberPadPanel: View {
         }
         .padding(.horizontal, 12)
         .padding(.vertical, layout.verticalPadding)
+        // 숫자 판은 아랍어 화면에서도 1 2 3 순서 그대로(iOS 숫자 판과 같다).
+        .environment(\.layoutDirection, .leftToRight)
     }
 
     private func keyButton(_ key: String, height: CGFloat) -> some View {

@@ -719,10 +719,13 @@ private struct TemplateFillRow: View {
                 }
                 .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace button"))
             }
+            // 숫자 줄은 아랍어 화면에서도 1 → 9 순서 그대로.
+            .environment(\.layoutDirection, .leftToRight)
             HStack(spacing: 6) {
                 numericKey("0")
                 ForEach(["00", "000", "0000"], id: \.self) { z in numericKey(z) }
             }
+            .environment(\.layoutDirection, .leftToRight)
             addTypedValueButton
             savedChips
         }

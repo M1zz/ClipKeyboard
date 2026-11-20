@@ -428,7 +428,7 @@ private struct HistoryArt: View {
                     Image(systemName: "clock").font(.caption).foregroundStyle(.secondary)
                     Capsule().fill(Color.primary.opacity(0.6)).frame(width: CGFloat(width), height: 7)
                     Spacer(minLength: 0)
-                    Image(systemName: "arrow.uturn.left").font(.caption.weight(.bold)).foregroundStyle(theme.accent)
+                    Image(systemName: AppSymbol.arrowUturnBackward).font(.caption.weight(.bold)).foregroundStyle(theme.accent)
                 }
                 .padding(10)
                 .background(Color(uiColor: .systemBackground), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
