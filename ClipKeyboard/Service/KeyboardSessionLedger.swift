@@ -281,7 +281,7 @@ enum FieldFit {
 
 // MARK: - 치면 떠오르는 단축어
 
-/// 자판으로 친 마지막 낱말이 단축어 이름이나 아이폰 텍스트 대치와 맞으면 맨 위 띠에 칩으로 세운다.
+/// 자판으로 친 마지막 낱말이 단축어의 이름 · 내용에 들어 있거나 아이폰 텍스트 대치와 맞으면 맨 위 띠에 칩으로 세운다.
 ///
 /// ⚠️ **단축어는 바꿔 넣지 않고 제안만 한다.** 단축어 이름은 "주소" 같은 평범한 낱말이 많아서,
 ///    스페이스에 저절로 바꾸면 그냥 그 낱말을 쓰려던 사람이 놀란다. 칩은 무시하면 그만이다.
@@ -333,35 +333,95 @@ enum TypedShortcut {
             .map { Pick(typed: typed, title: $0.title, text: $0.value, memoID: $0.id) }
     }
 
+    /// 칩을 세우는 데 필요한 글자 수. **한 글자로는 아무것도 세우지 않는다.**
+    /// "apple pie" 를 저장해 둔 사람이 a 를 칠 때마다 칩이 서면 방해만 된다(사용자 2026-11).
+    static let wordMinimum = 2
     /// 내용 앞부분으로 맞추는 데 필요한 글자 수. "le" 처럼 짧으면 아무 글이나 걸린다.
     static let valuePrefixMinimum = 3
+    /// 낱말 한가운데에서 맞추려면 앞부분보다 한 글자 더 쳐야 한다. 가운데는 우연히 걸리기 쉽다.
+    static let insideExtra = 1
 
-    /// 낱말에 맞는 칩들. 이름과 똑같은 것이 먼저, 이름이 그 낱말로 시작하는 것(두 글자부터)이 다음,
-    /// 내용이 그 낱말로 시작하는 것(세 글자부터)이 마지막이다.
+    /// 글 안에서 낱말이 맞는 자리.
+    enum Place: Int, Comparable {
+        /// 글의 맨 앞.
+        case start
+        /// 안쪽 낱말의 앞("apple pie" 의 pie).
+        case wordStart
+        /// 낱말 한가운데("회사주소" 의 주소).
+        case inside
+
+        static func < (a: Place, b: Place) -> Bool { a.rawValue < b.rawValue }
+    }
+
+    /// `word` 가 `text` 의 어디에 들어 있는가. 여러 군데면 가장 앞선 종류를 고른다. **순수 함수.**
+    static func place(of word: String, in text: String) -> Place? {
+        let options: String.CompareOptions = [.caseInsensitive, .widthInsensitive]
+        var best: Place?
+        var from = text.startIndex
+        while from < text.endIndex, let found = text.range(of: word, options: options, range: from..<text.endIndex) {
+            let here: Place
+            if found.lowerBound == text.startIndex {
+                here = .start
+            } else {
+                let before = text[text.index(before: found.lowerBound)]
+                here = (before.isWhitespace || before.isNewline || before.isPunctuation) ? .wordStart : .inside
+            }
+            best = min(best ?? here, here)
+            if best == .start { break }
+            from = text.index(after: found.lowerBound)
+        }
+        return best
+    }
+
+    /// 낱말에 맞는 칩들. 두 글자부터 찾는다. 가까운 것이 먼저다.
+    ///
+    /// | 차례 | 무엇 | 글자 수 |
+    /// | --- | --- | --- |
+    /// | 1 | 이름 · 텍스트 대치와 똑같다 | 2 |
+    /// | 2 | 이름이 그 낱말로 시작한다 | 2 |
+    /// | 3 | 이름 안쪽 낱말이 그 낱말로 시작한다 | 2 |
+    /// | 4 | 내용이 그 낱말로 시작한다 | 3 |
+    /// | 5 | 이름의 낱말 한가운데에 들어 있다 | 3 |
+    /// | 6 | 내용 안쪽 낱말이 그 낱말로 시작한다 | 3 |
+    /// | 7 | 내용의 낱말 한가운데에 들어 있다 | 4 |
     ///
     /// 내용으로 맞추기: 사용자 요청(2026-11). "leeo@" 까지 치면 단축어 내용 "leeo@kakao.com" 이 칩으로 서고,
     /// 누르면 친 낱말을 지우고 내용 전체가 들어간다. 잠근 단축어는 이름처럼 내용으로도 꺼내지 않는다.
+    /// 들어 있는 것으로 맞추기: 사용자 요청(2026-11). 이름 · 내용에 친 글이 **들어 있으면** 선다.
     static func picks(for word: String, memos: [Memo], replacements: [Replacement], limit: Int = 3) -> [Pick] {
-        guard !word.isEmpty else { return [] }
+        guard word.count >= wordMinimum else { return [] }
         let options: String.CompareOptions = [.caseInsensitive, .widthInsensitive]
         func same(_ a: String) -> Bool { a.compare(word, options: options) == .orderedSame }
-        func starts(_ a: String) -> Bool { word.count >= 2 && a.range(of: word, options: options.union(.anchored)) != nil }
 
         let usable = memos
-            .filter { !$0.isSecure && !$0.isTemplate && !$0.isStack && !$0.isUsedUp && $0.contentType == .text && !$0.title.isEmpty }
-            .sorted { $0.clipCount > $1.clipCount }
-        let exact = replacements.filter { same($0.shortcut) }.map { Pick(typed: word, title: $0.phrase, text: $0.phrase, memoID: nil) }
-            + usable.filter { same($0.title) }.map { Pick(typed: word, title: $0.title, text: $0.value, memoID: $0.id) }
-        let prefixed = usable.filter { !same($0.title) && starts($0.title) }
-            .map { Pick(typed: word, title: $0.title, text: $0.value, memoID: $0.id) }
-        let byValue = word.count < valuePrefixMinimum ? [] : memos
             .filter { !$0.isSecure && !$0.isTemplate && !$0.isStack && !$0.isUsedUp && $0.contentType == .text }
-            .filter { $0.value.count > word.count && $0.value.range(of: word, options: options.union(.anchored)) != nil }
             .sorted { $0.clipCount > $1.clipCount }
-            .map { Pick(typed: word, title: $0.title.isEmpty ? $0.value : $0.title, text: $0.value, memoID: $0.id) }
+        func pick(_ memo: Memo) -> Pick {
+            Pick(typed: word, title: memo.title.isEmpty ? memo.value : memo.title, text: memo.value, memoID: memo.id)
+        }
+        /// 이름에서 그 자리에 맞는 단축어(이름과 똑같은 것은 뺀다).
+        func byTitle(_ place: Place, minimum: Int) -> [Pick] {
+            guard word.count >= minimum else { return [] }
+            return usable.filter { !$0.title.isEmpty && !same($0.title) && Self.place(of: word, in: $0.title) == place }.map(pick)
+        }
+        /// 내용에서 그 자리에 맞는 단축어. 다 친 것은 바꿀 것이 없다.
+        func byValue(_ place: Place, minimum: Int) -> [Pick] {
+            guard word.count >= minimum else { return [] }
+            return usable.filter { $0.value.count > word.count && Self.place(of: word, in: $0.value) == place }.map(pick)
+        }
+
+        let exact = replacements.filter { same($0.shortcut) }.map { Pick(typed: word, title: $0.phrase, text: $0.phrase, memoID: nil) }
+            + usable.filter { !$0.title.isEmpty && same($0.title) }.map(pick)
+        let ordered = exact
+            + byTitle(.start, minimum: wordMinimum)
+            + byTitle(.wordStart, minimum: wordMinimum)
+            + byValue(.start, minimum: valuePrefixMinimum)
+            + byTitle(.inside, minimum: wordMinimum + insideExtra)
+            + byValue(.wordStart, minimum: valuePrefixMinimum)
+            + byValue(.inside, minimum: valuePrefixMinimum + insideExtra)
 
         var seen = Set<String>()
-        return (exact + prefixed + byValue)
+        return ordered
             .filter { $0.text != word && seen.insert($0.text).inserted }
             .prefix(limit)
             .map { $0 }

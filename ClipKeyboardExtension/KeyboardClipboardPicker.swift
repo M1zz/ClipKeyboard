@@ -102,9 +102,11 @@ struct CopiedPasteChipView: View {
             action()
         } label: {
             HStack(spacing: 6) {
-                Image(systemName: "doc.on.clipboard")
+                // 클립보드에서 온 글이라는 표시. 글보다 흐리면 안 읽혀서 글과 같은 색으로 세운다.
+                // 저장해 둔 단축어 칩(`TypingKeyboardView.shortcutChips`)에는 이 심볼이 없다.
+                Image(systemName: AppSymbol.docOnClipboardFill)
                     .font(.body.weight(.semibold))
-                    .foregroundColor(muted)
+                    .foregroundColor(label)
                     .accessibilityHidden(true)
                 Text(chip.preview)
                     .font(.body.weight(.medium))

@@ -75,6 +75,7 @@
 | 빈 띠는 접는다 | 자판 위에 아무것도 없는 빈칸이 늘 남는다 · 칩이 서는 동안 키 크기가 출렁인다 (2026-11 사용자 요청) | `KeyboardHeightBookTests/testEmptyStripFoldsKeyboardWithoutResizingKeys` |
 | 치면 떠오르는 단축어 | 자판으로 치다가 단축어를 쓰려면 판을 바꿔 찾아야 한다 · 아이폰에 넣어 둔 텍스트 대치가 우리 자판에서는 안 된다 (2026-10 사용자 요청) | `KeyboardSessionLedgerTests/typedNameSuggestsShortcut` |
 | 내용 앞부분을 치면 떠오르는 단축어 | 이름만 맞춰서 "leeo@" 까지 쳐도 이메일 단축어가 안 선다 · 잠근 단축어 내용이 띠에 보인다 (2026-11 사용자 요청) | `KeyboardSessionLedgerTests/typedValuePrefixSuggestsShortcut` |
+| 한 글자로는 안 서고, 이름 · 내용에 들어 있으면 선다 | "apple pie" 를 저장했더니 a 만 쳐도 칩이 선다 · 이름 가운데 낱말("pie")로는 못 찾는다 · 클립보드 칩과 단축어 칩이 똑같이 생겨 어디서 온 것인지 모른다 (2026-11 사용자 요청) | `KeyboardSessionLedgerTests/oneCharacterNeverSuggests` |
 | 텍스트 대치를 우리 자판에서 | 아이폰 텍스트 대치의 단축을 쳐도 스페이스에서 안 바뀐다 · 연락처 이름이나 앞부분만 친 낱말이 바뀐다 (2026-11 사용자 요청) | `KeyboardSessionLedgerTests/textReplacementOnSpace` |
 | 이름을 적으면 내용을 짐작한다 | "회사 이메일" 이라고 적어도 방금 복사한 이메일을 다시 찾아 붙여야 한다 · 엉뚱한 종류가 뜬다 (2026-11 사용자 요청) | `ClipboardClassificationSwiftTests/suggestsRecentCopiesOfThatKind` |
 | 키보드가 배워서 꺼내 준다 | "주소는" 까지 치고 매번 단축어 판을 열어 배송지를 찾는다 · 한 번 넣은 것이 계속 뜬다 · 잠근 단축어가 띠에 뜬다 (2026-11 사용자 요청) | `KeyboardSessionLedgerTests/suggestsAfterRepeats` |

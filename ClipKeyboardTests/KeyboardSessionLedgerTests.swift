@@ -227,6 +227,67 @@ struct TypedShortcutTests {
     }
 }
 
+struct TypedShortcutContainsTests {
+
+    @Test("한 글자로는 아무 칩도 서지 않는다. 이름이 그 한 글자와 똑같아도, 텍스트 대치여도")
+    func oneCharacterNeverSuggests() {
+        let pie = Memo(title: "apple pie", value: "사과 파이 레시피")
+        let a = Memo(title: "a", value: "한 글자 이름의 단축어")
+        let home = Memo(title: "집", value: "서울시 중구")
+        let one = TypedShortcut.Replacement(shortcut: "ㅇ", phrase: "응")
+
+        #expect(TypedShortcut.picks(for: "a", memos: [pie, a], replacements: []).isEmpty,
+                "apple pie 를 저장해 둔 사람이 a 를 칠 때마다 칩이 서면 방해만 된다")
+        #expect(TypedShortcut.picks(for: "집", memos: [home], replacements: []).isEmpty)
+        #expect(TypedShortcut.picks(for: "ㅇ", memos: [], replacements: [one]).isEmpty)
+        #expect(TypedShortcut.picks(for: "ap", memos: [pie], replacements: []).map(\.memoID) == [pie.id])
+    }
+
+    @Test("이름 안쪽 낱말의 앞은 두 글자부터, 낱말 한가운데는 세 글자부터 맞춘다")
+    func titleContainingTypedWordSuggests() {
+        let pie = Memo(title: "apple pie", value: "사과 파이 레시피")
+        let office = Memo(title: "회사주소", value: "서울시 강남구 테헤란로 1")
+
+        #expect(TypedShortcut.picks(for: "pi", memos: [pie], replacements: []).map(\.memoID) == [pie.id])
+        #expect(TypedShortcut.picks(for: "pp", memos: [pie], replacements: []).isEmpty, "가운데 두 글자는 우연히 걸린다")
+        #expect(TypedShortcut.picks(for: "ppl", memos: [pie], replacements: []).map(\.memoID) == [pie.id])
+        #expect(TypedShortcut.picks(for: "주소", memos: [office], replacements: []).isEmpty)
+        #expect(TypedShortcut.picks(for: "사주소", memos: [office], replacements: []).map(\.memoID) == [office.id])
+    }
+
+    @Test("내용 안쪽 낱말의 앞은 세 글자부터, 낱말 한가운데는 네 글자부터 맞춘다")
+    func valueContainingTypedWordSuggests() {
+        let address = Memo(title: "배송지", value: "서울시 강남구 테헤란로 152")
+
+        #expect(TypedShortcut.picks(for: "강남", memos: [address], replacements: []).isEmpty)
+        #expect(TypedShortcut.picks(for: "강남구", memos: [address], replacements: []).map(\.memoID) == [address.id])
+        #expect(TypedShortcut.picks(for: "헤란로", memos: [address], replacements: []).isEmpty)
+        #expect(TypedShortcut.picks(for: "테헤란로", memos: [address], replacements: []).map(\.memoID) == [address.id])
+    }
+
+    @Test("가까운 것이 먼저다: 이름과 같다, 이름이 그것으로 시작한다, 이름 안쪽, 내용 순")
+    func closerMatchComesFirst() {
+        let byValue = Memo(title: "배송지", value: "주소는 서울시 중구")
+        let inside = Memo(title: "회사 주소", value: "강남구")
+        let prefixed = Memo(title: "주소지", value: "마포구")
+        let exact = Memo(title: "주소", value: "종로구")
+
+        let picks = TypedShortcut.picks(for: "주소", memos: [byValue, inside, prefixed, exact], replacements: [], limit: 4)
+        #expect(picks.map(\.memoID) == [exact.id, prefixed.id, inside.id])
+        let longer = TypedShortcut.picks(for: "주소는", memos: [byValue, inside], replacements: [])
+        #expect(longer.map(\.memoID) == [byValue.id])
+    }
+
+    @Test("글 안에서 맞는 자리를 가른다")
+    func placeOfWord() {
+        #expect(TypedShortcut.place(of: "app", in: "Apple pie") == .start)
+        #expect(TypedShortcut.place(of: "pie", in: "apple pie") == .wordStart)
+        #expect(TypedShortcut.place(of: "ppl", in: "apple pie") == .inside)
+        #expect(TypedShortcut.place(of: "le", in: "apple lemon") == .wordStart, "가운데와 낱말 앞에 다 있으면 낱말 앞으로 친다")
+        #expect(TypedShortcut.place(of: "kiwi", in: "apple pie") == nil)
+    }
+}
+
 struct ShortcutLearningTests {
 
     @Test("배울 낱말은 치는 낱말, 없으면 띄어 쓰기 전 낱말. 줄 바꿈 뒤 · 숫자만은 배우지 않는다")

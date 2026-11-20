@@ -2140,6 +2140,8 @@ struct KeyboardView: View {
                 globeOverlay: KeyboardCapability.needsInputModeSwitchKey ? AnyView(InputModeSwitchOverlay(proxy: proxy)) : nil,
                 onShowSnippets: { setInputMode(.snippets) },
                 shortcutPicks: { word in
+                    // 한 글자로는 배운 것도 세우지 않는다(`TypedShortcut.wordMinimum`).
+                    guard word.count >= TypedShortcut.wordMinimum else { return [] }
                     let learned = TypedShortcut.learnedPicks(ids: ShortcutLearning.memoIDs(for: word.lowercased()),
                                                              typed: word, memos: allMemos)
                     let named = TypedShortcut.picks(for: word, memos: allMemos, replacements: documentState.textReplacements)

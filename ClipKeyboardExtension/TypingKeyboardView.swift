@@ -391,6 +391,11 @@ struct TypingKeyboardPanel: View {
     }
 
     /// 친 낱말을 지우고 단축어를 넣는 칩들. 넘치면 옆으로 민다.
+    ///
+    /// ⚠️ **복사한 글 칩과 다르게 생겼다.** 저쪽은 클립보드에서 온 것이라 클립보드 심볼을 앞에 달고
+    ///    키와 같은 바탕에 선다(`CopiedPasteChipView`). 이쪽은 내가 저장해 둔 단축어라, 단축어 판으로 가는
+    ///    키와 같은 강조색으로 옅게 물들이고 테두리를 두른다. 같은 띠에 서도 어디서 온 것인지 한눈에 갈린다
+    ///    (사용자 2026-11).
     private func shortcutChips(_ picks: [TypedShortcut.Pick], metrics: NativeKeyMetrics) -> some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 6) {
@@ -416,8 +421,9 @@ struct TypingKeyboardPanel: View {
                         .frame(maxWidth: 200)
                         .padding(.horizontal, 12)
                         .frame(height: min(32, metrics.stripHeight - 10))
-                        .background(style.fill(.letter, pressed: false))
+                        .background(theme.accent.opacity(0.16))
                         .clipShape(Capsule())
+                        .overlay(Capsule().strokeBorder(theme.accent.opacity(0.55), lineWidth: 1))
                         .frame(minHeight: 44)
                         .contentShape(Rectangle())
                     }
