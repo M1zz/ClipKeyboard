@@ -147,7 +147,7 @@ struct DidYouKnowListView: View {
                             }
                             .fixedSize(horizontal: false, vertical: true)
                             Spacer(minLength: 4)
-                            Image(systemName: AppSymbol.chevronRight)
+                            Image(systemName: AppSymbol.chevronForward)
                                 .font(.caption.weight(.semibold))
                                 .foregroundColor(theme.textFaint)
                                 .accessibilityHidden(true)

@@ -309,6 +309,9 @@ struct TypingKeyboardPanel: View {
             .onChange(of: fold, initial: true) { _, amount in stripFold.request(amount) }
         }
         .coordinateSpace(name: TypingLetterKeySpace.name)
+        // 키 배열은 나라마다 정해진 자리라 아랍어 화면에서도 뒤집지 않는다(iOS 기본 자판과 같다).
+        // 판 전체에 건다. 길게 누른 키의 좌우 판정(`TypingLetterKeySpace`)도 같은 좌표를 써야 한다.
+        .environment(\.layoutDirection, .leftToRight)
         // 단축어 판으로 넘어가면 그 판은 제 높이를 다 쓴다.
         .onDisappear {
             stripFold.request(0)
@@ -485,7 +488,8 @@ struct TypingKeyboardPanel: View {
             return language.layout.rows(shifted: shift != .off, locale: language.locale,
                                         hasCase: language.hasCase || language.shiftTypesLatinCapitals)
         case .numbers:
-            return TypingLayoutBook.numberRows(currency: language.currencySymbol)
+            return TypingLayoutBook.numberRows(currency: language.currencySymbol,
+                                               arabicPunctuation: language == .ar)
         case .symbols:
             return TypingLayoutBook.symbolRows
         }
@@ -749,6 +753,7 @@ struct TypingKeyboardPanel: View {
         case .ru: return "АБВ"
         case .el: return "ΑΒΓ"
         case .th: return "กขค"
+        case .ar: return "أبجد"
         default: return "ABC"
         }
     }

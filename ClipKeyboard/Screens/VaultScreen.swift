@@ -136,7 +136,7 @@ struct VaultScreen: View {
                     .font(.body.weight(.semibold))
                     .foregroundColor(theme.text)
                 Spacer(minLength: 0)
-                Image(systemName: AppSymbol.chevronRight)
+                Image(systemName: AppSymbol.chevronForward)
                     .font(.caption.weight(.semibold))
                     .foregroundColor(theme.textFaint)
             }

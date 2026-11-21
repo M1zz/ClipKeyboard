@@ -164,7 +164,7 @@ struct MemoAddCoachBar: View {
                     HStack(spacing: 5) {
                         Text(step.nextTitle)
                             .font(.subheadline.weight(.bold))
-                        Image(systemName: AppSymbol.chevronRight)
+                        Image(systemName: AppSymbol.chevronForward)
                             .font(.caption2.weight(.black))
                     }
                     .foregroundColor(.accentColor)

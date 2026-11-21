@@ -77,7 +77,7 @@ class KeyboardViewController: UIInputViewController {
 
         self.view.addSubview(self.nextKeyboardButton)
 
-        self.nextKeyboardButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.nextKeyboardButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
 

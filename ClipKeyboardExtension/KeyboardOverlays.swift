@@ -682,6 +682,8 @@ struct PlaceholderInputView: View {
                 }
                 numericScrollBackspace
             }
+            // 숫자 줄은 아랍어 화면에서도 1 → 9 순서 그대로.
+            .environment(\.layoutDirection, .leftToRight)
 
             // 사전 저장 값 빠른 선택 + 지금 친 값 저장
             HStack(spacing: 8) {

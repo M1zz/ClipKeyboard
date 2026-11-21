@@ -776,7 +776,7 @@ struct ContentInputSection: View {
             .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity, alignment: .leading)
 
-            Image(systemName: AppSymbol.chevronRight)
+            Image(systemName: AppSymbol.chevronForward)
                 .font(.caption.weight(.semibold))
                 .foregroundColor(theme.textFaint)
         }

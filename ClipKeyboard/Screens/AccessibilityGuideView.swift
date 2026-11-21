@@ -136,7 +136,7 @@ struct AccessibilityGuideView: View {
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(testSteps, id: \.self) { step in
                     HStack(alignment: .top, spacing: 10) {
-                        Image(systemName: AppSymbol.chevronRightCircleFill)
+                        Image(systemName: AppSymbol.chevronForwardCircleFill)
                             .font(.body)
                             .foregroundColor(theme.accent)
                             .padding(.top, 2)

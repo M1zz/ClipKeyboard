@@ -40,6 +40,10 @@ final class FreeUseMoments: ObservableObject {
             card = nil
             // 실행 때 저절로 뜨는 창은 하나다(`LaunchSheetGate`). 자리를 못 쥐면 본 것으로
             // 적지 않으므로 다음에 앱을 열 때 다시 온다.
+            #if DEBUG
+            // 스토어 촬영(`-ScreenshotScene`)은 한 기기에서 수백 번 넣어 문턱을 넘긴 채 찍는다. 영수증이 첫 장을 덮었다.
+            if UserDefaults.standard.string(forKey: "ScreenshotScene") != nil { return }
+            #endif
             if presentReceipt, !showsReceipt, LaunchSheetGate.claim("freeUseReceipt") { showsReceipt = true }
         case nil:
             card = nil

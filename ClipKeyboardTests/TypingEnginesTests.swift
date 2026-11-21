@@ -31,9 +31,9 @@ final class TypingEnginesTests: XCTestCase {
 
     // MARK: - 언어표
 
-    /// 23개 언어 모두 판이 있고, 한 줄이 12칸을 넘지 않는다(그보다 많으면 키가 손가락보다 좁다).
+    /// 24개 언어 모두 판이 있고, 한 줄이 12칸을 넘지 않는다(그보다 많으면 키가 손가락보다 좁다).
     func testEveryLanguageHasAUsableLayout() {
-        XCTAssertEqual(TypingLanguage.allCases.count, 23)
+        XCTAssertEqual(TypingLanguage.allCases.count, 24)
         for lang in TypingLanguage.allCases {
             let rows = lang.layout.rows
             XCTAssertFalse(rows.isEmpty, "\(lang) 판이 비었다")

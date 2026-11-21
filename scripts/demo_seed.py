@@ -246,6 +246,16 @@ DATA = {
    ("Vergi no", "1234567890", None, None),
    ("Sabah raporu", "", [("İsim","Ahmet Yılmaz"),("Ekip","Geliştirme"),("Bugün","Sürüm kontrolü")], None),
  ], "isim", ["Ahmet Yılmaz", "Ayşe Demir", "Mehmet Kaya"]),
+ "ar": ("عام", [
+   ("الحساب البنكي", "SA03 8000 0000 6080 1016 7519 محمد العتيبي", None, None),
+   ("بريد العمل", "mohammed@company.sa", None, None),
+   ("الجوال", "050 123 4567", None, None),
+   ("العنوان", "طريق الملك فهد، حي العليا، الرياض 12214", None, None),
+   ("رد على استفسار", "مرحبًا {الاسم}، شكرًا لتواصلك معنا.", None, ["{الاسم}"]),
+   ("خارج المكتب", "أنا خارج المكتب حتى يوم الأحد، وسأرد عليك فور عودتي.", None, None),
+   ("الرقم الضريبي", "300123456700003", None, None),
+   ("تقرير الصباح", "", [("الاسم","محمد العتيبي"),("الفريق","التطوير"),("اليوم","مراجعة الإصدار")], None),
+ ], "الاسم", ["محمد العتيبي", "سارة القحطاني", "خالد الشهري"]),
 }
 cat, rows, ph_name, ph_values = DATA[lang]
 memos = []
@@ -284,6 +294,13 @@ if True:
     d["defaultCategories.seeded.v1"] = True
     # 지난 촬영이 '최근' 탭을 열어 둔 채 끝났으면 다음 촬영이 거기서 시작한다. 단축어 탭으로 되돌린다.
     d["keyboardShowsRecentClips.v1"] = False
+    # 지난 손 시험이 자판(글자 치기)으로 바꿔 둔 채 끝났으면 시연이 자판으로 시작한다. 단축어 판으로 되돌린다.
+    d["keyboardInputMode.v1"] = "snippets"
+    # 갓 지운 기기에서 찍으면 앱이 새 설치로 보고 백지 첫 실행(단순한 화면, '최근' 꺼짐)으로 연다.
+    # 시연은 다 갖춘 기존 사용자의 화면이다.
+    d["blankStart.v1"] = False
+    d["blankStart.graduated.v1"] = True
+    d.pop("keyboardShowRecentClipsTab.v1", None)
     d["placeholder_values_{" + ph_name + "}"] = blob
     plistlib.dump(d, io.open(pref, "wb"))
     print("빈칸 값", ph_name, len(ph_values))
@@ -297,6 +314,12 @@ if True:
             a = {}
         a["snippetsTabStyle.v1"] = "list"
         a["selectedCategoryTab_v1"] = "__basic__"
+        # 새 설치 판정(실행 횟수 0)을 피한다. 백지 첫 실행 화면이 시연을 덮는다
+        a["appLaunchCount"] = max(int(a.get("appLaunchCount", 0) or 0), 30)
+        a["blankStart.v1"] = False
+        a["blankStart.finished.v1"] = True
+        # LeeoKit 의 첫 감사 창("환영해요")은 한 번 뜬다. 갓 지운 기기에서는 첫 장을 덮는다
+        a["leeo.celebration.done"] = sorted(set(a.get("leeo.celebration.done", [])) | {"welcome"})
         plistlib.dump(a, io.open(ap, "wb"))
         print("탭 되돌림 list")
 
@@ -327,6 +350,7 @@ CLIPS = {
  "pl": ["00359007738912345678", "ul. Nowy Świat 15, 00-029 Warszawa", "Widzimy się o 19 przy głównym wejściu", "Kod rezerwacji KX4R92"],
  "sv": ["00370712345678901234", "Kungsgatan 5, 111 43 Stockholm", "Vi ses klockan 19 vid huvudentrén", "Bokningskod KX4R92"],
  "tr": ["1234567890", "Bağdat Cad. No: 5, Kadıköy, İstanbul", "Saat 7'de ana girişte görüşürüz", "Rezervasyon kodu KX4R92"],
+ "ar": ["290123456789", "شارع التحلية، حي الروضة، جدة", "نلتقي الساعة 7 عند المدخل الرئيسي", "رمز الحجز KX4R92"],
 }
 import time
 now = time.time() - 978_307_200  # JSONEncoder 의 기본 날짜는 2001-01-01 기준 초
@@ -366,6 +390,7 @@ REQUESTS = {
  "pl": ["Dzień dobry, tu Anna Nowak. Mam pytanie o zamówienie", "Możesz podesłać numer konta?", "I numer przesyłki, poproszę"],
  "sv": ["Hej, det är Anna Johansson. Jag har en fråga om min beställning", "Kan du skicka dina kontouppgifter?", "Och spårningsnumret, tack"],
  "tr": ["Merhaba, ben Ayşe Demir. Siparişimle ilgili bir sorum var", "Hesap bilgilerinizi gönderebilir misiniz?", "Kargo takip numarasını da rica edeyim"],
+ "ar": ["مرحبًا، معك سارة القحطاني. عندي سؤال عن طلبي", "ممكن ترسل لي بيانات الحساب البنكي؟", "ورقم تتبع الشحنة لو سمحت"],
 }
 if APP:
     import plistlib

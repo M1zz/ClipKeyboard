@@ -46,7 +46,8 @@
       "nl": "Fragment",
       "pl": "Fraza",
       "sv": "Fras",
-      "tr": "İfade"
+      "tr": "İfade",
+      "ar": "عبارة"
     },
     "메모": {
       "en": "Note",
@@ -69,7 +70,8 @@
       "nl": "Notitie",
       "pl": "Notatka",
       "sv": "Anteckning",
-      "tr": "Not"
+      "tr": "Not",
+      "ar": "ملاحظة"
     },
     "보관함": {
       "en": "Inbox",
@@ -92,7 +94,8 @@
       "nl": "Inbox",
       "pl": "Odebrane",
       "sv": "Inkorg",
-      "tr": "Gelen Kutusu"
+      "tr": "Gelen Kutusu",
+      "ar": "الوارد"
     },
     "클립보드": {
       "en": "Clipboard",
@@ -115,7 +118,8 @@
       "nl": "Klembord",
       "pl": "Schowek",
       "sv": "Urklipp",
-      "tr": "Pano"
+      "tr": "Pano",
+      "ar": "الحافظة"
     },
     "콤보": {
       "en": "Combo",
@@ -138,7 +142,8 @@
       "nl": "Combo",
       "pl": "Kombo",
       "sv": "Kombo",
-      "tr": "Kombo"
+      "tr": "Kombo",
+      "ar": "كومبو"
     },
     "템플릿": {
       "en": "Template",
@@ -161,7 +166,8 @@
       "nl": "Sjabloon",
       "pl": "Szablon",
       "sv": "Mall",
-      "tr": "Şablon"
+      "tr": "Şablon",
+      "ar": "قالب"
     },
     "테마": {
       "en": "Theme",
@@ -184,7 +190,8 @@
       "nl": "Thema",
       "pl": "Temat",
       "sv": "Tema",
-      "tr": "Tema"
+      "tr": "Tema",
+      "ar": "موضوع"
     },
     "즐겨찾기": {
       "en": "Favorites",
@@ -207,7 +214,8 @@
       "nl": "Favorieten",
       "pl": "Ulubione",
       "sv": "Favoriter",
-      "tr": "Favoriler"
+      "tr": "Favoriler",
+      "ar": "المفضلة"
     },
     "채우는 칸": {
       "en": "fill-in blank",
@@ -230,7 +238,8 @@
       "nl": "invulveld",
       "pl": "pole do wypełnienia",
       "sv": "ifyllnadsfält",
-      "tr": "doldurulacak alan"
+      "tr": "doldurulacak alan",
+      "ar": "خانة تعبئة"
     },
     "스택": {
       "en": "Stack",
@@ -253,7 +262,8 @@
       "nl": "Stapel",
       "pl": "Stos",
       "sv": "Stapel",
-      "tr": "Yığın"
+      "tr": "Yığın",
+      "ar": "حزمة"
     }
   },
   "_tokens": "본문 안의 {토큰} 은 사용자에게 보이는 예시 글이라 번역한다. 다만 한 언어 안에서는 반드시 같은 말로. 여기 적힌 것이 그 언어의 고정값이다.",
@@ -278,7 +288,8 @@
       "nl": "{prijs}",
       "pl": "{cena}",
       "sv": "{pris}",
-      "tr": "{fiyat}"
+      "tr": "{fiyat}",
+      "ar": "{السعر}"
     },
     "{금액}": {
       "en": "{amount}",
@@ -300,7 +311,8 @@
       "nl": "{bedrag}",
       "pl": "{kwota}",
       "sv": "{belopp}",
-      "tr": "{tutar}"
+      "tr": "{tutar}",
+      "ar": "{المبلغ}"
     },
     "{날짜}": {
       "en": "{date}",
@@ -322,7 +334,8 @@
       "nl": "{datum}",
       "pl": "{data}",
       "sv": "{datum}",
-      "tr": "{tarih}"
+      "tr": "{tarih}",
+      "ar": "{التاريخ}"
     },
     "{메모}": {
       "en": "{memo}",
@@ -344,7 +357,8 @@
       "nl": "{notitie}",
       "pl": "{notatka}",
       "sv": "{anteckning}",
-      "tr": "{not}"
+      "tr": "{not}",
+      "ar": "{ملاحظة}"
     },
     "{수량}": {
       "en": "{quantity}",
@@ -366,7 +380,8 @@
       "nl": "{aantal}",
       "pl": "{ilość}",
       "sv": "{antal}",
-      "tr": "{adet}"
+      "tr": "{adet}",
+      "ar": "{الكمية}"
     },
     "{시간}": {
       "en": "{time}",
@@ -388,7 +403,8 @@
       "nl": "{tijd}",
       "pl": "{godzina}",
       "sv": "{tid}",
-      "tr": "{saat}"
+      "tr": "{saat}",
+      "ar": "{الوقت}"
     },
     "{이름}": {
       "en": "{name}",
@@ -410,7 +426,8 @@
       "nl": "{naam}",
       "pl": "{imię}",
       "sv": "{namn}",
-      "tr": "{isim}"
+      "tr": "{isim}",
+      "ar": "{الاسم}"
     },
     "{전화}": {
       "en": "{phone}",
@@ -432,7 +449,8 @@
       "nl": "{telefoon}",
       "pl": "{telefon}",
       "sv": "{telefon}",
-      "tr": "{telefon}"
+      "tr": "{telefon}",
+      "ar": "{الهاتف}"
     },
     "{주소}": {
       "en": "{address}",
@@ -454,7 +472,8 @@
       "nl": "{adres}",
       "pl": "{adres}",
       "sv": "{adress}",
-      "tr": "{adres}"
+      "tr": "{adres}",
+      "ar": "{العنوان}"
     },
     "{커서}": {
       "en": "{cursor}",
@@ -476,7 +495,8 @@
       "nl": "{cursor}",
       "pl": "{kursor}",
       "sv": "{markör}",
-      "tr": "{imleç}"
+      "tr": "{imleç}",
+      "ar": "{المؤشر}"
     },
     "{클립보드}": {
       "en": "{clipboard}",
@@ -498,7 +518,8 @@
       "nl": "{klembord}",
       "pl": "{schowek}",
       "sv": "{urklipp}",
-      "tr": "{pano}"
+      "tr": "{pano}",
+      "ar": "{الحافظة}"
     },
     "{토큰}": {
       "en": "{token}",
@@ -520,7 +541,8 @@
       "nl": "{variabele}",
       "pl": "{zmienna}",
       "sv": "{variabel}",
-      "tr": "{değişken}"
+      "tr": "{değişken}",
+      "ar": "{الرمز}"
     },
     "{고객명}": {
       "en": "{Customer name}",
@@ -542,7 +564,8 @@
       "nl": "{Klantnaam}",
       "pl": "{Imię klienta}",
       "sv": "{Kundnamn}",
-      "tr": "{Müşteri adı}"
+      "tr": "{Müşteri adı}",
+      "ar": "{اسم العميل}"
     },
     "{송장번호}": {
       "en": "{Tracking number}",
@@ -564,7 +587,8 @@
       "nl": "{Trackingnummer}",
       "pl": "{Numer przesyłki}",
       "sv": "{Spårningsnummer}",
-      "tr": "{Kargo takip no}"
+      "tr": "{Kargo takip no}",
+      "ar": "{رقم التتبع}"
     },
     "{주문번호}": {
       "en": "{Order number}",
@@ -586,7 +610,8 @@
       "nl": "{Bestelnummer}",
       "pl": "{Numer zamówienia}",
       "sv": "{Ordernummer}",
-      "tr": "{Sipariş no}"
+      "tr": "{Sipariş no}",
+      "ar": "{رقم الطلب}"
     },
     "{상품명}": {
       "en": "{Product name}",
@@ -608,7 +633,8 @@
       "nl": "{Productnaam}",
       "pl": "{Nazwa produktu}",
       "sv": "{Produktnamn}",
-      "tr": "{Ürün adı}"
+      "tr": "{Ürün adı}",
+      "ar": "{اسم المنتج}"
     }
   },
   "_allowSourceScript": "번역문에 한글이 남아도 되는 예외(부분 문자열). scripts/check_localization.py 의 것과 같은 뜻이다.",

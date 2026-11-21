@@ -4,6 +4,12 @@
     "Add a quick note to ${applicationName}" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أضف ملاحظة سريعة إلى ${applicationName}"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -157,6 +163,12 @@
     "Capture clipboard in ${applicationName}" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "احفظ الحافظة في ${applicationName}"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -309,6 +321,12 @@
     "Copy ${memo} from ${applicationName}" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انسخ ${memo} من ${applicationName}"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -462,6 +480,12 @@
     "Copy ${memo} with ${applicationName}" : {
       "extractionState" : "stale",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انسخ ${memo} باستخدام ${applicationName}"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -605,6 +629,12 @@
     "Copy a snippet from ${applicationName}" : {
       "extractionState" : "stale",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انسخ عبارة من ${applicationName}"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -748,6 +778,12 @@
     "New quick note in ${applicationName}" : {
       "extractionState" : "stale",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ملاحظة سريعة جديدة في ${applicationName}"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -891,6 +927,12 @@
     "Open ${applicationName} inbox" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افتح الوارد في ${applicationName}"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1042,6 +1084,12 @@
     "Save to ${applicationName} inbox" : {
       "extractionState" : "stale",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "احفظ في الوارد في ${applicationName}"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1185,6 +1233,12 @@
     "Save what I copied to ${applicationName}" : {
       "extractionState" : "stale",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "احفظ ما نسخته في ${applicationName}"
+          }
+        },
         "cs" : {
           "stringUnit" : {
             "state" : "translated",

@@ -671,7 +671,7 @@ struct UsageGuideView: View {
                             .foregroundColor(theme.textFaint)
                     }
                     Spacer()
-                    Image(systemName: AppSymbol.chevronRight)
+                    Image(systemName: AppSymbol.chevronForward)
                         .font(.body.weight(.semibold))
                         .foregroundColor(theme.textFaint)
                         .accessibilityHidden(true)

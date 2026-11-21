@@ -1143,7 +1143,7 @@ struct KeyboardView: View {
                 showsNumberPad = false
             }
         } label: {
-            Image(systemName: AppSymbol.chevronRight)
+            Image(systemName: AppSymbol.chevronForward)
                 .font(.system(size: controlKeyIconSize, weight: .semibold))
                 .foregroundColor(theme.textMuted)
                 .frame(width: controlKeyWidth(28), height: controlKeyHeight)
@@ -1640,7 +1640,7 @@ struct KeyboardView: View {
                     Spacer(minLength: 4)
                     Text(NSLocalizedString("켜는 법", comment: "Keyboard banner: how to turn on Full Access"))
                         .font(.caption2.weight(.semibold))
-                    Image(systemName: AppSymbol.chevronRight)
+                    Image(systemName: AppSymbol.chevronForward)
                         .font(.caption2)
                 }
             }
@@ -1679,7 +1679,7 @@ struct KeyboardView: View {
                 Text(upgradeBannerText)
                     .font(.caption2.weight(.medium))
                 Spacer()
-                Image(systemName: AppSymbol.chevronRight)
+                Image(systemName: AppSymbol.chevronForward)
                     .font(.caption2)
             }
             .foregroundColor(.white)
@@ -2745,7 +2745,7 @@ struct KeyboardView: View {
                 advanceStackValue(memo: memo, count: values.count)
             } label: {
                 VStack(spacing: 1) {
-                    Image(systemName: "arrow.right")
+                    Image(systemName: "arrow.forward")
                         .font(.system(size: buttonFontSize * 0.9, weight: .semibold))
                     Text("\(idx + 1)/\(values.count)")
                         .font(.system(size: buttonFontSize * 0.6, weight: .medium))
@@ -3690,6 +3690,8 @@ struct KeyboardView: View {
                         pinOverlayBackspaceKey
                     }
                 }
+                // 숫자 판은 아랍어 화면에서도 1 2 3 순서 그대로(iOS 암호 판과 같다).
+                .environment(\.layoutDirection, .leftToRight)
                 .padding(.horizontal, 16)
                 .padding(.bottom, 14)
             }

@@ -662,6 +662,8 @@ struct SecurePINSetupView: View {
                         .accessibilityLabel(NSLocalizedString("지우기", comment: "Backspace button"))
                     }
                 }
+                // 숫자 판은 아랍어 화면에서도 1 2 3 순서 그대로(iOS 암호 판과 같다).
+                .environment(\.layoutDirection, .leftToRight)
                 Spacer()
             }
             .navigationTitle(NSLocalizedString("보안 PIN 설정", comment: "Secure PIN setup nav title"))
