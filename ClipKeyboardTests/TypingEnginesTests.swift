@@ -84,14 +84,14 @@ final class TypingEnginesTests: XCTestCase {
         XCTAssertEqual(TypingLanguage.deviceLanguages(preferred: ["ko-KR", "ja-JP"]), [.ko, .ja, .en])
         XCTAssertEqual(TypingLanguage.deviceLanguages(preferred: ["zh-Hant-TW"]), [.zhHant, .en])
         XCTAssertEqual(TypingLanguage.deviceLanguages(preferred: ["pt-PT", "nb-NO"]), [.ptBR, .nb, .en])
-        XCTAssertEqual(TypingLanguage.deviceLanguages(preferred: ["ar-SA"]), [.en])
+        XCTAssertEqual(TypingLanguage.deviceLanguages(preferred: ["ar-SA"]), [.ar, .en])
     }
 
     /// 처음 켤 언어는 그 사람의 언어 + 영어. 영어는 늘 들어간다.
     func testFirstLanguagesAreUserLanguagesPlusEnglish() {
         XCTAssertEqual(TypingLanguage.defaults(userLanguages: ["ko-KR"]), [.ko, .en])
         XCTAssertEqual(TypingLanguage.defaults(userLanguages: ["en-US", "ko-KR"]), [.en, .ko])
-        XCTAssertEqual(TypingLanguage.defaults(userLanguages: ["ar-SA"]), [.en])
+        XCTAssertEqual(TypingLanguage.defaults(userLanguages: ["ar-SA"]), [.ar, .en])
         XCTAssertEqual(TypingLanguage.defaults(userLanguages: []), [.en])
     }
 

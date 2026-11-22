@@ -20,7 +20,7 @@ final class ForeignerTraceTests: XCTestCase {
     func test_다른_언어_사용자에게_한국_흔적이_보이지_않는다() {
         let hangul = /[가-힣]/
         let languages = AppLanguage.available.filter { $0 != .system && $0 != .ko }
-        XCTAssertEqual(languages.count, 22)
+        XCTAssertEqual(languages.count, 23)
 
         // 언어 목록 맨 앞(기기 설정 다음)에 한국어가 서지 않는다.
         XCTAssertNotEqual(AppLanguage.available[1], .ko)
