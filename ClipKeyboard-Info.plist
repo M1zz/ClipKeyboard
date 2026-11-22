@@ -18,6 +18,14 @@
 				<string>clipkeyboard</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.ysoup.tokenmemo</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.ysoup.tokenmemo</string>
+			</array>
+		</dict>
 	</array>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>

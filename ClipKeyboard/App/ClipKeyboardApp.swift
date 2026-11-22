@@ -1330,6 +1330,8 @@ struct ClipKeyboardApp: App {
                 // 개발자가 보낸 의견에 답장하면, 앱이 앞으로 올 때 답장을 시트로 보여 준다 (LeeoKit).
                 .leeoFeedbackReplyNotice(ClipKeyboardSpec.self)
                 // 유료가 되면 콘페티, 모든 사용자가 한 번은 감사를 받는다 (LeeoKit 3.46). 판정은 LeeoStore 가 한다.
+                // App Store 이벤트 링크(<번들 ID>://paywall)로 열리면 요금제를 띄운다 (LeeoKit).
+                .leeoPaywallLink { PaywallView().environmentObject(storeManager) }
                 .leeoCelebrations(appName: ClipKeyboardSpec.displayName)
                 .onReceive(NotificationCenter.default.publisher(for: .appLanguageChanged)) { _ in
                     languageRefreshToken += 1
