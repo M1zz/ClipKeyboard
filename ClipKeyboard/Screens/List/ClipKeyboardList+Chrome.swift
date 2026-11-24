@@ -173,7 +173,9 @@ extension ClipKeyboardList {
                 showNewCategoryForMemoAlert = true
             }
         },
-        onReorder: blank ? nil : {
+        // 순서 바꾸기는 단계와 상관없이 늘 연다. 길게 누른 메뉴 안이라 화면을 어지럽히지 않고,
+        // 숨겼더니 "왜 순서를 못 바꾸나" 는 피드백이 왔다.
+        onReorder: {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                 viewModel.enterReorderMode()
             }

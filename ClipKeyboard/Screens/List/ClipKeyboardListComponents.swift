@@ -490,7 +490,7 @@ struct MemoActionSheet: View {
                         onStack()
                     }
                 }
-                if let onReorder, userState.isVisible(.searchAndReorder) {
+                if let onReorder {
                     Divider().padding(.leading, 56)
                     actionRow(
                         label: NSLocalizedString("순서 바꾸기", comment: "Action: reorder memos"),
