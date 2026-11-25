@@ -38,7 +38,16 @@ final class ClipboardHistoryStore {
         guard let data = try unread.read(fileURL, as: StorageFile.smartClipboardHistory, options: .mappedIfSafe) else {
             return try migrateFromLegacy()
         }
-        let history = (try? JSONDecoder().decode([SmartClipboardHistory].self, from: data)) ?? []
+        guard let history = try? JSONDecoder().decode([SmartClipboardHistory].self, from: data) else {
+            // 풀지 못한 파일. 빈 목록으로 시작하되, 다음 담기가 덮기 전에 사본을 하나 남긴다
+            // (`AppGroupListFile` 과 같은 규칙. 사본이 이미 있으면 그대로 둔다).
+            let copy = fileURL.appendingPathExtension("unreadable")
+            if !FileManager.default.fileExists(atPath: copy.path) {
+                try? FileManager.default.copyItem(at: fileURL, to: copy)
+            }
+            AppLog.error(.store, "🚨 [ClipboardHistoryStore.load] 복사 기록을 풀지 못해 사본(\(copy.lastPathComponent))을 남기고 비운 채 시작한다")
+            return []
+        }
         return history.filter { $0.contentType != .image }
     }
 

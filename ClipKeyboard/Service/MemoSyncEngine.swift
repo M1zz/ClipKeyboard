@@ -285,7 +285,14 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     /// 이 기기의 단축어 전부(샘플 포함). 읽지 못하면 nil.
     private func allLocalMemos() -> [Memo]? {
         do {
-            return try MemoStore.shared.load(type: .memo)
+            let memos = try MemoStore.shared.load(type: .memo)
+            // 깨진 파일은 던지지 않고 빈 목록으로 온다(격리 사본을 남기고). 그것도 못 읽은 것이다.
+            // 빈 목록으로 받으면 모든 단축어의 삭제가 올라가고, 받은 것만 남긴 목록이 그 파일을 덮는다.
+            if memos.isEmpty, MemoStore.storedFileHasContent(type: .memo) {
+                log.error("local memos file has content but decoded empty, skipping this sync step")
+                return nil
+            }
+            return memos
         } catch {
             log.error("local memos unreadable, skipping this sync step: \(error.localizedDescription)")
             return nil
@@ -1228,20 +1235,22 @@ final class MemoSyncEngine: NSObject, CKSyncEngineDelegate {
     private func loadShadow() -> [UUID: String] {
         guard let data = defaults?.data(forKey: DefaultsKey.syncShadow),
               let raw = try? JSONDecoder().decode([String: String].self, from: data) else { return [:] }
-        return Dictionary(uniqueKeysWithValues: raw.compactMap { k, v in UUID(uuidString: k).map { ($0, v) } })
+        // ⚠️ `uniqueKeysWithValues` 를 쓰지 않는다. 대소문자만 다른 두 열쇠는 같은 UUID 가 되어 그 자리에서 죽는다.
+        return Dictionary(raw.compactMap { k, v in UUID(uuidString: k).map { ($0, v) } }, uniquingKeysWith: { first, _ in first })
     }
     private func saveShadow(_ shadow: [UUID: String]) {
-        let raw = Dictionary(uniqueKeysWithValues: shadow.map { ($0.key.uuidString, $0.value) })
+        let raw = Dictionary(shadow.map { ($0.key.uuidString, $0.value) }, uniquingKeysWith: { first, _ in first })
         defaults?.set(try? JSONEncoder().encode(raw), forKey: DefaultsKey.syncShadow)
     }
 
     private func loadTombstones() -> [UUID: Date] {
         guard let data = defaults?.data(forKey: DefaultsKey.syncTombstones),
               let raw = try? JSONDecoder().decode([String: Date].self, from: data) else { return [:] }
-        return Dictionary(uniqueKeysWithValues: raw.compactMap { k, v in UUID(uuidString: k).map { ($0, v) } })
+        // ⚠️ `uniqueKeysWithValues` 를 쓰지 않는다. 대소문자만 다른 두 열쇠는 같은 UUID 가 되어 그 자리에서 죽는다.
+        return Dictionary(raw.compactMap { k, v in UUID(uuidString: k).map { ($0, v) } }, uniquingKeysWith: { first, _ in first })
     }
     private func saveTombstones(_ tombstones: [UUID: Date]) {
-        let raw = Dictionary(uniqueKeysWithValues: tombstones.map { ($0.key.uuidString, $0.value) })
+        let raw = Dictionary(tombstones.map { ($0.key.uuidString, $0.value) }, uniquingKeysWith: { first, _ in first })
         defaults?.set(try? JSONEncoder().encode(raw), forKey: DefaultsKey.syncTombstones)
     }
 }

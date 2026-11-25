@@ -53,6 +53,9 @@ enum DataWipeService {
         CategoryItemStore.itemsKey,
         CategoryItemStore.shadowKey,
         CategoryItemStore.migratedKey,
+        // 단축어 동기화 섀도("올린 것" 의 기록). 카테고리 섀도와 같은 이유다: 남기면 다음 동기화가
+        // 빈 목록을 "전부 지웠다" 로 읽어 삭제를 iCloud 로 올리고, **다른 기기의 단축어까지** 지운다.
+        DefaultsKey.syncShadow,
         "memoCategoryAssignments_v1",  // 카테고리 사이드카 - 남으면 삭제 후 되살아난다
         DefaultsKey.usageRhythmLog,          // 단축어를 쓴 시각
         DefaultsKey.keyboardSessionLedger,

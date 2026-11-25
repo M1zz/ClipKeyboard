@@ -596,10 +596,14 @@ struct Memo: Identifiable, Codable {
         }
         self.stackInterval = try c.decodeIfPresent(TimeInterval.self, forKey: .comboInterval) ?? 2.0
         self.childMemoIds = try c.decodeIfPresent([UUID].self, forKey: .childMemoIds) ?? []
-        self.autoDetectedType = try c.decodeIfPresent(ClipboardItemType.self, forKey: .autoDetectedType)
+        // ⚠️ 종류 두 칸은 **모르는 값이어도 던지지 않는다.** 던지면 `[Memo]` 전체가 실패한다.
+        //    종류 이름은 실제로 지워진 적이 있다("주민등록번호" · "사업자등록번호", 2026-02). 그 값이 남은
+        //    단축어 하나 때문에 목록 전체가 옛 형식 폴백으로 떨어지고, 옛 백업은 복원이 막혔다.
+        //    복사 기록(`SmartClipboardHistory.init(from:)`)이 5.1.8 부터 읽는 방식과 같다.
+        self.autoDetectedType = (try? c.decodeIfPresent(ClipboardItemType.self, forKey: .autoDetectedType)) ?? nil
         self.imageFileName = try c.decodeIfPresent(String.self, forKey: .imageFileName)
         self.imageFileNames = try c.decodeIfPresent([String].self, forKey: .imageFileNames) ?? []
-        self.contentType = try c.decodeIfPresent(ClipboardContentType.self, forKey: .contentType) ?? .text
+        self.contentType = (try? c.decodeIfPresent(ClipboardContentType.self, forKey: .contentType)) ?? .text
         self.hint = try c.decodeIfPresent(String.self, forKey: .hint)
         self.hintShownOnKeyboard = try c.decodeIfPresent(Bool.self, forKey: .hintShownOnKeyboard) ?? true
         self.consumesOnUse = try c.decodeIfPresent(Bool.self, forKey: .consumesOnUse) ?? false

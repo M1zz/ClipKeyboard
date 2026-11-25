@@ -242,7 +242,34 @@ class MemoStore: ObservableObject {
         if type == .memo, change == .content {
             Self.writeCategorySidecar(memos)
         }
+        if type == .memo { Self.markExternalChangeIfExtension() }
         Self.postDataChanged(change)
+    }
+
+    /// 익스텐션(키보드 등)에서 돌고 있는가. 번들이 `.appex` 다.
+    static let runsInExtension = Bundle.main.bundleURL.pathExtension == "appex"
+
+    /// 익스텐션이 `memos.data` 를 썼다고 앱에 알린다. 앱은 앞으로 올 때 이 표식을 보고 다시 읽는다
+    /// (`ClipKeyboardListViewModel.reloadIfChangedOutsideApp`).
+    ///
+    /// ⚠️ 왜 필요한가: `.memoDataChanged` 는 프로세스를 넘지 못한다. 키보드에서 단축어를 넣으면
+    ///    쓴 횟수가(쓰면 지우기 단축어는 **본문이**) 파일에서 바뀌는데, 앱의 목록은 낡은 사본을 든 채
+    ///    다음 편집 때 그것을 통째로 저장했다. 지워진 줄이 되살아나 같은 코드가 한 번 더 나간다.
+    ///    표식을 세우는 곳은 공유 익스텐션과 키보드의 순서 바꾸기뿐이었다.
+    static func markExternalChangeIfExtension(isExtension: Bool = runsInExtension,
+                                              defaults: UserDefaults? = AppGroup.defaults) {
+        guard isExtension else { return }
+        defaults?.set(Date().timeIntervalSince1970, forKey: DefaultsKey.memosExternalChangeAt)
+    }
+
+    /// 저장 파일에 **내용이 있는가**(빈 목록 `[]` 보다 큰가). 파일이 없으면 false.
+    ///
+    /// 깨진 파일은 `load` 가 빈 목록을 돌려준다(격리 사본을 남기고). 그 빈 목록을 "전부 지웠다" 로
+    /// 읽으면 안 되는 곳(동기화)이 이걸로 가른다.
+    static func storedFileHasContent(type: MemoType) -> Bool {
+        guard let url = try? fileURL(type: type),
+              let size = (try? FileManager.default.attributesOfItem(atPath: url.path))?[.size] as? Int else { return false }
+        return size > 2
     }
 
     /// 사라진 단축어에 대해 배운 것(커서 자리 · 편집 습관)을 지운다.
@@ -270,9 +297,15 @@ class MemoStore: ObservableObject {
         // ⚠️ 손상 감지: 예전에는 디코딩이 실패해도 빈 배열을 돌려줘서 "메모가 전부 사라진 것처럼"
         //    보였다. 더 나쁜 건 그 뒤 아무 저장이나 일어나면 빈 배열이 파일에 덮여 **진짜로**
         //    사라진다는 점이다. 실패를 구분해서 원본을 격리 보존하고 화면에 알린다.
-        guard var memos = decodeMemosFromData(data) else {
+        guard let decoded = decodeMemos(data) else {
             Self.quarantineCorruptFile(at: fileURL, type: type)
             return []
+        }
+        var memos = decoded.memos
+        if decoded.salvaged {
+            // 못 푼 칸은 제목 · 본문만 남았다. 다음 저장이 그 모습을 굳히기 전에 원본을 옆에 둔다.
+            // 목록은 그대로 서므로 복구 안내(플래그)는 세우지 않는다.
+            Self.quarantineCorruptFile(at: fileURL, type: type, raisesFlag: false)
         }
         if type == .memo {
             if Self.restoreCategoriesFromSidecar(&memos) {
@@ -298,13 +331,43 @@ class MemoStore: ObservableObject {
     /// 디코딩 결과. **nil = 손상**(빈 배열과 구분해야 한다
     /// 메모가 0개인 정상 상태와 파일이 깨진 상태는 완전히 다른 사건이다).
     private func decodeMemosFromData(_ data: Data) -> [Memo]? {
+        decodeMemos(data)?.memos
+    }
+
+    /// `salvaged` 가 참이면 일부 칸을 제목 · 본문만 건진 것이다.
+    private func decodeMemos(_ data: Data) -> (memos: [Memo], salvaged: Bool)? {
         if let memos = try? JSONDecoder().decode([Memo].self, from: data) {
-            return memos
+            return (memos, false)
         }
-        if let oldMemos = try? JSONDecoder().decode([OldMemo].self, from: data) {
-            return oldMemos.map { Memo(from: $0) }
+        // 한 칸이 어긋나 통째로 실패했다. **칸마다 따로** 푼다.
+        //
+        // ⚠️ 예전에는 여기서 목록 전체를 옛 형식(`OldMemo`: 제목 · 본문뿐)으로 다시 읽었다. 요즘 파일도
+        //    그 네 칸은 갖고 있어서 늘 성공했고, 그러면 **멀쩡한 단축어까지 전부** 즐겨찾기 · 잠금 표시 ·
+        //    스택 칸 · 그림 · 쓴 횟수를 잃었다. 손상으로 잡히지도 않아 격리 사본도 안내도 없이,
+        //    다음 저장이 그 모습을 파일에 굳혔다. 이제 못 푼 칸만 제목 · 본문으로 건진다.
+        if let salvaged = try? JSONDecoder().decode([SalvagedMemo].self, from: data) {
+            let stripped = salvaged.filter(\.stripped).count
+            AppLog.error(.store, "🚨 [MemoStore.decode] 단축어 \(stripped)개를 온전히 풀지 못해 제목 · 본문만 건졌다(전체 \(salvaged.count)개)")
+            return (salvaged.map(\.memo), stripped > 0)
         }
         return nil
+    }
+
+    /// 단축어 한 칸. 온전히 못 풀면 옛 형식(제목 · 본문)으로라도 건진다. 그것도 안 되면 던진다.
+    private struct SalvagedMemo: Decodable {
+        let memo: Memo
+        /// 제목 · 본문만 건졌는가.
+        let stripped: Bool
+
+        init(from decoder: Decoder) throws {
+            if let memo = try? Memo(from: decoder) {
+                self.memo = memo
+                self.stripped = false
+            } else {
+                self.memo = Memo(from: try OldMemo(from: decoder))
+                self.stripped = true
+            }
+        }
     }
 
     // MARK: - 손상 격리
@@ -316,14 +379,17 @@ class MemoStore: ObservableObject {
 
     /// 깨진 파일을 **지우지 않고** 사본으로 격리한 뒤 플래그를 세운다.
     /// ⚠️ 원본을 삭제하거나 덮어쓰지 않는다 - 사용자 데이터를 되살릴 마지막 단서다.
-    private static func quarantineCorruptFile(at url: URL, type: MemoType) {
+    private static func quarantineCorruptFile(at url: URL, type: MemoType, raisesFlag: Bool = true) {
         let stamp = Int(Date().timeIntervalSince1970)
+        let existing = Self.quarantinedCopyName(of: url)
         let quarantined = url.deletingLastPathComponent()
-            .appendingPathComponent("\(url.lastPathComponent).corrupt-\(stamp)")
+            .appendingPathComponent(existing ?? "\(url.lastPathComponent).corrupt-\(stamp)")
 
         do {
             // 복사(이동 아님) - 원본을 그대로 두어야 다른 경로에서 복구를 시도할 수 있다.
-            if !FileManager.default.fileExists(atPath: quarantined.path) {
+            // 같은 파일의 사본이 이미 있으면 또 만들지 않는다. 깨진 파일은 캐시에 안 들어가 읽을 때마다
+            // 여기로 오는데, 이름에 시각이 들어가 그때마다 한 벌씩 늘었다.
+            if existing == nil, !FileManager.default.fileExists(atPath: quarantined.path) {
                 try FileManager.default.copyItem(at: url, to: quarantined)
             }
             AppLog.error(.store, "🚨 [MemoStore.quarantine] \(url.lastPathComponent) 디코딩 실패 → \(quarantined.lastPathComponent) 로 사본 보관")
@@ -331,9 +397,31 @@ class MemoStore: ObservableObject {
             AppLog.error(.store, "❌ [MemoStore.quarantine] 사본 보관 실패: \(error.localizedDescription)")
         }
 
+        guard raisesFlag else { return }
         let defaults = AppGroup.defaults
         defaults?.set(Date().timeIntervalSince1970, forKey: corruptionFlagKey)
         defaults?.set(quarantined.lastPathComponent, forKey: corruptionFileKey)
+    }
+
+    /// 이 파일과 **내용이 같은** 격리 사본이 이미 있으면 그 이름.
+    ///
+    /// 크기로 먼저 거르고, 크기가 같은 것만 내용을 견준다. 크기만 보면 다르게 깨진 같은 크기의 파일을
+    /// "이미 보관했다" 로 읽어 그 원본을 사본 없이 놓친다.
+    static func quarantinedCopyName(of url: URL) -> String? {
+        let fm = FileManager.default
+        let folder = url.deletingLastPathComponent()
+        let prefix = "\(url.lastPathComponent).corrupt-"
+        guard let size = (try? fm.attributesOfItem(atPath: url.path))?[.size] as? Int,
+              let names = try? fm.contentsOfDirectory(atPath: folder.path) else { return nil }
+        var original: Data?
+        return names.sorted().first { name in
+            guard name.hasPrefix(prefix) else { return false }
+            let copy = folder.appendingPathComponent(name)
+            guard ((try? fm.attributesOfItem(atPath: copy.path))?[.size] as? Int) == size else { return false }
+            if original == nil { original = try? Data(contentsOf: url, options: .mappedIfSafe) }
+            guard let original, let copied = try? Data(contentsOf: copy, options: .mappedIfSafe) else { return false }
+            return copied == original
+        }
     }
 
     /// 복구 안내를 띄워야 하는가.

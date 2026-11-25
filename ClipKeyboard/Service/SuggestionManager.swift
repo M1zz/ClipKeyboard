@@ -31,7 +31,8 @@ final class SuggestionManager: ObservableObject {
         let fromUsageGuide = usageCategories.flatMap { category in
             category.scenarios.map { scenario in
                 SuggestionTemplate(
-                    stableID: abs(scenario.exampleKey.hashValue),
+                    // `abs` 는 `Int.min` 에서 넘쳐 죽는다. 크기를 `Int` 범위 안으로 접는다.
+                    stableID: Int(scenario.exampleKey.hashValue.magnitude % UInt(Int.max)),
                     emoji: category.emoji,
                     title: scenario.title,
                     content: scenario.example,

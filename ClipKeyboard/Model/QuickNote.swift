@@ -78,7 +78,8 @@ struct QuickNote: Identifiable, Codable {
         self.id = try c.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
         self.text = try c.decodeIfPresent(String.self, forKey: .text) ?? ""
         self.imageFileNames = try c.decodeIfPresent([String].self, forKey: .imageFileNames) ?? []
-        self.contentType = try c.decodeIfPresent(ClipboardContentType.self, forKey: .contentType) ?? .text
+        // 모르는 종류 값이어도 던지지 않는다. 던지면 보관함 `[QuickNote]` 전체가 풀리지 않는다(`Memo` 와 같은 규칙).
+        self.contentType = (try? c.decodeIfPresent(ClipboardContentType.self, forKey: .contentType)) ?? .text
         if let epoch = try? c.decodeIfPresent(Double.self, forKey: .createdAt) {
             self.createdAt = Date(timeIntervalSince1970: epoch)
         } else if let date = try? c.decodeIfPresent(Date.self, forKey: .createdAt) {

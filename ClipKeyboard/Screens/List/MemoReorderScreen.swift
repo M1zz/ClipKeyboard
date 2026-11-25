@@ -135,7 +135,8 @@ struct MemoReorderScreen<Model: MemoReorderModel>: View {
         let dragActive = draggingMemo != nil
         // 흔들림 위상은 index가 아닌 id 기반 고정값 - 재배치로 index가 바뀔 때마다
         // 애니메이션이 리셋되어 깜빡이던 문제 방지.
-        let phase = Double(abs(memo.id.hashValue) % 6) * 0.045
+        // `abs` 는 `Int.min` 에서 넘쳐 죽는다. 크기(`magnitude`)는 넘치지 않는다.
+        let phase = Double(memo.id.hashValue.magnitude % 6) * 0.045
         return style.surface(for: memo, lightweight: true)
             // 드래그 중인 카드의 원위치는 완전히 숨기지 않고 흐릿하게만 - 드롭이 시스템에서
             // 취소돼 콜백이 안 와도 카드가 "사라진" 채 남지 않는다.

@@ -137,6 +137,10 @@ enum QuickShortcutSave {
         if let data = try? Data(contentsOf: inboxURL),
            let decoded = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
             notes = decoded
+        } else if FileManager.default.fileExists(atPath: inboxURL.path) {
+            // ⚠️ 읽지 못한 보관함을 덮어쓰면 담아 둔 것이 한 줄만 남는다(위 `memos.data` 와 같은 막이).
+            saveLog.error("📤 [QuickSave] quicknotes.data 를 읽지 못함. 덮어쓰지 않는다")
+            return .failed
         }
 
         let id = UUID().uuidString

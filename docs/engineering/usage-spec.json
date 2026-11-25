@@ -76,7 +76,8 @@
     "pro_nudge_shown": "Pro 권유를 봄",
     "pro_nudge_tapped": "Pro 권유를 누름",
     "time_saved_milestone": "아낀 시간 이정표에 닿음",
-    "launch_incomplete": "직전 실행이 끝까지 못 감"
+    "launch_incomplete": "직전 실행이 끝까지 못 감",
+    "keyboard_idle_exit": "키보드가 보이지 않은 채 정리됨(죽은 것 아님)"
   },
 
   "tileGroups": [

@@ -145,6 +145,13 @@ enum DefaultsKey {
     ///    소급해서 복원하려고 날짜를 따로 남긴다. 자세한 건 `KeyboardDayLedger`.
     static let kbBeaconDayCounts = "kb.beacon.dayCounts"
     static let keyboardExtensionDidLoad = "keyboard_extension_did_load"
+    /// 키보드가 뜨는 길의 어디까지 갔는가(App Group, `KeyboardLaunchStage` rawValue).
+    /// 끝까지 못 뜬 실행이 **어디서** 멈췄는지 다음 실행이 읽는다(`KeyboardLaunchTrail`).
+    static let keyboardLaunchStage = "keyboardLaunchStage.v1"
+    /// 가장 최근에 끝까지 못 뜬 실행이 멈춘 단계. 세이프 모드로 열지 정할 때 본다.
+    static let keyboardLastIncompleteStage = "keyboardLastIncompleteStage.v1"
+    /// 아직 허브로 안 보낸 "끝까지 못 뜬 실행" 의 단계들(App Group, [String]). 앱이 꺼내 보낸다.
+    static let keyboardIncompleteStages = "keyboardIncompleteStages.v1"
     static let keyboardKoreanEnabled = "keyboardKoreanEnabled"
     /// 생활 레이어 프리셋(LivingSkin rawValue) - 카드 위에 사는 것. 값이 없으면 `.none`.
     /// ⚠️ 앱 전용이다. 키보드 익스텐션은 메모리 상한 때문에 이 레이어를 그리지 않는다.

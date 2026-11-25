@@ -90,6 +90,16 @@ class KeyboardViewController: UIInputViewController {
     private var hostingController: UIHostingController<KeyboardView>?
     /// 연달아 끝까지 못 뜨면 다음부터 최소 화면으로 연다(`KeyboardCrashGuard`).
     private let crashGuard = KeyboardCrashGuard.make()
+    /// 이 판이 뜨는 길의 어디까지 왔는가(`KeyboardLaunchTrail`). 앞으로만 간다.
+    private var launchStage: KeyboardLaunchStage = .load
+
+    /// 단계를 앞으로 옮기고 적는다. 이미 지난 단계면 아무것도 쓰지 않는다(레이아웃마다 불린다).
+    private func advanceLaunchStage(to stage: KeyboardLaunchStage) {
+        let order: [KeyboardLaunchStage] = [.load, .idle, .appearing, .shown]
+        guard let now = order.firstIndex(of: launchStage), let next = order.firstIndex(of: stage), next > now else { return }
+        launchStage = stage
+        KeyboardLaunchTrail.mark(stage, in: AppGroup.defaults)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,11 +128,14 @@ class KeyboardViewController: UIInputViewController {
         TypingPrefs.followSettingLanguage()
 
         // ⚠️ 무거운 준비(단축어 읽기 · SwiftUI 판)보다 **먼저** 묻는다. 죽는 자리가 그 안이다.
-        if crashGuard.beginLaunch() {
+        // 직전 실행이 못 떴으면 **어디서** 멈췄는지도 함께 적는다. 보이지도 않은 채 정리된 실행은
+        // 죽은 것으로 치지 않는다(`KeyboardLaunchTrail.opensSafeMode`).
+        if KeyboardLaunchTrail.begin(crashGuard, defaults: AppGroup.defaults) {
             print("🛟 [KeyboardViewController] 직전 실행들이 끝까지 못 떠서 최소 화면으로 연다")
             setupSystemBackdrop()
             presentSafeModeKeyboard()
             AppGroup.defaults?.set(true, forKey: DefaultsKey.keyboardExtensionDidLoad)
+            advanceLaunchStage(to: .idle)
             return
         }
 
@@ -134,6 +147,8 @@ class KeyboardViewController: UIInputViewController {
         AppGroup.defaults?
             .set(true, forKey: DefaultsKey.keyboardExtensionDidLoad)
 
+        // 여기까지 왔으면 읽기 · 판 만들기는 무사히 끝났다. 이 뒤로는 보이라는 말이 올 때까지 우리 코드가 돌지 않는다.
+        advanceLaunchStage(to: .idle)
         print("✅ viewDidLoad 완료, fullscreen SwiftUI keyboard")
     }
 
@@ -671,7 +686,9 @@ class KeyboardViewController: UIInputViewController {
         // 이 UIKit 버튼은 SwiftUI 호스팅 뷰에 완전히 가려 어차피 보이지 않는다.
         // 다음 키보드 전환은 KeyboardView의 지구본 버튼(categoryTabRow)이 담당한다.
         // 버튼 자체는 `handleInputModeList` 타깃 때문에 남겨 두고 숨기기만 한다.
-        self.nextKeyboardButton.isHidden = true
+        self.nextKeyboardButton?.isHidden = true
+        // 첫 레이아웃이 곧 첫 그림이다. `viewWillAppear` 보다 먼저 올 수도 있어 여기서도 적는다.
+        advanceLaunchStage(to: .appearing)
         super.viewWillLayoutSubviews()
     }
 
@@ -683,6 +700,7 @@ class KeyboardViewController: UIInputViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        advanceLaunchStage(to: .appearing)
         // iOS "전체 접근 허용" 상태를 익스텐션 전역에 반영.
         // 여기서 갱신하는 이유: 사용자가 설정에서 토글하면 익스텐션이 재시작되므로
         // 키보드가 뜰 때마다 읽으면 항상 최신이다.
@@ -705,6 +723,7 @@ class KeyboardViewController: UIInputViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        advanceLaunchStage(to: .shown)
         // ⚠️ 여기서 `view.layoutIfNeeded()` 를 부르지 않는다. 등장 애니메이션이 **끝난 뒤**라,
         //    이 시점의 레이아웃 변화는 사용자 눈에 한 번 더 움찔하는 것으로 보인다.
         //    높이는 `viewDidLoad` 에서 이미 옳게 세워지고(999 우선순위), 회전은
@@ -762,7 +781,9 @@ class KeyboardViewController: UIInputViewController {
         } else {
             textColor = UIColor.black
         }
-        self.nextKeyboardButton.setTitleColor(textColor, for: [])
+        // ⚠️ 옵셔널로 부른다. 이 버튼은 `viewDidLoad` 에서 생기는 암시적 언래핑 값인데, 글이 바뀌었다는
+        //    알림은 뷰를 만들기 전에도 올 수 있다. 그때 그냥 부르면 nil 을 풀다 죽는다.
+        self.nextKeyboardButton?.setTitleColor(textColor, for: [])
         // SwiftUI 관찰 가능한 hasText 상태 갱신 - clearAll(X) 버튼 표시 여부에 사용
         updateHasTextState()
         // 앞으로 옮겨 간 자리에서 글이 바뀌었으면 그 자리를 배운다.

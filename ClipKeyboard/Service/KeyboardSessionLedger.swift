@@ -360,10 +360,16 @@ enum TypedShortcut {
         var from = text.startIndex
         while from < text.endIndex, let found = text.range(of: word, options: options, range: from..<text.endIndex) {
             let here: Place
+            // ⚠️ 대소문자 · 폭을 무시한 찾기는 글자 묶음(결합 문자 · 이모지) **안쪽**에서 시작하는
+            //    자리를 돌려줄 수 있다. 그 자리가 첫 글자 안이면 `index(before:)` 가 맨 앞을 넘어 죽는다.
+            //    글자 경계로 맞춘 뒤 판단하고, 경계가 아니면 낱말 한가운데로 본다.
+            let head = text.rangeOfComposedCharacterSequence(at: found.lowerBound).lowerBound
             if found.lowerBound == text.startIndex {
                 here = .start
+            } else if head != found.lowerBound || head == text.startIndex {
+                here = .inside
             } else {
-                let before = text[text.index(before: found.lowerBound)]
+                let before = text[text.index(before: head)]
                 here = (before.isWhitespace || before.isNewline || before.isPunctuation) ? .wordStart : .inside
             }
             best = min(best ?? here, here)

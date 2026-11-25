@@ -105,13 +105,18 @@ enum FoldSheetGuard {
 
 extension UISheetPresentationController {
     // 바꿔 끼운 뒤에는 이 이름이 **원래 구현**을 부른다.
+    // ⚠️ `MainActor.assumeIsolated` 는 메인이 아니면 그 자리에서 죽인다. 바꿔 끼운 메서드는 UIKit 이
+    //    부르는 길 전부에 걸리므로, 혹시 메인 밖에서 오면 손대지 않고 원래 구현만 부른다.
     @objc fileprivate func appFold_setDetents(_ detents: [UISheetPresentationController.Detent]) {
+        guard Thread.isMainThread else { return appFold_setDetents(detents) }
         let filtered = MainActor.assumeIsolated { FoldSheetGuard.detents(for: self, requested: detents) }
         appFold_setDetents(filtered)
     }
 
     @objc fileprivate func appFold_presentationTransitionWillBegin() {
-        MainActor.assumeIsolated { FoldSheetGuard.prepare(self) }
+        if Thread.isMainThread {
+            MainActor.assumeIsolated { FoldSheetGuard.prepare(self) }
+        }
         appFold_presentationTransitionWillBegin()
     }
 }
@@ -211,6 +216,10 @@ final class FoldPaneRootController: UIViewController {
 
 extension UIViewController {
     @objc fileprivate func appFold_present(_ presented: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        // 메인 밖에서 온 표시는 원래 구현으로(위 `appFold_setDetents` 의 경고).
+        guard Thread.isMainThread else {
+            return appFold_present(presented, animated: animated, completion: completion)
+        }
         let routes = MainActor.assumeIsolated { FoldAlertRouter.shouldRoute(presented, from: self) }
         if routes {
             MainActor.assumeIsolated {

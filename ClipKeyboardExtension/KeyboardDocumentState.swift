@@ -180,3 +180,112 @@ enum KeyboardCrashGuard {
         LeeoCrashLoopGuard(name: "keyboard", defaults: AppGroup.defaults ?? .standard)
     }
 }
+
+// MARK: - 뜨는 길의 어디까지 갔는가
+
+/// 키보드가 뜨는 길의 단계. 끝까지 못 뜬 실행이 **어디서** 멈췄는지 가르는 데 쓴다.
+///
+/// 왜: 허브의 `launch_incomplete:keyboard` 는 "끝까지 못 떴다" 하나뿐이라, 단축어를 읽다 죽은 것과
+/// 그리다 메모리로 꺼진 것과 **보이지도 않은 채 정리된 것**이 한 숫자였다
+/// (docs/postmortem/KEYBOARD_LAUNCH_INCOMPLETE_STAGES.md).
+enum KeyboardLaunchStage: String {
+    /// `viewDidLoad` 안. 단축어를 읽고 SwiftUI 판을 만든다.
+    case load
+    /// `viewDidLoad` 는 끝났고, 아직 보이라는 말도 첫 레이아웃도 없다. **우리 코드는 돌지 않는다.**
+    case idle
+    /// 보이기 시작했다(`viewWillAppear` 또는 첫 레이아웃). 첫 그림을 그린다.
+    case appearing
+    /// 떴다(`viewDidAppear`). 몇 초 버티면 성공으로 적힌다.
+    case shown
+}
+
+/// 단계 표식과, 끝까지 못 뜬 실행의 단계 기록.
+///
+/// 세는 일은 `LeeoCrashLoopGuard` 가 그대로 한다. 여기는 **어디서** 를 덧붙일 뿐이다.
+/// ⚠️ 표식은 적자마자 디스크로 민다. 바로 다음 줄에서 죽을 수 있는 값이라서다(가드와 같은 이유).
+enum KeyboardLaunchTrail {
+
+    /// 기록해 두는 단계 수의 상한. 앱을 오래 안 열어도 끝없이 쌓이지 않게.
+    static let maxPending = 10
+
+    static func mark(_ stage: KeyboardLaunchStage, in defaults: UserDefaults?) {
+        guard let defaults else { return }
+        defaults.set(stage.rawValue, forKey: DefaultsKey.keyboardLaunchStage)
+        defaults.synchronize()
+    }
+
+    static func lastStage(in defaults: UserDefaults?) -> KeyboardLaunchStage? {
+        defaults?.string(forKey: DefaultsKey.keyboardLaunchStage).flatMap(KeyboardLaunchStage.init(rawValue:))
+    }
+
+    /// 실행 맨 앞에서 부른다. **true 면 최소 화면(세이프 모드)으로 연다.**
+    ///
+    /// 가드가 직전 실행을 "끝나지 못함" 으로 셌으면, 그 실행이 남긴 단계를 함께 적는다.
+    static func begin(_ crashGuard: LeeoCrashLoopGuard, defaults: UserDefaults?) -> Bool {
+        let previous = lastStage(in: defaults)
+        let before = crashGuard.consecutiveIncompleteLaunches
+        let guardSaysSafe = crashGuard.beginLaunch()
+        if crashGuard.consecutiveIncompleteLaunches > before {
+            noteIncomplete(at: previous, in: defaults)
+        }
+        mark(.load, in: defaults)
+        let lastIncomplete = defaults?.string(forKey: DefaultsKey.keyboardLastIncompleteStage)
+        return opensSafeMode(guardSaysSafe: guardSaysSafe, lastIncompleteStage: lastIncomplete)
+    }
+
+    /// 세이프 모드로 열 것인가.
+    ///
+    /// ⚠️ 가장 최근에 못 뜬 실행이 `idle` 에서 사라졌으면 평소대로 연다. 그 실행은 `viewDidLoad` 를
+    ///    무사히 마쳤고 그 뒤로 우리 코드가 돈 적이 없다. iOS 가 보이지 않는 키보드를 정리한 것이지
+    ///    뜨다가 죽은 것이 아니다. 그걸 두 번 세면 멀쩡한 키보드가 단축어 없이 열린다.
+    ///    (앱 쪽 `awaiting-scene` 을 멈춘 런치로 읽지 않는 것과 같은 규칙이다)
+    static func opensSafeMode(guardSaysSafe: Bool, lastIncompleteStage: String?) -> Bool {
+        guardSaysSafe && lastIncompleteStage != KeyboardLaunchStage.idle.rawValue
+    }
+
+    /// 직전 실행이 끝나지 못했다. 멈춘 단계를 적는다(모르면 빈 글).
+    static func noteIncomplete(at stage: KeyboardLaunchStage?, in defaults: UserDefaults?) {
+        guard let defaults else { return }
+        let raw = stage?.rawValue ?? ""
+        var pending = defaults.stringArray(forKey: DefaultsKey.keyboardIncompleteStages) ?? []
+        pending.append(raw)
+        if pending.count > maxPending { pending.removeFirst(pending.count - maxPending) }
+        defaults.set(pending, forKey: DefaultsKey.keyboardIncompleteStages)
+        defaults.set(raw, forKey: DefaultsKey.keyboardLastIncompleteStage)
+    }
+
+    /// 아직 안 보낸 단계들을 꺼내고 비운다. 앱이 허브로 보낼 때 부른다.
+    static func takePendingStages(in defaults: UserDefaults?) -> [String] {
+        guard let defaults else { return [] }
+        let pending = defaults.stringArray(forKey: DefaultsKey.keyboardIncompleteStages) ?? []
+        if !pending.isEmpty { defaults.removeObject(forKey: DefaultsKey.keyboardIncompleteStages) }
+        return pending
+    }
+
+    /// 허브로 보낼 것. `sources` 는 `launch_incomplete:<source>` 의 뒷부분이다.
+    struct Report: Equatable {
+        /// 뜨다가 멈춘 실행. 단계를 알면 `keyboard-load` 처럼, 모르면 `keyboard`.
+        var sources: [String]
+        /// 보이지 않은 채 정리된 실행 수. 불안정 신호로 세지 않는다.
+        var idleExits: Int
+    }
+
+    /// 한 번에 보내는 상한(가드의 `maxEventsPerReport` 와 같다).
+    static let maxEventsPerReport = 3
+
+    /// 가드가 센 횟수(`missed`)와 단계 기록을 맞춘다.
+    ///
+    /// - 단계 기록이 횟수보다 적으면(단계를 적기 전 판의 기록) 남는 몫은 단계 없이 `keyboard` 로 보낸다.
+    /// - `idle` 은 `launch_incomplete` 로 보내지 않는다.
+    static func report(missed: Int, stages: [String]) -> Report {
+        let known = stages.suffix(max(0, missed))
+        let unknownCount = max(0, missed - known.count)
+        let idle = known.filter { $0 == KeyboardLaunchStage.idle.rawValue }.count
+        var sources = known
+            .filter { $0 != KeyboardLaunchStage.idle.rawValue }
+            .map { $0.isEmpty ? "keyboard" : "keyboard-\($0)" }
+        sources.append(contentsOf: Array(repeating: "keyboard", count: unknownCount))
+        return Report(sources: Array(sources.prefix(maxEventsPerReport)),
+                      idleExits: min(idle, maxEventsPerReport))
+    }
+}

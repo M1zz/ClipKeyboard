@@ -18,15 +18,16 @@ class OCRService {
 
     /// 이미지에서 텍스트 인식
     func recognizeText(from image: UIImage, completion: @escaping ([String]) -> Void) {
+        let finish = OCRCompletionOnce(completion)
         guard let cgImage = image.cgImage else {
-            completion([])
+            finish([])
             return
         }
 
         let request = VNRecognizeTextRequest { (request, error) in
             guard error == nil,
                   let observations = request.results as? [VNRecognizedTextObservation] else {
-                completion([])
+                finish([])
                 return
             }
 
@@ -34,9 +35,7 @@ class OCRService {
                 observation.topCandidates(1).first?.string
             }
 
-            DispatchQueue.main.async {
-                completion(recognizedTexts)
-            }
+            finish(recognizedTexts)
         }
 
         request.recognitionLanguages = ["ko-KR", "en-US"]
@@ -50,9 +49,7 @@ class OCRService {
                 try handler.perform([request])
             } catch {
                 print("❌ [OCR] 텍스트 인식 실패: \(error)")
-                DispatchQueue.main.async {
-                    completion([])
-                }
+                finish([])
             }
         }
     }
@@ -61,15 +58,16 @@ class OCRService {
     /// 문단이 바뀐 것으로 보고 블록을 나눈다. 메모 앱 스크린샷처럼
     /// "빈 줄로 구분된 항목들"을 가져올 때 빈 줄 정보를 복원하는 용도.
     func recognizeBlocks(from image: UIImage, completion: @escaping ([[String]]) -> Void) {
+        let finish = OCRCompletionOnce(completion)
         guard let cgImage = image.cgImage else {
-            completion([])
+            finish([])
             return
         }
 
         let request = VNRecognizeTextRequest { (request, error) in
             guard error == nil,
                   let observations = request.results as? [VNRecognizedTextObservation] else {
-                DispatchQueue.main.async { completion([]) }
+                finish([])
                 return
             }
 
@@ -95,7 +93,7 @@ class OCRService {
             }
             if !current.isEmpty { blocks.append(current) }
 
-            DispatchQueue.main.async { completion(blocks) }
+            finish(blocks)
         }
 
         request.recognitionLanguages = ["ko-KR", "en-US"]
@@ -109,9 +107,7 @@ class OCRService {
                 try handler.perform([request])
             } catch {
                 print("❌ [OCR] 블록 인식 실패: \(error)")
-                DispatchQueue.main.async {
-                    completion([])
-                }
+                finish([])
             }
         }
     }
@@ -156,6 +152,38 @@ class OCRService {
         }
 
         return addressComponents.joined(separator: " ")
+    }
+}
+
+/// 인식 결과를 **메인에서 한 번만** 넘긴다.
+///
+/// ⚠️ Vision 은 실패할 때 요청의 completion 에 오류를 실어 부르고, `perform` 도 같은 오류를 던질 수 있다.
+///    두 길이 각자 결과를 넘기면 받는 쪽이 두 번 불린다. `DispatchGroup` 으로 모으는 곳
+///    (`MemoAddViewModel.processOCRImages`)은 `leave` 가 `enter` 보다 많아져 그 자리에서 죽는다.
+///    또 앞쪽 길은 메인으로 옮기지 않고 부르고 있었다. 받는 쪽은 화면 상태를 바꾼다.
+final class OCRCompletionOnce<Value>: @unchecked Sendable {
+    private let lock = NSLock()
+    private var done = false
+    private let completion: (Value) -> Void
+
+    init(_ completion: @escaping (Value) -> Void) {
+        self.completion = completion
+    }
+
+    func callAsFunction(_ value: Value) {
+        lock.lock()
+        let first = !done
+        done = true
+        lock.unlock()
+        guard first else {
+            print("⚠️ [OCRCompletionOnce] 두 번째 결과는 버린다")
+            return
+        }
+        if Thread.isMainThread {
+            completion(value)
+        } else {
+            DispatchQueue.main.async { self.completion(value) }
+        }
     }
 }
 
@@ -227,8 +255,9 @@ extension OCRService {
     /// `recognizeText` 와 무엇이 다른가: 저쪽은 글자만 준다. 이쪽은 조각마다 사진에서의
     /// 자리를 함께 주므로, 손가락이 지나간 곳의 글자만 골라낼 수 있다.
     func recognizeLayout(from image: UIImage, completion: @escaping (RecognizedTextLayout) -> Void) {
+        let finish = OCRCompletionOnce(completion)
         guard let cgImage = image.cgImage else {
-            completion(RecognizedTextLayout(lines: []))
+            finish(RecognizedTextLayout(lines: []))
             return
         }
 
@@ -239,14 +268,12 @@ extension OCRService {
         let request = VNRecognizeTextRequest { request, error in
             guard error == nil,
                   let observations = request.results as? [VNRecognizedTextObservation] else {
-                DispatchQueue.main.async { completion(RecognizedTextLayout(lines: [])) }
+                finish(RecognizedTextLayout(lines: []))
                 return
             }
             let lines = Self.makeLines(from: observations)
             print("✅ [OCRService.recognizeLayout] 줄 \(lines.count)개 · 조각 \(lines.reduce(0) { $0 + $1.pieces.count })개")
-            DispatchQueue.main.async {
-                completion(RecognizedTextLayout(lines: lines))
-            }
+            finish(RecognizedTextLayout(lines: lines))
         }
 
         request.recognitionLanguages = ["ko-KR", "en-US"]
@@ -260,7 +287,7 @@ extension OCRService {
                 try handler.perform([request])
             } catch {
                 print("❌ [OCRService.recognizeLayout] 낱말 인식 실패: \(error)")
-                DispatchQueue.main.async { completion(RecognizedTextLayout(lines: [])) }
+                finish(RecognizedTextLayout(lines: []))
             }
         }
     }

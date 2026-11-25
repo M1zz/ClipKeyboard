@@ -243,9 +243,12 @@ struct KeyboardClipboardPicker: View {
     ///    글 전체(최대 4,000자)를 다시 나눴다. 조각 하나를 누를 때마다 그만큼 돌았다.
     @State private var piecesCache = PiecesCache()
     private var pieces: [ClipboardPiece] {
-        if piecesCache.unit != unit {
+        // 글이 바뀌어도 다시 나눈다. `@State` 는 같은 자리의 뷰가 다른 글을 받아도 남아 있어서,
+        // 단위만 보면 앞 글의 조각을 그대로 보여 주고 고른 자리가 새 글과 어긋난다.
+        if piecesCache.unit != unit || piecesCache.text != text {
             piecesCache.pieces = ClipboardSplitter.pieces(of: text, unit: unit)
             piecesCache.unit = unit
+            piecesCache.text = text
         }
         return piecesCache.pieces
     }
@@ -253,6 +256,7 @@ struct KeyboardClipboardPicker: View {
     /// 참조 타입이라 그리는 중에 채워도 화면을 다시 그리게 하지 않는다.
     final class PiecesCache {
         var unit: ClipboardSplitUnit?
+        var text: String?
         var pieces: [ClipboardPiece] = []
     }
 

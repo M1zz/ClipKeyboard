@@ -393,8 +393,15 @@ struct ClipKeyboardApp: App {
             // 릴리즈 건강 카드가 이것을 불안정 설치로 센다. 통로가 없으면 꺼내지 않는다(다음에 보낸다).
             if AnalyticsService.eventSink != nil {
                 let missed = KeyboardCrashGuard.make().takeUnreportedIncompleteLaunches()
-                for _ in 0..<min(missed, 3) {
-                    AnalyticsService.log(.launchIncomplete, parameters: [.source: "keyboard"])
+                // 어디서 멈췄는지 알면 붙여 보낸다(`launch_incomplete:keyboard-load` · `-appearing` · `-shown`).
+                // 보이지도 않은 채 정리된 실행(`idle`)은 불안정 신호로 보내지 않고 따로 센다.
+                let report = KeyboardLaunchTrail.report(
+                    missed: missed, stages: KeyboardLaunchTrail.takePendingStages(in: AppGroup.defaults))
+                for source in report.sources {
+                    AnalyticsService.log(.launchIncomplete, parameters: [.source: source])
+                }
+                for _ in 0..<report.idleExits {
+                    AnalyticsService.log(.keyboardIdleExit)
                 }
             }
 

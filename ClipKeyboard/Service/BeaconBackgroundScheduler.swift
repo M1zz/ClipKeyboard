@@ -29,7 +29,12 @@ enum BeaconBackgroundScheduler {
             forTaskWithIdentifier: taskIdentifier,
             using: nil
         ) { task in
-            handleBeaconFlush(task: task as! BGAppRefreshTask)
+            // ⚠️ 강제 형변환하지 않는다. 같은 이름으로 다른 종류의 작업이 오면 뒤에서 깨어난 실행이 그 자리에서 죽는다.
+            guard let refresh = task as? BGAppRefreshTask else {
+                task.setTaskCompleted(success: false)
+                return
+            }
+            handleBeaconFlush(task: refresh)
         }
         scheduleNext()
         #endif
