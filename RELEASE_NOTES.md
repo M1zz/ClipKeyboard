@@ -14,6 +14,183 @@ DeployBar 가 배포할 때 이 파일의 `## <버전>` 절을 읽어 간다.
 
 **확인**: `DeployBar --reponotes 클립키보드 5.0.8` 로 무엇을 읽어 가는지 미리 볼 수 있다.
 
+## 5.1.28
+
+### 앱스토어 (한국어, ko)
+
+복사한 글과 만들다 만 단축어가 임시함 탭에 모여요
+키보드에서도 만들다 만 단축어를 이어 쓸 수 있어요
+자주 넣는 복사 글은 단축어로 저장하자고 알려 드려요
+자판을 누르는 순간 진동과 소리가 더 또렷해요
+
+### App Store (en-US, en-US)
+
+Copies and unfinished phrases gather in To Sort
+Finish unfinished phrases right from the keyboard
+Text you paste often can be saved as a phrase
+Keys now click and buzz the moment you touch
+
+### App Store (en-GB, en-GB)
+
+Copies and unfinished phrases gather in To Sort
+Finish unfinished phrases right from the keyboard
+Text you paste often can be saved as a phrase
+Keys now click and buzz the moment you touch
+
+### App Store (zh-Hans, zh-Hans)
+
+复制的文字和未完成的短语都汇集在待整理
+在键盘上也能继续写未完成的短语
+常插入的复制文字会提示你保存为短语
+按下按键的瞬间就有更清晰的振动和声音
+
+### App Store (zh-Hant, zh-Hant)
+
+複製的文字和未完成的短語都匯集在待整理
+在鍵盤上也能繼續寫未完成的短語
+常插入的複製文字會提示你儲存為短語
+按下按鍵的瞬間就有更清晰的震動和聲音
+
+### App Store (ru, ru)
+
+Копии и черновики фраз собраны в К разбору
+Черновик фразы можно дописать с клавиатуры
+Частые вставки можно сохранить как фразу
+Отклик клавиш звучит сразу при касании
+
+### App Store (ja, ja)
+
+コピーした文と作りかけのフレーズを仕分け待ちに
+作りかけのフレーズをキーボードから続けて書けます
+よく入れるコピーはフレーズ保存をおすすめします
+キーに触れた瞬間、振動と音がくっきり返ります
+
+### App Store (es-MX, es-MX)
+
+Copias y frases a medias juntas en Por ordenar
+Termina tus frases a medias desde el teclado
+Lo que pegas seguido puede guardarse como frase
+Las teclas responden al instante al tocarlas
+
+### App Store (de-DE, de-DE)
+
+Kopien und Entwürfe sammeln sich in Zu sortieren
+Entwürfe direkt auf der Tastatur fertigschreiben
+Oft Eingefügtes lässt sich als Phrase sichern
+Tasten reagieren sofort mit Klick und Vibration
+
+### App Store (th, th)
+
+ข้อความที่คัดลอกและวลีที่ค้างไว้อยู่ในรอจัดการ
+เขียนวลีที่ค้างไว้ต่อได้จากแป้นพิมพ์
+ข้อความที่ใส่บ่อยจะชวนให้บันทึกเป็นวลี
+แตะปุ่มแล้วสั่นและมีเสียงชัดขึ้นทันที
+
+### App Store (vi, vi)
+
+Văn bản đã chép và cụm từ dở nằm ở Cần sắp xếp
+Viết tiếp cụm từ còn dở ngay trên bàn phím
+Văn bản hay chèn sẽ được gợi ý lưu thành cụm từ
+Phím rung và kêu rõ hơn ngay khi chạm
+
+### App Store (fr-FR, fr-FR)
+
+Copies et phrases inachevées réunies dans À trier
+Terminez vos phrases inachevées au clavier
+Un texte souvent collé peut devenir une phrase
+Les touches répondent dès que vous les touchez
+
+### App Store (it, it)
+
+Copie e frasi incompiute raccolte in Da riordinare
+Completa le frasi incompiute dalla tastiera
+Il testo che incolli spesso diventa una frase
+I tasti rispondono appena li tocchi
+
+### App Store (pt-BR, pt-BR)
+
+Cópias e frases inacabadas ficam em Para organizar
+Termine frases inacabadas direto no teclado
+Textos que você cola sempre viram frases
+As teclas respondem assim que você toca
+
+### App Store (cs, cs)
+
+Kopie a rozepsané fráze najdete v K roztřídění
+Rozepsanou frázi dopíšete i z klávesnice
+Často vkládaný text lze uložit jako frázi
+Klávesy odpoví hned při dotyku
+
+### App Store (da, da)
+
+Kopier og halvfærdige sætninger i Til sortering
+Skriv halvfærdige sætninger færdige på tastaturet
+Tekst du ofte indsætter kan gemmes som sætning
+Tasterne svarer straks, når du rører dem
+
+### App Store (el, el)
+
+Αντίγραφα και πρόχειρα στο Προς ταξινόμηση
+Συνεχίστε πρόχειρες φράσεις από το πληκτρολόγιο
+Κείμενο που επικολλάτε συχνά γίνεται φράση
+Τα πλήκτρα αποκρίνονται μόλις τα αγγίξετε
+
+### App Store (fi, fi)
+
+Kopiot ja keskeneräiset fraasit Lajiteltavissa
+Viimeistele keskeneräiset fraasit näppäimistöllä
+Usein liitetyn tekstin voi tallentaa fraasiksi
+Näppäimet vastaavat heti kosketukseen
+
+### App Store (id, id)
+
+Salinan dan frasa setengah jadi ada di Perlu Dipilah
+Lanjutkan frasa setengah jadi dari keyboard
+Teks yang sering ditempel bisa disimpan jadi frasa
+Tombol langsung bergetar dan berbunyi saat disentuh
+
+### App Store (nb, nb)
+
+Kopier og uferdige fraser samles i Til sortering
+Skriv ferdig uferdige fraser fra tastaturet
+Tekst du ofte limer inn kan lagres som frase
+Tastene svarer med en gang du rører dem
+
+### App Store (nl, nl)
+
+Kopieën en halve zinnen staan in Te sorteren
+Maak halve zinnen af vanaf het toetsenbord
+Vaak geplakte tekst kun je als zin bewaren
+Toetsen reageren meteen als je ze aanraakt
+
+### App Store (pl, pl)
+
+Kopie i szkice fraz trafiają do Do uporządkowania
+Szkic frazy dokończysz z poziomu klawiatury
+Często wklejany tekst zapiszesz jako frazę
+Klawisze reagują od razu po dotknięciu
+
+### App Store (sv, sv)
+
+Kopior och halvfärdiga fraser samlas i Att sortera
+Skriv klart halvfärdiga fraser från tangentbordet
+Text du ofta klistrar in kan sparas som fras
+Tangenterna svarar direkt när du rör dem
+
+### App Store (tr, tr)
+
+Kopyalar ve yarım ifadeler Ayıklanacaklar'da
+Yarım ifadeleri klavyeden tamamlayabilirsiniz
+Sık yapıştırdığınız metni ifade olarak kaydedin
+Tuşlar dokunduğunuz anda yanıt veriyor
+
+### App Store (ar, ar)
+
+النسخ والعبارات غير المكتملة في للترتيب
+أكمل العبارات غير المكتملة من لوحة المفاتيح
+يمكنك حفظ النص الذي تلصقه كثيرًا كعبارة
+تستجيب المفاتيح فور لمسها
+
 ## 5.1.27
 
 ### 앱스토어 (한국어, ko)
