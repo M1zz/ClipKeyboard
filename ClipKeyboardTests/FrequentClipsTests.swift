@@ -66,4 +66,17 @@ struct FrequentClipsTests {
         // 방금 넣은 글은 버려지지 않는다.
         #expect(ledger.counts[FrequentClips.fingerprint("글 \(FrequentClips.capacity + 19)")] == 1)
     }
+
+    @Test func 목록은_두_번부터_많이_넣은_순서로() {
+        var ledger = used("가", 2)
+        ledger = used("나", 4, in: ledger)
+        ledger = used("다", 1, in: ledger)
+        let ranked = FrequentClips.ranked(among: [clip("가"), clip("나"), clip("다"), clip("라")],
+                                          ledger: ledger, savedValues: [])
+        #expect(ranked.map(\.clip.content) == ["나", "가"])
+        #expect(ranked.map(\.count) == [4, 2])
+        // 단축어가 된 글과 답을 들은 글은 빠진다.
+        #expect(FrequentClips.ranked(among: [clip("가"), clip("나")], ledger: FrequentClips.settling("가", in: ledger),
+                                     savedValues: ["나"]).isEmpty)
+    }
 }

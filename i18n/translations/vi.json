@@ -4775,6 +4775,10 @@
     "v": "Tạo",
     "src": "b977bf9e98"
   },
+  "만들다 만 단축어": {
+    "v": "Cụm từ chưa hoàn tất",
+    "src": "96128db9a0"
+  },
   "만들다 만 단축어가 없어요": {
     "v": "Chưa có cụm từ nào đang soạn dở",
     "src": "e13e45628a"
@@ -5835,6 +5839,10 @@
     "v": "Nội dung đã sao chép tự tìm đúng nhóm",
     "src": "5100523357"
   },
+  "복사한 글": {
+    "v": "Đã sao chép",
+    "src": "1bd0da77e3"
+  },
   "복사한 글 바로 붙여넣기": {
     "v": "Dán nhanh văn bản đã sao chép",
     "src": "7035810699"
@@ -5842,6 +5850,10 @@
   "복사한 글 붙여넣기: %@": {
     "v": "Dán văn bản đã sao chép: %@",
     "src": "6408a1d6bf"
+  },
+  "복사한 글, 만들다 만 단축어, 빠른 메모가 여기 모여요. 단축어로 만들 것을 골라 보세요.": {
+    "v": "Văn bản đã sao chép, cụm từ chưa hoàn tất và ghi chú nhanh sẽ tập trung ở đây. Hãy chọn những mục bạn muốn lưu thành cụm từ.",
+    "src": "b3866934a5"
   },
   "복사한 글을 이 목록에 저장": {
     "v": "Lưu văn bản đã sao chép vào danh sách này",
@@ -6250,6 +6262,10 @@
   "빠르고 간편하게 리뷰를 남길 수 있습니다 (권장)": {
     "v": "Cách nhanh và dễ để để lại đánh giá (Khuyên dùng)",
     "src": "fd0990209a"
+  },
+  "빠른 메모": {
+    "v": "Ghi chú nhanh",
+    "src": "e06a7419e4"
   },
   "빠른 삽입": {
     "v": "Chèn nhanh",
@@ -9003,6 +9019,10 @@
     "v": "Mục tạm thời",
     "src": "39d285e134"
   },
+  "임시함": {
+    "v": "Cần sắp xếp",
+    "src": "1371072d55"
+  },
   "입금 계좌": {
     "v": "Tài khoản nhận tiền",
     "src": "cf8af22a18"
@@ -9166,6 +9186,10 @@
   "자주 넣는 단축어 꺼내 주기": {
     "v": "Gợi ý phím tắt hay dùng",
     "src": "40ce387124"
+  },
+  "자주 넣은 글": {
+    "v": "Hay dùng",
+    "src": "00a684749d"
   },
   "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기": {
     "v": "Lưu văn bản bạn hay dùng và dán nhanh",
@@ -9570,6 +9594,10 @@
   "정리 기능을 실제로 쓰는 비율이에요.": {
     "v": "Tỷ lệ người thực sự dùng tính năng sắp xếp.",
     "src": "210a60ada5"
+  },
+  "정리할 것이 없어요": {
+    "v": "Không có gì cần sắp xếp",
+    "src": "1c4ea1521c"
   },
   "정리해도 단축어는 지워지지 않아요. 카테고리를 지우면 그 안에 있던 단축어는 기본 탭으로 옮겨 갑니다.": {
     "v": "Sắp xếp không xoá cụm từ nào. Khi bạn xoá một danh mục, các cụm từ bên trong sẽ chuyển sang tab Cơ bản.",
@@ -11182,6 +11210,10 @@
   "키보드에는 단축어가 %d개까지만 보여요. 나머지는 지워지지 않고 가려져요. 모두 계속 쓰려면 Pro로 바꿔 주세요.": {
     "v": "Bàn phím chỉ hiện tối đa %d cụm từ. Phần còn lại được ẩn đi, không bị xóa. Hãy nâng cấp lên Pro để dùng tất cả.",
     "src": "bf082cce41"
+  },
+  "키보드에서 %d번 넣었어요": {
+    "v": "Đã chèn %d lần từ bàn phím",
+    "src": "d8f968c6f3"
   },
   "키보드에서 '최근'을 보려면 전체 접근 허용을 켜 주세요": {
     "v": "Bật “Cho phép truy cập đầy đủ” để xem “Gần đây” trên bàn phím",

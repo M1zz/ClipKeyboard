@@ -86,6 +86,30 @@ enum FrequentClips {
         return best?.clip
     }
 
+    /// 앱 '임시' 탭의 "자주 넣은 글". 묻는 띠(`suggestion`)보다 문턱이 낮다.
+    /// 띠는 말을 거는 것이라 확실할 때만 서고, 목록은 보러 온 사람에게 보여 주는 것이라 두 번이면 족하다.
+    static let listMinimum = 2
+
+    /// 자주 넣은 글을 많이 넣은 순서로. 답을 들은 글과 이미 단축어인 글은 뺀다.
+    /// 횟수가 같으면 최근에 복사한 것(목록에서 앞선 것)이 먼저다.
+    static func ranked(among clips: [SmartClipboardHistory],
+                       ledger: Ledger,
+                       savedValues: Set<String>,
+                       minimum: Int = listMinimum) -> [(clip: SmartClipboardHistory, count: Int)] {
+        let saved = Set(savedValues.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) })
+        var found: [(clip: SmartClipboardHistory, count: Int)] = []
+        for clip in clips where clip.contentType == .text {
+            guard !saved.contains(clip.content.trimmingCharacters(in: .whitespacesAndNewlines)) else { continue }
+            let key = fingerprint(clip.content)
+            guard !ledger.settled.contains(key), let count = ledger.counts[key], count >= minimum else { continue }
+            found.append((clip: clip, count: count))
+        }
+        // 안정 정렬이라 횟수가 같으면 목록 순서(최근 복사 순)가 그대로 남는다.
+        return found.enumerated()
+            .sorted { a, b in a.element.count != b.element.count ? a.element.count > b.element.count : a.offset < b.offset }
+            .map { $0.element }
+    }
+
     // MARK: - 저장
 
     static func load(from defaults: UserDefaults?) -> Ledger {

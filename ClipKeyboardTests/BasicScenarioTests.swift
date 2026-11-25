@@ -498,6 +498,50 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertTrue(SavedDraft.keyboardShelf(DraftStore.loadFromDisk()).isEmpty, "남은 것이 없으면 탭이 내려간다")
     }
 
+    /// 단축어가 될 만한 것은 앱 아래 '임시함' 탭에 모인다(2026-11 사용자 요청: "목록이랑 설정 탭 밖에 없는데
+    /// 단축어의 후보지들이 들어있는 임시 탭이 없네"). 후보가 없으면 탭이 서지 않고, 이미 단축어인 글은 후보가 아니며,
+    /// 키보드에서 자주 넣은 글이 맨 위 칸에 서고, 단축어로 저장하면 키보드도 다시 묻지 않는다.
+    func test_단축어_후보는_임시함_탭에_모이고_없으면_탭이_서지_않는다() throws {
+        try ClipboardHistoryStore.shared.save([])
+        let key = DefaultsKey.keyboardFrequentClips
+        let savedLedger = AppGroup.defaults?.object(forKey: key)
+        defer {
+            try? ClipboardHistoryStore.shared.save([])
+            AppGroup.defaults?.set(savedLedger, forKey: key)
+        }
+        AppGroup.defaults?.removeObject(forKey: key)
+
+        // 후보가 없으면 탭이 없다(첫날 사람은 목록 · 설정 두 칸).
+        XCTAssertFalse(ShortcutCandidates.showsTab(drafts: [], quickNotes: [], clips: [], saved: []))
+        XCTAssertTrue(ShortcutCandidates.showsTab(drafts: [SavedDraft(keyword: "", value: "만들다 만 글")], quickNotes: [], clips: [], saved: []))
+        XCTAssertTrue(ShortcutCandidates.showsTab(drafts: [], quickNotes: [QuickNote()], clips: [], saved: []))
+
+        // 복사한 글이 담기면 탭이 선다. 이미 단축어인 글뿐이면 서지 않는다.
+        try ClipboardHistoryStore.shared.add(content: "우리은행 1002-123-456789")
+        ShortcutCandidates.shared.reload()
+        let clips = ShortcutCandidates.shared.clips
+        XCTAssertTrue(ShortcutCandidates.showsTab(drafts: [], quickNotes: [], clips: clips, saved: []))
+        XCTAssertFalse(ShortcutCandidates.showsTab(drafts: [], quickNotes: [], clips: clips, saved: ["우리은행 1002-123-456789"]),
+                       "이미 단축어인 글은 후보가 아니다")
+
+        // 키보드 '최근' 에서 두 번 넣으면 '자주 넣은 글' 칸에 서고, 배지에 센다.
+        for _ in 0..<2 {
+            FrequentClips.save(FrequentClips.recordingUse(of: "우리은행 1002-123-456789", in: FrequentClips.load(from: AppGroup.defaults)),
+                               to: AppGroup.defaults)
+        }
+        ShortcutCandidates.shared.reload()
+        let frequent = ShortcutCandidates.shared.frequent(saved: [])
+        XCTAssertEqual(frequent.first?.count, 2)
+        XCTAssertTrue(ShortcutCandidates.shared.otherClips(saved: [], excluding: Set(frequent.map(\.clip.id))).isEmpty,
+                      "자주 넣은 글은 아래 '복사한 글' 칸에 또 서지 않는다")
+        XCTAssertEqual(ShortcutCandidates.badge(drafts: 0, quickNotes: 0, frequent: frequent.count), 1)
+
+        // 단축어로 저장하면 키보드도 그 글로는 다시 묻지 않는다.
+        ShortcutCandidates.shared.noteSaved(try XCTUnwrap(frequent.first?.clip))
+        XCTAssertTrue(ShortcutCandidates.shared.frequent(saved: []).isEmpty)
+        XCTAssertNil(FrequentClips.suggestion(among: clips, ledger: FrequentClips.load(from: AppGroup.defaults), savedValues: []))
+    }
+
     /// '최근' 에서 같은 글을 세 번 넣으면 단축어로 저장할지 한 번 묻는다(2026-11 사용자 요청).
     /// 답하면 다시 묻지 않고, 이미 단축어인 글은 묻지 않는다. 기록은 키보드를 다시 띄워도 이어진다.
     func test_최근에서_같은_글을_세_번_넣으면_단축어로_저장할지_묻는다() throws {

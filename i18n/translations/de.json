@@ -4967,6 +4967,10 @@
     "v": "Anlegen",
     "src": "b977bf9e98"
   },
+  "만들다 만 단축어": {
+    "v": "Unfertige Textbausteine",
+    "src": "96128db9a0"
+  },
   "만들다 만 단축어가 없어요": {
     "v": "Keine unfertigen Textbausteine",
     "src": "e13e45628a"
@@ -6051,6 +6055,10 @@
     "v": "Kopiertes sortiert sich von selbst ein",
     "src": "5100523357"
   },
+  "복사한 글": {
+    "v": "Kopiert",
+    "src": "1bd0da77e3"
+  },
   "복사한 글 바로 붙여넣기": {
     "v": "Kopierten Text schnell einsetzen",
     "src": "7035810699"
@@ -6058,6 +6066,10 @@
   "복사한 글 붙여넣기: %@": {
     "v": "Kopierten Text einsetzen: %@",
     "src": "6408a1d6bf"
+  },
+  "복사한 글, 만들다 만 단축어, 빠른 메모가 여기 모여요. 단축어로 만들 것을 골라 보세요.": {
+    "v": "Kopierte Texte, unfertige Textbausteine und schnelle Notizen sammeln sich hier. Wähle aus, was ein Textbaustein werden soll.",
+    "src": "b3866934a5"
   },
   "복사한 글을 이 목록에 저장": {
     "v": "Kopierten Text in dieser Liste sichern",
@@ -6481,6 +6493,10 @@
   "빠르고 간편하게 리뷰를 남길 수 있습니다 (권장)": {
     "v": "Schnell und einfach eine Bewertung abgeben (empfohlen)",
     "src": "fd0990209a"
+  },
+  "빠른 메모": {
+    "v": "Schnelle Notizen",
+    "src": "e06a7419e4"
   },
   "빠른 삽입": {
     "v": "Schnell einfügen",
@@ -9273,6 +9289,10 @@
     "v": "Temporärer Eintrag",
     "src": "39d285e134"
   },
+  "임시함": {
+    "v": "Zu sortieren",
+    "src": "1371072d55"
+  },
   "입금 계좌": {
     "v": "Bankkonto",
     "src": "cf8af22a18"
@@ -9436,6 +9456,10 @@
   "자주 넣는 단축어 꺼내 주기": {
     "v": "Häufige Textbausteine vorschlagen",
     "src": "40ce387124"
+  },
+  "자주 넣은 글": {
+    "v": "Oft eingefügt",
+    "src": "00a684749d"
   },
   "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기": {
     "v": "Speichere oft genutzten Text und füge ihn schnell ein",
@@ -9843,6 +9867,10 @@
   "정리 기능을 실제로 쓰는 비율이에요.": {
     "v": "Anteil, der Kategorien tatsächlich nutzt.",
     "src": "210a60ada5"
+  },
+  "정리할 것이 없어요": {
+    "v": "Nichts zu sortieren",
+    "src": "1c4ea1521c"
   },
   "정리해도 단축어는 지워지지 않아요. 카테고리를 지우면 그 안에 있던 단축어는 기본 탭으로 옮겨 갑니다.": {
     "v": "Beim Aufräumen werden keine Textbausteine gelöscht. Löschst du eine Kategorie, wandern die Textbausteine darin in den Standard-Tab.",
@@ -11494,6 +11522,10 @@
       "other": "Die Tastatur zeigt nur %d Textbausteine. Die übrigen sind ausgeblendet, nicht gelöscht. Wechsle zu Pro, um alle weiter zu nutzen."
     },
     "src": "bf082cce41"
+  },
+  "키보드에서 %d번 넣었어요": {
+    "v": "Per Tastatur %d Mal eingefügt",
+    "src": "d8f968c6f3"
   },
   "키보드에서 '최근'을 보려면 전체 접근 허용을 켜 주세요": {
     "v": "Aktiviere „Vollzugriff erlauben“, um „Zuletzt“ auf der Tastatur zu sehen",

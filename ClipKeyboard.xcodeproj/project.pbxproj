@@ -397,6 +397,7 @@
 		998F4EE389DA350FC510ECEA /* AppGroupListFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752832F621F4C72961F0FD4 /* AppGroupListFile.swift */; };
 		C0102202028AA53CCE22233C /* SavedDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AA823053E3EC4DCC11ADF1 /* SavedDraft.swift */; };
 		79189C2161849E1FC43FA3A5 /* DraftStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A875E559BF8538E7E299AB9 /* DraftStore.swift */; };
+		244485B36D17608461C2E945 /* ShortcutCandidatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC760FC0056BF866985965A6 /* ShortcutCandidatesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -842,6 +843,7 @@
 		49FDE3266BA9D27A42ADA1E7 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = "ar.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		A40A0E105FB139313591E088 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = "ar.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		310104D6B9DB97326527EEF0 /* FrequentClips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentClips.swift; sourceTree = "<group>"; };
+		EC760FC0056BF866985965A6 /* ShortcutCandidatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutCandidatesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -1392,6 +1394,7 @@
 				58C473682A10C9A0009D87BC /* ClipKeyboardList.swift */,
 				7A1C0DE5B0A54E1F9C3D2B07 /* ClipKeyboardList+Chrome.swift */,
 				7A1C0DE5B0A54E1F9C3D2B05 /* ClipKeyboardList+Pages.swift */,
+				EC760FC0056BF866985965A6 /* ShortcutCandidatesView.swift */,
 				7A1C0DE5B0A54E1F9C3D2B03 /* ClipKeyboardList+Cards.swift */,
 				7A1C0DE5B0A54E1F9C3D2B01 /* ClipKeyboardList+Background.swift */,
 				7A1C0DE5B0A54E1F9C3D2A21 /* ListTopBanners.swift */,
@@ -2013,6 +2016,7 @@
 				58C473692A10C9A0009D87BC /* ClipKeyboardList.swift in Sources */,
 				7A1C0DE5B0A54E1F9C3D2B08 /* ClipKeyboardList+Chrome.swift in Sources */,
 				7A1C0DE5B0A54E1F9C3D2B06 /* ClipKeyboardList+Pages.swift in Sources */,
+				244485B36D17608461C2E945 /* ShortcutCandidatesView.swift in Sources */,
 				7A1C0DE5B0A54E1F9C3D2B04 /* ClipKeyboardList+Cards.swift in Sources */,
 				7A1C0DE5B0A54E1F9C3D2B02 /* ClipKeyboardList+Background.swift in Sources */,
 				7A1C0DE5B0A54E1F9C3D2A22 /* ListTopBanners.swift in Sources */,

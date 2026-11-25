@@ -1773,6 +1773,7 @@ struct MainTabView: View {
         switch UserDefaults.standard.string(forKey: "FoldPreviewTab") {
         case "settings": return .settings
         case "search": return .search
+        case "candidates": return .candidates
         default: return .snippets
         }
         #else
@@ -1804,7 +1805,29 @@ struct MainTabView: View {
     }
 
     private enum MainTab: Hashable {
-        case snippets, settings, search
+        case snippets, candidates, settings, search
+    }
+
+    // MARK: - '임시' 탭 (단축어 후보)
+
+    @ObservedObject private var candidates = ShortcutCandidates.shared
+    @ObservedObject private var draftStore = DraftStore.shared
+    @ObservedObject private var quickNoteStore = QuickNoteStore.shared
+    @ObservedObject private var memoStore = MemoStore.shared
+
+    /// 단축어가 될 만한 것(복사한 글 · 만들다 만 것 · 빠른 메모)이 있을 때만 선다.
+    /// 첫날 사람은 후보가 없으니 지금처럼 목록 · 설정 두 칸이다.
+    private var showsCandidatesTab: Bool {
+        !blank && ShortcutCandidates.showsTab(drafts: draftStore.drafts, quickNotes: quickNoteStore.quickNotes,
+                                              clips: candidates.clips,
+                                              saved: ShortcutCandidates.savedValues(memoStore.memos))
+    }
+
+    /// 손을 대야 할 것만 센다(`ShortcutCandidates.badge`).
+    private var candidatesBadge: Int {
+        ShortcutCandidates.badge(drafts: draftStore.drafts.count,
+                                 quickNotes: quickNoteStore.quickNotes.count,
+                                 frequent: candidates.frequent(saved: ShortcutCandidates.savedValues(memoStore.memos)).count)
     }
 
     private var snippetsStyle: SnippetsTabStyle {
@@ -1840,6 +1863,9 @@ struct MainTabView: View {
         var items: [FoldTabBar<MainTab>.Item] = [
             .init(value: .snippets, title: snippetsStyle.tabName, symbol: snippetsStyle.symbolName),
         ]
+        if showsCandidatesTab {
+            items.append(.init(value: .candidates, title: Self.candidatesTitle, symbol: AppSymbol.trayFull))
+        }
         items.append(.init(value: .settings, title: NSLocalizedString("설정", comment: "Menu: settings"),
                            symbol: AppSymbol.gearshape))
         if showsSearchTab {
@@ -1864,6 +1890,13 @@ struct MainTabView: View {
         if selection == .search && !showsSearchTab {
             selection = .snippets
         }
+        if selection == .candidates && !showsCandidatesTab {
+            selection = .snippets
+        }
+    }
+
+    private static var candidatesTitle: String {
+        NSLocalizedString("임시함", comment: "Tab bar: candidates tab collecting things that could become snippets (drafts, quick notes, copied texts)")
     }
 
     /// 검색 탭의 역할.
@@ -1890,6 +1923,17 @@ struct MainTabView: View {
                 value: MainTab.snippets, role: nil) {
                 SnippetsTab()
                     .appFoldTabBarRoom()
+            }
+            if showsCandidatesTab {
+            Tab(Self.candidatesTitle,
+                systemImage: AppSymbol.trayFull,
+                value: MainTab.candidates, role: nil) {
+                NavigationStack {
+                    ShortcutCandidatesView().alwaysTransparentBars()
+                }
+                .appFoldTabBarRoom()
+            }
+            .badge(candidatesBadge)
             }
             Tab(NSLocalizedString("설정", comment: "Menu: settings"),
                 systemImage: AppSymbol.gearshape,
@@ -1952,6 +1996,7 @@ struct MainTabView: View {
         .onChange(of: snippetsStyleRaw) { _, _ in measureFirstTab() }
         .onChange(of: selection) { _, _ in measureFirstTab() }
         .onChange(of: userState.state) { _, _ in leaveHiddenTab() }
+        .onChange(of: showsCandidatesTab) { _, _ in leaveHiddenTab() }
         // 맥 메뉴·딥링크의 "클립보드 기록"이 갈 곳 - 탭에서 내려온 뒤로도 길은 남긴다.
         // ⚠️ 예전에는 이 알림을 **아무도 받지 않아** 메뉴를 눌러도 조용히 아무 일이 없었다.
         .sheet(isPresented: $showClipboardSheet) {

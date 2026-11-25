@@ -7151,6 +7151,12 @@
     "comment": "Create\nCreate the secure PIN",
     "h": "b977bf9e98"
   },
+  "만들다 만 단축어": {
+    "ko": "만들다 만 단축어",
+    "en": "Unfinished Snippets",
+    "comment": "Candidates tab: section of unfinished snippets (drafts)",
+    "h": "96128db9a0"
+  },
   "만들다 만 단축어가 없어요": {
     "ko": "만들다 만 단축어가 없어요",
     "en": "No unfinished snippets",
@@ -8741,6 +8747,12 @@
     "comment": "DYK title: auto classify",
     "h": "5100523357"
   },
+  "복사한 글": {
+    "ko": "복사한 글",
+    "en": "Copied",
+    "comment": "Candidates tab: section of recently copied texts",
+    "h": "1bd0da77e3"
+  },
   "복사한 글 바로 붙여넣기": {
     "ko": "복사한 글 바로 붙여넣기",
     "en": "Quick Paste Copied Text",
@@ -8752,6 +8764,12 @@
     "en": "Paste copied text: %@",
     "comment": "Keyboard chip above the keys that pastes the text just copied. %@ is a one-line preview",
     "h": "6408a1d6bf"
+  },
+  "복사한 글, 만들다 만 단축어, 빠른 메모가 여기 모여요. 단축어로 만들 것을 골라 보세요.": {
+    "ko": "복사한 글, 만들다 만 단축어, 빠른 메모가 여기 모여요. 단축어로 만들 것을 골라 보세요.",
+    "en": "Copied text, unfinished snippets and quick notes gather here. Pick the ones to keep as snippets.",
+    "comment": "Candidates tab: empty state description",
+    "h": "b3866934a5"
   },
   "복사한 글을 이 목록에 저장": {
     "ko": "복사한 글을 이 목록에 저장",
@@ -9364,6 +9382,12 @@
     "en": "Quick and easy way to leave a review (Recommended)",
     "comment": "In-app review description",
     "h": "fd0990209a"
+  },
+  "빠른 메모": {
+    "ko": "빠른 메모",
+    "en": "Quick Notes",
+    "comment": "Candidates tab: section of quick notes captured from Control Center, Siri or the share sheet",
+    "h": "e06a7419e4"
   },
   "빠른 삽입": {
     "ko": "빠른 삽입",
@@ -13493,6 +13517,12 @@
     "comment": "VoiceOver: temporary item",
     "h": "39d285e134"
   },
+  "임시함": {
+    "ko": "임시함",
+    "en": "To Sort",
+    "comment": "Tab bar: candidates tab collecting things that could become snippets (drafts, quick notes, copied texts)",
+    "h": "1371072d55"
+  },
   "입금 계좌": {
     "ko": "입금 계좌",
     "en": "Bank account",
@@ -13738,6 +13768,12 @@
     "en": "Suggest snippets you use often",
     "comment": "Toggle: the keyboard learns which snippet you insert after a word and suggests it",
     "h": "40ce387124"
+  },
+  "자주 넣은 글": {
+    "ko": "자주 넣은 글",
+    "en": "Used Often",
+    "comment": "Candidates tab: section of copied texts the user inserted from the keyboard several times",
+    "h": "00a684749d"
   },
   "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기": {
     "ko": "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기",
@@ -14344,6 +14380,12 @@
     "en": "Share actually using organization.",
     "comment": "Marketing hint: category",
     "h": "210a60ada5"
+  },
+  "정리할 것이 없어요": {
+    "ko": "정리할 것이 없어요",
+    "en": "Nothing to sort",
+    "comment": "Candidates tab: empty state title",
+    "h": "1c4ea1521c"
   },
   "정리해도 단축어는 지워지지 않아요. 카테고리를 지우면 그 안에 있던 단축어는 기본 탭으로 옮겨 갑니다.": {
     "ko": "정리해도 단축어는 지워지지 않아요. 카테고리를 지우면 그 안에 있던 단축어는 기본 탭으로 옮겨 갑니다.",
@@ -16762,6 +16804,12 @@
     "en": "The keyboard will show up to %d snippets. The rest are hidden, not deleted. Upgrade to Pro to keep using them all.",
     "comment": "Access ending banner: body, last trial day (shortcut limit)",
     "h": "bf082cce41"
+  },
+  "키보드에서 %d번 넣었어요": {
+    "ko": "키보드에서 %d번 넣었어요",
+    "en": "Inserted %d times from the keyboard",
+    "comment": "Candidates tab: how many times this copied text was inserted from the keyboard. %d is the count",
+    "h": "d8f968c6f3"
   },
   "키보드에서 '최근'을 보려면 전체 접근 허용을 켜 주세요": {
     "ko": "키보드에서 '최근'을 보려면 전체 접근 허용을 켜 주세요",
