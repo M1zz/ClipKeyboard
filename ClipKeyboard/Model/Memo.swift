@@ -561,7 +561,10 @@ struct Memo: Identifiable, Codable {
         self.title = oldMemo.title
         self.value = oldMemo.value
         self.isChecked = oldMemo.isChecked
-        self.lastEdited = Date() // 새로운 버전에서 추가된 속성 초기화
+        // ⚠️ 지금 시각을 넣지 않는다. 옛 형식으로 읽는 것은 대개 **못 푼 칸을 제목 · 본문만 건진** 경우다.
+        //    지금 시각이면 동기화가 이 쪼그라든 사본을 가장 최신으로 보고 올려, 다른 기기의 온전한 단축어
+        //    (즐겨찾기 · 잠금 · 카테고리 · 그림)를 덮는다. 아주 옛날로 두어 어떤 사본과 겨뤄도 지게 한다.
+        self.lastEdited = .distantPast
         self.isFavorite = false
     }
 

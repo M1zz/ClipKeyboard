@@ -153,6 +153,74 @@ final class StabilityHardeningTests: XCTestCase {
         XCTAssertTrue(MemoStore.storedFileHasContent(type: .memo))
     }
 
+    // MARK: - 건진 단축어가 다른 기기의 온전한 사본을 덮지 않는다 (MemoStore.SalvageHold)
+
+    func testSalvagedMemoKeepsItsEditTimeAndIsHeldFromSync() throws {
+        guard let url = try MemoStore.fileURL(type: .memo), !url.path.isEmpty else {
+            throw XCTSkip("App Group 컨테이너가 없다")
+        }
+        let folder = url.deletingLastPathComponent()
+        let copiesBefore = Set(corruptCopies(in: folder))
+        let originalStore = MemoStore.SalvageHold.store
+        MemoStore.SalvageHold.store = defaults
+        defer {
+            MemoStore.SalvageHold.store = originalStore
+            try? MemoStore.shared.save(memos: [], type: .memo)
+            for name in Set(corruptCopies(in: folder)).subtracting(copiesBefore) {
+                try? FileManager.default.removeItem(at: folder.appendingPathComponent(name))
+            }
+        }
+
+        let good = UUID(), dated = UUID(), undated = UUID()
+        let edited = Date(timeIntervalSinceReferenceDate: 700_000_000)
+        let json = """
+        [{"id":"\(good.uuidString)","title":"멀쩡","value":"a","isChecked":false},
+         {"id":"\(dated.uuidString)","title":"깨짐","value":"b","isChecked":false,"clipCount":"셋",
+          "lastEdited":\(edited.timeIntervalSinceReferenceDate),"isFavorite":true},
+         {"id":"\(undated.uuidString)","title":"깨짐2","value":"c","isChecked":false,"clipCount":"넷"}]
+        """
+        try Data(json.utf8).write(to: url, options: .atomic)
+
+        let memos = try MemoStore.shared.load(type: .memo)
+        XCTAssertEqual(memos.map(\.id), [good, dated, undated])
+        XCTAssertEqual(memos[1].lastEdited, edited, "건진 칸은 원래 고친 시각을 지킨다(지금 시각이면 동기화에서 이긴다)")
+        XCTAssertEqual(memos[2].lastEdited, .distantPast, "고친 시각을 못 읽으면 어떤 사본과 겨뤄도 지는 옛날")
+        XCTAssertEqual(MemoStore.SalvageHold.heldIDs(in: memos), [dated, undated], "멀쩡한 칸은 붙잡지 않는다")
+
+        // 파일이 다시 저장돼 다음 읽기에서 멀쩡히 풀려도 붙잡은 것은 남는다.
+        try MemoStore.shared.save(memos: memos, type: .memo)
+        let reloaded = try MemoStore.shared.load(type: .memo)
+        XCTAssertEqual(MemoStore.SalvageHold.heldIDs(in: reloaded), [dated, undated])
+
+        // 사용자가 고치면 풀린다(그 편집은 사용자 뜻이라 올라간다).
+        var touched = reloaded
+        touched[1].lastEdited = Date()
+        XCTAssertEqual(MemoStore.SalvageHold.heldIDs(in: touched), [undated])
+    }
+
+    func testMergeLetsRemoteReplaceHeldSalvageAndNeverReuploadsIt() {
+        let id = UUID()
+        var degraded = Memo(id: id, title: "깨짐", value: "b")
+        degraded.lastEdited = Date()   // 혹시 더 최신이어도
+        var intact = Memo(id: id, title: "깨짐", value: "b", isFavorite: true, category: "업무", isSecure: true)
+        intact.lastEdited = Date(timeIntervalSinceNow: -3600)
+        let remote = [RemoteMemo(id: id, memo: intact, lastEdited: intact.lastEdited)]
+
+        let held = MemoSyncCore.merge(local: [degraded], localTombstones: [:], remote: remote, heldBack: [id])
+        XCTAssertTrue(held.toReupload.isEmpty, "건진 사본은 다시 올리지 않는다")
+        XCTAssertEqual(held.memos.first?.isFavorite, true, "온전한 원격 사본이 건진 사본을 대신한다")
+        XCTAssertEqual(held.memos.first?.category, "업무")
+
+        let deleted = MemoSyncCore.merge(local: [degraded], localTombstones: [:],
+                                         remote: [RemoteMemo(id: id, memo: nil, lastEdited: .distantPast)],
+                                         heldBack: [id])
+        XCTAssertTrue(deleted.memos.isEmpty, "건진 사본은 원격 삭제를 되살리지 않는다")
+        XCTAssertTrue(deleted.toReupload.isEmpty)
+
+        let old = Memo(from: OldMemo(title: "옛", value: "값"))
+        XCTAssertEqual(old.lastEdited, .distantPast, "옛 형식으로 건진 사본은 지금 시각을 받지 않는다")
+    }
+
     private func corruptCopies(in folder: URL) -> [String] {
         ((try? FileManager.default.contentsOfDirectory(atPath: folder.path)) ?? [])
             .filter { $0.hasPrefix("\(StorageFile.memos).corrupt-") }

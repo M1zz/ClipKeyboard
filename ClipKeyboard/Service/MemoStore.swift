@@ -302,10 +302,12 @@ class MemoStore: ObservableObject {
             return []
         }
         var memos = decoded.memos
-        if decoded.salvaged {
+        if !decoded.stripped.isEmpty {
             // 못 푼 칸은 제목 · 본문만 남았다. 다음 저장이 그 모습을 굳히기 전에 원본을 옆에 둔다.
             // 목록은 그대로 서므로 복구 안내(플래그)는 세우지 않는다.
             Self.quarantineCorruptFile(at: fileURL, type: type, raisesFlag: false)
+            // 그 칸들은 동기화로 올리지 않는다(`SalvageHold`). 다른 기기의 온전한 사본을 덮으면 안 된다.
+            if type == .memo { SalvageHold.hold(decoded.stripped) }
         }
         if type == .memo {
             if Self.restoreCategoriesFromSidecar(&memos) {
@@ -334,10 +336,10 @@ class MemoStore: ObservableObject {
         decodeMemos(data)?.memos
     }
 
-    /// `salvaged` 가 참이면 일부 칸을 제목 · 본문만 건진 것이다.
-    private func decodeMemos(_ data: Data) -> (memos: [Memo], salvaged: Bool)? {
+    /// `stripped` 는 제목 · 본문만 건진 칸들이다(온전히 풀었으면 비어 있다).
+    private func decodeMemos(_ data: Data) -> (memos: [Memo], stripped: [Memo])? {
         if let memos = try? JSONDecoder().decode([Memo].self, from: data) {
-            return (memos, false)
+            return (memos, [])
         }
         // 한 칸이 어긋나 통째로 실패했다. **칸마다 따로** 푼다.
         //
@@ -348,7 +350,7 @@ class MemoStore: ObservableObject {
         if let salvaged = try? JSONDecoder().decode([SalvagedMemo].self, from: data) {
             let stripped = salvaged.filter(\.stripped).count
             AppLog.error(.store, "🚨 [MemoStore.decode] 단축어 \(stripped)개를 온전히 풀지 못해 제목 · 본문만 건졌다(전체 \(salvaged.count)개)")
-            return (salvaged.map(\.memo), stripped > 0)
+            return (salvaged.map(\.memo), salvaged.filter(\.stripped).map(\.memo))
         }
         return nil
     }
@@ -364,9 +366,47 @@ class MemoStore: ObservableObject {
                 self.memo = memo
                 self.stripped = false
             } else {
-                self.memo = Memo(from: try OldMemo(from: decoder))
+                var memo = Memo(from: try OldMemo(from: decoder))
+                // 고친 시각이 읽히면 그대로 둔다. 못 읽으면 `Memo(from: OldMemo)` 의 아주 옛날 그대로다.
+                // 지금 시각이면 동기화에서 이 쪼그라든 사본이 다른 기기의 온전한 사본을 이긴다.
+                if let edited = try? decoder.container(keyedBy: EditedKey.self)
+                    .decodeIfPresent(Date.self, forKey: .lastEdited) {
+                    memo.lastEdited = edited
+                }
+                self.memo = memo
                 self.stripped = true
             }
+        }
+
+        private enum EditedKey: String, CodingKey { case lastEdited }
+    }
+
+    /// 제목 · 본문만 건진 단축어를 **동기화로 올리지 않게** 붙잡아 둔다.
+    ///
+    /// ⚠️ 그 사본은 즐겨찾기 · 잠금 · 카테고리 · 그림을 잃은 모습이다. 섀도와 지문이 달라 "고친 것" 으로
+    ///    보이므로 그대로 두면 iCloud 로 올라가 다른 기기의 온전한 단축어를 덮는다. 고친 시각을 옛날로
+    ///    두는 것만으로는 막지 못한다: 이 기기가 서버 버전 태그를 들고 있으면 CloudKit 은 시각을 보지 않고
+    ///    덮어쓰기를 받는다. 그래서 올리는 쪽에서 막는다.
+    ///
+    /// 붙잡는 것은 **건진 그 모습 그대로일 때만**이다(id 와 고친 시각이 같을 때). 사용자가 그 단축어를
+    /// 고치면 고친 시각이 바뀌어 풀리고, 그 편집은 사용자 뜻이므로 올라간다.
+    /// 파일이 다시 저장돼 다음 읽기에서 멀쩡히 풀려도 붙잡은 것은 남는다(기억이 파일 밖에 있어서).
+    enum SalvageHold {
+        static let key = "memo.sync.salvageHold"
+        /// 앱 · 키보드가 같이 본다. 시험은 따로 넣는다.
+        static var store: UserDefaults? = AppGroup.defaults
+
+        static func hold(_ memos: [Memo]) {
+            guard let store, !memos.isEmpty else { return }
+            var held = store.dictionary(forKey: key) as? [String: Double] ?? [:]
+            for memo in memos { held[memo.id.uuidString] = memo.lastEdited.timeIntervalSinceReferenceDate }
+            store.set(held, forKey: key)
+        }
+
+        /// 이 목록에서 아직 건진 모습 그대로인 단축어의 id.
+        static func heldIDs(in memos: [Memo]) -> Set<UUID> {
+            guard let held = store?.dictionary(forKey: key) as? [String: Double], !held.isEmpty else { return [] }
+            return Set(memos.filter { held[$0.id.uuidString] == $0.lastEdited.timeIntervalSinceReferenceDate }.map(\.id))
         }
     }
 
