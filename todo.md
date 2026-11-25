@@ -5,7 +5,7 @@
 - [x] 말없이 막히던 자리: 무료 기간 뒤 복사 기록이 50개에서 잘림. 만들어 두고 안 잇던 `LimitType.clipboardHistory` 페이월을 목록 '최근' 끝 한 줄로 잇는다(누를 때만, 찾는 중엔 숨김). 한도 · 가격은 그대로
 - [x] 계좌 카드: 숫자 10~14자리면 무엇이든 "내 계좌번호" 로 부르던 '방금 복사함' 카드. 확신 없는 돈 · 신원 종류는 그냥 글로, 돈 · 신원 종류엔 '내' 를 빼고 끝 네 자리만(`FreshClipboardPresentation`). 새 문구 없음(기존 번역만 씀)
 - [x] 시험: `PaywallReachAndCopiedCardTests` 8개, 여정 표 두 줄 · `BasicScenarioTests` 두 개
-- [x] 답글 초안 둘: docs/review-replies-2026-11-25.md
+- [x] 답글 초안 둘: marketing/review-replies-2026-11-25.md (공개 사이트 폴더 밖)
 - [ ] App Store Connect 에 답글 두 개 게시
 - [ ] 다음 빌드 올리기
 - [ ] 다음 빌드 2주 뒤 허브에서 페이월 노출 다시 보기: `paywall_view:free_use_threshold` 가 얼마나 더해지는지, 그래도 낮으면 원인은 셈법이 아니라 무료 기간(100번)이다
