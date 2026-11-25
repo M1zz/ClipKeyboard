@@ -1419,7 +1419,9 @@ final class ClipKeyboardListViewModel: ObservableObject {
 
             self.value = clipboardString
             let classification = ClipboardClassificationService.shared.classify(content: clipboardString)
-            self.clipboardDetectedType = classification.type
+            // 확신 없이 "계좌번호" 라 부르지 않는다(`FreshClipboardPresentation` 머리말, 1점 리뷰 "Scam").
+            self.clipboardDetectedType = FreshClipboardPresentation.displayedType(classification.type,
+                                                                                confidence: classification.confidence)
             self.clipboardConfidence = classification.confidence
             self.hasFreshClipboard = true
             print("📋 [checkFreshClipboard] 새 클립보드 감지: \(classification.type.rawValue)")

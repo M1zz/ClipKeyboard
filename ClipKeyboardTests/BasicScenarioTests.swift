@@ -885,6 +885,70 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertEqual(MemoTypeStyle.border(for: template, visualCuesVisible: false, accent: .blue).lineWidth, 0)
     }
 
+    // MARK: - 방금 복사함 카드 (1점 리뷰 "Scam", 2026-11)
+
+    /// 숫자만 복사하고 앱을 열면 카드가 그것을 "내 계좌번호" 라 부르며 한 번에 저장하자고 했다.
+    /// 분류 규칙이 숫자 10~14자리면 무엇이든 계좌로 보는 약한 규칙이라, 주문번호에도 그랬다.
+    /// 확신이 있는 카드번호는 그 이름으로 부르되 '내' 는 붙이지 않고, 카드에는 끝 네 자리만 보인다.
+    func test_숫자만_복사하면_카드가_계좌번호라_부르지_않고_확실한_카드번호는_끝_네_자리만_보인다() throws {
+        let list = ClipKeyboardListViewModel()
+
+        // 1. 숫자만 (목록이 클립보드를 읽고 하는 그대로)
+        let digits = "3333081234567"
+        let guess = ClipboardClassificationService.shared.classify(content: digits)
+        list.value = digits
+        list.clipboardDetectedType = FreshClipboardPresentation.displayedType(guess.type, confidence: guess.confidence)
+        XCTAssertEqual(list.clipboardDetectedType, .text, "확신 없이 계좌번호라 부르지 않는다")
+        XCTAssertFalse(list.suggestedClipboardTitle.contains(ClipboardItemType.bankAccount.localizedName))
+        list.saveClipboardAsMemo()
+        let saved = try XCTUnwrap(try MemoStore.shared.load(type: .memo).first { $0.value == digits })
+        XCTAssertFalse(saved.title.contains(ClipboardItemType.bankAccount.localizedName),
+                       "원탭 저장도 '내 계좌번호' 로 저장하지 않는다")
+
+        // 2. 체크섬이 맞는 카드번호
+        let card = "4111 1111 1111 1111"
+        let cardGuess = ClipboardClassificationService.shared.classify(content: card)
+        let shown = FreshClipboardPresentation.displayedType(cardGuess.type, confidence: cardGuess.confidence)
+        XCTAssertEqual(shown, .creditCard)
+        list.value = card
+        list.clipboardDetectedType = shown
+        XCTAssertEqual(list.suggestedClipboardTitle, ClipboardItemType.creditCard.localizedName, "'내' 를 붙이지 않는다")
+        XCTAssertEqual(FreshClipboardPresentation.preview(card, type: shown), "\u{2022}\u{2022}\u{2022}\u{2022} 1111")
+    }
+
+    // MARK: - 복사 기록 무료 한도 (페이월 노출 1.3%, 2026-11)
+
+    /// 무료 기간이 끝난 무료 사용자의 복사 기록은 한도까지만 남고 넘친 것은 말없이 잘렸다.
+    /// 한도 설명과 페이월(`LimitType.clipboardHistory`)은 있었는데 아무 데도 이어져 있지 않았다.
+    /// 이제 목록 '최근' 끝에 한 줄이 서고, 누르면 그 페이월이 열린다. 저절로 뜨지는 않는다.
+    func test_무료_기간이_끝나_복사_기록이_한도에_닿으면_목록_끝에서_페이월로_잇는다() throws {
+        try XCTSkipIf(ProFeatureManager.isPro || ProFeatureManager.isGrandfathered || ProFeatureManager.isInTrial
+                      || ProFeatureManager.purchasedTier >= .plus,
+                      "이 기기가 이미 열려 있어 무료 한도를 볼 수 없다")
+        let ended = FreeUsePeriodEnded()
+        defer {
+            ended.restore()
+            try? ClipboardHistoryStore.shared.save([])
+        }
+        try ClipboardHistoryStore.shared.save([])
+        XCTAssertFalse(ProFeatureManager.hasFullAccess)
+
+        let limit = ProFeatureManager.freeClipboardHistoryLimit
+        for index in 0..<(limit + 3) {
+            try ClipboardHistoryStore.shared.add(content: "복사한 글 \(index)")
+        }
+        let stored = try ClipboardHistoryStore.shared.load()
+        XCTAssertEqual(stored.count, limit, "무료 한도까지만 남는다(한도는 그대로다)")
+
+        XCTAssertTrue(RecentClipsPage.showsHistoryCapNote(hasFullAccess: ProFeatureManager.hasFullAccess,
+                                                          storedCount: stored.count, isFiltering: false),
+                      "잘려 나가는 사람에게 목록 끝에서 알려야 한다")
+        XCTAssertFalse(RecentClipsPage.showsHistoryCapNote(hasFullAccess: ProFeatureManager.hasFullAccess,
+                                                           storedCount: stored.count, isFiltering: true),
+                       "찾는 중에는 끼어들지 않는다")
+        XCTAssertEqual(ProFeatureManager.LimitType.clipboardHistory.analyticsKey, "clipboard_history")
+    }
+
     /// 키보드의 단축어 키를 누른 것과 같다(`KeyboardView.insertMemo` 가 쏘는 알림 그대로).
     /// 쓰면 지우기면 그쪽과 똑같이 윗줄 하나만 쏜다.
     private func tapOnKeyboard(_ memo: Memo) {

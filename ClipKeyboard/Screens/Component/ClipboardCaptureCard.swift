@@ -13,6 +13,10 @@ extension ClipboardItemType {
     /// "내 이메일", "내 계좌번호" 처럼 재사용 맥락의 제목을 제안한다.
     /// 개인 데이터성 타입은 "내 %@", 그 외(링크·송장 등)는 타입명 그대로.
     var suggestedMemoTitle: String {
+        // ⚠️ 돈 · 신원이 걸린 것(계좌 · 카드 · IBAN …)에는 "내" 를 붙이지 않는다. 그 번호는
+        //    송금하려고 복사한 **남의 것**일 때가 많다. 남의 계좌를 "내 계좌번호" 라 부르며
+        //    저장하자고 하는 카드는 앱이 내 금융 정보를 집어 간 것처럼 읽혔다(1점 리뷰 "Scam", 2026-11).
+        if isSensitive { return localizedName }
         switch self {
         case .text, .image, .url, .trackingNumber, .confirmationCode,
              .declarationNumber, .ipAddress, .vehiclePlate, .medicalRecord:
@@ -20,6 +24,36 @@ extension ClipboardItemType {
         default:
             return String(format: NSLocalizedString("내 %@", comment: "Suggested memo title: My <type>"), localizedName)
         }
+    }
+}
+
+/// "방금 복사함" 카드가 복사한 글을 **무엇이라고 부르고 어떻게 보일지** - 순수 함수.
+///
+/// 왜 따로 두나: 1점 리뷰가 이 카드를 "Scam" 이라 불렀다(2026-11). 앱을 열면 iOS 붙여넣기 허용 창
+/// 다음에 돈 그림(💵)과 함께 숫자가 통째로 크게 서고, 한 번 누르면 "내 계좌번호" 로 저장됐다.
+/// 그런데 계좌번호 판정은 숫자 10~14자리면 무엇이든 걸리는 약한 규칙이다(신뢰도 0.6).
+/// 주문번호 · 송장번호를 복사해도 앱이 "당신의 계좌번호" 라고 우긴 셈이다.
+///
+/// 규칙
+/// - 돈 · 신원이 걸린 종류인데 **확신이 없으면** 그냥 글로 부른다(그림 · 제목 · 저장 종류 모두).
+/// - 확신이 있어도 카드에는 **끝 네 자리만** 보인다. 키보드의 붙여넣기 칩 · '최근' 페이지와 같은 규칙이다.
+enum FreshClipboardPresentation {
+
+    /// 이보다 낮으면 돈 · 신원이 걸린 종류라고 부르지 않는다.
+    /// (`FeatureFit` 이 생체잠금을 권할 때 쓰는 문턱과 같다)
+    static let sensitiveNamingConfidence = 0.7
+
+    /// 카드가 부를 종류.
+    static func displayedType(_ type: ClipboardItemType, confidence: Double) -> ClipboardItemType {
+        if type.isSensitive && confidence < sensitiveNamingConfidence { return .text }
+        return type
+    }
+
+    /// 카드에 보일 글. 돈 · 신원이 걸린 것은 끝 네 자리만. 저장되는 값은 원문 그대로다.
+    static func preview(_ value: String, type: ClipboardItemType) -> String {
+        guard type.isSensitive else { return value }
+        let tail = String(value.filter { !$0.isWhitespace && !$0.isNewline }.suffix(4))
+        return "\u{2022}\u{2022}\u{2022}\u{2022} " + tail
     }
 }
 
@@ -177,7 +211,7 @@ struct ClipboardCaptureCard: View {
     }
 
     private var previewText: some View {
-        Text(value)
+        Text(FreshClipboardPresentation.preview(value, type: detectedType))
             .font(.subheadline.weight(.medium))
             .foregroundColor(theme.text)
             .lineLimit(3)

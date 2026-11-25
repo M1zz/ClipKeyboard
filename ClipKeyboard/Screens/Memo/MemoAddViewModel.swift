@@ -747,6 +747,8 @@ final class MemoAddViewModel: ObservableObject {
             return (existing.id, keyword)
         } else {
             if !ProFeatureManager.canAddMemo(currentCount: ProFeatureManager.ownMemoCount(loadedMemos)) {
+                // 무엇 때문에 띄웠는지 같이 넘긴다. 빠지면 허브에 출처 없는 페이월로 남는다.
+                paywallTrigger = .memo
                 showPaywall = true
                 throw CancellationError()
             }

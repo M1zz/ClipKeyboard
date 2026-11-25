@@ -28,6 +28,7 @@ struct RecentClipsPage: View {
     @Environment(\.appTheme) private var theme
     @State private var history: [SmartClipboardHistory] = []
     @State private var itemToSave: SmartClipboardHistory?
+    @State private var showsPaywall = false
 
     /// 복사한 때를 얼마 전으로 적을지 날짜와 시간으로 적을지(설정 ▸ 단축어 표시).
     @AppStorage(AppPrefs.recentTimeStyle.key) private var timeStyleRaw: String = AppPrefs.recentTimeStyle.fallback
@@ -55,6 +56,11 @@ struct RecentClipsPage: View {
                     ForEach(clips) { clip in
                         row(clip)
                     }
+                    if Self.showsHistoryCapNote(hasFullAccess: ProFeatureManager.hasFullAccess,
+                                                storedCount: history.count,
+                                                isFiltering: !trimmedQuery.isEmpty) {
+                        historyCapNote
+                    }
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 4)
@@ -73,6 +79,43 @@ struct RecentClipsPage: View {
                 onToast(NSLocalizedString("단축어로 저장되었습니다", comment: "Clipboard item saved as memo"))
             }
         }
+        .paywall(isPresented: $showsPaywall, triggeredBy: .clipboardHistory)
+    }
+
+    // MARK: - 무료 한도에 닿은 복사 기록
+
+    /// 무료로 남는 복사 기록 수에 닿았는가 - **순수 함수.**
+    ///
+    /// ⚠️ 무료 기간(`FreeUse`)이 끝난 무료 사용자는 복사 기록이 `freeClipboardHistoryLimit` 개까지만 남는다.
+    ///    넘친 것은 저장할 때 말없이 잘려 나가서(`ClipboardHistoryStore.add`), 빈 화면이 약속하는
+    ///    "30일 동안 남아요" 가 그 사람에게는 조용히 깨졌다. 한도 설명과 페이월(`LimitType.clipboardHistory`)은
+    ///    만들어 두고 어디에도 잇지 않았다(2026-11-25).
+    /// ⚠️ 저절로 띄우지 않는다. 목록 끝의 한 줄이고, 누를 때만 페이월이 열린다. 찾는 중에는 숨긴다.
+    static func showsHistoryCapNote(hasFullAccess: Bool, storedCount: Int, isFiltering: Bool,
+                                    limit: Int = ProFeatureManager.freeClipboardHistoryLimit) -> Bool {
+        !hasFullAccess && !isFiltering && storedCount >= limit
+    }
+
+    /// 목록 끝 한 줄: 무료로 남는 개수와 Pro 보기.
+    private var historyCapNote: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(ProFeatureManager.LimitType.clipboardHistory.localizedDescription)
+                .font(.body)
+                .foregroundColor(theme.textMuted)
+                .fixedSize(horizontal: false, vertical: true)
+            Button {
+                HapticManager.shared.light()
+                showsPaywall = true
+            } label: {
+                Label(NSLocalizedString("Pro 보기", comment: "Pro nudge CTA"), systemImage: AppSymbol.starCircleFill)
+                    .font(.body.weight(.semibold))
+                    .foregroundColor(theme.accent)
+            }
+            .buttonStyle(.squish)
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.top, 8)
     }
 
     // MARK: - 한 줄

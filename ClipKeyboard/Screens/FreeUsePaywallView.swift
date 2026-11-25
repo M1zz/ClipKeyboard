@@ -21,12 +21,22 @@ struct FreeUsePaywallView: View {
     @ObservedObject private var store = StoreManager.shared
 
     @State private var receipt = FreeUseReceipt.current()
+    /// 샀으면 닫기로 세지 않는다(`PaywallView` 와 같은 규칙).
+    @State private var didConvert = false
+
+    /// 허브에 남기는 진입점. 결제 단추를 누른 것(`paywall_cta_tapped`)도 같은 이름으로 남는다.
+    static func analyticsSource(isThresholdMoment: Bool) -> String {
+        isThresholdMoment ? "free_use_threshold" : "free_use_guide"
+    }
 
     var body: some View {
         NavigationStack {
             PaywallTemplate(access: .current,
-                            source: isThresholdMoment ? "free_use_threshold" : "free_use_guide",
-                            onPurchased: { _ in dismiss() }) { header }
+                            source: Self.analyticsSource(isThresholdMoment: isThresholdMoment),
+                            onPurchased: { _ in
+                                didConvert = true
+                                dismiss()
+                            }) { header }
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
                         GlassCircleButton(AppSymbol.xmark, role: .secondary,
@@ -41,6 +51,17 @@ struct FreeUsePaywallView: View {
         .onAppear {
             receipt = FreeUseReceipt.current()
             if isThresholdMoment { FreeUseMoments.shared.receiptShown() }
+            // ⚠️ 이 화면도 결제 화면이다. 예전에는 노출을 남기지 않아, 문턱에서 뜬 영수증과
+            //    안내 화면의 "Pro 보기" 가 허브의 "페이월을 봄" 에서 통째로 빠졌다.
+            //    결제 단추 누름(`paywall_cta_tapped`)은 남고 본 것은 안 남아 깔때기가 거꾸로 섰다(2026-11-25).
+            if !ProFeatureManager.hasPermanentPro {
+                AnalyticsService.logPaywallView(triggeredBy: Self.analyticsSource(isThresholdMoment: isThresholdMoment))
+            }
+        }
+        .onDisappear {
+            if !didConvert && !ProFeatureManager.hasPermanentPro {
+                AnalyticsService.logPaywallDismissed(triggeredBy: Self.analyticsSource(isThresholdMoment: isThresholdMoment))
+            }
         }
     }
 
