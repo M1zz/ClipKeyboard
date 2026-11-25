@@ -52,4 +52,12 @@ struct SavedDraft: Codable, Identifiable, Equatable {
         let firstLine = value.components(separatedBy: "\n").first ?? value
         return firstLine.trimmingCharacters(in: .whitespaces)
     }
+
+    /// 키보드 '임시 저장' 탭에 세울 것. 넣을 본문이 있는 것만, 최근에 둔 순서 그대로.
+    ///
+    /// ⚠️ 잠근 단축어로 만들던 것은 세우지 않는다. 키보드는 남 앞에서도 열리고,
+    ///    잠근 단축어는 원래 PIN 을 거쳐야 꺼낼 수 있다. 만들다 만 것이라고 그 문을 비켜 가면 안 된다.
+    static func keyboardShelf(_ drafts: [SavedDraft]) -> [SavedDraft] {
+        drafts.filter { !$0.isSecure && !$0.value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+    }
 }

@@ -244,6 +244,16 @@ class KeyboardViewController: UIInputViewController {
         openContainingApp(url)
     }
 
+    /// 앱을 열어 '임시 저장' 의 이 단축어를 이어 쓴다('임시 저장' 줄의 연필).
+    private func openMainAppResumeDraft(id: String) {
+        var components = URLComponents()
+        components.scheme = "clipkeyboard"
+        components.host = "draft"
+        components.queryItems = [URLQueryItem(name: "id", value: id)]
+        guard let url = components.url else { return }
+        openContainingApp(url)
+    }
+
     /// 앱을 연다(세이프 모드). 결제 화면이 아니라 앱 첫 화면으로 간다.
     @objc private func openMainApp() {
         guard let url = URL(string: "clipkeyboard://") else { return }
@@ -432,7 +442,11 @@ class KeyboardViewController: UIInputViewController {
         let t8 = NotificationCenter.default.addObserver(forName: UserDefaults.didChangeNotification, object: AppGroup.defaults, queue: .main) { [weak self] _ in
             self?.applyHeight()
         }
-        notificationTokens = [t1, t2, t3, t4, t5, t6, t7, t8]
+        let t9 = NotificationCenter.default.addObserver(forName: Notification.Name.resumeDraft, object: nil, queue: .main) { [weak self] note in
+            guard let id = note.object as? String else { return }
+            self?.openMainAppResumeDraft(id: id)
+        }
+        notificationTokens = [t1, t2, t3, t4, t5, t6, t7, t8, t9]
     }
 
     private func handleAddTextEntry(_ notification: Notification) {

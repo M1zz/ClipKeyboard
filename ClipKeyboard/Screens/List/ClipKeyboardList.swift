@@ -919,6 +919,12 @@ struct ClipKeyboardList: View {
                 AppGroup.defaults?.set(false, forKey: DefaultsKey.pendingOpenQuickNoteInbox)
                 showInboxFromIntent = true
             }
+            // 키보드 '임시 저장' 의 연필(앱 안 미리보기는 바로, 진짜 키보드는 딥링크를 거쳐).
+            .onReceive(NotificationCenter.default.publisher(for: .resumeDraft)) { note in
+                AppGroup.defaults?.removeObject(forKey: DefaultsKey.pendingDraftResume)
+                guard let id = note.object as? String else { return }
+                resumeDraft(id: id)
+            }
             .onReceive(NotificationCenter.default.publisher(for: .openQuickNoteAdd)) { _ in
                 AppGroup.defaults?.set(false, forKey: DefaultsKey.pendingQuickNoteAdd)
                 showQuickNoteAdd = true
@@ -1111,6 +1117,11 @@ struct ClipKeyboardList: View {
             store?.set(false, forKey: DefaultsKey.pendingClipboardCapture)
             print("🎛️ [ClipKeyboardList] 보류 플래그 소비 → 클립보드 담기")
             viewModel.captureClipboardFromButton()
+        }
+        if let id = store?.string(forKey: DefaultsKey.pendingDraftResume) {
+            store?.removeObject(forKey: DefaultsKey.pendingDraftResume)
+            print("🎛️ [ClipKeyboardList] 보류 값 소비 → 임시 저장 이어 쓰기")
+            resumeDraft(id: id)
         }
         if store?.bool(forKey: DefaultsKey.pendingOpenQuickNoteInbox) == true {
             store?.set(false, forKey: DefaultsKey.pendingOpenQuickNoteInbox)

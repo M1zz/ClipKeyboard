@@ -1684,6 +1684,13 @@ struct ClipKeyboardApp: App {
                     .queryItems?.first(where: { $0.name == "id" })?.value {
             // 키보드 '최근' 줄의 + → 그 글을 단축어로 저장.
             presentSaveClip(id: id)
+        } else if url.host == "draft",
+                  let id = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+                    .queryItems?.first(where: { $0.name == "id" })?.value {
+            // 키보드 '임시 저장' 줄의 연필 → 그 단축어를 이어 쓴다. 콜드 런치면 목록이 아직 없어
+            // 알림이 사라질 수 있으므로 보류 값도 남긴다(목록이 활성화될 때 소비한다).
+            AppGroup.defaults?.set(id, forKey: DefaultsKey.pendingDraftResume)
+            NotificationCenter.postOnMain(name: .resumeDraft, object: id)
         } else if url.host == "quicknote" {
             // Control Center 빠른 메모 컨트롤 → 빠른 메모 입력 시트 열기.
             // 콜드 런치에선 이 알림이 리스트의 구독 설치보다 먼저 발행돼 유실될 수 있어

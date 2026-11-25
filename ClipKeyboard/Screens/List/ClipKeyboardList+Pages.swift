@@ -463,6 +463,16 @@ extension ClipKeyboardList {
         .accessibilityHint(NSLocalizedString("이어서 쓰려면 두 번 누르세요", comment: "VoiceOver hint of a draft card: double tap to continue writing"))
     }
 
+    /// 키보드 '임시 저장' 에서 고른 드래프트를 이어 쓴다. 이미 저장했거나 지웠으면 아무것도 하지 않는다.
+    /// ⚠️ 디스크에서 읽는다. 키보드가 방금 쓴 것을 앱의 `DraftStore` 가 아직 다시 읽지 않았을 수 있다.
+    func resumeDraft(id: String) {
+        guard let uuid = UUID(uuidString: id),
+              let draft = DraftStore.loadFromDisk().first(where: { $0.id == uuid }),
+              !showAddMemoSheet else { return }
+        DraftStore.shared.reload()
+        resumeDraft(draft)
+    }
+
     /// 임시 카드를 눌렀다. 그 자리는 빈 자리로 바뀌고, 저장하면 그 자리에서 카드가 된다.
     func resumeDraft(_ draft: SavedDraft) {
         HapticManager.shared.light()

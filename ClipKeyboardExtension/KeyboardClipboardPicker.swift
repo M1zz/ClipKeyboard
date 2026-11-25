@@ -536,10 +536,63 @@ final class KeyRepeater {
 /// 담는 일은 `KeyboardView.collectCopiedTextIntoRecents` 가 한다.
 ///
 /// **짧게 누르면 넣고, 길게 누르면 클립보드로, 왼쪽으로 밀면 지운다.**
+/// '최근' · '임시 저장' 판의 한 줄. 판은 글이 어디서 왔는지 모른다(부르는 쪽이 옮겨 담는다).
+struct KeyboardShelfRow: Identifiable, Equatable {
+    let id: UUID
+    /// 넣을 글. 원문 그대로다.
+    let text: String
+    /// 줄에 보일 글. 남이 보면 곤란한 것(카드번호 · 계좌)은 끝 네 자리만.
+    let preview: String
+    let icon: String
+}
+
+extension KeyboardShelfRow {
+    /// '최근' 의 복사한 글.
+    init(clip: SmartClipboardHistory) {
+        let type = clip.userCorrectedType ?? clip.detectedType
+        let text = clip.content.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.init(id: clip.id,
+                  text: clip.content,
+                  preview: type.isSensitive
+                      ? "\u{2022}\u{2022}\u{2022}\u{2022} " + String(text.filter { !$0.isWhitespace }.suffix(4))
+                      : text,
+                  icon: type.icon)
+    }
+
+    /// '임시 저장' 의 만들다 만 단축어. 제목이 있으면 "제목 · 본문 첫 줄".
+    /// ⚠️ 잠근 단축어로 만들던 것은 판에 세우지 않는다(부르는 쪽이 거른다).
+    init(draft: SavedDraft) {
+        let title = draft.keyword.trimmingCharacters(in: .whitespacesAndNewlines)
+        let body = draft.previewLine
+        self.init(id: draft.id,
+                  text: draft.value,
+                  preview: title.isEmpty ? body : (body.isEmpty ? title : "\(title) \u{00B7} \(body)"),
+                  icon: AppSymbol.squareAndPencil)
+    }
+}
+
+/// 판이 무엇을 담는가. 줄 오른쪽 단추가 하는 일과 빈 화면의 말이 갈린다.
+enum KeyboardShelfKind {
+    /// 복사해 담아 둔 것. 단추는 단축어로 저장.
+    case recents
+    /// 만들다 만 단축어(`SavedDraft`). 단추는 앱에서 이어 쓰기.
+    case drafts
+
+    var actionSymbol: String { self == .recents ? AppSymbol.plus : AppSymbol.pencil }
+
+    var actionLabel: String {
+        switch self {
+        case .recents: return NSLocalizedString("단축어로 저장", comment: "Save to memo sheet title")
+        case .drafts: return NSLocalizedString("이어서 쓰기", comment: "Keyboard drafts tab: row button that opens the app to finish this unfinished shortcut")
+        }
+    }
+}
+
 struct KeyboardRecentClipsPanel: View {
 
     /// 보여 줄 것. 부르는 쪽이 보관 기간과 검색어로 이미 걸러서 넘긴다.
-    let clips: [SmartClipboardHistory]
+    let rows: [KeyboardShelfRow]
+    var kind: KeyboardShelfKind = .recents
     let theme: AppTheme
     /// 단축어 키와 같은 키캡으로 그린다(물성 · 키 색 · 높이 · 글자 크기를 그대로 받는다).
     let skin: KeyboardSkin
@@ -550,11 +603,11 @@ struct KeyboardRecentClipsPanel: View {
     let isFiltering: Bool
     /// 전체 접근이 꺼져 있어 복사한 것을 못 읽는가(진짜 키보드만). 빈 화면이 그 사정을 말한다.
     let needsFullAccess: Bool
-    let onInsert: (SmartClipboardHistory) -> Void
-    let onCopy: (SmartClipboardHistory) -> Void
-    let onDelete: (SmartClipboardHistory) -> Void
-    /// 줄 오른쪽 + : 이 글을 단축어로 저장한다(앱의 저장 시트가 뜬다).
-    let onSave: (SmartClipboardHistory) -> Void
+    let onInsert: (KeyboardShelfRow) -> Void
+    let onCopy: (KeyboardShelfRow) -> Void
+    let onDelete: (KeyboardShelfRow) -> Void
+    /// 줄 오른쪽 단추(`kind.actionLabel`). '최근' 은 단축어로 저장, '임시 저장' 은 앱에서 이어 쓰기.
+    let onSave: (KeyboardShelfRow) -> Void
     /// 한 줄을 밀고 있는 동안 참. 부르는 쪽은 그동안 탭을 넘기지 않는다.
     @Binding var isSwipingRow: Bool
 
@@ -577,14 +630,14 @@ struct KeyboardRecentClipsPanel: View {
     private static let saveButtonWidth: CGFloat = 40
 
     var body: some View {
-        if clips.isEmpty {
+        if rows.isEmpty {
             emptyState
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             ScrollView {
                 LazyVStack(spacing: 8) {
-                    ForEach(clips) { clip in
-                        swipeRow(clip)
+                    ForEach(rows) { row in
+                        swipeRow(row)
                     }
                 }
                 .padding(.horizontal, 12)
@@ -610,11 +663,11 @@ struct KeyboardRecentClipsPanel: View {
 
     // MARK: - 밀어서 지우기
 
-    private func restingOffset(_ clip: SmartClipboardHistory) -> CGFloat {
+    private func restingOffset(_ clip: KeyboardShelfRow) -> CGFloat {
         openRowId == clip.id ? -Self.deleteWidth : 0
     }
 
-    private func offset(_ clip: SmartClipboardHistory) -> CGFloat {
+    private func offset(_ clip: KeyboardShelfRow) -> CGFloat {
         draggingId == clip.id ? dragOffset : restingOffset(clip)
     }
 
@@ -624,7 +677,7 @@ struct KeyboardRecentClipsPanel: View {
     ///    목록의 손짓과 탭 넘기기가 같은 손짓을 두고 다툰다. 줄을 민 손짓은 여기서 잡고
     ///    `isSwipingRow` 로 알려, 부르는 쪽이 그때만 탭을 넘기지 않는다.
     /// ⚠️ 손짓은 `simultaneousGesture` 로 단다. 우선 손짓으로 달면 위아래 스크롤이 먹힌다.
-    private func swipeRow(_ clip: SmartClipboardHistory) -> some View {
+    private func swipeRow(_ clip: KeyboardShelfRow) -> some View {
         let current = offset(clip)
         return ZStack(alignment: .trailing) {
             if current < 0 {
@@ -652,7 +705,7 @@ struct KeyboardRecentClipsPanel: View {
         .simultaneousGesture(swipeGesture(clip))
     }
 
-    private func swipeGesture(_ clip: SmartClipboardHistory) -> some Gesture {
+    private func swipeGesture(_ clip: KeyboardShelfRow) -> some Gesture {
         DragGesture(minimumDistance: 15)
             .onChanged { value in
                 let w = value.translation.width
@@ -684,7 +737,7 @@ struct KeyboardRecentClipsPanel: View {
             }
     }
 
-    private func delete(_ clip: SmartClipboardHistory) {
+    private func delete(_ clip: KeyboardShelfRow) {
         withAnimation(.easeOut(duration: 0.2)) {
             openRowId = nil
             draggingId = nil
@@ -724,7 +777,7 @@ struct KeyboardRecentClipsPanel: View {
     ///    새것이 위에 오므로 때는 순서가 이미 말해 준다. 그보다 "이건 계속 쓰겠다" 싶은 글을
     ///    그 자리에서 단축어로 옮기는 길이 없었다(길게 누르기는 복사다).
     /// ⚠️ + 는 넣기 단추 **바깥**에 얹는다. 단추 안의 단추는 눌림이 바깥 단추로 새어 글이 같이 들어간다.
-    private func row(_ clip: SmartClipboardHistory) -> some View {
+    private func row(_ clip: KeyboardShelfRow) -> some View {
         ZStack(alignment: .trailing) {
             insertButton(clip)
             saveButton(clip)
@@ -732,13 +785,13 @@ struct KeyboardRecentClipsPanel: View {
         }
     }
 
-    private func saveButton(_ clip: SmartClipboardHistory) -> some View {
+    private func saveButton(_ clip: KeyboardShelfRow) -> some View {
         Button {
             guard draggingId == nil, Date().timeIntervalSince(lastSwipeEnd) > 0.3, openRowId == nil else { return }
             KeyboardHaptics.tap()
             onSave(clip)
         } label: {
-            Image(systemName: AppSymbol.plus)
+            Image(systemName: kind.actionSymbol)
                 .font(.system(size: fontSize * 0.82, weight: .semibold))
                 .foregroundColor(theme.accent)
                 .frame(width: 30, height: 30)
@@ -747,22 +800,21 @@ struct KeyboardRecentClipsPanel: View {
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(NSLocalizedString("단축어로 저장", comment: "Save to memo sheet title"))
+        .accessibilityLabel(kind.actionLabel)
     }
 
-    private func insertButton(_ clip: SmartClipboardHistory) -> some View {
-        let type = clip.userCorrectedType ?? clip.detectedType
-        return Button {
+    private func insertButton(_ clip: KeyboardShelfRow) -> some View {
+        Button {
             tap(clip)
         } label: {
             HStack(alignment: .center, spacing: 8) {
-                Image(systemName: type.icon)
+                Image(systemName: clip.icon)
                     .font(.system(size: fontSize * 0.82, weight: .semibold))
                     .foregroundColor(theme.textMuted)
                     .frame(width: 18)
                     .accessibilityHidden(true)
 
-                Text(preview(clip, type: type))
+                Text(clip.preview)
                     .font(.system(size: fontSize))
                     .foregroundColor(theme.text)
                     .lineLimit(2)
@@ -792,7 +844,7 @@ struct KeyboardRecentClipsPanel: View {
         .accessibilityAction(named: Text(NSLocalizedString("Copy to clipboard", comment: "Context menu: copy"))) {
             onCopy(clip)
         }
-        .accessibilityAction(named: Text(NSLocalizedString("단축어로 저장", comment: "Save to memo sheet title"))) {
+        .accessibilityAction(named: Text(kind.actionLabel)) {
             onSave(clip)
         }
         .accessibilityAction(named: Text(NSLocalizedString("Delete", comment: "Delete button"))) {
@@ -800,7 +852,7 @@ struct KeyboardRecentClipsPanel: View {
         }
     }
 
-    private func tap(_ clip: SmartClipboardHistory) {
+    private func tap(_ clip: KeyboardShelfRow) {
         if suppressedTapId == clip.id {
             suppressedTapId = nil
             return
@@ -816,15 +868,6 @@ struct KeyboardRecentClipsPanel: View {
         onInsert(clip)
     }
 
-    /// 목록에 보일 글. 카드번호·계좌처럼 남이 보면 곤란한 것은 **끝 네 자리만** 보인다.
-    /// 넣을 때는 원문 그대로 들어간다. 키보드는 남 앞에서도 열리는 자리라서다.
-    private func preview(_ clip: SmartClipboardHistory, type: ClipboardItemType) -> String {
-        let text = clip.content.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard type.isSensitive else { return text }
-        let tail = String(text.filter { !$0.isWhitespace }.suffix(4))
-        return "\u{2022}\u{2022}\u{2022}\u{2022} " + tail
-    }
-
     // MARK: - 빈 화면
 
     private var emptyState: some View {
@@ -834,11 +877,13 @@ struct KeyboardRecentClipsPanel: View {
                 .foregroundColor(theme.textFaint)
             Text(isFiltering
                  ? NSLocalizedString("Try a shorter keyword or clear the filter.", comment: "Empty hint: search")
-                 : NSLocalizedString("아직 담아 둔 것이 없어요", comment: "Keyboard recent tab: empty title"))
+                 : kind == .drafts
+                    ? NSLocalizedString("만들다 만 단축어가 없어요", comment: "Keyboard drafts tab: empty title")
+                    : NSLocalizedString("아직 담아 둔 것이 없어요", comment: "Keyboard recent tab: empty title"))
                 .font(.footnote.weight(.semibold))
                 .foregroundColor(theme.text)
                 .multilineTextAlignment(.center)
-            if !isFiltering {
+            if !isFiltering && kind == .recents {
                 // 위에 버튼이 없어졌으니 "버튼을 누르면" 이 아니다. 복사하면 저절로 선다.
                 // 전체 접근이 꺼져 있으면 저절로 못 서므로 그 사정을 먼저 말한다.
                 Text(needsFullAccess

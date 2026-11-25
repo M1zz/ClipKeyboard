@@ -4781,6 +4781,10 @@
     "v": "Buat",
     "src": "b977bf9e98"
   },
+  "만들다 만 단축어가 없어요": {
+    "v": "Belum ada frasa yang tertunda",
+    "src": "e13e45628a"
+  },
   "만들다 만 단축어만 임시저장, 열어만 봐도 쌓이던 문제 정리": {
     "v": "Hanya frasa yang benar-benar diubah disimpan sebagai draf, tidak lagi menumpuk",
     "src": "9a225093b7"
@@ -8839,6 +8843,10 @@
     "v": "Acara",
     "src": "15fd035e42"
   },
+  "이어서 쓰기": {
+    "v": "Lanjutkan menulis",
+    "src": "b02cc44afa"
+  },
   "이어서 쓰려면 두 번 누르세요": {
     "v": "Ketuk dua kali untuk lanjut menulis",
     "src": "f4f83fec85"
@@ -9158,6 +9166,10 @@
   "자세히": {
     "v": "Selengkapnya",
     "src": "1b151032ee"
+  },
+  "자주 넣는 글이에요. 단축어로 저장할까요?": {
+    "v": "Anda sering memakai teks ini. Simpan sebagai frasa?",
+    "src": "1c5683872d"
   },
   "자주 넣는 단축어 꺼내 주기": {
     "v": "Sarankan pintasan yang sering dipakai",

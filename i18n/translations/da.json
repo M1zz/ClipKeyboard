@@ -4970,6 +4970,10 @@
     "v": "Opret",
     "src": "b977bf9e98"
   },
+  "만들다 만 단축어가 없어요": {
+    "v": "Ingen ufærdige fraser",
+    "src": "e13e45628a"
+  },
   "만들다 만 단축어만 임시저장, 열어만 봐도 쌓이던 문제 정리": {
     "v": "Kun fraser, du har ændret, gemmes som kladde. Ikke flere kladder, der hober sig op.",
     "src": "9a225093b7"
@@ -9101,6 +9105,10 @@
     "v": "Begivenheder",
     "src": "15fd035e42"
   },
+  "이어서 쓰기": {
+    "v": "Fortsæt redigering",
+    "src": "b02cc44afa"
+  },
   "이어서 쓰려면 두 번 누르세요": {
     "v": "Tryk to gange for at skrive videre",
     "src": "f4f83fec85"
@@ -9423,6 +9431,10 @@
   "자세히": {
     "v": "Læs mere",
     "src": "1b151032ee"
+  },
+  "자주 넣는 글이에요. 단축어로 저장할까요?": {
+    "v": "Du bruger den ofte. Vil du gemme den som en frase?",
+    "src": "1c5683872d"
   },
   "자주 넣는 단축어 꺼내 주기": {
     "v": "Foreslå genveje, du ofte bruger",

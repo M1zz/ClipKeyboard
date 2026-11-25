@@ -7151,6 +7151,12 @@
     "comment": "Create\nCreate the secure PIN",
     "h": "b977bf9e98"
   },
+  "만들다 만 단축어가 없어요": {
+    "ko": "만들다 만 단축어가 없어요",
+    "en": "No unfinished snippets",
+    "comment": "Keyboard drafts tab: empty title",
+    "h": "e13e45628a"
+  },
   "만들다 만 단축어만 임시저장, 열어만 봐도 쌓이던 문제 정리": {
     "ko": "만들다 만 단축어만 임시저장, 열어만 봐도 쌓이던 문제 정리",
     "en": "Drafts only save when you actually made changes, no more draft pile-up",
@@ -13235,6 +13241,12 @@
     "comment": "Usage stats: events",
     "h": "15fd035e42"
   },
+  "이어서 쓰기": {
+    "ko": "이어서 쓰기",
+    "en": "Continue editing",
+    "comment": "Keyboard drafts tab: row button that opens the app to finish this unfinished shortcut",
+    "h": "b02cc44afa"
+  },
   "이어서 쓰려면 두 번 누르세요": {
     "ko": "이어서 쓰려면 두 번 누르세요",
     "en": "Double-tap to keep writing",
@@ -13714,6 +13726,12 @@
     "en": "Learn more",
     "comment": "Free use card: more",
     "h": "1b151032ee"
+  },
+  "자주 넣는 글이에요. 단축어로 저장할까요?": {
+    "ko": "자주 넣는 글이에요. 단축어로 저장할까요?",
+    "en": "You use this a lot. Save it as a snippet?",
+    "comment": "Keyboard recent tab: banner offering to save a clip the user inserted several times as a permanent shortcut",
+    "h": "1c5683872d"
   },
   "자주 넣는 단축어 꺼내 주기": {
     "ko": "자주 넣는 단축어 꺼내 주기",

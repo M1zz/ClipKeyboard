@@ -4970,6 +4970,10 @@
     "v": "Criar",
     "src": "b977bf9e98"
   },
+  "만들다 만 단축어가 없어요": {
+    "v": "Nenhum snippet inacabado",
+    "src": "e13e45628a"
+  },
   "만들다 만 단축어만 임시저장, 열어만 봐도 쌓이던 문제 정리": {
     "v": "Rascunhos só são salvos quando você faz alterações, sem acúmulo de rascunhos",
     "src": "9a225093b7"
@@ -9098,6 +9102,10 @@
     "v": "Eventos",
     "src": "15fd035e42"
   },
+  "이어서 쓰기": {
+    "v": "Continuar editando",
+    "src": "b02cc44afa"
+  },
   "이어서 쓰려면 두 번 누르세요": {
     "v": "Toque duas vezes para continuar escrevendo",
     "src": "f4f83fec85"
@@ -9420,6 +9428,10 @@
   "자세히": {
     "v": "Saiba mais",
     "src": "1b151032ee"
+  },
+  "자주 넣는 글이에요. 단축어로 저장할까요?": {
+    "v": "Você usa isso com frequência. Salvar como snippet?",
+    "src": "1c5683872d"
   },
   "자주 넣는 단축어 꺼내 주기": {
     "v": "Sugerir atalhos que você usa sempre",

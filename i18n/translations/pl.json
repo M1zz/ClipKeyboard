@@ -5100,6 +5100,10 @@
     "v": "Utwórz",
     "src": "b977bf9e98"
   },
+  "만들다 만 단축어가 없어요": {
+    "v": "Brak nieukończonych fraz",
+    "src": "e13e45628a"
+  },
   "만들다 만 단축어만 임시저장, 열어만 봐도 쌓이던 문제 정리": {
     "v": "Wersje robocze zapisują się tylko po zmianach, bez stosu zbędnych szkiców",
     "src": "9a225093b7"
@@ -9281,6 +9285,10 @@
     "v": "Wydarzenia",
     "src": "15fd035e42"
   },
+  "이어서 쓰기": {
+    "v": "Kontynuuj edycję",
+    "src": "b02cc44afa"
+  },
   "이어서 쓰려면 두 번 누르세요": {
     "v": "Dotknij dwa razy, aby pisać dalej",
     "src": "f4f83fec85"
@@ -9605,6 +9613,10 @@
   "자세히": {
     "v": "Więcej",
     "src": "1b151032ee"
+  },
+  "자주 넣는 글이에요. 단축어로 저장할까요?": {
+    "v": "Często to wstawiasz. Zapisać jako frazę?",
+    "src": "1c5683872d"
   },
   "자주 넣는 단축어 꺼내 주기": {
     "v": "Podpowiadaj częste skróty",

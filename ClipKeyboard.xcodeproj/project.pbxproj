@@ -392,6 +392,11 @@
 		US00002A2F0000000000000002 /* UsageStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001A2F0000000000000001 /* UsageStatsView.swift */; };
 		US00002B2F0000000000000004 /* UsageReportingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001B2F0000000000000003 /* UsageReportingService.swift */; };
 		US00002C2F0000000000000006 /* UsageTrendChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = US00001C2F0000000000000005 /* UsageTrendChartView.swift */; };
+		4D6EEE47F8B0BEB91FB5DA81 /* FrequentClips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310104D6B9DB97326527EEF0 /* FrequentClips.swift */; };
+		613D7F6281FA3F5BD34687C5 /* FrequentClips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 310104D6B9DB97326527EEF0 /* FrequentClips.swift */; };
+		998F4EE389DA350FC510ECEA /* AppGroupListFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1752832F621F4C72961F0FD4 /* AppGroupListFile.swift */; };
+		C0102202028AA53CCE22233C /* SavedDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AA823053E3EC4DCC11ADF1 /* SavedDraft.swift */; };
+		79189C2161849E1FC43FA3A5 /* DraftStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A875E559BF8538E7E299AB9 /* DraftStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -836,6 +841,7 @@
 		F6624CF434978EFF5D53BB17 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = "ar.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		49FDE3266BA9D27A42ADA1E7 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = "ar.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		A40A0E105FB139313591E088 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = "ar.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		310104D6B9DB97326527EEF0 /* FrequentClips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequentClips.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -1207,6 +1213,7 @@
 				8ED0D52F6181F31C27433F4E /* PersonaInference.swift */,
 				3877F54D058455927CBAA013 /* PlaceholderSequence.swift */,
 				BEFC356ABA611E8224523881 /* KeyboardSessionLedger.swift */,
+				310104D6B9DB97326527EEF0 /* FrequentClips.swift */,
 				33A48A315EBCE9B2823C1C19 /* UsageRhythm.swift */,
 				926575C98D0A0BDDB6B6BA4D /* UsageStatsCache.swift */,
 				2C9F42D0C02B6FA782BA3DD1 /* AppLanguage.swift */,
@@ -1828,6 +1835,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79189C2161849E1FC43FA3A5 /* DraftStore.swift in Sources */,
+				C0102202028AA53CCE22233C /* SavedDraft.swift in Sources */,
+				998F4EE389DA350FC510ECEA /* AppGroupListFile.swift in Sources */,
+				613D7F6281FA3F5BD34687C5 /* FrequentClips.swift in Sources */,
 				58PA00042F0000000000000106 /* PromptLedger.swift in Sources */,
 				5122552BB078CED5A59A3AEB /* PlaceholderSequence.swift in Sources */,
 				PVLBUILD000000000000000A2 /* PlaceholderValuePicker.swift in Sources */,
@@ -1900,6 +1911,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D6EEE47F8B0BEB91FB5DA81 /* FrequentClips.swift in Sources */,
 				33AC12F4C3BF742487AF1AF3 /* UsageProfileSettingsView.swift in Sources */,
 				DCEA5C087399F61BEC1AC4AD /* RepeatCopyLedger.swift in Sources */,
 				779162296164CEB587E98D86 /* FeatureFit.swift in Sources */,

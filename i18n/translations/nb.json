@@ -4970,6 +4970,10 @@
     "v": "Opprett",
     "src": "b977bf9e98"
   },
+  "만들다 만 단축어가 없어요": {
+    "v": "Ingen uferdige fraser",
+    "src": "e13e45628a"
+  },
   "만들다 만 단축어만 임시저장, 열어만 봐도 쌓이던 문제 정리": {
     "v": "Utkast lagres bare når du faktisk har gjort endringer, så utkast hoper seg ikke opp lenger",
     "src": "9a225093b7"
@@ -9101,6 +9105,10 @@
     "v": "Hendelser",
     "src": "15fd035e42"
   },
+  "이어서 쓰기": {
+    "v": "Fortsett å redigere",
+    "src": "b02cc44afa"
+  },
   "이어서 쓰려면 두 번 누르세요": {
     "v": "Trykk to ganger for å skrive videre",
     "src": "f4f83fec85"
@@ -9423,6 +9431,10 @@
   "자세히": {
     "v": "Les mer",
     "src": "1b151032ee"
+  },
+  "자주 넣는 글이에요. 단축어로 저장할까요?": {
+    "v": "Du bruker denne ofte. Vil du lagre den som en frase?",
+    "src": "1c5683872d"
   },
   "자주 넣는 단축어 꺼내 주기": {
     "v": "Foreslå snarveier du ofte bruker",

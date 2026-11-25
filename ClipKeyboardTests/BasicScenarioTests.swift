@@ -475,6 +475,65 @@ final class BasicScenarioTests: XCTestCase {
         XCTAssertFalse(recents.contains { $0.content == "한 달 넘은 것" }, "보관 기간이 지난 것은 사라져야 한다")
     }
 
+    /// 만들다 만 단축어(임시 저장)가 키보드에도 탭으로 선다(2026-11 사용자 요청).
+    /// 앱에서 저장하지 않고 나간 글이 키보드 '임시 저장' 탭에 보이고, 잠근 것은 보이지 않으며,
+    /// 키보드에서 지우면 앱의 임시 저장에서도 사라진다(같은 파일을 쓴다).
+    func test_만들다_만_단축어는_키보드_임시_저장_탭에_서고_지우면_앱에서도_사라진다() {
+        let saved = DraftStore.loadFromDisk()
+        defer { DraftStore.loadFromDisk().forEach { DraftStore.shared.remove($0.id) }; saved.reversed().forEach { DraftStore.shared.save($0) } }
+        saved.forEach { DraftStore.shared.remove($0.id) }
+
+        let open = SavedDraft(keyword: "회의 안내", value: "내일 10시 3층 회의실에서 뵙겠습니다")
+        let locked = SavedDraft(keyword: "공동현관", value: "1234#", isSecure: true)
+        let blank = SavedDraft(keyword: "제목만", value: "  ")
+        [open, locked, blank].forEach { DraftStore.shared.save($0) }
+
+        let shelf = SavedDraft.keyboardShelf(DraftStore.loadFromDisk())
+        XCTAssertEqual(shelf.map(\.id), [open.id], "본문이 있는 열린 것만 키보드에 서야 한다")
+        XCTAssertEqual(KeyboardShelfRow(draft: open).text, open.value, "누르면 본문이 그대로 들어가야 한다")
+
+        // 키보드에서 밀어 지운 것과 같은 길
+        DraftStore.shared.remove(open.id)
+        XCTAssertFalse(DraftStore.loadFromDisk().contains { $0.id == open.id }, "앱의 임시 저장에서도 사라져야 한다")
+        XCTAssertTrue(SavedDraft.keyboardShelf(DraftStore.loadFromDisk()).isEmpty, "남은 것이 없으면 탭이 내려간다")
+    }
+
+    /// '최근' 에서 같은 글을 세 번 넣으면 단축어로 저장할지 한 번 묻는다(2026-11 사용자 요청).
+    /// 답하면 다시 묻지 않고, 이미 단축어인 글은 묻지 않는다. 기록은 키보드를 다시 띄워도 이어진다.
+    func test_최근에서_같은_글을_세_번_넣으면_단축어로_저장할지_묻는다() throws {
+        try ClipboardHistoryStore.shared.save([])
+        let key = DefaultsKey.keyboardFrequentClips
+        let savedLedger = AppGroup.defaults?.object(forKey: key)
+        defer {
+            try? ClipboardHistoryStore.shared.save([])
+            AppGroup.defaults?.set(savedLedger, forKey: key)
+        }
+        AppGroup.defaults?.removeObject(forKey: key)
+
+        try ClipboardHistoryStore.shared.add(content: "서울시 마포구 월드컵로 12, 3층")
+        let recents = SmartClipboardHistory.keyboardRecents(try ClipboardHistoryStore.shared.load())
+        let text = try XCTUnwrap(recents.first?.content)
+
+        // 키보드가 넣을 때마다 세고 저장한다. 판이 새로 떠도(다시 읽어도) 이어진다.
+        for _ in 0..<2 {
+            FrequentClips.save(FrequentClips.recordingUse(of: text, in: FrequentClips.load(from: AppGroup.defaults)),
+                               to: AppGroup.defaults)
+        }
+        XCTAssertNil(FrequentClips.suggestion(among: recents, ledger: FrequentClips.load(from: AppGroup.defaults), savedValues: []),
+                     "두 번으로는 묻지 않는다")
+        FrequentClips.save(FrequentClips.recordingUse(of: text, in: FrequentClips.load(from: AppGroup.defaults)),
+                           to: AppGroup.defaults)
+        let ledger = FrequentClips.load(from: AppGroup.defaults)
+        XCTAssertEqual(FrequentClips.suggestion(among: recents, ledger: ledger, savedValues: [])?.content, text,
+                       "세 번 넣으면 물어야 한다")
+        XCTAssertNil(FrequentClips.suggestion(among: recents, ledger: ledger, savedValues: [text]),
+                     "이미 단축어인 글은 묻지 않는다")
+
+        FrequentClips.save(FrequentClips.settling(text, in: ledger), to: AppGroup.defaults)
+        XCTAssertNil(FrequentClips.suggestion(among: recents, ledger: FrequentClips.load(from: AppGroup.defaults), savedValues: []),
+                     "답한 뒤에는 다시 묻지 않는다")
+    }
+
     /// 키보드에 '최근' 이 있으면 목록 탭에도 맨 앞에 선다(사용자: "키보드에는 최근이 생겼는데
     /// 목록 탭에는 안 생겼네"). 같은 설정 하나로 켜고 끄며, 앱이 스스로 옮길 때는 '최근' 에 세우지 않는다.
     @MainActor
