@@ -473021,6 +473021,578 @@
           }
         }
       }
+    },
+    "내 손에 맞춰 덜 틀리는 자판" : {
+      "comment" : "Roadmap item: the typing keyboard learns the user's touch habits so fewer wrong keys are hit",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لوحة مفاتيح تتعلّم لمستك"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klávesnice, která se učí váš dotyk"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Et tastatur, der lærer din berøring at kende"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Tastatur, die sich an deine Hand anpasst"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πληκτρολόγιο που προσαρμόζεται στο άγγιγμά σας"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A keyboard that learns your touch"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un teclado que se adapta a tu forma de escribir"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Näppäimistö, joka oppii kosketuksesi"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un clavier qui s'adapte à vos doigts"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Papan ketik yang belajar dari cara Anda mengetik"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una tastiera che impara come tocchi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タッチに合わせて誤入力を減らすキーボード"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Et tastatur som lærer seg måten du trykker på"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Een toetsenbord dat je aanraking leert kennen"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Klawiatura, która uczy się Twojego dotyku"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um teclado que aprende o seu toque"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Клавиатура, которая привыкает к вашим пальцам"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ett tangentbord som lär sig din touch"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "คีย์บอร์ดที่เรียนรู้การพิมพ์ของคุณ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dokunuşunuza uyum sağlayan klavye"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bàn phím quen dần với cách bạn gõ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越用越准的键盘"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "越用越准的鍵盤"
+          }
+        }
+      }
+    },
+    "자주 지우고 다시 치는 키를 기억해, 쓸수록 덜 틀리게 눌려요." : {
+      "comment" : "Roadmap item detail: learns from keys the user often deletes and retypes",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تتذكر المفاتيح التي تحذفها وتعيد كتابتها كثيرًا، فتصيب المفتاح الصحيح أكثر."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pamatuje si klávesy, které často mažete a píšete znovu, takže častěji trefíte tu správnou."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det husker de taster, du ofte sletter og skriver igen, så du oftere rammer rigtigt."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie merkt sich Tasten, die du oft löschst und neu tippst, damit du immer öfter richtig triffst."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Θυμάται τα πλήκτρα που σβήνετε και ξαναγράφετε συχνά, ώστε να πατάτε σωστότερα όσο το χρησιμοποιείτε."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It remembers the keys you often delete and retype, so you hit the right one more often."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recuerda las teclas que sueles borrar y volver a escribir, así aciertas más con el uso."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se muistaa näppäimet, jotka poistat ja kirjoitat usein uudelleen, joten osut oikeaan useammin."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il retient les touches que vous effacez et retapez souvent, pour que vous visiez plus juste avec le temps."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Papan ketik ini mengingat tombol yang sering Anda hapus dan ketik ulang, sehingga makin sering menekan tombol yang tepat."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricorda i tasti che cancelli e riscrivi spesso, così premi quello giusto più spesso."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "よく消して打ち直すキーを覚えるので、使うほど押し間違いが減ります。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det husker tastene du ofte sletter og skriver på nytt, så du treffer riktig oftere."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het onthoudt de toetsen die je vaak wist en opnieuw typt, zodat je vaker de juiste raakt."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapamiętuje klawisze, które często usuwasz i wpisujesz ponownie, więc coraz rzadziej się mylisz."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele lembra das teclas que você costuma apagar e digitar de novo, para você acertar mais vezes."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запоминает клавиши, которые вы часто стираете и вводите заново, чтобы нажатия чаще попадали точно."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det minns tangenter du ofta raderar och skriver om, så du träffar rätt oftare."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "จดจำปุ่มที่คุณมักลบแล้วพิมพ์ใหม่ เพื่อให้กดถูกมากขึ้น"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sık sildiğiniz ve yeniden yazdığınız tuşları hatırlar, böylece doğru tuşa daha sık basarsınız."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bàn phím nhớ những phím bạn hay xóa rồi gõ lại, nên càng dùng càng ít gõ nhầm."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记住你常删掉重打的按键，越用按错越少。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記住你常刪掉重打的按鍵，越用按錯越少。"
+          }
+        }
+      }
+    },
+    "자주 쓰는 말 이어서 추천" : {
+      "comment" : "Roadmap item: suggests the phrase the user usually types next",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اقتراح ما تكتبه عادةً بعد ذلك"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Navrhne, co obvykle píšete dál"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foreslår det, du plejer at skrive næste gang"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schlägt vor, was du meist als Nächstes tippst"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Πρόταση για όσα γράφετε συνήθως μετά"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggests what you usually type next"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sugiere lo que sueles escribir después"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ehdottaa, mitä yleensä kirjoitat seuraavaksi"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggère la suite que vous tapez d'habitude"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menyarankan frasa yang biasa Anda ketik berikutnya"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggerisce cosa scrivi di solito dopo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "よく続ける言葉を候補に表示"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foreslår det du vanligvis skriver videre"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stelt voor wat je meestal als volgende typt"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podpowiada, co zwykle wpisujesz dalej"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sugere o que você costuma digitar depois"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подсказывает, что вы обычно печатаете дальше"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Föreslår det du brukar skriva härnäst"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "แนะนำสิ่งที่คุณมักพิมพ์ต่อ"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sık yazdığınız sonraki ifadeyi önerir"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gợi ý cụm từ bạn hay gõ tiếp"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接着推荐你常用的话"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接著推薦你常用的話"
+          }
+        }
+      }
+    },
+    "내가 자주 이어 쓰는 말을 기억해 자판 위에 띄워요. 기억한 것은 이 기기 밖으로 나가지 않아요." : {
+      "comment" : "Roadmap item detail: learned phrases are suggested above the keys and never leave the device",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تتذكر العبارات التي تكتبها بعد ذلك عادةً وتعرضها فوق المفاتيح. ما تتعلمه لا يغادر هذا الجهاز."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pamatuje si fráze, které píšete často za sebou, a zobrazí je nad klávesami. Co se naučí, nikdy neopustí toto zařízení."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det husker de vendinger, du ofte skriver bagefter, og viser dem over tasterne. Det, det lærer, forlader aldrig denne enhed."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sie merkt sich, was du oft als Nächstes tippst, und zeigt es über den Tasten an. Was sie lernt, verlässt dieses Gerät nicht."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Θυμάται τις φράσεις που γράφετε συχνά στη συνέχεια και τις εμφανίζει πάνω από τα πλήκτρα. Όσα μαθαίνει δεν φεύγουν από αυτή τη συσκευή."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It remembers phrases you often type next and shows them above the keys. What it learns never leaves this device."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recuerda las frases que sueles escribir después y las muestra sobre las teclas. Lo que aprende no sale de este dispositivo."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se muistaa fraasit, joita kirjoitat usein seuraavaksi, ja näyttää ne näppäinten yläpuolella. Opittu ei poistu tältä laitteelta."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il retient les phrases que vous enchaînez souvent et les affiche au-dessus des touches. Ce qu'il apprend ne quitte jamais cet appareil."
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Papan ketik ini mengingat frasa yang sering Anda ketik berikutnya dan menampilkannya di atas tombol. Yang dipelajari tidak keluar dari perangkat ini."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricorda le frasi che scrivi spesso di seguito e le mostra sopra i tasti. Ciò che impara non esce mai da questo dispositivo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "続けて入力しがちな言葉を覚えて、キーの上に表示します。覚えた内容がこの端末の外に出ることはありません。"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det husker fraser du ofte skriver etter hverandre, og viser dem over tastene. Det som læres, forlater aldri denne enheten."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Het onthoudt zinnen die je vaak als volgende typt en toont ze boven de toetsen. Wat het leert, verlaat dit apparaat nooit."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zapamiętuje frazy, które często wpisujesz dalej, i pokazuje je nad klawiszami. To, czego się nauczy, nie opuszcza tego urządzenia."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele lembra das frases que você costuma digitar em seguida e as mostra acima das teclas. O que ele aprende não sai deste aparelho."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запоминает фразы, которые вы часто печатаете следом, и показывает их над клавишами. Всё, что она запомнила, остаётся на этом устройстве."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Det minns fraser du ofta skriver härnäst och visar dem ovanför tangenterna. Det som lärs in lämnar aldrig den här enheten."
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "จดจำวลีที่คุณมักพิมพ์ต่อ แล้วแสดงไว้เหนือแป้นพิมพ์ สิ่งที่จดจำไว้จะไม่ออกจากอุปกรณ์เครื่องนี้"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sık art arda yazdığınız ifadeleri hatırlar ve tuşların üstünde gösterir. Öğrendikleri bu cihazdan dışarı çıkmaz."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bàn phím nhớ những cụm từ bạn hay gõ tiếp theo và hiển thị phía trên các phím. Những gì đã học sẽ không rời khỏi thiết bị này."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记住你常接着写的话，显示在按键上方。记住的内容不会离开这台设备。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記住你常接著寫的話，顯示在按鍵上方。記住的內容不會離開這台裝置。"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

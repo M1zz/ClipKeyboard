@@ -3554,6 +3554,10 @@
     "v": "Tastaturstørrelse som passer hånden din",
     "src": "2937dab534"
   },
+  "내 손에 맞춰 덜 틀리는 자판": {
+    "v": "Et tastatur som lærer seg måten du trykker på",
+    "src": "acd92bb8f0"
+  },
   "내 연락처": {
     "v": "Kontaktinfoen min",
     "src": "3bdbda8981"
@@ -3573,6 +3577,10 @@
   "내가 아낀 시간 보기": {
     "v": "Se tiden jeg har spart",
     "src": "f8cba3d5b2"
+  },
+  "내가 자주 이어 쓰는 말을 기억해 자판 위에 띄워요. 기억한 것은 이 기기 밖으로 나가지 않아요.": {
+    "v": "Det husker fraser du ofte skriver etter hverandre, og viser dem over tastene. Det som læres, forlater aldri denne enheten.",
+    "src": "9bd6da9c82"
   },
   "내보내기 실패": {
     "v": "Eksport mislyktes",
@@ -9444,6 +9452,10 @@
     "v": "Flytt frasene du bruker mest, øverst",
     "src": "13a74fef33"
   },
+  "자주 쓰는 말 이어서 추천": {
+    "v": "Foreslår det du vanligvis skriver videre",
+    "src": "b5cbf6d493"
+  },
   "자주 쓰는 빈칸": {
     "v": "Vanlige utfyllingsfelt",
     "src": "25e86c8d3a"
@@ -9463,6 +9475,10 @@
   "자주 씀: %@": {
     "v": "Ofte brukt: %@",
     "src": "4e3c6b9c43"
+  },
+  "자주 지우고 다시 치는 키를 기억해, 쓸수록 덜 틀리게 눌려요.": {
+    "v": "Det husker tastene du ofte sletter og skriver på nytt, så du treffer riktig oftere.",
+    "src": "7b77b79f3a"
   },
   "자판": {
     "v": "Tastatur",

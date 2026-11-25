@@ -3554,6 +3554,10 @@
     "v": "Um tamanho de teclado que cabe na sua mão",
     "src": "2937dab534"
   },
+  "내 손에 맞춰 덜 틀리는 자판": {
+    "v": "Um teclado que aprende o seu toque",
+    "src": "acd92bb8f0"
+  },
   "내 연락처": {
     "v": "Meu contato",
     "src": "3bdbda8981"
@@ -3573,6 +3577,10 @@
   "내가 아낀 시간 보기": {
     "v": "Ver o tempo que economizei",
     "src": "f8cba3d5b2"
+  },
+  "내가 자주 이어 쓰는 말을 기억해 자판 위에 띄워요. 기억한 것은 이 기기 밖으로 나가지 않아요.": {
+    "v": "Ele lembra das frases que você costuma digitar em seguida e as mostra acima das teclas. O que ele aprende não sai deste aparelho.",
+    "src": "9bd6da9c82"
   },
   "내보내기 실패": {
     "v": "Falha ao exportar",
@@ -9441,6 +9449,10 @@
     "v": "Mova para o topo as frases que você mais usa",
     "src": "13a74fef33"
   },
+  "자주 쓰는 말 이어서 추천": {
+    "v": "Sugere o que você costuma digitar depois",
+    "src": "b5cbf6d493"
+  },
   "자주 쓰는 빈칸": {
     "v": "Campos comuns",
     "src": "25e86c8d3a"
@@ -9460,6 +9472,10 @@
   "자주 씀: %@": {
     "v": "Mais usado: %@",
     "src": "4e3c6b9c43"
+  },
+  "자주 지우고 다시 치는 키를 기억해, 쓸수록 덜 틀리게 눌려요.": {
+    "v": "Ele lembra das teclas que você costuma apagar e digitar de novo, para você acertar mais vezes.",
+    "src": "7b77b79f3a"
   },
   "자판": {
     "v": "Teclado",

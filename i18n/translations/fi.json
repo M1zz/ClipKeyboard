@@ -3554,6 +3554,10 @@
     "v": "Käteesi sopiva näppäimistön koko",
     "src": "2937dab534"
   },
+  "내 손에 맞춰 덜 틀리는 자판": {
+    "v": "Näppäimistö, joka oppii kosketuksesi",
+    "src": "acd92bb8f0"
+  },
   "내 연락처": {
     "v": "Omat yhteystiedot",
     "src": "3bdbda8981"
@@ -3573,6 +3577,10 @@
   "내가 아낀 시간 보기": {
     "v": "Näytä säästämäni aika",
     "src": "f8cba3d5b2"
+  },
+  "내가 자주 이어 쓰는 말을 기억해 자판 위에 띄워요. 기억한 것은 이 기기 밖으로 나가지 않아요.": {
+    "v": "Se muistaa fraasit, joita kirjoitat usein seuraavaksi, ja näyttää ne näppäinten yläpuolella. Opittu ei poistu tältä laitteelta.",
+    "src": "9bd6da9c82"
   },
   "내보내기 실패": {
     "v": "Vienti epäonnistui",
@@ -9444,6 +9452,10 @@
     "v": "Siirrä eniten käyttämäsi fraasit ylös",
     "src": "13a74fef33"
   },
+  "자주 쓰는 말 이어서 추천": {
+    "v": "Ehdottaa, mitä yleensä kirjoitat seuraavaksi",
+    "src": "b5cbf6d493"
+  },
   "자주 쓰는 빈칸": {
     "v": "Yleiset kentät",
     "src": "25e86c8d3a"
@@ -9463,6 +9475,10 @@
   "자주 씀: %@": {
     "v": "Usein käytetty: %@",
     "src": "4e3c6b9c43"
+  },
+  "자주 지우고 다시 치는 키를 기억해, 쓸수록 덜 틀리게 눌려요.": {
+    "v": "Se muistaa näppäimet, jotka poistat ja kirjoitat usein uudelleen, joten osut oikeaan useammin.",
+    "src": "7b77b79f3a"
   },
   "자판": {
     "v": "Näppäimet",

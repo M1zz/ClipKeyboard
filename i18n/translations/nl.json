@@ -3554,6 +3554,10 @@
     "v": "Een toetsenbordgrootte die bij je hand past",
     "src": "2937dab534"
   },
+  "내 손에 맞춰 덜 틀리는 자판": {
+    "v": "Een toetsenbord dat je aanraking leert kennen",
+    "src": "acd92bb8f0"
+  },
   "내 연락처": {
     "v": "Mijn contactgegevens",
     "src": "3bdbda8981"
@@ -3573,6 +3577,10 @@
   "내가 아낀 시간 보기": {
     "v": "Bekijk de tijd die ik bespaarde",
     "src": "f8cba3d5b2"
+  },
+  "내가 자주 이어 쓰는 말을 기억해 자판 위에 띄워요. 기억한 것은 이 기기 밖으로 나가지 않아요.": {
+    "v": "Het onthoudt zinnen die je vaak als volgende typt en toont ze boven de toetsen. Wat het leert, verlaat dit apparaat nooit.",
+    "src": "9bd6da9c82"
   },
   "내보내기 실패": {
     "v": "Exporteren mislukt",
@@ -9444,6 +9452,10 @@
     "v": "Zet je meest gebruikte snippets bovenaan",
     "src": "13a74fef33"
   },
+  "자주 쓰는 말 이어서 추천": {
+    "v": "Stelt voor wat je meestal als volgende typt",
+    "src": "b5cbf6d493"
+  },
   "자주 쓰는 빈칸": {
     "v": "Veelgebruikte invulvelden",
     "src": "25e86c8d3a"
@@ -9463,6 +9475,10 @@
   "자주 씀: %@": {
     "v": "Vaak gebruikt: %@",
     "src": "4e3c6b9c43"
+  },
+  "자주 지우고 다시 치는 키를 기억해, 쓸수록 덜 틀리게 눌려요.": {
+    "v": "Het onthoudt de toetsen die je vaak wist en opnieuw typt, zodat je vaker de juiste raakt.",
+    "src": "7b77b79f3a"
   },
   "자판": {
     "v": "Toetsenbord",

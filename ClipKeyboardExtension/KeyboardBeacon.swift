@@ -94,6 +94,8 @@ enum KeyboardHaptics {
     private static let light = UIImpactFeedbackGenerator(style: .light)
     private static let soft = UIImpactFeedbackGenerator(style: .soft)
     private static let medium = UIImpactFeedbackGenerator(style: .medium)
+    /// 자판 글자 키의 똑. 단단한 판(`.rigid`)을 약하게 쳐서 짧고 또렷하다.
+    private static let crisp = UIImpactFeedbackGenerator(style: .rigid)
 
     /// 키보드 진입 시 한 번 호출 - 햅틱 엔진을 사전 깨워 첫 입력 지연 제거.
     static func prepare() {
@@ -101,6 +103,36 @@ enum KeyboardHaptics {
         light.prepare()
         soft.prepare()
         medium.prepare()
+        crisp.prepare()
+    }
+
+    // MARK: - 자판 키를 누르는 순간
+
+    /// 자판 키가 손에 닿는 순간의 느낌.
+    enum Feel {
+        /// 글자 · 스페이스 · 리턴 · 지우기. 짧고 또렷한 똑.
+        case key
+        /// Shift · 판 바꾸기 · 언어. 한 톤 무른 톡이라 글자 키와 손으로 갈린다.
+        case modifier
+    }
+
+    /// 자판 키의 소리와 진동. **손가락이 닿는 순간** 울린다(`KeyTouchView`).
+    ///
+    /// ⚠️ 글자는 뗄 때 들어가지만(밀어서 다른 글자 고르기 · 취소 때문에) 느낌은 닿을 때 준다.
+    ///    기본 키보드가 그렇다. 뗄 때 울리면 누르고 있던 시간(한 번에 0.1초 안팎)만큼 늘
+    ///    늦게 울려서, 같은 속도로 쳐도 굼뜨게 느껴졌다.
+    /// ⚠️ 세기 0.6: 1.0 은 빨리 칠 때 손끝이 저리고, 0.4 아래는 빠른 연타에서 묻힌다.
+    static func press(_ feel: Feel) {
+        click()
+        guard vibrates else { return }
+        switch feel {
+        case .key:
+            crisp.impactOccurred(intensity: 0.6)
+            crisp.prepare()
+        case .modifier:
+            soft.impactOccurred()
+            soft.prepare()
+        }
     }
 
     /// 설정 ▸ 키보드 ▸ 키보드 진동. 키보드의 진동은 전부 이 파일을 지나므로 여기 한 곳에서 막는다.

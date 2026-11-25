@@ -5081,6 +5081,12 @@
     "comment": "Welcome: choosing the keyboard size",
     "h": "2937dab534"
   },
+  "내 손에 맞춰 덜 틀리는 자판": {
+    "ko": "내 손에 맞춰 덜 틀리는 자판",
+    "en": "A keyboard that learns your touch",
+    "comment": "Roadmap item: the typing keyboard learns the user's touch habits so fewer wrong keys are hit",
+    "h": "acd92bb8f0"
+  },
   "내 연락처": {
     "ko": "내 연락처",
     "en": "My contact info",
@@ -5110,6 +5116,12 @@
     "en": "See the time I saved",
     "comment": "What's new 5.0 primary button",
     "h": "f8cba3d5b2"
+  },
+  "내가 자주 이어 쓰는 말을 기억해 자판 위에 띄워요. 기억한 것은 이 기기 밖으로 나가지 않아요.": {
+    "ko": "내가 자주 이어 쓰는 말을 기억해 자판 위에 띄워요. 기억한 것은 이 기기 밖으로 나가지 않아요.",
+    "en": "It remembers phrases you often type next and shows them above the keys. What it learns never leaves this device.",
+    "comment": "Roadmap item detail: learned phrases are suggested above the keys and never leave the device",
+    "h": "9bd6da9c82"
   },
   "내보내기 실패": {
     "ko": "내보내기 실패",
@@ -13745,6 +13757,12 @@
     "comment": "Reorder button hint",
     "h": "13a74fef33"
   },
+  "자주 쓰는 말 이어서 추천": {
+    "ko": "자주 쓰는 말 이어서 추천",
+    "en": "Suggests what you usually type next",
+    "comment": "Roadmap item: suggests the phrase the user usually types next",
+    "h": "b5cbf6d493"
+  },
   "자주 쓰는 빈칸": {
     "ko": "자주 쓰는 빈칸",
     "en": "Common blanks",
@@ -13774,6 +13792,12 @@
     "en": "Often used: %@",
     "comment": "Keyboard quick row chip label: frequently used shortcut",
     "h": "4e3c6b9c43"
+  },
+  "자주 지우고 다시 치는 키를 기억해, 쓸수록 덜 틀리게 눌려요.": {
+    "ko": "자주 지우고 다시 치는 키를 기억해, 쓸수록 덜 틀리게 눌려요.",
+    "en": "It remembers the keys you often delete and retype, so you hit the right one more often.",
+    "comment": "Roadmap item detail: learns from keys the user often deletes and retypes",
+    "h": "7b77b79f3a"
   },
   "자판": {
     "ko": "자판",

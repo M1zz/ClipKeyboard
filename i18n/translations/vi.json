@@ -3395,6 +3395,10 @@
     "v": "Cỡ bàn phím vừa tay bạn",
     "src": "2937dab534"
   },
+  "내 손에 맞춰 덜 틀리는 자판": {
+    "v": "Bàn phím quen dần với cách bạn gõ",
+    "src": "acd92bb8f0"
+  },
   "내 연락처": {
     "v": "Liên hệ của tôi",
     "src": "3bdbda8981"
@@ -3414,6 +3418,10 @@
   "내가 아낀 시간 보기": {
     "v": "Xem thời gian đã tiết kiệm",
     "src": "f8cba3d5b2"
+  },
+  "내가 자주 이어 쓰는 말을 기억해 자판 위에 띄워요. 기억한 것은 이 기기 밖으로 나가지 않아요.": {
+    "v": "Bàn phím nhớ những cụm từ bạn hay gõ tiếp theo và hiển thị phía trên các phím. Những gì đã học sẽ không rời khỏi thiết bị này.",
+    "src": "9bd6da9c82"
   },
   "내보내기 실패": {
     "v": "Xuất không thành công",
@@ -9171,6 +9179,10 @@
     "v": "Bạn có thể đưa các cụm từ hay dùng lên đầu",
     "src": "13a74fef33"
   },
+  "자주 쓰는 말 이어서 추천": {
+    "v": "Gợi ý cụm từ bạn hay gõ tiếp",
+    "src": "b5cbf6d493"
+  },
   "자주 쓰는 빈칸": {
     "v": "Ô cần điền hay dùng",
     "src": "25e86c8d3a"
@@ -9190,6 +9202,10 @@
   "자주 씀: %@": {
     "v": "Hay dùng: %@",
     "src": "4e3c6b9c43"
+  },
+  "자주 지우고 다시 치는 키를 기억해, 쓸수록 덜 틀리게 눌려요.": {
+    "v": "Bàn phím nhớ những phím bạn hay xóa rồi gõ lại, nên càng dùng càng ít gõ nhầm.",
+    "src": "7b77b79f3a"
   },
   "자판": {
     "v": "Bàn phím",

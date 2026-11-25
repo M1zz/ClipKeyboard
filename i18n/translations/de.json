@@ -3551,6 +3551,10 @@
     "v": "Tastaturgröße, die zu deiner Hand passt",
     "src": "2937dab534"
   },
+  "내 손에 맞춰 덜 틀리는 자판": {
+    "v": "Eine Tastatur, die sich an deine Hand anpasst",
+    "src": "acd92bb8f0"
+  },
   "내 연락처": {
     "v": "Meine Kontaktdaten",
     "src": "3bdbda8981"
@@ -3570,6 +3574,10 @@
   "내가 아낀 시간 보기": {
     "v": "Gesparte Zeit ansehen",
     "src": "f8cba3d5b2"
+  },
+  "내가 자주 이어 쓰는 말을 기억해 자판 위에 띄워요. 기억한 것은 이 기기 밖으로 나가지 않아요.": {
+    "v": "Sie merkt sich, was du oft als Nächstes tippst, und zeigt es über den Tasten an. Was sie lernt, verlässt dieses Gerät nicht.",
+    "src": "9bd6da9c82"
   },
   "내보내기 실패": {
     "v": "Export fehlgeschlagen",
@@ -9441,6 +9449,10 @@
     "v": "Oft genutzte Textbausteine kannst du nach oben schieben",
     "src": "13a74fef33"
   },
+  "자주 쓰는 말 이어서 추천": {
+    "v": "Schlägt vor, was du meist als Nächstes tippst",
+    "src": "b5cbf6d493"
+  },
   "자주 쓰는 빈칸": {
     "v": "Häufige Ausfüllfelder",
     "src": "25e86c8d3a"
@@ -9460,6 +9472,10 @@
   "자주 씀: %@": {
     "v": "Oft genutzt: %@",
     "src": "4e3c6b9c43"
+  },
+  "자주 지우고 다시 치는 키를 기억해, 쓸수록 덜 틀리게 눌려요.": {
+    "v": "Sie merkt sich Tasten, die du oft löschst und neu tippst, damit du immer öfter richtig triffst.",
+    "src": "7b77b79f3a"
   },
   "자판": {
     "v": "ABC",

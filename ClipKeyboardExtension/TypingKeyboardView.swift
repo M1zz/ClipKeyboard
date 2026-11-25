@@ -660,8 +660,7 @@ struct TypingKeyboardPanel: View {
 
     private func shiftKey(metrics: NativeKeyMetrics, width: CGFloat) -> some View {
         // ⚠️ 기본 키보드처럼 **누르는 순간** 바뀐다. 한 번은 다음 글자만, 빨리 두 번은 고정.
-        PressableKey(firesOnTouchDown: true, action: {
-            KeyboardHaptics.softTap()
+        PressableKey(firesOnTouchDown: true, feel: .modifier, action: {
             let now = Date()
             let quickSecond = lastShiftTap.map { now.timeIntervalSince($0) < 0.35 } ?? false
             switch shift {
@@ -683,7 +682,6 @@ struct TypingKeyboardPanel: View {
 
     private func backspaceKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat? = nil) -> some View {
         PressableKey(firesOnTouchDown: true, repeats: true, action: {
-            KeyboardHaptics.tap()
             if undoReplacement() { return }
             session.engine?.backspace()
             session.refresh()
@@ -697,8 +695,7 @@ struct TypingKeyboardPanel: View {
     }
 
     private func symbolsToggleKey(metrics: NativeKeyMetrics, width: CGFloat) -> some View {
-        PressableKey(action: {
-            KeyboardHaptics.softTap()
+        PressableKey(feel: .modifier, action: {
             layer = layer == .numbers ? .symbols : .numbers
         }) { pressed in
             cell(width: width, height: metrics.rowPitch, metrics: metrics) {
@@ -719,8 +716,7 @@ struct TypingKeyboardPanel: View {
     }
 
     private func layerKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat? = nil, label: String? = nil) -> some View {
-        PressableKey(action: {
-            KeyboardHaptics.softTap()
+        PressableKey(feel: .modifier, action: {
             session.engine?.commit()
             session.refresh()
             layer = layer == .letters ? .numbers : .letters
@@ -761,8 +757,7 @@ struct TypingKeyboardPanel: View {
     /// 다음 언어로. 이름은 **갈 곳**을 적는다(누르면 그 언어가 된다).
     private func languageKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat) -> some View {
         let next = nextLanguage
-        return PressableKey(action: {
-            KeyboardHaptics.softTap()
+        return PressableKey(feel: .modifier, action: {
             currentRaw = next.rawValue
         }) { pressed in
             cell(width: width, height: height, metrics: metrics) {
@@ -796,7 +791,6 @@ struct TypingKeyboardPanel: View {
     /// 스페이스. 기본 키보드(iOS 26)는 이름을 적지 않는다. 천지인 판만 "스페이스" 라고 적는다.
     private func spaceKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat? = nil, label: String?) -> some View {
         PressableKey(action: {
-            KeyboardHaptics.tap()
             if let engine = session.engine, engine.isComposing {
                 engine.commit()
                 // 가나 · 병음은 스페이스가 조합만 끝낸다(일본 · 중국 입력기와 같다).
@@ -820,7 +814,6 @@ struct TypingKeyboardPanel: View {
     private func returnKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat) -> some View {
         let glyph = NativeReturnGlyph(returnKeyType)
         return PressableKey(action: {
-            KeyboardHaptics.tap()
             session.engine?.commit()
             session.refresh()
             proxy.insertNewline()
@@ -965,8 +958,7 @@ struct TypingKeyboardPanel: View {
         if languages.count > 1 {
             languageKey(metrics: metrics, width: width, height: height)
         } else {
-            PressableKey(action: {
-                KeyboardHaptics.softTap()
+            PressableKey(feel: .modifier, action: {
                 session.engine?.commit()
                 session.refresh()
                 layer = .symbols
@@ -997,8 +989,7 @@ struct TypingKeyboardPanel: View {
     }
 
     private func snippetsKey(metrics: NativeKeyMetrics, width: CGFloat, height: CGFloat) -> some View {
-        PressableKey(action: {
-            KeyboardHaptics.softTap()
+        PressableKey(feel: .modifier, action: {
             session.engine?.commit()
             onShowSnippets()
         }) { pressed in
@@ -1053,7 +1044,6 @@ struct TypingKeyboardPanel: View {
     /// 조합 중이 아니면 커서를 한 칸 옮긴다(기본 10키와 같다).
     private func cheonjiinAdvanceKey(metrics: NativeKeyMetrics, width: CGFloat) -> some View {
         PressableKey(action: {
-            KeyboardHaptics.tap()
             // 문장 부호를 돌리던 중이면 → 는 그 부호를 확정만 한다. 다음 . 은 새 부호다(". → ." 로 ".." 을 친다).
             if punctuationCycle != nil {
                 punctuationCycle = nil
@@ -1072,7 +1062,6 @@ struct TypingKeyboardPanel: View {
     /// .,?! 키: 빨리 이어 누르면 . → , → ? → ! 로 바뀐다(기본 10키와 같다).
     private func cheonjiinPunctuationKey(metrics: NativeKeyMetrics, width: CGFloat) -> some View {
         PressableKey(action: {
-            KeyboardHaptics.tap()
             let marks = [".", ",", "?", "!"]
             let now = Date()
             if let cycle = punctuationCycle, now.timeIntervalSince(cycle.at) < 0.8 {
@@ -1097,8 +1086,8 @@ struct TypingKeyboardPanel: View {
     // MARK: - 넣기
 
     /// 천지인 키를 꾹 눌렀다. 짓던 글자를 마치고 그 키의 숫자를 넣는다.
+    /// 소리 · 진동은 손이 닿을 때 키가 이미 냈다(`KeyTouchSurface`). 여기서 또 울리지 않는다.
     private func typeDigit(_ digit: String) {
-        KeyboardHaptics.tap()
         if punctuationCycle != nil { punctuationCycle = nil }
         session.engine?.commit()
         proxy.insertText(digit)
@@ -1130,8 +1119,8 @@ struct TypingKeyboardPanel: View {
         return true
     }
 
+    /// 소리 · 진동은 손이 닿을 때 키가 이미 냈다(`KeyTouchSurface`). 여기서 또 울리지 않는다.
     private func type(_ key: String) {
-        KeyboardHaptics.tap()
         lastReplacement = nil
         // 바뀔 때만 적는다. 글자마다 판 전체를 다시 그리지 않게.
         if punctuationCycle != nil { punctuationCycle = nil }
@@ -1465,6 +1454,8 @@ private struct PressableKey<Face: View>: View {
     var repeats = false
     /// 꾹 누르면 이것을 하고, 뗄 때의 `action` 은 하지 않는다(천지인 숫자).
     var onLongPress: (() -> Void)? = nil
+    /// 손이 닿는 순간의 느낌. 조작 키는 `.modifier`.
+    var feel: KeyboardHaptics.Feel = .key
     let action: () -> Void
     @ViewBuilder let face: (_ pressed: Bool) -> Face
 
@@ -1476,7 +1467,7 @@ private struct PressableKey<Face: View>: View {
     var body: some View {
         face(pressed)
             .contentShape(Rectangle())
-            .overlay(KeyTouchSurface(onBegan: began,
+            .overlay(KeyTouchSurface(feel: feel, onBegan: began,
                                      onEnded: { ended(fire: true) },
                                      onCancelled: { ended(fire: false) }))
             .onDisappear { repeater.stop(); longPressWork?.cancel() }
@@ -1488,11 +1479,13 @@ private struct PressableKey<Face: View>: View {
     private func began() {
         pressed = true
         if firesOnTouchDown { action() }
-        if repeats { repeater.start(action) }
+        // 되풀이할 때마다 한 번씩 또 울린다(기본 키보드의 지우기와 같다). 첫 번은 닿을 때 울렸다.
+        if repeats { repeater.start { [feel] in KeyboardHaptics.press(feel); action() } }
         if let onLongPress {
             longPressFired = false
-            let work = DispatchWorkItem {
+            let work = DispatchWorkItem { [feel] in
                 longPressFired = true
+                KeyboardHaptics.press(feel)
                 onLongPress()
             }
             longPressWork = work
@@ -1538,7 +1531,7 @@ private struct CheonjiinFlickKey<Face: View>: View {
     var body: some View {
         face(pressed && !showsPopup)
             .contentShape(Rectangle())
-            .overlay(KeyTouchSurface(onBegan: began, onMoved: moved,
+            .overlay(KeyTouchSurface(feel: .key, onBegan: began, onMoved: moved,
                                      onEnded: { ended(fire: true) },
                                      onCancelled: { ended(fire: false) }))
             .overlay { if showsPopup { popup.allowsHitTesting(false) } }
@@ -1618,6 +1611,8 @@ private struct CheonjiinFlickKey<Face: View>: View {
 /// ⚠️ **새 손가락이 닿으면 앞 손가락의 누름을 그 자리에서 끝낸다**(기본 키보드와 같다).
 ///    다른 키를 누르던 손가락도 마찬가지라, 겹쳐 쳐도 누른 순서대로 들어간다.
 struct KeyTouchSurface: UIViewRepresentable {
+    /// 손가락이 닿는 순간의 소리 · 진동(`KeyboardHaptics.press`). 키의 일보다 먼저 울린다.
+    var feel: KeyboardHaptics.Feel
     var onBegan: () -> Void
     /// 누른 자리에서 손가락이 얼마나 갔는가(길게 눌러 고르는 글자).
     var onMoved: (CGSize) -> Void = { _ in }
@@ -1659,6 +1654,7 @@ final class KeyTouchView: UIView {
             touch = next
             start = next.location(in: self)
             Self.live = self
+            if let surface { KeyboardHaptics.press(surface.feel) }
             surface?.onBegan()
         }
     }
@@ -1763,7 +1759,7 @@ private struct TypingLetterKey: View {
         .frame(width: cellWidth + leadExtra + trailExtra, height: metrics.rowPitch)
         .contentShape(Rectangle())
         .zIndex(showsPopup ? 1 : 0)
-        .overlay(KeyTouchSurface(onBegan: { if pressStarted == nil { began(alignLeading: isLeadingHalf) } },
+        .overlay(KeyTouchSurface(feel: .key, onBegan: { if pressStarted == nil { began(alignLeading: isLeadingHalf) } },
                                  onMoved: moved,
                                  onEnded: ended,
                                  onCancelled: cancelled))

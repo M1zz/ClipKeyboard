@@ -3554,6 +3554,10 @@
     "v": "Une taille de clavier adaptée à votre main",
     "src": "2937dab534"
   },
+  "내 손에 맞춰 덜 틀리는 자판": {
+    "v": "Un clavier qui s'adapte à vos doigts",
+    "src": "acd92bb8f0"
+  },
   "내 연락처": {
     "v": "Mes coordonnées",
     "src": "3bdbda8981"
@@ -3573,6 +3577,10 @@
   "내가 아낀 시간 보기": {
     "v": "Voir le temps gagné",
     "src": "f8cba3d5b2"
+  },
+  "내가 자주 이어 쓰는 말을 기억해 자판 위에 띄워요. 기억한 것은 이 기기 밖으로 나가지 않아요.": {
+    "v": "Il retient les phrases que vous enchaînez souvent et les affiche au-dessus des touches. Ce qu'il apprend ne quitte jamais cet appareil.",
+    "src": "9bd6da9c82"
   },
   "내보내기 실패": {
     "v": "Échec de l'exportation",
@@ -9444,6 +9452,10 @@
     "v": "Placez en haut les phrases que vous utilisez le plus",
     "src": "13a74fef33"
   },
+  "자주 쓰는 말 이어서 추천": {
+    "v": "Suggère la suite que vous tapez d'habitude",
+    "src": "b5cbf6d493"
+  },
   "자주 쓰는 빈칸": {
     "v": "Champs à remplir courants",
     "src": "25e86c8d3a"
@@ -9463,6 +9475,10 @@
   "자주 씀: %@": {
     "v": "Souvent utilisé : %@",
     "src": "4e3c6b9c43"
+  },
+  "자주 지우고 다시 치는 키를 기억해, 쓸수록 덜 틀리게 눌려요.": {
+    "v": "Il retient les touches que vous effacez et retapez souvent, pour que vous visiez plus juste avec le temps.",
+    "src": "7b77b79f3a"
   },
   "자판": {
     "v": "Clavier",

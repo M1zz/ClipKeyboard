@@ -3660,6 +3660,10 @@
     "v": "Velikost klávesnice na míru vaší ruce",
     "src": "2937dab534"
   },
+  "내 손에 맞춰 덜 틀리는 자판": {
+    "v": "Klávesnice, která se učí váš dotyk",
+    "src": "acd92bb8f0"
+  },
   "내 연락처": {
     "v": "Moje kontaktní údaje",
     "src": "3bdbda8981"
@@ -3679,6 +3683,10 @@
   "내가 아낀 시간 보기": {
     "v": "Zobrazit ušetřený čas",
     "src": "f8cba3d5b2"
+  },
+  "내가 자주 이어 쓰는 말을 기억해 자판 위에 띄워요. 기억한 것은 이 기기 밖으로 나가지 않아요.": {
+    "v": "Pamatuje si fráze, které píšete často za sebou, a zobrazí je nad klávesami. Co se naučí, nikdy neopustí toto zařízení.",
+    "src": "9bd6da9c82"
   },
   "내보내기 실패": {
     "v": "Export se nezdařil",
@@ -9626,6 +9634,10 @@
     "v": "Nejpoužívanější fráze můžete přesunout nahoru",
     "src": "13a74fef33"
   },
+  "자주 쓰는 말 이어서 추천": {
+    "v": "Navrhne, co obvykle píšete dál",
+    "src": "b5cbf6d493"
+  },
   "자주 쓰는 빈칸": {
     "v": "Běžná pole k vyplnění",
     "src": "25e86c8d3a"
@@ -9645,6 +9657,10 @@
   "자주 씀: %@": {
     "v": "Často: %@",
     "src": "4e3c6b9c43"
+  },
+  "자주 지우고 다시 치는 키를 기억해, 쓸수록 덜 틀리게 눌려요.": {
+    "v": "Pamatuje si klávesy, které často mažete a píšete znovu, takže častěji trefíte tu správnou.",
+    "src": "7b77b79f3a"
   },
   "자판": {
     "v": "Písmena",
