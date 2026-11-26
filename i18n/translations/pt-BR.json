@@ -12613,5 +12613,77 @@
   "🪪 명함": {
     "v": "🪪 Cartão de visita",
     "src": "9becff2df0"
+  },
+  "3분까지 담아요. 누르면 동영상이 복사돼요": {
+    "v": "Até 3 minutos. Ao tocar, o vídeo é copiado",
+    "src": "f88bc9a6e5"
+  },
+  "다른 기기에서도 동영상 단축어": {
+    "v": "Snippets de vídeo em outros aparelhos",
+    "src": "e777c1f942"
+  },
+  "동영상": {
+    "v": "Vídeo",
+    "src": "d9933f809a"
+  },
+  "동영상 단축어": {
+    "v": "Snippet de vídeo",
+    "src": "65a45ba898"
+  },
+  "동영상 복사됨 · 붙여넣기 하세요": {
+    "v": "Vídeo copiado · Cole onde quiser",
+    "src": "b5e770d286"
+  },
+  "동영상 붙이기": {
+    "v": "Anexar um vídeo",
+    "src": "c625a376c0"
+  },
+  "동영상은 3분까지 붙일 수 있어요": {
+    "v": "Vídeos podem ter até 3 minutos",
+    "src": "46d478182f"
+  },
+  "동영상을 복사하지 못했어요": {
+    "v": "Não foi possível copiar o vídeo",
+    "src": "d962e68af4"
+  },
+  "동영상을 저장하지 못했어요. 다시 시도해 주세요": {
+    "v": "Não foi possível salvar o vídeo. Tente novamente",
+    "src": "dd72445b76"
+  },
+  "동영상을 준비하는 중…": {
+    "v": "Preparando o vídeo…",
+    "src": "b159a7f8d0"
+  },
+  "동영상이 너무 커요. 더 짧은 동영상을 골라 주세요": {
+    "v": "O vídeo é muito grande. Escolha um mais curto",
+    "src": "a991700699"
+  },
+  "동영상이 커서 키보드에서는 복사할 수 없어요. 앱에서 눌러 복사해 주세요": {
+    "v": "O vídeo é grande demais para copiar pelo teclado. Toque nele no app para copiar",
+    "src": "9504625a98"
+  },
+  "붙인 동영상": {
+    "v": "Vídeo anexado",
+    "src": "36e6aefb8a"
+  },
+  "붙인 동영상 · %@": {
+    "v": "Vídeo anexado · %@",
+    "src": "9a40d2099b"
+  },
+  "이 기기에 동영상 파일이 없어요. 동영상은 iCloud로 옮겨지지 않아요": {
+    "v": "O vídeo não está neste aparelho. Vídeos não são sincronizados pelo iCloud",
+    "src": "746b690d7e"
+  },
+  "이 동영상은 읽을 수 없어요": {
+    "v": "Não é possível ler este vídeo",
+    "src": "7739ba02ae"
+  },
+  "자주 보내는 동영상을 담아 두고 키보드에서 누르면 복사돼요. 대화창에 붙여넣어 보내요.": {
+    "v": "Guarde os vídeos que você envia com frequência, toque em um no teclado para copiar e cole na conversa.",
+    "src": "f4a12f9e56"
+  },
+  "지금은 동영상이 만든 기기에만 있어요. iCloud로 다른 기기에도 옮겨요.": {
+    "v": "Por enquanto, o vídeo fica só no aparelho em que você o adicionou. Vamos levá-lo aos outros aparelhos pelo iCloud.",
+    "src": "e3acf488b4"
   }
 }

@@ -1013,6 +1013,12 @@
     "comment": "Usage category description: pro english",
     "h": "5fa8b9ad17"
   },
+  "3분까지 담아요. 누르면 동영상이 복사돼요": {
+    "ko": "3분까지 담아요. 누르면 동영상이 복사돼요",
+    "en": "Up to 3 minutes. Tapping the shortcut copies the video",
+    "comment": "Attach video row caption",
+    "h": "f88bc9a6e5"
+  },
   "3초": {
     "ko": "3초",
     "en": "3 seconds",
@@ -5555,6 +5561,12 @@
     "comment": "Make-authoritative confirm message: replaced count, deleted count",
     "h": "996b80e45b"
   },
+  "다른 기기에서도 동영상 단축어": {
+    "ko": "다른 기기에서도 동영상 단축어",
+    "en": "Video snippets on your other devices",
+    "comment": "Roadmap item: sync video shortcuts' video files through iCloud",
+    "h": "e777c1f942"
+  },
   "다른 기기와 이 기기의 단축어가 이미 같아요.": {
     "ko": "다른 기기와 이 기기의 단축어가 이미 같아요.",
     "en": "Your other devices already have the same snippets as this one.",
@@ -6754,6 +6766,66 @@
     "en": "Animals",
     "comment": "Emoji category: animals",
     "h": "ebda61cca4"
+  },
+  "동영상": {
+    "ko": "동영상",
+    "en": "Video",
+    "comment": "Card preview for a video shortcut",
+    "h": "d9933f809a"
+  },
+  "동영상 단축어": {
+    "ko": "동영상 단축어",
+    "en": "Video Snippet",
+    "comment": "VoiceOver: video memo",
+    "h": "65a45ba898"
+  },
+  "동영상 복사됨 · 붙여넣기 하세요": {
+    "ko": "동영상 복사됨 · 붙여넣기 하세요",
+    "en": "Video copied · Paste it",
+    "comment": "Video copied toast",
+    "h": "b5e770d286"
+  },
+  "동영상 붙이기": {
+    "ko": "동영상 붙이기",
+    "en": "Attach a video",
+    "comment": "Attach video row title",
+    "h": "c625a376c0"
+  },
+  "동영상은 3분까지 붙일 수 있어요": {
+    "ko": "동영상은 3분까지 붙일 수 있어요",
+    "en": "Videos can be up to 3 minutes long",
+    "comment": "Video attach failed: longer than 3 minutes",
+    "h": "46d478182f"
+  },
+  "동영상을 복사하지 못했어요": {
+    "ko": "동영상을 복사하지 못했어요",
+    "en": "Couldn't copy the video",
+    "comment": "Video copy failed: generic",
+    "h": "d962e68af4"
+  },
+  "동영상을 저장하지 못했어요. 다시 시도해 주세요": {
+    "ko": "동영상을 저장하지 못했어요. 다시 시도해 주세요",
+    "en": "Couldn't save the video. Please try again",
+    "comment": "Video attach failed: generic",
+    "h": "dd72445b76"
+  },
+  "동영상을 준비하는 중…": {
+    "ko": "동영상을 준비하는 중…",
+    "en": "Preparing the video…",
+    "comment": "Preparing (compressing) attached video",
+    "h": "b159a7f8d0"
+  },
+  "동영상이 너무 커요. 더 짧은 동영상을 골라 주세요": {
+    "ko": "동영상이 너무 커요. 더 짧은 동영상을 골라 주세요",
+    "en": "This video is too large. Please choose a shorter one",
+    "comment": "Video attach failed: still too large after compression",
+    "h": "a991700699"
+  },
+  "동영상이 커서 키보드에서는 복사할 수 없어요. 앱에서 눌러 복사해 주세요": {
+    "ko": "동영상이 커서 키보드에서는 복사할 수 없어요. 앱에서 눌러 복사해 주세요",
+    "en": "This video is too large to copy from the keyboard. Tap it in the app to copy",
+    "comment": "Video copy failed: too large for the keyboard extension",
+    "h": "9504625a98"
   },
   "동일한 PIN을 한 번 더 입력하세요.": {
     "ko": "동일한 PIN을 한 번 더 입력하세요.",
@@ -9154,6 +9226,18 @@
     "en": "The button types it in, no pasting",
     "comment": "Lesson subtitle: insert",
     "h": "711467619d"
+  },
+  "붙인 동영상": {
+    "ko": "붙인 동영상",
+    "en": "Attached video",
+    "comment": "Attached video label",
+    "h": "36e6aefb8a"
+  },
+  "붙인 동영상 · %@": {
+    "ko": "붙인 동영상 · %@",
+    "en": "Attached video · %@",
+    "comment": "Attached video label with duration like 0:12",
+    "h": "9a40d2099b"
   },
   "브라우저에서 열기": {
     "ko": "브라우저에서 열기",
@@ -12611,6 +12695,12 @@
     "comment": "AI availability: device not eligible",
     "h": "2b7a68d640"
   },
+  "이 기기에 동영상 파일이 없어요. 동영상은 iCloud로 옮겨지지 않아요": {
+    "ko": "이 기기에 동영상 파일이 없어요. 동영상은 iCloud로 옮겨지지 않아요",
+    "en": "The video isn't on this device. Videos don't sync through iCloud",
+    "comment": "Video copy failed: file not on this device (videos are not synced)",
+    "h": "746b690d7e"
+  },
   "이 기기의 단축어를 읽지 못했어요. 잠시 뒤 다시 해 주세요.": {
     "ko": "이 기기의 단축어를 읽지 못했어요. 잠시 뒤 다시 해 주세요.",
     "en": "Couldn't read the snippets on this device. Please try again in a moment.",
@@ -12628,6 +12718,12 @@
     "en": "This snippet has a template attached. Fill in the blanks, and the result is copied along with the snippet. See the combined result in 'Live preview' below.",
     "comment": "Attached template explanation",
     "h": "c1011140f7"
+  },
+  "이 동영상은 읽을 수 없어요": {
+    "ko": "이 동영상은 읽을 수 없어요",
+    "en": "This video can't be read",
+    "comment": "Video attach failed: cannot read the file",
+    "h": "7739ba02ae"
   },
   "이 배경 지우기": {
     "ko": "이 배경 지우기",
@@ -13775,6 +13871,12 @@
     "comment": "Candidates tab: section of copied texts the user inserted from the keyboard several times",
     "h": "00a684749d"
   },
+  "자주 보내는 동영상을 담아 두고 키보드에서 누르면 복사돼요. 대화창에 붙여넣어 보내요.": {
+    "ko": "자주 보내는 동영상을 담아 두고 키보드에서 누르면 복사돼요. 대화창에 붙여넣어 보내요.",
+    "en": "Save videos you send often, tap one on the keyboard to copy it, then paste it into the chat.",
+    "comment": "Roadmap item detail: video shortcuts are copied, then pasted into the chat",
+    "h": "f4a12f9e56"
+  },
   "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기": {
     "ko": "자주 사용하는 텍스트를 저장하고 빠르게 붙여넣기",
     "en": "Save text you use often and paste it fast",
@@ -14866,6 +14968,12 @@
     "en": "Not now",
     "comment": "Category cleanup dismiss",
     "h": "cfd4f1f935"
+  },
+  "지금은 동영상이 만든 기기에만 있어요. iCloud로 다른 기기에도 옮겨요.": {
+    "ko": "지금은 동영상이 만든 기기에만 있어요. iCloud로 다른 기기에도 옮겨요.",
+    "en": "For now, a video stays on the device where you added it. We'll bring it to your other devices through iCloud.",
+    "comment": "Roadmap item detail: video files currently stay on the device that made them",
+    "h": "e3acf488b4"
   },
   "지금은 모든 기능이 무료예요. %d번 남았어요": {
     "ko": "지금은 모든 기능이 무료예요. %d번 남았어요",

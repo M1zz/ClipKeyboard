@@ -26,6 +26,9 @@ enum MemoPreviewFormatter {
         if memo.isTemplate {
             return templatePreview(memo)
         }
+        if memo.isVideo {
+            return NSLocalizedString("동영상", comment: "Card preview for a video shortcut")
+        }
         if memo.contentType == .image {
             return imagePreview(count: memo.imageFileNames.count)
         }

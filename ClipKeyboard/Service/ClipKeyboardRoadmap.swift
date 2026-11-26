@@ -33,7 +33,14 @@ extension ClipKeyboardSpec {
               title: NSLocalizedString("중국어 한자 입력", comment: "Roadmap item: typing Chinese characters with Pinyin or Zhuyin on the typing keyboard"),
               detail: NSLocalizedString("병음이나 주음을 치면 자판 위에 한자 후보가 떠요. 긴 문장도 한 번에 바꿔요.", comment: "Roadmap item detail: Pinyin and Zhuyin are the Chinese input methods; candidates appear above the keys")),
 
+        .init(id: "snippet.video", status: .building,
+              title: NSLocalizedString("동영상 단축어", comment: "Roadmap item: save a video as a shortcut and copy it from the keyboard"),
+              detail: NSLocalizedString("자주 보내는 동영상을 담아 두고 키보드에서 누르면 복사돼요. 대화창에 붙여넣어 보내요.", comment: "Roadmap item detail: video shortcuts are copied, then pasted into the chat")),
+
         // MARK: 다음에 만들어요
+        .init(id: "snippet.video.sync", status: .planned,
+              title: NSLocalizedString("다른 기기에서도 동영상 단축어", comment: "Roadmap item: sync video shortcuts' video files through iCloud"),
+              detail: NSLocalizedString("지금은 동영상이 만든 기기에만 있어요. iCloud로 다른 기기에도 옮겨요.", comment: "Roadmap item detail: video files currently stay on the device that made them")),
         .init(id: "keyboard.fieldfit.typing", status: .planned,
               title: NSLocalizedString("글자를 칠 때도 맞는 단축어", comment: "Roadmap item: field-aware suggestions also while typing on the letter keys"),
               detail: NSLocalizedString("자판으로 치는 중에도 카드번호 칸이면 카드 단축어를 위에 띄워요.", comment: "Roadmap item detail: field-aware suggestions above the letter keys")),

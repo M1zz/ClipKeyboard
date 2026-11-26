@@ -137,6 +137,12 @@ final class MemoAddViewModel: ObservableObject {
 
     @Published var attachedImages: [ImageWrapper] = []
 
+    // MARK: - 동영상 첨부
+
+    /// 붙인 동영상. 새로 고른 것은 임시 폴더에(`VideoStore.prepareAttachment`), 편집 중 그대로 둔 것은
+    /// App Group 안에 있다. 저장할 때 임시 것만 App Group 으로 옮긴다(`saveAttachedVideo`).
+    @Published var attachedVideoURL: URL?
+
     // MARK: - 저장할 수 있는가
 
     /// 넣을 것이 있는가. 글이든 그림이든 하나는 있어야 한다. **저장 버튼과 저장 검사가 같이 본다.**
@@ -145,6 +151,7 @@ final class MemoAddViewModel: ObservableObject {
     ///    아무것도 안 들어간 것처럼 보인다(`BasicScenarioTests` 가 찾았다).
     var hasContent: Bool {
         !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !attachedImages.isEmpty
+            || attachedVideoURL != nil || hasMissingVideo
     }
 
     /// 제목이 있는가. 공백만 있으면 목록과 키보드에 이름 없는 키가 선다.
@@ -324,6 +331,11 @@ final class MemoAddViewModel: ObservableObject {
             let usedPlain = existing.usedLines.flatMap { SecureMemoCrypto.isEncrypted($0) ? SecureMemoCrypto.decrypt($0) : $0 }
             usedLines = ConsumableLines.lines(in: usedPlain ?? "")
             icon = SnippetIcon(raw: existing.icon)
+            // 동영상 단축어: 파일이 이 기기에 있을 때만 보여 준다. 없으면(다른 기기에서 만든 것)
+            // 비워 두고, 저장할 때 원래 이름을 지킨다(`saveAttachedVideo`).
+            if let name = existing.videoFileName, let url = VideoStore.url(fileName: name) {
+                attachedVideoURL = url
+            }
             if !existing.stackValues.isEmpty {
                 // 보안 콤보면 단계 값이 암호문 - 편집용으로 복호화해 보여준다.
                 let steps = SecureMemoCrypto.decryptSteps(existing.stackValues)
@@ -403,6 +415,7 @@ final class MemoAddViewModel: ObservableObject {
         icon = nil
         isTemplate = false
         continuations = []
+        attachedVideoURL = nil
         print("🔄 [MemoAddViewModel] 폼 초기화 완료")
     }
 
@@ -479,6 +492,7 @@ final class MemoAddViewModel: ObservableObject {
         do {
             var loadedMemos = try memoRepository.fetchAll()
             let imageFileNames = try saveAttachedImages()
+            let videoFileName = try saveAttachedVideo()
             let finalCategory = determineFinalCategory()
             updateRecentlyUsedCategories(finalCategory)
 
@@ -487,6 +501,7 @@ final class MemoAddViewModel: ObservableObject {
             let (finalMemoId, finalMemoTitle) = try applyMemoToList(
                 &loadedMemos,
                 imageFileNames: imageFileNames,
+                videoFileName: videoFileName,
                 finalCategory: finalCategory
             )
 
@@ -521,7 +536,7 @@ final class MemoAddViewModel: ObservableObject {
             // Analytics - 새 메모일 때만 (수정은 제외)
             if isNewMemo {
                 let memoType: String
-                if isTemplate { memoType = "template" } else if !imageFileNames.isEmpty && !value.isEmpty { memoType = "mixed" } else if !imageFileNames.isEmpty { memoType = "image" } else { memoType = "text" }
+                if isTemplate { memoType = "template" } else if videoFileName != nil { memoType = "video" } else if !imageFileNames.isEmpty && !value.isEmpty { memoType = "mixed" } else if !imageFileNames.isEmpty { memoType = "image" } else { memoType = "text" }
                 AnalyticsService.logMemoCreated(memoType: memoType, memoCount: loadedMemos.count)
             }
 
@@ -637,7 +652,10 @@ final class MemoAddViewModel: ObservableObject {
                 showPaywall = true
                 return false
             }
-            if !attachedImages.isEmpty && !ProFeatureManager.canAddImageMemo(currentImageMemoCount: imageMemoCount) {
+            // 동영상도 그림 단축어와 같은 한도로 센다(따로 한도를 두면 페이월 문구 · 가격 설명이 늘어난다).
+            let mediaMemoCount = imageMemoCount + existingMemos.filter { $0.isVideo && $0.imageFileNames.isEmpty }.count
+            let addsMedia = !attachedImages.isEmpty || attachedVideoURL != nil
+            if addsMedia && !ProFeatureManager.canAddImageMemo(currentImageMemoCount: mediaMemoCount) {
                 paywallTrigger = .imageMemo
                 showPaywall = true
                 return false
@@ -665,6 +683,44 @@ final class MemoAddViewModel: ObservableObject {
         }
         #endif
         return fileNames
+    }
+
+    /// 붙인 동영상을 App Group 에 두고 이름을 돌려준다. 동영상이 없으면 nil.
+    ///
+    /// - 새로 고른 것(임시 폴더): App Group 으로 옮긴다.
+    /// - 편집 중 그대로 둔 것: 이름만 다시 쓴다.
+    /// - 편집 중인데 이 기기에 파일이 없던 것(다른 기기에서 만든 것): 사용자가 지우지 않았으면
+    ///   원래 이름을 지킨다. 여기서 nil 로 쓰면 파일이 있는 기기의 단축어까지 글 단축어가 된다.
+    ///
+    /// ⚠️ 옛 파일은 지우지 않는다. 되돌리기 이력이 그 이름을 들고 있을 수 있다.
+    private func saveAttachedVideo() throws -> String? {
+        #if os(iOS)
+        if let url = attachedVideoURL {
+            if VideoStore.isStored(url) { return url.lastPathComponent }
+            let name = try VideoStore.adopt(url)
+            // 다시 저장해도 두 번 옮기지 않게 App Group 의 자리로 바꿔 둔다.
+            attachedVideoURL = VideoStore.url(fileName: name)
+            return name
+        }
+        if let existing = editingMemo?.videoFileName, !existing.isEmpty,
+           VideoStore.url(fileName: existing) == nil, !removedMissingVideo {
+            return existing
+        }
+        #endif
+        return nil
+    }
+
+    /// 이 기기에 없던 동영상을 사용자가 지웠다. 저장할 때 원래 이름을 지키지 않는다.
+    @Published var removedMissingVideo = false
+
+    /// 편집 중인 단축어의 동영상이 이 기기에 없는가(다른 기기에서 만든 것).
+    var hasMissingVideo: Bool {
+        guard let name = editingMemo?.videoFileName, !name.isEmpty, !removedMissingVideo else { return false }
+        #if os(iOS)
+        return attachedVideoURL == nil && VideoStore.url(fileName: name) == nil
+        #else
+        return false
+        #endif
     }
 
     private func determineFinalCategory() -> String {
@@ -696,8 +752,11 @@ final class MemoAddViewModel: ObservableObject {
     private func applyMemoToList(
         _ loadedMemos: inout [Memo],
         imageFileNames: [String],
+        videoFileName: String?,
         finalCategory: String
     ) throws -> (memoId: UUID, memoTitle: String) {
+        // 동영상이 값이면 글은 담지 않는다(키보드는 동영상만 얹는다. 글이 남으면 보이지 않는 값이 된다).
+        if videoFileName != nil { value = "" }
         let variables = extractTemplateVariables(from: value)
         let contentType: ClipboardContentType = {
             if !value.isEmpty && !imageFileNames.isEmpty { return .mixed }
@@ -742,6 +801,7 @@ final class MemoAddViewModel: ObservableObject {
             updatedMemo.placeholderValues = placeholderValues
             updatedMemo.imageFileNames = imageFileNames
             updatedMemo.contentType = contentType
+            updatedMemo.videoFileName = videoFileName
             // childMemoIds/comboInterval는 기존 값 보존(콤보 편집은 ComboList에서)
             loadedMemos[index] = updatedMemo
             return (existing.id, keyword)
@@ -771,6 +831,7 @@ final class MemoAddViewModel: ObservableObject {
                 consumesOnUse: consumesOnUse
             )
             newMemo.icon = icon?.raw
+            newMemo.videoFileName = videoFileName
             loadedMemos.append(newMemo)
             ReviewManager.shared.incrementMemoCreatedCount()
             return (newId, keyword)

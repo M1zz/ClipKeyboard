@@ -68,6 +68,7 @@ enum MemoTypeStyle {
         if forceTemplate || memo.isTemplate { return AppSymbol.wandAndSparkles }
         if memo.isStack { return AppSymbol.squareStack3dUpFill }
         if memo.isSecure { return AppSymbol.lockFill }
+        if memo.isVideo { return AppSymbol.videoFill }
         if memo.contentType == .image || memo.contentType == .mixed { return AppSymbol.photoFill }
         return AppSymbol.docFill
     }
@@ -80,6 +81,7 @@ enum MemoTypeStyle {
             || memo.isTemplate
             || memo.isStack
             || memo.isSecure
+            || memo.isVideo
             || memo.contentType == .image
             || memo.contentType == .mixed
     }

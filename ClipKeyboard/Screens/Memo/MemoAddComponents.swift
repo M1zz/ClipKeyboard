@@ -8,6 +8,7 @@
 
 import SwiftUI
 import UIKit
+import PhotosUI
 import LeeoKit
 
 // MARK: - Toggle Option Row
@@ -318,6 +319,12 @@ struct ContentInputSection: View {
     @Binding var autoDetectedType: ClipboardItemType?
     @Binding var autoDetectedConfidence: Double
     @Binding var attachedImages: [ImageWrapper]
+    /// 붙인 동영상(`MemoAddViewModel.attachedVideoURL`). 있으면 동영상이 값이고 글 칸은 숨는다.
+    @Binding var attachedVideoURL: URL?
+    /// 편집 중인 단축어의 동영상이 이 기기에 없다(다른 기기에서 만든 것).
+    var hasMissingVideo: Bool = false
+    /// 이 기기에 없던 동영상을 지웠다.
+    var onRemoveMissingVideo: (() -> Void)?
     /// 템플릿 작성 모드 - 숫자형 카테고리여도 글자/{변수}를 칠 수 있게 기본 키보드를 강제한다.
     var forceTextKeyboard: Bool = false
     /// 처음 만드는 사람을 짚어 주는 중이면 지금 걸음(`MemoAddCoach.swift`).
@@ -336,6 +343,10 @@ struct ContentInputSection: View {
     }
 
     @State private var showImagePicker = false
+    @State private var showVideoPicker = false
+    @State private var videoPickerItem: PhotosPickerItem?
+    /// 고른 동영상을 줄이는 중. 몇 초~몇십 초 걸린다.
+    @State private var isPreparingVideo = false
     @State private var showToast = false
     @State private var toastMessage = ""
 
@@ -459,6 +470,21 @@ struct ContentInputSection: View {
                     )
                 }
                 .buttonStyle(.squish)
+
+                // 동영상 자체가 값이 되는 길. 키보드에서 누르면 클립보드에 복사된다.
+                // 사용자 요청(2026-11, 중국어): "啥时候能快捷发视频"
+                Button {
+                    showVideoPicker = true
+                } label: {
+                    sourceRow(
+                        symbol: AppSymbol.videoBadgePlus,
+                        title: NSLocalizedString("동영상 붙이기", comment: "Attach video row title"),
+                        caption: NSLocalizedString("3분까지 담아요. 누르면 동영상이 복사돼요",
+                                                   comment: "Attach video row caption")
+                    )
+                }
+                .buttonStyle(.squish)
+                .disabled(isPreparingVideo)
             }
             // 두 줄을 **한 덩어리로** 짚는다. 줄마다 따로 빛나면 둘 중 하나를 꼭
             // 골라야 하는 것처럼 보이는데, 여기는 안 골라도 되는 자리다.
@@ -473,6 +499,30 @@ struct ContentInputSection: View {
                         .foregroundColor(theme.textMuted)
                 }
                 .accessibilityElement(children: .combine)
+            }
+
+            // 줄이는 데 시간이 걸린다. 반응이 없으면 다시 누른다.
+            if isPreparingVideo {
+                HStack(spacing: 8) {
+                    ProgressView()
+                    Text(NSLocalizedString("동영상을 준비하는 중…", comment: "Preparing (compressing) attached video"))
+                        .font(.body)
+                        .foregroundColor(theme.textMuted)
+                }
+                .accessibilityElement(children: .combine)
+            }
+
+            if let attachedVideoURL {
+                AttachedVideoRow(
+                    url: attachedVideoURL,
+                    onReplace: { showVideoPicker = true },
+                    onRemove: { removeAttachedVideo() }
+                )
+            } else if hasMissingVideo {
+                MissingVideoRow(
+                    onReplace: { showVideoPicker = true },
+                    onRemove: { onRemoveMissingVideo?() }
+                )
             }
 
             if selectedCategory == "이미지" {
@@ -621,7 +671,8 @@ struct ContentInputSection: View {
                 }
 
                 // 이미지를 값으로 첨부하면 텍스트 값 입력은 비활성화(숨김) - 이미지가 곧 값.
-                if attachedImages.isEmpty {
+                // 동영상도 마찬가지다.
+                if attachedImages.isEmpty && attachedVideoURL == nil && !hasMissingVideo {
                 // 텍스트 테마: syntax highlighting + 동적 높이 입력칸.
                 // [Your Name] 같은 더미 placeholder는 빨간 굵은 글씨로 강조 - 사용자가
                 // "여기는 직접 수정해야 한다"는 걸 즉시 인지. iOS TextField는 attributed
@@ -674,9 +725,16 @@ struct ContentInputSection: View {
                     withAnimation(reduceMotion ? nil : .default) {
                         attachedImages.append(ImageWrapper(image: image))
                         value = "" // 이미지를 값으로 쓰므로 텍스트 값은 비운다.
+                        removeAttachedVideo() // 값은 하나다. 그림을 붙이면 동영상은 뗀다.
                     }
                 }
             }
+        }
+        .photosPicker(isPresented: $showVideoPicker, selection: $videoPickerItem, matching: .videos)
+        .onChange(of: videoPickerItem) { _, item in
+            guard let item else { return }
+            videoPickerItem = nil
+            importVideo(item)
         }
         // 사진 속 글자 읽기 - 고른 사진은 **첨부하지 않는다.** 글자만 꺼내 쓰고 사진은 버린다.
         .sheet(isPresented: $showTextPhotoLibrary) {
@@ -815,6 +873,38 @@ struct ContentInputSection: View {
     }
 
     // Toast 메시지 표시
+    // MARK: - Video
+
+    /// 고른 동영상을 줄여 붙인다. 실패하면 말하고 지금 붙은 것은 그대로 둔다.
+    private func importVideo(_ item: PhotosPickerItem) {
+        isPreparingVideo = true
+        Task { @MainActor in
+            defer { isPreparingVideo = false }
+            do {
+                let prepared = try await VideoAttachmentImport.prepare(item)
+                withAnimation(reduceMotion ? nil : .default) {
+                    removeAttachedVideo()
+                    attachedVideoURL = prepared
+                    // 값은 하나다. 동영상을 붙이면 그림과 글은 뗀다.
+                    attachedImages.removeAll()
+                    value = ""
+                }
+            } catch {
+                print("❌ [ContentInputSection.importVideo] \(error)")
+                showToastMessage(VideoAttachmentImport.message(for: error))
+            }
+        }
+    }
+
+    /// 붙인 동영상을 뗀다. 아직 저장 안 한 임시 파일이면 지운다(저장된 파일은 지우지 않는다).
+    private func removeAttachedVideo() {
+        if let url = attachedVideoURL, !VideoStore.isStored(url) {
+            try? FileManager.default.removeItem(at: url)
+        }
+        attachedVideoURL = nil
+        if hasMissingVideo { onRemoveMissingVideo?() }
+    }
+
     private func showToastMessage(_ message: String) {
         toastMessage = message
         showToast = true

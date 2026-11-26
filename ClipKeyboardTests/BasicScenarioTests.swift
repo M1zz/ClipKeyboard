@@ -27,6 +27,7 @@
 
 import XCTest
 import SwiftUI
+import UniformTypeIdentifiers
 import LeeoKit
 @testable import ClipKeyboard
 
@@ -1050,6 +1051,67 @@ final class BasicScenarioTests: XCTestCase {
                                                            storedCount: stored.count, isFiltering: true),
                        "찾는 중에는 끼어들지 않는다")
         XCTAssertEqual(ProFeatureManager.LimitType.clipboardHistory.analyticsKey, "clipboard_history")
+    }
+
+    // MARK: - 동영상 단축어 (2026-11 중국 사용자 요청 "啥时候能快捷发视频")
+
+    /// 동영상을 붙여 저장하면 동영상이 값인 단축어가 되고, 키보드 목록에 실리고, 누르면
+    /// 클립보드에 얹힌다. 파일이 없거나(다른 기기에서 만든 것) 키보드 한도보다 크면
+    /// 얹지 않고 할 말을 돌려준다. 어느 쪽도 던지거나 죽지 않는다.
+    func test_동영상을_붙여_저장하면_키보드에서_누를_때_클립보드에_얹고_없거나_크면_말한다() async throws {
+        // 줄이기(AVAssetExportSession)는 시험에서 돌리지 않는다. 줄인 뒤의 임시 파일을 흉내 낸다.
+        let temp = FileManager.default.temporaryDirectory.appendingPathComponent("video-test-\(UUID().uuidString).mp4")
+        try Data(repeating: 7, count: 1024).write(to: temp)
+
+        // 1. 앱에서 붙여 저장한다. 글이 남아 있어도 동영상이 값이다.
+        let closed = expectation(description: "저장하면 저장 화면이 닫혀야 한다")
+        let add = makeAddViewModel()
+        add.keyword = "인사 영상"
+        add.value = "남은 글"
+        add.attachedVideoURL = temp
+        XCTAssertTrue(add.hasContent)
+        add.saveMemo { closed.fulfill() }
+        await fulfillment(of: [closed], timeout: 3)
+
+        let saved = try XCTUnwrap(stored(titled: "인사 영상"))
+        let fileName = try XCTUnwrap(saved.videoFileName)
+        defer { try? VideoStore.url(fileName: fileName).map { try FileManager.default.removeItem(at: $0) } }
+        XCTAssertTrue(saved.isVideo)
+        XCTAssertEqual(saved.value, "", "동영상 단축어에 보이지 않는 글이 남으면 안 된다")
+        XCTAssertNotNil(VideoStore.url(fileName: fileName), "App Group 으로 옮겨져야 키보드가 읽는다")
+        XCTAssertFalse(FileManager.default.fileExists(atPath: temp.path), "임시 파일은 옮겨진다")
+        XCTAssertEqual(MemoTypeStyle.symbolName(for: saved), AppSymbol.videoFill)
+
+        // 2. 키보드 목록에 실린다
+        XCTAssertEqual(KeyboardMemoFeed.reload(), 1)
+        XCTAssertEqual(clipMemos.first?.id, saved.id)
+
+        // 3. 누르면 클립보드에 얹힌다(키보드 · 앱 목록이 같은 문을 지난다)
+        XCTAssertEqual(VideoStore.copyToPasteboard(fileName: fileName, limit: VideoStore.keyboardCopyLimit), .copied)
+        XCTAssertEqual(UIPasteboard.general.data(forPasteboardType: UTType.mpeg4Movie.identifier)?.count, 1024)
+
+        let list = ClipKeyboardListViewModel()
+        list.loadMemos()
+        UIPasteboard.general.string = "다른 것"
+        list.finalizeCopy(memo: saved, processedValue: "")
+        XCTAssertEqual(UIPasteboard.general.data(forPasteboardType: UTType.mpeg4Movie.identifier)?.count, 1024,
+                       "앱 목록에서 눌러도 동영상이 얹혀야 한다")
+        XCTAssertEqual(stored(titled: "인사 영상")?.clipCount, 1)
+
+        // 4. 크거나 없으면 얹지 않고 말한다
+        let tooLarge = VideoStore.copyToPasteboard(fileName: fileName, limit: 10)
+        XCTAssertEqual(tooLarge, .tooLarge)
+        XCTAssertNotNil(VideoStore.message(for: tooLarge))
+        let missing = VideoStore.copyToPasteboard(fileName: "없는-파일.mp4", limit: VideoStore.keyboardCopyLimit)
+        XCTAssertEqual(missing, .missing)
+        XCTAssertNotNil(VideoStore.message(for: missing))
+        XCTAssertEqual(VideoStore.copyToPasteboard(fileName: "", limit: .max), .missing)
+
+        // 5. 동영상이 없는 단축어는 파일에 새 칸을 쓰지 않는다(옛 판 · 다른 기기 하위 호환)
+        let plain = try JSONEncoder().encode(Memo(title: "글", value: "값"))
+        XCTAssertFalse(String(decoding: plain, as: UTF8.self).contains("videoFileName"))
+        let decoded = try JSONDecoder().decode(Memo.self, from: plain)
+        XCTAssertFalse(decoded.isVideo)
     }
 
     /// 키보드의 단축어 키를 누른 것과 같다(`KeyboardView.insertMemo` 가 쏘는 알림 그대로).

@@ -12619,5 +12619,77 @@
   "🪪 명함": {
     "v": "🪪 Visittkort",
     "src": "9becff2df0"
+  },
+  "3분까지 담아요. 누르면 동영상이 복사돼요": {
+    "v": "Opptil 3 minutter. Trykk på frasen for å kopiere videoen",
+    "src": "f88bc9a6e5"
+  },
+  "다른 기기에서도 동영상 단축어": {
+    "v": "Video-fraser på dine andre enheter",
+    "src": "e777c1f942"
+  },
+  "동영상": {
+    "v": "Video",
+    "src": "d9933f809a"
+  },
+  "동영상 단축어": {
+    "v": "Videofrase",
+    "src": "65a45ba898"
+  },
+  "동영상 복사됨 · 붙여넣기 하세요": {
+    "v": "Video kopiert · Lim inn",
+    "src": "b5e770d286"
+  },
+  "동영상 붙이기": {
+    "v": "Legg ved en video",
+    "src": "c625a376c0"
+  },
+  "동영상은 3분까지 붙일 수 있어요": {
+    "v": "Videoer kan være opptil 3 minutter",
+    "src": "46d478182f"
+  },
+  "동영상을 복사하지 못했어요": {
+    "v": "Kunne ikke kopiere videoen",
+    "src": "d962e68af4"
+  },
+  "동영상을 저장하지 못했어요. 다시 시도해 주세요": {
+    "v": "Kunne ikke lagre videoen. Prøv igjen",
+    "src": "dd72445b76"
+  },
+  "동영상을 준비하는 중…": {
+    "v": "Gjør klar videoen…",
+    "src": "b159a7f8d0"
+  },
+  "동영상이 너무 커요. 더 짧은 동영상을 골라 주세요": {
+    "v": "Videoen er for stor. Velg en kortere video",
+    "src": "a991700699"
+  },
+  "동영상이 커서 키보드에서는 복사할 수 없어요. 앱에서 눌러 복사해 주세요": {
+    "v": "Videoen er for stor til å kopieres fra tastaturet. Trykk på den i appen for å kopiere",
+    "src": "9504625a98"
+  },
+  "붙인 동영상": {
+    "v": "Vedlagt video",
+    "src": "36e6aefb8a"
+  },
+  "붙인 동영상 · %@": {
+    "v": "Vedlagt video · %@",
+    "src": "9a40d2099b"
+  },
+  "이 기기에 동영상 파일이 없어요. 동영상은 iCloud로 옮겨지지 않아요": {
+    "v": "Videoen finnes ikke på denne enheten. Videoer synkroniseres ikke via iCloud",
+    "src": "746b690d7e"
+  },
+  "이 동영상은 읽을 수 없어요": {
+    "v": "Denne videoen kan ikke leses",
+    "src": "7739ba02ae"
+  },
+  "자주 보내는 동영상을 담아 두고 키보드에서 누르면 복사돼요. 대화창에 붙여넣어 보내요.": {
+    "v": "Legg inn videoer du sender ofte, trykk på en på tastaturet for å kopiere den, og lim den inn i samtalen.",
+    "src": "f4a12f9e56"
+  },
+  "지금은 동영상이 만든 기기에만 있어요. iCloud로 다른 기기에도 옮겨요.": {
+    "v": "Foreløpig blir en video værende på enheten du la den til på. Vi flytter den til de andre enhetene dine via iCloud.",
+    "src": "e3acf488b4"
   }
 }

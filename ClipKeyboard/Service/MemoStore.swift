@@ -1015,6 +1015,7 @@ class MemoStore: ObservableObject {
             h.combine(m.isSecure)
             h.combine(m.childMemoIds)
             h.combine(m.imageFileNames)
+            h.combine(m.videoFileName)
             h.combine(m.hint)
             h.combine(m.icon)
             acc.count += 1

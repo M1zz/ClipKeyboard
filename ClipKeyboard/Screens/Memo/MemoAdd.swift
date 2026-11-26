@@ -279,6 +279,7 @@ struct MemoAdd: View {
         }
         // 사진을 붙이는 길로 값을 채운 사람은 칸을 떠나는 일이 없다 - 여기서 따로 본다.
         .onChange(of: viewModel.attachedImages.count) { _, _ in advanceCoachIfFilled() }
+        .onChange(of: viewModel.attachedVideoURL) { _, _ in advanceCoachIfFilled() }
         .navigationDestination(isPresented: $showPlaceholderManagement) {
             PlaceholderManagementView(allMemos: (try? MemoStore.shared.load(type: .memo)) ?? [])
         }
@@ -374,6 +375,7 @@ struct MemoAdd: View {
     /// 버튼이 멀쩡히 서 있으면 누른 사람은 앱이 멈춘 줄 안다.
     private var hasAnythingToReset: Bool {
         !viewModel.value.isEmpty || !viewModel.keyword.isEmpty || !viewModel.attachedImages.isEmpty
+            || viewModel.attachedVideoURL != nil
     }
 
     // MARK: - 처음 만드는 사람 짚어 주기
@@ -435,7 +437,7 @@ struct MemoAdd: View {
         guard let step = coachStep else { return }
         guard step.isFilled(title: viewModel.keyword,
                             value: viewModel.value,
-                            hasImage: !viewModel.attachedImages.isEmpty) else { return }
+                            hasImage: !viewModel.attachedImages.isEmpty || viewModel.attachedVideoURL != nil) else { return }
         advanceCoach(from: step)
     }
 
@@ -487,6 +489,9 @@ struct MemoAdd: View {
                             autoDetectedType: $viewModel.autoDetectedType,
                             autoDetectedConfidence: $viewModel.autoDetectedConfidence,
                             attachedImages: $viewModel.attachedImages,
+                            attachedVideoURL: $viewModel.attachedVideoURL,
+                            hasMissingVideo: viewModel.hasMissingVideo,
+                            onRemoveMissingVideo: { viewModel.removedMissingVideo = true },
                             forceTextKeyboard: startInTemplateMode,
                             // 이 칸은 둘로 나뉜다(값 가져오는 줄 · 실제 내용). 안내도 따로 짚는다.
                             coachStep: coachStep,

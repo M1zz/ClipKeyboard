@@ -367,6 +367,8 @@ struct KeyboardView: View {
     @State private var searchStruggling = false
     @State private var templateObserverToken: NSObjectProtocol?
     @State private var showImageCopiedToast = false
+    /// 동영상 단축어를 누른 결과 한 줄(복사됨 · 없음 · 너무 큼). nil 이면 안 보인다.
+    @State private var videoNotice: String?
     @State private var showPinNotSetToast = false
     /// 전체 접근이 꺼진 상태에서 클립보드 동작을 시도했을 때의 안내.
     @State private var showFullAccessToast = false
@@ -609,8 +611,9 @@ struct KeyboardView: View {
     private func builtInMatches(_ raw: String, _ memo: Memo) -> Bool {
         switch raw {
         case "templates": return memo.isTemplate
-        case "textMemos": return !memo.isStack && memo.contentType != .image && memo.contentType != .mixed
-        case "images":    return memo.contentType == .image || memo.contentType == .mixed
+        case "textMemos": return !memo.isStack && !memo.isVideo && memo.contentType != .image && memo.contentType != .mixed
+        // 동영상도 여기에 둔다. 글이 아니라 복사해서 붙여넣는 것이라 이미지와 같은 자리다.
+        case "images":    return memo.isVideo || memo.contentType == .image || memo.contentType == .mixed
         case "combos":    return memo.isStack
         default:          return false
         }
@@ -1429,6 +1432,20 @@ struct KeyboardView: View {
             }
         )
         .overlay(alignment: .bottom) {
+            if let videoNotice {
+                Text(videoNotice)
+                    .font(.body.weight(.medium))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.black.opacity(0.75))
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .padding(.horizontal, 12)
+                    .padding(.bottom, 8)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+                    .accessibilityAddTraits(.updatesFrequently)
+            }
             if showImageCopiedToast {
                 Text(NSLocalizedString("이미지 복사됨 · 붙여넣기 하세요", comment: "Image copied toast"))
                     .font(.footnote.weight(.medium))
@@ -3009,7 +3026,9 @@ struct KeyboardView: View {
         if memo.isSecure { parts.append(NSLocalizedString("보안 단축어", comment: "VoiceOver: secure memo badge")) }
         if memo.isTemplate { parts.append(NSLocalizedString("템플릿", comment: "VoiceOver: template badge")) }
         if memo.isStack { parts.append(NSLocalizedString("스택", comment: "VoiceOver: combo badge")) }
-        if memo.contentType == .image || memo.contentType == .mixed {
+        if memo.isVideo {
+            parts.append(NSLocalizedString("동영상 단축어", comment: "VoiceOver: video memo"))
+        } else if memo.contentType == .image || memo.contentType == .mixed {
             parts.append(NSLocalizedString("이미지 단축어", comment: "VoiceOver: image memo"))
         } else if !memo.isSecure, !memo.value.isEmpty {
             // ⚠️ 잠긴 단축어의 값은 읽어 주지 않는다. 저장된 것이 암호문("smenc1:...")이라
@@ -3077,6 +3096,12 @@ struct KeyboardView: View {
 
     /// - Parameter learns: 커서 앞 낱말과 이 단축어의 짝을 배운다(`ShortcutLearning`). 잠근 단축어는 배우지 않는다.
     private func insertMemo(_ memo: Memo, bypassTemplate: Bool = false, learns: Bool = true) {
+        // 동영상이 값이다. 글을 넣지 않고 클립보드에 얹는다(본문이 비어 있다).
+        // 여기서 가르는 이유: 잠근 단축어의 PIN 뒤 · 자판 위 칩 · 탭이 모두 이 문을 지난다.
+        if memo.isVideo {
+            copyVideoToClipboard(memo: memo)
+            return
+        }
         guard !memo.isUsedUp else { KeyboardHaptics.notify(.warning); return }   // 다 쓴 쓰면 지우기
         if learns, !memo.isSecure, let key = ShortcutLearning.key(before: typingProxy?.typingContextBefore) {
             ShortcutLearning.note(key, memoID: memo.id)
@@ -3203,6 +3228,36 @@ struct KeyboardView: View {
         }
     }
 
+    /// 동영상 단축어를 클립보드에 얹는다.
+    ///
+    /// ⚠️ 크기를 먼저 본다(`VideoStore.keyboardCopyLimit`). 큰 동영상을 키보드에서 통째로
+    ///    올리면 iOS 가 키보드를 말없이 죽인다. 넘치면 얹지 않고 "앱에서 복사해 주세요" 라고 말한다.
+    /// ⚠️ 파일이 없을 수 있다. 동영상은 iCloud 로 옮겨지지 않아서, 다른 기기에서 만든 단축어는
+    ///    이름만 오고 파일은 안 온다. 그때도 말없이 끝내지 않는다.
+    private func copyVideoToClipboard(memo: Memo) {
+        guard requireFullAccess() else { return }
+        let result = VideoStore.copyToPasteboard(fileName: memo.videoFileName ?? "",
+                                                 limit: VideoStore.keyboardCopyLimit)
+        if result == .copied {
+            noteKeyboardWroteClipboard()
+            KeyboardHaptics.notify(.success)
+            print("✅ [KeyboardView.copyVideoToClipboard] 동영상 복사 완료: \(memo.title)")
+            showVideoNotice(NSLocalizedString("동영상 복사됨 · 붙여넣기 하세요", comment: "Video copied toast"))
+        } else {
+            KeyboardHaptics.notify(.warning)
+            print("⚠️ [KeyboardView.copyVideoToClipboard] 복사 못 함(\(result)): \(memo.title)")
+            showVideoNotice(VideoStore.message(for: result) ?? "")
+        }
+    }
+
+    private func showVideoNotice(_ message: String) {
+        guard !message.isEmpty else { return }
+        withAnimation { videoNotice = message }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.6) {
+            withAnimation { if videoNotice == message { videoNotice = nil } }
+        }
+    }
+
     /// 클립보드를 만지기 전에 반드시 통과해야 하는 관문.
     ///
     /// 전체 접근이 꺼져 있으면 `UIPasteboard` 접근을 iOS가 막는데 **에러도 예외도 없다.**
@@ -3315,6 +3370,10 @@ struct KeyboardView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.4) {
                 withAnimation { showSecureCopyBlockedToast = false }
             }
+            return
+        }
+        if memo.isVideo {
+            copyVideoToClipboard(memo: memo)
             return
         }
         if memo.contentType == .image || memo.contentType == .mixed,

@@ -12306,5 +12306,77 @@
   "🪪 명함": {
     "v": "🪪 Kartu Nama",
     "src": "9becff2df0"
+  },
+  "3분까지 담아요. 누르면 동영상이 복사돼요": {
+    "v": "Maksimal 3 menit. Ketuk frasa untuk menyalin video",
+    "src": "f88bc9a6e5"
+  },
+  "다른 기기에서도 동영상 단축어": {
+    "v": "Frasa video di perangkat Anda yang lain",
+    "src": "e777c1f942"
+  },
+  "동영상": {
+    "v": "Video",
+    "src": "d9933f809a"
+  },
+  "동영상 단축어": {
+    "v": "Frasa video",
+    "src": "65a45ba898"
+  },
+  "동영상 복사됨 · 붙여넣기 하세요": {
+    "v": "Video disalin · Tempel sekarang",
+    "src": "b5e770d286"
+  },
+  "동영상 붙이기": {
+    "v": "Lampirkan video",
+    "src": "c625a376c0"
+  },
+  "동영상은 3분까지 붙일 수 있어요": {
+    "v": "Video bisa dilampirkan hingga 3 menit",
+    "src": "46d478182f"
+  },
+  "동영상을 복사하지 못했어요": {
+    "v": "Tidak dapat menyalin video",
+    "src": "d962e68af4"
+  },
+  "동영상을 저장하지 못했어요. 다시 시도해 주세요": {
+    "v": "Tidak dapat menyimpan video. Silakan coba lagi",
+    "src": "dd72445b76"
+  },
+  "동영상을 준비하는 중…": {
+    "v": "Menyiapkan video…",
+    "src": "b159a7f8d0"
+  },
+  "동영상이 너무 커요. 더 짧은 동영상을 골라 주세요": {
+    "v": "Video terlalu besar. Silakan pilih yang lebih pendek",
+    "src": "a991700699"
+  },
+  "동영상이 커서 키보드에서는 복사할 수 없어요. 앱에서 눌러 복사해 주세요": {
+    "v": "Video terlalu besar untuk disalin dari keyboard. Ketuk di app untuk menyalin",
+    "src": "9504625a98"
+  },
+  "붙인 동영상": {
+    "v": "Video terlampir",
+    "src": "36e6aefb8a"
+  },
+  "붙인 동영상 · %@": {
+    "v": "Video terlampir · %@",
+    "src": "9a40d2099b"
+  },
+  "이 기기에 동영상 파일이 없어요. 동영상은 iCloud로 옮겨지지 않아요": {
+    "v": "Video tidak ada di perangkat ini. Video tidak disinkronkan lewat iCloud",
+    "src": "746b690d7e"
+  },
+  "이 동영상은 읽을 수 없어요": {
+    "v": "Video ini tidak dapat dibaca",
+    "src": "7739ba02ae"
+  },
+  "자주 보내는 동영상을 담아 두고 키보드에서 누르면 복사돼요. 대화창에 붙여넣어 보내요.": {
+    "v": "Simpan video yang sering Anda kirim, ketuk di keyboard untuk menyalinnya, lalu tempel ke obrolan.",
+    "src": "f4a12f9e56"
+  },
+  "지금은 동영상이 만든 기기에만 있어요. iCloud로 다른 기기에도 옮겨요.": {
+    "v": "Saat ini video hanya ada di perangkat tempat Anda menambahkannya. Kami akan memindahkannya ke perangkat lain lewat iCloud.",
+    "src": "e3acf488b4"
   }
 }

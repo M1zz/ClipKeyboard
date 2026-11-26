@@ -512,6 +512,15 @@ struct Memo: Identifiable, Codable {
     var imageFileName: String? // 단일 이미지 (하위 호환성)
     var imageFileNames: [String] = [] // 다중 이미지 지원
     var contentType: ClipboardContentType = .text // 콘텐츠 타입
+    /// 붙인 동영상(App Group `Videos/` 안의 파일 이름). 있으면 이 단축어는 **동영상이 값**이다.
+    ///
+    /// ⚠️ `contentType` 에 새 갈래를 더하지 않고 칸을 따로 둔다. 옛 판 · 다른 기기는 이 칸을
+    ///    모르고 지나가 그냥 글 단축어로 읽는다(새 갈래 글자는 옛 디코더에 따라 던질 수 있다).
+    ///    파일에 없으면 nil (하위 호환). `VideoStore` 참고.
+    var videoFileName: String?
+
+    /// 동영상 단축어인가.
+    var isVideo: Bool { !(videoFileName ?? "").isEmpty }
 
     /// "어디서 / 언제 쓰나요?" 컨텍스트 힌트.
     /// ADHD·건망증 사용자가 나중에 이 메모를 왜 저장했는지 떠올릴 수 있도록 돕는다.
@@ -612,6 +621,7 @@ struct Memo: Identifiable, Codable {
         self.consumesOnUse = try c.decodeIfPresent(Bool.self, forKey: .consumesOnUse) ?? false
         self.icon = try c.decodeIfPresent(String.self, forKey: .icon)
         self.usedLines = try c.decodeIfPresent(String.self, forKey: .usedLines)
+        self.videoFileName = try? c.decodeIfPresent(String.self, forKey: .videoFileName)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -643,6 +653,7 @@ struct Memo: Identifiable, Codable {
         case consumesOnUse
         case icon
         case usedLines
+        case videoFileName
     }
 
     /// ⚠️ 하위호환(다운그레이드 안전): 구버전(4.3.0 이하)의 **합성** Codable 디코더는
@@ -686,6 +697,7 @@ struct Memo: Identifiable, Codable {
         try c.encode(consumesOnUse, forKey: .consumesOnUse)
         try c.encodeIfPresent(icon, forKey: .icon)
         try c.encodeIfPresent(usedLines, forKey: .usedLines)
+        try c.encodeIfPresent(videoFileName, forKey: .videoFileName)
 
         // 레거시 키도 함께 기록 - 구버전 디코더가 필수로 요구하는 키.
         var legacy = encoder.container(keyedBy: LegacyCompatKeys.self)

@@ -12298,5 +12298,77 @@
   "🪪 명함": {
     "v": "🪪 Danh thiếp",
     "src": "9becff2df0"
+  },
+  "3분까지 담아요. 누르면 동영상이 복사돼요": {
+    "v": "Chứa tối đa 3 phút. Nhấn vào cụm từ để sao chép video",
+    "src": "f88bc9a6e5"
+  },
+  "다른 기기에서도 동영상 단축어": {
+    "v": "Cụm từ video trên các thiết bị khác của bạn",
+    "src": "e777c1f942"
+  },
+  "동영상": {
+    "v": "Video",
+    "src": "d9933f809a"
+  },
+  "동영상 단축어": {
+    "v": "Cụm từ video",
+    "src": "65a45ba898"
+  },
+  "동영상 복사됨 · 붙여넣기 하세요": {
+    "v": "Đã sao chép video · Hãy dán",
+    "src": "b5e770d286"
+  },
+  "동영상 붙이기": {
+    "v": "Đính kèm video",
+    "src": "c625a376c0"
+  },
+  "동영상은 3분까지 붙일 수 있어요": {
+    "v": "Có thể đính kèm video dài tối đa 3 phút",
+    "src": "46d478182f"
+  },
+  "동영상을 복사하지 못했어요": {
+    "v": "Không thể sao chép video",
+    "src": "d962e68af4"
+  },
+  "동영상을 저장하지 못했어요. 다시 시도해 주세요": {
+    "v": "Không thể lưu video. Vui lòng thử lại",
+    "src": "dd72445b76"
+  },
+  "동영상을 준비하는 중…": {
+    "v": "Đang chuẩn bị video…",
+    "src": "b159a7f8d0"
+  },
+  "동영상이 너무 커요. 더 짧은 동영상을 골라 주세요": {
+    "v": "Video quá lớn. Vui lòng chọn video ngắn hơn",
+    "src": "a991700699"
+  },
+  "동영상이 커서 키보드에서는 복사할 수 없어요. 앱에서 눌러 복사해 주세요": {
+    "v": "Video quá lớn để sao chép từ bàn phím. Hãy nhấn vào video trong ứng dụng để sao chép",
+    "src": "9504625a98"
+  },
+  "붙인 동영상": {
+    "v": "Video đã đính kèm",
+    "src": "36e6aefb8a"
+  },
+  "붙인 동영상 · %@": {
+    "v": "Video đã đính kèm · %@",
+    "src": "9a40d2099b"
+  },
+  "이 기기에 동영상 파일이 없어요. 동영상은 iCloud로 옮겨지지 않아요": {
+    "v": "Thiết bị này không có tệp video. Video không đồng bộ qua iCloud",
+    "src": "746b690d7e"
+  },
+  "이 동영상은 읽을 수 없어요": {
+    "v": "Không thể đọc video này",
+    "src": "7739ba02ae"
+  },
+  "자주 보내는 동영상을 담아 두고 키보드에서 누르면 복사돼요. 대화창에 붙여넣어 보내요.": {
+    "v": "Lưu những video bạn hay gửi, chạm vào trên bàn phím để sao chép rồi dán vào cuộc trò chuyện.",
+    "src": "f4a12f9e56"
+  },
+  "지금은 동영상이 만든 기기에만 있어요. iCloud로 다른 기기에도 옮겨요.": {
+    "v": "Hiện video chỉ nằm trên thiết bị đã tạo ra nó. Sau này sẽ chuyển sang thiết bị khác qua iCloud.",
+    "src": "e3acf488b4"
   }
 }
