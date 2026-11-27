@@ -136,6 +136,10 @@ struct BlankStartView: View {
     /// 방금 써 본 그 버튼이 목록의 첫 단축어로 남는다.
     private func makeOwn() {
         BlankStartSample.insertIfNeeded()
+        // 지금의 처음 안내는 이 백지 첫 실행이다. 처음 끝낼 때 한 번만 허브로 (품질 탭의 온보딩 칸).
+        if !UserDefaults.standard.bool(forKey: DefaultsKey.blankStartFinished) {
+            AnalyticsService.log(.onboardingCompleted)
+        }
         UserDefaults.standard.set(true, forKey: DefaultsKey.blankStartFinished)
         print("✅ [BlankStartView.makeOwn] 첫 실행 끝, 목록으로")
         onFinish()
