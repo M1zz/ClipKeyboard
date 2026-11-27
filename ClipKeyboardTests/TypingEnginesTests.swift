@@ -54,6 +54,8 @@ final class TypingEnginesTests: XCTestCase {
         let url = URL(fileURLWithPath: #filePath)
             .deletingLastPathComponent().deletingLastPathComponent()
             .appendingPathComponent("i18n/config.json")
+        // 저장소 파일을 보는 시험이다. 아이폰에서 돌리면 맥의 저장소가 없다.
+        try XCTSkipUnless(FileManager.default.fileExists(atPath: url.path), "저장소가 보이는 맥 · 시뮬레이터에서만 본다")
         let data = try Data(contentsOf: url)
         let json = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
         let languages = try XCTUnwrap(json["languages"] as? [String: [String: Any]])

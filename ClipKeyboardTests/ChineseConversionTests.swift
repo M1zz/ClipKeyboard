@@ -11,10 +11,12 @@ import XCTest
 
 final class ChineseConversionTests: XCTestCase {
 
-    private func dictionaryURL(_ name: String) -> URL {
-        URL(fileURLWithPath: #filePath)
-            .deletingLastPathComponent().deletingLastPathComponent()
-            .appendingPathComponent("ClipKeyboardExtension/Dictionaries/\(name).ckdict")
+    /// 앱이 여는 그 자리(안에 든 키보드 확장의 번들)에서 찾는다. 저장소 경로(`#filePath`)로 찾으면
+    /// 맥에서만 열리고 아이폰에서 돌리면 파일이 없어 시험이 통째로 깨졌다.
+    private func dictionaryURL(_ name: String) throws -> URL {
+        // 시험 대상도 TypingLanguage 를 따로 품고 있어, 앱 쪽 것은 인자 자리에서 고르게 둔다
+        return try XCTUnwrap(ConversionDictionaryStore.fileURL(for: .init(rawValue: name)!),
+                             "\(name) 사전이 앱에 실리지 않았다. scripts/make_typing_dictionary.py 를 돌렸는가")
     }
 
     private func dictionary(_ name: String, learned: LearnedConversions? = nil) throws -> MappedConversionDictionary {

@@ -739,13 +739,15 @@ final class BasicScenarioTests: XCTestCase {
         let keys = [DefaultsKey.skinSeededV444, DefaultsKey.appLaunchCount, DefaultsKey.blankStartV1,
                     DefaultsKey.startedFreshV444, DefaultsKey.snippetsTabStyle]
         let saved = keys.map { std.object(forKey: $0) }
-        let savedLedger = groupDefaults?.object(forKey: DefaultsKey.lessonLedger)
-        let savedGroupFlag = groupDefaults?.object(forKey: DefaultsKey.blankStartV1)
+        // 기능 스위치도 이 시험이 쥔다. 그룹에 켜 둔 스위치가 남아 있으면(실기기의 쓰던 앱 · 앞선 실행)
+        // '새 설치' 가 기능이 켜진 채로 보여 아래 isPlain 이 깨졌다.
+        let groupKeys = [DefaultsKey.lessonLedger, DefaultsKey.blankStartV1]
+            + AppFeature.allCases.map { DefaultsKey.featureOnPrefix + $0.rawValue }
+        let savedGroup = groupKeys.map { groupDefaults?.object(forKey: $0) }
         defer {
             for (k, v) in zip(keys, saved) { std.set(v, forKey: k) }
-            groupDefaults?.set(savedLedger, forKey: DefaultsKey.lessonLedger)
             // ⚠️ 그룹 표식이 남으면 다른 시험이 '백지 사용자(기능 다 꺼짐)' 로 돈다
-            groupDefaults?.set(savedGroupFlag, forKey: DefaultsKey.blankStartV1)
+            for (k, v) in zip(groupKeys, savedGroup) { groupDefaults?.set(v, forKey: k) }
         }
 
         // 1. 쓰던 사람(실행 횟수가 이미 있다)에게는 아무것도 켜지지 않는다. 화면이 그대로다
@@ -759,6 +761,7 @@ final class BasicScenarioTests: XCTestCase {
 
         // 2. 새 설치는 백지 첫 실행으로 열리고, 옛 튜토리얼은 켜지지 않는다(둘이 겹치면 안 된다)
         keys.forEach { std.removeObject(forKey: $0) }
+        groupKeys.forEach { groupDefaults?.removeObject(forKey: $0) }
         ClipKeyboardApp.seedDefaultSkinForNewInstalls()
         XCTAssertTrue(std.bool(forKey: DefaultsKey.blankStartV1))
         XCTAssertFalse(std.bool(forKey: DefaultsKey.startedFreshV444), "옛 튜토리얼까지 켜지면 첫 실행이 둘이 된다")

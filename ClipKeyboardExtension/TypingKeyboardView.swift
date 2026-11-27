@@ -1287,7 +1287,7 @@ enum ConversionDictionaryStore {
 
     /// 키보드에서는 제 번들, 앱(키보드 탭의 무대)에서는 안에 든 키보드 확장의 번들.
     /// 파일을 한 벌만 싣기 위해서다.
-    private static func fileURL(for language: TypingLanguage) -> URL? {
+    static func fileURL(for language: TypingLanguage) -> URL? {
         let name = language.rawValue
         if let own = Bundle.main.url(forResource: name, withExtension: "ckdict") { return own }
         guard let plugins = Bundle.main.builtInPlugInsURL,
